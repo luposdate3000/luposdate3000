@@ -2,7 +2,7 @@ package lupos.s04arithmetikOperators.multiinput
 import kotlin.jvm.JvmField
 import lupos.s00misc.BigDecimal
 import lupos.s00misc.BigInteger
-import lupos.s00misc.MathContext
+import lupos.s00misc.DecimalHelper
 import lupos.s00misc.Coverage
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.EvaluationException
@@ -43,12 +43,13 @@ class AOPDivision(query: Query, childA: AOPBase, childB: AOPBase) : AOPBinaryOpe
                 }
                 if (a is ValueDecimal || b is ValueDecimal) {
                     if (b.toDecimal() != decimalZero) {
-                        res = ValueDecimal(a.toDecimal() .divide( b.toDecimal(),MathContext.UNLIMITED))
+                        res = ValueDecimal(DecimalHelper.divide(a.toDecimal(), b.toDecimal()))
+println("AOPDivision A ${a.toDecimal().toString()} / ${b.toDecimal().toString()} = ${res.value.toString()}")
                     }
                 }
                 if (a is ValueInteger || b is ValueInteger) {
                     if (b.toInt() != integerZero) {
-                        res = ValueDecimal(a.toDecimal() / b.toDecimal())
+                        res = ValueDecimal(DecimalHelper.divide(a.toDecimal(), b.toDecimal()))
                     }
                 }
             } catch (e: EvaluationException) {

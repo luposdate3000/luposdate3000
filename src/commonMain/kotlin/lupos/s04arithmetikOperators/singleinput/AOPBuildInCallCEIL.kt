@@ -1,4 +1,5 @@
 package lupos.s04arithmetikOperators.singleinput
+import lupos.s00misc.DecimalHelper
 import lupos.s00misc.MathContext
 import kotlin.math.ceil
 import lupos.s00misc.Coverage
@@ -32,13 +33,7 @@ class AOPBuildInCallCEIL(query: Query, child: AOPBase) : AOPBase(query, EOperato
                 } else if (a is ValueFloat) {
                     res = ValueFloat(ceil(a.toDouble()))
                 } else if (a is ValueDecimal) {
-var tmp1=a.value.toBigInteger()
-var tmp=tmp1.toBigDecimal()
-if(tmp==a.value){
-res=a
-}else{
-res=ValueDecimal(tmp.add(BigDecimal(1),MathContext.UNLIMITED))
-}
+res=ValueDecimal(DecimalHelper.ceil(a.value))
 println("AOPBuildInCallCEIL A ${a.value.toString()} = ${res.value.toString()}")
                 } else if (a is ValueInteger) {
                     res = a

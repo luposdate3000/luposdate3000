@@ -1,5 +1,5 @@
 package lupos.s04arithmetikOperators.singleinput
-import lupos.s00misc.MathContext
+import lupos.s00misc.DecimalHelper
 import kotlin.jvm.JvmField
 import lupos.s00misc.Coverage
 import lupos.s00misc.EOperatorID
@@ -50,7 +50,7 @@ var tmp1=res.value
                 } else if (tmp1 is ValueFloat || value is ValueFloat) {
                     tmp1 = ValueFloat(tmp1.toDouble() + value.toDouble())
                 } else if (tmp1 is ValueDecimal || value is ValueDecimal) {
-                    tmp1 = ValueDecimal(tmp1.toDecimal() .add( value.toDecimal(),MathContext.UNLIMITED))
+ tmp1 = ValueDecimal(DecimalHelper.add(tmp1.toDecimal(),value.toDecimal()))
 println("AOPAggregationAVG A ${res.value.toDecimal().toString()} + ${value.toDecimal().toString()} = ${tmp1.value.toString()}")
                 } else if (tmp1 is ValueInteger || value is ValueInteger) {
                     tmp1 = ValueDecimal((tmp1.toInt() + value.toInt()).toBigDecimal())
@@ -83,7 +83,7 @@ var tmp1=tmp.value
             } else if (tmp1 is ValueFloat) {
                 res = ValueFloat(tmp1.toDouble() / tmp.count)
             } else if (tmp1 is ValueDecimal) {
-                res = ValueDecimal(tmp1.value .divide( tmp.count.toBigDecimal(),MathContext.UNLIMITED))
+                res = ValueDecimal(DecimalHelper.divide(tmp1.value,tmp.count.toBigDecimal()))
 println("AOPAggregationAVG C ${tmp1.value.toString()} / ${tmp.count.toBigDecimal().toString()} = ${res.value.toString()}")
             } else {
                 res = ValueError()

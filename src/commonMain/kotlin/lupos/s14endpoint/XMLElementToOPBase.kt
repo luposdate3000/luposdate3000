@@ -75,6 +75,7 @@ import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallLANG
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallLCASE
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallMD5
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallMINUTES
+import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallSECONDS
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallMONTH
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallNotExists
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallROUND
@@ -255,6 +256,9 @@ fun XMLElement.Companion.convertToOPBase(query: Query, node: XMLElement, mapping
         }
         "AOPBuildInCallMINUTES" -> {
             res = AOPBuildInCallMINUTES(query, convertToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase)
+        }
+        "AOPBuildInCallSECONDS" -> {
+            res = AOPBuildInCallSECONDS(query, convertToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase)
         }
         "AOPBuildInCallMONTH" -> {
             res = AOPBuildInCallMONTH(query, convertToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase)

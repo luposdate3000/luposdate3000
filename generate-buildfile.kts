@@ -383,6 +383,9 @@ ChooseableGroup("BigInteger Implementation","BigInteger")to listOf(
 ),
 ChooseableGroup("BigDecimal Implementation","BigDecimal")to listOf(
  ChooseableOptionTypeAlias("jvmBigDecimal", "lupos.s00misc", listOf("BigDecimal" to "java.math.BigDecimal"))
+),
+ChooseableGroup("MathContext Implementation","BigDecimal")to listOf(
+ ChooseableOptionTypeAlias("jvmMathContext", "lupos.s00misc", listOf("MathContext" to "java.math.MathContext"))
 )
 )
 

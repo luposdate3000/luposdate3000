@@ -1,5 +1,5 @@
 package lupos.s04arithmetikOperators.singleinput
-import lupos.s00misc.MathContext
+import lupos.s00misc.DecimalHelper
 import kotlin.math.roundToInt
 import lupos.s00misc.Coverage
 import lupos.s00misc.BigDecimal
@@ -32,11 +32,7 @@ class AOPBuildInCallROUND(query: Query, child: AOPBase) : AOPBase(query, EOperat
                 } else if (a is ValueFloat) {
                     res = ValueFloat(a.toDouble().roundToInt().toDouble())
                 } else if (a is ValueDecimal) {
-if(a.value<decimalZero){
-res=ValueDecimal((a.value.subtract(BigDecimal("0.5"),MathContext.UNLIMITED)).toBigInteger().toBigDecimal())
-}else{
-res=ValueDecimal((a.value.add(BigDecimal("0.5"),MathContext.UNLIMITED)).toBigInteger().toBigDecimal())
-}
+res=ValueDecimal(DecimalHelper.round(a.value))
 println("AOPBuildInCallROUND A ${a.value.toString()} = ${res.value.toString()}")
                 } else if (a is ValueInteger) {
                     res = a

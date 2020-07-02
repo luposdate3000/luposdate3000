@@ -1,5 +1,5 @@
 package lupos.s04arithmetikOperators.multiinput
-import lupos.s00misc.MathContext
+import lupos.s00misc.DecimalHelper
 import lupos.s00misc.Coverage
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.EvaluationException
@@ -31,7 +31,8 @@ class AOPAddition(query: Query, childA: AOPBase, childB: AOPBase) : AOPBinaryOpe
                 } else if (a is ValueFloat || b is ValueFloat) {
                     res = ValueFloat(a.toDouble() + b.toDouble())
                 } else if (a is ValueDecimal || b is ValueDecimal) {
-                    res = ValueDecimal(a.toDecimal() .add( b.toDecimal(),MathContext.UNLIMITED))
+                    res = ValueDecimal(DecimalHelper.add(a.toDecimal() ,b.toDecimal()))
+println("AOPAddition A ${a.toDecimal().toString()} / ${b.toDecimal().toString()} = ${res.value.toString()}")
                 } else if (a is ValueInteger || b is ValueInteger) {
                     res = ValueInteger(a.toInt() + b.toInt())
                 }
