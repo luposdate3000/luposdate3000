@@ -34,7 +34,9 @@ class POPJoinCartesianProduct(query: Query, projectedVariables: List<String>, ch
     override suspend fun evaluate(): IteratorBundle {
         val columns = LOPJoin.getColumns(children[0].getProvidedVariableNames(), children[1].getProvidedVariableNames())
         require(columns[0].size == 0)
+        println("POPJoinCartesianProductXXX$uuid open A $classname")
         val childA = children[0].evaluate()
+        println("POPJoinCartesianProductXXX$uuid open B $classname")
         val childB = children[1].evaluate()
         val columnsINAO = mutableListOf<ColumnIterator>()//only in childA
         val columnsINBO = mutableListOf<ColumnIterator>()//only in childB
@@ -59,22 +61,42 @@ class POPJoinCartesianProduct(query: Query, projectedVariables: List<String>, ch
         }
         var count: Int
         if (columnsINAO.size == 0 && columnsINBO.size == 0) {
+            println("POPJoinCartesianProductXXX mode A")
             res = IteratorBundle(childA.count * childB.count)
         } else if (columnsINAO.size == 0) {
+            println("POPJoinCartesianProductXXX mode B")
+            println("POPJoinCartesianProductXXX$uuid closecount A $classname")
             if (childA.count > 0) {
                 for (columnIndex in 0 until columnsINBO.size) {
                     outO[1][columnIndex].childs.add(ColumnIteratorRepeatIterator(childA.count, columnsINBO[columnIndex]))
+outO[1][columnIndex].close={
+println("POPJoinCartesianProductXXX$uuid close B $classname")
+for ((k, v) in childB.columns) {
+                v.close()
+            }
+outO[1][columnIndex]._close()
+}
                 }
             }
             res = IteratorBundle(outMap)
         } else if (columnsINBO.size == 0) {
+            println("POPJoinCartesianProductXXX mode C")
+            println("POPJoinCartesianProductXXX$uuid closecount B $classname")
             if (childB.count > 0) {
                 for (columnIndex in 0 until columnsINAO.size) {
                     outO[0][columnIndex].childs.add(ColumnIteratorRepeatIterator(childB.count, columnsINAO[columnIndex]))
+outO[0][columnIndex].close={ 
+println("POPJoinCartesianProductXXX$uuid close A $classname")
+for ((k, v) in childA.columns) {
+                v.close()
+            }
+outO[0][columnIndex]._close()
+}
                 }
             }
             res = IteratorBundle(outMap)
         } else {
+            println("POPJoinCartesianProductXXX mode D")
             val data = Array(columnsINBO.size) { MyListValue() }
             loopC@ while (true) {
                 for (columnIndex in 0 until columnsINBO.size) {
@@ -85,17 +107,21 @@ class POPJoinCartesianProduct(query: Query, projectedVariables: List<String>, ch
                     data[columnIndex].add(value)
                 }
             }
-            for (closeIndex in 0 until columnsINBO.size) {
-                columnsINBO[closeIndex].close()
+            println("POPJoinCartesianProductXXX$uuid close B $classname")
+            for ((k, v) in childB.columns) {
+                v.close()
             }
             count = data[0].size
             if (count == 0) {
+                println("POPJoinCartesianProductXXX mode E")
                 if (optional) {
+                    println("POPJoinCartesianProductXXX mode F")
                     for (iterator in outIterators) {
                         iterator.close = {
                             iterator._close()
-                            for (variable in children[0].getProvidedVariableNames()) {
-                                childA.columns[variable]!!.close()
+                            println("POPJoinCartesianProductXXX$uuid close A $classname")
+                            for ((k, v) in childA.columns) {
+                                v.close()
                             }
                         }
                         iterator.onNoMoreElements = {
@@ -105,8 +131,9 @@ class POPJoinCartesianProduct(query: Query, projectedVariables: List<String>, ch
                                 if (value == null) {
                                     SanityCheck.check { columnIndex == 0 }
                                     done = true
-                                    for (closeIndex in 0 until columnsINAO.size) {
-                                        columnsINAO[closeIndex].close()
+                                    println("POPJoinCartesianProductXXX$uuid close A $classname")
+                                    for ((k, v) in childA.columns) {
+                                        v.close()
                                     }
                                     break
                                 }
@@ -121,11 +148,13 @@ class POPJoinCartesianProduct(query: Query, projectedVariables: List<String>, ch
                     }
                 }
             } else {
+                println("POPJoinCartesianProductXXX mode G")
                 for (iterator in outIterators) {
                     iterator.close = {
+                        println("POPJoinCartesianProductXXX$uuid close A $classname")
                         iterator._close()
-                        for (variable in children[0].getProvidedVariableNames()) {
-                            childA.columns[variable]!!.close()
+                        for ((k, v) in childA.columns) {
+                            v.close()
                         }
                     }
                     iterator.onNoMoreElements = {
@@ -135,8 +164,9 @@ class POPJoinCartesianProduct(query: Query, projectedVariables: List<String>, ch
                             if (value == null) {
                                 SanityCheck.check { columnIndex == 0 }
                                 done = true
-                                for (closeIndex in 0 until columnsINAO.size) {
-                                    columnsINAO[closeIndex].close()
+                                println("POPJoinCartesianProductXXX$uuid close A $classname")
+                                for ((k, v) in childA.columns) {
+                                    v.close()
                                 }
                                 break
                             }
