@@ -1,4 +1,5 @@
 package lupos.s04arithmetikOperators.singleinput
+import lupos.s00misc.SanityCheck
 
 import kotlin.math.ceil
 import lupos.s00misc.BigDecimal
@@ -35,12 +36,12 @@ class AOPBuildInCallCEIL(query: Query, child: AOPBase) : AOPBase(query, EOperato
                     res = ValueFloat(ceil(a.toDouble()))
                 } else if (a is ValueDecimal) {
                     res = ValueDecimal(DecimalHelper.ceil(a.value))
-                    println("AOPBuildInCallCEIL A ${a.value.toString()} = ${res.value.toString()}")
+                   SanityCheck.println("AOPBuildInCallCEIL A ${a.value.toString()} = ${res.value.toString()}")
                 } else if (a is ValueInteger) {
                     res = a
                 }
             } catch (e: Throwable) {
-                println("TODO exception 36")
+               SanityCheck.println("TODO exception 36")
                 e.printStackTrace()
             }
 /*return*/res

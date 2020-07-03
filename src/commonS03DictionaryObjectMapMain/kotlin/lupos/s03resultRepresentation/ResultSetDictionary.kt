@@ -86,7 +86,7 @@ class ResultSetDictionary(val global: Boolean = false) {
                     res = booleanFalseValue
                 }
             } catch (e: Throwable) {
-                println("TODO exception 40")
+               SanityCheck.println("TODO exception 40")
                 e.printStackTrace()
             }
         }

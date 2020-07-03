@@ -32,7 +32,7 @@ object ServerCommunicationReceive {
                             when (header) {
                                 ServerCommunicationHeader.LOGMESSAGE -> {
                                     val msg = packet.readString()
-                                    println(msg)
+                                   println(msg)
                                 }
                                 ServerCommunicationHeader.COMMIT -> {
                                     DistributedTripleStore.localStore.commit(query)
@@ -57,17 +57,17 @@ object ServerCommunicationReceive {
                                     val graphName = packet.readString()
                                     val bulk = TripleStoreBulkImport(query, graphName, idx)
                                     while (true) {
-                                        println("Receive waiting_for RESPONSE_TRIPLES or RESPONSE_FINISHED")
+                                       SanityCheck.println("Receive waiting_for RESPONSE_TRIPLES or RESPONSE_FINISHED")
                                         val packet2 = input.readByteArray()
                                         val header2 = ServerCommunicationHeader.values()[packet2.readInt()]
                                         if (header2 != ServerCommunicationHeader.RESPONSE_TRIPLES) {
                                             require(header2 == ServerCommunicationHeader.RESPONSE_FINISHED)
                                             break
                                         }
-                                        println("Receive processing RESPONSE_TRIPLES")
+                                       SanityCheck.println("Receive processing RESPONSE_TRIPLES")
                                         ServerCommunicationTransferTriples.receiveTriples(packet2, nodeGlobalDictionary, socket.localAddress.toString(), bulk)
                                     }
-                                    println("Receive finishing import")
+                                   SanityCheck.println("Receive finishing import")
                                     bulk.finishImport()
                                 }
                                 ServerCommunicationHeader.DELETE -> {
@@ -147,7 +147,7 @@ object ServerCommunicationReceive {
                     } catch (e: Throwable) {
                         if (readHeader) {
                             //TODO propagate errors to the requesting node
-                            println("TODO exception 2")
+                           SanityCheck.println("TODO exception 2")
                             e.printStackTrace()
                         } else {
                             //connection closed before anything read ... assume there was an error on the other side, which tried to connect

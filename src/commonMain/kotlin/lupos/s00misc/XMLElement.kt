@@ -199,62 +199,78 @@ class XMLElement {
             return false
         }
         if (fixSortOrder) {
+            var biginput = childs.size > 10 || other.childs.size > 10
             var myMap = mutableMapOf<String, MutableList<XMLElement>>()
             var otherMap = mutableMapOf<String, MutableList<XMLElement>>()
-            for (c in childs) {
-                var s = c.toString()
-                if (myMap[s] == null) {
-                    myMap[s] = mutableListOf(c)
-                } else {
-                    myMap[s]!!.add(c)
+                var change = true
+            if (biginput) {
+                var n = 0
+                for (c in childs) {
+                   SanityCheck.println("myEqualsUnclean - loop A ${n} ${childs.size}")
+                    var s = c.toString()
+                    if (myMap[s] == null) {
+                        myMap[s] = mutableListOf(c)
+                    } else {
+                        myMap[s]!!.add(c)
+                    }
+                    n++
                 }
-            }
-            for (c in other.childs) {
-                var s = c.toString()
-                if (otherMap[s] == null) {
-                    otherMap[s] = mutableListOf(c)
-                } else {
-                    otherMap[s]!!.add(c)
+                n = 0
+                for (c in other.childs) {
+                   SanityCheck.println("myEqualsUnclean - loop B ${n} ${other.childs.size}")
+                    var s = c.toString()
+                    if (otherMap[s] == null) {
+                        otherMap[s] = mutableListOf(c)
+                    } else {
+                        otherMap[s]!!.add(c)
+                    }
+                    n++
                 }
-            }
-            var change = true
-            while (change) {
-                change = false
-                for ((k, v) in myMap) {
-                    val w = otherMap[k]
-                    if (w != null) {
-                        change = true
-                        if (w.size == v.size) {
-                            myMap.remove(k)
-                            otherMap.remove(k)
-                        } else if (w.size < v.size) {
-                            for (i in 0 until w.size) {
-                                v.removeAt(0)
+                while (change) {
+                    change = false
+                   SanityCheck.println("myEqualsUnclean - loop C ${myMap.size} ${otherMap.size}")
+                    for ((k, v) in myMap) {
+                        val w = otherMap[k]
+                        if (w != null) {
+                            change = true
+                            if (w.size == v.size) {
+                                myMap.remove(k)
+                                otherMap.remove(k)
+                            } else if (w.size < v.size) {
+                                for (i in 0 until w.size) {
+                                    v.removeAt(0)
+                                }
+                                otherMap.remove(k)
+                            } else if (v.size < w.size) {
+                                for (i in 0 until v.size) {
+                                    w.removeAt(0)
+                                }
+                                myMap.remove(k)
                             }
-                            otherMap.remove(k)
-                        } else if (v.size < w.size) {
-                            for (i in 0 until v.size) {
-                                w.removeAt(0)
-                            }
-                            myMap.remove(k)
+                            break
                         }
-                        break
                     }
                 }
             }
             var myRemaining = mutableListOf<XMLElement>()
             var otherRemaining = mutableListOf<XMLElement>()
-            for ((k, v) in myMap) {
-                myRemaining.addAll(v)
-            }
-            for ((k, v) in otherMap) {
-                otherRemaining.addAll(v)
+            if (biginput) {
+                for ((k, v) in myMap) {
+                    myRemaining.addAll(v)
+                }
+                for ((k, v) in otherMap) {
+                    otherRemaining.addAll(v)
+                }
+            } else {
+                myRemaining.addAll(childs)
+                otherRemaining.addAll(other.childs)
             }
             change = true
             while (change) {
                 change = false
+               SanityCheck.println("myEqualsUnclean - loop D ${myRemaining.size} ${otherRemaining.size}")
                 var i = 0
-            loop@    for (c in myRemaining) {
+                loop@ for (c in myRemaining) {
                     var j = 0
                     for (d in otherRemaining) {
                         if (c.myEqualsUnclean(d, fixStringType, fixNumbers, fixSortOrder)) {

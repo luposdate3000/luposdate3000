@@ -829,7 +829,7 @@ return tmp
                 list.addAll(x.variables.map { it.name })
             } else {
                 SanityCheck {
-                    println("debug no force-selected column order ?!? ...")
+                   SanityCheck.println("debug no force-selected column order ?!? ...")
                 }
             }
             columnProjectionOrder.add(list)
@@ -1409,7 +1409,7 @@ return tmp
 /*return*/name.name
             }
             else -> {
-                println(name.toString() + " --- " + classNameToString(name))
+               SanityCheck.println(name.toString() + " --- " + classNameToString(name))
                 SanityCheck.checkUnreachable()
             }
         }

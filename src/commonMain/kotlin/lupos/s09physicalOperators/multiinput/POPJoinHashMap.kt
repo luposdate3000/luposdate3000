@@ -58,9 +58,9 @@ class POPJoinHashMap(query: Query, projectedVariables: List<String>, childA: OPB
 //--- obtain child columns
         val columns = LOPJoin.getColumns(children[0].getProvidedVariableNames(), children[1].getProvidedVariableNames())
         require(columns[0].size != 0)
-        println("POPJoinHashMapXXX$uuid open A $classname")
+       SanityCheck.println("POPJoinHashMapXXX$uuid open A $classname")
         val childA = children[0].evaluate()
-        println("POPJoinHashMapXXX$uuid open B $classname")
+       SanityCheck.println("POPJoinHashMapXXX$uuid open B $classname")
         val childB = children[1].evaluate()
         val columnsINAO = mutableListOf<ColumnIterator>()//only in childA
         val columnsINBO = mutableListOf<ColumnIterator>()//only in childB
@@ -166,7 +166,7 @@ class POPJoinHashMap(query: Query, projectedVariables: List<String>, childA: OPB
             currentKey = nextKey
             map = nextMap
         }
-        println("POPJoinHashMapXXX$uuid close B $classname")
+       SanityCheck.println("POPJoinHashMapXXX$uuid close B $classname")
         for (closeIndex in 0 until columnsINBJ.size) {
             columnsINBJ[closeIndex].close()
         }
@@ -179,7 +179,7 @@ class POPJoinHashMap(query: Query, projectedVariables: List<String>, childA: OPB
 //this is just function pointer assignment. this loop does not calculate anything
             iterator.close = {
                 iterator._close()
-                println("POPJoinHashMapXXX$uuid close A $classname")
+               SanityCheck.println("POPJoinHashMapXXX$uuid close A $classname")
                 for (closeIndex in 0 until columnsINAJ.size) {
                     columnsINAJ[closeIndex].close()
                 }

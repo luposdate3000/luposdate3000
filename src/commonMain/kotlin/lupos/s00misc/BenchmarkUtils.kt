@@ -50,7 +50,7 @@ object BenchmarkUtils {
         Runtime.getRuntime().addShutdownHook(object : Thread() {
             override fun run() {
                 for (benchmark in EBenchmark.values()) {
-                    println("$benchmark ${counters[benchmark.ordinal]} ${results[benchmark.ordinal]}")
+                   println("$benchmark ${counters[benchmark.ordinal]} ${results[benchmark.ordinal]}")
                 }
             }
         })

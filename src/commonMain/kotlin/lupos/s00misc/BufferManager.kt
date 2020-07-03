@@ -22,7 +22,7 @@ class BufferManager(@JvmField val bufferName: String) {
 
         init {
             bufferPrefix = Configuration.getEnv("LUPOS_HOME", "/tmp/luposdate3000/")!!
-            println("bufferPrefix = $bufferPrefix")
+           SanityCheck.println("bufferPrefix = $bufferPrefix")
         }
 
         @JvmField

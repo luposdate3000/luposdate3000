@@ -1,4 +1,5 @@
 package lupos.s04logicalOperators.iterator
+import lupos.s00misc.SanityCheck
 
 import lupos.s00misc.Coverage
 import lupos.s03resultRepresentation.MyListValue
@@ -14,13 +15,13 @@ class ColumnIteratorDebugVerbose(val uuid: Long, val name: String, val child: Co
                     count = t.size
                 }
                 for (key in v.keys) {
-                    println("$k -> $key")
+                   SanityCheck.println("$k -> $key")
                 }
                 for (i in 0 until count) {
                     try {
-                        println(v.keys.map { "$k -> ${v[it]!![i]}" })
+                       SanityCheck.println(v.keys.map { "$k -> ${v[it]!![i]}" })
                     } catch (e: Throwable) {
-                        println("TODO exception 11")
+                       SanityCheck.println("TODO exception 11")
                         e.printStackTrace()
                     }
                 }
@@ -40,7 +41,7 @@ class ColumnIteratorDebugVerbose(val uuid: Long, val name: String, val child: Co
             if (res != null) {
                 counters[uuid]!![name]!!.add(res)
             } else {
-                println("$uuid finished $name")
+               SanityCheck.println("$uuid finished $name")
             }
             /*return*/res
         }
@@ -56,7 +57,7 @@ class ColumnIteratorDebugCount(val uuid: Long, name: String, val child: ColumnIt
         val counters = mutableMapOf<Long, MutableMap<String, Int>>()
         fun debug() {
             for ((k, v) in counters) {
-                println("$k -> $v")
+               SanityCheck.println("$k -> $v")
             }
             counters.clear()
         }

@@ -8,7 +8,7 @@ object GlobalLogger {
     var enabled = ELoggerType.TEST_DETAIL
     fun log(type: ELoggerType, action: () -> Any?) {
         if (enabled.ordinal >= type.ordinal) {
-            println(action())
+           println(action())
         }
     }
 

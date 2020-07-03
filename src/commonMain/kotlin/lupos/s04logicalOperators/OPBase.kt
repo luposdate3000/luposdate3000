@@ -462,7 +462,7 @@ abstract class OPBase(val query: Query, val operatorID: EOperatorID, val classna
                 } catch (e: HistogramNotImplementedException) {
                     e.printStackTrace()
                 } catch (e: Throwable) {
-                    println("TODO exception 8")
+                   SanityCheck.println("TODO exception 8")
                     e.printStackTrace()
                 }
             }
@@ -470,7 +470,7 @@ abstract class OPBase(val query: Query, val operatorID: EOperatorID, val classna
                 res.addContent(childrenToXML())
             }
         } catch (e: Throwable) {
-            println("TODO exception 9")
+           SanityCheck.println("TODO exception 9")
             e.printStackTrace()
         }
         return res

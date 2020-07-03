@@ -1,4 +1,5 @@
 package lupos.s04arithmetikOperators.singleinput
+import lupos.s00misc.SanityCheck
 
 import kotlin.jvm.JvmField
 import lupos.s00misc.Coverage
@@ -41,7 +42,7 @@ class AOPAggregationMAX(query: Query, @JvmField val distinct: Boolean, childs: A
                 res.value = ValueError()
                 res.evaluate = res::_evaluate
             } catch (e: Throwable) {
-                println("TODO exception 37")
+               SanityCheck.println("TODO exception 37")
                 e.printStackTrace()
                 res.value = ValueError()
                 res.evaluate = res::_evaluate

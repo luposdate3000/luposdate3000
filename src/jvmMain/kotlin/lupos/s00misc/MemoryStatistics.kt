@@ -10,6 +10,6 @@ object MemoryStatistics {
         val data1 = arrayOf(runtime.totalMemory(), runtime.freeMemory(), runtime.totalMemory() - runtime.freeMemory())
         runtime.gc()
         val data2 = arrayOf(runtime.totalMemory(), runtime.freeMemory(), runtime.totalMemory() - runtime.freeMemory())
-        println("MemoryStatistics >$label< total:${byteToGigabytes(data1[0])}GB free:${byteToGigabytes(data1[1])}GB used:${byteToGigabytes(data1[2])}GB --- total:${byteToGigabytes(data2[0])}GB free:${byteToGigabytes(data2[1])}GB used:${byteToGigabytes(data2[2])}GB --- max:${byteToGigabytes(runtime.maxMemory())}")
+       println("MemoryStatistics >$label< total:${byteToGigabytes(data1[0])}GB free:${byteToGigabytes(data1[1])}GB used:${byteToGigabytes(data1[2])}GB --- total:${byteToGigabytes(data2[0])}GB free:${byteToGigabytes(data2[1])}GB used:${byteToGigabytes(data2[2])}GB --- max:${byteToGigabytes(runtime.maxMemory())}")
     }
 }

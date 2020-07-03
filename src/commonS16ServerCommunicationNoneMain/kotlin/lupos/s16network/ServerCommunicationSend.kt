@@ -21,7 +21,7 @@ object ServerCommunicationSend {
     }
 
     fun distributedLogMessage(msg: String) {
-        println(msg)
+       println(msg)
     }
 
     fun commit(query: Query) {

@@ -1,4 +1,5 @@
 package lupos.s04arithmetikOperators.multiinput
+import lupos.s00misc.SanityCheck
 
 import lupos.s00misc.Coverage
 import lupos.s00misc.EOperatorID
@@ -28,7 +29,7 @@ class AOPBuildInCallIF(query: Query, child: AOPBase, childA: AOPBase, childB: AO
                 }
             } catch (e: EvaluationException) {
             } catch (e: Throwable) {
-                println("TODO exception 31")
+               SanityCheck.println("TODO exception 31")
                 e.printStackTrace()
             }
 /*return*/res

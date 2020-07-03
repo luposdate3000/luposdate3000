@@ -1,4 +1,5 @@
 package lupos.s04arithmetikOperators.multiinput
+import lupos.s00misc.SanityCheck
 
 import lupos.s00misc.Coverage
 import lupos.s00misc.DecimalHelper
@@ -33,13 +34,13 @@ class AOPAddition(query: Query, childA: AOPBase, childB: AOPBase) : AOPBinaryOpe
                     res = ValueFloat(a.toDouble() + b.toDouble())
                 } else if (a is ValueDecimal || b is ValueDecimal) {
                     res = ValueDecimal(DecimalHelper.add(a.toDecimal(), b.toDecimal()))
-                    println("AOPAddition A ${a.toDecimal().toString()} / ${b.toDecimal().toString()} = ${res.value.toString()}")
+                   SanityCheck.println("AOPAddition A ${a.toDecimal().toString()} / ${b.toDecimal().toString()} = ${res.value.toString()}")
                 } else if (a is ValueInteger || b is ValueInteger) {
                     res = ValueInteger(a.toInt() + b.toInt())
                 }
             } catch (e: EvaluationException) {
             } catch (e: Throwable) {
-                println("TODO exception 19")
+               SanityCheck.println("TODO exception 19")
                 e.printStackTrace()
             }
 /*return*/res

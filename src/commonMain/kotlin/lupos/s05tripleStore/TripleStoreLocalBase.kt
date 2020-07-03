@@ -58,11 +58,9 @@ abstract class TripleStoreLocalBase(@JvmField val name: String) {
                 SanityCheck.check { filter.size == ii }
                 filter.add(query.dictionary.valueToGlobal(param.value))
             } else if (param is AOPVariable) {
-                SanityCheck {
                     if (param.name != "_") {
                         variableCount++
                     }
-                }
             } else {
                 SanityCheck.checkUnreachable()
             }

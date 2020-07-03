@@ -1,4 +1,5 @@
 package lupos.s04arithmetikOperators.multiinput
+import lupos.s00misc.SanityCheck
 
 import lupos.s00misc.Coverage
 import lupos.s00misc.EOperatorID
@@ -28,7 +29,7 @@ class AOPLT(query: Query, childA: AOPBase, childB: AOPBase) : AOPBinaryOperation
                     res = ResultSetDictionary.booleanFalseValue2
                 }
             } catch (e: Throwable) {
-                println("TODO exception 25")
+               SanityCheck.println("TODO exception 25")
                 e.printStackTrace()
             }
 /*return*/res
@@ -51,7 +52,7 @@ class AOPLT(query: Query, childA: AOPBase, childB: AOPBase) : AOPBinaryOperation
                 }
             } catch (e: EvaluationException) {
             } catch (e: Throwable) {
-                println("TODO exception 26")
+               SanityCheck.println("TODO exception 26")
                 e.printStackTrace()
             }
 /*return*/res

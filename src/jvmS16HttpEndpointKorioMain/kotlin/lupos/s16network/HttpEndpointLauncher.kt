@@ -1,4 +1,5 @@
 package lupos.s16network
+import lupos.s00misc.SanityCheck
 
 import com.soywiz.korio.net.http.createHttpServer
 import com.soywiz.korio.net.http.Http
@@ -98,7 +99,7 @@ object HttpEndpointLauncher {
                 } catch (e: Throwable) {
                     responseBytes = e.toString().encodeToByteArray()
                     request.setStatus(500)
-                    println("TODO exception 6")
+                   SanityCheck.println("TODO exception 6")
                     e.printStackTrace()
                 }
                 request.end(responseBytes)

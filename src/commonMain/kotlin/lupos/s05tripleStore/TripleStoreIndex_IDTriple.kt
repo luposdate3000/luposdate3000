@@ -61,7 +61,7 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
             if (root != NodeManager.nodeNullPointer) {
                 var found = false
                 NodeManager.getNode(root, {
-                    println("root is inner node")
+                   SanityCheck.println("root is inner node")
                     SanityCheck.checkUnreachable()
                 }, {
                     found = true
@@ -79,23 +79,23 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
             out.writeInt(distinctPrimary)
         }
         SanityCheck {
-            println(firstLeaf)
-            println(root)
-            println(countPrimary)
-            println(distinctPrimary)
+           SanityCheck.println(firstLeaf)
+           SanityCheck.println(root)
+           SanityCheck.println(countPrimary)
+           SanityCheck.println(distinctPrimary)
             if (rootNode != null) {
                 val iterator = NodeInner.iterator(rootNode!!)
                 while (iterator.hasNext()) {
-                    println(iterator.next().map { it })
+                   SanityCheck.println(iterator.next().map { it })
                 }
             }
         }
         lock.readUnlock()
-        println("readunlock 1")
+       SanityCheck.println("readunlock 1")
     }
 
     override fun loadFromFile(filename: String) {
-        println("writelock 2")
+       SanityCheck.println("writelock 2")
         lock.withWriteLock {
             pendingImport.clear()
             File(filename).dataInputStream { fis ->
@@ -115,19 +115,19 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
                 }
             }
             SanityCheck {
-                println(firstLeaf)
-                println(root)
-                println(countPrimary)
-                println(distinctPrimary)
+               SanityCheck.println(firstLeaf)
+               SanityCheck.println(root)
+               SanityCheck.println(countPrimary)
+               SanityCheck.println(distinctPrimary)
                 if (rootNode != null) {
                     val iterator = NodeInner.iterator(rootNode!!)
                     while (iterator.hasNext()) {
-                        println(iterator.next().map { it })
+                       SanityCheck.println(iterator.next().map { it })
                     }
                 }
             }
         }
-        println("writeunlock 2")
+       SanityCheck.println("writeunlock 2")
     }
 
     class IteratorS(it: TripleIterator, lock: ReadWriteLock) : ColumnIterator() {
@@ -144,14 +144,14 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
                 /*return*/tmp
             }
             runBlocking {
-                println("readlock 3 $uuid")
+               SanityCheck.println("readlock 3 $uuid")
                 lock.readLock()
             }
             close = {
                 _close()
                 runBlocking {
                     lock.readUnlock()
-                    println("readunlock 3 $uuid")
+                   SanityCheck.println("readunlock 3 $uuid")
                 }
             }
         }
@@ -171,14 +171,14 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
                 /*return*/tmp
             }
             runBlocking {
-                println("readlock 4 $uuid")
+               SanityCheck.println("readlock 4 $uuid")
                 lock.readLock()
             }
             close = {
                 _close()
                 runBlocking {
                     lock.readUnlock()
-                    println("readunlock 4 $uuid")
+                   SanityCheck.println("readunlock 4 $uuid")
                 }
             }
         }
@@ -198,14 +198,14 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
                 /*return*/tmp
             }
             runBlocking {
-                println("readlock 5 $uuid")
+               SanityCheck.println("readlock 5 $uuid")
                 lock.readLock()
             }
             close = {
                 _close()
                 runBlocking {
                     lock.readUnlock()
-                    println("readunlock 5 $uuid")
+                   SanityCheck.println("readunlock 5 $uuid")
                 }
             }
         }
@@ -213,7 +213,7 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
 
     override fun getHistogram(query: Query, filter: IntArray): Pair<Int, Int> {
         var res: Pair<Int, Int>? = null
-        println("readlock 6")
+       SanityCheck.println("readlock 6")
         lock.withReadLock {
             val node = rootNode
             if (node != null) {
@@ -260,7 +260,7 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
                 res = Pair(0, 0)
             }
         }
-        println("readunlock 6")
+       SanityCheck.println("readunlock 6")
         return res!!
     }
 
@@ -340,7 +340,7 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
             }
         }
         lock.readUnlock()
-        println("readunlock 7")
+       SanityCheck.println("readunlock 7")
         return res
     }
 
@@ -388,11 +388,11 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
 
     override suspend fun flush() {
         if (pendingImport.size > 0) {
-            println("writelock 8")
+           SanityCheck.println("writelock 8")
             lock.withWriteLock {
                 flushAssumeLocks()
             }
-            println("writeunlock 8")
+           SanityCheck.println("writeunlock 8")
         }
     }
 
@@ -440,7 +440,7 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
     }
 
     override fun import(dataImport: IntArray, count: Int, order: IntArray) {
-        println("writelock 9")
+       SanityCheck.println("writelock 9")
         lock.withWriteLock {
             BenchmarkUtils.start(EBenchmark.IMPORT_MERGE_DATA)
             if (count > 0) {
@@ -481,7 +481,7 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
             }
             BenchmarkUtils.elapsedSeconds(EBenchmark.IMPORT_MERGE_DATA)
         }
-        println("writeunlock 9")
+       SanityCheck.println("writeunlock 9")
     }
 
     fun rebuildData(_iterator: TripleIterator) {
@@ -567,7 +567,7 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
         rebuildData(iterator)
         NodeManager.freeNodeAndAllRelated(oldroot)
         lock.writeUnlock()
-        println("writeunlock 10")
+       SanityCheck.println("writeunlock 10")
     }
 
     override suspend fun removeAsBulk(data: IntArray, order: IntArray) {
@@ -591,7 +591,7 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
         rebuildData(iterator)
         NodeManager.freeNodeAndAllRelated(oldroot)
         lock.writeUnlock()
-        println("writeunlock 11")
+       SanityCheck.println("writeunlock 11")
     }
 
     override fun insert(a: Value, b: Value, c: Value) {
@@ -609,24 +609,24 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
         root = NodeManager.nodeNullPointer
         rootNode = null
         lock.writeUnlock()
-        println("writeunlock 12")
+       SanityCheck.println("writeunlock 12")
     }
 
     override fun printContents() {
-        println("readlock 13")
+       SanityCheck.println("readlock 13")
         lock.withReadLock {
             if (firstLeaf != NodeManager.nodeNullPointer) {
                 NodeManager.getNode(firstLeaf, { node ->
                     var it = NodeLeaf.iterator(node)
                     while (it.hasNext()) {
                         var d = it.next()
-                        println("debug ${d.map { it }}")
+                       SanityCheck.println("debug ${d.map { it }}")
                     }
                 }, {
                     SanityCheck.checkUnreachable()
                 })
             }
         }
-        println("readunlock 13")
+       SanityCheck.println("readunlock 13")
     }
 }
