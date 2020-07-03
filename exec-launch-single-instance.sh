@@ -2,7 +2,7 @@
   echo "KotlinVersion->1.4.255-SNAPSHOT"
   echo "Platform->jvm"
   echo "Launch->Endpoint"
-  echo "Sanity->On"
+  echo "Sanity->Off"
   echo "Execution->Sequential"
   echo "BufferManager->Heap"
   echo "Dictionary->MultiMap"
@@ -20,11 +20,11 @@
   echo "BulkImportBlockSize->1048576"
   echo "AdvancedOptimisation->false"
   echo "Coverage->ECoverage.Disabled"
-  echo "CoverageGenerate->DontChange"
+  echo "CoverageGenerate->Off"
   echo "ServerCommunication->None"
   echo "MaxTriplesDuringTest->-1"
   echo "ConnectionPool->Off"
   echo "Inline->On"
 } | ./generate-buildfile.kts
 ./tool-gradle-build.sh
-#./build/executable
+./build/executable

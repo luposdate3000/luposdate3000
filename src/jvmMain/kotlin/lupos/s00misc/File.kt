@@ -9,12 +9,29 @@ import java.io.FileOutputStream
 import kotlin.jvm.JvmField
 import lupos.s00misc.Coverage
 
+class MyCharIterator(val file:File):CharIterator(){
+            val fis = FileInputStream(file.filename)
+            val bis = BufferedInputStream(fis)
+val            dis = DataInputStream(bis)
+override fun hasNext():Boolean{
+val res=dis.available()>0
+if(res==false){
+dis.close()
+}
+return res
+}
+override fun nextChar(): Char{
+return dis.readChar()
+}
+}
+
 class File(@JvmField val filename: String) {
     fun exists() = java.io.File(filename).exists()
     fun mkdirs() = java.io.File(filename).mkdirs()
     fun deleteRecursively() = java.io.File(filename).deleteRecursively()
     fun length() = java.io.File(filename).length()
     fun readAsString() = java.io.File(filename).readText()
+fun readAsCharIterator():CharIterator=MyCharIterator(this)
     suspend fun walk(action: suspend (String) -> Unit) {
         java.io.File(filename).walk().forEach {
             action(filename + "/" + it.toRelativeString(java.io.File(filename)))

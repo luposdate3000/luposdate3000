@@ -101,59 +101,6 @@ class UnexpectedToken(token: Token, expectedTokens: Array<String>, lineNumber: I
     constructor(token: Token, expectedTokens: Array<String>, tokenIterator: LookAheadTokenIterator) : this(token, expectedTokens, tokenIterator.tokenIterator.getLineNumber(), tokenIterator.tokenIterator.getColumnNumber())
 }
 
-/*
-class LexerCharIterator(@JvmField val content:String) {
-    @JvmField var index = 0;
-    @JvmField var lineNumber = 0
-    @JvmField var columnNumber = 0
-    /*inline*/ fun hasNext() = (this.index<this.content.length);
-    /*inline*/ fun nextChar(): Char {
-        if(this.index<this.content.length){
-            val result = this.content[this.index];
-            this.index++;
-            return result;
-        } else {
-            throw UnexpectedEndOfFile(this.index-1, this.content);
-        }
-    }
-    /*inline*/ fun putBack(){
-        this.index = if(this.index>0) this.index-1 else 0;
-    }
-    /*inline*/ fun putBack(number:Int){
-        this.index = if(this.index>number) this.index-number else 0;
-    }
-    /*inline*/ fun lookahead(number:Int=0): Char {
-        if(this.index+number<this.content.length){
-            return this.content[this.index+number];
-        } else {
-            throw LookAheadOverLimit(number, this.content.length-this.index, this.index, this.content);
-        }
-    }
-}
-fun main(args : Array<String>){
-    val lci = LexerCharIterator("abcdefghijklmnopqrstuvwxyz")
-    val n = lci.nextChar()
-    if(lci.lookaheadAvailable(1)) {
-        val nn = if (lci.lookaheadAvailable()) lci.lookahead() else '0'
-        val nnn = if (lci.lookaheadAvailable(1)) lci.lookahead(1) else '0'
-        lci.putBack(n)
-        val nc = lci.nextChar()
-        val nnc = lci.nextChar()
-        val nnnc = lci.nextChar()
-        if (n != nc) {
-            GlobalLogger.log(ELoggerType.TEST_DEBUG,{"Expected: " + n + " found: " + nc})
-        } else GlobalLogger.log(ELoggerType.TEST_DEBUG,(n)
-        if (nn != nnc) {
-            GlobalLogger.log(ELoggerType.TEST_DEBUG,{"Expected: " + nn + " found: " + nnc})
-        } else GlobalLogger.log(ELoggerType.TEST_DEBUG,(nn)
-        if (nnn != nnnc) {
-            GlobalLogger.log(ELoggerType.TEST_DEBUG,{"Expected: " + nnn + " found: " + nnnc})
-        } else GlobalLogger.log(ELoggerType.TEST_DEBUG,(nnn)
-    } else {
-        GlobalLogger.log(ELoggerType.TEST_DEBUG,{"lookahead(1) is not available!"})
-    }
-}
-*/
 class LexerCharIterator(@JvmField val content: CharIterator) {
     constructor(contentString: String) : this(contentString.iterator())
 

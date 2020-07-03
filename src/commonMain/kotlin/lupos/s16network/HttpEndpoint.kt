@@ -76,8 +76,15 @@ object HttpEndpoint {
             var store = DistributedTripleStore.getDefaultGraph(query)
             store.bulkImport { bulk ->
                 for (fileName in fileNames.split(";")) {
-                    val data = File(fileName).readAsString()
-                    val lcit = LexerCharIterator(data)
+val f=File(fileName)
+                    val lcit : LexerCharIterator
+if(f.length()<99999){
+                    val data = f.readAsString()
+lcit= LexerCharIterator(data)
+}else{
+                    val data = f.readAsCharIterator()
+lcit= LexerCharIterator(data)
+}
                     val tit = TurtleScanner(lcit)
                     val ltit = LookAheadTokenIterator(tit, 3)
                     TurtleParserWithStringTriples({ s, p, o ->
