@@ -2,3 +2,4 @@ SELECT (COUNT(*) AS ?occurences) {
   ?s ?p ?o .
 }
 GROUP BY ?s ?o
+ORDER BY ?occurences

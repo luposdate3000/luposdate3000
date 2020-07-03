@@ -5,3 +5,4 @@ SELECT ?occurences (COUNT(*) AS ?cnt) ((?occurences * ?cnt) AS ?sum) {
   GROUP BY ?o
 }
 GROUP BY ?occurences
+ORDER BY ?cnt ?occurences

@@ -7,24 +7,35 @@
  <results>
   <result>
    <binding name="occurences">
-    <literal datatype="http://www.w3.org/2001/XMLSchema#integer">7</literal>
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer">6</literal>
    </binding>
    <binding name="cnt">
-    <literal datatype="http://www.w3.org/2001/XMLSchema#integer">33</literal>
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer">1</literal>
    </binding>
    <binding name="sum">
-    <literal datatype="http://www.w3.org/2001/XMLSchema#integer">231</literal>
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer">6</literal>
    </binding>
   </result>
   <result>
    <binding name="occurences">
-    <literal datatype="http://www.w3.org/2001/XMLSchema#integer">8</literal>
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer">13</literal>
    </binding>
    <binding name="cnt">
-    <literal datatype="http://www.w3.org/2001/XMLSchema#integer">22</literal>
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer">1</literal>
    </binding>
    <binding name="sum">
-    <literal datatype="http://www.w3.org/2001/XMLSchema#integer">176</literal>
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer">13</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="occurences">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer">15</literal>
+   </binding>
+   <binding name="cnt">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer">1</literal>
+   </binding>
+   <binding name="sum">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer">15</literal>
    </binding>
   </result>
   <result>
@@ -40,13 +51,35 @@
   </result>
   <result>
    <binding name="occurences">
-    <literal datatype="http://www.w3.org/2001/XMLSchema#integer">6</literal>
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer">7</literal>
    </binding>
    <binding name="cnt">
     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">3</literal>
    </binding>
    <binding name="sum">
-    <literal datatype="http://www.w3.org/2001/XMLSchema#integer">18</literal>
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer">21</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="occurences">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer">12</literal>
+   </binding>
+   <binding name="cnt">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer">3</literal>
+   </binding>
+   <binding name="sum">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer">36</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="occurences">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer">10</literal>
+   </binding>
+   <binding name="cnt">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer">8</literal>
+   </binding>
+   <binding name="sum">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer">80</literal>
    </binding>
   </result>
   <result>
@@ -58,50 +91,6 @@
    </binding>
    <binding name="sum">
     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">10</literal>
-   </binding>
-  </result>
-  <result>
-   <binding name="occurences">
-    <literal datatype="http://www.w3.org/2001/XMLSchema#integer">2</literal>
-   </binding>
-   <binding name="cnt">
-    <literal datatype="http://www.w3.org/2001/XMLSchema#integer">58</literal>
-   </binding>
-   <binding name="sum">
-    <literal datatype="http://www.w3.org/2001/XMLSchema#integer">116</literal>
-   </binding>
-  </result>
-  <result>
-   <binding name="occurences">
-    <literal datatype="http://www.w3.org/2001/XMLSchema#integer">13</literal>
-   </binding>
-   <binding name="cnt">
-    <literal datatype="http://www.w3.org/2001/XMLSchema#integer">1</literal>
-   </binding>
-   <binding name="sum">
-    <literal datatype="http://www.w3.org/2001/XMLSchema#integer">13</literal>
-   </binding>
-  </result>
-  <result>
-   <binding name="occurences">
-    <literal datatype="http://www.w3.org/2001/XMLSchema#integer">11</literal>
-   </binding>
-   <binding name="cnt">
-    <literal datatype="http://www.w3.org/2001/XMLSchema#integer">3</literal>
-   </binding>
-   <binding name="sum">
-    <literal datatype="http://www.w3.org/2001/XMLSchema#integer">33</literal>
-   </binding>
-  </result>
-  <result>
-   <binding name="occurences">
-    <literal datatype="http://www.w3.org/2001/XMLSchema#integer">12</literal>
-   </binding>
-   <binding name="cnt">
-    <literal datatype="http://www.w3.org/2001/XMLSchema#integer">1</literal>
-   </binding>
-   <binding name="sum">
-    <literal datatype="http://www.w3.org/2001/XMLSchema#integer">12</literal>
    </binding>
   </result>
   <result>
@@ -109,10 +98,32 @@
     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">9</literal>
    </binding>
    <binding name="cnt">
-    <literal datatype="http://www.w3.org/2001/XMLSchema#integer">8</literal>
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer">22</literal>
    </binding>
    <binding name="sum">
-    <literal datatype="http://www.w3.org/2001/XMLSchema#integer">72</literal>
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer">198</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="occurences">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer">8</literal>
+   </binding>
+   <binding name="cnt">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer">33</literal>
+   </binding>
+   <binding name="sum">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer">264</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="occurences">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer">2</literal>
+   </binding>
+   <binding name="cnt">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer">115</literal>
+   </binding>
+   <binding name="sum">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer">230</literal>
    </binding>
   </result>
  </results>

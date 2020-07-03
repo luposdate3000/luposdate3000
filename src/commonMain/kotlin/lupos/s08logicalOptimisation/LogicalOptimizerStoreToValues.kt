@@ -45,7 +45,7 @@ class LogicalOptimizerStoreToValues(query: Query) : OptimizerBase(query, EOptimi
                         val tmp = DistributedTripleStore.getNamedGraph(query, node.graph).getIterator(Array(3) { node.children[it] as AOPBase }, idx)
                         val tmp2 = tmp.evaluate()
                         SanityCheck.check { tmp2.hasCountMode() }
-                        if (tmp2.count > 0) {
+                        if (tmp2.count > 0) {//closed childs due to reading from count
                             res = OPEmptyRow(query)
                         } else {
                             res = OPNothing(query, node.getProvidedVariableNames())
@@ -83,6 +83,9 @@ class LogicalOptimizerStoreToValues(query: Query) : OptimizerBase(query, EOptimi
                             res = LOPValues(query, listOf(AOPVariable(query, variables[0])), constants)
                             onChange()
                         }
+for((k,v) in columns){
+v.close()
+}
                     }
                 }
             }
