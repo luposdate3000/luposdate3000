@@ -14,7 +14,7 @@ port="3030"
   echo "Jena->On"
   echo "Set->BTree"
   echo "Map->BTree"
-  echo "IteratorVerbose->Count"
+  echo "IteratorVerbose->None"
   echo "OutputFormat->Empty"
   echo "Pagesize->8196"
   echo "BlockCapacity->1024"
@@ -27,7 +27,7 @@ port="3030"
   echo "ServerCommunication->None"
   echo "MaxTriplesDuringTest->-1"
   echo "ConnectionPool->Off"
-  echo "Inline->Off"
+  echo "Inline->On"
 } | ./generate-buildfile.kts
 ./tool-gradle-build.sh
 ret=$?
