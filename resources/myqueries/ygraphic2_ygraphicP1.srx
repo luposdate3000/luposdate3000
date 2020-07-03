@@ -1,123 +1,25 @@
-<sparql xmlns="http://www.w3.org/2005/sparql-results#">
- <head>
-  <variable name="occurences"/>
- </head>
- <results>
-  <result>
-   <binding name="occurences">
-    <literal datatype="http://www.w3.org/2001/XMLSchema#integer">1</literal>
-   </binding>
-  </result>
-  <result>
-   <binding name="occurences">
-    <literal datatype="http://www.w3.org/2001/XMLSchema#integer">2</literal>
-   </binding>
-  </result>
-  <result>
-   <binding name="occurences">
-    <literal datatype="http://www.w3.org/2001/XMLSchema#integer">2</literal>
-   </binding>
-  </result>
-  <result>
-   <binding name="occurences">
-    <literal datatype="http://www.w3.org/2001/XMLSchema#integer">2</literal>
-   </binding>
-  </result>
-  <result>
-   <binding name="occurences">
-    <literal datatype="http://www.w3.org/2001/XMLSchema#integer">2</literal>
-   </binding>
-  </result>
-  <result>
-   <binding name="occurences">
-    <literal datatype="http://www.w3.org/2001/XMLSchema#integer">2</literal>
-   </binding>
-  </result>
-  <result>
-   <binding name="occurences">
-    <literal datatype="http://www.w3.org/2001/XMLSchema#integer">3</literal>
-   </binding>
-  </result>
-  <result>
-   <binding name="occurences">
-    <literal datatype="http://www.w3.org/2001/XMLSchema#integer">3</literal>
-   </binding>
-  </result>
-  <result>
-   <binding name="occurences">
-    <literal datatype="http://www.w3.org/2001/XMLSchema#integer">3</literal>
-   </binding>
-  </result>
-  <result>
-   <binding name="occurences">
-    <literal datatype="http://www.w3.org/2001/XMLSchema#integer">4</literal>
-   </binding>
-  </result>
-  <result>
-   <binding name="occurences">
-    <literal datatype="http://www.w3.org/2001/XMLSchema#integer">5</literal>
-   </binding>
-  </result>
-  <result>
-   <binding name="occurences">
-    <literal datatype="http://www.w3.org/2001/XMLSchema#integer">5</literal>
-   </binding>
-  </result>
-  <result>
-   <binding name="occurences">
-    <literal datatype="http://www.w3.org/2001/XMLSchema#integer">6</literal>
-   </binding>
-  </result>
-  <result>
-   <binding name="occurences">
-    <literal datatype="http://www.w3.org/2001/XMLSchema#integer">9</literal>
-   </binding>
-  </result>
-  <result>
-   <binding name="occurences">
-    <literal datatype="http://www.w3.org/2001/XMLSchema#integer">17</literal>
-   </binding>
-  </result>
-  <result>
-   <binding name="occurences">
-    <literal datatype="http://www.w3.org/2001/XMLSchema#integer">67</literal>
-   </binding>
-  </result>
-  <result>
-   <binding name="occurences">
-    <literal datatype="http://www.w3.org/2001/XMLSchema#integer">68</literal>
-   </binding>
-  </result>
-  <result>
-   <binding name="occurences">
-    <literal datatype="http://www.w3.org/2001/XMLSchema#integer">68</literal>
-   </binding>
-  </result>
-  <result>
-   <binding name="occurences">
-    <literal datatype="http://www.w3.org/2001/XMLSchema#integer">69</literal>
-   </binding>
-  </result>
-  <result>
-   <binding name="occurences">
-    <literal datatype="http://www.w3.org/2001/XMLSchema#integer">72</literal>
-   </binding>
-  </result>
-  <result>
-   <binding name="occurences">
-    <literal datatype="http://www.w3.org/2001/XMLSchema#integer">115</literal>
-   </binding>
-  </result>
-  <result>
-   <binding name="occurences">
-    <literal datatype="http://www.w3.org/2001/XMLSchema#integer">168</literal>
-   </binding>
-  </result>
-  <result>
-   <binding name="occurences">
-    <literal datatype="http://www.w3.org/2001/XMLSchema#integer">190</literal>
-   </binding>
-  </result>
- </results>
-</sparql>
-
+<sparql xmlns="http://www.w3.org/2005/sparql-results#"> <head>  <variable name="occurences"/> </head> <results>
+  <result>   <binding name="occurences">    <literal datatype="http://www.w3.org/2001/XMLSchema#integer">132</literal>   </binding>  </result>
+  <result>   <binding name="occurences">    <literal datatype="http://www.w3.org/2001/XMLSchema#integer">17</literal>   </binding>  </result>
+  <result>   <binding name="occurences">    <literal datatype="http://www.w3.org/2001/XMLSchema#integer">1</literal>   </binding>  </result>
+  <result>   <binding name="occurences">    <literal datatype="http://www.w3.org/2001/XMLSchema#integer">1</literal>   </binding>  </result>
+  <result>   <binding name="occurences">    <literal datatype="http://www.w3.org/2001/XMLSchema#integer">1</literal>   </binding>  </result>
+  <result>   <binding name="occurences">    <literal datatype="http://www.w3.org/2001/XMLSchema#integer">1</literal>   </binding>  </result>
+  <result>   <binding name="occurences">    <literal datatype="http://www.w3.org/2001/XMLSchema#integer">1</literal>   </binding>  </result>
+  <result>   <binding name="occurences">    <literal datatype="http://www.w3.org/2001/XMLSchema#integer">1</literal>   </binding>  </result>
+  <result>   <binding name="occurences">    <literal datatype="http://www.w3.org/2001/XMLSchema#integer">3</literal>   </binding>  </result>
+  <result>   <binding name="occurences">    <literal datatype="http://www.w3.org/2001/XMLSchema#integer">3</literal>   </binding>  </result>
+  <result>   <binding name="occurences">    <literal datatype="http://www.w3.org/2001/XMLSchema#integer">3</literal>   </binding>  </result>
+  <result>   <binding name="occurences">    <literal datatype="http://www.w3.org/2001/XMLSchema#integer">3</literal>   </binding>  </result>
+  <result>   <binding name="occurences">    <literal datatype="http://www.w3.org/2001/XMLSchema#integer">4</literal>   </binding>  </result>
+  <result>   <binding name="occurences">    <literal datatype="http://www.w3.org/2001/XMLSchema#integer">58</literal>   </binding>  </result>
+  <result>   <binding name="occurences">    <literal datatype="http://www.w3.org/2001/XMLSchema#integer">5</literal>   </binding>  </result>
+  <result>   <binding name="occurences">    <literal datatype="http://www.w3.org/2001/XMLSchema#integer">5</literal>   </binding>  </result>
+  <result>   <binding name="occurences">    <literal datatype="http://www.w3.org/2001/XMLSchema#integer">67</literal>   </binding>  </result>
+  <result>   <binding name="occurences">    <literal datatype="http://www.w3.org/2001/XMLSchema#integer">68</literal>   </binding>  </result>
+  <result>   <binding name="occurences">    <literal datatype="http://www.w3.org/2001/XMLSchema#integer">68</literal>   </binding>  </result>
+  <result>   <binding name="occurences">    <literal datatype="http://www.w3.org/2001/XMLSchema#integer">69</literal>   </binding>  </result>
+  <result>   <binding name="occurences">    <literal datatype="http://www.w3.org/2001/XMLSchema#integer">72</literal>   </binding>  </result>
+  <result>   <binding name="occurences">    <literal datatype="http://www.w3.org/2001/XMLSchema#integer">99</literal>   </binding>  </result>
+  <result>   <binding name="occurences">    <literal datatype="http://www.w3.org/2001/XMLSchema#integer">9</literal>   </binding>  </result>
+ </results></sparql>
