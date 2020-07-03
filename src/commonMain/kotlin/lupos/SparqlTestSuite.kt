@@ -95,7 +95,7 @@ class SparqlTestSuite() {
                         if (lastinput == inputFile) {
                             inputFile = "#keep-data#"
                         } else {
-                        lastinput = inputFile
+                            lastinput = inputFile
                         }
                         runBlocking {
                             ServerCommunicationSend.distributedLogMessage("  Test: " + queryFile + "-" + triplesCount)

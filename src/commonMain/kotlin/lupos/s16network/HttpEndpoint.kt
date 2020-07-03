@@ -76,27 +76,27 @@ object HttpEndpoint {
             var store = DistributedTripleStore.getDefaultGraph(query)
             store.bulkImport { bulk ->
                 for (fileName in fileNames.split(";")) {
-println("importing file '$fileName'")
-val f=File(fileName)
-                    val lcit : LexerCharIterator
-if(f.length()<Int.MAX_VALUE){
-                    val data = f.readAsString()
-lcit= LexerCharIterator(data)
-}else{
-                    val data = f.readAsCharIterator()
-lcit= LexerCharIterator(data)
-}
+                    println("importing file '$fileName'")
+                    val f = File(fileName)
+                    val lcit: LexerCharIterator
+                    if (f.length() < Int.MAX_VALUE) {
+                        val data = f.readAsString()
+                        lcit = LexerCharIterator(data)
+                    } else {
+                        val data = f.readAsCharIterator()
+                        lcit = LexerCharIterator(data)
+                    }
                     val tit = TurtleScanner(lcit)
                     val ltit = LookAheadTokenIterator(tit, 3)
-try{
-                    TurtleParserWithStringTriples({ s, p, o ->
-                        counter++
-                        bulk.insert(helper_import_turtle_files(bnodeDict, usePredefinedDict, s), helper_import_turtle_files(bnodeDict, usePredefinedDict, p), helper_import_turtle_files(bnodeDict, usePredefinedDict, o))
-                    }, ltit).turtleDoc()
-}catch(e:lupos.s02buildSyntaxTree.ParseError){
-println("error in file '$fileName'")
-throw e
-}
+                    try {
+                        TurtleParserWithStringTriples({ s, p, o ->
+                            counter++
+                            bulk.insert(helper_import_turtle_files(bnodeDict, usePredefinedDict, s), helper_import_turtle_files(bnodeDict, usePredefinedDict, p), helper_import_turtle_files(bnodeDict, usePredefinedDict, o))
+                        }, ltit).turtleDoc()
+                    } catch (e: lupos.s02buildSyntaxTree.ParseError) {
+                        println("error in file '$fileName'")
+                        throw e
+                    }
                 }
             }
             return "successfully imported $counter Triples"

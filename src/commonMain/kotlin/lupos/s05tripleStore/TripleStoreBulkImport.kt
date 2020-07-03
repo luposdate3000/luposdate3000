@@ -16,8 +16,8 @@ class TripleStoreBulkImport(@JvmField val query: Query, @JvmField val graphName:
     @JvmField
     val dictionaryBNode = MyMapStringIntPatriciaTrie()
 
-@JvmField
-var totalflushed=0
+    @JvmField
+    var totalflushed = 0
 
     @JvmField
     val sizeshift = 20
@@ -79,8 +79,8 @@ var totalflushed=0
     }
 
     fun flush(idx2: EIndexPattern) {
-totalflushed+=idx/3
-println("flushed triples $totalflushed")
+        totalflushed += idx / 3
+        println("flushed triples $totalflushed")
         DistributedTripleStore.localStore.getNamedGraph(query, graphName).import(this, idx2)
     }
 

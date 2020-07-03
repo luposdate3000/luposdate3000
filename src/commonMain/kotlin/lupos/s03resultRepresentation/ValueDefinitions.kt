@@ -349,7 +349,7 @@ class ValueIri(@JvmField var iri: String) : ValueDefinition() {
 
 class ValueDateTime : ValueDefinition {
     @JvmField
-    val year: Int
+    val year: BigInteger
 
     @JvmField
     val month: Int
@@ -364,7 +364,7 @@ class ValueDateTime : ValueDefinition {
     val minutes: Int
 
     @JvmField
-    val seconds: Double
+    val seconds: BigDecimal
 
     @JvmField
     val timezoneHours: Int
@@ -404,55 +404,51 @@ class ValueDateTime : ValueDefinition {
 
     constructor() : super() {
         val time = DateHelper()
-        year = time.year
+        year = BigInteger(time.year.toString())
         month = time.month
         day = time.day
         hours = time.hours
         minutes = time.minutes
-        seconds = 0.0+time.seconds
+        seconds = BigDecimal(time.seconds.toString())
         timezoneHours = 0
         timezoneMinutes = 0
     }
 
     constructor(str2: String) : super() {
-val str=str2.substring(0,str2.indexOf(str2[0],1)+1)
-        println("ValueDateTime.init '$str2' '$str'")
+        val str = str2.substring(0, str2.indexOf(str2[0], 1) + 1)
         var idx = 0
-        var idx2 = str.indexOf('-')
-        if (idx2 == idx) {
-            idx2 = str.indexOf('-', idx + 1)
+        var idx2 = str.indexOf('-', 2)
+        if (idx2 < idx) {
+            idx2 = str.length - 1
         }
-if(idx2<idx){
-idx2=str.length-1
-}
         if (idx2 > idx) {
-            year = str.substring(idx + 1, idx2).toInt()
+            year = BigInteger(str.substring(idx + 1, idx2))
             idx = idx2
             idx2 = str.indexOf('-', idx + 1)
-if(idx2<idx){ 
-idx2=str.length-1
-}
+            if (idx2 < idx) {
+                idx2 = str.length - 1
+            }
             if (idx2 > idx) {
                 month = str.substring(idx + 1, idx2).toInt()
                 idx = idx2
                 idx2 = str.indexOf('T', idx + 1)
-if(idx2<idx){ 
-idx2=str.length-1
-}
+                if (idx2 < idx) {
+                    idx2 = str.length - 1
+                }
                 if (idx2 > idx) {
                     day = str.substring(idx + 1, idx2).toInt()
                     idx = idx2
                     idx2 = str.indexOf(':', idx + 1)
-if(idx2<idx){ 
-idx2=str.length-1
-}
+                    if (idx2 < idx) {
+                        idx2 = str.length - 1
+                    }
                     if (idx2 > idx) {
                         hours = str.substring(idx + 1, idx2).toInt()
                         idx = idx2
                         idx2 = str.indexOf(':', idx + 1)
-if(idx2<idx){ 
-idx2=str.length-1
-}
+                        if (idx2 < idx) {
+                            idx2 = str.length - 1
+                        }
                         if (idx2 > idx) {
                             minutes = str.substring(idx + 1, idx2).toInt()
                             idx = idx2
@@ -460,11 +456,11 @@ idx2=str.length-1
                             val idxb = str.indexOf('+', idx + 1)
                             val idxc = str.indexOf('-', idx + 1)
                             if (idxa > idx) {
-                                seconds = str.substring(idx + 1, idxa).toDouble()
+                                seconds = BigDecimal(str.substring(idx + 1, idxa))
                                 timezoneHours = 0
                                 timezoneMinutes = 0
                             } else if (idxb > idx) {
-                                seconds = str.substring(idx + 1, idxb).toDouble()
+                                seconds = BigDecimal(str.substring(idx + 1, idxb))
                                 idx = idxb
                                 idx2 = str.indexOf(':', idx + 1)
                                 if (idx2 > idx) {
@@ -475,7 +471,7 @@ idx2=str.length-1
                                     timezoneMinutes = -1
                                 }
                             } else if (idxc > idx) {
-                                seconds = str.substring(idx + 1, idxc).toDouble()
+                                seconds = BigDecimal(str.substring(idx + 1, idxc))
                                 idx = idxc
                                 idx2 = str.indexOf(':', idx + 1)
                                 if (idx2 > idx) {
@@ -486,20 +482,20 @@ idx2=str.length-1
                                     timezoneMinutes = -1
                                 }
                             } else {
-                                seconds = str.substring(idx + 1, str.length - 1).toDouble()
+                                seconds = BigDecimal(str.substring(idx + 1, str.length - 1))
                                 timezoneHours = -1
                                 timezoneMinutes = -1
                             }
                         } else {
                             minutes = 0
-                            seconds = 0.0
+                            seconds = BigDecimal(0.0)
                             timezoneHours = -1
                             timezoneMinutes = -1
                         }
                     } else {
                         hours = 0
                         minutes = 0
-                        seconds = 0.0
+                        seconds = BigDecimal(0.0)
                         timezoneHours = -1
                         timezoneMinutes = -1
                     }
@@ -507,7 +503,7 @@ idx2=str.length-1
                     day = 0
                     hours = 0
                     minutes = 0
-                    seconds = 0.0
+                    seconds = BigDecimal(0.0)
                     timezoneHours = -1
                     timezoneMinutes = -1
                 }
@@ -516,17 +512,17 @@ idx2=str.length-1
                 day = 0
                 hours = 0
                 minutes = 0
-                seconds = 0.0
+                seconds = BigDecimal(0.0)
                 timezoneHours = -1
                 timezoneMinutes = -1
             }
         } else {
-            year = 0
+            year = BigInteger("0")
             month = 0
             day = 0
             hours = 0
             minutes = 0
-            seconds = 0.0
+            seconds = BigDecimal(0.0)
             timezoneHours = -1
             timezoneMinutes = -1
         }
@@ -553,11 +549,11 @@ idx2=str.length-1
     }
 
     override fun valueToString(): String {
-var secondsString2=seconds.toString().split(".")
-var secondsString=secondsString2[0].padStart(2, '0')
-if(secondsString2.size>1&&secondsString2[1]!="0"){
-secondsString+="."+secondsString2[1]
-}
+        var secondsString2 = seconds.toString().split(".")
+        var secondsString = secondsString2[0].padStart(2, '0')
+        if (secondsString2.size > 1 && secondsString2[1] != "0") {
+            secondsString += "." + secondsString2[1]
+        }
         if (timezoneHours == -1 && timezoneMinutes == -1) {
             return "\"${year.toString().padStart(4, '0')}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}T${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${secondsString}\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"
         } else if (timezoneHours == 0 && timezoneMinutes == 0) {
