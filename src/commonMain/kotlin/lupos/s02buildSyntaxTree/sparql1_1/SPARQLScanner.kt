@@ -276,6 +276,7 @@ class TokenIteratorSPARQLParser(@JvmField val iterator: LexerCharIterator) : Tok
             }
             c == '@' -> {
                 // language tag
+var hadMinus=false
                 val nextChar = this.iterator.nextChar()
                 if (nextChar in 'a'..'z' || nextChar in 'A'..'Z') {
                     var language = "" + nextChar
@@ -285,13 +286,17 @@ class TokenIteratorSPARQLParser(@JvmField val iterator: LexerCharIterator) : Tok
                             nextNextChar in 'a'..'z' || nextNextChar in 'A'..'Z' -> {
                                 language += nextNextChar
                             }
+hadMinus&&nextNextChar in '0'..'9'->{
+  language += nextNextChar
+}
                             nextNextChar == '-' -> {
                                 language += '-'
                                 val nextNextNextChar = this.iterator.nextChar()
-                                if (nextNextNextChar in 'a'..'z' || nextNextNextChar in 'A'..'Z') {
+                                if (nextNextNextChar in 'a'..'z' || nextNextNextChar in 'A'..'Z'|| nextNextNextChar in '0'..'9') {
+hadMinus=true
                                     language += nextNextNextChar
                                 } else {
-                                    throw ParseError("Letter ['a'..'z'|'A'..'Z'] expected!", this.iterator.index, this.iterator.lineNumber, this.iterator.columnNumber)
+                                    throw ParseError("Letter ['a'..'z'|'A'..'Z'|'0'-'9'] expected!", this.iterator.index, this.iterator.lineNumber, this.iterator.columnNumber)
                                 }
                             }
                             else -> {
@@ -604,7 +609,7 @@ class TokenIteratorSPARQLParser(@JvmField val iterator: LexerCharIterator) : Tok
                 }
             } else {
                 // case '...' or "..."
-                var content = "" + this.iterator.nextChar()
+                var content = ""
                 while (iterator.hasNext()) {
                     var nextChar = iterator.nextChar()
                     when (nextChar) {

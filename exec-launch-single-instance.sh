@@ -28,3 +28,12 @@
 } | ./generate-buildfile.kts
 ./tool-gradle-build.sh
 ./build/executable
+#wget localhost:80/import/turtle?query=%2Fmnt%2Fluposdate-testdata%2Fbtc2019%2Fbtc2019-triples.nt
+#wget localhost:80/import/turtle?query=$(find /mnt/luposdate-testdata/btc2019/data/*.n3 | sort | paste -s -d ';' | sed "s-/-%2F-g")
+#$(find $triplesfolder/*.n3 | paste -s -d ';')
+
+exit
+
+find /mnt/luposdate-testdata/btc2019/data/*.n3 | sort | paste -s -d ';' > tmpparams
+curl -H "Content-Type: application/x-www-form-urlencoded" -d @tmpparams localhost:80/import/turtle
+rm tmpparams

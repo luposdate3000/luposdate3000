@@ -364,7 +364,7 @@ class ValueDateTime : ValueDefinition {
     val minutes: Int
 
     @JvmField
-    val seconds: Int
+    val seconds: Double
 
     @JvmField
     val timezoneHours: Int
@@ -409,37 +409,124 @@ class ValueDateTime : ValueDefinition {
         day = time.day
         hours = time.hours
         minutes = time.minutes
-        seconds = time.seconds
+        seconds = 0.0+time.seconds
         timezoneHours = 0
         timezoneMinutes = 0
     }
 
-    constructor(str: String) : super() {
-        if (str.length >= 10) {
-            year = str.substring(1, 5).toInt()
-            month = str.substring(6, 8).toInt()
-            day = str.substring(9, 11).toInt()
+    constructor(str2: String) : super() {
+val str=str2.substring(0,str2.indexOf(str2[0],1)+1)
+        println("ValueDateTime.init '$str2' '$str'")
+        var idx = 0
+        var idx2 = str.indexOf('-')
+        if (idx2 == idx) {
+            idx2 = str.indexOf('-', idx + 1)
+        }
+if(idx2<idx){
+idx2=str.length-1
+}
+        if (idx2 > idx) {
+            year = str.substring(idx + 1, idx2).toInt()
+            idx = idx2
+            idx2 = str.indexOf('-', idx + 1)
+if(idx2<idx){ 
+idx2=str.length-1
+}
+            if (idx2 > idx) {
+                month = str.substring(idx + 1, idx2).toInt()
+                idx = idx2
+                idx2 = str.indexOf('T', idx + 1)
+if(idx2<idx){ 
+idx2=str.length-1
+}
+                if (idx2 > idx) {
+                    day = str.substring(idx + 1, idx2).toInt()
+                    idx = idx2
+                    idx2 = str.indexOf(':', idx + 1)
+if(idx2<idx){ 
+idx2=str.length-1
+}
+                    if (idx2 > idx) {
+                        hours = str.substring(idx + 1, idx2).toInt()
+                        idx = idx2
+                        idx2 = str.indexOf(':', idx + 1)
+if(idx2<idx){ 
+idx2=str.length-1
+}
+                        if (idx2 > idx) {
+                            minutes = str.substring(idx + 1, idx2).toInt()
+                            idx = idx2
+                            val idxa = str.indexOf('Z', idx + 1)
+                            val idxb = str.indexOf('+', idx + 1)
+                            val idxc = str.indexOf('-', idx + 1)
+                            if (idxa > idx) {
+                                seconds = str.substring(idx + 1, idxa).toDouble()
+                                timezoneHours = 0
+                                timezoneMinutes = 0
+                            } else if (idxb > idx) {
+                                seconds = str.substring(idx + 1, idxb).toDouble()
+                                idx = idxb
+                                idx2 = str.indexOf(':', idx + 1)
+                                if (idx2 > idx) {
+                                    timezoneHours = str.substring(idx + 1, idx2).toInt()
+                                    timezoneMinutes = str.substring(idx2 + 1, str.length - 1).toInt()
+                                } else {
+                                    timezoneHours = -1
+                                    timezoneMinutes = -1
+                                }
+                            } else if (idxc > idx) {
+                                seconds = str.substring(idx + 1, idxc).toDouble()
+                                idx = idxc
+                                idx2 = str.indexOf(':', idx + 1)
+                                if (idx2 > idx) {
+                                    timezoneHours = str.substring(idx + 1, idx2).toInt()
+                                    timezoneMinutes = str.substring(idx2 + 1, str.length - 1).toInt()
+                                } else {
+                                    timezoneHours = -1
+                                    timezoneMinutes = -1
+                                }
+                            } else {
+                                seconds = str.substring(idx + 1, str.length - 1).toDouble()
+                                timezoneHours = -1
+                                timezoneMinutes = -1
+                            }
+                        } else {
+                            minutes = 0
+                            seconds = 0.0
+                            timezoneHours = -1
+                            timezoneMinutes = -1
+                        }
+                    } else {
+                        hours = 0
+                        minutes = 0
+                        seconds = 0.0
+                        timezoneHours = -1
+                        timezoneMinutes = -1
+                    }
+                } else {
+                    day = 0
+                    hours = 0
+                    minutes = 0
+                    seconds = 0.0
+                    timezoneHours = -1
+                    timezoneMinutes = -1
+                }
+            } else {
+                month = 0
+                day = 0
+                hours = 0
+                minutes = 0
+                seconds = 0.0
+                timezoneHours = -1
+                timezoneMinutes = -1
+            }
         } else {
             year = 0
             month = 0
             day = 0
-        }
-        if (str.length >= 19) {
-            hours = str.substring(12, 14).toInt()
-            minutes = str.substring(15, 17).toInt()
-            seconds = str.substring(18, 20).toInt()
-        } else {
             hours = 0
             minutes = 0
-            seconds = 0
-        }
-        if (str.length >= 25 && str[20] == '-') {
-            timezoneHours = str.substring(21, 23).toInt()
-            timezoneMinutes = str.substring(24, 26).toInt()
-        } else if (str.length >= 20 && str[20] == 'Z') {
-            timezoneHours = 0
-            timezoneMinutes = 0
-        } else {
+            seconds = 0.0
             timezoneHours = -1
             timezoneMinutes = -1
         }
@@ -466,12 +553,17 @@ class ValueDateTime : ValueDefinition {
     }
 
     override fun valueToString(): String {
+var secondsString2=seconds.toString().split(".")
+var secondsString=secondsString2[0].padStart(2, '0')
+if(secondsString2.size>1&&secondsString2[1]!="0"){
+secondsString+="."+secondsString2[1]
+}
         if (timezoneHours == -1 && timezoneMinutes == -1) {
-            return "\"${year.toString().padStart(4, '0')}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}T${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"
+            return "\"${year.toString().padStart(4, '0')}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}T${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${secondsString}\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"
         } else if (timezoneHours == 0 && timezoneMinutes == 0) {
-            return "\"${year.toString().padStart(4, '0')}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}T${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"
+            return "\"${year.toString().padStart(4, '0')}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}T${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${secondsString}Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"
         } else {
-            return "\"${year.toString().padStart(4, '0')}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}T${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}-${timezoneHours.toString().padStart(2, '0')}:${timezoneMinutes.toString().padStart(2, '0')}\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"
+            return "\"${year.toString().padStart(4, '0')}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}T${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${secondsString}-${timezoneHours.toString().padStart(2, '0')}:${timezoneMinutes.toString().padStart(2, '0')}\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"
         }
 /*Coverage Unreachable*/
     }

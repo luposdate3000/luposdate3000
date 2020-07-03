@@ -92,11 +92,11 @@ class SparqlTestSuite() {
                                 JenaWrapper.dropAll()
                             }
                         }
-//                        if (lastinput == inputFile) {
-//                            inputFile = "#keep-data#"
-//                        } else {
+                        if (lastinput == inputFile) {
+                            inputFile = "#keep-data#"
+                        } else {
                         lastinput = inputFile
-//                        }
+                        }
                         runBlocking {
                             ServerCommunicationSend.distributedLogMessage("  Test: " + queryFile + "-" + triplesCount)
                             parseSPARQLAndEvaluate(queryFile, true, queryFile, inputFile, outputFile, null, mutableListOf<MutableMap<String, String>>(), mutableListOf<MutableMap<String, String>>())
