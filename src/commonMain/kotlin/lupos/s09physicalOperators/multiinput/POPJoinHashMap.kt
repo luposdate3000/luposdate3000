@@ -1,8 +1,8 @@
 package lupos.s09physicalOperators.multiinput
 
 import kotlin.jvm.JvmField
-import lupos.s00misc.Coverage
 import lupos.s00misc.BugException
+import lupos.s00misc.Coverage
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.ESortPriority
 import lupos.s00misc.SanityCheck
@@ -59,9 +59,9 @@ class POPJoinHashMap(query: Query, projectedVariables: List<String>, childA: OPB
 //--- obtain child columns
         val columns = LOPJoin.getColumns(children[0].getProvidedVariableNames(), children[1].getProvidedVariableNames())
         require(columns[0].size != 0)
-       SanityCheck.println({"POPJoinHashMapXXX$uuid open A $classname"})
+        SanityCheck.println({ "POPJoinHashMapXXX$uuid open A $classname" })
         val childA = children[0].evaluate()
-       SanityCheck.println({"POPJoinHashMapXXX$uuid open B $classname"})
+        SanityCheck.println({ "POPJoinHashMapXXX$uuid open B $classname" })
         val childB = children[1].evaluate()
         val columnsINAO = mutableListOf<ColumnIterator>()//only in childA
         val columnsINBO = mutableListOf<ColumnIterator>()//only in childB
@@ -167,7 +167,7 @@ class POPJoinHashMap(query: Query, projectedVariables: List<String>, childA: OPB
             currentKey = nextKey
             map = nextMap
         }
-       SanityCheck.println({"POPJoinHashMapXXX$uuid close B $classname"})
+        SanityCheck.println({ "POPJoinHashMapXXX$uuid close B $classname" })
         for (closeIndex in 0 until columnsINBJ.size) {
             columnsINBJ[closeIndex].close()
         }
@@ -180,12 +180,12 @@ class POPJoinHashMap(query: Query, projectedVariables: List<String>, childA: OPB
 //this is just function pointer assignment. this loop does not calculate anything
             iterator.close = {
                 iterator._close()
-for (iterator2 in outIterators) {
-iterator2.onNoMoreElements={
-iterator2._onNoMoreElements()
-}
-}
-               SanityCheck.println({"POPJoinHashMapXXX$uuid close A $classname"})
+                for (iterator2 in outIterators) {
+                    iterator2.onNoMoreElements = {
+                        iterator2._onNoMoreElements()
+                    }
+                }
+                SanityCheck.println({ "POPJoinHashMapXXX$uuid close A $classname" })
                 for (closeIndex in 0 until columnsINAJ.size) {
                     columnsINAJ[closeIndex].close()
                 }
@@ -256,11 +256,11 @@ iterator2._onNoMoreElements()
                         val dataOA = Array(columnsINAO.size) { MyListValue() }
                         for (columnIndex in 0 until columnsINAO.size) {
                             for (i in 0 until countA) {
-var tmp=columnsINAO[columnIndex].next()
-if(tmp==null){
-iterator.close()
-throw BugException(classname,"child has different number of rows for different columns $uuid childA")
-}
+                                var tmp = columnsINAO[columnIndex].next()
+                                if (tmp == null) {
+                                    iterator.close()
+                                    throw BugException(classname, "child has different number of rows for different columns $uuid childA")
+                                }
                                 dataOA[columnIndex].add(tmp!!)
                             }
                         }
@@ -305,15 +305,15 @@ throw BugException(classname,"child has different number of rows for different c
             res.hasNext2 = {
                 /*return*/outJ[0].next() != null
             }
-res.hasNext2Close={
-outJ[0].close()
-for (closeIndex in 0 until columnsINAJ.size) {
+            res.hasNext2Close = {
+                outJ[0].close()
+                for (closeIndex in 0 until columnsINAJ.size) {
                     columnsINAJ[closeIndex].close()
                 }
                 for (closeIndex in 0 until columnsINAO.size) {
                     columnsINAO[closeIndex].close()
                 }
-}
+            }
         }
         return res
     }

@@ -1,5 +1,4 @@
 package lupos.s04arithmetikOperators.singleinput
-import lupos.s00misc.SanityCheck
 
 import kotlin.math.roundToInt
 import lupos.s00misc.BigDecimal
@@ -7,6 +6,7 @@ import lupos.s00misc.BigInteger
 import lupos.s00misc.Coverage
 import lupos.s00misc.DecimalHelper
 import lupos.s00misc.EOperatorID
+import lupos.s00misc.SanityCheck
 import lupos.s03resultRepresentation.decimalZero
 import lupos.s03resultRepresentation.Value
 import lupos.s03resultRepresentation.ValueDecimal
@@ -35,12 +35,12 @@ class AOPBuildInCallROUND(query: Query, child: AOPBase) : AOPBase(query, EOperat
                     res = ValueFloat(a.toDouble().roundToInt().toDouble())
                 } else if (a is ValueDecimal) {
                     res = ValueDecimal(DecimalHelper.round(a.value))
-                   SanityCheck.println({"AOPBuildInCallROUND A ${a.value.toString()} = ${(res as ValueDecimal).value.toString()}"})
+                    SanityCheck.println({ "AOPBuildInCallROUND A ${a.value.toString()} = ${(res as ValueDecimal).value.toString()}" })
                 } else if (a is ValueInteger) {
                     res = a
                 }
             } catch (e: Throwable) {
-               SanityCheck.println({"TODO exception 33"})
+                SanityCheck.println({ "TODO exception 33" })
                 e.printStackTrace()
             }
 /*return*/res

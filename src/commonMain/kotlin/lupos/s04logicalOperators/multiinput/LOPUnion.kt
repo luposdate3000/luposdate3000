@@ -35,7 +35,7 @@ class LOPUnion(query: Query, first: OPBase, second: OPBase) : LOPBase(query, EOp
                 res.values[v] = childHistogram0.values[v]!! + childHistogram1.values[v]!!
             }
         } catch (e: Throwable) {
-           SanityCheck.println({"TODO exception 10"})
+            SanityCheck.println({ "TODO exception 10" })
             e.printStackTrace()
             throw BugException(classname, "calculateHistogram column missing")
         }

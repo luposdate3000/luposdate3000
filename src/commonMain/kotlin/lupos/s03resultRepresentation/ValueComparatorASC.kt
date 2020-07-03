@@ -1,8 +1,9 @@
 package lupos.s03resultRepresentation
-import lupos.s00misc.SanityCheck
+
 import kotlin.jvm.JvmField
 import lupos.s00misc.Coverage
 import lupos.s00misc.EvaluationException
+import lupos.s00misc.SanityCheck
 import lupos.s03resultRepresentation.Value
 import lupos.s03resultRepresentation.ValueBnode
 import lupos.s03resultRepresentation.ValueComparatorASC
@@ -40,7 +41,7 @@ class ValueComparatorASC(@JvmField val query: Query) : Comparator<Value> {
             val sB = b.valueToString()!!
             return sA.compareTo(sB)
         } catch (e: Throwable) {
-           SanityCheck.println({"TODO exception 45"})
+            SanityCheck.println({ "TODO exception 45" })
             e.printStackTrace()
             return 0
         }

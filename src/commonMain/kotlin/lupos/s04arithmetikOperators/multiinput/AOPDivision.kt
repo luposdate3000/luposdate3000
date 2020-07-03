@@ -1,5 +1,4 @@
 package lupos.s04arithmetikOperators.multiinput
-import lupos.s00misc.SanityCheck
 
 import kotlin.jvm.JvmField
 import lupos.s00misc.BigDecimal
@@ -8,6 +7,7 @@ import lupos.s00misc.Coverage
 import lupos.s00misc.DecimalHelper
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.EvaluationException
+import lupos.s00misc.SanityCheck
 import lupos.s03resultRepresentation.decimalZero
 import lupos.s03resultRepresentation.integerZero
 import lupos.s03resultRepresentation.Value
@@ -46,7 +46,7 @@ class AOPDivision(query: Query, childA: AOPBase, childB: AOPBase) : AOPBinaryOpe
                 if (a is ValueDecimal || b is ValueDecimal) {
                     if (b.toDecimal() != decimalZero) {
                         res = ValueDecimal(DecimalHelper.divide(a.toDecimal(), b.toDecimal()))
-                       SanityCheck.println({"AOPDivision A ${a.toDecimal().toString()} / ${b.toDecimal().toString()} = ${(res as ValueDecimal).value.toString()}"})
+                        SanityCheck.println({ "AOPDivision A ${a.toDecimal().toString()} / ${b.toDecimal().toString()} = ${(res as ValueDecimal).value.toString()}" })
                     }
                 }
                 if (a is ValueInteger || b is ValueInteger) {
@@ -56,7 +56,7 @@ class AOPDivision(query: Query, childA: AOPBase, childB: AOPBase) : AOPBinaryOpe
                 }
             } catch (e: EvaluationException) {
             } catch (e: Throwable) {
-               SanityCheck.println({"TODO exception 23"})
+                SanityCheck.println({ "TODO exception 23" })
                 e.printStackTrace()
             }
 /*return*/res

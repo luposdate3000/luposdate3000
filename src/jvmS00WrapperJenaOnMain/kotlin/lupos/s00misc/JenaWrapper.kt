@@ -32,7 +32,7 @@ object JenaWrapper {
         try {
             UpdateAction.parseExecute(queryString, dataset)
         } catch (e: Throwable) {
-           SanityCheck.println({"TODO exception 5"})
+            SanityCheck.println({ "TODO exception 5" })
             e.printStackTrace()
         }
     }
@@ -40,7 +40,7 @@ object JenaWrapper {
     fun execQuery(queryString: String, logging: Boolean = true): String {
         if (logging) {
             checkExceptions(queryString)
-           SanityCheck.println({"Jena optimized query >>"})
+            SanityCheck.println({ "Jena optimized query >>" })
         }
         var res = ""
         try {
@@ -78,17 +78,17 @@ object JenaWrapper {
             } else if (query.isConstructQuad()) {
             }
             if (logging) {
-               SanityCheck.println({"------"})
+                SanityCheck.println({ "------" })
                 val plan = QueryExecutionFactory.createPlan(query, dataset.asDatasetGraph(), null)
                 val op = plan.getOp()
                 val op2 = Optimize.optimize(op, qexec.getContext())
-               SanityCheck.println({op2})
+                SanityCheck.println({ op2 })
             }
         } catch (e: Throwable) {
             e.printStackTrace()
         }
         if (logging) {
-           SanityCheck.println({"Jena optimized query <<"})
+            SanityCheck.println({ "Jena optimized query <<" })
         }
         return res
     }
@@ -102,7 +102,7 @@ object JenaWrapper {
         for (fileName in fileNames.split(";")) {
             updateString.append("load <file://${fileName}> INTO GRAPH $graph2 ;")
         }
-       SanityCheck.println({"jena-load-from-file-string ${updateString.toString()}"})
+        SanityCheck.println({ "jena-load-from-file-string ${updateString.toString()}" })
         JenaWrapper.updateQuery(updateString.toString())
     }
 

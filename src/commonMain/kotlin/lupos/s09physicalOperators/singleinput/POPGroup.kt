@@ -193,7 +193,7 @@ class POPGroup : POPBase {
         }
         val valueColumns = Array(valueColumnNames.size) { child.columns[valueColumnNames[it]]!! }
         if (keyColumnNames.size == 0) {
-           SanityCheck.println({"group mode a"})
+            SanityCheck.println({ "group mode a" })
             val localMap = mutableMapOf<String, ColumnIterator>()
             val localColumns = Array(valueColumnNames.size) { ColumnIteratorQueue() }
             for (columnIndex in 0 until valueColumnNames.size) {
@@ -250,7 +250,7 @@ class POPGroup : POPBase {
                 }
             }
             if (canUseSortedInput) {
-               SanityCheck.println({"group mode b"})
+                SanityCheck.println({ "group mode b" })
                 val output = Array(keyColumnNames.size + bindings.size) { ColumnIteratorQueue() }
                 for (columnIndex in 0 until keyColumnNames.size) {
                     if (projectedVariables.contains(keyColumnNames[columnIndex])) {
@@ -410,7 +410,7 @@ class POPGroup : POPBase {
                     }
                 }
             } else {
-               SanityCheck.println({"group mode c"})
+                SanityCheck.println({ "group mode c" })
                 val map = mutableMapOf<MapKey, MapRow>()
                 loop@ while (true) {
                     val currentKey = Array(keyColumnNames.size) { ResultSetDictionary.undefValue }

@@ -32,7 +32,7 @@ class AOPIn(query: Query, childA: AOPBase, childB: AOPBase) : AOPBase(query, EOp
                     }
                 } catch (e: Throwable) {
                     noError = false
-                   SanityCheck.println({"TODO exception 22"})
+                    SanityCheck.println({ "TODO exception 22" })
                     e.printStackTrace()
                 }
             }

@@ -31,7 +31,7 @@ class AOPNotIn(query: Query, childA: AOPBase, childB: AOPBase) : AOPBase(query, 
                         break
                     }
                 } catch (e: Throwable) {
-                   SanityCheck.println({"TODO exception 24"})
+                    SanityCheck.println({ "TODO exception 24" })
                     e.printStackTrace()
                     noError = false
                 }

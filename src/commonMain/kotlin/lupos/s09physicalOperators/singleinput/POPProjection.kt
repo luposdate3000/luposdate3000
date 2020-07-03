@@ -48,10 +48,10 @@ class POPProjection(query: Query, projectedVariables: List<String>, child: OPBas
             val res = IteratorBundle(outMap)
             res.hasNext2 = {
                 /*return*/                column.next() != null
-            } 
-res.hasNext2Close = {
-column.close()
-}
+            }
+            res.hasNext2Close = {
+                column.close()
+            }
             return res
         } else {
             for (variable in variables) {

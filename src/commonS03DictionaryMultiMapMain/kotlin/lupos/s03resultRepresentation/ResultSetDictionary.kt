@@ -202,7 +202,7 @@ class ResultSetDictionary(val global: Boolean = false) {
                     res = booleanFalseValue
                 }
             } catch (e: Throwable) {
-               SanityCheck.println({"TODO exception 1"})
+                SanityCheck.println({ "TODO exception 1" })
                 e.printStackTrace()
             }
         }
@@ -508,25 +508,25 @@ class ResultSetDictionary(val global: Boolean = false) {
                 base = 0
             }
             for (i in 0 until iriMap.size) {
-               println("debug dict - iri :: ${i + base + flaggedValueLocalIri} -> ${iriMap[i]}")
+                println("debug dict - iri :: ${i + base + flaggedValueLocalIri} -> ${iriMap[i]}")
             }
             for (i in 0 until typedMap.size) {
-               println("debug dict - typed :: ${i + base + flaggedValueLocalTyped} -> ${typedMap[i]}")
+                println("debug dict - typed :: ${i + base + flaggedValueLocalTyped} -> ${typedMap[i]}")
             }
             for (i in 0 until intMap.size) {
-               println("debug dict - int :: ${i + base + flaggedValueLocalInt} -> ${intMap[i]}")
+                println("debug dict - int :: ${i + base + flaggedValueLocalInt} -> ${intMap[i]}")
             }
             for (i in 0 until decimalMap.size) {
-               println("debug dict - decimal :: ${i + base + flaggedValueLocalDecimal} -> ${decimalMap[i]}")
+                println("debug dict - decimal :: ${i + base + flaggedValueLocalDecimal} -> ${decimalMap[i]}")
             }
             for (i in 0 until doubleList.size) {
-               println("debug dict - double :: ${i + base + flaggedValueLocalDouble} -> ${doubleList[i]}")
+                println("debug dict - double :: ${i + base + flaggedValueLocalDouble} -> ${doubleList[i]}")
             }
             for (i in 0 until floatList.size) {
-               println("debug dict - float :: ${i + base + flaggedValueLocalFloat} -> ${floatList[i]}")
+                println("debug dict - float :: ${i + base + flaggedValueLocalFloat} -> ${floatList[i]}")
             }
             for (i in 0 until langTaggedMap.size) {
-               println("debug dict - langTagged :: ${i + base + flaggedValueLocalLangTagged} -> ${langTaggedMap[i]}")
+                println("debug dict - langTagged :: ${i + base + flaggedValueLocalLangTagged} -> ${langTaggedMap[i]}")
             }
         }
     }

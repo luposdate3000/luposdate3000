@@ -52,9 +52,9 @@ object Coverage {
         counters[counter]++
         if (COVERAGE_MODE == ECoverage.Verbose || COVERAGE_MODE == ECoverage.VeryVerbose) {
             if (COVERAGE_MODE == ECoverage.VeryVerbose)
-               println("${CoverageMapGenerated[counter]} funStart")
+                println("${CoverageMapGenerated[counter]} funStart")
             else
-               println("funStart $counter")
+                println("funStart $counter")
         }
     }
 
@@ -63,9 +63,9 @@ object Coverage {
         counters[counter]++
         if (COVERAGE_MODE == ECoverage.Verbose || COVERAGE_MODE == ECoverage.VeryVerbose) {
             if (COVERAGE_MODE == ECoverage.VeryVerbose)
-               println("${CoverageMapGenerated[counter]} forLoopStart")
+                println("${CoverageMapGenerated[counter]} forLoopStart")
             else
-               println("forLoopStart $counter")
+                println("forLoopStart $counter")
         }
     }
 
@@ -74,9 +74,9 @@ object Coverage {
         counters[counter]++
         if (COVERAGE_MODE == ECoverage.Verbose || COVERAGE_MODE == ECoverage.VeryVerbose) {
             if (COVERAGE_MODE == ECoverage.VeryVerbose)
-               println("${CoverageMapGenerated[counter]} forEachLoopStart")
+                println("${CoverageMapGenerated[counter]} forEachLoopStart")
             else
-               println("forEachLoopStart $counter")
+                println("forEachLoopStart $counter")
         }
     }
 
@@ -85,9 +85,9 @@ object Coverage {
         counters[counter]++
         if (COVERAGE_MODE == ECoverage.Verbose || COVERAGE_MODE == ECoverage.VeryVerbose) {
             if (COVERAGE_MODE == ECoverage.VeryVerbose)
-               println("${CoverageMapGenerated[counter]} whileLoopStart")
+                println("${CoverageMapGenerated[counter]} whileLoopStart")
             else
-               println("whileLoopStart $counter")
+                println("whileLoopStart $counter")
         }
     }
 
@@ -97,9 +97,9 @@ object Coverage {
         counters[CoverageMapWhenCaseGenerated[counter]!!]++
         if (COVERAGE_MODE == ECoverage.Verbose || COVERAGE_MODE == ECoverage.VeryVerbose) {
             if (COVERAGE_MODE == ECoverage.VeryVerbose)
-               println("${CoverageMapGenerated[counter]} whenCaseStart")
+                println("${CoverageMapGenerated[counter]} whenCaseStart")
             else
-               println("whenCaseStart $counter")
+                println("whenCaseStart $counter")
         }
     }
 
@@ -108,9 +108,9 @@ object Coverage {
         counters[counter]++
         if (COVERAGE_MODE == ECoverage.Verbose || COVERAGE_MODE == ECoverage.VeryVerbose) {
             if (COVERAGE_MODE == ECoverage.VeryVerbose)
-               println("${CoverageMapGenerated[counter]} ifStart")
+                println("${CoverageMapGenerated[counter]} ifStart")
             else
-               println("ifStart $counter")
+                println("ifStart $counter")
         }
     }
 
@@ -119,9 +119,9 @@ object Coverage {
         counters[counter]++
         if (COVERAGE_MODE == ECoverage.Verbose || COVERAGE_MODE == ECoverage.VeryVerbose) {
             if (COVERAGE_MODE == ECoverage.VeryVerbose)
-               println("${CoverageMapGenerated[counter]} statementStart")
+                println("${CoverageMapGenerated[counter]} statementStart")
             else
-               println("statementStart $counter")
+                println("statementStart $counter")
         }
     }
 

@@ -20,7 +20,7 @@ abstract class OptimizerCompoundBase(query: Query, optimizerID: EOptimizerID) : 
                 d = false
                 for (o in opt) {
                     SanityCheck {
-                       println("debug ${o.optimizerID}")
+                        println("debug ${o.optimizerID}")
                     }
                     var c = true
                     while (c) {

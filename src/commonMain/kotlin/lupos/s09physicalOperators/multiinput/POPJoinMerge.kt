@@ -32,7 +32,7 @@ class POPJoinMerge(query: Query, projectedVariables: List<String>, childA: OPBas
     override suspend fun evaluate(): IteratorBundle {
         SanityCheck.check { !optional }
 //setup columns
-       SanityCheck.println({"$uuid open $classname"})
+        SanityCheck.println({ "$uuid open $classname" })
         val child = Array(2) { children[it].evaluate() }
         val columnsINO = Array(2) { mutableListOf<ColumnIterator>() }
         val columnsINJ = Array(2) { mutableListOf<ColumnIterator>() }
@@ -85,7 +85,7 @@ class POPJoinMerge(query: Query, projectedVariables: List<String>, childA: OPBas
         val key = Array(2) { i -> Array(columnsINJ[i].size) { columnsINJ[i][it].next() } }
         var done = findNextKey(key, columnsINJ, columnsINO)
         if (done) {
-           SanityCheck.println({"$uuid close $classname"})
+            SanityCheck.println({ "$uuid close $classname" })
             for (closeIndex2 in 0 until 2) {
                 for (closeIndex in 0 until columnsINJ[closeIndex2].size) {
                     columnsINJ[closeIndex2][closeIndex].close()
@@ -99,7 +99,7 @@ class POPJoinMerge(query: Query, projectedVariables: List<String>, childA: OPBas
             for (iterator in outIterators) {
                 iterator.close = {
                     iterator._close()
-                   SanityCheck.println({"$uuid close $classname"})
+                    SanityCheck.println({ "$uuid close $classname" })
                     for (closeIndex2 in 0 until 2) {
                         for (closeIndex in 0 until columnsINJ[closeIndex2].size) {
                             columnsINJ[closeIndex2][closeIndex].close()
@@ -122,7 +122,7 @@ class POPJoinMerge(query: Query, projectedVariables: List<String>, childA: OPBas
                         for (iterator2 in outIterators) {
                             iterator2.onNoMoreElements = iterator2::_onNoMoreElements
                         }
-                       SanityCheck.println({"$uuid close $classname"})
+                        SanityCheck.println({ "$uuid close $classname" })
                         for (closeIndex2 in 0 until 2) {
                             for (closeIndex in 0 until columnsINJ[closeIndex2].size) {
                                 columnsINJ[closeIndex2][closeIndex].close()
@@ -145,7 +145,7 @@ class POPJoinMerge(query: Query, projectedVariables: List<String>, childA: OPBas
             res.hasNext2 = {
                 val tmp = columnsOUTJ[0].next() != null
                 if (!tmp) {
-                   SanityCheck.println({"$uuid close $classname"})
+                    SanityCheck.println({ "$uuid close $classname" })
                     for (closeIndex2 in 0 until 2) {
                         for (closeIndex in 0 until columnsINJ[closeIndex2].size) {
                             columnsINJ[closeIndex2][closeIndex].close()
@@ -157,16 +157,16 @@ class POPJoinMerge(query: Query, projectedVariables: List<String>, childA: OPBas
                 }
 /*return*/tmp
             }
- res.hasNext2Close = {
-for (closeIndex2 in 0 until 2) {
-                        for (closeIndex in 0 until columnsINJ[closeIndex2].size) {
-                            columnsINJ[closeIndex2][closeIndex].close()
-                        }
-                        for (closeIndex in 0 until columnsINO[closeIndex2].size) {
-                            columnsINO[closeIndex2][closeIndex].close()
-                        }
+            res.hasNext2Close = {
+                for (closeIndex2 in 0 until 2) {
+                    for (closeIndex in 0 until columnsINJ[closeIndex2].size) {
+                        columnsINJ[closeIndex2][closeIndex].close()
                     }
-}
+                    for (closeIndex in 0 until columnsINO[closeIndex2].size) {
+                        columnsINO[closeIndex2][closeIndex].close()
+                    }
+                }
+            }
         } else {
             res = IteratorBundle(outMap)
         }

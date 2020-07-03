@@ -1,9 +1,9 @@
 package lupos.s04arithmetikOperators.multiinput
-import lupos.s00misc.SanityCheck
 
 import lupos.s00misc.Coverage
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.EvaluationException
+import lupos.s00misc.SanityCheck
 import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s03resultRepresentation.Value
 import lupos.s03resultRepresentation.ValueDefinition
@@ -29,7 +29,7 @@ class AOPGEQ(query: Query, childA: AOPBase, childB: AOPBase) : AOPBinaryOperatio
                     res = ResultSetDictionary.booleanFalseValue2
                 }
             } catch (e: Throwable) {
-               SanityCheck.println({"TODO exception 29"})
+                SanityCheck.println({ "TODO exception 29" })
                 e.printStackTrace()
             }
 /*return*/res
@@ -52,7 +52,7 @@ class AOPGEQ(query: Query, childA: AOPBase, childB: AOPBase) : AOPBinaryOperatio
                 }
             } catch (e: EvaluationException) {
             } catch (e: Throwable) {
-               SanityCheck.println({"TODO exception 30"})
+                SanityCheck.println({ "TODO exception 30" })
                 e.printStackTrace()
             }
 /*return*/res

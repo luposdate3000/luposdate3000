@@ -86,7 +86,7 @@ class SparqlTestSuite() {
                                     }
                                 }
                             } catch (e: Throwable) {
-                               SanityCheck.println({"TODO exception 39"})
+                                SanityCheck.println({ "TODO exception 39" })
                                 e.printStackTrace()
                             } finally {
                                 JenaWrapper.dropAll()
@@ -436,10 +436,10 @@ class SparqlTestSuite() {
     @UseExperimental(ExperimentalStdlibApi::class, kotlin.time.ExperimentalTime::class)
     suspend fun parseSPARQLAndEvaluate(testName: String, expectedResult: Boolean, queryFile: String, inputDataFileName: String?, resultDataFileName: String?, services: List<Map<String, String>>?, inputDataGraph: MutableList<MutableMap<String, String>>, outputDataGraph: MutableList<MutableMap<String, String>>): Boolean {
         if (filterList.size > 0 && !filterList.contains(testName)) {
-           SanityCheck.println({"'$testName' not in WhiteList of Unit-Tests"})
+            SanityCheck.println({ "'$testName' not in WhiteList of Unit-Tests" })
             return true
         } else {
-           SanityCheck.println({"'$testName' is in WhiteList of Unit-Tests"})
+            SanityCheck.println({ "'$testName' is in WhiteList of Unit-Tests" })
         }
         File("log/storetest").mkdirs()
         var ignoreJena = false
@@ -513,10 +513,10 @@ class SparqlTestSuite() {
                     try {
                         JenaWrapper.loadFromFile("/src/luposdate3000/" + inputDataFileName)
                     } catch (e: JenaBugException) {
-                       SanityCheck.println({e.message})
+                        SanityCheck.println({ e.message })
                         ignoreJena = true
                     } catch (e: Throwable) {
-                       SanityCheck.println({"TODO exception 41"})
+                        SanityCheck.println({ "TODO exception 41" })
                         e.printStackTrace()
                         ignoreJena = true
                     }
@@ -536,10 +536,10 @@ class SparqlTestSuite() {
                     try {
                         JenaWrapper.loadFromFile("/src/luposdate3000/" + it["filename"]!!, it["name"]!!)
                     } catch (e: JenaBugException) {
-                       SanityCheck.println({e.message})
+                        SanityCheck.println({ e.message })
                         ignoreJena = true
                     } catch (e: Throwable) {
-                       SanityCheck.println({"TODO exception 42"})
+                        SanityCheck.println({ "TODO exception 42" })
                         e.printStackTrace()
                         ignoreJena = true
                     }
@@ -657,10 +657,10 @@ class SparqlTestSuite() {
                             return false
                         }
                     } catch (e: JenaBugException) {
-                       SanityCheck.println({e.message})
+                        SanityCheck.println({ e.message })
                         ignoreJena = true
                     } catch (e: Throwable) {
-                       SanityCheck.println({"TODO exception 43"})
+                        SanityCheck.println({ "TODO exception 43" })
                         e.printStackTrace()
                         ignoreJena = true
                     }
@@ -774,7 +774,7 @@ class SparqlTestSuite() {
             GlobalLogger.stacktrace(ELoggerType.TEST_RESULT, e)
             return false
         } catch (e: Luposdate3000Exception) {
-           SanityCheck.println({"lastStatement :: ${Coverage.CoverageMapGenerated[Coverage.lastcounter]}"})
+            SanityCheck.println({ "lastStatement :: ${Coverage.CoverageMapGenerated[Coverage.lastcounter]}" })
             if (expectedResult) {
                 GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Time(${timer.elapsedNow().toDouble(DurationUnit.SECONDS)})" })
                 GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Failed(${e.classname})" })
@@ -785,9 +785,9 @@ class SparqlTestSuite() {
             }
             return false
         } catch (e: Throwable) {
-           SanityCheck.println({"TODO exception 44"})
+            SanityCheck.println({ "TODO exception 44" })
             e.printStackTrace()
-           SanityCheck.println({"lastStatement :: ${Coverage.CoverageMapGenerated[Coverage.lastcounter]}"})
+            SanityCheck.println({ "lastStatement :: ${Coverage.CoverageMapGenerated[Coverage.lastcounter]}" })
             if (expectedResult) {
                 GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Time(${timer.elapsedNow().toDouble(DurationUnit.SECONDS)})" })
                 GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Failed(Throwable)" })

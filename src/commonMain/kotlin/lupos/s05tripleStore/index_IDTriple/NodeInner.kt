@@ -338,12 +338,12 @@ object NodeInner {
         NodeShared.setTripleCount(data, triples)
         NodeShared.setNextNode(data, NodeManager.nodeNullPointer)
         SanityCheck {
-           println(debugListChilds)
-           println(debugListTriples.map { it.map { it } })
+            println(debugListChilds)
+            println(debugListTriples.map { it.map { it } })
             SanityCheck.check { debugListTriples.size == debugListChilds.size - 1 }
             var k = 0
             forEachChild(data, {
-               println("debug it $it")
+                println("debug it $it")
                 SanityCheck.check { debugListChilds.size >= k }
                 SanityCheck.check { it == debugListChilds[k] }
                 k++
@@ -351,7 +351,7 @@ object NodeInner {
             SanityCheck.check { k == debugListChilds.size }
             var j = -1
             findIteratorN(data, {
-               println("debug xx ${it.map { it }}")
+                println("debug xx ${it.map { it }}")
                 j++
                 SanityCheck.check { j < debugListTriples.size }
                 SanityCheck.check { it[0] == debugListTriples[j][0] }
@@ -359,15 +359,15 @@ object NodeInner {
                 SanityCheck.check { it[2] == debugListTriples[j][2] }
                 /*return*/true
             }, {
-               println("debug $it")
+                println("debug $it")
                 SanityCheck.check { it == debugListChilds[debugListChilds.size - 1] }
             })
             SanityCheck.check { j == debugListTriples.size - 1 }
             for (l in 0 until debugListTriples.size) {
-               println("debug l $l")
+                println("debug l $l")
                 j = -1
                 findIteratorN(data, {
-                   println("debug xx ${it.map { it }}")
+                    println("debug xx ${it.map { it }}")
                     j++
                     SanityCheck.check { j < debugListTriples.size }
                     SanityCheck.check { it[0] == debugListTriples[j][0] }
@@ -377,7 +377,7 @@ object NodeInner {
 /*read at most one block too much*/
                     /*return*/ j < l
                 }, {
-                   println("debug $it")
+                    println("debug $it")
                     SanityCheck.check { it == debugListChilds[l] }
                 })
             }

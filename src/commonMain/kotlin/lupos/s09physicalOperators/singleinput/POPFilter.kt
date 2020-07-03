@@ -34,7 +34,7 @@ class POPFilter(query: Query, projectedVariables: List<String>, filter: AOPBase,
         val variablesOut = getProvidedVariableNames()
         val outMap = mutableMapOf<String, ColumnIterator>()
         val localMap = mutableMapOf<String, ColumnIterator>()
-       SanityCheck.println({"POPFilterXXX$uuid open A $classname"})
+        SanityCheck.println({ "POPFilterXXX$uuid open A $classname" })
         val child = children[0].evaluate()
         var res: IteratorBundle? = null
         try {
@@ -60,7 +60,7 @@ class POPFilter(query: Query, projectedVariables: List<String>, filter: AOPBase,
                     if (expression()) {
                         res.hasNext2 = child.hasNext2
                         res.hasNext2Close = {
-                           SanityCheck.println({"POPFilterXXX$uuid close A $classname"})
+                            SanityCheck.println({ "POPFilterXXX$uuid close A $classname" })
                             child.hasNext2Close()
                         }
                     } else {
@@ -70,7 +70,7 @@ class POPFilter(query: Query, projectedVariables: List<String>, filter: AOPBase,
                     }
                 } else {
                     res.hasNext2Close = {
-                       SanityCheck.println({"POPFilterXXX$uuid close B $classname"})
+                        SanityCheck.println({ "POPFilterXXX$uuid close B $classname" })
                         for ((k, v) in child.columns) {
                             v.close()
                         }
@@ -84,7 +84,7 @@ class POPFilter(query: Query, projectedVariables: List<String>, filter: AOPBase,
                                     columnsLocal[variableIndex2].tmp = columnsIn[variableIndex2]!!.next()
                                     //point each iterator to the current value
                                     if (columnsLocal[variableIndex2].tmp == null) {
-                                       SanityCheck.println({"POPFilterXXX$uuid close C $classname"})
+                                        SanityCheck.println({ "POPFilterXXX$uuid close C $classname" })
                                         for ((k, v) in child.columns) {
                                             v.close()
                                         }
@@ -105,8 +105,8 @@ class POPFilter(query: Query, projectedVariables: List<String>, filter: AOPBase,
                                 }
                             }
                         } catch (e: NotImplementedException) {
-                           SanityCheck.println({"filter caught notimplemented and closed its childs"})
-                           SanityCheck.println({"POPFilterXXX$uuid close D $classname"})
+                            SanityCheck.println({ "filter caught notimplemented and closed its childs" })
+                            SanityCheck.println({ "POPFilterXXX$uuid close D $classname" })
                             for ((k, v) in child.columns) {
                                 v.close()
                             }
@@ -118,13 +118,13 @@ class POPFilter(query: Query, projectedVariables: List<String>, filter: AOPBase,
             } else {
                 res = IteratorBundle(outMap)
                 for (variableIndex in 0 until variables.size) {
-columnsLocal[variableIndex].close={
-columnsLocal[variableIndex]._close()
-println("POPFilterXXX$uuid close E $classname")
-                                        for ((k, v) in child.columns) {
-                                            v.close()
-                                        }
-}
+                    columnsLocal[variableIndex].close = {
+                        columnsLocal[variableIndex]._close()
+                        println("POPFilterXXX$uuid close E $classname")
+                        for ((k, v) in child.columns) {
+                            v.close()
+                        }
+                    }
                     columnsLocal[variableIndex].onEmptyQueue = {
                         try {
                             var done = false
@@ -134,7 +134,7 @@ println("POPFilterXXX$uuid close E $classname")
                                     //point each iterator to the current value
                                     if (columnsLocal[variableIndex2].tmp == null) {
                                         SanityCheck.check { variableIndex2 == 0 }
-                                       SanityCheck.println({"POPFilterXXX$uuid close F $classname"})
+                                        SanityCheck.println({ "POPFilterXXX$uuid close F $classname" })
                                         for ((k, v) in child.columns) {
                                             v.close()
                                         }
@@ -157,8 +157,8 @@ println("POPFilterXXX$uuid close E $classname")
                                 }
                             }
                         } catch (e: NotImplementedException) {
-                           SanityCheck.println({"POPFilterXXX$uuid close G $classname"})
-                           SanityCheck.println({"filter caught notimplemented and closed its childs"})
+                            SanityCheck.println({ "POPFilterXXX$uuid close G $classname" })
+                            SanityCheck.println({ "filter caught notimplemented and closed its childs" })
                             for ((k, v) in child.columns) {
                                 v.close()
                             }
@@ -168,8 +168,8 @@ println("POPFilterXXX$uuid close E $classname")
                 }
             }
         } catch (e: NotImplementedException) {
-           SanityCheck.println({"POPFilterXXX$uuid close H $classname"})
-           SanityCheck.println({"filter caught notimplemented and closed its childs"})
+            SanityCheck.println({ "POPFilterXXX$uuid close H $classname" })
+            SanityCheck.println({ "filter caught notimplemented and closed its childs" })
             for ((k, v) in child.columns) {
                 v.close()
             }

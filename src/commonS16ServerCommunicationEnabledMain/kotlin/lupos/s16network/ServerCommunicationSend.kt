@@ -62,7 +62,7 @@ object ServerCommunicationSend {
                         throw CommuncationUnexpectedHeaderException("$header")
                     }
                 } catch (e: Throwable) {
-                   println("TODO exception 3")
+                    println("TODO exception 3")
                     e.printStackTrace()
                     ServerCommunicationConnectionPool.closeSocketException(host, conn)
                 }
@@ -89,7 +89,7 @@ object ServerCommunicationSend {
                         throw CommuncationUnexpectedHeaderException("$header")
                     }
                 } catch (e: Throwable) {
-                   SanityCheck.println({"TODO exception 3"})
+                    SanityCheck.println({ "TODO exception 3" })
                     e.printStackTrace()
                     ServerCommunicationConnectionPool.closeSocketException(host, conn)
                 }
@@ -116,7 +116,7 @@ object ServerCommunicationSend {
                         throw CommuncationUnexpectedHeaderException("$header")
                     }
                 } catch (e: Throwable) {
-                   SanityCheck.println({"TODO exception 4"})
+                    SanityCheck.println({ "TODO exception 4" })
                     e.printStackTrace()
                     ServerCommunicationConnectionPool.closeSocketException(host, conn)
                 }

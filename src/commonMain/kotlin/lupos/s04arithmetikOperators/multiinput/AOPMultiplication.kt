@@ -1,10 +1,10 @@
 package lupos.s04arithmetikOperators.multiinput
-import lupos.s00misc.SanityCheck
 
 import lupos.s00misc.Coverage
 import lupos.s00misc.DecimalHelper
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.EvaluationException
+import lupos.s00misc.SanityCheck
 import lupos.s03resultRepresentation.Value
 import lupos.s03resultRepresentation.ValueDecimal
 import lupos.s03resultRepresentation.ValueDefinition
@@ -39,7 +39,7 @@ class AOPMultiplication(query: Query, childA: AOPBase, childB: AOPBase) : AOPBin
                 }
             } catch (e: EvaluationException) {
             } catch (e: Throwable) {
-               SanityCheck.println({"TODO exception 18"})
+                SanityCheck.println({ "TODO exception 18" })
                 e.printStackTrace()
             }
 /*return*/res

@@ -37,7 +37,7 @@ class POPMakeBooleanResult(query: Query, projectedVariables: List<String>, child
                 flag = child.columns[variables[0]]!!.next() != null
             } else {
                 flag = child.hasNext2()
-child.hasNext2Close()
+                child.hasNext2Close()
             }
         }
         val tmp = ColumnIteratorRepeatValue(1, query.dictionary.createValue(ValueBoolean(flag)))

@@ -1,11 +1,11 @@
 package lupos.s04arithmetikOperators.singleinput
-import lupos.s00misc.SanityCheck
 
 import kotlin.jvm.JvmField
 import lupos.s00misc.Coverage
 import lupos.s00misc.DecimalHelper
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.EvaluationException
+import lupos.s00misc.SanityCheck
 import lupos.s02buildSyntaxTree.sparql1_1.Aggregation
 import lupos.s03resultRepresentation.decimalZero
 import lupos.s03resultRepresentation.Value
@@ -53,10 +53,10 @@ class AOPAggregationAVG(query: Query, @JvmField val distinct: Boolean, childs: A
                     tmp1 = ValueFloat(tmp1.toDouble() + value.toDouble())
                 } else if (tmp1 is ValueDecimal || value is ValueDecimal) {
                     tmp1 = ValueDecimal(DecimalHelper.add(tmp1.toDecimal(), value.toDecimal()))
-                   SanityCheck.println({"AOPAggregationAVG A ${res.value.toDecimal().toString()} + ${value.toDecimal().toString()} = ${(tmp1 as ValueDecimal).value.toString()}"})
+                    SanityCheck.println({ "AOPAggregationAVG A ${res.value.toDecimal().toString()} + ${value.toDecimal().toString()} = ${(tmp1 as ValueDecimal).value.toString()}" })
                 } else if (tmp1 is ValueInteger || value is ValueInteger) {
                     tmp1 = ValueDecimal((tmp1.toInt() + value.toInt()).toBigDecimal())
-                   SanityCheck.println({"AOPAggregationAVG B ${res.value.toInt().toString()} + ${value.toDecimal().toString()} = ${(tmp1 as ValueDecimal).value.toString()}"})
+                    SanityCheck.println({ "AOPAggregationAVG B ${res.value.toInt().toString()} + ${value.toDecimal().toString()} = ${(tmp1 as ValueDecimal).value.toString()}" })
                 } else {
                     tmp1 = ValueError()
                     res.evaluate = res::_evaluate
@@ -65,7 +65,7 @@ class AOPAggregationAVG(query: Query, @JvmField val distinct: Boolean, childs: A
                 tmp1 = ValueError()
                 res.evaluate = res::_evaluate
             } catch (e: Throwable) {
-               SanityCheck.println({"TODO exception 34"})
+                SanityCheck.println({ "TODO exception 34" })
                 e.printStackTrace()
                 tmp1 = ValueError()
                 res.evaluate = res::_evaluate
@@ -86,7 +86,7 @@ class AOPAggregationAVG(query: Query, @JvmField val distinct: Boolean, childs: A
                 res = ValueFloat(tmp1.toDouble() / tmp.count)
             } else if (tmp1 is ValueDecimal) {
                 res = ValueDecimal(DecimalHelper.divide(tmp1.value, tmp.count.toBigDecimal()))
-               SanityCheck.println({"AOPAggregationAVG C ${tmp1.value.toString()} / ${tmp.count.toBigDecimal().toString()} = ${(res as ValueDecimal).value.toString()}"})
+                SanityCheck.println({ "AOPAggregationAVG C ${tmp1.value.toString()} / ${tmp.count.toBigDecimal().toString()} = ${(res as ValueDecimal).value.toString()}" })
             } else {
                 res = ValueError()
             }

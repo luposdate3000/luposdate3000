@@ -83,9 +83,9 @@ class LogicalOptimizerStoreToValues(query: Query) : OptimizerBase(query, EOptimi
                             res = LOPValues(query, listOf(AOPVariable(query, variables[0])), constants)
                             onChange()
                         }
-for((k,v) in columns){
-v.close()
-}
+                        for ((k, v) in columns) {
+                            v.close()
+                        }
                     }
                 }
             }
