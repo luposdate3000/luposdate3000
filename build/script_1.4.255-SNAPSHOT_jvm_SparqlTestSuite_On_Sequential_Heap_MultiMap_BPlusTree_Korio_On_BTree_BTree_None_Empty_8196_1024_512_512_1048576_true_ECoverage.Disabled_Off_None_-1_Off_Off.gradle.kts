@@ -42,7 +42,7 @@ repositories {
     maven("http://dl.bintray.com/kotlin/kotlin-eap-1.2")
     maven("https://kotlin.bintray.com/kotlinx")
 }
-project.buildDir = file("build/build_1.4.255-SNAPSHOT_jvm_SparqlTestSuite_On_Sequential_Heap_MultiMap_BPlusTree_Korio_On_BTree_BTree_Count_Empty_8196_1024_512_512_1048576_false_ECoverage.Disabled_Off_None_-1_Off_Off")
+project.buildDir = file("build/build_1.4.255-SNAPSHOT_jvm_SparqlTestSuite_On_Sequential_Heap_MultiMap_BPlusTree_Korio_On_BTree_BTree_None_Empty_8196_1024_512_512_1048576_true_ECoverage.Disabled_Off_None_-1_Off_Off")
 dependencies {
     implementation("com.benasher44:uuid:0.0.7")
     implementation("com.soywiz.korlibs.korio:korio:1.9.9-SNAPSHOT")
