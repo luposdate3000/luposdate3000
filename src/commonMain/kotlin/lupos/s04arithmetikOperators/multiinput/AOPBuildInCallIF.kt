@@ -29,7 +29,7 @@ class AOPBuildInCallIF(query: Query, child: AOPBase, childA: AOPBase, childB: AO
                 }
             } catch (e: EvaluationException) {
             } catch (e: Throwable) {
-               SanityCheck.println("TODO exception 31")
+               SanityCheck.println({"TODO exception 31"})
                 e.printStackTrace()
             }
 /*return*/res

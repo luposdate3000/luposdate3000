@@ -40,7 +40,7 @@ class ValueComparatorASC(@JvmField val query: Query) : Comparator<Value> {
             val sB = b.valueToString()!!
             return sA.compareTo(sB)
         } catch (e: Throwable) {
-           SanityCheck.println("TODO exception 45")
+           SanityCheck.println({"TODO exception 45"})
             e.printStackTrace()
             return 0
         }

@@ -42,7 +42,7 @@ class AOPAggregationMAX(query: Query, @JvmField val distinct: Boolean, childs: A
                 res.value = ValueError()
                 res.evaluate = res::_evaluate
             } catch (e: Throwable) {
-               SanityCheck.println("TODO exception 37")
+               SanityCheck.println({"TODO exception 37"})
                 e.printStackTrace()
                 res.value = ValueError()
                 res.evaluate = res::_evaluate

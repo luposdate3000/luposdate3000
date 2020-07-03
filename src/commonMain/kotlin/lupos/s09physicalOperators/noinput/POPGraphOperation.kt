@@ -314,7 +314,7 @@ class POPGraphOperation(query: Query,
                 throw e
             }
         } catch (e: Throwable) {
-           SanityCheck.println("TODO exception 7")
+           SanityCheck.println({"TODO exception 7"})
             e.printStackTrace()
             if (!silent) {
                 throw e

@@ -88,7 +88,7 @@ object HttpEndpoint {
             }
             return "successfully imported $counter Triples"
         } catch (e: Throwable) {
-           SanityCheck.println("TODO exception 15")
+           SanityCheck.println({"TODO exception 15"})
             e.printStackTrace()
             throw e
         }
@@ -129,12 +129,12 @@ object HttpEndpoint {
         val pop_distributed_node = KeyDistributionOptimizer(q).optimizeCall(pop_node)
         GlobalLogger.log(ELoggerType.DEBUG, { pop_distributed_node })
         if (logOperatorGraph) {
-           SanityCheck.println("----------")
-           SanityCheck.println(query)
-           SanityCheck.println(">>>>>>>>>>")
-           SanityCheck.println(pop_distributed_node.toXMLElement().toString())
-           SanityCheck.println("<<<<<<<<<<")
-           SanityCheck.println(OperatorGraphToLatex(pop_distributed_node.toXMLElement().toString(), ""))
+           SanityCheck.println({"----------"})
+           SanityCheck.println({query})
+           SanityCheck.println({">>>>>>>>>>"})
+           SanityCheck.println({pop_distributed_node.toXMLElement().toString()})
+           SanityCheck.println({"<<<<<<<<<<"})
+           SanityCheck.println({OperatorGraphToLatex(pop_distributed_node.toXMLElement().toString(), "")})
         }
         val res = QueryResultToString(pop_distributed_node)
         q.commit()
@@ -146,12 +146,12 @@ object HttpEndpoint {
         val pop_node = XMLElement.convertToOPBase(q, XMLElement.parseFromXml(query)!!)
         GlobalLogger.log(ELoggerType.DEBUG, { pop_node })
         if (logOperatorGraph) {
-           SanityCheck.println("----------")
-           SanityCheck.println(query)
-           SanityCheck.println(">>>>>>>>>>")
-           SanityCheck.println(pop_node.toXMLElement().toString())
-           SanityCheck.println("<<<<<<<<<<")
-           SanityCheck.println(OperatorGraphToLatex(pop_node.toXMLElement().toString(), ""))
+           SanityCheck.println({"----------"})
+           SanityCheck.println({query})
+           SanityCheck.println({">>>>>>>>>>"})
+           SanityCheck.println({pop_node.toXMLElement().toString()})
+           SanityCheck.println({"<<<<<<<<<<"})
+           SanityCheck.println({OperatorGraphToLatex(pop_node.toXMLElement().toString(), "")})
         }
         val res = QueryResultToString(pop_node)
         q.commit()

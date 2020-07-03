@@ -99,7 +99,7 @@ object HttpEndpointLauncher {
                 } catch (e: Throwable) {
                     responseBytes = e.toString().encodeToByteArray()
                     request.setStatus(500)
-                   SanityCheck.println("TODO exception 6")
+                   SanityCheck.println({"TODO exception 6"})
                     e.printStackTrace()
                 }
                 request.end(responseBytes)

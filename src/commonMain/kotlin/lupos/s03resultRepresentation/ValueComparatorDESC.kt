@@ -41,7 +41,7 @@ class ValueComparatorDESC(@JvmField val query: Query) : Comparator<Value> {
             val sB = b.valueToString()!!
             return sB.compareTo(sA)
         } catch (e: Throwable) {
-           SanityCheck.println("TODO exception 46")
+           SanityCheck.println({"TODO exception 46"})
             e.printStackTrace()
             return 0
         }

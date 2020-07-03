@@ -44,7 +44,7 @@ class AOPBuildInCallCOALESCE(query: Query, childs: List<AOPBase>) : AOPBase(quer
                     }
                 } catch (e: EvaluationException) {
                 } catch (e: Throwable) {
-                   SanityCheck.println("TODO exception 17")
+                   SanityCheck.println({"TODO exception 17"})
                     e.printStackTrace()
                 }
             }

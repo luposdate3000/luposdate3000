@@ -36,12 +36,12 @@ class AOPBuildInCallCEIL(query: Query, child: AOPBase) : AOPBase(query, EOperato
                     res = ValueFloat(ceil(a.toDouble()))
                 } else if (a is ValueDecimal) {
                     res = ValueDecimal(DecimalHelper.ceil(a.value))
-                   SanityCheck.println("AOPBuildInCallCEIL A ${a.value.toString()} = ${res.value.toString()}")
+                   SanityCheck.println({"AOPBuildInCallCEIL A ${a.value.toString()} = ${(res as ValueDecimal).value.toString()}"})
                 } else if (a is ValueInteger) {
                     res = a
                 }
             } catch (e: Throwable) {
-               SanityCheck.println("TODO exception 36")
+               SanityCheck.println({"TODO exception 36"})
                 e.printStackTrace()
             }
 /*return*/res

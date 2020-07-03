@@ -36,7 +36,7 @@ abstract class AOPBase(query: Query,
                     res = false
                 } catch (e: Throwable) {
                     res = false
-                   SanityCheck.println("TODO exception 48")
+                   SanityCheck.println({"TODO exception 48"})
                     e.printStackTrace()
                 }
 /*return*/res

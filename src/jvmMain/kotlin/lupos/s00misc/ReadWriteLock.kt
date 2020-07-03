@@ -25,22 +25,22 @@ class ReadWriteLock {
         counter.set(1)
         lockB.lock()
         lockA.unlock()
-       SanityCheck.println("LOCK $uuid writeToReadLock")
+       SanityCheck.println({"LOCK $uuid writeToReadLock"})
     }
 
     suspend fun readLock() {
-       SanityCheck.println("LOCK $uuid get read lock start")
+       SanityCheck.println({"LOCK $uuid get read lock start"})
         lockA.lock()
         var tmp = counter.incrementAndGet()
         if (tmp == 1) {
             lockB.lock()
         }
         lockA.unlock()
-       SanityCheck.println("LOCK $uuid get read lock")
+       SanityCheck.println({"LOCK $uuid get read lock"})
     }
 
     suspend fun readUnlock() {
-       SanityCheck.println("LOCK $uuid releasing read lock")
+       SanityCheck.println({"LOCK $uuid releasing read lock"})
         var tmp = counter.decrementAndGet()
         if (tmp == 0) {
             lockB.unlock()
@@ -48,16 +48,16 @@ class ReadWriteLock {
     }
 
     suspend fun writeLock() {
-       SanityCheck.println("LOCK $uuid get write lock start")
+       SanityCheck.println({"LOCK $uuid get write lock start"})
         lockA.lock()
         lockB.lock() //effectively wait for_ the signal of the last read-unlock
         lockB.unlock()
         //assume that counter is 0, because otherwise lockB can not be accuired
-       SanityCheck.println("LOCK $uuid get write lock")
+       SanityCheck.println({"LOCK $uuid get write lock"})
     }
 
     suspend fun writeUnlock() {
-       SanityCheck.println("LOCK $uuid releasing write lock")
+       SanityCheck.println({"LOCK $uuid releasing write lock"})
         lockA.unlock()
         //assume that counter is 0, because that is the precondition for_ a writer to start
     }

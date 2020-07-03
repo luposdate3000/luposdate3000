@@ -15,13 +15,13 @@ class ColumnIteratorDebugVerbose(val uuid: Long, val name: String, val child: Co
                     count = t.size
                 }
                 for (key in v.keys) {
-                   SanityCheck.println("$k -> $key")
+                   SanityCheck.println({"$k -> $key"})
                 }
                 for (i in 0 until count) {
                     try {
-                       SanityCheck.println(v.keys.map { "$k -> ${v[it]!![i]}" })
+                       SanityCheck.println({v.keys.map { "$k -> ${v[it]!![i]}" }})
                     } catch (e: Throwable) {
-                       SanityCheck.println("TODO exception 11")
+                       SanityCheck.println({"TODO exception 11"})
                         e.printStackTrace()
                     }
                 }
@@ -41,7 +41,7 @@ class ColumnIteratorDebugVerbose(val uuid: Long, val name: String, val child: Co
             if (res != null) {
                 counters[uuid]!![name]!!.add(res)
             } else {
-               SanityCheck.println("$uuid finished $name")
+               SanityCheck.println({"$uuid finished $name"})
             }
             /*return*/res
         }
@@ -57,7 +57,7 @@ class ColumnIteratorDebugCount(val uuid: Long, name: String, val child: ColumnIt
         val counters = mutableMapOf<Long, MutableMap<String, Int>>()
         fun debug() {
             for ((k, v) in counters) {
-               SanityCheck.println("$k -> $v")
+               SanityCheck.println({"$k -> $v"})
             }
             counters.clear()
         }

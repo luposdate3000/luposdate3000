@@ -35,12 +35,12 @@ class AOPBuildInCallROUND(query: Query, child: AOPBase) : AOPBase(query, EOperat
                     res = ValueFloat(a.toDouble().roundToInt().toDouble())
                 } else if (a is ValueDecimal) {
                     res = ValueDecimal(DecimalHelper.round(a.value))
-                   SanityCheck.println("AOPBuildInCallROUND A ${a.value.toString()} = ${res.value.toString()}")
+                   SanityCheck.println({"AOPBuildInCallROUND A ${a.value.toString()} = ${(res as ValueDecimal).value.toString()}"})
                 } else if (a is ValueInteger) {
                     res = a
                 }
             } catch (e: Throwable) {
-               SanityCheck.println("TODO exception 33")
+               SanityCheck.println({"TODO exception 33"})
                 e.printStackTrace()
             }
 /*return*/res

@@ -27,7 +27,7 @@ port="3030"
 #  echo "Coverage->ECoverage.VeryVerbose"
 #  echo "CoverageGenerate->On"
   echo "ServerCommunication->None"
-  echo "MaxTriplesDuringTest->400"
+  echo "MaxTriplesDuringTest->2000"
   echo "ConnectionPool->Off"
   echo "Inline->Off"
 } | ./generate-buildfile.kts

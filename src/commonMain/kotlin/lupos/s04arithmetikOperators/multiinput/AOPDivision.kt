@@ -46,7 +46,7 @@ class AOPDivision(query: Query, childA: AOPBase, childB: AOPBase) : AOPBinaryOpe
                 if (a is ValueDecimal || b is ValueDecimal) {
                     if (b.toDecimal() != decimalZero) {
                         res = ValueDecimal(DecimalHelper.divide(a.toDecimal(), b.toDecimal()))
-                       SanityCheck.println("AOPDivision A ${a.toDecimal().toString()} / ${b.toDecimal().toString()} = ${res.value.toString()}")
+                       SanityCheck.println({"AOPDivision A ${a.toDecimal().toString()} / ${b.toDecimal().toString()} = ${(res as ValueDecimal).value.toString()}"})
                     }
                 }
                 if (a is ValueInteger || b is ValueInteger) {
@@ -56,7 +56,7 @@ class AOPDivision(query: Query, childA: AOPBase, childB: AOPBase) : AOPBinaryOpe
                 }
             } catch (e: EvaluationException) {
             } catch (e: Throwable) {
-               SanityCheck.println("TODO exception 23")
+               SanityCheck.println({"TODO exception 23"})
                 e.printStackTrace()
             }
 /*return*/res

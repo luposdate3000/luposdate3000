@@ -29,7 +29,7 @@ class AOPGT(query: Query, childA: AOPBase, childB: AOPBase) : AOPBinaryOperation
                     res = ResultSetDictionary.booleanFalseValue2
                 }
             } catch (e: Throwable) {
-               SanityCheck.println("TODO exception 20")
+               SanityCheck.println({"TODO exception 20"})
                 e.printStackTrace()
             }
 /*return*/res
@@ -52,7 +52,7 @@ class AOPGT(query: Query, childA: AOPBase, childB: AOPBase) : AOPBinaryOperation
                 }
             } catch (e: EvaluationException) {
             } catch (e: Throwable) {
-               SanityCheck.println("TODO exception 21")
+               SanityCheck.println({"TODO exception 21"})
                 e.printStackTrace()
             }
 /*return*/res

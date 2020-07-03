@@ -42,7 +42,7 @@ class AOPAggregationMIN(query: Query, @JvmField val distinct: Boolean, childs: A
                 res.value = ValueError()
                 res.evaluate = res::_evaluate
             } catch (e: Throwable) {
-               SanityCheck.println("TODO exception 38")
+               SanityCheck.println({"TODO exception 38"})
                 e.printStackTrace()
                 res.value = ValueError()
                 res.evaluate = res::_evaluate

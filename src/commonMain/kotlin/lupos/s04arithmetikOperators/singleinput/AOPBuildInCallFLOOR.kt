@@ -34,12 +34,12 @@ class AOPBuildInCallFLOOR(query: Query, child: AOPBase) : AOPBase(query, EOperat
                     res = ValueFloat(floor(a.toDouble()))
                 } else if (a is ValueDecimal) {
                     res = ValueDecimal(DecimalHelper.floor(a.value))
-                   SanityCheck.println("AOPBuildInCallFLOOR A ${a.value.toString()} = ${res.value.toString()}")
+                   SanityCheck.println({"AOPBuildInCallFLOOR A ${a.value.toString()} = ${(res as ValueDecimal).value.toString()}"})
                 } else if (a is ValueInteger) {
                     res = a
                 }
             } catch (e: Throwable) {
-               SanityCheck.println("TODO exception 35")
+               SanityCheck.println({"TODO exception 35"})
                 e.printStackTrace()
             }
 /*return*/res

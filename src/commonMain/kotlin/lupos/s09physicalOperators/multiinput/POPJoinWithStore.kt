@@ -145,7 +145,7 @@ var theuuid=uuid
             for (i in 0 until indicesINBJ.size) {
                 params[indicesINBJ[i]] = AOPConstant(query, valuesAJ[i]!!)
             }
-           SanityCheck.println("POPJoinWithStoreXXXopening store for join with store A $theuuid")
+           SanityCheck.println({"POPJoinWithStoreXXXopening store for join with store A $theuuid"})
             var columnsInBRoot = distributedStore.getIterator(params, index).evaluate()
             for (i in 0 until variablINBO.size) {
                 columnsInB[i] = columnsInBRoot.columns[variablINBO[i]]!!
@@ -201,7 +201,7 @@ println("POPJoinWithStoreXXXclosing store for join with store B $theuuid")
                                 for (i in 0 until indicesINBJ.size) {
                                     params[indicesINBJ[i]] = AOPConstant(query, valuesAJ[i]!!)
                                 }
-                               SanityCheck.println("POPJoinWithStoreXXXopening store for join with store B $theuuid")
+                               SanityCheck.println({"POPJoinWithStoreXXXopening store for join with store B $theuuid"})
                                 columnsInBRoot = distributedStore.getIterator(params, index).evaluate()
                                 for (i in 0 until variablINBO.size) {
                                     columnsInB[i] = columnsInBRoot.columns[variablINBO[i]]!!
