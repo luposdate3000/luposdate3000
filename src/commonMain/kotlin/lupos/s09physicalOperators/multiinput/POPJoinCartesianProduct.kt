@@ -69,13 +69,7 @@ class POPJoinCartesianProduct(query: Query, projectedVariables: List<String>, ch
             if (childA.count > 0) {
                 for (columnIndex in 0 until columnsINBO.size) {
                     outO[1][columnIndex].childs.add(ColumnIteratorRepeatIterator(childA.count, columnsINBO[columnIndex]))
-                    outO[1][columnIndex].close = {
-                        SanityCheck.println({ "POPJoinCartesianProductXXX$uuid close B $classname" })
-                        for ((k, v) in childB.columns) {
-                            v.close()
-                        }
-                        outO[1][columnIndex]._close()
-                    }
+//dont assign close, because every column in pass through
                 }
             } else {
                 println("POPJoinCartesianProductXXX$uuid close B $classname")
@@ -90,13 +84,7 @@ class POPJoinCartesianProduct(query: Query, projectedVariables: List<String>, ch
             if (childB.count > 0) {
                 for (columnIndex in 0 until columnsINAO.size) {
                     outO[0][columnIndex].childs.add(ColumnIteratorRepeatIterator(childB.count, columnsINAO[columnIndex]))
-                    outO[0][columnIndex].close = {
-                        SanityCheck.println({ "POPJoinCartesianProductXXX$uuid close A $classname" })
-                        for ((k, v) in childA.columns) {
-                            v.close()
-                        }
-                        outO[0][columnIndex]._close()
-                    }
+//dont assign close, because every column in pass through
                 }
             } else {
                 println("POPJoinCartesianProductXXX$uuid close A $classname")
