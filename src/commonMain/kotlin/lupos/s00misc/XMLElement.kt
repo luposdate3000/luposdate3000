@@ -199,16 +199,74 @@ class XMLElement {
             return false
         }
         if (fixSortOrder) {
+            var myMap = mutableMapOf<String, MutableList<XMLElement>>()
+            var otherMap = mutableMapOf<String, MutableList<XMLElement>>()
             for (c in childs) {
-                var found = false
-                for (d in other.childs) {
-                    if (c.myEqualsUnclean(d, fixStringType, fixNumbers, fixSortOrder)) {
-                        found = true
+                var s = c.toString()
+                if (myMap[s] == null) {
+                    myMap[s] = mutableListOf(c)
+                } else {
+                    myMap[s]!!.add(c)
+                }
+            }
+            for (c in other.childs) {
+                var s = c.toString()
+                if (otherMap[s] == null) {
+                    otherMap[s] = mutableListOf(c)
+                } else {
+                    otherMap[s]!!.add(c)
+                }
+            }
+            var change = true
+            while (change) {
+                change = false
+                for ((k, v) in myMap) {
+                    val w = otherMap[k]
+                    if (w != null) {
+                        change = true
+                        if (w.size == v.size) {
+                            myMap.remove(k)
+                            otherMap.remove(k)
+                        } else if (w.size < v.size) {
+                            for (i in 0 until w.size) {
+                                v.removeAt(0)
+                            }
+                            otherMap.remove(k)
+                        } else if (v.size < w.size) {
+                            for (i in 0 until v.size) {
+                                w.removeAt(0)
+                            }
+                            myMap.remove(k)
+                        }
                         break
                     }
                 }
-                if (!found) {
+            }
+            var myRemaining = mutableListOf<XMLElement>()
+            var otherRemaining = mutableListOf<XMLElement>()
+            for ((k, v) in myMap) {
+                myRemaining.addAll(v)
+            }
+            for ((k, v) in otherMap) {
+                otherRemaining.addAll(v)
+            }
+            change = true
+            while (change) {
+                change = false
+                var i = 0
+            loop@    for (c in myRemaining) {
+                    var j = 0
+                    for (d in otherRemaining) {
+                        if (c.myEqualsUnclean(d, fixStringType, fixNumbers, fixSortOrder)) {
+                            myRemaining.removeAt(i)
+                            otherRemaining.removeAt(j)
+                            change = true
+                            break@loop
+                        }
+                        j++
+                    }
                     return false
+                    i++
                 }
             }
         } else {
