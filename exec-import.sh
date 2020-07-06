@@ -34,5 +34,5 @@ then
 	exit $ret
 fi
 cpus=$( ls -d /sys/devices/system/cpu/cpu[[:digit:]]* | wc -w )
-#find /mnt/luposdate-testdata/btc2019/data/ -name "*.n3" | xargs --max-args=1 --max-procs=$cpus --replace ./build/executable IMPORT_STRING {}
-./build/executable IMPORT_STRING /mnt/luposdate-testdata/btc2019/data/data97.n3
+#find /mnt/luposdate-testdata/btc2019/data/ -name "*.n3" | xargs --max-args=1 --max-procs=$cpus ./build/executable IMPORT_STRING
+find /mnt/luposdate-testdata/btc2019/data/ -name "*.n3" | xargs --max-args=4 --max-procs=$cpus ./build/executable MERGE_INTERMEDIATE

@@ -1,5 +1,5 @@
 package lupos.s00misc
-
+import kotlin.io.createTempFile
 import java.io.BufferedInputStream
 import java.io.BufferedOutputStream
 import java.io.DataInputStream
@@ -27,6 +27,9 @@ class MyCharIterator(val file: File) : CharIterator() {
 }
 
 class File(@JvmField val filename: String) {
+fun createTempFile(    prefix: String ,     suffix: String,     directory: String) :String{
+return createTempFile(prefix,suffix,java.io.File(directory)).getAbsolutePath()
+}
     fun exists() = java.io.File(filename).exists()
     fun mkdirs() = java.io.File(filename).mkdirs()
     fun deleteRecursively() = java.io.File(filename).deleteRecursively()

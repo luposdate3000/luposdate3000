@@ -37,7 +37,8 @@ import lupos.s16network.HttpEndpoint
 import lupos.s16network.ServerCommunicationSend
 
 enum class ImportMode {
-    IMPORT_STRING
+    IMPORT_STRING,
+    MERGE_INTERMEDIATE
 }
 
 @UseExperimental(ExperimentalStdlibApi::class, kotlin.time.ExperimentalTime::class)
@@ -48,8 +49,6 @@ fun main(args: Array<String>) = runBlocking {
             var cnt = 0
             val inputFileName = args[1]
             println("importing $inputFileName start")
-            val outputTriplesFileName = inputFileName + ".triples"
-            val outputDictionaryFileName = inputFileName + ".dictionary"
             val inputFile = File(inputFileName)
             val dict = MyMapStringIntPatriciaTrieDouble()
             val lcit: LexerCharIterator
@@ -62,7 +61,7 @@ fun main(args: Array<String>) = runBlocking {
             }
             val tit = TurtleScanner(lcit)
             val ltit = LookAheadTokenIterator(tit, 3)
-            val outputTriplesFile = File(outputTriplesFileName)
+            val outputTriplesFile = File(inputFileName + ".triples")
             outputTriplesFile.dataOutputStreamSuspend { out ->
                 try {
                     TurtleParserWithStringTriples({ s, p, o ->
@@ -76,13 +75,63 @@ fun main(args: Array<String>) = runBlocking {
                     throw e
                 }
             }
-            val outputDictionaryFile = File(outputDictionaryFileName)
+            val outputDictionaryFile = File(inputFileName + ".dictionary")
             outputDictionaryFile.printWriter { out ->
                 for (i in 0 until dict.size) {
                     out.println(dict[i])
                 }
             }
+            val outputDictionaryStatFile = File(inputFileName + ".stat")
+            outputDictionaryStatFile.printWriter { out ->
+                out.print(dict.size)
+            }
             println("importing $inputFileName finish with $cnt triples")
+        }
+        ImportMode.MERGE_INTERMEDIATE -> {
+            val outDirectory = args[1].substring(0, args[1].lastIndexOf("/")) + "/out"
+            val tmp = args.toMutableList()
+            tmp.removeAt(0)
+            File(outDirectory).mkdirs()
+            val outputFileName = File("").createTempFile("out_", ".n3", outDirectory)
+            println("merging $tmp into $outputFileName")
+            val dict = MyMapStringIntPatriciaTrieDouble()
+            val outputTriplesFile = File(outputFileName + ".triples")
+            outputTriplesFile.dataOutputStreamSuspend { out ->
+                for (argIndex in 1 until args.size) {
+                    val fileName = args[argIndex]
+                    val fileTriples = File(fileName + ".triples")
+                    val fileDictionary = File(fileName + ".dictionary")
+                    val fileDictionaryStat = File(fileName + ".stat")
+                    val size = fileDictionaryStat.readAsString().toInt()
+                    val mapping = IntArray(size)
+                    var idx = 0
+                    fileDictionary.forEachLine {
+                        mapping[idx++] = dict.getOrCreate(it)
+                    }
+                    var cnt = fileTriples.length().toInt() / 12
+                    fileTriples.dataInputStream {
+                        for (i in 0 until cnt) {
+                            var s = it.readInt()
+                            var p = it.readInt()
+                            var o = it.readInt()
+                            out.writeInt(mapping[s])
+                            out.writeInt(mapping[p])
+                            out.writeInt(mapping[o])
+                        }
+                    }
+                }
+            }
+            val outputDictionaryFile = File(outputFileName + ".dictionary")
+            outputDictionaryFile.printWriter { out ->
+                for (i in 0 until dict.size) {
+                    out.println(dict[i])
+                }
+            }
+            val outputDictionaryStatFile = File(outputFileName + ".stat")
+            outputDictionaryStatFile.printWriter { out ->
+                out.print(dict.size)
+            }
+println("merging $tmp into $outputFileName finish")
         }
     }
 }

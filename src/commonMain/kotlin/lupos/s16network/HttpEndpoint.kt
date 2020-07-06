@@ -1,5 +1,7 @@
 package lupos.s16network
 
+import kotlin.time.DurationUnit
+import kotlin.time.TimeSource.Monotonic
 import lupos.s00misc.BenchmarkUtils
 import lupos.s00misc.Coverage
 import lupos.s00misc.EBenchmark
@@ -32,6 +34,7 @@ import lupos.s14endpoint.convertToOPBase
 import lupos.s15tripleStoreDistributed.DistributedTripleStore
 
 /*this object transforms the text input to the response-body*/
+@UseExperimental(ExperimentalStdlibApi::class, kotlin.time.ExperimentalTime::class)
 object HttpEndpoint {
     fun helper_clean_string(s: String): String {
         var res: String = s
@@ -116,21 +119,18 @@ object HttpEndpoint {
             store.bulkImport { bulk ->
                 for (fileName in fileNames.split(";")) {
                     println("importing file '$fileName'")
+                    val startTime = Monotonic.markNow()
                     val fileTriples = File(fileName + ".triples")
                     val fileDictionary = File(fileName + ".dictionary")
-                    var mapping = IntArray(fileDictionary.length().toInt() / 20)
+                    val fileDictionaryStat = File(fileName + ".stat")
+                    val size = fileDictionaryStat.readAsString().toInt()
+                    val mapping = IntArray(size)
                     var idx = 0
                     fileDictionary.forEachLine {
-                        if (idx >= mapping.size) {
-                            val mapping2 = IntArray(mapping.size * 2)
-                            for (i in 0 until idx) {
-                                mapping2[i] = mapping[i]
-                            }
-                            mapping = mapping2
-                        }
-val                        v = helper_clean_string(it)
-                        mapping[idx] = nodeGlobalDictionary.createValue(v)
+                        val v = helper_clean_string(it)
+                        mapping[idx++] = nodeGlobalDictionary.createValue(v)
                     }
+                    val dictTime = startTime.elapsedNow().toDouble(DurationUnit.SECONDS)
                     var cnt = fileTriples.length().toInt() / 12
                     counter += cnt
                     fileTriples.dataInputStream {
@@ -138,9 +138,12 @@ val                        v = helper_clean_string(it)
                             var s = it.readInt()
                             var p = it.readInt()
                             var o = it.readInt()
-                            bulk.insert(s, p, o)
+                            bulk.insert(mapping[s], mapping[p], mapping[o])
                         }
                     }
+                    val totalTime = startTime.elapsedNow().toDouble(DurationUnit.SECONDS)
+                    val storeTime = totalTime - dictTime
+                    println("imported file $fileName,$cnt,$totalTime,$dictTime,$storeTime")
                 }
             }
             return "successfully imported $counter Triples"
