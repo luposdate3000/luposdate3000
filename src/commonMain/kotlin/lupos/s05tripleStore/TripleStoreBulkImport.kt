@@ -79,8 +79,10 @@ class TripleStoreBulkImport(@JvmField val query: Query, @JvmField val graphName:
     }
 
     fun flush(idx2: EIndexPattern) {
+if(idx2==TripleStoreLocalBase.distinctIndices[0]){
         totalflushed += idx / 3
         println("flushed triples $totalflushed")
+}
         DistributedTripleStore.localStore.getNamedGraph(query, graphName).import(this, idx2)
     }
 
