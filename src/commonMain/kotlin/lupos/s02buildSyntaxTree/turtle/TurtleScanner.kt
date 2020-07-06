@@ -132,9 +132,7 @@ class TurtleScanner(@JvmField val iterator: LexerCharIterator) : TokenIterator {
                 throw ParseError("IRI is not valid!", startToken, this.iterator.lineNumber, this.iterator.columnNumber)
             }
             c == '\'' || c == '"' -> {
-                val s = dealWithString(c, startToken)
-		println("parsed String ${s.index} ${s.image}")
-		return s
+                return dealWithString(c, startToken)
             }
             c in '0'..'9' || c == '-' -> {
                 // next token can be an integer, decimal or double literal!

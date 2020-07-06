@@ -311,7 +311,9 @@ val options = mapOf<ChooseableGroup, List<ChooseableOption>>(
                 ChooseableOptionConstantValue("lupos.s00misc", "ARRAY_LIST_BLOCK_CAPACITY", "128"),
                 ChooseableOptionConstantValue("lupos.s00misc", "ARRAY_LIST_BLOCK_CAPACITY", "256"),
                 ChooseableOptionConstantValue("lupos.s00misc", "ARRAY_LIST_BLOCK_CAPACITY", "512"),
-                ChooseableOptionConstantValue("lupos.s00misc", "ARRAY_LIST_BLOCK_CAPACITY", "1024")
+                ChooseableOptionConstantValue("lupos.s00misc", "ARRAY_LIST_BLOCK_CAPACITY", "1024"),
+                ChooseableOptionConstantValue("lupos.s00misc", "ARRAY_LIST_BLOCK_CAPACITY", "1048576"),
+                ChooseableOptionConstantValue("lupos.s00misc", "ARRAY_LIST_BLOCK_CAPACITY", "134217728")
         ),
         ChooseableGroup("BTree Branching Faktor", "BTreeBranching") to listOf(
                 ChooseableOptionConstantValue("lupos.s00misc", "B_TREE_BRANCHING_FACTOR", "8"),

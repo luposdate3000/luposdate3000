@@ -28,7 +28,8 @@ class MyCharIterator(val file: File) : CharIterator() {
 
 class File(@JvmField val filename: String) {
 fun createTempFile(    prefix: String ,     suffix: String,     directory: String) :String{
-return createTempFile(prefix,suffix,java.io.File(directory)).getAbsolutePath()
+var f= createTempFile(prefix,suffix,java.io.File(directory))
+return f.getAbsolutePath()
 }
     fun exists() = java.io.File(filename).exists()
     fun mkdirs() = java.io.File(filename).mkdirs()
