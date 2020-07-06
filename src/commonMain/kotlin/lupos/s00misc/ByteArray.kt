@@ -2,6 +2,7 @@ package lupos.s00misc
 
 import kotlin.jvm.JvmField
 import lupos.s00misc.Coverage
+import lupos.s00misc.SanityCheck
 
 fun ByteArray.writeInt1(offset: Int, value: Int) {
     this[offset] = (value and 0xFF).toByte()
@@ -84,33 +85,33 @@ class ByteArrayRead(@JvmField val data: ByteArray, @JvmField val size: Int) {
     fun remaining() = size - offset
 
     init {
-        //println("ByteArrayRead($uuid).init with $size Bytes")
+        SanityCheck.println{"ByteArrayRead($uuid).init with $size Bytes"}
     }
 
     fun readInt(): Int {
         val res = data.readInt4(offset)
-        //println("ByteArrayRead($uuid).readInt at $offset with value $res")
+        SanityCheck.println{"ByteArrayRead($uuid).readInt at $offset with value $res"}
         offset += 4
         return res
     }
 
     fun readByte(): Byte {
         val res = data.readInt1(offset)
-        //println("ByteArrayRead($uuid).readByte at $offset with value $res")
+        SanityCheck.println{"ByteArrayRead($uuid).readByte at $offset with value $res"}
         offset += 1
         return res.toByte()
     }
 
     fun readChar(): Char {
         val res = data.readChar(offset)
-        //println("ByteArrayRead($uuid).readChar at $offset with value '$res' ${res.toInt()}")
+        SanityCheck.println{"ByteArrayRead($uuid).readChar at $offset with value '$res' ${res.toInt()}"}
         offset += 2
         return res
     }
 
     fun readLong(): Long {
         val res = data.readLong8(offset)
-        //println("ByteArrayRead($uuid).readLong at $offset with value $res")
+        SanityCheck.println{"ByteArrayRead($uuid).readLong at $offset with value $res"}
         offset += 8
         return res
     }
@@ -122,7 +123,7 @@ class ByteArrayRead(@JvmField val data: ByteArray, @JvmField val size: Int) {
             d[i] = readChar()
         }
         val res = d.concatToString()
-        //println("ByteArrayBuilder($uuid).readString content '$res'")
+        SanityCheck.println{"ByteArrayBuilder($uuid).readString content '$res'"}
         return res
     }
 }
@@ -141,12 +142,12 @@ class ByteArrayBuilder() {
     @JvmField
     var size = 0
     fun build(): ByteArrayRead {
-        //println("ByteArrayBuilder($uuid).build with size $size and capacity $capacity")
+        SanityCheck.println{"ByteArrayBuilder($uuid).build with size $size and capacity $capacity"}
         return ByteArrayRead(data, size)
     }
 
     fun reset() {
-        //println("ByteArrayBuilder($uuid).reset")
+        SanityCheck.println{"ByteArrayBuilder($uuid).reset"}
         capacity = 128
         data = ByteArray(capacity)
         size = 0
@@ -157,7 +158,7 @@ class ByteArrayBuilder() {
             data += ByteArray(capacity)
             capacity = capacity * 2
         }
-        //println("ByteArrayBuilder($uuid).writeByte at $size with value ${b.toInt()}")
+        SanityCheck.println{"ByteArrayBuilder($uuid).writeByte at $size with value ${b.toInt()}"}
         data.writeInt1(size, b.toInt() and 0xFF)
         size += 1
     }
@@ -167,7 +168,7 @@ class ByteArrayBuilder() {
             data += ByteArray(capacity)
             capacity = capacity * 2
         }
-        //println("ByteArrayBuilder($uuid).writeChar at $size with value '${c}' ${c.toInt()}")
+        SanityCheck.println{"ByteArrayBuilder($uuid).writeChar at $size with value '${c}' ${c.toInt()}"}
         data.writeChar(size, c)
         size += 2
     }
@@ -177,7 +178,7 @@ class ByteArrayBuilder() {
             data += ByteArray(capacity)
             capacity = capacity * 2
         }
-        //println("ByteArrayBuilder($uuid).writeInt at $size with value ${i}")
+        SanityCheck.println{"ByteArrayBuilder($uuid).writeInt at $size with value ${i}"}
         data.writeInt4(size, i)
         size += 4
     }
@@ -187,7 +188,7 @@ class ByteArrayBuilder() {
             data += ByteArray(capacity)
             capacity = capacity * 2
         }
-        //println("ByteArrayBuilder($uuid).writeLong at $size with value ${l}")
+        SanityCheck.println{"ByteArrayBuilder($uuid).writeLong at $size with value ${l}"}
         data.writeLong8(size, l)
         size += 8
     }
@@ -198,6 +199,6 @@ class ByteArrayBuilder() {
         tmp.forEach {
             writeChar(it)
         }
-        //println("ByteArrayBuilder($uuid).writeString content '$s'")
+        SanityCheck.println{"ByteArrayBuilder($uuid).writeString content '$s'"}
     }
 }

@@ -150,11 +150,11 @@ class POPJoinWithStore(query: Query, projectedVariables: List<String>, childA: O
             for (i in 0 until variablINBO.size) {
                 columnsInB[i] = columnsInBRoot.columns[variablINBO[i]]!!
             }
-            println("POPJoinWithStoreXXXopened ${columnsInBRoot.columns.size} columns for store, and saved ${variablINBO.size} of these")
+             SanityCheck.println{"POPJoinWithStoreXXXopened ${columnsInBRoot.columns.size} columns for store, and saved ${variablINBO.size} of these"}
             for (column in columnsOUT) {
                 column.close = {
                     column._close()
-                    println("POPJoinWithStoreXXXclosing store for join with store A $theuuid")
+                     SanityCheck.println{"POPJoinWithStoreXXXclosing store for join with store A $theuuid"}
                     for (closeIndex in 0 until columnsInB.size) {
                         columnsInB[closeIndex].close()
                     }
@@ -171,7 +171,7 @@ class POPJoinWithStore(query: Query, projectedVariables: List<String>, childA: O
                         loopB@ for (i in 0 until variablINBO.size) {
                             val value = columnsInB[i].next()
                             if (value == null) {
-                                println("POPJoinWithStoreXXXclosing store for join with store B $theuuid")
+                                 SanityCheck.println{"POPJoinWithStoreXXXclosing store for join with store B $theuuid"}
                                 for (closeIndex in 0 until columnsInB.size) {
                                     columnsInB[closeIndex].close()
                                 }
@@ -207,7 +207,7 @@ class POPJoinWithStore(query: Query, projectedVariables: List<String>, childA: O
                                     columnsInB[i] = columnsInBRoot.columns[variablINBO[i]]!!
                                 }
                             } else {
-                                println("POPJoinWithStoreXXXclosing store for join with store C $theuuid")
+                                 SanityCheck.println{"POPJoinWithStoreXXXclosing store for join with store C $theuuid"}
                                 for (closeIndex in 0 until columnsInB.size) {
                                     columnsInB[closeIndex].close()
                                 }

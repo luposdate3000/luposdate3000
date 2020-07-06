@@ -120,7 +120,7 @@ class POPFilter(query: Query, projectedVariables: List<String>, filter: AOPBase,
                 for (variableIndex in 0 until variables.size) {
                     columnsLocal[variableIndex].close = {
                         columnsLocal[variableIndex]._close()
-                        println("POPFilterXXX$uuid close E $classname")
+            SanityCheck.            println{"POPFilterXXX$uuid close E $classname"}
                         for ((k, v) in child.columns) {
                             v.close()
                         }

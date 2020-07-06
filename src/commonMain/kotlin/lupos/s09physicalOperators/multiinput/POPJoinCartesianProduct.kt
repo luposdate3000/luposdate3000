@@ -72,7 +72,7 @@ class POPJoinCartesianProduct(query: Query, projectedVariables: List<String>, ch
 //dont assign close, because every column in pass through
                 }
             } else {
-                println("POPJoinCartesianProductXXX$uuid close B $classname")
+                 SanityCheck.println{"POPJoinCartesianProductXXX$uuid close B $classname"}
                 for ((k, v) in childB.columns) {
                     v.close()
                 }
@@ -87,7 +87,7 @@ class POPJoinCartesianProduct(query: Query, projectedVariables: List<String>, ch
 //dont assign close, because every column in pass through
                 }
             } else {
-                println("POPJoinCartesianProductXXX$uuid close A $classname")
+                 SanityCheck.println{"POPJoinCartesianProductXXX$uuid close A $classname"}
                 for ((k, v) in childA.columns) {
                     v.close()
                 }
@@ -145,7 +145,7 @@ class POPJoinCartesianProduct(query: Query, projectedVariables: List<String>, ch
                         }
                     }
                 } else {
-                    println("POPJoinCartesianProductXXX$uuid close A $classname")
+                     SanityCheck.println{"POPJoinCartesianProductXXX$uuid close A $classname"}
                     for ((k, v) in childA.columns) {
                         v.close()
                     }

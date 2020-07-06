@@ -61,7 +61,7 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
             if (root != NodeManager.nodeNullPointer) {
                 var found = false
                 NodeManager.getNode(root, {
-                    println("root is inner node")
+                   SanityCheck.println{"root is inner node"}
                     SanityCheck.checkUnreachable()
                 }, {
                     found = true
@@ -79,19 +79,19 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
             out.writeInt(distinctPrimary)
         }
         SanityCheck {
-            println(firstLeaf)
-            println(root)
-            println(countPrimary)
-            println(distinctPrimary)
+           SanityCheck.println{firstLeaf}
+           SanityCheck.println{root}
+           SanityCheck.println{countPrimary}
+           SanityCheck.println{distinctPrimary}
             if (rootNode != null) {
                 val iterator = NodeInner.iterator(rootNode!!)
                 while (iterator.hasNext()) {
-                    println(iterator.next().map { it })
+                   SanityCheck.println{iterator.next().map { it }}
                 }
             }
         }
         lock.readUnlock()
-        SanityCheck.println({ "readunlock 1" })
+        SanityCheck.println{ "readunlock 1" }
     }
 
     override fun loadFromFile(filename: String) {
@@ -115,14 +115,14 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
                 }
             }
             SanityCheck {
-                println(firstLeaf)
-                println(root)
-                println(countPrimary)
-                println(distinctPrimary)
+               SanityCheck.println{firstLeaf}
+               SanityCheck.println{root}
+               SanityCheck.println{countPrimary}
+               SanityCheck.println{distinctPrimary}
                 if (rootNode != null) {
                     val iterator = NodeInner.iterator(rootNode!!)
                     while (iterator.hasNext()) {
-                        println(iterator.next().map { it })
+                       SanityCheck.println{iterator.next().map { it }}
                     }
                 }
             }

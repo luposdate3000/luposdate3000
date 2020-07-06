@@ -67,7 +67,7 @@ object NodeManager {
                         if (x == nodeNullPointer) {
                             nullpointers++
                         } else {
-                            println("debug NodeManager iterating leaves .. ${(i or nodePointerTypeLeaf).toString(16)} -> ${x.toString(16)}")
+                           SanityCheck.println{"debug NodeManager iterating leaves .. ${(i or nodePointerTypeLeaf).toString(16)} -> ${x.toString(16)}"}
                             leaves[x and nodePointerValueMask]++
                         }
                     }, {
@@ -82,13 +82,13 @@ object NodeManager {
                 if (i == 0) {
                     count0++
                 } else {
-                    println("debug NodeManager leaves ${(j or nodePointerTypeLeaf).toString(16)} $i")
+                   SanityCheck.println{"debug NodeManager leaves ${(j or nodePointerTypeLeaf).toString(16)} $i"}
                     SanityCheck.check { i == 1 || i == -10000 }
                 }
                 j++
             }
             SanityCheck.check { count0 == nullpointers }//there must be an equal amount of start and end leaves
-            println("debug nullpointers $nullpointers")
+           SanityCheck.println{"debug nullpointers $nullpointers"}
             for (i in 0 until allNodesInnerSize) {
                 if (!allNodesFreeListInner.contains(i or nodePointerTypeInner)) {
                     getNode(i or nodePointerTypeInner, {
@@ -99,12 +99,12 @@ object NodeManager {
                             val nodePointerValue = it and nodePointerValueMask
                             if (nodePointerType == nodePointerTypeInner) {
                                 inner[nodePointerValue]++
-                                println("debug NodeManager iterating inner leaves .. ${(i or nodePointerTypeInner).toString(16)} -> ${it.toString(16)}")
+                               SanityCheck.println{"debug NodeManager iterating inner leaves .. ${(i or nodePointerTypeInner).toString(16)} -> ${it.toString(16)}"}
                             } else {
-                                println("nodePointerType $nodePointerType $nodePointerTypeLeaf $nodeNullPointer")
+                               SanityCheck.println{"nodePointerType $nodePointerType $nodePointerTypeLeaf $nodeNullPointer"}
                                 SanityCheck.check { nodePointerType == nodePointerTypeLeaf }
                                 leavesFromInner[nodePointerValue]++
-                                println("debug NodeManager iterating inner .. ${(i or nodePointerTypeInner).toString(16)} -> ${it.toString(16)}")
+                               SanityCheck.println{"debug NodeManager iterating inner .. ${(i or nodePointerTypeInner).toString(16)} -> ${it.toString(16)}"}
                             }
                         })
                     })
@@ -112,7 +112,7 @@ object NodeManager {
             }
             j = 0
             for (i in leavesFromInner) {
-                println("debug NodeManager leavesFromInner ${(j or nodePointerTypeLeaf).toString(16)} $i")
+               SanityCheck.println{"debug NodeManager leavesFromInner ${(j or nodePointerTypeLeaf).toString(16)} $i"}
                 SanityCheck.check { i == 1 || i == -10000 }
                 j++
             }
@@ -122,7 +122,7 @@ object NodeManager {
                 if (i == 0) {
                     count0++
                 } else {
-                    println("debug NodeManager ${(j or nodePointerTypeInner).toString(16)} $i")
+                   SanityCheck.println{"debug NodeManager ${(j or nodePointerTypeInner).toString(16)} $i"}
                     SanityCheck.check { i == 1 || i == -10000 }
                 }
                 j++
@@ -131,7 +131,7 @@ object NodeManager {
     }
 
     fun safeToFolder() {
-        SanityCheck.println({ "debug NodeManager saving to folder '${BufferManager.bufferPrefix + "nodemanager/"}'" })
+        SanityCheck.println{ "debug NodeManager saving to folder '${BufferManager.bufferPrefix + "nodemanager/"}'" }
         File(BufferManager.bufferPrefix + "nodemanager/").mkdirs()
         debug()
         lockInner.withWriteLock {
