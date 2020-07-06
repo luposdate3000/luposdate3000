@@ -200,9 +200,6 @@ class TurtleParserWithStringTriples(@JvmField val consume_triple: suspend (Strin
         var t8 = ltit.lookahead()
         while (t8.image == ",") {
             token = ltit.nextToken()
-            if (token.image != ",") {
-                throw UnexpectedToken(token, arrayOf(","), ltit)
-            }
             val o2 = triple_object()
             consume_triple(s, p, o2)
             t8 = ltit.lookahead()

@@ -55,6 +55,17 @@ class File(@JvmField val filename: String) {
             dos?.close()
         }
     }
+inline suspend    fun dataOutputStreamSuspend(crossinline action: suspend(java.io.DataOutputStream) -> Unit) {
+        var dos: DataOutputStream? = null
+        try {
+            val fos = FileOutputStream(filename);
+            val bos = BufferedOutputStream(fos)
+            dos = DataOutputStream(bos)
+            action(dos)
+        } finally {
+            dos?.close()
+        }
+    }
 
     fun dataInputStream(action: (java.io.DataInputStream) -> Unit) {
         var dis: DataInputStream? = null
@@ -67,7 +78,17 @@ class File(@JvmField val filename: String) {
             dis?.close()
         }
     }
-
+inline suspend  fun dataInputStreamSuspend(crossinline action:suspend (java.io.DataInputStream) -> Unit) {
+        var dis: DataInputStream? = null
+        try {
+            val fis = FileInputStream(filename)
+            val bis = BufferedInputStream(fis)
+            dis = DataInputStream(bis)
+            action(dis)
+        } finally {
+            dis?.close()
+        }
+    }
     override fun equals(other: Any?): Boolean {
         if (other !is File) {
             return false

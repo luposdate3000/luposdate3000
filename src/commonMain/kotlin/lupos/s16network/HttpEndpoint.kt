@@ -108,6 +108,50 @@ object HttpEndpoint {
 /*Coverage Unreachable*/
     }
 
+    suspend fun import_intermediate_files(fileNames: String): String {
+        try {
+            val query = Query()
+            var counter = 0
+            var store = DistributedTripleStore.getDefaultGraph(query)
+            store.bulkImport { bulk ->
+                for (fileName in fileNames.split(";")) {
+                    println("importing file '$fileName'")
+                    val fileTriples = File(fileName + ".triples")
+                    val fileDictionary = File(fileName + ".dictionary")
+                    var mapping = IntArray(fileDictionary.length().toInt() / 20)
+                    var idx = 0
+                    fileDictionary.forEachLine {
+                        if (idx >= mapping.size) {
+                            val mapping2 = IntArray(mapping.size * 2)
+                            for (i in 0 until idx) {
+                                mapping2[i] = mapping[i]
+                            }
+                            mapping = mapping2
+                        }
+val                        v = helper_clean_string(it)
+                        mapping[idx] = nodeGlobalDictionary.createValue(v)
+                    }
+                    var cnt = fileTriples.length().toInt() / 12
+                    counter += cnt
+                    fileTriples.dataInputStream {
+                        for (i in 0 until cnt) {
+                            var s = it.readInt()
+                            var p = it.readInt()
+                            var o = it.readInt()
+                            bulk.insert(s, p, o)
+                        }
+                    }
+                }
+            }
+            return "successfully imported $counter Triples"
+        } catch (e: Throwable) {
+            SanityCheck.println({ "TODO exception 15" })
+            e.printStackTrace()
+            throw e
+        }
+/*Coverage Unreachable*/
+    }
+
     suspend fun import_xml_data(data: String): String {
         val query = Query()
         val import = POPValuesImportXML(query, listOf("s", "p", "o"), XMLElement.parseFromXml(data)!!).evaluate()

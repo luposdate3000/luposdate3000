@@ -52,6 +52,14 @@ object HttpEndpointLauncher {
                 }
 /*Coverage Unreachable*/
             }
+            "/import/intermediate" -> {
+                if (isPost) {
+                    return HttpEndpoint.import_intermediate_files(data)
+                } else {
+                    return HttpEndpoint.import_intermediate_files(params["query"]!!)
+                }
+/*Coverage Unreachable*/
+            }
             "/import/xml" -> {
                 if (isPost) {
                     return HttpEndpoint.import_xml_data(data)
