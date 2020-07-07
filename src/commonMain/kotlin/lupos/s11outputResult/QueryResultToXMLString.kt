@@ -145,28 +145,28 @@ object QueryResultToXMLString {
                                         is ValueDecimal -> {
                                             res.append("   <binding name=\"")
                                             res.append(variables[variableIndex])
-                                            res.append("\">\n    <literal>")
+                                            res.append("\">\n    <literal datatype=\"http://www.w3.org/2001/XMLSchema#decimal>")
                                             res.append(value.value)
                                             res.append("</literal>\n   </binding>\n")
                                         }
                                         is ValueFloat -> {
                                             res.append("   <binding name=\"")
                                             res.append(variables[variableIndex])
-                                            res.append("\">\n    <literal>")
+                                            res.append("\">\n    <literal datatype=\"http://www.w3.org/2001/XMLSchema#float>")
                                             res.append(value.value)
                                             res.append("</literal>\n   </binding>\n")
                                         }
                                         is ValueDouble -> {
                                             res.append("   <binding name=\"")
                                             res.append(variables[variableIndex])
-                                            res.append("\">\n    <literal>")
+                                            res.append("\">\n    <literal datatype=\"http://www.w3.org/2001/XMLSchema#double>")
                                             res.append(value.value)
                                             res.append("</literal>\n   </binding>\n")
                                         }
                                         is ValueInteger -> {
                                             res.append("   <binding name=\"")
                                             res.append(variables[variableIndex])
-                                            res.append("\">\n    <literal>")
+                                            res.append("\">\n    <literal datatype=\"http://www.w3.org/2001/XMLSchema#integer>")
                                             res.append(value.value)
                                             res.append("</literal>\n   </binding>\n")
                                         }
@@ -194,9 +194,9 @@ object QueryResultToXMLString {
                                         }
                                     }
                                 }
-                                res.append("  <result/>\n")
+                                res.append("  </result>\n")
                             }
-                            res.append(" <results/>\n")
+                            res.append(" </results>\n")
                         }
                     }
                 }

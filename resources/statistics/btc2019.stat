@@ -1,0 +1,15 @@
+#O  -> 1:46
+#PO -> 2:14
+#P  -> 0:40
+#SO -> 4:00
+#SP -> 2:52
+#S  -> 0:41
+
+#45GB total in memory
+
+Eine explizite x-y-Grafik ist nutzlos, da die y-Achse so extrem springt, dass man nichts mehr sehen kann... .
+Daher ist der gezeichnete Y-Wert jeweils die Summe aller Y-Werte bis (inklusive) zu dem jeweiligen X-Wert.
+
+x-Achse : Anzahl Ergebnisse, wenn (Subject) eine Konstannte ist.
+y-Achse : Akkumuliert und relativ (1.0 entspricht exakt der Anzahl Tripel im Store) die Menge der abgedeckten Tripel.
+

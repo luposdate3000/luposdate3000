@@ -114,7 +114,7 @@ object HttpEndpoint {
     suspend fun import_intermediate_files(fileNames: String): String {
         try {
             val query = Query()
-            var counter = 0
+            var counter = 0L
             var store = DistributedTripleStore.getDefaultGraph(query)
             store.bulkImport { bulk ->
                 for (fileName in fileNames.split(";")) {
@@ -128,10 +128,18 @@ object HttpEndpoint {
                     var idx = 0
                     fileDictionary.forEachLine {
                         val v = helper_clean_string(it)
+try{
                         mapping[idx++] = nodeGlobalDictionary.createValue(v)
+}catch(e:Throwable){
+println ("dictionary $idx $it $v")
+throw e
+}
+if(idx%100000==0){
+println("dictionary $idx / $size")
+}
                     }
                     val dictTime = startTime.elapsedNow().toDouble(DurationUnit.SECONDS)
-                    var cnt = fileTriples.length().toInt() / 12
+                    var cnt = fileTriples.length() / 12L
                     counter += cnt
                     fileTriples.dataInputStream {
                         for (i in 0 until cnt) {

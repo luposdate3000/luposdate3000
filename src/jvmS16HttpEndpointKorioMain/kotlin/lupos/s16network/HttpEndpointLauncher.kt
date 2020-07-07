@@ -97,6 +97,7 @@ object HttpEndpointLauncher {
             data.append(it.decodeToString())
         }
         request.endHandler {
+try{
             runBlocking {
                 try {
                     val singleParams = mutableMapOf<String, String>()
@@ -112,6 +113,10 @@ object HttpEndpointLauncher {
                 }
                 request.end(responseBytes)
             }
+}catch(e:Throwable){
+//DO NOT send anything here, as that may be the root cause of the exception
+e.printStackTrace()
+}
         }
     }
 

@@ -12,9 +12,9 @@
   echo "Set->BTree"
   echo "Map->BTree"
   echo "IteratorVerbose->None"
-  echo "OutputFormat->Empty"
+  echo "OutputFormat->XML"
   echo "Pagesize->8196"
-  echo "BlockCapacity->1024"
+  echo "BlockCapacity->1048576"
   echo "BTreeBranching->512"
   echo "MergeSortRows->512"
   echo "BulkImportBlockSize->1048576"
@@ -37,3 +37,9 @@ exit
 find /mnt/luposdate-testdata/btc2019/data/*.n3 | sort | paste -s -d ';' > tmpparams
 curl -H "Content-Type: application/x-www-form-urlencoded" -d @tmpparams localhost:80/import/turtle
 rm tmpparams
+
+exit
+
+curl -H "Content-Type: application/x-www-form-urlencoded" localhost:80/import/intermediate?query=/mnt/luposdate-testdata/btc2019/data/intermediate
+curl -H "Content-Type: application/x-www-form-urlencoded" localhost:80/persistence/store
+curl -H "Content-Type: application/x-www-form-urlencoded" -d "@resources/myqueries/execP.sparql" localhost:80/sparql/query

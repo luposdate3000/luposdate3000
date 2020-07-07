@@ -1,0 +1,9 @@
+imported file /mnt/luposdate-testdata/btc2019/data/intermediate,
+256059356 triples
+
+890.211216372 seconds total
+ - 326.241067333 seconds dict import
+ - 563.970149039 seconds store import
+   - 159.817342492 seconds store sort
+   - 166.181266969 seconds store rebuild map
+   - 351.76567633400066 seconds store merge data
