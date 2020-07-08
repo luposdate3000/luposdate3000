@@ -4,6 +4,7 @@ import kotlin.time.DurationUnit
 import kotlin.time.TimeSource.Monotonic
 import lupos.s00misc.BenchmarkUtils
 import lupos.s00misc.Coverage
+import lupos.s00misc.Partition
 import lupos.s00misc.EBenchmark
 import lupos.s00misc.ELoggerType
 import lupos.s00misc.EModifyType
@@ -165,7 +166,7 @@ println("dictionary $idx / $size")
 
     suspend fun import_xml_data(data: String): String {
         val query = Query()
-        val import = POPValuesImportXML(query, listOf("s", "p", "o"), XMLElement.parseFromXml(data)!!).evaluate()
+        val import = POPValuesImportXML(query, listOf("s", "p", "o"), XMLElement.parseFromXml(data)!!).evaluate(Partition())
         val dataLocal = arrayOf(import.columns["s"]!!, import.columns["p"]!!, import.columns["o"]!!)
         DistributedTripleStore.getDefaultGraph(query).modify(dataLocal, EModifyType.INSERT)
         query.commit()

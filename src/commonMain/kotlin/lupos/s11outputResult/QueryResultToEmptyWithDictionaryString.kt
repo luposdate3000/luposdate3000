@@ -1,4 +1,5 @@
 package lupos.s11outputResult
+import lupos.s00misc.Partition
 
 import kotlinx.coroutines.runBlocking
 import lupos.s00misc.CoroutinesHelper
@@ -22,7 +23,7 @@ object QueryResultToEmptyWithDictionaryString {
         for (node in nodes) {
             if (node !is OPNothing) {
                 runBlocking {
-                    val child = node.evaluate()
+                    val child = node.evaluate(Partition())
                     val variables = node.getProvidedVariableNames().toTypedArray()
                     if (variables.size == 1 && variables[0] == "?boolean") {
                         node.query.dictionary.getValue(child.columns["?boolean"]!!.next()!!)

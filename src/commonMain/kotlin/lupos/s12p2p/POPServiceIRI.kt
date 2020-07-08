@@ -1,4 +1,5 @@
 package lupos.s12p2p
+import lupos.s00misc.Partition
 
 import kotlin.jvm.JvmField
 import lupos.s00misc.Coverage
@@ -16,7 +17,7 @@ class POPServiceIRI(query: Query, projectedVariables: List<String>, @JvmField va
     override fun equals(other: Any?) = other is POPServiceIRI && silent == other.silent && serverName == other.serverName && constraint == other.constraint
     override fun cloneOP() = POPServiceIRI(query, projectedVariables, serverName, silent, constraint)
     override fun getProvidedVariableNamesInternal() = constraint.getProvidedVariableNames().distinct()
-    override suspend fun evaluate(): IteratorBundle {
+    override suspend fun evaluate(parent:Partition): IteratorBundle {
         throw ServiceNotImplementedException()
 /*Coverage Unreachable*/
     }

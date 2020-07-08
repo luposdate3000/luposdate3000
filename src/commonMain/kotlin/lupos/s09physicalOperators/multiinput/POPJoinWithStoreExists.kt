@@ -1,5 +1,5 @@
 package lupos.s09physicalOperators.multiinput
-
+import lupos.s00misc.Partition
 import kotlin.jvm.JvmField
 import lupos.s00misc.Coverage
 import lupos.s00misc.EOperatorID
@@ -27,11 +27,11 @@ class POPJoinWithStoreExists(query: Query, projectedVariables: List<String>, chi
     }
 
     override fun equals(other: Any?) = other is POPJoinWithStoreExists && optional == other.optional && children[0] == other.children[0]
-    override suspend fun evaluate(): IteratorBundle {
+    override suspend fun evaluate(parent:Partition): IteratorBundle {
         SanityCheck.check { !optional }
         SanityCheck.check { !childB.graphVar }
         SanityCheck { projectedVariables.size == 0 }
-        val childAv = children[0].evaluate()
+        val childAv = children[0].evaluate(parent)
         val iteratorsHelper = mutableListOf<ColumnIterator>()
         val params = Array(3) { childB.children[it] as AOPBase }
         var res = IteratorBundle(0)
@@ -65,7 +65,7 @@ class POPJoinWithStoreExists(query: Query, projectedVariables: List<String>, chi
         if (!done) {
             val distributedStore = DistributedTripleStore.getNamedGraph(query, childB.graph)
             SanityCheck.println({ "opening store for join with store C $uuid" })
-            var iteratorB = distributedStore.getIterator(params, index).evaluate()
+            var iteratorB = distributedStore.getIterator(params, index).evaluate(parent)
             res.hasNext2 = {
                 var t = iteratorB.hasNext2()
                 loop@ while (!t && !done) {
@@ -84,7 +84,7 @@ class POPJoinWithStoreExists(query: Query, projectedVariables: List<String>, chi
                     }
                     if (!done) {
                         SanityCheck.println({ "opening store for join with store D $uuid" })
-                        iteratorB = distributedStore.getIterator(params, index).evaluate()
+                        iteratorB = distributedStore.getIterator(params, index).evaluate(parent)
                     }
                 }
                 /*return*/ t

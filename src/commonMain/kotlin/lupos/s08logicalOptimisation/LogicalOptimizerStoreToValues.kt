@@ -1,5 +1,5 @@
 package lupos.s08logicalOptimisation
-
+import lupos.s00misc.Partition
 import kotlinx.coroutines.runBlocking
 import lupos.s00misc.Coverage
 import lupos.s00misc.EOptimizerID
@@ -43,7 +43,7 @@ class LogicalOptimizerStoreToValues(query: Query) : OptimizerBase(query, EOptimi
                     if (variables.size == 0) {
                         val idx = LOPTriple.getIndex(node.children, listOf<String>())
                         val tmp = DistributedTripleStore.getNamedGraph(query, node.graph).getIterator(Array(3) { node.children[it] as AOPBase }, idx)
-                        val tmp2 = tmp.evaluate()
+                        val tmp2 = tmp.evaluate(Partition())
                         SanityCheck.check { tmp2.hasCountMode() }
                         if (tmp2.count > 0) {//closed childs due to reading from count
                             res = OPEmptyRow(query)
@@ -54,7 +54,7 @@ class LogicalOptimizerStoreToValues(query: Query) : OptimizerBase(query, EOptimi
                     } else if (variables.size == 1) {
                         val idx = LOPTriple.getIndex(node.children, listOf<String>())
                         val tmp = DistributedTripleStore.getNamedGraph(query, node.graph).getIterator(Array(3) { node.children[it] as AOPBase }, idx)
-                        val tmp2 = tmp.evaluate()
+                        val tmp2 = tmp.evaluate(Partition())
                         val columns = tmp2.columns
                         SanityCheck.check { columns.size == 1 }
                         val data = IntArray(5)

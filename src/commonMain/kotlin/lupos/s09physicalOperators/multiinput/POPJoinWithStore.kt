@@ -1,4 +1,5 @@
 package lupos.s09physicalOperators.multiinput
+import lupos.s00misc.Partition
 
 import kotlin.jvm.JvmField
 import lupos.s00misc.Coverage
@@ -33,10 +34,10 @@ class POPJoinWithStore(query: Query, projectedVariables: List<String>, childA: O
     }
 
     override fun equals(other: Any?) = other is POPJoinWithStore && optional == other.optional && children[0] == other.children[0]
-    override suspend fun evaluate(): IteratorBundle {
+    override suspend fun evaluate(parent:Partition): IteratorBundle {
         SanityCheck.check { !optional }
         SanityCheck.check { !childB.graphVar }
-        val childAv = children[0].evaluate()
+        val childAv = children[0].evaluate(parent)
         val childA = children[0]
         val columnsINAO = mutableListOf<ColumnIterator>()
         val columnsINAJ = mutableListOf<ColumnIterator>()
@@ -146,7 +147,7 @@ class POPJoinWithStore(query: Query, projectedVariables: List<String>, childA: O
                 params[indicesINBJ[i]] = AOPConstant(query, valuesAJ[i]!!)
             }
             SanityCheck.println({ "POPJoinWithStoreXXXopening store for join with store A $theuuid" })
-            var columnsInBRoot = distributedStore.getIterator(params, index).evaluate()
+            var columnsInBRoot = distributedStore.getIterator(params, index).evaluate(parent)
             for (i in 0 until variablINBO.size) {
                 columnsInB[i] = columnsInBRoot.columns[variablINBO[i]]!!
             }
@@ -202,7 +203,7 @@ class POPJoinWithStore(query: Query, projectedVariables: List<String>, childA: O
                                     params[indicesINBJ[i]] = AOPConstant(query, valuesAJ[i]!!)
                                 }
                                 SanityCheck.println({ "POPJoinWithStoreXXXopening store for join with store B $theuuid" })
-                                columnsInBRoot = distributedStore.getIterator(params, index).evaluate()
+                                columnsInBRoot = distributedStore.getIterator(params, index).evaluate(parent)
                                 for (i in 0 until variablINBO.size) {
                                     columnsInB[i] = columnsInBRoot.columns[variablINBO[i]]!!
                                 }

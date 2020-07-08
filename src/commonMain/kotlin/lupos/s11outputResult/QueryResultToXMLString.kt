@@ -1,4 +1,5 @@
 package lupos.s11outputResult
+import lupos.s00misc.Partition
 
 import kotlinx.coroutines.runBlocking
 import lupos.s00misc.CoroutinesHelper
@@ -62,7 +63,7 @@ object QueryResultToXMLString {
                     columnNames = node.getProvidedVariableNames()
                 }
                 runBlocking {
-                    val child = node.evaluate()
+                    val child = node.evaluate(Partition())
                     val variables = columnNames.toTypedArray()
                     if (variables.size == 1 && variables[0] == "?boolean") {
                         res.append(" <head/>\n")

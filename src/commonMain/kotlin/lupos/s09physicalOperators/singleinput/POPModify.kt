@@ -1,4 +1,5 @@
 package lupos.s09physicalOperators.singleinput
+import lupos.s00misc.Partition
 
 import kotlin.jvm.JvmField
 import lupos.s00misc.Coverage
@@ -95,9 +96,9 @@ class POPModify(query: Query, projectedVariables: List<String>, insert: List<LOP
         return POPModify(query, projectedVariables, insert, delete, children[0].cloneOP())
     }
 
-    override suspend fun evaluate(): IteratorBundle {
+    override suspend fun evaluate(parent:Partition): IteratorBundle {
         val variables = children[0].getProvidedVariableNames()
-        val child = children[0].evaluate()
+        val child = children[0].evaluate(parent)
         val columns = Array(variables.size) { child.columns[variables[it]]!! }
         val row = Array(variables.size) { ResultSetDictionary.undefValue }
         val data = mutableMapOf<String, Array<Array<MyListValue>>>()

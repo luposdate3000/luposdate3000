@@ -1,4 +1,5 @@
 package lupos.s09physicalOperators.singleinput
+import lupos.s00misc.Partition
 
 import lupos.s00misc.Coverage
 import lupos.s00misc.EOperatorID
@@ -22,7 +23,7 @@ class POPMakeBooleanResult(query: Query, projectedVariables: List<String>, child
     override fun cloneOP() = POPMakeBooleanResult(query, projectedVariables, children[0].cloneOP())
     override fun getProvidedVariableNamesInternal() = mutableListOf("?boolean")
     override fun getRequiredVariableNames() = listOf<String>()
-    override suspend fun evaluate(): IteratorBundle {
+    override suspend fun evaluate(parent:Partition): IteratorBundle {
         var flag: Boolean
         val outMap = mutableMapOf<String, ColumnIterator>()
         val variables = children[0].getProvidedVariableNames()
@@ -32,7 +33,7 @@ class POPMakeBooleanResult(query: Query, projectedVariables: List<String>, child
         } else if (children[0] is OPEmptyRow) {
             flag = true
         } else {
-            child = children[0].evaluate()
+            child = children[0].evaluate(parent)
             if (variables.size > 0) {
                 flag = child.columns[variables[0]]!!.next() != null
             } else {

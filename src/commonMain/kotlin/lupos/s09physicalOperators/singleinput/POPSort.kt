@@ -1,4 +1,5 @@
 package lupos.s09physicalOperators.singleinput
+import lupos.s00misc.Partition
 
 import kotlin.jvm.JvmField
 import lupos.s00misc.Coverage
@@ -75,8 +76,8 @@ class POPSort(query: Query, projectedVariables: List<String>, @JvmField val sort
         return res
     }
 
-    override suspend fun evaluate(): IteratorBundle {
-        val child = children[0].evaluate()
+    override suspend fun evaluate(parent:Partition): IteratorBundle {
+        val child = children[0].evaluate(parent)
         val variablesOut = getProvidedVariableNames()
         var comparator: Comparator<Value>
         if (sortOrder) {

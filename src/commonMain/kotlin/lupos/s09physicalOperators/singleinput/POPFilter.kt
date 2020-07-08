@@ -1,4 +1,5 @@
 package lupos.s09physicalOperators.singleinput
+import lupos.s00misc.Partition
 
 import lupos.s00misc.Coverage
 import lupos.s00misc.EOperatorID
@@ -28,14 +29,14 @@ class POPFilter(query: Query, projectedVariables: List<String>, filter: AOPBase,
     override fun cloneOP() = POPFilter(query, projectedVariables, children[1].cloneOP() as AOPBase, children[0].cloneOP())
     override fun getProvidedVariableNamesInternal() = children[0].getProvidedVariableNames()
     override fun getRequiredVariableNames() = children[1].getRequiredVariableNamesRecoursive()
-    override suspend fun evaluate(): IteratorBundle {
+    override suspend fun evaluate(parent:Partition): IteratorBundle {
         //TODO not-equal shortcut during evaluation based on integer-ids
         val variables = children[0].getProvidedVariableNames()
         val variablesOut = getProvidedVariableNames()
         val outMap = mutableMapOf<String, ColumnIterator>()
         val localMap = mutableMapOf<String, ColumnIterator>()
         SanityCheck.println({ "POPFilterXXX$uuid open A $classname" })
-        val child = children[0].evaluate()
+        val child = children[0].evaluate(parent)
         var res: IteratorBundle? = null
         try {
             val columnsIn = Array(variables.size) { child.columns[variables[it]] }

@@ -1,4 +1,5 @@
 package lupos.s09physicalOperators.noinput
+import lupos.s00misc.Partition
 
 import lupos.s00misc.Coverage
 import lupos.s00misc.EOperatorID
@@ -12,7 +13,7 @@ class POPEmptyRow(query: Query, projectedVariables: List<String>) : POPBase(quer
     override fun cloneOP() = POPEmptyRow(query, projectedVariables)
     override fun toSparql() = "{}"
     override fun equals(other: Any?) = other is POPEmptyRow
-    override suspend fun evaluate(): IteratorBundle {
+    override suspend fun evaluate(parent:Partition): IteratorBundle {
         return IteratorBundle(1)
     }
 }

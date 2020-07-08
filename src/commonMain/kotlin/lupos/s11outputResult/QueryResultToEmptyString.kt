@@ -3,6 +3,7 @@ package lupos.s11outputResult
 import kotlinx.coroutines.runBlocking
 import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.Coverage
+import lupos.s00misc.Partition
 import lupos.s03resultRepresentation.Value
 import lupos.s03resultRepresentation.Variable
 import lupos.s04logicalOperators.noinput.OPNothing
@@ -22,7 +23,7 @@ object QueryResultToEmptyString {
         for (node in nodes) {
             if (node !is OPNothing) {
                 runBlocking {
-                    val child = node.evaluate()
+                    val child = node.evaluate(Partition())
                     val variables = node.getProvidedVariableNames().toTypedArray()
                     if (variables.size == 1 && variables[0] == "?boolean") {
                         node.query.dictionary.getValue(child.columns["?boolean"]!!.next()!!)

@@ -1,4 +1,5 @@
 package lupos.s09physicalOperators.multiinput
+import lupos.s00misc.Partition
 
 import kotlin.jvm.JvmField
 import lupos.s00misc.Coverage
@@ -24,7 +25,7 @@ class POPJoinMergeSingleColumn(query: Query, projectedVariables: List<String>, c
     }
 
     override fun equals(other: Any?) = other is POPJoinMergeSingleColumn && optional == other.optional && children[0] == other.children[0] && children[1] == other.children[1]
-    override suspend fun evaluate(): IteratorBundle {
+    override suspend fun evaluate(parent:Partition): IteratorBundle {
         SanityCheck.check { !optional }
         SanityCheck.check { projectedVariables.size == 1 }
         SanityCheck.check { children[0].getProvidedVariableNames().size == 1 }
@@ -32,7 +33,7 @@ class POPJoinMergeSingleColumn(query: Query, projectedVariables: List<String>, c
         SanityCheck.check { children[1].getProvidedVariableNames().size == 1 }
         SanityCheck.check { children[1].getProvidedVariableNames()[0] == projectedVariables[0] }
         SanityCheck.println({ "$uuid open $classname" })
-        val child = Array(2) { children[it].evaluate().columns[projectedVariables[0]]!! }
+        val child = Array(2) { children[it].evaluate(parent).columns[projectedVariables[0]]!! }
         val head = Array(2) { child[it].next() }
         val outMap = mutableMapOf<String, ColumnIterator>()
         val iterator = ColumnIterator()

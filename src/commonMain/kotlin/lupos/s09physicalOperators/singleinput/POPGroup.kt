@@ -1,4 +1,5 @@
 package lupos.s09physicalOperators.singleinput
+import lupos.s00misc.Partition
 
 import kotlin.jvm.JvmField
 import lupos.s00misc.Coverage
@@ -172,10 +173,10 @@ class POPGroup : POPBase {
 
     class MapRow(val iterators: IteratorBundle, val aggregates: Array<ColumnIteratorAggregate>, val columns: Array<ColumnIteratorQueue>)
 
-    override suspend fun evaluate(): IteratorBundle {
+    override suspend fun evaluate(parent:Partition): IteratorBundle {
         val localVariables = children[0].getProvidedVariableNames()
         val outMap = mutableMapOf<String, ColumnIterator>()
-        val child = children[0].evaluate()
+        val child = children[0].evaluate(parent)
         val aggregations = mutableListOf<AOPAggregationBase>()
         for (b in bindings) {
             aggregations.addAll(getAggregations(b.second))
