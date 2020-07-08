@@ -1,3 +1,11 @@
+256059356 triples
+895.657494486 seconds total
+331.595440725 seconds dictionary
+564.062053761 seconds store
+167.464223077 store sort
+136.922948111 store remuild map
+344.66898770799986 store merge data
+
 #O  -> 1:46
 #PO -> 2:14
 #P  -> 0:40

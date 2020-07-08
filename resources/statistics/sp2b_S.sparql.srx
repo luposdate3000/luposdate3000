@@ -1,0 +1,603 @@
+<sparql xmlns="http://www.w3.org/2005/sparql-results#">
+ <head>
+  <variable name="occurences">
+  <variable name="cnt">
+  <variable name="sum">
+ </head>
+ <results>
+  <result>
+   <binding name="occurences">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer>2</literal>
+   </binding>
+   <binding name="cnt">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer>2830064</literal>
+   </binding>
+   <binding name="sum">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer>5660128</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="occurences">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer>24</literal>
+   </binding>
+   <binding name="cnt">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer>887</literal>
+   </binding>
+   <binding name="sum">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer>21288</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="occurences">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer>3</literal>
+   </binding>
+   <binding name="cnt">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer>382</literal>
+   </binding>
+   <binding name="sum">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer>1146</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="occurences">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer>5</literal>
+   </binding>
+   <binding name="cnt">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer>8605</literal>
+   </binding>
+   <binding name="sum">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer>43025</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="occurences">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer>23</literal>
+   </binding>
+   <binding name="cnt">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer>892</literal>
+   </binding>
+   <binding name="sum">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer>20516</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="occurences">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer>34</literal>
+   </binding>
+   <binding name="cnt">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer>260</literal>
+   </binding>
+   <binding name="sum">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer>8840</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="occurences">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer>17</literal>
+   </binding>
+   <binding name="cnt">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer>1019</literal>
+   </binding>
+   <binding name="sum">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer>17323</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="occurences">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer>21</literal>
+   </binding>
+   <binding name="cnt">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer>992</literal>
+   </binding>
+   <binding name="sum">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer>20832</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="occurences">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer>14</literal>
+   </binding>
+   <binding name="cnt">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer>17577</literal>
+   </binding>
+   <binding name="sum">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer>246078</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="occurences">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer>51</literal>
+   </binding>
+   <binding name="cnt">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer>7</literal>
+   </binding>
+   <binding name="sum">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer>357</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="occurences">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer>6</literal>
+   </binding>
+   <binding name="cnt">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer>68037</literal>
+   </binding>
+   <binding name="sum">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer>408222</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="occurences">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer>28</literal>
+   </binding>
+   <binding name="cnt">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer>583</literal>
+   </binding>
+   <binding name="sum">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer>16324</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="occurences">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer>33</literal>
+   </binding>
+   <binding name="cnt">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer>323</literal>
+   </binding>
+   <binding name="sum">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer>10659</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="occurences">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer>32</literal>
+   </binding>
+   <binding name="cnt">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer>365</literal>
+   </binding>
+   <binding name="sum">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer>11680</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="occurences">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer>10</literal>
+   </binding>
+   <binding name="cnt">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer>662023</literal>
+   </binding>
+   <binding name="sum">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer>6620230</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="occurences">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer>7</literal>
+   </binding>
+   <binding name="cnt">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer>233673</literal>
+   </binding>
+   <binding name="sum">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer>1635711</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="occurences">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer>19</literal>
+   </binding>
+   <binding name="cnt">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer>1024</literal>
+   </binding>
+   <binding name="sum">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer>19456</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="occurences">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer>11</literal>
+   </binding>
+   <binding name="cnt">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer>475170</literal>
+   </binding>
+   <binding name="sum">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer>5226870</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="occurences">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer>25</literal>
+   </binding>
+   <binding name="cnt">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer>766</literal>
+   </binding>
+   <binding name="sum">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer>19150</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="occurences">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer>12</literal>
+   </binding>
+   <binding name="cnt">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer>235364</literal>
+   </binding>
+   <binding name="sum">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer>2824368</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="occurences">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer>26</literal>
+   </binding>
+   <binding name="cnt">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer>718</literal>
+   </binding>
+   <binding name="sum">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer>18668</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="occurences">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer>22</literal>
+   </binding>
+   <binding name="cnt">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer>909</literal>
+   </binding>
+   <binding name="sum">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer>19998</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="occurences">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer>31</literal>
+   </binding>
+   <binding name="cnt">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer>434</literal>
+   </binding>
+   <binding name="sum">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer>13454</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="occurences">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer>38</literal>
+   </binding>
+   <binding name="cnt">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer>143</literal>
+   </binding>
+   <binding name="sum">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer>5434</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="occurences">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer>16</literal>
+   </binding>
+   <binding name="cnt">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer>1161</literal>
+   </binding>
+   <binding name="sum">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer>18576</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="occurences">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer>29</literal>
+   </binding>
+   <binding name="cnt">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer>549</literal>
+   </binding>
+   <binding name="sum">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer>15921</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="occurences">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer>27</literal>
+   </binding>
+   <binding name="cnt">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer>676</literal>
+   </binding>
+   <binding name="sum">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer>18252</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="occurences">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer>8</literal>
+   </binding>
+   <binding name="cnt">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer>441653</literal>
+   </binding>
+   <binding name="sum">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer>3533224</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="occurences">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer>20</literal>
+   </binding>
+   <binding name="cnt">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer>1047</literal>
+   </binding>
+   <binding name="sum">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer>20940</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="occurences">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer>18</literal>
+   </binding>
+   <binding name="cnt">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer>1016</literal>
+   </binding>
+   <binding name="sum">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer>18288</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="occurences">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer>13</literal>
+   </binding>
+   <binding name="cnt">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer>78053</literal>
+   </binding>
+   <binding name="sum">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer>1014689</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="occurences">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer>15</literal>
+   </binding>
+   <binding name="cnt">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer>3377</literal>
+   </binding>
+   <binding name="sum">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer>50655</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="occurences">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer>4</literal>
+   </binding>
+   <binding name="cnt">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer>819</literal>
+   </binding>
+   <binding name="sum">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer>3276</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="occurences">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer>9</literal>
+   </binding>
+   <binding name="cnt">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer>657248</literal>
+   </binding>
+   <binding name="sum">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer>5915232</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="occurences">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer>30</literal>
+   </binding>
+   <binding name="cnt">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer>516</literal>
+   </binding>
+   <binding name="sum">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer>15480</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="occurences">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer>37</literal>
+   </binding>
+   <binding name="cnt">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer>137</literal>
+   </binding>
+   <binding name="sum">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer>5069</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="occurences">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer>47</literal>
+   </binding>
+   <binding name="cnt">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer>17</literal>
+   </binding>
+   <binding name="sum">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer>799</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="occurences">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer>43</literal>
+   </binding>
+   <binding name="cnt">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer>51</literal>
+   </binding>
+   <binding name="sum">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer>2193</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="occurences">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer>48</literal>
+   </binding>
+   <binding name="cnt">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer>6</literal>
+   </binding>
+   <binding name="sum">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer>288</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="occurences">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer>42</literal>
+   </binding>
+   <binding name="cnt">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer>50</literal>
+   </binding>
+   <binding name="sum">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer>2100</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="occurences">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer>35</literal>
+   </binding>
+   <binding name="cnt">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer>220</literal>
+   </binding>
+   <binding name="sum">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer>7700</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="occurences">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer>40</literal>
+   </binding>
+   <binding name="cnt">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer>88</literal>
+   </binding>
+   <binding name="sum">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer>3520</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="occurences">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer>36</literal>
+   </binding>
+   <binding name="cnt">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer>211</literal>
+   </binding>
+   <binding name="sum">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer>7596</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="occurences">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer>41</literal>
+   </binding>
+   <binding name="cnt">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer>66</literal>
+   </binding>
+   <binding name="sum">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer>2706</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="occurences">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer>45</literal>
+   </binding>
+   <binding name="cnt">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer>38</literal>
+   </binding>
+   <binding name="sum">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer>1710</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="occurences">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer>46</literal>
+   </binding>
+   <binding name="cnt">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer>25</literal>
+   </binding>
+   <binding name="sum">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer>1150</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="occurences">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer>39</literal>
+   </binding>
+   <binding name="cnt">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer>88</literal>
+   </binding>
+   <binding name="sum">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer>3432</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="occurences">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer>44</literal>
+   </binding>
+   <binding name="cnt">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer>34</literal>
+   </binding>
+   <binding name="sum">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer>1496</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="occurences">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer>49</literal>
+   </binding>
+   <binding name="cnt">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer>7</literal>
+   </binding>
+   <binding name="sum">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer>343</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="occurences">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer>52</literal>
+   </binding>
+   <binding name="cnt">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer>5</literal>
+   </binding>
+   <binding name="sum">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer>260</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="occurences">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer>50</literal>
+   </binding>
+   <binding name="cnt">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer>1</literal>
+   </binding>
+   <binding name="sum">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer>50</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="occurences">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer>53</literal>
+   </binding>
+   <binding name="cnt">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer>2</literal>
+   </binding>
+   <binding name="sum">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer>106</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="occurences">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer>54</literal>
+   </binding>
+   <binding name="cnt">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer>2</literal>
+   </binding>
+   <binding name="sum">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer>108</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="occurences">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer>1</literal>
+   </binding>
+   <binding name="cnt">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer>10</literal>
+   </binding>
+   <binding name="sum">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer>10</literal>
+   </binding>
+  </result>
+ </results>
+</sparql>

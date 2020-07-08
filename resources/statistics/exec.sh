@@ -1,8 +1,8 @@
 #!/bin/bash
 
 #datasource=/mnt/luposdate-testdata/btc2019/data/intermediate
-datasource=/mnt/luposdate-testdata/sp2b/33554432/intermediate
-dataname=sp2b
+datasource=/mnt/luposdate-testdata/bsbm/131072/intermediate
+dataname=bsbm
 
 curl -H "Content-Type: application/x-www-form-urlencoded" localhost:80/import/intermediate?query=$datasource
 for f in exe*.sparql
@@ -13,9 +13,10 @@ do
 	cat $f.srx \
 		| tr "\n" " " \
 		| sed "s/ //g" \
-		| sed "s/<result\/>/<result\/>\n/g" \
+		| sed "s/<\/result>/<\/result>\n/g" \
 		| sed "s/.*<results>//g" \
-		| sed "s/<results\/>.*//g" \
+		| sed "s/<\/results>.*//g" \
+		| sed "s-www.w3.org/2001--g" \
 		| sed "s/[^0-9]/;/g" \
 		| sed "s/;[;]*/,/g" \
 		| sed "s/^,//g" \
@@ -49,12 +50,6 @@ plot \
  'execPO.sparql.csv' using 1:4 title "PO" with lines
 EOF
 
-for f in *.srx; do mv $f $(echo $f | sed "s/exec/$dataname_/g"); done
-for f in *.csv; do mv $f $(echo $f | sed "s/exec/$dataname_/g"); done
+for f in exe*.srx; do mv $f $(echo $f | sed "s/exec/${dataname}_/g"); done
+for f in exe*.csv; do mv $f $(echo $f | sed "s/exec/${dataname}_/g"); done
 mv exec.png $dataname.png
-
-
-
-
-exit
-
