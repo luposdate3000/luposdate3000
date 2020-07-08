@@ -1,5 +1,4 @@
 package lupos.s09physicalOperators.singleinput
-import lupos.s00misc.Partition
 
 import kotlin.jvm.JvmField
 import lupos.s00misc.Coverage
@@ -7,6 +6,7 @@ import lupos.s00misc.EOperatorID
 import lupos.s00misc.ESortPriority
 import lupos.s00misc.GroupByColumnMissing
 import lupos.s00misc.GroupByDuplicateColumnException
+import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.SortHelper
 import lupos.s00misc.VariableNotDefinedSyntaxException
@@ -173,7 +173,7 @@ class POPGroup : POPBase {
 
     class MapRow(val iterators: IteratorBundle, val aggregates: Array<ColumnIteratorAggregate>, val columns: Array<ColumnIteratorQueue>)
 
-    override suspend fun evaluate(parent:Partition): IteratorBundle {
+    override suspend fun evaluate(parent: Partition): IteratorBundle {
         val localVariables = children[0].getProvidedVariableNames()
         val outMap = mutableMapOf<String, ColumnIterator>()
         val child = children[0].evaluate(parent)

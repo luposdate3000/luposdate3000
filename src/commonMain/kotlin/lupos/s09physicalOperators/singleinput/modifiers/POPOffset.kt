@@ -1,10 +1,10 @@
 package lupos.s09physicalOperators.singleinput.modifiers
-import lupos.s00misc.Partition
 
 import kotlin.jvm.JvmField
 import lupos.s00misc.Coverage
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.ESortPriority
+import lupos.s00misc.Partition
 import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.Value
 import lupos.s03resultRepresentation.Variable
@@ -26,7 +26,7 @@ class POPOffset(query: Query, projectedVariables: List<String>, @JvmField val of
     }
 
     override fun cloneOP() = POPOffset(query, projectedVariables, offset, children[0].cloneOP())
-    override suspend fun evaluate(parent:Partition): IteratorBundle {
+    override suspend fun evaluate(parent: Partition): IteratorBundle {
         val variables = getProvidedVariableNames()
         val outMap = mutableMapOf<String, ColumnIterator>()
         val child = children[0].evaluate(parent)

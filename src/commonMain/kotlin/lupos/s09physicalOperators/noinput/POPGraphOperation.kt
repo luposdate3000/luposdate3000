@@ -1,5 +1,4 @@
 package lupos.s09physicalOperators.noinput
-import lupos.s00misc.Partition
 
 import kotlin.jvm.JvmField
 import lupos.s00misc.Coverage
@@ -11,6 +10,7 @@ import lupos.s00misc.EOperatorID
 import lupos.s00misc.ESortPriority
 import lupos.s00misc.EvaluationException
 import lupos.s00misc.File
+import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.Variable
@@ -106,13 +106,13 @@ class POPGraphOperation(query: Query,
 
     override fun equals(other: Any?) = other is POPGraphOperation && silent == other.silent && graph1iri == other.graph1iri && graph1type == other.graph1type && graph2iri == other.graph2iri && graph2type == other.graph2type && action == other.action
     override fun cloneOP() = POPGraphOperation(query, projectedVariables, silent, graph1type, graph1iri, graph2type, graph2iri, action)
-    suspend fun copyData(source: DistributedGraph, target: DistributedGraph,parent:Partition) {
+    suspend fun copyData(source: DistributedGraph, target: DistributedGraph, parent: Partition) {
         val row = source.getIterator(EIndexPattern.SPO).evaluate(parent)
         val iterator = arrayOf(row.columns["s"]!!, row.columns["p"]!!, row.columns["o"]!!)
         target.modify(iterator, EModifyType.INSERT)
     }
 
-    override suspend fun evaluate(parent:Partition): IteratorBundle {
+    override suspend fun evaluate(parent: Partition): IteratorBundle {
         try {
             when (action) {
                 EGraphOperationType.CLEAR -> {
@@ -190,7 +190,7 @@ class POPGraphOperation(query: Query,
                                     val source = DistributedTripleStore.getDefaultGraph(query)
                                     val target = DistributedTripleStore.getNamedGraph(query, graph2iri!!)
                                     DistributedTripleStore.clearGraph(query, graph2iri!!)
-                                    copyData(source, target,parent)
+                                    copyData(source, target, parent)
                                 }
                                 else -> {
                                     SanityCheck.checkUnreachable()
@@ -203,14 +203,14 @@ class POPGraphOperation(query: Query,
                                     val source = DistributedTripleStore.getNamedGraph(query, graph1iri!!)
                                     val target = DistributedTripleStore.getDefaultGraph(query)
                                     DistributedTripleStore.clearGraph(query, PersistentStoreLocal.defaultGraphName)
-                                    copyData(source, target,parent)
+                                    copyData(source, target, parent)
                                 }
                                 EGraphRefType.IriGraphRef -> {
                                     if (graph1iri != graph2iri) {
                                         val source = DistributedTripleStore.getNamedGraph(query, graph1iri!!)
                                         val target = DistributedTripleStore.getNamedGraph(query, graph2iri!!)
                                         DistributedTripleStore.clearGraph(query, graph2iri!!)
-                                        copyData(source, target,parent)
+                                        copyData(source, target, parent)
                                     }
                                 }
                                 else -> {
@@ -233,7 +233,7 @@ class POPGraphOperation(query: Query,
                                     val source = DistributedTripleStore.getDefaultGraph(query)
                                     val target = DistributedTripleStore.getNamedGraph(query, graph2iri!!)
                                     DistributedTripleStore.clearGraph(query, graph2iri!!)
-                                    copyData(source, target,parent)
+                                    copyData(source, target, parent)
                                     DistributedTripleStore.clearGraph(query, PersistentStoreLocal.defaultGraphName)
                                 }
                                 else -> {
@@ -247,7 +247,7 @@ class POPGraphOperation(query: Query,
                                     val source = DistributedTripleStore.getNamedGraph(query, graph1iri!!)
                                     val target = DistributedTripleStore.getDefaultGraph(query)
                                     DistributedTripleStore.clearGraph(query, PersistentStoreLocal.defaultGraphName)
-                                    copyData(source, target,parent)
+                                    copyData(source, target, parent)
                                     DistributedTripleStore.clearGraph(query, graph1iri!!)
                                 }
                                 EGraphRefType.IriGraphRef -> {
@@ -255,7 +255,7 @@ class POPGraphOperation(query: Query,
                                         val source = DistributedTripleStore.getNamedGraph(query, graph1iri!!)
                                         val target = DistributedTripleStore.getNamedGraph(query, graph2iri!!)
                                         DistributedTripleStore.clearGraph(query, graph2iri!!)
-                                        copyData(source, target,parent)
+                                        copyData(source, target, parent)
                                         DistributedTripleStore.clearGraph(query, graph1iri!!)
                                     }
                                 }
@@ -278,7 +278,7 @@ class POPGraphOperation(query: Query,
                                 EGraphRefType.IriGraphRef -> {
                                     val source = DistributedTripleStore.getDefaultGraph(query)
                                     val target = DistributedTripleStore.getNamedGraph(query, graph2iri!!)
-                                    copyData(source, target,parent)
+                                    copyData(source, target, parent)
                                 }
                                 else -> {
                                     SanityCheck.checkUnreachable()
@@ -290,13 +290,13 @@ class POPGraphOperation(query: Query,
                                 EGraphRefType.DefaultGraphRef -> {
                                     val source = DistributedTripleStore.getNamedGraph(query, graph1iri!!)
                                     val target = DistributedTripleStore.getDefaultGraph(query)
-                                    copyData(source, target,parent)
+                                    copyData(source, target, parent)
                                 }
                                 EGraphRefType.IriGraphRef -> {
                                     if (graph1iri != graph2iri) {
                                         val source = DistributedTripleStore.getNamedGraph(query, graph1iri!!)
                                         val target = DistributedTripleStore.getNamedGraph(query, graph2iri!!)
-                                        copyData(source, target,parent)
+                                        copyData(source, target, parent)
                                     }
                                 }
                                 else -> {

@@ -6,7 +6,6 @@ import kotlin.time.TimeSource.Monotonic
 import kotlinx.coroutines.runBlocking
 import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.Coverage
-import lupos.s00misc.Partition
 import lupos.s00misc.EIndexPattern
 import lupos.s00misc.ELoggerType
 import lupos.s00misc.EModifyType
@@ -20,6 +19,7 @@ import lupos.s00misc.MyMapStringIntPatriciaTrie
 import lupos.s00misc.NotImplementedException
 import lupos.s00misc.OperatorGraphToLatex
 import lupos.s00misc.parseFromXml
+import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.XMLElement
 import lupos.s02buildSyntaxTree.LexerCharIterator

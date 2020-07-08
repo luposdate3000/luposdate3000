@@ -1,10 +1,10 @@
 package lupos.s09physicalOperators.noinput
-import lupos.s00misc.Partition
 
 import kotlin.jvm.JvmField
 import lupos.s00misc.Coverage
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.ESortPriority
+import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.MyListValue
@@ -156,7 +156,7 @@ open class POPValues : POPBase {
 
     override fun getProvidedVariableNamesInternal() = variables.distinct()
     override fun getRequiredVariableNames() = mutableListOf<String>()
-    override suspend fun evaluate(parent:Partition): IteratorBundle {
+    override suspend fun evaluate(parent: Partition): IteratorBundle {
         if (rows == -1) {
             val outMap = mutableMapOf<String, ColumnIterator>()
             for (name in variables) {

@@ -1,5 +1,4 @@
 import kotlin.time.DurationUnit
-import lupos.s15tripleStoreDistributed.DistributedTripleStore
 import kotlin.time.TimeSource.Monotonic
 import kotlinx.coroutines.runBlocking
 import lupos.s00misc.CoroutinesHelper
@@ -7,6 +6,7 @@ import lupos.s00misc.Coverage
 import lupos.s00misc.File
 import lupos.s00misc.MyMapStringIntPatriciaTrie
 import lupos.s03resultRepresentation.nodeGlobalDictionary
+import lupos.s15tripleStoreDistributed.DistributedTripleStore
 import lupos.s16network.HttpEndpoint
 import lupos.s16network.ServerCommunicationSend
 

@@ -97,26 +97,26 @@ object HttpEndpointLauncher {
             data.append(it.decodeToString())
         }
         request.endHandler {
-try{
-            runBlocking {
-                try {
-                    val singleParams = mutableMapOf<String, String>()
-                    params.forEach { k, v ->
-                        singleParams[k] = v.first()
+            try {
+                runBlocking {
+                    try {
+                        val singleParams = mutableMapOf<String, String>()
+                        params.forEach { k, v ->
+                            singleParams[k] = v.first()
+                        }
+                        responseBytes = receive(request.path, request.method == Http.Method.POST, data.toString(), singleParams).encodeToByteArray()
+                    } catch (e: Throwable) {
+                        responseBytes = e.toString().encodeToByteArray()
+                        request.setStatus(500)
+                        SanityCheck.println({ "TODO exception 6" })
+                        e.printStackTrace()
                     }
-                    responseBytes = receive(request.path, request.method == Http.Method.POST, data.toString(), singleParams).encodeToByteArray()
-                } catch (e: Throwable) {
-                    responseBytes = e.toString().encodeToByteArray()
-                    request.setStatus(500)
-                    SanityCheck.println({ "TODO exception 6" })
-                    e.printStackTrace()
+                    request.end(responseBytes)
                 }
-                request.end(responseBytes)
-            }
-}catch(e:Throwable){
+            } catch (e: Throwable) {
 //DO NOT send anything here, as that may be the root cause of the exception
-e.printStackTrace()
-}
+                e.printStackTrace()
+            }
         }
     }
 

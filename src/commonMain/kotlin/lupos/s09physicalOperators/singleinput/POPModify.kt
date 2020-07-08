@@ -1,11 +1,11 @@
 package lupos.s09physicalOperators.singleinput
-import lupos.s00misc.Partition
 
 import kotlin.jvm.JvmField
 import lupos.s00misc.Coverage
 import lupos.s00misc.EModifyType
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.ESortPriority
+import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
 import lupos.s03resultRepresentation.MyListValue
 import lupos.s03resultRepresentation.ResultSetDictionary
@@ -96,7 +96,7 @@ class POPModify(query: Query, projectedVariables: List<String>, insert: List<LOP
         return POPModify(query, projectedVariables, insert, delete, children[0].cloneOP())
     }
 
-    override suspend fun evaluate(parent:Partition): IteratorBundle {
+    override suspend fun evaluate(parent: Partition): IteratorBundle {
         val variables = children[0].getProvidedVariableNames()
         val child = children[0].evaluate(parent)
         val columns = Array(variables.size) { child.columns[variables[it]]!! }

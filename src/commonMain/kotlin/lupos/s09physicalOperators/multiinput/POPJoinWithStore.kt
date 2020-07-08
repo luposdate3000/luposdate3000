@@ -1,5 +1,4 @@
 package lupos.s09physicalOperators.multiinput
-import lupos.s00misc.Partition
 
 import kotlin.jvm.JvmField
 import lupos.s00misc.Coverage
@@ -7,6 +6,7 @@ import lupos.s00misc.EOperatorID
 import lupos.s00misc.ESortPriority
 import lupos.s00misc.ESortType
 import lupos.s00misc.MyListInt
+import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.ResultSetDictionary
@@ -34,7 +34,7 @@ class POPJoinWithStore(query: Query, projectedVariables: List<String>, childA: O
     }
 
     override fun equals(other: Any?) = other is POPJoinWithStore && optional == other.optional && children[0] == other.children[0]
-    override suspend fun evaluate(parent:Partition): IteratorBundle {
+    override suspend fun evaluate(parent: Partition): IteratorBundle {
         SanityCheck.check { !optional }
         SanityCheck.check { !childB.graphVar }
         val childAv = children[0].evaluate(parent)
@@ -151,11 +151,11 @@ class POPJoinWithStore(query: Query, projectedVariables: List<String>, childA: O
             for (i in 0 until variablINBO.size) {
                 columnsInB[i] = columnsInBRoot.columns[variablINBO[i]]!!
             }
-             SanityCheck.println{"POPJoinWithStoreXXXopened ${columnsInBRoot.columns.size} columns for store, and saved ${variablINBO.size} of these"}
+            SanityCheck.println { "POPJoinWithStoreXXXopened ${columnsInBRoot.columns.size} columns for store, and saved ${variablINBO.size} of these" }
             for (column in columnsOUT) {
                 column.close = {
                     column._close()
-                     SanityCheck.println{"POPJoinWithStoreXXXclosing store for join with store A $theuuid"}
+                    SanityCheck.println { "POPJoinWithStoreXXXclosing store for join with store A $theuuid" }
                     for (closeIndex in 0 until columnsInB.size) {
                         columnsInB[closeIndex].close()
                     }
@@ -172,7 +172,7 @@ class POPJoinWithStore(query: Query, projectedVariables: List<String>, childA: O
                         loopB@ for (i in 0 until variablINBO.size) {
                             val value = columnsInB[i].next()
                             if (value == null) {
-                                 SanityCheck.println{"POPJoinWithStoreXXXclosing store for join with store B $theuuid"}
+                                SanityCheck.println { "POPJoinWithStoreXXXclosing store for join with store B $theuuid" }
                                 for (closeIndex in 0 until columnsInB.size) {
                                     columnsInB[closeIndex].close()
                                 }
@@ -208,7 +208,7 @@ class POPJoinWithStore(query: Query, projectedVariables: List<String>, childA: O
                                     columnsInB[i] = columnsInBRoot.columns[variablINBO[i]]!!
                                 }
                             } else {
-                                 SanityCheck.println{"POPJoinWithStoreXXXclosing store for join with store C $theuuid"}
+                                SanityCheck.println { "POPJoinWithStoreXXXclosing store for join with store C $theuuid" }
                                 for (closeIndex in 0 until columnsInB.size) {
                                     columnsInB[closeIndex].close()
                                 }

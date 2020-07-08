@@ -1,11 +1,12 @@
 package lupos.s00misc
-import kotlin.io.createTempFile
+
 import java.io.BufferedInputStream
 import java.io.BufferedOutputStream
 import java.io.DataInputStream
 import java.io.DataOutputStream
 import java.io.FileInputStream
 import java.io.FileOutputStream
+import kotlin.io.createTempFile
 import kotlin.jvm.JvmField
 import lupos.s00misc.Coverage
 
@@ -27,10 +28,11 @@ class MyCharIterator(val file: File) : CharIterator() {
 }
 
 class File(@JvmField val filename: String) {
-fun createTempFile(    prefix: String ,     suffix: String,     directory: String) :String{
-var f= createTempFile(prefix,suffix,java.io.File(directory))
-return f.getAbsolutePath()
-}
+    fun createTempFile(prefix: String, suffix: String, directory: String): String {
+        var f = createTempFile(prefix, suffix, java.io.File(directory))
+        return f.getAbsolutePath()
+    }
+
     fun exists() = java.io.File(filename).exists()
     fun mkdirs() = java.io.File(filename).mkdirs()
     fun deleteRecursively() = java.io.File(filename).deleteRecursively()
@@ -59,7 +61,8 @@ return f.getAbsolutePath()
             dos?.close()
         }
     }
-inline suspend    fun dataOutputStreamSuspend(crossinline action: suspend(java.io.DataOutputStream) -> Unit) {
+
+    inline suspend fun dataOutputStreamSuspend(crossinline action: suspend (java.io.DataOutputStream) -> Unit) {
         var dos: DataOutputStream? = null
         try {
             val fos = FileOutputStream(filename);
@@ -82,7 +85,8 @@ inline suspend    fun dataOutputStreamSuspend(crossinline action: suspend(java.i
             dis?.close()
         }
     }
-inline suspend  fun dataInputStreamSuspend(crossinline action:suspend (java.io.DataInputStream) -> Unit) {
+
+    inline suspend fun dataInputStreamSuspend(crossinline action: suspend (java.io.DataInputStream) -> Unit) {
         var dis: DataInputStream? = null
         try {
             val fis = FileInputStream(filename)
@@ -93,6 +97,7 @@ inline suspend  fun dataInputStreamSuspend(crossinline action:suspend (java.io.D
             dis?.close()
         }
     }
+
     override fun equals(other: Any?): Boolean {
         if (other !is File) {
             return false

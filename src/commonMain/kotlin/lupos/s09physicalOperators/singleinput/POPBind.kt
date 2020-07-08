@@ -1,10 +1,10 @@
 package lupos.s09physicalOperators.singleinput
-import lupos.s00misc.Partition
 
 import kotlin.jvm.JvmField
 import lupos.s00misc.Coverage
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.ESortPriority
+import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.ResultSetDictionary
@@ -43,7 +43,7 @@ class POPBind(query: Query, projectedVariables: List<String>, @JvmField val name
     override fun getProvidedVariableNamesInternal(): List<String> = (children[0].getProvidedVariableNames() + name.name).distinct()
     override fun getRequiredVariableNames(): List<String> = children[1].getRequiredVariableNamesRecoursive()
     override fun toXMLElement() = super.toXMLElement().addAttribute("name", name.name)
-    override suspend fun evaluate(parent:Partition): IteratorBundle {
+    override suspend fun evaluate(parent: Partition): IteratorBundle {
         val variablesOut = getProvidedVariableNames()
         val variablesLocal = getProvidedVariableNamesInternal()
         val outMap = mutableMapOf<String, ColumnIterator>()

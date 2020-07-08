@@ -1,5 +1,4 @@
 package lupos.s15tripleStoreDistributed
-import lupos.s00misc.Partition
 
 import kotlin.jvm.JvmField
 import kotlinx.coroutines.runBlocking
@@ -11,6 +10,7 @@ import lupos.s00misc.EModifyType
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.ESortPriority
 import lupos.s00misc.GlobalLogger
+import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.MyListValue
@@ -78,7 +78,7 @@ class TripleStoreIteratorGlobal(query: Query, projectedVariables: List<String>, 
         }
     }
 
-    override suspend fun evaluate(parent:Partition): IteratorBundle {
+    override suspend fun evaluate(parent: Partition): IteratorBundle {
         SanityCheck.println({ "opening store for $uuid" })
         return ServerCommunicationSend.tripleGet(query, graphName, Array(3) { children[it] as AOPBase }, idx)
     }

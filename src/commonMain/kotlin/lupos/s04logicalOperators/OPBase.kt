@@ -1,5 +1,5 @@
 package lupos.s04logicalOperators
-import lupos.s00misc.Partition
+
 import kotlin.jvm.JvmField
 import lupos.s00misc.BugException
 import lupos.s00misc.classNameToString
@@ -9,6 +9,7 @@ import lupos.s00misc.ESortPriority
 import lupos.s00misc.ESortType
 import lupos.s00misc.EvaluateNotImplementedException
 import lupos.s00misc.HistogramNotImplementedException
+import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.SortHelper
 import lupos.s00misc.ThreadSafeUuid
@@ -77,7 +78,7 @@ abstract class OPBase(val query: Query, val operatorID: EOperatorID, val classna
     }
 
     abstract fun calculateHistogram(): HistogramResult
-    open suspend fun evaluate(partition:Partition): IteratorBundle = throw EvaluateNotImplementedException(classname)
+    open suspend fun evaluate(partition: Partition): IteratorBundle = throw EvaluateNotImplementedException(classname)
     abstract fun cloneOP(): OPBase
     fun getChildrenCountRecoursive(): Int {
         var res = children.size

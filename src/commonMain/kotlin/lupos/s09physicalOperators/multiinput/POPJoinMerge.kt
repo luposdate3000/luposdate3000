@@ -1,5 +1,4 @@
 package lupos.s09physicalOperators.multiinput
-import lupos.s00misc.Partition
 
 import kotlin.jvm.JvmField
 import lupos.s00misc.BenchmarkUtils
@@ -7,6 +6,7 @@ import lupos.s00misc.Coverage
 import lupos.s00misc.EBenchmark
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.ESortPriority
+import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.MyListValue
@@ -30,7 +30,7 @@ class POPJoinMerge(query: Query, projectedVariables: List<String>, childA: OPBas
     }
 
     override fun equals(other: Any?) = other is POPJoinMerge && optional == other.optional && children[0] == other.children[0] && children[1] == other.children[1]
-    override suspend fun evaluate(parent:Partition): IteratorBundle {
+    override suspend fun evaluate(parent: Partition): IteratorBundle {
         SanityCheck.check { !optional }
 //setup columns
         SanityCheck.println({ "$uuid open $classname" })

@@ -4,7 +4,6 @@ import kotlin.time.DurationUnit
 import kotlin.time.TimeSource.Monotonic
 import lupos.s00misc.BenchmarkUtils
 import lupos.s00misc.Coverage
-import lupos.s00misc.Partition
 import lupos.s00misc.EBenchmark
 import lupos.s00misc.ELoggerType
 import lupos.s00misc.EModifyType
@@ -13,6 +12,7 @@ import lupos.s00misc.GlobalLogger
 import lupos.s00misc.MyMapStringIntPatriciaTrie
 import lupos.s00misc.OperatorGraphToLatex
 import lupos.s00misc.parseFromXml
+import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.XMLElement
 import lupos.s02buildSyntaxTree.LexerCharIterator
@@ -129,15 +129,15 @@ object HttpEndpoint {
                     var idx = 0
                     fileDictionary.forEachLine {
                         val v = helper_clean_string(it)
-try{
-                        mapping[idx++] = nodeGlobalDictionary.createValue(v)
-}catch(e:Throwable){
-println ("dictionary $idx $it $v")
-throw e
-}
-if(idx%100000==0){
-println("dictionary $idx / $size")
-}
+                        try {
+                            mapping[idx++] = nodeGlobalDictionary.createValue(v)
+                        } catch (e: Throwable) {
+                            println("dictionary $idx $it $v")
+                            throw e
+                        }
+                        if (idx % 100000 == 0) {
+                            println("dictionary $idx / $size")
+                        }
                     }
                     val dictTime = startTime.elapsedNow().toDouble(DurationUnit.SECONDS)
                     var cnt = fileTriples.length() / 12L

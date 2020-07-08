@@ -1,7 +1,7 @@
 package lupos.s11outputResult
-import lupos.s00misc.Partition
 
 import lupos.s00misc.Coverage
+import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.ResultSetDictionary

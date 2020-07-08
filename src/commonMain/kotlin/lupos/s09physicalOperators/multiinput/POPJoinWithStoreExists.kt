@@ -1,9 +1,10 @@
 package lupos.s09physicalOperators.multiinput
-import lupos.s00misc.Partition
+
 import kotlin.jvm.JvmField
 import lupos.s00misc.Coverage
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.ESortPriority
+import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.Variable
@@ -27,7 +28,7 @@ class POPJoinWithStoreExists(query: Query, projectedVariables: List<String>, chi
     }
 
     override fun equals(other: Any?) = other is POPJoinWithStoreExists && optional == other.optional && children[0] == other.children[0]
-    override suspend fun evaluate(parent:Partition): IteratorBundle {
+    override suspend fun evaluate(parent: Partition): IteratorBundle {
         SanityCheck.check { !optional }
         SanityCheck.check { !childB.graphVar }
         SanityCheck { projectedVariables.size == 0 }

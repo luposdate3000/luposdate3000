@@ -1,10 +1,10 @@
 package lupos.s09physicalOperators.singleinput.modifiers
-import lupos.s00misc.Partition
 
 import kotlin.jvm.JvmField
 import lupos.s00misc.Coverage
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.ESortPriority
+import lupos.s00misc.Partition
 import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.Value
 import lupos.s03resultRepresentation.Variable
@@ -26,7 +26,7 @@ class POPLimit(query: Query, projectedVariables: List<String>, @JvmField val lim
 
     override fun equals(other: Any?): Boolean = other is POPLimit && limit == other.limit && children[0] == other.children[0]
     override fun cloneOP() = POPLimit(query, projectedVariables, limit, children[0].cloneOP())
-    override suspend fun evaluate(parent:Partition): IteratorBundle {
+    override suspend fun evaluate(parent: Partition): IteratorBundle {
         val variables = getProvidedVariableNames()
         var count = 0
         val outMap = mutableMapOf<String, ColumnIterator>()

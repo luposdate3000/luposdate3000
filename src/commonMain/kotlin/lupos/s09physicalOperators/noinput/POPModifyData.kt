@@ -1,11 +1,11 @@
 package lupos.s09physicalOperators.noinput
-import lupos.s00misc.Partition
 
 import kotlin.jvm.JvmField
 import lupos.s00misc.Coverage
 import lupos.s00misc.EModifyType
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.ESortPriority
+import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.MyListValue
@@ -60,7 +60,7 @@ class POPModifyData(query: Query, projectedVariables: List<String>, @JvmField va
         return res
     }
 
-    override suspend fun evaluate(parent:Partition): IteratorBundle {
+    override suspend fun evaluate(parent: Partition): IteratorBundle {
         val iteratorDataMap = mutableMapOf<String, Array<MyListValue>>()
         for (t in data) {
             for (i in 0 until 3) {

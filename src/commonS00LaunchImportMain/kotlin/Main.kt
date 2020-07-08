@@ -4,13 +4,13 @@ import kotlinx.coroutines.runBlocking
 import lupos.s00misc.BenchmarkUtils
 import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.Coverage
-import lupos.s00misc.MyMapStringIntPatriciaTrieDouble
 import lupos.s00misc.EBenchmark
 import lupos.s00misc.ELoggerType
 import lupos.s00misc.EModifyType
 import lupos.s00misc.File
 import lupos.s00misc.GlobalLogger
 import lupos.s00misc.MyMapStringIntPatriciaTrie
+import lupos.s00misc.MyMapStringIntPatriciaTrieDouble
 import lupos.s00misc.OperatorGraphToLatex
 import lupos.s00misc.parseFromXml
 import lupos.s00misc.SanityCheck
@@ -131,7 +131,7 @@ fun main(args: Array<String>) = runBlocking {
             outputDictionaryStatFile.printWriter { out ->
                 out.print(dict.size)
             }
-println("merging $tmp into $outputFileName finish")
+            println("merging $tmp into $outputFileName finish")
         }
     }
 }

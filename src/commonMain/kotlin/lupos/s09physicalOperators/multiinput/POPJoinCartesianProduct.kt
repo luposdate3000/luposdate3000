@@ -1,10 +1,10 @@
 package lupos.s09physicalOperators.multiinput
-import lupos.s00misc.Partition
 
 import kotlin.jvm.JvmField
 import lupos.s00misc.Coverage
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.ESortPriority
+import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.MyListValue
@@ -32,7 +32,7 @@ class POPJoinCartesianProduct(query: Query, projectedVariables: List<String>, ch
     }
 
     override fun equals(other: Any?) = other is POPJoinCartesianProduct && optional == other.optional && children[0] == other.children[0] && children[1] == other.children[1]
-    override suspend fun evaluate(parent:Partition): IteratorBundle {
+    override suspend fun evaluate(parent: Partition): IteratorBundle {
         val columns = LOPJoin.getColumns(children[0].getProvidedVariableNames(), children[1].getProvidedVariableNames())
         require(columns[0].size == 0)
         SanityCheck.println({ "POPJoinCartesianProductXXX$uuid open A $classname" })
@@ -73,7 +73,7 @@ class POPJoinCartesianProduct(query: Query, projectedVariables: List<String>, ch
 //dont assign close, because every column in pass through
                 }
             } else {
-                 SanityCheck.println{"POPJoinCartesianProductXXX$uuid close B $classname"}
+                SanityCheck.println { "POPJoinCartesianProductXXX$uuid close B $classname" }
                 for ((k, v) in childB.columns) {
                     v.close()
                 }
@@ -88,7 +88,7 @@ class POPJoinCartesianProduct(query: Query, projectedVariables: List<String>, ch
 //dont assign close, because every column in pass through
                 }
             } else {
-                 SanityCheck.println{"POPJoinCartesianProductXXX$uuid close A $classname"}
+                SanityCheck.println { "POPJoinCartesianProductXXX$uuid close A $classname" }
                 for ((k, v) in childA.columns) {
                     v.close()
                 }
@@ -146,7 +146,7 @@ class POPJoinCartesianProduct(query: Query, projectedVariables: List<String>, ch
                         }
                     }
                 } else {
-                     SanityCheck.println{"POPJoinCartesianProductXXX$uuid close A $classname"}
+                    SanityCheck.println { "POPJoinCartesianProductXXX$uuid close A $classname" }
                     for ((k, v) in childA.columns) {
                         v.close()
                     }

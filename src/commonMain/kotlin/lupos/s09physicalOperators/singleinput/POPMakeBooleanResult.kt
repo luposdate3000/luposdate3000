@@ -1,9 +1,9 @@
 package lupos.s09physicalOperators.singleinput
-import lupos.s00misc.Partition
 
 import lupos.s00misc.Coverage
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.ESortPriority
+import lupos.s00misc.Partition
 import lupos.s03resultRepresentation.Value
 import lupos.s03resultRepresentation.ValueBoolean
 import lupos.s03resultRepresentation.Variable
@@ -23,7 +23,7 @@ class POPMakeBooleanResult(query: Query, projectedVariables: List<String>, child
     override fun cloneOP() = POPMakeBooleanResult(query, projectedVariables, children[0].cloneOP())
     override fun getProvidedVariableNamesInternal() = mutableListOf("?boolean")
     override fun getRequiredVariableNames() = listOf<String>()
-    override suspend fun evaluate(parent:Partition): IteratorBundle {
+    override suspend fun evaluate(parent: Partition): IteratorBundle {
         var flag: Boolean
         val outMap = mutableMapOf<String, ColumnIterator>()
         val variables = children[0].getProvidedVariableNames()

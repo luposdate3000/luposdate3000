@@ -1,10 +1,10 @@
 package lupos.s09physicalOperators.singleinput
-import lupos.s00misc.Partition
 
 import lupos.s00misc.Coverage
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.ESortPriority
 import lupos.s00misc.NotImplementedException
+import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04logicalOperators.iterator.ColumnIterator
@@ -29,7 +29,7 @@ class POPFilter(query: Query, projectedVariables: List<String>, filter: AOPBase,
     override fun cloneOP() = POPFilter(query, projectedVariables, children[1].cloneOP() as AOPBase, children[0].cloneOP())
     override fun getProvidedVariableNamesInternal() = children[0].getProvidedVariableNames()
     override fun getRequiredVariableNames() = children[1].getRequiredVariableNamesRecoursive()
-    override suspend fun evaluate(parent:Partition): IteratorBundle {
+    override suspend fun evaluate(parent: Partition): IteratorBundle {
         //TODO not-equal shortcut during evaluation based on integer-ids
         val variables = children[0].getProvidedVariableNames()
         val variablesOut = getProvidedVariableNames()
@@ -121,7 +121,7 @@ class POPFilter(query: Query, projectedVariables: List<String>, filter: AOPBase,
                 for (variableIndex in 0 until variables.size) {
                     columnsLocal[variableIndex].close = {
                         columnsLocal[variableIndex]._close()
-            SanityCheck.            println{"POPFilterXXX$uuid close E $classname"}
+                        SanityCheck.println { "POPFilterXXX$uuid close E $classname" }
                         for ((k, v) in child.columns) {
                             v.close()
                         }
