@@ -452,6 +452,12 @@ fun XMLElement.Companion.convertToOPBase(query: Query, node: XMLElement, mapping
         "POPMakeBooleanResult" -> {
             res = POPMakeBooleanResult(query, createProjectedVariables(query, node, mapping), convertToOPBase(query, node["children"]!!.childs[0], mapping))
         }
+        "POPMergeParallel" -> {
+            res = POPMergeParallel(query, createProjectedVariables(query, node, mapping), node.attributes["partitionVariable"],convertToOPBase(query, node["children"]!!.childs[0], mapping))
+        }
+        "POPSplitParallel" -> {
+            res = POPSplitParallel(query, createProjectedVariables(query, node, mapping), node.attributes["partitionVariable"],convertToOPBase(query, node["children"]!!.childs[0], mapping))
+        }
         "POPGroup" -> {
             val child = convertToOPBase(query, node["children"]!!.childs[0], mapping)
             val by = mutableListOf<AOPVariable>()

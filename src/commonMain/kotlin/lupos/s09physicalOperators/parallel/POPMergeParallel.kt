@@ -45,7 +45,7 @@ class POPMergeParallel(query: Query, projectedVariables: List<String>, val parti
             val variables0 = children[0].getProvidedVariableNames()
             SanityCheck.check { variables0.containsAll(variables) }
             SanityCheck.check { variables.containsAll(variables0) }
-            SanityCheck.check { variables.contains(partitionVariable) }
+//the variable may be eliminated directly after using it in the join            SanityCheck.check { variables.contains(partitionVariable) }
             val elementsPerRing = ParallelBase.queue_size * variables.size
             val ringbuffer = IntArray(elementsPerRing * ParallelBase.k) //only modified by writer, reader just modifies its pointer
             val ringbufferStart = IntArray(ParallelBase.k) { it * elementsPerRing } //constant
