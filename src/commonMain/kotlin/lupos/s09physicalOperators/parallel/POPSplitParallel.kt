@@ -1,11 +1,11 @@
 package lupos.s09physicalOperators.parallel
 
+import kotlinx.coroutines.cancelAndJoin
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.isActive
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.isActive
-import kotlinx.coroutines.cancelAndJoin
 import kotlinx.coroutines.yield
 import lupos.s00misc.Coverage
 import lupos.s00misc.EOperatorID
@@ -38,11 +38,11 @@ class POPSplitParallel(query: Query, projectedVariables: List<String>, val parti
             //single partition - just pass through
             return children[0].evaluate(parent)
         } else {
-                var iterators: Array<IteratorBundle>? = null
-                var job: Job? = null
+            var iterators: Array<IteratorBundle>? = null
+            var job: Job? = null
             query.partitionsLock.withWriteLockSuspend {
-                 iterators= query.partitionsIterators[uuid]
-                 job = query.partitionsJobs[uuid]
+                iterators = query.partitionsIterators[uuid]
+                job = query.partitionsJobs[uuid]
                 if (iterators == null) {
                     iterators = Array(ParallelBase.k) { IteratorBundle(0) }
                     val variables = getProvidedVariableNames()
@@ -60,16 +60,27 @@ class POPSplitParallel(query: Query, projectedVariables: List<String>, val parti
                     runBlocking {
                         job = launch {
                             val child = children[0].evaluate(Partition(parent, partitionVariable)).rows
+                            var hashVariableIndex = -1
+                            val variableMapping = IntArray(variables.size)
+                            for (variable in 0 until variables.size) {
+                                for (variable2 in 0 until variables.size) {
+                                    if (child.columns[variable] == partitionVariable) {
+                                        hashVariableIndex = variable
+                                    }
+                                    if (variables[variable2] == child.columns[variable]) {
+                                        variableMapping[variable] = variable2
+                                        break
+                                    }
+                                }
+                            }
+                            SanityCheck.check { hashVariableIndex != -1 }
                             loop@ while (isActive) {
                                 var tmp = child.next()
                                 if (tmp == -1) {
                                     writerFinished = 1
                                     break@loop
                                 } else {
-                                    var p = 0
-                                    for (i in 0 until variables.size) {
-                                        p += child.buf[tmp + i]
-                                    }
+                                    var p = child.buf[tmp + hashVariableIndex]
                                     if (p < 0) {
                                         p = -p
                                     }
@@ -84,7 +95,7 @@ class POPSplitParallel(query: Query, projectedVariables: List<String>, val parti
                                         }
                                     }
                                     for (variable in 0 until variables.size) {
-                                        ringbuffer[ringbufferWriteHead[p] + variable + ringbufferStart[p]] = child.buf[tmp + variable]
+                                        ringbuffer[ringbufferWriteHead[p] + variableMapping[variable] + ringbufferStart[p]] = child.buf[tmp + variable]
                                     }
                                     ringbufferWriteHead[p] = (ringbufferWriteHead[p] + variables.size) % elementsPerRing
                                 }
@@ -132,7 +143,7 @@ class POPSplitParallel(query: Query, projectedVariables: List<String>, val parti
                     query.partitionsJobs[uuid] = job!!
                 }
             }
-                return iterators!![parent.data[partitionVariable]!!]
+            return iterators!![parent.data[partitionVariable]!!]
         }
     }
 }

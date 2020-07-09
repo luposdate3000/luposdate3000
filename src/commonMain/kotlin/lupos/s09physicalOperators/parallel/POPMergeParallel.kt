@@ -1,11 +1,11 @@
 package lupos.s09physicalOperators.parallel
 
+import kotlinx.coroutines.cancelAndJoin
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.isActive
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.isActive
-import kotlinx.coroutines.cancelAndJoin
 import kotlinx.coroutines.yield
 import lupos.s00misc.Coverage
 import lupos.s00misc.EOperatorID
@@ -53,8 +53,17 @@ class POPMergeParallel(query: Query, projectedVariables: List<String>, val parti
             val jobs = mutableListOf<Job>()
             for (p in 0 until ParallelBase.k) {
                 runBlocking {
-                    val job = launch  {
+                    val job = launch {
                         val child = children[0].evaluate(Partition(parent, partitionVariable, p)).rows
+                        val variableMapping = IntArray(variables.size)
+                        for (variable in 0 until variables.size) {
+                            for (variable2 in 0 until variables.size) {
+                                if (variables[variable2] == child.columns[variable]) {
+                                    variableMapping[variable] = variable2
+                                    break
+                                }
+                            }
+                        }
                         loop@ while (isActive) {
                             var t = (ringbufferWriteHead[p] + variables.size) % elementsPerRing
                             while (ringbufferReadHead[p] == t) {
@@ -71,7 +80,7 @@ class POPMergeParallel(query: Query, projectedVariables: List<String>, val parti
                                 break@loop
                             } else {
                                 for (variable in 0 until variables.size) {
-                                    ringbuffer[ringbufferWriteHead[p] + variable + ringbufferStart[p]] = child.buf[tmp + variable]
+                                    ringbuffer[ringbufferWriteHead[p] + variableMapping[variable] + ringbufferStart[p]] = child.buf[tmp + variable]
                                 }
                                 ringbufferWriteHead[p] = (ringbufferWriteHead[p] + variables.size) % elementsPerRing
                             }
