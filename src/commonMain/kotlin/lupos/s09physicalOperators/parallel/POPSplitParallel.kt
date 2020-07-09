@@ -97,6 +97,7 @@ println("ringbuffersize = ${ringbuffer.size} ${elementsPerRing} ${ParallelBase.k
                                     p = -p
                                 }
                                 p = p % ParallelBase.k
+println("selected $p for $partitionVariable = $hashVariableIndex value ${child.buf[tmp + hashVariableIndex]}")
                                 var t = (ringbufferWriteHead[p] + variables.size) % elementsPerRing
                                 while (ringbufferReadHead[p] == t) {
                                     println("split $uuid $p writer wait for reader")
@@ -112,6 +113,7 @@ println("ringbuffersize = ${ringbuffer.size} ${elementsPerRing} ${ParallelBase.k
                                 for (variable in 0 until variables.size) {
 println("split $uuid $p writer append data ... ${variable} ${ringbufferWriteHead[p] + variableMapping[variable] + ringbufferStart[p]} ${tmp + variable}")
                                     ringbuffer[ringbufferWriteHead[p] + variableMapping[variable] + ringbufferStart[p]] = child.buf[tmp + variable]
+println("split $uuid $p writer append data --- $variables ${child.columns.map{it}} ${ringbufferWriteHead[p] + variableMapping[variable] + ringbufferStart[p]}<-${tmp + variable} = ${child.buf[tmp + variable]}")
                                 }
                                 println("split $uuid $p writer append data - written data")
                                 ringbufferWriteHead[p] = (ringbufferWriteHead[p] + variables.size) % elementsPerRing
@@ -129,10 +131,7 @@ println("split $uuid writer exited loop")
                             var res = -1
                             loop@ while (true) {
                                 println("split $uuid $p reader loop start")
-                                if (writerFinished == 1) {
-println("split $uuid $p reader closed")
-                                    break@loop
-                                } else if (ringbufferReadHead[p] != ringbufferWriteHead[p]) {
+                                if (ringbufferReadHead[p] != ringbufferWriteHead[p]) {
                                     //non empty queue -> read one row
                                     println("split $uuid $p reader consumed data")
                                     for (variable in 0 until variables.size) {
@@ -140,6 +139,9 @@ println("split $uuid $p reader closed")
                                     }
                                     res = 0
                                     ringbufferReadHead[p] = (ringbufferReadHead[p] + variables.size) % elementsPerRing
+                                    break@loop
+                                }else if (writerFinished == 1) {
+println("split $uuid $p reader closed")
                                     break@loop
                                 }
                                 println("split $uuid $p reader wait for writer")

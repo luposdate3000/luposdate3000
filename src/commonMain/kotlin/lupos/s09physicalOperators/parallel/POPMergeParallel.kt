@@ -98,15 +98,14 @@ println("merge $uuid $p writer exited loop")
             }
             var iterator = RowIterator()
             iterator.columns = variables.toTypedArray()
+iterator.buf=IntArray(variables.size)
             iterator.next = {
                 var res = -1
                 loop@ while (true) {
                     println("merge $uuid reader loop start")
                     var finishedWriters = 0
                     for (p in 0 until ParallelBase.k) {
-                        if (writerFinished[p] == 1) {
-                            finishedWriters++
-                        } else if (ringbufferReadHead[p] != ringbufferWriteHead[p]) {
+                        if (ringbufferReadHead[p] != ringbufferWriteHead[p]) {
                             //non empty queue -> read one row
                             println("merge $uuid $p reader consumed data")
                             for (variable in 0 until variables.size) {
@@ -115,6 +114,8 @@ println("merge $uuid $p writer exited loop")
                             res = 0
                             ringbufferReadHead[p] = (ringbufferReadHead[p] + variables.size) % elementsPerRing
                             break@loop
+                        }else if (writerFinished[p] == 1) {
+                            finishedWriters++
                         }
                     }
                     if (finishedWriters == ParallelBase.k) {
