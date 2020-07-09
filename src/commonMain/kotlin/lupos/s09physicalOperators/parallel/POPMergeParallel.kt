@@ -1,5 +1,12 @@
 package lupos.s09physicalOperators.parallel
 
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.isActive
+import kotlinx.coroutines.cancelAndJoin
+import kotlinx.coroutines.yield
 import lupos.s00misc.Coverage
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.ESortPriority
@@ -43,31 +50,35 @@ class POPMergeParallel(query: Query, projectedVariables: List<String>, val parti
             val ringbufferWriteHead = IntArray(ParallelBase.k) { it * elementsPerRing } //owned by write thread - no locking required
             val writerFinished = IntArray(ParallelBase.k) { 0 } //writer changes to 1 if finished
             var readerFinished = 0
+            val jobs = mutableListOf<Job>()
             for (p in 0 until ParallelBase.k) {
-//TODOlaunch ... {
-                val child = children[0].evaluate(Partition(parent, partitionVariable, p)).rows
-                loop@ while (true) {
-                    var t = (ringbufferWriteHead[p] + variables.size) % elementsPerRing
-                    while (ringbufferReadHead[p] == t) {
-//TODOwait for reader
-                        if (readerFinished == 1) {
-                            child.close()
-                            writerFinished[p] = 1
-                            break@loop
+                runBlocking {
+                    val job = launch  {
+                        val child = children[0].evaluate(Partition(parent, partitionVariable, p)).rows
+                        loop@ while (isActive) {
+                            var t = (ringbufferWriteHead[p] + variables.size) % elementsPerRing
+                            while (ringbufferReadHead[p] == t) {
+                                yield()
+                                if (!isActive) {
+                                    child.close()
+                                    writerFinished[p] = 1
+                                    break@loop
+                                }
+                            }
+                            var tmp = child.next()
+                            if (tmp == -1) {
+                                writerFinished[p] = 1
+                                break@loop
+                            } else {
+                                for (variable in 0 until variables.size) {
+                                    ringbuffer[ringbufferWriteHead[p] + variable + ringbufferStart[p]] = child.buf[tmp + variable]
+                                }
+                                ringbufferWriteHead[p] = (ringbufferWriteHead[p] + variables.size) % elementsPerRing
+                            }
                         }
                     }
-                    var tmp = child.next()
-                    if (tmp == -1) {
-                        writerFinished[p] = 1
-                        break@loop
-                    } else {
-                        for (variable in 0 until variables.size) {
-                            ringbuffer[ringbufferWriteHead[p] + variable + ringbufferStart[p]] = child.buf[tmp + variable]
-                        }
-                    }
-                    ringbufferWriteHead[p] = (ringbufferWriteHead[p] + variables.size) % elementsPerRing
+                    jobs.add(job)
                 }
-//TODOlaunch ... }
             }
             var iterator = RowIterator()
             iterator.columns = variables.toTypedArray()
@@ -79,7 +90,7 @@ class POPMergeParallel(query: Query, projectedVariables: List<String>, val parti
                         if (writerFinished[p] == 1) {
                             finishedWriters++
                         } else if (ringbufferReadHead[p] != ringbufferWriteHead[p]) {
-//non empty queue -> read one row
+                            //non empty queue -> read one row
                             for (variable in 0 until variables.size) {
                                 iterator.buf[variable] = (ringbuffer[ringbufferReadHead[p] + variable + ringbufferStart[p]])
                             }
@@ -89,17 +100,19 @@ class POPMergeParallel(query: Query, projectedVariables: List<String>, val parti
                         }
                     }
                     if (finishedWriters == ParallelBase.k) {
-//done
+                        //done
                         break@loop
                     }
-//TODO wait for writer - or join one
+                    yield()
                 }
-/*return*/res
+                /*return*/res
             }
             iterator.close = {
                 readerFinished = 1
-                for (p in 0 until ParallelBase.k) {
-                    ringbufferReadHead[p] = (ringbufferWriteHead[p] + variables.size) % elementsPerRing
+                runBlocking {
+                    for (job in jobs) {
+                        job.cancelAndJoin()
+                    }
                 }
             }
             return IteratorBundle(iterator)

@@ -15,4 +15,13 @@ class Partition {
         t[variableName] = partitionNumber
         data = t.toMap()
     }
+    constructor(parentPartition: Partition, variableName: String) {
+        val t = mutableMapOf<String, Int>()
+        for ((k, v) in parentPartition.data) {
+if(k!=variableName){
+            t[k] = v
+        }
+}
+        data = t.toMap()
+    }
 }
