@@ -1,6 +1,5 @@
 package lupos.s14endpoint
-import lupos.s09physicalOperators.parallel.POPMergeParallel
-import lupos.s09physicalOperators.parallel.POPSplitParallel
+
 import lupos.s00misc.BigDecimal
 import lupos.s00misc.BigInteger
 import lupos.s00misc.Coverage
@@ -110,6 +109,8 @@ import lupos.s09physicalOperators.multiinput.POPMinus
 import lupos.s09physicalOperators.multiinput.POPUnion
 import lupos.s09physicalOperators.noinput.POPEmptyRow
 import lupos.s09physicalOperators.noinput.POPValues
+import lupos.s09physicalOperators.parallel.POPMergeParallel
+import lupos.s09physicalOperators.parallel.POPSplitParallel
 import lupos.s09physicalOperators.POPBase
 import lupos.s09physicalOperators.singleinput.modifiers.POPLimit
 import lupos.s09physicalOperators.singleinput.modifiers.POPOffset
@@ -454,10 +455,10 @@ fun XMLElement.Companion.convertToOPBase(query: Query, node: XMLElement, mapping
             res = POPMakeBooleanResult(query, createProjectedVariables(query, node, mapping), convertToOPBase(query, node["children"]!!.childs[0], mapping))
         }
         "POPMergeParallel" -> {
-            res = POPMergeParallel(query, createProjectedVariables(query, node, mapping), node.attributes["partitionVariable"]!!,convertToOPBase(query, node["children"]!!.childs[0], mapping))
+            res = POPMergeParallel(query, createProjectedVariables(query, node, mapping), node.attributes["partitionVariable"]!!, convertToOPBase(query, node["children"]!!.childs[0], mapping))
         }
         "POPSplitParallel" -> {
-            res = POPSplitParallel(query, createProjectedVariables(query, node, mapping), node.attributes["partitionVariable"]!!,convertToOPBase(query, node["children"]!!.childs[0], mapping))
+            res = POPSplitParallel(query, createProjectedVariables(query, node, mapping), node.attributes["partitionVariable"]!!, convertToOPBase(query, node["children"]!!.childs[0], mapping))
         }
         "POPGroup" -> {
             val child = convertToOPBase(query, node["children"]!!.childs[0], mapping)

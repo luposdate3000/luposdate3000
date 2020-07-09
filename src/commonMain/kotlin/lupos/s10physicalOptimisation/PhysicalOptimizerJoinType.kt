@@ -16,15 +16,14 @@ import lupos.s09physicalOperators.multiinput.POPJoinMergeOptional
 import lupos.s09physicalOperators.multiinput.POPJoinMergeSingleColumn
 import lupos.s09physicalOperators.multiinput.POPJoinWithStore
 import lupos.s09physicalOperators.multiinput.POPJoinWithStoreExists
-import lupos.s09physicalOperators.parallel.POPSplitParallel
 import lupos.s09physicalOperators.parallel.POPMergeParallel
+import lupos.s09physicalOperators.parallel.POPSplitParallel
 import lupos.s09physicalOperators.POPBase
 import lupos.s09physicalOperators.singleinput.POPProjection
 import lupos.s15tripleStoreDistributed.TripleStoreIteratorGlobal
 
 class PhysicalOptimizerJoinType(query: Query) : OptimizerBase(query, EOptimizerID.PhysicalOptimizerJoinTypeID) {
     override val classname = "PhysicalOptimizerJoinType"
-
     fun localGetProjected(node: OPBase, parent: OPBase?): List<String> {
         if (parent is LOPProjection) {
             return parent.getProvidedVariableNames()
@@ -53,7 +52,7 @@ class PhysicalOptimizerJoinType(query: Query) : OptimizerBase(query, EOptimizerI
 
     override fun optimize(node: OPBase, parent: OPBase?, onChange: () -> Unit): OPBase {
         var res = node
-        val projectedVariables = localGetProjected(node,parent)
+        val projectedVariables = localGetProjected(node, parent)
         if (node is LOPJoin) {
             val childA = node.children[0]
             val childB = node.children[1]
@@ -95,19 +94,19 @@ class PhysicalOptimizerJoinType(query: Query) : OptimizerBase(query, EOptimizerI
                 }
                 if (res is LOPJoin) {
                     if (node.optional) {
-                        res = embedWithinPartitionContext(columns[0],parent, childA, childB, { a, b -> POPJoinHashMap(query, projectedVariables, a, b, true) })
+                        res = embedWithinPartitionContext(columns[0], parent, childA, childB, { a, b -> POPJoinHashMap(query, projectedVariables, a, b, true) })
                     } else if (node.partOfAskQuery && projectedVariables.size == 0 && childA is LOPTriple) {
                         res = POPJoinWithStoreExists(query, projectedVariables, childB, childA, false)
                     } else if (node.partOfAskQuery && projectedVariables.size == 0 && childB is LOPTriple) {
                         res = POPJoinWithStoreExists(query, projectedVariables, childA, childB, false)
                     } else if (node.partOfAskQuery && childA is LOPTriple && columns[1].size > 0 && childB.getProvidedVariableNames().containsAll(node.mySortPriority.map { it.variableName })) {
-                        res = POPJoinWithStore(query, projectedVariables, childB, childA,false)
+                        res = POPJoinWithStore(query, projectedVariables, childB, childA, false)
                     } else if (node.partOfAskQuery && childB is LOPTriple && columns[2].size > 0 && childA.getProvidedVariableNames().containsAll(node.mySortPriority.map { it.variableName })) {
-                        res = POPJoinWithStore(query, projectedVariables, childA, childB,false)
+                        res = POPJoinWithStore(query, projectedVariables, childA, childB, false)
                     } else if (childA is TripleStoreIteratorGlobal || childA is LOPTriple && childB.getProvidedVariableNames().containsAll(node.mySortPriority.map { it.variableName })) {
-                        res = embedWithinPartitionContext(columns[0],parent, childB, childA, { a, b -> POPJoinHashMap(query, projectedVariables, a, b, false) })
+                        res = embedWithinPartitionContext(columns[0], parent, childB, childA, { a, b -> POPJoinHashMap(query, projectedVariables, a, b, false) })
                     } else {
-                        res = embedWithinPartitionContext(columns[0],parent, childA, childB, { a, b -> POPJoinHashMap(query, projectedVariables, a, b, false) })
+                        res = embedWithinPartitionContext(columns[0], parent, childA, childB, { a, b -> POPJoinHashMap(query, projectedVariables, a, b, false) })
                     }
                 }
             }

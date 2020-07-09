@@ -1,15 +1,15 @@
 package lupos.s09physicalOperators.parallel
 
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.cancelAndJoin
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.yield
-import kotlinx.coroutines.delay
 import lupos.s00misc.Coverage
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.ESortPriority
@@ -73,7 +73,7 @@ class POPMergeParallel(query: Query, projectedVariables: List<String>, val parti
                             println("merge $uuid $p writer wait for reader to remove data")
                             delay(1)
                             if (!isActive) {
-println("merge $uuid $p writer closed A")
+                                println("merge $uuid $p writer closed A")
                                 child.close()
                                 writerFinished[p] = 1
                                 break@loop
@@ -81,7 +81,7 @@ println("merge $uuid $p writer closed A")
                         }
                         var tmp = child.next()
                         if (tmp == -1) {
-println("merge $uuid $p writer closed B")
+                            println("merge $uuid $p writer closed B")
                             writerFinished[p] = 1
                             break@loop
                         } else {
@@ -92,13 +92,13 @@ println("merge $uuid $p writer closed B")
                             ringbufferWriteHead[p] = (ringbufferWriteHead[p] + variables.size) % elementsPerRing
                         }
                     }
-println("merge $uuid $p writer exited loop")
+                    println("merge $uuid $p writer exited loop")
                 }
                 jobs.add(job)
             }
             var iterator = RowIterator()
             iterator.columns = variables.toTypedArray()
-iterator.buf=IntArray(variables.size)
+            iterator.buf = IntArray(variables.size)
             iterator.next = {
                 var res = -1
                 loop@ while (true) {
@@ -114,7 +114,7 @@ iterator.buf=IntArray(variables.size)
                             res = 0
                             ringbufferReadHead[p] = (ringbufferReadHead[p] + variables.size) % elementsPerRing
                             break@loop
-                        }else if (writerFinished[p] == 1) {
+                        } else if (writerFinished[p] == 1) {
                             finishedWriters++
                         }
                     }

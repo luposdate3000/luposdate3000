@@ -3,8 +3,8 @@ package lupos.s04logicalOperators
 import kotlin.jvm.JvmField
 import kotlinx.coroutines.Job
 import lupos.s00misc.Coverage
-import lupos.s00misc.Partition
 import lupos.s00misc.Lock
+import lupos.s00misc.Partition
 import lupos.s00misc.ThreadSafeUuid
 import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s04logicalOperators.iterator.IteratorBundle
@@ -36,10 +36,10 @@ class Query(@JvmField val dictionary: ResultSetDictionary = ResultSetDictionary(
     var generatedNameByBase = mutableMapOf<String, String>()
 
     @JvmField
-    val partitionsIterators = mutableMapOf<Long, MutableMap<Partition,Array<IteratorBundle>>>()
+    val partitionsIterators = mutableMapOf<Long, MutableMap<Partition, Array<IteratorBundle>>>()
 
     @JvmField
-    val partitionsJobs = mutableMapOf<Long, MutableMap<Partition,Job>>()
+    val partitionsJobs = mutableMapOf<Long, MutableMap<Partition, Job>>()
 
     @JvmField
     val partitionsLock = Lock()

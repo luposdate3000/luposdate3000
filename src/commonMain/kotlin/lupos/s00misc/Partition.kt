@@ -25,6 +25,7 @@ class Partition {
         }
         data = t.toMap()
     }
-override fun equals(other: Any?)=other is Partition && data==other.data
-    override fun hashCode()=data.hashCode()
+
+    override fun equals(other: Any?) = other is Partition && data == other.data
+    override fun hashCode() = data.hashCode()
 }

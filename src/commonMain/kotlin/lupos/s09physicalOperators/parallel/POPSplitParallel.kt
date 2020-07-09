@@ -1,15 +1,15 @@
 package lupos.s09physicalOperators.parallel
 
 import kotlinx.coroutines.cancelAndJoin
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.yield
-import kotlinx.coroutines.delay
 import lupos.s00misc.Coverage
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.ESortPriority
@@ -67,7 +67,7 @@ class POPSplitParallel(query: Query, projectedVariables: List<String>, val parti
                     val ringbufferWriteHead = IntArray(ParallelBase.k) { 0 } //owned by write thread - no locking required
                     val readerFinished = IntArray(ParallelBase.k) { 0 } //writer changes to 1 if finished
                     var writerFinished = 0
-println("ringbuffersize = ${ringbuffer.size} ${elementsPerRing} ${ParallelBase.k} ${ringbufferStart.map{it}} ${ringbufferReadHead.map{it}} ${ringbufferWriteHead.map{it}}")
+                    println("ringbuffersize = ${ringbuffer.size} ${elementsPerRing} ${ParallelBase.k} ${ringbufferStart.map { it }} ${ringbufferReadHead.map { it }} ${ringbufferWriteHead.map { it }}")
                     job = GlobalScope.launch(Dispatchers.Default) {
                         val child = children[0].evaluate(childPartition).rows
                         var hashVariableIndex = -1
@@ -97,36 +97,36 @@ println("ringbuffersize = ${ringbuffer.size} ${elementsPerRing} ${ParallelBase.k
                                     p = -p
                                 }
                                 p = p % ParallelBase.k
-println("selected $p for $partitionVariable = $hashVariableIndex value ${child.buf[tmp + hashVariableIndex]}")
+                                println("selected $p for $partitionVariable = $hashVariableIndex value ${child.buf[tmp + hashVariableIndex]}")
                                 var t = (ringbufferWriteHead[p] + variables.size) % elementsPerRing
                                 while (ringbufferReadHead[p] == t) {
                                     println("split $uuid $p writer wait for reader")
                                     delay(1)
                                     if (!isActive) {
-                                println("split $uuid $p writer closed B")
+                                        println("split $uuid $p writer closed B")
                                         child.close()
                                         writerFinished = 1
                                         break@loop
                                     }
                                 }
-                                println("split $uuid $p writer append data ${variables.size} ${variableMapping.toMutableList()} ${ ringbufferStart[p]}")
+                                println("split $uuid $p writer append data ${variables.size} ${variableMapping.toMutableList()} ${ringbufferStart[p]}")
                                 for (variable in 0 until variables.size) {
-println("split $uuid $p writer append data ... ${variable} ${ringbufferWriteHead[p] + variableMapping[variable] + ringbufferStart[p]} ${tmp + variable}")
+                                    println("split $uuid $p writer append data ... ${variable} ${ringbufferWriteHead[p] + variableMapping[variable] + ringbufferStart[p]} ${tmp + variable}")
                                     ringbuffer[ringbufferWriteHead[p] + variableMapping[variable] + ringbufferStart[p]] = child.buf[tmp + variable]
-println("split $uuid $p writer append data --- $variables ${child.columns.map{it}} ${ringbufferWriteHead[p] + variableMapping[variable] + ringbufferStart[p]}<-${tmp + variable} = ${child.buf[tmp + variable]}")
+                                    println("split $uuid $p writer append data --- $variables ${child.columns.map { it }} ${ringbufferWriteHead[p] + variableMapping[variable] + ringbufferStart[p]}<-${tmp + variable} = ${child.buf[tmp + variable]}")
                                 }
                                 println("split $uuid $p writer append data - written data")
                                 ringbufferWriteHead[p] = (ringbufferWriteHead[p] + variables.size) % elementsPerRing
                                 println("split $uuid $p writer append data - increased pointer")
                             }
-println("split $uuid writer loop end of iteration")
+                            println("split $uuid writer loop end of iteration")
                         }
-println("split $uuid writer exited loop")
+                        println("split $uuid writer exited loop")
                     }
                     for (p in 0 until ParallelBase.k) {
                         var iterator = RowIterator()
                         iterator.columns = variables.toTypedArray()
-			iterator.buf=IntArray(variables.size)
+                        iterator.buf = IntArray(variables.size)
                         iterator.next = {
                             var res = -1
                             loop@ while (true) {
@@ -140,8 +140,8 @@ println("split $uuid writer exited loop")
                                     res = 0
                                     ringbufferReadHead[p] = (ringbufferReadHead[p] + variables.size) % elementsPerRing
                                     break@loop
-                                }else if (writerFinished == 1) {
-println("split $uuid $p reader closed")
+                                } else if (writerFinished == 1) {
+                                    println("split $uuid $p reader closed")
                                     break@loop
                                 }
                                 println("split $uuid $p reader wait for writer")
