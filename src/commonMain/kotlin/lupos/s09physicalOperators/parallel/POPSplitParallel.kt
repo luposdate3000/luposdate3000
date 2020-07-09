@@ -31,8 +31,8 @@ class POPSplitParallel(query: Query, projectedVariables: List<String>, val parti
     }
 
     override fun cloneOP() = POPSplitParallel(query, projectedVariables, partitionVariable, children[0].cloneOP())
-    override fun toSparql() = "{" + children[0].toSparql() + "} SplitParallel {" + children[1].toSparql() + "}"
-    override fun equals(other: Any?): Boolean = other is POPSplitParallel && children[0] == other.children[0] && children[1] == other.children[1]
+    override fun toSparql() = children[0].toSparql() 
+    override fun equals(other: Any?): Boolean = other is POPSplitParallel && children[0] == other.children[0] && partitionVariable==other.partitionVariable
     override suspend fun evaluate(parent: Partition): IteratorBundle {
         if (ParallelBase.k == 1) {
             //single partition - just pass through
@@ -40,9 +40,16 @@ class POPSplitParallel(query: Query, projectedVariables: List<String>, val parti
         } else {
             var iterators: Array<IteratorBundle>? = null
             var job: Job? = null
+val childPartition=Partition(parent, partitionVariable)
             query.partitionsLock.withWriteLockSuspend {
-                iterators = query.partitionsIterators[uuid]
-                job = query.partitionsJobs[uuid]
+val tmpIterators=query.partitionsIterators[uuid]
+if(tmpIterators!=null){
+                iterators = tmpIterators[childPartition]
+}
+val tmpJob=query.partitionsJobs[uuid]
+if(tmpJob!=null){
+                job = tmpJob[childPartition]
+}
                 if (iterators == null) {
                     iterators = Array(ParallelBase.k) { IteratorBundle(0) }
                     val variables = getProvidedVariableNames()
@@ -59,7 +66,7 @@ class POPSplitParallel(query: Query, projectedVariables: List<String>, val parti
                     var writerFinished = 0
                     runBlocking {
                         job = launch {
-                            val child = children[0].evaluate(Partition(parent, partitionVariable)).rows
+                            val child = children[0].evaluate(childPartition).rows
                             var hashVariableIndex = -1
                             val variableMapping = IntArray(variables.size)
                             for (variable in 0 until variables.size) {
@@ -139,8 +146,13 @@ class POPSplitParallel(query: Query, projectedVariables: List<String>, val parti
                         }
                         iterators!![p] = IteratorBundle(iterator)
                     }
-                    query.partitionsIterators[uuid] = iterators!!
-                    query.partitionsJobs[uuid] = job!!
+if(tmpIterators==null||tmpJob==null){
+query.partitionsIterators[uuid]=mutableMapOf(childPartition to iterators!!)
+query.partitionsJobs[uuid]=mutableMapOf(childPartition to job!!)
+}else{
+                    tmpIterators[childPartition] = iterators!!
+                    tmpJob[childPartition] = job!!
+}
                 }
             }
             return iterators!![parent.data[partitionVariable]!!]

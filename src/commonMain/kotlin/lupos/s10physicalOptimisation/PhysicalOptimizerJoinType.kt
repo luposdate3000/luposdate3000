@@ -16,24 +16,44 @@ import lupos.s09physicalOperators.multiinput.POPJoinMergeOptional
 import lupos.s09physicalOperators.multiinput.POPJoinMergeSingleColumn
 import lupos.s09physicalOperators.multiinput.POPJoinWithStore
 import lupos.s09physicalOperators.multiinput.POPJoinWithStoreExists
+import lupos.s09physicalOperators.parallel.POPSplitParallel
+import lupos.s09physicalOperators.parallel.POPMergeParallel
 import lupos.s09physicalOperators.POPBase
 import lupos.s09physicalOperators.singleinput.POPProjection
 import lupos.s15tripleStoreDistributed.TripleStoreIteratorGlobal
 
 class PhysicalOptimizerJoinType(query: Query) : OptimizerBase(query, EOptimizerID.PhysicalOptimizerJoinTypeID) {
     override val classname = "PhysicalOptimizerJoinType"
+
+    fun localGetProjected(node: OPBase, parent: OPBase?): List<String> {
+        if (parent is LOPProjection) {
+            return parent.getProvidedVariableNames()
+        } else if (parent is POPProjection) {
+            return parent.getProvidedVariableNamesInternal()
+        } else if (node is POPBase) {
+            return node.getProvidedVariableNamesInternal()
+        } else {
+            return node.getProvidedVariableNames()
+        }
+    }
+
+    fun embedWithinPartitionContext(joinColumns: MutableList<String>, parent: OPBase?, childA: OPBase, childB: OPBase, create: (OPBase, OPBase) -> OPBase): OPBase {
+        var a = childA
+        var b = childB
+        for (s in joinColumns) {
+            a = POPSplitParallel(query, localGetProjected(a,parent), s, a)
+            b = POPSplitParallel(query, localGetProjected(b,parent), s, b)
+        }
+        var c = create(a, b)
+        for (s in joinColumns) {
+            c = POPMergeParallel(query, localGetProjected(c,parent), s, c)
+        }
+        return c
+    }
+
     override fun optimize(node: OPBase, parent: OPBase?, onChange: () -> Unit): OPBase {
         var res = node
-        val projectedVariables: List<String>
-        if (parent is LOPProjection) {
-            projectedVariables = parent.getProvidedVariableNames()
-        } else if (parent is POPProjection) {
-            projectedVariables = parent.getProvidedVariableNamesInternal()
-        } else if (node is POPBase) {
-            projectedVariables = node.getProvidedVariableNamesInternal()
-        } else {
-            projectedVariables = node.getProvidedVariableNames()
-        }
+        val projectedVariables = localGetProjected(node,parent)
         if (node is LOPJoin) {
             val childA = node.children[0]
             val childB = node.children[1]
@@ -75,19 +95,19 @@ class PhysicalOptimizerJoinType(query: Query) : OptimizerBase(query, EOptimizerI
                 }
                 if (res is LOPJoin) {
                     if (node.optional) {
-                        res = POPJoinHashMap(query, projectedVariables, childA, childB, true)
+                        res = embedWithinPartitionContext(columns[0],parent, childA, childB, { a, b -> POPJoinHashMap(query, projectedVariables, a, b, true) })
                     } else if (node.partOfAskQuery && projectedVariables.size == 0 && childA is LOPTriple) {
                         res = POPJoinWithStoreExists(query, projectedVariables, childB, childA, false)
                     } else if (node.partOfAskQuery && projectedVariables.size == 0 && childB is LOPTriple) {
                         res = POPJoinWithStoreExists(query, projectedVariables, childA, childB, false)
                     } else if (node.partOfAskQuery && childA is LOPTriple && columns[1].size > 0 && childB.getProvidedVariableNames().containsAll(node.mySortPriority.map { it.variableName })) {
-                        res = POPJoinWithStore(query, projectedVariables, childB, childA, false)
+                        res = POPJoinWithStore(query, projectedVariables, childB, childA,false)
                     } else if (node.partOfAskQuery && childB is LOPTriple && columns[2].size > 0 && childA.getProvidedVariableNames().containsAll(node.mySortPriority.map { it.variableName })) {
-                        res = POPJoinWithStore(query, projectedVariables, childA, childB, false)
+                        res = POPJoinWithStore(query, projectedVariables, childA, childB,false)
                     } else if (childA is TripleStoreIteratorGlobal || childA is LOPTriple && childB.getProvidedVariableNames().containsAll(node.mySortPriority.map { it.variableName })) {
-                        res = POPJoinHashMap(query, projectedVariables, childB, childA, false)
+                        res = embedWithinPartitionContext(columns[0],parent, childB, childA, { a, b -> POPJoinHashMap(query, projectedVariables, a, b, false) })
                     } else {
-                        res = POPJoinHashMap(query, projectedVariables, childA, childB, false)
+                        res = embedWithinPartitionContext(columns[0],parent, childA, childB, { a, b -> POPJoinHashMap(query, projectedVariables, a, b, false) })
                     }
                 }
             }

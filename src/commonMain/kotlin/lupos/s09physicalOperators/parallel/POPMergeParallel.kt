@@ -31,8 +31,8 @@ class POPMergeParallel(query: Query, projectedVariables: List<String>, val parti
     }
 
     override fun cloneOP() = POPMergeParallel(query, projectedVariables, partitionVariable, children[0].cloneOP())
-    override fun toSparql() = "{" + children[0].toSparql() + "} MergeParallel {" + children[1].toSparql() + "}"
-    override fun equals(other: Any?): Boolean = other is POPMergeParallel && children[0] == other.children[0] && children[1] == other.children[1]
+    override fun toSparql() = children[0].toSparql()                                                     
+    override fun equals(other: Any?): Boolean = other is POPSplitParallel && children[0] == other.children[0] && partitionVariable==other.partitionVariable
     override suspend fun evaluate(parent: Partition): IteratorBundle {
         if (ParallelBase.k == 1) {
             //single partition - just pass through
