@@ -41,12 +41,12 @@ class PhysicalOptimizerJoinType(query: Query) : OptimizerBase(query, EOptimizerI
         var a = childA
         var b = childB
         for (s in joinColumns) {
-            a = POPSplitParallel(query, localGetProjected(a,parent), s, a)
-            b = POPSplitParallel(query, localGetProjected(b,parent), s, b)
+            a = POPSplitParallel(query, a.getProvidedVariableNames(), s, a)
+            b = POPSplitParallel(query, b.getProvidedVariableNames(), s, b)
         }
         var c = create(a, b)
         for (s in joinColumns) {
-            c = POPMergeParallel(query, localGetProjected(c,parent), s, c)
+            c = POPMergeParallel(query, c.getProvidedVariableNames(), s, c)
         }
         return c
     }
