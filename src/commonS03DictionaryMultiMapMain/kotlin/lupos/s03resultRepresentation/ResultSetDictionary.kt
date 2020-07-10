@@ -508,25 +508,25 @@ class ResultSetDictionary(val global: Boolean = false) {
                 base = 0
             }
             for (i in 0 until iriMap.size) {
-                println("debug dict - iri :: ${i + base + flaggedValueLocalIri} -> ${iriMap[i]}")
+                SanityCheck.println({"debug dict - iri :: ${i + base + flaggedValueLocalIri} -> ${iriMap[i]}"})
             }
             for (i in 0 until typedMap.size) {
-                println("debug dict - typed :: ${i + base + flaggedValueLocalTyped} -> ${typedMap[i]}")
+               SanityCheck.println({"debug dict - typed :: ${i + base + flaggedValueLocalTyped} -> ${typedMap[i]}"})
             }
             for (i in 0 until intMap.size) {
-                println("debug dict - int :: ${i + base + flaggedValueLocalInt} -> ${intMap[i]}")
+               SanityCheck.println({"debug dict - int :: ${i + base + flaggedValueLocalInt} -> ${intMap[i]}"})
             }
             for (i in 0 until decimalMap.size) {
-                println("debug dict - decimal :: ${i + base + flaggedValueLocalDecimal} -> ${decimalMap[i]}")
+               SanityCheck.println({"debug dict - decimal :: ${i + base + flaggedValueLocalDecimal} -> ${decimalMap[i]}"})
             }
             for (i in 0 until doubleList.size) {
-                println("debug dict - double :: ${i + base + flaggedValueLocalDouble} -> ${doubleList[i]}")
+               SanityCheck.println({"debug dict - double :: ${i + base + flaggedValueLocalDouble} -> ${doubleList[i]}"})
             }
             for (i in 0 until floatList.size) {
-                println("debug dict - float :: ${i + base + flaggedValueLocalFloat} -> ${floatList[i]}")
+               SanityCheck.println({"debug dict - float :: ${i + base + flaggedValueLocalFloat} -> ${floatList[i]}"})
             }
             for (i in 0 until langTaggedMap.size) {
-                println("debug dict - langTagged :: ${i + base + flaggedValueLocalLangTagged} -> ${langTaggedMap[i]}")
+               SanityCheck.println({"debug dict - langTagged :: ${i + base + flaggedValueLocalLangTagged} -> ${langTaggedMap[i]}"})
             }
         }
     }

@@ -32,7 +32,7 @@ class POPDebug(query: Query, projectedVariables: List<String>, child: OPBase) : 
     override suspend fun evaluate(parent: Partition): IteratorBundle {
         val child = children[0].evaluate(parent)
         val target = children[0].getProvidedVariableNames()
-println("POPDebug-child-mode ... ${uuid} ${children[0].uuid} ${child.mode}")
+SanityCheck.println({"POPDebug-child-mode ... ${uuid} ${children[0].uuid} ${child.mode}"})
         if (child.hasColumnMode()) {
             val columnMode = mutableListOf<String>()
             for ((k, v) in child.columns) {
