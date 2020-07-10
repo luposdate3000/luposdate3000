@@ -28,10 +28,10 @@ class POPLimit(query: Query, projectedVariables: List<String>, @JvmField val lim
     override fun cloneOP() = POPLimit(query, projectedVariables, limit, children[0].cloneOP())
     override suspend fun evaluate(parent: Partition): IteratorBundle {
         val variables = getProvidedVariableNames()
-        var count = 0
         val outMap = mutableMapOf<String, ColumnIterator>()
         val child = children[0].evaluate(parent)
         for (variable in variables) {
+            var count = 0
             val iterator = child.columns[variable]!!
             val tmp = ColumnIterator()
             tmp.next = {

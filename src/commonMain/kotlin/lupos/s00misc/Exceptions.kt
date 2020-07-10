@@ -37,6 +37,7 @@ class XMLNotParseableException() : SyntaxException("XMLNotParseableException", "
 
 //evaluation exceptions --->>>
 abstract class EvaluationException(classname: String, msg: String) : Luposdate3000Exception(classname, msg)
+class DatasetImportFailedException(file:String): EvaluationException("DatasetImportFailedException","importing the dataset '$file' failed")
 class IncompatibleTypesDuringCompareException() : EvaluationException("IncompatibleTypesDuringCompareException", "The provided types are incompatible.")
 class CanNotCastBNodeToDoubleException() : EvaluationException("CanNotCastBNodeToDoubleException", "Can not cast BNode to Double.")
 class CanNotCastBNodeToDecimalException() : EvaluationException("CanNotCastBNodeToDecimalException", "Can not cast BNode to Decimal.")

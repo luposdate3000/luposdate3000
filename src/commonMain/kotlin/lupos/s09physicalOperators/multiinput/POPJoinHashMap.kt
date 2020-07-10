@@ -258,10 +258,7 @@ class POPJoinHashMap(query: Query, projectedVariables: List<String>, childA: OPB
                         for (columnIndex in 0 until columnsINAO.size) {
                             for (i in 0 until countA) {
                                 var tmp = columnsINAO[columnIndex].next()
-                                if (tmp == null) {
-                                    iterator.close()
-                                    throw BugException(classname, "child has different number of rows for different columns $uuid childA")
-                                }
+SanityCheck.check{tmp!=null}
                                 dataOA[columnIndex].add(tmp!!)
                             }
                         }
