@@ -84,8 +84,8 @@ class ColumnIteratorDebugCount(val uuid: Long, name: String, val child: ColumnIt
 }
 
 object ColumnIteratorDebugFast {
-    fun debug() {
+inline    fun debug() {
     }
 
-    operator fun invoke(uuid: Long, name: String, child: ColumnIterator) = child
+  inline  operator fun invoke(uuid: Long, name: String, child: ColumnIterator) = child
 }

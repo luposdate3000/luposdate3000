@@ -17,6 +17,7 @@ import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.Variable
+import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.s04logicalOperators.iterator.ColumnIteratorDebug
 import lupos.s04logicalOperators.iterator.ColumnIteratorMultiIterator
@@ -95,6 +96,8 @@ class POPSplitParallel(query: Query, projectedVariables: List<String>, val parti
                             }
                         }
                         SanityCheck.check { hashVariableIndex != -1 }
+val cacheArr=IntArray(ParallelBase.k){it}
+var cacheSize=1
                         loop@ while (isActive) {
                             println("split $uuid writer loop start")
                             var tmp = child.next()
@@ -102,12 +105,22 @@ class POPSplitParallel(query: Query, projectedVariables: List<String>, val parti
                                 println("split $uuid writer closed A")
                                 break@loop
                             } else {
-                                var p = child.buf[tmp + hashVariableIndex]
-                                if (p < 0) {
-                                    p = -p
+                                var q = child.buf[tmp + hashVariableIndex]
+if(q==ResultSetDictionary.undefValue){
+//broadcast undef to every partition
+println(" attention may increase result count here - this is always ok, _if there is a join afterwards immediately - otherwise probably not")
+cacheSize=ParallelBase.k
+cacheArr[0]=0
+}else{
+cacheSize=1
+                                if (q < 0) {
+                                    q = -q
                                 }
-//TODO deal with undef
-                                p = p % ParallelBase.k
+                                q = q % ParallelBase.k
+cacheArr[0]=q
+}
+for (i in 0 until cacheSize){
+val p=cacheArr[i]
                                 println("selected $p for $partitionVariable = $hashVariableIndex value ${child.buf[tmp + hashVariableIndex]}")
                                 var t = (ringbufferWriteHead[p] + variables.size) % elementsPerRing
                                 while (ringbufferReadHead[p] == t) {
@@ -130,6 +143,7 @@ class POPSplitParallel(query: Query, projectedVariables: List<String>, val parti
                                 ringbufferWriteHead[p] = (ringbufferWriteHead[p] + variables.size) % elementsPerRing
                                 println("split $uuid $p writer append data - increased pointer")
                             }
+}
                             println("split $uuid writer loop end of iteration")
                         }
                          child.close()

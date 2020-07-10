@@ -17,6 +17,7 @@ import lupos.s09physicalOperators.multiinput.POPJoinMergeSingleColumn
 import lupos.s09physicalOperators.multiinput.POPJoinWithStore
 import lupos.s09physicalOperators.multiinput.POPJoinWithStoreExists
 import lupos.s09physicalOperators.parallel.POPMergeParallel
+import lupos.s09physicalOperators.parallel.POPMergeParallelCount
 import lupos.s09physicalOperators.parallel.POPSplitParallel
 import lupos.s09physicalOperators.POPBase
 import lupos.s09physicalOperators.singleinput.POPProjection
@@ -45,9 +46,15 @@ if(USE_PARTITIONS){
             b = POPSplitParallel(query, b.getProvidedVariableNames(), s, b)
         }
         var c = create(a, b)
+if(c.getProvidedVariableNames().size==0){
+        for (s in joinColumns) {
+            c = POPMergeParallelCount(query, c.getProvidedVariableNames(), s, c)
+        }
+}else{
         for (s in joinColumns) {
             c = POPMergeParallel(query, c.getProvidedVariableNames(), s, c)
         }
+}
         return c
 }else{
 return create(childA, childB)

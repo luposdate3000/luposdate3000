@@ -110,6 +110,7 @@ import lupos.s09physicalOperators.multiinput.POPUnion
 import lupos.s09physicalOperators.noinput.POPEmptyRow
 import lupos.s09physicalOperators.noinput.POPValues
 import lupos.s09physicalOperators.parallel.POPMergeParallel
+import lupos.s09physicalOperators.parallel.POPMergeParallelCount
 import lupos.s09physicalOperators.parallel.POPSplitParallel
 import lupos.s09physicalOperators.POPBase
 import lupos.s09physicalOperators.singleinput.modifiers.POPLimit
@@ -457,6 +458,9 @@ fun XMLElement.Companion.convertToOPBase(query: Query, node: XMLElement, mapping
         }
         "POPMergeParallel" -> {
             res = POPMergeParallel(query, createProjectedVariables(query, node, mapping), node.attributes["partitionVariable"]!!, convertToOPBase(query, node["children"]!!.childs[0], mapping))
+        }
+        "POPMergeParallelCount" -> {
+            res = POPMergeParallelCount(query, listOf<String>(), node.attributes["partitionVariable"]!!, convertToOPBase(query, node["children"]!!.childs[0], mapping))
         }
         "POPSplitParallel" -> {
             res = POPSplitParallel(query, createProjectedVariables(query, node, mapping), node.attributes["partitionVariable"]!!, convertToOPBase(query, node["children"]!!.childs[0], mapping))
