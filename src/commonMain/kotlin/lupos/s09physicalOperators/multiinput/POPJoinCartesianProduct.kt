@@ -63,7 +63,12 @@ class POPJoinCartesianProduct(query: Query, projectedVariables: List<String>, ch
         var count: Int
         if (columnsINAO.size == 0 && columnsINBO.size == 0) {
             SanityCheck.println({ "POPJoinCartesianProductXXX$uuid mode A" })
+try{
             res = IteratorBundle(childA.count * childB.count)
+}catch(e:Throwable){
+println("exception from $uuid ${childA.mode} ${childB.mode} ${children[0].uuid} ${children[1].uuid}")
+throw e
+}
         } else if (columnsINAO.size == 0) {
             SanityCheck.println({ "POPJoinCartesianProductXXX$uuid mode B" })
             SanityCheck.println({ "POPJoinCartesianProductXXX$uuid closecount A $classname" })
