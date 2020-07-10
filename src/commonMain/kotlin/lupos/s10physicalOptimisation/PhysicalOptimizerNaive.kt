@@ -165,11 +165,14 @@ class PhysicalOptimizerNaive(query: Query) : OptimizerBase(query, EOptimizerID.P
                     change = false
                 }
                 else -> {
+                    change = false
+SanityCheck{
+//this code is intended to be debuggin only - even if it changes the resulting operator-graph
                     if (node is POPBase && (parent == null || (parent !is POPDebug && parent !is OPBaseCompound))) {
                         res = POPDebug(query, node.projectedVariables, node)
-                    } else {
-                        change = false
+                        change = true
                     }
+}
                 }
             }
         } finally {
