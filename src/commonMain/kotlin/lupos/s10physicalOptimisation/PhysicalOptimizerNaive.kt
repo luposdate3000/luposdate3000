@@ -42,7 +42,6 @@ import lupos.s09physicalOperators.singleinput.modifiers.POPLimit
 import lupos.s09physicalOperators.singleinput.modifiers.POPOffset
 import lupos.s09physicalOperators.singleinput.modifiers.POPReduced
 import lupos.s09physicalOperators.singleinput.POPBind
-import lupos.s09physicalOperators.singleinput.POPDebug
 import lupos.s09physicalOperators.singleinput.POPFilter
 import lupos.s09physicalOperators.singleinput.POPGroup
 import lupos.s09physicalOperators.singleinput.POPMakeBooleanResult
@@ -161,18 +160,8 @@ class PhysicalOptimizerNaive(query: Query) : OptimizerBase(query, EOptimizerID.P
                 is OPEmptyRow -> {
                     res = POPEmptyRow(query, projectedVariables)
                 }
-                is POPDebug -> {
-                    change = false
-                }
                 else -> {
                     change = false
-SanityCheck{
-//this code is intended to be debuggin only - even if it changes the resulting operator-graph
-                    if (node is POPBase && (parent == null || (parent !is POPDebug && parent !is OPBaseCompound))) {
-                        res = POPDebug(query, node.projectedVariables, node)
-                        change = true
-                    }
-}
                 }
             }
         } finally {
