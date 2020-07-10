@@ -6,6 +6,7 @@ import lupos.s00misc.EModifyType
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.ESortPriority
 import lupos.s00misc.Partition
+import lupos.s00misc.GraphVariablesNotImplementedException
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.MyListValue
@@ -41,6 +42,9 @@ class POPModifyData(query: Query, projectedVariables: List<String>, @JvmField va
         }
         res += " DATA {"
         for (c in data) {
+if(c.graphVar){
+throw GraphVariablesNotImplementedException(classname)
+}
             SanityCheck.check({ !c.graphVar })
             if (c.graph == PersistentStoreLocal.defaultGraphName) {
                 res += c.children[0].toSparql() + " " + c.children[1].toSparql() + " " + c.children[2].toSparql() + "."

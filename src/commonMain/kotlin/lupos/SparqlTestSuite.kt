@@ -6,6 +6,7 @@ import kotlin.time.TimeSource.Monotonic
 import kotlinx.coroutines.runBlocking
 import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.Coverage
+import lupos.s00misc.UnknownManifestException
 import lupos.s00misc.EIndexPattern
 import lupos.s00misc.ELoggerType
 import lupos.s00misc.EModifyType
@@ -239,7 +240,7 @@ class SparqlTestSuite() {
                                                     graph["name"] = (Dictionary[it.second] as SimpleLiteral).content
                                                 }
                                                 else -> {
-                                                    throw Exception("unknown manifest resultGraphDataBlankNode : " + (Dictionary[it.first] as IRI).iri + " # " + Dictionary[it.second])
+							throw UnknownManifestException("SparqlTestSuite",(Dictionary[it.first] as IRI).iri + " # " + Dictionary[it.second])
                                                 }
                                             }
                                         }
@@ -249,13 +250,13 @@ class SparqlTestSuite() {
                                         GlobalLogger.log(ELoggerType.DEBUG, { "unknown-manifest::http://www.w3.org/2009/sparql/tests/test-update#result : " + (Dictionary[it.second] as IRI).iri })
                                     }
                                     else -> {
-                                        throw Exception("unknown manifest resultBlankNode : " + (Dictionary[it.first] as IRI).iri + " # " + Dictionary[it.second])
+throw UnknownManifestException("SparqlTestSuite",(Dictionary[it.first] as IRI).iri + " # " + Dictionary[it.second])
                                     }
                                 }
                             }
                         }
                         else -> {
-                            throw Exception("unknown manifest result : " + (Dictionary[it.first] as IRI).iri + " # " + Dictionary[it.second])
+throw UnknownManifestException("SparqlTestSuite",(Dictionary[it.first] as IRI).iri + " # " + Dictionary[it.second])
                         }
                     }
                 }
@@ -300,7 +301,7 @@ class SparqlTestSuite() {
                                                     service["filename"] = prefix + (Dictionary[it.second] as IRI).iri
                                                 }
                                                 else -> {
-                                                    throw Exception("unknown manifest serviceData : " + (Dictionary[it.first] as IRI).iri + " # " + Dictionary[it.second])
+throw UnknownManifestException("SparqlTestSuite",(Dictionary[it.first] as IRI).iri + " # " + Dictionary[it.second])
                                                 }
                                             }
                                         }
@@ -328,20 +329,20 @@ class SparqlTestSuite() {
                                                     graph["name"] = (Dictionary[it.second] as SimpleLiteral).content
                                                 }
                                                 else -> {
-                                                    throw Exception("unknown manifest graphData : " + (Dictionary[it.first] as IRI).iri + " # " + Dictionary[it.second])
+throw UnknownManifestException("SparqlTestSuite",(Dictionary[it.first] as IRI).iri + " # " + Dictionary[it.second])
                                                 }
                                             }
                                         }
                                         inputDataGraph.add(graph)
                                     }
                                     else -> {
-                                        throw Exception("unknown manifest action : " + (Dictionary[it.first] as IRI).iri + " # " + Dictionary[it.second])
+throw UnknownManifestException("SparqlTestSuite",(Dictionary[it.first] as IRI).iri + " # " + Dictionary[it.second])
                                     }
                                 }
                             }
                         }
                         else -> {
-                            throw Exception("unknown manifest actionType : " + Dictionary[it.first])
+throw UnknownManifestException("SparqlTestSuite",(Dictionary[it.first] as IRI).iri + " # " + Dictionary[it.second])
                         }
                     }
                 }
@@ -370,7 +371,7 @@ class SparqlTestSuite() {
                             expectedResult = false
                         }
                         else -> {
-                            throw Exception("unknown manifest type : " + (Dictionary[it.second] as IRI).iri + " # " + (Dictionary[it.second] as IRI).iri)
+throw UnknownManifestException("SparqlTestSuite",(Dictionary[it.first] as IRI).iri + " # " + (Dictionary[it.second] as IRI).iri)
                         }
                     }
                 }
@@ -401,7 +402,7 @@ class SparqlTestSuite() {
                     description = (Dictionary[it.second] as SimpleLiteral).content
                 }
                 else -> {
-                    throw Exception("unknown manifest entry : " + (Dictionary[it.first] as IRI).iri + " # " + Dictionary[it.second])
+throw UnknownManifestException("SparqlTestSuite",(Dictionary[it.first] as IRI).iri + " # " + Dictionary[it.second])
                 }
             }
         }

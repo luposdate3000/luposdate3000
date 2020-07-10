@@ -33,6 +33,17 @@ class POPSplitParallel(query: Query, projectedVariables: List<String>, val parti
         return res
     }
 
+    override fun getRequiredVariableNames(): List<String> = listOf<String>()
+    override fun getProvidedVariableNames(): List<String> = children[0].getProvidedVariableNames()
+    override fun getProvidedVariableNamesInternal(): List<String> {
+        val tmp = children[0]
+        if (tmp is POPBase) {
+            return tmp.getProvidedVariableNamesInternal()
+        } else {
+            return tmp.getProvidedVariableNames()
+        }
+    }
+
     override fun cloneOP() = POPSplitParallel(query, projectedVariables, partitionVariable, children[0].cloneOP())
     override fun toSparql() = children[0].toSparql()
     override fun equals(other: Any?): Boolean = other is POPSplitParallel && children[0] == other.children[0] && partitionVariable == other.partitionVariable
@@ -89,13 +100,13 @@ class POPSplitParallel(query: Query, projectedVariables: List<String>, val parti
                             var tmp = child.next()
                             if (tmp == -1) {
                                 println("split $uuid writer closed A")
-                                writerFinished = 1
                                 break@loop
                             } else {
                                 var p = child.buf[tmp + hashVariableIndex]
                                 if (p < 0) {
                                     p = -p
                                 }
+//TODO deal with undef
                                 p = p % ParallelBase.k
                                 println("selected $p for $partitionVariable = $hashVariableIndex value ${child.buf[tmp + hashVariableIndex]}")
                                 var t = (ringbufferWriteHead[p] + variables.size) % elementsPerRing
@@ -121,6 +132,8 @@ class POPSplitParallel(query: Query, projectedVariables: List<String>, val parti
                             }
                             println("split $uuid writer loop end of iteration")
                         }
+                         child.close()
+       writerFinished = 1
                         println("split $uuid writer exited loop")
                     }
                     for (p in 0 until ParallelBase.k) {

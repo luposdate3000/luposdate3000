@@ -32,7 +32,16 @@ class POPMergeParallel(query: Query, projectedVariables: List<String>, val parti
         res.addAttribute("partitionVariable", partitionVariable)
         return res
     }
-
+override fun getRequiredVariableNames(): List<String> = listOf<String>()
+    override fun getProvidedVariableNames(): List<String> = children[0].getProvidedVariableNames()
+    override fun getProvidedVariableNamesInternal(): List<String> {
+val tmp=children[0]
+if(tmp is POPBase){
+return  tmp.getProvidedVariableNamesInternal()
+}else{
+return tmp.getProvidedVariableNames()
+}
+}
     override fun cloneOP() = POPMergeParallel(query, projectedVariables, partitionVariable, children[0].cloneOP())
     override fun toSparql() = children[0].toSparql()
     override fun equals(other: Any?): Boolean = other is POPMergeParallel && children[0] == other.children[0] && partitionVariable == other.partitionVariable
