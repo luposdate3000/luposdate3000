@@ -55,7 +55,7 @@ class PhysicalOptimizerPartition(query: Query) : OptimizerBase(query, EOptimizer
     override val classname = "PhysicalOptimizerPartition"
     override fun optimize(node: OPBase, parent: OPBase?, onChange: () -> Unit): OPBase {
         var res = node
-        var change = true
+/*        var change = true
         try {
             when (node) {
                 is POPDebug -> {
@@ -73,6 +73,7 @@ class PhysicalOptimizerPartition(query: Query) : OptimizerBase(query, EOptimizer
                 onChange()
             }
         }
+*/
         return res
     }
 }
