@@ -51,35 +51,18 @@ import lupos.s09physicalOperators.singleinput.POPProjection
 import lupos.s09physicalOperators.singleinput.POPSort
 import lupos.s15tripleStoreDistributed.DistributedTripleStore
 
-class PhysicalOptimizerDebug(query: Query) : OptimizerBase(query, EOptimizerID.PhysicalOptimizerDebugID) {
-    override val classname = "PhysicalOptimizerDebug"
+class PhysicalOptimizerPartition(query: Query) : OptimizerBase(query, EOptimizerID.PhysicalOptimizerPartitionID) {
+    override val classname = "PhysicalOptimizerPartition"
     override fun optimize(node: OPBase, parent: OPBase?, onChange: () -> Unit): OPBase {
         var res = node
         var change = true
         try {
-            val projectedVariables: List<String>
-            if (parent is LOPProjection) {
-                projectedVariables = parent.getProvidedVariableNames()
-            } else if (parent is POPProjection) {
-                projectedVariables = parent.getProvidedVariableNamesInternal()
-            } else if (node is POPBase) {
-                projectedVariables = node.getProvidedVariableNamesInternal()
-            } else {
-                projectedVariables = node.getProvidedVariableNames()
-            }
             when (node) {
                 is POPDebug -> {
                     change = false
                 }
                 else -> {
                     change = false
-                    SanityCheck {
-//this code is intended to be debuggin only - even if it changes the resulting operator-graph
-                        if (node is POPBase && (parent == null || (parent !is POPDebug && parent !is OPBaseCompound))) {
-                            res = POPDebug(query, node.projectedVariables, node)
-                            change = true
-                        }
-                    }
                 }
             }
         } finally {

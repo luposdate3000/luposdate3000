@@ -6,7 +6,8 @@ object OperatorGraphToLatex {
     class StackElement(@JvmField val name: String) {
         @JvmField
         var projectionHelper = ""
- @JvmField
+
+        @JvmField
         var partitionHelper = ""
 
         @JvmField
@@ -17,9 +18,9 @@ object OperatorGraphToLatex {
             res.append(name)
             if (name == "Projection") {
                 res.append("(\\textit{${projectionHelper}})")
-            }else if(name.startsWith("SplitParallel")||name.startsWith("MergeParallel")){
-		res.append("(\\textit{${partitionHelper}})")
-	}
+            } else if (name.startsWith("SplitPartition") || name.startsWith("MergePartition")) {
+                res.append("(\\textit{${partitionHelper}})")
+            }
             if (children.size > 0) {
                 if (children.size > 1) {
                     res.append("[")
@@ -87,15 +88,15 @@ object OperatorGraphToLatex {
                         }
                     }
                 }
-element.startsWith("POPSplitParallel") || element.startsWith("POPMergeParallel")->{
-println("xxxxxx - $element")
-stack.add(0, StackElement(element.substring(3, element.indexOf(" "))))
-val t="partitionVariable"
-val i=element.indexOf(t)+t.length+2
-val j =element.indexOf("\"",i)
-stack[0].partitionHelper=element.substring(i,j)
-println("extracted :: ${stack[0].partitionHelper}")
-}
+                element.startsWith("POPSplitPartition") || element.startsWith("POPMergePartition") -> {
+                    println("xxxxxx - $element")
+                    stack.add(0, StackElement(element.substring(3, element.indexOf(" "))))
+                    val t = "partitionVariable"
+                    val i = element.indexOf(t) + t.length + 2
+                    val j = element.indexOf("\"", i)
+                    stack[0].partitionHelper = element.substring(i, j)
+                    println("extracted :: ${stack[0].partitionHelper}")
+                }
                 element.startsWith("LOP") || element.startsWith("AOP") || element.startsWith("POP") -> {
                     stack.add(0, StackElement(element.substring(3, element.indexOf(" "))))
                 }

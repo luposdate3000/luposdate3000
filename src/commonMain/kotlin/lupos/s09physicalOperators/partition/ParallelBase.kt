@@ -1,4 +1,4 @@
-package lupos.s09physicalOperators.parallel
+package lupos.s09physicalOperators.partition
 
 object ParallelBase {
     val k = 12

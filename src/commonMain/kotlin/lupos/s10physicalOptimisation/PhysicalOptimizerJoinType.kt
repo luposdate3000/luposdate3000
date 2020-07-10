@@ -16,9 +16,9 @@ import lupos.s09physicalOperators.multiinput.POPJoinMergeOptional
 import lupos.s09physicalOperators.multiinput.POPJoinMergeSingleColumn
 import lupos.s09physicalOperators.multiinput.POPJoinWithStore
 import lupos.s09physicalOperators.multiinput.POPJoinWithStoreExists
-import lupos.s09physicalOperators.parallel.POPMergeParallel
-import lupos.s09physicalOperators.parallel.POPMergeParallelCount
-import lupos.s09physicalOperators.parallel.POPSplitParallel
+import lupos.s09physicalOperators.partition.POPMergePartition
+import lupos.s09physicalOperators.partition.POPMergePartitionCount
+import lupos.s09physicalOperators.partition.POPSplitPartition
 import lupos.s09physicalOperators.POPBase
 import lupos.s09physicalOperators.singleinput.POPProjection
 import lupos.s15tripleStoreDistributed.TripleStoreIteratorGlobal
@@ -42,17 +42,17 @@ class PhysicalOptimizerJoinType(query: Query) : OptimizerBase(query, EOptimizerI
             var a = childA
             var b = childB
             for (s in joinColumns) {
-                a = POPSplitParallel(query, a.getProvidedVariableNames(), s, a)
-                b = POPSplitParallel(query, b.getProvidedVariableNames(), s, b)
+                a = POPSplitPartition(query, a.getProvidedVariableNames(), s, a)
+                b = POPSplitPartition(query, b.getProvidedVariableNames(), s, b)
             }
             var c = create(a, b)
             if (c.getProvidedVariableNames().size == 0) {
                 for (s in joinColumns) {
-                    c = POPMergeParallelCount(query, c.getProvidedVariableNames(), s, c)
+                    c = POPMergePartitionCount(query, c.getProvidedVariableNames(), s, c)
                 }
             } else {
                 for (s in joinColumns) {
-                    c = POPMergeParallel(query, c.getProvidedVariableNames(), s, c)
+                    c = POPMergePartition(query, c.getProvidedVariableNames(), s, c)
                 }
             }
             return c
