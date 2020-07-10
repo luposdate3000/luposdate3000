@@ -43,8 +43,10 @@ abstract class POPBase(query: Query,
                 tmp.removeAll(additionalProvided)
                 tmp.removeAll(getProvidedVariableNamesInternal())
                 if (tmp.size == 1) {
+println(this)
                     throw VariableNotDefinedSyntaxException(classname, tmp.first())
                 } else {
+println(this)
                     throw VariableNotDefinedSyntaxException(classname, tmp.toString())
                 }
             }

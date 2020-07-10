@@ -37,6 +37,7 @@ class PhysicalOptimizerJoinType(query: Query) : OptimizerBase(query, EOptimizerI
     }
 
     fun embedWithinPartitionContext(joinColumns: MutableList<String>, parent: OPBase?, childA: OPBase, childB: OPBase, create: (OPBase, OPBase) -> OPBase): OPBase {
+if(USE_PARTITIONS){
         var a = childA
         var b = childB
         for (s in joinColumns) {
@@ -48,6 +49,9 @@ class PhysicalOptimizerJoinType(query: Query) : OptimizerBase(query, EOptimizerI
             c = POPMergeParallel(query, c.getProvidedVariableNames(), s, c)
         }
         return c
+}else{
+return create(childA, childB)
+}
     }
 
     override fun optimize(node: OPBase, parent: OPBase?, onChange: () -> Unit): OPBase {

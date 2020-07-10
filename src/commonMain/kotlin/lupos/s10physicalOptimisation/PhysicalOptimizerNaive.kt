@@ -1,5 +1,5 @@
 package lupos.s10physicalOptimisation
-
+import lupos.s04logicalOperators.OPBaseCompound
 import lupos.s00misc.Coverage
 import lupos.s00misc.EIndexPattern
 import lupos.s00misc.EOptimizerID
@@ -41,6 +41,7 @@ import lupos.s09physicalOperators.singleinput.modifiers.POPLimit
 import lupos.s09physicalOperators.singleinput.modifiers.POPOffset
 import lupos.s09physicalOperators.singleinput.modifiers.POPReduced
 import lupos.s09physicalOperators.singleinput.POPBind
+import lupos.s09physicalOperators.singleinput.POPDebug
 import lupos.s09physicalOperators.singleinput.POPFilter
 import lupos.s09physicalOperators.singleinput.POPGroup
 import lupos.s09physicalOperators.singleinput.POPMakeBooleanResult
@@ -159,8 +160,15 @@ class PhysicalOptimizerNaive(query: Query) : OptimizerBase(query, EOptimizerID.P
                 is OPEmptyRow -> {
                     res = POPEmptyRow(query, projectedVariables)
                 }
+		is POPDebug->{
+			change = false
+		}
                 else -> {
+if(node is POPBase && (parent==null || (parent !is POPDebug && parent !is OPBaseCompound))){
+res=POPDebug(query,node.projectedVariables,node)
+			}else{
                     change = false
+}
                 }
             }
         } finally {

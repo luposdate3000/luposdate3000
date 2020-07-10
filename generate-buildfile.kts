@@ -390,6 +390,10 @@ val options = mapOf<ChooseableGroup, List<ChooseableOption>>(
         ),
         ChooseableGroup("MathContext Implementation", "BigDecimal") to listOf(
                 ChooseableOptionTypeAlias("jvmMathContext", "lupos.s00misc", listOf("MathContext" to "java.math.MathContext"))
+        ),
+        ChooseableGroup("Use Partitions for parallel Join", "UsePartitions") to listOf(
+                ChooseableOptionConstantValue("lupos.s10physicalOptimisation", "USE_PARTITIONS", "true"),
+                ChooseableOptionConstantValue("lupos.s10physicalOptimisation", "USE_PARTITIONS", "false")
         )
 )
 

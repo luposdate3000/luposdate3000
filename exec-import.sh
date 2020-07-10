@@ -26,6 +26,7 @@
  echo "MaxTriplesDuringTest->-1"
  echo "ConnectionPool->Off"
  echo "Inline->On"
+ echo "UsePartitions->true"
 } | ./generate-buildfile.kts
 ./tool-gradle-build.sh
 ret=$?

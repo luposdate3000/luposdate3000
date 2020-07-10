@@ -30,6 +30,7 @@ port="3030"
   echo "MaxTriplesDuringTest->2000"
   echo "ConnectionPool->Off"
   echo "Inline->Off"
+  echo "UsePartitions->false"
 } | ./generate-buildfile.kts
 ./tool-gradle-build.sh
 ret=$?
