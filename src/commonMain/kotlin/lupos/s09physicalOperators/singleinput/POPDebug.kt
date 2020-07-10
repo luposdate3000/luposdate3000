@@ -26,13 +26,12 @@ class POPDebug(query: Query, projectedVariables: List<String>, child: OPBase) : 
     override fun cloneOP() = POPDebug(query, projectedVariables, children[0].cloneOP())
     override fun getRequiredVariableNames(): List<String> = listOf<String>()
     override fun getProvidedVariableNames(): List<String> = children[0].getProvidedVariableNames()
-    override fun getProvidedVariableNamesInternal(): List<String> = (children[0]as POPBase).getProvidedVariableNamesInternal()
+    override fun getProvidedVariableNamesInternal(): List<String> = (children[0] as POPBase).getProvidedVariableNamesInternal()
     override fun toSparql(): String = children[0].toSparql()
-
     override suspend fun evaluate(parent: Partition): IteratorBundle {
         val child = children[0].evaluate(parent)
         val target = children[0].getProvidedVariableNames()
-SanityCheck.println({"POPDebug-child-mode ... ${uuid} ${children[0].uuid} ${child.mode}"})
+        SanityCheck.println({ "POPDebug-child-mode ... ${uuid} ${children[0].uuid} ${child.mode}" })
         if (child.hasColumnMode()) {
             val columnMode = mutableListOf<String>()
             for ((k, v) in child.columns) {
@@ -40,7 +39,7 @@ SanityCheck.println({"POPDebug-child-mode ... ${uuid} ${children[0].uuid} ${chil
             }
             SanityCheck { columnMode.containsAll(target) }
             SanityCheck { target.containsAll(columnMode) }
-        } else if (child.hasRowMode()){
+        } else if (child.hasRowMode()) {
             val rowMode = child.rows.columns.toMutableList()
             SanityCheck { rowMode.containsAll(target) }
             SanityCheck { target.containsAll(rowMode) }

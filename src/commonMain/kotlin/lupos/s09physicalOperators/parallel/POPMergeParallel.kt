@@ -32,16 +32,18 @@ class POPMergeParallel(query: Query, projectedVariables: List<String>, val parti
         res.addAttribute("partitionVariable", partitionVariable)
         return res
     }
-override fun getRequiredVariableNames(): List<String> = listOf<String>()
+
+    override fun getRequiredVariableNames(): List<String> = listOf<String>()
     override fun getProvidedVariableNames(): List<String> = children[0].getProvidedVariableNames()
     override fun getProvidedVariableNamesInternal(): List<String> {
-val tmp=children[0]
-if(tmp is POPBase){
-return  tmp.getProvidedVariableNamesInternal()
-}else{
-return tmp.getProvidedVariableNames()
-}
-}
+        val tmp = children[0]
+        if (tmp is POPBase) {
+            return tmp.getProvidedVariableNamesInternal()
+        } else {
+            return tmp.getProvidedVariableNames()
+        }
+    }
+
     override fun cloneOP() = POPMergeParallel(query, projectedVariables, partitionVariable, children[0].cloneOP())
     override fun toSparql() = children[0].toSparql()
     override fun equals(other: Any?): Boolean = other is POPMergeParallel && children[0] == other.children[0] && partitionVariable == other.partitionVariable
@@ -75,14 +77,14 @@ return tmp.getProvidedVariableNames()
                             }
                         }
                     }
-                    loop@ while (isActive&&readerFinished==0) {
-                       SanityCheck.println({"merge $uuid $p writer loop start"})
+                    loop@ while (isActive && readerFinished == 0) {
+                        SanityCheck.println({ "merge $uuid $p writer loop start" })
                         var t = (ringbufferWriteHead[p] + variables.size) % elementsPerRing
                         while (ringbufferReadHead[p] == t) {
-                           SanityCheck.println({"merge $uuid $p writer wait for reader to remove data"})
+                            SanityCheck.println({ "merge $uuid $p writer wait for reader to remove data" })
                             delay(1)
-                            if (!isActive||readerFinished==1) {
-                               SanityCheck.println({"merge $uuid $p writer closed A"})
+                            if (!isActive || readerFinished == 1) {
+                                SanityCheck.println({ "merge $uuid $p writer closed A" })
                                 child.close()
                                 writerFinished[p] = 1
                                 break@loop
@@ -90,18 +92,18 @@ return tmp.getProvidedVariableNames()
                         }
                         var tmp = child.next()
                         if (tmp == -1) {
-                           SanityCheck.println({"merge $uuid $p writer closed B"})
+                            SanityCheck.println({ "merge $uuid $p writer closed B" })
                             writerFinished[p] = 1
                             break@loop
                         } else {
-                           SanityCheck.println({"merge $uuid $p writer append data"})
+                            SanityCheck.println({ "merge $uuid $p writer append data" })
                             for (variable in 0 until variables.size) {
                                 ringbuffer[ringbufferWriteHead[p] + variableMapping[variable] + ringbufferStart[p]] = child.buf[tmp + variable]
                             }
                             ringbufferWriteHead[p] = (ringbufferWriteHead[p] + variables.size) % elementsPerRing
                         }
                     }
-                   SanityCheck.println({"merge $uuid $p writer exited loop"})
+                    SanityCheck.println({ "merge $uuid $p writer exited loop" })
                 }
                 jobs.add(job)
             }
@@ -111,12 +113,12 @@ return tmp.getProvidedVariableNames()
             iterator.next = {
                 var res = -1
                 loop@ while (true) {
-                   SanityCheck.println({"merge $uuid reader loop start"})
+                    SanityCheck.println({ "merge $uuid reader loop start" })
                     var finishedWriters = 0
                     for (p in 0 until ParallelBase.k) {
                         if (ringbufferReadHead[p] != ringbufferWriteHead[p]) {
                             //non empty queue -> read one row
-                           SanityCheck.println({"merge $uuid $p reader consumed data"})
+                            SanityCheck.println({ "merge $uuid $p reader consumed data" })
                             for (variable in 0 until variables.size) {
                                 iterator.buf[variable] = (ringbuffer[ringbufferReadHead[p] + variable + ringbufferStart[p]])
                             }
@@ -131,13 +133,13 @@ return tmp.getProvidedVariableNames()
                         //done
                         break@loop
                     }
-                   SanityCheck.println({"merge $uuid reader wait for writer"})
+                    SanityCheck.println({ "merge $uuid reader wait for writer" })
                     delay(1)
                 }
                 /*return*/res
             }
             iterator.close = {
-               SanityCheck.println({"merge $uuid reader closed"})
+                SanityCheck.println({ "merge $uuid reader closed" })
                 readerFinished = 1
                 runBlocking {
                     for (job in jobs) {

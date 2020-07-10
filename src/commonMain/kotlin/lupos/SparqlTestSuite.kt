@@ -6,7 +6,6 @@ import kotlin.time.TimeSource.Monotonic
 import kotlinx.coroutines.runBlocking
 import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.Coverage
-import lupos.s00misc.UnknownManifestException
 import lupos.s00misc.EIndexPattern
 import lupos.s00misc.ELoggerType
 import lupos.s00misc.EModifyType
@@ -22,6 +21,7 @@ import lupos.s00misc.OperatorGraphToLatex
 import lupos.s00misc.parseFromXml
 import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
+import lupos.s00misc.UnknownManifestException
 import lupos.s00misc.XMLElement
 import lupos.s02buildSyntaxTree.LexerCharIterator
 import lupos.s02buildSyntaxTree.LookAheadTokenIterator
@@ -101,7 +101,7 @@ class SparqlTestSuite() {
                         }
                         runBlocking {
                             ServerCommunicationSend.distributedLogMessage("  Test: " + queryFile + "-" + triplesCount)
-                            parseSPARQLAndEvaluate(false,queryFile, true, queryFile, inputFile, outputFile, null, mutableListOf<MutableMap<String, String>>(), mutableListOf<MutableMap<String, String>>())
+                            parseSPARQLAndEvaluate(false, queryFile, true, queryFile, inputFile, outputFile, null, mutableListOf<MutableMap<String, String>>(), mutableListOf<MutableMap<String, String>>())
                         }
                     }
                 }
@@ -240,7 +240,7 @@ class SparqlTestSuite() {
                                                     graph["name"] = (Dictionary[it.second] as SimpleLiteral).content
                                                 }
                                                 else -> {
-							throw UnknownManifestException("SparqlTestSuite",(Dictionary[it.first] as IRI).iri + " # " + Dictionary[it.second])
+                                                    throw UnknownManifestException("SparqlTestSuite", (Dictionary[it.first] as IRI).iri + " # " + Dictionary[it.second])
                                                 }
                                             }
                                         }
@@ -250,13 +250,13 @@ class SparqlTestSuite() {
                                         GlobalLogger.log(ELoggerType.DEBUG, { "unknown-manifest::http://www.w3.org/2009/sparql/tests/test-update#result : " + (Dictionary[it.second] as IRI).iri })
                                     }
                                     else -> {
-throw UnknownManifestException("SparqlTestSuite",(Dictionary[it.first] as IRI).iri + " # " + Dictionary[it.second])
+                                        throw UnknownManifestException("SparqlTestSuite", (Dictionary[it.first] as IRI).iri + " # " + Dictionary[it.second])
                                     }
                                 }
                             }
                         }
                         else -> {
-throw UnknownManifestException("SparqlTestSuite",(Dictionary[it.first] as IRI).iri + " # " + Dictionary[it.second])
+                            throw UnknownManifestException("SparqlTestSuite", (Dictionary[it.first] as IRI).iri + " # " + Dictionary[it.second])
                         }
                     }
                 }
@@ -301,7 +301,7 @@ throw UnknownManifestException("SparqlTestSuite",(Dictionary[it.first] as IRI).i
                                                     service["filename"] = prefix + (Dictionary[it.second] as IRI).iri
                                                 }
                                                 else -> {
-throw UnknownManifestException("SparqlTestSuite",(Dictionary[it.first] as IRI).iri + " # " + Dictionary[it.second])
+                                                    throw UnknownManifestException("SparqlTestSuite", (Dictionary[it.first] as IRI).iri + " # " + Dictionary[it.second])
                                                 }
                                             }
                                         }
@@ -329,20 +329,20 @@ throw UnknownManifestException("SparqlTestSuite",(Dictionary[it.first] as IRI).i
                                                     graph["name"] = (Dictionary[it.second] as SimpleLiteral).content
                                                 }
                                                 else -> {
-throw UnknownManifestException("SparqlTestSuite",(Dictionary[it.first] as IRI).iri + " # " + Dictionary[it.second])
+                                                    throw UnknownManifestException("SparqlTestSuite", (Dictionary[it.first] as IRI).iri + " # " + Dictionary[it.second])
                                                 }
                                             }
                                         }
                                         inputDataGraph.add(graph)
                                     }
                                     else -> {
-throw UnknownManifestException("SparqlTestSuite",(Dictionary[it.first] as IRI).iri + " # " + Dictionary[it.second])
+                                        throw UnknownManifestException("SparqlTestSuite", (Dictionary[it.first] as IRI).iri + " # " + Dictionary[it.second])
                                     }
                                 }
                             }
                         }
                         else -> {
-throw UnknownManifestException("SparqlTestSuite",(Dictionary[it.first] as IRI).iri + " # " + Dictionary[it.second])
+                            throw UnknownManifestException("SparqlTestSuite", (Dictionary[it.first] as IRI).iri + " # " + Dictionary[it.second])
                         }
                     }
                 }
@@ -371,7 +371,7 @@ throw UnknownManifestException("SparqlTestSuite",(Dictionary[it.first] as IRI).i
                             expectedResult = false
                         }
                         else -> {
-throw UnknownManifestException("SparqlTestSuite",(Dictionary[it.first] as IRI).iri + " # " + (Dictionary[it.second] as IRI).iri)
+                            throw UnknownManifestException("SparqlTestSuite", (Dictionary[it.first] as IRI).iri + " # " + (Dictionary[it.second] as IRI).iri)
                         }
                     }
                 }
@@ -402,7 +402,7 @@ throw UnknownManifestException("SparqlTestSuite",(Dictionary[it.first] as IRI).i
                     description = (Dictionary[it.second] as SimpleLiteral).content
                 }
                 else -> {
-throw UnknownManifestException("SparqlTestSuite",(Dictionary[it.first] as IRI).iri + " # " + Dictionary[it.second])
+                    throw UnknownManifestException("SparqlTestSuite", (Dictionary[it.first] as IRI).iri + " # " + Dictionary[it.second])
                 }
             }
         }
@@ -424,7 +424,7 @@ throw UnknownManifestException("SparqlTestSuite",(Dictionary[it.first] as IRI).i
         var success = false
         runBlocking {
             lastTripleCount = 0//dont apply during w3c-tests
-            success = parseSPARQLAndEvaluate(true,names.first(), expectedResult, queryFile!!, inputDataFile, resultFile, services, inputDataGraph, outputDataGraph)
+            success = parseSPARQLAndEvaluate(true, names.first(), expectedResult, queryFile!!, inputDataFile, resultFile, services, inputDataGraph, outputDataGraph)
         }
         return success == expectedResult
     }
@@ -436,7 +436,7 @@ throw UnknownManifestException("SparqlTestSuite",(Dictionary[it.first] as IRI).i
     var lastTripleCount = 0
 
     @UseExperimental(ExperimentalStdlibApi::class, kotlin.time.ExperimentalTime::class)
-    suspend fun parseSPARQLAndEvaluate(executeJena:Boolean,testName: String, expectedResult: Boolean, queryFile: String, inputDataFileName: String?, resultDataFileName: String?, services: List<Map<String, String>>?, inputDataGraph: MutableList<MutableMap<String, String>>, outputDataGraph: MutableList<MutableMap<String, String>>): Boolean {
+    suspend fun parseSPARQLAndEvaluate(executeJena: Boolean, testName: String, expectedResult: Boolean, queryFile: String, inputDataFileName: String?, resultDataFileName: String?, services: List<Map<String, String>>?, inputDataGraph: MutableList<MutableMap<String, String>>, outputDataGraph: MutableList<MutableMap<String, String>>): Boolean {
         if (filterList.size > 0 && !filterList.contains(testName)) {
             SanityCheck.println({ "'$testName' not in WhiteList of Unit-Tests" })
             return true
@@ -513,9 +513,9 @@ throw UnknownManifestException("SparqlTestSuite",(Dictionary[it.first] as IRI).i
                     }
                     GlobalLogger.log(ELoggerType.TEST_RESULT, { "test InputData Graph[] ::" + xmlQueryInput.toPrettyString() })
                     try {
-if(!ignoreJena){
-                        JenaWrapper.loadFromFile("/src/luposdate3000/" + inputDataFileName)
-}
+                        if (!ignoreJena) {
+                            JenaWrapper.loadFromFile("/src/luposdate3000/" + inputDataFileName)
+                        }
                     } catch (e: JenaBugException) {
                         SanityCheck.println({ e.message })
                         ignoreJena = true
@@ -538,9 +538,9 @@ if(!ignoreJena){
                     query.commit()
                     GlobalLogger.log(ELoggerType.TEST_RESULT, { "test Input Graph[${it["name"]!!}] :: " + xmlQueryInput.toPrettyString() })
                     try {
-if(!ignoreJena){
-                        JenaWrapper.loadFromFile("/src/luposdate3000/" + it["filename"]!!, it["name"]!!)
-}
+                        if (!ignoreJena) {
+                            JenaWrapper.loadFromFile("/src/luposdate3000/" + it["filename"]!!, it["name"]!!)
+                        }
                     } catch (e: JenaBugException) {
                         SanityCheck.println({ e.message })
                         ignoreJena = true

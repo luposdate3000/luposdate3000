@@ -84,18 +84,18 @@ class MyMapStringIntPatriciaTrieDouble() {
     fun debug() {
         SanityCheck {
             if (rootValue != undefinedValue) {
-               SanityCheck.println({"debug rootValue -> $rootValue"})
+                SanityCheck.println({ "debug rootValue -> $rootValue" })
             }
             val it = allNodes.iterator()
             while (it.hasNext()) {
                 val node = it.next()
-               SanityCheck.println({"debug ${node.str} ${node.data.map { it }} ${node.parent}"})
+                SanityCheck.println({ "debug ${node.str} ${node.data.map { it }} ${node.parent}" })
             }
-           SanityCheck.println({"debug --"})
+            SanityCheck.println({ "debug --" })
             var it2 = allOutNodes.iterator()
             var it3 = allOutOffsets.iterator()
             while (it2.hasNext()) {
-               SanityCheck.println({"debug ${it2.next()} ${it3.next()}"})
+                SanityCheck.println({ "debug ${it2.next()} ${it3.next()}" })
             }
         }
     }

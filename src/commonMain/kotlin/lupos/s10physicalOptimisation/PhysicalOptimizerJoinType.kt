@@ -38,27 +38,27 @@ class PhysicalOptimizerJoinType(query: Query) : OptimizerBase(query, EOptimizerI
     }
 
     fun embedWithinPartitionContext(joinColumns: MutableList<String>, parent: OPBase?, childA: OPBase, childB: OPBase, create: (OPBase, OPBase) -> OPBase): OPBase {
-if(USE_PARTITIONS){
-        var a = childA
-        var b = childB
-        for (s in joinColumns) {
-            a = POPSplitParallel(query, a.getProvidedVariableNames(), s, a)
-            b = POPSplitParallel(query, b.getProvidedVariableNames(), s, b)
+        if (USE_PARTITIONS) {
+            var a = childA
+            var b = childB
+            for (s in joinColumns) {
+                a = POPSplitParallel(query, a.getProvidedVariableNames(), s, a)
+                b = POPSplitParallel(query, b.getProvidedVariableNames(), s, b)
+            }
+            var c = create(a, b)
+            if (c.getProvidedVariableNames().size == 0) {
+                for (s in joinColumns) {
+                    c = POPMergeParallelCount(query, c.getProvidedVariableNames(), s, c)
+                }
+            } else {
+                for (s in joinColumns) {
+                    c = POPMergeParallel(query, c.getProvidedVariableNames(), s, c)
+                }
+            }
+            return c
+        } else {
+            return create(childA, childB)
         }
-        var c = create(a, b)
-if(c.getProvidedVariableNames().size==0){
-        for (s in joinColumns) {
-            c = POPMergeParallelCount(query, c.getProvidedVariableNames(), s, c)
-        }
-}else{
-        for (s in joinColumns) {
-            c = POPMergeParallel(query, c.getProvidedVariableNames(), s, c)
-        }
-}
-        return c
-}else{
-return create(childA, childB)
-}
     }
 
     override fun optimize(node: OPBase, parent: OPBase?, onChange: () -> Unit): OPBase {

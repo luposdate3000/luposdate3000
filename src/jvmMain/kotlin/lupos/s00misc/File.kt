@@ -119,7 +119,7 @@ class File(@JvmField val filename: String) {
             return true
         }
         if (file1.isDirectory() || file2.isDirectory()) {
-throw DirectoryCompareNotImplementedException()
+            throw DirectoryCompareNotImplementedException()
         }
         if (file1.length() != file2.length()) {
             return false

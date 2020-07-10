@@ -32,7 +32,7 @@ class POPOffset(query: Query, projectedVariables: List<String>, @JvmField val of
         val child = children[0].evaluate(parent)
         var columns = Array(variables.size) { child.columns[variables[it]] }
         var tmp: Value? = null
-loop@        for (i in 0 until offset) {
+        loop@ for (i in 0 until offset) {
             for (columnIndex in 0 until columns.size) {
                 tmp = columns[columnIndex]!!.next()
                 if (tmp == null) {

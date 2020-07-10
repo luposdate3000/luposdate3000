@@ -258,7 +258,7 @@ class POPJoinHashMap(query: Query, projectedVariables: List<String>, childA: OPB
                         for (columnIndex in 0 until columnsINAO.size) {
                             for (i in 0 until countA) {
                                 var tmp = columnsINAO[columnIndex].next()
-SanityCheck.check{tmp!=null}
+                                SanityCheck.check { tmp != null }
                                 dataOA[columnIndex].add(tmp!!)
                             }
                         }

@@ -4,12 +4,12 @@ import kotlin.jvm.JvmField
 import lupos.s00misc.AggregateNotAllowedSyntaxException
 import lupos.s00misc.classNameToString
 import lupos.s00misc.Coverage
+import lupos.s00misc.DatasetImportFailedException
 import lupos.s00misc.EGraphOperationType
 import lupos.s00misc.EGraphRefType
 import lupos.s00misc.EGroupMember
 import lupos.s00misc.EModifyType
 import lupos.s00misc.File
-import lupos.s00misc.DatasetImportFailedException
 import lupos.s00misc.GroupByClauseNotUsedException
 import lupos.s00misc.ProjectionDoubleDefinitionOfVariableSyntaxException
 import lupos.s00misc.RecoursiveVariableDefinitionSyntaxException
@@ -550,19 +550,19 @@ class OperatorGraphVisitor(@JvmField val query: Query) : Visitor<OPBase> {
         if (node.existsDatasets()) {
             val datasets = mutableMapOf<String, OPBase>()
             for (d in node.datasets) {
-try{
-                val data = POPValuesImportXML(query, listOf("s", "p", "o"), XMLElement.parseFromAny(File(query.workingDirectory + d.source_iri).readAsString(), d.source_iri)!!)
-                when (d) {
-                    is ASTDefaultGraph -> {
-                        datasets[PersistentStoreLocal.defaultGraphName] = data
+                try {
+                    val data = POPValuesImportXML(query, listOf("s", "p", "o"), XMLElement.parseFromAny(File(query.workingDirectory + d.source_iri).readAsString(), d.source_iri)!!)
+                    when (d) {
+                        is ASTDefaultGraph -> {
+                            datasets[PersistentStoreLocal.defaultGraphName] = data
+                        }
+                        is ASTNamedGraph -> {
+                            datasets["<" + d.source_iri + ">"] = data
+                        }
                     }
-                    is ASTNamedGraph -> {
-                        datasets["<" + d.source_iri + ">"] = data
-                    }
+                } catch (e: Throwable) {
+                    throw  DatasetImportFailedException(query.workingDirectory + d.source_iri)
                 }
-}catch(e:Throwable){
-throw  DatasetImportFailedException(query.workingDirectory + d.source_iri)
-}
             }
             return applyDatasets(result, datasets)
         }
@@ -833,7 +833,7 @@ return tmp
             if (x is LOPProjection) {
                 list.addAll(x.variables.map { it.name })
             } else {
-                   SanityCheck.println({"debug no force-selected column order ?!? ..."})
+                SanityCheck.println({ "debug no force-selected column order ?!? ..." })
             }
             columnProjectionOrder.add(list)
         }

@@ -16,8 +16,8 @@ import lupos.s00misc.ESortPriority
 import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.XMLElement
-import lupos.s03resultRepresentation.Variable
 import lupos.s03resultRepresentation.ResultSetDictionary
+import lupos.s03resultRepresentation.Variable
 import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.s04logicalOperators.iterator.ColumnIteratorDebug
 import lupos.s04logicalOperators.iterator.ColumnIteratorMultiIterator
@@ -79,7 +79,7 @@ class POPSplitParallel(query: Query, projectedVariables: List<String>, val parti
                     val ringbufferWriteHead = IntArray(ParallelBase.k) { 0 } //owned by write thread - no locking required
                     val readerFinished = IntArray(ParallelBase.k) { 0 } //writer changes to 1 if finished
                     var writerFinished = 0
-                   SanityCheck.println({"ringbuffersize = ${ringbuffer.size} ${elementsPerRing} ${ParallelBase.k} ${ringbufferStart.map { it }} ${ringbufferReadHead.map { it }} ${ringbufferWriteHead.map { it }}"})
+                    SanityCheck.println({ "ringbuffersize = ${ringbuffer.size} ${elementsPerRing} ${ParallelBase.k} ${ringbufferStart.map { it }} ${ringbufferReadHead.map { it }} ${ringbufferWriteHead.map { it }}" })
                     job = GlobalScope.launch(Dispatchers.Default) {
                         val child = children[0].evaluate(childPartition).rows
                         var hashVariableIndex = -1
@@ -96,59 +96,59 @@ class POPSplitParallel(query: Query, projectedVariables: List<String>, val parti
                             }
                         }
                         SanityCheck.check { hashVariableIndex != -1 }
-val cacheArr=IntArray(ParallelBase.k){it}
-var cacheSize=1
+                        val cacheArr = IntArray(ParallelBase.k) { it }
+                        var cacheSize = 1
                         loop@ while (isActive) {
-                           SanityCheck.println({"split $uuid writer loop start"})
+                            SanityCheck.println({ "split $uuid writer loop start" })
                             var tmp = child.next()
                             if (tmp == -1) {
-                               SanityCheck.println({"split $uuid writer closed A"})
+                                SanityCheck.println({ "split $uuid writer closed A" })
                                 break@loop
                             } else {
                                 var q = child.buf[tmp + hashVariableIndex]
-if(q==ResultSetDictionary.undefValue){
+                                if (q == ResultSetDictionary.undefValue) {
 //broadcast undef to every partition
-println(" attention may increase result count here - this is always ok, _if there is a join afterwards immediately - otherwise probably not")
-cacheSize=ParallelBase.k
-cacheArr[0]=0
-}else{
-cacheSize=1
-                                if (q < 0) {
-                                    q = -q
-                                }
-                                q = q % ParallelBase.k
-cacheArr[0]=q
-}
-for (i in 0 until cacheSize){
-val p=cacheArr[i]
-                               SanityCheck.println({"selected $p for $partitionVariable = $hashVariableIndex value ${child.buf[tmp + hashVariableIndex]}"})
-                                var t = (ringbufferWriteHead[p] + variables.size) % elementsPerRing
-                                while (ringbufferReadHead[p] == t) {
-                                   SanityCheck.println({"split $uuid $p writer wait for reader"})
-                                    delay(1)
-                                    if (!isActive) {
-                                       SanityCheck.println({"split $uuid $p writer closed B"})
-                                        child.close()
-                                        writerFinished = 1
-                                        break@loop
+                                    println(" attention may increase result count here - this is always ok, _if there is a join afterwards immediately - otherwise probably not")
+                                    cacheSize = ParallelBase.k
+                                    cacheArr[0] = 0
+                                } else {
+                                    cacheSize = 1
+                                    if (q < 0) {
+                                        q = -q
                                     }
+                                    q = q % ParallelBase.k
+                                    cacheArr[0] = q
                                 }
-                               SanityCheck.println({"split $uuid $p writer append data ${variables.size} ${variableMapping.toMutableList()} ${ringbufferStart[p]}"})
-                                for (variable in 0 until variables.size) {
-                                   SanityCheck.println({"split $uuid $p writer append data ... ${variable} ${ringbufferWriteHead[p] + variableMapping[variable] + ringbufferStart[p]} ${tmp + variable}"})
-                                    ringbuffer[ringbufferWriteHead[p] + variableMapping[variable] + ringbufferStart[p]] = child.buf[tmp + variable]
-                                   SanityCheck.println({"split $uuid $p writer append data --- $variables ${child.columns.map { it }} ${ringbufferWriteHead[p] + variableMapping[variable] + ringbufferStart[p]}<-${tmp + variable} = ${child.buf[tmp + variable]}"})
+                                for (i in 0 until cacheSize) {
+                                    val p = cacheArr[i]
+                                    SanityCheck.println({ "selected $p for $partitionVariable = $hashVariableIndex value ${child.buf[tmp + hashVariableIndex]}" })
+                                    var t = (ringbufferWriteHead[p] + variables.size) % elementsPerRing
+                                    while (ringbufferReadHead[p] == t) {
+                                        SanityCheck.println({ "split $uuid $p writer wait for reader" })
+                                        delay(1)
+                                        if (!isActive) {
+                                            SanityCheck.println({ "split $uuid $p writer closed B" })
+                                            child.close()
+                                            writerFinished = 1
+                                            break@loop
+                                        }
+                                    }
+                                    SanityCheck.println({ "split $uuid $p writer append data ${variables.size} ${variableMapping.toMutableList()} ${ringbufferStart[p]}" })
+                                    for (variable in 0 until variables.size) {
+                                        SanityCheck.println({ "split $uuid $p writer append data ... ${variable} ${ringbufferWriteHead[p] + variableMapping[variable] + ringbufferStart[p]} ${tmp + variable}" })
+                                        ringbuffer[ringbufferWriteHead[p] + variableMapping[variable] + ringbufferStart[p]] = child.buf[tmp + variable]
+                                        SanityCheck.println({ "split $uuid $p writer append data --- $variables ${child.columns.map { it }} ${ringbufferWriteHead[p] + variableMapping[variable] + ringbufferStart[p]}<-${tmp + variable} = ${child.buf[tmp + variable]}" })
+                                    }
+                                    SanityCheck.println({ "split $uuid $p writer append data - written data" })
+                                    ringbufferWriteHead[p] = (ringbufferWriteHead[p] + variables.size) % elementsPerRing
+                                    SanityCheck.println({ "split $uuid $p writer append data - increased pointer" })
                                 }
-                               SanityCheck.println({"split $uuid $p writer append data - written data"})
-                                ringbufferWriteHead[p] = (ringbufferWriteHead[p] + variables.size) % elementsPerRing
-                               SanityCheck.println({"split $uuid $p writer append data - increased pointer"})
                             }
-}
-                           SanityCheck.println({"split $uuid writer loop end of iteration"})
+                            SanityCheck.println({ "split $uuid writer loop end of iteration" })
                         }
-                         child.close()
-       writerFinished = 1
-                       SanityCheck.println({"split $uuid writer exited loop"})
+                        child.close()
+                        writerFinished = 1
+                        SanityCheck.println({ "split $uuid writer exited loop" })
                     }
                     for (p in 0 until ParallelBase.k) {
                         var iterator = RowIterator()
@@ -157,10 +157,10 @@ val p=cacheArr[i]
                         iterator.next = {
                             var res = -1
                             loop@ while (true) {
-                               SanityCheck.println({"split $uuid $p reader loop start"})
+                                SanityCheck.println({ "split $uuid $p reader loop start" })
                                 if (ringbufferReadHead[p] != ringbufferWriteHead[p]) {
                                     //non empty queue -> read one row
-                                   SanityCheck.println({"split $uuid $p reader consumed data"})
+                                    SanityCheck.println({ "split $uuid $p reader consumed data" })
                                     for (variable in 0 until variables.size) {
                                         iterator.buf[variable] = (ringbuffer[ringbufferReadHead[p] + variable + ringbufferStart[p]])
                                     }
@@ -168,16 +168,16 @@ val p=cacheArr[i]
                                     ringbufferReadHead[p] = (ringbufferReadHead[p] + variables.size) % elementsPerRing
                                     break@loop
                                 } else if (writerFinished == 1) {
-                                   SanityCheck.println({"split $uuid $p reader closed"})
+                                    SanityCheck.println({ "split $uuid $p reader closed" })
                                     break@loop
                                 }
-                               SanityCheck.println({"split $uuid $p reader wait for writer"})
+                                SanityCheck.println({ "split $uuid $p reader wait for writer" })
                                 delay(1)
                             }
                             /*return*/res
                         }
                         iterator.close = {
-                           SanityCheck.println({"split $uuid $p reader close"})
+                            SanityCheck.println({ "split $uuid $p reader close" })
                             readerFinished[p] = 1
                             var tmp = 0
                             for (p in 0 until ParallelBase.k) {
@@ -190,7 +190,7 @@ val p=cacheArr[i]
                                     job!!.cancelAndJoin()
                                 }
                             }
-                           SanityCheck.println({"split $uuid $p reader closed"})
+                            SanityCheck.println({ "split $uuid $p reader closed" })
                         }
                         iterators!![p] = IteratorBundle(iterator)
                     }

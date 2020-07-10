@@ -66,19 +66,19 @@ class POPMergeParallelCount(query: Query, projectedVariables: List<String>, val 
             for (p in 0 until ParallelBase.k) {
                 val job = GlobalScope.launch(Dispatchers.Default) {
                     val child = children[0].evaluate(Partition(parent, partitionVariable, p))
-                    loop@ while (isActive&&readerFinished==0) {
-                       SanityCheck.println({"merge $uuid $p writer loop start"})
+                    loop@ while (isActive && readerFinished == 0) {
+                        SanityCheck.println({ "merge $uuid $p writer loop start" })
                         var tmp = child.hasNext2()
                         if (tmp) {
-                           SanityCheck.println({"merge $uuid $p writer append data"})
-				ringbufferWriteHead[p]++
-			}else{
-                           SanityCheck.println({"merge $uuid $p writer closed B"})
+                            SanityCheck.println({ "merge $uuid $p writer append data" })
+                            ringbufferWriteHead[p]++
+                        } else {
+                            SanityCheck.println({ "merge $uuid $p writer closed B" })
                             writerFinished[p] = 1
                             break@loop
                         }
                     }
-                   SanityCheck.println({"merge $uuid $p writer exited loop"})
+                    SanityCheck.println({ "merge $uuid $p writer exited loop" })
                 }
                 jobs.add(job)
             }
@@ -86,14 +86,14 @@ class POPMergeParallelCount(query: Query, projectedVariables: List<String>, val 
             iterator.hasNext2 = {
                 var res = false
                 loop@ while (true) {
-                   SanityCheck.println({"merge $uuid reader loop start"})
+                    SanityCheck.println({ "merge $uuid reader loop start" })
                     var finishedWriters = 0
                     for (p in 0 until ParallelBase.k) {
                         if (ringbufferReadHead[p] != ringbufferWriteHead[p]) {
                             //non empty queue -> read one row
-                           SanityCheck.println({"merge $uuid $p reader consumed data"})
+                            SanityCheck.println({ "merge $uuid $p reader consumed data" })
                             res = true
-                            ringbufferReadHead[p] ++
+                            ringbufferReadHead[p]++
                             break@loop
                         } else if (writerFinished[p] == 1) {
                             finishedWriters++
@@ -103,13 +103,13 @@ class POPMergeParallelCount(query: Query, projectedVariables: List<String>, val 
                         //done
                         break@loop
                     }
-                   SanityCheck.println({"merge $uuid reader wait for writer"})
+                    SanityCheck.println({ "merge $uuid reader wait for writer" })
                     delay(1)
                 }
                 /*return*/res
             }
             iterator.hasNext2Close = {
-               SanityCheck.println({"merge $uuid reader closed"})
+                SanityCheck.println({ "merge $uuid reader closed" })
                 readerFinished = 1
                 runBlocking {
                     for (job in jobs) {

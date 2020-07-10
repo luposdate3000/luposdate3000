@@ -19,7 +19,7 @@ abstract class OptimizerCompoundBase(query: Query, optimizerID: EOptimizerID) : 
             while (d) {
                 d = false
                 for (o in opt) {
-                       SanityCheck.println({"debug ${o.optimizerID}"})
+                    SanityCheck.println({ "debug ${o.optimizerID}" })
                     var c = true
                     while (c) {
                         c = false

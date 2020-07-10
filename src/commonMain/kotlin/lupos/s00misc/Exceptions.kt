@@ -16,9 +16,9 @@ class IteratorBundleRowModeNotImplementedException() : NotImplementedException("
 class SparqlFeatureNotImplementedException(name: String) : NotImplementedException("SparqlFeatureNotImplementedException", "Sparql feature '$name' not implemented.")
 class EvaluateNotImplementedException(classname: String) : NotImplementedException("EvaluateNotImplementedException", "Evaluate not implemented in '$classname'.")
 class ToSparqlNotImplementedException(classname: String) : NotImplementedException("ToSparqlNotImplementedException", "toSparql not implemented in '$classname'.")
-class GraphVariablesNotImplementedException(classname:String):NotImplementedException("GraphVariablesNotImplementedException", "variables at graph-name position are currently not implemented")
-class UnknownManifestException(classname:String,msg:String):NotImplementedException("UnknownManifestException", "$classname :: $msg")
-class DirectoryCompareNotImplementedException():NotImplementedException("DirectoryCompareNotImplementedException","Comparing directories is not implemented")
+class GraphVariablesNotImplementedException(classname: String) : NotImplementedException("GraphVariablesNotImplementedException", "variables at graph-name position are currently not implemented")
+class UnknownManifestException(classname: String, msg: String) : NotImplementedException("UnknownManifestException", "$classname :: $msg")
+class DirectoryCompareNotImplementedException() : NotImplementedException("DirectoryCompareNotImplementedException", "Comparing directories is not implemented")
 
 //incompatible implementation exceptions --->>>
 class FunktionWontWorkWithThisImplementationException() : Luposdate3000Exception("FunktionWontWorkWithThisImplementationException", "Funktion should not work with this implementation of the interface.")
@@ -37,7 +37,7 @@ class XMLNotParseableException() : SyntaxException("XMLNotParseableException", "
 
 //evaluation exceptions --->>>
 abstract class EvaluationException(classname: String, msg: String) : Luposdate3000Exception(classname, msg)
-class DatasetImportFailedException(file:String): EvaluationException("DatasetImportFailedException","importing the dataset '$file' failed")
+class DatasetImportFailedException(file: String) : EvaluationException("DatasetImportFailedException", "importing the dataset '$file' failed")
 class IncompatibleTypesDuringCompareException() : EvaluationException("IncompatibleTypesDuringCompareException", "The provided types are incompatible.")
 class CanNotCastBNodeToDoubleException() : EvaluationException("CanNotCastBNodeToDoubleException", "Can not cast BNode to Double.")
 class CanNotCastBNodeToDecimalException() : EvaluationException("CanNotCastBNodeToDecimalException", "Can not cast BNode to Decimal.")
