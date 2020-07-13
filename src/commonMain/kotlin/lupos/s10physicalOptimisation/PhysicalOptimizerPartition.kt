@@ -59,7 +59,6 @@ class PhysicalOptimizerPartition(query: Query) : OptimizerBase(query, EOptimizer
     override fun optimize(node: OPBase, parent: OPBase?, onChange: () -> Unit): OPBase {
         var res = node
         when (node) {
-/*
             is POPProjection -> {
                 val c = node.children[0]
                 if (c is POPMergePartition || c is POPMergePartitionCount) {
@@ -68,6 +67,7 @@ class PhysicalOptimizerPartition(query: Query) : OptimizerBase(query, EOptimizer
                     onChange()
                 }
             }
+/*
             is POPReduced -> {
                 val c = node.children[0]
                 if (c is POPMergePartition || c is POPMergePartitionCount) {
