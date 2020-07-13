@@ -287,7 +287,7 @@ object ServerCommunicationSend {
                             val header2 = ServerCommunicationHeader.values()[packet2.readInt()]
                             if (header2 == ServerCommunicationHeader.RESPONSE_TRIPLES) {
                                 val data = ServerCommunicationTransferTriples.receiveTriples(packet2, nodeGlobalDictionary, columns.size, true, conn.localAddress)[0]
-                                iterator.childs.add( RowIteratorBuf(data, columns))
+                                iterator.childs.add(RowIteratorBuf(data, columns))
                             } else {
                                 require(header2 == ServerCommunicationHeader.RESPONSE_FINISHED)
                             }
@@ -307,14 +307,14 @@ object ServerCommunicationSend {
                 while (iterators.size > 1) {
                     var a = iterators.removeAt(0)
                     var b = iterators.removeAt(0)
-                    tmp.add( RowIteratorMerge(a, b, ValueComparatorFast(), 0))
+                    tmp.add(RowIteratorMerge(a, b, ValueComparatorFast(), 0))
                 }
                 if (iterators.size == 1) {
                     tmp.add(iterators[0])
                 }
                 iterators = tmp
             }
-            return IteratorBundle( iterators[0])
+            return IteratorBundle(iterators[0])
         }
 /*Coverage Unreachable*/
     }

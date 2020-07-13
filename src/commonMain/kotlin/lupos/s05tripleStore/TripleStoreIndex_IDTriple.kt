@@ -301,7 +301,7 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
                 if (projection[0] != "_") {
                     columns[projection[0]] = IteratorP(NodeInner.iterator1(node, filter), lock)
                     if (projection[1] != "_") {
-                        columns[projection[1]] =  IteratorO(NodeInner.iterator1(node, filter), lock)
+                        columns[projection[1]] = IteratorO(NodeInner.iterator1(node, filter), lock)
                     }
                 } else {
                     SanityCheck.check { projection[1] == "_" }

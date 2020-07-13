@@ -11,6 +11,24 @@ import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s15tripleStoreDistributed.DistributedTripleStore
 
 class Query(@JvmField val dictionary: ResultSetDictionary = ResultSetDictionary(), @JvmField val transactionID: Long = global_transactionID.next()) {
+    class PartitionHelper() {
+        var iterators: MutableMap<Partition, Array<IteratorBundle>>? = null
+        var jobs: MutableMap<Partition, Job>? = null
+        val lock = Lock()
+    }
+
+    suspend fun getPartitionHelper(uuid: Long): PartitionHelper {
+        var res: PartitionHelper? = null
+        partitionsLock.withWriteLockSuspend {
+            res = partitions[uuid]
+            if (res == null) {
+                res = PartitionHelper()
+                partitions[uuid] = res!!
+            }
+        }
+        return res!!
+    }
+
     @JvmField
     var _workingDirectory = ""
     var workingDirectory: String
@@ -36,10 +54,7 @@ class Query(@JvmField val dictionary: ResultSetDictionary = ResultSetDictionary(
     var generatedNameByBase = mutableMapOf<String, String>()
 
     @JvmField
-    val partitionsIterators = mutableMapOf<Long, MutableMap<Partition, Array<IteratorBundle>>>()
-
-    @JvmField
-    val partitionsJobs = mutableMapOf<Long, MutableMap<Partition, Job>>()
+    val partitions = mutableMapOf<Long, PartitionHelper>()
 
     @JvmField
     val partitionsLock = Lock()

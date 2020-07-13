@@ -115,10 +115,10 @@ class TripleStoreIndex_MapMapList : TripleStoreIndex() {
                     } else {
                         val columnsArr = arrayOf(ColumnIteratorChildIterator(), ColumnIteratorChildIterator())
                         if (projection[0] != "_") {
-                            columns[projection[0]] =  columnsArr[0]
+                            columns[projection[0]] = columnsArr[0]
                         }
                         if (projection[1] != "_") {
-                            columns[projection[1]] =  columnsArr[1]
+                            columns[projection[1]] = columnsArr[1]
                         }
                         var iter = tmp.iterator()
                         for (iterator in columnsArr) {
@@ -159,7 +159,7 @@ class TripleStoreIndex_MapMapList : TripleStoreIndex() {
                     columns[projection[0]] = columnsArr[0]
                 }
                 if (projection[1] != "_") {
-                    columns[projection[1]] =  columnsArr[1]
+                    columns[projection[1]] = columnsArr[1]
                 }
                 if (projection[2] != "_") {
                     columns[projection[2]] = columnsArr[2]

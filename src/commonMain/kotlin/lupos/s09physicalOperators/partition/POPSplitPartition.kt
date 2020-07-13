@@ -55,16 +55,23 @@ class POPSplitPartition(query: Query, projectedVariables: List<String>, val part
             var iterators: Array<IteratorBundle>? = null
             var job: Job? = null
             val childPartition = Partition(parent, partitionVariable)
-            query.partitionsLock.withWriteLockSuspend {
-                val tmpIterators = query.partitionsIterators[uuid]
+println("operator $uuid HelperWant")
+            var partitionHelper = query.getPartitionHelper(uuid)
+println("operator $uuid HelperGet")
+println("operator $uuid HelpersLockWant")
+            partitionHelper.lock.withWriteLockSuspend {
+println("operator $uuid HelpersLockGet 1")
+                val tmpIterators = partitionHelper.iterators
                 if (tmpIterators != null) {
                     iterators = tmpIterators[childPartition]
                 }
-                val tmpJob = query.partitionsJobs[uuid]
+                val tmpJob = partitionHelper.jobs
                 if (tmpJob != null) {
                     job = tmpJob[childPartition]
                 }
+println("operator $uuid HelpersLockGet 2")
                 if (iterators == null) {
+println("operator $uuid HelpersLockGet 3")
                     iterators = Array(ParallelBase.k) { IteratorBundle(0) }
                     val variables = getProvidedVariableNames()
                     val variables0 = children[0].getProvidedVariableNames()
@@ -79,6 +86,7 @@ class POPSplitPartition(query: Query, projectedVariables: List<String>, val part
                     val readerFinished = IntArray(ParallelBase.k) { 0 } //writer changes to 1 if finished
                     var writerFinished = 0
                     SanityCheck.println({ "ringbuffersize = ${ringbuffer.size} ${elementsPerRing} ${ParallelBase.k} ${ringbufferStart.map { it }} ${ringbufferReadHead.map { it }} ${ringbufferWriteHead.map { it }}" })
+println("operator $uuid HelpersLockGet 6")
                     job = GlobalScope.launch(Dispatchers.Default) {
                         val child = children[0].evaluate(childPartition).rows
                         var hashVariableIndex = -1
@@ -100,13 +108,14 @@ class POPSplitPartition(query: Query, projectedVariables: List<String>, val part
                         loop@ while (isActive) {
                             SanityCheck.println({ "split $uuid writer loop start" })
                             var tmp = child.next()
+                                SanityCheck.println({ "split $uuid writer reveived" })
                             if (tmp == -1) {
                                 SanityCheck.println({ "split $uuid writer closed A" })
                                 break@loop
                             } else {
                                 var q = child.buf[tmp + hashVariableIndex]
                                 if (q == ResultSetDictionary.undefValue) {
-//broadcast undef to every partition
+                                    //broadcast undef to every partition
                                     println(" attention may increase result count here - this is always ok, _if there is a join afterwards immediately - otherwise probably not")
                                     cacheSize = ParallelBase.k
                                     cacheArr[0] = 0
@@ -149,10 +158,12 @@ class POPSplitPartition(query: Query, projectedVariables: List<String>, val part
                         writerFinished = 1
                         SanityCheck.println({ "split $uuid writer exited loop" })
                     }
+println("operator $uuid HelpersLockGet 7")
                     for (p in 0 until ParallelBase.k) {
                         var iterator = RowIterator()
                         iterator.columns = variables.toTypedArray()
                         iterator.buf = IntArray(variables.size)
+println("operator $uuid HelpersLockGet 9")
                         iterator.next = {
                             var res = -1
                             loop@ while (true) {
@@ -175,6 +186,7 @@ class POPSplitPartition(query: Query, projectedVariables: List<String>, val part
                             }
                             /*return*/res
                         }
+println("operator $uuid HelpersLockGet 10")
                         iterator.close = {
                             SanityCheck.println({ "split $uuid $p reader close" })
                             readerFinished[p] = 1
@@ -191,16 +203,20 @@ class POPSplitPartition(query: Query, projectedVariables: List<String>, val part
                             }
                             SanityCheck.println({ "split $uuid $p reader closed" })
                         }
+println("operator $uuid HelpersLockGet 11")
                         iterators!![p] = IteratorBundle(iterator)
                     }
+println("operator $uuid HelpersLockGet 8")
                     if (tmpIterators == null || tmpJob == null) {
-                        query.partitionsIterators[uuid] = mutableMapOf(childPartition to iterators!!)
-                        query.partitionsJobs[uuid] = mutableMapOf(childPartition to job!!)
+                        partitionHelper.iterators = mutableMapOf(childPartition to iterators!!)
+                        partitionHelper.jobs = mutableMapOf(childPartition to job!!)
                     } else {
                         tmpIterators[childPartition] = iterators!!
                         tmpJob[childPartition] = job!!
                     }
-                }
+                    println("operator $uuid HelpersLockGet 4")
+		}
+println("operator $uuid HelpersLockGet 5")
             }
             return iterators!![parent.data[partitionVariable]!!]
         }

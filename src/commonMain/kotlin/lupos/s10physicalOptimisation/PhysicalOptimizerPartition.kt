@@ -37,6 +37,9 @@ import lupos.s09physicalOperators.noinput.POPEmptyRow
 import lupos.s09physicalOperators.noinput.POPGraphOperation
 import lupos.s09physicalOperators.noinput.POPModifyData
 import lupos.s09physicalOperators.noinput.POPValues
+import lupos.s09physicalOperators.partition.POPMergePartition
+import lupos.s09physicalOperators.partition.POPMergePartitionCount
+import lupos.s09physicalOperators.partition.POPSplitPartition
 import lupos.s09physicalOperators.POPBase
 import lupos.s09physicalOperators.singleinput.modifiers.POPLimit
 import lupos.s09physicalOperators.singleinput.modifiers.POPOffset
@@ -50,9 +53,6 @@ import lupos.s09physicalOperators.singleinput.POPModify
 import lupos.s09physicalOperators.singleinput.POPProjection
 import lupos.s09physicalOperators.singleinput.POPSort
 import lupos.s15tripleStoreDistributed.DistributedTripleStore
-import lupos.s09physicalOperators.partition.POPMergePartition
-import lupos.s09physicalOperators.partition.POPMergePartitionCount
-import lupos.s09physicalOperators.partition.POPSplitPartition
 
 class PhysicalOptimizerPartition(query: Query) : OptimizerBase(query, EOptimizerID.PhysicalOptimizerPartitionID) {
     override val classname = "PhysicalOptimizerPartition"

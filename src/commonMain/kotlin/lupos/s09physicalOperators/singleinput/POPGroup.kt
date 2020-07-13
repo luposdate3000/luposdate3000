@@ -254,12 +254,12 @@ class POPGroup : POPBase {
                 val output = Array(keyColumnNames.size + bindings.size) { ColumnIteratorQueue() }
                 for (columnIndex in 0 until keyColumnNames.size) {
                     if (projectedVariables.contains(keyColumnNames[columnIndex])) {
-                        outMap[keyColumnNames[columnIndex]] =  output[columnIndex]
+                        outMap[keyColumnNames[columnIndex]] = output[columnIndex]
                     }
                 }
                 for (columnIndex in 0 until bindings.size) {
                     if (projectedVariables.contains(bindings[columnIndex].first)) {
-                        outMap[bindings[columnIndex].first] =  output[columnIndex + keyColumnNames.size]
+                        outMap[bindings[columnIndex].first] = output[columnIndex + keyColumnNames.size]
                     }
                 }
                 var currentKey = Array(keyColumnNames.size) { ResultSetDictionary.undefValue }
@@ -476,10 +476,10 @@ class POPGroup : POPBase {
                         }
                     }
                     for (columnIndex in 0 until keyColumnNames.size) {
-                        outMap[keyColumnNames[columnIndex]] =  ColumnIteratorMultiValue(outKeys[columnIndex])
+                        outMap[keyColumnNames[columnIndex]] = ColumnIteratorMultiValue(outKeys[columnIndex])
                     }
                     for (columnIndex in 0 until bindings.size) {
-                        outMap[bindings[columnIndex].first] =  ColumnIteratorMultiValue(outValues[columnIndex])
+                        outMap[bindings[columnIndex].first] = ColumnIteratorMultiValue(outValues[columnIndex])
                     }
                 }
             }

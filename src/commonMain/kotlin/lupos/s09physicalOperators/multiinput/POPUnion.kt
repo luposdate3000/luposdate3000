@@ -26,7 +26,7 @@ class POPUnion(query: Query, projectedVariables: List<String>, childA: OPBase, c
         val childB = children[1].evaluate(parent)
         if (variables.size > 0) {
             for (variable in variables) {
-                outMap[variable] =  ColumnIteratorMultiIterator(listOf(childA.columns[variable]!!, childB.columns[variable]!!))
+                outMap[variable] = ColumnIteratorMultiIterator(listOf(childA.columns[variable]!!, childB.columns[variable]!!))
             }
             return IteratorBundle(outMap)
         } else {

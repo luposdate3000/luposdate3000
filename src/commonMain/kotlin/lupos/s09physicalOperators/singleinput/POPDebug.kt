@@ -70,7 +70,7 @@ class POPDebug(query: Query, projectedVariables: List<String>, child: OPBase) : 
                         val iterator = ColumnIterator()
                         println("$uuid $k opened")
                         iterator.next = {
-                                println("$uuid $k next call")
+                            println("$uuid $k next call")
                             val res = v.next()
                             if (res == null) {
                                 println("$uuid $k next return closed null")
@@ -96,7 +96,7 @@ class POPDebug(query: Query, projectedVariables: List<String>, child: OPBase) : 
                     val iterator = RowIterator()
                     iterator.columns = child.rows.columns
                     iterator.next = {
-                            println("$uuid next call")
+                        println("$uuid next call")
                         val res = child.rows.next()
                         iterator.buf = child.rows.buf
                         if (res < 0) {
