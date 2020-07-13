@@ -9,7 +9,6 @@ import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.Value
 import lupos.s03resultRepresentation.Variable
 import lupos.s04logicalOperators.iterator.ColumnIterator
-import lupos.s04logicalOperators.iterator.ColumnIteratorDebug
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
@@ -47,7 +46,7 @@ class POPOffset(query: Query, projectedVariables: List<String>, @JvmField val of
             if (tmp == null) {
                 child.columns[variable]!!.close()
             }
-            outMap[variable] = ColumnIteratorDebug(uuid, variable, child.columns[variable]!!)
+            outMap[variable] = child.columns[variable]!!
         }
         return IteratorBundle(outMap)
     }

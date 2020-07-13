@@ -20,7 +20,6 @@ import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.s04logicalOperators.iterator.ColumnIteratorAggregate
-import lupos.s04logicalOperators.iterator.ColumnIteratorDebug
 import lupos.s04logicalOperators.iterator.ColumnIteratorMultiValue
 import lupos.s04logicalOperators.iterator.ColumnIteratorQueue
 import lupos.s04logicalOperators.iterator.ColumnIteratorRepeatValue
@@ -234,7 +233,7 @@ class POPGroup : POPBase {
             for (columnIndex in 0 until bindings.size) {
                 val value = query.dictionary.createValue(bindings[columnIndex].second.evaluate(localRow.iterators)())
                 if (projectedVariables.contains(bindings[columnIndex].first)) {
-                    outMap[bindings[columnIndex].first] = ColumnIteratorDebug(uuid, bindings[columnIndex].first, ColumnIteratorRepeatValue(1, value))
+                    outMap[bindings[columnIndex].first] = ColumnIteratorRepeatValue(1, value)
                 }
             }
         } else {
@@ -255,12 +254,12 @@ class POPGroup : POPBase {
                 val output = Array(keyColumnNames.size + bindings.size) { ColumnIteratorQueue() }
                 for (columnIndex in 0 until keyColumnNames.size) {
                     if (projectedVariables.contains(keyColumnNames[columnIndex])) {
-                        outMap[keyColumnNames[columnIndex]] = ColumnIteratorDebug(uuid, keyColumnNames[columnIndex], output[columnIndex])
+                        outMap[keyColumnNames[columnIndex]] =  output[columnIndex]
                     }
                 }
                 for (columnIndex in 0 until bindings.size) {
                     if (projectedVariables.contains(bindings[columnIndex].first)) {
-                        outMap[bindings[columnIndex].first] = ColumnIteratorDebug(uuid, bindings[columnIndex].first, output[columnIndex + keyColumnNames.size])
+                        outMap[bindings[columnIndex].first] =  output[columnIndex + keyColumnNames.size]
                     }
                 }
                 var currentKey = Array(keyColumnNames.size) { ResultSetDictionary.undefValue }
@@ -477,10 +476,10 @@ class POPGroup : POPBase {
                         }
                     }
                     for (columnIndex in 0 until keyColumnNames.size) {
-                        outMap[keyColumnNames[columnIndex]] = ColumnIteratorDebug(uuid, keyColumnNames[columnIndex], ColumnIteratorMultiValue(outKeys[columnIndex]))
+                        outMap[keyColumnNames[columnIndex]] =  ColumnIteratorMultiValue(outKeys[columnIndex])
                     }
                     for (columnIndex in 0 until bindings.size) {
-                        outMap[bindings[columnIndex].first] = ColumnIteratorDebug(uuid, bindings[columnIndex].first, ColumnIteratorMultiValue(outValues[columnIndex]))
+                        outMap[bindings[columnIndex].first] =  ColumnIteratorMultiValue(outValues[columnIndex])
                     }
                 }
             }

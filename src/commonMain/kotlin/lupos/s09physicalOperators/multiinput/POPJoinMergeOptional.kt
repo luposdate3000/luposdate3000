@@ -13,7 +13,6 @@ import lupos.s03resultRepresentation.Value
 import lupos.s03resultRepresentation.Variable
 import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.s04logicalOperators.iterator.ColumnIteratorChildIterator
-import lupos.s04logicalOperators.iterator.ColumnIteratorDebug
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
@@ -45,7 +44,7 @@ class POPJoinMergeOptional(query: Query, projectedVariables: List<String>, child
             if (tmp.contains(name)) {
                 if (projectedVariables.contains(name)) {
                     t = ColumnIteratorChildIterator()
-                    outMap[name] = ColumnIteratorDebug(uuid, name, t)
+                    outMap[name] = t
                     outIterators.add(t)
                     columnsOUTJ.add(t)
                     for (i in 0 until 2) {
@@ -60,7 +59,7 @@ class POPJoinMergeOptional(query: Query, projectedVariables: List<String>, child
             } else {
                 t = ColumnIteratorChildIterator()
                 outIterators.add(t)
-                outMap[name] = ColumnIteratorDebug(uuid, name, t)
+                outMap[name] = t
                 columnsOUT[0].add(t)
                 columnsINO[0].add(child[0].columns[name]!!)
             }
@@ -68,7 +67,7 @@ class POPJoinMergeOptional(query: Query, projectedVariables: List<String>, child
         for (name in tmp) {
             t = ColumnIteratorChildIterator()
             outIterators.add(t)
-            outMap[name] = ColumnIteratorDebug(uuid, name, t)
+            outMap[name] = t
             columnsOUT[1].add(t)
             columnsINO[1].add(child[1].columns[name]!!)
         }

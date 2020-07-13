@@ -6,7 +6,6 @@ import lupos.s00misc.ESortPriority
 import lupos.s00misc.Partition
 import lupos.s03resultRepresentation.Variable
 import lupos.s04logicalOperators.iterator.ColumnIterator
-import lupos.s04logicalOperators.iterator.ColumnIteratorDebug
 import lupos.s04logicalOperators.iterator.ColumnIteratorReduced
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.iterator.RowIteratorReduced
@@ -28,7 +27,7 @@ class POPReduced(query: Query, projectedVariables: List<String>, child: OPBase) 
     override suspend fun evaluate(parent: Partition): IteratorBundle {
             val child = children[0].evaluate(parent)
         if (projectedVariables.size == 1) {
-            val reduced = ColumnIteratorDebug(uuid, projectedVariables[0], ColumnIteratorReduced(child.columns[projectedVariables[0]]!!))
+            val reduced = ColumnIteratorReduced(child.columns[projectedVariables[0]]!!)
             return IteratorBundle(mapOf(projectedVariables[0] to reduced))
         } else if (projectedVariables.size > 0) {
             val reduced = RowIteratorReduced(child.rows)

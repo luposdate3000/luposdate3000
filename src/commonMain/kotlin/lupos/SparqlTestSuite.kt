@@ -40,7 +40,6 @@ import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s03resultRepresentation.Value
 import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s04logicalOperators.iterator.ColumnIterator
-import lupos.s04logicalOperators.iterator.ColumnIteratorDebug
 import lupos.s04logicalOperators.Query
 import lupos.s05tripleStore.index_IDTriple.NodeManager
 import lupos.s06buildOperatorGraph.OperatorGraphVisitor
@@ -804,8 +803,6 @@ class SparqlTestSuite() {
                 GlobalLogger.stacktrace(ELoggerType.TEST_RESULT, e)
             }
             return false
-        } finally {
-            ColumnIteratorDebug.debug()
         }
     }
 }

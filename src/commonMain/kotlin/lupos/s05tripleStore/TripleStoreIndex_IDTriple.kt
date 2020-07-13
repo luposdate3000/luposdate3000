@@ -10,7 +10,6 @@ import lupos.s00misc.ReadWriteLock
 import lupos.s00misc.SanityCheck
 import lupos.s03resultRepresentation.Value
 import lupos.s04logicalOperators.iterator.ColumnIterator
-import lupos.s04logicalOperators.iterator.ColumnIteratorDebug
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.Query
 import lupos.s05tripleStore.index_IDTriple.BulkImportIterator
@@ -296,13 +295,13 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
                     }
                     res = IteratorBundle(count)
                 } else {
-                    columns[projection[0]] = ColumnIteratorDebug(-storeIteratorCounter++, projection[0], IteratorO(NodeInner.iterator2(node, filter), lock))
+                    columns[projection[0]] = IteratorO(NodeInner.iterator2(node, filter), lock)
                 }
             } else if (filter.size == 1) {
                 if (projection[0] != "_") {
-                    columns[projection[0]] = ColumnIteratorDebug(-storeIteratorCounter++, projection[0], IteratorP(NodeInner.iterator1(node, filter), lock))
+                    columns[projection[0]] = IteratorP(NodeInner.iterator1(node, filter), lock)
                     if (projection[1] != "_") {
-                        columns[projection[1]] = ColumnIteratorDebug(-storeIteratorCounter++, projection[1], IteratorO(NodeInner.iterator1(node, filter), lock))
+                        columns[projection[1]] =  IteratorO(NodeInner.iterator1(node, filter), lock)
                     }
                 } else {
                     SanityCheck.check { projection[1] == "_" }
@@ -317,11 +316,11 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
             } else {
                 SanityCheck.check { filter.size == 0 }
                 if (projection[0] != "_") {
-                    columns[projection[0]] = ColumnIteratorDebug(-storeIteratorCounter++, projection[0], IteratorS(NodeInner.iterator(node), lock))
+                    columns[projection[0]] = IteratorS(NodeInner.iterator(node), lock)
                     if (projection[1] != "_") {
-                        columns[projection[1]] = ColumnIteratorDebug(-storeIteratorCounter++, projection[1], IteratorP(NodeInner.iterator(node), lock))
+                        columns[projection[1]] = IteratorP(NodeInner.iterator(node), lock)
                         if (projection[2] != "_") {
-                            columns[projection[2]] = ColumnIteratorDebug(-storeIteratorCounter++, projection[2], IteratorO(NodeInner.iterator(node), lock))
+                            columns[projection[2]] = IteratorO(NodeInner.iterator(node), lock)
                         }
                     } else {
                         SanityCheck.check { projection[2] == "_" }

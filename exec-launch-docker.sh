@@ -14,7 +14,6 @@ rm build/executable
   echo "Jena->On"
   echo "Set->BTree"
   echo "Map->BTree"
-  echo "IteratorVerbose->Count"
   echo "OutputFormat->Empty"
   echo "Pagesize->128"
   echo "BlockCapacity->8"

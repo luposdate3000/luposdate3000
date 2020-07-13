@@ -8,7 +8,6 @@ import lupos.s03resultRepresentation.Value
 import lupos.s03resultRepresentation.ValueBoolean
 import lupos.s03resultRepresentation.Variable
 import lupos.s04logicalOperators.iterator.ColumnIterator
-import lupos.s04logicalOperators.iterator.ColumnIteratorDebug
 import lupos.s04logicalOperators.iterator.ColumnIteratorRepeatValue
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.noinput.OPEmptyRow
@@ -50,7 +49,7 @@ class POPMakeBooleanResult(query: Query, projectedVariables: List<String>, child
                 }
             }
         }
-        outMap["?boolean"] = ColumnIteratorDebug(uuid, "?success", tmp)
+        outMap["?boolean"] = tmp
         return IteratorBundle(outMap)
     }
 }

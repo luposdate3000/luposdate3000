@@ -10,7 +10,6 @@ import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.Value
 import lupos.s03resultRepresentation.Variable
 import lupos.s04logicalOperators.iterator.ColumnIterator
-import lupos.s04logicalOperators.iterator.ColumnIteratorDebug
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
@@ -37,7 +36,7 @@ class POPJoinMergeSingleColumn(query: Query, projectedVariables: List<String>, c
         val head = Array(2) { child[it].next() }
         val outMap = mutableMapOf<String, ColumnIterator>()
         val iterator = ColumnIterator()
-        outMap[projectedVariables[0]] = ColumnIteratorDebug(uuid, projectedVariables[0], iterator)
+        outMap[projectedVariables[0]] = iterator
         if (head[0] != null && head[1] != null) {
             val count = IntArray(2) { 0 }
             var counter = 0

@@ -14,7 +14,6 @@ import lupos.s03resultRepresentation.Variable
 import lupos.s04arithmetikOperators.noinput.AOPConstant
 import lupos.s04arithmetikOperators.noinput.AOPValue
 import lupos.s04logicalOperators.iterator.ColumnIterator
-import lupos.s04logicalOperators.iterator.ColumnIteratorDebug
 import lupos.s04logicalOperators.iterator.ColumnIteratorMultiValue
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.noinput.LOPValues
@@ -167,7 +166,7 @@ open class POPValues : POPBase {
                         outMap[variable]!!.close()
                     }
                 }
-                outMap[name] = ColumnIteratorDebug(uuid, name, tmp)
+                outMap[name] = tmp
             }
             return IteratorBundle(outMap)
         } else {

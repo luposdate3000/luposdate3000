@@ -14,7 +14,6 @@ import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04arithmetikOperators.noinput.AOPConstant
 import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s04logicalOperators.iterator.ColumnIterator
-import lupos.s04logicalOperators.iterator.ColumnIteratorDebug
 import lupos.s04logicalOperators.iterator.ColumnIteratorQueue
 import lupos.s04logicalOperators.iterator.ColumnIteratorRepeatValue
 import lupos.s04logicalOperators.iterator.IteratorBundle
@@ -54,7 +53,7 @@ class POPBind(query: Query, projectedVariables: List<String>, @JvmField val name
         for (variableIndex in 0 until variablesLocal.size) {
             localMap[variablesLocal[variableIndex]] = columnsLocal[variableIndex]
             if (projectedVariables.contains(variablesLocal[variableIndex])) {
-                outMap[variablesLocal[variableIndex]] = ColumnIteratorDebug(uuid, variablesLocal[variableIndex], columnsLocal[variableIndex])
+                outMap[variablesLocal[variableIndex]] = columnsLocal[variableIndex]
             }
             if (variablesLocal[variableIndex] == name.name) {
                 boundIndex = variableIndex
@@ -68,7 +67,7 @@ class POPBind(query: Query, projectedVariables: List<String>, @JvmField val name
         SanityCheck.check { variablesLocal.size != 0 }
         if (variablesLocal.size == 1 && children[0].getProvidedVariableNames().size == 0) {
             val columnBound = ColumnIteratorRepeatValue(child.count, query.dictionary.createValue(expression()))
-            outMap[name.name] = ColumnIteratorDebug(uuid, name.name, columnBound)
+            outMap[name.name] = columnBound
         } else {
             SanityCheck.check { boundIndex != -1 }
             val columnsIn = Array(variablesLocal.size) { child.columns[variablesLocal[it]] }

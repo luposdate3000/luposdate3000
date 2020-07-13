@@ -20,7 +20,6 @@ mkdir -p log/benchtmp
   echo "Jena->Off"
   echo "Set->BTree"
   echo "Map->BTree"
-  echo "IteratorVerbose->None"
   echo "OutputFormat->Empty"
   echo "Pagesize->8196"
   echo "BlockCapacity->1024"

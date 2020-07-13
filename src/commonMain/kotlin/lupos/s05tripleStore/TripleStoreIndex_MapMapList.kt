@@ -10,7 +10,6 @@ import lupos.s00misc.SanityCheck
 import lupos.s03resultRepresentation.Value
 import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.s04logicalOperators.iterator.ColumnIteratorChildIterator
-import lupos.s04logicalOperators.iterator.ColumnIteratorDebug
 import lupos.s04logicalOperators.iterator.ColumnIteratorMultiValue
 import lupos.s04logicalOperators.iterator.ColumnIteratorRepeatValue
 import lupos.s04logicalOperators.iterator.IteratorBundle
@@ -99,7 +98,7 @@ class TripleStoreIndex_MapMapList : TripleStoreIndex() {
                             if (projection[0] == "_") {
                                 res = IteratorBundle(tmp1.size)
                             } else {
-                                columns[projection[0]] = ColumnIteratorDebug(-1, projection[0], ColumnIteratorMultiValue(tmp1.iterator()))
+                                columns[projection[0]] = ColumnIteratorMultiValue(tmp1.iterator())
                             }
                         }
                     }
@@ -116,10 +115,10 @@ class TripleStoreIndex_MapMapList : TripleStoreIndex() {
                     } else {
                         val columnsArr = arrayOf(ColumnIteratorChildIterator(), ColumnIteratorChildIterator())
                         if (projection[0] != "_") {
-                            columns[projection[0]] = ColumnIteratorDebug(-2, projection[0], columnsArr[0])
+                            columns[projection[0]] =  columnsArr[0]
                         }
                         if (projection[1] != "_") {
-                            columns[projection[1]] = ColumnIteratorDebug(-3, projection[1], columnsArr[1])
+                            columns[projection[1]] =  columnsArr[1]
                         }
                         var iter = tmp.iterator()
                         for (iterator in columnsArr) {
@@ -157,13 +156,13 @@ class TripleStoreIndex_MapMapList : TripleStoreIndex() {
             } else {
                 val columnsArr = arrayOf(ColumnIteratorChildIterator(), ColumnIteratorChildIterator(), ColumnIteratorChildIterator())
                 if (projection[0] != "_") {
-                    columns[projection[0]] = ColumnIteratorDebug(-4, projection[0], columnsArr[0])
+                    columns[projection[0]] = columnsArr[0]
                 }
                 if (projection[1] != "_") {
-                    columns[projection[1]] = ColumnIteratorDebug(-5, projection[1], columnsArr[1])
+                    columns[projection[1]] =  columnsArr[1]
                 }
                 if (projection[2] != "_") {
-                    columns[projection[2]] = ColumnIteratorDebug(-6, projection[2], columnsArr[2])
+                    columns[projection[2]] = columnsArr[2]
                 }
                 var iter = data.iterator()
                 if (iter.hasNext()) {

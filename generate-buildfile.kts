@@ -284,11 +284,6 @@ val options = mapOf<ChooseableGroup, List<ChooseableOption>>(
                         "MyMapDoubleInt" to "MyMapDoubleIntBinaryTree"
                 ))
         ),
-        ChooseableGroup("Iterator Debug verbosity", "IteratorVerbose") to listOf(
-                ChooseableOptionTypeAlias("None", "lupos.s04logicalOperators.iterator", listOf("ColumnIteratorDebug" to "ColumnIteratorDebugFast", "RowIteratorDebug" to "RowIteratorDebugFast")),
-                ChooseableOptionTypeAlias("Count", "lupos.s04logicalOperators.iterator", listOf("ColumnIteratorDebug" to "ColumnIteratorDebugCount", "RowIteratorDebug" to "RowIteratorDebugVerbose")),
-                ChooseableOptionTypeAlias("Verbose", "lupos.s04logicalOperators.iterator", listOf("ColumnIteratorDebug" to "ColumnIteratorDebugVerbose", "RowIteratorDebug" to "RowIteratorDebugVerbose"))
-        ),
         ChooseableGroup("Default Result Format", "OutputFormat") to listOf(
                 ChooseableOptionTypeAlias("Empty", "lupos.s11outputResult", listOf("QueryResultToString" to "QueryResultToEmptyString")),
                 ChooseableOptionTypeAlias("XML", "lupos.s11outputResult", listOf("QueryResultToString" to "QueryResultToXMLString")),

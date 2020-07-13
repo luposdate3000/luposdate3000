@@ -7,7 +7,6 @@ import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
 import lupos.s03resultRepresentation.Variable
 import lupos.s04logicalOperators.iterator.ColumnIterator
-import lupos.s04logicalOperators.iterator.ColumnIteratorDebug
 import lupos.s04logicalOperators.iterator.ColumnIteratorMultiIterator
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.OPBase
@@ -27,7 +26,7 @@ class POPUnion(query: Query, projectedVariables: List<String>, childA: OPBase, c
         val childB = children[1].evaluate(parent)
         if (variables.size > 0) {
             for (variable in variables) {
-                outMap[variable] = ColumnIteratorDebug(uuid, variable, ColumnIteratorMultiIterator(listOf(childA.columns[variable]!!, childB.columns[variable]!!)))
+                outMap[variable] =  ColumnIteratorMultiIterator(listOf(childA.columns[variable]!!, childB.columns[variable]!!))
             }
             return IteratorBundle(outMap)
         } else {

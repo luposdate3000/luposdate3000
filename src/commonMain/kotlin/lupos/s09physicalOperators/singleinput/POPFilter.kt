@@ -8,7 +8,6 @@ import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04logicalOperators.iterator.ColumnIterator
-import lupos.s04logicalOperators.iterator.ColumnIteratorDebug
 import lupos.s04logicalOperators.iterator.ColumnIteratorQueue
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.OPBase
@@ -43,7 +42,7 @@ class POPFilter(query: Query, projectedVariables: List<String>, filter: AOPBase,
             val columnsLocal = Array(variables.size) { ColumnIteratorQueue() }
             for (variableIndex in 0 until variables.size) {
                 if (projectedVariables.contains(variables[variableIndex])) {
-                    outMap[variables[variableIndex]] = ColumnIteratorDebug(uuid, variables[variableIndex], columnsLocal[variableIndex])
+                    outMap[variables[variableIndex]] = columnsLocal[variableIndex]
                 }
                 localMap[variables[variableIndex]] = columnsLocal[variableIndex]
             }

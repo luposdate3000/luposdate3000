@@ -14,7 +14,6 @@ import lupos.s03resultRepresentation.Value
 import lupos.s03resultRepresentation.Variable
 import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.s04logicalOperators.iterator.ColumnIteratorChildIterator
-import lupos.s04logicalOperators.iterator.ColumnIteratorDebug
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.multiinput.LOPJoin
 import lupos.s04logicalOperators.OPBase
@@ -82,7 +81,7 @@ class POPJoinHashMap(query: Query, projectedVariables: List<String>, childA: OPB
                 columnsINBJ.add(0, childB.columns[name]!!)
                 t = ColumnIteratorChildIterator()
                 if (projectedVariables.contains(name)) {
-                    outMap[name] = ColumnIteratorDebug(uuid, name, t)
+                    outMap[name] = t
                     outIterators.add(0, t)
                     outJ.add(0, t)
                 }
@@ -90,7 +89,7 @@ class POPJoinHashMap(query: Query, projectedVariables: List<String>, childA: OPB
             } else {
                 t = ColumnIteratorChildIterator()
                 outIterators.add(t)
-                outMap[name] = ColumnIteratorDebug(uuid, name, t)
+                outMap[name] = t
                 outO[0].add(t)
                 columnsINAO.add(childA.columns[name]!!)
             }
@@ -98,7 +97,7 @@ class POPJoinHashMap(query: Query, projectedVariables: List<String>, childA: OPB
         for (name in tmp) {
             t = ColumnIteratorChildIterator()
             outIterators.add(t)
-            outMap[name] = ColumnIteratorDebug(uuid, name, t)
+            outMap[name] = t
             outO[1].add(t)
             columnsINBO.add(childB.columns[name]!!)
         }

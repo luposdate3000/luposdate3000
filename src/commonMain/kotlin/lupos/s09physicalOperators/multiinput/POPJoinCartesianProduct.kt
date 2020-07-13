@@ -13,7 +13,6 @@ import lupos.s03resultRepresentation.Value
 import lupos.s03resultRepresentation.Variable
 import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.s04logicalOperators.iterator.ColumnIteratorChildIterator
-import lupos.s04logicalOperators.iterator.ColumnIteratorDebug
 import lupos.s04logicalOperators.iterator.ColumnIteratorMultiValue
 import lupos.s04logicalOperators.iterator.ColumnIteratorRepeatIterator
 import lupos.s04logicalOperators.iterator.ColumnIteratorRepeatValue
@@ -49,14 +48,14 @@ class POPJoinCartesianProduct(query: Query, projectedVariables: List<String>, ch
         for (name in columns[1]) {
             t = ColumnIteratorChildIterator()
             outIterators.add(t)
-            outMap[name] = ColumnIteratorDebug(uuid, name, t)
+            outMap[name] = t
             outO[0].add(t)
             columnsINAO.add(childA.columns[name]!!)
         }
         for (name in columns[2]) {
             t = ColumnIteratorChildIterator()
             outIterators.add(t)
-            outMap[name] = ColumnIteratorDebug(uuid, name, t)
+            outMap[name] = t
             outO[1].add(t)
             columnsINBO.add(childB.columns[name]!!)
         }

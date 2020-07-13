@@ -14,7 +14,6 @@ import lupos.s00misc.SanityCheck
 import lupos.s00misc.TripleStoreModifyOperationsNotImplementedException
 import lupos.s03resultRepresentation.Value
 import lupos.s04logicalOperators.iterator.ColumnIterator
-import lupos.s04logicalOperators.iterator.ColumnIteratorDebug
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.Query
 import lupos.s05tripleStore.index_SingleList.ColumnIteratorStore1
@@ -91,9 +90,9 @@ class TripleStoreIndex_SingleList : TripleStoreIndex() {
     override fun printContents() {
         SanityCheck {
             runBlocking {
-                val ai = ColumnIteratorDebug(-storeIteratorCounter++, "_", ColumnIteratorStore3a(data))
-                val bi = ColumnIteratorDebug(-storeIteratorCounter++, "_", ColumnIteratorStore3b(data))
-                val ci = ColumnIteratorDebug(-storeIteratorCounter++, "_", ColumnIteratorStore3c(data))
+                val ai = ColumnIteratorStore3a(data)
+                val bi = ColumnIteratorStore3b(data)
+                val ci =  ColumnIteratorStore3c(data)
                 var a = ai.next()
                 var b = bi.next()
                 var c = ci.next()
@@ -140,7 +139,7 @@ class TripleStoreIndex_SingleList : TripleStoreIndex() {
                     if (projection[0] == "_") {
                         res = IteratorBundle(data[idx])
                     } else {
-                        columns[projection[0]] = ColumnIteratorDebug(-storeIteratorCounter++, projection[0], ColumnIteratorStore1(data, idx))
+                        columns[projection[0]] =  ColumnIteratorStore1(data, idx)
                     }
                 }
             } else if (filter.size == 1) {
@@ -157,9 +156,9 @@ class TripleStoreIndex_SingleList : TripleStoreIndex() {
                         res = IteratorBundle(count)
                     } else {
                         if (projection[0] != "_") {
-                            columns[projection[0]] = ColumnIteratorDebug(-storeIteratorCounter++, projection[0], ColumnIteratorStore2a(data, idx))
+                            columns[projection[0]] =  ColumnIteratorStore2a(data, idx)
                             if (projection[1] != "_") {
-                                columns[projection[1]] = ColumnIteratorDebug(-storeIteratorCounter++, projection[1], ColumnIteratorStore2b(data, idx))
+                                columns[projection[1]] = ColumnIteratorStore2b(data, idx)
                             }
                         } else {
                             SanityCheck.check { projection[1] == "_" }
@@ -179,11 +178,11 @@ class TripleStoreIndex_SingleList : TripleStoreIndex() {
                     res = IteratorBundle(count)
                 } else {
                     if (projection[0] != "_") {
-                        columns[projection[0]] = ColumnIteratorDebug(-storeIteratorCounter++, projection[0], ColumnIteratorStore3a(data))
+                        columns[projection[0]] = ColumnIteratorStore3a(data)
                         if (projection[1] != "_") {
-                            columns[projection[1]] = ColumnIteratorDebug(-storeIteratorCounter++, projection[1], ColumnIteratorStore3b(data))
+                            columns[projection[1]] =  ColumnIteratorStore3b(data)
                             if (projection[2] != "_") {
-                                columns[projection[2]] = ColumnIteratorDebug(-storeIteratorCounter++, projection[2], ColumnIteratorStore3c(data))
+                                columns[projection[2]] =  ColumnIteratorStore3c(data)
                             }
                         } else {
                             SanityCheck.check { projection[2] == "_" }

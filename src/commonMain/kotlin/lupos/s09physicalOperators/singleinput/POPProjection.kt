@@ -8,7 +8,6 @@ import lupos.s00misc.SanityCheck
 import lupos.s03resultRepresentation.Variable
 import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s04logicalOperators.iterator.ColumnIterator
-import lupos.s04logicalOperators.iterator.ColumnIteratorDebug
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
@@ -57,7 +56,7 @@ class POPProjection(query: Query, projectedVariables: List<String>, child: OPBas
         } else {
             for (variable in variables) {
                 SanityCheck.check { child.columns[variable] != null }
-                outMap[variable] = ColumnIteratorDebug(uuid, variable, child.columns[variable]!!)
+                outMap[variable] = child.columns[variable]!!
             }
             return IteratorBundle(outMap)
         }
