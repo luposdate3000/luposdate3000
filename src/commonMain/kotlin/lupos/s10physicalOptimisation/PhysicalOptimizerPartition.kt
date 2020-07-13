@@ -75,6 +75,14 @@ class PhysicalOptimizerPartition(query: Query) : OptimizerBase(query, EOptimizer
                     onChange()
                 }
             }
+		is POPFilter->{
+		val c = node.children[0]
+                if (c is POPMergePartition || c is POPMergePartitionCount) {
+                    c.children[0] = POPFilter(query, node.projectedVariables,node.children[1]as AOPBase, c.children[0])
+                    res = c
+                    onChange()
+                }
+		}
 	    is POPSplitPartition -> {
 		val c = node.children[0]
 		when (c){
@@ -96,6 +104,10 @@ class PhysicalOptimizerPartition(query: Query) : OptimizerBase(query, EOptimizer
 			}
 			is POPProjection->{
 				res=POPProjection(query,node.projectedVariables,POPSplitPartition(query,node.projectedVariables,node.partitionVariable,c.children[0]))
+				onChange()
+			}
+			is POPFilter->{
+				res=POPFilter(query,node.projectedVariables,c.children[1]as AOPBase,POPSplitPartition(query,node.projectedVariables,node.partitionVariable,c.children[0]))
 				onChange()
 			}
 		}
