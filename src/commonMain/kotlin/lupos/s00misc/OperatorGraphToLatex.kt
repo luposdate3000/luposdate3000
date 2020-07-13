@@ -12,10 +12,43 @@ object OperatorGraphToLatex {
 
         @JvmField
         val children = mutableListOf<StackElement>()
+
+        fun getChildParallelism(): Int {
+            var res = 0
+            if (children.size > 0) {
+                res = children[0].getChildParallelism()
+            }
+            if (name.startsWith("SplitPartition")) {
+                res++
+            } else if (name.startsWith("MergePartition")) {
+                res--
+            }
+            return res
+        }
+
+        fun getParallelism(): Int {
+            var res = getChildParallelism()
+            if (name.startsWith("MergePartition")) {
+                res++
+            }
+            return res
+        }
+
+fun isChangingParallelism():Boolean{
+return name.startsWith("SplitPartition")||name.startsWith("MergePartition")
+}
+
         override fun toString(): String {
+            val parallelism = getParallelism()
             var res = StringBuilder()
             res.append("[")
-            res.append(name)
+if(isChangingParallelism()){
+                res.append(coloredText("red",name))
+}else            if (parallelism > 0) {
+                res.append(coloredText("blue",name))
+            } else {
+                res.append(name)
+            }
             if (name == "Projection") {
                 res.append("(\\textit{${projectionHelper}})")
             } else if (name.startsWith("SplitPartition") || name.startsWith("MergePartition")) {
@@ -37,10 +70,13 @@ object OperatorGraphToLatex {
         }
     }
 
+    fun coloredText(color:String,str: String) = "\\textcolor{$color}{$str}"
+
     operator fun invoke(inputString: String, caption: String? = null): String {
         val output = StringBuilder()
         output.append("\\documentclass[tikz,border=10pt]{standalone}\n")
         output.append("\\usepackage{forest}\n")
+        output.append("\\usepackage{xcolor}\n")
         output.append("\\begin{document}\n")
         output.append("\\begin{forest}\n")
         if (caption != null) {
@@ -111,3 +147,5 @@ object OperatorGraphToLatex {
         return output.toString()
     }
 }
+
+

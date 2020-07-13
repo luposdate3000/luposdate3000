@@ -75,6 +75,31 @@ class PhysicalOptimizerPartition(query: Query) : OptimizerBase(query, EOptimizer
                     onChange()
                 }
             }
+	    is POPSplitPartition -> {
+		val c = node.children[0]
+		when (c){
+			is POPMergePartition->{
+				if(node.partitionVariable==c.partitionVariable){
+					 res=c.children[0]
+		                        onChange()
+				}
+			}
+			is POPMergePartitionCount->{
+				if(node.partitionVariable==c.partitionVariable){
+					 res=c.children[0]
+		                        onChange()
+				}
+			}
+			is POPReduced->{
+				res=POPReduced(query,node.projectedVariables,POPSplitPartition(query,node.projectedVariables,node.partitionVariable,c.children[0]))
+				onChange()
+			}
+			is POPProjection->{
+				res=POPProjection(query,node.projectedVariables,POPSplitPartition(query,node.projectedVariables,node.partitionVariable,c.children[0]))
+				onChange()
+			}
+		}
+            }
         }
         return res
     }
