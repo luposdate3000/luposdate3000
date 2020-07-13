@@ -89,13 +89,11 @@ object OperatorGraphToLatex {
                     }
                 }
                 element.startsWith("POPSplitPartition") || element.startsWith("POPMergePartition") -> {
-                    println("xxxxxx - $element")
                     stack.add(0, StackElement(element.substring(3, element.indexOf(" "))))
                     val t = "partitionVariable"
                     val i = element.indexOf(t) + t.length + 2
                     val j = element.indexOf("\"", i)
                     stack[0].partitionHelper = element.substring(i, j)
-                    println("extracted :: ${stack[0].partitionHelper}")
                 }
                 element.startsWith("LOP") || element.startsWith("AOP") || element.startsWith("POP") -> {
                     stack.add(0, StackElement(element.substring(3, element.indexOf(" "))))

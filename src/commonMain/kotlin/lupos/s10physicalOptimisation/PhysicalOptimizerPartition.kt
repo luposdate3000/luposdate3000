@@ -50,30 +50,34 @@ import lupos.s09physicalOperators.singleinput.POPModify
 import lupos.s09physicalOperators.singleinput.POPProjection
 import lupos.s09physicalOperators.singleinput.POPSort
 import lupos.s15tripleStoreDistributed.DistributedTripleStore
+import lupos.s09physicalOperators.partition.POPMergePartition
+import lupos.s09physicalOperators.partition.POPMergePartitionCount
+import lupos.s09physicalOperators.partition.POPSplitPartition
 
 class PhysicalOptimizerPartition(query: Query) : OptimizerBase(query, EOptimizerID.PhysicalOptimizerPartitionID) {
     override val classname = "PhysicalOptimizerPartition"
     override fun optimize(node: OPBase, parent: OPBase?, onChange: () -> Unit): OPBase {
         var res = node
-/*        var change = true
-        try {
-            when (node) {
-                is POPDebug -> {
-                    change = false
-                }
-                else -> {
-                    change = false
+        when (node) {
+/*
+            is POPProjection -> {
+                val c = node.children[0]
+                if (c is POPMergePartition || c is POPMergePartitionCount) {
+                    c.children[0] = POPProjection(query, node.projectedVariables, c.children[0])
+                    res = c
+                    onChange()
                 }
             }
-        } finally {
-            if (change) {
-                SanityCheck { res.getProvidedVariableNames().containsAll(node.mySortPriority.map { it.variableName }) }
-                res.mySortPriority = node.mySortPriority
-                res.sortPriorities = node.sortPriorities
-                onChange()
+            is POPReduced -> {
+                val c = node.children[0]
+                if (c is POPMergePartition || c is POPMergePartitionCount) {
+                    c.children[0] = POPReduced(query, node.projectedVariables, c.children[0])
+                    res = c
+                    onChange()
+                }
             }
-        }
 */
+        }
         return res
     }
 }
