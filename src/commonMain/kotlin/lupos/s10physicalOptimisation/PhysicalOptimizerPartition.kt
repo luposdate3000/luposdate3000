@@ -61,56 +61,63 @@ class PhysicalOptimizerPartition(query: Query) : OptimizerBase(query, EOptimizer
         when (node) {
             is POPProjection -> {
                 val c = node.children[0]
-                if (c is POPMergePartition || c is POPMergePartitionCount) {
-                    c.children[0] = POPProjection(query, node.projectedVariables, c.children[0])
-                    res = c
+                if (c is POPMergePartition) {
+                    res = POPMergePartition(query, node.projectedVariables, c.partitionVariable, POPProjection(query, node.projectedVariables, c.children[0]))
+                    onChange()
+                } else if (c is POPMergePartitionCount) {
+                    res = POPMergePartitionCount(query, node.projectedVariables, c.partitionVariable, POPProjection(query, node.projectedVariables, c.children[0]))
                     onChange()
                 }
             }
             is POPReduced -> {
                 val c = node.children[0]
-                if (c is POPMergePartition || c is POPMergePartitionCount) {
-                    c.children[0] = POPReduced(query, node.projectedVariables, c.children[0])
-                    res = c
+                if (c is POPMergePartition) {
+                    res = POPMergePartition(query, node.projectedVariables, c.partitionVariable, POPReduced(query, node.projectedVariables, c.children[0]))
+                    onChange()
+                } else if (c is POPMergePartitionCount) {
+                    res = POPMergePartitionCount(query, node.projectedVariables, c.partitionVariable, POPReduced(query, node.projectedVariables, c.children[0]))
                     onChange()
                 }
             }
-		is POPFilter->{
-		val c = node.children[0]
-                if (c is POPMergePartition || c is POPMergePartitionCount) {
-                    c.children[0] = POPFilter(query, node.projectedVariables,node.children[1]as AOPBase, c.children[0])
-                    res = c
+            is POPFilter -> {
+                val c = node.children[0]
+                if (c is POPMergePartition) {
+                    res = POPMergePartition(query, node.projectedVariables, c.partitionVariable, POPFilter(query, node.projectedVariables, node.children[1] as AOPBase, c.children[0]))
+                    onChange()
+                } else if (c is POPMergePartitionCount) {
+                    res = POPMergePartitionCount(query, node.projectedVariables, c.partitionVariable, POPFilter(query, node.projectedVariables, node.children[1] as AOPBase, c.children[0]))
                     onChange()
                 }
-		}
-	    is POPSplitPartition -> {
-		val c = node.children[0]
-		when (c){
-			is POPMergePartition->{
-				if(node.partitionVariable==c.partitionVariable){
-					 res=c.children[0]
-		                        onChange()
-				}
-			}
-			is POPMergePartitionCount->{
-				if(node.partitionVariable==c.partitionVariable){
-					 res=c.children[0]
-		                        onChange()
-				}
-			}
-			is POPReduced->{
-				res=POPReduced(query,node.projectedVariables,POPSplitPartition(query,node.projectedVariables,node.partitionVariable,c.children[0]))
-				onChange()
-			}
-			is POPProjection->{
-				res=POPProjection(query,node.projectedVariables,POPSplitPartition(query,node.projectedVariables,node.partitionVariable,c.children[0]))
-				onChange()
-			}
-			is POPFilter->{
-				res=POPFilter(query,node.projectedVariables,c.children[1]as AOPBase,POPSplitPartition(query,node.projectedVariables,node.partitionVariable,c.children[0]))
-				onChange()
-			}
-		}
+            }
+            is POPSplitPartition -> {
+//splitting must always split all variables provided by its direct children - if there is a different children, adapt the variables
+                val c = node.children[0]
+                when (c) {
+                    is POPMergePartition -> {
+                        if (node.partitionVariable == c.partitionVariable) {
+                            res = c.children[0]
+                            onChange()
+                        }
+                    }
+                    is POPMergePartitionCount -> {
+                        if (node.partitionVariable == c.partitionVariable) {
+                            res = c.children[0]
+                            onChange()
+                        }
+                    }
+                    is POPReduced -> {
+                        res = POPReduced(query, c.projectedVariables, POPSplitPartition(query, c.children[0].getProvidedVariableNames(), node.partitionVariable, c.children[0]))
+                        onChange()
+                    }
+                    is POPProjection -> {
+                        res = POPProjection(query, c.projectedVariables, POPSplitPartition(query, c.children[0].getProvidedVariableNames(), node.partitionVariable, c.children[0]))
+                        onChange()
+                    }
+                    is POPFilter -> {
+                        res = POPFilter(query, c.projectedVariables, c.children[1] as AOPBase, POPSplitPartition(query, c.children[0].getProvidedVariableNames(), node.partitionVariable, c.children[0]))
+                        onChange()
+                    }
+                }
             }
         }
         return res
