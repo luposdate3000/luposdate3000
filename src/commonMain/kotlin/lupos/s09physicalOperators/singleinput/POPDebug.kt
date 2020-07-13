@@ -21,6 +21,14 @@ import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
 import lupos.s09physicalOperators.POPBase
 
+enum class POPDebugMode {
+    NONE,
+    DEBUG1,
+    DEBUG2
+}
+
+val popDebugMode = POPDebugMode.DEBUG2
+
 class POPDebug(query: Query, projectedVariables: List<String>, child: OPBase) : POPBase(query, projectedVariables, EOperatorID.POPDebugID, "POPDebug", arrayOf(child), ESortPriority.SAME_AS_CHILD) {
     override fun equals(other: Any?): Boolean = other is POPDebug && children[0] == other.children[0]
     override fun cloneOP() = POPDebug(query, projectedVariables, children[0].cloneOP())
@@ -30,20 +38,84 @@ class POPDebug(query: Query, projectedVariables: List<String>, child: OPBase) : 
     override fun toSparql(): String = children[0].toSparql()
     override suspend fun evaluate(parent: Partition): IteratorBundle {
         val child = children[0].evaluate(parent)
-        val target = children[0].getProvidedVariableNames()
-        SanityCheck.println({ "POPDebug-child-mode ... ${uuid} ${children[0].uuid} ${child.mode}" })
-        if (child.hasColumnMode()) {
-            val columnMode = mutableListOf<String>()
-            for ((k, v) in child.columns) {
-                columnMode.add(k)
+        when (popDebugMode) {
+            POPDebugMode.NONE -> {
+                return child
             }
-            SanityCheck { columnMode.containsAll(target) }
-            SanityCheck { target.containsAll(columnMode) }
-        } else if (child.hasRowMode()) {
-            val rowMode = child.rows.columns.toMutableList()
-            SanityCheck { rowMode.containsAll(target) }
-            SanityCheck { target.containsAll(rowMode) }
+            POPDebugMode.DEBUG1 -> {
+                val target = children[0].getProvidedVariableNames()
+                SanityCheck.println({ "POPDebug-child-mode ... ${uuid} ${children[0].uuid} ${child.mode}" })
+                if (child.hasColumnMode()) {
+                    val columnMode = mutableListOf<String>()
+                    for ((k, v) in child.columns) {
+                        columnMode.add(k)
+                    }
+                    SanityCheck { columnMode.containsAll(target) }
+                    SanityCheck { target.containsAll(columnMode) }
+                } else if (child.hasRowMode()) {
+                    val rowMode = child.rows.columns.toMutableList()
+                    SanityCheck { rowMode.containsAll(target) }
+                    SanityCheck { target.containsAll(rowMode) }
+                }
+                return child
+            }
+            POPDebugMode.DEBUG2 -> {
+                val target = children[0].getProvidedVariableNames()
+                SanityCheck.println({ "POPDebug-child-mode ... ${uuid} ${children[0].uuid} ${child.mode}" })
+                if (child.hasColumnMode()) {
+                    val outMap = mutableMapOf<String, ColumnIterator>()
+                    val columnMode = mutableListOf<String>()
+                    for ((k, v) in child.columns) {
+                        columnMode.add(k)
+                        val iterator = ColumnIterator()
+                        println("$uuid $k opened")
+                        iterator.next = {
+                                println("$uuid $k next call")
+                            val res = v.next()
+                            if (res == null) {
+                                println("$uuid $k next return closed null")
+                            } else {
+                                println("$uuid $k next return")
+                            }
+                            /*return*/ res
+                        }
+                        iterator.close = {
+                            println("$uuid $k closed")
+                            v.close()
+                            iterator._close()
+                        }
+                        outMap[k] = iterator
+                    }
+                    SanityCheck { columnMode.containsAll(target) }
+                    SanityCheck { target.containsAll(columnMode) }
+                    return IteratorBundle(outMap)
+                } else if (child.hasRowMode()) {
+                    val rowMode = child.rows.columns.toMutableList()
+                    SanityCheck { rowMode.containsAll(target) }
+                    SanityCheck { target.containsAll(rowMode) }
+                    val iterator = RowIterator()
+                    iterator.columns = child.rows.columns
+                    iterator.next = {
+                            println("$uuid next call")
+                        val res = child.rows.next()
+                        iterator.buf = child.rows.buf
+                        if (res < 0) {
+                            println("$uuid next return closed null")
+                        } else {
+                            println("$uuid next return")
+                        }
+                        /*return*/ res
+                    }
+                    iterator.close = {
+                        println("$uuid closed")
+                        child.rows.close()
+                        iterator._close()
+                    }
+                    return IteratorBundle(iterator)
+                } else {
+                    return child
+                }
+            }
         }
-        return child
     }
 }

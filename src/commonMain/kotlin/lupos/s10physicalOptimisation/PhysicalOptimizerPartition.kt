@@ -67,7 +67,6 @@ class PhysicalOptimizerPartition(query: Query) : OptimizerBase(query, EOptimizer
                     onChange()
                 }
             }
-/*
             is POPReduced -> {
                 val c = node.children[0]
                 if (c is POPMergePartition || c is POPMergePartitionCount) {
@@ -76,7 +75,6 @@ class PhysicalOptimizerPartition(query: Query) : OptimizerBase(query, EOptimizer
                     onChange()
                 }
             }
-*/
         }
         return res
     }
