@@ -34,6 +34,7 @@ mkdir -p log/benchtmp
   echo "ConnectionPool->Off"
   echo "Inline->On"
   echo "UsePartitions->true"
+  echo "IteratorDebug->EPOPDebugMode.NONE"
 } | ./generate-buildfile.kts
 ./tool-gradle-build.sh
 

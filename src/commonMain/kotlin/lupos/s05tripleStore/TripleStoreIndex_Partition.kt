@@ -58,7 +58,9 @@ class TripleStoreIndex_Partition(childIndex: () -> TripleStoreIndex, val column:
     override fun import(dataImport: IntArray, count: Int, order: IntArray) {
         var counters = IntArray(Partition.k)
         for (i in 0 until count / 3) {
-            counters[Partition.hashFunction(dataImport[i * 3 + column])]++
+            val a = i * 3
+            val h = Partition.hashFunction(dataImport[a + column])
+            counters[h]++
         }
         val data = Array(Partition.k) { IntArray(counters[it]*3) }
         for (i in 0 until count / 3) {
@@ -67,7 +69,7 @@ class TripleStoreIndex_Partition(childIndex: () -> TripleStoreIndex, val column:
             counters[h]--
             val b = counters[h]
             for (j in 0 until 3){
-                data[h][a + j] = dataImport[b + j]
+                data[h][b + j] = dataImport[a + j]
             }
         }
         for (i in 0 until Partition.k) {
@@ -80,7 +82,9 @@ class TripleStoreIndex_Partition(childIndex: () -> TripleStoreIndex, val column:
     override suspend fun insertAsBulk(dataImport: IntArray, order: IntArray) {
         var counters = IntArray(Partition.k)
         for (i in 0 until dataImport.size / 3) {
-            counters[Partition.hashFunction(dataImport[i * 3 + column])]++
+ val a = i * 3
+            val h = Partition.hashFunction(dataImport[a + column])
+            counters[h]++
         }
         val data = Array(Partition.k) { IntArray(counters[it]*3) }
         for (i in 0 until dataImport.size / 3) {
@@ -89,7 +93,7 @@ class TripleStoreIndex_Partition(childIndex: () -> TripleStoreIndex, val column:
             counters[h]--
             val b = counters[h]
             for (j in 0 until 3){
-                data[h][a + j] = dataImport[b + j]
+data[h][b + j] = dataImport[a + j]
             }
         }
         for (i in 0 until Partition.k) {
@@ -102,7 +106,9 @@ class TripleStoreIndex_Partition(childIndex: () -> TripleStoreIndex, val column:
     override suspend fun removeAsBulk(dataImport: IntArray, order: IntArray) {
         var counters = IntArray(Partition.k)
         for (i in 0 until dataImport.size / 3) {
-            counters[Partition.hashFunction(dataImport[i * 3 + column])]++
+ val a = i * 3
+            val h = Partition.hashFunction(dataImport[a + column])
+            counters[h]++
         }
         val data = Array(Partition.k) { IntArray(counters[it]*3) }
         for (i in 0 until dataImport.size / 3) {
@@ -111,7 +117,7 @@ class TripleStoreIndex_Partition(childIndex: () -> TripleStoreIndex, val column:
             counters[h]--
             val b = counters[h]
             for (j in 0 until 3){
-                data[h][a + j] = dataImport[b + j]
+data[h][b + j] = dataImport[a + j]
             }
         }
         for (i in 0 until Partition.k) {

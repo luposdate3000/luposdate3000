@@ -389,7 +389,12 @@ val options = mapOf<ChooseableGroup, List<ChooseableOption>>(
         ChooseableGroup("Use Partitions for parallel Join", "UsePartitions") to listOf(
                 ChooseableOptionConstantValue("lupos.s10physicalOptimisation", "USE_PARTITIONS", "true"),
                 ChooseableOptionConstantValue("lupos.s10physicalOptimisation", "USE_PARTITIONS", "false")
-        )
+        ),
+ChooseableGroup("Iterator Debug mode", "IteratorDebug") to listOf(
+                ChooseableOptionConstantValue("lupos.s09physicalOperators.singleinput", "ITERATOR_DEBUG_MODE", "EPOPDebugMode.NONE"),
+                ChooseableOptionConstantValue("lupos.s09physicalOperators.singleinput", "ITERATOR_DEBUG_MODE", "EPOPDebugMode.DEBUG1"),
+                ChooseableOptionConstantValue("lupos.s09physicalOperators.singleinput", "ITERATOR_DEBUG_MODE", "EPOPDebugMode.DEBUG2")
+        ),
 )
 
 

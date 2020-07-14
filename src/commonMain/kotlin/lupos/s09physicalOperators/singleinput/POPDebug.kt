@@ -21,13 +21,12 @@ import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
 import lupos.s09physicalOperators.POPBase
 
-enum class POPDebugMode {
+enum class EPOPDebugMode {
     NONE,
     DEBUG1,
     DEBUG2
 }
 
-val popDebugMode = POPDebugMode.DEBUG2
 
 class POPDebug(query: Query, projectedVariables: List<String>, child: OPBase) : POPBase(query, projectedVariables, EOperatorID.POPDebugID, "POPDebug", arrayOf(child), ESortPriority.SAME_AS_CHILD) {
     override fun equals(other: Any?): Boolean = other is POPDebug && children[0] == other.children[0]
@@ -38,11 +37,11 @@ class POPDebug(query: Query, projectedVariables: List<String>, child: OPBase) : 
     override fun toSparql(): String = children[0].toSparql()
     override suspend fun evaluate(parent: Partition): IteratorBundle {
         val child = children[0].evaluate(parent)
-        when (popDebugMode) {
-            POPDebugMode.NONE -> {
+        when (ITERATOR_DEBUG_MODE) {
+            EPOPDebugMode.NONE -> {
                 return child
             }
-            POPDebugMode.DEBUG1 -> {
+            EPOPDebugMode.DEBUG1 -> {
                 val target = children[0].getProvidedVariableNames()
                 SanityCheck.println({ "POPDebug-child-mode ... ${uuid} ${children[0].uuid} ${child.mode}" })
                 if (child.hasColumnMode()) {
@@ -59,7 +58,7 @@ class POPDebug(query: Query, projectedVariables: List<String>, child: OPBase) : 
                 }
                 return child
             }
-            POPDebugMode.DEBUG2 -> {
+            EPOPDebugMode.DEBUG2 -> {
                 val target = children[0].getProvidedVariableNames()
                 SanityCheck.println({ "POPDebug-child-mode ... ${uuid} ${children[0].uuid} ${child.mode}" })
                 if (child.hasColumnMode()) {

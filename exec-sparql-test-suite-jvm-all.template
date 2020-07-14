@@ -25,6 +25,7 @@
   echo "ConnectionPool->Off"
   echo "Inline->Off"
   echo "UsePartitions->true"
+  echo "IteratorDebug->EPOPDebugMode.NONE"
 } | ./generate-buildfile.kts
 
 {
@@ -54,6 +55,7 @@
   echo "ConnectionPool->Off"
   echo "Inline->Off"
   echo "UsePartitions->false"
+  echo "IteratorDebug->EPOPDebugMode.NONE"
 } | ./generate-buildfile.kts
 {
   echo "KotlinVersion->1.4.255-SNAPSHOT"
@@ -82,6 +84,7 @@
   echo "ConnectionPool->Off"
   echo "Inline->Off"
   echo "UsePartitions->true"
+  echo "IteratorDebug->EPOPDebugMode.NONE"
 } | ./generate-buildfile.kts
 {
   echo "KotlinVersion->1.4.255-SNAPSHOT"
@@ -138,6 +141,7 @@
   echo "ConnectionPool->Off"
   echo "Inline->Off"
   echo "UsePartitions->true"
+  echo "IteratorDebug->EPOPDebugMode.NONE"
 } | ./generate-buildfile.kts
 {
   echo "KotlinVersion->1.4.255-SNAPSHOT"
@@ -166,4 +170,5 @@
   echo "ConnectionPool->Off"
   echo "Inline->Off"
   echo "UsePartitions->true"
+  echo "IteratorDebug->EPOPDebugMode.NONE"
 } | ./generate-buildfile.kts
