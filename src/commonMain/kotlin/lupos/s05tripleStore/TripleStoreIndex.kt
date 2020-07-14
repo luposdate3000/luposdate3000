@@ -10,14 +10,14 @@ import lupos.s04logicalOperators.Query
 abstract class TripleStoreIndex {
     abstract suspend fun safeToFile(filename: String)
     abstract fun loadFromFile(filename: String)
-    abstract suspend fun getIterator(query: Query, filter: IntArray, projection: List<String>): IteratorBundle
+    abstract suspend fun getIterator(query: Query, params: TripleStoreFeatureParams): IteratorBundle
     abstract fun import(dataImport: IntArray, count: Int, order: IntArray)
     abstract fun insert(a: Value, b: Value, c: Value)
     abstract fun remove(a: Value, b: Value, c: Value)
     abstract suspend fun clear()
     abstract fun printContents()
     abstract suspend fun flush()
-    open fun getHistogram(query: Query, filter: IntArray): Pair<Int, Int> = throw HistogramNotImplementedException("TripleStoreIndex")
+    open fun getHistogram(query: Query, params: TripleStoreFeatureParams): Pair<Int, Int> = throw HistogramNotImplementedException("TripleStoreIndex")
     open suspend fun insertAsBulk(data: IntArray, order: IntArray) {
         var i = 0
         while (i < data.size) {

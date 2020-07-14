@@ -91,7 +91,7 @@ class DistributedGraph(val query: Query, @JvmField val name: String) {
 
     suspend fun modify(data: Array<ColumnIterator>, type: EModifyType) {
         SanityCheck.check { data.size == 3 }
-        val map = Array(EIndexPattern.values().size) { Array(3) { MyListValue() } }
+        val map = Array(3) { MyListValue() }
         loop@ while (true) {
             val row = Array(3) { ResultSetDictionary.undefValue }
             for (columnIndex in 0 until 3) {
@@ -105,17 +105,13 @@ class DistributedGraph(val query: Query, @JvmField val name: String) {
                 }
                 row[columnIndex] = v
             }
-            for (idx in TripleStoreLocalBase.distinctIndices) {
                 for (columnIndex in 0 until 3) {
-                    map[idx.ordinal][columnIndex].add(row[columnIndex])
+                    map[columnIndex].add(row[columnIndex])
                 }
-            }
         }
-        for (idx in TripleStoreLocalBase.distinctIndices) {
-            if (map[idx.ordinal][0].size > 0) {
-                DistributedTripleStore.localStore.getNamedGraph(query, name).modify(query, Array(3) { ColumnIteratorMultiValue(map[idx.ordinal][it]) }, idx, type)
+            if (map[0].size > 0) {
+                DistributedTripleStore.localStore.getNamedGraph(query, name).modify(query, Array(3) { ColumnIteratorMultiValue(map[idx.ordinal][it]) },  type)
             }
-        }
     }
 
     fun getIterator(idx: EIndexPattern): POPBase {

@@ -12,7 +12,7 @@ import lupos.s03resultRepresentation.Value
 import lupos.s04logicalOperators.Query
 import lupos.s15tripleStoreDistributed.DistributedTripleStore
 
-class TripleStoreBulkImport(@JvmField val query: Query, @JvmField val graphName: String, @JvmField val targetIdx: EIndexPattern?) {
+class TripleStoreBulkImport(@JvmField val query: Query, @JvmField val graphName: String) {
     @JvmField
     val dictionaryBNode = MyMapStringIntPatriciaTrie()
 
@@ -54,36 +54,22 @@ class TripleStoreBulkImport(@JvmField val query: Query, @JvmField val graphName:
         data[8][idx++] = oi
         if (full()) {
             runBlocking {
-                sort(targetIdx)
-                if (targetIdx == null) {
-                    for (idx in TripleStoreLocalBase.distinctIndices) {
-                        flush(idx)
-                    }
-                } else {
-                    flush(targetIdx)
-                }
+                sort()
+                        flush()
                 reset()
             }
         }
     }
 
     fun finishImport() {
-        sort(targetIdx)
-        if (targetIdx == null) {
-            for (idx in TripleStoreLocalBase.distinctIndices) {
-                flush(idx)
-            }
-        } else {
-            flush(targetIdx)
-        }
+        sort()
+            flush()
     }
 
-    fun flush(idx2: EIndexPattern) {
-        if (idx2 == TripleStoreLocalBase.distinctIndices[0]) {
+    fun flush() {
             totalflushed += idx / 3
             println("flushed triples $totalflushed")
-        }
-        DistributedTripleStore.localStore.getNamedGraph(query, graphName).import(this, idx2)
+        DistributedTripleStore.localStore.getNamedGraph(query, graphName).import(this)
     }
 
     fun reset() {
@@ -166,7 +152,7 @@ class TripleStoreBulkImport(@JvmField val query: Query, @JvmField val graphName:
         }
     }
 
-    fun sort(targetIdx: EIndexPattern?) {
+    fun sort() {
         BenchmarkUtils.start(EBenchmark.IMPORT_SORT)
         //the target data is sorted, but may contain duplicates, _if the input contains those
         val total = idx / 3
@@ -185,7 +171,6 @@ class TripleStoreBulkImport(@JvmField val query: Query, @JvmField val graphName:
             dataOSP = data[8]
             dataOPS = data[8]
         } else {
-            if (targetIdx == null) {
                 for (j in 0 until 2) {
                     for (i in 0 until 3) {
                         val order = orders[i * 2 + j]
@@ -210,15 +195,6 @@ class TripleStoreBulkImport(@JvmField val query: Query, @JvmField val graphName:
                         dataOPS = data[2]
                     }
                 }
-            } else {
-                sortUsingBuffers(8, 0, 1, data, total, targetIdx.tripleIndicees)
-                dataSPO = data[0]
-                dataSOP = data[0]
-                dataPSO = data[0]
-                dataPOS = data[0]
-                dataOSP = data[0]
-                dataOPS = data[0]
-            }
         }
         BenchmarkUtils.elapsedSeconds(EBenchmark.IMPORT_SORT)
     }

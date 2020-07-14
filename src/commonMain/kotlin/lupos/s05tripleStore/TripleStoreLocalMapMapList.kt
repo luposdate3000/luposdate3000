@@ -38,4 +38,14 @@ class TripleStoreLocalMapMapList(name: String) : TripleStoreLocalBase(name) {
 /*return*/res
         }
     }
+override fun providesFeature(feature: TripleStoreFeature,params:TripleStoreFeatureParams?): Boolean {
+        return when (feature) {
+            TripleStoreFeature.DEFAULT -> {
+                true
+            }
+            TripleStoreFeature.PARTITION -> {
+false
+            }
+        }
+    }
 }

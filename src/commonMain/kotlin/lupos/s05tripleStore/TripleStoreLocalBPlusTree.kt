@@ -5,38 +5,112 @@ import lupos.s00misc.EIndexPattern
 
 class TripleStoreLocalBPlusTree(name: String) : TripleStoreLocalBase(name) {
     init {
-        distinctIndices = arrayOf<EIndexPattern>(EIndexPattern.SPO, EIndexPattern.SOP, EIndexPattern.POS, EIndexPattern.PSO, EIndexPattern.OSP, EIndexPattern.OPS)
         dataDistinct = arrayOf(/*return*/
-/*return*/                Pair("SPO", TripleStoreIndex_IDTriple()),
-/*return*/                Pair("SOP", TripleStoreIndex_IDTriple()),
-/*return*/                Pair("POS", TripleStoreIndex_IDTriple()),
-/*return*/                Pair("PSO", TripleStoreIndex_IDTriple()),
-/*return*/                Pair("OSP", TripleStoreIndex_IDTriple()),
-/*return*/                Pair("OPS", TripleStoreIndex_IDTriple())
+/*return*/                TripleStoreDistinctContainer("SPO", TripleStoreIndex_IDTriple(),{it->it.dataSPO},EIndexPattern.SPO),
+/*return*/                TripleStoreDistinctContainer("SOP", TripleStoreIndex_IDTriple(),{it->it.dataSOP},EIndexPattern.SOP),
+/*return*/                TripleStoreDistinctContainer("POS", TripleStoreIndex_IDTriple(),{it->it.dataPOS},EIndexPattern.POS),
+/*return*/                TripleStoreDistinctContainer("PSO", TripleStoreIndex_IDTriple(),{it->it.dataPSO},EIndexPattern.PSO),
+/*return*/                TripleStoreDistinctContainer("OSP", TripleStoreIndex_IDTriple(),{it->it.dataOSP},EIndexPattern.OSP),
+/*return*/                TripleStoreDistinctContainer("OPS", TripleStoreIndex_IDTriple(),{it->it.dataOPS},EIndexPattern.OPS),
+/*return*/                TripleStoreDistinctContainer("SPkO", TripleStoreIndex_IDTriple(),{it->it.dataSPO},EIndexPattern.SPO),//TODO
+/*return*/                TripleStoreDistinctContainer("SOkP", TripleStoreIndex_IDTriple(),{it->it.dataSOP},EIndexPattern.SOP),//TODO
+/*return*/                TripleStoreDistinctContainer("POkS", TripleStoreIndex_IDTriple(),{it->it.dataPOS},EIndexPattern.POS),//TODO
+/*return*/                TripleStoreDistinctContainer("PSkO", TripleStoreIndex_IDTriple(),{it->it.dataPSO},EIndexPattern.PSO),//TODO
+/*return*/                TripleStoreDistinctContainer("OSkP", TripleStoreIndex_IDTriple(),{it->it.dataOSP},EIndexPattern.OSP),//TODO
+/*return*/                TripleStoreDistinctContainer("OPkS", TripleStoreIndex_IDTriple(),{it->it.dataOPS},EIndexPattern.OPS),//TODO
+/*return*/                TripleStoreDistinctContainer("SPOk", TripleStoreIndex_IDTriple(),{it->it.dataSPO},EIndexPattern.SPO),//TODO
+/*return*/                TripleStoreDistinctContainer("SOPk", TripleStoreIndex_IDTriple(),{it->it.dataSOP},EIndexPattern.SOP),//TODO
+/*return*/                TripleStoreDistinctContainer("POSk", TripleStoreIndex_IDTriple(),{it->it.dataPOS},EIndexPattern.POS),//TODO
+/*return*/                TripleStoreDistinctContainer("PSOk", TripleStoreIndex_IDTriple(),{it->it.dataPSO},EIndexPattern.PSO),//TODO
+/*return*/                TripleStoreDistinctContainer("OSPk", TripleStoreIndex_IDTriple(),{it->it.dataOSP},EIndexPattern.OSP),//TODO
+/*return*/                TripleStoreDistinctContainer("OPSk", TripleStoreIndex_IDTriple(),{it->it.dataOPS},EIndexPattern.OPS),//TODO
         )
-        data = Array(EIndexPattern.values().size) {
-            val res: TripleStoreIndex
+        var d = mutableListOf<Int>()
+        for (it in 0 until EIndexPattern.values().size) {
             when (EIndexPattern.values()[it]) {
                 EIndexPattern.SPO, EIndexPattern.SP_O, EIndexPattern.S_PO -> {
-                    res = dataDistinct[0].second
+                    d.add(0)
                 }
                 EIndexPattern.SOP, EIndexPattern.SO_P, EIndexPattern.S_OP -> {
-                    res = dataDistinct[1].second
+                    d.add(1)
                 }
                 EIndexPattern.POS, EIndexPattern.P_OS, EIndexPattern.PO_S -> {
-                    res = dataDistinct[2].second
+                    d.add(2)
                 }
                 EIndexPattern.PSO, EIndexPattern.P_SO, EIndexPattern.PS_O -> {
-                    res = dataDistinct[3].second
+                    d.add(3)
                 }
                 EIndexPattern.OSP, EIndexPattern.O_SP, EIndexPattern.OS_P -> {
-                    res = dataDistinct[4].second
+                    d.add(4)
                 }
                 EIndexPattern.OPS, EIndexPattern.O_PS, EIndexPattern.OP_S -> {
-                    res = dataDistinct[5].second
+                    d.add(5)
                 }
             }
-/*return*/res
+        }
+        featureDataMap[TripleStoreFeature.DEFAULT.ordinal] = Pair(0, d.size)
+var s=d.size
+for (it in 0 until EIndexPattern.values().size) {
+            when (EIndexPattern.values()[it]) {
+                EIndexPattern.SPO, EIndexPattern.SP_O, EIndexPattern.S_PO -> {
+                    d.add(6)
+                }
+                EIndexPattern.SOP, EIndexPattern.SO_P, EIndexPattern.S_OP -> {
+                    d.add(7)
+                }
+                EIndexPattern.POS, EIndexPattern.P_OS, EIndexPattern.PO_S -> {
+                    d.add(8)
+                }
+                EIndexPattern.PSO, EIndexPattern.P_SO, EIndexPattern.PS_O -> {
+                    d.add(9)
+                }
+                EIndexPattern.OSP, EIndexPattern.O_SP, EIndexPattern.OS_P -> {
+                    d.add(10)
+                }
+                EIndexPattern.OPS, EIndexPattern.O_PS, EIndexPattern.OP_S -> {
+                    d.add(11)
+                }
+            }
+        }
+for (it in 0 until EIndexPattern.values().size) {
+            when (EIndexPattern.values()[it]) {
+                EIndexPattern.SPO, EIndexPattern.SP_O, EIndexPattern.S_PO -> {
+                    d.add(12)
+                }
+                EIndexPattern.SOP, EIndexPattern.SO_P, EIndexPattern.S_OP -> {
+                    d.add(13)
+                }
+                EIndexPattern.POS, EIndexPattern.P_OS, EIndexPattern.PO_S -> {
+                    d.add(14)
+                }
+                EIndexPattern.PSO, EIndexPattern.P_SO, EIndexPattern.PS_O -> {
+                    d.add(15)
+                }
+                EIndexPattern.OSP, EIndexPattern.O_SP, EIndexPattern.OS_P -> {
+                    d.add(16)
+                }
+                EIndexPattern.OPS, EIndexPattern.O_PS, EIndexPattern.OP_S -> {
+                    d.add(17)
+                }
+            }
+        }
+featureDataMap[TripleStoreFeature.PARTITION.ordinal] = Pair(s, d.size)
+s=d.size
+        data = IntArray(d.size)
+for(i in 0 until d.size){
+data[i]=d[i]
+}
+    }
+
+    override fun providesFeature(feature: TripleStoreFeature,params:TripleStoreFeatureParams?): Boolean {
+        return when (feature) {
+            TripleStoreFeature.DEFAULT -> {
+                true
+            }
+            TripleStoreFeature.PARTITION -> {
+                val p=params as TripleStoreFeatureParamsPartition
+		p.column>=1 && p.column<=2
+            }
         }
     }
 }
