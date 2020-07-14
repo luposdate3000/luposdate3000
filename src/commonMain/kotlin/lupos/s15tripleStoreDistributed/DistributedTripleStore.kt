@@ -27,6 +27,7 @@ import lupos.s04logicalOperators.Query
 import lupos.s05tripleStore.PersistentStoreLocal
 import lupos.s05tripleStore.TripleStoreBulkImport
 import lupos.s05tripleStore.TripleStoreLocalBase
+import lupos.s05tripleStore.TripleStoreFeatureParamsDefault
 import lupos.s09physicalOperators.POPBase
 import lupos.s16network.ServerCommunicationSend
 import lupos.s16network.TripleStoreBulkImportDistributed
@@ -80,7 +81,9 @@ class TripleStoreIteratorGlobal(query: Query, projectedVariables: List<String>, 
 
     override suspend fun evaluate(parent: Partition): IteratorBundle {
         SanityCheck.println({ "opening store for $uuid" })
-        return ServerCommunicationSend.tripleGet(query, graphName, Array(3) { children[it] as AOPBase }, idx)
+//TODO apply partition here
+val params=TripleStoreFeatureParamsDefault(idx,Array(3) { children[it] as AOPBase })
+        return ServerCommunicationSend.tripleGet(query, graphName, params)
     }
 }
 
@@ -110,7 +113,7 @@ class DistributedGraph(val query: Query, @JvmField val name: String) {
                 }
         }
             if (map[0].size > 0) {
-                DistributedTripleStore.localStore.getNamedGraph(query, name).modify(query, Array(3) { ColumnIteratorMultiValue(map[idx.ordinal][it]) },  type)
+                DistributedTripleStore.localStore.getNamedGraph(query, name).modify(query, Array(3) { ColumnIteratorMultiValue(map[it]) },  type)
             }
     }
 
@@ -185,7 +188,7 @@ class DistributedGraph(val query: Query, @JvmField val name: String) {
             }
             SanityCheck { variableNames == 1 }
         }
-        return ServerCommunicationSend.histogramGet(query, name, params, idx)
+        return ServerCommunicationSend.histogramGet(query, name, TripleStoreFeatureParamsDefault(idx,params))
     }
 }
 
