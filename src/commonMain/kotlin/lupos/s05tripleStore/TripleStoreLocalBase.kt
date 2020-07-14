@@ -20,14 +20,21 @@ import lupos.s04logicalOperators.Query
 class TripleStoreDistinctContainer(val first: String,val second: TripleStoreIndex,val importField: (TripleStoreBulkImport) -> IntArray,val idx:EIndexPattern)
 
 abstract class TripleStoreLocalBase(@JvmField val name: String) {
-    @JvmField
+    @JvmField //override this during initialisation
     var data = IntArray(0)
 
-    @JvmField
+    @JvmField //override this during initialisation
     var dataDistinct = arrayOf<TripleStoreDistinctContainer>()
 
-    abstract fun providesFeature(feature: TripleStoreFeature, params: TripleStoreFeatureParams? = null): Boolean
+@JvmField
     val featureDataMap = Array(TripleStoreFeature.values().size) { Pair(0, 0) }//maps the range in 'data' to each Feature
+    @JvmField //override this during initialisation
+    var pendingModificationsInsert = Array(0) { mutableMapOf<Long, MutableList<Int>>() }
+
+    @JvmField //override this during initialisation
+    var pendingModificationsRemove = Array(0) { mutableMapOf<Long, MutableList<Int>>() }
+
+    abstract fun providesFeature(feature: TripleStoreFeature, params: TripleStoreFeatureParams? = null): Boolean
 
     suspend fun safeToFolder(foldername: String) {
         File(foldername).mkdirs()
@@ -63,12 +70,6 @@ for( i in 0 until dataDistinct.size){
 dataDistinct[i].second.import(dataDistinct[i].importField(dataImport), dataImport.idx, dataDistinct[i].idx.tripleIndicees)
 }
     }
-
-    @JvmField
-    val pendingModificationsInsert = Array(dataDistinct.size) { mutableMapOf<Long, MutableList<Int>>() }
-
-    @JvmField
-    val pendingModificationsRemove = Array(dataDistinct.size) { mutableMapOf<Long, MutableList<Int>>() }
 
     fun commit(query: Query) {
         /*

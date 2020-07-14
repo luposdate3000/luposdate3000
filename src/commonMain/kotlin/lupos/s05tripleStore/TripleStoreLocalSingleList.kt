@@ -38,6 +38,10 @@ res=5
 /*return*/res
         }
 featureDataMap[TripleStoreFeature.DEFAULT.ordinal] = Pair(0, data.size)
+    pendingModificationsInsert = Array(dataDistinct.size) { mutableMapOf<Long, MutableList<Int>>() }
+
+     pendingModificationsRemove = Array(dataDistinct.size) { mutableMapOf<Long, MutableList<Int>>() }
+
     }
 override fun providesFeature(feature: TripleStoreFeature,params:TripleStoreFeatureParams?): Boolean {
         return when (feature) {

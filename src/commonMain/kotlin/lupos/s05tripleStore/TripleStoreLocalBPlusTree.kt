@@ -100,6 +100,10 @@ s=d.size
 for(i in 0 until d.size){
 data[i]=d[i]
 }
+     pendingModificationsInsert = Array(dataDistinct.size) { mutableMapOf<Long, MutableList<Int>>() }
+
+     pendingModificationsRemove = Array(dataDistinct.size) { mutableMapOf<Long, MutableList<Int>>() }
+
     }
 
     override fun providesFeature(feature: TripleStoreFeature,params:TripleStoreFeatureParams?): Boolean {
