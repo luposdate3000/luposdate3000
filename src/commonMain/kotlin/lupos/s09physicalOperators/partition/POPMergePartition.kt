@@ -47,7 +47,7 @@ class POPMergePartition(query: Query, projectedVariables: List<String>, val part
     override fun toSparql() = children[0].toSparql()
     override fun equals(other: Any?): Boolean = other is POPMergePartition && children[0] == other.children[0] && partitionVariable == other.partitionVariable
     override suspend fun evaluate(parent: Partition): IteratorBundle {
-        if (ParallelBase.k == 1) {
+        if (Partition.k == 1) {
             //single partition - just pass through
             return children[0].evaluate(parent)
         } else {
@@ -56,15 +56,15 @@ class POPMergePartition(query: Query, projectedVariables: List<String>, val part
             SanityCheck.check { variables0.containsAll(variables) }
             SanityCheck.check { variables.containsAll(variables0) }
 //the variable may be eliminated directly after using it in the join            SanityCheck.check { variables.contains(partitionVariable) }
-            val elementsPerRing = ParallelBase.queue_size * variables.size
-            val ringbuffer = IntArray(elementsPerRing * ParallelBase.k) //only modified by writer, reader just modifies its pointer
-            val ringbufferStart = IntArray(ParallelBase.k) { it * elementsPerRing } //constant
-            val ringbufferReadHead = IntArray(ParallelBase.k) { 0 } //owned by read-thread - no locking required
-            val ringbufferWriteHead = IntArray(ParallelBase.k) { 0 } //owned by write thread - no locking required
-            val writerFinished = IntArray(ParallelBase.k) { 0 } //writer changes to 1 if finished
+            val elementsPerRing = Partition.queue_size * variables.size
+            val ringbuffer = IntArray(elementsPerRing * Partition.k) //only modified by writer, reader just modifies its pointer
+            val ringbufferStart = IntArray(Partition.k) { it * elementsPerRing } //constant
+            val ringbufferReadHead = IntArray(Partition.k) { 0 } //owned by read-thread - no locking required
+            val ringbufferWriteHead = IntArray(Partition.k) { 0 } //owned by write thread - no locking required
+            val writerFinished = IntArray(Partition.k) { 0 } //writer changes to 1 if finished
             var readerFinished = 0
             val jobs = mutableListOf<Job>()
-            for (p in 0 until ParallelBase.k) {
+            for (p in 0 until Partition.k) {
                 val job = GlobalScope.launch(Dispatchers.Default) {
                     val child = children[0].evaluate(Partition(parent, partitionVariable, p)).rows
                     val variableMapping = IntArray(variables.size)
@@ -114,7 +114,7 @@ class POPMergePartition(query: Query, projectedVariables: List<String>, val part
                 loop@ while (true) {
                     SanityCheck.println({ "merge $uuid reader loop start" })
                     var finishedWriters = 0
-                    for (p in 0 until ParallelBase.k) {
+                    for (p in 0 until Partition.k) {
                         if (ringbufferReadHead[p] != ringbufferWriteHead[p]) {
                             //non empty queue -> read one row
                             SanityCheck.println({ "merge $uuid $p reader consumed data" })
@@ -128,7 +128,7 @@ class POPMergePartition(query: Query, projectedVariables: List<String>, val part
                             finishedWriters++
                         }
                     }
-                    if (finishedWriters == ParallelBase.k) {
+                    if (finishedWriters == Partition.k) {
                         //done
                         break@loop
                     }

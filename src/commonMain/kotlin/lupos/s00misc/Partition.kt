@@ -3,6 +3,18 @@ package lupos.s00misc
 class Partition {
     val data: Map<String, Int>
 
+companion object{
+val k = 12
+    val queue_size = 1000
+inline fun hashFunction(v:Int):Int{
+if (v < 0) {
+                                        return (-v) % k
+                                    }else{
+                                        return v % k
+}
+}
+}
+
     constructor() {
         data = mapOf<String, Int>()
     }

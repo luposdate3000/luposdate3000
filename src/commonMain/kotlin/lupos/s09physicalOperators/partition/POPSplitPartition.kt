@@ -48,7 +48,7 @@ class POPSplitPartition(query: Query, projectedVariables: List<String>, val part
     override fun toSparql() = children[0].toSparql()
     override fun equals(other: Any?): Boolean = other is POPSplitPartition && children[0] == other.children[0] && partitionVariable == other.partitionVariable
     override suspend fun evaluate(parent: Partition): IteratorBundle {
-        if (ParallelBase.k == 1) {
+        if (Partition.k == 1) {
             //single partition - just pass through
             return children[0].evaluate(parent)
         } else {
@@ -72,20 +72,20 @@ class POPSplitPartition(query: Query, projectedVariables: List<String>, val part
                 println("operator $uuid HelpersLockGet 2")
                 if (iterators == null) {
                     println("operator $uuid HelpersLockGet 3")
-                    iterators = Array(ParallelBase.k) { IteratorBundle(0) }
+                    iterators = Array(Partition.k) { IteratorBundle(0) }
                     val variables = getProvidedVariableNames()
                     val variables0 = children[0].getProvidedVariableNames()
                     SanityCheck.check { variables0.containsAll(variables) }
                     SanityCheck.check { variables.containsAll(variables0) }
                     SanityCheck.check { variables.contains(partitionVariable) }
-                    val elementsPerRing = ParallelBase.queue_size * variables.size
-                    val ringbuffer = IntArray(elementsPerRing * ParallelBase.k) //only modified by writer, reader just modifies its pointer
-                    val ringbufferStart = IntArray(ParallelBase.k) { it * elementsPerRing } //constant
-                    val ringbufferReadHead = IntArray(ParallelBase.k) { 0 } //owned by read-thread - no locking required
-                    val ringbufferWriteHead = IntArray(ParallelBase.k) { 0 } //owned by write thread - no locking required
-                    val readerFinished = IntArray(ParallelBase.k) { 0 } //writer changes to 1 if finished
+                    val elementsPerRing = Partition.queue_size * variables.size
+                    val ringbuffer = IntArray(elementsPerRing * Partition.k) //only modified by writer, reader just modifies its pointer
+                    val ringbufferStart = IntArray(Partition.k) { it * elementsPerRing } //constant
+                    val ringbufferReadHead = IntArray(Partition.k) { 0 } //owned by read-thread - no locking required
+                    val ringbufferWriteHead = IntArray(Partition.k) { 0 } //owned by write thread - no locking required
+                    val readerFinished = IntArray(Partition.k) { 0 } //writer changes to 1 if finished
                     var writerFinished = 0
-                    SanityCheck.println({ "ringbuffersize = ${ringbuffer.size} ${elementsPerRing} ${ParallelBase.k} ${ringbufferStart.map { it }} ${ringbufferReadHead.map { it }} ${ringbufferWriteHead.map { it }}" })
+                    SanityCheck.println({ "ringbuffersize = ${ringbuffer.size} ${elementsPerRing} ${Partition.k} ${ringbufferStart.map { it }} ${ringbufferReadHead.map { it }} ${ringbufferWriteHead.map { it }}" })
                     println("operator $uuid HelpersLockGet 6")
                     job = GlobalScope.launch(Dispatchers.Default) {
                         val child = children[0].evaluate(childPartition).rows
@@ -103,7 +103,7 @@ class POPSplitPartition(query: Query, projectedVariables: List<String>, val part
                             }
                         }
                         SanityCheck.check { hashVariableIndex != -1 }
-                        val cacheArr = IntArray(ParallelBase.k) { it }
+                        val cacheArr = IntArray(Partition.k) { it }
                         var cacheSize = 1
                         loop@ while (isActive) {
                             SanityCheck.println({ "split $uuid writer loop start" })
@@ -117,14 +117,11 @@ class POPSplitPartition(query: Query, projectedVariables: List<String>, val part
                                 if (q == ResultSetDictionary.undefValue) {
                                     //broadcast undef to every partition
                                     println(" attention may increase result count here - this is always ok, _if there is a join afterwards immediately - otherwise probably not")
-                                    cacheSize = ParallelBase.k
+                                    cacheSize = Partition.k
                                     cacheArr[0] = 0
                                 } else {
                                     cacheSize = 1
-                                    if (q < 0) {
-                                        q = -q
-                                    }
-                                    q = q % ParallelBase.k
+q=Partition.hashFunction(q)
                                     cacheArr[0] = q
                                 }
                                 for (i in 0 until cacheSize) {
@@ -159,7 +156,7 @@ class POPSplitPartition(query: Query, projectedVariables: List<String>, val part
                         SanityCheck.println({ "split $uuid writer exited loop" })
                     }
                     println("operator $uuid HelpersLockGet 7")
-                    for (p in 0 until ParallelBase.k) {
+                    for (p in 0 until Partition.k) {
                         var iterator = RowIterator()
                         iterator.columns = variables.toTypedArray()
                         iterator.buf = IntArray(variables.size)
@@ -191,12 +188,12 @@ class POPSplitPartition(query: Query, projectedVariables: List<String>, val part
                             SanityCheck.println({ "split $uuid $p reader close" })
                             readerFinished[p] = 1
                             var tmp = 0
-                            for (p in 0 until ParallelBase.k) {
+                            for (p in 0 until Partition.k) {
                                 if (readerFinished[p] == 1) {
                                     tmp++
                                 }
                             }
-                            if (tmp == ParallelBase.k) {
+                            if (tmp == Partition.k) {
                                 runBlocking {
                                     job!!.cancelAndJoin()
                                 }

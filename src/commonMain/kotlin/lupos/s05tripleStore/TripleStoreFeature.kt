@@ -8,6 +8,7 @@ import lupos.s00misc.Coverage
 import lupos.s00misc.EIndexPattern
 import lupos.s00misc.EModifyType
 import lupos.s00misc.File
+import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
 import lupos.s03resultRepresentation.Value
 import lupos.s04arithmetikOperators.AOPBase
@@ -49,7 +50,7 @@ class TripleStoreFeatureParamsDefault(val idx: EIndexPattern, params: Array<AOPB
             }
         }
         if (variableCount != 1) {
-            throw BugException("TripleStoreLocalBase", "Histogram can not be calculated using multipe variables at once. ${params.map { it.toSparql() }}")
+            throw BugException("TripleStoreFeature", "Filter can not be calculated using multipe variables at once. ${params.map { it.toSparql() }}")
         }
         return IntArray(filter.size) { filter[it] }
     }
@@ -64,7 +65,6 @@ class TripleStoreFeatureParamsDefault(val idx: EIndexPattern, params: Array<AOPB
                 SanityCheck.check { filter.size == ii }
                 filter.add(query.dictionary.valueToGlobal(param.value))
             } else if (param is AOPVariable) {
-                SanityCheck.check { param is AOPVariable }
                 projection.add((param as AOPVariable).name)
             } else {
                 SanityCheck.checkUnreachable()
@@ -74,13 +74,41 @@ class TripleStoreFeatureParamsDefault(val idx: EIndexPattern, params: Array<AOPB
     }
 }
 
-class TripleStoreFeatureParamsPartition(val idx: EIndexPattern, params: Array<AOPBase>, val column: Int) : TripleStoreFeatureParams(TripleStoreFeature.PARTITION, params) {
+class TripleStoreFeatureParamsPartition(val idx: EIndexPattern, params: Array<AOPBase>, val partition: Partition) : TripleStoreFeatureParams(TripleStoreFeature.PARTITION, params) {
     /*
      * column 0, 1 or 2 .. references the 'x'-th column in choosen idx
      * currently column==0 is not supported
      */
     override fun chooseData(data: IntArray, featureRange: Pair<Int, Int>, params: TripleStoreFeatureParams): Int {
-        SanityCheck.check { column > 0 }
-        return data[featureRange.first + idx.ordinal + 6 * column - 6]
+        return data[featureRange.first + idx.ordinal + 6 * getColumn() - 6]
     }
+
+    fun toTripleStoreFeatureParamsDefault(): TripleStoreFeatureParamsDefault {
+        return TripleStoreFeatureParamsDefault(idx, params)
+    }
+
+    fun getColumn() :Int{
+        if (partition.data.size != 1) {
+            throw throw BugException("TripleStoreFeature", "partition within store only supported for 1 partition at a time")
+        }
+        var name: String = ""
+        for ((k, v) in partition.data) {
+            //this should be implemented more nice, as there is only one entry in the map
+            name = k
+        }
+        var j = 0
+        for (ii in 0 until 3) {
+            val i = idx.tripleIndicees[ii]
+            val param = params[i]
+            if (param is AOPVariable) {
+                if ((param as AOPVariable).name == name) {
+                    return j
+                } else {
+                    j++
+                }
+            }
+        }
+        return -1
+    }
+
 }
