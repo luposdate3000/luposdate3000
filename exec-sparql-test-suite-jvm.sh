@@ -1,6 +1,7 @@
 #!/bin/bash
 export JAVA_OPTS="-Xmx60g"
 port="3030"
+rm -rf build src.generated
 {
   echo "KotlinVersion->1.4.255-SNAPSHOT"
   echo "Platform->jvm"
@@ -9,7 +10,7 @@ port="3030"
   echo "Execution->Sequential"
   echo "BufferManager->Heap"
   echo "Dictionary->MultiMap"
-  echo "TripleStore->BPlusTree"
+  echo "TripleStore->BPlusTreePartition"
   echo "Endpoint->Korio"
   echo "Jena->On"
   echo "Set->BTree"
@@ -43,6 +44,7 @@ function execJvm
 {
 	export JAVA_HOME=/usr/lib/jvm/java-14-openjdk-amd64
 	export LUPOS_HOME=/tmp/luposdate3000-test/
+	rm -rf $LUPOS_HOME
 	./build/executable "$@" > log/x 2>&1
 }
 

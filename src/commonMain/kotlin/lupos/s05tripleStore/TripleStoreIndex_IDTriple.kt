@@ -47,8 +47,6 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
     var lock = ReadWriteLock()
 
     companion object {
-        @JvmField
-        var storeIteratorCounter = 0L
 
         @JvmField
         var debuguuiditerator = 0
@@ -544,7 +542,12 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
                     root = i
                 }
             }
-        }
+        }else{
+//this index is cleared completely
+		rootNode=null
+		root=NodeManager.nodeNullPointer
+		firstLeaf=NodeManager.nodeNullPointer
+	}
         countPrimary = iterator.count
         distinctPrimary = iterator.distinct
     }

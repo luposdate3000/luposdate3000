@@ -14,8 +14,8 @@ import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.Query
 
-class TripleStoreIndex_Partition(childIndex: () -> TripleStoreIndex, val column: Int) : TripleStoreIndex() {
-    val partitions = Array(Partition.k) { childIndex() }
+class TripleStoreIndex_Partition(childIndex: (Int) -> TripleStoreIndex, val column: Int) : TripleStoreIndex() {
+    val partitions = Array(Partition.k) { childIndex(it)}
 
     override suspend fun safeToFile(filename: String) {
         val a = filename.lastIndexOf('k')
@@ -150,6 +150,7 @@ data[h][b + j] = dataImport[a + j]
 
     override fun printContents() {
         for (i in 0 until Partition.k) {
+println("TripleStoreIndex_Partition :: "+i)
             partitions[i].printContents()
         }
     }
