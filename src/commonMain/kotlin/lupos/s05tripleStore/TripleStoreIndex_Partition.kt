@@ -59,13 +59,13 @@ class TripleStoreIndex_Partition(childIndex: () -> TripleStoreIndex, val column:
         var counters = IntArray(Partition.k)
         for (i in 0 until count / 3) {
             val a = i * 3
-            val h = Partition.hashFunction(dataImport[a + column])
+            val h = Partition.hashFunction(dataImport[a + order[column]])
             counters[h]++
         }
         val data = Array(Partition.k) { IntArray(counters[it]*3) }
         for (i in 0 until count / 3) {
             val a = i * 3
-            val h = Partition.hashFunction(dataImport[a + column])
+            val h = Partition.hashFunction(dataImport[a + order[column]])
             counters[h]--
             val b = counters[h]
             for (j in 0 until 3){
@@ -83,13 +83,13 @@ class TripleStoreIndex_Partition(childIndex: () -> TripleStoreIndex, val column:
         var counters = IntArray(Partition.k)
         for (i in 0 until dataImport.size / 3) {
  val a = i * 3
-            val h = Partition.hashFunction(dataImport[a + column])
+            val h = Partition.hashFunction(dataImport[a + order[column]])
             counters[h]++
         }
         val data = Array(Partition.k) { IntArray(counters[it]*3) }
         for (i in 0 until dataImport.size / 3) {
             val a = i * 3
-            val h = Partition.hashFunction(dataImport[a + column])
+            val h = Partition.hashFunction(dataImport[a + order[column]])
             counters[h]--
             val b = counters[h]
             for (j in 0 until 3){
@@ -107,13 +107,13 @@ data[h][b + j] = dataImport[a + j]
         var counters = IntArray(Partition.k)
         for (i in 0 until dataImport.size / 3) {
  val a = i * 3
-            val h = Partition.hashFunction(dataImport[a + column])
+            val h = Partition.hashFunction(dataImport[a + order[column]])
             counters[h]++
         }
         val data = Array(Partition.k) { IntArray(counters[it]*3) }
         for (i in 0 until dataImport.size / 3) {
             val a = i * 3
-            val h = Partition.hashFunction(dataImport[a + column])
+            val h = Partition.hashFunction(dataImport[a + order[column]])
             counters[h]--
             val b = counters[h]
             for (j in 0 until 3){
