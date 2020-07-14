@@ -1,6 +1,8 @@
 package lupos.s10physicalOptimisation
-
+import lupos.s15tripleStoreDistributed.TripleStoreIteratorGlobal
 import lupos.s00misc.Coverage
+import lupos.s00misc.DontCareWhichException
+import lupos.s00misc.Partition
 import lupos.s00misc.EIndexPattern
 import lupos.s00misc.EOptimizerID
 import lupos.s00misc.SanityCheck
@@ -29,6 +31,7 @@ import lupos.s04logicalOperators.singleinput.modifiers.LOPLimit
 import lupos.s04logicalOperators.singleinput.modifiers.LOPOffset
 import lupos.s04logicalOperators.singleinput.modifiers.LOPReduced
 import lupos.s04logicalOperators.singleinput.modifiers.LOPSortAny
+import lupos.s05tripleStore.TripleStoreFeatureParamsPartition
 import lupos.s08logicalOptimisation.OptimizerBase
 import lupos.s09physicalOperators.multiinput.POPJoinHashMap
 import lupos.s09physicalOperators.multiinput.POPMinus
@@ -40,6 +43,7 @@ import lupos.s09physicalOperators.noinput.POPValues
 import lupos.s09physicalOperators.partition.POPMergePartition
 import lupos.s09physicalOperators.partition.POPMergePartitionCount
 import lupos.s09physicalOperators.partition.POPSplitPartition
+import lupos.s09physicalOperators.partition.POPSplitPartitionFromStore
 import lupos.s09physicalOperators.POPBase
 import lupos.s09physicalOperators.singleinput.modifiers.POPLimit
 import lupos.s09physicalOperators.singleinput.modifiers.POPOffset
@@ -117,6 +121,17 @@ class PhysicalOptimizerPartition(query: Query) : OptimizerBase(query, EOptimizer
                         res = POPFilter(query, c.projectedVariables, c.children[1] as AOPBase, POPSplitPartition(query, c.children[0].getProvidedVariableNames(), node.partitionVariable, c.children[0]))
                         onChange()
                     }
+is TripleStoreIteratorGlobal->{
+try{
+val p=Partition(Partition(),node.partitionVariable,0)
+if(TripleStoreFeatureParamsPartition(c.idx, Array(3) { c.children[it] as AOPBase }, p).getColumn()>0){
+res = POPSplitPartitionFromStore(query,node.projectedVariables, node.partitionVariable,c)
+onChange()
+}
+}catch(e:DontCareWhichException){
+e.printStackTrace()
+}
+}
                 }
             }
         }

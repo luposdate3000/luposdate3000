@@ -27,6 +27,8 @@ import lupos.s04logicalOperators.Query
 import lupos.s05tripleStore.PersistentStoreLocal
 import lupos.s05tripleStore.TripleStoreBulkImport
 import lupos.s05tripleStore.TripleStoreFeatureParamsDefault
+import lupos.s05tripleStore.TripleStoreFeatureParams
+import lupos.s05tripleStore.TripleStoreFeatureParamsPartition
 import lupos.s05tripleStore.TripleStoreLocalBase
 import lupos.s09physicalOperators.POPBase
 import lupos.s16network.ServerCommunicationSend
@@ -81,8 +83,13 @@ class TripleStoreIteratorGlobal(query: Query, projectedVariables: List<String>, 
 
     override suspend fun evaluate(parent: Partition): IteratorBundle {
         SanityCheck.println({ "opening store for $uuid" })
-//TODO apply partition here
-        val params = TripleStoreFeatureParamsDefault(idx, Array(3) { children[it] as AOPBase })
+        var params: TripleStoreFeatureParams? = null
+        if (parent.data.size > 0) {
+            params = TripleStoreFeatureParamsPartition(idx, Array(3) { children[it] as AOPBase }, parent)
+        }
+        if (params == null) {
+            params = TripleStoreFeatureParamsDefault(idx, Array(3) { children[it] as AOPBase })
+        }
         return ServerCommunicationSend.tripleGet(query, graphName, params)
     }
 }

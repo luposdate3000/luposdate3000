@@ -29,6 +29,7 @@ sealed abstract class TripleStoreFeatureParams(val feature: TripleStoreFeature, 
 
 class TripleStoreFeatureParamsDefault(val idx: EIndexPattern, params: Array<AOPBase>) : TripleStoreFeatureParams(TripleStoreFeature.DEFAULT, params) {
     override fun chooseData(data: IntArray, featureRange: Pair<Int, Int>, params: TripleStoreFeatureParams): Int {
+println("chooseData TripleStoreFeatureParamsDefault :: $feature $featureRange $idx ${featureRange.first + idx.ordinal} ${data[featureRange.first + idx.ordinal]}")
         return data[featureRange.first + idx.ordinal]
     }
 
@@ -80,6 +81,7 @@ class TripleStoreFeatureParamsPartition(val idx: EIndexPattern, params: Array<AO
      * currently column==0 is not supported
      */
     override fun chooseData(data: IntArray, featureRange: Pair<Int, Int>, params: TripleStoreFeatureParams): Int {
+println("chooseData TripleStoreFeatureParamsPartition :: $feature $featureRange $idx ${getColumn()} ${featureRange.first + idx.ordinal + 6 * getColumn() - 6} ${data[featureRange.first + idx.ordinal + 6 * getColumn() - 6]}")
         return data[featureRange.first + idx.ordinal + 6 * getColumn() - 6]
     }
 
@@ -106,7 +108,9 @@ class TripleStoreFeatureParamsPartition(val idx: EIndexPattern, params: Array<AO
                 } else {
                     j++
                 }
-            }
+            }else{
+		j++ //constants at the front do count
+		}
         }
         return -1
     }

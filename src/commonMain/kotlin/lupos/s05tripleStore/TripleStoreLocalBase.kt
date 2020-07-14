@@ -105,8 +105,6 @@ abstract class TripleStoreLocalBase(@JvmField val name: String) {
 
     suspend fun clear() {
         dataDistinct.forEach {
-println("TripleStoreLocalBase.clear :: "+it.first)
-it.second.printContents()
             it.second.clear()
         }
         for (idx in 0 until dataDistinct.size) {

@@ -139,6 +139,7 @@ enum class EOperatorID {
     POPMergePartitionID,
     TripleStoreIteratorGlobalID,
     POPSplitPartitionID,
+    POPSplitPartitionFromStoreID,
     POPMergePartitionCountID
 }
 
@@ -172,6 +173,7 @@ val EOperatorIDLOP = arrayOf(
 )
 val EOperatorIDPOP = arrayOf(
         EOperatorID.POPSplitPartitionID,
+        EOperatorID.POPSplitPartitionFromStoreID,
         EOperatorID.POPMergePartitionID,
         EOperatorID.POPMinusID,
         EOperatorID.POPBindID,
