@@ -55,7 +55,7 @@ class TripleStoreBulkImport(@JvmField val query: Query, @JvmField val graphName:
         if (full()) {
             runBlocking {
                 sort()
-                        flush()
+                flush()
                 reset()
             }
         }
@@ -63,12 +63,12 @@ class TripleStoreBulkImport(@JvmField val query: Query, @JvmField val graphName:
 
     fun finishImport() {
         sort()
-            flush()
+        flush()
     }
 
     fun flush() {
-            totalflushed += idx / 3
-            println("flushed triples $totalflushed")
+        totalflushed += idx / 3
+        println("flushed triples $totalflushed")
         DistributedTripleStore.localStore.getNamedGraph(query, graphName).import(this)
     }
 
@@ -171,30 +171,30 @@ class TripleStoreBulkImport(@JvmField val query: Query, @JvmField val graphName:
             dataOSP = data[8]
             dataOPS = data[8]
         } else {
-                for (j in 0 until 2) {
-                    for (i in 0 until 3) {
-                        val order = orders[i * 2 + j]
-                        val firstIdx = 8
-                        val dataIdxA = i
-                        val dataIdxB = i + 3
-                        sortUsingBuffers(firstIdx, dataIdxA, dataIdxB, data, total, order)
-                    }
-                    if (j == 0) {
-                        dataSPO = data[0]
-                        dataPSO = data[1]
-                        dataOSP = data[2]
-                        data[0] = data[6]
-                        data[1] = data[7]
-                        data[2] = data[8]
-                        data[6] = dataSPO
-                        data[7] = dataPSO
-                        data[8] = dataOSP
-                    } else {
-                        dataSOP = data[0]
-                        dataPOS = data[1]
-                        dataOPS = data[2]
-                    }
+            for (j in 0 until 2) {
+                for (i in 0 until 3) {
+                    val order = orders[i * 2 + j]
+                    val firstIdx = 8
+                    val dataIdxA = i
+                    val dataIdxB = i + 3
+                    sortUsingBuffers(firstIdx, dataIdxA, dataIdxB, data, total, order)
                 }
+                if (j == 0) {
+                    dataSPO = data[0]
+                    dataPSO = data[1]
+                    dataOSP = data[2]
+                    data[0] = data[6]
+                    data[1] = data[7]
+                    data[2] = data[8]
+                    data[6] = dataSPO
+                    data[7] = dataPSO
+                    data[8] = dataOSP
+                } else {
+                    dataSOP = data[0]
+                    dataPOS = data[1]
+                    dataOPS = data[2]
+                }
+            }
         }
         BenchmarkUtils.elapsedSeconds(EBenchmark.IMPORT_SORT)
     }

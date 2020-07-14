@@ -69,9 +69,9 @@ class TripleStoreIndex_MapMapList : TripleStoreIndex() {
     }
 
     override suspend fun getIterator(query: Query, params: TripleStoreFeatureParams): IteratorBundle {
-var fp=(params as TripleStoreFeatureParamsDefault).getFilterAndProjection(query)
-val filter=fp.first
-val projection=fp.second
+        var fp = (params as TripleStoreFeatureParamsDefault).getFilterAndProjection(query)
+        val filter = fp.first
+        val projection = fp.second
         SanityCheck.check { filter.size >= 0 && filter.size <= 3 }
         SanityCheck.check { projection.size + filter.size == 3 }
         val columns = mutableMapOf<String, ColumnIterator>()

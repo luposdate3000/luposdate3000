@@ -26,8 +26,8 @@ import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
 import lupos.s05tripleStore.PersistentStoreLocal
 import lupos.s05tripleStore.TripleStoreBulkImport
-import lupos.s05tripleStore.TripleStoreLocalBase
 import lupos.s05tripleStore.TripleStoreFeatureParamsDefault
+import lupos.s05tripleStore.TripleStoreLocalBase
 import lupos.s09physicalOperators.POPBase
 import lupos.s16network.ServerCommunicationSend
 import lupos.s16network.TripleStoreBulkImportDistributed
@@ -82,7 +82,7 @@ class TripleStoreIteratorGlobal(query: Query, projectedVariables: List<String>, 
     override suspend fun evaluate(parent: Partition): IteratorBundle {
         SanityCheck.println({ "opening store for $uuid" })
 //TODO apply partition here
-val params=TripleStoreFeatureParamsDefault(idx,Array(3) { children[it] as AOPBase })
+        val params = TripleStoreFeatureParamsDefault(idx, Array(3) { children[it] as AOPBase })
         return ServerCommunicationSend.tripleGet(query, graphName, params)
     }
 }
@@ -108,13 +108,13 @@ class DistributedGraph(val query: Query, @JvmField val name: String) {
                 }
                 row[columnIndex] = v
             }
-                for (columnIndex in 0 until 3) {
-                    map[columnIndex].add(row[columnIndex])
-                }
-        }
-            if (map[0].size > 0) {
-                DistributedTripleStore.localStore.getNamedGraph(query, name).modify(query, Array(3) { ColumnIteratorMultiValue(map[it]) },  type)
+            for (columnIndex in 0 until 3) {
+                map[columnIndex].add(row[columnIndex])
             }
+        }
+        if (map[0].size > 0) {
+            DistributedTripleStore.localStore.getNamedGraph(query, name).modify(query, Array(3) { ColumnIteratorMultiValue(map[it]) }, type)
+        }
     }
 
     fun getIterator(idx: EIndexPattern): POPBase {
@@ -188,7 +188,7 @@ class DistributedGraph(val query: Query, @JvmField val name: String) {
             }
             SanityCheck { variableNames == 1 }
         }
-        return ServerCommunicationSend.histogramGet(query, name, TripleStoreFeatureParamsDefault(idx,params))
+        return ServerCommunicationSend.histogramGet(query, name, TripleStoreFeatureParamsDefault(idx, params))
     }
 }
 

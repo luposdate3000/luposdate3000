@@ -1,4 +1,5 @@
 package lupos.s05tripleStore
+
 import kotlin.jvm.JvmField
 import kotlinx.coroutines.runBlocking
 import lupos.s00misc.BugException
@@ -30,7 +31,7 @@ class TripleStoreFeatureParamsDefault(val idx: EIndexPattern, params: Array<AOPB
         return data[featureRange.first + idx.ordinal]
     }
 
-    fun getFilter(query:Query): IntArray {
+    fun getFilter(query: Query): IntArray {
         var variableCount = 0
         val filter = mutableListOf<Int>()
         for (ii in 0 until 3) {
@@ -53,8 +54,8 @@ class TripleStoreFeatureParamsDefault(val idx: EIndexPattern, params: Array<AOPB
         return IntArray(filter.size) { filter[it] }
     }
 
-fun getFilterAndProjection(query:Query):Pair<IntArray,List<String>>{
-val filter = mutableListOf<Int>()
+    fun getFilterAndProjection(query: Query): Pair<IntArray, List<String>> {
+        val filter = mutableListOf<Int>()
         val projection = mutableListOf<String>()
         for (ii in 0 until 3) {
             val i = idx.tripleIndicees[ii]
@@ -69,8 +70,8 @@ val filter = mutableListOf<Int>()
                 SanityCheck.checkUnreachable()
             }
         }
-return Pair(IntArray(filter.size) { filter[it] }, projection)
-}
+        return Pair(IntArray(filter.size) { filter[it] }, projection)
+    }
 }
 
 class TripleStoreFeatureParamsPartition(val idx: EIndexPattern, params: Array<AOPBase>, val column: Int) : TripleStoreFeatureParams(TripleStoreFeature.PARTITION, params) {
@@ -79,7 +80,7 @@ class TripleStoreFeatureParamsPartition(val idx: EIndexPattern, params: Array<AO
      * currently column==0 is not supported
      */
     override fun chooseData(data: IntArray, featureRange: Pair<Int, Int>, params: TripleStoreFeatureParams): Int {
-SanityCheck.check{column>0}
+        SanityCheck.check { column > 0 }
         return data[featureRange.first + idx.ordinal + 6 * column - 6]
     }
 }

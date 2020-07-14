@@ -211,7 +211,7 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
     }
 
     override fun getHistogram(query: Query, params: TripleStoreFeatureParams): Pair<Int, Int> {
-val filter=(params as TripleStoreFeatureParamsDefault).getFilter(query)
+        val filter = (params as TripleStoreFeatureParamsDefault).getFilter(query)
         var res: Pair<Int, Int>? = null
         SanityCheck.println({ "readlock 6" })
         lock.withReadLock {
@@ -265,9 +265,9 @@ val filter=(params as TripleStoreFeatureParamsDefault).getFilter(query)
     }
 
     override suspend fun getIterator(query: Query, params: TripleStoreFeatureParams): IteratorBundle {
-var fp=(params as TripleStoreFeatureParamsDefault).getFilterAndProjection(query)
-val filter=fp.first
-val projection=fp.second
+        var fp = (params as TripleStoreFeatureParamsDefault).getFilterAndProjection(query)
+        val filter = fp.first
+        val projection = fp.second
         flushContinueWithReadLock()
         SanityCheck.check { filter.size >= 0 && filter.size <= 3 }
         SanityCheck.check { projection.size + filter.size == 3 }

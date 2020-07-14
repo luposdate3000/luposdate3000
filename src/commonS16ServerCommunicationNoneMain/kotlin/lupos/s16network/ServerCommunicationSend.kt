@@ -30,7 +30,7 @@ object ServerCommunicationSend {
     }
 
     suspend fun tripleModify(query: Query, graphName: String, data: Array<ColumnIterator>, type: EModifyType) {
-        DistributedTripleStore.localStore.getNamedGraph(query, graphName).modify(query, data,  type)
+        DistributedTripleStore.localStore.getNamedGraph(query, graphName).modify(query, data, type)
     }
 
     suspend fun graphClearAll(query: Query) {

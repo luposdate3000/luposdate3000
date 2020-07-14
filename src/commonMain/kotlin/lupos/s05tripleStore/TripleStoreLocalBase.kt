@@ -17,8 +17,7 @@ import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.Query
 
-class TripleStoreDistinctContainer(val first: String,val second: TripleStoreIndex,val importField: (TripleStoreBulkImport) -> IntArray,val idx:EIndexPattern)
-
+class TripleStoreDistinctContainer(val first: String, val second: TripleStoreIndex, val importField: (TripleStoreBulkImport) -> IntArray, val idx: EIndexPattern)
 abstract class TripleStoreLocalBase(@JvmField val name: String) {
     @JvmField //override this during initialisation
     var data = IntArray(0)
@@ -26,16 +25,15 @@ abstract class TripleStoreLocalBase(@JvmField val name: String) {
     @JvmField //override this during initialisation
     var dataDistinct = arrayOf<TripleStoreDistinctContainer>()
 
-@JvmField
+    @JvmField
     val featureDataMap = Array(TripleStoreFeature.values().size) { Pair(0, 0) }//maps the range in 'data' to each Feature
+
     @JvmField //override this during initialisation
     var pendingModificationsInsert = Array(0) { mutableMapOf<Long, MutableList<Int>>() }
 
     @JvmField //override this during initialisation
     var pendingModificationsRemove = Array(0) { mutableMapOf<Long, MutableList<Int>>() }
-
     abstract fun providesFeature(feature: TripleStoreFeature, params: TripleStoreFeatureParams? = null): Boolean
-
     suspend fun safeToFolder(foldername: String) {
         File(foldername).mkdirs()
         dataDistinct.forEach {
@@ -56,19 +54,19 @@ abstract class TripleStoreLocalBase(@JvmField val name: String) {
     }
 
     fun getHistogram(query: Query, params: TripleStoreFeatureParams): Pair<Int, Int> {
-val theData=dataDistinct[params.chooseData(data, featureDataMap[params.feature.ordinal],params)]
+        val theData = dataDistinct[params.chooseData(data, featureDataMap[params.feature.ordinal], params)]
         return theData.second.getHistogram(query, params)
     }
 
     suspend fun getIterator(query: Query, params: TripleStoreFeatureParams): IteratorBundle {
-val theData=dataDistinct[params.chooseData(data, featureDataMap[params.feature.ordinal],params)]
+        val theData = dataDistinct[params.chooseData(data, featureDataMap[params.feature.ordinal], params)]
         return theData.second.getIterator(query, params)
     }
 
     fun import(dataImport: TripleStoreBulkImport) {
-for( i in 0 until dataDistinct.size){
-dataDistinct[i].second.import(dataDistinct[i].importField(dataImport), dataImport.idx, dataDistinct[i].idx.tripleIndicees)
-}
+        for (i in 0 until dataDistinct.size) {
+            dataDistinct[i].second.import(dataDistinct[i].importField(dataImport), dataImport.idx, dataDistinct[i].idx.tripleIndicees)
+        }
     }
 
     fun commit(query: Query) {
@@ -120,19 +118,20 @@ dataDistinct[i].second.import(dataDistinct[i].importField(dataImport), dataImpor
          * the input iterators are always in the SPO order. The real remapping to the ordering of the store happens within the commit-phase
          */
         SanityCheck.check { dataModify.size == 3 }
-for (idx in 0 until dataDistinct.size) {
-        var tmp: MutableList<Int>?
-        if (type == EModifyType.INSERT) {
-            tmp = pendingModificationsInsert[idx][query.transactionID]
-        } else {
-            tmp = pendingModificationsRemove[idx][query.transactionID]
-        }
-        if (tmp == null) {
-            tmp = mutableListOf<Int>()
+        for (idx in 0 until dataDistinct.size) {
+            var tmp: MutableList<Int>?
             if (type == EModifyType.INSERT) {
-                pendingModificationsInsert[idx][query.transactionID] = tmp
+                tmp = pendingModificationsInsert[idx][query.transactionID]
             } else {
-                pendingModificationsRemove[idx][query.transactionID] = tmp
+                tmp = pendingModificationsRemove[idx][query.transactionID]
+            }
+            if (tmp == null) {
+                tmp = mutableListOf<Int>()
+                if (type == EModifyType.INSERT) {
+                    pendingModificationsInsert[idx][query.transactionID] = tmp
+                } else {
+                    pendingModificationsRemove[idx][query.transactionID] = tmp
+                }
             }
         }
         loop@ while (true) {
@@ -145,36 +144,41 @@ for (idx in 0 until dataDistinct.size) {
                     }
                     break@loop
                 } else {
-                    tmp.add(query.dictionary.valueToGlobal(v))
+                    for (idx in 0 until dataDistinct.size) {
+                        if (type == EModifyType.INSERT) {
+                            pendingModificationsInsert[idx][query.transactionID]!!.add(query.dictionary.valueToGlobal(v))
+                        } else {
+                            pendingModificationsRemove[idx][query.transactionID]!!.add(query.dictionary.valueToGlobal(v))
+                        }
+                    }
                 }
             }
         }
-}
     }
 
-    suspend fun modify(query: Query, dataModify: MutableList<Value>,  type: EModifyType) {
+    suspend fun modify(query: Query, dataModify: MutableList<Value>, type: EModifyType) {
         /*
          * the input iterators are always in the SPO order. The real remapping to the ordering of the store happens within the commit-phase 
          */
         SanityCheck.check { dataModify.size == 3 }
-for (idx in 0 until dataDistinct.size) {
-        var tmp: MutableList<Int>?
-        if (type == EModifyType.INSERT) {
-            tmp = pendingModificationsInsert[idx][query.transactionID]
-        } else {
-            tmp = pendingModificationsRemove[idx][query.transactionID]
-        }
-        if (tmp == null) {
-            tmp = mutableListOf<Int>()
+        for (idx in 0 until dataDistinct.size) {
+            var tmp: MutableList<Int>?
             if (type == EModifyType.INSERT) {
-                pendingModificationsInsert[idx][query.transactionID] = tmp
+                tmp = pendingModificationsInsert[idx][query.transactionID]
             } else {
-                pendingModificationsRemove[idx][query.transactionID] = tmp
+                tmp = pendingModificationsRemove[idx][query.transactionID]
+            }
+            if (tmp == null) {
+                tmp = mutableListOf<Int>()
+                if (type == EModifyType.INSERT) {
+                    pendingModificationsInsert[idx][query.transactionID] = tmp
+                } else {
+                    pendingModificationsRemove[idx][query.transactionID] = tmp
+                }
+            }
+            for (v in dataModify) {
+                tmp.add(query.dictionary.valueToGlobal(v))
             }
         }
-        for (v in dataModify) {
-            tmp.add(query.dictionary.valueToGlobal(v))
-        }
     }
-}
 }

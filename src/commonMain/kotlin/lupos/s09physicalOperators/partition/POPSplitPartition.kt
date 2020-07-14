@@ -55,12 +55,12 @@ class POPSplitPartition(query: Query, projectedVariables: List<String>, val part
             var iterators: Array<IteratorBundle>? = null
             var job: Job? = null
             val childPartition = Partition(parent, partitionVariable)
-println("operator $uuid HelperWant")
+            println("operator $uuid HelperWant")
             var partitionHelper = query.getPartitionHelper(uuid)
-println("operator $uuid HelperGet")
-println("operator $uuid HelpersLockWant")
+            println("operator $uuid HelperGet")
+            println("operator $uuid HelpersLockWant")
             partitionHelper.lock.withWriteLockSuspend {
-println("operator $uuid HelpersLockGet 1")
+                println("operator $uuid HelpersLockGet 1")
                 val tmpIterators = partitionHelper.iterators
                 if (tmpIterators != null) {
                     iterators = tmpIterators[childPartition]
@@ -69,9 +69,9 @@ println("operator $uuid HelpersLockGet 1")
                 if (tmpJob != null) {
                     job = tmpJob[childPartition]
                 }
-println("operator $uuid HelpersLockGet 2")
+                println("operator $uuid HelpersLockGet 2")
                 if (iterators == null) {
-println("operator $uuid HelpersLockGet 3")
+                    println("operator $uuid HelpersLockGet 3")
                     iterators = Array(ParallelBase.k) { IteratorBundle(0) }
                     val variables = getProvidedVariableNames()
                     val variables0 = children[0].getProvidedVariableNames()
@@ -86,7 +86,7 @@ println("operator $uuid HelpersLockGet 3")
                     val readerFinished = IntArray(ParallelBase.k) { 0 } //writer changes to 1 if finished
                     var writerFinished = 0
                     SanityCheck.println({ "ringbuffersize = ${ringbuffer.size} ${elementsPerRing} ${ParallelBase.k} ${ringbufferStart.map { it }} ${ringbufferReadHead.map { it }} ${ringbufferWriteHead.map { it }}" })
-println("operator $uuid HelpersLockGet 6")
+                    println("operator $uuid HelpersLockGet 6")
                     job = GlobalScope.launch(Dispatchers.Default) {
                         val child = children[0].evaluate(childPartition).rows
                         var hashVariableIndex = -1
@@ -108,7 +108,7 @@ println("operator $uuid HelpersLockGet 6")
                         loop@ while (isActive) {
                             SanityCheck.println({ "split $uuid writer loop start" })
                             var tmp = child.next()
-                                SanityCheck.println({ "split $uuid writer reveived" })
+                            SanityCheck.println({ "split $uuid writer reveived" })
                             if (tmp == -1) {
                                 SanityCheck.println({ "split $uuid writer closed A" })
                                 break@loop
@@ -158,12 +158,12 @@ println("operator $uuid HelpersLockGet 6")
                         writerFinished = 1
                         SanityCheck.println({ "split $uuid writer exited loop" })
                     }
-println("operator $uuid HelpersLockGet 7")
+                    println("operator $uuid HelpersLockGet 7")
                     for (p in 0 until ParallelBase.k) {
                         var iterator = RowIterator()
                         iterator.columns = variables.toTypedArray()
                         iterator.buf = IntArray(variables.size)
-println("operator $uuid HelpersLockGet 9")
+                        println("operator $uuid HelpersLockGet 9")
                         iterator.next = {
                             var res = -1
                             loop@ while (true) {
@@ -186,7 +186,7 @@ println("operator $uuid HelpersLockGet 9")
                             }
                             /*return*/res
                         }
-println("operator $uuid HelpersLockGet 10")
+                        println("operator $uuid HelpersLockGet 10")
                         iterator.close = {
                             SanityCheck.println({ "split $uuid $p reader close" })
                             readerFinished[p] = 1
@@ -203,10 +203,10 @@ println("operator $uuid HelpersLockGet 10")
                             }
                             SanityCheck.println({ "split $uuid $p reader closed" })
                         }
-println("operator $uuid HelpersLockGet 11")
+                        println("operator $uuid HelpersLockGet 11")
                         iterators!![p] = IteratorBundle(iterator)
                     }
-println("operator $uuid HelpersLockGet 8")
+                    println("operator $uuid HelpersLockGet 8")
                     if (tmpIterators == null || tmpJob == null) {
                         partitionHelper.iterators = mutableMapOf(childPartition to iterators!!)
                         partitionHelper.jobs = mutableMapOf(childPartition to job!!)
@@ -215,8 +215,8 @@ println("operator $uuid HelpersLockGet 8")
                         tmpJob[childPartition] = job!!
                     }
                     println("operator $uuid HelpersLockGet 4")
-		}
-println("operator $uuid HelpersLockGet 5")
+                }
+                println("operator $uuid HelpersLockGet 5")
             }
             return iterators!![parent.data[partitionVariable]!!]
         }
