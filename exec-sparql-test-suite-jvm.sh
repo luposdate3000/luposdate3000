@@ -31,7 +31,7 @@ rm -rf build src.generated
   echo "ConnectionPool->Off"
   echo "Inline->Off"
   echo "UsePartitions->true"
-  echo "IteratorDebug->EPOPDebugMode.NONE"
+  echo "IteratorDebug->EPOPDebugMode.DEBUG2"
 } | ./generate-buildfile.kts
 ./tool-gradle-build.sh
 ret=$?

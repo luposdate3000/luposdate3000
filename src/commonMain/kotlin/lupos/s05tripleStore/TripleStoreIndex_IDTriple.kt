@@ -20,6 +20,7 @@ import lupos.s05tripleStore.index_IDTriple.MergeIterator
 import lupos.s05tripleStore.index_IDTriple.MinusIterator
 import lupos.s05tripleStore.index_IDTriple.NodeInner
 import lupos.s05tripleStore.index_IDTriple.NodeLeaf
+import lupos.s05tripleStore.index_IDTriple.NodeLeafIteratorPrefix
 import lupos.s05tripleStore.index_IDTriple.NodeManager
 import lupos.s05tripleStore.index_IDTriple.NodeShared
 import lupos.s05tripleStore.index_IDTriple.TripleIterator
@@ -185,6 +186,9 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
         val uuid = TripleStoreIndex_IDTriple.debuguuiditerator++
 
         init {
+if(it is NodeLeafIteratorPrefix){
+println("mapping NodeLeafIteratorPrefix ${it.uuid} to $uuid")
+}
             next = {
                 var tmp: Value? = null
                 if (it.hasNext()) {
@@ -282,6 +286,7 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
             res = IteratorBundle(0)
         }
         val node = rootNode
+println("getIteratorIDTriple $projection ${node != null} ${filter.size} ${pendingImport.size} ${countPrimary} $distinctPrimary")
         if (node != null) {
             if (filter.size == 3) {
                 if (NodeInner.iterator3(node, filter).hasNext()) {
@@ -298,6 +303,7 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
                     res = IteratorBundle(count)
                 } else {
                     columns[projection[0]] = IteratorO(NodeInner.iterator2(node, filter), lock)
+println("mapping $projection to ${(columns[projection[0]]as IteratorO).uuid}")
                 }
             } else if (filter.size == 1) {
                 if (projection[0] != "_") {

@@ -67,19 +67,21 @@ class POPDebug(query: Query, projectedVariables: List<String>, child: OPBase) : 
                     for ((k, v) in child.columns) {
                         columnMode.add(k)
                         val iterator = ColumnIterator()
+var counter=0
                         println("$uuid $k opened")
                         iterator.next = {
                             println("$uuid $k next call")
                             val res = v.next()
                             if (res == null) {
-                                println("$uuid $k next return closed null")
+                                println("$uuid $k next return closed $counter ${parent.data} null")
                             } else {
-                                println("$uuid $k next return")
+counter++
+                                println("$uuid $k next return $counter ${parent.data} ${res.toString(16)}")
                             }
                             /*return*/ res
                         }
                         iterator.close = {
-                            println("$uuid $k closed")
+                            println("$uuid $k closed $counter ${parent.data}")
                             v.close()
                             iterator._close()
                         }
@@ -93,20 +95,22 @@ class POPDebug(query: Query, projectedVariables: List<String>, child: OPBase) : 
                     SanityCheck { rowMode.containsAll(target) }
                     SanityCheck { target.containsAll(rowMode) }
                     val iterator = RowIterator()
+var counter=0
                     iterator.columns = child.rows.columns
                     iterator.next = {
                         println("$uuid next call")
                         val res = child.rows.next()
                         iterator.buf = child.rows.buf
                         if (res < 0) {
-                            println("$uuid next return closed null")
+                            println("$uuid next return closed $counter ${parent.data} null")
                         } else {
-                            println("$uuid next return")
+counter++
+                            println("$uuid next return $counter ${parent.data} ${iterator.buf.map{it.toString(16)}}")
                         }
                         /*return*/ res
                     }
                     iterator.close = {
-                        println("$uuid closed")
+                        println("$uuid closed $counter ${parent.data}")
                         child.rows.close()
                         iterator._close()
                     }

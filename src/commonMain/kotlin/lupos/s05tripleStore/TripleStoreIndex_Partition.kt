@@ -42,7 +42,9 @@ class TripleStoreIndex_Partition(childIndex: (Int) -> TripleStoreIndex, val colu
 //this should be implemented more nice, as there is only one entry in the map
             i = v
         }
-        return partitions[i].getHistogram(query, params.toTripleStoreFeatureParamsDefault())
+val p2=params.toTripleStoreFeatureParamsDefault()
+println("getting histogram from partition $i ${partition.data} $params -> $p2")
+        return partitions[i].getHistogram(query, p2)
     }
 
     override suspend fun getIterator(query: Query, params: TripleStoreFeatureParams): IteratorBundle {
@@ -52,7 +54,9 @@ class TripleStoreIndex_Partition(childIndex: (Int) -> TripleStoreIndex, val colu
 //this should be implemented more nice, as there is only one entry in the map
             i = v
         }
-        return partitions[i].getIterator(query, params.toTripleStoreFeatureParamsDefault())
+val p2=params.toTripleStoreFeatureParamsDefault()
+println("getting iterator from partition $i ${partition.data} $params -> $p2")
+        return partitions[i].getIterator(query, p2)
     }
 
     override fun import(dataImport: IntArray, count: Int, order: IntArray) {

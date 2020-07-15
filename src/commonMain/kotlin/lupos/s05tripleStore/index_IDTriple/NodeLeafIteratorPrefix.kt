@@ -8,7 +8,10 @@ import lupos.s00misc.readInt3
 import lupos.s00misc.readInt4
 import lupos.s00misc.SanityCheck
 
+var NodeLeafIteratorPrefixDebugUUID=0
+
 abstract class NodeLeafIteratorPrefix(@JvmField var node: ByteArray, @JvmField val prefix: IntArray) : TripleIterator() {
+val uuid=NodeLeafIteratorPrefixDebugUUID++
     @JvmField
     var remaining = NodeShared.getTripleCount(node)
 
@@ -27,11 +30,14 @@ abstract class NodeLeafIteratorPrefix(@JvmField var node: ByteArray, @JvmField v
     abstract fun checkNotTooLarge(): Boolean
 
     init {
+println("NodeLeafIteratorPrefix $uuid initialising A")
         nextInternal()
         while (flag && checkTooSmall()) {
             nextInternal()
         }
+println("NodeLeafIteratorPrefix $uuid initialising B $flag")
         flag = flag && checkNotTooLarge()
+println("NodeLeafIteratorPrefix $uuid initialising C $flag")
     }
 
     override fun hasNext() = flag
@@ -41,6 +47,7 @@ abstract class NodeLeafIteratorPrefix(@JvmField var node: ByteArray, @JvmField v
         value[2] = valueNext[2]
         nextInternal()
         flag = flag && checkNotTooLarge()
+println("NodeLeafIteratorPrefix $uuid next ${value.map{it}} $flag")
         return value[component]
     }
 
