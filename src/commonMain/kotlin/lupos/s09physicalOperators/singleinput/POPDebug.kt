@@ -27,7 +27,6 @@ enum class EPOPDebugMode {
     DEBUG2
 }
 
-
 class POPDebug(query: Query, projectedVariables: List<String>, child: OPBase) : POPBase(query, projectedVariables, EOperatorID.POPDebugID, "POPDebug", arrayOf(child), ESortPriority.SAME_AS_CHILD) {
     override fun equals(other: Any?): Boolean = other is POPDebug && children[0] == other.children[0]
     override fun cloneOP() = POPDebug(query, projectedVariables, children[0].cloneOP())
@@ -67,21 +66,21 @@ class POPDebug(query: Query, projectedVariables: List<String>, child: OPBase) : 
                     for ((k, v) in child.columns) {
                         columnMode.add(k)
                         val iterator = ColumnIterator()
-var counter=0
-                        println("$uuid $k opened")
+                        var counter = 0
+                        SanityCheck.println({"$uuid $k opened"})
                         iterator.next = {
-                            println("$uuid $k next call")
+                            SanityCheck.println({"$uuid $k next call"})
                             val res = v.next()
                             if (res == null) {
-                                println("$uuid $k next return closed $counter ${parent.data} null")
+                               SanityCheck. println({"$uuid $k next return closed $counter ${parent.data} null"})
                             } else {
-counter++
-                                println("$uuid $k next return $counter ${parent.data} ${res.toString(16)}")
+                                counter++
+                               SanityCheck. println({"$uuid $k next return $counter ${parent.data} ${res.toString(16)}"})
                             }
                             /*return*/ res
                         }
                         iterator.close = {
-                            println("$uuid $k closed $counter ${parent.data}")
+                           SanityCheck. println({"$uuid $k closed $counter ${parent.data}"})
                             v.close()
                             iterator._close()
                         }
@@ -95,22 +94,22 @@ counter++
                     SanityCheck { rowMode.containsAll(target) }
                     SanityCheck { target.containsAll(rowMode) }
                     val iterator = RowIterator()
-var counter=0
+                    var counter = 0
                     iterator.columns = child.rows.columns
                     iterator.next = {
-                        println("$uuid next call")
+                       SanityCheck. println({"$uuid next call"})
                         val res = child.rows.next()
                         iterator.buf = child.rows.buf
                         if (res < 0) {
-                            println("$uuid next return closed $counter ${parent.data} null")
+                           SanityCheck. println({"$uuid next return closed $counter ${parent.data} null"})
                         } else {
-counter++
-                            println("$uuid next return $counter ${parent.data} ${iterator.buf.map{it.toString(16)}}")
+                            counter++
+                           SanityCheck. println({"$uuid next return $counter ${parent.data} ${iterator.buf.map { it.toString(16) }}"})
                         }
                         /*return*/ res
                     }
                     iterator.close = {
-                        println("$uuid closed $counter ${parent.data}")
+                       SanityCheck. println({"$uuid closed $counter ${parent.data}"})
                         child.rows.close()
                         iterator._close()
                     }

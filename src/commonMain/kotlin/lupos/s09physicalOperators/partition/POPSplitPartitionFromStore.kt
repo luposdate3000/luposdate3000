@@ -48,6 +48,6 @@ class POPSplitPartitionFromStore(query: Query, projectedVariables: List<String>,
     override fun toSparql() = children[0].toSparql()
     override fun equals(other: Any?): Boolean = other is POPSplitPartitionFromStore && children[0] == other.children[0] && partitionVariable == other.partitionVariable
     override suspend fun evaluate(parent: Partition): IteratorBundle {
-return children[0].evaluate(parent)
+        return children[0].evaluate(parent)
     }
 }

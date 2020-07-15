@@ -1,6 +1,7 @@
 package lupos.s09physicalOperators
 
 import lupos.s00misc.Coverage
+import lupos.s00misc.SanityCheck
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.ESortPriority
 import lupos.s00misc.HistogramNotImplementedException
@@ -43,10 +44,10 @@ abstract class POPBase(query: Query,
                 tmp.removeAll(additionalProvided)
                 tmp.removeAll(getProvidedVariableNamesInternal())
                 if (tmp.size == 1) {
-                    println(this)
+                   SanityCheck. println({this})
                     throw VariableNotDefinedSyntaxException(classname, tmp.first())
                 } else {
-                    println(this)
+SanityCheck.                    println({this})
                     throw VariableNotDefinedSyntaxException(classname, tmp.toString())
                 }
             }

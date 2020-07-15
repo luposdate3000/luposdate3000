@@ -51,7 +51,7 @@ class TripleStoreLocalBPlusTree(name: String) : TripleStoreLocalBase(name) {
                 true
             }
             TripleStoreFeature.PARTITION -> {
-false
+                false
             }
         }
     }

@@ -15,8 +15,7 @@ import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.Query
 
 class TripleStoreIndex_Partition(childIndex: (Int) -> TripleStoreIndex, val column: Int) : TripleStoreIndex() {
-    val partitions = Array(Partition.k) { childIndex(it)}
-
+    val partitions = Array(Partition.k) { childIndex(it) }
     override suspend fun safeToFile(filename: String) {
         val a = filename.lastIndexOf('k')
         val b = filename.substring(0, a)
@@ -42,8 +41,7 @@ class TripleStoreIndex_Partition(childIndex: (Int) -> TripleStoreIndex, val colu
 //this should be implemented more nice, as there is only one entry in the map
             i = v
         }
-val p2=params.toTripleStoreFeatureParamsDefault()
-println("getting histogram from partition $i ${partition.data} $params -> $p2")
+        val p2 = params.toTripleStoreFeatureParamsDefault()
         return partitions[i].getHistogram(query, p2)
     }
 
@@ -54,8 +52,7 @@ println("getting histogram from partition $i ${partition.data} $params -> $p2")
 //this should be implemented more nice, as there is only one entry in the map
             i = v
         }
-val p2=params.toTripleStoreFeatureParamsDefault()
-println("getting iterator from partition $i ${partition.data} $params -> $p2")
+        val p2 = params.toTripleStoreFeatureParamsDefault()
         return partitions[i].getIterator(query, p2)
     }
 
@@ -64,17 +61,17 @@ println("getting iterator from partition $i ${partition.data} $params -> $p2")
         for (i in 0 until count / 3) {
             val a = i * 3
             val h = Partition.hashFunction(dataImport[a + order[column]])
-println("partitioning by ${dataImport[a + order[column]]} -> $h")
+           SanityCheck. println({"partitioning by ${dataImport[a + order[column]]} -> $h"})
             counters[h]++
         }
-        val data = Array(Partition.k) { IntArray(counters[it]*3) }
-counters = IntArray(Partition.k)
+        val data = Array(Partition.k) { IntArray(counters[it] * 3) }
+        counters = IntArray(Partition.k)
         for (i in 0 until count / 3) {
             val a = i * 3
             val h = Partition.hashFunction(dataImport[a + order[column]])
-            val b = counters[h]*3
+            val b = counters[h] * 3
             counters[h]++
-            for (j in 0 until 3){
+            for (j in 0 until 3) {
                 data[h][b + j] = dataImport[a + j]
             }
         }
@@ -88,19 +85,19 @@ counters = IntArray(Partition.k)
     override suspend fun insertAsBulk(dataImport: IntArray, order: IntArray) {
         var counters = IntArray(Partition.k)
         for (i in 0 until dataImport.size / 3) {
- val a = i * 3
+            val a = i * 3
             val h = Partition.hashFunction(dataImport[a + order[column]])
             counters[h]++
         }
-        val data = Array(Partition.k) { IntArray(counters[it]*3) }
-counters = IntArray(Partition.k)
+        val data = Array(Partition.k) { IntArray(counters[it] * 3) }
+        counters = IntArray(Partition.k)
         for (i in 0 until dataImport.size / 3) {
             val a = i * 3
             val h = Partition.hashFunction(dataImport[a + order[column]])
-            val b = counters[h]*3
+            val b = counters[h] * 3
             counters[h]++
-            for (j in 0 until 3){
-data[h][b + j] = dataImport[a + j]
+            for (j in 0 until 3) {
+                data[h][b + j] = dataImport[a + j]
             }
         }
         for (i in 0 until Partition.k) {
@@ -113,19 +110,19 @@ data[h][b + j] = dataImport[a + j]
     override suspend fun removeAsBulk(dataImport: IntArray, order: IntArray) {
         var counters = IntArray(Partition.k)
         for (i in 0 until dataImport.size / 3) {
- val a = i * 3
+            val a = i * 3
             val h = Partition.hashFunction(dataImport[a + order[column]])
             counters[h]++
         }
-        val data = Array(Partition.k) { IntArray(counters[it]*3) }
-counters = IntArray(Partition.k)
+        val data = Array(Partition.k) { IntArray(counters[it] * 3) }
+        counters = IntArray(Partition.k)
         for (i in 0 until dataImport.size / 3) {
             val a = i * 3
             val h = Partition.hashFunction(dataImport[a + order[column]])
-            val b = counters[h]*3
+            val b = counters[h] * 3
             counters[h]++
-            for (j in 0 until 3){
-data[h][b + j] = dataImport[a + j]
+            for (j in 0 until 3) {
+                data[h][b + j] = dataImport[a + j]
             }
         }
         for (i in 0 until Partition.k) {
@@ -140,7 +137,6 @@ data[h][b + j] = dataImport[a + j]
             partitions[i].flush()
         }
     }
-
 
     override fun insert(a: Value, b: Value, c: Value) {
         SanityCheck.checkUnreachable()
@@ -158,7 +154,7 @@ data[h][b + j] = dataImport[a + j]
 
     override fun printContents() {
         for (i in 0 until Partition.k) {
-println("TripleStoreIndex_Partition :: "+i)
+           SanityCheck. println({"TripleStoreIndex_Partition :: " + i})
             partitions[i].printContents()
         }
     }

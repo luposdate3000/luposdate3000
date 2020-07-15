@@ -12,18 +12,18 @@ class TripleStoreLocalBPlusTreePartition(name: String) : TripleStoreLocalBase(na
 /*return*/                TripleStoreDistinctContainer("PSO", TripleStoreIndex_IDTriple(), { it -> it.dataPSO }, EIndexPattern.PSO),
 /*return*/                TripleStoreDistinctContainer("OSP", TripleStoreIndex_IDTriple(), { it -> it.dataOSP }, EIndexPattern.OSP),
 /*return*/                TripleStoreDistinctContainer("OPS", TripleStoreIndex_IDTriple(), { it -> it.dataOPS }, EIndexPattern.OPS),
-/*return*/                TripleStoreDistinctContainer("SPkO", TripleStoreIndex_Partition({TripleStoreIndex_IDTriple()},1), { it -> it.dataSPO }, EIndexPattern.SPO),//TODO
-/*return*/                TripleStoreDistinctContainer("SOkP", TripleStoreIndex_Partition({TripleStoreIndex_IDTriple()},1), { it -> it.dataSOP }, EIndexPattern.SOP),//TODO
-/*return*/                TripleStoreDistinctContainer("POkS", TripleStoreIndex_Partition({TripleStoreIndex_IDTriple()},1), { it -> it.dataPOS }, EIndexPattern.POS),//TODO
-/*return*/                TripleStoreDistinctContainer("PSkO", TripleStoreIndex_Partition({TripleStoreIndex_IDTriple()},1), { it -> it.dataPSO }, EIndexPattern.PSO),//TODO
-/*return*/                TripleStoreDistinctContainer("OSkP", TripleStoreIndex_Partition({TripleStoreIndex_IDTriple()},1), { it -> it.dataOSP }, EIndexPattern.OSP),//TODO
-/*return*/                TripleStoreDistinctContainer("OPkS", TripleStoreIndex_Partition({TripleStoreIndex_IDTriple()},1), { it -> it.dataOPS }, EIndexPattern.OPS),//TODO
-/*return*/                TripleStoreDistinctContainer("SPOk", TripleStoreIndex_Partition({TripleStoreIndex_IDTriple()},2), { it -> it.dataSPO }, EIndexPattern.SPO),//TODO
-/*return*/                TripleStoreDistinctContainer("SOPk", TripleStoreIndex_Partition({TripleStoreIndex_IDTriple()},2), { it -> it.dataSOP }, EIndexPattern.SOP),//TODO
-/*return*/                TripleStoreDistinctContainer("POSk", TripleStoreIndex_Partition({TripleStoreIndex_IDTriple()},2), { it -> it.dataPOS }, EIndexPattern.POS),//TODO
-/*return*/                TripleStoreDistinctContainer("PSOk", TripleStoreIndex_Partition({TripleStoreIndex_IDTriple()},2), { it -> it.dataPSO }, EIndexPattern.PSO),//TODO
-/*return*/                TripleStoreDistinctContainer("OSPk", TripleStoreIndex_Partition({TripleStoreIndex_IDTriple()},2), { it -> it.dataOSP }, EIndexPattern.OSP),//TODO
-/*return*/                TripleStoreDistinctContainer("OPSk", TripleStoreIndex_Partition({TripleStoreIndex_IDTriple()},2), { it -> it.dataOPS }, EIndexPattern.OPS),//TODO
+/*return*/                TripleStoreDistinctContainer("SPkO", TripleStoreIndex_Partition({ TripleStoreIndex_IDTriple() }, 1), { it -> it.dataSPO }, EIndexPattern.SPO),//TODO
+/*return*/                TripleStoreDistinctContainer("SOkP", TripleStoreIndex_Partition({ TripleStoreIndex_IDTriple() }, 1), { it -> it.dataSOP }, EIndexPattern.SOP),//TODO
+/*return*/                TripleStoreDistinctContainer("POkS", TripleStoreIndex_Partition({ TripleStoreIndex_IDTriple() }, 1), { it -> it.dataPOS }, EIndexPattern.POS),//TODO
+/*return*/                TripleStoreDistinctContainer("PSkO", TripleStoreIndex_Partition({ TripleStoreIndex_IDTriple() }, 1), { it -> it.dataPSO }, EIndexPattern.PSO),//TODO
+/*return*/                TripleStoreDistinctContainer("OSkP", TripleStoreIndex_Partition({ TripleStoreIndex_IDTriple() }, 1), { it -> it.dataOSP }, EIndexPattern.OSP),//TODO
+/*return*/                TripleStoreDistinctContainer("OPkS", TripleStoreIndex_Partition({ TripleStoreIndex_IDTriple() }, 1), { it -> it.dataOPS }, EIndexPattern.OPS),//TODO
+/*return*/                TripleStoreDistinctContainer("SPOk", TripleStoreIndex_Partition({ TripleStoreIndex_IDTriple() }, 2), { it -> it.dataSPO }, EIndexPattern.SPO),//TODO
+/*return*/                TripleStoreDistinctContainer("SOPk", TripleStoreIndex_Partition({ TripleStoreIndex_IDTriple() }, 2), { it -> it.dataSOP }, EIndexPattern.SOP),//TODO
+/*return*/                TripleStoreDistinctContainer("POSk", TripleStoreIndex_Partition({ TripleStoreIndex_IDTriple() }, 2), { it -> it.dataPOS }, EIndexPattern.POS),//TODO
+/*return*/                TripleStoreDistinctContainer("PSOk", TripleStoreIndex_Partition({ TripleStoreIndex_IDTriple() }, 2), { it -> it.dataPSO }, EIndexPattern.PSO),//TODO
+/*return*/                TripleStoreDistinctContainer("OSPk", TripleStoreIndex_Partition({ TripleStoreIndex_IDTriple() }, 2), { it -> it.dataOSP }, EIndexPattern.OSP),//TODO
+/*return*/                TripleStoreDistinctContainer("OPSk", TripleStoreIndex_Partition({ TripleStoreIndex_IDTriple() }, 2), { it -> it.dataOPS }, EIndexPattern.OPS),//TODO
         )
         var d = mutableListOf<Int>()
         for (it in 0 until EIndexPattern.values().size) {
@@ -111,7 +111,7 @@ class TripleStoreLocalBPlusTreePartition(name: String) : TripleStoreLocalBase(na
             }
             TripleStoreFeature.PARTITION -> {
                 val p = params as TripleStoreFeatureParamsPartition
-var c=p.getColumn()
+                var c = p.getColumn()
                 c >= 1 && c <= 2
             }
         }

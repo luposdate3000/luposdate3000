@@ -48,7 +48,6 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
     var lock = ReadWriteLock()
 
     companion object {
-
         @JvmField
         var debuguuiditerator = 0
     }
@@ -186,9 +185,9 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
         val uuid = TripleStoreIndex_IDTriple.debuguuiditerator++
 
         init {
-if(it is NodeLeafIteratorPrefix){
-println("mapping NodeLeafIteratorPrefix ${it.uuid} to $uuid")
-}
+            if (it is NodeLeafIteratorPrefix) {
+                println("mapping NodeLeafIteratorPrefix ${it.uuid} to $uuid")
+            }
             next = {
                 var tmp: Value? = null
                 if (it.hasNext()) {
@@ -286,7 +285,7 @@ println("mapping NodeLeafIteratorPrefix ${it.uuid} to $uuid")
             res = IteratorBundle(0)
         }
         val node = rootNode
-println("getIteratorIDTriple $projection ${node != null} ${filter.size} ${pendingImport.size} ${countPrimary} $distinctPrimary")
+        println("getIteratorIDTriple $projection ${node != null} ${filter.size} ${pendingImport.size} ${countPrimary} $distinctPrimary")
         if (node != null) {
             if (filter.size == 3) {
                 if (NodeInner.iterator3(node, filter).hasNext()) {
@@ -303,7 +302,7 @@ println("getIteratorIDTriple $projection ${node != null} ${filter.size} ${pendin
                     res = IteratorBundle(count)
                 } else {
                     columns[projection[0]] = IteratorO(NodeInner.iterator2(node, filter), lock)
-println("mapping $projection to ${(columns[projection[0]]as IteratorO).uuid}")
+                    println("mapping $projection to ${(columns[projection[0]] as IteratorO).uuid}")
                 }
             } else if (filter.size == 1) {
                 if (projection[0] != "_") {
@@ -548,12 +547,12 @@ println("mapping $projection to ${(columns[projection[0]]as IteratorO).uuid}")
                     root = i
                 }
             }
-        }else{
+        } else {
 //this index is cleared completely
-		rootNode=null
-		root=NodeManager.nodeNullPointer
-		firstLeaf=NodeManager.nodeNullPointer
-	}
+            rootNode = null
+            root = NodeManager.nodeNullPointer
+            firstLeaf = NodeManager.nodeNullPointer
+        }
         countPrimary = iterator.count
         distinctPrimary = iterator.distinct
     }

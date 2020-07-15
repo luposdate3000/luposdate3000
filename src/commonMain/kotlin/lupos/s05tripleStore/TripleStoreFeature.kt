@@ -27,20 +27,20 @@ sealed abstract class TripleStoreFeatureParams(val feature: TripleStoreFeature, 
     abstract fun chooseData(data: IntArray, featureRange: Pair<Int, Int>, params: TripleStoreFeatureParams): Int
 }
 
-fun myToStringHelper(n:AOPBase):String{
-if(n is AOPVariable){
-return n.name
-}else if(n is AOPConstant){
-return "${n.value} (${n.toSparql()})"
-}else{
-return "??? ${n.classname} ???"
-}
+fun myToStringHelper(n: AOPBase): String {
+    if (n is AOPVariable) {
+        return n.name
+    } else if (n is AOPConstant) {
+        return "${n.value} (${n.toSparql()})"
+    } else {
+        return "??? ${n.classname} ???"
+    }
 }
 
 class TripleStoreFeatureParamsDefault(val idx: EIndexPattern, params: Array<AOPBase>) : TripleStoreFeatureParams(TripleStoreFeature.DEFAULT, params) {
-override fun toString()="TripleStoreFeatureParamsDefault $feature $idx ${params.map{myToStringHelper(it)}}"
+    override fun toString() = "TripleStoreFeatureParamsDefault $feature $idx ${params.map { myToStringHelper(it) }}"
     override fun chooseData(data: IntArray, featureRange: Pair<Int, Int>, params: TripleStoreFeatureParams): Int {
-println("chooseData TripleStoreFeatureParamsDefault :: $feature $featureRange $idx ${featureRange.first + idx.ordinal} ${data[featureRange.first + idx.ordinal]}")
+        println("chooseData TripleStoreFeatureParamsDefault :: $feature $featureRange $idx ${featureRange.first + idx.ordinal} ${data[featureRange.first + idx.ordinal]}")
         return data[featureRange.first + idx.ordinal]
     }
 
@@ -64,7 +64,7 @@ println("chooseData TripleStoreFeatureParamsDefault :: $feature $featureRange $i
         if (variableCount != 1) {
             throw BugException("TripleStoreFeature", "Filter can not be calculated using multipe variables at once. ${params.map { it.toSparql() }}")
         }
-println("getFilter  ${toString()} $filter")
+        println("getFilter  ${toString()} $filter")
         return IntArray(filter.size) { filter[it] }
     }
 
@@ -83,19 +83,20 @@ println("getFilter  ${toString()} $filter")
                 SanityCheck.checkUnreachable()
             }
         }
-println("getFilterAndProjection ${toString()} $filter $projection")
+        println("getFilterAndProjection ${toString()} $filter $projection")
         return Pair(IntArray(filter.size) { filter[it] }, projection)
     }
 }
 
 class TripleStoreFeatureParamsPartition(val idx: EIndexPattern, params: Array<AOPBase>, val partition: Partition) : TripleStoreFeatureParams(TripleStoreFeature.PARTITION, params) {
-override fun toString()="TripleStoreFeatureParamsDefault $feature $idx ${params.map{myToStringHelper(it)}} ${partition.data.map{it}} ${getColumn()}"
+    override fun toString() = "TripleStoreFeatureParamsDefault $feature $idx ${params.map { myToStringHelper(it) }} ${partition.data.map { it }} ${getColumn()}"
+
     /*
      * column 0, 1 or 2 .. references the 'x'-th column in choosen idx
      * currently column==0 is not supported
      */
     override fun chooseData(data: IntArray, featureRange: Pair<Int, Int>, params: TripleStoreFeatureParams): Int {
-println("chooseData TripleStoreFeatureParamsPartition :: $feature $featureRange $idx ${getColumn()} ${featureRange.first + idx.ordinal + 6 * getColumn() - 6} ${data[featureRange.first + idx.ordinal + 6 * getColumn() - 6]}")
+        println("chooseData TripleStoreFeatureParamsPartition :: $feature $featureRange $idx ${getColumn()} ${featureRange.first + idx.ordinal + 6 * getColumn() - 6} ${data[featureRange.first + idx.ordinal + 6 * getColumn() - 6]}")
         return data[featureRange.first + idx.ordinal + EIndexPattern.values().size * (getColumn() - 1)]
     }
 
@@ -103,7 +104,7 @@ println("chooseData TripleStoreFeatureParamsPartition :: $feature $featureRange 
         return TripleStoreFeatureParamsDefault(idx, params)
     }
 
-    fun getColumn() :Int{
+    fun getColumn(): Int {
         if (partition.data.size != 1) {
             throw throw BugException("TripleStoreFeature", "partition within store only supported for 1 partition at a time")
         }
@@ -122,11 +123,10 @@ println("chooseData TripleStoreFeatureParamsPartition :: $feature $featureRange 
                 } else {
                     j++
                 }
-            }else{
-		j++ //constants at the front do count
-		}
+            } else {
+                j++ //constants at the front do count
+            }
         }
         return -1
     }
-
 }

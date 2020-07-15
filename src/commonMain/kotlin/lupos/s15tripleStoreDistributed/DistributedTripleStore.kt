@@ -26,8 +26,8 @@ import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
 import lupos.s05tripleStore.PersistentStoreLocal
 import lupos.s05tripleStore.TripleStoreBulkImport
-import lupos.s05tripleStore.TripleStoreFeatureParamsDefault
 import lupos.s05tripleStore.TripleStoreFeatureParams
+import lupos.s05tripleStore.TripleStoreFeatureParamsDefault
 import lupos.s05tripleStore.TripleStoreFeatureParamsPartition
 import lupos.s05tripleStore.TripleStoreLocalBase
 import lupos.s09physicalOperators.POPBase

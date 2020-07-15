@@ -264,7 +264,6 @@ object NodeInner {
         var iterator: TripleIterator? = null
         while (iterator == null) {
             findIteratorN(node, {
-println("iterator inner is checking for ... ${it[0]} ${it[1]} ${prefix[0]} ${prefix[1]}")
                 /*return*/ (it[0] < prefix[0]) || (it[0] == prefix[0] && it[1] < prefix[1])
             }, {
                 NodeManager.getNode(it, {

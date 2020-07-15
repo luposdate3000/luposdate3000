@@ -65,12 +65,12 @@ abstract class TripleStoreLocalBase(@JvmField val name: String) {
 
     fun import(dataImport: TripleStoreBulkImport) {
         for (i in 0 until dataDistinct.size) {
-println("importing into ${dataDistinct[i].first}")
+            println("importing into ${dataDistinct[i].first}")
             dataDistinct[i].second.import(dataDistinct[i].importField(dataImport), dataImport.idx, dataDistinct[i].idx.tripleIndicees)
-runBlocking{
-dataDistinct[i].second.flush()
-}
-dataDistinct[i].second.printContents()
+            runBlocking {
+                dataDistinct[i].second.flush()
+            }
+            dataDistinct[i].second.printContents()
         }
     }
 
