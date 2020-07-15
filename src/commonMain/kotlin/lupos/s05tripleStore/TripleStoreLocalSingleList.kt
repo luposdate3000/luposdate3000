@@ -41,15 +41,16 @@ class TripleStoreLocalSingleList(name: String) : TripleStoreLocalBase(name) {
         pendingModificationsInsert = Array(dataDistinct.size) { mutableMapOf<Long, MutableList<Int>>() }
         pendingModificationsRemove = Array(dataDistinct.size) { mutableMapOf<Long, MutableList<Int>>() }
     }
-
-    override fun providesFeature(feature: TripleStoreFeature, params: TripleStoreFeatureParams?): Boolean {
+companion object{
+     fun providesFeature(feature: TripleStoreFeature, params: TripleStoreFeatureParams?): Boolean {
         return when (feature) {
             TripleStoreFeature.DEFAULT -> {
-                true
+/*return*/                true
             }
             TripleStoreFeature.PARTITION -> {
-                false
+          /*return*/      false
             }
         }
     }
+}
 }

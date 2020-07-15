@@ -33,7 +33,7 @@ abstract class TripleStoreLocalBase(@JvmField val name: String) {
 
     @JvmField //override this during initialisation
     var pendingModificationsRemove = Array(0) { mutableMapOf<Long, MutableList<Int>>() }
-    abstract fun providesFeature(feature: TripleStoreFeature, params: TripleStoreFeatureParams? = null): Boolean
+
     suspend fun safeToFolder(foldername: String) {
         File(foldername).mkdirs()
         dataDistinct.forEach {
@@ -65,12 +65,7 @@ abstract class TripleStoreLocalBase(@JvmField val name: String) {
 
     fun import(dataImport: TripleStoreBulkImport) {
         for (i in 0 until dataDistinct.size) {
-            println("importing into ${dataDistinct[i].first}")
             dataDistinct[i].second.import(dataDistinct[i].importField(dataImport), dataImport.idx, dataDistinct[i].idx.tripleIndicees)
-            runBlocking {
-                dataDistinct[i].second.flush()
-            }
-            dataDistinct[i].second.printContents()
         }
     }
 

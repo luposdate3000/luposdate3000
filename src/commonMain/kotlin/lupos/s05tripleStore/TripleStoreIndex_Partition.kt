@@ -61,7 +61,7 @@ class TripleStoreIndex_Partition(childIndex: (Int) -> TripleStoreIndex, val colu
         for (i in 0 until count / 3) {
             val a = i * 3
             val h = Partition.hashFunction(dataImport[a + order[column]])
-           SanityCheck. println({"partitioning by ${dataImport[a + order[column]]} -> $h"})
+            SanityCheck.println({ "partitioning by ${dataImport[a + order[column]]} -> $h" })
             counters[h]++
         }
         val data = Array(Partition.k) { IntArray(counters[it] * 3) }
@@ -154,7 +154,7 @@ class TripleStoreIndex_Partition(childIndex: (Int) -> TripleStoreIndex, val colu
 
     override fun printContents() {
         for (i in 0 until Partition.k) {
-           SanityCheck. println({"TripleStoreIndex_Partition :: " + i})
+            SanityCheck.println({ "TripleStoreIndex_Partition :: " + i })
             partitions[i].printContents()
         }
     }

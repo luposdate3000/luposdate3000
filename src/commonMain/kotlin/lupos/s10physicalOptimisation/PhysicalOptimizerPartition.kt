@@ -32,6 +32,8 @@ import lupos.s04logicalOperators.singleinput.modifiers.LOPOffset
 import lupos.s04logicalOperators.singleinput.modifiers.LOPReduced
 import lupos.s04logicalOperators.singleinput.modifiers.LOPSortAny
 import lupos.s05tripleStore.TripleStoreFeatureParamsPartition
+import lupos.s05tripleStore.TripleStoreFeature
+import lupos.s05tripleStore.TripleStoreLocal
 import lupos.s08logicalOptimisation.OptimizerBase
 import lupos.s09physicalOperators.multiinput.POPJoinHashMap
 import lupos.s09physicalOperators.multiinput.POPMinus
@@ -123,15 +125,18 @@ class PhysicalOptimizerPartition(query: Query) : OptimizerBase(query, EOptimizer
                         onChange()
                     }
                     is TripleStoreIteratorGlobal -> {
+if(TripleStoreLocal.providesFeature(TripleStoreFeature.PARTITION,null)){
                         try {
                             val p = Partition(Partition(), node.partitionVariable, 0)
-                            if (TripleStoreFeatureParamsPartition(c.idx, Array(3) { c.children[it] as AOPBase }, p).getColumn() > 0) {
+val params=TripleStoreFeatureParamsPartition(c.idx, Array(3) { c.children[it] as AOPBase }, p)
+                            if (params.getColumn() > 0&&TripleStoreLocal.providesFeature(TripleStoreFeature.PARTITION,params)) {
                                 res = POPSplitPartitionFromStore(query, node.projectedVariables, node.partitionVariable, c)
                                 onChange()
                             }
                         } catch (e: DontCareWhichException) {
                             e.printStackTrace()
                         }
+}
                     }
                 }
             }

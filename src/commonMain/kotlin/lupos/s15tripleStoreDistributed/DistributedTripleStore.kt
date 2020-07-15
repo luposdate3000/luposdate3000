@@ -84,7 +84,7 @@ class TripleStoreIteratorGlobal(query: Query, projectedVariables: List<String>, 
     override suspend fun evaluate(parent: Partition): IteratorBundle {
         SanityCheck.println({ "opening store for $uuid" })
         var params: TripleStoreFeatureParams? = null
-        if (parent.data.size > 0) {
+        if (parent.data.size > 0 ){
             params = TripleStoreFeatureParamsPartition(idx, Array(3) { children[it] as AOPBase }, parent)
         }
         if (params == null) {

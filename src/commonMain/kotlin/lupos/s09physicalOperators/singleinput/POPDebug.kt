@@ -67,20 +67,20 @@ class POPDebug(query: Query, projectedVariables: List<String>, child: OPBase) : 
                         columnMode.add(k)
                         val iterator = ColumnIterator()
                         var counter = 0
-                        SanityCheck.println({"$uuid $k opened"})
+                        SanityCheck.println({ "$uuid $k opened" })
                         iterator.next = {
-                            SanityCheck.println({"$uuid $k next call"})
+                            SanityCheck.println({ "$uuid $k next call" })
                             val res = v.next()
                             if (res == null) {
-                               SanityCheck. println({"$uuid $k next return closed $counter ${parent.data} null"})
+                                SanityCheck.println({ "$uuid $k next return closed $counter ${parent.data} null" })
                             } else {
                                 counter++
-                               SanityCheck. println({"$uuid $k next return $counter ${parent.data} ${res.toString(16)}"})
+                                SanityCheck.println({ "$uuid $k next return $counter ${parent.data} ${res.toString(16)}" })
                             }
                             /*return*/ res
                         }
                         iterator.close = {
-                           SanityCheck. println({"$uuid $k closed $counter ${parent.data}"})
+                            SanityCheck.println({ "$uuid $k closed $counter ${parent.data}" })
                             v.close()
                             iterator._close()
                         }
@@ -97,19 +97,19 @@ class POPDebug(query: Query, projectedVariables: List<String>, child: OPBase) : 
                     var counter = 0
                     iterator.columns = child.rows.columns
                     iterator.next = {
-                       SanityCheck. println({"$uuid next call"})
+                        SanityCheck.println({ "$uuid next call" })
                         val res = child.rows.next()
                         iterator.buf = child.rows.buf
                         if (res < 0) {
-                           SanityCheck. println({"$uuid next return closed $counter ${parent.data} null"})
+                            SanityCheck.println({ "$uuid next return closed $counter ${parent.data} null" })
                         } else {
                             counter++
-                           SanityCheck. println({"$uuid next return $counter ${parent.data} ${iterator.buf.map { it.toString(16) }}"})
+                            SanityCheck.println({ "$uuid next return $counter ${parent.data} ${iterator.buf.map { it.toString(16) }}" })
                         }
                         /*return*/ res
                     }
                     iterator.close = {
-                       SanityCheck. println({"$uuid closed $counter ${parent.data}"})
+                        SanityCheck.println({ "$uuid closed $counter ${parent.data}" })
                         child.rows.close()
                         iterator._close()
                     }
