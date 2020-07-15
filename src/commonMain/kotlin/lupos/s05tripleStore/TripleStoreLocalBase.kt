@@ -33,7 +33,6 @@ abstract class TripleStoreLocalBase(@JvmField val name: String) {
 
     @JvmField //override this during initialisation
     var pendingModificationsRemove = Array(0) { mutableMapOf<Long, MutableList<Int>>() }
-
     suspend fun safeToFolder(foldername: String) {
         File(foldername).mkdirs()
         dataDistinct.forEach {

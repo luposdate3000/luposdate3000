@@ -103,22 +103,23 @@ class TripleStoreLocalBPlusTreePartition(name: String) : TripleStoreLocalBase(na
         pendingModificationsInsert = Array(dataDistinct.size) { mutableMapOf<Long, MutableList<Int>>() }
         pendingModificationsRemove = Array(dataDistinct.size) { mutableMapOf<Long, MutableList<Int>>() }
     }
-companion object{
-    fun providesFeature(feature: TripleStoreFeature, params: TripleStoreFeatureParams?): Boolean {
-        return when (feature) {
-            TripleStoreFeature.DEFAULT -> {
+
+    companion object {
+        fun providesFeature(feature: TripleStoreFeature, params: TripleStoreFeatureParams?): Boolean {
+            return when (feature) {
+                TripleStoreFeature.DEFAULT -> {
 /*return*/                true
-            }
-            TripleStoreFeature.PARTITION -> {
-if(params==null){
+                }
+                TripleStoreFeature.PARTITION -> {
+                    if (params == null) {
 /*return*/true
-}else{
-                val p = params as TripleStoreFeatureParamsPartition
-                var c = p.getColumn()
+                    } else {
+                        val p = params as TripleStoreFeatureParamsPartition
+                        var c = p.getColumn()
 /*return*/                c >= 1 && c <= 2
-}
+                    }
+                }
             }
         }
-}
     }
 }

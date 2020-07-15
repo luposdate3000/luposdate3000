@@ -77,23 +77,23 @@ object JenaWrapper {
             } else if (query.isJsonType()) {
             } else if (query.isConstructQuad()) {
             }
-SanityCheck{
-            if (logging) {
-                SanityCheck.println({ "------" })
-                val plan = QueryExecutionFactory.createPlan(query, dataset.asDatasetGraph(), null)
-                val op = plan.getOp()
-                val op2 = Optimize.optimize(op, qexec.getContext())
-                SanityCheck.println({ op2 })
+            SanityCheck {
+                if (logging) {
+                    SanityCheck.println({ "------" })
+                    val plan = QueryExecutionFactory.createPlan(query, dataset.asDatasetGraph(), null)
+                    val op = plan.getOp()
+                    val op2 = Optimize.optimize(op, qexec.getContext())
+                    SanityCheck.println({ op2 })
+                }
             }
-}
         } catch (e: Throwable) {
             e.printStackTrace()
         }
-SanityCheck{
-        if (logging) {
-            SanityCheck.println({ "Jena optimized query <<" })
+        SanityCheck {
+            if (logging) {
+                SanityCheck.println({ "Jena optimized query <<" })
+            }
         }
-}
         return res
     }
 
