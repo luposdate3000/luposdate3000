@@ -24,6 +24,7 @@ enum class EOptimizerID(@JvmField val optional: Boolean, @JvmField val repeatOnC
     LogicalOptimizerProjectionUpID(true, true),
     LogicalOptimizerFilterIntoTripleID(true, true),
     LogicalOptimizerFilterOptionalID(true, true),
+    LogicalOptimizerFilterOptionalStep2ID(true, true),
     LogicalOptimizerFilterSplitANDID(true, true),
     LogicalOptimizerFilterMergeANDID(true, true),
     LogicalOptimizerFilterSplitORID(true, true),

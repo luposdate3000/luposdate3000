@@ -19,16 +19,18 @@ class LogicalOptimizerFilterOptional(query: Query) : OptimizerBase(query, EOptim
     override fun optimize(node: OPBase, parent: OPBase?, onChange: () -> Unit): OPBase {
         var res: OPBase = node
         if (node is LOPJoin && node.optional) {
+println("LogicalOptimizerFilterOptional ${node.uuid}")
             var child = node.children[1]
             var changed = false
             val filters = mutableListOf<AOPBase>()
             loop@ while (true) {
+println("LogicalOptimizerFilterOptional ${child.classname}")
                 when (child) {
-is                    LOPSubGroup -> {
+                    is LOPSubGroup -> {
                         child = child.children[0]
                         changed = true
                     }
-is                    LOPFilter -> {
+                    is LOPFilter -> {
                         addFilters(filters, child.children[1] as AOPBase)
                         child = child.children[0]
                         changed = true
@@ -40,10 +42,12 @@ is                    LOPFilter -> {
             }
             if (changed) {
                 var childProvided = child.getProvidedVariableNames()
+println("LogicalOptimizerFilterOptional changed $childProvided")
                 var filterInside: AOPBase? = null
                 var filterOutside: AOPBase? = null
                 for (filter in filters) {
                     val req = filter.getRequiredVariableNamesRecoursive()
+println("LogicalOptimizerFilterOptional filter ${filter.toSparql()} $req")
                     if (childProvided.containsAll(req)) {
                         if (filterInside == null) {
                             filterInside = filter
@@ -58,6 +62,7 @@ is                    LOPFilter -> {
                         }
                     }
                 }
+println("LogicalOptimizerFilterOptional ${filterInside?.toSparql()} ${filterOutside?.toSparql()}")
                 if (filterOutside != null) {
                     if (filterInside != null) {
                         node.children[1] = LOPFilter(query, filterInside, child)
@@ -72,33 +77,33 @@ is                    LOPFilter -> {
                     }
                     var optionalIndicator = t[0]
                     res = LOPFilter(
-			query,
-			AOPBuildInCallCOALESCE(
-				query,
-				listOf(
-					AOPAnd(
-						query,
-						AOPBuildInCallBOUND(
-							query,
-							AOPVariable(
-								query, optionalIndicator
-							)
-						),
-						filterOutside
-					),
-					AOPNot(
-						query,
-						AOPBuildInCallBOUND(
-							query,
-							AOPVariable(
-								query, optionalIndicator
-							)
-						)
-					)
-				)
-			),
-			node
-		    )
+                            query,
+                            AOPBuildInCallCOALESCE(
+                                    query,
+                                    listOf(
+                                            AOPAnd(
+                                                    query,
+                                                    AOPBuildInCallBOUND(
+                                                            query,
+                                                            AOPVariable(
+                                                                    query, optionalIndicator
+                                                            )
+                                                    ),
+                                                    filterOutside
+                                            ),
+                                            AOPNot(
+                                                    query,
+                                                    AOPBuildInCallBOUND(
+                                                            query,
+                                                            AOPVariable(
+                                                                    query, optionalIndicator
+                                                            )
+                                                    )
+                                            )
+                                    )
+                            ),
+                            node
+                    )
                     onChange()
                 }
             }
@@ -108,8 +113,8 @@ is                    LOPFilter -> {
 
     fun addFilters(filters: MutableList<AOPBase>, filter: AOPBase) {
         if (filter is AOPAnd) {
-            addFilters(filters,filter.children[0]as AOPBase)
-            addFilters(filters,filter.children[1] as AOPBase)
+            addFilters(filters, filter.children[0] as AOPBase)
+            addFilters(filters, filter.children[1] as AOPBase)
         } else {
             filters.add(filter)
         }

@@ -11,7 +11,9 @@ abstract class OptimizerCompoundBase(query: Query, optimizerID: EOptimizerID) : 
     abstract val childrenOptimizers: Array<Array<OptimizerBase>>
     override fun optimize(node: OPBase, parent: OPBase?, onChange: () -> Unit) = node
     override fun optimizeCall(node: OPBase, onChange: () -> Unit): OPBase {
+if(query.filtersMovedUpFromOptionals){
         node.syntaxVerifyAllVariableExists(listOf(), true)
+}
         var tmp = node
         var d: Boolean
         for (opt in childrenOptimizers) {
@@ -32,12 +34,16 @@ abstract class OptimizerCompoundBase(query: Query, optimizerID: EOptimizerID) : 
                         })
                     }
                     SanityCheck {
+if(query.filtersMovedUpFromOptionals){
                         tmp.syntaxVerifyAllVariableExists(listOf(), false)
+}
                     }
                 }
             }
         }
+if(query.filtersMovedUpFromOptionals){
         tmp.syntaxVerifyAllVariableExists(listOf(), false)
+}
         return tmp
     }
 }

@@ -13,6 +13,7 @@ class LogicalOptimizer(query: Query) : OptimizerCompoundBase(query, EOptimizerID
             ),
             arrayOf<OptimizerBase>(
                     LogicalOptimizerFilterOptional(query),//
+                    LogicalOptimizerFilterOptionalStep2(query)//this needs to execute immediately after LogicalOptimizerFilterOptional, and is used to set a single flag that it is finished
             ),
             arrayOf<OptimizerBase>(
                     LogicalOptimizerFilterSplitAND(query),//

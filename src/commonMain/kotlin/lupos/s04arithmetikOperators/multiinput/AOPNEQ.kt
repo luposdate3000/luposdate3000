@@ -1,5 +1,6 @@
 package lupos.s04arithmetikOperators.multiinput
 
+import lupos.s00misc.Luposdate3000Exception
 import lupos.s00misc.Coverage
 import lupos.s00misc.EOperatorID
 import lupos.s03resultRepresentation.ResultSetDictionary
@@ -14,30 +15,23 @@ class AOPNEQ(query: Query, childA: AOPBase, childB: AOPBase) : AOPBinaryOperatio
     override fun toSparql() = "(" + children[0].toSparql() + " != " + children[1].toSparql() + ")"
     override fun equals(other: Any?) = other is AOPNEQ && children[0] == other.children[0] && children[1] == other.children[1]
     override fun evaluate(row: IteratorBundle): () -> ValueDefinition {
-        val childA = (children[0] as AOPBase).evaluateID(row)
-        val childB = (children[1] as AOPBase).evaluateID(row)
+        val childA = (children[0] as AOPBase).evaluate(row)
+        val childB = (children[1] as AOPBase).evaluate(row)
         return {
-            var res = ResultSetDictionary.booleanTrueValue2
+            var res: ValueDefinition = ResultSetDictionary.booleanTrueValue2
             val a = childA()
             val b = childB()
-            if (a == b) {
-                res = ResultSetDictionary.booleanFalseValue2
+            try {
+                if (a == b) {
+                    res = ResultSetDictionary.booleanFalseValue2
+                }
+            } catch (e: Luposdate3000Exception) {
+                res = ResultSetDictionary.errorValue2
+            } catch (e: Throwable) {
+                res = ResultSetDictionary.errorValue2
+                e.printStackTrace()
             }
-/*return*/res
-        }
-/*Coverage Unreachable*/
-    }
-
-    override fun evaluateID(row: IteratorBundle): () -> Value {
-        val childA = (children[0] as AOPBase).evaluateID(row)
-        val childB = (children[1] as AOPBase).evaluateID(row)
-        return {
-            var res = ResultSetDictionary.booleanTrueValue
-            val a = childA()
-            val b = childB()
-            if (a == b) {
-                res = ResultSetDictionary.booleanFalseValue
-            }
+            println("Calculating NEQ ${a.toSparql()} ${b.toSparql()} -> ${res.toSparql()}")
 /*return*/res
         }
 /*Coverage Unreachable*/

@@ -20,7 +20,7 @@ abstract class OptimizerBase(@JvmField val query: Query, @JvmField val optimizer
                         break
                     }
                 }
-                require(found)
+                SanityCheck.check({found})
             }
         }
         for (i in node.children.indices) {
@@ -31,9 +31,13 @@ abstract class OptimizerBase(@JvmField val query: Query, @JvmField val optimizer
     }
 
     open fun optimizeCall(node: OPBase, onChange: () -> Unit = {}): OPBase {
+if(query.filtersMovedUpFromOptionals){
         node.syntaxVerifyAllVariableExists(listOf(), true)
+}
         val res = optimizeInternal(node, null, onChange)
+if(query.filtersMovedUpFromOptionals){
         res.syntaxVerifyAllVariableExists(listOf(), false)
+}
         return res
     }
 }
