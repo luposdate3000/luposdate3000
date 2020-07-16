@@ -2,7 +2,7 @@
 touch config.csv2
 rm config.csv2
 
-for triples2 in 1 200 500 900 1000 1400
+for triples2 in 1 200 500 900 1000 1400 32768
 do
 	(
 		cd /opt/sp2b/bin

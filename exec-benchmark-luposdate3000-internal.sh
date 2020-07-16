@@ -15,7 +15,7 @@ mkdir -p log/benchtmp
   echo "Execution->Sequential"
   echo "BufferManager->Heap"
   echo "Dictionary->MultiMap"
-  echo "TripleStore->BPlusTree"
+  echo "TripleStore->BPlusTreePartition"
   echo "Endpoint->Korio"
   echo "Jena->Off"
   echo "Set->BTree"

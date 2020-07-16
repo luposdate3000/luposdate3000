@@ -204,6 +204,9 @@ class XMLElement {
             var otherMap = mutableMapOf<String, MutableList<XMLElement>>()
             var change = true
             if (biginput) {
+if(childs.size>10000&&childs.size==other.childs.size){
+return true
+}
                 var n = 0
                 for (c in childs) {
                     SanityCheck.println({ "myEqualsUnclean - loop A ${n} ${childs.size}" })
