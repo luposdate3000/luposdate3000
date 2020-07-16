@@ -12,6 +12,9 @@ class LogicalOptimizer(query: Query) : OptimizerCompoundBase(query, EOptimizerID
                     LogicalOptimizerRemovePrefix(query)//
             ),
             arrayOf<OptimizerBase>(
+                    LogicalOptimizerFilterOptional(query),//
+            ),
+            arrayOf<OptimizerBase>(
                     LogicalOptimizerFilterSplitAND(query),//
                     LogicalOptimizerFilterSplitOR(query)//
             ),
