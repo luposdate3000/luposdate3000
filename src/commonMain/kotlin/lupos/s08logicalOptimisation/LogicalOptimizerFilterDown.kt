@@ -11,6 +11,8 @@ import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.singleinput.LOPFilter
 import lupos.s04logicalOperators.singleinput.LOPGroup
+import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallBOUND
+import lupos.s04arithmetikOperators.multiinput.AOPAnd
 import lupos.s08logicalOptimisation.OptimizerBase
 
 class LogicalOptimizerFilterDown(query: Query) : OptimizerBase(query, EOptimizerID.LogicalOptimizerFilterDownID) {
@@ -30,7 +32,8 @@ class LogicalOptimizerFilterDown(query: Query) : OptimizerBase(query, EOptimizer
                     onChange()
                 }
             } else {
-                val filters = mutableListOf(node.children[1] as AOPBase)
+                val filters = mutableListOf<AOPBase>()
+addFilters(filters,node.children[1] as AOPBase)
                 while (child is LOPFilter) {
                     val filter = child.children[1] as AOPBase
                     var found = false
@@ -41,7 +44,7 @@ class LogicalOptimizerFilterDown(query: Query) : OptimizerBase(query, EOptimizer
                         }
                     }
                     if (!found) {
-                        filters.add(filter)
+                    addFilters(    filters,filter)
                     }
                     child = child.children[0]
                 }
@@ -56,27 +59,14 @@ class LogicalOptimizerFilterDown(query: Query) : OptimizerBase(query, EOptimizer
                         onChange()
                     }
                 } else if (child !is LOPGroup && child !is LOPTriple && child.children.size > 0) {
-                    var flag = true
-                    if (child is LOPJoin) {
-                        if (child.optional) {
-                            var provided = child.children[1].getProvidedVariableNames()
-                            for (filter in filters) {
-                                for (v in filter.getRequiredVariableNamesRecoursive()) {
-                                    if (provided.contains(v)) {
-//prevent any filters from beeing pulled down _if those require variables out of the optional join-part
-                                        flag = false
-                                        break
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    if (flag) {
                         loop@ for (targetIndex in 0 until child.children.size) {
                             val target = child.children[targetIndex]
-                            for (filterIndex in 0 until filters.size) {
+ loop2@                           for (filterIndex in 0 until filters.size) {
                                 val filter = filters[filterIndex]
                                 if (target.getProvidedVariableNames().containsAll(filter.getRequiredVariableNamesRecoursive())) {
+if (child is LOPJoin && child.optional&&targetIndex==1&&containsBound(filter)) {
+continue@loop2
+}
                                     child.children[targetIndex] = LOPFilter(query, filter, target)
                                     filters.removeAt(filterIndex)
                                     res = child
@@ -86,7 +76,6 @@ class LogicalOptimizerFilterDown(query: Query) : OptimizerBase(query, EOptimizer
                                     onChange()
                                     break@loop
                                 }
-                            }
                         }
                     }
                 }
@@ -94,4 +83,23 @@ class LogicalOptimizerFilterDown(query: Query) : OptimizerBase(query, EOptimizer
         }
         return res
     }
+fun addFilters(filters: MutableList<AOPBase>, filter: AOPBase) {
+        if (filter is AOPAnd) {
+            addFilters(filters, filter.children[0] as AOPBase)
+            addFilters(filters, filter.children[1] as AOPBase)
+        } else {
+            filters.add(filter)
+        }
+    }
+fun containsBound(filter: AOPBase):Boolean{
+if(filter is AOPBuildInCallBOUND){
+return true
+}
+for(f in filter.children){
+if(containsBound(f as AOPBase)){
+return true
+}
+}
+return false
+}
 }

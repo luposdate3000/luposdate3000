@@ -3,10 +3,13 @@ package lupos.s08logicalOptimisation
 import lupos.s00misc.Coverage
 import lupos.s00misc.EOptimizerID
 import lupos.s04arithmetikOperators.AOPBase
+import lupos.s03resultRepresentation.ValueBoolean
 import lupos.s04arithmetikOperators.singleinput.AOPNot
 import lupos.s04arithmetikOperators.noinput.AOPVariable
+import lupos.s04arithmetikOperators.noinput.AOPConstant
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallBOUND
 import lupos.s04arithmetikOperators.multiinput.AOPAnd
+import lupos.s04arithmetikOperators.multiinput.AOPOr
 import lupos.s04arithmetikOperators.multiinput.AOPBuildInCallCOALESCE
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
@@ -77,30 +80,34 @@ println("LogicalOptimizerFilterOptional ${filterInside?.toSparql()} ${filterOuts
                     }
                     var optionalIndicator = t[0]
                     res = LOPFilter(
-                            query,
-                            AOPBuildInCallCOALESCE(
-                                    query,
-                                    listOf(
-                                            AOPAnd(
+                        query,
+			AOPOr(
+				query,
+                                AOPAnd(
+                                            query,
+                                            AOPBuildInCallBOUND(
                                                     query,
-                                                    AOPBuildInCallBOUND(
-                                                            query,
-                                                            AOPVariable(
-                                                                    query, optionalIndicator
-                                                            )
-                                                    ),
-                                                    filterOutside
+                                                    AOPVariable(
+                                                            query, optionalIndicator
+                                                    )
                                             ),
-                                            AOPNot(
+                                            AOPBuildInCallCOALESCE(
                                                     query,
-                                                    AOPBuildInCallBOUND(
-                                                            query,
-                                                            AOPVariable(
-                                                                    query, optionalIndicator
-                                                            )
+                                                    listOf(
+                                                            filterOutside,
+                                                            AOPConstant(query,ValueBoolean(false))
                                                     )
                                             )
-                                    )
+				),
+                                AOPNot(
+                                        query,
+                                        AOPBuildInCallBOUND(
+                                                query,
+                                                AOPVariable(
+                                                        query, optionalIndicator
+                                               )
+                                       )
+                                )
                             ),
                             node
                     )
