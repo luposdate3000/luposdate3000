@@ -7,9 +7,12 @@ do
 echo $(wc -l x${i}.ttl | sed "s/ .*//g"),x${i}.sparql,x${i}.ttl,x${i}.srx >> config.csv2
 done
 
-for i in $(seq 1 16)
+for i in $(seq 1 32)
 do
-echo $(wc -l optional.ttl | sed "s/ .*//g"),optional${i}.sparql,optional.ttl,optional${i}.srx >> config.csv2
+for j in $(seq 1 2)
+do
+echo $(wc -l optional${j}.ttl | sed "s/ .*//g"),optional${i}.sparql,optional${j}.ttl,optional${j}-${i}.srx >> config.csv2
+done
 done
 
 for f in $(find . -name "ygraphic*.sparql"| sed "s-./--g")
