@@ -19,8 +19,6 @@ class LogicalOptimizerDetectMinus(query: Query) : OptimizerBase(query, EOptimize
         if (node is LOPFilter) {
             val node1 = node.children[1]
             if (node1 is AOPNot) {
-/*
-TODO Currently disabled - dont convert to Minus-Operator maybe enable later with compile options
                 val node10 = node1.children[0]
                 if (node10 is AOPBuildInCallBOUND) {
                     //there exists a filter, such that the variable is NOT bound.
@@ -29,6 +27,8 @@ TODO Currently disabled - dont convert to Minus-Operator maybe enable later with
                     searchForOptionalJoin(node, variableName, { p, i ->
                         val a = p.children[i].children[0]
                         val b = p.children[i].children[1]
+if(b is LOPFilter && !b.getProvidedVariableNames().containsAll(b.children[1].getRequiredVariableNamesRecoursive())){
+//only use minus if there is another filter which requires variables from the other operand
                         val tmpFakeVariables = b.getProvidedVariableNames().toMutableList()
                         tmpFakeVariables.removeAll(a.getProvidedVariableNames())
                         if (b.getProvidedVariableNames().containsAll(a.getProvidedVariableNames())) {
@@ -38,9 +38,9 @@ TODO Currently disabled - dont convert to Minus-Operator maybe enable later with
                         }
                         res = node.children[0] // remove the !bound part
                         onChange()
+}
                     })
                 }
-*/
             } else if (node1 is AOPBuildInCallNotExists) {
                 val a = node.children[0]
                 val b = node1.children[0]

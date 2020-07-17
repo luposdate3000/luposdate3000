@@ -12,16 +12,16 @@ class LogicalOptimizer(query: Query) : OptimizerCompoundBase(query, EOptimizerID
                     LogicalOptimizerRemovePrefix(query)//
             ),
             arrayOf<OptimizerBase>(
-                    LogicalOptimizerFilterOptional(query),//
-                    LogicalOptimizerFilterOptionalStep2(query)//this needs to execute immediately after LogicalOptimizerFilterOptional, and is used to set a single flag that it is finished
-            ),
-            arrayOf<OptimizerBase>(
                     LogicalOptimizerFilterSplitAND(query),//
                     LogicalOptimizerFilterSplitOR(query)//
             ),
             arrayOf<OptimizerBase>(
                     //search for_ structures, which form the minus-operator
                     LogicalOptimizerDetectMinus(query)//
+            ),
+            arrayOf<OptimizerBase>(
+                    LogicalOptimizerFilterOptional(query),//deal with all optionals wich do are not another form of minus-operator
+                    LogicalOptimizerFilterOptionalStep2(query)//this needs to execute immediately after LogicalOptimizerFilterOptional, and is used to set a single flag that it is finished
             ),
             arrayOf<OptimizerBase>(
                     LogicalOptimizerFilterDown(query)//

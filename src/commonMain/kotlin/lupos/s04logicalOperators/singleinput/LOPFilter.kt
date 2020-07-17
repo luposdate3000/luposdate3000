@@ -11,7 +11,7 @@ import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
 
 class LOPFilter(query: Query, filter: AOPBase, child: OPBase = OPEmptyRow(query)) : LOPBase(query, EOperatorID.LOPFilterID, "LOPFilter", arrayOf(child, filter), ESortPriority.SAME_AS_CHILD) {
-var dontSplitFilter=false
+var dontSplitFilter=0
     override fun childrenToVerifyCount() = 1
     override fun getProvidedVariableNames(): List<String> = children[0].getProvidedVariableNames().distinct()
     override fun getRequiredVariableNames(): List<String> = children[1].getRequiredVariableNamesRecoursive()

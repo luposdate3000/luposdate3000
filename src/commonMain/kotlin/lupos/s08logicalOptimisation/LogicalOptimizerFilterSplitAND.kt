@@ -12,7 +12,7 @@ class LogicalOptimizerFilterSplitAND(query: Query) : OptimizerBase(query, EOptim
     override val classname = "LogicalOptimizerFilterSplitAND"
     override fun optimize(node: OPBase, parent: OPBase?, onChange: () -> Unit): OPBase {
         var res: OPBase = node
-        if (node is LOPFilter &&!node.dontSplitFilter) {
+        if (node is LOPFilter &&node.dontSplitFilter==0) {
             val child = node.children[0]
             val aopcompare = node.children[1]
             if (aopcompare is AOPAnd) {
