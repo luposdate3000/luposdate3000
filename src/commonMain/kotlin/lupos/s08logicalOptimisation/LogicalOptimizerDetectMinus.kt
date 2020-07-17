@@ -1,6 +1,7 @@
 package lupos.s08logicalOptimisation
 
 import lupos.s00misc.Coverage
+import lupos.s00misc.SanityCheck
 import lupos.s00misc.EOptimizerID
 import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallBOUND
@@ -11,6 +12,7 @@ import lupos.s04logicalOperators.multiinput.LOPMinus
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.singleinput.LOPFilter
+import lupos.s04logicalOperators.singleinput.LOPSubGroup
 
 class LogicalOptimizerDetectMinus(query: Query) : OptimizerBase(query, EOptimizerID.LogicalOptimizerDetectMinusID) {
     override val classname = "LogicalOptimizerDetectMinus"
@@ -27,18 +29,28 @@ class LogicalOptimizerDetectMinus(query: Query) : OptimizerBase(query, EOptimize
                     searchForOptionalJoin(node, variableName, { p, i ->
                         val a = p.children[i].children[0]
                         val b = p.children[i].children[1]
-if(b is LOPFilter && !b.getProvidedVariableNames().containsAll(b.children[1].getRequiredVariableNamesRecoursive())){
-//only use minus if there is another filter which requires variables from the other operand
-                        val tmpFakeVariables = b.getProvidedVariableNames().toMutableList()
-                        tmpFakeVariables.removeAll(a.getProvidedVariableNames())
-                        if (b.getProvidedVariableNames().containsAll(a.getProvidedVariableNames())) {
-                            p.children[i] = LOPMinus(query, a, b, tmpFakeVariables)
-                        } else {
-                            p.children[i] = LOPMinus(query, a, LOPJoin(query, a.cloneOP(), b, false), tmpFakeVariables)//put all the variables into the subtracting child too - to be able to process the filters
+                        var c = b
+                        while (c is LOPSubGroup) {
+                            c = c.children[0]
                         }
-                        res = node.children[0] // remove the !bound part
-                        onChange()
-}
+                        if (c is LOPFilter && !c.getProvidedVariableNames().containsAll(c.children[1].getRequiredVariableNamesRecoursive())) {
+                            //only use minus if there is another filter which requires variables from the other operand
+                            val tmpFakeVariables = b.getProvidedVariableNames().toMutableList()
+                            tmpFakeVariables.removeAll(a.getProvidedVariableNames())
+                            if (b.getProvidedVariableNames().containsAll(a.getProvidedVariableNames())) {
+                                p.children[i] = LOPMinus(query, a, b, tmpFakeVariables)
+                            } else {
+                                c = b
+                                while (c.children[0] is LOPSubGroup || c.children[0] is LOPFilter) {
+                                    c = c.children[0]
+                                }
+                                SanityCheck.check { c is LOPSubGroup || c is LOPFilter }
+                                c.children[0] = LOPJoin(query, a.cloneOP(), c.children[0], false)//put a below all the filters - to prevent these filters from missing variables
+                                p.children[i] = LOPMinus(query, a, b, tmpFakeVariables)//put all the variables into the subtracting child too - to be able to process the filters
+                            }
+                            res = node.children[0] // remove the !bound part
+                            onChange()
+                        }
                     })
                 }
             } else if (node1 is AOPBuildInCallNotExists) {
