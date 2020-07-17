@@ -12,7 +12,7 @@ class LogicalOptimizerUnionUp(query: Query) : OptimizerBase(query, EOptimizerID.
     override val classname = "LogicalOptimizerUnionUp"
     override fun optimize(node: OPBase, parent: OPBase?, onChange: () -> Unit): OPBase {
         var res: OPBase = node
-        if (node is LOPJoin) {
+        if (node is LOPJoin && !node.optional) {
             val childA = node.children[0]
             val childB = node.children[1]
             if (childA is LOPUnion) {
