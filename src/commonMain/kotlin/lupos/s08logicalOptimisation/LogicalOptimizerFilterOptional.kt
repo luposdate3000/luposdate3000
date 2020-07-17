@@ -106,6 +106,7 @@ class LogicalOptimizerFilterOptional(query: Query) : OptimizerBase(query, EOptim
                             ),
                             node
                     )
+			res.dontSplitFilter=true
                     onChange()
                 }
             }

@@ -92,7 +92,7 @@ class ValueBnode(@JvmField var value: String) : ValueDefinition() {
         if (other is ValueBnode) {
             return value == other.value
         }
-        throw IncompatibleTypesDuringCompareException()
+return false
     }
 
     override fun toDouble() = throw CanNotCastBNodeToDoubleException()
@@ -102,7 +102,7 @@ class ValueBnode(@JvmField var value: String) : ValueDefinition() {
     override fun hashCode() = value.hashCode()
     override operator fun compareTo(other: ValueDefinition): Int {
         if (other !is ValueBnode) {
-            throw IncompatibleTypesDuringCompareException()
+return 1
         }
         return value.compareTo(other.value)
     }
@@ -127,7 +127,9 @@ class ValueBoolean(@JvmField var value: Boolean, x: Boolean) : ValueDefinition()
     override fun equals(other: Any?): Boolean {
         if (other is ValueBoolean) {
             return value == other.value
-        }
+        }else if(other is ValueBnode || other is ValueIri){ 
+return false
+}
         throw IncompatibleTypesDuringCompareException()
     }
 
@@ -136,13 +138,13 @@ class ValueBoolean(@JvmField var value: Boolean, x: Boolean) : ValueDefinition()
     override fun toInt() = throw CanNotCastBooleanToIntException()
     override fun toBoolean() = value
     override operator fun compareTo(other: ValueDefinition): Int {
-        if (other !is ValueBoolean) {
+if(other is ValueBnode || other is ValueIri){ 
+return -1
+}else        if (other !is ValueBoolean) {
             throw IncompatibleTypesDuringCompareException()
-        }
-        if (value == other.value) {
+        }else        if (value == other.value) {
             return 0
-        }
-        if (value && !other.value) {
+        }else        if (value && !other.value) {
             return 1
         }
         return -1
@@ -159,8 +161,8 @@ class ValueUndef() : ValueDefinition() {
         if (other is ValueUndef) {
             return true
         } else {
-            throw IncompatibleTypesDuringCompareException()
-        }
+throw IncompatibleTypesDuringCompareException()
+}
     }
 
     override fun toDouble() = throw CanNotCastUndefToDoubleException()
@@ -183,7 +185,9 @@ class ValueError() : ValueDefinition() {
 
 sealed class ValueStringBase(@JvmField val delimiter: String, @JvmField val content: String) : ValueDefinition() {
     override operator fun compareTo(other: ValueDefinition): Int {
-        if (other !is ValueStringBase) {
+if(other is ValueBnode || other is ValueIri){ 
+return -1
+}else        if (other !is ValueStringBase) {
             throw IncompatibleTypesDuringCompareException()
         }
         return valueToString()!!.compareTo(other.valueToString()!!)
@@ -201,8 +205,11 @@ class ValueLanguageTaggedLiteral(delimiter: String, content: String, val languag
     override fun equals(other: Any?): Boolean {
         if (other is ValueLanguageTaggedLiteral) {
             return language == other.language && content == other.content
-        }
+        }else if(other is ValueBnode || other is ValueIri){ 
+return false
+}else{
         throw IncompatibleTypesDuringCompareException()
+}
     }
 
     override fun hashCode() = delimiter.hashCode() + content.hashCode() + language.hashCode()
@@ -214,8 +221,11 @@ class ValueSimpleLiteral(delimiter: String, content: String) : ValueStringBase(d
     override fun equals(other: Any?): Boolean {
         if (other is ValueSimpleLiteral) {
             return content == other.content
-        }
+        }else if(other is ValueBnode || other is ValueIri){ 
+return false
+}else{
         throw IncompatibleTypesDuringCompareException()
+}
     }
 
     override fun hashCode() = delimiter.hashCode() + content.hashCode()
@@ -256,9 +266,12 @@ class ValueTypedLiteral(delimiter: String, content: String, @JvmField val type_i
     override fun equals(other: Any?): Boolean {
         if (other is ValueTypedLiteral && type_iri == other.type_iri) {
             return content == other.content
-        }
+        }else if(other is ValueBnode || other is ValueIri){ 
+return false
+}else{
         throw IncompatibleTypesDuringCompareException()
     }
+}
 
     override fun hashCode() = delimiter.hashCode() + content.hashCode() + type_iri.hashCode()
 }
@@ -272,8 +285,11 @@ class ValueDecimal(@JvmField var value: BigDecimal) : ValueNumeric() {
     override fun equals(other: Any?): Boolean {
         if (other is ValueDecimal) {
             return value == other.value
-        }
+        }else if(other is ValueBnode || other is ValueIri){ 
+return false
+}else{
         throw IncompatibleTypesDuringCompareException()
+}
     }
 
     override fun toDouble(): Double = value.toDouble()
@@ -284,17 +300,17 @@ class ValueDecimal(@JvmField var value: BigDecimal) : ValueNumeric() {
     override operator fun compareTo(other: ValueDefinition): Int {
         if (other is ValueInteger) {
             return value.compareTo(other.value.toBigDecimal())
-        }
-        if (other is ValueDecimal) {
+        }else        if (other is ValueDecimal) {
             return value.compareTo(other.value)
-        }
-        if (other is ValueDouble) {
+        }else        if (other is ValueDouble) {
             return value.toDouble().compareTo(other.value)
-        }
-        if (other is ValueFloat) {
+        }else        if (other is ValueFloat) {
             return value.toDouble().compareTo(other.value)
-        }
+        }else if(other is ValueBnode || other is ValueIri){ 
+return -1
+}else{
         throw IncompatibleTypesDuringCompareException()
+}
     }
 }
 
@@ -304,8 +320,11 @@ class ValueDouble(@JvmField var value: Double) : ValueNumeric() {
     override fun equals(other: Any?): Boolean {
         if (other is ValueDouble) {
             return value == other.value
-        }
+        }else if(other is ValueBnode || other is ValueIri){ 
+return false
+}else{
         throw IncompatibleTypesDuringCompareException()
+}
     }
 
     override fun toDouble(): Double = value
@@ -316,14 +335,15 @@ class ValueDouble(@JvmField var value: Double) : ValueNumeric() {
     override operator fun compareTo(other: ValueDefinition): Int {
         if (other is ValueInteger) {
             return value.compareTo(other.value.toDouble())
-        }
-        if (other is ValueDecimal) {
+        }else        if (other is ValueDecimal) {
             return value.compareTo(other.value.toDouble())
-        }
-        if (other is ValueDouble) {
+        }else        if (other is ValueDouble) {
             return value.compareTo(other.value)
-        }
+        }else if(other is ValueBnode || other is ValueIri){ 
+return -1
+}else{
         throw IncompatibleTypesDuringCompareException()
+}
     }
 }
 
@@ -333,9 +353,12 @@ class ValueFloat(@JvmField var value: Double) : ValueNumeric() {
     override fun equals(other: Any?): Boolean {
         if (other is ValueFloat) {
             return value == other.value
-        }
+        }else if(other is ValueBnode || other is ValueIri){ 
+return false
+}else{
         throw IncompatibleTypesDuringCompareException()
     }
+}
 
     override fun toDecimal(): BigDecimal = value.toBigDecimal()
     override fun toDouble(): Double = value
@@ -345,18 +368,18 @@ class ValueFloat(@JvmField var value: Double) : ValueNumeric() {
     override operator fun compareTo(other: ValueDefinition): Int {
         if (other is ValueInteger) {
             return value.compareTo(other.value.toDouble())
-        }
-        if (other is ValueDecimal) {
+        }else        if (other is ValueDecimal) {
             return value.compareTo(other.value.toDouble())
-        }
-        if (other is ValueDouble) {
+        }else        if (other is ValueDouble) {
             return value.compareTo(other.value)
-        }
-        if (other is ValueFloat) {
+        }else         if (other is ValueFloat) {
             return value.compareTo(other.value)
-        }
+        }else if(other is ValueBnode || other is ValueIri){ 
+return -1
+}else{
         throw IncompatibleTypesDuringCompareException()
     }
+}
 }
 
 class ValueInteger(@JvmField var value: BigInteger) : ValueNumeric() {
@@ -365,8 +388,11 @@ class ValueInteger(@JvmField var value: BigInteger) : ValueNumeric() {
     override fun equals(other: Any?): Boolean {
         if (other is ValueInteger) {
             return value == other.value
-        }
+        }else if(other is ValueBnode || other is ValueIri){ 
+return false
+}else{
         throw IncompatibleTypesDuringCompareException()
+}
     }
 
     override fun toDecimal(): BigDecimal = value.toBigDecimal()
@@ -377,17 +403,17 @@ class ValueInteger(@JvmField var value: BigInteger) : ValueNumeric() {
     override operator fun compareTo(other: ValueDefinition): Int {
         if (other is ValueInteger) {
             return value.compareTo(other.value)
-        }
-        if (other is ValueDecimal) {
+        }else        if (other is ValueDecimal) {
             return value.toBigDecimal().compareTo(other.value)
-        }
-        if (other is ValueDouble) {
+        }else        if (other is ValueDouble) {
             return value.toDouble().compareTo(other.value)
-        }
-        if (other is ValueFloat) {
+        }else        if (other is ValueFloat) {
             return value.toDouble().compareTo(other.value)
-        }
+        }else if(other is ValueBnode || other is ValueIri){ 
+return -1
+}else{
         throw IncompatibleTypesDuringCompareException()
+}
     }
 }
 
@@ -397,8 +423,9 @@ class ValueIri(@JvmField var iri: String) : ValueDefinition() {
     override fun equals(other: Any?): Boolean {
         if (other is ValueIri) {
             return iri == other.iri
-        }
-        throw IncompatibleTypesDuringCompareException()
+        }else {
+		return false
+	}
     }
 
     override fun toDouble(): Double = throw CanNotCastIriToDoubleException()
@@ -408,7 +435,7 @@ class ValueIri(@JvmField var iri: String) : ValueDefinition() {
     override fun hashCode() = iri.hashCode()
     override operator fun compareTo(other: ValueDefinition): Int {
         if (other !is ValueIri) {
-            throw IncompatibleTypesDuringCompareException()
+return 1
         }
         return iri.compareTo(other.iri)
     }
@@ -439,31 +466,25 @@ class ValueDateTime : ValueDefinition {
     @JvmField
     val timezoneMinutes: Int
     override operator fun compareTo(other: ValueDefinition): Int {
-        if (other !is ValueDateTime) {
+if(other is ValueBnode || other is ValueIri){
+return -1
+}else        if (other !is ValueDateTime) {
             throw IncompatibleTypesDuringCompareException()
-        }
-        if (year != other.year) {
+        }else        if (year != other.year) {
             return year.compareTo(other.year)
-        }
-        if (month != other.month) {
+        }else        if (month != other.month) {
             return month.compareTo(other.month)
-        }
-        if (day != other.day) {
+        }else        if (day != other.day) {
             return day.compareTo(other.day)
-        }
-        if (hours != other.hours) {
+        }else        if (hours != other.hours) {
             return hours.compareTo(other.hours)
-        }
-        if (minutes != other.minutes) {
+        }else        if (minutes != other.minutes) {
             return minutes.compareTo(other.minutes)
-        }
-        if (seconds != other.seconds) {
+        }else        if (seconds != other.seconds) {
             return seconds.compareTo(other.seconds)
-        }
-        if (timezoneHours != other.timezoneHours) {
+        }else        if (timezoneHours != other.timezoneHours) {
             return timezoneHours.compareTo(other.timezoneHours)
-        }
-        if (timezoneMinutes != other.timezoneMinutes) {
+        }else        if (timezoneMinutes != other.timezoneMinutes) {
             return timezoneMinutes.compareTo(other.timezoneMinutes)
         }
         return 0
@@ -635,7 +656,9 @@ class ValueDateTime : ValueDefinition {
     override fun equals(other: Any?): Boolean {
         if (other is ValueDateTime) {
             return valueToString() == other.valueToString()
-        }
+        }else if(other is ValueBnode || other is ValueIri){ 
+return false
+}
         throw IncompatibleTypesDuringCompareException()
     }
 

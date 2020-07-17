@@ -16,8 +16,8 @@ class LogicalOptimizer(query: Query) : OptimizerCompoundBase(query, EOptimizerID
                     LogicalOptimizerFilterOptionalStep2(query)//this needs to execute immediately after LogicalOptimizerFilterOptional, and is used to set a single flag that it is finished
             ),
             arrayOf<OptimizerBase>(
-                    LogicalOptimizerFilterSplitAND(query)//
-//                    LogicalOptimizerFilterSplitOR(query)//disabled due to wrong results resulting from following optimizers
+                    LogicalOptimizerFilterSplitAND(query),//
+                    LogicalOptimizerFilterSplitOR(query)//
             ),
             arrayOf<OptimizerBase>(
                     //search for_ structures, which form the minus-operator

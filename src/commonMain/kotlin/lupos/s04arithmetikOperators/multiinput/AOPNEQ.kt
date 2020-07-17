@@ -31,6 +31,7 @@ class AOPNEQ(query: Query, childA: AOPBase, childB: AOPBase) : AOPBinaryOperatio
                 res = ResultSetDictionary.errorValue2
                 e.printStackTrace()
             }
+println("COMPARATOR AOPNEQ ${a.toSparql()} ${b.toSparql()} ${res.toSparql()}")
 /*return*/res
         }
 /*Coverage Unreachable*/
