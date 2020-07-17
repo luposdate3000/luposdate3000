@@ -3,6 +3,8 @@ package lupos.s08logicalOptimisation
 import lupos.s00misc.Coverage
 import lupos.s00misc.EOptimizerID
 import lupos.s04arithmetikOperators.AOPBase
+import lupos.s04arithmetikOperators.multiinput.AOPAnd
+import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallBOUND
 import lupos.s04logicalOperators.multiinput.LOPJoin
 import lupos.s04logicalOperators.multiinput.LOPMinus
 import lupos.s04logicalOperators.multiinput.LOPUnion
@@ -11,8 +13,6 @@ import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.singleinput.LOPFilter
 import lupos.s04logicalOperators.singleinput.LOPGroup
-import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallBOUND
-import lupos.s04arithmetikOperators.multiinput.AOPAnd
 import lupos.s08logicalOptimisation.OptimizerBase
 
 class LogicalOptimizerFilterDown(query: Query) : OptimizerBase(query, EOptimizerID.LogicalOptimizerFilterDownID) {
@@ -33,7 +33,7 @@ class LogicalOptimizerFilterDown(query: Query) : OptimizerBase(query, EOptimizer
                 }
             } else {
                 val filters = mutableListOf<AOPBase>()
-addFilters(filters,node.children[1] as AOPBase)
+                addFilters(filters, node.children[1] as AOPBase)
                 while (child is LOPFilter) {
                     val filter = child.children[1] as AOPBase
                     var found = false
@@ -44,7 +44,7 @@ addFilters(filters,node.children[1] as AOPBase)
                         }
                     }
                     if (!found) {
-                    addFilters(    filters,filter)
+                        addFilters(filters, filter)
                     }
                     child = child.children[0]
                 }
@@ -59,23 +59,23 @@ addFilters(filters,node.children[1] as AOPBase)
                         onChange()
                     }
                 } else if (child !is LOPGroup && child !is LOPTriple && child.children.size > 0) {
-                        loop@ for (targetIndex in 0 until child.children.size) {
-                            val target = child.children[targetIndex]
- loop2@                           for (filterIndex in 0 until filters.size) {
-                                val filter = filters[filterIndex]
-                                if (target.getProvidedVariableNames().containsAll(filter.getRequiredVariableNamesRecoursive())) {
-if (child is LOPJoin && child.optional&&targetIndex==1&&containsBound(filter)) {
-continue@loop2
-}
-                                    child.children[targetIndex] = LOPFilter(query, filter, target)
-                                    filters.removeAt(filterIndex)
-                                    res = child
-                                    for (filter2 in filters) {
-                                        res = LOPFilter(query, filter2, res)
-                                    }
-                                    onChange()
-                                    break@loop
+                    loop@ for (targetIndex in 0 until child.children.size) {
+                        val target = child.children[targetIndex]
+                        loop2@ for (filterIndex in 0 until filters.size) {
+                            val filter = filters[filterIndex]
+                            if (target.getProvidedVariableNames().containsAll(filter.getRequiredVariableNamesRecoursive())) {
+                                if (child is LOPJoin && child.optional && targetIndex == 1 && containsBound(filter)) {
+                                    continue@loop2
                                 }
+                                child.children[targetIndex] = LOPFilter(query, filter, target)
+                                filters.removeAt(filterIndex)
+                                res = child
+                                for (filter2 in filters) {
+                                    res = LOPFilter(query, filter2, res)
+                                }
+                                onChange()
+                                break@loop
+                            }
                         }
                     }
                 }
@@ -83,7 +83,8 @@ continue@loop2
         }
         return res
     }
-fun addFilters(filters: MutableList<AOPBase>, filter: AOPBase) {
+
+    fun addFilters(filters: MutableList<AOPBase>, filter: AOPBase) {
         if (filter is AOPAnd) {
             addFilters(filters, filter.children[0] as AOPBase)
             addFilters(filters, filter.children[1] as AOPBase)
@@ -91,15 +92,16 @@ fun addFilters(filters: MutableList<AOPBase>, filter: AOPBase) {
             filters.add(filter)
         }
     }
-fun containsBound(filter: AOPBase):Boolean{
-if(filter is AOPBuildInCallBOUND){
-return true
-}
-for(f in filter.children){
-if(containsBound(f as AOPBase)){
-return true
-}
-}
-return false
-}
+
+    fun containsBound(filter: AOPBase): Boolean {
+        if (filter is AOPBuildInCallBOUND) {
+            return true
+        }
+        for (f in filter.children) {
+            if (containsBound(f as AOPBase)) {
+                return true
+            }
+        }
+        return false
+    }
 }

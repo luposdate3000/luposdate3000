@@ -11,7 +11,7 @@ import lupos.s04logicalOperators.singleinput.LOPOptional
 class LogicalOptimizerFilterOptionalStep2(query: Query) : OptimizerBase(query, EOptimizerID.LogicalOptimizerFilterOptionalStep2ID) {
     override val classname = "LogicalOptimizerFilterOptionalStep2"
     override fun optimize(node: OPBase, parent: OPBase?, onChange: () -> Unit): OPBase {
-query.filtersMovedUpFromOptionals=true
+        query.filtersMovedUpFromOptionals = true
         return node
     }
 }

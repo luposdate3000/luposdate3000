@@ -502,7 +502,7 @@ abstract class OPBase(val query: Query, val operatorID: EOperatorID, val classna
     }
 
     open fun syntaxVerifyAllVariableExists(additionalProvided: List<String> = listOf(), autocorrect: Boolean = false) {
-SanityCheck.check{query.filtersMovedUpFromOptionals}
+        SanityCheck.check { query.filtersMovedUpFromOptionals }
         for (i in 0 until childrenToVerifyCount()) {
             children[i].syntaxVerifyAllVariableExists(additionalProvided, autocorrect)
         }

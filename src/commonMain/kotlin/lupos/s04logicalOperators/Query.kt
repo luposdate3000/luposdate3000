@@ -40,8 +40,7 @@ class Query(@JvmField val dictionary: ResultSetDictionary = ResultSetDictionary(
             }
         }
         get() = _workingDirectory
-
-var filtersMovedUpFromOptionals=false
+    var filtersMovedUpFromOptionals = false
 
     @JvmField
     var commited = false

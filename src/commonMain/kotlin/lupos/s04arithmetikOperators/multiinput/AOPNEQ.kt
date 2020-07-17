@@ -1,8 +1,8 @@
 package lupos.s04arithmetikOperators.multiinput
 
-import lupos.s00misc.Luposdate3000Exception
 import lupos.s00misc.Coverage
 import lupos.s00misc.EOperatorID
+import lupos.s00misc.Luposdate3000Exception
 import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s03resultRepresentation.Value
 import lupos.s03resultRepresentation.ValueDefinition
@@ -31,7 +31,6 @@ class AOPNEQ(query: Query, childA: AOPBase, childB: AOPBase) : AOPBinaryOperatio
                 res = ResultSetDictionary.errorValue2
                 e.printStackTrace()
             }
-            println("Calculating NEQ ${a.toSparql()} ${b.toSparql()} -> ${res.toSparql()}")
 /*return*/res
         }
 /*Coverage Unreachable*/

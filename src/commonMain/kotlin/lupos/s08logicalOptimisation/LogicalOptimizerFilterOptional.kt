@@ -2,32 +2,30 @@ package lupos.s08logicalOptimisation
 
 import lupos.s00misc.Coverage
 import lupos.s00misc.EOptimizerID
-import lupos.s04arithmetikOperators.AOPBase
 import lupos.s03resultRepresentation.ValueBoolean
-import lupos.s04arithmetikOperators.singleinput.AOPNot
-import lupos.s04arithmetikOperators.noinput.AOPVariable
-import lupos.s04arithmetikOperators.noinput.AOPConstant
-import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallBOUND
+import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04arithmetikOperators.multiinput.AOPAnd
-import lupos.s04arithmetikOperators.multiinput.AOPOr
 import lupos.s04arithmetikOperators.multiinput.AOPBuildInCallCOALESCE
+import lupos.s04arithmetikOperators.multiinput.AOPOr
+import lupos.s04arithmetikOperators.noinput.AOPConstant
+import lupos.s04arithmetikOperators.noinput.AOPVariable
+import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallBOUND
+import lupos.s04arithmetikOperators.singleinput.AOPNot
+import lupos.s04logicalOperators.multiinput.LOPJoin
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
-import lupos.s04logicalOperators.singleinput.LOPSubGroup
-import lupos.s04logicalOperators.multiinput.LOPJoin
 import lupos.s04logicalOperators.singleinput.LOPFilter
+import lupos.s04logicalOperators.singleinput.LOPSubGroup
 
 class LogicalOptimizerFilterOptional(query: Query) : OptimizerBase(query, EOptimizerID.LogicalOptimizerFilterOptionalID) {
     override val classname = "LogicalOptimizerFilterOptional"
     override fun optimize(node: OPBase, parent: OPBase?, onChange: () -> Unit): OPBase {
         var res: OPBase = node
         if (node is LOPJoin && node.optional) {
-println("LogicalOptimizerFilterOptional ${node.uuid}")
             var child = node.children[1]
             var changed = false
             val filters = mutableListOf<AOPBase>()
             loop@ while (true) {
-println("LogicalOptimizerFilterOptional ${child.classname}")
                 when (child) {
                     is LOPSubGroup -> {
                         child = child.children[0]
@@ -45,12 +43,10 @@ println("LogicalOptimizerFilterOptional ${child.classname}")
             }
             if (changed) {
                 var childProvided = child.getProvidedVariableNames()
-println("LogicalOptimizerFilterOptional changed $childProvided")
                 var filterInside: AOPBase? = null
                 var filterOutside: AOPBase? = null
                 for (filter in filters) {
                     val req = filter.getRequiredVariableNamesRecoursive()
-println("LogicalOptimizerFilterOptional filter ${filter.toSparql()} $req")
                     if (childProvided.containsAll(req)) {
                         if (filterInside == null) {
                             filterInside = filter
@@ -65,7 +61,6 @@ println("LogicalOptimizerFilterOptional filter ${filter.toSparql()} $req")
                         }
                     }
                 }
-println("LogicalOptimizerFilterOptional ${filterInside?.toSparql()} ${filterOutside?.toSparql()}")
                 if (filterOutside != null) {
                     if (filterInside != null) {
                         node.children[1] = LOPFilter(query, filterInside, child)
@@ -80,10 +75,10 @@ println("LogicalOptimizerFilterOptional ${filterInside?.toSparql()} ${filterOuts
                     }
                     var optionalIndicator = t[0]
                     res = LOPFilter(
-                        query,
-			AOPOr(
-				query,
-                                AOPAnd(
+                            query,
+                            AOPOr(
+                                    query,
+                                    AOPAnd(
                                             query,
                                             AOPBuildInCallBOUND(
                                                     query,
@@ -95,19 +90,19 @@ println("LogicalOptimizerFilterOptional ${filterInside?.toSparql()} ${filterOuts
                                                     query,
                                                     listOf(
                                                             filterOutside,
-                                                            AOPConstant(query,ValueBoolean(false))
+                                                            AOPConstant(query, ValueBoolean(false))
                                                     )
                                             )
-				),
-                                AOPNot(
-                                        query,
-                                        AOPBuildInCallBOUND(
-                                                query,
-                                                AOPVariable(
-                                                        query, optionalIndicator
-                                               )
-                                       )
-                                )
+                                    ),
+                                    AOPNot(
+                                            query,
+                                            AOPBuildInCallBOUND(
+                                                    query,
+                                                    AOPVariable(
+                                                            query, optionalIndicator
+                                                    )
+                                            )
+                                    )
                             ),
                             node
                     )
