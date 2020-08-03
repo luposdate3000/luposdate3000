@@ -1,3 +1,4 @@
+
 package lupos.s16network
 
 import kotlin.time.DurationUnit
@@ -198,12 +199,12 @@ object HttpEndpoint {
         val pop_distributed_node = KeyDistributionOptimizer(q).optimizeCall(pop_node)
         GlobalLogger.log(ELoggerType.DEBUG, { pop_distributed_node })
         if (logOperatorGraph) {
-            SanityCheck.println({ "----------" })
-            SanityCheck.println({ query })
-            SanityCheck.println({ ">>>>>>>>>>" })
-            SanityCheck.println({ pop_distributed_node.toXMLElement().toString() })
-            SanityCheck.println({ "<<<<<<<<<<" })
-            SanityCheck.println({ OperatorGraphToLatex(pop_distributed_node.toXMLElement().toString(), "") })
+            println( "----------" )
+            println( query )
+            println( ">>>>>>>>>>" )
+            println( pop_distributed_node.toXMLElement().toString() )
+            println( "<<<<<<<<<<" )
+            println( OperatorGraphToLatex(pop_distributed_node.toXMLElement().toString(), "") )
         }
         val res = QueryResultToString(pop_distributed_node)
         q.commit()

@@ -46,7 +46,8 @@ export JAVA_HOME=/usr/lib/jvm/java-14-openjdk-amd64
 
 for variant in 1T1 1T2 1T3 1T4 2T2 2T3 2T4 3T3 3T4 4T4
 do
-	for partitions in $(seq 1 12)
+#	for partitions in $(seq 1 12)
+	for partitions in 12 1 6 2 3 4 5 7 8 9 10 11
 	do
 		for version in "${versions[@]}"
 		do
@@ -63,7 +64,6 @@ do
 				break
 			fi
 			size=$(du -sbc ${triplesfolder}/*.n3 | grep total | sed 's/\t.*//g')
-echo "TEST :: $triples $plupos $triplesfolder"
 			for version in "${versions[@]}"
 			do
 				queries=$(paste -s -d ';' log/benchtmp/$version.lupos.queries)

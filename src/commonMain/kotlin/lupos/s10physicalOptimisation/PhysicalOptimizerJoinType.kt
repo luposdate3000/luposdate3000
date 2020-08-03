@@ -39,7 +39,7 @@ class PhysicalOptimizerJoinType(query: Query) : OptimizerBase(query, EOptimizerI
     }
 
     fun embedWithinPartitionContext(joinColumns: MutableList<String>, parent: OPBase?, childA: OPBase, childB: OPBase, create: (OPBase, OPBase) -> OPBase): OPBase {
-        if (USE_PARTITIONS&&Partition.k>0) {
+        if (USE_PARTITIONS && Partition.k > 0) {
             var a = childA
             var b = childB
             for (s in joinColumns) {
@@ -75,9 +75,9 @@ class PhysicalOptimizerJoinType(query: Query) : OptimizerBase(query, EOptimizerI
                 if (node.mySortPriority.size >= columns[0].size) {
                     if (projectedVariables.size == 1 && childA.getProvidedVariableNames().size == 1 && childB.getProvidedVariableNames().size == 1 && childA.getProvidedVariableNames()[0] == projectedVariables[0] && childB.getProvidedVariableNames()[0] == projectedVariables[0]) {
                         if (node.optional) {
-                            res = POPJoinMergeOptional(query, projectedVariables, childA, childB, true)
+                            res = embedWithinPartitionContext(columns[0], parent, childA, childB, { a, b -> POPJoinMergeOptional(query, projectedVariables, a, b, true) })
                         } else {
-                            res = POPJoinMergeSingleColumn(query, projectedVariables, childA, childB, false)
+                            res = embedWithinPartitionContext(columns[0], parent, childA, childB, { a, b -> POPJoinMergeSingleColumn(query, projectedVariables, a, b, false) })
                         }
                     } else {
                         var flag = true
@@ -90,15 +90,15 @@ class PhysicalOptimizerJoinType(query: Query) : OptimizerBase(query, EOptimizerI
                         if (flag) {
                             if (childA.getProvidedVariableNames().containsAll(node.mySortPriority.map { it.variableName })) {
                                 if (node.optional) {
-                                    res = POPJoinMergeOptional(query, projectedVariables, childA, childB, true)
+                                    res = embedWithinPartitionContext(columns[0], parent, childA, childB, { a, b -> POPJoinMergeOptional(query, projectedVariables, a, b, true) })
                                 } else {
-                                    res = POPJoinMerge(query, projectedVariables, childA, childB, false)
+                                    res = embedWithinPartitionContext(columns[0], parent, childA, childB, { a, b -> POPJoinMerge(query, projectedVariables, a, b, false) })
                                 }
                             } else {
                                 if (node.optional) {
-                                    res = POPJoinMergeOptional(query, projectedVariables, childA, childB, true)
+                                    res = embedWithinPartitionContext(columns[0], parent, childA, childB, { a, b -> POPJoinMergeOptional(query, projectedVariables, a, b, true) })
                                 } else {
-                                    res = POPJoinMerge(query, projectedVariables, childB, childA, false)
+                                    res = embedWithinPartitionContext(columns[0], parent, childB, childA, { a, b -> POPJoinMerge(query, projectedVariables, a, b, false) })
                                 }
                             }
                         }

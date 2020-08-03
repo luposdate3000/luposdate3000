@@ -68,6 +68,7 @@ Partition.k=args[9].toInt()
     }
     for (queryFile in queryFiles) {
         val query = File(queryFile).readAsString()
+//HttpEndpoint.evaluate_sparql_query_string(query,true).toString()
         val timer = Monotonic.markNow()
         var time: Double
         var counter = 0

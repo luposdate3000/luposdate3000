@@ -15,22 +15,30 @@ class AOPEQ(query: Query, childA: AOPBase, childB: AOPBase) : AOPBinaryOperation
     override fun toSparql() = "(" + children[0].toSparql() + " = " + children[1].toSparql() + ")"
     override fun equals(other: Any?) = other is AOPEQ && children[0] == other.children[0] && children[1] == other.children[1]
     override fun evaluate(row: IteratorBundle): () -> ValueDefinition {
-        val childA = (children[0] as AOPBase).evaluate(row)
-        val childB = (children[1] as AOPBase).evaluate(row)
+        val childA = (children[0] as AOPBase).evaluateID(row)
+        val childB = (children[1] as AOPBase).evaluateID(row)
         return {
             var res: ValueDefinition = ResultSetDictionary.booleanTrueValue2
-            val a = childA()
-            val b = childB()
-            try {
-                if (a != b) {
-                    res = ResultSetDictionary.booleanFalseValue2
+            val a1 = childA()
+            val b1 = childB()
+            if (a1 != b1) {
+if(ResultSetDictionary.isGlobalBNode(a1)||ResultSetDictionary.isGlobalBNode(b1)){
+res = ResultSetDictionary.booleanFalseValue2
+}else{
+                val a = query.dictionary.getValue(a1)
+                val b = query.dictionary.getValue(b1)
+                try {
+                    if (a != b) {
+                        res = ResultSetDictionary.booleanFalseValue2
+                    }
+                } catch (e: Luposdate3000Exception) {
+                    res = ResultSetDictionary.errorValue2
+                } catch (e: Throwable) {
+                    res = ResultSetDictionary.errorValue2
+                    e.printStackTrace()
                 }
-            } catch (e: Luposdate3000Exception) {
-                res = ResultSetDictionary.errorValue2
-            } catch (e: Throwable) {
-                res = ResultSetDictionary.errorValue2
-                e.printStackTrace()
-            }
+      }
+      }
 /*return*/res
         }
 /*Coverage Unreachable*/

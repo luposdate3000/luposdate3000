@@ -1,6 +1,6 @@
 #!/bin/bash
 
-version=8784e318ac72248d585e1503ea3a70096a2fea1d
+version=fe931520f17611a6e5c5c6f636e41f60739048ec
 query=q1.sparql
 rm -rf tmp
 mkdir tmp
