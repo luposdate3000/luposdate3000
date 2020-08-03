@@ -1,13 +1,14 @@
 #!/bin/bash
 
-version=dbe3c04d804c70c3e1dad21e3729719d8b5a3600
-query=q2.sparql
+version=1861e2f902e51271dff96052c1a7c610e50e76d0
 rm -rf tmp
 mkdir tmp
+for query in $(find resources/lupos/ -type f | sed "s-.*/--g")
+do
 for f in benchmark_results/lupos/*
 do
 	source=/mnt/luposdate-testdata/lupos_$(echo $f | sed "s/.*v_//g" | sed "s/_.*//g")
-	target=tmp/$(echo $f | sed "s/.*v_/v_/g")
+	target=tmp/$(echo $f | sed "s/.*v_/v_/g")_$query
 	touch $target
 	truncate -s0 $target
 	for l in $(cat $f/*${version}*.csv | grep ${query})
@@ -18,9 +19,9 @@ do
 	done
 done
 
-cat <<EOF > tmp/gnu.plot
-set terminal png size 800,600
-set output 'tmp/lupos.png'
+cat <<EOF > tmp/$query.plot
+set terminal png size 1920,1080
+set output 'tmp/$query.png'
 set datafile separator ","
 set key inside right top
 set logscale x
@@ -28,11 +29,13 @@ set logscale y
 set title "$query"
 EOF
 s=""
-for f in tmp/*
+for f in tmp/*_$query
 do
-	s="$s, '$f' using 2:6 title \"$(echo $f | sed 's-tmp/--g' | sed 's/_/-/g')\" with linespoints"
+	x=$(echo $f | sed 's-tmp/--g' | sed "s/_${query}//g" | sed 's/_/-/g')
+	s="$s, '$f' using 2:6 title \"$x\" with linespoints"
 done
-echo "plot${s:1}" >> tmp/gnu.plot
-cat tmp/gnu.plot | gnuplot
+echo "plot${s:1}" >> tmp/$query.plot
+cat tmp/$query.plot | gnuplot
+done
 #mv tmp/*.png benchmark_results/
 #rm -rf tmp
