@@ -1,7 +1,6 @@
 #!/bin/bash
 export JAVA_OPTS="-Xmx60g"
 
-triples=2
 
 rm -rf log/benchtmp
 mkdir -p log/benchtmp
@@ -45,22 +44,26 @@ echo resources/lupos/q1.sparql > log/queries-lupos
 
 export JAVA_HOME=/usr/lib/jvm/java-14-openjdk-amd64
 
-for version in "${versions[@]}"
-do
-	cp log/queries-lupos log/benchtmp/$version.lupos.queries
-done
-
 for variant in 1T1 1T2 1T3 1T4 2T2 2T3 2T4 3T3 3T4 4T4
 do
 	for partitions in $(seq 1 12)
 	do
-		cp log/queries-lupos log/benchtmp/$version.lupos.queries
+		for version in "${versions[@]}"
+		do
+			cp log/queries-lupos log/benchtmp/$version.lupos.queries
+		done
+		triples=2
 		while true
 		do
 			plupos=$(pwd)/benchmark_results/lupos/v_${variant}_${partitions}P
 			mkdir -p $plupos
 			triplesfolder=/mnt/luposdate-testdata/lupos_${variant}/${triples}
+			if $( ls ${triplesfolder}/*.n3 2>&1 | grep -q "cannot access")
+			then
+				break
+			fi
 			size=$(du -sbc ${triplesfolder}/*.n3 | grep total | sed 's/\t.*//g')
+echo "TEST :: $triples $plupos $triplesfolder"
 			for version in "${versions[@]}"
 			do
 				queries=$(paste -s -d ';' log/benchtmp/$version.lupos.queries)
