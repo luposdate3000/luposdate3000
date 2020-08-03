@@ -40,14 +40,15 @@ ln -s $(readlink -f build/executable) log/benchtmp/Multi_BPlusTree_Empty.x
 versions=( "Multi_BPlusTree_Empty" )
 
 #ls resources/lupos/q*.sparql | grep -v "-" > log/queries-lupos
-echo resources/lupos/q1.sparql > log/queries-lupos
+echo resources/lupos/q2.sparql > log/queries-lupos
 
 export JAVA_HOME=/usr/lib/jvm/java-14-openjdk-amd64
 
-for variant in 1T1 1T2 1T3 1T4 2T2 2T3 2T4 3T3 3T4 4T4
+for variant in 1T1T4T4 1T4T0T0 1T4T4T4 4T4T0T0 4T4T4T4 1T1T0T0
 do
 #	for partitions in $(seq 1 12)
-	for partitions in 12 1 6 2 3 4 5 7 8 9 10 11
+#	for partitions in 12 1 6 2 3 4 5 7 8 9 10 11
+	for partitions in 12 1 6
 	do
 		for version in "${versions[@]}"
 		do

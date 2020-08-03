@@ -1,7 +1,8 @@
 #!/bin/bash
 
 version=fe931520f17611a6e5c5c6f636e41f60739048ec
-query=q1.sparql
+version=75cad55904e7b7229ee57bc5c46d524bbe419feb
+query=q2.sparql
 rm -rf tmp
 mkdir tmp
 for f in benchmark_results/lupos/*
