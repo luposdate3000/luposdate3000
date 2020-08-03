@@ -30,6 +30,9 @@ fun main(args: Array<String>) = runBlocking {
     val originalTripleSize = args[6].toLong()
     val datasourceBNodeFile = args[7]
     val benchmarkname = args[8]
+if(args.size>9){
+Partition.k=args[9].toInt()
+}
     when (datasourceType) {
         Datasource.LOAD -> {
             val timer = Monotonic.markNow()

@@ -4,7 +4,7 @@ class Partition {
     val data: Map<String, Int>
 
     companion object {
-        val k = 12
+        var k = 12
         val queue_size = 1000
         inline fun hashFunction(v: Int): Int {
             if (v < 0) {

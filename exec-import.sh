@@ -37,8 +37,9 @@ fi
 cpus=$( ls -d /sys/devices/system/cpu/cpu[[:digit:]]* | wc -w )
 
 ### configure all the files here -->>
-find /mnt/luposdate-testdata/sp2b/ -mindepth 1 -type d > exec-import.sh.tmp
-find /mnt/luposdate-testdata/bsbm/ -mindepth 1 -type d >> exec-import.sh.tmp
+find /mnt/luposdate-testdata/sp2b/ -mindepth 1 -maxdepth 1 -type d > exec-import.sh.tmp
+find /mnt/luposdate-testdata/bsbm/ -mindepth 1 -maxdepth 1 -type d >> exec-import.sh.tmp
+find /mnt/luposdate-testdata/lupos*/ -mindepth 1 -maxdepth 1 -type d >> exec-import.sh.tmp
 ###
 
 for directory in $(cat exec-import.sh.tmp | awk '{ print system("du -sb "$0" | sed \"s/[^0-9].*//g\" | tr -d \"\n\""), $0 }' | sort -n | cut -d" " -f2-)
