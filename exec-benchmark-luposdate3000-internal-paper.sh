@@ -71,7 +71,7 @@ do
 				if [ -n "$queries" ]
 				then
 					export LUPOS_HOME=$triplesfolder/data
-					./log/benchtmp/$version.x "IMPORT_INTERMEDIATE" "$triplesfolder/data" "$triplesfolder/intermediate" "$queries" "2" "$triples" "$size" "$triplesfolder/bnodes.txt" "lupos" "$partitions" > log/benchtmp/x
+					./log/benchtmp/$version.x "IMPORT_INTERMEDIATE" "$triplesfolder/data" "$triplesfolder/intermediate" "$queries" "10" "$triples" "$size" "$triplesfolder/bnodes.txt" "lupos" "$partitions" > log/benchtmp/x
 					cat log/benchtmp/x
 					cat log/benchtmp/x | grep "sparql,$triples," >> $plupos/luposdate3000-$version-$(git rev-parse HEAD)-internal.csv
 					cat log/benchtmp/x | grep "sparql,$triples," | grep -v "sparql,$triples,0,.," | sed "s/,.*//" > log/benchtmp/$version.lupos.queries

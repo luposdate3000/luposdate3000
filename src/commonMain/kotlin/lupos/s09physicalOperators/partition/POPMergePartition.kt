@@ -80,6 +80,7 @@ class POPMergePartition(query: Query, projectedVariables: List<String>, val part
                         SanityCheck.println({ "merge $uuid $p writer loop start" })
                         var t = (ringbufferWriteHead[p] + variables.size) % elementsPerRing
                         while (ringbufferReadHead[p] == t) {
+//println("$p locked")
                             SanityCheck.println({ "merge $uuid $p writer wait for reader to remove data" })
                             delay(1)
                             if (!isActive || readerFinished == 1) {
@@ -99,6 +100,7 @@ class POPMergePartition(query: Query, projectedVariables: List<String>, val part
                             for (variable in 0 until variables.size) {
                                 ringbuffer[ringbufferWriteHead[p] + variableMapping[variable] + ringbufferStart[p]] = child.buf[tmp + variable]
                             }
+//println("$p produced")
                             ringbufferWriteHead[p] = (ringbufferWriteHead[p] + variables.size) % elementsPerRing
                         }
                     }
@@ -123,6 +125,7 @@ class POPMergePartition(query: Query, projectedVariables: List<String>, val part
                             }
                             res = 0
                             ringbufferReadHead[p] = (ringbufferReadHead[p] + variables.size) % elementsPerRing
+//println("$p consumed")
                             break@loop
                         } else if (writerFinished[p] == 1) {
                             finishedWriters++

@@ -20,25 +20,19 @@ if (args.size > 3) {
     trashCount = args[3].toInt()
 }
 
-var counter = -1L
-var counters = IntArray(numberOfPredicates)
-
+var counter = 0L
 loop@ while (targetNumberOfTriples > 0) {
-    counter++
-    for (p in 0 until numberOfPredicates) {
-        counters[p] = 1 - counters[p]
-        if (counters[p] == 1) {
-            for (j in 0 until blockCount) {
-                println("_:s_${counter.toString(16)} <p${p}> _:o1_${j}_${counter.toString(16)} .")
-            }
-            targetNumberOfTriples -= blockCount
-        } else {
-            for (j in 0 until trashCount) {
-                println("_:s_${counter.toString(16)} <p${p}> _:o1_${j}_${counter.toString(16)} .")
-                counter++
-            }
-            targetNumberOfTriples -= trashCount
-            continue@loop
-        }
-    }
+	for (p in 0 until numberOfPredicates) {
+		for (j in 0 until blockCount) {
+			println("_:s${counter.toString(16)} <p${p}> <o${((j+counter)%100).toString(16)}> .")
+		}
+	}
+	counter++
+	for (p in 0 until numberOfPredicates) {
+		for (j in 0 until trashCount) {
+			println("<s${counter.toString(16)}> <p${p}> <o${((j+counter)%100).toString(16)}> .")
+			counter++
+		}
+	}
+	targetNumberOfTriples-=numberOfPredicates*(blockCount+trashCount)
 }

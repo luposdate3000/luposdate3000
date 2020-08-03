@@ -10,7 +10,6 @@ import lupos.s03resultRepresentation.nodeGlobalDictionary
 import lupos.s15tripleStoreDistributed.DistributedTripleStore
 import lupos.s16network.HttpEndpoint
 import lupos.s16network.ServerCommunicationSend
-
 enum class Datasource {
     LOAD, IMPORT, IMPORT_INTERMEDIATE
 }
@@ -68,18 +67,26 @@ Partition.k=args[9].toInt()
     }
     for (queryFile in queryFiles) {
         val query = File(queryFile).readAsString()
-//HttpEndpoint.evaluate_sparql_query_string(query,true).toString()
+HttpEndpoint.evaluate_sparql_query_string(query,true)
         val timer = Monotonic.markNow()
         var time: Double
         var counter = 0
         while (true) {
             counter++
-            HttpEndpoint.evaluate_sparql_query_string(query).toString()
+            HttpEndpoint.evaluate_sparql_query_string(query)
             time = timer.elapsedNow().toDouble(DurationUnit.SECONDS)
             if (time > minimumTime) {
                 break
             }
         }
         println("$queryFile,$numberOfTriples,0,$counter,${time * 1000.0},${counter / time},$originalTripleSize")
+for(j in HttpEndpoint.timesHelper.size-2 downTo 0){
+HttpEndpoint.timesHelper[j+1]-=HttpEndpoint.timesHelper[j]
+}
+var s=""
+for(j in 0 until HttpEndpoint.timesHelper.size){
+s+= "${HttpEndpoint.timesHelper[j]}, "
+}
+println("statistics.HttpEndpoint.timesHelper :: $s")
     }
 }
