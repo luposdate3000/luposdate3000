@@ -1,25 +1,14 @@
 #!/bin/bash
 
-triples=2
-while true
-do
+triples=4096
 
-for j in 1 4
-do
-for k in 1 4
-do
-if [ "$k" -lt "$j" ]
-then
-continue
-fi
-for m in 0 4
-do
-	pattern=lupos_${j}T${k}T${m}T${m}
-	triplesfolder=/mnt/luposdate-testdata/${pattern}/${triples}
+function generate(){
+	pattern=lupos_$2T$3T$4
+	triplesfolder=/mnt/luposdate-testdata/${pattern}/$1
 	rm -rf $triplesfolder
 	mkdir -p $triplesfolder
 	triplesfile=${triplesfolder}/complete.n3
-	./generate-benchmark-data.kts $triples $j $k $m $m > /mnt/luposdate-testdata/${pattern}/x
+	./generate-benchmark-data.kts $1 $2 $3 $4 > /mnt/luposdate-testdata/${pattern}/x
 	size=$(du -sb /mnt/luposdate-testdata/${pattern}/x | sed -E "s/([0-9]+).*/\1/g")
 	count=$(cat /mnt/luposdate-testdata/${pattern}/x | ./exec-compress-chunked-n3.kts $triplesfolder)
 	rm $triplesfolder/bnodes.tmp
@@ -32,10 +21,18 @@ do
 	rm $triplesfolder/bnodes.tmp
 	bnodecount=$(wc -l $triplesfolder/bnodes.txt | sed "s/ .*//g")
 	compressed=$(du -sbc $triplesfolder/*.n3 | grep total | sed 's/\t.*//g')
-	echo "$triples,$count,$size,$compressed,$bnodecount">>/mnt/luposdate-testdata/${pattern}/stat.csv
-done
-done
-done
+	echo "$1,$count,$size,$compressed,$bnodecount">>/mnt/luposdate-testdata/${pattern}/stat.csv
+}
+
+while true
+do
+
+	generate $triples 4 1 0
+	generate $triples 4 1 1
+	generate $triples 4 1 16
+	generate $triples 4 1 128
+	generate $triples 4 1 1024
+
 	triples=$(($triples * 2))
 	if [[ $triples -le 0 ]]
 	then

@@ -1,6 +1,6 @@
-SELECT ?s ?o1 ?o2
+SELECT ?s ?o0 ?o1
 WHERE {
+  ?s <p0> ?o0 .
   ?s <p1> ?o1 .
-  ?s <p2> ?o2 .
-  FILTER (IF(?o1 != ?o2,false,true))
+  FILTER (IF(?o0 != ?o1,false,true))
 }
