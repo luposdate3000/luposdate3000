@@ -7,7 +7,7 @@ do
 echo $(wc -l x${i}.ttl | sed "s/ .*//g"),x${i}.sparql,x${i}.ttl,x${i}.srx >> config.csv2
 done
 
-for i in $(seq 1 32)
+for i in $(seq 1 64)
 do
 for j in $(seq 1 2)
 do
