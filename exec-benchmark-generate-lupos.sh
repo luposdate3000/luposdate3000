@@ -1,7 +1,6 @@
 #!/bin/bash
 
-#triples=4096
-triples=4194304
+triples=1024
 
 function generate(){
 	pattern=lupos_$2T$3T$4
@@ -28,12 +27,12 @@ function generate(){
 while true
 do
 
-#	generate $triples 4 1 0
-#	generate $triples 4 1 1
-#	generate $triples 4 1 16
-#	generate $triples 4 1 128
+	generate $triples 4 1 0
+	generate $triples 4 1 1
+	generate $triples 4 1 16
+	generate $triples 4 1 128
 	generate $triples 4 1 1024
-exit
+
 	triples=$(($triples * 2))
 	if [[ $triples -le 0 ]]
 	then

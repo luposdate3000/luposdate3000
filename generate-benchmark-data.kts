@@ -27,12 +27,16 @@ loop@ while (targetNumberOfTriples > 0) {
             println("_:s${counter.toString(16)} <p${p}> <o${((j + counter) % 100).toString(16)}> .")
         }
     }
+    targetNumberOfTriples -= numberOfPredicates * blockCount
     counter++
     for (p in 0 until numberOfPredicates) {
         for (j in 0 until trashCount) {
+if(targetNumberOfTriples<=0){
+break@loop
+}
             println("<s${counter.toString(16)}> <p${p}> <o${((j + counter) % 100).toString(16)}> .")
+		targetNumberOfTriples--
             counter++
         }
     }
-    targetNumberOfTriples -= numberOfPredicates * (blockCount + trashCount)
 }
