@@ -22,17 +22,17 @@ if (args.size > 3) {
 
 var counter = 0L
 loop@ while (targetNumberOfTriples > 0) {
-	for (p in 0 until numberOfPredicates) {
-		for (j in 0 until blockCount) {
-			println("_:s${counter.toString(16)} <p${p}> <o${((j+counter)%100).toString(16)}> .")
-		}
-	}
-	counter++
-	for (p in 0 until numberOfPredicates) {
-		for (j in 0 until trashCount) {
-			println("<s${counter.toString(16)}> <p${p}> <o${((j+counter)%100).toString(16)}> .")
-			counter++
-		}
-	}
-	targetNumberOfTriples-=numberOfPredicates*(blockCount+trashCount)
+    for (p in 0 until numberOfPredicates) {
+        for (j in 0 until blockCount) {
+            println("_:s${counter.toString(16)} <p${p}> <o${((j + counter) % 100).toString(16)}> .")
+        }
+    }
+    counter++
+    for (p in 0 until numberOfPredicates) {
+        for (j in 0 until trashCount) {
+            println("<s${counter.toString(16)}> <p${p}> <o${((j + counter) % 100).toString(16)}> .")
+            counter++
+        }
+    }
+    targetNumberOfTriples -= numberOfPredicates * (blockCount + trashCount)
 }

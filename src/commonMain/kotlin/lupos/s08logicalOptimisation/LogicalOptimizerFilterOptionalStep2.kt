@@ -12,7 +12,7 @@ class LogicalOptimizerFilterOptionalStep2(query: Query) : OptimizerBase(query, E
     override val classname = "LogicalOptimizerFilterOptionalStep2"
     override fun optimize(node: OPBase, parent: OPBase?, onChange: () -> Unit): OPBase {
         query.filtersMovedUpFromOptionals = true
-node.syntaxVerifyAllVariableExists(listOf(), true)
+        node.syntaxVerifyAllVariableExists(listOf(), true)
         return node
     }
 }

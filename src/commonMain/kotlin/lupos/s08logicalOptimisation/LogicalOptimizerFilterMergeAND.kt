@@ -1,15 +1,15 @@
 package lupos.s08logicalOptimisation
 
-import lupos.s00misc.Coverage
 import lupos.s00misc.BugException
-import lupos.s00misc.SanityCheck
+import lupos.s00misc.Coverage
 import lupos.s00misc.EOptimizerID
+import lupos.s00misc.SanityCheck
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04arithmetikOperators.multiinput.AOPAnd
-import lupos.s04arithmetikOperators.singleinput.AOPNot
-import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallBOUND
-import lupos.s04arithmetikOperators.multiinput.AOPOr
 import lupos.s04arithmetikOperators.multiinput.AOPBuildInCallCOALESCE
+import lupos.s04arithmetikOperators.multiinput.AOPOr
+import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallBOUND
+import lupos.s04arithmetikOperators.singleinput.AOPNot
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.singleinput.LOPFilter
@@ -47,7 +47,7 @@ class LogicalOptimizerFilterMergeAND(query: Query) : OptimizerBase(query, EOptim
                     SanityCheck.check { c is AOPAnd }
                     val d = c.children[1] as AOPBase
                     SanityCheck.check { d is AOPBuildInCallCOALESCE }
-                    val e = d.children[0]  as AOPBase //original-filter
+                    val e = d.children[0] as AOPBase //original-filter
                     if (a is AOPBuildInCallBOUND) {
                         //TODO check if that bound is one of the options for this optional block
                         res = LOPFilter(query, c, child.children[0])
@@ -59,7 +59,7 @@ class LogicalOptimizerFilterMergeAND(query: Query) : OptimizerBase(query, EOptim
                         res.dontSplitFilter = 2
                         onChange()
                     } else if (containsBound(a)) {
-                        throw BugException("not evaluated","dont know what happens here?? debug later if it happens")
+                        throw BugException("not evaluated", "dont know what happens here?? debug later if it happens")
                     } else {
                         res = LOPFilter(query, AOPAnd(query, node.children[1] as AOPBase, child.children[1] as AOPBase), child.children[0])
                         onChange()

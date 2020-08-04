@@ -22,22 +22,22 @@ class AOPNEQ(query: Query, childA: AOPBase, childB: AOPBase) : AOPBinaryOperatio
             val a1 = childA()
             val b1 = childB()
             if (a1 != b1) {
-if(ResultSetDictionary.isGlobalBNode(a1)||ResultSetDictionary.isGlobalBNode(b1)){ 
-res = ResultSetDictionary.booleanTrueValue2
-}else{
-                val a = query.dictionary.getValue(a1)
-                val b = query.dictionary.getValue(b1)
-                try {
-                    if (a != b) {
-                        res = ResultSetDictionary.booleanTrueValue2
+                if (ResultSetDictionary.isGlobalBNode(a1) || ResultSetDictionary.isGlobalBNode(b1)) {
+                    res = ResultSetDictionary.booleanTrueValue2
+                } else {
+                    val a = query.dictionary.getValue(a1)
+                    val b = query.dictionary.getValue(b1)
+                    try {
+                        if (a != b) {
+                            res = ResultSetDictionary.booleanTrueValue2
+                        }
+                    } catch (e: Luposdate3000Exception) {
+                        res = ResultSetDictionary.errorValue2
+                    } catch (e: Throwable) {
+                        res = ResultSetDictionary.errorValue2
+                        e.printStackTrace()
                     }
-                } catch (e: Luposdate3000Exception) {
-                    res = ResultSetDictionary.errorValue2
-                } catch (e: Throwable) {
-                    res = ResultSetDictionary.errorValue2
-                    e.printStackTrace()
-      }
-          }
+                }
             }
 /*return*/res
         }

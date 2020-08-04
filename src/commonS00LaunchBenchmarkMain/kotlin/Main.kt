@@ -3,13 +3,18 @@ import kotlin.time.TimeSource.Monotonic
 import kotlinx.coroutines.runBlocking
 import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.Coverage
+import lupos.s00misc.EOptimizerID
 import lupos.s00misc.File
-import lupos.s00misc.Partition
 import lupos.s00misc.MyMapStringIntPatriciaTrie
+import lupos.s00misc.Partition
 import lupos.s03resultRepresentation.nodeGlobalDictionary
+import lupos.s05tripleStore.TripleStoreIndex_IDTriple
+import lupos.s08logicalOptimisation.LogicalOptimizerJoinOrder
+import lupos.s08logicalOptimisation.OptimizerCompoundBase
 import lupos.s15tripleStoreDistributed.DistributedTripleStore
 import lupos.s16network.HttpEndpoint
 import lupos.s16network.ServerCommunicationSend
+
 enum class Datasource {
     LOAD, IMPORT, IMPORT_INTERMEDIATE
 }
@@ -30,9 +35,9 @@ fun main(args: Array<String>) = runBlocking {
     val originalTripleSize = args[6].toLong()
     val datasourceBNodeFile = args[7]
     val benchmarkname = args[8]
-if(args.size>9){
-Partition.k=args[9].toInt()
-}
+    if (args.size > 9) {
+        Partition.k = args[9].toInt()
+    }
     when (datasourceType) {
         Datasource.LOAD -> {
             val timer = Monotonic.markNow()
@@ -67,7 +72,7 @@ Partition.k=args[9].toInt()
     }
     for (queryFile in queryFiles) {
         val query = File(queryFile).readAsString()
-HttpEndpoint.evaluate_sparql_query_string(query,true)
+        HttpEndpoint.evaluate_sparql_query_string(query, true)
         val timer = Monotonic.markNow()
         var time: Double
         var counter = 0
@@ -80,13 +85,14 @@ HttpEndpoint.evaluate_sparql_query_string(query,true)
             }
         }
         println("$queryFile,$numberOfTriples,0,$counter,${time * 1000.0},${counter / time},$originalTripleSize")
-for(j in HttpEndpoint.timesHelper.size-2 downTo 0){
-HttpEndpoint.timesHelper[j+1]-=HttpEndpoint.timesHelper[j]
-}
-var s=""
-for(j in 0 until HttpEndpoint.timesHelper.size){
-s+= "${HttpEndpoint.timesHelper[j]}, "
-}
-println("statistics.HttpEndpoint.timesHelper :: $s")
+//-->> HttpEndpoint.timesHelper
+        for (j in HttpEndpoint.timesHelper.size - 2 downTo 0) {
+            HttpEndpoint.timesHelper[j + 1] -= HttpEndpoint.timesHelper[j]
+        }
+        for (j in 0 until HttpEndpoint.timesHelper.size) {
+            println("statistics.HttpEndpoint.timesHelper[${j}] :: ${HttpEndpoint.timesHelper[j]}")
+            HttpEndpoint.timesHelper[j] = 0.0
+        }
+//<<--HttpEndpoint.timesHelper
     }
 }

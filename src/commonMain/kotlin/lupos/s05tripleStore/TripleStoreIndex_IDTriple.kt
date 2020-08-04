@@ -208,57 +208,140 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
         }
     }
 
-    override fun getHistogram(query: Query, params: TripleStoreFeatureParams): Pair<Int, Int> {
-        val filter = (params as TripleStoreFeatureParamsDefault).getFilter(query)
+    var cachedHistograms1Size = 0
+    var cachedHistograms1Cursor = 0
+    val cachedHistograms1 = IntArray(300)
+    var cachedHistograms2Size = 0
+    var cachedHistograms2Cursor = 0
+    val cachedHistograms2 = IntArray(400)
+    fun checkForCachedHistogram(filter: IntArray): Pair<Int, Int>? {
         var res: Pair<Int, Int>? = null
-        SanityCheck.println({ "readlock 6" })
-        lock.withReadLock {
-            val node = rootNode
-            if (node != null) {
-                when (filter.size) {
-                    0 -> {
-                        res = Pair(countPrimary, distinctPrimary)
-                    }
-                    1 -> {
-                        var iterator = NodeInner.iterator1(node, filter)
-                        var count = 0
-                        var distinct = 0
-                        if (iterator.hasNext()) {
-                            var lastValue = iterator.next(1)
-                            distinct++
-                            count++
-                            while (iterator.hasNext()) {
-                                var value = iterator.next(1)
-                                count++
-                                if (value != lastValue) {
-                                    distinct++
-                                }
-                                lastValue = value
-                            }
-                        }
-                        res = Pair(count, distinct)
-                    }
-                    2 -> {
-                        var iterator = NodeInner.iterator2(node, filter)
-                        var count = 0
-                        while (iterator.hasNext()) {
-                            iterator.next()
-                            count++
-                        }
-                        res = Pair(count, count)
-                    }
-                    3 -> {
-                        res = Pair(1, 1)
-                    }
-                    else -> {
-                        SanityCheck.checkUnreachable()
+        when (filter.size) {
+            0 -> {
+                res = Pair(countPrimary, distinctPrimary)
+            }
+            1 -> {
+                for (i in 0 until cachedHistograms1Size) {
+                    if (cachedHistograms1[i * 3] == filter[0]) {
+                        res = Pair(cachedHistograms1[i * 3 + 1], cachedHistograms1[i * 3 + 2])
+                        break
                     }
                 }
-            } else {
-                res = Pair(0, 0)
+            }
+            2 -> {
+                for (i in 0 until cachedHistograms2Size) {
+                    if (cachedHistograms2[i * 4] == filter[0] && cachedHistograms2[i * 4 + 1] == filter[1]) {
+                        res = Pair(cachedHistograms2[i * 4 + 2], cachedHistograms2[i * 4 + 3])
+                        break
+                    }
+                }
+            }
+            3 -> {
+                res = Pair(1, 1)
             }
         }
-        SanityCheck.println({ "readunlock 6" })
+        return res
+    }
+
+    fun updateCachedHistogram(filter: IntArray, data: Pair<Int, Int>) {
+        when (filter.size) {
+            1 -> {
+                if (cachedHistograms1Size < 100) {
+                    val i = cachedHistograms1Size
+                    cachedHistograms1[i * 3] = filter[0]
+                    cachedHistograms1[i * 3 + 1] = data.first
+                    cachedHistograms1[i * 3 + 2] = data.second
+                    cachedHistograms1Size++
+                    cachedHistograms1Cursor = cachedHistograms1Size
+                } else {
+                    if (cachedHistograms1Cursor >= 100) {
+                        cachedHistograms1Cursor = 0
+                    }
+                    val i = cachedHistograms1Cursor
+                    cachedHistograms1[i * 3] = filter[0]
+                    cachedHistograms1[i * 3 + 1] = data.first
+                    cachedHistograms1[i * 3 + 2] = data.second
+                    cachedHistograms1Cursor++
+                }
+            }
+            2 -> {
+                if (cachedHistograms2Size < 100) {
+                    val i = cachedHistograms2Size
+                    cachedHistograms2[i * 4] = filter[0]
+                    cachedHistograms2[i * 4 + 1] = filter[1]
+                    cachedHistograms2[i * 4 + 2] = data.first
+                    cachedHistograms2[i * 4 + 3] = data.second
+                    cachedHistograms2Size++
+                    cachedHistograms2Cursor = cachedHistograms2Size
+                } else {
+                    if (cachedHistograms2Cursor >= 100) {
+                        cachedHistograms2Cursor = 0
+                    }
+                    val i = cachedHistograms2Cursor
+                    cachedHistograms2[i * 4] = filter[0]
+                    cachedHistograms2[i * 4 + 1] = filter[1]
+                    cachedHistograms2[i * 4 + 2] = data.first
+                    cachedHistograms2[i * 4 + 3] = data.second
+                    cachedHistograms2Cursor++
+                }
+            }
+        }
+    }
+
+    override fun getHistogram(query: Query, params: TripleStoreFeatureParams): Pair<Int, Int> {
+        val filter = (params as TripleStoreFeatureParamsDefault).getFilter(query)
+        var res: Pair<Int, Int>? = checkForCachedHistogram(filter)
+        if (res == null) {
+            SanityCheck.println({ "readlock 6" })
+            lock.withReadLock {
+                val node = rootNode
+                if (node != null) {
+                    when (filter.size) {
+                        0 -> {
+                            res = Pair(countPrimary, distinctPrimary)
+                        }
+                        1 -> {
+                            var iterator = NodeInner.iterator1(node, filter)
+                            var count = 0
+                            var distinct = 0
+                            if (iterator.hasNext()) {
+                                var lastValue = iterator.next(1)
+                                distinct++
+                                count++
+                                while (iterator.hasNext()) {
+                                    var value = iterator.next(1)
+                                    count++
+                                    if (value != lastValue) {
+                                        distinct++
+                                    }
+                                    lastValue = value
+                                }
+                            }
+                            res = Pair(count, distinct)
+                        }
+                        2 -> {
+                            var iterator = NodeInner.iterator2(node, filter)
+                            var count = 0
+                            while (iterator.hasNext()) {
+                                iterator.next()
+                                count++
+                            }
+                            res = Pair(count, count)
+                        }
+                        3 -> {
+                            res = Pair(1, 1)
+                        }
+                        else -> {
+                            SanityCheck.checkUnreachable()
+                        }
+                    }
+                } else {
+                    res = Pair(0, 0)
+                }
+            }
+            SanityCheck.println({ "readunlock 6" })
+            updateCachedHistogram(filter, res!!)
+        }
         return res!!
     }
 
