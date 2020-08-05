@@ -54,7 +54,7 @@ class POPSplitPartition(query: Query, projectedVariables: List<String>, val part
         } else {
             var iterators: Array<IteratorBundle>? = null
             var job: Job? = null
-            val childPartition = Partition(parent, partitionVariable,GlobalScope)
+            val childPartition = Partition(parent, partitionVariable, GlobalScope)
             var partitionHelper = query.getPartitionHelper(uuid)
             partitionHelper.lock.withWriteLock {
                 val tmpIterators = partitionHelper.iterators
@@ -81,7 +81,7 @@ class POPSplitPartition(query: Query, projectedVariables: List<String>, val part
                     var writerFinished = 0
                     SanityCheck.println({ "ringbuffersize = ${ringbuffer.size} ${elementsPerRing} ${Partition.k} ${ringbufferStart.map { it }} ${ringbufferReadHead.map { it }} ${ringbufferWriteHead.map { it }}" })
                     job = parent.scope.launch(Dispatchers.Default) {
-childPartition.scope=this
+                        childPartition.scope = this
                         val child = children[0].evaluate(childPartition).rows
                         var hashVariableIndex = -1
                         val variableMapping = IntArray(variables.size)
@@ -155,27 +155,27 @@ childPartition.scope=this
                         iterator.buf = IntArray(variables.size)
                         iterator.next = {
                             var res = -1
-runBlocking{
-                            loop@ while (true) {
-                                SanityCheck.println({ "split $uuid $p reader loop start" })
-                                if (ringbufferReadHead[p] != ringbufferWriteHead[p]) {
-                                    //non empty queue -> read one row
-                                    SanityCheck.println({ "split $uuid $p reader consumed data" })
-                                    for (variable in 0 until variables.size) {
-                                        iterator.buf[variable] = (ringbuffer[ringbufferReadHead[p] + variable + ringbufferStart[p]])
+                            runBlocking {
+                                loop@ while (true) {
+                                    SanityCheck.println({ "split $uuid $p reader loop start" })
+                                    if (ringbufferReadHead[p] != ringbufferWriteHead[p]) {
+                                        //non empty queue -> read one row
+                                        SanityCheck.println({ "split $uuid $p reader consumed data" })
+                                        for (variable in 0 until variables.size) {
+                                            iterator.buf[variable] = (ringbuffer[ringbufferReadHead[p] + variable + ringbufferStart[p]])
+                                        }
+                                        res = 0
+                                        ringbufferReadHead[p] = (ringbufferReadHead[p] + variables.size) % elementsPerRing
+                                        break@loop
+                                    } else if (writerFinished == 1) {
+                                        SanityCheck.println({ "split $uuid $p reader closed" })
+                                        break@loop
                                     }
-                                    res = 0
-                                    ringbufferReadHead[p] = (ringbufferReadHead[p] + variables.size) % elementsPerRing
-                                    break@loop
-                                } else if (writerFinished == 1) {
-                                    SanityCheck.println({ "split $uuid $p reader closed" })
-                                    break@loop
+                                    SanityCheck.println({ "split $uuid $p reader wait for writer" })
+                                    delay(1)
                                 }
-                                SanityCheck.println({ "split $uuid $p reader wait for writer" })
-                                delay(1)
                             }
-            }
-                /*return*/res
+                            /*return*/res
                         }
                         iterator.close = {
                             SanityCheck.println({ "split $uuid $p reader close" })

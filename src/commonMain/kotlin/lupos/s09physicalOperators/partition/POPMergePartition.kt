@@ -1,6 +1,5 @@
 package lupos.s09physicalOperators.partition
 
-import lupos.s00misc.BenchmarkUtils
 import kotlinx.coroutines.cancelAndJoin
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
@@ -11,14 +10,15 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.yield
+import lupos.s00misc.BenchmarkUtils
 import lupos.s00misc.Coverage
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.ESortPriority
 import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.XMLElement
-import lupos.s03resultRepresentation.Variable
 import lupos.s03resultRepresentation.Value
+import lupos.s03resultRepresentation.Variable
 import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.s04logicalOperators.iterator.ColumnIteratorMultiIterator
 import lupos.s04logicalOperators.iterator.IteratorBundle
@@ -28,7 +28,6 @@ import lupos.s04logicalOperators.Query
 import lupos.s09physicalOperators.POPBase
 
 //http://blog.pronghorn.tech/optimizing-suspending-functions-in-kotlin/
-
 class POPMergePartition(query: Query, projectedVariables: List<String>, val partitionVariable: String, child: OPBase) : POPBase(query, projectedVariables, EOperatorID.POPMergePartitionID, "POPMergePartition", arrayOf(child), ESortPriority.PREVENT_ANY) {
     override fun toXMLElement(): XMLElement {
         val res = super.toXMLElement()
@@ -50,8 +49,6 @@ class POPMergePartition(query: Query, projectedVariables: List<String>, val part
     override fun cloneOP() = POPMergePartition(query, projectedVariables, partitionVariable, children[0].cloneOP())
     override fun toSparql() = children[0].toSparql()
     override fun equals(other: Any?): Boolean = other is POPMergePartition && children[0] == other.children[0] && partitionVariable == other.partitionVariable
-
-
     override fun evaluate(parent: Partition): IteratorBundle {
         if (Partition.k == 1) {
             //single partition - just pass through
@@ -62,7 +59,6 @@ class POPMergePartition(query: Query, projectedVariables: List<String>, val part
             SanityCheck.check { variables0.containsAll(variables) }
             SanityCheck.check { variables.containsAll(variables0) }
             //the variable may be eliminated directly after using it in the join            SanityCheck.check { variables.contains(partitionVariable) }
-
             val elementsPerRing = Partition.queue_size * variables.size
             val ringbuffer = IntArray(elementsPerRing * Partition.k) //only modified by writer, reader just modifies its pointer
             val ringbufferStart = IntArray(Partition.k) { it * elementsPerRing } //constant
@@ -147,10 +143,10 @@ class POPMergePartition(query: Query, projectedVariables: List<String>, val part
                                         try {
                                             ringbuffer[ringbufferWriteHead[p] + variable + ringbufferStart[p]] = variableMapping[variable].next()!!
                                         } catch (e: Throwable) {
-SanityCheck.println({ "merge $uuid $p writer closed A" })
-                                        for (variable in 0 until variables.size) {
-                                            variableMapping[variable].close()
-                                        }
+                                            SanityCheck.println({ "merge $uuid $p writer closed A" })
+                                            for (variable in 0 until variables.size) {
+                                                variableMapping[variable].close()
+                                            }
                                             writerFinished[p] = 1
                                             break@loop
                                         }

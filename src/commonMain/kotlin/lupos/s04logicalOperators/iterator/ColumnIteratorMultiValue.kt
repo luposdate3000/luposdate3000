@@ -1,8 +1,9 @@
 package lupos.s04logicalOperators.iterator
-import lupos.s04logicalOperators.iterator.ColumnIteratorNext
+
 import lupos.s00misc.Coverage
 import lupos.s03resultRepresentation.MyListValue
 import lupos.s03resultRepresentation.Value
+import lupos.s04logicalOperators.iterator.ColumnIteratorNext
 
 object ColumnIteratorMultiValue {
     operator fun invoke(values: IntArray, size: Int) = ColumnIteratorMultiValue_3(values, size)
@@ -14,14 +15,16 @@ class ColumnIteratorMultiValue_1(val values: MyListValue) : ColumnIterator() {
     var index = 0
 
     init {
-        next = ColumnIteratorNext("ColumnIteratorMultiValue_1.next"){
-            var res: Value?
-            if (index == values.size) {
-                res = null
-            } else {
-                res = values[index++]
+        next = object : ColumnIteratorNext("ColumnIteratorMultiValue_1.next") {
+            override fun invoke(): Value? {
+                var res: Value?
+                if (index == values.size) {
+                    res = null
+                } else {
+                    res = values[index++]
+                }
+                return res
             }
-/*return*/res
         }
     }
 }
@@ -30,26 +33,30 @@ class ColumnIteratorMultiValue_3(val values: IntArray, val size: Int) : ColumnIt
     var index = 0
 
     init {
-        next =ColumnIteratorNext("ColumnIteratorMultiValue_3.next") {
-            var res: Value?
-            if (index == size) {
-                res = null
-            } else {
-                res = values[index++]
+        next = object : ColumnIteratorNext("ColumnIteratorMultiValue_3.next") {
+            override fun invoke(): Value? {
+                var res: Value?
+                if (index == size) {
+                    res = null
+                } else {
+                    res = values[index++]
+                }
+                return res
             }
-/*return*/res
         }
     }
 }
 
 class ColumnIteratorMultiValue_2(val iterator: Iterator<Value>) : ColumnIterator() {
     init {
-        next =ColumnIteratorNext("ColumnIteratorMultiValue_2.next") {
-            var res: Value? = null
-            if (iterator.hasNext()) {
-                res = iterator.next()
+        next = object : ColumnIteratorNext("ColumnIteratorMultiValue_2.next") {
+            override fun invoke(): Value? {
+                var res: Value? = null
+                if (iterator.hasNext()) {
+                    res = iterator.next()
+                }
+                return res
             }
-/*return*/res
         }
     }
 }

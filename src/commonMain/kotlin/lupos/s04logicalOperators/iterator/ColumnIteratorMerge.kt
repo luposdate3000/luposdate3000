@@ -1,8 +1,9 @@
 package lupos.s04logicalOperators.iterator
-import lupos.s04logicalOperators.iterator.ColumnIteratorNext
+
 import lupos.s00misc.Coverage
 import lupos.s00misc.SanityCheck
 import lupos.s03resultRepresentation.Value
+import lupos.s04logicalOperators.iterator.ColumnIteratorNext
 
 object ColumnIteratorMerge {
     operator fun invoke(a: ColumnIterator, comparator: Comparator<Value>): ColumnIterator {
@@ -221,83 +222,85 @@ class ColumnIteratorMerge1(val a: ColumnIterator, val b: ColumnIterator, val com
             b.close()
             _close()
         }
-        next = ColumnIteratorNext("ColumnIteratorMerge1.next"){
-            var res: Value? = null
-            when (flag) {
-                1 -> {//call next on a, b is empty
-                    res = a.next()
-                    if (res == null) {
-                        a.close()
-                        flag = 0
+        next = object : ColumnIteratorNext("ColumnIteratorMerge1.next") {
+            override fun invoke(): Value? {
+                var res: Value? = null
+                when (flag) {
+                    1 -> {//call next on a, b is empty
+                        res = a.next()
+                        if (res == null) {
+                            a.close()
+                            flag = 0
+                        }
                     }
-                }
-                2 -> {//call next on b, a is empty
-                    res = b.next()
-                    if (res == null) {
-                        b.close()
-                        flag = 0
+                    2 -> {//call next on b, a is empty
+                        res = b.next()
+                        if (res == null) {
+                            b.close()
+                            flag = 0
+                        }
                     }
-                }
-                4 -> {//call next on a, b is not empty
-                    aBuf = a.next()
-                    if (aBuf == null) {
-                        a.close()
-                        res = bBuf
-                        flag = 2
-                    } else {
-                        if (comparator.compare(aBuf, bBuf) < 0) {
-                            res = aBuf
-                            flag = 4
-                        } else {
+                    4 -> {//call next on a, b is not empty
+                        aBuf = a.next()
+                        if (aBuf == null) {
+                            a.close()
                             res = bBuf
-                            flag = 5
+                            flag = 2
+                        } else {
+                            if (comparator.compare(aBuf, bBuf) < 0) {
+                                res = aBuf
+                                flag = 4
+                            } else {
+                                res = bBuf
+                                flag = 5
+                            }
+                        }
+                    }
+                    5 -> {//call next on b, a is not empty
+                        bBuf = b.next()
+                        if (bBuf == null) {
+                            b.close()
+                            res = aBuf
+                            flag = 1
+                        } else {
+                            if (comparator.compare(aBuf, bBuf) < 0) {
+                                res = aBuf
+                                flag = 4
+                            } else {
+                                res = bBuf
+                                flag = 5
+                            }
+                        }
+                    }
+                    3 -> {//call next on both
+                        aBuf = a.next()
+                        bBuf = b.next()
+                        if (aBuf == null && bBuf == null) {
+                            res = null
+                            a.close()
+                            b.close()
+                            flag = 0
+                        } else if (bBuf == null) {
+                            res = aBuf
+                            b.close()
+                            flag = 1
+                        } else if (aBuf == null) {
+                            res = bBuf
+                            a.close()
+                            flag = 2
+                        } else {
+                            if (comparator.compare(aBuf, bBuf) < 0) {
+                                res = aBuf
+                                flag = 4
+                            } else {
+                                res = bBuf
+                                flag = 5
+                            }
                         }
                     }
                 }
-                5 -> {//call next on b, a is not empty
-                    bBuf = b.next()
-                    if (bBuf == null) {
-                        b.close()
-                        res = aBuf
-                        flag = 1
-                    } else {
-                        if (comparator.compare(aBuf, bBuf) < 0) {
-                            res = aBuf
-                            flag = 4
-                        } else {
-                            res = bBuf
-                            flag = 5
-                        }
-                    }
-                }
-                3 -> {//call next on both
-                    aBuf = a.next()
-                    bBuf = b.next()
-                    if (aBuf == null && bBuf == null) {
-                        res = null
-                        a.close()
-                        b.close()
-                        flag = 0
-                    } else if (bBuf == null) {
-                        res = aBuf
-                        b.close()
-                        flag = 1
-                    } else if (aBuf == null) {
-                        res = bBuf
-                        a.close()
-                        flag = 2
-                    } else {
-                        if (comparator.compare(aBuf, bBuf) < 0) {
-                            res = aBuf
-                            flag = 4
-                        } else {
-                            res = bBuf
-                            flag = 5
-                        }
-                    }
-                }
+                return res
             }
-            /*return*/ res
         }
     }
 }
@@ -313,82 +316,84 @@ class ColumnIteratorMerge2(val a: ColumnIterator, val b: ColumnIterator) : Colum
             b.close()
             _close()
         }
-        next = ColumnIteratorNext("ColumnIteratorMerge2.next"){
-            var res: Value? = null
-            when (flag) {
-                1 -> {//call next on a, b is empty
-                    res = a.next()
-                    if (res == null) {
-                        a.close()
-                        flag = 0
+        next = object : ColumnIteratorNext("ColumnIteratorMerge2.next") {
+            override fun invoke(): Value? {
+                var res: Value? = null
+                when (flag) {
+                    1 -> {//call next on a, b is empty
+                        res = a.next()
+                        if (res == null) {
+                            a.close()
+                            flag = 0
+                        }
                     }
-                }
-                2 -> {//call next on b, a is empty
-                    res = b.next()
-                    if (res == null) {
-                        b.close()
-                        flag = 0
+                    2 -> {//call next on b, a is empty
+                        res = b.next()
+                        if (res == null) {
+                            b.close()
+                            flag = 0
+                        }
                     }
-                }
-                4 -> {//call next on a, b is not empty
-                    aBuf = a.next()
-                    if (aBuf == null) {
-                        a.close()
-                        res = bBuf
-                        flag = 2
-                    } else {
-                        if (aBuf!! < bBuf!!) {
-                            res = aBuf
-                            flag = 4
-                        } else {
+                    4 -> {//call next on a, b is not empty
+                        aBuf = a.next()
+                        if (aBuf == null) {
+                            a.close()
                             res = bBuf
-                            flag = 5
+                            flag = 2
+                        } else {
+                            if (aBuf!! < bBuf!!) {
+                                res = aBuf
+                                flag = 4
+                            } else {
+                                res = bBuf
+                                flag = 5
+                            }
+                        }
+                    }
+                    5 -> {//call next on b, a is not empty
+                        bBuf = b.next()
+                        if (bBuf == null) {
+                            b.close()
+                            res = aBuf
+                            flag = 1
+                        } else {
+                            if (aBuf!! < bBuf!!) {
+                                res = aBuf
+                                flag = 4
+                            } else {
+                                res = bBuf
+                                flag = 5
+                            }
+                        }
+                    }
+                    3 -> {//call next on both
+                        aBuf = a.next()
+                        bBuf = b.next()
+                        if (aBuf == null && bBuf == null) {
+                            a.close()
+                            b.close()
+                            flag = 0
+                        } else if (bBuf == null) {
+                            b.close()
+                            res = aBuf
+                            flag = 1
+                        } else if (aBuf == null) {
+                            a.close()
+                            res = bBuf
+                            flag = 2
+                        } else {
+                            if (aBuf!! < bBuf!!) {
+                                res = aBuf
+                                flag = 4
+                            } else {
+                                res = bBuf
+                                flag = 5
+                            }
                         }
                     }
                 }
-                5 -> {//call next on b, a is not empty
-                    bBuf = b.next()
-                    if (bBuf == null) {
-                        b.close()
-                        res = aBuf
-                        flag = 1
-                    } else {
-                        if (aBuf!! < bBuf!!) {
-                            res = aBuf
-                            flag = 4
-                        } else {
-                            res = bBuf
-                            flag = 5
-                        }
-                    }
-                }
-                3 -> {//call next on both
-                    aBuf = a.next()
-                    bBuf = b.next()
-                    if (aBuf == null && bBuf == null) {
-                        a.close()
-                        b.close()
-                        flag = 0
-                    } else if (bBuf == null) {
-                        b.close()
-                        res = aBuf
-                        flag = 1
-                    } else if (aBuf == null) {
-                        a.close()
-                        res = bBuf
-                        flag = 2
-                    } else {
-                        if (aBuf!! < bBuf!!) {
-                            res = aBuf
-                            flag = 4
-                        } else {
-                            res = bBuf
-                            flag = 5
-                        }
-                    }
-                }
+                return res
             }
-            /*return*/ res
         }
     }
 }

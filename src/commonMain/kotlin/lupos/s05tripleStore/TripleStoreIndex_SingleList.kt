@@ -1,5 +1,5 @@
 package lupos.s05tripleStore
-import lupos.s04logicalOperators.iterator.ColumnIteratorNext
+
 import kotlin.jvm.JvmField
 import kotlinx.coroutines.runBlocking
 import lupos.s00misc.CoroutinesHelper
@@ -14,6 +14,7 @@ import lupos.s00misc.SanityCheck
 import lupos.s00misc.TripleStoreModifyOperationsNotImplementedException
 import lupos.s03resultRepresentation.Value
 import lupos.s04logicalOperators.iterator.ColumnIterator
+import lupos.s04logicalOperators.iterator.ColumnIteratorNext
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.Query
 import lupos.s05tripleStore.index_SingleList.ColumnIteratorStore1
@@ -275,15 +276,17 @@ class TripleStoreIndex_SingleList : TripleStoreIndex() {
         var idx = offset
 
         init {
-            next =ColumnIteratorNext("ImportIterator.next") {
-                var res: Value?
-                if (idx >= count) {
-                    res = null
-                } else {
-                    res = data[idx]
-                    idx += 3
+            next = object : ColumnIteratorNext("ImportIterator.next") {
+                override fun invoke(): Value? {
+                    var res: Value?
+                    if (idx >= count) {
+                        res = null
+                    } else {
+                        res = data[idx]
+                        idx += 3
+                    }
+                    return res
                 }
-/*return*/res
             }
         }
     }

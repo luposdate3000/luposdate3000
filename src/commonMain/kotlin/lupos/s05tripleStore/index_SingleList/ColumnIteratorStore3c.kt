@@ -1,9 +1,10 @@
 package lupos.s05tripleStore.index_SingleList
-import lupos.s04logicalOperators.iterator.ColumnIteratorNext
+
 import lupos.s00misc.Coverage
 import lupos.s03resultRepresentation.MyListValue
 import lupos.s03resultRepresentation.Value
 import lupos.s04logicalOperators.iterator.ColumnIterator
+import lupos.s04logicalOperators.iterator.ColumnIteratorNext
 
 class ColumnIteratorStore3c(val values: MyListValue) : ColumnIterator() {
     var counterPrimary: Int
@@ -21,29 +22,31 @@ class ColumnIteratorStore3c(val values: MyListValue) : ColumnIterator() {
             counterSecondary = it.next() - 1
             valueB = it.next()
             counterTerniary = it.next() - 1
-            next =ColumnIteratorNext("ColumnIteratorStore3c.next") {
-                valueC = it.next()
-                var res = valueC
-                if (counterTerniary == 0) {
-                    if (counterSecondary == 0) {
-                        if (counterPrimary == 0) {
-                            close()
+            next = object : ColumnIteratorNext("ColumnIteratorStore3c.next") {
+                override fun invoke(): Value? {
+                    valueC = it.next()
+                    var res = valueC
+                    if (counterTerniary == 0) {
+                        if (counterSecondary == 0) {
+                            if (counterPrimary == 0) {
+                                close()
+                            } else {
+                                counterPrimary--
+                                valueA = it.next()
+                                counterSecondary = it.next() - 1
+                                valueB = it.next()
+                                counterTerniary = it.next() - 1
+                            }
                         } else {
-                            counterPrimary--
-                            valueA = it.next()
-                            counterSecondary = it.next() - 1
+                            counterSecondary--
                             valueB = it.next()
                             counterTerniary = it.next() - 1
                         }
                     } else {
-                        counterSecondary--
-                        valueB = it.next()
-                        counterTerniary = it.next() - 1
+                        counterTerniary--
                     }
-                } else {
-                    counterTerniary--
+                    return res
                 }
-                /*return*/res
             }
         } else {
             counterPrimary = 0

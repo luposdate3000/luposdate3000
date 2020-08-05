@@ -1,5 +1,5 @@
 package lupos.s05tripleStore
-import lupos.s04logicalOperators.iterator.ColumnIteratorNext
+
 import kotlin.jvm.JvmField
 import kotlinx.coroutines.runBlocking
 import lupos.s00misc.BenchmarkUtils
@@ -10,6 +10,7 @@ import lupos.s00misc.ReadWriteLock
 import lupos.s00misc.SanityCheck
 import lupos.s03resultRepresentation.Value
 import lupos.s04logicalOperators.iterator.ColumnIterator
+import lupos.s04logicalOperators.iterator.ColumnIteratorNext
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.Query
 import lupos.s05tripleStore.index_IDTriple.BulkImportIterator
@@ -53,43 +54,43 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
     }
 
     override fun safeToFile(filename: String) {
-runBlocking{
-        flushContinueWithReadLock()
-        SanityCheck {
-            if (root != NodeManager.nodeNullPointer) {
-                var found = false
-                NodeManager.getNode(root, {
-                    SanityCheck.println { "root is inner node" }
-                    SanityCheck.checkUnreachable()
-                }, {
-                    found = true
-                    SanityCheck.check { rootNode == it }
-                })
-                SanityCheck.check { found }
-            } else {
-                SanityCheck.check { rootNode == null }
-            }
-        }
-        File(filename).dataOutputStream { out ->
-            out.writeInt(firstLeaf)
-            out.writeInt(root)
-            out.writeInt(countPrimary)
-            out.writeInt(distinctPrimary)
-        }
-        SanityCheck {
-            SanityCheck.println { firstLeaf }
-            SanityCheck.println { root }
-            SanityCheck.println { countPrimary }
-            SanityCheck.println { distinctPrimary }
-            if (rootNode != null) {
-                val iterator = NodeInner.iterator(rootNode!!)
-                while (iterator.hasNext()) {
-                    SanityCheck.println { iterator.next().map { it } }
+        runBlocking {
+            flushContinueWithReadLock()
+            SanityCheck {
+                if (root != NodeManager.nodeNullPointer) {
+                    var found = false
+                    NodeManager.getNode(root, {
+                        SanityCheck.println { "root is inner node" }
+                        SanityCheck.checkUnreachable()
+                    }, {
+                        found = true
+                        SanityCheck.check { rootNode == it }
+                    })
+                    SanityCheck.check { found }
+                } else {
+                    SanityCheck.check { rootNode == null }
                 }
             }
+            File(filename).dataOutputStream { out ->
+                out.writeInt(firstLeaf)
+                out.writeInt(root)
+                out.writeInt(countPrimary)
+                out.writeInt(distinctPrimary)
+            }
+            SanityCheck {
+                SanityCheck.println { firstLeaf }
+                SanityCheck.println { root }
+                SanityCheck.println { countPrimary }
+                SanityCheck.println { distinctPrimary }
+                if (rootNode != null) {
+                    val iterator = NodeInner.iterator(rootNode!!)
+                    while (iterator.hasNext()) {
+                        SanityCheck.println { iterator.next().map { it } }
+                    }
+                }
+            }
+            lock.readUnlock()
         }
-        lock.readUnlock()
-}
         SanityCheck.println { "readunlock 1" }
     }
 
@@ -133,26 +134,28 @@ runBlocking{
         val uuid = TripleStoreIndex_IDTriple.debuguuiditerator++
 
         init {
-var totaltime=0.0
-var totalcounter=0
-            next =ColumnIteratorNext("IteratorS.next") {
-val timer = BenchmarkUtils.timesHelperMark()
-                var tmp: Value? = null
-                if (it.hasNext()) {
-                    tmp = it.nextS()
-                } else {
-                    close()
+            var totaltime = 0.0
+            var totalcounter = 0
+            next = object : ColumnIteratorNext("IteratorS.next") {
+                override fun invoke(): Value? {
+                    val timer = BenchmarkUtils.timesHelperMark()
+                    var tmp: Value? = null
+                    if (it.hasNext()) {
+                        tmp = it.nextS()
+                    } else {
+                        close()
+                    }
+                    totaltime += BenchmarkUtils.timesHelperDuration(timer)
+                    totalcounter++
+                    return tmp
                 }
-totaltime+=BenchmarkUtils.timesHelperDuration(timer)
-totalcounter++
-                /*return*/tmp
             }
             runBlocking {
                 SanityCheck.println({ "readlock 3 $uuid" })
                 lock.readLock()
             }
             close = {
-BenchmarkUtils.setTimesHelper(8,totaltime,totalcounter)
+                BenchmarkUtils.setTimesHelper(8, totaltime, totalcounter)
                 _close()
                 runBlocking {
                     lock.readUnlock()
@@ -166,26 +169,28 @@ BenchmarkUtils.setTimesHelper(8,totaltime,totalcounter)
         val uuid = TripleStoreIndex_IDTriple.debuguuiditerator++
 
         init {
-var totaltime=0.0
-var totalcounter=0
-            next =ColumnIteratorNext("IteratorP.next") {
-    val timer = BenchmarkUtils.timesHelperMark()
-            var tmp: Value? = null
-                if (it.hasNext()) {
-                    tmp = it.nextP()
-                } else {
-                    close()
+            var totaltime = 0.0
+            var totalcounter = 0
+            next = object : ColumnIteratorNext("IteratorP.next") {
+                override fun invoke(): Value? {
+                    val timer = BenchmarkUtils.timesHelperMark()
+                    var tmp: Value? = null
+                    if (it.hasNext()) {
+                        tmp = it.nextP()
+                    } else {
+                        close()
+                    }
+                    totaltime += BenchmarkUtils.timesHelperDuration(timer)
+                    totalcounter++
+                    return tmp
                 }
-totaltime+=BenchmarkUtils.timesHelperDuration(timer)
-totalcounter++
-                /*return*/tmp
             }
             runBlocking {
                 SanityCheck.println({ "readlock 4 $uuid" })
                 lock.readLock()
             }
             close = {
-BenchmarkUtils.setTimesHelper(9,totaltime,totalcounter)
+                BenchmarkUtils.setTimesHelper(9, totaltime, totalcounter)
                 _close()
                 runBlocking {
                     lock.readUnlock()
@@ -199,26 +204,28 @@ BenchmarkUtils.setTimesHelper(9,totaltime,totalcounter)
         val uuid = TripleStoreIndex_IDTriple.debuguuiditerator++
 
         init {
-var totaltime=0.0
-var totalcounter=0
-            next =ColumnIteratorNext("IteratorO.next") {
-val timer = BenchmarkUtils.timesHelperMark()
-                var tmp: Value? = null
-                if (it.hasNext()) {
-                    tmp = it.nextO()
-                } else {
-                    close()
+            var totaltime = 0.0
+            var totalcounter = 0
+            next = object : ColumnIteratorNext("IteratorO.next") {
+                override fun invoke(): Value? {
+                    val timer = BenchmarkUtils.timesHelperMark()
+                    var tmp: Value? = null
+                    if (it.hasNext()) {
+                        tmp = it.nextO()
+                    } else {
+                        close()
+                    }
+                    totaltime += BenchmarkUtils.timesHelperDuration(timer)
+                    totalcounter++
+                    return tmp
                 }
-totaltime+=BenchmarkUtils.timesHelperDuration(timer)
-totalcounter++
-                /*return*/tmp
             }
             runBlocking {
                 SanityCheck.println({ "readlock 5 $uuid" })
                 lock.readLock()
             }
             close = {
-BenchmarkUtils.setTimesHelper(10,totaltime,totalcounter)
+                BenchmarkUtils.setTimesHelper(10, totaltime, totalcounter)
                 _close()
                 runBlocking {
                     lock.readUnlock()
@@ -383,69 +390,69 @@ BenchmarkUtils.setTimesHelper(10,totaltime,totalcounter)
         } else {
             res = IteratorBundle(0)
         }
-runBlocking{
-        flushContinueWithReadLock()
-        val node = rootNode
-        if (node != null) {
-            if (filter.size == 3) {
-                if (NodeInner.iterator3(node, filter).hasNext()) {
-                    res = IteratorBundle(1)
-                }
-            } else if (filter.size == 2) {
-                if (projection[0] == "_") {
-                    var count = 0
-                    var it = NodeInner.iterator2(node, filter)
-                    while (it.hasNext()) {
-                        it.next()
-                        count++
+        runBlocking {
+            flushContinueWithReadLock()
+            val node = rootNode
+            if (node != null) {
+                if (filter.size == 3) {
+                    if (NodeInner.iterator3(node, filter).hasNext()) {
+                        res = IteratorBundle(1)
                     }
-                    res = IteratorBundle(count)
-                } else {
-                    columns[projection[0]] = IteratorO(NodeInner.iterator2(node, filter), lock)
-                }
-            } else if (filter.size == 1) {
-                if (projection[0] != "_") {
-                    columns[projection[0]] = IteratorP(NodeInner.iterator1(node, filter), lock)
-                    if (projection[1] != "_") {
-                        columns[projection[1]] = IteratorO(NodeInner.iterator1(node, filter), lock)
+                } else if (filter.size == 2) {
+                    if (projection[0] == "_") {
+                        var count = 0
+                        var it = NodeInner.iterator2(node, filter)
+                        while (it.hasNext()) {
+                            it.next()
+                            count++
+                        }
+                        res = IteratorBundle(count)
+                    } else {
+                        columns[projection[0]] = IteratorO(NodeInner.iterator2(node, filter), lock)
                     }
-                } else {
-                    SanityCheck.check { projection[1] == "_" }
-                    var count = 0
-                    var it = NodeInner.iterator1(node, filter)
-                    while (it.hasNext()) {
-                        it.next()
-                        count++
-                    }
-                    res = IteratorBundle(count)
-                }
-            } else {
-                SanityCheck.check { filter.size == 0 }
-                if (projection[0] != "_") {
-                    columns[projection[0]] = IteratorS(NodeInner.iterator(node), lock)
-                    if (projection[1] != "_") {
-                        columns[projection[1]] = IteratorP(NodeInner.iterator(node), lock)
-                        if (projection[2] != "_") {
-                            columns[projection[2]] = IteratorO(NodeInner.iterator(node), lock)
+                } else if (filter.size == 1) {
+                    if (projection[0] != "_") {
+                        columns[projection[0]] = IteratorP(NodeInner.iterator1(node, filter), lock)
+                        if (projection[1] != "_") {
+                            columns[projection[1]] = IteratorO(NodeInner.iterator1(node, filter), lock)
                         }
                     } else {
-                        SanityCheck.check { projection[2] == "_" }
+                        SanityCheck.check { projection[1] == "_" }
+                        var count = 0
+                        var it = NodeInner.iterator1(node, filter)
+                        while (it.hasNext()) {
+                            it.next()
+                            count++
+                        }
+                        res = IteratorBundle(count)
                     }
                 } else {
-                    SanityCheck.check { projection[1] == "_" }
-                    SanityCheck.check { projection[2] == "_" }
-                    var count = 0
-                    var it = NodeInner.iterator(node)
-                    while (it.hasNext()) {
-                        it.next()
-                        count++
+                    SanityCheck.check { filter.size == 0 }
+                    if (projection[0] != "_") {
+                        columns[projection[0]] = IteratorS(NodeInner.iterator(node), lock)
+                        if (projection[1] != "_") {
+                            columns[projection[1]] = IteratorP(NodeInner.iterator(node), lock)
+                            if (projection[2] != "_") {
+                                columns[projection[2]] = IteratorO(NodeInner.iterator(node), lock)
+                            }
+                        } else {
+                            SanityCheck.check { projection[2] == "_" }
+                        }
+                    } else {
+                        SanityCheck.check { projection[1] == "_" }
+                        SanityCheck.check { projection[2] == "_" }
+                        var count = 0
+                        var it = NodeInner.iterator(node)
+                        while (it.hasNext()) {
+                            it.next()
+                            count++
+                        }
+                        res = IteratorBundle(count)
                     }
-                    res = IteratorBundle(count)
                 }
             }
+            lock.readUnlock()
         }
-        lock.readUnlock()
-}
         SanityCheck.println({ "readunlock 7" })
         return res
     }
@@ -502,12 +509,12 @@ runBlocking{
         }
     }
 
-suspend    fun flushContinueWithWriteLock() {
+    suspend fun flushContinueWithWriteLock() {
         lock.writeLock()
         flushAssumeLocks()
     }
 
-suspend    fun flushContinueWithReadLock() {
+    suspend fun flushContinueWithReadLock() {
         lock.readLock()
         if (pendingImport.size > 0) {
             lock.readUnlock()
@@ -658,54 +665,54 @@ suspend    fun flushContinueWithReadLock() {
     }
 
     override fun insertAsBulk(data: IntArray, order: IntArray) {
-runBlocking{
-        flushContinueWithWriteLock()
-        var d = arrayOf(data, IntArray(data.size))
-        TripleStoreBulkImport.sortUsingBuffers(0, 0, 1, d, data.size / 3, order)
-        val iteratorImport = BulkImportIterator(d[0], data.size, order)
-        var iteratorStore2: TripleIterator? = null
-        if (firstLeaf == NodeManager.nodeNullPointer) {
-            iteratorStore2 = EmptyIterator()
-        } else {
-            NodeManager.getNode(firstLeaf, {
-                iteratorStore2 = NodeLeaf.iterator(it)
-            }, {
-                SanityCheck.checkUnreachable()
-            })
+        runBlocking {
+            flushContinueWithWriteLock()
+            var d = arrayOf(data, IntArray(data.size))
+            TripleStoreBulkImport.sortUsingBuffers(0, 0, 1, d, data.size / 3, order)
+            val iteratorImport = BulkImportIterator(d[0], data.size, order)
+            var iteratorStore2: TripleIterator? = null
+            if (firstLeaf == NodeManager.nodeNullPointer) {
+                iteratorStore2 = EmptyIterator()
+            } else {
+                NodeManager.getNode(firstLeaf, {
+                    iteratorStore2 = NodeLeaf.iterator(it)
+                }, {
+                    SanityCheck.checkUnreachable()
+                })
+            }
+            val iteratorStore = iteratorStore2!!
+            val iterator = MergeIterator(iteratorStore, DistinctIterator(iteratorImport))
+            var oldroot = root
+            rebuildData(iterator)
+            NodeManager.freeNodeAndAllRelated(oldroot)
+            lock.writeUnlock()
         }
-        val iteratorStore = iteratorStore2!!
-        val iterator = MergeIterator(iteratorStore, DistinctIterator(iteratorImport))
-        var oldroot = root
-        rebuildData(iterator)
-        NodeManager.freeNodeAndAllRelated(oldroot)
-        lock.writeUnlock()
-}
         SanityCheck.println({ "writeunlock 10" })
     }
 
     override fun removeAsBulk(data: IntArray, order: IntArray) {
-runBlocking{
-        flushContinueWithWriteLock()
-        var d = arrayOf(data, IntArray(data.size))
-        TripleStoreBulkImport.sortUsingBuffers(0, 0, 1, d, data.size / 3, order)
-        val iteratorImport = BulkImportIterator(d[0], data.size, order)
-        var iteratorStore2: TripleIterator? = null
-        if (firstLeaf == NodeManager.nodeNullPointer) {
-            iteratorStore2 = EmptyIterator()
-        } else {
-            NodeManager.getNode(firstLeaf, {
-                iteratorStore2 = NodeLeaf.iterator(it)
-            }, {
-                SanityCheck.checkUnreachable()
-            })
+        runBlocking {
+            flushContinueWithWriteLock()
+            var d = arrayOf(data, IntArray(data.size))
+            TripleStoreBulkImport.sortUsingBuffers(0, 0, 1, d, data.size / 3, order)
+            val iteratorImport = BulkImportIterator(d[0], data.size, order)
+            var iteratorStore2: TripleIterator? = null
+            if (firstLeaf == NodeManager.nodeNullPointer) {
+                iteratorStore2 = EmptyIterator()
+            } else {
+                NodeManager.getNode(firstLeaf, {
+                    iteratorStore2 = NodeLeaf.iterator(it)
+                }, {
+                    SanityCheck.checkUnreachable()
+                })
+            }
+            val iteratorStore = iteratorStore2!!
+            val iterator = MinusIterator(iteratorStore, DistinctIterator(iteratorImport))
+            var oldroot = root
+            rebuildData(iterator)
+            NodeManager.freeNodeAndAllRelated(oldroot)
+            lock.writeUnlock()
         }
-        val iteratorStore = iteratorStore2!!
-        val iterator = MinusIterator(iteratorStore, DistinctIterator(iteratorImport))
-        var oldroot = root
-        rebuildData(iterator)
-        NodeManager.freeNodeAndAllRelated(oldroot)
-        lock.writeUnlock()
-}
         SanityCheck.println({ "writeunlock 11" })
     }
 
@@ -718,14 +725,14 @@ runBlocking{
     }
 
     override fun clear() {
-runBlocking{
-        flushContinueWithWriteLock()
-        NodeManager.freeNodeAndAllRelated(root)
-        firstLeaf = NodeManager.nodeNullPointer
-        root = NodeManager.nodeNullPointer
-        rootNode = null
-        lock.writeUnlock()
-}
+        runBlocking {
+            flushContinueWithWriteLock()
+            NodeManager.freeNodeAndAllRelated(root)
+            firstLeaf = NodeManager.nodeNullPointer
+            root = NodeManager.nodeNullPointer
+            rootNode = null
+            lock.writeUnlock()
+        }
         SanityCheck.println({ "writeunlock 12" })
     }
 

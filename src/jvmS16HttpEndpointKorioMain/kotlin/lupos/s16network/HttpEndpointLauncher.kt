@@ -87,7 +87,7 @@ object HttpEndpointLauncher {
         throw EnpointRecievedInvalidPath(path)
     }
 
-suspend    fun myRequestHandler(request: HttpServer.Request) {
+    suspend fun myRequestHandler(request: HttpServer.Request) {
         val params = request.getParams
         request.replaceHeader("Connection", "close")
         request.replaceHeader("Content-Type", "text/html")
@@ -120,7 +120,7 @@ suspend    fun myRequestHandler(request: HttpServer.Request) {
         }
     }
 
-suspend    fun start(hostname: String = "localhost", port: Int = 80) {
+    suspend fun start(hostname: String = "localhost", port: Int = 80) {
         server = createHttpServer().listen(port, hostname, ::myRequestHandler)
     }
 }

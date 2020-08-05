@@ -1,5 +1,5 @@
 package lupos.s09physicalOperators.singleinput
-import lupos.s04logicalOperators.iterator.ColumnIteratorNext
+
 import kotlin.jvm.JvmField
 import lupos.s00misc.Coverage
 import lupos.s00misc.EOperatorID
@@ -14,6 +14,7 @@ import lupos.s03resultRepresentation.Variable
 import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.s04logicalOperators.iterator.ColumnIteratorMerge
+import lupos.s04logicalOperators.iterator.ColumnIteratorNext
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.iterator.RowIterator
 import lupos.s04logicalOperators.iterator.RowIteratorMerge
@@ -68,16 +69,18 @@ class POPDebug(query: Query, projectedVariables: List<String>, child: OPBase) : 
                         val iterator = ColumnIterator()
                         var counter = 0
                         SanityCheck.println({ "$uuid $k opened" })
-                        iterator.next = ColumnIteratorNext("POPDebug_2.next"){
-                            SanityCheck.println({ "$uuid $k next call" })
-                            val res = v.next()
-                            if (res == null) {
-                                SanityCheck.println({ "$uuid $k next return closed $counter ${parent.data} null" })
-                            } else {
-                                counter++
-                                SanityCheck.println({ "$uuid $k next return $counter ${parent.data} ${res.toString(16)}" })
+                        iterator.next = object : ColumnIteratorNext("POPDebug_2.next") {
+                            override fun invoke(): Value? {
+                                SanityCheck.println({ "$uuid $k next call" })
+                                val res = v.next()
+                                if (res == null) {
+                                    SanityCheck.println({ "$uuid $k next return closed $counter ${parent.data} null" })
+                                } else {
+                                    counter++
+                                    SanityCheck.println({ "$uuid $k next return $counter ${parent.data} ${res.toString(16)}" })
+                                }
+                                return res
                             }
-                            /*return*/ res
                         }
                         iterator.close = {
                             SanityCheck.println({ "$uuid $k closed $counter ${parent.data}" })

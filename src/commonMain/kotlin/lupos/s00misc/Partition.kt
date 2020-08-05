@@ -1,9 +1,11 @@
 package lupos.s00misc
-import kotlinx.coroutines.GlobalScope
+
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.GlobalScope
+
 class Partition {
     val data: Map<String, Int>
-var scope:CoroutineScope
+    var scope: CoroutineScope
 
     companion object {
         var k = 12
@@ -19,20 +21,20 @@ var scope:CoroutineScope
 
     constructor() {
         data = mapOf<String, Int>()
-	scope=GlobalScope
+        scope = GlobalScope
     }
 
-    constructor(parentPartition: Partition, variableName: String, partitionNumber: Int,scope:CoroutineScope) {
+    constructor(parentPartition: Partition, variableName: String, partitionNumber: Int, scope: CoroutineScope) {
         val t = mutableMapOf<String, Int>()
         for ((k, v) in parentPartition.data) {
             t[k] = v
         }
         t[variableName] = partitionNumber
         data = t.toMap()
-this.scope=scope
+        this.scope = scope
     }
 
-    constructor(parentPartition: Partition, variableName: String,scope:CoroutineScope) {
+    constructor(parentPartition: Partition, variableName: String, scope: CoroutineScope) {
         val t = mutableMapOf<String, Int>()
         for ((k, v) in parentPartition.data) {
             if (k != variableName) {
@@ -40,7 +42,7 @@ this.scope=scope
             }
         }
         data = t.toMap()
-this.scope=scope
+        this.scope = scope
     }
 
     override fun equals(other: Any?) = other is Partition && data == other.data
