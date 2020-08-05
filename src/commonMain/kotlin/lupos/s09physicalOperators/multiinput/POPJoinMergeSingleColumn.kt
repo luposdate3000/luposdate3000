@@ -31,24 +31,20 @@ class POPJoinMergeSingleColumn(query: Query, projectedVariables: List<String>, c
         var counter = 0
 
         @JvmField
-        var value: Value? = head0
+        var value: Value = head0
 
         init {
             next = object : ColumnIteratorNext("ColumnIteratorJoinMergeSingleColumn.next") {
                 override fun invoke(): Value? {
                     if (counter == 0) {
-                        var done = false
                         var change = true
-                        loop@ while (change) {
+                        while (change) {
                             change = false
                             while (head0 < head1) {
-                                change = true
                                 val c = child0.next()
                                 if (c == null) {
                                     close()
-                                    value = null
-                                    done = true
-                                    break@loop
+                                    return null
                                 } else {
                                     head0 = c
                                 }
@@ -58,55 +54,51 @@ class POPJoinMergeSingleColumn(query: Query, projectedVariables: List<String>, c
                                 val c = child1.next()
                                 if (c == null) {
                                     close()
-                                    value = null
-                                    done = true
-                                    break@loop
+                                    return null
                                 } else {
                                     head1 = c
                                 }
                             }
                         }
-                        if (!done) {
-                            value = head0
-                            val valuenonnull = head0
-                            var hadnull = false
-                            var count0 = 0
-                            while (head0 == valuenonnull) {
-                                count0++
-                                val d = child0.next()
-                                if (d == null) {
-                                    hadnull = true
-                                    break
-                                } else {
-                                    head0 = d
-                                }
+                        value = head0
+                        val valuenonnull = head0
+                        var hadnull = false
+                        var count0 = 0
+                        while (head0 == valuenonnull) {
+                            count0++
+                            val d = child0.next()
+                            if (d == null) {
+                                hadnull = true
+                                break
+                            } else {
+                                head0 = d
                             }
-                            var count1 = 0
-                            while (head1 == valuenonnull) {
-                                count1++
-                                val d = child1.next()
-                                if (d == null) {
-                                    hadnull = true
-                                    break
-                                } else {
-                                    head1 = d
-                                }
+                        }
+                        var count1 = 0
+                        while (head1 == valuenonnull) {
+                            count1++
+                            val d = child1.next()
+                            if (d == null) {
+                                hadnull = true
+                                break
+                            } else {
+                                head1 = d
                             }
-                            counter = count0 * count1
-                            if (hadnull) {
-                                if (counter == 0) {
-                                    close()
-                                } else {
-                                    next = object : ColumnIteratorNext("ColumnIteratorJoinMergeSingleColumn.next") {
-                                        override fun invoke(): Value? {
-                                            if (counter == 0) {
-                                                close()
-                                                value = null
-                                            } else {
-                                                counter--
-                                            }
-                                            return value
+                        }
+                        counter = count0 * count1
+                        if (hadnull) {
+                            if (counter == 0) {
+                                close()
+                            } else {
+                                next = object : ColumnIteratorNext("ColumnIteratorJoinMergeSingleColumn.next") {
+                                    override fun invoke(): Value? {
+                                        if (counter == 0) {
+                                            close()
+                                            return null
+                                        } else {
+                                            counter--
                                         }
+                                        return value
                                     }
                                 }
                             }
