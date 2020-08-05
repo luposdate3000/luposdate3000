@@ -9,6 +9,7 @@ import lupos.s03resultRepresentation.ValueBoolean
 import lupos.s03resultRepresentation.Variable
 import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.s04logicalOperators.iterator.ColumnIteratorRepeatValue
+import lupos.s04logicalOperators.iterator.FuncColumnIteratorClose
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.noinput.OPEmptyRow
 import lupos.s04logicalOperators.noinput.OPNothing
@@ -42,10 +43,12 @@ class POPMakeBooleanResult(query: Query, projectedVariables: List<String>, child
         }
         val tmp = ColumnIteratorRepeatValue(1, query.dictionary.createValue(ValueBoolean(flag)))
         if (child != null) {
-            tmp.close = {
-                tmp._close()
-                for (variable in variables) {
-                    child.columns[variable]!!.close()
+            tmp.close = object : FuncColumnIteratorClose("POPMakeBooleanResult.close") {
+                override fun invoke() {
+                    tmp._close()
+                    for (variable in variables) {
+                        child.columns[variable]!!.close()
+                    }
                 }
             }
         }

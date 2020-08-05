@@ -6,6 +6,7 @@ import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.Coverage
 import lupos.s00misc.SanityCheck
 import lupos.s03resultRepresentation.Value
+import lupos.s04logicalOperators.iterator.FuncColumnIteratorClose
 import lupos.s04logicalOperators.iterator.FuncColumnIteratorNext
 
 class ColumnIteratorChannel() : ColumnIterator() {
@@ -41,9 +42,11 @@ class ColumnIteratorChannel() : ColumnIterator() {
                 return res
             }
         }
-        close = {
-            queue.close()
-            _close()
+        close = object : FuncColumnIteratorClose("ColumnIteratorChannel.close") {
+            override fun invoke() {
+                queue.close()
+                _close()
+            }
         }
     }
 }

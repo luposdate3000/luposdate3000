@@ -9,6 +9,7 @@ import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.Value
 import lupos.s03resultRepresentation.Variable
 import lupos.s04logicalOperators.iterator.ColumnIterator
+import lupos.s04logicalOperators.iterator.FuncColumnIteratorClose
 import lupos.s04logicalOperators.iterator.FuncColumnIteratorNext
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.OPBase
@@ -47,9 +48,11 @@ class POPLimit(query: Query, projectedVariables: List<String>, @JvmField val lim
                     return res
                 }
             }
-            tmp.close = {
-                tmp._close()
-                child.columns[variable]!!.close()
+            tmp.close = object : FuncColumnIteratorClose("POPLimit.close") {
+                override fun invoke() {
+                    tmp._close()
+                    child.columns[variable]!!.close()
+                }
             }
             outMap[variable] = tmp
         }

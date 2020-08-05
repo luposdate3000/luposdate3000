@@ -16,6 +16,7 @@ import lupos.s04logicalOperators.iterator.ColumnIteratorChildIterator
 import lupos.s04logicalOperators.iterator.ColumnIteratorMultiValue
 import lupos.s04logicalOperators.iterator.ColumnIteratorRepeatIterator
 import lupos.s04logicalOperators.iterator.ColumnIteratorRepeatValue
+import lupos.s04logicalOperators.iterator.FuncColumnIteratorClose
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.multiinput.LOPJoin
 import lupos.s04logicalOperators.OPBase
@@ -120,11 +121,13 @@ class POPJoinCartesianProduct(query: Query, projectedVariables: List<String>, ch
                 if (optional) {
                     SanityCheck.println({ "POPJoinCartesianProductXXX$uuid mode F" })
                     for (iterator in outIterators) {
-                        iterator.close = {
-                            iterator._close()
-                            SanityCheck.println({ "POPJoinCartesianProductXXX$uuid close A $classname" })
-                            for ((k, v) in childA.columns) {
-                                v.close()
+                        iterator.close = object : FuncColumnIteratorClose("POPJoinCartesinProduct.close") {
+                            override fun invoke() {
+                                iterator._close()
+                                SanityCheck.println({ "POPJoinCartesianProductXXX$uuid close A $classname" })
+                                for ((k, v) in childA.columns) {
+                                    v.close()
+                                }
                             }
                         }
                         iterator.onNoMoreElements = {
@@ -158,11 +161,13 @@ class POPJoinCartesianProduct(query: Query, projectedVariables: List<String>, ch
             } else {
                 SanityCheck.println({ "POPJoinCartesianProductXXX$uuid mode G" })
                 for (iterator in outIterators) {
-                    iterator.close = {
-                        SanityCheck.println({ "POPJoinCartesianProductXXX$uuid close A $classname" })
-                        iterator._close()
-                        for ((k, v) in childA.columns) {
-                            v.close()
+                    iterator.close = object : FuncColumnIteratorClose("POPJoinCartesinProduct.close") {
+                        override fun invoke() {
+                            SanityCheck.println({ "POPJoinCartesianProductXXX$uuid close A $classname" })
+                            iterator._close()
+                            for ((k, v) in childA.columns) {
+                                v.close()
+                            }
                         }
                     }
                     iterator.onNoMoreElements = {

@@ -4,6 +4,7 @@ import lupos.s00misc.Coverage
 import lupos.s00misc.SanityCheck
 import lupos.s03resultRepresentation.MyListValue
 import lupos.s03resultRepresentation.Value
+import lupos.s04logicalOperators.iterator.FuncColumnIteratorClose
 import lupos.s04logicalOperators.iterator.FuncColumnIteratorNext
 
 class ColumnIteratorRepeatIterator(val count: Int, val child: ColumnIterator) : ColumnIterator() {
@@ -55,9 +56,11 @@ class ColumnIteratorRepeatIterator(val count: Int, val child: ColumnIterator) : 
                 return res
             }
         }
-        close = {
-            child.close()
-            _close()
+        close = object : FuncColumnIteratorClose("ColumnIteratorRepeatIterator.close") {
+            override fun invoke() {
+                child.close()
+                _close()
+            }
         }
     }
 }

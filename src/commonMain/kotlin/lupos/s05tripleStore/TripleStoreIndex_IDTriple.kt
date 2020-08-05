@@ -10,6 +10,7 @@ import lupos.s00misc.ReadWriteLock
 import lupos.s00misc.SanityCheck
 import lupos.s03resultRepresentation.Value
 import lupos.s04logicalOperators.iterator.ColumnIterator
+import lupos.s04logicalOperators.iterator.FuncColumnIteratorClose
 import lupos.s04logicalOperators.iterator.FuncColumnIteratorNext
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.Query
@@ -154,12 +155,14 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
                 SanityCheck.println({ "readlock 3 $uuid" })
                 lock.readLock()
             }
-            close = {
-                BenchmarkUtils.setTimesHelper(8, totaltime, totalcounter)
-                _close()
-                runBlocking {
-                    lock.readUnlock()
-                    SanityCheck.println({ "readunlock 3 $uuid" })
+            close = object : FuncColumnIteratorClose("IteratorS.close") {
+                override fun invoke() {
+                    BenchmarkUtils.setTimesHelper(8, totaltime, totalcounter)
+                    _close()
+                    runBlocking {
+                        lock.readUnlock()
+                        SanityCheck.println({ "readunlock 3 $uuid" })
+                    }
                 }
             }
         }
@@ -189,12 +192,14 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
                 SanityCheck.println({ "readlock 4 $uuid" })
                 lock.readLock()
             }
-            close = {
-                BenchmarkUtils.setTimesHelper(9, totaltime, totalcounter)
-                _close()
-                runBlocking {
-                    lock.readUnlock()
-                    SanityCheck.println({ "readunlock 4 $uuid" })
+            close = object : FuncColumnIteratorClose("IteratorP.close") {
+                override fun invoke() {
+                    BenchmarkUtils.setTimesHelper(9, totaltime, totalcounter)
+                    _close()
+                    runBlocking {
+                        lock.readUnlock()
+                        SanityCheck.println({ "readunlock 4 $uuid" })
+                    }
                 }
             }
         }
@@ -224,12 +229,14 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
                 SanityCheck.println({ "readlock 5 $uuid" })
                 lock.readLock()
             }
-            close = {
-                BenchmarkUtils.setTimesHelper(10, totaltime, totalcounter)
-                _close()
-                runBlocking {
-                    lock.readUnlock()
-                    SanityCheck.println({ "readunlock 5 $uuid" })
+            close = object : FuncColumnIteratorClose("IteratorO.close") {
+                override fun invoke() {
+                    BenchmarkUtils.setTimesHelper(10, totaltime, totalcounter)
+                    _close()
+                    runBlocking {
+                        lock.readUnlock()
+                        SanityCheck.println({ "readunlock 5 $uuid" })
+                    }
                 }
             }
         }

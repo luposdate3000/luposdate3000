@@ -3,6 +3,7 @@ package lupos.s04logicalOperators.iterator
 import lupos.s00misc.Coverage
 import lupos.s00misc.SanityCheck
 import lupos.s03resultRepresentation.Value
+import lupos.s04logicalOperators.iterator.FuncColumnIteratorClose
 import lupos.s04logicalOperators.iterator.FuncColumnIteratorNext
 
 object ColumnIteratorMerge {
@@ -217,10 +218,12 @@ class ColumnIteratorMerge1(val a: ColumnIterator, val b: ColumnIterator, val com
     var bBuf: Value? = null
 
     init {
-        close = {
-            a.close()
-            b.close()
-            _close()
+        close = object : FuncColumnIteratorClose("ColumnIteratorMerge1.close") {
+            override fun invoke() {
+                a.close()
+                b.close()
+                _close()
+            }
         }
         next = object : FuncColumnIteratorNext("ColumnIteratorMerge1.next") {
             override fun invoke(): Value? {
@@ -311,10 +314,12 @@ class ColumnIteratorMerge2(val a: ColumnIterator, val b: ColumnIterator) : Colum
     var bBuf: Value? = null
 
     init {
-        close = {
-            a.close()
-            b.close()
-            _close()
+        close = object : FuncColumnIteratorClose("ColumnIteratorMerge2.close") {
+            override fun invoke() {
+                a.close()
+                b.close()
+                _close()
+            }
         }
         next = object : FuncColumnIteratorNext("ColumnIteratorMerge2.next") {
             override fun invoke(): Value? {

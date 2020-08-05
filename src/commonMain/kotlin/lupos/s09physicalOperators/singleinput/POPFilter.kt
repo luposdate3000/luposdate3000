@@ -9,6 +9,7 @@ import lupos.s00misc.SanityCheck
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.s04logicalOperators.iterator.ColumnIteratorQueue
+import lupos.s04logicalOperators.iterator.FuncColumnIteratorClose
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
@@ -118,11 +119,13 @@ class POPFilter(query: Query, projectedVariables: List<String>, filter: AOPBase,
             } else {
                 res = IteratorBundle(outMap)
                 for (variableIndex in 0 until variables.size) {
-                    columnsLocal[variableIndex].close = {
-                        columnsLocal[variableIndex]._close()
-                        SanityCheck.println { "POPFilterXXX$uuid close E $classname" }
-                        for ((k, v) in child.columns) {
-                            v.close()
+                    columnsLocal[variableIndex].close = object : FuncColumnIteratorClose("POPFilter.close") {
+                        override fun invoke() {
+                            columnsLocal[variableIndex]._close()
+                            SanityCheck.println { "POPFilterXXX$uuid close E $classname" }
+                            for ((k, v) in child.columns) {
+                                v.close()
+                            }
                         }
                     }
                     columnsLocal[variableIndex].onEmptyQueue = {

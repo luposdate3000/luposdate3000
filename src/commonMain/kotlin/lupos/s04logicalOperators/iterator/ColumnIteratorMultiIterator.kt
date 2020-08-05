@@ -2,6 +2,7 @@ package lupos.s04logicalOperators.iterator
 
 import lupos.s00misc.Coverage
 import lupos.s03resultRepresentation.Value
+import lupos.s04logicalOperators.iterator.FuncColumnIteratorClose
 import lupos.s04logicalOperators.iterator.FuncColumnIteratorNext
 
 class ColumnIteratorMultiIterator(val childs: List<ColumnIterator>) : ColumnIterator() {
@@ -17,11 +18,13 @@ class ColumnIteratorMultiIterator(val childs: List<ColumnIterator>) : ColumnIter
                 return res
             }
         }
-        close = {
-            for (c in childs) {
-                c.close()
+        close = object : FuncColumnIteratorClose("ColumnIteratorMultiIterator.close") {
+            override fun invoke() {
+                for (c in childs) {
+                    c.close()
+                }
+                _close()
             }
-            _close()
         }
     }
 }

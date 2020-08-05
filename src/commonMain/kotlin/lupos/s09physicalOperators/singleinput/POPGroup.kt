@@ -23,6 +23,7 @@ import lupos.s04logicalOperators.iterator.ColumnIteratorAggregate
 import lupos.s04logicalOperators.iterator.ColumnIteratorMultiValue
 import lupos.s04logicalOperators.iterator.ColumnIteratorQueue
 import lupos.s04logicalOperators.iterator.ColumnIteratorRepeatValue
+import lupos.s04logicalOperators.iterator.FuncColumnIteratorClose
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.noinput.OPEmptyRow
 import lupos.s04logicalOperators.OPBase
@@ -318,13 +319,15 @@ class POPGroup : POPBase {
                     }
                     //first row <-
                     for (outIndex in 0 until output.size) {
-                        output[outIndex].close = {
-                            output[outIndex]._close()
-                            for (closeIndex in 0 until keyColumns.size) {
-                                keyColumns[closeIndex].close()
-                            }
-                            for (closeIndex in 0 until valueColumns.size) {
-                                valueColumns[closeIndex].close()
+                        output[outIndex].close = object : FuncColumnIteratorClose("POPGroup.close") {
+                            override fun invoke() {
+                                output[outIndex]._close()
+                                for (closeIndex in 0 until keyColumns.size) {
+                                    keyColumns[closeIndex].close()
+                                }
+                                for (closeIndex in 0 until valueColumns.size) {
+                                    valueColumns[closeIndex].close()
+                                }
                             }
                         }
                         output[outIndex].onEmptyQueue = {

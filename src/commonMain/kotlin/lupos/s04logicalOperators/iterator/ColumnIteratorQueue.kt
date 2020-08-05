@@ -3,6 +3,7 @@ package lupos.s04logicalOperators.iterator
 import lupos.s00misc.Coverage
 import lupos.s03resultRepresentation.MyListValue
 import lupos.s03resultRepresentation.Value
+import lupos.s04logicalOperators.iterator.FuncColumnIteratorClose
 import lupos.s04logicalOperators.iterator.FuncColumnIteratorNext
 
 class ColumnIteratorQueue() : ColumnIterator() {
@@ -25,8 +26,10 @@ class ColumnIteratorQueue() : ColumnIterator() {
                 return res
             }
         }
-        close = {
-            _close()
+        close = object : FuncColumnIteratorClose("ColumnIteratorQueue.close") {
+            override fun invoke() {
+                _close()
+            }
         }
     }
 }

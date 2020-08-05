@@ -11,6 +11,7 @@ import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.Value
 import lupos.s03resultRepresentation.Variable
 import lupos.s04logicalOperators.iterator.ColumnIterator
+import lupos.s04logicalOperators.iterator.FuncColumnIteratorClose
 import lupos.s04logicalOperators.iterator.FuncColumnIteratorNext
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.OPBase
@@ -108,14 +109,14 @@ class POPJoinMergeSingleColumn(query: Query, projectedVariables: List<String>, c
                     return value
                 }
             }
-            close = ::myClose
-        }
-
-        fun myClose() {
-            _close()
-            SanityCheck.println({ "\$uuid close ColumnIteratorJoinMergeSingleColumn" })
-            child0.close()
-            child1.close()
+            close = object : FuncColumnIteratorClose("ColumnIteratorJoinMergeSingleColumn.close") {
+                override fun invoke() {
+                    _close()
+                    SanityCheck.println({ "\$uuid close ColumnIteratorJoinMergeSingleColumn" })
+                    child0.close()
+                    child1.close()
+                }
+            }
         }
     }
 
@@ -133,7 +134,7 @@ class POPJoinMergeSingleColumn(query: Query, projectedVariables: List<String>, c
         val a = child0.next()
         val b = child1.next()
         if (a != null && b != null) {
-            outMap[projectedVariables[0]] = ColumnIteratorJoinMergeSingleColumn(child, a, b)
+            outMap[projectedVariables[0]] = ColumnIteratorJoinMergeSingleColumn(child0, child1, a, b)
         } else {
             outMap[projectedVariables[0]] = ColumnIterator()
             SanityCheck.println({ "$uuid close $classname" })

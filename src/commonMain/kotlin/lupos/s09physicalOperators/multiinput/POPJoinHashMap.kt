@@ -14,6 +14,7 @@ import lupos.s03resultRepresentation.Value
 import lupos.s03resultRepresentation.Variable
 import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.s04logicalOperators.iterator.ColumnIteratorChildIterator
+import lupos.s04logicalOperators.iterator.FuncColumnIteratorClose
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.multiinput.LOPJoin
 import lupos.s04logicalOperators.OPBase
@@ -178,19 +179,21 @@ class POPJoinHashMap(query: Query, projectedVariables: List<String>, childA: OPB
 //--- calculate next "cartesian product"
         for (iterator in outIterators) {
 //this is just function pointer assignment. this loop does not calculate anything
-            iterator.close = {
-                iterator._close()
-                for (iterator2 in outIterators) {
-                    iterator2.onNoMoreElements = {
-                        iterator2._onNoMoreElements()
+            iterator.close = object : FuncColumnIteratorClose("POPJoinHashMap.close") {
+                override fun invoke() {
+                    iterator._close()
+                    for (iterator2 in outIterators) {
+                        iterator2.onNoMoreElements = {
+                            iterator2._onNoMoreElements()
+                        }
                     }
-                }
-                SanityCheck.println({ "POPJoinHashMapXXX$uuid close A $classname" })
-                for (closeIndex in 0 until columnsINAJ.size) {
-                    columnsINAJ[closeIndex].close()
-                }
-                for (closeIndex in 0 until columnsINAO.size) {
-                    columnsINAO[closeIndex].close()
+                    SanityCheck.println({ "POPJoinHashMapXXX$uuid close A $classname" })
+                    for (closeIndex in 0 until columnsINAJ.size) {
+                        columnsINAJ[closeIndex].close()
+                    }
+                    for (closeIndex in 0 until columnsINAO.size) {
+                        columnsINAO[closeIndex].close()
+                    }
                 }
             }
             iterator.onNoMoreElements = {

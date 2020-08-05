@@ -14,6 +14,7 @@ import lupos.s03resultRepresentation.Variable
 import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.s04logicalOperators.iterator.ColumnIteratorMerge
+import lupos.s04logicalOperators.iterator.FuncColumnIteratorClose
 import lupos.s04logicalOperators.iterator.FuncColumnIteratorNext
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.iterator.RowIterator
@@ -82,10 +83,12 @@ class POPDebug(query: Query, projectedVariables: List<String>, child: OPBase) : 
                                 return res
                             }
                         }
-                        iterator.close = {
-                            SanityCheck.println({ "$uuid $k closed $counter ${parent.data}" })
-                            v.close()
-                            iterator._close()
+                        iterator.close = object : FuncColumnIteratorClose("POPDebug_2.close") {
+                            override fun invoke() {
+                                SanityCheck.println({ "$uuid $k closed $counter ${parent.data}" })
+                                v.close()
+                                iterator._close()
+                            }
                         }
                         outMap[k] = iterator
                     }

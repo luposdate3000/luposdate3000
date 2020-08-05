@@ -17,6 +17,7 @@ import lupos.s04arithmetikOperators.noinput.AOPConstant
 import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.s04logicalOperators.iterator.ColumnIteratorQueue
+import lupos.s04logicalOperators.iterator.FuncColumnIteratorClose
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.multiinput.LOPJoin
 import lupos.s04logicalOperators.noinput.LOPTriple
@@ -153,17 +154,19 @@ class POPJoinWithStore(query: Query, projectedVariables: List<String>, childA: O
             }
             SanityCheck.println { "POPJoinWithStoreXXXopened ${columnsInBRoot.columns.size} columns for store, and saved ${variablINBO.size} of these" }
             for (column in columnsOUT) {
-                column.close = {
-                    column._close()
-                    SanityCheck.println { "POPJoinWithStoreXXXclosing store for join with store A $theuuid" }
-                    for (closeIndex in 0 until columnsInB.size) {
-                        columnsInB[closeIndex].close()
-                    }
-                    for (closeIndex in 0 until columnsINAO.size) {
-                        columnsINAO[closeIndex].close()
-                    }
-                    for (closeIndex in 0 until columnsINAJ.size) {
-                        columnsINAJ[closeIndex].close()
+                column.close = object : FuncColumnIteratorClose("POPJoinWithStore.close") {
+                    override fun invoke() {
+                        column._close()
+                        SanityCheck.println { "POPJoinWithStoreXXXclosing store for join with store A $theuuid" }
+                        for (closeIndex in 0 until columnsInB.size) {
+                            columnsInB[closeIndex].close()
+                        }
+                        for (closeIndex in 0 until columnsINAO.size) {
+                            columnsINAO[closeIndex].close()
+                        }
+                        for (closeIndex in 0 until columnsINAJ.size) {
+                            columnsINAJ[closeIndex].close()
+                        }
                     }
                 }
                 column.onEmptyQueue = {

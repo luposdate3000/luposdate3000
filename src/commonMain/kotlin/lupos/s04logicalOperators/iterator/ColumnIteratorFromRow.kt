@@ -1,6 +1,7 @@
 package lupos.s04logicalOperators.iterator
 
 import lupos.s00misc.Coverage
+import lupos.s04logicalOperators.iterator.FuncColumnIteratorClose
 
 object ColumnIteratorFromRow {
     operator fun invoke(iterator: RowIterator): Map<String, ColumnIterator> {
@@ -15,9 +16,11 @@ object ColumnIteratorFromRow {
                     }
                 }
             }
-            iterators[i].close = {
-                iterator.close()
-                iterators[i]._close()
+            iterators[i].close = object : FuncColumnIteratorClose("ColumnIteratorFromRow.close") {
+                override fun invoke() {
+                    iterator.close()
+                    iterators[i]._close()
+                }
             }
             res[iterator.columns[i]] = iterators[i]
         }

@@ -15,6 +15,7 @@ import lupos.s03resultRepresentation.Value
 import lupos.s03resultRepresentation.Variable
 import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.s04logicalOperators.iterator.ColumnIteratorChildIterator
+import lupos.s04logicalOperators.iterator.FuncColumnIteratorClose
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
@@ -97,15 +98,17 @@ class POPJoinMerge(query: Query, projectedVariables: List<String>, childA: OPBas
         } else {
             val keyCopy = Array(columnsINJ[0].size) { key[0][it] }
             for (iterator in outIterators) {
-                iterator.close = {
-                    iterator._close()
-                    SanityCheck.println({ "$uuid close $classname" })
-                    for (closeIndex2 in 0 until 2) {
-                        for (closeIndex in 0 until columnsINJ[closeIndex2].size) {
-                            columnsINJ[closeIndex2][closeIndex].close()
-                        }
-                        for (closeIndex in 0 until columnsINO[closeIndex2].size) {
-                            columnsINO[closeIndex2][closeIndex].close()
+                iterator.close = object : FuncColumnIteratorClose("POPJoinMerge.close") {
+                    override fun invoke() {
+                        iterator._close()
+                        SanityCheck.println({ "$uuid close $classname" })
+                        for (closeIndex2 in 0 until 2) {
+                            for (closeIndex in 0 until columnsINJ[closeIndex2].size) {
+                                columnsINJ[closeIndex2][closeIndex].close()
+                            }
+                            for (closeIndex in 0 until columnsINO[closeIndex2].size) {
+                                columnsINO[closeIndex2][closeIndex].close()
+                            }
                         }
                     }
                 }
