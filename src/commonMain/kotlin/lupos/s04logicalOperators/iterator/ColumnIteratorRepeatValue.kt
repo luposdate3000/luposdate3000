@@ -1,5 +1,5 @@
 package lupos.s04logicalOperators.iterator
-
+import lupos.s04logicalOperators.iterator.ColumnIteratorNext
 import lupos.s00misc.Coverage
 import lupos.s03resultRepresentation.Value
 
@@ -7,7 +7,7 @@ class ColumnIteratorRepeatValue(val count: Int, val value: Value) : ColumnIterat
     var index = 0
 
     init {
-        next = {
+        next =ColumnIteratorNext("ColumnIteratorRepeatValue.next") {
             var res: Value?
             if (index == count) {
                 res = null

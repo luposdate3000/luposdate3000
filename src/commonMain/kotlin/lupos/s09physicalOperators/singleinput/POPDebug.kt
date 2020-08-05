@@ -1,5 +1,5 @@
 package lupos.s09physicalOperators.singleinput
-
+import lupos.s04logicalOperators.iterator.ColumnIteratorNext
 import kotlin.jvm.JvmField
 import lupos.s00misc.Coverage
 import lupos.s00misc.EOperatorID
@@ -68,7 +68,7 @@ class POPDebug(query: Query, projectedVariables: List<String>, child: OPBase) : 
                         val iterator = ColumnIterator()
                         var counter = 0
                         SanityCheck.println({ "$uuid $k opened" })
-                        iterator.next = {
+                        iterator.next = ColumnIteratorNext("POPDebug_2.next"){
                             SanityCheck.println({ "$uuid $k next call" })
                             val res = v.next()
                             if (res == null) {

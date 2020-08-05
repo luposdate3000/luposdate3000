@@ -1,5 +1,5 @@
 package lupos.s04logicalOperators.iterator
-
+import lupos.s04logicalOperators.iterator.ColumnIteratorNext
 import lupos.s00misc.Coverage
 import lupos.s03resultRepresentation.MyListValue
 import lupos.s03resultRepresentation.Value
@@ -12,7 +12,7 @@ class ColumnIteratorQueue() : ColumnIterator() {
     }
 
     init {
-        next = {
+        next =ColumnIteratorNext("ColumnIteratorQueue.next") {
             if (queue.size == 0) {
                 onEmptyQueue()
             }

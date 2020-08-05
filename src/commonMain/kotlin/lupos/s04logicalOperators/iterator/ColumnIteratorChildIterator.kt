@@ -1,5 +1,5 @@
 package lupos.s04logicalOperators.iterator
-
+import lupos.s04logicalOperators.iterator.ColumnIteratorNext
 import lupos.s00misc.Coverage
 import lupos.s03resultRepresentation.Value
 
@@ -8,7 +8,7 @@ class ColumnIteratorChildIterator() : ColumnIterator() {
     var onNoMoreElements: () -> Unit = ::_onNoMoreElements
 
     init {
-        next = {
+        next = ColumnIteratorNext("ColumnIteratorChildIterator.next"){
             var res: Value? = null
             while (childs.size > 0) {
                 res = childs[0].next()

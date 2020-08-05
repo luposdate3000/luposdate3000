@@ -1,5 +1,5 @@
 package lupos.s04logicalOperators.iterator
-
+import lupos.s04logicalOperators.iterator.ColumnIteratorNext
 import lupos.s00misc.Coverage
 import lupos.s00misc.SanityCheck
 import lupos.s03resultRepresentation.Value
@@ -221,7 +221,7 @@ class ColumnIteratorMerge1(val a: ColumnIterator, val b: ColumnIterator, val com
             b.close()
             _close()
         }
-        next = {
+        next = ColumnIteratorNext("ColumnIteratorMerge1.next"){
             var res: Value? = null
             when (flag) {
                 1 -> {//call next on a, b is empty
@@ -313,7 +313,7 @@ class ColumnIteratorMerge2(val a: ColumnIterator, val b: ColumnIterator) : Colum
             b.close()
             _close()
         }
-        next = {
+        next = ColumnIteratorNext("ColumnIteratorMerge2.next"){
             var res: Value? = null
             when (flag) {
                 1 -> {//call next on a, b is empty

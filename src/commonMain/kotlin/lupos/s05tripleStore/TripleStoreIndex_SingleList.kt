@@ -1,5 +1,5 @@
 package lupos.s05tripleStore
-
+import lupos.s04logicalOperators.iterator.ColumnIteratorNext
 import kotlin.jvm.JvmField
 import kotlinx.coroutines.runBlocking
 import lupos.s00misc.CoroutinesHelper
@@ -275,7 +275,7 @@ class TripleStoreIndex_SingleList : TripleStoreIndex() {
         var idx = offset
 
         init {
-            next = {
+            next =ColumnIteratorNext("ImportIterator.next") {
                 var res: Value?
                 if (idx >= count) {
                     res = null

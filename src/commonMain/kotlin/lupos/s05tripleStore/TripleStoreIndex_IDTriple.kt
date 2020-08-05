@@ -1,5 +1,5 @@
 package lupos.s05tripleStore
-
+import lupos.s04logicalOperators.iterator.ColumnIteratorNext
 import kotlin.jvm.JvmField
 import kotlinx.coroutines.runBlocking
 import lupos.s00misc.BenchmarkUtils
@@ -135,7 +135,7 @@ runBlocking{
         init {
 var totaltime=0.0
 var totalcounter=0
-            next = {
+            next =ColumnIteratorNext("IteratorS.next") {
 val timer = BenchmarkUtils.timesHelperMark()
                 var tmp: Value? = null
                 if (it.hasNext()) {
@@ -168,7 +168,7 @@ BenchmarkUtils.setTimesHelper(8,totaltime,totalcounter)
         init {
 var totaltime=0.0
 var totalcounter=0
-            next = {
+            next =ColumnIteratorNext("IteratorP.next") {
     val timer = BenchmarkUtils.timesHelperMark()
             var tmp: Value? = null
                 if (it.hasNext()) {
@@ -201,7 +201,7 @@ BenchmarkUtils.setTimesHelper(9,totaltime,totalcounter)
         init {
 var totaltime=0.0
 var totalcounter=0
-            next = {
+            next =ColumnIteratorNext("IteratorO.next") {
 val timer = BenchmarkUtils.timesHelperMark()
                 var tmp: Value? = null
                 if (it.hasNext()) {

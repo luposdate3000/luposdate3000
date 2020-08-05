@@ -38,7 +38,7 @@ enum class EBenchmark {
 
 @UseExperimental(ExperimentalStdlibApi::class, kotlin.time.ExperimentalTime::class)
 object BenchmarkUtils {
-val timesHelper = DoubleArray(80)
+val timesHelper = DoubleArray(30)
 val timesCounter = IntArray(timesHelper.size)
 val timesLock=Lock()
 

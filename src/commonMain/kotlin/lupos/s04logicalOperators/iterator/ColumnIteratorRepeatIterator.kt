@@ -1,5 +1,5 @@
 package lupos.s04logicalOperators.iterator
-
+import lupos.s04logicalOperators.iterator.ColumnIteratorNext
 import lupos.s00misc.Coverage
 import lupos.s00misc.SanityCheck
 import lupos.s03resultRepresentation.MyListValue
@@ -14,18 +14,18 @@ class ColumnIteratorRepeatIterator(val count: Int, val child: ColumnIterator) : 
 
     init {
         SanityCheck.check { count > 0 }
-        next = {
+        next =ColumnIteratorNext("ColumnIteratorRepeatIterator.next") {
             var res: Value?
             val tmp = child.next()
             if (tmp == null) {
                 child.close()
                 if (data.size == 0 || count == 1) {
-                    next = {
+                    next =ColumnIteratorNext("ColumnIteratorRepeatIterator.next") {
                         /*return*/null
                     }
                 } else {
                     index = 2
-                    next = {
+                    next = ColumnIteratorNext("ColumnIteratorRepeatIterator.next"){
                         var res2: Value?
                         if (index2 < data.size) {
                             res2 = data[index2++]

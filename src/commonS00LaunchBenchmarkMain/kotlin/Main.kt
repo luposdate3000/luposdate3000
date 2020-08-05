@@ -74,6 +74,13 @@ fun main(args: Array<String>) = runBlocking {
     for (queryFile in queryFiles) {
         val query = File(queryFile).readAsString()
         HttpEndpoint.evaluate_sparql_query_string(query, true)
+//-->> BenchmarkUtils.timesHelper
+        for (j in 0 until BenchmarkUtils.timesHelper.size) {
+            println("statistics.BenchmarkUtils.timesHelper[${j}] :: ${BenchmarkUtils.timesHelper[j]} (${BenchmarkUtils.timesCounter[j]})")
+            BenchmarkUtils.timesHelper[j] = 0.0
+            BenchmarkUtils.timesCounter[j] = 0
+        }
+//<<--BenchmarkUtils.timesHelper
         val timer = Monotonic.markNow()
         var time: Double
         var counter = 0

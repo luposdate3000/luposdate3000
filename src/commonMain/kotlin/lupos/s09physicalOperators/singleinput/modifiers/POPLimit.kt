@@ -1,5 +1,5 @@
 package lupos.s09physicalOperators.singleinput.modifiers
-
+import lupos.s04logicalOperators.iterator.ColumnIteratorNext
 import kotlin.jvm.JvmField
 import lupos.s00misc.Coverage
 import lupos.s00misc.EOperatorID
@@ -33,7 +33,7 @@ class POPLimit(query: Query, projectedVariables: List<String>, @JvmField val lim
             var count = 0
             val iterator = child.columns[variable]!!
             val tmp = ColumnIterator()
-            tmp.next = {
+            tmp.next =ColumnIteratorNext("POPLimit.next") {
                 var res: Value?
                 if (count == limit) {
                     tmp.close()

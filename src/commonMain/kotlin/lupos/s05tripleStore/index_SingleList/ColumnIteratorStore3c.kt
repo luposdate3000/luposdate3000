@@ -1,5 +1,5 @@
 package lupos.s05tripleStore.index_SingleList
-
+import lupos.s04logicalOperators.iterator.ColumnIteratorNext
 import lupos.s00misc.Coverage
 import lupos.s03resultRepresentation.MyListValue
 import lupos.s03resultRepresentation.Value
@@ -21,7 +21,7 @@ class ColumnIteratorStore3c(val values: MyListValue) : ColumnIterator() {
             counterSecondary = it.next() - 1
             valueB = it.next()
             counterTerniary = it.next() - 1
-            next = {
+            next =ColumnIteratorNext("ColumnIteratorStore3c.next") {
                 valueC = it.next()
                 var res = valueC
                 if (counterTerniary == 0) {

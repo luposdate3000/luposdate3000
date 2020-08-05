@@ -1,5 +1,5 @@
 package lupos.s05tripleStore.index_SingleList
-
+import lupos.s04logicalOperators.iterator.ColumnIteratorNext
 import lupos.s00misc.BenchmarkUtils
 import lupos.s00misc.Coverage
 import lupos.s00misc.EBenchmark
@@ -15,7 +15,7 @@ class ColumnIteratorStore2b(val values: MyListValue, start: Int) : ColumnIterato
     init {
         counterSecondary = values[index - 3] - 1
         counterTerniary = values[index - 1] - 1
-        next = {
+        next =ColumnIteratorNext("ColumnIteratorStore2b.next") {
             //BenchmarkUtils.start(EBenchmark.STORE_NEXT2b)
             var res: Value? = values[index]
             index++

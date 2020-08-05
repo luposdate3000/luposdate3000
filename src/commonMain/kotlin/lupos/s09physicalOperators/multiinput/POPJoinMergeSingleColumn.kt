@@ -1,5 +1,5 @@
 package lupos.s09physicalOperators.multiinput
-
+import lupos.s04logicalOperators.iterator.ColumnIteratorNext
 import lupos.s00misc.BenchmarkUtils
 import kotlin.jvm.JvmField
 import lupos.s00misc.Coverage
@@ -43,7 +43,7 @@ class POPJoinMergeSingleColumn(query: Query, projectedVariables: List<String>, c
         var value: Value? = head0
 
         init {
-            next = ::myNext
+            next = ColumnIteratorNext("ColumnIteratorMergeJoin.next",::myNext)
             close = ::myClose
         }
 
@@ -66,6 +66,8 @@ class POPJoinMergeSingleColumn(query: Query, projectedVariables: List<String>, c
                         change = true
                         val c = child[0].next()
                         if (c == null) {
+totaltime += BenchmarkUtils.timesHelperDuration(timer)
+            totalcounter++
                             close()
                             value = null
                             done = true
@@ -78,7 +80,9 @@ class POPJoinMergeSingleColumn(query: Query, projectedVariables: List<String>, c
                         change = true
                         val c = child[1].next()
                         if (c == null) {
-                            close()
+                            totaltime += BenchmarkUtils.timesHelperDuration(timer)
+            totalcounter++
+close()
                             value = null
                             done = true
                             break@loop
@@ -116,9 +120,11 @@ class POPJoinMergeSingleColumn(query: Query, projectedVariables: List<String>, c
                     counter = count0 * count1
                     if (hadnull) {
                         if (counter == 0) {
-                            close()
+                            totaltime += BenchmarkUtils.timesHelperDuration(timer)
+            totalcounter++
+close()
                         } else {
-                            next = ::myNext2
+                            next = ColumnIteratorNext("ColumnIteratorMergeJoin.next",::myNext2)
                         }
                     }
                 }
@@ -132,7 +138,9 @@ class POPJoinMergeSingleColumn(query: Query, projectedVariables: List<String>, c
         fun myNext2(): Value? {
 val timer = BenchmarkUtils.timesHelperMark()
             if (counter == 0) {
-                close()
+                totaltime += BenchmarkUtils.timesHelperDuration(timer)
+            totalcounter++
+close()
                 value = null
             } else {
                 counter--

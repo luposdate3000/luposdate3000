@@ -1,5 +1,5 @@
 package lupos.s04logicalOperators.iterator
-
+import lupos.s04logicalOperators.iterator.ColumnIteratorNext
 import lupos.s00misc.Coverage
 import lupos.s03resultRepresentation.MyListValue
 import lupos.s03resultRepresentation.Value
@@ -14,7 +14,7 @@ class ColumnIteratorMultiValue_1(val values: MyListValue) : ColumnIterator() {
     var index = 0
 
     init {
-        next = {
+        next = ColumnIteratorNext("ColumnIteratorMultiValue_1.next"){
             var res: Value?
             if (index == values.size) {
                 res = null
@@ -30,7 +30,7 @@ class ColumnIteratorMultiValue_3(val values: IntArray, val size: Int) : ColumnIt
     var index = 0
 
     init {
-        next = {
+        next =ColumnIteratorNext("ColumnIteratorMultiValue_3.next") {
             var res: Value?
             if (index == size) {
                 res = null
@@ -44,7 +44,7 @@ class ColumnIteratorMultiValue_3(val values: IntArray, val size: Int) : ColumnIt
 
 class ColumnIteratorMultiValue_2(val iterator: Iterator<Value>) : ColumnIterator() {
     init {
-        next = {
+        next =ColumnIteratorNext("ColumnIteratorMultiValue_2.next") {
             var res: Value? = null
             if (iterator.hasNext()) {
                 res = iterator.next()

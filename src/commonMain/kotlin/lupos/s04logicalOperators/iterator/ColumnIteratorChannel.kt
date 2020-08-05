@@ -1,4 +1,5 @@
 package lupos.s04logicalOperators.iterator
+import lupos.s04logicalOperators.iterator.ColumnIteratorNext
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.channels.Channel
 import lupos.s00misc.CoroutinesHelper
@@ -22,7 +23,7 @@ runBlocking{
     }
 
     init {
-        next = {
+        next = ColumnIteratorNext("ColumnIteratorChannel.next"){
             var res: Value? = null
             try {
 runBlocking{
