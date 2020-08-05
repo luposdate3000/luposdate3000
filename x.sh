@@ -42,15 +42,15 @@ export JAVA_HOME=/usr/lib/jvm/java-14-openjdk-amd64
 
 partitions=12
 timelimit=20
-bytes=1
-realtriples=4195326
-folder=/mnt/luposdate-testdata/lupos_4T1T1024/4194304
+bytes=190509387
+realtriples=8392700
+folder=/mnt/luposdate-testdata/lupos_4T1T1024/8388608
 
 ./log/benchtmp/Multi_BPlusTree_Empty.x \
  IMPORT_INTERMEDIATE \
  $folder/data \
  $folder/intermediate \
- resources/lupos/q6.sparql \
+ resources/lupos/q3.sparql \
  $timelimit \
  $realtriples \
  $bytes \

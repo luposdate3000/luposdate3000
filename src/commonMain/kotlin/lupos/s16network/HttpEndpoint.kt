@@ -120,7 +120,7 @@ object HttpEndpoint {
             store.bulkImport { bulk ->
                 for (fileName in fileNames.split(";")) {
                     println("importing file '$fileName'")
-                    val startTime = Monotonic.markNow()
+                    val startTime = BenchmarkUtils.timesHelperMark()
                     val fileTriples = File(fileName + ".triples")
                     val fileDictionary = File(fileName + ".dictionary")
                     val fileDictionaryStat = File(fileName + ".stat")
@@ -173,10 +173,9 @@ object HttpEndpoint {
         return XMLElement("success").toString()
     }
 
-    val timesHelper = DoubleArray(8)
     suspend fun evaluate_sparql_query_string(query: String, logOperatorGraph: Boolean = false): String {
         val q = Query()
-//val timer = Monotonic.markNow()
+var timer = BenchmarkUtils.timesHelperMark()
         GlobalLogger.log(ELoggerType.DEBUG, { "----------String Query" })
         GlobalLogger.log(ELoggerType.DEBUG, { query })
         GlobalLogger.log(ELoggerType.DEBUG, { "----------Abstract Syntax Tree" })
@@ -185,24 +184,29 @@ object HttpEndpoint {
         val ltit = LookAheadTokenIterator(tit, 3)
         val parser = SPARQLParser(ltit)
         val ast_node = parser.expr()
-//timesHelper[0]+=timer.elapsedNow().toDouble(DurationUnit.SECONDS)
+BenchmarkUtils.timesHelperDuration(0,timer)
+timer = BenchmarkUtils.timesHelperMark()
         GlobalLogger.log(ELoggerType.DEBUG, { ast_node })
         GlobalLogger.log(ELoggerType.DEBUG, { "----------Logical Operator Graph" })
         val lop_node = ast_node.visit(OperatorGraphVisitor(q))
-//timesHelper[1]+=timer.elapsedNow().toDouble(DurationUnit.SECONDS)
+BenchmarkUtils.timesHelperDuration(1,timer)
+timer = BenchmarkUtils.timesHelperMark()
         GlobalLogger.log(ELoggerType.DEBUG, { lop_node })
         GlobalLogger.log(ELoggerType.DEBUG, { "----------Logical Operator Graph optimized" })
         val lop_node2 = LogicalOptimizer(q).optimizeCall(lop_node)
-//timesHelper[2]+=timer.elapsedNow().toDouble(DurationUnit.SECONDS)
+BenchmarkUtils.timesHelperDuration(2,timer)
+timer = BenchmarkUtils.timesHelperMark()
         GlobalLogger.log(ELoggerType.DEBUG, { lop_node2 })
         GlobalLogger.log(ELoggerType.DEBUG, { "----------Physical Operator Graph" })
         val pop_optimizer = PhysicalOptimizer(q)
         val pop_node = pop_optimizer.optimizeCall(lop_node2)
-//timesHelper[3]+=timer.elapsedNow().toDouble(DurationUnit.SECONDS)
+BenchmarkUtils.timesHelperDuration(3,timer)
+timer = BenchmarkUtils.timesHelperMark()
         GlobalLogger.log(ELoggerType.DEBUG, { pop_node })
         GlobalLogger.log(ELoggerType.DEBUG, { "----------Distributed Operator Graph" })
         val pop_distributed_node = KeyDistributionOptimizer(q).optimizeCall(pop_node)
-//timesHelper[4]+=timer.elapsedNow().toDouble(DurationUnit.SECONDS)
+BenchmarkUtils.timesHelperDuration(4,timer)
+timer = BenchmarkUtils.timesHelperMark()
         GlobalLogger.log(ELoggerType.DEBUG, { pop_distributed_node })
         if (logOperatorGraph) {
             println("----------")
@@ -212,11 +216,13 @@ object HttpEndpoint {
             println("<<<<<<<<<<")
             println(OperatorGraphToLatex(pop_distributed_node.toXMLElement().toString(), ""))
         }
-//timesHelper[5]+=timer.elapsedNow().toDouble(DurationUnit.SECONDS)
+BenchmarkUtils.timesHelperDuration(5,timer)
+timer = BenchmarkUtils.timesHelperMark()
         val res = QueryResultToString(pop_distributed_node)
-//timesHelper[6]+=timer.elapsedNow().toDouble(DurationUnit.SECONDS)
+BenchmarkUtils.timesHelperDuration(6,timer)
+timer = BenchmarkUtils.timesHelperMark()
         q.commit()
-//timesHelper[7]+=timer.elapsedNow().toDouble(DurationUnit.SECONDS)
+BenchmarkUtils.timesHelperDuration(7,timer)
         return res
     }
 

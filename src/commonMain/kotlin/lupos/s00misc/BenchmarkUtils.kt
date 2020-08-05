@@ -1,7 +1,8 @@
 package lupos.s00misc
-
+import lupos.s00misc.Lock
 import kotlin.jvm.JvmField
 import kotlin.time.DurationUnit
+import kotlin.time.TimeMark
 import kotlin.time.TimeSource.Monotonic
 
 enum class EBenchmark {
@@ -37,6 +38,24 @@ enum class EBenchmark {
 
 @UseExperimental(ExperimentalStdlibApi::class, kotlin.time.ExperimentalTime::class)
 object BenchmarkUtils {
+val timesHelper = DoubleArray(80)
+val timesCounter = IntArray(timesHelper.size)
+val timesLock=Lock()
+
+fun timesHelperMark()=Monotonic.markNow()
+fun timesHelperDuration(i:Int,timer:TimeMark){
+timesLock.withWriteLock{
+timesHelper[i]+=timer.elapsedNow().toDouble(DurationUnit.SECONDS)
+timesCounter[i]++
+}
+}
+fun timesHelperDuration(timer:TimeMark)=timer.elapsedNow().toDouble(DurationUnit.SECONDS)
+fun setTimesHelper(i:Int,t:Double,c:Int){
+timesLock.withWriteLock{
+timesHelper[i]+=t
+timesCounter[i]+=c
+}
+}
     @JvmField
     val timers = Array(EBenchmark.values().size) { Monotonic.markNow() }
 

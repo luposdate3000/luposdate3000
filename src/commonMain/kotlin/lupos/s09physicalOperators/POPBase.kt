@@ -12,7 +12,7 @@ import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
 
 abstract class POPBase(query: Query,
-                       var projectedVariables: List<String>,
+@JvmField                       var projectedVariables: List<String>,
                        operatorID: EOperatorID,
                        classname: String,
                        children: Array<OPBase>,

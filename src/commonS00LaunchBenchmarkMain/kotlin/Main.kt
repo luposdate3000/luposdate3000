@@ -1,6 +1,7 @@
 import kotlin.time.DurationUnit
 import kotlin.time.TimeSource.Monotonic
 import kotlinx.coroutines.runBlocking
+import lupos.s00misc.BenchmarkUtils
 import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.Coverage
 import lupos.s00misc.EOptimizerID
@@ -85,14 +86,12 @@ fun main(args: Array<String>) = runBlocking {
             }
         }
         println("$queryFile,$numberOfTriples,0,$counter,${time * 1000.0},${counter / time},$originalTripleSize")
-//-->> HttpEndpoint.timesHelper
-        for (j in HttpEndpoint.timesHelper.size - 2 downTo 0) {
-            HttpEndpoint.timesHelper[j + 1] -= HttpEndpoint.timesHelper[j]
+//-->> BenchmarkUtils.timesHelper
+        for (j in 0 until BenchmarkUtils.timesHelper.size) {
+            println("statistics.BenchmarkUtils.timesHelper[${j}] :: ${BenchmarkUtils.timesHelper[j]} (${BenchmarkUtils.timesCounter[j]})")
+            BenchmarkUtils.timesHelper[j] = 0.0
+            BenchmarkUtils.timesCounter[j] = 0
         }
-        for (j in 0 until HttpEndpoint.timesHelper.size) {
-            println("statistics.HttpEndpoint.timesHelper[${j}] :: ${HttpEndpoint.timesHelper[j]}")
-            HttpEndpoint.timesHelper[j] = 0.0
-        }
-//<<--HttpEndpoint.timesHelper
+//<<--BenchmarkUtils.timesHelper
     }
 }

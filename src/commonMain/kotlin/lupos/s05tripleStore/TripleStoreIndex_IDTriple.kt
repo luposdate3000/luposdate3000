@@ -131,13 +131,18 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
         val uuid = TripleStoreIndex_IDTriple.debuguuiditerator++
 
         init {
+var totaltime=0.0
+var totalcounter=0
             next = {
+val timer = BenchmarkUtils.timesHelperMark()
                 var tmp: Value? = null
                 if (it.hasNext()) {
                     tmp = it.nextS()
                 } else {
                     close()
                 }
+totaltime+=BenchmarkUtils.timesHelperDuration(timer)
+totalcounter++
                 /*return*/tmp
             }
             runBlocking {
@@ -145,6 +150,7 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
                 lock.readLock()
             }
             close = {
+BenchmarkUtils.setTimesHelper(8,totaltime,totalcounter)
                 _close()
                 runBlocking {
                     lock.readUnlock()
@@ -158,13 +164,18 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
         val uuid = TripleStoreIndex_IDTriple.debuguuiditerator++
 
         init {
+var totaltime=0.0
+var totalcounter=0
             next = {
-                var tmp: Value? = null
+    val timer = BenchmarkUtils.timesHelperMark()
+            var tmp: Value? = null
                 if (it.hasNext()) {
                     tmp = it.nextP()
                 } else {
                     close()
                 }
+totaltime+=BenchmarkUtils.timesHelperDuration(timer)
+totalcounter++
                 /*return*/tmp
             }
             runBlocking {
@@ -172,6 +183,7 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
                 lock.readLock()
             }
             close = {
+BenchmarkUtils.setTimesHelper(9,totaltime,totalcounter)
                 _close()
                 runBlocking {
                     lock.readUnlock()
@@ -185,13 +197,18 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
         val uuid = TripleStoreIndex_IDTriple.debuguuiditerator++
 
         init {
+var totaltime=0.0
+var totalcounter=0
             next = {
+val timer = BenchmarkUtils.timesHelperMark()
                 var tmp: Value? = null
                 if (it.hasNext()) {
                     tmp = it.nextO()
                 } else {
                     close()
                 }
+totaltime+=BenchmarkUtils.timesHelperDuration(timer)
+totalcounter++
                 /*return*/tmp
             }
             runBlocking {
@@ -199,6 +216,7 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
                 lock.readLock()
             }
             close = {
+BenchmarkUtils.setTimesHelper(10,totaltime,totalcounter)
                 _close()
                 runBlocking {
                     lock.readUnlock()

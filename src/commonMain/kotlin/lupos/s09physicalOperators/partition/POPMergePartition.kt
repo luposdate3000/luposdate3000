@@ -1,5 +1,6 @@
 package lupos.s09physicalOperators.partition
 
+import lupos.s00misc.BenchmarkUtils
 import kotlinx.coroutines.cancelAndJoin
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
@@ -17,6 +18,7 @@ import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.Variable
+import lupos.s03resultRepresentation.Value
 import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.s04logicalOperators.iterator.ColumnIteratorMultiIterator
 import lupos.s04logicalOperators.iterator.IteratorBundle
@@ -24,6 +26,8 @@ import lupos.s04logicalOperators.iterator.RowIterator
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
 import lupos.s09physicalOperators.POPBase
+
+//http://blog.pronghorn.tech/optimizing-suspending-functions-in-kotlin/
 
 class POPMergePartition(query: Query, projectedVariables: List<String>, val partitionVariable: String, child: OPBase) : POPBase(query, projectedVariables, EOperatorID.POPMergePartitionID, "POPMergePartition", arrayOf(child), ESortPriority.PREVENT_ANY) {
     override fun toXMLElement(): XMLElement {
@@ -46,6 +50,9 @@ class POPMergePartition(query: Query, projectedVariables: List<String>, val part
     override fun cloneOP() = POPMergePartition(query, projectedVariables, partitionVariable, children[0].cloneOP())
     override fun toSparql() = children[0].toSparql()
     override fun equals(other: Any?): Boolean = other is POPMergePartition && children[0] == other.children[0] && partitionVariable == other.partitionVariable
+
+
+
     override suspend fun evaluate(parent: Partition): IteratorBundle {
         if (Partition.k == 1) {
             //single partition - just pass through
@@ -56,6 +63,7 @@ class POPMergePartition(query: Query, projectedVariables: List<String>, val part
             SanityCheck.check { variables0.containsAll(variables) }
             SanityCheck.check { variables.containsAll(variables0) }
 //the variable may be eliminated directly after using it in the join            SanityCheck.check { variables.contains(partitionVariable) }
+
             val elementsPerRing = Partition.queue_size * variables.size
             val ringbuffer = IntArray(elementsPerRing * Partition.k) //only modified by writer, reader just modifies its pointer
             val ringbufferStart = IntArray(Partition.k) { it * elementsPerRing } //constant
@@ -66,45 +74,134 @@ class POPMergePartition(query: Query, projectedVariables: List<String>, val part
             val jobs = mutableListOf<Job>()
             for (p in 0 until Partition.k) {
                 val job = GlobalScope.launch(Dispatchers.Default) {
-                    val child = children[0].evaluate(Partition(parent, partitionVariable, p)).rows
-                    val variableMapping = IntArray(variables.size)
-                    for (variable in 0 until variables.size) {
-                        for (variable2 in 0 until variables.size) {
-                            if (variables[variable2] == child.columns[variable]) {
-                                variableMapping[variable] = variable2
-                                break
+                    val timer = BenchmarkUtils.timesHelperMark()
+                    val childEval = children[0].evaluate(Partition(parent, partitionVariable, p))
+                    var totaltime = 0.0
+                    var totalcounter = 0
+                    if (childEval.hasColumnMode()) {
+                        val child = childEval.columns
+                        if (variables.size == 1) {
+val childIterator=child[variables[0]]!!
+                            loop@ while (isActive && readerFinished == 0) {
+                                SanityCheck.println({ "merge $uuid $p writer loop start" })
+                                var t = (ringbufferWriteHead[p]+1) % elementsPerRing
+                                while (ringbufferReadHead[p] == t) {
+                                    //println("$p locked")
+                                    SanityCheck.println({ "merge $uuid $p writer wait for reader to remove data" })
+                                    delay(1)
+                                    if (!isActive || readerFinished == 1) {
+                                        SanityCheck.println({ "merge $uuid $p writer closed A" })
+childIterator.close()
+                                        writerFinished[p] = 1
+                                        break@loop
+                                    }
+                                }
+                                val timer2 = BenchmarkUtils.timesHelperMark()
+                                var tmp = childIterator.next()
+                                totaltime += BenchmarkUtils.timesHelperDuration(timer2)
+totalcounter++
+                                if (tmp == null) {
+                                    SanityCheck.println({ "merge $uuid $p writer closed B" })
+                                    writerFinished[p] = 1
+                                    break@loop
+                                } else {
+                                    SanityCheck.println({ "merge $uuid $p writer append data" })
+                                    ringbuffer[ringbufferWriteHead[p] + ringbufferStart[p]] = tmp
+                                    //println("$p produced")
+                                    ringbufferWriteHead[p] = (ringbufferWriteHead[p] + 1) % elementsPerRing
+                                }
+                            }
+                        } else {
+                            val variableMapping = Array<ColumnIterator>(variables.size) { child[variables[it]]!! }
+                            loop@ while (isActive && readerFinished == 0) {
+                                SanityCheck.println({ "merge $uuid $p writer loop start" })
+                                var t = (ringbufferWriteHead[p] + variables.size) % elementsPerRing
+                                while (ringbufferReadHead[p] == t) {
+                                    //println("$p locked")
+                                    SanityCheck.println({ "merge $uuid $p writer wait for reader to remove data" })
+                                    delay(1)
+                                    if (!isActive || readerFinished == 1) {
+                                        SanityCheck.println({ "merge $uuid $p writer closed A" })
+                                        for (variable in 0 until variables.size) {
+                                            variableMapping[variable].close()
+                                        }
+                                        writerFinished[p] = 1
+                                        break@loop
+                                    }
+                                }
+                                val timer2 = BenchmarkUtils.timesHelperMark()
+                                var tmp = variableMapping[0].next()
+                                totaltime += BenchmarkUtils.timesHelperDuration(timer2)
+                                totalcounter++
+if (tmp == null) {
+                                    SanityCheck.println({ "merge $uuid $p writer closed B" })
+                                    for (variable in 0 until variables.size) {
+                                        variableMapping[variable].close()
+                                    }
+                                    writerFinished[p] = 1
+                                    break@loop
+                                } else {
+                                    SanityCheck.println({ "merge $uuid $p writer append data" })
+                                    ringbuffer[ringbufferWriteHead[p] + ringbufferStart[p]] = tmp
+                                    for (variable in 1 until variables.size) {
+try{
+                                        ringbuffer[ringbufferWriteHead[p] + variable + ringbufferStart[p]] = variableMapping[variable].next()!!
+}catch(e:Throwable){
+e.printStackTrace()
+//TODO this may fail if the child is closed from outside
+}
+                                    }
+                                    //println("$p produced")
+                                    ringbufferWriteHead[p] = (ringbufferWriteHead[p] + variables.size) % elementsPerRing
+                                }
                             }
                         }
-                    }
-                    loop@ while (isActive && readerFinished == 0) {
-                        SanityCheck.println({ "merge $uuid $p writer loop start" })
-                        var t = (ringbufferWriteHead[p] + variables.size) % elementsPerRing
-                        while (ringbufferReadHead[p] == t) {
-//println("$p locked")
-                            SanityCheck.println({ "merge $uuid $p writer wait for reader to remove data" })
-                            delay(1)
-                            if (!isActive || readerFinished == 1) {
-                                SanityCheck.println({ "merge $uuid $p writer closed A" })
-                                child.close()
+                    } else {
+         val child = childEval.rows
+                        val variableMapping = IntArray(variables.size)
+                        for (variable in 0 until variables.size) {
+                            for (variable2 in 0 until variables.size) {
+                                if (variables[variable2] == child.columns[variable]) {
+                                    variableMapping[variable] = variable2
+                                    break
+                                }
+                            }
+                        }
+                        loop@ while (isActive && readerFinished == 0) {
+                            SanityCheck.println({ "merge $uuid $p writer loop start" })
+                            var t = (ringbufferWriteHead[p] + variables.size) % elementsPerRing
+                            while (ringbufferReadHead[p] == t) {
+                                //println("$p locked")
+                                SanityCheck.println({ "merge $uuid $p writer wait for reader to remove data" })
+                                delay(1)
+                                if (!isActive || readerFinished == 1) {
+                                    SanityCheck.println({ "merge $uuid $p writer closed A" })
+                                    child.close()
+                                    writerFinished[p] = 1
+                                    break@loop
+                                }
+                            }
+                            val timer2 = BenchmarkUtils.timesHelperMark()
+                            var tmp = child.next()
+                            totaltime += BenchmarkUtils.timesHelperDuration(timer2)
+                            totalcounter++
+if (tmp == -1) {
+                                SanityCheck.println({ "merge $uuid $p writer closed B" })
                                 writerFinished[p] = 1
                                 break@loop
+                            } else {
+                                SanityCheck.println({ "merge $uuid $p writer append data" })
+                                for (variable in 0 until variables.size) {
+                                    ringbuffer[ringbufferWriteHead[p] + variableMapping[variable] + ringbufferStart[p]] = child.buf[tmp + variable]
+                                }
+                                //println("$p produced")
+                                ringbufferWriteHead[p] = (ringbufferWriteHead[p] + variables.size) % elementsPerRing
                             }
-                        }
-                        var tmp = child.next()
-                        if (tmp == -1) {
-                            SanityCheck.println({ "merge $uuid $p writer closed B" })
-                            writerFinished[p] = 1
-                            break@loop
-                        } else {
-                            SanityCheck.println({ "merge $uuid $p writer append data" })
-                            for (variable in 0 until variables.size) {
-                                ringbuffer[ringbufferWriteHead[p] + variableMapping[variable] + ringbufferStart[p]] = child.buf[tmp + variable]
-                            }
-//println("$p produced")
-                            ringbufferWriteHead[p] = (ringbufferWriteHead[p] + variables.size) % elementsPerRing
                         }
                     }
                     SanityCheck.println({ "merge $uuid $p writer exited loop" })
+                    BenchmarkUtils.timesHelperDuration(14, timer)
+BenchmarkUtils.setTimesHelper(15,totaltime,totalcounter)
                 }
                 jobs.add(job)
             }
@@ -112,6 +209,7 @@ class POPMergePartition(query: Query, projectedVariables: List<String>, val part
             iterator.columns = variables.toTypedArray()
             iterator.buf = IntArray(variables.size)
             iterator.next = {
+                val timer = BenchmarkUtils.timesHelperMark()
                 var res = -1
                 loop@ while (true) {
                     SanityCheck.println({ "merge $uuid reader loop start" })
@@ -125,7 +223,7 @@ class POPMergePartition(query: Query, projectedVariables: List<String>, val part
                             }
                             res = 0
                             ringbufferReadHead[p] = (ringbufferReadHead[p] + variables.size) % elementsPerRing
-//println("$p consumed")
+                            //println("$p consumed")
                             break@loop
                         } else if (writerFinished[p] == 1) {
                             finishedWriters++
@@ -135,9 +233,8 @@ class POPMergePartition(query: Query, projectedVariables: List<String>, val part
                         //done
                         break@loop
                     }
-                    SanityCheck.println({ "merge $uuid reader wait for writer" })
-                    delay(1)
                 }
+                BenchmarkUtils.timesHelperDuration(13, timer)
                 /*return*/res
             }
             iterator.close = {
