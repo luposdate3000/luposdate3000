@@ -27,7 +27,7 @@ class POPJoinMergeOptional(query: Query, projectedVariables: List<String>, child
     }
 
     override fun equals(other: Any?) = other is POPJoinMergeOptional && optional == other.optional && children[0] == other.children[0] && children[1] == other.children[1]
-    override suspend fun evaluate(parent: Partition): IteratorBundle {
+    override fun evaluate(parent: Partition): IteratorBundle {
         SanityCheck.check { optional }
 //setup columns
         val child = Array(2) { children[it].evaluate(parent) }
@@ -137,7 +137,7 @@ class POPJoinMergeOptional(query: Query, projectedVariables: List<String>, child
         return res
     }
 
-    /*inline*/ suspend fun sameElements(key: Array<Value?>, keyCopy: Array<Value?>, columnsINJ: MutableList<ColumnIterator>, columnsINO: MutableList<ColumnIterator>, data: Array<MyListValue>): Int {
+    /*inline*/ fun sameElements(key: Array<Value?>, keyCopy: Array<Value?>, columnsINJ: MutableList<ColumnIterator>, columnsINO: MutableList<ColumnIterator>, data: Array<MyListValue>): Int {
         SanityCheck.check { keyCopy[0] != null }
         for (i in 0 until columnsINJ.size) {
             if (key[i] != keyCopy[i]) {
@@ -168,7 +168,7 @@ class POPJoinMergeOptional(query: Query, projectedVariables: List<String>, child
         return count
     }
 
-    /*inline*/ suspend fun findNextKey(key: Array<Array<Value?>>, columnsINJ: Array<MutableList<ColumnIterator>>, columnsINO: Array<MutableList<ColumnIterator>>): Boolean {
+    /*inline*/ fun findNextKey(key: Array<Array<Value?>>, columnsINJ: Array<MutableList<ColumnIterator>>, columnsINO: Array<MutableList<ColumnIterator>>): Boolean {
         if (key[0][0] != null && key[1][0] != null) {
             loop@ while (true) {
                 for (i in 0 until columnsINJ[0].size) {

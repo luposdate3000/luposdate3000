@@ -64,7 +64,7 @@ class POPModifyData(query: Query, projectedVariables: List<String>, @JvmField va
         return res
     }
 
-    override suspend fun evaluate(parent: Partition): IteratorBundle {
+    override fun evaluate(parent: Partition): IteratorBundle {
         val iteratorDataMap = mutableMapOf<String, Array<MyListValue>>()
         for (t in data) {
             for (i in 0 until 3) {

@@ -11,13 +11,13 @@ import lupos.s00misc.Coverage
 object ServerCommunicationConnectionPoolOn {
     val keepAliveServerConnection = true
     val cache = mutableMapOf<ServerCommunicationKnownHost, MutableList<ServerCommunicationConnectionPoolHelper>>()
-    suspend fun openServerSocket(hostname: String, port: Int): ServerSocket {
+    fun openServerSocket(hostname: String, port: Int): ServerSocket {
         val server = ServerSocket()
         server.bind(InetSocketAddress(hostname, port))
         return server
     }
 
-    suspend fun accept(server: ServerSocket, action: suspend (ServerCommunicationConnectionPoolHelper) -> Unit) {
+    fun accept(server: ServerSocket, action: (ServerCommunicationConnectionPoolHelper) -> Unit) {
         val socket = server.accept()
         Thread {
             try {
@@ -30,7 +30,7 @@ object ServerCommunicationConnectionPoolOn {
         }.start()
     }
 
-    suspend fun openSocket(host: ServerCommunicationKnownHost): ServerCommunicationConnectionPoolHelper {
+    fun openSocket(host: ServerCommunicationKnownHost): ServerCommunicationConnectionPoolHelper {
         val tmp = cache[host]
         if (tmp != null && !tmp.isEmpty()) {
             return tmp.removeAt(0)

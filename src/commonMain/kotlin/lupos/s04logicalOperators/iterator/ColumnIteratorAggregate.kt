@@ -8,7 +8,7 @@ import lupos.s03resultRepresentation.ValueDefinition
 class ColumnIteratorAggregate() : ColumnIterator() {
     var value: ValueDefinition = ResultSetDictionary.undefValue2
     var count = 0
-    var evaluate: suspend () -> Unit = ::_evaluate
-    suspend fun _evaluate() {
+    var evaluate: () -> Unit = ::_evaluate
+    fun _evaluate() {
     }
 }

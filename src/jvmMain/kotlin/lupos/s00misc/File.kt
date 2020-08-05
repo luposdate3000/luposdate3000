@@ -39,13 +39,13 @@ class File(@JvmField val filename: String) {
     fun length() = java.io.File(filename).length()
     fun readAsString() = java.io.File(filename).readText()
     fun readAsCharIterator(): CharIterator = MyCharIterator(this)
-    suspend fun walk(action: suspend (String) -> Unit) {
+    fun walk(action: (String) -> Unit) {
         java.io.File(filename).walk().forEach {
             action(filename + "/" + it.toRelativeString(java.io.File(filename)))
         }
     }
 
-    suspend fun printWriter(action: suspend (java.io.PrintWriter) -> Unit) = java.io.File(filename).printWriter().use {
+    fun printWriter(action: (java.io.PrintWriter) -> Unit) = java.io.File(filename).printWriter().use {
         action(it)
     }
 
@@ -62,7 +62,7 @@ class File(@JvmField val filename: String) {
         }
     }
 
-    inline suspend fun dataOutputStreamSuspend(crossinline action: suspend (java.io.DataOutputStream) -> Unit) {
+    inline fun dataOutputStreamSuspend(crossinline action: (java.io.DataOutputStream) -> Unit) {
         var dos: DataOutputStream? = null
         try {
             val fos = FileOutputStream(filename);
@@ -86,7 +86,7 @@ class File(@JvmField val filename: String) {
         }
     }
 
-    inline suspend fun dataInputStreamSuspend(crossinline action: suspend (java.io.DataInputStream) -> Unit) {
+    inline fun dataInputStreamSuspend(crossinline action: (java.io.DataInputStream) -> Unit) {
         var dis: DataInputStream? = null
         try {
             val fis = FileInputStream(filename)

@@ -46,7 +46,7 @@ class POPMergePartitionCount(query: Query, projectedVariables: List<String>, val
     override fun cloneOP() = POPMergePartitionCount(query, projectedVariables, partitionVariable, children[0].cloneOP())
     override fun toSparql() = children[0].toSparql()
     override fun equals(other: Any?): Boolean = other is POPMergePartitionCount && children[0] == other.children[0] && partitionVariable == other.partitionVariable
-    override suspend fun evaluate(parent: Partition): IteratorBundle {
+    override fun evaluate(parent: Partition): IteratorBundle {
         if (Partition.k == 1) {
             //single partition - just pass through
             return children[0].evaluate(parent)
@@ -64,7 +64,8 @@ class POPMergePartitionCount(query: Query, projectedVariables: List<String>, val
             val jobs = mutableListOf<Job>()
             for (p in 0 until Partition.k) {
                 val job = GlobalScope.launch(Dispatchers.Default) {
-                    val child = children[0].evaluate(Partition(parent, partitionVariable, p))
+val scope=this
+                    val child = children[0].evaluate(Partition(parent, partitionVariable, p,scope))
                     loop@ while (isActive && readerFinished == 0) {
                         SanityCheck.println({ "merge $uuid $p writer loop start" })
                         var tmp = child.hasNext2()
@@ -84,6 +85,7 @@ class POPMergePartitionCount(query: Query, projectedVariables: List<String>, val
             var iterator = IteratorBundle(0)
             iterator.hasNext2 = {
                 var res = false
+runBlocking{
                 loop@ while (true) {
                     SanityCheck.println({ "merge $uuid reader loop start" })
                     var finishedWriters = 0
@@ -105,6 +107,7 @@ class POPMergePartitionCount(query: Query, projectedVariables: List<String>, val
                     SanityCheck.println({ "merge $uuid reader wait for writer" })
                     delay(1)
                 }
+}
                 /*return*/res
             }
             iterator.hasNext2Close = {

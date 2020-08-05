@@ -13,7 +13,7 @@ class POPEmptyRow(query: Query, projectedVariables: List<String>) : POPBase(quer
     override fun cloneOP() = POPEmptyRow(query, projectedVariables)
     override fun toSparql() = "{}"
     override fun equals(other: Any?) = other is POPEmptyRow
-    override suspend fun evaluate(parent: Partition): IteratorBundle {
+    override fun evaluate(parent: Partition): IteratorBundle {
         return IteratorBundle(1)
     }
 }

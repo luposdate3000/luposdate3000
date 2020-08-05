@@ -5,7 +5,7 @@ import lupos.s03resultRepresentation.Value
 
 open class ColumnIterator() {
 @JvmField
-    var next: suspend () -> Value? = ::_next
+    var next: () -> Value? = ::_next
 @JvmField
     var close: () -> Unit = ::_close
     fun _close() {
@@ -13,5 +13,5 @@ open class ColumnIterator() {
         close = ::_close
     }
 
-    suspend fun _next(): Value? = null
+    fun _next(): Value? = null
 }

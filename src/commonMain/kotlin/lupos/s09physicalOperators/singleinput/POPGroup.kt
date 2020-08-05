@@ -172,7 +172,7 @@ class POPGroup : POPBase {
 
     class MapRow(val iterators: IteratorBundle, val aggregates: Array<ColumnIteratorAggregate>, val columns: Array<ColumnIteratorQueue>)
 
-    override suspend fun evaluate(parent: Partition): IteratorBundle {
+    override fun evaluate(parent: Partition): IteratorBundle {
         val localVariables = children[0].getProvidedVariableNames()
         val outMap = mutableMapOf<String, ColumnIterator>()
         val child = children[0].evaluate(parent)

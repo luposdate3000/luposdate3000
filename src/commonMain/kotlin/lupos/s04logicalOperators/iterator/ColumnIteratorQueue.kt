@@ -7,8 +7,8 @@ import lupos.s03resultRepresentation.Value
 class ColumnIteratorQueue() : ColumnIterator() {
     var tmp: Value? = null
     val queue = MyListValue()
-    var onEmptyQueue: suspend () -> Unit = ::_onEmptyQueue
-    suspend fun _onEmptyQueue() {
+    var onEmptyQueue: () -> Unit = ::_onEmptyQueue
+    fun _onEmptyQueue() {
     }
 
     init {

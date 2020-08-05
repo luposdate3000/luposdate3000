@@ -12,13 +12,4 @@ import lupos.s00misc.Lock
 object CoroutinesHelperParallel {
     @JvmField
     val channelType = 2
-    /*inline*/ fun run(/*crossinline*/ action: suspend CoroutineScope.() -> Unit) = GlobalScope.launch {
-        action()
-    }
-
-    /*inline*/ fun runBlock(/*crossinline*/ action: suspend CoroutineScope.() -> Unit) = runBlocking {
-        action()
-    }
-
-    /*inline*/ fun createLock() = Lock()
 }

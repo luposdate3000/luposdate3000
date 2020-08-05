@@ -7,7 +7,7 @@ import lupos.s03resultRepresentation.Value
 
 open class RowIteratorMerge(@JvmField val a: RowIterator, @JvmField val b: RowIterator, @JvmField val comparator: Comparator<Value>, @JvmField val compCount: Int) : RowIterator() {
     companion object {
-        suspend operator fun invoke(a: RowIterator, comparator: Comparator<Value>, compCount: Int, columns: Array<String>): RowIterator {
+        operator fun invoke(a: RowIterator, comparator: Comparator<Value>, compCount: Int, columns: Array<String>): RowIterator {
             SanityCheck.check { columns.size == a.columns.size }
             var buf1 = IntArray(columns.size * MERGE_SORT_MIN_ROWS)
             var buf2 = IntArray(columns.size * MERGE_SORT_MIN_ROWS)

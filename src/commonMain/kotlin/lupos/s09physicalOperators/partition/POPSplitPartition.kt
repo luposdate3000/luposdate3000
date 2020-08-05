@@ -47,16 +47,16 @@ class POPSplitPartition(query: Query, projectedVariables: List<String>, val part
     override fun cloneOP() = POPSplitPartition(query, projectedVariables, partitionVariable, children[0].cloneOP())
     override fun toSparql() = children[0].toSparql()
     override fun equals(other: Any?): Boolean = other is POPSplitPartition && children[0] == other.children[0] && partitionVariable == other.partitionVariable
-    override suspend fun evaluate(parent: Partition): IteratorBundle {
+    override fun evaluate(parent: Partition): IteratorBundle {
         if (Partition.k == 1) {
             //single partition - just pass through
             return children[0].evaluate(parent)
         } else {
             var iterators: Array<IteratorBundle>? = null
             var job: Job? = null
-            val childPartition = Partition(parent, partitionVariable)
+            val childPartition = Partition(parent, partitionVariable,GlobalScope)
             var partitionHelper = query.getPartitionHelper(uuid)
-            partitionHelper.lock.withWriteLockSuspend {
+            partitionHelper.lock.withWriteLock {
                 val tmpIterators = partitionHelper.iterators
                 if (tmpIterators != null) {
                     iterators = tmpIterators[childPartition]
@@ -80,7 +80,8 @@ class POPSplitPartition(query: Query, projectedVariables: List<String>, val part
                     val readerFinished = IntArray(Partition.k) { 0 } //writer changes to 1 if finished
                     var writerFinished = 0
                     SanityCheck.println({ "ringbuffersize = ${ringbuffer.size} ${elementsPerRing} ${Partition.k} ${ringbufferStart.map { it }} ${ringbufferReadHead.map { it }} ${ringbufferWriteHead.map { it }}" })
-                    job = GlobalScope.launch(Dispatchers.Default) {
+                    job = parent.scope.launch(Dispatchers.Default) {
+childPartition.scope=this
                         val child = children[0].evaluate(childPartition).rows
                         var hashVariableIndex = -1
                         val variableMapping = IntArray(variables.size)
@@ -154,6 +155,7 @@ class POPSplitPartition(query: Query, projectedVariables: List<String>, val part
                         iterator.buf = IntArray(variables.size)
                         iterator.next = {
                             var res = -1
+runBlocking{
                             loop@ while (true) {
                                 SanityCheck.println({ "split $uuid $p reader loop start" })
                                 if (ringbufferReadHead[p] != ringbufferWriteHead[p]) {
@@ -172,7 +174,8 @@ class POPSplitPartition(query: Query, projectedVariables: List<String>, val part
                                 SanityCheck.println({ "split $uuid $p reader wait for writer" })
                                 delay(1)
                             }
-                            /*return*/res
+            }
+                /*return*/res
                         }
                         iterator.close = {
                             SanityCheck.println({ "split $uuid $p reader close" })

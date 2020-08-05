@@ -81,7 +81,7 @@ class TripleStoreIteratorGlobal(query: Query, projectedVariables: List<String>, 
         }
     }
 
-    override suspend fun evaluate(parent: Partition): IteratorBundle {
+    override fun evaluate(parent: Partition): IteratorBundle {
         SanityCheck.println({ "opening store for $uuid" })
         var params: TripleStoreFeatureParams? = null
         if (parent.data.size > 0) {
@@ -95,11 +95,11 @@ class TripleStoreIteratorGlobal(query: Query, projectedVariables: List<String>, 
 }
 
 class DistributedGraph(val query: Query, @JvmField val name: String) {
-    suspend fun bulkImport(action: suspend (TripleStoreBulkImportDistributed) -> Unit) {
+    fun bulkImport(action: (TripleStoreBulkImportDistributed) -> Unit) {
         ServerCommunicationSend.bulkImport(query, name, action)
     }
 
-    suspend fun modify(data: Array<ColumnIterator>, type: EModifyType) {
+    fun modify(data: Array<ColumnIterator>, type: EModifyType) {
         SanityCheck.check { data.size == 3 }
         val map = Array(3) { MyListValue() }
         loop@ while (true) {
@@ -206,16 +206,16 @@ object DistributedTripleStore {
         return localStore.getGraphNames(includeDefault)
     }
 
-    suspend fun createGraph(query: Query, name: String): DistributedGraph {
+    fun createGraph(query: Query, name: String): DistributedGraph {
         ServerCommunicationSend.graphOperation(query, name, EGraphOperationType.CREATE)
         return DistributedGraph(query, name)
     }
 
-    suspend fun dropGraph(query: Query, name: String) {
+    fun dropGraph(query: Query, name: String) {
         ServerCommunicationSend.graphOperation(query, name, EGraphOperationType.DROP)
     }
 
-    suspend fun clearGraph(query: Query, name: String) {
+    fun clearGraph(query: Query, name: String) {
         GlobalLogger.log(ELoggerType.DEBUG, { "DistributedTripleStore.clearGraph $name" })
         ServerCommunicationSend.graphOperation(query, name, EGraphOperationType.CLEAR)
     }

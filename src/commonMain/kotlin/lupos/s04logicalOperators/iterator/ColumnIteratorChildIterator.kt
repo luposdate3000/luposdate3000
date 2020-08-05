@@ -5,7 +5,7 @@ import lupos.s03resultRepresentation.Value
 
 class ColumnIteratorChildIterator() : ColumnIterator() {
     val childs = mutableListOf(ColumnIterator())
-    var onNoMoreElements: suspend () -> Unit = ::_onNoMoreElements
+    var onNoMoreElements: () -> Unit = ::_onNoMoreElements
 
     init {
         next = {
@@ -36,7 +36,7 @@ class ColumnIteratorChildIterator() : ColumnIterator() {
         }
     }
 
-    suspend fun _onNoMoreElements() {
+    fun _onNoMoreElements() {
         close()
     }
 }

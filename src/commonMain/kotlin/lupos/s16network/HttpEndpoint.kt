@@ -72,7 +72,7 @@ object HttpEndpoint {
 /*Coverage Unreachable*/
     }
 
-    suspend fun import_turtle_files(fileNames: String, bnodeDict: MyMapStringIntPatriciaTrie): String {
+    fun import_turtle_files(fileNames: String, bnodeDict: MyMapStringIntPatriciaTrie): String {
         try {
             val usePredefinedDict = bnodeDict.size > 0
             val query = Query()
@@ -112,7 +112,7 @@ object HttpEndpoint {
 /*Coverage Unreachable*/
     }
 
-    suspend fun import_intermediate_files(fileNames: String): String {
+    fun import_intermediate_files(fileNames: String): String {
         try {
             val query = Query()
             var counter = 0L
@@ -164,7 +164,7 @@ object HttpEndpoint {
 /*Coverage Unreachable*/
     }
 
-    suspend fun import_xml_data(data: String): String {
+    fun import_xml_data(data: String): String {
         val query = Query()
         val import = POPValuesImportXML(query, listOf("s", "p", "o"), XMLElement.parseFromXml(data)!!).evaluate(Partition())
         val dataLocal = arrayOf(import.columns["s"]!!, import.columns["p"]!!, import.columns["o"]!!)
@@ -173,7 +173,7 @@ object HttpEndpoint {
         return XMLElement("success").toString()
     }
 
-    suspend fun evaluate_sparql_query_string(query: String, logOperatorGraph: Boolean = false): String {
+    fun evaluate_sparql_query_string(query: String, logOperatorGraph: Boolean = false): String {
         val q = Query()
 var timer = BenchmarkUtils.timesHelperMark()
         GlobalLogger.log(ELoggerType.DEBUG, { "----------String Query" })
@@ -226,7 +226,7 @@ BenchmarkUtils.timesHelperDuration(7,timer)
         return res
     }
 
-    suspend fun evaluate_sparql_query_operator_xml(query: String, logOperatorGraph: Boolean = false): String {
+    fun evaluate_sparql_query_operator_xml(query: String, logOperatorGraph: Boolean = false): String {
         val q = Query()
         val pop_node = XMLElement.convertToOPBase(q, XMLElement.parseFromXml(query)!!)
         GlobalLogger.log(ELoggerType.DEBUG, { pop_node })

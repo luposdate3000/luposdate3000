@@ -49,7 +49,7 @@ object ServerCommunicationTransferTriples {
         return res
     }
 
-    suspend fun sendTriples(bundle: IteratorBundle, dict: ResultSetDictionary, params: Array<AOPBase>, onFullPacket: suspend (ByteArrayBuilder) -> Unit) {
+    fun sendTriples(bundle: IteratorBundle, dict: ResultSetDictionary, params: Array<AOPBase>, onFullPacket: (ByteArrayBuilder) -> Unit) {
 /*always assume SPO*/
         var iterators = mutableListOf<ColumnIterator>()
         for (p in params) {
@@ -60,7 +60,7 @@ object ServerCommunicationTransferTriples {
         sendTriples(iterators.toTypedArray(), dict, onFullPacket)
     }
 
-    suspend fun sendTriples(iterators: Array<ColumnIterator>, dict: ResultSetDictionary, onFullPacket: suspend (ByteArrayBuilder) -> Unit) {
+    fun sendTriples(iterators: Array<ColumnIterator>, dict: ResultSetDictionary, onFullPacket: (ByteArrayBuilder) -> Unit) {
         /*always assume SPO - works with less than 3 columns too*/
         try {
             var builder = ByteArrayBuilder()
@@ -95,7 +95,7 @@ object ServerCommunicationTransferTriples {
         }
     }
 
-    suspend fun sendTriples(si: Value, pi: Value, oi: Value, dict: ResultSetDictionary, builder: ByteArrayBuilder, onFullPacket: suspend (ByteArrayBuilder) -> Unit) {
+    fun sendTriples(si: Value, pi: Value, oi: Value, dict: ResultSetDictionary, builder: ByteArrayBuilder, onFullPacket: (ByteArrayBuilder) -> Unit) {
         /*always assume SPO requires exactly 3 columns*/
         if (builder.size >= NETWORK_PACKET_SIZE) {
             onFullPacket(builder)

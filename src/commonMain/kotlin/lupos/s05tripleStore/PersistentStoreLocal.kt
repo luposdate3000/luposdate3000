@@ -45,7 +45,7 @@ class PersistentStoreLocal {
         return tmp2
     }
 
-    suspend fun dropGraph(query: Query, name: String) {
+    fun dropGraph(query: Query, name: String) {
         SanityCheck.check({ name != defaultGraphName })
         var store = stores[name]
         if (store == null) {
@@ -55,7 +55,7 @@ class PersistentStoreLocal {
         stores.remove(name)
     }
 
-    suspend fun clearGraph(query: Query, name: String) {
+    fun clearGraph(query: Query, name: String) {
         getNamedGraph(query, name).clear()
     }
 
@@ -79,7 +79,7 @@ class PersistentStoreLocal {
         }
     }
 
-    suspend fun safeToFolder() {
+    fun safeToFolder() {
         stores.values.forEach { v ->
             v.flush()
         }

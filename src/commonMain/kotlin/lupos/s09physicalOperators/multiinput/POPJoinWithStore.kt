@@ -34,7 +34,7 @@ class POPJoinWithStore(query: Query, projectedVariables: List<String>, childA: O
     }
 
     override fun equals(other: Any?) = other is POPJoinWithStore && optional == other.optional && children[0] == other.children[0]
-    override suspend fun evaluate(parent: Partition): IteratorBundle {
+    override fun evaluate(parent: Partition): IteratorBundle {
         SanityCheck.check { !optional }
         SanityCheck.check { !childB.graphVar }
         val childAv = children[0].evaluate(parent)

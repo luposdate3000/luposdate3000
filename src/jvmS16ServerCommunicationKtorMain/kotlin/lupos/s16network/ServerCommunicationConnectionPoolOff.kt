@@ -15,11 +15,11 @@ import lupos.s00misc.Coverage
 
 object ServerCommunicationConnectionPoolOff {
     val keepAliveServerConnection = false
-    suspend fun openServerSocket(hostname: String, port: Int): ServerSocket {
+    fun openServerSocket(hostname: String, port: Int): ServerSocket {
         return aSocket(ActorSelectorManager(Dispatchers.IO)).tcp().bind(InetSocketAddress(hostname, port))
     }
 
-    suspend fun accept(server: ServerSocket, action: suspend (ServerCommunicationConnectionPoolHelper) -> Unit) {
+    fun accept(server: ServerSocket, action: (ServerCommunicationConnectionPoolHelper) -> Unit) {
         val socket = server.accept()
         GlobalScope.launch {
             try {
@@ -32,7 +32,7 @@ object ServerCommunicationConnectionPoolOff {
         }
     }
 
-    suspend fun openSocket(host: ServerCommunicationKnownHost): ServerCommunicationConnectionPoolHelper {
+    fun openSocket(host: ServerCommunicationKnownHost): ServerCommunicationConnectionPoolHelper {
         val socket = aSocket(ActorSelectorManager(Dispatchers.IO)).tcp().connect(InetSocketAddress(host.hostname, host.port))
         return ServerCommunicationConnectionPoolHelper(socket, socket.openReadChannel(), socket.openWriteChannel())
     }

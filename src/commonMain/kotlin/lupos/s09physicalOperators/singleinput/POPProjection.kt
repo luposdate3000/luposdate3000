@@ -29,7 +29,7 @@ class POPProjection(query: Query, projectedVariables: List<String>, child: OPBas
     override fun equals(other: Any?) = other is POPProjection && projectedVariables == other.projectedVariables && children[0] == other.children[0]
     override fun getProvidedVariableNamesInternal(): List<String> = projectedVariables
     override fun getRequiredVariableNames(): List<String> = projectedVariables
-    override suspend fun evaluate(parent: Partition): IteratorBundle {
+    override fun evaluate(parent: Partition): IteratorBundle {
         val variables = getProvidedVariableNames()
         val child = children[0].evaluate(parent)
         val outMap = mutableMapOf<String, ColumnIterator>()

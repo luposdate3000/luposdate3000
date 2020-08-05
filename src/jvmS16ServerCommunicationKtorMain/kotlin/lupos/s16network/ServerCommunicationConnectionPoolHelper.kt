@@ -21,13 +21,13 @@ class ServerCommunicationModifyHelper(val conn: ServerCommunicationConnectionPoo
 class ServerCommunicationImportHelper(val conn: ServerCommunicationConnectionPoolHelper, val input: ByteReadChannel, val output: ByteWriteChannel, val builder: ByteArrayBuilder = ByteArrayBuilder()) {
 }
 
-suspend fun ByteWriteChannel.writeByteArray(builder: ByteArrayBuilder) {
+fun ByteWriteChannel.writeByteArray(builder: ByteArrayBuilder) {
     val packet = builder.build()
     writeInt(packet.size)
     writeFully(packet.data, 0, packet.size)
 }
 
-suspend fun ByteReadChannel.readByteArray(): ByteArrayRead {
+fun ByteReadChannel.readByteArray(): ByteArrayRead {
     var size = readInt()
     var res = ByteArray(size)
     readFully(res, 0, size)

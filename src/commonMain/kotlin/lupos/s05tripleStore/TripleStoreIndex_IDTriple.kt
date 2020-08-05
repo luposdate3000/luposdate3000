@@ -52,7 +52,8 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
         var debuguuiditerator = 0
     }
 
-    override suspend fun safeToFile(filename: String) {
+    override fun safeToFile(filename: String) {
+runBlocking{
         flushContinueWithReadLock()
         SanityCheck {
             if (root != NodeManager.nodeNullPointer) {
@@ -88,6 +89,7 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
             }
         }
         lock.readUnlock()
+}
         SanityCheck.println { "readunlock 1" }
     }
 
@@ -363,11 +365,11 @@ BenchmarkUtils.setTimesHelper(10,totaltime,totalcounter)
         return res!!
     }
 
-    override suspend fun getIterator(query: Query, params: TripleStoreFeatureParams): IteratorBundle {
+    override fun getIterator(query: Query, params: TripleStoreFeatureParams): IteratorBundle {
         var fp = (params as TripleStoreFeatureParamsDefault).getFilterAndProjection(query)
         val filter = fp.first
         val projection = fp.second
-        flushContinueWithReadLock()
+        var res: IteratorBundle
         SanityCheck.check { filter.size >= 0 && filter.size <= 3 }
         SanityCheck.check { projection.size + filter.size == 3 }
         val columns = mutableMapOf<String, ColumnIterator>()
@@ -376,12 +378,13 @@ BenchmarkUtils.setTimesHelper(10,totaltime,totalcounter)
                 columns[s] = ColumnIterator()
             }
         }
-        var res: IteratorBundle
         if (columns.size > 0) {
             res = IteratorBundle(columns)
         } else {
             res = IteratorBundle(0)
         }
+runBlocking{
+        flushContinueWithReadLock()
         val node = rootNode
         if (node != null) {
             if (filter.size == 3) {
@@ -442,6 +445,7 @@ BenchmarkUtils.setTimesHelper(10,totaltime,totalcounter)
             }
         }
         lock.readUnlock()
+}
         SanityCheck.println({ "readunlock 7" })
         return res
     }
@@ -488,7 +492,7 @@ BenchmarkUtils.setTimesHelper(10,totaltime,totalcounter)
         return res
     }
 
-    override suspend fun flush() {
+    override fun flush() {
         if (pendingImport.size > 0) {
             SanityCheck.println({ "writelock 8" })
             lock.withWriteLock {
@@ -498,12 +502,12 @@ BenchmarkUtils.setTimesHelper(10,totaltime,totalcounter)
         }
     }
 
-    suspend fun flushContinueWithWriteLock() {
+suspend    fun flushContinueWithWriteLock() {
         lock.writeLock()
         flushAssumeLocks()
     }
 
-    suspend fun flushContinueWithReadLock() {
+suspend    fun flushContinueWithReadLock() {
         lock.readLock()
         if (pendingImport.size > 0) {
             lock.readUnlock()
@@ -653,7 +657,8 @@ BenchmarkUtils.setTimesHelper(10,totaltime,totalcounter)
         distinctPrimary = iterator.distinct
     }
 
-    override suspend fun insertAsBulk(data: IntArray, order: IntArray) {
+    override fun insertAsBulk(data: IntArray, order: IntArray) {
+runBlocking{
         flushContinueWithWriteLock()
         var d = arrayOf(data, IntArray(data.size))
         TripleStoreBulkImport.sortUsingBuffers(0, 0, 1, d, data.size / 3, order)
@@ -674,10 +679,12 @@ BenchmarkUtils.setTimesHelper(10,totaltime,totalcounter)
         rebuildData(iterator)
         NodeManager.freeNodeAndAllRelated(oldroot)
         lock.writeUnlock()
+}
         SanityCheck.println({ "writeunlock 10" })
     }
 
-    override suspend fun removeAsBulk(data: IntArray, order: IntArray) {
+    override fun removeAsBulk(data: IntArray, order: IntArray) {
+runBlocking{
         flushContinueWithWriteLock()
         var d = arrayOf(data, IntArray(data.size))
         TripleStoreBulkImport.sortUsingBuffers(0, 0, 1, d, data.size / 3, order)
@@ -698,6 +705,7 @@ BenchmarkUtils.setTimesHelper(10,totaltime,totalcounter)
         rebuildData(iterator)
         NodeManager.freeNodeAndAllRelated(oldroot)
         lock.writeUnlock()
+}
         SanityCheck.println({ "writeunlock 11" })
     }
 
@@ -709,13 +717,15 @@ BenchmarkUtils.setTimesHelper(10,totaltime,totalcounter)
         SanityCheck.checkUnreachable()
     }
 
-    override suspend fun clear() {
+    override fun clear() {
+runBlocking{
         flushContinueWithWriteLock()
         NodeManager.freeNodeAndAllRelated(root)
         firstLeaf = NodeManager.nodeNullPointer
         root = NodeManager.nodeNullPointer
         rootNode = null
         lock.writeUnlock()
+}
         SanityCheck.println({ "writeunlock 12" })
     }
 

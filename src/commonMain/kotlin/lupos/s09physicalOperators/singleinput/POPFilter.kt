@@ -28,7 +28,7 @@ class POPFilter(query: Query, projectedVariables: List<String>, filter: AOPBase,
     override fun cloneOP() = POPFilter(query, projectedVariables, children[1].cloneOP() as AOPBase, children[0].cloneOP())
     override fun getProvidedVariableNamesInternal() = children[0].getProvidedVariableNames()
     override fun getRequiredVariableNames() = children[1].getRequiredVariableNamesRecoursive()
-    override suspend fun evaluate(parent: Partition): IteratorBundle {
+    override fun evaluate(parent: Partition): IteratorBundle {
         //TODO not-equal shortcut during evaluation based on integer-ids
         val variables = children[0].getProvidedVariableNames()
         val variablesOut = getProvidedVariableNames()

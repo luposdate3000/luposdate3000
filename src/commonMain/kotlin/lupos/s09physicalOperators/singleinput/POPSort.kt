@@ -76,7 +76,7 @@ class POPSort(query: Query, projectedVariables: List<String>, @JvmField val sort
         return res
     }
 
-    override suspend fun evaluate(parent: Partition): IteratorBundle {
+    override fun evaluate(parent: Partition): IteratorBundle {
         val child = children[0].evaluate(parent)
         val variablesOut = getProvidedVariableNames()
         var comparator: Comparator<Value>

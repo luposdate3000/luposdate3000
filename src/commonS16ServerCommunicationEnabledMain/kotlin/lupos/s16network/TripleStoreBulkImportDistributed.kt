@@ -16,7 +16,7 @@ class TripleStoreBulkImportDistributed(val query: Query, val graphName: String) 
 
     @JvmField
     val accessedHosts = Array(TripleStoreLocalBase.distinctIndices.size) { mutableMapOf<ServerCommunicationKnownHost, ServerCommunicationImportHelper>() }
-    suspend fun insert(si: Value, pi: Value, oi: Value) {
+    fun insert(si: Value, pi: Value, oi: Value) {
         values[0] = si
         values[1] = pi
         values[2] = oi
@@ -46,7 +46,7 @@ class TripleStoreBulkImportDistributed(val query: Query, val graphName: String) 
         }
     }
 
-    suspend fun finishImport() {
+    fun finishImport() {
         for (i in 0 until TripleStoreLocalBase.distinctIndices.size) {
             val idx = TripleStoreLocalBase.distinctIndices[i]
             for ((host, helper) in accessedHosts[i]) {

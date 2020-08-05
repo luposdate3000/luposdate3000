@@ -28,7 +28,7 @@ class POPJoinWithStoreExists(query: Query, projectedVariables: List<String>, chi
     }
 
     override fun equals(other: Any?) = other is POPJoinWithStoreExists && optional == other.optional && children[0] == other.children[0]
-    override suspend fun evaluate(parent: Partition): IteratorBundle {
+    override fun evaluate(parent: Partition): IteratorBundle {
         SanityCheck.check { !optional }
         SanityCheck.check { !childB.graphVar }
         SanityCheck { projectedVariables.size == 0 }

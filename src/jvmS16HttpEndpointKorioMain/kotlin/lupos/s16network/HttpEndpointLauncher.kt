@@ -19,7 +19,7 @@ import lupos.SparqlTestSuite
 object HttpEndpointLauncher {
     @JvmField
     var server: HttpServer? = null
-    suspend fun receive(path: String, isPost: Boolean, data: String, params: Map<String, String>): String {
+    fun receive(path: String, isPost: Boolean, data: String, params: Map<String, String>): String {
         when (path) {
             "/sparql/query" -> {
                 if (isPost) {
@@ -87,7 +87,7 @@ object HttpEndpointLauncher {
         throw EnpointRecievedInvalidPath(path)
     }
 
-    suspend fun myRequestHandler(request: HttpServer.Request) {
+suspend    fun myRequestHandler(request: HttpServer.Request) {
         val params = request.getParams
         request.replaceHeader("Connection", "close")
         request.replaceHeader("Content-Type", "text/html")
@@ -120,7 +120,7 @@ object HttpEndpointLauncher {
         }
     }
 
-    suspend fun start(hostname: String = "localhost", port: Int = 80) {
+suspend    fun start(hostname: String = "localhost", port: Int = 80) {
         server = createHttpServer().listen(port, hostname, ::myRequestHandler)
     }
 }

@@ -34,7 +34,7 @@ class POPDebug(query: Query, projectedVariables: List<String>, child: OPBase) : 
     override fun getProvidedVariableNames(): List<String> = children[0].getProvidedVariableNames()
     override fun getProvidedVariableNamesInternal(): List<String> = (children[0] as POPBase).getProvidedVariableNamesInternal()
     override fun toSparql(): String = children[0].toSparql()
-    override suspend fun evaluate(parent: Partition): IteratorBundle {
+    override fun evaluate(parent: Partition): IteratorBundle {
         val child = children[0].evaluate(parent)
         when (ITERATOR_DEBUG_MODE) {
             EPOPDebugMode.NONE -> {

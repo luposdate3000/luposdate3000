@@ -1,5 +1,5 @@
 package lupos.s04logicalOperators.iterator
-
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.channels.Channel
 import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.Coverage
@@ -10,11 +10,13 @@ class ColumnIteratorChannel() : ColumnIterator() {
     var queue = Channel<Value>(CoroutinesHelper.channelType)
     var doneReading = false
     var doneWriting = false
-    suspend fun append(v: Value) {
+    fun append(v: Value) {
+runBlocking{
         queue.send(v)
+}
     }
 
-    suspend fun writeFinish() {
+    fun writeFinish() {
         doneWriting = true
         queue.close()
     }
@@ -23,7 +25,9 @@ class ColumnIteratorChannel() : ColumnIterator() {
         next = {
             var res: Value? = null
             try {
+runBlocking{
                 res = queue.receive()
+}
             } catch (e: Throwable) {
                 SanityCheck.println({ "TODO exception 12" })
                 e.printStackTrace()

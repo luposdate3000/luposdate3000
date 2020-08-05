@@ -33,7 +33,7 @@ abstract class TripleStoreLocalBase(@JvmField val name: String) {
 
     @JvmField //override this during initialisation
     var pendingModificationsRemove = Array(0) { mutableMapOf<Long, MutableList<Int>>() }
-    suspend fun safeToFolder(foldername: String) {
+    fun safeToFolder(foldername: String) {
         File(foldername).mkdirs()
         dataDistinct.forEach {
             it.second.safeToFile(foldername + "/" + it.first + ".bin")
@@ -46,7 +46,7 @@ abstract class TripleStoreLocalBase(@JvmField val name: String) {
         }
     }
 
-    suspend fun flush() {
+    fun flush() {
         dataDistinct.forEach {
             it.second.flush()
         }
@@ -57,7 +57,7 @@ abstract class TripleStoreLocalBase(@JvmField val name: String) {
         return theData.second.getHistogram(query, params)
     }
 
-    suspend fun getIterator(query: Query, params: TripleStoreFeatureParams): IteratorBundle {
+    fun getIterator(query: Query, params: TripleStoreFeatureParams): IteratorBundle {
         val theData = dataDistinct[params.chooseData(data, featureDataMap[params.feature.ordinal], params)]
         return theData.second.getIterator(query, params)
     }
@@ -102,7 +102,7 @@ abstract class TripleStoreLocalBase(@JvmField val name: String) {
         }
     }
 
-    suspend fun clear() {
+    fun clear() {
         dataDistinct.forEach {
             it.second.clear()
         }
@@ -112,7 +112,7 @@ abstract class TripleStoreLocalBase(@JvmField val name: String) {
         }
     }
 
-    suspend fun modify(query: Query, dataModify: Array<ColumnIterator>, type: EModifyType) {
+    fun modify(query: Query, dataModify: Array<ColumnIterator>, type: EModifyType) {
         /*
          * the input iterators are always in the SPO order. The real remapping to the ordering of the store happens within the commit-phase
          */
@@ -155,7 +155,7 @@ abstract class TripleStoreLocalBase(@JvmField val name: String) {
         }
     }
 
-    suspend fun modify(query: Query, dataModify: MutableList<Value>, type: EModifyType) {
+    fun modify(query: Query, dataModify: MutableList<Value>, type: EModifyType) {
         /*
          * the input iterators are always in the SPO order. The real remapping to the ordering of the store happens within the commit-phase 
          */

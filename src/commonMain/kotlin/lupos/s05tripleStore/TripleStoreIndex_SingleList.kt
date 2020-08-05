@@ -32,7 +32,7 @@ class TripleStoreIndex_SingleList : TripleStoreIndex() {
 
     @JvmField
     val index2 = MyMapLongInt()
-    override suspend fun safeToFile(filename: String) {
+    override fun safeToFile(filename: String) {
         File(filename).dataOutputStream { out ->
             data.forEach {
                 out.writeInt(it)
@@ -40,7 +40,7 @@ class TripleStoreIndex_SingleList : TripleStoreIndex() {
         }
     }
 
-    override suspend fun flush() {
+    override fun flush() {
     }
 
     fun rebuildMap() {
@@ -106,7 +106,7 @@ class TripleStoreIndex_SingleList : TripleStoreIndex() {
         }
     }
 
-    override suspend fun getIterator(query: Query, params: TripleStoreFeatureParams): IteratorBundle {
+    override fun getIterator(query: Query, params: TripleStoreFeatureParams): IteratorBundle {
         var fp = (params as TripleStoreFeatureParamsDefault).getFilterAndProjection(query)
         val filter = fp.first
         val projection = fp.second
@@ -392,7 +392,7 @@ class TripleStoreIndex_SingleList : TripleStoreIndex() {
         throw TripleStoreModifyOperationsNotImplementedException()
     }
 
-    override suspend fun clear() {
+    override fun clear() {
         data.clear()
         index1.clear()
         index2.clear()

@@ -17,9 +17,9 @@ class Query(@JvmField val dictionary: ResultSetDictionary = ResultSetDictionary(
         val lock = Lock()
     }
 
-    suspend fun getPartitionHelper(uuid: Long): PartitionHelper {
+    fun getPartitionHelper(uuid: Long): PartitionHelper {
         var res: PartitionHelper? = null
-        partitionsLock.withWriteLockSuspend {
+        partitionsLock.withWriteLock{
             res = partitions[uuid]
             if (res == null) {
                 res = PartitionHelper()

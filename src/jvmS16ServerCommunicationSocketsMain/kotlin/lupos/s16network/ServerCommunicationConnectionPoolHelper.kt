@@ -22,7 +22,7 @@ class ServerCommunicationModifyHelper(val conn: ServerCommunicationConnectionPoo
 class ServerCommunicationImportHelper(val conn: ServerCommunicationConnectionPoolHelper, val input: BufferedInputStream, val output: BufferedOutputStream, val builder: ByteArrayBuilder = ByteArrayBuilder()) {
 }
 
-suspend fun BufferedOutputStream.writeByteArray(builder: ByteArrayBuilder) {
+fun BufferedOutputStream.writeByteArray(builder: ByteArrayBuilder) {
     val packet = builder.build()
     var x = packet.size
     write(x and 255)
@@ -35,7 +35,7 @@ suspend fun BufferedOutputStream.writeByteArray(builder: ByteArrayBuilder) {
     write(packet.data, 0, packet.size)
 }
 
-suspend fun BufferedInputStream.readByteArray(): ByteArrayRead {
+fun BufferedInputStream.readByteArray(): ByteArrayRead {
     var x = 0
     var size = 0
     x = read()

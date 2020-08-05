@@ -31,7 +31,7 @@ class POPJoinCartesianProduct(query: Query, projectedVariables: List<String>, ch
     }
 
     override fun equals(other: Any?) = other is POPJoinCartesianProduct && optional == other.optional && children[0] == other.children[0] && children[1] == other.children[1]
-    override suspend fun evaluate(parent: Partition): IteratorBundle {
+    override fun evaluate(parent: Partition): IteratorBundle {
         val columns = LOPJoin.getColumns(children[0].getProvidedVariableNames(), children[1].getProvidedVariableNames())
         require(columns[0].size == 0)
         SanityCheck.println({ "POPJoinCartesianProductXXX$uuid open A $classname" })

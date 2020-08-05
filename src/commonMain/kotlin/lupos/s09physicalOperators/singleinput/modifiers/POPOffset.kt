@@ -25,7 +25,7 @@ class POPOffset(query: Query, projectedVariables: List<String>, @JvmField val of
     }
 
     override fun cloneOP() = POPOffset(query, projectedVariables, offset, children[0].cloneOP())
-    override suspend fun evaluate(parent: Partition): IteratorBundle {
+    override fun evaluate(parent: Partition): IteratorBundle {
         val variables = getProvidedVariableNames()
         val outMap = mutableMapOf<String, ColumnIterator>()
         val child = children[0].evaluate(parent)

@@ -34,7 +34,7 @@ object ServerCommunicationSend {
 
     @JvmField
     var myPort = NETWORK_DEFAULT_PORT
-    suspend fun bulkImport(query: Query, graphName: String, action: suspend (TripleStoreBulkImportDistributed) -> Unit) {
+    fun bulkImport(query: Query, graphName: String, action: (TripleStoreBulkImportDistributed) -> Unit) {
         val bulk = TripleStoreBulkImportDistributed(query, graphName)
         action(bulk)
         runBlocking {
@@ -161,7 +161,7 @@ object ServerCommunicationSend {
         }
     }
 
-    suspend fun tripleModify(query: Query, graphName: String, data: Array<ColumnIterator>, idx: EIndexPattern, type: EModifyType) {
+    fun tripleModify(query: Query, graphName: String, data: Array<ColumnIterator>, idx: EIndexPattern, type: EModifyType) {
         val values = Array(3) { ResultSetDictionary.undefValue }
         val accessedHosts = mutableMapOf<ServerCommunicationKnownHost, ServerCommunicationModifyHelper>()
         loop@ while (true) {

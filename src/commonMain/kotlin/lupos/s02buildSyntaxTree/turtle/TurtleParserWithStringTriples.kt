@@ -7,7 +7,7 @@ import lupos.s02buildSyntaxTree.Token
 import lupos.s02buildSyntaxTree.turtle.TurtleParser
 import lupos.s02buildSyntaxTree.UnexpectedToken
 
-class TurtleParserWithStringTriples(@JvmField val consume_triple: suspend (String, String, String) -> Unit, @JvmField val ltit: LookAheadTokenIterator) {
+class TurtleParserWithStringTriples(@JvmField val consume_triple: (String, String, String) -> Unit, @JvmField val ltit: LookAheadTokenIterator) {
     // for storing the prefixes...
     val prefixes = mutableMapOf<String, String>()
 
@@ -28,7 +28,7 @@ class TurtleParserWithStringTriples(@JvmField val consume_triple: suspend (Strin
 
     @JvmField
     var bnode_counter = 0
-    suspend fun turtleDoc() {
+    fun turtleDoc() {
         var token: Token
         var t1 = ltit.lookahead()
         while (t1.image == "@prefix" || t1.image == "@base" || t1.image == "PREFIX" || t1.image == "BASE" || t1 is IRI || t1 is PNAME_LN || t1 is PNAME_NS || t1 is BNODE || t1 is ANON_BNODE || t1.image == "(" || t1.image == "[") {
@@ -41,7 +41,7 @@ class TurtleParserWithStringTriples(@JvmField val consume_triple: suspend (Strin
         }
     }
 
-    suspend fun statement() {
+    fun statement() {
         var token: Token
         val t2 = ltit.lookahead()
         when {
@@ -153,7 +153,7 @@ class TurtleParserWithStringTriples(@JvmField val consume_triple: suspend (Strin
         prefixes.put(key, token.content)
     }
 
-    suspend fun triples() {
+    fun triples() {
         var token: Token
         val t5 = ltit.lookahead()
         when {
@@ -174,7 +174,7 @@ class TurtleParserWithStringTriples(@JvmField val consume_triple: suspend (Strin
         }
     }
 
-    suspend fun predicateObjectList(s: String) {
+    fun predicateObjectList(s: String) {
         var token: Token
         val p = verb()
         objectList(s, p)
@@ -193,7 +193,7 @@ class TurtleParserWithStringTriples(@JvmField val consume_triple: suspend (Strin
         }
     }
 
-    suspend fun objectList(s: String, p: String) {
+    fun objectList(s: String, p: String) {
         var token: Token
         val o = triple_object()
         consume_triple(s, p, o)
@@ -231,7 +231,7 @@ class TurtleParserWithStringTriples(@JvmField val consume_triple: suspend (Strin
         }
     }
 
-    suspend fun subject(): String {
+    fun subject(): String {
         var token: Token
         val result: String
         val t10 = ltit.lookahead()
@@ -258,7 +258,7 @@ class TurtleParserWithStringTriples(@JvmField val consume_triple: suspend (Strin
         return result
     }
 
-    suspend fun triple_object(): String {
+    fun triple_object(): String {
         var token: Token
         val result: String
         val t11 = ltit.lookahead()
@@ -306,7 +306,7 @@ class TurtleParserWithStringTriples(@JvmField val consume_triple: suspend (Strin
         return result
     }
 
-    suspend fun blankNodePropertyList(): String {
+    fun blankNodePropertyList(): String {
         var token: Token
         val result = "_:_" + bnode_counter; bnode_counter++
         token = ltit.nextToken()
@@ -321,7 +321,7 @@ class TurtleParserWithStringTriples(@JvmField val consume_triple: suspend (Strin
         return result
     }
 
-    suspend fun collection(): String {
+    fun collection(): String {
         var token: Token
         var first = nil_iri
         var current = nil_iri

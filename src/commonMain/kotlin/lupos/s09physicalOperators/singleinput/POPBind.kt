@@ -42,7 +42,7 @@ class POPBind(query: Query, projectedVariables: List<String>, @JvmField val name
     override fun getProvidedVariableNamesInternal(): List<String> = (children[0].getProvidedVariableNames() + name.name).distinct()
     override fun getRequiredVariableNames(): List<String> = children[1].getRequiredVariableNamesRecoursive()
     override fun toXMLElement() = super.toXMLElement().addAttribute("name", name.name)
-    override suspend fun evaluate(parent: Partition): IteratorBundle {
+    override fun evaluate(parent: Partition): IteratorBundle {
         val variablesOut = getProvidedVariableNames()
         val variablesLocal = getProvidedVariableNamesInternal()
         val outMap = mutableMapOf<String, ColumnIterator>()

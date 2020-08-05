@@ -55,7 +55,7 @@ class POPJoinMergeSingleColumn(query: Query, projectedVariables: List<String>, c
             child[1].close()
         }
 
-        suspend fun myNext(): Value? {
+        fun myNext(): Value? {
             val timer = BenchmarkUtils.timesHelperMark()
             if (counter == 0) {
                 var done = false
@@ -129,7 +129,7 @@ class POPJoinMergeSingleColumn(query: Query, projectedVariables: List<String>, c
             return value
         }
 
-        suspend fun myNext2(): Value? {
+        fun myNext2(): Value? {
 val timer = BenchmarkUtils.timesHelperMark()
             if (counter == 0) {
                 close()
@@ -143,7 +143,7 @@ totaltime += BenchmarkUtils.timesHelperDuration(timer)
         }
     }
 
-    override suspend fun evaluate(parent: Partition): IteratorBundle {
+    override fun evaluate(parent: Partition): IteratorBundle {
         SanityCheck.check { !optional }
         SanityCheck.check { projectedVariables.size == 1 }
         SanityCheck.check { children[0].getProvidedVariableNames().size == 1 }

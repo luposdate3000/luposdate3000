@@ -15,7 +15,7 @@ import lupos.s05tripleStore.TripleStoreFeatureParams
 import lupos.s15tripleStoreDistributed.DistributedTripleStore
 
 object ServerCommunicationSend {
-    suspend fun bulkImport(query: Query, graphName: String, action: suspend (TripleStoreBulkImportDistributed) -> Unit) {
+    fun bulkImport(query: Query, graphName: String, action: (TripleStoreBulkImportDistributed) -> Unit) {
         val bulk = TripleStoreBulkImportDistributed(query, graphName)
         action(bulk)
         bulk.finishImport()
@@ -29,18 +29,18 @@ object ServerCommunicationSend {
         DistributedTripleStore.localStore.commit(query)
     }
 
-    suspend fun tripleModify(query: Query, graphName: String, data: Array<ColumnIterator>, type: EModifyType) {
+    fun tripleModify(query: Query, graphName: String, data: Array<ColumnIterator>, type: EModifyType) {
         DistributedTripleStore.localStore.getNamedGraph(query, graphName).modify(query, data, type)
     }
 
-    suspend fun graphClearAll(query: Query) {
+    fun graphClearAll(query: Query) {
         DistributedTripleStore.localStore.getDefaultGraph(query).clear()
         for (g in DistributedTripleStore.getGraphNames()) {
             DistributedTripleStore.dropGraph(query, g)
         }
     }
 
-    suspend fun graphOperation(query: Query, graphName: String, type: EGraphOperationType) {
+    fun graphOperation(query: Query, graphName: String, type: EGraphOperationType) {
         when (type) {
             EGraphOperationType.CLEAR -> {
                 DistributedTripleStore.localStore.clearGraph(query, graphName)
@@ -57,7 +57,7 @@ object ServerCommunicationSend {
         }
     }
 
-    suspend fun tripleGet(query: Query, graphName: String, params: TripleStoreFeatureParams): IteratorBundle {
+    fun tripleGet(query: Query, graphName: String, params: TripleStoreFeatureParams): IteratorBundle {
         return DistributedTripleStore.localStore.getNamedGraph(query, graphName).getIterator(query, params)
     }
 

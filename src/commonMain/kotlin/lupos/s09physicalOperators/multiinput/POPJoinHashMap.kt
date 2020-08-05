@@ -55,7 +55,7 @@ class POPJoinHashMap(query: Query, projectedVariables: List<String>, childA: OPB
         var count = 0
     }
 
-    override suspend fun evaluate(parent: Partition): IteratorBundle {
+    override fun evaluate(parent: Partition): IteratorBundle {
 //--- obtain child columns
         val columns = LOPJoin.getColumns(children[0].getProvidedVariableNames(), children[1].getProvidedVariableNames())
         require(columns[0].size != 0)

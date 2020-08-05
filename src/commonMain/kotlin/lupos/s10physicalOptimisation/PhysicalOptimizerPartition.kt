@@ -1,5 +1,5 @@
 package lupos.s10physicalOptimisation
-
+import kotlinx.coroutines.GlobalScope
 import lupos.s00misc.Coverage
 import lupos.s00misc.DontCareWhichException
 import lupos.s00misc.EIndexPattern
@@ -127,7 +127,7 @@ class PhysicalOptimizerPartition(query: Query) : OptimizerBase(query, EOptimizer
                     is TripleStoreIteratorGlobal -> {
                         if (TripleStoreLocal.providesFeature(TripleStoreFeature.PARTITION, null)) {
                             try {
-                                val p = Partition(Partition(), node.partitionVariable, 0)
+                                val p = Partition(Partition(), node.partitionVariable, 0,GlobalScope)
                                 val params = TripleStoreFeatureParamsPartition(c.idx, Array(3) { c.children[it] as AOPBase }, p)
                                 if (params.getColumn() > 0 && TripleStoreLocal.providesFeature(TripleStoreFeature.PARTITION, params)) {
                                     res = POPSplitPartitionFromStore(query, node.projectedVariables, node.partitionVariable, c)
