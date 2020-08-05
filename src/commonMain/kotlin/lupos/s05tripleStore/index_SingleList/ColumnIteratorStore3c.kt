@@ -4,7 +4,7 @@ import lupos.s00misc.Coverage
 import lupos.s03resultRepresentation.MyListValue
 import lupos.s03resultRepresentation.Value
 import lupos.s04logicalOperators.iterator.ColumnIterator
-import lupos.s04logicalOperators.iterator.ColumnIteratorNext
+import lupos.s04logicalOperators.iterator.FuncColumnIteratorNext
 
 class ColumnIteratorStore3c(val values: MyListValue) : ColumnIterator() {
     var counterPrimary: Int
@@ -22,7 +22,7 @@ class ColumnIteratorStore3c(val values: MyListValue) : ColumnIterator() {
             counterSecondary = it.next() - 1
             valueB = it.next()
             counterTerniary = it.next() - 1
-            next = object : ColumnIteratorNext("ColumnIteratorStore3c.next") {
+            next = object : FuncColumnIteratorNext("ColumnIteratorStore3c.next") {
                 override fun invoke(): Value? {
                     valueC = it.next()
                     var res = valueC

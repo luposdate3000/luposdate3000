@@ -10,7 +10,7 @@ import lupos.s00misc.ReadWriteLock
 import lupos.s00misc.SanityCheck
 import lupos.s03resultRepresentation.Value
 import lupos.s04logicalOperators.iterator.ColumnIterator
-import lupos.s04logicalOperators.iterator.ColumnIteratorNext
+import lupos.s04logicalOperators.iterator.FuncColumnIteratorNext
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.Query
 import lupos.s05tripleStore.index_IDTriple.BulkImportIterator
@@ -136,7 +136,7 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
         init {
             var totaltime = 0.0
             var totalcounter = 0
-            next = object : ColumnIteratorNext("IteratorS.next") {
+            next = object : FuncColumnIteratorNext("IteratorS.next") {
                 override fun invoke(): Value? {
                     val timer = BenchmarkUtils.timesHelperMark()
                     var tmp: Value? = null
@@ -171,7 +171,7 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
         init {
             var totaltime = 0.0
             var totalcounter = 0
-            next = object : ColumnIteratorNext("IteratorP.next") {
+            next = object : FuncColumnIteratorNext("IteratorP.next") {
                 override fun invoke(): Value? {
                     val timer = BenchmarkUtils.timesHelperMark()
                     var tmp: Value? = null
@@ -206,7 +206,7 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
         init {
             var totaltime = 0.0
             var totalcounter = 0
-            next = object : ColumnIteratorNext("IteratorO.next") {
+            next = object : FuncColumnIteratorNext("IteratorO.next") {
                 override fun invoke(): Value? {
                     val timer = BenchmarkUtils.timesHelperMark()
                     var tmp: Value? = null

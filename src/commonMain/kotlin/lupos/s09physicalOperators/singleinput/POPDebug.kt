@@ -14,7 +14,7 @@ import lupos.s03resultRepresentation.Variable
 import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.s04logicalOperators.iterator.ColumnIteratorMerge
-import lupos.s04logicalOperators.iterator.ColumnIteratorNext
+import lupos.s04logicalOperators.iterator.FuncColumnIteratorNext
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.iterator.RowIterator
 import lupos.s04logicalOperators.iterator.RowIteratorMerge
@@ -69,7 +69,7 @@ class POPDebug(query: Query, projectedVariables: List<String>, child: OPBase) : 
                         val iterator = ColumnIterator()
                         var counter = 0
                         SanityCheck.println({ "$uuid $k opened" })
-                        iterator.next = object : ColumnIteratorNext("POPDebug_2.next") {
+                        iterator.next = object : FuncColumnIteratorNext("POPDebug_2.next") {
                             override fun invoke(): Value? {
                                 SanityCheck.println({ "$uuid $k next call" })
                                 val res = v.next()

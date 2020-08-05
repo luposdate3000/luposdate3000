@@ -2,14 +2,14 @@ package lupos.s04logicalOperators.iterator
 
 import lupos.s00misc.Coverage
 import lupos.s03resultRepresentation.Value
-import lupos.s04logicalOperators.iterator.ColumnIteratorNext
+import lupos.s04logicalOperators.iterator.FuncColumnIteratorNext
 
 class ColumnIteratorChildIterator() : ColumnIterator() {
     val childs = mutableListOf(ColumnIterator())
     var onNoMoreElements: () -> Unit = ::_onNoMoreElements
 
     init {
-        next = object : ColumnIteratorNext("ColumnIteratorChildIterator.next") {
+        next = object : FuncColumnIteratorNext("ColumnIteratorChildIterator.next") {
             override fun invoke(): Value? {
                 var res: Value? = null
                 while (childs.size > 0) {

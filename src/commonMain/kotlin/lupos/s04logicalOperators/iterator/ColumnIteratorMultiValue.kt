@@ -3,7 +3,7 @@ package lupos.s04logicalOperators.iterator
 import lupos.s00misc.Coverage
 import lupos.s03resultRepresentation.MyListValue
 import lupos.s03resultRepresentation.Value
-import lupos.s04logicalOperators.iterator.ColumnIteratorNext
+import lupos.s04logicalOperators.iterator.FuncColumnIteratorNext
 
 object ColumnIteratorMultiValue {
     operator fun invoke(values: IntArray, size: Int) = ColumnIteratorMultiValue_3(values, size)
@@ -15,7 +15,7 @@ class ColumnIteratorMultiValue_1(val values: MyListValue) : ColumnIterator() {
     var index = 0
 
     init {
-        next = object : ColumnIteratorNext("ColumnIteratorMultiValue_1.next") {
+        next = object : FuncColumnIteratorNext("ColumnIteratorMultiValue_1.next") {
             override fun invoke(): Value? {
                 var res: Value?
                 if (index == values.size) {
@@ -33,7 +33,7 @@ class ColumnIteratorMultiValue_3(val values: IntArray, val size: Int) : ColumnIt
     var index = 0
 
     init {
-        next = object : ColumnIteratorNext("ColumnIteratorMultiValue_3.next") {
+        next = object : FuncColumnIteratorNext("ColumnIteratorMultiValue_3.next") {
             override fun invoke(): Value? {
                 var res: Value?
                 if (index == size) {
@@ -49,7 +49,7 @@ class ColumnIteratorMultiValue_3(val values: IntArray, val size: Int) : ColumnIt
 
 class ColumnIteratorMultiValue_2(val iterator: Iterator<Value>) : ColumnIterator() {
     init {
-        next = object : ColumnIteratorNext("ColumnIteratorMultiValue_2.next") {
+        next = object : FuncColumnIteratorNext("ColumnIteratorMultiValue_2.next") {
             override fun invoke(): Value? {
                 var res: Value? = null
                 if (iterator.hasNext()) {

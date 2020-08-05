@@ -3,7 +3,7 @@ package lupos.s04logicalOperators.iterator
 import lupos.s00misc.Coverage
 import lupos.s03resultRepresentation.MyListValue
 import lupos.s03resultRepresentation.Value
-import lupos.s04logicalOperators.iterator.ColumnIteratorNext
+import lupos.s04logicalOperators.iterator.FuncColumnIteratorNext
 
 class ColumnIteratorQueue() : ColumnIterator() {
     var tmp: Value? = null
@@ -13,7 +13,7 @@ class ColumnIteratorQueue() : ColumnIterator() {
     }
 
     init {
-        next = object : ColumnIteratorNext("ColumnIteratorQueue.next") {
+        next = object : FuncColumnIteratorNext("ColumnIteratorQueue.next") {
             override fun invoke(): Value? {
                 if (queue.size == 0) {
                     onEmptyQueue()

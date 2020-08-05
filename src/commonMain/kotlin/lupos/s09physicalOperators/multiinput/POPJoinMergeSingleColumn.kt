@@ -11,7 +11,7 @@ import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.Value
 import lupos.s03resultRepresentation.Variable
 import lupos.s04logicalOperators.iterator.ColumnIterator
-import lupos.s04logicalOperators.iterator.ColumnIteratorNext
+import lupos.s04logicalOperators.iterator.FuncColumnIteratorNext
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
@@ -34,7 +34,7 @@ class POPJoinMergeSingleColumn(query: Query, projectedVariables: List<String>, c
         var value: Value = head0
 
         init {
-            next = object : ColumnIteratorNext("ColumnIteratorJoinMergeSingleColumn.next") {
+            next = object : FuncColumnIteratorNext("ColumnIteratorJoinMergeSingleColumn.next") {
                 override fun invoke(): Value? {
                     if (counter == 0) {
                         var change = true
@@ -90,7 +90,7 @@ class POPJoinMergeSingleColumn(query: Query, projectedVariables: List<String>, c
                             if (counter == 0) {
                                 close()
                             } else {
-                                next = object : ColumnIteratorNext("ColumnIteratorJoinMergeSingleColumn.next") {
+                                next = object : FuncColumnIteratorNext("ColumnIteratorJoinMergeSingleColumn.next") {
                                     override fun invoke(): Value? {
                                         if (counter == 0) {
                                             close()

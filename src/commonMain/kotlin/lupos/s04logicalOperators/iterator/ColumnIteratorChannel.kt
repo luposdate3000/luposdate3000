@@ -6,7 +6,7 @@ import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.Coverage
 import lupos.s00misc.SanityCheck
 import lupos.s03resultRepresentation.Value
-import lupos.s04logicalOperators.iterator.ColumnIteratorNext
+import lupos.s04logicalOperators.iterator.FuncColumnIteratorNext
 
 class ColumnIteratorChannel() : ColumnIterator() {
     var queue = Channel<Value>(CoroutinesHelper.channelType)
@@ -24,7 +24,7 @@ class ColumnIteratorChannel() : ColumnIterator() {
     }
 
     init {
-        next = object : ColumnIteratorNext("ColumnIteratorChannel.next") {
+        next = object : FuncColumnIteratorNext("ColumnIteratorChannel.next") {
             override fun invoke(): Value? {
                 var res: Value? = null
                 try {
