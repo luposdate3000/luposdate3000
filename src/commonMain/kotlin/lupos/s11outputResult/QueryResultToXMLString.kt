@@ -68,7 +68,7 @@ object QueryResultToXMLString {
                     val variables = columnNames.toTypedArray()
                     if (variables.size == 1 && variables[0] == "?boolean") {
                         res.append(" <head/>\n")
-                        val value = node.query.dictionary.getValue(child.columns["?boolean"]!!.next()!!)
+                        val value = node.query.dictionary.getValue(child.columns["?boolean"]!!.next())
                         res.append(" <boolean>\n  ")
                         res.append(value.toBoolean())
                         res.append(" </boolean>\n")
