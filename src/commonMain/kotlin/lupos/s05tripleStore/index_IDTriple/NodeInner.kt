@@ -1,5 +1,6 @@
 package lupos.s05tripleStore.index_IDTriple
-
+import lupos.s00misc.ReadWriteLock
+import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.s00misc.Coverage
 import lupos.s00misc.readInt1
 import lupos.s00misc.readInt2
@@ -97,6 +98,18 @@ object NodeInner {
         while (iterator == null) {
             NodeManager.getNode(getFirstChild(node), {
                 iterator = NodeLeaf.iterator(it)
+            }, {
+                node = it
+            })
+        }
+        return iterator!!
+    }
+    fun iterator(data: ByteArray,lock:ReadWriteLock,component:Int): ColumnIterator {
+        var iterator: ColumnIterator? = null
+        var node = data
+        while (iterator == null) {
+            NodeManager.getNode(getFirstChild(node), {
+                iterator = NodeLeaf.iterator(it,lock,component)
             }, {
                 node = it
             })
@@ -285,6 +298,39 @@ object NodeInner {
             }, {
                 NodeManager.getNode(it, {
                     iterator = NodeLeaf.iterator1(it, prefix)
+                }, {
+                    node = it
+                })
+            })
+        }
+        return iterator!!
+    }
+    fun iterator2(data: ByteArray, prefix: IntArray,lock:ReadWriteLock,component:Int): ColumnIterator {
+        var node = data
+        var iterator: ColumnIterator? = null
+        while (iterator == null) {
+            findIteratorN(node, {
+                /*return*/ (it[0] < prefix[0]) || (it[0] == prefix[0] && it[1] < prefix[1])
+            }, {
+                NodeManager.getNode(it, {
+                    iterator = NodeLeaf.iterator2(it, prefix,lock,component)
+                }, {
+                    node = it
+                })
+            })
+        }
+        return iterator!!
+    }
+
+    fun iterator1(data: ByteArray, prefix: IntArray,lock:ReadWriteLock,component:Int): ColumnIterator {
+        var node = data
+        var iterator: ColumnIterator? = null
+        while (iterator == null) {
+            findIteratorN(node, {
+                /*return*/ (it[0] < prefix[0])
+            }, {
+                NodeManager.getNode(it, {
+                    iterator = NodeLeaf.iterator1(it, prefix,lock,component)
                 }, {
                     node = it
                 })

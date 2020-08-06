@@ -131,161 +131,6 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
         SanityCheck.println({ "writeunlock 2" })
     }
 
-    class IteratorS(@JvmField val it: TripleIterator, @JvmField val lock: ReadWriteLock) : ColumnIterator() {
-        @JvmField
-        val uuid = TripleStoreIndex_IDTriple.debuguuiditerator++
-
-        @JvmField
-        var totaltime = 0.0
-
-        @JvmField
-        var totalcounter = 0
-
-        @JvmField
-        var label = 1
-        inline fun _close() {
-            if (label != 0) {
-                label = 0
-                BenchmarkUtils.setTimesHelper(8, totaltime, totalcounter)
-                runBlocking {
-                    lock.readUnlock()
-                    SanityCheck.println({ "readunlock 3 $uuid" })
-                }
-            }
-        }
-
-        override fun close() {
-            _close()
-        }
-
-        override fun next(): Value {
-            if (label == 1) {
-                val timer = BenchmarkUtils.timesHelperMark()
-                var tmp: Value = ResultSetDictionary.nullValue
-                if (it.hasNext()) {
-                    tmp = it.nextS()
-                } else {
-                    _close()
-                }
-                totaltime += BenchmarkUtils.timesHelperDuration(timer)
-                totalcounter++
-                return tmp
-            } else {
-                return ResultSetDictionary.nullValue
-            }
-        }
-
-        init {
-            runBlocking {
-                SanityCheck.println({ "readlock 3 $uuid" })
-                lock.readLock()
-            }
-        }
-    }
-
-    class IteratorP(@JvmField val it: TripleIterator, @JvmField val lock: ReadWriteLock) : ColumnIterator() {
-        @JvmField
-        val uuid = TripleStoreIndex_IDTriple.debuguuiditerator++
-
-        @JvmField
-        var totaltime = 0.0
-
-        @JvmField
-        var totalcounter = 0
-
-        @JvmField
-        var label = 1
-        inline fun _close() {
-            if (label != 0) {
-                label = 0
-                BenchmarkUtils.setTimesHelper(9, totaltime, totalcounter)
-                runBlocking {
-                    lock.readUnlock()
-                    SanityCheck.println({ "readunlock 4 $uuid" })
-                }
-            }
-        }
-
-        override fun close() {
-            _close()
-        }
-
-        override fun next(): Value {
-            if (label == 1) {
-                val timer = BenchmarkUtils.timesHelperMark()
-                var tmp: Value = ResultSetDictionary.nullValue
-                if (it.hasNext()) {
-                    tmp = it.nextP()
-                } else {
-                    _close()
-                }
-                totaltime += BenchmarkUtils.timesHelperDuration(timer)
-                totalcounter++
-                return tmp
-            } else {
-                return ResultSetDictionary.nullValue
-            }
-        }
-
-        init {
-            runBlocking {
-                SanityCheck.println({ "readlock 4 $uuid" })
-                lock.readLock()
-            }
-        }
-    }
-
-    class IteratorO(@JvmField val it: TripleIterator, @JvmField val lock: ReadWriteLock) : ColumnIterator() {
-        @JvmField
-        val uuid = TripleStoreIndex_IDTriple.debuguuiditerator++
-
-        @JvmField
-        var totaltime = 0.0
-
-        @JvmField
-        var totalcounter = 0
-
-        @JvmField
-        var label = 1
-        inline fun _close() {
-            if (label != 0) {
-                label = 0
-                BenchmarkUtils.setTimesHelper(10, totaltime, totalcounter)
-                runBlocking {
-                    lock.readUnlock()
-                    SanityCheck.println({ "readunlock 5 $uuid" })
-                }
-            }
-        }
-
-        override fun close() {
-            _close()
-        }
-
-        override fun next(): Value {
-            if (label == 1) {
-                val timer = BenchmarkUtils.timesHelperMark()
-                var tmp: Value = ResultSetDictionary.nullValue
-                if (it.hasNext()) {
-                    tmp = it.nextO()
-                } else {
-                    _close()
-                }
-                totaltime += BenchmarkUtils.timesHelperDuration(timer)
-                totalcounter++
-                return tmp
-            } else {
-                return ResultSetDictionary.nullValue
-            }
-        }
-
-        init {
-            runBlocking {
-                SanityCheck.println({ "readlock 5 $uuid" })
-                lock.readLock()
-            }
-        }
-    }
 
     var cachedHistograms1Size = 0
     var cachedHistograms1Cursor = 0
@@ -460,13 +305,13 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
                         }
                         res = IteratorBundle(count)
                     } else {
-                        columns[projection[0]] = IteratorO(NodeInner.iterator2(node, filter), lock)
+                        columns[projection[0]] = NodeInner.iterator2(node, filter,lock,2)
                     }
                 } else if (filter.size == 1) {
                     if (projection[0] != "_") {
-                        columns[projection[0]] = IteratorP(NodeInner.iterator1(node, filter), lock)
+                        columns[projection[0]] = NodeInner.iterator1(node, filter, lock,1)
                         if (projection[1] != "_") {
-                            columns[projection[1]] = IteratorO(NodeInner.iterator1(node, filter), lock)
+                            columns[projection[1]] = NodeInner.iterator1(node, filter, lock,2)
                         }
                     } else {
                         SanityCheck.check { projection[1] == "_" }
@@ -481,11 +326,11 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
                 } else {
                     SanityCheck.check { filter.size == 0 }
                     if (projection[0] != "_") {
-                        columns[projection[0]] = IteratorS(NodeInner.iterator(node), lock)
+                        columns[projection[0]] = NodeInner.iterator(node, lock,0)
                         if (projection[1] != "_") {
-                            columns[projection[1]] = IteratorP(NodeInner.iterator(node), lock)
+                            columns[projection[1]] = NodeInner.iterator(node, lock,1)
                             if (projection[2] != "_") {
-                                columns[projection[2]] = IteratorO(NodeInner.iterator(node), lock)
+                                columns[projection[2]] =NodeInner.iterator(node, lock,2)
                             }
                         } else {
                             SanityCheck.check { projection[2] == "_" }
