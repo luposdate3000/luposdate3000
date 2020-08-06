@@ -55,11 +55,10 @@ import lupos.s16network.ServerCommunicationSend
 
 class SparqlTestSuite() {
     companion object {
+    const    val errorBoundForDecimalsDigits = 6
         val filterList = mutableListOf<String>()
     }
 
-    @JvmField
-    val errorBoundForDecimalsDigits = 6
     fun testMain() {
         repeat(1) {
             GlobalLogger.log(ELoggerType.RELEASE, { "Starting tests..." })

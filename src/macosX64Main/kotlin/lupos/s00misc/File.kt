@@ -18,6 +18,7 @@ class File {
         this.filename = filename
     }
 
+const                val bufferLength = 64 * 1024
     fun readAsString(): String {
         var result: String = ""
         val file = fopen(filename, "r")
@@ -26,7 +27,6 @@ class File {
         }
         try {
             memScoped {
-                val bufferLength = 64 * 1024
                 val buffer = allocArray<ByteVar>(bufferLength)
                 while (true) {
                     val nextLine = fgets(buffer, bufferLength, file)?.toKString()

@@ -29,7 +29,7 @@ class UnsafePage {
     val basepointer: Long
 
     // this does not generate any getter avoiding a virtual method call!
-    @JvmField
+    const
     val PAGESIZE = 8 * 1024L
 
     @JvmField

@@ -167,8 +167,10 @@ class POPJoinHashMap(query: Query, projectedVariables: List<String>, childA: OPB
             val iterator = object : ColumnIteratorChildIterator() {
                 @JvmField
                 val outIteratorsAllocated0 = outIteratorsAllocated
+
                 @JvmField
                 val columnsINAJ0 = columnsINAJ
+
                 @JvmField
                 val columnsINAO0 = columnsINAO
                 override fun close() {

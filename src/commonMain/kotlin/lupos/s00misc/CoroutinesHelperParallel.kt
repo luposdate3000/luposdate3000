@@ -10,6 +10,5 @@ import lupos.s00misc.Coverage
 import lupos.s00misc.Lock
 
 object CoroutinesHelperParallel {
-    @JvmField
-    val channelType = 2
+    const val channelType = 2
 }

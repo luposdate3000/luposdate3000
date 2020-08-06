@@ -9,7 +9,7 @@ class Partition {
 
     companion object {
         var k = 12
-        val queue_size = 1000
+        const val queue_size = 1000
         inline fun hashFunction(v: Int): Int {
             if (v < 0) {
                 return (-v) % k

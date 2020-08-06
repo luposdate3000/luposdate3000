@@ -105,7 +105,7 @@ class LexerCharIterator(@JvmField val content: CharIterator) {
     constructor(contentString: String) : this(contentString.iterator())
 
     companion object {
-        val MAXSIZEPUTBACK = 256
+const        val MAXSIZEPUTBACK = 256
     }
 
     @JvmField

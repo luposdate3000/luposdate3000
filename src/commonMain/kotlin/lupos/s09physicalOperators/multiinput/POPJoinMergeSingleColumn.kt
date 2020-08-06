@@ -26,9 +26,7 @@ class POPJoinMergeSingleColumn(query: Query, projectedVariables: List<String>, c
     }
 
     override fun equals(other: Any?) = other is POPJoinMergeSingleColumn && optional == other.optional && children[0] == other.children[0] && children[1] == other.children[1]
-
     class ColumnIteratorImpl(@JvmField val child0: ColumnIterator, @JvmField val child1: ColumnIterator, @JvmField var head0: Int, @JvmField var head1: Int) : ColumnIterator() {
-
         @JvmField
         var counter: Int = 0
 
@@ -128,7 +126,6 @@ class POPJoinMergeSingleColumn(query: Query, projectedVariables: List<String>, c
         override fun close() {
             _close()
         }
-
     }
 
     override fun evaluate(parent: Partition): IteratorBundle {

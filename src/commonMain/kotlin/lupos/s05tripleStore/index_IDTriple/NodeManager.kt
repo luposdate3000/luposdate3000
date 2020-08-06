@@ -8,23 +8,17 @@ import lupos.s00misc.ReadWriteLock
 import lupos.s00misc.SanityCheck
 
 object NodeManager {
-    @JvmField
-    val nodePointerTypeNull = 0x00000000.toInt()
+    const    val nodePointerTypeNull = 0x00000000.toInt()
 
-    @JvmField
-    val nodePointerTypeInner = 0x40000000.toInt()
+    const    val nodePointerTypeInner = 0x40000000.toInt()
 
-    @JvmField
-    val nodePointerTypeLeaf = 0x20000000.toInt()
+    const    val nodePointerTypeLeaf = 0x20000000.toInt()
 
-    @JvmField
-    val nodePointerTypeMask = 0x60000000.toInt()
+    const    val nodePointerTypeMask = 0x60000000.toInt()
 
-    @JvmField
-    val nodePointerValueMask = (nodePointerTypeMask xor 0x7FFFFFFF).toInt()
+    const    val nodePointerValueMask = (nodePointerTypeMask xor 0x7FFFFFFF).toInt()
 
-    @JvmField
-    val nodeNullPointer = nodePointerValueMask
+    const    val nodeNullPointer = nodePointerValueMask
 
     @JvmField
     val bufferManager = BufferManager("id_triples")

@@ -20,12 +20,6 @@ class TripleStoreBulkImport(@JvmField val query: Query, @JvmField val graphName:
     var totalflushed = 0
 
     @JvmField
-    val sizeshift = 20
-
-    @JvmField
-    val size = 3 * (1 shl sizeshift)
-
-    @JvmField
     val data = Array(9) { IntArray(size) }
 
     @JvmField
@@ -79,6 +73,10 @@ class TripleStoreBulkImport(@JvmField val query: Query, @JvmField val graphName:
     fun full() = idx >= size
 
     companion object {
+    const    val sizeshift = 20
+
+    const    val size = 3 * (1 shl sizeshift)
+
         fun mergeSort(source: IntArray, target: IntArray, off: Int, mid: Int, count: Int, orderBy: IntArray) {
             //assuming that "off .. off + count / 2" and "off + count / 2 .. off + count" are sorted
             val aEnd = (off + mid) * 3
@@ -174,10 +172,9 @@ class TripleStoreBulkImport(@JvmField val query: Query, @JvmField val graphName:
             for (j in 0 until 2) {
                 for (i in 0 until 3) {
                     val order = orders[i * 2 + j]
-                    val firstIdx = 8
                     val dataIdxA = i
                     val dataIdxB = i + 3
-                    sortUsingBuffers(firstIdx, dataIdxA, dataIdxB, data, total, order)
+                    sortUsingBuffers(8, dataIdxA, dataIdxB, data, total, order)
                 }
                 if (j == 0) {
                     dataSPO = data[0]

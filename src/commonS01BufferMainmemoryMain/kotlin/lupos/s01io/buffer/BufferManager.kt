@@ -4,7 +4,7 @@ import kotlin.jvm.JvmField
 
 data class PageAddress(@JvmField val fileName: String, @JvmField val pageNumber: Int)
 
-val PAGESIZE: Int = 8 * 1024
+const val PAGESIZE: Int = 8 * 1024
 val bufferManager: BufferManager = BufferManager()
 
 class BufferManager {

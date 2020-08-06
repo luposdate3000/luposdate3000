@@ -21,8 +21,7 @@ class PersistentStoreLocal {
     }
 
     companion object {
-        @JvmField
-        val defaultGraphName = ""
+        const val defaultGraphName = ""
     }
 
     fun getGraphNames(includeDefault: Boolean = false): List<String> {

@@ -22,26 +22,22 @@ val nodeGlobalDictionary = ResultSetDictionary(true)
 
 class ResultSetDictionary(val global: Boolean = false) {
     companion object {
-        @JvmField
-        val booleanTrueValue = 0//required by truth-tables
+        const        val booleanTrueValue = 0//required by truth-tables
 
         @JvmField
         val booleanTrueValue2 = ValueBoolean(true)
 
-        @JvmField
-        val booleanFalseValue = 1//required by truth-tables
+        const        val booleanFalseValue = 1//required by truth-tables
 
         @JvmField
         val booleanFalseValue2 = ValueBoolean(false)
 
-        @JvmField
-        val errorValue = 2//required by truth-tables
+        const        val errorValue = 2//required by truth-tables
 
         @JvmField
         val errorValue2 = ValueError()
 
-        @JvmField
-        val undefValue = 3
+        const        val undefValue = 3
 
         @JvmField
         val undefValue2 = ValueUndef()

@@ -28,7 +28,7 @@ class File(val filename: String) {
         }
         try {
             memScoped {
-                val bufferLength = 64 * 1024
+const                val bufferLength = 64 * 1024
                 val buffer = allocArray<ByteVar>(bufferLength)
                 while (true) {
                     val nextLine = fgets(buffer, bufferLength, file)?.toKString()
