@@ -131,7 +131,6 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
         SanityCheck.println({ "writeunlock 2" })
     }
 
-
     var cachedHistograms1Size = 0
     var cachedHistograms1Cursor = 0
     val cachedHistograms1 = IntArray(300)
@@ -305,13 +304,13 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
                         }
                         res = IteratorBundle(count)
                     } else {
-                        columns[projection[0]] = NodeInner.iterator2(node, filter,lock,2)
+                        columns[projection[0]] = NodeInner.iterator2(node, filter, lock, 2)
                     }
                 } else if (filter.size == 1) {
                     if (projection[0] != "_") {
-                        columns[projection[0]] = NodeInner.iterator1(node, filter, lock,1)
+                        columns[projection[0]] = NodeInner.iterator1(node, filter, lock, 1)
                         if (projection[1] != "_") {
-                            columns[projection[1]] = NodeInner.iterator1(node, filter, lock,2)
+                            columns[projection[1]] = NodeInner.iterator1(node, filter, lock, 2)
                         }
                     } else {
                         SanityCheck.check { projection[1] == "_" }
@@ -326,11 +325,11 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
                 } else {
                     SanityCheck.check { filter.size == 0 }
                     if (projection[0] != "_") {
-                        columns[projection[0]] = NodeInner.iterator(node, lock,0)
+                        columns[projection[0]] = NodeInner.iterator(node, lock, 0)
                         if (projection[1] != "_") {
-                            columns[projection[1]] = NodeInner.iterator(node, lock,1)
+                            columns[projection[1]] = NodeInner.iterator(node, lock, 1)
                             if (projection[2] != "_") {
-                                columns[projection[2]] =NodeInner.iterator(node, lock,2)
+                                columns[projection[2]] = NodeInner.iterator(node, lock, 2)
                             }
                         } else {
                             SanityCheck.check { projection[2] == "_" }

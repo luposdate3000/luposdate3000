@@ -1,16 +1,17 @@
 package lupos.s05tripleStore.index_IDTriple
-import lupos.s00misc.ReadWriteLock
-import lupos.s04logicalOperators.iterator.ColumnIterator
+
 import lupos.s00misc.Coverage
 import lupos.s00misc.readInt1
 import lupos.s00misc.readInt2
 import lupos.s00misc.readInt3
 import lupos.s00misc.readInt4
+import lupos.s00misc.ReadWriteLock
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.writeInt1
 import lupos.s00misc.writeInt2
 import lupos.s00misc.writeInt3
 import lupos.s00misc.writeInt4
+import lupos.s04logicalOperators.iterator.ColumnIterator
 
 object NodeInner {
     /*
@@ -104,12 +105,13 @@ object NodeInner {
         }
         return iterator!!
     }
-    fun iterator(data: ByteArray,lock:ReadWriteLock,component:Int): ColumnIterator {
+
+    fun iterator(data: ByteArray, lock: ReadWriteLock, component: Int): ColumnIterator {
         var iterator: ColumnIterator? = null
         var node = data
         while (iterator == null) {
             NodeManager.getNode(getFirstChild(node), {
-                iterator = NodeLeaf.iterator(it,lock,component)
+                iterator = NodeLeaf.iterator(it, lock, component)
             }, {
                 node = it
             })
@@ -305,7 +307,8 @@ object NodeInner {
         }
         return iterator!!
     }
-    fun iterator2(data: ByteArray, prefix: IntArray,lock:ReadWriteLock,component:Int): ColumnIterator {
+
+    fun iterator2(data: ByteArray, prefix: IntArray, lock: ReadWriteLock, component: Int): ColumnIterator {
         var node = data
         var iterator: ColumnIterator? = null
         while (iterator == null) {
@@ -313,7 +316,7 @@ object NodeInner {
                 /*return*/ (it[0] < prefix[0]) || (it[0] == prefix[0] && it[1] < prefix[1])
             }, {
                 NodeManager.getNode(it, {
-                    iterator = NodeLeaf.iterator2(it, prefix,lock,component)
+                    iterator = NodeLeaf.iterator2(it, prefix, lock, component)
                 }, {
                     node = it
                 })
@@ -322,7 +325,7 @@ object NodeInner {
         return iterator!!
     }
 
-    fun iterator1(data: ByteArray, prefix: IntArray,lock:ReadWriteLock,component:Int): ColumnIterator {
+    fun iterator1(data: ByteArray, prefix: IntArray, lock: ReadWriteLock, component: Int): ColumnIterator {
         var node = data
         var iterator: ColumnIterator? = null
         while (iterator == null) {
@@ -330,7 +333,7 @@ object NodeInner {
                 /*return*/ (it[0] < prefix[0])
             }, {
                 NodeManager.getNode(it, {
-                    iterator = NodeLeaf.iterator1(it, prefix,lock,component)
+                    iterator = NodeLeaf.iterator1(it, prefix, lock, component)
                 }, {
                     node = it
                 })

@@ -1,19 +1,19 @@
 package lupos.s05tripleStore.index_IDTriple
-import lupos.s03resultRepresentation.ResultSetDictionary
-import kotlinx.coroutines.runBlocking
-import lupos.s00misc.ReadWriteLock
-import lupos.s00misc.BenchmarkUtils
-import lupos.s04logicalOperators.iterator.ColumnIterator
+
 import kotlin.jvm.JvmField
+import kotlinx.coroutines.runBlocking
+import lupos.s00misc.BenchmarkUtils
 import lupos.s00misc.Coverage
 import lupos.s00misc.readInt1
 import lupos.s00misc.readInt2
 import lupos.s00misc.readInt3
 import lupos.s00misc.readInt4
+import lupos.s00misc.ReadWriteLock
 import lupos.s00misc.SanityCheck
+import lupos.s03resultRepresentation.ResultSetDictionary
+import lupos.s04logicalOperators.iterator.ColumnIterator
 
 class NodeLeafColumnIterator0(@JvmField var node: ByteArray, @JvmField val lock: ReadWriteLock) : ColumnIterator() {
-
     @JvmField
     var remaining = NodeShared.getTripleCount(node)
 

@@ -9,12 +9,20 @@ import lupos.s00misc.Coverage
 class Lock {
     @JvmField
     val mutex = Mutex()
+    suspend fun lock() {
+        mutex.lock()
+    }
+
+    suspend fun unlock() {
+        mutex.unlock()
+    }
+
     suspend /*inline*/  fun <T> withWriteLockSuspend(/*crossinline*/  action: suspend () -> T): T {
         try {
-            mutex.lock()
+            lock()
             return action()
         } finally {
-            mutex.unlock()
+            unlock()
         }
 /*Coverage Unreachable*/
     }

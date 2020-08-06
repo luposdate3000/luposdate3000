@@ -1,15 +1,16 @@
 package lupos.s05tripleStore.index_IDTriple
+
 import kotlinx.coroutines.runBlocking
-import lupos.s00misc.ReadWriteLock
 import lupos.s00misc.BenchmarkUtils
-import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.s00misc.Coverage
 import lupos.s00misc.readInt4
+import lupos.s00misc.ReadWriteLock
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.writeInt1
 import lupos.s00misc.writeInt2
 import lupos.s00misc.writeInt3
 import lupos.s00misc.writeInt4
+import lupos.s04logicalOperators.iterator.ColumnIterator
 
 object NodeLeaf {
     /*
@@ -47,46 +48,46 @@ object NodeLeaf {
         return NodeLeafIteratorPrefix1(data, prefix)
     }
 
-    fun iterator(data: ByteArray,lock:ReadWriteLock,component:Int): ColumnIterator {
-when(component){
-0->{
-        return NodeLeafColumnIterator0(data,lock)
-}
-1->{
-        return NodeLeafColumnIterator1(data,lock)
-}
-2->{
-        return NodeLeafColumnIterator2(data,lock)
-}
-else->{
-throw Exception("unreachable")
-}
-}
+    fun iterator(data: ByteArray, lock: ReadWriteLock, component: Int): ColumnIterator {
+        when (component) {
+            0 -> {
+                return NodeLeafColumnIterator0(data, lock)
+            }
+            1 -> {
+                return NodeLeafColumnIterator1(data, lock)
+            }
+            2 -> {
+                return NodeLeafColumnIterator2(data, lock)
+            }
+            else -> {
+                throw Exception("unreachable")
+            }
+        }
     }
 
-    fun iterator2(data: ByteArray, prefix: IntArray,lock:ReadWriteLock,component:Int): ColumnIterator {
-when(component){
-2->{
-        return NodeLeafColumnIteratorPrefix2_2(data, prefix,lock)
-}
-else->{
-throw Exception("unreachable")
-}
-}
+    fun iterator2(data: ByteArray, prefix: IntArray, lock: ReadWriteLock, component: Int): ColumnIterator {
+        when (component) {
+            2 -> {
+                return NodeLeafColumnIteratorPrefix2_2(data, prefix, lock)
+            }
+            else -> {
+                throw Exception("unreachable")
+            }
+        }
     }
 
-    fun iterator1(data: ByteArray, prefix: IntArray,lock:ReadWriteLock,component:Int): ColumnIterator {
-when(component){
-1->{
-        return NodeLeafColumnIteratorPrefix1_1(data, prefix,lock)
-}
-2->{
-        return NodeLeafColumnIteratorPrefix1_2(data, prefix,lock)
-}
-else->{
-throw Exception("unreachable")
-}
-}
+    fun iterator1(data: ByteArray, prefix: IntArray, lock: ReadWriteLock, component: Int): ColumnIterator {
+        when (component) {
+            1 -> {
+                return NodeLeafColumnIteratorPrefix1_1(data, prefix, lock)
+            }
+            2 -> {
+                return NodeLeafColumnIteratorPrefix1_2(data, prefix, lock)
+            }
+            else -> {
+                throw Exception("unreachable")
+            }
+        }
     }
 
     fun initializeWith(data: ByteArray, iterator: TripleIterator) {

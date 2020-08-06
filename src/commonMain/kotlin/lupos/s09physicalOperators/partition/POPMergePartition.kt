@@ -1,5 +1,9 @@
 package lupos.s09physicalOperators.partition
 
+import kotlin.coroutines.Continuation
+import kotlin.coroutines.intrinsics.COROUTINE_SUSPENDED
+import kotlin.coroutines.intrinsics.suspendCoroutineUninterceptedOrReturn
+import kotlin.coroutines.resume
 import kotlinx.coroutines.cancelAndJoin
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
@@ -14,6 +18,7 @@ import lupos.s00misc.BenchmarkUtils
 import lupos.s00misc.Coverage
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.ESortPriority
+import lupos.s00misc.Lock
 import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.XMLElement
@@ -65,6 +70,9 @@ class POPMergePartition(query: Query, projectedVariables: List<String>, val part
             val ringbufferStart = IntArray(Partition.k) { it * elementsPerRing } //constant
             val ringbufferReadHead = IntArray(Partition.k) { 0 } //owned by read-thread - no locking required
             val ringbufferWriteHead = IntArray(Partition.k) { 0 } //owned by write thread - no locking required
+            val ringbufferWriterContinuation = Array<Continuation<Unit>?>(Partition.k) { null }
+            var ringbufferReaderContinuation: Continuation<Unit>? = null
+            var continuationLock = Lock()
             val writerFinished = IntArray(Partition.k) { 0 } //writer changes to 1 if finished
             var readerFinished = 0
             val jobs = mutableListOf<Job>()
@@ -82,12 +90,12 @@ class POPMergePartition(query: Query, projectedVariables: List<String>, val part
                             loop@ while (readerFinished == 0) {
                                 SanityCheck.println({ "merge $uuid $p writer loop start" })
                                 var t = (ringbufferWriteHead[p] + 1) % elementsPerRing
-                                while (ringbufferReadHead[p] == t) {
-                                    //println("$p locked")
-                                    SanityCheck.println({ "merge $uuid $p writer wait for reader to remove data" })
-                                    delay(1)
-                                    if (!isActive || readerFinished == 1) {
-                                        SanityCheck.println({ "merge $uuid $p writer closed A" })
+                                if (ringbufferReadHead[p] == t) {
+                                    suspendCoroutineUninterceptedOrReturn { continuation: Continuation<Unit> ->
+                                        ringbufferWriterContinuation[p] = continuation
+                                        COROUTINE_SUSPENDED
+                                    }
+                                    if (readerFinished != 0) {
                                         childIterator.close()
                                         writerFinished[p] = 1
                                         break@loop
@@ -100,12 +108,32 @@ class POPMergePartition(query: Query, projectedVariables: List<String>, val part
                                 if (tmp == ResultSetDictionary.nullValue) {
                                     SanityCheck.println({ "merge $uuid $p writer closed B" })
                                     writerFinished[p] = 1
+                                    var tmp2 = ringbufferReaderContinuation
+                                    if (tmp2 != null) {
+continuationLock.lock() 
+                                            tmp2 = ringbufferReaderContinuation
+                                            ringbufferReaderContinuation = null
+continuationLock.unlock() 
+                                        if (tmp2 != null) {
+                                            tmp2.resume(Unit)
+                                        }
+                                    }
                                     break@loop
                                 } else {
                                     SanityCheck.println({ "merge $uuid $p writer append data" })
                                     ringbuffer[ringbufferWriteHead[p] + ringbufferStart[p]] = tmp
                                     //println("$p produced")
                                     ringbufferWriteHead[p] = (ringbufferWriteHead[p] + 1) % elementsPerRing
+                                    var tmp2 = ringbufferReaderContinuation
+                                    if (tmp2 != null) {
+continuationLock.lock() 
+                                            tmp2 = ringbufferReaderContinuation
+                                            ringbufferReaderContinuation = null
+continuationLock.unlock() 
+                                        if (tmp2 != null) {
+                                            tmp2.resume(Unit)
+                                        }
+                                    }
                                 }
                             }
                         } else {
@@ -113,12 +141,12 @@ class POPMergePartition(query: Query, projectedVariables: List<String>, val part
                             loop@ while (readerFinished == 0) {
                                 SanityCheck.println({ "merge $uuid $p writer loop start" })
                                 var t = (ringbufferWriteHead[p] + variables.size) % elementsPerRing
-                                while (ringbufferReadHead[p] == t) {
-                                    //println("$p locked")
-                                    SanityCheck.println({ "merge $uuid $p writer wait for reader to remove data" })
-                                    delay(1)
-                                    if (!isActive || readerFinished == 1) {
-                                        SanityCheck.println({ "merge $uuid $p writer closed A" })
+                                if (ringbufferReadHead[p] == t) {
+                                    suspendCoroutineUninterceptedOrReturn { continuation: Continuation<Unit> ->
+                                        ringbufferWriterContinuation[p] = continuation
+                                        COROUTINE_SUSPENDED
+                                    }
+                                    if (readerFinished != 0) {
                                         for (variable in 0 until variables.size) {
                                             variableMapping[variable].close()
                                         }
@@ -136,6 +164,16 @@ class POPMergePartition(query: Query, projectedVariables: List<String>, val part
                                         variableMapping[variable].close()
                                     }
                                     writerFinished[p] = 1
+                                    var tmp2 = ringbufferReaderContinuation
+                                    if (tmp2 != null) {
+continuationLock.lock() 
+                                            tmp2 = ringbufferReaderContinuation
+                                            ringbufferReaderContinuation = null
+continuationLock.unlock() 
+                                        if (tmp2 != null) {
+                                            tmp2.resume(Unit)
+                                        }
+                                    }
                                     break@loop
                                 } else {
                                     SanityCheck.println({ "merge $uuid $p writer append data" })
@@ -154,6 +192,16 @@ class POPMergePartition(query: Query, projectedVariables: List<String>, val part
                                     }
                                     //println("$p produced")
                                     ringbufferWriteHead[p] = (ringbufferWriteHead[p] + variables.size) % elementsPerRing
+                                    var tmp2 = ringbufferReaderContinuation
+                                    if (tmp2 != null) {
+continuationLock.lock() 
+                                            tmp2 = ringbufferReaderContinuation
+                                            ringbufferReaderContinuation = null
+continuationLock.unlock() 
+                                        if (tmp2 != null) {
+                                            tmp2.resume(Unit)
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -171,12 +219,12 @@ class POPMergePartition(query: Query, projectedVariables: List<String>, val part
                         loop@ while (readerFinished == 0) {
                             SanityCheck.println({ "merge $uuid $p writer loop start" })
                             var t = (ringbufferWriteHead[p] + variables.size) % elementsPerRing
-                            while (ringbufferReadHead[p] == t) {
-                                //println("$p locked")
-                                SanityCheck.println({ "merge $uuid $p writer wait for reader to remove data" })
-                                delay(1)
-                                if (!isActive || readerFinished == 1) {
-                                    SanityCheck.println({ "merge $uuid $p writer closed A" })
+                            if (ringbufferReadHead[p] == t) {
+                                suspendCoroutineUninterceptedOrReturn { continuation: Continuation<Unit> ->
+                                    ringbufferWriterContinuation[p] = continuation
+                                    COROUTINE_SUSPENDED
+                                }
+                                if (readerFinished != 0) {
                                     child.close()
                                     writerFinished[p] = 1
                                     break@loop
@@ -189,6 +237,16 @@ class POPMergePartition(query: Query, projectedVariables: List<String>, val part
                             if (tmp == -1) {
                                 SanityCheck.println({ "merge $uuid $p writer closed B" })
                                 writerFinished[p] = 1
+                                var tmp2 = ringbufferReaderContinuation
+                                if (tmp2 != null) {
+continuationLock.lock() 
+                                        tmp2 = ringbufferReaderContinuation
+                                        ringbufferReaderContinuation = null
+continuationLock.unlock() 
+                                    if (tmp2 != null) {
+                                        tmp2.resume(Unit)
+                                    }
+                                }
                                 break@loop
                             } else {
                                 SanityCheck.println({ "merge $uuid $p writer append data" })
@@ -197,6 +255,16 @@ class POPMergePartition(query: Query, projectedVariables: List<String>, val part
                                 }
                                 //println("$p produced")
                                 ringbufferWriteHead[p] = (ringbufferWriteHead[p] + variables.size) % elementsPerRing
+                                var tmp2 = ringbufferReaderContinuation
+                                if (tmp2 != null) {
+continuationLock.lock() 
+                                        tmp2 = ringbufferReaderContinuation
+                                        ringbufferReaderContinuation = null
+continuationLock.unlock() 
+                                    if (tmp2 != null) {
+                                        tmp2.resume(Unit)
+                                    }
+                                }
                             }
                         }
                     }
@@ -212,27 +280,43 @@ class POPMergePartition(query: Query, projectedVariables: List<String>, val part
             iterator.next = {
                 val timer = BenchmarkUtils.timesHelperMark()
                 var res = -1
-                loop@ while (true) {
-                    SanityCheck.println({ "merge $uuid reader loop start" })
-                    var finishedWriters = 0
-                    for (p in 0 until Partition.k) {
-                        if (ringbufferReadHead[p] != ringbufferWriteHead[p]) {
-                            //non empty queue -> read one row
-                            SanityCheck.println({ "merge $uuid $p reader consumed data" })
-                            for (variable in 0 until variables.size) {
-                                iterator.buf[variable] = (ringbuffer[ringbufferReadHead[p] + variable + ringbufferStart[p]])
+                runBlocking {
+                    loop@ while (true) {
+                        SanityCheck.println({ "merge $uuid reader loop start" })
+                        var finishedWriters = 0
+                        for (p in 0 until Partition.k) {
+                            if (ringbufferReadHead[p] != ringbufferWriteHead[p]) {
+                                //non empty queue -> read one row
+                                SanityCheck.println({ "merge $uuid $p reader consumed data" })
+                                for (variable in 0 until variables.size) {
+                                    iterator.buf[variable] = (ringbuffer[ringbufferReadHead[p] + variable + ringbufferStart[p]])
+                                }
+                                res = 0
+                                ringbufferReadHead[p] = (ringbufferReadHead[p] + variables.size) % elementsPerRing
+                                var tmp2 = ringbufferWriterContinuation[p]
+                                if (tmp2 != null) {
+continuationLock.lock() 
+                                        tmp2 = ringbufferWriterContinuation[p]
+                                        ringbufferWriterContinuation[p] = null
+continuationLock.unlock() 
+                                    if (tmp2 != null) {
+                                        (tmp2 as Continuation<Unit>).resume(Unit)
+                                    }
+                                }
+                                //println("$p consumed")
+                                break@loop
+                            } else if (writerFinished[p] == 1) {
+                                finishedWriters++
                             }
-                            res = 0
-                            ringbufferReadHead[p] = (ringbufferReadHead[p] + variables.size) % elementsPerRing
-                            //println("$p consumed")
-                            break@loop
-                        } else if (writerFinished[p] == 1) {
-                            finishedWriters++
                         }
-                    }
-                    if (finishedWriters == Partition.k) {
-                        //done
-                        break@loop
+                        if (finishedWriters == Partition.k) {
+                            //done
+                            break@loop
+                        }
+                        suspendCoroutineUninterceptedOrReturn { continuation: Continuation<Unit> ->
+                            ringbufferReaderContinuation = continuation
+                            COROUTINE_SUSPENDED
+                        }
                     }
                 }
                 BenchmarkUtils.timesHelperDuration(13, timer)
@@ -242,6 +326,18 @@ class POPMergePartition(query: Query, projectedVariables: List<String>, val part
                 SanityCheck.println({ "merge $uuid reader closed" })
                 readerFinished = 1
                 runBlocking {
+                    for (p in 0 until Partition.k) {
+                        var tmp2 = ringbufferWriterContinuation[p]
+                        if (tmp2 != null) {
+continuationLock.lock() 
+                                tmp2 = ringbufferWriterContinuation[p]
+                                ringbufferWriterContinuation[p] = null
+continuationLock.unlock() 
+                            if (tmp2 != null) {
+                                (tmp2 as Continuation<Unit>).resume(Unit)
+                            }
+                        }
+                    }
                     for (job in jobs) {
                         job.cancelAndJoin()
                     }

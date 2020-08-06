@@ -1,16 +1,17 @@
 package lupos.s05tripleStore.index_IDTriple
-import lupos.s03resultRepresentation.ResultSetDictionary
-import kotlinx.coroutines.runBlocking
-import lupos.s00misc.ReadWriteLock
-import lupos.s00misc.BenchmarkUtils
-import lupos.s04logicalOperators.iterator.ColumnIterator
+
 import kotlin.jvm.JvmField
+import kotlinx.coroutines.runBlocking
+import lupos.s00misc.BenchmarkUtils
 import lupos.s00misc.Coverage
 import lupos.s00misc.readInt1
 import lupos.s00misc.readInt2
 import lupos.s00misc.readInt3
 import lupos.s00misc.readInt4
+import lupos.s00misc.ReadWriteLock
 import lupos.s00misc.SanityCheck
+import lupos.s03resultRepresentation.ResultSetDictionary
+import lupos.s04logicalOperators.iterator.ColumnIterator
 
 class NodeLeafColumnIteratorPrefix1_1(@JvmField var node: ByteArray, @JvmField val prefix: IntArray, @JvmField val lock: ReadWriteLock) : ColumnIterator() {
     @JvmField
@@ -30,7 +31,6 @@ class NodeLeafColumnIteratorPrefix1_1(@JvmField var node: ByteArray, @JvmField v
 
     @JvmField
     var value1 = 0
-
 
     init {
         runBlocking {
@@ -109,14 +109,14 @@ class NodeLeafColumnIteratorPrefix1_1(@JvmField var node: ByteArray, @JvmField v
                             value1 = value1 xor node.readInt4(offset)
                         }
                     }
-                    val done :Boolean
-                    if (value0 > prefix[0] ) {
+                    val done: Boolean
+                    if (value0 > prefix[0]) {
                         value1 = ResultSetDictionary.nullValue
                         done = true
                     } else {
-                        done = value0 == prefix[0] 
+                        done = value0 == prefix[0]
                     }
-                    offset += counter1+counter2
+                    offset += counter1 + counter2
                     remaining--
                     loop@ while (remaining == 0) {
                         needsReset = true
