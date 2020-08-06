@@ -35,7 +35,7 @@ import lupos.s04logicalOperators.singleinput.modifiers.LOPDistinct
 import lupos.s04logicalOperators.singleinput.modifiers.LOPSortAny
 import lupos.s09physicalOperators.singleinput.POPSort
 
-abstract class OPBase(val query: Query, val operatorID: EOperatorID, val classname: String, val children: Array<OPBase>, val sortPriority: ESortPriority) {
+abstract class OPBase(@JvmField val query: Query, @JvmField val operatorID: EOperatorID, @JvmField val classname: String, @JvmField val children: Array<OPBase>, val sortPriority: ESortPriority) {
     @JvmField
     var onlyExistenceRequired = false
 
@@ -58,6 +58,7 @@ abstract class OPBase(val query: Query, val operatorID: EOperatorID, val classna
 
     @JvmField
     var histogramResult: HistogramResult? = null
+
     fun getHistogram(): HistogramResult {
         if (histogramResult == null) {
             histogramResult = calculateHistogram()
@@ -417,6 +418,7 @@ abstract class OPBase(val query: Query, val operatorID: EOperatorID, val classna
 
     @JvmField
     val uuid: Long = global_uuid.next()
+
     override fun toString(): String = toXMLElement().toPrettyString()
     fun getRequiredVariableNamesRecoursive(): List<String> {
         val res = getRequiredVariableNames().toMutableList()
