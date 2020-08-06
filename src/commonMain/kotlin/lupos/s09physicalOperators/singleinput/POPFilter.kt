@@ -6,6 +6,7 @@ import lupos.s00misc.ESortPriority
 import lupos.s00misc.NotImplementedException
 import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
+import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s03resultRepresentation.Value
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04logicalOperators.iterator.ColumnIterator
@@ -61,7 +62,7 @@ class POPFilter(query: Query, projectedVariables: List<String>, filter: AOPBase,
                         }
                     }
 
-                    override fun next(): Value? {
+                    override fun next(): Value {
                         return next_helper {
                             try {
                                 var done = false
@@ -69,7 +70,7 @@ class POPFilter(query: Query, projectedVariables: List<String>, filter: AOPBase,
                                     for (variableIndex2 in 0 until variables.size) {
                                         columnsLocal[variableIndex2].tmp = columnsIn[variableIndex2]!!.next()
                                         //point each iterator to the current value
-                                        if (columnsLocal[variableIndex2].tmp == null) {
+                                        if (columnsLocal[variableIndex2].tmp == ResultSetDictionary.nullValue) {
                                             SanityCheck.check { variableIndex2 == 0 }
                                             SanityCheck.println({ "POPFilterXXX$uuid close F $classname" })
                                             for ((k, v) in child.columns) {
@@ -87,7 +88,7 @@ class POPFilter(query: Query, projectedVariables: List<String>, filter: AOPBase,
                                         if (expression()) {
                                             //accept/deny row in each iterator
                                             for (variableIndex2 in 0 until variablesOut.size) {
-                                                columnsOut[variableIndex2].queue.add(columnsOut[variableIndex2].tmp!!)
+                                                columnsOut[variableIndex2].queue.add(columnsOut[variableIndex2].tmp)
                                             }
                                             done = true
                                         }
@@ -139,7 +140,7 @@ class POPFilter(query: Query, projectedVariables: List<String>, filter: AOPBase,
                                 for (variableIndex2 in 0 until variables.size) {
                                     columnsLocal[variableIndex2].tmp = columnsIn[variableIndex2]!!.next()
                                     //point each iterator to the current value
-                                    if (columnsLocal[variableIndex2].tmp == null) {
+                                    if (columnsLocal[variableIndex2].tmp == ResultSetDictionary.nullValue) {
                                         SanityCheck.println({ "POPFilterXXX$uuid close C $classname" })
                                         for ((k, v) in child.columns) {
                                             v.close()

@@ -103,8 +103,8 @@ class POPJoinWithStore(query: Query, projectedVariables: List<String>, childA: O
         }
         SanityCheck.check { variablINBO.size > 0 }
         val distributedStore = DistributedTripleStore.getNamedGraph(query, childB.graph)
-        val valuesAO = Array<Value?>(columnsINAO.size) { null }
-        val valuesAJ = Array<Value?>(columnsINAJ.size) { null }
+        val valuesAO = Array<Value>(columnsINAO.size) { ResultSetDictionary.nullValue }
+        val valuesAJ = Array<Value>(columnsINAJ.size) { ResultSetDictionary.nullValue }
         var count = 0
         val params = Array<AOPBase>(3) {
             if (childB.children[it] is AOPConstant) {
@@ -134,10 +134,10 @@ class POPJoinWithStore(query: Query, projectedVariables: List<String>, childA: O
             valuesAJ[i] = columnsINAJ[i].next()
         }
         var theuuid = uuid
-        if (valuesAJ[0] != null) {
+        if (valuesAJ[0] != ResultSetDictionary.nullValue) {
 //there is at least one value in A
             for (i in 0 until indicesINBJ.size) {
-                params[indicesINBJ[i]] = AOPConstant(query, valuesAJ[i]!!)
+                params[indicesINBJ[i]] = AOPConstant(query, valuesAJ[i])
             }
             SanityCheck.println({ "POPJoinWithStoreXXXopening store for join with store A $theuuid" })
             var columnsInBRoot = distributedStore.getIterator(params, index).evaluate(parent)
@@ -163,13 +163,13 @@ class POPJoinWithStore(query: Query, projectedVariables: List<String>, childA: O
                         }
                     }
 
-                    override fun next(): Value? {
+                    override fun next(): Value {
                         return next_helper {
                             loopA@ while (true) {
                                 var done = true
                                 loopB@ for (i in 0 until variablINBO.size) {
                                     val value = columnsInB[i].next()
-                                    if (value == null) {
+                                    if (value == ResultSetDictionary.nullValue) {
                                         SanityCheck.println { "POPJoinWithStoreXXXclosing store for join with store B $theuuid" }
                                         for (closeIndex in 0 until columnsInB.size) {
                                             columnsInB[closeIndex].close()
@@ -183,10 +183,10 @@ class POPJoinWithStore(query: Query, projectedVariables: List<String>, childA: O
                                 }
                                 if (done) {
                                     for (i in 0 until columnsOUTAO.size) {
-                                        columnsOUTAO[i].queue.add(valuesAO[i]!!)
+                                        columnsOUTAO[i].queue.add(valuesAO[i])
                                     }
                                     for (i in 0 until columnsOUTAJ.size) {
-                                        columnsOUTAJ[i].queue.add(valuesAJ[i]!!)
+                                        columnsOUTAJ[i].queue.add(valuesAJ[i])
                                     }
                                     break@loopA
                                 } else {
@@ -196,9 +196,9 @@ class POPJoinWithStore(query: Query, projectedVariables: List<String>, childA: O
                                     for (i in 0 until columnsINAJ.size) {
                                         valuesAJ[i] = columnsINAJ[i].next()
                                     }
-                                    if (valuesAJ[0] != null) {
+                                    if (valuesAJ[0] != ResultSetDictionary.nullValue) {
                                         for (i in 0 until indicesINBJ.size) {
-                                            params[indicesINBJ[i]] = AOPConstant(query, valuesAJ[i]!!)
+                                            params[indicesINBJ[i]] = AOPConstant(query, valuesAJ[i])
                                         }
                                         SanityCheck.println({ "POPJoinWithStoreXXXopening store for join with store B $theuuid" })
                                         columnsInBRoot = distributedStore.getIterator(params, index).evaluate(parent)

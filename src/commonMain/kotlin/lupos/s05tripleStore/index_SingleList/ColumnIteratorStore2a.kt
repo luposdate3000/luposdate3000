@@ -4,6 +4,7 @@ import lupos.s00misc.BenchmarkUtils
 import lupos.s00misc.Coverage
 import lupos.s00misc.EBenchmark
 import lupos.s03resultRepresentation.MyListValue
+import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s03resultRepresentation.Value
 import lupos.s04logicalOperators.iterator.ColumnIterator
 
@@ -36,9 +37,9 @@ class ColumnIteratorStore2a(@JvmField val values: MyListValue, start: Int) : Col
         _close()
     }
 
-    override fun next(): Value? {
+    override fun next(): Value {
         if (label == 1) {
-            var res: Value? = value
+            var res: Value = value
             index++
             if (counterTerniary == 0) {
                 if (counterSecondary == 0) {
@@ -54,7 +55,7 @@ class ColumnIteratorStore2a(@JvmField val values: MyListValue, start: Int) : Col
             }
             return res
         } else {
-            return null
+            return ResultSetDictionary.nullValue
         }
     }
 }

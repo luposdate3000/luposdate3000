@@ -5,6 +5,7 @@ import lupos.s00misc.Coverage
 import lupos.s00misc.EOptimizerID
 import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
+import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04arithmetikOperators.noinput.AOPConstant
 import lupos.s04arithmetikOperators.noinput.AOPValue
@@ -63,7 +64,7 @@ class LogicalOptimizerStoreToValues(query: Query) : OptimizerBase(query, EOptimi
                         val iterator = columns[variables[0]]!!
                         while (i < data.size) {
                             val t = iterator.next()
-                            if (t != null) {
+                            if (t != ResultSetDictionary.nullValue) {
                                 data[i] = t
                                 i++
                             } else {

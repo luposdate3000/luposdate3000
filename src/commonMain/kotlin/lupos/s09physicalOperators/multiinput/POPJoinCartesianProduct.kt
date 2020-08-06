@@ -100,7 +100,7 @@ class POPJoinCartesianProduct(query: Query, projectedVariables: List<String>, ch
             loopC@ while (true) {
                 for (columnIndex in 0 until columnsINBO.size) {
                     val value = columnsINBO[columnIndex].next()
-                    if (value == null) {
+                    if (value == ResultSetDictionary.nullValue) {
                         break@loopC
                     }
                     data[columnIndex].add(value)
@@ -133,12 +133,12 @@ class POPJoinCartesianProduct(query: Query, projectedVariables: List<String>, ch
                                 }
                             }
 
-                            override fun next(): Value? {
+                            override fun next(): Value {
                                 return next_helper {
                                     var done = false
                                     for (columnIndex in 0 until columnsINAO.size) {
                                         val value = columnsINAO[columnIndex].next()
-                                        if (value == null) {
+                                        if (value == ResultSetDictionary.nullValue) {
                                             SanityCheck.check { columnIndex == 0 }
                                             done = true
                                             SanityCheck.println({ "POPJoinCartesianProductXXX$uuid close A $classname" })
@@ -191,12 +191,12 @@ class POPJoinCartesianProduct(query: Query, projectedVariables: List<String>, ch
                             }
                         }
 
-                        override fun next(): Value? {
+                        override fun next(): Value {
                             return next_helper {
                                 var done = false
                                 for (columnIndex in 0 until columnsINAO.size) {
                                     val value = columnsINAO[columnIndex].next()
-                                    if (value == null) {
+                                    if (value == ResultSetDictionary.nullValue) {
                                         SanityCheck.check { columnIndex == 0 }
                                         done = true
                                         SanityCheck.println({ "POPJoinCartesianProductXXX$uuid close A $classname" })

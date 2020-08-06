@@ -3,6 +3,7 @@ package lupos.s04logicalOperators.iterator
 import lupos.s00misc.Coverage
 import lupos.s00misc.SanityCheck
 import lupos.s03resultRepresentation.MyListValue
+import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s03resultRepresentation.Value
 
 class ColumnIteratorRepeatIterator(@JvmField val count: Int, @JvmField val child: ColumnIterator) : ColumnIterator() {
@@ -29,15 +30,15 @@ class ColumnIteratorRepeatIterator(@JvmField val count: Int, @JvmField val child
         _close()
     }
 
-    override fun next(): Value? {
+    override fun next(): Value {
         when (label) {
             1 -> {
                 val tmp = child.next()
-                if (tmp == null) {
+                if (tmp == ResultSetDictionary.nullValue) {
                     child.close()
                     if (data.size == 0 || count == 1) {
                         label = 0
-                        return null
+                        return ResultSetDictionary.nullValue
                     } else {
                         index = 2
                         label = 2
@@ -57,11 +58,11 @@ class ColumnIteratorRepeatIterator(@JvmField val count: Int, @JvmField val child
                     return data[index2++]
                 } else {
                     label = 0
-                    return null
+                    return ResultSetDictionary.nullValue
                 }
             }
             else -> {
-                return null
+                return ResultSetDictionary.nullValue
             }
         }
     }

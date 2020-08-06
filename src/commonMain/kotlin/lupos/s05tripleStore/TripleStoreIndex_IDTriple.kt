@@ -8,6 +8,7 @@ import lupos.s00misc.EBenchmark
 import lupos.s00misc.File
 import lupos.s00misc.ReadWriteLock
 import lupos.s00misc.SanityCheck
+import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s03resultRepresentation.Value
 import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.s04logicalOperators.iterator.ColumnIteratorEmpty
@@ -157,10 +158,10 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
             _close()
         }
 
-        override fun next(): Value? {
+        override fun next(): Value {
             if (label == 1) {
                 val timer = BenchmarkUtils.timesHelperMark()
-                var tmp: Value? = null
+                var tmp: Value = ResultSetDictionary.nullValue
                 if (it.hasNext()) {
                     tmp = it.nextS()
                 } else {
@@ -170,7 +171,7 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
                 totalcounter++
                 return tmp
             } else {
-                return null
+                return ResultSetDictionary.nullValue
             }
         }
 
@@ -209,10 +210,10 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
             _close()
         }
 
-        override fun next(): Value? {
+        override fun next(): Value {
             if (label == 1) {
                 val timer = BenchmarkUtils.timesHelperMark()
-                var tmp: Value? = null
+                var tmp: Value = ResultSetDictionary.nullValue
                 if (it.hasNext()) {
                     tmp = it.nextP()
                 } else {
@@ -222,7 +223,7 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
                 totalcounter++
                 return tmp
             } else {
-                return null
+                return ResultSetDictionary.nullValue
             }
         }
 
@@ -261,10 +262,10 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
             _close()
         }
 
-        override fun next(): Value? {
+        override fun next(): Value {
             if (label == 1) {
                 val timer = BenchmarkUtils.timesHelperMark()
-                var tmp: Value? = null
+                var tmp: Value = ResultSetDictionary.nullValue
                 if (it.hasNext()) {
                     tmp = it.nextO()
                 } else {
@@ -274,7 +275,7 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
                 totalcounter++
                 return tmp
             } else {
-                return null
+                return ResultSetDictionary.nullValue
             }
         }
 

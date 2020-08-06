@@ -4,6 +4,7 @@ import lupos.s00misc.Coverage
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.ESortPriority
 import lupos.s00misc.Partition
+import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s03resultRepresentation.Value
 import lupos.s03resultRepresentation.ValueBoolean
 import lupos.s03resultRepresentation.Variable
@@ -33,7 +34,7 @@ class POPMakeBooleanResult(query: Query, projectedVariables: List<String>, child
         } else {
             val child = children[0].evaluate(parent)
             if (variables.size > 0) {
-                flag = child.columns[variables[0]]!!.next() != null
+                flag = child.columns[variables[0]]!!.next() != ResultSetDictionary.nullValue
                 for (variable in variables) {
                     child.columns[variable]!!.close()
                 }

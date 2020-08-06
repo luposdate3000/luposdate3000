@@ -88,7 +88,7 @@ class POPJoinMergeOptional(query: Query, projectedVariables: List<String>, child
                         _close()
                     }
 
-                    override fun next(): Value? {
+                    override fun next(): Value {
                         return next_helper {
                             for (i in 0 until columnsINJ[0].size) {
                                 keyCopy[i] = key[0][i]
@@ -137,7 +137,7 @@ class POPJoinMergeOptional(query: Query, projectedVariables: List<String>, child
         val res = IteratorBundle(outMap)
         if (emptyColumnsWithJoin) {
             res.hasNext2 = {
-                /*return*/columnsOUTJ[0].next() != null
+                /*return*/columnsOUTJ[0].next() != ResultSetDictionary.nullValue
             }
             res.hasNext2Close = {
                 for (closeIndex2 in 0 until 2) {
@@ -153,8 +153,8 @@ class POPJoinMergeOptional(query: Query, projectedVariables: List<String>, child
         return res
     }
 
-    /*inline*/ fun sameElements(key: Array<Value?>, keyCopy: Array<Value?>, columnsINJ: MutableList<ColumnIterator>, columnsINO: MutableList<ColumnIterator>, data: Array<MyListValue>): Int {
-        SanityCheck.check { keyCopy[0] != null }
+    /*inline*/ fun sameElements(key: Array<Value>, keyCopy: Array<Value>, columnsINJ: MutableList<ColumnIterator>, columnsINO: MutableList<ColumnIterator>, data: Array<MyListValue>): Int {
+        SanityCheck.check { keyCopy[0] != ResultSetDictionary.nullValue }
         for (i in 0 until columnsINJ.size) {
             if (key[i] != keyCopy[i]) {
                 /* this is an optional element without a match */
@@ -169,7 +169,7 @@ class POPJoinMergeOptional(query: Query, projectedVariables: List<String>, child
         loop@ while (true) {
             count++
             for (i in 0 until columnsINO.size) {
-                data[i].add(columnsINO[i].next()!!)
+                data[i].add(columnsINO[i].next())
             }
             for (i in 0 until columnsINJ.size) {
                 key[i] = columnsINJ[i].next()
@@ -184,12 +184,12 @@ class POPJoinMergeOptional(query: Query, projectedVariables: List<String>, child
         return count
     }
 
-    /*inline*/ fun findNextKey(key: Array<Array<Value?>>, columnsINJ: Array<MutableList<ColumnIterator>>, columnsINO: Array<MutableList<ColumnIterator>>): Boolean {
-        if (key[0][0] != null && key[1][0] != null) {
+    /*inline*/ fun findNextKey(key: Array<Array<Value>>, columnsINJ: Array<MutableList<ColumnIterator>>, columnsINO: Array<MutableList<ColumnIterator>>): Boolean {
+        if (key[0][0] != ResultSetDictionary.nullValue && key[1][0] != ResultSetDictionary.nullValue) {
             loop@ while (true) {
                 for (i in 0 until columnsINJ[0].size) {
-                    val a = key[0][i]!!
-                    val b = key[1][i]!!
+                    val a = key[0][i]
+                    val b = key[1][i]
                     if (a > b) {
                         for (j in 0 until columnsINO[1].size) {
                             columnsINO[1][j].next()
@@ -197,7 +197,7 @@ class POPJoinMergeOptional(query: Query, projectedVariables: List<String>, child
                         for (j in 0 until columnsINJ[1].size) {
                             key[1][j] = columnsINJ[1][j].next()
                             SanityCheck.check { key[1][j] != ResultSetDictionary.undefValue }
-                            if (key[1][j] == null) {
+                            if (key[1][j] == ResultSetDictionary.nullValue) {
                                 SanityCheck.check { j == 0 }
                                 break@loop
                             }
@@ -208,7 +208,7 @@ class POPJoinMergeOptional(query: Query, projectedVariables: List<String>, child
                 break@loop
             }
         }
-        return key[0][0] == null
+        return key[0][0] == ResultSetDictionary.nullValue
     }
 
     override fun toXMLElement() = super.toXMLElement().addAttribute("optional", "" + optional)

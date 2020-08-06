@@ -2,6 +2,7 @@ package lupos.s04logicalOperators.iterator
 
 import lupos.s00misc.Coverage
 import lupos.s03resultRepresentation.MyListValue
+import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s03resultRepresentation.Value
 
 object ColumnIteratorMultiValue {
@@ -17,9 +18,9 @@ class ColumnIteratorMultiValue_1(@JvmField val values: MyListValue) : ColumnIter
         index = values.size
     }
 
-    override fun next(): Value? {
+    override fun next(): Value {
         if (index == values.size) {
-            return null
+            return ResultSetDictionary.nullValue
         } else {
             return values[index++]
         }
@@ -33,9 +34,9 @@ class ColumnIteratorMultiValue_3(@JvmField val values: IntArray, @JvmField val s
         index = size
     }
 
-    override fun next(): Value? {
+    override fun next(): Value {
         if (index == size) {
-            return null
+            return ResultSetDictionary.nullValue
         } else {
             return values[index++]
         }
@@ -49,11 +50,11 @@ class ColumnIteratorMultiValue_2(@JvmField val iterator: Iterator<Value>) : Colu
         label = 0
     }
 
-    override fun next(): Value? {
+    override fun next(): Value {
         if (label != 0 && iterator.hasNext()) {
             return iterator.next()
         } else {
-            return null
+            return ResultSetDictionary.nullValue
         }
     }
 }

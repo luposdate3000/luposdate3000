@@ -8,7 +8,7 @@ class ColumnIteratorChildIteratorEmpty() : ColumnIteratorChildIterator() {
         _close()
     }
 
-    override fun next(): Value? {
+    override fun next(): Value {
         return next_helper {}
     }
 }

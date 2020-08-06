@@ -119,7 +119,7 @@ class POPJoinHashMap(query: Query, projectedVariables: List<String>, childA: OPB
                 nextMap = mapWithoutUndef
                 for (columnIndex in 0 until columnsINBJ.size) {
                     val value = columnsINBJ[columnIndex].next()
-                    if (value == null) {
+                    if (value == ResultSetDictionary.nullValue) {
                         nextKey = null
                         break@loopB
                     }
@@ -149,7 +149,7 @@ class POPJoinHashMap(query: Query, projectedVariables: List<String>, childA: OPB
             for (columnIndex in 0 until columnsINBO.size) {
 //TODO dont use kotlin lists here, use pages instead
                 for (j in 0 until count) {
-                    oldArr.columns[columnIndex].add(columnsINBO[columnIndex].next()!!)
+                    oldArr.columns[columnIndex].add(columnsINBO[columnIndex].next())
                 }
             }
             currentKey = nextKey
@@ -192,7 +192,7 @@ class POPJoinHashMap(query: Query, projectedVariables: List<String>, childA: OPB
                     }
                 }
 
-                override fun next(): Value? {
+                override fun next(): Value {
                     return next_helper {
                         var done = false
                         while (!done) {
@@ -206,7 +206,7 @@ class POPJoinHashMap(query: Query, projectedVariables: List<String>, childA: OPB
                                 nextMap = mapWithoutUndef
                                 for (columnIndex in 0 until columnsINAJ.size) {
                                     val value = columnsINAJ[columnIndex].next()
-                                    if (value == null) {
+                                    if (value == ResultSetDictionary.nullValue) {
                                         SanityCheck.check { columnIndex == 0 }
                                         nextKey = null
                                         break@loopA
@@ -257,8 +257,8 @@ class POPJoinHashMap(query: Query, projectedVariables: List<String>, childA: OPB
                                 for (columnIndex in 0 until columnsINAO.size) {
                                     for (i in 0 until countA) {
                                         var tmp = columnsINAO[columnIndex].next()
-                                        SanityCheck.check { tmp != null }
-                                        dataOA[columnIndex].add(tmp!!)
+                                        SanityCheck.check { tmp != ResultSetDictionary.nullValue }
+                                        dataOA[columnIndex].add(tmp)
                                     }
                                 }
                                 if (others.size == 0) {
@@ -266,7 +266,7 @@ class POPJoinHashMap(query: Query, projectedVariables: List<String>, childA: OPB
 //optional clause without match
                                         done = true
                                         countB = 1
-                                        val dataJ: Array<Value?> = Array(outJ.size) { currentKey!![it] }
+                                        val dataJ: Array<Value> = Array(outJ.size) { currentKey!![it] }
                                         val dataO: Array<Array<MyListValue>> = arrayOf(dataOA, Array(outO[1].size) { MyListValue(ResultSetDictionary.undefValue) })
                                         POPJoin.crossProduct(dataO, dataJ, outO, outJ, countA, countB)
                                     }
@@ -274,8 +274,8 @@ class POPJoinHashMap(query: Query, projectedVariables: List<String>, childA: OPB
                                     done = true
                                     for (otherIndex in 0 until others.size) {
                                         countB = others[otherIndex].second.count
-                                        val dataJ: Array<Value?> = Array(outJ.size) {
-                                            var res2: Value?
+                                        val dataJ: Array<Value> = Array(outJ.size) {
+                                            var res2: Value
                                             if (currentKey!![it] != ResultSetDictionary.undefValue) {
                                                 res2 = currentKey!![it]
                                             } else {
@@ -320,7 +320,7 @@ class POPJoinHashMap(query: Query, projectedVariables: List<String>, childA: OPB
         }
         if (emptyColumnsWithJoin) {
             res.hasNext2 = {
-                /*return*/outJ[0].next() != null
+                /*return*/outJ[0].next() != ResultSetDictionary.nullValue
             }
             res.hasNext2Close = {
                 outJ[0].close()

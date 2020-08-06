@@ -116,7 +116,7 @@ class POPJoinMerge(query: Query, projectedVariables: List<String>, childA: OPBas
                         __close()
                     }
 
-                    override fun next(): Value? {
+                    override fun next(): Value {
                         return next_helper {
                             for (i in 0 until columnsINJ[0].size) {
                                 keyCopy[i] = key[0][i]
@@ -125,7 +125,7 @@ class POPJoinMerge(query: Query, projectedVariables: List<String>, childA: OPBas
                             val countA = sameElements(key[0], keyCopy, columnsINJ[0], columnsINO[0], data[0])
                             val countB = sameElements(key[1], keyCopy, columnsINJ[1], columnsINO[1], data[1])
                             findNextKey(key, columnsINJ, columnsINO)
-                            if (key[0][0] == null || key[1][0] == null) {
+                            if (key[0][0] == ResultSetDictionary.nullValue || key[1][0] == ResultSetDictionary.nullValue) {
                                 for (iterator2 in outIteratorsAllocated) {
                                     iterator2.closeOnNoMoreElements()
                                 }
@@ -167,7 +167,7 @@ class POPJoinMerge(query: Query, projectedVariables: List<String>, childA: OPBas
         if (emptyColumnsWithJoin) {
             res = IteratorBundle(0)
             res.hasNext2 = {
-                val tmp = columnsOUTJ[0].next() != null
+                val tmp = columnsOUTJ[0].next() != ResultSetDictionary.nullValue
                 if (!tmp) {
                     SanityCheck.println({ "$uuid close $classname" })
                     for (closeIndex2 in 0 until 2) {
@@ -197,13 +197,13 @@ class POPJoinMerge(query: Query, projectedVariables: List<String>, childA: OPBas
         return res
     }
 
-    /*inline*/  fun sameElements(key: Array<Value?>, keyCopy: Array<Value?>, columnsINJ: MutableList<ColumnIterator>, columnsINO: MutableList<ColumnIterator>, data: Array<MyListValue>): Int {
+    /*inline*/  fun sameElements(key: Array<Value>, keyCopy: Array<Value>, columnsINJ: MutableList<ColumnIterator>, columnsINO: MutableList<ColumnIterator>, data: Array<MyListValue>): Int {
         var count = 0
-        SanityCheck.check { keyCopy[0] != null }
+        SanityCheck.check { keyCopy[0] != ResultSetDictionary.nullValue }
         loop@ while (true) {
             count++
             for (i in 0 until columnsINO.size) {
-                data[i].add(columnsINO[i].next()!!)
+                data[i].add(columnsINO[i].next())
             }
             for (i in 0 until columnsINJ.size) {
                 key[i] = columnsINJ[i].next()
@@ -218,14 +218,14 @@ class POPJoinMerge(query: Query, projectedVariables: List<String>, childA: OPBas
         return count
     }
 
-    /*inline*/ fun findNextKey(key: Array<Array<Value?>>, columnsINJ: Array<MutableList<ColumnIterator>>, columnsINO: Array<MutableList<ColumnIterator>>): Boolean {
+    /*inline*/ fun findNextKey(key: Array<Array<Value>>, columnsINJ: Array<MutableList<ColumnIterator>>, columnsINO: Array<MutableList<ColumnIterator>>): Boolean {
         var done = true
-        if (key[0][0] != null && key[1][0] != null) {
+        if (key[0][0] != ResultSetDictionary.nullValue && key[1][0] != ResultSetDictionary.nullValue) {
             done = false
             loop@ while (true) {
                 for (i in 0 until columnsINJ[0].size) {
-                    val a = key[0][i]!!
-                    val b = key[1][i]!!
+                    val a = key[0][i]
+                    val b = key[1][i]
                     if (a < b) {
                         for (j in 0 until columnsINO[0].size) {
                             columnsINO[0][j].next()
@@ -233,7 +233,7 @@ class POPJoinMerge(query: Query, projectedVariables: List<String>, childA: OPBas
                         for (j in 0 until columnsINJ[0].size) {
                             key[0][j] = columnsINJ[0][j].next()
                             SanityCheck.check { key[0][j] != ResultSetDictionary.undefValue }
-                            done = key[0][j] == null
+                            done = key[0][j] == ResultSetDictionary.nullValue
                             if (done) {
                                 SanityCheck.check { j == 0 }
                                 break@loop
@@ -247,7 +247,7 @@ class POPJoinMerge(query: Query, projectedVariables: List<String>, childA: OPBas
                         for (j in 0 until columnsINJ[1].size) {
                             key[1][j] = columnsINJ[1][j].next()
                             SanityCheck.check { key[1][j] != ResultSetDictionary.undefValue }
-                            done = key[1][j] == null
+                            done = key[1][j] == ResultSetDictionary.nullValue
                             if (done) {
                                 SanityCheck.check { j == 0 }
                                 break@loop

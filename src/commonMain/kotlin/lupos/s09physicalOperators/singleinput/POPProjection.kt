@@ -5,6 +5,7 @@ import lupos.s00misc.EOperatorID
 import lupos.s00misc.ESortPriority
 import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
+import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s03resultRepresentation.Variable
 import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s04logicalOperators.iterator.ColumnIterator
@@ -47,7 +48,7 @@ class POPProjection(query: Query, projectedVariables: List<String>, child: OPBas
             val column = child.columns[variables2[0]]!!
             val res = IteratorBundle(outMap)
             res.hasNext2 = {
-                /*return*/                column.next() != null
+                /*return*/                column.next() != ResultSetDictionary.nullValue
             }
             res.hasNext2Close = {
                 column.close()

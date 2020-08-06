@@ -6,6 +6,7 @@ import lupos.s00misc.EOperatorID
 import lupos.s00misc.ESortPriority
 import lupos.s00misc.Partition
 import lupos.s00misc.XMLElement
+import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s03resultRepresentation.Value
 import lupos.s03resultRepresentation.Variable
 import lupos.s04logicalOperators.iterator.ColumnIterator
@@ -30,11 +31,11 @@ class POPOffset(query: Query, projectedVariables: List<String>, @JvmField val of
         val outMap = mutableMapOf<String, ColumnIterator>()
         val child = children[0].evaluate(parent)
         var columns = Array(variables.size) { child.columns[variables[it]] }
-        var tmp: Value? = null
+        var tmp: Value = ResultSetDictionary.nullValue
         loop@ for (i in 0 until offset) {
             for (columnIndex in 0 until columns.size) {
                 tmp = columns[columnIndex]!!.next()
-                if (tmp == null) {
+                if (tmp == ResultSetDictionary.nullValue) {
                     for (closeIndex in 0 until columns.size) {
                         columns[closeIndex]!!.close()
                     }
@@ -43,7 +44,7 @@ class POPOffset(query: Query, projectedVariables: List<String>, @JvmField val of
             }
         }
         for (variable in variables) {
-            if (tmp == null) {
+            if (tmp == ResultSetDictionary.nullValue) {
                 child.columns[variable]!!.close()
             }
             outMap[variable] = child.columns[variable]!!

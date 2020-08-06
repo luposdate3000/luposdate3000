@@ -9,6 +9,7 @@ import lupos.s00misc.EIndexPattern
 import lupos.s00misc.EModifyType
 import lupos.s00misc.File
 import lupos.s00misc.SanityCheck
+import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s03resultRepresentation.Value
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04arithmetikOperators.noinput.AOPConstant
@@ -136,7 +137,7 @@ abstract class TripleStoreLocalBase(@JvmField val name: String) {
         loop@ while (true) {
             for (columnIndex in 0 until 3) {
                 val v = dataModify[columnIndex].next()
-                if (v == null) {
+                if (v == ResultSetDictionary.nullValue) {
                     SanityCheck.check { columnIndex == 0 }
                     for (closeIndex in 0 until dataModify.size) {
                         dataModify[closeIndex].close()

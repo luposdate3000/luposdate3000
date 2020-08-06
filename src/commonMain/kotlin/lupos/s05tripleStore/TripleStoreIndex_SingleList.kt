@@ -12,6 +12,7 @@ import lupos.s00misc.MyMapLongInt
 import lupos.s00misc.MySetInt
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.TripleStoreModifyOperationsNotImplementedException
+import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s03resultRepresentation.Value
 import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.s04logicalOperators.iterator.ColumnIteratorEmpty
@@ -97,7 +98,7 @@ class TripleStoreIndex_SingleList : TripleStoreIndex() {
                 var a = ai.next()
                 var b = bi.next()
                 var c = ci.next()
-                while (a != null) {
+                while (a != ResultSetDictionary.nullValue) {
                     SanityCheck.println({ "debug store content ::: $a $b $c" })
                     a = ai.next()
                     b = bi.next()
@@ -153,7 +154,7 @@ class TripleStoreIndex_SingleList : TripleStoreIndex() {
                         var count = 0
                         var iterator = ColumnIteratorStore2a(data, idx)
                         runBlocking {
-                            while (iterator.next() != null) {
+                            while (iterator.next() != ResultSetDictionary.nullValue) {
                                 count++
                             }
                         }
@@ -175,7 +176,7 @@ class TripleStoreIndex_SingleList : TripleStoreIndex() {
                     var count = 0
                     var iterator = ColumnIteratorStore3a(data)
                     runBlocking {
-                        while (iterator.next() != null) {
+                        while (iterator.next() != ResultSetDictionary.nullValue) {
                             count++
                         }
                     }
@@ -278,9 +279,9 @@ class TripleStoreIndex_SingleList : TripleStoreIndex() {
         override fun close() {
         }
 
-        override fun next(): Value? {
+        override fun next(): Value {
             if (idx >= count) {
-                return null
+                return ResultSetDictionary.nullValue
             } else {
                 idx += 3
                 return data[idx - 3]
@@ -318,11 +319,11 @@ class TripleStoreIndex_SingleList : TripleStoreIndex() {
                 var a = ia.next()
                 var b = ib.next()
                 var c = ic.next()
-                while (a != null) {
+                while (a != ResultSetDictionary.nullValue) {
                     var a2 = ia.next()
                     var b2 = ib.next()
                     var c2 = ic.next()
-                    SanityCheck.check { (a2 == null) || (a!! < a2) || ((a == a2) && (b!! < b2!!)) || ((a == a2) && (b == b2) && (c!! < c2!!)) }
+                    SanityCheck.check { (a2 == ResultSetDictionary.nullValue) || (a < a2) || ((a == a2) && (b < b2)) || ((a == a2) && (b == b2) && (c < c2)) }
                     a = a2
                     b = b2
                     c = c2

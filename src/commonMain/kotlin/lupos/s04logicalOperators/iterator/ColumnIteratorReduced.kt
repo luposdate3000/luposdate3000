@@ -1,11 +1,12 @@
 package lupos.s04logicalOperators.iterator
 
 import lupos.s00misc.Coverage
+import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s03resultRepresentation.Value
 
 class ColumnIteratorReduced(@JvmField val child: ColumnIterator) : ColumnIterator() {
     @JvmField
-    var last: Value? = null
+    var last: Value = ResultSetDictionary.nullValue
 
     @JvmField
     var label = 1
@@ -20,19 +21,19 @@ class ColumnIteratorReduced(@JvmField val child: ColumnIterator) : ColumnIterato
         _close()
     }
 
-    override fun next(): Value? {
+    override fun next(): Value {
         if (label == 1) {
             var res = child.next()
-            while (res != null && last == res) {
+            while (res != ResultSetDictionary.nullValue && last == res) {
                 res = child.next()
             }
             last = res
-            if (res == null) {
+            if (res == ResultSetDictionary.nullValue) {
                 _close()
             }
             return res
         } else {
-            return null
+            return ResultSetDictionary.nullValue
         }
     }
 }

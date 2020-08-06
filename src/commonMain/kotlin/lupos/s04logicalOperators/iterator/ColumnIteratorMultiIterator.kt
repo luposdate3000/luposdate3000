@@ -1,6 +1,7 @@
 package lupos.s04logicalOperators.iterator
 
 import lupos.s00misc.Coverage
+import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s03resultRepresentation.Value
 
 class ColumnIteratorMultiIterator(@JvmField val childs: List<ColumnIterator>) : ColumnIterator() {
@@ -22,18 +23,18 @@ class ColumnIteratorMultiIterator(@JvmField val childs: List<ColumnIterator>) : 
         _close()
     }
 
-    override fun next(): Value? {
+    override fun next(): Value {
         if (label == 1) {
             var res = childs[index].next()
-            while (res == null && ++index < childs.size) {
+            while (res == ResultSetDictionary.nullValue && ++index < childs.size) {
                 res = childs[index].next()
             }
-            if (res == null) {
+            if (res == ResultSetDictionary.nullValue) {
                 _close()
             }
             return res
         } else {
-            return null
+            return ResultSetDictionary.nullValue
         }
     }
 }

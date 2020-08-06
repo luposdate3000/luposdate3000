@@ -1,6 +1,7 @@
 package lupos.s04logicalOperators.iterator
 
 import lupos.s00misc.Coverage
+import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s03resultRepresentation.Value
 
 class ColumnIteratorRepeatValue(@JvmField val count: Int, @JvmField val value: Value) : ColumnIterator() {
@@ -10,9 +11,9 @@ class ColumnIteratorRepeatValue(@JvmField val count: Int, @JvmField val value: V
         index = count
     }
 
-    override fun next(): Value? {
+    override fun next(): Value {
         if (index == count) {
-            return null
+            return ResultSetDictionary.nullValue
         } else {
             index++
             return value

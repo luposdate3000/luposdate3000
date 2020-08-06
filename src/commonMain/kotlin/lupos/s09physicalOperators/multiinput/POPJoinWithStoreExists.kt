@@ -7,6 +7,7 @@ import lupos.s00misc.ESortPriority
 import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.XMLElement
+import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s03resultRepresentation.Variable
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04arithmetikOperators.noinput.AOPConstant
@@ -52,7 +53,7 @@ class POPJoinWithStoreExists(query: Query, projectedVariables: List<String>, chi
         SanityCheck { mapping.size > 0 }
         for (i in 0 until mapping.size) {
             var tmp = iterators[i].next()
-            if (tmp == null) {
+            if (tmp == ResultSetDictionary.nullValue) {
                 done = true
                 for (closeIndex in 0 until iterators.size) {
                     iterators[closeIndex].close()
@@ -72,7 +73,7 @@ class POPJoinWithStoreExists(query: Query, projectedVariables: List<String>, chi
                 loop@ while (!t && !done) {
                     for (i in 0 until mapping.size) {
                         var tmp = iterators[i].next()
-                        if (tmp == null) {
+                        if (tmp == ResultSetDictionary.nullValue) {
                             for (closeIndex in 0 until iterators.size) {
                                 iterators[closeIndex].close()
                             }

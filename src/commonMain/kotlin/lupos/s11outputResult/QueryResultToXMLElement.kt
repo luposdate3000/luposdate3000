@@ -69,7 +69,7 @@ object QueryResultToXMLElement {
                             val nodeResult = XMLElement("result")
                             for (variableIndex in 0 until variables.size) {
                                 val valueID = columns[variableIndex].next()
-                                if (valueID == null) {
+                                if (valueID == ResultSetDictionary.nullValue) {
                                     for (closeIndex in 0 until columns.size) {
                                         columns[closeIndex].close()
                                     }

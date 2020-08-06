@@ -217,7 +217,7 @@ class POPGroup : POPBase {
                 loop2@ while (true) {
                     for (columnIndex in 0 until valueColumnNames.size) {
                         val value = valueColumns[columnIndex].next()
-                        if (value == null) {
+                        if (value == ResultSetDictionary.nullValue) {
                             SanityCheck.check { columnIndex == 0 }
                             for (closeIndex in 0 until valueColumnNames.size) {
                                 valueColumns[closeIndex].close()
@@ -258,7 +258,7 @@ class POPGroup : POPBase {
                 var emptyResult = false
                 for (columnIndex in 0 until keyColumnNames.size) {
                     val value = keyColumns[columnIndex].next()
-                    if (value == null) {
+                    if (value == ResultSetDictionary.nullValue) {
                         for (closeIndex in 0 until keyColumns.size) {
                             keyColumns[closeIndex].close()
                         }
@@ -322,7 +322,7 @@ class POPGroup : POPBase {
                                 }
                             }
 
-                            override fun next(): Value? {
+                            override fun next(): Value {
                                 return next_helper {
                                     loop@ while (true) {
                                         var changedKey = false
@@ -332,7 +332,7 @@ class POPGroup : POPBase {
                                         }
                                         for (columnIndex in 0 until keyColumnNames.size) {
                                             val value = keyColumns[columnIndex].next()
-                                            if (value == null) {
+                                            if (value == ResultSetDictionary.nullValue) {
                                                 for (closeIndex in 0 until keyColumns.size) {
                                                     keyColumns[closeIndex].close()
                                                 }
@@ -423,7 +423,7 @@ class POPGroup : POPBase {
                     val currentKey = Array(keyColumnNames.size) { ResultSetDictionary.undefValue }
                     for (columnIndex in 0 until keyColumnNames.size) {
                         val value = keyColumns[columnIndex].next()
-                        if (value == null) {
+                        if (value == ResultSetDictionary.nullValue) {
                             for (closeIndex in 0 until keyColumns.size) {
                                 keyColumns[closeIndex].close()
                             }

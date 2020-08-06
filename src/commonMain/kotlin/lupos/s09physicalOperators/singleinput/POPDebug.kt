@@ -7,6 +7,7 @@ import lupos.s00misc.ESortPriority
 import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.XMLElement
+import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s03resultRepresentation.Value
 import lupos.s03resultRepresentation.ValueComparatorASC
 import lupos.s03resultRepresentation.ValueComparatorDESC
@@ -70,19 +71,19 @@ class POPDebug(query: Query, projectedVariables: List<String>, child: OPBase) : 
                         val iterator = object : ColumnIterator() {
                             @JvmField
                             var label = 1
-                            override fun next(): Value? {
+                            override fun next(): Value {
                                 if (label != 0) {
                                     SanityCheck.println({ "$uuid $k next call" })
                                     val res = v.next()
-                                    if (res == null) {
-                                        SanityCheck.println({ "$uuid $k next return closed $counter ${parent.data} null" })
+                                    if (res == ResultSetDictionary.nullValue) {
+                                        SanityCheck.println({ "$uuid $k next return closed $counter ${parent.data} ResultSetDictionary.nullValue" })
                                     } else {
                                         counter++
                                         SanityCheck.println({ "$uuid $k next return $counter ${parent.data} ${res.toString(16)}" })
                                     }
                                     return res
                                 } else {
-                                    return null
+                                    return ResultSetDictionary.nullValue
                                 }
                             }
 
@@ -111,7 +112,7 @@ class POPDebug(query: Query, projectedVariables: List<String>, child: OPBase) : 
                         val res = child.rows.next()
                         iterator.buf = child.rows.buf
                         if (res < 0) {
-                            SanityCheck.println({ "$uuid next return closed $counter ${parent.data} null" })
+                            SanityCheck.println({ "$uuid next return closed $counter ${parent.data} ResultSetDictionary.nullValue" })
                         } else {
                             counter++
                             SanityCheck.println({ "$uuid next return $counter ${parent.data} ${iterator.buf.map { it.toString(16) }}" })

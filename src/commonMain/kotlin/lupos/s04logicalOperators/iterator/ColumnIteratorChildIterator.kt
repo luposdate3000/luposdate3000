@@ -1,6 +1,7 @@
 package lupos.s04logicalOperators.iterator
 
 import lupos.s00misc.Coverage
+import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s03resultRepresentation.Value
 
 abstract class ColumnIteratorChildIterator() : ColumnIterator() {
@@ -22,14 +23,14 @@ abstract class ColumnIteratorChildIterator() : ColumnIterator() {
         }
     }
 
-    inline fun next_helper(crossinline onNoMoreElements: () -> Unit): Value? {
+    inline fun next_helper(crossinline onNoMoreElements: () -> Unit): Value {
         when (label) {
             1 -> {
-                var res: Value? = null
-                while (res == null) {
+                var res: Value = ResultSetDictionary.nullValue
+                while (res == ResultSetDictionary.nullValue) {
                     while (childs.size > 0) {
                         res = childs[0].next()
-                        if (res == null) {
+                        if (res == ResultSetDictionary.nullValue) {
                             childs.removeAt(0)
                         } else {
                             return res
@@ -38,7 +39,7 @@ abstract class ColumnIteratorChildIterator() : ColumnIterator() {
                     onNoMoreElements()
                     if (childs.size == 0) {
                         close()
-                        return null
+                        return ResultSetDictionary.nullValue
                     }
                 }
                 return res
@@ -46,17 +47,17 @@ abstract class ColumnIteratorChildIterator() : ColumnIterator() {
             2 -> {
                 while (childs.size > 0) {
                     val res = childs[0].next()
-                    if (res == null) {
+                    if (res == ResultSetDictionary.nullValue) {
                         childs.removeAt(0)
                     } else {
                         return res
                     }
                 }
                 close()
-                return null
+                return ResultSetDictionary.nullValue
             }
             else -> {
-                return null
+                return ResultSetDictionary.nullValue
             }
         }
     }

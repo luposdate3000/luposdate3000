@@ -8,6 +8,7 @@ import lupos.s00misc.ESortPriority
 import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.XMLElement
+import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s03resultRepresentation.Value
 import lupos.s03resultRepresentation.Variable
 import lupos.s04logicalOperators.iterator.ColumnIterator
@@ -35,7 +36,7 @@ class POPJoinMergeSingleColumn(query: Query, projectedVariables: List<String>, c
 
         @JvmField
         var label = 1
-        override fun next(): Value? {
+        override fun next(): Value {
             when (label) {
                 1 -> {
                     if (counter == 0) {
@@ -44,9 +45,9 @@ class POPJoinMergeSingleColumn(query: Query, projectedVariables: List<String>, c
                             change = false
                             while (head0 < head1) {
                                 val c = child0.next()
-                                if (c == null) {
+                                if (c == ResultSetDictionary.nullValue) {
                                     _close()
-                                    return null
+                                    return ResultSetDictionary.nullValue
                                 } else {
                                     head0 = c
                                 }
@@ -54,22 +55,21 @@ class POPJoinMergeSingleColumn(query: Query, projectedVariables: List<String>, c
                             while (head1 < head0) {
                                 change = true
                                 val c = child1.next()
-                                if (c == null) {
+                                if (c == ResultSetDictionary.nullValue) {
                                     _close()
-                                    return null
+                                    return ResultSetDictionary.nullValue
                                 } else {
                                     head1 = c
                                 }
                             }
                         }
                         value = head0
-                        val valuenonnull = head0
                         var hadnull = false
                         var count0 = 0
-                        while (head0 == valuenonnull) {
+                        while (head0 == value) {
                             count0++
                             val d = child0.next()
-                            if (d == null) {
+                            if (d == ResultSetDictionary.nullValue) {
                                 hadnull = true
                                 break
                             } else {
@@ -77,10 +77,10 @@ class POPJoinMergeSingleColumn(query: Query, projectedVariables: List<String>, c
                             }
                         }
                         var count1 = 0
-                        while (head1 == valuenonnull) {
+                        while (head1 == value) {
                             count1++
                             val d = child1.next()
-                            if (d == null) {
+                            if (d == ResultSetDictionary.nullValue) {
                                 hadnull = true
                                 break
                             } else {
@@ -102,14 +102,14 @@ class POPJoinMergeSingleColumn(query: Query, projectedVariables: List<String>, c
                 2 -> {
                     if (counter == 0) {
                         _close()
-                        return null
+                        return ResultSetDictionary.nullValue
                     } else {
                         counter--
                     }
                     return value
                 }
                 else -> {
-                    return null
+                    return ResultSetDictionary.nullValue
                 }
             }
         }
@@ -141,7 +141,7 @@ class POPJoinMergeSingleColumn(query: Query, projectedVariables: List<String>, c
         val outMap = mutableMapOf<String, ColumnIterator>()
         val a = child0.next()
         val b = child1.next()
-        if (a != null && b != null) {
+        if (a != ResultSetDictionary.nullValue && b != ResultSetDictionary.nullValue) {
             outMap[projectedVariables[0]] = ColumnIteratorImpl(child0, child1, a, b)
         } else {
             outMap[projectedVariables[0]] = ColumnIteratorEmpty()

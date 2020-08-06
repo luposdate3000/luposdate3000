@@ -2,6 +2,7 @@ package lupos.s05tripleStore.index_SingleList
 
 import lupos.s00misc.Coverage
 import lupos.s03resultRepresentation.MyListValue
+import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s03resultRepresentation.Value
 import lupos.s04logicalOperators.iterator.ColumnIterator
 
@@ -37,7 +38,7 @@ class ColumnIteratorStore3c(@JvmField val values: MyListValue) : ColumnIterator(
         _close()
     }
 
-    override fun next(): Value? {
+    override fun next(): Value {
         if (label == 1) {
             valueC = it.next()
             var res = valueC
@@ -62,7 +63,7 @@ class ColumnIteratorStore3c(@JvmField val values: MyListValue) : ColumnIterator(
             }
             return res
         } else {
-            return null
+            return ResultSetDictionary.nullValue
         }
     }
 

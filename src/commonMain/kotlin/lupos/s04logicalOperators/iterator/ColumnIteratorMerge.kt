@@ -2,6 +2,7 @@ package lupos.s04logicalOperators.iterator
 
 import lupos.s00misc.Coverage
 import lupos.s00misc.SanityCheck
+import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s03resultRepresentation.Value
 
 object ColumnIteratorMerge {
@@ -14,7 +15,7 @@ object ColumnIteratorMerge {
             var i = 0
             while (i < buf1.size) {
                 val next = a.next()
-                if (next == null) {
+                if (next == ResultSetDictionary.nullValue) {
                     done = true
                     a.close()
                     break
@@ -116,7 +117,7 @@ object ColumnIteratorMerge {
             var i = 0
             while (i < buf1.size) {
                 val next = a.next()
-                if (next == null) {
+                if (next == ResultSetDictionary.nullValue) {
                     done = true
                     a.close()
                     break
@@ -215,10 +216,10 @@ class ColumnIteratorMerge1(@JvmField val a: ColumnIterator, @JvmField val b: Col
     var label = 3
 
     @JvmField
-    var aBuf: Value? = null
+    var aBuf: Value = ResultSetDictionary.nullValue
 
     @JvmField
-    var bBuf: Value? = null
+    var bBuf: Value = ResultSetDictionary.nullValue
     override fun close() {
         if (label != 0) {
             label = 0
@@ -227,26 +228,26 @@ class ColumnIteratorMerge1(@JvmField val a: ColumnIterator, @JvmField val b: Col
         }
     }
 
-    override fun next(): Value? {
-        var res: Value? = null
+    override fun next(): Value {
+        var res: Value = ResultSetDictionary.nullValue
         when (label) {
             1 -> {//call next on a, b is empty
                 res = a.next()
-                if (res == null) {
+                if (res == ResultSetDictionary.nullValue) {
                     a.close()
                     label = 0
                 }
             }
             2 -> {//call next on b, a is empty
                 res = b.next()
-                if (res == null) {
+                if (res == ResultSetDictionary.nullValue) {
                     b.close()
                     label = 0
                 }
             }
             4 -> {//call next on a, b is not empty
                 aBuf = a.next()
-                if (aBuf == null) {
+                if (aBuf == ResultSetDictionary.nullValue) {
                     a.close()
                     res = bBuf
                     label = 2
@@ -262,7 +263,7 @@ class ColumnIteratorMerge1(@JvmField val a: ColumnIterator, @JvmField val b: Col
             }
             5 -> {//call next on b, a is not empty
                 bBuf = b.next()
-                if (bBuf == null) {
+                if (bBuf == ResultSetDictionary.nullValue) {
                     b.close()
                     res = aBuf
                     label = 1
@@ -279,16 +280,16 @@ class ColumnIteratorMerge1(@JvmField val a: ColumnIterator, @JvmField val b: Col
             3 -> {//call next on both
                 aBuf = a.next()
                 bBuf = b.next()
-                if (aBuf == null && bBuf == null) {
-                    res = null
+                if (aBuf == ResultSetDictionary.nullValue && bBuf == ResultSetDictionary.nullValue) {
+                    res = ResultSetDictionary.nullValue
                     a.close()
                     b.close()
                     label = 0
-                } else if (bBuf == null) {
+                } else if (bBuf == ResultSetDictionary.nullValue) {
                     res = aBuf
                     b.close()
                     label = 1
-                } else if (aBuf == null) {
+                } else if (aBuf == ResultSetDictionary.nullValue) {
                     res = bBuf
                     a.close()
                     label = 2
@@ -312,10 +313,10 @@ class ColumnIteratorMerge2(@JvmField val a: ColumnIterator, @JvmField val b: Col
     var label = 3
 
     @JvmField
-    var aBuf: Value? = null
+    var aBuf: Value = ResultSetDictionary.nullValue
 
     @JvmField
-    var bBuf: Value? = null
+    var bBuf: Value = ResultSetDictionary.nullValue
     override fun close() {
         if (label != 0) {
             label = 0
@@ -324,31 +325,31 @@ class ColumnIteratorMerge2(@JvmField val a: ColumnIterator, @JvmField val b: Col
         }
     }
 
-    override fun next(): Value? {
-        var res: Value? = null
+    override fun next(): Value {
+        var res: Value = ResultSetDictionary.nullValue
         when (label) {
             1 -> {//call next on a, b is empty
                 res = a.next()
-                if (res == null) {
+                if (res == ResultSetDictionary.nullValue) {
                     a.close()
                     label = 0
                 }
             }
             2 -> {//call next on b, a is empty
                 res = b.next()
-                if (res == null) {
+                if (res == ResultSetDictionary.nullValue) {
                     b.close()
                     label = 0
                 }
             }
             4 -> {//call next on a, b is not empty
                 aBuf = a.next()
-                if (aBuf == null) {
+                if (aBuf == ResultSetDictionary.nullValue) {
                     a.close()
                     res = bBuf
                     label = 2
                 } else {
-                    if (aBuf!! < bBuf!!) {
+                    if (aBuf < bBuf) {
                         res = aBuf
                         label = 4
                     } else {
@@ -359,12 +360,12 @@ class ColumnIteratorMerge2(@JvmField val a: ColumnIterator, @JvmField val b: Col
             }
             5 -> {//call next on b, a is not empty
                 bBuf = b.next()
-                if (bBuf == null) {
+                if (bBuf == ResultSetDictionary.nullValue) {
                     b.close()
                     res = aBuf
                     label = 1
                 } else {
-                    if (aBuf!! < bBuf!!) {
+                    if (aBuf < bBuf) {
                         res = aBuf
                         label = 4
                     } else {
@@ -376,20 +377,20 @@ class ColumnIteratorMerge2(@JvmField val a: ColumnIterator, @JvmField val b: Col
             3 -> {//call next on both
                 aBuf = a.next()
                 bBuf = b.next()
-                if (aBuf == null && bBuf == null) {
+                if (aBuf == ResultSetDictionary.nullValue && bBuf == ResultSetDictionary.nullValue) {
                     a.close()
                     b.close()
                     label = 0
-                } else if (bBuf == null) {
+                } else if (bBuf == ResultSetDictionary.nullValue) {
                     b.close()
                     res = aBuf
                     label = 1
-                } else if (aBuf == null) {
+                } else if (aBuf == ResultSetDictionary.nullValue) {
                     a.close()
                     res = bBuf
                     label = 2
                 } else {
-                    if (aBuf!! < bBuf!!) {
+                    if (aBuf < bBuf) {
                         res = aBuf
                         label = 4
                     } else {

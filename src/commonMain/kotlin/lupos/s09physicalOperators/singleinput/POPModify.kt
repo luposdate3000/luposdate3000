@@ -106,7 +106,7 @@ class POPModify(query: Query, projectedVariables: List<String>, insert: List<LOP
             if (row.size > 0) {
                 for (columnIndex in 0 until variables.size) {
                     val value = columns[columnIndex].next()
-                    if (value == null) {
+                    if (value == ResultSetDictionary.nullValue) {
                         SanityCheck.check { columnIndex == 0 }
                         break@loop
                     }

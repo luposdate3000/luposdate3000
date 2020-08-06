@@ -6,6 +6,7 @@ import lupos.s00misc.Coverage
 import lupos.s00misc.MyMapIntInt
 import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
+import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s03resultRepresentation.Value
 import lupos.s03resultRepresentation.ValueBnode
 import lupos.s03resultRepresentation.ValueBoolean
@@ -93,7 +94,7 @@ object QueryResultToXMLString {
                             loop@ while (true) {
                                 for (variableIndex in 0 until variables.size) {
                                     val valueID = columns[variableIndex]!!.next()
-                                    if (valueID == null) {
+                                    if (valueID == ResultSetDictionary.nullValue) {
                                         for (closeIndex in 0 until columns.size) {
                                             columns[closeIndex]!!.close()
                                         }

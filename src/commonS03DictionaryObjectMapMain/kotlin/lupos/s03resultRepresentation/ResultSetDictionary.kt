@@ -118,8 +118,8 @@ class ResultSetDictionary(val global: Boolean = false) {
         return createValue(ValueInteger(value))
     }
 
-    inline fun checkValue(value: ValueDefinition): Value? {
-        var res: Value?
+    inline fun checkValue(value: ValueDefinition): Value {
+        var res: Value
         if (value is ValueUndef) {
             res = undefValue
         } else if (value is ValueError) {

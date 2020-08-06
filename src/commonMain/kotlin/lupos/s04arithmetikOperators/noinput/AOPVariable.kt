@@ -33,7 +33,7 @@ class AOPVariable(query: Query, @JvmField var name: String) : AOPBase(query, EOp
             SanityCheck.check { tmp is ColumnIteratorQueue }
             val column = tmp as ColumnIteratorQueue
             res = {
-                /*return*/query.dictionary.getValue(column.tmp!!)
+                /*return*/query.dictionary.getValue(column.tmp)
             }
         }
         return res
@@ -50,7 +50,7 @@ class AOPVariable(query: Query, @JvmField var name: String) : AOPBase(query, EOp
             SanityCheck.check { tmp is ColumnIteratorQueue }
             val column = tmp as ColumnIteratorQueue
             res = {
-                /*return*/column.tmp!!
+                /*return*/column.tmp
             }
         }
         return res

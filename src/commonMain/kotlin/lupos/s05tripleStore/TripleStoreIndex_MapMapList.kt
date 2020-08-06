@@ -125,7 +125,7 @@ class TripleStoreIndex_MapMapList : TripleStoreIndex() {
                                     _close()
                                 }
 
-                                override fun next(): Value? {
+                                override fun next(): Value {
                                     return next_helper {
                                         if (iter.hasNext()) {
                                             val key = iter.next()
@@ -176,7 +176,7 @@ class TripleStoreIndex_MapMapList : TripleStoreIndex() {
                                 _close()
                             }
 
-                            override fun next(): Value? {
+                            override fun next(): Value {
                                 return next_helper {
                                     while (true) {
                                         if (iter2.hasNext()) {

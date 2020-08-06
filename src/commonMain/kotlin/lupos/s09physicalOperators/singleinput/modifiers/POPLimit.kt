@@ -6,6 +6,7 @@ import lupos.s00misc.EOperatorID
 import lupos.s00misc.ESortPriority
 import lupos.s00misc.Partition
 import lupos.s00misc.XMLElement
+import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s03resultRepresentation.Value
 import lupos.s03resultRepresentation.Variable
 import lupos.s04logicalOperators.iterator.ColumnIterator
@@ -39,17 +40,17 @@ class POPLimit(query: Query, projectedVariables: List<String>, @JvmField val lim
 
                 @JvmField
                 var label = 1
-                override fun next(): Value? {
+                override fun next(): Value {
                     if (label != 0) {
                         if (count == limit) {
                             _close()
-                            return null
+                            return ResultSetDictionary.nullValue
                         } else {
                             count++
                             return iterator.next()
                         }
                     } else {
-                        return null
+                        return ResultSetDictionary.nullValue
                     }
                 }
 

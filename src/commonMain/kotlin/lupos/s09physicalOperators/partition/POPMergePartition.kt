@@ -17,6 +17,7 @@ import lupos.s00misc.ESortPriority
 import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.XMLElement
+import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s03resultRepresentation.Value
 import lupos.s03resultRepresentation.Variable
 import lupos.s04logicalOperators.iterator.ColumnIterator
@@ -96,7 +97,7 @@ class POPMergePartition(query: Query, projectedVariables: List<String>, val part
                                 var tmp = childIterator.next()
                                 totaltime += BenchmarkUtils.timesHelperDuration(timer2)
                                 totalcounter++
-                                if (tmp == null) {
+                                if (tmp == ResultSetDictionary.nullValue) {
                                     SanityCheck.println({ "merge $uuid $p writer closed B" })
                                     writerFinished[p] = 1
                                     break@loop
@@ -129,7 +130,7 @@ class POPMergePartition(query: Query, projectedVariables: List<String>, val part
                                 var tmp = variableMapping[0].next()
                                 totaltime += BenchmarkUtils.timesHelperDuration(timer2)
                                 totalcounter++
-                                if (tmp == null) {
+                                if (tmp == ResultSetDictionary.nullValue) {
                                     SanityCheck.println({ "merge $uuid $p writer closed B" })
                                     for (variable in 0 until variables.size) {
                                         variableMapping[variable].close()
@@ -141,7 +142,7 @@ class POPMergePartition(query: Query, projectedVariables: List<String>, val part
                                     ringbuffer[ringbufferWriteHead[p] + ringbufferStart[p]] = tmp
                                     for (variable in 1 until variables.size) {
                                         try {
-                                            ringbuffer[ringbufferWriteHead[p] + variable + ringbufferStart[p]] = variableMapping[variable].next()!!
+                                            ringbuffer[ringbufferWriteHead[p] + variable + ringbufferStart[p]] = variableMapping[variable].next()
                                         } catch (e: Throwable) {
                                             SanityCheck.println({ "merge $uuid $p writer closed A" })
                                             for (variable in 0 until variables.size) {

@@ -106,7 +106,7 @@ class DistributedGraph(val query: Query, @JvmField val name: String) {
             val row = Array(3) { ResultSetDictionary.undefValue }
             for (columnIndex in 0 until 3) {
                 val v = data[columnIndex].next()
-                if (v == null) {
+                if (v == ResultSetDictionary.nullValue) {
                     for (closeIndex in 0 until data.size) {
                         data[closeIndex].close()
                     }

@@ -9,7 +9,7 @@ class ColumnIteratorQueueEmpty() : ColumnIteratorQueue() {
         _close()
     }
 
-    override fun next(): Value? {
+    override fun next(): Value {
         return next_helper {}
     }
 }
