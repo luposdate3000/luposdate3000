@@ -6,35 +6,48 @@ import lupos.s00misc.EBenchmark
 import lupos.s03resultRepresentation.MyListValue
 import lupos.s03resultRepresentation.Value
 import lupos.s04logicalOperators.iterator.ColumnIterator
-import lupos.s04logicalOperators.iterator.FuncColumnIteratorNext
 
-class ColumnIteratorStore2b(val values: MyListValue, start: Int) : ColumnIterator() {
+class ColumnIteratorStore2b(@JvmField val values: MyListValue, start: Int) : ColumnIterator() {
+    @JvmField
     var counterSecondary: Int
+
+    @JvmField
     var counterTerniary: Int
+
+    @JvmField
     var index = start + 3
 
     init {
         counterSecondary = values[index - 3] - 1
         counterTerniary = values[index - 1] - 1
-        next = object : FuncColumnIteratorNext("ColumnIteratorStore2b.next") {
-            override fun invoke(): Value? {
-                //BenchmarkUtils.start(EBenchmark.STORE_NEXT2b)
-                var res: Value? = values[index]
-                index++
-                if (counterTerniary == 0) {
-                    if (counterSecondary == 0) {
-                        close()
-                    } else {
-                        counterSecondary--
-                        counterTerniary = values[index + 1] - 1
-                        index += 2
-                    }
+    }
+
+    inline fun _close() {
+        label = 0
+    }
+
+    override fun close() {
+        _close()
+    }
+
+    override fun next(): Value? {
+        if (label == 1) {
+            var res: Value? = values[index]
+            index++
+            if (counterTerniary == 0) {
+                if (counterSecondary == 0) {
+                    _close()
                 } else {
-                    counterTerniary--
+                    counterSecondary--
+                    counterTerniary = values[index + 1] - 1
+                    index += 2
                 }
-//BenchmarkUtils.elapsedSeconds(EBenchmark.STORE_NEXT2b)
-                return res
+            } else {
+                counterTerniary--
             }
+            return res
+        } else {
+            return null
         }
     }
 }

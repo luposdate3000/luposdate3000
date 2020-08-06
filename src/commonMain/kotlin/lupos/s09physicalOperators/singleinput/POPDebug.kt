@@ -14,8 +14,6 @@ import lupos.s03resultRepresentation.Variable
 import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.s04logicalOperators.iterator.ColumnIteratorMerge
-import lupos.s04logicalOperators.iterator.FuncColumnIteratorClose
-import lupos.s04logicalOperators.iterator.FuncColumnIteratorNext
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.iterator.RowIterator
 import lupos.s04logicalOperators.iterator.RowIteratorMerge
@@ -67,27 +65,34 @@ class POPDebug(query: Query, projectedVariables: List<String>, child: OPBase) : 
                     val columnMode = mutableListOf<String>()
                     for ((k, v) in child.columns) {
                         columnMode.add(k)
-                        val iterator = ColumnIterator()
                         var counter = 0
                         SanityCheck.println({ "$uuid $k opened" })
-                        iterator.next = object : FuncColumnIteratorNext("POPDebug_2.next") {
-                            override fun invoke(): Value? {
-                                SanityCheck.println({ "$uuid $k next call" })
-                                val res = v.next()
-                                if (res == null) {
-                                    SanityCheck.println({ "$uuid $k next return closed $counter ${parent.data} null" })
+                        val iterator = object : ColumnIterator() {
+                            @JvmField
+                            var label = 1
+                            override fun next(): Value? {
+                                if (label != 0) {
+                                    SanityCheck.println({ "$uuid $k next call" })
+                                    val res = v.next()
+                                    if (res == null) {
+                                        SanityCheck.println({ "$uuid $k next return closed $counter ${parent.data} null" })
+                                    } else {
+                                        counter++
+                                        SanityCheck.println({ "$uuid $k next return $counter ${parent.data} ${res.toString(16)}" })
+                                    }
+                                    return res
                                 } else {
-                                    counter++
-                                    SanityCheck.println({ "$uuid $k next return $counter ${parent.data} ${res.toString(16)}" })
+                                    return null
                                 }
-                                return res
                             }
-                        }
-                        iterator.close = object : FuncColumnIteratorClose("POPDebug_2.close") {
-                            override fun invoke() {
-                                SanityCheck.println({ "$uuid $k closed $counter ${parent.data}" })
-                                v.close()
-                                iterator._close()
+
+                            override fun close() {
+                                if (label != 0) {
+                                    label = 0
+                                    SanityCheck.println({ "$uuid $k closed $counter ${parent.data}" })
+                                    v.close()
+                                    iterator._close()
+                                }
                             }
                         }
                         outMap[k] = iterator

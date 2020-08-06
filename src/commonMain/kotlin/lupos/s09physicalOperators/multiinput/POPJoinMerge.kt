@@ -15,7 +15,6 @@ import lupos.s03resultRepresentation.Value
 import lupos.s03resultRepresentation.Variable
 import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.s04logicalOperators.iterator.ColumnIteratorChildIterator
-import lupos.s04logicalOperators.iterator.FuncColumnIteratorClose
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
@@ -39,7 +38,11 @@ class POPJoinMerge(query: Query, projectedVariables: List<String>, childA: OPBas
         val columnsINJ = Array(2) { mutableListOf<ColumnIterator>() }
         val columnsOUT = Array(2) { mutableListOf<ColumnIteratorChildIterator>() }
         val columnsOUTJ = mutableListOf<ColumnIteratorChildIterator>()
-        val outIterators = mutableListOf<ColumnIteratorChildIterator>()
+        val outIterators = mutableListOf<Pair<String, Int>>() //Key_in_outMap, which_outIteratorsCounter (J,O0,O1,none)
+        var outIteratorsCounterJ = 0
+        var outIteratorsCounterO0 = 0
+        var outIteratorsCounterO1 = 0
+        val outIteratorsAllocated = mutableListOf<ColumnIteratorChildIterator>()
         val outMap = mutableMapOf<String, ColumnIterator>()
         val tmp = mutableListOf<String>()
         tmp.addAll(children[1].getProvidedVariableNames())
@@ -47,13 +50,10 @@ class POPJoinMerge(query: Query, projectedVariables: List<String>, childA: OPBas
         for (name in children[0].getProvidedVariableNames()) {
             if (tmp.contains(name)) {
                 if (projectedVariables.contains(name)) {
-                    t = ColumnIteratorChildIterator()
-                    outMap[name] = t
-                    outIterators.add(t)
-                    columnsOUTJ.add(t)
-                    for (i in 0 until 2) {
-                        columnsINJ[i].add(0, child[i].columns[name]!!)
-                    }
+                    outIterators.add(Pair(name, Pair(0, outIteratorsCounterJ++))
+                            for (i in 0 until 2) {
+                                columnsINJ[i].add(0, child[i].columns[name]!!)
+                            }
                 } else {
                     for (i in 0 until 2) {
                         columnsINJ[i].add(child[i].columns[name]!!)
@@ -61,27 +61,19 @@ class POPJoinMerge(query: Query, projectedVariables: List<String>, childA: OPBas
                 }
                 tmp.remove(name)
             } else {
-                t = ColumnIteratorChildIterator()
-                outIterators.add(t)
-                outMap[name] = t
-                columnsOUT[0].add(t)
-                columnsINO[0].add(child[0].columns[name]!!)
+                outIterators.add(Pair(name, Pair(1, outIteratorsCounterO0++))
+                        columnsINO [0].add(child[0].columns[name]!!)
             }
         }
         for (name in tmp) {
-            t = ColumnIteratorChildIterator()
-            outIterators.add(t)
-            outMap[name] = t
-            columnsOUT[1].add(t)
-            columnsINO[1].add(child[1].columns[name]!!)
+            outIterators.add(Pair(name, Pair(2, outIteratorsCounterO1++))
+                    columnsINO [1].add(child[1].columns[name]!!)
         }
         SanityCheck.check { columnsINJ[0].size > 0 }
         SanityCheck.check { columnsINJ[0].size == columnsINJ[1].size }
-        var emptyColumnsWithJoin = columnsOUT[0].size == 0 && columnsOUT[1].size == 0 && columnsOUTJ.size == 0
+        var emptyColumnsWithJoin = outIteratorsCounterJ + outIteratorsCounterO0 + outIteratorsCounterO1 == 0
         if (emptyColumnsWithJoin) {
-            t = ColumnIteratorChildIterator()
-            outIterators.add(t)
-            columnsOUTJ.add(t)
+            outIterators.add(Pair(name, Pair(3, 0))
         }
         val key = Array(2) { i -> Array(columnsINJ[i].size) { columnsINJ[i][it].next() } }
         var done = findNextKey(key, columnsINJ, columnsINO)
@@ -95,51 +87,82 @@ class POPJoinMerge(query: Query, projectedVariables: List<String>, childA: OPBas
                     columnsINO[closeIndex2][closeIndex].close()
                 }
             }
+            for (iteratorConfig in outIterators) {
+                outMap[iteratorConfig.first] = object : ColumnIterator {
+                    override fun next(): Value? {
+                        return null
+                    }
+
+                    override fun close() {
+                    }
+                }
+            }
         } else {
             val keyCopy = Array(columnsINJ[0].size) { key[0][it] }
-            for (iterator in outIterators) {
-                iterator.close = object : FuncColumnIteratorClose("POPJoinMerge.close") {
-                    override fun invoke() {
-                        iterator._close()
-                        SanityCheck.println({ "$uuid close $classname" })
-                        for (closeIndex2 in 0 until 2) {
-                            for (closeIndex in 0 until columnsINJ[closeIndex2].size) {
-                                columnsINJ[closeIndex2][closeIndex].close()
-                            }
-                            for (closeIndex in 0 until columnsINO[closeIndex2].size) {
-                                columnsINO[closeIndex2][closeIndex].close()
+            for (iteratorConfig in outIterators) {
+                val iterator = object : ColumnIteratorChildIterator() {
+                    inline fun __close() {
+                        if (label != 0) {
+                            _close()
+                            SanityCheck.println({ "$uuid close $classname" })
+                            for (closeIndex2 in 0 until 2) {
+                                for (closeIndex in 0 until columnsINJ[closeIndex2].size) {
+                                    columnsINJ[closeIndex2][closeIndex].close()
+                                }
+                                for (closeIndex in 0 until columnsINO[closeIndex2].size) {
+                                    columnsINO[closeIndex2][closeIndex].close()
+                                }
                             }
                         }
+                    }
+
+                    override fun close() {
+                        __close()
+                    }
+
+                    override fun onNoMoreElements(): Value? {
+                        for (i in 0 until columnsINJ[0].size) {
+                            keyCopy[i] = key[0][i]
+                        }
+                        val data = Array(2) { Array(columnsINO[it].size) { MyListValue() } }
+                        val countA = sameElements(key[0], keyCopy, columnsINJ[0], columnsINO[0], data[0])
+                        val countB = sameElements(key[1], keyCopy, columnsINJ[1], columnsINO[1], data[1])
+                        findNextKey(key, columnsINJ, columnsINO)
+                        if (key[0][0] == null || key[1][0] == null) {
+                            for (iterator2 in outIteratorsAllocated) {
+                                iterator2.closeOnNoMoreElements()
+                            }
+                            SanityCheck.println({ "$uuid close $classname" })
+                            for (closeIndex2 in 0 until 2) {
+                                for (closeIndex in 0 until columnsINJ[closeIndex2].size) {
+                                    columnsINJ[closeIndex2][closeIndex].close()
+                                }
+                                for (closeIndex in 0 until columnsINO[closeIndex2].size) {
+                                    columnsINO[closeIndex2][closeIndex].close()
+                                }
+                            }
+                        }
+                        POPJoin.crossProduct(data, keyCopy, columnsOUT, columnsOUTJ, countA, countB)
                     }
                 }
-                iterator.onNoMoreElements = {
-                    //BenchmarkUtils.start(EBenchmark.JOIN_MERGE_NO_MORE_ELEMENTS)
-                    for (i in 0 until columnsINJ[0].size) {
-                        keyCopy[i] = key[0][i]
+                when (iteratorConfig.second) {
+                    0 -> {
+                        outMap[iteratorConfig.first] = iterator
+                        columnsOUTJ.add(iterator)
                     }
-                    val data = Array(2) { Array(columnsINO[it].size) { MyListValue() } }
-                    val countA = sameElements(key[0], keyCopy, columnsINJ[0], columnsINO[0], data[0])
-                    val countB = sameElements(key[1], keyCopy, columnsINJ[1], columnsINO[1], data[1])
-                    findNextKey(key, columnsINJ, columnsINO)
-                    if (key[0][0] == null || key[1][0] == null) {
-                        for (iterator2 in outIterators) {
-                            iterator2.onNoMoreElements = iterator2::_onNoMoreElements
-                        }
-                        SanityCheck.println({ "$uuid close $classname" })
-                        for (closeIndex2 in 0 until 2) {
-                            for (closeIndex in 0 until columnsINJ[closeIndex2].size) {
-                                columnsINJ[closeIndex2][closeIndex].close()
-                            }
-                            for (closeIndex in 0 until columnsINO[closeIndex2].size) {
-                                columnsINO[closeIndex2][closeIndex].close()
-                            }
-                        }
+                    1 -> {
+                        outMap[iteratorConfig.first] = iterator
+                        columnsOUT[0].add(iterator)
                     }
-//BenchmarkUtils.start(EBenchmark.JOIN_MERGE_CROSS_PRODUCT)
-                    POPJoin.crossProduct(data, keyCopy, columnsOUT, columnsOUTJ, countA, countB)
-//BenchmarkUtils.elapsedSeconds(EBenchmark.JOIN_MERGE_CROSS_PRODUCT)
-//BenchmarkUtils.elapsedSeconds(EBenchmark.JOIN_MERGE_NO_MORE_ELEMENTS)
+                    2 -> {
+                        outMap[iteratorConfig.first] = iterator
+                        columnsOUT[1].add(iterator)
+                    }
+                    3 -> {
+                        columnsOUTJ.add(iterator)
+                    }
                 }
+                outIteratorsAllocated.add(iterator)
             }
         }
         val res: IteratorBundle
@@ -178,7 +201,6 @@ class POPJoinMerge(query: Query, projectedVariables: List<String>, childA: OPBas
 
     /*inline*/  fun sameElements(key: Array<Value?>, keyCopy: Array<Value?>, columnsINJ: MutableList<ColumnIterator>, columnsINO: MutableList<ColumnIterator>, data: Array<MyListValue>): Int {
         var count = 0
-//BenchmarkUtils.start(EBenchmark.JOIN_MERGE_SAME_ELEMENTS)
         SanityCheck.check { keyCopy[0] != null }
         loop@ while (true) {
             count++
@@ -195,13 +217,11 @@ class POPJoinMerge(query: Query, projectedVariables: List<String>, childA: OPBas
                 }
             }
         }
-//BenchmarkUtils.elapsedSeconds(EBenchmark.JOIN_MERGE_SAME_ELEMENTS)
         return count
     }
 
     /*inline*/ fun findNextKey(key: Array<Array<Value?>>, columnsINJ: Array<MutableList<ColumnIterator>>, columnsINO: Array<MutableList<ColumnIterator>>): Boolean {
         var done = true
-//BenchmarkUtils.start(EBenchmark.JOIN_MERGE_NEXT_KEY)
         if (key[0][0] != null && key[1][0] != null) {
             done = false
             loop@ while (true) {
@@ -241,7 +261,6 @@ class POPJoinMerge(query: Query, projectedVariables: List<String>, childA: OPBas
                 break@loop
             }
         }
-//BenchmarkUtils.elapsedSeconds(EBenchmark.JOIN_MERGE_NEXT_KEY)
         return done
     }
 

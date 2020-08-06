@@ -9,8 +9,6 @@ import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.Value
 import lupos.s03resultRepresentation.Variable
 import lupos.s04logicalOperators.iterator.ColumnIterator
-import lupos.s04logicalOperators.iterator.FuncColumnIteratorClose
-import lupos.s04logicalOperators.iterator.FuncColumnIteratorNext
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
@@ -34,24 +32,32 @@ class POPLimit(query: Query, projectedVariables: List<String>, @JvmField val lim
         for (variable in variables) {
             var count = 0
             val iterator = child.columns[variable]!!
-            val tmp = ColumnIterator()
-            tmp.next = object : FuncColumnIteratorNext("POPLimit.next") {
-                override fun invoke(): Value? {
-                    var res: Value?
-                    if (count == limit) {
-                        tmp.close()
-                        res = null
+            val tmp = object : ColumnIterator() {
+                @JvmField
+                var label = 1
+                override fun next(): Value? {
+                    if (label != 0) {
+                        if (count == limit) {
+                            _close()
+                            return null
+                        } else {
+                            count++
+                            return iterator.next()
+                        }
                     } else {
-                        count++
-                        res = iterator.next()
+                        return null
                     }
-                    return res
                 }
-            }
-            tmp.close = object : FuncColumnIteratorClose("POPLimit.close") {
-                override fun invoke() {
-                    tmp._close()
-                    child.columns[variable]!!.close()
+
+                inline fun _close() {
+                    if (label != 0) {
+                        label = 0
+                        child.columns[variable]!!.close()
+                    }
+                }
+
+                override fun close() {
+                    _close()
                 }
             }
             outMap[variable] = tmp

@@ -3,33 +3,51 @@ package lupos.s04logicalOperators.iterator
 import lupos.s00misc.Coverage
 import lupos.s03resultRepresentation.MyListValue
 import lupos.s03resultRepresentation.Value
-import lupos.s04logicalOperators.iterator.FuncColumnIteratorClose
-import lupos.s04logicalOperators.iterator.FuncColumnIteratorNext
 
 class ColumnIteratorQueue() : ColumnIterator() {
+    @JvmField
     var tmp: Value? = null
+
+    @JvmField
     val queue = MyListValue()
-    var onEmptyQueue: () -> Unit = ::_onEmptyQueue
-    fun _onEmptyQueue() {
+
+    @JvmField
+    var label = 1
+    inline fun _close() {
+        label = 0
     }
 
-    init {
-        next = object : FuncColumnIteratorNext("ColumnIteratorQueue.next") {
-            override fun invoke(): Value? {
+    override fun next(): Value? {
+        when (label) {
+            0 -> {
+                return null
+            }
+            1 -> {
                 if (queue.size == 0) {
                     onEmptyQueue()
+                    if (queue.size > 0) {
+                        return queue.removeAt(0)
+                    } else {
+                        close()
+                        return null
+                    }
+                } else {
+                    return queue.removeAt(0)
                 }
-                var res: Value? = null
-                if (queue.size > 0) {
-                    res = queue.removeAt(0)
+            }
+            2 -> {
+                if (queue.size == 0) {
+                    close()
+                    return null
+                } else {
+                    return queue.removeAt(0)
                 }
-                return res
             }
         }
-        close = object : FuncColumnIteratorClose("ColumnIteratorQueue.close") {
-            override fun invoke() {
-                _close()
-            }
-        }
+    }
+
+    abstract fun onEmptyQueue()
+    inline fun closeOnEmptyQueue() {
+        label = 2
     }
 }

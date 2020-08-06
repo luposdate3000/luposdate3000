@@ -1,7 +1,6 @@
 package lupos.s04logicalOperators.iterator
 
 import lupos.s00misc.Coverage
-import lupos.s04logicalOperators.iterator.FuncColumnIteratorClose
 
 object ColumnIteratorFromRow {
     operator fun invoke(iterator: RowIterator): Map<String, ColumnIterator> {

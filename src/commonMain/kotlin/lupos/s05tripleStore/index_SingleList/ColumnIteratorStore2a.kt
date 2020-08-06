@@ -6,37 +6,55 @@ import lupos.s00misc.EBenchmark
 import lupos.s03resultRepresentation.MyListValue
 import lupos.s03resultRepresentation.Value
 import lupos.s04logicalOperators.iterator.ColumnIterator
-import lupos.s04logicalOperators.iterator.FuncColumnIteratorNext
 
-class ColumnIteratorStore2a(val values: MyListValue, start: Int) : ColumnIterator() {
+class ColumnIteratorStore2a(@JvmField val values: MyListValue, start: Int) : ColumnIterator() {
+    @JvmField
     var counterSecondary: Int
+
+    @JvmField
     var counterTerniary: Int
+
+    @JvmField
     var index = start + 3
+
+    @JvmField
     var value = values[index - 2]
+
+    @JvmField
+    var label = 1
 
     init {
         counterSecondary = values[index - 3] - 1
         counterTerniary = values[index - 1] - 1
-        next = object : FuncColumnIteratorNext("ColumnIteratorStore2a.next") {
-            override fun invoke(): Value? {
-                //BenchmarkUtils.start(EBenchmark.STORE_NEXT2a)
-                var res: Value? = value
-                index++
-                if (counterTerniary == 0) {
-                    if (counterSecondary == 0) {
-                        close()
-                    } else {
-                        counterSecondary--
-                        value = values[index]
-                        counterTerniary = values[index + 1] - 1
-                        index += 2
-                    }
+    }
+
+    inline fun _close() {
+        label = 0
+    }
+
+    override fun close() {
+        _close()
+    }
+
+    override fun next(): Value? {
+        if (label == 1) {
+            var res: Value? = value
+            index++
+            if (counterTerniary == 0) {
+                if (counterSecondary == 0) {
+                    _close()
                 } else {
-                    counterTerniary--
+                    counterSecondary--
+                    value = values[index]
+                    counterTerniary = values[index + 1] - 1
+                    index += 2
                 }
-//BenchmarkUtils.elapsedSeconds(EBenchmark.STORE_NEXT2a)
-                return res
+            } else {
+                counterTerniary--
             }
+            return res
+        } else {
+            return null
         }
     }
 }

@@ -2,28 +2,37 @@ package lupos.s04logicalOperators.iterator
 
 import lupos.s00misc.Coverage
 import lupos.s03resultRepresentation.Value
-import lupos.s04logicalOperators.iterator.FuncColumnIteratorClose
-import lupos.s04logicalOperators.iterator.FuncColumnIteratorNext
 
-class ColumnIteratorReduced(val child: ColumnIterator) : ColumnIterator() {
+class ColumnIteratorReduced(@JvmField val child: ColumnIterator) : ColumnIterator() {
+    @JvmField
     var last: Value? = null
 
-    init {
-        next = object : FuncColumnIteratorNext("ColumnIteratorReduced.next") {
-            override fun invoke(): Value? {
-                var res = child.next()
-                while (res != null && last == res) {
-                    res = child.next()
-                }
-                last = res
-                return res
-            }
+    @JvmField
+    var label = 1
+    inline fun _close() {
+        if (label != 0) {
+            label = 0
+            child.close()
         }
-        close = object : FuncColumnIteratorClose("ColumnIteratorReduced.close") {
-            override fun invoke() {
-                child.close()
+    }
+
+    override fun close() {
+        _close()
+    }
+
+    override fun next(): Value? {
+        if (label == 1) {
+            var res = child.next()
+            while (res != null && last == res) {
+                res = child.next()
+            }
+            last = res
+            if (res == null) {
                 _close()
             }
+            return res
+        } else {
+            return null
         }
     }
 }

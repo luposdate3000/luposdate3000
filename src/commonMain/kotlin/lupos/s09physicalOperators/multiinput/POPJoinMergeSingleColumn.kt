@@ -11,8 +11,6 @@ import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.Value
 import lupos.s03resultRepresentation.Variable
 import lupos.s04logicalOperators.iterator.ColumnIterator
-import lupos.s04logicalOperators.iterator.FuncColumnIteratorClose
-import lupos.s04logicalOperators.iterator.FuncColumnIteratorNext
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
@@ -27,7 +25,6 @@ class POPJoinMergeSingleColumn(query: Query, projectedVariables: List<String>, c
     }
 
     override fun equals(other: Any?) = other is POPJoinMergeSingleColumn && optional == other.optional && children[0] == other.children[0] && children[1] == other.children[1]
-
     override fun evaluate(parent: Partition): IteratorBundle {
         SanityCheck.check { !optional }
         SanityCheck.check { projectedVariables.size == 1 }
@@ -36,40 +33,39 @@ class POPJoinMergeSingleColumn(query: Query, projectedVariables: List<String>, c
         SanityCheck.check { children[1].getProvidedVariableNames().size == 1 }
         SanityCheck.check { children[1].getProvidedVariableNames()[0] == projectedVariables[0] }
         SanityCheck.println({ "$uuid open $classname" })
-        val child000 = children[0].evaluate(parent).columns[projectedVariables[0]]!!
-        val child001 = children[1].evaluate(parent).columns[projectedVariables[0]]!!
+        val child00 = children[0].evaluate(parent).columns[projectedVariables[0]]!!
+        val child01 = children[1].evaluate(parent).columns[projectedVariables[0]]!!
         val outMap = mutableMapOf<String, ColumnIterator>()
-        val a = child000.next()
-        val b = child001.next()
+        val a = child00.next()
+        val b = child01.next()
         if (a != null && b != null) {
             outMap[projectedVariables[0]] = object : ColumnIterator() {
                 @JvmField
-                val child00 = child000
+                val child0 = child00
 
                 @JvmField
-                val child01 = child001
+                val child1 = child01
 
-                init {
-                    next = object : FuncColumnIteratorNext("ColumnIteratorJoinMergeSingleColumn.next") {
-                        @JvmField
-                        val child0 = child00
+                @JvmField
+                var head0: Int = a
 
-                        @JvmField
-                        val child1 = child01
+                @JvmField
+                var head1: Int = b
 
-                        @JvmField
-                        var head0: Int = a
+                @JvmField
+                var counter: Int = 0
 
-                        @JvmField
-                        var head1: Int = b
+                @JvmField
+                var value: Int = head0
 
-                        @JvmField
-                        var counter: Int = 0
-
-                        @JvmField
-                        var value: Int = head0
-
-                        override fun invoke(): Value? {
+                @JvmField
+                var label = 1
+                override fun next(): Value? {
+                    when (label) {
+                        0 -> {
+                            return null
+                        }
+                        1 -> {
                             if (counter == 0) {
                                 var change = true
                                 while (change) {
@@ -77,7 +73,7 @@ class POPJoinMergeSingleColumn(query: Query, projectedVariables: List<String>, c
                                     while (head0 < head1) {
                                         val c = child0.next()
                                         if (c == null) {
-                                            close()
+                                            _close()
                                             return null
                                         } else {
                                             head0 = c
@@ -87,7 +83,7 @@ class POPJoinMergeSingleColumn(query: Query, projectedVariables: List<String>, c
                                         change = true
                                         val c = child1.next()
                                         if (c == null) {
-                                            close()
+                                            _close()
                                             return null
                                         } else {
                                             head1 = c
@@ -122,49 +118,45 @@ class POPJoinMergeSingleColumn(query: Query, projectedVariables: List<String>, c
                                 counter = count0 * count1
                                 if (hadnull) {
                                     if (counter == 0) {
-                                        close()
+                                        _close()
                                     } else {
-                                        next = object : FuncColumnIteratorNext("ColumnIteratorJoinMergeSingleColumn.next") {
-                                            @JvmField
-                                            var counter1: Int = counter
-                                            override fun invoke(): Value? {
-                                                if (counter1 == 0) {
-                                                    close()
-                                                    return null
-                                                } else {
-                                                    counter1--
-                                                }
-                                                return value
-                                            }
-                                        }
+                                        label = 2
                                     }
                                 }
                             }
                             counter--
                             return value
                         }
-                    }
-                    close = object : FuncColumnIteratorClose("ColumnIteratorJoinMergeSingleColumn.close") {
-                        @JvmField
-                        val child0 = child00
-
-                        @JvmField
-                        val child1 = child01
-                        override fun invoke() {
-                            _close()
-                            SanityCheck.println({ "\$uuid close ColumnIteratorJoinMergeSingleColumn" })
-                            child0.close()
-                            child1.close()
+                        2 -> {
+                            if (counter == 0) {
+                                _close()
+                                return null
+                            } else {
+                                counter--
+                            }
+                            return value
                         }
                     }
                 }
 
+                inline fun _close() {
+                    if (label != 0) {
+                        label = 0
+                        SanityCheck.println({ "\$uuid close ColumnIteratorJoinMergeSingleColumn" })
+                        child0.close()
+                        child1.close()
+                    }
+                }
+
+                override fun close() {
+                    _close()
+                }
             }
         } else {
             outMap[projectedVariables[0]] = ColumnIterator()
             SanityCheck.println({ "$uuid close $classname" })
-            child000.close()
-            child001.close()
+            child00.close()
+            child01.close()
         }
         return IteratorBundle(outMap)
     }

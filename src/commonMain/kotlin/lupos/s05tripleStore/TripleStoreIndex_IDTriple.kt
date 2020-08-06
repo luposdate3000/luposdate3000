@@ -10,8 +10,6 @@ import lupos.s00misc.ReadWriteLock
 import lupos.s00misc.SanityCheck
 import lupos.s03resultRepresentation.Value
 import lupos.s04logicalOperators.iterator.ColumnIterator
-import lupos.s04logicalOperators.iterator.FuncColumnIteratorClose
-import lupos.s04logicalOperators.iterator.FuncColumnIteratorNext
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.Query
 import lupos.s05tripleStore.index_IDTriple.BulkImportIterator
@@ -132,112 +130,157 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
     }
 
     class IteratorS(it: TripleIterator, lock: ReadWriteLock) : ColumnIterator() {
+        @JvmField
         val uuid = TripleStoreIndex_IDTriple.debuguuiditerator++
 
-        init {
-            var totaltime = 0.0
-            var totalcounter = 0
-            next = object : FuncColumnIteratorNext("IteratorS.next") {
-                override fun invoke(): Value? {
-                    val timer = BenchmarkUtils.timesHelperMark()
-                    var tmp: Value? = null
-                    if (it.hasNext()) {
-                        tmp = it.nextS()
-                    } else {
-                        close()
-                    }
-                    totaltime += BenchmarkUtils.timesHelperDuration(timer)
-                    totalcounter++
-                    return tmp
+        @JvmField
+        var totaltime = 0.0
+
+        @JvmField
+        var totalcounter = 0
+
+        @JvmField
+        var label = 1
+        inline fun _close() {
+            if (label != 0) {
+                label = 0
+                BenchmarkUtils.setTimesHelper(8, totaltime, totalcounter)
+                runBlocking {
+                    lock.readUnlock()
+                    SanityCheck.println({ "readunlock 3 $uuid" })
                 }
             }
+        }
+
+        override fun close() {
+            _close()
+        }
+
+        override fun next(): Value? {
+            if (label == 1) {
+                val timer = BenchmarkUtils.timesHelperMark()
+                var tmp: Value? = null
+                if (it.hasNext()) {
+                    tmp = it.nextS()
+                } else {
+                    _close()
+                }
+                totaltime += BenchmarkUtils.timesHelperDuration(timer)
+                totalcounter++
+                return tmp
+            } else {
+                return null
+            }
+        }
+
+        init {
             runBlocking {
                 SanityCheck.println({ "readlock 3 $uuid" })
                 lock.readLock()
-            }
-            close = object : FuncColumnIteratorClose("IteratorS.close") {
-                override fun invoke() {
-                    BenchmarkUtils.setTimesHelper(8, totaltime, totalcounter)
-                    _close()
-                    runBlocking {
-                        lock.readUnlock()
-                        SanityCheck.println({ "readunlock 3 $uuid" })
-                    }
-                }
             }
         }
     }
 
     class IteratorP(it: TripleIterator, lock: ReadWriteLock) : ColumnIterator() {
+        @JvmField
         val uuid = TripleStoreIndex_IDTriple.debuguuiditerator++
 
-        init {
-            var totaltime = 0.0
-            var totalcounter = 0
-            next = object : FuncColumnIteratorNext("IteratorP.next") {
-                override fun invoke(): Value? {
-                    val timer = BenchmarkUtils.timesHelperMark()
-                    var tmp: Value? = null
-                    if (it.hasNext()) {
-                        tmp = it.nextP()
-                    } else {
-                        close()
-                    }
-                    totaltime += BenchmarkUtils.timesHelperDuration(timer)
-                    totalcounter++
-                    return tmp
+        @JvmField
+        var totaltime = 0.0
+
+        @JvmField
+        var totalcounter = 0
+
+        @JvmField
+        var label = 1
+        inline fun _close() {
+            if (label != 0) {
+                label = 0
+                BenchmarkUtils.setTimesHelper(9, totaltime, totalcounter)
+                runBlocking {
+                    lock.readUnlock()
+                    SanityCheck.println({ "readunlock 4 $uuid" })
                 }
             }
+        }
+
+        override fun close() {
+            _close()
+        }
+
+        override fun next(): Value? {
+            if (label == 1) {
+                val timer = BenchmarkUtils.timesHelperMark()
+                var tmp: Value? = null
+                if (it.hasNext()) {
+                    tmp = it.nextP()
+                } else {
+                    _close()
+                }
+                totaltime += BenchmarkUtils.timesHelperDuration(timer)
+                totalcounter++
+                return tmp
+            } else {
+                return null
+            }
+        }
+
+        init {
             runBlocking {
                 SanityCheck.println({ "readlock 4 $uuid" })
                 lock.readLock()
-            }
-            close = object : FuncColumnIteratorClose("IteratorP.close") {
-                override fun invoke() {
-                    BenchmarkUtils.setTimesHelper(9, totaltime, totalcounter)
-                    _close()
-                    runBlocking {
-                        lock.readUnlock()
-                        SanityCheck.println({ "readunlock 4 $uuid" })
-                    }
-                }
             }
         }
     }
 
     class IteratorO(it: TripleIterator, lock: ReadWriteLock) : ColumnIterator() {
+        @JvmField
         val uuid = TripleStoreIndex_IDTriple.debuguuiditerator++
 
-        init {
-            var totaltime = 0.0
-            var totalcounter = 0
-            next = object : FuncColumnIteratorNext("IteratorO.next") {
-                override fun invoke(): Value? {
-                    val timer = BenchmarkUtils.timesHelperMark()
-                    var tmp: Value? = null
-                    if (it.hasNext()) {
-                        tmp = it.nextO()
-                    } else {
-                        close()
-                    }
-                    totaltime += BenchmarkUtils.timesHelperDuration(timer)
-                    totalcounter++
-                    return tmp
+        @JvmField
+        var totaltime = 0.0
+
+        @JvmField
+        var totalcounter = 0
+
+        @JvmField
+        var label = 1
+        inline fun _close() {
+            if (label != 0) {
+                label = 0
+                BenchmarkUtils.setTimesHelper(10, totaltime, totalcounter)
+                runBlocking {
+                    lock.readUnlock()
+                    SanityCheck.println({ "readunlock 5 $uuid" })
                 }
             }
+        }
+
+        override fun close() {
+            _close()
+        }
+
+        override fun next(): Value? {
+            if (label == 1) {
+                val timer = BenchmarkUtils.timesHelperMark()
+                var tmp: Value? = null
+                if (it.hasNext()) {
+                    tmp = it.nextO()
+                } else {
+                    _close()
+                }
+                totaltime += BenchmarkUtils.timesHelperDuration(timer)
+                totalcounter++
+                return tmp
+            } else {
+                return null
+            }
+        }
+
+        init {
             runBlocking {
                 SanityCheck.println({ "readlock 5 $uuid" })
                 lock.readLock()
-            }
-            close = object : FuncColumnIteratorClose("IteratorO.close") {
-                override fun invoke() {
-                    BenchmarkUtils.setTimesHelper(10, totaltime, totalcounter)
-                    _close()
-                    runBlocking {
-                        lock.readUnlock()
-                        SanityCheck.println({ "readunlock 5 $uuid" })
-                    }
-                }
             }
         }
     }

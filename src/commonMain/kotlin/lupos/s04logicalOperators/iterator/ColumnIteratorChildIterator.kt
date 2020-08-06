@@ -2,47 +2,64 @@ package lupos.s04logicalOperators.iterator
 
 import lupos.s00misc.Coverage
 import lupos.s03resultRepresentation.Value
-import lupos.s04logicalOperators.iterator.FuncColumnIteratorClose
-import lupos.s04logicalOperators.iterator.FuncColumnIteratorNext
 
-class ColumnIteratorChildIterator() : ColumnIterator() {
-    val childs = mutableListOf(ColumnIterator())
-    var onNoMoreElements: () -> Unit = ::_onNoMoreElements
+abstract class ColumnIteratorChildIterator() : ColumnIterator() {
+    @JvmField
+    val childs = mutableListOf<ColumnIterator>()
 
-    init {
-        next = object : FuncColumnIteratorNext("ColumnIteratorChildIterator.next") {
-            override fun invoke(): Value? {
+    @JvmField
+    var label = 1
+    abstract fun onNoMoreElements()
+    inline fun closeOnNoMoreElements() {
+        label = 2
+    }
+
+    inline fun _close() {
+        if (label != 0) {
+            label = 0
+            for (child in childs) {
+                child.close()
+            }
+        }
+    }
+
+    override fun next(): Value? {
+        when (label) {
+            0 -> {
+                return null
+            }
+            1 -> {
+                var res: Value? = null
+                while (res == null) {
+                    while (childs.size > 0) {
+                        res = childs[0].next()
+                        if (res == null) {
+                            childs.removeAt(0)
+                        } else {
+                            return res
+                        }
+                    }
+                    onNoMoreElements()
+                    if (childs.size == 0) {
+                        close()
+                        return null
+                    }
+                }
+                return res
+            }
+            2 -> {
                 var res: Value? = null
                 while (childs.size > 0) {
                     res = childs[0].next()
                     if (res == null) {
                         childs.removeAt(0)
                     } else {
-                        break
+                        return res
                     }
                 }
-                if (res == null) {
-                    onNoMoreElements()
-                    if (childs.size == 0) {
-                        close()
-                    }
-                    res = next()
-                }
-                return res
+                close()
+                return null
             }
         }
-        close = object : FuncColumnIteratorClose("ColumnIteratorChildIterator.close") {
-            override fun invoke() {
-                onNoMoreElements = ::_onNoMoreElements
-                for (child in childs) {
-                    child.close()
-                }
-                _close()
-            }
-        }
-    }
-
-    fun _onNoMoreElements() {
-        close()
     }
 }

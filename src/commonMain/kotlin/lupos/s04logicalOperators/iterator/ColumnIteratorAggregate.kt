@@ -11,4 +11,11 @@ class ColumnIteratorAggregate() : ColumnIterator() {
     var evaluate: () -> Unit = ::_evaluate
     fun _evaluate() {
     }
+
+    override fun next(): Value? {
+        return null
+    }
+
+    override fun close() {
+    }
 }

@@ -14,7 +14,6 @@ import lupos.s00misc.SanityCheck
 import lupos.s00misc.TripleStoreModifyOperationsNotImplementedException
 import lupos.s03resultRepresentation.Value
 import lupos.s04logicalOperators.iterator.ColumnIterator
-import lupos.s04logicalOperators.iterator.FuncColumnIteratorNext
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.Query
 import lupos.s05tripleStore.index_SingleList.ColumnIteratorStore1
@@ -272,21 +271,18 @@ class TripleStoreIndex_SingleList : TripleStoreIndex() {
         return data
     }
 
-    class ImportIterator(val data: IntArray, val count: Int, val offset: Int) : ColumnIterator() {
+    class ImportIterator(@JvmField val data: IntArray, @JvmField val count: Int, @JvmField val offset: Int) : ColumnIterator() {
+        @JvmField
         var idx = offset
+        override fun close() {
+        }
 
-        init {
-            next = object : FuncColumnIteratorNext("ImportIterator.next") {
-                override fun invoke(): Value? {
-                    var res: Value?
-                    if (idx >= count) {
-                        res = null
-                    } else {
-                        res = data[idx]
-                        idx += 3
-                    }
-                    return res
-                }
+        override fun next(): Value? {
+            if (idx >= count) {
+                return null
+            } else {
+                idx += 3
+                return data[idx - 3]
             }
         }
     }

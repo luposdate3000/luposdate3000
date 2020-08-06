@@ -3,7 +3,6 @@ package lupos.s04logicalOperators.iterator
 import lupos.s00misc.Coverage
 import lupos.s03resultRepresentation.MyListValue
 import lupos.s03resultRepresentation.Value
-import lupos.s04logicalOperators.iterator.FuncColumnIteratorNext
 
 object ColumnIteratorMultiValue {
     operator fun invoke(values: IntArray, size: Int) = ColumnIteratorMultiValue_3(values, size)
@@ -11,52 +10,50 @@ object ColumnIteratorMultiValue {
     operator fun invoke(iterator: Iterator<Value>) = ColumnIteratorMultiValue_2(iterator)
 }
 
-class ColumnIteratorMultiValue_1(val values: MyListValue) : ColumnIterator() {
+class ColumnIteratorMultiValue_1(@JvmField val values: MyListValue) : ColumnIterator() {
+    @JvmField
     var index = 0
+    override fun close() {
+        index = values.size
+    }
 
-    init {
-        next = object : FuncColumnIteratorNext("ColumnIteratorMultiValue_1.next") {
-            override fun invoke(): Value? {
-                var res: Value?
-                if (index == values.size) {
-                    res = null
-                } else {
-                    res = values[index++]
-                }
-                return res
-            }
+    override fun next(): Value? {
+        if (index == values.size) {
+            return null
+        } else {
+            return values[index++]
         }
     }
 }
 
-class ColumnIteratorMultiValue_3(val values: IntArray, val size: Int) : ColumnIterator() {
+class ColumnIteratorMultiValue_3(@JvmField val values: IntArray, @JvmField val size: Int) : ColumnIterator() {
+    @JvmField
     var index = 0
+    override fun close() {
+        index = size
+    }
 
-    init {
-        next = object : FuncColumnIteratorNext("ColumnIteratorMultiValue_3.next") {
-            override fun invoke(): Value? {
-                var res: Value?
-                if (index == size) {
-                    res = null
-                } else {
-                    res = values[index++]
-                }
-                return res
-            }
+    override fun next(): Value? {
+        if (index == size) {
+            return null
+        } else {
+            return values[index++]
         }
     }
 }
 
-class ColumnIteratorMultiValue_2(val iterator: Iterator<Value>) : ColumnIterator() {
-    init {
-        next = object : FuncColumnIteratorNext("ColumnIteratorMultiValue_2.next") {
-            override fun invoke(): Value? {
-                var res: Value? = null
-                if (iterator.hasNext()) {
-                    res = iterator.next()
-                }
-                return res
-            }
+class ColumnIteratorMultiValue_2(@JvmField val iterator: Iterator<Value>) : ColumnIterator() {
+    @JvmField
+    var label = 1
+    override fun close() {
+        label = 0
+    }
+
+    override fun next(): Value? {
+        if (label != 0 && iterator.hasNext()) {
+            return iterator.next()
+        } else {
+            return null
         }
     }
 }

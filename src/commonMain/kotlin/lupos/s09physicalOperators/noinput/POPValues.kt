@@ -15,7 +15,6 @@ import lupos.s04arithmetikOperators.noinput.AOPConstant
 import lupos.s04arithmetikOperators.noinput.AOPValue
 import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.s04logicalOperators.iterator.ColumnIteratorMultiValue
-import lupos.s04logicalOperators.iterator.FuncColumnIteratorClose
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.noinput.LOPValues
 import lupos.s04logicalOperators.OPBase
@@ -160,16 +159,7 @@ open class POPValues : POPBase {
         if (rows == -1) {
             val outMap = mutableMapOf<String, ColumnIterator>()
             for (name in variables) {
-                val tmp = ColumnIteratorMultiValue(data[name]!!)
-                tmp.close = object : FuncColumnIteratorClose("POPValues.close") {
-                    override fun invoke() {
-                        tmp._close()
-                        for (variable in variables) {
-                            outMap[variable]!!.close()
-                        }
-                    }
-                }
-                outMap[name] = tmp
+                outMap[name] = ColumnIteratorMultiValue(data[name]!!)
             }
             return IteratorBundle(outMap)
         } else {

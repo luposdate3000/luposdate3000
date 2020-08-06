@@ -58,7 +58,6 @@ abstract class OPBase(@JvmField val query: Query, @JvmField val operatorID: EOpe
 
     @JvmField
     var histogramResult: HistogramResult? = null
-
     fun getHistogram(): HistogramResult {
         if (histogramResult == null) {
             histogramResult = calculateHistogram()
@@ -418,7 +417,6 @@ abstract class OPBase(@JvmField val query: Query, @JvmField val operatorID: EOpe
 
     @JvmField
     val uuid: Long = global_uuid.next()
-
     override fun toString(): String = toXMLElement().toPrettyString()
     fun getRequiredVariableNamesRecoursive(): List<String> {
         val res = getRequiredVariableNames().toMutableList()
