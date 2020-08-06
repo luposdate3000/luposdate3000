@@ -116,7 +116,8 @@ class POPJoinMerge(query: Query, projectedVariables: List<String>, childA: OPBas
                         __close()
                     }
 
-                    override fun onNoMoreElements() {
+                    override fun next():Value? {
+return next_helper{
                         for (i in 0 until columnsINJ[0].size) {
                             keyCopy[i] = key[0][i]
                         }
@@ -139,7 +140,8 @@ class POPJoinMerge(query: Query, projectedVariables: List<String>, childA: OPBas
                             }
                         }
                         POPJoin.crossProduct(data, keyCopy, columnsOUT, columnsOUTJ, countA, countB)
-                    }
+                   }
+ }
                 }
                 when (iteratorConfig.second) {
                     0 -> {

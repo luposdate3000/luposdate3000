@@ -163,7 +163,8 @@ class POPJoinWithStore(query: Query, projectedVariables: List<String>, childA: O
                         }
                     }
 
-                    override fun onEmptyQueue() {
+                    override fun next():Value? {
+return next_helper{
                         loopA@ while (true) {
                             var done = true
                             loopB@ for (i in 0 until variablINBO.size) {
@@ -219,7 +220,8 @@ class POPJoinWithStore(query: Query, projectedVariables: List<String>, childA: O
                                 }
                             }
                         }
-                    }
+                   }
+ }
                 }
                 outMap[columnConfig.first] = column
                 when (columnConfig.second) {

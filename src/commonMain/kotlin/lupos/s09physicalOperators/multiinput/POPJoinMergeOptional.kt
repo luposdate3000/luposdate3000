@@ -87,7 +87,8 @@ val iterator=object:ColumnIteratorChildIterator(){
 override fun close(){
 _close()
 }
-                override fun onNoMoreElements  (){
+                override fun next  ():Value?{
+return next_helper{
                     for (i in 0 until columnsINJ[0].size) {
                         keyCopy[i] = key[0][i]
                     }
@@ -110,6 +111,7 @@ _close()
                     }
                     POPJoin.crossProduct(data, keyCopy, columnsOUT, columnsOUTJ, countA, countB)
                 }
+}
 }
 outIteratorsAllocated.add(iterator)
 when(iteratorConfig.second){

@@ -322,7 +322,8 @@ class POPGroup : POPBase {
                                 }
                             }
 
-                            override fun onEmptyQueue() {
+                            override fun next():Value? {
+return next_helper{
                                 var changedKey = false
                                 loop@ while (true) {
                                     changedKey = false
@@ -400,7 +401,8 @@ class POPGroup : POPBase {
                                     if (changedKey) {
                                         break@loop
                                     }
-                                }
+                   }
+             }
                             }
                         }
                     }

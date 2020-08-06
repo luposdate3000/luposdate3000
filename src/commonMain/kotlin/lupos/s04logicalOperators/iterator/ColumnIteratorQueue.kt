@@ -17,7 +17,7 @@ abstract class ColumnIteratorQueue() : ColumnIterator() {
         label = 0
     }
 
-    override fun next(): Value? {
+    inline fun next_helper(crossinline onEmptyQueue:()->Unit): Value? {
         when (label) {
             1 -> {
                 if (queue.size == 0) {
@@ -46,7 +46,6 @@ return null
         }
     }
 
-    abstract fun onEmptyQueue()
     inline fun closeOnEmptyQueue() {
         label = 2
     }

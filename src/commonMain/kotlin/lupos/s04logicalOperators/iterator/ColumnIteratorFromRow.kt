@@ -1,5 +1,6 @@
 package lupos.s04logicalOperators.iterator
 
+import lupos.s03resultRepresentation.Value
 import lupos.s00misc.Coverage
 
 object ColumnIteratorFromRow {
@@ -8,7 +9,8 @@ object ColumnIteratorFromRow {
 val iterators=mutableListOf<ColumnIteratorQueue>()
         for (i in 0 until iterator.columns.size) {
             val iterator2 = object : ColumnIteratorQueue() {
-                override fun onEmptyQueue() {
+                override fun next():Value? {
+return next_helper{
                     var res2 = iterator.next()
                     if (res2 >= 0) {
                         for (j in 0 until iterator.columns.size) {
@@ -16,6 +18,7 @@ val iterators=mutableListOf<ColumnIteratorQueue>()
                         }
                     }
                 }
+}
 
                 override fun close() {
                     if (label != 0) {

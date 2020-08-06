@@ -9,7 +9,6 @@ abstract class ColumnIteratorChildIterator() : ColumnIterator() {
 
     @JvmField
     var label = 1
-    abstract fun onNoMoreElements()
     inline fun closeOnNoMoreElements() {
         label = 2
     }
@@ -23,7 +22,7 @@ abstract class ColumnIteratorChildIterator() : ColumnIterator() {
         }
     }
 
-    override fun next(): Value? {
+    inline fun next_helper(crossinline onNoMoreElements:()->Unit): Value? {
         when (label) {
             1 -> {
                 var res: Value? = null

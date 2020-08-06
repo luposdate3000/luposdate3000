@@ -6,6 +6,7 @@ class ColumnIteratorChildIteratorEmpty():ColumnIteratorChildIterator(){
 override fun close(){ 
 _close()
 }
-override fun onNoMoreElements(){
+override fun next():Value?{
+return next_helper{}
 }
 }

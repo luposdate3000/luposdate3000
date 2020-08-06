@@ -70,7 +70,8 @@ val columnsOut = Array<ColumnIteratorQueue>(variablesOut.size) {ColumnIteratorQu
 override fun close(){
 _close()
 }
-                    override fun onEmptyQueue() {
+                    override fun next():Value? {
+return next_helper{
                         var done = false
                         for (variableIndex2 in 0 until variablesLocal.size) {
                             if (boundIndex != variableIndex2) {
@@ -97,7 +98,8 @@ _close()
                             for (variableIndex2 in 0 until columnsOut.size) {
                                 columnsOut[variableIndex2].queue.add(columnsOut[variableIndex2].tmp!!)
                             }
-                        }
+                   }
+     }
                     }
                 }
             }

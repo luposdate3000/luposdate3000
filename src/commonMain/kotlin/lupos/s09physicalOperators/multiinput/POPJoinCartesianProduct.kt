@@ -117,6 +117,7 @@ class POPJoinCartesianProduct(query: Query, projectedVariables: List<String>, ch
                     SanityCheck.println({ "POPJoinCartesianProductXXX$uuid mode F" })
                     for (i in 0 until columns[1].size + columns[2].size) {
                         val iterator = object : ColumnIteratorChildIterator() {
+@JvmField val childA0=childA
                             override fun close() {
                                 __close()
                             }
@@ -125,13 +126,14 @@ class POPJoinCartesianProduct(query: Query, projectedVariables: List<String>, ch
                                 if (label != 0) {
                                     _close()
                                     SanityCheck.println({ "POPJoinCartesianProductXXX$uuid close A $classname" })
-                                    for ((k, v) in childA.columns) {
+                                    for ((k, v) in childA0.columns) {
                                         v.close()
                                     }
                                 }
                             }
 
-                            override fun onNoMoreElements() {
+                            override fun next():Value? {
+return next_helper{
                                 var done = false
                                 for (columnIndex in 0 until columnsINAO.size) {
                                     val value = columnsINAO[columnIndex].next()
@@ -139,7 +141,7 @@ class POPJoinCartesianProduct(query: Query, projectedVariables: List<String>, ch
                                         SanityCheck.check { columnIndex == 0 }
                                         done = true
                                         SanityCheck.println({ "POPJoinCartesianProductXXX$uuid close A $classname" })
-                                        for ((k, v) in childA.columns) {
+                                        for ((k, v) in childA0.columns) {
                                             v.close()
                                         }
                                         break
@@ -150,7 +152,8 @@ class POPJoinCartesianProduct(query: Query, projectedVariables: List<String>, ch
                                     for (columnIndex in 0 until columnsINBO.size) {
                                         outO[1][columnIndex].childs.add(ColumnIteratorRepeatValue(1, ResultSetDictionary.undefValue))
                                     }
-                                }
+                   }
+             }
                             }
                         }
                         if (i < columns[1].size) {
@@ -171,6 +174,7 @@ class POPJoinCartesianProduct(query: Query, projectedVariables: List<String>, ch
                 SanityCheck.println({ "POPJoinCartesianProductXXX$uuid mode G" })
                 for (i in 0 until columns[1].size + columns[2].size) {
                     val iterator = object : ColumnIteratorChildIterator() {
+@JvmField val childA0=childA
                         override fun close() {
                             __close()
                         }
@@ -179,13 +183,14 @@ class POPJoinCartesianProduct(query: Query, projectedVariables: List<String>, ch
                             if (label != 0) {
                                 _close()
                                 SanityCheck.println({ "POPJoinCartesianProductXXX$uuid close A $classname" })
-                                for ((k, v) in childA.columns) {
+                                for ((k, v) in childA0.columns) {
                                     v.close()
                                 }
                             }
                         }
 
-                        override fun onNoMoreElements() {
+                        override fun next():Value? {
+return next_helper{
                             var done = false
                             for (columnIndex in 0 until columnsINAO.size) {
                                 val value = columnsINAO[columnIndex].next()
@@ -193,7 +198,7 @@ class POPJoinCartesianProduct(query: Query, projectedVariables: List<String>, ch
                                     SanityCheck.check { columnIndex == 0 }
                                     done = true
                                     SanityCheck.println({ "POPJoinCartesianProductXXX$uuid close A $classname" })
-                                    for ((k, v) in childA.columns) {
+                                    for ((k, v) in childA0.columns) {
                                         v.close()
                                     }
                                     break
@@ -204,7 +209,8 @@ class POPJoinCartesianProduct(query: Query, projectedVariables: List<String>, ch
                                 for (columnIndex in 0 until columnsINBO.size) {
                                     outO[1][columnIndex].childs.add(ColumnIteratorMultiValue(data[columnIndex]))
                                 }
-                            }
+                   }
+         }
                         }
                     }
                     if (i < columns[1].size) {

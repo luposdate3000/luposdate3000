@@ -165,26 +165,29 @@ class POPJoinHashMap(query: Query, projectedVariables: List<String>, childA: OPB
 //--- calculate next "cartesian product"
         for (iteratorConfig in outIterators) {
             val iterator = object : ColumnIteratorChildIterator() {
-                //this is just function pointer assignment. this loop does not calculate anything
+@JvmField val outIteratorsAllocated0=outIteratorsAllocated
+@JvmField val columnsINAJ0=columnsINAJ
+@JvmField val columnsINAO0=columnsINAO
 override fun close(){
 __close()
 }
                 inline fun __close() {
                     if (label != 0) {
                         _close()
-                        for (iterator2 in outIteratorsAllocated) {
+                        for (iterator2 in outIteratorsAllocated0) {
                             iterator2.closeOnNoMoreElements()
                         }
-                        for (closeIndex in 0 until columnsINAJ.size) {
-                            columnsINAJ[closeIndex].close()
+                        for (closeIndex in 0 until columnsINAJ0.size) {
+                            columnsINAJ0[closeIndex].close()
                         }
-                        for (closeIndex in 0 until columnsINAO.size) {
-                            columnsINAO[closeIndex].close()
+                        for (closeIndex in 0 until columnsINAO0.size) {
+                            columnsINAO0[closeIndex].close()
                         }
                     }
                 }
 
-                override fun onNoMoreElements() {
+                override fun next():Value? {
+return next_helper{
                     var done = false
                     while (!done) {
                         if (currentKey == null) {
@@ -283,6 +286,7 @@ __close()
                         }
                     }
                 }
+}
             }
             outIteratorsAllocated.add(iterator)
             when (iteratorConfig.second) {

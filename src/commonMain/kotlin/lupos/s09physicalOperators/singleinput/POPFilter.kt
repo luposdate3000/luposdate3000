@@ -1,5 +1,5 @@
 package lupos.s09physicalOperators.singleinput
-
+import lupos.s03resultRepresentation.Value
 import lupos.s00misc.Coverage
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.ESortPriority
@@ -60,7 +60,8 @@ columnsLocal.add(                object : ColumnIteratorQueue() {
                         }
                     }
 
-                    override fun onEmptyQueue() {
+                    override fun next() :Value?{
+return next_helper{
                         try {
                             var done = false
                             while (!done) {
@@ -100,6 +101,7 @@ columnsLocal.add(                object : ColumnIteratorQueue() {
                             throw e
                         }
                     }
+}
                 })
             }
             for (variableIndex in 0 until variables.size) {

@@ -125,7 +125,8 @@ class TripleStoreIndex_MapMapList : TripleStoreIndex() {
                                     _close()
                                 }
 
-                                override fun onNoMoreElements() {
+                                override fun next():Value? {
+return next_helper{
                                     if (iter.hasNext()) {
                                         val key = iter.next()
                                         val value = iter.value()
@@ -135,7 +136,8 @@ class TripleStoreIndex_MapMapList : TripleStoreIndex() {
                                         if (projection[1] != "_") {
                                             columnsArr[1].childs.add(ColumnIteratorMultiValue(value.iterator()))
                                         }
-                                    }
+                   }
+                 }
                                 }
                             }
                         }
@@ -175,7 +177,8 @@ class TripleStoreIndex_MapMapList : TripleStoreIndex() {
                             _close()
                         }
 
-                        override fun onNoMoreElements() {
+                        override fun next():Value? {
+return next_helper{
                             while (true) {
                                 if (iter2.hasNext()) {
                                     val key2 = iter2.next()
@@ -198,7 +201,8 @@ class TripleStoreIndex_MapMapList : TripleStoreIndex() {
                                     } else {
                                         break
                                     }
-                                }
+                   }
+             }
                             }
                         }
                     }
