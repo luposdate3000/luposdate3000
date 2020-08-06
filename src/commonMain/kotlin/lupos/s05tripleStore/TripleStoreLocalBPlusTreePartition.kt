@@ -95,7 +95,6 @@ class TripleStoreLocalBPlusTreePartition(name: String) : TripleStoreLocalBase(na
             }
         }
         featureDataMap[TripleStoreFeature.PARTITION.ordinal] = Pair(s, d.size)
-        s = d.size
         data = IntArray(d.size)
         for (i in 0 until d.size) {
             data[i] = d[i]

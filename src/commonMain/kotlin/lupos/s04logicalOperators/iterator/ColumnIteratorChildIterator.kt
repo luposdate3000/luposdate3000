@@ -44,9 +44,8 @@ abstract class ColumnIteratorChildIterator() : ColumnIterator() {
                 return res
             }
             2 -> {
-                var res: Value? = null
                 while (childs.size > 0) {
-                    res = childs[0].next()
+                    val res = childs[0].next()
                     if (res == null) {
                         childs.removeAt(0)
                     } else {

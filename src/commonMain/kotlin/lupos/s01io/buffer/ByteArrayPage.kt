@@ -93,7 +93,7 @@ import lupos.s01io.buffer.Page
 }
 
 class ByteArrayPage {
-     val PAGESIZE = 8 * 1024
+    val PAGESIZE = 8 * 1024
 
     @JvmField // in JVM-environment: this does not generate any getter avoiding a virtual method call!
     val byteArray = ByteArray(PAGESIZE)

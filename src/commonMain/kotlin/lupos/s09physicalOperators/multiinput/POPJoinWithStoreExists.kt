@@ -45,7 +45,7 @@ class POPJoinWithStoreExists(query: Query, projectedVariables: List<String>, chi
                 params[i] = AOPConstant(query, 0)
             }
         }
-        val index = LOPTriple.getIndex(params.map { it as OPBase }.toTypedArray(), listOf())
+        val index = LOPTriple.getIndex(params.map { it }.toTypedArray(), listOf())
         var done = false
         val iterators = iteratorsHelper.toTypedArray()
         val mapping = IntArray(mappingHelper.size) { mappingHelper[it] }

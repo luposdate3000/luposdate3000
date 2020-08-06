@@ -53,7 +53,6 @@ class POPSplitPartition(query: Query, projectedVariables: List<String>, val part
             return children[0].evaluate(parent)
         } else {
             var iterators: Array<IteratorBundle>? = null
-            var job: Job? = null
             val childPartition = Partition(parent, partitionVariable, GlobalScope)
             var partitionHelper = query.getPartitionHelper(uuid)
             partitionHelper.lock.withWriteLock {
@@ -62,9 +61,7 @@ class POPSplitPartition(query: Query, projectedVariables: List<String>, val part
                     iterators = tmpIterators[childPartition]
                 }
                 val tmpJob = partitionHelper.jobs
-                if (tmpJob != null) {
-                    job = tmpJob[childPartition]
-                }
+                var job: Job
                 if (iterators == null) {
                     iterators = Array(Partition.k) { IteratorBundle(0) }
                     val variables = getProvidedVariableNames()
@@ -98,7 +95,6 @@ class POPSplitPartition(query: Query, projectedVariables: List<String>, val part
                         }
                         SanityCheck.check { hashVariableIndex != -1 }
                         val cacheArr = IntArray(Partition.k) { it }
-                        var cacheSize = 1
                         loop@ while (isActive) {
                             SanityCheck.println({ "split $uuid writer loop start" })
                             var tmp = child.next()
@@ -108,6 +104,7 @@ class POPSplitPartition(query: Query, projectedVariables: List<String>, val part
                                 break@loop
                             } else {
                                 var q = child.buf[tmp + hashVariableIndex]
+                                var cacheSize: Int
                                 if (q == ResultSetDictionary.undefValue) {
                                     //broadcast undef to every partition
                                     SanityCheck.println({ " attention may increase result count here - this is always ok, _if there is a join afterwards immediately - otherwise probably not" })
@@ -188,7 +185,7 @@ class POPSplitPartition(query: Query, projectedVariables: List<String>, val part
                             }
                             if (tmp == Partition.k) {
                                 runBlocking {
-                                    job!!.cancelAndJoin()
+                                    job.cancelAndJoin()
                                 }
                             }
                             SanityCheck.println({ "split $uuid $p reader closed" })
@@ -197,10 +194,10 @@ class POPSplitPartition(query: Query, projectedVariables: List<String>, val part
                     }
                     if (tmpIterators == null || tmpJob == null) {
                         partitionHelper.iterators = mutableMapOf(childPartition to iterators!!)
-                        partitionHelper.jobs = mutableMapOf(childPartition to job!!)
+                        partitionHelper.jobs = mutableMapOf(childPartition to job)
                     } else {
                         tmpIterators[childPartition] = iterators!!
-                        tmpJob[childPartition] = job!!
+                        tmpJob[childPartition] = job
                     }
                 }
             }

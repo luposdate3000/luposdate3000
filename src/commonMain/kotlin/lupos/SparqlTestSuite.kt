@@ -55,7 +55,7 @@ import lupos.s16network.ServerCommunicationSend
 
 class SparqlTestSuite() {
     companion object {
-    const    val errorBoundForDecimalsDigits = 6
+        const val errorBoundForDecimalsDigits = 6
         val filterList = mutableListOf<String>()
     }
 
@@ -447,7 +447,6 @@ class SparqlTestSuite() {
         File("log/storetest").mkdirs()
         var ignoreJena = !executeJena
         var timer = Monotonic.markNow()
-        var shouldHaveSkipped = false
         try {
             val toParse = readFileOrNull(queryFile)!!
             if (toParse.contains("service", true)) {
@@ -469,7 +468,6 @@ class SparqlTestSuite() {
                     if (MAX_TRIPLES_DURING_TEST > 0 && lastTripleCount > MAX_TRIPLES_DURING_TEST) {
                         GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Time(${timer.elapsedNow().toDouble(DurationUnit.SECONDS)})" })
                         GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Success(Skipped)" })
-                        shouldHaveSkipped = true
                         return true
                     }
                     GlobalLogger.log(ELoggerType.TEST_RESULT, { "InputData Graph[] Original" })
@@ -477,13 +475,12 @@ class SparqlTestSuite() {
                     GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Input Data Graph[]" })
                     var xmlQueryInput = XMLElement.parseFromAny(inputData, inputDataFileName)!!
                     if (inputDataFileName.endsWith(".ttl") || inputDataFileName.endsWith(".n3")) {
-                        var xmlGraphBulk: XMLElement? = null
                         val query = Query()
                         query.workingDirectory = queryFile.substring(0, queryFile.lastIndexOf("/"))
                         HttpEndpoint.import_turtle_files(inputDataFileName, MyMapStringIntPatriciaTrie())
                         val bulkSelect = DistributedTripleStore.getDefaultGraph(query).getIterator(arrayOf(AOPVariable(query, "s"), AOPVariable(query, "p"), AOPVariable(query, "o")), EIndexPattern.SPO)
-                        xmlGraphBulk = QueryResultToXMLElement.toXML(bulkSelect)
-                        if ( !xmlGraphBulk.myEqualsUnclean(xmlQueryInput, true, true, true)) {
+                        val xmlGraphBulk = QueryResultToXMLElement.toXML(bulkSelect)
+                        if (!xmlGraphBulk.myEqualsUnclean(xmlQueryInput, true, true, true)) {
                             GlobalLogger.log(ELoggerType.TEST_RESULT, { "test xmlQueryInput :: " + xmlQueryInput.toPrettyString() })
                             GlobalLogger.log(ELoggerType.TEST_RESULT, { "test xmlGraphBulk :: " + xmlGraphBulk.toPrettyString() })
                             GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Time(${timer.elapsedNow().toDouble(DurationUnit.SECONDS)})" })
@@ -500,12 +497,11 @@ class SparqlTestSuite() {
                     File("log/storetest").mkdirs()
                     DistributedTripleStore.localStore.safeToFolder()
                     DistributedTripleStore.localStore.loadFromFolder()
-                    var xmlGraphLoad: XMLElement? = null
                     val query = Query()
                     query.workingDirectory = queryFile.substring(0, queryFile.lastIndexOf("/"))
                     val loadSelect = DistributedTripleStore.getDefaultGraph(query).getIterator(arrayOf(AOPVariable(query, "s"), AOPVariable(query, "p"), AOPVariable(query, "o")), EIndexPattern.SPO)
-                    xmlGraphLoad = QueryResultToXMLElement.toXML(loadSelect)
-                    if ( !xmlGraphLoad.myEqualsUnclean(xmlQueryInput, true, true, true)) {
+                    val xmlGraphLoad = QueryResultToXMLElement.toXML(loadSelect)
+                    if (!xmlGraphLoad.myEqualsUnclean(xmlQueryInput, true, true, true)) {
                         GlobalLogger.log(ELoggerType.TEST_RESULT, { "test xmlQueryInput :: " + xmlQueryInput.toPrettyString() })
                         GlobalLogger.log(ELoggerType.TEST_RESULT, { "test xmlGraphLoad :: " + xmlGraphLoad.toPrettyString() })
                         GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Time(${timer.elapsedNow().toDouble(DurationUnit.SECONDS)})" })
@@ -563,7 +559,6 @@ class SparqlTestSuite() {
                 if (MAX_TRIPLES_DURING_TEST > 0 && lastTripleCount > MAX_TRIPLES_DURING_TEST) {
                     GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Time(${timer.elapsedNow().toDouble(DurationUnit.SECONDS)})" })
                     GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Success(Skipped)" })
-                    shouldHaveSkipped = true
                     return true
                 }
             }

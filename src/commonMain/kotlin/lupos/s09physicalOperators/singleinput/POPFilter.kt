@@ -44,7 +44,7 @@ class POPFilter(query: Query, projectedVariables: List<String>, filter: AOPBase,
         val expression = (children[1] as AOPBase).evaluateAsBoolean(resLocal)
         SanityCheck.println({ "POPFilterXXX$uuid open A $classname" })
         val child = children[0].evaluate(parent)
-        var res: IteratorBundle? = null
+        var res: IteratorBundle
         try {
             val columnsIn = Array(variables.size) { child.columns[variables[it]] }
             val columnsOut = mutableListOf<ColumnIteratorQueue>()

@@ -23,7 +23,7 @@ enum class TripleStoreFeature {
     PARTITION
 }
 
-sealed abstract class TripleStoreFeatureParams(val feature: TripleStoreFeature, val params: Array<AOPBase>) {
+sealed class TripleStoreFeatureParams(val feature: TripleStoreFeature, val params: Array<AOPBase>) {
     abstract fun chooseData(data: IntArray, featureRange: Pair<Int, Int>, params: TripleStoreFeatureParams): Int
 }
 
@@ -76,7 +76,7 @@ class TripleStoreFeatureParamsDefault(val idx: EIndexPattern, params: Array<AOPB
                 SanityCheck.check { filter.size == ii }
                 filter.add(query.dictionary.valueToGlobal(param.value))
             } else if (param is AOPVariable) {
-                projection.add((param as AOPVariable).name)
+                projection.add(param.name)
             } else {
                 SanityCheck.checkUnreachable()
             }
@@ -114,7 +114,7 @@ class TripleStoreFeatureParamsPartition(val idx: EIndexPattern, params: Array<AO
             val i = idx.tripleIndicees[ii]
             val param = params[i]
             if (param is AOPVariable) {
-                if ((param as AOPVariable).name == name) {
+                if (param.name == name) {
                     return j
                 } else {
                     j++

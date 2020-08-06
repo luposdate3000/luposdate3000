@@ -29,18 +29,12 @@ class LogicalOptimizerFilterMergeAND(query: Query) : OptimizerBase(query, EOptim
                     SanityCheck.check { node.dontSplitFilter == 1 || child.dontSplitFilter == 1 }
                     val a: AOPBase
                     val b: AOPBase
-                    val a1: Int
-                    val b1: Int
                     if (node.dontSplitFilter < child.dontSplitFilter) {
                         a = node.children[1] as AOPBase
                         b = child.children[1] as AOPBase
-                        a1 = node.dontSplitFilter
-                        b1 = child.dontSplitFilter
                     } else {
                         a = child.children[1] as AOPBase
                         b = node.children[1] as AOPBase
-                        a1 = child.dontSplitFilter
-                        b1 = node.dontSplitFilter
                     }
                     SanityCheck.check { b is AOPOr }
                     val c = b.children[0] as AOPBase

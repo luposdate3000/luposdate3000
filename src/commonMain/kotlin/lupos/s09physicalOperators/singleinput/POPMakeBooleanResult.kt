@@ -31,7 +31,7 @@ class POPMakeBooleanResult(query: Query, projectedVariables: List<String>, child
         } else if (children[0] is OPEmptyRow) {
             flag = true
         } else {
-val            child = children[0].evaluate(parent)
+            val child = children[0].evaluate(parent)
             if (variables.size > 0) {
                 flag = child.columns[variables[0]]!!.next() != null
                 for (variable in variables) {

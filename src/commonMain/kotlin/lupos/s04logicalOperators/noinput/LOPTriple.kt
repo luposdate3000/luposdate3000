@@ -113,7 +113,7 @@ class LOPTriple(query: Query, s: AOPBase, p: AOPBase, o: AOPBase, @JvmField val 
                 }
                 /*return*/t as AOPBase
             }
-            var idx = getIndex(params.map { it as OPBase }.toTypedArray(), listOf<String>())
+            var idx = getIndex(params.map { it }.toTypedArray(), listOf<String>())
             var childHistogram = store.getHistogram(params, idx)
             if (childHistogram.first < res.count || res.count == -1) {
                 res.count = childHistogram.first

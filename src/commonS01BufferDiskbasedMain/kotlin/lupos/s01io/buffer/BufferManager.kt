@@ -11,7 +11,7 @@ class BufferManager {
     /**
      * the max. number of opened files
      */
-    const    val MAXPAGES = 10 // first like this, should be dependent on size of main memory in the used computer
+    const val MAXPAGES = 10 // first like this, should be dependent on size of main memory in the used computer
     private val cache = LeastRecentlyUsed<PageAddress, Page?>(PageAddress("", -1), null, MAXPAGES)
     fun getPage(file: String, number: Int): Page = getPage(PageAddress(file, number))
     fun getPage(pageAddress: PageAddress): Page {

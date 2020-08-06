@@ -73,10 +73,8 @@ class TripleStoreBulkImport(@JvmField val query: Query, @JvmField val graphName:
     fun full() = idx >= size
 
     companion object {
-    const    val sizeshift = 20
-
-    const    val size = 3 * (1 shl sizeshift)
-
+        const val sizeshift = 20
+        const val size = 3 * (1 shl sizeshift)
         fun mergeSort(source: IntArray, target: IntArray, off: Int, mid: Int, count: Int, orderBy: IntArray) {
             //assuming that "off .. off + count / 2" and "off + count / 2 .. off + count" are sorted
             val aEnd = (off + mid) * 3

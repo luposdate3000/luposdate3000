@@ -324,9 +324,8 @@ class POPGroup : POPBase {
 
                             override fun next(): Value? {
                                 return next_helper {
-                                    var changedKey = false
                                     loop@ while (true) {
-                                        changedKey = false
+                                        var changedKey = false
                                         if (nextKey != null) {
                                             currentKey = nextKey!!
                                             nextKey = null

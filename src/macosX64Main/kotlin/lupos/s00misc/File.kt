@@ -18,7 +18,7 @@ class File {
         this.filename = filename
     }
 
-const                val bufferLength = 64 * 1024
+    const val bufferLength = 64 * 1024
     fun readAsString(): String {
         var result: String = ""
         val file = fopen(filename, "r")

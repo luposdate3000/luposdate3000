@@ -45,6 +45,9 @@ class POPGraphOperation(query: Query,
             }
         } else {
             when (action) {
+                EGraphOperationType.LOAD -> {
+                    res += "LOAD"
+                }
                 EGraphOperationType.CLEAR -> {
                     res += "CLEAR"
                 }

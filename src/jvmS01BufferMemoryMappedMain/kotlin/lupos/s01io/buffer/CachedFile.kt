@@ -14,8 +14,7 @@ import kotlin.jvm.JvmField
 class CachedFile {
     @JvmField
     val file: RandomAccessFile
-
-    const    val PAGESIZE = 8 * 1024L
+    const val PAGESIZE = 8 * 1024L
 
     constructor(filename: String) {
         val paths = filename.split("/")
