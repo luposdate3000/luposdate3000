@@ -55,7 +55,7 @@ class POPBind(query: Query, projectedVariables: List<String>, @JvmField val name
         var expression: () -> ValueDefinition = { ValueError() }
         val columnsOut = Array<ColumnIteratorQueue>(variablesOut.size) { ColumnIteratorQueueEmpty() }
         if (variablesLocal.size == 1 && children[0].getProvidedVariableNames().size == 0) {
-            outMap[name.name] = ColumnIteratorRepeatValue(child.count, query.dictionary.createValue(expression!!()))
+            outMap[name.name] = ColumnIteratorRepeatValue(child.count, query.dictionary.createValue(expression()))
         } else {
             var boundIndex = -1
             for (variableIndex in 0 until variablesLocal.size) {
@@ -95,7 +95,7 @@ class POPBind(query: Query, projectedVariables: List<String>, @JvmField val name
                                 }
                             }
                             if (!done) {
-                                columnsLocal[boundIndex].tmp = query.dictionary.createValue(expression!!())
+                                columnsLocal[boundIndex].tmp = query.dictionary.createValue(expression())
                                 for (variableIndex2 in 0 until columnsOut.size) {
                                     columnsOut[variableIndex2].queue.add(columnsOut[variableIndex2].tmp!!)
                                 }

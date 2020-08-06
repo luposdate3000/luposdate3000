@@ -285,7 +285,6 @@ class XMLElement {
                         j++
                     }
                     return false
-                    i++
                 }
             }
         } else {

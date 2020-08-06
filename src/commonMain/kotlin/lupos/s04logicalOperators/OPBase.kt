@@ -78,7 +78,7 @@ abstract class OPBase(@JvmField val query: Query, @JvmField val operatorID: EOpe
     }
 
     abstract fun calculateHistogram(): HistogramResult
-    open fun evaluate(partition: Partition): IteratorBundle = throw EvaluateNotImplementedException(classname)
+    open fun evaluate(parent: Partition): IteratorBundle = throw EvaluateNotImplementedException(classname)
     abstract fun cloneOP(): OPBase
     fun getChildrenCountRecoursive(): Int {
         var res = children.size

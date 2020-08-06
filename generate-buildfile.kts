@@ -614,7 +614,9 @@ tasks.withType<KotlinCompile>().all {
     kotlinOptions.jvmTarget = "14"
     //see /opt/kotlin/compiler/cli/cli-common/src/org/jetbrains/kotlin/cli/common/arguments/K2JVMCompilerArguments.kt
     //or kotlinc -X
-    kotlinOptions.freeCompilerArgs += "-Xno-param-assertions -Xno-receiver-assertions -Xno-call-assertions"
+    kotlinOptions.freeCompilerArgs += "-Xno-param-assertions"
+    kotlinOptions.freeCompilerArgs += "-Xno-receiver-assertions"
+    kotlinOptions.freeCompilerArgs += "-Xno-call-assertions"
 }""")
                 }
                 else -> {

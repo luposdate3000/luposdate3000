@@ -182,6 +182,6 @@ class POPFilter(query: Query, projectedVariables: List<String>, filter: AOPBase,
             }
             throw e
         }
-        return res!!
+        return res
     }
 }

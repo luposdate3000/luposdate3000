@@ -56,10 +56,8 @@ object HttpEndpoint {
             BenchmarkUtils.start(EBenchmark.IMPORT_DICT)
             var res: Value
             if (v2.startsWith("_:")) {
-                var flag = false
                 res = dict.getOrCreate(v2, {
                     SanityCheck.check { !usePredefinedDict }
-                    flag = true
                     /*return*/ nodeGlobalDictionary.createNewBNode()
                 })
             } else {

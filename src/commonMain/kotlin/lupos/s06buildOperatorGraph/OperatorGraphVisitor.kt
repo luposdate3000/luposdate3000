@@ -380,7 +380,7 @@ class OperatorGraphVisitor(@JvmField val query: Query) : Visitor<OPBase> {
         if (res == null) {
             return LOPNOOP(query)
         }
-        return LOPDistinct(query, res!!)
+        return LOPDistinct(query, res)
     }
 
     override fun visit(node: ASTConstructQuery, childrenValues: List<OPBase>): OPBase {
@@ -436,7 +436,7 @@ class OperatorGraphVisitor(@JvmField val query: Query) : Visitor<OPBase> {
         if (res == null) {
             return LOPNOOP(query)
         }
-        return LOPDistinct(query, res!!)
+        return LOPDistinct(query, res)
     }
 
     fun refineLopGroup(g: LOPGroup): LOPBase {
@@ -751,7 +751,7 @@ return tmp
 */
             while (tmp is LOPMinus) {
                 val a = result!!
-                val b = LOPJoin(query, result!!.cloneOP(), tmp.children[1], false)
+                val b = LOPJoin(query, result.cloneOP(), tmp.children[1], false)
                 var t = a.getProvidedVariableNames().toMutableList()
                 result = LOPMinus(query, a, b, t)
                 tmp = tmp.children[0]
@@ -1652,7 +1652,7 @@ return tmp
 
     override fun visit(node: ASTLoad, childrenValues: List<OPBase>): OPBase {
         if (node.into != null) {
-            var g2 = graphRefToEnum(node.into!!)
+            var g2 = graphRefToEnum(node.into)
             return LOPGraphOperation(query, EGraphOperationType.LOAD, node.silent, EGraphRefType.DefaultGraphRef, node.iri, g2.first, g2.second)
         } else {
             return LOPGraphOperation(query, EGraphOperationType.LOAD, node.silent, EGraphRefType.DefaultGraphRef, node.iri, EGraphRefType.DefaultGraphRef, PersistentStoreLocal.defaultGraphName)

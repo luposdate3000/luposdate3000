@@ -44,9 +44,6 @@ class AOPFunctionCallString(query: Query, child: AOPBase) : AOPBase(query, EOper
                 is ValueFloat -> {
                     res = ValueTypedLiteral("\"", a.value.toString(), "http://www.w3.org/2001/XMLSchema#string")
                 }
-                is ValueSimpleLiteral -> {
-                    res = ValueTypedLiteral(a.delimiter, a.content, "http://www.w3.org/2001/XMLSchema#string")
-                }
                 is ValueLanguageTaggedLiteral -> {
                     res = ValueTypedLiteral(a.delimiter, a.content, "http://www.w3.org/2001/XMLSchema#string")
                 }
