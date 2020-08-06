@@ -14,12 +14,6 @@ import lupos.s00misc.SanityCheck
 
 class NodeLeafColumnIteratorPrefix1_1(@JvmField var node: ByteArray, @JvmField val prefix: IntArray, @JvmField val lock: ReadWriteLock) : ColumnIterator() {
     @JvmField
-    var totaltime = 0.0
-
-    @JvmField
-    var totalcounter = 0
-
-    @JvmField
     var remaining = NodeShared.getTripleCount(node)
 
     @JvmField
@@ -47,7 +41,6 @@ class NodeLeafColumnIteratorPrefix1_1(@JvmField var node: ByteArray, @JvmField v
     inline fun _close() {
         if (label != 0) {
             label = 0
-            BenchmarkUtils.setTimesHelper(9, totaltime, totalcounter)
             runBlocking {
                 lock.readUnlock()
             }
@@ -61,7 +54,6 @@ class NodeLeafColumnIteratorPrefix1_1(@JvmField var node: ByteArray, @JvmField v
     override fun next(): Int {
         when (label) {
             1 -> {
-                val timer = BenchmarkUtils.timesHelperMark()
                 while (true) {
                     if (needsReset) {
                         needsReset = false
@@ -147,8 +139,6 @@ class NodeLeafColumnIteratorPrefix1_1(@JvmField var node: ByteArray, @JvmField v
                         break
                     }
                 }
-                totaltime += BenchmarkUtils.timesHelperDuration(timer)
-                totalcounter++
                 return value1
             }
             else -> {
