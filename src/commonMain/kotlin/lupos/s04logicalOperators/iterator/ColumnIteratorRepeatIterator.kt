@@ -60,9 +60,9 @@ class ColumnIteratorRepeatIterator(@JvmField val count: Int, @JvmField val child
                     return null
                 }
             }
-else->{
-return null
-}
+            else -> {
+                return null
+            }
         }
     }
 }

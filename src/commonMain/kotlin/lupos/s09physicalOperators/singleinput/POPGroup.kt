@@ -322,25 +322,49 @@ class POPGroup : POPBase {
                                 }
                             }
 
-                            override fun next():Value? {
-return next_helper{
-                                var changedKey = false
-                                loop@ while (true) {
-                                    changedKey = false
-                                    if (nextKey != null) {
-                                        currentKey = nextKey!!
-                                        nextKey = null
-                                    }
-                                    for (columnIndex in 0 until keyColumnNames.size) {
-                                        val value = keyColumns[columnIndex].next()
-                                        if (value == null) {
-                                            for (closeIndex in 0 until keyColumns.size) {
-                                                keyColumns[closeIndex].close()
+                            override fun next(): Value? {
+                                return next_helper {
+                                    var changedKey = false
+                                    loop@ while (true) {
+                                        changedKey = false
+                                        if (nextKey != null) {
+                                            currentKey = nextKey!!
+                                            nextKey = null
+                                        }
+                                        for (columnIndex in 0 until keyColumnNames.size) {
+                                            val value = keyColumns[columnIndex].next()
+                                            if (value == null) {
+                                                for (closeIndex in 0 until keyColumns.size) {
+                                                    keyColumns[closeIndex].close()
+                                                }
+                                                for (closeIndex in 0 until valueColumns.size) {
+                                                    valueColumns[closeIndex].close()
+                                                }
+                                                SanityCheck.check { columnIndex == 0 }
+                                                for (columnIndex in 0 until keyColumnNames.size) {
+                                                    if (projectedVariables.contains(keyColumnNames[columnIndex])) {
+                                                        output[columnIndex].queue.add(currentKey[columnIndex])
+                                                    }
+                                                }
+                                                for (columnIndex in 0 until bindings.size) {
+                                                    if (projectedVariables.contains(bindings[columnIndex].first)) {
+                                                        output[columnIndex + keyColumnNames.size].queue.add(query.dictionary.createValue(bindings[columnIndex].second.evaluate(localRowIterators)()))
+                                                    }
+                                                }
+                                                for (outIndex2 in 0 until output.size) {
+                                                    output[outIndex2].closeOnEmptyQueue()
+                                                }
+                                                break@loop
                                             }
-                                            for (closeIndex in 0 until valueColumns.size) {
-                                                valueColumns[closeIndex].close()
+                                            if (nextKey != null) {
+                                                nextKey!![columnIndex] = value
+                                            } else if (currentKey[columnIndex] != value) {
+                                                nextKey = Array(keyColumnNames.size) { currentKey[it] }
+                                                nextKey!![columnIndex] = value
+                                                changedKey = true
                                             }
-                                            SanityCheck.check { columnIndex == 0 }
+                                        }
+                                        if (changedKey) {
                                             for (columnIndex in 0 until keyColumnNames.size) {
                                                 if (projectedVariables.contains(keyColumnNames[columnIndex])) {
                                                     output[columnIndex].queue.add(currentKey[columnIndex])
@@ -351,58 +375,34 @@ return next_helper{
                                                     output[columnIndex + keyColumnNames.size].queue.add(query.dictionary.createValue(bindings[columnIndex].second.evaluate(localRowIterators)()))
                                                 }
                                             }
-                                            for (outIndex2 in 0 until output.size) {
-                                                output[outIndex2].closeOnEmptyQueue()
+                                            val localMap = mutableMapOf<String, ColumnIterator>()
+                                            localRowColumns = Array(valueColumnNames.size) { ColumnIteratorQueueEmpty() }
+                                            for (columnIndex in 0 until keyColumnNames.size) {
+                                                val tmp = ColumnIteratorQueueEmpty()
+                                                tmp.tmp = currentKey[columnIndex]
+                                                localMap[keyColumnNames[columnIndex]] = tmp
                                             }
-                                            break@loop
-                                        }
-                                        if (nextKey != null) {
-                                            nextKey!![columnIndex] = value
-                                        } else if (currentKey[columnIndex] != value) {
-                                            nextKey = Array(keyColumnNames.size) { currentKey[it] }
-                                            nextKey!![columnIndex] = value
-                                            changedKey = true
-                                        }
-                                    }
-                                    if (changedKey) {
-                                        for (columnIndex in 0 until keyColumnNames.size) {
-                                            if (projectedVariables.contains(keyColumnNames[columnIndex])) {
-                                                output[columnIndex].queue.add(currentKey[columnIndex])
+                                            for (columnIndex in 0 until valueColumnNames.size) {
+                                                localMap[valueColumnNames[columnIndex]] = localRowColumns[columnIndex]
                                             }
-                                        }
-                                        for (columnIndex in 0 until bindings.size) {
-                                            if (projectedVariables.contains(bindings[columnIndex].first)) {
-                                                output[columnIndex + keyColumnNames.size].queue.add(query.dictionary.createValue(bindings[columnIndex].second.evaluate(localRowIterators)()))
+                                            localRowIterators = IteratorBundle(localMap)
+                                            localRowAggregates = Array(aggregations.size) {
+                                                val tmp = aggregations[it].createIterator(localRowIterators)
+                                                localMap["#" + aggregations[it].uuid] = tmp
+                                                /*return*/tmp
                                             }
-                                        }
-                                        val localMap = mutableMapOf<String, ColumnIterator>()
-                                        localRowColumns = Array(valueColumnNames.size) { ColumnIteratorQueueEmpty() }
-                                        for (columnIndex in 0 until keyColumnNames.size) {
-                                            val tmp = ColumnIteratorQueueEmpty()
-                                            tmp.tmp = currentKey[columnIndex]
-                                            localMap[keyColumnNames[columnIndex]] = tmp
                                         }
                                         for (columnIndex in 0 until valueColumnNames.size) {
-                                            localMap[valueColumnNames[columnIndex]] = localRowColumns[columnIndex]
+                                            localRowColumns[columnIndex].tmp = valueColumns[columnIndex].next()
                                         }
-                                        localRowIterators = IteratorBundle(localMap)
-                                        localRowAggregates = Array(aggregations.size) {
-                                            val tmp = aggregations[it].createIterator(localRowIterators)
-                                            localMap["#" + aggregations[it].uuid] = tmp
-                                            /*return*/tmp
+                                        for (aggregate in localRowAggregates) {
+                                            aggregate.evaluate()
+                                        }
+                                        if (changedKey) {
+                                            break@loop
                                         }
                                     }
-                                    for (columnIndex in 0 until valueColumnNames.size) {
-                                        localRowColumns[columnIndex].tmp = valueColumns[columnIndex].next()
-                                    }
-                                    for (aggregate in localRowAggregates) {
-                                        aggregate.evaluate()
-                                    }
-                                    if (changedKey) {
-                                        break@loop
-                                    }
-                   }
-             }
+                                }
                             }
                         }
                     }

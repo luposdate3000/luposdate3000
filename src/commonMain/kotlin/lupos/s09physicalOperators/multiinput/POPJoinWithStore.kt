@@ -163,65 +163,65 @@ class POPJoinWithStore(query: Query, projectedVariables: List<String>, childA: O
                         }
                     }
 
-                    override fun next():Value? {
-return next_helper{
-                        loopA@ while (true) {
-                            var done = true
-                            loopB@ for (i in 0 until variablINBO.size) {
-                                val value = columnsInB[i].next()
-                                if (value == null) {
-                                    SanityCheck.println { "POPJoinWithStoreXXXclosing store for join with store B $theuuid" }
-                                    for (closeIndex in 0 until columnsInB.size) {
-                                        columnsInB[closeIndex].close()
+                    override fun next(): Value? {
+                        return next_helper {
+                            loopA@ while (true) {
+                                var done = true
+                                loopB@ for (i in 0 until variablINBO.size) {
+                                    val value = columnsInB[i].next()
+                                    if (value == null) {
+                                        SanityCheck.println { "POPJoinWithStoreXXXclosing store for join with store B $theuuid" }
+                                        for (closeIndex in 0 until columnsInB.size) {
+                                            columnsInB[closeIndex].close()
+                                        }
+                                        SanityCheck.check { i == 0 }
+                                        done = false
+                                        break@loopB
+                                    } else {
+                                        columnsOUTB[i].queue.add(value)
                                     }
-                                    SanityCheck.check { i == 0 }
-                                    done = false
-                                    break@loopB
-                                } else {
-                                    columnsOUTB[i].queue.add(value)
                                 }
-                            }
-                            if (done) {
-                                for (i in 0 until columnsOUTAO.size) {
-                                    columnsOUTAO[i].queue.add(valuesAO[i]!!)
-                                }
-                                for (i in 0 until columnsOUTAJ.size) {
-                                    columnsOUTAJ[i].queue.add(valuesAJ[i]!!)
-                                }
-                                break@loopA
-                            } else {
-                                for (i in 0 until columnsINAO.size) {
-                                    valuesAO[i] = columnsINAO[i].next()
-                                }
-                                for (i in 0 until columnsINAJ.size) {
-                                    valuesAJ[i] = columnsINAJ[i].next()
-                                }
-                                if (valuesAJ[0] != null) {
-                                    for (i in 0 until indicesINBJ.size) {
-                                        params[indicesINBJ[i]] = AOPConstant(query, valuesAJ[i]!!)
+                                if (done) {
+                                    for (i in 0 until columnsOUTAO.size) {
+                                        columnsOUTAO[i].queue.add(valuesAO[i]!!)
                                     }
-                                    SanityCheck.println({ "POPJoinWithStoreXXXopening store for join with store B $theuuid" })
-                                    columnsInBRoot = distributedStore.getIterator(params, index).evaluate(parent)
-                                    for (i in 0 until variablINBO.size) {
-                                        columnsInB[i] = columnsInBRoot.columns[variablINBO[i]]!!
-                                    }
-                                } else {
-                                    SanityCheck.println { "POPJoinWithStoreXXXclosing store for join with store C $theuuid" }
-                                    for (closeIndex in 0 until columnsInB.size) {
-                                        columnsInB[closeIndex].close()
-                                    }
-                                    for (closeIndex in 0 until columnsINAO.size) {
-                                        columnsINAO[closeIndex].close()
-                                    }
-                                    for (closeIndex in 0 until columnsINAJ.size) {
-                                        columnsINAJ[closeIndex].close()
+                                    for (i in 0 until columnsOUTAJ.size) {
+                                        columnsOUTAJ[i].queue.add(valuesAJ[i]!!)
                                     }
                                     break@loopA
+                                } else {
+                                    for (i in 0 until columnsINAO.size) {
+                                        valuesAO[i] = columnsINAO[i].next()
+                                    }
+                                    for (i in 0 until columnsINAJ.size) {
+                                        valuesAJ[i] = columnsINAJ[i].next()
+                                    }
+                                    if (valuesAJ[0] != null) {
+                                        for (i in 0 until indicesINBJ.size) {
+                                            params[indicesINBJ[i]] = AOPConstant(query, valuesAJ[i]!!)
+                                        }
+                                        SanityCheck.println({ "POPJoinWithStoreXXXopening store for join with store B $theuuid" })
+                                        columnsInBRoot = distributedStore.getIterator(params, index).evaluate(parent)
+                                        for (i in 0 until variablINBO.size) {
+                                            columnsInB[i] = columnsInBRoot.columns[variablINBO[i]]!!
+                                        }
+                                    } else {
+                                        SanityCheck.println { "POPJoinWithStoreXXXclosing store for join with store C $theuuid" }
+                                        for (closeIndex in 0 until columnsInB.size) {
+                                            columnsInB[closeIndex].close()
+                                        }
+                                        for (closeIndex in 0 until columnsINAO.size) {
+                                            columnsINAO[closeIndex].close()
+                                        }
+                                        for (closeIndex in 0 until columnsINAJ.size) {
+                                            columnsINAJ[closeIndex].close()
+                                        }
+                                        break@loopA
+                                    }
                                 }
                             }
                         }
-                   }
- }
+                    }
                 }
                 outMap[columnConfig.first] = column
                 when (columnConfig.second) {

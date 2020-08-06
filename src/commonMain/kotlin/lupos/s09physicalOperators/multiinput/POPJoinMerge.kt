@@ -116,32 +116,32 @@ class POPJoinMerge(query: Query, projectedVariables: List<String>, childA: OPBas
                         __close()
                     }
 
-                    override fun next():Value? {
-return next_helper{
-                        for (i in 0 until columnsINJ[0].size) {
-                            keyCopy[i] = key[0][i]
-                        }
-                        val data = Array(2) { Array(columnsINO[it].size) { MyListValue() } }
-                        val countA = sameElements(key[0], keyCopy, columnsINJ[0], columnsINO[0], data[0])
-                        val countB = sameElements(key[1], keyCopy, columnsINJ[1], columnsINO[1], data[1])
-                        findNextKey(key, columnsINJ, columnsINO)
-                        if (key[0][0] == null || key[1][0] == null) {
-                            for (iterator2 in outIteratorsAllocated) {
-                                iterator2.closeOnNoMoreElements()
+                    override fun next(): Value? {
+                        return next_helper {
+                            for (i in 0 until columnsINJ[0].size) {
+                                keyCopy[i] = key[0][i]
                             }
-                            SanityCheck.println({ "$uuid close $classname" })
-                            for (closeIndex2 in 0 until 2) {
-                                for (closeIndex in 0 until columnsINJ[closeIndex2].size) {
-                                    columnsINJ[closeIndex2][closeIndex].close()
+                            val data = Array(2) { Array(columnsINO[it].size) { MyListValue() } }
+                            val countA = sameElements(key[0], keyCopy, columnsINJ[0], columnsINO[0], data[0])
+                            val countB = sameElements(key[1], keyCopy, columnsINJ[1], columnsINO[1], data[1])
+                            findNextKey(key, columnsINJ, columnsINO)
+                            if (key[0][0] == null || key[1][0] == null) {
+                                for (iterator2 in outIteratorsAllocated) {
+                                    iterator2.closeOnNoMoreElements()
                                 }
-                                for (closeIndex in 0 until columnsINO[closeIndex2].size) {
-                                    columnsINO[closeIndex2][closeIndex].close()
+                                SanityCheck.println({ "$uuid close $classname" })
+                                for (closeIndex2 in 0 until 2) {
+                                    for (closeIndex in 0 until columnsINJ[closeIndex2].size) {
+                                        columnsINJ[closeIndex2][closeIndex].close()
+                                    }
+                                    for (closeIndex in 0 until columnsINO[closeIndex2].size) {
+                                        columnsINO[closeIndex2][closeIndex].close()
+                                    }
                                 }
                             }
+                            POPJoin.crossProduct(data, keyCopy, columnsOUT, columnsOUTJ, countA, countB)
                         }
-                        POPJoin.crossProduct(data, keyCopy, columnsOUT, columnsOUTJ, countA, countB)
-                   }
- }
+                    }
                 }
                 when (iteratorConfig.second) {
                     0 -> {

@@ -17,7 +17,7 @@ abstract class ColumnIteratorQueue() : ColumnIterator() {
         label = 0
     }
 
-    inline fun next_helper(crossinline onEmptyQueue:()->Unit): Value? {
+    inline fun next_helper(crossinline onEmptyQueue: () -> Unit): Value? {
         when (label) {
             1 -> {
                 if (queue.size == 0) {
@@ -40,9 +40,9 @@ abstract class ColumnIteratorQueue() : ColumnIterator() {
                     return queue.removeAt(0)
                 }
             }
-else->{
-return null
-}
+            else -> {
+                return null
+            }
         }
     }
 

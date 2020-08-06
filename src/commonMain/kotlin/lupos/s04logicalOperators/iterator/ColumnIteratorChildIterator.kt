@@ -22,7 +22,7 @@ abstract class ColumnIteratorChildIterator() : ColumnIterator() {
         }
     }
 
-    inline fun next_helper(crossinline onNoMoreElements:()->Unit): Value? {
+    inline fun next_helper(crossinline onNoMoreElements: () -> Unit): Value? {
         when (label) {
             1 -> {
                 var res: Value? = null
@@ -56,9 +56,9 @@ abstract class ColumnIteratorChildIterator() : ColumnIterator() {
                 close()
                 return null
             }
-else->{
-return null
-}
+            else -> {
+                return null
+            }
         }
     }
 }

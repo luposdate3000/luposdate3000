@@ -9,8 +9,8 @@ import lupos.s00misc.SanityCheck
 import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s03resultRepresentation.Value
-import lupos.s03resultRepresentation.ValueError
 import lupos.s03resultRepresentation.ValueDefinition
+import lupos.s03resultRepresentation.ValueError
 import lupos.s03resultRepresentation.Variable
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04arithmetikOperators.noinput.AOPConstant
@@ -52,8 +52,8 @@ class POPBind(query: Query, projectedVariables: List<String>, @JvmField val name
         val localMap = mutableMapOf<String, ColumnIterator>()
         val child = children[0].evaluate(parent)
         val columnsLocal = Array<ColumnIteratorQueue>(variablesLocal.size) { ColumnIteratorQueueEmpty() }
-var expression:() -> ValueDefinition={ValueError()}
-val columnsOut = Array<ColumnIteratorQueue>(variablesOut.size) {ColumnIteratorQueueEmpty()}
+        var expression: () -> ValueDefinition = { ValueError() }
+        val columnsOut = Array<ColumnIteratorQueue>(variablesOut.size) { ColumnIteratorQueueEmpty() }
         if (variablesLocal.size == 1 && children[0].getProvidedVariableNames().size == 0) {
             outMap[name.name] = ColumnIteratorRepeatValue(child.count, query.dictionary.createValue(expression!!()))
         } else {
@@ -66,40 +66,41 @@ val columnsOut = Array<ColumnIteratorQueue>(variablesOut.size) {ColumnIteratorQu
             SanityCheck.check { boundIndex != -1 }
             val columnsIn = Array(variablesLocal.size) { child.columns[variablesLocal[it]] }
             for (variableIndex in 0 until variablesLocal.size) {
-                columnsLocal[variableIndex] = object : ColumnIteratorQueue (){
-override fun close(){
-_close()
-}
-                    override fun next():Value? {
-return next_helper{
-                        var done = false
-                        for (variableIndex2 in 0 until variablesLocal.size) {
-                            if (boundIndex != variableIndex2) {
-                                val value = columnsIn[variableIndex2]!!.next()
-                                if (value == null) {
-                                    SanityCheck.check { variableIndex2 == 0 || (boundIndex == 0 && variableIndex2 == 1) }
-                                    for (variableIndex3 in 0 until variablesLocal.size) {
-                                        columnsLocal[variableIndex3].closeOnEmptyQueue()
-                                    }
-                                    for (closeIndex in 0 until variablesLocal.size) {
-                                        if (boundIndex != closeIndex) {
-                                            columnsIn[closeIndex]!!.close()
+                columnsLocal[variableIndex] = object : ColumnIteratorQueue() {
+                    override fun close() {
+                        _close()
+                    }
+
+                    override fun next(): Value? {
+                        return next_helper {
+                            var done = false
+                            for (variableIndex2 in 0 until variablesLocal.size) {
+                                if (boundIndex != variableIndex2) {
+                                    val value = columnsIn[variableIndex2]!!.next()
+                                    if (value == null) {
+                                        SanityCheck.check { variableIndex2 == 0 || (boundIndex == 0 && variableIndex2 == 1) }
+                                        for (variableIndex3 in 0 until variablesLocal.size) {
+                                            columnsLocal[variableIndex3].closeOnEmptyQueue()
                                         }
+                                        for (closeIndex in 0 until variablesLocal.size) {
+                                            if (boundIndex != closeIndex) {
+                                                columnsIn[closeIndex]!!.close()
+                                            }
+                                        }
+                                        done = true
+                                        break
                                     }
-                                    done = true
-                                    break
-                                }
 //point each iterator to the current value
-                                columnsLocal[variableIndex2].tmp = value
+                                    columnsLocal[variableIndex2].tmp = value
+                                }
+                            }
+                            if (!done) {
+                                columnsLocal[boundIndex].tmp = query.dictionary.createValue(expression!!())
+                                for (variableIndex2 in 0 until columnsOut.size) {
+                                    columnsOut[variableIndex2].queue.add(columnsOut[variableIndex2].tmp!!)
+                                }
                             }
                         }
-                        if (!done) {
-                            columnsLocal[boundIndex].tmp = query.dictionary.createValue(expression!!())
-                            for (variableIndex2 in 0 until columnsOut.size) {
-                                columnsOut[variableIndex2].queue.add(columnsOut[variableIndex2].tmp!!)
-                            }
-                   }
-     }
                     }
                 }
             }
@@ -110,10 +111,10 @@ return next_helper{
                 outMap[variablesLocal[variableIndex]] = columnsLocal[variableIndex]
             }
         }
-for(it in 0 until variablesOut.size){
-columnsOut[it]= localMap[variablesOut[it]] as ColumnIteratorQueue
-}
-         expression = (children[1] as AOPBase).evaluate(IteratorBundle(localMap))
+        for (it in 0 until variablesOut.size) {
+            columnsOut[it] = localMap[variablesOut[it]] as ColumnIteratorQueue
+        }
+        expression = (children[1] as AOPBase).evaluate(IteratorBundle(localMap))
         SanityCheck.check { variablesLocal.size != 0 }
         return IteratorBundle(outMap)
     }

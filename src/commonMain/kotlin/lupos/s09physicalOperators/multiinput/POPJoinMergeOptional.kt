@@ -35,7 +35,7 @@ class POPJoinMergeOptional(query: Query, projectedVariables: List<String>, child
         val columnsINJ = Array(2) { mutableListOf<ColumnIterator>() }
         val columnsOUT = Array(2) { mutableListOf<ColumnIteratorChildIterator>() }
         val columnsOUTJ = mutableListOf<ColumnIteratorChildIterator>()
-val outIterators= mutableListOf<Pair<String,Int>>() //J,O0,O1,J-ohne-Map
+        val outIterators = mutableListOf<Pair<String, Int>>() //J,O0,O1,J-ohne-Map
         val outIteratorsAllocated = mutableListOf<ColumnIteratorChildIterator>()
         val outMap = mutableMapOf<String, ColumnIterator>()
         val tmp = mutableListOf<String>()
@@ -44,7 +44,7 @@ val outIterators= mutableListOf<Pair<String,Int>>() //J,O0,O1,J-ohne-Map
         for (name in children[0].getProvidedVariableNames()) {
             if (tmp.contains(name)) {
                 if (projectedVariables.contains(name)) {
-outIterators.add(Pair(name,0))
+                    outIterators.add(Pair(name, 0))
                     for (i in 0 until 2) {
                         columnsINJ[i].add(0, child[i].columns[name]!!)
                     }
@@ -55,19 +55,19 @@ outIterators.add(Pair(name,0))
                 }
                 tmp.remove(name)
             } else {
-outIterators.add(Pair(name,1))
+                outIterators.add(Pair(name, 1))
                 columnsINO[0].add(child[0].columns[name]!!)
             }
         }
         for (name in tmp) {
-outIterators.add(Pair(name,2))
+            outIterators.add(Pair(name, 2))
             columnsINO[1].add(child[1].columns[name]!!)
         }
         SanityCheck.check { columnsINJ[0].size > 0 }
         SanityCheck.check { columnsINJ[0].size == columnsINJ[1].size }
-        var emptyColumnsWithJoin = outIterators.size==0
+        var emptyColumnsWithJoin = outIterators.size == 0
         if (emptyColumnsWithJoin) {
-outIterators.add(Pair("",3))
+            outIterators.add(Pair("", 3))
         }
         val key = Array(2) { i -> Array(columnsINJ[i].size) { columnsINJ[i][it].next() } }
         var done = findNextKey(key, columnsINJ, columnsINO)
@@ -83,54 +83,55 @@ outIterators.add(Pair("",3))
         } else {
             val keyCopy = Array(columnsINJ[0].size) { key[0][it] }
             for (iteratorConfig in outIterators) {
-val iterator=object:ColumnIteratorChildIterator(){
-override fun close(){
-_close()
-}
-                override fun next  ():Value?{
-return next_helper{
-                    for (i in 0 until columnsINJ[0].size) {
-                        keyCopy[i] = key[0][i]
+                val iterator = object : ColumnIteratorChildIterator() {
+                    override fun close() {
+                        _close()
                     }
-                    val data = Array(2) { Array(columnsINO[it].size) { MyListValue() } }
-                    val countA = sameElements(key[0], keyCopy, columnsINJ[0], columnsINO[0], data[0])
-                    val countB = sameElements(key[1], keyCopy, columnsINJ[1], columnsINO[1], data[1])
-                    done = findNextKey(key, columnsINJ, columnsINO)
-                    if (done) {
-                        for (iterator2 in outIteratorsAllocated) {
-                            iterator2.closeOnNoMoreElements()
-                        }
-                        for (closeIndex2 in 0 until 2) {
-                            for (closeIndex in 0 until columnsINJ[closeIndex2].size) {
-                                columnsINJ[closeIndex2][closeIndex].close()
+
+                    override fun next(): Value? {
+                        return next_helper {
+                            for (i in 0 until columnsINJ[0].size) {
+                                keyCopy[i] = key[0][i]
                             }
-                            for (closeIndex in 0 until columnsINO[closeIndex2].size) {
-                                columnsINO[closeIndex2][closeIndex].close()
+                            val data = Array(2) { Array(columnsINO[it].size) { MyListValue() } }
+                            val countA = sameElements(key[0], keyCopy, columnsINJ[0], columnsINO[0], data[0])
+                            val countB = sameElements(key[1], keyCopy, columnsINJ[1], columnsINO[1], data[1])
+                            done = findNextKey(key, columnsINJ, columnsINO)
+                            if (done) {
+                                for (iterator2 in outIteratorsAllocated) {
+                                    iterator2.closeOnNoMoreElements()
+                                }
+                                for (closeIndex2 in 0 until 2) {
+                                    for (closeIndex in 0 until columnsINJ[closeIndex2].size) {
+                                        columnsINJ[closeIndex2][closeIndex].close()
+                                    }
+                                    for (closeIndex in 0 until columnsINO[closeIndex2].size) {
+                                        columnsINO[closeIndex2][closeIndex].close()
+                                    }
+                                }
                             }
+                            POPJoin.crossProduct(data, keyCopy, columnsOUT, columnsOUTJ, countA, countB)
                         }
                     }
-                    POPJoin.crossProduct(data, keyCopy, columnsOUT, columnsOUTJ, countA, countB)
                 }
-}
-}
-outIteratorsAllocated.add(iterator)
-when(iteratorConfig.second){
-0->{ 
-columnsOUTJ.add(iterator)
-outMap[iteratorConfig.first]=iterator
-}
-1->{ 
-columnsOUT[0].add(iterator)
-outMap[iteratorConfig.first]=iterator
-}
-2->{ 
-columnsOUT[1].add(iterator)
-outMap[iteratorConfig.first]=iterator
-}
-3->{
-columnsOUTJ.add(iterator)
-}
-}
+                outIteratorsAllocated.add(iterator)
+                when (iteratorConfig.second) {
+                    0 -> {
+                        columnsOUTJ.add(iterator)
+                        outMap[iteratorConfig.first] = iterator
+                    }
+                    1 -> {
+                        columnsOUT[0].add(iterator)
+                        outMap[iteratorConfig.first] = iterator
+                    }
+                    2 -> {
+                        columnsOUT[1].add(iterator)
+                        outMap[iteratorConfig.first] = iterator
+                    }
+                    3 -> {
+                        columnsOUTJ.add(iterator)
+                    }
+                }
             }
         }
         val res = IteratorBundle(outMap)

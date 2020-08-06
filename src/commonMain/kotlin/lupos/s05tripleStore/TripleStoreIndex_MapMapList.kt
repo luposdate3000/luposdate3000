@@ -9,9 +9,9 @@ import lupos.s00misc.MySetInt
 import lupos.s00misc.SanityCheck
 import lupos.s03resultRepresentation.Value
 import lupos.s04logicalOperators.iterator.ColumnIterator
-import lupos.s04logicalOperators.iterator.ColumnIteratorEmpty
 import lupos.s04logicalOperators.iterator.ColumnIteratorChildIterator
 import lupos.s04logicalOperators.iterator.ColumnIteratorChildIteratorEmpty
+import lupos.s04logicalOperators.iterator.ColumnIteratorEmpty
 import lupos.s04logicalOperators.iterator.ColumnIteratorMultiValue
 import lupos.s04logicalOperators.iterator.ColumnIteratorRepeatValue
 import lupos.s04logicalOperators.iterator.IteratorBundle
@@ -109,7 +109,7 @@ class TripleStoreIndex_MapMapList : TripleStoreIndex() {
                         }
                     }
                 } else {
-                        var iter = tmp.iterator()
+                    var iter = tmp.iterator()
                     if (columns.size == 0) {
                         var count = 0
                         while (iter.hasNext()) {
@@ -125,19 +125,19 @@ class TripleStoreIndex_MapMapList : TripleStoreIndex() {
                                     _close()
                                 }
 
-                                override fun next():Value? {
-return next_helper{
-                                    if (iter.hasNext()) {
-                                        val key = iter.next()
-                                        val value = iter.value()
-                                        if (projection[0] != "_") {
-                                            columnsArr[0].childs.add(ColumnIteratorRepeatValue(value.size, key))
+                                override fun next(): Value? {
+                                    return next_helper {
+                                        if (iter.hasNext()) {
+                                            val key = iter.next()
+                                            val value = iter.value()
+                                            if (projection[0] != "_") {
+                                                columnsArr[0].childs.add(ColumnIteratorRepeatValue(value.size, key))
+                                            }
+                                            if (projection[1] != "_") {
+                                                columnsArr[1].childs.add(ColumnIteratorMultiValue(value.iterator()))
+                                            }
                                         }
-                                        if (projection[1] != "_") {
-                                            columnsArr[1].childs.add(ColumnIteratorMultiValue(value.iterator()))
-                                        }
-                   }
-                 }
+                                    }
                                 }
                             }
                         }
@@ -151,7 +151,7 @@ return next_helper{
                 }
             }
         } else {
-                var iter = data.iterator()
+            var iter = data.iterator()
             if (columns.size == 0) {
                 var count = 0
                 while (iter.hasNext()) {
@@ -170,44 +170,43 @@ return next_helper{
                     var key1 = iter.next()
                     var value1 = iter.value()
                     var iter2 = value1.iterator()
-                
-                for (i in 0 until 3) {
-                    columnsArr[i] = object : ColumnIteratorChildIterator() {
-                        override fun close() {
-                            _close()
-                        }
+                    for (i in 0 until 3) {
+                        columnsArr[i] = object : ColumnIteratorChildIterator() {
+                            override fun close() {
+                                _close()
+                            }
 
-                        override fun next():Value? {
-return next_helper{
-                            while (true) {
-                                if (iter2.hasNext()) {
-                                    val key2 = iter2.next()
-                                    val value2 = iter2.value()
-                                    if (projection[0] != "_") {
-                                        columnsArr[0].childs.add(ColumnIteratorRepeatValue(value2.size, key1))
+                            override fun next(): Value? {
+                                return next_helper {
+                                    while (true) {
+                                        if (iter2.hasNext()) {
+                                            val key2 = iter2.next()
+                                            val value2 = iter2.value()
+                                            if (projection[0] != "_") {
+                                                columnsArr[0].childs.add(ColumnIteratorRepeatValue(value2.size, key1))
+                                            }
+                                            if (projection[1] != "_") {
+                                                columnsArr[1].childs.add(ColumnIteratorRepeatValue(value2.size, key2))
+                                            }
+                                            if (projection[2] != "_") {
+                                                columnsArr[2].childs.add(ColumnIteratorMultiValue(value2.iterator()))
+                                            }
+                                            break
+                                        } else {
+                                            if (iter.hasNext()) {
+                                                key1 = iter.next()
+                                                value1 = iter.value()
+                                                iter2 = value1.iterator()
+                                            } else {
+                                                break
+                                            }
+                                        }
                                     }
-                                    if (projection[1] != "_") {
-                                        columnsArr[1].childs.add(ColumnIteratorRepeatValue(value2.size, key2))
-                                    }
-                                    if (projection[2] != "_") {
-                                        columnsArr[2].childs.add(ColumnIteratorMultiValue(value2.iterator()))
-                                    }
-                                    break
-                                } else {
-                                    if (iter.hasNext()) {
-                                        key1 = iter.next()
-                                        value1 = iter.value()
-                                        iter2 = value1.iterator()
-                                    } else {
-                                        break
-                                    }
-                   }
-             }
+                                }
                             }
                         }
                     }
                 }
-}
                 if (projection[0] != "_") {
                     columns[projection[0]] = columnsArr[0]
                 }

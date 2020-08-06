@@ -1,11 +1,12 @@
 package lupos.s09physicalOperators.singleinput
-import lupos.s03resultRepresentation.Value
+
 import lupos.s00misc.Coverage
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.ESortPriority
 import lupos.s00misc.NotImplementedException
 import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
+import lupos.s03resultRepresentation.Value
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.s04logicalOperators.iterator.ColumnIteratorQueue
@@ -46,10 +47,10 @@ class POPFilter(query: Query, projectedVariables: List<String>, filter: AOPBase,
         var res: IteratorBundle? = null
         try {
             val columnsIn = Array(variables.size) { child.columns[variables[it]] }
-val columnsOut=mutableListOf<ColumnIteratorQueue>()
+            val columnsOut = mutableListOf<ColumnIteratorQueue>()
             val columnsLocal = mutableListOf<ColumnIteratorQueue>()
-for(i in 0 until variables.size){
-columnsLocal.add(                object : ColumnIteratorQueue() {
+            for (i in 0 until variables.size) {
+                columnsLocal.add(object : ColumnIteratorQueue() {
                     override fun close() {
                         if (label != 0) {
                             _close()
@@ -60,48 +61,48 @@ columnsLocal.add(                object : ColumnIteratorQueue() {
                         }
                     }
 
-                    override fun next() :Value?{
-return next_helper{
-                        try {
-                            var done = false
-                            while (!done) {
-                                for (variableIndex2 in 0 until variables.size) {
-                                    columnsLocal[variableIndex2].tmp = columnsIn[variableIndex2]!!.next()
-                                    //point each iterator to the current value
-                                    if (columnsLocal[variableIndex2].tmp == null) {
-                                        SanityCheck.check { variableIndex2 == 0 }
-                                        SanityCheck.println({ "POPFilterXXX$uuid close F $classname" })
-                                        for ((k, v) in child.columns) {
-                                            v.close()
+                    override fun next(): Value? {
+                        return next_helper {
+                            try {
+                                var done = false
+                                while (!done) {
+                                    for (variableIndex2 in 0 until variables.size) {
+                                        columnsLocal[variableIndex2].tmp = columnsIn[variableIndex2]!!.next()
+                                        //point each iterator to the current value
+                                        if (columnsLocal[variableIndex2].tmp == null) {
+                                            SanityCheck.check { variableIndex2 == 0 }
+                                            SanityCheck.println({ "POPFilterXXX$uuid close F $classname" })
+                                            for ((k, v) in child.columns) {
+                                                v.close()
+                                            }
+                                            for (variableIndex3 in 0 until variables.size) {
+                                                columnsLocal[variableIndex3].closeOnEmptyQueue()
+                                            }
+                                            done = true
+                                            break
                                         }
-                                        for (variableIndex3 in 0 until variables.size) {
-                                            columnsLocal[variableIndex3].closeOnEmptyQueue()
+                                    }
+                                    if (!done) {
+                                        //evaluate
+                                        if (expression()) {
+                                            //accept/deny row in each iterator
+                                            for (variableIndex2 in 0 until variablesOut.size) {
+                                                columnsOut[variableIndex2].queue.add(columnsOut[variableIndex2].tmp!!)
+                                            }
+                                            done = true
                                         }
-                                        done = true
-                                        break
                                     }
                                 }
-                                if (!done) {
-                                    //evaluate
-                                    if (expression()) {
-                                        //accept/deny row in each iterator
-                                        for (variableIndex2 in 0 until variablesOut.size) {
-                                            columnsOut[variableIndex2].queue.add(columnsOut[variableIndex2].tmp!!)
-                                        }
-                                        done = true
-                                    }
+                            } catch (e: NotImplementedException) {
+                                SanityCheck.println({ "POPFilterXXX$uuid close G $classname" })
+                                SanityCheck.println({ "filter caught notimplemented and closed its childs" })
+                                for ((k, v) in child.columns) {
+                                    v.close()
                                 }
+                                throw e
                             }
-                        } catch (e: NotImplementedException) {
-                            SanityCheck.println({ "POPFilterXXX$uuid close G $classname" })
-                            SanityCheck.println({ "filter caught notimplemented and closed its childs" })
-                            for ((k, v) in child.columns) {
-                                v.close()
-                            }
-                            throw e
                         }
                     }
-}
                 })
             }
             for (variableIndex in 0 until variables.size) {
@@ -110,9 +111,9 @@ return next_helper{
                 }
                 localMap[variables[variableIndex]] = columnsLocal[variableIndex]
             }
-for(it in 0 until variablesOut.size){
-columnsOut.add(resLocal.columns[variablesOut[it]]!! as ColumnIteratorQueue )
-}
+            for (it in 0 until variablesOut.size) {
+                columnsOut.add(resLocal.columns[variablesOut[it]]!! as ColumnIteratorQueue)
+            }
             if (variablesOut.size == 0) {
                 res = IteratorBundle(0)
                 if (variables.size == 0) {

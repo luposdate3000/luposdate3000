@@ -130,7 +130,7 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
         SanityCheck.println({ "writeunlock 2" })
     }
 
-    class IteratorS( @JvmField val it: TripleIterator,  @JvmField val lock: ReadWriteLock) : ColumnIterator() {
+    class IteratorS(@JvmField val it: TripleIterator, @JvmField val lock: ReadWriteLock) : ColumnIterator() {
         @JvmField
         val uuid = TripleStoreIndex_IDTriple.debuguuiditerator++
 
@@ -182,7 +182,7 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
         }
     }
 
-    class IteratorP( @JvmField val it: TripleIterator, @JvmField val  lock: ReadWriteLock) : ColumnIterator() {
+    class IteratorP(@JvmField val it: TripleIterator, @JvmField val lock: ReadWriteLock) : ColumnIterator() {
         @JvmField
         val uuid = TripleStoreIndex_IDTriple.debuguuiditerator++
 
@@ -234,7 +234,7 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
         }
     }
 
-    class IteratorO( @JvmField val it: TripleIterator, @JvmField val  lock: ReadWriteLock) : ColumnIterator() {
+    class IteratorO(@JvmField val it: TripleIterator, @JvmField val lock: ReadWriteLock) : ColumnIterator() {
         @JvmField
         val uuid = TripleStoreIndex_IDTriple.debuguuiditerator++
 

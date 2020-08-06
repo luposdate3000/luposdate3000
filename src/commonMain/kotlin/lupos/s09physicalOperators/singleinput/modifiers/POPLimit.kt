@@ -31,9 +31,12 @@ class POPLimit(query: Query, projectedVariables: List<String>, @JvmField val lim
         val child = children[0].evaluate(parent)
         for (variable in variables) {
             val tmp = object : ColumnIterator() {
-@JvmField var count = 0
-@JvmField
-            val iterator = child.columns[variable]!!
+                @JvmField
+                var count = 0
+
+                @JvmField
+                val iterator = child.columns[variable]!!
+
                 @JvmField
                 var label = 1
                 override fun next(): Value? {
