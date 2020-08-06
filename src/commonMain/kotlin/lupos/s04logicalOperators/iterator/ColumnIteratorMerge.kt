@@ -213,8 +213,10 @@ object ColumnIteratorMerge {
 class ColumnIteratorMerge1(@JvmField val a: ColumnIterator, @JvmField val b: ColumnIterator, @JvmField val comparator: Comparator<Value>) : ColumnIterator() {
     @JvmField
     var label = 3
+
     @JvmField
     var aBuf: Value? = null
+
     @JvmField
     var bBuf: Value? = null
     override fun close() {
@@ -308,8 +310,10 @@ class ColumnIteratorMerge1(@JvmField val a: ColumnIterator, @JvmField val b: Col
 class ColumnIteratorMerge2(@JvmField val a: ColumnIterator, @JvmField val b: ColumnIterator) : ColumnIterator() {
     @JvmField
     var label = 3
+
     @JvmField
     var aBuf: Value? = null
+
     @JvmField
     var bBuf: Value? = null
     override fun close() {

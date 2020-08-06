@@ -35,7 +35,8 @@ class POPJoinMergeOptional(query: Query, projectedVariables: List<String>, child
         val columnsINJ = Array(2) { mutableListOf<ColumnIterator>() }
         val columnsOUT = Array(2) { mutableListOf<ColumnIteratorChildIterator>() }
         val columnsOUTJ = mutableListOf<ColumnIteratorChildIterator>()
-        val outIterators = mutableListOf<ColumnIteratorChildIterator>()
+val outIterators= mutableListOf<Pair<String,Int>>() //J,O0,O1,J-ohne-Map
+        val outIteratorsAllocated = mutableListOf<ColumnIteratorChildIterator>()
         val outMap = mutableMapOf<String, ColumnIterator>()
         val tmp = mutableListOf<String>()
         tmp.addAll(children[1].getProvidedVariableNames())
@@ -43,10 +44,7 @@ class POPJoinMergeOptional(query: Query, projectedVariables: List<String>, child
         for (name in children[0].getProvidedVariableNames()) {
             if (tmp.contains(name)) {
                 if (projectedVariables.contains(name)) {
-                    t = ColumnIteratorChildIterator()
-                    outMap[name] = t
-                    outIterators.add(t)
-                    columnsOUTJ.add(t)
+outIterators.add(Pair(name,0))
                     for (i in 0 until 2) {
                         columnsINJ[i].add(0, child[i].columns[name]!!)
                     }
@@ -57,27 +55,19 @@ class POPJoinMergeOptional(query: Query, projectedVariables: List<String>, child
                 }
                 tmp.remove(name)
             } else {
-                t = ColumnIteratorChildIterator()
-                outIterators.add(t)
-                outMap[name] = t
-                columnsOUT[0].add(t)
+outIterators.add(Pair(name,1))
                 columnsINO[0].add(child[0].columns[name]!!)
             }
         }
         for (name in tmp) {
-            t = ColumnIteratorChildIterator()
-            outIterators.add(t)
-            outMap[name] = t
-            columnsOUT[1].add(t)
+outIterators.add(Pair(name,2))
             columnsINO[1].add(child[1].columns[name]!!)
         }
         SanityCheck.check { columnsINJ[0].size > 0 }
         SanityCheck.check { columnsINJ[0].size == columnsINJ[1].size }
-        var emptyColumnsWithJoin = columnsOUT[0].size == 0 && columnsOUT[1].size == 0 && columnsOUTJ.size == 0
+        var emptyColumnsWithJoin = outIterators.size==0
         if (emptyColumnsWithJoin) {
-            t = ColumnIteratorChildIterator()
-            outIterators.add(t)
-            columnsOUTJ.add(t)
+outIterators.add(Pair("",3))
         }
         val key = Array(2) { i -> Array(columnsINJ[i].size) { columnsINJ[i][it].next() } }
         var done = findNextKey(key, columnsINJ, columnsINO)
@@ -92,8 +82,12 @@ class POPJoinMergeOptional(query: Query, projectedVariables: List<String>, child
             }
         } else {
             val keyCopy = Array(columnsINJ[0].size) { key[0][it] }
-            for (iterator in outIterators) {
-                iterator.onNoMoreElements = {
+            for (iteratorConfig in outIterators) {
+val iterator=object:ColumnIteratorChildIterator(){
+override fun close(){
+_close()
+}
+                override fun onNoMoreElements  (){
                     for (i in 0 until columnsINJ[0].size) {
                         keyCopy[i] = key[0][i]
                     }
@@ -102,8 +96,8 @@ class POPJoinMergeOptional(query: Query, projectedVariables: List<String>, child
                     val countB = sameElements(key[1], keyCopy, columnsINJ[1], columnsINO[1], data[1])
                     done = findNextKey(key, columnsINJ, columnsINO)
                     if (done) {
-                        for (iterator2 in outIterators) {
-                            iterator2.onNoMoreElements = iterator2::_onNoMoreElements
+                        for (iterator2 in outIteratorsAllocated) {
+                            iterator2.closeOnNoMoreElements()
                         }
                         for (closeIndex2 in 0 until 2) {
                             for (closeIndex in 0 until columnsINJ[closeIndex2].size) {
@@ -116,6 +110,25 @@ class POPJoinMergeOptional(query: Query, projectedVariables: List<String>, child
                     }
                     POPJoin.crossProduct(data, keyCopy, columnsOUT, columnsOUTJ, countA, countB)
                 }
+}
+outIteratorsAllocated.add(iterator)
+when(iteratorConfig.second){
+0->{ 
+columnsOUTJ.add(iterator)
+outMap[iteratorConfig.first]=iterator
+}
+1->{ 
+columnsOUT[0].add(iterator)
+outMap[iteratorConfig.first]=iterator
+}
+2->{ 
+columnsOUT[1].add(iterator)
+outMap[iteratorConfig.first]=iterator
+}
+3->{
+columnsOUTJ.add(iterator)
+}
+}
             }
         }
         val res = IteratorBundle(outMap)

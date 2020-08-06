@@ -10,8 +10,10 @@ import lupos.s03resultRepresentation.Value
 class ColumnIteratorChannel() : ColumnIterator() {
     @JvmField
     var queue = Channel<Value>(CoroutinesHelper.channelType)
+
     @JvmField
     var doneReading = false
+
     @JvmField
     var doneWriting = false
     inline fun append(v: Value) {

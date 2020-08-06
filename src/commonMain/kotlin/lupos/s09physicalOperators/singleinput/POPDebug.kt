@@ -91,7 +91,6 @@ class POPDebug(query: Query, projectedVariables: List<String>, child: OPBase) : 
                                     label = 0
                                     SanityCheck.println({ "$uuid $k closed $counter ${parent.data}" })
                                     v.close()
-                                    iterator._close()
                                 }
                             }
                         }

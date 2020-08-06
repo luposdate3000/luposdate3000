@@ -13,6 +13,7 @@ import lupos.s03resultRepresentation.Value
 import lupos.s03resultRepresentation.Variable
 import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.s04logicalOperators.iterator.ColumnIteratorChildIterator
+import lupos.s04logicalOperators.iterator.ColumnIteratorEmpty
 import lupos.s04logicalOperators.iterator.ColumnIteratorMultiValue
 import lupos.s04logicalOperators.iterator.ColumnIteratorRepeatIterator
 import lupos.s04logicalOperators.iterator.ColumnIteratorRepeatValue
@@ -72,14 +73,7 @@ class POPJoinCartesianProduct(query: Query, projectedVariables: List<String>, ch
                     v.close()
                 }
                 for (columnIndex in 0 until columnsINBO.size) {
-                    outMap[columns[2][columnIndex]] = object : ColumnIterator {
-                        override fun next(): Value? {
-                            return null
-                        }
-
-                        override fun close() {
-                        }
-                    }
+                    outMap[columns[2][columnIndex]] = ColumnIteratorEmpty()
                 }
             }
             res = IteratorBundle(outMap)
@@ -96,14 +90,7 @@ class POPJoinCartesianProduct(query: Query, projectedVariables: List<String>, ch
                     v.close()
                 }
                 for (columnIndex in 0 until columnsINAO.size) {
-                    outMap[columns[2][columnIndex]] = object : ColumnIterator {
-                        override fun next(): Value? {
-                            return null
-                        }
-
-                        override fun close() {
-                        }
-                    }
+                    outMap[columns[2][columnIndex]] = ColumnIteratorEmpty()
                 }
             }
             res = IteratorBundle(outMap)
@@ -144,7 +131,7 @@ class POPJoinCartesianProduct(query: Query, projectedVariables: List<String>, ch
                                 }
                             }
 
-                            override fun onNoMoreElements(): Value? {
+                            override fun onNoMoreElements() {
                                 var done = false
                                 for (columnIndex in 0 until columnsINAO.size) {
                                     val value = columnsINAO[columnIndex].next()
@@ -198,7 +185,7 @@ class POPJoinCartesianProduct(query: Query, projectedVariables: List<String>, ch
                             }
                         }
 
-                        override fun onNoMoreElements(): Value? {
+                        override fun onNoMoreElements() {
                             var done = false
                             for (columnIndex in 0 until columnsINAO.size) {
                                 val value = columnsINAO[columnIndex].next()

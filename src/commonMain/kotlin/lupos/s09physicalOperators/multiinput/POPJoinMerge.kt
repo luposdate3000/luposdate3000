@@ -15,6 +15,7 @@ import lupos.s03resultRepresentation.Value
 import lupos.s03resultRepresentation.Variable
 import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.s04logicalOperators.iterator.ColumnIteratorChildIterator
+import lupos.s04logicalOperators.iterator.ColumnIteratorEmpty
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
@@ -50,10 +51,11 @@ class POPJoinMerge(query: Query, projectedVariables: List<String>, childA: OPBas
         for (name in children[0].getProvidedVariableNames()) {
             if (tmp.contains(name)) {
                 if (projectedVariables.contains(name)) {
-                    outIterators.add(Pair(name, Pair(0, outIteratorsCounterJ++))
-                            for (i in 0 until 2) {
-                                columnsINJ[i].add(0, child[i].columns[name]!!)
-                            }
+                    outIterators.add(Pair(name, 0))
+                    outIteratorsCounterJ++
+                    for (i in 0 until 2) {
+                        columnsINJ[i].add(0, child[i].columns[name]!!)
+                    }
                 } else {
                     for (i in 0 until 2) {
                         columnsINJ[i].add(child[i].columns[name]!!)
@@ -61,19 +63,20 @@ class POPJoinMerge(query: Query, projectedVariables: List<String>, childA: OPBas
                 }
                 tmp.remove(name)
             } else {
-                outIterators.add(Pair(name, Pair(1, outIteratorsCounterO0++))
-                        columnsINO [0].add(child[0].columns[name]!!)
+                outIterators.add(Pair(name, 1))
+                outIteratorsCounterO0++
+                columnsINO[0].add(child[0].columns[name]!!)
             }
         }
         for (name in tmp) {
-            outIterators.add(Pair(name, Pair(2, outIteratorsCounterO1++))
-                    columnsINO [1].add(child[1].columns[name]!!)
+            outIterators.add(Pair(name, 2))
+            columnsINO[1].add(child[1].columns[name]!!)
         }
         SanityCheck.check { columnsINJ[0].size > 0 }
         SanityCheck.check { columnsINJ[0].size == columnsINJ[1].size }
-        var emptyColumnsWithJoin = outIteratorsCounterJ + outIteratorsCounterO0 + outIteratorsCounterO1 == 0
+        var emptyColumnsWithJoin = (outIteratorsCounterJ + outIteratorsCounterO0 + outIteratorsCounterO1) == 0
         if (emptyColumnsWithJoin) {
-            outIterators.add(Pair(name, Pair(3, 0))
+            outIterators.add(Pair("", 3))
         }
         val key = Array(2) { i -> Array(columnsINJ[i].size) { columnsINJ[i][it].next() } }
         var done = findNextKey(key, columnsINJ, columnsINO)
@@ -88,14 +91,7 @@ class POPJoinMerge(query: Query, projectedVariables: List<String>, childA: OPBas
                 }
             }
             for (iteratorConfig in outIterators) {
-                outMap[iteratorConfig.first] = object : ColumnIterator {
-                    override fun next(): Value? {
-                        return null
-                    }
-
-                    override fun close() {
-                    }
-                }
+                outMap[iteratorConfig.first] = ColumnIteratorEmpty()
             }
         } else {
             val keyCopy = Array(columnsINJ[0].size) { key[0][it] }
@@ -120,7 +116,7 @@ class POPJoinMerge(query: Query, projectedVariables: List<String>, childA: OPBas
                         __close()
                     }
 
-                    override fun onNoMoreElements(): Value? {
+                    override fun onNoMoreElements() {
                         for (i in 0 until columnsINJ[0].size) {
                             keyCopy[i] = key[0][i]
                         }

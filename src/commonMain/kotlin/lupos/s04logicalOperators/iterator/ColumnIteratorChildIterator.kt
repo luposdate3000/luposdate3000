@@ -25,9 +25,6 @@ abstract class ColumnIteratorChildIterator() : ColumnIterator() {
 
     override fun next(): Value? {
         when (label) {
-            0 -> {
-                return null
-            }
             1 -> {
                 var res: Value? = null
                 while (res == null) {
@@ -60,6 +57,9 @@ abstract class ColumnIteratorChildIterator() : ColumnIterator() {
                 close()
                 return null
             }
+else->{
+return null
+}
         }
     }
 }

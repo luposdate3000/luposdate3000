@@ -10,6 +10,7 @@ import lupos.s00misc.ReadWriteLock
 import lupos.s00misc.SanityCheck
 import lupos.s03resultRepresentation.Value
 import lupos.s04logicalOperators.iterator.ColumnIterator
+import lupos.s04logicalOperators.iterator.ColumnIteratorEmpty
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.Query
 import lupos.s05tripleStore.index_IDTriple.BulkImportIterator
@@ -129,7 +130,7 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
         SanityCheck.println({ "writeunlock 2" })
     }
 
-    class IteratorS(it: TripleIterator, lock: ReadWriteLock) : ColumnIterator() {
+    class IteratorS( @JvmField val it: TripleIterator,  @JvmField val lock: ReadWriteLock) : ColumnIterator() {
         @JvmField
         val uuid = TripleStoreIndex_IDTriple.debuguuiditerator++
 
@@ -181,7 +182,7 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
         }
     }
 
-    class IteratorP(it: TripleIterator, lock: ReadWriteLock) : ColumnIterator() {
+    class IteratorP( @JvmField val it: TripleIterator, @JvmField val  lock: ReadWriteLock) : ColumnIterator() {
         @JvmField
         val uuid = TripleStoreIndex_IDTriple.debuguuiditerator++
 
@@ -233,7 +234,7 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
         }
     }
 
-    class IteratorO(it: TripleIterator, lock: ReadWriteLock) : ColumnIterator() {
+    class IteratorO( @JvmField val it: TripleIterator, @JvmField val  lock: ReadWriteLock) : ColumnIterator() {
         @JvmField
         val uuid = TripleStoreIndex_IDTriple.debuguuiditerator++
 
@@ -432,7 +433,7 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
         val columns = mutableMapOf<String, ColumnIterator>()
         for (s in projection) {
             if (s != "_") {
-                columns[s] = ColumnIterator()
+                columns[s] = ColumnIteratorEmpty()
             }
         }
         if (columns.size > 0) {

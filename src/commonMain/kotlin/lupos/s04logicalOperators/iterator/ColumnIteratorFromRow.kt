@@ -5,23 +5,27 @@ import lupos.s00misc.Coverage
 object ColumnIteratorFromRow {
     operator fun invoke(iterator: RowIterator): Map<String, ColumnIterator> {
         var res = mutableMapOf<String, ColumnIterator>()
-        var iterators = Array(iterator.columns.size) { ColumnIteratorQueue() }
+val iterators=mutableListOf<ColumnIteratorQueue>()
         for (i in 0 until iterator.columns.size) {
-            iterators[i].onEmptyQueue = {
-                var res2 = iterator.next()
-                if (res2 >= 0) {
-                    for (j in 0 until iterator.columns.size) {
-                        iterators[j].queue.add(iterator.buf[res2 + j])
+            val iterator2 = object : ColumnIteratorQueue() {
+                override fun onEmptyQueue() {
+                    var res2 = iterator.next()
+                    if (res2 >= 0) {
+                        for (j in 0 until iterator.columns.size) {
+                            iterators[j].queue.add(iterator.buf[res2 + j])
+                        }
+                    }
+                }
+
+                override fun close() {
+                    if (label != 0) {
+                        _close()
+                        iterator.close()
                     }
                 }
             }
-            iterators[i].close = object : FuncColumnIteratorClose("ColumnIteratorFromRow.close") {
-                override fun invoke() {
-                    iterator.close()
-                    iterators[i]._close()
-                }
-            }
-            res[iterator.columns[i]] = iterators[i]
+iterators.add(iterator2)
+            res[iterator.columns[i]] = iterator2
         }
         return res
     }

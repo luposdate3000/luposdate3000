@@ -11,6 +11,7 @@ import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.Value
 import lupos.s03resultRepresentation.Variable
 import lupos.s04logicalOperators.iterator.ColumnIterator
+import lupos.s04logicalOperators.iterator.ColumnIteratorEmpty
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
@@ -62,9 +63,6 @@ class POPJoinMergeSingleColumn(query: Query, projectedVariables: List<String>, c
                 var label = 1
                 override fun next(): Value? {
                     when (label) {
-                        0 -> {
-                            return null
-                        }
                         1 -> {
                             if (counter == 0) {
                                 var change = true
@@ -136,6 +134,9 @@ class POPJoinMergeSingleColumn(query: Query, projectedVariables: List<String>, c
                             }
                             return value
                         }
+else->{
+return null
+}
                     }
                 }
 
@@ -153,7 +154,7 @@ class POPJoinMergeSingleColumn(query: Query, projectedVariables: List<String>, c
                 }
             }
         } else {
-            outMap[projectedVariables[0]] = ColumnIterator()
+            outMap[projectedVariables[0]] = ColumnIteratorEmpty()
             SanityCheck.println({ "$uuid close $classname" })
             child00.close()
             child01.close()

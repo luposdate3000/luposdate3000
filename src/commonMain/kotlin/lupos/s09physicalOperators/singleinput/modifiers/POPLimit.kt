@@ -30,9 +30,10 @@ class POPLimit(query: Query, projectedVariables: List<String>, @JvmField val lim
         val outMap = mutableMapOf<String, ColumnIterator>()
         val child = children[0].evaluate(parent)
         for (variable in variables) {
-            var count = 0
-            val iterator = child.columns[variable]!!
             val tmp = object : ColumnIterator() {
+@JvmField var count = 0
+@JvmField
+            val iterator = child.columns[variable]!!
                 @JvmField
                 var label = 1
                 override fun next(): Value? {
@@ -52,7 +53,7 @@ class POPLimit(query: Query, projectedVariables: List<String>, @JvmField val lim
                 inline fun _close() {
                     if (label != 0) {
                         label = 0
-                        child.columns[variable]!!.close()
+                        iterator.close()
                     }
                 }
 

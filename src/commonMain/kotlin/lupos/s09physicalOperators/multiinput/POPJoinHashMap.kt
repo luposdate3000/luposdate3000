@@ -166,7 +166,10 @@ class POPJoinHashMap(query: Query, projectedVariables: List<String>, childA: OPB
         for (iteratorConfig in outIterators) {
             val iterator = object : ColumnIteratorChildIterator() {
                 //this is just function pointer assignment. this loop does not calculate anything
-                override fun close() {
+override fun close(){
+__close()
+}
+                inline fun __close() {
                     if (label != 0) {
                         _close()
                         for (iterator2 in outIteratorsAllocated) {
@@ -214,7 +217,7 @@ class POPJoinHashMap(query: Query, projectedVariables: List<String>, childA: OPB
                         }
                         if (currentKey == null) {
                             done = true
-                            iterator.close()
+                            __close()
                         } else {
                             key = MapKey(currentKey!!)
                             var others = mutableListOf<Pair<MapKey, MapRow>>()

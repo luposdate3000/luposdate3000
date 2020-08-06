@@ -4,7 +4,7 @@ import lupos.s00misc.Coverage
 import lupos.s03resultRepresentation.MyListValue
 import lupos.s03resultRepresentation.Value
 
-class ColumnIteratorQueue() : ColumnIterator() {
+abstract class ColumnIteratorQueue() : ColumnIterator() {
     @JvmField
     var tmp: Value? = null
 
@@ -19,9 +19,6 @@ class ColumnIteratorQueue() : ColumnIterator() {
 
     override fun next(): Value? {
         when (label) {
-            0 -> {
-                return null
-            }
             1 -> {
                 if (queue.size == 0) {
                     onEmptyQueue()
@@ -43,6 +40,9 @@ class ColumnIteratorQueue() : ColumnIterator() {
                     return queue.removeAt(0)
                 }
             }
+else->{
+return null
+}
         }
     }
 

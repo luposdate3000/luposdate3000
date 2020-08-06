@@ -31,9 +31,6 @@ class ColumnIteratorRepeatIterator(@JvmField val count: Int, @JvmField val child
 
     override fun next(): Value? {
         when (label) {
-            0 -> {
-                return null
-            }
             1 -> {
                 val tmp = child.next()
                 if (tmp == null) {
@@ -63,6 +60,9 @@ class ColumnIteratorRepeatIterator(@JvmField val count: Int, @JvmField val child
                     return null
                 }
             }
+else->{
+return null
+}
         }
     }
 }

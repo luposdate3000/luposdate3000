@@ -46,8 +46,10 @@ class POPFilter(query: Query, projectedVariables: List<String>, filter: AOPBase,
         var res: IteratorBundle? = null
         try {
             val columnsIn = Array(variables.size) { child.columns[variables[it]] }
-            val columnsLocal = Array(variables.size) {
-                object : ColumnIteratorQueue() {
+val columnsOut=mutableListOf<ColumnIteratorQueue>()
+            val columnsLocal = mutableListOf<ColumnIteratorQueue>()
+for(i in 0 until variables.size){
+columnsLocal.add(                object : ColumnIteratorQueue() {
                     override fun close() {
                         if (label != 0) {
                             _close()
@@ -98,7 +100,7 @@ class POPFilter(query: Query, projectedVariables: List<String>, filter: AOPBase,
                             throw e
                         }
                     }
-                }
+                })
             }
             for (variableIndex in 0 until variables.size) {
                 if (projectedVariables.contains(variables[variableIndex])) {
@@ -106,7 +108,9 @@ class POPFilter(query: Query, projectedVariables: List<String>, filter: AOPBase,
                 }
                 localMap[variables[variableIndex]] = columnsLocal[variableIndex]
             }
-            val columnsOut = Array(variablesOut.size) { resLocal.columns[variablesOut[it]]!! as ColumnIteratorQueue }
+for(it in 0 until variablesOut.size){
+columnsOut.add(resLocal.columns[variablesOut[it]]!! as ColumnIteratorQueue )
+}
             if (variablesOut.size == 0) {
                 res = IteratorBundle(0)
                 if (variables.size == 0) {
@@ -139,7 +143,7 @@ class POPFilter(query: Query, projectedVariables: List<String>, filter: AOPBase,
                                         }
                                         SanityCheck.check { variableIndex2 == 0 }
                                         for (variableIndex3 in 0 until variables.size) {
-                                            columnsLocal[variableIndex3].onEmptyQueue = columnsLocal[variableIndex3]::_onEmptyQueue
+                                            columnsLocal[variableIndex3].closeOnEmptyQueue()
                                         }
                                         done = true
                                         break

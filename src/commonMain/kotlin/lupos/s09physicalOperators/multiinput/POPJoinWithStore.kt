@@ -16,6 +16,7 @@ import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04arithmetikOperators.noinput.AOPConstant
 import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s04logicalOperators.iterator.ColumnIterator
+import lupos.s04logicalOperators.iterator.ColumnIteratorEmpty
 import lupos.s04logicalOperators.iterator.ColumnIteratorQueue
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.multiinput.LOPJoin
@@ -80,7 +81,7 @@ class POPJoinWithStore(query: Query, projectedVariables: List<String>, childA: O
                     tmp2.remove(name)
                     if (projectedVariables.contains(name)) {
                         columnsINAJ.add(0, childAv.columns[name]!!)
-                        columnsOUT.add(name, 1)
+                        columnsOUT.add(Pair(name, 1))
                     } else {
                         columnsINAJ.add(childAv.columns[name]!!)
                     }
@@ -88,7 +89,7 @@ class POPJoinWithStore(query: Query, projectedVariables: List<String>, childA: O
                     SanityCheck.check { columnsTmp[2].contains(name) || name == "_" }
                     if (name != "_") {
                         variablINBO.add(name)
-                        columnsOUT.add(name, 2)
+                        columnsOUT.add(Pair(name, 2))
                     }
                 }
             }
@@ -96,7 +97,7 @@ class POPJoinWithStore(query: Query, projectedVariables: List<String>, childA: O
         for (name in tmp2) {
             SanityCheck.check { columnsTmp[1].contains(name) || name == "_" }
             if (name != "_") {
-                columnsOUT.add(name, 0)
+                columnsOUT.add(Pair(name, 0))
                 columnsINAO.add(0, childAv.columns[name]!!)
             }
         }
@@ -125,7 +126,7 @@ class POPJoinWithStore(query: Query, projectedVariables: List<String>, childA: O
             SanityCheck.check { indicesINBJ.size > 0 }
             SanityCheck.check { valuesAJ.size == indicesINBJ.size }
         }
-        val columnsInB = Array(variablINBO.size) { ColumnIterator() }
+        val columnsInB = Array<ColumnIterator>(variablINBO.size) { ColumnIteratorEmpty() }
         for (i in 0 until columnsINAO.size) {
             valuesAO[i] = columnsINAO[i].next()
         }

@@ -29,7 +29,7 @@ class ColumnIteratorMultiIterator(@JvmField val childs: List<ColumnIterator>) : 
                 res = childs[index].next()
             }
             if (res == null) {
-                _close
+                _close()
             }
             return res
         } else {

@@ -14,6 +14,7 @@ import lupos.s00misc.SanityCheck
 import lupos.s00misc.TripleStoreModifyOperationsNotImplementedException
 import lupos.s03resultRepresentation.Value
 import lupos.s04logicalOperators.iterator.ColumnIterator
+import lupos.s04logicalOperators.iterator.ColumnIteratorEmpty
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.Query
 import lupos.s05tripleStore.index_SingleList.ColumnIteratorStore1
@@ -115,7 +116,7 @@ class TripleStoreIndex_SingleList : TripleStoreIndex() {
         val columns = mutableMapOf<String, ColumnIterator>()
         for (s in projection) {
             if (s != "_") {
-                columns[s] = ColumnIterator()
+                columns[s] = ColumnIteratorEmpty()
             }
         }
         var res: IteratorBundle? = null
@@ -302,7 +303,7 @@ class TripleStoreIndex_SingleList : TripleStoreIndex() {
             }
             val iteratorsA: Array<ColumnIterator>
             if (data.size == 0) {
-                iteratorsA = arrayOf(ColumnIterator(), ColumnIterator(), ColumnIterator())
+                iteratorsA = arrayOf(ColumnIteratorEmpty(), ColumnIteratorEmpty(), ColumnIteratorEmpty())
             } else {
                 iteratorsA = arrayOf(ColumnIteratorStore3a(data), ColumnIteratorStore3b(data), ColumnIteratorStore3c(data))
             }

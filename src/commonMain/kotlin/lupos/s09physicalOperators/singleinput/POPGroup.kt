@@ -22,6 +22,7 @@ import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.s04logicalOperators.iterator.ColumnIteratorAggregate
 import lupos.s04logicalOperators.iterator.ColumnIteratorMultiValue
 import lupos.s04logicalOperators.iterator.ColumnIteratorQueue
+import lupos.s04logicalOperators.iterator.ColumnIteratorQueueEmpty
 import lupos.s04logicalOperators.iterator.ColumnIteratorRepeatValue
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.noinput.OPEmptyRow
@@ -195,7 +196,7 @@ class POPGroup : POPBase {
         if (keyColumnNames.size == 0) {
             SanityCheck.println({ "group mode a" })
             val localMap = mutableMapOf<String, ColumnIterator>()
-            val localColumns = Array(valueColumnNames.size) { ColumnIteratorQueue() }
+            val localColumns = Array<ColumnIteratorQueue>(valueColumnNames.size) { ColumnIteratorQueueEmpty() }
             for (columnIndex in 0 until valueColumnNames.size) {
                 localMap[valueColumnNames[columnIndex]] = localColumns[columnIndex]
             }
@@ -284,9 +285,9 @@ class POPGroup : POPBase {
                     }
                 } else {
                     val localMap = mutableMapOf<String, ColumnIterator>()
-                    var localRowColumns = Array(valueColumnNames.size) { ColumnIteratorQueue() }
+                    var localRowColumns = Array(valueColumnNames.size) { ColumnIteratorQueueEmpty() }
                     for (columnIndex in 0 until keyColumnNames.size) {
-                        val tmp = ColumnIteratorQueue()
+                        val tmp = ColumnIteratorQueueEmpty()
                         tmp.tmp = currentKey[columnIndex]
                         localMap[keyColumnNames[columnIndex]] = tmp
                     }
@@ -350,7 +351,7 @@ class POPGroup : POPBase {
                                                 }
                                             }
                                             for (outIndex2 in 0 until output.size) {
-                                                output[outIndex2].onEmptyQueue = {}
+                                                output[outIndex2].closeOnEmptyQueue()
                                             }
                                             break@loop
                                         }
@@ -374,9 +375,9 @@ class POPGroup : POPBase {
                                             }
                                         }
                                         val localMap = mutableMapOf<String, ColumnIterator>()
-                                        localRowColumns = Array(valueColumnNames.size) { ColumnIteratorQueue() }
+                                        localRowColumns = Array(valueColumnNames.size) { ColumnIteratorQueueEmpty() }
                                         for (columnIndex in 0 until keyColumnNames.size) {
-                                            val tmp = ColumnIteratorQueue()
+                                            val tmp = ColumnIteratorQueueEmpty()
                                             tmp.tmp = currentKey[columnIndex]
                                             localMap[keyColumnNames[columnIndex]] = tmp
                                         }
@@ -437,9 +438,9 @@ class POPGroup : POPBase {
                     var localRow = map[key]
                     if (localRow == null) {
                         val localMap = mutableMapOf<String, ColumnIterator>()
-                        val localColumns = Array(valueColumnNames.size) { ColumnIteratorQueue() }
+                        val localColumns = Array<ColumnIteratorQueue>(valueColumnNames.size) { ColumnIteratorQueueEmpty() }
                         for (columnIndex in 0 until keyColumnNames.size) {
-                            val tmp = ColumnIteratorQueue()
+                            val tmp = ColumnIteratorQueueEmpty()
                             tmp.tmp = currentKey[columnIndex]
                             localMap[keyColumnNames[columnIndex]] = tmp
                         }

@@ -16,7 +16,8 @@ class ColumnIteratorStore2b(@JvmField val values: MyListValue, start: Int) : Col
 
     @JvmField
     var index = start + 3
-
+@JvmField
+var label=1
     init {
         counterSecondary = values[index - 3] - 1
         counterTerniary = values[index - 1] - 1
@@ -31,7 +32,7 @@ class ColumnIteratorStore2b(@JvmField val values: MyListValue, start: Int) : Col
     }
 
     override fun next(): Value? {
-        if (label == 1) {
+        if (label !=0) {
             var res: Value? = values[index]
             index++
             if (counterTerniary == 0) {

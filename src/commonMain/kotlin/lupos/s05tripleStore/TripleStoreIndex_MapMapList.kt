@@ -9,7 +9,9 @@ import lupos.s00misc.MySetInt
 import lupos.s00misc.SanityCheck
 import lupos.s03resultRepresentation.Value
 import lupos.s04logicalOperators.iterator.ColumnIterator
+import lupos.s04logicalOperators.iterator.ColumnIteratorEmpty
 import lupos.s04logicalOperators.iterator.ColumnIteratorChildIterator
+import lupos.s04logicalOperators.iterator.ColumnIteratorChildIteratorEmpty
 import lupos.s04logicalOperators.iterator.ColumnIteratorMultiValue
 import lupos.s04logicalOperators.iterator.ColumnIteratorRepeatValue
 import lupos.s04logicalOperators.iterator.IteratorBundle
@@ -78,13 +80,14 @@ class TripleStoreIndex_MapMapList : TripleStoreIndex() {
         for (sIndex in 0 until projection.size) {
             val s = projection[sIndex]
             if (s != "_") {
-                columns[s] = ColumnIterator()
+                columns[s] = ColumnIteratorEmpty()
             }
         }
         var res: IteratorBundle? = null
         if (columns.size > 0) {
             res = IteratorBundle(columns)
         }
+        val columnsArr = Array<ColumnIteratorChildIterator>(3) { ColumnIteratorChildIteratorEmpty() }
         if (filter.size > 0) {
             val tmp = data[filter[0]]
             if (tmp != null) {
@@ -106,9 +109,9 @@ class TripleStoreIndex_MapMapList : TripleStoreIndex() {
                         }
                     }
                 } else {
+                        var iter = tmp.iterator()
                     if (columns.size == 0) {
                         var count = 0
-                        var iter = tmp.iterator()
                         while (iter.hasNext()) {
                             val key = iter.next()
                             val value = iter.value()
@@ -116,35 +119,39 @@ class TripleStoreIndex_MapMapList : TripleStoreIndex() {
                         }
                         res = IteratorBundle(count)
                     } else {
-                        val columnsArr = arrayOf(ColumnIteratorChildIterator(), ColumnIteratorChildIterator())
+                        for (i in 0 until 2) {
+                            columnsArr[i] = object : ColumnIteratorChildIterator() {
+                                override fun close() {
+                                    _close()
+                                }
+
+                                override fun onNoMoreElements() {
+                                    if (iter.hasNext()) {
+                                        val key = iter.next()
+                                        val value = iter.value()
+                                        if (projection[0] != "_") {
+                                            columnsArr[0].childs.add(ColumnIteratorRepeatValue(value.size, key))
+                                        }
+                                        if (projection[1] != "_") {
+                                            columnsArr[1].childs.add(ColumnIteratorMultiValue(value.iterator()))
+                                        }
+                                    }
+                                }
+                            }
+                        }
                         if (projection[0] != "_") {
                             columns[projection[0]] = columnsArr[0]
                         }
                         if (projection[1] != "_") {
                             columns[projection[1]] = columnsArr[1]
                         }
-                        var iter = tmp.iterator()
-                        for (iterator in columnsArr) {
-                            iterator.onNoMoreElements = {
-                                if (iter.hasNext()) {
-                                    val key = iter.next()
-                                    val value = iter.value()
-                                    if (projection[0] != "_") {
-                                        columnsArr[0].childs.add(ColumnIteratorRepeatValue(value.size, key))
-                                    }
-                                    if (projection[1] != "_") {
-                                        columnsArr[1].childs.add(ColumnIteratorMultiValue(value.iterator()))
-                                    }
-                                }
-                            }
-                        }
                     }
                 }
             }
         } else {
+                var iter = data.iterator()
             if (columns.size == 0) {
                 var count = 0
-                var iter = data.iterator()
                 while (iter.hasNext()) {
                     var key1 = iter.next()
                     var value1 = iter.value()
@@ -157,23 +164,18 @@ class TripleStoreIndex_MapMapList : TripleStoreIndex() {
                 }
                 res = IteratorBundle(count)
             } else {
-                val columnsArr = arrayOf(ColumnIteratorChildIterator(), ColumnIteratorChildIterator(), ColumnIteratorChildIterator())
-                if (projection[0] != "_") {
-                    columns[projection[0]] = columnsArr[0]
-                }
-                if (projection[1] != "_") {
-                    columns[projection[1]] = columnsArr[1]
-                }
-                if (projection[2] != "_") {
-                    columns[projection[2]] = columnsArr[2]
-                }
-                var iter = data.iterator()
                 if (iter.hasNext()) {
                     var key1 = iter.next()
                     var value1 = iter.value()
                     var iter2 = value1.iterator()
-                    for (iterator in columnsArr) {
-                        iterator.onNoMoreElements = {
+                
+                for (i in 0 until 3) {
+                    columnsArr[i] = object : ColumnIteratorChildIterator() {
+                        override fun close() {
+                            _close()
+                        }
+
+                        override fun onNoMoreElements() {
                             while (true) {
                                 if (iter2.hasNext()) {
                                     val key2 = iter2.next()
@@ -200,6 +202,16 @@ class TripleStoreIndex_MapMapList : TripleStoreIndex() {
                             }
                         }
                     }
+                }
+}
+                if (projection[0] != "_") {
+                    columns[projection[0]] = columnsArr[0]
+                }
+                if (projection[1] != "_") {
+                    columns[projection[1]] = columnsArr[1]
+                }
+                if (projection[2] != "_") {
+                    columns[projection[2]] = columnsArr[2]
                 }
             }
         }
