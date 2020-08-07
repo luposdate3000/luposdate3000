@@ -86,7 +86,7 @@ class File(@JvmField val filename: String) {
         }
     }
 
-    inline fun dataInputStreamSuspend(crossinline action: (java.io.DataInputStream) -> Unit) {
+suspend    inline fun dataInputStreamSuspended(crossinline action:suspend (java.io.DataInputStream) -> Unit) {
         var dis: DataInputStream? = null
         try {
             val fis = FileInputStream(filename)

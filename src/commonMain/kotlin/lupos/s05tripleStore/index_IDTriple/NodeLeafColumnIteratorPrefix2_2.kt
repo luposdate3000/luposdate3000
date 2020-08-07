@@ -134,24 +134,27 @@ class NodeLeafColumnIteratorPrefix2_2(@JvmField var node: ByteArray, @JvmField v
                 }
                 offset += counter2
                 remaining--
-                while (remaining == 0) {
-                    needsReset = true
-                    offset = 8
-                    var nextNodeIdx = NodeShared.getNextNode(node)
-                    if (nextNodeIdx != NodeManager.nodeNullPointer) {
-                        NodeManager.getNode(nextNodeIdx, {
-                            SanityCheck.check { node != it }
-                            node = it
-                            remaining = NodeShared.getTripleCount(node)
-                        }, {
-                            SanityCheck.checkUnreachable()
-                        })
-                    } else {
-                        _close()
-                        if (done) {
-                            return value2
-                        } else {
-                            return ResultSetDictionary.nullValue
+                if (remaining == 0) {
+                    runBlocking {
+loop@                        while (remaining == 0) {
+                            needsReset = true
+                            offset = 8
+                            var nextNodeIdx = NodeShared.getNextNode(node)
+                            if (nextNodeIdx != NodeManager.nodeNullPointer) {
+                                NodeManager.getNode(nextNodeIdx, {
+                                    SanityCheck.check { node != it }
+                                    node = it
+                                    remaining = NodeShared.getTripleCount(node)
+                                }, {
+                                    SanityCheck.checkUnreachable()
+                                })
+                            } else {
+                                _close()
+if(!done){
+value2=ResultSetDictionary.nullValue
+break@loop
+}
+                            }
                         }
                     }
                 }

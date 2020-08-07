@@ -30,13 +30,13 @@ class BufferManager(@JvmField val bufferName: String) {
 
         @JvmField
         val managerListLock = ReadWriteLock()
-        fun safeToFolder() = managerListLock.withReadLock {
+        fun safeToFolder() = managerListLock.withReadLockSuspend {
             managerList.forEach {
                 it.safeToFolder()
             }
         }
 
-        fun loadFromFolder() = managerListLock.withReadLock {
+        fun loadFromFolder() = managerListLock.withReadLockSuspend {
             managerList.forEach {
                 it.loadFromFolder()
             }
@@ -45,7 +45,7 @@ class BufferManager(@JvmField val bufferName: String) {
 
     init {
         val manager = this
-        managerListLock.withWriteLock {
+        managerListLock.withWriteLockSuspend {
             managerList.add(manager)
         }
     }
@@ -64,19 +64,19 @@ class BufferManager(@JvmField val bufferName: String) {
 
     @JvmField
     val pageMappingsInOut = mutableMapOf<Int, Int>() // keys are guaranteed to be possible to store as array
-    fun clear() = lock.withWriteLock {
+   suspend fun clear() = lock.withWriteLock {
         counter = 0
         allPages.clear()
         pageMappingsOutIn.clear()
         pageMappingsInOut.clear()
     }
 
-    fun getPage(pageid: Int): ByteArray = lock.withReadLock {
+  suspend  fun getPage(pageid: Int): ByteArray = lock.withReadLock {
         val target = pageMappingsOutIn[pageid]!!
         /*return*/ allPages[target]
     }
 
-    fun createPage(pageid: Int): ByteArray = lock.withWriteLock {
+  suspend  fun createPage(pageid: Int): ByteArray = lock.withWriteLock {
         val target = counter++
         SanityCheck.check { pageMappingsOutIn[pageid] == null }
         SanityCheck.check { pageMappingsInOut[target] == null }
@@ -87,7 +87,7 @@ class BufferManager(@JvmField val bufferName: String) {
         /*return*/ allPages[target]
     }
 
-    fun deletePage(pageid: Int) = lock.withWriteLock {
+ suspend   fun deletePage(pageid: Int) = lock.withWriteLock {
         val otherTarget = counter - 1
         val target = pageMappingsOutIn[pageid]!!
         pageMappingsOutIn.remove(pageid)
@@ -121,7 +121,7 @@ class BufferManager(@JvmField val bufferName: String) {
         }
     }
 
-    fun safeToFolder() = lock.withWriteLock {
+    fun safeToFolder() = lock.withWriteLockSuspend {
         File(bufferPrefix + "buffermanager").mkdirs()
         File(bufferPrefix + "buffermanager/" + bufferName + ".data").dataOutputStream { fos ->
             var i = 0
@@ -143,7 +143,7 @@ class BufferManager(@JvmField val bufferName: String) {
         }
     }
 
-    fun loadFromFolder() = lock.withWriteLock {
+    fun loadFromFolder() = lock.withWriteLockSuspend {
         allPages.clear()
         File(bufferPrefix + "buffermanager/" + bufferName + ".header").dataInputStream { fis ->
             counter = fis.readInt()

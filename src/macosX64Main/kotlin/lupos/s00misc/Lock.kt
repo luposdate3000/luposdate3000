@@ -16,7 +16,7 @@ class Lock {
         pthread_mutex_init(mutex, null)
     }
 
-    inline suspend fun <T> withWriteLockSuspend(crossinline action: suspend () -> T): T {
+    inline suspend fun <T> withWriteLock(crossinline action: suspend () -> T): T {
         try {
             pthread_mutex_lock(mutex)
             return action()
@@ -25,10 +25,10 @@ class Lock {
         }
     }
 
-    inline fun <T> withWriteLock(crossinline action: suspend CoroutineScope.() -> T): T {
+    inline fun <T> withWriteLockSuspend(crossinline action: suspend CoroutineScope.() -> T): T {
         var res: T? = null
         runBlocking {
-            withWriteLockSuspend {
+            withWriteLock {
                 res = action()
             }
         }

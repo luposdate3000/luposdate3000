@@ -53,24 +53,30 @@ abstract class NodeLeafIteratorPrefix(@JvmField var node: ByteArray, @JvmField v
     }
 
     /*inline*/ fun nextInternal() {
-        while (remaining == 0) {
-            var nextNodeIdx = NodeShared.getNextNode(node)
-            if (nextNodeIdx != NodeManager.nodeNullPointer) {
-                NodeManager.getNode(nextNodeIdx, {
-                    SanityCheck.check { node != it }
-                    node = it
-                    remaining = NodeShared.getTripleCount(node)
-                    valueNext[0] = 0
-                    valueNext[1] = 0
-                    valueNext[2] = 0
-                    offset = 8
-                }, {
-                    SanityCheck.checkUnreachable()
-                })
-            } else {
-                flag = false
-                return
+        if (remaining == 0) {
+            runBlocking {
+                while (remaining == 0) {
+                    var nextNodeIdx = NodeShared.getNextNode(node)
+                    if (nextNodeIdx != NodeManager.nodeNullPointer) {
+                        NodeManager.getNode(nextNodeIdx, {
+                            SanityCheck.check { node != it }
+                            node = it
+                            remaining = NodeShared.getTripleCount(node)
+                            valueNext[0] = 0
+                            valueNext[1] = 0
+                            valueNext[2] = 0
+                            offset = 8
+                        }, {
+                            SanityCheck.checkUnreachable()
+                        })
+                    } else {
+                        flag = false
+                    }
+                }
             }
+        if (!flag) {
+            return
+        }
         }
         var header = node.readInt1(offset)
         var headerA = header and 0b11000000

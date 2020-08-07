@@ -17,7 +17,7 @@ class Query(@JvmField val dictionary: ResultSetDictionary = ResultSetDictionary(
         val lock = Lock()
     }
 
-    fun getPartitionHelper(uuid: Long): PartitionHelper {
+ inline suspend   fun getPartitionHelper(uuid: Long): PartitionHelper {
         var res: PartitionHelper? = null
         partitionsLock.withWriteLock {
             res = partitions[uuid]
@@ -70,18 +70,16 @@ class Query(@JvmField val dictionary: ResultSetDictionary = ResultSetDictionary(
         }
     }
 
-    fun getUniqueVariableName() = "#+${generatedNameCounter++}"
-    fun isGeneratedVariableName(name: String) = name.startsWith('#')
+inline    fun getUniqueVariableName() = "#+${generatedNameCounter++}"
+inline    fun isGeneratedVariableName(name: String) = name.startsWith('#')
 
     companion object {
         private val global_transactionID = ThreadSafeUuid()
     }
 
-    fun commit() {
+inline    fun commit() {
         DistributedTripleStore.commit(this)
         commited = true
     }
 
-    protected fun finalize() {
-    }
 }

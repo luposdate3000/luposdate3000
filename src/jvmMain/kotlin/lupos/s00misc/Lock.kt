@@ -17,7 +17,7 @@ class Lock {
         mutex.unlock()
     }
 
-    suspend /*inline*/  fun <T> withWriteLockSuspend(/*crossinline*/  action: suspend () -> T): T {
+    suspend /*inline*/  fun <T> withWriteLock(/*crossinline*/  action: suspend () -> T): T {
         try {
             lock()
             return action()
@@ -27,10 +27,10 @@ class Lock {
 /*Coverage Unreachable*/
     }
 
-    /*inline*/  fun <T> withWriteLock(/*crossinline*/  action: suspend CoroutineScope.() -> T): T {
+    /*inline*/  fun <T> withWriteLockSuspend(/*crossinline*/  action: suspend CoroutineScope.() -> T): T {
         var res: T? = null
         runBlocking {
-            withWriteLockSuspend {
+            withWriteLock {
                 res = action()
             }
         }

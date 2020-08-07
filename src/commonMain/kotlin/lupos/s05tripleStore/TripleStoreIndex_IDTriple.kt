@@ -60,6 +60,7 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
             SanityCheck {
                 if (root != NodeManager.nodeNullPointer) {
                     var found = false
+runBlocking{
                     NodeManager.getNode(root, {
                         SanityCheck.println { "root is inner node" }
                         SanityCheck.checkUnreachable()
@@ -67,6 +68,7 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
                         found = true
                         SanityCheck.check { rootNode == it }
                     })
+}
                     SanityCheck.check { found }
                 } else {
                     SanityCheck.check { rootNode == null }
@@ -84,10 +86,12 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
                 SanityCheck.println { countPrimary }
                 SanityCheck.println { distinctPrimary }
                 if (rootNode != null) {
+runBlocking{
                     val iterator = NodeInner.iterator(rootNode!!)
                     while (iterator.hasNext()) {
                         SanityCheck.println { iterator.next().map { it } }
                     }
+}
                 }
             }
             lock.readUnlock()
@@ -97,9 +101,9 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
 
     override fun loadFromFile(filename: String) {
         SanityCheck.println({ "writelock 2" })
-        lock.withWriteLock {
+        lock.withWriteLockSuspend {
             pendingImport.clear()
-            File(filename).dataInputStream { fis ->
+            File(filename).dataInputStreamSuspended { fis ->
                 firstLeaf = fis.readInt()
                 root = fis.readInt()
                 countPrimary = fis.readInt()
@@ -120,11 +124,13 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
                 SanityCheck.println { root }
                 SanityCheck.println { countPrimary }
                 SanityCheck.println { distinctPrimary }
+runBlocking{
                 if (rootNode != null) {
                     val iterator = NodeInner.iterator(rootNode!!)
                     while (iterator.hasNext()) {
                         SanityCheck.println { iterator.next().map { it } }
                     }
+}
                 }
             }
         }
@@ -216,7 +222,7 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
         var res: Pair<Int, Int>? = checkForCachedHistogram(filter)
         if (res == null) {
             SanityCheck.println({ "readlock 6" })
-            lock.withReadLock {
+            lock.withReadLockSuspend {
                 val node = rootNode
                 if (node != null) {
                     when (filter.size) {
@@ -353,11 +359,11 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
         return res
     }
 
-    fun importHelper(a: TripleIterator, b: TripleIterator): Int {
+  suspend  fun importHelper(a: TripleIterator, b: TripleIterator): Int {
         return importHelper(MergeIterator(a, b))
     }
 
-    fun importHelper(a: Int, b: Int): Int {
+ suspend    fun importHelper(a: Int, b: Int): Int {
         var nodeA: ByteArray? = null
         var nodeB: ByteArray? = null
         NodeManager.getNode(a, {
@@ -370,13 +376,13 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
         }, {
             SanityCheck.checkUnreachable()
         })
-        val res = importHelper(MergeIterator(NodeLeaf.iterator(nodeA!!), NodeLeaf.iterator(nodeB!!)))
+val         res = importHelper(MergeIterator(NodeLeaf.iterator(nodeA!!), NodeLeaf.iterator(nodeB!!)))
         NodeManager.freeAllLeaves(a)
         NodeManager.freeAllLeaves(b)
         return res
     }
 
-    fun importHelper(iterator: TripleIterator): Int {
+ suspend    fun importHelper(iterator: TripleIterator): Int {
         var res = NodeManager.nodeNullPointer
         var node2: ByteArray? = null
         NodeManager.allocateNodeLeaf { n, i ->
@@ -398,19 +404,19 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
     override fun flush() {
         if (pendingImport.size > 0) {
             SanityCheck.println({ "writelock 8" })
-            lock.withWriteLock {
+            lock.withWriteLockSuspend {
                 flushAssumeLocks()
             }
             SanityCheck.println({ "writeunlock 8" })
         }
     }
 
-    suspend fun flushContinueWithWriteLock() {
+inline    suspend fun flushContinueWithWriteLock() {
         lock.writeLock()
         flushAssumeLocks()
     }
 
-    suspend fun flushContinueWithReadLock() {
+inline    suspend fun flushContinueWithReadLock() {
         lock.readLock()
         if (pendingImport.size > 0) {
             lock.readUnlock()
@@ -420,7 +426,7 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
         }
     }
 
-    fun flushAssumeLocks() {
+ suspend   fun flushAssumeLocks() {
         if (pendingImport.size > 0) {
             //check again, that there is something to be done ... this may be changed, because there could be someone _else beforehand, holding exactly this lock ... .
             BenchmarkUtils.start(EBenchmark.IMPORT_REBUILD_MAP)
@@ -450,7 +456,7 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
 
     override fun import(dataImport: IntArray, count: Int, order: IntArray) {
         SanityCheck.println({ "writelock 9" })
-        lock.withWriteLock {
+        lock.withWriteLockSuspend {
             BenchmarkUtils.start(EBenchmark.IMPORT_MERGE_DATA)
             if (count > 0) {
                 val iteratorImport = BulkImportIterator(dataImport, count, order)
@@ -493,7 +499,7 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
         SanityCheck.println({ "writeunlock 9" })
     }
 
-    fun rebuildData(_iterator: TripleIterator) {
+ suspend    fun rebuildData(_iterator: TripleIterator) {
 //assuming to have write-lock
         val iterator = Count1PassThroughIterator(_iterator)
         if (iterator.hasNext()) {
@@ -634,7 +640,7 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
 
     override fun printContents() {
         SanityCheck.println({ "readlock 13" })
-        lock.withReadLock {
+        lock.withReadLockSuspend {
             if (firstLeaf != NodeManager.nodeNullPointer) {
                 NodeManager.getNode(firstLeaf, { node ->
                     var it = NodeLeaf.iterator(node)

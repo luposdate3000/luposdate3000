@@ -42,17 +42,17 @@ object BenchmarkUtils {
     val timesHelper = DoubleArray(30)
     val timesCounter = IntArray(timesHelper.size)
     val timesLock = Lock()
-    fun timesHelperMark() = Monotonic.markNow()
-    fun timesHelperDuration(i: Int, timer: TimeMark) {
-        timesLock.withWriteLock {
+   inline fun timesHelperMark() = Monotonic.markNow()
+   inline fun timesHelperDuration(i: Int, timer: TimeMark) {
+        timesLock.withWriteLockSuspend {
             timesHelper[i] += timer.elapsedNow().toDouble(DurationUnit.SECONDS)
             timesCounter[i]++
         }
     }
 
-    fun timesHelperDuration(timer: TimeMark) = timer.elapsedNow().toDouble(DurationUnit.SECONDS)
-    fun setTimesHelper(i: Int, t: Double, c: Int) {
-        timesLock.withWriteLock {
+inline    fun timesHelperDuration(timer: TimeMark) = timer.elapsedNow().toDouble(DurationUnit.SECONDS)
+inline    fun setTimesHelper(i: Int, t: Double, c: Int) {
+        timesLock.withWriteLockSuspend {
             timesHelper[i] += t
             timesCounter[i] += c
         }
@@ -77,17 +77,17 @@ object BenchmarkUtils {
         })
     }
 
-    fun start(id: EBenchmark) {
+inline    fun start(id: EBenchmark) {
         timers[id.ordinal] = Monotonic.markNow()
     }
 
-    fun elapsedSeconds(id: EBenchmark): Double {
+inline    fun elapsedSeconds(id: EBenchmark): Double {
         val res = timers[id.ordinal].elapsedNow().toDouble(DurationUnit.SECONDS)
         results[id.ordinal] += res
         counters[id.ordinal]++
         return res
     }
 
-    fun getTime(id: EBenchmark) = results[id.ordinal]
-    fun getCounter(id: EBenchmark) = counters[id.ordinal]
+inline    fun getTime(id: EBenchmark) = results[id.ordinal]
+inline    fun getCounter(id: EBenchmark) = counters[id.ordinal]
 }

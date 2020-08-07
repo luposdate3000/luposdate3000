@@ -67,7 +67,9 @@ class NodeLeafIterator(@JvmField var node: ByteArray) : TripleIterator() {
             offset += counter[i]
         }
         remaining--
-        loop@ while (remaining == 0) {
+if(remaining==0){
+runBlocking{
+loop@         while (remaining == 0) {
             needsReset = true
             offset = 8
             var nextNodeIdx = NodeShared.getNextNode(node)
@@ -80,9 +82,11 @@ class NodeLeafIterator(@JvmField var node: ByteArray) : TripleIterator() {
                     SanityCheck.checkUnreachable()
                 })
             } else {
-                break@loop
+break@loop
             }
         }
+}
+}
         return value[component]
     }
 }

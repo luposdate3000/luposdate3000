@@ -54,6 +54,7 @@ class POPSplitPartition(query: Query, projectedVariables: List<String>, val part
         } else {
             var iterators: Array<IteratorBundle>? = null
             val childPartition = Partition(parent, partitionVariable, GlobalScope)
+runBlocking{
             var partitionHelper = query.getPartitionHelper(uuid)
             partitionHelper.lock.withWriteLock {
                 val tmpIterators = partitionHelper.iterators
@@ -201,6 +202,7 @@ class POPSplitPartition(query: Query, projectedVariables: List<String>, val part
                     }
                 }
             }
+}
             return iterators!![parent.data[partitionVariable]!!]
         }
     }

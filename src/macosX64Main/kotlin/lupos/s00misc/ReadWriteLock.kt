@@ -21,7 +21,7 @@ class ReadWriteLock {
         pthread_mutex_init(allowNewWrites, null)
     }
 
-    inline suspend fun <T> withReadLockSuspend(crossinline action: suspend () -> T): T {
+    inline suspend fun <T> withReadLock(crossinline action: suspend () -> T): T {
         try {
             pthread_mutex_lock(allowNewReads)
             readers.value = (readers.value + 1).freeze()
@@ -46,7 +46,7 @@ class ReadWriteLock {
         }
     }
 
-    inline suspend fun <T> withWriteLockSuspend(crossinline action: suspend () -> T): T {
+    inline suspend fun <T> withWriteLock(crossinline action: suspend () -> T): T {
         try {
             pthread_mutex_lock(allowNewWrites)
             return action()
@@ -55,20 +55,20 @@ class ReadWriteLock {
         }
     }
 
-    inline fun <T> withReadLock(crossinline action: suspend CoroutineScope.() -> T): T {
+    inline fun <T> withReadLockSuspend(crossinline action: suspend CoroutineScope.() -> T): T {
         var res: T? = null
         runBlocking {
-            withReadLockSuspend {
+            withReadLock {
                 res = action()
             }
         }
         return res!!
     }
 
-    inline fun <T> withWriteLock(crossinline action: suspend CoroutineScope.() -> T): T {
+    inline fun <T> withWriteLockSuspend(crossinline action: suspend CoroutineScope.() -> T): T {
         var res: T? = null
         runBlocking {
-            withWriteLockSuspend {
+            withWriteLock {
                 res = action()
             }
         }

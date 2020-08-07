@@ -1,5 +1,5 @@
 package lupos.s05tripleStore.index_IDTriple
-
+import kotlinx.coroutines.runBlocking
 import kotlin.jvm.JvmField
 import lupos.s00misc.BufferManager
 import lupos.s00misc.Coverage
@@ -51,6 +51,7 @@ object NodeManager {
             var nullpointers = 0
             for (i in 0 until allNodesLeafSize) {
                 if (!allNodesFreeListLeaf.contains(i or nodePointerTypeLeaf)) {
+runBlocking{
                     getNode(i or nodePointerTypeLeaf, {
                         val x = NodeShared.getNextNode(it)
                         if (x == nodeNullPointer) {
@@ -62,7 +63,8 @@ object NodeManager {
                     }, {
                         SanityCheck.checkUnreachable()
                     })
-                }
+            }
+    }
             }
             //each leaf must point to either null or a valid next node, but never to a free memory
             var count0 = 0
@@ -80,6 +82,7 @@ object NodeManager {
             SanityCheck.println { "debug nullpointers $nullpointers" }
             for (i in 0 until allNodesInnerSize) {
                 if (!allNodesFreeListInner.contains(i or nodePointerTypeInner)) {
+runBlocking{
                     getNode(i or nodePointerTypeInner, {
                         SanityCheck.checkUnreachable()
                     }, {
@@ -97,7 +100,8 @@ object NodeManager {
                             }
                         })
                     })
-                }
+            }
+    }
             }
             j = 0
             for (i in leavesFromInner) {
@@ -123,7 +127,7 @@ object NodeManager {
         SanityCheck.println { "debug NodeManager saving to folder '${BufferManager.bufferPrefix + "nodemanager/"}'" }
         File(BufferManager.bufferPrefix + "nodemanager/").mkdirs()
         debug()
-        lockInner.withWriteLock {
+        lockInner.withWriteLockSuspend {
             lockLeaf.withWriteLock {
                 File(BufferManager.bufferPrefix + "nodemanager/header").dataOutputStream { out ->
                     out.writeInt(allNodesLeafSize)
@@ -144,7 +148,7 @@ object NodeManager {
 
     /*inline*/ fun loadFromFolder() {
         SanityCheck.println({ "debug NodeManager loading from folder '${BufferManager.bufferPrefix + "nodemanager/"}'" })
-        lockInner.withWriteLock {
+        lockInner.withWriteLockSuspend {
             lockLeaf.withWriteLock {
                 bufferManager.loadFromFolder()
                 allNodesFreeListLeaf.clear()
@@ -165,7 +169,7 @@ object NodeManager {
         }
     }
 
-    /*inline*/ fun getNode(idx: Int, /*crossinline*/ actionLeaf: (ByteArray) -> Unit, /*crossinline*/ actionInner: (ByteArray) -> Unit) {
+     suspend fun getNode(idx: Int,  actionLeaf:suspend (ByteArray) -> Unit,  actionInner:suspend (ByteArray) -> Unit) {
         SanityCheck.println({ "debug NodeManager getNode ${idx.toString(16)}" })
         val nodePointerType = idx and nodePointerTypeMask
         val nodePointerValue = idx and nodePointerValueMask
@@ -193,7 +197,7 @@ object NodeManager {
     }
 
     val reuseOldIDs = false
-    /*inline*/ fun allocateNodeLeaf(/*crossinline*/ action: (ByteArray, Int) -> Unit) {
+    /*inline*/ suspend fun allocateNodeLeaf(/*crossinline*/ action: suspend (ByteArray, Int) -> Unit) {
         SanityCheck.println({ "NodeManager.allocateNodeLeaf A" })
         var node: ByteArray? = null
         var idx = -1
@@ -216,7 +220,7 @@ object NodeManager {
         SanityCheck.println({ "NodeManager.allocateNodeLeaf B" })
     }
 
-    /*inline*/ fun allocateNodeInner(/*crossinline*/ action: (ByteArray, Int) -> Unit) {
+    /*inline*/ suspend fun allocateNodeInner(/*crossinline*/ action:suspend (ByteArray, Int) -> Unit) {
         SanityCheck.println({ "NodeManager.allocateNodeInner A" })
         var node: ByteArray? = null
         var idx = -1
@@ -239,7 +243,7 @@ object NodeManager {
         SanityCheck.println({ "NodeManager.allocateNodeInner B" })
     }
 
-    /*inline*/ fun freeNode(idx: Int) {
+    /*inline*/ suspend fun freeNode(idx: Int) {
         SanityCheck.println({ "NodeManager.freeNode A" })
         SanityCheck.println({ "debug NodeManager freeNode ${idx.toString(16)}" })
         val nodePointerType = idx and nodePointerTypeMask
@@ -266,7 +270,7 @@ object NodeManager {
         SanityCheck.println({ "NodeManager.freeNode B" })
     }
 
-    fun freeNodeAndAllRelated(nodeIdx: Int) {
+suspend    fun freeNodeAndAllRelated(nodeIdx: Int) {
         SanityCheck.println({ "NodeManager.freeNodeAndAllRelated A" })
         SanityCheck.println({ "debug NodeManager freeNodeAndAllRelated ${nodeIdx.toString(16)}" })
         if (nodeIdx != nodeNullPointer) {
@@ -282,7 +286,7 @@ object NodeManager {
         SanityCheck.println({ "NodeManager.freeNodeAndAllRelated B" })
     }
 
-    inline fun freeAllLeaves(nodeIdx: Int) {
+suspend    inline fun freeAllLeaves(nodeIdx: Int) {
         SanityCheck.println({ "NodeManager.freeAllLeaves A" })
         SanityCheck.println({ "debug NodeManager freeAllLeaves ${nodeIdx.toString(16)}" })
         var idx = nodeIdx
@@ -298,7 +302,7 @@ object NodeManager {
         SanityCheck.println({ "NodeManager.freeAllLeaves B" })
     }
 
-    fun freeAllInnerNodes(nodeIdx: Int) {
+suspend    fun freeAllInnerNodes(nodeIdx: Int) {
         SanityCheck.println({ "NodeManager.freeAllInnerNodes A" })
         SanityCheck.println({ "debug NodeManager freeAllInnerNodes ${nodeIdx.toString(16)}" })
         if (nodeIdx != nodeNullPointer) {
