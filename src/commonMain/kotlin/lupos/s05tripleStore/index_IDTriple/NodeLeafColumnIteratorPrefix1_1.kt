@@ -116,7 +116,6 @@ class NodeLeafColumnIteratorPrefix1_1(@JvmField var node: ByteArray, @JvmField v
                 offset += counter1 + counter2
                 remaining--
                 if (remaining == 0) {
-                    runBlocking {
                         loop@ while (remaining == 0) {
                             needsReset = true
                             offset = NodeLeaf.startOffset
@@ -133,7 +132,6 @@ class NodeLeafColumnIteratorPrefix1_1(@JvmField var node: ByteArray, @JvmField v
                                     value1 = ResultSetDictionary.nullValue
                                     break@loop
                                 }
-                            }
                         }
                     }
                 }

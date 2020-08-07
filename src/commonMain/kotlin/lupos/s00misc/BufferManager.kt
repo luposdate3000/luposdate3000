@@ -68,8 +68,9 @@ class BufferManager(@JvmField val bufferName: String) {
         freeList.clear()
     }
 
-    inline suspend fun getPage(pageid: Int): ByteArray = lock.withReadLock {
-        /*return*/ allPages[pageid]
+    inline fun getPage(pageid: Int): ByteArray {
+//no locking required, assuming an assignment to 'allPages' is atomic
+        return allPages[pageid]
     }
 
     inline suspend fun createPage(crossinline action: (ByteArray,Int) -> Unit) = lock.withWriteLock {

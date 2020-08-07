@@ -68,7 +68,6 @@ class NodeLeafIterator(@JvmField var node: ByteArray) : TripleIterator() {
         }
         remaining--
         if (remaining == 0) {
-            runBlocking {
                 loop@ while (remaining == 0) {
                     needsReset = true
                     offset = NodeLeaf.startOffset
@@ -83,7 +82,6 @@ class NodeLeafIterator(@JvmField var node: ByteArray) : TripleIterator() {
                         break@loop
                     }
                 }
-            }
         }
         return value[component]
     }

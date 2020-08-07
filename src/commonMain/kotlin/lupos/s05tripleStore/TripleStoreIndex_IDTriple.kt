@@ -437,11 +437,19 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
             }
             SanityCheck.check { pendingImport.size > 0 }
             val newFirstLeaf = pendingImport[pendingImport.size - 1]!!
+var node:ByteArray?=null
+var flag=false
             NodeManager.getNodeAny(newFirstLeaf, {
-                rebuildData(DistinctIterator(NodeLeaf.iterator(it)))
+flag=true
+node=it
             }, {
-                rebuildData(DistinctIterator(NodeInner.iterator(it)))
+node=it
             })
+if(flag){
+rebuildData(DistinctIterator(NodeLeaf.iterator(node!!)))
+}else{
+rebuildData(DistinctIterator(NodeInner.iterator(node!!)))
+}
             NodeManager.freeAllLeaves(newFirstLeaf)
             pendingImport.clear()
             BenchmarkUtils.elapsedSeconds(EBenchmark.IMPORT_REBUILD_MAP)

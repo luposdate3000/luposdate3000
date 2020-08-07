@@ -45,21 +45,21 @@ object NodeManager {
         }
     }
 
-    inline suspend fun getNodeLeaf(pageid: Int, crossinline actionLeaf: suspend (ByteArray) -> Unit) {
+    inline fun getNodeLeaf(pageid: Int, crossinline actionLeaf: (ByteArray) -> Unit) {
         SanityCheck.println({ "debug NodeManager getNode ${pageid.toString(16)}" })
-val        node = bufferManager.getPage(pageid)
+        val node = bufferManager.getPage(pageid)
         actionLeaf(node)
     }
 
-    inline suspend fun getNodeInner(pageid: Int, crossinline actionInner: suspend (ByteArray) -> Unit) {
+    inline fun getNodeInner(pageid: Int, crossinline actionInner: (ByteArray) -> Unit) {
         SanityCheck.println({ "debug NodeManager getNode ${pageid.toString(16)}" })
-val        node = bufferManager.getPage(pageid)
+        val node = bufferManager.getPage(pageid)
         actionInner(node)
     }
 
-    suspend fun getNodeAny(pageid: Int, actionLeaf: suspend (ByteArray) -> Unit, actionInner: suspend (ByteArray) -> Unit) {
+    inline fun getNodeAny(pageid: Int, crossinline actionLeaf: (ByteArray) -> Unit, crossinline actionInner: (ByteArray) -> Unit) {
         SanityCheck.println({ "debug NodeManager getNode ${pageid.toString(16)}" })
-val        node = bufferManager.getPage(pageid)
+        val node = bufferManager.getPage(pageid)
         when (NodeShared.getNodeType(node!!)) {
             nodeTypeInner -> {
                 actionInner(node!!)
@@ -110,18 +110,7 @@ val        node = bufferManager.getPage(pageid)
     /*inline*/ suspend fun freeNode(pageid: Int) {
         SanityCheck.println({ "NodeManager.freeNode A" })
         SanityCheck.println({ "debug NodeManager freeNode ${pageid.toString(16)}" })
-        val node = bufferManager.getPage(pageid)
-        when (NodeShared.getNodeType(node!!)) {
-            nodeTypeInner -> {
-                bufferManager.deletePage(pageid)
-            }
-            nodeTypeLeaf -> {
-                bufferManager.deletePage(pageid)
-            }
-            else -> {
-                SanityCheck.checkUnreachable()
-            }
-        }
+        bufferManager.deletePage(pageid)
         SanityCheck.println({ "NodeManager.freeNode B" })
     }
 
@@ -129,14 +118,17 @@ val        node = bufferManager.getPage(pageid)
         SanityCheck.println({ "NodeManager.freeNodeAndAllRelated A" })
         SanityCheck.println({ "debug NodeManager freeNodeAndAllRelated ${nodeid.toString(16)}" })
         if (nodeid != nodeNullPointer) {
+            var node: ByteArray? = null
             getNodeAny(nodeid, { node ->
-                freeNode(nodeid)
-            }, { node ->
-                NodeInner.forEachChild(node, {
+            }, { n ->
+                node = n
+            })
+            if (node != null) {
+                NodeInner.forEachChild(node!!, {
                     freeNodeAndAllRelated(it)
                 })
-                freeNode(nodeid)
-            })
+            }
+            freeNode(nodeid)
         }
         SanityCheck.println({ "NodeManager.freeNodeAndAllRelated B" })
     }
@@ -146,11 +138,12 @@ val        node = bufferManager.getPage(pageid)
         SanityCheck.println({ "debug NodeManager freeAllLeaves ${nodeid.toString(16)}" })
         var pageid = nodeid
         while (pageid != nodeNullPointer) {
+            var id = pageid
             getNodeLeaf(pageid, { node ->
                 val tmp = NodeShared.getNextNode(node)
-                freeNode(pageid)
                 pageid = tmp
             })
+            freeNode(id)
         }
         SanityCheck.println({ "NodeManager.freeAllLeaves B" })
     }
@@ -159,14 +152,17 @@ val        node = bufferManager.getPage(pageid)
         SanityCheck.println({ "NodeManager.freeAllInnerNodes A" })
         SanityCheck.println({ "debug NodeManager freeAllInnerNodes ${nodeid.toString(16)}" })
         if (nodeid != nodeNullPointer) {
+            var node: ByteArray? = null
             getNodeAny(nodeid, { node ->
-                //dont touch leaves
-            }, { node ->
-                NodeInner.forEachChild(node, {
+            }, { n ->
+                node = n
+            })
+            if (node != null) {
+                NodeInner.forEachChild(node!!, {
                     freeAllInnerNodes(it)
                 })
                 freeNode(nodeid)
-            })
+            }
         }
         SanityCheck.println({ "NodeManager.freeAllInnerNodes B" })
     }

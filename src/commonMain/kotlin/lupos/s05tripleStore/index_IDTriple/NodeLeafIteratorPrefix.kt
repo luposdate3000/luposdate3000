@@ -54,7 +54,6 @@ abstract class NodeLeafIteratorPrefix(@JvmField var node: ByteArray, @JvmField v
 
     /*inline*/ fun nextInternal() {
         if (remaining == 0) {
-            runBlocking {
                 while (remaining == 0) {
                     var nextNodeIdx = NodeShared.getNextNode(node)
                     if (nextNodeIdx != NodeManager.nodeNullPointer) {
@@ -70,7 +69,6 @@ abstract class NodeLeafIteratorPrefix(@JvmField var node: ByteArray, @JvmField v
                     } else {
                         flag = false
                     }
-                }
             }
             if (!flag) {
                 return

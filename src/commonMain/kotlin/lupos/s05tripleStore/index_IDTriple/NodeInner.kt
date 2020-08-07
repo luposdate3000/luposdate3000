@@ -42,7 +42,7 @@ const val startOffset=16
      *
      * absolute minimum is 81 used bytes _for exactly 4 Triple/Node
      */
-    inline suspend fun getFirstTriple(data: ByteArray, b: IntArray) {
+    inline  fun getFirstTriple(data: ByteArray, b: IntArray) {
         var node = data
         var done = false
         while (!done) {
@@ -95,7 +95,7 @@ const val startOffset=16
         return localOff - offset
     }
 
-    inline suspend fun iterator(data: ByteArray): TripleIterator {
+    inline  fun iterator(data: ByteArray): TripleIterator {
         var iterator: TripleIterator? = null
         var node = data
         while (iterator == null) {
@@ -108,7 +108,7 @@ const val startOffset=16
         return iterator!!
     }
 
-    inline suspend fun iterator(data: ByteArray, lock: ReadWriteLock, component: Int): ColumnIterator {
+    inline  fun iterator(data: ByteArray, lock: ReadWriteLock, component: Int): ColumnIterator {
         var iterator: ColumnIterator? = null
         var node = data
         while (iterator == null) {
@@ -121,7 +121,7 @@ const val startOffset=16
         return iterator!!
     }
 
-    /*inline*/ suspend fun forEachChild(data: ByteArray,/*crossinline*/ action: suspend (Int) -> Unit) {
+    /*inline*/ suspend fun forEachChild(data: ByteArray,/*crossinline*/ action:suspend  (Int) -> Unit) {
         var remaining = NodeShared.getTripleCount(data)
         var offset = startOffset
         var lastChildPointer = getFirstChild(data)
@@ -166,7 +166,7 @@ const val startOffset=16
         }
     }
 
-    /*inline*/ suspend fun findIteratorN(data: ByteArray,/*crossinline*/ checkTooSmall: suspend (c: IntArray) -> Boolean, /*crossinline*/ action: suspend (Int) -> Unit): Unit {
+    /*inline*/  fun findIteratorN(data: ByteArray,/*crossinline*/ checkTooSmall:  (c: IntArray) -> Boolean, /*crossinline*/ action:  (Int) -> Unit): Unit {
         var lastHeaderOffset = -1 //invalid offset to start with
         var lastChildPointer = getFirstChild(data)
         var childLastPointerHeaderOffset = -1
@@ -259,7 +259,7 @@ const val startOffset=16
         action(lastChildPointer)
     }
 
-    inline suspend fun iterator3(data: ByteArray, prefix: IntArray): TripleIterator {
+    inline  fun iterator3(data: ByteArray, prefix: IntArray): TripleIterator {
         var node = data
         var iterator: TripleIterator? = null
         while (iterator == null) {
@@ -276,7 +276,7 @@ const val startOffset=16
         return iterator!!
     }
 
-    inline suspend fun iterator2(data: ByteArray, prefix: IntArray): TripleIterator {
+    inline  fun iterator2(data: ByteArray, prefix: IntArray): TripleIterator {
         var node = data
         var iterator: TripleIterator? = null
         while (iterator == null) {
@@ -293,7 +293,7 @@ const val startOffset=16
         return iterator!!
     }
 
-    inline suspend fun iterator1(data: ByteArray, prefix: IntArray): TripleIterator {
+    inline  fun iterator1(data: ByteArray, prefix: IntArray): TripleIterator {
         var node = data
         var iterator: TripleIterator? = null
         while (iterator == null) {
@@ -310,7 +310,7 @@ const val startOffset=16
         return iterator!!
     }
 
-    inline suspend fun iterator2(data: ByteArray, prefix: IntArray, lock: ReadWriteLock, component: Int): ColumnIterator {
+    inline  fun iterator2(data: ByteArray, prefix: IntArray, lock: ReadWriteLock, component: Int): ColumnIterator {
         var node = data
         var iterator: ColumnIterator? = null
         while (iterator == null) {
@@ -327,7 +327,7 @@ const val startOffset=16
         return iterator!!
     }
 
-    inline suspend fun iterator1(data: ByteArray, prefix: IntArray, lock: ReadWriteLock, component: Int): ColumnIterator {
+    inline  fun iterator1(data: ByteArray, prefix: IntArray, lock: ReadWriteLock, component: Int): ColumnIterator {
         var node = data
         var iterator: ColumnIterator? = null
         while (iterator == null) {
@@ -344,7 +344,7 @@ const val startOffset=16
         return iterator!!
     }
 
-    inline suspend fun initializeWith(data: ByteArray, childs: MutableList<Int>) {
+    inline  fun initializeWith(data: ByteArray, childs: MutableList<Int>) {
         var debugListChilds = mutableListOf<Int>()
         var debugListTriples = mutableListOf<IntArray>()
         SanityCheck.check { childs.size > 0 }
