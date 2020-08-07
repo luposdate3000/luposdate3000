@@ -61,7 +61,7 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
                 if (root != NodeManager.nodeNullPointer) {
                     var found = false
                     runBlocking {
-                        NodeManager.getNode(root, {
+                        NodeManager.getNodeAny(root, {
                             SanityCheck.println { "root is inner node" }
                             SanityCheck.checkUnreachable()
                         }, {
@@ -111,9 +111,7 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
                 if (root == NodeManager.nodeNullPointer) {
                     rootNode = null
                 } else {
-                    NodeManager.getNode(root, {
-                        SanityCheck.checkUnreachable()
-                    }, {
+                    NodeManager.getNodeInner(root, {
                         rootNode = it
                     })
                     SanityCheck.check { rootNode != null }
@@ -366,15 +364,11 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
     suspend fun importHelper(a: Int, b: Int): Int {
         var nodeA: ByteArray? = null
         var nodeB: ByteArray? = null
-        NodeManager.getNode(a, {
+        NodeManager.getNodeLeaf(a, {
             nodeA = it
-        }, {
-            SanityCheck.checkUnreachable()
         })
-        NodeManager.getNode(b, {
+        NodeManager.getNodeLeaf(b, {
             nodeB = it
-        }, {
-            SanityCheck.checkUnreachable()
         })
         val res = importHelper(MergeIterator(NodeLeaf.iterator(nodeA!!), NodeLeaf.iterator(nodeB!!)))
         NodeManager.freeAllLeaves(a)
@@ -443,7 +437,7 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
             }
             SanityCheck.check { pendingImport.size > 0 }
             val newFirstLeaf = pendingImport[pendingImport.size - 1]!!
-            NodeManager.getNode(newFirstLeaf, {
+            NodeManager.getNodeAny(newFirstLeaf, {
                 rebuildData(DistinctIterator(NodeLeaf.iterator(it)))
             }, {
                 rebuildData(DistinctIterator(NodeInner.iterator(it)))
@@ -543,7 +537,7 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
                 currentLayer = tmp
             }
             var rootNodeIsLeaf = false
-            NodeManager.getNode(currentLayer[0], {
+            NodeManager.getNodeAny(currentLayer[0], {
                 rootNodeIsLeaf = true
             }, {
                 rootNode = it
@@ -576,10 +570,8 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
             if (firstLeaf == NodeManager.nodeNullPointer) {
                 iteratorStore2 = EmptyIterator()
             } else {
-                NodeManager.getNode(firstLeaf, {
+                NodeManager.getNodeLeaf(firstLeaf, {
                     iteratorStore2 = NodeLeaf.iterator(it)
-                }, {
-                    SanityCheck.checkUnreachable()
                 })
             }
             val iteratorStore = iteratorStore2!!
@@ -602,10 +594,8 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
             if (firstLeaf == NodeManager.nodeNullPointer) {
                 iteratorStore2 = EmptyIterator()
             } else {
-                NodeManager.getNode(firstLeaf, {
+                NodeManager.getNodeLeaf(firstLeaf, {
                     iteratorStore2 = NodeLeaf.iterator(it)
-                }, {
-                    SanityCheck.checkUnreachable()
                 })
             }
             val iteratorStore = iteratorStore2!!
@@ -642,14 +632,12 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
         SanityCheck.println({ "readlock 13" })
         lock.withReadLockSuspend {
             if (firstLeaf != NodeManager.nodeNullPointer) {
-                NodeManager.getNode(firstLeaf, { node ->
+                NodeManager.getNodeLeaf(firstLeaf, { node ->
                     var it = NodeLeaf.iterator(node)
                     while (it.hasNext()) {
                         var d = it.next()
                         SanityCheck.println({ "debug ${d.map { it }}" })
                     }
-                }, {
-                    SanityCheck.checkUnreachable()
                 })
             }
         }

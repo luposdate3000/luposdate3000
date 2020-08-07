@@ -58,7 +58,7 @@ abstract class NodeLeafIteratorPrefix(@JvmField var node: ByteArray, @JvmField v
                 while (remaining == 0) {
                     var nextNodeIdx = NodeShared.getNextNode(node)
                     if (nextNodeIdx != NodeManager.nodeNullPointer) {
-                        NodeManager.getNode(nextNodeIdx, {
+                        NodeManager.getNodeLeaf(nextNodeIdx, {
                             SanityCheck.check { node != it }
                             node = it
                             remaining = NodeShared.getTripleCount(node)
@@ -66,8 +66,6 @@ abstract class NodeLeafIteratorPrefix(@JvmField var node: ByteArray, @JvmField v
                             valueNext[1] = 0
                             valueNext[2] = 0
                             offset = 8
-                        }, {
-                            SanityCheck.checkUnreachable()
                         })
                     } else {
                         flag = false

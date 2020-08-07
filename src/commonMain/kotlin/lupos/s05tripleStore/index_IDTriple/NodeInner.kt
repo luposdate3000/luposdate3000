@@ -45,7 +45,7 @@ object NodeInner {
         var node = data
         var done = false
         while (!done) {
-            NodeManager.getNode(getFirstChild(node), {
+            NodeManager.getNodeAny(getFirstChild(node), {
                 NodeLeaf.getFirstTriple(it, b)
                 done = true
             }, {
@@ -98,7 +98,7 @@ object NodeInner {
         var iterator: TripleIterator? = null
         var node = data
         while (iterator == null) {
-            NodeManager.getNode(getFirstChild(node), {
+            NodeManager.getNodeAny(getFirstChild(node), {
                 iterator = NodeLeaf.iterator(it)
             }, {
                 node = it
@@ -111,7 +111,7 @@ object NodeInner {
         var iterator: ColumnIterator? = null
         var node = data
         while (iterator == null) {
-            NodeManager.getNode(getFirstChild(node), {
+            NodeManager.getNodeAny(getFirstChild(node), {
                 iterator = NodeLeaf.iterator(it, lock, component)
             }, {
                 node = it
@@ -265,7 +265,7 @@ object NodeInner {
             findIteratorN(node, {
                 /*return*/ (it[0] < prefix[0]) || (it[0] == prefix[0] && it[1] < prefix[1]) || (it[0] == prefix[0] && it[1] == prefix[1] && it[2] < prefix[2])
             }, {
-                NodeManager.getNode(it, {
+                NodeManager.getNodeAny(it, {
                     iterator = NodeLeaf.iterator3(it, prefix)
                 }, {
                     node = it
@@ -282,7 +282,7 @@ object NodeInner {
             findIteratorN(node, {
                 /*return*/ (it[0] < prefix[0]) || (it[0] == prefix[0] && it[1] < prefix[1])
             }, {
-                NodeManager.getNode(it, {
+                NodeManager.getNodeAny(it, {
                     iterator = NodeLeaf.iterator2(it, prefix)
                 }, {
                     node = it
@@ -299,7 +299,7 @@ object NodeInner {
             findIteratorN(node, {
                 /*return*/ (it[0] < prefix[0])
             }, {
-                NodeManager.getNode(it, {
+                NodeManager.getNodeAny(it, {
                     iterator = NodeLeaf.iterator1(it, prefix)
                 }, {
                     node = it
@@ -316,7 +316,7 @@ object NodeInner {
             findIteratorN(node, {
                 /*return*/ (it[0] < prefix[0]) || (it[0] == prefix[0] && it[1] < prefix[1])
             }, {
-                NodeManager.getNode(it, {
+                NodeManager.getNodeAny(it, {
                     iterator = NodeLeaf.iterator2(it, prefix, lock, component)
                 }, {
                     node = it
@@ -333,7 +333,7 @@ object NodeInner {
             findIteratorN(node, {
                 /*return*/ (it[0] < prefix[0])
             }, {
-                NodeManager.getNode(it, {
+                NodeManager.getNodeAny(it, {
                     iterator = NodeLeaf.iterator1(it, prefix, lock, component)
                 }, {
                     node = it
@@ -371,7 +371,7 @@ object NodeInner {
                 }
                 childPointers[i] = childLastPointer xor current
                 childLastPointer = current
-                NodeManager.getNode(childLastPointer, {
+                NodeManager.getNodeAny(childLastPointer, {
                     NodeLeaf.getFirstTriple(it, tripleCurrent)
                 }, {
                     NodeInner.getFirstTriple(it, tripleCurrent)

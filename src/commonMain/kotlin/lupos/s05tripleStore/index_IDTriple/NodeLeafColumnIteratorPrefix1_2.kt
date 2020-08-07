@@ -122,12 +122,10 @@ class NodeLeafColumnIteratorPrefix1_2(@JvmField var node: ByteArray, @JvmField v
                             offset = 8
                             var nextNodeIdx = NodeShared.getNextNode(node)
                             if (nextNodeIdx != NodeManager.nodeNullPointer) {
-                                NodeManager.getNode(nextNodeIdx, {
+                                NodeManager.getNodeLeaf(nextNodeIdx, {
                                     SanityCheck.check { node != it }
                                     node = it
                                     remaining = NodeShared.getTripleCount(node)
-                                }, {
-                                    SanityCheck.checkUnreachable()
                                 })
                             } else {
                                 _close()

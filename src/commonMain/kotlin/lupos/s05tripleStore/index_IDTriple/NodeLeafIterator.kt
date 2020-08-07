@@ -74,12 +74,10 @@ class NodeLeafIterator(@JvmField var node: ByteArray) : TripleIterator() {
                     offset = 8
                     var nextNodeIdx = NodeShared.getNextNode(node)
                     if (nextNodeIdx != NodeManager.nodeNullPointer) {
-                        NodeManager.getNode(nextNodeIdx, {
+                        NodeManager.getNodeLeaf(nextNodeIdx, {
                             SanityCheck.check { node != it }
                             node = it
                             remaining = NodeShared.getTripleCount(node)
-                        }, {
-                            SanityCheck.checkUnreachable()
                         })
                     } else {
                         break@loop

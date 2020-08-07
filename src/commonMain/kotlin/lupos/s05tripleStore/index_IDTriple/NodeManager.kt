@@ -9,7 +9,6 @@ import lupos.s00misc.ReadWriteLock
 import lupos.s00misc.SanityCheck
 
 object NodeManager {
-    const val nodePointerTypeNull = 0x00000000.toInt()
     const val nodePointerTypeInner = 0x40000000.toInt()
     const val nodePointerTypeLeaf = 0x20000000.toInt()
     const val nodePointerTypeMask = 0x60000000.toInt()
@@ -53,7 +52,7 @@ object NodeManager {
             for (i in 0 until allNodesLeafSize) {
                 if (!allNodesFreeListLeaf.contains(i or nodePointerTypeLeaf)) {
                     runBlocking {
-                        getNode(i or nodePointerTypeLeaf, {
+                        getNodeLeaf(i or nodePointerTypeLeaf, {
                             val x = NodeShared.getNextNode(it)
                             if (x == nodeNullPointer) {
                                 nullpointers++
@@ -61,8 +60,6 @@ object NodeManager {
                                 SanityCheck.println { "debug NodeManager iterating leaves .. ${(i or nodePointerTypeLeaf).toString(16)} -> ${x.toString(16)}" }
                                 leaves[x and nodePointerValueMask]++
                             }
-                        }, {
-                            SanityCheck.checkUnreachable()
                         })
                     }
                 }
@@ -84,9 +81,7 @@ object NodeManager {
             for (i in 0 until allNodesInnerSize) {
                 if (!allNodesFreeListInner.contains(i or nodePointerTypeInner)) {
                     runBlocking {
-                        getNode(i or nodePointerTypeInner, {
-                            SanityCheck.checkUnreachable()
-                        }, {
+                        getNodeInner(i or nodePointerTypeInner, {
                             NodeInner.forEachChild(it, {
                                 val nodePointerType = it and nodePointerTypeMask
                                 val nodePointerValue = it and nodePointerValueMask
@@ -170,10 +165,31 @@ object NodeManager {
         }
     }
 
-    suspend fun getNode(idx: Int, actionLeaf: suspend (ByteArray) -> Unit, actionInner: suspend (ByteArray) -> Unit) {
+    inline suspend fun getNodeLeaf(idx: Int, crossinline actionLeaf: suspend (ByteArray) -> Unit) {
+        SanityCheck.println({ "debug NodeManager getNode ${idx.toString(16)}" })
+        SanityCheck.check { (idx and nodePointerTypeMask) == nodePointerTypeLeaf }
+        var node: ByteArray? = null
+        lockLeaf.withReadLock {
+            SanityCheck.check { !allNodesFreeListLeaf.contains(idx) }
+            node = bufferManager.getPage(idx)
+        }
+        actionLeaf(node!!)
+    }
+
+    inline suspend fun getNodeInner(idx: Int, crossinline actionInner: suspend (ByteArray) -> Unit) {
+        SanityCheck.println({ "debug NodeManager getNode ${idx.toString(16)}" })
+        SanityCheck.check { (idx and nodePointerTypeMask) == nodePointerTypeInner }
+        var node: ByteArray? = null
+        lockInner.withReadLock {
+            SanityCheck.check { !allNodesFreeListInner.contains(idx) }
+            node = bufferManager.getPage(idx)
+        }
+        actionInner(node!!)
+    }
+
+    suspend fun getNodeAny(idx: Int, actionLeaf: suspend (ByteArray) -> Unit, actionInner: suspend (ByteArray) -> Unit) {
         SanityCheck.println({ "debug NodeManager getNode ${idx.toString(16)}" })
         val nodePointerType = idx and nodePointerTypeMask
-        val nodePointerValue = idx and nodePointerValueMask
         when (nodePointerType) {
             nodePointerTypeInner -> {
                 var node: ByteArray? = null
@@ -248,7 +264,6 @@ object NodeManager {
         SanityCheck.println({ "NodeManager.freeNode A" })
         SanityCheck.println({ "debug NodeManager freeNode ${idx.toString(16)}" })
         val nodePointerType = idx and nodePointerTypeMask
-        val nodePointerValue = idx and nodePointerValueMask
         when (nodePointerType) {
             nodePointerTypeInner -> {
                 lockInner.withWriteLock {
@@ -275,7 +290,7 @@ object NodeManager {
         SanityCheck.println({ "NodeManager.freeNodeAndAllRelated A" })
         SanityCheck.println({ "debug NodeManager freeNodeAndAllRelated ${nodeIdx.toString(16)}" })
         if (nodeIdx != nodeNullPointer) {
-            getNode(nodeIdx, { node ->
+            getNodeAny(nodeIdx, { node ->
                 freeNode(nodeIdx)
             }, { node ->
                 NodeInner.forEachChild(node, {
@@ -292,12 +307,10 @@ object NodeManager {
         SanityCheck.println({ "debug NodeManager freeAllLeaves ${nodeIdx.toString(16)}" })
         var idx = nodeIdx
         while (idx != nodeNullPointer) {
-            getNode(idx, { node ->
+            getNodeLeaf(idx, { node ->
                 val tmp = NodeShared.getNextNode(node)
                 freeNode(idx)
                 idx = tmp
-            }, { node ->
-                SanityCheck.checkUnreachable()
             })
         }
         SanityCheck.println({ "NodeManager.freeAllLeaves B" })
@@ -307,7 +320,7 @@ object NodeManager {
         SanityCheck.println({ "NodeManager.freeAllInnerNodes A" })
         SanityCheck.println({ "debug NodeManager freeAllInnerNodes ${nodeIdx.toString(16)}" })
         if (nodeIdx != nodeNullPointer) {
-            getNode(nodeIdx, { node ->
+            getNodeAny(nodeIdx, { node ->
                 //dont touch leaves
             }, { node ->
                 NodeInner.forEachChild(node, {
