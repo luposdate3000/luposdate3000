@@ -79,10 +79,7 @@ class POPMergePartition(query: Query, projectedVariables: List<String>, val part
             for (p in 0 until Partition.k) {
                 val job = parent.scope.launch(Dispatchers.Default) {
                     val scope = this
-                    val timer = BenchmarkUtils.timesHelperMark()
                     val childEval = children[0].evaluate(Partition(parent, partitionVariable, p, scope))
-                    var totaltime = 0.0
-                    var totalcounter = 0
                     if (childEval.hasColumnMode()) {
                         val child = childEval.columns
                         if (variables.size == 1) {
@@ -91,9 +88,15 @@ class POPMergePartition(query: Query, projectedVariables: List<String>, val part
                                 SanityCheck.println({ "merge $uuid $p writer loop start" })
                                 var t = (ringbufferWriteHead[p] + 1) % elementsPerRing
                                 if (ringbufferReadHead[p] == t) {
-                                    suspendCoroutineUninterceptedOrReturn { continuation: Continuation<Unit> ->
-                                        ringbufferWriterContinuation[p] = continuation
-                                        COROUTINE_SUSPENDED
+                                    continuationLock.lock()
+                                    if (ringbufferReadHead[p] == t) {
+                                        suspendCoroutineUninterceptedOrReturn { continuation: Continuation<Unit> ->
+                                            ringbufferWriterContinuation[p] = continuation
+                                            continuationLock.unlock()
+                                            COROUTINE_SUSPENDED
+                                        }
+                                    } else {
+                                        continuationLock.unlock()
                                     }
                                     if (readerFinished != 0) {
                                         childIterator.close()
@@ -101,22 +104,16 @@ class POPMergePartition(query: Query, projectedVariables: List<String>, val part
                                         break@loop
                                     }
                                 }
-                                val timer2 = BenchmarkUtils.timesHelperMark()
                                 var tmp = childIterator.next()
-                                totaltime += BenchmarkUtils.timesHelperDuration(timer2)
-                                totalcounter++
                                 if (tmp == ResultSetDictionary.nullValue) {
                                     SanityCheck.println({ "merge $uuid $p writer closed B" })
+                                    continuationLock.lock()
                                     writerFinished[p] = 1
                                     var tmp2 = ringbufferReaderContinuation
+                                    ringbufferReaderContinuation = null
+                                    continuationLock.unlock()
                                     if (tmp2 != null) {
-continuationLock.lock() 
-                                            tmp2 = ringbufferReaderContinuation
-                                            ringbufferReaderContinuation = null
-continuationLock.unlock() 
-                                        if (tmp2 != null) {
-                                            tmp2.resume(Unit)
-                                        }
+                                        tmp2.resume(Unit)
                                     }
                                     break@loop
                                 } else {
@@ -126,10 +123,10 @@ continuationLock.unlock()
                                     ringbufferWriteHead[p] = (ringbufferWriteHead[p] + 1) % elementsPerRing
                                     var tmp2 = ringbufferReaderContinuation
                                     if (tmp2 != null) {
-continuationLock.lock() 
-                                            tmp2 = ringbufferReaderContinuation
-                                            ringbufferReaderContinuation = null
-continuationLock.unlock() 
+                                        continuationLock.lock()
+                                        tmp2 = ringbufferReaderContinuation
+                                        ringbufferReaderContinuation = null
+                                        continuationLock.unlock()
                                         if (tmp2 != null) {
                                             tmp2.resume(Unit)
                                         }
@@ -142,9 +139,15 @@ continuationLock.unlock()
                                 SanityCheck.println({ "merge $uuid $p writer loop start" })
                                 var t = (ringbufferWriteHead[p] + variables.size) % elementsPerRing
                                 if (ringbufferReadHead[p] == t) {
-                                    suspendCoroutineUninterceptedOrReturn { continuation: Continuation<Unit> ->
-                                        ringbufferWriterContinuation[p] = continuation
-                                        COROUTINE_SUSPENDED
+                                    continuationLock.lock()
+                                    if (ringbufferReadHead[p] == t) {
+                                        suspendCoroutineUninterceptedOrReturn { continuation: Continuation<Unit> ->
+                                            ringbufferWriterContinuation[p] = continuation
+                                            continuationLock.unlock()
+                                            COROUTINE_SUSPENDED
+                                        }
+                                    } else {
+                                        continuationLock.unlock()
                                     }
                                     if (readerFinished != 0) {
                                         for (variable in 0 until variables.size) {
@@ -154,25 +157,19 @@ continuationLock.unlock()
                                         break@loop
                                     }
                                 }
-                                val timer2 = BenchmarkUtils.timesHelperMark()
                                 var tmp = variableMapping[0].next()
-                                totaltime += BenchmarkUtils.timesHelperDuration(timer2)
-                                totalcounter++
                                 if (tmp == ResultSetDictionary.nullValue) {
                                     SanityCheck.println({ "merge $uuid $p writer closed B" })
                                     for (variable in 0 until variables.size) {
                                         variableMapping[variable].close()
                                     }
+                                    continuationLock.lock()
                                     writerFinished[p] = 1
                                     var tmp2 = ringbufferReaderContinuation
+                                    ringbufferReaderContinuation = null
+                                    continuationLock.unlock()
                                     if (tmp2 != null) {
-continuationLock.lock() 
-                                            tmp2 = ringbufferReaderContinuation
-                                            ringbufferReaderContinuation = null
-continuationLock.unlock() 
-                                        if (tmp2 != null) {
-                                            tmp2.resume(Unit)
-                                        }
+                                        tmp2.resume(Unit)
                                     }
                                     break@loop
                                 } else {
@@ -194,10 +191,10 @@ continuationLock.unlock()
                                     ringbufferWriteHead[p] = (ringbufferWriteHead[p] + variables.size) % elementsPerRing
                                     var tmp2 = ringbufferReaderContinuation
                                     if (tmp2 != null) {
-continuationLock.lock() 
-                                            tmp2 = ringbufferReaderContinuation
-                                            ringbufferReaderContinuation = null
-continuationLock.unlock() 
+                                        continuationLock.lock()
+                                        tmp2 = ringbufferReaderContinuation
+                                        ringbufferReaderContinuation = null
+                                        continuationLock.unlock()
                                         if (tmp2 != null) {
                                             tmp2.resume(Unit)
                                         }
@@ -220,9 +217,15 @@ continuationLock.unlock()
                             SanityCheck.println({ "merge $uuid $p writer loop start" })
                             var t = (ringbufferWriteHead[p] + variables.size) % elementsPerRing
                             if (ringbufferReadHead[p] == t) {
-                                suspendCoroutineUninterceptedOrReturn { continuation: Continuation<Unit> ->
-                                    ringbufferWriterContinuation[p] = continuation
-                                    COROUTINE_SUSPENDED
+                                continuationLock.lock()
+                                if (ringbufferReadHead[p] == t) {
+                                    suspendCoroutineUninterceptedOrReturn { continuation: Continuation<Unit> ->
+                                        ringbufferWriterContinuation[p] = continuation
+                                        continuationLock.unlock()
+                                        COROUTINE_SUSPENDED
+                                    }
+                                } else {
+                                    continuationLock.unlock()
                                 }
                                 if (readerFinished != 0) {
                                     child.close()
@@ -230,22 +233,16 @@ continuationLock.unlock()
                                     break@loop
                                 }
                             }
-                            val timer2 = BenchmarkUtils.timesHelperMark()
                             var tmp = child.next()
-                            totaltime += BenchmarkUtils.timesHelperDuration(timer2)
-                            totalcounter++
                             if (tmp == -1) {
                                 SanityCheck.println({ "merge $uuid $p writer closed B" })
+                                continuationLock.lock()
                                 writerFinished[p] = 1
                                 var tmp2 = ringbufferReaderContinuation
+                                ringbufferReaderContinuation = null
+                                continuationLock.unlock()
                                 if (tmp2 != null) {
-continuationLock.lock() 
-                                        tmp2 = ringbufferReaderContinuation
-                                        ringbufferReaderContinuation = null
-continuationLock.unlock() 
-                                    if (tmp2 != null) {
-                                        tmp2.resume(Unit)
-                                    }
+                                    tmp2.resume(Unit)
                                 }
                                 break@loop
                             } else {
@@ -257,10 +254,10 @@ continuationLock.unlock()
                                 ringbufferWriteHead[p] = (ringbufferWriteHead[p] + variables.size) % elementsPerRing
                                 var tmp2 = ringbufferReaderContinuation
                                 if (tmp2 != null) {
-continuationLock.lock() 
-                                        tmp2 = ringbufferReaderContinuation
-                                        ringbufferReaderContinuation = null
-continuationLock.unlock() 
+                                    continuationLock.lock()
+                                    tmp2 = ringbufferReaderContinuation
+                                    ringbufferReaderContinuation = null
+                                    continuationLock.unlock()
                                     if (tmp2 != null) {
                                         tmp2.resume(Unit)
                                     }
@@ -269,8 +266,6 @@ continuationLock.unlock()
                         }
                     }
                     SanityCheck.println({ "merge $uuid $p writer exited loop" })
-                    BenchmarkUtils.timesHelperDuration(14, timer)
-                    BenchmarkUtils.setTimesHelper(15, totaltime, totalcounter)
                 }
                 jobs.add(job)
             }
@@ -278,7 +273,6 @@ continuationLock.unlock()
             iterator.columns = variables.toTypedArray()
             iterator.buf = IntArray(variables.size)
             iterator.next = {
-                val timer = BenchmarkUtils.timesHelperMark()
                 var res = -1
                 runBlocking {
                     loop@ while (true) {
@@ -295,10 +289,10 @@ continuationLock.unlock()
                                 ringbufferReadHead[p] = (ringbufferReadHead[p] + variables.size) % elementsPerRing
                                 var tmp2 = ringbufferWriterContinuation[p]
                                 if (tmp2 != null) {
-continuationLock.lock() 
-                                        tmp2 = ringbufferWriterContinuation[p]
-                                        ringbufferWriterContinuation[p] = null
-continuationLock.unlock() 
+                                    continuationLock.lock()
+                                    tmp2 = ringbufferWriterContinuation[p]
+                                    ringbufferWriterContinuation[p] = null
+                                    continuationLock.unlock()
                                     if (tmp2 != null) {
                                         (tmp2 as Continuation<Unit>).resume(Unit)
                                     }
@@ -313,13 +307,30 @@ continuationLock.unlock()
                             //done
                             break@loop
                         }
-                        suspendCoroutineUninterceptedOrReturn { continuation: Continuation<Unit> ->
-                            ringbufferReaderContinuation = continuation
-                            COROUTINE_SUSPENDED
+                        continuationLock.lock()
+                        finishedWriters = 0
+                        var flag = true
+                        for (p in 0 until Partition.k) {
+                            if (ringbufferReadHead[p] != ringbufferWriteHead[p]) {
+                                flag = false
+                            } else if (writerFinished[p] == 1) {
+                                finishedWriters++
+                            }
+                        }
+                        if (finishedWriters == Partition.k) {
+                            continuationLock.unlock()
+                            break@loop
+                        }else                        if (flag) {
+                            suspendCoroutineUninterceptedOrReturn { continuation: Continuation<Unit> ->
+                                ringbufferReaderContinuation = continuation
+                                continuationLock.unlock()
+                                COROUTINE_SUSPENDED
+                            }
+                        } else {
+                            continuationLock.unlock()
                         }
                     }
                 }
-                BenchmarkUtils.timesHelperDuration(13, timer)
                 /*return*/res
             }
             iterator.close = {
@@ -329,10 +340,10 @@ continuationLock.unlock()
                     for (p in 0 until Partition.k) {
                         var tmp2 = ringbufferWriterContinuation[p]
                         if (tmp2 != null) {
-continuationLock.lock() 
-                                tmp2 = ringbufferWriterContinuation[p]
-                                ringbufferWriterContinuation[p] = null
-continuationLock.unlock() 
+                            continuationLock.lock()
+                            tmp2 = ringbufferWriterContinuation[p]
+                            ringbufferWriterContinuation[p] = null
+                            continuationLock.unlock()
                             if (tmp2 != null) {
                                 (tmp2 as Continuation<Unit>).resume(Unit)
                             }
