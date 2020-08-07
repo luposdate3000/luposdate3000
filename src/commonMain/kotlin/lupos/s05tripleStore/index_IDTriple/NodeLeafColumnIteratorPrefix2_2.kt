@@ -18,7 +18,7 @@ class NodeLeafColumnIteratorPrefix2_2(@JvmField var node: ByteArray, @JvmField v
     var remaining = NodeShared.getTripleCount(node)
 
     @JvmField
-    var offset = 8
+    var offset = NodeLeaf.startOffset
 
     @JvmField
     var label = 1
@@ -138,7 +138,7 @@ class NodeLeafColumnIteratorPrefix2_2(@JvmField var node: ByteArray, @JvmField v
                     runBlocking {
                         loop@ while (remaining == 0) {
                             needsReset = true
-                            offset = 8
+                            offset = NodeLeaf.startOffset
                             var nextNodeIdx = NodeShared.getNextNode(node)
                             if (nextNodeIdx != NodeManager.nodeNullPointer) {
                                 NodeManager.getNodeLeaf(nextNodeIdx, {

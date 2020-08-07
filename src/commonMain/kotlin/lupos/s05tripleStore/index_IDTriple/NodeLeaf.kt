@@ -13,6 +13,7 @@ import lupos.s00misc.writeInt4
 import lupos.s04logicalOperators.iterator.ColumnIterator
 
 object NodeLeaf {
+const val startOffset=12
     /*
      * Bytes 0..3 : Number of stored Triples
      * Bytes 4..7 : next-page-pointer, 0x8FFFFFFF is the "null"-pointer avoiding the highest bit because of the signedness behaviour of java/kotlin
@@ -27,9 +28,9 @@ object NodeLeaf {
      * absolute minimum is 21 used bytes for_ exactly 1 Triple/Node
      */
     inline fun getFirstTriple(data: ByteArray, b: IntArray) {
-        b[0] = data.readInt4(9)
-        b[1] = data.readInt4(13)
-        b[2] = data.readInt4(17)
+        b[0] = data.readInt4(startOffset+1)
+        b[1] = data.readInt4(startOffset+5)
+        b[2] = data.readInt4(startOffset+9)
     }
 
     inline fun iterator(data: ByteArray): TripleIterator {
@@ -95,7 +96,7 @@ object NodeLeaf {
         var tripleCurrent = iterator.next()
         val tripleLast = intArrayOf(tripleCurrent[0], tripleCurrent[1], tripleCurrent[2])
         val tripleBuf = IntArray(3)
-        var offset = 8
+        var offset = startOffset
         var bytesWritten = NodeShared.writeFullTriple(data, offset, tripleLast)
         offset += bytesWritten
         val offsetEnd = data.size - bytesWritten // reserve at least enough space to write a full triple at the end

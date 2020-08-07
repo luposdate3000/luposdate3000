@@ -60,95 +60,59 @@ class BufferManager(@JvmField val bufferName: String) {
     val lock = ReadWriteLock()
 
     @JvmField
-    val pageMappingsOutIn = mutableMapOf<Int, Int>()
-
-    @JvmField
-    val pageMappingsInOut = mutableMapOf<Int, Int>() // keys are guaranteed to be possible to store as array
+    val freeList = mutableListOf<Int>()
 
     inline suspend fun clear() = lock.withWriteLock {
         counter = 0
         allPages = Array<ByteArray>(100) { ByteArray(PAGE_SIZE_IN_BYTES) }
-        pageMappingsOutIn.clear()
-        pageMappingsInOut.clear()
+        freeList.clear()
     }
 
     inline suspend fun getPage(pageid: Int): ByteArray = lock.withReadLock {
-        val target = pageMappingsOutIn[pageid]!!
-        /*return*/ allPages[target]
+        /*return*/ allPages[pageid]
     }
 
-    inline suspend fun createPage(pageid: Int): ByteArray = lock.withWriteLock {
-        val target = counter++
-        SanityCheck.check { pageMappingsOutIn[pageid] == null }
-        SanityCheck.check { pageMappingsInOut[target] == null }
-        if (target == allPages.size) {
-            val tmp = Array<ByteArray>(target * 2) {
-                val res: ByteArray
-                if (it < target) {
-                    res = allPages[it]
-                } else {
-                    res = ByteArray(PAGE_SIZE_IN_BYTES)
+    inline suspend fun createPage(crossinline action: (ByteArray,Int) -> Unit) = lock.withWriteLock {
+        val id: Int
+        if (freeList.size > 0) {
+            id = freeList.removeAt(0)
+        } else {
+            if (counter == allPages.size) {
+                val tmp = Array<ByteArray>(counter * 2) {
+                    val res: ByteArray
+                    if (it < counter) {
+                        res = allPages[it]
+                    } else {
+                        res = ByteArray(PAGE_SIZE_IN_BYTES)
+                    }
+                    /*return*/ res
                 }
-                /*return*/ res
+                allPages = tmp
             }
-            allPages = tmp
+            id = counter++
         }
-        pageMappingsOutIn[pageid] = target
-        pageMappingsInOut[target] = pageid
-        debug()
-        /*return*/ allPages[target]
+        action(allPages[id],id)
     }
 
     inline suspend fun deletePage(pageid: Int) = lock.withWriteLock {
-        val otherTarget = counter - 1
-        val target = pageMappingsOutIn[pageid]!!
-        pageMappingsOutIn.remove(pageid)
-        if (target == otherTarget) {
-            pageMappingsInOut.remove(target)
-            counter--
-            debug()
-        } else {
-            val other = pageMappingsInOut[otherTarget]!!
-            pageMappingsOutIn[other] = target
-            pageMappingsInOut[target] = other
-            pageMappingsInOut.remove(otherTarget)
-            val tmp = allPages[target]
-            allPages[target] = allPages[otherTarget]
-            allPages[otherTarget] = tmp
-            counter--
-            debug()
-        }
+        freeList.add(pageid)
     }
 
-    fun debug() {
-        SanityCheck {
-            var i = 0
-            pageMappingsInOut.forEach { k, v ->
-                i++
-                SanityCheck.check { k < counter }
-                SanityCheck.check { pageMappingsOutIn[v] == k }
-            }
-            SanityCheck.check { i == counter }
-            pageMappingsOutIn.forEach { k, v ->
-                SanityCheck.check { pageMappingsInOut[v] == k }
-            }
-        }
-    }
+fun debug(){
+}
 
     fun safeToFolder() = lock.withWriteLockSuspend {
         File(bufferPrefix + "buffermanager").mkdirs()
         File(bufferPrefix + "buffermanager/" + bufferName + ".data").dataOutputStream { fos ->
             for (i in 0 until counter) {
-                fos.write(it)
+                fos.write(allPages[i])
             }
         }
         File(bufferPrefix + "buffermanager/" + bufferName + ".header").dataOutputStream { fos ->
             fos.writeInt(counter)
-            fos.writeInt(pageMappingsInOut.size)
-            pageMappingsInOut.forEach { k, v ->
-                fos.writeInt(k)
+            fos.writeInt(freeList.size)
+            freeList.forEach { v ->
                 fos.writeInt(v)
-                SanityCheck { pageMappingsOutIn[v] == k }
             }
         }
     }
@@ -158,16 +122,14 @@ class BufferManager(@JvmField val bufferName: String) {
             counter = fis.readInt()
             val size = fis.readInt()
             for (i in 0 until size) {
-                val k = fis.readInt()
                 val v = fis.readInt()
-                pageMappingsInOut[k] = v
-                pageMappingsOutIn[v] = k
+freeList.add(v)
             }
         }
+allPages = Array<ByteArray>(counter) { ByteArray(PAGE_SIZE_IN_BYTES) }
         File(bufferPrefix + "buffermanager/" + bufferName + ".data").dataInputStream { fis ->
             for (i in 0 until counter) {
-                data = allPages[i]
-                fis.read(data)
+                fis.read(allPages[i])
             }
         }
     }

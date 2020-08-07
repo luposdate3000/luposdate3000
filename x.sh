@@ -2,7 +2,7 @@
 
 export JAVA_OPTS="-Xmx60g"
 
-#rm -rf log/benchtmp build src.generated
+rm -rf log/benchtmp build src.generated
 mkdir -p log/benchtmp
 
 {

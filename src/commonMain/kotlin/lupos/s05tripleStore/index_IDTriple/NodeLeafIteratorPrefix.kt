@@ -21,7 +21,7 @@ abstract class NodeLeafIteratorPrefix(@JvmField var node: ByteArray, @JvmField v
     var remaining = NodeShared.getTripleCount(node)
 
     @JvmField
-    var offset = 8
+    var offset = NodeLeaf.startOffset
 
     @JvmField
     var counter = IntArray(3)
@@ -65,7 +65,7 @@ abstract class NodeLeafIteratorPrefix(@JvmField var node: ByteArray, @JvmField v
                             valueNext[0] = 0
                             valueNext[1] = 0
                             valueNext[2] = 0
-                            offset = 8
+                            offset = NodeLeaf.startOffset
                         })
                     } else {
                         flag = false

@@ -15,6 +15,7 @@ import lupos.s00misc.writeInt4
 import lupos.s04logicalOperators.iterator.ColumnIterator
 
 object NodeInner {
+const val startOffset=16
     /*
      * Bitlayout 7..0
      * Bytes 0..3  : Number of stored Triples
@@ -55,11 +56,11 @@ object NodeInner {
     }
 
     inline fun setFirstChild(data: ByteArray, node: Int) {
-        data.writeInt4(8, node)
+        data.writeInt4(12, node)
     }
 
     inline fun getFirstChild(data: ByteArray): Int {
-        return data.readInt4(8)
+        return data.readInt4(12)
     }
 
     /*inline*/ fun writeChildPointers(data: ByteArray, offset: Int, count: Int, d: IntArray): Int {
@@ -122,7 +123,7 @@ object NodeInner {
 
     /*inline*/ suspend fun forEachChild(data: ByteArray,/*crossinline*/ action: suspend (Int) -> Unit) {
         var remaining = NodeShared.getTripleCount(data)
-        var offset = 12
+        var offset = startOffset
         var lastChildPointer = getFirstChild(data)
         action(lastChildPointer)
         while (remaining > 0) {
@@ -170,7 +171,7 @@ object NodeInner {
         var lastChildPointer = getFirstChild(data)
         var childLastPointerHeaderOffset = -1
         var remaining = NodeShared.getTripleCount(data)
-        var offset = 12
+        var offset = startOffset
         var childPointers = IntArray(4)
         var counter = IntArray(3)
         var value = IntArray(3)
@@ -353,7 +354,7 @@ object NodeInner {
             debugListChilds.add(childLastPointer)
         }
         setFirstChild(data, childLastPointer)
-        var offset = 12
+        var offset = startOffset
         val offsetEnd = data.size - (13 * 4 + 17) // reserve at least enough space to write !! 4 !! full triple-group AND !! 1 !! full child-pointer-group at the end, to prevent failing-writes
         var triples = 0
         var i: Int

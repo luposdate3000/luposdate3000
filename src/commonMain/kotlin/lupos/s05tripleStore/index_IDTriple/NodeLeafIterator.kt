@@ -17,7 +17,7 @@ class NodeLeafIterator(@JvmField var node: ByteArray) : TripleIterator() {
     var remaining = NodeShared.getTripleCount(node)
 
     @JvmField
-    var offset = 8
+    var offset = NodeLeaf.startOffset
 
     @JvmField
     var counter = IntArray(3)
@@ -71,7 +71,7 @@ class NodeLeafIterator(@JvmField var node: ByteArray) : TripleIterator() {
             runBlocking {
                 loop@ while (remaining == 0) {
                     needsReset = true
-                    offset = 8
+                    offset = NodeLeaf.startOffset
                     var nextNodeIdx = NodeShared.getNextNode(node)
                     if (nextNodeIdx != NodeManager.nodeNullPointer) {
                         NodeManager.getNodeLeaf(nextNodeIdx, {
