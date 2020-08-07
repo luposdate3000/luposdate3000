@@ -320,7 +320,7 @@ class POPMergePartition(query: Query, projectedVariables: List<String>, val part
                         if (finishedWriters == Partition.k) {
                             continuationLock.unlock()
                             break@loop
-                        }else                        if (flag) {
+                        } else if (flag) {
                             suspendCoroutineUninterceptedOrReturn { continuation: Continuation<Unit> ->
                                 ringbufferReaderContinuation = continuation
                                 continuationLock.unlock()

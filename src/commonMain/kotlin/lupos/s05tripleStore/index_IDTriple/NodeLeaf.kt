@@ -26,29 +26,29 @@ object NodeLeaf {
      *
      * absolute minimum is 21 used bytes for_ exactly 1 Triple/Node
      */
-    fun getFirstTriple(data: ByteArray, b: IntArray) {
+    inline fun getFirstTriple(data: ByteArray, b: IntArray) {
         b[0] = data.readInt4(9)
         b[1] = data.readInt4(13)
         b[2] = data.readInt4(17)
     }
 
-    fun iterator(data: ByteArray): TripleIterator {
+    inline fun iterator(data: ByteArray): TripleIterator {
         return NodeLeafIterator(data)
     }
 
-    fun iterator3(data: ByteArray, prefix: IntArray): TripleIterator {
+    inline fun iterator3(data: ByteArray, prefix: IntArray): TripleIterator {
         return NodeLeafIteratorPrefix3(data, prefix)
     }
 
-    fun iterator2(data: ByteArray, prefix: IntArray): TripleIterator {
+    inline fun iterator2(data: ByteArray, prefix: IntArray): TripleIterator {
         return NodeLeafIteratorPrefix2(data, prefix)
     }
 
-    fun iterator1(data: ByteArray, prefix: IntArray): TripleIterator {
+    inline fun iterator1(data: ByteArray, prefix: IntArray): TripleIterator {
         return NodeLeafIteratorPrefix1(data, prefix)
     }
 
-    fun iterator(data: ByteArray, lock: ReadWriteLock, component: Int): ColumnIterator {
+    inline fun iterator(data: ByteArray, lock: ReadWriteLock, component: Int): ColumnIterator {
         when (component) {
             0 -> {
                 return NodeLeafColumnIterator0(data, lock)
@@ -65,7 +65,7 @@ object NodeLeaf {
         }
     }
 
-    fun iterator2(data: ByteArray, prefix: IntArray, lock: ReadWriteLock, component: Int): ColumnIterator {
+    inline fun iterator2(data: ByteArray, prefix: IntArray, lock: ReadWriteLock, component: Int): ColumnIterator {
         when (component) {
             2 -> {
                 return NodeLeafColumnIteratorPrefix2_2(data, prefix, lock)
@@ -76,7 +76,7 @@ object NodeLeaf {
         }
     }
 
-    fun iterator1(data: ByteArray, prefix: IntArray, lock: ReadWriteLock, component: Int): ColumnIterator {
+    inline fun iterator1(data: ByteArray, prefix: IntArray, lock: ReadWriteLock, component: Int): ColumnIterator {
         when (component) {
             1 -> {
                 return NodeLeafColumnIteratorPrefix1_1(data, prefix, lock)
@@ -90,7 +90,7 @@ object NodeLeaf {
         }
     }
 
-    fun initializeWith(data: ByteArray, iterator: TripleIterator) {
+    inline fun initializeWith(data: ByteArray, iterator: TripleIterator) {
         SanityCheck.check { iterator.hasNext() }
         var tripleCurrent = iterator.next()
         val tripleLast = intArrayOf(tripleCurrent[0], tripleCurrent[1], tripleCurrent[2])

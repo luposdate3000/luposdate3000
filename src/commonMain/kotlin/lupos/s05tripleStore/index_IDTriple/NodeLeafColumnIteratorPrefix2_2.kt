@@ -134,7 +134,7 @@ class NodeLeafColumnIteratorPrefix2_2(@JvmField var node: ByteArray, @JvmField v
                 }
                 offset += counter2
                 remaining--
-                 while (remaining == 0) {
+                while (remaining == 0) {
                     needsReset = true
                     offset = 8
                     var nextNodeIdx = NodeShared.getNextNode(node)
@@ -148,11 +148,11 @@ class NodeLeafColumnIteratorPrefix2_2(@JvmField var node: ByteArray, @JvmField v
                         })
                     } else {
                         _close()
-if(done){
-return value2
-}else{
-return ResultSetDictionary.nullValue
-} 
+                        if (done) {
+                            return value2
+                        } else {
+                            return ResultSetDictionary.nullValue
+                        }
                     }
                 }
                 if (done) {

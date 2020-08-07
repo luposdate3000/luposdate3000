@@ -9,7 +9,7 @@ import lupos.s00misc.Coverage
 class Lock {
     @JvmField
     val mutex = Mutex()
-inline    suspend fun lock() {
+    inline suspend fun lock() {
         mutex.lock()
     }
 

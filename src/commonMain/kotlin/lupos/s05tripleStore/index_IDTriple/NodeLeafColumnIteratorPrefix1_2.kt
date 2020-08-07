@@ -129,11 +129,11 @@ class NodeLeafColumnIteratorPrefix1_2(@JvmField var node: ByteArray, @JvmField v
                         })
                     } else {
                         _close()
-if(done){
-return value2
-}else{
-return ResultSetDictionary.nullValue
-} 
+                        if (done) {
+                            return value2
+                        } else {
+                            return ResultSetDictionary.nullValue
+                        }
                     }
                 }
                 if (done) {

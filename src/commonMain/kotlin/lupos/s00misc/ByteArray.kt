@@ -82,41 +82,41 @@ class ByteArrayRead(@JvmField val data: ByteArray, @JvmField val size: Int) {
 
     @JvmField
     var offset = 0
-inline     fun remaining() = size - offset
+    inline fun remaining() = size - offset
 
     init {
         SanityCheck.println { "ByteArrayRead($uuid).init with $size Bytes" }
     }
 
-inline     fun readInt(): Int {
+    inline fun readInt(): Int {
         val res = data.readInt4(offset)
         SanityCheck.println { "ByteArrayRead($uuid).readInt at $offset with value $res" }
         offset += 4
         return res
     }
 
-inline     fun readByte(): Byte {
+    inline fun readByte(): Byte {
         val res = data.readInt1(offset)
         SanityCheck.println { "ByteArrayRead($uuid).readByte at $offset with value $res" }
         offset += 1
         return res.toByte()
     }
 
-inline     fun readChar(): Char {
+    inline fun readChar(): Char {
         val res = data.readChar(offset)
         SanityCheck.println { "ByteArrayRead($uuid).readChar at $offset with value '$res' ${res.toInt()}" }
         offset += 2
         return res
     }
 
-inline     fun readLong(): Long {
+    inline fun readLong(): Long {
         val res = data.readLong8(offset)
         SanityCheck.println { "ByteArrayRead($uuid).readLong at $offset with value $res" }
         offset += 8
         return res
     }
 
-inline     fun readString(): String {
+    inline fun readString(): String {
         val len = readInt()
         var d = CharArray(len)
         for (i in 0 until len) {
@@ -141,19 +141,19 @@ class ByteArrayBuilder() {
 
     @JvmField
     var size = 0
-inline     fun build(): ByteArrayRead {
+    inline fun build(): ByteArrayRead {
         SanityCheck.println { "ByteArrayBuilder($uuid).build with size $size and capacity $capacity" }
         return ByteArrayRead(data, size)
     }
 
-inline     fun reset() {
+    inline fun reset() {
         SanityCheck.println { "ByteArrayBuilder($uuid).reset" }
         capacity = 128
         data = ByteArray(capacity)
         size = 0
     }
 
-inline     fun writeByte(b: Byte) {
+    inline fun writeByte(b: Byte) {
         if (size + 1 > capacity) {
             data += ByteArray(capacity)
             capacity = capacity * 2
@@ -163,7 +163,7 @@ inline     fun writeByte(b: Byte) {
         size += 1
     }
 
-inline     fun writeChar(c: Char) {
+    inline fun writeChar(c: Char) {
         if (size + 2 > capacity) {
             data += ByteArray(capacity)
             capacity = capacity * 2
@@ -173,7 +173,7 @@ inline     fun writeChar(c: Char) {
         size += 2
     }
 
-inline     fun writeInt(i: Int) {
+    inline fun writeInt(i: Int) {
         if (size + 4 > capacity) {
             data += ByteArray(capacity)
             capacity = capacity * 2
@@ -183,7 +183,7 @@ inline     fun writeInt(i: Int) {
         size += 4
     }
 
-inline     fun writeLong(l: Long) {
+    inline fun writeLong(l: Long) {
         if (size + 8 > capacity) {
             data += ByteArray(capacity)
             capacity = capacity * 2
@@ -193,7 +193,7 @@ inline     fun writeLong(l: Long) {
         size += 8
     }
 
-inline     fun writeString(s: String) {
+    inline fun writeString(s: String) {
         val tmp = s.toCharArray()
         writeInt(tmp.size)
         tmp.forEach {

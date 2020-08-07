@@ -12,19 +12,19 @@ import lupos.s00misc.writeInt3
 import lupos.s00misc.writeInt4
 
 object NodeShared {
-    fun setNextNode(data: ByteArray, node: Int) {
+    inline fun setNextNode(data: ByteArray, node: Int) {
         data.writeInt4(4, node)
     }
 
-    fun getNextNode(data: ByteArray): Int {
+    inline fun getNextNode(data: ByteArray): Int {
         return data.readInt4(4)
     }
 
-    fun setTripleCount(data: ByteArray, count: Int) {
+    inline fun setTripleCount(data: ByteArray, count: Int) {
         data.writeInt4(0, count)
     }
 
-    fun getTripleCount(data: ByteArray): Int {
+    inline fun getTripleCount(data: ByteArray): Int {
         return data.readInt4(0)
     }
 

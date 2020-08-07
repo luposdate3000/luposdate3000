@@ -40,7 +40,7 @@ object NodeInner {
      *
      * absolute minimum is 81 used bytes _for exactly 4 Triple/Node
      */
-    fun getFirstTriple(data: ByteArray, b: IntArray) {
+    inline fun getFirstTriple(data: ByteArray, b: IntArray) {
         var node = data
         var done = false
         while (!done) {
@@ -53,11 +53,11 @@ object NodeInner {
         }
     }
 
-    fun setFirstChild(data: ByteArray, node: Int) {
+    inline fun setFirstChild(data: ByteArray, node: Int) {
         data.writeInt4(8, node)
     }
 
-    fun getFirstChild(data: ByteArray): Int {
+    inline fun getFirstChild(data: ByteArray): Int {
         return data.readInt4(8)
     }
 
@@ -93,7 +93,7 @@ object NodeInner {
         return localOff - offset
     }
 
-    fun iterator(data: ByteArray): TripleIterator {
+    inline fun iterator(data: ByteArray): TripleIterator {
         var iterator: TripleIterator? = null
         var node = data
         while (iterator == null) {
@@ -106,7 +106,7 @@ object NodeInner {
         return iterator!!
     }
 
-    fun iterator(data: ByteArray, lock: ReadWriteLock, component: Int): ColumnIterator {
+    inline fun iterator(data: ByteArray, lock: ReadWriteLock, component: Int): ColumnIterator {
         var iterator: ColumnIterator? = null
         var node = data
         while (iterator == null) {
@@ -257,7 +257,7 @@ object NodeInner {
         action(lastChildPointer)
     }
 
-    fun iterator3(data: ByteArray, prefix: IntArray): TripleIterator {
+    inline fun iterator3(data: ByteArray, prefix: IntArray): TripleIterator {
         var node = data
         var iterator: TripleIterator? = null
         while (iterator == null) {
@@ -274,7 +274,7 @@ object NodeInner {
         return iterator!!
     }
 
-    fun iterator2(data: ByteArray, prefix: IntArray): TripleIterator {
+    inline fun iterator2(data: ByteArray, prefix: IntArray): TripleIterator {
         var node = data
         var iterator: TripleIterator? = null
         while (iterator == null) {
@@ -291,7 +291,7 @@ object NodeInner {
         return iterator!!
     }
 
-    fun iterator1(data: ByteArray, prefix: IntArray): TripleIterator {
+    inline fun iterator1(data: ByteArray, prefix: IntArray): TripleIterator {
         var node = data
         var iterator: TripleIterator? = null
         while (iterator == null) {
@@ -308,7 +308,7 @@ object NodeInner {
         return iterator!!
     }
 
-    fun iterator2(data: ByteArray, prefix: IntArray, lock: ReadWriteLock, component: Int): ColumnIterator {
+    inline fun iterator2(data: ByteArray, prefix: IntArray, lock: ReadWriteLock, component: Int): ColumnIterator {
         var node = data
         var iterator: ColumnIterator? = null
         while (iterator == null) {
@@ -325,7 +325,7 @@ object NodeInner {
         return iterator!!
     }
 
-    fun iterator1(data: ByteArray, prefix: IntArray, lock: ReadWriteLock, component: Int): ColumnIterator {
+    inline fun iterator1(data: ByteArray, prefix: IntArray, lock: ReadWriteLock, component: Int): ColumnIterator {
         var node = data
         var iterator: ColumnIterator? = null
         while (iterator == null) {
@@ -342,7 +342,7 @@ object NodeInner {
         return iterator!!
     }
 
-    fun initializeWith(data: ByteArray, childs: MutableList<Int>) {
+    inline fun initializeWith(data: ByteArray, childs: MutableList<Int>) {
         var debugListChilds = mutableListOf<Int>()
         var debugListTriples = mutableListOf<IntArray>()
         SanityCheck.check { childs.size > 0 }

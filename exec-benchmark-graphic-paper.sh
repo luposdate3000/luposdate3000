@@ -1,6 +1,6 @@
 #!/bin/bash
 
-version=abcd20e3f70f36348e5700ddb3015f97f6a1c50a
+version=fcab6b69a83c7cbf2cdd92adfcc64fbb7fc57220
 rm -rf tmp
 mkdir tmp
 for query in $(find resources/lupos/ -type f | sed "s-.*/--g")
