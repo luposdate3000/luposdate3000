@@ -1,6 +1,7 @@
 package lupos.s05tripleStore.index_IDTriple
-import kotlinx.coroutines.runBlocking
+
 import kotlin.jvm.JvmField
+import kotlinx.coroutines.runBlocking
 import lupos.s00misc.BufferManager
 import lupos.s00misc.Coverage
 import lupos.s00misc.File
@@ -51,20 +52,20 @@ object NodeManager {
             var nullpointers = 0
             for (i in 0 until allNodesLeafSize) {
                 if (!allNodesFreeListLeaf.contains(i or nodePointerTypeLeaf)) {
-runBlocking{
-                    getNode(i or nodePointerTypeLeaf, {
-                        val x = NodeShared.getNextNode(it)
-                        if (x == nodeNullPointer) {
-                            nullpointers++
-                        } else {
-                            SanityCheck.println { "debug NodeManager iterating leaves .. ${(i or nodePointerTypeLeaf).toString(16)} -> ${x.toString(16)}" }
-                            leaves[x and nodePointerValueMask]++
-                        }
-                    }, {
-                        SanityCheck.checkUnreachable()
-                    })
-            }
-    }
+                    runBlocking {
+                        getNode(i or nodePointerTypeLeaf, {
+                            val x = NodeShared.getNextNode(it)
+                            if (x == nodeNullPointer) {
+                                nullpointers++
+                            } else {
+                                SanityCheck.println { "debug NodeManager iterating leaves .. ${(i or nodePointerTypeLeaf).toString(16)} -> ${x.toString(16)}" }
+                                leaves[x and nodePointerValueMask]++
+                            }
+                        }, {
+                            SanityCheck.checkUnreachable()
+                        })
+                    }
+                }
             }
             //each leaf must point to either null or a valid next node, but never to a free memory
             var count0 = 0
@@ -82,26 +83,26 @@ runBlocking{
             SanityCheck.println { "debug nullpointers $nullpointers" }
             for (i in 0 until allNodesInnerSize) {
                 if (!allNodesFreeListInner.contains(i or nodePointerTypeInner)) {
-runBlocking{
-                    getNode(i or nodePointerTypeInner, {
-                        SanityCheck.checkUnreachable()
-                    }, {
-                        NodeInner.forEachChild(it, {
-                            val nodePointerType = it and nodePointerTypeMask
-                            val nodePointerValue = it and nodePointerValueMask
-                            if (nodePointerType == nodePointerTypeInner) {
-                                inner[nodePointerValue]++
-                                SanityCheck.println { "debug NodeManager iterating inner leaves .. ${(i or nodePointerTypeInner).toString(16)} -> ${it.toString(16)}" }
-                            } else {
-                                SanityCheck.println { "nodePointerType $nodePointerType $nodePointerTypeLeaf $nodeNullPointer" }
-                                SanityCheck.check { nodePointerType == nodePointerTypeLeaf }
-                                leavesFromInner[nodePointerValue]++
-                                SanityCheck.println { "debug NodeManager iterating inner .. ${(i or nodePointerTypeInner).toString(16)} -> ${it.toString(16)}" }
-                            }
+                    runBlocking {
+                        getNode(i or nodePointerTypeInner, {
+                            SanityCheck.checkUnreachable()
+                        }, {
+                            NodeInner.forEachChild(it, {
+                                val nodePointerType = it and nodePointerTypeMask
+                                val nodePointerValue = it and nodePointerValueMask
+                                if (nodePointerType == nodePointerTypeInner) {
+                                    inner[nodePointerValue]++
+                                    SanityCheck.println { "debug NodeManager iterating inner leaves .. ${(i or nodePointerTypeInner).toString(16)} -> ${it.toString(16)}" }
+                                } else {
+                                    SanityCheck.println { "nodePointerType $nodePointerType $nodePointerTypeLeaf $nodeNullPointer" }
+                                    SanityCheck.check { nodePointerType == nodePointerTypeLeaf }
+                                    leavesFromInner[nodePointerValue]++
+                                    SanityCheck.println { "debug NodeManager iterating inner .. ${(i or nodePointerTypeInner).toString(16)} -> ${it.toString(16)}" }
+                                }
+                            })
                         })
-                    })
-            }
-    }
+                    }
+                }
             }
             j = 0
             for (i in leavesFromInner) {
@@ -169,7 +170,7 @@ runBlocking{
         }
     }
 
-     suspend fun getNode(idx: Int,  actionLeaf:suspend (ByteArray) -> Unit,  actionInner:suspend (ByteArray) -> Unit) {
+    suspend fun getNode(idx: Int, actionLeaf: suspend (ByteArray) -> Unit, actionInner: suspend (ByteArray) -> Unit) {
         SanityCheck.println({ "debug NodeManager getNode ${idx.toString(16)}" })
         val nodePointerType = idx and nodePointerTypeMask
         val nodePointerValue = idx and nodePointerValueMask
@@ -220,7 +221,7 @@ runBlocking{
         SanityCheck.println({ "NodeManager.allocateNodeLeaf B" })
     }
 
-    /*inline*/ suspend fun allocateNodeInner(/*crossinline*/ action:suspend (ByteArray, Int) -> Unit) {
+    /*inline*/ suspend fun allocateNodeInner(/*crossinline*/ action: suspend (ByteArray, Int) -> Unit) {
         SanityCheck.println({ "NodeManager.allocateNodeInner A" })
         var node: ByteArray? = null
         var idx = -1
@@ -270,7 +271,7 @@ runBlocking{
         SanityCheck.println({ "NodeManager.freeNode B" })
     }
 
-suspend    fun freeNodeAndAllRelated(nodeIdx: Int) {
+    suspend fun freeNodeAndAllRelated(nodeIdx: Int) {
         SanityCheck.println({ "NodeManager.freeNodeAndAllRelated A" })
         SanityCheck.println({ "debug NodeManager freeNodeAndAllRelated ${nodeIdx.toString(16)}" })
         if (nodeIdx != nodeNullPointer) {
@@ -286,7 +287,7 @@ suspend    fun freeNodeAndAllRelated(nodeIdx: Int) {
         SanityCheck.println({ "NodeManager.freeNodeAndAllRelated B" })
     }
 
-suspend    inline fun freeAllLeaves(nodeIdx: Int) {
+    suspend inline fun freeAllLeaves(nodeIdx: Int) {
         SanityCheck.println({ "NodeManager.freeAllLeaves A" })
         SanityCheck.println({ "debug NodeManager freeAllLeaves ${nodeIdx.toString(16)}" })
         var idx = nodeIdx
@@ -302,7 +303,7 @@ suspend    inline fun freeAllLeaves(nodeIdx: Int) {
         SanityCheck.println({ "NodeManager.freeAllLeaves B" })
     }
 
-suspend    fun freeAllInnerNodes(nodeIdx: Int) {
+    suspend fun freeAllInnerNodes(nodeIdx: Int) {
         SanityCheck.println({ "NodeManager.freeAllInnerNodes A" })
         SanityCheck.println({ "debug NodeManager freeAllInnerNodes ${nodeIdx.toString(16)}" })
         if (nodeIdx != nodeNullPointer) {

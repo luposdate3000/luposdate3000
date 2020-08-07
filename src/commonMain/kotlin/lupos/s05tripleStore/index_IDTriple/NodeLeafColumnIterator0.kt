@@ -90,7 +90,7 @@ class NodeLeafColumnIterator0(@JvmField var node: ByteArray, @JvmField val lock:
             remaining--
             if (remaining == 0) {
                 runBlocking {
-loop@                    while (remaining == 0) {
+                    loop@ while (remaining == 0) {
                         needsReset = true
                         offset = 8
                         var nextNodeIdx = NodeShared.getNextNode(node)

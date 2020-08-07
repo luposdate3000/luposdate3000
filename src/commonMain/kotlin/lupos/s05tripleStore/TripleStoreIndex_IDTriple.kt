@@ -60,15 +60,15 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
             SanityCheck {
                 if (root != NodeManager.nodeNullPointer) {
                     var found = false
-runBlocking{
-                    NodeManager.getNode(root, {
-                        SanityCheck.println { "root is inner node" }
-                        SanityCheck.checkUnreachable()
-                    }, {
-                        found = true
-                        SanityCheck.check { rootNode == it }
-                    })
-}
+                    runBlocking {
+                        NodeManager.getNode(root, {
+                            SanityCheck.println { "root is inner node" }
+                            SanityCheck.checkUnreachable()
+                        }, {
+                            found = true
+                            SanityCheck.check { rootNode == it }
+                        })
+                    }
                     SanityCheck.check { found }
                 } else {
                     SanityCheck.check { rootNode == null }
@@ -86,12 +86,12 @@ runBlocking{
                 SanityCheck.println { countPrimary }
                 SanityCheck.println { distinctPrimary }
                 if (rootNode != null) {
-runBlocking{
-                    val iterator = NodeInner.iterator(rootNode!!)
-                    while (iterator.hasNext()) {
-                        SanityCheck.println { iterator.next().map { it } }
+                    runBlocking {
+                        val iterator = NodeInner.iterator(rootNode!!)
+                        while (iterator.hasNext()) {
+                            SanityCheck.println { iterator.next().map { it } }
+                        }
                     }
-}
                 }
             }
             lock.readUnlock()
@@ -124,13 +124,13 @@ runBlocking{
                 SanityCheck.println { root }
                 SanityCheck.println { countPrimary }
                 SanityCheck.println { distinctPrimary }
-runBlocking{
-                if (rootNode != null) {
-                    val iterator = NodeInner.iterator(rootNode!!)
-                    while (iterator.hasNext()) {
-                        SanityCheck.println { iterator.next().map { it } }
+                runBlocking {
+                    if (rootNode != null) {
+                        val iterator = NodeInner.iterator(rootNode!!)
+                        while (iterator.hasNext()) {
+                            SanityCheck.println { iterator.next().map { it } }
+                        }
                     }
-}
                 }
             }
         }
@@ -359,11 +359,11 @@ runBlocking{
         return res
     }
 
-  suspend  fun importHelper(a: TripleIterator, b: TripleIterator): Int {
+    suspend fun importHelper(a: TripleIterator, b: TripleIterator): Int {
         return importHelper(MergeIterator(a, b))
     }
 
- suspend    fun importHelper(a: Int, b: Int): Int {
+    suspend fun importHelper(a: Int, b: Int): Int {
         var nodeA: ByteArray? = null
         var nodeB: ByteArray? = null
         NodeManager.getNode(a, {
@@ -376,13 +376,13 @@ runBlocking{
         }, {
             SanityCheck.checkUnreachable()
         })
-val         res = importHelper(MergeIterator(NodeLeaf.iterator(nodeA!!), NodeLeaf.iterator(nodeB!!)))
+        val res = importHelper(MergeIterator(NodeLeaf.iterator(nodeA!!), NodeLeaf.iterator(nodeB!!)))
         NodeManager.freeAllLeaves(a)
         NodeManager.freeAllLeaves(b)
         return res
     }
 
- suspend    fun importHelper(iterator: TripleIterator): Int {
+    suspend fun importHelper(iterator: TripleIterator): Int {
         var res = NodeManager.nodeNullPointer
         var node2: ByteArray? = null
         NodeManager.allocateNodeLeaf { n, i ->
@@ -411,12 +411,12 @@ val         res = importHelper(MergeIterator(NodeLeaf.iterator(nodeA!!), NodeLea
         }
     }
 
-inline    suspend fun flushContinueWithWriteLock() {
+    inline suspend fun flushContinueWithWriteLock() {
         lock.writeLock()
         flushAssumeLocks()
     }
 
-inline    suspend fun flushContinueWithReadLock() {
+    inline suspend fun flushContinueWithReadLock() {
         lock.readLock()
         if (pendingImport.size > 0) {
             lock.readUnlock()
@@ -426,7 +426,7 @@ inline    suspend fun flushContinueWithReadLock() {
         }
     }
 
- suspend   fun flushAssumeLocks() {
+    suspend fun flushAssumeLocks() {
         if (pendingImport.size > 0) {
             //check again, that there is something to be done ... this may be changed, because there could be someone _else beforehand, holding exactly this lock ... .
             BenchmarkUtils.start(EBenchmark.IMPORT_REBUILD_MAP)
@@ -499,7 +499,7 @@ inline    suspend fun flushContinueWithReadLock() {
         SanityCheck.println({ "writeunlock 9" })
     }
 
- suspend    fun rebuildData(_iterator: TripleIterator) {
+    suspend fun rebuildData(_iterator: TripleIterator) {
 //assuming to have write-lock
         val iterator = Count1PassThroughIterator(_iterator)
         if (iterator.hasNext()) {

@@ -1,4 +1,5 @@
 package lupos.s05tripleStore.index_IDTriple
+
 import kotlinx.coroutines.runBlocking
 import lupos.s00misc.Coverage
 import lupos.s00misc.readInt1
@@ -164,7 +165,7 @@ object NodeInner {
         }
     }
 
-    /*inline*/ suspend fun findIteratorN(data: ByteArray,/*crossinline*/ checkTooSmall:suspend (c: IntArray) -> Boolean, /*crossinline*/ action:suspend (Int) -> Unit): Unit {
+    /*inline*/ suspend fun findIteratorN(data: ByteArray,/*crossinline*/ checkTooSmall: suspend (c: IntArray) -> Boolean, /*crossinline*/ action: suspend (Int) -> Unit): Unit {
         var lastHeaderOffset = -1 //invalid offset to start with
         var lastChildPointer = getFirstChild(data)
         var childLastPointerHeaderOffset = -1
@@ -387,35 +388,19 @@ object NodeInner {
         NodeShared.setTripleCount(data, triples)
         NodeShared.setNextNode(data, NodeManager.nodeNullPointer)
         SanityCheck {
-runBlocking{
-            SanityCheck.println({ debugListChilds })
-            SanityCheck.println({ debugListTriples.map { it.map { it } } })
-            SanityCheck.check { debugListTriples.size == debugListChilds.size - 1 }
-            var k = 0
-            forEachChild(data, {
-                SanityCheck.println({ "debug it $it" })
-                SanityCheck.check { debugListChilds.size >= k }
-                SanityCheck.check { it == debugListChilds[k] }
-                k++
-            })
-            SanityCheck.check { k == debugListChilds.size }
-            var j = -1
-            findIteratorN(data, {
-                SanityCheck.println({ "debug xx ${it.map { it }}" })
-                j++
-                SanityCheck.check { j < debugListTriples.size }
-                SanityCheck.check { it[0] == debugListTriples[j][0] }
-                SanityCheck.check { it[1] == debugListTriples[j][1] }
-                SanityCheck.check { it[2] == debugListTriples[j][2] }
-                /*return*/true
-            }, {
-                SanityCheck.println({ "debug $it" })
-                SanityCheck.check { it == debugListChilds[debugListChilds.size - 1] }
-            })
-            SanityCheck.check { j == debugListTriples.size - 1 }
-            for (l in 0 until debugListTriples.size) {
-                SanityCheck.println({ "debug l $l" })
-                j = -1
+            runBlocking {
+                SanityCheck.println({ debugListChilds })
+                SanityCheck.println({ debugListTriples.map { it.map { it } } })
+                SanityCheck.check { debugListTriples.size == debugListChilds.size - 1 }
+                var k = 0
+                forEachChild(data, {
+                    SanityCheck.println({ "debug it $it" })
+                    SanityCheck.check { debugListChilds.size >= k }
+                    SanityCheck.check { it == debugListChilds[k] }
+                    k++
+                })
+                SanityCheck.check { k == debugListChilds.size }
+                var j = -1
                 findIteratorN(data, {
                     SanityCheck.println({ "debug xx ${it.map { it }}" })
                     j++
@@ -423,15 +408,31 @@ runBlocking{
                     SanityCheck.check { it[0] == debugListTriples[j][0] }
                     SanityCheck.check { it[1] == debugListTriples[j][1] }
                     SanityCheck.check { it[2] == debugListTriples[j][2] }
-                    SanityCheck.check { j < l + 4 }
-/*read at most one block too much*/
-                    /*return*/ j < l
+                    /*return*/true
                 }, {
                     SanityCheck.println({ "debug $it" })
-                    SanityCheck.check { it == debugListChilds[l] }
+                    SanityCheck.check { it == debugListChilds[debugListChilds.size - 1] }
                 })
+                SanityCheck.check { j == debugListTriples.size - 1 }
+                for (l in 0 until debugListTriples.size) {
+                    SanityCheck.println({ "debug l $l" })
+                    j = -1
+                    findIteratorN(data, {
+                        SanityCheck.println({ "debug xx ${it.map { it }}" })
+                        j++
+                        SanityCheck.check { j < debugListTriples.size }
+                        SanityCheck.check { it[0] == debugListTriples[j][0] }
+                        SanityCheck.check { it[1] == debugListTriples[j][1] }
+                        SanityCheck.check { it[2] == debugListTriples[j][2] }
+                        SanityCheck.check { j < l + 4 }
+/*read at most one block too much*/
+                        /*return*/ j < l
+                    }, {
+                        SanityCheck.println({ "debug $it" })
+                        SanityCheck.check { it == debugListChilds[l] }
+                    })
+                }
             }
         }
-}
     }
 }

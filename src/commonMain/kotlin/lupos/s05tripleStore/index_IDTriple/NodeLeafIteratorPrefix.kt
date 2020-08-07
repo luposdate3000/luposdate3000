@@ -74,9 +74,9 @@ abstract class NodeLeafIteratorPrefix(@JvmField var node: ByteArray, @JvmField v
                     }
                 }
             }
-        if (!flag) {
-            return
-        }
+            if (!flag) {
+                return
+            }
         }
         var header = node.readInt1(offset)
         var headerA = header and 0b11000000

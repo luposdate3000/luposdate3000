@@ -64,19 +64,19 @@ class BufferManager(@JvmField val bufferName: String) {
 
     @JvmField
     val pageMappingsInOut = mutableMapOf<Int, Int>() // keys are guaranteed to be possible to store as array
-   suspend fun clear() = lock.withWriteLock {
+    suspend fun clear() = lock.withWriteLock {
         counter = 0
         allPages.clear()
         pageMappingsOutIn.clear()
         pageMappingsInOut.clear()
     }
 
-  suspend  fun getPage(pageid: Int): ByteArray = lock.withReadLock {
+    suspend fun getPage(pageid: Int): ByteArray = lock.withReadLock {
         val target = pageMappingsOutIn[pageid]!!
         /*return*/ allPages[target]
     }
 
-  suspend  fun createPage(pageid: Int): ByteArray = lock.withWriteLock {
+    suspend fun createPage(pageid: Int): ByteArray = lock.withWriteLock {
         val target = counter++
         SanityCheck.check { pageMappingsOutIn[pageid] == null }
         SanityCheck.check { pageMappingsInOut[target] == null }
@@ -87,7 +87,7 @@ class BufferManager(@JvmField val bufferName: String) {
         /*return*/ allPages[target]
     }
 
- suspend   fun deletePage(pageid: Int) = lock.withWriteLock {
+    suspend fun deletePage(pageid: Int) = lock.withWriteLock {
         val otherTarget = counter - 1
         val target = pageMappingsOutIn[pageid]!!
         pageMappingsOutIn.remove(pageid)
