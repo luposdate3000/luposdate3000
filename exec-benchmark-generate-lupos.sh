@@ -29,7 +29,7 @@ do
 
 	generate $triples 4 1 0
 	generate $triples 4 1 1
-	generate $triples 4 1 16
+	generate $triples 4 1 32
 	generate $triples 4 1 128
 	generate $triples 4 1 1024
 

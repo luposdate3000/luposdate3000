@@ -282,7 +282,7 @@ object NodeManager {
         SanityCheck.println({ "NodeManager.freeNodeAndAllRelated B" })
     }
 
-    fun freeAllLeaves(nodeIdx: Int) {
+    inline fun freeAllLeaves(nodeIdx: Int) {
         SanityCheck.println({ "NodeManager.freeAllLeaves A" })
         SanityCheck.println({ "debug NodeManager freeAllLeaves ${nodeIdx.toString(16)}" })
         var idx = nodeIdx

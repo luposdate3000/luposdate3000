@@ -38,9 +38,7 @@ class NodeLeafColumnIterator1(@JvmField var node: ByteArray, @JvmField val lock:
     inline fun _close() {
         if (label != 0) {
             label = 0
-            runBlocking {
-                lock.readUnlock()
-            }
+            lock.readUnlock()
         }
     }
 
@@ -49,70 +47,67 @@ class NodeLeafColumnIterator1(@JvmField var node: ByteArray, @JvmField val lock:
     }
 
     override fun next(): Int {
-        when (label) {
-            1 -> {
-                if (needsReset) {
-                    needsReset = false
-                    value = 0
+        if (label != 0) {
+            if (needsReset) {
+                needsReset = false
+                value = 0
+            }
+            var header = node.readInt1(offset)
+            var headerA = header and 0b11000000
+            val counter0: Int
+            val counter1: Int
+            val counter2: Int
+            if (headerA == 0b0000000) {
+                counter0 = ((header and 0b00110000) shr 4) + 1
+                counter1 = ((header and 0b00001100) shr 2) + 1
+                counter2 = ((header and 0b00000011)) + 1
+            } else if (headerA == 0b01000000) {
+                counter0 = 0
+                counter1 = ((header and 0b00001100) shr 2) + 1
+                counter2 = ((header and 0b00000011)) + 1
+            } else {
+                SanityCheck.check { headerA == 0b10000000 }
+                counter0 = 0
+                counter1 = 0
+                counter2 = ((header and 0b00000011)) + 1
+            }
+            offset += 1 + counter0
+            when (counter1) {
+                1 -> {
+                    value = value xor node.readInt1(offset)
                 }
-                var header = node.readInt1(offset)
-                var headerA = header and 0b11000000
-                val counter0: Int
-                val counter1: Int
-                val counter2: Int
-                if (headerA == 0b0000000) {
-                    counter0 = ((header and 0b00110000) shr 4) + 1
-                    counter1 = ((header and 0b00001100) shr 2) + 1
-                    counter2 = ((header and 0b00000011)) + 1
-                } else if (headerA == 0b01000000) {
-                    counter0 = 0
-                    counter1 = ((header and 0b00001100) shr 2) + 1
-                    counter2 = ((header and 0b00000011)) + 1
+                2 -> {
+                    value = value xor node.readInt2(offset)
+                }
+                3 -> {
+                    value = value xor node.readInt3(offset)
+                }
+                4 -> {
+                    value = value xor node.readInt4(offset)
+                }
+            }
+            offset += counter1 + counter2
+            remaining--
+            loop@ while (remaining == 0) {
+                needsReset = true
+                offset = 8
+                var nextNodeIdx = NodeShared.getNextNode(node)
+                if (nextNodeIdx != NodeManager.nodeNullPointer) {
+                    NodeManager.getNode(nextNodeIdx, {
+                        SanityCheck.check { node != it }
+                        node = it
+                        remaining = NodeShared.getTripleCount(node)
+                    }, {
+                        SanityCheck.checkUnreachable()
+                    })
                 } else {
-                    SanityCheck.check { headerA == 0b10000000 }
-                    counter0 = 0
-                    counter1 = 0
-                    counter2 = ((header and 0b00000011)) + 1
+                    _close()
+                    break@loop
                 }
-                offset += 1 + counter0
-                when (counter1) {
-                    1 -> {
-                        value = value xor node.readInt1(offset)
-                    }
-                    2 -> {
-                        value = value xor node.readInt2(offset)
-                    }
-                    3 -> {
-                        value = value xor node.readInt3(offset)
-                    }
-                    4 -> {
-                        value = value xor node.readInt4(offset)
-                    }
-                }
-                offset += counter1 + counter2
-                remaining--
-                loop@ while (remaining == 0) {
-                    needsReset = true
-                    offset = 8
-                    var nextNodeIdx = NodeShared.getNextNode(node)
-                    if (nextNodeIdx != NodeManager.nodeNullPointer) {
-                        NodeManager.getNode(nextNodeIdx, {
-                            SanityCheck.check { node != it }
-                            node = it
-                            remaining = NodeShared.getTripleCount(node)
-                        }, {
-                            SanityCheck.checkUnreachable()
-                        })
-                    } else {
-                        _close()
-                        break@loop
-                    }
-                }
-                return value
             }
-            else -> {
-                return ResultSetDictionary.nullValue
-            }
+            return value
+        } else {
+            return ResultSetDictionary.nullValue
         }
     }
 }

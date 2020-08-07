@@ -21,14 +21,14 @@ class ReadWriteLock {
 
     @JvmField
     var counter = AtomicInteger() //number of active readers
-    suspend fun downgradeToReadLock() {
+    inline suspend fun downgradeToReadLock() {
         counter.set(1)
         lockB.lock()
         lockA.unlock()
         SanityCheck.println({ "LOCK $uuid writeToReadLock" })
     }
 
-    suspend fun readLock() {
+inline    suspend fun readLock() {
         SanityCheck.println({ "LOCK $uuid get read lock start" })
         lockA.lock()
         var tmp = counter.incrementAndGet()
@@ -39,7 +39,7 @@ class ReadWriteLock {
         SanityCheck.println({ "LOCK $uuid get read lock" })
     }
 
-    suspend fun readUnlock() {
+inline     fun readUnlock() {
         SanityCheck.println({ "LOCK $uuid releasing read lock" })
         var tmp = counter.decrementAndGet()
         if (tmp == 0) {
@@ -47,7 +47,7 @@ class ReadWriteLock {
         }
     }
 
-    suspend fun writeLock() {
+inline    suspend fun writeLock() {
         SanityCheck.println({ "LOCK $uuid get write lock start" })
         lockA.lock()
         lockB.lock() //effectively wait for_ the signal of the last read-unlock
@@ -56,13 +56,13 @@ class ReadWriteLock {
         SanityCheck.println({ "LOCK $uuid get write lock" })
     }
 
-    suspend fun writeUnlock() {
+inline     fun writeUnlock() {
         SanityCheck.println({ "LOCK $uuid releasing write lock" })
         lockA.unlock()
         //assume that counter is 0, because that is the precondition for_ a writer to start
     }
 
-    suspend /*inline*/  fun <T> withReadLockSuspend(/*crossinline*/  action: suspend () -> T): T {
+    inline suspend fun <T> withReadLockSuspend(crossinline  action: suspend () -> T): T {
         readLock()
         try {
             return action()
@@ -72,7 +72,7 @@ class ReadWriteLock {
         /*Coverage Unreachable*/
     }
 
-    suspend /*inline*/  fun <T> withWriteLockSuspend(/*crossinline*/  action: suspend () -> T): T {
+    inline suspend fun <T> withWriteLockSuspend(crossinline  action: suspend () -> T): T {
         writeLock()
         try {
             return action()
@@ -82,7 +82,7 @@ class ReadWriteLock {
         /*Coverage Unreachable*/
     }
 
-    /*inline*/  fun <T> withReadLock(/*crossinline*/  action: suspend CoroutineScope.() -> T): T {
+    inline   fun <T> withReadLock(crossinline  action: suspend CoroutineScope.() -> T): T {
         var res: T? = null
         runBlocking {
             withReadLockSuspend {
@@ -92,7 +92,7 @@ class ReadWriteLock {
         return res!!
     }
 
-    /*inline*/  fun <T> withWriteLock(/*crossinline*/  action: suspend CoroutineScope.() -> T): T {
+    inline  fun <T> withWriteLock(crossinline  action: suspend CoroutineScope.() -> T): T {
         var res: T? = null
         runBlocking {
             withWriteLockSuspend {
