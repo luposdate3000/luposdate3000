@@ -3,8 +3,6 @@ package lupos
 import kotlin.jvm.JvmField
 import kotlin.time.DurationUnit
 import kotlin.time.TimeSource.Monotonic
-import kotlinx.coroutines.runBlocking
-import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.Coverage
 import lupos.s00misc.EIndexPattern
 import lupos.s00misc.ELoggerType
@@ -39,7 +37,6 @@ import lupos.s03resultRepresentation.nodeGlobalDictionary
 import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s03resultRepresentation.Value
 import lupos.s04arithmetikOperators.noinput.AOPVariable
-import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.s04logicalOperators.Query
 import lupos.s05tripleStore.index_IDTriple.NodeManager
 import lupos.s06buildOperatorGraph.OperatorGraphVisitor

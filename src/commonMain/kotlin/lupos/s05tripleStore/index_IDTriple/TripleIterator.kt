@@ -1,6 +1,5 @@
 package lupos.s05tripleStore.index_IDTriple
 
-import lupos.s00misc.Coverage
 
 abstract class TripleIterator() {
     var value = IntArray(3)

@@ -1,15 +1,8 @@
 package lupos.s05tripleStore.index_IDTriple
 
-import kotlinx.coroutines.runBlocking
-import lupos.s00misc.BenchmarkUtils
-import lupos.s00misc.Coverage
 import lupos.s00misc.readInt4
 import lupos.s00misc.ReadWriteLock
 import lupos.s00misc.SanityCheck
-import lupos.s00misc.writeInt1
-import lupos.s00misc.writeInt2
-import lupos.s00misc.writeInt3
-import lupos.s00misc.writeInt4
 import lupos.s04logicalOperators.iterator.ColumnIterator
 
 object NodeLeaf {

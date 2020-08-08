@@ -1,7 +1,6 @@
 package lupos.s00misc
 
 import kotlin.jvm.JvmField
-import lupos.s00misc.Coverage
 
 /* Substitutions :: VALUE,GDEF,GUSE,ARRAYTYPE,ARRAYINITIALIZER */
 class MyListVALUEGDEF {

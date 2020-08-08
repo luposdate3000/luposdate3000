@@ -1,13 +1,10 @@
 package lupos.s04arithmetikOperators.singleinput
 
 import kotlin.math.roundToInt
-import lupos.s00misc.BigDecimal
-import lupos.s00misc.BigInteger
 import lupos.s00misc.Coverage
 import lupos.s00misc.DecimalHelper
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.SanityCheck
-import lupos.s03resultRepresentation.decimalZero
 import lupos.s03resultRepresentation.Value
 import lupos.s03resultRepresentation.ValueDecimal
 import lupos.s03resultRepresentation.ValueDefinition

@@ -6,7 +6,6 @@ import java.net.InetSocketAddress
 import java.net.ServerSocket
 import java.net.Socket
 import kotlinx.coroutines.runBlocking
-import lupos.s00misc.Coverage
 
 object ServerCommunicationConnectionPoolOn {
     val keepAliveServerConnection = true

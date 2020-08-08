@@ -2,16 +2,10 @@ import kotlin.time.DurationUnit
 import kotlin.time.TimeSource.Monotonic
 import kotlinx.coroutines.runBlocking
 import lupos.s00misc.BenchmarkUtils
-import lupos.s00misc.CoroutinesHelper
-import lupos.s00misc.Coverage
-import lupos.s00misc.EOptimizerID
 import lupos.s00misc.File
 import lupos.s00misc.MyMapStringIntPatriciaTrie
 import lupos.s00misc.Partition
 import lupos.s03resultRepresentation.nodeGlobalDictionary
-import lupos.s05tripleStore.TripleStoreIndex_IDTriple
-import lupos.s08logicalOptimisation.LogicalOptimizerJoinOrder
-import lupos.s08logicalOptimisation.OptimizerCompoundBase
 import lupos.s15tripleStoreDistributed.DistributedTripleStore
 import lupos.s16network.HttpEndpoint
 import lupos.s16network.ServerCommunicationSend

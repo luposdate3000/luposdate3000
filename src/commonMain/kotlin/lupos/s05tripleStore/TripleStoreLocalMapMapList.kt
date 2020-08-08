@@ -1,6 +1,5 @@
 package lupos.s05tripleStore
 
-import lupos.s00misc.Coverage
 import lupos.s00misc.EIndexPattern
 
 class TripleStoreLocalMapMapList(name: String) : TripleStoreLocalBase(name) {

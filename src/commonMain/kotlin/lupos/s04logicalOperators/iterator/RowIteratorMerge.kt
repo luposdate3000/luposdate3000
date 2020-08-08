@@ -1,7 +1,6 @@
 package lupos.s04logicalOperators.iterator
 
 import kotlin.jvm.JvmField
-import lupos.s00misc.Coverage
 import lupos.s00misc.SanityCheck
 import lupos.s03resultRepresentation.Value
 

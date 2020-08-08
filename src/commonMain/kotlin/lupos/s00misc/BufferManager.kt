@@ -2,7 +2,6 @@ package lupos.s00misc
 
 import kotlin.jvm.JvmField
 import lupos.s00misc.File
-import lupos.s00misc.MyListGeneric
 import lupos.s00misc.ReadWriteLock
 import lupos.s00misc.SanityCheck
 

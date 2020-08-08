@@ -1,6 +1,5 @@
 package lupos.s08logicalOptimisation
 
-import lupos.s00misc.Coverage
 import lupos.s00misc.EOptimizerID
 import lupos.s04arithmetikOperators.noinput.AOPConstant
 import lupos.s04arithmetikOperators.noinput.AOPVariable

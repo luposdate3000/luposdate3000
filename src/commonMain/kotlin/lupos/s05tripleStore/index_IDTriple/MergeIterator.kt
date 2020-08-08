@@ -1,7 +1,6 @@
 package lupos.s05tripleStore.index_IDTriple
 
 import kotlin.jvm.JvmField
-import lupos.s00misc.Coverage
 
 class MergeIterator(@JvmField val a: TripleIterator, @JvmField val b: TripleIterator) : TripleIterator() {
     //assuming no duplicates in each input

@@ -1,11 +1,8 @@
 package lupos.s08logicalOptimisation
 
-import lupos.s00misc.Coverage
 import lupos.s00misc.EOptimizerID
 import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s03resultRepresentation.Value
-import lupos.s03resultRepresentation.ValueError
-import lupos.s03resultRepresentation.ValueUndef
 import lupos.s04arithmetikOperators.AOPAggregationBase
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04arithmetikOperators.noinput.AOPConstant

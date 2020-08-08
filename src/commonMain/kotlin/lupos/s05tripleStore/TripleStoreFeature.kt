@@ -1,21 +1,12 @@
 package lupos.s05tripleStore
 
-import kotlin.jvm.JvmField
-import kotlinx.coroutines.runBlocking
 import lupos.s00misc.BugException
-import lupos.s00misc.CoroutinesHelper
-import lupos.s00misc.Coverage
 import lupos.s00misc.EIndexPattern
-import lupos.s00misc.EModifyType
-import lupos.s00misc.File
 import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
-import lupos.s03resultRepresentation.Value
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04arithmetikOperators.noinput.AOPConstant
 import lupos.s04arithmetikOperators.noinput.AOPVariable
-import lupos.s04logicalOperators.iterator.ColumnIterator
-import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.Query
 
 enum class TripleStoreFeature {

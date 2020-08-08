@@ -2,8 +2,6 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
-import lupos.s00misc.CoroutinesHelper
-import lupos.s00misc.Coverage
 import lupos.s00misc.ELoggerType
 import lupos.s00misc.GlobalLogger
 import lupos.s16network.HttpEndpointLauncher

@@ -1,7 +1,6 @@
 package lupos.s00misc
 
 import java.io.ByteArrayOutputStream
-import lupos.s00misc.Coverage
 import lupos.s00misc.JenaBugException
 import org.apache.jena.query.ARQ
 import org.apache.jena.query.DatasetFactory

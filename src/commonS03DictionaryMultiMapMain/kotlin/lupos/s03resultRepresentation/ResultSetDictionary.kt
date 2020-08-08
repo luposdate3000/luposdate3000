@@ -4,13 +4,9 @@ import kotlin.jvm.JvmField
 import lupos.s00misc.BigDecimal
 import lupos.s00misc.BigInteger
 import lupos.s00misc.BufferManager
-import lupos.s00misc.Coverage
 import lupos.s00misc.File
 import lupos.s00misc.MyListDouble
-import lupos.s00misc.MyListGeneric
-import lupos.s00misc.MyListInt
 import lupos.s00misc.MyMapDoubleInt
-import lupos.s00misc.MyMapGenericGeneric
 import lupos.s00misc.MyMapIntInt
 import lupos.s00misc.MyMapStringIntPatriciaTrie
 import lupos.s00misc.MyMapStringIntPatriciaTrieDouble

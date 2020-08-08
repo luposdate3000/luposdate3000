@@ -1,7 +1,6 @@
 package lupos.s01io.buffer
 
 import kotlin.jvm.JvmField
-import lupos.s00misc.Coverage
 import lupos.s01io.buffer.createString
 import lupos.s01io.buffer.Page
 

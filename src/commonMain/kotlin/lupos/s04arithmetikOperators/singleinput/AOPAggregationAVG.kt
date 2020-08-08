@@ -7,7 +7,6 @@ import lupos.s00misc.EOperatorID
 import lupos.s00misc.EvaluationException
 import lupos.s00misc.SanityCheck
 import lupos.s02buildSyntaxTree.sparql1_1.Aggregation
-import lupos.s03resultRepresentation.decimalZero
 import lupos.s03resultRepresentation.Value
 import lupos.s03resultRepresentation.ValueDecimal
 import lupos.s03resultRepresentation.ValueDefinition

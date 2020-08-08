@@ -1,7 +1,6 @@
 package lupos.s09physicalOperators.noinput
 
 import kotlin.jvm.JvmField
-import lupos.s00misc.Coverage
 import lupos.s00misc.EGraphOperationType
 import lupos.s00misc.EGraphRefType
 import lupos.s00misc.EIndexPattern

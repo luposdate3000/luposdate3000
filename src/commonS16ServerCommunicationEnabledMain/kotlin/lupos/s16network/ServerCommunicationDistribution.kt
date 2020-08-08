@@ -3,7 +3,6 @@ package lupos.s16network
 import kotlin.jvm.JvmField
 import kotlin.math.ceil
 import kotlin.math.pow
-import lupos.s00misc.Coverage
 import lupos.s00misc.EIndexPattern
 import lupos.s00misc.Lock
 import lupos.s03resultRepresentation.Value

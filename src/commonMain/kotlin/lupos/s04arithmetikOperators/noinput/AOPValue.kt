@@ -1,6 +1,5 @@
 package lupos.s04arithmetikOperators.noinput
 
-import lupos.s00misc.Coverage
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.SanityCheck
 import lupos.s03resultRepresentation.Value

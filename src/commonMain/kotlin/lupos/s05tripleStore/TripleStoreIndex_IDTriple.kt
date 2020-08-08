@@ -1,14 +1,11 @@
 package lupos.s05tripleStore
 
 import kotlin.jvm.JvmField
-import kotlinx.coroutines.runBlocking
 import lupos.s00misc.BenchmarkUtils
-import lupos.s00misc.Coverage
 import lupos.s00misc.EBenchmark
 import lupos.s00misc.File
 import lupos.s00misc.ReadWriteLock
 import lupos.s00misc.SanityCheck
-import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s03resultRepresentation.Value
 import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.s04logicalOperators.iterator.ColumnIteratorEmpty
@@ -22,7 +19,6 @@ import lupos.s05tripleStore.index_IDTriple.MergeIterator
 import lupos.s05tripleStore.index_IDTriple.MinusIterator
 import lupos.s05tripleStore.index_IDTriple.NodeInner
 import lupos.s05tripleStore.index_IDTriple.NodeLeaf
-import lupos.s05tripleStore.index_IDTriple.NodeLeafIteratorPrefix
 import lupos.s05tripleStore.index_IDTriple.NodeManager
 import lupos.s05tripleStore.index_IDTriple.NodeShared
 import lupos.s05tripleStore.index_IDTriple.TripleIterator

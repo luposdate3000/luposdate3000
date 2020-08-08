@@ -1,8 +1,6 @@
 package lupos.s04arithmetikOperators.singleinput
 
 import kotlin.math.floor
-import lupos.s00misc.BigDecimal
-import lupos.s00misc.BigInteger
 import lupos.s00misc.Coverage
 import lupos.s00misc.DecimalHelper
 import lupos.s00misc.EOperatorID
