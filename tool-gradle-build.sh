@@ -11,7 +11,7 @@ cachefile=$(cat "$buildfile" | grep "project.buildDir" | sed "s-[^_]*_-build/gra
 logfile=$(cat "$buildfile" | grep "project.buildDir" | sed "s-[^_]*_-build/compile_-" | sed "s/\".*//g")
 if grep -q "_jvm_" "$buildfile"
 then
-time	gradle --project-cache-dir="$cachefile" shadowJar > $logfile 2>&1
+time	gradle --project-cache-dir="$cachefile" --info --stacktrace shadowJar > $logfile 2>&1
 	ret=$?
 	if [ $ret -ne 0 ]
 	then

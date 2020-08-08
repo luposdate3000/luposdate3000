@@ -252,7 +252,7 @@ class POPGroup : POPBase {
             }
             if (canUseSortedInput) {
                 SanityCheck.println({ "group mode b" })
-                var currentKey = Array(keyColumnNames.size) { ResultSetDictionary.undefValue }
+                var currentKey = IntArray(keyColumnNames.size) { ResultSetDictionary.undefValue }
                 var nextKey: IntArray? = null
                 //first row ->
                 var emptyResult = false
@@ -358,7 +358,7 @@ class POPGroup : POPBase {
                                             if (nextKey != null) {
                                                 nextKey!![columnIndex] = value
                                             } else if (currentKey[columnIndex] != value) {
-                                                nextKey = Array(keyColumnNames.size) { currentKey[it] }
+                                                nextKey = IntArray(keyColumnNames.size) { currentKey[it] }
                                                 nextKey!![columnIndex] = value
                                                 changedKey = true
                                             }
@@ -421,7 +421,7 @@ class POPGroup : POPBase {
                 SanityCheck.println({ "group mode c" })
                 val map = mutableMapOf<MapKey, MapRow>()
                 loop@ while (true) {
-                    val currentKey = Array(keyColumnNames.size) { ResultSetDictionary.undefValue }
+                    val currentKey = IntArray(keyColumnNames.size) { ResultSetDictionary.undefValue }
                     for (columnIndex in 0 until keyColumnNames.size) {
                         val value = keyColumns[columnIndex].next()
                         if (value == ResultSetDictionary.nullValue) {

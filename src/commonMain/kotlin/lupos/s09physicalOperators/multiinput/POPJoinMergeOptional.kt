@@ -69,7 +69,7 @@ class POPJoinMergeOptional(query: Query, projectedVariables: List<String>, child
         if (emptyColumnsWithJoin) {
             outIterators.add(Pair("", 3))
         }
-        val key = Array(2) { i -> Array(columnsINJ[i].size) { columnsINJ[i][it].next() } }
+        val key = Array(2) { i -> IntArray(columnsINJ[i].size) { columnsINJ[i][it].next() } }
         var done = findNextKey(key, columnsINJ, columnsINO)
         if (done) {
             for (closeIndex2 in 0 until 2) {
@@ -102,7 +102,7 @@ class POPJoinMergeOptional(query: Query, projectedVariables: List<String>, child
                 }
             }
         } else {
-            val keyCopy = Array(columnsINJ[0].size) { key[0][it] }
+            val keyCopy = IntArray(columnsINJ[0].size) { key[0][it] }
             for (iteratorConfig in outIterators) {
                 val iterator = object : ColumnIteratorChildIterator() {
                     override suspend fun close() {

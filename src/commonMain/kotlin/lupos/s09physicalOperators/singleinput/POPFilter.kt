@@ -121,21 +121,21 @@ class POPFilter(query: Query, projectedVariables: List<String>, filter: AOPBase,
                         res = child
                     } else {
                         res = object : IteratorBundle(0) {
-                            override fun hasNext2() {
-                                false
+suspend                            override fun hasNext2() :Boolean{
+return                                false
                             }
                         }
                     }
                 } else {
                     res = object : IteratorBundle(0) {
-                        override fun hasNext2Close() {
+                        suspend override fun hasNext2Close() {
                             SanityCheck.println({ "POPFilterXXX$uuid close B $classname" })
                             for ((k, v) in child.columns) {
                                 v.close()
                             }
                         }
 
-                        override fun hasNext2(): Boolean {
+                       suspend override fun hasNext2(): Boolean {
                             var res2 = false
                             try {
                                 var done = false

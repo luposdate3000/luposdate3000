@@ -99,7 +99,7 @@ class POPMergePartitionCount(query: Query, projectedVariables: List<String>, val
                         SanityCheck.println({ "merge $uuid reader wait for writer" })
                         delay(1)
                     }
-                    /*return*/res
+                    return res
                 }
 
                 suspend override fun hasNext2Close() {

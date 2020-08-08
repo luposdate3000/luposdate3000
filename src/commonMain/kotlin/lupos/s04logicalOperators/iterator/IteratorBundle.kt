@@ -11,7 +11,7 @@ enum class IteratorBundleMode {
     ROW
 }
 
-class IteratorBundle {
+open class IteratorBundle {
     @JvmField
     var mode: IteratorBundleMode
 
