@@ -75,37 +75,39 @@ class POPMergePartitionCount(query: Query, projectedVariables: List<String>, val
                 }
                 jobs.add(job)
             }
-            var iterator = IteratorBundle(0)
-            iterator.hasNext2 = {
-                var res = false
-                loop@ while (true) {
-                    SanityCheck.println({ "merge $uuid reader loop start" })
-                    var finishedWriters = 0
-                    for (p in 0 until Partition.k) {
-                        if (ringbufferReadHead[p] != ringbufferWriteHead[p]) {
-                            //non empty queue -> read one row
-                            SanityCheck.println({ "merge $uuid $p reader consumed data" })
-                            res = true
-                            ringbufferReadHead[p]++
-                            break@loop
-                        } else if (writerFinished[p] == 1) {
-                            finishedWriters++
+            var iterator = object : IteratorBundle(0) {
+                override suspend fun hasNext2(): Boolean {
+                    var res = false
+                    loop@ while (true) {
+                        SanityCheck.println({ "merge $uuid reader loop start" })
+                        var finishedWriters = 0
+                        for (p in 0 until Partition.k) {
+                            if (ringbufferReadHead[p] != ringbufferWriteHead[p]) {
+                                //non empty queue -> read one row
+                                SanityCheck.println({ "merge $uuid $p reader consumed data" })
+                                res = true
+                                ringbufferReadHead[p]++
+                                break@loop
+                            } else if (writerFinished[p] == 1) {
+                                finishedWriters++
+                            }
                         }
+                        if (finishedWriters == Partition.k) {
+                            //done
+                            break@loop
+                        }
+                        SanityCheck.println({ "merge $uuid reader wait for writer" })
+                        delay(1)
                     }
-                    if (finishedWriters == Partition.k) {
-                        //done
-                        break@loop
-                    }
-                    SanityCheck.println({ "merge $uuid reader wait for writer" })
-                    delay(1)
+                    /*return*/res
                 }
-                /*return*/res
-            }
-            iterator.hasNext2Close = {
-                SanityCheck.println({ "merge $uuid reader closed" })
-                readerFinished = 1
-                for (job in jobs) {
-                    job.cancelAndJoin()
+
+                suspend override fun hasNext2Close() {
+                    SanityCheck.println({ "merge $uuid reader closed" })
+                    readerFinished = 1
+                    for (job in jobs) {
+                        job.cancelAndJoin()
+                    }
                 }
             }
             return iterator

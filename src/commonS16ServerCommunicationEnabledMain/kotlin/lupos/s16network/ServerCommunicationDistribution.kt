@@ -71,7 +71,7 @@ object ServerCommunicationDistribution {
     /*
      * use during insertion and deletion
      */
-    fun getHostForFullTriple(values: Array<Value>, query: Query, idx: EIndexPattern): ServerCommunicationKnownHost {
+    fun getHostForFullTriple(values: IntArray, query: Query, idx: EIndexPattern): ServerCommunicationKnownHost {
         return getHostForFullTriple(Array(3) { query.dictionary.getValue(values[it]).toSparql() }, idx)
     }
 

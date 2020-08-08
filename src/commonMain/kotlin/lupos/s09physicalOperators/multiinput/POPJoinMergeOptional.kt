@@ -80,9 +80,9 @@ class POPJoinMergeOptional(query: Query, projectedVariables: List<String>, child
                     columnsINO[closeIndex2][closeIndex].close()
                 }
             }
- for (iteratorConfig in outIterators) {
-val iterator=ColumnIteratorChildIteratorEmpty()
-outIteratorsAllocated.add(iterator)
+            for (iteratorConfig in outIterators) {
+                val iterator = ColumnIteratorChildIteratorEmpty()
+                outIteratorsAllocated.add(iterator)
                 when (iteratorConfig.second) {
                     0 -> {
                         columnsOUTJ.add(iterator)
@@ -100,7 +100,7 @@ outIteratorsAllocated.add(iterator)
                         columnsOUTJ.add(iterator)
                     }
                 }
-}
+            }
         } else {
             val keyCopy = Array(columnsINJ[0].size) { key[0][it] }
             for (iteratorConfig in outIterators) {
@@ -155,18 +155,21 @@ outIteratorsAllocated.add(iterator)
                 }
             }
         }
-        val res = IteratorBundle(outMap)
+        var res = IteratorBundle(outMap)
         if (emptyColumnsWithJoin) {
-            res.hasNext2 = {
-                /*return*/columnsOUTJ[0].next() != ResultSetDictionary.nullValue
-            }
-            res.hasNext2Close = {
-                for (closeIndex2 in 0 until 2) {
-                    for (closeIndex in 0 until columnsINJ[closeIndex2].size) {
-                        columnsINJ[closeIndex2][closeIndex].close()
-                    }
-                    for (closeIndex in 0 until columnsINO[closeIndex2].size) {
-                        columnsINO[closeIndex2][closeIndex].close()
+            res = object : IteratorBundle(0) {
+                override suspend fun hasNext2(): Boolean {
+                    return columnsOUTJ[0].next() != ResultSetDictionary.nullValue
+                }
+
+                suspend override fun hasNext2Close() {
+                    for (closeIndex2 in 0 until 2) {
+                        for (closeIndex in 0 until columnsINJ[closeIndex2].size) {
+                            columnsINJ[closeIndex2][closeIndex].close()
+                        }
+                        for (closeIndex in 0 until columnsINO[closeIndex2].size) {
+                            columnsINO[closeIndex2][closeIndex].close()
+                        }
                     }
                 }
             }
@@ -174,7 +177,7 @@ outIteratorsAllocated.add(iterator)
         return res
     }
 
-    suspend    /*inline*/ fun sameElements(key: Array<Value>, keyCopy: Array<Value>, columnsINJ: MutableList<ColumnIterator>, columnsINO: MutableList<ColumnIterator>, data: Array<MyListValue>): Int {
+    suspend    /*inline*/ fun sameElements(key: IntArray, keyCopy: IntArray, columnsINJ: MutableList<ColumnIterator>, columnsINO: MutableList<ColumnIterator>, data: Array<MyListValue>): Int {
         SanityCheck.check { keyCopy[0] != ResultSetDictionary.nullValue }
         for (i in 0 until columnsINJ.size) {
             if (key[i] != keyCopy[i]) {
@@ -205,7 +208,7 @@ outIteratorsAllocated.add(iterator)
         return count
     }
 
-    suspend    /*inline*/ fun findNextKey(key: Array<Array<Value>>, columnsINJ: Array<MutableList<ColumnIterator>>, columnsINO: Array<MutableList<ColumnIterator>>): Boolean {
+    suspend    /*inline*/ fun findNextKey(key: Array<IntArray>, columnsINJ: Array<MutableList<ColumnIterator>>, columnsINO: Array<MutableList<ColumnIterator>>): Boolean {
         if (key[0][0] != ResultSetDictionary.nullValue && key[1][0] != ResultSetDictionary.nullValue) {
             loop@ while (true) {
                 for (i in 0 until columnsINJ[0].size) {

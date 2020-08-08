@@ -38,12 +38,12 @@ class POPDebug(query: Query, projectedVariables: List<String>, child: OPBase) : 
                 val target = children[0].getProvidedVariableNames()
                 SanityCheck.println({ "POPDebug-child-mode ... ${uuid} ${children[0].uuid} ${child.mode}" })
                 if (child.hasColumnMode()) {
-try{
-child.columns
-}catch(e:Throwable){
-println("debugchildclassname::"+children[0].classname)
-throw e
-}
+                    try {
+                        child.columns
+                    } catch (e: Throwable) {
+                        println("debugchildclassname::" + children[0].classname)
+                        throw e
+                    }
                     val columnMode = mutableListOf<String>()
                     for ((k, v) in child.columns) {
                         columnMode.add(k)
@@ -61,12 +61,12 @@ throw e
                 val target = children[0].getProvidedVariableNames()
                 SanityCheck.println({ "POPDebug-child-mode ... ${uuid} ${children[0].uuid} ${child.mode}" })
                 if (child.hasColumnMode()) {
-try{ 
-child.columns
-}catch(e:Throwable){ 
-println("debugchildclassname2::"+children[0].classname)
-throw e
-}
+                    try {
+                        child.columns
+                    } catch (e: Throwable) {
+                        println("debugchildclassname2::" + children[0].classname)
+                        throw e
+                    }
                     val outMap = mutableMapOf<String, ColumnIterator>()
                     val columnMode = mutableListOf<String>()
                     for ((k, v) in child.columns) {

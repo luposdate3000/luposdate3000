@@ -129,6 +129,13 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
     var cachedHistograms2Size = 0
     var cachedHistograms2Cursor = 0
     val cachedHistograms2 = IntArray(400)
+    inline fun clearCachedHistogram() {
+        cachedHistograms1Size = 0
+        cachedHistograms2Size = 0
+        cachedHistograms1Cursor = 0
+        cachedHistograms2Cursor = 0
+    }
+
     fun checkForCachedHistogram(filter: IntArray): Pair<Int, Int>? {
         var res: Pair<Int, Int>? = null
         when (filter.size) {
@@ -552,6 +559,7 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
         }
         countPrimary = iterator.count
         distinctPrimary = iterator.distinct
+        clearCachedHistogram()
     }
 
     suspend override fun insertAsBulk(data: IntArray, order: IntArray) {
@@ -612,6 +620,7 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
         firstLeaf = NodeManager.nodeNullPointer
         root = NodeManager.nodeNullPointer
         rootNode = null
+        clearCachedHistogram()
         lock.writeUnlock()
         SanityCheck.println({ "writeunlock 12" })
     }

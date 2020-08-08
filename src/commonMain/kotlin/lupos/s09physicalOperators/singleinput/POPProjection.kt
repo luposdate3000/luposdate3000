@@ -36,8 +36,7 @@ class POPProjection(query: Query, projectedVariables: List<String>, child: OPBas
         val outMap = mutableMapOf<String, ColumnIterator>()
         if (variables.containsAll(children[0].getProvidedVariableNames())) {
             return child
-        }
-        if (variables.size == 0) {
+        } else if (variables.size == 0) {
             val variables2 = children[0].getProvidedVariableNames()
             SanityCheck {
                 SanityCheck.check { variables2.size > 0 }
@@ -46,12 +45,14 @@ class POPProjection(query: Query, projectedVariables: List<String>, child: OPBas
                 }
             }
             val column = child.columns[variables2[0]]!!
-            val res = IteratorBundle(outMap)
-            res.hasNext2 = {
-                /*return*/                column.next() != ResultSetDictionary.nullValue
-            }
-            res.hasNext2Close = {
-                column.close()
+            val res = object : IteratorBundle(0) {
+                override suspend fun hasNext2(): Boolean {
+                    /*return*/                column.next() != ResultSetDictionary.nullValue
+                }
+
+                suspend override fun hasNext2Close() {
+                    column.close()
+                }
             }
             return res
         } else {

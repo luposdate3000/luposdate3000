@@ -75,7 +75,7 @@ class IteratorBundle {
             }
         }
 
-    suspend fun _hasNext(): Boolean {
+    suspend open fun hasNext2(): Boolean {
         if (counter > 0) {
             counter--
             return true
@@ -83,8 +83,9 @@ class IteratorBundle {
         return false
     }
 
-    var hasNext2: suspend () -> Boolean = ::_hasNext
-    var hasNext2Close: suspend () -> Unit = {}
+    suspend open fun hasNext2Close() {
+    }
+
     suspend inline fun count(): Int {
         SanityCheck.check { mode == IteratorBundleMode.COUNT }
         if (counter > 0) {

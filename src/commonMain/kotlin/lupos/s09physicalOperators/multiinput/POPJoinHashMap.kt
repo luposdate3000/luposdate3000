@@ -27,7 +27,7 @@ class POPJoinHashMap(query: Query, projectedVariables: List<String>, childA: OPB
     }
 
     override fun equals(other: Any?) = other is POPJoinHashMap && optional == other.optional && children[0] == other.children[0] && children[1] == other.children[1]
-    class MapKey(@JvmField val data: Array<Value>) {
+    class MapKey(@JvmField val data: IntArray) {
         override fun hashCode(): Int {
             var res = 0
             for (i in 0 until data.size) {
@@ -95,8 +95,8 @@ class POPJoinHashMap(query: Query, projectedVariables: List<String>, childA: OPB
         }
         val mapWithoutUndef = mutableMapOf<MapKey, MapRow>()
         val mapWithUndef = mutableMapOf<MapKey, MapRow>()
-        var currentKey: Array<Value>? = null
-        var nextKey: Array<Value>?
+        var currentKey: IntArray? = null
+        var nextKey: IntArray?
         var map: MutableMap<MapKey, MapRow> = mapWithUndef
         var nextMap: MutableMap<MapKey, MapRow>
         var key: MapKey
@@ -264,7 +264,7 @@ class POPJoinHashMap(query: Query, projectedVariables: List<String>, childA: OPB
 //optional clause without match
                                         done = true
                                         countB = 1
-                                        val dataJ: Array<Value> = Array(outJ.size) { currentKey!![it] }
+                                        val dataJ: IntArray = Array(outJ.size) { currentKey!![it] }
                                         val dataO: Array<Array<MyListValue>> = arrayOf(dataOA, Array(outO[1].size) { MyListValue(ResultSetDictionary.undefValue) })
                                         POPJoin.crossProduct(dataO, dataJ, outO, outJ, countA, countB)
                                     }
@@ -272,7 +272,7 @@ class POPJoinHashMap(query: Query, projectedVariables: List<String>, childA: OPB
                                     done = true
                                     for (otherIndex in 0 until others.size) {
                                         countB = others[otherIndex].second.count
-                                        val dataJ: Array<Value> = Array(outJ.size) {
+                                        val dataJ: IntArray = Array(outJ.size) {
                                             var res2: Value
                                             if (currentKey!![it] != ResultSetDictionary.undefValue) {
                                                 res2 = currentKey!![it]
@@ -317,16 +317,19 @@ class POPJoinHashMap(query: Query, projectedVariables: List<String>, childA: OPB
             res = IteratorBundle(0)
         }
         if (emptyColumnsWithJoin) {
-            res.hasNext2 = {
-                /*return*/outJ[0].next() != ResultSetDictionary.nullValue
-            }
-            res.hasNext2Close = {
-                outJ[0].close()
-                for (closeIndex in 0 until columnsINAJ.size) {
-                    columnsINAJ[closeIndex].close()
+            res = object : IteratorBundle(0) {
+                override suspend fun hasNext2(): Boolean {
+                    /*return*/outJ[0].next() != ResultSetDictionary.nullValue
                 }
-                for (closeIndex in 0 until columnsINAO.size) {
-                    columnsINAO[closeIndex].close()
+
+                suspend override fun hasNext2Close() {
+                    outJ[0].close()
+                    for (closeIndex in 0 until columnsINAJ.size) {
+                        columnsINAJ[closeIndex].close()
+                    }
+                    for (closeIndex in 0 until columnsINAO.size) {
+                        columnsINAO[closeIndex].close()
+                    }
                 }
             }
         }

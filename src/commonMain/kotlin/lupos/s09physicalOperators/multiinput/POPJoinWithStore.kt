@@ -102,8 +102,8 @@ class POPJoinWithStore(query: Query, projectedVariables: List<String>, childA: O
         }
         SanityCheck.check { variablINBO.size > 0 }
         val distributedStore = DistributedTripleStore.getNamedGraph(query, childB.graph)
-        val valuesAO = Array<Value>(columnsINAO.size) { ResultSetDictionary.nullValue }
-        val valuesAJ = Array<Value>(columnsINAJ.size) { ResultSetDictionary.nullValue }
+        val valuesAO = IntArray(columnsINAO.size) { ResultSetDictionary.nullValue }
+        val valuesAJ = IntArray(columnsINAJ.size) { ResultSetDictionary.nullValue }
         var count = 0
         val params = Array<AOPBase>(3) {
             if (childB.children[it] is AOPConstant) {

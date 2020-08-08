@@ -31,13 +31,15 @@ class POPUnion(query: Query, projectedVariables: List<String>, childA: OPBase, c
             return IteratorBundle(outMap)
         } else {
             SanityCheck.check { childA.hasCountMode() && childB.hasCountMode() }
-            var res = IteratorBundle(0)
-            res.hasNext2 = {
-/*return*/ childA.hasNext2() || childB.hasNext2()
-            }
-            res.hasNext2Close = {
-                childA.hasNext2Close()
-                childB.hasNext2Close()
+            var res = object : IteratorBundle(0) {
+                override suspend fun hasNext2(): Boolean {
+                    return childA.hasNext2() || childB.hasNext2()
+                }
+
+                suspend override fun hasNext2Close() {
+                    childA.hasNext2Close()
+                    childB.hasNext2Close()
+                }
             }
             return res
         }

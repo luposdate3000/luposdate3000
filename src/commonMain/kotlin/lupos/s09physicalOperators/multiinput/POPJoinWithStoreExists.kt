@@ -67,32 +67,35 @@ class POPJoinWithStoreExists(query: Query, projectedVariables: List<String>, chi
             val distributedStore = DistributedTripleStore.getNamedGraph(query, childB.graph)
             SanityCheck.println({ "opening store for join with store C $uuid" })
             var iteratorB = distributedStore.getIterator(params, index).evaluate(parent)
-            res.hasNext2 = {
-                var t = iteratorB.hasNext2()
-                loop@ while (!t && !done) {
-                    for (i in 0 until mapping.size) {
-                        var tmp = iterators[i].next()
-                        if (tmp == ResultSetDictionary.nullValue) {
-                            for (closeIndex in 0 until iterators.size) {
-                                iterators[closeIndex].close()
+            res = object : IteratorBundle(0) {
+                override suspend fun hasNext2(): Boolean {
+                    var t = iteratorB.hasNext2()
+                    loop@ while (!t && !done) {
+                        for (i in 0 until mapping.size) {
+                            var tmp = iterators[i].next()
+                            if (tmp == ResultSetDictionary.nullValue) {
+                                for (closeIndex in 0 until iterators.size) {
+                                    iterators[closeIndex].close()
+                                }
+                                done = true
+                                SanityCheck.check { i == 0 }
+                                break@loop
+                            } else {
+                                params[mapping[i]] = AOPConstant(query, tmp)
                             }
-                            done = true
-                            SanityCheck.check { i == 0 }
-                            break@loop
-                        } else {
-                            params[mapping[i]] = AOPConstant(query, tmp)
+                        }
+                        if (!done) {
+                            SanityCheck.println({ "opening store for join with store D $uuid" })
+                            iteratorB = distributedStore.getIterator(params, index).evaluate(parent)
                         }
                     }
-                    if (!done) {
-                        SanityCheck.println({ "opening store for join with store D $uuid" })
-                        iteratorB = distributedStore.getIterator(params, index).evaluate(parent)
-                    }
+                    return t
                 }
-                /*return*/ t
-            }
-            res.hasNext2Close = {
-                for (closeIndex in 0 until iterators.size) {
-                    iterators[closeIndex].close()
+
+                suspend override fun hasNext2Close() {
+                    for (closeIndex in 0 until iterators.size) {
+                        iterators[closeIndex].close()
+                    }
                 }
             }
         }

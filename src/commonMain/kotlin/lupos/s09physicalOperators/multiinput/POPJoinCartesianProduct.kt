@@ -170,16 +170,16 @@ class POPJoinCartesianProduct(query: Query, projectedVariables: List<String>, ch
                     for ((k, v) in childA.columns) {
                         v.close()
                     }
-for (i in 0 until columns[1].size + columns[2].size) {
-                        val iterator =  ColumnIteratorChildIteratorEmpty() 
-if (i < columns[1].size) {
+                    for (i in 0 until columns[1].size + columns[2].size) {
+                        val iterator = ColumnIteratorChildIteratorEmpty()
+                        if (i < columns[1].size) {
                             outO[0].add(iterator)
                             outMap[columns[1][i]] = iterator
                         } else {
                             outO[1].add(iterator)
                             outMap[columns[2][i - columns[1].size]] = iterator
                         }
-}
+                    }
                 }
             } else {
                 SanityCheck.println({ "POPJoinCartesianProductXXX$uuid mode G" })

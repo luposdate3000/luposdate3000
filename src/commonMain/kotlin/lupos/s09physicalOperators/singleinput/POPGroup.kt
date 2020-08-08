@@ -159,7 +159,7 @@ class POPGroup : POPBase {
         return res
     }
 
-    class MapKey(@JvmField val data: Array<Value>) {
+    class MapKey(@JvmField val data: IntArray) {
         override fun hashCode(): Int {
             var res = 0
             for (i in 0 until data.size) {
@@ -253,7 +253,7 @@ class POPGroup : POPBase {
             if (canUseSortedInput) {
                 SanityCheck.println({ "group mode b" })
                 var currentKey = Array(keyColumnNames.size) { ResultSetDictionary.undefValue }
-                var nextKey: Array<Value>? = null
+                var nextKey: IntArray? = null
                 //first row ->
                 var emptyResult = false
                 for (columnIndex in 0 until keyColumnNames.size) {
