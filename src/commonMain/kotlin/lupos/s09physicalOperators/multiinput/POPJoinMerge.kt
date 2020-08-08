@@ -12,6 +12,7 @@ import lupos.s03resultRepresentation.Value
 import lupos.s03resultRepresentation.Variable
 import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.s04logicalOperators.iterator.ColumnIteratorChildIterator
+import lupos.s04logicalOperators.iterator.ColumnIteratorChildIteratorEmpty
 import lupos.s04logicalOperators.iterator.ColumnIteratorEmpty
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.OPBase
@@ -90,6 +91,27 @@ class POPJoinMerge(query: Query, projectedVariables: List<String>, childA: OPBas
             for (iteratorConfig in outIterators) {
                 outMap[iteratorConfig.first] = ColumnIteratorEmpty()
             }
+for (iteratorConfig in outIterators) {
+                val iterator =  ColumnIteratorChildIteratorEmpty()
+ when (iteratorConfig.second) {
+                    0 -> {
+                        outMap[iteratorConfig.first] = iterator
+                        columnsOUTJ.add(iterator)
+                    }
+                    1 -> {
+                        outMap[iteratorConfig.first] = iterator
+                        columnsOUT[0].add(iterator)
+                    }
+                    2 -> {
+                        outMap[iteratorConfig.first] = iterator
+                        columnsOUT[1].add(iterator)
+                    }
+                    3 -> {
+                        columnsOUTJ.add(iterator)
+                    }
+                }
+                outIteratorsAllocated.add(iterator)
+}
         } else {
             val keyCopy = Array(columnsINJ[0].size) { key[0][it] }
             for (iteratorConfig in outIterators) {

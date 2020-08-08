@@ -91,7 +91,7 @@ class POPJoinHashMap(query: Query, projectedVariables: List<String>, childA: OPB
         }
         var emptyColumnsWithJoin = outIterators.size == 0 && columnsINAJ.size != 0
         if (emptyColumnsWithJoin) {
-            outIterators.add(Pair("", 4))
+            outIterators.add(Pair("", 3))
         }
         val mapWithoutUndef = mutableMapOf<MapKey, MapRow>()
         val mapWithUndef = mutableMapOf<MapKey, MapRow>()
