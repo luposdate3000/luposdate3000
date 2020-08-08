@@ -13,7 +13,7 @@ import lupos.s04logicalOperators.OPBaseCompound
 import lupos.s04logicalOperators.Query
 
 object QueryResultToEmptyString {
-    operator fun invoke(rootNode: OPBase): String {
+    suspend operator fun invoke(rootNode: OPBase): String {
         var res = StringBuilder()
         val nodes: Array<OPBase>
         if (rootNode is OPBaseCompound) {
@@ -23,25 +23,23 @@ object QueryResultToEmptyString {
         }
         for (node in nodes) {
             if (node !is OPNothing) {
-                runBlocking {
-                    val child = node.evaluate(Partition())
-                    val variables = node.getProvidedVariableNames().toTypedArray()
-                    if (variables.size == 1 && variables[0] == "?boolean") {
-                        node.query.dictionary.getValue(child.columns["?boolean"]!!.next())
-                        child.columns["?boolean"]!!.close()
+                val child = node.evaluate(Partition())
+                val variables = node.getProvidedVariableNames().toTypedArray()
+                if (variables.size == 1 && variables[0] == "?boolean") {
+                    node.query.dictionary.getValue(child.columns["?boolean"]!!.next())
+                    child.columns["?boolean"]!!.close()
+                } else {
+                    val columns = variables.map { child.columns[it] }.toTypedArray()
+                    if (variables.size == 0) {
                     } else {
-                        val columns = variables.map { child.columns[it] }.toTypedArray()
-                        if (variables.size == 0) {
-                        } else {
-                            loop@ while (true) {
-                                for (variableIndex in 0 until variables.size) {
-                                    val valueID = columns[variableIndex]!!.next()
-                                    if (valueID == ResultSetDictionary.nullValue) {
-                                        for (closeIndex in 0 until columns.size) {
-                                            columns[closeIndex]!!.close()
-                                        }
-                                        break@loop
+                        loop@ while (true) {
+                            for (variableIndex in 0 until variables.size) {
+                                val valueID = columns[variableIndex]!!.next()
+                                if (valueID == ResultSetDictionary.nullValue) {
+                                    for (closeIndex in 0 until columns.size) {
+                                        columns[closeIndex]!!.close()
                                     }
+                                    break@loop
                                 }
                             }
                         }

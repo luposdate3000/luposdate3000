@@ -4,11 +4,11 @@ import lupos.s00misc.Coverage
 import lupos.s03resultRepresentation.Value
 
 class ColumnIteratorChildIteratorEmpty() : ColumnIteratorChildIterator() {
-    override fun close() {
+    override suspend fun close() {
         _close()
     }
 
-    override fun next(): Value {
+    override suspend fun next(): Value {
         return next_helper {}
     }
 }

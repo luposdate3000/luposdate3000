@@ -6,7 +6,7 @@ import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s03resultRepresentation.Value
 
 object ColumnIteratorMerge {
-    operator fun invoke(a: ColumnIterator, comparator: Comparator<Value>): ColumnIterator {
+    operator suspend fun invoke(a: ColumnIterator, comparator: Comparator<Value>): ColumnIterator {
         var buf1 = IntArray(MERGE_SORT_MIN_ROWS)
         var buf2 = IntArray(MERGE_SORT_MIN_ROWS)
         var done = false
@@ -108,7 +108,7 @@ object ColumnIteratorMerge {
         return resultList[resultList.size - 1]!!
     }
 
-    operator fun invoke(a: ColumnIterator): ColumnIterator {
+    suspend operator fun invoke(a: ColumnIterator): ColumnIterator {
         var buf1 = IntArray(MERGE_SORT_MIN_ROWS)
         var buf2 = IntArray(MERGE_SORT_MIN_ROWS)
         var done = false
@@ -220,7 +220,7 @@ class ColumnIteratorMerge1(@JvmField val a: ColumnIterator, @JvmField val b: Col
 
     @JvmField
     var bBuf: Value = ResultSetDictionary.nullValue
-    override fun close() {
+    override suspend fun close() {
         if (label != 0) {
             label = 0
             a.close()
@@ -228,7 +228,7 @@ class ColumnIteratorMerge1(@JvmField val a: ColumnIterator, @JvmField val b: Col
         }
     }
 
-    override fun next(): Value {
+    override suspend fun next(): Value {
         var res: Value = ResultSetDictionary.nullValue
         when (label) {
             1 -> {//call next on a, b is empty
@@ -317,7 +317,7 @@ class ColumnIteratorMerge2(@JvmField val a: ColumnIterator, @JvmField val b: Col
 
     @JvmField
     var bBuf: Value = ResultSetDictionary.nullValue
-    override fun close() {
+    override suspend fun close() {
         if (label != 0) {
             label = 0
             a.close()
@@ -325,7 +325,7 @@ class ColumnIteratorMerge2(@JvmField val a: ColumnIterator, @JvmField val b: Col
         }
     }
 
-    override fun next(): Value {
+    override suspend fun next(): Value {
         var res: Value = ResultSetDictionary.nullValue
         when (label) {
             1 -> {//call next on a, b is empty

@@ -15,7 +15,8 @@ import lupos.s00misc.writeInt4
 import lupos.s04logicalOperators.iterator.ColumnIterator
 
 object NodeInner {
-const val startOffset=16
+    const val startOffset = 16
+
     /*
      * Bitlayout 7..0
      * Bytes 0..3  : Number of stored Triples
@@ -42,7 +43,7 @@ const val startOffset=16
      *
      * absolute minimum is 81 used bytes _for exactly 4 Triple/Node
      */
-    inline  fun getFirstTriple(data: ByteArray, b: IntArray) {
+    inline fun getFirstTriple(data: ByteArray, b: IntArray) {
         var node = data
         var done = false
         while (!done) {
@@ -95,7 +96,7 @@ const val startOffset=16
         return localOff - offset
     }
 
-    inline  fun iterator(data: ByteArray): TripleIterator {
+    inline fun iterator(data: ByteArray): TripleIterator {
         var iterator: TripleIterator? = null
         var node = data
         while (iterator == null) {
@@ -108,7 +109,7 @@ const val startOffset=16
         return iterator!!
     }
 
-    inline  fun iterator(data: ByteArray, lock: ReadWriteLock, component: Int): ColumnIterator {
+    inline fun iterator(data: ByteArray, lock: ReadWriteLock, component: Int): ColumnIterator {
         var iterator: ColumnIterator? = null
         var node = data
         while (iterator == null) {
@@ -121,7 +122,7 @@ const val startOffset=16
         return iterator!!
     }
 
-    /*inline*/ suspend fun forEachChild(data: ByteArray,/*crossinline*/ action:suspend  (Int) -> Unit) {
+    /*inline*/ suspend fun forEachChild(data: ByteArray,/*crossinline*/ action: suspend (Int) -> Unit) {
         var remaining = NodeShared.getTripleCount(data)
         var offset = startOffset
         var lastChildPointer = getFirstChild(data)
@@ -166,7 +167,7 @@ const val startOffset=16
         }
     }
 
-    /*inline*/  fun findIteratorN(data: ByteArray,/*crossinline*/ checkTooSmall:  (c: IntArray) -> Boolean, /*crossinline*/ action:  (Int) -> Unit): Unit {
+    /*inline*/  fun findIteratorN(data: ByteArray,/*crossinline*/ checkTooSmall: (c: IntArray) -> Boolean, /*crossinline*/ action: (Int) -> Unit): Unit {
         var lastHeaderOffset = -1 //invalid offset to start with
         var lastChildPointer = getFirstChild(data)
         var childLastPointerHeaderOffset = -1
@@ -259,7 +260,7 @@ const val startOffset=16
         action(lastChildPointer)
     }
 
-    inline  fun iterator3(data: ByteArray, prefix: IntArray): TripleIterator {
+    inline fun iterator3(data: ByteArray, prefix: IntArray): TripleIterator {
         var node = data
         var iterator: TripleIterator? = null
         while (iterator == null) {
@@ -276,7 +277,7 @@ const val startOffset=16
         return iterator!!
     }
 
-    inline  fun iterator2(data: ByteArray, prefix: IntArray): TripleIterator {
+    inline fun iterator2(data: ByteArray, prefix: IntArray): TripleIterator {
         var node = data
         var iterator: TripleIterator? = null
         while (iterator == null) {
@@ -293,7 +294,7 @@ const val startOffset=16
         return iterator!!
     }
 
-    inline  fun iterator1(data: ByteArray, prefix: IntArray): TripleIterator {
+    inline fun iterator1(data: ByteArray, prefix: IntArray): TripleIterator {
         var node = data
         var iterator: TripleIterator? = null
         while (iterator == null) {
@@ -310,7 +311,7 @@ const val startOffset=16
         return iterator!!
     }
 
-    inline  fun iterator2(data: ByteArray, prefix: IntArray, lock: ReadWriteLock, component: Int): ColumnIterator {
+    inline fun iterator2(data: ByteArray, prefix: IntArray, lock: ReadWriteLock, component: Int): ColumnIterator {
         var node = data
         var iterator: ColumnIterator? = null
         while (iterator == null) {
@@ -327,7 +328,7 @@ const val startOffset=16
         return iterator!!
     }
 
-    inline  fun iterator1(data: ByteArray, prefix: IntArray, lock: ReadWriteLock, component: Int): ColumnIterator {
+    inline fun iterator1(data: ByteArray, prefix: IntArray, lock: ReadWriteLock, component: Int): ColumnIterator {
         var node = data
         var iterator: ColumnIterator? = null
         while (iterator == null) {
@@ -344,15 +345,10 @@ const val startOffset=16
         return iterator!!
     }
 
-    inline  fun initializeWith(data: ByteArray, childs: MutableList<Int>) {
-        var debugListChilds = mutableListOf<Int>()
-        var debugListTriples = mutableListOf<IntArray>()
+    inline fun initializeWith(data: ByteArray, childs: MutableList<Int>) {
         SanityCheck.check { childs.size > 0 }
         var current = childs.removeAt(0)
         var childLastPointer = current
-        SanityCheck {
-            debugListChilds.add(childLastPointer)
-        }
         setFirstChild(data, childLastPointer)
         var offset = startOffset
         val offsetEnd = data.size - (13 * 4 + 17) // reserve at least enough space to write !! 4 !! full triple-group AND !! 1 !! full child-pointer-group at the end, to prevent failing-writes
@@ -367,9 +363,6 @@ const val startOffset=16
             i = 0
             while (i < 4 && childs.size > 0 && offset < offsetEnd) {
                 current = childs.removeAt(0)
-                SanityCheck {
-                    debugListChilds.add(current)
-                }
                 childPointers[i] = childLastPointer xor current
                 childLastPointer = current
                 NodeManager.getNodeAny(childLastPointer, {
@@ -377,7 +370,6 @@ const val startOffset=16
                 }, {
                     NodeInner.getFirstTriple(it, tripleCurrent)
                 })
-                debugListTriples.add(intArrayOf(tripleCurrent[0], tripleCurrent[1], tripleCurrent[2]))
                 bytesWritten = NodeShared.writeDiffTriple(data, offset, tripleLast, tripleCurrent, tripleBuf)
                 offset += bytesWritten
                 i++
@@ -388,52 +380,5 @@ const val startOffset=16
         }
         NodeShared.setTripleCount(data, triples)
         NodeShared.setNextNode(data, NodeManager.nodeNullPointer)
-        SanityCheck {
-            runBlocking {
-                SanityCheck.println({ debugListChilds })
-                SanityCheck.println({ debugListTriples.map { it.map { it } } })
-                SanityCheck.check { debugListTriples.size == debugListChilds.size - 1 }
-                var k = 0
-                forEachChild(data, {
-                    SanityCheck.println({ "debug it $it" })
-                    SanityCheck.check { debugListChilds.size >= k }
-                    SanityCheck.check { it == debugListChilds[k] }
-                    k++
-                })
-                SanityCheck.check { k == debugListChilds.size }
-                var j = -1
-                findIteratorN(data, {
-                    SanityCheck.println({ "debug xx ${it.map { it }}" })
-                    j++
-                    SanityCheck.check { j < debugListTriples.size }
-                    SanityCheck.check { it[0] == debugListTriples[j][0] }
-                    SanityCheck.check { it[1] == debugListTriples[j][1] }
-                    SanityCheck.check { it[2] == debugListTriples[j][2] }
-                    /*return*/true
-                }, {
-                    SanityCheck.println({ "debug $it" })
-                    SanityCheck.check { it == debugListChilds[debugListChilds.size - 1] }
-                })
-                SanityCheck.check { j == debugListTriples.size - 1 }
-                for (l in 0 until debugListTriples.size) {
-                    SanityCheck.println({ "debug l $l" })
-                    j = -1
-                    findIteratorN(data, {
-                        SanityCheck.println({ "debug xx ${it.map { it }}" })
-                        j++
-                        SanityCheck.check { j < debugListTriples.size }
-                        SanityCheck.check { it[0] == debugListTriples[j][0] }
-                        SanityCheck.check { it[1] == debugListTriples[j][1] }
-                        SanityCheck.check { it[2] == debugListTriples[j][2] }
-                        SanityCheck.check { j < l + 4 }
-/*read at most one block too much*/
-                        /*return*/ j < l
-                    }, {
-                        SanityCheck.println({ "debug $it" })
-                        SanityCheck.check { it == debugListChilds[l] }
-                    })
-                }
-            }
-        }
     }
 }

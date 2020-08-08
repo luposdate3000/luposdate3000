@@ -5,10 +5,10 @@ import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s03resultRepresentation.Value
 
 open class ColumnIteratorEmpty() : ColumnIterator() {
-    override fun next(): Value {
+    override suspend fun next(): Value {
         return ResultSetDictionary.nullValue
     }
 
-    override fun close() {
+    override suspend fun close() {
     }
 }

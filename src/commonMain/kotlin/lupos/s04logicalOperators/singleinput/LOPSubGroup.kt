@@ -12,7 +12,7 @@ import lupos.s04logicalOperators.Query
 class LOPSubGroup(query: Query, child: OPBase = OPEmptyRow(query)) : LOPBase(query, EOperatorID.LOPSubGroupID, "LOPSubGroup", arrayOf(child), ESortPriority.SAME_AS_CHILD) {
     override fun equals(other: Any?) = other is LOPSubGroup && children[0] == other.children[0]
     override fun cloneOP() = LOPSubGroup(query, children[0].cloneOP())
-    override fun calculateHistogram(): HistogramResult {
+    suspend override fun calculateHistogram(): HistogramResult {
         return children[0].getHistogram()
     }
 }

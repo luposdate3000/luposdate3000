@@ -12,7 +12,7 @@ import lupos.s04logicalOperators.Query
 class LOPDistinct(query: Query, child: OPBase = OPEmptyRow(query)) : LOPBase(query, EOperatorID.LOPDistinctID, "LOPDistinct", arrayOf(child), ESortPriority.SAME_AS_CHILD) {
     override fun equals(other: Any?) = other is LOPDistinct && children[0] == other.children[0]
     override fun cloneOP() = LOPDistinct(query, children[0].cloneOP())
-    override fun calculateHistogram(): HistogramResult {
+    suspend override fun calculateHistogram(): HistogramResult {
         return children[0].getHistogram()
     }
 }

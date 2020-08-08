@@ -29,7 +29,7 @@ class POPJoinWithStoreExists(query: Query, projectedVariables: List<String>, chi
     }
 
     override fun equals(other: Any?) = other is POPJoinWithStoreExists && optional == other.optional && children[0] == other.children[0]
-    override fun evaluate(parent: Partition): IteratorBundle {
+    override suspend fun evaluate(parent: Partition): IteratorBundle {
         SanityCheck.check { !optional }
         SanityCheck.check { !childB.graphVar }
         SanityCheck { projectedVariables.size == 0 }
@@ -100,7 +100,7 @@ class POPJoinWithStoreExists(query: Query, projectedVariables: List<String>, chi
         return res
     }
 
-    override fun toXMLElement(): XMLElement {
+    override suspend fun toXMLElement(): XMLElement {
         val res = super.toXMLElement().addAttribute("optional", "" + optional)
         res["children"]!!.addContent(childB.toXMLElement())
         return res

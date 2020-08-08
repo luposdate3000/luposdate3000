@@ -173,7 +173,7 @@ class POPGroup : POPBase {
 
     class MapRow(val iterators: IteratorBundle, val aggregates: Array<ColumnIteratorAggregate>, val columns: Array<ColumnIteratorQueue>)
 
-    override fun evaluate(parent: Partition): IteratorBundle {
+    override suspend fun evaluate(parent: Partition): IteratorBundle {
         val localVariables = children[0].getProvidedVariableNames()
         val outMap = mutableMapOf<String, ColumnIterator>()
         val child = children[0].evaluate(parent)
@@ -208,7 +208,7 @@ class POPGroup : POPBase {
             }
             val localRow = MapRow(row, localAggregations, localColumns)
             if (valueColumnNames.size == 0) {
-                for (i in 0 until child.count) {
+                for (i in 0 until child.count()) {
                     for (aggregate in localRow.aggregates) {
                         aggregate.evaluate()
                     }
@@ -310,7 +310,7 @@ class POPGroup : POPBase {
                     val output = mutableListOf<ColumnIteratorQueue>()
                     for (outIndex in 0 until keyColumnNames.size + bindings.size) {
                         val iterator = object : ColumnIteratorQueue() {
-                            override fun close() {
+                            override suspend fun close() {
                                 if (label != 0) {
                                     _close()
                                     for (closeIndex in 0 until keyColumns.size) {
@@ -322,7 +322,7 @@ class POPGroup : POPBase {
                                 }
                             }
 
-                            override fun next(): Value {
+                            override suspend fun next(): Value {
                                 return next_helper {
                                     loop@ while (true) {
                                         var changedKey = false
@@ -374,7 +374,7 @@ class POPGroup : POPBase {
                                                     output[columnIndex + keyColumnNames.size].queue.add(query.dictionary.createValue(bindings[columnIndex].second.evaluate(localRowIterators)()))
                                                 }
                                             }
-                                            val localMap = mutableMapOf<String, ColumnIterator>()
+                                            localMap.clear()
                                             localRowColumns = Array(valueColumnNames.size) { ColumnIteratorQueueEmpty() }
                                             for (columnIndex in 0 until keyColumnNames.size) {
                                                 val tmp = ColumnIteratorQueueEmpty()
@@ -404,6 +404,7 @@ class POPGroup : POPBase {
                                 }
                             }
                         }
+                        output.add(iterator)
                     }
                     for (columnIndex in 0 until keyColumnNames.size) {
                         if (projectedVariables.contains(keyColumnNames[columnIndex])) {
@@ -494,7 +495,7 @@ class POPGroup : POPBase {
         return IteratorBundle(outMap)
     }
 
-    override fun toXMLElement(): XMLElement {
+    override suspend fun toXMLElement(): XMLElement {
         val res = super.toXMLElement()
         val byxml = XMLElement("by")
         res.addContent(byxml)

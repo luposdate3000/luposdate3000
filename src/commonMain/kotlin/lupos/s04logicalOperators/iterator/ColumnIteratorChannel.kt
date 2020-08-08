@@ -17,10 +17,8 @@ class ColumnIteratorChannel() : ColumnIterator() {
 
     @JvmField
     var doneWriting = false
-    inline fun append(v: Value) {
-        runBlocking {
-            queue.send(v)
-        }
+    suspend inline fun append(v: Value) {
+        queue.send(v)
     }
 
     inline fun writeFinish() {
@@ -37,17 +35,15 @@ class ColumnIteratorChannel() : ColumnIterator() {
         }
     }
 
-    override fun close() {
+    override suspend fun close() {
         _close()
     }
 
-    override fun next(): Value {
+    override suspend fun next(): Value {
         if (label == 1) {
             var res: Value = ResultSetDictionary.nullValue
             try {
-                runBlocking {
-                    res = queue.receive()
-                }
+                res = queue.receive()
             } catch (e: Throwable) {
                 SanityCheck.println({ "TODO exception 12" })
                 e.printStackTrace()

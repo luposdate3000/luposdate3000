@@ -19,18 +19,18 @@ class ColumnIteratorRepeatIterator(@JvmField val count: Int, @JvmField val child
 
     @JvmField
     var label = 1
-    inline fun _close() {
+    inline suspend fun _close() {
         if (label != 0) {
             label = 0
             child.close()
         }
     }
 
-    override fun close() {
+    override suspend fun close() {
         _close()
     }
 
-    override fun next(): Value {
+    override suspend fun next(): Value {
         when (label) {
             1 -> {
                 val tmp = child.next()

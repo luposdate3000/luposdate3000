@@ -25,12 +25,11 @@ class IteratorBundle {
 
     @JvmField
     var counter = 0
-    fun hasColumnMode() = mode == IteratorBundleMode.COLUMN
-    fun hasCountMode() = mode == IteratorBundleMode.COUNT
-    fun hasRowMode() = mode == IteratorBundleMode.ROW
+    inline fun hasColumnMode() = mode == IteratorBundleMode.COLUMN
+    inline fun hasCountMode() = mode == IteratorBundleMode.COUNT
+    inline fun hasRowMode() = mode == IteratorBundleMode.ROW
 
     constructor (columns: Map<String, ColumnIterator>) {
-        SanityCheck.check { columns.size > 0 }
         _rows = null
         _columns = columns
         mode = IteratorBundleMode.COLUMN
@@ -52,6 +51,7 @@ class IteratorBundle {
     var columns: Map<String, ColumnIterator> = mapOf()
         get() {
             if (mode == IteratorBundleMode.COLUMN) {
+                SanityCheck.check { _columns!!.size > 0 }
                 return _columns!!
             } else if (mode == IteratorBundleMode.ROW) {
                 if (_columns == null) {
@@ -67,6 +67,7 @@ class IteratorBundle {
             if (mode == IteratorBundleMode.ROW) {
                 return _rows!!
             } else if (mode == IteratorBundleMode.COLUMN) {
+                SanityCheck.check { _columns!!.size > 0 }
                 if (_rows == null) {
                     _rows = RowIteratorFromColumn(this)
                 }
@@ -76,7 +77,7 @@ class IteratorBundle {
             }
         }
 
-    fun _hasNext(): Boolean {
+    suspend fun _hasNext(): Boolean {
         if (counter > 0) {
             counter--
             return true
@@ -84,23 +85,20 @@ class IteratorBundle {
         return false
     }
 
-    var hasNext2: () -> Boolean = ::_hasNext
-    var hasNext2Close: () -> Unit = {}
-    var count: Int = 0
-        get() {
-            SanityCheck.check { mode == IteratorBundleMode.COUNT }
-            if (counter > 0) {
-                return counter
-            } else {
-                var res = 0
-                runBlocking {
-                    while (hasNext2()) {
-                        res++
-                    }
-                    hasNext2Close()
-                }
-                counter = res
-                return res
+    var hasNext2: suspend () -> Boolean = ::_hasNext
+    var hasNext2Close: suspend () -> Unit = {}
+    suspend inline fun count(): Int {
+        SanityCheck.check { mode == IteratorBundleMode.COUNT }
+        if (counter > 0) {
+            return counter
+        } else {
+            var res = 0
+            while (hasNext2()) {
+                res++
             }
+            hasNext2Close()
+            counter = res
+            return res
         }
+    }
 }

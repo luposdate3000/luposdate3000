@@ -19,7 +19,7 @@ import lupos.SparqlTestSuite
 object HttpEndpointLauncher {
     @JvmField
     var server: HttpServer? = null
-    fun receive(path: String, isPost: Boolean, data: String, params: Map<String, String>): String {
+    suspend fun receive(path: String, isPost: Boolean, data: String, params: Map<String, String>): String {
         when (path) {
             "/sparql/query" -> {
                 if (isPost) {

@@ -9,7 +9,7 @@ import lupos.s04logicalOperators.HistogramResult
 
 class OPBaseCompound(query: Query, children: Array<OPBase>, val columnProjectionOrder: List<List<String>>) : OPBase(query, EOperatorID.OPCompoundID, "OPBaseCompound", children, ESortPriority.PREVENT_ANY) {
     override fun cloneOP() = OPBaseCompound(query, children.map { it.cloneOP() }.toTypedArray(), columnProjectionOrder)
-    override fun toXMLElement(): XMLElement {
+    override suspend fun toXMLElement(): XMLElement {
         var res = super.toXMLElement()
         var x = XMLElement("columnProjectionOrders")
         res.addContent(x)
@@ -25,7 +25,7 @@ class OPBaseCompound(query: Query, children: Array<OPBase>, val columnProjection
         return res
     }
 
-    override fun calculateHistogram(): HistogramResult = SanityCheck.checkUnreachable()
+    suspend override fun calculateHistogram(): HistogramResult = SanityCheck.checkUnreachable()
     override fun equals(other: Any?): Boolean {
         if (other !is OPBaseCompound) {
             return false

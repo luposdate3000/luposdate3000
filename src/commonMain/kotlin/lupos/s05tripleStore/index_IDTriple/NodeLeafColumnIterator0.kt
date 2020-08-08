@@ -35,18 +35,18 @@ class NodeLeafColumnIterator0(@JvmField var node: ByteArray, @JvmField val lock:
         }
     }
 
-    inline fun _close() {
+    inline suspend fun _close() {
         if (label != 0) {
             label = 0
             lock.readUnlock()
         }
     }
 
-    override fun close() {
+    override suspend fun close() {
         _close()
     }
 
-    override fun next(): Int {
+    override suspend fun next(): Int {
         if (label != 0) {
             if (needsReset) {
                 needsReset = false
@@ -89,20 +89,20 @@ class NodeLeafColumnIterator0(@JvmField var node: ByteArray, @JvmField val lock:
             offset += counter0 + counter1 + counter2
             remaining--
             if (remaining == 0) {
-                    loop@ while (remaining == 0) {
-                        needsReset = true
-                        offset = NodeLeaf.startOffset
-                        var nextNodeIdx = NodeShared.getNextNode(node)
-                        if (nextNodeIdx != NodeManager.nodeNullPointer) {
-                            NodeManager.getNodeLeaf(nextNodeIdx, {
-                                SanityCheck.check { node != it }
-                                node = it
-                                remaining = NodeShared.getTripleCount(node)
-                            })
-                        } else {
-                            _close()
-                            break@loop
-                        }
+                loop@ while (remaining == 0) {
+                    needsReset = true
+                    offset = NodeLeaf.startOffset
+                    var nextNodeIdx = NodeShared.getNextNode(node)
+                    if (nextNodeIdx != NodeManager.nodeNullPointer) {
+                        NodeManager.getNodeLeaf(nextNodeIdx, {
+                            SanityCheck.check { node != it }
+                            node = it
+                            remaining = NodeShared.getTripleCount(node)
+                        })
+                    } else {
+                        _close()
+                        break@loop
+                    }
                 }
             }
             return value

@@ -34,134 +34,124 @@ object ServerCommunicationSend {
 
     @JvmField
     var myPort = NETWORK_DEFAULT_PORT
-    fun bulkImport(query: Query, graphName: String, action: (TripleStoreBulkImportDistributed) -> Unit) {
+    suspend fun bulkImport(query: Query, graphName: String, action: suspend (TripleStoreBulkImportDistributed) -> Unit) {
         val bulk = TripleStoreBulkImportDistributed(query, graphName)
         action(bulk)
-        runBlocking {
-            bulk.finishImport()
-        }
+        bulk.finishImport()
     }
 
-    fun distributedLogMessage(msg: String) {
+    suspend fun distributedLogMessage(msg: String) {
         for (host in ServerCommunicationDistribution.knownHosts) {
-            runBlocking {
-                val conn = ServerCommunicationConnectionPool.openSocket(host)
-                val input = conn.input
-                val output = conn.output
-                try {
-                    var builder = ByteArrayBuilder()
-                    builder.writeInt(ServerCommunicationHeader.LOGMESSAGE.ordinal)
-                    builder.writeLong(-1)
-                    builder.writeString(msg)
-                    output.writeByteArray(builder)
-                    output.flush()
-                    val response = input.readByteArray()
-                    val header = ServerCommunicationHeader.values()[response.readInt()]
-                    if (header != ServerCommunicationHeader.RESPONSE_FINISHED) {
-                        throw CommuncationUnexpectedHeaderException("$header")
-                    }
-                } catch (e: Throwable) {
-                    println("TODO exception 3")
-                    e.printStackTrace()
-                    ServerCommunicationConnectionPool.closeSocketException(host, conn)
+            val conn = ServerCommunicationConnectionPool.openSocket(host)
+            val input = conn.input
+            val output = conn.output
+            try {
+                var builder = ByteArrayBuilder()
+                builder.writeInt(ServerCommunicationHeader.LOGMESSAGE.ordinal)
+                builder.writeLong(-1)
+                builder.writeString(msg)
+                output.writeByteArray(builder)
+                output.flush()
+                val response = input.readByteArray()
+                val header = ServerCommunicationHeader.values()[response.readInt()]
+                if (header != ServerCommunicationHeader.RESPONSE_FINISHED) {
+                    throw CommuncationUnexpectedHeaderException("$header")
                 }
-                ServerCommunicationConnectionPool.closeSocketClean(host, conn)
+            } catch (e: Throwable) {
+                println("TODO exception 3")
+                e.printStackTrace()
+                ServerCommunicationConnectionPool.closeSocketException(host, conn)
             }
+            ServerCommunicationConnectionPool.closeSocketClean(host, conn)
         }
     }
 
-    fun commit(query: Query) {
+    suspend fun commit(query: Query) {
         for (host in ServerCommunicationDistribution.knownHosts) {
-            runBlocking {
-                val conn = ServerCommunicationConnectionPool.openSocket(host)
-                val input = conn.input
-                val output = conn.output
-                try {
-                    var builder = ByteArrayBuilder()
-                    builder.writeInt(ServerCommunicationHeader.COMMIT.ordinal)
-                    builder.writeLong(query.transactionID)
-                    output.writeByteArray(builder)
-                    output.flush()
-                    val response = input.readByteArray()
-                    val header = ServerCommunicationHeader.values()[response.readInt()]
-                    if (header != ServerCommunicationHeader.RESPONSE_FINISHED) {
-                        throw CommuncationUnexpectedHeaderException("$header")
-                    }
-                } catch (e: Throwable) {
-                    SanityCheck.println({ "TODO exception 3" })
-                    e.printStackTrace()
-                    ServerCommunicationConnectionPool.closeSocketException(host, conn)
+            val conn = ServerCommunicationConnectionPool.openSocket(host)
+            val input = conn.input
+            val output = conn.output
+            try {
+                var builder = ByteArrayBuilder()
+                builder.writeInt(ServerCommunicationHeader.COMMIT.ordinal)
+                builder.writeLong(query.transactionID)
+                output.writeByteArray(builder)
+                output.flush()
+                val response = input.readByteArray()
+                val header = ServerCommunicationHeader.values()[response.readInt()]
+                if (header != ServerCommunicationHeader.RESPONSE_FINISHED) {
+                    throw CommuncationUnexpectedHeaderException("$header")
                 }
-                ServerCommunicationConnectionPool.closeSocketClean(host, conn)
+            } catch (e: Throwable) {
+                SanityCheck.println({ "TODO exception 3" })
+                e.printStackTrace()
+                ServerCommunicationConnectionPool.closeSocketException(host, conn)
             }
+            ServerCommunicationConnectionPool.closeSocketClean(host, conn)
         }
     }
 
-    fun graphClearAll(query: Query) {
+    suspend fun graphClearAll(query: Query) {
         for (host in ServerCommunicationDistribution.knownHosts) {
-            runBlocking {
-                val conn = ServerCommunicationConnectionPool.openSocket(host)
-                val input = conn.input
-                val output = conn.output
-                try {
-                    var builder = ByteArrayBuilder()
-                    builder.writeInt(ServerCommunicationHeader.CLEAR_ALL_GRAPH.ordinal)
-                    builder.writeLong(query.transactionID)
-                    output.writeByteArray(builder)
-                    output.flush()
-                    val response = input.readByteArray()
-                    val header = ServerCommunicationHeader.values()[response.readInt()]
-                    if (header != ServerCommunicationHeader.RESPONSE_FINISHED) {
-                        throw CommuncationUnexpectedHeaderException("$header")
-                    }
-                } catch (e: Throwable) {
-                    SanityCheck.println({ "TODO exception 4" })
-                    e.printStackTrace()
-                    ServerCommunicationConnectionPool.closeSocketException(host, conn)
+            val conn = ServerCommunicationConnectionPool.openSocket(host)
+            val input = conn.input
+            val output = conn.output
+            try {
+                var builder = ByteArrayBuilder()
+                builder.writeInt(ServerCommunicationHeader.CLEAR_ALL_GRAPH.ordinal)
+                builder.writeLong(query.transactionID)
+                output.writeByteArray(builder)
+                output.flush()
+                val response = input.readByteArray()
+                val header = ServerCommunicationHeader.values()[response.readInt()]
+                if (header != ServerCommunicationHeader.RESPONSE_FINISHED) {
+                    throw CommuncationUnexpectedHeaderException("$header")
                 }
-                ServerCommunicationConnectionPool.closeSocketClean(host, conn)
+            } catch (e: Throwable) {
+                SanityCheck.println({ "TODO exception 4" })
+                e.printStackTrace()
+                ServerCommunicationConnectionPool.closeSocketException(host, conn)
             }
+            ServerCommunicationConnectionPool.closeSocketClean(host, conn)
         }
     }
 
-    fun graphOperation(query: Query, graphName: String, type: EGraphOperationType) {
+    suspend fun graphOperation(query: Query, graphName: String, type: EGraphOperationType) {
         for (host in ServerCommunicationDistribution.knownHosts) {
-            runBlocking {
-                val conn = ServerCommunicationConnectionPool.openSocket(host)
-                val input = conn.input
-                val output = conn.output
-                try {
-                    var builder = ByteArrayBuilder()
-                    when (type) {
-                        EGraphOperationType.CLEAR -> {
-                            builder.writeInt(ServerCommunicationHeader.CLEAR_GRAPH.ordinal)
-                        }
-                        EGraphOperationType.CREATE -> {
-                            builder.writeInt(ServerCommunicationHeader.CREATE_GRAPH.ordinal)
-                        }
-                        EGraphOperationType.DROP -> {
-                            builder.writeInt(ServerCommunicationHeader.DROP_GRAPH.ordinal)
-                        }
+            val conn = ServerCommunicationConnectionPool.openSocket(host)
+            val input = conn.input
+            val output = conn.output
+            try {
+                var builder = ByteArrayBuilder()
+                when (type) {
+                    EGraphOperationType.CLEAR -> {
+                        builder.writeInt(ServerCommunicationHeader.CLEAR_GRAPH.ordinal)
                     }
-                    builder.writeLong(query.transactionID)
-                    builder.writeString(graphName)
-                    output.writeByteArray(builder)
-                    output.flush()
-                    val response = input.readByteArray()
-                    val header = ServerCommunicationHeader.values()[response.readInt()]
-                    if (header != ServerCommunicationHeader.RESPONSE_FINISHED) {
-                        throw CommuncationUnexpectedHeaderException("$header")
+                    EGraphOperationType.CREATE -> {
+                        builder.writeInt(ServerCommunicationHeader.CREATE_GRAPH.ordinal)
                     }
-                } catch (e: Throwable) {
-                    e.printStackTrace()
-                    ServerCommunicationConnectionPool.closeSocketException(host, conn)
+                    EGraphOperationType.DROP -> {
+                        builder.writeInt(ServerCommunicationHeader.DROP_GRAPH.ordinal)
+                    }
                 }
-                ServerCommunicationConnectionPool.closeSocketClean(host, conn)
+                builder.writeLong(query.transactionID)
+                builder.writeString(graphName)
+                output.writeByteArray(builder)
+                output.flush()
+                val response = input.readByteArray()
+                val header = ServerCommunicationHeader.values()[response.readInt()]
+                if (header != ServerCommunicationHeader.RESPONSE_FINISHED) {
+                    throw CommuncationUnexpectedHeaderException("$header")
+                }
+            } catch (e: Throwable) {
+                e.printStackTrace()
+                ServerCommunicationConnectionPool.closeSocketException(host, conn)
             }
+            ServerCommunicationConnectionPool.closeSocketClean(host, conn)
         }
     }
 
-    fun tripleModify(query: Query, graphName: String, data: Array<ColumnIterator>, idx: EIndexPattern, type: EModifyType) {
+    suspend fun tripleModify(query: Query, graphName: String, data: Array<ColumnIterator>, idx: EIndexPattern, type: EModifyType) {
         val values = Array(3) { ResultSetDictionary.undefValue }
         val accessedHosts = mutableMapOf<ServerCommunicationKnownHost, ServerCommunicationModifyHelper>()
         loop@ while (true) {
@@ -195,12 +185,10 @@ object ServerCommunicationSend {
                 builder.writeString(graphName)
                 helper2.output.writeByteArray(builder)
                 helper2.output.flush()
-                runBlocking {
-                    helper2.job = launch {
-                        ServerCommunicationTransferTriples.sendTriples(helper2.iterators, query.dictionary) {
-                            helper2.output.writeByteArray(it)
-                            helper2.output.flush()
-                        }
+                helper2.job = launch {
+                    ServerCommunicationTransferTriples.sendTriples(helper2.iterators, query.dictionary) {
+                        helper2.output.writeByteArray(it)
+                        helper2.output.flush()
                     }
                 }
             } else {
@@ -230,7 +218,7 @@ object ServerCommunicationSend {
         }
     }
 
-    fun tripleGet(query: Query, graphName: String, params: Array<AOPBase>, idx: EIndexPattern): IteratorBundle {
+    suspend fun tripleGet(query: Query, graphName: String, params: Array<AOPBase>, idx: EIndexPattern): IteratorBundle {
         val hosts = ServerCommunicationDistribution.getHostForPartialTriple(params, idx)
         var columnsTmp = mutableListOf<String>()
         for (p in params) {
@@ -248,26 +236,24 @@ object ServerCommunicationSend {
         if (columns.size == 0) {
             var count = 0
             for (host in hosts) {
-                runBlocking {
-                    val conn = ServerCommunicationConnectionPool.openSocket(host)
-                    val input = conn.input
-                    val output = conn.output
-                    try {
-                        output.writeByteArray(builder)
-                        output.flush()
-                        val packet2 = input.readByteArray()
-                        val header2 = ServerCommunicationHeader.values()[packet2.readInt()]
-                        require(header2 == ServerCommunicationHeader.RESPONSE_TRIPLES_COUNT)
-                        count += packet2.readInt()
-                        val packet3 = input.readByteArray()
-                        val header3 = ServerCommunicationHeader.values()[packet3.readInt()]
-                        require(header3 == ServerCommunicationHeader.RESPONSE_FINISHED)
-                    } catch (e: Throwable) {
-                        e.printStackTrace()
-                        ServerCommunicationConnectionPool.closeSocketException(host, conn)
-                    }
-                    ServerCommunicationConnectionPool.closeSocketClean(host, conn)
+                val conn = ServerCommunicationConnectionPool.openSocket(host)
+                val input = conn.input
+                val output = conn.output
+                try {
+                    output.writeByteArray(builder)
+                    output.flush()
+                    val packet2 = input.readByteArray()
+                    val header2 = ServerCommunicationHeader.values()[packet2.readInt()]
+                    require(header2 == ServerCommunicationHeader.RESPONSE_TRIPLES_COUNT)
+                    count += packet2.readInt()
+                    val packet3 = input.readByteArray()
+                    val header3 = ServerCommunicationHeader.values()[packet3.readInt()]
+                    require(header3 == ServerCommunicationHeader.RESPONSE_FINISHED)
+                } catch (e: Throwable) {
+                    e.printStackTrace()
+                    ServerCommunicationConnectionPool.closeSocketException(host, conn)
                 }
+                ServerCommunicationConnectionPool.closeSocketClean(host, conn)
             }
             return IteratorBundle(count)
         } else {
@@ -275,31 +261,29 @@ object ServerCommunicationSend {
             for (host in hosts) {
                 var iterator = RowIteratorChildIterator(columns)
                 iterators.add(iterator)
-                runBlocking {
-                    val conn = ServerCommunicationConnectionPool.openSocket(host)
-                    val input = conn.input
-                    val output = conn.output
-                    try {
-                        output.writeByteArray(builder)
-                        output.flush()
-                        iterator.onNoMoreElements = {
-                            val packet2 = input.readByteArray()
-                            val header2 = ServerCommunicationHeader.values()[packet2.readInt()]
-                            if (header2 == ServerCommunicationHeader.RESPONSE_TRIPLES) {
-                                val data = ServerCommunicationTransferTriples.receiveTriples(packet2, nodeGlobalDictionary, columns.size, true, conn.localAddress)[0]
-                                iterator.childs.add(RowIteratorBuf(data, columns))
-                            } else {
-                                require(header2 == ServerCommunicationHeader.RESPONSE_FINISHED)
-                            }
+                val conn = ServerCommunicationConnectionPool.openSocket(host)
+                val input = conn.input
+                val output = conn.output
+                try {
+                    output.writeByteArray(builder)
+                    output.flush()
+                    iterator.onNoMoreElements = {
+                        val packet2 = input.readByteArray()
+                        val header2 = ServerCommunicationHeader.values()[packet2.readInt()]
+                        if (header2 == ServerCommunicationHeader.RESPONSE_TRIPLES) {
+                            val data = ServerCommunicationTransferTriples.receiveTriples(packet2, nodeGlobalDictionary, columns.size, true, conn.localAddress)[0]
+                            iterator.childs.add(RowIteratorBuf(data, columns))
+                        } else {
+                            require(header2 == ServerCommunicationHeader.RESPONSE_FINISHED)
                         }
-                        var tmp = iterator.close
-                        iterator.close = {
-                            tmp()
-                            ServerCommunicationConnectionPool.closeSocketClean(host, conn)
-                        }
-                    } catch (e: Throwable) {
-                        e.printStackTrace()
                     }
+                    var tmp = iterator.close
+                    iterator.close = {
+                        tmp()
+                        ServerCommunicationConnectionPool.closeSocketClean(host, conn)
+                    }
+                } catch (e: Throwable) {
+                    e.printStackTrace()
                 }
             }
             while (iterators.size > 1) {
@@ -319,7 +303,7 @@ object ServerCommunicationSend {
 /*Coverage Unreachable*/
     }
 
-    fun histogramGet(query: Query, graphName: String, params: Array<AOPBase>, idx: EIndexPattern): Pair<Int, Int> {
+    suspend fun histogramGet(query: Query, graphName: String, params: Array<AOPBase>, idx: EIndexPattern): Pair<Int, Int> {
         val hosts = ServerCommunicationDistribution.getHostForPartialTriple(params, idx)
         var builder = ByteArrayBuilder()
         builder.writeInt(ServerCommunicationHeader.GET_HISTOGRAM.ordinal)
@@ -330,27 +314,25 @@ object ServerCommunicationSend {
         var resFirst = 0
         var resSecond = 0
         for (host in hosts) {
-            runBlocking {
-                val conn = ServerCommunicationConnectionPool.openSocket(host)
-                val input = conn.input
-                val output = conn.output
-                try {
-                    output.writeByteArray(builder)
-                    output.flush()
-                    val packet2 = input.readByteArray()
-                    val header2 = ServerCommunicationHeader.values()[packet2.readInt()]
-                    require(header2 == ServerCommunicationHeader.RESPONSE_HISTOGRAM, { "received $header2 but expected RESPONSE_HISTOGRAM" })
-                    resFirst += packet2.readInt()
-                    resSecond += packet2.readInt()
-                    val packet3 = input.readByteArray()
-                    val header3 = ServerCommunicationHeader.values()[packet3.readInt()]
-                    require(header3 == ServerCommunicationHeader.RESPONSE_FINISHED)
-                } catch (e: Throwable) {
-                    e.printStackTrace()
-                    ServerCommunicationConnectionPool.closeSocketException(host, conn)
-                }
-                ServerCommunicationConnectionPool.closeSocketClean(host, conn)
+            val conn = ServerCommunicationConnectionPool.openSocket(host)
+            val input = conn.input
+            val output = conn.output
+            try {
+                output.writeByteArray(builder)
+                output.flush()
+                val packet2 = input.readByteArray()
+                val header2 = ServerCommunicationHeader.values()[packet2.readInt()]
+                require(header2 == ServerCommunicationHeader.RESPONSE_HISTOGRAM, { "received $header2 but expected RESPONSE_HISTOGRAM" })
+                resFirst += packet2.readInt()
+                resSecond += packet2.readInt()
+                val packet3 = input.readByteArray()
+                val header3 = ServerCommunicationHeader.values()[packet3.readInt()]
+                require(header3 == ServerCommunicationHeader.RESPONSE_FINISHED)
+            } catch (e: Throwable) {
+                e.printStackTrace()
+                ServerCommunicationConnectionPool.closeSocketException(host, conn)
             }
+            ServerCommunicationConnectionPool.closeSocketClean(host, conn)
         }
         return Pair(resFirst, resSecond)
     }

@@ -1,5 +1,6 @@
 package lupos.s08logicalOptimisation
 
+import kotlinx.coroutines.runBlocking
 import lupos.s00misc.Coverage
 import lupos.s00misc.HistogramNotImplementedException
 import lupos.s00misc.SanityCheck
@@ -25,12 +26,14 @@ object LogicalOptimizerJoinOrderStore {
                     lastVariableCount = tmp
                     lastVariable = i
                 } else {
-                    try {
-                        if (tmp == lastVariableCount && queue[i].getHistogram().count < queue[lastVariable].getHistogram().count) {
-                            lastVariableCount = tmp
-                            lastVariable = i
+                    runBlocking {
+                        try {
+                            if (tmp == lastVariableCount && queue[i].getHistogram().count < queue[lastVariable].getHistogram().count) {
+                                lastVariableCount = tmp
+                                lastVariable = i
+                            }
+                        } catch (e: HistogramNotImplementedException) {
                         }
-                    } catch (e: HistogramNotImplementedException) {
                     }
                 }
             }

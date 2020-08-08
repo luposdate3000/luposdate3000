@@ -7,11 +7,11 @@ import lupos.s03resultRepresentation.Value
 class ColumnIteratorRepeatValue(@JvmField val count: Int, @JvmField val value: Value) : ColumnIterator() {
     @JvmField
     var index = 0
-    override fun close() {
+    override suspend fun close() {
         index = count
     }
 
-    override fun next(): Value {
+    override suspend fun next(): Value {
         if (index == count) {
             return ResultSetDictionary.nullValue
         } else {

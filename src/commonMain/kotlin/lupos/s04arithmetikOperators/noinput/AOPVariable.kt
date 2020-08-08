@@ -19,7 +19,7 @@ class AOPVariable(query: Query, @JvmField var name: String) : AOPBase(query, EOp
     override fun toSparql(): String = "?$name".replace("#", "LuposVariable")
     override fun syntaxVerifyAllVariableExists(additionalProvided: List<String>, autocorrect: Boolean) {}
     override fun getRequiredVariableNames(): List<String> = listOf(name)
-    override fun toXMLElement() = super.toXMLElement().addAttribute("name", name)
+    override suspend fun toXMLElement() = super.toXMLElement().addAttribute("name", name)
     override fun cloneOP() = this
     override fun equals(other: Any?): Boolean = other is AOPVariable && name == other.name
     override fun evaluate(row: IteratorBundle): () -> ValueDefinition {

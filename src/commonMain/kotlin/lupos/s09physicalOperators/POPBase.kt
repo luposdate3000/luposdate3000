@@ -21,7 +21,7 @@ abstract class POPBase(query: Query,
         OPBase(query, operatorID, classname, children, sortPriority) {
     open fun getProvidedVariableNamesInternal() = super.getProvidedVariableNames()
     override fun getProvidedVariableNames() = projectedVariables
-    override fun toXMLElement(): XMLElement {
+    override suspend fun toXMLElement(): XMLElement {
         val res = super.toXMLElement()
         val projectedXML = XMLElement("projectedVariables")
         res.addContent(projectedXML)
@@ -54,5 +54,5 @@ abstract class POPBase(query: Query,
         }
     }
 
-    override fun calculateHistogram(): HistogramResult = throw HistogramNotImplementedException(classname)
+    suspend override fun calculateHistogram(): HistogramResult = throw HistogramNotImplementedException(classname)
 }

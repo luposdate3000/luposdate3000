@@ -35,7 +35,7 @@ class POPJoinWithStore(query: Query, projectedVariables: List<String>, childA: O
     }
 
     override fun equals(other: Any?) = other is POPJoinWithStore && optional == other.optional && children[0] == other.children[0]
-    override fun evaluate(parent: Partition): IteratorBundle {
+    override suspend fun evaluate(parent: Partition): IteratorBundle {
         SanityCheck.check { !optional }
         SanityCheck.check { !childB.graphVar }
         val childAv = children[0].evaluate(parent)
@@ -147,7 +147,7 @@ class POPJoinWithStore(query: Query, projectedVariables: List<String>, childA: O
             SanityCheck.println { "POPJoinWithStoreXXXopened ${columnsInBRoot.columns.size} columns for store, and saved ${variablINBO.size} of these" }
             for (columnConfig in columnsOUT) {
                 val column = object : ColumnIteratorQueue() {
-                    override fun close() {
+                    override suspend fun close() {
                         if (label != 0) {
                             _close()
                             SanityCheck.println { "POPJoinWithStoreXXXclosing store for join with store A $theuuid" }
@@ -163,7 +163,7 @@ class POPJoinWithStore(query: Query, projectedVariables: List<String>, childA: O
                         }
                     }
 
-                    override fun next(): Value {
+                    override suspend fun next(): Value {
                         return next_helper {
                             loopA@ while (true) {
                                 var done = true
@@ -240,7 +240,7 @@ class POPJoinWithStore(query: Query, projectedVariables: List<String>, childA: O
         return IteratorBundle(outMap)
     }
 
-    override fun toXMLElement(): XMLElement {
+    override suspend fun toXMLElement(): XMLElement {
         val res = super.toXMLElement().addAttribute("optional", "" + optional)
         res["children"]!!.addContent(childB.toXMLElement())
         return res

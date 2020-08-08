@@ -44,8 +44,8 @@ class POPBind(query: Query, projectedVariables: List<String>, @JvmField val name
     override fun childrenToVerifyCount(): Int = 1
     override fun getProvidedVariableNamesInternal(): List<String> = (children[0].getProvidedVariableNames() + name.name).distinct()
     override fun getRequiredVariableNames(): List<String> = children[1].getRequiredVariableNamesRecoursive()
-    override fun toXMLElement() = super.toXMLElement().addAttribute("name", name.name)
-    override fun evaluate(parent: Partition): IteratorBundle {
+    override suspend fun toXMLElement() = super.toXMLElement().addAttribute("name", name.name)
+    override suspend fun evaluate(parent: Partition): IteratorBundle {
         val variablesOut = getProvidedVariableNames()
         val variablesLocal = getProvidedVariableNamesInternal()
         val outMap = mutableMapOf<String, ColumnIterator>()
@@ -55,7 +55,7 @@ class POPBind(query: Query, projectedVariables: List<String>, @JvmField val name
         var expression: () -> ValueDefinition = { ValueError() }
         val columnsOut = Array<ColumnIteratorQueue>(variablesOut.size) { ColumnIteratorQueueEmpty() }
         if (variablesLocal.size == 1 && children[0].getProvidedVariableNames().size == 0) {
-            outMap[name.name] = ColumnIteratorRepeatValue(child.count, query.dictionary.createValue(expression()))
+            outMap[name.name] = ColumnIteratorRepeatValue(child.count(), query.dictionary.createValue(expression()))
         } else {
             var boundIndex = -1
             for (variableIndex in 0 until variablesLocal.size) {
@@ -67,11 +67,11 @@ class POPBind(query: Query, projectedVariables: List<String>, @JvmField val name
             val columnsIn = Array(variablesLocal.size) { child.columns[variablesLocal[it]] }
             for (variableIndex in 0 until variablesLocal.size) {
                 columnsLocal[variableIndex] = object : ColumnIteratorQueue() {
-                    override fun close() {
+                    override suspend fun close() {
                         _close()
                     }
 
-                    override fun next(): Value {
+                    override suspend fun next(): Value {
                         return next_helper {
                             var done = false
                             for (variableIndex2 in 0 until variablesLocal.size) {

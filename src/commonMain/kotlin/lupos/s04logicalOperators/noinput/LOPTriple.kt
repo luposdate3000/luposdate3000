@@ -25,7 +25,7 @@ class LOPTriple(query: Query, s: AOPBase, p: AOPBase, o: AOPBase, @JvmField val 
         return "GRAPH <$graph> {" + children[0].toSparql() + " " + children[1].toSparql() + " " + children[2].toSparql() + "}."
     }
 
-    override fun toXMLElement() = super.toXMLElement().addAttribute("graph", graph).addAttribute("graphVar", "" + graphVar)
+    override suspend fun toXMLElement() = super.toXMLElement().addAttribute("graph", graph).addAttribute("graphVar", "" + graphVar)
     override fun getRequiredVariableNames() = listOf<String>()
     override fun getProvidedVariableNames(): List<String> {
         var res = mutableListOf<String>()
@@ -100,7 +100,7 @@ class LOPTriple(query: Query, s: AOPBase, p: AOPBase, o: AOPBase, @JvmField val 
         }
     }
 
-    override fun calculateHistogram(): HistogramResult {
+    suspend override fun calculateHistogram(): HistogramResult {
         SanityCheck { !graphVar }
         var res = HistogramResult()
         res.count = -1

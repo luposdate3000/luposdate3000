@@ -34,7 +34,7 @@ class TripleStoreIndex_SingleList : TripleStoreIndex() {
 
     @JvmField
     val index2 = MyMapLongInt()
-    override fun safeToFile(filename: String) {
+    suspend override fun safeToFile(filename: String) {
         File(filename).dataOutputStream { out ->
             data.forEach {
                 out.writeInt(it)
@@ -42,7 +42,7 @@ class TripleStoreIndex_SingleList : TripleStoreIndex() {
         }
     }
 
-    override fun flush() {
+    suspend override fun flush() {
     }
 
     fun rebuildMap() {
@@ -76,7 +76,7 @@ class TripleStoreIndex_SingleList : TripleStoreIndex() {
         }
     }
 
-    override fun loadFromFile(filename: String) {
+    suspend override fun loadFromFile(filename: String) {
         SanityCheck.check { data.size == 0 }
         val capacity = (File(filename).length() / 4).toInt()
         File(filename).dataInputStream { fis ->
@@ -89,26 +89,24 @@ class TripleStoreIndex_SingleList : TripleStoreIndex() {
         var storeIteratorCounter = 1L
     }
 
-    override fun printContents() {
-        SanityCheck {
-            runBlocking {
-                val ai = ColumnIteratorStore3a(data)
-                val bi = ColumnIteratorStore3b(data)
-                val ci = ColumnIteratorStore3c(data)
-                var a = ai.next()
-                var b = bi.next()
-                var c = ci.next()
-                while (a != ResultSetDictionary.nullValue) {
-                    SanityCheck.println({ "debug store content ::: $a $b $c" })
-                    a = ai.next()
-                    b = bi.next()
-                    c = ci.next()
-                }
+    suspend override fun printContents() {
+        SanityCheck.suspended {
+            val ai = ColumnIteratorStore3a(data)
+            val bi = ColumnIteratorStore3b(data)
+            val ci = ColumnIteratorStore3c(data)
+            var a = ai.next()
+            var b = bi.next()
+            var c = ci.next()
+            while (a != ResultSetDictionary.nullValue) {
+                SanityCheck.println({ "debug store content ::: $a $b $c" })
+                a = ai.next()
+                b = bi.next()
+                c = ci.next()
             }
         }
     }
 
-    override fun getIterator(query: Query, params: TripleStoreFeatureParams): IteratorBundle {
+    suspend override fun getIterator(query: Query, params: TripleStoreFeatureParams): IteratorBundle {
         var fp = (params as TripleStoreFeatureParamsDefault).getFilterAndProjection(query)
         val filter = fp.first
         val projection = fp.second
@@ -153,10 +151,8 @@ class TripleStoreIndex_SingleList : TripleStoreIndex() {
                     if (columns.size == 0) {
                         var count = 0
                         var iterator = ColumnIteratorStore2a(data, idx)
-                        runBlocking {
-                            while (iterator.next() != ResultSetDictionary.nullValue) {
-                                count++
-                            }
+                        while (iterator.next() != ResultSetDictionary.nullValue) {
+                            count++
                         }
                         res = IteratorBundle(count)
                     } else {
@@ -175,10 +171,8 @@ class TripleStoreIndex_SingleList : TripleStoreIndex() {
                 if (columns.size == 0) {
                     var count = 0
                     var iterator = ColumnIteratorStore3a(data)
-                    runBlocking {
-                        while (iterator.next() != ResultSetDictionary.nullValue) {
-                            count++
-                        }
+                    while (iterator.next() != ResultSetDictionary.nullValue) {
+                        count++
                     }
                     res = IteratorBundle(count)
                 } else {
@@ -205,70 +199,68 @@ class TripleStoreIndex_SingleList : TripleStoreIndex() {
         return res
     }
 
-    fun mergeInternal(iterators: Array<Array<ColumnIterator>>): MyListInt {
+    suspend fun mergeInternal(iterators: Array<Array<ColumnIterator>>): MyListInt {
         var data = MyListInt()
-        runBlocking {
-            val head = Array(2) { Array<Int?>(3) { null } }
-            for (cmp in 0 until 2) {
-                for (i in 0 until 3) {
-                    head[cmp][i] = iterators[cmp][i].next()
-                }
-            }
-            var cmp1 = 0
-            if (head[0][0] == null) {
-                cmp1 = 1
-            } else if (head[1][0] == null) {
-                cmp1 = 0
-            } else {
-                for (i in 0 until 3) {
-                    if (head[0][i]!! < head[1][i]!!) {
-                        cmp1 = 0
-                        break
-                    } else if (head[0][i]!! > head[1][i]!!) {
-                        cmp1 = 1
-                        break
-                    }
-                }
-            }
-            var last = Array(3) { head[cmp1][it]!! }
-            var count = Array(3) { 1 }
-            var position = Array(3) { data.getNullPointer() }
+        val head = Array(2) { Array<Int?>(3) { null } }
+        for (cmp in 0 until 2) {
             for (i in 0 until 3) {
-                position[i] = data.addAndGetPointer(count[i])
-                data.add(head[cmp1][i]!!)
-                head[cmp1][i] = iterators[cmp1][i].next()
+                head[cmp][i] = iterators[cmp][i].next()
             }
-            loop@ while (head[0][0] != null || head[1][0] != null) {
-                for (pos in 0 until 3) {
-                    for (cmp in 0 until 2) {
-                        if (head[cmp][pos] != null && (head[1 - cmp][pos] == null || head[cmp][pos]!! < head[1 - cmp][pos]!!)) {
-                            var hadChange = false
-                            for (i in 0 until 3) {
-                                if (hadChange) {
-                                    last[i] = head[cmp][i]!!
-                                    data.set(position[i], count[i])
-                                    count[i] = 1
-                                    position[i] = data.addAndGetPointer(count[i])
-                                    data.add(head[cmp][i]!!)
-                                } else if (last[i] != head[cmp][i]) {
-                                    last[i] = head[cmp][i]!!
-                                    count[i]++
-                                    hadChange = true
-                                    data.add(head[cmp][i]!!)
-                                }
-                                head[cmp][i] = iterators[cmp][i].next()
+        }
+        var cmp1 = 0
+        if (head[0][0] == null) {
+            cmp1 = 1
+        } else if (head[1][0] == null) {
+            cmp1 = 0
+        } else {
+            for (i in 0 until 3) {
+                if (head[0][i]!! < head[1][i]!!) {
+                    cmp1 = 0
+                    break
+                } else if (head[0][i]!! > head[1][i]!!) {
+                    cmp1 = 1
+                    break
+                }
+            }
+        }
+        var last = Array(3) { head[cmp1][it]!! }
+        var count = Array(3) { 1 }
+        var position = Array(3) { data.getNullPointer() }
+        for (i in 0 until 3) {
+            position[i] = data.addAndGetPointer(count[i])
+            data.add(head[cmp1][i]!!)
+            head[cmp1][i] = iterators[cmp1][i].next()
+        }
+        loop@ while (head[0][0] != null || head[1][0] != null) {
+            for (pos in 0 until 3) {
+                for (cmp in 0 until 2) {
+                    if (head[cmp][pos] != null && (head[1 - cmp][pos] == null || head[cmp][pos]!! < head[1 - cmp][pos]!!)) {
+                        var hadChange = false
+                        for (i in 0 until 3) {
+                            if (hadChange) {
+                                last[i] = head[cmp][i]!!
+                                data.set(position[i], count[i])
+                                count[i] = 1
+                                position[i] = data.addAndGetPointer(count[i])
+                                data.add(head[cmp][i]!!)
+                            } else if (last[i] != head[cmp][i]) {
+                                last[i] = head[cmp][i]!!
+                                count[i]++
+                                hadChange = true
+                                data.add(head[cmp][i]!!)
                             }
-                            continue@loop
+                            head[cmp][i] = iterators[cmp][i].next()
                         }
+                        continue@loop
                     }
-                }
-                for (i in 0 until 3) {
-                    head[0][i] = iterators[0][i].next()
                 }
             }
             for (i in 0 until 3) {
-                data.set(position[i], count[i])
+                head[0][i] = iterators[0][i].next()
             }
+        }
+        for (i in 0 until 3) {
+            data.set(position[i], count[i])
         }
         return data
     }
@@ -276,10 +268,10 @@ class TripleStoreIndex_SingleList : TripleStoreIndex() {
     class ImportIterator(@JvmField val data: IntArray, @JvmField val count: Int, @JvmField val offset: Int) : ColumnIterator() {
         @JvmField
         var idx = offset
-        override fun close() {
+        override suspend fun close() {
         }
 
-        override fun next(): Value {
+        override suspend fun next(): Value {
             if (idx >= count) {
                 return ResultSetDictionary.nullValue
             } else {
@@ -289,7 +281,7 @@ class TripleStoreIndex_SingleList : TripleStoreIndex() {
         }
     }
 
-    override fun import(dataImport: IntArray, count: Int, order: IntArray) {
+    suspend override fun import(dataImport: IntArray, count: Int, order: IntArray) {
         if (count > 0) {
             SanityCheck {
                 for (i in 1 until count / 3) {
@@ -311,28 +303,26 @@ class TripleStoreIndex_SingleList : TripleStoreIndex() {
             data = mergeInternal(arrayOf(iteratorsA, arrayOf<ColumnIterator>(ImportIterator(dataImport, count, order[0]), ImportIterator(dataImport, count, order[1]), ImportIterator(dataImport, count, order[2]))))
             rebuildMap()
         }
-        SanityCheck {
-            runBlocking {
-                var ia = ColumnIteratorStore3a(data)
-                var ib = ColumnIteratorStore3b(data)
-                var ic = ColumnIteratorStore3c(data)
-                var a = ia.next()
-                var b = ib.next()
-                var c = ic.next()
-                while (a != ResultSetDictionary.nullValue) {
-                    var a2 = ia.next()
-                    var b2 = ib.next()
-                    var c2 = ic.next()
-                    SanityCheck.check { (a2 == ResultSetDictionary.nullValue) || (a < a2) || ((a == a2) && (b < b2)) || ((a == a2) && (b == b2) && (c < c2)) }
-                    a = a2
-                    b = b2
-                    c = c2
-                }
+        SanityCheck.suspended {
+            var ia = ColumnIteratorStore3a(data)
+            var ib = ColumnIteratorStore3b(data)
+            var ic = ColumnIteratorStore3c(data)
+            var a = ia.next()
+            var b = ib.next()
+            var c = ic.next()
+            while (a != ResultSetDictionary.nullValue) {
+                var a2 = ia.next()
+                var b2 = ib.next()
+                var c2 = ic.next()
+                SanityCheck.check { (a2 == ResultSetDictionary.nullValue) || (a < a2) || ((a == a2) && (b < b2)) || ((a == a2) && (b == b2) && (c < c2)) }
+                a = a2
+                b = b2
+                c = c2
             }
         }
     }
 
-    fun import(dataImport: MyMapLongGeneric<MySetInt>) {
+    suspend fun import(dataImport: MyMapLongGeneric<MySetInt>) {
         val data1 = MyListInt()
         val iterator = dataImport.iterator()
         if (iterator.hasNext()) {
@@ -393,7 +383,7 @@ class TripleStoreIndex_SingleList : TripleStoreIndex() {
         throw TripleStoreModifyOperationsNotImplementedException()
     }
 
-    override fun clear() {
+    suspend override fun clear() {
         data.clear()
         index1.clear()
         index2.clear()

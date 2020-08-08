@@ -44,7 +44,7 @@ class PersistentStoreLocal {
         return tmp2
     }
 
-    fun dropGraph(query: Query, name: String) {
+    suspend fun dropGraph(query: Query, name: String) {
         SanityCheck.check({ name != defaultGraphName })
         var store = stores[name]
         if (store == null) {
@@ -54,11 +54,11 @@ class PersistentStoreLocal {
         stores.remove(name)
     }
 
-    fun clearGraph(query: Query, name: String) {
+    suspend fun clearGraph(query: Query, name: String) {
         getNamedGraph(query, name).clear()
     }
 
-    fun getNamedGraph(query: Query, name: String, create: Boolean = false): TripleStoreLocal {
+    suspend fun getNamedGraph(query: Query, name: String, create: Boolean = false): TripleStoreLocal {
         val tmp = stores[name]
         if (tmp != null) {
             return tmp
@@ -68,24 +68,24 @@ class PersistentStoreLocal {
         return createGraph(query, name)
     }
 
-    fun getDefaultGraph(query: Query): TripleStoreLocal {
+    suspend fun getDefaultGraph(query: Query): TripleStoreLocal {
         return getNamedGraph(query, defaultGraphName, true)
     }
 
-    fun commit(query: Query) {
+    suspend fun commit(query: Query) {
         stores.values.forEach { v ->
             v.commit(query)
         }
     }
 
-    fun safeToFolder() {
+    suspend fun safeToFolder() {
         stores.values.forEach { v ->
             v.flush()
         }
         var i = 0
         stores[defaultGraphName]!!.safeToFolder(BufferManager.bufferPrefix + "store/" + i)
         i++
-        File(BufferManager.bufferPrefix + "store/stores.txt").printWriter { out ->
+        File(BufferManager.bufferPrefix + "store/stores.txt").printWriterSuspended { out ->
             for ((name, store) in stores) {
                 if (name != "") {
                     out.println(name)
@@ -99,7 +99,7 @@ class PersistentStoreLocal {
         BufferManager.safeToFolder()
     }
 
-    fun loadFromFolder() {
+    suspend fun loadFromFolder() {
         BufferManager.loadFromFolder()
         NodeManager.loadFromFolder()
         nodeGlobalDictionary.loadFromFolder()
@@ -108,7 +108,7 @@ class PersistentStoreLocal {
         store.loadFromFolder(BufferManager.bufferPrefix + "store/" + i)
         stores[defaultGraphName] = store
         i++
-        File(BufferManager.bufferPrefix + "store/stores.txt").forEachLine { name ->
+        File(BufferManager.bufferPrefix + "store/stores.txt").forEachLineSuspended { name ->
             if (name != "") {
                 val store = TripleStoreLocal(name)
                 store.loadFromFolder(BufferManager.bufferPrefix + "store/" + i)

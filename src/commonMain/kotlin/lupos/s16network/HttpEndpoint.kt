@@ -2,6 +2,7 @@ package lupos.s16network
 
 import kotlin.time.DurationUnit
 import kotlin.time.TimeSource.Monotonic
+import kotlinx.coroutines.runBlocking
 import lupos.s00misc.BenchmarkUtils
 import lupos.s00misc.Coverage
 import lupos.s00misc.EBenchmark
@@ -70,7 +71,7 @@ object HttpEndpoint {
 /*Coverage Unreachable*/
     }
 
-    fun import_turtle_files(fileNames: String, bnodeDict: MyMapStringIntPatriciaTrie): String {
+    suspend fun import_turtle_files(fileNames: String, bnodeDict: MyMapStringIntPatriciaTrie): String {
         try {
             val usePredefinedDict = bnodeDict.size > 0
             val query = Query()
@@ -93,7 +94,9 @@ object HttpEndpoint {
                     try {
                         TurtleParserWithStringTriples({ s, p, o ->
                             counter++
-                            bulk.insert(helper_import_turtle_files(bnodeDict, usePredefinedDict, s), helper_import_turtle_files(bnodeDict, usePredefinedDict, p), helper_import_turtle_files(bnodeDict, usePredefinedDict, o))
+                            runBlocking {
+                                bulk.insert(helper_import_turtle_files(bnodeDict, usePredefinedDict, s), helper_import_turtle_files(bnodeDict, usePredefinedDict, p), helper_import_turtle_files(bnodeDict, usePredefinedDict, o))
+                            }
                         }, ltit).turtleDoc()
                     } catch (e: lupos.s02buildSyntaxTree.ParseError) {
                         println("error in file '$fileName'")
@@ -110,7 +113,7 @@ object HttpEndpoint {
 /*Coverage Unreachable*/
     }
 
-    fun import_intermediate_files(fileNames: String): String {
+    suspend fun import_intermediate_files(fileNames: String): String {
         try {
             val query = Query()
             var counter = 0L
@@ -140,7 +143,7 @@ object HttpEndpoint {
                     val dictTime = startTime.elapsedNow().toDouble(DurationUnit.SECONDS)
                     var cnt = fileTriples.length() / 12L
                     counter += cnt
-                    fileTriples.dataInputStream {
+                    fileTriples.dataInputStreamSuspended {
                         for (i in 0 until cnt) {
                             var s = it.readInt()
                             var p = it.readInt()
@@ -162,7 +165,7 @@ object HttpEndpoint {
 /*Coverage Unreachable*/
     }
 
-    fun import_xml_data(data: String): String {
+    suspend fun import_xml_data(data: String): String {
         val query = Query()
         val import = POPValuesImportXML(query, listOf("s", "p", "o"), XMLElement.parseFromXml(data)!!).evaluate(Partition())
         val dataLocal = arrayOf(import.columns["s"]!!, import.columns["p"]!!, import.columns["o"]!!)
@@ -171,7 +174,7 @@ object HttpEndpoint {
         return XMLElement("success").toString()
     }
 
-    fun evaluate_sparql_query_string(query: String, logOperatorGraph: Boolean = false): String {
+    suspend fun evaluate_sparql_query_string(query: String, logOperatorGraph: Boolean = false): String {
         val q = Query()
         var timer = BenchmarkUtils.timesHelperMark()
         GlobalLogger.log(ELoggerType.DEBUG, { "----------String Query" })
@@ -224,7 +227,7 @@ object HttpEndpoint {
         return res
     }
 
-    fun evaluate_sparql_query_operator_xml(query: String, logOperatorGraph: Boolean = false): String {
+    suspend fun evaluate_sparql_query_operator_xml(query: String, logOperatorGraph: Boolean = false): String {
         val q = Query()
         val pop_node = XMLElement.convertToOPBase(q, XMLElement.parseFromXml(query)!!)
         GlobalLogger.log(ELoggerType.DEBUG, { pop_node })

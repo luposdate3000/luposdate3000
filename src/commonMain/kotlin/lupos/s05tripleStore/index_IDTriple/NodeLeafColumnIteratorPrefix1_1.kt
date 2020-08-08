@@ -38,18 +38,18 @@ class NodeLeafColumnIteratorPrefix1_1(@JvmField var node: ByteArray, @JvmField v
         }
     }
 
-    inline fun _close() {
+    suspend inline fun _close() {
         if (label != 0) {
             label = 0
             lock.readUnlock()
         }
     }
 
-    override fun close() {
+    suspend override fun close() {
         _close()
     }
 
-    override fun next(): Int {
+    suspend override fun next(): Int {
         if (label != 0) {
             while (true) {
                 if (needsReset) {
@@ -115,23 +115,22 @@ class NodeLeafColumnIteratorPrefix1_1(@JvmField var node: ByteArray, @JvmField v
                 }
                 offset += counter1 + counter2
                 remaining--
-                if (remaining == 0) {
-                        loop@ while (remaining == 0) {
-                            needsReset = true
-                            offset = NodeLeaf.startOffset
-                            var nextNodeIdx = NodeShared.getNextNode(node)
-                            if (nextNodeIdx != NodeManager.nodeNullPointer) {
-                                NodeManager.getNodeLeaf(nextNodeIdx, {
-                                    SanityCheck.check { node != it }
-                                    node = it
-                                    remaining = NodeShared.getTripleCount(node)
-                                })
-                            } else {
-                                _close()
-                                if (!done) {
-                                    value1 = ResultSetDictionary.nullValue
-                                    break@loop
-                                }
+                while (remaining == 0) {
+                    needsReset = true
+                    offset = NodeLeaf.startOffset
+                    var nextNodeIdx = NodeShared.getNextNode(node)
+                    if (nextNodeIdx != NodeManager.nodeNullPointer) {
+                        NodeManager.getNodeLeaf(nextNodeIdx, {
+                            SanityCheck.check { node != it }
+                            node = it
+                            remaining = NodeShared.getTripleCount(node)
+                        })
+                    } else {
+                        _close()
+                        if (!done) {
+                            return ResultSetDictionary.nullValue
+                        } else {
+                            return value1
                         }
                     }
                 }

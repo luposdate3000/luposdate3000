@@ -8,6 +8,7 @@ import java.io.FileInputStream
 import java.io.FileOutputStream
 import kotlin.io.createTempFile
 import kotlin.jvm.JvmField
+import kotlinx.coroutines.runBlocking
 import lupos.s00misc.Coverage
 
 class MyCharIterator(val file: File) : CharIterator() {
@@ -49,7 +50,20 @@ class File(@JvmField val filename: String) {
         action(it)
     }
 
-    fun forEachLine(action: (String) -> Unit) = java.io.File(filename).forEachLine { action(it) }
+    suspend fun printWriterSuspended(action: suspend (java.io.PrintWriter) -> Unit) = java.io.File(filename).printWriter().use {
+        action(it)
+    }
+
+    fun forEachLine(action: (String) -> Unit) = java.io.File(filename).forEachLine {
+        action(it)
+    }
+
+    suspend fun forEachLineSuspended(action: suspend (String) -> Unit) = java.io.File(filename).forEachLine {
+        runBlocking {
+            action(it)
+        }
+    }
+
     fun dataOutputStream(action: (java.io.DataOutputStream) -> Unit) {
         var dos: DataOutputStream? = null
         try {

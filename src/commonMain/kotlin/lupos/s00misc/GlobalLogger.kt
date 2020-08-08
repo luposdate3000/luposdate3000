@@ -6,13 +6,19 @@ import lupos.s00misc.Coverage
 object GlobalLogger {
     @JvmField
     var enabled = ELoggerType.TEST_DETAIL
-    fun log(type: ELoggerType, action: () -> Any?) {
+    inline fun log(type: ELoggerType, crossinline action: () -> Any?) {
         if (enabled.ordinal >= type.ordinal) {
             println(action())
         }
     }
 
-    fun stacktrace(type: ELoggerType, e: Throwable) {
+    inline suspend fun logSuspended(type: ELoggerType, crossinline action: suspend () -> Any?) {
+        if (enabled.ordinal >= type.ordinal) {
+            println(action())
+        }
+    }
+
+    inline fun stacktrace(type: ELoggerType, e: Throwable) {
         if (enabled.ordinal >= type.ordinal) {
             e.printStackTrace()
         }

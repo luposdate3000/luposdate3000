@@ -15,7 +15,7 @@ import lupos.s05tripleStore.TripleStoreFeatureParams
 import lupos.s15tripleStoreDistributed.DistributedTripleStore
 
 object ServerCommunicationSend {
-    fun bulkImport(query: Query, graphName: String, action: (TripleStoreBulkImportDistributed) -> Unit) {
+    suspend fun bulkImport(query: Query, graphName: String, action: suspend (TripleStoreBulkImportDistributed) -> Unit) {
         val bulk = TripleStoreBulkImportDistributed(query, graphName)
         action(bulk)
         bulk.finishImport()
@@ -25,22 +25,22 @@ object ServerCommunicationSend {
         println(msg)
     }
 
-    fun commit(query: Query) {
+    suspend fun commit(query: Query) {
         DistributedTripleStore.localStore.commit(query)
     }
 
-    fun tripleModify(query: Query, graphName: String, data: Array<ColumnIterator>, type: EModifyType) {
+    suspend fun tripleModify(query: Query, graphName: String, data: Array<ColumnIterator>, type: EModifyType) {
         DistributedTripleStore.localStore.getNamedGraph(query, graphName).modify(query, data, type)
     }
 
-    fun graphClearAll(query: Query) {
+    suspend fun graphClearAll(query: Query) {
         DistributedTripleStore.localStore.getDefaultGraph(query).clear()
         for (g in DistributedTripleStore.getGraphNames()) {
             DistributedTripleStore.dropGraph(query, g)
         }
     }
 
-    fun graphOperation(query: Query, graphName: String, type: EGraphOperationType) {
+    suspend fun graphOperation(query: Query, graphName: String, type: EGraphOperationType) {
         when (type) {
             EGraphOperationType.CLEAR -> {
                 DistributedTripleStore.localStore.clearGraph(query, graphName)
@@ -57,11 +57,11 @@ object ServerCommunicationSend {
         }
     }
 
-    fun tripleGet(query: Query, graphName: String, params: TripleStoreFeatureParams): IteratorBundle {
+    suspend fun tripleGet(query: Query, graphName: String, params: TripleStoreFeatureParams): IteratorBundle {
         return DistributedTripleStore.localStore.getNamedGraph(query, graphName).getIterator(query, params)
     }
 
-    fun histogramGet(query: Query, graphName: String, params: TripleStoreFeatureParams): Pair<Int, Int> {
+    suspend fun histogramGet(query: Query, graphName: String, params: TripleStoreFeatureParams): Pair<Int, Int> {
         return DistributedTripleStore.localStore.getNamedGraph(query, graphName).getHistogram(query, params)
     }
 

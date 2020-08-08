@@ -1,5 +1,6 @@
 package lupos.s10physicalOptimisation
 
+import kotlinx.coroutines.runBlocking
 import lupos.s00misc.Coverage
 import lupos.s00misc.EOptimizerID
 import lupos.s00misc.ESortType
@@ -31,25 +32,27 @@ class PhysicalOptimizerTripleIndex(query: Query) : OptimizerBase(query, EOptimiz
                 projectedVariables = node.getProvidedVariableNames()
             }
             onChange()
-            val store = DistributedTripleStore.getNamedGraph(query, node.graph)
-            val params = Array<AOPBase>(3) {
-                var res2 = node.children[it] as AOPBase
+            runBlocking {
+                val store = DistributedTripleStore.getNamedGraph(query, node.graph)
+                val params = Array<AOPBase>(3) {
+                    var res2 = node.children[it] as AOPBase
+                    SanityCheck {
+                        if (res2 is AOPVariable) {
+                            SanityCheck.check { projectedVariables.contains(res2.name) || res2.name == "_" }
+                        }
+                    }
+/*return*/res2
+                }
                 SanityCheck {
-                    if (res2 is AOPVariable) {
-                        SanityCheck.check { projectedVariables.contains(res2.name) || res2.name == "_" }
+                    for (i in 0 until node.mySortPriority.size) {
+                        SanityCheck.check { node.mySortPriority[i].sortType == ESortType.FAST }
                     }
                 }
-/*return*/res2
+                res = store!!.getIterator(params, LOPTriple.getIndex(node.children, node.mySortPriority.map { it.variableName }))
+                SanityCheck { res.getProvidedVariableNames().containsAll(node.mySortPriority.map { it.variableName }) }
+                res.mySortPriority = node.mySortPriority
+                res.sortPriorities = node.sortPriorities
             }
-            SanityCheck {
-                for (i in 0 until node.mySortPriority.size) {
-                    SanityCheck.check { node.mySortPriority[i].sortType == ESortType.FAST }
-                }
-            }
-            res = store.getIterator(params, LOPTriple.getIndex(node.children, node.mySortPriority.map { it.variableName }))
-            SanityCheck { res.getProvidedVariableNames().containsAll(node.mySortPriority.map { it.variableName }) }
-            res.mySortPriority = node.mySortPriority
-            res.sortPriorities = node.sortPriorities
         }
         return res
     }

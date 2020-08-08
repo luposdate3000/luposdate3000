@@ -16,7 +16,7 @@ class POPMinus(query: Query, projectedVariables: List<String>, childA: OPBase, c
     override fun cloneOP() = POPMinus(query, projectedVariables, children[0].cloneOP(), children[1].cloneOP())
     override fun toSparql() = "{" + children[0].toSparql() + "} MINUS {" + children[1].toSparql() + "}"
     override fun equals(other: Any?): Boolean = other is POPMinus && children[0] == other.children[0] && children[1] == other.children[1]
-    override fun evaluate(parent: Partition): IteratorBundle {
+    override suspend fun evaluate(parent: Partition): IteratorBundle {
         val variables = getProvidedVariableNames()
         SanityCheck.check({ children[0].getProvidedVariableNames().containsAll(variables) }, { toString() })
         SanityCheck.check({ children[1].getProvidedVariableNames().containsAll(variables) }, { toString() })

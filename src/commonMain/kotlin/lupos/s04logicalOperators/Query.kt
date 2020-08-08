@@ -10,13 +10,13 @@ import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s15tripleStoreDistributed.DistributedTripleStore
 
-class Query(@JvmField val dictionary: ResultSetDictionary = ResultSetDictionary(), @JvmField val transactionID: Long = global_transactionID.next()) {
-    class PartitionHelper() {
-        var iterators: MutableMap<Partition, Array<IteratorBundle>>? = null
-        var jobs: MutableMap<Partition, Job>? = null
-        val lock = Lock()
-    }
+class PartitionHelper() {
+    var iterators: MutableMap<Partition, Array<IteratorBundle>>? = null
+    var jobs: MutableMap<Partition, Job>? = null
+    val lock = Lock()
+}
 
+class Query(@JvmField val dictionary: ResultSetDictionary = ResultSetDictionary(), @JvmField val transactionID: Long = global_transactionID.next()) {
     inline suspend fun getPartitionHelper(uuid: Long): PartitionHelper {
         var res: PartitionHelper? = null
         partitionsLock.withWriteLock {
@@ -77,7 +77,7 @@ class Query(@JvmField val dictionary: ResultSetDictionary = ResultSetDictionary(
         private val global_transactionID = ThreadSafeUuid()
     }
 
-    inline fun commit() {
+    suspend inline fun commit() {
         DistributedTripleStore.commit(this)
         commited = true
     }

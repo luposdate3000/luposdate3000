@@ -26,7 +26,7 @@ import lupos.s04logicalOperators.Query
 import lupos.s09physicalOperators.POPBase
 
 class POPMergePartitionCount(query: Query, projectedVariables: List<String>, val partitionVariable: String, child: OPBase) : POPBase(query, projectedVariables, EOperatorID.POPMergePartitionCountID, "POPMergePartitionCount", arrayOf(child), ESortPriority.PREVENT_ANY) {
-    override fun toXMLElement(): XMLElement {
+    override suspend fun toXMLElement(): XMLElement {
         val res = super.toXMLElement()
         res.addAttribute("partitionVariable", partitionVariable)
         return res
@@ -46,7 +46,7 @@ class POPMergePartitionCount(query: Query, projectedVariables: List<String>, val
     override fun cloneOP() = POPMergePartitionCount(query, projectedVariables, partitionVariable, children[0].cloneOP())
     override fun toSparql() = children[0].toSparql()
     override fun equals(other: Any?): Boolean = other is POPMergePartitionCount && children[0] == other.children[0] && partitionVariable == other.partitionVariable
-    override fun evaluate(parent: Partition): IteratorBundle {
+    override suspend fun evaluate(parent: Partition): IteratorBundle {
         if (Partition.k == 1) {
             //single partition - just pass through
             return children[0].evaluate(parent)
@@ -85,38 +85,34 @@ class POPMergePartitionCount(query: Query, projectedVariables: List<String>, val
             var iterator = IteratorBundle(0)
             iterator.hasNext2 = {
                 var res = false
-                runBlocking {
-                    loop@ while (true) {
-                        SanityCheck.println({ "merge $uuid reader loop start" })
-                        var finishedWriters = 0
-                        for (p in 0 until Partition.k) {
-                            if (ringbufferReadHead[p] != ringbufferWriteHead[p]) {
-                                //non empty queue -> read one row
-                                SanityCheck.println({ "merge $uuid $p reader consumed data" })
-                                res = true
-                                ringbufferReadHead[p]++
-                                break@loop
-                            } else if (writerFinished[p] == 1) {
-                                finishedWriters++
-                            }
-                        }
-                        if (finishedWriters == Partition.k) {
-                            //done
+                loop@ while (true) {
+                    SanityCheck.println({ "merge $uuid reader loop start" })
+                    var finishedWriters = 0
+                    for (p in 0 until Partition.k) {
+                        if (ringbufferReadHead[p] != ringbufferWriteHead[p]) {
+                            //non empty queue -> read one row
+                            SanityCheck.println({ "merge $uuid $p reader consumed data" })
+                            res = true
+                            ringbufferReadHead[p]++
                             break@loop
+                        } else if (writerFinished[p] == 1) {
+                            finishedWriters++
                         }
-                        SanityCheck.println({ "merge $uuid reader wait for writer" })
-                        delay(1)
                     }
+                    if (finishedWriters == Partition.k) {
+                        //done
+                        break@loop
+                    }
+                    SanityCheck.println({ "merge $uuid reader wait for writer" })
+                    delay(1)
                 }
                 /*return*/res
             }
             iterator.hasNext2Close = {
                 SanityCheck.println({ "merge $uuid reader closed" })
                 readerFinished = 1
-                runBlocking {
-                    for (job in jobs) {
-                        job.cancelAndJoin()
-                    }
+                for (job in jobs) {
+                    job.cancelAndJoin()
                 }
             }
             return iterator

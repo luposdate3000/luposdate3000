@@ -26,7 +26,7 @@ class POPLimit(query: Query, projectedVariables: List<String>, @JvmField val lim
 
     override fun equals(other: Any?): Boolean = other is POPLimit && limit == other.limit && children[0] == other.children[0]
     override fun cloneOP() = POPLimit(query, projectedVariables, limit, children[0].cloneOP())
-    override fun evaluate(parent: Partition): IteratorBundle {
+    override suspend fun evaluate(parent: Partition): IteratorBundle {
         val variables = getProvidedVariableNames()
         val outMap = mutableMapOf<String, ColumnIterator>()
         val child = children[0].evaluate(parent)
@@ -40,7 +40,7 @@ class POPLimit(query: Query, projectedVariables: List<String>, @JvmField val lim
 
                 @JvmField
                 var label = 1
-                override fun next(): Value {
+                override suspend fun next(): Value {
                     if (label != 0) {
                         if (count == limit) {
                             _close()
@@ -54,14 +54,14 @@ class POPLimit(query: Query, projectedVariables: List<String>, @JvmField val lim
                     }
                 }
 
-                inline fun _close() {
+                suspend inline fun _close() {
                     if (label != 0) {
                         label = 0
                         iterator.close()
                     }
                 }
 
-                override fun close() {
+                override suspend fun close() {
                     _close()
                 }
             }
@@ -70,5 +70,5 @@ class POPLimit(query: Query, projectedVariables: List<String>, @JvmField val lim
         return IteratorBundle(outMap)
     }
 
-    override fun toXMLElement() = super.toXMLElement().addAttribute("limit", "" + limit)
+    override suspend fun toXMLElement() = super.toXMLElement().addAttribute("limit", "" + limit)
 }

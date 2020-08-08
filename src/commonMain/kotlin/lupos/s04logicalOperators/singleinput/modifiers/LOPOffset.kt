@@ -11,10 +11,10 @@ import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
 
 class LOPOffset(query: Query, @JvmField val offset: Int, child: OPBase = OPEmptyRow(query)) : LOPBase(query, EOperatorID.LOPOffsetID, "LOPOffset", arrayOf(child), ESortPriority.SAME_AS_CHILD) {
-    override fun toXMLElement() = super.toXMLElement().addAttribute("offset", "" + offset)
+    override suspend fun toXMLElement() = super.toXMLElement().addAttribute("offset", "" + offset)
     override fun equals(other: Any?) = other is LOPOffset && offset == other.offset && children[0] == other.children[0]
     override fun cloneOP() = LOPOffset(query, offset, children[0].cloneOP())
-    override fun calculateHistogram(): HistogramResult {
+    suspend override fun calculateHistogram(): HistogramResult {
         var res = HistogramResult()
         var childHistogram = children[0].getHistogram()
         res.count = childHistogram.count - offset

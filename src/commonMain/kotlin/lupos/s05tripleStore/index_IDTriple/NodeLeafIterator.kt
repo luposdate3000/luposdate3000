@@ -68,20 +68,20 @@ class NodeLeafIterator(@JvmField var node: ByteArray) : TripleIterator() {
         }
         remaining--
         if (remaining == 0) {
-                loop@ while (remaining == 0) {
-                    needsReset = true
-                    offset = NodeLeaf.startOffset
-                    var nextNodeIdx = NodeShared.getNextNode(node)
-                    if (nextNodeIdx != NodeManager.nodeNullPointer) {
-                        NodeManager.getNodeLeaf(nextNodeIdx, {
-                            SanityCheck.check { node != it }
-                            node = it
-                            remaining = NodeShared.getTripleCount(node)
-                        })
-                    } else {
-                        break@loop
-                    }
+            loop@ while (remaining == 0) {
+                needsReset = true
+                offset = NodeLeaf.startOffset
+                var nextNodeIdx = NodeShared.getNextNode(node)
+                if (nextNodeIdx != NodeManager.nodeNullPointer) {
+                    NodeManager.getNodeLeaf(nextNodeIdx, {
+                        SanityCheck.check { node != it }
+                        node = it
+                        remaining = NodeShared.getTripleCount(node)
+                    })
+                } else {
+                    break@loop
                 }
+            }
         }
         return value[component]
     }

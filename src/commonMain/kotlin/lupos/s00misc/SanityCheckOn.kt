@@ -9,7 +9,8 @@ object SanityCheckOn {
         helperSanityPrintln(s())
     }
 
-    operator fun invoke(/*crossinline*/action: () -> Unit) = action()
+    inline operator fun invoke(crossinline action: () -> Unit) = action()
+    inline suspend fun suspended(crossinline action: suspend () -> Unit) = action()
     /*inline*/ fun <T> helper(/*crossinline*/action: () -> T): T? = action()
     /*inline*/ fun check(/*crossinline*/value: () -> Boolean,/*crossinline*/ msg: () -> String) = require(value(), msg)
     /*inline*/ fun check(/*crossinline*/value: () -> Boolean) = require(value())

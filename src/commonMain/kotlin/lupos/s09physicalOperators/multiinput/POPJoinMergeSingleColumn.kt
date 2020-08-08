@@ -36,7 +36,7 @@ class POPJoinMergeSingleColumn(query: Query, projectedVariables: List<String>, c
 
         @JvmField
         var label = 1
-        override fun next(): Value {
+        override suspend fun next(): Value {
             when (label) {
                 1 -> {
                     if (counter == 0) {
@@ -114,7 +114,7 @@ class POPJoinMergeSingleColumn(query: Query, projectedVariables: List<String>, c
             }
         }
 
-        inline fun _close() {
+        suspend inline fun _close() {
             if (label != 0) {
                 label = 0
                 SanityCheck.println({ "\$uuid close ColumnIteratorJoinMergeSingleColumn" })
@@ -123,12 +123,12 @@ class POPJoinMergeSingleColumn(query: Query, projectedVariables: List<String>, c
             }
         }
 
-        override fun close() {
+        override suspend fun close() {
             _close()
         }
     }
 
-    override fun evaluate(parent: Partition): IteratorBundle {
+    override suspend fun evaluate(parent: Partition): IteratorBundle {
         SanityCheck.check { !optional }
         SanityCheck.check { projectedVariables.size == 1 }
         SanityCheck.check { children[0].getProvidedVariableNames().size == 1 }
@@ -152,6 +152,6 @@ class POPJoinMergeSingleColumn(query: Query, projectedVariables: List<String>, c
         return IteratorBundle(outMap)
     }
 
-    override fun toXMLElement() = super.toXMLElement().addAttribute("optional", "" + optional)
+    override suspend fun toXMLElement() = super.toXMLElement().addAttribute("optional", "" + optional)
     override fun cloneOP() = POPJoinMergeSingleColumn(query, projectedVariables, children[0].cloneOP(), children[1].cloneOP(), optional)
 }

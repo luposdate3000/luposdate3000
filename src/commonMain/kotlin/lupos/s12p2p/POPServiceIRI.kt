@@ -17,12 +17,12 @@ class POPServiceIRI(query: Query, projectedVariables: List<String>, @JvmField va
     override fun equals(other: Any?) = other is POPServiceIRI && silent == other.silent && serverName == other.serverName && constraint == other.constraint
     override fun cloneOP() = POPServiceIRI(query, projectedVariables, serverName, silent, constraint)
     override fun getProvidedVariableNamesInternal() = constraint.getProvidedVariableNames().distinct()
-    override fun evaluate(parent: Partition): IteratorBundle {
+    override suspend fun evaluate(parent: Partition): IteratorBundle {
         throw ServiceNotImplementedException()
 /*Coverage Unreachable*/
     }
 
-    override fun toXMLElement(): XMLElement {
+    override suspend fun toXMLElement(): XMLElement {
         val res = XMLElement("POPServiceIRI")
         res.addAttribute("name", serverName)
         res.addAttribute("silent", "" + silent)

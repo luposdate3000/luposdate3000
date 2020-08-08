@@ -42,25 +42,23 @@ class TripleStoreBulkImport(@JvmField val query: Query, @JvmField val graphName:
 
     @JvmField
     var dataOPS = data[0]
-    fun insert(si: Value, pi: Value, oi: Value) {
+    suspend fun insert(si: Value, pi: Value, oi: Value) {
         data[8][idx++] = si
         data[8][idx++] = pi
         data[8][idx++] = oi
         if (full()) {
-            runBlocking {
-                sort()
-                flush()
-                reset()
-            }
+            sort()
+            flush()
+            reset()
         }
     }
 
-    fun finishImport() {
+    suspend fun finishImport() {
         sort()
         flush()
     }
 
-    fun flush() {
+    suspend fun flush() {
         totalflushed += idx / 3
         println("flushed triples $totalflushed")
         DistributedTripleStore.localStore.getNamedGraph(query, graphName).import(this)

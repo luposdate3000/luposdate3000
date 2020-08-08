@@ -55,7 +55,7 @@ class POPJoinHashMap(query: Query, projectedVariables: List<String>, childA: OPB
         var count = 0
     }
 
-    override fun evaluate(parent: Partition): IteratorBundle {
+    override suspend fun evaluate(parent: Partition): IteratorBundle {
 //--- obtain child columns
         val columns = LOPJoin.getColumns(children[0].getProvidedVariableNames(), children[1].getProvidedVariableNames())
         require(columns[0].size != 0)
@@ -173,11 +173,11 @@ class POPJoinHashMap(query: Query, projectedVariables: List<String>, childA: OPB
 
                 @JvmField
                 val columnsINAO0 = columnsINAO
-                override fun close() {
+                override suspend fun close() {
                     __close()
                 }
 
-                inline fun __close() {
+                suspend inline fun __close() {
                     if (label != 0) {
                         _close()
                         for (iterator2 in outIteratorsAllocated0) {
@@ -192,7 +192,7 @@ class POPJoinHashMap(query: Query, projectedVariables: List<String>, childA: OPB
                     }
                 }
 
-                override fun next(): Value {
+                override suspend fun next(): Value {
                     return next_helper {
                         var done = false
                         while (!done) {
@@ -335,6 +335,6 @@ class POPJoinHashMap(query: Query, projectedVariables: List<String>, childA: OPB
         return res
     }
 
-    override fun toXMLElement() = super.toXMLElement().addAttribute("optional", "" + optional)
+    override suspend fun toXMLElement() = super.toXMLElement().addAttribute("optional", "" + optional)
     override fun cloneOP() = POPJoinHashMap(query, projectedVariables, children[0].cloneOP(), children[1].cloneOP(), optional)
 }

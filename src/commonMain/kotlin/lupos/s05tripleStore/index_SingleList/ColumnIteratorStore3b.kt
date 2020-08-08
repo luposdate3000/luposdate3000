@@ -50,11 +50,11 @@ class ColumnIteratorStore3b(@JvmField val values: MyListValue) : ColumnIterator(
         label = 0
     }
 
-    override fun close() {
+    override suspend fun close() {
         _close()
     }
 
-    override fun next(): Value {
+    override suspend fun next(): Value {
         if (label == 1) {
             valueC = it.next()
             var res = valueB

@@ -13,7 +13,7 @@ class LOPReduced(query: Query, child: OPBase = OPEmptyRow(query)) : LOPBase(quer
     var hadPushDown = false
     override fun equals(other: Any?) = other is LOPReduced && children[0] == other.children[0]
     override fun cloneOP() = LOPReduced(query, children[0].cloneOP())
-    override fun calculateHistogram(): HistogramResult {
+    suspend override fun calculateHistogram(): HistogramResult {
         return children[0].getHistogram()
     }
 }

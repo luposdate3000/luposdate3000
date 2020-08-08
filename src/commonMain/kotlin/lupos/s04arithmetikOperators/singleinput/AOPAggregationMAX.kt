@@ -20,7 +20,7 @@ import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
 
 class AOPAggregationMAX(query: Query, @JvmField val distinct: Boolean, childs: Array<AOPBase>) : AOPAggregationBase(query, EOperatorID.AOPAggregationMAXID, "AOPAggregationMAX", Array(childs.size) { childs[it] }) {
-    override fun toXMLElement() = super.toXMLElement().addAttribute("distinct", "" + distinct)
+    override suspend fun toXMLElement() = super.toXMLElement().addAttribute("distinct", "" + distinct)
     override fun toSparql(): String {
         if (distinct) {
             return "MAX(DISTINCT " + children[0].toSparql() + ")"

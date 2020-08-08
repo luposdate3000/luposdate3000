@@ -18,7 +18,7 @@ abstract class ColumnIteratorQueue() : ColumnIterator() {
         label = 0
     }
 
-    inline fun next_helper(crossinline onEmptyQueue: () -> Unit): Value {
+    inline suspend fun next_helper(crossinline onEmptyQueue: suspend () -> Unit): Value {
         when (label) {
             1 -> {
                 if (queue.size == 0) {

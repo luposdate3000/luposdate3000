@@ -14,7 +14,7 @@ abstract class ColumnIteratorChildIterator() : ColumnIterator() {
         label = 2
     }
 
-    inline fun _close() {
+    inline suspend fun _close() {
         if (label != 0) {
             label = 0
             for (child in childs) {
@@ -23,7 +23,7 @@ abstract class ColumnIteratorChildIterator() : ColumnIterator() {
         }
     }
 
-    inline fun next_helper(crossinline onNoMoreElements: () -> Unit): Value {
+    inline suspend fun next_helper(crossinline onNoMoreElements: suspend () -> Unit): Value {
         when (label) {
             1 -> {
                 var res: Value = ResultSetDictionary.nullValue

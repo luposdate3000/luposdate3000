@@ -1,6 +1,7 @@
 package lupos.s04logicalOperators
 
 import kotlin.jvm.JvmField
+import kotlinx.coroutines.runBlocking
 import lupos.s00misc.BugException
 import lupos.s00misc.classNameToString
 import lupos.s00misc.Coverage
@@ -58,7 +59,7 @@ abstract class OPBase(@JvmField val query: Query, @JvmField val operatorID: EOpe
 
     @JvmField
     var histogramResult: HistogramResult? = null
-    fun getHistogram(): HistogramResult {
+    suspend fun getHistogram(): HistogramResult {
         if (histogramResult == null) {
             histogramResult = calculateHistogram()
         } else {
@@ -77,8 +78,8 @@ abstract class OPBase(@JvmField val query: Query, @JvmField val operatorID: EOpe
         return histogramResult!!
     }
 
-    abstract fun calculateHistogram(): HistogramResult
-    open fun evaluate(parent: Partition): IteratorBundle = throw EvaluateNotImplementedException(classname)
+    suspend abstract fun calculateHistogram(): HistogramResult
+    open suspend fun evaluate(parent: Partition): IteratorBundle = throw EvaluateNotImplementedException(classname)
     abstract fun cloneOP(): OPBase
     fun getChildrenCountRecoursive(): Int {
         var res = children.size
@@ -417,7 +418,7 @@ abstract class OPBase(@JvmField val query: Query, @JvmField val operatorID: EOpe
 
     @JvmField
     val uuid: Long = global_uuid.next()
-    override fun toString(): String = toXMLElement().toPrettyString()
+    override fun toString(): String = runBlocking { toXMLElement().toPrettyString() }
     fun getRequiredVariableNamesRecoursive(): List<String> {
         val res = getRequiredVariableNames().toMutableList()
         for (c in children) {
@@ -443,7 +444,7 @@ abstract class OPBase(@JvmField val query: Query, @JvmField val operatorID: EOpe
     }
 
     open fun toSparql(): String = throw ToSparqlNotImplementedException(classname)
-    open fun toXMLElement(): XMLElement {
+    open suspend fun toXMLElement(): XMLElement {
         val res = XMLElement(classname)
         try {
             res.addAttribute("uuid", "" + uuid)
@@ -477,7 +478,7 @@ abstract class OPBase(@JvmField val query: Query, @JvmField val operatorID: EOpe
         return res
     }
 
-    fun childrenToXML(): XMLElement {
+    suspend fun childrenToXML(): XMLElement {
         val res = XMLElement("children")
         for (c in children) {
             res.addContent(c.toXMLElement())

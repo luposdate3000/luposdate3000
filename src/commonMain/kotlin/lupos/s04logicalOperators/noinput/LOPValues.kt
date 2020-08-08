@@ -19,7 +19,7 @@ class LOPValues(query: Query, @JvmField val variables: List<AOPVariable>, values
         return MutableList(variables.size) { variables[it].name }.distinct()
     }
 
-    override fun toXMLElement(): XMLElement {
+    override suspend fun toXMLElement(): XMLElement {
         val res = XMLElement("LOPValues").addAttribute("uuid", "" + uuid)
         val xmlvariables = XMLElement("LocalVariables")
         res.addContent(xmlvariables)
@@ -34,7 +34,7 @@ class LOPValues(query: Query, @JvmField val variables: List<AOPVariable>, values
 
     override fun equals(other: Any?) = other is LOPValues && variables == other.variables && children.contentEquals(other.children)
     override fun cloneOP() = LOPValues(query, variables, List(children.size) { children[it].cloneOP() as AOPValue })
-    override fun calculateHistogram(): HistogramResult {
+    suspend override fun calculateHistogram(): HistogramResult {
         var res = HistogramResult()
         var p = getProvidedVariableNames()
         for (i in 0 until p.size) {

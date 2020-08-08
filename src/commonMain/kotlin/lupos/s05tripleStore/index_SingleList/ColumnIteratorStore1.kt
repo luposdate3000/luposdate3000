@@ -14,10 +14,10 @@ class ColumnIteratorStore1(@JvmField val values: MyListValue, start: Int) : Colu
 
     @JvmField
     val end = start + values[start] + 1
-    override fun close() {
+    override suspend fun close() {
     }
 
-    override fun next(): Value {
+    override suspend fun next(): Value {
         if (index == end) {
             return ResultSetDictionary.nullValue
         } else {

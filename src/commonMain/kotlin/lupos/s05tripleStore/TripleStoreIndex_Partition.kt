@@ -16,7 +16,7 @@ import lupos.s04logicalOperators.Query
 
 class TripleStoreIndex_Partition(childIndex: (Int) -> TripleStoreIndex, val column: Int) : TripleStoreIndex() {
     val partitions = Array(Partition.k) { childIndex(it) }
-    override fun safeToFile(filename: String) {
+    suspend override fun safeToFile(filename: String) {
         val a = filename.lastIndexOf('k')
         val b = filename.substring(0, a)
         val c = filename.substring(a + 1, filename.length)
@@ -25,7 +25,7 @@ class TripleStoreIndex_Partition(childIndex: (Int) -> TripleStoreIndex, val colu
         }
     }
 
-    override fun loadFromFile(filename: String) {
+    suspend override fun loadFromFile(filename: String) {
         val a = filename.lastIndexOf('k')
         val b = filename.substring(0, a)
         val c = filename.substring(a + 1, filename.length)
@@ -34,7 +34,7 @@ class TripleStoreIndex_Partition(childIndex: (Int) -> TripleStoreIndex, val colu
         }
     }
 
-    override fun getHistogram(query: Query, params: TripleStoreFeatureParams): Pair<Int, Int> {
+    suspend override fun getHistogram(query: Query, params: TripleStoreFeatureParams): Pair<Int, Int> {
         var i = -1
         val partition = (params as TripleStoreFeatureParamsPartition).partition
         for ((k, v) in partition.data) {
@@ -45,7 +45,7 @@ class TripleStoreIndex_Partition(childIndex: (Int) -> TripleStoreIndex, val colu
         return partitions[i].getHistogram(query, p2)
     }
 
-    override fun getIterator(query: Query, params: TripleStoreFeatureParams): IteratorBundle {
+    suspend override fun getIterator(query: Query, params: TripleStoreFeatureParams): IteratorBundle {
         var i = -1
         val partition = (params as TripleStoreFeatureParamsPartition).partition
         for ((k, v) in partition.data) {
@@ -56,7 +56,7 @@ class TripleStoreIndex_Partition(childIndex: (Int) -> TripleStoreIndex, val colu
         return partitions[i].getIterator(query, p2)
     }
 
-    override fun import(dataImport: IntArray, count: Int, order: IntArray) {
+    suspend override fun import(dataImport: IntArray, count: Int, order: IntArray) {
         var counters = IntArray(Partition.k)
         for (i in 0 until count / 3) {
             val a = i * 3
@@ -82,7 +82,7 @@ class TripleStoreIndex_Partition(childIndex: (Int) -> TripleStoreIndex, val colu
         }
     }
 
-    override fun insertAsBulk(dataImport: IntArray, order: IntArray) {
+    suspend override fun insertAsBulk(dataImport: IntArray, order: IntArray) {
         var counters = IntArray(Partition.k)
         for (i in 0 until dataImport.size / 3) {
             val a = i * 3
@@ -107,7 +107,7 @@ class TripleStoreIndex_Partition(childIndex: (Int) -> TripleStoreIndex, val colu
         }
     }
 
-    override fun removeAsBulk(dataImport: IntArray, order: IntArray) {
+    suspend override fun removeAsBulk(dataImport: IntArray, order: IntArray) {
         var counters = IntArray(Partition.k)
         for (i in 0 until dataImport.size / 3) {
             val a = i * 3
@@ -132,7 +132,7 @@ class TripleStoreIndex_Partition(childIndex: (Int) -> TripleStoreIndex, val colu
         }
     }
 
-    override fun flush() {
+    suspend override fun flush() {
         for (i in 0 until Partition.k) {
             partitions[i].flush()
         }
@@ -146,13 +146,13 @@ class TripleStoreIndex_Partition(childIndex: (Int) -> TripleStoreIndex, val colu
         SanityCheck.checkUnreachable()
     }
 
-    override fun clear() {
+    suspend override fun clear() {
         for (i in 0 until Partition.k) {
             partitions[i].clear()
         }
     }
 
-    override fun printContents() {
+    suspend override fun printContents() {
         for (i in 0 until Partition.k) {
             SanityCheck.println({ "TripleStoreIndex_Partition :: " + i })
             partitions[i].printContents()

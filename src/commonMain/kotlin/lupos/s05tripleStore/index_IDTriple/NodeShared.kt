@@ -19,6 +19,7 @@ object NodeShared {
     inline fun getNodeType(data: ByteArray): Int {
         return data.readInt4(0)
     }
+
     inline fun setNextNode(data: ByteArray, node: Int) {
         data.writeInt4(8, node)
     }

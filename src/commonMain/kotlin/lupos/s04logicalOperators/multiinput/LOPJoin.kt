@@ -10,7 +10,7 @@ import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
 
 class LOPJoin(query: Query, first: OPBase, second: OPBase, @JvmField val optional: Boolean) : LOPBase(query, EOperatorID.LOPJoinID, "LOPJoin", arrayOf(first, second), ESortPriority.JOIN) {
-    override fun toXMLElement() = super.toXMLElement().addAttribute("optional", "" + optional)
+    override suspend fun toXMLElement() = super.toXMLElement().addAttribute("optional", "" + optional)
     override fun equals(other: Any?) = other is LOPJoin && optional == other.optional && children[0] == other.children[0] && children[1] == other.children[1]
     override fun cloneOP() = LOPJoin(query, children[0].cloneOP(), children[1].cloneOP(), optional)
 
@@ -85,7 +85,7 @@ class LOPJoin(query: Query, first: OPBase, second: OPBase, @JvmField val optiona
         }
     }
 
-    override fun calculateHistogram(): HistogramResult {
+    suspend override fun calculateHistogram(): HistogramResult {
         return mergeHistograms(children[0].getHistogram(), children[1].getHistogram(), optional)
     }
 }

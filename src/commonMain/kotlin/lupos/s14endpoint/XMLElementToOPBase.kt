@@ -144,7 +144,7 @@ fun createProjectedVariables(query: Query, node: XMLElement, mapping: MutableMap
     return res
 }
 
-fun XMLElement.Companion.convertToOPBase(query: Query, node: XMLElement, mapping: MutableMap<String, String> = mutableMapOf<String, String>()): OPBase {
+suspend fun XMLElement.Companion.convertToOPBase(query: Query, node: XMLElement, mapping: MutableMap<String, String> = mutableMapOf<String, String>()): OPBase {
     var res: OPBase
     when (node.tag) {
         "OPBaseCompound" -> {

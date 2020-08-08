@@ -35,18 +35,18 @@ class NodeLeafColumnIterator1(@JvmField var node: ByteArray, @JvmField val lock:
         }
     }
 
-    inline fun _close() {
+    suspend inline fun _close() {
         if (label != 0) {
             label = 0
             lock.readUnlock()
         }
     }
 
-    override fun close() {
+    suspend override fun close() {
         _close()
     }
 
-    override fun next(): Int {
+    suspend override fun next(): Int {
         if (label != 0) {
             if (needsReset) {
                 needsReset = false
@@ -89,19 +89,19 @@ class NodeLeafColumnIterator1(@JvmField var node: ByteArray, @JvmField val lock:
             offset += counter1 + counter2
             remaining--
             if (remaining == 0) {
-                    loop@ while (remaining == 0) {
-                        needsReset = true
-                        offset = NodeLeaf.startOffset
-                        var nextNodeIdx = NodeShared.getNextNode(node)
-                        if (nextNodeIdx != NodeManager.nodeNullPointer) {
-                            NodeManager.getNodeLeaf(nextNodeIdx, {
-                                SanityCheck.check { node != it }
-                                node = it
-                                remaining = NodeShared.getTripleCount(node)
-                            })
-                        } else {
-                            _close()
-                            break@loop
+                loop@ while (remaining == 0) {
+                    needsReset = true
+                    offset = NodeLeaf.startOffset
+                    var nextNodeIdx = NodeShared.getNextNode(node)
+                    if (nextNodeIdx != NodeManager.nodeNullPointer) {
+                        NodeManager.getNodeLeaf(nextNodeIdx, {
+                            SanityCheck.check { node != it }
+                            node = it
+                            remaining = NodeShared.getTripleCount(node)
+                        })
+                    } else {
+                        _close()
+                        break@loop
                     }
                 }
             }

@@ -10,15 +10,15 @@ open class RowIterator() {
     var buf = IntArray(0)
 
     @JvmField
-    var next: () -> Int = ::_next
+    var next: suspend () -> Int = ::_next
 
     /*next returns start index in buf, or -1 otherwise*/
     @JvmField
-    var close: () -> Unit = ::_close
-    fun _close() {
+    var close: suspend () -> Unit = ::_close
+    suspend fun _close() {
         next = ::_next
         close = ::_close
     }
 
-    fun _next() = -1
+    suspend fun _next() = -1
 }

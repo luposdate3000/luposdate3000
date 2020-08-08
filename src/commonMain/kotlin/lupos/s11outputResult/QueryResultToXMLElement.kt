@@ -13,7 +13,7 @@ import lupos.s04logicalOperators.OPBaseCompound
 import lupos.s04logicalOperators.Query
 
 object QueryResultToXMLElement {
-    fun toXML(rootNode: OPBase): XMLElement {
+    suspend fun toXML(rootNode: OPBase): XMLElement {
         var res = mutableListOf<XMLElement>()
         val nodes: Array<OPBase>
         var columnProjectionOrder: List<List<String>>
@@ -59,7 +59,7 @@ object QueryResultToXMLElement {
                         nodeHead.addContent(XMLElement("variable").addAttribute("name", variable))
                     }
                     if (variables.size == 0) {
-                        for (j in 0 until child.count) {
+                        for (j in 0 until child.count()) {
                             val nodeResult = XMLElement("result")
                             nodeResults.addContent(nodeResult)
                         }

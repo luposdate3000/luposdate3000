@@ -54,54 +54,48 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
         var debuguuiditerator = 0
     }
 
-    override fun safeToFile(filename: String) {
-        runBlocking {
-            flushContinueWithReadLock()
-            SanityCheck {
-                if (root != NodeManager.nodeNullPointer) {
-                    var found = false
-                    runBlocking {
-                        NodeManager.getNodeAny(root, {
-                            SanityCheck.println { "root is inner node" }
-                            SanityCheck.checkUnreachable()
-                        }, {
-                            found = true
-                            SanityCheck.check { rootNode == it }
-                        })
-                    }
-                    SanityCheck.check { found }
-                } else {
-                    SanityCheck.check { rootNode == null }
-                }
+    suspend override fun safeToFile(filename: String) {
+        flushContinueWithReadLock()
+        SanityCheck.suspended {
+            if (root != NodeManager.nodeNullPointer) {
+                var found = false
+                NodeManager.getNodeAny(root, {
+                    SanityCheck.println { "root is inner node" }
+                    SanityCheck.checkUnreachable()
+                }, {
+                    found = true
+                    SanityCheck.check { rootNode == it }
+                })
+                SanityCheck.check { found }
+            } else {
+                SanityCheck.check { rootNode == null }
             }
-            File(filename).dataOutputStream { out ->
-                out.writeInt(firstLeaf)
-                out.writeInt(root)
-                out.writeInt(countPrimary)
-                out.writeInt(distinctPrimary)
-            }
-            SanityCheck {
-                SanityCheck.println { firstLeaf }
-                SanityCheck.println { root }
-                SanityCheck.println { countPrimary }
-                SanityCheck.println { distinctPrimary }
-                if (rootNode != null) {
-                    runBlocking {
-                        val iterator = NodeInner.iterator(rootNode!!)
-                        while (iterator.hasNext()) {
-                            SanityCheck.println { iterator.next().map { it } }
-                        }
-                    }
-                }
-            }
-            lock.readUnlock()
         }
+        File(filename).dataOutputStream { out ->
+            out.writeInt(firstLeaf)
+            out.writeInt(root)
+            out.writeInt(countPrimary)
+            out.writeInt(distinctPrimary)
+        }
+        SanityCheck.suspended {
+            SanityCheck.println { firstLeaf }
+            SanityCheck.println { root }
+            SanityCheck.println { countPrimary }
+            SanityCheck.println { distinctPrimary }
+            if (rootNode != null) {
+                val iterator = NodeInner.iterator(rootNode!!)
+                while (iterator.hasNext()) {
+                    SanityCheck.println { iterator.next().map { it } }
+                }
+            }
+        }
+        lock.readUnlock()
         SanityCheck.println { "readunlock 1" }
     }
 
-    override fun loadFromFile(filename: String) {
+    suspend override fun loadFromFile(filename: String) {
         SanityCheck.println({ "writelock 2" })
-        lock.withWriteLockSuspend {
+        lock.withWriteLock {
             pendingImport.clear()
             File(filename).dataInputStreamSuspended { fis ->
                 firstLeaf = fis.readInt()
@@ -117,17 +111,15 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
                     SanityCheck.check { rootNode != null }
                 }
             }
-            SanityCheck {
+            SanityCheck.suspended {
                 SanityCheck.println { firstLeaf }
                 SanityCheck.println { root }
                 SanityCheck.println { countPrimary }
                 SanityCheck.println { distinctPrimary }
-                runBlocking {
-                    if (rootNode != null) {
-                        val iterator = NodeInner.iterator(rootNode!!)
-                        while (iterator.hasNext()) {
-                            SanityCheck.println { iterator.next().map { it } }
-                        }
+                if (rootNode != null) {
+                    val iterator = NodeInner.iterator(rootNode!!)
+                    while (iterator.hasNext()) {
+                        SanityCheck.println { iterator.next().map { it } }
                     }
                 }
             }
@@ -215,12 +207,12 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
         }
     }
 
-    override fun getHistogram(query: Query, params: TripleStoreFeatureParams): Pair<Int, Int> {
+    suspend override fun getHistogram(query: Query, params: TripleStoreFeatureParams): Pair<Int, Int> {
         val filter = (params as TripleStoreFeatureParamsDefault).getFilter(query)
         var res: Pair<Int, Int>? = checkForCachedHistogram(filter)
         if (res == null) {
             SanityCheck.println({ "readlock 6" })
-            lock.withReadLockSuspend {
+            lock.withReadLock {
                 val node = rootNode
                 if (node != null) {
                     when (filter.size) {
@@ -272,7 +264,7 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
         return res!!
     }
 
-    override fun getIterator(query: Query, params: TripleStoreFeatureParams): IteratorBundle {
+    suspend override fun getIterator(query: Query, params: TripleStoreFeatureParams): IteratorBundle {
         var fp = (params as TripleStoreFeatureParamsDefault).getFilterAndProjection(query)
         val filter = fp.first
         val projection = fp.second
@@ -290,69 +282,67 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
         } else {
             res = IteratorBundle(0)
         }
-        runBlocking {
-            flushContinueWithReadLock()
-            val node = rootNode
-            if (node != null) {
-                if (filter.size == 3) {
-                    if (NodeInner.iterator3(node, filter).hasNext()) {
-                        res = IteratorBundle(1)
+        flushContinueWithReadLock()
+        val node = rootNode
+        if (node != null) {
+            if (filter.size == 3) {
+                if (NodeInner.iterator3(node, filter).hasNext()) {
+                    res = IteratorBundle(1)
+                }
+            } else if (filter.size == 2) {
+                if (projection[0] == "_") {
+                    var count = 0
+                    var it = NodeInner.iterator2(node, filter)
+                    while (it.hasNext()) {
+                        it.next()
+                        count++
                     }
-                } else if (filter.size == 2) {
-                    if (projection[0] == "_") {
-                        var count = 0
-                        var it = NodeInner.iterator2(node, filter)
-                        while (it.hasNext()) {
-                            it.next()
-                            count++
-                        }
-                        res = IteratorBundle(count)
-                    } else {
-                        columns[projection[0]] = NodeInner.iterator2(node, filter, lock, 2)
-                    }
-                } else if (filter.size == 1) {
-                    if (projection[0] != "_") {
-                        columns[projection[0]] = NodeInner.iterator1(node, filter, lock, 1)
-                        if (projection[1] != "_") {
-                            columns[projection[1]] = NodeInner.iterator1(node, filter, lock, 2)
-                        }
-                    } else {
-                        SanityCheck.check { projection[1] == "_" }
-                        var count = 0
-                        var it = NodeInner.iterator1(node, filter)
-                        while (it.hasNext()) {
-                            it.next()
-                            count++
-                        }
-                        res = IteratorBundle(count)
+                    res = IteratorBundle(count)
+                } else {
+                    columns[projection[0]] = NodeInner.iterator2(node, filter, lock, 2)
+                }
+            } else if (filter.size == 1) {
+                if (projection[0] != "_") {
+                    columns[projection[0]] = NodeInner.iterator1(node, filter, lock, 1)
+                    if (projection[1] != "_") {
+                        columns[projection[1]] = NodeInner.iterator1(node, filter, lock, 2)
                     }
                 } else {
-                    SanityCheck.check { filter.size == 0 }
-                    if (projection[0] != "_") {
-                        columns[projection[0]] = NodeInner.iterator(node, lock, 0)
-                        if (projection[1] != "_") {
-                            columns[projection[1]] = NodeInner.iterator(node, lock, 1)
-                            if (projection[2] != "_") {
-                                columns[projection[2]] = NodeInner.iterator(node, lock, 2)
-                            }
-                        } else {
-                            SanityCheck.check { projection[2] == "_" }
+                    SanityCheck.check { projection[1] == "_" }
+                    var count = 0
+                    var it = NodeInner.iterator1(node, filter)
+                    while (it.hasNext()) {
+                        it.next()
+                        count++
+                    }
+                    res = IteratorBundle(count)
+                }
+            } else {
+                SanityCheck.check { filter.size == 0 }
+                if (projection[0] != "_") {
+                    columns[projection[0]] = NodeInner.iterator(node, lock, 0)
+                    if (projection[1] != "_") {
+                        columns[projection[1]] = NodeInner.iterator(node, lock, 1)
+                        if (projection[2] != "_") {
+                            columns[projection[2]] = NodeInner.iterator(node, lock, 2)
                         }
                     } else {
-                        SanityCheck.check { projection[1] == "_" }
                         SanityCheck.check { projection[2] == "_" }
-                        var count = 0
-                        var it = NodeInner.iterator(node)
-                        while (it.hasNext()) {
-                            it.next()
-                            count++
-                        }
-                        res = IteratorBundle(count)
                     }
+                } else {
+                    SanityCheck.check { projection[1] == "_" }
+                    SanityCheck.check { projection[2] == "_" }
+                    var count = 0
+                    var it = NodeInner.iterator(node)
+                    while (it.hasNext()) {
+                        it.next()
+                        count++
+                    }
+                    res = IteratorBundle(count)
                 }
             }
-            lock.readUnlock()
         }
+        lock.readUnlock()
         SanityCheck.println({ "readunlock 7" })
         return res
     }
@@ -395,10 +385,10 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
         return res
     }
 
-    override fun flush() {
+    suspend override fun flush() {
         if (pendingImport.size > 0) {
             SanityCheck.println({ "writelock 8" })
-            lock.withWriteLockSuspend {
+            lock.withWriteLock {
                 flushAssumeLocks()
             }
             SanityCheck.println({ "writeunlock 8" })
@@ -437,28 +427,28 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
             }
             SanityCheck.check { pendingImport.size > 0 }
             val newFirstLeaf = pendingImport[pendingImport.size - 1]!!
-var node:ByteArray?=null
-var flag=false
+            var node: ByteArray? = null
+            var flag = false
             NodeManager.getNodeAny(newFirstLeaf, {
-flag=true
-node=it
+                flag = true
+                node = it
             }, {
-node=it
+                node = it
             })
-if(flag){
-rebuildData(DistinctIterator(NodeLeaf.iterator(node!!)))
-}else{
-rebuildData(DistinctIterator(NodeInner.iterator(node!!)))
-}
+            if (flag) {
+                rebuildData(DistinctIterator(NodeLeaf.iterator(node!!)))
+            } else {
+                rebuildData(DistinctIterator(NodeInner.iterator(node!!)))
+            }
             NodeManager.freeAllLeaves(newFirstLeaf)
             pendingImport.clear()
             BenchmarkUtils.elapsedSeconds(EBenchmark.IMPORT_REBUILD_MAP)
         }
     }
 
-    override fun import(dataImport: IntArray, count: Int, order: IntArray) {
+    suspend override fun import(dataImport: IntArray, count: Int, order: IntArray) {
         SanityCheck.println({ "writelock 9" })
-        lock.withWriteLockSuspend {
+        lock.withWriteLock {
             BenchmarkUtils.start(EBenchmark.IMPORT_MERGE_DATA)
             if (count > 0) {
                 val iteratorImport = BulkImportIterator(dataImport, count, order)
@@ -568,51 +558,47 @@ rebuildData(DistinctIterator(NodeInner.iterator(node!!)))
         distinctPrimary = iterator.distinct
     }
 
-    override fun insertAsBulk(data: IntArray, order: IntArray) {
-        runBlocking {
-            flushContinueWithWriteLock()
-            var d = arrayOf(data, IntArray(data.size))
-            TripleStoreBulkImport.sortUsingBuffers(0, 0, 1, d, data.size / 3, order)
-            val iteratorImport = BulkImportIterator(d[0], data.size, order)
-            var iteratorStore2: TripleIterator? = null
-            if (firstLeaf == NodeManager.nodeNullPointer) {
-                iteratorStore2 = EmptyIterator()
-            } else {
-                NodeManager.getNodeLeaf(firstLeaf, {
-                    iteratorStore2 = NodeLeaf.iterator(it)
-                })
-            }
-            val iteratorStore = iteratorStore2!!
-            val iterator = MergeIterator(iteratorStore, DistinctIterator(iteratorImport))
-            var oldroot = root
-            rebuildData(iterator)
-            NodeManager.freeNodeAndAllRelated(oldroot)
-            lock.writeUnlock()
+    suspend override fun insertAsBulk(data: IntArray, order: IntArray) {
+        flushContinueWithWriteLock()
+        var d = arrayOf(data, IntArray(data.size))
+        TripleStoreBulkImport.sortUsingBuffers(0, 0, 1, d, data.size / 3, order)
+        val iteratorImport = BulkImportIterator(d[0], data.size, order)
+        var iteratorStore2: TripleIterator? = null
+        if (firstLeaf == NodeManager.nodeNullPointer) {
+            iteratorStore2 = EmptyIterator()
+        } else {
+            NodeManager.getNodeLeaf(firstLeaf, {
+                iteratorStore2 = NodeLeaf.iterator(it)
+            })
         }
+        val iteratorStore = iteratorStore2!!
+        val iterator = MergeIterator(iteratorStore, DistinctIterator(iteratorImport))
+        var oldroot = root
+        rebuildData(iterator)
+        NodeManager.freeNodeAndAllRelated(oldroot)
+        lock.writeUnlock()
         SanityCheck.println({ "writeunlock 10" })
     }
 
-    override fun removeAsBulk(data: IntArray, order: IntArray) {
-        runBlocking {
-            flushContinueWithWriteLock()
-            var d = arrayOf(data, IntArray(data.size))
-            TripleStoreBulkImport.sortUsingBuffers(0, 0, 1, d, data.size / 3, order)
-            val iteratorImport = BulkImportIterator(d[0], data.size, order)
-            var iteratorStore2: TripleIterator? = null
-            if (firstLeaf == NodeManager.nodeNullPointer) {
-                iteratorStore2 = EmptyIterator()
-            } else {
-                NodeManager.getNodeLeaf(firstLeaf, {
-                    iteratorStore2 = NodeLeaf.iterator(it)
-                })
-            }
-            val iteratorStore = iteratorStore2!!
-            val iterator = MinusIterator(iteratorStore, DistinctIterator(iteratorImport))
-            var oldroot = root
-            rebuildData(iterator)
-            NodeManager.freeNodeAndAllRelated(oldroot)
-            lock.writeUnlock()
+    suspend override fun removeAsBulk(data: IntArray, order: IntArray) {
+        flushContinueWithWriteLock()
+        var d = arrayOf(data, IntArray(data.size))
+        TripleStoreBulkImport.sortUsingBuffers(0, 0, 1, d, data.size / 3, order)
+        val iteratorImport = BulkImportIterator(d[0], data.size, order)
+        var iteratorStore2: TripleIterator? = null
+        if (firstLeaf == NodeManager.nodeNullPointer) {
+            iteratorStore2 = EmptyIterator()
+        } else {
+            NodeManager.getNodeLeaf(firstLeaf, {
+                iteratorStore2 = NodeLeaf.iterator(it)
+            })
         }
+        val iteratorStore = iteratorStore2!!
+        val iterator = MinusIterator(iteratorStore, DistinctIterator(iteratorImport))
+        var oldroot = root
+        rebuildData(iterator)
+        NodeManager.freeNodeAndAllRelated(oldroot)
+        lock.writeUnlock()
         SanityCheck.println({ "writeunlock 11" })
     }
 
@@ -624,21 +610,19 @@ rebuildData(DistinctIterator(NodeInner.iterator(node!!)))
         SanityCheck.checkUnreachable()
     }
 
-    override fun clear() {
-        runBlocking {
-            flushContinueWithWriteLock()
-            NodeManager.freeNodeAndAllRelated(root)
-            firstLeaf = NodeManager.nodeNullPointer
-            root = NodeManager.nodeNullPointer
-            rootNode = null
-            lock.writeUnlock()
-        }
+    suspend override fun clear() {
+        flushContinueWithWriteLock()
+        NodeManager.freeNodeAndAllRelated(root)
+        firstLeaf = NodeManager.nodeNullPointer
+        root = NodeManager.nodeNullPointer
+        rootNode = null
+        lock.writeUnlock()
         SanityCheck.println({ "writeunlock 12" })
     }
 
-    override fun printContents() {
+    suspend override fun printContents() {
         SanityCheck.println({ "readlock 13" })
-        lock.withReadLockSuspend {
+        lock.withReadLock {
             if (firstLeaf != NodeManager.nodeNullPointer) {
                 NodeManager.getNodeLeaf(firstLeaf, { node ->
                     var it = NodeLeaf.iterator(node)

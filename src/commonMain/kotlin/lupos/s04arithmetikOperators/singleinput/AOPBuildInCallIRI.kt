@@ -24,7 +24,7 @@ class AOPBuildInCallIRI(query: Query, child: AOPBase, @JvmField var prefix: Stri
         children[0].applyPrefix(prefix, iri)
     }
 
-    override fun toXMLElement() = super.toXMLElement().addAttribute("prefix", prefix)
+    override suspend fun toXMLElement() = super.toXMLElement().addAttribute("prefix", prefix)
     override fun equals(other: Any?) = other is AOPBuildInCallIRI && children[0] == other.children[0]
     override fun evaluate(row: IteratorBundle): () -> ValueDefinition {
         val childA = (children[0] as AOPBase).evaluate(row)

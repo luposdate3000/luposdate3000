@@ -1,5 +1,6 @@
 package lupos.s10physicalOptimisation
 
+import kotlinx.coroutines.runBlocking
 import lupos.s00misc.Coverage
 import lupos.s00misc.EIndexPattern
 import lupos.s00misc.EOptimizerID
@@ -155,7 +156,9 @@ class PhysicalOptimizerNaive(query: Query) : OptimizerBase(query, EOptimizerID.P
                     res = POPJoinHashMap(query, projectedVariables, node.children[0], node.children[1], node.optional)
                 }
                 is LOPTriple -> {
-                    res = DistributedTripleStore.getNamedGraph(query, node.graph).getIterator(Array(3) { node.children[it] as AOPBase }, EIndexPattern.SPO)
+                    runBlocking {
+                        res = DistributedTripleStore.getNamedGraph(query, node.graph).getIterator(Array(3) { node.children[it] as AOPBase }, EIndexPattern.SPO)
+                    }
                 }
                 is OPEmptyRow -> {
                     res = POPEmptyRow(query, projectedVariables)

@@ -22,7 +22,7 @@ class LOPProjection(query: Query, @JvmField val variables: MutableList<AOPVariab
         return MutableList(variables.size) { variables[it].name }.distinct()
     }
 
-    override fun toXMLElement(): XMLElement {
+    override suspend fun toXMLElement(): XMLElement {
         val res = super.toXMLElement()
         val vars = XMLElement("LocalVariables")
         res.addContent(vars)
@@ -34,7 +34,7 @@ class LOPProjection(query: Query, @JvmField val variables: MutableList<AOPVariab
 
     override fun equals(other: Any?) = other is LOPProjection && variables == other.variables && children[0] == other.children[0]
     override fun cloneOP() = LOPProjection(query, variables, children[0].cloneOP())
-    override fun calculateHistogram(): HistogramResult {
+    suspend override fun calculateHistogram(): HistogramResult {
         var res = HistogramResult()
         var childHistogram = children[0].getHistogram()
         for (v in variables) {

@@ -20,13 +20,13 @@ import lupos.s04logicalOperators.Query
 class TripleStoreIndex_MapMapList : TripleStoreIndex() {
     @JvmField
     val data = MyMapIntGeneric<MyMapIntGeneric<MySetInt>>()
-    override fun printContents() {
+    suspend override fun printContents() {
     }
 
-    override fun flush() {
+    suspend override fun flush() {
     }
 
-    override fun safeToFile(filename: String) {
+    suspend override fun safeToFile(filename: String) {
         File(filename).dataOutputStream { out ->
             out.writeInt(data.size)
             val iterator0 = data.iterator()
@@ -47,7 +47,7 @@ class TripleStoreIndex_MapMapList : TripleStoreIndex() {
         }
     }
 
-    override fun loadFromFile(filename: String) {
+    suspend override fun loadFromFile(filename: String) {
         File(filename).dataInputStream { it ->
             val size0 = it.readInt()
             data.withFastInitializer { initData ->
@@ -70,7 +70,7 @@ class TripleStoreIndex_MapMapList : TripleStoreIndex() {
         }
     }
 
-    override fun getIterator(query: Query, params: TripleStoreFeatureParams): IteratorBundle {
+    suspend override fun getIterator(query: Query, params: TripleStoreFeatureParams): IteratorBundle {
         var fp = (params as TripleStoreFeatureParamsDefault).getFilterAndProjection(query)
         val filter = fp.first
         val projection = fp.second
@@ -121,11 +121,11 @@ class TripleStoreIndex_MapMapList : TripleStoreIndex() {
                     } else {
                         for (i in 0 until 2) {
                             columnsArr[i] = object : ColumnIteratorChildIterator() {
-                                override fun close() {
+                                override suspend fun close() {
                                     _close()
                                 }
 
-                                override fun next(): Value {
+                                override suspend fun next(): Value {
                                     return next_helper {
                                         if (iter.hasNext()) {
                                             val key = iter.next()
@@ -172,11 +172,11 @@ class TripleStoreIndex_MapMapList : TripleStoreIndex() {
                     var iter2 = value1.iterator()
                     for (i in 0 until 3) {
                         columnsArr[i] = object : ColumnIteratorChildIterator() {
-                            override fun close() {
+                            override suspend fun close() {
                                 _close()
                             }
 
-                            override fun next(): Value {
+                            override suspend fun next(): Value {
                                 return next_helper {
                                     while (true) {
                                         if (iter2.hasNext()) {
@@ -224,7 +224,7 @@ class TripleStoreIndex_MapMapList : TripleStoreIndex() {
         return res
     }
 
-    override fun import(dataImport: IntArray, count: Int, order: IntArray) {
+    suspend override fun import(dataImport: IntArray, count: Int, order: IntArray) {
         if (count > 0) {
             var lastS = dataImport[order[0]]
             var tmpS = data.getOrCreate(lastS, { MyMapIntGeneric<MySetInt>() })
@@ -290,7 +290,7 @@ class TripleStoreIndex_MapMapList : TripleStoreIndex() {
         }
     }
 
-    override fun clear() {
+    suspend override fun clear() {
         data.clear()
     }
 }

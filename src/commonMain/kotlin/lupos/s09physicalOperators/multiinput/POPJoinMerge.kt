@@ -30,7 +30,7 @@ class POPJoinMerge(query: Query, projectedVariables: List<String>, childA: OPBas
     }
 
     override fun equals(other: Any?) = other is POPJoinMerge && optional == other.optional && children[0] == other.children[0] && children[1] == other.children[1]
-    override fun evaluate(parent: Partition): IteratorBundle {
+    override suspend fun evaluate(parent: Partition): IteratorBundle {
         SanityCheck.check { !optional }
 //setup columns
         SanityCheck.println({ "$uuid open $classname" })
@@ -97,7 +97,7 @@ class POPJoinMerge(query: Query, projectedVariables: List<String>, childA: OPBas
             val keyCopy = Array(columnsINJ[0].size) { key[0][it] }
             for (iteratorConfig in outIterators) {
                 val iterator = object : ColumnIteratorChildIterator() {
-                    inline fun __close() {
+                    suspend inline fun __close() {
                         if (label != 0) {
                             _close()
                             SanityCheck.println({ "$uuid close $classname" })
@@ -112,11 +112,11 @@ class POPJoinMerge(query: Query, projectedVariables: List<String>, childA: OPBas
                         }
                     }
 
-                    override fun close() {
+                    override suspend fun close() {
                         __close()
                     }
 
-                    override fun next(): Value {
+                    override suspend fun next(): Value {
                         return next_helper {
                             for (i in 0 until columnsINJ[0].size) {
                                 keyCopy[i] = key[0][i]
@@ -197,7 +197,7 @@ class POPJoinMerge(query: Query, projectedVariables: List<String>, childA: OPBas
         return res
     }
 
-    /*inline*/  fun sameElements(key: Array<Value>, keyCopy: Array<Value>, columnsINJ: MutableList<ColumnIterator>, columnsINO: MutableList<ColumnIterator>, data: Array<MyListValue>): Int {
+    suspend    /*inline*/  fun sameElements(key: Array<Value>, keyCopy: Array<Value>, columnsINJ: MutableList<ColumnIterator>, columnsINO: MutableList<ColumnIterator>, data: Array<MyListValue>): Int {
         var count = 0
         SanityCheck.check { keyCopy[0] != ResultSetDictionary.nullValue }
         loop@ while (true) {
@@ -218,7 +218,7 @@ class POPJoinMerge(query: Query, projectedVariables: List<String>, childA: OPBas
         return count
     }
 
-    /*inline*/ fun findNextKey(key: Array<Array<Value>>, columnsINJ: Array<MutableList<ColumnIterator>>, columnsINO: Array<MutableList<ColumnIterator>>): Boolean {
+    suspend    /*inline*/ fun findNextKey(key: Array<Array<Value>>, columnsINJ: Array<MutableList<ColumnIterator>>, columnsINO: Array<MutableList<ColumnIterator>>): Boolean {
         var done = true
         if (key[0][0] != ResultSetDictionary.nullValue && key[1][0] != ResultSetDictionary.nullValue) {
             done = false
@@ -262,6 +262,6 @@ class POPJoinMerge(query: Query, projectedVariables: List<String>, childA: OPBas
         return done
     }
 
-    override fun toXMLElement() = super.toXMLElement().addAttribute("optional", "" + optional)
+    override suspend fun toXMLElement() = super.toXMLElement().addAttribute("optional", "" + optional)
     override fun cloneOP() = POPJoinMerge(query, projectedVariables, children[0].cloneOP(), children[1].cloneOP(), optional)
 }

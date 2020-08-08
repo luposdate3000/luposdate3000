@@ -34,76 +34,74 @@ abstract class TripleStoreLocalBase(@JvmField val name: String) {
 
     @JvmField //override this during initialisation
     var pendingModificationsRemove = Array(0) { mutableMapOf<Long, MutableList<Int>>() }
-    fun safeToFolder(foldername: String) {
+    suspend fun safeToFolder(foldername: String) {
         File(foldername).mkdirs()
         dataDistinct.forEach {
             it.second.safeToFile(foldername + "/" + it.first + ".bin")
         }
     }
 
-    fun loadFromFolder(foldername: String) {
+    suspend fun loadFromFolder(foldername: String) {
         dataDistinct.forEach {
             it.second.loadFromFile(foldername + "/" + it.first + ".bin")
         }
     }
 
-    fun flush() {
+    suspend fun flush() {
         dataDistinct.forEach {
             it.second.flush()
         }
     }
 
-    fun getHistogram(query: Query, params: TripleStoreFeatureParams): Pair<Int, Int> {
+    suspend fun getHistogram(query: Query, params: TripleStoreFeatureParams): Pair<Int, Int> {
         val theData = dataDistinct[params.chooseData(data, featureDataMap[params.feature.ordinal], params)]
         return theData.second.getHistogram(query, params)
     }
 
-    fun getIterator(query: Query, params: TripleStoreFeatureParams): IteratorBundle {
+    suspend fun getIterator(query: Query, params: TripleStoreFeatureParams): IteratorBundle {
         val theData = dataDistinct[params.chooseData(data, featureDataMap[params.feature.ordinal], params)]
         return theData.second.getIterator(query, params)
     }
 
-    fun import(dataImport: TripleStoreBulkImport) {
+    suspend fun import(dataImport: TripleStoreBulkImport) {
         for (i in 0 until dataDistinct.size) {
             dataDistinct[i].second.import(dataDistinct[i].importField(dataImport), dataImport.idx, dataDistinct[i].idx.tripleIndicees)
         }
     }
 
-    fun commit(query: Query) {
+    suspend fun commit(query: Query) {
         /*
          * the input is ALWAYS in SPO order. The remapping of the triple layout is within the index, using the parameter order.
          */
-        runBlocking {
-            for (idx in 0 until dataDistinct.size) {
-                var list = pendingModificationsInsert[idx][query.transactionID]
-                if (list != null) {
-                    var tmp = IntArray(list.size)
-                    var i = 0
-                    var it = list.iterator()
-                    while (it.hasNext()) {
-                        tmp[i] = it.next()
-                        i++
-                    }
-                    dataDistinct[idx].second.insertAsBulk(tmp, dataDistinct[idx].idx.tripleIndicees)
-                    pendingModificationsInsert[idx].remove(query.transactionID)
+        for (idx in 0 until dataDistinct.size) {
+            var list = pendingModificationsInsert[idx][query.transactionID]
+            if (list != null) {
+                var tmp = IntArray(list.size)
+                var i = 0
+                var it = list.iterator()
+                while (it.hasNext()) {
+                    tmp[i] = it.next()
+                    i++
                 }
-                list = pendingModificationsRemove[idx][query.transactionID]
-                if (list != null) {
-                    var tmp = IntArray(list.size)
-                    var i = 0
-                    var it = list.iterator()
-                    while (it.hasNext()) {
-                        tmp[i] = it.next()
-                        i++
-                    }
-                    dataDistinct[idx].second.removeAsBulk(tmp, dataDistinct[idx].idx.tripleIndicees)
-                    pendingModificationsRemove[idx].remove(query.transactionID)
+                dataDistinct[idx].second.insertAsBulk(tmp, dataDistinct[idx].idx.tripleIndicees)
+                pendingModificationsInsert[idx].remove(query.transactionID)
+            }
+            list = pendingModificationsRemove[idx][query.transactionID]
+            if (list != null) {
+                var tmp = IntArray(list.size)
+                var i = 0
+                var it = list.iterator()
+                while (it.hasNext()) {
+                    tmp[i] = it.next()
+                    i++
                 }
+                dataDistinct[idx].second.removeAsBulk(tmp, dataDistinct[idx].idx.tripleIndicees)
+                pendingModificationsRemove[idx].remove(query.transactionID)
             }
         }
     }
 
-    fun clear() {
+    suspend fun clear() {
         dataDistinct.forEach {
             it.second.clear()
         }
@@ -113,7 +111,7 @@ abstract class TripleStoreLocalBase(@JvmField val name: String) {
         }
     }
 
-    fun modify(query: Query, dataModify: Array<ColumnIterator>, type: EModifyType) {
+    suspend fun modify(query: Query, dataModify: Array<ColumnIterator>, type: EModifyType) {
         /*
          * the input iterators are always in the SPO order. The real remapping to the ordering of the store happens within the commit-phase
          */

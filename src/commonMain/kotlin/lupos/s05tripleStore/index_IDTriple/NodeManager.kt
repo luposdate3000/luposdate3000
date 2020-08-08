@@ -21,11 +21,10 @@ object NodeManager {
 
     @JvmField
     var allNodesInnerSize = 0
-
     fun debug() {
     }
 
-    fun safeToFolder() {
+    suspend fun safeToFolder() {
         SanityCheck.println { "debug NodeManager saving to folder '${BufferManager.bufferPrefix + "nodemanager/"}'" }
         File(BufferManager.bufferPrefix + "nodemanager/").mkdirs()
         debug()
@@ -36,7 +35,7 @@ object NodeManager {
         bufferManager.safeToFolder()
     }
 
-    /*inline*/ fun loadFromFolder() {
+    suspend    /*inline*/ fun loadFromFolder() {
         SanityCheck.println({ "debug NodeManager loading from folder '${BufferManager.bufferPrefix + "nodemanager/"}'" })
         bufferManager.loadFromFolder()
         File(BufferManager.bufferPrefix + "nodemanager/header").dataInputStream { fis ->

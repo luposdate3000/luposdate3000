@@ -43,16 +43,16 @@ object BenchmarkUtils {
     val timesCounter = IntArray(timesHelper.size)
     val timesLock = Lock()
     inline fun timesHelperMark() = Monotonic.markNow()
-    inline fun timesHelperDuration(i: Int, timer: TimeMark) {
-        timesLock.withWriteLockSuspend {
+    suspend inline fun timesHelperDuration(i: Int, timer: TimeMark) {
+        timesLock.withWriteLock {
             timesHelper[i] += timer.elapsedNow().toDouble(DurationUnit.SECONDS)
             timesCounter[i]++
         }
     }
 
     inline fun timesHelperDuration(timer: TimeMark) = timer.elapsedNow().toDouble(DurationUnit.SECONDS)
-    inline fun setTimesHelper(i: Int, t: Double, c: Int) {
-        timesLock.withWriteLockSuspend {
+    suspend inline fun setTimesHelper(i: Int, t: Double, c: Int) {
+        timesLock.withWriteLock {
             timesHelper[i] += t
             timesCounter[i] += c
         }

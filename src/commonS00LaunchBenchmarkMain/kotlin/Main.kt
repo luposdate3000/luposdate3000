@@ -55,20 +55,24 @@ fun main(args: Array<String>) = runBlocking {
             HttpEndpoint.import_turtle_files(datasourceFiles, dict)
             val time = timer.elapsedNow().toDouble(DurationUnit.SECONDS)
             printBenchmarkLine("resources/${benchmarkname}/persistence-import.sparql", time, 1, numberOfTriples, originalTripleSize)
+/*
             val timer2 = Monotonic.markNow()
             DistributedTripleStore.localStore.safeToFolder()
             val time2 = timer2.elapsedNow().toDouble(DurationUnit.SECONDS)
             printBenchmarkLine("resources/${benchmarkname}/persistence-store.sparql", time2, 1, numberOfTriples, originalTripleSize)
+*/
         }
         Datasource.IMPORT_INTERMEDIATE -> {
             val timer = Monotonic.markNow()
             HttpEndpoint.import_intermediate_files(datasourceFiles)
             val time = timer.elapsedNow().toDouble(DurationUnit.SECONDS)
             printBenchmarkLine("resources/${benchmarkname}/persistence-import.sparql", time, 1, numberOfTriples, originalTripleSize)
+/*
             val timer2 = Monotonic.markNow()
             DistributedTripleStore.localStore.safeToFolder()
             val time2 = timer2.elapsedNow().toDouble(DurationUnit.SECONDS)
             printBenchmarkLine("resources/${benchmarkname}/persistence-store.sparql", time2, 1, numberOfTriples, originalTripleSize)
+*/
         }
     }
     for (queryFile in queryFiles) {

@@ -21,7 +21,7 @@ class AOPConstant : AOPBase {
         value = value2
     }
 
-    override fun toXMLElement(): XMLElement {
+    override suspend fun toXMLElement(): XMLElement {
         var tmp = query.dictionary.getValue(value)
         if (tmp is ValueBnode) {
             var res = XMLElement("ValueBnode").addAttribute("dictvalue", "" + value)

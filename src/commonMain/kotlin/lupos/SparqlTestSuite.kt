@@ -59,7 +59,7 @@ class SparqlTestSuite() {
         val filterList = mutableListOf<String>()
     }
 
-    fun testMain() {
+    suspend fun testMain() {
         repeat(1) {
             GlobalLogger.log(ELoggerType.RELEASE, { "Starting tests..." })
             val (nr_t, nr_e) = parseManifestFile("resources/sparql11-test-suite/", "manifest-all.ttl")
@@ -68,7 +68,7 @@ class SparqlTestSuite() {
             var prefixes = listOf("resources/myqueries/", "resources/bsbm/", "resources/btc/", "resources/sp2b/")
             for (prefix in prefixes) {
                 var lastinput: String? = null
-                File(prefix + "config.csv").forEachLine {
+                File(prefix + "config.csv").forEachLineSuspended {
                     val line = it.split(",")
                     if (line.size > 3) {
                         val triplesCount = line[0]
@@ -80,10 +80,8 @@ class SparqlTestSuite() {
                                 JenaWrapper.loadFromFile("/src/luposdate3000/" + inputFile)
                                 val jenaResult = JenaWrapper.execQuery(File(queryFile).readAsString())
                                 val jenaXML = XMLElement.parseFromXml(jenaResult)!!
-                                runBlocking {
-                                    File(outputFile).printWriter {
-                                        it.println(jenaXML.toPrettyString())
-                                    }
+                                File(outputFile).printWriterSuspended {
+                                    it.println(jenaXML.toPrettyString())
                                 }
                             } catch (e: Throwable) {
                                 SanityCheck.println({ "TODO exception 39" })
@@ -97,10 +95,8 @@ class SparqlTestSuite() {
                         } else {
                             lastinput = inputFile
                         }
-                        runBlocking {
-                            ServerCommunicationSend.distributedLogMessage("  Test: " + queryFile + "-" + triplesCount)
-                            parseSPARQLAndEvaluate(false, queryFile, true, queryFile, inputFile, outputFile, null, mutableListOf<MutableMap<String, String>>(), mutableListOf<MutableMap<String, String>>())
-                        }
+                        ServerCommunicationSend.distributedLogMessage("  Test: " + queryFile + "-" + triplesCount)
+                        parseSPARQLAndEvaluate(false, queryFile, true, queryFile, inputFile, outputFile, null, mutableListOf<MutableMap<String, String>>(), mutableListOf<MutableMap<String, String>>())
                     }
                 }
             }
@@ -108,7 +104,7 @@ class SparqlTestSuite() {
         ResultSetDictionary.debug()
     }
 
-    private fun listMembers(data: SevenIndices, start: Long, f: (Long) -> Unit) {
+    suspend private fun listMembers(data: SevenIndices, start: Long, f: suspend (Long) -> Unit) {
         val rdf = "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
         val nil = rdf + "nil"
         val first = rdf + "first"
@@ -116,7 +112,7 @@ class SparqlTestSuite() {
         val nil_iri = Dictionary.IRI(nil)
         val first_iri = Dictionary.IRI(first)
         val rest_iri = Dictionary.IRI(rest)
-        fun recursiveListMembers(current: Long) {
+        suspend fun recursiveListMembers(current: Long) {
             data.sp(current, first_iri).forEach { f(it) }
             data.sp(current, rest_iri).forEach {
                 if (it != nil_iri) {
@@ -145,7 +141,7 @@ class SparqlTestSuite() {
         return data
     }
 
-    private fun parseManifestFile(prefix: String, filename: String): Pair<Int, Int> {
+    suspend private fun parseManifestFile(prefix: String, filename: String): Pair<Int, Int> {
         var numberOfErrors = 0
         var numberOfTests = 0
         GlobalLogger.log(ELoggerType.DEBUG, { "Reading file " + filename + "..." })
@@ -194,7 +190,7 @@ class SparqlTestSuite() {
         return File(name).readAsString()
     }
 
-    private fun testOneEntry(data: SevenIndices, node: Long, prefix: String): Boolean {
+    suspend private fun testOneEntry(data: SevenIndices, node: Long, prefix: String): Boolean {
         var testType: String? = null
         var comment: String? = null
         var features = mutableListOf<String>()
@@ -420,10 +416,8 @@ class SparqlTestSuite() {
             return true
         }
         var success = false
-        runBlocking {
-            lastTripleCount = 0//dont apply during w3c-tests
-            success = parseSPARQLAndEvaluate(true, names.first(), expectedResult, queryFile!!, inputDataFile, resultFile, services, inputDataGraph, outputDataGraph)
-        }
+        lastTripleCount = 0//dont apply during w3c-tests
+        success = parseSPARQLAndEvaluate(true, names.first(), expectedResult, queryFile!!, inputDataFile, resultFile, services, inputDataGraph, outputDataGraph)
         return success == expectedResult
     }
 
@@ -434,10 +428,10 @@ class SparqlTestSuite() {
     var lastTripleCount = 0
 
     @UseExperimental(ExperimentalStdlibApi::class, kotlin.time.ExperimentalTime::class)
-    fun parseSPARQLAndEvaluate(executeJena: Boolean, testName: String, expectedResult: Boolean, queryFile: String, inputDataFileName: String?, resultDataFileName: String?, services: List<Map<String, String>>?, inputDataGraph: MutableList<MutableMap<String, String>>, outputDataGraph: MutableList<MutableMap<String, String>>): Boolean {
-        if (!testName.contains("resources")) {
-            return true
-        }
+    suspend fun parseSPARQLAndEvaluate(executeJena: Boolean, testName: String, expectedResult: Boolean, queryFile: String, inputDataFileName: String?, resultDataFileName: String?, services: List<Map<String, String>>?, inputDataGraph: MutableList<MutableMap<String, String>>, outputDataGraph: MutableList<MutableMap<String, String>>): Boolean {
+//        if (!testName.contains("resources")) {
+//            return true
+//        }
         if (filterList.size > 0 && !filterList.contains(testName)) {
             SanityCheck.println({ "'$testName' not in WhiteList of Unit-Tests" })
             return true
@@ -577,32 +571,32 @@ class SparqlTestSuite() {
             GlobalLogger.log(ELoggerType.TEST_DETAIL, { ast_node })
             GlobalLogger.log(ELoggerType.TEST_DETAIL, { "----------Logical Operator Graph" })
             val lop_node = ast_node.visit(OperatorGraphVisitor(query))
-            File("log/${testName2}-Logical-Operator-Graph.tex").printWriter {
+            File("log/${testName2}-Logical-Operator-Graph.tex").printWriterSuspended {
                 it.println(OperatorGraphToLatex(lop_node.toXMLElement().toString(), testName2))
             }
             SanityCheck.check({ lop_node == lop_node.cloneOP() }, { lop_node.toString() + " - " + lop_node.cloneOP().toString() })
-            GlobalLogger.log(ELoggerType.TEST_DETAIL, { lop_node.toXMLElement().toPrettyString() })
+            GlobalLogger.logSuspended(ELoggerType.TEST_DETAIL, { lop_node.toXMLElement().toPrettyString() })
             GlobalLogger.log(ELoggerType.TEST_DETAIL, { "----------Logical Operator Graph optimized" })
             val lop_node2 = LogicalOptimizer(query).optimizeCall(lop_node)
             SanityCheck.check { lop_node2 == lop_node2.cloneOP() }
-            File("log/${testName2}-Logical-Operator-Graph-Optimized.tex").printWriter {
+            File("log/${testName2}-Logical-Operator-Graph-Optimized.tex").printWriterSuspended {
                 it.println(OperatorGraphToLatex(lop_node2.toXMLElement().toString(), testName2))
             }
-            GlobalLogger.log(ELoggerType.TEST_DETAIL, { lop_node2.toXMLElement().toPrettyString() })
+            GlobalLogger.logSuspended(ELoggerType.TEST_DETAIL, { lop_node2.toXMLElement().toPrettyString() })
             GlobalLogger.log(ELoggerType.TEST_DETAIL, { "----------Physical Operator Graph" })
             val pop_optimizer = PhysicalOptimizer(query)
             val pop_node = pop_optimizer.optimizeCall(lop_node2)
             SanityCheck.check({ pop_node == pop_node.cloneOP() }, { pop_node.toString() + " - " + pop_node.cloneOP().toString() })
             SanityCheck { pop_node.toSparqlQuery() }
-            File("log/${testName2}-Physical-Operator-Graph.tex").printWriter {
+            File("log/${testName2}-Physical-Operator-Graph.tex").printWriterSuspended {
                 it.println(OperatorGraphToLatex(pop_node.toXMLElement().toString(), testName2))
             }
-            GlobalLogger.log(ELoggerType.TEST_DETAIL, { pop_node.toXMLElement().toPrettyString() })
+            GlobalLogger.logSuspended(ELoggerType.TEST_DETAIL, { pop_node.toXMLElement().toPrettyString() })
             GlobalLogger.log(ELoggerType.TEST_DETAIL, { "----------Distributed Operator Graph" })
             val pop_distributed_node = KeyDistributionOptimizer(query).optimizeCall(pop_node)
             SanityCheck.check { pop_distributed_node == pop_distributed_node.cloneOP() }
             SanityCheck { pop_distributed_node.toSparqlQuery() }
-            File("log/${testName2}-Distributed-Operator-Graph.tex").printWriter {
+            File("log/${testName2}-Distributed-Operator-Graph.tex").printWriterSuspended {
                 it.println(OperatorGraphToLatex(pop_distributed_node.toXMLElement().toString(), testName2))
             }
             GlobalLogger.log(ELoggerType.TEST_DETAIL, { pop_distributed_node })
@@ -674,7 +668,7 @@ class SparqlTestSuite() {
                     query4.workingDirectory = queryFile.substring(0, queryFile.lastIndexOf("/"))
                     val popNodeRecovered = XMLElement.convertToOPBase(query4, xmlPOP)
                     GlobalLogger.log(ELoggerType.TEST_DETAIL, { xmlPOP.toPrettyString() })
-                    GlobalLogger.log(ELoggerType.TEST_DETAIL, { popNodeRecovered.toXMLElement().toPrettyString() })
+                    GlobalLogger.logSuspended(ELoggerType.TEST_DETAIL, { popNodeRecovered.toXMLElement().toPrettyString() })
                     val xmlQueryResultRecovered = QueryResultToXMLElement.toXML(popNodeRecovered)
                     query4.commit()
                     GlobalLogger.log(ELoggerType.TEST_DETAIL, { "test xmlQueryResultRecovered :: " + xmlQueryResultRecovered.toPrettyString() })

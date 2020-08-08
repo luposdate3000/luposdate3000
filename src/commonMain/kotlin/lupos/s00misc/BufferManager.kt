@@ -30,13 +30,13 @@ class BufferManager(@JvmField val bufferName: String) {
 
         @JvmField
         val managerListLock = ReadWriteLock()
-        fun safeToFolder() = managerListLock.withReadLockSuspend {
+        suspend fun safeToFolder() = managerListLock.withReadLock {
             managerList.forEach {
                 it.safeToFolder()
             }
         }
 
-        fun loadFromFolder() = managerListLock.withReadLockSuspend {
+        suspend fun loadFromFolder() = managerListLock.withReadLock {
             managerList.forEach {
                 it.loadFromFolder()
             }
@@ -61,7 +61,6 @@ class BufferManager(@JvmField val bufferName: String) {
 
     @JvmField
     val freeList = mutableListOf<Int>()
-
     inline suspend fun clear() = lock.withWriteLock {
         counter = 0
         allPages = Array<ByteArray>(100) { ByteArray(PAGE_SIZE_IN_BYTES) }
@@ -73,7 +72,7 @@ class BufferManager(@JvmField val bufferName: String) {
         return allPages[pageid]
     }
 
-    inline suspend fun createPage(crossinline action: (ByteArray,Int) -> Unit) = lock.withWriteLock {
+    inline suspend fun createPage(crossinline action: (ByteArray, Int) -> Unit) = lock.withWriteLock {
         val id: Int
         if (freeList.size > 0) {
             id = freeList.removeAt(0)
@@ -92,17 +91,17 @@ class BufferManager(@JvmField val bufferName: String) {
             }
             id = counter++
         }
-        action(allPages[id],id)
+        action(allPages[id], id)
     }
 
     inline suspend fun deletePage(pageid: Int) = lock.withWriteLock {
-        freeList.add(pageid)
+//        freeList.add(pageid)
     }
 
-fun debug(){
-}
+    fun debug() {
+    }
 
-    fun safeToFolder() = lock.withWriteLockSuspend {
+    suspend fun safeToFolder() = lock.withWriteLock {
         File(bufferPrefix + "buffermanager").mkdirs()
         File(bufferPrefix + "buffermanager/" + bufferName + ".data").dataOutputStream { fos ->
             for (i in 0 until counter) {
@@ -118,16 +117,16 @@ fun debug(){
         }
     }
 
-    fun loadFromFolder() = lock.withWriteLockSuspend {
+    suspend fun loadFromFolder() = lock.withWriteLock {
         File(bufferPrefix + "buffermanager/" + bufferName + ".header").dataInputStream { fis ->
             counter = fis.readInt()
             val size = fis.readInt()
             for (i in 0 until size) {
                 val v = fis.readInt()
-freeList.add(v)
+                freeList.add(v)
             }
         }
-allPages = Array<ByteArray>(counter) { ByteArray(PAGE_SIZE_IN_BYTES) }
+        allPages = Array<ByteArray>(counter) { ByteArray(PAGE_SIZE_IN_BYTES) }
         File(bufferPrefix + "buffermanager/" + bufferName + ".data").dataInputStream { fis ->
             for (i in 0 until counter) {
                 fis.read(allPages[i])

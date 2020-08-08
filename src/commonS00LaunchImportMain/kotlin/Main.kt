@@ -62,7 +62,7 @@ fun main(args: Array<String>) = runBlocking {
             val tit = TurtleScanner(lcit)
             val ltit = LookAheadTokenIterator(tit, 3)
             val outputTriplesFile = File(inputFileName + ".triples")
-            outputTriplesFile.dataOutputStreamSuspend { out ->
+            outputTriplesFile.dataOutputStream { out ->
                 try {
                     TurtleParserWithStringTriples({ s, p, o ->
                         out.writeInt(dict.getOrCreate(s))
@@ -96,7 +96,7 @@ fun main(args: Array<String>) = runBlocking {
             println("merging $tmp into $outputFileName")
             val dict = MyMapStringIntPatriciaTrieDouble()
             val outputTriplesFile = File(outputFileName + ".triples")
-            outputTriplesFile.dataOutputStreamSuspend { out ->
+            outputTriplesFile.dataOutputStream { out ->
                 for (argIndex in 1 until args.size) {
                     val fileName = args[argIndex]
                     val fileTriples = File(fileName + ".triples")

@@ -30,19 +30,13 @@ class POPFilter(query: Query, projectedVariables: List<String>, filter: AOPBase,
     override fun cloneOP() = POPFilter(query, projectedVariables, children[1].cloneOP() as AOPBase, children[0].cloneOP())
     override fun getProvidedVariableNamesInternal() = children[0].getProvidedVariableNames()
     override fun getRequiredVariableNames() = children[1].getRequiredVariableNamesRecoursive()
-    override fun evaluate(parent: Partition): IteratorBundle {
+    override suspend fun evaluate(parent: Partition): IteratorBundle {
         //TODO not-equal shortcut during evaluation based on integer-ids
         val variables = children[0].getProvidedVariableNames()
         val variablesOut = getProvidedVariableNames()
         val outMap = mutableMapOf<String, ColumnIterator>()
         val localMap = mutableMapOf<String, ColumnIterator>()
-        val resLocal: IteratorBundle
-        if (variables.size > 0) {
-            resLocal = IteratorBundle(localMap)
-        } else {
-            resLocal = IteratorBundle(0)
-        }
-        val expression = (children[1] as AOPBase).evaluateAsBoolean(resLocal)
+        var expression: () -> Boolean = { true }
         SanityCheck.println({ "POPFilterXXX$uuid open A $classname" })
         val child = children[0].evaluate(parent)
         var res: IteratorBundle
@@ -52,7 +46,7 @@ class POPFilter(query: Query, projectedVariables: List<String>, filter: AOPBase,
             val columnsLocal = mutableListOf<ColumnIteratorQueue>()
             for (i in 0 until variables.size) {
                 columnsLocal.add(object : ColumnIteratorQueue() {
-                    override fun close() {
+                    override suspend fun close() {
                         if (label != 0) {
                             _close()
                             SanityCheck.println { "POPFilterXXX$uuid close E $classname" }
@@ -62,7 +56,7 @@ class POPFilter(query: Query, projectedVariables: List<String>, filter: AOPBase,
                         }
                     }
 
-                    override fun next(): Value {
+                    override suspend fun next(): Value {
                         return next_helper {
                             try {
                                 var done = false
@@ -112,9 +106,16 @@ class POPFilter(query: Query, projectedVariables: List<String>, filter: AOPBase,
                 }
                 localMap[variables[variableIndex]] = columnsLocal[variableIndex]
             }
+            val resLocal: IteratorBundle
+            if (variables.size > 0) {
+                resLocal = IteratorBundle(localMap)
+            } else {
+                resLocal = IteratorBundle(0)
+            }
             for (it in 0 until variablesOut.size) {
                 columnsOut.add(resLocal.columns[variablesOut[it]]!! as ColumnIteratorQueue)
             }
+            expression = (children[1] as AOPBase).evaluateAsBoolean(resLocal)
             if (variablesOut.size == 0) {
                 res = IteratorBundle(0)
                 if (variables.size == 0) {

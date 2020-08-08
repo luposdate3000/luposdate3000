@@ -55,7 +55,7 @@ class POPModifyData(query: Query, projectedVariables: List<String>, @JvmField va
         return res
     }
 
-    override fun toXMLElement(): XMLElement {
+    override suspend fun toXMLElement(): XMLElement {
         val res = XMLElement("POPModifyData")
         res.addAttribute("uuid", "" + uuid)
         for (t in data) {
@@ -64,7 +64,7 @@ class POPModifyData(query: Query, projectedVariables: List<String>, @JvmField va
         return res
     }
 
-    override fun evaluate(parent: Partition): IteratorBundle {
+    override suspend fun evaluate(parent: Partition): IteratorBundle {
         val iteratorDataMap = mutableMapOf<String, Array<MyListValue>>()
         for (t in data) {
             for (i in 0 until 3) {

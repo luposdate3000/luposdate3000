@@ -36,7 +36,9 @@ object Coverage {
         }
         Runtime.getRuntime().addShutdownHook(object : Thread() {
             override fun run() {
-                printToFile()
+                runBlocking {
+                    printToFile()
+                }
             }
         })
         CoverageMapGenerated[CoverageMapGenerated.keys.size] = ""
@@ -135,16 +137,14 @@ object Coverage {
         return res.toString()
     }
 
-    fun printToFile() {
+    suspend fun printToFile() {
         val s = toString()
         var h = s.hashCode()
         if (h < 0) {
             h = -h
         }
-        runBlocking {
-            File("coverage${h}.cov").printWriter { out ->
-                out.println(s)
-            }
+        File("coverage${h}.cov").printWriter { out ->
+            out.println(s)
         }
     }
 }
