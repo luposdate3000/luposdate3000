@@ -8,8 +8,8 @@ import lupos.s04logicalOperators.Query
 abstract class OptimizerCompoundBase(query: Query, optimizerID: EOptimizerID) : OptimizerBase(query, optimizerID) {
     override val classname = "OptimizerCompoundBase"
     abstract val childrenOptimizers: Array<Array<OptimizerBase>>
-    override fun optimize(node: OPBase, parent: OPBase?, onChange: () -> Unit) = node
-    override fun optimizeCall(node: OPBase, onChange: () -> Unit): OPBase {
+    override suspend fun optimize(node: OPBase, parent: OPBase?, onChange: () -> Unit) = node
+    override suspend fun optimizeCall(node: OPBase, onChange: () -> Unit): OPBase {
         if (query.filtersMovedUpFromOptionals) {
             node.syntaxVerifyAllVariableExists(listOf(), true)
         }

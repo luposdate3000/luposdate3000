@@ -17,7 +17,7 @@ import lupos.s15tripleStoreDistributed.DistributedTripleStore
 
 class PhysicalOptimizerTripleIndex(query: Query) : OptimizerBase(query, EOptimizerID.PhysicalOptimizerTripleIndexID) {
     override val classname = "PhysicalOptimizerTripleIndex"
-    override fun optimize(node: OPBase, parent: OPBase?, onChange: () -> Unit): OPBase {
+    override suspend fun optimize(node: OPBase, parent: OPBase?, onChange: () -> Unit): OPBase {
         var res = node
         if (node is LOPTriple) {
             val projectedVariables: List<String>
@@ -31,27 +31,25 @@ class PhysicalOptimizerTripleIndex(query: Query) : OptimizerBase(query, EOptimiz
                 projectedVariables = node.getProvidedVariableNames()
             }
             onChange()
-            runBlocking {
-                val store = DistributedTripleStore.getNamedGraph(query, node.graph)
-                val params = Array<AOPBase>(3) {
-                    var res2 = node.children[it] as AOPBase
-                    SanityCheck {
-                        if (res2 is AOPVariable) {
-                            SanityCheck.check { projectedVariables.contains(res2.name) || res2.name == "_" }
-                        }
-                    }
-/*return*/res2
-                }
+            val store = DistributedTripleStore.getNamedGraph(query, node.graph)
+            val params = Array<AOPBase>(3) {
+                var res2 = node.children[it] as AOPBase
                 SanityCheck {
-                    for (i in 0 until node.mySortPriority.size) {
-                        SanityCheck.check { node.mySortPriority[i].sortType == ESortType.FAST }
+                    if (res2 is AOPVariable) {
+                        SanityCheck.check { projectedVariables.contains(res2.name) || res2.name == "_" }
                     }
                 }
-                res = store!!.getIterator(params, LOPTriple.getIndex(node.children, node.mySortPriority.map { it.variableName }))
-                SanityCheck { res.getProvidedVariableNames().containsAll(node.mySortPriority.map { it.variableName }) }
-                res.mySortPriority = node.mySortPriority
-                res.sortPriorities = node.sortPriorities
+/*return*/res2
             }
+            SanityCheck {
+                for (i in 0 until node.mySortPriority.size) {
+                    SanityCheck.check { node.mySortPriority[i].sortType == ESortType.FAST }
+                }
+            }
+            res = store!!.getIterator(params, LOPTriple.getIndex(node.children, node.mySortPriority.map { it.variableName }))
+            SanityCheck { res.getProvidedVariableNames().containsAll(node.mySortPriority.map { it.variableName }) }
+            res.mySortPriority = node.mySortPriority
+            res.sortPriorities = node.sortPriorities
         }
         return res
     }

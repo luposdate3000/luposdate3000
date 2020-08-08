@@ -15,7 +15,7 @@ import lupos.s04logicalOperators.singleinput.LOPFilter
 
 class LogicalOptimizerFilterMergeAND(query: Query) : OptimizerBase(query, EOptimizerID.LogicalOptimizerFilterMergeANDID) {
     override val classname = "LogicalOptimizerFilterMergeAND"
-    override fun optimize(node: OPBase, parent: OPBase?, onChange: () -> Unit): OPBase {
+    override suspend fun optimize(node: OPBase, parent: OPBase?, onChange: () -> Unit): OPBase {
         var res: OPBase = node
         if (node is LOPFilter) {
             val child = node.children[0]

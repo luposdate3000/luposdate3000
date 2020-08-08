@@ -36,7 +36,7 @@ object Coverage {
         }
         Runtime.getRuntime().addShutdownHook(object : Thread() {
             override fun run() = runBlocking {
-                    printToFile()
+                printToFile()
             }
         })
         CoverageMapGenerated[CoverageMapGenerated.keys.size] = ""

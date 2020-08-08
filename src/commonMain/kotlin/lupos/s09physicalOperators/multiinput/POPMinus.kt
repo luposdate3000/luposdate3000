@@ -23,6 +23,8 @@ class POPMinus(query: Query, projectedVariables: List<String>, childA: OPBase, c
         val childB = children[1].evaluate(parent)
         val rowA = childA.rows
         val rowB = childB.rows
-        return IteratorBundle(RowIteratorMinus(rowA, rowB, projectedVariables.toTypedArray()))
+        var x = RowIteratorMinus(rowA, rowB, projectedVariables.toTypedArray())
+        x._init()
+        return IteratorBundle(x)
     }
 }

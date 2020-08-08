@@ -8,31 +8,34 @@ import lupos.s02buildSyntaxTree.turtle.TurtleParser
 import lupos.s02buildSyntaxTree.UnexpectedToken
 
 abstract class TurtleParserWithStringTriples() {
-@JvmField var ltit: LookAheadTokenIterator?=null
-suspend abstract fun consume_triple (s:String,p: String,o: String)
+    @JvmField
+    var ltit: LookAheadTokenIterator? = null
+    suspend abstract fun consume_triple(s: String, p: String, o: String)
+
     // for storing the prefixes...
-@JvmField
+    @JvmField
     val prefixes = mutableMapOf<String, String>()
 
     // some constants used for typed literals
-companion object{
-const    val xsd = "http://www.w3.org/2001/XMLSchema#"
-    const val xsd_boolean = xsd + "boolean"
-    const val xsd_integer = xsd + "integer"
-    const val xsd_decimal = xsd + "decimal"
-    const val xsd_double = xsd + "double"
-    const val rdf = "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-    const val nil = rdf + "nil"
-    const val first = rdf + "first"
-    const val rest = rdf + "rest"
-    const val nil_iri = "<" + nil + ">"
-    const val first_iri = "<" + first + ">"
-    const val rest_iri = "<" + rest + ">"
-    const val type_iri = "<" + rdf + "type" + ">"
-}
+    companion object {
+        const val xsd = "http://www.w3.org/2001/XMLSchema#"
+        const val xsd_boolean = xsd + "boolean"
+        const val xsd_integer = xsd + "integer"
+        const val xsd_decimal = xsd + "decimal"
+        const val xsd_double = xsd + "double"
+        const val rdf = "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+        const val nil = rdf + "nil"
+        const val first = rdf + "first"
+        const val rest = rdf + "rest"
+        const val nil_iri = "<" + nil + ">"
+        const val first_iri = "<" + first + ">"
+        const val rest_iri = "<" + rest + ">"
+        const val type_iri = "<" + rdf + "type" + ">"
+    }
+
     @JvmField
     var bnode_counter = 0
-   suspend fun turtleDoc() {
+    suspend fun turtleDoc() {
         var token: Token
         var t1 = ltit!!.lookahead()
         while (t1.image == "@prefix" || t1.image == "@base" || t1.image == "PREFIX" || t1.image == "BASE" || t1 is IRI || t1 is PNAME_LN || t1 is PNAME_NS || t1 is BNODE || t1 is ANON_BNODE || t1.image == "(" || t1.image == "[") {
@@ -45,7 +48,7 @@ const    val xsd = "http://www.w3.org/2001/XMLSchema#"
         }
     }
 
-suspend    fun statement() {
+    suspend fun statement() {
         var token: Token
         val t2 = ltit!!.lookahead()
         when {
@@ -157,7 +160,7 @@ suspend    fun statement() {
         prefixes.put(key, token.content)
     }
 
-suspend    fun triples() {
+    suspend fun triples() {
         var token: Token
         val t5 = ltit!!.lookahead()
         when {
@@ -178,7 +181,7 @@ suspend    fun triples() {
         }
     }
 
-suspend    fun predicateObjectList(s: String) {
+    suspend fun predicateObjectList(s: String) {
         var token: Token
         val p = verb()
         objectList(s, p)
@@ -197,7 +200,7 @@ suspend    fun predicateObjectList(s: String) {
         }
     }
 
-suspend    fun objectList(s: String, p: String) {
+    suspend fun objectList(s: String, p: String) {
         var token: Token
         val o = triple_object()
         consume_triple(s, p, o)
@@ -235,7 +238,7 @@ suspend    fun objectList(s: String, p: String) {
         }
     }
 
-suspend    fun subject(): String {
+    suspend fun subject(): String {
         var token: Token
         val result: String
         val t10 = ltit!!.lookahead()
@@ -262,7 +265,7 @@ suspend    fun subject(): String {
         return result
     }
 
-suspend    fun triple_object(): String {
+    suspend fun triple_object(): String {
         var token: Token
         val result: String
         val t11 = ltit!!.lookahead()
@@ -310,7 +313,7 @@ suspend    fun triple_object(): String {
         return result
     }
 
-suspend    fun blankNodePropertyList(): String {
+    suspend fun blankNodePropertyList(): String {
         var token: Token
         val result = "_:_" + bnode_counter; bnode_counter++
         token = ltit!!.nextToken()
@@ -325,7 +328,7 @@ suspend    fun blankNodePropertyList(): String {
         return result
     }
 
-suspend    fun collection(): String {
+    suspend fun collection(): String {
         var token: Token
         var first = nil_iri
         var current = nil_iri

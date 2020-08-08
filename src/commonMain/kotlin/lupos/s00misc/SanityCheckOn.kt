@@ -1,6 +1,5 @@
 package lupos.s00misc
 
-
 inline fun helperSanityPrintln(s: Any?) = println(s)
 
 object SanityCheckOn {

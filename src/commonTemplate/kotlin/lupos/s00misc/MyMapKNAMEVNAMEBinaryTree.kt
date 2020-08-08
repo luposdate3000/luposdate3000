@@ -1,6 +1,5 @@
 package lupos.s00misc
 
-
 /* Substitutions :: KEY,VALUE,GDEF,GUSEKV,GUSEK,GUSEV,KNAME,VNAME */
 class MyMapKNAMEVNAMEBinaryTreeGDEF() {
     @JvmField

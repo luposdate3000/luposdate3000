@@ -7,7 +7,7 @@ import lupos.s04logicalOperators.multiinput.LOPJoin
 import lupos.s04logicalOperators.OPBase
 
 object LogicalOptimizerJoinOrderStore {
-    operator fun invoke(allChilds: List<OPBase>, root: LOPJoin): OPBase? {
+    suspend operator fun invoke(allChilds: List<OPBase>, root: LOPJoin): OPBase? {
         SanityCheck.check { allChilds.size > 2 }
         if (root.onlyExistenceRequired) {
             SanityCheck {
@@ -25,14 +25,12 @@ object LogicalOptimizerJoinOrderStore {
                     lastVariableCount = tmp
                     lastVariable = i
                 } else {
-                    runBlocking {
-                        try {
-                            if (tmp == lastVariableCount && queue[i].getHistogram().count < queue[lastVariable].getHistogram().count) {
-                                lastVariableCount = tmp
-                                lastVariable = i
-                            }
-                        } catch (e: HistogramNotImplementedException) {
+                    try {
+                        if (tmp == lastVariableCount && queue[i].getHistogram().count < queue[lastVariable].getHistogram().count) {
+                            lastVariableCount = tmp
+                            lastVariable = i
                         }
+                    } catch (e: HistogramNotImplementedException) {
                     }
                 }
             }

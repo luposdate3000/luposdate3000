@@ -1,6 +1,5 @@
 package lupos.s16network
 
-
 enum class ServerCommunicationHeader {
     LOGMESSAGE,
     COMMIT,

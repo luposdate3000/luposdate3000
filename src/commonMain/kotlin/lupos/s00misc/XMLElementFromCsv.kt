@@ -1,6 +1,5 @@
 package lupos.s00misc
 
-
 fun XMLElement.Companion.parseFromCsv(csv: String): XMLElement? {
     val nodeSparql = XMLElement("sparql").addAttribute("xmlns", "http://www.w3.org/2005/sparql-results#")
     val nodeHead = XMLElement("head")

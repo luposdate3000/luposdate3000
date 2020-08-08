@@ -2,12 +2,11 @@ package lupos.s04logicalOperators.iterator
 
 import kotlinx.coroutines.runBlocking
 
-open class RowIteratorMinus(val a: RowIterator, val b: RowIterator, projection: Array<String>) : RowIterator() {
+open class RowIteratorMinus(val a: RowIterator, val b: RowIterator, val projection: Array<String>) : RowIterator() {
     var flag = 2
     var aIdx = -1
     var bIdx = -1
-
-    init {
+    suspend fun _init() {
         var compCount = 0
         var columnsA = mutableListOf<String>()
         var columnsB = mutableListOf<String>()

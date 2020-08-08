@@ -9,7 +9,7 @@ import lupos.s04logicalOperators.singleinput.LOPOptional
 
 class LogicalOptimizerOptional(query: Query) : OptimizerBase(query, EOptimizerID.LogicalOptimizerOptionalID) {
     override val classname = "LogicalOptimizerOptional"
-    override fun optimize(node: OPBase, parent: OPBase?, onChange: () -> Unit): OPBase {
+    override suspend fun optimize(node: OPBase, parent: OPBase?, onChange: () -> Unit): OPBase {
         var res: OPBase = node
         if (node is LOPOptional) {
             res = LOPJoin(query, OPEmptyRow(query), node.children[0], true)

@@ -13,7 +13,7 @@ import lupos.s08logicalOptimisation.OptimizerBase
 
 class LogicalOptimizerFilterEQ(query: Query) : OptimizerBase(query, EOptimizerID.LogicalOptimizerFilterEQID) {
     override val classname = "LogicalOptimizerFilterEQ"
-    override fun optimize(node: OPBase, parent: OPBase?, onChange: () -> Unit): OPBase {
+    override suspend fun optimize(node: OPBase, parent: OPBase?, onChange: () -> Unit): OPBase {
         var res: OPBase = node
         if (node is LOPFilter) {
             val filter = node.children[1]

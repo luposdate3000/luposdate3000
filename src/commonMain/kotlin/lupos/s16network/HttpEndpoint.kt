@@ -91,14 +91,14 @@ object HttpEndpoint {
                     val tit = TurtleScanner(lcit)
                     val ltit = LookAheadTokenIterator(tit, 3)
                     try {
-val x=                        object:TurtleParserWithStringTriples(){
-suspend override fun consume_triple(s:String,p: String,o: String){ 
-                            counter++
+                        val x = object : TurtleParserWithStringTriples() {
+                            suspend override fun consume_triple(s: String, p: String, o: String) {
+                                counter++
                                 bulk.insert(helper_import_turtle_files(bnodeDict, usePredefinedDict, s), helper_import_turtle_files(bnodeDict, usePredefinedDict, p), helper_import_turtle_files(bnodeDict, usePredefinedDict, o))
-               }
-         }
-x.ltit=ltit
-x.turtleDoc()
+                            }
+                        }
+                        x.ltit = ltit
+                        x.turtleDoc()
                     } catch (e: lupos.s02buildSyntaxTree.ParseError) {
                         println("error in file '$fileName'")
                         throw e

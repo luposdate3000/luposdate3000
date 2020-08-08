@@ -8,8 +8,8 @@ import lupos.s04logicalOperators.Query
 
 abstract class OptimizerBase(@JvmField val query: Query, @JvmField val optimizerID: EOptimizerID) {
     abstract val classname: String
-    abstract fun optimize(node: OPBase, parent: OPBase?, onChange: () -> Unit): OPBase
-    fun optimizeInternal(node: OPBase, parent: OPBase?, onChange: () -> Unit): OPBase {
+    abstract suspend fun optimize(node: OPBase, parent: OPBase?, onChange: () -> Unit): OPBase
+    suspend fun optimizeInternal(node: OPBase, parent: OPBase?, onChange: () -> Unit): OPBase {
         SanityCheck {
             if (parent != null) {
                 var found = false
@@ -29,7 +29,7 @@ abstract class OptimizerBase(@JvmField val query: Query, @JvmField val optimizer
         return optimize(node, parent, onChange)
     }
 
-    open fun optimizeCall(node: OPBase, onChange: () -> Unit = {}): OPBase {
+    open suspend fun optimizeCall(node: OPBase, onChange: () -> Unit = {}): OPBase {
         if (query.filtersMovedUpFromOptionals) {
             node.syntaxVerifyAllVariableExists(listOf(), true)
         }

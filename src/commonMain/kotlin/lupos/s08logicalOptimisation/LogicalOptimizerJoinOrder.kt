@@ -62,7 +62,7 @@ class LogicalOptimizerJoinOrder(query: Query) : OptimizerBase(query, EOptimizerI
         return res
     }
 
-    fun applyOptimisation(nodes: List<OPBase>, root: LOPJoin): OPBase {
+    suspend fun applyOptimisation(nodes: List<OPBase>, root: LOPJoin): OPBase {
         if (nodes.size > 2) {
             var result = LogicalOptimizerJoinOrderStore(nodes, root)
             if (result != null) {
@@ -88,7 +88,7 @@ class LogicalOptimizerJoinOrder(query: Query) : OptimizerBase(query, EOptimizerI
 /*Coverage Unreachable*/
     }
 
-    override fun optimize(node: OPBase, parent: OPBase?, onChange: () -> Unit): OPBase {
+    override suspend fun optimize(node: OPBase, parent: OPBase?, onChange: () -> Unit): OPBase {
         var res: OPBase = node
         if (node is LOPJoin && !node.optional && (parent !is LOPJoin || parent.optional)) {
             var originalProvided = node.getProvidedVariableNames()

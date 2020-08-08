@@ -12,7 +12,7 @@ import lupos.s12p2p.POPServiceIRI
 
 class KeyDistributionOptimizer(query: Query) : OptimizerBase(query, EOptimizerID.KeyDistributionOptimizerID) {
     override val classname = "KeyDistributionOptimizer"
-    override fun optimize(node: OPBase, parent: OPBase?, onChange: () -> Unit): OPBase {
+    override suspend fun optimize(node: OPBase, parent: OPBase?, onChange: () -> Unit): OPBase {
         var res = node
         if (node is LOPServiceIRI) {
             val projectedVariables: List<String>

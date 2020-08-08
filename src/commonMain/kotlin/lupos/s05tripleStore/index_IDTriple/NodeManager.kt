@@ -68,7 +68,8 @@ object NodeManager {
             }
         }
     }
-suspend    inline fun getNodeAnySuspended(pageid: Int, crossinline actionLeaf:suspend (ByteArray) -> Unit, crossinline actionInner:suspend (ByteArray) -> Unit) {
+
+    suspend inline fun getNodeAnySuspended(pageid: Int, crossinline actionLeaf: suspend (ByteArray) -> Unit, crossinline actionInner: suspend (ByteArray) -> Unit) {
         SanityCheck.println({ "debug NodeManager getNode ${pageid.toString(16)}" })
         val node = bufferManager.getPage(pageid)
         when (NodeShared.getNodeType(node!!)) {

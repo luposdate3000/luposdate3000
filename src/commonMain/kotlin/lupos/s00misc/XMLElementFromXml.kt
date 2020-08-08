@@ -1,6 +1,5 @@
 package lupos.s00misc
 
-
 fun XMLElement.Companion.parseFromXml(xml: String): XMLElement? {
     return XMLElement.parseFromXmlHelper(xml)?.first()
 }

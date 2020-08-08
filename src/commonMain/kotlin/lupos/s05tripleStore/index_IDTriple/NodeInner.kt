@@ -107,7 +107,7 @@ object NodeInner {
         return iterator!!
     }
 
-suspend    inline fun iterator(data: ByteArray, lock: ReadWriteLock, component: Int): ColumnIterator {
+    suspend inline fun iterator(data: ByteArray, lock: ReadWriteLock, component: Int): ColumnIterator {
         var iterator: ColumnIterator? = null
         var node = data
         while (iterator == null) {
@@ -165,7 +165,7 @@ suspend    inline fun iterator(data: ByteArray, lock: ReadWriteLock, component: 
         }
     }
 
-suspend    /*inline*/  fun findIteratorN(data: ByteArray,/*crossinline*/ checkTooSmall:suspend (c: IntArray) -> Boolean, /*crossinline*/ action:suspend (Int) -> Unit): Unit {
+    suspend    /*inline*/  fun findIteratorN(data: ByteArray,/*crossinline*/ checkTooSmall: suspend (c: IntArray) -> Boolean, /*crossinline*/ action: suspend (Int) -> Unit): Unit {
         var lastHeaderOffset = -1 //invalid offset to start with
         var lastChildPointer = getFirstChild(data)
         var childLastPointerHeaderOffset = -1
@@ -258,7 +258,7 @@ suspend    /*inline*/  fun findIteratorN(data: ByteArray,/*crossinline*/ checkTo
         action(lastChildPointer)
     }
 
-suspend    inline fun iterator3(data: ByteArray, prefix: IntArray): TripleIterator {
+    suspend inline fun iterator3(data: ByteArray, prefix: IntArray): TripleIterator {
         var node = data
         var iterator: TripleIterator? = null
         while (iterator == null) {
@@ -275,7 +275,7 @@ suspend    inline fun iterator3(data: ByteArray, prefix: IntArray): TripleIterat
         return iterator!!
     }
 
-suspend    inline fun iterator2(data: ByteArray, prefix: IntArray): TripleIterator {
+    suspend inline fun iterator2(data: ByteArray, prefix: IntArray): TripleIterator {
         var node = data
         var iterator: TripleIterator? = null
         while (iterator == null) {
@@ -292,7 +292,7 @@ suspend    inline fun iterator2(data: ByteArray, prefix: IntArray): TripleIterat
         return iterator!!
     }
 
-suspend    inline fun iterator1(data: ByteArray, prefix: IntArray): TripleIterator {
+    suspend inline fun iterator1(data: ByteArray, prefix: IntArray): TripleIterator {
         var node = data
         var iterator: TripleIterator? = null
         while (iterator == null) {
@@ -309,7 +309,7 @@ suspend    inline fun iterator1(data: ByteArray, prefix: IntArray): TripleIterat
         return iterator!!
     }
 
-suspend    inline fun iterator2(data: ByteArray, prefix: IntArray, lock: ReadWriteLock, component: Int): ColumnIterator {
+    suspend inline fun iterator2(data: ByteArray, prefix: IntArray, lock: ReadWriteLock, component: Int): ColumnIterator {
         var node = data
         var iterator: ColumnIterator? = null
         while (iterator == null) {
@@ -326,7 +326,7 @@ suspend    inline fun iterator2(data: ByteArray, prefix: IntArray, lock: ReadWri
         return iterator!!
     }
 
-suspend    inline fun iterator1(data: ByteArray, prefix: IntArray, lock: ReadWriteLock, component: Int): ColumnIterator {
+    suspend inline fun iterator1(data: ByteArray, prefix: IntArray, lock: ReadWriteLock, component: Int): ColumnIterator {
         var node = data
         var iterator: ColumnIterator? = null
         while (iterator == null) {

@@ -71,7 +71,6 @@ class ReadWriteLock {
         }
     }
 
-
     inline fun <T> withWriteLockSuspend(crossinline action: suspend CoroutineScope.() -> T): T {
         var res: T? = null
         runBlocking {

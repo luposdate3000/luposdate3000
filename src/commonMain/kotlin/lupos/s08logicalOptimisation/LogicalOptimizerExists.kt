@@ -29,7 +29,7 @@ class LogicalOptimizerExists(query: Query) : OptimizerBase(query, EOptimizerID.L
         }
     }
 
-    override fun optimize(node: OPBase, parent: OPBase?, onChange: () -> Unit): OPBase {
+    override suspend fun optimize(node: OPBase, parent: OPBase?, onChange: () -> Unit): OPBase {
         var res = node
         if (node is LOPMakeBooleanResult) {
             if (!node.partOfAskQuery) {

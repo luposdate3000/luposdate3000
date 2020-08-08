@@ -13,7 +13,7 @@ import lupos.s09physicalOperators.singleinput.POPProjection
 
 class PhysicalOptimizerDebug(query: Query) : OptimizerBase(query, EOptimizerID.PhysicalOptimizerDebugID) {
     override val classname = "PhysicalOptimizerDebug"
-    override fun optimize(node: OPBase, parent: OPBase?, onChange: () -> Unit): OPBase {
+    override suspend fun optimize(node: OPBase, parent: OPBase?, onChange: () -> Unit): OPBase {
         var res = node
         var change = true
         try {

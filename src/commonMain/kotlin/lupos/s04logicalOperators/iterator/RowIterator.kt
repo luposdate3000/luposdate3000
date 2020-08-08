@@ -1,6 +1,5 @@
 package lupos.s04logicalOperators.iterator
 
-
 open class RowIterator() {
     @JvmField
     var columns = arrayOf<String>()

@@ -13,7 +13,7 @@ import lupos.s04logicalOperators.iterator.ColumnIterator
 
 class NodeLeafColumnIteratorPrefix1_1(@JvmField var node: ByteArray, @JvmField val prefix: IntArray, @JvmField val lock: ReadWriteLock) : ColumnIterator() {
     @JvmField
-    var remaining = NodeShared.getTripleCount(node)
+    var remaining = 0
 
     @JvmField
     var offset = NodeLeaf.startOffset
@@ -29,9 +29,9 @@ class NodeLeafColumnIteratorPrefix1_1(@JvmField var node: ByteArray, @JvmField v
 
     @JvmField
     var value1 = 0
-
-inline suspend fun    _init (){
-            lock.readLock()
+    inline suspend fun _init() {
+        lock.readLock()
+        remaining = NodeShared.getTripleCount(node)
     }
 
     suspend inline fun _close() {

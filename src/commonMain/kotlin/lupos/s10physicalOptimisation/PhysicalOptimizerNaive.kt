@@ -51,7 +51,7 @@ import lupos.s15tripleStoreDistributed.DistributedTripleStore
 
 class PhysicalOptimizerNaive(query: Query) : OptimizerBase(query, EOptimizerID.PhysicalOptimizerNaiveID) {
     override val classname = "PhysicalOptimizerNaive"
-    override fun optimize(node: OPBase, parent: OPBase?, onChange: () -> Unit): OPBase {
+    override suspend fun optimize(node: OPBase, parent: OPBase?, onChange: () -> Unit): OPBase {
         var res = node
         var change = true
         try {
@@ -154,9 +154,7 @@ class PhysicalOptimizerNaive(query: Query) : OptimizerBase(query, EOptimizerID.P
                     res = POPJoinHashMap(query, projectedVariables, node.children[0], node.children[1], node.optional)
                 }
                 is LOPTriple -> {
-                    runBlocking {
-                        res = DistributedTripleStore.getNamedGraph(query, node.graph).getIterator(Array(3) { node.children[it] as AOPBase }, EIndexPattern.SPO)
-                    }
+                    res = DistributedTripleStore.getNamedGraph(query, node.graph).getIterator(Array(3) { node.children[it] as AOPBase }, EIndexPattern.SPO)
                 }
                 is OPEmptyRow -> {
                     res = POPEmptyRow(query, projectedVariables)

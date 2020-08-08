@@ -9,7 +9,7 @@ import lupos.s04logicalOperators.singleinput.LOPFilter
 
 class LogicalOptimizerFilterSplitAND(query: Query) : OptimizerBase(query, EOptimizerID.LogicalOptimizerFilterSplitANDID) {
     override val classname = "LogicalOptimizerFilterSplitAND"
-    override fun optimize(node: OPBase, parent: OPBase?, onChange: () -> Unit): OPBase {
+    override suspend fun optimize(node: OPBase, parent: OPBase?, onChange: () -> Unit): OPBase {
         var res: OPBase = node
         if (node is LOPFilter && node.dontSplitFilter == 0) {
             val child = node.children[0]
