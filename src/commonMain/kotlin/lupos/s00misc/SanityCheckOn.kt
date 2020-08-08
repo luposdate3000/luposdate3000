@@ -6,6 +6,9 @@ object SanityCheckOn {
     /*inline*/ fun println(/*crossinline*/s: () -> Any?) {
         helperSanityPrintln(s())
     }
+suspend    /*inline*/ fun printlnSuspended(/*crossinline*/s: suspend() -> Any?) {
+        helperSanityPrintln(s())
+    }
 
     inline operator fun invoke(crossinline action: () -> Unit) = action()
     inline suspend fun suspended(crossinline action: suspend () -> Unit) = action()

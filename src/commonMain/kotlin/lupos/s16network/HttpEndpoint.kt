@@ -236,9 +236,9 @@ object HttpEndpoint {
             SanityCheck.println({ "----------" })
             SanityCheck.println({ query })
             SanityCheck.println({ ">>>>>>>>>>" })
-            SanityCheck.println({ pop_node.toXMLElement().toString() })
+            SanityCheck.printlnSuspended({ pop_node.toXMLElement().toString() })
             SanityCheck.println({ "<<<<<<<<<<" })
-            SanityCheck.println({ OperatorGraphToLatex(pop_node.toXMLElement().toString(), "") })
+            SanityCheck.printlnSuspended({ OperatorGraphToLatex(pop_node.toXMLElement().toString(), "") })
         }
         val res = QueryResultToString(pop_node)
         q.commit()
