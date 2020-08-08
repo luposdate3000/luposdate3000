@@ -7,63 +7,67 @@ import lupos.s02buildSyntaxTree.Token
 import lupos.s02buildSyntaxTree.turtle.TurtleParser
 import lupos.s02buildSyntaxTree.UnexpectedToken
 
-class TurtleParserWithStringTriples(@JvmField val consume_triple: (String, String, String) -> Unit, @JvmField val ltit: LookAheadTokenIterator) {
+abstract class TurtleParserWithStringTriples() {
+@JvmField var ltit: LookAheadTokenIterator?=null
+suspend abstract fun consume_triple (s:String,p: String,o: String)
     // for storing the prefixes...
+@JvmField
     val prefixes = mutableMapOf<String, String>()
 
     // some constants used for typed literals
-    val xsd = "http://www.w3.org/2001/XMLSchema#"
-    val xsd_boolean = xsd + "boolean"
-    val xsd_integer = xsd + "integer"
-    val xsd_decimal = xsd + "decimal"
-    val xsd_double = xsd + "double"
-    val rdf = "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-    val nil = rdf + "nil"
-    val first = rdf + "first"
-    val rest = rdf + "rest"
-    val nil_iri = "<" + nil + ">"
-    val first_iri = "<" + first + ">"
-    val rest_iri = "<" + rest + ">"
-    val type_iri = "<" + rdf + "type" + ">"
-
+companion object{
+const    val xsd = "http://www.w3.org/2001/XMLSchema#"
+    const val xsd_boolean = xsd + "boolean"
+    const val xsd_integer = xsd + "integer"
+    const val xsd_decimal = xsd + "decimal"
+    const val xsd_double = xsd + "double"
+    const val rdf = "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    const val nil = rdf + "nil"
+    const val first = rdf + "first"
+    const val rest = rdf + "rest"
+    const val nil_iri = "<" + nil + ">"
+    const val first_iri = "<" + first + ">"
+    const val rest_iri = "<" + rest + ">"
+    const val type_iri = "<" + rdf + "type" + ">"
+}
     @JvmField
     var bnode_counter = 0
-    fun turtleDoc() {
+   suspend fun turtleDoc() {
         var token: Token
-        var t1 = ltit.lookahead()
+        var t1 = ltit!!.lookahead()
         while (t1.image == "@prefix" || t1.image == "@base" || t1.image == "PREFIX" || t1.image == "BASE" || t1 is IRI || t1 is PNAME_LN || t1 is PNAME_NS || t1 is BNODE || t1 is ANON_BNODE || t1.image == "(" || t1.image == "[") {
             statement()
-            t1 = ltit.lookahead()
+            t1 = ltit!!.lookahead()
         }
-        token = ltit.nextToken()
+        token = ltit!!.nextToken()
         if (token !is EOF) {
-            throw UnexpectedToken(token, arrayOf("EOF"), ltit)
+            throw UnexpectedToken(token, arrayOf("EOF"), ltit!!)
         }
     }
 
-    fun statement() {
+suspend    fun statement() {
         var token: Token
-        val t2 = ltit.lookahead()
+        val t2 = ltit!!.lookahead()
         when {
             t2.image == "@prefix" || t2.image == "@base" || t2.image == "PREFIX" || t2.image == "BASE" -> {
                 directive()
             }
             t2 is IRI || t2 is PNAME_LN || t2 is PNAME_NS || t2 is BNODE || t2 is ANON_BNODE || t2.image == "(" || t2.image == "[" -> {
                 triples()
-                token = ltit.nextToken()
+                token = ltit!!.nextToken()
                 if (token.image != ".") {
-                    throw UnexpectedToken(token, arrayOf("."), ltit)
+                    throw UnexpectedToken(token, arrayOf("."), ltit!!)
                 }
             }
             else -> {
-                throw UnexpectedToken(t2, arrayOf("@prefix", "@base", "PREFIX", "BASE", "IRI", "PNAME_LN", "PNAME_NS", "BNODE", "ANON_BNODE", "(", "["), ltit)
+                throw UnexpectedToken(t2, arrayOf("@prefix", "@base", "PREFIX", "BASE", "IRI", "PNAME_LN", "PNAME_NS", "BNODE", "ANON_BNODE", "(", "["), ltit!!)
             }
         }
     }
 
     fun directive() {
         var token: Token
-        val t3 = ltit.lookahead()
+        val t3 = ltit!!.lookahead()
         when {
             t3.image == "@prefix" -> {
                 prefixID()
@@ -78,84 +82,84 @@ class TurtleParserWithStringTriples(@JvmField val consume_triple: (String, Strin
                 sparqlBase()
             }
             else -> {
-                throw UnexpectedToken(t3, arrayOf("@prefix", "@base", "PREFIX", "BASE"), ltit)
+                throw UnexpectedToken(t3, arrayOf("@prefix", "@base", "PREFIX", "BASE"), ltit!!)
             }
         }
     }
 
     fun prefixID() {
         var token: Token
-        token = ltit.nextToken()
+        token = ltit!!.nextToken()
         if (token.image != "@prefix") {
-            throw UnexpectedToken(token, arrayOf("@prefix"), ltit)
+            throw UnexpectedToken(token, arrayOf("@prefix"), ltit!!)
         }
-        token = ltit.nextToken()
+        token = ltit!!.nextToken()
         if (token !is PNAME_NS) {
-            throw UnexpectedToken(token, arrayOf("PNAME_NS"), ltit)
+            throw UnexpectedToken(token, arrayOf("PNAME_NS"), ltit!!)
         }
         val key = token.beforeColon
-        token = ltit.nextToken()
+        token = ltit!!.nextToken()
         if (token !is IRI) {
-            throw UnexpectedToken(token, arrayOf("IRI"), ltit)
+            throw UnexpectedToken(token, arrayOf("IRI"), ltit!!)
         }
         prefixes.put(key, token.content)
-        token = ltit.nextToken()
+        token = ltit!!.nextToken()
         if (token.image != ".") {
-            throw UnexpectedToken(token, arrayOf("."), ltit)
+            throw UnexpectedToken(token, arrayOf("."), ltit!!)
         }
     }
 
     fun base() {
         var token: Token
-        token = ltit.nextToken()
+        token = ltit!!.nextToken()
         if (token.image != "@base") {
-            throw UnexpectedToken(token, arrayOf("@base"), ltit)
+            throw UnexpectedToken(token, arrayOf("@base"), ltit!!)
         }
-        token = ltit.nextToken()
+        token = ltit!!.nextToken()
         if (token !is IRI) {
-            throw UnexpectedToken(token, arrayOf("IRI"), ltit)
+            throw UnexpectedToken(token, arrayOf("IRI"), ltit!!)
         }
         prefixes.put("", token.content)
-        token = ltit.nextToken()
+        token = ltit!!.nextToken()
         if (token.image != ".") {
-            throw UnexpectedToken(token, arrayOf("."), ltit)
+            throw UnexpectedToken(token, arrayOf("."), ltit!!)
         }
     }
 
     fun sparqlBase() {
         var token: Token
-        token = ltit.nextToken()
+        token = ltit!!.nextToken()
         if (token.image != "BASE") {
-            throw UnexpectedToken(token, arrayOf("BASE"), ltit)
+            throw UnexpectedToken(token, arrayOf("BASE"), ltit!!)
         }
-        token = ltit.nextToken()
+        token = ltit!!.nextToken()
         if (token !is IRI) {
-            throw UnexpectedToken(token, arrayOf("IRI"), ltit)
+            throw UnexpectedToken(token, arrayOf("IRI"), ltit!!)
         }
         prefixes.put("", token.content)
     }
 
     fun sparqlPrefix() {
         var token: Token
-        token = ltit.nextToken()
+        token = ltit!!.nextToken()
         if (token.image != "PREFIX") {
-            throw UnexpectedToken(token, arrayOf("PREFIX"), ltit)
+            throw UnexpectedToken(token, arrayOf("PREFIX"), ltit!!)
         }
-        token = ltit.nextToken()
+        token = ltit!!.nextToken()
         if (token !is PNAME_NS) {
-            throw UnexpectedToken(token, arrayOf("PNAME_NS"), ltit)
+            throw UnexpectedToken(token, arrayOf("PNAME_NS"), ltit!!)
         }
         val key = token.beforeColon
-        token = ltit.nextToken()
+        token = ltit!!.nextToken()
         if (token !is IRI) {
-            throw UnexpectedToken(token, arrayOf("IRI"), ltit)
+            throw UnexpectedToken(token, arrayOf("IRI"), ltit!!)
         }
         prefixes.put(key, token.content)
     }
 
-    fun triples() {
+suspend    fun triples() {
         var token: Token
-        val t5 = ltit.lookahead()
+        val t5 = ltit!!.lookahead()
         when {
             t5 is IRI || t5 is PNAME_LN || t5 is PNAME_NS || t5 is BNODE || t5 is ANON_BNODE || t5.image == "(" -> {
                 val s = subject()
@@ -163,78 +167,78 @@ class TurtleParserWithStringTriples(@JvmField val consume_triple: (String, Strin
             }
             t5.image == "[" -> {
                 val s2 = blankNodePropertyList()
-                val t4 = ltit.lookahead()
+                val t4 = ltit!!.lookahead()
                 if (t4 is IRI || t4 is PNAME_LN || t4 is PNAME_NS || t4.image == "A") {
                     predicateObjectList(s2)
                 }
             }
             else -> {
-                throw UnexpectedToken(t5, arrayOf("IRI", "PNAME_LN", "PNAME_NS", "BNODE", "ANON_BNODE", "(", "["), ltit)
+                throw UnexpectedToken(t5, arrayOf("IRI", "PNAME_LN", "PNAME_NS", "BNODE", "ANON_BNODE", "(", "["), ltit!!)
             }
         }
     }
 
-    fun predicateObjectList(s: String) {
+suspend    fun predicateObjectList(s: String) {
         var token: Token
         val p = verb()
         objectList(s, p)
-        var t7 = ltit.lookahead()
+        var t7 = ltit!!.lookahead()
         while (t7.image == ";") {
-            token = ltit.nextToken()
+            token = ltit!!.nextToken()
             if (token.image != ";") {
-                throw UnexpectedToken(token, arrayOf(";"), ltit)
+                throw UnexpectedToken(token, arrayOf(";"), ltit!!)
             }
-            val t6 = ltit.lookahead()
+            val t6 = ltit!!.lookahead()
             if (t6 is IRI || t6 is PNAME_LN || t6 is PNAME_NS || t6.image == "A") {
                 val p2 = verb()
                 objectList(s, p2)
             }
-            t7 = ltit.lookahead()
+            t7 = ltit!!.lookahead()
         }
     }
 
-    fun objectList(s: String, p: String) {
+suspend    fun objectList(s: String, p: String) {
         var token: Token
         val o = triple_object()
         consume_triple(s, p, o)
-        var t8 = ltit.lookahead()
+        var t8 = ltit!!.lookahead()
         while (t8.image == ",") {
-            token = ltit.nextToken()
+            token = ltit!!.nextToken()
             val o2 = triple_object()
             consume_triple(s, p, o2)
-            t8 = ltit.lookahead()
+            t8 = ltit!!.lookahead()
         }
     }
 
     fun verb(): String {
         var token: Token
-        val t9 = ltit.lookahead()
+        val t9 = ltit!!.lookahead()
         when {
             t9 is IRI || t9 is PNAME_LN || t9 is PNAME_NS -> {
                 val result = predicate()
                 return result
             }
             t9.image == "A" -> {
-                token = ltit.nextToken()
+                token = ltit!!.nextToken()
                 if (token.image != "A") {
-                    throw UnexpectedToken(token, arrayOf("A"), ltit)
+                    throw UnexpectedToken(token, arrayOf("A"), ltit!!)
                 }
                 if ((token as POSSIBLE_KEYWORD).original_image != "a") {
-                    throw UnexpectedToken(token, arrayOf("a"), ltit)
+                    throw UnexpectedToken(token, arrayOf("a"), ltit!!)
                 } else {
                     return type_iri
                 }
             }
             else -> {
-                throw UnexpectedToken(t9, arrayOf("IRI", "PNAME_LN", "PNAME_NS", "A"), ltit)
+                throw UnexpectedToken(t9, arrayOf("IRI", "PNAME_LN", "PNAME_NS", "A"), ltit!!)
             }
         }
     }
 
-    fun subject(): String {
+suspend    fun subject(): String {
         var token: Token
         val result: String
-        val t10 = ltit.lookahead()
+        val t10 = ltit!!.lookahead()
         when {
             t10 is IRI || t10 is PNAME_LN || t10 is PNAME_NS -> {
                 result = iri()
@@ -246,7 +250,7 @@ class TurtleParserWithStringTriples(@JvmField val consume_triple: (String, Strin
                 result = collection()
             }
             else -> {
-                throw UnexpectedToken(t10, arrayOf("IRI", "PNAME_LN", "PNAME_NS", "BNODE", "ANON_BNODE", "("), ltit)
+                throw UnexpectedToken(t10, arrayOf("IRI", "PNAME_LN", "PNAME_NS", "BNODE", "ANON_BNODE", "("), ltit!!)
             }
         }
         return result
@@ -258,10 +262,10 @@ class TurtleParserWithStringTriples(@JvmField val consume_triple: (String, Strin
         return result
     }
 
-    fun triple_object(): String {
+suspend    fun triple_object(): String {
         var token: Token
         val result: String
-        val t11 = ltit.lookahead()
+        val t11 = ltit!!.lookahead()
         when {
             t11 is IRI || t11 is PNAME_LN || t11 is PNAME_NS -> {
                 result = iri()
@@ -279,7 +283,7 @@ class TurtleParserWithStringTriples(@JvmField val consume_triple: (String, Strin
                 result = literal()
             }
             else -> {
-                throw UnexpectedToken(t11, arrayOf("IRI", "PNAME_LN", "PNAME_NS", "BNODE", "ANON_BNODE", "(", "[", "STRING", "INTEGER", "DECIMAL", "DOUBLE", "true", "false"), ltit)
+                throw UnexpectedToken(t11, arrayOf("IRI", "PNAME_LN", "PNAME_NS", "BNODE", "ANON_BNODE", "(", "[", "STRING", "INTEGER", "DECIMAL", "DOUBLE", "true", "false"), ltit!!)
             }
         }
         return result
@@ -288,7 +292,7 @@ class TurtleParserWithStringTriples(@JvmField val consume_triple: (String, Strin
     fun literal(): String {
         var token: Token
         val result: String
-        val t12 = ltit.lookahead()
+        val t12 = ltit!!.lookahead()
         when {
             t12 is STRING -> {
                 result = RDFLiteral()
@@ -300,36 +304,36 @@ class TurtleParserWithStringTriples(@JvmField val consume_triple: (String, Strin
                 result = BooleanLiteral()
             }
             else -> {
-                throw UnexpectedToken(t12, arrayOf("STRING", "INTEGER", "DECIMAL", "DOUBLE", "true", "false"), ltit)
+                throw UnexpectedToken(t12, arrayOf("STRING", "INTEGER", "DECIMAL", "DOUBLE", "true", "false"), ltit!!)
             }
         }
         return result
     }
 
-    fun blankNodePropertyList(): String {
+suspend    fun blankNodePropertyList(): String {
         var token: Token
         val result = "_:_" + bnode_counter; bnode_counter++
-        token = ltit.nextToken()
+        token = ltit!!.nextToken()
         if (token.image != "[") {
-            throw UnexpectedToken(token, arrayOf("["), ltit)
+            throw UnexpectedToken(token, arrayOf("["), ltit!!)
         }
         predicateObjectList(result)
-        token = ltit.nextToken()
+        token = ltit!!.nextToken()
         if (token.image != "]") {
-            throw UnexpectedToken(token, arrayOf("]"), ltit)
+            throw UnexpectedToken(token, arrayOf("]"), ltit!!)
         }
         return result
     }
 
-    fun collection(): String {
+suspend    fun collection(): String {
         var token: Token
         var first = nil_iri
         var current = nil_iri
-        token = ltit.nextToken()
+        token = ltit!!.nextToken()
         if (token.image != "(") {
-            throw UnexpectedToken(token, arrayOf("("), ltit)
+            throw UnexpectedToken(token, arrayOf("("), ltit!!)
         }
-        var t13 = ltit.lookahead()
+        var t13 = ltit!!.lookahead()
         while (t13 is IRI || t13 is PNAME_LN || t13 is PNAME_NS || t13 is BNODE || t13 is ANON_BNODE || t13.image == "(" || t13.image == "[" || t13 is STRING || t13 is INTEGER || t13 is DECIMAL || t13 is DOUBLE || t13.image == "true" || t13.image == "false") {
             val next = "_:_" + bnode_counter; bnode_counter++
             if (current === nil_iri) {
@@ -340,11 +344,11 @@ class TurtleParserWithStringTriples(@JvmField val consume_triple: (String, Strin
             current = next
             val o = triple_object()
             consume_triple(current, first_iri, o)
-            t13 = ltit.lookahead()
+            t13 = ltit!!.lookahead()
         }
-        token = ltit.nextToken()
+        token = ltit!!.nextToken()
         if (token.image != ")") {
-            throw UnexpectedToken(token, arrayOf(")"), ltit)
+            throw UnexpectedToken(token, arrayOf(")"), ltit!!)
         }
         if (current !== nil_iri) {
             consume_triple(current, rest_iri, nil_iri)
@@ -354,64 +358,64 @@ class TurtleParserWithStringTriples(@JvmField val consume_triple: (String, Strin
 
     fun NumericLiteral(): String {
         var token: Token
-        val t14 = ltit.lookahead()
+        val t14 = ltit!!.lookahead()
         when {
             t14 is INTEGER -> {
-                token = ltit.nextToken()
+                token = ltit!!.nextToken()
                 if (token !is INTEGER) {
-                    throw UnexpectedToken(token, arrayOf("INTEGER"), ltit)
+                    throw UnexpectedToken(token, arrayOf("INTEGER"), ltit!!)
                 }
                 return "\"" + token.image + "\"^^<" + xsd_integer + ">"
             }
             t14 is DECIMAL -> {
-                token = ltit.nextToken()
+                token = ltit!!.nextToken()
                 if (token !is DECIMAL) {
-                    throw UnexpectedToken(token, arrayOf("DECIMAL"), ltit)
+                    throw UnexpectedToken(token, arrayOf("DECIMAL"), ltit!!)
                 }
                 return "\"" + token.image + "\"^^<" + xsd_decimal + ">"
             }
             t14 is DOUBLE -> {
-                token = ltit.nextToken()
+                token = ltit!!.nextToken()
                 if (token !is DOUBLE) {
-                    throw UnexpectedToken(token, arrayOf("DOUBLE"), ltit)
+                    throw UnexpectedToken(token, arrayOf("DOUBLE"), ltit!!)
                 }
                 return "\"" + token.image + "\"^^<" + xsd_double + ">"
             }
             else -> {
-                throw UnexpectedToken(t14, arrayOf("INTEGER", "DECIMAL", "DOUBLE"), ltit)
+                throw UnexpectedToken(t14, arrayOf("INTEGER", "DECIMAL", "DOUBLE"), ltit!!)
             }
         }
     }
 
     fun RDFLiteral(): String {
         var token: Token
-        token = ltit.nextToken()
+        token = ltit!!.nextToken()
         if (token !is STRING) {
-            throw UnexpectedToken(token, arrayOf("STRING"), ltit)
+            throw UnexpectedToken(token, arrayOf("STRING"), ltit!!)
         }
         val content = token.content
         val delimiter = token.leftBrace
-        val t16 = ltit.lookahead()
+        val t16 = ltit!!.lookahead()
         if (t16 is LANGTAG || t16.image == "^^") {
-            val t15 = ltit.lookahead()
+            val t15 = ltit!!.lookahead()
             when {
                 t15 is LANGTAG -> {
-                    token = ltit.nextToken()
+                    token = ltit!!.nextToken()
                     if (token !is LANGTAG) {
-                        throw UnexpectedToken(token, arrayOf("LANGTAG"), ltit)
+                        throw UnexpectedToken(token, arrayOf("LANGTAG"), ltit!!)
                     }
                     return delimiter + content + delimiter + "@" + token.language
                 }
                 t15.image == "^^" -> {
-                    token = ltit.nextToken()
+                    token = ltit!!.nextToken()
                     if (token.image != "^^") {
-                        throw UnexpectedToken(token, arrayOf("^^"), ltit)
+                        throw UnexpectedToken(token, arrayOf("^^"), ltit!!)
                     }
                     val type_iri = iri_string()
                     return delimiter + content + delimiter + "^^<" + type_iri + ">"
                 }
                 else -> {
-                    throw UnexpectedToken(t15, arrayOf("LANGTAG", "^^"), ltit)
+                    throw UnexpectedToken(t15, arrayOf("LANGTAG", "^^"), ltit!!)
                 }
             }
         }
@@ -420,28 +424,28 @@ class TurtleParserWithStringTriples(@JvmField val consume_triple: (String, Strin
 
     fun BooleanLiteral(): String {
         var token: Token
-        val t17 = ltit.lookahead()
+        val t17 = ltit!!.lookahead()
         when {
             t17.image == "true" -> {
-                token = ltit.nextToken()
+                token = ltit!!.nextToken()
                 if (token.image != "true") {
-                    throw UnexpectedToken(token, arrayOf("true"), ltit)
+                    throw UnexpectedToken(token, arrayOf("true"), ltit!!)
                 }
                 if ((token as POSSIBLE_KEYWORD).original_image != "true") {
-                    throw UnexpectedToken(token, arrayOf("true"), ltit)
+                    throw UnexpectedToken(token, arrayOf("true"), ltit!!)
                 }; return "\"true\"^^<" + xsd_boolean + ">"
             }
             t17.image == "false" -> {
-                token = ltit.nextToken()
+                token = ltit!!.nextToken()
                 if (token.image != "false") {
-                    throw UnexpectedToken(token, arrayOf("false"), ltit)
+                    throw UnexpectedToken(token, arrayOf("false"), ltit!!)
                 }
                 if ((token as POSSIBLE_KEYWORD).original_image != "false") {
-                    throw UnexpectedToken(token, arrayOf("false"), ltit)
+                    throw UnexpectedToken(token, arrayOf("false"), ltit!!)
                 }; return "\"false\"^^<" + xsd_boolean + ">"
             }
             else -> {
-                throw UnexpectedToken(t17, arrayOf("true", "false"), ltit)
+                throw UnexpectedToken(t17, arrayOf("true", "false"), ltit!!)
             }
         }
     }
@@ -449,12 +453,12 @@ class TurtleParserWithStringTriples(@JvmField val consume_triple: (String, Strin
     fun iri(): String {
         var token: Token
         val iri: String
-        val t18 = ltit.lookahead()
+        val t18 = ltit!!.lookahead()
         when {
             t18 is IRI -> {
-                token = ltit.nextToken()
+                token = ltit!!.nextToken()
                 if (token !is IRI) {
-                    throw UnexpectedToken(token, arrayOf("IRI"), ltit)
+                    throw UnexpectedToken(token, arrayOf("IRI"), ltit!!)
                 }
                 iri = token.content
             }
@@ -462,7 +466,7 @@ class TurtleParserWithStringTriples(@JvmField val consume_triple: (String, Strin
                 iri = PrefixedName()
             }
             else -> {
-                throw UnexpectedToken(t18, arrayOf("IRI", "PNAME_LN", "PNAME_NS"), ltit)
+                throw UnexpectedToken(t18, arrayOf("IRI", "PNAME_LN", "PNAME_NS"), ltit!!)
             }
         }
         // Do some kind of relative IRI detection and resolution to the base iri (if given)
@@ -479,12 +483,12 @@ class TurtleParserWithStringTriples(@JvmField val consume_triple: (String, Strin
     fun iri_string(): String {
         var token: Token
         val iri: String
-        val t19 = ltit.lookahead()
+        val t19 = ltit!!.lookahead()
         when {
             t19 is IRI -> {
-                token = ltit.nextToken()
+                token = ltit!!.nextToken()
                 if (token !is IRI) {
-                    throw UnexpectedToken(token, arrayOf("IRI"), ltit)
+                    throw UnexpectedToken(token, arrayOf("IRI"), ltit!!)
                 }
                 iri = token.content
             }
@@ -492,7 +496,7 @@ class TurtleParserWithStringTriples(@JvmField val consume_triple: (String, Strin
                 iri = PrefixedName()
             }
             else -> {
-                throw UnexpectedToken(t19, arrayOf("IRI", "PNAME_LN", "PNAME_NS"), ltit)
+                throw UnexpectedToken(t19, arrayOf("IRI", "PNAME_LN", "PNAME_NS"), ltit!!)
             }
         }
         // Do some kind of relative IRI detection and resolution to the base iri (if given)
@@ -508,52 +512,52 @@ class TurtleParserWithStringTriples(@JvmField val consume_triple: (String, Strin
 
     fun PrefixedName(): String {
         var token: Token
-        val t20 = ltit.lookahead()
+        val t20 = ltit!!.lookahead()
         when {
             t20 is PNAME_LN -> {
-                token = ltit.nextToken()
+                token = ltit!!.nextToken()
                 if (token !is PNAME_LN) {
-                    throw UnexpectedToken(token, arrayOf("PNAME_LN"), ltit)
+                    throw UnexpectedToken(token, arrayOf("PNAME_LN"), ltit!!)
                 }
                 val key = token.beforeColon
-                val result = prefixes.get(key); if (result == null) throw ParseError("Prefix " + key + " has not been defined", token, ltit); else return result + token.afterColon
+                val result = prefixes.get(key); if (result == null) throw ParseError("Prefix " + key + " has not been defined", token, ltit!!); else return result + token.afterColon
             }
             t20 is PNAME_NS -> {
-                token = ltit.nextToken()
+                token = ltit!!.nextToken()
                 if (token !is PNAME_NS) {
-                    throw UnexpectedToken(token, arrayOf("PNAME_NS"), ltit)
+                    throw UnexpectedToken(token, arrayOf("PNAME_NS"), ltit!!)
                 }
                 val key = token.beforeColon
-                val result = prefixes.get(key); if (result == null) throw ParseError("Prefix " + key + " has not been defined", token, ltit); else return result
+                val result = prefixes.get(key); if (result == null) throw ParseError("Prefix " + key + " has not been defined", token, ltit!!); else return result
             }
             else -> {
-                throw UnexpectedToken(t20, arrayOf("PNAME_LN", "PNAME_NS"), ltit)
+                throw UnexpectedToken(t20, arrayOf("PNAME_LN", "PNAME_NS"), ltit!!)
             }
         }
     }
 
     fun BlankNode(): String {
         var token: Token
-        val t21 = ltit.lookahead()
+        val t21 = ltit!!.lookahead()
         when {
             t21 is BNODE -> {
-                token = ltit.nextToken()
+                token = ltit!!.nextToken()
                 if (token !is BNODE) {
-                    throw UnexpectedToken(token, arrayOf("BNODE"), ltit)
+                    throw UnexpectedToken(token, arrayOf("BNODE"), ltit!!)
                 }
                 return "_:_" + token.name
             }
             t21 is ANON_BNODE -> {
-                token = ltit.nextToken()
+                token = ltit!!.nextToken()
                 if (token !is ANON_BNODE) {
-                    throw UnexpectedToken(token, arrayOf("ANON_BNODE"), ltit)
+                    throw UnexpectedToken(token, arrayOf("ANON_BNODE"), ltit!!)
                 }
                 val res = "_:_" + bnode_counter
                 bnode_counter++
                 return res
             }
             else -> {
-                throw UnexpectedToken(t21, arrayOf("BNODE", "ANON_BNODE"), ltit)
+                throw UnexpectedToken(t21, arrayOf("BNODE", "ANON_BNODE"), ltit!!)
             }
         }
     }

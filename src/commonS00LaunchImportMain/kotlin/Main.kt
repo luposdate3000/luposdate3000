@@ -35,12 +35,16 @@ fun main(args: Array<String>) = runBlocking {
             val outputTriplesFile = File(inputFileName + ".triples")
             outputTriplesFile.dataOutputStream { out ->
                 try {
-                    TurtleParserWithStringTriples({ s, p, o ->
+val x=object:TurtleParserWithStringTriples(){
+suspend override fun consume_triple(s:String,p: String,o: String){ 
                         out.writeInt(dict.getOrCreate(s))
                         out.writeInt(dict.getOrCreate(p))
                         out.writeInt(dict.getOrCreate(o))
                         cnt++
-                    }, ltit).turtleDoc()
+                    }
+         }
+x.ltit=ltit
+x.turtleDoc()
                 } catch (e: lupos.s02buildSyntaxTree.ParseError) {
                     println("error in file '$inputFileName'")
                     throw e

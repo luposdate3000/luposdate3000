@@ -18,11 +18,9 @@ object ServerCommunicationConnectionPoolOn {
 
     fun accept(server: ServerSocket, action: (ServerCommunicationConnectionPoolHelper) -> Unit) {
         val socket = server.accept()
-        Thread {
+        Thread =                runBlocking {
             try {
-                runBlocking {
                     action(ServerCommunicationConnectionPoolHelper(socket, BufferedInputStream(socket.getInputStream()), BufferedOutputStream(socket.getOutputStream())))
-                }
             } finally {
                 socket.close()
             }
