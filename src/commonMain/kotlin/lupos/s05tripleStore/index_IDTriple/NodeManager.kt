@@ -68,6 +68,21 @@ object NodeManager {
             }
         }
     }
+suspend    inline fun getNodeAnySuspended(pageid: Int, crossinline actionLeaf:suspend (ByteArray) -> Unit, crossinline actionInner:suspend (ByteArray) -> Unit) {
+        SanityCheck.println({ "debug NodeManager getNode ${pageid.toString(16)}" })
+        val node = bufferManager.getPage(pageid)
+        when (NodeShared.getNodeType(node!!)) {
+            nodeTypeInner -> {
+                actionInner(node!!)
+            }
+            nodeTypeLeaf -> {
+                actionLeaf(node!!)
+            }
+            else -> {
+                SanityCheck.checkUnreachable()
+            }
+        }
+    }
 
     /*inline*/ suspend fun allocateNodeLeaf(/*crossinline*/ action: suspend (ByteArray, Int) -> Unit) {
         SanityCheck.println({ "NodeManager.allocateNodeLeaf A" })

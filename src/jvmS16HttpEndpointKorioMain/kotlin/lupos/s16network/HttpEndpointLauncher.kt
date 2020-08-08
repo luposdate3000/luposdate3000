@@ -95,9 +95,8 @@ object HttpEndpointLauncher {
         request.handler { it ->
             data.append(it.decodeToString())
         }
-        request.endHandler {
+        request.endHandler = runBlocking {
             try {
-                runBlocking {
                     try {
                         val singleParams = mutableMapOf<String, String>()
                         params.forEach { k, v ->
@@ -111,7 +110,6 @@ object HttpEndpointLauncher {
                         e.printStackTrace()
                     }
                     request.end(responseBytes)
-                }
             } catch (e: Throwable) {
 //DO NOT send anything here, as that may be the root cause of the exception
                 e.printStackTrace()

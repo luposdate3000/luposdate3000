@@ -30,10 +30,8 @@ class NodeLeafColumnIteratorPrefix1_2(@JvmField var node: ByteArray, @JvmField v
     @JvmField
     var value2 = 0
 
-    init {
-        runBlocking {
+inline suspend fun    _init (){
             lock.readLock()
-        }
     }
 
     suspend inline fun _close() {

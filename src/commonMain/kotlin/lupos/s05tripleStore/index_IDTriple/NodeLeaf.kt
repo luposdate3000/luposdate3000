@@ -43,16 +43,22 @@ object NodeLeaf {
         return NodeLeafIteratorPrefix1(data, prefix)
     }
 
-    inline fun iterator(data: ByteArray, lock: ReadWriteLock, component: Int): ColumnIterator {
+suspend    inline fun iterator(data: ByteArray, lock: ReadWriteLock, component: Int): ColumnIterator {
         when (component) {
             0 -> {
-                return NodeLeafColumnIterator0(data, lock)
+                val res= NodeLeafColumnIterator0(data, lock)
+res._init()
+return res
             }
             1 -> {
-                return NodeLeafColumnIterator1(data, lock)
+                val res= NodeLeafColumnIterator1(data, lock)
+res._init()
+return res
             }
             2 -> {
-                return NodeLeafColumnIterator2(data, lock)
+                val res= NodeLeafColumnIterator2(data, lock)
+res._init()
+return res
             }
             else -> {
                 throw Exception("unreachable")
@@ -60,10 +66,12 @@ object NodeLeaf {
         }
     }
 
-    inline fun iterator2(data: ByteArray, prefix: IntArray, lock: ReadWriteLock, component: Int): ColumnIterator {
+suspend    inline fun iterator2(data: ByteArray, prefix: IntArray, lock: ReadWriteLock, component: Int): ColumnIterator {
         when (component) {
             2 -> {
-                return NodeLeafColumnIteratorPrefix2_2(data, prefix, lock)
+                val res= NodeLeafColumnIteratorPrefix2_2(data, prefix, lock)
+res._init()
+return res
             }
             else -> {
                 throw Exception("unreachable")
@@ -71,13 +79,17 @@ object NodeLeaf {
         }
     }
 
-    inline fun iterator1(data: ByteArray, prefix: IntArray, lock: ReadWriteLock, component: Int): ColumnIterator {
+suspend    inline fun iterator1(data: ByteArray, prefix: IntArray, lock: ReadWriteLock, component: Int): ColumnIterator {
         when (component) {
             1 -> {
-                return NodeLeafColumnIteratorPrefix1_1(data, prefix, lock)
+                val res= NodeLeafColumnIteratorPrefix1_1(data, prefix, lock)
+res._init()
+return res
             }
             2 -> {
-                return NodeLeafColumnIteratorPrefix1_2(data, prefix, lock)
+                val res= NodeLeafColumnIteratorPrefix1_2(data, prefix, lock)
+res._init()
+return res
             }
             else -> {
                 throw Exception("unreachable")

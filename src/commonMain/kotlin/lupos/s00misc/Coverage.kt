@@ -35,10 +35,8 @@ object Coverage {
                 CoverageMapWhenCaseGenerated[row[0].toInt()] = row[1].toInt()
         }
         Runtime.getRuntime().addShutdownHook(object : Thread() {
-            override fun run() {
-                runBlocking {
+            override fun run() = runBlocking {
                     printToFile()
-                }
             }
         })
         CoverageMapGenerated[CoverageMapGenerated.keys.size] = ""
