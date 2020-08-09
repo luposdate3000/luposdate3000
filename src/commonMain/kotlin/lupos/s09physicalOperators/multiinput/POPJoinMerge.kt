@@ -65,8 +65,19 @@ class POPJoinMerge(query: Query, projectedVariables: List<String>, childA: OPBas
         val data1 = Array(columnsINO1.size) { IntArray(100) }
 
         @JvmField
-        val keyCopy = IntArray(columnsINJ0.size) { key0[it] }
+        var local_next_i = 0
 
+        @JvmField
+        var local_next_j = 0
+
+        @JvmField
+        var local_next_countA = 0
+
+        @JvmField
+        var local_next_countB = 0
+
+        @JvmField
+        val local_next_keyCopy = IntArray(columnsINJ0.size)
 
         suspend inline fun __close() {
             if (label != 0) {
@@ -99,17 +110,6 @@ class POPJoinMerge(query: Query, projectedVariables: List<String>, childA: OPBas
             __close()
         }
 
-        @JvmField
-        var local_next_i = 0
-
-        @JvmField
-        var local_next_j = 0
-
-        @JvmField
-        var local_countA = 0
-
-        @JvmField
-        var local_countB = 0
         override suspend fun next(): Value {
             return next_helper {
                 if (key0[0] != ResultSetDictionary.nullValue && key1[0] != ResultSetDictionary.nullValue) {
@@ -157,65 +157,81 @@ class POPJoinMerge(query: Query, projectedVariables: List<String>, childA: OPBas
                         }
                         local_next_i = 0
                         while (local_next_i < columnsINJ0.size) {
-                            keyCopy[local_next_i] = key0[local_next_i]
+                            local_next_keyCopy[local_next_i] = key0[local_next_i]
                             local_next_i++
                         }
                         loop2@ while (true) {
                             if (columnsINO0.size > 0) {
-                                if (local_countA >= data0[0].size) {
-                                    for (i in 0 until data0.size) {
-                                        val x = data0[i]
-                                        val d = IntArray(local_countA * 2)
-                                        for (i in 0 until local_countA) {
-                                            d[i] = x[i]
+                                if (local_next_countA >= data0[0].size) {
+                                    local_next_i = 0
+                                    while (local_next_i < data0.size) {
+                                        val x = data0[local_next_i]
+                                        val d = IntArray(local_next_countA * 2)
+                                        for (i in 0 until local_next_countA) {
+                                            d[local_next_i] = x[local_next_i]
                                         }
-                                        data0[i] = d
+                                        data0[local_next_i] = d
+                                        local_next_i++
                                     }
                                 }
-                                for (i in 0 until columnsINO0.size) {
-                                    data0[i][local_countA] = columnsINO0[i].next()
+                                local_next_i = 0
+                                while (local_next_i < columnsINO0.size) {
+                                    data0[local_next_i][local_next_countA] = columnsINO0[local_next_i].next()
+                                    local_next_i++
                                 }
                             }
-                            for (i in 0 until columnsINJ0.size) {
-                                key0[i] = columnsINJ0[i].next()
-                                SanityCheck.check { key0[i] != ResultSetDictionary.undefValue }
+                            local_next_countA++
+                            local_next_i = 0
+                            while (local_next_i < columnsINJ0.size) {
+                                key0[local_next_i] = columnsINJ0[local_next_i].next()
+                                SanityCheck.check { key0[local_next_i] != ResultSetDictionary.undefValue }
+                                local_next_i++
                             }
-                            local_countA++
-                            for (i in 0 until columnsINJ0.size) {
-                                if (key0[i] != keyCopy[i]) {
+                            local_next_i = 0
+                            while (local_next_i < columnsINJ0.size) {
+                                if (key0[local_next_i] != local_next_keyCopy[local_next_i]) {
                                     break@loop2
                                 }
+                                local_next_i++
                             }
                         }
                         loop2@ while (true) {
                             if (columnsINO1.size > 0) {
-                                if (local_countB >= data1[0].size) {
-                                    for (i in 0 until data1.size) {
-                                        val x = data1[i]
-                                        val d = IntArray(local_countB * 2)
-                                        for (i in 0 until local_countB) {
-                                            d[i] = x[i]
+                                if (local_next_countB >= data1[0].size) {
+                                    local_next_i = 0
+                                    while (local_next_i < data1.size) {
+                                        val x = data1[local_next_i]
+                                        val d = IntArray(local_next_countB * 2)
+                                        for (i in 0 until local_next_countB) {
+                                            d[local_next_i] = x[local_next_i]
                                         }
-                                        data1[i] = d
+                                        data1[local_next_i] = d
+                                        local_next_i++
                                     }
                                 }
-                                for (i in 0 until columnsINO1.size) {
-                                    data1[i][local_countB] = columnsINO1[i].next()
+                                local_next_i = 0
+                                while (local_next_i < columnsINO1.size) {
+                                    data1[local_next_i][local_next_countB] = columnsINO1[local_next_i].next()
+                                    local_next_i++
                                 }
                             }
-                            for (i in 0 until columnsINJ1.size) {
-                                key1[i] = columnsINJ1[i].next()
-                                SanityCheck.check { key1[i] != ResultSetDictionary.undefValue }
+                            local_next_countB++
+                            local_next_i = 0
+                            while (local_next_i < columnsINJ1.size) {
+                                key1[local_next_i] = columnsINJ1[local_next_i].next()
+                                SanityCheck.check { key1[local_next_i] != ResultSetDictionary.undefValue }
+                                local_next_i++
                             }
-                            local_countB++
-                            for (i in 0 until columnsINJ1.size) {
-                                if (key1[i] != keyCopy[i]) {
+                            local_next_i = 0
+                            while (local_next_i < columnsINJ1.size) {
+                                if (key1[local_next_i] != local_next_keyCopy[local_next_i]) {
                                     break@loop2
                                 }
+                                local_next_i++
                             }
                         }
-                        POPJoin.crossProduct(data0, data1, keyCopy, columnsOUT0, columnsOUT1, columnsOUTJ, local_countA, local_countB)
-			break@loop
+                        POPJoin.crossProduct(data0, data1, local_next_keyCopy, columnsOUT0, columnsOUT1, columnsOUTJ, local_next_countA, local_next_countB)
+                        break@loop
                     }
                 } else {
                     __close()
@@ -267,8 +283,8 @@ class POPJoinMerge(query: Query, projectedVariables: List<String>, childA: OPBas
         if (emptyColumnsWithJoin) {
             outIterators.add(Pair("", 3))
         }
-        val key0 = IntArray(columnsINJ0.size) { columnsINJ0[it].next() }
-        val key1 = IntArray(columnsINJ1.size) { columnsINJ1[it].next() }
+        val key0 = IntArray(columnsINJ0.size)
+        val key1 = IntArray(columnsINJ1.size)
         for (iteratorConfig in outIterators) {
             val iterator = ColumnIteratorChildIteratorImpl(columnsINJ0, columnsINJ1, columnsINO0, columnsINO1, columnsOUT0, columnsOUT1, columnsOUTJ, key0, key1)
             when (iteratorConfig.second) {
@@ -301,6 +317,13 @@ class POPJoinMerge(query: Query, projectedVariables: List<String>, childA: OPBas
         } else {
             res = IteratorBundle(outMap)
         }
+
+for(i in 0 until columnsINJ0.size){
+key0[i]=columnsINJ0[i].next()
+}
+for(i in 0 until columnsINJ1.size){
+key1[i]=columnsINJ1[i].next()
+}
         return res
     }
 
