@@ -14,7 +14,10 @@ abstract class ColumnIteratorQueue() : ColumnIterator() {
     @JvmField
     var label = 1
     inline fun _close() {
+if(label!=0){
         label = 0
+queue.clear()
+}
     }
 
     inline suspend fun next_helper(crossinline onEmptyQueue: suspend () -> Unit): Value {

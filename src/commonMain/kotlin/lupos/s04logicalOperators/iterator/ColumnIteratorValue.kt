@@ -15,6 +15,7 @@ class ColumnIteratorValue(@JvmField val value: Value) : ColumnIterator() {
         if (done) {
             return ResultSetDictionary.nullValue
         } else {
+            done=true
             return value
         }
     }

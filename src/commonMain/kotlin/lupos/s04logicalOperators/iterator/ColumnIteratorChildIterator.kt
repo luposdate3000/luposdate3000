@@ -21,16 +21,16 @@ abstract class ColumnIteratorChildIterator() : ColumnIterator() {
             for (child in childs) {
                 child.close()
             }
+            childs.clear()
         }
     }
 
     inline suspend fun next_helper(crossinline onNoMoreElements: suspend () -> Unit): Value {
         when (label) {
             1 -> {
-                var res: Value = ResultSetDictionary.nullValue
-                while (res == ResultSetDictionary.nullValue) {
+                while (true) {
                     while (childs.size > 0) {
-                        res = childs[0].next()
+                        val res = childs[0].next()
                         if (res == ResultSetDictionary.nullValue) {
                             childs.removeAt(0)
                         } else {
@@ -43,7 +43,6 @@ abstract class ColumnIteratorChildIterator() : ColumnIterator() {
                         return ResultSetDictionary.nullValue
                     }
                 }
-                return res
             }
             2 -> {
                 while (childs.size > 0) {

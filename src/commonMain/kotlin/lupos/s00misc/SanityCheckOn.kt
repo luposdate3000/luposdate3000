@@ -6,7 +6,6 @@ object SanityCheckOn {
     /*inline*/ fun println(/*crossinline*/s: () -> Any?) {
         helperSanityPrintln(s())
     }
-
     suspend    /*inline*/ fun printlnSuspended(/*crossinline*/s: suspend () -> Any?) {
         helperSanityPrintln(s())
     }
