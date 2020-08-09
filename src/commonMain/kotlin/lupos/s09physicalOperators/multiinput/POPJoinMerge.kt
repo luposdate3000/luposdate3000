@@ -99,90 +99,127 @@ class POPJoinMerge(query: Query, projectedVariables: List<String>, childA: OPBas
             __close()
         }
 
+        @JvmField
+        var local_next_i = 0
+
+        @JvmField
+        var local_next_j = 0
+
+        @JvmField
+        var local_countA = 0
+
+        @JvmField
+        var local_countB = 0
         override suspend fun next(): Value {
             return next_helper {
-                val done2 = findNextKey()
-                if (done2) {
-                    __close()
+                if (key0[0] != ResultSetDictionary.nullValue && key1[0] != ResultSetDictionary.nullValue) {
+                    loop@ while (true) {
+                        local_next_i = 0
+                        while (local_next_i < columnsINJ0.size) {
+                            if (key0[local_next_i] < key1[local_next_i]) {
+                                local_next_j = 0
+                                while (local_next_j < columnsINO0.size) {
+                                    columnsINO0[local_next_j].next()
+                                    local_next_j++
+                                }
+                                local_next_j = 0
+                                while (local_next_j < columnsINJ0.size) {
+                                    key0[local_next_j] = columnsINJ0[local_next_j].next()
+                                    SanityCheck.check { key0[local_next_j] != ResultSetDictionary.undefValue }
+                                    if (key0[local_next_j] == ResultSetDictionary.nullValue) {
+                                        SanityCheck.check { local_next_j == 0 }
+                                        __close()
+                                        break@loop
+                                    }
+                                    local_next_j++
+                                }
+                                continue@loop
+                            } else if (key0[local_next_i] > key1[local_next_i]) {
+                                local_next_j = 0
+                                while (local_next_j < columnsINO1.size) {
+                                    columnsINO1[local_next_j].next()
+                                    local_next_j++
+                                }
+                                local_next_j = 0
+                                while (local_next_j < columnsINJ1.size) {
+                                    key1[local_next_j] = columnsINJ1[local_next_j].next()
+                                    SanityCheck.check { key1[local_next_j] != ResultSetDictionary.undefValue }
+                                    if (key1[local_next_j] == ResultSetDictionary.nullValue) {
+                                        SanityCheck.check { local_next_j == 0 }
+                                        __close()
+                                        break@loop
+                                    }
+                                    local_next_j++
+                                }
+                                continue@loop
+                            }
+                            local_next_i++
+                        }
+                        local_next_i = 0
+                        while (local_next_i < columnsINJ0.size) {
+                            keyCopy[local_next_i] = key0[local_next_i]
+                            local_next_i++
+                        }
+                        loop2@ while (true) {
+                            if (columnsINO0.size > 0) {
+                                if (local_countA >= data0[0].size) {
+                                    for (i in 0 until data0.size) {
+                                        val x = data0[i]
+                                        val d = IntArray(local_countA * 2)
+                                        for (i in 0 until local_countA) {
+                                            d[i] = x[i]
+                                        }
+                                        data0[i] = d
+                                    }
+                                }
+                                for (i in 0 until columnsINO0.size) {
+                                    data0[i][local_countA] = columnsINO0[i].next()
+                                }
+                            }
+                            for (i in 0 until columnsINJ0.size) {
+                                key0[i] = columnsINJ0[i].next()
+                                SanityCheck.check { key0[i] != ResultSetDictionary.undefValue }
+                            }
+                            local_countA++
+                            for (i in 0 until columnsINJ0.size) {
+                                if (key0[i] != keyCopy[i]) {
+                                    break@loop2
+                                }
+                            }
+                        }
+                        loop2@ while (true) {
+                            if (columnsINO1.size > 0) {
+                                if (local_countB >= data1[0].size) {
+                                    for (i in 0 until data1.size) {
+                                        val x = data1[i]
+                                        val d = IntArray(local_countB * 2)
+                                        for (i in 0 until local_countB) {
+                                            d[i] = x[i]
+                                        }
+                                        data1[i] = d
+                                    }
+                                }
+                                for (i in 0 until columnsINO1.size) {
+                                    data1[i][local_countB] = columnsINO1[i].next()
+                                }
+                            }
+                            for (i in 0 until columnsINJ1.size) {
+                                key1[i] = columnsINJ1[i].next()
+                                SanityCheck.check { key1[i] != ResultSetDictionary.undefValue }
+                            }
+                            local_countB++
+                            for (i in 0 until columnsINJ1.size) {
+                                if (key1[i] != keyCopy[i]) {
+                                    break@loop2
+                                }
+                            }
+                        }
+                        POPJoin.crossProduct(data0, data1, keyCopy, columnsOUT0, columnsOUT1, columnsOUTJ, local_countA, local_countB)
+			break@loop
+                    }
                 } else {
-                    for (i in 0 until columnsINJ0.size) {
-                        keyCopy[i] = key0[i]
-                    }
-                    val countA = sameElements(key0, keyCopy, columnsINJ0, columnsINO0, data0)
-                    val countB = sameElements(key1, keyCopy, columnsINJ1, columnsINO1, data1)
-                    POPJoin.crossProduct(data0, data1, keyCopy, columnsOUT0, columnsOUT1, columnsOUTJ, countA, countB)
+                    __close()
                 }
-            }
-        }
-
-        inline suspend fun sameElements(key: IntArray, keyCopy: IntArray, columnsINJ: List<ColumnIterator>, columnsINO: List<ColumnIterator>, data: Array<IntArray>): Int {
-            var count = 0
-            SanityCheck.check { keyCopy[0] != ResultSetDictionary.nullValue }
-            loop@ while (true) {
-                if (columnsINO.size > 0) {
-                    if (count >= data[0].size) {
-                        for (i in 0 until data.size) {
-                            val x = data[i]
-                            val d = IntArray(count * 2)
-                            for (i in 0 until count) {
-                                d[i] = x[i]
-                            }
-                            data[i] = d
-                        }
-                    }
-                    for (i in 0 until columnsINO.size) {
-                        data[i][count] = columnsINO[i].next()
-                    }
-                }
-                for (i in 0 until columnsINJ.size) {
-                    key[i] = columnsINJ[i].next()
-                    SanityCheck.check { key[i] != ResultSetDictionary.undefValue }
-                }
-                count++
-                for (i in 0 until columnsINJ.size) {
-                    if (key[i] != keyCopy[i]) {
-                        return count
-                    }
-                }
-            }
-        }
-
-        suspend inline fun findNextKey(): Boolean {
-            if (key0[0] != ResultSetDictionary.nullValue && key1[0] != ResultSetDictionary.nullValue) {
-                loop@ while (true) {
-                    for (i in 0 until columnsINJ0.size) {
-                        if (key0[i] < key1[i]) {
-                            for (j in 0 until columnsINO0.size) {
-                                columnsINO0[j].next()
-                            }
-                            for (j in 0 until columnsINJ0.size) {
-                                key0[j] = columnsINJ0[j].next()
-                                SanityCheck.check { key0[j] != ResultSetDictionary.undefValue }
-                                if (key0[j] == ResultSetDictionary.nullValue) {
-                                    SanityCheck.check { j == 0 }
-                                    return true
-                                }
-                            }
-                            continue@loop
-                        } else if (key0[i] > key1[i]) {
-                            for (j in 0 until columnsINO1.size) {
-                                columnsINO1[j].next()
-                            }
-                            for (j in 0 until columnsINJ1.size) {
-                                key1[j] = columnsINJ1[j].next()
-                                SanityCheck.check { key1[j] != ResultSetDictionary.undefValue }
-                                if (key1[j] == ResultSetDictionary.nullValue) {
-                                    SanityCheck.check { j == 0 }
-                                    return true
-                                }
-                            }
-                            continue@loop
-                        }
-                    }
-                    return false
-                }
-            } else {
-                return true
             }
         }
     }
