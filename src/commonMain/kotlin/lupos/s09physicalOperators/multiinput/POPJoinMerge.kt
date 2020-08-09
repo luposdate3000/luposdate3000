@@ -20,69 +20,69 @@ import lupos.s04logicalOperators.Query
 import lupos.s09physicalOperators.POPBase
 
 class POPJoinMerge(query: Query, projectedVariables: List<String>, childA: OPBase, childB: OPBase, @JvmField val optional: Boolean) : POPBase(query, projectedVariables, EOperatorID.POPJoinMergeID, "POPJoinMerge", arrayOf(childA, childB), ESortPriority.JOIN) {
-    override fun toSparql(): String {
-        if (optional) {
-            return "OPTIONAL{" + children[0].toSparql() + children[1].toSparql() + "}"
-        }
-        return children[0].toSparql() + children[1].toSparql()
-    }
-
+    override fun toSparql() = children[0].toSparql() + children[1].toSparql()
+    override suspend fun toXMLElement() = super.toXMLElement().addAttribute("optional", "" + optional)
+    override fun cloneOP() = POPJoinMerge(query, projectedVariables, children[0].cloneOP(), children[1].cloneOP(), optional)
     override fun equals(other: Any?) = other is POPJoinMerge && optional == other.optional && children[0] == other.children[0] && children[1] == other.children[1]
     override suspend fun evaluate(parent: Partition): IteratorBundle {
         SanityCheck.check { !optional }
-//setup columns
+        //setup columns
         SanityCheck.println({ "$uuid open $classname" })
-        val child = Array(2) { children[it].evaluate(parent) }
-        val columnsINO = Array(2) { mutableListOf<ColumnIterator>() }
-        val columnsINJ = Array(2) { mutableListOf<ColumnIterator>() }
-        val columnsOUT = Array(2) { mutableListOf<ColumnIteratorChildIterator>() }
+        val child0 = children[0].evaluate(parent)
+        val child1 = children[1].evaluate(parent)
+        val columnsINO0 = mutableListOf<ColumnIterator>()
+        val columnsINO1 = mutableListOf<ColumnIterator>()
+        val columnsINJ0 = mutableListOf<ColumnIterator>()
+        val columnsINJ1 = mutableListOf<ColumnIterator>()
+        val columnsOUT0 = mutableListOf<ColumnIteratorChildIterator>()
+        val columnsOUT1 = mutableListOf<ColumnIteratorChildIterator>()
         val columnsOUTJ = mutableListOf<ColumnIteratorChildIterator>()
         val outIterators = mutableListOf<Pair<String, Int>>() //Key_in_outMap, which_outIteratorsCounter (J,O0,O1,none)
         val outMap = mutableMapOf<String, ColumnIterator>()
         val tmp = mutableListOf<String>()
         tmp.addAll(children[1].getProvidedVariableNames())
-        var t: ColumnIteratorChildIterator
         for (name in children[0].getProvidedVariableNames()) {
             if (tmp.contains(name)) {
                 if (projectedVariables.contains(name)) {
                     outIterators.add(Pair(name, 0))
-                    for (i in 0 until 2) {
-                        columnsINJ[i].add(0, child[i].columns[name]!!)
-                    }
+                    columnsINJ0.add(0, child0.columns[name]!!)
+                    columnsINJ1.add(0, child1.columns[name]!!)
                 } else {
-                    for (i in 0 until 2) {
-                        columnsINJ[i].add(child[i].columns[name]!!)
-                    }
+                    columnsINJ0.add(child0.columns[name]!!)
+                    columnsINJ1.add(child1.columns[name]!!)
                 }
                 tmp.remove(name)
             } else {
                 outIterators.add(Pair(name, 1))
-                columnsINO[0].add(child[0].columns[name]!!)
+                columnsINO0.add(child0.columns[name]!!)
             }
         }
         for (name in tmp) {
             outIterators.add(Pair(name, 2))
-            columnsINO[1].add(child[1].columns[name]!!)
+            columnsINO1.add(child1.columns[name]!!)
         }
-        SanityCheck.check { columnsINJ[0].size > 0 }
-        SanityCheck.check { columnsINJ[0].size == columnsINJ[1].size }
+        SanityCheck.check { columnsINJ0.size > 0 }
+        SanityCheck.check { columnsINJ0.size == columnsINJ1.size }
         val emptyColumnsWithJoin = outIterators.size == 0
         if (emptyColumnsWithJoin) {
             outIterators.add(Pair("", 3))
         }
-        val key0 = IntArray(columnsINJ[0].size) { columnsINJ[0][it].next() }
-        val key1 = IntArray(columnsINJ[1].size) { columnsINJ[1][it].next() }
-
-        val done = findNextKey(key0, key1, columnsINJ, columnsINO)
+        val key0 = IntArray(columnsINJ0.size) { columnsINJ0[it].next() }
+        val key1 = IntArray(columnsINJ1.size) { columnsINJ1[it].next() }
+        val done = findNextKey(key0, key1, columnsINJ0, columnsINJ1, columnsINO0, columnsINO1)
         if (done) {
             SanityCheck.println({ "$uuid close $classname" })
-            for (closeIndex2 in 0 until 2) {
-                for (closeIndex in 0 until columnsINJ[closeIndex2].size) {
-                    columnsINJ[closeIndex2][closeIndex].close()
-                }
-                for (closeIndex in 0 until columnsINO[closeIndex2].size) {
-                    columnsINO[closeIndex2][closeIndex].close()
-                }
+            for (closeIndex in 0 until columnsINJ0.size) {
+                columnsINJ0[closeIndex].close()
+            }
+            for (closeIndex in 0 until columnsINJ1.size) {
+                columnsINJ1[closeIndex].close()
+            }
+            for (closeIndex in 0 until columnsINO0.size) {
+                columnsINO0[closeIndex].close()
+            }
+            for (closeIndex in 0 until columnsINO1.size) {
+                columnsINO1[closeIndex].close()
             }
             for (iteratorConfig in outIterators) {
                 outMap[iteratorConfig.first] = ColumnIteratorEmpty()
@@ -96,11 +96,11 @@ class POPJoinMerge(query: Query, projectedVariables: List<String>, childA: OPBas
                     }
                     1 -> {
                         outMap[iteratorConfig.first] = iterator
-                        columnsOUT[0].add(iterator)
+                        columnsOUT0.add(iterator)
                     }
                     2 -> {
                         outMap[iteratorConfig.first] = iterator
-                        columnsOUT[1].add(iterator)
+                        columnsOUT1.add(iterator)
                     }
                     3 -> {
                         columnsOUTJ.add(iterator)
@@ -109,52 +109,52 @@ class POPJoinMerge(query: Query, projectedVariables: List<String>, childA: OPBas
             }
         } else {
             val outIteratorsAllocated = mutableListOf<ColumnIteratorChildIterator>()
-            val keyCopy = IntArray(columnsINJ[0].size) { key0[it] }
+            val keyCopy = IntArray(columnsINJ0.size) { key0[it] }
             for (iteratorConfig in outIterators) {
                 val iterator = object : ColumnIteratorChildIterator() {
+                    @JvmField
+                    val data0 = Array(columnsINO0.size) { IntArray(100) }
+
+                    @JvmField
+                    val data1 = Array(columnsINO1.size) { IntArray(100) }
                     suspend inline fun __close() {
                         if (label != 0) {
-                            _close()
-                            SanityCheck.println({ "$uuid close $classname" })
-                            for (closeIndex2 in 0 until 2) {
-                                for (closeIndex in 0 until columnsINJ[closeIndex2].size) {
-                                    columnsINJ[closeIndex2][closeIndex].close()
-                                }
-                                for (closeIndex in 0 until columnsINO[closeIndex2].size) {
-                                    columnsINO[closeIndex2][closeIndex].close()
-                                }
+                            for (iterator2 in outIteratorsAllocated) {
+                                iterator2.closeOnNoMoreElements()
+                            }
+                            for (closeIndex in 0 until columnsINJ0.size) {
+                                columnsINJ0[closeIndex].close()
+                            }
+                            for (closeIndex in 0 until columnsINJ1.size) {
+                                columnsINJ1[closeIndex].close()
+                            }
+                            for (closeIndex in 0 until columnsINO0.size) {
+                                columnsINO0[closeIndex].close()
+                            }
+                            for (closeIndex in 0 until columnsINO1.size) {
+                                columnsINO1[closeIndex].close()
                             }
                         }
                     }
 
                     override suspend fun close() {
+                        SanityCheck.println({ "$uuid close $classname" })
+                        _close()
                         __close()
                     }
 
                     override suspend fun next(): Value {
                         return next_helper {
-                            for (i in 0 until columnsINJ[0].size) {
+                            for (i in 0 until columnsINJ0.size) {
                                 keyCopy[i] = key0[i]
                             }
-                            val data = Array(2) { Array(columnsINO[it].size) { MyListValue() } }
-                            val countA = sameElements(key0, keyCopy, columnsINJ[0], columnsINO[0], data[0])
-                            val countB = sameElements(key1, keyCopy, columnsINJ[1], columnsINO[1], data[1])
-                            val done2 = findNextKey(key0, key1, columnsINJ, columnsINO)
+                            val countA = sameElements(key0, keyCopy, columnsINJ0, columnsINO0, data0)
+                            val countB = sameElements(key1, keyCopy, columnsINJ1, columnsINO1, data1)
+                            val done2 = findNextKey(key0, key1, columnsINJ0, columnsINJ1, columnsINO0, columnsINO1)
                             if (done2) {
-                                for (iterator2 in outIteratorsAllocated) {
-                                    iterator2.closeOnNoMoreElements()
-                                }
-                                SanityCheck.println({ "$uuid close $classname" })
-                                for (closeIndex2 in 0 until 2) {
-                                    for (closeIndex in 0 until columnsINJ[closeIndex2].size) {
-                                        columnsINJ[closeIndex2][closeIndex].close()
-                                    }
-                                    for (closeIndex in 0 until columnsINO[closeIndex2].size) {
-                                        columnsINO[closeIndex2][closeIndex].close()
-                                    }
-                                }
+                                __close()
                             }
-                            POPJoin.crossProduct(data, keyCopy, columnsOUT, columnsOUTJ, countA, countB)
+                            POPJoin.crossProduct(data0, data1, keyCopy, columnsOUT0, columnsOUT1, columnsOUTJ, countA, countB)
                         }
                     }
                 }
@@ -165,11 +165,11 @@ class POPJoinMerge(query: Query, projectedVariables: List<String>, childA: OPBas
                     }
                     1 -> {
                         outMap[iteratorConfig.first] = iterator
-                        columnsOUT[0].add(iterator)
+                        columnsOUT0.add(iterator)
                     }
                     2 -> {
                         outMap[iteratorConfig.first] = iterator
-                        columnsOUT[1].add(iterator)
+                        columnsOUT1.add(iterator)
                     }
                     3 -> {
                         columnsOUTJ.add(iterator)
@@ -178,35 +178,35 @@ class POPJoinMerge(query: Query, projectedVariables: List<String>, childA: OPBas
                 outIteratorsAllocated.add(iterator)
             }
         }
-
         val res: IteratorBundle
         if (emptyColumnsWithJoin) {
             res = object : IteratorBundle(0) {
+                @JvmField
+                val columnsINJ00 = columnsINJ0
+                @JvmField
+                val columnsINJ01 = columnsINJ1
+                @JvmField
+                val columnsOUTJ00 = columnsOUTJ[0]
                 override suspend fun hasNext2(): Boolean {
-                    val tmp = columnsOUTJ[0].next() != ResultSetDictionary.nullValue
+                    val tmp = columnsOUTJ00.next() != ResultSetDictionary.nullValue
                     if (!tmp) {
-                        SanityCheck.println({ "$uuid close $classname" })
-                        for (closeIndex2 in 0 until 2) {
-                            for (closeIndex in 0 until columnsINJ[closeIndex2].size) {
-                                columnsINJ[closeIndex2][closeIndex].close()
-                            }
-                            for (closeIndex in 0 until columnsINO[closeIndex2].size) {
-                                columnsINO[closeIndex2][closeIndex].close()
-                            }
-                        }
+                        _hasNext2Close()
                     }
                     return tmp
                 }
 
-suspend                override fun hasNext2Close() {
-                    for (closeIndex2 in 0 until 2) {
-                        for (closeIndex in 0 until columnsINJ[closeIndex2].size) {
-                            columnsINJ[closeIndex2][closeIndex].close()
-                        }
-                        for (closeIndex in 0 until columnsINO[closeIndex2].size) {
-                            columnsINO[closeIndex2][closeIndex].close()
-                        }
+                suspend inline fun _hasNext2Close() {
+                    SanityCheck.println({ "$uuid close $classname" })
+                    for (closeIndex in 0 until columnsINJ00.size) {
+                        columnsINJ00[closeIndex].close()
                     }
+                    for (closeIndex in 0 until columnsINJ01.size) {
+                        columnsINJ01[closeIndex].close()
+                    }
+                }
+
+                suspend override fun hasNext2Close() {
+                    _hasNext2Close()
                 }
             }
         } else {
@@ -215,18 +215,33 @@ suspend                override fun hasNext2Close() {
         return res
     }
 
-    suspend    /*inline*/  fun sameElements(key: IntArray, keyCopy: IntArray, columnsINJ: MutableList<ColumnIterator>, columnsINO: MutableList<ColumnIterator>, data: Array<MyListValue>): Int {
+    suspend fun sameElements(key: IntArray, keyCopy: IntArray, columnsINJ: MutableList<ColumnIterator>, columnsINO: MutableList<ColumnIterator>, data: Array<IntArray>): Int {
         var count = 0
         SanityCheck.check { keyCopy[0] != ResultSetDictionary.nullValue }
         loop@ while (true) {
-            count++
+            if (count >= data[0].size) {
+                for (i in 0 until data.size) {
+                    val x = data[i]
+                    val d = IntArray(count * 2) {
+                        val res: Int
+                        if (it < count) {
+                            res = x[it]
+                        } else {
+                            res = 0
+                        }
+                        /*return*/res
+                    }
+                    data[i] = d
+                }
+            }
             for (i in 0 until columnsINO.size) {
-                data[i].add(columnsINO[i].next())
+                data[i][count] = columnsINO[i].next()
             }
             for (i in 0 until columnsINJ.size) {
                 key[i] = columnsINJ[i].next()
                 SanityCheck.check { key[i] != ResultSetDictionary.undefValue }
             }
+            count++
             for (i in 0 until columnsINJ.size) {
                 if (key[i] != keyCopy[i]) {
                     break@loop
@@ -236,20 +251,20 @@ suspend                override fun hasNext2Close() {
         return count
     }
 
-    suspend    /*inline*/ fun findNextKey(key0: IntArray, key1: IntArray, columnsINJ: Array<MutableList<ColumnIterator>>, columnsINO: Array<MutableList<ColumnIterator>>): Boolean {
+    suspend inline fun findNextKey(key0: IntArray, key1: IntArray, columnsINJ0: MutableList<ColumnIterator>, columnsINJ1: MutableList<ColumnIterator>, columnsINO0: MutableList<ColumnIterator>, columnsINO1: MutableList<ColumnIterator>): Boolean {
         var done = true
         if (key0[0] != ResultSetDictionary.nullValue && key1[0] != ResultSetDictionary.nullValue) {
             done = false
             loop@ while (true) {
-                for (i in 0 until columnsINJ[0].size) {
+                for (i in 0 until columnsINJ0.size) {
                     val a = key0[i]
                     val b = key1[i]
                     if (a < b) {
-                        for (j in 0 until columnsINO[0].size) {
-                            columnsINO[0][j].next()
+                        for (j in 0 until columnsINO0.size) {
+                            columnsINO0[j].next()
                         }
-                        for (j in 0 until columnsINJ[0].size) {
-                            key0[j] = columnsINJ[0][j].next()
+                        for (j in 0 until columnsINJ0.size) {
+                            key0[j] = columnsINJ0[j].next()
                             SanityCheck.check { key0[j] != ResultSetDictionary.undefValue }
                             done = key0[j] == ResultSetDictionary.nullValue
                             if (done) {
@@ -259,11 +274,11 @@ suspend                override fun hasNext2Close() {
                         }
                         continue@loop
                     } else if (a > b) {
-                        for (j in 0 until columnsINO[1].size) {
-                            columnsINO[1][j].next()
+                        for (j in 0 until columnsINO1.size) {
+                            columnsINO1[j].next()
                         }
-                        for (j in 0 until columnsINJ[1].size) {
-                            key1[j] = columnsINJ[1][j].next()
+                        for (j in 0 until columnsINJ1.size) {
+                            key1[j] = columnsINJ1[j].next()
                             SanityCheck.check { key1[j] != ResultSetDictionary.undefValue }
                             done = key1[j] == ResultSetDictionary.nullValue
                             if (done) {
@@ -279,7 +294,4 @@ suspend                override fun hasNext2Close() {
         }
         return done
     }
-
-    override suspend fun toXMLElement() = super.toXMLElement().addAttribute("optional", "" + optional)
-    override fun cloneOP() = POPJoinMerge(query, projectedVariables, children[0].cloneOP(), children[1].cloneOP(), optional)
 }

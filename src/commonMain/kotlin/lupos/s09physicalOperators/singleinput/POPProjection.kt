@@ -47,7 +47,7 @@ class POPProjection(query: Query, projectedVariables: List<String>, child: OPBas
             val column = child.columns[variables2[0]]!!
             val res = object : IteratorBundle(0) {
                 override suspend fun hasNext2(): Boolean {
-                    return                column.next() != ResultSetDictionary.nullValue
+                    return column.next() != ResultSetDictionary.nullValue
                 }
 
                 suspend override fun hasNext2Close() {

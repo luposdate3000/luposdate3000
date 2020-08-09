@@ -131,7 +131,7 @@ class POPJoinMergeOptional(query: Query, projectedVariables: List<String>, child
                                     }
                                 }
                             }
-                            POPJoin.crossProduct(data, keyCopy, columnsOUT, columnsOUTJ, countA, countB)
+                            POPJoin.crossProduct(data[0], data[1], keyCopy, columnsOUT[0], columnsOUT[1], columnsOUTJ, countA, countB)
                         }
                     }
                 }

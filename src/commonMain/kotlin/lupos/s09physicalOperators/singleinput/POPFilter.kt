@@ -121,8 +121,8 @@ class POPFilter(query: Query, projectedVariables: List<String>, filter: AOPBase,
                         res = child
                     } else {
                         res = object : IteratorBundle(0) {
-suspend                            override fun hasNext2() :Boolean{
-return                                false
+                            suspend override fun hasNext2(): Boolean {
+                                return false
                             }
                         }
                     }
@@ -135,7 +135,7 @@ return                                false
                             }
                         }
 
-                       suspend override fun hasNext2(): Boolean {
+                        suspend override fun hasNext2(): Boolean {
                             var res2 = false
                             try {
                                 var done = false

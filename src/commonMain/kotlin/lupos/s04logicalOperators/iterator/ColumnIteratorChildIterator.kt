@@ -10,7 +10,9 @@ abstract class ColumnIteratorChildIterator() : ColumnIterator() {
     @JvmField
     var label = 1
     inline fun closeOnNoMoreElements() {
-        label = 2
+        if (label != 0) {
+            label = 2
+        }
     }
 
     inline suspend fun _close() {

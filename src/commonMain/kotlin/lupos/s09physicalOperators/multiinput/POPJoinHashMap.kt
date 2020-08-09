@@ -265,8 +265,7 @@ class POPJoinHashMap(query: Query, projectedVariables: List<String>, childA: OPB
                                         done = true
                                         countB = 1
                                         val dataJ = IntArray(outJ.size) { currentKey!![it] }
-                                        val dataO: Array<Array<MyListValue>> = arrayOf(dataOA, Array(outO[1].size) { MyListValue(ResultSetDictionary.undefValue) })
-                                        POPJoin.crossProduct(dataO, dataJ, outO, outJ, countA, countB)
+                                        POPJoin.crossProduct(dataOA, Array(outO[1].size) { MyListValue(ResultSetDictionary.undefValue) }, dataJ, outO[0], outO[1], outJ, countA, countB)
                                     }
                                 } else {
                                     done = true
@@ -281,8 +280,7 @@ class POPJoinHashMap(query: Query, projectedVariables: List<String>, childA: OPB
                                             }
                                             /*return*/res2
                                         }
-                                        val dataO: Array<Array<MyListValue>> = arrayOf(dataOA, others[otherIndex].second.columns)
-                                        POPJoin.crossProduct(dataO, dataJ, outO, outJ, countA, countB)
+                                        POPJoin.crossProduct(dataOA, others[otherIndex].second.columns, dataJ, outO[0], outO[1], outJ, countA, countB)
                                     }
                                 }
                                 map = nextMap

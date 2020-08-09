@@ -47,6 +47,8 @@ abstract class ColumnIteratorQueue() : ColumnIterator() {
     }
 
     inline fun closeOnEmptyQueue() {
-        label = 2
+        if (label != 0) {
+            label = 2
+        }
     }
 }
