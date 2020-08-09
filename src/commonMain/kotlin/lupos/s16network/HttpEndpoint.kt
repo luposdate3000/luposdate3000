@@ -233,12 +233,16 @@ object HttpEndpoint {
         val pop_node = XMLElement.convertToOPBase(q, XMLElement.parseFromXml(query)!!)
         GlobalLogger.log(ELoggerType.DEBUG, { pop_node })
         if (logOperatorGraph) {
-            SanityCheck.println({ "----------" })
-            SanityCheck.println({ query })
-            SanityCheck.println({ ">>>>>>>>>>" })
-            SanityCheck.printlnSuspended({ pop_node.toXMLElement().toString() })
-            SanityCheck.println({ "<<<<<<<<<<" })
-            SanityCheck.printlnSuspended({ OperatorGraphToLatex(pop_node.toXMLElement().toString(), "") })
+            SanityCheck.suspended {
+                SanityCheck.println({ "----------" })
+                SanityCheck.println({ query })
+                SanityCheck.println({ ">>>>>>>>>>" })
+                val a = pop_node.toXMLElement().toString()
+                SanityCheck.println({ a })
+                SanityCheck.println({ "<<<<<<<<<<" })
+                val b = OperatorGraphToLatex(pop_node.toXMLElement().toString(), "")
+                SanityCheck.println({ b })
+            }
         }
         val res = QueryResultToString(pop_node)
         q.commit()

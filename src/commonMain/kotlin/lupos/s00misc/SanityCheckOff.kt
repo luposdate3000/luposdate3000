@@ -1,11 +1,6 @@
 package lupos.s00misc
 
 object SanityCheckOff {
-    suspend    /*inline*/ fun printlnSuspended(/*crossinline*/s: suspend () -> Any?) {
-if(false){
-s()
-}
-}
     /*inline*/ fun println(/*crossinline*/s: () -> Any?) {}
     /*inline*/   operator fun invoke(/*crossinline*/ action: () -> Unit) {}
     suspend    /*inline*/    fun suspended(/*crossinline*/ action: suspend () -> Unit) {}
