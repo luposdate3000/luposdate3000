@@ -183,6 +183,7 @@ class POPJoinMerge(query: Query, projectedVariables: List<String>, childA: OPBas
                             local_next_keyCopy[local_next_i] = key0[local_next_i]
                             local_next_i++
                         }
+			local_next_countA=0
                         loop2@ while (true) {
                             if (columnsINO0.size > 0) {
                                 if (local_next_countA >= data0[0].size) {
@@ -220,6 +221,7 @@ class POPJoinMerge(query: Query, projectedVariables: List<String>, childA: OPBas
                                 local_next_i++
                             }
                         }
+			local_next_countB=0
                         loop2@ while (true) {
                             if (columnsINO1.size > 0) {
                                 if (local_next_countB >= data1[0].size) {
