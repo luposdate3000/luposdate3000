@@ -33,12 +33,18 @@ class POPJoinMerge(query: Query, projectedVariables: List<String>, childA: OPBas
             return tmp
         }
 
+        @JvmField
+        var local_hasNext2Close_i = 0
         suspend inline fun _hasNext2Close() {
-            for (it in columnsINJ0) {
-                it.close()
+            local_hasNext2Close_i = 0
+            while (local_hasNext2Close_i < columnsINJ0.size) {
+                columnsINJ0[local_hasNext2Close_i].close()
+                local_hasNext2Close_i++
             }
-            for (it in columnsINJ1) {
-                it.close()
+            local_hasNext2Close_i = 0
+            while (local_hasNext2Close_i < columnsINJ1.size) {
+                columnsINJ1[local_hasNext2Close_i].close()
+                local_hasNext2Close_i++
             }
         }
 
@@ -79,28 +85,45 @@ class POPJoinMerge(query: Query, projectedVariables: List<String>, childA: OPBas
         @JvmField
         val local_next_keyCopy = IntArray(columnsINJ0.size)
 
+        @JvmField
+        var local___close_i = 0
+
         suspend inline fun __close() {
             if (label != 0) {
-                for (it in columnsOUT0) {
-                    it.closeOnNoMoreElements()
+                local___close_i = 0
+                while (local___close_i < columnsOUT0.size) {
+                    columnsOUT0[local___close_i].closeOnNoMoreElements()
+                    local___close_i++
                 }
-                for (it in columnsOUT1) {
-                    it.closeOnNoMoreElements()
+                local___close_i = 0
+                while (local___close_i < columnsOUT1.size) {
+                    columnsOUT1[local___close_i].closeOnNoMoreElements()
+                    local___close_i++
                 }
-                for (it in columnsOUTJ) {
-                    it.closeOnNoMoreElements()
+                local___close_i = 0
+                while (local___close_i < columnsOUTJ.size) {
+                    columnsOUTJ[local___close_i].closeOnNoMoreElements()
+                    local___close_i++
                 }
-                for (it in columnsINJ0) {
-                    it.close()
+                local___close_i = 0
+                while (local___close_i < columnsINJ0.size) {
+                    columnsINJ0[local___close_i].close()
+                    local___close_i++
                 }
-                for (it in columnsINJ1) {
-                    it.close()
+                local___close_i = 0
+                while (local___close_i < columnsINJ1.size) {
+                    columnsINJ1[local___close_i].close()
+                    local___close_i++
                 }
-                for (it in columnsINO0) {
-                    it.close()
+                local___close_i = 0
+                while (local___close_i < columnsINO0.size) {
+                    columnsINO0[local___close_i].close()
+                    local___close_i++
                 }
-                for (it in columnsINO1) {
-                    it.close()
+                local___close_i = 0
+                while (local___close_i < columnsINO1.size) {
+                    columnsINO1[local___close_i].close()
+                    local___close_i++
                 }
                 _close()
             }
@@ -167,8 +190,10 @@ class POPJoinMerge(query: Query, projectedVariables: List<String>, childA: OPBas
                                     while (local_next_i < data0.size) {
                                         val x = data0[local_next_i]
                                         val d = IntArray(local_next_countA * 2)
-                                        for (i in 0 until local_next_countA) {
-                                            d[local_next_i] = x[local_next_i]
+                                        local_next_j = 0
+                                        while (local_next_j < local_next_countA) {
+                                            d[local_next_j] = x[local_next_j]
+                                            local_next_j++
                                         }
                                         data0[local_next_i] = d
                                         local_next_i++
@@ -202,8 +227,10 @@ class POPJoinMerge(query: Query, projectedVariables: List<String>, childA: OPBas
                                     while (local_next_i < data1.size) {
                                         val x = data1[local_next_i]
                                         val d = IntArray(local_next_countB * 2)
-                                        for (i in 0 until local_next_countB) {
-                                            d[local_next_i] = x[local_next_i]
+                                        local_next_j = 0
+                                        while (local_next_j < local_next_countB) {
+                                            d[local_next_j] = x[local_next_j]
+                                            local_next_j++
                                         }
                                         data1[local_next_i] = d
                                         local_next_i++
@@ -318,12 +345,12 @@ class POPJoinMerge(query: Query, projectedVariables: List<String>, childA: OPBas
             res = IteratorBundle(outMap)
         }
 
-for(i in 0 until columnsINJ0.size){
-key0[i]=columnsINJ0[i].next()
-}
-for(i in 0 until columnsINJ1.size){
-key1[i]=columnsINJ1[i].next()
-}
+        for (i in 0 until columnsINJ0.size) {
+            key0[i] = columnsINJ0[i].next()
+        }
+        for (i in 0 until columnsINJ1.size) {
+            key1[i] = columnsINJ1[i].next()
+        }
         return res
     }
 

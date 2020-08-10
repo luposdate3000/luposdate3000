@@ -9,6 +9,7 @@ abstract class ColumnIteratorChildIterator() : ColumnIterator() {
 
     @JvmField
     var label = 1
+
     inline fun closeOnNoMoreElements() {
         if (label != 0) {
             label = 2
@@ -16,13 +17,11 @@ abstract class ColumnIteratorChildIterator() : ColumnIterator() {
     }
 
     inline suspend fun _close() {
-        if (label != 0) {
             label = 0
-            for (child in childs) {
-                child.close()
-            }
-            childs.clear()
-        }
+while(childs.size>0){
+val x=childs.removeAt(0)
+x.close()
+}
     }
 
     inline suspend fun next_helper(crossinline onNoMoreElements: suspend () -> Unit): Value {
