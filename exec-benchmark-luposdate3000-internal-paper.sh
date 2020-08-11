@@ -54,7 +54,7 @@ do
 		do
 			cp log/queries-lupos log/benchtmp/$version.lupos.queries
 		done
-		triples=65536
+		triples=1024
 		while true
 		do
 			plupos=$(pwd)/benchmark_results/lupos/v_${variant}_${partitions}P
@@ -74,7 +74,7 @@ do
 					./log/benchtmp/$version.x "IMPORT_INTERMEDIATE" "$triplesfolder/data" "$triplesfolder/intermediate" "$queries" "5" "$triples" "$size" "$triplesfolder/bnodes.txt" "lupos" "$partitions" > log/benchtmp/x
 					cat log/benchtmp/x
 					cat log/benchtmp/x | grep "sparql,$triples," >> $plupos/luposdate3000-$version-$(git rev-parse HEAD)-internal.csv
-					cat log/benchtmp/x | grep "sparql,$triples," | grep -v "sparql,$triples,0,.," | sed "s/,.*//" | sort | uniq > log/benchtmp/$version.lupos.queries
+#					cat log/benchtmp/x | grep "sparql,$triples," | grep -v "sparql,$triples,0,.," | sed "s/,.*//" | sort | uniq > log/benchtmp/$version.lupos.queries
 				fi
 			done
 			triples=$(($triples * 2))

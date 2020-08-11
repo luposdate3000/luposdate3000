@@ -52,20 +52,21 @@ s+=",$var_no_repetitions"
 s+=",$var_no_time"
 s+=",$var_no_time_per_repetition"
 s+=",$var_no_time_per_result_row"
-#s+=",$var_time_per_optimizer"
+s+=",$var_time_per_optimizer"
 s+=",$var_scale_factor"
 echo $s >> tmp/all.csv
 	done
 done
 
+############## plot 1
 cat <<EOF > tmp/${query}_1.plot
 set terminal png size 1920,1080
 set output 'tmp/$(echo $query | sed "s/.sparql//g").png'
 set datafile separator ","
 set key inside right top
+set notitle
 set logscale x
 set logscale y
-set title "$query"
 EOF
 s=""
 for f in tmp/*_$query
@@ -76,7 +77,7 @@ done
 echo "plot${s:1}" >> tmp/${query}_1.plot
 cat tmp/${query}_1.plot | gnuplot
 
-
+############## plot 2 legend
 cat <<EOF > tmp/legend.plot
 set terminal epslatex
 set output 'legend.tex'
@@ -101,15 +102,15 @@ cat tmp/legend.plot | gnuplot
 mv legend.tex tmp/legend.tex
 mv legend.eps tmp/legend.eps
 
-
+############## plot 2 content
 cat <<EOF > tmp/${query}_2.plot
 set terminal epslatex
 set output '$(echo $query | sed "s/.sparql//g").tex'
 set datafile separator ","
 set nokey
+set notitle
 set logscale x
 set logscale y
-set title "$query"
 EOF
 s=""
 for f in tmp/*_$query
@@ -122,7 +123,56 @@ cat tmp/${query}_2.plot | gnuplot
 mv $(echo $query | sed "s/.sparql//g").tex tmp/$(echo $query | sed "s/.sparql//g").tex
 mv $(echo $query | sed "s/.sparql//g").eps tmp/$(echo $query | sed "s/.sparql//g").eps
 
+for data in $(find tmp -name "*_${query}" | sed "s/_[0-9][0-9]*P.*//g" | sed "s-.*/v_--g"| sort | uniq)
+do
+gg=$(find tmp -name "*_${query}" | grep $data | sort -n)
+############## plot 3 legend
+cat <<EOF > tmp/legend.plot
+set terminal epslatex
+set output 'legend-$data.tex'
+set key inside right top
+set noborder
+set noxtics
+set noytics
+set notitle
+set noxlabel
+set noylabel
+set xrange [-10:10]
+set yrange [-10:10]
+EOF
+s=""
+for f in $gg
+do
+	x=$(echo $f | sed 's-tmp/--g' | sed "s/_${query}//g" | sed 's/_/-/g' | sed "s/v-$data-//g")
+        s="$s, 20 title \"$x\" with linespoints"
+done
+echo "plot${s:1}" >> tmp/legend.plot
+cat tmp/legend.plot | gnuplot
+mv legend-$data.tex tmp/legend-$data.tex
+mv legend-$data.eps tmp/legend-$data.eps
 
+############## plot 3 content
+cat <<EOF > tmp/${query}_2.plot
+set terminal epslatex
+set output '$(echo $query | sed "s/.sparql//g")-${data}.tex'
+set datafile separator ","
+set nokey
+set notitle
+set logscale x
+set logscale y
+EOF
+s=""
+for f in $gg
+do
+        s="$s, '$f' using 2:6 with linespoints"
+done
+echo "plot${s:1}" >> tmp/${query}_2.plot
+cat tmp/${query}_2.plot | gnuplot
+mv $(echo $query | sed "s/.sparql//g")-${data}.tex tmp/$(echo $query | sed "s/.sparql//g")-${data}.tex
+mv $(echo $query | sed "s/.sparql//g")-${data}.eps tmp/$(echo $query | sed "s/.sparql//g")-${data}.eps
+done
+
+############## finish
 done
 #mv tmp/*.png benchmark_results/
 #rm -rf tmp

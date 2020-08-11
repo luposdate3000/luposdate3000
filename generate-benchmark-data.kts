@@ -68,7 +68,7 @@ for (i in 0 until numberOfPredicates) {
 outIntermediateTriplesStatCounter++
 }
 
-var counter = 0L
+var counter = 0
 loop@ while (targetNumberOfTriples > 0) {
     outIntermediateDictionary.println("_:_s${counter.toString(16)}")
     outIntermediateDictionaryStatCounter++
