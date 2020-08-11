@@ -16,6 +16,18 @@ do
 		number=$(echo $l | sed "s#.*sparql,##g" | sed "s#,.*##g")
 		triples=$(cat $source/stat.csv | grep "^$number," | sed "s#^$number,##g" | sed "s#,.*##g")
 		echo $l | sed "s#.sparql,$number#.sparql,$triples#g" >> $target
+var_q=$(echo $query | sed "s-.*/--g" | sed "s/\.sparql//g")
+var_trash=$(echo $f | sed "s-.*v_[^T]*T[^T]T--g" | sed "s/_.*//g")
+var_join=$(echo $f | sed "s-.*v_[^T]T--g" | sed "s/T.*//g")
+var_process=$(echo $f | sed "s-.*_--g" | sed "s/P//g")
+var_predicates=$(echo $f | sed "s-.*v_--g" | sed "s/T.*//g")
+var_triples=$triples
+var_repetitions=$(echo $l | sed "s/.*,0,//g" | sed "s/,.*//g")
+var_time=$(echo $l | sed "s/.*,0,[^,]*,//g" | sed "s/,.*//g")
+var_time_per_repetition=$(bc <<< "scale=10; $var_time / $var_repetitions")
+var_result_rows=$(cat $source/$number/data*.n3 | grep "<p0>" | grep ";" | wc -l)
+var_time_per_result_row=$(bc <<< "scale=10; $var_time / ( $var_result_rows * $var_repetitions)")
+echo "$var_q - $var_trash - $var_join - $var_process - $var_predicates - $var_triples - $var_repetitions - $var_time -- $var_time_per_repetition - $var_result_rows - $var_time_per_result_row"
 	done
 done
 
