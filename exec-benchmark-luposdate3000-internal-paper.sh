@@ -39,8 +39,8 @@ mkdir -p log/benchtmp
 ln -s $(readlink -f build/executable) log/benchtmp/Multi_BPlusTree_Empty.x
 versions=( "Multi_BPlusTree_Empty" )
 
-ls resources/lupos/q*.sparql | grep -v "-" > log/queries-lupos
-#echo resources/lupos/q6.sparql > log/queries-lupos
+#ls resources/lupos/q*.sparql | grep -v "-" > log/queries-lupos
+echo resources/lupos/q5.sparql > log/queries-lupos
 
 export JAVA_HOME=/usr/lib/jvm/java-14-openjdk-amd64
 
@@ -74,7 +74,7 @@ do
 					./log/benchtmp/$version.x "IMPORT_INTERMEDIATE" "$triplesfolder/data" "$triplesfolder/intermediate" "$queries" "10" "$triples" "$size" "$triplesfolder/bnodes.txt" "lupos" "$partitions" > log/benchtmp/x
 					cat log/benchtmp/x
 					cat log/benchtmp/x | grep "sparql,$triples," >> $plupos/luposdate3000-$version-$(git rev-parse HEAD)-internal.csv
-					cat log/benchtmp/x | grep "sparql,$triples," | grep -v "sparql,$triples,0,.," | sed "s/,.*//" > log/benchtmp/$version.lupos.queries
+					cat log/benchtmp/x | grep "sparql,$triples," | grep -v "sparql,$triples,0,.," | sed "s/,.*//" | sort | uniq > log/benchtmp/$version.lupos.queries
 				fi
 			done
 			triples=$(($triples * 2))

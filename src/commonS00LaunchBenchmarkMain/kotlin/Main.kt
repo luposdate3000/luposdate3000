@@ -72,13 +72,13 @@ fun main(args: Array<String>) = runBlocking {
     for (queryFile in queryFiles) {
         val query = File(queryFile).readAsString()
         HttpEndpoint.evaluate_sparql_query_string(query, true)
-//-->> BenchmarkUtils.timesHelper
+        //-->> BenchmarkUtils.timesHelper
         for (j in 0 until BenchmarkUtils.timesHelper.size) {
             println("statistics.BenchmarkUtils.timesHelper[${j}] :: ${BenchmarkUtils.timesHelper[j]} (${BenchmarkUtils.timesCounter[j]})")
             BenchmarkUtils.timesHelper[j] = 0.0
             BenchmarkUtils.timesCounter[j] = 0
         }
-//<<--BenchmarkUtils.timesHelper
+        //<<--BenchmarkUtils.timesHelper
         val timer = Monotonic.markNow()
         var time: Double
         var counter = 0
@@ -90,13 +90,44 @@ fun main(args: Array<String>) = runBlocking {
                 break
             }
         }
-        println("$queryFile,$numberOfTriples,0,$counter,${time * 1000.0},${counter / time},$originalTripleSize")
-//-->> BenchmarkUtils.timesHelper
+        println("${queryFile},$numberOfTriples,0,$counter,${time * 1000.0},${counter / time},$originalTripleSize,WithOptimizer")
+        //-->> BenchmarkUtils.timesHelper
         for (j in 0 until BenchmarkUtils.timesHelper.size) {
             println("statistics.BenchmarkUtils.timesHelper[${j}] :: ${BenchmarkUtils.timesHelper[j]} (${BenchmarkUtils.timesCounter[j]})")
             BenchmarkUtils.timesHelper[j] = 0.0
             BenchmarkUtils.timesCounter[j] = 0
         }
-//<<--BenchmarkUtils.timesHelper
+        //<<--BenchmarkUtils.timesHelper
+    }
+    for (queryFile in queryFiles) {
+        val query = File(queryFile).readAsString()
+        val node = HttpEndpoint.evaluate_sparql_query_string_part1(query, true)
+        HttpEndpoint.evaluate_sparql_query_string_part2(node)
+        //-->> BenchmarkUtils.timesHelper
+        for (j in 0 until BenchmarkUtils.timesHelper.size) {
+            println("statistics.BenchmarkUtils.timesHelper[${j}] :: ${BenchmarkUtils.timesHelper[j]} (${BenchmarkUtils.timesCounter[j]})")
+            BenchmarkUtils.timesHelper[j] = 0.0
+            BenchmarkUtils.timesCounter[j] = 0
+        }
+        //<<--BenchmarkUtils.timesHelper
+        val timer = Monotonic.markNow()
+        var time: Double
+        var counter = 0
+        while (true) {
+            counter++
+            HttpEndpoint.evaluate_sparql_query_string_part2(node)
+            time = timer.elapsedNow().toDouble(DurationUnit.SECONDS)
+            if (time > minimumTime) {
+                break
+            }
+        }
+        println("${queryFile},$numberOfTriples,0,$counter,${time * 1000.0},${counter / time},$originalTripleSize,NoOptimizer")
+        //-->> BenchmarkUtils.timesHelper
+        for (j in 0 until BenchmarkUtils.timesHelper.size) {
+            println("statistics.BenchmarkUtils.timesHelper[${j}] :: ${BenchmarkUtils.timesHelper[j]} (${BenchmarkUtils.timesCounter[j]})")
+            BenchmarkUtils.timesHelper[j] = 0.0
+            BenchmarkUtils.timesCounter[j] = 0
+        }
+        //<<--BenchmarkUtils.timesHelper
     }
 }

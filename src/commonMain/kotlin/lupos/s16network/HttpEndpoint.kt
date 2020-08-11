@@ -175,7 +175,7 @@ object HttpEndpoint {
         return XMLElement("success").toString()
     }
 
-    suspend fun evaluate_sparql_query_string(query: String, logOperatorGraph: Boolean = false): String {
+    suspend fun evaluate_sparql_query_string_part1(query: String, logOperatorGraph: Boolean = false): OPBase {
         val q = Query()
         var timer = BenchmarkUtils.timesHelperMark()
         GlobalLogger.log(ELoggerType.DEBUG, { "----------String Query" })
@@ -219,13 +219,21 @@ object HttpEndpoint {
             println(OperatorGraphToLatex(pop_distributed_node.toXMLElement().toString(), ""))
         }
         BenchmarkUtils.timesHelperDuration(5, timer)
-        timer = BenchmarkUtils.timesHelperMark()
-        val res = QueryResultToString(pop_distributed_node)
+return pop_distributed_node
+}
+suspend fun evaluate_sparql_query_string_part2(node:OPBase): String {
+var        timer = BenchmarkUtils.timesHelperMark()
+        val res = QueryResultToString(node)
         BenchmarkUtils.timesHelperDuration(6, timer)
         timer = BenchmarkUtils.timesHelperMark()
-        q.commit()
+        node.query.commit()
         BenchmarkUtils.timesHelperDuration(7, timer)
         return res
+    }
+
+    suspend fun evaluate_sparql_query_string(query: String, logOperatorGraph: Boolean = false): String {
+val node=evaluate_sparql_query_string_part1(query,logOperatorGraph)
+return evaluate_sparql_query_string_part2(node)
     }
 
     suspend fun evaluate_sparql_query_operator_xml(query: String, logOperatorGraph: Boolean = false): String {

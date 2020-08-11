@@ -17,7 +17,7 @@ echo $query
 		target=$(echo $f | sed "s#benchmark_results/$benchmark/#tmp/$query.#g")
 		touch $target
 		truncate -s0 $target
-		for l in $(cat $f  | grep $query)
+		for l in $(cat $f  | grep $query| grep -v "NoOptimizer" | sed "s/,WithOptimizer//g")
 		do
 			number=$(echo $l | sed "s#.*sparql,##g" | sed "s#,.*##g")
 			triples=$(cat /mnt/luposdate-testdata/$benchmark/stat.csv | grep "^$number," | sed "s#^$number,##g" | sed "s#,.*##g")
