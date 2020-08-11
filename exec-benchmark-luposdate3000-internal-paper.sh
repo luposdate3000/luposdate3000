@@ -44,13 +44,11 @@ ls resources/lupos/q*.sparql | grep -v "-" > log/queries-lupos
 
 export JAVA_HOME=/usr/lib/jvm/java-14-openjdk-amd64
 
-#for variant in 4T1T1024 4T1T0 4T1T1 4T1T128 4T1T32
-for variant in 4T1T0 4T1T1 4T1T128 4T1T32
+for variant in 4T1T1024 4T1T0 4T1T1 4T1T128 4T1T32
 do
 #	for partitions in $(seq 1 12)
 #	for partitions in 12 1 6 2 3 4 5 7 8 9 10 11
-#	for partitions in 12 1 6
-	for partitions in 1 6
+	for partitions in 12 1 6
 	do
 		for version in "${versions[@]}"
 		do

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-version=627105881359c10685b6921a5c71fd6d2c782204
+version=90c13999f806714d0084ea315f5c2ed5cc4ab5e1
 rm -rf tmp
 mkdir tmp
 for query in $(find resources/lupos/ -type f | sed "s-.*/--g")
@@ -37,11 +37,37 @@ done
 echo "plot${s:1}" >> tmp/${query}_1.plot
 cat tmp/${query}_1.plot | gnuplot
 
+
+cat <<EOF > tmp/legend.plot
+set terminal epslatex
+set output 'legend.tex'
+set key inside right top
+set noborder
+set noxtics
+set noytics
+set notitle
+set noxlabel
+set noylabel
+set xrange [-10:10]
+set yrange [-10:10]
+EOF
+s=""
+for f in tmp/*_$query
+do
+        x=$(echo $f | sed 's-tmp/--g' | sed "s/_${query}//g" | sed 's/_/-/g')
+        s="$s, 20 title \"$x\" with linespoints"
+done
+echo "plot${s:1}" >> tmp/legend.plot
+cat tmp/legend.plot | gnuplot
+mv legend.tex tmp/legend.tex
+mv legend.eps tmp/legend.eps
+
+
 cat <<EOF > tmp/${query}_2.plot
 set terminal epslatex
 set output '$(echo $query | sed "s/.sparql//g").tex'
 set datafile separator ","
-set key inside right top
+set nokey
 set logscale x
 set logscale y
 set title "$query"
