@@ -47,14 +47,14 @@ export JAVA_HOME=/usr/lib/jvm/java-14-openjdk-amd64
 for variant in 4T1T1024 4T1T0 4T1T1 4T1T128 4T1T32
 do
 #	for partitions in $(seq 1 12)
-#	for partitions in 12 1 6 2 3 4 5 7 8 9 10 11
-	for partitions in 12 1 6
+	for partitions in 12 1 6 2 3 4 5 7 8 9 10 11
+#	for partitions in 12 1 6
 	do
 		for version in "${versions[@]}"
 		do
 			cp log/queries-lupos log/benchtmp/$version.lupos.queries
 		done
-		triples=1024
+		triples=65536
 		while true
 		do
 			plupos=$(pwd)/benchmark_results/lupos/v_${variant}_${partitions}P
@@ -71,7 +71,7 @@ do
 				if [ -n "$queries" ]
 				then
 					export LUPOS_HOME=$triplesfolder/data
-					./log/benchtmp/$version.x "IMPORT_INTERMEDIATE" "$triplesfolder/data" "$triplesfolder/intermediate" "$queries" "10" "$triples" "$size" "$triplesfolder/bnodes.txt" "lupos" "$partitions" > log/benchtmp/x
+					./log/benchtmp/$version.x "IMPORT_INTERMEDIATE" "$triplesfolder/data" "$triplesfolder/intermediate" "$queries" "5" "$triples" "$size" "$triplesfolder/bnodes.txt" "lupos" "$partitions" > log/benchtmp/x
 					cat log/benchtmp/x
 					cat log/benchtmp/x | grep "sparql,$triples," >> $plupos/luposdate3000-$version-$(git rev-parse HEAD)-internal.csv
 					cat log/benchtmp/x | grep "sparql,$triples," | grep -v "sparql,$triples,0,.," | sed "s/,.*//" | sort | uniq > log/benchtmp/$version.lupos.queries

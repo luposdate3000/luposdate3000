@@ -222,6 +222,7 @@ object HttpEndpoint {
 return pop_distributed_node
 }
 suspend fun evaluate_sparql_query_string_part2(node:OPBase): String {
+node.query.reset()
 var        timer = BenchmarkUtils.timesHelperMark()
         val res = QueryResultToString(node)
         BenchmarkUtils.timesHelperDuration(6, timer)
