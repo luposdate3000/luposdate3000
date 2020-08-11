@@ -1,6 +1,6 @@
 #!/bin/bash
 
-version=b339cf5d4afa78476a5da4ff4f83d61705429845
+version=f32e3e0b38d3ebe586ea0ce9efd4984fdafe5eaf
 rm -rf tmp
 mkdir tmp
 for query in $(find resources/lupos/ -type f | sed "s-.*/--g")
@@ -127,7 +127,7 @@ for data in $(find tmp -name "*_${query}" | sed "s/_[0-9][0-9]*P.*//g" | sed "s-
 do
 gg=$(find tmp -name "*_${query}" | grep $data | sort -n)
 ############## plot 3 legend
-cat <<EOF > tmp/legend.plot
+cat <<EOF > tmp/legend2.plot
 set terminal epslatex
 set output 'legend-$data.tex'
 set key inside right top
@@ -146,13 +146,13 @@ do
 	x=$(echo $f | sed 's-tmp/--g' | sed "s/_${query}//g" | sed 's/_/-/g' | sed "s/v-$data-//g")
         s="$s, 20 title \"$x\" with linespoints"
 done
-echo "plot${s:1}" >> tmp/legend.plot
-cat tmp/legend.plot | gnuplot
+echo "plot${s:1}" >> tmp/legend2.plot
+cat tmp/legend2.plot | gnuplot
 mv legend-$data.tex tmp/legend-$data.tex
 mv legend-$data.eps tmp/legend-$data.eps
 
 ############## plot 3 content
-cat <<EOF > tmp/${query}_2.plot
+cat <<EOF > tmp/${query}_2_${data}.plot
 set terminal epslatex
 set output '$(echo $query | sed "s/.sparql//g")-${data}.tex'
 set datafile separator ","
@@ -160,14 +160,16 @@ set nokey
 set notitle
 set logscale x
 set logscale y
+f(x)=-0.0020977709362774988 + 6.4290845584022814E-6 * x-5.643385504700015E-14 * x * x + 1.5546876220977975E-21 * x * x * x
 EOF
-s=""
+s="[1:10000000]"
 for f in $gg
 do
         s="$s, '$f' using 2:6 with linespoints"
 done
-echo "plot${s:1}" >> tmp/${query}_2.plot
-cat tmp/${query}_2.plot | gnuplot
+s="$s, f(x) with lines"
+echo "plot${s:1}" >> tmp/${query}_2_${data}.plot
+cat tmp/${query}_2_${data}.plot | gnuplot
 mv $(echo $query | sed "s/.sparql//g")-${data}.tex tmp/$(echo $query | sed "s/.sparql//g")-${data}.tex
 mv $(echo $query | sed "s/.sparql//g")-${data}.eps tmp/$(echo $query | sed "s/.sparql//g")-${data}.eps
 done

@@ -32,6 +32,7 @@ while true
 do
 
 	generate $triples 4 1 0
+exit
 	generate $triples 4 1 1
 	generate $triples 4 1 32
 	generate $triples 4 1 128
