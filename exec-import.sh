@@ -37,8 +37,8 @@ fi
 cpus=$( ls -d /sys/devices/system/cpu/cpu[[:digit:]]* | wc -w )
 
 ### configure all the files here -->>
-#find /mnt/luposdate-testdata/sp2b/ -mindepth 1 -maxdepth 1 -type d > exec-import.sh.tmp
-#find /mnt/luposdate-testdata/bsbm/ -mindepth 1 -maxdepth 1 -type d >> exec-import.sh.tmp
+find /mnt/luposdate-testdata/sp2b/ -mindepth 1 -maxdepth 1 -type d > exec-import.sh.tmp
+find /mnt/luposdate-testdata/bsbm/ -mindepth 1 -maxdepth 1 -type d >> exec-import.sh.tmp
 find /mnt/luposdate-testdata/lupos*/ -mindepth 1 -maxdepth 1 -type d >> exec-import.sh.tmp
 ###
 

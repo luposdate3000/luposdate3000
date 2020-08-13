@@ -1,5 +1,5 @@
 #!/bin/bash
-version=f32e3e0b38d3ebe586ea0ce9efd4984fdafe5eaf
+version=063c63594a72a88a344cc507eae0380ca72ed5a1
 rm -rf tmp
 mkdir tmp
 for query in $(find resources/lupos/ -type f | sed "s-.*/--g")
@@ -23,11 +23,13 @@ do
 		var_process=$(echo $f | sed "s-.*_--g" | sed "s/P//g")
 		var_predicates=$(echo $f | sed "s-.*v_--g" | sed "s/T.*//g")
 		var_triples=$triples
-		var_result_rows=$(cat $source/$number/data*.n3 | grep "<p0>" | grep ";" | wc -l)
+#		var_result_rows=$(cat $source/$number/data*.n3 | grep "<p0>" | grep ";" | wc -l)
+		var_result_rows=1
 		var_no_repetitions=$(echo $l_no | sed "s/.*,0,//g" | sed "s/,.*//g")
 		var_no_time=$(echo $l_no | sed "s/.*,0,[^,]*,//g" | sed "s/,.*//g")
 		var_no_time_per_repetition=$(bc <<< "scale=10; $var_no_time / $var_no_repetitions")
 		var_no_time_per_result_row=$(bc <<< "scale=10; $var_no_time / ( $var_result_rows * $var_no_repetitions)")
+		var_no_time_per_triple=$(bc <<< "scale=10; $var_no_time / ($var_no_repetitions * $var_triples)")
 		var_with_repetitions=$(echo $l_with | sed "s/.*,0,//g" | sed "s/,.*//g")
 		var_with_time=$(echo $l_with | sed "s/.*,0,[^,]*,//g" | sed "s/,.*//g")
 		var_with_time_per_repetition=$(bc <<< "scale=10; $var_with_time / $var_with_repetitions")
@@ -49,6 +51,7 @@ do
 		s+=",$var_no_time_per_result_row"
 		s+=",$var_time_per_optimizer"
 		s+=",$var_scale_factor"
+		s+=",$var_no_time_per_triple"
 		echo $s >> tmp/all.csv
 	done
 done

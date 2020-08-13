@@ -1,8 +1,8 @@
 #!/bin/bash
 
-for query in $(find resources/lupos/ -type f | sed "s-.*/--g" | grep q5)
+for query in $(find resources/lupos/ -type f | sed "s-.*/--g")
 do
-for data in $(find tmp -name "*_${query}" | sed "s/_[0-9][0-9]*P.*//g" | sed "s-.*/v_--g"| sort | uniq | grep 1024)
+for data in $(find tmp -name "*_${query}" | sed "s/_[0-9][0-9]*P.*//g" | sed "s-.*/v_--g"| sort | uniq)
 do
 
                 var_trash=$(echo $data | sed "s-.*T--g")
@@ -12,7 +12,7 @@ do
 
 
 gg=$(find tmp -name "*_${query}" | grep $data | sort -n)
-############## plot 3 legend
+############## plot legend
 cat <<EOF > tmp/legend_5.plot
 set terminal epslatex
 set output 'legend_5-$data.tex'
@@ -39,7 +39,7 @@ done
 echo "plot${s:1}" >> tmp/legend_5.plot
 cat tmp/legend_5.plot | gnuplot
 
-############## plot 3 content
+############## plot content
 cat <<EOF > tmp/${query}_5_${data}.plot
 set terminal epslatex
 set output '$(echo $query | sed "s/.sparql//g")_5-${data}.tex'

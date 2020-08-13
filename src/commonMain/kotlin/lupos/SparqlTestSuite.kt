@@ -54,6 +54,7 @@ class SparqlTestSuite() {
     companion object {
         const val errorBoundForDecimalsDigits = 6
         val filterList = mutableListOf<String>()
+	val enabledTestCases=listOf("resources/myqueries/", "resources/bsbm/", "resources/btc/", "resources/sp2b/")
     }
 
     suspend fun testMain() {
@@ -62,7 +63,7 @@ class SparqlTestSuite() {
             val (nr_t, nr_e) = parseManifestFile("resources/sparql11-test-suite/", "manifest-all.ttl")
             GlobalLogger.log(ELoggerType.RELEASE, { "Number of tests: " + nr_t })
             GlobalLogger.log(ELoggerType.RELEASE, { "Number of errors: " + nr_e })
-            var prefixes = listOf("resources/myqueries/", "resources/bsbm/", "resources/btc/", "resources/sp2b/")
+            var prefixes = enabledTestCases
             for (prefix in prefixes) {
                 var lastinput: String? = null
                 File(prefix + "config.csv").forEachLineSuspended {

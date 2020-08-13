@@ -1,3 +1,4 @@
+#!/bin/bash
 git config --global http.sslVerify false
 git config --global credential.helper store
 git config --global user.name "Benjamin Warnke"
@@ -6,11 +7,12 @@ git config --global user.email "warnke@ifis.uni-luebeck.de"
 apt install docker docker-compose docker.io g++ gnuplot gzip htop lcov make maven net-tools ntfs-3g openjdk-8-jdk openjdk-11-jdk openjdk-14-jdk unzip zip poppler-utils texlive texlive-latex-extra
 
 git clone https://sun01.pool.ifis.uni-luebeck.de/groppe/luposdate3000.git
-luposdate3000home=$(pwd)/luposdate3000home
+luposdate3000home=$(echo "$(pwd)/luposdate3000" | sed "s-luposdate3000.*-luposdate3000/-g")
+dependencieshome=/opt
 
 #gradle
 {
-	cd /opt
+	cd $dependencieshome
 	git clone https://github.com/gradle/gradle.git
 	cd gradle
 	export JAVA_HOME="/usr/lib/jvm/java-11-openjdk-amd64/"
@@ -18,7 +20,7 @@ luposdate3000home=$(pwd)/luposdate3000home
 }
 #kotlin
 {
-	cd /opt
+	cd $dependencieshome
 	git clone https://github.com/JetBrains/kotlin.git
 	git checkout build-1.4-M3-eap-48
 	export JAVA_HOME="/usr/lib/jvm/java-8-openjdk-amd64/"
@@ -28,26 +30,26 @@ luposdate3000home=$(pwd)/luposdate3000home
 	export JDK_9="/usr/lib/jvm/java-14-openjdk-amd64/"
 	./gradlew install
 	./gradlew dist
-	ln -s /opt/kotlin/dist/kotlinc/bin/kotlinc /bin/kotlinc
-	ln -s /opt/kotlin/dist/kotlinc/bin/kotlin /bin/kotlin
+	ln -s $dependencieshome/kotlin/dist/kotlinc/bin/kotlinc /bin/kotlinc
+	ln -s $dependencieshome/kotlin/dist/kotlinc/bin/kotlin /bin/kotlin
 }
 #kscript
 {
-	cd /opt
+	cd $dependencieshome
 	git clone https://github.com/holgerbrandl/kscript.git
 	cd kscript/
 	export JAVA_HOME="/usr/lib/jvm/java-11-openjdk-amd64/"
 	./gradlew assemble
-	ln -s /opt/kscript/build/libs/kscript /bin/kscript
+	ln -s $dependencieshome/kscript/build/libs/kscript /bin/kscript
 }
 #proguard
 {
-	cd /opt
+	cd $dependencieshome
 	git clone https://github.com/Guardsquare/proguard.git
 	gradle assemble
 	cd build/distributions
 	tar -xzf proguard-7.0.0.tar.gz
-	ln -s /opt/proguard/build/distributions/proguard-7.0.0/bin/proguard.sh /bin/proguard
+	ln -s $dependencieshome/proguard/build/distributions/proguard-7.0.0/bin/proguard.sh /bin/proguard
 }
 #korio
 {
@@ -55,7 +57,7 @@ luposdate3000home=$(pwd)/luposdate3000home
 }
 #intellij
 {
-	cd /opt
+	cd $dependencieshome
 	wget https://download.jetbrains.com/idea/ideaIC-2020.1.2.tar.gz
 	tar -xzf ideaIC-2020.1.2.tar.gz
 	rm ideaIC-2020.1.2.tar.gz
@@ -65,7 +67,7 @@ luposdate3000home=$(pwd)/luposdate3000home
 }
 #bsbm
 {
-	cd /opt
+	cd $dependencieshome
 	wget https://ayera.dl.sourceforge.net/project/bsbmtools/bsbmtools/bsbmtools-0.2/bsbmtools-v0.2.zip
 	unzip bsbmtools-v0.2.zip
 	rm bsbmtools-v0.2.zip
@@ -77,7 +79,7 @@ luposdate3000home=$(pwd)/luposdate3000home
 }
 #sp2b
 {
-	cd /opt
+	cd $dependencieshome
 	wget http://dbis.informatik.uni-freiburg.de/content/projects/SP2B/docs/sp2b-v1_00-full.tar.gz
 	tar -xzf sp2b-v1_00-full.tar.gz
 	rm sp2b-v1_00-full.tar.gz
