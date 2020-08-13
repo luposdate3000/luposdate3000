@@ -1,0 +1,6 @@
+SELECT ?s ?o0 ?o1
+WHERE {
+  ?s <p0> ?o0 .
+  ?s <p1> ?o1 .
+  FILTER (IF(?o0 != ?o1,false,true))
+}

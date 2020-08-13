@@ -39,8 +39,8 @@ mkdir -p log/benchtmp
 ln -s $(readlink -f build/executable) log/benchtmp/Multi_BPlusTree_Empty.x
 versions=( "Multi_BPlusTree_Empty" )
 
-ls resources/lupos/q*.sparql | grep -v "-" > log/queries-lupos
-#echo resources/lupos/q5.sparql > log/queries-lupos
+#ls resources/lupos/q*.sparql | grep -v "-" > log/queries-lupos
+echo resources/lupos/q2.sparql > log/queries-lupos
 
 export JAVA_HOME=/usr/lib/jvm/java-14-openjdk-amd64
 
@@ -48,15 +48,15 @@ export JAVA_HOME=/usr/lib/jvm/java-14-openjdk-amd64
 	for partitions in 12 1 6 2 3 4 5 7 8 9 10 11 13 14 15 16 17 18 19 20 21 22 23 24
 #	for partitions in 12 1 6
 	do
-for variant in 4T1T1024 4T1T0 4T1T1 4T1T128 4T1T32
+for v in $(seq 1 32)
 do
+	variant=2T1T$v
 		for version in "${versions[@]}"
 		do
 			cp log/queries-lupos log/benchtmp/$version.lupos.queries
 		done
-		triples=1024
-		while true
-		do
+for triples in 32768 2097152
+do
 			plupos=$(pwd)/benchmark_results/lupos/v_${variant}_${partitions}P
 			mkdir -p $plupos
 			triplesfolder=/mnt/luposdate-testdata/lupos_${variant}/${triples}
@@ -77,11 +77,6 @@ do
 #					cat log/benchtmp/x | grep "sparql,$triples," | grep -v "sparql,$triples,0,.," | sed "s/,.*//" | sort | uniq > log/benchtmp/$version.lupos.queries
 				fi
 			done
-			triples=$(($triples * 2))
-			if [[ $triples -le 0 ]]
-			then
-				break
-			fi
 		done
 	done
 done

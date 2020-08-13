@@ -1,5 +1,5 @@
 #!/bin/bash
-version=063c63594a72a88a344cc507eae0380ca72ed5a1
+version=f95ca68c305888969094f308c7109033dadcf295
 rm -rf tmp
 mkdir tmp
 for query in $(find resources/lupos/ -type f | sed "s-.*/--g")
@@ -25,6 +25,7 @@ do
 		var_triples=$triples
 #		var_result_rows=$(cat $source/$number/data*.n3 | grep "<p0>" | grep ";" | wc -l)
 		var_result_rows=1
+		var_number=$number
 		var_no_repetitions=$(echo $l_no | sed "s/.*,0,//g" | sed "s/,.*//g")
 		var_no_time=$(echo $l_no | sed "s/.*,0,[^,]*,//g" | sed "s/,.*//g")
 		var_no_time_per_repetition=$(bc <<< "scale=10; $var_no_time / $var_no_repetitions")
@@ -52,6 +53,7 @@ do
 		s+=",$var_time_per_optimizer"
 		s+=",$var_scale_factor"
 		s+=",$var_no_time_per_triple"
+		s+=",$var_number"
 		echo $s >> tmp/all.csv
 	done
 done

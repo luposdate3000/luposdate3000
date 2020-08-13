@@ -1,12 +1,12 @@
 #!/bin/bash
 
-for a in q1 q2 q3 q4 q5 q6
+for a in q2
 do
-	for b in 0 1 32 128 1024
+	for b in $(seq 0 32)
 	do
 		for c in 1
 		do
-			for d in 1 2 3 4 5 6 7 8 9 10 11 12
+			for d in $(seq 1 14)
 			do
 				cat tmp/all.csv | grep "$a,$b,$c,$d," > tmp/part_a${a}_b${b}_c${c}_d${d}.csv
 			done
@@ -17,13 +17,13 @@ gnuplot_terminal="set terminal epslatex"
 gnuplot_terminal_ending="tex"
 gnuplot_terminal="set terminal png size 1920,1080"
 gnuplot_terminal_ending="png"
-for a in q1 q2 q3 q4 q5 q6
+for a in q2
 do
-	for b in 0 1 32 128 1024
+	for b in $(seq 0 32)
 	do
 		for c in 1
 		do
-			for d in 1 2 3 4 5 6 7 8 9 10 11 12
+			for d in $(seq 1 14)
 			do
 				#a
 				echo "${gnuplot_terminal}" > tmp/graph_6_b${b}_c${c}_d${d}.plot
@@ -73,13 +73,13 @@ do
 		done
 	done
 done
-for a in q1 q2 q3 q4 q5 q6
+for a in q2
 do
-	for b in 0 1 32 128 1024
+	for b in $(seq 0 32)
 	do
 		for c in 1
 		do
-			for d in 1 2 3 4 5 6 7 8 9 10 11 12
+			for d in $(seq 1 14)
 			do
 				#a
 				echo "'tmp/part_a${a}_b${b}_c${c}_d${d}.csv' using 6:14 title 'a${a}' with linespoints, \\" >> tmp/graph_6_b${b}_c${c}_d${d}.plot
@@ -98,3 +98,7 @@ do
 	gnuplot $f
 done
 mv graph_6_* tmp
+for f in $(find tmp -maxdepth 1 -type f -name '*.png' -empty | sed "s/\..*/.*/g" | sort | uniq)
+do
+	rm $f
+done

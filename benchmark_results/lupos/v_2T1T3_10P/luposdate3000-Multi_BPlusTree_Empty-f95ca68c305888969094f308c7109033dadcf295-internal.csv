@@ -1,0 +1,3 @@
+resources/lupos/persistence-import.sparql,1024,0,1,149.074435,6.708058293160729,71071
+resources/lupos/q2.sparql,1024,0,19489,5000.008798,3897.7931414431887,71071,WithOptimizer
+resources/lupos/q2.sparql,1024,0,62400,5000.035999,12479.910147142924,71071,NoOptimizer
