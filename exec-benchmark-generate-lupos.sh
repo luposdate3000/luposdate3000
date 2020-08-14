@@ -26,11 +26,11 @@ function generate(){
 	echo "$1,$count,$size,$compressed,$bnodecount">>/mnt/luposdate-testdata/${pattern}/stat.csv
 }
 
-for triples in 1024 32768 2097152
+for t in 1024 8192 65536 524288 4194304
 do
-	for s in $(seq 1 32)
+	for s in $(seq 0 20)
 	do
-		generate $triples 2 1 $s
+		generate $t 2 1 $s
 	done
 
 done
