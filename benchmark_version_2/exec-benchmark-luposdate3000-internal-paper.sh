@@ -55,9 +55,8 @@ do
 		do
 			cp log/queries-lupos log/benchtmp/$version.lupos.queries
 		done
-		triples=1024
-		while true
-		do
+for triples in 32768 2097152
+do
 			plupos=$(pwd)/benchmark_results/lupos/v_${variant}_${partitions}P
 			mkdir -p $plupos
 			triplesfolder=/mnt/luposdate-testdata/lupos_${variant}/${triples}
@@ -78,11 +77,6 @@ do
 #					cat log/benchtmp/x | grep "sparql,$triples," | grep -v "sparql,$triples,0,.," | sed "s/,.*//" | sort | uniq > log/benchtmp/$version.lupos.queries
 				fi
 			done
-			triples=$(($triples * 2))
-			if [[ $triples -le 0 ]]
-			then
-				break
-			fi
 		done
 	done
 done
