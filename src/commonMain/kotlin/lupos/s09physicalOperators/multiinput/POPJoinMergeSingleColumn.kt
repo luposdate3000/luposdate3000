@@ -17,6 +17,7 @@ import lupos.s04logicalOperators.Query
 import lupos.s09physicalOperators.POPBase
 
 class POPJoinMergeSingleColumn(query: Query, projectedVariables: List<String>, childA: OPBase, childB: OPBase, @JvmField val optional: Boolean) : POPBase(query, projectedVariables, EOperatorID.POPJoinMergeSingleColumnID, "POPJoinMergeSingleColumn", arrayOf(childA, childB), ESortPriority.JOIN) {
+//optimized using javap
     override fun toSparql(): String {
         if (optional) {
             return "OPTIONAL{" + children[0].toSparql() + children[1].toSparql() + "}"

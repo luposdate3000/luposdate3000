@@ -23,13 +23,13 @@ do
 		var_process=$(echo $f | sed "s-.*_--g" | sed "s/P//g")
 		var_predicates=$(echo $f | sed "s-.*v_--g" | sed "s/T.*//g")
 		var_triples=$triples
-#		var_result_rows=$(cat $source/$number/data*.n3 | grep "<p0>" | grep ";" | wc -l)
-		var_result_rows=1
+		var_result_rows=$(cat $source/$number/data*.n3 | grep -v "unused" | sed "s/ .*//g" | uniq -c | grep -v " 1 " | wc -l)
+#		var_result_rows=1
 		var_number=$number
 		var_no_repetitions=$(echo $l_no | sed "s/.*,0,//g" | sed "s/,.*//g")
 		var_no_time=$(echo $l_no | sed "s/.*,0,[^,]*,//g" | sed "s/,.*//g")
 		var_no_time_per_repetition=$(bc <<< "scale=10; $var_no_time / $var_no_repetitions")
-		var_no_time_per_result_row=$(bc <<< "scale=10; $var_no_time / ( $var_result_rows * $var_no_repetitions)")
+		var_no_time_per_result_row=$(bc <<< "scale=10; $var_no_time / ( $var_no_repetitions * $var_result_rows)")
 		var_no_time_per_triple=$(bc <<< "scale=10; $var_no_time / ($var_no_repetitions * $var_triples)")
 		var_with_repetitions=$(echo $l_with | sed "s/.*,0,//g" | sed "s/,.*//g")
 		var_with_time=$(echo $l_with | sed "s/.*,0,[^,]*,//g" | sed "s/,.*//g")
@@ -39,21 +39,21 @@ do
 		var_1_time=$(echo $l_1 | sed "s/.*,0,[^,]*,//g" | sed "s/,.*//g")
 		var_1_time_per_repetition=$(bc <<< "scale=10; $var_1_time / $var_1_repetitions")
 		var_scale_factor=$(bc <<< "scale=10; $var_1_time_per_repetition / $var_no_time_per_repetition")
-		s="$var_q"
-		s+=",$var_trash"
-		s+=",$var_join"
-		s+=",$var_process"
-		s+=",$var_predicates"
-		s+=",$var_triples"
-		s+=",$var_result_rows"
-		s+=",$var_no_repetitions"
-		s+=",$var_no_time"
-		s+=",$var_no_time_per_repetition"
-		s+=",$var_no_time_per_result_row"
-		s+=",$var_time_per_optimizer"
-		s+=",$var_scale_factor"
-		s+=",$var_no_time_per_triple"
-		s+=",$var_number"
+		s="$var_q" #1
+		s+=",$var_trash" #2
+		s+=",$var_join" #3
+		s+=",$var_process" #4
+		s+=",$var_predicates" #5
+		s+=",$var_triples" #6
+		s+=",$var_result_rows" #7
+		s+=",$var_no_repetitions" #8
+		s+=",$var_no_time" #9
+		s+=",$var_no_time_per_repetition" #10
+		s+=",$var_no_time_per_result_row" #11
+		s+=",$var_time_per_optimizer" #12
+		s+=",$var_scale_factor" #13
+		s+=",$var_no_time_per_triple" #14
+		s+=",$var_number" #15
 		echo $s >> tmp/all.csv
 	done
 done
