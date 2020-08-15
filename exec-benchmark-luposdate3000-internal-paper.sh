@@ -45,17 +45,18 @@ echo resources/lupos/q2.sparql > log/queries-lupos
 export JAVA_HOME=/usr/lib/jvm/java-14-openjdk-amd64
 
 #for partitions in $(seq 1 12)
-for partitions in 6 1 2 3 4 5 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24
+#for partitions in 6 1 2 3 4 5 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24
+for partitions in 6 1 2 3 4 5
 #for partitions in 12 1 6
 do
+		for triples in $(find /mnt/luposdate-testdata/lupos_*/ -mindepth 1 -maxdepth 1 | sed "s-.*/--g" | grep -v stat | sort -n | uniq)
+		do
 	for variant in $(find /mnt/luposdate-testdata/ -maxdepth 1 -mindepth 1 -name "lupos*" | sed "s/.*_//g" | sort)
 	do
 		for version in "${versions[@]}"
 		do
 			cp log/queries-lupos log/benchtmp/$version.lupos.queries
 		done
-		for triples in $(find /mnt/luposdate-testdata/lupos_${variant}/ -mindepth 1 -maxdepth 1 | sed "s-.*/--g" | grep -v stat.csv)
-		do
 			plupos=$(pwd)/benchmark_results/lupos/v_${variant}_${partitions}P
 			mkdir -p $plupos
 			triplesfolder=/mnt/luposdate-testdata/lupos_${variant}/${triples}

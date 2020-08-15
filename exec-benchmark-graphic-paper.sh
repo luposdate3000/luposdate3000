@@ -1,5 +1,5 @@
 #!/bin/bash
-version=09fd077d8f097eb711295827ab4728f146db66eb
+version=51a287aae59a49cb2f6170b4f296ea6a57cbc4db
 rm -rf tmp
 mkdir tmp
 for query in $(find resources/lupos/ -type f | sed "s-.*/--g")
@@ -23,8 +23,7 @@ do
 		var_process=$(echo $f | sed "s-.*_--g" | sed "s/P//g")
 		var_predicates=$(echo $f | sed "s-.*v_--g" | sed "s/T.*//g")
 		var_triples=$triples
-		var_result_rows=$(cat $source/$number/data*.n3 | grep -v "unused" | sed "s/ .*//g" | uniq -c | grep -v " 1 " | wc -l)
-#		var_result_rows=1
+		var_result_rows=$number
 		var_number=$number
 		var_no_repetitions=$(echo $l_no | sed "s/.*,0,//g" | sed "s/,.*//g")
 		var_no_time=$(echo $l_no | sed "s/.*,0,[^,]*,//g" | sed "s/,.*//g")
