@@ -20,26 +20,13 @@ echo "set zlabel 'triples/second'" >> tmp/graph_9.plot
 echo "set logscale x" >>tmp/graph_9.plot
 echo "set view 45,300" >>tmp/graph_9.plot
 echo "set isosamples 100,100" >>tmp/graph_9.plot
-echo "log2(x) = log(x) / log(2)" >>tmp/graph_9.plot
-
-echo "g1(x,z) = 149.05503915778687 + -2.185798113535027 * x + 7428.463130777173 * z + 192.12375413041286 * x * z" >>tmp/graph_9.plot
-echo "g2(x,z) = 464.81978163282633 + 19.03966001304443 * x + 832.5546287364972 * z + 177.22796857794856 * x * z" >>tmp/graph_9.plot
-echo "g3(x,z) = 460.5937222998722 + 51.9851686996316 * x + 1595.420118964041 * z + 122.06419684714913 * x * z" >>tmp/graph_9.plot
-echo "g4(x,z) = 431.8190315110182 + 79.52812562101528 * x + 1292.4200033769368 * z + 108.9485976184602 * x * z" >>tmp/graph_9.plot
-echo "g5(x,z) = 403.4338294736871 + 89.4994579986608 * x + 1441.6791704384602 * z + 74.47003970287184 * x * z" >>tmp/graph_9.plot
-echo "g6(x,z) = 384.6310415024538 + 87.81415099186856 * x + 1581.205429376247 * z + 47.18238331389838 * x * z" >>tmp/graph_9.plot
-
-echo "mapX(x) = log2(x)" >>tmp/graph_9.plot
+echo "g(x,z) = z * 13332.778978347778 + x * 57.225454330444336 + z * z * -22297.236219406128 + 3.24249267578125E-5 * 2 ** x + x * x * -2.1817474365234375 + -291.0697135925293" >>tmp/graph_9.plot
+echo "mapX(x) = log(x) / log(2)" >>tmp/graph_9.plot
 echo "mapZ(z) = 1 / (1 + z)" >>tmp/graph_9.plot
-echo "f1(x,z) = (z<40?0:1) + (x<2097152?0:1) < 1 ? -1 : g1(mapX(x),mapZ(z))" >>tmp/graph_9.plot
-echo "f2(x,z) = (z<40?0:1) + (x<2097152?0:1) < 1 ? -1 : g2(mapX(x),mapZ(z))" >>tmp/graph_9.plot
-echo "f3(x,z) = (z<40?0:1) + (x<2097152?0:1) < 1 ? -1 : g3(mapX(x),mapZ(z))" >>tmp/graph_9.plot
-echo "f4(x,z) = (z<40?0:1) + (x<2097152?0:1) < 1 ? -1 : g4(mapX(x),mapZ(z))" >>tmp/graph_9.plot
-echo "f5(x,z) = (z<40?0:1) + (x<2097152?0:1) < 1 ? -1 : g5(mapX(x),mapZ(z))" >>tmp/graph_9.plot
-echo "f6(x,z) = (z<40?0:1) + (x<2097152?0:1) < 1 ? -1 : g6(mapX(x),mapZ(z))" >>tmp/graph_9.plot
-echo "splot [1 : 100000000000] [0:120] [0:5000]\\" >> tmp/graph_9.plot
+echo "f(x,z) = g(mapX(x),mapZ(z))" >>tmp/graph_9.plot
+echo "splot \\" >> tmp/graph_9.plot
 #for d in $(seq 1 6)
-for d in 3
+for d in 1
 do
 	v=$(( $d - 1))
         r=$(( ( ( $v % 6 ) * 256 ) / 6))
@@ -50,7 +37,6 @@ do
 
 	cat tmp/all.csv | grep "q2,[^,]*,1,$d," | sed -E "s/q2,(.),/q2,0\1,/g" | sort > tmp/part_d${d}.csv
 	echo "'tmp/part_d${d}.matrix2.csv' matrix nonuniform title '${d}' with linespoints lc ${d} pt 1, \\" >> tmp/graph_9.plot
-	echo "f$d(x,y),\\" >> tmp/graph_9.plot
 	cat tmp/part_d${d}.csv | sort -b -t ',' -k ${column_x},${column_x}n -k ${column_z},${column_z}n > tmp/xxx
 	mv tmp/xxx tmp/part_d${d}.csv
 
@@ -87,6 +73,9 @@ do
 		echo $row | sed "s/,\./,0./g" | sed "s/^\./0./g" >> tmp/part_d${d}.matrix2.csv
 	done
 done
+echo "f(x,y)" >> tmp/graph_9.plot
+
+
 for f in $(find tmp -name "graph_9*.plot")
 do
 	gnuplot $f
