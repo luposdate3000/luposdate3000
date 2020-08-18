@@ -7,6 +7,16 @@ import kotlin.math.pow
 val dataInAll = arrayOf(
         arrayOf(
                 doubleArrayOf(1.0, 32.0, 128.0, 512.0, 2048.0, 8196.0, 32768.0, 131072.0, 524288.0),
+                doubleArrayOf(0.0, 1892.35275650510452694303, 3374.56489203923269143484, 4223.97188524313182171459, 4696.66583692236881038151, 4978.15585212089351923758, 4847.50712098796073131431, 4853.82935586286767150641, 4838.38347672689163859597, 4733.77262743315913050064),
+                doubleArrayOf(1.0, 995.96484841663998310843, 2061.83313873064892280558, 2996.69195175445825353392, 3440.91230972615155291813, 3526.03589645584027903637, 3514.42954482514307242676, 3530.55732671848112599358, 3572.69177316265393835677, 2723.19288919872772428216),
+                doubleArrayOf(2.0, 911.19153692590035519157, 1954.97382485545901025931, 2406.33694396170651640857, 2838.22970530944792742533, 2894.49339997614937438419, 2880.76596109986492088408, 2833.94820562901464187679, 2667.48113757400592981056, 2084.57191648037542306387),
+                doubleArrayOf(3.0, 969.04736732602910650053, 1844.63761079585229543937, 2257.89138684430551889618, 2427.67766169971909341776, 2455.95852377245053085543, 2390.91223821901903739960, 2442.09905251440960545936, 2390.38872501446185178633, 2469.36688643208833616775),
+                doubleArrayOf(4.0, 911.25364535630154221478, 1351.57911069608621885336, 1779.04572343204249926747, 2118.44434158220252539749, 2122.92905616909384683873, 2121.92991223061304040515, 2052.91554038587832246417, 2079.18190013938835458534, 2077.30050644586347150151),
+                doubleArrayOf(5.0, 860.58579042050975594475, 1230.53660255735038889878, 1737.23669572021316589151, 1914.91459959614451094517, 1879.43923547419003686708, 1890.68226403907208339572, 1812.73208635493112977620, 1816.05769106788369167481, 1726.80882793023485118102),
+                doubleArrayOf(6.0, 838.22184312242330605424, 1204.70838587869743074251, 1552.03781012431512451533, 1635.52999185833170052922, 1658.00854603924970470867, 1609.47012219901902796051, 1616.38366482668326153895, 1693.24410839945592680308, 1644.18166037027299827870),
+                doubleArrayOf(7.0, 849.90586017739745057138, 1164.96688290393624835229, 1467.59865051368887965280, 1496.25047113186709764665, 1503.48085888448936978893, 1497.77011984557390956344, 1464.64865422223055444567, 1434.63213449733646197909, 1439.68186486023064567284),
+                doubleArrayOf(8.0, 807.14354321486887549568, 950.39562118523077601513, 1229.59638498662813931327, 1381.15308880386203551303, 1354.78977117465285882995, 1338.54097160138089240794, 1363.91522230317816797270, 1376.74617880656206791681, 1351.64743520168404457246),
+                doubleArrayOf(9.0, 783.10111644376868038769, 911.51578968669105822152, 1183.45464137892347758619, 1267.74124640516122816236, 1258.33362904173615814133, 1267.69062263892621533499, 1237.74707752443158012648, 1231.35831258597189818686, 1226.97700350620948521934),
                 doubleArrayOf(10.0, 753.85326442209872598044, 885.38520321228376347855, 1087.67651630263946460211, 1176.09451471870524225312, 1159.39058257173932123014, 1109.97227955229046109802, 1114.50577185821658792497, 995.96712989761856291504),
                 doubleArrayOf(11.0, 750.83333114340278416507, 861.87452365272420868498, 1059.02261320395748278373, 1099.56700151047518997493, 1071.81905807898084584315, 1047.80176428861070916271, 1019.15969264181989307995, 1036.18793091817959602970),
                 doubleArrayOf(12.0, 674.14554748438544082916, 877.98941127210217619333, 993.99181646537504056729, 1020.56447625294445608454, 993.04639125451848521100, 1031.64083713114713509212, 957.88762024123824983203, 1004.56312755058578085093),
@@ -269,357 +279,539 @@ inline fun mapX_1(x: Double) = (2.0).pow(x)//umkehrfunktion
 inline fun mapZ(z: Double) = 1.0 / (1.0 + z)
 inline fun mapZ_1(z: Double) = 1.0 / z - 1.0//umkehrfunktion
 
+val variant = 1
 
-//--------
-for (partitions in 0 until 6) {
-    var dataCurrent = dataInAll[partitions]
-
-    fun printData() {
-        println("---------")
-        for (i in 0 until dataCurrent.size) {
+when (variant) {
+    1 -> {
+        var dataPartitions = Array(dataInAll[0].size) { DoubleArray(dataInAll[0][0].size) }
+        for (i in 0 until dataInAll[0].size) {
+            dataPartitions[i][0] = dataInAll[0][i][0]
+        }
+        for (j in 0 until dataInAll[0][0].size) {
+            dataPartitions[0][j] = dataInAll[0][0][j]
+        }
+        for (i in 1 until dataInAll[0].size) {
+            for (j in 1 until dataInAll[0][0].size) {
+                var max = 0.0
+                var w = 0.0
+                for (k in 0 until dataInAll.size) {
+                    if (dataInAll[k][i][j] > max) {
+                        max = dataInAll[k][i][j]
+                        w = dataInAll[k][0][0]
+                    }
+                }
+                dataPartitions[i][j] = w
+            }
+        }
+        for (i in 0 until dataPartitions.size) {
             var row = ""
-            for (j in 0 until dataCurrent[0].size) {
-                row += "${dataCurrent[i][j]},"
+            for (j in 0 until dataPartitions[0].size) {
+                row += "${dataPartitions[i][j]},"
             }
             println(row)
         }
-    }
-
-    fun applyFunc(action: (Double, Double) -> Double) {
-        for (i in 1 until dataCurrent.size) {
-            for (j in 1 until dataCurrent[0].size) {
-                dataCurrent[i][j] -= action(mapX(dataCurrent[0][j]), mapZ(dataCurrent[i][0]))
-            }
-        }
-    }
-
-    fun getDX(col: Int, dist: Int = 1) = (dataCurrent[col][dataCurrent[0].size - dist] - dataCurrent[col][dist]) / (mapX(dataCurrent[0][dataCurrent[0].size - dist]) - mapX(dataCurrent[0][dist]))
-    fun getDZ(col: Int, dist: Int = 1) = (dataCurrent[dataCurrent.size - dist][col] - dataCurrent[dist][col]) / (mapZ(dataCurrent[dataCurrent.size - dist][0]) - mapZ(dataCurrent[dist][0]))
-    fun getDXZ(distX: Int, distZ: Int) = (getDX(dataCurrent.size - distZ, distX) - getDX(distZ, distX)) / (mapZ(dataCurrent[dataCurrent.size - distZ][0]) - mapZ(dataCurrent[distZ][0]))
-
-    var dxz = getDXZ(1, 1)
-//printData()
-    applyFunc({ x, z -> dxz * x * z })
-//printData()
-
-    var dx = 0.0
-    for (i in 1 until dataCurrent.size) {
-        val aa = getDX(i, 1)
-        val ab = getDX(i, 2)
-        dx += aa + ab
-    }
-    dx = dx / (dataCurrent.size * 2)
-    applyFunc({ x, z -> dx * x })
-//printData()
-
-    var dz = 0.0
-    for (i in 1 until dataCurrent[0].size) {
-        val ac = getDZ(i, 1)
-        val ad = getDZ(i, 2)
-        dz += ac + ad
-    }
-    dz = dz / (dataCurrent[0].size * 2)
-    applyFunc({ x, z -> dz * z })
-//printData()
-
-    var b = 0.0
-
-    for (i in 1 until dataCurrent.size) {
-        for (j in 1 until dataCurrent[0].size) {
-            b += dataCurrent[i][j]
-        }
-    }
-    b = b / (dataCurrent.size * dataCurrent[0].size)
-    applyFunc({ x, z -> b })
-//printData()
-    println("echo \"g${dataCurrent[0][0].toInt()}(x,z) = $b + $dx * x + $dz * z + $dxz * x * z\" >>tmp/graph_9.plot")
+        if (true) {
+            var params3d = DoubleArray(9)
+            fun error3d(): Double {
+                var error = 0.0
+                var counter = 0
+                for (zi in 1 until dataPartitions.size) {
+                    val z = mapZ(dataPartitions[zi][0])
+                    for (xi in 1 until dataPartitions[0].size) {
+if(zi<5 && xi>2 && xi < 7){
+continue
 }
-throw Exception("")
-
-//--------
-
-
-val blourRange = 0
-fun blourData(target: Array<DoubleArray>) {
-    for (i in 1 until dataIn.size) {
-        for (j in 1 until dataIn[0].size) {
-            target[i][j] = 0.0
-            for (x in -blourRange until blourRange + 1) {
-                for (z in -blourRange until blourRange + 1) {
-                    var xi = x + i
-                    var zi = z + j
-                    if (xi < 1) {
-                        xi = 1
-                    }
-                    if (zi < 1) {
-                        zi = 1
-                    }
-                    if (xi >= dataIn.size) {
-                        xi = dataIn.size - 1
-                    }
-                    if (zi >= dataIn[0].size) {
-                        zi = dataIn[0].size - 1
-                    }
-                    target[i][j] = target[i][j] + dataIn[xi][zi]
-                }
-            }
-            target[i][j] = target[i][j] / (blourRange * 2.0 + 1.0) * (blourRange * 2.0 + 1.0)
-        }
-    }
+                        val x = mapX(dataPartitions[0][xi])
+                        val target = dataPartitions[zi][xi]
+                        val actual = params3d[0] + params3d[1] * x + params3d[2] * z + params3d[3] * x * z + params3d[4] * x * x + params3d[5] * z * z + params3d[6] * x * x * z + params3d[7] * x * z * z + params3d[8] * x * x * z * z
+if(params3d[0] + params3d[1] * 1000.0 + params3d[2] * 0.2 + params3d[3] * 1000.0 * 0.2 + params3d[4] * 1000000.0 + params3d[5] * 0.2 * 0.2 + params3d[6] * 1000000.0 * 0.2 + params3d[7] * 1000.0 * 0.2 * 0.2 + params3d[8] * 1000000.0 * 0.2 * 0.2<0){
+error+=1000
 }
-
-fun initializeBorders(target: Array<DoubleArray>) {
-    for (i in 0 until dataIn.size) {
-        target[i][0] = dataIn[i][0]
-    }
-    for (i in 0 until dataIn[0].size) {
-        target[0][i] = dataIn[0][i]
-    }
-}
-
-abstract class Partial_Function {
-    abstract fun setK(k: Double)
-    abstract fun getK(): Double
-    abstract fun f(x: Double, z: Double): Double
-    abstract fun print(): String
-    abstract fun classname(): String
-}
-
-class Partial_FunctionCombined : Partial_Function() {
-    var _k = 0.0
-    override fun getK() = _k
-    override fun setK(k: Double) {
-        _k = k
-    }
-
-    var parts: List<Partial_Function>? = null
-    override fun f(x: Double, z: Double): Double {
-        var res = 0.0
-        for (p in parts!!) {
-            res += p.f(x, z)
-        }
-        return res
-    }
-
-    override fun print(): String {
-        var res = ""
-        for (p in parts!!) {
-            if (res != "") {
-                res += " + " + p.print()
-            } else {
-                res = p.print()
-            }
-        }
-        return res
-    }
-
-    override fun classname() = "Partial_FunctionCombined"
-}
-
-class Partial_FunctionK : Partial_Function() {
-    var _k = 0.0
-    override fun getK() = _k
-    override fun setK(k: Double) {
-        _k = k
-    }
-
-    override fun f(x: Double, z: Double) = _k
-    override fun print() = "$_k"
-    override fun classname() = "Partial_FunctionK"
-}
-
-
-class Partial_FunctionKX : Partial_Function() {
-    var _k = 0.0
-    override fun getK() = _k
-    override fun setK(k: Double) {
-        _k = k
-    }
-
-    override fun f(x: Double, z: Double) = x * _k
-    override fun print() = "$_k * x"
-    override fun classname() = "Partial_FunctionKX"
-}
-
-class Partial_FunctionKZ : Partial_Function() {
-    var _k = 0.0
-    override fun getK() = _k
-    override fun setK(k: Double) {
-        _k = k
-    }
-
-    override fun f(x: Double, z: Double) = z * _k
-    override fun print() = "$_k * z"
-    override fun classname() = "Partial_FunctionKZ"
-}
-
-class Partial_FunctionKXZ : Partial_Function() {
-    var _k = 0.0
-    override fun getK() = _k
-    override fun setK(k: Double) {
-        _k = k
-    }
-
-    override fun f(x: Double, z: Double) = x * z * _k
-    override fun print() = "$_k * x * z"
-    override fun classname() = "Partial_FunctionKXZ"
-}
-
-fun calcError(func: Partial_Function, dIn: Array<DoubleArray>, dOut1: Array<DoubleArray>, dOut2: Array<DoubleArray>): Double {
-    var sumSquaredErrors = 0.0
-    for (zi in 1 until dIn.size) {
-        val z = dIn[zi][0]
-        for (xi in 1 until dIn[0].size) {
-            val x = dIn[0][xi]
-            val target = dIn[zi][xi]
-            val actual = func.f(mapX(x), mapZ(z))
-            var error = target - actual
-            dOut1[zi][xi] = actual
-            dOut2[zi][xi] = error
-            sumSquaredErrors += error * error
-        }
-    }
-    return sumSquaredErrors
-}
-
-//    val ttt = Partial_FunctionK()
-//    calcError(ttt, dataIn, dataOut1, dataTmp)
-blourData(dataTmp)
-initializeBorders(dataTmp)
-
-var iterations = 0
-var allFunctionParts = mutableListOf<Partial_Function>()
-while (true) {
-    iterations++
-    val funcCombined = Partial_FunctionCombined()
-    funcCombined.parts = allFunctionParts
-    println("#$iterations f(x,z) = " + funcCombined.print())
-    var bestfunction: Partial_Function? = null
-    for (function in arrayOf(Partial_FunctionK(), Partial_FunctionKX(), Partial_FunctionKZ(), Partial_FunctionKXZ())) {
-        var stepsize = 0.5
-        var lastError = calcError(function, dataTmp, dataOut1, dataOut2)
-        loop2@ while (stepsize >= 0.000001) {
-            loop@ while (true) {
-                var backup = function.getK()
-                function.setK(backup + stepsize)
-                var error = calcError(function, dataTmp, dataOut1, dataOut2)
-                if (error >= lastError) {
-                    function.setK(backup - stepsize)
-                    error = calcError(function, dataTmp, dataOut1, dataOut2)
-                    if (error >= lastError) {
-                        function.setK(backup)
-                        break@loop
+                        error += (target - actual) * (target - actual)
+                        counter++
                     }
                 }
-                if (!error.isFinite()) {
-                    break@loop2
+                return error / counter
+            }
+
+            var stepsize = 100.0
+            var lastError = error3d()
+            var iterations = 0
+            loop@ while (stepsize > 0.000001) {
+                for (i in 0 until params3d.size) {
+                    val backup = params3d[i]
+                    params3d[i] = backup + stepsize
+                    var error = error3d()
+                    if (error < lastError) {
+                        lastError = error
+                        stepsize = 100.0
+                        iterations++
+                        println("f(x,z) = ${params3d[0]} + ${params3d[1]} * x + ${params3d[2]} * z + ${params3d[3]} * x * z + ${params3d[4]} * x * x + ${params3d[5]} * z * z + ${params3d[6]} * x * x * z + ${params3d[7]} * x * z * z + ${params3d[8]} * x * x * z * z# $error : #$iterations")
+                        continue@loop
+                    }
+                    params3d[i] = backup - stepsize
+                    error = error3d()
+                    if (error < lastError) {
+                        lastError = error
+                        stepsize = 100.0
+                        iterations++
+                        println("f(x,z) = ${params3d[0]} + ${params3d[1]} * x + ${params3d[2]} * z + ${params3d[3]} * x * z + ${params3d[4]} * x * x + ${params3d[5]} * z * z + ${params3d[6]} * x * x * z + ${params3d[7]} * x * z * z + ${params3d[8]} * x * x * z * z# $error : #$iterations")
+                        continue@loop
+                    }
+                    params3d[i] = backup
                 }
-                lastError = error
-            }
-            stepsize = stepsize / 2.0
-        }
-        println("g(x,z) = " + function.print() + " ::: " + lastError)
-        if (bestfunction == null) {
-            bestfunction = function
-        } else {
-            val e1 = calcError(bestfunction!!, dataTmp, dataOut1, dataOut2)
-            if (e1 > lastError && lastError.isFinite()) {
-                bestfunction = function
+                stepsize = stepsize / 2.0
             }
         }
     }
-    if (bestfunction!!.getK() == 0.0) {
-        break
-    }
-    val dataTmp2 = Array(dataIn.size) { DoubleArray(dataIn[0].size) }
-    calcError(bestfunction!!, dataTmp, dataOut1, dataTmp2)
-    dataTmp = dataTmp2
-    initializeBorders(dataTmp)
-    for (f2 in allFunctionParts) {
-        if (f2.classname() == bestfunction!!.classname()) {
-            f2.setK(f2.getK() + bestfunction!!.getK())
-            bestfunction = null
-            break
+    2 -> {
+        val skip_x_rows = 3
+        var sumSquaredErrors = 0.0
+        for (partitions in 0 until dataInAll.size) {
+            var dataCurrent = Array(dataInAll[partitions].size) { DoubleArray(dataInAll[partitions][0].size) }
+            fun copyData() {
+                for (i in 0 until dataCurrent.size) {
+                    for (j in 0 until dataCurrent[0].size) {
+                        dataCurrent[i][j] = dataInAll[partitions][i][j]
+                    }
+                }
+            }
+            copyData()
+            fun calcError() {
+                sumSquaredErrors = 0.0
+                for (i in 1 until dataCurrent.size) {
+                    var row = ""
+                    for (j in 1 + skip_x_rows until dataCurrent[0].size) {
+                        row += "${dataCurrent[i][j]},"
+                        sumSquaredErrors += dataCurrent[i][j] * dataCurrent[i][j] / ((dataCurrent.size - 1) * (dataCurrent[0].size - 1))
+                    }
+                }
+            }
+
+            fun printData() {
+                println("---------")
+                for (i in 0 until dataCurrent.size) {
+                    var row = ""
+                    for (j in 0 until dataCurrent[0].size) {
+                        row += "${dataCurrent[i][j]},"
+                    }
+                    println(row)
+                }
+            }
+
+            fun applyFunc(action: (Double, Double) -> Double) {
+                for (i in 1 until dataCurrent.size) {
+                    for (j in 1 until dataCurrent[0].size) {
+                        dataCurrent[i][j] -= action(mapX(dataCurrent[0][j]), mapZ(dataCurrent[i][0]))
+                    }
+                }
+            }
+
+            fun getDX(col: Int, dist: Int = 1) = (dataCurrent[col][dataCurrent[0].size - dist] - dataCurrent[col][dist]) / (mapX(dataCurrent[0][dataCurrent[0].size - dist]) - mapX(dataCurrent[0][dist]))
+            fun getDZ(col: Int, dist: Int = 1) = (dataCurrent[dataCurrent.size - dist][col] - dataCurrent[dist][col]) / (mapZ(dataCurrent[dataCurrent.size - dist][0]) - mapZ(dataCurrent[dist][0]))
+            fun getDXZ(distX: Int, distZ: Int) = (getDX(dataCurrent.size - distZ, distX) - getDX(distZ, distX)) / (mapZ(dataCurrent[dataCurrent.size - distZ][0]) - mapZ(dataCurrent[distZ][0]))
+
+            val params = DoubleArray(4)
+
+            params[3] = getDXZ(1, 1)
+            applyFunc({ x, z -> params[3] * x * z })
+
+            params[1] = 0.0
+            for (i in 1 until dataCurrent.size) {
+                val aa = getDX(i, 1)
+                val ab = getDX(i, 2)
+                params[1] += aa + ab
+            }
+            params[1] = params[1] / (dataCurrent.size * 2)
+            applyFunc({ x, z -> params[1] * x })
+
+            params[2] = 0.0
+            for (i in 1 until dataCurrent[0].size) {
+                val ac = getDZ(i, 1)
+                val ad = getDZ(i, 2)
+                params[2] += ac + ad
+            }
+            params[2] = params[2] / (dataCurrent[0].size * 2)
+            applyFunc({ x, z -> params[2] * z })
+
+            params[0] = 0.0
+
+            for (i in 1 until dataCurrent.size) {
+                for (j in 1 until dataCurrent[0].size) {
+                    params[0] += dataCurrent[i][j]
+                }
+            }
+            params[0] = params[0] / (dataCurrent.size * dataCurrent[0].size)
+            applyFunc({ x, z -> params[0] })
+            calcError()
+            var stepsize = 10.0
+            var lastError = sumSquaredErrors
+            var iterations = 0
+            loop@ while (stepsize > 0.000001 && iterations < 2000) {
+                for (i in 0 until params.size) {
+                    val backup = params[i]
+                    params[i] = backup + stepsize
+                    copyData()
+                    applyFunc({ x, z -> params[0] + params[1] * x + params[2] * z + params[3] * x * z })
+                    calcError()
+                    if (sumSquaredErrors < lastError) {
+                        lastError = sumSquaredErrors
+                        stepsize = 10.0
+                        iterations++
+                        continue@loop
+                    }
+                    params[i] = backup - stepsize
+                    copyData()
+                    applyFunc({ x, z -> params[0] + params[1] * x + params[2] * z + params[3] * x * z })
+                    calcError()
+                    if (sumSquaredErrors < lastError) {
+                        lastError = sumSquaredErrors
+                        stepsize = 10.0
+                        iterations++
+                        continue@loop
+                    }
+                    params[i] = backup
+                }
+                stepsize = stepsize / 2.0
+            }
+            println("---")
+            println("echo \"g${dataCurrent[0][0].toInt()}(x,z) = ${params[0]} + ${params[1]} * x + ${params[2]} * z + ${params[3]} * x * z\" >>tmp/graph_10_\$d.plot # $sumSquaredErrors")
+        }
+        if (true) {
+            var params3d = DoubleArray(8)
+            fun error3d(): Double {
+                var error = 0.0
+                var counter = 0
+                for (wi in 0 until dataInAll.size) {
+                    val w = dataInAll[wi][0][0]
+                    for (zi in 1 until dataInAll[wi].size) {
+                        val z = mapZ(dataInAll[wi][zi][0])
+                        for (xi in 1 + skip_x_rows until dataInAll[wi][0].size) {
+                            val x = mapX(dataInAll[wi][0][xi])
+                            val target = dataInAll[wi][zi][xi]
+                            val actual = params3d[0] + params3d[1] * w + params3d[2] * w * x + params3d[3] * x + params3d[4] * w * z + params3d[5] * z + params3d[6] * w * x * z + params3d[7] * x * z
+                            error += (target - actual) * (target - actual)
+                            counter++
+                        }
+                    }
+                }
+                return error / counter
+            }
+
+            var stepsize = 100.0
+            var lastError = error3d()
+            var iterations = 0
+            loop@ while (stepsize > 0.000001) {
+                for (i in 0 until params3d.size) {
+                    val backup = params3d[i]
+                    params3d[i] = backup + stepsize
+                    var error = error3d()
+                    if (error < lastError) {
+                        lastError = error
+                        stepsize = 100.0
+                        iterations++
+                        println("echo \"ga(x,z,w) = ${params3d[0]} + ${params3d[1]} * w + ${params3d[2]} * w * x + ${params3d[3]} * x + ${params3d[4]} * w * z + ${params3d[5]} * z + ${params3d[6]} * w * x * z + ${params3d[7]} * x * z\" >>tmp/graph_10_\$d.plot # $error : #$iterations")
+                        continue@loop
+                    }
+                    params3d[i] = backup - stepsize
+                    error = error3d()
+                    if (error < lastError) {
+                        lastError = error
+                        stepsize = 100.0
+                        iterations++
+                        println("echo \"ga(x,z,w) = ${params3d[0]} + ${params3d[1]} * w + ${params3d[2]} * w * x + ${params3d[3]} * x + ${params3d[4]} * w * z + ${params3d[5]} * z + ${params3d[6]} * w * x * z + ${params3d[7]} * x * z\" >>tmp/graph_10_\$d.plot # $error : #$iterations")
+                        continue@loop
+                    }
+                    params3d[i] = backup
+                }
+                stepsize = stepsize / 2.0
+            }
+            println("echo \"g(x,z,w) = ${params3d[0]} + ${params3d[1]} * w + (${params3d[2]} + ${params3d[3]} * w * w * w ) * x + (${params3d[4]} + ${params3d[5]} * w) * z + (${params3d[6]} + ${params3d[7]} * w) * x * z\" >>tmp/graph_10_\$d.plot # $lastError : #$iterations")
         }
     }
-    if (bestfunction != null) {
-        allFunctionParts.add(bestfunction!!)
-        bestfunction = null
+    3 -> {
+
+        val blourRange = 0
+        fun blourData(target: Array<DoubleArray>) {
+            for (i in 1 until dataIn.size) {
+                for (j in 1 until dataIn[0].size) {
+                    target[i][j] = 0.0
+                    for (x in -blourRange until blourRange + 1) {
+                        for (z in -blourRange until blourRange + 1) {
+                            var xi = x + i
+                            var zi = z + j
+                            if (xi < 1) {
+                                xi = 1
+                            }
+                            if (zi < 1) {
+                                zi = 1
+                            }
+                            if (xi >= dataIn.size) {
+                                xi = dataIn.size - 1
+                            }
+                            if (zi >= dataIn[0].size) {
+                                zi = dataIn[0].size - 1
+                            }
+                            target[i][j] = target[i][j] + dataIn[xi][zi]
+                        }
+                    }
+                    target[i][j] = target[i][j] / (blourRange * 2.0 + 1.0) * (blourRange * 2.0 + 1.0)
+                }
+            }
+        }
+
+        fun initializeBorders(target: Array<DoubleArray>) {
+            for (i in 0 until dataIn.size) {
+                target[i][0] = dataIn[i][0]
+            }
+            for (i in 0 until dataIn[0].size) {
+                target[0][i] = dataIn[0][i]
+            }
+        }
+
+        abstract class Partial_Function {
+            abstract fun setK(k: Double)
+            abstract fun getK(): Double
+            abstract fun f(x: Double, z: Double): Double
+            abstract fun print(): String
+            abstract fun classname(): String
+        }
+
+        class Partial_FunctionCombined : Partial_Function() {
+            var _k = 0.0
+            override fun getK() = _k
+            override fun setK(k: Double) {
+                _k = k
+            }
+
+            var parts: List<Partial_Function>? = null
+            override fun f(x: Double, z: Double): Double {
+                var res = 0.0
+                for (p in parts!!) {
+                    res += p.f(x, z)
+                }
+                return res
+            }
+
+            override fun print(): String {
+                var res = ""
+                for (p in parts!!) {
+                    if (res != "") {
+                        res += " + " + p.print()
+                    } else {
+                        res = p.print()
+                    }
+                }
+                return res
+            }
+
+            override fun classname() = "Partial_FunctionCombined"
+        }
+
+        class Partial_FunctionK : Partial_Function() {
+            var _k = 0.0
+            override fun getK() = _k
+            override fun setK(k: Double) {
+                _k = k
+            }
+
+            override fun f(x: Double, z: Double) = _k
+            override fun print() = "$_k"
+            override fun classname() = "Partial_FunctionK"
+        }
+
+
+        class Partial_FunctionKX : Partial_Function() {
+            var _k = 0.0
+            override fun getK() = _k
+            override fun setK(k: Double) {
+                _k = k
+            }
+
+            override fun f(x: Double, z: Double) = x * _k
+            override fun print() = "$_k * x"
+            override fun classname() = "Partial_FunctionKX"
+        }
+
+        class Partial_FunctionKZ : Partial_Function() {
+            var _k = 0.0
+            override fun getK() = _k
+            override fun setK(k: Double) {
+                _k = k
+            }
+
+            override fun f(x: Double, z: Double) = z * _k
+            override fun print() = "$_k * z"
+            override fun classname() = "Partial_FunctionKZ"
+        }
+
+        class Partial_FunctionKXZ : Partial_Function() {
+            var _k = 0.0
+            override fun getK() = _k
+            override fun setK(k: Double) {
+                _k = k
+            }
+
+            override fun f(x: Double, z: Double) = x * z * _k
+            override fun print() = "$_k * x * z"
+            override fun classname() = "Partial_FunctionKXZ"
+        }
+
+        fun calcError(func: Partial_Function, dIn: Array<DoubleArray>, dOut1: Array<DoubleArray>, dOut2: Array<DoubleArray>): Double {
+            var sumSquaredErrors = 0.0
+            for (zi in 1 until dIn.size) {
+                val z = dIn[zi][0]
+                for (xi in 1 until dIn[0].size) {
+                    val x = dIn[0][xi]
+                    val target = dIn[zi][xi]
+                    val actual = func.f(mapX(x), mapZ(z))
+                    var error = target - actual
+                    dOut1[zi][xi] = actual
+                    dOut2[zi][xi] = error
+                    sumSquaredErrors += error * error
+                }
+            }
+            return sumSquaredErrors
+        }
+
+        blourData(dataTmp)
+        initializeBorders(dataTmp)
+
+        var iterations = 0
+        var allFunctionParts = mutableListOf<Partial_Function>()
+        while (true) {
+            iterations++
+            val funcCombined = Partial_FunctionCombined()
+            funcCombined.parts = allFunctionParts
+            println("#$iterations f(x,z) = " + funcCombined.print())
+            var bestfunction: Partial_Function? = null
+            for (function in arrayOf(Partial_FunctionK(), Partial_FunctionKX(), Partial_FunctionKZ(), Partial_FunctionKXZ())) {
+                var stepsize = 0.5
+                var lastError = calcError(function, dataTmp, dataOut1, dataOut2)
+                loop2@ while (stepsize >= 0.000001) {
+                    loop@ while (true) {
+                        var backup = function.getK()
+                        function.setK(backup + stepsize)
+                        var error = calcError(function, dataTmp, dataOut1, dataOut2)
+                        if (error >= lastError) {
+                            function.setK(backup - stepsize)
+                            error = calcError(function, dataTmp, dataOut1, dataOut2)
+                            if (error >= lastError) {
+                                function.setK(backup)
+                                break@loop
+                            }
+                        }
+                        if (!error.isFinite()) {
+                            break@loop2
+                        }
+                        lastError = error
+                    }
+                    stepsize = stepsize / 2.0
+                }
+                println("g(x,z) = " + function.print() + " ::: " + lastError)
+                if (bestfunction == null) {
+                    bestfunction = function
+                } else {
+                    val e1 = calcError(bestfunction!!, dataTmp, dataOut1, dataOut2)
+                    if (e1 > lastError && lastError.isFinite()) {
+                        bestfunction = function
+                    }
+                }
+            }
+            if (bestfunction!!.getK() == 0.0) {
+                break
+            }
+            val dataTmp2 = Array(dataIn.size) { DoubleArray(dataIn[0].size) }
+            calcError(bestfunction!!, dataTmp, dataOut1, dataTmp2)
+            dataTmp = dataTmp2
+            initializeBorders(dataTmp)
+            for (f2 in allFunctionParts) {
+                if (f2.classname() == bestfunction!!.classname()) {
+                    f2.setK(f2.getK() + bestfunction!!.getK())
+                    bestfunction = null
+                    break
+                }
+            }
+            if (bestfunction != null) {
+                allFunctionParts.add(bestfunction!!)
+                bestfunction = null
+            }
+            if (iterations > 2000) {
+                break
+            }
+        }
+        println("xxxxxxxxxxxxx input")
+        var row = "-1,"
+        for (xi in 1 until dataIn[0].size) {
+            val x = dataIn[0][xi]
+            row += "$x,"
+        }
+        println(row)
+        for (zi in 1 until dataIn.size) {
+            val z = dataIn[zi][0]
+            row = "$z,"
+            for (xi in 1 until dataIn[0].size) {
+                val x = dataIn[0][xi]
+                val target = dataIn[zi][xi]
+                row += "$target,"
+            }
+            println(row)
+        }
+        println("xxxxxxxxxxxxx input-blour")
+        blourData(dataTmp)
+        row = "-1,"
+        for (xi in 1 until dataIn[0].size) {
+            val x = dataIn[0][xi]
+            row += "$x,"
+        }
+        println(row)
+        for (zi in 1 until dataIn.size) {
+            val z = dataIn[zi][0]
+            row = "$z,"
+            for (xi in 1 until dataIn[0].size) {
+                val x = dataIn[0][xi]
+                val target = dataTmp[zi][xi]
+                row += "$target,"
+            }
+            println(row)
+        }
+        val funcCombined = Partial_FunctionCombined()
+        funcCombined.parts = allFunctionParts
+        val finalError = calcError(funcCombined, dataIn, dataOut1, dataOut2)
+        println("xxxxxxxxxxxxx result")
+        row = "-1,"
+        for (xi in 1 until dataIn[0].size) {
+            val x = mapX(dataIn[0][xi])
+            row += "$x,"
+        }
+        println(row)
+        for (zi in 1 until dataIn.size) {
+            val z = mapZ(dataIn[zi][0])
+            row = "$z,"
+            for (xi in 1 until dataIn[0].size) {
+                val x = dataIn[0][xi]
+                val target = dataOut1[zi][xi]
+                row += "$target,"
+            }
+            println(row)
+        }
+        println("xxxxxxxxxxxxx error")
+        row = "-1,"
+        for (xi in 1 until dataIn[0].size) {
+            val x = mapX(dataIn[0][xi])
+            row += "$x,"
+        }
+        println(row)
+        for (zi in 1 until dataIn.size) {
+            val z = mapZ(dataIn[zi][0])
+            row = "$z,"
+            for (xi in 1 until dataIn[0].size) {
+                val x = dataIn[0][xi]
+                val target = dataOut2[zi][xi]
+                row += "$target,"
+            }
+            println(row)
+        }
+        println("#$iterations f(x,z) = " + funcCombined.print() + " :: " + finalError)
     }
-    if (iterations > 2000) {
-        break
-    }
 }
-println("xxxxxxxxxxxxx input")
-var row = "-1,"
-for (xi in 1 until dataIn[0].size) {
-    val x = dataIn[0][xi]
-    row += "$x,"
-}
-println(row)
-for (zi in 1 until dataIn.size) {
-    val z = dataIn[zi][0]
-    row = "$z,"
-    for (xi in 1 until dataIn[0].size) {
-        val x = dataIn[0][xi]
-        val target = dataIn[zi][xi]
-        row += "$target,"
-    }
-    println(row)
-}
-println("xxxxxxxxxxxxx input-blour")
-blourData(dataTmp)
-row = "-1,"
-for (xi in 1 until dataIn[0].size) {
-    val x = dataIn[0][xi]
-    row += "$x,"
-}
-println(row)
-for (zi in 1 until dataIn.size) {
-    val z = dataIn[zi][0]
-    row = "$z,"
-    for (xi in 1 until dataIn[0].size) {
-        val x = dataIn[0][xi]
-        val target = dataTmp[zi][xi]
-        row += "$target,"
-    }
-    println(row)
-}
-val funcCombined = Partial_FunctionCombined()
-funcCombined.parts = allFunctionParts
-val finalError = calcError(funcCombined, dataIn, dataOut1, dataOut2)
-println("xxxxxxxxxxxxx result")
-row = "-1,"
-for (xi in 1 until dataIn[0].size) {
-    val x = mapX(dataIn[0][xi])
-    row += "$x,"
-}
-println(row)
-for (zi in 1 until dataIn.size) {
-    val z = mapZ(dataIn[zi][0])
-    row = "$z,"
-    for (xi in 1 until dataIn[0].size) {
-        val x = dataIn[0][xi]
-        val target = dataOut1[zi][xi]
-        row += "$target,"
-    }
-    println(row)
-}
-println("xxxxxxxxxxxxx error")
-row = "-1,"
-for (xi in 1 until dataIn[0].size) {
-    val x = mapX(dataIn[0][xi])
-    row += "$x,"
-}
-println(row)
-for (zi in 1 until dataIn.size) {
-    val z = mapZ(dataIn[zi][0])
-    row = "$z,"
-    for (xi in 1 until dataIn[0].size) {
-        val x = dataIn[0][xi]
-        val target = dataOut2[zi][xi]
-        row += "$target,"
-    }
-    println(row)
-}
-println("#$iterations f(x,z) = " + funcCombined.print() + " :: " + finalError)
