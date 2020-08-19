@@ -99,10 +99,10 @@ class POPModify(query: Query, projectedVariables: List<String>, insert: List<LOP
         val variables = children[0].getProvidedVariableNames()
         val child = children[0].evaluate(parent)
         val columns = Array(variables.size) { child.columns[variables[it]]!! }
-        val row = Array(variables.size) { ResultSetDictionary.undefValue }
+        val row = IntArray(variables.size) { ResultSetDictionary.undefValue }
         val data = mutableMapOf<String, Array<Array<MyListValue>>>()
         loop@ while (true) {
-            if (row.size > 0) {
+            if (variables.size > 0) {
                 for (columnIndex in 0 until variables.size) {
                     val value = columns[columnIndex].next()
                     if (value == ResultSetDictionary.nullValue) {

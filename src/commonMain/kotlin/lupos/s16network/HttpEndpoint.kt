@@ -219,11 +219,12 @@ object HttpEndpoint {
             println(OperatorGraphToLatex(pop_distributed_node.toXMLElement().toString(), ""))
         }
         BenchmarkUtils.timesHelperDuration(5, timer)
-return pop_distributed_node
-}
-suspend fun evaluate_sparql_query_string_part2(node:OPBase): String {
-node.query.reset()
-var        timer = BenchmarkUtils.timesHelperMark()
+        return pop_distributed_node
+    }
+
+    suspend fun evaluate_sparql_query_string_part2(node: OPBase): String {
+        node.query.reset()
+        var timer = BenchmarkUtils.timesHelperMark()
         val res = QueryResultToString(node)
         BenchmarkUtils.timesHelperDuration(6, timer)
         timer = BenchmarkUtils.timesHelperMark()
@@ -233,8 +234,8 @@ var        timer = BenchmarkUtils.timesHelperMark()
     }
 
     suspend fun evaluate_sparql_query_string(query: String, logOperatorGraph: Boolean = false): String {
-val node=evaluate_sparql_query_string_part1(query,logOperatorGraph)
-return evaluate_sparql_query_string_part2(node)
+        val node = evaluate_sparql_query_string_part1(query, logOperatorGraph)
+        return evaluate_sparql_query_string_part2(node)
     }
 
     suspend fun evaluate_sparql_query_operator_xml(query: String, logOperatorGraph: Boolean = false): String {

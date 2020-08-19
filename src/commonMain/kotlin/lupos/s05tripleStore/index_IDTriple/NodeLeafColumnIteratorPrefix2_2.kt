@@ -33,14 +33,18 @@ class NodeLeafColumnIteratorPrefix2_2(@JvmField var node: ByteArray, @JvmField v
     @JvmField
     var value2 = 0
     inline suspend fun _init() {
+        SanityCheck.println({ "lock(${lock.uuid}).readLock 31 a" })
         lock.readLock()
+        SanityCheck.println({ "lock(${lock.uuid}).readLock 31 b" })
         remaining = NodeShared.getTripleCount(node)
     }
 
     suspend inline fun _close() {
         if (label != 0) {
             label = 0
+            SanityCheck.println({ "lock(${lock.uuid}).readUnlock 32 a" })
             lock.readUnlock()
+            SanityCheck.println({ "lock(${lock.uuid}).readUnlock 32 b" })
         }
     }
 
@@ -107,7 +111,7 @@ class NodeLeafColumnIteratorPrefix2_2(@JvmField var node: ByteArray, @JvmField v
                     }
                 }
                 val done: Boolean
-                if (value0 > prefix[0] || value1 > prefix[1]) {
+                if (value0 > prefix[0] || (value0 == prefix[0]&&value1 > prefix[1])) {
                     _close()
                     return ResultSetDictionary.nullValue
                 } else {

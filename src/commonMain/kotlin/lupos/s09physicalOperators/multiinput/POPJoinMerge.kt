@@ -20,7 +20,7 @@ import lupos.s04logicalOperators.Query
 import lupos.s09physicalOperators.POPBase
 
 class POPJoinMerge(query: Query, projectedVariables: List<String>, childA: OPBase, childB: OPBase, @JvmField val optional: Boolean) : POPBase(query, projectedVariables, EOperatorID.POPJoinMergeID, "POPJoinMerge", arrayOf(childA, childB), ESortPriority.JOIN) {
-//optimized using javap
+    //optimized using javap
     override fun toSparql() = children[0].toSparql() + children[1].toSparql()
     override suspend fun toXMLElement() = super.toXMLElement().addAttribute("optional", "" + optional)
     override fun cloneOP() = POPJoinMerge(query, projectedVariables, children[0].cloneOP(), children[1].cloneOP(), optional)
@@ -88,7 +88,6 @@ class POPJoinMerge(query: Query, projectedVariables: List<String>, childA: OPBas
 
         @JvmField
         var local___close_i = 0
-
         suspend inline fun __close() {
             if (label != 0) {
                 local___close_i = 0
@@ -184,7 +183,7 @@ class POPJoinMerge(query: Query, projectedVariables: List<String>, childA: OPBas
                             local_next_keyCopy[local_next_i] = key0[local_next_i]
                             local_next_i++
                         }
-			local_next_countA=0
+                        local_next_countA = 0
                         loop2@ while (true) {
                             if (columnsINO0.size > 0) {
                                 if (local_next_countA >= data0[0].size) {
@@ -222,7 +221,7 @@ class POPJoinMerge(query: Query, projectedVariables: List<String>, childA: OPBas
                                 local_next_i++
                             }
                         }
-			local_next_countB=0
+                        local_next_countB = 0
                         loop2@ while (true) {
                             if (columnsINO1.size > 0) {
                                 if (local_next_countB >= data1[0].size) {
@@ -347,7 +346,6 @@ class POPJoinMerge(query: Query, projectedVariables: List<String>, childA: OPBas
         } else {
             res = IteratorBundle(outMap)
         }
-
         for (i in 0 until columnsINJ0.size) {
             key0[i] = columnsINJ0[i].next()
         }
@@ -356,5 +354,4 @@ class POPJoinMerge(query: Query, projectedVariables: List<String>, childA: OPBas
         }
         return res
     }
-
 }

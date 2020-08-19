@@ -85,42 +85,45 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
                 }
             }
         }
+        SanityCheck.println({ "lock(${lock.uuid}).readUnlock 1 a" })
         lock.readUnlock()
-        SanityCheck.println { "readunlock 1" }
+        SanityCheck.println({ "lock(${lock.uuid}).readUnlock 1 b" })
     }
 
     suspend override fun loadFromFile(filename: String) {
-        SanityCheck.println({ "writelock 2" })
-        lock.withWriteLock {
-            pendingImport.clear()
-            File(filename).dataInputStreamSuspended { fis ->
-                firstLeaf = fis.readInt()
-                root = fis.readInt()
-                countPrimary = fis.readInt()
-                distinctPrimary = fis.readInt()
-                if (root == NodeManager.nodeNullPointer) {
-                    rootNode = null
-                } else {
-                    NodeManager.getNodeInner(root, {
-                        rootNode = it
-                    })
-                    SanityCheck.check { rootNode != null }
-                }
+        SanityCheck.println({ "lock(${lock.uuid}).writeLock 2 a" })
+        lock.writeLock()
+        SanityCheck.println({ "lock(${lock.uuid}).writeLock 2 b" })
+        pendingImport.clear()
+        File(filename).dataInputStreamSuspended { fis ->
+            firstLeaf = fis.readInt()
+            root = fis.readInt()
+            countPrimary = fis.readInt()
+            distinctPrimary = fis.readInt()
+            if (root == NodeManager.nodeNullPointer) {
+                rootNode = null
+            } else {
+                NodeManager.getNodeInner(root, {
+                    rootNode = it
+                })
+                SanityCheck.check { rootNode != null }
             }
-            SanityCheck.suspended {
-                SanityCheck.println { firstLeaf }
-                SanityCheck.println { root }
-                SanityCheck.println { countPrimary }
-                SanityCheck.println { distinctPrimary }
-                if (rootNode != null) {
-                    val iterator = NodeInner.iterator(rootNode!!)
-                    while (iterator.hasNext()) {
-                        SanityCheck.println { iterator.next().map { it } }
-                    }
+        }
+        SanityCheck.suspended {
+            SanityCheck.println { firstLeaf }
+            SanityCheck.println { root }
+            SanityCheck.println { countPrimary }
+            SanityCheck.println { distinctPrimary }
+            if (rootNode != null) {
+                val iterator = NodeInner.iterator(rootNode!!)
+                while (iterator.hasNext()) {
+                    SanityCheck.println { iterator.next().map { it } }
                 }
             }
         }
-        SanityCheck.println({ "writeunlock 2" })
+        SanityCheck.println({ "lock(${lock.uuid}).writeUnlock 3 a" })
+        lock.writeUnlock()
+        SanityCheck.println({ "lock(${lock.uuid}).writeUnlock 3 b" })
     }
 
     var cachedHistograms1Size = 0
@@ -214,54 +217,56 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
         val filter = (params as TripleStoreFeatureParamsDefault).getFilter(query)
         var res: Pair<Int, Int>? = checkForCachedHistogram(filter)
         if (res == null) {
-            SanityCheck.println({ "readlock 6" })
-            lock.withReadLock {
-                val node = rootNode
-                if (node != null) {
-                    when (filter.size) {
-                        0 -> {
-                            res = Pair(countPrimary, distinctPrimary)
-                        }
-                        1 -> {
-                            var iterator = NodeInner.iterator1(node, filter)
-                            var count = 0
-                            var distinct = 0
-                            if (iterator.hasNext()) {
-                                var lastValue = iterator.next(1)
-                                distinct++
-                                count++
-                                while (iterator.hasNext()) {
-                                    var value = iterator.next(1)
-                                    count++
-                                    if (value != lastValue) {
-                                        distinct++
-                                    }
-                                    lastValue = value
-                                }
-                            }
-                            res = Pair(count, distinct)
-                        }
-                        2 -> {
-                            var iterator = NodeInner.iterator2(node, filter)
-                            var count = 0
-                            while (iterator.hasNext()) {
-                                iterator.next()
-                                count++
-                            }
-                            res = Pair(count, count)
-                        }
-                        3 -> {
-                            res = Pair(1, 1)
-                        }
-                        else -> {
-                            SanityCheck.checkUnreachable()
-                        }
+            SanityCheck.println({ "lock(${lock.uuid}).readLock 4 a" })
+            lock.readLock()
+            SanityCheck.println({ "lock(${lock.uuid}).readLock 4 b" })
+            val node = rootNode
+            if (node != null) {
+                when (filter.size) {
+                    0 -> {
+                        res = Pair(countPrimary, distinctPrimary)
                     }
-                } else {
-                    res = Pair(0, 0)
+                    1 -> {
+                        var iterator = NodeInner.iterator1(node, filter)
+                        var count = 0
+                        var distinct = 0
+                        if (iterator.hasNext()) {
+                            var lastValue = iterator.next(1)
+                            distinct++
+                            count++
+                            while (iterator.hasNext()) {
+                                var value = iterator.next(1)
+                                count++
+                                if (value != lastValue) {
+                                    distinct++
+                                }
+                                lastValue = value
+                            }
+                        }
+                        res = Pair(count, distinct)
+                    }
+                    2 -> {
+                        var iterator = NodeInner.iterator2(node, filter)
+                        var count = 0
+                        while (iterator.hasNext()) {
+                            iterator.next()
+                            count++
+                        }
+                        res = Pair(count, count)
+                    }
+                    3 -> {
+                        res = Pair(1, 1)
+                    }
+                    else -> {
+                        SanityCheck.checkUnreachable()
+                    }
                 }
+            } else {
+                res = Pair(0, 0)
             }
-            SanityCheck.println({ "readunlock 6" })
+            SanityCheck.println({ "lock(${lock.uuid}).readUnlock 5 a" })
+            lock.readUnlock()
+            SanityCheck.println({ "lock(${lock.uuid}).readUnlock 5 b" })
             updateCachedHistogram(filter, res!!)
         }
         return res!!
@@ -345,8 +350,9 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
                 }
             }
         }
+        SanityCheck.println({ "lock(${lock.uuid}).readUnlock 6 a" })
         lock.readUnlock()
-        SanityCheck.println({ "readunlock 7" })
+        SanityCheck.println({ "lock(${lock.uuid}).readUnlock 6 b" })
         return res
     }
 
@@ -390,26 +396,38 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
 
     suspend override fun flush() {
         if (pendingImport.size > 0) {
-            SanityCheck.println({ "writelock 8" })
-            lock.withWriteLock {
-                flushAssumeLocks()
-            }
-            SanityCheck.println({ "writeunlock 8" })
+            SanityCheck.println({ "lock(${lock.uuid}).writeLock 7 a" })
+            lock.writeLock()
+            SanityCheck.println({ "lock(${lock.uuid}).writeLock 7 b" })
+            flushAssumeLocks()
+            SanityCheck.println({ "lock(${lock.uuid}).writeUnlock 8 a" })
+            lock.writeUnlock()
+            SanityCheck.println({ "lock(${lock.uuid}).writeUnlock 8 b" })
         }
     }
 
     inline suspend fun flushContinueWithWriteLock() {
+        SanityCheck.println({ "lock(${lock.uuid}).WriteLock 9 a" })
         lock.writeLock()
+        SanityCheck.println({ "lock(${lock.uuid}).WriteLock 9 b" })
         flushAssumeLocks()
     }
 
     inline suspend fun flushContinueWithReadLock() {
+        SanityCheck.println({ "lock(${lock.uuid}).ReadLock 10 a" })
         lock.readLock()
+        SanityCheck.println({ "lock(${lock.uuid}).ReadLock 10 b" })
         if (pendingImport.size > 0) {
+            SanityCheck.println({ "lock(${lock.uuid}).ReadUnlock 11 a" })
             lock.readUnlock()
+            SanityCheck.println({ "lock(${lock.uuid}).ReadUnlock 11 b" })
+            SanityCheck.println({ "lock(${lock.uuid}).Writelock 12 a" })
             lock.writeLock()
+            SanityCheck.println({ "lock(${lock.uuid}).Writelock 12 b" })
             flushAssumeLocks()
+            SanityCheck.println({ "lock(${lock.uuid}).downgradeToReadLock 13 a" })
             lock.downgradeToReadLock()
+            SanityCheck.println({ "lock(${lock.uuid}).downgradeToReadLock 13 b" })
         }
     }
 
@@ -429,80 +447,87 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
                 j++
             }
             SanityCheck.check { pendingImport.size > 0 }
-            val newFirstLeaf = pendingImport[pendingImport.size - 1]!!
+            val firstLeaf2 = pendingImport[pendingImport.size - 1]!!
             var node: ByteArray? = null
             var flag = false
-            NodeManager.getNodeAny(newFirstLeaf, {
+            NodeManager.getNodeAny(firstLeaf2, {
                 flag = true
                 node = it
             }, {
                 node = it
             })
+            SanityCheck.check { rootNode == null }
+            SanityCheck.check { root == NodeManager.nodeNullPointer }
+            SanityCheck.check { firstLeaf == NodeManager.nodeNullPointer }
+            rootNode = null
+            root = NodeManager.nodeNullPointer
+            firstLeaf = NodeManager.nodeNullPointer
             if (flag) {
-                rebuildData(DistinctIterator(NodeLeaf.iterator(node!!)))
+                rebuildData(NodeLeaf.iterator(node!!))
             } else {
-                rebuildData(DistinctIterator(NodeInner.iterator(node!!)))
+                rebuildData(NodeInner.iterator(node!!))
             }
-            NodeManager.freeAllLeaves(newFirstLeaf)
+            NodeManager.freeAllLeaves(firstLeaf2)
             pendingImport.clear()
             BenchmarkUtils.elapsedSeconds(EBenchmark.IMPORT_REBUILD_MAP)
         }
     }
 
     suspend override fun import(dataImport: IntArray, count: Int, order: IntArray) {
-        SanityCheck.println({ "writelock 9" })
-        lock.withWriteLock {
-            BenchmarkUtils.start(EBenchmark.IMPORT_MERGE_DATA)
-            if (count > 0) {
-                val iteratorImport = BulkImportIterator(dataImport, count, order)
-                val iterator = DistinctIterator(iteratorImport)
-                var newFirstLeaf = importHelper(iterator)
-                if (firstLeaf != NodeManager.nodeNullPointer) {
-                    pendingImport.add(firstLeaf)
-                    firstLeaf = NodeManager.nodeNullPointer
-                    NodeManager.freeAllInnerNodes(root)
-                    root = NodeManager.nodeNullPointer
-                    rootNode = null
+        SanityCheck.println({ "lock(${lock.uuid}).Writelock 14 a" })
+        lock.writeLock()
+        SanityCheck.println({ "lock(${lock.uuid}).Writelock 14 b" })
+        BenchmarkUtils.start(EBenchmark.IMPORT_MERGE_DATA)
+        if (count > 0) {
+            val iteratorImport = BulkImportIterator(dataImport, count, order)
+            val iterator = iteratorImport
+            var newFirstLeaf = importHelper(iterator)
+            if (firstLeaf != NodeManager.nodeNullPointer) {
+                pendingImport.add(firstLeaf)
+                NodeManager.freeAllInnerNodes(root)
+                firstLeaf = NodeManager.nodeNullPointer
+                root = NodeManager.nodeNullPointer
+                rootNode = null
+            }
+            if (pendingImport.size == 0) {
+                pendingImport.add(newFirstLeaf)
+            } else if (pendingImport[0] == null) {
+                pendingImport[0] = newFirstLeaf
+            } else {
+                pendingImport[0] = importHelper(pendingImport[0]!!, newFirstLeaf)
+                if (pendingImport[pendingImport.size - 1] != null) {
+                    pendingImport.add(null)
                 }
-                if (pendingImport.size == 0) {
-                    pendingImport.add(newFirstLeaf)
-                } else if (pendingImport[0] == null) {
-                    pendingImport[0] = newFirstLeaf
-                } else {
-                    pendingImport[0] = importHelper(pendingImport[0]!!, newFirstLeaf)
-                    if (pendingImport[pendingImport.size - 1] != null) {
-                        pendingImport.add(null)
+                var j = 1
+                while (j < pendingImport.size) {
+                    if (pendingImport[j] == null) {
+                        pendingImport[j] = pendingImport[j - 1]
+                        pendingImport[j - 1] = null
+                        break
+                    } else {
+                        val a = pendingImport[j]!!
+                        val b = pendingImport[j - 1]!!
+                        pendingImport[j] = importHelper(a, b)
+                        pendingImport[j - 1] = null
                     }
-                    var j = 1
-                    while (j < pendingImport.size) {
-                        if (pendingImport[j] == null) {
-                            pendingImport[j] = pendingImport[j - 1]
-                            pendingImport[j - 1] = null
-                            break
-                        } else {
-                            val a = pendingImport[j]!!
-                            val b = pendingImport[j - 1]!!
-                            pendingImport[j] = importHelper(a, b)
-                            pendingImport[j - 1] = null
-                        }
-                        j++
-                    }
+                    j++
                 }
             }
-            BenchmarkUtils.elapsedSeconds(EBenchmark.IMPORT_MERGE_DATA)
         }
-        SanityCheck.println({ "writeunlock 9" })
+        BenchmarkUtils.elapsedSeconds(EBenchmark.IMPORT_MERGE_DATA)
+        SanityCheck.println({ "lock(${lock.uuid}).writeUnlock 15 a" })
+        lock.writeUnlock()
+        SanityCheck.println({ "lock(${lock.uuid}).writeUnlock 15 b" })
     }
 
     suspend fun rebuildData(_iterator: TripleIterator) {
 //assuming to have write-lock
-        val iterator = Count1PassThroughIterator(_iterator)
+        val iterator = Count1PassThroughIterator(DistinctIterator(_iterator))
         if (iterator.hasNext()) {
             var currentLayer = mutableListOf<Int>()
-            var newFirstLeaf = NodeManager.nodeNullPointer
             var node2: ByteArray? = null
             NodeManager.allocateNodeLeaf { n, i ->
-                newFirstLeaf = i
+                firstLeaf = i
                 node2 = n
                 currentLayer.add(i)
             }
@@ -516,7 +541,6 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
                 }
                 NodeLeaf.initializeWith(node, iterator)
             }
-            firstLeaf = newFirstLeaf
             SanityCheck.check { currentLayer.size > 0 }
             while (currentLayer.size > 1) {
                 var tmp = mutableListOf<Int>()
@@ -576,12 +600,16 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
             })
         }
         val iteratorStore = iteratorStore2!!
-        val iterator = MergeIterator(iteratorStore, DistinctIterator(iteratorImport))
-        var oldroot = root
+        val iterator = MergeIterator(iteratorStore, iteratorImport)
+        val oldroot = root
+        rootNode = null
+        root = NodeManager.nodeNullPointer
+        firstLeaf = NodeManager.nodeNullPointer
         rebuildData(iterator)
         NodeManager.freeNodeAndAllRelated(oldroot)
+        SanityCheck.println({ "lock(${lock.uuid}).writeUnlock 16 a" })
         lock.writeUnlock()
-        SanityCheck.println({ "writeunlock 10" })
+        SanityCheck.println({ "lock(${lock.uuid}).writeUnlock 16 b" })
     }
 
     suspend override fun removeAsBulk(data: IntArray, order: IntArray) {
@@ -598,12 +626,16 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
             })
         }
         val iteratorStore = iteratorStore2!!
-        val iterator = MinusIterator(iteratorStore, DistinctIterator(iteratorImport))
-        var oldroot = root
+        val iterator = MinusIterator(iteratorStore, iteratorImport)
+        val oldroot = root
+        rootNode = null
+        root = NodeManager.nodeNullPointer
+        firstLeaf = NodeManager.nodeNullPointer
         rebuildData(iterator)
         NodeManager.freeNodeAndAllRelated(oldroot)
+        SanityCheck.println({ "lock(${lock.uuid}).writeUnlock 17 a" })
         lock.writeUnlock()
-        SanityCheck.println({ "writeunlock 11" })
+        SanityCheck.println({ "lock(${lock.uuid}).writeUnlock 17 b" })
     }
 
     override fun insert(a: Value, b: Value, c: Value) {
@@ -621,23 +653,26 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
         root = NodeManager.nodeNullPointer
         rootNode = null
         clearCachedHistogram()
+        SanityCheck.println({ "lock(${lock.uuid}).writeUnlock 18 a" })
         lock.writeUnlock()
-        SanityCheck.println({ "writeunlock 12" })
+        SanityCheck.println({ "lock(${lock.uuid}).writeUnlock 18 b" })
     }
 
     suspend override fun printContents() {
-        SanityCheck.println({ "readlock 13" })
-        lock.withReadLock {
-            if (firstLeaf != NodeManager.nodeNullPointer) {
-                NodeManager.getNodeLeaf(firstLeaf, { node ->
-                    var it = NodeLeaf.iterator(node)
-                    while (it.hasNext()) {
-                        var d = it.next()
-                        SanityCheck.println({ "debug ${d.map { it }}" })
-                    }
-                })
-            }
+        SanityCheck.println({ "lock(${lock.uuid}).ReadLock 19 a" })
+        lock.readLock()
+        SanityCheck.println({ "lock(${lock.uuid}).ReadLock 19 b" })
+        if (firstLeaf != NodeManager.nodeNullPointer) {
+            NodeManager.getNodeLeaf(firstLeaf, { node ->
+                var it = NodeLeaf.iterator(node)
+                while (it.hasNext()) {
+                    var d = it.next()
+                    SanityCheck.println({ "debug ${d.map { it }}" })
+                }
+            })
         }
-        SanityCheck.println({ "readunlock 13" })
+        SanityCheck.println({ "lock(${lock.uuid}).ReadUnlock 20 a" })
+        lock.readUnlock()
+        SanityCheck.println({ "lock(${lock.uuid}).ReadUnlock 20 b" })
     }
 }

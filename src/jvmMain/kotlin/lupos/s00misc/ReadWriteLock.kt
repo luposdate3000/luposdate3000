@@ -7,11 +7,11 @@ import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.sync.Mutex
 import lupos.s00misc.Coverage
 
-var debuguuidtmp123 = 0
+var debuguuidtmp123 = AtomicInteger()
 
 class ReadWriteLock {
     @JvmField
-    val uuid = debuguuidtmp123++
+    val uuid = debuguuidtmp123.incrementAndGet()
 
     @JvmField
     val lockA = Mutex() //required to assign a new read or write lock

@@ -82,7 +82,7 @@ loop@ while (targetNumberOfResults > 0) {
             outIntermediateTriplesStatCounter++
         }
     }
-    targetNumberOfResults --
+    targetNumberOfResults--
     counter++
     if (trashCount > 0) {
         var trashcounter = 1

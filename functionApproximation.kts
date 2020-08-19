@@ -318,15 +318,15 @@ when (variant) {
                 for (zi in 1 until dataPartitions.size) {
                     val z = mapZ(dataPartitions[zi][0])
                     for (xi in 1 until dataPartitions[0].size) {
-if(zi<5 && xi>2 && xi < 7){
-continue
-}
+                        if (zi < 5 && xi > 2 && xi < 7) {
+                            continue
+                        }
                         val x = mapX(dataPartitions[0][xi])
                         val target = dataPartitions[zi][xi]
                         val actual = params3d[0] + params3d[1] * x + params3d[2] * z + params3d[3] * x * z + params3d[4] * x * x + params3d[5] * z * z + params3d[6] * x * x * z + params3d[7] * x * z * z + params3d[8] * x * x * z * z
-if(params3d[0] + params3d[1] * 1000.0 + params3d[2] * 0.2 + params3d[3] * 1000.0 * 0.2 + params3d[4] * 1000000.0 + params3d[5] * 0.2 * 0.2 + params3d[6] * 1000000.0 * 0.2 + params3d[7] * 1000.0 * 0.2 * 0.2 + params3d[8] * 1000000.0 * 0.2 * 0.2<0){
-error+=1000
-}
+                        if (params3d[0] + params3d[1] * 1000.0 + params3d[2] * 0.2 + params3d[3] * 1000.0 * 0.2 + params3d[4] * 1000000.0 + params3d[5] * 0.2 * 0.2 + params3d[6] * 1000000.0 * 0.2 + params3d[7] * 1000.0 * 0.2 * 0.2 + params3d[8] * 1000000.0 * 0.2 * 0.2 < 0) {
+                            error += 1000
+                        }
                         error += (target - actual) * (target - actual)
                         counter++
                     }

@@ -19,7 +19,6 @@ class RunningStandardDeviation {
 
     @JvmField
     var newS = 0.0
-
     inline fun clear() {
         n = 0
     }

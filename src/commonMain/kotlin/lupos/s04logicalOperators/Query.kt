@@ -16,7 +16,6 @@ class PartitionHelper() {
 }
 
 class Query(@JvmField val dictionary: ResultSetDictionary = ResultSetDictionary(), @JvmField val transactionID: Long = global_transactionID.next()) {
-
     @JvmField
     var _workingDirectory = ""
     var workingDirectory: String
@@ -47,10 +46,10 @@ class Query(@JvmField val dictionary: ResultSetDictionary = ResultSetDictionary(
 
     @JvmField
     val partitionsLock = Lock()
+    inline fun reset() {
+        partitions.clear()
+    }
 
-inline fun reset(){
-partitions.clear()
-}
     inline suspend fun getPartitionHelper(uuid: Long): PartitionHelper {
         var res: PartitionHelper? = null
         partitionsLock.withWriteLock {
@@ -62,6 +61,7 @@ partitions.clear()
         }
         return res!!
     }
+
     fun getUniqueVariableName(name: String): String {
         val tmp = generatedNameByBase[name]
         if (tmp != null) {

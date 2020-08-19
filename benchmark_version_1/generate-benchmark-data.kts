@@ -56,7 +56,7 @@ for (i in 0 until object_counter) {
     outIntermediateTriples.writeInt(0)
     outIntermediateTriples.writeInt(1)
     outIntermediateTriples.writeInt(o_offset + i)
-outIntermediateTriplesStatCounter++
+    outIntermediateTriplesStatCounter++
 }
 for (i in 0 until numberOfPredicates) {
     outN3.println("_:a1 <unused> <p${i}> .")
@@ -65,7 +65,7 @@ for (i in 0 until numberOfPredicates) {
     outIntermediateTriples.writeInt(0)
     outIntermediateTriples.writeInt(1)
     outIntermediateTriples.writeInt(p_offset + i)
-outIntermediateTriplesStatCounter++
+    outIntermediateTriplesStatCounter++
 }
 
 var counter = 0
@@ -79,7 +79,7 @@ loop@ while (targetNumberOfTriples > 0) {
             outIntermediateTriples.writeInt(s_offset + counter)
             outIntermediateTriples.writeInt(p_offset + p)
             outIntermediateTriples.writeInt(o_offset + ((j + counter) % object_counter))
-outIntermediateTriplesStatCounter++
+            outIntermediateTriplesStatCounter++
         }
     }
     targetNumberOfTriples -= numberOfPredicates * blockCount
@@ -98,7 +98,7 @@ outIntermediateTriplesStatCounter++
                 outIntermediateTriples.writeInt(s_offset + counter)
                 outIntermediateTriples.writeInt(p_offset + p)
                 outIntermediateTriples.writeInt(o_offset + ((j + counter) % object_counter))
-outIntermediateTriplesStatCounter++
+                outIntermediateTriplesStatCounter++
                 targetNumberOfTriples--
                 counter++
                 trashcounter++
@@ -116,7 +116,7 @@ outIntermediateTriplesStatCounter++
                     outIntermediateTriples.writeInt(s_offset + counter)
                     outIntermediateTriples.writeInt(1)
                     outIntermediateTriples.writeInt(o_offset + (counter % object_counter))
-outIntermediateTriplesStatCounter++
+                    outIntermediateTriplesStatCounter++
                     outN3.println("_:s${counter.toString(16)} <unused> <o${(counter % object_counter).toString(16)}> .")
                     counter++
                     trashcounter++

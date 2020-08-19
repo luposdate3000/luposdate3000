@@ -30,14 +30,18 @@ class NodeLeafColumnIteratorPrefix1_2(@JvmField var node: ByteArray, @JvmField v
     @JvmField
     var value2 = 0
     inline suspend fun _init() {
+        SanityCheck.println({ "lock(${lock.uuid}).readLock 29 a" })
         lock.readLock()
+        SanityCheck.println({ "lock(${lock.uuid}).readLock 29 b" })
         remaining = NodeShared.getTripleCount(node)
     }
 
     suspend inline fun _close() {
         if (label != 0) {
             label = 0
+            SanityCheck.println({ "lock(${lock.uuid}).readUnlock 30 a" })
             lock.readUnlock()
+            SanityCheck.println({ "lock(${lock.uuid}).readUnlock 30 b" })
         }
     }
 

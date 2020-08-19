@@ -54,7 +54,7 @@ class SparqlTestSuite() {
     companion object {
         const val errorBoundForDecimalsDigits = 6
         val filterList = mutableListOf<String>()
-	val enabledTestCases=listOf("resources/myqueries/", "resources/bsbm/", "resources/btc/", "resources/sp2b/")
+        val enabledTestCases = listOf("resources/myqueries/", "resources/bsbm/", "resources/btc/", "resources/sp2b/")
     }
 
     suspend fun testMain() {
@@ -670,7 +670,7 @@ class SparqlTestSuite() {
                     val xmlQueryResultRecovered = QueryResultToXMLElement.toXML(popNodeRecovered)
                     query4.commit()
                     GlobalLogger.log(ELoggerType.TEST_DETAIL, { "test xmlQueryResultRecovered :: " + xmlQueryResultRecovered.toPrettyString() })
-                    if (xmlQueryResultRecovered.myEquals(xmlQueryResult)) {
+                    if (xmlQueryResultRecovered.myEqualsUnclean(xmlQueryResult, true, true, true)) {
                         if (expectedResult) {
                             GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Time(${timer.elapsedNow().toDouble(DurationUnit.SECONDS)})" })
                             GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Success" })
