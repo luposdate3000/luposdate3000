@@ -16,6 +16,8 @@ class BufferManager(@JvmField val bufferName: String) {
      * additionally this should make it more easy to exchange this with on disk storage
      */
     companion object {
+        const val useFreeList = true
+
         @JvmField
         var bufferPrefix: String
 
@@ -61,6 +63,10 @@ class BufferManager(@JvmField val bufferName: String) {
     @JvmField
     val freeList = mutableListOf<Int>()
     inline suspend fun clear() = lock.withWriteLock {
+        clearAssumeLocks()
+    }
+
+    inline suspend fun clearAssumeLocks() {
         counter = 0
         allPages = Array<ByteArray>(100) { ByteArray(PAGE_SIZE_IN_BYTES) }
         freeList.clear()
@@ -68,16 +74,23 @@ class BufferManager(@JvmField val bufferName: String) {
 
     inline fun getPage(pageid: Int): ByteArray {
 //no locking required, assuming an assignment to 'allPages' is atomic
+        SanityCheck { !freeList.contains(pageid) }
         return allPages[pageid]
     }
 
     inline suspend fun createPage(crossinline action: (ByteArray, Int) -> Unit) = lock.withWriteLock {
         val id: Int
-        if (freeList.size > 0) {
+        if (freeList.size > 0 && useFreeList) {
             id = freeList.removeAt(0)
         } else {
             if (counter == allPages.size) {
-                val tmp = Array<ByteArray>(counter * 2) {
+var size=counter*2
+if(size<100){
+size=100
+}else if(counter>1000){
+size=counter+1000
+}
+                val tmp = Array<ByteArray>(size) {
                     val res: ByteArray
                     if (it < counter) {
                         res = allPages[it]
@@ -94,7 +107,11 @@ class BufferManager(@JvmField val bufferName: String) {
     }
 
     inline suspend fun deletePage(pageid: Int) = lock.withWriteLock {
-//        freeList.add(pageid)
+        SanityCheck.check { !freeList.contains(pageid) }
+        freeList.add(pageid)
+        if (freeList.size == counter) {
+            clearAssumeLocks()
+        }
     }
 
     fun debug() {
@@ -120,6 +137,7 @@ class BufferManager(@JvmField val bufferName: String) {
         File(bufferPrefix + "buffermanager/" + bufferName + ".header").dataInputStream { fis ->
             counter = fis.readInt()
             val size = fis.readInt()
+            freeList.clear()
             for (i in 0 until size) {
                 val v = fis.readInt()
                 freeList.add(v)
