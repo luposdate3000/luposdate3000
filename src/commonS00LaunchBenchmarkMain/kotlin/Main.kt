@@ -3,6 +3,7 @@ import kotlin.time.TimeSource.Monotonic
 import kotlinx.coroutines.runBlocking
 import lupos.s00misc.BenchmarkUtils
 import lupos.s00misc.File
+import lupos.s00misc.DateHelper
 import lupos.s00misc.MyMapStringIntPatriciaTrie
 import lupos.s00misc.Partition
 import lupos.s03resultRepresentation.nodeGlobalDictionary
@@ -35,36 +36,36 @@ fun main(args: Array<String>) = runBlocking {
     }
     when (datasourceType) {
         Datasource.LOAD -> {
-            val timer = BenchmarkUtils.timesHelperMark()
+            val timer = DateHelper.markNow()
             DistributedTripleStore.localStore.loadFromFolder()
-            val time = BenchmarkUtils.timesHelperDuration(timer)
+            val time = DateHelper.elapsedSeconds(timer)
             printBenchmarkLine("resources/${benchmarkname}/persistence-load.sparql", time, 1, numberOfTriples, originalTripleSize)
         }
         Datasource.IMPORT -> {
-            val timer = BenchmarkUtils.timesHelperMark()
+            val timer = DateHelper.markNow()
             val dict = MyMapStringIntPatriciaTrie()
             File(datasourceBNodeFile).forEachLine {
                 dict[it] = nodeGlobalDictionary.createNewBNode()
             }
             HttpEndpoint.import_turtle_files(datasourceFiles, dict)
-            val time = BenchmarkUtils.timesHelperDuration(timer)
+            val time = DateHelper.elapsedSeconds(timer)
             printBenchmarkLine("resources/${benchmarkname}/persistence-import.sparql", time, 1, numberOfTriples, originalTripleSize)
 /*
-            val timer2 = BenchmarkUtils.timesHelperMark()
+            val timer2 = DateHelper.markNow()
             DistributedTripleStore.localStore.safeToFolder()
-            val time2 = BenchmarkUtils.timesHelperDuration(timer2)
+            val time2 = DateHelper.elapsedSeconds(timer2)
             printBenchmarkLine("resources/${benchmarkname}/persistence-store.sparql", time2, 1, numberOfTriples, originalTripleSize)
 */
         }
         Datasource.IMPORT_INTERMEDIATE -> {
-            val timer = BenchmarkUtils.timesHelperMark()
+            val timer = DateHelper.markNow()
             HttpEndpoint.import_intermediate_files(datasourceFiles)
-            val time = BenchmarkUtils.timesHelperDuration(timer)
+            val time = DateHelper.elapsedSeconds(timer)
             printBenchmarkLine("resources/${benchmarkname}/persistence-import.sparql", time, 1, numberOfTriples, originalTripleSize)
 /*
-            val timer2 = BenchmarkUtils.timesHelperMark()
+            val timer2 = DateHelper.markNow()
             DistributedTripleStore.localStore.safeToFolder()
-            val time2 = BenchmarkUtils.timesHelperDuration(timer2)
+            val time2 = DateHelper.elapsedSeconds(timer2)
             printBenchmarkLine("resources/${benchmarkname}/persistence-store.sparql", time2, 1, numberOfTriples, originalTripleSize)
 */
         }
@@ -73,20 +74,20 @@ fun main(args: Array<String>) = runBlocking {
     for (queryFileIdx in 0 until queryFiles.size) {
         val queryFile = queryFiles[queryFileIdx]
         val query = File(queryFile).readAsString()
-        val timerFirst = BenchmarkUtils.timesHelperMark()
+        val timerFirst = DateHelper.markNow()
         HttpEndpoint.evaluate_sparql_query_string(query, true)
-        val timeFirst = BenchmarkUtils.timesHelperDuration(timerFirst)
+        val timeFirst = DateHelper.elapsedSeconds(timerFirst)
         groupSize[queryFileIdx] = 1+(1.0 / timeFirst).toInt()
         printBenchmarkTimesHelper()
-        val timer = BenchmarkUtils.timesHelperMark()
+        val timer = DateHelper.markNow()
         var time: Double
         var counter = 0
         while (true) {
-            counter += groupSize
-            for (i in 0 until groupSize) {
+            counter += groupSize[queryFileIdx]
+            for (i in 0 until groupSize[queryFileIdx]) {
                 HttpEndpoint.evaluate_sparql_query_string(query)
             }
-            time = BenchmarkUtils.timesHelperDuration(timer)
+            time = DateHelper.elapsedSeconds(timer)
             if (time > minimumTime) {
                 break
             }
@@ -100,15 +101,15 @@ fun main(args: Array<String>) = runBlocking {
         val node = HttpEndpoint.evaluate_sparql_query_string_part1(query, true)
         HttpEndpoint.evaluate_sparql_query_string_part2(node)
         printBenchmarkTimesHelper()
-        val timer = BenchmarkUtils.timesHelperMark()
+        val timer = DateHelper.markNow()
         var time: Double
         var counter = 0
         while (true) {
-            counter += groupSize
-            for (i in 0 until groupSize) {
+            counter += groupSize[queryFileIdx]
+            for (i in 0 until groupSize[queryFileIdx]) {
                 HttpEndpoint.evaluate_sparql_query_string_part2(node)
             }
-            time = BenchmarkUtils.timesHelperDuration(timer)
+            time = DateHelper.elapsedSeconds(timer)
             if (time > minimumTime) {
                 break
             }

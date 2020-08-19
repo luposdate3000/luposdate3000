@@ -1,4 +1,5 @@
 import kotlin.time.DurationUnit
+import lupos.s00misc.DateHelper
 import kotlin.time.TimeSource.Monotonic
 import kotlinx.coroutines.runBlocking
 import lupos.s00misc.File
@@ -24,19 +25,19 @@ fun main(args: Array<String>) = runBlocking {
     val originalTripleSize = args[6].toLong()
     val datasourceBNodeFile = args[7]
     val benchmarkname = args[8]
-    val timer = BenchmarkUtils.timesHelperMark()
+    val timer = DateHelper.markNow()
     JenaWrapper.loadFromFile(datasourceFiles)
-    val time = BenchmarkUtils.timesHelperDuration(timer)
+    val time = DateHelper.elapsedSeconds(timer)
     printBenchmarkLine("resources/${benchmarkname}/persistence-import.sparql", time, 1, numberOfTriples, originalTripleSize)
     for (queryFile in queryFiles) {
         val query = File(queryFile).readAsString()
-        val timer = BenchmarkUtils.timesHelperMark()
+        val timer = DateHelper.markNow()
         var time: Double
         var counter = 0
         while (true) {
             counter++
             JenaWrapper.execQuery(query, false)
-            time = BenchmarkUtils.timesHelperDuration(timer)
+            time = DateHelper.elapsedSeconds(timer)
             if (time > minimumTime) {
                 break
             }

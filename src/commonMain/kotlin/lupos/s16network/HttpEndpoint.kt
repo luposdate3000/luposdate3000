@@ -1,4 +1,5 @@
 package lupos.s16network
+import lupos.s00misc.DateHelper
 
 import kotlin.time.DurationUnit
 import kotlinx.coroutines.runBlocking
@@ -122,7 +123,7 @@ object HttpEndpoint {
             store.bulkImport { bulk ->
                 for (fileName in fileNames.split(";")) {
                     println("importing file '$fileName'")
-                    val startTime = BenchmarkUtils.timesHelperMark()
+                    val startTime = DateHelper.markNow()
                     val fileTriples = File(fileName + ".triples")
                     val fileDictionary = File(fileName + ".dictionary")
                     val fileDictionaryStat = File(fileName + ".stat")
@@ -141,7 +142,7 @@ object HttpEndpoint {
                             println("dictionary $idx / $size")
                         }
                     }
-                    val dictTime = BenchmarkUtils.timesHelperDuration(startTime)
+                    val dictTime = DateHelper.elapsedSeconds(startTime)
                     var cnt = fileTriples.length() / 12L
                     counter += cnt
                     fileTriples.dataInputStreamSuspended {
@@ -152,7 +153,7 @@ object HttpEndpoint {
                             bulk.insert(mapping[s], mapping[p], mapping[o])
                         }
                     }
-                    val totalTime = BenchmarkUtils.timesHelperDuration(startTime)
+                    val totalTime = DateHelper.elapsedSeconds(startTime)
                     val storeTime = totalTime - dictTime
                     println("imported file $fileName,$cnt,$totalTime,$dictTime,$storeTime")
                 }
@@ -177,7 +178,7 @@ object HttpEndpoint {
 
     suspend fun evaluate_sparql_query_string_part1(query: String, logOperatorGraph: Boolean = false): OPBase {
         val q = Query()
-//        var timer = BenchmarkUtils.timesHelperMark()
+//        var timer = DateHelper.markNow()
         GlobalLogger.log(ELoggerType.DEBUG, { "----------String Query" })
         GlobalLogger.log(ELoggerType.DEBUG, { query })
         GlobalLogger.log(ELoggerType.DEBUG, { "----------Abstract Syntax Tree" })
@@ -186,29 +187,29 @@ object HttpEndpoint {
         val ltit = LookAheadTokenIterator(tit, 3)
         val parser = SPARQLParser(ltit)
         val ast_node = parser.expr()
-//        BenchmarkUtils.timesHelperDuration(0, timer)
-//        timer = BenchmarkUtils.timesHelperMark()
+//        DateHelper.elapsedSeconds(0, timer)
+//        timer = DateHelper.markNow()
         GlobalLogger.log(ELoggerType.DEBUG, { ast_node })
         GlobalLogger.log(ELoggerType.DEBUG, { "----------Logical Operator Graph" })
         val lop_node = ast_node.visit(OperatorGraphVisitor(q))
-//        BenchmarkUtils.timesHelperDuration(1, timer)
-//        timer = BenchmarkUtils.timesHelperMark()
+//        DateHelper.elapsedSeconds(1, timer)
+//        timer = DateHelper.markNow()
         GlobalLogger.log(ELoggerType.DEBUG, { lop_node })
         GlobalLogger.log(ELoggerType.DEBUG, { "----------Logical Operator Graph optimized" })
         val lop_node2 = LogicalOptimizer(q).optimizeCall(lop_node)
-//        BenchmarkUtils.timesHelperDuration(2, timer)
-//        timer = BenchmarkUtils.timesHelperMark()
+//        DateHelper.elapsedSeconds(2, timer)
+//        timer = DateHelper.markNow()
         GlobalLogger.log(ELoggerType.DEBUG, { lop_node2 })
         GlobalLogger.log(ELoggerType.DEBUG, { "----------Physical Operator Graph" })
         val pop_optimizer = PhysicalOptimizer(q)
         val pop_node = pop_optimizer.optimizeCall(lop_node2)
-//        BenchmarkUtils.timesHelperDuration(3, timer)
-//        timer = BenchmarkUtils.timesHelperMark()
+//        DateHelper.elapsedSeconds(3, timer)
+//        timer = DateHelper.markNow()
         GlobalLogger.log(ELoggerType.DEBUG, { pop_node })
         GlobalLogger.log(ELoggerType.DEBUG, { "----------Distributed Operator Graph" })
         val pop_distributed_node = KeyDistributionOptimizer(q).optimizeCall(pop_node)
-//        BenchmarkUtils.timesHelperDuration(4, timer)
-//        timer = BenchmarkUtils.timesHelperMark()
+//        DateHelper.elapsedSeconds(4, timer)
+//        timer = DateHelper.markNow()
         GlobalLogger.log(ELoggerType.DEBUG, { pop_distributed_node })
         if (logOperatorGraph) {
             println("----------")
@@ -218,18 +219,18 @@ object HttpEndpoint {
             println("<<<<<<<<<<")
             println(OperatorGraphToLatex(pop_distributed_node.toXMLElement().toString(), ""))
         }
-//        BenchmarkUtils.timesHelperDuration(5, timer)
+//        DateHelper.elapsedSeconds(5, timer)
         return pop_distributed_node
     }
 
     suspend fun evaluate_sparql_query_string_part2(node: OPBase): String {
         node.query.reset()
-//        var timer = BenchmarkUtils.timesHelperMark()
+//        var timer = DateHelper.markNow()
         val res = QueryResultToString(node)
-//        BenchmarkUtils.timesHelperDuration(6, timer)
-//        timer = BenchmarkUtils.timesHelperMark()
+//        DateHelper.elapsedSeconds(6, timer)
+//        timer = DateHelper.markNow()
         node.query.commit()
-//        BenchmarkUtils.timesHelperDuration(7, timer)
+//        DateHelper.elapsedSeconds(7, timer)
         return res
     }
 
