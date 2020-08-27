@@ -132,6 +132,7 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
     var cachedHistograms2Size = 0
     var cachedHistograms2Cursor = 0
     val cachedHistograms2 = IntArray(400)
+
     inline fun clearCachedHistogram() {
         cachedHistograms1Size = 0
         cachedHistograms2Size = 0
@@ -294,9 +295,12 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
         val node = rootNode
         if (node != null) {
             if (filter.size == 3) {
-                if (NodeInner.iterator3(node, filter).hasNext()) {
-                    res = IteratorBundle(1)
+var count=0
+		var it=NodeInner.iterator3(node, filter, lock, 3)
+                while (it.next()!=ResultSetDictionary.nullValue) {
+count++
                 }
+                    res = IteratorBundle(count)
             } else if (filter.size == 2) {
                 if (projection[0] == "_") {
                     var count = 0
@@ -338,13 +342,7 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
                 } else {
                     SanityCheck.check { projection[1] == "_" }
                     SanityCheck.check { projection[2] == "_" }
-                    var count = 0
-                    var it = NodeInner.iterator(node)
-                    while (it.hasNext()) {
-                        it.next()
-                        count++
-                    }
-                    res = IteratorBundle(count)
+                    res = IteratorBundle(countPrimary)
                 }
             }
         }

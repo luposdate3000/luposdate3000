@@ -31,10 +31,6 @@ object NodeLeaf {
         return NodeLeafIterator(data)
     }
 
-    inline fun iterator3(data: ByteArray, prefix: IntArray): TripleIterator {
-        return NodeLeafIteratorPrefix3(data, prefix)
-    }
-
     suspend inline fun iterator(data: ByteArray, lock: ReadWriteLock, component: Int): ColumnIterator {
         when (component) {
             0 -> {
@@ -49,6 +45,19 @@ object NodeLeaf {
             }
             2 -> {
                 val res = NodeLeafColumnIterator2(data, lock)
+                res._init()
+                return res
+            }
+            else -> {
+                throw Exception("unreachable")
+            }
+        }
+    }
+
+    suspend inline fun iterator3(data: ByteArray, prefix: IntArray, lock: ReadWriteLock, component: Int): ColumnIterator {
+        when (component) {
+            2 -> {
+                val res = NodeLeafColumnIteratorPrefix3(data, prefix, lock)
                 res._init()
                 return res
             }

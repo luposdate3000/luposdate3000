@@ -258,15 +258,15 @@ object NodeInner {
         action(lastChildPointer)
     }
 
-    suspend inline fun iterator3(data: ByteArray, prefix: IntArray): TripleIterator {
+    suspend inline fun iterator3(data: ByteArray, prefix: IntArray, lock: ReadWriteLock, component: Int): ColumnIterator {
         var node = data
-        var iterator: TripleIterator? = null
+        var iterator: ColumnIterator? = null
         while (iterator == null) {
             findIteratorN(node, {
-                /*return*/ (it[0] < prefix[0]) || (it[0] == prefix[0] && it[1] < prefix[1]) || (it[0] == prefix[0] && it[1] == prefix[1] && it[2] < prefix[2])
+                /*return*/ (it[0] < prefix[0]) || (it[0] == prefix[0] && it[1] < prefix[1])|| (it[0] == prefix[0] && it[1] == prefix[1]&&it[2] < prefix[2])
             }, {
-                NodeManager.getNodeAny(it, {
-                    iterator = NodeLeaf.iterator3(it, prefix)
+                NodeManager.getNodeAnySuspended(it, {
+                    iterator = NodeLeaf.iterator3(it, prefix, lock, component)
                 }, {
                     node = it
                 })
