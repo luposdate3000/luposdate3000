@@ -275,40 +275,6 @@ object NodeInner {
         return iterator!!
     }
 
-    suspend inline fun iterator2(data: ByteArray, prefix: IntArray): TripleIterator {
-        var node = data
-        var iterator: TripleIterator? = null
-        while (iterator == null) {
-            findIteratorN(node, {
-                /*return*/ (it[0] < prefix[0]) || (it[0] == prefix[0] && it[1] < prefix[1])
-            }, {
-                NodeManager.getNodeAny(it, {
-                    iterator = NodeLeaf.iterator2(it, prefix)
-                }, {
-                    node = it
-                })
-            })
-        }
-        return iterator!!
-    }
-
-    suspend inline fun iterator1(data: ByteArray, prefix: IntArray): TripleIterator {
-        var node = data
-        var iterator: TripleIterator? = null
-        while (iterator == null) {
-            findIteratorN(node, {
-                /*return*/ (it[0] < prefix[0])
-            }, {
-                NodeManager.getNodeAny(it, {
-                    iterator = NodeLeaf.iterator1(it, prefix)
-                }, {
-                    node = it
-                })
-            })
-        }
-        return iterator!!
-    }
-
     suspend inline fun iterator2(data: ByteArray, prefix: IntArray, lock: ReadWriteLock, component: Int): ColumnIterator {
         var node = data
         var iterator: ColumnIterator? = null

@@ -7,7 +7,7 @@ import lupos.s00misc.readInt3
 import lupos.s00misc.readInt4
 import lupos.s00misc.SanityCheck
 
-class NodeLeafIterator(@JvmField var node: ByteArray) : TripleIterator() {
+class NodeLeafIterator(@JvmField var node: ByteArray,JvmField var nodeid:Int) : TripleIterator() {
     @JvmField
     var remaining = NodeShared.getTripleCount(node)
 
@@ -66,9 +66,10 @@ class NodeLeafIterator(@JvmField var node: ByteArray) : TripleIterator() {
             loop@ while (remaining == 0) {
                 needsReset = true
                 offset = NodeLeaf.startOffset
-                var nextNodeIdx = NodeShared.getNextNode(node)
-                if (nextNodeIdx != NodeManager.nodeNullPointer) {
-                    NodeManager.getNodeLeaf(nextNodeIdx, {
+                NodeManager.releaseNode(nodeid)
+nodeid = NodeShared.getNextNode(node)
+                if (nodeid != NodeManager.nodeNullPointer) {
+                    NodeManager.getNodeLeaf(nodeid, {
                         SanityCheck.check { node != it }
                         node = it
                         remaining = NodeShared.getTripleCount(node)

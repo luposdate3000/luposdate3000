@@ -9,7 +9,7 @@ import lupos.s00misc.SanityCheck
 
 var NodeLeafIteratorPrefixDebugUUID = 0
 
-abstract class NodeLeafIteratorPrefix(@JvmField var node: ByteArray, @JvmField val prefix: IntArray) : TripleIterator() {
+abstract class NodeLeafIteratorPrefix(@JvmField var node: ByteArray,JvmField var nodeid:Int, @JvmField val prefix: IntArray) : TripleIterator() {
     val uuid = NodeLeafIteratorPrefixDebugUUID++
 
     @JvmField
@@ -50,9 +50,10 @@ abstract class NodeLeafIteratorPrefix(@JvmField var node: ByteArray, @JvmField v
     /*inline*/ fun nextInternal() {
         if (remaining == 0) {
             while (remaining == 0) {
-                var nextNodeIdx = NodeShared.getNextNode(node)
-                if (nextNodeIdx != NodeManager.nodeNullPointer) {
-                    NodeManager.getNodeLeaf(nextNodeIdx, {
+NodeManager.releaseNode(nodeid)
+                nodeid = NodeShared.getNextNode(node)
+                if (nodeid != NodeManager.nodeNullPointer) {
+                    NodeManager.getNodeLeaf(nodeid, {
                         SanityCheck.check { node != it }
                         node = it
                         remaining = NodeShared.getTripleCount(node)

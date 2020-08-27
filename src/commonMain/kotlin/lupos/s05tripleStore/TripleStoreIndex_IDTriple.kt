@@ -227,29 +227,29 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
                         res = Pair(countPrimary, distinctPrimary)
                     }
                     1 -> {
-                        var iterator = NodeInner.iterator1(node, filter)
+                        var iterator = NodeInner.iterator1(node, filter, lock, 1)
                         var count = 0
                         var distinct = 0
-                        if (iterator.hasNext()) {
-                            var lastValue = iterator.next(1)
+			var lastValue=iterator.next()
+                        if (lastValue!=ResultSetDictionary.nullValue) {
                             distinct++
                             count++
-                            while (iterator.hasNext()) {
-                                var value = iterator.next(1)
+				var value=iterator.next()
+                            while (value!=ResultSetDictionary.nullValue) {
                                 count++
                                 if (value != lastValue) {
                                     distinct++
                                 }
                                 lastValue = value
+				value=iterator.next()
                             }
                         }
                         res = Pair(count, distinct)
                     }
                     2 -> {
-                        var iterator = NodeInner.iterator2(node, filter)
+                        var iterator = NodeInner.iterator2(node, filter, lock, 2)
                         var count = 0
-                        while (iterator.hasNext()) {
-                            iterator.next()
+                        while (iterator.next()!=ResultSetDictionary.nullValue) {
                             count++
                         }
                         res = Pair(count, count)
@@ -300,9 +300,8 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
             } else if (filter.size == 2) {
                 if (projection[0] == "_") {
                     var count = 0
-                    var it = NodeInner.iterator2(node, filter)
-                    while (it.hasNext()) {
-                        it.next()
+                    var it = NodeInner.iterator2(node, filter, lock, 2)
+                    while (it.next()!=ResultSetDictionary.nullValue) {
                         count++
                     }
                     res = IteratorBundle(count)
@@ -318,9 +317,8 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
                 } else {
                     SanityCheck.check { projection[1] == "_" }
                     var count = 0
-                    var it = NodeInner.iterator1(node, filter)
-                    while (it.hasNext()) {
-                        it.next()
+                    var it = NodeInner.iterator1(node, filter, lock, 1)
+                    while (it.next()!=ResultSetDictionary.nullValue) {
                         count++
                     }
                     res = IteratorBundle(count)

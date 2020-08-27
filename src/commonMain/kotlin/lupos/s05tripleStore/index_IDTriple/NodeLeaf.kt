@@ -35,14 +35,6 @@ object NodeLeaf {
         return NodeLeafIteratorPrefix3(data, prefix)
     }
 
-    inline fun iterator2(data: ByteArray, prefix: IntArray): TripleIterator {
-        return NodeLeafIteratorPrefix2(data, prefix)
-    }
-
-    inline fun iterator1(data: ByteArray, prefix: IntArray): TripleIterator {
-        return NodeLeafIteratorPrefix1(data, prefix)
-    }
-
     suspend inline fun iterator(data: ByteArray, lock: ReadWriteLock, component: Int): ColumnIterator {
         when (component) {
             0 -> {

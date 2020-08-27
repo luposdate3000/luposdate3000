@@ -13,11 +13,6 @@ object NodeManager {
     @JvmField
     val bufferManager = BufferManager("id_triples")
 
-    @JvmField
-    var allNodesLeafSize = 0
-
-    @JvmField
-    var allNodesInnerSize = 0
     fun debug() {
     }
 
@@ -25,21 +20,17 @@ object NodeManager {
         SanityCheck.println { "debug NodeManager saving to folder '${BufferManager.bufferPrefix + "nodemanager/"}'" }
         File(BufferManager.bufferPrefix + "nodemanager/").mkdirs()
         debug()
-        File(BufferManager.bufferPrefix + "nodemanager/header").dataOutputStream { out ->
-            out.writeInt(allNodesLeafSize)
-            out.writeInt(allNodesInnerSize)
-        }
         bufferManager.safeToFolder()
     }
 
     suspend    /*inline*/ fun loadFromFolder() {
         SanityCheck.println({ "debug NodeManager loading from folder '${BufferManager.bufferPrefix + "nodemanager/"}'" })
         bufferManager.loadFromFolder()
-        File(BufferManager.bufferPrefix + "nodemanager/header").dataInputStream { fis ->
-            allNodesLeafSize = fis.readInt()
-            allNodesInnerSize = fis.readInt()
-        }
     }
+
+inline fun releaseNode(pageid:Int){
+bufferManager.releasePage(pageid)
+}
 
     inline fun getNodeLeaf(pageid: Int, crossinline actionLeaf: (ByteArray) -> Unit) {
         SanityCheck.println({ "debug NodeManager getNode ${pageid.toString(16)}" })
@@ -93,7 +84,6 @@ object NodeManager {
             node = p
             pageid = i
         }
-        allNodesLeafSize++
         SanityCheck.println({ "debug NodeManager allocateNodeLeafB ${pageid.toString(16)}" })
         NodeShared.setNodeType(node!!, nodeTypeLeaf)
         NodeShared.setNextNode(node!!, nodeNullPointer)
@@ -110,7 +100,6 @@ object NodeManager {
             node = p
             pageid = i
         }
-        allNodesInnerSize++
         SanityCheck.println({ "debug NodeManager allocateNodeInnerB ${pageid.toString(16)}" })
         NodeShared.setNodeType(node!!, nodeTypeInner)
         NodeShared.setNextNode(node!!, nodeNullPointer)

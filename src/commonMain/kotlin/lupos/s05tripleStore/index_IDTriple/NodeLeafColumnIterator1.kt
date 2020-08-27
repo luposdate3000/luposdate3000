@@ -11,7 +11,7 @@ import lupos.s00misc.SanityCheck
 import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s04logicalOperators.iterator.ColumnIterator
 
-class NodeLeafColumnIterator1(@JvmField var node: ByteArray, @JvmField val lock: ReadWriteLock) : ColumnIterator() {
+class NodeLeafColumnIterator1(@JvmField var node: ByteArray,JvmField var nodeid:Int, @JvmField val lock: ReadWriteLock) : ColumnIterator() {
     @JvmField
     var remaining = 0
 
@@ -36,6 +36,7 @@ class NodeLeafColumnIterator1(@JvmField var node: ByteArray, @JvmField val lock:
     suspend inline fun _close() {
         if (label != 0) {
             label = 0
+NodeManager.releaseNode(nodeid)
             SanityCheck.println({ "lock(${lock.uuid}).readUnlock 24 a" })
             lock.readUnlock()
             SanityCheck.println({ "lock(${lock.uuid}).readUnlock 24 b" })
@@ -92,9 +93,10 @@ class NodeLeafColumnIterator1(@JvmField var node: ByteArray, @JvmField val lock:
                 loop@ while (remaining == 0) {
                     needsReset = true
                     offset = NodeLeaf.startOffset
-                    var nextNodeIdx = NodeShared.getNextNode(node)
-                    if (nextNodeIdx != NodeManager.nodeNullPointer) {
-                        NodeManager.getNodeLeaf(nextNodeIdx, {
+                    NodeManager.releaseNode(nodeid)
+nodeid = NodeShared.getNextNode(node)
+                    if (nodeid != NodeManager.nodeNullPointer) {
+                        NodeManager.getNodeLeaf(nodeid, {
                             SanityCheck.check { node != it }
                             node = it
                             remaining = NodeShared.getTripleCount(node)

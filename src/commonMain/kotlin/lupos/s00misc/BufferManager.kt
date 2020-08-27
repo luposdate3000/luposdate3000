@@ -55,6 +55,9 @@ class BufferManager(@JvmField val bufferName: String) {
     var allPages = Array<ByteArray>(100) { ByteArray(PAGE_SIZE_IN_BYTES) }
 
     @JvmField
+    var allPagesRefcounters = IntArray(100)
+
+    @JvmField
     var counter = 0
 
     @JvmField
@@ -62,34 +65,47 @@ class BufferManager(@JvmField val bufferName: String) {
 
     @JvmField
     val freeList = mutableListOf<Int>()
+
     inline suspend fun clear() = lock.withWriteLock {
         clearAssumeLocks()
     }
 
     inline suspend fun clearAssumeLocks() {
         counter = 0
+        SanityCheck {
+            for (i in 0 until counter) {
+                SanityCheck.check { allPagesRefcounters[pageid] == 0 }
+            }
+        }
         allPages = Array<ByteArray>(100) { ByteArray(PAGE_SIZE_IN_BYTES) }
+        allPagesRefcounters = IntArray(100)
         freeList.clear()
     }
 
+    inline fun releasePage(pageid: Int) {
+        SanityCheck.check { allPagesRefcounters[pageid] > 0 }
+        allPagesRefcounters[pageid]--
+    }
+
     inline fun getPage(pageid: Int): ByteArray {
-//no locking required, assuming an assignment to 'allPages' is atomic
+        //no locking required, assuming an assignment to 'allPages' is atomic
         SanityCheck { !freeList.contains(pageid) }
+        allPagesRefcounters[pageid]++
         return allPages[pageid]
     }
 
     inline suspend fun createPage(crossinline action: (ByteArray, Int) -> Unit) = lock.withWriteLock {
-        val id: Int
+        val pageid: Int
         if (freeList.size > 0 && useFreeList) {
-            id = freeList.removeAt(0)
+            pageid = freeList.removeAt(0)
         } else {
             if (counter == allPages.size) {
-var size=counter*2
-if(size<100){
-size=100
-}else if(counter>1000){
-size=counter+1000
-}
+                var size = counter * 2
+                if (size < 100) {
+                    size = 100
+                } else if (counter > 1000) {
+                    size = counter + 1000
+                }
                 val tmp = Array<ByteArray>(size) {
                     val res: ByteArray
                     if (it < counter) {
@@ -99,15 +115,28 @@ size=counter+1000
                     }
                     /*return*/ res
                 }
+                val tmp2 = IntArray(size) {
+                    var res: Int
+                    if (it < counter) {
+                        res = allPagesRefcounters[it]
+                    } else {
+                        res = 0
+                    }
+                    /*return*/ res
+                }
                 allPages = tmp
+                allPagesRefcounters = res2
             }
-            id = counter++
+            pageid = counter++
         }
-        action(allPages[id], id)
+        allPagesRefcounters[pageid]++
+        action(allPages[pageid], pageid)
     }
 
     inline suspend fun deletePage(pageid: Int) = lock.withWriteLock {
         SanityCheck.check { !freeList.contains(pageid) }
+        SanityCheck.check { allPagesRefcounters[pageid] == 1 }
+	allPagesRefcounters[pageid]=0
         freeList.add(pageid)
         if (freeList.size == counter) {
             clearAssumeLocks()
@@ -144,6 +173,7 @@ size=counter+1000
             }
         }
         allPages = Array<ByteArray>(counter) { ByteArray(PAGE_SIZE_IN_BYTES) }
+        allPagesRefcounters = IntArray(counter)
         File(bufferPrefix + "buffermanager/" + bufferName + ".data").dataInputStream { fis ->
             for (i in 0 until counter) {
                 fis.read(allPages[i])
