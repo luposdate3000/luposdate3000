@@ -7,7 +7,7 @@ import lupos.s00misc.readInt3
 import lupos.s00misc.readInt4
 import lupos.s00misc.SanityCheck
 
-class NodeLeafIterator(@JvmField var node: ByteArray,JvmField var nodeid:Int) : TripleIterator() {
+class NodeLeafIterator(@JvmField var node: ByteArray,@JvmField var nodeid:Int) : TripleIterator() {
     @JvmField
     var remaining = NodeShared.getTripleCount(node)
 
@@ -67,9 +67,11 @@ class NodeLeafIterator(@JvmField var node: ByteArray,JvmField var nodeid:Int) : 
             loop@ while (remaining == 0) {
                 needsReset = true
                 offset = NodeLeaf.startOffset
+SanityCheck.println({ "Outside.refcount($nodeid) ${NodeManager.bufferManager.allPagesRefcounters[nodeid]} x40" })
                 NodeManager.releaseNode(nodeid)
 nodeid = NodeShared.getNextNode(node)
                 if (nodeid != NodeManager.nodeNullPointer) {
+SanityCheck.println({ "Outside.refcount($nodeid) ${NodeManager.bufferManager.allPagesRefcounters[nodeid]} x08" })
                     NodeManager.getNodeLeaf(nodeid, {
                         SanityCheck.check { node != it }
                         node = it

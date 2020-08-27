@@ -121,7 +121,7 @@ class PhysicalOptimizerJoinType(query: Query) : OptimizerBase(query, EOptimizerI
                     }
                 }
             }
-            SanityCheck { res.getProvidedVariableNames().containsAll(node.mySortPriority.map { it.variableName }) }
+            SanityCheck.check { res.getProvidedVariableNames().containsAll(node.mySortPriority.map { it.variableName }) }
             res.mySortPriority = node.mySortPriority
             res.sortPriorities = node.sortPriorities
             onChange()

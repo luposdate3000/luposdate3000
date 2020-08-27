@@ -48,12 +48,12 @@ class POPDebug(query: Query, projectedVariables: List<String>, child: OPBase) : 
                     for ((k, v) in child.columns) {
                         columnMode.add(k)
                     }
-                    SanityCheck { columnMode.containsAll(target) }
-                    SanityCheck { target.containsAll(columnMode) }
+                    SanityCheck.check { columnMode.containsAll(target) }
+                    SanityCheck.check { target.containsAll(columnMode) }
                 } else if (child.hasRowMode()) {
                     val rowMode = child.rows.columns.toMutableList()
-                    SanityCheck { rowMode.containsAll(target) }
-                    SanityCheck { target.containsAll(rowMode) }
+                    SanityCheck.check { rowMode.containsAll(target) }
+                    SanityCheck.check { target.containsAll(rowMode) }
                 }
                 return child
             }
@@ -102,13 +102,13 @@ class POPDebug(query: Query, projectedVariables: List<String>, child: OPBase) : 
                         }
                         outMap[k] = iterator
                     }
-                    SanityCheck { columnMode.containsAll(target) }
-                    SanityCheck { target.containsAll(columnMode) }
+                    SanityCheck.check { columnMode.containsAll(target) }
+                    SanityCheck.check { target.containsAll(columnMode) }
                     return IteratorBundle(outMap)
                 } else if (child.hasRowMode()) {
                     val rowMode = child.rows.columns.toMutableList()
-                    SanityCheck { rowMode.containsAll(target) }
-                    SanityCheck { target.containsAll(rowMode) }
+                    SanityCheck.check { rowMode.containsAll(target) }
+                    SanityCheck.check { target.containsAll(rowMode) }
                     val iterator = RowIterator()
                     var counter = 0
                     iterator.columns = child.rows.columns

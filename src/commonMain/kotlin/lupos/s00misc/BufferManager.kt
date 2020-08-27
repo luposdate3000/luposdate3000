@@ -16,7 +16,7 @@ class BufferManager(@JvmField val bufferName: String) {
      * additionally this should make it more easy to exchange this with on disk storage
      */
     companion object {
-        const val useFreeList = true
+        const val useFreeList = false
 
         @JvmField
         var bufferPrefix: String
@@ -74,7 +74,7 @@ class BufferManager(@JvmField val bufferName: String) {
         counter = 0
         SanityCheck {
             for (i in 0 until counter) {
-                SanityCheck.check { allPagesRefcounters[pageid] == 0 }
+                SanityCheck.check ({ allPagesRefcounters[i] == 0 },{"Failed requirement pageid = $i"})
             }
         }
         allPages = Array<ByteArray>(100) { ByteArray(PAGE_SIZE_IN_BYTES) }
@@ -83,14 +83,16 @@ class BufferManager(@JvmField val bufferName: String) {
     }
 
     inline fun releasePage(pageid: Int) {
-        SanityCheck.check { allPagesRefcounters[pageid] > 0 }
+        SanityCheck.check ({ allPagesRefcounters[pageid] > 0 },{"Failed requirement pageid = $pageid"})
         allPagesRefcounters[pageid]--
+SanityCheck.println({ "BufferManager.refcount($pageid) decreased a ${allPagesRefcounters[pageid]}" })
     }
 
     inline fun getPage(pageid: Int): ByteArray {
         //no locking required, assuming an assignment to 'allPages' is atomic
-        SanityCheck { !freeList.contains(pageid) }
+        SanityCheck.check { !freeList.contains(pageid) }
         allPagesRefcounters[pageid]++
+SanityCheck.println({ "BufferManager.refcount($pageid) increased a ${allPagesRefcounters[pageid]}" })
         return allPages[pageid]
     }
 
@@ -125,18 +127,20 @@ class BufferManager(@JvmField val bufferName: String) {
                     /*return*/ res
                 }
                 allPages = tmp
-                allPagesRefcounters = res2
+                allPagesRefcounters = tmp2
             }
             pageid = counter++
         }
         allPagesRefcounters[pageid]++
+SanityCheck.println({ "BufferManager.refcount($pageid) increased b ${allPagesRefcounters[pageid]}" })
         action(allPages[pageid], pageid)
     }
 
     inline suspend fun deletePage(pageid: Int) = lock.withWriteLock {
         SanityCheck.check { !freeList.contains(pageid) }
-        SanityCheck.check { allPagesRefcounters[pageid] == 1 }
+   SanityCheck.check ({ allPagesRefcounters[pageid] == 1} ,{"Failed requirement pageid = $pageid"})
 	allPagesRefcounters[pageid]=0
+SanityCheck.println({ "BufferManager.refcount($pageid) decreased b ${allPagesRefcounters[pageid]}" })
         freeList.add(pageid)
         if (freeList.size == counter) {
             clearAssumeLocks()
@@ -147,6 +151,7 @@ class BufferManager(@JvmField val bufferName: String) {
     }
 
     suspend fun safeToFolder() = lock.withWriteLock {
+/*
         File(bufferPrefix + "buffermanager").mkdirs()
         File(bufferPrefix + "buffermanager/" + bufferName + ".data").dataOutputStream { fos ->
             for (i in 0 until counter) {
@@ -160,9 +165,11 @@ class BufferManager(@JvmField val bufferName: String) {
                 fos.writeInt(v)
             }
         }
+*/
     }
 
     suspend fun loadFromFolder() = lock.withWriteLock {
+/*
         File(bufferPrefix + "buffermanager/" + bufferName + ".header").dataInputStream { fis ->
             counter = fis.readInt()
             val size = fis.readInt()
@@ -173,11 +180,13 @@ class BufferManager(@JvmField val bufferName: String) {
             }
         }
         allPages = Array<ByteArray>(counter) { ByteArray(PAGE_SIZE_IN_BYTES) }
+SanityCheck.println({ "BufferManager.refcount($pageid) reset due to reload" })
         allPagesRefcounters = IntArray(counter)
         File(bufferPrefix + "buffermanager/" + bufferName + ".data").dataInputStream { fis ->
             for (i in 0 until counter) {
                 fis.read(allPages[i])
             }
         }
+*/
     }
 }

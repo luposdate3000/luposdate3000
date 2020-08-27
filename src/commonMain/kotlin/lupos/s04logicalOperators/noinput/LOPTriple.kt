@@ -100,7 +100,7 @@ class LOPTriple(query: Query, s: AOPBase, p: AOPBase, o: AOPBase, @JvmField val 
     }
 
     suspend override fun calculateHistogram(): HistogramResult {
-        SanityCheck { !graphVar }
+        SanityCheck.check { !graphVar }
         var res = HistogramResult()
         res.count = -1
         var store = DistributedTripleStore.getNamedGraph(query, graph)

@@ -190,7 +190,7 @@ class DistributedGraph(val query: Query, @JvmField val name: String) {
                     }
                 }
             }
-            SanityCheck { variableNames == 1 }
+            SanityCheck.check { variableNames == 1 }
         }
         return ServerCommunicationSend.histogramGet(query, name, TripleStoreFeatureParamsDefault(idx, params))
     }

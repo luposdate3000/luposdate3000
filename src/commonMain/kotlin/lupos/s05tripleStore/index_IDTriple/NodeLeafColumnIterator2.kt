@@ -11,7 +11,7 @@ import lupos.s00misc.SanityCheck
 import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s04logicalOperators.iterator.ColumnIterator
 
-class NodeLeafColumnIterator2(@JvmField var node: ByteArray,JvmField var nodeid:Int, @JvmField val lock: ReadWriteLock) : ColumnIterator() {
+class NodeLeafColumnIterator2(@JvmField var node: ByteArray,@JvmField var nodeid:Int, @JvmField val lock: ReadWriteLock) : ColumnIterator() {
     @JvmField
     var remaining = 0
 
@@ -27,19 +27,18 @@ class NodeLeafColumnIterator2(@JvmField var node: ByteArray,JvmField var nodeid:
     @JvmField
     var value = 0
     inline suspend fun _init() {
-        SanityCheck.println({ "lock(${lock.uuid}).readLock 25 a" })
         lock.readLock()
-        SanityCheck.println({ "lock(${lock.uuid}).readLock 25 b" })
         remaining = NodeShared.getTripleCount(node)
     }
 
     suspend inline fun _close() {
         if (label != 0) {
             label = 0
+if(nodeid!=NodeManager.nodeNullPointer){
+SanityCheck.println({ "Outside.refcount($nodeid) ${NodeManager.bufferManager.allPagesRefcounters[nodeid]} x32" })
 NodeManager.releaseNode(nodeid)
-            SanityCheck.println({ "lock(${lock.uuid}).readUnlock 26 a" })
+}
             lock.readUnlock()
-            SanityCheck.println({ "lock(${lock.uuid}).readUnlock 26 b" })
         }
     }
 
@@ -93,9 +92,11 @@ NodeManager.releaseNode(nodeid)
                 loop@ while (remaining == 0) {
                     needsReset = true
                     offset = NodeLeaf.startOffset
+SanityCheck.println({ "Outside.refcount($nodeid) ${NodeManager.bufferManager.allPagesRefcounters[nodeid]} x33" })
                     NodeManager.releaseNode(nodeid)
 nodeid = NodeShared.getNextNode(node)
                     if (nodeid != NodeManager.nodeNullPointer) {
+SanityCheck.println({ "Outside.refcount($nodeid) ${NodeManager.bufferManager.allPagesRefcounters[nodeid]} x04" })
                         NodeManager.getNodeLeaf(nodeid, {
                             SanityCheck.check { node != it }
                             node = it

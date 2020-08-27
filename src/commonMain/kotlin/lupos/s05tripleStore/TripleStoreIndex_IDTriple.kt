@@ -1,5 +1,6 @@
 package lupos.s05tripleStore
 
+import lupos.s03resultRepresentation.ResultSetDictionary
 import kotlin.jvm.JvmField
 import lupos.s00misc.BenchmarkUtils
 import lupos.s00misc.EBenchmark
@@ -55,6 +56,7 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
         SanityCheck.suspended {
             if (root != NodeManager.nodeNullPointer) {
                 var found = false
+                SanityCheck.println({ "Outside.refcount($root) ${NodeManager.bufferManager.allPagesRefcounters[root]} x25" })
                 NodeManager.getNodeAny(root, {
                     SanityCheck.println { "root is inner node" }
                     SanityCheck.checkUnreachable()
@@ -85,16 +87,13 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
                 }
             }
         }
-        SanityCheck.println({ "lock(${lock.uuid}).readUnlock 1 a" })
         lock.readUnlock()
-        SanityCheck.println({ "lock(${lock.uuid}).readUnlock 1 b" })
     }
 
     suspend override fun loadFromFile(filename: String) {
-        SanityCheck.println({ "lock(${lock.uuid}).writeLock 2 a" })
-        lock.writeLock()
-        SanityCheck.println({ "lock(${lock.uuid}).writeLock 2 b" })
-        pendingImport.clear()
+        clear()
+	lock.writeLock()
+SanityCheck.check{rootNode==null}
         File(filename).dataInputStreamSuspended { fis ->
             firstLeaf = fis.readInt()
             root = fis.readInt()
@@ -103,6 +102,7 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
             if (root == NodeManager.nodeNullPointer) {
                 rootNode = null
             } else {
+                SanityCheck.println({ "Outside.refcount($root) ${NodeManager.bufferManager.allPagesRefcounters[root]} x15" })
                 NodeManager.getNodeInner(root, {
                     rootNode = it
                 })
@@ -121,9 +121,7 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
                 }
             }
         }
-        SanityCheck.println({ "lock(${lock.uuid}).writeUnlock 3 a" })
         lock.writeUnlock()
-        SanityCheck.println({ "lock(${lock.uuid}).writeUnlock 3 b" })
     }
 
     var cachedHistograms1Size = 0
@@ -218,9 +216,7 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
         val filter = (params as TripleStoreFeatureParamsDefault).getFilter(query)
         var res: Pair<Int, Int>? = checkForCachedHistogram(filter)
         if (res == null) {
-            SanityCheck.println({ "lock(${lock.uuid}).readLock 4 a" })
             lock.readLock()
-            SanityCheck.println({ "lock(${lock.uuid}).readLock 4 b" })
             val node = rootNode
             if (node != null) {
                 when (filter.size) {
@@ -231,18 +227,18 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
                         var iterator = NodeInner.iterator1(node, filter, lock, 1)
                         var count = 0
                         var distinct = 0
-			var lastValue=iterator.next()
-                        if (lastValue!=ResultSetDictionary.nullValue) {
+                        var lastValue = iterator.next()
+                        if (lastValue != ResultSetDictionary.nullValue) {
                             distinct++
                             count++
-				var value=iterator.next()
-                            while (value!=ResultSetDictionary.nullValue) {
+                            var value = iterator.next()
+                            while (value != ResultSetDictionary.nullValue) {
                                 count++
                                 if (value != lastValue) {
                                     distinct++
                                 }
                                 lastValue = value
-				value=iterator.next()
+                                value = iterator.next()
                             }
                         }
                         res = Pair(count, distinct)
@@ -250,7 +246,7 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
                     2 -> {
                         var iterator = NodeInner.iterator2(node, filter, lock, 2)
                         var count = 0
-                        while (iterator.next()!=ResultSetDictionary.nullValue) {
+                        while (iterator.next() != ResultSetDictionary.nullValue) {
                             count++
                         }
                         res = Pair(count, count)
@@ -265,9 +261,7 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
             } else {
                 res = Pair(0, 0)
             }
-            SanityCheck.println({ "lock(${lock.uuid}).readUnlock 5 a" })
             lock.readUnlock()
-            SanityCheck.println({ "lock(${lock.uuid}).readUnlock 5 b" })
             updateCachedHistogram(filter, res!!)
         }
         return res!!
@@ -295,17 +289,17 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
         val node = rootNode
         if (node != null) {
             if (filter.size == 3) {
-var count=0
-		var it=NodeInner.iterator3(node, filter, lock, 3)
-                while (it.next()!=ResultSetDictionary.nullValue) {
-count++
+                var count = 0
+                var it = NodeInner.iterator3(node, filter, lock, 3)
+                while (it.next() != ResultSetDictionary.nullValue) {
+                    count++
                 }
-                    res = IteratorBundle(count)
+                res = IteratorBundle(count)
             } else if (filter.size == 2) {
                 if (projection[0] == "_") {
                     var count = 0
                     var it = NodeInner.iterator2(node, filter, lock, 2)
-                    while (it.next()!=ResultSetDictionary.nullValue) {
+                    while (it.next() != ResultSetDictionary.nullValue) {
                         count++
                     }
                     res = IteratorBundle(count)
@@ -322,7 +316,7 @@ count++
                     SanityCheck.check { projection[1] == "_" }
                     var count = 0
                     var it = NodeInner.iterator1(node, filter, lock, 1)
-                    while (it.next()!=ResultSetDictionary.nullValue) {
+                    while (it.next() != ResultSetDictionary.nullValue) {
                         count++
                     }
                     res = IteratorBundle(count)
@@ -346,9 +340,7 @@ count++
                 }
             }
         }
-        SanityCheck.println({ "lock(${lock.uuid}).readUnlock 6 a" })
         lock.readUnlock()
-        SanityCheck.println({ "lock(${lock.uuid}).readUnlock 6 b" })
         return res
     }
 
@@ -359,14 +351,18 @@ count++
     suspend fun importHelper(a: Int, b: Int): Int {
         var nodeA: ByteArray? = null
         var nodeB: ByteArray? = null
+        SanityCheck.println({ "Outside.refcount($a) ${NodeManager.bufferManager.allPagesRefcounters[a]} x10" })
         NodeManager.getNodeLeaf(a, {
             nodeA = it
         })
+        SanityCheck.println({ "Outside.refcount($b) ${NodeManager.bufferManager.allPagesRefcounters[b]} x11" })
         NodeManager.getNodeLeaf(b, {
             nodeB = it
         })
-        val res = importHelper(MergeIterator(NodeLeaf.iterator(nodeA!!), NodeLeaf.iterator(nodeB!!)))
+        val res = importHelper(MergeIterator(NodeLeaf.iterator(nodeA!!, a), NodeLeaf.iterator(nodeB!!, b)))
+        SanityCheck.println({ "Outside.refcount($a) ${NodeManager.bufferManager.allPagesRefcounters[a]} x46" })
         NodeManager.freeAllLeaves(a)
+        SanityCheck.println({ "Outside.refcount($b) ${NodeManager.bufferManager.allPagesRefcounters[b]} x47" })
         NodeManager.freeAllLeaves(b)
         return res
     }
@@ -374,56 +370,50 @@ count++
     suspend fun importHelper(iterator: TripleIterator): Int {
         var res = NodeManager.nodeNullPointer
         var node2: ByteArray? = null
+        SanityCheck.println({ "Outside.refcount(??) - x50" })
         NodeManager.allocateNodeLeaf { n, i ->
             res = i
             node2 = n
         }
+	var nodeid=res
         var node = node2!!
         NodeLeaf.initializeWith(node, iterator)
         while (iterator.hasNext()) {
+            SanityCheck.println({ "Outside.refcount(??) - x51" })
             NodeManager.allocateNodeLeaf { n, i ->
+SanityCheck.println({ "Outside.refcount($nodeid) ${NodeManager.bufferManager.allPagesRefcounters[nodeid]} x61" })
+		NodeManager.releaseNode(nodeid)
+		nodeid=i
                 NodeShared.setNextNode(node, i)
                 node = n
             }
             NodeLeaf.initializeWith(node, iterator)
         }
+	SanityCheck.println({ "Outside.refcount($nodeid) ${NodeManager.bufferManager.allPagesRefcounters[nodeid]} x62" })
+	NodeManager.releaseNode(nodeid)
         return res
     }
 
     suspend override fun flush() {
         if (pendingImport.size > 0) {
-            SanityCheck.println({ "lock(${lock.uuid}).writeLock 7 a" })
             lock.writeLock()
-            SanityCheck.println({ "lock(${lock.uuid}).writeLock 7 b" })
             flushAssumeLocks()
-            SanityCheck.println({ "lock(${lock.uuid}).writeUnlock 8 a" })
             lock.writeUnlock()
-            SanityCheck.println({ "lock(${lock.uuid}).writeUnlock 8 b" })
         }
     }
 
     inline suspend fun flushContinueWithWriteLock() {
-        SanityCheck.println({ "lock(${lock.uuid}).WriteLock 9 a" })
         lock.writeLock()
-        SanityCheck.println({ "lock(${lock.uuid}).WriteLock 9 b" })
         flushAssumeLocks()
     }
 
     inline suspend fun flushContinueWithReadLock() {
-        SanityCheck.println({ "lock(${lock.uuid}).ReadLock 10 a" })
         lock.readLock()
-        SanityCheck.println({ "lock(${lock.uuid}).ReadLock 10 b" })
         if (pendingImport.size > 0) {
-            SanityCheck.println({ "lock(${lock.uuid}).ReadUnlock 11 a" })
             lock.readUnlock()
-            SanityCheck.println({ "lock(${lock.uuid}).ReadUnlock 11 b" })
-            SanityCheck.println({ "lock(${lock.uuid}).Writelock 12 a" })
             lock.writeLock()
-            SanityCheck.println({ "lock(${lock.uuid}).Writelock 12 b" })
             flushAssumeLocks()
-            SanityCheck.println({ "lock(${lock.uuid}).downgradeToReadLock 13 a" })
             lock.downgradeToReadLock()
-            SanityCheck.println({ "lock(${lock.uuid}).downgradeToReadLock 13 b" })
         }
     }
 
@@ -446,6 +436,7 @@ count++
             val firstLeaf2 = pendingImport[pendingImport.size - 1]!!
             var node: ByteArray? = null
             var flag = false
+            SanityCheck.println({ "Outside.refcount($firstLeaf2) ${NodeManager.bufferManager.allPagesRefcounters[firstLeaf2]} x26" })
             NodeManager.getNodeAny(firstLeaf2, {
                 flag = true
                 node = it
@@ -459,10 +450,11 @@ count++
             root = NodeManager.nodeNullPointer
             firstLeaf = NodeManager.nodeNullPointer
             if (flag) {
-                rebuildData(NodeLeaf.iterator(node!!))
+                rebuildData(NodeLeaf.iterator(node!!, firstLeaf2))
             } else {
                 rebuildData(NodeInner.iterator(node!!))
             }
+            SanityCheck.println({ "Outside.refcount($firstLeaf2) ${NodeManager.bufferManager.allPagesRefcounters[firstLeaf2]} x48" })
             NodeManager.freeAllLeaves(firstLeaf2)
             pendingImport.clear()
             BenchmarkUtils.elapsedSeconds(EBenchmark.IMPORT_REBUILD_MAP)
@@ -470,9 +462,7 @@ count++
     }
 
     suspend override fun import(dataImport: IntArray, count: Int, order: IntArray) {
-        SanityCheck.println({ "lock(${lock.uuid}).Writelock 14 a" })
         lock.writeLock()
-        SanityCheck.println({ "lock(${lock.uuid}).Writelock 14 b" })
         BenchmarkUtils.start(EBenchmark.IMPORT_MERGE_DATA)
         if (count > 0) {
             val iteratorImport = BulkImportIterator(dataImport, count, order)
@@ -480,8 +470,12 @@ count++
             var newFirstLeaf = importHelper(iterator)
             if (firstLeaf != NodeManager.nodeNullPointer) {
                 pendingImport.add(firstLeaf)
+                SanityCheck.println({ "Outside.refcount($root) ${NodeManager.bufferManager.allPagesRefcounters[root]} x49" })
                 NodeManager.freeAllInnerNodes(root)
                 firstLeaf = NodeManager.nodeNullPointer
+SanityCheck.check{root != NodeManager.nodeNullPointer}
+SanityCheck.println({ "Outside.refcount($root) ${NodeManager.bufferManager.allPagesRefcounters[root]} x60" })
+NodeManager.releaseNode(root)
                 root = NodeManager.nodeNullPointer
                 rootNode = null
             }
@@ -511,9 +505,7 @@ count++
             }
         }
         BenchmarkUtils.elapsedSeconds(EBenchmark.IMPORT_MERGE_DATA)
-        SanityCheck.println({ "lock(${lock.uuid}).writeUnlock 15 a" })
         lock.writeUnlock()
-        SanityCheck.println({ "lock(${lock.uuid}).writeUnlock 15 b" })
     }
 
     suspend fun rebuildData(_iterator: TripleIterator) {
@@ -522,16 +514,22 @@ count++
         if (iterator.hasNext()) {
             var currentLayer = mutableListOf<Int>()
             var node2: ByteArray? = null
+            SanityCheck.println({ "Outside.refcount(??) - x52" })
             NodeManager.allocateNodeLeaf { n, i ->
                 firstLeaf = i
                 node2 = n
                 currentLayer.add(i)
             }
             var node = node2!!
+	var nodeid=firstLeaf
             NodeLeaf.initializeWith(node, iterator)
             while (iterator.hasNext()) {
+                SanityCheck.println({ "Outside.refcount(??) - x53" })
                 NodeManager.allocateNodeLeaf { n, i ->
                     NodeShared.setNextNode(node, i)
+SanityCheck.println({ "Outside.refcount(${nodeid}) ${NodeManager.bufferManager.allPagesRefcounters[nodeid]} x64" })
+NodeManager.releaseNode(nodeid)
+		nodeid=i
                     node = n
                     currentLayer.add(i)
                 }
@@ -541,14 +539,22 @@ count++
             while (currentLayer.size > 1) {
                 var tmp = mutableListOf<Int>()
                 var prev2: ByteArray? = null
+                SanityCheck.println({ "Outside.refcount(??) - x54" })
                 NodeManager.allocateNodeInner { n, i ->
+SanityCheck.println({ "Outside.refcount(${nodeid}) ${NodeManager.bufferManager.allPagesRefcounters[nodeid]} x65" })
+NodeManager.releaseNode(nodeid)
+                nodeid=i
                     tmp.add(i)
                     NodeInner.initializeWith(n, currentLayer)
                     prev2 = n
                 }
                 var prev = prev2!!
                 while (currentLayer.size > 0) {
+                    SanityCheck.println({ "Outside.refcount(??) - x55" })
                     NodeManager.allocateNodeInner { n, i ->
+SanityCheck.println({ "Outside.refcount(${nodeid}) ${NodeManager.bufferManager.allPagesRefcounters[nodeid]} x66" })
+NodeManager.releaseNode(nodeid)
+                nodeid=i
                         tmp.add(i)
                         NodeInner.initializeWith(n, currentLayer)
                         NodeShared.setNextNode(prev, i)
@@ -557,7 +563,11 @@ count++
                 }
                 currentLayer = tmp
             }
+SanityCheck.println({ "Outside.refcount(${nodeid}) ${NodeManager.bufferManager.allPagesRefcounters[nodeid]} x71" })
+NodeManager.releaseNode(nodeid)
             var rootNodeIsLeaf = false
+		SanityCheck.check{rootNode==null}
+            SanityCheck.println({ "Outside.refcount(${currentLayer[0]}) ${NodeManager.bufferManager.allPagesRefcounters[currentLayer[0]]} x27" })
             NodeManager.getNodeAny(currentLayer[0], {
                 rootNodeIsLeaf = true
             }, {
@@ -565,6 +575,9 @@ count++
                 root = currentLayer[0]
             })
             if (rootNodeIsLeaf) {
+SanityCheck.println({ "Outside.refcount(${nodeid}) ${NodeManager.bufferManager.allPagesRefcounters[nodeid]} x67" })
+NodeManager.releaseNode(nodeid)
+                SanityCheck.println({ "Outside.refcount(??) - x56" })
                 NodeManager.allocateNodeInner { n, i ->
                     NodeInner.initializeWith(n, mutableListOf(currentLayer[0]))
                     rootNode = n
@@ -573,6 +586,7 @@ count++
             }
         } else {
 //this index is cleared completely
+SanityCheck.check{rootNode==null}
             rootNode = null
             root = NodeManager.nodeNullPointer
             firstLeaf = NodeManager.nodeNullPointer
@@ -591,8 +605,9 @@ count++
         if (firstLeaf == NodeManager.nodeNullPointer) {
             iteratorStore2 = EmptyIterator()
         } else {
+            SanityCheck.println({ "Outside.refcount($firstLeaf) ${NodeManager.bufferManager.allPagesRefcounters[firstLeaf]} x12" })
             NodeManager.getNodeLeaf(firstLeaf, {
-                iteratorStore2 = NodeLeaf.iterator(it)
+                iteratorStore2 = NodeLeaf.iterator(it, firstLeaf)
             })
         }
         val iteratorStore = iteratorStore2!!
@@ -602,10 +617,11 @@ count++
         root = NodeManager.nodeNullPointer
         firstLeaf = NodeManager.nodeNullPointer
         rebuildData(iterator)
-        NodeManager.freeNodeAndAllRelated(oldroot)
-        SanityCheck.println({ "lock(${lock.uuid}).writeUnlock 16 a" })
+        if (oldroot != NodeManager.nodeNullPointer) {
+            SanityCheck.println({ "Outside.refcount($oldroot) ${NodeManager.bufferManager.allPagesRefcounters[oldroot]} x43" })
+            NodeManager.freeNodeAndAllRelated(oldroot)
+        }
         lock.writeUnlock()
-        SanityCheck.println({ "lock(${lock.uuid}).writeUnlock 16 b" })
     }
 
     suspend override fun removeAsBulk(data: IntArray, order: IntArray) {
@@ -617,8 +633,9 @@ count++
         if (firstLeaf == NodeManager.nodeNullPointer) {
             iteratorStore2 = EmptyIterator()
         } else {
+            SanityCheck.println({ "Outside.refcount($firstLeaf) ${NodeManager.bufferManager.allPagesRefcounters[firstLeaf]} x13" })
             NodeManager.getNodeLeaf(firstLeaf, {
-                iteratorStore2 = NodeLeaf.iterator(it)
+                iteratorStore2 = NodeLeaf.iterator(it, firstLeaf)
             })
         }
         val iteratorStore = iteratorStore2!!
@@ -628,10 +645,11 @@ count++
         root = NodeManager.nodeNullPointer
         firstLeaf = NodeManager.nodeNullPointer
         rebuildData(iterator)
-        NodeManager.freeNodeAndAllRelated(oldroot)
-        SanityCheck.println({ "lock(${lock.uuid}).writeUnlock 17 a" })
+        if (oldroot != NodeManager.nodeNullPointer) {
+            SanityCheck.println({ "Outside.refcount($oldroot) ${NodeManager.bufferManager.allPagesRefcounters[oldroot]} x44" })
+            NodeManager.freeNodeAndAllRelated(oldroot)
+        }
         lock.writeUnlock()
-        SanityCheck.println({ "lock(${lock.uuid}).writeUnlock 17 b" })
     }
 
     override fun insert(a: Value, b: Value, c: Value) {
@@ -644,31 +662,29 @@ count++
 
     suspend override fun clear() {
         flushContinueWithWriteLock()
-        NodeManager.freeNodeAndAllRelated(root)
+        if (root != NodeManager.nodeNullPointer) {
+            SanityCheck.println({ "Outside.refcount($root) ${NodeManager.bufferManager.allPagesRefcounters[root]} x45" })
+            NodeManager.freeNodeAndAllRelated(root)
+            root = NodeManager.nodeNullPointer
+        }
         firstLeaf = NodeManager.nodeNullPointer
-        root = NodeManager.nodeNullPointer
         rootNode = null
         clearCachedHistogram()
-        SanityCheck.println({ "lock(${lock.uuid}).writeUnlock 18 a" })
         lock.writeUnlock()
-        SanityCheck.println({ "lock(${lock.uuid}).writeUnlock 18 b" })
     }
 
     suspend override fun printContents() {
-        SanityCheck.println({ "lock(${lock.uuid}).ReadLock 19 a" })
         lock.readLock()
-        SanityCheck.println({ "lock(${lock.uuid}).ReadLock 19 b" })
         if (firstLeaf != NodeManager.nodeNullPointer) {
+            SanityCheck.println({ "Outside.refcount($firstLeaf) ${NodeManager.bufferManager.allPagesRefcounters[firstLeaf]} x14" })
             NodeManager.getNodeLeaf(firstLeaf, { node ->
-                var it = NodeLeaf.iterator(node)
+                var it = NodeLeaf.iterator(node, firstLeaf)
                 while (it.hasNext()) {
                     var d = it.next()
                     SanityCheck.println({ "debug ${d.map { it }}" })
                 }
             })
         }
-        SanityCheck.println({ "lock(${lock.uuid}).ReadUnlock 20 a" })
         lock.readUnlock()
-        SanityCheck.println({ "lock(${lock.uuid}).ReadUnlock 20 b" })
     }
 }

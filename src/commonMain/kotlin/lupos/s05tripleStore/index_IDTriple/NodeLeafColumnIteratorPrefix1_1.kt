@@ -11,7 +11,7 @@ import lupos.s00misc.SanityCheck
 import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s04logicalOperators.iterator.ColumnIterator
 
-class NodeLeafColumnIteratorPrefix1_1(@JvmField var node: ByteArray,JvmField var nodeid:Int, @JvmField val prefix: IntArray, @JvmField val lock: ReadWriteLock) : ColumnIterator() {
+class NodeLeafColumnIteratorPrefix1_1(@JvmField var node: ByteArray,@JvmField var nodeid:Int, @JvmField val prefix: IntArray, @JvmField val lock: ReadWriteLock) : ColumnIterator() {
     @JvmField
     var remaining = 0
 
@@ -30,19 +30,18 @@ class NodeLeafColumnIteratorPrefix1_1(@JvmField var node: ByteArray,JvmField var
     @JvmField
     var value1 = 0
     inline suspend fun _init() {
-        SanityCheck.println({ "lock(${lock.uuid}).readLock 27 a" })
         lock.readLock()
-        SanityCheck.println({ "lock(${lock.uuid}).readLock 27 b" })
         remaining = NodeShared.getTripleCount(node)
     }
 
     suspend inline fun _close() {
         if (label != 0) {
             label = 0
+if(nodeid!=NodeManager.nodeNullPointer){
+SanityCheck.println({ "Outside.refcount($nodeid) ${NodeManager.bufferManager.allPagesRefcounters[nodeid]} x34" })
 NodeManager.releaseNode(nodeid)
-            SanityCheck.println({ "lock(${lock.uuid}).readUnlock 28 a" })
+}
             lock.readUnlock()
-            SanityCheck.println({ "lock(${lock.uuid}).readUnlock 28 b" })
         }
     }
 
@@ -119,9 +118,11 @@ NodeManager.releaseNode(nodeid)
                 while (remaining == 0) {
                     needsReset = true
                     offset = NodeLeaf.startOffset
+SanityCheck.println({ "Outside.refcount($nodeid) ${NodeManager.bufferManager.allPagesRefcounters[nodeid]} x35" })
                     NodeManager.releaseNode(nodeid)
 nodeid = NodeShared.getNextNode(node)
                     if (nodeid != NodeManager.nodeNullPointer) {
+SanityCheck.println({ "Outside.refcount($nodeid) ${NodeManager.bufferManager.allPagesRefcounters[nodeid]} x05" })
                         NodeManager.getNodeLeaf(nodeid, {
                             SanityCheck.check { node != it }
                             node = it

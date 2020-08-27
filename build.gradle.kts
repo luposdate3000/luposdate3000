@@ -44,7 +44,7 @@ repositories {
     maven("http://dl.bintray.com/kotlin/kotlin-eap-1.2")
     maven("https://kotlin.bintray.com/kotlinx")
 }
-project.buildDir = file("build/build_1.4.255-SNAPSHOT_jvm_Endpoint_Off_Sequential_Heap_MultiMap_BPlusTreePartition_Korio_On_BTree_BTree_XML_8196_1048576_512_512_1048576_true_ECoverage.Disabled_Off_None_-1_Off_On_true_EPOPDebugMode.NONE")
+project.buildDir = file("build/build_1.4.255-SNAPSHOT_jvm_SparqlTestSuite_On_Sequential_Heap_MultiMap_BPlusTreePartition_Korio_On_BTree_BTree_Empty_128_8_8_8_8_false_ECoverage.Disabled_Off_None_2000_Off_Off_true_EPOPDebugMode.DEBUG2")
 dependencies {
     implementation("com.benasher44:uuid:0.0.7")
     implementation("com.soywiz.korlibs.korio:korio:1.9.9-SNAPSHOT")
@@ -60,7 +60,7 @@ dependencies {
 }
 sourceSets["main"].java.srcDir("src.generated/commonConfig/kotlin")
 sourceSets["main"].java.srcDir("src.generated/commonMain/kotlin")
-sourceSets["main"].java.srcDir("src.generated/commonS00LaunchEndpointMain/kotlin")
+sourceSets["main"].java.srcDir("src.generated/commonS00LaunchSparqlTestSuiteMain/kotlin")
 sourceSets["main"].java.srcDir("src.generated/commonS01BufferMainmemoryMain/kotlin")
 sourceSets["main"].java.srcDir("src.generated/commonS01HeapMain/kotlin")
 sourceSets["main"].java.srcDir("src.generated/commonS03DictionaryMultiMapMain/kotlin")

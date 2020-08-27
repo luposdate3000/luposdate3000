@@ -21,30 +21,30 @@ object NodeLeaf {
      *
      * absolute minimum is 21 used bytes for_ exactly 1 Triple/Node
      */
-    inline fun getFirstTriple(data: ByteArray, b: IntArray) {
-        b[0] = data.readInt4(startOffset + 1)
-        b[1] = data.readInt4(startOffset + 5)
-        b[2] = data.readInt4(startOffset + 9)
+    inline fun getFirstTriple(node: ByteArray, b: IntArray) {
+        b[0] = node.readInt4(startOffset + 1)
+        b[1] = node.readInt4(startOffset + 5)
+        b[2] = node.readInt4(startOffset + 9)
     }
 
-    inline fun iterator(data: ByteArray): TripleIterator {
-        return NodeLeafIterator(data)
+    inline fun iterator(node: ByteArray,nodeid:Int): TripleIterator {
+        return NodeLeafIterator(node,nodeid)
     }
 
-    suspend inline fun iterator(data: ByteArray, lock: ReadWriteLock, component: Int): ColumnIterator {
+    suspend inline fun iterator(node: ByteArray,nodeid:Int, lock: ReadWriteLock, component: Int): ColumnIterator {
         when (component) {
             0 -> {
-                val res = NodeLeafColumnIterator0(data, lock)
+                val res = NodeLeafColumnIterator0(node, nodeid,lock)
                 res._init()
                 return res
             }
             1 -> {
-                val res = NodeLeafColumnIterator1(data, lock)
+                val res = NodeLeafColumnIterator1(node, nodeid,lock)
                 res._init()
                 return res
             }
             2 -> {
-                val res = NodeLeafColumnIterator2(data, lock)
+                val res = NodeLeafColumnIterator2(node, nodeid,lock)
                 res._init()
                 return res
             }
@@ -54,10 +54,10 @@ object NodeLeaf {
         }
     }
 
-    suspend inline fun iterator3(data: ByteArray, prefix: IntArray, lock: ReadWriteLock, component: Int): ColumnIterator {
+    suspend inline fun iterator3(node: ByteArray, nodeid:Int,prefix: IntArray, lock: ReadWriteLock, component: Int): ColumnIterator {
         when (component) {
             2 -> {
-                val res = NodeLeafColumnIteratorPrefix3(data, prefix, lock)
+                val res = NodeLeafColumnIteratorPrefix3(node,nodeid, prefix, lock)
                 res._init()
                 return res
             }
@@ -67,10 +67,10 @@ object NodeLeaf {
         }
     }
 
-    suspend inline fun iterator2(data: ByteArray, prefix: IntArray, lock: ReadWriteLock, component: Int): ColumnIterator {
+    suspend inline fun iterator2(node: ByteArray, nodeid:Int,prefix: IntArray, lock: ReadWriteLock, component: Int): ColumnIterator {
         when (component) {
             2 -> {
-                val res = NodeLeafColumnIteratorPrefix2_2(data, prefix, lock)
+                val res = NodeLeafColumnIteratorPrefix2_2(node, nodeid,prefix, lock)
                 res._init()
                 return res
             }
@@ -80,15 +80,15 @@ object NodeLeaf {
         }
     }
 
-    suspend inline fun iterator1(data: ByteArray, prefix: IntArray, lock: ReadWriteLock, component: Int): ColumnIterator {
+    suspend inline fun iterator1(node: ByteArray, nodeid:Int,prefix: IntArray, lock: ReadWriteLock, component: Int): ColumnIterator {
         when (component) {
             1 -> {
-                val res = NodeLeafColumnIteratorPrefix1_1(data, prefix, lock)
+                val res = NodeLeafColumnIteratorPrefix1_1(node, nodeid,prefix, lock)
                 res._init()
                 return res
             }
             2 -> {
-                val res = NodeLeafColumnIteratorPrefix1_2(data, prefix, lock)
+                val res = NodeLeafColumnIteratorPrefix1_2(node, nodeid,prefix, lock)
                 res._init()
                 return res
             }
@@ -98,22 +98,22 @@ object NodeLeaf {
         }
     }
 
-    inline fun initializeWith(data: ByteArray, iterator: TripleIterator) {
+    inline fun initializeWith(node: ByteArray, iterator: TripleIterator) {
         SanityCheck.check { iterator.hasNext() }
         var tripleCurrent = iterator.next()
         val tripleLast = intArrayOf(tripleCurrent[0], tripleCurrent[1], tripleCurrent[2])
         val tripleBuf = IntArray(3)
         var offset = startOffset
-        var bytesWritten = NodeShared.writeFullTriple(data, offset, tripleLast)
+        var bytesWritten = NodeShared.writeFullTriple(node, offset, tripleLast)
         offset += bytesWritten
-        val offsetEnd = data.size - bytesWritten // reserve at least enough space to write a full triple at the end
+        val offsetEnd = node.size - bytesWritten // reserve at least enough space to write a full triple at the end
         var triples = 1
         while (iterator.hasNext() && offset <= offsetEnd) {
-            bytesWritten = NodeShared.writeDiffTriple(data, offset, tripleLast, iterator.next(), tripleBuf)
+            bytesWritten = NodeShared.writeDiffTriple(node, offset, tripleLast, iterator.next(), tripleBuf)
             offset += bytesWritten
             triples++
         }
-        NodeShared.setTripleCount(data, triples)
-        NodeShared.setNextNode(data, NodeManager.nodeNullPointer)
+        NodeShared.setTripleCount(node, triples)
+        NodeShared.setNextNode(node, NodeManager.nodeNullPointer)
     }
 }

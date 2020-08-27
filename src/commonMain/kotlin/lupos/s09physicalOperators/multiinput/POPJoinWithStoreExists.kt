@@ -31,7 +31,7 @@ class POPJoinWithStoreExists(query: Query, projectedVariables: List<String>, chi
     override suspend fun evaluate(parent: Partition): IteratorBundle {
         SanityCheck.check { !optional }
         SanityCheck.check { !childB.graphVar }
-        SanityCheck { projectedVariables.size == 0 }
+        SanityCheck.check { projectedVariables.size == 0 }
         val childAv = children[0].evaluate(parent)
         val iteratorsHelper = mutableListOf<ColumnIterator>()
         val params = Array(3) { childB.children[it] as AOPBase }
@@ -49,7 +49,7 @@ class POPJoinWithStoreExists(query: Query, projectedVariables: List<String>, chi
         var done = false
         val iterators = iteratorsHelper.toTypedArray()
         val mapping = IntArray(mappingHelper.size) { mappingHelper[it] }
-        SanityCheck { mapping.size > 0 }
+        SanityCheck.check { mapping.size > 0 }
         for (i in 0 until mapping.size) {
             var tmp = iterators[i].next()
             if (tmp == ResultSetDictionary.nullValue) {

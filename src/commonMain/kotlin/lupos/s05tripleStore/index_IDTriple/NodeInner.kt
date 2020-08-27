@@ -45,7 +45,9 @@ object NodeInner {
         var node = data
         var done = false
         while (!done) {
-            NodeManager.getNodeAny(getFirstChild(node), {
+var nodeid=getFirstChild(node)
+SanityCheck.println({ "Outside.refcount($nodeid) ${NodeManager.bufferManager.allPagesRefcounters[nodeid]} x18" })
+            NodeManager.getNodeAny(nodeid, {
                 NodeLeaf.getFirstTriple(it, b)
                 done = true
             }, {
@@ -98,8 +100,10 @@ object NodeInner {
         var iterator: TripleIterator? = null
         var node = data
         while (iterator == null) {
-            NodeManager.getNodeAny(getFirstChild(node), {
-                iterator = NodeLeaf.iterator(it)
+var nodeid=getFirstChild(node)
+SanityCheck.println({ "Outside.refcount($nodeid) ${NodeManager.bufferManager.allPagesRefcounters[nodeid]} x19" })
+            NodeManager.getNodeAny(nodeid, {
+                iterator = NodeLeaf.iterator(it,nodeid)
             }, {
                 node = it
             })
@@ -111,8 +115,10 @@ object NodeInner {
         var iterator: ColumnIterator? = null
         var node = data
         while (iterator == null) {
-            NodeManager.getNodeAnySuspended(getFirstChild(node), {
-                iterator = NodeLeaf.iterator(it, lock, component)
+var nodeid=getFirstChild(node)
+SanityCheck.println({ "Outside.refcount($nodeid) ${NodeManager.bufferManager.allPagesRefcounters[nodeid]} x20" })
+            NodeManager.getNodeAnySuspended(nodeid, {
+                iterator = NodeLeaf.iterator(it, nodeid,lock, component)
             }, {
                 node = it
             })
@@ -265,8 +271,9 @@ object NodeInner {
             findIteratorN(node, {
                 /*return*/ (it[0] < prefix[0]) || (it[0] == prefix[0] && it[1] < prefix[1])|| (it[0] == prefix[0] && it[1] == prefix[1]&&it[2] < prefix[2])
             }, {
-                NodeManager.getNodeAnySuspended(it, {
-                    iterator = NodeLeaf.iterator3(it, prefix, lock, component)
+SanityCheck.println({ "Outside.refcount($it) ${NodeManager.bufferManager.allPagesRefcounters[it]} x21" })
+                NodeManager.getNodeAnySuspended(it, {node->
+                    iterator = NodeLeaf.iterator3(node,it, prefix, lock, component)
                 }, {
                     node = it
                 })
@@ -282,8 +289,9 @@ object NodeInner {
             findIteratorN(node, {
                 /*return*/ (it[0] < prefix[0]) || (it[0] == prefix[0] && it[1] < prefix[1])
             }, {
-                NodeManager.getNodeAnySuspended(it, {
-                    iterator = NodeLeaf.iterator2(it, prefix, lock, component)
+SanityCheck.println({ "Outside.refcount($it) ${NodeManager.bufferManager.allPagesRefcounters[it]} x22" })
+                NodeManager.getNodeAnySuspended(it, {node->
+                    iterator = NodeLeaf.iterator2(node,it, prefix, lock, component)
                 }, {
                     node = it
                 })
@@ -299,8 +307,9 @@ object NodeInner {
             findIteratorN(node, {
                 /*return*/ (it[0] < prefix[0])
             }, {
-                NodeManager.getNodeAnySuspended(it, {
-                    iterator = NodeLeaf.iterator1(it, prefix, lock, component)
+SanityCheck.println({ "Outside.refcount($it) ${NodeManager.bufferManager.allPagesRefcounters[it]} x23" })
+                NodeManager.getNodeAnySuspended(it, {node->
+                    iterator = NodeLeaf.iterator1(node,it, prefix, lock, component)
                 }, {
                     node = it
                 })
@@ -329,6 +338,7 @@ object NodeInner {
                 current = childs.removeAt(0)
                 childPointers[i] = childLastPointer xor current
                 childLastPointer = current
+SanityCheck.println({ "Outside.refcount($childLastPointer) ${NodeManager.bufferManager.allPagesRefcounters[childLastPointer]} x24" })
                 NodeManager.getNodeAny(childLastPointer, {
                     NodeLeaf.getFirstTriple(it, tripleCurrent)
                 }, {

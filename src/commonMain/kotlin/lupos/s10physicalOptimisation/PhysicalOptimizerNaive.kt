@@ -165,7 +165,7 @@ class PhysicalOptimizerNaive(query: Query) : OptimizerBase(query, EOptimizerID.P
             }
         } finally {
             if (change) {
-                SanityCheck { res.getProvidedVariableNames().containsAll(node.mySortPriority.map { it.variableName }) }
+                SanityCheck.check { res.getProvidedVariableNames().containsAll(node.mySortPriority.map { it.variableName }) }
                 res.mySortPriority = node.mySortPriority
                 res.sortPriorities = node.sortPriorities
                 onChange()
