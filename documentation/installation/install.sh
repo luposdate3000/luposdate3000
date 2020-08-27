@@ -88,6 +88,9 @@ dependencieshome=/opt
 	git add .
 	git commit -m a
 	git apply ${luposdate3000home}/documentation/installation/sp2b.patch
+	cd src
+	make -j8
+	cp sp2b_gen ../bin/
 #	${luposdate3000home}/exec-benchmark-generate-sp2b.sh
 }
 #btc2019
@@ -105,4 +108,18 @@ dependencieshome=/opt
 	cd btc2010
 	wget https://km.aifb.kit.edu/projects/btc-2010/000-CONTENTS
 	wget -i 000-CONTENTS
+}
+#virtuoso
+{
+	apt install autoconf automake libtool flex bison gperf gawk m4 make libssl-dev
+	cd $dependencieshome
+	git clone git://github.com/openlink/virtuoso-opensource.git --depth=1 virtuoso
+	cd virtuoso
+	./autogen.sh
+	CFLAGS="-O2 -m64" ./configure --prefix=$dependencieshome/virtuoso-dist
+	make -j8
+	make install
+#	export PATH=$PATH:$dependencieshome/virtuoso-dist/bin
+#	virtuoso-t -f -c $dependencieshome/virtuoso-dist/var/lib/virtuoso/db/virtuoso.ini &
+# curl http://benjamin0:8890/sparql/?default-graph-uri=&query=select+distinct+%3Fs+%3Fp+%3Fo+where+%7B%3Fs+%3Fp+%3Fo+.%7D&format=text%2Fhtml&timeout=0&debug=on&run=+Run+Query+
 }

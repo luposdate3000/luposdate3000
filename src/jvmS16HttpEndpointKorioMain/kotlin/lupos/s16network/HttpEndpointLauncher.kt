@@ -8,6 +8,7 @@ import kotlinx.coroutines.runBlocking
 import lupos.s00misc.Coverage
 import lupos.s00misc.EnpointRecievedInvalidPath
 import lupos.s00misc.File
+import lupos.s00misc.JenaWrapper
 import lupos.s00misc.MyMapStringIntPatriciaTrie
 import lupos.s00misc.SanityCheck
 import lupos.s03resultRepresentation.nodeGlobalDictionary
@@ -20,6 +21,22 @@ object HttpEndpointLauncher {
     var server: HttpServer? = null
     suspend fun receive(path: String, isPost: Boolean, data: String, params: Map<String, String>): String {
         when (path) {
+            "/sparql/jenaquery" -> {
+                if (isPost) {
+			return JenaWrapper.execQuery(data)
+                } else {
+			return JenaWrapper.execQuery(params["query"]!!)
+                }
+/*Coverage Unreachable*/
+            }
+            "/sparql/jenaload" -> {
+                if (isPost) {
+			JenaWrapper.loadFromFile(data)
+                } else {
+			JenaWrapper.loadFromFile(params["query"]!!)
+                }
+		return "success\n"
+            }
             "/sparql/query" -> {
                 if (isPost) {
                     return HttpEndpoint.evaluate_sparql_query_string(data, true)

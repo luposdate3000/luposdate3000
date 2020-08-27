@@ -37,7 +37,11 @@ mkdir -p log/benchtmp
   echo "IteratorDebug->EPOPDebugMode.NONE"
 } | ./generate-buildfile.kts
 ./tool-gradle-build.sh
-
+ret=$?
+if [ $ret -ne 0 ]
+then
+        exit $ret
+fi
 ln -s $(readlink -f build/executable) log/benchtmp/Multi_BPlusTree_Empty.x
 versions=( "Multi_BPlusTree_Empty" )
 
