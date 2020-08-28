@@ -249,7 +249,7 @@ SanityCheck.check{rootNode==null}
                         res = Pair(count, distinct)
                     }
                     2 -> {
-                        var iterator = NodeInner.iterator2(node, filter, lock, 2)
+                        var iterator = NodeInner.iterator2(node, filter, lock)
                         var count = 0
                         while (iterator.next() != ResultSetDictionary.nullValue) {
                             count++
@@ -295,7 +295,7 @@ SanityCheck.check{rootNode==null}
         if (node != null) {
             if (filter.size == 3) {
                 var count = 0
-                var it = NodeInner.iterator3(node, filter, lock, 3)
+                var it = NodeInner.iterator3(node, filter, lock)
                 while (it.next() != ResultSetDictionary.nullValue) {
                     count++
                 }
@@ -303,13 +303,13 @@ SanityCheck.check{rootNode==null}
             } else if (filter.size == 2) {
                 if (projection[0] == "_") {
                     var count = 0
-                    var it = NodeInner.iterator2(node, filter, lock, 2)
+                    var it = NodeInner.iterator2(node, filter, lock)
                     while (it.next() != ResultSetDictionary.nullValue) {
                         count++
                     }
                     res = IteratorBundle(count)
                 } else {
-                    columns[projection[0]] = NodeInner.iterator2(node, filter, lock, 2)
+                    columns[projection[0]] = NodeInner.iterator2(node, filter, lock)
                 }
             } else if (filter.size == 1) {
                 if (projection[0] != "_") {

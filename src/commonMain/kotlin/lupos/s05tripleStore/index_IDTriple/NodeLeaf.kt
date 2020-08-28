@@ -54,30 +54,16 @@ object NodeLeaf {
         }
     }
 
-    suspend inline fun iterator3(node: ByteArray, nodeid: Int, prefix: IntArray, lock: ReadWriteLock, component: Int): ColumnIterator {
-        when (component) {
-            2 -> {
+    suspend inline fun iterator3(node: ByteArray, nodeid: Int, prefix: IntArray, lock: ReadWriteLock): ColumnIterator {
                 val res = NodeLeafColumnIteratorPrefix3(node, nodeid, prefix, lock)
                 res._init()
                 return res
-            }
-            else -> {
-                throw Exception("unreachable")
-            }
-        }
     }
 
-    suspend inline fun iterator2(node: ByteArray, nodeid: Int, prefix: IntArray, lock: ReadWriteLock, component: Int): ColumnIterator {
-        when (component) {
-            2 -> {
+    suspend inline fun iterator2(node: ByteArray, nodeid: Int, prefix: IntArray, lock: ReadWriteLock): ColumnIterator {
                 val res = NodeLeafColumnIteratorPrefix2_2(node, nodeid, prefix, lock)
                 res._init()
                 return res
-            }
-            else -> {
-                throw Exception("unreachable")
-            }
-        }
     }
 
     suspend inline fun iterator1(node: ByteArray, nodeid: Int, prefix: IntArray, lock: ReadWriteLock, component: Int): ColumnIterator {

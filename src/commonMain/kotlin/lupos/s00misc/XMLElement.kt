@@ -31,6 +31,9 @@ class XMLElement {
                 filename.endsWith(".srj") -> {
                     return XMLElement.parseFromJson(data)
                 }
+                filename.endsWith(".rdf") -> {
+                    throw UnknownDataFile(filename)
+		}
                 else -> {
                     throw UnknownDataFile(filename)
                 }

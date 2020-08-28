@@ -103,7 +103,7 @@ class POPDebug(query: Query, projectedVariables: List<String>, child: OPBase) : 
                         outMap[k] = iterator
                     }
                     SanityCheck.check { columnMode.containsAll(target) }
-                    SanityCheck.check { target.containsAll(columnMode) }
+                    SanityCheck.check ({ target.containsAll(columnMode) },{"$uuid $target $columnMode"})
                     return IteratorBundle(outMap)
                 } else if (child.hasRowMode()) {
                     val rowMode = child.rows.columns.toMutableList()

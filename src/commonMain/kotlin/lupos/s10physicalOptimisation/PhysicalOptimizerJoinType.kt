@@ -121,7 +121,10 @@ class PhysicalOptimizerJoinType(query: Query) : OptimizerBase(query, EOptimizerI
                     }
                 }
             }
-            SanityCheck.check { res.getProvidedVariableNames().containsAll(node.mySortPriority.map { it.variableName }) }
+SanityCheck{
+val tmp=node.mySortPriority.map { it.variableName }
+            SanityCheck.check { (!projectedVariables.containsAll(tmp))||(projectedVariables.containsAll(tmp)&&res.getProvidedVariableNames().containsAll(tmp) )}
+}
             res.mySortPriority = node.mySortPriority
             res.sortPriorities = node.sortPriorities
             onChange()
