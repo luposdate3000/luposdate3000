@@ -17,6 +17,7 @@ import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.s04logicalOperators.iterator.ColumnIteratorEmpty
 import lupos.s04logicalOperators.iterator.ColumnIteratorQueue
+import lupos.s04logicalOperators.iterator.ColumnIteratorQueueEmpty
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.multiinput.LOPJoin
 import lupos.s04logicalOperators.noinput.LOPTriple
@@ -235,7 +236,11 @@ class POPJoinWithStore(query: Query, projectedVariables: List<String>, childA: O
                     }
                 }
             }
-        }
+        }else{
+		for (columnConfig in columnsOUT) {
+			outMap[columnConfig.first] = ColumnIteratorQueueEmpty()
+		}
+	}
         return IteratorBundle(outMap)
     }
 

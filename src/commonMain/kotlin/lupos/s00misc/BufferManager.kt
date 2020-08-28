@@ -16,7 +16,7 @@ class BufferManager(@JvmField val bufferName: String) {
      * additionally this should make it more easy to exchange this with on disk storage
      */
     companion object {
-        const val useFreeList = false
+        const val useFreeList = true
 
         @JvmField
         var bufferPrefix: String
