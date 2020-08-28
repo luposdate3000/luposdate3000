@@ -65,7 +65,6 @@ class BufferManager(@JvmField val bufferName: String) {
 
     @JvmField
     val freeList = mutableListOf<Int>()
-
     inline suspend fun clear() = lock.withWriteLock {
         clearAssumeLocks()
     }
@@ -74,7 +73,7 @@ class BufferManager(@JvmField val bufferName: String) {
         counter = 0
         SanityCheck {
             for (i in 0 until counter) {
-                SanityCheck.check ({ allPagesRefcounters[i] == 0 },{"Failed requirement pageid = $i"})
+                SanityCheck.check({ allPagesRefcounters[i] == 0 }, { "Failed requirement pageid = $i" })
             }
         }
         allPages = Array<ByteArray>(100) { ByteArray(PAGE_SIZE_IN_BYTES) }
@@ -83,16 +82,16 @@ class BufferManager(@JvmField val bufferName: String) {
     }
 
     inline fun releasePage(pageid: Int) {
-        SanityCheck.check ({ allPagesRefcounters[pageid] > 0 },{"Failed requirement pageid = $pageid"})
+        SanityCheck.check({ allPagesRefcounters[pageid] > 0 }, { "Failed requirement pageid = $pageid" })
         allPagesRefcounters[pageid]--
-SanityCheck.println({ "BufferManager.refcount($pageid) decreased a ${allPagesRefcounters[pageid]}" })
+        SanityCheck.println({ "BufferManager.refcount($pageid) decreased a ${allPagesRefcounters[pageid]}" })
     }
 
     inline fun getPage(pageid: Int): ByteArray {
         //no locking required, assuming an assignment to 'allPages' is atomic
         SanityCheck.check { !freeList.contains(pageid) }
         allPagesRefcounters[pageid]++
-SanityCheck.println({ "BufferManager.refcount($pageid) increased a ${allPagesRefcounters[pageid]}" })
+        SanityCheck.println({ "BufferManager.refcount($pageid) increased a ${allPagesRefcounters[pageid]}" })
         return allPages[pageid]
     }
 
@@ -132,15 +131,15 @@ SanityCheck.println({ "BufferManager.refcount($pageid) increased a ${allPagesRef
             pageid = counter++
         }
         allPagesRefcounters[pageid]++
-SanityCheck.println({ "BufferManager.refcount($pageid) increased b ${allPagesRefcounters[pageid]}" })
+        SanityCheck.println({ "BufferManager.refcount($pageid) increased b ${allPagesRefcounters[pageid]}" })
         action(allPages[pageid], pageid)
     }
 
     inline suspend fun deletePage(pageid: Int) = lock.withWriteLock {
         SanityCheck.check { !freeList.contains(pageid) }
-   SanityCheck.check ({ allPagesRefcounters[pageid] == 1} ,{"Failed requirement pageid = $pageid"})
-	allPagesRefcounters[pageid]=0
-SanityCheck.println({ "BufferManager.refcount($pageid) decreased b ${allPagesRefcounters[pageid]}" })
+        SanityCheck.check({ allPagesRefcounters[pageid] == 1 }, { "Failed requirement pageid = $pageid" })
+        allPagesRefcounters[pageid] = 0
+        SanityCheck.println({ "BufferManager.refcount($pageid) decreased b ${allPagesRefcounters[pageid]}" })
         freeList.add(pageid)
         if (freeList.size == counter) {
             clearAssumeLocks()

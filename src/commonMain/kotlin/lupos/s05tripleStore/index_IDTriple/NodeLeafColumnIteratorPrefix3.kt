@@ -11,7 +11,7 @@ import lupos.s00misc.SanityCheck
 import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s04logicalOperators.iterator.ColumnIterator
 
-class NodeLeafColumnIteratorPrefix3(@JvmField var node: ByteArray,@JvmField var nodeid:Int, @JvmField val prefix: IntArray, @JvmField val lock: ReadWriteLock) : ColumnIterator() {
+class NodeLeafColumnIteratorPrefix3(@JvmField var node: ByteArray, @JvmField var nodeid: Int, @JvmField val prefix: IntArray, @JvmField val lock: ReadWriteLock) : ColumnIterator() {
     @JvmField
     var remaining = 0
 
@@ -40,10 +40,10 @@ class NodeLeafColumnIteratorPrefix3(@JvmField var node: ByteArray,@JvmField var 
     suspend inline fun _close() {
         if (label != 0) {
             label = 0
-if(nodeid!=NodeManager.nodeNullPointer){
-SanityCheck.println({ "Outside.refcount($nodeid) ${NodeManager.bufferManager.allPagesRefcounters[nodeid]} x30" })
-NodeManager.releaseNode(nodeid)
-}
+            if (nodeid != NodeManager.nodeNullPointer) {
+                SanityCheck.println({ "Outside.refcount($nodeid) ${NodeManager.bufferManager.allPagesRefcounters[nodeid]} x30" })
+                NodeManager.releaseNode(nodeid)
+            }
             lock.readUnlock()
         }
     }
@@ -127,7 +127,7 @@ NodeManager.releaseNode(nodeid)
                 }
                 offset += counter2
                 val done: Boolean
-                if (value0 > prefix[0] || (value0 == prefix[0]&&value1 > prefix[1])|| (value0 == prefix[0]&&value1 == prefix[1]&&value2>prefix[2])) {
+                if (value0 > prefix[0] || (value0 == prefix[0] && value1 > prefix[1]) || (value0 == prefix[0] && value1 == prefix[1] && value2 > prefix[2])) {
                     _close()
                     return ResultSetDictionary.nullValue
                 } else {
@@ -137,11 +137,11 @@ NodeManager.releaseNode(nodeid)
                 while (remaining == 0) {
                     needsReset = true
                     offset = NodeLeaf.startOffset
-SanityCheck.println({ "Outside.refcount($nodeid) ${NodeManager.bufferManager.allPagesRefcounters[nodeid]} x31" })
+                    SanityCheck.println({ "Outside.refcount($nodeid) ${NodeManager.bufferManager.allPagesRefcounters[nodeid]} x31" })
                     NodeManager.releaseNode(nodeid)
-nodeid = NodeShared.getNextNode(node)
+                    nodeid = NodeShared.getNextNode(node)
                     if (nodeid != NodeManager.nodeNullPointer) {
-SanityCheck.println({ "Outside.refcount($nodeid) ${NodeManager.bufferManager.allPagesRefcounters[nodeid]} x03" })
+                        SanityCheck.println({ "Outside.refcount($nodeid) ${NodeManager.bufferManager.allPagesRefcounters[nodeid]} x03" })
                         NodeManager.getNodeLeaf(nodeid, {
                             SanityCheck.check { node != it }
                             node = it

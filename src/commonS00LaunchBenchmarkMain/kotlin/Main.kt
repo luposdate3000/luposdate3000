@@ -2,8 +2,8 @@ import kotlin.time.DurationUnit
 import kotlin.time.TimeSource.Monotonic
 import kotlinx.coroutines.runBlocking
 import lupos.s00misc.BenchmarkUtils
-import lupos.s00misc.File
 import lupos.s00misc.DateHelper
+import lupos.s00misc.File
 import lupos.s00misc.MyMapStringIntPatriciaTrie
 import lupos.s00misc.Partition
 import lupos.s03resultRepresentation.nodeGlobalDictionary
@@ -77,7 +77,7 @@ fun main(args: Array<String>) = runBlocking {
         val timerFirst = DateHelper.markNow()
         HttpEndpoint.evaluate_sparql_query_string(query, true)
         val timeFirst = DateHelper.elapsedSeconds(timerFirst)
-        groupSize[queryFileIdx] = 1+(1.0 / timeFirst).toInt()
+        groupSize[queryFileIdx] = 1 + (1.0 / timeFirst).toInt()
         printBenchmarkTimesHelper()
         val timer = DateHelper.markNow()
         var time: Double

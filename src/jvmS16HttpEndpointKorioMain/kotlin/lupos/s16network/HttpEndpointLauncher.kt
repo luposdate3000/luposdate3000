@@ -23,19 +23,19 @@ object HttpEndpointLauncher {
         when (path) {
             "/sparql/jenaquery" -> {
                 if (isPost) {
-			return JenaWrapper.execQuery(data)
+                    return JenaWrapper.execQuery(data)
                 } else {
-			return JenaWrapper.execQuery(params["query"]!!)
+                    return JenaWrapper.execQuery(params["query"]!!)
                 }
 /*Coverage Unreachable*/
             }
             "/sparql/jenaload" -> {
                 if (isPost) {
-			JenaWrapper.loadFromFile(data)
+                    JenaWrapper.loadFromFile(data)
                 } else {
-			JenaWrapper.loadFromFile(params["query"]!!)
+                    JenaWrapper.loadFromFile(params["query"]!!)
                 }
-		return "success\n"
+                return "success\n"
             }
             "/sparql/query" -> {
                 if (isPost) {

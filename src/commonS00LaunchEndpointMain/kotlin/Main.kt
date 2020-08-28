@@ -24,7 +24,7 @@ fun main(args: Array<String>) = runBlocking {
         i++
     }
     launch(Dispatchers.Default) {
-        HttpEndpointLauncher.start(hostname,2324)
+        HttpEndpointLauncher.start(hostname, 2324)
     }
     launch(Dispatchers.Default) {
         ServerCommunicationSend.start(hostname, lupos.s16network.NETWORK_DEFAULT_PORT, bootStrapServer)

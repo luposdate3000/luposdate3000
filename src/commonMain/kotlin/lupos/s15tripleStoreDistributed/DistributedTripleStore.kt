@@ -10,6 +10,7 @@ import lupos.s00misc.ESortPriority
 import lupos.s00misc.GlobalLogger
 import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
+import lupos.s00misc.TriplePatternsContainingTheSameVariableTwiceNotImplementedException
 import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.MyListValue
 import lupos.s03resultRepresentation.ResultSetDictionary
@@ -190,7 +191,10 @@ class DistributedGraph(val query: Query, @JvmField val name: String) {
                     }
                 }
             }
-            SanityCheck.check { variableNames == 1 }
+            if (variableNames > 1) {
+                throw TriplePatternsContainingTheSameVariableTwiceNotImplementedException()
+            }
+            SanityCheck.check { variableNames > 0 }
         }
         return ServerCommunicationSend.histogramGet(query, name, TripleStoreFeatureParamsDefault(idx, params))
     }

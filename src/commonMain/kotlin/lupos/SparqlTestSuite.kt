@@ -1,14 +1,15 @@
 package lupos
-import lupos.s00misc.BenchmarkUtils
+
 import kotlin.jvm.JvmField
 import kotlin.time.DurationUnit
 import kotlin.time.TimeSource.Monotonic
+import lupos.s00misc.BenchmarkUtils
 import lupos.s00misc.Coverage
+import lupos.s00misc.DateHelper
 import lupos.s00misc.EIndexPattern
 import lupos.s00misc.ELoggerType
 import lupos.s00misc.EModifyType
 import lupos.s00misc.File
-import lupos.s00misc.DateHelper
 import lupos.s00misc.GlobalLogger
 import lupos.s00misc.JenaBugException
 import lupos.s00misc.JenaWrapper
@@ -53,7 +54,7 @@ import lupos.s16network.ServerCommunicationSend
 
 class SparqlTestSuite() {
     companion object {
-	const val testPersistence=false
+        const val testPersistence = false
         const val errorBoundForDecimalsDigits = 6
         val filterList = mutableListOf<String>()
         val enabledTestCases = listOf("resources/myqueries/", "resources/bsbm/", "resources/btc/", "resources/sp2b/")
@@ -488,22 +489,22 @@ class SparqlTestSuite() {
                         DistributedTripleStore.getDefaultGraph(query).modify(arrayOf(tmp.columns["s"]!!, tmp.columns["p"]!!, tmp.columns["o"]!!), EModifyType.INSERT)
                         query.commit()
                     }
-if(testPersistence){
-                    File("log/storetest").mkdirs()
-                    DistributedTripleStore.localStore.safeToFolder()
-                    DistributedTripleStore.localStore.loadFromFolder()
-                    val query = Query()
-                    query.workingDirectory = queryFile.substring(0, queryFile.lastIndexOf("/"))
-                    val loadSelect = DistributedTripleStore.getDefaultGraph(query).getIterator(arrayOf(AOPVariable(query, "s"), AOPVariable(query, "p"), AOPVariable(query, "o")), EIndexPattern.SPO)
-                    val xmlGraphLoad = QueryResultToXMLElement.toXML(loadSelect)
-                    if (!xmlGraphLoad.myEqualsUnclean(xmlQueryInput, true, true, true)) {
-                        GlobalLogger.log(ELoggerType.TEST_RESULT, { "test xmlQueryInput :: " + xmlQueryInput.toPrettyString() })
-                        GlobalLogger.log(ELoggerType.TEST_RESULT, { "test xmlGraphLoad :: " + xmlGraphLoad.toPrettyString() })
-                        GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Time(${DateHelper.elapsedSeconds(timer)})" })
-                        GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Failed(LoadImport)" })
-                        return false
+                    if (testPersistence) {
+                        File("log/storetest").mkdirs()
+                        DistributedTripleStore.localStore.safeToFolder()
+                        DistributedTripleStore.localStore.loadFromFolder()
+                        val query = Query()
+                        query.workingDirectory = queryFile.substring(0, queryFile.lastIndexOf("/"))
+                        val loadSelect = DistributedTripleStore.getDefaultGraph(query).getIterator(arrayOf(AOPVariable(query, "s"), AOPVariable(query, "p"), AOPVariable(query, "o")), EIndexPattern.SPO)
+                        val xmlGraphLoad = QueryResultToXMLElement.toXML(loadSelect)
+                        if (!xmlGraphLoad.myEqualsUnclean(xmlQueryInput, true, true, true)) {
+                            GlobalLogger.log(ELoggerType.TEST_RESULT, { "test xmlQueryInput :: " + xmlQueryInput.toPrettyString() })
+                            GlobalLogger.log(ELoggerType.TEST_RESULT, { "test xmlGraphLoad :: " + xmlGraphLoad.toPrettyString() })
+                            GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Time(${DateHelper.elapsedSeconds(timer)})" })
+                            GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Failed(LoadImport)" })
+                            return false
+                        }
                     }
-}
                     GlobalLogger.log(ELoggerType.TEST_RESULT, { "test InputData Graph[] ::" + xmlQueryInput.toPrettyString() })
                     try {
                         if (!ignoreJena) {

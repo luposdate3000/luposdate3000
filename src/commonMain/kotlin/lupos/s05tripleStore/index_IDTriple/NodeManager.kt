@@ -12,7 +12,6 @@ object NodeManager {
 
     @JvmField
     val bufferManager = BufferManager("id_triples")
-
     fun debug() {
     }
 
@@ -28,9 +27,9 @@ object NodeManager {
         bufferManager.loadFromFolder()
     }
 
-inline fun releaseNode(nodeid:Int){
-bufferManager.releasePage(nodeid)
-}
+    inline fun releaseNode(nodeid: Int) {
+        bufferManager.releasePage(nodeid)
+    }
 
     inline fun getNodeLeaf(nodeid: Int, crossinline actionLeaf: (ByteArray) -> Unit) {
         SanityCheck.println({ "debug NodeManager getNode ${nodeid.toString(16)}" })
@@ -115,11 +114,11 @@ bufferManager.releasePage(nodeid)
         SanityCheck.println({ "NodeManager.freeNode B" })
     }
 
- /*inline*/    suspend fun freeNodeAndAllRelated(nodeid: Int) {
-            SanityCheck.println({ "Outside.refcount($nodeid) ${NodeManager.bufferManager.allPagesRefcounters[nodeid]} x70" })
-releaseNode(nodeid)
-freeNodeAndAllRelatedInternal(nodeid)
-}
+    /*inline*/    suspend fun freeNodeAndAllRelated(nodeid: Int) {
+        SanityCheck.println({ "Outside.refcount($nodeid) ${NodeManager.bufferManager.allPagesRefcounters[nodeid]} x70" })
+        releaseNode(nodeid)
+        freeNodeAndAllRelatedInternal(nodeid)
+    }
 
     suspend fun freeNodeAndAllRelatedInternal(nodeid: Int) {
         SanityCheck.println({ "NodeManager.freeNodeAndAllRelatedInternal A" })
@@ -127,7 +126,7 @@ freeNodeAndAllRelatedInternal(nodeid)
         if (nodeid != nodeNullPointer) {
             var node: ByteArray? = null
             SanityCheck.println({ "Outside.refcount($nodeid) ${NodeManager.bufferManager.allPagesRefcounters[nodeid]} x16" })
-getNodeAny(nodeid, { node ->
+            getNodeAny(nodeid, { node ->
             }, { n ->
                 node = n
             })
@@ -147,7 +146,7 @@ getNodeAny(nodeid, { node ->
         var pageid = nodeid
         while (pageid != nodeNullPointer) {
             var id = pageid
-SanityCheck.println({ "Outside.refcount($pageid) ${NodeManager.bufferManager.allPagesRefcounters[pageid]} x01" })
+            SanityCheck.println({ "Outside.refcount($pageid) ${NodeManager.bufferManager.allPagesRefcounters[pageid]} x01" })
             getNodeLeaf(pageid, { node ->
                 val tmp = NodeShared.getNextNode(node)
                 pageid = tmp
@@ -163,7 +162,7 @@ SanityCheck.println({ "Outside.refcount($pageid) ${NodeManager.bufferManager.all
         if (nodeid != nodeNullPointer) {
             var node: ByteArray? = null
             SanityCheck.println({ "Outside.refcount($nodeid) ${NodeManager.bufferManager.allPagesRefcounters[nodeid]} x17" })
-getNodeAny(nodeid, { node ->
+            getNodeAny(nodeid, { node ->
             }, { n ->
                 node = n
             })

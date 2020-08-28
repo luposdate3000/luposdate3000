@@ -54,8 +54,8 @@ class PhysicalOptimizerNaive(query: Query) : OptimizerBase(query, EOptimizerID.P
     override suspend fun optimize(node: OPBase, parent: OPBase?, onChange: () -> Unit): OPBase {
         var res = node
         var change = true
+        var projectedVariables = listOf<String>()
         try {
-            val projectedVariables: List<String>
             if (parent is LOPProjection) {
                 projectedVariables = parent.getProvidedVariableNames()
             } else if (parent is POPProjection) {
@@ -165,8 +165,10 @@ class PhysicalOptimizerNaive(query: Query) : OptimizerBase(query, EOptimizerID.P
             }
         } finally {
             if (change) {
-	val tmp=node.mySortPriority.map { it.variableName }
-                SanityCheck.check { (!projectedVariables.containsAll(tmp))||(res.getProvidedVariableNames().containsAll(tmp) && projectedVariables.containsAll(tmp))}
+                SanityCheck {
+                    val tmp = node.mySortPriority.map { it.variableName }
+                    SanityCheck.check { (!projectedVariables.containsAll(tmp)) || (res.getProvidedVariableNames().containsAll(tmp) && projectedVariables.containsAll(tmp)) }
+                }
                 res.mySortPriority = node.mySortPriority
                 res.sortPriorities = node.sortPriorities
                 onChange()

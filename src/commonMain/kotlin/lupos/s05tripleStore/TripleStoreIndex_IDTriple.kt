@@ -1,12 +1,12 @@
 package lupos.s05tripleStore
 
-import lupos.s03resultRepresentation.ResultSetDictionary
 import kotlin.jvm.JvmField
 import lupos.s00misc.BenchmarkUtils
 import lupos.s00misc.EBenchmark
 import lupos.s00misc.File
 import lupos.s00misc.ReadWriteLock
 import lupos.s00misc.SanityCheck
+import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s03resultRepresentation.Value
 import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.s04logicalOperators.iterator.ColumnIteratorEmpty
@@ -136,7 +136,6 @@ SanityCheck.check{rootNode==null}
     var cachedHistograms2Size = 0
     var cachedHistograms2Cursor = 0
     val cachedHistograms2 = IntArray(400)
-
     inline fun clearCachedHistogram() {
         cachedHistograms1Size = 0
         cachedHistograms2Size = 0
@@ -381,22 +380,22 @@ SanityCheck.check{rootNode==null}
             res = i
             node2 = n
         }
-	var nodeid=res
+        var nodeid = res
         var node = node2!!
         NodeLeaf.initializeWith(node, iterator)
         while (iterator.hasNext()) {
             SanityCheck.println({ "Outside.refcount(??) - x51" })
             NodeManager.allocateNodeLeaf { n, i ->
-SanityCheck.println({ "Outside.refcount($nodeid) ${NodeManager.bufferManager.allPagesRefcounters[nodeid]} x61" })
-		NodeManager.releaseNode(nodeid)
-		nodeid=i
+                SanityCheck.println({ "Outside.refcount($nodeid) ${NodeManager.bufferManager.allPagesRefcounters[nodeid]} x61" })
+                NodeManager.releaseNode(nodeid)
+                nodeid = i
                 NodeShared.setNextNode(node, i)
                 node = n
             }
             NodeLeaf.initializeWith(node, iterator)
         }
-	SanityCheck.println({ "Outside.refcount($nodeid) ${NodeManager.bufferManager.allPagesRefcounters[nodeid]} x62" })
-	NodeManager.releaseNode(nodeid)
+        SanityCheck.println({ "Outside.refcount($nodeid) ${NodeManager.bufferManager.allPagesRefcounters[nodeid]} x62" })
+        NodeManager.releaseNode(nodeid)
         return res
     }
 
@@ -479,9 +478,9 @@ SanityCheck.println({ "Outside.refcount($nodeid) ${NodeManager.bufferManager.all
                 SanityCheck.println({ "Outside.refcount($root) ${NodeManager.bufferManager.allPagesRefcounters[root]} x49" })
                 NodeManager.freeAllInnerNodes(root)
                 firstLeaf = NodeManager.nodeNullPointer
-SanityCheck.check{root != NodeManager.nodeNullPointer}
-SanityCheck.println({ "Outside.refcount($root) ${NodeManager.bufferManager.allPagesRefcounters[root]} x60" })
-NodeManager.releaseNode(root)
+                SanityCheck.check { root != NodeManager.nodeNullPointer }
+                SanityCheck.println({ "Outside.refcount($root) ${NodeManager.bufferManager.allPagesRefcounters[root]} x60" })
+                NodeManager.releaseNode(root)
                 root = NodeManager.nodeNullPointer
                 rootNode = null
             }
@@ -527,15 +526,15 @@ NodeManager.releaseNode(root)
                 currentLayer.add(i)
             }
             var node = node2!!
-	var nodeid=firstLeaf
+            var nodeid = firstLeaf
             NodeLeaf.initializeWith(node, iterator)
             while (iterator.hasNext()) {
                 SanityCheck.println({ "Outside.refcount(??) - x53" })
                 NodeManager.allocateNodeLeaf { n, i ->
                     NodeShared.setNextNode(node, i)
-SanityCheck.println({ "Outside.refcount(${nodeid}) ${NodeManager.bufferManager.allPagesRefcounters[nodeid]} x64" })
-NodeManager.releaseNode(nodeid)
-		nodeid=i
+                    SanityCheck.println({ "Outside.refcount(${nodeid}) ${NodeManager.bufferManager.allPagesRefcounters[nodeid]} x64" })
+                    NodeManager.releaseNode(nodeid)
+                    nodeid = i
                     node = n
                     currentLayer.add(i)
                 }
@@ -547,9 +546,9 @@ NodeManager.releaseNode(nodeid)
                 var prev2: ByteArray? = null
                 SanityCheck.println({ "Outside.refcount(??) - x54" })
                 NodeManager.allocateNodeInner { n, i ->
-SanityCheck.println({ "Outside.refcount(${nodeid}) ${NodeManager.bufferManager.allPagesRefcounters[nodeid]} x65" })
-NodeManager.releaseNode(nodeid)
-                nodeid=i
+                    SanityCheck.println({ "Outside.refcount(${nodeid}) ${NodeManager.bufferManager.allPagesRefcounters[nodeid]} x65" })
+                    NodeManager.releaseNode(nodeid)
+                    nodeid = i
                     tmp.add(i)
                     NodeInner.initializeWith(n, currentLayer)
                     prev2 = n
@@ -558,9 +557,9 @@ NodeManager.releaseNode(nodeid)
                 while (currentLayer.size > 0) {
                     SanityCheck.println({ "Outside.refcount(??) - x55" })
                     NodeManager.allocateNodeInner { n, i ->
-SanityCheck.println({ "Outside.refcount(${nodeid}) ${NodeManager.bufferManager.allPagesRefcounters[nodeid]} x66" })
-NodeManager.releaseNode(nodeid)
-                nodeid=i
+                        SanityCheck.println({ "Outside.refcount(${nodeid}) ${NodeManager.bufferManager.allPagesRefcounters[nodeid]} x66" })
+                        NodeManager.releaseNode(nodeid)
+                        nodeid = i
                         tmp.add(i)
                         NodeInner.initializeWith(n, currentLayer)
                         NodeShared.setNextNode(prev, i)
@@ -569,10 +568,10 @@ NodeManager.releaseNode(nodeid)
                 }
                 currentLayer = tmp
             }
-SanityCheck.println({ "Outside.refcount(${nodeid}) ${NodeManager.bufferManager.allPagesRefcounters[nodeid]} x71" })
-NodeManager.releaseNode(nodeid)
+            SanityCheck.println({ "Outside.refcount(${nodeid}) ${NodeManager.bufferManager.allPagesRefcounters[nodeid]} x71" })
+            NodeManager.releaseNode(nodeid)
             var rootNodeIsLeaf = false
-		SanityCheck.check{rootNode==null}
+            SanityCheck.check { rootNode == null }
             SanityCheck.println({ "Outside.refcount(${currentLayer[0]}) ${NodeManager.bufferManager.allPagesRefcounters[currentLayer[0]]} x27" })
             NodeManager.getNodeAny(currentLayer[0], {
                 rootNodeIsLeaf = true
@@ -581,8 +580,8 @@ NodeManager.releaseNode(nodeid)
                 root = currentLayer[0]
             })
             if (rootNodeIsLeaf) {
-SanityCheck.println({ "Outside.refcount(${nodeid}) ${NodeManager.bufferManager.allPagesRefcounters[nodeid]} x67" })
-NodeManager.releaseNode(nodeid)
+                SanityCheck.println({ "Outside.refcount(${nodeid}) ${NodeManager.bufferManager.allPagesRefcounters[nodeid]} x67" })
+                NodeManager.releaseNode(nodeid)
                 SanityCheck.println({ "Outside.refcount(??) - x56" })
                 NodeManager.allocateNodeInner { n, i ->
                     NodeInner.initializeWith(n, mutableListOf(currentLayer[0]))
@@ -592,7 +591,7 @@ NodeManager.releaseNode(nodeid)
             }
         } else {
 //this index is cleared completely
-SanityCheck.check{rootNode==null}
+            SanityCheck.check { rootNode == null }
             rootNode = null
             root = NodeManager.nodeNullPointer
             firstLeaf = NodeManager.nodeNullPointer

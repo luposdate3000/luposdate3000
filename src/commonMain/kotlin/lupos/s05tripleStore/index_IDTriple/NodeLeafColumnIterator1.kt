@@ -11,7 +11,7 @@ import lupos.s00misc.SanityCheck
 import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s04logicalOperators.iterator.ColumnIterator
 
-class NodeLeafColumnIterator1(@JvmField var node: ByteArray,@JvmField var nodeid:Int, @JvmField val lock: ReadWriteLock) : ColumnIterator() {
+class NodeLeafColumnIterator1(@JvmField var node: ByteArray, @JvmField var nodeid: Int, @JvmField val lock: ReadWriteLock) : ColumnIterator() {
     @JvmField
     var remaining = 0
 
@@ -34,10 +34,10 @@ class NodeLeafColumnIterator1(@JvmField var node: ByteArray,@JvmField var nodeid
     suspend inline fun _close() {
         if (label != 0) {
             label = 0
-if(nodeid!=NodeManager.nodeNullPointer){
-SanityCheck.println({ "Outside.refcount($nodeid) ${NodeManager.bufferManager.allPagesRefcounters[nodeid]} x38" })
-NodeManager.releaseNode(nodeid)
-}
+            if (nodeid != NodeManager.nodeNullPointer) {
+                SanityCheck.println({ "Outside.refcount($nodeid) ${NodeManager.bufferManager.allPagesRefcounters[nodeid]} x38" })
+                NodeManager.releaseNode(nodeid)
+            }
             lock.readUnlock()
         }
     }
@@ -92,11 +92,11 @@ NodeManager.releaseNode(nodeid)
                 loop@ while (remaining == 0) {
                     needsReset = true
                     offset = NodeLeaf.startOffset
-SanityCheck.println({ "Outside.refcount($nodeid) ${NodeManager.bufferManager.allPagesRefcounters[nodeid]} x39" })
+                    SanityCheck.println({ "Outside.refcount($nodeid) ${NodeManager.bufferManager.allPagesRefcounters[nodeid]} x39" })
                     NodeManager.releaseNode(nodeid)
-nodeid = NodeShared.getNextNode(node)
+                    nodeid = NodeShared.getNextNode(node)
                     if (nodeid != NodeManager.nodeNullPointer) {
-SanityCheck.println({ "Outside.refcount($nodeid) ${NodeManager.bufferManager.allPagesRefcounters[nodeid]} x07" })
+                        SanityCheck.println({ "Outside.refcount($nodeid) ${NodeManager.bufferManager.allPagesRefcounters[nodeid]} x07" })
                         NodeManager.getNodeLeaf(nodeid, {
                             SanityCheck.check { node != it }
                             node = it
