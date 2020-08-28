@@ -55,7 +55,7 @@ object NodeInner {
                 node = it
                 nextnodeid = getFirstChild(node)
             })
-            SanityCheck.println({ "Outside.refcount($nodeid) ${NodeManager.bufferManager.allPagesRefcounters[nodeid]} x91" })
+            SanityCheck.println({ "Outside.refcount($nodeid) ${NodeManager.bufferManager.allPagesRefcounters[nodeid]} x202" })
             NodeManager.releaseNode(nodeid)
             nodeid = nextnodeid
         }
@@ -113,7 +113,7 @@ object NodeInner {
                 node = it
             })
             if (iterator == null) {
-                SanityCheck.println({ "Outside.refcount($nodeid) ${NodeManager.bufferManager.allPagesRefcounters[nodeid]} x95" })
+                SanityCheck.println({ "Outside.refcount($nodeid) ${NodeManager.bufferManager.allPagesRefcounters[nodeid]} x25" })
                 NodeManager.releaseNode(nodeid)
             } else {
                 break
@@ -134,7 +134,7 @@ object NodeInner {
                 node = it
             })
             if (iterator == null) {
-                SanityCheck.println({ "Outside.refcount($nodeid) ${NodeManager.bufferManager.allPagesRefcounters[nodeid]} x95" })
+                SanityCheck.println({ "Outside.refcount($nodeid) ${NodeManager.bufferManager.allPagesRefcounters[nodeid]} x50" })
                 NodeManager.releaseNode(nodeid)
             } else {
                 break
@@ -298,7 +298,7 @@ object NodeInner {
                 })
             })
             if (iterator == null) {
-                SanityCheck.println({ "Outside.refcount($nodeid) ${NodeManager.bufferManager.allPagesRefcounters[nodeid]} x95" })
+                SanityCheck.println({ "Outside.refcount($nodeid) ${NodeManager.bufferManager.allPagesRefcounters[nodeid]} x78" })
                 NodeManager.releaseNode(nodeid)
             } else {
                 break
@@ -324,7 +324,7 @@ object NodeInner {
                 })
             })
             if (iterator == null) {
-                SanityCheck.println({ "Outside.refcount($nodeid) ${NodeManager.bufferManager.allPagesRefcounters[nodeid]} x95" })
+                SanityCheck.println({ "Outside.refcount($nodeid) ${NodeManager.bufferManager.allPagesRefcounters[nodeid]} x79" })
                 NodeManager.releaseNode(nodeid)
             } else {
                 break
@@ -350,7 +350,7 @@ object NodeInner {
                 })
             })
             if (iterator == null) {
-                SanityCheck.println({ "Outside.refcount($nodeid) ${NodeManager.bufferManager.allPagesRefcounters[nodeid]} x95" })
+                SanityCheck.println({ "Outside.refcount($nodeid) ${NodeManager.bufferManager.allPagesRefcounters[nodeid]} x82" })
                 NodeManager.releaseNode(nodeid)
             } else {
                 break

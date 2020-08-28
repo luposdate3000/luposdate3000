@@ -139,7 +139,7 @@ class NodeLeafColumnIteratorPrefix2_2(@JvmField var node: ByteArray, @JvmField v
                 while (remaining == 0) {
                     needsReset = true
                     offset = NodeLeaf.startOffset
-                    SanityCheck.println({ "Outside.refcount($nodeid) ${NodeManager.bufferManager.allPagesRefcounters[nodeid]} x42" })
+                    SanityCheck.println({ "Outside.refcount($nodeid) ${NodeManager.bufferManager.allPagesRefcounters[nodeid]} x201" })
                     NodeManager.releaseNode(nodeid)
                     nodeid = NodeShared.getNextNode(node)
                     if (nodeid != NodeManager.nodeNullPointer) {

@@ -30,7 +30,7 @@ class NodeLeafColumnIteratorPrefix1_1(@JvmField var node: ByteArray, @JvmField v
     @JvmField
     var value1 = 0
     inline suspend fun _init() {
-        SanityCheck.println { "readLock(${lock.uuid}) x40" }
+        SanityCheck.println { "readLock(${lock.uuid}) x200" }
         lock.readLock()
         remaining = NodeShared.getTripleCount(node)
     }
@@ -39,10 +39,10 @@ class NodeLeafColumnIteratorPrefix1_1(@JvmField var node: ByteArray, @JvmField v
         if (label != 0) {
             label = 0
             if (nodeid != NodeManager.nodeNullPointer) {
-                SanityCheck.println({ "Outside.refcount($nodeid) ${NodeManager.bufferManager.allPagesRefcounters[nodeid]} x34" })
+                SanityCheck.println({ "Outside.refcount($nodeid) ${NodeManager.bufferManager.allPagesRefcounters[nodeid]} x193" })
                 NodeManager.releaseNode(nodeid)
             }
-            SanityCheck.println { "readUnlock(${lock.uuid}) x41" }
+            SanityCheck.println { "readUnlock(${lock.uuid}) x192" }
             lock.readUnlock()
         }
     }
@@ -120,7 +120,7 @@ class NodeLeafColumnIteratorPrefix1_1(@JvmField var node: ByteArray, @JvmField v
                 while (remaining == 0) {
                     needsReset = true
                     offset = NodeLeaf.startOffset
-                    SanityCheck.println({ "Outside.refcount($nodeid) ${NodeManager.bufferManager.allPagesRefcounters[nodeid]} x35" })
+                    SanityCheck.println({ "Outside.refcount($nodeid) ${NodeManager.bufferManager.allPagesRefcounters[nodeid]} x194" })
                     NodeManager.releaseNode(nodeid)
                     nodeid = NodeShared.getNextNode(node)
                     if (nodeid != NodeManager.nodeNullPointer) {

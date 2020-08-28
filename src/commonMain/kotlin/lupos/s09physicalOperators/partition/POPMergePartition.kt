@@ -81,26 +81,28 @@ class POPMergePartition(query: Query, projectedVariables: List<String>, val part
                                     SanityCheck.println({ "merge $uuid $p writer loop start" })
                                     var t = (ringbufferWriteHead[p] + 1) % elementsPerRing
                                     if (ringbufferReadHead[p] == t) {
-                                        SanityCheck.println { "lock(${continuationLock.uuid}) x1" }
+                                        SanityCheck.println { "lock(${continuationLock.uuid}) x96" }
                                         continuationLock.lock()
                                         var tmp2 = ringbufferReaderContinuation
                                         ringbufferReaderContinuation = null
                                         if (tmp2 != null) {
                                             SanityCheck.println { "unlock(${continuationLock.uuid}) x84" }
                                             continuationLock.unlock()
+                                            SanityCheck.println { "$uuid reader resume coroutine x97" }
                                             tmp2.resume(Unit)
                                             SanityCheck.println { "lock(${continuationLock.uuid}) x85" }
                                             continuationLock.lock()
                                         }
-                                        if (ringbufferReadHead[p] == t) {
+                                        if (ringbufferReadHead[p] == t&&readerFinished==0) {
                                             suspendCoroutineUninterceptedOrReturn { continuation: Continuation<Unit> ->
                                                 ringbufferWriterContinuation[p] = continuation
-                                                SanityCheck.println { "unlock(${continuationLock.uuid}) x2" }
+                                                SanityCheck.println { "unlock(${continuationLock.uuid}) x98" }
                                                 continuationLock.unlock()
+                                                SanityCheck.println { "$uuid writer[$p] SUSPENDED coroutine x99" }
                                                 COROUTINE_SUSPENDED
                                             }
                                         } else {
-                                            SanityCheck.println { "unlock(${continuationLock.uuid}) x3" }
+                                            SanityCheck.println { "unlock(${continuationLock.uuid}) x100" }
                                             continuationLock.unlock()
                                         }
                                         if (readerFinished != 0) {
@@ -112,14 +114,15 @@ class POPMergePartition(query: Query, projectedVariables: List<String>, val part
                                     var tmp = childIterator.next()
                                     if (tmp == ResultSetDictionary.nullValue) {
                                         SanityCheck.println({ "merge $uuid $p writer closed B" })
-                                        SanityCheck.println { "lock(${continuationLock.uuid}) x4" }
+                                        SanityCheck.println { "lock(${continuationLock.uuid}) x101" }
                                         continuationLock.lock()
                                         writerFinished[p] = 1
                                         var tmp2 = ringbufferReaderContinuation
                                         ringbufferReaderContinuation = null
-                                        SanityCheck.println { "unlock(${continuationLock.uuid}) x5" }
+                                        SanityCheck.println { "unlock(${continuationLock.uuid}) x106" }
                                         continuationLock.unlock()
                                         if (tmp2 != null) {
+                                            SanityCheck.println { "$uuid reader resume coroutine x105" }
                                             tmp2.resume(Unit)
                                         }
                                         break@loop
@@ -130,13 +133,14 @@ class POPMergePartition(query: Query, projectedVariables: List<String>, val part
                                         ringbufferWriteHead[p] = (ringbufferWriteHead[p] + 1) % elementsPerRing
                                         var tmp2 = ringbufferReaderContinuation
                                         if (tmp2 != null) {
-                                            SanityCheck.println { "lock(${continuationLock.uuid}) x6" }
+                                            SanityCheck.println { "lock(${continuationLock.uuid}) x104" }
                                             continuationLock.lock()
                                             tmp2 = ringbufferReaderContinuation
                                             ringbufferReaderContinuation = null
-                                            SanityCheck.println { "unlock(${continuationLock.uuid}) x7" }
+                                            SanityCheck.println { "unlock(${continuationLock.uuid}) x103" }
                                             continuationLock.unlock()
                                             if (tmp2 != null) {
+                                                SanityCheck.println { "$uuid reader resume coroutine x102" }
                                                 tmp2.resume(Unit)
                                             }
                                         }
@@ -148,26 +152,28 @@ class POPMergePartition(query: Query, projectedVariables: List<String>, val part
                                     SanityCheck.println({ "merge $uuid $p writer loop start" })
                                     var t = (ringbufferWriteHead[p] + variables.size) % elementsPerRing
                                     if (ringbufferReadHead[p] == t) {
-                                        SanityCheck.println { "lock(${continuationLock.uuid}) x8" }
+                                        SanityCheck.println { "lock(${continuationLock.uuid}) x119" }
                                         continuationLock.lock()
                                         var tmp2 = ringbufferReaderContinuation
                                         ringbufferReaderContinuation = null
                                         if (tmp2 != null) {
                                             SanityCheck.println { "unlock(${continuationLock.uuid}) x86" }
                                             continuationLock.unlock()
+                                            SanityCheck.println { "$uuid reader resume coroutine x107" }
                                             tmp2.resume(Unit)
                                             SanityCheck.println { "lock(${continuationLock.uuid}) x87" }
                                             continuationLock.lock()
                                         }
-                                        if (ringbufferReadHead[p] == t) {
+                                        if (ringbufferReadHead[p] == t&&readerFinished==0) {
                                             suspendCoroutineUninterceptedOrReturn { continuation: Continuation<Unit> ->
                                                 ringbufferWriterContinuation[p] = continuation
-                                                SanityCheck.println { "unlock(${continuationLock.uuid}) x9" }
+                                                SanityCheck.println { "unlock(${continuationLock.uuid}) x108" }
                                                 continuationLock.unlock()
+                                                SanityCheck.println { "$uuid writer[$p] SUSPENDED coroutine x109" }
                                                 COROUTINE_SUSPENDED
                                             }
                                         } else {
-                                            SanityCheck.println { "unlock(${continuationLock.uuid}) x10" }
+                                            SanityCheck.println { "unlock(${continuationLock.uuid}) x110" }
                                             continuationLock.unlock()
                                         }
                                         if (readerFinished != 0) {
@@ -184,14 +190,15 @@ class POPMergePartition(query: Query, projectedVariables: List<String>, val part
                                         for (variable in 0 until variables.size) {
                                             variableMapping[variable].close()
                                         }
-                                        SanityCheck.println { "lock(${continuationLock.uuid}) x11" }
+                                        SanityCheck.println { "lock(${continuationLock.uuid}) x111" }
                                         continuationLock.lock()
                                         writerFinished[p] = 1
                                         var tmp2 = ringbufferReaderContinuation
                                         ringbufferReaderContinuation = null
-                                        SanityCheck.println { "unlock(${continuationLock.uuid}) x12" }
+                                        SanityCheck.println { "unlock(${continuationLock.uuid}) x112" }
                                         continuationLock.unlock()
                                         if (tmp2 != null) {
+                                            SanityCheck.println { "$uuid reader resume coroutine x117" }
                                             tmp2.resume(Unit)
                                         }
                                         break@loop
@@ -214,13 +221,14 @@ class POPMergePartition(query: Query, projectedVariables: List<String>, val part
                                         ringbufferWriteHead[p] = (ringbufferWriteHead[p] + variables.size) % elementsPerRing
                                         var tmp2 = ringbufferReaderContinuation
                                         if (tmp2 != null) {
-                                            SanityCheck.println { "lock(${continuationLock.uuid}) x13" }
+                                            SanityCheck.println { "lock(${continuationLock.uuid}) x114" }
                                             continuationLock.lock()
                                             tmp2 = ringbufferReaderContinuation
                                             ringbufferReaderContinuation = null
-                                            SanityCheck.println { "unlock(${continuationLock.uuid}) x14" }
+                                            SanityCheck.println { "unlock(${continuationLock.uuid}) x115" }
                                             continuationLock.unlock()
                                             if (tmp2 != null) {
+                                                SanityCheck.println { "$uuid reader resume coroutine x116" }
                                                 tmp2.resume(Unit)
                                             }
                                         }
@@ -242,26 +250,28 @@ class POPMergePartition(query: Query, projectedVariables: List<String>, val part
                                 SanityCheck.println({ "merge $uuid $p writer loop start" })
                                 var t = (ringbufferWriteHead[p] + variables.size) % elementsPerRing
                                 if (ringbufferReadHead[p] == t) {
-                                    SanityCheck.println { "lock(${continuationLock.uuid}) x15" }
+                                    SanityCheck.println { "lock(${continuationLock.uuid}) x160" }
                                     continuationLock.lock()
                                     var tmp2 = ringbufferReaderContinuation
                                     ringbufferReaderContinuation = null
                                     if (tmp2 != null) {
                                         SanityCheck.println { "unlock(${continuationLock.uuid}) x81" }
                                         continuationLock.unlock()
+                                        SanityCheck.println { "$uuid reader resume coroutine x118" }
                                         tmp2.resume(Unit)
                                         SanityCheck.println { "lock(${continuationLock.uuid}) x88" }
                                         continuationLock.lock()
                                     }
-                                    if (ringbufferReadHead[p] == t) {
+                                    if (ringbufferReadHead[p] == t&&readerFinished==0) {
                                         suspendCoroutineUninterceptedOrReturn { continuation: Continuation<Unit> ->
                                             ringbufferWriterContinuation[p] = continuation
-                                            SanityCheck.println { "unlock(${continuationLock.uuid}) x16" }
+                                            SanityCheck.println { "unlock(${continuationLock.uuid}) x161" }
                                             continuationLock.unlock()
+                                            SanityCheck.println { "$uuid writer[$p] SUSPENDED coroutine x113" }
                                             COROUTINE_SUSPENDED
                                         }
                                     } else {
-                                        SanityCheck.println { "unlock(${continuationLock.uuid}) x17" }
+                                        SanityCheck.println { "unlock(${continuationLock.uuid}) x83" }
                                         continuationLock.unlock()
                                     }
                                     if (readerFinished != 0) {
@@ -273,14 +283,15 @@ class POPMergePartition(query: Query, projectedVariables: List<String>, val part
                                 var tmp = child.next()
                                 if (tmp == -1) {
                                     SanityCheck.println({ "merge $uuid $p writer closed B" })
-                                    SanityCheck.println { "lock(${continuationLock.uuid}) x18" }
+                                    SanityCheck.println { "lock(${continuationLock.uuid}) x163" }
                                     continuationLock.lock()
                                     writerFinished[p] = 1
                                     var tmp2 = ringbufferReaderContinuation
                                     ringbufferReaderContinuation = null
-                                    SanityCheck.println { "unlock(${continuationLock.uuid}) x19" }
+                                    SanityCheck.println { "unlock(${continuationLock.uuid}) x164" }
                                     continuationLock.unlock()
                                     if (tmp2 != null) {
+                                        SanityCheck.println { "$uuid reader resume coroutine x11" }
                                         tmp2.resume(Unit)
                                     }
                                     break@loop
@@ -293,13 +304,14 @@ class POPMergePartition(query: Query, projectedVariables: List<String>, val part
                                     ringbufferWriteHead[p] = (ringbufferWriteHead[p] + variables.size) % elementsPerRing
                                     var tmp2 = ringbufferReaderContinuation
                                     if (tmp2 != null) {
-                                        SanityCheck.println { "lock(${continuationLock.uuid}) x20" }
+                                        SanityCheck.println { "lock(${continuationLock.uuid}) x165" }
                                         continuationLock.lock()
                                         tmp2 = ringbufferReaderContinuation
                                         ringbufferReaderContinuation = null
-                                        SanityCheck.println { "unlock(${continuationLock.uuid}) x21" }
+                                        SanityCheck.println { "unlock(${continuationLock.uuid}) x166" }
                                         continuationLock.unlock()
                                         if (tmp2 != null) {
+                                            SanityCheck.println { "$uuid reader resume coroutine x121" }
                                             tmp2.resume(Unit)
                                         }
                                     }
@@ -309,18 +321,20 @@ class POPMergePartition(query: Query, projectedVariables: List<String>, val part
                     } catch (e: Throwable) {
                         ex = e
                         e.printStackTrace()
-                        SanityCheck.println { "lock(${continuationLock.uuid}) x22" }
+	}finally{
+                        SanityCheck.println { "lock(${continuationLock.uuid}) x167" }
                         continuationLock.lock()
                         writerFinished[p] = 1
                         var tmp2 = ringbufferReaderContinuation
                         ringbufferReaderContinuation = null
-                        SanityCheck.println { "unlock(${continuationLock.uuid}) x23" }
+                        SanityCheck.println { "unlock(${continuationLock.uuid}) x168" }
                         continuationLock.unlock()
                         if (tmp2 != null) {
+                            SanityCheck.println { "$uuid reader resume coroutine x120" }
                             tmp2.resume(Unit)
                         }
-                    }
                     SanityCheck.println({ "merge $uuid $p writer exited loop" })
+                    }
                 }
                 jobs.add(job)
             }
@@ -343,13 +357,14 @@ class POPMergePartition(query: Query, projectedVariables: List<String>, val part
                             ringbufferReadHead[p] = (ringbufferReadHead[p] + variables.size) % elementsPerRing
                             var tmp2 = ringbufferWriterContinuation[p]
                             if (tmp2 != null) {
-                                SanityCheck.println { "lock(${continuationLock.uuid}) x24" }
+                                SanityCheck.println { "lock(${continuationLock.uuid}) x169" }
                                 continuationLock.lock()
                                 tmp2 = ringbufferWriterContinuation[p]
                                 ringbufferWriterContinuation[p] = null
-                                SanityCheck.println { "unlock(${continuationLock.uuid}) x25" }
+                                SanityCheck.println { "unlock(${continuationLock.uuid}) x170" }
                                 continuationLock.unlock()
                                 if (tmp2 != null) {
+                                    SanityCheck.println { "$uuid writer[p] resume coroutine x14" }
                                     (tmp2 as Continuation<Unit>).resume(Unit)
                                 }
                             }
@@ -365,9 +380,10 @@ class POPMergePartition(query: Query, projectedVariables: List<String>, val part
                             if (tmp2 != null) {
                                 SanityCheck.println { "unlock(${continuationLock.uuid}) x89" }
                                 continuationLock.unlock()
+                                SanityCheck.println { "$uuid writer[p] resume coroutine x15" }
                                 tmp2!!.resume(Unit)
                             } else {
-                                SanityCheck.println { "unlock(${continuationLock.uuid}) x90" }
+                                SanityCheck.println { "unlock(${continuationLock.uuid}) x171" }
                                 continuationLock.unlock()
                             }
                         }
@@ -394,12 +410,13 @@ class POPMergePartition(query: Query, projectedVariables: List<String>, val part
                     } else if (flag) {
                         suspendCoroutineUninterceptedOrReturn { continuation: Continuation<Unit> ->
                             ringbufferReaderContinuation = continuation
-                            SanityCheck.println { "unlock(${continuationLock.uuid}) x28" }
+                            SanityCheck.println { "unlock(${continuationLock.uuid}) x173" }
                             continuationLock.unlock()
+                            SanityCheck.println { "$uuid reader SUSPENDED coroutine x172" }
                             COROUTINE_SUSPENDED
                         }
                     } else {
-                        SanityCheck.println { "unlock(${continuationLock.uuid}) x29" }
+                        SanityCheck.println { "unlock(${continuationLock.uuid}) x174" }
                         continuationLock.unlock()
                     }
                 }
@@ -414,13 +431,14 @@ class POPMergePartition(query: Query, projectedVariables: List<String>, val part
                 for (p in 0 until Partition.k) {
                     var tmp2 = ringbufferWriterContinuation[p]
                     if (tmp2 != null) {
-                        SanityCheck.println { "lock(${continuationLock.uuid}) x30" }
+                        SanityCheck.println { "lock(${continuationLock.uuid}) x176" }
                         continuationLock.lock()
                         tmp2 = ringbufferWriterContinuation[p]
                         ringbufferWriterContinuation[p] = null
-                        SanityCheck.println { "unlock(${continuationLock.uuid}) x31" }
+                        SanityCheck.println { "unlock(${continuationLock.uuid}) x177" }
                         continuationLock.unlock()
                         if (tmp2 != null) {
+                            SanityCheck.println { "$uuid writer[p] resume coroutine x175" }
                             (tmp2 as Continuation<Unit>).resume(Unit)
                         }
                     }
