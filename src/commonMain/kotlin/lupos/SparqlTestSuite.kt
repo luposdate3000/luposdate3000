@@ -53,6 +53,7 @@ import lupos.s16network.ServerCommunicationSend
 
 class SparqlTestSuite() {
     companion object {
+	const val testPersistence=false
         const val errorBoundForDecimalsDigits = 6
         val filterList = mutableListOf<String>()
         val enabledTestCases = listOf("resources/myqueries/", "resources/bsbm/", "resources/btc/", "resources/sp2b/")
@@ -487,6 +488,7 @@ class SparqlTestSuite() {
                         DistributedTripleStore.getDefaultGraph(query).modify(arrayOf(tmp.columns["s"]!!, tmp.columns["p"]!!, tmp.columns["o"]!!), EModifyType.INSERT)
                         query.commit()
                     }
+if(testPersistence){
                     File("log/storetest").mkdirs()
                     DistributedTripleStore.localStore.safeToFolder()
                     DistributedTripleStore.localStore.loadFromFolder()
@@ -501,6 +503,7 @@ class SparqlTestSuite() {
                         GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Failed(LoadImport)" })
                         return false
                     }
+}
                     GlobalLogger.log(ELoggerType.TEST_RESULT, { "test InputData Graph[] ::" + xmlQueryInput.toPrettyString() })
                     try {
                         if (!ignoreJena) {

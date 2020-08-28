@@ -52,18 +52,20 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
     }
 
     suspend override fun safeToFile(filename: String) {
+/*
         flushContinueWithReadLock()
         SanityCheck.suspended {
             if (root != NodeManager.nodeNullPointer) {
                 var found = false
                 SanityCheck.println({ "Outside.refcount($root) ${NodeManager.bufferManager.allPagesRefcounters[root]} x25" })
                 NodeManager.getNodeAny(root, {
-                    SanityCheck.println { "root is inner node" }
                     SanityCheck.checkUnreachable()
                 }, {
                     found = true
                     SanityCheck.check { rootNode == it }
                 })
+SanityCheck.println({ "Outside.refcount($root) ${NodeManager.bufferManager.allPagesRefcounters[root]} x80" })
+		NodeManager.releaseNode(root)
                 SanityCheck.check { found }
             } else {
                 SanityCheck.check { rootNode == null }
@@ -88,9 +90,11 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
             }
         }
         lock.readUnlock()
+*/
     }
 
     suspend override fun loadFromFile(filename: String) {
+/*
         clear()
 	lock.writeLock()
 SanityCheck.check{rootNode==null}
@@ -104,6 +108,7 @@ SanityCheck.check{rootNode==null}
             } else {
                 SanityCheck.println({ "Outside.refcount($root) ${NodeManager.bufferManager.allPagesRefcounters[root]} x15" })
                 NodeManager.getNodeInner(root, {
+			"xxx refcount of rootnode is too high here"
                     rootNode = it
                 })
                 SanityCheck.check { rootNode != null }
@@ -122,6 +127,7 @@ SanityCheck.check{rootNode==null}
             }
         }
         lock.writeUnlock()
+*/
     }
 
     var cachedHistograms1Size = 0
