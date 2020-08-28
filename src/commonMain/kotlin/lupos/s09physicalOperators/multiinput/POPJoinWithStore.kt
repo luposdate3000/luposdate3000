@@ -236,11 +236,11 @@ class POPJoinWithStore(query: Query, projectedVariables: List<String>, childA: O
                     }
                 }
             }
-        }else{
-		for (columnConfig in columnsOUT) {
-			outMap[columnConfig.first] = ColumnIteratorQueueEmpty()
-		}
-	}
+        } else {
+            for (columnConfig in columnsOUT) {
+                outMap[columnConfig.first] = ColumnIteratorQueueEmpty()
+            }
+        }
         return IteratorBundle(outMap)
     }
 

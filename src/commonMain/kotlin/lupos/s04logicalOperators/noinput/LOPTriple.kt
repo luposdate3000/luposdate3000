@@ -2,9 +2,9 @@ package lupos.s04logicalOperators.noinput
 
 import kotlin.jvm.JvmField
 import lupos.s00misc.EIndexPattern
-import lupos.s00misc.GraphVarHistogramsNotImplementedException
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.ESortPriority
+import lupos.s00misc.GraphVarHistogramsNotImplementedException
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.XMLElement
 import lupos.s04arithmetikOperators.AOPBase
@@ -101,9 +101,9 @@ class LOPTriple(query: Query, s: AOPBase, p: AOPBase, o: AOPBase, @JvmField val 
     }
 
     suspend override fun calculateHistogram(): HistogramResult {
-if(graphVar){
-throw GraphVarHistogramsNotImplementedException()
-}
+        if (graphVar) {
+            throw GraphVarHistogramsNotImplementedException()
+        }
         var res = HistogramResult()
         res.count = -1
         var store = DistributedTripleStore.getNamedGraph(query, graph)

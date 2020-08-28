@@ -33,7 +33,7 @@ class XMLElement {
                 }
                 filename.endsWith(".rdf") -> {
                     throw UnknownDataFile(filename)
-		}
+                }
                 else -> {
                     throw UnknownDataFile(filename)
                 }

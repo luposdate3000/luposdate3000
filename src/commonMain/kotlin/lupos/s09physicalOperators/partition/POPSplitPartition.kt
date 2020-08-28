@@ -53,6 +53,7 @@ class POPSplitPartition(query: Query, projectedVariables: List<String>, val part
             val childPartition = Partition(parent, partitionVariable, GlobalScope)
             var partitionHelper: PartitionHelper? = null
             partitionHelper = query.getPartitionHelper(uuid)
+            SanityCheck.println { "lock(${partitionHelper!!.lock.uuid}) x32" }
             partitionHelper!!.lock.lock()
             val tmpIterators = partitionHelper!!.iterators
             if (tmpIterators != null) {
@@ -198,6 +199,7 @@ class POPSplitPartition(query: Query, projectedVariables: List<String>, val part
                     tmpJob[childPartition] = job!!
                 }
             }
+            SanityCheck.println { "unlock(${partitionHelper!!.lock.uuid}) x33" }
             partitionHelper!!.lock.unlock()
             return iterators!![parent.data[partitionVariable]!!]
         }

@@ -47,7 +47,7 @@ object NodeInner {
         var nodeid = getFirstChild(node)
         while (!done) {
             SanityCheck.println({ "Outside.refcount($nodeid) ${NodeManager.bufferManager.allPagesRefcounters[nodeid]} x18" })
-	var nextnodeid=nodeid
+            var nextnodeid = nodeid
             NodeManager.getNodeAny(nodeid, {
                 NodeLeaf.getFirstTriple(it, b)
                 done = true
@@ -57,7 +57,7 @@ object NodeInner {
             })
             SanityCheck.println({ "Outside.refcount($nodeid) ${NodeManager.bufferManager.allPagesRefcounters[nodeid]} x91" })
             NodeManager.releaseNode(nodeid)
-	nodeid=nextnodeid
+            nodeid = nextnodeid
         }
     }
 
@@ -112,12 +112,12 @@ object NodeInner {
             }, {
                 node = it
             })
-if(iterator==null){
-        SanityCheck.println({ "Outside.refcount($nodeid) ${NodeManager.bufferManager.allPagesRefcounters[nodeid]} x95" })
-        NodeManager.releaseNode(nodeid)
-}else{ 
-break
-}
+            if (iterator == null) {
+                SanityCheck.println({ "Outside.refcount($nodeid) ${NodeManager.bufferManager.allPagesRefcounters[nodeid]} x95" })
+                NodeManager.releaseNode(nodeid)
+            } else {
+                break
+            }
         }
         return iterator!!
     }
@@ -133,12 +133,12 @@ break
             }, {
                 node = it
             })
-if(iterator==null){
-	SanityCheck.println({ "Outside.refcount($nodeid) ${NodeManager.bufferManager.allPagesRefcounters[nodeid]} x95" })
-	NodeManager.releaseNode(nodeid)
-}else{
-break
-}
+            if (iterator == null) {
+                SanityCheck.println({ "Outside.refcount($nodeid) ${NodeManager.bufferManager.allPagesRefcounters[nodeid]} x95" })
+                NodeManager.releaseNode(nodeid)
+            } else {
+                break
+            }
         }
         return iterator!!
     }
@@ -284,12 +284,12 @@ break
     suspend inline fun iterator3(data: ByteArray, prefix: IntArray, lock: ReadWriteLock): ColumnIterator {
         var node = data
         var iterator: ColumnIterator? = null
-var nodeid=0
+        var nodeid = 0
         while (true) {
             findIteratorN(node, {
                 /*return*/ (it[0] < prefix[0]) || (it[0] == prefix[0] && it[1] < prefix[1]) || (it[0] == prefix[0] && it[1] == prefix[1] && it[2] < prefix[2])
             }, {
-nodeid=it
+                nodeid = it
                 SanityCheck.println({ "Outside.refcount($it) ${NodeManager.bufferManager.allPagesRefcounters[it]} x21" })
                 NodeManager.getNodeAnySuspended(it, { node ->
                     iterator = NodeLeaf.iterator3(node, it, prefix, lock)
@@ -297,12 +297,12 @@ nodeid=it
                     node = it
                 })
             })
-if(iterator==null){
-        SanityCheck.println({ "Outside.refcount($nodeid) ${NodeManager.bufferManager.allPagesRefcounters[nodeid]} x95" })
-        NodeManager.releaseNode(nodeid)
-}else{ 
-break
-}
+            if (iterator == null) {
+                SanityCheck.println({ "Outside.refcount($nodeid) ${NodeManager.bufferManager.allPagesRefcounters[nodeid]} x95" })
+                NodeManager.releaseNode(nodeid)
+            } else {
+                break
+            }
         }
         return iterator!!
     }
@@ -310,25 +310,25 @@ break
     suspend inline fun iterator2(data: ByteArray, prefix: IntArray, lock: ReadWriteLock): ColumnIterator {
         var node = data
         var iterator: ColumnIterator? = null
-var nodeid=0
+        var nodeid = 0
         while (true) {
             findIteratorN(node, {
                 /*return*/ (it[0] < prefix[0]) || (it[0] == prefix[0] && it[1] < prefix[1])
             }, {
-    nodeid=it
+                nodeid = it
                 SanityCheck.println({ "Outside.refcount($it) ${NodeManager.bufferManager.allPagesRefcounters[it]} x22" })
-            NodeManager.getNodeAnySuspended(it, { node ->
+                NodeManager.getNodeAnySuspended(it, { node ->
                     iterator = NodeLeaf.iterator2(node, it, prefix, lock)
                 }, {
                     node = it
                 })
             })
-if(iterator==null){
-        SanityCheck.println({ "Outside.refcount($nodeid) ${NodeManager.bufferManager.allPagesRefcounters[nodeid]} x95" })
-        NodeManager.releaseNode(nodeid)
-}else{ 
-break
-}
+            if (iterator == null) {
+                SanityCheck.println({ "Outside.refcount($nodeid) ${NodeManager.bufferManager.allPagesRefcounters[nodeid]} x95" })
+                NodeManager.releaseNode(nodeid)
+            } else {
+                break
+            }
         }
         return iterator!!
     }
@@ -336,12 +336,12 @@ break
     suspend inline fun iterator1(data: ByteArray, prefix: IntArray, lock: ReadWriteLock, component: Int): ColumnIterator {
         var node = data
         var iterator: ColumnIterator? = null
-var nodeid=0
+        var nodeid = 0
         while (true) {
             findIteratorN(node, {
                 /*return*/ (it[0] < prefix[0])
             }, {
-nodeid=it
+                nodeid = it
                 SanityCheck.println({ "Outside.refcount($it) ${NodeManager.bufferManager.allPagesRefcounters[it]} x23" })
                 NodeManager.getNodeAnySuspended(it, { node ->
                     iterator = NodeLeaf.iterator1(node, it, prefix, lock, component)
@@ -349,12 +349,12 @@ nodeid=it
                     node = it
                 })
             })
-if(iterator==null){
-        SanityCheck.println({ "Outside.refcount($nodeid) ${NodeManager.bufferManager.allPagesRefcounters[nodeid]} x95" })
-        NodeManager.releaseNode(nodeid)
-}else{ 
-break
-}
+            if (iterator == null) {
+                SanityCheck.println({ "Outside.refcount($nodeid) ${NodeManager.bufferManager.allPagesRefcounters[nodeid]} x95" })
+                NodeManager.releaseNode(nodeid)
+            } else {
+                break
+            }
         }
         return iterator!!
     }

@@ -13,8 +13,8 @@ import lupos.s04logicalOperators.noinput.LOPValues
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.singleinput.LOPBind
-import lupos.s04logicalOperators.singleinput.LOPGroup
 import lupos.s04logicalOperators.singleinput.LOPFilter
+import lupos.s04logicalOperators.singleinput.LOPGroup
 import lupos.s04logicalOperators.singleinput.LOPMakeBooleanResult
 import lupos.s04logicalOperators.singleinput.LOPProjection
 import lupos.s04logicalOperators.singleinput.LOPSort
@@ -167,34 +167,34 @@ class LogicalOptimizerProjectionDown(query: Query) : OptimizerBase(query, EOptim
                         res = child
                         onChange()
                     }
-		    is LOPGroup -> {
-			var d=false
-			var c=true
-			loop@while(c){
-				c=false
-				for(i in 0 until child.bindings.size){
-					if(!variables.contains(child.bindings[i].first)){
-						child.bindings.removeAt(i)
-						d=true
-						c=true
-						continue@loop
-					}
-				}
-			}
-			if(variables.containsAll(child.getProvidedVariableNames())){
-				res=child
-				d=true
-			}
-			val a=child.children[0].getProvidedVariableNames()
-			val b=child.getRequiredVariableNames()
-			if(!b.containsAll(a)){
-				child.children[0]=LOPProjection(query,b.map { AOPVariable(query, it) }.toMutableList(),child.children[0])
-				d=true
-			}
-			if(d){
-				onChange()
-			}
-		    }
+                    is LOPGroup -> {
+                        var d = false
+                        var c = true
+                        loop@ while (c) {
+                            c = false
+                            for (i in 0 until child.bindings.size) {
+                                if (!variables.contains(child.bindings[i].first)) {
+                                    child.bindings.removeAt(i)
+                                    d = true
+                                    c = true
+                                    continue@loop
+                                }
+                            }
+                        }
+                        if (variables.containsAll(child.getProvidedVariableNames())) {
+                            res = child
+                            d = true
+                        }
+                        val a = child.children[0].getProvidedVariableNames()
+                        val b = child.getRequiredVariableNames()
+                        if (!b.containsAll(a)) {
+                            child.children[0] = LOPProjection(query, b.map { AOPVariable(query, it) }.toMutableList(), child.children[0])
+                            d = true
+                        }
+                        if (d) {
+                            onChange()
+                        }
+                    }
                     is LOPFilter -> {
                         if (child.children[0] !is LOPTriple) {
                             if (variables.containsAll(child.getRequiredVariableNames())) {

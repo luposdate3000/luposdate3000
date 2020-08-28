@@ -89,6 +89,7 @@ SanityCheck.println({ "Outside.refcount($root) ${NodeManager.bufferManager.allPa
                 }
             }
         }
+        SanityCheck.println{"readUnlock(${lock.uuid}) x48"} 
         lock.readUnlock()
 */
     }
@@ -96,6 +97,7 @@ SanityCheck.println({ "Outside.refcount($root) ${NodeManager.bufferManager.allPa
     suspend override fun loadFromFile(filename: String) {
 /*
         clear()
+        SanityCheck.println{"writeLock(${	lock.uuid}) x49"} 
 	lock.writeLock()
 SanityCheck.check{rootNode==null}
         File(filename).dataInputStreamSuspended { fis ->
@@ -126,6 +128,7 @@ SanityCheck.check{rootNode==null}
                 }
             }
         }
+        SanityCheck.println{"writeUnlock(${lock.uuid}) x50"} 
         lock.writeUnlock()
 */
     }
@@ -221,6 +224,7 @@ SanityCheck.check{rootNode==null}
         val filter = (params as TripleStoreFeatureParamsDefault).getFilter(query)
         var res: Pair<Int, Int>? = checkForCachedHistogram(filter)
         if (res == null) {
+            SanityCheck.println { "readLock(${lock.uuid}) x51" }
             lock.readLock()
             val node = rootNode
             if (node != null) {
@@ -266,6 +270,7 @@ SanityCheck.check{rootNode==null}
             } else {
                 res = Pair(0, 0)
             }
+            SanityCheck.println { "readUnlock(${lock.uuid}) x52" }
             lock.readUnlock()
             updateCachedHistogram(filter, res!!)
         }
@@ -345,6 +350,7 @@ SanityCheck.check{rootNode==null}
                 }
             }
         }
+        SanityCheck.println { "readUnlock(${lock.uuid}) x53" }
         lock.readUnlock()
         return res
     }
@@ -401,21 +407,27 @@ SanityCheck.check{rootNode==null}
 
     suspend override fun flush() {
         if (pendingImport.size > 0) {
+            SanityCheck.println { "writeLock(${lock.uuid}) x54" }
             lock.writeLock()
             flushAssumeLocks()
+            SanityCheck.println { "writeUnlock(${lock.uuid}) x55" }
             lock.writeUnlock()
         }
     }
 
     inline suspend fun flushContinueWithWriteLock() {
+        SanityCheck.println { "writeLock(${lock.uuid}) x56" }
         lock.writeLock()
         flushAssumeLocks()
     }
 
     inline suspend fun flushContinueWithReadLock() {
+        SanityCheck.println { "readLock(${lock.uuid}) x57" }
         lock.readLock()
         if (pendingImport.size > 0) {
+            SanityCheck.println { "readUnlock(${lock.uuid}) x58" }
             lock.readUnlock()
+            SanityCheck.println { "writeLock(${lock.uuid}) x59" }
             lock.writeLock()
             flushAssumeLocks()
             lock.downgradeToReadLock()
@@ -467,6 +479,7 @@ SanityCheck.check{rootNode==null}
     }
 
     suspend override fun import(dataImport: IntArray, count: Int, order: IntArray) {
+        SanityCheck.println { "writeLock(${lock.uuid}) x60" }
         lock.writeLock()
         BenchmarkUtils.start(EBenchmark.IMPORT_MERGE_DATA)
         if (count > 0) {
@@ -510,6 +523,7 @@ SanityCheck.check{rootNode==null}
             }
         }
         BenchmarkUtils.elapsedSeconds(EBenchmark.IMPORT_MERGE_DATA)
+        SanityCheck.println { "writeUnlock(${lock.uuid}) x61" }
         lock.writeUnlock()
     }
 
@@ -626,6 +640,7 @@ SanityCheck.check{rootNode==null}
             SanityCheck.println({ "Outside.refcount($oldroot) ${NodeManager.bufferManager.allPagesRefcounters[oldroot]} x43" })
             NodeManager.freeNodeAndAllRelated(oldroot)
         }
+        SanityCheck.println { "writeUnlock(${lock.uuid}) x62" }
         lock.writeUnlock()
     }
 
@@ -654,6 +669,7 @@ SanityCheck.check{rootNode==null}
             SanityCheck.println({ "Outside.refcount($oldroot) ${NodeManager.bufferManager.allPagesRefcounters[oldroot]} x44" })
             NodeManager.freeNodeAndAllRelated(oldroot)
         }
+        SanityCheck.println { "writeUnlock(${lock.uuid}) x63" }
         lock.writeUnlock()
     }
 
@@ -675,10 +691,12 @@ SanityCheck.check{rootNode==null}
         firstLeaf = NodeManager.nodeNullPointer
         rootNode = null
         clearCachedHistogram()
+        SanityCheck.println { "writeUnlock(${lock.uuid}) x64" }
         lock.writeUnlock()
     }
 
     suspend override fun printContents() {
+        SanityCheck.println { "readLock(${lock.uuid}) x65" }
         lock.readLock()
         if (firstLeaf != NodeManager.nodeNullPointer) {
             SanityCheck.println({ "Outside.refcount($firstLeaf) ${NodeManager.bufferManager.allPagesRefcounters[firstLeaf]} x14" })
@@ -690,6 +708,7 @@ SanityCheck.check{rootNode==null}
                 }
             })
         }
+        SanityCheck.println { "readUnlock(${lock.uuid}) x66" }
         lock.readUnlock()
     }
 }

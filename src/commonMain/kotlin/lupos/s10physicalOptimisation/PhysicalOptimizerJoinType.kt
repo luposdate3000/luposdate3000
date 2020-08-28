@@ -121,10 +121,10 @@ class PhysicalOptimizerJoinType(query: Query) : OptimizerBase(query, EOptimizerI
                     }
                 }
             }
-SanityCheck{
-val tmp=node.mySortPriority.map { it.variableName }
-            SanityCheck.check { (!projectedVariables.containsAll(tmp))||(projectedVariables.containsAll(tmp)&&res.getProvidedVariableNames().containsAll(tmp) )}
-}
+            SanityCheck {
+                val tmp = node.mySortPriority.map { it.variableName }
+                SanityCheck.check { (!projectedVariables.containsAll(tmp)) || (projectedVariables.containsAll(tmp) && res.getProvidedVariableNames().containsAll(tmp)) }
+            }
             res.mySortPriority = node.mySortPriority
             res.sortPriorities = node.sortPriorities
             onChange()

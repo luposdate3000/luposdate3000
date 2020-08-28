@@ -27,6 +27,7 @@ class NodeLeafColumnIterator2(@JvmField var node: ByteArray, @JvmField var nodei
     @JvmField
     var value = 0
     inline suspend fun _init() {
+        SanityCheck.println { "readLock(${lock.uuid}) x38" }
         lock.readLock()
         remaining = NodeShared.getTripleCount(node)
     }
@@ -38,6 +39,7 @@ class NodeLeafColumnIterator2(@JvmField var node: ByteArray, @JvmField var nodei
                 SanityCheck.println({ "Outside.refcount($nodeid) ${NodeManager.bufferManager.allPagesRefcounters[nodeid]} x32" })
                 NodeManager.releaseNode(nodeid)
             }
+            SanityCheck.println { "readUnlock(${lock.uuid}) x39" }
             lock.readUnlock()
         }
     }

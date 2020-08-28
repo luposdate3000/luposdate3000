@@ -8,6 +8,9 @@ import lupos.s00misc.Coverage
 
 class Lock {
     @JvmField
+    val uuid = debuguuidtmp123.incrementAndGet()
+
+    @JvmField
     val mutex = Mutex()
     inline suspend fun lock() {
         mutex.lock()
