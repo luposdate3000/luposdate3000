@@ -3,7 +3,7 @@ package lupos.s03resultRepresentation
 import kotlin.jvm.JvmField
 import lupos.s00misc.BigDecimal
 import lupos.s00misc.BigInteger
-import lupos.s00misc.BufferManager
+import lupos.s01io.BufferManager
 import lupos.s00misc.File
 import lupos.s00misc.MyListDouble
 import lupos.s00misc.MyMapDoubleInt

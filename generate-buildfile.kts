@@ -229,11 +229,7 @@ val options = mapOf<ChooseableGroup, List<ChooseableOption>>(
                 ChooseableOptionTypeAlias("Parallel", "lupos.s00misc", listOf("CoroutinesHelper" to "CoroutinesHelperParallel"))
         ),
         ChooseableGroup("Buffer Manager Type", "BufferManager") to listOf(
-                ChooseableOptionDirectory("Heap", "commonS01HeapMain"),
-                ChooseableOptionDirectory("MemoryMapped", "jvmS01BufferMemoryMappedMain"),
-                ChooseableOptionDirectory("MemoryMappedUnsafe", "jvmS01BufferMemoryMappedUnsafeMain"),
-                ChooseableOptionDirectory("RandomAccess", "jvmS01BufferRandomAccessMain"),
-                ChooseableOptionDirectory("Unsafe", "jvmS01BufferUnsafeMain")
+		ChooseableOptionDirectory("Heap", "commonS01HeapMain"),
         ),
         ChooseableGroup("Dictionary", "Dictionary") to listOf(
                 ChooseableOptionDirectory("MultiMap", "commonS03DictionaryMultiMapMain"),
@@ -518,9 +514,6 @@ while (!done) {
                     ChooseableOptionDependency("com.benasher44:uuid:0.0.7"),
                     ChooseableOptionDependency("com.soywiz.korlibs.krypto:krypto:1.9.1")
             ),
-            ChooseableOption("commonS01HeapMain") to listOf(
-                    ChooseableOptionDirectory("commonS01BufferMainmemoryMain")
-            ),
             ChooseableOption("jvmMain") to listOf(
                     ChooseableOptionDependency("org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion"),
                     ChooseableOptionDependency("org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion"),
@@ -530,20 +523,6 @@ while (!done) {
             ChooseableOption("jvmS00WrapperJenaOnMain") to listOf(
                     ChooseableOptionDependency("org.apache.jena:jena-core:3.14.0"),
                     ChooseableOptionDependency("org.apache.jena:jena-arq:3.14.0")
-            ),
-            ChooseableOption("jvmS01BufferMemoryMappedMain") to listOf(
-                    ChooseableOptionDirectory("commonS01BufferDiskbasedMain")
-            ),
-            ChooseableOption("jvmS01BufferMemoryMappedUnsafeMain") to listOf(
-                    ChooseableOptionDirectory("commonS01BufferDiskbasedMain"),
-                    ChooseableOptionDirectory("jvmS01BufferUnsafeHelperMain")
-            ),
-            ChooseableOption("jvmS01BufferUnsafeMain") to listOf(
-                    ChooseableOptionDirectory("commonS01BufferMainmemoryMain"),
-                    ChooseableOptionDirectory("jvmS01BufferUnsafeHelperMain")
-            ),
-            ChooseableOption("jvmS01BufferRandomAccessMain") to listOf(
-                    ChooseableOptionDirectory("commonS01BufferDiskbasedMain")
             ),
             ChooseableOption("jvmS16ServerCommunicationKtorMain") to listOf(
                     ChooseableOptionDirectory("commonS16ServerCommunicationEnabledMain"),

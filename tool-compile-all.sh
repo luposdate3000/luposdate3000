@@ -19,6 +19,5 @@ cat build/compile* \
 | grep -v "commonConfig.*No cast needed" \
 | grep -v "commonConfig.*Unchecked cast: Any? to" \
 | grep -v "commonConfig.*Unnecessary non-null assertion" \
-| grep -v "kotlin/lupos/s01io" \
 | grep -v "This API is experimental. It could be removed or changed in future"
 done
