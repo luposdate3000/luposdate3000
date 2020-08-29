@@ -37,7 +37,7 @@ class BPlusTreeTests {
             }
             assertFailsWith<NotFoundException> { tree[2 * size] }
         } catch (e: NotFoundException) {
-            GlobalLogger.log(ELoggerType.TEST_DETAIL, { e })
+            SanityCheck.println { e }
             fail(e.key.toString() + " not found!")
         }
         // TODO much more rigorously
@@ -57,7 +57,7 @@ class BPlusTreeTests {
             }
             assertEquals(tree[2 * size], false)
         } catch (e: NotFoundException) {
-            GlobalLogger.log(ELoggerType.TEST_DEBUG, { e })
+            SanityCheck.println { e }
             fail(e.key.toString() + " not found!")
         }
         // TODO much more rigorously
@@ -82,7 +82,7 @@ class BPlusTreeTests {
             val result = rangeExceedingLimits()
             assertEquals(result, null)
         } catch (e: NotFoundException) {
-            GlobalLogger.log(ELoggerType.TEST_DEBUG, { e })
+            SanityCheck.println { e }
             fail(e.key.toString() + " not found!")
         }
         // TODO much more rigorously
@@ -105,7 +105,7 @@ class BPlusTreeTests {
             } while (result != null)
             assertFailsWith<NotFoundException> { tree.range_search(2 * size, 3 * size) }
         } catch (e: NotFoundException) {
-            GlobalLogger.log(ELoggerType.TEST_DEBUG, { e })
+            SanityCheck.println { e }
             fail(e.key.toString() + " not found!")
         }
         // TODO much more rigorously
@@ -147,10 +147,10 @@ class BPlusTreeTests {
             assertEquals(b[3], 3)
             assertFailsWith<NotFoundException> { b[4] }
         } catch (e: NotFoundException) {
-            GlobalLogger.log(ELoggerType.TEST_DEBUG, { e })
+            SanityCheck.println { e }
             fail(e.key.toString() + " not found!")
         }
-        GlobalLogger.log(ELoggerType.TEST_DEBUG, { "Test 1 passed..." })
+        SanityCheck.println { "Test 1 passed..." }
         // TODO much more rigorously
     }
 
@@ -218,11 +218,11 @@ class BPlusTreeTests {
             var i = 101
             do {
                 val result = range(i)
-                GlobalLogger.log(ELoggerType.TEST_DEBUG, { "$i: $result" })
+                SanityCheck.println { "$i: $result" }
                 i = i * 2
             } while (result != null)
         } catch (e: NotFoundException) {
-            GlobalLogger.log(ELoggerType.TEST_DEBUG, { e })
+            SanityCheck.println { e }
             fail(e.key.toString() + " not found!")
         }
         // TODO much more rigorously

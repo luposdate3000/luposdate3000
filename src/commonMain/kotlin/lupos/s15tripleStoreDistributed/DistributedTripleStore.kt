@@ -3,11 +3,9 @@ package lupos.s15tripleStoreDistributed
 import kotlin.jvm.JvmField
 import lupos.s00misc.EGraphOperationType
 import lupos.s00misc.EIndexPattern
-import lupos.s00misc.ELoggerType
 import lupos.s00misc.EModifyType
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.ESortPriority
-import lupos.s00misc.GlobalLogger
 import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.TriplePatternsContainingTheSameVariableTwiceNotImplementedException
@@ -217,7 +215,7 @@ object DistributedTripleStore {
     }
 
     suspend fun clearGraph(query: Query, name: String) {
-        GlobalLogger.log(ELoggerType.DEBUG, { "DistributedTripleStore.clearGraph $name" })
+        SanityCheck.println { "DistributedTripleStore.clearGraph $name" }
         ServerCommunicationSend.graphOperation(query, name, EGraphOperationType.CLEAR)
     }
 

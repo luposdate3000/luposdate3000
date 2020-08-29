@@ -2,8 +2,6 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
-import lupos.s00misc.ELoggerType
-import lupos.s00misc.GlobalLogger
 import lupos.s16network.HttpEndpointLauncher
 import lupos.s16network.ServerCommunicationSend
 
@@ -12,7 +10,7 @@ fun main(args: Array<String>) = runBlocking {
     var bootStrapServer: String? = null
     var hostname = "localhost"
     for (a in args) {
-        GlobalLogger.log(ELoggerType.DEBUG, { "args[$i]=$a" })
+        SanityCheck.println { "args[$i]=$a" }
         when (i) {
             0 -> {
                 hostname = a

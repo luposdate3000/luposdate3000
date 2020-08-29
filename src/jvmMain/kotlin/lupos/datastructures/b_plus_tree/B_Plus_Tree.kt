@@ -5,8 +5,7 @@ import kotlin.math.ceil
 import lupos.s00misc.bit0
 import lupos.s00misc.bit1
 import lupos.s00misc.bit2
-import lupos.s00misc.ELoggerType
-import lupos.s00misc.GlobalLogger
+import lupos.s00misc.SanityCheck
 import lupos.s01io.buffer.bufferManager
 import lupos.s01io.buffer.deserializeCompressedInt
 import lupos.s01io.buffer.deserializeInt
@@ -2064,13 +2063,13 @@ class B_Plus_Tree_Difference_Encoding<K : Any, V : Any>(@JvmField val filename: 
                                                     var goDownward = false
                                                     sip_loop@ for (i in path.size - 1 downTo 0) {
                                                         var current = path[i] // current inner node
-                                                        GlobalLogger.log(ELoggerType.DEBUG, { "#: ${current.numberOfElements}" })
+                                                        SanityCheck.println { "#: ${current.numberOfElements}" }
                                                         while (current.index < current.numberOfElements) {
                                                             var pointer = deserializePointer(current.page, current.adr)
                                                             current.adr += serializedSizeOfPointer(pointer)
                                                             if (current.index == current.numberOfElements - 1) {
                                                                 if (!current.page.getByte(0L).bit1()) {
-                                                                    GlobalLogger.log(ELoggerType.DEBUG, { "go upwards" })
+                                                                    SanityCheck.println { "go upwards" }
                                                                     // go to next level of inner nodes
                                                                     path.remove(current)
                                                                     continue@sip_loop
@@ -2081,7 +2080,7 @@ class B_Plus_Tree_Difference_Encoding<K : Any, V : Any>(@JvmField val filename: 
                                                             current.adr += if (current.index == 1) serializedSizeOfKey(nodekey) else serializedSizeOfKeyDiff(nodekey, current.key!!)
                                                             current.key = nodekey
                                                             current.pointer = pointer
-                                                            GlobalLogger.log(ELoggerType.DEBUG, { "---> index: ${current.index} nodekey: $nodekey pointer: $pointer" })
+                                                            SanityCheck.println { "---> index: ${current.index} nodekey: $nodekey pointer: $pointer" }
                                                             if (compare(it, nodekey) >= 0) {
                                                                 node = pointer
                                                                 goDownward = true
@@ -2091,11 +2090,11 @@ class B_Plus_Tree_Difference_Encoding<K : Any, V : Any>(@JvmField val filename: 
                                                                 if (current.page.getByte(0L).bit1()) {
                                                                     // node spans over two pages...
                                                                     node = page.getInt(current.adr)
-                                                                    GlobalLogger.log(ELoggerType.DEBUG, { "node spans several pages, next page: $node" })
+                                                                    SanityCheck.println { "node spans several pages, next page: $node" }
                                                                     current.page = bufferManager.getPage(filename, node)
                                                                     current.nodeNumber = node
                                                                     current.numberOfElements = current.page.getInt(1L)
-                                                                    GlobalLogger.log(ELoggerType.DEBUG, { "# = ${current.numberOfElements}" })
+                                                                    SanityCheck.println { "# = ${current.numberOfElements}" }
                                                                     current.adr = 5L
                                                                     pointer = deserializePointer(current.page, current.adr)
                                                                     current.adr += serializedSizeOfPointer(pointer)
@@ -2107,7 +2106,7 @@ class B_Plus_Tree_Difference_Encoding<K : Any, V : Any>(@JvmField val filename: 
                                                     if (path.size == 0) {
                                                         endReached = true // check if this is correct...
                                                     } else if (goDownward) {
-                                                        GlobalLogger.log(ELoggerType.DEBUG, { "goDownward $node" })
+                                                        SanityCheck.println { "goDownward $node" }
                                                         // go downward node with search for key >= it
                                                         searchInInnerNodes@ while (true) {
                                                             page = bufferManager.getPage(filename, node)
@@ -2123,7 +2122,7 @@ class B_Plus_Tree_Difference_Encoding<K : Any, V : Any>(@JvmField val filename: 
                                                                 currentNodeInPath.key = oldkey
                                                                 currentNodeInPath.pointer = pointer
                                                                 currentNodeInPath.adr += serializedSizeOfKey(oldkey)
-                                                                GlobalLogger.log(ELoggerType.DEBUG, { "first key: " + oldkey + " pointer: " + pointer })
+                                                                SanityCheck.println { "first key: " + oldkey + " pointer: " + pointer }
                                                                 if (compareLeftLimit(oldkey) >= 0) {
                                                                     node = pointer
                                                                 } else {
@@ -2147,7 +2146,7 @@ class B_Plus_Tree_Difference_Encoding<K : Any, V : Any>(@JvmField val filename: 
                                                                             break
                                                                         }
                                                                         val nodekey = keyDiffDeserializer(page, currentNodeInPath.adr, oldkey)
-                                                                        GlobalLogger.log(ELoggerType.DEBUG, { "key: " + nodekey })
+                                                                        SanityCheck.println { "key: " + nodekey }
                                                                         currentNodeInPath.adr += serializedSizeOfKeyDiff(nodekey, oldkey)
                                                                         currentNodeInPath.key = nodekey
                                                                         oldkey = nodekey
@@ -2189,9 +2188,9 @@ class B_Plus_Tree_Difference_Encoding<K : Any, V : Any>(@JvmField val filename: 
                                             result = null
                                             break@loop
                                         } else {
-                                            GlobalLogger.log(ELoggerType.DEBUG, { "Leaf node: " + currentNodeInPath.nodeNumber })
+                                            SanityCheck.println { "Leaf node: " + currentNodeInPath.nodeNumber }
                                             val nodekey2 = if (currentNodeInPath.index == 0) keyDeserializer(page, currentNodeInPath.adr) else keyDiffDeserializer(page, currentNodeInPath.adr, currentNodeInPath.key!!)
-                                            GlobalLogger.log(ELoggerType.DEBUG, { "key: " + nodekey2 })
+                                            SanityCheck.println { "key: " + nodekey2 }
                                             currentNodeInPath.adr += if (currentNodeInPath.index == 0) serializedSizeOfKey(nodekey2) else serializedSizeOfKeyDiff(nodekey2, currentNodeInPath.key!!)
                                             currentNodeInPath.key = nodekey2
                                             val nodevalue2 = valueDeserializer(page, currentNodeInPath.adr)
@@ -2497,17 +2496,17 @@ class B_Plus_Tree_Difference_Encoding_OnlyKeys<K : Any>(@JvmField val filename: 
                                                     var goDownward = false
                                                     sip_loop@ for (i in path.size - 1 downTo 0) {
                                                         var current = path[i] // current inner node
-                                                        GlobalLogger.log(ELoggerType.DEBUG, { "#: ${current.numberOfElements}" })
+                                                        SanityCheck.println { "#: ${current.numberOfElements}" }
                                                         while (current.index < current.numberOfElements) {
                                                             if (current.index == current.numberOfElements - 1) {
                                                                 if (current.page.getByte(0L).bit1()) {
                                                                     // node spans over two pages...
                                                                     node = current.page.getInt(current.adr) // deserializePointer(current.page, current.adr)
-                                                                    GlobalLogger.log(ELoggerType.DEBUG, { "node spans several pages, next page: $node" })
+                                                                    SanityCheck.println { "node spans several pages, next page: $node" }
                                                                     current.page = bufferManager.getPage(filename, node)
                                                                     current.nodeNumber = node
                                                                     current.numberOfElements = current.page.getInt(1L)
-                                                                    GlobalLogger.log(ELoggerType.DEBUG, { "# = ${current.numberOfElements}" })
+                                                                    SanityCheck.println { "# = ${current.numberOfElements}" }
                                                                     current.adr = 5L
                                                                     current.index = 0
                                                                 }
@@ -2516,7 +2515,7 @@ class B_Plus_Tree_Difference_Encoding_OnlyKeys<K : Any>(@JvmField val filename: 
                                                             current.adr += serializedSizeOfPointer(pointer)
                                                             if (current.index == current.numberOfElements - 1) {
                                                                 if (!current.page.getByte(0L).bit1()) {
-                                                                    GlobalLogger.log(ELoggerType.DEBUG, { "go upwards" })
+                                                                    SanityCheck.println { "go upwards" }
                                                                     // go to next level of inner nodes
                                                                     // TODO: check current key of inner node, maybe it must be going down following the most right pointer
                                                                     path.remove(current)
@@ -2528,7 +2527,7 @@ class B_Plus_Tree_Difference_Encoding_OnlyKeys<K : Any>(@JvmField val filename: 
                                                             current.adr += if (current.index == 1) serializedSizeOfKey(nodekey) else serializedSizeOfKeyDiff(nodekey, current.key!!)
                                                             current.key = nodekey
                                                             current.pointer = pointer
-                                                            GlobalLogger.log(ELoggerType.DEBUG, { "---> index: ${current.index} nodekey: $nodekey pointer: $pointer" })
+                                                            SanityCheck.println { "---> index: ${current.index} nodekey: $nodekey pointer: $pointer" }
                                                             if (compare(it, nodekey) >= 0) {
                                                                 node = pointer
                                                                 goDownward = true
@@ -2539,7 +2538,7 @@ class B_Plus_Tree_Difference_Encoding_OnlyKeys<K : Any>(@JvmField val filename: 
                                                     if (path.size == 0) {
                                                         endReached = true // check if this is correct...
                                                     } else if (goDownward) {
-                                                        GlobalLogger.log(ELoggerType.DEBUG, { "goDownward $node" })
+                                                        SanityCheck.println { "goDownward $node" }
                                                         // go downward node with search for key >= it
                                                         searchInInnerNodes@ while (true) {
                                                             page = bufferManager.getPage(filename, node)
@@ -2555,7 +2554,7 @@ class B_Plus_Tree_Difference_Encoding_OnlyKeys<K : Any>(@JvmField val filename: 
                                                                 currentNodeInPath.key = oldkey
                                                                 currentNodeInPath.pointer = pointer
                                                                 currentNodeInPath.adr += serializedSizeOfKey(oldkey)
-                                                                GlobalLogger.log(ELoggerType.DEBUG, { "first key: " + oldkey + " pointer: " + pointer })
+                                                                SanityCheck.println { "first key: " + oldkey + " pointer: " + pointer }
                                                                 if (compareLeftLimit(oldkey) >= 0) {
                                                                     node = pointer
                                                                 } else {
@@ -2579,7 +2578,7 @@ class B_Plus_Tree_Difference_Encoding_OnlyKeys<K : Any>(@JvmField val filename: 
                                                                             break
                                                                         }
                                                                         val nodekey = keyDiffDeserializer(page, currentNodeInPath.adr, oldkey)
-                                                                        GlobalLogger.log(ELoggerType.DEBUG, { "key: " + nodekey })
+                                                                        SanityCheck.println { "key: " + nodekey }
                                                                         currentNodeInPath.adr += serializedSizeOfKeyDiff(nodekey, oldkey)
                                                                         currentNodeInPath.key = nodekey
                                                                         oldkey = nodekey
@@ -2621,9 +2620,9 @@ class B_Plus_Tree_Difference_Encoding_OnlyKeys<K : Any>(@JvmField val filename: 
                                             result = null
                                             break@loop
                                         } else {
-                                            GlobalLogger.log(ELoggerType.DEBUG, { "Leaf node: " + currentNodeInPath.nodeNumber })
+                                            SanityCheck.println { "Leaf node: " + currentNodeInPath.nodeNumber }
                                             val nodekey2 = if (currentNodeInPath.index == 0) keyDeserializer(page, currentNodeInPath.adr) else keyDiffDeserializer(page, currentNodeInPath.adr, currentNodeInPath.key!!)
-                                            GlobalLogger.log(ELoggerType.DEBUG, { "key: " + nodekey2 })
+                                            SanityCheck.println { "key: " + nodekey2 }
                                             currentNodeInPath.adr += if (currentNodeInPath.index == 0) serializedSizeOfKey(nodekey2) else serializedSizeOfKeyDiff(nodekey2, currentNodeInPath.key!!)
                                             currentNodeInPath.key = nodekey2
                                             currentNodeInPath.index++

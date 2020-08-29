@@ -6,10 +6,8 @@ import lupos.s00misc.BenchmarkUtils
 import lupos.s00misc.Coverage
 import lupos.s00misc.DateHelper
 import lupos.s00misc.EBenchmark
-import lupos.s00misc.ELoggerType
 import lupos.s00misc.EModifyType
 import lupos.s00misc.File
-import lupos.s00misc.GlobalLogger
 import lupos.s00misc.MyMapStringIntPatriciaTrie
 import lupos.s00misc.OperatorGraphToLatex
 import lupos.s00misc.parseFromXml
@@ -179,9 +177,9 @@ object HttpEndpoint {
     suspend fun evaluate_sparql_query_string_part1(query: String, logOperatorGraph: Boolean = false): OPBase {
         val q = Query()
 //        var timer = DateHelper.markNow()
-        GlobalLogger.log(ELoggerType.DEBUG, { "----------String Query" })
-        GlobalLogger.log(ELoggerType.DEBUG, { query })
-        GlobalLogger.log(ELoggerType.DEBUG, { "----------Abstract Syntax Tree" })
+        SanityCheck.println { "----------String Query" }
+        SanityCheck.println { query }
+        SanityCheck.println { "----------Abstract Syntax Tree" }
         val lcit = LexerCharIterator(query)
         val tit = TokenIteratorSPARQLParser(lcit)
         val ltit = LookAheadTokenIterator(tit, 3)
@@ -189,28 +187,28 @@ object HttpEndpoint {
         val ast_node = parser.expr()
 //        DateHelper.elapsedSeconds(0, timer)
 //        timer = DateHelper.markNow()
-        GlobalLogger.log(ELoggerType.DEBUG, { ast_node })
-        GlobalLogger.log(ELoggerType.DEBUG, { "----------Logical Operator Graph" })
+        SanityCheck.println { ast_node }
+        SanityCheck.println { "----------Logical Operator Graph" }
         val lop_node = ast_node.visit(OperatorGraphVisitor(q))
 //        DateHelper.elapsedSeconds(1, timer)
 //        timer = DateHelper.markNow()
-        GlobalLogger.log(ELoggerType.DEBUG, { lop_node })
-        GlobalLogger.log(ELoggerType.DEBUG, { "----------Logical Operator Graph optimized" })
+        SanityCheck.println { lop_node }
+        SanityCheck.println { "----------Logical Operator Graph optimized" }
         val lop_node2 = LogicalOptimizer(q).optimizeCall(lop_node)
 //        DateHelper.elapsedSeconds(2, timer)
 //        timer = DateHelper.markNow()
-        GlobalLogger.log(ELoggerType.DEBUG, { lop_node2 })
-        GlobalLogger.log(ELoggerType.DEBUG, { "----------Physical Operator Graph" })
+        SanityCheck.println { lop_node2 }
+        SanityCheck.println { "----------Physical Operator Graph" }
         val pop_optimizer = PhysicalOptimizer(q)
         val pop_node = pop_optimizer.optimizeCall(lop_node2)
 //        DateHelper.elapsedSeconds(3, timer)
 //        timer = DateHelper.markNow()
-        GlobalLogger.log(ELoggerType.DEBUG, { pop_node })
-        GlobalLogger.log(ELoggerType.DEBUG, { "----------Distributed Operator Graph" })
+        SanityCheck.println { pop_node }
+        SanityCheck.println { "----------Distributed Operator Graph" }
         val pop_distributed_node = KeyDistributionOptimizer(q).optimizeCall(pop_node)
 //        DateHelper.elapsedSeconds(4, timer)
 //        timer = DateHelper.markNow()
-        GlobalLogger.log(ELoggerType.DEBUG, { pop_distributed_node })
+        SanityCheck.println { pop_distributed_node }
         if (logOperatorGraph) {
             println("----------")
             println(query)
@@ -242,7 +240,7 @@ object HttpEndpoint {
     suspend fun evaluate_sparql_query_operator_xml(query: String, logOperatorGraph: Boolean = false): String {
         val q = Query()
         val pop_node = XMLElement.convertToOPBase(q, XMLElement.parseFromXml(query)!!)
-        GlobalLogger.log(ELoggerType.DEBUG, { pop_node })
+        SanityCheck.println { pop_node }
         if (logOperatorGraph) {
             SanityCheck.suspended {
                 SanityCheck.println({ "----------" })

@@ -1,12 +1,12 @@
 package lupos.s09physicalOperators.partition
 
-import kotlinx.coroutines.GlobalScope
 import kotlin.coroutines.Continuation
 import kotlin.coroutines.intrinsics.COROUTINE_SUSPENDED
 import kotlin.coroutines.intrinsics.suspendCoroutineUninterceptedOrReturn
 import kotlin.coroutines.resume
 import kotlinx.coroutines.cancelAndJoin
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import lupos.s00misc.EOperatorID
@@ -72,7 +72,7 @@ class POPMergePartition(query: Query, projectedVariables: List<String>, val part
             for (p in 0 until Partition.k) {
                 SanityCheck.println({ "merge $uuid $p writer launched F" })
                 var childEval2: IteratorBundle? = null
-try{
+                try {
                     childEval2 = children[0].evaluate(Partition(parent, partitionVariable, p, GlobalScope))
                 } catch (e: Throwable) {
                     e.printStackTrace()
@@ -81,7 +81,7 @@ try{
                 SanityCheck.println({ "merge $uuid $p writer launched G" })
                 val job = GlobalScope.launch(Dispatchers.Default) {
                     SanityCheck.println({ "merge $uuid $p writer launched A" })
-                val childEval = childEval2!!
+                    val childEval = childEval2!!
                     val scope = this
                     try {
                         if (childEval.hasColumnMode()) {

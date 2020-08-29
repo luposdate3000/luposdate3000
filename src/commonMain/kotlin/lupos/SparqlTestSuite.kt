@@ -7,10 +7,8 @@ import lupos.s00misc.BenchmarkUtils
 import lupos.s00misc.Coverage
 import lupos.s00misc.DateHelper
 import lupos.s00misc.EIndexPattern
-import lupos.s00misc.ELoggerType
 import lupos.s00misc.EModifyType
 import lupos.s00misc.File
-import lupos.s00misc.GlobalLogger
 import lupos.s00misc.JenaBugException
 import lupos.s00misc.JenaWrapper
 import lupos.s00misc.Luposdate3000Exception
@@ -62,10 +60,10 @@ class SparqlTestSuite() {
 
     suspend fun testMain() {
         repeat(1) {
-            GlobalLogger.log(ELoggerType.RELEASE, { "Starting tests..." })
+            println("Starting tests...")
             val (nr_t, nr_e) = parseManifestFile("resources/sparql11-test-suite/", "manifest-all.ttl")
-            GlobalLogger.log(ELoggerType.RELEASE, { "Number of tests: " + nr_t })
-            GlobalLogger.log(ELoggerType.RELEASE, { "Number of errors: " + nr_e })
+            println("Number of tests: " + nr_t)
+            println("Number of errors: " + nr_e)
             var prefixes = enabledTestCases
             for (prefix in prefixes) {
                 var lastinput: String? = null
@@ -129,9 +127,11 @@ class SparqlTestSuite() {
         try {
             TurtleParserWithDictionary(consume_triple, ltit).turtleDoc()
         } catch (e: ParseError) {
-            GlobalLogger.stacktrace(ELoggerType.DEBUG, e)
-            GlobalLogger.log(ELoggerType.DEBUG, { "Error in the following line:" })
-            GlobalLogger.log(ELoggerType.DEBUG, { e.lineNumber })
+            SanityCheck {
+                e.printStackTrace()
+            }
+            SanityCheck.println { "Error in the following line:" }
+            SanityCheck.println { e.lineNumber }
         }
     }
 
@@ -145,7 +145,7 @@ class SparqlTestSuite() {
     suspend private fun parseManifestFile(prefix: String, filename: String): Pair<Int, Int> {
         var numberOfErrors = 0
         var numberOfTests = 0
-        GlobalLogger.log(ELoggerType.DEBUG, { "Reading file " + filename + "..." })
+        SanityCheck.println { "Reading file " + filename + "..." }
         val data = createSevenIndices(prefix + filename)
         val newprefix = prefix + filename.substringBeforeLast("/") + "/"
         val manifestEntries = data.po(Dictionary.IRI("http://www.w3.org/1999/02/22-rdf-syntax-ns#type"), Dictionary.IRI("http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#Manifest"))
@@ -242,7 +242,7 @@ class SparqlTestSuite() {
                                         outputDataGraph.add(graph)
                                     }
                                     "http://www.w3.org/2009/sparql/tests/test-update#result" -> {
-                                        GlobalLogger.log(ELoggerType.DEBUG, { "unknown-manifest::http://www.w3.org/2009/sparql/tests/test-update#result : " + (Dictionary[it.second] as IRI).iri })
+                                        SanityCheck.println { "unknown-manifest::http://www.w3.org/2009/sparql/tests/test-update#result : " + (Dictionary[it.second] as IRI).iri }
                                     }
                                     else -> {
                                         throw UnknownManifestException("SparqlTestSuite", (Dictionary[it.first] as IRI).iri + " # " + Dictionary[it.second])
@@ -273,10 +273,10 @@ class SparqlTestSuite() {
                                         queryFile = prefix + (Dictionary[it.second] as IRI).iri
                                     }
                                     "http://www.w3.org/ns/sparql-service-description#entailmentRegime" -> {
-                                        GlobalLogger.log(ELoggerType.DEBUG, { "unknown-manifest::http://www.w3.org/ns/sparql-service-description#entailmentRegime " + Dictionary[it.second] })
+                                        SanityCheck.println { "unknown-manifest::http://www.w3.org/ns/sparql-service-description#entailmentRegime " + Dictionary[it.second] }
                                     }
                                     "http://www.w3.org/ns/sparql-service-description#EntailmentProfile" -> {
-                                        GlobalLogger.log(ELoggerType.DEBUG, { "unknown-manifest::http://www.w3.org/ns/sparql-service-description#EntailmentProfile " + Dictionary[it.second] })
+                                        SanityCheck.println { "unknown-manifest::http://www.w3.org/ns/sparql-service-description#EntailmentProfile " + Dictionary[it.second] }
                                     }
                                     "http://www.w3.org/2001/sw/DataAccess/tests/test-query#graphData" -> {
                                         val graph = mutableMapOf<String, String>()
@@ -381,16 +381,16 @@ class SparqlTestSuite() {
                     comment = (Dictionary[it.second] as SimpleLiteral).content
                 }
                 "http://www.w3.org/2001/sw/DataAccess/tests/test-dawg#approval" -> {
-                    GlobalLogger.log(ELoggerType.DEBUG, { "unknown-manifest::http://www.w3.org/2001/sw/DataAccess/tests/test-dawg#approval " + Dictionary[it.second] })
+                    SanityCheck.println { "unknown-manifest::http://www.w3.org/2001/sw/DataAccess/tests/test-dawg#approval " + Dictionary[it.second] }
                 }
                 "http://www.w3.org/2001/sw/DataAccess/tests/test-dawg#approvedBy" -> {
-                    GlobalLogger.log(ELoggerType.DEBUG, { "unknown-manifest::http://www.w3.org/2001/sw/DataAccess/tests/test-dawg#approvedBy " + Dictionary[it.second] })
+                    SanityCheck.println { "unknown-manifest::http://www.w3.org/2001/sw/DataAccess/tests/test-dawg#approvedBy " + Dictionary[it.second] }
                 }
                 "http://www.w3.org/2000/01/rdf-schema#seeAlso" -> {
-                    GlobalLogger.log(ELoggerType.DEBUG, { "unknown-manifest::http://www.w3.org/2000/01/rdf-schema#seeAlso " + (Dictionary[it.second] as IRI).iri })
+                    SanityCheck.println { "unknown-manifest::http://www.w3.org/2000/01/rdf-schema#seeAlso " + (Dictionary[it.second] as IRI).iri }
                 }
                 "http://www.w3.org/2001/sw/DataAccess/tests/test-query#queryForm" -> {
-                    GlobalLogger.log(ELoggerType.DEBUG, { "unknown-manifest::http://www.w3.org/2001/sw/DataAccess/tests/test-query#queryForm " + (Dictionary[it.second] as IRI).iri })
+                    SanityCheck.println { "unknown-manifest::http://www.w3.org/2001/sw/DataAccess/tests/test-query#queryForm " + (Dictionary[it.second] as IRI).iri }
                 }
                 "http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#description" -> {
                     SanityCheck.check({ description == null })
@@ -401,18 +401,18 @@ class SparqlTestSuite() {
                 }
             }
         }
-        GlobalLogger.log(ELoggerType.TEST_DETAIL, { "testType : $testType" })
-        GlobalLogger.log(ELoggerType.TEST_DETAIL, { "names : $names" })
-        GlobalLogger.log(ELoggerType.TEST_DETAIL, { "comment : $comment" })
-        GlobalLogger.log(ELoggerType.TEST_DETAIL, { "description : $description" })
-        GlobalLogger.log(ELoggerType.TEST_DETAIL, { "features : $features" })
-        GlobalLogger.log(ELoggerType.TEST_DETAIL, { "inputDataGraph : $inputDataGraph" })
-        GlobalLogger.log(ELoggerType.TEST_DETAIL, { "outputDataGraph : $outputDataGraph" })
-        GlobalLogger.log(ELoggerType.TEST_DETAIL, { "expectedResult : $expectedResult" })
-        GlobalLogger.log(ELoggerType.TEST_DETAIL, { "queryFile : $queryFile" })
-        GlobalLogger.log(ELoggerType.TEST_DETAIL, { "inputDataFile : $inputDataFile" })
-        GlobalLogger.log(ELoggerType.TEST_DETAIL, { "resultFile : $resultFile" })
-        GlobalLogger.log(ELoggerType.TEST_DETAIL, { "services : $services" })
+        SanityCheck.println { "testType : $testType" }
+        SanityCheck.println { "names : $names" }
+        SanityCheck.println { "comment : $comment" }
+        SanityCheck.println { "description : $description" }
+        SanityCheck.println { "features : $features" }
+        SanityCheck.println { "inputDataGraph : $inputDataGraph" }
+        SanityCheck.println { "outputDataGraph : $outputDataGraph" }
+        SanityCheck.println { "expectedResult : $expectedResult" }
+        SanityCheck.println { "queryFile : $queryFile" }
+        SanityCheck.println { "inputDataFile : $inputDataFile" }
+        SanityCheck.println { "resultFile : $resultFile" }
+        SanityCheck.println { "services : $services" }
         if (queryFile == null) {
             return true
         }
@@ -445,8 +445,8 @@ class SparqlTestSuite() {
         try {
             val toParse = readFileOrNull(queryFile)!!
             if (toParse.contains("service", true)) {
-                println( "----------Time(${DateHelper.elapsedSeconds(timer)})" )
-                println( "----------Failed(Service)" )
+                println("----------Time(${DateHelper.elapsedSeconds(timer)})")
+                println("----------Failed(Service)")
                 return false
             }
             val resultData = readFileOrNull(resultDataFileName)
@@ -461,13 +461,13 @@ class SparqlTestSuite() {
                 if (inputData != null && inputDataFileName != null) {
                     lastTripleCount = inputData.split("\n").size
                     if (MAX_TRIPLES_DURING_TEST > 0 && lastTripleCount > MAX_TRIPLES_DURING_TEST) {
-                        println( "----------Time(${DateHelper.elapsedSeconds(timer)})" )
-                        println( "----------Success(Skipped)" )
+                        println("----------Time(${DateHelper.elapsedSeconds(timer)})")
+                        println("----------Success(Skipped)")
                         return true
                     }
-                    println( "InputData Graph[] Original" )
-                    println( inputData )
-                    println( "----------Input Data Graph[]" )
+                    println("InputData Graph[] Original")
+                    println(inputData)
+                    println("----------Input Data Graph[]")
                     var xmlQueryInput = XMLElement.parseFromAny(inputData, inputDataFileName)!!
                     if (inputDataFileName.endsWith(".ttl") || inputDataFileName.endsWith(".n3")) {
                         val query = Query()
@@ -476,10 +476,10 @@ class SparqlTestSuite() {
                         val bulkSelect = DistributedTripleStore.getDefaultGraph(query).getIterator(arrayOf(AOPVariable(query, "s"), AOPVariable(query, "p"), AOPVariable(query, "o")), EIndexPattern.SPO)
                         val xmlGraphBulk = QueryResultToXMLElement.toXML(bulkSelect)
                         if (!xmlGraphBulk.myEqualsUnclean(xmlQueryInput, true, true, true)) {
-                            println( "test xmlQueryInput :: " + xmlQueryInput.toPrettyString() )
-                            println( "test xmlGraphBulk :: " + xmlGraphBulk.toPrettyString() )
-                            println( "----------Time(${DateHelper.elapsedSeconds(timer)})" )
-                            println( "----------Failed(BulkImport)" )
+                            println("test xmlQueryInput :: " + xmlQueryInput.toPrettyString())
+                            println("test xmlGraphBulk :: " + xmlGraphBulk.toPrettyString())
+                            println("----------Time(${DateHelper.elapsedSeconds(timer)})")
+                            println("----------Failed(BulkImport)")
                             return false
                         }
                     } else {
@@ -498,14 +498,14 @@ class SparqlTestSuite() {
                         val loadSelect = DistributedTripleStore.getDefaultGraph(query).getIterator(arrayOf(AOPVariable(query, "s"), AOPVariable(query, "p"), AOPVariable(query, "o")), EIndexPattern.SPO)
                         val xmlGraphLoad = QueryResultToXMLElement.toXML(loadSelect)
                         if (!xmlGraphLoad.myEqualsUnclean(xmlQueryInput, true, true, true)) {
-                            println( "test xmlQueryInput :: " + xmlQueryInput.toPrettyString() )
-                            println( "test xmlGraphLoad :: " + xmlGraphLoad.toPrettyString() )
-                            println( "----------Time(${DateHelper.elapsedSeconds(timer)})" )
-                            println( "----------Failed(LoadImport)" )
+                            println("test xmlQueryInput :: " + xmlQueryInput.toPrettyString())
+                            println("test xmlGraphLoad :: " + xmlGraphLoad.toPrettyString())
+                            println("----------Time(${DateHelper.elapsedSeconds(timer)})")
+                            println("----------Failed(LoadImport)")
                             return false
                         }
                     }
-                    println( "test InputData Graph[] ::" + xmlQueryInput.toPrettyString() )
+                    println("test InputData Graph[] ::" + xmlQueryInput.toPrettyString())
                     try {
                         if (!ignoreJena) {
                             JenaWrapper.loadFromFile("/src/luposdate3000/" + inputDataFileName)
@@ -520,17 +520,17 @@ class SparqlTestSuite() {
                     }
                 }
                 inputDataGraph.forEach {
-                    println( "InputData Graph[${it["name"]}] Original" )
+                    println("InputData Graph[${it["name"]}] Original")
                     val inputData2 = readFileOrNull(it["filename"])
-                    println( inputData2 )
-                    println( "----------Input Data Graph[${it["name"]}]" )
+                    println(inputData2)
+                    println("----------Input Data Graph[${it["name"]}]")
                     var xmlQueryInput = XMLElement.parseFromAny(inputData2!!, it["filename"]!!)!!
                     val query = Query()
                     query.workingDirectory = queryFile.substring(0, queryFile.lastIndexOf("/"))
                     val tmp = POPValuesImportXML(query, listOf("s", "p", "o"), xmlQueryInput).evaluate(Partition())
                     DistributedTripleStore.getNamedGraph(query, it["name"]!!).modify(arrayOf(tmp.columns["s"]!!, tmp.columns["p"]!!, tmp.columns["o"]!!), EModifyType.INSERT)
                     query.commit()
-                    println( "test Input Graph[${it["name"]!!}] :: " + xmlQueryInput.toPrettyString() )
+                    println("test Input Graph[${it["name"]!!}] :: " + xmlQueryInput.toPrettyString())
                     try {
                         if (!ignoreJena) {
                             JenaWrapper.loadFromFile("/src/luposdate3000/" + it["filename"]!!, it["name"]!!)
@@ -554,8 +554,8 @@ class SparqlTestSuite() {
                 }
             } else {
                 if (MAX_TRIPLES_DURING_TEST > 0 && lastTripleCount > MAX_TRIPLES_DURING_TEST) {
-                    println( "----------Time(${DateHelper.elapsedSeconds(timer)})" )
-                    println( "----------Success(Skipped)" )
+                    println("----------Time(${DateHelper.elapsedSeconds(timer)})")
+                    println("----------Success(Skipped)")
                     return true
                 }
             }
@@ -563,30 +563,36 @@ class SparqlTestSuite() {
             val query = Query()
             query.workingDirectory = queryFile.substring(0, queryFile.lastIndexOf("/"))
             var res: Boolean
-            GlobalLogger.log(ELoggerType.TEST_DETAIL, { "----------String Query" })
-            println( toParse )
-            GlobalLogger.log(ELoggerType.TEST_DETAIL, { "----------Abstract Syntax Tree" })
+            SanityCheck.println { "----------String Query" }
+            println(toParse)
+            SanityCheck.println { "----------Abstract Syntax Tree" }
             val lcit = LexerCharIterator(toParse)
             val tit = TokenIteratorSPARQLParser(lcit)
             val ltit = LookAheadTokenIterator(tit, 3)
             val parser = SPARQLParser(ltit)
             val ast_node = parser.expr()
-            GlobalLogger.log(ELoggerType.TEST_DETAIL, { ast_node })
-            GlobalLogger.log(ELoggerType.TEST_DETAIL, { "----------Logical Operator Graph" })
+            SanityCheck.println { ast_node }
+            SanityCheck.println { "----------Logical Operator Graph" }
             val lop_node = ast_node.visit(OperatorGraphVisitor(query))
             File("log/${testName2}-Logical-Operator-Graph.tex").printWriterSuspended {
                 it.println(OperatorGraphToLatex(lop_node.toXMLElement().toString(), testName2))
             }
             SanityCheck.check({ lop_node == lop_node.cloneOP() }, { lop_node.toString() + " - " + lop_node.cloneOP().toString() })
-            GlobalLogger.logSuspended(ELoggerType.TEST_DETAIL, { lop_node.toXMLElement().toPrettyString() })
-            GlobalLogger.log(ELoggerType.TEST_DETAIL, { "----------Logical Operator Graph optimized" })
+            SanityCheck.suspended {
+                val x = lop_node.toXMLElement().toPrettyString()
+                SanityCheck.println { x }
+            }
+            SanityCheck.println { "----------Logical Operator Graph optimized" }
             val lop_node2 = LogicalOptimizer(query).optimizeCall(lop_node)
             SanityCheck.check { lop_node2 == lop_node2.cloneOP() }
             File("log/${testName2}-Logical-Operator-Graph-Optimized.tex").printWriterSuspended {
                 it.println(OperatorGraphToLatex(lop_node2.toXMLElement().toString(), testName2))
             }
-            GlobalLogger.logSuspended(ELoggerType.TEST_DETAIL, { lop_node2.toXMLElement().toPrettyString() })
-            GlobalLogger.log(ELoggerType.TEST_DETAIL, { "----------Physical Operator Graph" })
+            SanityCheck.suspended {
+                val x = lop_node2.toXMLElement().toPrettyString()
+                SanityCheck.println { x }
+            }
+            SanityCheck.println { "----------Physical Operator Graph" }
             val pop_optimizer = PhysicalOptimizer(query)
             val pop_node = pop_optimizer.optimizeCall(lop_node2)
             SanityCheck.check({ pop_node == pop_node.cloneOP() }, { pop_node.toString() + " - " + pop_node.cloneOP().toString() })
@@ -594,20 +600,23 @@ class SparqlTestSuite() {
             File("log/${testName2}-Physical-Operator-Graph.tex").printWriterSuspended {
                 it.println(OperatorGraphToLatex(pop_node.toXMLElement().toString(), testName2))
             }
-            GlobalLogger.logSuspended(ELoggerType.TEST_DETAIL, { pop_node.toXMLElement().toPrettyString() })
-            GlobalLogger.log(ELoggerType.TEST_DETAIL, { "----------Distributed Operator Graph" })
+            SanityCheck.suspended {
+                val x = pop_node.toXMLElement().toPrettyString()
+                SanityCheck.println { x }
+            }
+            SanityCheck.println { "----------Distributed Operator Graph" }
             val pop_distributed_node = KeyDistributionOptimizer(query).optimizeCall(pop_node)
             SanityCheck.check { pop_distributed_node == pop_distributed_node.cloneOP() }
             SanityCheck { pop_distributed_node.toSparqlQuery() }
             File("log/${testName2}-Distributed-Operator-Graph.tex").printWriterSuspended {
                 it.println(OperatorGraphToLatex(pop_distributed_node.toXMLElement().toString(), testName2))
             }
-            GlobalLogger.log(ELoggerType.TEST_DETAIL, { pop_distributed_node })
+            SanityCheck.println { pop_distributed_node }
             var xmlQueryResult: XMLElement? = null
             if (!outputDataGraph.isEmpty() || (resultData != null && resultDataFileName != null)) {
-                GlobalLogger.log(ELoggerType.TEST_DETAIL, { "----------Query Result" })
+                SanityCheck.println { "----------Query Result" }
                 xmlQueryResult = QueryResultToXMLElement.toXML(pop_distributed_node)
-                GlobalLogger.log(ELoggerType.TEST_DETAIL, { "test xmlQueryResult :: " + xmlQueryResult.toPrettyString() })
+                SanityCheck.println { "test xmlQueryResult :: " + xmlQueryResult.toPrettyString() }
                 query.commit()
             }
             var verifiedOutput = false
@@ -617,42 +626,42 @@ class SparqlTestSuite() {
                 val tmp = DistributedTripleStore.getNamedGraph(query, it["name"]!!).getIterator(arrayOf(AOPVariable(query, "s"), AOPVariable(query, "p"), AOPVariable(query, "o")), EIndexPattern.SPO)
                 var xmlGraphActual = QueryResultToXMLElement.toXML(tmp)
                 if (!xmlGraphTarget.myEqualsUnclean(xmlGraphActual, true, true, true)) {
-                    println( "OutputData Graph[${it["name"]}] Original" )
-                    println( outputData )
-                    println( "----------Verify Output Data Graph[${it["name"]}] ... target,actual" )
-                    println( "test xmlGraphTarget :: " + xmlGraphTarget.toPrettyString() )
-                    println( "test xmlGraphActual :: " + xmlGraphActual.toPrettyString() )
-                    println( "----------Time(${DateHelper.elapsedSeconds(timer)})" )
-                    println( "----------Failed(PersistentStore Graph)" )
+                    println("OutputData Graph[${it["name"]}] Original")
+                    println(outputData)
+                    println("----------Verify Output Data Graph[${it["name"]}] ... target,actual")
+                    println("test xmlGraphTarget :: " + xmlGraphTarget.toPrettyString())
+                    println("test xmlGraphActual :: " + xmlGraphActual.toPrettyString())
+                    println("----------Time(${DateHelper.elapsedSeconds(timer)})")
+                    println("----------Failed(PersistentStore Graph)")
                     return false
                 } else {
-                    GlobalLogger.log(ELoggerType.TEST_DETAIL, { "OutputData Graph[${it["name"]}] Original" })
-                    GlobalLogger.log(ELoggerType.TEST_DETAIL, { outputData })
-                    GlobalLogger.log(ELoggerType.TEST_DETAIL, { "----------Verify Output Data Graph[${it["name"]}] ... target,actual" })
-                    GlobalLogger.log(ELoggerType.TEST_DETAIL, { "test xmlGraphTarget :: " + xmlGraphTarget.toPrettyString() })
-                    GlobalLogger.log(ELoggerType.TEST_DETAIL, { "test xmlGraphActual :: " + xmlGraphActual.toPrettyString() })
+                    SanityCheck.println { "OutputData Graph[${it["name"]}] Original" }
+                    SanityCheck.println { outputData }
+                    SanityCheck.println { "----------Verify Output Data Graph[${it["name"]}] ... target,actual" }
+                    SanityCheck.println { "test xmlGraphTarget :: " + xmlGraphTarget.toPrettyString() }
+                    SanityCheck.println { "test xmlGraphActual :: " + xmlGraphActual.toPrettyString() }
                 }
                 verifiedOutput = true
             }
             NodeManager.debug()
             if (resultData != null && resultDataFileName != null) {
-                GlobalLogger.log(ELoggerType.TEST_DETAIL, { "----------Target Result" })
+                SanityCheck.println { "----------Target Result" }
                 var xmlQueryTarget = XMLElement.parseFromAny(resultData, resultDataFileName)!!
-                GlobalLogger.log(ELoggerType.TEST_DETAIL, { "test xmlQueryTarget :: " + xmlQueryTarget.toPrettyString() })
-                GlobalLogger.log(ELoggerType.TEST_DETAIL, { resultData })
+                SanityCheck.println { "test xmlQueryTarget :: " + xmlQueryTarget.toPrettyString() }
+                SanityCheck.println { resultData }
                 if (!ignoreJena) {
                     try {
                         val jenaResult = JenaWrapper.execQuery(toParse)
                         val jenaXML = XMLElement.parseFromXml(jenaResult)
 //println("test xmlJena >>>>>"+jenaResult+"<<<<<")
                         if (jenaXML != null && !jenaXML.myEqualsUnclean(xmlQueryResult, true, true, true)) {
-                            println( "----------Verify Output Jena jena,actual" )
-                            println( "test jenaOriginal :: " + jenaResult )
-                            println( "test xmlJena :: " + jenaXML.toPrettyString() )
-                            println( "test xmlActual :: " + xmlQueryResult!!.toPrettyString() )
-                            println( "test xmlTarget :: " + xmlQueryTarget.toPrettyString() )
-                            println( "----------Time(${DateHelper.elapsedSeconds(timer)})" )
-                            println( "----------Failed(Jena)" )
+                            println("----------Verify Output Jena jena,actual")
+                            println("test jenaOriginal :: " + jenaResult)
+                            println("test xmlJena :: " + jenaXML.toPrettyString())
+                            println("test xmlActual :: " + xmlQueryResult!!.toPrettyString())
+                            println("test xmlTarget :: " + xmlQueryTarget.toPrettyString())
+                            println("----------Time(${DateHelper.elapsedSeconds(timer)})")
+                            println("----------Failed(Jena)")
                             return false
                         }
                     } catch (e: JenaBugException) {
@@ -670,22 +679,25 @@ class SparqlTestSuite() {
                     val query4 = Query()
                     query4.workingDirectory = queryFile.substring(0, queryFile.lastIndexOf("/"))
                     val popNodeRecovered = XMLElement.convertToOPBase(query4, xmlPOP)
-                    GlobalLogger.log(ELoggerType.TEST_DETAIL, { xmlPOP.toPrettyString() })
-                    GlobalLogger.logSuspended(ELoggerType.TEST_DETAIL, { popNodeRecovered.toXMLElement().toPrettyString() })
+                    SanityCheck.println { xmlPOP.toPrettyString() }
+                    SanityCheck.suspended {
+                        val x = popNodeRecovered.toXMLElement().toPrettyString()
+                        SanityCheck.println { x }
+                    }
                     val xmlQueryResultRecovered = QueryResultToXMLElement.toXML(popNodeRecovered)
                     query4.commit()
-                    GlobalLogger.log(ELoggerType.TEST_DETAIL, { "test xmlQueryResultRecovered :: " + xmlQueryResultRecovered.toPrettyString() })
+                    SanityCheck.println { "test xmlQueryResultRecovered :: " + xmlQueryResultRecovered.toPrettyString() }
                     if (xmlQueryResultRecovered.myEqualsUnclean(xmlQueryResult, true, true, true)) {
                         if (expectedResult) {
-                            println( "----------Time(${DateHelper.elapsedSeconds(timer)})" )
-                            println( "----------Success" )
+                            println("----------Time(${DateHelper.elapsedSeconds(timer)})")
+                            println("----------Success")
                         } else {
-                            println( "----------Time(${DateHelper.elapsedSeconds(timer)})" )
-                            println( "----------Failed(expectFalse)" )
+                            println("----------Time(${DateHelper.elapsedSeconds(timer)})")
+                            println("----------Failed(expectFalse)")
                         }
                     } else {
-                        println( "----------Time(${DateHelper.elapsedSeconds(timer)})" )
-                        println( "----------Failed(RecoverFromXMLOperatorGraph)" )
+                        println("----------Time(${DateHelper.elapsedSeconds(timer)})")
+                        println("----------Failed(RecoverFromXMLOperatorGraph)")
                         res = false
                     }
                 } else {
@@ -698,37 +710,37 @@ class SparqlTestSuite() {
                         if (expectedResult) {
                             if (containsOrderBy) {
                                 if (correctIfIgnoreAllExceptOrder) {
-                                    println( "----------Time(${DateHelper.elapsedSeconds(timer)})" )
-                                    println( "----------Success" )
+                                    println("----------Time(${DateHelper.elapsedSeconds(timer)})")
+                                    println("----------Success")
                                 } else {
-                                    println( "----------Time(${DateHelper.elapsedSeconds(timer)})" )
-                                    println( "----------Success(Unordered)" )
+                                    println("----------Time(${DateHelper.elapsedSeconds(timer)})")
+                                    println("----------Success(Unordered)")
                                 }
                             } else if (correctIfIgnoreOrderBy) {
-                                println( "----------Time(${DateHelper.elapsedSeconds(timer)})" )
-                                println( "----------Success" )
+                                println("----------Time(${DateHelper.elapsedSeconds(timer)})")
+                                println("----------Success")
                             } else if (correctIfIgnoreString) {
-                                println( "----------Time(${DateHelper.elapsedSeconds(timer)})" )
-                                println( "----------Success(String)" )
+                                println("----------Time(${DateHelper.elapsedSeconds(timer)})")
+                                println("----------Success(String)")
                             } else if (correctIfIgnoreNumber) {
-                                println( "----------Time(${DateHelper.elapsedSeconds(timer)})" )
-                                println( "----------Success(Number & String)" )
+                                println("----------Time(${DateHelper.elapsedSeconds(timer)})")
+                                println("----------Success(Number & String)")
                             } else {
                                 SanityCheck.checkUnreachable()
                             }
                         } else {
-                            println( "----------Time(${DateHelper.elapsedSeconds(timer)})" )
-                            println( "----------Failed(expectFalse,Simplified)" )
+                            println("----------Time(${DateHelper.elapsedSeconds(timer)})")
+                            println("----------Failed(expectFalse,Simplified)")
                         }
                     } else {
                         if (expectedResult) {
-                            println( "test xmlQueryTarget :: " + xmlQueryTarget.toPrettyString() )
-                            println( "test xmlQueryResult :: " + xmlQueryResult.toPrettyString() )
-                            println( "----------Time(${DateHelper.elapsedSeconds(timer)})" )
-                            println( "----------Failed(Incorrect)" )
+                            println("test xmlQueryTarget :: " + xmlQueryTarget.toPrettyString())
+                            println("test xmlQueryResult :: " + xmlQueryResult.toPrettyString())
+                            println("----------Time(${DateHelper.elapsedSeconds(timer)})")
+                            println("----------Failed(Incorrect)")
                         } else {
-                            println( "----------Time(${DateHelper.elapsedSeconds(timer)})" )
-                            println( "----------Success(ExpectFalse)" )
+                            println("----------Time(${DateHelper.elapsedSeconds(timer)})")
+                            println("----------Success(ExpectFalse)")
                         }
                     }
                 }
@@ -736,19 +748,19 @@ class SparqlTestSuite() {
             } else {
                 if (verifiedOutput) {
                     if (expectedResult) {
-                        println( "----------Time(${DateHelper.elapsedSeconds(timer)})" )
-                        println( "----------Success(Graph)" )
+                        println("----------Time(${DateHelper.elapsedSeconds(timer)})")
+                        println("----------Success(Graph)")
                     } else {
-                        println( "----------Time(${DateHelper.elapsedSeconds(timer)})" )
-                        println( "----------Failed(ExpectFalse,Graph)" )
+                        println("----------Time(${DateHelper.elapsedSeconds(timer)})")
+                        println("----------Failed(ExpectFalse,Graph)")
                     }
                 } else {
                     if (expectedResult) {
-                        println( "----------Time(${DateHelper.elapsedSeconds(timer)})" )
-                        println( "----------Success(Syntax)" )
+                        println("----------Time(${DateHelper.elapsedSeconds(timer)})")
+                        println("----------Success(Syntax)")
                     } else {
-                        println( "----------Time(${DateHelper.elapsedSeconds(timer)})" )
-                        println( "----------Failed(ExpectFalse,Syntax)" )
+                        println("----------Time(${DateHelper.elapsedSeconds(timer)})")
+                        println("----------Failed(ExpectFalse,Syntax)")
                     }
                 }
                 return expectedResult
@@ -757,30 +769,30 @@ class SparqlTestSuite() {
         } catch (e: ParseError) {
             if (expectedResult) {
                 e.printStackTrace()
-                GlobalLogger.log(ELoggerType.DEBUG, { e })
-                GlobalLogger.log(ELoggerType.DEBUG, { "Error in the following line:" })
-                GlobalLogger.log(ELoggerType.DEBUG, { e.lineNumber })
-                println( "----------Time(${DateHelper.elapsedSeconds(timer)})" )
-                println( "----------Failed(ParseError)" )
+                SanityCheck.println { e }
+                SanityCheck.println { "Error in the following line:" }
+                SanityCheck.println { e.lineNumber }
+                println("----------Time(${DateHelper.elapsedSeconds(timer)})")
+                println("----------Failed(ParseError)")
             } else {
-                println( "----------Time(${DateHelper.elapsedSeconds(timer)})" )
-                println( "----------Success(ExpectFalse,ParseError)" )
+                println("----------Time(${DateHelper.elapsedSeconds(timer)})")
+                println("----------Success(ExpectFalse,ParseError)")
             }
             return false
         } catch (e: NotImplementedException) {
-            println( "----------Time(${DateHelper.elapsedSeconds(timer)})" )
-            println( "----------Failed(NotImplemented)" )
-            GlobalLogger.stacktrace(ELoggerType.TEST_RESULT, e)
+            println("----------Time(${DateHelper.elapsedSeconds(timer)})")
+            println("----------Failed(NotImplemented)")
+            e.printStackTrace()
             return false
         } catch (e: Luposdate3000Exception) {
             SanityCheck.println({ "lastStatement :: ${Coverage.CoverageMapGenerated[Coverage.lastcounter]}" })
             if (expectedResult) {
-                println( "----------Time(${DateHelper.elapsedSeconds(timer)})" )
-                println( "----------Failed(${e.classname})" )
-                GlobalLogger.stacktrace(ELoggerType.TEST_RESULT, e)
+                println("----------Time(${DateHelper.elapsedSeconds(timer)})")
+                println("----------Failed(${e.classname})")
+                e.printStackTrace()
             } else {
-                println( "----------Time(${DateHelper.elapsedSeconds(timer)})" )
-                println( "----------Success(ExpectFalse,${e.classname})" )
+                println("----------Time(${DateHelper.elapsedSeconds(timer)})")
+                println("----------Success(ExpectFalse,${e.classname})")
             }
             return false
         } catch (e: Throwable) {
@@ -788,13 +800,13 @@ class SparqlTestSuite() {
             e.printStackTrace()
             SanityCheck.println({ "lastStatement :: ${Coverage.CoverageMapGenerated[Coverage.lastcounter]}" })
             if (expectedResult) {
-                println( "----------Time(${DateHelper.elapsedSeconds(timer)})" )
-                println( "----------Failed(Throwable)" )
-                GlobalLogger.stacktrace(ELoggerType.TEST_RESULT, e)
+                println("----------Time(${DateHelper.elapsedSeconds(timer)})")
+                println("----------Failed(Throwable)")
+                e.printStackTrace()
             } else {
-                println( "----------Time(${DateHelper.elapsedSeconds(timer)})" )
-                println( "----------Success(ExpectFalse,Throwable)" )
-                GlobalLogger.stacktrace(ELoggerType.TEST_RESULT, e)
+                println("----------Time(${DateHelper.elapsedSeconds(timer)})")
+                println("----------Success(ExpectFalse,Throwable)")
+                e.printStackTrace()
             }
             return false
         }

@@ -88,17 +88,17 @@ class POPSplitPartition(query: Query, projectedVariables: List<String>, val part
                 val readerFinished = IntArray(Partition.k) { 0 } //writer changes to 1 if finished
                 var writerFinished = 0
                 SanityCheck.println({ "ringbuffersize = ${ringbuffer.size} ${elementsPerRing} ${Partition.k} ${ringbufferStart.map { it }} ${ringbufferReadHead.map { it }} ${ringbufferWriteHead.map { it }}" })
-                    var child2:RowIterator?=null
-SanityCheck.println({ "split $uuid writer launched A" })
-try{
-child2 = children[0].evaluate(childPartition).rows
-} catch (e: Throwable) {
+                var child2: RowIterator? = null
+                SanityCheck.println({ "split $uuid writer launched A" })
+                try {
+                    child2 = children[0].evaluate(childPartition).rows
+                } catch (e: Throwable) {
                     e.printStackTrace()
                     throw e
                 }
-SanityCheck.println({ "split $uuid writer launched B" })
+                SanityCheck.println({ "split $uuid writer launched B" })
                 job = GlobalScope.launch(Dispatchers.Default) {
-val child=child2!!
+                    val child = child2!!
                     childPartition.scope = this
                     SanityCheck.println({ "split $uuid writer launched C" })
                     var hashVariableIndex = -1
@@ -116,7 +116,7 @@ val child=child2!!
                     }
                     SanityCheck.check { hashVariableIndex != -1 }
                     val cacheArr = IntArray(Partition.k) { it }
-SanityCheck.println({ "split $uuid writer launched D" })
+                    SanityCheck.println({ "split $uuid writer launched D" })
                     loop@ while (true) {
                         SanityCheck.println({ "split $uuid writer loop start" })
                         var tmp = child.next()
@@ -127,7 +127,7 @@ SanityCheck.println({ "split $uuid writer launched D" })
                             }
                         }
                         if (readerFinishedCounter == Partition.k) {
-SanityCheck.println({ "split $uuid writer launched E" })
+                            SanityCheck.println({ "split $uuid writer launched E" })
                             tmp = -1
                         }
                         if (tmp == -1) {
@@ -210,7 +210,7 @@ SanityCheck.println({ "split $uuid writer launched E" })
                         }
                         SanityCheck.println({ "split $uuid writer loop end of iteration" })
                     }
-SanityCheck.println({ "split $uuid writer launched F" })
+                    SanityCheck.println({ "split $uuid writer launched F" })
                     child.close()
                     writerFinished = 1
                     for (p in 0 until Partition.k) {
@@ -228,7 +228,7 @@ SanityCheck.println({ "split $uuid writer launched F" })
                             }
                         }
                     }
-SanityCheck.println({ "split $uuid writer launched G" })
+                    SanityCheck.println({ "split $uuid writer launched G" })
                     SanityCheck.println({ "split $uuid writer exited loop" })
                 }
                 for (p in 0 until Partition.k) {
@@ -287,8 +287,8 @@ SanityCheck.println({ "split $uuid writer launched G" })
                         readerFinished[p] = 1
                         var tmp2 = ringbufferWriterContinuation
                         ringbufferWriterContinuation = null
-                            SanityCheck.println { "unlock(${continuationLock.uuid}) [$uuid] x93" }
-                            continuationLock.unlock()
+                        SanityCheck.println { "unlock(${continuationLock.uuid}) [$uuid] x93" }
+                        continuationLock.unlock()
                         if (tmp2 != null) {
                             SanityCheck.println { "$uuid writer resume coroutine x189" }
                             tmp2!!.resume(Unit)
