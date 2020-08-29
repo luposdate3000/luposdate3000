@@ -109,9 +109,9 @@ class PersistentStoreLocal {
         i++
         File(BufferManager.bufferPrefix + "store/stores.txt").forEachLineSuspended { name ->
             if (name != "") {
-                val store = TripleStoreLocal(name)
-                store.loadFromFolder(BufferManager.bufferPrefix + "store/" + i)
-                stores[name] = store
+                val store2 = TripleStoreLocal(name)
+                store2.loadFromFolder(BufferManager.bufferPrefix + "store/" + i)
+                stores[name] = store2
                 i++
             }
         }

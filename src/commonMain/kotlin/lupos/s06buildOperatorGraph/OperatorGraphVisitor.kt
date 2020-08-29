@@ -362,8 +362,6 @@ class OperatorGraphVisitor(@JvmField val query: Query) : Visitor<OPBase> {
         var res: OPBase? = null
         for (v in child.getProvidedVariableNames()) {
             val tmp5 = child.cloneOP()
-            val tmp6 = child.cloneOP()
-            val tmp7 = child.cloneOP()
             val tmp1 = LOPProjection(query, mutableListOf(AOPVariable(query, "s")), tmp5.replaceVariableWithAnother(tmp5, v, "s"))
             val tmp2 = LOPProjection(query, mutableListOf(AOPVariable(query, "p")), tmp5.replaceVariableWithAnother(tmp5, v, "p"))
             val tmp3 = LOPProjection(query, mutableListOf(AOPVariable(query, "o")), tmp5.replaceVariableWithAnother(tmp5, v, "o"))

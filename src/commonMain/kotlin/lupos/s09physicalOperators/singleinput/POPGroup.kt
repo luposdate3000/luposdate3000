@@ -340,14 +340,14 @@ class POPGroup : POPBase {
                                                     valueColumns[closeIndex].close()
                                                 }
                                                 SanityCheck.check { columnIndex == 0 }
-                                                for (columnIndex in 0 until keyColumnNames.size) {
-                                                    if (projectedVariables.contains(keyColumnNames[columnIndex])) {
-                                                        output[columnIndex].queue.add(currentKey[columnIndex])
+                                                for (columnIndex2 in 0 until keyColumnNames.size) {
+                                                    if (projectedVariables.contains(keyColumnNames[columnIndex2])) {
+                                                        output[columnIndex2].queue.add(currentKey[columnIndex2])
                                                     }
                                                 }
-                                                for (columnIndex in 0 until bindings.size) {
-                                                    if (projectedVariables.contains(bindings[columnIndex].first)) {
-                                                        output[columnIndex + keyColumnNames.size].queue.add(query.dictionary.createValue(bindings[columnIndex].second.evaluate(localRowIterators)()))
+                                                for (columnIndex2 in 0 until bindings.size) {
+                                                    if (projectedVariables.contains(bindings[columnIndex2].first)) {
+                                                        output[columnIndex2 + keyColumnNames.size].queue.add(query.dictionary.createValue(bindings[columnIndex2].second.evaluate(localRowIterators)()))
                                                     }
                                                 }
                                                 for (outIndex2 in 0 until output.size) {

@@ -272,9 +272,9 @@ SanityCheck.check{rootNode==null}
             }
             SanityCheck.println { "readUnlock(${lock.uuid}) x130" }
             lock.readUnlock()
-            updateCachedHistogram(filter, res!!)
+            updateCachedHistogram(filter, res)
         }
-        return res!!
+        return res
     }
 
     suspend override fun getIterator(query: Query, params: TripleStoreFeatureParams): IteratorBundle {

@@ -46,12 +46,12 @@ object NodeManager {
     inline fun getNodeAny(nodeid: Int, crossinline actionLeaf: (ByteArray) -> Unit, crossinline actionInner: (ByteArray) -> Unit) {
         SanityCheck.println({ "debug NodeManager getNode ${nodeid.toString(16)}" })
         val node = bufferManager.getPage(nodeid)
-        when (NodeShared.getNodeType(node!!)) {
+        when (NodeShared.getNodeType(node)) {
             nodeTypeInner -> {
-                actionInner(node!!)
+                actionInner(node)
             }
             nodeTypeLeaf -> {
-                actionLeaf(node!!)
+                actionLeaf(node)
             }
             else -> {
                 SanityCheck.checkUnreachable()
@@ -62,12 +62,12 @@ object NodeManager {
     suspend inline fun getNodeAnySuspended(nodeid: Int, crossinline actionLeaf: suspend (ByteArray) -> Unit, crossinline actionInner: suspend (ByteArray) -> Unit) {
         SanityCheck.println({ "debug NodeManager getNode ${nodeid.toString(16)}" })
         val node = bufferManager.getPage(nodeid)
-        when (NodeShared.getNodeType(node!!)) {
+        when (NodeShared.getNodeType(node)) {
             nodeTypeInner -> {
-                actionInner(node!!)
+                actionInner(node)
             }
             nodeTypeLeaf -> {
-                actionLeaf(node!!)
+                actionLeaf(node)
             }
             else -> {
                 SanityCheck.checkUnreachable()
@@ -126,7 +126,7 @@ object NodeManager {
         if (nodeid != nodeNullPointer) {
             var node: ByteArray? = null
             SanityCheck.println({ "Outside.refcount($nodeid) ${NodeManager.bufferManager.allPagesRefcounters[nodeid]} x16" })
-            getNodeAny(nodeid, { node ->
+            getNodeAny(nodeid, {
             }, { n ->
                 node = n
             })
@@ -162,7 +162,7 @@ object NodeManager {
         if (nodeid != nodeNullPointer) {
             var node: ByteArray? = null
             SanityCheck.println({ "Outside.refcount($nodeid) ${NodeManager.bufferManager.allPagesRefcounters[nodeid]} x17" })
-            getNodeAny(nodeid, { node ->
+            getNodeAny(nodeid, {
             }, { n ->
                 node = n
             })

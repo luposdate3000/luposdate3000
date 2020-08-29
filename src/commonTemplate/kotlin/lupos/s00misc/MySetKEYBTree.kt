@@ -349,19 +349,19 @@ class MySetKEYBTreeGDEF() {
         SanityCheck {
             val sanitycheckhelper2 = mutableSetOf<KEY>()
             forEach {
-                sanitycheckhelper2!!.add(it)
+                sanitycheckhelper2.add(it)
             }
-            require(sanitycheckhelper2!!.containsAll(sanitycheckhelper!!))
-            require(sanitycheckhelper2!!.contains(k))
+            require(sanitycheckhelper2.containsAll(sanitycheckhelper!!))
+            require(sanitycheckhelper2.contains(k))
             val sanitycheckhelper3 = mutableSetOf<KEY>()
             val iterator = iterator()
             while (iterator.hasNext()) {
-                sanitycheckhelper3!!.add(iterator.next())
+                sanitycheckhelper3.add(iterator.next())
             }
-            require(size == sanitycheckhelper3!!.size, { "c $size ${sanitycheckhelper3!!.size}" })
-            require(size == sanitycheckhelper2!!.size, { "d $size ${sanitycheckhelper2!!.size}" })
-            require(sanitycheckhelper3!!.containsAll(sanitycheckhelper2), { "l" })
-            require(sanitycheckhelper2!!.containsAll(sanitycheckhelper3), { "m" })
+            require(size == sanitycheckhelper3.size, { "c $size ${sanitycheckhelper3.size}" })
+            require(size == sanitycheckhelper2.size, { "d $size ${sanitycheckhelper2.size}" })
+            require(sanitycheckhelper3.containsAll(sanitycheckhelper2), { "l" })
+            require(sanitycheckhelper2.containsAll(sanitycheckhelper3), { "m" })
         }
     }
 

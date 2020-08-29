@@ -71,7 +71,7 @@ class POPMergePartition(query: Query, projectedVariables: List<String>, val part
             val jobs = mutableListOf<Job>()
             for (p in 0 until Partition.k) {
                 SanityCheck.println({ "merge $uuid $p writer launched F" })
-                var childEval2: IteratorBundle? = null
+                var childEval2: IteratorBundle?
                 try {
                     childEval2 = children[0].evaluate(Partition(parent, partitionVariable, p, GlobalScope))
                 } catch (e: Throwable) {
@@ -81,8 +81,7 @@ class POPMergePartition(query: Query, projectedVariables: List<String>, val part
                 SanityCheck.println({ "merge $uuid $p writer launched G" })
                 val job = GlobalScope.launch(Dispatchers.Default) {
                     SanityCheck.println({ "merge $uuid $p writer launched A" })
-                    val childEval = childEval2!!
-                    val scope = this
+                    val childEval = childEval2
                     try {
                         if (childEval.hasColumnMode()) {
                             SanityCheck.println({ "merge $uuid $p writer launched B" })
@@ -194,13 +193,13 @@ class POPMergePartition(query: Query, projectedVariables: List<String>, val part
                                     } else {
                                         SanityCheck.println({ "merge $uuid $p writer append data" })
                                         ringbuffer[ringbufferWriteHead[p] + ringbufferStart[p]] = tmp
-                                        for (variable in 1 until variables.size) {
+                                        for (variableIdx in 1 until variables.size) {
                                             try {
-                                                ringbuffer[ringbufferWriteHead[p] + variable + ringbufferStart[p]] = variableMapping[variable].next()
+                                                ringbuffer[ringbufferWriteHead[p] + variableIdx + ringbufferStart[p]] = variableMapping[variableIdx].next()
                                             } catch (e: Throwable) {
                                                 SanityCheck.println({ "merge $uuid $p writer closed A" })
-                                                for (variable in 0 until variables.size) {
-                                                    variableMapping[variable].close()
+                                                for (variableIdx2 in 0 until variables.size) {
+                                                    variableMapping[variableIdx2].close()
                                                 }
                                                 break@loop
                                             }

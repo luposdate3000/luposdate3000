@@ -40,7 +40,6 @@ class POPJoinMergeOptional(query: Query, projectedVariables: List<String>, child
         val outMap = mutableMapOf<String, ColumnIterator>()
         val tmp = mutableListOf<String>()
         tmp.addAll(children[1].getProvidedVariableNames())
-        var t: ColumnIteratorChildIterator
         for (name in children[0].getProvidedVariableNames()) {
             if (tmp.contains(name)) {
                 if (projectedVariables.contains(name)) {

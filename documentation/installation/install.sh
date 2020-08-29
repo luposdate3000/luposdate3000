@@ -22,7 +22,7 @@ dependencieshome=/opt
 {
 	cd $dependencieshome
 	git clone https://github.com/JetBrains/kotlin.git
-	git checkout build-1.4-M3-eap-48
+	#git checkout build-1.4-M3-eap-48 # currently the master branch compiles too ...
 	export JAVA_HOME="/usr/lib/jvm/java-8-openjdk-amd64/"
 	export JDK_16="/usr/lib/jvm/java-8-openjdk-amd64/"
 	export JDK_17="/usr/lib/jvm/java-8-openjdk-amd64/"

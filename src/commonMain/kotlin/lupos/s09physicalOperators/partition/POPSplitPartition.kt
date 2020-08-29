@@ -56,17 +56,17 @@ class POPSplitPartition(query: Query, projectedVariables: List<String>, val part
             return children[0].evaluate(parent)
         } else {
             var iterators: Array<IteratorBundle>? = null
-            var job: Job? = null
+            var job: Job?
             val childPartition = Partition(parent, partitionVariable, GlobalScope)
-            var partitionHelper: PartitionHelper? = null
+            var partitionHelper: PartitionHelper?
             partitionHelper = query.getPartitionHelper(uuid)
-            SanityCheck.println { "lock(${partitionHelper!!.lock.uuid}) x178" }
-            partitionHelper!!.lock.lock()
-            val tmpIterators = partitionHelper!!.iterators
+            SanityCheck.println { "lock(${partitionHelper.lock.uuid}) x178" }
+            partitionHelper.lock.lock()
+            val tmpIterators = partitionHelper.iterators
             if (tmpIterators != null) {
                 iterators = tmpIterators[childPartition]
             }
-            val tmpJob = partitionHelper!!.jobs
+            val tmpJob = partitionHelper.jobs
             if (tmpJob != null) {
                 job = tmpJob[childPartition]
             }
@@ -88,7 +88,7 @@ class POPSplitPartition(query: Query, projectedVariables: List<String>, val part
                 val readerFinished = IntArray(Partition.k) { 0 } //writer changes to 1 if finished
                 var writerFinished = 0
                 SanityCheck.println({ "ringbuffersize = ${ringbuffer.size} ${elementsPerRing} ${Partition.k} ${ringbufferStart.map { it }} ${ringbufferReadHead.map { it }} ${ringbufferWriteHead.map { it }}" })
-                var child2: RowIterator? = null
+                var child2: RowIterator?
                 SanityCheck.println({ "split $uuid writer launched A" })
                 try {
                     child2 = children[0].evaluate(childPartition).rows
@@ -98,7 +98,7 @@ class POPSplitPartition(query: Query, projectedVariables: List<String>, val part
                 }
                 SanityCheck.println({ "split $uuid writer launched B" })
                 job = GlobalScope.launch(Dispatchers.Default) {
-                    val child = child2!!
+                    val child = child2
                     childPartition.scope = this
                     SanityCheck.println({ "split $uuid writer launched C" })
                     var hashVariableIndex = -1
@@ -203,7 +203,7 @@ class POPSplitPartition(query: Query, projectedVariables: List<String>, val part
                                     continuationLock.unlock()
                                     if (tmp2 != null) {
                                         SanityCheck.println { "$uuid reader[$p] resume coroutine x184" }
-                                        (tmp2 as Continuation<Unit>).resume(Unit)
+                                        tmp2.resume(Unit)
                                     }
                                 }
                             }
@@ -224,7 +224,7 @@ class POPSplitPartition(query: Query, projectedVariables: List<String>, val part
                             continuationLock.unlock()
                             if (tmp2 != null) {
                                 SanityCheck.println { "$uuid reader[$p] resume coroutine x185" }
-                                (tmp2 as Continuation<Unit>).resume(Unit)
+                                tmp2.resume(Unit)
                             }
                         }
                     }
@@ -294,18 +294,18 @@ class POPSplitPartition(query: Query, projectedVariables: List<String>, val part
                             tmp2!!.resume(Unit)
                         }
                     }
-                    iterators!![p] = IteratorBundle(iterator)
+                    iterators[p] = IteratorBundle(iterator)
                 }
                 if (tmpIterators == null || tmpJob == null) {
-                    partitionHelper!!.iterators = mutableMapOf(childPartition to iterators!!)
-                    partitionHelper!!.jobs = mutableMapOf(childPartition to job!!)
+                    partitionHelper.iterators = mutableMapOf(childPartition to iterators)
+                    partitionHelper.jobs = mutableMapOf(childPartition to job)
                 } else {
-                    tmpIterators[childPartition] = iterators!!
-                    tmpJob[childPartition] = job!!
+                    tmpIterators[childPartition] = iterators
+                    tmpJob[childPartition] = job
                 }
             }
-            SanityCheck.println { "unlock(${partitionHelper!!.lock.uuid}) x191" }
-            partitionHelper!!.lock.unlock()
+            SanityCheck.println { "unlock(${partitionHelper.lock.uuid}) x191" }
+            partitionHelper.lock.unlock()
             return iterators!![parent.data[partitionVariable]!!]
         }
     }

@@ -49,7 +49,6 @@ class POPMergePartitionCount(query: Query, projectedVariables: List<String>, val
             SanityCheck.check { variables0.containsAll(variables) }
             SanityCheck.check { variables.containsAll(variables0) }
             //partitionVariable as any other variable is not included in the result of the child operator
-            val elementsPerRing = Partition.queue_size * variables.size
             val ringbufferReadHead = IntArray(Partition.k) { 0 } //owned by read-thread - no locking required - available count is the difference between "ringbufferReadHead" and "ringbufferWriteHead"
             val ringbufferWriteHead = IntArray(Partition.k) { 0 } //owned by write thread - no locking required
             val writerFinished = IntArray(Partition.k) { 0 } //writer changes to 1 if finished

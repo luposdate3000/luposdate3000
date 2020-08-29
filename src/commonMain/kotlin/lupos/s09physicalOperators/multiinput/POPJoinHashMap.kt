@@ -70,7 +70,6 @@ class POPJoinHashMap(query: Query, projectedVariables: List<String>, childA: OPB
         val outMap = mutableMapOf<String, ColumnIterator>()
         var res: IteratorBundle?
         val tmp = mutableListOf<String>()
-        var t: ColumnIteratorChildIterator
         tmp.addAll(children[1].getProvidedVariableNames())
         for (name in children[0].getProvidedVariableNames()) {
             if (tmp.contains(name)) {
@@ -254,9 +253,9 @@ class POPJoinHashMap(query: Query, projectedVariables: List<String>, childA: OPB
                                 val dataOA = Array(columnsINAO.size) { MyListValue() }
                                 for (columnIndex in 0 until columnsINAO.size) {
                                     for (i in 0 until countA) {
-                                        var tmp = columnsINAO[columnIndex].next()
-                                        SanityCheck.check { tmp != ResultSetDictionary.nullValue }
-                                        dataOA[columnIndex].add(tmp)
+                                        var tmp2 = columnsINAO[columnIndex].next()
+                                        SanityCheck.check { tmp2 != ResultSetDictionary.nullValue }
+                                        dataOA[columnIndex].add(tmp2)
                                     }
                                 }
                                 if (others.size == 0) {
