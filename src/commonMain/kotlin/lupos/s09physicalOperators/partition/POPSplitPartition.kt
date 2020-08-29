@@ -88,10 +88,19 @@ class POPSplitPartition(query: Query, projectedVariables: List<String>, val part
                 val readerFinished = IntArray(Partition.k) { 0 } //writer changes to 1 if finished
                 var writerFinished = 0
                 SanityCheck.println({ "ringbuffersize = ${ringbuffer.size} ${elementsPerRing} ${Partition.k} ${ringbufferStart.map { it }} ${ringbufferReadHead.map { it }} ${ringbufferWriteHead.map { it }}" })
-                job = parent.scope.launch(Dispatchers.Default) {
+                    var child2:RowIterator?=null
+SanityCheck.println({ "split $uuid writer launched A" })
+try{
+child2 = children[0].evaluate(childPartition).rows
+} catch (e: Throwable) {
+                    e.printStackTrace()
+                    throw e
+                }
+SanityCheck.println({ "split $uuid writer launched B" })
+                job = GlobalScope.launch(Dispatchers.Default) {
+val child=child2!!
                     childPartition.scope = this
-                    SanityCheck.println({ "split $uuid writer launched" })
-                    val child = children[0].evaluate(childPartition).rows
+                    SanityCheck.println({ "split $uuid writer launched C" })
                     var hashVariableIndex = -1
                     val variableMapping = IntArray(variables.size)
                     for (variable in 0 until variables.size) {
@@ -107,7 +116,7 @@ class POPSplitPartition(query: Query, projectedVariables: List<String>, val part
                     }
                     SanityCheck.check { hashVariableIndex != -1 }
                     val cacheArr = IntArray(Partition.k) { it }
-                    SanityCheck.println({ "split $uuid writer before loop" })
+SanityCheck.println({ "split $uuid writer launched D" })
                     loop@ while (true) {
                         SanityCheck.println({ "split $uuid writer loop start" })
                         var tmp = child.next()
@@ -118,6 +127,7 @@ class POPSplitPartition(query: Query, projectedVariables: List<String>, val part
                             }
                         }
                         if (readerFinishedCounter == Partition.k) {
+SanityCheck.println({ "split $uuid writer launched E" })
                             tmp = -1
                         }
                         if (tmp == -1) {
@@ -144,33 +154,33 @@ class POPSplitPartition(query: Query, projectedVariables: List<String>, val part
                                 SanityCheck.println({ "selected $p for $partitionVariable = $hashVariableIndex value ${child.buf[tmp + hashVariableIndex]}" })
                                 var t = (ringbufferWriteHead[p] + variables.size) % elementsPerRing
                                 if (ringbufferReadHead[p] == t) {
-                                    SanityCheck.println { "lock(${continuationLock.uuid}) x67" }
+                                    SanityCheck.println { "lock(${continuationLock.uuid}) [$uuid] x67" }
                                     continuationLock.lock()
                                     var tmp2 = ringbufferReaderContinuation[p]
                                     ringbufferReaderContinuation[p] = null
                                     if (tmp2 != null) {
-                                        SanityCheck.println { "unlock(${continuationLock.uuid}) x92" }
+                                        SanityCheck.println { "unlock(${continuationLock.uuid}) [$uuid] x92" }
                                         continuationLock.unlock()
                                         SanityCheck.println { "$uuid reader[$p] resume coroutine x179" }
                                         tmp2.resume(Unit)
-                                        SanityCheck.println { "lock(${continuationLock.uuid}) x180" }
+                                        SanityCheck.println { "lock(${continuationLock.uuid}) [$uuid] x180" }
                                         continuationLock.lock()
                                     }
                                     if (ringbufferReadHead[p] == t) {
                                         if (readerFinished[p] != 0) {
-                                            SanityCheck.println { "unlock(${continuationLock.uuid}) x181" }
+                                            SanityCheck.println { "unlock(${continuationLock.uuid}) [$uuid] x181" }
                                             continuationLock.unlock()
                                             continue@loopcache
                                         }
                                         suspendCoroutineUninterceptedOrReturn { continuation: Continuation<Unit> ->
                                             ringbufferWriterContinuation = continuation
-                                            SanityCheck.println { "unlock(${continuationLock.uuid}) x68" }
+                                            SanityCheck.println { "unlock(${continuationLock.uuid}) [$uuid] x68" }
                                             continuationLock.unlock()
                                             SanityCheck.println { "$uuid writer SUSPENDED coroutine x182" }
                                             COROUTINE_SUSPENDED
                                         }
                                     } else {
-                                        SanityCheck.println { "unlock(${continuationLock.uuid}) x69" }
+                                        SanityCheck.println { "unlock(${continuationLock.uuid}) [$uuid] x69" }
                                         continuationLock.unlock()
                                     }
                                 }
@@ -185,11 +195,11 @@ class POPSplitPartition(query: Query, projectedVariables: List<String>, val part
                                 SanityCheck.println({ "split $uuid $p writer append data - increased pointer" })
                                 var tmp2 = ringbufferReaderContinuation[p]
                                 if (tmp2 != null) {
-                                    SanityCheck.println { "lock(${continuationLock.uuid}) x183" }
+                                    SanityCheck.println { "lock(${continuationLock.uuid}) [$uuid] x183" }
                                     continuationLock.lock()
                                     tmp2 = ringbufferReaderContinuation[p]
                                     ringbufferReaderContinuation[p] = null
-                                    SanityCheck.println { "unlock(${continuationLock.uuid}) x71" }
+                                    SanityCheck.println { "unlock(${continuationLock.uuid}) [$uuid] x71" }
                                     continuationLock.unlock()
                                     if (tmp2 != null) {
                                         SanityCheck.println { "$uuid reader[$p] resume coroutine x184" }
@@ -200,16 +210,17 @@ class POPSplitPartition(query: Query, projectedVariables: List<String>, val part
                         }
                         SanityCheck.println({ "split $uuid writer loop end of iteration" })
                     }
+SanityCheck.println({ "split $uuid writer launched F" })
                     child.close()
                     writerFinished = 1
                     for (p in 0 until Partition.k) {
                         var tmp2 = ringbufferReaderContinuation[p]
                         if (tmp2 != null) {
-                            SanityCheck.println { "lock(${continuationLock.uuid}) x72" }
+                            SanityCheck.println { "lock(${continuationLock.uuid}) [$uuid] x72" }
                             continuationLock.lock()
                             tmp2 = ringbufferReaderContinuation[p]
                             ringbufferReaderContinuation[p] = null
-                            SanityCheck.println { "unlock(${continuationLock.uuid}) x73" }
+                            SanityCheck.println { "unlock(${continuationLock.uuid}) [$uuid] x73" }
                             continuationLock.unlock()
                             if (tmp2 != null) {
                                 SanityCheck.println { "$uuid reader[$p] resume coroutine x185" }
@@ -217,6 +228,7 @@ class POPSplitPartition(query: Query, projectedVariables: List<String>, val part
                             }
                         }
                     }
+SanityCheck.println({ "split $uuid writer launched G" })
                     SanityCheck.println({ "split $uuid writer exited loop" })
                 }
                 for (p in 0 until Partition.k) {
@@ -241,28 +253,28 @@ class POPSplitPartition(query: Query, projectedVariables: List<String>, val part
                                 iterator.close()
                                 break@loop
                             }
-                            SanityCheck.println { "lock(${continuationLock.uuid}) x74" }
+                            SanityCheck.println { "lock(${continuationLock.uuid}) [$uuid] x74" }
                             continuationLock.lock()
                             var tmp2 = ringbufferWriterContinuation
                             ringbufferWriterContinuation = null
                             if (tmp2 != null) {
-                                SanityCheck.println { "unlock(${continuationLock.uuid}) x186" }
+                                SanityCheck.println { "unlock(${continuationLock.uuid}) [$uuid] x186" }
                                 continuationLock.unlock()
                                 SanityCheck.println { "$uuid writer resume coroutine x187" }
                                 tmp2!!.resume(Unit)
-                                SanityCheck.println { "lock(${continuationLock.uuid}) x94" }
+                                SanityCheck.println { "lock(${continuationLock.uuid}) [$uuid] x94" }
                                 continuationLock.lock()
                             }
                             if (ringbufferReadHead[p] == ringbufferWriteHead[p] && writerFinished == 0) {
                                 suspendCoroutineUninterceptedOrReturn { continuation: Continuation<Unit> ->
                                     ringbufferReaderContinuation[p] = continuation
-                                    SanityCheck.println { "unlock(${continuationLock.uuid}) x75" }
+                                    SanityCheck.println { "unlock(${continuationLock.uuid}) [$uuid] x75" }
                                     continuationLock.unlock()
                                     SanityCheck.println { "$uuid reader[$p] SUSPENDED coroutine x188" }
                                     COROUTINE_SUSPENDED
                                 }
                             } else {
-                                SanityCheck.println { "unlock(${continuationLock.uuid}) x76" }
+                                SanityCheck.println { "unlock(${continuationLock.uuid}) [$uuid] x76" }
                                 continuationLock.unlock()
                             }
                         }
@@ -270,12 +282,12 @@ class POPSplitPartition(query: Query, projectedVariables: List<String>, val part
                     }
                     iterator.close = {
                         SanityCheck.println({ "split $uuid $p reader close" })
-                        SanityCheck.println { "lock(${continuationLock.uuid}) x77" }
+                        SanityCheck.println { "lock(${continuationLock.uuid}) [$uuid] x77" }
                         continuationLock.lock()
                         readerFinished[p] = 1
                         var tmp2 = ringbufferWriterContinuation
                         ringbufferWriterContinuation = null
-                            SanityCheck.println { "unlock(${continuationLock.uuid}) x93" }
+                            SanityCheck.println { "unlock(${continuationLock.uuid}) [$uuid] x93" }
                             continuationLock.unlock()
                         if (tmp2 != null) {
                             SanityCheck.println { "$uuid writer resume coroutine x189" }

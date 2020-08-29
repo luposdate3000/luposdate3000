@@ -212,7 +212,7 @@ class XMLElement {
                 }
                 var n = 0
                 for (c in childs) {
-                    SanityCheck.println({ "myEqualsUnclean - loop A ${n} ${childs.size}" })
+                    //SanityCheck.println({ "myEqualsUnclean - loop A ${n} ${childs.size}" })
                     var s = c.toString()
                     if (myMap[s] == null) {
                         myMap[s] = mutableListOf(c)
@@ -223,7 +223,7 @@ class XMLElement {
                 }
                 n = 0
                 for (c in other.childs) {
-                    SanityCheck.println({ "myEqualsUnclean - loop B ${n} ${other.childs.size}" })
+                    //SanityCheck.println({ "myEqualsUnclean - loop B ${n} ${other.childs.size}" })
                     var s = c.toString()
                     if (otherMap[s] == null) {
                         otherMap[s] = mutableListOf(c)
@@ -234,7 +234,7 @@ class XMLElement {
                 }
                 while (change) {
                     change = false
-                    SanityCheck.println({ "myEqualsUnclean - loop C ${myMap.size} ${otherMap.size}" })
+                    //SanityCheck.println({ "myEqualsUnclean - loop C ${myMap.size} ${otherMap.size}" })
                     for ((k, v) in myMap) {
                         val w = otherMap[k]
                         if (w != null) {
@@ -274,7 +274,7 @@ class XMLElement {
             change = true
             while (change) {
                 change = false
-                SanityCheck.println({ "myEqualsUnclean - loop D ${myRemaining.size} ${otherRemaining.size}" })
+                //SanityCheck.println({ "myEqualsUnclean - loop D ${myRemaining.size} ${otherRemaining.size}" })
                 var i = 0
                 loop@ for (c in myRemaining) {
                     var j = 0
