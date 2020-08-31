@@ -50,6 +50,18 @@ class ReadWriteLock {
         //assume that counter is 0, because otherwise lockB can not be accuired
     }
 
+    inline suspend fun tryWriteLock(): Boolean {
+        if (lockA.tryLock()) {
+            if (lockB.tryLock()) { //effectively wait for_ the signal of the last read-unlock
+                lockB.unlock()
+                //assume that counter is 0, because otherwise lockB can not be accuired
+                return true
+            }
+            lockA.unlock()
+        }
+        return false
+    }
+
     inline fun writeUnlock() {
         lockA.unlock()
         //assume that counter is 0, because that is the precondition for_ a writer to start

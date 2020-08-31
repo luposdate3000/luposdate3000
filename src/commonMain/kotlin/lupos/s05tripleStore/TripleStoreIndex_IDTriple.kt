@@ -422,15 +422,20 @@ SanityCheck.check{rootNode==null}
     }
 
     inline suspend fun flushContinueWithReadLock() {
-        SanityCheck.println { "readLock(${lock.uuid}) x57" }
-        lock.readLock()
-        if (pendingImport.size > 0) {
-            SanityCheck.println { "readUnlock(${lock.uuid}) x58" }
-            lock.readUnlock()
-            SanityCheck.println { "writeLock(${lock.uuid}) x59" }
-            lock.writeLock()
-            flushAssumeLocks()
-            lock.downgradeToReadLock()
+        var hasLock = false
+        while (pendingImport.size > 0) {
+            SanityCheck.println { "tryWriteLock(${lock.uuid}) x59" }
+            if (lock.tryWriteLock()) {
+                SanityCheck.println { "tryWriteLock(${lock.uuid}) x59 success" }
+                flushAssumeLocks()
+                lock.downgradeToReadLock()
+                hasLock = true
+                break
+            }
+        }
+        if (!hasLock) {
+            SanityCheck.println { "readLock(${lock.uuid}) x57" }
+            lock.readLock()
         }
     }
 
