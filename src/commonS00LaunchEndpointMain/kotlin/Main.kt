@@ -10,7 +10,7 @@ fun main(args: Array<String>) = runBlocking {
     var bootStrapServer: String? = null
     var hostname = "localhost"
     for (a in args) {
-        SanityCheck.println { "args[$i]=$a" }
+        println( "args[$i]=$a" )
         when (i) {
             0 -> {
                 hostname = a
