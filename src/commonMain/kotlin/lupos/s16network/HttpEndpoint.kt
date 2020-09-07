@@ -1,5 +1,5 @@
 package lupos.s16network
-
+import java.io.PrintWriter
 import kotlin.time.DurationUnit
 import kotlinx.coroutines.runBlocking
 import lupos.s00misc.BenchmarkUtils
@@ -235,6 +235,14 @@ object HttpEndpoint {
     suspend fun evaluate_sparql_query_string(query: String, logOperatorGraph: Boolean = false): String {
         val node = evaluate_sparql_query_string_part1(query, logOperatorGraph)
         return evaluate_sparql_query_string_part2(node)
+    }
+
+    suspend fun evaluate_sparql_query_string(query: String, output: PrintWriter, logOperatorGraph: Boolean = false) {
+        val node = evaluate_sparql_query_string_part1(query, logOperatorGraph)
+        output.println("HTTP/1.1 200 OK")
+        output.println("Content-Type: text/plain")
+        output.println();
+        output.println(evaluate_sparql_query_string_part2(node))
     }
 
     suspend fun evaluate_sparql_query_operator_xml(query: String, logOperatorGraph: Boolean = false): String {
