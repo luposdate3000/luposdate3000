@@ -1,12 +1,12 @@
 package lupos.s05tripleStore
 
 import kotlin.jvm.JvmField
-import lupos.s01io.BufferManager
 import lupos.s00misc.File
 import lupos.s00misc.GraphNameAlreadyExistsDuringCreateException
 import lupos.s00misc.GraphNameNotExistsDuringDeleteException
 import lupos.s00misc.GraphNameNotFoundException
 import lupos.s00misc.SanityCheck
+import lupos.s01io.BufferManager
 import lupos.s03resultRepresentation.nodeGlobalDictionary
 import lupos.s04logicalOperators.Query
 import lupos.s05tripleStore.index_IDTriple.NodeManager

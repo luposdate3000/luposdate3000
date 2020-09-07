@@ -16,6 +16,7 @@ rm -rf build src.generated
   echo "Set->BTree"
   echo "Map->BTree"
   echo "OutputFormat->Empty"
+  echo "EnumerateBnodes->false"
   echo "Pagesize->128"
   echo "BlockCapacity->8"
   echo "BTreeBranching->8"

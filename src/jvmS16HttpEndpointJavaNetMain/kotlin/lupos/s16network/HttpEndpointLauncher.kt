@@ -1,6 +1,18 @@
 package lupos.s16network
 
+import java.io.BufferedOutputStream
+import java.io.BufferedReader
+import java.io.FileNotFoundException
+import java.io.InputStreamReader
+import java.io.IOException
+import java.io.OutputStream
+import java.io.PrintWriter
 import java.net.InetSocketAddress
+import java.net.ServerSocket
+import java.net.Socket
+import java.net.URLDecoder
+import java.util.Date
+import java.util.StringTokenizer
 import kotlin.jvm.JvmField
 import kotlinx.coroutines.runBlocking
 import lupos.s00misc.Coverage
@@ -12,22 +24,9 @@ import lupos.s00misc.SanityCheck
 import lupos.s03resultRepresentation.nodeGlobalDictionary
 import lupos.s15tripleStoreDistributed.DistributedTripleStore
 import lupos.SparqlTestSuite
-import java.io.BufferedOutputStream
-import java.io.BufferedReader
-import java.io.FileNotFoundException
-import java.io.IOException
-import java.io.InputStreamReader
-import java.io.OutputStream
-import java.io.PrintWriter
-import java.net.ServerSocket
-import java.net.Socket
-import java.util.Date
-import java.util.StringTokenizer
-import java.net.URLDecoder
 
 @UseExperimental(ExperimentalStdlibApi::class)
 object HttpEndpointLauncher {
-
     fun printHeaderSuccess(stream: PrintWriter) {
         stream.println("HTTP/1.1 200 OK")
         stream.println("Content-Type: text/plain")

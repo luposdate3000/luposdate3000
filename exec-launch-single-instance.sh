@@ -13,6 +13,7 @@
   echo "Set->BTree"
   echo "Map->BTree"
   echo "OutputFormat->XML"
+  echo "EnumerateBnodes->false"
   echo "Pagesize->8196"
   echo "BlockCapacity->1048576"
   echo "BTreeBranching->512"

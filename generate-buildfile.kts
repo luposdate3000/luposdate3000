@@ -229,7 +229,7 @@ val options = mapOf<ChooseableGroup, List<ChooseableOption>>(
                 ChooseableOptionTypeAlias("Parallel", "lupos.s00misc", listOf("CoroutinesHelper" to "CoroutinesHelperParallel"))
         ),
         ChooseableGroup("Buffer Manager Type", "BufferManager") to listOf(
-		ChooseableOptionDirectory("Heap", "commonS01HeapMain"),
+                ChooseableOptionDirectory("Heap", "commonS01HeapMain"),
         ),
         ChooseableGroup("Dictionary", "Dictionary") to listOf(
                 ChooseableOptionDirectory("MultiMap", "commonS03DictionaryMultiMapMain"),
@@ -283,9 +283,13 @@ val options = mapOf<ChooseableGroup, List<ChooseableOption>>(
                 ))
         ),
         ChooseableGroup("Default Result Format", "OutputFormat") to listOf(
-                ChooseableOptionTypeAlias("Empty", "lupos.s11outputResult", listOf("QueryResultToString" to "QueryResultToEmptyString")),
-                ChooseableOptionTypeAlias("XML", "lupos.s11outputResult", listOf("QueryResultToString" to "QueryResultToXMLString")),
-                ChooseableOptionTypeAlias("EmptyWithDictionary", "lupos.s11outputResult", listOf("QueryResultToString" to "QueryResultToEmptyWithDictionaryString"))
+                ChooseableOptionTypeAlias("Empty", "lupos.s11outputResult", listOf("QueryResultToStream" to "QueryResultToEmptyStream")),
+                ChooseableOptionTypeAlias("XML", "lupos.s11outputResult", listOf("QueryResultToStream" to "QueryResultToXMLStream")),
+                ChooseableOptionTypeAlias("EmptyWithDictionary", "lupos.s11outputResult", listOf("QueryResultToStream" to "QueryResultToEmptyWithDictionaryStream"))
+        ),
+        ChooseableGroup("Enumerate Bnodes", "EnumerateBnodes") to listOf(
+                ChooseableOptionConstantValue("lupos.s11outputResult", "PRETTY_BNODE_NAMES", "true"),
+                ChooseableOptionConstantValue("lupos.s11outputResult", "PRETTY_BNODE_NAMES", "false"),
         ),
         ChooseableGroup("PageSize in Bytes", "Pagesize") to listOf(
                 ChooseableOptionConstantValue("lupos.s00misc", "PAGE_SIZE_IN_BYTES", "128"),

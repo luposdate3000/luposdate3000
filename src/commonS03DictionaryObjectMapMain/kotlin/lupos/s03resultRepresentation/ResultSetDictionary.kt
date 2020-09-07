@@ -1,10 +1,10 @@
 package lupos.s03resultRepresentation
 
 import kotlin.jvm.JvmField
-import lupos.s01io.BufferManager
 import lupos.s00misc.Coverage
 import lupos.s00misc.File
 import lupos.s00misc.MyMapIntInt
+import lupos.s01io.BufferManager
 import lupos.s03resultRepresentation.nodeGlobalDictionary
 import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s03resultRepresentation.Value

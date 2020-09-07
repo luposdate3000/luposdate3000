@@ -1,9 +1,9 @@
 package lupos.s05tripleStore.index_IDTriple
 
 import kotlin.jvm.JvmField
-import lupos.s01io.BufferManager
 import lupos.s00misc.File
 import lupos.s00misc.SanityCheck
+import lupos.s01io.BufferManager
 
 object NodeManager {
     const val nodeTypeLeaf = 1

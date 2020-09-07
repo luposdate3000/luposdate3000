@@ -1,5 +1,7 @@
 package lupos.s16network
+
 import java.io.PrintWriter
+import java.io.StringWriter
 import kotlin.time.DurationUnit
 import kotlinx.coroutines.runBlocking
 import lupos.s00misc.BenchmarkUtils
@@ -28,7 +30,7 @@ import lupos.s06buildOperatorGraph.OperatorGraphVisitor
 import lupos.s08logicalOptimisation.LogicalOptimizer
 import lupos.s09physicalOperators.noinput.POPValuesImportXML
 import lupos.s10physicalOptimisation.PhysicalOptimizer
-import lupos.s11outputResult.QueryResultToString
+import lupos.s11outputResult.QueryResultToStream
 import lupos.s13keyDistributionOptimizer.KeyDistributionOptimizer
 import lupos.s14endpoint.convertToOPBase
 import lupos.s15tripleStoreDistributed.DistributedTripleStore
@@ -224,11 +226,22 @@ object HttpEndpoint {
     suspend fun evaluate_sparql_query_string_part2(node: OPBase): String {
         node.query.reset()
 //        var timer = DateHelper.markNow()
-        val res = QueryResultToString(node)
+        var buf = StringWriter()
+        QueryResultToStream(node, PrintWriter(buf))
 //        DateHelper.elapsedSeconds(6, timer)
 //        timer = DateHelper.markNow()
         node.query.commit()
 //        DateHelper.elapsedSeconds(7, timer)
+        return buf.toString()
+    }
+
+    suspend fun evaluate_sparql_query_string_part2(node: OPBase, output: PrintWriter) {
+        output.println("HTTP/1.1 200 OK")
+        output.println("Content-Type: text/plain")
+        output.println();
+        node.query.reset()
+        val res = QueryResultToStream(node, output)
+        node.query.commit()
         return res
     }
 
@@ -239,10 +252,7 @@ object HttpEndpoint {
 
     suspend fun evaluate_sparql_query_string(query: String, output: PrintWriter, logOperatorGraph: Boolean = false) {
         val node = evaluate_sparql_query_string_part1(query, logOperatorGraph)
-        output.println("HTTP/1.1 200 OK")
-        output.println("Content-Type: text/plain")
-        output.println();
-        output.println(evaluate_sparql_query_string_part2(node))
+        evaluate_sparql_query_string_part2(node, output)
     }
 
     suspend fun evaluate_sparql_query_operator_xml(query: String, logOperatorGraph: Boolean = false): String {
@@ -261,8 +271,9 @@ object HttpEndpoint {
                 SanityCheck.println({ b })
             }
         }
-        val res = QueryResultToString(pop_node)
+        var buf = StringWriter()
+        val res = QueryResultToStream(pop_node, PrintWriter(buf))
         q.commit()
-        return res
+        return buf.toString()
     }
 }
