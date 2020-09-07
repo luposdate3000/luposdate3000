@@ -1,8 +1,8 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 tasks.withType<KotlinCompile>().all {
-    //kotlinOptions.jvmTarget = "14"
-    kotlinOptions.jvmTarget = "1.8"
+    kotlinOptions.jvmTarget = "14"
+    //kotlinOptions.jvmTarget = "1.8"
     //see /opt/kotlin/compiler/cli/cli-common/src/org/jetbrains/kotlin/cli/common/arguments/K2JVMCompilerArguments.kt
     //or kotlinc -X
     kotlinOptions.freeCompilerArgs += "-Xno-param-assertions"
@@ -47,10 +47,9 @@ repositories {
     maven("http://dl.bintray.com/kotlin/kotlin-eap-1.2")
     maven("https://kotlin.bintray.com/kotlinx")
 }
-project.buildDir = file("build/build_1.4.255-SNAPSHOT_jvm_Endpoint_Off_Sequential_MultiMap_BPlusTreePartition_Korio_On_BTree_BTree_XML_8196_1048576_512_512_1048576_true_ECoverage.Disabled_Off_None_-1_Off_On_true_EPOPDebugMode.NONE")
+project.buildDir = file("build/build_1.4.255-SNAPSHOT_jvm_Endpoint_Off_Sequential_MultiMap_BPlusTreePartition_JavaNet_On_BTree_BTree_XML_8196_1048576_512_512_1048576_true_ECoverage.Disabled_Off_None_-1_Off_On_true_EPOPDebugMode.NONE")
 dependencies {
     implementation("com.benasher44:uuid:0.0.7")
-    implementation("com.soywiz.korlibs.korio:korio:1.9.9-SNAPSHOT")
     implementation("com.soywiz.korlibs.krypto:krypto:1.9.1")
     implementation("org.apache.jena:jena-arq:3.14.0")
     implementation("org.apache.jena:jena-core:3.14.0")
@@ -69,4 +68,4 @@ sourceSets["main"].java.srcDir("src.generated/commonS03DictionaryMultiMapMain/ko
 sourceSets["main"].java.srcDir("src.generated/commonS16ServerCommunicationNoneMain/kotlin")
 sourceSets["main"].java.srcDir("src.generated/jvmMain/kotlin")
 sourceSets["main"].java.srcDir("src.generated/jvmS00WrapperJenaOnMain/kotlin")
-sourceSets["main"].java.srcDir("src.generated/jvmS16HttpEndpointKorioMain/kotlin")
+sourceSets["main"].java.srcDir("src.generated/jvmS16HttpEndpointJavaNetMain/kotlin")
