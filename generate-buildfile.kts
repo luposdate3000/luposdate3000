@@ -590,8 +590,8 @@ while (!done) {
                     out.println("""import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 tasks.withType<KotlinCompile>().all {
-    kotlinOptions.jvmTarget = "14"
-    //kotlinOptions.jvmTarget = "1.8"
+    //kotlinOptions.jvmTarget = "14"
+    kotlinOptions.jvmTarget = "1.8"
     //see /opt/kotlin/compiler/cli/cli-common/src/org/jetbrains/kotlin/cli/common/arguments/K2JVMCompilerArguments.kt
     //or kotlinc -X
     kotlinOptions.freeCompilerArgs += "-Xno-param-assertions"
