@@ -223,18 +223,6 @@ object HttpEndpoint {
         return pop_distributed_node
     }
 
-    suspend fun evaluate_sparql_query_string_part2(node: OPBase): String {
-        node.query.reset()
-//        var timer = DateHelper.markNow()
-        var buf = StringWriter()
-        QueryResultToStream(node, PrintWriter(buf))
-//        DateHelper.elapsedSeconds(6, timer)
-//        timer = DateHelper.markNow()
-        node.query.commit()
-//        DateHelper.elapsedSeconds(7, timer)
-        return buf.toString()
-    }
-
     suspend fun evaluate_sparql_query_string_part2(node: OPBase, output: PrintWriter) {
         output.println("HTTP/1.1 200 OK")
         output.println("Content-Type: text/plain")
@@ -247,7 +235,9 @@ object HttpEndpoint {
 
     suspend fun evaluate_sparql_query_string(query: String, logOperatorGraph: Boolean = false): String {
         val node = evaluate_sparql_query_string_part1(query, logOperatorGraph)
-        return evaluate_sparql_query_string_part2(node)
+        var buf = StringWriter()
+        evaluate_sparql_query_string_part2(node, PrintWriter(buf))
+        return buf.toString()
     }
 
     suspend fun evaluate_sparql_query_string(query: String, output: PrintWriter, logOperatorGraph: Boolean = false) {

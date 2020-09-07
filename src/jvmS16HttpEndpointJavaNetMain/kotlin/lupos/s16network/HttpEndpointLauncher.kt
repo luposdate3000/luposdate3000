@@ -47,12 +47,10 @@ object HttpEndpointLauncher {
                             connectionIn = BufferedReader(InputStreamReader(connection.getInputStream()))
                             connectionOut = PrintWriter(connection.getOutputStream())
                             var line = connectionIn.readLine()
-                            println("header ::")
                             var path = ""
                             var isPost = false
                             val params = mutableMapOf<String, String>()
                             while (line != null && line.length > 0) {
-                                println("received :: " + line)
                                 if (line.startsWith("POST")) {
                                     isPost = true
                                     path = line.substring(5)
@@ -75,12 +73,10 @@ object HttpEndpointLauncher {
                                 }
                                 path = path.substring(0, idx)
                             }
-                            println("content $isPost $path $params")
                             val content = StringBuilder()
                             while (connectionIn.ready()) {
                                 content.append(connectionIn.read().toChar())
                             }
-                            println(content.toString())
                             when (path) {
                                 "/sparql/jenaquery" -> {
                                     printHeaderSuccess(connectionOut)
