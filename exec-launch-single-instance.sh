@@ -34,7 +34,7 @@ if [ $ret -ne 0 ]
 then
         exit $ret
 fi
-./build/executable
+./build/executable $(hostname)
 #wget localhost:80/import/turtle?query=%2Fmnt%2Fluposdate-testdata%2Fbtc2019%2Fbtc2019-triples.nt
 #wget localhost:80/import/turtle?query=$(find /mnt/luposdate-testdata/btc2019/data/*.n3 | sort | paste -s -d ';' | sed "s-/-%2F-g")
 #$(find $triplesfolder/*.n3 | paste -s -d ';')

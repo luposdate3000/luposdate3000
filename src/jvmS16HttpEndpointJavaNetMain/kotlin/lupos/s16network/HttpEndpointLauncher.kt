@@ -111,41 +111,6 @@ object HttpEndpointLauncher {
         throw EnpointRecievedInvalidPath(path)
     }
 
-    /*
-        suspend fun myRequestHandler(request: HttpServer.Request) {
-            val params = request.getParams
-            request.replaceHeader("Connection", "close")
-            request.replaceHeader("Content-Type", "text/html")
-            var responseBytes: ByteArray
-            var data = StringBuilder()
-            request.handler { it ->
-                data.append(it.decodeToString())
-            }
-            request.endHandler {
-                runBlocking {
-                    try {
-                        try {
-                            val singleParams = mutableMapOf<String, String>()
-                            params.forEach { k, v ->
-                                singleParams[k] = v.first()
-                            }
-                            responseBytes = receive(request.path, request.method == Http.Method.POST, data.toString(), singleParams).encodeToByteArray()
-                        } catch (e: Throwable) {
-                            responseBytes = e.toString().encodeToByteArray()
-                            request.setStatus(500)
-                            SanityCheck.println({ "TODO exception 6" })
-                            e.printStackTrace()
-                        }
-                        request.end(responseBytes)
-                    } catch (e: Throwable) {
-    //DO NOT send anything here, as that may be the root cause of the exception
-                        e.printStackTrace()
-                    }
-                }
-            }
-        }
-    */
-
     fun myWrite(stream: BufferedOutputStream, str: String) {
         val tmp = str.toByteArray(Charsets.UTF_8)
         stream.write(tmp, 0, tmp.size)
@@ -160,10 +125,10 @@ object HttpEndpointLauncher {
                 Thread {
  runBlocking {
                 var connectionIn: BufferedReader? = null
-                var connectionOut: BufferedOutputStream? = null
+                var connectionOut: PrintWriter? = null
                     try {
                         connectionIn = BufferedReader(InputStreamReader(connection.getInputStream()))
-                        connectionOut = BufferedOutputStream(connection.getOutputStream())
+                        connectionOut = PrintWriter(connection.getOutputStream())
                         var line = connectionIn.readLine()
                         println("header ::")
                         var path = ""
@@ -201,17 +166,16 @@ object HttpEndpointLauncher {
                         println(content.toString())
                         var response = receive(path, isPost, content.toString(), params)
                         println("writte data to output")
-                        myWrite(connectionOut, "HTTP/1.1 200 OK\r\n")
-                        myWrite(connectionOut, "Content-Type: text/plain\r\n")
-//                    myWrite(connectionOut,"Content-Length: " + response.length + "\r\n")
-//                    myWrite(connectionOut,"Connection: close\r\n");
-                        myWrite(connectionOut, "\r\n");
-                        myWrite(connectionOut, response)
+                        connectionOut.println( "HTTP/1.1 200 OK")
+                        connectionOut.println( "Content-Type: text/plain")
+                        connectionOut.println( );
+                        connectionOut.println( response)
                         println("written data to output '$response'")
                     } catch (e: Throwable) {
                         e.printStackTrace()
                         if (connectionOut != null) {
-                            myWrite(connectionOut, "HTTP/1.1 500 Internal Server Error\r\n\r\n")
+                            connectionOut.println( "HTTP/1.1 500 Internal Server Error")
+			connectionOut.println( )
                         }
                     } finally {
                         println("flushing data to output ${connectionOut != null}")
