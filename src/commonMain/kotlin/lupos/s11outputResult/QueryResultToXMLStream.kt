@@ -1,5 +1,8 @@
 package lupos.s11outputResult
-
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.Deferred
+import kotlinx.coroutines.async
+import lupos.s00misc.Lock
 import lupos.s00misc.DateHelper
 import java.io.PrintWriter
 import java.io.StringWriter
@@ -27,17 +30,18 @@ import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.s04logicalOperators.OPBaseCompound
 import lupos.s04logicalOperators.Query
+import lupos.s09physicalOperators.partition.POPMergePartition
 
 object QueryResultToXMLStream {
-    suspend fun writeValue(valueID: Int, columnName: String,dictionary:ResultSetDictionary, output: PrintWriter) {
+    suspend fun writeValue(valueID: Int, columnName: String, dictionary: ResultSetDictionary, output: PrintWriter) {
         val value = dictionary.getValue(valueID)
         when (value) {
             is ValueBnode -> {
                 output.print("   <binding name=\"")
                 output.print(columnName)
-                    output.print("\">\n    <bnode>")
-                    output.print(valueID)
-                    output.print("</bnode>\n   </binding>\n")
+                output.print("\">\n    <bnode>")
+                output.print(valueID)
+                output.print("</bnode>\n   </binding>\n")
             }
             is ValueBoolean -> {
                 output.print("   <binding name=\"")
@@ -124,18 +128,18 @@ object QueryResultToXMLStream {
         }
     }
 
-    suspend fun writeRow(variables: Array<String>, rowBuf: IntArray,dictionary:ResultSetDictionary, output: PrintWriter) {
+    suspend fun writeRow(variables: Array<String>, rowBuf: IntArray, dictionary: ResultSetDictionary, output: PrintWriter) {
         output.print("  <result>\n")
         for (variableIndex in 0 until variables.size) {
-            writeValue(rowBuf[variableIndex], variables[variableIndex], dictionary,output)
+            writeValue(rowBuf[variableIndex], variables[variableIndex], dictionary, output)
         }
         output.print("  </result>\n")
     }
 
-    suspend fun writeAllRows(variables: Array<String>, columns: Array<ColumnIterator>,dictionary:ResultSetDictionary, output: PrintWriter) {
+    inline suspend fun writeAllRows(variables: Array<String>, columns: Array<ColumnIterator>, dictionary: ResultSetDictionary, lock: Lock?, output: PrintWriter) {
         val rowBuf = IntArray(variables.size)
-	val resultBuf=StringWriter()
-	val resultWriter=PrintWriter(resultBuf)
+        val resultBuf = StringWriter()
+        val resultWriter = PrintWriter(resultBuf)
         loop@ while (true) {
             for (variableIndex in 0 until variables.size) {
                 val valueID = columns[variableIndex].next()
@@ -144,12 +148,36 @@ object QueryResultToXMLStream {
                 }
                 rowBuf[variableIndex] = valueID
             }
-            writeRow(variables, rowBuf, dictionary,resultWriter)
-		output.print(resultBuf.toString())
-		resultBuf.getBuffer().setLength(0)
+            writeRow(variables, rowBuf, dictionary, resultWriter)
+            lock?.lock()
+            output.print(resultBuf.toString())
+            lock?.unlock()
+            resultBuf.getBuffer().setLength(0)
         }
         for (closeIndex in 0 until columns.size) {
             columns[closeIndex]!!.close()
+        }
+    }
+
+    suspend fun writeNodeResult(variables: Array<String>, node: OPBase, output: PrintWriter, parent: Partition = Partition()) {
+        if (Partition.k > 1 && node is POPMergePartition) {
+            val jobs = Array<Deferred<Int>?>(Partition.k) { null }
+            val lock = Lock()
+            for (p in 0 until Partition.k) {
+                jobs[p] = GlobalScope.async<Int> {
+                    val child = node.children[0].evaluate(Partition(parent, node.partitionVariable, p, GlobalScope))
+                    val columns = variables.map { child.columns[it]!! }.toTypedArray()
+                    writeAllRows(variables, columns, node.query.dictionary, lock, output)
+                    1
+                }
+            }
+            for (p in 0 until Partition.k) {
+                jobs[p]!!.await()
+            }
+        } else {
+            val child = node.evaluate(parent)
+            val columns = variables.map { child.columns[it]!! }.toTypedArray()
+            writeAllRows(variables, columns, node.query.dictionary, null, output)
         }
     }
 
@@ -187,9 +215,9 @@ object QueryResultToXMLStream {
                 } else {
                     columnNames = node.getProvidedVariableNames()
                 }
-                val child = node.evaluate(Partition())
                 val variables = columnNames.toTypedArray()
                 if (variables.size == 1 && variables[0] == "?boolean") {
+                    val child = node.evaluate(Partition())
                     output.print(" <head/>\n")
                     val value = node.query.dictionary.getValue(child.columns["?boolean"]!!.next())
                     output.print(" <boolean>")
@@ -200,6 +228,7 @@ object QueryResultToXMLStream {
                     val bnodeMap = MyMapIntInt()
                     var bnodeMapSize = 0
                     if (variables.size == 0) {
+                        val child = node.evaluate(Partition())
                         output.print(" <head/>\n <results>\n")
                         for (j in 0 until child.count()) {
                             output.print("  <result/>\n")
@@ -212,9 +241,8 @@ object QueryResultToXMLStream {
                             output.print(variable)
                             output.print("\">\n")
                         }
-                        val columns = variables.map { child.columns[it]!! }.toTypedArray()
                         output.print(" </head>\n <results>\n")
-                        writeAllRows(variables, columns,node.query.dictionary, output)
+                        writeNodeResult(variables,node, output)
                         output.print(" </results>\n")
                     }
                 }
