@@ -55,8 +55,8 @@ object HttpEndpointLauncher {
                 val connection = server.accept()
                 Thread {
                     runBlocking {
-                        var timertotal = DateHelper.markNow()
-                        var timer = timertotal
+//                        var timertotal = DateHelper.markNow()
+//                        var timer = timertotal
                         var connectionIn: BufferedReader? = null
                         var connectionOut: PrintWriter? = null
                         try {
@@ -93,7 +93,7 @@ object HttpEndpointLauncher {
                             while (connectionIn.ready()) {
                                 content.append(connectionIn.read().toChar())
                             }
-                            println("timer #409 ${DateHelper.elapsedSeconds(timer)}")
+//                            println("timer #409 ${DateHelper.elapsedSeconds(timer)}")
                             when (path) {
                                 "/sparql/jenaquery" -> {
                                     printHeaderSuccess(connectionOut)
@@ -199,7 +199,7 @@ object HttpEndpointLauncher {
                             connectionIn?.close()
                             connection?.close()
                         }
-                        println("timer #400 ${DateHelper.elapsedSeconds(timertotal)}")
+//                        println("timer #400 ${DateHelper.elapsedSeconds(timertotal)}")
                     }
                 }.start()
             }

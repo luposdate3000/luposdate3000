@@ -178,7 +178,7 @@ object HttpEndpoint {
 
     suspend fun evaluate_sparql_query_string_part1(query: String, logOperatorGraph: Boolean = false): OPBase {
         val q = Query()
-        var timer = DateHelper.markNow()
+//        var timer = DateHelper.markNow()
         SanityCheck.println { "----------String Query" }
         SanityCheck.println { query }
         SanityCheck.println { "----------Abstract Syntax Tree" }
@@ -187,29 +187,29 @@ object HttpEndpoint {
         val ltit = LookAheadTokenIterator(tit, 3)
         val parser = SPARQLParser(ltit)
         val ast_node = parser.expr()
-println("timer #401 ${DateHelper.elapsedSeconds(timer)}")
-        timer = DateHelper.markNow()
+//println("timer #401 ${DateHelper.elapsedSeconds(timer)}")
+//        timer = DateHelper.markNow()
         SanityCheck.println { ast_node }
         SanityCheck.println { "----------Logical Operator Graph" }
         val lop_node = ast_node.visit(OperatorGraphVisitor(q))
-println("timer #402 ${DateHelper.elapsedSeconds(timer)}")
-        timer = DateHelper.markNow()
+//println("timer #402 ${DateHelper.elapsedSeconds(timer)}")
+//        timer = DateHelper.markNow()
         SanityCheck.println { lop_node }
         SanityCheck.println { "----------Logical Operator Graph optimized" }
         val lop_node2 = LogicalOptimizer(q).optimizeCall(lop_node)
-println("timer #403 ${DateHelper.elapsedSeconds(timer)}")
-        timer = DateHelper.markNow()
+//println("timer #403 ${DateHelper.elapsedSeconds(timer)}")
+//        timer = DateHelper.markNow()
         SanityCheck.println { lop_node2 }
         SanityCheck.println { "----------Physical Operator Graph" }
         val pop_optimizer = PhysicalOptimizer(q)
         val pop_node = pop_optimizer.optimizeCall(lop_node2)
-println("timer #404 ${DateHelper.elapsedSeconds(timer)}")
-        timer = DateHelper.markNow()
+//println("timer #404 ${DateHelper.elapsedSeconds(timer)}")
+//        timer = DateHelper.markNow()
         SanityCheck.println { pop_node }
         SanityCheck.println { "----------Distributed Operator Graph" }
         val pop_distributed_node = KeyDistributionOptimizer(q).optimizeCall(pop_node)
-println("timer #405 ${DateHelper.elapsedSeconds(timer)}")
-        timer = DateHelper.markNow()
+//println("timer #405 ${DateHelper.elapsedSeconds(timer)}")
+//        timer = DateHelper.markNow()
         SanityCheck.println { pop_distributed_node }
         if (logOperatorGraph) {
             println("----------")
@@ -219,19 +219,19 @@ println("timer #405 ${DateHelper.elapsedSeconds(timer)}")
             println("<<<<<<<<<<")
             println(OperatorGraphToLatex(pop_distributed_node.toXMLElement().toString(), ""))
         }
-println("timer #406 ${DateHelper.elapsedSeconds(timer)}")
+//println("timer #406 ${DateHelper.elapsedSeconds(timer)}")
         return pop_distributed_node
     }
 
     suspend fun evaluate_sparql_query_string_part2(node: OPBase, output: PrintWriter) {
-var timer = DateHelper.markNow()
+//var timer = DateHelper.markNow()
         output.println("HTTP/1.1 200 OK")
         output.println("Content-Type: text/plain")
         output.println();
         node.query.reset()
         QueryResultToStream(node, output)
         node.query.commit()
-println("timer #407 ${DateHelper.elapsedSeconds(timer)}")
+//println("timer #407 ${DateHelper.elapsedSeconds(timer)}")
     }
 
     suspend fun evaluate_sparql_query_string(query: String, logOperatorGraph: Boolean = false): String {
@@ -242,10 +242,10 @@ println("timer #407 ${DateHelper.elapsedSeconds(timer)}")
     }
 
     suspend fun evaluate_sparql_query_string(query: String, output: PrintWriter, logOperatorGraph: Boolean = false) {
-var timer = DateHelper.markNow()
+//var timer = DateHelper.markNow()
         val node = evaluate_sparql_query_string_part1(query, logOperatorGraph)
         evaluate_sparql_query_string_part2(node, output)
-println("timer #408 ${DateHelper.elapsedSeconds(timer)}")
+//println("timer #408 ${DateHelper.elapsedSeconds(timer)}")
     }
 
     suspend fun evaluate_sparql_query_operator_xml(query: String, logOperatorGraph: Boolean = false): String {

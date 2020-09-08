@@ -61,9 +61,9 @@ object QueryResultToXMLStream {
                 } else {
                     columnNames = node.getProvidedVariableNames()
                 }
-var timer3 = DateHelper.markNow()
+//var timer3 = DateHelper.markNow()
                 val child = node.evaluate(Partition())
-println("timer #413 ${DateHelper.elapsedSeconds(timer3)}")
+//println("timer #413 ${DateHelper.elapsedSeconds(timer3)}")
                 val variables = columnNames.toTypedArray()
                 if (variables.size == 1 && variables[0] == "?boolean") {
                     output.print(" <head/>\n")
@@ -90,11 +90,11 @@ println("timer #413 ${DateHelper.elapsedSeconds(timer3)}")
                             output.print("\">\n")
                         }
                         output.print(" </head>\n <results>\n")
-                        var timer = DateHelper.markNow()
-                        var timer2 = DateHelper.markNow()
-                        var timerNext = DateHelper.helperElapsed(timer, timer)
-                        var timerPrint = timerNext
-                        var timerFlush = timerNext
+//                        var timer = DateHelper.markNow()
+//                        var timer2 = DateHelper.markNow()
+//                        var timerNext = DateHelper.helperElapsed(timer, timer)
+//                        var timerPrint = timerNext
+//                        var timerFlush = timerNext
                         loop@ while (true) {
                             for (variableIndex in 0 until variables.size) {
                                 val valueID = columns[variableIndex]!!.next()
@@ -104,9 +104,9 @@ println("timer #413 ${DateHelper.elapsedSeconds(timer3)}")
                                     }
                                     break@loop
                                 }
-                                timer2 = DateHelper.markNow()
-                                timerNext = DateHelper.helperAdd(timerNext, DateHelper.helperElapsed(timer, timer2))
-                                timer = timer2
+//                                timer2 = DateHelper.markNow()
+//                                timerNext = DateHelper.helperAdd(timerNext, DateHelper.helperElapsed(timer, timer2))
+//                                timer = timer2
                                 if (variableIndex == 0) {
                                     output.print("  <result>\n")
                                 }
@@ -210,9 +210,9 @@ println("timer #413 ${DateHelper.elapsedSeconds(timer3)}")
                                 }
                             }
                             output.print("  </result>\n")
-                            timer2 = DateHelper.markNow()
-                            timerPrint = DateHelper.helperAdd(timerPrint, DateHelper.helperElapsed(timer, timer2))
-                            timer = timer2
+//                            timer2 = DateHelper.markNow()
+//                            timerPrint = DateHelper.helperAdd(timerPrint, DateHelper.helperElapsed(timer, timer2))
+//                            timer = timer2
 /*
                             output.flush()
 timer2=DateHelper.markNow()
@@ -220,9 +220,9 @@ timerFlush=DateHelper.helperAdd(timerFlush,DateHelper.helperElapsed(timer,timer2
 timer=timer2
 */
                         }
-                        println("timer #410 ${DateHelper.helperToSeconds(timerNext)}")
-                        println("timer #411 ${DateHelper.helperToSeconds(timerPrint)}")
-                        println("timer #412 ${DateHelper.helperToSeconds(timerFlush)}")
+//                        println("timer #410 ${DateHelper.helperToSeconds(timerNext)}")
+//                        println("timer #411 ${DateHelper.helperToSeconds(timerPrint)}")
+//                        println("timer #412 ${DateHelper.helperToSeconds(timerFlush)}")
                         output.print(" </results>\n")
                     }
                 }
