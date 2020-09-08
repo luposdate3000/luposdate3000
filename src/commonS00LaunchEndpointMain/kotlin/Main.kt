@@ -1,4 +1,5 @@
 import kotlinx.coroutines.delay
+import lupos.s00misc.Partition
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
@@ -16,8 +17,13 @@ fun main(args: Array<String>) = runBlocking {
                 hostname = a
             }
             1 -> {
+		if(a!="null"){
                 bootStrapServer = a
+		}
             }
+		2->{
+Partition.k = a.toInt()			
+		}
         }
         i++
     }

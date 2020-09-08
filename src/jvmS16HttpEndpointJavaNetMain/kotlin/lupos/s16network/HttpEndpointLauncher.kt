@@ -18,12 +18,26 @@ import kotlinx.coroutines.runBlocking
 import lupos.s00misc.Coverage
 import lupos.s00misc.EnpointRecievedInvalidPath
 import lupos.s00misc.File
+import lupos.s00misc.DateHelper
 import lupos.s00misc.JenaWrapper
 import lupos.s00misc.MyMapStringIntPatriciaTrie
 import lupos.s00misc.SanityCheck
 import lupos.s03resultRepresentation.nodeGlobalDictionary
 import lupos.s15tripleStoreDistributed.DistributedTripleStore
 import lupos.SparqlTestSuite
+
+class MyPrintWriterExtension(out: OutputStream) : PrintWriter(out, false) {
+    var counter = 0
+    override fun print(s: String) {
+        val len = s.length
+        counter += len
+        if (counter > 8192) {
+            flush()
+            counter = len
+        }
+        super.print(s)
+    }
+}
 
 @UseExperimental(ExperimentalStdlibApi::class)
 object HttpEndpointLauncher {
@@ -41,11 +55,13 @@ object HttpEndpointLauncher {
                 val connection = server.accept()
                 Thread {
                     runBlocking {
+                        var timertotal = DateHelper.markNow()
+                        var timer = timertotal
                         var connectionIn: BufferedReader? = null
                         var connectionOut: PrintWriter? = null
                         try {
                             connectionIn = BufferedReader(InputStreamReader(connection.getInputStream()))
-                            connectionOut = PrintWriter(connection.getOutputStream())
+                            connectionOut = MyPrintWriterExtension(connection.getOutputStream())
                             var line = connectionIn.readLine()
                             var path = ""
                             var isPost = false
@@ -77,6 +93,7 @@ object HttpEndpointLauncher {
                             while (connectionIn.ready()) {
                                 content.append(connectionIn.read().toChar())
                             }
+                            println("timer #409 ${DateHelper.elapsedSeconds(timer)}")
                             when (path) {
                                 "/sparql/jenaquery" -> {
                                     printHeaderSuccess(connectionOut)
@@ -98,9 +115,9 @@ object HttpEndpointLauncher {
                                 }
                                 "/sparql/query" -> {
                                     if (isPost) {
-                                        HttpEndpoint.evaluate_sparql_query_string(content.toString(), connectionOut, true)
+                                        HttpEndpoint.evaluate_sparql_query_string(content.toString(), connectionOut, false)
                                     } else {
-                                        HttpEndpoint.evaluate_sparql_query_string(params["query"]!!, connectionOut, true)
+                                        HttpEndpoint.evaluate_sparql_query_string(params["query"]!!, connectionOut, false)
                                     }
                                     /*Coverage Unreachable*/
                                 }
@@ -182,6 +199,7 @@ object HttpEndpointLauncher {
                             connectionIn?.close()
                             connection?.close()
                         }
+                        println("timer #400 ${DateHelper.elapsedSeconds(timertotal)}")
                     }
                 }.start()
             }
