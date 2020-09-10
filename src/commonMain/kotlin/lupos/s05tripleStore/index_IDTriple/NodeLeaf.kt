@@ -21,6 +21,7 @@ object NodeLeaf {
      *
      * absolute minimum is 21 used bytes for_ exactly 1 Triple/Node
      */
+
     inline fun getFirstTriple(node: ByteArray, b: IntArray) {
         b[0] = node.readInt4(startOffset + 1)
         b[1] = node.readInt4(startOffset + 5)

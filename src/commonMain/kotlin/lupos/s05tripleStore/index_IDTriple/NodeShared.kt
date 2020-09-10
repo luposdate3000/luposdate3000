@@ -44,6 +44,28 @@ object NodeShared {
         return 13
     }
 
+suspend    inline fun decodeTripleHeader(header: Int,crossinline  action:suspend (counter0: Int, counter1: Int, counter2: Int)->Unit) {
+        var headerA = header and 0b11000000
+        val counter0: Int
+        val counter1: Int
+        val counter2: Int
+        if (headerA == 0b0000000) {
+            counter0 = ((header and 0b00110000) shr 4) + 1
+            counter1 = ((header and 0b00001100) shr 2) + 1
+            counter2 = ((header and 0b00000011)) + 1
+        } else if (headerA == 0b01000000) {
+            counter0 = 0
+            counter1 = ((header and 0b00001100) shr 2) + 1
+            counter2 = ((header and 0b00000011)) + 1
+        } else {
+            SanityCheck.check { headerA == 0b10000000 }
+            counter0 = 0
+            counter1 = 0
+            counter2 = ((header and 0b00000011)) + 1
+        }
+        action(counter0, counter1, counter2)
+    }
+
     /*inline*/ fun writeDiffTriple(data: ByteArray, offset: Int, l: IntArray, d: IntArray, b: IntArray): Int {
         /*
          * assuming enough space

@@ -68,6 +68,26 @@ inline fun ByteArray.readInt1(offset: Int): Int {
     return (this[offset].toInt() and 0xFF)
 }
 
+inline fun ByteArray.readIntX(offset: Int, count: Int): Int {
+    when (count) {
+        0 -> {
+            return 0
+        }
+        1 -> {
+            return readInt1(offset)
+        }
+        2 -> {
+            return readInt2(offset)
+        }
+        3 -> {
+            return readInt3(offset)
+        }
+        else -> {
+            return readInt4(offset)
+        }
+    }
+}
+
 inline fun ByteArray.readChar(offset: Int): Char {
     return (((this[offset].toInt() and 0xFF) shl 8) or ((this[offset + 1].toInt() and 0xFF))).toChar()
 }
