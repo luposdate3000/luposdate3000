@@ -8,9 +8,10 @@ import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s04logicalOperators.iterator.ColumnIterator
 
 abstract class NodeLeafColumnIterator(@JvmField var node: ByteArray, @JvmField var nodeid: Int, @JvmField val lock: ReadWriteLock) : ColumnIterator() {
-companion object{
-const val SIP_LOCAL_LIMIT=3
-}
+    companion object {
+        const val SIP_LOCAL_LIMIT = 3
+    }
+
     @JvmField
     var remaining = 0
 
@@ -23,10 +24,15 @@ const val SIP_LOCAL_LIMIT=3
     @JvmField
     var needsReset = true
 
-    inline suspend fun _init() {
+
+    inline suspend fun __init() {
         SanityCheck.println { "readLock(${lock.uuid}) x44" }
         lock.readLock()
         remaining = NodeShared.getTripleCount(node)
+    }
+
+    inline suspend fun _init() {
+        __init()
     }
 
     suspend inline fun _close() {
@@ -45,7 +51,7 @@ const val SIP_LOCAL_LIMIT=3
         _close()
     }
 
-   suspend inline fun updateRemaining(crossinline setDone: () -> Unit={}) {
+    suspend inline fun updateRemaining(crossinline setDone: () -> Unit = {}) {
         SanityCheck.check { remaining > 0 }
         remaining--
         if (remaining == 0) {
@@ -65,11 +71,55 @@ const val SIP_LOCAL_LIMIT=3
                 _close()
                 setDone()
             }
-}
-SanityCheck.check{remaining>0||label==0}
+        }
+        SanityCheck.check { remaining > 0 || label == 0 }
     }
-    suspend inline fun nextSIP_helper(_value:Int,minValue: Int,crossinline skippedElements: (counter: Int) -> Unit,crossinline readTriple:(node:ByteArray,offset:Int,value:Int,action:(value:Int)->Unit)->Int): Int {
-var value=_value
+
+    suspend inline fun next_helper(_value: Int, crossinline readTriple: (node: ByteArray, offset: Int, value: Int, crossinline action: (value: Int) -> Unit) -> Int): Int {
+        if (label != 0) {
+            var value = _value
+            if (needsReset) {
+                needsReset = false
+                value = 0
+            }
+            offset += readTriple(node, offset, value) { v ->
+                value = v
+            }
+            updateRemaining()
+            return value
+        } else {
+            return ResultSetDictionary.nullValue
+        }
+    }
+
+    inline suspend fun nextSIP_helper(_value: Int, skipCount: Int, crossinline readTriple: (node: ByteArray, offset: Int, value: Int, crossinline action: (value: Int) -> Unit) -> Int): Int {
+        if (label != 0) {
+            var value = _value
+            var toSkip = skipCount + 1
+            while (toSkip >= remaining) {
+                toSkip -= remaining
+                remaining = 1
+                updateRemaining()
+            }
+            if (needsReset) {
+                needsReset = false
+                value = 0
+            }
+            while (toSkip > 0) {
+                offset += readTriple(node, offset, value) { v ->
+                    value = v
+                }
+                toSkip--
+            }
+            return value
+        } else {
+            return ResultSetDictionary.nullValue
+        }
+    }
+
+    suspend inline fun nextSIP_helper(_value: Int, minValue: Int, crossinline skippedElements: (counter: Int) -> Unit, crossinline readTriple: (node: ByteArray, offset: Int, value: Int, crossinline action: (value: Int) -> Unit) -> Int): Int {
+        if (label != 0) {
+            var value = _value
             var counter = 0
             var limit = remaining
             if (limit > SIP_LOCAL_LIMIT) {
@@ -129,7 +179,7 @@ var value=_value
             }
             //search until the value is found
             while (remaining > 0) {
-       counter++
+                counter++
                 if (needsReset) {
                     needsReset = false
                     value = 0
@@ -144,6 +194,8 @@ var value=_value
                 }
             }
             return ResultSetDictionary.nullValue
+        } else {
+            return ResultSetDictionary.nullValue
+        }
     }
-
 }

@@ -88,6 +88,12 @@ class POPJoinMerge(query: Query, projectedVariables: List<String>, childA: OPBas
 
         @JvmField
         var local___close_i = 0
+
+        @JvmField
+var skipO0 = 0
+        @JvmField
+var skipO1 = 0
+
         suspend inline fun __close() {
             if (label != 0) {
                 local___close_i = 0
@@ -140,11 +146,7 @@ class POPJoinMerge(query: Query, projectedVariables: List<String>, childA: OPBas
                         local_next_i = 0
                         while (local_next_i < columnsINJ0.size) {
                             if (key0[local_next_i] < key1[local_next_i]) {
-                                local_next_j = 0
-                                while (local_next_j < columnsINO0.size) {
-                                    columnsINO0[local_next_j].next()
-                                    local_next_j++
-                                }
+skipO0++
                                 local_next_j = 0
                                 while (local_next_j < columnsINJ0.size) {
                                     key0[local_next_j] = columnsINJ0[local_next_j].next()
@@ -158,11 +160,7 @@ class POPJoinMerge(query: Query, projectedVariables: List<String>, childA: OPBas
                                 }
                                 continue@loop
                             } else if (key0[local_next_i] > key1[local_next_i]) {
-                                local_next_j = 0
-                                while (local_next_j < columnsINO1.size) {
-                                    columnsINO1[local_next_j].next()
-                                    local_next_j++
-                                }
+skipO1++
                                 local_next_j = 0
                                 while (local_next_j < columnsINJ1.size) {
                                     key1[local_next_j] = columnsINJ1[local_next_j].next()
@@ -202,9 +200,11 @@ class POPJoinMerge(query: Query, projectedVariables: List<String>, childA: OPBas
                                 }
                                 local_next_i = 0
                                 while (local_next_i < columnsINO0.size) {
-                                    data0[local_next_i][local_next_countA] = columnsINO0[local_next_i].next()
+println("try to call nextSIP")
+                                    data0[local_next_i][local_next_countA] = columnsINO0[local_next_i].nextSIP(skipO0)
                                     local_next_i++
                                 }
+skipO0=0
                             }
                             local_next_countA++
                             local_next_i = 0
@@ -240,9 +240,11 @@ class POPJoinMerge(query: Query, projectedVariables: List<String>, childA: OPBas
                                 }
                                 local_next_i = 0
                                 while (local_next_i < columnsINO1.size) {
-                                    data1[local_next_i][local_next_countB] = columnsINO1[local_next_i].next()
+println("try to call nextSIP")
+                                    data1[local_next_i][local_next_countB] = columnsINO1[local_next_i].nextSIP(skipO1)
                                     local_next_i++
                                 }
+skipO1=0
                             }
                             local_next_countB++
                             local_next_i = 0

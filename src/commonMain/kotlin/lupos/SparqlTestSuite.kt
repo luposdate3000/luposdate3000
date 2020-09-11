@@ -803,6 +803,7 @@ class SparqlTestSuite() {
                 println("----------Time(${DateHelper.elapsedSeconds(timer)})")
                 println("----------Failed(Throwable)")
                 e.printStackTrace()
+throw e
             } else {
                 println("----------Time(${DateHelper.elapsedSeconds(timer)})")
                 println("----------Success(ExpectFalse,Throwable)")

@@ -7,5 +7,5 @@ import lupos.s00misc.SanityCheck
 import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s04logicalOperators.iterator.ColumnIterator
 
-abstract class NodeLeafColumnIteratorPrefix( node: ByteArray,  nodeid: Int, @JvmField val prefix: IntArray,  lock: ReadWriteLock) : NodeLeafColumnIterator(node,nodeid,lock) {
+abstract class NodeLeafColumnIteratorPrefix(node: ByteArray, nodeid: Int, @JvmField val prefix: IntArray, lock: ReadWriteLock) : NodeLeafColumnIterator(node, nodeid, lock) {
 }

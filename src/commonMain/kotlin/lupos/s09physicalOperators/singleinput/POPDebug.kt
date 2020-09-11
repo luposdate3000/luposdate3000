@@ -92,6 +92,38 @@ class POPDebug(query: Query, projectedVariables: List<String>, child: OPBase) : 
                                 }
                             }
 
+                            override suspend fun nextSIP(minValue: Value, skippedElements: (counter: Int) -> Unit): Value {
+                                if (label != 0) {
+                                    SanityCheck.println({ "$uuid $k next call minValue SIP" })
+                                    val res = v.nextSIP(minValue, skippedElements)
+                                    if (res == ResultSetDictionary.nullValue) {
+                                        SanityCheck.println({ "$uuid $k next return closed $counter ${parent.data} ResultSetDictionary.nullValue" })
+                                    } else {
+                                        counter++
+                                        SanityCheck.println({ "$uuid $k next return $counter ${parent.data} ${res.toString(16)}" })
+                                    }
+                                    return res
+                                } else {
+                                    return ResultSetDictionary.nullValue
+                                }
+                            }
+
+                            override suspend fun nextSIP(skipCount: Int): Value {
+                                if (label != 0) {
+                                    SanityCheck.println({ "$uuid $k next call skip SIP" })
+                                    val res = v.nextSIP(skipCount)
+                                    if (res == ResultSetDictionary.nullValue) {
+                                        SanityCheck.println({ "$uuid $k next return closed $counter ${parent.data} ResultSetDictionary.nullValue" })
+                                    } else {
+                                        counter++
+                                        SanityCheck.println({ "$uuid $k next return $counter ${parent.data} ${res.toString(16)}" })
+                                    }
+                                    return res
+                                } else {
+                                    return ResultSetDictionary.nullValue
+                                }
+                            }
+
                             override suspend fun close() {
                                 if (label != 0) {
                                     label = 0

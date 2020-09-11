@@ -1,25 +1,20 @@
 package lupos.s04logicalOperators.iterator
 
 import lupos.s00misc.SanityCheck
-import lupos.s03resultRepresentation.Value
+import lupos.s00misc.classNameToString
 import lupos.s03resultRepresentation.ResultSetDictionary
+import lupos.s03resultRepresentation.Value
 
 abstract class ColumnIterator() {
     abstract suspend fun next(): Value
     abstract suspend fun close()
-    open fun hasSIP() = false
-suspend    open fun nextSIP(minValue: Value, skippedElements: (counter: Int) -> Unit): Value {
-        var counter = 0
-        var value = next()
-        while (value < minValue && value != ResultSetDictionary.nullValue) {
-            value = next()
-            counter++
-        }
-        skippedElements(counter)
-        return value
+    suspend open fun nextSIP(minValue: Value, skippedElements: (counter: Int) -> Unit): Value {
+println("SIP minValue here ${classNameToString(this)}")
+        return next()
     }
 
-suspend    open fun nextSIP(skipCount: Int): Value {
+    suspend open fun nextSIP(skipCount: Int): Value {
+println("SIP skip here ${classNameToString(this)}")
         for (i in 0 until skipCount) {
             next()
         }

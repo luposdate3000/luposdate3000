@@ -27,6 +27,10 @@ object NodeManager {
         bufferManager.loadFromFolder()
     }
 
+    inline fun referenceNode(nodeid: Int) {
+        bufferManager.referencePage(nodeid)
+    }
+
     inline fun releaseNode(nodeid: Int) {
         bufferManager.releasePage(nodeid)
     }
