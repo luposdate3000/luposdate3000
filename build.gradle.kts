@@ -1,5 +1,6 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
+
 tasks.withType<KotlinCompile>().all {
     //kotlinOptions.jvmTarget = "14"
     kotlinOptions.jvmTarget = "1.8"

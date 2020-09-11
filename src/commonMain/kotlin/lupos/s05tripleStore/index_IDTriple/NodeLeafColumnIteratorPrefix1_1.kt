@@ -8,19 +8,15 @@ import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s04logicalOperators.iterator.ColumnIterator
 
 class NodeLeafColumnIteratorPrefix1_1(node: ByteArray, nodeid: Int, prefix: IntArray, lock: ReadWriteLock) : NodeLeafColumnIteratorPrefix(node, nodeid, prefix, lock) {
-
     @JvmField
     var value0 = 0
 
     @JvmField
     var value1 = 0
-
     suspend override fun next(): Int {
-println("NodeLeafColumnIteratorPrefix1_1 :: next")
         if (label != 0) {
             var done = false
             while (!done) {
-println("NodeLeafColumnIteratorPrefix1_1 :: loop $remaining")
                 if (needsReset) {
                     needsReset = false
                     value0 = 0
@@ -31,17 +27,14 @@ println("NodeLeafColumnIteratorPrefix1_1 :: loop $remaining")
                     value1 = v1
                 }
                 if (value0 > prefix[0]) {
-println("NodeLeafColumnIteratorPrefix1_1 :: too large -> close")
                     _close()
                     value1 = ResultSetDictionary.nullValue
                     done = true
                 } else {
                     done = value0 == prefix[0]
-if(!done){
-println("NodeLeafColumnIteratorPrefix1_1 :: too small -> repeat")
-}
+                    if (!done) {
+                    }
                     updateRemaining() {
-println("NodeLeafColumnIteratorPrefix1_1 :: update done")
                         if (!done) {
                             value1 = ResultSetDictionary.nullValue
                         }
@@ -51,7 +44,6 @@ println("NodeLeafColumnIteratorPrefix1_1 :: update done")
             }
             return value1
         } else {
-println("NodeLeafColumnIteratorPrefix1_1 :: already closed")
             return ResultSetDictionary.nullValue
         }
     }

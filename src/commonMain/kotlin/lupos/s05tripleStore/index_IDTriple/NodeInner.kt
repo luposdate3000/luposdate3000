@@ -15,7 +15,6 @@ import lupos.s04logicalOperators.iterator.ColumnIterator
 object NodeInner {
     const val START_OFFSET = 16
     const val MAX_POINTER_SIZE = 4
-
     inline fun getFirstTriple(data: ByteArray, b: IntArray) {
         var node = data
         var done = false

@@ -1,6 +1,5 @@
 package lupos.s05tripleStore.index_IDTriple
 
-
 import kotlin.jvm.JvmField
 import kotlinx.coroutines.runBlocking
 import lupos.s00misc.ReadWriteLock
@@ -9,7 +8,6 @@ import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s04logicalOperators.iterator.ColumnIterator
 
 class NodeLeafColumnIteratorPrefix2_2(node: ByteArray, nodeid: Int, prefix: IntArray, lock: ReadWriteLock) : NodeLeafColumnIteratorPrefix(node, nodeid, prefix, lock) {
-
     @JvmField
     var value0 = 0
 
@@ -18,13 +16,10 @@ class NodeLeafColumnIteratorPrefix2_2(node: ByteArray, nodeid: Int, prefix: IntA
 
     @JvmField
     var value2 = 0
-
     suspend override fun next(): Int {
-println("NodeLeafColumnIteratorPrefix2_2 :: next")
         if (label != 0) {
             var done = false
             while (!done) {
-println("NodeLeafColumnIteratorPrefix2_2 :: loop $remaining")
                 if (needsReset) {
                     needsReset = false
                     value0 = 0
@@ -36,19 +31,15 @@ println("NodeLeafColumnIteratorPrefix2_2 :: loop $remaining")
                     value1 = v1
                     value2 = v2
                 }
-println("NodeLeafColumnIteratorPrefix2_2 :: $value0 $value1 $value2")
                 if (value0 > prefix[0] || (value0 == prefix[0] && value1 > prefix[1])) {
-println("NodeLeafColumnIteratorPrefix2_2 :: too large -> close")
                     _close()
                     value2 = ResultSetDictionary.nullValue
                     done = true
                 } else {
                     done = value0 == prefix[0] && value1 == prefix[1]
-if(!done){
-println("NodeLeafColumnIteratorPrefix2_2 :: too small -> repeat")
-}
+                    if (!done) {
+                    }
                     updateRemaining() {
-println("NodeLeafColumnIteratorPrefix2_2 :: update done")
                         if (!done) {
                             value2 = ResultSetDictionary.nullValue
                         }

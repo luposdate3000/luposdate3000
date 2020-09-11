@@ -1,8 +1,8 @@
 import kotlinx.coroutines.delay
-import lupos.s00misc.Partition
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+import lupos.s00misc.Partition
 import lupos.s16network.HttpEndpointLauncher
 import lupos.s16network.ServerCommunicationSend
 
@@ -17,13 +17,13 @@ fun main(args: Array<String>) = runBlocking {
                 hostname = a
             }
             1 -> {
-		if(a!="null"){
-                bootStrapServer = a
-		}
+                if (a != "null") {
+                    bootStrapServer = a
+                }
             }
-		2->{
-Partition.k = a.toInt()			
-		}
+            2 -> {
+                Partition.k = a.toInt()
+            }
         }
         i++
     }

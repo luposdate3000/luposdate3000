@@ -1,11 +1,12 @@
 package lupos.s11outputResult
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.Deferred
-import kotlinx.coroutines.async
-import lupos.s00misc.Lock
-import lupos.s00misc.DateHelper
+
 import java.io.PrintWriter
 import java.io.StringWriter
+import kotlinx.coroutines.async
+import kotlinx.coroutines.Deferred
+import kotlinx.coroutines.GlobalScope
+import lupos.s00misc.DateHelper
+import lupos.s00misc.Lock
 import lupos.s00misc.MyMapIntInt
 import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
@@ -25,9 +26,9 @@ import lupos.s03resultRepresentation.ValueSimpleLiteral
 import lupos.s03resultRepresentation.ValueTypedLiteral
 import lupos.s03resultRepresentation.ValueUndef
 import lupos.s03resultRepresentation.Variable
+import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s04logicalOperators.OPBase
-import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.s04logicalOperators.OPBaseCompound
 import lupos.s04logicalOperators.Query
 import lupos.s09physicalOperators.partition.POPMergePartition
@@ -242,7 +243,7 @@ object QueryResultToXMLStream {
                             output.print("\">\n")
                         }
                         output.print(" </head>\n <results>\n")
-                        writeNodeResult(variables,node, output)
+                        writeNodeResult(variables, node, output)
                         output.print(" </results>\n")
                     }
                 }

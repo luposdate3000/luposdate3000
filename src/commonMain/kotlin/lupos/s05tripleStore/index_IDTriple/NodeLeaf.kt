@@ -6,7 +6,6 @@ import lupos.s04logicalOperators.iterator.ColumnIterator
 
 object NodeLeaf {
     const val START_OFFSET = 12
-
     inline fun getFirstTriple(node: ByteArray, b: IntArray) {
         NodeShared.readTriple111(node, START_OFFSET, 0, 0, 0) { v0, v1, v2 ->
             b[0] = v0
@@ -98,9 +97,9 @@ object NodeLeaf {
             var remaining = NodeShared.getTripleCount(node)
             var offset2 = START_OFFSET
             var i = 0
-var value0=0
-var value1=0
-var value2=0
+            var value0 = 0
+            var value1 = 0
+            var value2 = 0
             while (remaining > 0) {
                 offset2 += NodeShared.readTriple111(node, offset2, value0, value1, value2) { v0, v1, v2 ->
                     value0 = v0
@@ -110,7 +109,6 @@ var value2=0
                 SanityCheck.check { value0 == writtenTriples!![i * 3] }
                 SanityCheck.check { value1 == writtenTriples!![i * 3 + 1] }
                 SanityCheck.check { value2 == writtenTriples!![i * 3 + 2] }
-
                 remaining--
                 i++
             }

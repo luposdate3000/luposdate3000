@@ -8,7 +8,6 @@ import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s04logicalOperators.iterator.ColumnIterator
 
 class NodeLeafColumnIterator0(node: ByteArray, nodeid: Int, lock: ReadWriteLock) : NodeLeafColumnIterator(node, nodeid, lock) {
-
     suspend override fun next(): Int {
         if (label != 0) {
             if (needsReset) {

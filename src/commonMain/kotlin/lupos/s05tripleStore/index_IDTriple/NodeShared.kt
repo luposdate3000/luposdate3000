@@ -143,7 +143,6 @@ object NodeShared {
         return localOff - offset
     }
 
-
     /*inline*/ fun writeTriple(node: ByteArray, offset: Int, l: IntArray, d: IntArray): Int {
         val b0 = l[0] xor d[0]
         val b1 = l[1] xor d[1]

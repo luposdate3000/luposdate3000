@@ -1,6 +1,5 @@
 package lupos.s05tripleStore.index_IDTriple
 
-
 import kotlin.jvm.JvmField
 import kotlinx.coroutines.runBlocking
 import lupos.s00misc.ReadWriteLock
@@ -9,13 +8,11 @@ import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s04logicalOperators.iterator.ColumnIterator
 
 class NodeLeafColumnIteratorPrefix1_2(node: ByteArray, nodeid: Int, prefix: IntArray, lock: ReadWriteLock) : NodeLeafColumnIteratorPrefix(node, nodeid, prefix, lock) {
-
     @JvmField
     var value0 = 0
 
     @JvmField
     var value2 = 0
-
     suspend override fun next(): Int {
         if (label != 0) {
             var done = false
