@@ -13,34 +13,9 @@ import lupos.s00misc.writeInt4
 import lupos.s04logicalOperators.iterator.ColumnIterator
 
 object NodeInner {
-    const val startOffset = 16
+    const val START_OFFSET = 16
+    const val MAX_POINTER_SIZE = 4
 
-    /*
-     * Bitlayout 7..0
-     * Bytes 0..3  : Number of stored Triples
-     * Bytes 4..7  : next-page-pointer, 0x8FFFFFFF is the "null"-pointer avoiding the highest bit because of the signedness behaviour of java/kotlin
-     * Bytes 8..11 : first child-page-pointer
-     *
-     * triple-group:
-     * bits 0..1: # Bytes _for S (00->1,01->2,10->3,11->4)
-     * bits 2..3: # Bytes _for P (00->1,01->2,10->3,11->4)
-     * bits 4..5: # Bytes _for O (00->1,01->2,10->3,11->4)
-     * bits 6..7: (00->SPO,01->PO,10->O,11->undefined)
-     * triple-group-data: 1-12 Bytes 
-     *
-     * child-pointer-group: (may be only partially used if_ Number of stored tiples is reached)
-     * assuming consecutive child-pointers are never the same
-     * bits 0..1 # Bytes _for 1st child-pointer (00->1,01->2,10->3,11->4)
-     * bits 2..3 # Bytes _for 2st child-pointer (00->1,01->2,10->3,11->4)
-     * bits 4..5 # Bytes _for 3st child-pointer (00->1,01->2,10->3,11->4)
-     * bits 6..7 # Bytes _for 4st child-pointer (00->1,01->2,10->3,11->4)
-     * child-pointer-group-data: 4-16 Bytes
-     *
-     * afterwards alternating 4x triple-group followed by 1x child-pointer-group
-     * at the end there might be less than 4 triple-groups in front of the last child-pointer-group
-     *
-     * absolute minimum is 81 used bytes _for exactly 4 Triple/Node
-     */
     inline fun getFirstTriple(data: ByteArray, b: IntArray) {
         var node = data
         var done = false
@@ -69,41 +44,19 @@ object NodeInner {
         return data.readInt4(12)
     }
 
-    /*inline*/ fun writeChildPointers(data: ByteArray, offset: Int, count: Int, d: IntArray): Int {
-        SanityCheck.check { count > 0 }
-        SanityCheck.check { count <= 4 }
-        SanityCheck.check { d[0] > 0 }
-        SanityCheck.check { d[1] > 0 || count < 2 }
-        SanityCheck.check { d[2] > 0 || count < 3 }
-        SanityCheck.check { d[3] > 0 || count < 4 }
-        var header = 0b00000000
-        var localOff = offset + 1
-        for (i in 0 until count) {
-            if (d[i] >= (1 shl 24)) {
-                header = header or (0b00000011 shl (6 - i - i))
-                data.writeInt4(localOff, d[i])
-                localOff += 4
-            } else if (d[i] >= (1 shl 16)) {
-                header = header or (0b00000010 shl (6 - i - i))
-                data.writeInt3(localOff, d[i])
-                localOff += 3
-            } else if (d[i] >= (1 shl 8)) {
-                header = header or (0b00000001 shl (6 - i - i))
-                data.writeInt2(localOff, d[i])
-                localOff += 2
-            } else {
-                SanityCheck.check { d[i] >= 0 }
-                data.writeInt1(localOff, d[i])
-                localOff += 1
-            }
-        }
-        data.writeInt1(offset, header)
-        return localOff - offset
+    inline fun writeChildPointer(node: ByteArray, offset: Int, pointer: Int): Int {
+        node.writeInt4(offset, pointer)
+        return 4
     }
 
-    inline fun iterator(data: ByteArray): TripleIterator {
+    inline fun readChildPointer(node: ByteArray, offset: Int, crossinline action: (pointer: Int) -> Unit): Int {
+        action(node.readInt4(offset))
+        return 4
+    }
+
+    inline fun iterator(_node: ByteArray): TripleIterator {
         var iterator: TripleIterator? = null
-        var node = data
+        var node = _node
         while (true) {
             var nodeid = getFirstChild(node)
             SanityCheck.println({ "Outside.refcount($nodeid) ${NodeManager.bufferManager.allPagesRefcounters[nodeid]} x19" })
@@ -122,9 +75,9 @@ object NodeInner {
         return iterator!!
     }
 
-    suspend inline fun iterator(data: ByteArray, lock: ReadWriteLock, component: Int): ColumnIterator {
+    suspend inline fun iterator(_node: ByteArray, lock: ReadWriteLock, component: Int): ColumnIterator {
         var iterator: ColumnIterator? = null
-        var node = data
+        var node = _node
         while (true) {
             var nodeid = getFirstChild(node)
             SanityCheck.println({ "Outside.refcount($nodeid) ${NodeManager.bufferManager.allPagesRefcounters[nodeid]} x20" })
@@ -143,151 +96,52 @@ object NodeInner {
         return iterator!!
     }
 
-    /*inline*/ suspend fun forEachChild(data: ByteArray,/*crossinline*/ action: suspend (Int) -> Unit) {
-        var remaining = NodeShared.getTripleCount(data)
-        var offset = startOffset
-        var lastChildPointer = getFirstChild(data)
+    /*inline*/ suspend fun forEachChild(node: ByteArray,/*crossinline*/ action: suspend (Int) -> Unit) {
+        var remaining = NodeShared.getTripleCount(node)
+        var offset = START_OFFSET
+        var lastChildPointer = getFirstChild(node)
         action(lastChildPointer)
         while (remaining > 0) {
-            var i = 0
-            while (i < 4 && remaining > 0) {
-                var header = data.readInt1(offset)
-                offset++
-                var headerA = header and 0b11000000
-                if (headerA == 0b0000000) {
-                    offset += ((header and 0b00110000) shr 4) + ((header and 0b00001100) shr 2) + ((header and 0b00000011)) + 3
-                } else if (headerA == 0b01000000) {
-                    offset += ((header and 0b00001100) shr 2) + ((header and 0b00000011)) + 2
-                } else {
-                    offset += ((header and 0b00000011)) + 1
-                }
-                remaining--
-                i++
+            offset += NodeShared.readTriple000(node, offset)
+            offset += readChildPointer(node, offset) { it ->
+                lastChildPointer = it
             }
-            var headerB = data.readInt1(offset)
-            offset++
-            for (j in 0 until i) {
-                var h = ((headerB shr (6 - j - j)) and 0x03) + 1
-                when (h) {
-                    1 -> {
-                        lastChildPointer = lastChildPointer xor data.readInt1(offset)
-                    }
-                    2 -> {
-                        lastChildPointer = lastChildPointer xor data.readInt2(offset)
-                    }
-                    3 -> {
-                        lastChildPointer = lastChildPointer xor data.readInt3(offset)
-                    }
-                    4 -> {
-                        lastChildPointer = lastChildPointer xor data.readInt4(offset)
-                    }
-                }
-                action(lastChildPointer)
-                offset += h
-            }
+            action(lastChildPointer)
+            remaining--
         }
     }
 
-    suspend    /*inline*/  fun findIteratorN(data: ByteArray,/*crossinline*/ checkTooSmall: suspend (c: IntArray) -> Boolean, /*crossinline*/ action: suspend (Int) -> Unit): Unit {
-        var lastHeaderOffset = -1 //invalid offset to start with
-        var lastChildPointer = getFirstChild(data)
-        var childLastPointerHeaderOffset = -1
-        var remaining = NodeShared.getTripleCount(data)
-        var offset = startOffset
-        var childPointers = IntArray(4)
-        var counter = IntArray(3)
-        var value = IntArray(3)
-        var childToUse = -1
+    suspend    /*inline*/  fun findIteratorN(node: ByteArray,/*crossinline*/ checkTooSmall: suspend (value0: Int, value1: Int, value2: Int) -> Boolean, /*crossinline*/ action: suspend (Int) -> Unit): Unit {
+        var remaining = NodeShared.getTripleCount(node)
+        var offset = START_OFFSET
+        var value0 = 0
+        var value1 = 0
+        var value2 = 0
+        var lastChildPointer = getFirstChild(node)
         while (remaining > 0) {
-            var i = 0
-            while (i < 4 && remaining > 0) {
-                childLastPointerHeaderOffset = offset
-                var header = data.readInt1(offset)
-                offset++
-                var headerA = header and 0b11000000
-                if (headerA == 0b0000000) {
-                    counter[0] = ((header and 0b00110000) shr 4) + 1
-                    counter[1] = ((header and 0b00001100) shr 2) + 1
-                    counter[2] = ((header and 0b00000011)) + 1
-                } else if (headerA == 0b01000000) {
-                    counter[0] = 0
-                    counter[1] = ((header and 0b00001100) shr 2) + 1
-                    counter[2] = ((header and 0b00000011)) + 1
-                } else {
-                    SanityCheck.check { headerA == 0b10000000 }
-                    counter[0] = 0
-                    counter[1] = 0
-                    counter[2] = ((header and 0b00000011)) + 1
-                }
-                for (j in 0 until 3) {
-                    when (counter[j]) {
-                        1 -> {
-                            value[j] = value[j] xor data.readInt1(offset)
-                        }
-                        2 -> {
-                            value[j] = value[j] xor data.readInt2(offset)
-                        }
-                        3 -> {
-                            value[j] = value[j] xor data.readInt3(offset)
-                        }
-                        4 -> {
-                            value[j] = value[j] xor data.readInt4(offset)
-                        }
-                    }
-                    offset += counter[j]
-                }
-                if (!checkTooSmall(value)) {
-                    if (i == 0) {
-                        if (lastHeaderOffset < 0) {
-                            lastChildPointer = getFirstChild(data)
-                        }
-                        action(lastChildPointer)
-                        return
-                    }
-                    if (childToUse < 0) {
-                        childToUse = i - 1
-                    }
-                }
-                remaining--
-                i++
+            offset += NodeShared.readTriple111(node, offset, value0, value1, value2) { v0, v1, v2 ->
+                value0 = v0
+                value1 = v1
+                value2 = v2
             }
-            var headerB = data.readInt1(offset)
-            offset++
-            for (j in 0 until i) {
-                var h = ((headerB shr (6 - j - j)) and 0x03) + 1
-                when (h) {
-                    1 -> {
-                        childPointers[j] = lastChildPointer xor data.readInt1(offset)
-                    }
-                    2 -> {
-                        childPointers[j] = lastChildPointer xor data.readInt2(offset)
-                    }
-                    3 -> {
-                        childPointers[j] = lastChildPointer xor data.readInt3(offset)
-                    }
-                    4 -> {
-                        childPointers[j] = lastChildPointer xor data.readInt4(offset)
-                    }
-                }
-                lastChildPointer = childPointers[j]
-                offset += h
+            if (!checkTooSmall(value0, value1, value2)) {
+                break
             }
-            if (childToUse >= 0) {
-                action(childPointers[childToUse])
-                return
+            offset += readChildPointer(node, offset) { it ->
+                lastChildPointer = it
             }
-            lastHeaderOffset = childLastPointerHeaderOffset
+            remaining--
         }
         action(lastChildPointer)
     }
 
-    suspend inline fun iterator3(data: ByteArray, prefix: IntArray, lock: ReadWriteLock): ColumnIterator {
-        var node = data
+    suspend inline fun iterator3(_node: ByteArray, prefix: IntArray, lock: ReadWriteLock): ColumnIterator {
+        var node = _node
         var iterator: ColumnIterator? = null
         var nodeid = 0
         while (true) {
-            findIteratorN(node, {
-                /*return*/ (it[0] < prefix[0]) || (it[0] == prefix[0] && it[1] < prefix[1]) || (it[0] == prefix[0] && it[1] == prefix[1] && it[2] < prefix[2])
+            findIteratorN(node, { value0, value1, value2 ->
+                /*return*/ (value0 < prefix[0]) || (value0 == prefix[0] && value1 < prefix[1]) || (value0 == prefix[0] && value1 == prefix[1] && value2 < prefix[2])
             }, {
                 nodeid = it
                 SanityCheck.println({ "Outside.refcount($it) ${NodeManager.bufferManager.allPagesRefcounters[it]} x21" })
@@ -307,13 +161,13 @@ object NodeInner {
         return iterator!!
     }
 
-    suspend inline fun iterator2(data: ByteArray, prefix: IntArray, lock: ReadWriteLock): ColumnIterator {
-        var node = data
+    suspend inline fun iterator2(_node: ByteArray, prefix: IntArray, lock: ReadWriteLock): ColumnIterator {
+        var node = _node
         var iterator: ColumnIterator? = null
         var nodeid = 0
         while (true) {
-            findIteratorN(node, {
-                /*return*/ (it[0] < prefix[0]) || (it[0] == prefix[0] && it[1] < prefix[1])
+            findIteratorN(node, { value0, value1, value2 ->
+                /*return*/ (value0 < prefix[0]) || (value0 == prefix[0] && value1 < prefix[1])
             }, {
                 nodeid = it
                 SanityCheck.println({ "Outside.refcount($it) ${NodeManager.bufferManager.allPagesRefcounters[it]} x22" })
@@ -333,13 +187,13 @@ object NodeInner {
         return iterator!!
     }
 
-    suspend inline fun iterator1(data: ByteArray, prefix: IntArray, lock: ReadWriteLock, component: Int): ColumnIterator {
-        var node = data
+    suspend inline fun iterator1(_node: ByteArray, prefix: IntArray, lock: ReadWriteLock, component: Int): ColumnIterator {
+        var node = _node
         var iterator: ColumnIterator? = null
         var nodeid = 0
         while (true) {
-            findIteratorN(node, {
-                /*return*/ (it[0] < prefix[0])
+            findIteratorN(node, { value0, value1, value2 ->
+                /*return*/ (value0 < prefix[0])
             }, {
                 nodeid = it
                 SanityCheck.println({ "Outside.refcount($it) ${NodeManager.bufferManager.allPagesRefcounters[it]} x23" })
@@ -359,43 +213,69 @@ object NodeInner {
         return iterator!!
     }
 
-    inline fun initializeWith(data: ByteArray, childs: MutableList<Int>) {
+    inline fun initializeWith(node: ByteArray, childs: MutableList<Int>) {
         SanityCheck.check { childs.size > 0 }
-        var current = childs.removeAt(0)
-        var childLastPointer = current
-        setFirstChild(data, childLastPointer)
-        var offset = startOffset
-        val offsetEnd = data.size - (13 * 4 + 17) // reserve at least enough space to write !! 4 !! full triple-group AND !! 1 !! full child-pointer-group at the end, to prevent failing-writes
-        var triples = 0
-        var i: Int
-        var bytesWritten: Int
-        var childPointers = IntArray(4)
-        val tripleCurrent = IntArray(3)
-        val tripleLast = IntArray(3)
-        val tripleBuf = IntArray(3)
-        while (childs.size > 0 && offset < offsetEnd) {
-            i = 0
-            while (i < 4 && childs.size > 0 && offset < offsetEnd) {
-                current = childs.removeAt(0)
-                childPointers[i] = childLastPointer xor current
-                childLastPointer = current
-                SanityCheck.println({ "Outside.refcount($childLastPointer) ${NodeManager.bufferManager.allPagesRefcounters[childLastPointer]} x24" })
-                NodeManager.getNodeAny(childLastPointer, {
-                    NodeLeaf.getFirstTriple(it, tripleCurrent)
-                }, {
-                    NodeInner.getFirstTriple(it, tripleCurrent)
-                })
-                SanityCheck.println({ "Outside.refcount($childLastPointer) ${NodeManager.bufferManager.allPagesRefcounters[childLastPointer]} x90" })
-                NodeManager.releaseNode(childLastPointer)
-                bytesWritten = NodeShared.writeDiffTriple(data, offset, tripleLast, tripleCurrent, tripleBuf)
-                offset += bytesWritten
-                i++
-                triples++
-            }
-            bytesWritten = writeChildPointers(data, offset, i, childPointers)
-            offset += bytesWritten
+        var writtenHeaders: MutableList<Int>? = null
+        var writtenTriples: MutableList<Int>? = null
+        SanityCheck {
+            writtenHeaders = mutableListOf<Int>()
+            writtenTriples = mutableListOf<Int>()
         }
-        NodeShared.setTripleCount(data, triples)
-        NodeShared.setNextNode(data, NodeManager.nodeNullPointer)
+        var offset = START_OFFSET
+        val offsetEnd = node.size - START_OFFSET - MAX_POINTER_SIZE
+        var triples = 0
+        val tripleLast = IntArray(3)
+        val tripleCurrent = IntArray(3)
+        var current = childs.removeAt(0)
+        SanityCheck {
+            writtenHeaders!!.add(current)
+        }
+        setFirstChild(node, current)
+        while (childs.size > 0 && offset < offsetEnd) {
+            current = childs.removeAt(0)
+            NodeManager.getNodeAny(current, {
+                NodeLeaf.getFirstTriple(it, tripleCurrent)
+            }, {
+                NodeInner.getFirstTriple(it, tripleCurrent)
+            })
+            NodeManager.releaseNode(current)
+            SanityCheck {
+                writtenHeaders!!.add(current)
+                writtenTriples!!.add(tripleCurrent[0])
+                writtenTriples!!.add(tripleCurrent[1])
+                writtenTriples!!.add(tripleCurrent[2])
+            }
+            offset += NodeShared.writeTriple(node, offset, tripleLast, tripleCurrent)
+            offset += writeChildPointer(node, offset, current)
+            triples++
+        }
+        NodeShared.setTripleCount(node, triples)
+        NodeShared.setNextNode(node, NodeManager.nodeNullPointer)
+        SanityCheck {
+            var remaining = NodeShared.getTripleCount(node)
+            var offset2 = START_OFFSET
+            var lastChildPointer = getFirstChild(node)
+            SanityCheck.check { lastChildPointer == writtenHeaders!![0] }
+            var i = 0
+            var value0 = 0
+            var value1 = 0
+            var value2 = 0
+            while (remaining > 0) {
+                offset2 += NodeShared.readTriple111(node, offset2, value0, value1, value2) { v0, v1, v2 ->
+                    value0 = v0
+                    value1 = v1
+                    value2 = v2
+                }
+                SanityCheck.check { value0 == writtenTriples!![i * 3] }
+                SanityCheck.check { value1 == writtenTriples!![i * 3 + 1] }
+                SanityCheck.check { value2 == writtenTriples!![i * 3 + 2] }
+                offset2 += readChildPointer(node, offset2) { it ->
+                    lastChildPointer = it
+                }
+                SanityCheck.check { lastChildPointer == writtenHeaders!![i + 1] }
+                remaining--
+                i++
+            }
+        }
     }
 }

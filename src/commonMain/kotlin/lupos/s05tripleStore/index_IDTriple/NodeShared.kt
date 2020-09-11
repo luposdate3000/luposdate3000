@@ -1,191 +1,210 @@
 package lupos.s05tripleStore.index_IDTriple
 
+import lupos.s00misc.readInt1
+import lupos.s00misc.readInt2
+import lupos.s00misc.readInt3
 import lupos.s00misc.readInt4
+import lupos.s00misc.readIntX
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.writeInt1
 import lupos.s00misc.writeInt2
 import lupos.s00misc.writeInt3
 import lupos.s00misc.writeInt4
+import lupos.s00misc.writeIntX
 
 object NodeShared {
-    inline fun setNodeType(data: ByteArray, type: Int) {
-        data.writeInt4(0, type)
+    const val MAX_TRIPLE_SIZE = 13
+    inline fun setNodeType(node: ByteArray, type: Int) {
+        node.writeInt4(0, type)
     }
 
-    inline fun getNodeType(data: ByteArray): Int {
-        return data.readInt4(0)
+    inline fun getNodeType(node: ByteArray): Int {
+        return node.readInt4(0)
     }
 
-    inline fun setNextNode(data: ByteArray, node: Int) {
-        data.writeInt4(8, node)
+    inline fun setNextNode(node: ByteArray, nextNode: Int) {
+        node.writeInt4(8, nextNode)
     }
 
-    inline fun getNextNode(data: ByteArray): Int {
-        return data.readInt4(8)
+    inline fun getNextNode(node: ByteArray): Int {
+        return node.readInt4(8)
     }
 
-    inline fun setTripleCount(data: ByteArray, count: Int) {
-        data.writeInt4(4, count)
+    inline fun setTripleCount(node: ByteArray, count: Int) {
+        node.writeInt4(4, count)
     }
 
-    inline fun getTripleCount(data: ByteArray): Int {
-        return data.readInt4(4)
+    inline fun getTripleCount(node: ByteArray): Int {
+        return node.readInt4(4)
     }
 
-    /*inline*/ fun writeFullTriple(data: ByteArray, offset: Int, d: IntArray): Int {
-        /*
-         * assuming enough space
-         * return bytes written
-         */
-        data.writeInt1(offset, 0b00111111)
-        data.writeInt4(offset + 1, d[0])
-        data.writeInt4(offset + 5, d[1])
-        data.writeInt4(offset + 9, d[2])
-        return 13
+    inline fun decodeTripleHeader(header: Int, crossinline action: (counter0: Int, counter1: Int, counter2: Int) -> Unit) {
+        action(header.rem(5), (header / 5).rem(5), header / 25)
     }
 
-suspend    inline fun decodeTripleHeader(header: Int,crossinline  action:suspend (counter0: Int, counter1: Int, counter2: Int)->Unit) {
-        var headerA = header and 0b11000000
-        val counter0: Int
-        val counter1: Int
-        val counter2: Int
-        if (headerA == 0b0000000) {
-            counter0 = ((header and 0b00110000) shr 4) + 1
-            counter1 = ((header and 0b00001100) shr 2) + 1
-            counter2 = ((header and 0b00000011)) + 1
-        } else if (headerA == 0b01000000) {
-            counter0 = 0
-            counter1 = ((header and 0b00001100) shr 2) + 1
-            counter2 = ((header and 0b00000011)) + 1
-        } else {
-            SanityCheck.check { headerA == 0b10000000 }
-            counter0 = 0
-            counter1 = 0
-            counter2 = ((header and 0b00000011)) + 1
+    inline fun encodeTripleHeader(counter0: Int, counter1: Int, counter2: Int, crossinline action: (header: Int) -> Unit) {
+        var header = counter0 + counter1 * 5 + counter2 * 25
+        action(header)
+        SanityCheck {
+            decodeTripleHeader(header) { c0, c1, c2 ->
+                SanityCheck.check { c0 == counter0 }
+                SanityCheck.check { c1 == counter1 }
+                SanityCheck.check { c2 == counter2 }
+            }
         }
-        action(counter0, counter1, counter2)
     }
 
-    /*inline*/ fun writeDiffTriple(data: ByteArray, offset: Int, l: IntArray, d: IntArray, b: IntArray): Int {
-        /*
-         * assuming enough space
-         * returns bytes written
-         */
-        b[0] = l[0] xor d[0]
-        b[1] = l[1] xor d[1]
-        b[2] = l[2] xor d[2]
+    inline fun numberOfBytesUsed(value: Int): Int {
+        return (((32 + 7 - Integer.numberOfLeadingZeros(value))) shr 3)
+    }
+
+    inline fun readTriple000(node: ByteArray, offset: Int): Int {
+        var header = node.readInt1(offset)
+        var localOff = offset + 1
+        decodeTripleHeader(header) { counter0, counter1, counter2 ->
+            localOff += counter0 + counter1 + counter2
+        }
+        return localOff - offset
+    }
+
+    inline fun readTriple111(node: ByteArray, offset: Int, d0: Int, d1: Int, d2: Int, crossinline action: (d0: Int, d1: Int, d2: Int) -> Unit): Int {
+        var header = node.readInt1(offset)
+        var localOff = offset + 1
+        decodeTripleHeader(header) { counter0, counter1, counter2 ->
+            val v0 = d0 xor node.readIntX(localOff, counter0)
+            localOff += counter0
+            val v1 = d1 xor node.readIntX(localOff, counter1)
+            localOff += counter1
+            val v2 = d2 xor node.readIntX(localOff, counter2)
+            localOff += counter2
+            action(v0, v1, v2)
+        }
+        return localOff - offset
+    }
+
+    inline fun readTriple010(node: ByteArray, offset: Int, d1: Int, crossinline action: (d1: Int) -> Unit): Int {
+        var header = node.readInt1(offset)
+        var localOff = offset + 1
+        decodeTripleHeader(header) { counter0, counter1, counter2 ->
+            localOff += counter0
+            val v1 = d1 xor node.readIntX(localOff, counter1)
+            localOff += counter1 + counter2
+            action(v1)
+        }
+        return localOff - offset
+    }
+
+    inline fun readTriple001(node: ByteArray, offset: Int, d2: Int, crossinline action: (d2: Int) -> Unit): Int {
+        var header = node.readInt1(offset)
+        var localOff = offset + 1
+        decodeTripleHeader(header) { counter0, counter1, counter2 ->
+            localOff += counter0 + counter1
+            val v2 = d2 xor node.readIntX(localOff, counter2)
+            localOff += counter2
+            action(v2)
+        }
+        return localOff - offset
+    }
+
+    inline fun readTriple100(node: ByteArray, offset: Int, d0: Int, crossinline action: (d0: Int) -> Unit): Int {
+        var header = node.readInt1(offset)
+        var localOff = offset + 1
+        decodeTripleHeader(header) { counter0, counter1, counter2 ->
+            val v0 = d0 xor node.readIntX(localOff, counter0)
+            localOff += counter0 + counter1 + counter2
+            action(v0)
+        }
+        return localOff - offset
+    }
+
+    inline fun readTriple110(node: ByteArray, offset: Int, d0: Int, d1: Int, crossinline action: (d0: Int, d1: Int) -> Unit): Int {
+        var header = node.readInt1(offset)
+        var localOff = offset + 1
+        decodeTripleHeader(header) { counter0, counter1, counter2 ->
+            val v0 = d0 xor node.readIntX(localOff, counter0)
+            localOff += counter0
+            val v1 = d1 xor node.readIntX(localOff, counter1)
+            localOff += counter1 + counter2
+            action(v0, v1)
+        }
+        return localOff - offset
+    }
+
+    inline fun readTriple101(node: ByteArray, offset: Int, d0: Int, d2: Int, crossinline action: (d0: Int, d2: Int) -> Unit): Int {
+        var header = node.readInt1(offset)
+        var localOff = offset + 1
+        decodeTripleHeader(header) { counter0, counter1, counter2 ->
+            val v0 = d0 xor node.readIntX(localOff, counter0)
+            localOff += counter0 + counter1
+            val v2 = d2 xor node.readIntX(localOff, counter2)
+            localOff += counter2
+            action(v0, v2)
+        }
+        return localOff - offset
+    }
+
+
+    /*inline*/ fun writeTriple(node: ByteArray, offset: Int, l: IntArray, d: IntArray): Int {
+        val b0 = l[0] xor d[0]
+        val b1 = l[1] xor d[1]
+        val b2 = l[2] xor d[2]
+        SanityCheck.check { d[0] >= 0 }
+        SanityCheck.check { d[1] >= 0 }
+        SanityCheck.check { d[2] >= 0 }
+        SanityCheck.check { l[0] >= 0 }
+        SanityCheck.check { l[1] >= 0 }
+        SanityCheck.check { l[2] >= 0 }
+        SanityCheck.check { b0 >= 0 }
+        SanityCheck.check { b1 >= 0 }
+        SanityCheck.check { b2 >= 0 }
+        val counter0 = numberOfBytesUsed(b0)
+        val counter1 = numberOfBytesUsed(b1)
+        val counter2 = numberOfBytesUsed(b2)
+        encodeTripleHeader(counter0, counter1, counter2) {
+            node.writeInt1(offset, it)
+        }
+        var localOff = offset + 1
+        node.writeIntX(localOff, b0, counter0)
+        localOff += counter0
+        node.writeIntX(localOff, b1, counter1)
+        localOff += counter1
+        node.writeIntX(localOff, b2, counter2)
+        localOff += counter2
+        SanityCheck {
+            var size = readTriple000(node, offset)
+            SanityCheck.check { size == localOff - offset }
+            size = readTriple100(node, offset, l[0]) { n0 ->
+                SanityCheck.check { n0 == d[0] }
+            }
+            SanityCheck.check { size == localOff - offset }
+            size = readTriple010(node, offset, l[1]) { n1 ->
+                SanityCheck.check { n1 == d[1] }
+            }
+            SanityCheck.check { size == localOff - offset }
+            size = readTriple001(node, offset, l[2]) { n2 ->
+                SanityCheck.check { n2 == d[2] }
+            }
+            SanityCheck.check { size == localOff - offset }
+            size = readTriple110(node, offset, l[0], l[1]) { n0, n1 ->
+                SanityCheck.check { n0 == d[0] }
+                SanityCheck.check { n1 == d[1] }
+            }
+            SanityCheck.check { size == localOff - offset }
+            size = readTriple101(node, offset, l[0], l[2]) { n0, n2 ->
+                SanityCheck.check { n0 == d[0] }
+                SanityCheck.check { n2 == d[2] }
+            }
+            SanityCheck.check { size == localOff - offset }
+            size = readTriple111(node, offset, l[0], l[1], l[2]) { n0, n1, n2 ->
+                SanityCheck.check { n0 == d[0] }
+                SanityCheck.check { n1 == d[1] }
+                SanityCheck.check { n2 == d[2] }
+            }
+            SanityCheck.check { size == localOff - offset }
+        }
         l[0] = d[0]
         l[1] = d[1]
         l[2] = d[2]
-        SanityCheck {
-            SanityCheck.check { d[0] >= 0 }
-            SanityCheck.check { d[1] >= 0 }
-            SanityCheck.check { d[2] >= 0 }
-            SanityCheck.check { l[0] >= 0 }
-            SanityCheck.check { l[1] >= 0 }
-            SanityCheck.check { l[2] >= 0 }
-            SanityCheck.check { b[0] >= 0 }
-            SanityCheck.check { b[1] >= 0 }
-            SanityCheck.check { b[2] >= 0 }
-        }
-        var header = 0b00000000
-        var localOff = offset + 1
-        var flag = false
-        if (b[0] >= (1 shl 24)) {
-            header = 0b00110000
-            data.writeInt4(localOff, b[0])
-            localOff += 4
-            flag = true
-        } else if (b[0] >= (1 shl 16)) {
-            header = 0b00100000
-            data.writeInt3(localOff, b[0])
-            localOff += 3
-            flag = true
-        } else if (b[0] >= (1 shl 8)) {
-            header = 0b00010000
-            data.writeInt2(localOff, b[0])
-            localOff += 2
-            flag = true
-        } else if (b[0] >= 0) {
-            data.writeInt1(localOff, b[0])
-            localOff += 1
-            flag = true
-        }
-        if (b[1] >= (1 shl 24)) {
-            if (flag) {
-                header = header or 0b00001100
-            } else {
-                header = 0b01001100
-            }
-            data.writeInt4(localOff, b[1])
-            localOff += 4
-            flag = true
-        } else if (b[1] >= (1 shl 16)) {
-            if (flag) {
-                header = header or 0b00001000
-            } else {
-                header = 0b01001000
-            }
-            data.writeInt3(localOff, b[1])
-            localOff += 3
-            flag = true
-        } else if (b[1] >= (1 shl 8)) {
-            if (flag) {
-                header = header or 0b00000100
-            } else {
-                header = 0b01000100
-            }
-            data.writeInt2(localOff, b[1])
-            localOff += 2
-            flag = true
-        } else {
-            SanityCheck.check { b[1] >= 0 || flag }
-            if (!flag) {
-                header = 0b01000000
-            }
-            data.writeInt1(localOff, b[1])
-            localOff += 1
-            flag = true
-        }
-        if (b[2] >= (1 shl 24)) {
-            if (flag) {
-                header = header or 0b00000011
-            } else {
-                header = 0b10000011
-            }
-            data.writeInt4(localOff, b[2])
-            localOff += 4
-            flag = true
-        } else if (b[2] >= (1 shl 16)) {
-            if (flag) {
-                header = header or 0b00000010
-            } else {
-                header = 0b10000010
-            }
-            data.writeInt3(localOff, b[2])
-            localOff += 3
-            flag = true
-        } else if (b[2] >= (1 shl 8)) {
-            if (flag) {
-                header = header or 0b00000001
-            } else {
-                header = 0b10000001
-            }
-            data.writeInt2(localOff, b[2])
-            localOff += 2
-            flag = true
-        } else {
-            SanityCheck.check { b[2] >= 0 || flag }
-            if (!flag) {
-                header = 0b10000000
-            }
-            data.writeInt1(localOff, b[2])
-            localOff += 1
-            flag = true
-        }
-        data.writeInt1(offset, header)
-        SanityCheck.check { flag }//otherwise this triple would equal the last one
-        SanityCheck.check { localOff > offset + 1 }//at least ony byte must have been written additionally to the header
         return localOff - offset
     }
 }

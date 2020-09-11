@@ -1,6 +1,5 @@
 package lupos.s05tripleStore.index_IDTriple
 
-
 import kotlin.jvm.JvmField
 import kotlinx.coroutines.runBlocking
 import lupos.s00misc.ReadWriteLock
@@ -8,8 +7,7 @@ import lupos.s00misc.SanityCheck
 import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s04logicalOperators.iterator.ColumnIterator
 
-abstract class NodeLeafColumnIteratorPrefix(@JvmField var node: ByteArray, @JvmField var nodeid: Int, @JvmField val prefix: IntArray, @JvmField val lock: ReadWriteLock) : ColumnIterator() {
-
+abstract class NodeLeafColumnIterator(@JvmField var node: ByteArray, @JvmField var nodeid: Int, @JvmField val lock: ReadWriteLock) : ColumnIterator() {
     @JvmField
     var remaining = 0
 
@@ -22,8 +20,10 @@ abstract class NodeLeafColumnIteratorPrefix(@JvmField var node: ByteArray, @JvmF
     @JvmField
     var needsReset = true
 
+    @JvmField
+    var value = 0
     inline suspend fun _init() {
-        SanityCheck.println { "readLock(${lock.uuid}) x200" }
+        SanityCheck.println { "readLock(${lock.uuid}) x44" }
         lock.readLock()
         remaining = NodeShared.getTripleCount(node)
     }
@@ -32,10 +32,10 @@ abstract class NodeLeafColumnIteratorPrefix(@JvmField var node: ByteArray, @JvmF
         if (label != 0) {
             label = 0
             if (nodeid != NodeManager.nodeNullPointer) {
-                SanityCheck.println({ "Outside.refcount($nodeid) ${NodeManager.bufferManager.allPagesRefcounters[nodeid]} x193" })
+                SanityCheck.println({ "Outside.refcount($nodeid) ${NodeManager.bufferManager.allPagesRefcounters[nodeid]} x38" })
                 NodeManager.releaseNode(nodeid)
             }
-            SanityCheck.println { "readUnlock(${lock.uuid}) x192" }
+            SanityCheck.println { "readUnlock(${lock.uuid}) x45" }
             lock.readUnlock()
         }
     }
@@ -44,18 +44,15 @@ abstract class NodeLeafColumnIteratorPrefix(@JvmField var node: ByteArray, @JvmF
         _close()
     }
 
-    suspend inline fun updateRemaining(crossinline setDone: () -> Unit) {
-SanityCheck.check{remaining>0}
+    suspend inline fun updateRemaining() {
         remaining--
         while (remaining == 0) {
-println("NodeLeafColumnIteratorPrefix :: no remaining loop")
             needsReset = true
             offset = NodeLeaf.START_OFFSET
             SanityCheck.println({ "Outside.refcount($nodeid) ${NodeManager.bufferManager.allPagesRefcounters[nodeid]} x194" })
             NodeManager.releaseNode(nodeid)
             nodeid = NodeShared.getNextNode(node)
             if (nodeid != NodeManager.nodeNullPointer) {
-println("NodeLeafColumnIteratorPrefix :: next page")
                 SanityCheck.println({ "Outside.refcount($nodeid) ${NodeManager.bufferManager.allPagesRefcounters[nodeid]} x05" })
                 NodeManager.getNodeLeaf(nodeid, {
                     SanityCheck.check { node != it }
@@ -63,12 +60,9 @@ println("NodeLeafColumnIteratorPrefix :: next page")
                     remaining = NodeShared.getTripleCount(node)
                 })
             } else {
-println("NodeLeafColumnIteratorPrefix :: no more pages")
                 _close()
-                setDone()
                 break
             }
         }
-println("NodeLeafColumnIteratorPrefix :: no remaining finish")
     }
 }

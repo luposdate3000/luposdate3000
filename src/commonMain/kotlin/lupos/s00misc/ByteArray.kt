@@ -28,6 +28,24 @@ inline fun ByteArray.writeInt4(offset: Int, value: Int) {
     this[offset + 3] = (value and 0xFF).toByte()
     SanityCheck.check({ value == readInt4(offset) }, { "$value ${readInt4(offset)} ${this[offset].toString(16)} ${this[offset + 1].toString(16)} ${this[offset + 2].toString(16)} ${this[offset + 3].toString(16)}" })
 }
+inline fun ByteArray.writeIntX(offset: Int, value:Int,count: Int) {
+    when (count) {
+        0 -> {
+        }
+        1 -> {
+             writeInt1(offset,value)
+        }
+        2 -> {
+             writeInt2(offset,value)
+        }
+        3 -> {
+             writeInt3(offset,value)
+        }
+        else -> {
+             writeInt4(offset,value)
+        }
+    }
+}
 
 inline fun ByteArray.writeLong8(offset: Int, value: Long) {
     this[offset] = ((value shr 56) and 0xFF).toByte()

@@ -1,31 +1,18 @@
 package lupos.s05tripleStore.index_IDTriple
 
-import lupos.s00misc.readInt4
 import lupos.s00misc.ReadWriteLock
 import lupos.s00misc.SanityCheck
 import lupos.s04logicalOperators.iterator.ColumnIterator
 
 object NodeLeaf {
-    const val startOffset = 12
-
-    /*
-     * Bytes 0..3 : Number of stored Triples
-     * Bytes 4..7 : next-page-pointer, 0x8FFFFFFF is the "null"-pointer avoiding the highest bit because of the signedness behaviour of java/kotlin
-     * afterwards :
-     *
-     * header (Bitlayout 7..0)
-     * bits 0..1: # Bytes _for S (00->1,01->2,10->3,11->4)
-     * bits 2..3: # Bytes _for P (00->1,01->2,10->3,11->4)
-     * bits 4..5: # Bytes _for O (00->1,01->2,10->3,11->4)
-     * bits 6..7: (00->SPO,01->PO,10->O,11->undefined)
-     *
-     * absolute minimum is 21 used bytes for_ exactly 1 Triple/Node
-     */
+    const val START_OFFSET = 12
 
     inline fun getFirstTriple(node: ByteArray, b: IntArray) {
-        b[0] = node.readInt4(startOffset + 1)
-        b[1] = node.readInt4(startOffset + 5)
-        b[2] = node.readInt4(startOffset + 9)
+        NodeShared.readTriple111(node, START_OFFSET, 0, 0, 0) { v0, v1, v2 ->
+            b[0] = v0
+            b[1] = v1
+            b[2] = v2
+        }
     }
 
     inline fun iterator(node: ByteArray, nodeid: Int): TripleIterator {
@@ -87,20 +74,46 @@ object NodeLeaf {
 
     inline fun initializeWith(node: ByteArray, iterator: TripleIterator) {
         SanityCheck.check { iterator.hasNext() }
-        var tripleCurrent = iterator.next()
-        val tripleLast = intArrayOf(tripleCurrent[0], tripleCurrent[1], tripleCurrent[2])
-        val tripleBuf = IntArray(3)
-        var offset = startOffset
-        var bytesWritten = NodeShared.writeFullTriple(node, offset, tripleLast)
-        offset += bytesWritten
-        val offsetEnd = node.size - bytesWritten // reserve at least enough space to write a full triple at the end
-        var triples = 1
+        var writtenTriples: MutableList<Int>? = null
+        SanityCheck {
+            writtenTriples = mutableListOf<Int>()
+        }
+        val tripleLast = IntArray(3)
+        var offset = START_OFFSET
+        val offsetEnd = node.size - NodeShared.MAX_TRIPLE_SIZE
+        var triples = 0
         while (iterator.hasNext() && offset <= offsetEnd) {
-            bytesWritten = NodeShared.writeDiffTriple(node, offset, tripleLast, iterator.next(), tripleBuf)
-            offset += bytesWritten
+            var tripleCurrent = iterator.next()
+            SanityCheck {
+                writtenTriples!!.add(tripleCurrent[0])
+                writtenTriples!!.add(tripleCurrent[1])
+                writtenTriples!!.add(tripleCurrent[2])
+            }
+            offset += NodeShared.writeTriple(node, offset, tripleLast, tripleCurrent)
             triples++
         }
         NodeShared.setTripleCount(node, triples)
         NodeShared.setNextNode(node, NodeManager.nodeNullPointer)
+        SanityCheck {
+            var remaining = NodeShared.getTripleCount(node)
+            var offset2 = START_OFFSET
+            var i = 0
+var value0=0
+var value1=0
+var value2=0
+            while (remaining > 0) {
+                offset2 += NodeShared.readTriple111(node, offset2, value0, value1, value2) { v0, v1, v2 ->
+                    value0 = v0
+                    value1 = v1
+                    value2 = v2
+                }
+                SanityCheck.check { value0 == writtenTriples!![i * 3] }
+                SanityCheck.check { value1 == writtenTriples!![i * 3 + 1] }
+                SanityCheck.check { value2 == writtenTriples!![i * 3 + 2] }
+
+                remaining--
+                i++
+            }
+        }
     }
 }
