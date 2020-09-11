@@ -8,6 +8,9 @@ import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s04logicalOperators.iterator.ColumnIterator
 
 abstract class NodeLeafColumnIterator(@JvmField var node: ByteArray, @JvmField var nodeid: Int, @JvmField val lock: ReadWriteLock) : ColumnIterator() {
+companion object{
+const val SIP_LOCAL_LIMIT=3
+}
     @JvmField
     var remaining = 0
 
@@ -20,8 +23,6 @@ abstract class NodeLeafColumnIterator(@JvmField var node: ByteArray, @JvmField v
     @JvmField
     var needsReset = true
 
-    @JvmField
-    var value = 0
     inline suspend fun _init() {
         SanityCheck.println { "readLock(${lock.uuid}) x44" }
         lock.readLock()
@@ -44,9 +45,10 @@ abstract class NodeLeafColumnIterator(@JvmField var node: ByteArray, @JvmField v
         _close()
     }
 
-    suspend inline fun updateRemaining() {
+   suspend inline fun updateRemaining(crossinline setDone: () -> Unit={}) {
+        SanityCheck.check { remaining > 0 }
         remaining--
-        while (remaining == 0) {
+        if (remaining == 0) {
             needsReset = true
             offset = NodeLeaf.START_OFFSET
             SanityCheck.println({ "Outside.refcount($nodeid) ${NodeManager.bufferManager.allPagesRefcounters[nodeid]} x194" })
@@ -61,8 +63,87 @@ abstract class NodeLeafColumnIterator(@JvmField var node: ByteArray, @JvmField v
                 })
             } else {
                 _close()
-                break
+                setDone()
             }
-        }
+}
+SanityCheck.check{remaining>0||label==0}
     }
+    suspend inline fun nextSIP_helper(_value:Int,minValue: Int,crossinline skippedElements: (counter: Int) -> Unit,crossinline readTriple:(node:ByteArray,offset:Int,value:Int,action:(value:Int)->Unit)->Int): Int {
+var value=_value
+            var counter = 0
+            var limit = remaining
+            if (limit > SIP_LOCAL_LIMIT) {
+                limit = SIP_LOCAL_LIMIT
+            }
+            //try next few triples
+            for (i in 0 until limit) {
+                counter++
+                if (needsReset) {
+                    needsReset = false
+                    value = 0
+                }
+                offset += readTriple(node, offset, value) { v ->
+                    value = v
+                }
+                updateRemaining()
+                if (value >= minValue) {
+                    skippedElements(counter - 1)
+                    return value
+                }
+            }
+            //look at the next pages
+            var nodeid_tmp = NodeShared.getNextNode(node)
+            var value_tmp = 0
+            var usedNextPage = false
+            while (nodeid_tmp != NodeManager.nodeNullPointer) {
+                var node_tmp = node
+                var remaining_tmp = 0
+                NodeManager.getNodeLeaf(nodeid_tmp, {
+                    SanityCheck.check { node != it }
+                    node_tmp = it
+                    remaining_tmp = NodeShared.getTripleCount(node)
+                })
+                SanityCheck.check { remaining_tmp > 0 }
+                var offset_tmp = NodeLeaf.START_OFFSET
+                offset_tmp += readTriple(node_tmp, offset_tmp, 0) { v ->
+                    value_tmp = v
+                }
+                if (value_tmp >= minValue) {
+                    //dont accidentially skip some results at the end of this page
+                    NodeManager.releaseNode(nodeid_tmp)
+                    break
+                }
+                NodeManager.releaseNode(nodeid)
+                counter += remaining
+                remaining = remaining_tmp
+                nodeid = nodeid_tmp
+                node = node_tmp
+                value = value_tmp
+                offset = offset_tmp
+                needsReset = false
+                usedNextPage = true
+            }
+            if (usedNextPage) {
+                updateRemaining()
+                counter++
+            }
+            //search until the value is found
+            while (remaining > 0) {
+       counter++
+                if (needsReset) {
+                    needsReset = false
+                    value = 0
+                }
+                offset += readTriple(node, offset, value) { v ->
+                    value = v
+                }
+                updateRemaining()
+                if (value >= minValue) {
+                    skippedElements(counter - 1)
+                    return value
+                }
+            }
+            return ResultSetDictionary.nullValue
+    }
+
 }

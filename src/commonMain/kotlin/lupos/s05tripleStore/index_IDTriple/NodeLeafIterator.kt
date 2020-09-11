@@ -34,7 +34,7 @@ class NodeLeafIterator(@JvmField var node: ByteArray, @JvmField var nodeid: Int)
 
     inline fun updateRemaining() {
         remaining--
-        while (remaining == 0) {
+        if (remaining == 0) {
             needsReset = true
             offset = NodeLeaf.START_OFFSET
             SanityCheck.println({ "Outside.refcount($nodeid) ${NodeManager.bufferManager.allPagesRefcounters[nodeid]} x194" })
@@ -47,8 +47,6 @@ class NodeLeafIterator(@JvmField var node: ByteArray, @JvmField var nodeid: Int)
                     node = it
                     remaining = NodeShared.getTripleCount(node)
                 })
-            } else {
-                break
             }
         }
     }

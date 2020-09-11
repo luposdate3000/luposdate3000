@@ -8,6 +8,8 @@ import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s04logicalOperators.iterator.ColumnIterator
 
 class NodeLeafColumnIterator0(node: ByteArray, nodeid: Int, lock: ReadWriteLock) : NodeLeafColumnIterator(node, nodeid, lock) {
+    @JvmField
+    var value = 0
     suspend override fun next(): Int {
         if (label != 0) {
             if (needsReset) {
@@ -19,6 +21,15 @@ class NodeLeafColumnIterator0(node: ByteArray, nodeid: Int, lock: ReadWriteLock)
             }
             updateRemaining()
             return value
+        } else {
+            return ResultSetDictionary.nullValue
+        }
+    }
+
+    suspend override fun nextSIP(minValue: Int,crossinline skippedElements: (counter: Int) -> Unit): Int {
+        if (label != 0) {
+value= nextSIP_helper(value,minValue,skippedElements,NodeShared::readTriple100)
+return value
         } else {
             return ResultSetDictionary.nullValue
         }

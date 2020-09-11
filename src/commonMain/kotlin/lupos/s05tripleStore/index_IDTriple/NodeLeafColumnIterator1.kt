@@ -8,6 +8,7 @@ import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s04logicalOperators.iterator.ColumnIterator
 
 class NodeLeafColumnIterator1(node: ByteArray, nodeid: Int, lock: ReadWriteLock) : NodeLeafColumnIterator(node, nodeid, lock) {
+@JvmField     var value = 0
     suspend override fun next(): Int {
         if (label != 0) {
             if (needsReset) {
