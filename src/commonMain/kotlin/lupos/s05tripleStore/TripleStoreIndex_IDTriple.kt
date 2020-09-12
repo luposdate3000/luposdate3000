@@ -623,7 +623,7 @@ SanityCheck.check{rootNode==null}
             firstLeaf = NodeManager.nodeNullPointer
         }
         SanityCheck.suspended {
-            if (firstLeaf != NodeManager.nodeNullPointer &&false) {
+            if (firstLeaf != NodeManager.nodeNullPointer) {
                 val queueS = (iterator as DebugPassThroughIterator).queueS
                 val queueP = (iterator as DebugPassThroughIterator).queueP
                 val queueO = (iterator as DebugPassThroughIterator).queueO
