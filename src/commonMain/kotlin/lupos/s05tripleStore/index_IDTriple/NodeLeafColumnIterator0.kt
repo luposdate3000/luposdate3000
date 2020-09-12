@@ -12,19 +12,123 @@ class NodeLeafColumnIterator0(node: ByteArray, nodeid: Int, lock: ReadWriteLock)
     var value = 0
 
     suspend override fun next(): Int {
-        value = next_helper(value, NodeShared::readTriple100)
-        return value
+        if (label != 0) {
+            if (needsReset) {
+                needsReset = false
+                value = 0
+            }
+            offset += NodeShared.readTriple100(node, offset, value) { v ->
+                value = v
+            }
+            updateRemaining()
+            return value
+        } else {
+            return ResultSetDictionary.nullValue
+        }
     }
 
     suspend override fun nextSIP(minValue: Int, crossinline skippedElements: (counter: Int) -> Unit): Int {
-        value = nextSIP_helper(value, minValue, skippedElements, NodeShared::readTriple100)
-        println("usedSIPMinValue")
-        return value
+        if (label != 0) {
+            var counter = 0
+            var limit = remaining
+            if (limit > SIP_LOCAL_LIMIT) {
+                limit = SIP_LOCAL_LIMIT
+            }
+            //try next few triples
+            for (i in 0 until limit) {
+                counter++
+                if (needsReset) {
+                    needsReset = false
+                    value = 0
+                }
+                offset += NodeShared.readTriple100(node, offset, value) { v ->
+                    value = v
+                }
+                updateRemaining()
+                if (value >= minValue) {
+                    skippedElements(counter - 1)
+                    return value
+                }
+            }
+            //look at the next pages
+            var nodeid_tmp = NodeShared.getNextNode(node)
+            var value_tmp = 0
+            var usedNextPage = false
+            while (nodeid_tmp != NodeManager.nodeNullPointer) {
+                var node_tmp = node
+                var remaining_tmp = 0
+                NodeManager.getNodeLeaf(nodeid_tmp, {
+                    SanityCheck.check { node != it }
+                    node_tmp = it
+                    remaining_tmp = NodeShared.getTripleCount(node)
+                })
+                SanityCheck.check { remaining_tmp > 0 }
+                var offset_tmp = NodeLeaf.START_OFFSET
+                offset_tmp += NodeShared.readTriple100(node_tmp, offset_tmp, 0) { v ->
+                    value_tmp = v
+                }
+                if (value_tmp >= minValue) {
+                    //dont accidentially skip some results at the end of this page
+                    NodeManager.releaseNode(nodeid_tmp)
+                    break
+                }
+                NodeManager.releaseNode(nodeid)
+                counter += remaining
+                remaining = remaining_tmp
+                nodeid = nodeid_tmp
+                node = node_tmp
+                value = value_tmp
+                offset = offset_tmp
+                needsReset = false
+                usedNextPage = true
+            }
+            if (usedNextPage) {
+                updateRemaining()
+                counter++
+            }
+            //search until the value is found
+            while (remaining > 0) {
+                counter++
+                if (needsReset) {
+                    needsReset = false
+                    value = 0
+                }
+                offset += NodeShared.readTriple100(node, offset, value) { v ->
+                    value = v
+                }
+                updateRemaining()
+                if (value >= minValue) {
+                    skippedElements(counter - 1)
+                    return value
+                }
+            }
+            return ResultSetDictionary.nullValue
+        } else {
+            return ResultSetDictionary.nullValue
+        }
     }
 
     override suspend open fun nextSIP(skipCount: Int): Int {
-        value = nextSIP_helper(value, skipCount, NodeShared::readTriple100)
-        println("usedSIPSkip")
-        return value
+        if (label != 0) {
+            var toSkip = skipCount + 1
+            while (toSkip >= remaining) {
+                toSkip -= remaining
+                remaining = 1
+                updateRemaining()
+            }
+            if (needsReset) {
+                needsReset = false
+                value = 0
+            }
+            while (toSkip > 0) {
+                offset += NodeShared.readTriple100(node, offset, value) { v ->
+                    value = v
+                }
+                toSkip--
+            }
+            return value
+        } else {
+            return ResultSetDictionary.nullValue
+        }
     }
 }

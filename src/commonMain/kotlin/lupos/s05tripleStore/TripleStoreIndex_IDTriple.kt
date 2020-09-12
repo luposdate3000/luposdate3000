@@ -25,6 +25,7 @@ import lupos.s05tripleStore.index_IDTriple.NodeLeaf
 import lupos.s05tripleStore.index_IDTriple.NodeManager
 import lupos.s05tripleStore.index_IDTriple.NodeShared
 import lupos.s05tripleStore.index_IDTriple.TripleIterator
+                var debugLock = ReadWriteLock()
 
 class TripleStoreIndex_IDTriple : TripleStoreIndex() {
     @JvmField
@@ -426,9 +427,9 @@ SanityCheck.check{rootNode==null}
     inline suspend fun flushContinueWithReadLock() {
         var hasLock = false
         while (pendingImport.size > 0) {
-            SanityCheck.println { "tryWriteLock(${lock.uuid}) x59" }
+            SanityCheck.println { "tryWriteLock(${lock.uuid}) x204" }
             if (lock.tryWriteLock()) {
-                SanityCheck.println { "tryWriteLock(${lock.uuid}) x59 success" }
+                SanityCheck.println { "tryWriteLock(${lock.uuid}) x204 success" }
                 flushAssumeLocks()
                 lock.downgradeToReadLock()
                 hasLock = true
@@ -625,7 +626,6 @@ SanityCheck.check{rootNode==null}
                 val queueS = (iterator as DebugPassThroughIterator).queueS
                 val queueP = (iterator as DebugPassThroughIterator).queueP
                 val queueO = (iterator as DebugPassThroughIterator).queueO
-                var debugLock = ReadWriteLock()
                 var myleaf = ByteArray(0)
 //
                 NodeManager.getNodeLeaf(firstLeaf) { it ->
@@ -635,10 +635,11 @@ SanityCheck.check{rootNode==null}
                 iterator0._init()
                 for (s in queueS) {
                     val tmpa = iterator0.next()
-                    SanityCheck { tmpa == s }
+                    SanityCheck.check { tmpa == s }
                 }
                 val tmpa = iterator0.next()
-                SanityCheck { tmpa == ResultSetDictionary.nullValue }
+                SanityCheck.check { tmpa == ResultSetDictionary.nullValue }
+SanityCheck.check {iterator0.label==0}
 //
                 NodeManager.getNodeLeaf(firstLeaf) { it ->
                     myleaf = it
@@ -647,10 +648,11 @@ SanityCheck.check{rootNode==null}
                 iterator1._init()
                 for (s in queueP) {
                     val tmpb = iterator1.next()
-                    SanityCheck { tmpb == s }
+                    SanityCheck.check { tmpb == s }
                 }
                 val tmpb = iterator1.next()
-                SanityCheck { tmpb == ResultSetDictionary.nullValue }
+                SanityCheck.check { tmpb == ResultSetDictionary.nullValue }
+SanityCheck.check {iterator1.label==0}
 //
                 NodeManager.getNodeLeaf(firstLeaf) { it ->
                     myleaf = it
@@ -659,10 +661,11 @@ SanityCheck.check{rootNode==null}
                 iterator2._init()
                 for (s in queueO) {
                     val tmpc = iterator2.next()
-                    SanityCheck { tmpc == s }
+                    SanityCheck.check { tmpc == s }
                 }
                 val tmpc = iterator2.next()
-                SanityCheck { tmpc == ResultSetDictionary.nullValue }
+                SanityCheck.check { tmpc == ResultSetDictionary.nullValue }
+SanityCheck.check {iterator2.label==0}
 //
                 if (queueS.size > 0) {
                     var iterator_s = queueS.iterator()
@@ -698,6 +701,8 @@ SanityCheck.check{rootNode==null}
                         } else {
                             SanityCheck.check { tmpf == ResultSetDictionary.nullValue }
                             SanityCheck.check { tmpg == ResultSetDictionary.nullValue }
+SanityCheck.check {iterator_1_1.label==0}
+SanityCheck.check {iterator_1_2.label==0}
                             NodeManager.getNodeLeaf(firstLeaf) { it ->
                                 myleaf = it
                             }
@@ -722,6 +727,8 @@ SanityCheck.check{rootNode==null}
                     val tmpk = iterator_1_2.next()
                     SanityCheck.check({ tmpj == ResultSetDictionary.nullValue }, { "$queueS $queueP $queueO $tmpj $counters" })
                     SanityCheck.check { tmpk == ResultSetDictionary.nullValue }
+SanityCheck.check {iterator_1_1.label==0}
+SanityCheck.check {iterator_1_2.label==0}
                 }
                 if (queueS.size > 0) {
                     var iterator_s = queueS.iterator()
@@ -745,6 +752,7 @@ SanityCheck.check{rootNode==null}
                             SanityCheck.check { tmpl == current_o }
                         } else {
                             SanityCheck.check { tmpl == ResultSetDictionary.nullValue }
+SanityCheck.check {iterator_2_2.label==0}
                             NodeManager.getNodeLeaf(firstLeaf) { it ->
                                 myleaf = it
                             }
@@ -758,6 +766,7 @@ SanityCheck.check{rootNode==null}
                     }
                     val tmpn = iterator_2_2.next()
                     SanityCheck.check { tmpn == ResultSetDictionary.nullValue }
+SanityCheck.check {iterator_2_2.label==0}
                 }
             }
 //

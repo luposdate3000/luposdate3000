@@ -395,7 +395,7 @@ class POPMergePartition(query: Query, projectedVariables: List<String>, val part
             }
             iterator.close = {
                 SanityCheck.println({ "merge $uuid reader closed" })
-                SanityCheck.println { "lock(${continuationLock.uuid}) [$uuid] x176" }
+                SanityCheck.println { "lock(${continuationLock.uuid}) [$uuid] x203" }
                 continuationLock.lock()
                 readerFinished = 1
                 SanityCheck.println { "unlock(${continuationLock.uuid}) [$uuid] x95" }

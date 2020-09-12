@@ -11,10 +11,8 @@ class NodeLeafIterator(@JvmField var node: ByteArray, @JvmField var nodeid: Int)
     var offset = NodeLeaf.START_OFFSET
 
     @JvmField
-    var counter = IntArray(3)
-
-    @JvmField
     var needsReset = true
+
     override fun hasNext() = remaining > 0
     override fun next(component: Int): Int {
         if (needsReset) {

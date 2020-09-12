@@ -22,12 +22,14 @@ class ReadWriteLock {
     @JvmField
     var counter = AtomicInteger() //number of active readers
     inline suspend fun downgradeToReadLock() {
+println("ReadWriteLock.downgradeToReadLock($uuid)")
         counter.set(1)
         lockB.lock()
         lockA.unlock()
     }
 
     inline suspend fun readLock() {
+println("ReadWriteLock.readLock($uuid)")
         lockA.lock()
         var tmp = counter.incrementAndGet()
         if (tmp == 1) {
@@ -37,6 +39,7 @@ class ReadWriteLock {
     }
 
     inline fun readUnlock() {
+println("ReadWriteLock.readUnlock($uuid)")
         var tmp = counter.decrementAndGet()
         if (tmp == 0) {
             lockB.unlock()
@@ -44,6 +47,7 @@ class ReadWriteLock {
     }
 
     inline suspend fun writeLock() {
+println("ReadWriteLock.writeLock($uuid)")
         lockA.lock()
         lockB.lock() //effectively wait for_ the signal of the last read-unlock
         lockB.unlock()
@@ -51,6 +55,7 @@ class ReadWriteLock {
     }
 
     inline suspend fun tryWriteLock(): Boolean {
+println("ReadWriteLock.tryWriteLock($uuid)")
         if (lockA.tryLock()) {
             if (lockB.tryLock()) { //effectively wait for_ the signal of the last read-unlock
                 lockB.unlock()
@@ -63,6 +68,7 @@ class ReadWriteLock {
     }
 
     inline fun writeUnlock() {
+println("ReadWriteLock.writeUnlock($uuid)")
         lockA.unlock()
         //assume that counter is 0, because that is the precondition for_ a writer to start
     }
