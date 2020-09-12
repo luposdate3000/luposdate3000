@@ -108,7 +108,7 @@ class NodeLeafColumnIterator1(node: ByteArray, nodeid: Int, lock: ReadWriteLock)
         }
     }
 
-    override suspend open fun nextSIP(skipCount: Int): Int {
+    override suspend open fun skipSIP(skipCount: Int): Int {
         if (label != 0) {
             var toSkip = skipCount + 1
             while (toSkip >= remaining) {

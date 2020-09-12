@@ -25,7 +25,8 @@ import lupos.s05tripleStore.index_IDTriple.NodeLeaf
 import lupos.s05tripleStore.index_IDTriple.NodeManager
 import lupos.s05tripleStore.index_IDTriple.NodeShared
 import lupos.s05tripleStore.index_IDTriple.TripleIterator
-                var debugLock = ReadWriteLock()
+
+var debugLock = ReadWriteLock()
 
 class TripleStoreIndex_IDTriple : TripleStoreIndex() {
     @JvmField
@@ -622,7 +623,7 @@ SanityCheck.check{rootNode==null}
             firstLeaf = NodeManager.nodeNullPointer
         }
         SanityCheck.suspended {
-            if (firstLeaf != NodeManager.nodeNullPointer) {
+            if (firstLeaf != NodeManager.nodeNullPointer &&false) {
                 val queueS = (iterator as DebugPassThroughIterator).queueS
                 val queueP = (iterator as DebugPassThroughIterator).queueP
                 val queueO = (iterator as DebugPassThroughIterator).queueO
@@ -639,7 +640,7 @@ SanityCheck.check{rootNode==null}
                 }
                 val tmpa = iterator0.next()
                 SanityCheck.check { tmpa == ResultSetDictionary.nullValue }
-SanityCheck.check {iterator0.label==0}
+                SanityCheck.check { iterator0.label == 0 }
 //
                 NodeManager.getNodeLeaf(firstLeaf) { it ->
                     myleaf = it
@@ -652,7 +653,7 @@ SanityCheck.check {iterator0.label==0}
                 }
                 val tmpb = iterator1.next()
                 SanityCheck.check { tmpb == ResultSetDictionary.nullValue }
-SanityCheck.check {iterator1.label==0}
+                SanityCheck.check { iterator1.label == 0 }
 //
                 NodeManager.getNodeLeaf(firstLeaf) { it ->
                     myleaf = it
@@ -665,7 +666,7 @@ SanityCheck.check {iterator1.label==0}
                 }
                 val tmpc = iterator2.next()
                 SanityCheck.check { tmpc == ResultSetDictionary.nullValue }
-SanityCheck.check {iterator2.label==0}
+                SanityCheck.check { iterator2.label == 0 }
 //
                 if (queueS.size > 0) {
                     var iterator_s = queueS.iterator()
@@ -701,8 +702,8 @@ SanityCheck.check {iterator2.label==0}
                         } else {
                             SanityCheck.check { tmpf == ResultSetDictionary.nullValue }
                             SanityCheck.check { tmpg == ResultSetDictionary.nullValue }
-SanityCheck.check {iterator_1_1.label==0}
-SanityCheck.check {iterator_1_2.label==0}
+                            SanityCheck.check { iterator_1_1.label == 0 }
+                            SanityCheck.check { iterator_1_2.label == 0 }
                             NodeManager.getNodeLeaf(firstLeaf) { it ->
                                 myleaf = it
                             }
@@ -727,8 +728,120 @@ SanityCheck.check {iterator_1_2.label==0}
                     val tmpk = iterator_1_2.next()
                     SanityCheck.check({ tmpj == ResultSetDictionary.nullValue }, { "$queueS $queueP $queueO $tmpj $counters" })
                     SanityCheck.check { tmpk == ResultSetDictionary.nullValue }
-SanityCheck.check {iterator_1_1.label==0}
-SanityCheck.check {iterator_1_2.label==0}
+                    SanityCheck.check { iterator_1_1.label == 0 }
+                    SanityCheck.check { iterator_1_2.label == 0 }
+                }
+                if (queueS.size > 0) {
+                    var iterator_s = queueS.iterator()
+                    var iterator_p = queueP.iterator()
+                    var iterator_o = queueO.iterator()
+                    NodeManager.getNodeLeaf(firstLeaf) { it ->
+                        myleaf = it
+                    }
+                    var iterator_1_1 = NodeLeafColumnIteratorPrefix1_1(myleaf, firstLeaf, intArrayOf(queueS[0]), debugLock)
+                    iterator_1_1._init()
+                    NodeManager.getNodeLeaf(firstLeaf) { it ->
+                        myleaf = it
+                    }
+                    var iterator_1_2 = NodeLeafColumnIteratorPrefix1_2(myleaf, firstLeaf, intArrayOf(queueS[0]), debugLock)
+                    iterator_1_2._init()
+                    var last_s = iterator_s.next()
+                    val tmpd = iterator_1_1.skipSIP(0)
+                    SanityCheck.check { tmpd == iterator_p.next() }
+                    val tmpe = iterator_1_2.skipSIP(0)
+                    SanityCheck.check({ tmpe == iterator_o.next() }, { "$queueS $queueP $queueO $tmpe" })
+                    var count = 1
+                    var counters = mutableListOf<Int>()
+                    while (iterator_s.hasNext()) {
+                        var current_s = iterator_s.next()
+                        var current_p = iterator_p.next()
+                        var current_o = iterator_o.next()
+                        count++
+                        if (last_s == current_s) {
+                        val tmpf = iterator_1_1.skipSIP(0)
+                        val tmpg = iterator_1_2.skipSIP(0)
+                            SanityCheck.check { tmpf == current_p }
+                            SanityCheck.check { tmpg == current_o }
+                        } else {
+iterator_1_1.close()
+                            NodeManager.getNodeLeaf(firstLeaf) { it ->
+                                myleaf = it
+                            }
+                            iterator_1_1 = NodeLeafColumnIteratorPrefix1_1(myleaf, firstLeaf, intArrayOf(current_s), debugLock)
+                            iterator_1_1._init()
+iterator_1_2.close()
+                            NodeManager.getNodeLeaf(firstLeaf) { it ->
+                                myleaf = it
+                            }
+                            iterator_1_2 = NodeLeafColumnIteratorPrefix1_2(myleaf, firstLeaf, intArrayOf(current_s), debugLock)
+                            iterator_1_2._init()
+                            val tmph = iterator_1_1.skipSIP(0)
+                            val tmpi = iterator_1_2.skipSIP(0)
+                            SanityCheck.check { tmph == current_p }
+                            SanityCheck.check { tmpi == current_o }
+                            counters.add(count)
+                            count = 1
+                        }
+                        last_s = current_s
+                    }
+                    counters.add(count)
+iterator_1_1.close()
+iterator_1_2.close()
+                }
+                if (queueS.size > 0) {
+                    var iterator_s = queueS.iterator()
+                    var iterator_p = queueP.iterator()
+                    var iterator_o = queueO.iterator()
+                    NodeManager.getNodeLeaf(firstLeaf) { it ->
+                        myleaf = it
+                    }
+                    var iterator_1_1 = NodeLeafColumnIteratorPrefix1_1(myleaf, firstLeaf, intArrayOf(queueS[0]), debugLock)
+                    iterator_1_1._init()
+                    NodeManager.getNodeLeaf(firstLeaf) { it ->
+                        myleaf = it
+                    }
+                    var iterator_1_2 = NodeLeafColumnIteratorPrefix1_2(myleaf, firstLeaf, intArrayOf(queueS[0]), debugLock)
+                    iterator_1_2._init()
+                    var skipping = 1
+                    var last_s = iterator_s.next()
+iterator_p.next()
+iterator_o.next()
+var idx=0
+                    while (iterator_s.hasNext()) {
+idx++
+                        var current_s = iterator_s.next()
+                        var current_p = iterator_p.next()
+                        var current_o = iterator_o.next()
+                        if (skipping == 0) {
+                            skipping = 1
+                        } else {
+                            if (last_s == current_s) {
+                                val tmpf = iterator_1_1.skipSIP(1)
+                                val tmpg = iterator_1_2.skipSIP(1)
+                                SanityCheck.check ({ tmpf == current_p },{ "$queueS $queueP $queueO $tmpf $idx $current_p"}) //error is here xxxx
+                                SanityCheck.check ({ tmpg == current_o },{ "$queueS $queueP $queueO $tmpg $idx $current_o"})
+                            }
+                            skipping = 0
+                        }
+                        if (last_s != current_s) {
+                            iterator_1_1.close()
+                            NodeManager.getNodeLeaf(firstLeaf) { it ->
+                                myleaf = it
+                            }
+                            iterator_1_1 = NodeLeafColumnIteratorPrefix1_1(myleaf, firstLeaf, intArrayOf(current_s), debugLock)
+                            iterator_1_1._init()
+                            iterator_1_2.close()
+                            NodeManager.getNodeLeaf(firstLeaf) { it ->
+                                myleaf = it
+                            }
+                            iterator_1_2 = NodeLeafColumnIteratorPrefix1_2(myleaf, firstLeaf, intArrayOf(current_s), debugLock)
+                            iterator_1_2._init()
+                            skipping = 1
+                        }
+                        last_s = current_s
+                    }
+                    iterator_1_1.close()
+                    iterator_1_2.close()
                 }
                 if (queueS.size > 0) {
                     var iterator_s = queueS.iterator()
@@ -752,7 +865,7 @@ SanityCheck.check {iterator_1_2.label==0}
                             SanityCheck.check { tmpl == current_o }
                         } else {
                             SanityCheck.check { tmpl == ResultSetDictionary.nullValue }
-SanityCheck.check {iterator_2_2.label==0}
+                            SanityCheck.check { iterator_2_2.label == 0 }
                             NodeManager.getNodeLeaf(firstLeaf) { it ->
                                 myleaf = it
                             }
@@ -766,7 +879,7 @@ SanityCheck.check {iterator_2_2.label==0}
                     }
                     val tmpn = iterator_2_2.next()
                     SanityCheck.check { tmpn == ResultSetDictionary.nullValue }
-SanityCheck.check {iterator_2_2.label==0}
+                    SanityCheck.check { iterator_2_2.label == 0 }
                 }
             }
 //

@@ -13,7 +13,7 @@ println("SIP minValue here ${classNameToString(this)}")
         return next()
     }
 
-    suspend open fun nextSIP(skipCount: Int): Value {
+    suspend open fun skipSIP(skipCount: Int): Value {
 println("SIP skip here ${classNameToString(this)}")
         for (i in 0 until skipCount) {
             next()

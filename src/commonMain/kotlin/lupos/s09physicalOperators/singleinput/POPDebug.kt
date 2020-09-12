@@ -108,10 +108,10 @@ class POPDebug(query: Query, projectedVariables: List<String>, child: OPBase) : 
                                 }
                             }
 
-                            override suspend fun nextSIP(skipCount: Int): Value {
+                            override suspend fun skipSIP(skipCount: Int): Value {
                                 if (label != 0) {
                                     SanityCheck.println({ "$uuid $k next call skip SIP" })
-                                    val res = v.nextSIP(skipCount)
+                                    val res = v.skipSIP(skipCount)
                                     if (res == ResultSetDictionary.nullValue) {
                                         SanityCheck.println({ "$uuid $k next return closed $counter ${parent.data} ResultSetDictionary.nullValue" })
                                     } else {

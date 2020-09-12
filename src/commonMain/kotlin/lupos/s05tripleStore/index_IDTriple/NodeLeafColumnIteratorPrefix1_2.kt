@@ -152,6 +152,7 @@ class NodeLeafColumnIteratorPrefix1_2(node: ByteArray, nodeid: Int, prefix: IntA
                 offset = offset_tmp
                 needsReset = false
                 usedNextPage = true
+nodeid_tmp = NodeShared.getNextNode(node)
             }
             if (usedNextPage) {
                 updateRemaining()
@@ -190,37 +191,47 @@ class NodeLeafColumnIteratorPrefix1_2(node: ByteArray, nodeid: Int, prefix: IntA
         }
     }
 
-/*    override suspend open fun nextSIP(skipCount: Int): Int {
+/*    override suspend open fun skipSIP(skipCount: Int): Int {
         println("next ${lock.uuid} 3")
+if(skipCount==0){
+return next()
+}
         var toSkip = skipCount + 1
         if (label == 2) {
             next()
             toSkip--
+if(toSkip==0){ 
+return next()
+}
         }
         if (label != 0) {
             while (toSkip > remaining) {
                 toSkip -= remaining
                 remaining = 1
                 updateRemaining()
+SanityCheck.check{remaining>0}
+SanityCheck.check{label!=0}
             }
             if (needsReset) {
                 needsReset = false
                 value0 = 0
                 value2 = 0
             }
+                remaining-=toSkip
+SanityCheck.check{remaining>=0}
             while (toSkip > 0) {
                 offset += NodeShared.readTriple101(node, offset, value0, value2) { v0, v2 ->
                     value0 = v0
                     value2 = v2
                 }
                 toSkip--
-                remaining--
             }
             if (remaining == 0) {
                 remaining = 1
                 updateRemaining()
             }
             if (value0 > prefix[0]) {
+//this must not happen?!?
                 _close()
                 println("close ${lock.uuid} 9")
                 return ResultSetDictionary.nullValue

@@ -200,8 +200,8 @@ skipO1++
                                 }
                                 local_next_i = 0
                                 while (local_next_i < columnsINO0.size) {
-println("try to call nextSIP")
-                                    data0[local_next_i][local_next_countA] = columnsINO0[local_next_i].nextSIP(skipO0)
+println("try to call skipSIP")
+                                    data0[local_next_i][local_next_countA] = columnsINO0[local_next_i].skipSIP(skipO0)
                                     local_next_i++
                                 }
 skipO0=0
@@ -240,8 +240,8 @@ skipO0=0
                                 }
                                 local_next_i = 0
                                 while (local_next_i < columnsINO1.size) {
-println("try to call nextSIP")
-                                    data1[local_next_i][local_next_countB] = columnsINO1[local_next_i].nextSIP(skipO1)
+println("try to call skipSIP")
+                                    data1[local_next_i][local_next_countB] = columnsINO1[local_next_i].skipSIP(skipO1)
                                     local_next_i++
                                 }
 skipO1=0
