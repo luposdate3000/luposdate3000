@@ -13,12 +13,12 @@ class Lock {
     @JvmField
     val mutex = Mutex()
     inline suspend fun lock() {
-println("Lock.lock($uuid)")
+        //println("Lock.lock($uuid)")
         mutex.lock()
     }
 
     inline fun unlock() {
-println("Lock.unlock($uuid)")
+        //println("Lock.unlock($uuid)")
         mutex.unlock()
     }
 

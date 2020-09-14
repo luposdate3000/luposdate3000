@@ -43,8 +43,8 @@ class POPJoinMergeSingleColumn(query: Query, projectedVariables: List<String>, c
                         while (change) {
                             change = false
                             while (head0 < head1) {
-println("try to call nextSIP")
-                                val c = child0.nextSIP(head1,{})
+                                println("try to call nextSIP")
+                                val c = child0.nextSIP(head1, {})
                                 if (c == ResultSetDictionary.nullValue) {
                                     _close()
                                     return ResultSetDictionary.nullValue
@@ -54,8 +54,8 @@ println("try to call nextSIP")
                             }
                             while (head1 < head0) {
                                 change = true
-println("try to call nextSIP")
-                                val c = child1.nextSIP(head0,{})
+                                println("try to call nextSIP")
+                                val c = child1.nextSIP(head0, {})
                                 if (c == ResultSetDictionary.nullValue) {
                                     _close()
                                     return ResultSetDictionary.nullValue

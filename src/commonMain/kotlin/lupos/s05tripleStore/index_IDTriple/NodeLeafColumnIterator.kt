@@ -23,21 +23,24 @@ abstract class NodeLeafColumnIterator(@JvmField var node: ByteArray, @JvmField v
 
     @JvmField
     var needsReset = true
-
-
     inline suspend fun __init() {
         SanityCheck.println { "readLock(${lock.uuid}) x44" }
         lock.readLock()
         remaining = NodeShared.getTripleCount(node)
     }
 
+    init {
+        println("init ${lock.uuid} 1")
+    }
+
     inline suspend fun _init() {
-	println("init ${lock.uuid} 1")
+        println("init ${lock.uuid} 2")
         __init()
     }
 
     suspend inline fun _close() {
         if (label != 0) {
+            println("closed ${lock.uuid} 1")
             label = 0
             if (nodeid != NodeManager.nodeNullPointer) {
                 SanityCheck.println({ "Outside.refcount($nodeid) ${NodeManager.bufferManager.allPagesRefcounters[nodeid]} x38" })

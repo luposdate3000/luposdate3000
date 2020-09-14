@@ -35,13 +35,11 @@ class NodeLeafColumnIteratorPrefix1_1(node: ByteArray, nodeid: Int, prefix: IntA
                     }
                     if (value0 > prefix[0]) {
                         _close()
-                        println("close ${lock.uuid} 1")
                         return ResultSetDictionary.nullValue
                     } else {
                         done = value0 == prefix[0]
                         updateRemaining() {
                             if (!done) {
-                                println("close ${lock.uuid} 2")
                                 value1 = ResultSetDictionary.nullValue
                             }
                             done = true
@@ -65,7 +63,6 @@ class NodeLeafColumnIteratorPrefix1_1(node: ByteArray, nodeid: Int, prefix: IntA
                 }
                 if (value0 > prefix[0]) {
                     _close()
-                    println("close ${lock.uuid} 3")
                     return ResultSetDictionary.nullValue
                 } else {
                     updateRemaining()
@@ -73,7 +70,6 @@ class NodeLeafColumnIteratorPrefix1_1(node: ByteArray, nodeid: Int, prefix: IntA
                 return value1
             }
             else -> {
-                println("close ${lock.uuid} 4")
                 return ResultSetDictionary.nullValue
             }
         }
@@ -108,7 +104,6 @@ class NodeLeafColumnIteratorPrefix1_1(node: ByteArray, nodeid: Int, prefix: IntA
                 }
                 if (value0 > prefix[0]) {
                     _close()
-                    println("close ${lock.uuid} 5")
                     return ResultSetDictionary.nullValue
                 } else {
                     updateRemaining()
@@ -152,7 +147,7 @@ class NodeLeafColumnIteratorPrefix1_1(node: ByteArray, nodeid: Int, prefix: IntA
                 offset = offset_tmp
                 needsReset = false
                 usedNextPage = true
-nodeid_tmp = NodeShared.getNextNode(node)
+                nodeid_tmp = NodeShared.getNextNode(node)
             }
             if (usedNextPage) {
                 updateRemaining()
@@ -172,7 +167,6 @@ nodeid_tmp = NodeShared.getNextNode(node)
                 }
                 if (value0 > prefix[0]) {
                     _close()
-                    println("close ${lock.uuid} 6")
                     return ResultSetDictionary.nullValue
                 } else {
                     updateRemaining()
@@ -183,42 +177,52 @@ nodeid_tmp = NodeShared.getNextNode(node)
                 }
             }
             _close()
-            println("close ${lock.uuid} 7")
             return ResultSetDictionary.nullValue
         } else {
-            println("close ${lock.uuid} 8")
             return ResultSetDictionary.nullValue
         }
     }
 
-/*    override suspend open fun skipSIP(skipCount: Int): Int {
+    override suspend open fun skipSIP(skipCount: Int): Int {
         println("next ${lock.uuid} 3")
-if(skipCount==0){
-return next()
-}
+        if (skipCount == 0) {
+            val value = next()
+            return value
+        }
         var toSkip = skipCount + 1
         if (label == 2) {
             next()
             toSkip--
-if(toSkip==0){ 
-return next()
-}
+            if (toSkip == 0) {
+                val value = next()
+                return value
+            }
         }
         if (label != 0) {
             while (toSkip > remaining) {
                 toSkip -= remaining
-                remaining = 1
-                updateRemaining()
-SanityCheck.check{remaining>0}
-SanityCheck.check{label!=0}
+                var nodeid_tmp = NodeShared.getNextNode(node)
+                SanityCheck.check { nodeid_tmp != NodeManager.nodeNullPointer }
+                NodeManager.getNodeLeaf(nodeid_tmp, {
+                    SanityCheck.check { node != it }
+                    node = it
+                    remaining = NodeShared.getTripleCount(node)
+                })
+                NodeManager.releaseNode(nodeid)
+                nodeid = nodeid_tmp
+                needsReset = true
+                offset = NodeLeaf.START_OFFSET
+                SanityCheck.check { remaining > 0 }
+                SanityCheck.check { label != 0 }
             }
             if (needsReset) {
                 needsReset = false
                 value0 = 0
                 value1 = 0
             }
-                remaining-=toSkip
-SanityCheck.check{remaining>=0}
+            remaining -= toSkip
+            SanityCheck.check { remaining >= 0 }
+            SanityCheck.check { toSkip > 0 }
             while (toSkip > 0) {
                 offset += NodeShared.readTriple110(node, offset, value0, value1) { v0, v1 ->
                     value0 = v0
@@ -227,19 +231,29 @@ SanityCheck.check{remaining>=0}
                 toSkip--
             }
             if (remaining == 0) {
-                remaining = 1
-                updateRemaining()
+                var nodeid_tmp = NodeShared.getNextNode(node)
+                if (nodeid_tmp != NodeManager.nodeNullPointer) {
+                    NodeManager.getNodeLeaf(nodeid_tmp, {
+                        SanityCheck.check { node != it }
+                        node = it
+                        remaining = NodeShared.getTripleCount(node)
+                    })
+                    NodeManager.releaseNode(nodeid)
+                    nodeid = nodeid_tmp
+                    needsReset = true
+                    offset = NodeLeaf.START_OFFSET
+                } else {
+                    _close()
+                }
             }
             if (value0 > prefix[0]) {
 //this must not happen?!?
                 _close()
-                println("close ${lock.uuid} 9")
                 return ResultSetDictionary.nullValue
             }
             return value1
         } else {
-            println("close ${lock.uuid} 10")
             return ResultSetDictionary.nullValue
         }
-    }*/
+    }
 }

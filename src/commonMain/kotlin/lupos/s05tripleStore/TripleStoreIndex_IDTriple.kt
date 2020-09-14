@@ -1,6 +1,7 @@
 package lupos.s05tripleStore
 
 import kotlin.jvm.JvmField
+import kotlinx.coroutines.delay
 import lupos.s00misc.BenchmarkUtils
 import lupos.s00misc.EBenchmark
 import lupos.s00misc.File
@@ -435,6 +436,10 @@ SanityCheck.check{rootNode==null}
                 lock.downgradeToReadLock()
                 hasLock = true
                 break
+            } else {
+                SanityCheck.suspended {
+                    delay(100)
+                }
             }
         }
         if (!hasLock) {
@@ -624,6 +629,8 @@ SanityCheck.check{rootNode==null}
         }
         SanityCheck.suspended {
             if (firstLeaf != NodeManager.nodeNullPointer) {
+                debugLock.writeLock()
+                debugLock.writeUnlock()
                 val queueS = (iterator as DebugPassThroughIterator).queueS
                 val queueP = (iterator as DebugPassThroughIterator).queueP
                 val queueO = (iterator as DebugPassThroughIterator).queueO
@@ -758,18 +765,18 @@ SanityCheck.check{rootNode==null}
                         var current_o = iterator_o.next()
                         count++
                         if (last_s == current_s) {
-                        val tmpf = iterator_1_1.skipSIP(0)
-                        val tmpg = iterator_1_2.skipSIP(0)
+                            val tmpf = iterator_1_1.skipSIP(0)
+                            val tmpg = iterator_1_2.skipSIP(0)
                             SanityCheck.check { tmpf == current_p }
                             SanityCheck.check { tmpg == current_o }
                         } else {
-iterator_1_1.close()
+                            iterator_1_1.close()
                             NodeManager.getNodeLeaf(firstLeaf) { it ->
                                 myleaf = it
                             }
                             iterator_1_1 = NodeLeafColumnIteratorPrefix1_1(myleaf, firstLeaf, intArrayOf(current_s), debugLock)
                             iterator_1_1._init()
-iterator_1_2.close()
+                            iterator_1_2.close()
                             NodeManager.getNodeLeaf(firstLeaf) { it ->
                                 myleaf = it
                             }
@@ -785,8 +792,8 @@ iterator_1_2.close()
                         last_s = current_s
                     }
                     counters.add(count)
-iterator_1_1.close()
-iterator_1_2.close()
+                    iterator_1_1.close()
+                    iterator_1_2.close()
                 }
                 if (queueS.size > 0) {
                     var iterator_s = queueS.iterator()
@@ -804,11 +811,12 @@ iterator_1_2.close()
                     iterator_1_2._init()
                     var skipping = 1
                     var last_s = iterator_s.next()
-iterator_p.next()
-iterator_o.next()
-var idx=0
+                    iterator_p.next()
+                    iterator_o.next()
+                    var idx = 0
+                    var lastreset_idx = 0
                     while (iterator_s.hasNext()) {
-idx++
+                        idx++
                         var current_s = iterator_s.next()
                         var current_p = iterator_p.next()
                         var current_o = iterator_o.next()
@@ -818,12 +826,13 @@ idx++
                             if (last_s == current_s) {
                                 val tmpf = iterator_1_1.skipSIP(1)
                                 val tmpg = iterator_1_2.skipSIP(1)
-                                SanityCheck.check ({ tmpf == current_p },{ "$queueS $queueP $queueO $tmpf $idx $current_p"}) //error is here xxxx
-                                SanityCheck.check ({ tmpg == current_o },{ "$queueS $queueP $queueO $tmpg $idx $current_o"})
+                                SanityCheck.check({ tmpg == current_o }, { "1_2 $queueS $queueP $queueO $tmpg $idx $lastreset_idx $current_o" })
+                                SanityCheck.check({ tmpf == current_p }, { "1_1 $queueS $queueP $queueO $tmpf $idx $lastreset_idx $current_p" }) //error is here xxxx
                             }
                             skipping = 0
                         }
                         if (last_s != current_s) {
+                            lastreset_idx = idx
                             iterator_1_1.close()
                             NodeManager.getNodeLeaf(firstLeaf) { it ->
                                 myleaf = it
@@ -881,6 +890,8 @@ idx++
                     SanityCheck.check { tmpn == ResultSetDictionary.nullValue }
                     SanityCheck.check { iterator_2_2.label == 0 }
                 }
+                debugLock.writeLock()
+                debugLock.writeUnlock()
             }
 //
             iterator = (iterator as DebugPassThroughIterator).a

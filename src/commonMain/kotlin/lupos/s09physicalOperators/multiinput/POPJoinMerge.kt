@@ -90,10 +90,10 @@ class POPJoinMerge(query: Query, projectedVariables: List<String>, childA: OPBas
         var local___close_i = 0
 
         @JvmField
-var skipO0 = 0
-        @JvmField
-var skipO1 = 0
+        var skipO0 = 0
 
+        @JvmField
+        var skipO1 = 0
         suspend inline fun __close() {
             if (label != 0) {
                 local___close_i = 0
@@ -146,7 +146,7 @@ var skipO1 = 0
                         local_next_i = 0
                         while (local_next_i < columnsINJ0.size) {
                             if (key0[local_next_i] < key1[local_next_i]) {
-skipO0++
+                                skipO0++
                                 local_next_j = 0
                                 while (local_next_j < columnsINJ0.size) {
                                     key0[local_next_j] = columnsINJ0[local_next_j].next()
@@ -160,7 +160,7 @@ skipO0++
                                 }
                                 continue@loop
                             } else if (key0[local_next_i] > key1[local_next_i]) {
-skipO1++
+                                skipO1++
                                 local_next_j = 0
                                 while (local_next_j < columnsINJ1.size) {
                                     key1[local_next_j] = columnsINJ1[local_next_j].next()
@@ -200,11 +200,11 @@ skipO1++
                                 }
                                 local_next_i = 0
                                 while (local_next_i < columnsINO0.size) {
-println("try to call skipSIP")
+                                    println("try to call skipSIP")
                                     data0[local_next_i][local_next_countA] = columnsINO0[local_next_i].skipSIP(skipO0)
                                     local_next_i++
                                 }
-skipO0=0
+                                skipO0 = 0
                             }
                             local_next_countA++
                             local_next_i = 0
@@ -240,11 +240,11 @@ skipO0=0
                                 }
                                 local_next_i = 0
                                 while (local_next_i < columnsINO1.size) {
-println("try to call skipSIP")
+                                    println("try to call skipSIP")
                                     data1[local_next_i][local_next_countB] = columnsINO1[local_next_i].skipSIP(skipO1)
                                     local_next_i++
                                 }
-skipO1=0
+                                skipO1 = 0
                             }
                             local_next_countB++
                             local_next_i = 0
