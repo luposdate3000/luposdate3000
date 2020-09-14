@@ -65,7 +65,7 @@ class NodeLeafColumnIteratorPrefix2_2(node: ByteArray, nodeid: Int, prefix: IntA
                 }
                 offset += NodeShared.readTriple111(node, offset, value0, value1, value2) { v0, v1, v2 ->
                     value0 = v0
-			 value1 = v1
+                    value1 = v1
                     value2 = v2
                 }
                 if (value0 > prefix[0] || (value0 == prefix[0] && value1 > prefix[1])) {
@@ -138,12 +138,12 @@ class NodeLeafColumnIteratorPrefix2_2(node: ByteArray, nodeid: Int, prefix: IntA
                 })
                 SanityCheck.check { remaining_tmp > 0 }
                 var offset_tmp = NodeLeaf.START_OFFSET
-                offset_tmp += NodeShared.readTriple111(node_tmp, offset_tmp, 0,0, 0) { v0, v1,v2 ->
+                offset_tmp += NodeShared.readTriple111(node_tmp, offset_tmp, 0, 0, 0) { v0, v1, v2 ->
                     value0_tmp = v0
                     value1_tmp = v1
                     value2_tmp = v2
                 }
-                if (value0_tmp > prefix[0] ||(value0_tmp == prefix[0]&&value1_tmp > prefix[1]) || value2_tmp >= minValue) {
+                if (value0_tmp > prefix[0] || (value0_tmp == prefix[0] && value1_tmp > prefix[1]) || value2_tmp >= minValue) {
                     //dont accidentially skip some results at the end of this page
                     NodeManager.releaseNode(nodeid_tmp)
                     break
