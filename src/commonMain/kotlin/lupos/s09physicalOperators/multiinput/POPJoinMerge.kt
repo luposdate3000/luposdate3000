@@ -20,7 +20,6 @@ import lupos.s04logicalOperators.Query
 import lupos.s09physicalOperators.POPBase
 
 class POPJoinMerge(query: Query, projectedVariables: List<String>, childA: OPBase, childB: OPBase, @JvmField val optional: Boolean) : POPBase(query, projectedVariables, EOperatorID.POPJoinMergeID, "POPJoinMerge", arrayOf(childA, childB), ESortPriority.JOIN) {
-    //optimized using javap
     override fun toSparql() = children[0].toSparql() + children[1].toSparql()
     override suspend fun toXMLElement() = super.toXMLElement().addAttribute("optional", "" + optional)
     override fun cloneOP() = POPJoinMerge(query, projectedVariables, children[0].cloneOP(), children[1].cloneOP(), optional)
@@ -94,6 +93,7 @@ class POPJoinMerge(query: Query, projectedVariables: List<String>, childA: OPBas
 
         @JvmField
         var skipO1 = 0
+
         suspend inline fun __close() {
             if (label != 0) {
                 local___close_i = 0
@@ -143,7 +143,63 @@ class POPJoinMerge(query: Query, projectedVariables: List<String>, childA: OPBas
             return next_helper {
                 if (key0[0] != ResultSetDictionary.nullValue && key1[0] != ResultSetDictionary.nullValue) {
                     loop@ while (true) {
-                        local_next_i = 0
+                        SanityCheck.check { columnsINJ0.size > 0 }
+//first join column
+                        if (key0[0] != key1[0]) {
+                            var skip0 = 0
+                            var skip1 = 0
+                            while (key0[0] != key1[0]) {
+                                if (key0[0] < key1[0]) {
+println("try to call nextSIP")
+                                    key0[0] = columnsINJ0[0].nextSIP(key1[0]){counter->
+skip0+=counter
+skipO0+=counter
+}
+                                    skip0++
+                                    skipO0++
+                                    SanityCheck.check { key0[0] != ResultSetDictionary.undefValue }
+                                    if (key0[0] == ResultSetDictionary.nullValue) {
+                                        __close()
+                                        break@loop
+                                    }
+                                } else {
+println("try to call nextSIP")
+                                    key1[0] = columnsINJ1[0].nextSIP(key0[0]){counter->
+skip1+=counter
+skipO1+=counter
+}
+                                    skip1++
+                                    skipO1++
+                                    SanityCheck.check { key1[0] != ResultSetDictionary.undefValue }
+                                    if (key1[0] == ResultSetDictionary.nullValue) {
+                                        __close()
+                                        break@loop
+                                    }
+                                }
+                            }
+                            if (skip0 > 0) {
+                                local_next_j = 1
+                                while (local_next_j < columnsINJ0.size) {
+println("try to call skipSIP")
+                                    key0[local_next_j] = columnsINJ0[local_next_j].skipSIP(skip0)
+                                    SanityCheck.check { key0[local_next_j] != ResultSetDictionary.undefValue }
+                                    SanityCheck.check { key0[local_next_j] != ResultSetDictionary.nullValue }
+                                    local_next_j++
+                                }
+                            }
+                            if (skip1 > 0) {
+                                local_next_j = 1
+                                while (local_next_j < columnsINJ1.size) {
+println("try to call skipSIP")
+                                    key1[local_next_j] = columnsINJ1[local_next_j].skipSIP(skip1)
+                                    SanityCheck.check { key1[local_next_j] != ResultSetDictionary.undefValue }
+                                    SanityCheck.check { key1[local_next_j] != ResultSetDictionary.nullValue }
+                                    local_next_j++
+                                }
+                            }
+                        }
+//other join columns
+                        local_next_i = 1
                         while (local_next_i < columnsINJ0.size) {
                             if (key0[local_next_i] < key1[local_next_i]) {
                                 skipO0++
@@ -176,11 +232,13 @@ class POPJoinMerge(query: Query, projectedVariables: List<String>, childA: OPBas
                             }
                             local_next_i++
                         }
+//safe the join columns
                         local_next_i = 0
                         while (local_next_i < columnsINJ0.size) {
                             local_next_keyCopy[local_next_i] = key0[local_next_i]
                             local_next_i++
                         }
+//the only-A columns
                         local_next_countA = 0
                         loop2@ while (true) {
                             if (columnsINO0.size > 0) {
@@ -221,6 +279,7 @@ class POPJoinMerge(query: Query, projectedVariables: List<String>, childA: OPBas
                                 local_next_i++
                             }
                         }
+//the only-B columns
                         local_next_countB = 0
                         loop2@ while (true) {
                             if (columnsINO1.size > 0) {

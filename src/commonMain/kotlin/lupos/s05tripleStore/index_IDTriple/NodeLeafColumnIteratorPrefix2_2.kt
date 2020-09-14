@@ -82,7 +82,7 @@ class NodeLeafColumnIteratorPrefix2_2(node: ByteArray, nodeid: Int, prefix: IntA
         }
     }
 
-    suspend override fun nextSIP(minValue: Int, crossinline skippedElements: (counter: Int) -> Unit): Int {
+    suspend override fun nextSIP(minValue: Int,  skippedElements: (counter: Int) -> Unit): Int {
         println("next ${lock.uuid} 8")
         var counter = 0
         if (label == 2) {

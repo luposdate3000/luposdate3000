@@ -26,7 +26,7 @@ class NodeLeafColumnIterator2(node: ByteArray, nodeid: Int, lock: ReadWriteLock)
         }
     }
 
-    suspend override fun nextSIP(minValue: Int, crossinline skippedElements: (counter: Int) -> Unit): Int {
+    suspend override fun nextSIP(minValue: Int, skippedElements: (counter: Int) -> Unit): Int {
         if (label != 0) {
             var counter = 0
             var limit = remaining
