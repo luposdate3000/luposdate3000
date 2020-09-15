@@ -35,98 +35,73 @@ import lupos.s09physicalOperators.partition.POPMergePartition
 
 object QueryResultToXMLStream {
     suspend fun writeValue(valueID: Int, columnName: String, dictionary: ResultSetDictionary, output: PrintWriter) {
-        val value = dictionary.getValue(valueID)
-        when (value) {
-            is ValueBnode -> {
-                output.print("   <binding name=\"")
-                output.print(columnName)
-                output.print("\">\n    <bnode>")
-                output.print(valueID)
-                output.print("</bnode>\n   </binding>\n")
-            }
-            is ValueBoolean -> {
-                output.print("   <binding name=\"")
-                output.print(columnName)
-                output.print("\">\n    <literal>")
-                output.print(value.value)
-                output.print("</literal>\n   </binding>\n")
-            }
-            is ValueLanguageTaggedLiteral -> {
-                output.print("   <binding name=\"")
-                output.print(columnName)
-                output.print("\">\n    <literal xml:lang=\"")
-                output.print(value.language)
-                output.print("\">")
-                output.print(value.content)
-                output.print("</literal>\n   </binding>\n")
-            }
-            is ValueSimpleLiteral -> {
-                output.print("   <binding name=\"")
-                output.print(columnName)
-                output.print("\">\n    <literal>")
-                output.print(value.content)
-                output.print("</literal>\n   </binding>\n")
-            }
-            is ValueTypedLiteral -> {
-                output.print("   <binding name=\"")
-                output.print(columnName)
-                output.print("\">\n    <literal datatype=\"")
-                output.print(value.type_iri)
-                output.print("\">")
-                output.print(value.content)
-                output.print("</literal>\n   </binding>\n")
-            }
-            is ValueDecimal -> {
-                output.print("   <binding name=\"")
-                output.print(columnName)
-                output.print("\">\n    <literal datatype=\"http://www.w3.org/2001/XMLSchema#decimal>")
-                output.print(value.value)
-                output.print("</literal>\n   </binding>\n")
-            }
-            is ValueFloat -> {
-                output.print("   <binding name=\"")
-                output.print(columnName)
-                output.print("\">\n    <literal datatype=\"http://www.w3.org/2001/XMLSchema#float>")
-                output.print(value.value)
-                output.print("</literal>\n   </binding>\n")
-            }
-            is ValueDouble -> {
-                output.print("   <binding name=\"")
-                output.print(columnName)
-                output.print("\">\n    <literal datatype=\"http://www.w3.org/2001/XMLSchema#double>")
-                output.print(value.value)
-                output.print("</literal>\n   </binding>\n")
-            }
-            is ValueInteger -> {
-                output.print("   <binding name=\"")
-                output.print(columnName)
-                output.print("\">\n    <literal datatype=\"http://www.w3.org/2001/XMLSchema#integer>")
-                output.print(value.value)
-                output.print("</literal>\n   </binding>\n")
-            }
-            is ValueIri -> {
-                output.print("   <binding name=\"")
-                output.print(columnName)
-                output.print("\">\n    <uri>")
-                output.print(value.iri)
-                output.print("</uri>\n   </binding>\n")
-            }
-            is ValueDateTime -> {
-                output.print("   <binding name=\"")
-                output.print(columnName)
-                output.print("\">\n")
-                if (value.timezoneHours == -1 && value.timezoneMinutes == -1) {
-                    output.print("<literal datatype=\"http://www.w3.org/2001/XMLSchema#dateTime\">${value.year.toString().padStart(4, '0')}-${value.month.toString().padStart(2, '0')}-${value.day.toString().padStart(2, '0')}T${value.hours.toString().padStart(2, '0')}:${value.minutes.toString().padStart(2, '0')}:${value.seconds.toString().padStart(2, '0')}</literal>\n")
-                } else if (value.timezoneHours == 0 && value.timezoneMinutes == 0) {
-                    output.print("<literal datatype=\"http://www.w3.org/2001/XMLSchema#dateTime\">${value.year.toString().padStart(4, '0')}-${value.month.toString().padStart(2, '0')}-${value.day.toString().padStart(2, '0')}T${value.hours.toString().padStart(2, '0')}:${value.minutes.toString().padStart(2, '0')}:${value.seconds.toString().padStart(2, '0')}Z</literal>\n")
-                } else {
-                    output.print("<literal datatype=\"http://www.w3.org/2001/XMLSchema#dateTime\">${value.year.toString().padStart(4, '0')}-${value.month.toString().padStart(2, '0')}-${value.day.toString().padStart(2, '0')}T${value.hours.toString().padStart(2, '0')}:${value.minutes.toString().padStart(2, '0')}:${value.seconds.toString().padStart(2, '0')}-${value.timezoneHours.toString().padStart(2, '0')}:${value.timezoneMinutes.toString().padStart(2, '0')}</literal>\n")
-                }
-                output.print("   </binding>\n")
-            }
-            is ValueUndef, is ValueError -> {
-            }
-        }
+        dictionary.getValue(valueID, { value ->
+            output.print("   <binding name=\"")
+            output.print(columnName)
+            output.print("\">\n    <bnode>")
+            output.print(value)
+            output.print("</bnode>\n   </binding>\n")
+        }, { value ->
+            output.print("   <binding name=\"")
+            output.print(columnName)
+            output.print("\">\n    <literal>")
+            output.print(value)
+            output.print("</literal>\n   </binding>\n")
+        }, { content, lang ->
+            output.print("   <binding name=\"")
+            output.print(columnName)
+            output.print("\">\n    <literal xml:lang=\"")
+            output.print(lang)
+            output.print("\">")
+            output.print(content)
+            output.print("</literal>\n   </binding>\n")
+        }, { content ->
+            output.print("   <binding name=\"")
+            output.print(columnName)
+            output.print("\">\n    <literal>")
+            output.print(content)
+            output.print("</literal>\n   </binding>\n")
+        }, { content, type ->
+            output.print("   <binding name=\"")
+            output.print(columnName)
+            output.print("\">\n    <literal datatype=\"")
+            output.print(type)
+            output.print("\">")
+            output.print(content)
+            output.print("</literal>\n   </binding>\n")
+        }, { value ->
+            output.print("   <binding name=\"")
+            output.print(columnName)
+            output.print("\">\n    <literal datatype=\"http://www.w3.org/2001/XMLSchema#decimal>")
+            output.print(value)
+            output.print("</literal>\n   </binding>\n")
+        }, { value ->
+            output.print("   <binding name=\"")
+            output.print(columnName)
+            output.print("\">\n    <literal datatype=\"http://www.w3.org/2001/XMLSchema#float>")
+            output.print(value)
+            output.print("</literal>\n   </binding>\n")
+        }, { value ->
+            output.print("   <binding name=\"")
+            output.print(columnName)
+            output.print("\">\n    <literal datatype=\"http://www.w3.org/2001/XMLSchema#double>")
+            output.print(value)
+            output.print("</literal>\n   </binding>\n")
+        }, { value ->
+            output.print("   <binding name=\"")
+            output.print(columnName)
+            output.print("\">\n    <literal datatype=\"http://www.w3.org/2001/XMLSchema#integer>")
+            output.print(value)
+            output.print("</literal>\n   </binding>\n")
+        }, { value ->
+            output.print("   <binding name=\"")
+            output.print(columnName)
+            output.print("\">\n    <uri>")
+            output.print(value)
+            output.print("</uri>\n   </binding>\n")
+        }, {}, {}
+        )
+
     }
 
     suspend fun writeRow(variables: Array<String>, rowBuf: IntArray, dictionary: ResultSetDictionary, output: PrintWriter) {

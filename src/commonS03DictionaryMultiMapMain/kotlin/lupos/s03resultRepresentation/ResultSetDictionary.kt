@@ -447,6 +447,84 @@ class ResultSetDictionary(val global: Boolean = false) {
         return res
     }
 
+    inline fun getValue(value: Value,
+                        crossinline onBNode: (value: Int) -> Unit,
+                        crossinline onBoolean: (value: Boolean) -> Unit,
+                        crossinline onLanguageTaggedLiteral: (content: String, lang: String) -> Unit,
+                        crossinline onSimpleLiteral: (content: String) -> Unit,
+                        crossinline onTypedLiteral: (content: String, type: String) -> Unit,
+                        crossinline onDecimal: (value: String) -> Unit,
+                        crossinline onFloat: (value: Double) -> Unit,
+                        crossinline onDouble: (value: Double) -> Unit,
+                        crossinline onInteger: (value: String) -> Unit,
+                        crossinline onIri: (value: String) -> Unit,
+                        crossinline onError: () -> Unit,
+                        crossinline onUndefined: () -> Unit
+    ) {
+        val dict: ResultSetDictionary
+        if ((value and mask1) == mask1) {
+            dict = nodeGlobalDictionary
+        } else {
+            dict = this
+        }
+        var bit3 = value and mask3
+        when (bit3) {
+            flaggedValueLocalIri -> {
+                onIri(dict.iriMap[value and filter3])
+            }
+            flaggedValueLocalBnode -> {
+                when (value) {
+                    0 -> {
+                        onBoolean(true)
+                    }
+                    1 -> {
+                        onBoolean(false)
+                    }
+                    2 -> {
+                        onError()
+                    }
+                    3 -> {
+                        onUndefined()
+                    }
+                    else -> {
+                        onBNode(value)
+                    }
+                }
+            }
+            flaggedValueLocalTyped -> {
+                val tmp = dict.typedMap[value and filter3]
+                var idx = tmp.indexOf(">")
+                if (idx == 0) {
+                    onSimpleLiteral(tmp.substring(idx + 1, tmp.length))
+                } else {
+                    onTypedLiteral(tmp.substring(idx + 1, tmp.length), tmp.substring(0, idx))
+                }
+            }
+            else -> {
+                var bit5 = value and mask6
+                when (bit5) {
+                    flaggedValueLocalInt -> {
+                        onInteger(dict.intMap[value and filter6])
+                    }
+                    flaggedValueLocalDecimal -> {
+                        onDecimal(dict.decimalMap[value and filter6])
+                    }
+                    flaggedValueLocalDouble -> {
+                        onDouble(dict.doubleList[value and filter6])
+                    }
+                    flaggedValueLocalFloat -> {
+                        onFloat(dict.floatList[value and filter6])
+                    }
+                    else -> {
+                        val tmp = dict.langTaggedMap[value and filter6]
+                        var idx = tmp.indexOf("@")
+                        onLanguageTaggedLiteral(tmp.substring(idx + 1, tmp.length),tmp.substring(0, idx))
+                    }
+                }
+            }
+        }
+    }
+
     fun printContents() {
         SanityCheck {
             var base: Int
