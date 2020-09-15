@@ -19,7 +19,6 @@ class NodeLeafColumnIteratorPrefix1_2(node: ByteArray, nodeid: Int, prefix: IntA
     }
 
     suspend override fun next(): Int {
-        println("next ${lock.uuid} 4")
         when (label) {
             2 -> {
                 var done = false
@@ -76,7 +75,6 @@ class NodeLeafColumnIteratorPrefix1_2(node: ByteArray, nodeid: Int, prefix: IntA
     }
 
     suspend override fun nextSIP(minValue: Int,  skippedElements: (counter: Int) -> Unit): Int {
-        println("next ${lock.uuid} 5")
         var counter = 0
         if (label == 2) {
             next()
@@ -184,7 +182,6 @@ class NodeLeafColumnIteratorPrefix1_2(node: ByteArray, nodeid: Int, prefix: IntA
     }
 
     override suspend open fun skipSIP(skipCount: Int): Int {
-        println("next ${lock.uuid} 6")
         if (skipCount == 0) {
             val value = next()
             return value
