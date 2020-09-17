@@ -10,6 +10,8 @@ import lupos.s03resultRepresentation.nodeGlobalDictionary
 import lupos.s15tripleStoreDistributed.DistributedTripleStore
 import lupos.s16network.HttpEndpoint
 import lupos.s16network.ServerCommunicationSend
+import java.io.StringWriter
+import java.io.PrintWriter
 
 enum class Datasource {
     LOAD, IMPORT, IMPORT_INTERMEDIATE
@@ -99,7 +101,8 @@ fun main(args: Array<String>) = runBlocking {
         val queryFile = queryFiles[queryFileIdx]
         val query = File(queryFile).readAsString()
         val node = HttpEndpoint.evaluate_sparql_query_string_part1(query, true)
-        HttpEndpoint.evaluate_sparql_query_string_part2(node)
+val writer=PrintWriter(StringWriter())
+        HttpEndpoint.evaluate_sparql_query_string_part2(node,writer)
         printBenchmarkTimesHelper()
         val timer = DateHelper.markNow()
         var time: Double
@@ -107,7 +110,7 @@ fun main(args: Array<String>) = runBlocking {
         while (true) {
             counter += groupSize[queryFileIdx]
             for (i in 0 until groupSize[queryFileIdx]) {
-                HttpEndpoint.evaluate_sparql_query_string_part2(node)
+                HttpEndpoint.evaluate_sparql_query_string_part2(node,writer)
             }
             time = DateHelper.elapsedSeconds(timer)
             if (time > minimumTime) {
