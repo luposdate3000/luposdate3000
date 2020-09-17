@@ -59,8 +59,8 @@ class NodeLeafColumnIterator0(node: ByteArray, nodeid: Int, lock: ReadWriteLock)
                 NodeManager.getNodeLeaf(nodeid_tmp, {
                     SanityCheck.check { node != it }
                     node_tmp = it
-                    remaining_tmp = NodeShared.getTripleCount(node)
                 })
+                    remaining_tmp = NodeShared.getTripleCount(node_tmp)
                 SanityCheck.check { remaining_tmp > 0 }
                 var offset_tmp = NodeLeaf.START_OFFSET
                 offset_tmp += NodeShared.readTriple100(node_tmp, offset_tmp, 0) { v ->

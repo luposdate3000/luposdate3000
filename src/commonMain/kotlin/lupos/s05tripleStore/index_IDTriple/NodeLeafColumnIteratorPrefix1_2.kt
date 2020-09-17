@@ -122,8 +122,8 @@ class NodeLeafColumnIteratorPrefix1_2(node: ByteArray, nodeid: Int, prefix: IntA
                 NodeManager.getNodeLeaf(nodeid_tmp, {
                     SanityCheck.check { node != it }
                     node_tmp = it
-                    remaining_tmp = NodeShared.getTripleCount(node)
                 })
+                    remaining_tmp = NodeShared.getTripleCount(node_tmp)
                 SanityCheck.check { remaining_tmp > 0 }
                 var offset_tmp = NodeLeaf.START_OFFSET
                 offset_tmp += NodeShared.readTriple101(node_tmp, offset_tmp, 0, 0) { v0, v2 ->
@@ -203,8 +203,8 @@ class NodeLeafColumnIteratorPrefix1_2(node: ByteArray, nodeid: Int, prefix: IntA
                 NodeManager.getNodeLeaf(nodeid_tmp, {
                     SanityCheck.check { node != it }
                     node = it
-                    remaining = NodeShared.getTripleCount(node)
                 })
+                    remaining = NodeShared.getTripleCount(node)
                 NodeManager.releaseNode(nodeid)
                 nodeid = nodeid_tmp
                 needsReset = true
@@ -233,8 +233,8 @@ class NodeLeafColumnIteratorPrefix1_2(node: ByteArray, nodeid: Int, prefix: IntA
                     NodeManager.getNodeLeaf(nodeid_tmp, {
                         SanityCheck.check { node != it }
                         node = it
-                        remaining = NodeShared.getTripleCount(node)
                     })
+                        remaining = NodeShared.getTripleCount(node)
                     NodeManager.releaseNode(nodeid)
                     nodeid = nodeid_tmp
                     needsReset = true

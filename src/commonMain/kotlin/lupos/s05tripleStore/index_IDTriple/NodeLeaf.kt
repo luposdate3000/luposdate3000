@@ -71,7 +71,7 @@ object NodeLeaf {
         }
     }
 
-    inline fun initializeWith(node: ByteArray, iterator: TripleIterator) {
+    inline fun initializeWith(node: ByteArray,nodeid:Int, iterator: TripleIterator) {
         SanityCheck.check { iterator.hasNext() }
         var writtenTriples: MutableList<Int>? = null
         SanityCheck {
@@ -88,6 +88,9 @@ object NodeLeaf {
                 writtenTriples!!.add(tripleCurrent[1])
                 writtenTriples!!.add(tripleCurrent[2])
             }
+//if(nodeid>7000&&nodeid<8000){
+//println("node $nodeid :: write $offset $triples A")
+//}
             offset += NodeShared.writeTriple(node, offset, tripleLast, tripleCurrent)
             triples++
         }

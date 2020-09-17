@@ -63,8 +63,8 @@ abstract class NodeLeafColumnIterator(@JvmField var node: ByteArray, @JvmField v
                 NodeManager.getNodeLeaf(nodeid, {
                     SanityCheck.check { node != it }
                     node = it
-                    remaining = NodeShared.getTripleCount(node)
                 })
+                    remaining = NodeShared.getTripleCount(node)
             } else {
                 _close()
                 setDone()

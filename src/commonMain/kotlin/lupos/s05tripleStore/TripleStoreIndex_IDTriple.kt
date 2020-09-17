@@ -393,7 +393,7 @@ SanityCheck.check{rootNode==null}
         }
         var nodeid = res
         var node = node2!!
-        NodeLeaf.initializeWith(node, iterator)
+        NodeLeaf.initializeWith(node,nodeid, iterator)
         while (iterator.hasNext()) {
             SanityCheck.println({ "Outside.refcount(??) - x51" })
             NodeManager.allocateNodeLeaf { n, i ->
@@ -403,7 +403,7 @@ SanityCheck.check{rootNode==null}
                 NodeShared.setNextNode(node, i)
                 node = n
             }
-            NodeLeaf.initializeWith(node, iterator)
+            NodeLeaf.initializeWith(node,nodeid, iterator)
         }
         SanityCheck.println({ "Outside.refcount($nodeid) ${NodeManager.bufferManager.allPagesRefcounters[nodeid]} x137" })
         NodeManager.releaseNode(nodeid)
@@ -558,7 +558,7 @@ SanityCheck.check{rootNode==null}
             }
             var node = node2!!
             var nodeid = firstLeaf
-            NodeLeaf.initializeWith(node, iterator)
+            NodeLeaf.initializeWith(node,nodeid, iterator)
             while (iterator.hasNext()) {
                 SanityCheck.println({ "Outside.refcount(??) - x53" })
                 NodeManager.allocateNodeLeaf { n, i ->
@@ -569,7 +569,7 @@ SanityCheck.check{rootNode==null}
                     node = n
                     currentLayer.add(i)
                 }
-                NodeLeaf.initializeWith(node, iterator)
+                NodeLeaf.initializeWith(node,nodeid, iterator)
             }
             SanityCheck.check { currentLayer.size > 0 }
             while (currentLayer.size > 1) {
@@ -581,7 +581,7 @@ SanityCheck.check{rootNode==null}
                     NodeManager.releaseNode(nodeid)
                     nodeid = i
                     tmp.add(i)
-                    NodeInner.initializeWith(n, currentLayer)
+                    NodeInner.initializeWith(n,i, currentLayer)
                     prev2 = n
                 }
                 var prev = prev2!!
@@ -592,7 +592,7 @@ SanityCheck.check{rootNode==null}
                         NodeManager.releaseNode(nodeid)
                         nodeid = i
                         tmp.add(i)
-                        NodeInner.initializeWith(n, currentLayer)
+                        NodeInner.initializeWith(n, i,currentLayer)
                         NodeShared.setNextNode(prev, i)
                         prev = n
                     }
@@ -615,7 +615,7 @@ SanityCheck.check{rootNode==null}
                 NodeManager.releaseNode(nodeid)
                 SanityCheck.println({ "Outside.refcount(??) - x56" })
                 NodeManager.allocateNodeInner { n, i ->
-                    NodeInner.initializeWith(n, mutableListOf(currentLayer[0]))
+                    NodeInner.initializeWith(n,i, mutableListOf(currentLayer[0]))
                     rootNode = n
                     root = i
                 }

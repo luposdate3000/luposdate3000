@@ -212,7 +212,7 @@ object NodeInner {
         return iterator!!
     }
 
-    inline fun initializeWith(node: ByteArray, childs: MutableList<Int>) {
+    inline fun initializeWith(node: ByteArray,nodeid:Int, childs: MutableList<Int>) {
         SanityCheck.check { childs.size > 0 }
         var writtenHeaders: MutableList<Int>? = null
         var writtenTriples: MutableList<Int>? = null
