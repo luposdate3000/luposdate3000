@@ -3,6 +3,7 @@
   echo "Platform->jvm"
   echo "Launch->Endpoint"
   echo "Sanity->Off"
+  echo "Parallel->Threads"
   echo "Execution->Sequential"
   echo "BufferManager->Heap"
   echo "Dictionary->Small"

@@ -1,9 +1,6 @@
 package lupos.s09physicalOperators.partition
 import lupos.s00misc.Parallel
 import kotlin.coroutines.Continuation
-import kotlin.coroutines.intrinsics.COROUTINE_SUSPENDED
-import kotlin.coroutines.intrinsics.suspendCoroutineUninterceptedOrReturn
-import kotlin.coroutines.resume
 import lupos.s00misc.ParallelJob
 import lupos.s00misc.BugException
 import lupos.s00misc.EOperatorID
@@ -74,9 +71,9 @@ class POPSplitPartition(query: Query, projectedVariables: List<String>, val part
                 val ringbufferStart = IntArray(Partition.k) { it * elementsPerRing } //constant
                 val ringbufferReadHead = IntArray(Partition.k) { 0 } //owned by read-thread - no locking required
                 val ringbufferWriteHead = IntArray(Partition.k) { 0 } //owned by write thread - no locking required
-                val ringbufferReaderContinuation = Array<Continuation<Unit>?>(Partition.k) { null }
-                var ringbufferWriterContinuation: Continuation<Unit>? = null
                 var continuationLock = Lock()
+                val ringbufferReaderContinuation = Array(Partition.k) { Parallel.createCondition(continuationLock) }
+                var ringbufferWriterContinuation=Parallel.createCondition(continuationLock)
                 val readerFinished = IntArray(Partition.k) { 0 } //writer changes to 1 if finished
                 var writerFinished = 0
                 SanityCheck.println({ "ringbuffersize = ${ringbuffer.size} ${elementsPerRing} ${Partition.k} ${ringbufferStart.map { it }} ${ringbufferReadHead.map { it }} ${ringbufferWriteHead.map { it }}" })
@@ -144,37 +141,13 @@ job=Parallel.launch{
                                 }
                                 SanityCheck.println({ "selected $p for $partitionVariable = $hashVariableIndex value ${child.buf[tmp + hashVariableIndex]}" })
                                 var t = (ringbufferWriteHead[p] + variables.size) % elementsPerRing
-                                if (ringbufferReadHead[p] == t) {
-                                    SanityCheck.println { "lock(${continuationLock.uuid}) [$uuid] x67" }
-                                    continuationLock.lock()
-                                    var tmp2 = ringbufferReaderContinuation[p]
-                                    ringbufferReaderContinuation[p] = null
-                                    if (tmp2 != null) {
-                                        SanityCheck.println { "unlock(${continuationLock.uuid}) [$uuid] x92" }
-                                        continuationLock.unlock()
-                                        SanityCheck.println { "$uuid reader[$p] resume coroutine x179" }
-                                        tmp2.resume(Unit)
-                                        SanityCheck.println { "lock(${continuationLock.uuid}) [$uuid] x180" }
-                                        continuationLock.lock()
-                                    }
-                                    if (ringbufferReadHead[p] == t) {
+                                while (ringbufferReadHead[p] == t&&readerFinished[p] ==0) {
+ringbufferReaderContinuation[p].notify()
+ringbufferWriterContinuation.waitCondition({ringbufferReadHead[p] == t&&readerFinished[p] ==0})
+                                }
                                         if (readerFinished[p] != 0) {
-                                            SanityCheck.println { "unlock(${continuationLock.uuid}) [$uuid] x181" }
-                                            continuationLock.unlock()
                                             continue@loopcache
                                         }
-                                        suspendCoroutineUninterceptedOrReturn { continuation: Continuation<Unit> ->
-                                            ringbufferWriterContinuation = continuation
-                                            SanityCheck.println { "unlock(${continuationLock.uuid}) [$uuid] x68" }
-                                            continuationLock.unlock()
-                                            SanityCheck.println { "$uuid writer SUSPENDED coroutine x182" }
-                                            COROUTINE_SUSPENDED
-                                        }
-                                    } else {
-                                        SanityCheck.println { "unlock(${continuationLock.uuid}) [$uuid] x69" }
-                                        continuationLock.unlock()
-                                    }
-                                }
                                 SanityCheck.println({ "split $uuid $p writer append data ${variables.size} ${variableMapping.toMutableList()} ${ringbufferStart[p]}" })
                                 for (variable in 0 until variables.size) {
                                     SanityCheck.println({ "split $uuid $p writer append data ... ${variable} ${ringbufferWriteHead[p] + variableMapping[variable] + ringbufferStart[p]} ${tmp + variable}" })
@@ -184,40 +157,18 @@ job=Parallel.launch{
                                 SanityCheck.println({ "split $uuid $p writer append data - written data" })
                                 ringbufferWriteHead[p] = (ringbufferWriteHead[p] + variables.size) % elementsPerRing
                                 SanityCheck.println({ "split $uuid $p writer append data - increased pointer" })
-                                var tmp2 = ringbufferReaderContinuation[p]
-                                if (tmp2 != null) {
-                                    SanityCheck.println { "lock(${continuationLock.uuid}) [$uuid] x183" }
-                                    continuationLock.lock()
-                                    tmp2 = ringbufferReaderContinuation[p]
-                                    ringbufferReaderContinuation[p] = null
-                                    SanityCheck.println { "unlock(${continuationLock.uuid}) [$uuid] x71" }
-                                    continuationLock.unlock()
-                                    if (tmp2 != null) {
-                                        SanityCheck.println { "$uuid reader[$p] resume coroutine x184" }
-                                        tmp2.resume(Unit)
-                                    }
-                                }
+ringbufferReaderContinuation[p].notify()
                             }
                         }
                         SanityCheck.println({ "split $uuid writer loop end of iteration" })
                     }
                     SanityCheck.println({ "split $uuid writer launched F" })
                     child.close()
+continuationLock.lock()
                     writerFinished = 1
+continuationLock.unlock()
                     for (p in 0 until Partition.k) {
-                        var tmp2 = ringbufferReaderContinuation[p]
-                        if (tmp2 != null) {
-                            SanityCheck.println { "lock(${continuationLock.uuid}) [$uuid] x72" }
-                            continuationLock.lock()
-                            tmp2 = ringbufferReaderContinuation[p]
-                            ringbufferReaderContinuation[p] = null
-                            SanityCheck.println { "unlock(${continuationLock.uuid}) [$uuid] x73" }
-                            continuationLock.unlock()
-                            if (tmp2 != null) {
-                                SanityCheck.println { "$uuid reader[$p] resume coroutine x185" }
-                                tmp2.resume(Unit)
-                            }
-                        }
+ringbufferReaderContinuation[p].notify()
                     }
                     SanityCheck.println({ "split $uuid writer launched G" })
                     SanityCheck.println({ "split $uuid writer exited loop" })
@@ -244,46 +195,17 @@ job=Parallel.launch{
                                 iterator.close()
                                 break@loop
                             }
-                            SanityCheck.println { "lock(${continuationLock.uuid}) [$uuid] x74" }
-                            continuationLock.lock()
-                            var tmp2 = ringbufferWriterContinuation
-                            ringbufferWriterContinuation = null
-                            if (tmp2 != null) {
-                                SanityCheck.println { "unlock(${continuationLock.uuid}) [$uuid] x186" }
-                                continuationLock.unlock()
-                                SanityCheck.println { "$uuid writer resume coroutine x187" }
-                                tmp2!!.resume(Unit)
-                                SanityCheck.println { "lock(${continuationLock.uuid}) [$uuid] x94" }
-                                continuationLock.lock()
-                            }
-                            if (ringbufferReadHead[p] == ringbufferWriteHead[p] && writerFinished == 0) {
-                                suspendCoroutineUninterceptedOrReturn { continuation: Continuation<Unit> ->
-                                    ringbufferReaderContinuation[p] = continuation
-                                    SanityCheck.println { "unlock(${continuationLock.uuid}) [$uuid] x75" }
-                                    continuationLock.unlock()
-                                    SanityCheck.println { "$uuid reader[$p] SUSPENDED coroutine x188" }
-                                    COROUTINE_SUSPENDED
-                                }
-                            } else {
-                                SanityCheck.println { "unlock(${continuationLock.uuid}) [$uuid] x76" }
-                                continuationLock.unlock()
-                            }
+ringbufferWriterContinuation.notify()
+ringbufferReaderContinuation[p].waitCondition({ringbufferReadHead[p] == ringbufferWriteHead[p] && writerFinished == 0})
                         }
                         /*return*/res
                     }
                     iterator.close = {
                         SanityCheck.println({ "split $uuid $p reader close" })
-                        SanityCheck.println { "lock(${continuationLock.uuid}) [$uuid] x77" }
-                        continuationLock.lock()
+continuationLock.lock()
                         readerFinished[p] = 1
-                        var tmp2 = ringbufferWriterContinuation
-                        ringbufferWriterContinuation = null
-                        SanityCheck.println { "unlock(${continuationLock.uuid}) [$uuid] x93" }
-                        continuationLock.unlock()
-                        if (tmp2 != null) {
-                            SanityCheck.println { "$uuid writer resume coroutine x189" }
-                            tmp2!!.resume(Unit)
-                        }
+continuationLock.unlock()
+ringbufferWriterContinuation.notify()
                     }
                     iterators[p] = IteratorBundle(iterator)
                 }
