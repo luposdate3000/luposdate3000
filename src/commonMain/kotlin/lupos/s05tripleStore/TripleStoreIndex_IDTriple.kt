@@ -22,6 +22,12 @@ import lupos.s05tripleStore.index_IDTriple.MergeIterator
 import lupos.s05tripleStore.index_IDTriple.MinusIterator
 import lupos.s05tripleStore.index_IDTriple.NodeInner
 import lupos.s05tripleStore.index_IDTriple.NodeLeaf
+import lupos.s05tripleStore.index_IDTriple.NodeLeafColumnIterator0
+import lupos.s05tripleStore.index_IDTriple.NodeLeafColumnIterator1
+import lupos.s05tripleStore.index_IDTriple.NodeLeafColumnIterator2
+import lupos.s05tripleStore.index_IDTriple.NodeLeafColumnIteratorPrefix1_1
+import lupos.s05tripleStore.index_IDTriple.NodeLeafColumnIteratorPrefix1_2
+import lupos.s05tripleStore.index_IDTriple.NodeLeafColumnIteratorPrefix2_2
 import lupos.s05tripleStore.index_IDTriple.NodeManager
 import lupos.s05tripleStore.index_IDTriple.NodeShared
 import lupos.s05tripleStore.index_IDTriple.TripleIterator
@@ -392,7 +398,7 @@ SanityCheck.check{rootNode==null}
         }
         var nodeid = res
         var node = node2!!
-        NodeLeaf.initializeWith(node,nodeid, iterator)
+        NodeLeaf.initializeWith(node, nodeid, iterator)
         while (iterator.hasNext()) {
             SanityCheck.println({ "Outside.refcount(??) - x51" })
             NodeManager.allocateNodeLeaf { n, i ->
@@ -402,7 +408,7 @@ SanityCheck.check{rootNode==null}
                 NodeShared.setNextNode(node, i)
                 node = n
             }
-            NodeLeaf.initializeWith(node,nodeid, iterator)
+            NodeLeaf.initializeWith(node, nodeid, iterator)
         }
         SanityCheck.println({ "Outside.refcount($nodeid) ${NodeManager.bufferManager.allPagesRefcounters[nodeid]} x137" })
         NodeManager.releaseNode(nodeid)
@@ -557,7 +563,7 @@ SanityCheck.check{rootNode==null}
             }
             var node = node2!!
             var nodeid = firstLeaf
-            NodeLeaf.initializeWith(node,nodeid, iterator)
+            NodeLeaf.initializeWith(node, nodeid, iterator)
             while (iterator.hasNext()) {
                 SanityCheck.println({ "Outside.refcount(??) - x53" })
                 NodeManager.allocateNodeLeaf { n, i ->
@@ -568,7 +574,7 @@ SanityCheck.check{rootNode==null}
                     node = n
                     currentLayer.add(i)
                 }
-                NodeLeaf.initializeWith(node,nodeid, iterator)
+                NodeLeaf.initializeWith(node, nodeid, iterator)
             }
             SanityCheck.check { currentLayer.size > 0 }
             while (currentLayer.size > 1) {
@@ -580,7 +586,7 @@ SanityCheck.check{rootNode==null}
                     NodeManager.releaseNode(nodeid)
                     nodeid = i
                     tmp.add(i)
-                    NodeInner.initializeWith(n,i, currentLayer)
+                    NodeInner.initializeWith(n, i, currentLayer)
                     prev2 = n
                 }
                 var prev = prev2!!
@@ -591,7 +597,7 @@ SanityCheck.check{rootNode==null}
                         NodeManager.releaseNode(nodeid)
                         nodeid = i
                         tmp.add(i)
-                        NodeInner.initializeWith(n, i,currentLayer)
+                        NodeInner.initializeWith(n, i, currentLayer)
                         NodeShared.setNextNode(prev, i)
                         prev = n
                     }
@@ -614,7 +620,7 @@ SanityCheck.check{rootNode==null}
                 NodeManager.releaseNode(nodeid)
                 SanityCheck.println({ "Outside.refcount(??) - x56" })
                 NodeManager.allocateNodeInner { n, i ->
-                    NodeInner.initializeWith(n,i, mutableListOf(currentLayer[0]))
+                    NodeInner.initializeWith(n, i, mutableListOf(currentLayer[0]))
                     rootNode = n
                     root = i
                 }

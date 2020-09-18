@@ -1,7 +1,6 @@
 package lupos.s05tripleStore.index_IDTriple
 
 import kotlin.jvm.JvmField
-import kotlinx.coroutines.runBlocking
 import lupos.s00misc.ReadWriteLock
 import lupos.s00misc.SanityCheck
 import lupos.s03resultRepresentation.ResultSetDictionary
@@ -26,7 +25,7 @@ class NodeLeafColumnIterator0(node: ByteArray, nodeid: Int, lock: ReadWriteLock)
         }
     }
 
-    suspend override fun nextSIP(minValue: Int,  skippedElements: (counter: Int) -> Unit): Int {
+    suspend override fun nextSIP(minValue: Int, skippedElements: (counter: Int) -> Unit): Int {
         if (label != 0) {
             var counter = 0
             var limit = remaining
@@ -60,7 +59,7 @@ class NodeLeafColumnIterator0(node: ByteArray, nodeid: Int, lock: ReadWriteLock)
                     SanityCheck.check { node != it }
                     node_tmp = it
                 })
-                    remaining_tmp = NodeShared.getTripleCount(node_tmp)
+                remaining_tmp = NodeShared.getTripleCount(node_tmp)
                 SanityCheck.check { remaining_tmp > 0 }
                 var offset_tmp = NodeLeaf.START_OFFSET
                 offset_tmp += NodeShared.readTriple100(node_tmp, offset_tmp, 0) { v ->

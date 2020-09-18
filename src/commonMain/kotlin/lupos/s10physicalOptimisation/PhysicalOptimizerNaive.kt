@@ -1,6 +1,5 @@
 package lupos.s10physicalOptimisation
 
-import kotlinx.coroutines.runBlocking
 import lupos.s00misc.EIndexPattern
 import lupos.s00misc.EOptimizerID
 import lupos.s00misc.SanityCheck

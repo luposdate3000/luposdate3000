@@ -1,14 +1,8 @@
 package lupos.s05tripleStore.index_IDTriple
 
-import lupos.s00misc.readInt1
-import lupos.s00misc.readInt2
-import lupos.s00misc.readInt3
 import lupos.s00misc.readInt4
 import lupos.s00misc.ReadWriteLock
 import lupos.s00misc.SanityCheck
-import lupos.s00misc.writeInt1
-import lupos.s00misc.writeInt2
-import lupos.s00misc.writeInt3
 import lupos.s00misc.writeInt4
 import lupos.s04logicalOperators.iterator.ColumnIterator
 
@@ -212,7 +206,7 @@ object NodeInner {
         return iterator!!
     }
 
-    inline fun initializeWith(node: ByteArray,nodeid:Int, childs: MutableList<Int>) {
+    inline fun initializeWith(node: ByteArray, nodeid: Int, childs: MutableList<Int>) {
         SanityCheck.check { childs.size > 0 }
         var writtenHeaders: MutableList<Int>? = null
         var writtenTriples: MutableList<Int>? = null

@@ -2,8 +2,6 @@ package lupos.s16network
 
 import java.io.PrintWriter
 import java.io.StringWriter
-import kotlin.time.DurationUnit
-import kotlinx.coroutines.runBlocking
 import lupos.s00misc.BenchmarkUtils
 import lupos.s00misc.Coverage
 import lupos.s00misc.DateHelper

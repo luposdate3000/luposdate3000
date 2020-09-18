@@ -1,6 +1,5 @@
 package lupos.s08logicalOptimisation
 
-import kotlinx.coroutines.runBlocking
 import lupos.s00misc.EOptimizerID
 import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck

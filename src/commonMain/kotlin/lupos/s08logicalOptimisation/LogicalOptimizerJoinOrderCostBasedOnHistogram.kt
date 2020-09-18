@@ -1,6 +1,5 @@
 package lupos.s08logicalOptimisation
 
-import kotlinx.coroutines.runBlocking
 import lupos.s00misc.Coverage
 import lupos.s00misc.HistogramNotImplementedException
 import lupos.s00misc.SanityCheck

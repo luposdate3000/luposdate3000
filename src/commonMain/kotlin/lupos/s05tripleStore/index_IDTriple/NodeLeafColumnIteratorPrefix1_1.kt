@@ -1,7 +1,6 @@
 package lupos.s05tripleStore.index_IDTriple
 
 import kotlin.jvm.JvmField
-import kotlinx.coroutines.runBlocking
 import lupos.s00misc.ReadWriteLock
 import lupos.s00misc.SanityCheck
 import lupos.s03resultRepresentation.ResultSetDictionary
@@ -76,7 +75,7 @@ class NodeLeafColumnIteratorPrefix1_1(node: ByteArray, nodeid: Int, prefix: IntA
         }
     }
 
-    suspend override fun nextSIP(minValue: Int,  skippedElements: (counter: Int) -> Unit): Int {
+    suspend override fun nextSIP(minValue: Int, skippedElements: (counter: Int) -> Unit): Int {
         var counter = 0
         if (label == 2) {
             next()
@@ -126,7 +125,7 @@ class NodeLeafColumnIteratorPrefix1_1(node: ByteArray, nodeid: Int, prefix: IntA
                     SanityCheck.check { node != it }
                     node_tmp = it
                 })
-                    remaining_tmp = NodeShared.getTripleCount(node_tmp)
+                remaining_tmp = NodeShared.getTripleCount(node_tmp)
                 SanityCheck.check { remaining_tmp > 0 }
                 var offset_tmp = NodeLeaf.START_OFFSET
 //println("node $nodeid :: read $offset_tmp $remaining_tmp D")
@@ -212,10 +211,10 @@ class NodeLeafColumnIteratorPrefix1_1(node: ByteArray, nodeid: Int, prefix: IntA
                 })
                 NodeManager.releaseNode(nodeid)
                 nodeid = nodeid_tmp
-                    remaining = NodeShared.getTripleCount(node)
+                remaining = NodeShared.getTripleCount(node)
                 needsReset = true
- offset = NodeLeaf.START_OFFSET
-               //println("node $nodeid :: init $offset $remaining B")
+                offset = NodeLeaf.START_OFFSET
+                //println("node $nodeid :: init $offset $remaining B")
                 SanityCheck.check { remaining > 0 }
                 SanityCheck.check { label != 0 }
             }
@@ -229,7 +228,7 @@ class NodeLeafColumnIteratorPrefix1_1(node: ByteArray, nodeid: Int, prefix: IntA
             SanityCheck.check { toSkip > 0 }
             while (toSkip > 0) {
                 //println("node $nodeid :: read $offset $remaining F")
-offset += NodeShared.readTriple110(node, offset, value0, value1) { v0, v1 ->
+                offset += NodeShared.readTriple110(node, offset, value0, value1) { v0, v1 ->
                     value0 = v0
                     value1 = v1
                 }
@@ -245,8 +244,8 @@ offset += NodeShared.readTriple110(node, offset, value0, value1) { v0, v1 ->
                     NodeManager.releaseNode(nodeid)
                     nodeid = nodeid_tmp
                     needsReset = true
-                        remaining = NodeShared.getTripleCount(node)
-offset = NodeLeaf.START_OFFSET
+                    remaining = NodeShared.getTripleCount(node)
+                    offset = NodeLeaf.START_OFFSET
                 } else {
                     _close()
                 }

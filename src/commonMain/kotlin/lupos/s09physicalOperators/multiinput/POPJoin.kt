@@ -10,31 +10,25 @@ import lupos.s04logicalOperators.iterator.ColumnIteratorMultiValue
 import lupos.s04logicalOperators.iterator.ColumnIteratorRepeatIterator
 import lupos.s04logicalOperators.iterator.ColumnIteratorRepeatValue
 import lupos.s04logicalOperators.iterator.ColumnIteratorValue
+
 /*
 abstract class ColumnIteratorJoin(
 @JvmField val mode: Boolean//true: first iterate all values, than repeat, false: first repeat, than iterate values
 ) : ColumnIterator() {
     @JvmField
     var buffer = IntArray(0)
-
     @JvmField
     var metadata = IntArray(0) //[0]->end offset, [1]->sizeY, [2]->end offset, ...
-
     @JvmField
     var metadataSize = 0
-
     @JvmField
     var metadataIndex = 0
-
     @JvmField
     var indexA = 0
-
     @JvmField
     var indexB = 0
-
     @JvmField
     var label: Int
-
     fun addData(data: IntArray, countA: Int, countB: Int) {
         val required: Int
         if (mode) {
@@ -111,7 +105,6 @@ offset=medatata[metadataSize-2]
 		metadataSize+=2
 	}
     }
-
     init {
         if (mode) {
             label = 3
@@ -119,13 +112,11 @@ offset=medatata[metadataSize-2]
             label = 4
         }
     }
-
     override suspend fun close() {
         if (label != 0) {
             label = 0
         }
     }
-
     inline fun closeOnNoMoreElements() {
         when (label) {
             3, 4 -> {
@@ -133,7 +124,6 @@ offset=medatata[metadataSize-2]
             }
         }
     }
-
     inline suspend fun next_helper(crossinline onNoMoreElements: suspend () -> Unit): Value {
         when (label) {
             0 -> {
@@ -266,7 +256,6 @@ offset=medatata[metadataSize-2]
     }
 }
 */
-
 object POPJoin {
     fun crossProduct(dataO0: Array<MyListValue>, dataO1: Array<MyListValue>, dataJ: IntArray, outO0: List<ColumnIteratorChildIterator>, outO1: List<ColumnIteratorChildIterator>, outJ: List<ColumnIteratorChildIterator>, countA: Int, countB: Int) {
         /*result ordered by first child*/

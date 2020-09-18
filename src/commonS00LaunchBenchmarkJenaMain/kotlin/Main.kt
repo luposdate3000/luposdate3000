@@ -1,7 +1,4 @@
-import kotlin.time.DurationUnit
-import kotlin.time.TimeSource.Monotonic
 import kotlinx.coroutines.runBlocking
-import lupos.s00misc.BenchmarkUtils
 import lupos.s00misc.DateHelper
 import lupos.s00misc.File
 import lupos.s00misc.JenaWrapper

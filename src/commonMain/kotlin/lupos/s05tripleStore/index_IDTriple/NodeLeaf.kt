@@ -71,7 +71,7 @@ object NodeLeaf {
         }
     }
 
-    inline fun initializeWith(node: ByteArray,nodeid:Int, iterator: TripleIterator) {
+    inline fun initializeWith(node: ByteArray, nodeid: Int, iterator: TripleIterator) {
         SanityCheck.check { iterator.hasNext() }
         var writtenTriples: MutableList<Int>? = null
         SanityCheck {

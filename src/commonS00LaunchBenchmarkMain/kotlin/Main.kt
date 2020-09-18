@@ -1,5 +1,5 @@
-import kotlin.time.DurationUnit
-import kotlin.time.TimeSource.Monotonic
+import java.io.PrintWriter
+import java.io.StringWriter
 import kotlinx.coroutines.runBlocking
 import lupos.s00misc.BenchmarkUtils
 import lupos.s00misc.DateHelper
@@ -10,8 +10,6 @@ import lupos.s03resultRepresentation.nodeGlobalDictionary
 import lupos.s15tripleStoreDistributed.DistributedTripleStore
 import lupos.s16network.HttpEndpoint
 import lupos.s16network.ServerCommunicationSend
-import java.io.StringWriter
-import java.io.PrintWriter
 
 enum class Datasource {
     LOAD, IMPORT, IMPORT_INTERMEDIATE
@@ -101,8 +99,8 @@ fun main(args: Array<String>) = runBlocking {
         val queryFile = queryFiles[queryFileIdx]
         val query = File(queryFile).readAsString()
         val node = HttpEndpoint.evaluate_sparql_query_string_part1(query, true)
-val writer=PrintWriter(StringWriter())
-        HttpEndpoint.evaluate_sparql_query_string_part2(node,writer)
+        val writer = PrintWriter(StringWriter())
+        HttpEndpoint.evaluate_sparql_query_string_part2(node, writer)
         printBenchmarkTimesHelper()
         val timer = DateHelper.markNow()
         var time: Double
@@ -110,7 +108,7 @@ val writer=PrintWriter(StringWriter())
         while (true) {
             counter += groupSize[queryFileIdx]
             for (i in 0 until groupSize[queryFileIdx]) {
-                HttpEndpoint.evaluate_sparql_query_string_part2(node,writer)
+                HttpEndpoint.evaluate_sparql_query_string_part2(node, writer)
             }
             time = DateHelper.elapsedSeconds(timer)
             if (time > minimumTime) {

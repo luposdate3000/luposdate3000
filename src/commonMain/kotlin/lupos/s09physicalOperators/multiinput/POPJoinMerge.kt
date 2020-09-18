@@ -6,14 +6,11 @@ import lupos.s00misc.ESortPriority
 import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.XMLElement
-import lupos.s03resultRepresentation.MyListValue
 import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s03resultRepresentation.Value
 import lupos.s03resultRepresentation.Variable
 import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.s04logicalOperators.iterator.ColumnIteratorChildIterator
-import lupos.s04logicalOperators.iterator.ColumnIteratorChildIteratorEmpty
-import lupos.s04logicalOperators.iterator.ColumnIteratorEmpty
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
@@ -93,7 +90,6 @@ class POPJoinMerge(query: Query, projectedVariables: List<String>, childA: OPBas
 
         @JvmField
         var skipO1 = 0
-
         suspend inline fun __close() {
             if (label != 0) {
                 local___close_i = 0
@@ -150,10 +146,10 @@ class POPJoinMerge(query: Query, projectedVariables: List<String>, childA: OPBas
                             var skip1 = 0
                             while (key0[0] != key1[0]) {
                                 if (key0[0] < key1[0]) {
-                                    key0[0] = columnsINJ0[0].nextSIP(key1[0]){counter->
-skip0+=counter
-skipO0+=counter
-}
+                                    key0[0] = columnsINJ0[0].nextSIP(key1[0]) { counter ->
+                                        skip0 += counter
+                                        skipO0 += counter
+                                    }
                                     skip0++
                                     skipO0++
                                     SanityCheck.check { key0[0] != ResultSetDictionary.undefValue }
@@ -162,10 +158,10 @@ skipO0+=counter
                                         break@loop
                                     }
                                 } else {
-                                    key1[0] = columnsINJ1[0].nextSIP(key0[0]){counter->
-skip1+=counter
-skipO1+=counter
-}
+                                    key1[0] = columnsINJ1[0].nextSIP(key0[0]) { counter ->
+                                        skip1 += counter
+                                        skipO1 += counter
+                                    }
                                     skip1++
                                     skipO1++
                                     SanityCheck.check { key1[0] != ResultSetDictionary.undefValue }

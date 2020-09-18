@@ -234,7 +234,7 @@ val options = mapOf<ChooseableGroup, List<ChooseableOption>>(
         ChooseableGroup("Dictionary", "Dictionary") to listOf(
                 ChooseableOptionDirectory("MultiMap", "commonS03DictionaryMultiMapMain"),
                 ChooseableOptionDirectory("ObjectMap", "commonS03DictionaryObjectMapMain"),
-		ChooseableOptionDirectory("Small", "commonS03DictionarySmallMain")
+                ChooseableOptionDirectory("Small", "commonS03DictionarySmallMain")
         ),
         ChooseableGroup("Triple Store", "TripleStore") to listOf(
                 ChooseableOptionTypeAlias("BPlusTreePartition", "lupos.s05tripleStore", listOf("TripleStoreLocal" to "TripleStoreLocalBPlusTreePartition")),

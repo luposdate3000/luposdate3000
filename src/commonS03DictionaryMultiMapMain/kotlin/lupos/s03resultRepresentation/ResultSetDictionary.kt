@@ -518,7 +518,7 @@ class ResultSetDictionary(val global: Boolean = false) {
                     else -> {
                         val tmp = dict.langTaggedMap[value and filter6]
                         var idx = tmp.indexOf("@")
-                        onLanguageTaggedLiteral(tmp.substring(idx + 1, tmp.length),tmp.substring(0, idx))
+                        onLanguageTaggedLiteral(tmp.substring(idx + 1, tmp.length), tmp.substring(0, idx))
                     }
                 }
             }

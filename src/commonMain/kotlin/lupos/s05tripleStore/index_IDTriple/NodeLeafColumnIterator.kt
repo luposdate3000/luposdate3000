@@ -1,10 +1,8 @@
 package lupos.s05tripleStore.index_IDTriple
 
 import kotlin.jvm.JvmField
-import kotlinx.coroutines.runBlocking
 import lupos.s00misc.ReadWriteLock
 import lupos.s00misc.SanityCheck
-import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s04logicalOperators.iterator.ColumnIterator
 
 abstract class NodeLeafColumnIterator(@JvmField var node: ByteArray, @JvmField var nodeid: Int, @JvmField val lock: ReadWriteLock) : ColumnIterator() {
@@ -64,7 +62,7 @@ abstract class NodeLeafColumnIterator(@JvmField var node: ByteArray, @JvmField v
                     SanityCheck.check { node != it }
                     node = it
                 })
-                    remaining = NodeShared.getTripleCount(node)
+                remaining = NodeShared.getTripleCount(node)
             } else {
                 _close()
                 setDone()

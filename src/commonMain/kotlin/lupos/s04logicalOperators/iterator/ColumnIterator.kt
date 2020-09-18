@@ -1,8 +1,5 @@
 package lupos.s04logicalOperators.iterator
 
-import lupos.s00misc.classNameToString
-import lupos.s00misc.SanityCheck
-import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s03resultRepresentation.Value
 
 abstract class ColumnIterator() {

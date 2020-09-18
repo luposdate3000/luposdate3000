@@ -1,7 +1,6 @@
 package lupos.s05tripleStore.index_IDTriple
 
 import kotlin.jvm.JvmField
-import kotlinx.coroutines.runBlocking
 import lupos.s00misc.ReadWriteLock
 import lupos.s00misc.SanityCheck
 import lupos.s03resultRepresentation.ResultSetDictionary
@@ -74,7 +73,7 @@ class NodeLeafColumnIteratorPrefix1_2(node: ByteArray, nodeid: Int, prefix: IntA
         }
     }
 
-    suspend override fun nextSIP(minValue: Int,  skippedElements: (counter: Int) -> Unit): Int {
+    suspend override fun nextSIP(minValue: Int, skippedElements: (counter: Int) -> Unit): Int {
         var counter = 0
         if (label == 2) {
             next()
@@ -123,7 +122,7 @@ class NodeLeafColumnIteratorPrefix1_2(node: ByteArray, nodeid: Int, prefix: IntA
                     SanityCheck.check { node != it }
                     node_tmp = it
                 })
-                    remaining_tmp = NodeShared.getTripleCount(node_tmp)
+                remaining_tmp = NodeShared.getTripleCount(node_tmp)
                 SanityCheck.check { remaining_tmp > 0 }
                 var offset_tmp = NodeLeaf.START_OFFSET
                 offset_tmp += NodeShared.readTriple101(node_tmp, offset_tmp, 0, 0) { v0, v2 ->
@@ -204,7 +203,7 @@ class NodeLeafColumnIteratorPrefix1_2(node: ByteArray, nodeid: Int, prefix: IntA
                     SanityCheck.check { node != it }
                     node = it
                 })
-                    remaining = NodeShared.getTripleCount(node)
+                remaining = NodeShared.getTripleCount(node)
                 NodeManager.releaseNode(nodeid)
                 nodeid = nodeid_tmp
                 needsReset = true
@@ -234,7 +233,7 @@ class NodeLeafColumnIteratorPrefix1_2(node: ByteArray, nodeid: Int, prefix: IntA
                         SanityCheck.check { node != it }
                         node = it
                     })
-                        remaining = NodeShared.getTripleCount(node)
+                    remaining = NodeShared.getTripleCount(node)
                     NodeManager.releaseNode(nodeid)
                     nodeid = nodeid_tmp
                     needsReset = true

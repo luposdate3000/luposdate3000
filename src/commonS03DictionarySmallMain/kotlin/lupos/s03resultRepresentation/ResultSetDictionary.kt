@@ -3,9 +3,7 @@ package lupos.s03resultRepresentation
 import kotlin.jvm.JvmField
 import lupos.s00misc.BigDecimal
 import lupos.s00misc.BigInteger
-import lupos.s00misc.File
 import lupos.s00misc.SanityCheck
-import lupos.s01io.BufferManager
 import lupos.s03resultRepresentation.nodeGlobalDictionary
 import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s03resultRepresentation.Value
@@ -76,51 +74,57 @@ class ResultSetDictionary(val global: Boolean = false) {
     fun isLocalBNode(value: Value) = (value and mask3) == flaggedValueLocalBnode
 
     @JvmField
-    val localBnodeToInt = mutableMapOf<String,Int>()
+    val localBnodeToInt = mutableMapOf<String, Int>()
 
     @JvmField
     var bNodeCounter = 5
 
     @JvmField
-    val bnodeMapToGlobal = mutableMapOf<Int,Int>()
+    val bnodeMapToGlobal = mutableMapOf<Int, Int>()
 
     @JvmField
-    val iriToInt = mutableMapOf<String,Int>()
-@JvmField
-	var iriToValue=Array<String>(0){""}
+    val iriToInt = mutableMapOf<String, Int>()
 
     @JvmField
-    val langTaggedToInt = mutableMapOf<String,Int>()
-@JvmField
-    var langTaggedToValue=Array<String>(0){""}
-
- @JvmField
-    val typedToInt = mutableMapOf<String,Int>()
-@JvmField
-    var typedToValue=Array<String>(0){""}
+    var iriToValue = Array<String>(0) { "" }
 
     @JvmField
-    val doubleToInt = mutableMapOf<Double,Int>()
-    @JvmField
-    var doubleToValue = Array<Double>(0){0.0}
+    val langTaggedToInt = mutableMapOf<String, Int>()
 
     @JvmField
-    val floatToInt = mutableMapOf<Double,Int>()
-    @JvmField
-    var floatToValue = Array<Double>(0){0.0}
+    var langTaggedToValue = Array<String>(0) { "" }
 
     @JvmField
-    val decimalToInt = mutableMapOf<String,Int>()
- @JvmField
-    var decimalToValue = Array<String>(0){""}
+    val typedToInt = mutableMapOf<String, Int>()
 
     @JvmField
-    val intToInt = mutableMapOf<String,Int>()
-@JvmField
-    var intToValue = Array<String>(0){""}
+    var typedToValue = Array<String>(0) { "" }
 
+    @JvmField
+    val doubleToInt = mutableMapOf<Double, Int>()
+
+    @JvmField
+    var doubleToValue = Array<Double>(0) { 0.0 }
+
+    @JvmField
+    val floatToInt = mutableMapOf<Double, Int>()
+
+    @JvmField
+    var floatToValue = Array<Double>(0) { 0.0 }
+
+    @JvmField
+    val decimalToInt = mutableMapOf<String, Int>()
+
+    @JvmField
+    var decimalToValue = Array<String>(0) { "" }
+
+    @JvmField
+    val intToInt = mutableMapOf<String, Int>()
+
+    @JvmField
+    var intToValue = Array<String>(0) { "" }
     fun clear() {
-localBnodeToInt.clear()
+        localBnodeToInt.clear()
         bNodeCounter = 5
         bnodeMapToGlobal.clear()
         iriToInt.clear()
@@ -130,13 +134,13 @@ localBnodeToInt.clear()
         floatToInt.clear()
         decimalToInt.clear()
         intToInt.clear()
-        iriToValue= Array<String>(0){""}
-        langTaggedToValue= Array<String>(0){""}
-        typedToValue= Array<String>(0){""}
-        doubleToValue= Array<Double>(0){0.0}
-        floatToValue= Array<Double>(0){0.0}
-        decimalToValue= Array<String>(0){""}
-        intToValue= Array<String>(0){""}
+        iriToValue = Array<String>(0) { "" }
+        langTaggedToValue = Array<String>(0) { "" }
+        typedToValue = Array<String>(0) { "" }
+        doubleToValue = Array<Double>(0) { 0.0 }
+        floatToValue = Array<Double>(0) { 0.0 }
+        decimalToValue = Array<String>(0) { "" }
+        intToValue = Array<String>(0) { "" }
     }
 
     fun toBooleanOrError(value: Value): Value {
@@ -164,13 +168,13 @@ localBnodeToInt.clear()
         if (global) {
             res = (flaggedValueGlobalBnode or (bNodeCounter++).toInt())
         } else {
-val tmp=localBnodeToInt[value]
-if(tmp==null){
-res=flaggedValueLocalBnode or (bNodeCounter++).toInt()
-localBnodeToInt[value]=res
-}else{
-res=tmp
-}
+            val tmp = localBnodeToInt[value]
+            if (tmp == null) {
+                res = flaggedValueLocalBnode or (bNodeCounter++).toInt()
+                localBnodeToInt[value] = res
+            } else {
+                res = tmp
+            }
         }
 //SanityCheck.check({(res and filter6) < 10000},{"${res} ${res and filter6} ${res.toString(16)} ${(res and filter6).toString(16)}"})
         return res
@@ -179,39 +183,39 @@ res=tmp
     fun createIri(iri: String): Value {
         var res: Value
         if (global) {
-val tmp3=iriToInt[iri]
-if(tmp3==null){
-res=iriToValue.size
-iriToInt[iri]=res
-val tmp2=Array<String>(res+1){""}
-for(i in 0 until res){
-tmp2[i]=iriToValue[i]
-}
-tmp2[res]=iri
-iriToValue=tmp2
-res=res or flaggedValueGlobalIri
-}else{
-res=tmp3 or flaggedValueGlobalIri
-}
+            val tmp3 = iriToInt[iri]
+            if (tmp3 == null) {
+                res = iriToValue.size
+                iriToInt[iri] = res
+                val tmp2 = Array<String>(res + 1) { "" }
+                for (i in 0 until res) {
+                    tmp2[i] = iriToValue[i]
+                }
+                tmp2[res] = iri
+                iriToValue = tmp2
+                res = res or flaggedValueGlobalIri
+            } else {
+                res = tmp3 or flaggedValueGlobalIri
+            }
         } else {
             val tmp = nodeGlobalDictionary.iriToInt[iri]
             if (tmp != null) {
                 res = tmp or flaggedValueGlobalIri
             } else {
-val tmp3=iriToInt[iri]
-if(tmp3==null){
-res=iriToValue.size
-iriToInt[iri]=res
-val tmp2=Array<String>(res+1){""}
-for(i in 0 until res){
-tmp2[i]=iriToValue[i]
-}
-tmp2[res]=iri
-iriToValue=tmp2
-res=res or flaggedValueLocalIri
-}else{
-res=tmp3 or flaggedValueLocalIri
-}
+                val tmp3 = iriToInt[iri]
+                if (tmp3 == null) {
+                    res = iriToValue.size
+                    iriToInt[iri] = res
+                    val tmp2 = Array<String>(res + 1) { "" }
+                    for (i in 0 until res) {
+                        tmp2[i] = iriToValue[i]
+                    }
+                    tmp2[res] = iri
+                    iriToValue = tmp2
+                    res = res or flaggedValueLocalIri
+                } else {
+                    res = tmp3 or flaggedValueLocalIri
+                }
             }
         }
 //SanityCheck.check({(res and filter6) < 10000},{"${res} ${res and filter6} ${res.toString(16)} ${(res and filter6).toString(16)}"})
@@ -222,39 +226,39 @@ res=tmp3 or flaggedValueLocalIri
         var res: Value
         val key = lang + "@" + content
         if (global) {
-val tmp3=langTaggedToInt[key]
-if(tmp3==null){
-res=langTaggedToValue.size
-langTaggedToInt[key]=res
-val tmp2=Array<String>(res+1){""}
-for(i in 0 until res){
-tmp2[i]=langTaggedToValue[i]
-}
-tmp2[res]=key
-langTaggedToValue=tmp2
-res=res or flaggedValueGlobalLangTagged
-}else{
-res=tmp3 or flaggedValueGlobalLangTagged
-}
+            val tmp3 = langTaggedToInt[key]
+            if (tmp3 == null) {
+                res = langTaggedToValue.size
+                langTaggedToInt[key] = res
+                val tmp2 = Array<String>(res + 1) { "" }
+                for (i in 0 until res) {
+                    tmp2[i] = langTaggedToValue[i]
+                }
+                tmp2[res] = key
+                langTaggedToValue = tmp2
+                res = res or flaggedValueGlobalLangTagged
+            } else {
+                res = tmp3 or flaggedValueGlobalLangTagged
+            }
         } else {
             var tmp = nodeGlobalDictionary.langTaggedToInt[key]
             if (tmp != null) {
                 res = tmp or flaggedValueGlobalLangTagged
             } else {
-val tmp3=langTaggedToInt[key]
-if(tmp3==null){
-res=langTaggedToValue.size
-langTaggedToInt[key]=res
-val tmp2=Array<String>(res+1){""}
-for(i in 0 until res){
-tmp2[i]=langTaggedToValue[i]
-}
-tmp2[res]=key
-langTaggedToValue=tmp2
-res=res or flaggedValueLocalLangTagged
-}else{
-res=tmp3 or flaggedValueLocalLangTagged
-}
+                val tmp3 = langTaggedToInt[key]
+                if (tmp3 == null) {
+                    res = langTaggedToValue.size
+                    langTaggedToInt[key] = res
+                    val tmp2 = Array<String>(res + 1) { "" }
+                    for (i in 0 until res) {
+                        tmp2[i] = langTaggedToValue[i]
+                    }
+                    tmp2[res] = key
+                    langTaggedToValue = tmp2
+                    res = res or flaggedValueLocalLangTagged
+                } else {
+                    res = tmp3 or flaggedValueLocalLangTagged
+                }
             }
         }
 //SanityCheck.check({(res and filter6) < 10000},{"${res} ${res and filter6} ${res.toString(16)} ${(res and filter6).toString(16)}"})
@@ -286,39 +290,39 @@ res=tmp3 or flaggedValueLocalLangTagged
             else -> {
                 val key = type + ">" + content
                 if (global) {
-val tmp3=typedToInt[key]
-if(tmp3==null){
-res=typedToValue.size
-typedToInt[key]=res
-val tmp2=Array<String>(res+1){""}
-for(i in 0 until res){
-tmp2[i]=typedToValue[i]
-}
-tmp2[res]=key
-typedToValue=tmp2
-res=res or flaggedValueGlobalTyped
-}else{
-res=tmp3 or flaggedValueGlobalTyped
-}
+                    val tmp3 = typedToInt[key]
+                    if (tmp3 == null) {
+                        res = typedToValue.size
+                        typedToInt[key] = res
+                        val tmp2 = Array<String>(res + 1) { "" }
+                        for (i in 0 until res) {
+                            tmp2[i] = typedToValue[i]
+                        }
+                        tmp2[res] = key
+                        typedToValue = tmp2
+                        res = res or flaggedValueGlobalTyped
+                    } else {
+                        res = tmp3 or flaggedValueGlobalTyped
+                    }
                 } else {
                     var tmp = nodeGlobalDictionary.typedToInt[key]
                     if (tmp != null) {
                         res = tmp or flaggedValueGlobalTyped
                     } else {
-val tmp3=typedToInt[key]
-if(tmp3==null){
-res=typedToValue.size
-typedToInt[key]=res
-val tmp2=Array<String>(res+1){""}
-for(i in 0 until res){
-tmp2[i]=typedToValue[i]
-}
-tmp2[res]=key
-typedToValue=tmp2
-res=res or flaggedValueLocalTyped
-}else{
-res=tmp3 or flaggedValueLocalTyped
-}
+                        val tmp3 = typedToInt[key]
+                        if (tmp3 == null) {
+                            res = typedToValue.size
+                            typedToInt[key] = res
+                            val tmp2 = Array<String>(res + 1) { "" }
+                            for (i in 0 until res) {
+                                tmp2[i] = typedToValue[i]
+                            }
+                            tmp2[res] = key
+                            typedToValue = tmp2
+                            res = res or flaggedValueLocalTyped
+                        } else {
+                            res = tmp3 or flaggedValueLocalTyped
+                        }
                     }
                 }
             }
@@ -330,39 +334,39 @@ res=tmp3 or flaggedValueLocalTyped
     fun createDouble(value: Double): Value {
         var res: Value
         if (global) {
-val tmp3=doubleToInt[value]
-if(tmp3==null){
-res=doubleToValue.size
-doubleToInt[value]=res
-val tmp2=Array<Double>(res+1){0.0}
-for(i in 0 until res){
-tmp2[i]=doubleToValue[i]
-}
-tmp2[res]=value
-doubleToValue=tmp2
-res=res or flaggedValueGlobalDouble
-}else{
-res=tmp3 or flaggedValueGlobalDouble
-}
+            val tmp3 = doubleToInt[value]
+            if (tmp3 == null) {
+                res = doubleToValue.size
+                doubleToInt[value] = res
+                val tmp2 = Array<Double>(res + 1) { 0.0 }
+                for (i in 0 until res) {
+                    tmp2[i] = doubleToValue[i]
+                }
+                tmp2[res] = value
+                doubleToValue = tmp2
+                res = res or flaggedValueGlobalDouble
+            } else {
+                res = tmp3 or flaggedValueGlobalDouble
+            }
         } else {
             val tmp = nodeGlobalDictionary.doubleToInt[value]
             if (tmp != null) {
                 res = tmp or flaggedValueGlobalDouble
             } else {
-val tmp3=doubleToInt[value]
-if(tmp3==null){
-res=doubleToValue.size
-doubleToInt[value]=res
-val tmp2=Array<Double>(res+1){0.0}
-for(i in 0 until res){
-tmp2[i]=doubleToValue[i]
-}
-tmp2[res]=value
-doubleToValue=tmp2
-res=res or flaggedValueLocalDouble
-}else{
-res=tmp3 or flaggedValueLocalDouble
-}
+                val tmp3 = doubleToInt[value]
+                if (tmp3 == null) {
+                    res = doubleToValue.size
+                    doubleToInt[value] = res
+                    val tmp2 = Array<Double>(res + 1) { 0.0 }
+                    for (i in 0 until res) {
+                        tmp2[i] = doubleToValue[i]
+                    }
+                    tmp2[res] = value
+                    doubleToValue = tmp2
+                    res = res or flaggedValueLocalDouble
+                } else {
+                    res = tmp3 or flaggedValueLocalDouble
+                }
             }
         }
 //SanityCheck.check({(res and filter6) < 10000},{"${res} ${res and filter6} ${res.toString(16)} ${(res and filter6).toString(16)}"})
@@ -370,41 +374,41 @@ res=tmp3 or flaggedValueLocalDouble
     }
 
     fun createFloat(value: Double): Value {
-       var res: Value
+        var res: Value
         if (global) {
-val tmp3=floatToInt[value]
-if(tmp3==null){
-res=floatToValue.size
-floatToInt[value]=res
-val tmp2=Array<Double>(res+1){0.0}
-for(i in 0 until res){
-tmp2[i]=floatToValue[i]
-}
-tmp2[res]=value
-floatToValue=tmp2
-res=res or flaggedValueGlobalFloat
-}else{
-res=tmp3 or flaggedValueGlobalFloat
-}
+            val tmp3 = floatToInt[value]
+            if (tmp3 == null) {
+                res = floatToValue.size
+                floatToInt[value] = res
+                val tmp2 = Array<Double>(res + 1) { 0.0 }
+                for (i in 0 until res) {
+                    tmp2[i] = floatToValue[i]
+                }
+                tmp2[res] = value
+                floatToValue = tmp2
+                res = res or flaggedValueGlobalFloat
+            } else {
+                res = tmp3 or flaggedValueGlobalFloat
+            }
         } else {
             val tmp = nodeGlobalDictionary.floatToInt[value]
             if (tmp != null) {
                 res = tmp or flaggedValueGlobalFloat
             } else {
-val tmp3=floatToInt[value]
-if(tmp3==null){
-res=floatToValue.size
-floatToInt[value]=res
-val tmp2=Array<Double>(res+1){0.0}
-for(i in 0 until res){
-tmp2[i]=floatToValue[i]
-}
-tmp2[res]=value
-floatToValue=tmp2
-res=res or flaggedValueLocalFloat
-}else{
-res=tmp3 or flaggedValueLocalFloat
-}
+                val tmp3 = floatToInt[value]
+                if (tmp3 == null) {
+                    res = floatToValue.size
+                    floatToInt[value] = res
+                    val tmp2 = Array<Double>(res + 1) { 0.0 }
+                    for (i in 0 until res) {
+                        tmp2[i] = floatToValue[i]
+                    }
+                    tmp2[res] = value
+                    floatToValue = tmp2
+                    res = res or flaggedValueLocalFloat
+                } else {
+                    res = tmp3 or flaggedValueLocalFloat
+                }
             }
         }
 //SanityCheck.check({(res and filter6) < 10000},{"${res} ${res and filter6} ${res.toString(16)} ${(res and filter6).toString(16)}"})
@@ -412,42 +416,42 @@ res=tmp3 or flaggedValueLocalFloat
     }
 
     fun createDecimal(value2: BigDecimal): Value {
-val value=value2.toString()
-      var res: Value
+        val value = value2.toString()
+        var res: Value
         if (global) {
-val tmp3=decimalToInt[value]
-if(tmp3==null){
-res=decimalToValue.size
-decimalToInt[value]=res
-val tmp2=Array<String>(res+1){""}
-for(i in 0 until res){
-tmp2[i]=decimalToValue[i]
-}
-tmp2[res]=value
-decimalToValue=tmp2
-res=res or flaggedValueGlobalDecimal
-}else{
-res=tmp3 or flaggedValueGlobalDecimal
-}
+            val tmp3 = decimalToInt[value]
+            if (tmp3 == null) {
+                res = decimalToValue.size
+                decimalToInt[value] = res
+                val tmp2 = Array<String>(res + 1) { "" }
+                for (i in 0 until res) {
+                    tmp2[i] = decimalToValue[i]
+                }
+                tmp2[res] = value
+                decimalToValue = tmp2
+                res = res or flaggedValueGlobalDecimal
+            } else {
+                res = tmp3 or flaggedValueGlobalDecimal
+            }
         } else {
             val tmp = nodeGlobalDictionary.decimalToInt[value]
             if (tmp != null) {
                 res = tmp or flaggedValueGlobalDecimal
             } else {
-val tmp3=decimalToInt[value]
-if(tmp3==null){
-res=decimalToValue.size
-decimalToInt[value]=res
-val tmp2=Array<String>(res+1){""}
-for(i in 0 until res){
-tmp2[i]=decimalToValue[i]
-}
-tmp2[res]=value
-decimalToValue=tmp2
-res=res or flaggedValueLocalDecimal
-}else{
-res=tmp3 or flaggedValueLocalDecimal
-}
+                val tmp3 = decimalToInt[value]
+                if (tmp3 == null) {
+                    res = decimalToValue.size
+                    decimalToInt[value] = res
+                    val tmp2 = Array<String>(res + 1) { "" }
+                    for (i in 0 until res) {
+                        tmp2[i] = decimalToValue[i]
+                    }
+                    tmp2[res] = value
+                    decimalToValue = tmp2
+                    res = res or flaggedValueLocalDecimal
+                } else {
+                    res = tmp3 or flaggedValueLocalDecimal
+                }
             }
         }
 //SanityCheck.check({(res and filter6) < 10000},{"${res} ${res and filter6} ${res.toString(16)} ${(res and filter6).toString(16)}"})
@@ -455,42 +459,42 @@ res=tmp3 or flaggedValueLocalDecimal
     }
 
     fun createInteger(value2: BigInteger): Value {
-val value=value2.toString()
-     var res: Value
+        val value = value2.toString()
+        var res: Value
         if (global) {
-val tmp3=intToInt[value]
-if(tmp3==null){
-res=intToValue.size
-intToInt[value]=res
-val tmp2=Array<String>(res+1){""}
-for(i in 0 until res){
-tmp2[i]=intToValue[i]
-}
-tmp2[res]=value
-intToValue=tmp2
-res=res or flaggedValueGlobalInt
-}else{
-res=tmp3 or flaggedValueGlobalInt
-}
+            val tmp3 = intToInt[value]
+            if (tmp3 == null) {
+                res = intToValue.size
+                intToInt[value] = res
+                val tmp2 = Array<String>(res + 1) { "" }
+                for (i in 0 until res) {
+                    tmp2[i] = intToValue[i]
+                }
+                tmp2[res] = value
+                intToValue = tmp2
+                res = res or flaggedValueGlobalInt
+            } else {
+                res = tmp3 or flaggedValueGlobalInt
+            }
         } else {
             val tmp = nodeGlobalDictionary.intToInt[value]
             if (tmp != null) {
                 res = tmp or flaggedValueGlobalInt
             } else {
-val tmp3=intToInt[value]
-if(tmp3==null){
-res=intToValue.size
-intToInt[value]=res
-val tmp2=Array<String>(res+1){""}
-for(i in 0 until res){
-tmp2[i]=intToValue[i]
-}
-tmp2[res]=value
-intToValue=tmp2
-res=res or flaggedValueLocalInt
-}else{
-res=tmp3 or flaggedValueLocalInt
-}
+                val tmp3 = intToInt[value]
+                if (tmp3 == null) {
+                    res = intToValue.size
+                    intToInt[value] = res
+                    val tmp2 = Array<String>(res + 1) { "" }
+                    for (i in 0 until res) {
+                        tmp2[i] = intToValue[i]
+                    }
+                    tmp2[res] = value
+                    intToValue = tmp2
+                    res = res or flaggedValueLocalInt
+                } else {
+                    res = tmp3 or flaggedValueLocalInt
+                }
             }
         }
 //SanityCheck.check({(res and filter6) < 10000},{"${res} ${res and filter6} ${res.toString(16)} ${(res and filter6).toString(16)}"})
@@ -691,7 +695,7 @@ res=tmp3 or flaggedValueLocalInt
                     else -> {
                         val tmp = dict.langTaggedToValue[value and filter6]
                         var idx = tmp.indexOf("@")
-                        onLanguageTaggedLiteral(tmp.substring(idx + 1, tmp.length),tmp.substring(0, idx))
+                        onLanguageTaggedLiteral(tmp.substring(idx + 1, tmp.length), tmp.substring(0, idx))
                     }
                 }
             }
@@ -707,13 +711,13 @@ res=tmp3 or flaggedValueLocalInt
             res = value
         } else {
             if (isLocalBNode(value)) {
-val tmp=bnodeMapToGlobal[value]
-if(tmp==null){
-res=nodeGlobalDictionary.createNewBNode()
-bnodeMapToGlobal[value]=res
-}else{
-res=tmp
-}
+                val tmp = bnodeMapToGlobal[value]
+                if (tmp == null) {
+                    res = nodeGlobalDictionary.createNewBNode()
+                    bnodeMapToGlobal[value] = res
+                } else {
+                    res = tmp
+                }
             } else {
                 res = nodeGlobalDictionary.createValue(getValue(value))
             }
@@ -723,7 +727,8 @@ res=tmp
     }
 
     fun safeToFolder() {
-}
+    }
+
     fun loadFromFolder() {
     }
 }
