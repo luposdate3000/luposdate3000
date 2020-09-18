@@ -1,12 +1,10 @@
 package lupos.s09physicalOperators.partition
 
+import lupos.s00misc.Parallel
 import kotlinx.coroutines.cancelAndJoin
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.isActive
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.ESortPriority
 import lupos.s00misc.Partition
@@ -55,10 +53,9 @@ class POPMergePartitionCount(query: Query, projectedVariables: List<String>, val
             var readerFinished = 0
             val jobs = mutableListOf<Job>()
             for (p in 0 until Partition.k) {
-                val job = GlobalScope.launch(Dispatchers.Default) {
-                    val scope = this
-                    val child = children[0].evaluate(Partition(parent, partitionVariable, p, scope))
-                    loop@ while (isActive && readerFinished == 0) {
+                val job = Parallel.launch{
+                    val child = children[0].evaluate(Partition(parent, partitionVariable, p))
+                    loop@ while (readerFinished == 0) {
                         SanityCheck.println({ "merge $uuid $p writer loop start" })
                         var tmp = child.hasNext2()
                         if (tmp) {

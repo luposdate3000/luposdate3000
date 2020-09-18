@@ -5,7 +5,7 @@ import java.io.BufferedOutputStream
 import java.net.InetSocketAddress
 import java.net.ServerSocket
 import java.net.Socket
-import kotlinx.coroutines.runBlocking
+import lupos.s00misc.Parallel
 
 object ServerCommunicationConnectionPoolOn {
     val keepAliveServerConnection = true
@@ -18,7 +18,7 @@ object ServerCommunicationConnectionPoolOn {
 
     fun accept(server: ServerSocket, action: (ServerCommunicationConnectionPoolHelper) -> Unit) {
         val socket = server.accept()
-        Thread = runBlocking {
+        Thread = Parallel.runBlocking {
             try {
                 action(ServerCommunicationConnectionPoolHelper(socket, BufferedInputStream(socket.getInputStream()), BufferedOutputStream(socket.getOutputStream())))
             } finally {

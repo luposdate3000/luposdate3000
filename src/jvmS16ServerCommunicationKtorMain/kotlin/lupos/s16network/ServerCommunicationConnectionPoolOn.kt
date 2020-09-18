@@ -9,8 +9,7 @@ import io.ktor.network.sockets.Socket
 import java.net.InetSocketAddress
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
+import lupos.s00misc.Parallel
 
 object ServerCommunicationConnectionPoolOn {
     val keepAliveServerConnection = true
@@ -21,11 +20,9 @@ object ServerCommunicationConnectionPoolOn {
 
     fun accept(server: ServerSocket, action: (ServerCommunicationConnectionPoolHelper) -> Unit) {
         val socket = server.accept()
-        GlobalScope.launch {
+Parallel.launch{
             try {
-                runBlocking {
                     action(ServerCommunicationConnectionPoolHelper(socket, socket.openReadChannel(), socket.openWriteChannel()))
-                }
             } finally {
                 socket.close()
             }

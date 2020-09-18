@@ -1,4 +1,4 @@
-import kotlinx.coroutines.runBlocking
+import lupos.s00misc.Parallel
 import lupos.s00misc.File
 import lupos.s00misc.MyMapStringIntPatriciaTrie
 import lupos.s00misc.MyMapStringIntPatriciaTrieDouble
@@ -13,7 +13,7 @@ enum class ImportMode {
 }
 
 @UseExperimental(ExperimentalStdlibApi::class, kotlin.time.ExperimentalTime::class)
-fun main(args: Array<String>) = runBlocking {
+fun main(args: Array<String>) = Parallel.runBlocking {
     var mode = ImportMode.valueOf(args[0])
     when (mode) {
         ImportMode.IMPORT_STRING -> {

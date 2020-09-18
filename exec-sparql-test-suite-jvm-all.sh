@@ -4,7 +4,6 @@ export JAVA_OPTS="-Xmx60g"
 #clean up directory
 rm -rf log/alltest build/compile*
 mkdir -p log/alltest
-./tool-coverage-enable.sh
 
 #generate and execute compile scripts
 echo "i=0" > exec-sparql-test-suite-jvm-all-tmp.sh

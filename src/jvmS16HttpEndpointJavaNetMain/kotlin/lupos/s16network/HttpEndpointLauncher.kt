@@ -9,7 +9,7 @@ import java.net.ServerSocket
 import java.net.Socket
 import java.net.URLDecoder
 import java.util.Date
-import kotlinx.coroutines.runBlocking
+import lupos.s00misc.Parallel
 import lupos.s00misc.Coverage
 import lupos.s00misc.DateHelper
 import lupos.s00misc.EnpointRecievedInvalidPath
@@ -48,7 +48,7 @@ object HttpEndpointLauncher {
             while (true) {
                 val connection = server.accept()
                 Thread {
-                    runBlocking {
+                    Parallel.runBlocking {
 //                        var timertotal = DateHelper.markNow()
 //                        var timer = timertotal
                         var connectionIn: BufferedReader? = null

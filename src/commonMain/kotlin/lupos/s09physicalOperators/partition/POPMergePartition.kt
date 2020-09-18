@@ -1,13 +1,11 @@
 package lupos.s09physicalOperators.partition
-
+import lupos.s00misc.Parallel
 import kotlin.coroutines.Continuation
 import kotlin.coroutines.intrinsics.COROUTINE_SUSPENDED
 import kotlin.coroutines.intrinsics.suspendCoroutineUninterceptedOrReturn
 import kotlin.coroutines.resume
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.ESortPriority
 import lupos.s00misc.Lock
@@ -72,13 +70,13 @@ class POPMergePartition(query: Query, projectedVariables: List<String>, val part
                 SanityCheck.println({ "merge $uuid $p writer launched F" })
                 var childEval2: IteratorBundle?
                 try {
-                    childEval2 = children[0].evaluate(Partition(parent, partitionVariable, p, GlobalScope))
+                    childEval2 = children[0].evaluate(Partition(parent, partitionVariable, p))
                 } catch (e: Throwable) {
                     e.printStackTrace()
                     throw e
                 }
                 SanityCheck.println({ "merge $uuid $p writer launched G" })
-                val job = GlobalScope.launch(Dispatchers.Default) {
+                val job = Parallel.launch{
                     SanityCheck.println({ "merge $uuid $p writer launched A" })
                     val childEval = childEval2
                     try {
@@ -109,7 +107,7 @@ class POPMergePartition(query: Query, projectedVariables: List<String>, val part
                                                 ringbufferWriterContinuation[p] = continuation
                                                 SanityCheck.println { "unlock(${continuationLock.uuid}) [$uuid] x98" }
                                                 continuationLock.unlock()
-                                                SanityCheck.println { "$uuid writer[$p] SUSPENDED coroutine x99 ${jobs.map { "${it.isActive} ${it.isCompleted} ${it.isCancelled}" }}" }
+                                                SanityCheck.println { "$uuid writer[$p] SUSPENDED coroutine x99 " }
                                                 COROUTINE_SUSPENDED
                                             }
                                         } else {
@@ -168,7 +166,7 @@ class POPMergePartition(query: Query, projectedVariables: List<String>, val part
                                                 ringbufferWriterContinuation[p] = continuation
                                                 SanityCheck.println { "unlock(${continuationLock.uuid}) [$uuid] x108" }
                                                 continuationLock.unlock()
-                                                SanityCheck.println { "$uuid writer[$p] SUSPENDED coroutine x109 ${jobs.map { "${it.isActive} ${it.isCompleted} ${it.isCancelled}" }}" }
+                                                SanityCheck.println { "$uuid writer[$p] SUSPENDED coroutine x109 " }
                                                 COROUTINE_SUSPENDED
                                             }
                                         } else {
@@ -254,7 +252,7 @@ class POPMergePartition(query: Query, projectedVariables: List<String>, val part
                                             ringbufferWriterContinuation[p] = continuation
                                             SanityCheck.println { "unlock(${continuationLock.uuid}) [$uuid] x161" }
                                             continuationLock.unlock()
-                                            SanityCheck.println { "$uuid writer[$p] SUSPENDED coroutine x113 ${jobs.map { "${it.isActive} ${it.isCompleted} ${it.isCancelled}" }}" }
+                                            SanityCheck.println { "$uuid writer[$p] SUSPENDED coroutine x113 " }
                                             COROUTINE_SUSPENDED
                                         }
                                     } else {
@@ -311,7 +309,7 @@ class POPMergePartition(query: Query, projectedVariables: List<String>, val part
                     SanityCheck.println({ "merge $uuid $p writer exited loop" })
                 }
                 jobs.add(job)
-                SanityCheck.println({ "merge $uuid $p writer job init :: ${job.isActive} ${job.isCancelled} ${job.isCompleted}" })
+                SanityCheck.println({ "merge $uuid $p writer job init :: " })
             }
             var iterator = RowIterator()
             iterator.columns = variables.toTypedArray()
@@ -379,7 +377,7 @@ class POPMergePartition(query: Query, projectedVariables: List<String>, val part
                             ringbufferReaderContinuation = continuation
                             SanityCheck.println { "unlock(${continuationLock.uuid}) [$uuid] x173" }
                             continuationLock.unlock()
-                            SanityCheck.println { "$uuid reader SUSPENDED coroutine x172 ${jobs.map { "${it.isActive} ${it.isCompleted} ${it.isCancelled}" }}" }
+                            SanityCheck.println { "$uuid reader SUSPENDED coroutine x172 " }
                             COROUTINE_SUSPENDED
                         }
                     } else {

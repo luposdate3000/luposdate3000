@@ -1,7 +1,7 @@
 package lupos.s00misc
 
 import kotlin.jvm.JvmField
-import kotlinx.coroutines.runBlocking
+import lupos.s00misc.Parallel
 import lupos.s00misc.File
 
 enum class ECoverage {
@@ -35,7 +35,7 @@ object Coverage {
                 CoverageMapWhenCaseGenerated[row[0].toInt()] = row[1].toInt()
         }
         Runtime.getRuntime().addShutdownHook(object : Thread() {
-            override fun run() = runBlocking {
+            override fun run() = Parallel.runBlocking {
                 printToFile()
             }
         })

@@ -1,13 +1,11 @@
 package lupos.s09physicalOperators.partition
-
+import lupos.s00misc.Parallel
 import kotlin.coroutines.Continuation
 import kotlin.coroutines.intrinsics.COROUTINE_SUSPENDED
 import kotlin.coroutines.intrinsics.suspendCoroutineUninterceptedOrReturn
 import kotlin.coroutines.resume
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
 import lupos.s00misc.BugException
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.ESortPriority
@@ -54,7 +52,7 @@ class POPSplitPartition(query: Query, projectedVariables: List<String>, val part
         } else {
             var iterators: Array<IteratorBundle>? = null
             var job: Job?
-            val childPartition = Partition(parent, partitionVariable, GlobalScope)
+            val childPartition = Partition(parent, partitionVariable)
             var partitionHelper: PartitionHelper?
             partitionHelper = query.getPartitionHelper(uuid)
             SanityCheck.println { "lock(${partitionHelper.lock.uuid}) x178" }
@@ -94,9 +92,8 @@ class POPSplitPartition(query: Query, projectedVariables: List<String>, val part
                     throw e
                 }
                 SanityCheck.println({ "split $uuid writer launched B" })
-                job = GlobalScope.launch(Dispatchers.Default) {
+job=Parallel.launch{
                     val child = child2
-                    childPartition.scope = this
                     SanityCheck.println({ "split $uuid writer launched C" })
                     var hashVariableIndex = -1
                     val variableMapping = IntArray(variables.size)

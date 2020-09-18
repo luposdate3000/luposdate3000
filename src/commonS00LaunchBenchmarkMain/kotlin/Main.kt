@@ -1,6 +1,6 @@
 import java.io.PrintWriter
 import java.io.StringWriter
-import kotlinx.coroutines.runBlocking
+import lupos.s00misc.Parallel
 import lupos.s00misc.BenchmarkUtils
 import lupos.s00misc.DateHelper
 import lupos.s00misc.File
@@ -20,7 +20,7 @@ fun printBenchmarkLine(title: String, time: Double, count: Int, numberOfTriples:
 }
 
 @UseExperimental(ExperimentalStdlibApi::class, kotlin.time.ExperimentalTime::class)
-fun main(args: Array<String>) = runBlocking {
+fun main(args: Array<String>) = Parallel.runBlocking {
     ServerCommunicationSend.start()
     val datasourceType = Datasource.valueOf(args[0])
     val persistenceFolder = args[1]

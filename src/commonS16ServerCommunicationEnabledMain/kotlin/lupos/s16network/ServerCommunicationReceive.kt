@@ -1,7 +1,6 @@
 package lupos.s16network
 
 import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 import lupos.s00misc.ByteArrayBuilder
 import lupos.s00misc.CommunicationConnectionClosedException
 import lupos.s00misc.Coverage
@@ -14,7 +13,7 @@ import lupos.s15tripleStoreDistributed.DistributedTripleStore
 
 object ServerCommunicationReceive {
     fun start(hostname: String, port: Int, bootstrap: String? = null) {
-        GlobalScope.launch {
+Parallel.launch{
             val server = ServerCommunicationConnectionPool.openServerSocket(hostname, port)
             while (true) {
                 ServerCommunicationConnectionPool.accept(server) { socket ->

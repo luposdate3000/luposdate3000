@@ -63,7 +63,7 @@ object QueryResultToEmptyWithDictionaryStream {
             val lock = Lock()
             for (p in 0 until Partition.k) {
                 jobs[p] = GlobalScope.async<Int> {
-                    val child = node.children[0].evaluate(Partition(parent, node.partitionVariable, p, GlobalScope))
+                    val child = node.children[0].evaluate(Partition(parent, node.partitionVariable, p))
                     val columns = variables.map { child.columns[it]!! }.toTypedArray()
                     writeAllRows(variables, columns, node.query.dictionary, lock, output)
                     1

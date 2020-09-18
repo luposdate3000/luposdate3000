@@ -4,7 +4,7 @@ import kotlin.native.concurrent.AtomicReference
 import kotlin.native.concurrent.freeze
 import kotlinx.cinterop.cValue
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.runBlocking
+import lupos.s00misc.Parallel
 import platform.posix.pthread_mutex_init
 import platform.posix.pthread_mutex_lock
 import platform.posix.pthread_mutex_t
@@ -70,9 +70,9 @@ class ReadWriteLock {
         }
     }
 
-    inline fun <T> withWriteLockSuspend(crossinline action: suspend CoroutineScope.() -> T): T {
+    inline fun <T> withWriteLockSuspend(crossinline action: suspend () -> T): T {
         var res: T? = null
-        runBlocking {
+        Parallel.runBlocking {
             withWriteLock {
                 res = action()
             }

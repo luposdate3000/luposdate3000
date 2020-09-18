@@ -1,10 +1,10 @@
 package lupos.s16network
 
 import kotlin.jvm.JvmField
-import kotlinx.coroutines.launch
 import lupos.s00misc.ByteArrayBuilder
 import lupos.s00misc.CommuncationUnexpectedHeaderException
 import lupos.s00misc.Coverage
+import lupos.s00misc.Parallel
 import lupos.s00misc.EGraphOperationType
 import lupos.s00misc.EIndexPattern
 import lupos.s00misc.EModifyType
@@ -183,7 +183,7 @@ object ServerCommunicationSend {
                 builder.writeString(graphName)
                 helper2.output.writeByteArray(builder)
                 helper2.output.flush()
-                helper2.job = launch {
+                helper2.job = Parallel.launch {
                     ServerCommunicationTransferTriples.sendTriples(helper2.iterators, query.dictionary) {
                         helper2.output.writeByteArray(it)
                         helper2.output.flush()

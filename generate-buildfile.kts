@@ -221,12 +221,11 @@ val options = mapOf<ChooseableGroup, List<ChooseableOption>>(
                 ChooseableOptionDirectory("Import", "commonS00LaunchImportMain")
         ),
         ChooseableGroup("Sanity Checks", "Sanity") to listOf(
-                ChooseableOptionTypeAlias("On", "lupos.s00misc", listOf("SanityCheck" to "SanityCheckOn", "CoroutinesHelperMutex" to "Lock")),
-                ChooseableOptionTypeAlias("Off", "lupos.s00misc", listOf("SanityCheck" to "SanityCheckOff", "CoroutinesHelperMutex" to "Lock"))
+                ChooseableOptionTypeAlias("On", "lupos.s00misc", listOf("SanityCheck" to "SanityCheckOn")),
+                ChooseableOptionTypeAlias("Off", "lupos.s00misc", listOf("SanityCheck" to "SanityCheckOff"))
         ),
-        ChooseableGroup("Execution", "Execution") to listOf(
-                ChooseableOptionTypeAlias("Sequential", "lupos.s00misc", listOf("CoroutinesHelper" to "CoroutinesHelperSequential")),
-                ChooseableOptionTypeAlias("Parallel", "lupos.s00misc", listOf("CoroutinesHelper" to "CoroutinesHelperParallel"))
+        ChooseableGroup("Parallelisation Method", "Parallel") to listOf(
+                ChooseableOptionTypeAlias("Coroutines", "lupos.s00misc", listOf("Parallel" to "ParallelCoroutines"))
         ),
         ChooseableGroup("Buffer Manager Type", "BufferManager") to listOf(
                 ChooseableOptionDirectory("Heap", "commonS01HeapMain"),
@@ -349,8 +348,8 @@ val options = mapOf<ChooseableGroup, List<ChooseableOption>>(
         ),
         ChooseableGroup("Generate Code-Coverage-Code", "CoverageGenerate") to listOf(
                 ChooseableOptionSymbolic("DontChange", "commonCoverageModeDontChange"),
-                ChoosableOptionExternalScript("On", "./tool-coverage-enable.sh", "CoverageModeOn", true),
-                ChoosableOptionExternalScript("Off", "./tool-coverage-disable.sh", "CoverageModeOff", true)
+                ChoosableOptionExternalScript("On", "./generate-buildfile-coverage-enable.sh", "CoverageModeOn", true),
+                ChoosableOptionExternalScript("Off", "./generate-buildfile-coverage-disable.sh", "CoverageModeOff", true)
         ),
         ChooseableGroup("ServerCommunication implementation", "ServerCommunication") to listOf(
                 ChooseableOptionDirectory("None", "commonS16ServerCommunicationNoneMain"),
@@ -377,8 +376,8 @@ val options = mapOf<ChooseableGroup, List<ChooseableOption>>(
         ),
         ChooseableGroup("Inline", "Inline") to listOf(
                 ChooseableOptionSymbolic("DontChange", "commonInlineModeDontChange"),
-                ChoosableOptionExternalScript("On", "./tool-inline-enable.sh", "InlineModeOn", false),
-                ChoosableOptionExternalScript("Off", "./tool-inline-disable.sh", "InlineModeOff", false)
+                ChoosableOptionExternalScript("On", "./generate-buildfile-inline-enable.sh", "InlineModeOn", false),
+                ChoosableOptionExternalScript("Off", "./generate-buildfile-inline-disable.sh", "InlineModeOff", false)
         ),
         ChooseableGroup("BigInteger Implementation", "BigInteger") to listOf(
                 ChooseableOptionTypeAlias("jvmBigInteger", "lupos.s00misc", listOf("BigInteger" to "java.math.BigInteger"))

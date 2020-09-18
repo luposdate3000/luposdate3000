@@ -3,7 +3,7 @@ package lupos.s00misc
 import java.util.concurrent.atomic.AtomicInteger
 import kotlin.jvm.JvmField
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.runBlocking
+import lupos.s00misc.Parallel
 import kotlinx.coroutines.sync.Mutex
 import lupos.s00misc.Coverage
 
@@ -93,9 +93,9 @@ class ReadWriteLock {
         /*Coverage Unreachable*/
     }
 
-    inline fun <T> withWriteLockSuspend(crossinline action: suspend CoroutineScope.() -> T): T {
+    inline fun <T> withWriteLockSuspend(crossinline action: suspend () -> T): T {
         var res: T? = null
-        runBlocking {
+        Parallel.runBlocking {
             withWriteLock {
                 res = action()
             }

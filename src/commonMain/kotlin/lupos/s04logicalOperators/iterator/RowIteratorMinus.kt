@@ -1,6 +1,6 @@
 package lupos.s04logicalOperators.iterator
 
-import kotlinx.coroutines.runBlocking
+import lupos.s00misc.Parallel
 
 open class RowIteratorMinus(val a: RowIterator, val b: RowIterator, val projection: Array<String>) : RowIterator() {
     var flag = 2
@@ -39,7 +39,7 @@ open class RowIteratorMinus(val a: RowIterator, val b: RowIterator, val projecti
             }
         }
         buf = IntArray(mapping.size)
-        runBlocking {
+        Parallel.runBlocking {
             bIdx = b.next()
             if (bIdx < 0) {
                 flag = 1

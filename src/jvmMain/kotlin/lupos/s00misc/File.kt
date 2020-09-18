@@ -8,7 +8,7 @@ import java.io.FileInputStream
 import java.io.FileOutputStream
 import kotlin.io.createTempFile
 import kotlin.jvm.JvmField
-import kotlinx.coroutines.runBlocking
+import lupos.s00misc.Parallel
 import lupos.s00misc.Coverage
 
 class MyCharIterator(val file: File) : CharIterator() {
@@ -59,7 +59,7 @@ class File(@JvmField val filename: String) {
     }
 
     suspend fun forEachLineSuspended(action: suspend (String) -> Unit) = java.io.File(filename).forEachLine {
-        runBlocking {
+        Parallel.runBlocking {
             action(it)
         }
     }

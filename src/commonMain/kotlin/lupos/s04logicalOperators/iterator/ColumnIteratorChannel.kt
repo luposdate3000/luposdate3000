@@ -1,14 +1,13 @@
 package lupos.s04logicalOperators.iterator
 
 import kotlinx.coroutines.channels.Channel
-import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.SanityCheck
 import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s03resultRepresentation.Value
 
 class ColumnIteratorChannel() : ColumnIterator() {
     @JvmField
-    var queue = Channel<Value>(CoroutinesHelper.channelType)
+    var queue = Channel<Value>(2)
 
     @JvmField
     var doneReading = false

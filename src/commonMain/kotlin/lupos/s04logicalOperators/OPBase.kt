@@ -1,7 +1,7 @@
 package lupos.s04logicalOperators
 
 import kotlin.jvm.JvmField
-import kotlinx.coroutines.runBlocking
+import lupos.s00misc.Parallel
 import lupos.s00misc.BugException
 import lupos.s00misc.classNameToString
 import lupos.s00misc.EOperatorID
@@ -417,7 +417,7 @@ abstract class OPBase(@JvmField val query: Query, @JvmField val operatorID: EOpe
 
     @JvmField
     val uuid: Long = global_uuid.next()
-    override fun toString(): String = runBlocking { toXMLElement().toPrettyString() }
+    override fun toString(): String = Parallel.runBlocking { toXMLElement().toPrettyString() }
     fun getRequiredVariableNamesRecoursive(): List<String> {
         val res = getRequiredVariableNames().toMutableList()
         for (c in children) {

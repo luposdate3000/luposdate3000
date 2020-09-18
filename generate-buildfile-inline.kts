@@ -7,9 +7,9 @@ enum class InlineMode {
 
 var inlineMode = InlineMode.Enable
 
-val regexEnableNoInline = "/\\*noinline\\*/ ".toRegex()
-val regexEnableInline = "/\\*inline\\*/ ".toRegex()
-val regexEnableCrossInline = "/\\*crossinline\\*/ ".toRegex()
+val regexEnableNoInline = "/\\*noinline\\*/".toRegex()
+val regexEnableInline = "/\\*inline\\*/".toRegex()
+val regexEnableCrossInline = "/\\*crossinline\\*/".toRegex()
 val regexDisableNoInline = "(^|[^a-zA-Z])noinline ".toRegex()
 val regexDisableInline = "(^|[^a-zA-Z])inline ".toRegex()
 val regexDisableCrossInline = "(^|[^a-zA-Z])crossinline ".toRegex()
@@ -25,15 +25,21 @@ for (arg in args) {
                 when (inlineMode) {
                     InlineMode.Enable -> {
                         out.println(it.//
+                        replace(regexDisableNoInline, "\$1noinline ").//
+                        replace(regexDisableInline, "\$1inline ").//
+                        replace(regexDisableCrossInline, "\$1crossinline ").//
                         replace(regexEnableNoInline, "noinline ").//
                         replace(regexEnableInline, "inline ").//
                         replace(regexEnableCrossInline, "crossinline "))
                     }
                     InlineMode.Disable -> {
                         out.println(it.//
-                        replace(regexDisableNoInline, "\$1/*noinline*/ ").//
-                        replace(regexDisableInline, "\$1/*inline*/ ").//
-                        replace(regexDisableCrossInline, "\$1/*crossinline*/ "))
+                        replace(regexDisableNoInline, "\$1").//
+                        replace(regexDisableInline, "\$1").//
+                        replace(regexDisableCrossInline, "\$1").//
+                        replace(regexEnableNoInline, "").//
+                        replace(regexEnableInline, "").//
+                        replace(regexEnableCrossInline, ""))
                     }
                 }
             }
