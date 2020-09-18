@@ -5,7 +5,7 @@
   echo "Sanity->Off"
   echo "Execution->Sequential"
   echo "BufferManager->Heap"
-  echo "Dictionary->MultiMap"
+  echo "Dictionary->Small"
   echo "TripleStore->BPlusTreePartition"
 #  echo "Endpoint->Korio"
   echo "Endpoint->JavaNet"
