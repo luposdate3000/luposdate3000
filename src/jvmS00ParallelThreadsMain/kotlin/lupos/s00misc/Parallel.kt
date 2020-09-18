@@ -4,7 +4,6 @@ import kotlin.jvm.JvmField
 import java.util.concurrent.locks.ReentrantLock
 import java.util.concurrent.ArrayBlockingQueue
 
-typealias ParallelMutex = ReentrantLock
 typealias ParallelJob = Thread
 
 object Parallel {
@@ -23,7 +22,7 @@ object Parallel {
     inline fun delay(milliseconds: Long) {
         Thread.sleep(milliseconds)
     }
-
+inline fun createMutex()=ReentrantLock()
     inline fun createCondition(lock: Lock) = ParallelCondition(lock)
     inline fun <T>createQueue(terminationValue:T) = ParallelQueue<T>(terminationValue)
 

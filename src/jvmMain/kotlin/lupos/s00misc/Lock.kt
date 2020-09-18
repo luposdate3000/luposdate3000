@@ -2,7 +2,6 @@ package lupos.s00misc
 
 import kotlin.jvm.JvmField
 import lupos.s00misc.Parallel
-import lupos.s00misc.ParallelMutex
 import lupos.s00misc.Coverage
 
 class Lock {
@@ -10,7 +9,7 @@ class Lock {
     val uuid = debuguuidtmp123.incrementAndGet()
 
     @JvmField
-    val mutex = ParallelMutex()
+    val mutex = Parallel.createMutex()
     inline suspend fun lock() {
         //println("Lock.lock($uuid)")
         mutex.lock()
