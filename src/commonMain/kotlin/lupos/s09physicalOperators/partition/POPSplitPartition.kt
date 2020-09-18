@@ -142,7 +142,7 @@ job=Parallel.launch{
                                 SanityCheck.println({ "selected $p for $partitionVariable = $hashVariableIndex value ${child.buf[tmp + hashVariableIndex]}" })
                                 var t = (ringbufferWriteHead[p] + variables.size) % elementsPerRing
                                 while (ringbufferReadHead[p] == t&&readerFinished[p] ==0) {
-ringbufferReaderContinuation[p].notify()
+ringbufferReaderContinuation[p].signal()
 ringbufferWriterContinuation.waitCondition({ringbufferReadHead[p] == t&&readerFinished[p] ==0})
                                 }
                                         if (readerFinished[p] != 0) {
@@ -157,7 +157,7 @@ ringbufferWriterContinuation.waitCondition({ringbufferReadHead[p] == t&&readerFi
                                 SanityCheck.println({ "split $uuid $p writer append data - written data" })
                                 ringbufferWriteHead[p] = (ringbufferWriteHead[p] + variables.size) % elementsPerRing
                                 SanityCheck.println({ "split $uuid $p writer append data - increased pointer" })
-ringbufferReaderContinuation[p].notify()
+ringbufferReaderContinuation[p].signal()
                             }
                         }
                         SanityCheck.println({ "split $uuid writer loop end of iteration" })
@@ -168,7 +168,7 @@ continuationLock.lock()
                     writerFinished = 1
 continuationLock.unlock()
                     for (p in 0 until Partition.k) {
-ringbufferReaderContinuation[p].notify()
+ringbufferReaderContinuation[p].signal()
                     }
                     SanityCheck.println({ "split $uuid writer launched G" })
                     SanityCheck.println({ "split $uuid writer exited loop" })
@@ -195,7 +195,7 @@ ringbufferReaderContinuation[p].notify()
                                 iterator.close()
                                 break@loop
                             }
-ringbufferWriterContinuation.notify()
+ringbufferWriterContinuation.signal()
 ringbufferReaderContinuation[p].waitCondition({ringbufferReadHead[p] == ringbufferWriteHead[p] && writerFinished == 0})
                         }
                         /*return*/res
@@ -205,7 +205,7 @@ ringbufferReaderContinuation[p].waitCondition({ringbufferReadHead[p] == ringbuff
 continuationLock.lock()
                         readerFinished[p] = 1
 continuationLock.unlock()
-ringbufferWriterContinuation.notify()
+ringbufferWriterContinuation.signal()
                     }
                     iterators[p] = IteratorBundle(iterator)
                 }

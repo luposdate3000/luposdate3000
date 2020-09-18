@@ -511,6 +511,10 @@ while (!done) {
     additionalSources = mapOf(
 /*if the key is choosen, automatically add all dependent things*/
 
+ChooseableOption("jvmS00ParallelThreadsMain") to listOf(
+ChoosableOptionExternalScript("SuspendModeOff", "./generate-buildfile-suspend-disable.sh", "SuspendModeOff", false)
+),
+
             ChooseableOption("jvmS16ServerCommunicationSocketsMain") to listOf(
                     ChooseableOptionDirectory("commonS16ServerCommunicationEnabledMain")
             ),

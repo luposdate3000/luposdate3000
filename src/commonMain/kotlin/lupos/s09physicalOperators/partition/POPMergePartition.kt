@@ -86,7 +86,7 @@ class POPMergePartition(query: Query, projectedVariables: List<String>, val part
                                     SanityCheck.println({ "merge $uuid $p writer loop start" })
                                     var t = (ringbufferWriteHead[p] + 1) % elementsPerRing
                                     while (ringbufferReadHead[p] == t && readerFinished == 0) {
-ringbufferReaderContinuation.notify()
+ringbufferReaderContinuation.signal()
 ringbufferWriterContinuation[p].waitCondition({ringbufferReadHead[p] == t && readerFinished == 0})
                                     }
                                         if (readerFinished != 0) {
@@ -101,7 +101,7 @@ ringbufferWriterContinuation[p].waitCondition({ringbufferReadHead[p] == t && rea
                                         ringbuffer[ringbufferWriteHead[p] + ringbufferStart[p]] = tmp
                                         //println("$p produced")
                                         ringbufferWriteHead[p] = (ringbufferWriteHead[p] + 1) % elementsPerRing
-ringbufferReaderContinuation.notify()
+ringbufferReaderContinuation.signal()
                                     }
                                 }
                             } else {
@@ -111,7 +111,7 @@ ringbufferReaderContinuation.notify()
                                     SanityCheck.println({ "merge $uuid $p writer loop start" })
                                     var t = (ringbufferWriteHead[p] + variables.size) % elementsPerRing
                                     while (ringbufferReadHead[p] == t&& readerFinished == 0) {
-ringbufferReaderContinuation.notify()
+ringbufferReaderContinuation.signal()
 ringbufferWriterContinuation[p].waitCondition({ringbufferReadHead[p] == t && readerFinished == 0})
                                     }
                                         if (readerFinished != 0) {
@@ -143,7 +143,7 @@ ringbufferWriterContinuation[p].waitCondition({ringbufferReadHead[p] == t && rea
                                         }
                                         //println("$p produced")
                                         ringbufferWriteHead[p] = (ringbufferWriteHead[p] + variables.size) % elementsPerRing
-ringbufferReaderContinuation.notify()
+ringbufferReaderContinuation.signal()
                                     }
                                 }
                             }
@@ -163,7 +163,7 @@ ringbufferReaderContinuation.notify()
                                 SanityCheck.println({ "merge $uuid $p writer loop start" })
                                 var t = (ringbufferWriteHead[p] + variables.size) % elementsPerRing
                                 while (ringbufferReadHead[p] == t&& readerFinished == 0) {
-ringbufferReaderContinuation.notify()
+ringbufferReaderContinuation.signal()
    ringbufferWriterContinuation[p].waitCondition({ringbufferReadHead[p] == t && readerFinished == 0})
                                 }
                                     if (readerFinished != 0) {
@@ -181,7 +181,7 @@ ringbufferReaderContinuation.notify()
                                     }
                                     //println("$p produced")
                                     ringbufferWriteHead[p] = (ringbufferWriteHead[p] + variables.size) % elementsPerRing
-ringbufferReaderContinuation.notify()
+ringbufferReaderContinuation.signal()
                                 }
                             }
                         }
@@ -192,7 +192,7 @@ ringbufferReaderContinuation.notify()
 continuationLock.lock()
                     writerFinished[p] = 1
 continuationLock.unlock()
-ringbufferReaderContinuation.notify()
+ringbufferReaderContinuation.signal()
                     SanityCheck.println({ "merge $uuid $p writer exited loop" })
                 }
                 SanityCheck.println({ "merge $uuid $p writer lupos.s00misc.ParallelJob init :: " })
@@ -213,10 +213,10 @@ ringbufferReaderContinuation.notify()
                             }
                             res = 0
                             ringbufferReadHead[p] = (ringbufferReadHead[p] + variables.size) % elementsPerRing
-ringbufferWriterContinuation[p].notify()
+ringbufferWriterContinuation[p].signal()
                             break@loop
                         } else if (writerFinished[p] == 0) {
-ringbufferWriterContinuation[p].notify()
+ringbufferWriterContinuation[p].signal()
                         }
                     }
                     var finishedWriters = 0
@@ -245,7 +245,7 @@ continuationLock.lock()
                 readerFinished = 1
 continuationLock.unlock()
                 for (p in 0 until Partition.k) {
-ringbufferWriterContinuation[p].notify()
+ringbufferWriterContinuation[p].signal()
                 }
             }
             return IteratorBundle(iterator)

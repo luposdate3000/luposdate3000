@@ -5,9 +5,10 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.Job
 
 typealias ParallelMutex = kotlinx.coroutines.sync.Mutex
-
+typealias ParallelJob = Job
 object Parallel {
     inline fun <T> runBlocking(crossinline action: suspend () -> T): T {
         return kotlinx.coroutines.runBlocking {
@@ -26,7 +27,7 @@ object Parallel {
     }
 
     inline fun createCondition(lock: Lock) = ParallelCondition(lock)
-
+inline fun <T>createQueue(terminationValue:T)=ParallelQueue<T>()
 
     class ParallelCondition(@JvmField val lock: Lock) {
 
@@ -46,7 +47,7 @@ object Parallel {
             }
         }
 
-        suspend inline fun notify() {
+        suspend inline fun signal() {
             val tmp = cont
             if (tmp != null) {
                 lock.lock()
@@ -59,4 +60,15 @@ object Parallel {
             }
         }
     }
+class <T>ParallelQueue(){
+@JvmField val queue=Channel<Value>(2)
+inline fun close(){
+queue.close()
+}
+suspend inline fun send(value:T){
+queue.send(value)
+}
+suspend inline fun receive():T{
+return queue.receive()
+}
 }
