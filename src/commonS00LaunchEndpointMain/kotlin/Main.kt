@@ -1,4 +1,3 @@
-import kotlinx.coroutines.delay
 import lupos.s00misc.Parallel
 import lupos.s00misc.Partition
 import lupos.s16network.HttpEndpointLauncher
@@ -32,6 +31,6 @@ Parallel.    launch {
         ServerCommunicationSend.start(hostname, lupos.s16network.NETWORK_DEFAULT_PORT, bootStrapServer)
     }
     while (true) {
-        delay(1000)
+        Parallel.delay(1000)
     }
 }

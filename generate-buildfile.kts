@@ -225,7 +225,7 @@ val options = mapOf<ChooseableGroup, List<ChooseableOption>>(
                 ChooseableOptionTypeAlias("Off", "lupos.s00misc", listOf("SanityCheck" to "SanityCheckOff"))
         ),
         ChooseableGroup("Parallelisation Method", "Parallel") to listOf(
-                ChooseableOptionTypeAlias("Coroutines", "lupos.s00misc", listOf("Parallel" to "ParallelCoroutines","ParallelJob" to "kotlinx.coroutines.Job"))
+                ChooseableOptionTypeAlias("Coroutines", "lupos.s00misc", listOf("Parallel" to "ParallelCoroutines","ParallelJob" to "kotlinx.coroutines.Job","ParallelMutex" to "kotlinx.coroutines.sync.Mutex"))
         ),
         ChooseableGroup("Buffer Manager Type", "BufferManager") to listOf(
                 ChooseableOptionDirectory("Heap", "commonS01HeapMain"),

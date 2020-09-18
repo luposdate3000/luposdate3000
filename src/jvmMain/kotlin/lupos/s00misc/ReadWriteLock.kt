@@ -3,7 +3,7 @@ package lupos.s00misc
 import java.util.concurrent.atomic.AtomicInteger
 import kotlin.jvm.JvmField
 import lupos.s00misc.Parallel
-import kotlinx.coroutines.sync.Mutex
+import lupos.s00misc.ParallelMutex
 import lupos.s00misc.Coverage
 
 var debuguuidtmp123 = AtomicInteger()
@@ -13,10 +13,10 @@ class ReadWriteLock {
     val uuid = debuguuidtmp123.incrementAndGet()
 
     @JvmField
-    val lockA = Mutex() //required to assign a new read or write lock
+    val lockA = ParallelMutex() //required to assign a new read or write lock
 
     @JvmField
-    val lockB = Mutex() //accuired as long as there is a reader active - used to signal a possible writer, that all readers are gone
+    val lockB = ParallelMutex() //accuired as long as there is a reader active - used to signal a possible writer, that all readers are gone
 
     @JvmField
     var counter = AtomicInteger() //number of active readers

@@ -1,10 +1,10 @@
 package lupos.s05tripleStore
 
 import kotlin.jvm.JvmField
-import kotlinx.coroutines.delay
 import lupos.s00misc.BenchmarkUtils
 import lupos.s00misc.EBenchmark
 import lupos.s00misc.File
+import lupos.s00misc.Parallel
 import lupos.s00misc.ReadWriteLock
 import lupos.s00misc.SanityCheck
 import lupos.s03resultRepresentation.ResultSetDictionary
@@ -443,7 +443,7 @@ SanityCheck.check{rootNode==null}
                 break
             } else {
                 SanityCheck.suspended {
-                    delay(100)
+                    Parallel.delay(100)
                 }
             }
         }

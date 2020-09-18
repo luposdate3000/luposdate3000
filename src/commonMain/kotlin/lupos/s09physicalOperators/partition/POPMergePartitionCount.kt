@@ -1,9 +1,6 @@
 package lupos.s09physicalOperators.partition
 
 import lupos.s00misc.Parallel
-import kotlinx.coroutines.cancelAndJoin
-import kotlinx.coroutines.delay
-import lupos.s00misc.ParallelJob
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.ESortPriority
 import lupos.s00misc.Partition
@@ -50,9 +47,8 @@ class POPMergePartitionCount(query: Query, projectedVariables: List<String>, val
             val ringbufferWriteHead = IntArray(Partition.k) { 0 } //owned by write thread - no locking required
             val writerFinished = IntArray(Partition.k) { 0 } //writer changes to 1 if finished
             var readerFinished = 0
-            val jobs = mutableListOf<ParallelJob>()
             for (p in 0 until Partition.k) {
-                val job = Parallel.launch{
+                Parallel.launch{
                     val child = children[0].evaluate(Partition(parent, partitionVariable, p))
                     loop@ while (readerFinished == 0) {
                         SanityCheck.println({ "merge $uuid $p writer loop start" })
@@ -68,7 +64,6 @@ class POPMergePartitionCount(query: Query, projectedVariables: List<String>, val
                     }
                     SanityCheck.println({ "merge $uuid $p writer exited loop" })
                 }
-                jobs.add(job)
             }
             var iterator = object : IteratorBundle(0) {
                 override suspend fun hasNext2(): Boolean {
@@ -92,7 +87,7 @@ class POPMergePartitionCount(query: Query, projectedVariables: List<String>, val
                             break@loop
                         }
                         SanityCheck.println({ "merge $uuid reader wait for writer" })
-                        delay(1)
+                        Parallel.delay(1)
                     }
                     return res
                 }
@@ -100,9 +95,6 @@ class POPMergePartitionCount(query: Query, projectedVariables: List<String>, val
                 suspend override fun hasNext2Close() {
                     SanityCheck.println({ "merge $uuid reader closed" })
                     readerFinished = 1
-                    for (job in jobs) {
-                        job.cancelAndJoin()
-                    }
                 }
             }
             return iterator
