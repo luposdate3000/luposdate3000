@@ -4,7 +4,7 @@ import kotlin.coroutines.Continuation
 import kotlin.coroutines.intrinsics.COROUTINE_SUSPENDED
 import kotlin.coroutines.intrinsics.suspendCoroutineUninterceptedOrReturn
 import kotlin.coroutines.resume
-import kotlinx.coroutines.Job
+import lupos.s00misc.ParallelJob
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.ESortPriority
 import lupos.s00misc.Lock
@@ -306,7 +306,7 @@ class POPMergePartition(query: Query, projectedVariables: List<String>, val part
                     }
                     SanityCheck.println({ "merge $uuid $p writer exited loop" })
                 }
-                SanityCheck.println({ "merge $uuid $p writer job init :: " })
+                SanityCheck.println({ "merge $uuid $p writer lupos.s00misc.ParallelJob init :: " })
             }
             var iterator = RowIterator()
             iterator.columns = variables.toTypedArray()

@@ -1,7 +1,7 @@
 package lupos.s04logicalOperators
 
 import kotlin.jvm.JvmField
-import kotlinx.coroutines.Job
+import lupos.s00misc.ParallelJob
 import lupos.s00misc.Lock
 import lupos.s00misc.Partition
 import lupos.s00misc.ThreadSafeUuid
@@ -11,7 +11,7 @@ import lupos.s15tripleStoreDistributed.DistributedTripleStore
 
 class PartitionHelper() {
     var iterators: MutableMap<Partition, Array<IteratorBundle>>? = null
-    var jobs: MutableMap<Partition, Job>? = null
+    var jobs: MutableMap<Partition, ParallelJob>? = null
     val lock = Lock()
 }
 

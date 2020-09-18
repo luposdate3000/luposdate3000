@@ -4,7 +4,7 @@ import kotlin.coroutines.Continuation
 import kotlin.coroutines.intrinsics.COROUTINE_SUSPENDED
 import kotlin.coroutines.intrinsics.suspendCoroutineUninterceptedOrReturn
 import kotlin.coroutines.resume
-import kotlinx.coroutines.Job
+import lupos.s00misc.ParallelJob
 import lupos.s00misc.BugException
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.ESortPriority
@@ -50,19 +50,17 @@ class POPSplitPartition(query: Query, projectedVariables: List<String>, val part
             return children[0].evaluate(parent)
         } else {
             var iterators: Array<IteratorBundle>? = null
-            var job: Job?
+            var job: ParallelJob?
             val childPartition = Partition(parent, partitionVariable)
             var partitionHelper: PartitionHelper?
             partitionHelper = query.getPartitionHelper(uuid)
             SanityCheck.println { "lock(${partitionHelper.lock.uuid}) x178" }
             partitionHelper.lock.lock()
-            val tmpIterators = partitionHelper.iterators
-            if (tmpIterators != null) {
-                iterators = tmpIterators[childPartition]
+            if (partitionHelper.iterators != null) {
+                iterators = partitionHelper.iterators!![childPartition]
             }
-            val tmpJob = partitionHelper.jobs
-            if (tmpJob != null) {
-                job = tmpJob[childPartition]
+            if (partitionHelper.jobs != null) {
+                job = partitionHelper.jobs!![childPartition]
             }
             if (iterators == null) {
                 iterators = Array(Partition.k) { IteratorBundle(0) }
@@ -289,12 +287,12 @@ job=Parallel.launch{
                     }
                     iterators[p] = IteratorBundle(iterator)
                 }
-                if (tmpIterators == null || tmpJob == null) {
+                if (partitionHelper.iterators == null || partitionHelper.jobs == null) {
                     partitionHelper.iterators = mutableMapOf(childPartition to iterators)
                     partitionHelper.jobs = mutableMapOf(childPartition to job)
                 } else {
-                    tmpIterators[childPartition] = iterators
-                    tmpJob[childPartition] = job
+                    partitionHelper.iterators!![childPartition] = iterators
+                    partitionHelper.jobs!![childPartition] = job
                 }
             }
             SanityCheck.println { "unlock(${partitionHelper.lock.uuid}) x191" }

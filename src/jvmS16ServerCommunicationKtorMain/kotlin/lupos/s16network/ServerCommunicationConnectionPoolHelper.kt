@@ -3,7 +3,7 @@ package lupos.s16network
 import io.ktor.network.sockets.Socket
 import io.ktor.utils.io.ByteReadChannel
 import io.ktor.utils.io.ByteWriteChannel
-import kotlinx.coroutines.Job
+import lupos.s00misc.ParallelJob
 import lupos.s00misc.ByteArrayBuilder
 import lupos.s00misc.ByteArrayRead
 import lupos.s04logicalOperators.iterator.ColumnIterator
@@ -14,7 +14,7 @@ class ServerCommunicationConnectionPoolHelper(val socket: Socket, val input: Byt
 }
 
 class ServerCommunicationModifyHelper(val conn: ServerCommunicationConnectionPoolHelper, val input: ByteReadChannel, val output: ByteWriteChannel, val iterators: Array<ColumnIterator>) {
-    var job: Job? = null
+    var job: ParallelJob? = null
 }
 
 class ServerCommunicationImportHelper(val conn: ServerCommunicationConnectionPoolHelper, val input: ByteReadChannel, val output: ByteWriteChannel, val builder: ByteArrayBuilder = ByteArrayBuilder()) {

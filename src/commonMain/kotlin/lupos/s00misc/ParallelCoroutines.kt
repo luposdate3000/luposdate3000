@@ -8,7 +8,7 @@ return		kotlinx.coroutines.runBlocking{
 			action()
 		}
 	}
-	inline fun launch(crossinline action:suspend()->Unit):kotlinx.coroutines.Job{
+	inline fun launch(crossinline action:suspend()->Unit):ParallelJob{
 return             GlobalScope.launch(Dispatchers.Default){
                         action()
                 }

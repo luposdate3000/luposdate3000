@@ -3,7 +3,7 @@ package lupos.s09physicalOperators.partition
 import lupos.s00misc.Parallel
 import kotlinx.coroutines.cancelAndJoin
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.Job
+import lupos.s00misc.ParallelJob
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.ESortPriority
 import lupos.s00misc.Partition
@@ -50,7 +50,7 @@ class POPMergePartitionCount(query: Query, projectedVariables: List<String>, val
             val ringbufferWriteHead = IntArray(Partition.k) { 0 } //owned by write thread - no locking required
             val writerFinished = IntArray(Partition.k) { 0 } //writer changes to 1 if finished
             var readerFinished = 0
-            val jobs = mutableListOf<Job>()
+            val jobs = mutableListOf<ParallelJob>()
             for (p in 0 until Partition.k) {
                 val job = Parallel.launch{
                     val child = children[0].evaluate(Partition(parent, partitionVariable, p))

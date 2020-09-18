@@ -3,7 +3,7 @@ package lupos.s16network
 import java.io.BufferedInputStream
 import java.io.BufferedOutputStream
 import java.net.Socket
-import kotlinx.coroutines.Job
+import lupos.s00misc.ParallelJob
 import lupos.s00misc.ByteArrayBuilder
 import lupos.s00misc.ByteArrayRead
 import lupos.s00misc.CommunicationConnectionClosedException
@@ -15,7 +15,7 @@ class ServerCommunicationConnectionPoolHelper(val socket: Socket, val input: Buf
 }
 
 class ServerCommunicationModifyHelper(val conn: ServerCommunicationConnectionPoolHelper, val input: BufferedInputStream, val output: BufferedOutputStream, val iterators: Array<ColumnIterator>) {
-    var job: Job? = null
+    var job: ParallelJob? = null
 }
 
 class ServerCommunicationImportHelper(val conn: ServerCommunicationConnectionPoolHelper, val input: BufferedInputStream, val output: BufferedOutputStream, val builder: ByteArrayBuilder = ByteArrayBuilder()) {

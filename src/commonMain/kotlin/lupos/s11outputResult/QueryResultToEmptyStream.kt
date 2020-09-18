@@ -2,9 +2,10 @@ package lupos.s11outputResult
 
 import java.io.PrintWriter
 import kotlinx.coroutines.async
-import kotlinx.coroutines.Deferred
+import lupos.s00misc.ParallelJob
 import kotlinx.coroutines.GlobalScope
 import lupos.s00misc.Lock
+import lupos.s00misc.Parallel
 import lupos.s00misc.MyMapIntInt
 import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
@@ -37,18 +38,17 @@ object QueryResultToEmptyStream {
 
     suspend fun writeNodeResult(variables: Array<String>, node: OPBase, output: PrintWriter, parent: Partition = Partition()) {
         if (Partition.k > 1 && node is POPMergePartition) {
-            val jobs = Array<Deferred<Int>?>(Partition.k) { null }
+            val jobs = Array<ParallelJob?>(Partition.k) { null }
             val lock = Lock()
             for (p in 0 until Partition.k) {
-                jobs[p] = GlobalScope.async<Int> {
+                jobs[p] = Parallel.launch {
                     val child = node.children[0].evaluate(Partition(parent, node.partitionVariable, p))
                     val columns = variables.map { child.columns[it]!! }.toTypedArray()
                     writeAllRows(variables, columns, node.query.dictionary, lock, output)
-                    1
                 }
             }
             for (p in 0 until Partition.k) {
-                jobs[p]!!.await()
+                jobs[p]!!.join()
             }
         } else {
             val child = node.evaluate(parent)
