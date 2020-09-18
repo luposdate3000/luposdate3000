@@ -13,7 +13,6 @@ import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.s04logicalOperators.iterator.ColumnIteratorEmpty
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.Query
-import lupos.s05tripleStore.index_IDTriple.*
 import lupos.s05tripleStore.index_IDTriple.BulkImportIterator
 import lupos.s05tripleStore.index_IDTriple.Count1PassThroughIterator
 import lupos.s05tripleStore.index_IDTriple.DebugPassThroughIterator
