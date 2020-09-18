@@ -1,6 +1,5 @@
 package lupos.s16network
 
-import kotlinx.coroutines.GlobalScope
 import lupos.s00misc.ByteArrayBuilder
 import lupos.s00misc.CommunicationConnectionClosedException
 import lupos.s00misc.Coverage

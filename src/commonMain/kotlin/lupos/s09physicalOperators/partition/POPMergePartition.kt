@@ -4,7 +4,6 @@ import kotlin.coroutines.Continuation
 import kotlin.coroutines.intrinsics.COROUTINE_SUSPENDED
 import kotlin.coroutines.intrinsics.suspendCoroutineUninterceptedOrReturn
 import kotlin.coroutines.resume
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.ESortPriority
@@ -65,7 +64,6 @@ class POPMergePartition(query: Query, projectedVariables: List<String>, val part
             var continuationLock = Lock()
             val writerFinished = IntArray(Partition.k) { 0 } //writer changes to 1 if finished
             var readerFinished = 0
-            val jobs = mutableListOf<Job>()
             for (p in 0 until Partition.k) {
                 SanityCheck.println({ "merge $uuid $p writer launched F" })
                 var childEval2: IteratorBundle?
@@ -76,7 +74,7 @@ class POPMergePartition(query: Query, projectedVariables: List<String>, val part
                     throw e
                 }
                 SanityCheck.println({ "merge $uuid $p writer launched G" })
-                val job = Parallel.launch{
+                 Parallel.launch{
                     SanityCheck.println({ "merge $uuid $p writer launched A" })
                     val childEval = childEval2
                     try {
@@ -308,7 +306,6 @@ class POPMergePartition(query: Query, projectedVariables: List<String>, val part
                     }
                     SanityCheck.println({ "merge $uuid $p writer exited loop" })
                 }
-                jobs.add(job)
                 SanityCheck.println({ "merge $uuid $p writer job init :: " })
             }
             var iterator = RowIterator()

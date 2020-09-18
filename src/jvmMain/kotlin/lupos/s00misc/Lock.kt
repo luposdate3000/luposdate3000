@@ -1,7 +1,6 @@
 package lupos.s00misc
 
 import kotlin.jvm.JvmField
-import kotlinx.coroutines.CoroutineScope
 import lupos.s00misc.Parallel
 import kotlinx.coroutines.sync.Mutex
 import lupos.s00misc.Coverage

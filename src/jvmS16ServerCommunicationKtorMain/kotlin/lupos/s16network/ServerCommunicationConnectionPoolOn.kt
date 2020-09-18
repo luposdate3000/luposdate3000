@@ -8,7 +8,6 @@ import io.ktor.network.sockets.ServerSocket
 import io.ktor.network.sockets.Socket
 import java.net.InetSocketAddress
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
 import lupos.s00misc.Parallel
 
 object ServerCommunicationConnectionPoolOn {

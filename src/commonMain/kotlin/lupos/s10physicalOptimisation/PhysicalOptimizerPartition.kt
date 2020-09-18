@@ -1,6 +1,5 @@
 package lupos.s10physicalOptimisation
 
-import kotlinx.coroutines.GlobalScope
 import lupos.s00misc.DontCareWhichException
 import lupos.s00misc.EOptimizerID
 import lupos.s00misc.Partition
