@@ -109,7 +109,7 @@ class POPJoinMergeOptional(query: Query, projectedVariables: List<String>, child
                     }
 
                     override suspend fun next(): Value {
-                        return next_helper {
+                        return next_helper ({
                             for (i in 0 until columnsINJ[0].size) {
                                 keyCopy[i] = key[0][i]
                             }
@@ -131,7 +131,7 @@ class POPJoinMergeOptional(query: Query, projectedVariables: List<String>, child
                                 }
                             }
                             POPJoin.crossProduct(data[0], data[1], keyCopy, columnsOUT[0], columnsOUT[1], columnsOUTJ, countA, countB)
-                        }
+                        },{_close()})
                     }
                 }
                 outIteratorsAllocated.add(iterator)

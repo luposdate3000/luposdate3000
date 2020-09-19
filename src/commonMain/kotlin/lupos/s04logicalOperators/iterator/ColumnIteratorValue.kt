@@ -2,12 +2,31 @@ package lupos.s04logicalOperators.iterator
 
 import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s03resultRepresentation.Value
+import lupos.s00misc.Lock
+import lupos.s00misc.ClassCacheManager
 
-class ColumnIteratorValue(@JvmField val value: Value) : ColumnIterator() {
+class ColumnIteratorValue : ColumnIterator() {
+    companion object {
+        @JvmField
+        val cachemanager = object: ClassCacheManager<ColumnIteratorValue>() {
+    override fun allocNew() = ColumnIteratorValue()
+}
+        inline operator fun invoke(value: Value): ColumnIteratorValue {
+            var res = cachemanager.alloc()
+            res.value = value
+            res.done = false
+            return res
+        }
+    }
+
+    @JvmField
+    var value = ResultSetDictionary.nullValue
+
     @JvmField
     var done = false
+
     override suspend fun close() {
-        done = true
+        cachemanager.release(this)
     }
 
     override suspend fun next(): Value {

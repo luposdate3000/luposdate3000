@@ -35,6 +35,8 @@ class POPJoinMergeSingleColumn(query: Query, projectedVariables: List<String>, c
 
         @JvmField
         var label = 1
+@JvmField
+var sipbuf=IntArray(2)
         override suspend fun next(): Value {
             when (label) {
                 1 -> {
@@ -43,7 +45,8 @@ class POPJoinMergeSingleColumn(query: Query, projectedVariables: List<String>, c
                         while (change) {
                             change = false
                             while (head0 < head1) {
-                                val c = child0.nextSIP(head1, {})
+child0.nextSIP(head1, sipbuf)
+val c=sipbuf[1]
                                 if (c == ResultSetDictionary.nullValue) {
                                     _close()
                                     return ResultSetDictionary.nullValue
@@ -53,7 +56,8 @@ class POPJoinMergeSingleColumn(query: Query, projectedVariables: List<String>, c
                             }
                             while (head1 < head0) {
                                 change = true
-                                val c = child1.nextSIP(head0, {})
+child1.nextSIP(head0, sipbuf)
+val c=sipbuf[1]
                                 if (c == ResultSetDictionary.nullValue) {
                                     _close()
                                     return ResultSetDictionary.nullValue

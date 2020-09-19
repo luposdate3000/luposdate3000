@@ -9,14 +9,19 @@ object ColumnIteratorFromRow {
         for (i in 0 until iterator.columns.size) {
             val iterator2 = object : ColumnIteratorQueue() {
                 override suspend fun next(): Value {
-                    return next_helper {
+                    return next_helper ({
                         var res2 = iterator.next()
                         if (res2 >= 0) {
                             for (j in 0 until iterator.columns.size) {
                                 iterators[j].queue.add(iterator.buf[res2 + j])
                             }
                         }
-                    }
+                    },{
+ if (label != 0) {
+			_close()
+iterator.close()
+}
+})
                 }
 
                 override suspend fun close() {

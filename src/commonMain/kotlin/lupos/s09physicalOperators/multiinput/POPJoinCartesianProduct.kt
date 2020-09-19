@@ -134,7 +134,7 @@ class POPJoinCartesianProduct(query: Query, projectedVariables: List<String>, ch
                             }
 
                             override suspend fun next(): Value {
-                                return next_helper {
+                                return next_helper ({
                                     var done = false
                                     for (columnIndex in 0 until columnsINAO.size) {
                                         val value = columnsINAO[columnIndex].next()
@@ -154,7 +154,7 @@ class POPJoinCartesianProduct(query: Query, projectedVariables: List<String>, ch
                                             outO[1][columnIndex].childs.add(ColumnIteratorRepeatValue(1, ResultSetDictionary.undefValue))
                                         }
                                     }
-                                }
+                                },{__close()})
                             }
                         }
                         if (i < columns[1].size) {
@@ -202,7 +202,7 @@ class POPJoinCartesianProduct(query: Query, projectedVariables: List<String>, ch
                         }
 
                         override suspend fun next(): Value {
-                            return next_helper {
+                            return next_helper ({
                                 var done = false
                                 for (columnIndex in 0 until columnsINAO.size) {
                                     val value = columnsINAO[columnIndex].next()
@@ -222,7 +222,7 @@ class POPJoinCartesianProduct(query: Query, projectedVariables: List<String>, ch
                                         outO[1][columnIndex].childs.add(ColumnIteratorMultiValue(data[columnIndex]))
                                     }
                                 }
-                            }
+                            },{__close()})
                         }
                     }
                     if (i < columns[1].size) {

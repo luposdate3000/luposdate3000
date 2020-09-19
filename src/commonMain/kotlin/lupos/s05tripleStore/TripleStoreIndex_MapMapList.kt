@@ -125,7 +125,7 @@ class TripleStoreIndex_MapMapList : TripleStoreIndex() {
                                 }
 
                                 override suspend fun next(): Value {
-                                    return next_helper {
+                                    return next_helper ({
                                         if (iter.hasNext()) {
                                             val key = iter.next()
                                             val value = iter.value()
@@ -136,7 +136,9 @@ class TripleStoreIndex_MapMapList : TripleStoreIndex() {
                                                 columnsArr[1].childs.add(ColumnIteratorMultiValue(value.iterator()))
                                             }
                                         }
-                                    }
+                                    },{
+				_close()
+})
                                 }
                             }
                         }
@@ -176,7 +178,7 @@ class TripleStoreIndex_MapMapList : TripleStoreIndex() {
                             }
 
                             override suspend fun next(): Value {
-                                return next_helper {
+                                return next_helper ({
                                     while (true) {
                                         if (iter2.hasNext()) {
                                             val key2 = iter2.next()
@@ -201,7 +203,7 @@ class TripleStoreIndex_MapMapList : TripleStoreIndex() {
                                             }
                                         }
                                     }
-                                }
+                                },{_close()})
                             }
                         }
                     }

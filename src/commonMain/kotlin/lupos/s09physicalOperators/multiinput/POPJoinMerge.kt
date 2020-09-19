@@ -90,6 +90,8 @@ class POPJoinMerge(query: Query, projectedVariables: List<String>, childA: OPBas
 
         @JvmField
         var skipO1 = 0
+@JvmField
+var sipbuf=IntArray(2)
         suspend inline fun __close() {
             if (label != 0) {
                 local___close_i = 0
@@ -136,7 +138,7 @@ class POPJoinMerge(query: Query, projectedVariables: List<String>, childA: OPBas
         }
 
         override suspend fun next(): Value {
-            return next_helper {
+            return next_helper ({
                 if (key0[0] != ResultSetDictionary.nullValue && key1[0] != ResultSetDictionary.nullValue) {
                     loop@ while (true) {
                         SanityCheck.check { columnsINJ0.size > 0 }
@@ -146,10 +148,10 @@ class POPJoinMerge(query: Query, projectedVariables: List<String>, childA: OPBas
                             var skip1 = 0
                             while (key0[0] != key1[0]) {
                                 if (key0[0] < key1[0]) {
-                                    key0[0] = columnsINJ0[0].nextSIP(key1[0]) { counter ->
-                                        skip0 += counter
-                                        skipO0 += counter
-                                    }
+columnsINJ0[0].nextSIP(key1[0],sipbuf)
+key0[0]=sipbuf[1]
+skip0+=sipbuf[0]
+skipO0+=sipbuf[0]
                                     skip0++
                                     skipO0++
                                     SanityCheck.check { key0[0] != ResultSetDictionary.undefValue }
@@ -158,10 +160,10 @@ class POPJoinMerge(query: Query, projectedVariables: List<String>, childA: OPBas
                                         break@loop
                                     }
                                 } else {
-                                    key1[0] = columnsINJ1[0].nextSIP(key0[0]) { counter ->
-                                        skip1 += counter
-                                        skipO1 += counter
-                                    }
+columnsINJ1[0].nextSIP(key0[0],sipbuf)
+key1[0] =sipbuf[1]
+skip1+=sipbuf[0]  
+skipO1+=sipbuf[0]
                                     skip1++
                                     skipO1++
                                     SanityCheck.check { key1[0] != ResultSetDictionary.undefValue }
@@ -316,7 +318,7 @@ class POPJoinMerge(query: Query, projectedVariables: List<String>, childA: OPBas
                 } else {
                     __close()
                 }
-            }
+            },{__close()})
         }
     }
 

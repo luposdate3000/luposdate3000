@@ -71,7 +71,7 @@ class POPBind(query: Query, projectedVariables: List<String>, @JvmField val name
                     }
 
                     override suspend fun next(): Value {
-                        return next_helper {
+                        return next_helper ({
                             var done = false
                             for (variableIndex2 in 0 until variablesLocal.size) {
                                 if (boundIndex != variableIndex2) {
@@ -99,7 +99,7 @@ class POPBind(query: Query, projectedVariables: List<String>, @JvmField val name
                                     columnsOut[variableIndex2].queue.add(columnsOut[variableIndex2].tmp)
                                 }
                             }
-                        }
+                        },{_close()})
                     }
                 }
             }

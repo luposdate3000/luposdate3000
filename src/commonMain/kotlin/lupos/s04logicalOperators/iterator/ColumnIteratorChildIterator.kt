@@ -18,26 +18,25 @@ abstract class ColumnIteratorChildIterator() : ColumnIterator() {
     inline suspend fun _close() {
         label = 0
         while (childs.size > 0) {
-            val x = childs.removeAt(0)
-            x.close()
+            childs.removeAt(0).close()
         }
     }
 
-    inline suspend fun next_helper(crossinline onNoMoreElements: suspend () -> Unit): Value {
+    inline suspend fun next_helper(crossinline onNoMoreElements: suspend () -> Unit,crossinline onClose: suspend () -> Unit): Value {
         when (label) {
             1 -> {
                 while (true) {
                     while (childs.size > 0) {
                         val res = childs[0].next()
                         if (res == ResultSetDictionary.nullValue) {
-                            childs.removeAt(0)
+                            childs.removeAt(0).close()
                         } else {
                             return res
                         }
                     }
                     onNoMoreElements()
                     if (childs.size == 0) {
-                        close()
+                        onClose()
                         return ResultSetDictionary.nullValue
                     }
                 }
@@ -46,12 +45,12 @@ abstract class ColumnIteratorChildIterator() : ColumnIterator() {
                 while (childs.size > 0) {
                     val res = childs[0].next()
                     if (res == ResultSetDictionary.nullValue) {
-                        childs.removeAt(0)
+                        childs.removeAt(0).close()
                     } else {
                         return res
                     }
                 }
-                close()
+                onClose()
                 return ResultSetDictionary.nullValue
             }
             else -> {

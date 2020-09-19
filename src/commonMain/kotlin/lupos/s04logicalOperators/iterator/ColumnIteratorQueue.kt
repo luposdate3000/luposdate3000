@@ -20,7 +20,7 @@ abstract class ColumnIteratorQueue() : ColumnIterator() {
         }
     }
 
-    inline suspend fun next_helper(crossinline onEmptyQueue: suspend () -> Unit): Value {
+    inline suspend fun next_helper(crossinline onEmptyQueue: suspend () -> Unit,crossinline onClose: suspend () -> Unit): Value {
         when (label) {
             1 -> {
                 if (queue.size == 0) {
@@ -28,7 +28,7 @@ abstract class ColumnIteratorQueue() : ColumnIterator() {
                     if (queue.size > 0) {
                         return queue.removeAt(0)
                     } else {
-                        close()
+                        onClose()
                         return ResultSetDictionary.nullValue
                     }
                 } else {
@@ -37,7 +37,7 @@ abstract class ColumnIteratorQueue() : ColumnIterator() {
             }
             2 -> {
                 if (queue.size == 0) {
-                    close()
+                    onClose()
                     return ResultSetDictionary.nullValue
                 } else {
                     return queue.removeAt(0)

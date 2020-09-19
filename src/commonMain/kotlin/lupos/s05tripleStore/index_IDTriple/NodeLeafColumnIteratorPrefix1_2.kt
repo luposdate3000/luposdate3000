@@ -73,12 +73,14 @@ class NodeLeafColumnIteratorPrefix1_2(node: ByteArray, nodeid: Int, prefix: IntA
         }
     }
 
-    suspend override fun nextSIP(minValue: Int, skippedElements: (counter: Int) -> Unit): Int {
+    suspend override fun nextSIP(minValue: Int, result:IntArray){
         var counter = 0
         if (label == 2) {
             next()
             if (value2 >= minValue) {
-                return value2
+result[0]=0
+result[1]=value2
+return
             }
             counter++
         }
@@ -101,13 +103,16 @@ class NodeLeafColumnIteratorPrefix1_2(node: ByteArray, nodeid: Int, prefix: IntA
                 }
                 if (value0 > prefix[0]) {
                     _close()
-                    return ResultSetDictionary.nullValue
+result[0]=0
+result[1]=ResultSetDictionary.nullValue
+return
                 } else {
                     updateRemaining()
                 }
                 if (value2 >= minValue) {
-                    skippedElements(counter - 1)
-                    return value2
+result[0]=counter-1
+result[1]=value2
+return
                 }
             }
             //look at the next pages
@@ -164,19 +169,25 @@ class NodeLeafColumnIteratorPrefix1_2(node: ByteArray, nodeid: Int, prefix: IntA
                 }
                 if (value0 > prefix[0]) {
                     _close()
-                    return ResultSetDictionary.nullValue
+result[0]=0
+result[1]=ResultSetDictionary.nullValue
+
+return
                 } else {
                     updateRemaining()
                 }
                 if (value2 >= minValue) {
-                    skippedElements(counter - 1)
-                    return value2
+                    result[0]=counter-1
+result[1]=value2
+return
                 }
             }
             _close()
-            return ResultSetDictionary.nullValue
+result[0]=0
+result[1]=ResultSetDictionary.nullValue
         } else {
-            return ResultSetDictionary.nullValue
+result[0]=0
+result[1]=ResultSetDictionary.nullValue
         }
     }
 

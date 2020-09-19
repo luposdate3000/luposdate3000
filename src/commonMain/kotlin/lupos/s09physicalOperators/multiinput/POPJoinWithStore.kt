@@ -147,6 +147,9 @@ class POPJoinWithStore(query: Query, projectedVariables: List<String>, childA: O
             for (columnConfig in columnsOUT) {
                 val column = object : ColumnIteratorQueue() {
                     override suspend fun close() {
+				__close()
+			}
+                    inline suspend fun __close() {
                         if (label != 0) {
                             _close()
                             SanityCheck.println { "POPJoinWithStoreXXXclosing store for join with store A $theuuid" }
@@ -163,7 +166,7 @@ class POPJoinWithStore(query: Query, projectedVariables: List<String>, childA: O
                     }
 
                     override suspend fun next(): Value {
-                        return next_helper {
+                        return next_helper ({
                             loopA@ while (true) {
                                 var done = true
                                 loopB@ for (i in 0 until variablINBO.size) {
@@ -219,7 +222,7 @@ class POPJoinWithStore(query: Query, projectedVariables: List<String>, childA: O
                                     }
                                 }
                             }
-                        }
+                        },{__close()})
                     }
                 }
                 outMap[columnConfig.first] = column

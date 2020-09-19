@@ -8,6 +8,6 @@ class ColumnIteratorChildIteratorEmpty() : ColumnIteratorChildIterator() {
     }
 
     override suspend fun next(): Value {
-        return next_helper {}
+        return next_helper ({},{_close()})
     }
 }

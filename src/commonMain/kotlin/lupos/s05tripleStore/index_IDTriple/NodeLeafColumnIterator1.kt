@@ -25,7 +25,7 @@ class NodeLeafColumnIterator1(node: ByteArray, nodeid: Int, lock: ReadWriteLock)
         }
     }
 
-    suspend override fun nextSIP(minValue: Int, skippedElements: (counter: Int) -> Unit): Int {
+    suspend override fun nextSIP(minValue: Int,result:IntArray){
         if (label != 0) {
             var counter = 0
             var limit = remaining
@@ -44,8 +44,9 @@ class NodeLeafColumnIterator1(node: ByteArray, nodeid: Int, lock: ReadWriteLock)
                 }
                 updateRemaining()
                 if (value >= minValue) {
-                    skippedElements(counter - 1)
-                    return value
+result[0]=counter-1
+result[1]=value
+return
                 }
             }
             //look at the next pages
@@ -96,13 +97,16 @@ class NodeLeafColumnIterator1(node: ByteArray, nodeid: Int, lock: ReadWriteLock)
                 }
                 updateRemaining()
                 if (value >= minValue) {
-                    skippedElements(counter - 1)
-                    return value
+result[0]=counter-1
+result[1]=value
+return
                 }
             }
-            return ResultSetDictionary.nullValue
+result[0]=0
+result[1]=ResultSetDictionary.nullValue
         } else {
-            return ResultSetDictionary.nullValue
+result[0]=0        
+result[1]=ResultSetDictionary.nullValue
         }
     }
 

@@ -311,6 +311,9 @@ class POPGroup : POPBase {
                     for (outIndex in 0 until keyColumnNames.size + bindings.size) {
                         val iterator = object : ColumnIteratorQueue() {
                             override suspend fun close() {
+__close()
+}
+                            inline suspend fun __close() {
                                 if (label != 0) {
                                     _close()
                                     for (closeIndex in 0 until keyColumns.size) {
@@ -323,7 +326,7 @@ class POPGroup : POPBase {
                             }
 
                             override suspend fun next(): Value {
-                                return next_helper {
+                                return next_helper ({
                                     loop@ while (true) {
                                         var changedKey = false
                                         if (nextKey != null) {
@@ -401,7 +404,7 @@ class POPGroup : POPBase {
                                             break@loop
                                         }
                                     }
-                                }
+                                },{__close()})
                             }
                         }
                         output.add(iterator)

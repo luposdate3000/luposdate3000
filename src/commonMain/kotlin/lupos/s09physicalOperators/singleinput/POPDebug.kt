@@ -92,19 +92,20 @@ class POPDebug(query: Query, projectedVariables: List<String>, child: OPBase) : 
                                 }
                             }
 
-                            override suspend fun nextSIP(minValue: Value, skippedElements: (counter: Int) -> Unit): Value {
+                            override suspend fun nextSIP(minValue: Value, result:IntArray){
                                 if (label != 0) {
                                     SanityCheck.println({ "$uuid $k next call minValue SIP" })
-                                    val res = v.nextSIP(minValue, skippedElements)
+                                     v.nextSIP(minValue, result)
+val res=result[1]
                                     if (res == ResultSetDictionary.nullValue) {
                                         SanityCheck.println({ "$uuid $k next return closed $counter ${parent.data} ResultSetDictionary.nullValue" })
                                     } else {
                                         counter++
                                         SanityCheck.println({ "$uuid $k next return $counter ${parent.data} ${res.toString(16)}" })
                                     }
-                                    return res
                                 } else {
-                                    return ResultSetDictionary.nullValue
+result[0]=0
+result[1]=ResultSetDictionary.nullValue
                                 }
                             }
 
