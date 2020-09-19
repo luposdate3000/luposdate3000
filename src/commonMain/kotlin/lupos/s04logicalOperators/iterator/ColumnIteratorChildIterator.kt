@@ -6,7 +6,7 @@ import lupos.s00misc.ClassCacheManager
 
 abstract class ColumnIteratorChildIterator() : ColumnIterator() {
 
-    var queue = Array<ColumnIterator?>(100) { null }
+    var queue = Array<ColumnIterator>(100) { this }
     var queue_read = 0
     var queue_write = 0
 
@@ -24,24 +24,19 @@ abstract class ColumnIteratorChildIterator() : ColumnIterator() {
         if (queue_read == queue_write) {
             queue_read = 0
             queue_write = 0
-        } else if ((1 + queue_write) % queue.size == queue_read) {
-            val buf = Array<ColumnIterator?>(queue.size * 2) { null }
-            var j = 0
-            if (queue_read < queue_write) {
+        } else if (queue_write == queue.size) {
+            if (queue_read == 0) {
+                val buf = Array<ColumnIterator>(queue.size * 2) { this }
                 queue.copyInto(buf, 0, queue_read, queue_write)
-                queue_write = queue_write - queue_read
-            } else if (queue_read > queue_write) {
-                queue.copyInto(buf, 0, queue_read, queue.size)
-                queue.copyInto(buf, queue.size - queue_read, 0, queue_write)
-                queue_write = queue_write + queue.size - queue_read
+                queue = buf
             } else {
-                queue_write = 0
+                queue.copyInto(queue, 0, queue_read, queue_write)
+                queue_write -= queue_read
             }
             queue_read = 0
-            queue = buf
         }
         queue[queue_write] = child
-        queue_write = (1 + queue_write) % queue.size
+        queue_write++
     }
 
     inline fun closeOnNoMoreElements() {
@@ -57,17 +52,8 @@ abstract class ColumnIteratorChildIterator() : ColumnIterator() {
     inline suspend fun _close() {
         if (label != 0) {
             label = 0
-            if (queue_read < queue_write) {
-                for (i in queue_read until queue_write) {
-                    releaseValue(queue[i]!!)
-                }
-            } else {
-                for (i in 0 until queue_write) {
-                    releaseValue(queue[i]!!)
-                }
-                for (i in queue_read until queue.size) {
-                    releaseValue(queue[i]!!)
-                }
+            for (i in queue_read until queue_write) {
+                releaseValue(queue[i])
             }
         }
     }
@@ -75,21 +61,21 @@ abstract class ColumnIteratorChildIterator() : ColumnIterator() {
     inline suspend fun next_helper(crossinline onNoMoreElements: suspend () -> Unit, crossinline onClose: suspend () -> Unit): Value {
         when (label) {
             1 -> {
-                while (queue_read != queue_write) {
-                    val res = queue[queue_read]!!.next()
+                while (queue_read < queue_write) {
+                    val res = queue[queue_read].next()
                     if (res == ResultSetDictionary.nullValue) {
-                        releaseValue(queue[queue_read]!!)
-                        queue_read = (1 + queue_read) % queue.size
+                        releaseValue(queue[queue_read])
+                        queue_read++
                     } else {
                         return res
                     }
                 }
                 onNoMoreElements()
-                if (queue_read == queue_write) {
+                if ( queue_read==queue_write) {
                     onClose()
                     return ResultSetDictionary.nullValue
                 } else {
-                    val res = queue[queue_read]!!.next()
+                    val res = queue[queue_read].next()
                     if (res == ResultSetDictionary.nullValue) {
                         onClose()
                     }
@@ -97,11 +83,11 @@ abstract class ColumnIteratorChildIterator() : ColumnIterator() {
                 }
             }
             2 -> {
-                while (queue_read != queue_write) {
-                    val res = queue[queue_read]!!.next()
+                while (queue_read < queue_write) {
+                    val res = queue[queue_read].next()
                     if (res == ResultSetDictionary.nullValue) {
-                        releaseValue(queue[queue_read]!!)
-                        queue_read = (1 + queue_read) % queue.size
+                        releaseValue(queue[queue_read])
+                        queue_read++
                     } else {
                         return res
                     }
