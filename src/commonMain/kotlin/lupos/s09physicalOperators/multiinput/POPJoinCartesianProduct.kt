@@ -147,11 +147,11 @@ class POPJoinCartesianProduct(query: Query, projectedVariables: List<String>, ch
                                             }
                                             break
                                         }
-                                        outO[0][columnIndex].childs.add(ColumnIteratorRepeatValue(1, value))
+                                        outO[0][columnIndex].addChild(ColumnIteratorRepeatValue(1, value))
                                     }
                                     if (!done) {
                                         for (columnIndex in 0 until columnsINBO.size) {
-                                            outO[1][columnIndex].childs.add(ColumnIteratorRepeatValue(1, ResultSetDictionary.undefValue))
+                                            outO[1][columnIndex].addChild(ColumnIteratorRepeatValue(1, ResultSetDictionary.undefValue))
                                         }
                                     }
                                 },{__close()})
@@ -215,11 +215,11 @@ class POPJoinCartesianProduct(query: Query, projectedVariables: List<String>, ch
                                         }
                                         break
                                     }
-                                    outO[0][columnIndex].childs.add(ColumnIteratorRepeatValue(count, value))
+                                    outO[0][columnIndex].addChild(ColumnIteratorRepeatValue(count, value))
                                 }
                                 if (!done) {
                                     for (columnIndex in 0 until columnsINBO.size) {
-                                        outO[1][columnIndex].childs.add(ColumnIteratorMultiValue(data[columnIndex]))
+                                        outO[1][columnIndex].addChild(ColumnIteratorMultiValue(data[columnIndex]))
                                     }
                                 }
                             },{__close()})

@@ -5,19 +5,16 @@ import lupos.s03resultRepresentation.Value
 import lupos.s00misc.Lock
 import lupos.s00misc.ClassCacheManager
 
-class ColumnIteratorValue : ColumnIterator() {
+class ColumnIteratorValue (): ColumnIterator() {
     companion object {
-        @JvmField
-        val cachemanager = object: ClassCacheManager<ColumnIteratorValue>() {
-    override fun allocNew() = ColumnIteratorValue()
-}
         inline operator fun invoke(value: Value): ColumnIteratorValue {
-            var res = cachemanager.alloc()
+            var res = ColumnIteratorValue()
             res.value = value
             res.done = false
             return res
         }
     }
+
 
     @JvmField
     var value = ResultSetDictionary.nullValue
@@ -26,7 +23,7 @@ class ColumnIteratorValue : ColumnIterator() {
     var done = false
 
     override suspend fun close() {
-        cachemanager.release(this)
+done=true
     }
 
     override suspend fun next(): Value {

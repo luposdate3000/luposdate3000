@@ -130,10 +130,10 @@ class TripleStoreIndex_MapMapList : TripleStoreIndex() {
                                             val key = iter.next()
                                             val value = iter.value()
                                             if (projection[0] != "_") {
-                                                columnsArr[0].childs.add(ColumnIteratorRepeatValue(value.size, key))
+                                                columnsArr[0].addChild(ColumnIteratorRepeatValue(value.size, key))
                                             }
                                             if (projection[1] != "_") {
-                                                columnsArr[1].childs.add(ColumnIteratorMultiValue(value.iterator()))
+                                                columnsArr[1].addChild(ColumnIteratorMultiValue(value.iterator()))
                                             }
                                         }
                                     },{
@@ -184,13 +184,13 @@ class TripleStoreIndex_MapMapList : TripleStoreIndex() {
                                             val key2 = iter2.next()
                                             val value2 = iter2.value()
                                             if (projection[0] != "_") {
-                                                columnsArr[0].childs.add(ColumnIteratorRepeatValue(value2.size, key1))
+                                                columnsArr[0].addChild(ColumnIteratorRepeatValue(value2.size, key1))
                                             }
                                             if (projection[1] != "_") {
-                                                columnsArr[1].childs.add(ColumnIteratorRepeatValue(value2.size, key2))
+                                                columnsArr[1].addChild(ColumnIteratorRepeatValue(value2.size, key2))
                                             }
                                             if (projection[2] != "_") {
-                                                columnsArr[2].childs.add(ColumnIteratorMultiValue(value2.iterator()))
+                                                columnsArr[2].addChild(ColumnIteratorMultiValue(value2.iterator()))
                                             }
                                             break
                                         } else {
