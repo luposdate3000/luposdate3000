@@ -12,7 +12,7 @@ import lupos.s15tripleStoreDistributed.DistributedTripleStore
 
 object ServerCommunicationReceive {
     fun start(hostname: String, port: Int, bootstrap: String? = null) {
-Parallel.launch{
+        Parallel.launch {
             val server = ServerCommunicationConnectionPool.openServerSocket(hostname, port)
             while (true) {
                 ServerCommunicationConnectionPool.accept(server) { socket ->

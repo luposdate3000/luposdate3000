@@ -1,18 +1,16 @@
 package lupos.s04logicalOperators.iterator
 
+import lupos.s00misc.ClassCacheManager
 import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s03resultRepresentation.Value
-import lupos.s00misc.ClassCacheManager
 
 abstract class ColumnIteratorChildIterator() : ColumnIterator() {
-
     var queue = Array<ColumnIterator>(100) { this }
     var queue_read = 0
     var queue_write = 0
 
     @JvmField
     var label = 1
-
     inline fun addChildColumnIteratorValue(value: Value) {
         var res = ColumnIteratorValue()
         res.value = value
@@ -71,7 +69,7 @@ abstract class ColumnIteratorChildIterator() : ColumnIterator() {
                     }
                 }
                 onNoMoreElements()
-                if ( queue_read==queue_write) {
+                if (queue_read == queue_write) {
                     onClose()
                     return ResultSetDictionary.nullValue
                 } else {

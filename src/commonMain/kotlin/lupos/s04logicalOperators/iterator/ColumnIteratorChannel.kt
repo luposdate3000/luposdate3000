@@ -1,8 +1,8 @@
 package lupos.s04logicalOperators.iterator
 
 import kotlinx.coroutines.channels.Channel
-import lupos.s00misc.SanityCheck
 import lupos.s00misc.Parallel
+import lupos.s00misc.SanityCheck
 import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s03resultRepresentation.Value
 

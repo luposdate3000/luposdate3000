@@ -14,10 +14,14 @@ class NodeLeafColumnIteratorPrefix1_2(node: ByteArray, nodeid: Int, prefix: IntA
     var value2 = 0
 
     init {
-        label = 2
+        label = 3
     }
 
     suspend override fun next(): Int {
+        if (label == 3) {
+            label = 2
+            __init()
+        }
         when (label) {
             2 -> {
                 var done = false
@@ -73,46 +77,47 @@ class NodeLeafColumnIteratorPrefix1_2(node: ByteArray, nodeid: Int, prefix: IntA
         }
     }
 
-    suspend override fun nextSIP(minValue: Int, result:IntArray){
+    suspend override fun nextSIP(minValue: Int, result: IntArray) {
+        if (label == 3) {
+            label = 2
+            __init()
+        }
         var counter = 0
         if (label == 2) {
             next()
             if (value2 >= minValue) {
-result[0]=0
-result[1]=value2
-return
+                result[0] = 0
+                result[1] = value2
+                return
             }
             counter++
         }
         if (label != 0) {
-            var limit = remaining
-            if (limit > SIP_LOCAL_LIMIT) {
-                limit = SIP_LOCAL_LIMIT
-            }
             //try next few triples
-            for (i in 0 until limit) {
+            if (needsReset) {
+                needsReset = false
+                value0 = 0
+                value2 = 0
+            }
+            while (remaining > 0) {
                 counter++
-                if (needsReset) {
-                    needsReset = false
-                    value0 = 0
-                    value2 = 0
-                }
                 offset += NodeShared.readTriple101(node, offset, value0, value2) { v0, v2 ->
                     value0 = v0
                     value2 = v2
                 }
                 if (value0 > prefix[0]) {
                     _close()
-result[0]=0
-result[1]=ResultSetDictionary.nullValue
-return
-                } else {
-                    updateRemaining()
+                    result[0] = 0
+                    result[1] = ResultSetDictionary.nullValue
+                    return
                 }
                 if (value2 >= minValue) {
-result[0]=counter-1
-result[1]=value2
-return
+                    updateRemaining()
+                    result[0] = counter - 1
+                    result[1] = value2
+                    return
+                } else {
+                    remaining--
                 }
             }
             //look at the next pages
@@ -154,6 +159,9 @@ return
             if (usedNextPage) {
                 updateRemaining()
                 counter++
+            } else if (remaining == 0) {
+                remaining = 1
+                updateRemaining()
             }
             //search until the value is found
             while (remaining > 0) {
@@ -169,29 +177,32 @@ return
                 }
                 if (value0 > prefix[0]) {
                     _close()
-result[0]=0
-result[1]=ResultSetDictionary.nullValue
-
-return
+                    result[0] = 0
+                    result[1] = ResultSetDictionary.nullValue
+                    return
                 } else {
                     updateRemaining()
                 }
                 if (value2 >= minValue) {
-                    result[0]=counter-1
-result[1]=value2
-return
+                    result[0] = counter - 1
+                    result[1] = value2
+                    return
                 }
             }
             _close()
-result[0]=0
-result[1]=ResultSetDictionary.nullValue
+            result[0] = 0
+            result[1] = ResultSetDictionary.nullValue
         } else {
-result[0]=0
-result[1]=ResultSetDictionary.nullValue
+            result[0] = 0
+            result[1] = ResultSetDictionary.nullValue
         }
     }
 
     override suspend open fun skipSIP(skipCount: Int): Int {
+        if (label == 3) {
+            label = 2
+            __init()
+        }
         if (skipCount == 0) {
             val value = next()
             return value

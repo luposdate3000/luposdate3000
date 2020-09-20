@@ -1,7 +1,7 @@
-import lupos.s00misc.Parallel
 import lupos.s00misc.File
 import lupos.s00misc.MyMapStringIntPatriciaTrie
 import lupos.s00misc.MyMapStringIntPatriciaTrieDouble
+import lupos.s00misc.Parallel
 import lupos.s02buildSyntaxTree.LexerCharIterator
 import lupos.s02buildSyntaxTree.LookAheadTokenIterator
 import lupos.s02buildSyntaxTree.turtle.TurtleParserWithStringTriples

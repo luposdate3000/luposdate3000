@@ -10,6 +10,10 @@ class NodeLeafColumnIterator2(node: ByteArray, nodeid: Int, lock: ReadWriteLock)
     @JvmField
     var value = 0
     suspend override fun next(): Int {
+        if (label == 3) {
+            label = 1
+            __init()
+        }
         if (label != 0) {
             if (needsReset) {
                 needsReset = false
@@ -25,28 +29,30 @@ class NodeLeafColumnIterator2(node: ByteArray, nodeid: Int, lock: ReadWriteLock)
         }
     }
 
-    suspend override fun nextSIP(minValue: Int,result:IntArray){
+    suspend override fun nextSIP(minValue: Int, result: IntArray) {
+        if (label == 3) {
+            label = 1
+            __init()
+        }
         if (label != 0) {
             var counter = 0
-            var limit = remaining
-            if (limit > SIP_LOCAL_LIMIT) {
-                limit = SIP_LOCAL_LIMIT
-            }
             //try next few triples
-            for (i in 0 until limit) {
+            if (needsReset) {
+                needsReset = false
+                value = 0
+            }
+            while (remaining > 0) {
                 counter++
-                if (needsReset) {
-                    needsReset = false
-                    value = 0
-                }
                 offset += NodeShared.readTriple001(node, offset, value) { v ->
                     value = v
                 }
-                updateRemaining()
                 if (value >= minValue) {
-result[0]=counter-1
-result[1]=value
-return
+                    updateRemaining()
+                    result[0] = counter - 1
+                    result[1] = value
+                    return
+                } else {
+                    remaining--
                 }
             }
             //look at the next pages
@@ -84,6 +90,9 @@ return
             if (usedNextPage) {
                 updateRemaining()
                 counter++
+            } else if (remaining == 0) {
+                remaining = 1
+                updateRemaining()
             }
             //search until the value is found
             while (remaining > 0) {
@@ -97,20 +106,24 @@ return
                 }
                 updateRemaining()
                 if (value >= minValue) {
-result[0]=counter-1
-result[1]=value
-return
+                    result[0] = counter - 1
+                    result[1] = value
+                    return
                 }
             }
-result[0]=0
-result[1]=ResultSetDictionary.nullValue
+            result[0] = 0
+            result[1] = ResultSetDictionary.nullValue
         } else {
-result[0]=0
-result[1]=ResultSetDictionary.nullValue
+            result[0] = 0
+            result[1] = ResultSetDictionary.nullValue
         }
     }
 
     override suspend open fun skipSIP(skipCount: Int): Int {
+        if (label == 3) {
+            label = 1
+            __init()
+        }
         if (label != 0) {
             var toSkip = skipCount + 1
             while (toSkip >= remaining) {

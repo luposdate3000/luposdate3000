@@ -1,4 +1,5 @@
 package lupos.s11outputResult
+
 import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.XMLElement

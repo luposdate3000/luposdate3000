@@ -1,11 +1,12 @@
 package lupos.s09physicalOperators.partition
-import lupos.s00misc.Parallel
+
 import kotlin.coroutines.Continuation
-import lupos.s00misc.ParallelJob
 import lupos.s00misc.BugException
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.ESortPriority
 import lupos.s00misc.Lock
+import lupos.s00misc.Parallel
+import lupos.s00misc.ParallelJob
 import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.XMLElement
@@ -73,7 +74,7 @@ class POPSplitPartition(query: Query, projectedVariables: List<String>, val part
                 val ringbufferWriteHead = IntArray(Partition.k) { 0 } //owned by write thread - no locking required
                 var continuationLock = Lock()
                 val ringbufferReaderContinuation = Array(Partition.k) { Parallel.createCondition(continuationLock) }
-                var ringbufferWriterContinuation=Parallel.createCondition(continuationLock)
+                var ringbufferWriterContinuation = Parallel.createCondition(continuationLock)
                 val readerFinished = IntArray(Partition.k) { 0 } //writer changes to 1 if finished
                 var writerFinished = 0
                 SanityCheck.println({ "ringbuffersize = ${ringbuffer.size} ${elementsPerRing} ${Partition.k} ${ringbufferStart.map { it }} ${ringbufferReadHead.map { it }} ${ringbufferWriteHead.map { it }}" })
@@ -86,7 +87,7 @@ class POPSplitPartition(query: Query, projectedVariables: List<String>, val part
                     throw e
                 }
                 SanityCheck.println({ "split $uuid writer launched B" })
-job=Parallel.launch{
+                job = Parallel.launch {
                     val child = child2
                     SanityCheck.println({ "split $uuid writer launched C" })
                     var hashVariableIndex = -1
@@ -141,13 +142,13 @@ job=Parallel.launch{
                                 }
                                 SanityCheck.println({ "selected $p for $partitionVariable = $hashVariableIndex value ${child.buf[tmp + hashVariableIndex]}" })
                                 var t = (ringbufferWriteHead[p] + variables.size) % elementsPerRing
-                                while (ringbufferReadHead[p] == t&&readerFinished[p] ==0) {
-ringbufferReaderContinuation[p].signal()
-ringbufferWriterContinuation.waitCondition({ringbufferReadHead[p] == t&&readerFinished[p] ==0})
+                                while (ringbufferReadHead[p] == t && readerFinished[p] == 0) {
+                                    ringbufferReaderContinuation[p].signal()
+                                    ringbufferWriterContinuation.waitCondition({ ringbufferReadHead[p] == t && readerFinished[p] == 0 })
                                 }
-                                        if (readerFinished[p] != 0) {
-                                            continue@loopcache
-                                        }
+                                if (readerFinished[p] != 0) {
+                                    continue@loopcache
+                                }
                                 SanityCheck.println({ "split $uuid $p writer append data ${variables.size} ${variableMapping.toMutableList()} ${ringbufferStart[p]}" })
                                 for (variable in 0 until variables.size) {
                                     SanityCheck.println({ "split $uuid $p writer append data ... ${variable} ${ringbufferWriteHead[p] + variableMapping[variable] + ringbufferStart[p]} ${tmp + variable}" })
@@ -157,19 +158,19 @@ ringbufferWriterContinuation.waitCondition({ringbufferReadHead[p] == t&&readerFi
                                 SanityCheck.println({ "split $uuid $p writer append data - written data" })
                                 ringbufferWriteHead[p] = (ringbufferWriteHead[p] + variables.size) % elementsPerRing
                                 SanityCheck.println({ "split $uuid $p writer append data - increased pointer" })
-ringbufferReaderContinuation[p].signal()
+                                ringbufferReaderContinuation[p].signal()
                             }
                         }
                         SanityCheck.println({ "split $uuid writer loop end of iteration" })
                     }
                     SanityCheck.println({ "split $uuid writer launched F" })
                     child.close()
-continuationLock.lock()
+                    continuationLock.lock()
                     writerFinished = 1
-continuationLock.unlock()
                     for (p in 0 until Partition.k) {
-ringbufferReaderContinuation[p].signal()
+                        ringbufferReaderContinuation[p].signal()
                     }
+                    continuationLock.unlock()
                     SanityCheck.println({ "split $uuid writer launched G" })
                     SanityCheck.println({ "split $uuid writer exited loop" })
                 }
@@ -195,17 +196,17 @@ ringbufferReaderContinuation[p].signal()
                                 iterator.close()
                                 break@loop
                             }
-ringbufferWriterContinuation.signal()
-ringbufferReaderContinuation[p].waitCondition({ringbufferReadHead[p] == ringbufferWriteHead[p] && writerFinished == 0})
+                            ringbufferWriterContinuation.signal()
+                            ringbufferReaderContinuation[p].waitCondition({ ringbufferReadHead[p] == ringbufferWriteHead[p] && writerFinished == 0 })
                         }
                         /*return*/res
                     }
                     iterator.close = {
                         SanityCheck.println({ "split $uuid $p reader close" })
-continuationLock.lock()
+                        continuationLock.lock()
                         readerFinished[p] = 1
-continuationLock.unlock()
-ringbufferWriterContinuation.signal()
+                        ringbufferWriterContinuation.signal()
+                        continuationLock.unlock()
                     }
                     iterators[p] = IteratorBundle(iterator)
                 }

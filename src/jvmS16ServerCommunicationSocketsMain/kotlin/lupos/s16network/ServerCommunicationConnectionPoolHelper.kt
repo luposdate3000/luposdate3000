@@ -3,10 +3,10 @@ package lupos.s16network
 import java.io.BufferedInputStream
 import java.io.BufferedOutputStream
 import java.net.Socket
-import lupos.s00misc.ParallelJob
 import lupos.s00misc.ByteArrayBuilder
 import lupos.s00misc.ByteArrayRead
 import lupos.s00misc.CommunicationConnectionClosedException
+import lupos.s00misc.ParallelJob
 import lupos.s04logicalOperators.iterator.ColumnIterator
 
 class ServerCommunicationConnectionPoolHelper(val socket: Socket, val input: BufferedInputStream, val output: BufferedOutputStream) {

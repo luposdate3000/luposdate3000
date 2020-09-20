@@ -6,10 +6,6 @@ import lupos.s00misc.SanityCheck
 import lupos.s04logicalOperators.iterator.ColumnIterator
 
 abstract class NodeLeafColumnIterator(@JvmField var node: ByteArray, @JvmField var nodeid: Int, @JvmField val lock: ReadWriteLock) : ColumnIterator() {
-    companion object {
-        const val SIP_LOCAL_LIMIT = 3
-    }
-
     @JvmField
     var remaining = 0
 
@@ -17,7 +13,7 @@ abstract class NodeLeafColumnIterator(@JvmField var node: ByteArray, @JvmField v
     var offset = NodeLeaf.START_OFFSET
 
     @JvmField
-    var label = 1
+    var label = 3
 
     @JvmField
     var needsReset = true
@@ -27,12 +23,15 @@ abstract class NodeLeafColumnIterator(@JvmField var node: ByteArray, @JvmField v
         remaining = NodeShared.getTripleCount(node)
     }
 
-    inline suspend fun _init() {
-        __init()
-    }
-
     suspend inline fun _close() {
-        if (label != 0) {
+        if (label == 3) {
+/* "__init" was never called*/
+            label = 0
+            if (nodeid != NodeManager.nodeNullPointer) {
+                SanityCheck.println({ "Outside.refcount($nodeid) ${NodeManager.bufferManager.allPagesRefcounters[nodeid]} x38" })
+                NodeManager.releaseNode(nodeid)
+            }
+        } else if (label != 0) {
             label = 0
             if (nodeid != NodeManager.nodeNullPointer) {
                 SanityCheck.println({ "Outside.refcount($nodeid) ${NodeManager.bufferManager.allPagesRefcounters[nodeid]} x38" })

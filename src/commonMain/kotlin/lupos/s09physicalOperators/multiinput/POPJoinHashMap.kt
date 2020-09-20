@@ -190,7 +190,7 @@ class POPJoinHashMap(query: Query, projectedVariables: List<String>, childA: OPB
                 }
 
                 override suspend fun next(): Value {
-                    return next_helper ({
+                    return next_helper({
                         var done = false
                         while (!done) {
                             if (currentKey == null) {
@@ -286,7 +286,7 @@ class POPJoinHashMap(query: Query, projectedVariables: List<String>, childA: OPB
                                 currentKey = nextKey
                             }
                         }
-                    },{__close()})
+                    }, { __close() })
                 }
             }
             outIteratorsAllocated.add(iterator)

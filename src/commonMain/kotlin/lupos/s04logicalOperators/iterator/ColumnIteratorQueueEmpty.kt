@@ -8,6 +8,6 @@ class ColumnIteratorQueueEmpty() : ColumnIteratorQueue() {
     }
 
     override suspend fun next(): Value {
-        return next_helper ({},{_close()})
+        return next_helper({}, { _close() })
     }
 }

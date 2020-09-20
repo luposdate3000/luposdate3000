@@ -1,8 +1,8 @@
 package lupos.s09physicalOperators.partition
 
-import lupos.s00misc.Parallel
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.ESortPriority
+import lupos.s00misc.Parallel
 import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.XMLElement
@@ -48,7 +48,7 @@ class POPMergePartitionCount(query: Query, projectedVariables: List<String>, val
             val writerFinished = IntArray(Partition.k) { 0 } //writer changes to 1 if finished
             var readerFinished = 0
             for (p in 0 until Partition.k) {
-                Parallel.launch{
+                Parallel.launch {
                     val child = children[0].evaluate(Partition(parent, partitionVariable, p))
                     loop@ while (readerFinished == 0) {
                         SanityCheck.println({ "merge $uuid $p writer loop start" })

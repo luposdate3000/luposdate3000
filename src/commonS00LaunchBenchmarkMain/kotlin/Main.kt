@@ -1,10 +1,10 @@
 import java.io.PrintWriter
 import java.io.StringWriter
-import lupos.s00misc.Parallel
 import lupos.s00misc.BenchmarkUtils
 import lupos.s00misc.DateHelper
 import lupos.s00misc.File
 import lupos.s00misc.MyMapStringIntPatriciaTrie
+import lupos.s00misc.Parallel
 import lupos.s00misc.Partition
 import lupos.s03resultRepresentation.nodeGlobalDictionary
 import lupos.s15tripleStoreDistributed.DistributedTripleStore

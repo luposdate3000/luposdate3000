@@ -8,8 +8,8 @@ import java.io.FileInputStream
 import java.io.FileOutputStream
 import kotlin.io.createTempFile
 import kotlin.jvm.JvmField
-import lupos.s00misc.Parallel
 import lupos.s00misc.Coverage
+import lupos.s00misc.Parallel
 
 class MyCharIterator(val file: File) : CharIterator() {
     val fis = FileInputStream(file.filename)

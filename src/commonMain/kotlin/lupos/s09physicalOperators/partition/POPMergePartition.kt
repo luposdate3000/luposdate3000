@@ -1,11 +1,12 @@
 package lupos.s09physicalOperators.partition
-import lupos.s00misc.Parallel
+
 import kotlin.coroutines.Continuation
 import kotlin.coroutines.resume
-import lupos.s00misc.ParallelJob
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.ESortPriority
 import lupos.s00misc.Lock
+import lupos.s00misc.Parallel
+import lupos.s00misc.ParallelJob
 import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.XMLElement
@@ -59,7 +60,7 @@ class POPMergePartition(query: Query, projectedVariables: List<String>, val part
             val ringbufferWriteHead = IntArray(Partition.k) { 0 } //owned by write thread - no locking required
             var continuationLock = Lock()
             val ringbufferWriterContinuation = Array(Partition.k) { Parallel.createCondition(continuationLock) }
-            var ringbufferReaderContinuation= Parallel.createCondition(continuationLock)
+            var ringbufferReaderContinuation = Parallel.createCondition(continuationLock)
             val writerFinished = IntArray(Partition.k) { 0 } //writer changes to 1 if finished
             var readerFinished = 0
             for (p in 0 until Partition.k) {
@@ -72,7 +73,7 @@ class POPMergePartition(query: Query, projectedVariables: List<String>, val part
                     throw e
                 }
                 SanityCheck.println({ "merge $uuid $p writer launched G" })
-                 Parallel.launch{
+                Parallel.launch {
                     SanityCheck.println({ "merge $uuid $p writer launched A" })
                     val childEval = childEval2
                     try {
@@ -86,13 +87,13 @@ class POPMergePartition(query: Query, projectedVariables: List<String>, val part
                                     SanityCheck.println({ "merge $uuid $p writer loop start" })
                                     var t = (ringbufferWriteHead[p] + 1) % elementsPerRing
                                     while (ringbufferReadHead[p] == t && readerFinished == 0) {
-ringbufferReaderContinuation.signal()
-ringbufferWriterContinuation[p].waitCondition({ringbufferReadHead[p] == t && readerFinished == 0})
+                                        ringbufferReaderContinuation.signal()
+                                        ringbufferWriterContinuation[p].waitCondition({ ringbufferReadHead[p] == t && readerFinished == 0 })
                                     }
-                                        if (readerFinished != 0) {
-                                            childIterator.close()
-                                            break@loop
-                                        }
+                                    if (readerFinished != 0) {
+                                        childIterator.close()
+                                        break@loop
+                                    }
                                     var tmp = childIterator.next()
                                     if (tmp == ResultSetDictionary.nullValue) {
                                         break@loop
@@ -101,7 +102,7 @@ ringbufferWriterContinuation[p].waitCondition({ringbufferReadHead[p] == t && rea
                                         ringbuffer[ringbufferWriteHead[p] + ringbufferStart[p]] = tmp
                                         //println("$p produced")
                                         ringbufferWriteHead[p] = (ringbufferWriteHead[p] + 1) % elementsPerRing
-ringbufferReaderContinuation.signal()
+                                        ringbufferReaderContinuation.signal()
                                     }
                                 }
                             } else {
@@ -110,16 +111,16 @@ ringbufferReaderContinuation.signal()
                                 loop@ while (readerFinished == 0) {
                                     SanityCheck.println({ "merge $uuid $p writer loop start" })
                                     var t = (ringbufferWriteHead[p] + variables.size) % elementsPerRing
-                                    while (ringbufferReadHead[p] == t&& readerFinished == 0) {
-ringbufferReaderContinuation.signal()
-ringbufferWriterContinuation[p].waitCondition({ringbufferReadHead[p] == t && readerFinished == 0})
+                                    while (ringbufferReadHead[p] == t && readerFinished == 0) {
+                                        ringbufferReaderContinuation.signal()
+                                        ringbufferWriterContinuation[p].waitCondition({ ringbufferReadHead[p] == t && readerFinished == 0 })
                                     }
-                                        if (readerFinished != 0) {
-                                            for (variable in 0 until variables.size) {
-                                                variableMapping[variable].close()
-                                            }
-                                            break@loop
+                                    if (readerFinished != 0) {
+                                        for (variable in 0 until variables.size) {
+                                            variableMapping[variable].close()
                                         }
+                                        break@loop
+                                    }
                                     var tmp = variableMapping[0].next()
                                     if (tmp == ResultSetDictionary.nullValue) {
                                         SanityCheck.println({ "merge $uuid $p writer closed B" })
@@ -143,7 +144,7 @@ ringbufferWriterContinuation[p].waitCondition({ringbufferReadHead[p] == t && rea
                                         }
                                         //println("$p produced")
                                         ringbufferWriteHead[p] = (ringbufferWriteHead[p] + variables.size) % elementsPerRing
-ringbufferReaderContinuation.signal()
+                                        ringbufferReaderContinuation.signal()
                                     }
                                 }
                             }
@@ -162,14 +163,14 @@ ringbufferReaderContinuation.signal()
                             loop@ while (readerFinished == 0) {
                                 SanityCheck.println({ "merge $uuid $p writer loop start" })
                                 var t = (ringbufferWriteHead[p] + variables.size) % elementsPerRing
-                                while (ringbufferReadHead[p] == t&& readerFinished == 0) {
-ringbufferReaderContinuation.signal()
-   ringbufferWriterContinuation[p].waitCondition({ringbufferReadHead[p] == t && readerFinished == 0})
+                                while (ringbufferReadHead[p] == t && readerFinished == 0) {
+                                    ringbufferReaderContinuation.signal()
+                                    ringbufferWriterContinuation[p].waitCondition({ ringbufferReadHead[p] == t && readerFinished == 0 })
                                 }
-                                    if (readerFinished != 0) {
-                                        child.close()
-                                        break@loop
-                                    }
+                                if (readerFinished != 0) {
+                                    child.close()
+                                    break@loop
+                                }
                                 var tmp = child.next()
                                 if (tmp == -1) {
                                     SanityCheck.println({ "merge $uuid $p writer closed B" })
@@ -181,7 +182,7 @@ ringbufferReaderContinuation.signal()
                                     }
                                     //println("$p produced")
                                     ringbufferWriteHead[p] = (ringbufferWriteHead[p] + variables.size) % elementsPerRing
-ringbufferReaderContinuation.signal()
+                                    ringbufferReaderContinuation.signal()
                                 }
                             }
                         }
@@ -189,10 +190,10 @@ ringbufferReaderContinuation.signal()
                         ex = e
                         e.printStackTrace()
                     }
-continuationLock.lock()
+                    continuationLock.lock()
                     writerFinished[p] = 1
-continuationLock.unlock()
-ringbufferReaderContinuation.signal()
+                    ringbufferReaderContinuation.signal()
+                    continuationLock.unlock()
                     SanityCheck.println({ "merge $uuid $p writer exited loop" })
                 }
                 SanityCheck.println({ "merge $uuid $p writer lupos.s00misc.ParallelJob init :: " })
@@ -213,25 +214,27 @@ ringbufferReaderContinuation.signal()
                             }
                             res = 0
                             ringbufferReadHead[p] = (ringbufferReadHead[p] + variables.size) % elementsPerRing
-ringbufferWriterContinuation[p].signal()
+                            ringbufferWriterContinuation[p].signal()
                             break@loop
                         } else if (writerFinished[p] == 0) {
-ringbufferWriterContinuation[p].signal()
+                            ringbufferWriterContinuation[p].signal()
                         }
                     }
                     var finishedWriters = 0
-                    var flag = true
-                    for (p in 0 until Partition.k) {
-                        if (ringbufferReadHead[p] != ringbufferWriteHead[p]) {
-                            flag = false
-                        } else if (writerFinished[p] != 0) {
-                            finishedWriters++
+                    ringbufferReaderContinuation.waitCondition({
+                        var flag = true
+                        for (p in 0 until Partition.k) {
+                            if (ringbufferReadHead[p] != ringbufferWriteHead[p]) {
+                                flag = false
+				break
+                            } else if (writerFinished[p] != 0) {
+                                finishedWriters++
+                            }
                         }
-                    }
+                        /*return*/(flag && finishedWriters < Partition.k)
+                    })
                     if (finishedWriters == Partition.k) {
                         break@loop
-                    } else {
-ringbufferReaderContinuation.waitCondition({flag})
                     }
                 }
                 if (ex != null) {
@@ -241,12 +244,12 @@ ringbufferReaderContinuation.waitCondition({flag})
             }
             iterator.close = {
                 SanityCheck.println({ "merge $uuid reader closed" })
-continuationLock.lock()
+                continuationLock.lock()
                 readerFinished = 1
-continuationLock.unlock()
                 for (p in 0 until Partition.k) {
-ringbufferWriterContinuation[p].signal()
+                    ringbufferWriterContinuation[p].signal()
                 }
+                continuationLock.unlock()
             }
             return IteratorBundle(iterator)
         }

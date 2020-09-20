@@ -2,8 +2,8 @@ package lupos.s00misc
 
 import java.util.concurrent.atomic.AtomicInteger
 import kotlin.jvm.JvmField
-import lupos.s00misc.Parallel
 import lupos.s00misc.Coverage
+import lupos.s00misc.Parallel
 
 var debuguuidtmp123 = AtomicInteger()
 

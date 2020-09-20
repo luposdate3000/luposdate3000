@@ -24,10 +24,10 @@ fun main(args: Array<String>) = Parallel.runBlocking {
         }
         i++
     }
-Parallel.    launch {
+    Parallel.launch {
         HttpEndpointLauncher.start(hostname, 2324)
     }
-Parallel.    launch {
+    Parallel.launch {
         ServerCommunicationSend.start(hostname, lupos.s16network.NETWORK_DEFAULT_PORT, bootStrapServer)
     }
     while (true) {

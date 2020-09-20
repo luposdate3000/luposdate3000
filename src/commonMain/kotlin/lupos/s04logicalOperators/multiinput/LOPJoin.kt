@@ -14,7 +14,7 @@ class LOPJoin(query: Query, first: OPBase, second: OPBase, @JvmField val optiona
     override fun cloneOP() = LOPJoin(query, children[0].cloneOP(), children[1].cloneOP(), optional)
 
     companion object {
-inline         fun getColumns(columnsA: List<String>, columnsB: List<String>): Array<MutableList<String>> {
+        inline fun getColumns(columnsA: List<String>, columnsB: List<String>): Array<MutableList<String>> {
             /*result array indices 0:Join,1:AOnly,2:BOnly*/
             val res = Array(3) { mutableListOf<String>() }
             res[2].addAll(columnsB)
@@ -73,7 +73,7 @@ inline         fun getColumns(columnsA: List<String>, columnsB: List<String>): A
             for (v in columns[2]) {
                 tmpMap[v] = b.values[v]!!
             }
-for((k,v) in tmpMap){
+            for ((k, v) in tmpMap) {
                 if (v > res.count) {
                     res.values[k] = res.count
                 } else {

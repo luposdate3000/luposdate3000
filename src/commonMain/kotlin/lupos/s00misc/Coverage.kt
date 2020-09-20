@@ -1,8 +1,8 @@
 package lupos.s00misc
 
 import kotlin.jvm.JvmField
-import lupos.s00misc.Parallel
 import lupos.s00misc.File
+import lupos.s00misc.Parallel
 
 enum class ECoverage {
     Disabled,

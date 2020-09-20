@@ -9,13 +9,13 @@ import java.net.ServerSocket
 import java.net.Socket
 import java.net.URLDecoder
 import java.util.Date
-import lupos.s00misc.Parallel
 import lupos.s00misc.Coverage
 import lupos.s00misc.DateHelper
 import lupos.s00misc.EnpointRecievedInvalidPath
 import lupos.s00misc.File
 import lupos.s00misc.JenaWrapper
 import lupos.s00misc.MyMapStringIntPatriciaTrie
+import lupos.s00misc.Parallel
 import lupos.s03resultRepresentation.nodeGlobalDictionary
 import lupos.s15tripleStoreDistributed.DistributedTripleStore
 import lupos.SparqlTestSuite

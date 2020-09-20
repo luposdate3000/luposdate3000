@@ -15,6 +15,10 @@ class NodeLeafColumnIteratorPrefix3(node: ByteArray, nodeid: Int, prefix: IntArr
     @JvmField
     var value2 = 0
     suspend override fun next(): Int {
+        if (label == 3) {
+            label = 1
+            __init()
+        }
         if (label != 0) {
             var done = false
             while (!done) {

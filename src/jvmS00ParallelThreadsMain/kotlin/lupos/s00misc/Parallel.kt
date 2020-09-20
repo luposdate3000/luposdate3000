@@ -1,10 +1,30 @@
 package lupos.s00misc
-import lupos.s03resultRepresentation.ResultSetDictionary
-import kotlin.jvm.JvmField
-import java.util.concurrent.locks.ReentrantLock
+
 import java.util.concurrent.ArrayBlockingQueue
+import java.util.concurrent.atomic.AtomicInteger
+import java.util.concurrent.locks.ReentrantLock
+import java.util.concurrent.locks.ReentrantReadWriteLock
+import java.util.concurrent.Semaphore
+import kotlin.jvm.JvmField
+import lupos.s03resultRepresentation.ResultSetDictionary
 
 typealias ParallelJob = Thread
+
+class MyMutex {
+    @JvmField
+    val semaphore = Semaphore(1)
+    inline fun lock() {
+        semaphore.acquire()
+    }
+
+    inline fun unlock() {
+        semaphore.release()
+    }
+
+    inline fun tryLock(): Boolean {
+        return semaphore.tryAcquire()
+    }
+}
 
 object Parallel {
     inline fun <T> runBlocking(crossinline action: () -> T): T {
@@ -22,22 +42,21 @@ object Parallel {
     inline fun delay(milliseconds: Long) {
         Thread.sleep(milliseconds)
     }
-inline fun createMutex()=ReentrantLock()
-    inline fun createCondition(lock: Lock) = ParallelCondition(lock)
-    inline fun <T>createQueue(terminationValue:T) = ParallelQueue<T>(terminationValue)
 
+    inline fun createMutex() = MyMutex()
+    inline fun createCondition(lock: Lock) = ParallelCondition(lock)
+    inline fun <T> createQueue(terminationValue: T) = ParallelQueue<T>(terminationValue)
     class ParallelCondition(@JvmField val lock: Lock) {
         @JvmField
         val lock2 = ReentrantLock()
 
         @JvmField
         val cond = lock2.newCondition()
-
         inline fun waitCondition(crossinline condition: () -> Boolean) {
             lock.lock()//this lock is required to execute the "condition()"
             if (condition()) {
-                lock.unlock()
                 lock2.lock()
+                lock.unlock()
                 cond.await()
                 lock2.unlock()
             } else {
@@ -52,15 +71,16 @@ inline fun createMutex()=ReentrantLock()
         }
     }
 
-    class ParallelQueue<T>    (@JvmField val terminationValue:T){
-        @JvmField val queue = ArrayBlockingQueue<T>(4096)
-
+    class ParallelQueue<T>(@JvmField val terminationValue: T) {
+        @JvmField
+        val queue = ArrayBlockingQueue<T>(4096)
         inline fun send(value: T) {
             queue.put(value)
         }
-inline fun close(){
-queue.put(terminationValue)
-}
+
+        inline fun close() {
+            queue.put(terminationValue)
+        }
 
         inline fun receive(): T {
             return queue.take()

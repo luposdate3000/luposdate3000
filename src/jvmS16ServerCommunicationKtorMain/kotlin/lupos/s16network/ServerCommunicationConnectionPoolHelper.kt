@@ -3,9 +3,9 @@ package lupos.s16network
 import io.ktor.network.sockets.Socket
 import io.ktor.utils.io.ByteReadChannel
 import io.ktor.utils.io.ByteWriteChannel
-import lupos.s00misc.ParallelJob
 import lupos.s00misc.ByteArrayBuilder
 import lupos.s00misc.ByteArrayRead
+import lupos.s00misc.ParallelJob
 import lupos.s04logicalOperators.iterator.ColumnIterator
 
 class ServerCommunicationConnectionPoolHelper(val socket: Socket, val input: ByteReadChannel, val output: ByteWriteChannel) {

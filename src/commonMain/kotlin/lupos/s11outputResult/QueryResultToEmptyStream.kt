@@ -1,10 +1,10 @@
 package lupos.s11outputResult
 
 import java.io.PrintWriter
-import lupos.s00misc.ParallelJob
 import lupos.s00misc.Lock
-import lupos.s00misc.Parallel
 import lupos.s00misc.MyMapIntInt
+import lupos.s00misc.Parallel
+import lupos.s00misc.ParallelJob
 import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
 import lupos.s03resultRepresentation.ResultSetDictionary

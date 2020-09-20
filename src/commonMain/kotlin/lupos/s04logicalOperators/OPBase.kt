@@ -1,7 +1,6 @@
 package lupos.s04logicalOperators
 
 import kotlin.jvm.JvmField
-import lupos.s00misc.Parallel
 import lupos.s00misc.BugException
 import lupos.s00misc.classNameToString
 import lupos.s00misc.EOperatorID
@@ -9,6 +8,7 @@ import lupos.s00misc.ESortPriority
 import lupos.s00misc.ESortType
 import lupos.s00misc.EvaluateNotImplementedException
 import lupos.s00misc.HistogramNotImplementedException
+import lupos.s00misc.Parallel
 import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.SortHelper

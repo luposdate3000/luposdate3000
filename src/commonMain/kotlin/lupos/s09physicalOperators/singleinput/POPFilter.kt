@@ -46,8 +46,9 @@ class POPFilter(query: Query, projectedVariables: List<String>, filter: AOPBase,
             for (i in 0 until variables.size) {
                 columnsLocal.add(object : ColumnIteratorQueue() {
                     override suspend fun close() {
-		__close()
-}
+                        __close()
+                    }
+
                     inline suspend fun __close() {
                         if (label != 0) {
                             _close()
@@ -59,7 +60,7 @@ class POPFilter(query: Query, projectedVariables: List<String>, filter: AOPBase,
                     }
 
                     override suspend fun next(): Value {
-                        return next_helper ({
+                        return next_helper({
                             try {
                                 var done = false
                                 while (!done) {
@@ -98,7 +99,7 @@ class POPFilter(query: Query, projectedVariables: List<String>, filter: AOPBase,
                                 }
                                 throw e
                             }
-                        },{__close()})
+                        }, { __close() })
                     }
                 })
             }

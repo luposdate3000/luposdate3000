@@ -20,7 +20,7 @@ abstract class ColumnIteratorQueue() : ColumnIterator() {
         }
     }
 
-    inline suspend fun next_helper(crossinline onEmptyQueue: suspend () -> Unit,crossinline onClose: suspend () -> Unit): Value {
+    inline suspend fun next_helper(crossinline onEmptyQueue: suspend () -> Unit, crossinline onClose: suspend () -> Unit): Value {
         when (label) {
             1 -> {
                 if (queue.size == 0) {

@@ -1,16 +1,18 @@
 package lupos.s00misc
+
 import kotlin.coroutines.Continuation
 import kotlin.coroutines.intrinsics.COROUTINE_SUSPENDED
 import kotlin.coroutines.intrinsics.suspendCoroutineUninterceptedOrReturn
 import kotlin.coroutines.resume
-import kotlinx.coroutines.channels.Channel
 import kotlin.jvm.JvmField
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
+
 typealias ParallelJob = Job
 
 object Parallel {
@@ -29,15 +31,13 @@ object Parallel {
     inline suspend fun delay(milliseconds: Long) {
         kotlinx.coroutines.delay(milliseconds)
     }
-inline fun createMutex()=Mutex()
+
+    inline fun createMutex() = Mutex()
     inline fun createCondition(lock: Lock) = ParallelCondition(lock)
     inline fun <T> createQueue(terminationValue: T) = ParallelQueue<T>()
-
     class ParallelCondition(@JvmField val lock: Lock) {
-
         @JvmField
         var cont: Continuation<Unit>? = null
-
         suspend inline fun waitCondition(crossinline condition: () -> Boolean) {
             lock.lock()
             if (condition()) {
@@ -65,9 +65,9 @@ inline fun createMutex()=Mutex()
         }
     }
 
-    class ParallelQueue<T>()    {
-        @JvmField val queue = Channel<T>(2)
-
+    class ParallelQueue<T>() {
+        @JvmField
+        val queue = Channel<T>(2)
         inline fun close() {
             queue.close()
         }

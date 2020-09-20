@@ -90,8 +90,9 @@ class POPJoinMerge(query: Query, projectedVariables: List<String>, childA: OPBas
 
         @JvmField
         var skipO1 = 0
-@JvmField
-var sipbuf=IntArray(2)
+
+        @JvmField
+        var sipbuf = IntArray(2)
         suspend inline fun __close() {
             if (label != 0) {
                 local___close_i = 0
@@ -138,7 +139,7 @@ var sipbuf=IntArray(2)
         }
 
         override suspend fun next(): Value {
-            return next_helper ({
+            return next_helper({
                 if (key0[0] != ResultSetDictionary.nullValue && key1[0] != ResultSetDictionary.nullValue) {
                     loop@ while (true) {
                         SanityCheck.check { columnsINJ0.size > 0 }
@@ -148,10 +149,10 @@ var sipbuf=IntArray(2)
                             var skip1 = 0
                             while (key0[0] != key1[0]) {
                                 if (key0[0] < key1[0]) {
-columnsINJ0[0].nextSIP(key1[0],sipbuf)
-key0[0]=sipbuf[1]
-skip0+=sipbuf[0]
-skipO0+=sipbuf[0]
+                                    columnsINJ0[0].nextSIP(key1[0], sipbuf)
+                                    key0[0] = sipbuf[1]
+                                    skip0 += sipbuf[0]
+                                    skipO0 += sipbuf[0]
                                     skip0++
                                     skipO0++
                                     SanityCheck.check { key0[0] != ResultSetDictionary.undefValue }
@@ -160,10 +161,10 @@ skipO0+=sipbuf[0]
                                         break@loop
                                     }
                                 } else {
-columnsINJ1[0].nextSIP(key0[0],sipbuf)
-key1[0] =sipbuf[1]
-skip1+=sipbuf[0]  
-skipO1+=sipbuf[0]
+                                    columnsINJ1[0].nextSIP(key0[0], sipbuf)
+                                    key1[0] = sipbuf[1]
+                                    skip1 += sipbuf[0]
+                                    skipO1 += sipbuf[0]
                                     skip1++
                                     skipO1++
                                     SanityCheck.check { key1[0] != ResultSetDictionary.undefValue }
@@ -318,7 +319,7 @@ skipO1+=sipbuf[0]
                 } else {
                     __close()
                 }
-            },{__close()})
+            }, { __close() })
         }
     }
 

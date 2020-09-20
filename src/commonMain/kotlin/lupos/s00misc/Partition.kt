@@ -1,6 +1,5 @@
 package lupos.s00misc
 
-
 class Partition {
     val data: Map<String, Int>
 

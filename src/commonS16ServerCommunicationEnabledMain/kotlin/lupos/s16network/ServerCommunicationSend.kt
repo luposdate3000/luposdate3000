@@ -4,10 +4,10 @@ import kotlin.jvm.JvmField
 import lupos.s00misc.ByteArrayBuilder
 import lupos.s00misc.CommuncationUnexpectedHeaderException
 import lupos.s00misc.Coverage
-import lupos.s00misc.Parallel
 import lupos.s00misc.EGraphOperationType
 import lupos.s00misc.EIndexPattern
 import lupos.s00misc.EModifyType
+import lupos.s00misc.Parallel
 import lupos.s00misc.SanityCheck
 import lupos.s03resultRepresentation.nodeGlobalDictionary
 import lupos.s03resultRepresentation.ResultSetDictionary

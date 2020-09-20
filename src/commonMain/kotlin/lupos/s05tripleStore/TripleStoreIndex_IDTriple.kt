@@ -645,7 +645,6 @@ SanityCheck.check{rootNode==null}
                     myleaf = it
                 }
                 var iterator0 = NodeLeafColumnIterator0(myleaf, firstLeaf, debugLock)
-                iterator0._init()
                 for (s in queueS) {
                     val tmpa = iterator0.next()
                     SanityCheck.check { tmpa == s }
@@ -658,7 +657,6 @@ SanityCheck.check{rootNode==null}
                     myleaf = it
                 }
                 var iterator1 = NodeLeafColumnIterator1(myleaf, firstLeaf, debugLock)
-                iterator1._init()
                 for (s in queueP) {
                     val tmpb = iterator1.next()
                     SanityCheck.check { tmpb == s }
@@ -671,7 +669,6 @@ SanityCheck.check{rootNode==null}
                     myleaf = it
                 }
                 var iterator2 = NodeLeafColumnIterator2(myleaf, firstLeaf, debugLock)
-                iterator2._init()
                 for (s in queueO) {
                     val tmpc = iterator2.next()
                     SanityCheck.check { tmpc == s }
@@ -688,12 +685,10 @@ SanityCheck.check{rootNode==null}
                         myleaf = it
                     }
                     var iterator_1_1 = NodeLeafColumnIteratorPrefix1_1(myleaf, firstLeaf, intArrayOf(queueS[0]), debugLock)
-                    iterator_1_1._init()
                     NodeManager.getNodeLeaf(firstLeaf) { it ->
                         myleaf = it
                     }
                     var iterator_1_2 = NodeLeafColumnIteratorPrefix1_2(myleaf, firstLeaf, intArrayOf(queueS[0]), debugLock)
-                    iterator_1_2._init()
                     var last_s = iterator_s.next()
                     val tmpd = iterator_1_1.next()
                     SanityCheck.check { tmpd == iterator_p.next() }
@@ -720,12 +715,10 @@ SanityCheck.check{rootNode==null}
                                 myleaf = it
                             }
                             iterator_1_1 = NodeLeafColumnIteratorPrefix1_1(myleaf, firstLeaf, intArrayOf(current_s), debugLock)
-                            iterator_1_1._init()
                             NodeManager.getNodeLeaf(firstLeaf) { it ->
                                 myleaf = it
                             }
                             iterator_1_2 = NodeLeafColumnIteratorPrefix1_2(myleaf, firstLeaf, intArrayOf(current_s), debugLock)
-                            iterator_1_2._init()
                             val tmph = iterator_1_1.next()
                             val tmpi = iterator_1_2.next()
                             SanityCheck.check { tmph == current_p }
@@ -751,12 +744,10 @@ SanityCheck.check{rootNode==null}
                         myleaf = it
                     }
                     var iterator_1_1 = NodeLeafColumnIteratorPrefix1_1(myleaf, firstLeaf, intArrayOf(queueS[0]), debugLock)
-                    iterator_1_1._init()
                     NodeManager.getNodeLeaf(firstLeaf) { it ->
                         myleaf = it
                     }
                     var iterator_1_2 = NodeLeafColumnIteratorPrefix1_2(myleaf, firstLeaf, intArrayOf(queueS[0]), debugLock)
-                    iterator_1_2._init()
                     var last_s = iterator_s.next()
                     val tmpd = iterator_1_1.skipSIP(0)
                     SanityCheck.check { tmpd == iterator_p.next() }
@@ -780,13 +771,11 @@ SanityCheck.check{rootNode==null}
                                 myleaf = it
                             }
                             iterator_1_1 = NodeLeafColumnIteratorPrefix1_1(myleaf, firstLeaf, intArrayOf(current_s), debugLock)
-                            iterator_1_1._init()
                             iterator_1_2.close()
                             NodeManager.getNodeLeaf(firstLeaf) { it ->
                                 myleaf = it
                             }
                             iterator_1_2 = NodeLeafColumnIteratorPrefix1_2(myleaf, firstLeaf, intArrayOf(current_s), debugLock)
-                            iterator_1_2._init()
                             val tmph = iterator_1_1.skipSIP(0)
                             val tmpi = iterator_1_2.skipSIP(0)
                             SanityCheck.check { tmph == current_p }
@@ -808,12 +797,10 @@ SanityCheck.check{rootNode==null}
                         myleaf = it
                     }
                     var iterator_1_1 = NodeLeafColumnIteratorPrefix1_1(myleaf, firstLeaf, intArrayOf(queueS[0]), debugLock)
-                    iterator_1_1._init()
                     NodeManager.getNodeLeaf(firstLeaf) { it ->
                         myleaf = it
                     }
                     var iterator_1_2 = NodeLeafColumnIteratorPrefix1_2(myleaf, firstLeaf, intArrayOf(queueS[0]), debugLock)
-                    iterator_1_2._init()
                     var skipping = 1
                     var last_s = iterator_s.next()
                     iterator_p.next()
@@ -843,13 +830,11 @@ SanityCheck.check{rootNode==null}
                                 myleaf = it
                             }
                             iterator_1_1 = NodeLeafColumnIteratorPrefix1_1(myleaf, firstLeaf, intArrayOf(current_s), debugLock)
-                            iterator_1_1._init()
                             iterator_1_2.close()
                             NodeManager.getNodeLeaf(firstLeaf) { it ->
                                 myleaf = it
                             }
                             iterator_1_2 = NodeLeafColumnIteratorPrefix1_2(myleaf, firstLeaf, intArrayOf(current_s), debugLock)
-                            iterator_1_2._init()
                             skipping = 1
                         }
                         last_s = current_s
@@ -865,7 +850,6 @@ SanityCheck.check{rootNode==null}
                         myleaf = it
                     }
                     var iterator_2_2 = NodeLeafColumnIteratorPrefix2_2(myleaf, firstLeaf, intArrayOf(queueS[0], queueP[0]), debugLock)
-                    iterator_2_2._init()
                     var last_s = iterator_s.next()
                     var last_p = iterator_p.next()
                     val tmpo = iterator_2_2.next()
@@ -884,7 +868,6 @@ SanityCheck.check{rootNode==null}
                                 myleaf = it
                             }
                             iterator_2_2 = NodeLeafColumnIteratorPrefix2_2(myleaf, firstLeaf, intArrayOf(current_s, current_p), debugLock)
-                            iterator_2_2._init()
                             val tmpm = iterator_2_2.next()
                             SanityCheck.check { tmpm == current_o }
                         }

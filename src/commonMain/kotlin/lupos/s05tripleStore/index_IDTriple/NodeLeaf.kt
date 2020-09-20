@@ -22,17 +22,14 @@ object NodeLeaf {
         when (component) {
             0 -> {
                 val res = NodeLeafColumnIterator0(node, nodeid, lock)
-                res._init()
                 return res
             }
             1 -> {
                 val res = NodeLeafColumnIterator1(node, nodeid, lock)
-                res._init()
                 return res
             }
             2 -> {
                 val res = NodeLeafColumnIterator2(node, nodeid, lock)
-                res._init()
                 return res
             }
             else -> {
@@ -43,13 +40,11 @@ object NodeLeaf {
 
     suspend inline fun iterator3(node: ByteArray, nodeid: Int, prefix: IntArray, lock: ReadWriteLock): ColumnIterator {
         val res = NodeLeafColumnIteratorPrefix3(node, nodeid, prefix, lock)
-        res._init()
         return res
     }
 
     suspend inline fun iterator2(node: ByteArray, nodeid: Int, prefix: IntArray, lock: ReadWriteLock): ColumnIterator {
         val res = NodeLeafColumnIteratorPrefix2_2(node, nodeid, prefix, lock)
-        res._init()
         return res
     }
 
@@ -57,12 +52,10 @@ object NodeLeaf {
         when (component) {
             1 -> {
                 val res = NodeLeafColumnIteratorPrefix1_1(node, nodeid, prefix, lock)
-                res._init()
                 return res
             }
             2 -> {
                 val res = NodeLeafColumnIteratorPrefix1_2(node, nodeid, prefix, lock)
-                res._init()
                 return res
             }
             else -> {
