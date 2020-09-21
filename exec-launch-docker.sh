@@ -1,36 +1,7 @@
 #!/bin/bash
 
 rm build/executable
-{
-  echo "KotlinVersion->1.4.255-SNAPSHOT"
-  echo "Platform->jvm"
-  echo "Launch->Endpoint"
-  echo "Sanity->On"
-  echo "Execution->Sequential"
-  echo "BufferManager->Heap"
-  echo "Dictionary->MultiMap"
-  echo "TripleStore->BPlusTree"
-  echo "Endpoint->Korio"
-  echo "Jena->On"
-  echo "Set->BTree"
-  echo "Map->BTree"
-  echo "OutputFormat->Empty"
-  echo "EnumerateBnodes->false"
-  echo "Pagesize->128"
-  echo "BlockCapacity->8"
-  echo "BTreeBranching->8"
-  echo "MergeSortRows->8"
-  echo "BulkImportBlockSize->8"
-  echo "AdvancedOptimisation->false"
-  echo "Coverage->ECoverage.Disabled"
-  echo "CoverageGenerate->DontChange"
-  echo "ServerCommunication->Sockets"
-  echo "MaxTriplesDuringTest->2000"
-  echo "ConnectionPool->Off"
-  echo "Inline->Off"
-  echo "UsePartitions->true"
-  echo "IteratorDebug->EPOPDebugMode.NONE"
-} | ./generate-buildfile.kts
+cat src-generate-buildfile/template-exec-launch-docker | ./generate-buildfile.kts
 ./tool-gradle-build.sh
 ret=$?
 if [ $ret -ne 0 ]

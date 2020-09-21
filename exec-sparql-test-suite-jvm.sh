@@ -2,39 +2,7 @@
 export JAVA_OPTS="-Xmx60g"
 port="3030"
 rm -rf build src.generated
-{
-  echo "KotlinVersion->1.4.255-SNAPSHOT"
-  echo "Platform->jvm"
-  echo "Launch->SparqlTestSuite"
-  echo "Sanity->On"
-  echo "Parallel->Threads"
-  echo "Execution->Sequential"
-  echo "BufferManager->Heap"
-  echo "Dictionary->MultiMap"
-  echo "TripleStore->BPlusTreePartition"
-  echo "Endpoint->None"
-  echo "Jena->On"
-  echo "Set->BTree"
-  echo "Map->BTree"
-  echo "OutputFormat->Empty"
-  echo "EnumerateBnodes->false"
-  echo "Pagesize->128"
-  echo "BlockCapacity->8"
-  echo "BTreeBranching->8"
-  echo "MergeSortRows->8"
-  echo "BulkImportBlockSize->8"
-  echo "AdvancedOptimisation->false"
-  echo "Coverage->ECoverage.Disabled"
-  echo "CoverageGenerate->Off"
-#  echo "Coverage->ECoverage.VeryVerbose"
-#  echo "CoverageGenerate->On"
-  echo "ServerCommunication->None"
-  echo "MaxTriplesDuringTest->2000"
-  echo "ConnectionPool->Off"
-  echo "Inline->Off"
-  echo "UsePartitions->true"
-  echo "IteratorDebug->EPOPDebugMode.DEBUG2"
-} | ./generate-buildfile.kts
+cat src-generate-buildfile/template-exec-sparql-test-suite-jvm | ./generate-buildfile.kts
 ./tool-gradle-build.sh
 ret=$?
 if [ $ret -ne 0 ]

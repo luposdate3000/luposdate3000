@@ -1,35 +1,4 @@
-{
-  echo "KotlinVersion->1.4.255-SNAPSHOT"
-  echo "Platform->jvm"
-  echo "Launch->Endpoint"
-  echo "Sanity->Off"
-  echo "Parallel->Threads"
-  echo "Execution->Sequential"
-  echo "BufferManager->Heap"
-  echo "Dictionary->Small"
-  echo "TripleStore->BPlusTreePartition"
-#  echo "Endpoint->Korio"
-  echo "Endpoint->JavaNet"
-  echo "Jena->On"
-  echo "Set->BTree"
-  echo "Map->BTree"
-  echo "OutputFormat->XML"
-  echo "EnumerateBnodes->false"
-  echo "Pagesize->8196"
-  echo "BlockCapacity->1048576"
-  echo "BTreeBranching->512"
-  echo "MergeSortRows->512"
-  echo "BulkImportBlockSize->1048576"
-  echo "AdvancedOptimisation->true"
-  echo "Coverage->ECoverage.Disabled"
-  echo "CoverageGenerate->Off"
-  echo "ServerCommunication->None"
-  echo "MaxTriplesDuringTest->-1"
-  echo "ConnectionPool->Off"
-  echo "Inline->On"
-  echo "UsePartitions->true"
-  echo "IteratorDebug->EPOPDebugMode.NONE"
-} | ./generate-buildfile.kts
+cat src-generate-buildfile/template-exec-launch-single-instance | ./generate-buildfile.kts
 ./tool-gradle-build.sh
 ret=$?
 if [ $ret -ne 0 ]
