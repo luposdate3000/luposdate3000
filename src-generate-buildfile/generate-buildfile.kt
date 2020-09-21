@@ -78,7 +78,7 @@ class GenerateBuildFile(val args: Array<String>) {
     var allChoicesString = ""
     var choicesCount = 0
     val myReadLineCache = mutableMapOf<String, String>()
-        var newCommandString = java.io.PrintWriter(java.io.StringWriter())
+    var newCommandString = java.io.PrintWriter(java.io.StringWriter())
 
     var additionalSources = mapOf<ChooseableOption, List<ChooseableOption>>()
     val allChoosenOptions = mutableSetOf<ChooseableOption>(ChooseableOptionDirectory("commonMain"), ChooseableOptionDirectory("commonConfig"))
@@ -88,7 +88,8 @@ class GenerateBuildFile(val args: Array<String>) {
             "mingw64" to listOf("common"),
             "jvm" to listOf("common", "jvm")
     )
-init{
+
+    init {
         for (a in args) {
             if (a.startsWith("--file=")) {
                 val f = a.substring("--file=".length)
@@ -100,11 +101,12 @@ init{
                         throw Exception("invalid input '$it'")
                     }
                 }
-newCommandString=		java.io.File(f).printWriter()
-		break
+                newCommandString = java.io.File(f).printWriter()
+                break
             }
         }
-}
+    }
+
     val templates = listOf(
             PrecompileTemplate("lupos.s00misc", "MyListVALUE", listOf("VALUE" to "Int", "GDEF" to "", "GUSE" to "", "ARRAYTYPE" to "IntArray", "ARRAYINITIALIZER" to "")),
             PrecompileTemplate("lupos.s00misc", "MyListVALUE", listOf("VALUE" to "Long", "GDEF" to "", "GUSE" to "", "ARRAYTYPE" to "LongArray", "ARRAYINITIALIZER" to "")),
@@ -388,6 +390,16 @@ newCommandString=		java.io.File(f).printWriter()
             ),
     )
 
+    init {
+        java.io.File("src-generate-buildfile/all-template").printWriter().use { out ->
+            for ((grp, ops) in options) {
+                for (o in ops) {
+                    out.println(grp.shortcut + "->" + o.label)
+                }
+            }
+        }
+    }
+
     fun myReadLine(key: String): String? {
         while (true) {
             val tmp = myReadLineCache[key]
@@ -431,7 +443,7 @@ newCommandString=		java.io.File(f).printWriter()
                             for (o in options) {
                                 if (o.label == input) {
                                     allChoicesString += "_${o.label}"
-newCommandString.println("${group.shortcut}->${o.label}")
+                                    newCommandString.println("${group.shortcut}->${o.label}")
                                     return o
                                 }
                             }
@@ -854,7 +866,7 @@ newCommandString.println("${group.shortcut}->${o.label}")
                 }
             }
         }
-newCommandString.flush()
+        newCommandString.flush()
         println(autoGenerateAllChoicesString)
     }
 }
