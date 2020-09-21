@@ -1,5 +1,5 @@
-KotlinVersion->1.4.255-SNAPSHOT
 Platform->jvm
+KotlinVersion->1.4.255-SNAPSHOT
 Launch->BenchmarkJena
 Sanity->Off
 Parallel->Threads

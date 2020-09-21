@@ -71,14 +71,14 @@ class ChooseableGroup(val name: String, val shortcut: String) : Comparable<Choos
 }
 
 class PrecompileTemplate(val pkg: String, val sourceClass: String, val replacements: List<Pair<String, String>>)
-class GenerateBuildFile {
+class GenerateBuildFile(val args: Array<String>) {
     var autoGenerateAllChoosenOptionsList = mutableSetOf<ChooseableOption>()
     var autoGenerateAllNotChoosenOptionsList = mutableSetOf<ChooseableOption>()
     var autoGenerateAllChoicesString = ""
-    var newCommandString = "{"
     var allChoicesString = ""
     var choicesCount = 0
     val myReadLineCache = mutableMapOf<String, String>()
+        var newCommandString = java.io.PrintWriter(java.io.StringWriter())
 
     var additionalSources = mapOf<ChooseableOption, List<ChooseableOption>>()
     val allChoosenOptions = mutableSetOf<ChooseableOption>(ChooseableOptionDirectory("commonMain"), ChooseableOptionDirectory("commonConfig"))
@@ -88,6 +88,23 @@ class GenerateBuildFile {
             "mingw64" to listOf("common"),
             "jvm" to listOf("common", "jvm")
     )
+init{
+        for (a in args) {
+            if (a.startsWith("--file=")) {
+                val f = a.substring("--file=".length)
+                java.io.File(f).forEachLine {
+                    val b = it.split("->")
+                    if (b.size == 2) {
+                        myReadLineCache[b[0]] = b[1]
+                    } else {
+                        throw Exception("invalid input '$it'")
+                    }
+                }
+newCommandString=		java.io.File(f).printWriter()
+		break
+            }
+        }
+}
     val templates = listOf(
             PrecompileTemplate("lupos.s00misc", "MyListVALUE", listOf("VALUE" to "Int", "GDEF" to "", "GUSE" to "", "ARRAYTYPE" to "IntArray", "ARRAYINITIALIZER" to "")),
             PrecompileTemplate("lupos.s00misc", "MyListVALUE", listOf("VALUE" to "Long", "GDEF" to "", "GUSE" to "", "ARRAYTYPE" to "LongArray", "ARRAYINITIALIZER" to "")),
@@ -414,7 +431,7 @@ class GenerateBuildFile {
                             for (o in options) {
                                 if (o.label == input) {
                                     allChoicesString += "_${o.label}"
-                                    newCommandString += "\n  echo \"${group.shortcut}->${o.label}\""
+newCommandString.println("${group.shortcut}->${o.label}")
                                     return o
                                 }
                             }
@@ -424,7 +441,7 @@ class GenerateBuildFile {
                             val i = input.toInt()
                             if (i < options.size) {
                                 allChoicesString += "_${options[i].label}"
-                                newCommandString += "\n  echo \"${group.shortcut}->${options[i].label}\""
+                                newCommandString.println("${group.shortcut}->${options[i].label}")
                                 return options[i]
                             }
                         } catch (e: Throwable) {
@@ -496,7 +513,7 @@ class GenerateBuildFile {
         }
     }
 
-    fun main(args: Array<String>) {
+    fun main() {
         var done = false
         var autogeneratemode = args.size > 0 && args[0] == "listAll"
         while (!done) {
@@ -835,9 +852,9 @@ class GenerateBuildFile {
                         option.scriptName.runCommand()
                     }
                 }
-                println(newCommandString + "\n} | ./generate-buildfile.kts")
             }
         }
+newCommandString.flush()
         println(autoGenerateAllChoicesString)
     }
 }

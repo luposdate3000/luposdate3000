@@ -1,4 +1,4 @@
-cat src-generate-buildfile/template-exec-launch-single-instance | ./generate-buildfile.kts
+./generate-buildfile.kts --file=src-generate-buildfile/template-exec-launch-single-instance
 ./tool-gradle-build.sh
 ret=$?
 if [ $ret -ne 0 ]

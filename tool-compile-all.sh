@@ -1,11 +1,11 @@
 for f in src-generate-buildfile/template*
 do
 	echo $f
-	cat $f | ./generate-buildfile.kts
+	./generate-buildfile.kts --file=$f
 	./tool-gradle-build.sh
 	ret=$?
 	if [ $ret -ne 0 ]
 	then
-		exit $ret
+#		exit $ret
 	fi
 done

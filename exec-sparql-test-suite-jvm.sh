@@ -2,7 +2,7 @@
 export JAVA_OPTS="-Xmx60g"
 port="3030"
 rm -rf build src.generated
-cat src-generate-buildfile/template-exec-sparql-test-suite-jvm | ./generate-buildfile.kts
+./generate-buildfile.kts --file=src-generate-buildfile/template-exec-sparql-test-suite-jvm
 ./tool-gradle-build.sh
 ret=$?
 if [ $ret -ne 0 ]

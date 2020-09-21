@@ -3,8 +3,6 @@ Platform->jvm
 Launch->Endpoint
 Sanity->Off
 Parallel->Threads
-Execution->Sequential
-BufferManager->Heap
 Dictionary->Small
 TripleStore->BPlusTreePartition
 Endpoint->JavaNet
