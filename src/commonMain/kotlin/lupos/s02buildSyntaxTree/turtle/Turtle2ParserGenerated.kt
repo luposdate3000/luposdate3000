@@ -16,6 +16,22 @@ class ParserContext(val input:CharIterator){
   next()
  }
 }
+inline fun parse_dot(context:ParserContext,
+ crossinline onDOT:()->Unit
+){
+ context.buffer.clear()
+ when(context.c){
+  '.'->{
+   context.buffer.append(context.c)
+   context.next()
+   onDOT()
+   return
+  }
+  else->{
+   throw Exception("unexpected char context.c")
+  }
+ }
+}
 inline fun parse_ws(context:ParserContext,
  crossinline onSKIP_WS:()->Unit
 ){
@@ -57,7 +73,7 @@ inline fun parse_ws_forced(context:ParserContext,
    return
   }
   else->{
-   throw Exception("unexpected char $c")
+   throw Exception("unexpected char context.c")
   }
  }
 }
@@ -91,17 +107,17 @@ inline fun parse_statement(context:ParserContext,
          return
         }
         else->{
-         throw Exception("unexpected char $c")
+         throw Exception("unexpected char context.c")
         }
        }
       }
       else->{
-       throw Exception("unexpected char $c")
+       throw Exception("unexpected char context.c")
       }
      }
     }
     else->{
-     throw Exception("unexpected char $c")
+     throw Exception("unexpected char context.c")
     }
    }
   }
@@ -132,27 +148,27 @@ inline fun parse_statement(context:ParserContext,
              return
             }
             else->{
-             throw Exception("unexpected char $c")
+             throw Exception("unexpected char context.c")
             }
            }
           }
           else->{
-           throw Exception("unexpected char $c")
+           throw Exception("unexpected char context.c")
           }
          }
         }
         else->{
-         throw Exception("unexpected char $c")
+         throw Exception("unexpected char context.c")
         }
        }
       }
       else->{
-       throw Exception("unexpected char $c")
+       throw Exception("unexpected char context.c")
       }
      }
     }
     else->{
-     throw Exception("unexpected char $c")
+     throw Exception("unexpected char context.c")
     }
    }
   }
@@ -179,17 +195,17 @@ inline fun parse_statement(context:ParserContext,
            return
           }
           else->{
-           throw Exception("unexpected char $c")
+           throw Exception("unexpected char context.c")
           }
          }
         }
         else->{
-         throw Exception("unexpected char $c")
+         throw Exception("unexpected char context.c")
         }
        }
       }
       else->{
-       throw Exception("unexpected char $c")
+       throw Exception("unexpected char context.c")
       }
      }
     }
@@ -220,32 +236,32 @@ inline fun parse_statement(context:ParserContext,
                return
               }
               else->{
-               throw Exception("unexpected char $c")
+               throw Exception("unexpected char context.c")
               }
              }
             }
             else->{
-             throw Exception("unexpected char $c")
+             throw Exception("unexpected char context.c")
             }
            }
           }
           else->{
-           throw Exception("unexpected char $c")
+           throw Exception("unexpected char context.c")
           }
          }
         }
         else->{
-         throw Exception("unexpected char $c")
+         throw Exception("unexpected char context.c")
         }
        }
       }
       else->{
-       throw Exception("unexpected char $c")
+       throw Exception("unexpected char context.c")
       }
      }
     }
     else->{
-     throw Exception("unexpected char $c")
+     throw Exception("unexpected char context.c")
     }
    }
   }
@@ -285,22 +301,22 @@ inline fun parse_statement(context:ParserContext,
                 continue@loop2
                }
                else->{
-                throw Exception("unexpected char $c")
+                throw Exception("unexpected char context.c")
                }
               }
              }
              else->{
-              throw Exception("unexpected char $c")
+              throw Exception("unexpected char context.c")
              }
             }
            }
            else->{
-            throw Exception("unexpected char $c")
+            throw Exception("unexpected char context.c")
            }
           }
          }
          else->{
-          throw Exception("unexpected char $c")
+          throw Exception("unexpected char context.c")
          }
         }
        }
@@ -342,47 +358,47 @@ inline fun parse_statement(context:ParserContext,
                         continue@loop2
                        }
                        else->{
-                        throw Exception("unexpected char $c")
+                        throw Exception("unexpected char context.c")
                        }
                       }
                      }
                      else->{
-                      throw Exception("unexpected char $c")
+                      throw Exception("unexpected char context.c")
                      }
                     }
                    }
                    else->{
-                    throw Exception("unexpected char $c")
+                    throw Exception("unexpected char context.c")
                    }
                   }
                  }
                  else->{
-                  throw Exception("unexpected char $c")
+                  throw Exception("unexpected char context.c")
                  }
                 }
                }
                else->{
-                throw Exception("unexpected char $c")
+                throw Exception("unexpected char context.c")
                }
               }
              }
              else->{
-              throw Exception("unexpected char $c")
+              throw Exception("unexpected char context.c")
              }
             }
            }
            else->{
-            throw Exception("unexpected char $c")
+            throw Exception("unexpected char context.c")
            }
           }
          }
          else->{
-          throw Exception("unexpected char $c")
+          throw Exception("unexpected char context.c")
          }
         }
        }
        else->{
-        throw Exception("unexpected char $c")
+        throw Exception("unexpected char context.c")
        }
       }
      }
@@ -399,7 +415,7 @@ inline fun parse_statement(context:ParserContext,
      return
     }
     else->{
-     throw Exception("unexpected char $c")
+     throw Exception("unexpected char context.c")
     }
    }
   }
@@ -425,7 +441,7 @@ inline fun parse_statement(context:ParserContext,
       continue@loop2
      }
      else->{
-      throw Exception("unexpected char $c")
+      throw Exception("unexpected char context.c")
      }
     }
    }
@@ -437,7 +453,7 @@ inline fun parse_statement(context:ParserContext,
      return
     }
     else->{
-     throw Exception("unexpected char $c")
+     throw Exception("unexpected char context.c")
     }
    }
   }
@@ -477,7 +493,7 @@ inline fun parse_statement(context:ParserContext,
           continue@loop6
          }
          else->{
-          throw Exception("unexpected char $c")
+          throw Exception("unexpected char context.c")
          }
         }
        }
@@ -485,17 +501,17 @@ inline fun parse_statement(context:ParserContext,
        return
       }
       else->{
-       throw Exception("unexpected char $c")
+       throw Exception("unexpected char context.c")
       }
      }
     }
     else->{
-     throw Exception("unexpected char $c")
+     throw Exception("unexpected char context.c")
     }
    }
   }
   else->{
-   throw Exception("unexpected char $c")
+   throw Exception("unexpected char context.c")
   }
  }
 }
@@ -540,22 +556,22 @@ inline fun parse_base(context:ParserContext,
                 continue@loop2
                }
                else->{
-                throw Exception("unexpected char $c")
+                throw Exception("unexpected char context.c")
                }
               }
              }
              else->{
-              throw Exception("unexpected char $c")
+              throw Exception("unexpected char context.c")
              }
             }
            }
            else->{
-            throw Exception("unexpected char $c")
+            throw Exception("unexpected char context.c")
            }
           }
          }
          else->{
-          throw Exception("unexpected char $c")
+          throw Exception("unexpected char context.c")
          }
         }
        }
@@ -597,47 +613,47 @@ inline fun parse_base(context:ParserContext,
                         continue@loop2
                        }
                        else->{
-                        throw Exception("unexpected char $c")
+                        throw Exception("unexpected char context.c")
                        }
                       }
                      }
                      else->{
-                      throw Exception("unexpected char $c")
+                      throw Exception("unexpected char context.c")
                      }
                     }
                    }
                    else->{
-                    throw Exception("unexpected char $c")
+                    throw Exception("unexpected char context.c")
                    }
                   }
                  }
                  else->{
-                  throw Exception("unexpected char $c")
+                  throw Exception("unexpected char context.c")
                  }
                 }
                }
                else->{
-                throw Exception("unexpected char $c")
+                throw Exception("unexpected char context.c")
                }
               }
              }
              else->{
-              throw Exception("unexpected char $c")
+              throw Exception("unexpected char context.c")
              }
             }
            }
            else->{
-            throw Exception("unexpected char $c")
+            throw Exception("unexpected char context.c")
            }
           }
          }
          else->{
-          throw Exception("unexpected char $c")
+          throw Exception("unexpected char context.c")
          }
         }
        }
        else->{
-        throw Exception("unexpected char $c")
+        throw Exception("unexpected char context.c")
        }
       }
      }
@@ -654,12 +670,12 @@ inline fun parse_base(context:ParserContext,
      return
     }
     else->{
-     throw Exception("unexpected char $c")
+     throw Exception("unexpected char context.c")
     }
    }
   }
   else->{
-   throw Exception("unexpected char $c")
+   throw Exception("unexpected char context.c")
   }
  }
 }
@@ -690,7 +706,7 @@ inline fun parse_prefix(context:ParserContext,
       continue@loop2
      }
      else->{
-      throw Exception("unexpected char $c")
+      throw Exception("unexpected char context.c")
      }
     }
    }
@@ -702,7 +718,7 @@ inline fun parse_prefix(context:ParserContext,
      return
     }
     else->{
-     throw Exception("unexpected char $c")
+     throw Exception("unexpected char context.c")
     }
    }
   }
@@ -713,7 +729,7 @@ inline fun parse_prefix(context:ParserContext,
    return
   }
   else->{
-   throw Exception("unexpected char $c")
+   throw Exception("unexpected char context.c")
   }
  }
 }
@@ -758,22 +774,22 @@ inline fun parse_prefix2(context:ParserContext,
                 continue@loop2
                }
                else->{
-                throw Exception("unexpected char $c")
+                throw Exception("unexpected char context.c")
                }
               }
              }
              else->{
-              throw Exception("unexpected char $c")
+              throw Exception("unexpected char context.c")
              }
             }
            }
            else->{
-            throw Exception("unexpected char $c")
+            throw Exception("unexpected char context.c")
            }
           }
          }
          else->{
-          throw Exception("unexpected char $c")
+          throw Exception("unexpected char context.c")
          }
         }
        }
@@ -815,47 +831,47 @@ inline fun parse_prefix2(context:ParserContext,
                         continue@loop2
                        }
                        else->{
-                        throw Exception("unexpected char $c")
+                        throw Exception("unexpected char context.c")
                        }
                       }
                      }
                      else->{
-                      throw Exception("unexpected char $c")
+                      throw Exception("unexpected char context.c")
                      }
                     }
                    }
                    else->{
-                    throw Exception("unexpected char $c")
+                    throw Exception("unexpected char context.c")
                    }
                   }
                  }
                  else->{
-                  throw Exception("unexpected char $c")
+                  throw Exception("unexpected char context.c")
                  }
                 }
                }
                else->{
-                throw Exception("unexpected char $c")
+                throw Exception("unexpected char context.c")
                }
               }
              }
              else->{
-              throw Exception("unexpected char $c")
+              throw Exception("unexpected char context.c")
              }
             }
            }
            else->{
-            throw Exception("unexpected char $c")
+            throw Exception("unexpected char context.c")
            }
           }
          }
          else->{
-          throw Exception("unexpected char $c")
+          throw Exception("unexpected char context.c")
          }
         }
        }
        else->{
-        throw Exception("unexpected char $c")
+        throw Exception("unexpected char context.c")
        }
       }
      }
@@ -872,12 +888,12 @@ inline fun parse_prefix2(context:ParserContext,
      return
     }
     else->{
-     throw Exception("unexpected char $c")
+     throw Exception("unexpected char context.c")
     }
    }
   }
   else->{
-   throw Exception("unexpected char $c")
+   throw Exception("unexpected char context.c")
   }
  }
 }
@@ -930,22 +946,22 @@ inline fun parse_predicate(context:ParserContext,
                 continue@loop2
                }
                else->{
-                throw Exception("unexpected char $c")
+                throw Exception("unexpected char context.c")
                }
               }
              }
              else->{
-              throw Exception("unexpected char $c")
+              throw Exception("unexpected char context.c")
              }
             }
            }
            else->{
-            throw Exception("unexpected char $c")
+            throw Exception("unexpected char context.c")
            }
           }
          }
          else->{
-          throw Exception("unexpected char $c")
+          throw Exception("unexpected char context.c")
          }
         }
        }
@@ -987,47 +1003,47 @@ inline fun parse_predicate(context:ParserContext,
                         continue@loop2
                        }
                        else->{
-                        throw Exception("unexpected char $c")
+                        throw Exception("unexpected char context.c")
                        }
                       }
                      }
                      else->{
-                      throw Exception("unexpected char $c")
+                      throw Exception("unexpected char context.c")
                      }
                     }
                    }
                    else->{
-                    throw Exception("unexpected char $c")
+                    throw Exception("unexpected char context.c")
                    }
                   }
                  }
                  else->{
-                  throw Exception("unexpected char $c")
+                  throw Exception("unexpected char context.c")
                  }
                 }
                }
                else->{
-                throw Exception("unexpected char $c")
+                throw Exception("unexpected char context.c")
                }
               }
              }
              else->{
-              throw Exception("unexpected char $c")
+              throw Exception("unexpected char context.c")
              }
             }
            }
            else->{
-            throw Exception("unexpected char $c")
+            throw Exception("unexpected char context.c")
            }
           }
          }
          else->{
-          throw Exception("unexpected char $c")
+          throw Exception("unexpected char context.c")
          }
         }
        }
        else->{
-        throw Exception("unexpected char $c")
+        throw Exception("unexpected char context.c")
        }
       }
      }
@@ -1044,7 +1060,7 @@ inline fun parse_predicate(context:ParserContext,
      return
     }
     else->{
-     throw Exception("unexpected char $c")
+     throw Exception("unexpected char context.c")
     }
    }
   }
@@ -1070,7 +1086,7 @@ inline fun parse_predicate(context:ParserContext,
       continue@loop2
      }
      else->{
-      throw Exception("unexpected char $c")
+      throw Exception("unexpected char context.c")
      }
     }
    }
@@ -1082,7 +1098,7 @@ inline fun parse_predicate(context:ParserContext,
      return
     }
     else->{
-     throw Exception("unexpected char $c")
+     throw Exception("unexpected char context.c")
     }
    }
   }
@@ -1093,7 +1109,7 @@ inline fun parse_predicate(context:ParserContext,
    return
   }
   else->{
-   throw Exception("unexpected char $c")
+   throw Exception("unexpected char context.c")
   }
  }
 }
@@ -1148,22 +1164,22 @@ inline fun parse_obj(context:ParserContext,
                 continue@loop2
                }
                else->{
-                throw Exception("unexpected char $c")
+                throw Exception("unexpected char context.c")
                }
               }
              }
              else->{
-              throw Exception("unexpected char $c")
+              throw Exception("unexpected char context.c")
              }
             }
            }
            else->{
-            throw Exception("unexpected char $c")
+            throw Exception("unexpected char context.c")
            }
           }
          }
          else->{
-          throw Exception("unexpected char $c")
+          throw Exception("unexpected char context.c")
          }
         }
        }
@@ -1205,47 +1221,47 @@ inline fun parse_obj(context:ParserContext,
                         continue@loop2
                        }
                        else->{
-                        throw Exception("unexpected char $c")
+                        throw Exception("unexpected char context.c")
                        }
                       }
                      }
                      else->{
-                      throw Exception("unexpected char $c")
+                      throw Exception("unexpected char context.c")
                      }
                     }
                    }
                    else->{
-                    throw Exception("unexpected char $c")
+                    throw Exception("unexpected char context.c")
                    }
                   }
                  }
                  else->{
-                  throw Exception("unexpected char $c")
+                  throw Exception("unexpected char context.c")
                  }
                 }
                }
                else->{
-                throw Exception("unexpected char $c")
+                throw Exception("unexpected char context.c")
                }
               }
              }
              else->{
-              throw Exception("unexpected char $c")
+              throw Exception("unexpected char context.c")
              }
             }
            }
            else->{
-            throw Exception("unexpected char $c")
+            throw Exception("unexpected char context.c")
            }
           }
          }
          else->{
-          throw Exception("unexpected char $c")
+          throw Exception("unexpected char context.c")
          }
         }
        }
        else->{
-        throw Exception("unexpected char $c")
+        throw Exception("unexpected char context.c")
        }
       }
      }
@@ -1262,7 +1278,7 @@ inline fun parse_obj(context:ParserContext,
      return
     }
     else->{
-     throw Exception("unexpected char $c")
+     throw Exception("unexpected char context.c")
     }
    }
   }
@@ -1288,7 +1304,7 @@ inline fun parse_obj(context:ParserContext,
       continue@loop2
      }
      else->{
-      throw Exception("unexpected char $c")
+      throw Exception("unexpected char context.c")
      }
     }
    }
@@ -1300,7 +1316,7 @@ inline fun parse_obj(context:ParserContext,
      return
     }
     else->{
-     throw Exception("unexpected char $c")
+     throw Exception("unexpected char context.c")
     }
    }
   }
@@ -1340,7 +1356,7 @@ inline fun parse_obj(context:ParserContext,
           continue@loop6
          }
          else->{
-          throw Exception("unexpected char $c")
+          throw Exception("unexpected char context.c")
          }
         }
        }
@@ -1348,12 +1364,12 @@ inline fun parse_obj(context:ParserContext,
        return
       }
       else->{
-       throw Exception("unexpected char $c")
+       throw Exception("unexpected char context.c")
       }
      }
     }
     else->{
-     throw Exception("unexpected char $c")
+     throw Exception("unexpected char context.c")
     }
    }
   }
@@ -1402,22 +1418,22 @@ inline fun parse_obj(context:ParserContext,
                   continue@loop4
                  }
                  else->{
-                  throw Exception("unexpected char $c")
+                  throw Exception("unexpected char context.c")
                  }
                 }
                }
                else->{
-                throw Exception("unexpected char $c")
+                throw Exception("unexpected char context.c")
                }
               }
              }
              else->{
-              throw Exception("unexpected char $c")
+              throw Exception("unexpected char context.c")
              }
             }
            }
            else->{
-            throw Exception("unexpected char $c")
+            throw Exception("unexpected char context.c")
            }
           }
          }
@@ -1459,47 +1475,47 @@ inline fun parse_obj(context:ParserContext,
                           continue@loop4
                          }
                          else->{
-                          throw Exception("unexpected char $c")
+                          throw Exception("unexpected char context.c")
                          }
                         }
                        }
                        else->{
-                        throw Exception("unexpected char $c")
+                        throw Exception("unexpected char context.c")
                        }
                       }
                      }
                      else->{
-                      throw Exception("unexpected char $c")
+                      throw Exception("unexpected char context.c")
                      }
                     }
                    }
                    else->{
-                    throw Exception("unexpected char $c")
+                    throw Exception("unexpected char context.c")
                    }
                   }
                  }
                  else->{
-                  throw Exception("unexpected char $c")
+                  throw Exception("unexpected char context.c")
                  }
                 }
                }
                else->{
-                throw Exception("unexpected char $c")
+                throw Exception("unexpected char context.c")
                }
               }
              }
              else->{
-              throw Exception("unexpected char $c")
+              throw Exception("unexpected char context.c")
              }
             }
            }
            else->{
-            throw Exception("unexpected char $c")
+            throw Exception("unexpected char context.c")
            }
           }
          }
          else->{
-          throw Exception("unexpected char $c")
+          throw Exception("unexpected char context.c")
          }
         }
        }
@@ -1516,7 +1532,7 @@ inline fun parse_obj(context:ParserContext,
        return
       }
       else->{
-       throw Exception("unexpected char $c")
+       throw Exception("unexpected char context.c")
       }
      }
     }
@@ -1565,22 +1581,22 @@ inline fun parse_obj(context:ParserContext,
                     continue@loop6
                    }
                    else->{
-                    throw Exception("unexpected char $c")
+                    throw Exception("unexpected char context.c")
                    }
                   }
                  }
                  else->{
-                  throw Exception("unexpected char $c")
+                  throw Exception("unexpected char context.c")
                  }
                 }
                }
                else->{
-                throw Exception("unexpected char $c")
+                throw Exception("unexpected char context.c")
                }
               }
              }
              else->{
-              throw Exception("unexpected char $c")
+              throw Exception("unexpected char context.c")
              }
             }
            }
@@ -1622,47 +1638,47 @@ inline fun parse_obj(context:ParserContext,
                             continue@loop6
                            }
                            else->{
-                            throw Exception("unexpected char $c")
+                            throw Exception("unexpected char context.c")
                            }
                           }
                          }
                          else->{
-                          throw Exception("unexpected char $c")
+                          throw Exception("unexpected char context.c")
                          }
                         }
                        }
                        else->{
-                        throw Exception("unexpected char $c")
+                        throw Exception("unexpected char context.c")
                        }
                       }
                      }
                      else->{
-                      throw Exception("unexpected char $c")
+                      throw Exception("unexpected char context.c")
                      }
                     }
                    }
                    else->{
-                    throw Exception("unexpected char $c")
+                    throw Exception("unexpected char context.c")
                    }
                   }
                  }
                  else->{
-                  throw Exception("unexpected char $c")
+                  throw Exception("unexpected char context.c")
                  }
                 }
                }
                else->{
-                throw Exception("unexpected char $c")
+                throw Exception("unexpected char context.c")
                }
               }
              }
              else->{
-              throw Exception("unexpected char $c")
+              throw Exception("unexpected char context.c")
              }
             }
            }
            else->{
-            throw Exception("unexpected char $c")
+            throw Exception("unexpected char context.c")
            }
           }
          }
@@ -1679,7 +1695,7 @@ inline fun parse_obj(context:ParserContext,
          return
         }
         else->{
-         throw Exception("unexpected char $c")
+         throw Exception("unexpected char context.c")
         }
        }
       }
@@ -1740,22 +1756,22 @@ inline fun parse_obj(context:ParserContext,
                             continue@loop14
                            }
                            else->{
-                            throw Exception("unexpected char $c")
+                            throw Exception("unexpected char context.c")
                            }
                           }
                          }
                          else->{
-                          throw Exception("unexpected char $c")
+                          throw Exception("unexpected char context.c")
                          }
                         }
                        }
                        else->{
-                        throw Exception("unexpected char $c")
+                        throw Exception("unexpected char context.c")
                        }
                       }
                      }
                      else->{
-                      throw Exception("unexpected char $c")
+                      throw Exception("unexpected char context.c")
                      }
                     }
                    }
@@ -1797,47 +1813,47 @@ inline fun parse_obj(context:ParserContext,
                                     continue@loop14
                                    }
                                    else->{
-                                    throw Exception("unexpected char $c")
+                                    throw Exception("unexpected char context.c")
                                    }
                                   }
                                  }
                                  else->{
-                                  throw Exception("unexpected char $c")
+                                  throw Exception("unexpected char context.c")
                                  }
                                 }
                                }
                                else->{
-                                throw Exception("unexpected char $c")
+                                throw Exception("unexpected char context.c")
                                }
                               }
                              }
                              else->{
-                              throw Exception("unexpected char $c")
+                              throw Exception("unexpected char context.c")
                              }
                             }
                            }
                            else->{
-                            throw Exception("unexpected char $c")
+                            throw Exception("unexpected char context.c")
                            }
                           }
                          }
                          else->{
-                          throw Exception("unexpected char $c")
+                          throw Exception("unexpected char context.c")
                          }
                         }
                        }
                        else->{
-                        throw Exception("unexpected char $c")
+                        throw Exception("unexpected char context.c")
                        }
                       }
                      }
                      else->{
-                      throw Exception("unexpected char $c")
+                      throw Exception("unexpected char context.c")
                      }
                     }
                    }
                    else->{
-                    throw Exception("unexpected char $c")
+                    throw Exception("unexpected char context.c")
                    }
                   }
                  }
@@ -1854,27 +1870,27 @@ inline fun parse_obj(context:ParserContext,
                  return
                 }
                 else->{
-                 throw Exception("unexpected char $c")
+                 throw Exception("unexpected char context.c")
                 }
                }
               }
               else->{
-               throw Exception("unexpected char $c")
+               throw Exception("unexpected char context.c")
               }
              }
             }
             else->{
-             throw Exception("unexpected char $c")
+             throw Exception("unexpected char context.c")
             }
            }
           }
           else->{
-           throw Exception("unexpected char $c")
+           throw Exception("unexpected char context.c")
           }
          }
         }
         else->{
-         throw Exception("unexpected char $c")
+         throw Exception("unexpected char context.c")
         }
        }
       }
@@ -1951,22 +1967,22 @@ inline fun parse_obj(context:ParserContext,
                                     continue@loop22
                                    }
                                    else->{
-                                    throw Exception("unexpected char $c")
+                                    throw Exception("unexpected char context.c")
                                    }
                                   }
                                  }
                                  else->{
-                                  throw Exception("unexpected char $c")
+                                  throw Exception("unexpected char context.c")
                                  }
                                 }
                                }
                                else->{
-                                throw Exception("unexpected char $c")
+                                throw Exception("unexpected char context.c")
                                }
                               }
                              }
                              else->{
-                              throw Exception("unexpected char $c")
+                              throw Exception("unexpected char context.c")
                              }
                             }
                            }
@@ -2008,47 +2024,47 @@ inline fun parse_obj(context:ParserContext,
                                             continue@loop22
                                            }
                                            else->{
-                                            throw Exception("unexpected char $c")
+                                            throw Exception("unexpected char context.c")
                                            }
                                           }
                                          }
                                          else->{
-                                          throw Exception("unexpected char $c")
+                                          throw Exception("unexpected char context.c")
                                          }
                                         }
                                        }
                                        else->{
-                                        throw Exception("unexpected char $c")
+                                        throw Exception("unexpected char context.c")
                                        }
                                       }
                                      }
                                      else->{
-                                      throw Exception("unexpected char $c")
+                                      throw Exception("unexpected char context.c")
                                      }
                                     }
                                    }
                                    else->{
-                                    throw Exception("unexpected char $c")
+                                    throw Exception("unexpected char context.c")
                                    }
                                   }
                                  }
                                  else->{
-                                  throw Exception("unexpected char $c")
+                                  throw Exception("unexpected char context.c")
                                  }
                                 }
                                }
                                else->{
-                                throw Exception("unexpected char $c")
+                                throw Exception("unexpected char context.c")
                                }
                               }
                              }
                              else->{
-                              throw Exception("unexpected char $c")
+                              throw Exception("unexpected char context.c")
                              }
                             }
                            }
                            else->{
-                            throw Exception("unexpected char $c")
+                            throw Exception("unexpected char context.c")
                            }
                           }
                          }
@@ -2065,52 +2081,52 @@ inline fun parse_obj(context:ParserContext,
                          return
                         }
                         else->{
-                         throw Exception("unexpected char $c")
+                         throw Exception("unexpected char context.c")
                         }
                        }
                       }
                       else->{
-                       throw Exception("unexpected char $c")
+                       throw Exception("unexpected char context.c")
                       }
                      }
                     }
                     else->{
-                     throw Exception("unexpected char $c")
+                     throw Exception("unexpected char context.c")
                     }
                    }
                   }
                   else->{
-                   throw Exception("unexpected char $c")
+                   throw Exception("unexpected char context.c")
                   }
                  }
                 }
                 else->{
-                 throw Exception("unexpected char $c")
+                 throw Exception("unexpected char context.c")
                 }
                }
               }
               else->{
-               throw Exception("unexpected char $c")
+               throw Exception("unexpected char context.c")
               }
              }
             }
             else->{
-             throw Exception("unexpected char $c")
+             throw Exception("unexpected char context.c")
             }
            }
           }
           else->{
-           throw Exception("unexpected char $c")
+           throw Exception("unexpected char context.c")
           }
          }
         }
         else->{
-         throw Exception("unexpected char $c")
+         throw Exception("unexpected char context.c")
         }
        }
       }
       else->{
-       throw Exception("unexpected char $c")
+       throw Exception("unexpected char context.c")
       }
      }
     }
@@ -2159,22 +2175,22 @@ inline fun parse_obj(context:ParserContext,
                     continue@loop6
                    }
                    else->{
-                    throw Exception("unexpected char $c")
+                    throw Exception("unexpected char context.c")
                    }
                   }
                  }
                  else->{
-                  throw Exception("unexpected char $c")
+                  throw Exception("unexpected char context.c")
                  }
                 }
                }
                else->{
-                throw Exception("unexpected char $c")
+                throw Exception("unexpected char context.c")
                }
               }
              }
              else->{
-              throw Exception("unexpected char $c")
+              throw Exception("unexpected char context.c")
              }
             }
            }
@@ -2216,47 +2232,47 @@ inline fun parse_obj(context:ParserContext,
                             continue@loop6
                            }
                            else->{
-                            throw Exception("unexpected char $c")
+                            throw Exception("unexpected char context.c")
                            }
                           }
                          }
                          else->{
-                          throw Exception("unexpected char $c")
+                          throw Exception("unexpected char context.c")
                          }
                         }
                        }
                        else->{
-                        throw Exception("unexpected char $c")
+                        throw Exception("unexpected char context.c")
                        }
                       }
                      }
                      else->{
-                      throw Exception("unexpected char $c")
+                      throw Exception("unexpected char context.c")
                      }
                     }
                    }
                    else->{
-                    throw Exception("unexpected char $c")
+                    throw Exception("unexpected char context.c")
                    }
                   }
                  }
                  else->{
-                  throw Exception("unexpected char $c")
+                  throw Exception("unexpected char context.c")
                  }
                 }
                }
                else->{
-                throw Exception("unexpected char $c")
+                throw Exception("unexpected char context.c")
                }
               }
              }
              else->{
-              throw Exception("unexpected char $c")
+              throw Exception("unexpected char context.c")
              }
             }
            }
            else->{
-            throw Exception("unexpected char $c")
+            throw Exception("unexpected char context.c")
            }
           }
          }
@@ -2300,22 +2316,22 @@ inline fun parse_obj(context:ParserContext,
                       continue@loop6
                      }
                      else->{
-                      throw Exception("unexpected char $c")
+                      throw Exception("unexpected char context.c")
                      }
                     }
                    }
                    else->{
-                    throw Exception("unexpected char $c")
+                    throw Exception("unexpected char context.c")
                    }
                   }
                  }
                  else->{
-                  throw Exception("unexpected char $c")
+                  throw Exception("unexpected char context.c")
                  }
                 }
                }
                else->{
-                throw Exception("unexpected char $c")
+                throw Exception("unexpected char context.c")
                }
               }
              }
@@ -2357,47 +2373,47 @@ inline fun parse_obj(context:ParserContext,
                               continue@loop6
                              }
                              else->{
-                              throw Exception("unexpected char $c")
+                              throw Exception("unexpected char context.c")
                              }
                             }
                            }
                            else->{
-                            throw Exception("unexpected char $c")
+                            throw Exception("unexpected char context.c")
                            }
                           }
                          }
                          else->{
-                          throw Exception("unexpected char $c")
+                          throw Exception("unexpected char context.c")
                          }
                         }
                        }
                        else->{
-                        throw Exception("unexpected char $c")
+                        throw Exception("unexpected char context.c")
                        }
                       }
                      }
                      else->{
-                      throw Exception("unexpected char $c")
+                      throw Exception("unexpected char context.c")
                      }
                     }
                    }
                    else->{
-                    throw Exception("unexpected char $c")
+                    throw Exception("unexpected char context.c")
                    }
                   }
                  }
                  else->{
-                  throw Exception("unexpected char $c")
+                  throw Exception("unexpected char context.c")
                  }
                 }
                }
                else->{
-                throw Exception("unexpected char $c")
+                throw Exception("unexpected char context.c")
                }
               }
              }
              else->{
-              throw Exception("unexpected char $c")
+              throw Exception("unexpected char context.c")
              }
             }
            }
@@ -2441,22 +2457,22 @@ inline fun parse_obj(context:ParserContext,
                         continue@loop6
                        }
                        else->{
-                        throw Exception("unexpected char $c")
+                        throw Exception("unexpected char context.c")
                        }
                       }
                      }
                      else->{
-                      throw Exception("unexpected char $c")
+                      throw Exception("unexpected char context.c")
                      }
                     }
                    }
                    else->{
-                    throw Exception("unexpected char $c")
+                    throw Exception("unexpected char context.c")
                    }
                   }
                  }
                  else->{
-                  throw Exception("unexpected char $c")
+                  throw Exception("unexpected char context.c")
                  }
                 }
                }
@@ -2498,47 +2514,47 @@ inline fun parse_obj(context:ParserContext,
                                 continue@loop6
                                }
                                else->{
-                                throw Exception("unexpected char $c")
+                                throw Exception("unexpected char context.c")
                                }
                               }
                              }
                              else->{
-                              throw Exception("unexpected char $c")
+                              throw Exception("unexpected char context.c")
                              }
                             }
                            }
                            else->{
-                            throw Exception("unexpected char $c")
+                            throw Exception("unexpected char context.c")
                            }
                           }
                          }
                          else->{
-                          throw Exception("unexpected char $c")
+                          throw Exception("unexpected char context.c")
                          }
                         }
                        }
                        else->{
-                        throw Exception("unexpected char $c")
+                        throw Exception("unexpected char context.c")
                        }
                       }
                      }
                      else->{
-                      throw Exception("unexpected char $c")
+                      throw Exception("unexpected char context.c")
                      }
                     }
                    }
                    else->{
-                    throw Exception("unexpected char $c")
+                    throw Exception("unexpected char context.c")
                    }
                   }
                  }
                  else->{
-                  throw Exception("unexpected char $c")
+                  throw Exception("unexpected char context.c")
                  }
                 }
                }
                else->{
-                throw Exception("unexpected char $c")
+                throw Exception("unexpected char context.c")
                }
               }
              }
@@ -2549,12 +2565,12 @@ inline fun parse_obj(context:ParserContext,
               return
              }
              else->{
-              throw Exception("unexpected char $c")
+              throw Exception("unexpected char context.c")
              }
             }
            }
            else->{
-            throw Exception("unexpected char $c")
+            throw Exception("unexpected char context.c")
            }
           }
          }
@@ -2563,7 +2579,7 @@ inline fun parse_obj(context:ParserContext,
          }
         }
        }
-       throw Exception("unexpected char $c")
+       throw Exception("unexpected char context.c")
       }
       else->{
        onSTRING_LITERAL_QUOTE()
@@ -2572,7 +2588,7 @@ inline fun parse_obj(context:ParserContext,
      }
     }
     else->{
-     throw Exception("unexpected char $c")
+     throw Exception("unexpected char context.c")
     }
    }
   }
@@ -2621,22 +2637,22 @@ inline fun parse_obj(context:ParserContext,
                   continue@loop4
                  }
                  else->{
-                  throw Exception("unexpected char $c")
+                  throw Exception("unexpected char context.c")
                  }
                 }
                }
                else->{
-                throw Exception("unexpected char $c")
+                throw Exception("unexpected char context.c")
                }
               }
              }
              else->{
-              throw Exception("unexpected char $c")
+              throw Exception("unexpected char context.c")
              }
             }
            }
            else->{
-            throw Exception("unexpected char $c")
+            throw Exception("unexpected char context.c")
            }
           }
          }
@@ -2678,47 +2694,47 @@ inline fun parse_obj(context:ParserContext,
                           continue@loop4
                          }
                          else->{
-                          throw Exception("unexpected char $c")
+                          throw Exception("unexpected char context.c")
                          }
                         }
                        }
                        else->{
-                        throw Exception("unexpected char $c")
+                        throw Exception("unexpected char context.c")
                        }
                       }
                      }
                      else->{
-                      throw Exception("unexpected char $c")
+                      throw Exception("unexpected char context.c")
                      }
                     }
                    }
                    else->{
-                    throw Exception("unexpected char $c")
+                    throw Exception("unexpected char context.c")
                    }
                   }
                  }
                  else->{
-                  throw Exception("unexpected char $c")
+                  throw Exception("unexpected char context.c")
                  }
                 }
                }
                else->{
-                throw Exception("unexpected char $c")
+                throw Exception("unexpected char context.c")
                }
               }
              }
              else->{
-              throw Exception("unexpected char $c")
+              throw Exception("unexpected char context.c")
              }
             }
            }
            else->{
-            throw Exception("unexpected char $c")
+            throw Exception("unexpected char context.c")
            }
           }
          }
          else->{
-          throw Exception("unexpected char $c")
+          throw Exception("unexpected char context.c")
          }
         }
        }
@@ -2735,7 +2751,7 @@ inline fun parse_obj(context:ParserContext,
        return
       }
       else->{
-       throw Exception("unexpected char $c")
+       throw Exception("unexpected char context.c")
       }
      }
     }
@@ -2784,22 +2800,22 @@ inline fun parse_obj(context:ParserContext,
                     continue@loop6
                    }
                    else->{
-                    throw Exception("unexpected char $c")
+                    throw Exception("unexpected char context.c")
                    }
                   }
                  }
                  else->{
-                  throw Exception("unexpected char $c")
+                  throw Exception("unexpected char context.c")
                  }
                 }
                }
                else->{
-                throw Exception("unexpected char $c")
+                throw Exception("unexpected char context.c")
                }
               }
              }
              else->{
-              throw Exception("unexpected char $c")
+              throw Exception("unexpected char context.c")
              }
             }
            }
@@ -2841,47 +2857,47 @@ inline fun parse_obj(context:ParserContext,
                             continue@loop6
                            }
                            else->{
-                            throw Exception("unexpected char $c")
+                            throw Exception("unexpected char context.c")
                            }
                           }
                          }
                          else->{
-                          throw Exception("unexpected char $c")
+                          throw Exception("unexpected char context.c")
                          }
                         }
                        }
                        else->{
-                        throw Exception("unexpected char $c")
+                        throw Exception("unexpected char context.c")
                        }
                       }
                      }
                      else->{
-                      throw Exception("unexpected char $c")
+                      throw Exception("unexpected char context.c")
                      }
                     }
                    }
                    else->{
-                    throw Exception("unexpected char $c")
+                    throw Exception("unexpected char context.c")
                    }
                   }
                  }
                  else->{
-                  throw Exception("unexpected char $c")
+                  throw Exception("unexpected char context.c")
                  }
                 }
                }
                else->{
-                throw Exception("unexpected char $c")
+                throw Exception("unexpected char context.c")
                }
               }
              }
              else->{
-              throw Exception("unexpected char $c")
+              throw Exception("unexpected char context.c")
              }
             }
            }
            else->{
-            throw Exception("unexpected char $c")
+            throw Exception("unexpected char context.c")
            }
           }
          }
@@ -2898,7 +2914,7 @@ inline fun parse_obj(context:ParserContext,
          return
         }
         else->{
-         throw Exception("unexpected char $c")
+         throw Exception("unexpected char context.c")
         }
        }
       }
@@ -2959,22 +2975,22 @@ inline fun parse_obj(context:ParserContext,
                             continue@loop14
                            }
                            else->{
-                            throw Exception("unexpected char $c")
+                            throw Exception("unexpected char context.c")
                            }
                           }
                          }
                          else->{
-                          throw Exception("unexpected char $c")
+                          throw Exception("unexpected char context.c")
                          }
                         }
                        }
                        else->{
-                        throw Exception("unexpected char $c")
+                        throw Exception("unexpected char context.c")
                        }
                       }
                      }
                      else->{
-                      throw Exception("unexpected char $c")
+                      throw Exception("unexpected char context.c")
                      }
                     }
                    }
@@ -3016,47 +3032,47 @@ inline fun parse_obj(context:ParserContext,
                                     continue@loop14
                                    }
                                    else->{
-                                    throw Exception("unexpected char $c")
+                                    throw Exception("unexpected char context.c")
                                    }
                                   }
                                  }
                                  else->{
-                                  throw Exception("unexpected char $c")
+                                  throw Exception("unexpected char context.c")
                                  }
                                 }
                                }
                                else->{
-                                throw Exception("unexpected char $c")
+                                throw Exception("unexpected char context.c")
                                }
                               }
                              }
                              else->{
-                              throw Exception("unexpected char $c")
+                              throw Exception("unexpected char context.c")
                              }
                             }
                            }
                            else->{
-                            throw Exception("unexpected char $c")
+                            throw Exception("unexpected char context.c")
                            }
                           }
                          }
                          else->{
-                          throw Exception("unexpected char $c")
+                          throw Exception("unexpected char context.c")
                          }
                         }
                        }
                        else->{
-                        throw Exception("unexpected char $c")
+                        throw Exception("unexpected char context.c")
                        }
                       }
                      }
                      else->{
-                      throw Exception("unexpected char $c")
+                      throw Exception("unexpected char context.c")
                      }
                     }
                    }
                    else->{
-                    throw Exception("unexpected char $c")
+                    throw Exception("unexpected char context.c")
                    }
                   }
                  }
@@ -3073,27 +3089,27 @@ inline fun parse_obj(context:ParserContext,
                  return
                 }
                 else->{
-                 throw Exception("unexpected char $c")
+                 throw Exception("unexpected char context.c")
                 }
                }
               }
               else->{
-               throw Exception("unexpected char $c")
+               throw Exception("unexpected char context.c")
               }
              }
             }
             else->{
-             throw Exception("unexpected char $c")
+             throw Exception("unexpected char context.c")
             }
            }
           }
           else->{
-           throw Exception("unexpected char $c")
+           throw Exception("unexpected char context.c")
           }
          }
         }
         else->{
-         throw Exception("unexpected char $c")
+         throw Exception("unexpected char context.c")
         }
        }
       }
@@ -3170,22 +3186,22 @@ inline fun parse_obj(context:ParserContext,
                                     continue@loop22
                                    }
                                    else->{
-                                    throw Exception("unexpected char $c")
+                                    throw Exception("unexpected char context.c")
                                    }
                                   }
                                  }
                                  else->{
-                                  throw Exception("unexpected char $c")
+                                  throw Exception("unexpected char context.c")
                                  }
                                 }
                                }
                                else->{
-                                throw Exception("unexpected char $c")
+                                throw Exception("unexpected char context.c")
                                }
                               }
                              }
                              else->{
-                              throw Exception("unexpected char $c")
+                              throw Exception("unexpected char context.c")
                              }
                             }
                            }
@@ -3227,47 +3243,47 @@ inline fun parse_obj(context:ParserContext,
                                             continue@loop22
                                            }
                                            else->{
-                                            throw Exception("unexpected char $c")
+                                            throw Exception("unexpected char context.c")
                                            }
                                           }
                                          }
                                          else->{
-                                          throw Exception("unexpected char $c")
+                                          throw Exception("unexpected char context.c")
                                          }
                                         }
                                        }
                                        else->{
-                                        throw Exception("unexpected char $c")
+                                        throw Exception("unexpected char context.c")
                                        }
                                       }
                                      }
                                      else->{
-                                      throw Exception("unexpected char $c")
+                                      throw Exception("unexpected char context.c")
                                      }
                                     }
                                    }
                                    else->{
-                                    throw Exception("unexpected char $c")
+                                    throw Exception("unexpected char context.c")
                                    }
                                   }
                                  }
                                  else->{
-                                  throw Exception("unexpected char $c")
+                                  throw Exception("unexpected char context.c")
                                  }
                                 }
                                }
                                else->{
-                                throw Exception("unexpected char $c")
+                                throw Exception("unexpected char context.c")
                                }
                               }
                              }
                              else->{
-                              throw Exception("unexpected char $c")
+                              throw Exception("unexpected char context.c")
                              }
                             }
                            }
                            else->{
-                            throw Exception("unexpected char $c")
+                            throw Exception("unexpected char context.c")
                            }
                           }
                          }
@@ -3284,52 +3300,52 @@ inline fun parse_obj(context:ParserContext,
                          return
                         }
                         else->{
-                         throw Exception("unexpected char $c")
+                         throw Exception("unexpected char context.c")
                         }
                        }
                       }
                       else->{
-                       throw Exception("unexpected char $c")
+                       throw Exception("unexpected char context.c")
                       }
                      }
                     }
                     else->{
-                     throw Exception("unexpected char $c")
+                     throw Exception("unexpected char context.c")
                     }
                    }
                   }
                   else->{
-                   throw Exception("unexpected char $c")
+                   throw Exception("unexpected char context.c")
                   }
                  }
                 }
                 else->{
-                 throw Exception("unexpected char $c")
+                 throw Exception("unexpected char context.c")
                 }
                }
               }
               else->{
-               throw Exception("unexpected char $c")
+               throw Exception("unexpected char context.c")
               }
              }
             }
             else->{
-             throw Exception("unexpected char $c")
+             throw Exception("unexpected char context.c")
             }
            }
           }
           else->{
-           throw Exception("unexpected char $c")
+           throw Exception("unexpected char context.c")
           }
          }
         }
         else->{
-         throw Exception("unexpected char $c")
+         throw Exception("unexpected char context.c")
         }
        }
       }
       else->{
-       throw Exception("unexpected char $c")
+       throw Exception("unexpected char context.c")
       }
      }
     }
@@ -3378,22 +3394,22 @@ inline fun parse_obj(context:ParserContext,
                     continue@loop6
                    }
                    else->{
-                    throw Exception("unexpected char $c")
+                    throw Exception("unexpected char context.c")
                    }
                   }
                  }
                  else->{
-                  throw Exception("unexpected char $c")
+                  throw Exception("unexpected char context.c")
                  }
                 }
                }
                else->{
-                throw Exception("unexpected char $c")
+                throw Exception("unexpected char context.c")
                }
               }
              }
              else->{
-              throw Exception("unexpected char $c")
+              throw Exception("unexpected char context.c")
              }
             }
            }
@@ -3435,47 +3451,47 @@ inline fun parse_obj(context:ParserContext,
                             continue@loop6
                            }
                            else->{
-                            throw Exception("unexpected char $c")
+                            throw Exception("unexpected char context.c")
                            }
                           }
                          }
                          else->{
-                          throw Exception("unexpected char $c")
+                          throw Exception("unexpected char context.c")
                          }
                         }
                        }
                        else->{
-                        throw Exception("unexpected char $c")
+                        throw Exception("unexpected char context.c")
                        }
                       }
                      }
                      else->{
-                      throw Exception("unexpected char $c")
+                      throw Exception("unexpected char context.c")
                      }
                     }
                    }
                    else->{
-                    throw Exception("unexpected char $c")
+                    throw Exception("unexpected char context.c")
                    }
                   }
                  }
                  else->{
-                  throw Exception("unexpected char $c")
+                  throw Exception("unexpected char context.c")
                  }
                 }
                }
                else->{
-                throw Exception("unexpected char $c")
+                throw Exception("unexpected char context.c")
                }
               }
              }
              else->{
-              throw Exception("unexpected char $c")
+              throw Exception("unexpected char context.c")
              }
             }
            }
            else->{
-            throw Exception("unexpected char $c")
+            throw Exception("unexpected char context.c")
            }
           }
          }
@@ -3519,22 +3535,22 @@ inline fun parse_obj(context:ParserContext,
                       continue@loop6
                      }
                      else->{
-                      throw Exception("unexpected char $c")
+                      throw Exception("unexpected char context.c")
                      }
                     }
                    }
                    else->{
-                    throw Exception("unexpected char $c")
+                    throw Exception("unexpected char context.c")
                    }
                   }
                  }
                  else->{
-                  throw Exception("unexpected char $c")
+                  throw Exception("unexpected char context.c")
                  }
                 }
                }
                else->{
-                throw Exception("unexpected char $c")
+                throw Exception("unexpected char context.c")
                }
               }
              }
@@ -3576,47 +3592,47 @@ inline fun parse_obj(context:ParserContext,
                               continue@loop6
                              }
                              else->{
-                              throw Exception("unexpected char $c")
+                              throw Exception("unexpected char context.c")
                              }
                             }
                            }
                            else->{
-                            throw Exception("unexpected char $c")
+                            throw Exception("unexpected char context.c")
                            }
                           }
                          }
                          else->{
-                          throw Exception("unexpected char $c")
+                          throw Exception("unexpected char context.c")
                          }
                         }
                        }
                        else->{
-                        throw Exception("unexpected char $c")
+                        throw Exception("unexpected char context.c")
                        }
                       }
                      }
                      else->{
-                      throw Exception("unexpected char $c")
+                      throw Exception("unexpected char context.c")
                      }
                     }
                    }
                    else->{
-                    throw Exception("unexpected char $c")
+                    throw Exception("unexpected char context.c")
                    }
                   }
                  }
                  else->{
-                  throw Exception("unexpected char $c")
+                  throw Exception("unexpected char context.c")
                  }
                 }
                }
                else->{
-                throw Exception("unexpected char $c")
+                throw Exception("unexpected char context.c")
                }
               }
              }
              else->{
-              throw Exception("unexpected char $c")
+              throw Exception("unexpected char context.c")
              }
             }
            }
@@ -3660,22 +3676,22 @@ inline fun parse_obj(context:ParserContext,
                         continue@loop6
                        }
                        else->{
-                        throw Exception("unexpected char $c")
+                        throw Exception("unexpected char context.c")
                        }
                       }
                      }
                      else->{
-                      throw Exception("unexpected char $c")
+                      throw Exception("unexpected char context.c")
                      }
                     }
                    }
                    else->{
-                    throw Exception("unexpected char $c")
+                    throw Exception("unexpected char context.c")
                    }
                   }
                  }
                  else->{
-                  throw Exception("unexpected char $c")
+                  throw Exception("unexpected char context.c")
                  }
                 }
                }
@@ -3717,47 +3733,47 @@ inline fun parse_obj(context:ParserContext,
                                 continue@loop6
                                }
                                else->{
-                                throw Exception("unexpected char $c")
+                                throw Exception("unexpected char context.c")
                                }
                               }
                              }
                              else->{
-                              throw Exception("unexpected char $c")
+                              throw Exception("unexpected char context.c")
                              }
                             }
                            }
                            else->{
-                            throw Exception("unexpected char $c")
+                            throw Exception("unexpected char context.c")
                            }
                           }
                          }
                          else->{
-                          throw Exception("unexpected char $c")
+                          throw Exception("unexpected char context.c")
                          }
                         }
                        }
                        else->{
-                        throw Exception("unexpected char $c")
+                        throw Exception("unexpected char context.c")
                        }
                       }
                      }
                      else->{
-                      throw Exception("unexpected char $c")
+                      throw Exception("unexpected char context.c")
                      }
                     }
                    }
                    else->{
-                    throw Exception("unexpected char $c")
+                    throw Exception("unexpected char context.c")
                    }
                   }
                  }
                  else->{
-                  throw Exception("unexpected char $c")
+                  throw Exception("unexpected char context.c")
                  }
                 }
                }
                else->{
-                throw Exception("unexpected char $c")
+                throw Exception("unexpected char context.c")
                }
               }
              }
@@ -3768,12 +3784,12 @@ inline fun parse_obj(context:ParserContext,
               return
              }
              else->{
-              throw Exception("unexpected char $c")
+              throw Exception("unexpected char context.c")
              }
             }
            }
            else->{
-            throw Exception("unexpected char $c")
+            throw Exception("unexpected char context.c")
            }
           }
          }
@@ -3782,7 +3798,7 @@ inline fun parse_obj(context:ParserContext,
          }
         }
        }
-       throw Exception("unexpected char $c")
+       throw Exception("unexpected char context.c")
       }
       else->{
        onSTRING_LITERAL_SINGLE_QUOTE()
@@ -3791,7 +3807,7 @@ inline fun parse_obj(context:ParserContext,
      }
     }
     else->{
-     throw Exception("unexpected char $c")
+     throw Exception("unexpected char context.c")
     }
    }
   }
@@ -3872,12 +3888,12 @@ inline fun parse_obj(context:ParserContext,
              return
             }
             else->{
-             throw Exception("unexpected char $c")
+             throw Exception("unexpected char context.c")
             }
            }
           }
           else->{
-           throw Exception("unexpected char $c")
+           throw Exception("unexpected char context.c")
           }
          }
         }
@@ -3930,17 +3946,17 @@ inline fun parse_obj(context:ParserContext,
            return
           }
           else->{
-           throw Exception("unexpected char $c")
+           throw Exception("unexpected char context.c")
           }
          }
         }
         else->{
-         throw Exception("unexpected char $c")
+         throw Exception("unexpected char context.c")
         }
        }
       }
       else->{
-       throw Exception("unexpected char $c")
+       throw Exception("unexpected char context.c")
       }
      }
     }
@@ -3987,12 +4003,12 @@ inline fun parse_obj(context:ParserContext,
          return
         }
         else->{
-         throw Exception("unexpected char $c")
+         throw Exception("unexpected char context.c")
         }
        }
       }
       else->{
-       throw Exception("unexpected char $c")
+       throw Exception("unexpected char context.c")
       }
      }
     }
@@ -4083,12 +4099,12 @@ inline fun parse_obj(context:ParserContext,
                return
               }
               else->{
-               throw Exception("unexpected char $c")
+               throw Exception("unexpected char context.c")
               }
              }
             }
             else->{
-             throw Exception("unexpected char $c")
+             throw Exception("unexpected char context.c")
             }
            }
           }
@@ -4141,17 +4157,17 @@ inline fun parse_obj(context:ParserContext,
              return
             }
             else->{
-             throw Exception("unexpected char $c")
+             throw Exception("unexpected char context.c")
             }
            }
           }
           else->{
-           throw Exception("unexpected char $c")
+           throw Exception("unexpected char context.c")
           }
          }
         }
         else->{
-         throw Exception("unexpected char $c")
+         throw Exception("unexpected char context.c")
         }
        }
       }
@@ -4198,12 +4214,12 @@ inline fun parse_obj(context:ParserContext,
            return
           }
           else->{
-           throw Exception("unexpected char $c")
+           throw Exception("unexpected char context.c")
           }
          }
         }
         else->{
-         throw Exception("unexpected char $c")
+         throw Exception("unexpected char context.c")
         }
        }
       }
@@ -4275,12 +4291,12 @@ inline fun parse_obj(context:ParserContext,
              return
             }
             else->{
-             throw Exception("unexpected char $c")
+             throw Exception("unexpected char context.c")
             }
            }
           }
           else->{
-           throw Exception("unexpected char $c")
+           throw Exception("unexpected char context.c")
           }
          }
         }
@@ -4291,12 +4307,12 @@ inline fun parse_obj(context:ParserContext,
        }
       }
       else->{
-       throw Exception("unexpected char $c")
+       throw Exception("unexpected char context.c")
       }
      }
     }
     else->{
-     throw Exception("unexpected char $c")
+     throw Exception("unexpected char context.c")
     }
    }
   }
@@ -4362,12 +4378,12 @@ inline fun parse_obj(context:ParserContext,
            return
           }
           else->{
-           throw Exception("unexpected char $c")
+           throw Exception("unexpected char context.c")
           }
          }
         }
         else->{
-         throw Exception("unexpected char $c")
+         throw Exception("unexpected char context.c")
         }
        }
       }
@@ -4378,7 +4394,7 @@ inline fun parse_obj(context:ParserContext,
      }
     }
     else->{
-     throw Exception("unexpected char $c")
+     throw Exception("unexpected char context.c")
     }
    }
   }
@@ -4421,47 +4437,47 @@ inline fun parse_obj(context:ParserContext,
                    return
                   }
                   else->{
-                   throw Exception("unexpected char $c")
+                   throw Exception("unexpected char context.c")
                   }
                  }
                 }
                 else->{
-                 throw Exception("unexpected char $c")
+                 throw Exception("unexpected char context.c")
                 }
                }
               }
               else->{
-               throw Exception("unexpected char $c")
+               throw Exception("unexpected char context.c")
               }
              }
             }
             else->{
-             throw Exception("unexpected char $c")
+             throw Exception("unexpected char context.c")
             }
            }
           }
           else->{
-           throw Exception("unexpected char $c")
+           throw Exception("unexpected char context.c")
           }
          }
         }
         else->{
-         throw Exception("unexpected char $c")
+         throw Exception("unexpected char context.c")
         }
        }
       }
       else->{
-       throw Exception("unexpected char $c")
+       throw Exception("unexpected char context.c")
       }
      }
     }
     else->{
-     throw Exception("unexpected char $c")
+     throw Exception("unexpected char context.c")
     }
    }
   }
   else->{
-   throw Exception("unexpected char $c")
+   throw Exception("unexpected char context.c")
   }
  }
 }
@@ -4491,12 +4507,11 @@ inline fun parse_triple_end(context:ParserContext,
    return
   }
   else->{
-   throw Exception("unexpected char $c")
+   throw Exception("unexpected char context.c")
   }
  }
 }
 inline fun parse_triple_end_or_object_iri(context:ParserContext,
- crossinline onSKIP_WS_FORCED:()->Unit,
  crossinline onPN_LOCAL:()->Unit,
  crossinline onPREDICATE_LIST1:()->Unit,
  crossinline onOBJECT_LIST1:()->Unit,
@@ -4505,23 +4520,6 @@ inline fun parse_triple_end_or_object_iri(context:ParserContext,
 ){
  context.buffer.clear()
  when(context.c){
-  0x9.toChar(),0xa.toChar(),0xd.toChar(),' '->{
-   context.buffer.append(context.c)
-   context.next()
-   loop2@while(context.hasNext()){
-    when(context.c){
-     0x9.toChar(),0xa.toChar(),0xd.toChar(),' '->{
-      context.buffer.append(context.c)
-      context.next()
-     }
-     else->{
-      break@loop2
-     }
-    }
-   }
-   onSKIP_WS_FORCED()
-   return
-  }
   in (0x0.toChar()..0xffff.toChar()),in ('0'..'9'),0x3a.toChar(),in ('A'..'Z'),'_',in ('a'..'z'),in (0xc0.toChar()..0xd6.toChar()),in (0xd8.toChar()..0xf6.toChar()),in (0xf8.toChar()..0x2ff.toChar()),in (0x370.toChar()..0x37d.toChar()),in (0x37f.toChar()..0x1fff.toChar()),in (0x200c.toChar()..0x200d.toChar()),in (0x2070.toChar()..0x218f.toChar()),in (0x2c00.toChar()..0x2fef.toChar()),in (0x3001.toChar()..0xd7ff.toChar()),in (0xf900.toChar()..0xfdcf.toChar()),in (0xfdf0.toChar()..0xfffd.toChar())->{
    context.buffer.append(context.c)
    context.next()
@@ -4557,12 +4555,12 @@ inline fun parse_triple_end_or_object_iri(context:ParserContext,
           continue@loop2
          }
          else->{
-          throw Exception("unexpected char $c")
+          throw Exception("unexpected char context.c")
          }
         }
        }
        else->{
-        throw Exception("unexpected char $c")
+        throw Exception("unexpected char context.c")
        }
       }
      }
@@ -4576,12 +4574,12 @@ inline fun parse_triple_end_or_object_iri(context:ParserContext,
         continue@loop2
        }
        else->{
-        throw Exception("unexpected char $c")
+        throw Exception("unexpected char context.c")
        }
       }
      }
      else->{
-      throw Exception("unexpected char $c")
+      throw Exception("unexpected char context.c")
      }
     }
    }
@@ -4631,12 +4629,12 @@ inline fun parse_triple_end_or_object_iri(context:ParserContext,
               continue@loop6
              }
              else->{
-              throw Exception("unexpected char $c")
+              throw Exception("unexpected char context.c")
              }
             }
            }
            else->{
-            throw Exception("unexpected char $c")
+            throw Exception("unexpected char context.c")
            }
           }
          }
@@ -4650,12 +4648,12 @@ inline fun parse_triple_end_or_object_iri(context:ParserContext,
             continue@loop6
            }
            else->{
-            throw Exception("unexpected char $c")
+            throw Exception("unexpected char context.c")
            }
           }
          }
          else->{
-          throw Exception("unexpected char $c")
+          throw Exception("unexpected char context.c")
          }
         }
        }
@@ -4663,12 +4661,12 @@ inline fun parse_triple_end_or_object_iri(context:ParserContext,
        return
       }
       else->{
-       throw Exception("unexpected char $c")
+       throw Exception("unexpected char context.c")
       }
      }
     }
     else->{
-     throw Exception("unexpected char $c")
+     throw Exception("unexpected char context.c")
     }
    }
   }
@@ -4711,12 +4709,12 @@ inline fun parse_triple_end_or_object_iri(context:ParserContext,
             continue@loop4
            }
            else->{
-            throw Exception("unexpected char $c")
+            throw Exception("unexpected char context.c")
            }
           }
          }
          else->{
-          throw Exception("unexpected char $c")
+          throw Exception("unexpected char context.c")
          }
         }
        }
@@ -4730,12 +4728,12 @@ inline fun parse_triple_end_or_object_iri(context:ParserContext,
           continue@loop4
          }
          else->{
-          throw Exception("unexpected char $c")
+          throw Exception("unexpected char context.c")
          }
         }
        }
        else->{
-        throw Exception("unexpected char $c")
+        throw Exception("unexpected char context.c")
        }
       }
      }
@@ -4743,7 +4741,7 @@ inline fun parse_triple_end_or_object_iri(context:ParserContext,
      return
     }
     else->{
-     throw Exception("unexpected char $c")
+     throw Exception("unexpected char context.c")
     }
    }
   }
@@ -4765,12 +4763,29 @@ inline fun parse_triple_end_or_object_iri(context:ParserContext,
    onDOT()
    return
   }
+  0x9.toChar(),0xa.toChar(),0xd.toChar(),' '->{
+   context.buffer.append(context.c)
+   context.next()
+   loop2@while(context.hasNext()){
+    when(context.c){
+     0x9.toChar(),0xa.toChar(),0xd.toChar(),' '->{
+      context.buffer.append(context.c)
+      context.next()
+     }
+     else->{
+      break@loop2
+     }
+    }
+   }
+   onSKIP_WS_FORCED()
+   return
+  }
   else->{
-   throw Exception("unexpected char $c")
+   throw Exception("unexpected char context.c")
   }
  }
 }
-inline fun parse_triple_end_or_obj_string(context:ParserContext,
+inline fun parse_triple_end_or_object_string(context:ParserContext,
  crossinline onLANGTAG:()->Unit,
  crossinline onIRI1:()->Unit,
  crossinline onPREDICATE_LIST1:()->Unit,
@@ -4821,7 +4836,7 @@ inline fun parse_triple_end_or_obj_string(context:ParserContext,
           continue@loop4
          }
          else->{
-          throw Exception("unexpected char $c")
+          throw Exception("unexpected char context.c")
          }
         }
        }
@@ -4834,7 +4849,7 @@ inline fun parse_triple_end_or_obj_string(context:ParserContext,
      return
     }
     else->{
-     throw Exception("unexpected char $c")
+     throw Exception("unexpected char context.c")
     }
    }
   }
@@ -4849,7 +4864,7 @@ inline fun parse_triple_end_or_obj_string(context:ParserContext,
      return
     }
     else->{
-     throw Exception("unexpected char $c")
+     throw Exception("unexpected char context.c")
     }
    }
   }
@@ -4889,11 +4904,11 @@ inline fun parse_triple_end_or_obj_string(context:ParserContext,
    return
   }
   else->{
-   throw Exception("unexpected char $c")
+   throw Exception("unexpected char context.c")
   }
  }
 }
-inline fun parse_triple_end_or_obj_string_typed(context:ParserContext,
+inline fun parse_triple_end_or_object_string_typed(context:ParserContext,
  crossinline onIRIREF:()->Unit,
  crossinline onPNAME_NS:()->Unit
 ){
@@ -4935,22 +4950,22 @@ inline fun parse_triple_end_or_obj_string_typed(context:ParserContext,
                 continue@loop2
                }
                else->{
-                throw Exception("unexpected char $c")
+                throw Exception("unexpected char context.c")
                }
               }
              }
              else->{
-              throw Exception("unexpected char $c")
+              throw Exception("unexpected char context.c")
              }
             }
            }
            else->{
-            throw Exception("unexpected char $c")
+            throw Exception("unexpected char context.c")
            }
           }
          }
          else->{
-          throw Exception("unexpected char $c")
+          throw Exception("unexpected char context.c")
          }
         }
        }
@@ -4992,47 +5007,47 @@ inline fun parse_triple_end_or_obj_string_typed(context:ParserContext,
                         continue@loop2
                        }
                        else->{
-                        throw Exception("unexpected char $c")
+                        throw Exception("unexpected char context.c")
                        }
                       }
                      }
                      else->{
-                      throw Exception("unexpected char $c")
+                      throw Exception("unexpected char context.c")
                      }
                     }
                    }
                    else->{
-                    throw Exception("unexpected char $c")
+                    throw Exception("unexpected char context.c")
                    }
                   }
                  }
                  else->{
-                  throw Exception("unexpected char $c")
+                  throw Exception("unexpected char context.c")
                  }
                 }
                }
                else->{
-                throw Exception("unexpected char $c")
+                throw Exception("unexpected char context.c")
                }
               }
              }
              else->{
-              throw Exception("unexpected char $c")
+              throw Exception("unexpected char context.c")
              }
             }
            }
            else->{
-            throw Exception("unexpected char $c")
+            throw Exception("unexpected char context.c")
            }
           }
          }
          else->{
-          throw Exception("unexpected char $c")
+          throw Exception("unexpected char context.c")
          }
         }
        }
        else->{
-        throw Exception("unexpected char $c")
+        throw Exception("unexpected char context.c")
        }
       }
      }
@@ -5049,7 +5064,7 @@ inline fun parse_triple_end_or_obj_string_typed(context:ParserContext,
      return
     }
     else->{
-     throw Exception("unexpected char $c")
+     throw Exception("unexpected char context.c")
     }
    }
   }
@@ -5075,7 +5090,7 @@ inline fun parse_triple_end_or_obj_string_typed(context:ParserContext,
       continue@loop2
      }
      else->{
-      throw Exception("unexpected char $c")
+      throw Exception("unexpected char context.c")
      }
     }
    }
@@ -5087,7 +5102,7 @@ inline fun parse_triple_end_or_obj_string_typed(context:ParserContext,
      return
     }
     else->{
-     throw Exception("unexpected char $c")
+     throw Exception("unexpected char context.c")
     }
    }
   }
@@ -5098,15 +5113,16 @@ inline fun parse_triple_end_or_obj_string_typed(context:ParserContext,
    return
   }
   else->{
-   throw Exception("unexpected char $c")
+   throw Exception("unexpected char context.c")
   }
  }
 }
-inline fun parse_triple_end_or_obj_string_typed_iri(context:ParserContext,
+inline fun parse_triple_end_or_object_string_typed_iri(context:ParserContext,
  crossinline onPN_LOCAL:()->Unit,
  crossinline onPREDICATE_LIST1:()->Unit,
  crossinline onOBJECT_LIST1:()->Unit,
- crossinline onDOT:()->Unit
+ crossinline onDOT:()->Unit,
+ crossinline onSKIP_WS_FORCED:()->Unit
 ){
  context.buffer.clear()
  when(context.c){
@@ -5145,12 +5161,12 @@ inline fun parse_triple_end_or_obj_string_typed_iri(context:ParserContext,
           continue@loop2
          }
          else->{
-          throw Exception("unexpected char $c")
+          throw Exception("unexpected char context.c")
          }
         }
        }
        else->{
-        throw Exception("unexpected char $c")
+        throw Exception("unexpected char context.c")
        }
       }
      }
@@ -5164,12 +5180,12 @@ inline fun parse_triple_end_or_obj_string_typed_iri(context:ParserContext,
         continue@loop2
        }
        else->{
-        throw Exception("unexpected char $c")
+        throw Exception("unexpected char context.c")
        }
       }
      }
      else->{
-      throw Exception("unexpected char $c")
+      throw Exception("unexpected char context.c")
      }
     }
    }
@@ -5219,12 +5235,12 @@ inline fun parse_triple_end_or_obj_string_typed_iri(context:ParserContext,
               continue@loop6
              }
              else->{
-              throw Exception("unexpected char $c")
+              throw Exception("unexpected char context.c")
              }
             }
            }
            else->{
-            throw Exception("unexpected char $c")
+            throw Exception("unexpected char context.c")
            }
           }
          }
@@ -5238,12 +5254,12 @@ inline fun parse_triple_end_or_obj_string_typed_iri(context:ParserContext,
             continue@loop6
            }
            else->{
-            throw Exception("unexpected char $c")
+            throw Exception("unexpected char context.c")
            }
           }
          }
          else->{
-          throw Exception("unexpected char $c")
+          throw Exception("unexpected char context.c")
          }
         }
        }
@@ -5251,12 +5267,12 @@ inline fun parse_triple_end_or_obj_string_typed_iri(context:ParserContext,
        return
       }
       else->{
-       throw Exception("unexpected char $c")
+       throw Exception("unexpected char context.c")
       }
      }
     }
     else->{
-     throw Exception("unexpected char $c")
+     throw Exception("unexpected char context.c")
     }
    }
   }
@@ -5299,12 +5315,12 @@ inline fun parse_triple_end_or_obj_string_typed_iri(context:ParserContext,
             continue@loop4
            }
            else->{
-            throw Exception("unexpected char $c")
+            throw Exception("unexpected char context.c")
            }
           }
          }
          else->{
-          throw Exception("unexpected char $c")
+          throw Exception("unexpected char context.c")
          }
         }
        }
@@ -5318,12 +5334,12 @@ inline fun parse_triple_end_or_obj_string_typed_iri(context:ParserContext,
           continue@loop4
          }
          else->{
-          throw Exception("unexpected char $c")
+          throw Exception("unexpected char context.c")
          }
         }
        }
        else->{
-        throw Exception("unexpected char $c")
+        throw Exception("unexpected char context.c")
        }
       }
      }
@@ -5331,7 +5347,7 @@ inline fun parse_triple_end_or_obj_string_typed_iri(context:ParserContext,
      return
     }
     else->{
-     throw Exception("unexpected char $c")
+     throw Exception("unexpected char context.c")
     }
    }
   }
@@ -5353,8 +5369,25 @@ inline fun parse_triple_end_or_obj_string_typed_iri(context:ParserContext,
    onDOT()
    return
   }
+  0x9.toChar(),0xa.toChar(),0xd.toChar(),' '->{
+   context.buffer.append(context.c)
+   context.next()
+   loop2@while(context.hasNext()){
+    when(context.c){
+     0x9.toChar(),0xa.toChar(),0xd.toChar(),' '->{
+      context.buffer.append(context.c)
+      context.next()
+     }
+     else->{
+      break@loop2
+     }
+    }
+   }
+   onSKIP_WS_FORCED()
+   return
+  }
   else->{
-   throw Exception("unexpected char $c")
+   throw Exception("unexpected char context.c")
   }
  }
 }
@@ -5399,12 +5432,12 @@ inline fun parse_subject_iri_or_ws(context:ParserContext,
           continue@loop2
          }
          else->{
-          throw Exception("unexpected char $c")
+          throw Exception("unexpected char context.c")
          }
         }
        }
        else->{
-        throw Exception("unexpected char $c")
+        throw Exception("unexpected char context.c")
        }
       }
      }
@@ -5418,12 +5451,12 @@ inline fun parse_subject_iri_or_ws(context:ParserContext,
         continue@loop2
        }
        else->{
-        throw Exception("unexpected char $c")
+        throw Exception("unexpected char context.c")
        }
       }
      }
      else->{
-      throw Exception("unexpected char $c")
+      throw Exception("unexpected char context.c")
      }
     }
    }
@@ -5473,12 +5506,12 @@ inline fun parse_subject_iri_or_ws(context:ParserContext,
               continue@loop6
              }
              else->{
-              throw Exception("unexpected char $c")
+              throw Exception("unexpected char context.c")
              }
             }
            }
            else->{
-            throw Exception("unexpected char $c")
+            throw Exception("unexpected char context.c")
            }
           }
          }
@@ -5492,12 +5525,12 @@ inline fun parse_subject_iri_or_ws(context:ParserContext,
             continue@loop6
            }
            else->{
-            throw Exception("unexpected char $c")
+            throw Exception("unexpected char context.c")
            }
           }
          }
          else->{
-          throw Exception("unexpected char $c")
+          throw Exception("unexpected char context.c")
          }
         }
        }
@@ -5505,12 +5538,12 @@ inline fun parse_subject_iri_or_ws(context:ParserContext,
        return
       }
       else->{
-       throw Exception("unexpected char $c")
+       throw Exception("unexpected char context.c")
       }
      }
     }
     else->{
-     throw Exception("unexpected char $c")
+     throw Exception("unexpected char context.c")
     }
    }
   }
@@ -5553,12 +5586,12 @@ inline fun parse_subject_iri_or_ws(context:ParserContext,
             continue@loop4
            }
            else->{
-            throw Exception("unexpected char $c")
+            throw Exception("unexpected char context.c")
            }
           }
          }
          else->{
-          throw Exception("unexpected char $c")
+          throw Exception("unexpected char context.c")
          }
         }
        }
@@ -5572,12 +5605,12 @@ inline fun parse_subject_iri_or_ws(context:ParserContext,
           continue@loop4
          }
          else->{
-          throw Exception("unexpected char $c")
+          throw Exception("unexpected char context.c")
          }
         }
        }
        else->{
-        throw Exception("unexpected char $c")
+        throw Exception("unexpected char context.c")
        }
       }
      }
@@ -5585,7 +5618,7 @@ inline fun parse_subject_iri_or_ws(context:ParserContext,
      return
     }
     else->{
-     throw Exception("unexpected char $c")
+     throw Exception("unexpected char context.c")
     }
    }
   }
@@ -5607,7 +5640,7 @@ inline fun parse_subject_iri_or_ws(context:ParserContext,
    return
   }
   else->{
-   throw Exception("unexpected char $c")
+   throw Exception("unexpected char context.c")
   }
  }
 }
@@ -5652,12 +5685,12 @@ inline fun parse_predicate_iri_or_ws(context:ParserContext,
           continue@loop2
          }
          else->{
-          throw Exception("unexpected char $c")
+          throw Exception("unexpected char context.c")
          }
         }
        }
        else->{
-        throw Exception("unexpected char $c")
+        throw Exception("unexpected char context.c")
        }
       }
      }
@@ -5671,12 +5704,12 @@ inline fun parse_predicate_iri_or_ws(context:ParserContext,
         continue@loop2
        }
        else->{
-        throw Exception("unexpected char $c")
+        throw Exception("unexpected char context.c")
        }
       }
      }
      else->{
-      throw Exception("unexpected char $c")
+      throw Exception("unexpected char context.c")
      }
     }
    }
@@ -5726,12 +5759,12 @@ inline fun parse_predicate_iri_or_ws(context:ParserContext,
               continue@loop6
              }
              else->{
-              throw Exception("unexpected char $c")
+              throw Exception("unexpected char context.c")
              }
             }
            }
            else->{
-            throw Exception("unexpected char $c")
+            throw Exception("unexpected char context.c")
            }
           }
          }
@@ -5745,12 +5778,12 @@ inline fun parse_predicate_iri_or_ws(context:ParserContext,
             continue@loop6
            }
            else->{
-            throw Exception("unexpected char $c")
+            throw Exception("unexpected char context.c")
            }
           }
          }
          else->{
-          throw Exception("unexpected char $c")
+          throw Exception("unexpected char context.c")
          }
         }
        }
@@ -5758,12 +5791,12 @@ inline fun parse_predicate_iri_or_ws(context:ParserContext,
        return
       }
       else->{
-       throw Exception("unexpected char $c")
+       throw Exception("unexpected char context.c")
       }
      }
     }
     else->{
-     throw Exception("unexpected char $c")
+     throw Exception("unexpected char context.c")
     }
    }
   }
@@ -5806,12 +5839,12 @@ inline fun parse_predicate_iri_or_ws(context:ParserContext,
             continue@loop4
            }
            else->{
-            throw Exception("unexpected char $c")
+            throw Exception("unexpected char context.c")
            }
           }
          }
          else->{
-          throw Exception("unexpected char $c")
+          throw Exception("unexpected char context.c")
          }
         }
        }
@@ -5825,12 +5858,12 @@ inline fun parse_predicate_iri_or_ws(context:ParserContext,
           continue@loop4
          }
          else->{
-          throw Exception("unexpected char $c")
+          throw Exception("unexpected char context.c")
          }
         }
        }
        else->{
-        throw Exception("unexpected char $c")
+        throw Exception("unexpected char context.c")
        }
       }
      }
@@ -5838,7 +5871,7 @@ inline fun parse_predicate_iri_or_ws(context:ParserContext,
      return
     }
     else->{
-     throw Exception("unexpected char $c")
+     throw Exception("unexpected char context.c")
     }
    }
   }
@@ -5860,7 +5893,7 @@ inline fun parse_predicate_iri_or_ws(context:ParserContext,
    return
   }
   else->{
-   throw Exception("unexpected char $c")
+   throw Exception("unexpected char context.c")
   }
  }
 }

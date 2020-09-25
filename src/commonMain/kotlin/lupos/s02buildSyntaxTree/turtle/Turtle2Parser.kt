@@ -82,7 +82,7 @@ abstract class Turtle2Parser(input: CharIterator) {
                                 prefixMap[""] = context.getValue()
                             })
                     parse_ws(context, {})
-                    parseDOT(context, {})
+                    parse_dot(context, {})
                     state = Turtle2ParserState.STATEMENT
                 },
                 onPREFIX2 = {
@@ -96,7 +96,7 @@ abstract class Turtle2Parser(input: CharIterator) {
                                 })
                             })
                     parse_ws(context, {})
-                    parseDOT(context, {})
+                    parse_dot(context, {})
                     state = Turtle2ParserState.STATEMENT
                 },
                 onIRIREF = {
@@ -238,9 +238,8 @@ state = Turtle2ParserState.OBJECT
                     state = Turtle2ParserState.STATEMENT
                 })
     }
-
-    fun triple_end_or_obj_string() {
-        parse_triple_end_or_obj_string(context,
+    fun triple_end_or_object_string() {
+        parse_triple_end_or_object_string(context,
                 onLANGTAG = {
                     triple[2] += context.getValue()
                     parse_ws(context, {})
@@ -248,7 +247,7 @@ state = Turtle2ParserState.OBJECT
                 },
                 onIRI1 = {
                     triple[2] += context.getValue()
-                    parse_triple_end_or_obj_string_typed(context,
+                    parse_triple_end_or_object_string_typed(context,
                             onIRIREF = {
                                 triple[2] += context.getValue()
                                 parse_ws(context, {})
@@ -256,7 +255,7 @@ state = Turtle2ParserState.OBJECT
                             },
                             onPNAME_NS = {
                                 triple[2] += context.getValue()
-                                parse_triple_end_or_obj_string_typed_iri(context,
+                                parse_triple_end_or_object_string_typed_iri(context,
                                         onPN_LOCAL = {
                                             triple[2] += context.getValue()
  parse_ws(context, {})
@@ -264,7 +263,7 @@ state = Turtle2ParserState.OBJECT
                                         },
                                         onSKIP_WS_FORCED = {
                                             state = Turtle2ParserState.TRIPLE_END
-                                        }
+                                        },
                                                 onPREDICATE_LIST1 = {
                                             onTriple(triple)
                                             state = Turtle2ParserState.PREDICATE
