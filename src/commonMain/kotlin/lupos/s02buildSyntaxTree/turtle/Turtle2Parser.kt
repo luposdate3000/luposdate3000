@@ -12,6 +12,8 @@ enum class Turtle2ParserState {
 }
 
 abstract class Turtle2Parser(input: CharIterator) {
+constructor(data:String):this(data.iterator())
+
     @JvmField
     val context = ParserContext(input)
 
@@ -59,7 +61,7 @@ abstract class Turtle2Parser(input: CharIterator) {
                     parse_ws_forced(context, {})
                     parse_base(context,
                             onIRIREF = {
-                                prefixMap[""] = context.getValue()
+                                prefixMap[":"] = context.getValue()
                             })
                     state = Turtle2ParserState.STATEMENT
                 },
@@ -103,10 +105,11 @@ abstract class Turtle2Parser(input: CharIterator) {
                     triple[0] = context.getValue()
                     parse_subject_iri_or_ws(context,
                             onPN_LOCAL = {
-                                triple[0] += context.getValue()
+triple[0]="<"+prefixMap[triple[0]]!!+context.getValue()+">"
                                 parse_ws_forced(context, {})
                             },
                             onSKIP_WS_FORCED = {
+triple[0]="<"+prefixMap[triple[0]]!!+">"
                             })
                                 state = Turtle2ParserState.PREDICATE
                 },
@@ -134,10 +137,11 @@ abstract class Turtle2Parser(input: CharIterator) {
                     triple[1] = context.getValue()
                     parse_predicate_iri_or_ws(context,
                             onPN_LOCAL = {
-                                triple[1] += context.getValue()
+triple[1]="<"+prefixMap[triple[1]]!!+context.getValue()+">"
                                 parse_ws_forced(context, {})
                             },
                             onSKIP_WS_FORCED = {
+triple[1]="<"+prefixMap[triple[1]]!!+">"
                             })
                 }        )
 state = Turtle2ParserState.OBJECT
@@ -218,22 +222,26 @@ state = Turtle2ParserState.OBJECT
     fun triple_end_or_object_iri() {
         parse_triple_end_or_object_iri(context,
                 onPN_LOCAL = {
-                    triple[2] += context.getValue()
+triple[2]="<"+prefixMap[triple[2]]!!+context.getValue()+">"
                     parse_ws_forced(context, {})
-                    state = Turtle2ParserState.OBJECT
+                    state = Turtle2ParserState.TRIPLE_END
                 },
                 onSKIP_WS_FORCED = {
+triple[2]="<"+prefixMap[triple[2]]!!+">"
                     state = Turtle2ParserState.TRIPLE_END
                 },
                 onPREDICATE_LIST1 = {
+triple[2]="<"+prefixMap[triple[2]]!!+">"
                     onTriple(triple)
                     state = Turtle2ParserState.PREDICATE
                 },
                 onOBJECT_LIST1 = {
+triple[2]="<"+prefixMap[triple[2]]!!+">"
                     onTriple(triple)
                     state = Turtle2ParserState.OBJECT
                 },
                 onDOT = {
+triple[2]="<"+prefixMap[triple[2]]!!+">"
                     onTriple(triple)
                     state = Turtle2ParserState.STATEMENT
                 })
@@ -254,25 +262,29 @@ state = Turtle2ParserState.OBJECT
                                 state = Turtle2ParserState.TRIPLE_END
                             },
                             onPNAME_NS = {
-                                triple[2] += context.getValue()
+val prefix=context.getValue()
                                 parse_triple_end_or_object_string_typed_iri(context,
                                         onPN_LOCAL = {
-                                            triple[2] += context.getValue()
+triple[2]+="<"+prefixMap[prefix]!!+context.getValue()+">"
  parse_ws(context, {})
                                             state = Turtle2ParserState.TRIPLE_END
                                         },
                                         onSKIP_WS_FORCED = {
+triple[2]+="<"+prefixMap[prefix]!!+">"
                                             state = Turtle2ParserState.TRIPLE_END
                                         },
                                                 onPREDICATE_LIST1 = {
+triple[2]+="<"+prefixMap[prefix]!!+">"
                                             onTriple(triple)
                                             state = Turtle2ParserState.PREDICATE
                                         },
                                         onOBJECT_LIST1 = {
+triple[2]+="<"+prefixMap[prefix]!!+">"
                                             onTriple(triple)
                                             state = Turtle2ParserState.OBJECT
                                         },
                                         onDOT = {
+triple[2]+="<"+prefixMap[prefix]!!+">"
                                             onTriple(triple)
                                             state = Turtle2ParserState.STATEMENT
                                         })

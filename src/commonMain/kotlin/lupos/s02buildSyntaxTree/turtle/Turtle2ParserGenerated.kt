@@ -3,8 +3,23 @@ import kotlin.jvm.JvmField
 class ParserContext(val input:CharIterator){
  @JvmField var c:Char=' '
  @JvmField var buffer=StringBuilder()
+ @JvmField var line=0
+ @JvmField var column=0
  fun next(){
+  val tmp=(c=='\r') || (c=='\n')
   c=input.next()
+  if((c=='\r') || (c=='\n')){
+   if(!tmp){
+    line++
+    column=0
+   }
+  } else {
+   column++
+  }
+ }
+ fun append(){
+  buffer.append(c)
+  next()
  }
  fun hasNext():Boolean{
   return input.hasNext()
@@ -22,13 +37,12 @@ inline fun parse_dot(context:ParserContext,
  context.buffer.clear()
  when(context.c){
   '.'->{
-   context.buffer.append(context.c)
-   context.next()
+   context.append()
    onDOT()
    return
   }
   else->{
-   throw Exception("unexpected char context.c")
+   throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
   }
  }
 }
@@ -39,8 +53,7 @@ inline fun parse_ws(context:ParserContext,
  loop0@while(context.hasNext()){
   when(context.c){
    0x9.toChar(),0xa.toChar(),0xd.toChar(),' '->{
-    context.buffer.append(context.c)
-    context.next()
+    context.append()
    }
    else->{
     break@loop0
@@ -56,13 +69,11 @@ inline fun parse_ws_forced(context:ParserContext,
  context.buffer.clear()
  when(context.c){
   0x9.toChar(),0xa.toChar(),0xd.toChar(),' '->{
-   context.buffer.append(context.c)
-   context.next()
+   context.append()
    loop2@while(context.hasNext()){
     when(context.c){
      0x9.toChar(),0xa.toChar(),0xd.toChar(),' '->{
-      context.buffer.append(context.c)
-      context.next()
+      context.append()
      }
      else->{
       break@loop2
@@ -73,7 +84,7 @@ inline fun parse_ws_forced(context:ParserContext,
    return
   }
   else->{
-   throw Exception("unexpected char context.c")
+   throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
   }
  }
 }
@@ -89,316 +100,278 @@ inline fun parse_statement(context:ParserContext,
  context.buffer.clear()
  when(context.c){
   'B'->{
-   context.buffer.append(context.c)
-   context.next()
+   context.append()
    when(context.c){
     'A'->{
-     context.buffer.append(context.c)
-     context.next()
+     context.append()
      when(context.c){
       'S'->{
-       context.buffer.append(context.c)
-       context.next()
+       context.append()
        when(context.c){
         'E'->{
-         context.buffer.append(context.c)
-         context.next()
+         context.append()
          onBASE()
          return
         }
         else->{
-         throw Exception("unexpected char context.c")
+         throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
         }
        }
       }
       else->{
-       throw Exception("unexpected char context.c")
+       throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
       }
      }
     }
     else->{
-     throw Exception("unexpected char context.c")
+     throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
     }
    }
   }
   'P'->{
-   context.buffer.append(context.c)
-   context.next()
+   context.append()
    when(context.c){
     'R'->{
-     context.buffer.append(context.c)
-     context.next()
+     context.append()
      when(context.c){
       'E'->{
-       context.buffer.append(context.c)
-       context.next()
+       context.append()
        when(context.c){
         'F'->{
-         context.buffer.append(context.c)
-         context.next()
+         context.append()
          when(context.c){
           'I'->{
-           context.buffer.append(context.c)
-           context.next()
+           context.append()
            when(context.c){
             'X'->{
-             context.buffer.append(context.c)
-             context.next()
+             context.append()
              onPREFIX()
              return
             }
             else->{
-             throw Exception("unexpected char context.c")
+             throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
             }
            }
           }
           else->{
-           throw Exception("unexpected char context.c")
+           throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
           }
          }
         }
         else->{
-         throw Exception("unexpected char context.c")
+         throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
         }
        }
       }
       else->{
-       throw Exception("unexpected char context.c")
+       throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
       }
      }
     }
     else->{
-     throw Exception("unexpected char context.c")
+     throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
     }
    }
   }
   '@'->{
-   context.buffer.append(context.c)
-   context.next()
+   context.append()
    when(context.c){
     'b'->{
-     context.buffer.append(context.c)
-     context.next()
+     context.append()
      when(context.c){
       'a'->{
-       context.buffer.append(context.c)
-       context.next()
+       context.append()
        when(context.c){
         's'->{
-         context.buffer.append(context.c)
-         context.next()
+         context.append()
          when(context.c){
           'e'->{
-           context.buffer.append(context.c)
-           context.next()
+           context.append()
            onBASE2()
            return
           }
           else->{
-           throw Exception("unexpected char context.c")
+           throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
           }
          }
         }
         else->{
-         throw Exception("unexpected char context.c")
+         throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
         }
        }
       }
       else->{
-       throw Exception("unexpected char context.c")
+       throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
       }
      }
     }
     'p'->{
-     context.buffer.append(context.c)
-     context.next()
+     context.append()
      when(context.c){
       'r'->{
-       context.buffer.append(context.c)
-       context.next()
+       context.append()
        when(context.c){
         'e'->{
-         context.buffer.append(context.c)
-         context.next()
+         context.append()
          when(context.c){
           'f'->{
-           context.buffer.append(context.c)
-           context.next()
+           context.append()
            when(context.c){
             'i'->{
-             context.buffer.append(context.c)
-             context.next()
+             context.append()
              when(context.c){
               'x'->{
-               context.buffer.append(context.c)
-               context.next()
+               context.append()
                onPREFIX2()
                return
               }
               else->{
-               throw Exception("unexpected char context.c")
+               throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
               }
              }
             }
             else->{
-             throw Exception("unexpected char context.c")
+             throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
             }
            }
           }
           else->{
-           throw Exception("unexpected char context.c")
+           throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
           }
          }
         }
         else->{
-         throw Exception("unexpected char context.c")
+         throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
         }
        }
       }
       else->{
-       throw Exception("unexpected char context.c")
+       throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
       }
      }
     }
     else->{
-     throw Exception("unexpected char context.c")
+     throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
     }
    }
   }
   '<'->{
-   context.buffer.append(context.c)
-   context.next()
+   context.append()
    loop2@while(context.hasNext()){
     when(context.c){
      '!',in ('#'..';'),'=',in ('?'..'['),']','_',in ('a'..'z'),in ('~'..0xffff.toChar())->{
-      context.buffer.append(context.c)
-      context.next()
+      context.append()
       continue@loop2
      }
      0x5c.toChar()->{
-      context.buffer.append(context.c)
-      context.next()
+      context.append()
       when(context.c){
        'u'->{
-        context.buffer.append(context.c)
-        context.next()
+        context.append()
         when(context.c){
          in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-          context.buffer.append(context.c)
-          context.next()
+          context.append()
           when(context.c){
            in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-            context.buffer.append(context.c)
-            context.next()
+            context.append()
             when(context.c){
              in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-              context.buffer.append(context.c)
-              context.next()
+              context.append()
               when(context.c){
                in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                context.buffer.append(context.c)
-                context.next()
+                context.append()
                 continue@loop2
                }
                else->{
-                throw Exception("unexpected char context.c")
+                throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                }
               }
              }
              else->{
-              throw Exception("unexpected char context.c")
+              throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
              }
             }
            }
            else->{
-            throw Exception("unexpected char context.c")
+            throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
            }
           }
          }
          else->{
-          throw Exception("unexpected char context.c")
+          throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
          }
         }
        }
        'U'->{
-        context.buffer.append(context.c)
-        context.next()
+        context.append()
         when(context.c){
          in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-          context.buffer.append(context.c)
-          context.next()
+          context.append()
           when(context.c){
            in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-            context.buffer.append(context.c)
-            context.next()
+            context.append()
             when(context.c){
              in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-              context.buffer.append(context.c)
-              context.next()
+              context.append()
               when(context.c){
                in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                context.buffer.append(context.c)
-                context.next()
+                context.append()
                 when(context.c){
                  in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                  context.buffer.append(context.c)
-                  context.next()
+                  context.append()
                   when(context.c){
                    in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                    context.buffer.append(context.c)
-                    context.next()
+                    context.append()
                     when(context.c){
                      in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                      context.buffer.append(context.c)
-                      context.next()
+                      context.append()
                       when(context.c){
                        in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                        context.buffer.append(context.c)
-                        context.next()
+                        context.append()
                         continue@loop2
                        }
                        else->{
-                        throw Exception("unexpected char context.c")
+                        throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                        }
                       }
                      }
                      else->{
-                      throw Exception("unexpected char context.c")
+                      throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                      }
                     }
                    }
                    else->{
-                    throw Exception("unexpected char context.c")
+                    throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                    }
                   }
                  }
                  else->{
-                  throw Exception("unexpected char context.c")
+                  throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                  }
                 }
                }
                else->{
-                throw Exception("unexpected char context.c")
+                throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                }
               }
              }
              else->{
-              throw Exception("unexpected char context.c")
+              throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
              }
             }
            }
            else->{
-            throw Exception("unexpected char context.c")
+            throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
            }
           }
          }
          else->{
-          throw Exception("unexpected char context.c")
+          throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
          }
         }
        }
        else->{
-        throw Exception("unexpected char context.c")
+        throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
        }
       }
      }
@@ -409,25 +382,22 @@ inline fun parse_statement(context:ParserContext,
    }
    when(context.c){
     '>'->{
-     context.buffer.append(context.c)
-     context.next()
+     context.append()
      onIRIREF()
      return
     }
     else->{
-     throw Exception("unexpected char context.c")
+     throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
     }
    }
   }
   in (0x0.toChar()..0xffff.toChar()),in ('A'..'Z'),in ('a'..'z'),in (0xc0.toChar()..0xd6.toChar()),in (0xd8.toChar()..0xf6.toChar()),in (0xf8.toChar()..0x2ff.toChar()),in (0x370.toChar()..0x37d.toChar()),in (0x37f.toChar()..0x1fff.toChar()),in (0x200c.toChar()..0x200d.toChar()),in (0x2070.toChar()..0x218f.toChar()),in (0x2c00.toChar()..0x2fef.toChar()),in (0x3001.toChar()..0xd7ff.toChar()),in (0xf900.toChar()..0xfdcf.toChar()),in (0xfdf0.toChar()..0xfffd.toChar())->{
-   context.buffer.append(context.c)
-   context.next()
+   context.append()
    loop2@while(context.hasNext()){
     loop3@while(context.hasNext()){
      when(context.c){
       '.'->{
-       context.buffer.append(context.c)
-       context.next()
+       context.append()
       }
       else->{
        break@loop3
@@ -436,50 +406,43 @@ inline fun parse_statement(context:ParserContext,
     }
     when(context.c){
      in (0x0.toChar()..0xffff.toChar()),'-',in ('0'..'9'),in ('A'..'Z'),'_',in ('a'..'z'),0xb7.toChar(),in (0xc0.toChar()..0xd6.toChar()),in (0xd8.toChar()..0xf6.toChar()),in (0xf8.toChar()..0x2ff.toChar()),in (0x300.toChar()..0x36f.toChar()),in (0x370.toChar()..0x37d.toChar()),in (0x37f.toChar()..0x1fff.toChar()),in (0x200c.toChar()..0x200d.toChar()),in (0x203f.toChar()..0x2040.toChar()),in (0x2070.toChar()..0x218f.toChar()),in (0x2c00.toChar()..0x2fef.toChar()),in (0x3001.toChar()..0xd7ff.toChar()),in (0xf900.toChar()..0xfdcf.toChar()),in (0xfdf0.toChar()..0xfffd.toChar())->{
-      context.buffer.append(context.c)
-      context.next()
+      context.append()
       continue@loop2
      }
      else->{
-      throw Exception("unexpected char context.c")
+      throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
      }
     }
    }
    when(context.c){
     0x3a.toChar()->{
-     context.buffer.append(context.c)
-     context.next()
+     context.append()
      onPNAME_NS()
      return
     }
     else->{
-     throw Exception("unexpected char context.c")
+     throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
     }
    }
   }
   0x3a.toChar()->{
-   context.buffer.append(context.c)
-   context.next()
+   context.append()
    onPNAME_NS()
    return
   }
   '_'->{
-   context.buffer.append(context.c)
-   context.next()
+   context.append()
    when(context.c){
     0x3a.toChar()->{
-     context.buffer.append(context.c)
-     context.next()
+     context.append()
      when(context.c){
       in (0x0.toChar()..0xffff.toChar()),in ('0'..'9'),in ('A'..'Z'),'_',in ('a'..'z'),in (0xc0.toChar()..0xd6.toChar()),in (0xd8.toChar()..0xf6.toChar()),in (0xf8.toChar()..0x2ff.toChar()),in (0x370.toChar()..0x37d.toChar()),in (0x37f.toChar()..0x1fff.toChar()),in (0x200c.toChar()..0x200d.toChar()),in (0x2070.toChar()..0x218f.toChar()),in (0x2c00.toChar()..0x2fef.toChar()),in (0x3001.toChar()..0xd7ff.toChar()),in (0xf900.toChar()..0xfdcf.toChar()),in (0xfdf0.toChar()..0xfffd.toChar())->{
-       context.buffer.append(context.c)
-       context.next()
+       context.append()
        loop6@while(context.hasNext()){
         loop7@while(context.hasNext()){
          when(context.c){
           '.'->{
-           context.buffer.append(context.c)
-           context.next()
+           context.append()
           }
           else->{
            break@loop7
@@ -488,12 +451,11 @@ inline fun parse_statement(context:ParserContext,
         }
         when(context.c){
          in (0x0.toChar()..0xffff.toChar()),'-',in ('0'..'9'),in ('A'..'Z'),'_',in ('a'..'z'),0xb7.toChar(),in (0xc0.toChar()..0xd6.toChar()),in (0xd8.toChar()..0xf6.toChar()),in (0xf8.toChar()..0x2ff.toChar()),in (0x300.toChar()..0x36f.toChar()),in (0x370.toChar()..0x37d.toChar()),in (0x37f.toChar()..0x1fff.toChar()),in (0x200c.toChar()..0x200d.toChar()),in (0x203f.toChar()..0x2040.toChar()),in (0x2070.toChar()..0x218f.toChar()),in (0x2c00.toChar()..0x2fef.toChar()),in (0x3001.toChar()..0xd7ff.toChar()),in (0xf900.toChar()..0xfdcf.toChar()),in (0xfdf0.toChar()..0xfffd.toChar())->{
-          context.buffer.append(context.c)
-          context.next()
+          context.append()
           continue@loop6
          }
          else->{
-          throw Exception("unexpected char context.c")
+          throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
          }
         }
        }
@@ -501,17 +463,17 @@ inline fun parse_statement(context:ParserContext,
        return
       }
       else->{
-       throw Exception("unexpected char context.c")
+       throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
       }
      }
     }
     else->{
-     throw Exception("unexpected char context.c")
+     throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
     }
    }
   }
   else->{
-   throw Exception("unexpected char context.c")
+   throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
   }
  }
 }
@@ -521,139 +483,122 @@ inline fun parse_base(context:ParserContext,
  context.buffer.clear()
  when(context.c){
   '<'->{
-   context.buffer.append(context.c)
-   context.next()
+   context.append()
    loop2@while(context.hasNext()){
     when(context.c){
      '!',in ('#'..';'),'=',in ('?'..'['),']','_',in ('a'..'z'),in ('~'..0xffff.toChar())->{
-      context.buffer.append(context.c)
-      context.next()
+      context.append()
       continue@loop2
      }
      0x5c.toChar()->{
-      context.buffer.append(context.c)
-      context.next()
+      context.append()
       when(context.c){
        'u'->{
-        context.buffer.append(context.c)
-        context.next()
+        context.append()
         when(context.c){
          in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-          context.buffer.append(context.c)
-          context.next()
+          context.append()
           when(context.c){
            in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-            context.buffer.append(context.c)
-            context.next()
+            context.append()
             when(context.c){
              in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-              context.buffer.append(context.c)
-              context.next()
+              context.append()
               when(context.c){
                in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                context.buffer.append(context.c)
-                context.next()
+                context.append()
                 continue@loop2
                }
                else->{
-                throw Exception("unexpected char context.c")
+                throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                }
               }
              }
              else->{
-              throw Exception("unexpected char context.c")
+              throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
              }
             }
            }
            else->{
-            throw Exception("unexpected char context.c")
+            throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
            }
           }
          }
          else->{
-          throw Exception("unexpected char context.c")
+          throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
          }
         }
        }
        'U'->{
-        context.buffer.append(context.c)
-        context.next()
+        context.append()
         when(context.c){
          in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-          context.buffer.append(context.c)
-          context.next()
+          context.append()
           when(context.c){
            in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-            context.buffer.append(context.c)
-            context.next()
+            context.append()
             when(context.c){
              in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-              context.buffer.append(context.c)
-              context.next()
+              context.append()
               when(context.c){
                in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                context.buffer.append(context.c)
-                context.next()
+                context.append()
                 when(context.c){
                  in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                  context.buffer.append(context.c)
-                  context.next()
+                  context.append()
                   when(context.c){
                    in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                    context.buffer.append(context.c)
-                    context.next()
+                    context.append()
                     when(context.c){
                      in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                      context.buffer.append(context.c)
-                      context.next()
+                      context.append()
                       when(context.c){
                        in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                        context.buffer.append(context.c)
-                        context.next()
+                        context.append()
                         continue@loop2
                        }
                        else->{
-                        throw Exception("unexpected char context.c")
+                        throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                        }
                       }
                      }
                      else->{
-                      throw Exception("unexpected char context.c")
+                      throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                      }
                     }
                    }
                    else->{
-                    throw Exception("unexpected char context.c")
+                    throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                    }
                   }
                  }
                  else->{
-                  throw Exception("unexpected char context.c")
+                  throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                  }
                 }
                }
                else->{
-                throw Exception("unexpected char context.c")
+                throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                }
               }
              }
              else->{
-              throw Exception("unexpected char context.c")
+              throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
              }
             }
            }
            else->{
-            throw Exception("unexpected char context.c")
+            throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
            }
           }
          }
          else->{
-          throw Exception("unexpected char context.c")
+          throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
          }
         }
        }
        else->{
-        throw Exception("unexpected char context.c")
+        throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
        }
       }
      }
@@ -664,18 +609,17 @@ inline fun parse_base(context:ParserContext,
    }
    when(context.c){
     '>'->{
-     context.buffer.append(context.c)
-     context.next()
+     context.append()
      onIRIREF()
      return
     }
     else->{
-     throw Exception("unexpected char context.c")
+     throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
     }
    }
   }
   else->{
-   throw Exception("unexpected char context.c")
+   throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
   }
  }
 }
@@ -685,14 +629,12 @@ inline fun parse_prefix(context:ParserContext,
  context.buffer.clear()
  when(context.c){
   in (0x0.toChar()..0xffff.toChar()),in ('A'..'Z'),in ('a'..'z'),in (0xc0.toChar()..0xd6.toChar()),in (0xd8.toChar()..0xf6.toChar()),in (0xf8.toChar()..0x2ff.toChar()),in (0x370.toChar()..0x37d.toChar()),in (0x37f.toChar()..0x1fff.toChar()),in (0x200c.toChar()..0x200d.toChar()),in (0x2070.toChar()..0x218f.toChar()),in (0x2c00.toChar()..0x2fef.toChar()),in (0x3001.toChar()..0xd7ff.toChar()),in (0xf900.toChar()..0xfdcf.toChar()),in (0xfdf0.toChar()..0xfffd.toChar())->{
-   context.buffer.append(context.c)
-   context.next()
+   context.append()
    loop2@while(context.hasNext()){
     loop3@while(context.hasNext()){
      when(context.c){
       '.'->{
-       context.buffer.append(context.c)
-       context.next()
+       context.append()
       }
       else->{
        break@loop3
@@ -701,35 +643,32 @@ inline fun parse_prefix(context:ParserContext,
     }
     when(context.c){
      in (0x0.toChar()..0xffff.toChar()),'-',in ('0'..'9'),in ('A'..'Z'),'_',in ('a'..'z'),0xb7.toChar(),in (0xc0.toChar()..0xd6.toChar()),in (0xd8.toChar()..0xf6.toChar()),in (0xf8.toChar()..0x2ff.toChar()),in (0x300.toChar()..0x36f.toChar()),in (0x370.toChar()..0x37d.toChar()),in (0x37f.toChar()..0x1fff.toChar()),in (0x200c.toChar()..0x200d.toChar()),in (0x203f.toChar()..0x2040.toChar()),in (0x2070.toChar()..0x218f.toChar()),in (0x2c00.toChar()..0x2fef.toChar()),in (0x3001.toChar()..0xd7ff.toChar()),in (0xf900.toChar()..0xfdcf.toChar()),in (0xfdf0.toChar()..0xfffd.toChar())->{
-      context.buffer.append(context.c)
-      context.next()
+      context.append()
       continue@loop2
      }
      else->{
-      throw Exception("unexpected char context.c")
+      throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
      }
     }
    }
    when(context.c){
     0x3a.toChar()->{
-     context.buffer.append(context.c)
-     context.next()
+     context.append()
      onPNAME_NS()
      return
     }
     else->{
-     throw Exception("unexpected char context.c")
+     throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
     }
    }
   }
   0x3a.toChar()->{
-   context.buffer.append(context.c)
-   context.next()
+   context.append()
    onPNAME_NS()
    return
   }
   else->{
-   throw Exception("unexpected char context.c")
+   throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
   }
  }
 }
@@ -739,139 +678,122 @@ inline fun parse_prefix2(context:ParserContext,
  context.buffer.clear()
  when(context.c){
   '<'->{
-   context.buffer.append(context.c)
-   context.next()
+   context.append()
    loop2@while(context.hasNext()){
     when(context.c){
      '!',in ('#'..';'),'=',in ('?'..'['),']','_',in ('a'..'z'),in ('~'..0xffff.toChar())->{
-      context.buffer.append(context.c)
-      context.next()
+      context.append()
       continue@loop2
      }
      0x5c.toChar()->{
-      context.buffer.append(context.c)
-      context.next()
+      context.append()
       when(context.c){
        'u'->{
-        context.buffer.append(context.c)
-        context.next()
+        context.append()
         when(context.c){
          in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-          context.buffer.append(context.c)
-          context.next()
+          context.append()
           when(context.c){
            in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-            context.buffer.append(context.c)
-            context.next()
+            context.append()
             when(context.c){
              in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-              context.buffer.append(context.c)
-              context.next()
+              context.append()
               when(context.c){
                in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                context.buffer.append(context.c)
-                context.next()
+                context.append()
                 continue@loop2
                }
                else->{
-                throw Exception("unexpected char context.c")
+                throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                }
               }
              }
              else->{
-              throw Exception("unexpected char context.c")
+              throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
              }
             }
            }
            else->{
-            throw Exception("unexpected char context.c")
+            throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
            }
           }
          }
          else->{
-          throw Exception("unexpected char context.c")
+          throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
          }
         }
        }
        'U'->{
-        context.buffer.append(context.c)
-        context.next()
+        context.append()
         when(context.c){
          in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-          context.buffer.append(context.c)
-          context.next()
+          context.append()
           when(context.c){
            in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-            context.buffer.append(context.c)
-            context.next()
+            context.append()
             when(context.c){
              in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-              context.buffer.append(context.c)
-              context.next()
+              context.append()
               when(context.c){
                in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                context.buffer.append(context.c)
-                context.next()
+                context.append()
                 when(context.c){
                  in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                  context.buffer.append(context.c)
-                  context.next()
+                  context.append()
                   when(context.c){
                    in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                    context.buffer.append(context.c)
-                    context.next()
+                    context.append()
                     when(context.c){
                      in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                      context.buffer.append(context.c)
-                      context.next()
+                      context.append()
                       when(context.c){
                        in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                        context.buffer.append(context.c)
-                        context.next()
+                        context.append()
                         continue@loop2
                        }
                        else->{
-                        throw Exception("unexpected char context.c")
+                        throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                        }
                       }
                      }
                      else->{
-                      throw Exception("unexpected char context.c")
+                      throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                      }
                     }
                    }
                    else->{
-                    throw Exception("unexpected char context.c")
+                    throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                    }
                   }
                  }
                  else->{
-                  throw Exception("unexpected char context.c")
+                  throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                  }
                 }
                }
                else->{
-                throw Exception("unexpected char context.c")
+                throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                }
               }
              }
              else->{
-              throw Exception("unexpected char context.c")
+              throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
              }
             }
            }
            else->{
-            throw Exception("unexpected char context.c")
+            throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
            }
           }
          }
          else->{
-          throw Exception("unexpected char context.c")
+          throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
          }
         }
        }
        else->{
-        throw Exception("unexpected char context.c")
+        throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
        }
       }
      }
@@ -882,18 +804,17 @@ inline fun parse_prefix2(context:ParserContext,
    }
    when(context.c){
     '>'->{
-     context.buffer.append(context.c)
-     context.next()
+     context.append()
      onIRIREF()
      return
     }
     else->{
-     throw Exception("unexpected char context.c")
+     throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
     }
    }
   }
   else->{
-   throw Exception("unexpected char context.c")
+   throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
   }
  }
 }
@@ -905,145 +826,127 @@ inline fun parse_predicate(context:ParserContext,
  context.buffer.clear()
  when(context.c){
   'a'->{
-   context.buffer.append(context.c)
-   context.next()
+   context.append()
    onVERB1()
    return
   }
   '<'->{
-   context.buffer.append(context.c)
-   context.next()
+   context.append()
    loop2@while(context.hasNext()){
     when(context.c){
      '!',in ('#'..';'),'=',in ('?'..'['),']','_',in ('a'..'z'),in ('~'..0xffff.toChar())->{
-      context.buffer.append(context.c)
-      context.next()
+      context.append()
       continue@loop2
      }
      0x5c.toChar()->{
-      context.buffer.append(context.c)
-      context.next()
+      context.append()
       when(context.c){
        'u'->{
-        context.buffer.append(context.c)
-        context.next()
+        context.append()
         when(context.c){
          in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-          context.buffer.append(context.c)
-          context.next()
+          context.append()
           when(context.c){
            in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-            context.buffer.append(context.c)
-            context.next()
+            context.append()
             when(context.c){
              in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-              context.buffer.append(context.c)
-              context.next()
+              context.append()
               when(context.c){
                in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                context.buffer.append(context.c)
-                context.next()
+                context.append()
                 continue@loop2
                }
                else->{
-                throw Exception("unexpected char context.c")
+                throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                }
               }
              }
              else->{
-              throw Exception("unexpected char context.c")
+              throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
              }
             }
            }
            else->{
-            throw Exception("unexpected char context.c")
+            throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
            }
           }
          }
          else->{
-          throw Exception("unexpected char context.c")
+          throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
          }
         }
        }
        'U'->{
-        context.buffer.append(context.c)
-        context.next()
+        context.append()
         when(context.c){
          in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-          context.buffer.append(context.c)
-          context.next()
+          context.append()
           when(context.c){
            in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-            context.buffer.append(context.c)
-            context.next()
+            context.append()
             when(context.c){
              in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-              context.buffer.append(context.c)
-              context.next()
+              context.append()
               when(context.c){
                in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                context.buffer.append(context.c)
-                context.next()
+                context.append()
                 when(context.c){
                  in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                  context.buffer.append(context.c)
-                  context.next()
+                  context.append()
                   when(context.c){
                    in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                    context.buffer.append(context.c)
-                    context.next()
+                    context.append()
                     when(context.c){
                      in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                      context.buffer.append(context.c)
-                      context.next()
+                      context.append()
                       when(context.c){
                        in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                        context.buffer.append(context.c)
-                        context.next()
+                        context.append()
                         continue@loop2
                        }
                        else->{
-                        throw Exception("unexpected char context.c")
+                        throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                        }
                       }
                      }
                      else->{
-                      throw Exception("unexpected char context.c")
+                      throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                      }
                     }
                    }
                    else->{
-                    throw Exception("unexpected char context.c")
+                    throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                    }
                   }
                  }
                  else->{
-                  throw Exception("unexpected char context.c")
+                  throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                  }
                 }
                }
                else->{
-                throw Exception("unexpected char context.c")
+                throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                }
               }
              }
              else->{
-              throw Exception("unexpected char context.c")
+              throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
              }
             }
            }
            else->{
-            throw Exception("unexpected char context.c")
+            throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
            }
           }
          }
          else->{
-          throw Exception("unexpected char context.c")
+          throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
          }
         }
        }
        else->{
-        throw Exception("unexpected char context.c")
+        throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
        }
       }
      }
@@ -1054,25 +957,22 @@ inline fun parse_predicate(context:ParserContext,
    }
    when(context.c){
     '>'->{
-     context.buffer.append(context.c)
-     context.next()
+     context.append()
      onIRIREF()
      return
     }
     else->{
-     throw Exception("unexpected char context.c")
+     throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
     }
    }
   }
   in (0x0.toChar()..0xffff.toChar()),in ('A'..'Z'),in ('a'..'z'),in (0xc0.toChar()..0xd6.toChar()),in (0xd8.toChar()..0xf6.toChar()),in (0xf8.toChar()..0x2ff.toChar()),in (0x370.toChar()..0x37d.toChar()),in (0x37f.toChar()..0x1fff.toChar()),in (0x200c.toChar()..0x200d.toChar()),in (0x2070.toChar()..0x218f.toChar()),in (0x2c00.toChar()..0x2fef.toChar()),in (0x3001.toChar()..0xd7ff.toChar()),in (0xf900.toChar()..0xfdcf.toChar()),in (0xfdf0.toChar()..0xfffd.toChar())->{
-   context.buffer.append(context.c)
-   context.next()
+   context.append()
    loop2@while(context.hasNext()){
     loop3@while(context.hasNext()){
      when(context.c){
       '.'->{
-       context.buffer.append(context.c)
-       context.next()
+       context.append()
       }
       else->{
        break@loop3
@@ -1081,35 +981,32 @@ inline fun parse_predicate(context:ParserContext,
     }
     when(context.c){
      in (0x0.toChar()..0xffff.toChar()),'-',in ('0'..'9'),in ('A'..'Z'),'_',in ('a'..'z'),0xb7.toChar(),in (0xc0.toChar()..0xd6.toChar()),in (0xd8.toChar()..0xf6.toChar()),in (0xf8.toChar()..0x2ff.toChar()),in (0x300.toChar()..0x36f.toChar()),in (0x370.toChar()..0x37d.toChar()),in (0x37f.toChar()..0x1fff.toChar()),in (0x200c.toChar()..0x200d.toChar()),in (0x203f.toChar()..0x2040.toChar()),in (0x2070.toChar()..0x218f.toChar()),in (0x2c00.toChar()..0x2fef.toChar()),in (0x3001.toChar()..0xd7ff.toChar()),in (0xf900.toChar()..0xfdcf.toChar()),in (0xfdf0.toChar()..0xfffd.toChar())->{
-      context.buffer.append(context.c)
-      context.next()
+      context.append()
       continue@loop2
      }
      else->{
-      throw Exception("unexpected char context.c")
+      throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
      }
     }
    }
    when(context.c){
     0x3a.toChar()->{
-     context.buffer.append(context.c)
-     context.next()
+     context.append()
      onPNAME_NS()
      return
     }
     else->{
-     throw Exception("unexpected char context.c")
+     throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
     }
    }
   }
   0x3a.toChar()->{
-   context.buffer.append(context.c)
-   context.next()
+   context.append()
    onPNAME_NS()
    return
   }
   else->{
-   throw Exception("unexpected char context.c")
+   throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
   }
  }
 }
@@ -1129,139 +1026,122 @@ inline fun parse_obj(context:ParserContext,
  context.buffer.clear()
  when(context.c){
   '<'->{
-   context.buffer.append(context.c)
-   context.next()
+   context.append()
    loop2@while(context.hasNext()){
     when(context.c){
      '!',in ('#'..';'),'=',in ('?'..'['),']','_',in ('a'..'z'),in ('~'..0xffff.toChar())->{
-      context.buffer.append(context.c)
-      context.next()
+      context.append()
       continue@loop2
      }
      0x5c.toChar()->{
-      context.buffer.append(context.c)
-      context.next()
+      context.append()
       when(context.c){
        'u'->{
-        context.buffer.append(context.c)
-        context.next()
+        context.append()
         when(context.c){
          in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-          context.buffer.append(context.c)
-          context.next()
+          context.append()
           when(context.c){
            in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-            context.buffer.append(context.c)
-            context.next()
+            context.append()
             when(context.c){
              in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-              context.buffer.append(context.c)
-              context.next()
+              context.append()
               when(context.c){
                in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                context.buffer.append(context.c)
-                context.next()
+                context.append()
                 continue@loop2
                }
                else->{
-                throw Exception("unexpected char context.c")
+                throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                }
               }
              }
              else->{
-              throw Exception("unexpected char context.c")
+              throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
              }
             }
            }
            else->{
-            throw Exception("unexpected char context.c")
+            throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
            }
           }
          }
          else->{
-          throw Exception("unexpected char context.c")
+          throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
          }
         }
        }
        'U'->{
-        context.buffer.append(context.c)
-        context.next()
+        context.append()
         when(context.c){
          in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-          context.buffer.append(context.c)
-          context.next()
+          context.append()
           when(context.c){
            in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-            context.buffer.append(context.c)
-            context.next()
+            context.append()
             when(context.c){
              in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-              context.buffer.append(context.c)
-              context.next()
+              context.append()
               when(context.c){
                in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                context.buffer.append(context.c)
-                context.next()
+                context.append()
                 when(context.c){
                  in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                  context.buffer.append(context.c)
-                  context.next()
+                  context.append()
                   when(context.c){
                    in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                    context.buffer.append(context.c)
-                    context.next()
+                    context.append()
                     when(context.c){
                      in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                      context.buffer.append(context.c)
-                      context.next()
+                      context.append()
                       when(context.c){
                        in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                        context.buffer.append(context.c)
-                        context.next()
+                        context.append()
                         continue@loop2
                        }
                        else->{
-                        throw Exception("unexpected char context.c")
+                        throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                        }
                       }
                      }
                      else->{
-                      throw Exception("unexpected char context.c")
+                      throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                      }
                     }
                    }
                    else->{
-                    throw Exception("unexpected char context.c")
+                    throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                    }
                   }
                  }
                  else->{
-                  throw Exception("unexpected char context.c")
+                  throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                  }
                 }
                }
                else->{
-                throw Exception("unexpected char context.c")
+                throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                }
               }
              }
              else->{
-              throw Exception("unexpected char context.c")
+              throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
              }
             }
            }
            else->{
-            throw Exception("unexpected char context.c")
+            throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
            }
           }
          }
          else->{
-          throw Exception("unexpected char context.c")
+          throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
          }
         }
        }
        else->{
-        throw Exception("unexpected char context.c")
+        throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
        }
       }
      }
@@ -1272,25 +1152,22 @@ inline fun parse_obj(context:ParserContext,
    }
    when(context.c){
     '>'->{
-     context.buffer.append(context.c)
-     context.next()
+     context.append()
      onIRIREF()
      return
     }
     else->{
-     throw Exception("unexpected char context.c")
+     throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
     }
    }
   }
   in (0x0.toChar()..0xffff.toChar()),in ('A'..'Z'),in ('a'..'z'),in (0xc0.toChar()..0xd6.toChar()),in (0xd8.toChar()..0xf6.toChar()),in (0xf8.toChar()..0x2ff.toChar()),in (0x370.toChar()..0x37d.toChar()),in (0x37f.toChar()..0x1fff.toChar()),in (0x200c.toChar()..0x200d.toChar()),in (0x2070.toChar()..0x218f.toChar()),in (0x2c00.toChar()..0x2fef.toChar()),in (0x3001.toChar()..0xd7ff.toChar()),in (0xf900.toChar()..0xfdcf.toChar()),in (0xfdf0.toChar()..0xfffd.toChar())->{
-   context.buffer.append(context.c)
-   context.next()
+   context.append()
    loop2@while(context.hasNext()){
     loop3@while(context.hasNext()){
      when(context.c){
       '.'->{
-       context.buffer.append(context.c)
-       context.next()
+       context.append()
       }
       else->{
        break@loop3
@@ -1299,50 +1176,43 @@ inline fun parse_obj(context:ParserContext,
     }
     when(context.c){
      in (0x0.toChar()..0xffff.toChar()),'-',in ('0'..'9'),in ('A'..'Z'),'_',in ('a'..'z'),0xb7.toChar(),in (0xc0.toChar()..0xd6.toChar()),in (0xd8.toChar()..0xf6.toChar()),in (0xf8.toChar()..0x2ff.toChar()),in (0x300.toChar()..0x36f.toChar()),in (0x370.toChar()..0x37d.toChar()),in (0x37f.toChar()..0x1fff.toChar()),in (0x200c.toChar()..0x200d.toChar()),in (0x203f.toChar()..0x2040.toChar()),in (0x2070.toChar()..0x218f.toChar()),in (0x2c00.toChar()..0x2fef.toChar()),in (0x3001.toChar()..0xd7ff.toChar()),in (0xf900.toChar()..0xfdcf.toChar()),in (0xfdf0.toChar()..0xfffd.toChar())->{
-      context.buffer.append(context.c)
-      context.next()
+      context.append()
       continue@loop2
      }
      else->{
-      throw Exception("unexpected char context.c")
+      throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
      }
     }
    }
    when(context.c){
     0x3a.toChar()->{
-     context.buffer.append(context.c)
-     context.next()
+     context.append()
      onPNAME_NS()
      return
     }
     else->{
-     throw Exception("unexpected char context.c")
+     throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
     }
    }
   }
   0x3a.toChar()->{
-   context.buffer.append(context.c)
-   context.next()
+   context.append()
    onPNAME_NS()
    return
   }
   '_'->{
-   context.buffer.append(context.c)
-   context.next()
+   context.append()
    when(context.c){
     0x3a.toChar()->{
-     context.buffer.append(context.c)
-     context.next()
+     context.append()
      when(context.c){
       in (0x0.toChar()..0xffff.toChar()),in ('0'..'9'),in ('A'..'Z'),'_',in ('a'..'z'),in (0xc0.toChar()..0xd6.toChar()),in (0xd8.toChar()..0xf6.toChar()),in (0xf8.toChar()..0x2ff.toChar()),in (0x370.toChar()..0x37d.toChar()),in (0x37f.toChar()..0x1fff.toChar()),in (0x200c.toChar()..0x200d.toChar()),in (0x2070.toChar()..0x218f.toChar()),in (0x2c00.toChar()..0x2fef.toChar()),in (0x3001.toChar()..0xd7ff.toChar()),in (0xf900.toChar()..0xfdcf.toChar()),in (0xfdf0.toChar()..0xfffd.toChar())->{
-       context.buffer.append(context.c)
-       context.next()
+       context.append()
        loop6@while(context.hasNext()){
         loop7@while(context.hasNext()){
          when(context.c){
           '.'->{
-           context.buffer.append(context.c)
-           context.next()
+           context.append()
           }
           else->{
            break@loop7
@@ -1351,12 +1221,11 @@ inline fun parse_obj(context:ParserContext,
         }
         when(context.c){
          in (0x0.toChar()..0xffff.toChar()),'-',in ('0'..'9'),in ('A'..'Z'),'_',in ('a'..'z'),0xb7.toChar(),in (0xc0.toChar()..0xd6.toChar()),in (0xd8.toChar()..0xf6.toChar()),in (0xf8.toChar()..0x2ff.toChar()),in (0x300.toChar()..0x36f.toChar()),in (0x370.toChar()..0x37d.toChar()),in (0x37f.toChar()..0x1fff.toChar()),in (0x200c.toChar()..0x200d.toChar()),in (0x203f.toChar()..0x2040.toChar()),in (0x2070.toChar()..0x218f.toChar()),in (0x2c00.toChar()..0x2fef.toChar()),in (0x3001.toChar()..0xd7ff.toChar()),in (0xf900.toChar()..0xfdcf.toChar()),in (0xfdf0.toChar()..0xfffd.toChar())->{
-          context.buffer.append(context.c)
-          context.next()
+          context.append()
           continue@loop6
          }
          else->{
-          throw Exception("unexpected char context.c")
+          throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
          }
         }
        }
@@ -1364,158 +1233,139 @@ inline fun parse_obj(context:ParserContext,
        return
       }
       else->{
-       throw Exception("unexpected char context.c")
+       throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
       }
      }
     }
     else->{
-     throw Exception("unexpected char context.c")
+     throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
     }
    }
   }
   0x22.toChar()->{
-   context.buffer.append(context.c)
-   context.next()
+   context.append()
    when(context.c){
     in (0x0.toChar()..0x9.toChar()),in (0xb.toChar()..0xc.toChar()),in (0xe.toChar()..'!'),in ('#'..'['),in (']'..0xffff.toChar())->{
-     context.buffer.append(context.c)
-     context.next()
+     context.append()
      loop4@while(context.hasNext()){
       when(context.c){
        in (0x0.toChar()..0x9.toChar()),in (0xb.toChar()..0xc.toChar()),in (0xe.toChar()..'!'),in ('#'..'['),in (']'..0xffff.toChar())->{
-        context.buffer.append(context.c)
-        context.next()
+        context.append()
         continue@loop4
        }
        0x5c.toChar()->{
-        context.buffer.append(context.c)
-        context.next()
+        context.append()
         when(context.c){
          0x22.toChar(),0x27.toChar(),0x5c.toChar(),'b','f','n','r','t'->{
-          context.buffer.append(context.c)
-          context.next()
+          context.append()
           continue@loop4
          }
          'u'->{
-          context.buffer.append(context.c)
-          context.next()
+          context.append()
           when(context.c){
            in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-            context.buffer.append(context.c)
-            context.next()
+            context.append()
             when(context.c){
              in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-              context.buffer.append(context.c)
-              context.next()
+              context.append()
               when(context.c){
                in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                context.buffer.append(context.c)
-                context.next()
+                context.append()
                 when(context.c){
                  in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                  context.buffer.append(context.c)
-                  context.next()
+                  context.append()
                   continue@loop4
                  }
                  else->{
-                  throw Exception("unexpected char context.c")
+                  throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                  }
                 }
                }
                else->{
-                throw Exception("unexpected char context.c")
+                throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                }
               }
              }
              else->{
-              throw Exception("unexpected char context.c")
+              throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
              }
             }
            }
            else->{
-            throw Exception("unexpected char context.c")
+            throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
            }
           }
          }
          'U'->{
-          context.buffer.append(context.c)
-          context.next()
+          context.append()
           when(context.c){
            in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-            context.buffer.append(context.c)
-            context.next()
+            context.append()
             when(context.c){
              in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-              context.buffer.append(context.c)
-              context.next()
+              context.append()
               when(context.c){
                in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                context.buffer.append(context.c)
-                context.next()
+                context.append()
                 when(context.c){
                  in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                  context.buffer.append(context.c)
-                  context.next()
+                  context.append()
                   when(context.c){
                    in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                    context.buffer.append(context.c)
-                    context.next()
+                    context.append()
                     when(context.c){
                      in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                      context.buffer.append(context.c)
-                      context.next()
+                      context.append()
                       when(context.c){
                        in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                        context.buffer.append(context.c)
-                        context.next()
+                        context.append()
                         when(context.c){
                          in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                          context.buffer.append(context.c)
-                          context.next()
+                          context.append()
                           continue@loop4
                          }
                          else->{
-                          throw Exception("unexpected char context.c")
+                          throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                          }
                         }
                        }
                        else->{
-                        throw Exception("unexpected char context.c")
+                        throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                        }
                       }
                      }
                      else->{
-                      throw Exception("unexpected char context.c")
+                      throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                      }
                     }
                    }
                    else->{
-                    throw Exception("unexpected char context.c")
+                    throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                    }
                   }
                  }
                  else->{
-                  throw Exception("unexpected char context.c")
+                  throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                  }
                 }
                }
                else->{
-                throw Exception("unexpected char context.c")
+                throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                }
               }
              }
              else->{
-              throw Exception("unexpected char context.c")
+              throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
              }
             }
            }
            else->{
-            throw Exception("unexpected char context.c")
+            throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
            }
           }
          }
          else->{
-          throw Exception("unexpected char context.c")
+          throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
          }
         }
        }
@@ -1526,159 +1376,139 @@ inline fun parse_obj(context:ParserContext,
      }
      when(context.c){
       0x22.toChar()->{
-       context.buffer.append(context.c)
-       context.next()
+       context.append()
        onSTRING_LITERAL_QUOTE()
        return
       }
       else->{
-       throw Exception("unexpected char context.c")
+       throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
       }
      }
     }
     0x5c.toChar()->{
-     context.buffer.append(context.c)
-     context.next()
+     context.append()
      when(context.c){
       0x22.toChar(),0x27.toChar(),0x5c.toChar(),'b','f','n','r','t'->{
-       context.buffer.append(context.c)
-       context.next()
+       context.append()
        loop6@while(context.hasNext()){
         when(context.c){
          in (0x0.toChar()..0x9.toChar()),in (0xb.toChar()..0xc.toChar()),in (0xe.toChar()..'!'),in ('#'..'['),in (']'..0xffff.toChar())->{
-          context.buffer.append(context.c)
-          context.next()
+          context.append()
           continue@loop6
          }
          0x5c.toChar()->{
-          context.buffer.append(context.c)
-          context.next()
+          context.append()
           when(context.c){
            0x22.toChar(),0x27.toChar(),0x5c.toChar(),'b','f','n','r','t'->{
-            context.buffer.append(context.c)
-            context.next()
+            context.append()
             continue@loop6
            }
            'u'->{
-            context.buffer.append(context.c)
-            context.next()
+            context.append()
             when(context.c){
              in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-              context.buffer.append(context.c)
-              context.next()
+              context.append()
               when(context.c){
                in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                context.buffer.append(context.c)
-                context.next()
+                context.append()
                 when(context.c){
                  in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                  context.buffer.append(context.c)
-                  context.next()
+                  context.append()
                   when(context.c){
                    in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                    context.buffer.append(context.c)
-                    context.next()
+                    context.append()
                     continue@loop6
                    }
                    else->{
-                    throw Exception("unexpected char context.c")
+                    throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                    }
                   }
                  }
                  else->{
-                  throw Exception("unexpected char context.c")
+                  throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                  }
                 }
                }
                else->{
-                throw Exception("unexpected char context.c")
+                throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                }
               }
              }
              else->{
-              throw Exception("unexpected char context.c")
+              throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
              }
             }
            }
            'U'->{
-            context.buffer.append(context.c)
-            context.next()
+            context.append()
             when(context.c){
              in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-              context.buffer.append(context.c)
-              context.next()
+              context.append()
               when(context.c){
                in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                context.buffer.append(context.c)
-                context.next()
+                context.append()
                 when(context.c){
                  in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                  context.buffer.append(context.c)
-                  context.next()
+                  context.append()
                   when(context.c){
                    in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                    context.buffer.append(context.c)
-                    context.next()
+                    context.append()
                     when(context.c){
                      in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                      context.buffer.append(context.c)
-                      context.next()
+                      context.append()
                       when(context.c){
                        in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                        context.buffer.append(context.c)
-                        context.next()
+                        context.append()
                         when(context.c){
                          in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                          context.buffer.append(context.c)
-                          context.next()
+                          context.append()
                           when(context.c){
                            in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                            context.buffer.append(context.c)
-                            context.next()
+                            context.append()
                             continue@loop6
                            }
                            else->{
-                            throw Exception("unexpected char context.c")
+                            throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                            }
                           }
                          }
                          else->{
-                          throw Exception("unexpected char context.c")
+                          throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                          }
                         }
                        }
                        else->{
-                        throw Exception("unexpected char context.c")
+                        throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                        }
                       }
                      }
                      else->{
-                      throw Exception("unexpected char context.c")
+                      throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                      }
                     }
                    }
                    else->{
-                    throw Exception("unexpected char context.c")
+                    throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                    }
                   }
                  }
                  else->{
-                  throw Exception("unexpected char context.c")
+                  throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                  }
                 }
                }
                else->{
-                throw Exception("unexpected char context.c")
+                throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                }
               }
              }
              else->{
-              throw Exception("unexpected char context.c")
+              throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
              }
             }
            }
            else->{
-            throw Exception("unexpected char context.c")
+            throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
            }
           }
          }
@@ -1689,171 +1519,148 @@ inline fun parse_obj(context:ParserContext,
        }
        when(context.c){
         0x22.toChar()->{
-         context.buffer.append(context.c)
-         context.next()
+         context.append()
          onSTRING_LITERAL_QUOTE()
          return
         }
         else->{
-         throw Exception("unexpected char context.c")
+         throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
         }
        }
       }
       'u'->{
-       context.buffer.append(context.c)
-       context.next()
+       context.append()
        when(context.c){
         in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-         context.buffer.append(context.c)
-         context.next()
+         context.append()
          when(context.c){
           in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-           context.buffer.append(context.c)
-           context.next()
+           context.append()
            when(context.c){
             in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-             context.buffer.append(context.c)
-             context.next()
+             context.append()
              when(context.c){
               in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-               context.buffer.append(context.c)
-               context.next()
+               context.append()
                loop14@while(context.hasNext()){
                 when(context.c){
                  in (0x0.toChar()..0x9.toChar()),in (0xb.toChar()..0xc.toChar()),in (0xe.toChar()..'!'),in ('#'..'['),in (']'..0xffff.toChar())->{
-                  context.buffer.append(context.c)
-                  context.next()
+                  context.append()
                   continue@loop14
                  }
                  0x5c.toChar()->{
-                  context.buffer.append(context.c)
-                  context.next()
+                  context.append()
                   when(context.c){
                    0x22.toChar(),0x27.toChar(),0x5c.toChar(),'b','f','n','r','t'->{
-                    context.buffer.append(context.c)
-                    context.next()
+                    context.append()
                     continue@loop14
                    }
                    'u'->{
-                    context.buffer.append(context.c)
-                    context.next()
+                    context.append()
                     when(context.c){
                      in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                      context.buffer.append(context.c)
-                      context.next()
+                      context.append()
                       when(context.c){
                        in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                        context.buffer.append(context.c)
-                        context.next()
+                        context.append()
                         when(context.c){
                          in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                          context.buffer.append(context.c)
-                          context.next()
+                          context.append()
                           when(context.c){
                            in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                            context.buffer.append(context.c)
-                            context.next()
+                            context.append()
                             continue@loop14
                            }
                            else->{
-                            throw Exception("unexpected char context.c")
+                            throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                            }
                           }
                          }
                          else->{
-                          throw Exception("unexpected char context.c")
+                          throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                          }
                         }
                        }
                        else->{
-                        throw Exception("unexpected char context.c")
+                        throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                        }
                       }
                      }
                      else->{
-                      throw Exception("unexpected char context.c")
+                      throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                      }
                     }
                    }
                    'U'->{
-                    context.buffer.append(context.c)
-                    context.next()
+                    context.append()
                     when(context.c){
                      in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                      context.buffer.append(context.c)
-                      context.next()
+                      context.append()
                       when(context.c){
                        in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                        context.buffer.append(context.c)
-                        context.next()
+                        context.append()
                         when(context.c){
                          in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                          context.buffer.append(context.c)
-                          context.next()
+                          context.append()
                           when(context.c){
                            in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                            context.buffer.append(context.c)
-                            context.next()
+                            context.append()
                             when(context.c){
                              in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                              context.buffer.append(context.c)
-                              context.next()
+                              context.append()
                               when(context.c){
                                in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                                context.buffer.append(context.c)
-                                context.next()
+                                context.append()
                                 when(context.c){
                                  in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                                  context.buffer.append(context.c)
-                                  context.next()
+                                  context.append()
                                   when(context.c){
                                    in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                                    context.buffer.append(context.c)
-                                    context.next()
+                                    context.append()
                                     continue@loop14
                                    }
                                    else->{
-                                    throw Exception("unexpected char context.c")
+                                    throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                                    }
                                   }
                                  }
                                  else->{
-                                  throw Exception("unexpected char context.c")
+                                  throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                                  }
                                 }
                                }
                                else->{
-                                throw Exception("unexpected char context.c")
+                                throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                                }
                               }
                              }
                              else->{
-                              throw Exception("unexpected char context.c")
+                              throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                              }
                             }
                            }
                            else->{
-                            throw Exception("unexpected char context.c")
+                            throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                            }
                           }
                          }
                          else->{
-                          throw Exception("unexpected char context.c")
+                          throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                          }
                         }
                        }
                        else->{
-                        throw Exception("unexpected char context.c")
+                        throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                        }
                       }
                      }
                      else->{
-                      throw Exception("unexpected char context.c")
+                      throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                      }
                     }
                    }
                    else->{
-                    throw Exception("unexpected char context.c")
+                    throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                    }
                   }
                  }
@@ -1864,207 +1671,180 @@ inline fun parse_obj(context:ParserContext,
                }
                when(context.c){
                 0x22.toChar()->{
-                 context.buffer.append(context.c)
-                 context.next()
+                 context.append()
                  onSTRING_LITERAL_QUOTE()
                  return
                 }
                 else->{
-                 throw Exception("unexpected char context.c")
+                 throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                 }
                }
               }
               else->{
-               throw Exception("unexpected char context.c")
+               throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
               }
              }
             }
             else->{
-             throw Exception("unexpected char context.c")
+             throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
             }
            }
           }
           else->{
-           throw Exception("unexpected char context.c")
+           throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
           }
          }
         }
         else->{
-         throw Exception("unexpected char context.c")
+         throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
         }
        }
       }
       'U'->{
-       context.buffer.append(context.c)
-       context.next()
+       context.append()
        when(context.c){
         in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-         context.buffer.append(context.c)
-         context.next()
+         context.append()
          when(context.c){
           in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-           context.buffer.append(context.c)
-           context.next()
+           context.append()
            when(context.c){
             in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-             context.buffer.append(context.c)
-             context.next()
+             context.append()
              when(context.c){
               in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-               context.buffer.append(context.c)
-               context.next()
+               context.append()
                when(context.c){
                 in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                 context.buffer.append(context.c)
-                 context.next()
+                 context.append()
                  when(context.c){
                   in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                   context.buffer.append(context.c)
-                   context.next()
+                   context.append()
                    when(context.c){
                     in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                     context.buffer.append(context.c)
-                     context.next()
+                     context.append()
                      when(context.c){
                       in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                       context.buffer.append(context.c)
-                       context.next()
+                       context.append()
                        loop22@while(context.hasNext()){
                         when(context.c){
                          in (0x0.toChar()..0x9.toChar()),in (0xb.toChar()..0xc.toChar()),in (0xe.toChar()..'!'),in ('#'..'['),in (']'..0xffff.toChar())->{
-                          context.buffer.append(context.c)
-                          context.next()
+                          context.append()
                           continue@loop22
                          }
                          0x5c.toChar()->{
-                          context.buffer.append(context.c)
-                          context.next()
+                          context.append()
                           when(context.c){
                            0x22.toChar(),0x27.toChar(),0x5c.toChar(),'b','f','n','r','t'->{
-                            context.buffer.append(context.c)
-                            context.next()
+                            context.append()
                             continue@loop22
                            }
                            'u'->{
-                            context.buffer.append(context.c)
-                            context.next()
+                            context.append()
                             when(context.c){
                              in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                              context.buffer.append(context.c)
-                              context.next()
+                              context.append()
                               when(context.c){
                                in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                                context.buffer.append(context.c)
-                                context.next()
+                                context.append()
                                 when(context.c){
                                  in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                                  context.buffer.append(context.c)
-                                  context.next()
+                                  context.append()
                                   when(context.c){
                                    in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                                    context.buffer.append(context.c)
-                                    context.next()
+                                    context.append()
                                     continue@loop22
                                    }
                                    else->{
-                                    throw Exception("unexpected char context.c")
+                                    throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                                    }
                                   }
                                  }
                                  else->{
-                                  throw Exception("unexpected char context.c")
+                                  throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                                  }
                                 }
                                }
                                else->{
-                                throw Exception("unexpected char context.c")
+                                throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                                }
                               }
                              }
                              else->{
-                              throw Exception("unexpected char context.c")
+                              throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                              }
                             }
                            }
                            'U'->{
-                            context.buffer.append(context.c)
-                            context.next()
+                            context.append()
                             when(context.c){
                              in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                              context.buffer.append(context.c)
-                              context.next()
+                              context.append()
                               when(context.c){
                                in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                                context.buffer.append(context.c)
-                                context.next()
+                                context.append()
                                 when(context.c){
                                  in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                                  context.buffer.append(context.c)
-                                  context.next()
+                                  context.append()
                                   when(context.c){
                                    in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                                    context.buffer.append(context.c)
-                                    context.next()
+                                    context.append()
                                     when(context.c){
                                      in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                                      context.buffer.append(context.c)
-                                      context.next()
+                                      context.append()
                                       when(context.c){
                                        in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                                        context.buffer.append(context.c)
-                                        context.next()
+                                        context.append()
                                         when(context.c){
                                          in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                                          context.buffer.append(context.c)
-                                          context.next()
+                                          context.append()
                                           when(context.c){
                                            in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                                            context.buffer.append(context.c)
-                                            context.next()
+                                            context.append()
                                             continue@loop22
                                            }
                                            else->{
-                                            throw Exception("unexpected char context.c")
+                                            throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                                            }
                                           }
                                          }
                                          else->{
-                                          throw Exception("unexpected char context.c")
+                                          throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                                          }
                                         }
                                        }
                                        else->{
-                                        throw Exception("unexpected char context.c")
+                                        throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                                        }
                                       }
                                      }
                                      else->{
-                                      throw Exception("unexpected char context.c")
+                                      throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                                      }
                                     }
                                    }
                                    else->{
-                                    throw Exception("unexpected char context.c")
+                                    throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                                    }
                                   }
                                  }
                                  else->{
-                                  throw Exception("unexpected char context.c")
+                                  throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                                  }
                                 }
                                }
                                else->{
-                                throw Exception("unexpected char context.c")
+                                throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                                }
                               }
                              }
                              else->{
-                              throw Exception("unexpected char context.c")
+                              throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                              }
                             }
                            }
                            else->{
-                            throw Exception("unexpected char context.c")
+                            throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                            }
                           }
                          }
@@ -2075,502 +1855,445 @@ inline fun parse_obj(context:ParserContext,
                        }
                        when(context.c){
                         0x22.toChar()->{
-                         context.buffer.append(context.c)
-                         context.next()
+                         context.append()
                          onSTRING_LITERAL_QUOTE()
                          return
                         }
                         else->{
-                         throw Exception("unexpected char context.c")
+                         throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                         }
                        }
                       }
                       else->{
-                       throw Exception("unexpected char context.c")
+                       throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                       }
                      }
                     }
                     else->{
-                     throw Exception("unexpected char context.c")
+                     throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                     }
                    }
                   }
                   else->{
-                   throw Exception("unexpected char context.c")
+                   throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                   }
                  }
                 }
                 else->{
-                 throw Exception("unexpected char context.c")
+                 throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                 }
                }
               }
               else->{
-               throw Exception("unexpected char context.c")
+               throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
               }
              }
             }
             else->{
-             throw Exception("unexpected char context.c")
+             throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
             }
            }
           }
           else->{
-           throw Exception("unexpected char context.c")
+           throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
           }
          }
         }
         else->{
-         throw Exception("unexpected char context.c")
+         throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
         }
        }
       }
       else->{
-       throw Exception("unexpected char context.c")
+       throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
       }
      }
     }
     0x22.toChar()->{
-     context.buffer.append(context.c)
-     context.next()
+     context.append()
      when(context.c){
       0x22.toChar()->{
-       context.buffer.append(context.c)
-       context.next()
+       context.append()
        loop6@while(context.hasNext()){
         when(context.c){
          in (0x0.toChar()..'!'),in ('#'..'['),in (']'..0xffff.toChar())->{
-          context.buffer.append(context.c)
-          context.next()
+          context.append()
           continue@loop6
          }
          0x5c.toChar()->{
-          context.buffer.append(context.c)
-          context.next()
+          context.append()
           when(context.c){
            0x22.toChar(),0x27.toChar(),0x5c.toChar(),'b','f','n','r','t'->{
-            context.buffer.append(context.c)
-            context.next()
+            context.append()
             continue@loop6
            }
            'u'->{
-            context.buffer.append(context.c)
-            context.next()
+            context.append()
             when(context.c){
              in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-              context.buffer.append(context.c)
-              context.next()
+              context.append()
               when(context.c){
                in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                context.buffer.append(context.c)
-                context.next()
+                context.append()
                 when(context.c){
                  in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                  context.buffer.append(context.c)
-                  context.next()
+                  context.append()
                   when(context.c){
                    in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                    context.buffer.append(context.c)
-                    context.next()
+                    context.append()
                     continue@loop6
                    }
                    else->{
-                    throw Exception("unexpected char context.c")
+                    throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                    }
                   }
                  }
                  else->{
-                  throw Exception("unexpected char context.c")
+                  throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                  }
                 }
                }
                else->{
-                throw Exception("unexpected char context.c")
+                throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                }
               }
              }
              else->{
-              throw Exception("unexpected char context.c")
+              throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
              }
             }
            }
            'U'->{
-            context.buffer.append(context.c)
-            context.next()
+            context.append()
             when(context.c){
              in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-              context.buffer.append(context.c)
-              context.next()
+              context.append()
               when(context.c){
                in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                context.buffer.append(context.c)
-                context.next()
+                context.append()
                 when(context.c){
                  in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                  context.buffer.append(context.c)
-                  context.next()
+                  context.append()
                   when(context.c){
                    in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                    context.buffer.append(context.c)
-                    context.next()
+                    context.append()
                     when(context.c){
                      in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                      context.buffer.append(context.c)
-                      context.next()
+                      context.append()
                       when(context.c){
                        in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                        context.buffer.append(context.c)
-                        context.next()
+                        context.append()
                         when(context.c){
                          in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                          context.buffer.append(context.c)
-                          context.next()
+                          context.append()
                           when(context.c){
                            in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                            context.buffer.append(context.c)
-                            context.next()
+                            context.append()
                             continue@loop6
                            }
                            else->{
-                            throw Exception("unexpected char context.c")
+                            throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                            }
                           }
                          }
                          else->{
-                          throw Exception("unexpected char context.c")
+                          throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                          }
                         }
                        }
                        else->{
-                        throw Exception("unexpected char context.c")
+                        throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                        }
                       }
                      }
                      else->{
-                      throw Exception("unexpected char context.c")
+                      throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                      }
                     }
                    }
                    else->{
-                    throw Exception("unexpected char context.c")
+                    throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                    }
                   }
                  }
                  else->{
-                  throw Exception("unexpected char context.c")
+                  throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                  }
                 }
                }
                else->{
-                throw Exception("unexpected char context.c")
+                throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                }
               }
              }
              else->{
-              throw Exception("unexpected char context.c")
+              throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
              }
             }
            }
            else->{
-            throw Exception("unexpected char context.c")
+            throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
            }
           }
          }
          0x22.toChar()->{
-          context.buffer.append(context.c)
-          context.next()
+          context.append()
           when(context.c){
            in (0x0.toChar()..'!'),in ('#'..'['),in (']'..0xffff.toChar())->{
-            context.buffer.append(context.c)
-            context.next()
+            context.append()
             continue@loop6
            }
            0x5c.toChar()->{
-            context.buffer.append(context.c)
-            context.next()
+            context.append()
             when(context.c){
              0x22.toChar(),0x27.toChar(),0x5c.toChar(),'b','f','n','r','t'->{
-              context.buffer.append(context.c)
-              context.next()
+              context.append()
               continue@loop6
              }
              'u'->{
-              context.buffer.append(context.c)
-              context.next()
+              context.append()
               when(context.c){
                in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                context.buffer.append(context.c)
-                context.next()
+                context.append()
                 when(context.c){
                  in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                  context.buffer.append(context.c)
-                  context.next()
+                  context.append()
                   when(context.c){
                    in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                    context.buffer.append(context.c)
-                    context.next()
+                    context.append()
                     when(context.c){
                      in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                      context.buffer.append(context.c)
-                      context.next()
+                      context.append()
                       continue@loop6
                      }
                      else->{
-                      throw Exception("unexpected char context.c")
+                      throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                      }
                     }
                    }
                    else->{
-                    throw Exception("unexpected char context.c")
+                    throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                    }
                   }
                  }
                  else->{
-                  throw Exception("unexpected char context.c")
+                  throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                  }
                 }
                }
                else->{
-                throw Exception("unexpected char context.c")
+                throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                }
               }
              }
              'U'->{
-              context.buffer.append(context.c)
-              context.next()
+              context.append()
               when(context.c){
                in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                context.buffer.append(context.c)
-                context.next()
+                context.append()
                 when(context.c){
                  in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                  context.buffer.append(context.c)
-                  context.next()
+                  context.append()
                   when(context.c){
                    in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                    context.buffer.append(context.c)
-                    context.next()
+                    context.append()
                     when(context.c){
                      in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                      context.buffer.append(context.c)
-                      context.next()
+                      context.append()
                       when(context.c){
                        in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                        context.buffer.append(context.c)
-                        context.next()
+                        context.append()
                         when(context.c){
                          in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                          context.buffer.append(context.c)
-                          context.next()
+                          context.append()
                           when(context.c){
                            in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                            context.buffer.append(context.c)
-                            context.next()
+                            context.append()
                             when(context.c){
                              in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                              context.buffer.append(context.c)
-                              context.next()
+                              context.append()
                               continue@loop6
                              }
                              else->{
-                              throw Exception("unexpected char context.c")
+                              throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                              }
                             }
                            }
                            else->{
-                            throw Exception("unexpected char context.c")
+                            throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                            }
                           }
                          }
                          else->{
-                          throw Exception("unexpected char context.c")
+                          throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                          }
                         }
                        }
                        else->{
-                        throw Exception("unexpected char context.c")
+                        throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                        }
                       }
                      }
                      else->{
-                      throw Exception("unexpected char context.c")
+                      throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                      }
                     }
                    }
                    else->{
-                    throw Exception("unexpected char context.c")
+                    throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                    }
                   }
                  }
                  else->{
-                  throw Exception("unexpected char context.c")
+                  throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                  }
                 }
                }
                else->{
-                throw Exception("unexpected char context.c")
+                throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                }
               }
              }
              else->{
-              throw Exception("unexpected char context.c")
+              throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
              }
             }
            }
            0x22.toChar()->{
-            context.buffer.append(context.c)
-            context.next()
+            context.append()
             when(context.c){
              in (0x0.toChar()..'!'),in ('#'..'['),in (']'..0xffff.toChar())->{
-              context.buffer.append(context.c)
-              context.next()
+              context.append()
               continue@loop6
              }
              0x5c.toChar()->{
-              context.buffer.append(context.c)
-              context.next()
+              context.append()
               when(context.c){
                0x22.toChar(),0x27.toChar(),0x5c.toChar(),'b','f','n','r','t'->{
-                context.buffer.append(context.c)
-                context.next()
+                context.append()
                 continue@loop6
                }
                'u'->{
-                context.buffer.append(context.c)
-                context.next()
+                context.append()
                 when(context.c){
                  in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                  context.buffer.append(context.c)
-                  context.next()
+                  context.append()
                   when(context.c){
                    in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                    context.buffer.append(context.c)
-                    context.next()
+                    context.append()
                     when(context.c){
                      in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                      context.buffer.append(context.c)
-                      context.next()
+                      context.append()
                       when(context.c){
                        in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                        context.buffer.append(context.c)
-                        context.next()
+                        context.append()
                         continue@loop6
                        }
                        else->{
-                        throw Exception("unexpected char context.c")
+                        throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                        }
                       }
                      }
                      else->{
-                      throw Exception("unexpected char context.c")
+                      throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                      }
                     }
                    }
                    else->{
-                    throw Exception("unexpected char context.c")
+                    throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                    }
                   }
                  }
                  else->{
-                  throw Exception("unexpected char context.c")
+                  throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                  }
                 }
                }
                'U'->{
-                context.buffer.append(context.c)
-                context.next()
+                context.append()
                 when(context.c){
                  in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                  context.buffer.append(context.c)
-                  context.next()
+                  context.append()
                   when(context.c){
                    in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                    context.buffer.append(context.c)
-                    context.next()
+                    context.append()
                     when(context.c){
                      in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                      context.buffer.append(context.c)
-                      context.next()
+                      context.append()
                       when(context.c){
                        in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                        context.buffer.append(context.c)
-                        context.next()
+                        context.append()
                         when(context.c){
                          in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                          context.buffer.append(context.c)
-                          context.next()
+                          context.append()
                           when(context.c){
                            in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                            context.buffer.append(context.c)
-                            context.next()
+                            context.append()
                             when(context.c){
                              in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                              context.buffer.append(context.c)
-                              context.next()
+                              context.append()
                               when(context.c){
                                in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                                context.buffer.append(context.c)
-                                context.next()
+                                context.append()
                                 continue@loop6
                                }
                                else->{
-                                throw Exception("unexpected char context.c")
+                                throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                                }
                               }
                              }
                              else->{
-                              throw Exception("unexpected char context.c")
+                              throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                              }
                             }
                            }
                            else->{
-                            throw Exception("unexpected char context.c")
+                            throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                            }
                           }
                          }
                          else->{
-                          throw Exception("unexpected char context.c")
+                          throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                          }
                         }
                        }
                        else->{
-                        throw Exception("unexpected char context.c")
+                        throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                        }
                       }
                      }
                      else->{
-                      throw Exception("unexpected char context.c")
+                      throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                      }
                     }
                    }
                    else->{
-                    throw Exception("unexpected char context.c")
+                    throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                    }
                   }
                  }
                  else->{
-                  throw Exception("unexpected char context.c")
+                  throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                  }
                 }
                }
                else->{
-                throw Exception("unexpected char context.c")
+                throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                }
               }
              }
              0x22.toChar()->{
-              context.buffer.append(context.c)
-              context.next()
+              context.append()
               onSTRING_LITERAL_LONG_QUOTE()
               return
              }
              else->{
-              throw Exception("unexpected char context.c")
+              throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
              }
             }
            }
            else->{
-            throw Exception("unexpected char context.c")
+            throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
            }
           }
          }
@@ -2579,7 +2302,7 @@ inline fun parse_obj(context:ParserContext,
          }
         }
        }
-       throw Exception("unexpected char context.c")
+       throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
       }
       else->{
        onSTRING_LITERAL_QUOTE()
@@ -2588,153 +2311,134 @@ inline fun parse_obj(context:ParserContext,
      }
     }
     else->{
-     throw Exception("unexpected char context.c")
+     throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
     }
    }
   }
   0x27.toChar()->{
-   context.buffer.append(context.c)
-   context.next()
+   context.append()
    when(context.c){
     in (0x0.toChar()..0x9.toChar()),in (0xb.toChar()..0xc.toChar()),in (0xe.toChar()..'&'),in ('('..'['),in (']'..0xffff.toChar())->{
-     context.buffer.append(context.c)
-     context.next()
+     context.append()
      loop4@while(context.hasNext()){
       when(context.c){
        in (0x0.toChar()..0x9.toChar()),in (0xb.toChar()..0xc.toChar()),in (0xe.toChar()..'&'),in ('('..'['),in (']'..0xffff.toChar())->{
-        context.buffer.append(context.c)
-        context.next()
+        context.append()
         continue@loop4
        }
        0x5c.toChar()->{
-        context.buffer.append(context.c)
-        context.next()
+        context.append()
         when(context.c){
          0x22.toChar(),0x27.toChar(),0x5c.toChar(),'b','f','n','r','t'->{
-          context.buffer.append(context.c)
-          context.next()
+          context.append()
           continue@loop4
          }
          'u'->{
-          context.buffer.append(context.c)
-          context.next()
+          context.append()
           when(context.c){
            in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-            context.buffer.append(context.c)
-            context.next()
+            context.append()
             when(context.c){
              in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-              context.buffer.append(context.c)
-              context.next()
+              context.append()
               when(context.c){
                in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                context.buffer.append(context.c)
-                context.next()
+                context.append()
                 when(context.c){
                  in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                  context.buffer.append(context.c)
-                  context.next()
+                  context.append()
                   continue@loop4
                  }
                  else->{
-                  throw Exception("unexpected char context.c")
+                  throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                  }
                 }
                }
                else->{
-                throw Exception("unexpected char context.c")
+                throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                }
               }
              }
              else->{
-              throw Exception("unexpected char context.c")
+              throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
              }
             }
            }
            else->{
-            throw Exception("unexpected char context.c")
+            throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
            }
           }
          }
          'U'->{
-          context.buffer.append(context.c)
-          context.next()
+          context.append()
           when(context.c){
            in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-            context.buffer.append(context.c)
-            context.next()
+            context.append()
             when(context.c){
              in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-              context.buffer.append(context.c)
-              context.next()
+              context.append()
               when(context.c){
                in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                context.buffer.append(context.c)
-                context.next()
+                context.append()
                 when(context.c){
                  in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                  context.buffer.append(context.c)
-                  context.next()
+                  context.append()
                   when(context.c){
                    in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                    context.buffer.append(context.c)
-                    context.next()
+                    context.append()
                     when(context.c){
                      in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                      context.buffer.append(context.c)
-                      context.next()
+                      context.append()
                       when(context.c){
                        in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                        context.buffer.append(context.c)
-                        context.next()
+                        context.append()
                         when(context.c){
                          in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                          context.buffer.append(context.c)
-                          context.next()
+                          context.append()
                           continue@loop4
                          }
                          else->{
-                          throw Exception("unexpected char context.c")
+                          throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                          }
                         }
                        }
                        else->{
-                        throw Exception("unexpected char context.c")
+                        throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                        }
                       }
                      }
                      else->{
-                      throw Exception("unexpected char context.c")
+                      throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                      }
                     }
                    }
                    else->{
-                    throw Exception("unexpected char context.c")
+                    throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                    }
                   }
                  }
                  else->{
-                  throw Exception("unexpected char context.c")
+                  throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                  }
                 }
                }
                else->{
-                throw Exception("unexpected char context.c")
+                throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                }
               }
              }
              else->{
-              throw Exception("unexpected char context.c")
+              throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
              }
             }
            }
            else->{
-            throw Exception("unexpected char context.c")
+            throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
            }
           }
          }
          else->{
-          throw Exception("unexpected char context.c")
+          throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
          }
         }
        }
@@ -2745,159 +2449,139 @@ inline fun parse_obj(context:ParserContext,
      }
      when(context.c){
       0x27.toChar()->{
-       context.buffer.append(context.c)
-       context.next()
+       context.append()
        onSTRING_LITERAL_SINGLE_QUOTE()
        return
       }
       else->{
-       throw Exception("unexpected char context.c")
+       throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
       }
      }
     }
     0x5c.toChar()->{
-     context.buffer.append(context.c)
-     context.next()
+     context.append()
      when(context.c){
       0x22.toChar(),0x27.toChar(),0x5c.toChar(),'b','f','n','r','t'->{
-       context.buffer.append(context.c)
-       context.next()
+       context.append()
        loop6@while(context.hasNext()){
         when(context.c){
          in (0x0.toChar()..0x9.toChar()),in (0xb.toChar()..0xc.toChar()),in (0xe.toChar()..'&'),in ('('..'['),in (']'..0xffff.toChar())->{
-          context.buffer.append(context.c)
-          context.next()
+          context.append()
           continue@loop6
          }
          0x5c.toChar()->{
-          context.buffer.append(context.c)
-          context.next()
+          context.append()
           when(context.c){
            0x22.toChar(),0x27.toChar(),0x5c.toChar(),'b','f','n','r','t'->{
-            context.buffer.append(context.c)
-            context.next()
+            context.append()
             continue@loop6
            }
            'u'->{
-            context.buffer.append(context.c)
-            context.next()
+            context.append()
             when(context.c){
              in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-              context.buffer.append(context.c)
-              context.next()
+              context.append()
               when(context.c){
                in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                context.buffer.append(context.c)
-                context.next()
+                context.append()
                 when(context.c){
                  in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                  context.buffer.append(context.c)
-                  context.next()
+                  context.append()
                   when(context.c){
                    in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                    context.buffer.append(context.c)
-                    context.next()
+                    context.append()
                     continue@loop6
                    }
                    else->{
-                    throw Exception("unexpected char context.c")
+                    throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                    }
                   }
                  }
                  else->{
-                  throw Exception("unexpected char context.c")
+                  throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                  }
                 }
                }
                else->{
-                throw Exception("unexpected char context.c")
+                throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                }
               }
              }
              else->{
-              throw Exception("unexpected char context.c")
+              throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
              }
             }
            }
            'U'->{
-            context.buffer.append(context.c)
-            context.next()
+            context.append()
             when(context.c){
              in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-              context.buffer.append(context.c)
-              context.next()
+              context.append()
               when(context.c){
                in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                context.buffer.append(context.c)
-                context.next()
+                context.append()
                 when(context.c){
                  in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                  context.buffer.append(context.c)
-                  context.next()
+                  context.append()
                   when(context.c){
                    in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                    context.buffer.append(context.c)
-                    context.next()
+                    context.append()
                     when(context.c){
                      in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                      context.buffer.append(context.c)
-                      context.next()
+                      context.append()
                       when(context.c){
                        in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                        context.buffer.append(context.c)
-                        context.next()
+                        context.append()
                         when(context.c){
                          in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                          context.buffer.append(context.c)
-                          context.next()
+                          context.append()
                           when(context.c){
                            in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                            context.buffer.append(context.c)
-                            context.next()
+                            context.append()
                             continue@loop6
                            }
                            else->{
-                            throw Exception("unexpected char context.c")
+                            throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                            }
                           }
                          }
                          else->{
-                          throw Exception("unexpected char context.c")
+                          throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                          }
                         }
                        }
                        else->{
-                        throw Exception("unexpected char context.c")
+                        throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                        }
                       }
                      }
                      else->{
-                      throw Exception("unexpected char context.c")
+                      throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                      }
                     }
                    }
                    else->{
-                    throw Exception("unexpected char context.c")
+                    throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                    }
                   }
                  }
                  else->{
-                  throw Exception("unexpected char context.c")
+                  throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                  }
                 }
                }
                else->{
-                throw Exception("unexpected char context.c")
+                throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                }
               }
              }
              else->{
-              throw Exception("unexpected char context.c")
+              throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
              }
             }
            }
            else->{
-            throw Exception("unexpected char context.c")
+            throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
            }
           }
          }
@@ -2908,171 +2592,148 @@ inline fun parse_obj(context:ParserContext,
        }
        when(context.c){
         0x27.toChar()->{
-         context.buffer.append(context.c)
-         context.next()
+         context.append()
          onSTRING_LITERAL_SINGLE_QUOTE()
          return
         }
         else->{
-         throw Exception("unexpected char context.c")
+         throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
         }
        }
       }
       'u'->{
-       context.buffer.append(context.c)
-       context.next()
+       context.append()
        when(context.c){
         in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-         context.buffer.append(context.c)
-         context.next()
+         context.append()
          when(context.c){
           in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-           context.buffer.append(context.c)
-           context.next()
+           context.append()
            when(context.c){
             in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-             context.buffer.append(context.c)
-             context.next()
+             context.append()
              when(context.c){
               in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-               context.buffer.append(context.c)
-               context.next()
+               context.append()
                loop14@while(context.hasNext()){
                 when(context.c){
                  in (0x0.toChar()..0x9.toChar()),in (0xb.toChar()..0xc.toChar()),in (0xe.toChar()..'&'),in ('('..'['),in (']'..0xffff.toChar())->{
-                  context.buffer.append(context.c)
-                  context.next()
+                  context.append()
                   continue@loop14
                  }
                  0x5c.toChar()->{
-                  context.buffer.append(context.c)
-                  context.next()
+                  context.append()
                   when(context.c){
                    0x22.toChar(),0x27.toChar(),0x5c.toChar(),'b','f','n','r','t'->{
-                    context.buffer.append(context.c)
-                    context.next()
+                    context.append()
                     continue@loop14
                    }
                    'u'->{
-                    context.buffer.append(context.c)
-                    context.next()
+                    context.append()
                     when(context.c){
                      in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                      context.buffer.append(context.c)
-                      context.next()
+                      context.append()
                       when(context.c){
                        in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                        context.buffer.append(context.c)
-                        context.next()
+                        context.append()
                         when(context.c){
                          in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                          context.buffer.append(context.c)
-                          context.next()
+                          context.append()
                           when(context.c){
                            in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                            context.buffer.append(context.c)
-                            context.next()
+                            context.append()
                             continue@loop14
                            }
                            else->{
-                            throw Exception("unexpected char context.c")
+                            throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                            }
                           }
                          }
                          else->{
-                          throw Exception("unexpected char context.c")
+                          throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                          }
                         }
                        }
                        else->{
-                        throw Exception("unexpected char context.c")
+                        throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                        }
                       }
                      }
                      else->{
-                      throw Exception("unexpected char context.c")
+                      throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                      }
                     }
                    }
                    'U'->{
-                    context.buffer.append(context.c)
-                    context.next()
+                    context.append()
                     when(context.c){
                      in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                      context.buffer.append(context.c)
-                      context.next()
+                      context.append()
                       when(context.c){
                        in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                        context.buffer.append(context.c)
-                        context.next()
+                        context.append()
                         when(context.c){
                          in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                          context.buffer.append(context.c)
-                          context.next()
+                          context.append()
                           when(context.c){
                            in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                            context.buffer.append(context.c)
-                            context.next()
+                            context.append()
                             when(context.c){
                              in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                              context.buffer.append(context.c)
-                              context.next()
+                              context.append()
                               when(context.c){
                                in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                                context.buffer.append(context.c)
-                                context.next()
+                                context.append()
                                 when(context.c){
                                  in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                                  context.buffer.append(context.c)
-                                  context.next()
+                                  context.append()
                                   when(context.c){
                                    in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                                    context.buffer.append(context.c)
-                                    context.next()
+                                    context.append()
                                     continue@loop14
                                    }
                                    else->{
-                                    throw Exception("unexpected char context.c")
+                                    throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                                    }
                                   }
                                  }
                                  else->{
-                                  throw Exception("unexpected char context.c")
+                                  throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                                  }
                                 }
                                }
                                else->{
-                                throw Exception("unexpected char context.c")
+                                throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                                }
                               }
                              }
                              else->{
-                              throw Exception("unexpected char context.c")
+                              throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                              }
                             }
                            }
                            else->{
-                            throw Exception("unexpected char context.c")
+                            throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                            }
                           }
                          }
                          else->{
-                          throw Exception("unexpected char context.c")
+                          throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                          }
                         }
                        }
                        else->{
-                        throw Exception("unexpected char context.c")
+                        throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                        }
                       }
                      }
                      else->{
-                      throw Exception("unexpected char context.c")
+                      throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                      }
                     }
                    }
                    else->{
-                    throw Exception("unexpected char context.c")
+                    throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                    }
                   }
                  }
@@ -3083,207 +2744,180 @@ inline fun parse_obj(context:ParserContext,
                }
                when(context.c){
                 0x27.toChar()->{
-                 context.buffer.append(context.c)
-                 context.next()
+                 context.append()
                  onSTRING_LITERAL_SINGLE_QUOTE()
                  return
                 }
                 else->{
-                 throw Exception("unexpected char context.c")
+                 throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                 }
                }
               }
               else->{
-               throw Exception("unexpected char context.c")
+               throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
               }
              }
             }
             else->{
-             throw Exception("unexpected char context.c")
+             throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
             }
            }
           }
           else->{
-           throw Exception("unexpected char context.c")
+           throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
           }
          }
         }
         else->{
-         throw Exception("unexpected char context.c")
+         throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
         }
        }
       }
       'U'->{
-       context.buffer.append(context.c)
-       context.next()
+       context.append()
        when(context.c){
         in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-         context.buffer.append(context.c)
-         context.next()
+         context.append()
          when(context.c){
           in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-           context.buffer.append(context.c)
-           context.next()
+           context.append()
            when(context.c){
             in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-             context.buffer.append(context.c)
-             context.next()
+             context.append()
              when(context.c){
               in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-               context.buffer.append(context.c)
-               context.next()
+               context.append()
                when(context.c){
                 in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                 context.buffer.append(context.c)
-                 context.next()
+                 context.append()
                  when(context.c){
                   in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                   context.buffer.append(context.c)
-                   context.next()
+                   context.append()
                    when(context.c){
                     in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                     context.buffer.append(context.c)
-                     context.next()
+                     context.append()
                      when(context.c){
                       in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                       context.buffer.append(context.c)
-                       context.next()
+                       context.append()
                        loop22@while(context.hasNext()){
                         when(context.c){
                          in (0x0.toChar()..0x9.toChar()),in (0xb.toChar()..0xc.toChar()),in (0xe.toChar()..'&'),in ('('..'['),in (']'..0xffff.toChar())->{
-                          context.buffer.append(context.c)
-                          context.next()
+                          context.append()
                           continue@loop22
                          }
                          0x5c.toChar()->{
-                          context.buffer.append(context.c)
-                          context.next()
+                          context.append()
                           when(context.c){
                            0x22.toChar(),0x27.toChar(),0x5c.toChar(),'b','f','n','r','t'->{
-                            context.buffer.append(context.c)
-                            context.next()
+                            context.append()
                             continue@loop22
                            }
                            'u'->{
-                            context.buffer.append(context.c)
-                            context.next()
+                            context.append()
                             when(context.c){
                              in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                              context.buffer.append(context.c)
-                              context.next()
+                              context.append()
                               when(context.c){
                                in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                                context.buffer.append(context.c)
-                                context.next()
+                                context.append()
                                 when(context.c){
                                  in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                                  context.buffer.append(context.c)
-                                  context.next()
+                                  context.append()
                                   when(context.c){
                                    in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                                    context.buffer.append(context.c)
-                                    context.next()
+                                    context.append()
                                     continue@loop22
                                    }
                                    else->{
-                                    throw Exception("unexpected char context.c")
+                                    throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                                    }
                                   }
                                  }
                                  else->{
-                                  throw Exception("unexpected char context.c")
+                                  throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                                  }
                                 }
                                }
                                else->{
-                                throw Exception("unexpected char context.c")
+                                throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                                }
                               }
                              }
                              else->{
-                              throw Exception("unexpected char context.c")
+                              throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                              }
                             }
                            }
                            'U'->{
-                            context.buffer.append(context.c)
-                            context.next()
+                            context.append()
                             when(context.c){
                              in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                              context.buffer.append(context.c)
-                              context.next()
+                              context.append()
                               when(context.c){
                                in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                                context.buffer.append(context.c)
-                                context.next()
+                                context.append()
                                 when(context.c){
                                  in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                                  context.buffer.append(context.c)
-                                  context.next()
+                                  context.append()
                                   when(context.c){
                                    in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                                    context.buffer.append(context.c)
-                                    context.next()
+                                    context.append()
                                     when(context.c){
                                      in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                                      context.buffer.append(context.c)
-                                      context.next()
+                                      context.append()
                                       when(context.c){
                                        in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                                        context.buffer.append(context.c)
-                                        context.next()
+                                        context.append()
                                         when(context.c){
                                          in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                                          context.buffer.append(context.c)
-                                          context.next()
+                                          context.append()
                                           when(context.c){
                                            in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                                            context.buffer.append(context.c)
-                                            context.next()
+                                            context.append()
                                             continue@loop22
                                            }
                                            else->{
-                                            throw Exception("unexpected char context.c")
+                                            throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                                            }
                                           }
                                          }
                                          else->{
-                                          throw Exception("unexpected char context.c")
+                                          throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                                          }
                                         }
                                        }
                                        else->{
-                                        throw Exception("unexpected char context.c")
+                                        throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                                        }
                                       }
                                      }
                                      else->{
-                                      throw Exception("unexpected char context.c")
+                                      throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                                      }
                                     }
                                    }
                                    else->{
-                                    throw Exception("unexpected char context.c")
+                                    throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                                    }
                                   }
                                  }
                                  else->{
-                                  throw Exception("unexpected char context.c")
+                                  throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                                  }
                                 }
                                }
                                else->{
-                                throw Exception("unexpected char context.c")
+                                throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                                }
                               }
                              }
                              else->{
-                              throw Exception("unexpected char context.c")
+                              throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                              }
                             }
                            }
                            else->{
-                            throw Exception("unexpected char context.c")
+                            throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                            }
                           }
                          }
@@ -3294,502 +2928,445 @@ inline fun parse_obj(context:ParserContext,
                        }
                        when(context.c){
                         0x27.toChar()->{
-                         context.buffer.append(context.c)
-                         context.next()
+                         context.append()
                          onSTRING_LITERAL_SINGLE_QUOTE()
                          return
                         }
                         else->{
-                         throw Exception("unexpected char context.c")
+                         throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                         }
                        }
                       }
                       else->{
-                       throw Exception("unexpected char context.c")
+                       throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                       }
                      }
                     }
                     else->{
-                     throw Exception("unexpected char context.c")
+                     throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                     }
                    }
                   }
                   else->{
-                   throw Exception("unexpected char context.c")
+                   throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                   }
                  }
                 }
                 else->{
-                 throw Exception("unexpected char context.c")
+                 throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                 }
                }
               }
               else->{
-               throw Exception("unexpected char context.c")
+               throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
               }
              }
             }
             else->{
-             throw Exception("unexpected char context.c")
+             throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
             }
            }
           }
           else->{
-           throw Exception("unexpected char context.c")
+           throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
           }
          }
         }
         else->{
-         throw Exception("unexpected char context.c")
+         throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
         }
        }
       }
       else->{
-       throw Exception("unexpected char context.c")
+       throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
       }
      }
     }
     0x27.toChar()->{
-     context.buffer.append(context.c)
-     context.next()
+     context.append()
      when(context.c){
       0x27.toChar()->{
-       context.buffer.append(context.c)
-       context.next()
+       context.append()
        loop6@while(context.hasNext()){
         when(context.c){
          in (0x0.toChar()..'&'),in ('('..'['),in (']'..0xffff.toChar())->{
-          context.buffer.append(context.c)
-          context.next()
+          context.append()
           continue@loop6
          }
          0x5c.toChar()->{
-          context.buffer.append(context.c)
-          context.next()
+          context.append()
           when(context.c){
            0x22.toChar(),0x27.toChar(),0x5c.toChar(),'b','f','n','r','t'->{
-            context.buffer.append(context.c)
-            context.next()
+            context.append()
             continue@loop6
            }
            'u'->{
-            context.buffer.append(context.c)
-            context.next()
+            context.append()
             when(context.c){
              in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-              context.buffer.append(context.c)
-              context.next()
+              context.append()
               when(context.c){
                in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                context.buffer.append(context.c)
-                context.next()
+                context.append()
                 when(context.c){
                  in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                  context.buffer.append(context.c)
-                  context.next()
+                  context.append()
                   when(context.c){
                    in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                    context.buffer.append(context.c)
-                    context.next()
+                    context.append()
                     continue@loop6
                    }
                    else->{
-                    throw Exception("unexpected char context.c")
+                    throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                    }
                   }
                  }
                  else->{
-                  throw Exception("unexpected char context.c")
+                  throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                  }
                 }
                }
                else->{
-                throw Exception("unexpected char context.c")
+                throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                }
               }
              }
              else->{
-              throw Exception("unexpected char context.c")
+              throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
              }
             }
            }
            'U'->{
-            context.buffer.append(context.c)
-            context.next()
+            context.append()
             when(context.c){
              in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-              context.buffer.append(context.c)
-              context.next()
+              context.append()
               when(context.c){
                in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                context.buffer.append(context.c)
-                context.next()
+                context.append()
                 when(context.c){
                  in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                  context.buffer.append(context.c)
-                  context.next()
+                  context.append()
                   when(context.c){
                    in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                    context.buffer.append(context.c)
-                    context.next()
+                    context.append()
                     when(context.c){
                      in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                      context.buffer.append(context.c)
-                      context.next()
+                      context.append()
                       when(context.c){
                        in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                        context.buffer.append(context.c)
-                        context.next()
+                        context.append()
                         when(context.c){
                          in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                          context.buffer.append(context.c)
-                          context.next()
+                          context.append()
                           when(context.c){
                            in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                            context.buffer.append(context.c)
-                            context.next()
+                            context.append()
                             continue@loop6
                            }
                            else->{
-                            throw Exception("unexpected char context.c")
+                            throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                            }
                           }
                          }
                          else->{
-                          throw Exception("unexpected char context.c")
+                          throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                          }
                         }
                        }
                        else->{
-                        throw Exception("unexpected char context.c")
+                        throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                        }
                       }
                      }
                      else->{
-                      throw Exception("unexpected char context.c")
+                      throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                      }
                     }
                    }
                    else->{
-                    throw Exception("unexpected char context.c")
+                    throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                    }
                   }
                  }
                  else->{
-                  throw Exception("unexpected char context.c")
+                  throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                  }
                 }
                }
                else->{
-                throw Exception("unexpected char context.c")
+                throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                }
               }
              }
              else->{
-              throw Exception("unexpected char context.c")
+              throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
              }
             }
            }
            else->{
-            throw Exception("unexpected char context.c")
+            throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
            }
           }
          }
          0x27.toChar()->{
-          context.buffer.append(context.c)
-          context.next()
+          context.append()
           when(context.c){
            in (0x0.toChar()..'&'),in ('('..'['),in (']'..0xffff.toChar())->{
-            context.buffer.append(context.c)
-            context.next()
+            context.append()
             continue@loop6
            }
            0x5c.toChar()->{
-            context.buffer.append(context.c)
-            context.next()
+            context.append()
             when(context.c){
              0x22.toChar(),0x27.toChar(),0x5c.toChar(),'b','f','n','r','t'->{
-              context.buffer.append(context.c)
-              context.next()
+              context.append()
               continue@loop6
              }
              'u'->{
-              context.buffer.append(context.c)
-              context.next()
+              context.append()
               when(context.c){
                in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                context.buffer.append(context.c)
-                context.next()
+                context.append()
                 when(context.c){
                  in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                  context.buffer.append(context.c)
-                  context.next()
+                  context.append()
                   when(context.c){
                    in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                    context.buffer.append(context.c)
-                    context.next()
+                    context.append()
                     when(context.c){
                      in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                      context.buffer.append(context.c)
-                      context.next()
+                      context.append()
                       continue@loop6
                      }
                      else->{
-                      throw Exception("unexpected char context.c")
+                      throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                      }
                     }
                    }
                    else->{
-                    throw Exception("unexpected char context.c")
+                    throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                    }
                   }
                  }
                  else->{
-                  throw Exception("unexpected char context.c")
+                  throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                  }
                 }
                }
                else->{
-                throw Exception("unexpected char context.c")
+                throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                }
               }
              }
              'U'->{
-              context.buffer.append(context.c)
-              context.next()
+              context.append()
               when(context.c){
                in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                context.buffer.append(context.c)
-                context.next()
+                context.append()
                 when(context.c){
                  in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                  context.buffer.append(context.c)
-                  context.next()
+                  context.append()
                   when(context.c){
                    in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                    context.buffer.append(context.c)
-                    context.next()
+                    context.append()
                     when(context.c){
                      in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                      context.buffer.append(context.c)
-                      context.next()
+                      context.append()
                       when(context.c){
                        in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                        context.buffer.append(context.c)
-                        context.next()
+                        context.append()
                         when(context.c){
                          in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                          context.buffer.append(context.c)
-                          context.next()
+                          context.append()
                           when(context.c){
                            in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                            context.buffer.append(context.c)
-                            context.next()
+                            context.append()
                             when(context.c){
                              in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                              context.buffer.append(context.c)
-                              context.next()
+                              context.append()
                               continue@loop6
                              }
                              else->{
-                              throw Exception("unexpected char context.c")
+                              throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                              }
                             }
                            }
                            else->{
-                            throw Exception("unexpected char context.c")
+                            throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                            }
                           }
                          }
                          else->{
-                          throw Exception("unexpected char context.c")
+                          throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                          }
                         }
                        }
                        else->{
-                        throw Exception("unexpected char context.c")
+                        throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                        }
                       }
                      }
                      else->{
-                      throw Exception("unexpected char context.c")
+                      throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                      }
                     }
                    }
                    else->{
-                    throw Exception("unexpected char context.c")
+                    throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                    }
                   }
                  }
                  else->{
-                  throw Exception("unexpected char context.c")
+                  throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                  }
                 }
                }
                else->{
-                throw Exception("unexpected char context.c")
+                throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                }
               }
              }
              else->{
-              throw Exception("unexpected char context.c")
+              throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
              }
             }
            }
            0x27.toChar()->{
-            context.buffer.append(context.c)
-            context.next()
+            context.append()
             when(context.c){
              in (0x0.toChar()..'&'),in ('('..'['),in (']'..0xffff.toChar())->{
-              context.buffer.append(context.c)
-              context.next()
+              context.append()
               continue@loop6
              }
              0x5c.toChar()->{
-              context.buffer.append(context.c)
-              context.next()
+              context.append()
               when(context.c){
                0x22.toChar(),0x27.toChar(),0x5c.toChar(),'b','f','n','r','t'->{
-                context.buffer.append(context.c)
-                context.next()
+                context.append()
                 continue@loop6
                }
                'u'->{
-                context.buffer.append(context.c)
-                context.next()
+                context.append()
                 when(context.c){
                  in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                  context.buffer.append(context.c)
-                  context.next()
+                  context.append()
                   when(context.c){
                    in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                    context.buffer.append(context.c)
-                    context.next()
+                    context.append()
                     when(context.c){
                      in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                      context.buffer.append(context.c)
-                      context.next()
+                      context.append()
                       when(context.c){
                        in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                        context.buffer.append(context.c)
-                        context.next()
+                        context.append()
                         continue@loop6
                        }
                        else->{
-                        throw Exception("unexpected char context.c")
+                        throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                        }
                       }
                      }
                      else->{
-                      throw Exception("unexpected char context.c")
+                      throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                      }
                     }
                    }
                    else->{
-                    throw Exception("unexpected char context.c")
+                    throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                    }
                   }
                  }
                  else->{
-                  throw Exception("unexpected char context.c")
+                  throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                  }
                 }
                }
                'U'->{
-                context.buffer.append(context.c)
-                context.next()
+                context.append()
                 when(context.c){
                  in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                  context.buffer.append(context.c)
-                  context.next()
+                  context.append()
                   when(context.c){
                    in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                    context.buffer.append(context.c)
-                    context.next()
+                    context.append()
                     when(context.c){
                      in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                      context.buffer.append(context.c)
-                      context.next()
+                      context.append()
                       when(context.c){
                        in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                        context.buffer.append(context.c)
-                        context.next()
+                        context.append()
                         when(context.c){
                          in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                          context.buffer.append(context.c)
-                          context.next()
+                          context.append()
                           when(context.c){
                            in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                            context.buffer.append(context.c)
-                            context.next()
+                            context.append()
                             when(context.c){
                              in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                              context.buffer.append(context.c)
-                              context.next()
+                              context.append()
                               when(context.c){
                                in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                                context.buffer.append(context.c)
-                                context.next()
+                                context.append()
                                 continue@loop6
                                }
                                else->{
-                                throw Exception("unexpected char context.c")
+                                throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                                }
                               }
                              }
                              else->{
-                              throw Exception("unexpected char context.c")
+                              throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                              }
                             }
                            }
                            else->{
-                            throw Exception("unexpected char context.c")
+                            throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                            }
                           }
                          }
                          else->{
-                          throw Exception("unexpected char context.c")
+                          throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                          }
                         }
                        }
                        else->{
-                        throw Exception("unexpected char context.c")
+                        throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                        }
                       }
                      }
                      else->{
-                      throw Exception("unexpected char context.c")
+                      throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                      }
                     }
                    }
                    else->{
-                    throw Exception("unexpected char context.c")
+                    throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                    }
                   }
                  }
                  else->{
-                  throw Exception("unexpected char context.c")
+                  throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                  }
                 }
                }
                else->{
-                throw Exception("unexpected char context.c")
+                throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                }
               }
              }
              0x27.toChar()->{
-              context.buffer.append(context.c)
-              context.next()
+              context.append()
               onSTRING_LITERAL_LONG_SINGLE_QUOTE()
               return
              }
              else->{
-              throw Exception("unexpected char context.c")
+              throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
              }
             }
            }
            else->{
-            throw Exception("unexpected char context.c")
+            throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
            }
           }
          }
@@ -3798,7 +3375,7 @@ inline fun parse_obj(context:ParserContext,
          }
         }
        }
-       throw Exception("unexpected char context.c")
+       throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
       }
       else->{
        onSTRING_LITERAL_SINGLE_QUOTE()
@@ -3807,18 +3384,16 @@ inline fun parse_obj(context:ParserContext,
      }
     }
     else->{
-     throw Exception("unexpected char context.c")
+     throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
     }
    }
   }
   in ('0'..'9')->{
-   context.buffer.append(context.c)
-   context.next()
+   context.append()
    loop2@while(context.hasNext()){
     when(context.c){
      in ('0'..'9')->{
-      context.buffer.append(context.c)
-      context.next()
+      context.append()
      }
      else->{
       break@loop2
@@ -3827,17 +3402,14 @@ inline fun parse_obj(context:ParserContext,
    }
    when(context.c){
     '.'->{
-     context.buffer.append(context.c)
-     context.next()
+     context.append()
      when(context.c){
       in ('0'..'9')->{
-       context.buffer.append(context.c)
-       context.next()
+       context.append()
        loop6@while(context.hasNext()){
         when(context.c){
          in ('0'..'9')->{
-          context.buffer.append(context.c)
-          context.next()
+          context.append()
          }
          else->{
           break@loop6
@@ -3846,17 +3418,14 @@ inline fun parse_obj(context:ParserContext,
        }
        when(context.c){
         'E','e'->{
-         context.buffer.append(context.c)
-         context.next()
+         context.append()
          when(context.c){
           in ('0'..'9')->{
-           context.buffer.append(context.c)
-           context.next()
+           context.append()
            loop10@while(context.hasNext()){
             when(context.c){
              in ('0'..'9')->{
-              context.buffer.append(context.c)
-              context.next()
+              context.append()
              }
              else->{
               break@loop10
@@ -3867,17 +3436,14 @@ inline fun parse_obj(context:ParserContext,
            return
           }
           '+','-'->{
-           context.buffer.append(context.c)
-           context.next()
+           context.append()
            when(context.c){
             in ('0'..'9')->{
-             context.buffer.append(context.c)
-             context.next()
+             context.append()
              loop12@while(context.hasNext()){
               when(context.c){
                in ('0'..'9')->{
-                context.buffer.append(context.c)
-                context.next()
+                context.append()
                }
                else->{
                 break@loop12
@@ -3888,12 +3454,12 @@ inline fun parse_obj(context:ParserContext,
              return
             }
             else->{
-             throw Exception("unexpected char context.c")
+             throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
             }
            }
           }
           else->{
-           throw Exception("unexpected char context.c")
+           throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
           }
          }
         }
@@ -3904,17 +3470,14 @@ inline fun parse_obj(context:ParserContext,
        }
       }
       'E','e'->{
-       context.buffer.append(context.c)
-       context.next()
+       context.append()
        when(context.c){
         in ('0'..'9')->{
-         context.buffer.append(context.c)
-         context.next()
+         context.append()
          loop8@while(context.hasNext()){
           when(context.c){
            in ('0'..'9')->{
-            context.buffer.append(context.c)
-            context.next()
+            context.append()
            }
            else->{
             break@loop8
@@ -3925,17 +3488,14 @@ inline fun parse_obj(context:ParserContext,
          return
         }
         '+','-'->{
-         context.buffer.append(context.c)
-         context.next()
+         context.append()
          when(context.c){
           in ('0'..'9')->{
-           context.buffer.append(context.c)
-           context.next()
+           context.append()
            loop10@while(context.hasNext()){
             when(context.c){
              in ('0'..'9')->{
-              context.buffer.append(context.c)
-              context.next()
+              context.append()
              }
              else->{
               break@loop10
@@ -3946,32 +3506,29 @@ inline fun parse_obj(context:ParserContext,
            return
           }
           else->{
-           throw Exception("unexpected char context.c")
+           throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
           }
          }
         }
         else->{
-         throw Exception("unexpected char context.c")
+         throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
         }
        }
       }
       else->{
-       throw Exception("unexpected char context.c")
+       throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
       }
      }
     }
     'E','e'->{
-     context.buffer.append(context.c)
-     context.next()
+     context.append()
      when(context.c){
       in ('0'..'9')->{
-       context.buffer.append(context.c)
-       context.next()
+       context.append()
        loop6@while(context.hasNext()){
         when(context.c){
          in ('0'..'9')->{
-          context.buffer.append(context.c)
-          context.next()
+          context.append()
          }
          else->{
           break@loop6
@@ -3982,17 +3539,14 @@ inline fun parse_obj(context:ParserContext,
        return
       }
       '+','-'->{
-       context.buffer.append(context.c)
-       context.next()
+       context.append()
        when(context.c){
         in ('0'..'9')->{
-         context.buffer.append(context.c)
-         context.next()
+         context.append()
          loop8@while(context.hasNext()){
           when(context.c){
            in ('0'..'9')->{
-            context.buffer.append(context.c)
-            context.next()
+            context.append()
            }
            else->{
             break@loop8
@@ -4003,12 +3557,12 @@ inline fun parse_obj(context:ParserContext,
          return
         }
         else->{
-         throw Exception("unexpected char context.c")
+         throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
         }
        }
       }
       else->{
-       throw Exception("unexpected char context.c")
+       throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
       }
      }
     }
@@ -4019,17 +3573,14 @@ inline fun parse_obj(context:ParserContext,
    }
   }
   '+','-'->{
-   context.buffer.append(context.c)
-   context.next()
+   context.append()
    when(context.c){
     in ('0'..'9')->{
-     context.buffer.append(context.c)
-     context.next()
+     context.append()
      loop4@while(context.hasNext()){
       when(context.c){
        in ('0'..'9')->{
-        context.buffer.append(context.c)
-        context.next()
+        context.append()
        }
        else->{
         break@loop4
@@ -4038,17 +3589,14 @@ inline fun parse_obj(context:ParserContext,
      }
      when(context.c){
       '.'->{
-       context.buffer.append(context.c)
-       context.next()
+       context.append()
        when(context.c){
         in ('0'..'9')->{
-         context.buffer.append(context.c)
-         context.next()
+         context.append()
          loop8@while(context.hasNext()){
           when(context.c){
            in ('0'..'9')->{
-            context.buffer.append(context.c)
-            context.next()
+            context.append()
            }
            else->{
             break@loop8
@@ -4057,17 +3605,14 @@ inline fun parse_obj(context:ParserContext,
          }
          when(context.c){
           'E','e'->{
-           context.buffer.append(context.c)
-           context.next()
+           context.append()
            when(context.c){
             in ('0'..'9')->{
-             context.buffer.append(context.c)
-             context.next()
+             context.append()
              loop12@while(context.hasNext()){
               when(context.c){
                in ('0'..'9')->{
-                context.buffer.append(context.c)
-                context.next()
+                context.append()
                }
                else->{
                 break@loop12
@@ -4078,17 +3623,14 @@ inline fun parse_obj(context:ParserContext,
              return
             }
             '+','-'->{
-             context.buffer.append(context.c)
-             context.next()
+             context.append()
              when(context.c){
               in ('0'..'9')->{
-               context.buffer.append(context.c)
-               context.next()
+               context.append()
                loop14@while(context.hasNext()){
                 when(context.c){
                  in ('0'..'9')->{
-                  context.buffer.append(context.c)
-                  context.next()
+                  context.append()
                  }
                  else->{
                   break@loop14
@@ -4099,12 +3641,12 @@ inline fun parse_obj(context:ParserContext,
                return
               }
               else->{
-               throw Exception("unexpected char context.c")
+               throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
               }
              }
             }
             else->{
-             throw Exception("unexpected char context.c")
+             throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
             }
            }
           }
@@ -4115,17 +3657,14 @@ inline fun parse_obj(context:ParserContext,
          }
         }
         'E','e'->{
-         context.buffer.append(context.c)
-         context.next()
+         context.append()
          when(context.c){
           in ('0'..'9')->{
-           context.buffer.append(context.c)
-           context.next()
+           context.append()
            loop10@while(context.hasNext()){
             when(context.c){
              in ('0'..'9')->{
-              context.buffer.append(context.c)
-              context.next()
+              context.append()
              }
              else->{
               break@loop10
@@ -4136,17 +3675,14 @@ inline fun parse_obj(context:ParserContext,
            return
           }
           '+','-'->{
-           context.buffer.append(context.c)
-           context.next()
+           context.append()
            when(context.c){
             in ('0'..'9')->{
-             context.buffer.append(context.c)
-             context.next()
+             context.append()
              loop12@while(context.hasNext()){
               when(context.c){
                in ('0'..'9')->{
-                context.buffer.append(context.c)
-                context.next()
+                context.append()
                }
                else->{
                 break@loop12
@@ -4157,32 +3693,29 @@ inline fun parse_obj(context:ParserContext,
              return
             }
             else->{
-             throw Exception("unexpected char context.c")
+             throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
             }
            }
           }
           else->{
-           throw Exception("unexpected char context.c")
+           throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
           }
          }
         }
         else->{
-         throw Exception("unexpected char context.c")
+         throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
         }
        }
       }
       'E','e'->{
-       context.buffer.append(context.c)
-       context.next()
+       context.append()
        when(context.c){
         in ('0'..'9')->{
-         context.buffer.append(context.c)
-         context.next()
+         context.append()
          loop8@while(context.hasNext()){
           when(context.c){
            in ('0'..'9')->{
-            context.buffer.append(context.c)
-            context.next()
+            context.append()
            }
            else->{
             break@loop8
@@ -4193,17 +3726,14 @@ inline fun parse_obj(context:ParserContext,
          return
         }
         '+','-'->{
-         context.buffer.append(context.c)
-         context.next()
+         context.append()
          when(context.c){
           in ('0'..'9')->{
-           context.buffer.append(context.c)
-           context.next()
+           context.append()
            loop10@while(context.hasNext()){
             when(context.c){
              in ('0'..'9')->{
-              context.buffer.append(context.c)
-              context.next()
+              context.append()
              }
              else->{
               break@loop10
@@ -4214,12 +3744,12 @@ inline fun parse_obj(context:ParserContext,
            return
           }
           else->{
-           throw Exception("unexpected char context.c")
+           throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
           }
          }
         }
         else->{
-         throw Exception("unexpected char context.c")
+         throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
         }
        }
       }
@@ -4230,17 +3760,14 @@ inline fun parse_obj(context:ParserContext,
      }
     }
     '.'->{
-     context.buffer.append(context.c)
-     context.next()
+     context.append()
      when(context.c){
       in ('0'..'9')->{
-       context.buffer.append(context.c)
-       context.next()
+       context.append()
        loop6@while(context.hasNext()){
         when(context.c){
          in ('0'..'9')->{
-          context.buffer.append(context.c)
-          context.next()
+          context.append()
          }
          else->{
           break@loop6
@@ -4249,17 +3776,14 @@ inline fun parse_obj(context:ParserContext,
        }
        when(context.c){
         'E','e'->{
-         context.buffer.append(context.c)
-         context.next()
+         context.append()
          when(context.c){
           in ('0'..'9')->{
-           context.buffer.append(context.c)
-           context.next()
+           context.append()
            loop10@while(context.hasNext()){
             when(context.c){
              in ('0'..'9')->{
-              context.buffer.append(context.c)
-              context.next()
+              context.append()
              }
              else->{
               break@loop10
@@ -4270,17 +3794,14 @@ inline fun parse_obj(context:ParserContext,
            return
           }
           '+','-'->{
-           context.buffer.append(context.c)
-           context.next()
+           context.append()
            when(context.c){
             in ('0'..'9')->{
-             context.buffer.append(context.c)
-             context.next()
+             context.append()
              loop12@while(context.hasNext()){
               when(context.c){
                in ('0'..'9')->{
-                context.buffer.append(context.c)
-                context.next()
+                context.append()
                }
                else->{
                 break@loop12
@@ -4291,12 +3812,12 @@ inline fun parse_obj(context:ParserContext,
              return
             }
             else->{
-             throw Exception("unexpected char context.c")
+             throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
             }
            }
           }
           else->{
-           throw Exception("unexpected char context.c")
+           throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
           }
          }
         }
@@ -4307,27 +3828,24 @@ inline fun parse_obj(context:ParserContext,
        }
       }
       else->{
-       throw Exception("unexpected char context.c")
+       throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
       }
      }
     }
     else->{
-     throw Exception("unexpected char context.c")
+     throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
     }
    }
   }
   '.'->{
-   context.buffer.append(context.c)
-   context.next()
+   context.append()
    when(context.c){
     in ('0'..'9')->{
-     context.buffer.append(context.c)
-     context.next()
+     context.append()
      loop4@while(context.hasNext()){
       when(context.c){
        in ('0'..'9')->{
-        context.buffer.append(context.c)
-        context.next()
+        context.append()
        }
        else->{
         break@loop4
@@ -4336,17 +3854,14 @@ inline fun parse_obj(context:ParserContext,
      }
      when(context.c){
       'E','e'->{
-       context.buffer.append(context.c)
-       context.next()
+       context.append()
        when(context.c){
         in ('0'..'9')->{
-         context.buffer.append(context.c)
-         context.next()
+         context.append()
          loop8@while(context.hasNext()){
           when(context.c){
            in ('0'..'9')->{
-            context.buffer.append(context.c)
-            context.next()
+            context.append()
            }
            else->{
             break@loop8
@@ -4357,17 +3872,14 @@ inline fun parse_obj(context:ParserContext,
          return
         }
         '+','-'->{
-         context.buffer.append(context.c)
-         context.next()
+         context.append()
          when(context.c){
           in ('0'..'9')->{
-           context.buffer.append(context.c)
-           context.next()
+           context.append()
            loop10@while(context.hasNext()){
             when(context.c){
              in ('0'..'9')->{
-              context.buffer.append(context.c)
-              context.next()
+              context.append()
              }
              else->{
               break@loop10
@@ -4378,12 +3890,12 @@ inline fun parse_obj(context:ParserContext,
            return
           }
           else->{
-           throw Exception("unexpected char context.c")
+           throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
           }
          }
         }
         else->{
-         throw Exception("unexpected char context.c")
+         throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
         }
        }
       }
@@ -4394,90 +3906,81 @@ inline fun parse_obj(context:ParserContext,
      }
     }
     else->{
-     throw Exception("unexpected char context.c")
+     throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
     }
    }
   }
   't'->{
-   context.buffer.append(context.c)
-   context.next()
+   context.append()
    when(context.c){
     'r'->{
-     context.buffer.append(context.c)
-     context.next()
+     context.append()
      when(context.c){
       'u'->{
-       context.buffer.append(context.c)
-       context.next()
+       context.append()
        when(context.c){
         'e'->{
-         context.buffer.append(context.c)
-         context.next()
+         context.append()
          when(context.c){
           'f'->{
-           context.buffer.append(context.c)
-           context.next()
+           context.append()
            when(context.c){
             'a'->{
-             context.buffer.append(context.c)
-             context.next()
+             context.append()
              when(context.c){
               'l'->{
-               context.buffer.append(context.c)
-               context.next()
+               context.append()
                when(context.c){
                 's'->{
-                 context.buffer.append(context.c)
-                 context.next()
+                 context.append()
                  when(context.c){
                   'e'->{
-                   context.buffer.append(context.c)
-                   context.next()
+                   context.append()
                    onBOOLEAN()
                    return
                   }
                   else->{
-                   throw Exception("unexpected char context.c")
+                   throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                   }
                  }
                 }
                 else->{
-                 throw Exception("unexpected char context.c")
+                 throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                 }
                }
               }
               else->{
-               throw Exception("unexpected char context.c")
+               throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
               }
              }
             }
             else->{
-             throw Exception("unexpected char context.c")
+             throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
             }
            }
           }
           else->{
-           throw Exception("unexpected char context.c")
+           throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
           }
          }
         }
         else->{
-         throw Exception("unexpected char context.c")
+         throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
         }
        }
       }
       else->{
-       throw Exception("unexpected char context.c")
+       throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
       }
      }
     }
     else->{
-     throw Exception("unexpected char context.c")
+     throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
     }
    }
   }
   else->{
-   throw Exception("unexpected char context.c")
+   throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
   }
  }
 }
@@ -4489,25 +3992,22 @@ inline fun parse_triple_end(context:ParserContext,
  context.buffer.clear()
  when(context.c){
   ';'->{
-   context.buffer.append(context.c)
-   context.next()
+   context.append()
    onPREDICATE_LIST1()
    return
   }
   ','->{
-   context.buffer.append(context.c)
-   context.next()
+   context.append()
    onOBJECT_LIST1()
    return
   }
   '.'->{
-   context.buffer.append(context.c)
-   context.next()
+   context.append()
    onDOT()
    return
   }
   else->{
-   throw Exception("unexpected char context.c")
+   throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
   }
  }
 }
@@ -4521,14 +4021,12 @@ inline fun parse_triple_end_or_object_iri(context:ParserContext,
  context.buffer.clear()
  when(context.c){
   in (0x0.toChar()..0xffff.toChar()),in ('0'..'9'),0x3a.toChar(),in ('A'..'Z'),'_',in ('a'..'z'),in (0xc0.toChar()..0xd6.toChar()),in (0xd8.toChar()..0xf6.toChar()),in (0xf8.toChar()..0x2ff.toChar()),in (0x370.toChar()..0x37d.toChar()),in (0x37f.toChar()..0x1fff.toChar()),in (0x200c.toChar()..0x200d.toChar()),in (0x2070.toChar()..0x218f.toChar()),in (0x2c00.toChar()..0x2fef.toChar()),in (0x3001.toChar()..0xd7ff.toChar()),in (0xf900.toChar()..0xfdcf.toChar()),in (0xfdf0.toChar()..0xfffd.toChar())->{
-   context.buffer.append(context.c)
-   context.next()
+   context.append()
    loop2@while(context.hasNext()){
     loop3@while(context.hasNext()){
      when(context.c){
       '.'->{
-       context.buffer.append(context.c)
-       context.next()
+       context.append()
       }
       else->{
        break@loop3
@@ -4537,49 +4035,43 @@ inline fun parse_triple_end_or_object_iri(context:ParserContext,
     }
     when(context.c){
      in (0x0.toChar()..0xffff.toChar()),'-',in ('0'..'9'),0x3a.toChar(),in ('A'..'Z'),'_',in ('a'..'z'),0xb7.toChar(),in (0xc0.toChar()..0xd6.toChar()),in (0xd8.toChar()..0xf6.toChar()),in (0xf8.toChar()..0x2ff.toChar()),in (0x300.toChar()..0x36f.toChar()),in (0x370.toChar()..0x37d.toChar()),in (0x37f.toChar()..0x1fff.toChar()),in (0x200c.toChar()..0x200d.toChar()),in (0x203f.toChar()..0x2040.toChar()),in (0x2070.toChar()..0x218f.toChar()),in (0x2c00.toChar()..0x2fef.toChar()),in (0x3001.toChar()..0xd7ff.toChar()),in (0xf900.toChar()..0xfdcf.toChar()),in (0xfdf0.toChar()..0xfffd.toChar())->{
-      context.buffer.append(context.c)
-      context.next()
+      context.append()
       continue@loop2
      }
      '%'->{
-      context.buffer.append(context.c)
-      context.next()
+      context.append()
       when(context.c){
        in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-        context.buffer.append(context.c)
-        context.next()
+        context.append()
         when(context.c){
          in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-          context.buffer.append(context.c)
-          context.next()
+          context.append()
           continue@loop2
          }
          else->{
-          throw Exception("unexpected char context.c")
+          throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
          }
         }
        }
        else->{
-        throw Exception("unexpected char context.c")
+        throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
        }
       }
      }
      0x5c.toChar()->{
-      context.buffer.append(context.c)
-      context.next()
+      context.append()
       when(context.c){
        '!','#','$','%','&',0x27.toChar(),'(',')','*','+',',','-','.','/',';','=','?','@','_','~'->{
-        context.buffer.append(context.c)
-        context.next()
+        context.append()
         continue@loop2
        }
        else->{
-        throw Exception("unexpected char context.c")
+        throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
        }
       }
      }
      else->{
-      throw Exception("unexpected char context.c")
+      throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
      }
     }
    }
@@ -4587,22 +4079,18 @@ inline fun parse_triple_end_or_object_iri(context:ParserContext,
    return
   }
   '%'->{
-   context.buffer.append(context.c)
-   context.next()
+   context.append()
    when(context.c){
     in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-     context.buffer.append(context.c)
-     context.next()
+     context.append()
      when(context.c){
       in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-       context.buffer.append(context.c)
-       context.next()
+       context.append()
        loop6@while(context.hasNext()){
         loop7@while(context.hasNext()){
          when(context.c){
           '.'->{
-           context.buffer.append(context.c)
-           context.next()
+           context.append()
           }
           else->{
            break@loop7
@@ -4611,49 +4099,43 @@ inline fun parse_triple_end_or_object_iri(context:ParserContext,
         }
         when(context.c){
          in (0x0.toChar()..0xffff.toChar()),'-',in ('0'..'9'),0x3a.toChar(),in ('A'..'Z'),'_',in ('a'..'z'),0xb7.toChar(),in (0xc0.toChar()..0xd6.toChar()),in (0xd8.toChar()..0xf6.toChar()),in (0xf8.toChar()..0x2ff.toChar()),in (0x300.toChar()..0x36f.toChar()),in (0x370.toChar()..0x37d.toChar()),in (0x37f.toChar()..0x1fff.toChar()),in (0x200c.toChar()..0x200d.toChar()),in (0x203f.toChar()..0x2040.toChar()),in (0x2070.toChar()..0x218f.toChar()),in (0x2c00.toChar()..0x2fef.toChar()),in (0x3001.toChar()..0xd7ff.toChar()),in (0xf900.toChar()..0xfdcf.toChar()),in (0xfdf0.toChar()..0xfffd.toChar())->{
-          context.buffer.append(context.c)
-          context.next()
+          context.append()
           continue@loop6
          }
          '%'->{
-          context.buffer.append(context.c)
-          context.next()
+          context.append()
           when(context.c){
            in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-            context.buffer.append(context.c)
-            context.next()
+            context.append()
             when(context.c){
              in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-              context.buffer.append(context.c)
-              context.next()
+              context.append()
               continue@loop6
              }
              else->{
-              throw Exception("unexpected char context.c")
+              throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
              }
             }
            }
            else->{
-            throw Exception("unexpected char context.c")
+            throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
            }
           }
          }
          0x5c.toChar()->{
-          context.buffer.append(context.c)
-          context.next()
+          context.append()
           when(context.c){
            '!','#','$','%','&',0x27.toChar(),'(',')','*','+',',','-','.','/',';','=','?','@','_','~'->{
-            context.buffer.append(context.c)
-            context.next()
+            context.append()
             continue@loop6
            }
            else->{
-            throw Exception("unexpected char context.c")
+            throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
            }
           }
          }
          else->{
-          throw Exception("unexpected char context.c")
+          throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
          }
         }
        }
@@ -4661,28 +4143,25 @@ inline fun parse_triple_end_or_object_iri(context:ParserContext,
        return
       }
       else->{
-       throw Exception("unexpected char context.c")
+       throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
       }
      }
     }
     else->{
-     throw Exception("unexpected char context.c")
+     throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
     }
    }
   }
   0x5c.toChar()->{
-   context.buffer.append(context.c)
-   context.next()
+   context.append()
    when(context.c){
     '!','#','$','%','&',0x27.toChar(),'(',')','*','+',',','-','.','/',';','=','?','@','_','~'->{
-     context.buffer.append(context.c)
-     context.next()
+     context.append()
      loop4@while(context.hasNext()){
       loop5@while(context.hasNext()){
        when(context.c){
         '.'->{
-         context.buffer.append(context.c)
-         context.next()
+         context.append()
         }
         else->{
          break@loop5
@@ -4691,49 +4170,43 @@ inline fun parse_triple_end_or_object_iri(context:ParserContext,
       }
       when(context.c){
        in (0x0.toChar()..0xffff.toChar()),'-',in ('0'..'9'),0x3a.toChar(),in ('A'..'Z'),'_',in ('a'..'z'),0xb7.toChar(),in (0xc0.toChar()..0xd6.toChar()),in (0xd8.toChar()..0xf6.toChar()),in (0xf8.toChar()..0x2ff.toChar()),in (0x300.toChar()..0x36f.toChar()),in (0x370.toChar()..0x37d.toChar()),in (0x37f.toChar()..0x1fff.toChar()),in (0x200c.toChar()..0x200d.toChar()),in (0x203f.toChar()..0x2040.toChar()),in (0x2070.toChar()..0x218f.toChar()),in (0x2c00.toChar()..0x2fef.toChar()),in (0x3001.toChar()..0xd7ff.toChar()),in (0xf900.toChar()..0xfdcf.toChar()),in (0xfdf0.toChar()..0xfffd.toChar())->{
-        context.buffer.append(context.c)
-        context.next()
+        context.append()
         continue@loop4
        }
        '%'->{
-        context.buffer.append(context.c)
-        context.next()
+        context.append()
         when(context.c){
          in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-          context.buffer.append(context.c)
-          context.next()
+          context.append()
           when(context.c){
            in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-            context.buffer.append(context.c)
-            context.next()
+            context.append()
             continue@loop4
            }
            else->{
-            throw Exception("unexpected char context.c")
+            throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
            }
           }
          }
          else->{
-          throw Exception("unexpected char context.c")
+          throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
          }
         }
        }
        0x5c.toChar()->{
-        context.buffer.append(context.c)
-        context.next()
+        context.append()
         when(context.c){
          '!','#','$','%','&',0x27.toChar(),'(',')','*','+',',','-','.','/',';','=','?','@','_','~'->{
-          context.buffer.append(context.c)
-          context.next()
+          context.append()
           continue@loop4
          }
          else->{
-          throw Exception("unexpected char context.c")
+          throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
          }
         }
        }
        else->{
-        throw Exception("unexpected char context.c")
+        throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
        }
       }
      }
@@ -4741,36 +4214,31 @@ inline fun parse_triple_end_or_object_iri(context:ParserContext,
      return
     }
     else->{
-     throw Exception("unexpected char context.c")
+     throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
     }
    }
   }
   ';'->{
-   context.buffer.append(context.c)
-   context.next()
+   context.append()
    onPREDICATE_LIST1()
    return
   }
   ','->{
-   context.buffer.append(context.c)
-   context.next()
+   context.append()
    onOBJECT_LIST1()
    return
   }
   '.'->{
-   context.buffer.append(context.c)
-   context.next()
+   context.append()
    onDOT()
    return
   }
   0x9.toChar(),0xa.toChar(),0xd.toChar(),' '->{
-   context.buffer.append(context.c)
-   context.next()
+   context.append()
    loop2@while(context.hasNext()){
     when(context.c){
      0x9.toChar(),0xa.toChar(),0xd.toChar(),' '->{
-      context.buffer.append(context.c)
-      context.next()
+      context.append()
      }
      else->{
       break@loop2
@@ -4781,7 +4249,7 @@ inline fun parse_triple_end_or_object_iri(context:ParserContext,
    return
   }
   else->{
-   throw Exception("unexpected char context.c")
+   throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
   }
  }
 }
@@ -4796,17 +4264,14 @@ inline fun parse_triple_end_or_object_string(context:ParserContext,
  context.buffer.clear()
  when(context.c){
   '@'->{
-   context.buffer.append(context.c)
-   context.next()
+   context.append()
    when(context.c){
     in ('A'..'Z'),in ('a'..'z')->{
-     context.buffer.append(context.c)
-     context.next()
+     context.append()
      loop4@while(context.hasNext()){
       when(context.c){
        in ('A'..'Z'),in ('a'..'z')->{
-        context.buffer.append(context.c)
-        context.next()
+        context.append()
        }
        else->{
         break@loop4
@@ -4816,17 +4281,14 @@ inline fun parse_triple_end_or_object_string(context:ParserContext,
      loop4@while(context.hasNext()){
       when(context.c){
        '-'->{
-        context.buffer.append(context.c)
-        context.next()
+        context.append()
         when(context.c){
          in ('0'..'9'),in ('A'..'Z'),in ('a'..'z')->{
-          context.buffer.append(context.c)
-          context.next()
+          context.append()
           loop9@while(context.hasNext()){
            when(context.c){
             in ('0'..'9'),in ('A'..'Z'),in ('a'..'z')->{
-             context.buffer.append(context.c)
-             context.next()
+             context.append()
             }
             else->{
              break@loop9
@@ -4836,7 +4298,7 @@ inline fun parse_triple_end_or_object_string(context:ParserContext,
           continue@loop4
          }
          else->{
-          throw Exception("unexpected char context.c")
+          throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
          }
         }
        }
@@ -4849,51 +4311,44 @@ inline fun parse_triple_end_or_object_string(context:ParserContext,
      return
     }
     else->{
-     throw Exception("unexpected char context.c")
+     throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
     }
    }
   }
   0x5e.toChar()->{
-   context.buffer.append(context.c)
-   context.next()
+   context.append()
    when(context.c){
     0x5e.toChar()->{
-     context.buffer.append(context.c)
-     context.next()
+     context.append()
      onIRI1()
      return
     }
     else->{
-     throw Exception("unexpected char context.c")
+     throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
     }
    }
   }
   ';'->{
-   context.buffer.append(context.c)
-   context.next()
+   context.append()
    onPREDICATE_LIST1()
    return
   }
   ','->{
-   context.buffer.append(context.c)
-   context.next()
+   context.append()
    onOBJECT_LIST1()
    return
   }
   '.'->{
-   context.buffer.append(context.c)
-   context.next()
+   context.append()
    onDOT()
    return
   }
   0x9.toChar(),0xa.toChar(),0xd.toChar(),' '->{
-   context.buffer.append(context.c)
-   context.next()
+   context.append()
    loop2@while(context.hasNext()){
     when(context.c){
      0x9.toChar(),0xa.toChar(),0xd.toChar(),' '->{
-      context.buffer.append(context.c)
-      context.next()
+      context.append()
      }
      else->{
       break@loop2
@@ -4904,7 +4359,7 @@ inline fun parse_triple_end_or_object_string(context:ParserContext,
    return
   }
   else->{
-   throw Exception("unexpected char context.c")
+   throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
   }
  }
 }
@@ -4915,139 +4370,122 @@ inline fun parse_triple_end_or_object_string_typed(context:ParserContext,
  context.buffer.clear()
  when(context.c){
   '<'->{
-   context.buffer.append(context.c)
-   context.next()
+   context.append()
    loop2@while(context.hasNext()){
     when(context.c){
      '!',in ('#'..';'),'=',in ('?'..'['),']','_',in ('a'..'z'),in ('~'..0xffff.toChar())->{
-      context.buffer.append(context.c)
-      context.next()
+      context.append()
       continue@loop2
      }
      0x5c.toChar()->{
-      context.buffer.append(context.c)
-      context.next()
+      context.append()
       when(context.c){
        'u'->{
-        context.buffer.append(context.c)
-        context.next()
+        context.append()
         when(context.c){
          in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-          context.buffer.append(context.c)
-          context.next()
+          context.append()
           when(context.c){
            in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-            context.buffer.append(context.c)
-            context.next()
+            context.append()
             when(context.c){
              in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-              context.buffer.append(context.c)
-              context.next()
+              context.append()
               when(context.c){
                in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                context.buffer.append(context.c)
-                context.next()
+                context.append()
                 continue@loop2
                }
                else->{
-                throw Exception("unexpected char context.c")
+                throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                }
               }
              }
              else->{
-              throw Exception("unexpected char context.c")
+              throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
              }
             }
            }
            else->{
-            throw Exception("unexpected char context.c")
+            throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
            }
           }
          }
          else->{
-          throw Exception("unexpected char context.c")
+          throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
          }
         }
        }
        'U'->{
-        context.buffer.append(context.c)
-        context.next()
+        context.append()
         when(context.c){
          in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-          context.buffer.append(context.c)
-          context.next()
+          context.append()
           when(context.c){
            in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-            context.buffer.append(context.c)
-            context.next()
+            context.append()
             when(context.c){
              in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-              context.buffer.append(context.c)
-              context.next()
+              context.append()
               when(context.c){
                in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                context.buffer.append(context.c)
-                context.next()
+                context.append()
                 when(context.c){
                  in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                  context.buffer.append(context.c)
-                  context.next()
+                  context.append()
                   when(context.c){
                    in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                    context.buffer.append(context.c)
-                    context.next()
+                    context.append()
                     when(context.c){
                      in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                      context.buffer.append(context.c)
-                      context.next()
+                      context.append()
                       when(context.c){
                        in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-                        context.buffer.append(context.c)
-                        context.next()
+                        context.append()
                         continue@loop2
                        }
                        else->{
-                        throw Exception("unexpected char context.c")
+                        throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                        }
                       }
                      }
                      else->{
-                      throw Exception("unexpected char context.c")
+                      throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                      }
                     }
                    }
                    else->{
-                    throw Exception("unexpected char context.c")
+                    throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                    }
                   }
                  }
                  else->{
-                  throw Exception("unexpected char context.c")
+                  throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                  }
                 }
                }
                else->{
-                throw Exception("unexpected char context.c")
+                throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
                }
               }
              }
              else->{
-              throw Exception("unexpected char context.c")
+              throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
              }
             }
            }
            else->{
-            throw Exception("unexpected char context.c")
+            throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
            }
           }
          }
          else->{
-          throw Exception("unexpected char context.c")
+          throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
          }
         }
        }
        else->{
-        throw Exception("unexpected char context.c")
+        throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
        }
       }
      }
@@ -5058,25 +4496,22 @@ inline fun parse_triple_end_or_object_string_typed(context:ParserContext,
    }
    when(context.c){
     '>'->{
-     context.buffer.append(context.c)
-     context.next()
+     context.append()
      onIRIREF()
      return
     }
     else->{
-     throw Exception("unexpected char context.c")
+     throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
     }
    }
   }
   in (0x0.toChar()..0xffff.toChar()),in ('A'..'Z'),in ('a'..'z'),in (0xc0.toChar()..0xd6.toChar()),in (0xd8.toChar()..0xf6.toChar()),in (0xf8.toChar()..0x2ff.toChar()),in (0x370.toChar()..0x37d.toChar()),in (0x37f.toChar()..0x1fff.toChar()),in (0x200c.toChar()..0x200d.toChar()),in (0x2070.toChar()..0x218f.toChar()),in (0x2c00.toChar()..0x2fef.toChar()),in (0x3001.toChar()..0xd7ff.toChar()),in (0xf900.toChar()..0xfdcf.toChar()),in (0xfdf0.toChar()..0xfffd.toChar())->{
-   context.buffer.append(context.c)
-   context.next()
+   context.append()
    loop2@while(context.hasNext()){
     loop3@while(context.hasNext()){
      when(context.c){
       '.'->{
-       context.buffer.append(context.c)
-       context.next()
+       context.append()
       }
       else->{
        break@loop3
@@ -5085,35 +4520,32 @@ inline fun parse_triple_end_or_object_string_typed(context:ParserContext,
     }
     when(context.c){
      in (0x0.toChar()..0xffff.toChar()),'-',in ('0'..'9'),in ('A'..'Z'),'_',in ('a'..'z'),0xb7.toChar(),in (0xc0.toChar()..0xd6.toChar()),in (0xd8.toChar()..0xf6.toChar()),in (0xf8.toChar()..0x2ff.toChar()),in (0x300.toChar()..0x36f.toChar()),in (0x370.toChar()..0x37d.toChar()),in (0x37f.toChar()..0x1fff.toChar()),in (0x200c.toChar()..0x200d.toChar()),in (0x203f.toChar()..0x2040.toChar()),in (0x2070.toChar()..0x218f.toChar()),in (0x2c00.toChar()..0x2fef.toChar()),in (0x3001.toChar()..0xd7ff.toChar()),in (0xf900.toChar()..0xfdcf.toChar()),in (0xfdf0.toChar()..0xfffd.toChar())->{
-      context.buffer.append(context.c)
-      context.next()
+      context.append()
       continue@loop2
      }
      else->{
-      throw Exception("unexpected char context.c")
+      throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
      }
     }
    }
    when(context.c){
     0x3a.toChar()->{
-     context.buffer.append(context.c)
-     context.next()
+     context.append()
      onPNAME_NS()
      return
     }
     else->{
-     throw Exception("unexpected char context.c")
+     throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
     }
    }
   }
   0x3a.toChar()->{
-   context.buffer.append(context.c)
-   context.next()
+   context.append()
    onPNAME_NS()
    return
   }
   else->{
-   throw Exception("unexpected char context.c")
+   throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
   }
  }
 }
@@ -5127,14 +4559,12 @@ inline fun parse_triple_end_or_object_string_typed_iri(context:ParserContext,
  context.buffer.clear()
  when(context.c){
   in (0x0.toChar()..0xffff.toChar()),in ('0'..'9'),0x3a.toChar(),in ('A'..'Z'),'_',in ('a'..'z'),in (0xc0.toChar()..0xd6.toChar()),in (0xd8.toChar()..0xf6.toChar()),in (0xf8.toChar()..0x2ff.toChar()),in (0x370.toChar()..0x37d.toChar()),in (0x37f.toChar()..0x1fff.toChar()),in (0x200c.toChar()..0x200d.toChar()),in (0x2070.toChar()..0x218f.toChar()),in (0x2c00.toChar()..0x2fef.toChar()),in (0x3001.toChar()..0xd7ff.toChar()),in (0xf900.toChar()..0xfdcf.toChar()),in (0xfdf0.toChar()..0xfffd.toChar())->{
-   context.buffer.append(context.c)
-   context.next()
+   context.append()
    loop2@while(context.hasNext()){
     loop3@while(context.hasNext()){
      when(context.c){
       '.'->{
-       context.buffer.append(context.c)
-       context.next()
+       context.append()
       }
       else->{
        break@loop3
@@ -5143,49 +4573,43 @@ inline fun parse_triple_end_or_object_string_typed_iri(context:ParserContext,
     }
     when(context.c){
      in (0x0.toChar()..0xffff.toChar()),'-',in ('0'..'9'),0x3a.toChar(),in ('A'..'Z'),'_',in ('a'..'z'),0xb7.toChar(),in (0xc0.toChar()..0xd6.toChar()),in (0xd8.toChar()..0xf6.toChar()),in (0xf8.toChar()..0x2ff.toChar()),in (0x300.toChar()..0x36f.toChar()),in (0x370.toChar()..0x37d.toChar()),in (0x37f.toChar()..0x1fff.toChar()),in (0x200c.toChar()..0x200d.toChar()),in (0x203f.toChar()..0x2040.toChar()),in (0x2070.toChar()..0x218f.toChar()),in (0x2c00.toChar()..0x2fef.toChar()),in (0x3001.toChar()..0xd7ff.toChar()),in (0xf900.toChar()..0xfdcf.toChar()),in (0xfdf0.toChar()..0xfffd.toChar())->{
-      context.buffer.append(context.c)
-      context.next()
+      context.append()
       continue@loop2
      }
      '%'->{
-      context.buffer.append(context.c)
-      context.next()
+      context.append()
       when(context.c){
        in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-        context.buffer.append(context.c)
-        context.next()
+        context.append()
         when(context.c){
          in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-          context.buffer.append(context.c)
-          context.next()
+          context.append()
           continue@loop2
          }
          else->{
-          throw Exception("unexpected char context.c")
+          throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
          }
         }
        }
        else->{
-        throw Exception("unexpected char context.c")
+        throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
        }
       }
      }
      0x5c.toChar()->{
-      context.buffer.append(context.c)
-      context.next()
+      context.append()
       when(context.c){
        '!','#','$','%','&',0x27.toChar(),'(',')','*','+',',','-','.','/',';','=','?','@','_','~'->{
-        context.buffer.append(context.c)
-        context.next()
+        context.append()
         continue@loop2
        }
        else->{
-        throw Exception("unexpected char context.c")
+        throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
        }
       }
      }
      else->{
-      throw Exception("unexpected char context.c")
+      throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
      }
     }
    }
@@ -5193,22 +4617,18 @@ inline fun parse_triple_end_or_object_string_typed_iri(context:ParserContext,
    return
   }
   '%'->{
-   context.buffer.append(context.c)
-   context.next()
+   context.append()
    when(context.c){
     in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-     context.buffer.append(context.c)
-     context.next()
+     context.append()
      when(context.c){
       in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-       context.buffer.append(context.c)
-       context.next()
+       context.append()
        loop6@while(context.hasNext()){
         loop7@while(context.hasNext()){
          when(context.c){
           '.'->{
-           context.buffer.append(context.c)
-           context.next()
+           context.append()
           }
           else->{
            break@loop7
@@ -5217,49 +4637,43 @@ inline fun parse_triple_end_or_object_string_typed_iri(context:ParserContext,
         }
         when(context.c){
          in (0x0.toChar()..0xffff.toChar()),'-',in ('0'..'9'),0x3a.toChar(),in ('A'..'Z'),'_',in ('a'..'z'),0xb7.toChar(),in (0xc0.toChar()..0xd6.toChar()),in (0xd8.toChar()..0xf6.toChar()),in (0xf8.toChar()..0x2ff.toChar()),in (0x300.toChar()..0x36f.toChar()),in (0x370.toChar()..0x37d.toChar()),in (0x37f.toChar()..0x1fff.toChar()),in (0x200c.toChar()..0x200d.toChar()),in (0x203f.toChar()..0x2040.toChar()),in (0x2070.toChar()..0x218f.toChar()),in (0x2c00.toChar()..0x2fef.toChar()),in (0x3001.toChar()..0xd7ff.toChar()),in (0xf900.toChar()..0xfdcf.toChar()),in (0xfdf0.toChar()..0xfffd.toChar())->{
-          context.buffer.append(context.c)
-          context.next()
+          context.append()
           continue@loop6
          }
          '%'->{
-          context.buffer.append(context.c)
-          context.next()
+          context.append()
           when(context.c){
            in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-            context.buffer.append(context.c)
-            context.next()
+            context.append()
             when(context.c){
              in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-              context.buffer.append(context.c)
-              context.next()
+              context.append()
               continue@loop6
              }
              else->{
-              throw Exception("unexpected char context.c")
+              throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
              }
             }
            }
            else->{
-            throw Exception("unexpected char context.c")
+            throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
            }
           }
          }
          0x5c.toChar()->{
-          context.buffer.append(context.c)
-          context.next()
+          context.append()
           when(context.c){
            '!','#','$','%','&',0x27.toChar(),'(',')','*','+',',','-','.','/',';','=','?','@','_','~'->{
-            context.buffer.append(context.c)
-            context.next()
+            context.append()
             continue@loop6
            }
            else->{
-            throw Exception("unexpected char context.c")
+            throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
            }
           }
          }
          else->{
-          throw Exception("unexpected char context.c")
+          throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
          }
         }
        }
@@ -5267,28 +4681,25 @@ inline fun parse_triple_end_or_object_string_typed_iri(context:ParserContext,
        return
       }
       else->{
-       throw Exception("unexpected char context.c")
+       throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
       }
      }
     }
     else->{
-     throw Exception("unexpected char context.c")
+     throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
     }
    }
   }
   0x5c.toChar()->{
-   context.buffer.append(context.c)
-   context.next()
+   context.append()
    when(context.c){
     '!','#','$','%','&',0x27.toChar(),'(',')','*','+',',','-','.','/',';','=','?','@','_','~'->{
-     context.buffer.append(context.c)
-     context.next()
+     context.append()
      loop4@while(context.hasNext()){
       loop5@while(context.hasNext()){
        when(context.c){
         '.'->{
-         context.buffer.append(context.c)
-         context.next()
+         context.append()
         }
         else->{
          break@loop5
@@ -5297,49 +4708,43 @@ inline fun parse_triple_end_or_object_string_typed_iri(context:ParserContext,
       }
       when(context.c){
        in (0x0.toChar()..0xffff.toChar()),'-',in ('0'..'9'),0x3a.toChar(),in ('A'..'Z'),'_',in ('a'..'z'),0xb7.toChar(),in (0xc0.toChar()..0xd6.toChar()),in (0xd8.toChar()..0xf6.toChar()),in (0xf8.toChar()..0x2ff.toChar()),in (0x300.toChar()..0x36f.toChar()),in (0x370.toChar()..0x37d.toChar()),in (0x37f.toChar()..0x1fff.toChar()),in (0x200c.toChar()..0x200d.toChar()),in (0x203f.toChar()..0x2040.toChar()),in (0x2070.toChar()..0x218f.toChar()),in (0x2c00.toChar()..0x2fef.toChar()),in (0x3001.toChar()..0xd7ff.toChar()),in (0xf900.toChar()..0xfdcf.toChar()),in (0xfdf0.toChar()..0xfffd.toChar())->{
-        context.buffer.append(context.c)
-        context.next()
+        context.append()
         continue@loop4
        }
        '%'->{
-        context.buffer.append(context.c)
-        context.next()
+        context.append()
         when(context.c){
          in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-          context.buffer.append(context.c)
-          context.next()
+          context.append()
           when(context.c){
            in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-            context.buffer.append(context.c)
-            context.next()
+            context.append()
             continue@loop4
            }
            else->{
-            throw Exception("unexpected char context.c")
+            throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
            }
           }
          }
          else->{
-          throw Exception("unexpected char context.c")
+          throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
          }
         }
        }
        0x5c.toChar()->{
-        context.buffer.append(context.c)
-        context.next()
+        context.append()
         when(context.c){
          '!','#','$','%','&',0x27.toChar(),'(',')','*','+',',','-','.','/',';','=','?','@','_','~'->{
-          context.buffer.append(context.c)
-          context.next()
+          context.append()
           continue@loop4
          }
          else->{
-          throw Exception("unexpected char context.c")
+          throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
          }
         }
        }
        else->{
-        throw Exception("unexpected char context.c")
+        throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
        }
       }
      }
@@ -5347,36 +4752,31 @@ inline fun parse_triple_end_or_object_string_typed_iri(context:ParserContext,
      return
     }
     else->{
-     throw Exception("unexpected char context.c")
+     throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
     }
    }
   }
   ';'->{
-   context.buffer.append(context.c)
-   context.next()
+   context.append()
    onPREDICATE_LIST1()
    return
   }
   ','->{
-   context.buffer.append(context.c)
-   context.next()
+   context.append()
    onOBJECT_LIST1()
    return
   }
   '.'->{
-   context.buffer.append(context.c)
-   context.next()
+   context.append()
    onDOT()
    return
   }
   0x9.toChar(),0xa.toChar(),0xd.toChar(),' '->{
-   context.buffer.append(context.c)
-   context.next()
+   context.append()
    loop2@while(context.hasNext()){
     when(context.c){
      0x9.toChar(),0xa.toChar(),0xd.toChar(),' '->{
-      context.buffer.append(context.c)
-      context.next()
+      context.append()
      }
      else->{
       break@loop2
@@ -5387,7 +4787,7 @@ inline fun parse_triple_end_or_object_string_typed_iri(context:ParserContext,
    return
   }
   else->{
-   throw Exception("unexpected char context.c")
+   throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
   }
  }
 }
@@ -5398,14 +4798,12 @@ inline fun parse_subject_iri_or_ws(context:ParserContext,
  context.buffer.clear()
  when(context.c){
   in (0x0.toChar()..0xffff.toChar()),in ('0'..'9'),0x3a.toChar(),in ('A'..'Z'),'_',in ('a'..'z'),in (0xc0.toChar()..0xd6.toChar()),in (0xd8.toChar()..0xf6.toChar()),in (0xf8.toChar()..0x2ff.toChar()),in (0x370.toChar()..0x37d.toChar()),in (0x37f.toChar()..0x1fff.toChar()),in (0x200c.toChar()..0x200d.toChar()),in (0x2070.toChar()..0x218f.toChar()),in (0x2c00.toChar()..0x2fef.toChar()),in (0x3001.toChar()..0xd7ff.toChar()),in (0xf900.toChar()..0xfdcf.toChar()),in (0xfdf0.toChar()..0xfffd.toChar())->{
-   context.buffer.append(context.c)
-   context.next()
+   context.append()
    loop2@while(context.hasNext()){
     loop3@while(context.hasNext()){
      when(context.c){
       '.'->{
-       context.buffer.append(context.c)
-       context.next()
+       context.append()
       }
       else->{
        break@loop3
@@ -5414,49 +4812,43 @@ inline fun parse_subject_iri_or_ws(context:ParserContext,
     }
     when(context.c){
      in (0x0.toChar()..0xffff.toChar()),'-',in ('0'..'9'),0x3a.toChar(),in ('A'..'Z'),'_',in ('a'..'z'),0xb7.toChar(),in (0xc0.toChar()..0xd6.toChar()),in (0xd8.toChar()..0xf6.toChar()),in (0xf8.toChar()..0x2ff.toChar()),in (0x300.toChar()..0x36f.toChar()),in (0x370.toChar()..0x37d.toChar()),in (0x37f.toChar()..0x1fff.toChar()),in (0x200c.toChar()..0x200d.toChar()),in (0x203f.toChar()..0x2040.toChar()),in (0x2070.toChar()..0x218f.toChar()),in (0x2c00.toChar()..0x2fef.toChar()),in (0x3001.toChar()..0xd7ff.toChar()),in (0xf900.toChar()..0xfdcf.toChar()),in (0xfdf0.toChar()..0xfffd.toChar())->{
-      context.buffer.append(context.c)
-      context.next()
+      context.append()
       continue@loop2
      }
      '%'->{
-      context.buffer.append(context.c)
-      context.next()
+      context.append()
       when(context.c){
        in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-        context.buffer.append(context.c)
-        context.next()
+        context.append()
         when(context.c){
          in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-          context.buffer.append(context.c)
-          context.next()
+          context.append()
           continue@loop2
          }
          else->{
-          throw Exception("unexpected char context.c")
+          throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
          }
         }
        }
        else->{
-        throw Exception("unexpected char context.c")
+        throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
        }
       }
      }
      0x5c.toChar()->{
-      context.buffer.append(context.c)
-      context.next()
+      context.append()
       when(context.c){
        '!','#','$','%','&',0x27.toChar(),'(',')','*','+',',','-','.','/',';','=','?','@','_','~'->{
-        context.buffer.append(context.c)
-        context.next()
+        context.append()
         continue@loop2
        }
        else->{
-        throw Exception("unexpected char context.c")
+        throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
        }
       }
      }
      else->{
-      throw Exception("unexpected char context.c")
+      throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
      }
     }
    }
@@ -5464,22 +4856,18 @@ inline fun parse_subject_iri_or_ws(context:ParserContext,
    return
   }
   '%'->{
-   context.buffer.append(context.c)
-   context.next()
+   context.append()
    when(context.c){
     in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-     context.buffer.append(context.c)
-     context.next()
+     context.append()
      when(context.c){
       in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-       context.buffer.append(context.c)
-       context.next()
+       context.append()
        loop6@while(context.hasNext()){
         loop7@while(context.hasNext()){
          when(context.c){
           '.'->{
-           context.buffer.append(context.c)
-           context.next()
+           context.append()
           }
           else->{
            break@loop7
@@ -5488,49 +4876,43 @@ inline fun parse_subject_iri_or_ws(context:ParserContext,
         }
         when(context.c){
          in (0x0.toChar()..0xffff.toChar()),'-',in ('0'..'9'),0x3a.toChar(),in ('A'..'Z'),'_',in ('a'..'z'),0xb7.toChar(),in (0xc0.toChar()..0xd6.toChar()),in (0xd8.toChar()..0xf6.toChar()),in (0xf8.toChar()..0x2ff.toChar()),in (0x300.toChar()..0x36f.toChar()),in (0x370.toChar()..0x37d.toChar()),in (0x37f.toChar()..0x1fff.toChar()),in (0x200c.toChar()..0x200d.toChar()),in (0x203f.toChar()..0x2040.toChar()),in (0x2070.toChar()..0x218f.toChar()),in (0x2c00.toChar()..0x2fef.toChar()),in (0x3001.toChar()..0xd7ff.toChar()),in (0xf900.toChar()..0xfdcf.toChar()),in (0xfdf0.toChar()..0xfffd.toChar())->{
-          context.buffer.append(context.c)
-          context.next()
+          context.append()
           continue@loop6
          }
          '%'->{
-          context.buffer.append(context.c)
-          context.next()
+          context.append()
           when(context.c){
            in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-            context.buffer.append(context.c)
-            context.next()
+            context.append()
             when(context.c){
              in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-              context.buffer.append(context.c)
-              context.next()
+              context.append()
               continue@loop6
              }
              else->{
-              throw Exception("unexpected char context.c")
+              throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
              }
             }
            }
            else->{
-            throw Exception("unexpected char context.c")
+            throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
            }
           }
          }
          0x5c.toChar()->{
-          context.buffer.append(context.c)
-          context.next()
+          context.append()
           when(context.c){
            '!','#','$','%','&',0x27.toChar(),'(',')','*','+',',','-','.','/',';','=','?','@','_','~'->{
-            context.buffer.append(context.c)
-            context.next()
+            context.append()
             continue@loop6
            }
            else->{
-            throw Exception("unexpected char context.c")
+            throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
            }
           }
          }
          else->{
-          throw Exception("unexpected char context.c")
+          throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
          }
         }
        }
@@ -5538,28 +4920,25 @@ inline fun parse_subject_iri_or_ws(context:ParserContext,
        return
       }
       else->{
-       throw Exception("unexpected char context.c")
+       throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
       }
      }
     }
     else->{
-     throw Exception("unexpected char context.c")
+     throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
     }
    }
   }
   0x5c.toChar()->{
-   context.buffer.append(context.c)
-   context.next()
+   context.append()
    when(context.c){
     '!','#','$','%','&',0x27.toChar(),'(',')','*','+',',','-','.','/',';','=','?','@','_','~'->{
-     context.buffer.append(context.c)
-     context.next()
+     context.append()
      loop4@while(context.hasNext()){
       loop5@while(context.hasNext()){
        when(context.c){
         '.'->{
-         context.buffer.append(context.c)
-         context.next()
+         context.append()
         }
         else->{
          break@loop5
@@ -5568,49 +4947,43 @@ inline fun parse_subject_iri_or_ws(context:ParserContext,
       }
       when(context.c){
        in (0x0.toChar()..0xffff.toChar()),'-',in ('0'..'9'),0x3a.toChar(),in ('A'..'Z'),'_',in ('a'..'z'),0xb7.toChar(),in (0xc0.toChar()..0xd6.toChar()),in (0xd8.toChar()..0xf6.toChar()),in (0xf8.toChar()..0x2ff.toChar()),in (0x300.toChar()..0x36f.toChar()),in (0x370.toChar()..0x37d.toChar()),in (0x37f.toChar()..0x1fff.toChar()),in (0x200c.toChar()..0x200d.toChar()),in (0x203f.toChar()..0x2040.toChar()),in (0x2070.toChar()..0x218f.toChar()),in (0x2c00.toChar()..0x2fef.toChar()),in (0x3001.toChar()..0xd7ff.toChar()),in (0xf900.toChar()..0xfdcf.toChar()),in (0xfdf0.toChar()..0xfffd.toChar())->{
-        context.buffer.append(context.c)
-        context.next()
+        context.append()
         continue@loop4
        }
        '%'->{
-        context.buffer.append(context.c)
-        context.next()
+        context.append()
         when(context.c){
          in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-          context.buffer.append(context.c)
-          context.next()
+          context.append()
           when(context.c){
            in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-            context.buffer.append(context.c)
-            context.next()
+            context.append()
             continue@loop4
            }
            else->{
-            throw Exception("unexpected char context.c")
+            throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
            }
           }
          }
          else->{
-          throw Exception("unexpected char context.c")
+          throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
          }
         }
        }
        0x5c.toChar()->{
-        context.buffer.append(context.c)
-        context.next()
+        context.append()
         when(context.c){
          '!','#','$','%','&',0x27.toChar(),'(',')','*','+',',','-','.','/',';','=','?','@','_','~'->{
-          context.buffer.append(context.c)
-          context.next()
+          context.append()
           continue@loop4
          }
          else->{
-          throw Exception("unexpected char context.c")
+          throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
          }
         }
        }
        else->{
-        throw Exception("unexpected char context.c")
+        throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
        }
       }
      }
@@ -5618,18 +4991,16 @@ inline fun parse_subject_iri_or_ws(context:ParserContext,
      return
     }
     else->{
-     throw Exception("unexpected char context.c")
+     throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
     }
    }
   }
   0x9.toChar(),0xa.toChar(),0xd.toChar(),' '->{
-   context.buffer.append(context.c)
-   context.next()
+   context.append()
    loop2@while(context.hasNext()){
     when(context.c){
      0x9.toChar(),0xa.toChar(),0xd.toChar(),' '->{
-      context.buffer.append(context.c)
-      context.next()
+      context.append()
      }
      else->{
       break@loop2
@@ -5640,7 +5011,7 @@ inline fun parse_subject_iri_or_ws(context:ParserContext,
    return
   }
   else->{
-   throw Exception("unexpected char context.c")
+   throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
   }
  }
 }
@@ -5651,14 +5022,12 @@ inline fun parse_predicate_iri_or_ws(context:ParserContext,
  context.buffer.clear()
  when(context.c){
   in (0x0.toChar()..0xffff.toChar()),in ('0'..'9'),0x3a.toChar(),in ('A'..'Z'),'_',in ('a'..'z'),in (0xc0.toChar()..0xd6.toChar()),in (0xd8.toChar()..0xf6.toChar()),in (0xf8.toChar()..0x2ff.toChar()),in (0x370.toChar()..0x37d.toChar()),in (0x37f.toChar()..0x1fff.toChar()),in (0x200c.toChar()..0x200d.toChar()),in (0x2070.toChar()..0x218f.toChar()),in (0x2c00.toChar()..0x2fef.toChar()),in (0x3001.toChar()..0xd7ff.toChar()),in (0xf900.toChar()..0xfdcf.toChar()),in (0xfdf0.toChar()..0xfffd.toChar())->{
-   context.buffer.append(context.c)
-   context.next()
+   context.append()
    loop2@while(context.hasNext()){
     loop3@while(context.hasNext()){
      when(context.c){
       '.'->{
-       context.buffer.append(context.c)
-       context.next()
+       context.append()
       }
       else->{
        break@loop3
@@ -5667,49 +5036,43 @@ inline fun parse_predicate_iri_or_ws(context:ParserContext,
     }
     when(context.c){
      in (0x0.toChar()..0xffff.toChar()),'-',in ('0'..'9'),0x3a.toChar(),in ('A'..'Z'),'_',in ('a'..'z'),0xb7.toChar(),in (0xc0.toChar()..0xd6.toChar()),in (0xd8.toChar()..0xf6.toChar()),in (0xf8.toChar()..0x2ff.toChar()),in (0x300.toChar()..0x36f.toChar()),in (0x370.toChar()..0x37d.toChar()),in (0x37f.toChar()..0x1fff.toChar()),in (0x200c.toChar()..0x200d.toChar()),in (0x203f.toChar()..0x2040.toChar()),in (0x2070.toChar()..0x218f.toChar()),in (0x2c00.toChar()..0x2fef.toChar()),in (0x3001.toChar()..0xd7ff.toChar()),in (0xf900.toChar()..0xfdcf.toChar()),in (0xfdf0.toChar()..0xfffd.toChar())->{
-      context.buffer.append(context.c)
-      context.next()
+      context.append()
       continue@loop2
      }
      '%'->{
-      context.buffer.append(context.c)
-      context.next()
+      context.append()
       when(context.c){
        in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-        context.buffer.append(context.c)
-        context.next()
+        context.append()
         when(context.c){
          in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-          context.buffer.append(context.c)
-          context.next()
+          context.append()
           continue@loop2
          }
          else->{
-          throw Exception("unexpected char context.c")
+          throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
          }
         }
        }
        else->{
-        throw Exception("unexpected char context.c")
+        throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
        }
       }
      }
      0x5c.toChar()->{
-      context.buffer.append(context.c)
-      context.next()
+      context.append()
       when(context.c){
        '!','#','$','%','&',0x27.toChar(),'(',')','*','+',',','-','.','/',';','=','?','@','_','~'->{
-        context.buffer.append(context.c)
-        context.next()
+        context.append()
         continue@loop2
        }
        else->{
-        throw Exception("unexpected char context.c")
+        throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
        }
       }
      }
      else->{
-      throw Exception("unexpected char context.c")
+      throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
      }
     }
    }
@@ -5717,22 +5080,18 @@ inline fun parse_predicate_iri_or_ws(context:ParserContext,
    return
   }
   '%'->{
-   context.buffer.append(context.c)
-   context.next()
+   context.append()
    when(context.c){
     in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-     context.buffer.append(context.c)
-     context.next()
+     context.append()
      when(context.c){
       in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-       context.buffer.append(context.c)
-       context.next()
+       context.append()
        loop6@while(context.hasNext()){
         loop7@while(context.hasNext()){
          when(context.c){
           '.'->{
-           context.buffer.append(context.c)
-           context.next()
+           context.append()
           }
           else->{
            break@loop7
@@ -5741,49 +5100,43 @@ inline fun parse_predicate_iri_or_ws(context:ParserContext,
         }
         when(context.c){
          in (0x0.toChar()..0xffff.toChar()),'-',in ('0'..'9'),0x3a.toChar(),in ('A'..'Z'),'_',in ('a'..'z'),0xb7.toChar(),in (0xc0.toChar()..0xd6.toChar()),in (0xd8.toChar()..0xf6.toChar()),in (0xf8.toChar()..0x2ff.toChar()),in (0x300.toChar()..0x36f.toChar()),in (0x370.toChar()..0x37d.toChar()),in (0x37f.toChar()..0x1fff.toChar()),in (0x200c.toChar()..0x200d.toChar()),in (0x203f.toChar()..0x2040.toChar()),in (0x2070.toChar()..0x218f.toChar()),in (0x2c00.toChar()..0x2fef.toChar()),in (0x3001.toChar()..0xd7ff.toChar()),in (0xf900.toChar()..0xfdcf.toChar()),in (0xfdf0.toChar()..0xfffd.toChar())->{
-          context.buffer.append(context.c)
-          context.next()
+          context.append()
           continue@loop6
          }
          '%'->{
-          context.buffer.append(context.c)
-          context.next()
+          context.append()
           when(context.c){
            in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-            context.buffer.append(context.c)
-            context.next()
+            context.append()
             when(context.c){
              in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-              context.buffer.append(context.c)
-              context.next()
+              context.append()
               continue@loop6
              }
              else->{
-              throw Exception("unexpected char context.c")
+              throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
              }
             }
            }
            else->{
-            throw Exception("unexpected char context.c")
+            throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
            }
           }
          }
          0x5c.toChar()->{
-          context.buffer.append(context.c)
-          context.next()
+          context.append()
           when(context.c){
            '!','#','$','%','&',0x27.toChar(),'(',')','*','+',',','-','.','/',';','=','?','@','_','~'->{
-            context.buffer.append(context.c)
-            context.next()
+            context.append()
             continue@loop6
            }
            else->{
-            throw Exception("unexpected char context.c")
+            throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
            }
           }
          }
          else->{
-          throw Exception("unexpected char context.c")
+          throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
          }
         }
        }
@@ -5791,28 +5144,25 @@ inline fun parse_predicate_iri_or_ws(context:ParserContext,
        return
       }
       else->{
-       throw Exception("unexpected char context.c")
+       throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
       }
      }
     }
     else->{
-     throw Exception("unexpected char context.c")
+     throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
     }
    }
   }
   0x5c.toChar()->{
-   context.buffer.append(context.c)
-   context.next()
+   context.append()
    when(context.c){
     '!','#','$','%','&',0x27.toChar(),'(',')','*','+',',','-','.','/',';','=','?','@','_','~'->{
-     context.buffer.append(context.c)
-     context.next()
+     context.append()
      loop4@while(context.hasNext()){
       loop5@while(context.hasNext()){
        when(context.c){
         '.'->{
-         context.buffer.append(context.c)
-         context.next()
+         context.append()
         }
         else->{
          break@loop5
@@ -5821,49 +5171,43 @@ inline fun parse_predicate_iri_or_ws(context:ParserContext,
       }
       when(context.c){
        in (0x0.toChar()..0xffff.toChar()),'-',in ('0'..'9'),0x3a.toChar(),in ('A'..'Z'),'_',in ('a'..'z'),0xb7.toChar(),in (0xc0.toChar()..0xd6.toChar()),in (0xd8.toChar()..0xf6.toChar()),in (0xf8.toChar()..0x2ff.toChar()),in (0x300.toChar()..0x36f.toChar()),in (0x370.toChar()..0x37d.toChar()),in (0x37f.toChar()..0x1fff.toChar()),in (0x200c.toChar()..0x200d.toChar()),in (0x203f.toChar()..0x2040.toChar()),in (0x2070.toChar()..0x218f.toChar()),in (0x2c00.toChar()..0x2fef.toChar()),in (0x3001.toChar()..0xd7ff.toChar()),in (0xf900.toChar()..0xfdcf.toChar()),in (0xfdf0.toChar()..0xfffd.toChar())->{
-        context.buffer.append(context.c)
-        context.next()
+        context.append()
         continue@loop4
        }
        '%'->{
-        context.buffer.append(context.c)
-        context.next()
+        context.append()
         when(context.c){
          in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-          context.buffer.append(context.c)
-          context.next()
+          context.append()
           when(context.c){
            in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
-            context.buffer.append(context.c)
-            context.next()
+            context.append()
             continue@loop4
            }
            else->{
-            throw Exception("unexpected char context.c")
+            throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
            }
           }
          }
          else->{
-          throw Exception("unexpected char context.c")
+          throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
          }
         }
        }
        0x5c.toChar()->{
-        context.buffer.append(context.c)
-        context.next()
+        context.append()
         when(context.c){
          '!','#','$','%','&',0x27.toChar(),'(',')','*','+',',','-','.','/',';','=','?','@','_','~'->{
-          context.buffer.append(context.c)
-          context.next()
+          context.append()
           continue@loop4
          }
          else->{
-          throw Exception("unexpected char context.c")
+          throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
          }
         }
        }
        else->{
-        throw Exception("unexpected char context.c")
+        throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
        }
       }
      }
@@ -5871,18 +5215,16 @@ inline fun parse_predicate_iri_or_ws(context:ParserContext,
      return
     }
     else->{
-     throw Exception("unexpected char context.c")
+     throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
     }
    }
   }
   0x9.toChar(),0xa.toChar(),0xd.toChar(),' '->{
-   context.buffer.append(context.c)
-   context.next()
+   context.append()
    loop2@while(context.hasNext()){
     when(context.c){
      0x9.toChar(),0xa.toChar(),0xd.toChar(),' '->{
-      context.buffer.append(context.c)
-      context.next()
+      context.append()
      }
      else->{
       break@loop2
@@ -5893,7 +5235,7 @@ inline fun parse_predicate_iri_or_ws(context:ParserContext,
    return
   }
   else->{
-   throw Exception("unexpected char context.c")
+   throw Exception("unexpected char ${context.c} at ${context.line}:${context.column}")
   }
  }
 }

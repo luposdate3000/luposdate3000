@@ -140,6 +140,26 @@ object HttpEndpointLauncher {
                                     }
                                     /*Coverage Unreachable*/
                                 }
+"/cleanup/turtle/old" -> {
+val dict = MyMapStringIntPatriciaTrie()
+                                    printHeaderSuccess(connectionOut)
+                                    if (isPost) {
+                                        connectionOut.print(HttpEndpoint.cleanup_turtle_files_old(content.toString(), dict))
+                                    } else {
+                                        connectionOut.print(HttpEndpoint.cleanup_turtle_files_old(params["query"]!!, dict))
+                                    }
+                                    /*Coverage Unreachable*/
+                                }
+"/cleanup/turtle/new" -> {
+val dict = MyMapStringIntPatriciaTrie()
+                                    printHeaderSuccess(connectionOut)
+                                    if (isPost) {
+                                        connectionOut.print(HttpEndpoint.cleanup_turtle_files(content.toString(), dict))
+                                    } else {
+                                        connectionOut.print(HttpEndpoint.cleanup_turtle_files(params["query"]!!, dict))
+                                    }
+                                    /*Coverage Unreachable*/
+                                }
                                 "/import/intermediate" -> {
                                     printHeaderSuccess(connectionOut)
                                     if (isPost) {
