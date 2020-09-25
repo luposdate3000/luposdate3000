@@ -291,7 +291,6 @@ class TurtleScanner(@JvmField val iterator: LexerCharIterator) : TokenIterator {
                             throw ParseError("Colon ':' expected!", this.iterator.index - 1, this.iterator.lineNumber, this.iterator.columnNumber)
                         }
                         PN_CHARS(nextNextChar) -> {
-                            println("${(iterator as LexerCharIterator).lineNumber} ${(iterator as LexerCharIterator).columnNumber} ${(iterator as LexerCharIterator).index} ${debugCount++} ${(iterator as LexerCharIterator).debugcounterindex} :: $image")
                             image += nextNextChar
                         }
                         nextNextChar == ':' -> {

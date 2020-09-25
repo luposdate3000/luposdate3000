@@ -88,7 +88,7 @@ try {
                     try {
                         val x = object : TurtleParserWithStringTriples() {
                             suspend override fun consume_triple(s: String, p: String, o: String) {
-res.append("$s $p $o .")
+res.append("$s $p $o .\n")
                             }
                         }
                         x.ltit = ltit
@@ -164,7 +164,7 @@ iter=f.readAsCharIterator()
                     try {
 val x=object:Turtle2Parser(iter){
                             override fun onTriple(triple: Array<String>) {
-res.append("${triple[0]} ${triple[1]} ${triple[2]} .")
+res.append("${triple[0]} ${triple[1]} ${triple[2]} .\n")
                             }
                         }
                         x.turtleDoc()

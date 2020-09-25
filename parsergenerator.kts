@@ -216,7 +216,7 @@ open class CharGroup {
         //println(identicalIdsMap)
     }
 
-    fun myPrint(indention: Int, printmode: Boolean, skipheader: Boolean = false, onElseBranch: () -> String = { "throw Exception(\"unexpected char context.c\")" }) {
+    fun myPrint(indention: Int, printmode: Boolean, skipheader: Boolean = false, onElseBranch: () -> String = { "throw ParserExceptionUnexpectedChar(context)" }) {
         if (printmode) {
             when (modifier) {
                 CharGroupModifier.MAYBE -> {
@@ -262,8 +262,7 @@ open class CharGroup {
                 if (!submodifierFlag) {
                     if (!skipheader) {
                         println(" ".repeat(indention) + charsToRanges() + "->{")
-                        println(" ".repeat(indention + 1) + "context.buffer.append(context.c)")
-                        println(" ".repeat(indention + 1) + "context.next()")
+                        println(" ".repeat(indention + 1) + "context.append()")
                     }
                     for (ll in startEndMapElseBranch[identicalIdsMap[submodifierId]!!.first()]!!.split(";")) {
                         println(" ".repeat(indention + 1) + ll)
@@ -287,8 +286,7 @@ open class CharGroup {
             } else if (childs.size > 1 || (childs.size == 1 && (childs[0].modifier == CharGroupModifier.ONE || (childs[0].modifier == CharGroupModifier.ACTION && childs[0].submodifier == null)))) {
                 if (!skipheader) {
                     println(" ".repeat(indention) + charsToRanges() + "->{")
-                    println(" ".repeat(indention + 1) + "context.buffer.append(context.c)")
-                    println(" ".repeat(indention + 1) + "context.next()")
+                    println(" ".repeat(indention + 1) + "context.append()")
                 }
                 if (childs.size == 1 && childs[0].modifier == CharGroupModifier.ACTION) {
                     if (childs[0].submodifier == null) {
@@ -319,7 +317,7 @@ open class CharGroup {
                 }
             } else if (childs.size == 0) {
                 if (modifier == CharGroupModifier.ONE && ranges.size == 0) {
-                    println(" ".repeat(indention + 1) + "throw Exception(\"unexpected char context.c\")")
+                    println(" ".repeat(indention + 1) + "throw ParserExceptionUnexpectedChar(context)")
                 } else {
                     throw Exception("")
                 }
@@ -329,14 +327,12 @@ open class CharGroup {
                     CharGroupModifier.ANY -> {
                         if (!skipheader) {
                             println(" ".repeat(indention) + charsToRanges() + "->{")
-                            println(" ".repeat(indention + 1) + "context.buffer.append(context.c)")
-                            println(" ".repeat(indention + 1) + "context.next()")
+                            println(" ".repeat(indention + 1) + "context.append()")
                         }
                         println(" ".repeat(indention + 1) + "loop$indention@while(context.hasNext()){")
                         println(" ".repeat(indention + 2) + "when(context.c){")
                         println(" ".repeat(indention + 3) + c.charsToRanges() + "->{")
-                        println(" ".repeat(indention + 4) + "context.buffer.append(context.c)")
-                        println(" ".repeat(indention + 4) + "context.next()")
+                        println(" ".repeat(indention + 4) + "context.append()")
                         println(" ".repeat(indention + 3) + "}")
                         println(" ".repeat(indention + 3) + "else->{")
                         println(" ".repeat(indention + 4) + "break@loop$indention")
@@ -352,8 +348,7 @@ open class CharGroup {
                         if (!c.submodifierFlag) {
                             if (!skipheader) {
                                 println(" ".repeat(indention) + charsToRanges() + "->{")
-                                println(" ".repeat(indention + 1) + "context.buffer.append(context.c)")
-                                println(" ".repeat(indention + 1) + "context.next()")
+                                println(" ".repeat(indention + 1) + "context.append()")
                             }
                             for (ll in startEndMapElseBranch[identicalIdsMap[c.submodifierId]!!.first()]!!.split(";")) {
                                 println(" ".repeat(indention + 1) + ll)
@@ -366,8 +361,7 @@ open class CharGroup {
                                 CharGroupModifier.ANY -> {
                                     if (!skipheader) {
                                         println(" ".repeat(indention) + charsToRanges() + "->{")
-                                        println(" ".repeat(indention + 1) + "context.buffer.append(context.c)")
-                                        println(" ".repeat(indention + 1) + "context.next()")
+                                        println(" ".repeat(indention + 1) + "context.append()")
                                     }
                                     startEndMapElseBranch[identicalIdsMap[c.submodifierId]!!.first()] = "continue@loop$indention"
                                     println(" ".repeat(indention + 1) + "loop$indention@while(context.hasNext()){")
@@ -384,8 +378,7 @@ open class CharGroup {
                                 CharGroupModifier.AT_LEAST_ONE -> {
                                     if (!skipheader) {
                                         println(" ".repeat(indention) + charsToRanges() + "->{")
-                                        println(" ".repeat(indention + 1) + "context.buffer.append(context.c)")
-                                        println(" ".repeat(indention + 1) + "context.next()")
+                                        println(" ".repeat(indention + 1) + "context.append()")
                                     }
                                     startEndMapElseBranch[identicalIdsMap[c.submodifierId]!!.first()] = "flag$indention=true;continue@loop$indention"
                                     println(" ".repeat(indention + 1) + "var flag$indention=false")
@@ -399,7 +392,7 @@ open class CharGroup {
                                     println(" ".repeat(indention + 1) + "if (flag$indention) {")
                                     cc.myPrint(indention + 2, printmode, true)
                                     println(" ".repeat(indention + 1) + "} else {")
-                                    println(" ".repeat(indention + 2) + "throw Exception(\"unexpected char context.c\")")
+                                    println(" ".repeat(indention + 2) + "throw ParserExceptionUnexpectedChar(context)")
                                     println(" ".repeat(indention + 1) + "}")
                                     if (!skipheader) {
                                         println(" ".repeat(indention) + "}")
@@ -1103,8 +1096,26 @@ if (args.size == 1 && args[0] == "PARSER_CONTEXT") {
     println("class ParserContext(val input:CharIterator){")
     println(" @JvmField var c:Char=' '")
     println(" @JvmField var buffer=StringBuilder()")
+    println(" @JvmField var line=0")
+    println(" @JvmField var column=0")
     println(" fun next(){")
+    println("  val tmp=(c=='\\r') || (c=='\\n')")
+    println("  if(!hasNext){")
+    println("   throw ParserExceptionEOF()")
+    println("  }")
     println("  c=input.next()")
+    println("  if((c=='\\r') || (c=='\\n')){")
+    println("   if(!tmp){")
+    println("    line++")
+    println("    column=0")
+    println("   }")
+    println("  } else {")
+    println("   column++")
+    println("  }")
+    println(" }")
+    println(" fun append(){")
+    println("  buffer.append(c)")
+    println("  next()")
     println(" }")
     println(" fun hasNext():Boolean{")
     println("  return input.hasNext()")
