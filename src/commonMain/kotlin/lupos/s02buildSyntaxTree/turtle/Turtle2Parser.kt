@@ -1,8 +1,8 @@
 package lupos.s02buildSyntaxTree.turtle
-
 import kotlin.jvm.JvmField
 
 enum class Turtle2ParserState {
+    EOF,
     STATEMENT,
     PREDICATE,
     OBJECT,
@@ -29,6 +29,9 @@ abstract class Turtle2Parser(input: CharIterator) {
     fun turtleDoc() {
         while (true) {
             when (state) {
+Turtle2ParserState.EOF->{
+break
+}
                 Turtle2ParserState.STATEMENT -> {
                     statement()
                 }
@@ -47,15 +50,17 @@ abstract class Turtle2Parser(input: CharIterator) {
                 Turtle2ParserState.TRIPLE_END_OR_OBJECT_STRING -> {
                     triple_end_or_object_string()
                 }
-                else -> {
-                    throw Exception("unknown $state")
-                }
             }
         }
     }
 
     fun statement() {
+try{
         parse_ws(context, {})
+}catch(e:ParserExceptionEOF){
+state=Turtle2ParserState.EOF
+return
+}
         parse_statement(context,
                 onBASE = {
                     parse_ws_forced(context, {})
