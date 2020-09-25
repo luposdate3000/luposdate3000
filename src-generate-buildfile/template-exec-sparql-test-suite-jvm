@@ -3,8 +3,6 @@ Platform->jvm
 Launch->SparqlTestSuite
 Sanity->On
 Parallel->Threads
-Execution->Sequential
-BufferManager->Heap
 Dictionary->MultiMap
 TripleStore->BPlusTreePartition
 Endpoint->None

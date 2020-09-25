@@ -4,7 +4,7 @@ git config --global credential.helper store
 git config --global user.name "Benjamin Warnke"
 git config --global user.email "warnke@ifis.uni-luebeck.de"
 
-apt install docker docker-compose docker.io g++ gnuplot gzip htop lcov make maven net-tools ntfs-3g openjdk-8-jdk openjdk-11-jdk openjdk-14-jdk unzip zip poppler-utils texlive texlive-latex-extra
+apt install docker docker-compose docker.io g++ gnuplot gzip htop lcov make maven net-tools ntfs-3g openjdk-8-jdk openjdk-11-jdk openjdk-14-jdk unzip zip poppler-utils texlive texlive-latex-extra p7zip-full
 
 git clone https://sun01.pool.ifis.uni-luebeck.de/groppe/luposdate3000.git
 luposdate3000home=$(echo "$(pwd)/luposdate3000" | sed "s-luposdate3000.*-luposdate3000/-g")
@@ -108,6 +108,24 @@ dependencieshome=/opt
 	cd btc2010
 	wget https://km.aifb.kit.edu/projects/btc-2010/000-CONTENTS
 	wget -i 000-CONTENTS
+}
+#yago2
+{
+	cd /mnt/luposdate-testdata
+	mkdir yago2
+	cd yago2
+	wget https://yago-knowledge.org/data/yago2/yago-2.3.0-turtle.7z
+	7z x yago-2.3.0-turtle.7z
+	rm yago-2.3.0-turtle.7z statistics.txt
+}
+#barton
+{
+	cd /mnt/luposdate-testdata
+	mkdir barton
+	cd barton
+	wget http://dslam.cs.umd.edu/data/barton/barton.mods.rdf.tar.gz
+	tar -xzf barton.mods.rdf.tar.gz
+	rm barton.mods.rdf.tar.gz
 }
 #virtuoso
 {

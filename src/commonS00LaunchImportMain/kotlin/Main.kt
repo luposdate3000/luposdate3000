@@ -25,9 +25,11 @@ fun main(args: Array<String>) = Parallel.runBlocking {
             val lcit: LexerCharIterator
             if (inputFile.length() < Int.MAX_VALUE) {
                 val data = inputFile.readAsString()
+println("read as string data :: ${data.substring(9,100)}")
                 lcit = LexerCharIterator(data)
             } else {
                 val data = inputFile.readAsCharIterator()
+println("read as iterator :: $inputFileName")
                 lcit = LexerCharIterator(data)
             }
             val tit = TurtleScanner(lcit)
@@ -41,6 +43,7 @@ fun main(args: Array<String>) = Parallel.runBlocking {
                             out.writeInt(dict.getOrCreate(p))
                             out.writeInt(dict.getOrCreate(o))
                             cnt++
+println("$cnt $s $p $o")
                         }
                     }
                     x.ltit = ltit

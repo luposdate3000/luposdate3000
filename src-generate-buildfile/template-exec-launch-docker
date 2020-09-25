@@ -3,8 +3,6 @@ Platform->jvm
 Launch->Endpoint
 Sanity->On
 Parallel->Threads
-Execution->Sequential
-BufferManager->Heap
 Dictionary->MultiMap
 TripleStore->BPlusTree
 Endpoint->Korio

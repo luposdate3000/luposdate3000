@@ -3,8 +3,6 @@ Platform->jvm
 Launch->SparqlTestSuite
 Sanity->On
 Parallel->Coroutines
-Execution->Sequential
-BufferManager->Heap
 Dictionary->ObjectMap
 TripleStore->MapMapList
 Endpoint->JavaNet

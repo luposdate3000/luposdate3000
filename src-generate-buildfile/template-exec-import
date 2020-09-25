@@ -3,11 +3,9 @@ Platform->jvm
 Launch->Import
 Sanity->Off
 Parallel->Threads
-Execution->Sequential
-BufferManager->Heap
 Dictionary->MultiMap
 TripleStore->BPlusTree
-Endpoint->Korio
+Endpoint->JavaNet
 Jena->Off
 Set->BTree
 Map->BTree

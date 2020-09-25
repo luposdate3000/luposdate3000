@@ -117,6 +117,8 @@ class LexerCharIterator(@JvmField val content: CharIterator) {
     @JvmField
     var columnNumber = 0
 
+var debugcounterindex=0
+
     @JvmField
     var backArray: Array<Char> = Array<Char>(MAXSIZEPUTBACK) { ' ' }
 
@@ -150,7 +152,8 @@ class LexerCharIterator(@JvmField val content: CharIterator) {
             return result
         }
         if (this.content.hasNext()) {
-            val result = this.content.next()
+            val result = this.content.nextChar()
+debugcounterindex++
             updateLineNumber(result)
             return result
         }
@@ -218,6 +221,7 @@ class LexerCharIterator(@JvmField val content: CharIterator) {
         }
         for (i in number - bai downTo 0) {
             this.backArray[i] = content.nextChar()
+debugcounterindex++
             this.backArrayIndex++
         }
         return this.backArray[this.backArrayIndex - number - 1]

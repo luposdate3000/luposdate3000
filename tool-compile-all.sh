@@ -1,3 +1,4 @@
+#!/bin/bash
 for f in src-generate-buildfile/template*
 do
 	echo $f
@@ -6,6 +7,7 @@ do
 	ret=$?
 	if [ $ret -ne 0 ]
 	then
+		echo x
 #		exit $ret
 	fi
 done

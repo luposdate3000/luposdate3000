@@ -36,7 +36,6 @@ class POSSIBLE_KEYWORD(@JvmField val original_image: String, index: Int) : Token
 class UnexpectedEndOfLine(index: Int, lineNumber: Int, columnNumber: Int) : ParseError("Unexpected End of Line", index, lineNumber, columnNumber) {
     constructor(index: Int, iterator: LexerCharIterator) : this(index, iterator.lineNumber, iterator.columnNumber)
 }
-
 class TurtleScanner(@JvmField val iterator: LexerCharIterator) : TokenIterator {
     fun skip() {
         loop@ while (true) {
@@ -264,6 +263,7 @@ class TurtleScanner(@JvmField val iterator: LexerCharIterator) : TokenIterator {
             }
             PN_CHARS_BASE(c) -> {
                 var image = "" + c
+var debugCount=0
                 loopblanknode@ while (this.iterator.hasNext()) {
                     val nextNextChar = this.iterator.nextChar()
                     when {
@@ -290,6 +290,7 @@ class TurtleScanner(@JvmField val iterator: LexerCharIterator) : TokenIterator {
                             throw ParseError("Colon ':' expected!", this.iterator.index - 1, this.iterator.lineNumber, this.iterator.columnNumber)
                         }
                         PN_CHARS(nextNextChar) -> {
+println("${(iterator as LexerCharIterator).lineNumber} ${(iterator as LexerCharIterator).columnNumber} ${(iterator as LexerCharIterator).index} ${debugCount++} ${(iterator as LexerCharIterator).debugcounterindex} :: $image")
                             image += nextNextChar
                         }
                         nextNextChar == ':' -> {

@@ -3,8 +3,6 @@ Platform->jvm
 Launch->SparqlTestSuite
 Sanity->On
 Parallel->Threads
-Execution->Sequential
-BufferManager->Heap
 Dictionary->Small
 TripleStore->BPlusTree
 Endpoint->Korio
@@ -21,14 +19,9 @@ BulkImportBlockSize->32768
 AdvancedOptimisation->false
 Coverage->ECoverage.Disabled
 CoverageGenerate->Off
-ServerCommunication->Ktor
+ServerCommunication->Sockets
 MaxTriplesDuringTest->400
-ConnectionPool->Off
+ConnectionPool->On
 Inline->DontChange
 UsePartitions->true
 IteratorDebug->EPOPDebugMode.DEBUG1
-ServerCommunicationPacketSize->8196
-ServerCommunicationPort->2323
-ServerCommunication->Sockets
-ServerCommunicationTriplesPerPacket->128
-ConnectionPool->On

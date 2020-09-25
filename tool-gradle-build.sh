@@ -21,7 +21,6 @@ time	gradle --project-cache-dir="$cachefile" --info --stacktrace shadowJar > $lo
 		| uniq \
 		| grep -v "Expected performance impact from inlining is insignificant" \
 		| grep -v "kotlin/lupos/datastructures" \
-		| grep -v "kotlin/lupos/s02buildSyntaxTree" \
 		| grep -v "This class can only be used with the compiler argument" \
 		| grep -v "'UseExperimental' is deprecated. Please use OptI" \
 		| grep -v "Parameter.*is never used" \
@@ -29,6 +28,7 @@ time	gradle --project-cache-dir="$cachefile" --info --stacktrace shadowJar > $lo
 		| grep -v "commonConfig.*Unchecked cast: Any? to" \
 		| grep -v "commonConfig.*Unnecessary non-null assertion" \
 		| grep -v "This API is experimental. It could be removed or changed in future"
+#		| grep -v "kotlin/lupos/s02buildSyntaxTree"
 		exit $ret
 	fi
 	echo "java -Xmx60g -jar ${output}/libs/luposdate3000-all.jar \$@" > build/executable
