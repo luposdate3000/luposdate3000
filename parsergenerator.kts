@@ -238,7 +238,7 @@ open class CharGroup {
                         if (submodifierFlag) {
                             if (identicalIdsMap[submodifierId] != null) {
                                 println(" ".repeat(indention) + submodifier + " start(${identicalIdsMap[submodifierId]!!.first()})")
-				submodifierTail!!.myPrint(indention + 4, printmode)
+                                submodifierTail!!.myPrint(indention + 4, printmode)
                                 startEndMap[identicalIdsMap[submodifierId]!!.first()] = "$submodifier"
                             } else {
                                 println(" ".repeat(indention) + " start(null $submodifier)")
@@ -1100,7 +1100,7 @@ if (args.size == 1 && args[0] == "PARSER_CONTEXT") {
     println(" @JvmField var column=0")
     println(" fun next(){")
     println("  val tmp=(c=='\\r') || (c=='\\n')")
-    println("  if(!hasNext){")
+    println("  if(!hasNext()){")
     println("   throw ParserExceptionEOF()")
     println("  }")
     println("  c=input.next()")
@@ -1137,13 +1137,13 @@ if (args.size == 1 && args[0] == "PARSER_CONTEXT") {
     root.append(parseRegex(allTokens[args[args.size - 1]]!!, CharGroupFinish(args[args.size - 1])))
     println("){")
     println(" context.buffer.clear()")
-val comp=root.compile()
-try{
-    comp.myPrintRoot(false)
-}catch(e:Throwable){
-e.printStackTrace()
-    comp.myPrintRoot(true)
-}
+    val comp = root.compile()
+    try {
+        comp.myPrintRoot(false)
+    } catch (e: Throwable) {
+        e.printStackTrace()
+        comp.myPrintRoot(true)
+    }
     println("}")
 } else {
     println("usage :: ./parsergenerator.kts 'functionName' 'TOKEN1' ['TOKEN2'] ['TOKENn']")

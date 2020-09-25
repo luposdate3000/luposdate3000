@@ -18,9 +18,9 @@ import lupos.s02buildSyntaxTree.LexerCharIterator
 import lupos.s02buildSyntaxTree.LookAheadTokenIterator
 import lupos.s02buildSyntaxTree.sparql1_1.SPARQLParser
 import lupos.s02buildSyntaxTree.sparql1_1.TokenIteratorSPARQLParser
+import lupos.s02buildSyntaxTree.turtle.Turtle2Parser
 import lupos.s02buildSyntaxTree.turtle.TurtleParserWithStringTriples
 import lupos.s02buildSyntaxTree.turtle.TurtleScanner
-import lupos.s02buildSyntaxTree.turtle.Turtle2Parser
 import lupos.s03resultRepresentation.nodeGlobalDictionary
 import lupos.s03resultRepresentation.Value
 import lupos.s04logicalOperators.OPBase
@@ -70,41 +70,41 @@ object HttpEndpoint {
 /*Coverage Unreachable*/
     }
 
-suspend fun cleanup_turtle_files_old(fileNames: String, bnodeDict: MyMapStringIntPatriciaTrie): String{
-var res=StringBuilder()
-try {
-                for (fileName in fileNames.split(";")) {
-                    val f = File(fileName)
-                    val lcit: LexerCharIterator
-                    if (f.length() < Int.MAX_VALUE) {
-                        val data = f.readAsString()
-                        lcit = LexerCharIterator(data)
-                    } else {
-                        val data = f.readAsCharIterator()
-                        lcit = LexerCharIterator(data)
-                    }
-                    val tit = TurtleScanner(lcit)
-                    val ltit = LookAheadTokenIterator(tit, 3)
-                    try {
-                        val x = object : TurtleParserWithStringTriples() {
-                            suspend override fun consume_triple(s: String, p: String, o: String) {
-res.append("$s $p $o .\n")
-                            }
-                        }
-                        x.ltit = ltit
-                        x.turtleDoc()
-                    } catch (e: lupos.s02buildSyntaxTree.ParseError) {
-                        println("error in file '$fileName'")
-                        throw e
-                    }
+    suspend fun cleanup_turtle_files_old(fileNames: String, bnodeDict: MyMapStringIntPatriciaTrie): String {
+        var res = StringBuilder()
+        try {
+            for (fileName in fileNames.split(";")) {
+                val f = File(fileName)
+                val lcit: LexerCharIterator
+                if (f.length() < Int.MAX_VALUE) {
+                    val data = f.readAsString()
+                    lcit = LexerCharIterator(data)
+                } else {
+                    val data = f.readAsCharIterator()
+                    lcit = LexerCharIterator(data)
                 }
+                val tit = TurtleScanner(lcit)
+                val ltit = LookAheadTokenIterator(tit, 3)
+                try {
+                    val x = object : TurtleParserWithStringTriples() {
+                        suspend override fun consume_triple(s: String, p: String, o: String) {
+                            res.append("$s $p $o .\n")
+                        }
+                    }
+                    x.ltit = ltit
+                    x.turtleDoc()
+                } catch (e: lupos.s02buildSyntaxTree.ParseError) {
+                    println("error in file '$fileName'")
+                    throw e
+                }
+            }
         } catch (e: Throwable) {
             SanityCheck.println({ "TODO exception 15" })
             e.printStackTrace()
             throw e
         }
-return res.toString()
-}
+        return res.toString()
+    }
 
     suspend fun import_turtle_files_old(fileNames: String, bnodeDict: MyMapStringIntPatriciaTrie): String {
         try {
@@ -149,35 +149,37 @@ return res.toString()
         }
 /*Coverage Unreachable*/
     }
-suspend fun cleanup_turtle_files(fileNames: String, bnodeDict: MyMapStringIntPatriciaTrie): String {
-var res=StringBuilder()
+
+    suspend fun cleanup_turtle_files(fileNames: String, bnodeDict: MyMapStringIntPatriciaTrie): String {
+        var res = StringBuilder()
         try {
-                for (fileName in fileNames.split(";")) {
-                    val f = File(fileName)
-val iter:CharIterator
-                    if (f.length() < Int.MAX_VALUE) {
-                        val data = f.readAsString()
-iter=data.iterator()
-                    } else {
-iter=f.readAsCharIterator()
-                    }
-                    try {
-val x=object:Turtle2Parser(iter){
-                            override fun onTriple(triple: Array<String>) {
-res.append("${triple[0]} ${triple[1]} ${triple[2]} .\n")
-                            }
+            for (fileName in fileNames.split(";")) {
+                val f = File(fileName)
+                val iter: CharIterator
+                if (f.length() < Int.MAX_VALUE) {
+                    val data = f.readAsString()
+                    iter = data.iterator()
+                } else {
+                    iter = f.readAsCharIterator()
+                }
+                try {
+                    val x = object : Turtle2Parser(iter) {
+                        override fun onTriple(triple: Array<String>) {
+                            res.append("${triple[0]} ${triple[1]} ${triple[2]} .\n")
                         }
-                        x.turtleDoc()
-                    } catch (e: Exception) {
-                        println("fast_parser :: error in file '$fileName'")
-                        e.printStackTrace()
+                    }
+                    x.turtleDoc()
+                } catch (e: Exception) {
+                    println("fast_parser :: error in file '$fileName'")
+                    e.printStackTrace()
                 }
             }
         } catch (e: Throwable) {
-e.printStackTrace()
+            e.printStackTrace()
         }
-return res.toString()
+        return res.toString()
     }
+
     suspend fun import_turtle_files(fileNames: String, bnodeDict: MyMapStringIntPatriciaTrie): String {
         try {
             val usePredefinedDict = bnodeDict.size > 0
@@ -188,15 +190,15 @@ return res.toString()
                 for (fileName in fileNames.split(";")) {
                     println("importing file '$fileName'")
                     val f = File(fileName)
-val iter:CharIterator
+                    val iter: CharIterator
                     if (f.length() < Int.MAX_VALUE) {
                         val data = f.readAsString()
-iter=data.iterator()
+                        iter = data.iterator()
                     } else {
-iter=f.readAsCharIterator()
+                        iter = f.readAsCharIterator()
                     }
                     try {
-val x=object:Turtle2Parser(iter){
+                        val x = object : Turtle2Parser(iter) {
                             override fun onTriple(triple: Array<String>) {
                                 counter++
                                 bulk.insert(helper_import_turtle_files(bnodeDict, usePredefinedDict, triple[0]), helper_import_turtle_files(bnodeDict, usePredefinedDict, triple[1]), helper_import_turtle_files(bnodeDict, usePredefinedDict, triple[2]))
@@ -211,10 +213,11 @@ val x=object:Turtle2Parser(iter){
             }
             return "successfully imported $counter Triples"
         } catch (e: Throwable) {
-return import_turtle_files_old(fileNames,bnodeDict)
+            return import_turtle_files_old(fileNames, bnodeDict)
         }
 /*Coverage Unreachable*/
     }
+
     suspend fun import_intermediate_files(fileNames: String): String {
         try {
             val query = Query()

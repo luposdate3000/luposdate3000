@@ -140,8 +140,8 @@ object HttpEndpointLauncher {
                                     }
                                     /*Coverage Unreachable*/
                                 }
-"/cleanup/turtle/old" -> {
-val dict = MyMapStringIntPatriciaTrie()
+                                "/cleanup/turtle/old" -> {
+                                    val dict = MyMapStringIntPatriciaTrie()
                                     printHeaderSuccess(connectionOut)
                                     if (isPost) {
                                         connectionOut.print(HttpEndpoint.cleanup_turtle_files_old(content.toString(), dict))
@@ -150,8 +150,8 @@ val dict = MyMapStringIntPatriciaTrie()
                                     }
                                     /*Coverage Unreachable*/
                                 }
-"/cleanup/turtle/new" -> {
-val dict = MyMapStringIntPatriciaTrie()
+                                "/cleanup/turtle/new" -> {
+                                    val dict = MyMapStringIntPatriciaTrie()
                                     printHeaderSuccess(connectionOut)
                                     if (isPost) {
                                         connectionOut.print(HttpEndpoint.cleanup_turtle_files(content.toString(), dict))

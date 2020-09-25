@@ -226,7 +226,7 @@ class POPMergePartition(query: Query, projectedVariables: List<String>, val part
                         for (p in 0 until Partition.k) {
                             if (ringbufferReadHead[p] != ringbufferWriteHead[p]) {
                                 flag = false
-				break
+                                break
                             } else if (writerFinished[p] != 0) {
                                 finishedWriters++
                             }
