@@ -7,7 +7,7 @@ enum class CharGroupModifier {
     ACTION,
 }
 
-data class MyPair(var first: Char, var second: Char) : Comparable<MyPair> {
+data class MyPair(var first: Int, var second: Int) : Comparable<MyPair> {
     override fun compareTo(other: MyPair): Int {
         var res = first.compareTo(other.first)
         if (res != 0) {
@@ -52,19 +52,23 @@ open class CharGroup {
         return this
     }
 
-    fun addChars(c: Char): CharGroup {
+    fun addChars(c: Int): CharGroup {
         ranges.add(MyPair(c, c))
+        return this
+    }
+    fun addChars(c: Char): CharGroup {
+        ranges.add(MyPair(c.toInt(), c.toInt()))
         return this
     }
 
     fun addChars(str: String): CharGroup {
         for (c in str) {
-            ranges.add(MyPair(c, c))
+            ranges.add(MyPair(c.toInt(), c.toInt()))
         }
         return this
     }
 
-    fun addChars(cFrom: Char, cTo: Char): CharGroup {
+    fun addChars(cFrom: Int, cTo: Int): CharGroup {
         ranges.add(MyPair(cFrom, cTo))
         return this
     }
@@ -116,12 +120,16 @@ open class CharGroup {
         }
     }
 
-    constructor(c: Char, _modifier: CharGroupModifier = CharGroupModifier.ONE) {
+    constructor(c: Int, _modifier: CharGroupModifier = CharGroupModifier.ONE) {
         modifier = _modifier
         addChars(c)
     }
+    constructor(c: Char, _modifier: CharGroupModifier = CharGroupModifier.ONE) {
+        modifier = _modifier
+        addChars(c.toInt())
+    }
 
-    constructor(cFrom: Char, cTo: Char, _modifier: CharGroupModifier = CharGroupModifier.ONE) {
+    constructor(cFrom: Int, cTo: Int, _modifier: CharGroupModifier = CharGroupModifier.ONE) {
         modifier = _modifier
         addChars(cFrom, cTo)
     }
@@ -140,15 +148,15 @@ open class CharGroup {
         return this
     }
 
-    fun charToString(c: Char): String {
-        when (c) {
-            in 'a'..'z', in 'A'..'Z', in '0'..'9', '_', '~', '.', '-', '!', '$', '&', ' ', '(', ')', '*', '+', ',', ';', '=', '/', '?', '#', '@', '%', '<', '>', '{', '}', '[', ']' -> {
-                return "'$c'"
-            }
-            else -> {
-                return "0x${c.toInt().toString(16)}.toChar()"
-            }
-        }
+    fun charToString(c: Int): String {
+//        when (c) {
+//            in 'a'..'z', in 'A'..'Z', in '0'..'9', '_', '~', '.', '-', '!', '$', '&', ' ', '(', ')', '*', '+', ',', ';', '=', '/', '?', '#', '@', '%', '<', '>', '{', '}', '[', ']' -> {
+//                return "'$c'"
+//            }
+//            else -> {
+                return "0x${c.toInt().toString(16)}"
+//            }
+//        }
     }
 
     fun charsToRanges(): String {
@@ -751,7 +759,7 @@ fun parseRegex(str: String, tail: CharGroup): CharGroup {
                         t += str[idx]
                         idx++
                     }
-                    res.addChars(t.toInt(16).toChar())
+                    res.addChars(t.toInt(16))
                 } else {
                     throw Exception("$str $idx")
                 }
@@ -794,9 +802,9 @@ fun parseRegex(str: String, tail: CharGroup): CharGroup {
                                 t += str[idx]
                                 idx++
                             }
-                            tmp[tmp.size - 1].second = t.toInt(16).toChar()
+                            tmp[tmp.size - 1].second = t.toInt(16)
                         } else {
-                            tmp[tmp.size - 1].second = str[idx]
+                            tmp[tmp.size - 1].second = str[idx].toInt()
                             idx++
                         }
                     } else {
@@ -807,17 +815,17 @@ fun parseRegex(str: String, tail: CharGroup): CharGroup {
                                 t += str[idx]
                                 idx++
                             }
-                            val c = t.toInt(16).toChar()
+                            val c = t.toInt(16)
                             tmp.add(MyPair(c, c))
                         } else {
-                            tmp.add(MyPair(str[idx], str[idx]))
+                            tmp.add(MyPair(str[idx].toInt(), str[idx].toInt()))
                             idx++
                         }
                     }
                 }
                 if (negativeMode) {
                     var t = mutableListOf<MyPair>()
-                    t.add(MyPair(0x0.toChar(), 0xEFFFF.toChar()))
+                    t.add(MyPair(0x0, 0xEFFFF))
                     var change = true
                     while (change) {
                         change = false
@@ -1036,7 +1044,7 @@ var allTokens = mapOf(
         "PN_CHARS_BASE" to "([A-Z] | [a-z] | [#x00C0-#x00D6] | [#x00D8-#x00F6] | [#x00F8-#x02FF] | [#x0370-#x037D] | [#x037F-#x1FFF] | [#x200C-#x200D] | [#x2070-#x218F] | [#x2C00-#x2FEF] | [#x3001-#xD7FF] | [#xF900-#xFDCF] | [#xFDF0-#xFFFD] | [#x10000-#xEFFFF])",
         "PN_CHARS_U" to "(PN_CHARS_BASE | '_')",
         "PN_PREFIX" to "PN_CHARS_BASE ([.]* PN_CHARS)*",
-        "UCHAR" to "('\\\\' 'u' HEX HEX HEX HEX | '\\\\' 'U' HEX HEX HEX HEX HEX HEX HEX HEX)",
+        "UCHAR" to "(('\\\\') 'u' HEX HEX HEX HEX | ('\\\\') 'U' HEX HEX HEX HEX HEX HEX HEX HEX)",
         "PN_CHARS" to "(PN_CHARS_U | '-' | [0-9] | #x00B7 | [#x0300-#x036F] | [#x203F-#x2040])",
         "PN_LOCAL" to "(PN_CHARS_U | ':' | [0-9] | PLX) ([.]* (PN_CHARS | ':' | PLX))*",
         "ANON" to "'[' [#x20#x9#xD#xA]* ']'",
@@ -1093,24 +1101,44 @@ var root = CharGroup()
 //root.append(parseRegex(allTokens["STRING_LITERAL_SINGLE_QUOTE"]!!, CharGroupFinish("STRING_LITERAL_SINGLE_QUOTE")))
 
 if (args.size == 1 && args[0] == "PARSER_CONTEXT") {
-    println("class ParserContext(val input:CharIterator){")
-    println(" @JvmField var c:Char=' '")
+    println("class ParserContext(val input:ByteIterator){")
+    println(" companion object{")
+    println("  const val EOF=0x7fffffff.toInt()")
+    println(" }")
+    println(" @JvmField var c:Int=0")
     println(" @JvmField var buffer=StringBuilder()")
-    println(" @JvmField var finished=false")
     println(" @JvmField var line=0")
     println(" @JvmField var column=0")
     println(" fun next(){")
-    println("  val tmp=(c=='\\r') || (c=='\\n')")
+    println("  val tmp=(c=='\\r'.toInt()) || (c=='\\n'.toInt())")
     println("  if(!hasNext()){//append 1 whitespace to the end of the input to prevent unexpected crashes")
-    println("   if(finished){")
+    println("   if(c==EOF){")
     println("    throw ParserExceptionEOF()")
     println("   } else {")
-    println("    finished=true")
-    println("    c=' '")
+    println("    c=EOF")
     println("   }")
     println("  }")
-    println("  c=input.next()")
-    println("  if((c=='\\r') || (c=='\\n')){")
+    println("  val t:Int=input.nextByte() and 0xff")
+    println("  if((t and 0x80)==0){")
+    println("   //1byte")
+    println("   c=t")
+    println("  }else if((t and 0x20)==0){")
+    println("   //2byte")
+    println("   c=(t and 0x1f) shl 6")
+    println("   c=c or (input.nextByte() and 0x3f)")
+    println("  }else if((t and 0x10)==0){")
+    println("   //3byte")
+    println("   c=(t and 0x0f) shl 12")
+    println("   c=c or (input.nextByte() and 0x3f) shl 6")
+    println("   c=c or (input.nextByte() and 0x3f)")
+    println("  }else{")
+    println("   //4byte")
+    println("   c=(t and 0x07) shl 18")
+    println("   c=c or (input.nextByte() and 0x3f) shl 12")
+    println("   c=c or (input.nextByte() and 0x3f) shl 6")
+    println("   c=c or (input.nextByte() and 0x3f)")
+    println("  }")
+    println("  if((c=='\\r'.toInt()) || (c=='\\n'.toInt())){")
     println("   if(!tmp){")
     println("    line++")
     println("    column=0")
@@ -1120,7 +1148,13 @@ if (args.size == 1 && args[0] == "PARSER_CONTEXT") {
     println("  }")
     println(" }")
     println(" fun append(){")
-    println("  buffer.append(c)")
+    println("  if(c<=0xd7ff ||(c>=0xe000 && c<=0xffff)){")
+    println("   buffer.append(c)")
+    println("  }else{")
+    println("   c-=0x100000")
+    println("   buffer.append(0xd800+((c shr 10)and 0x03ff))")
+    println("   buffer.append(0xdc00+(c and 0x03ff))")
+    println("  }")
     println("  next()")
     println(" }")
     println(" fun hasNext():Boolean{")

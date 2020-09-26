@@ -4,24 +4,44 @@ import lupos.s00misc.Luposdate3000Exception
 open class ParserException(msg:String):Luposdate3000Exception("ParserContext",msg)
 class ParserExceptionEOF():ParserException("EOF")
 class ParserExceptionUnexpectedChar(context:ParserContext):ParserException("unexpected char ${context.c} at ${context.line}:${context.column}")
-class ParserContext(val input:CharIterator){
- @JvmField var c:Char=' '
+class ParserContext(val input:ByteIterator){
+ companion object{
+  const val EOF=0x7fffffff.toInt()
+ }
+ @JvmField var c:Int=0
  @JvmField var buffer=StringBuilder()
- @JvmField var finished=false
  @JvmField var line=0
  @JvmField var column=0
  fun next(){
-  val tmp=(c=='\r') || (c=='\n')
+  val tmp=(c=='\r'.toInt()) || (c=='\n'.toInt())
   if(!hasNext()){//append 1 whitespace to the end of the input to prevent unexpected crashes
-   if(finished){
+   if(c==EOF){
     throw ParserExceptionEOF()
    } else {
-    finished=true
-    c=' '
+    c=EOF
    }
   }
-  c=input.next()
-  if((c=='\r') || (c=='\n')){
+  val t:Int=input.nextByte() and 0xff
+  if((t and 0x80)==0){
+   //1byte
+   c=t
+  }else if((t and 0x20)==0){
+   //2byte
+   c=(t and 0x1f) shl 6
+   c=c or (input.nextByte() and 0x3f)
+  }else if((t and 0x10)==0){
+   //3byte
+   c=(t and 0x0f) shl 12
+   c=c or (input.nextByte() and 0x3f) shl 6
+   c=c or (input.nextByte() and 0x3f)
+  }else{
+   //4byte
+   c=(t and 0x07) shl 18
+   c=c or (input.nextByte() and 0x3f) shl 12
+   c=c or (input.nextByte() and 0x3f) shl 6
+   c=c or (input.nextByte() and 0x3f)
+  }
+  if((c=='\r'.toInt()) || (c=='\n'.toInt())){
    if(!tmp){
     line++
     column=0
@@ -31,7 +51,13 @@ class ParserContext(val input:CharIterator){
   }
  }
  fun append(){
-  buffer.append(c)
+  if(c<=0xd7ff ||(c>=0xe000 && c<=0xffff)){
+   buffer.append(c)
+  }else{
+   c-=0x100000
+   buffer.append(0xd800+((c shr 10)and 0x03ff))
+   buffer.append(0xdc00+(c and 0x03ff))
+  }
   next()
  }
  fun hasNext():Boolean{
@@ -49,7 +75,7 @@ inline fun parse_dot(context:ParserContext,
 ){
  context.buffer.clear()
  when(context.c){
-  '.'->{
+  0x2e->{
    context.append()
    onDOT()
    return
@@ -65,7 +91,7 @@ inline fun parse_ws(context:ParserContext,
  context.buffer.clear()
  loop0@while(context.hasNext()){
   when(context.c){
-   0x9.toChar(),0xa.toChar(),0xd.toChar(),' '->{
+   0x9,0xa,0xd,0x20->{
     context.append()
    }
    else->{
@@ -81,11 +107,11 @@ inline fun parse_ws_forced(context:ParserContext,
 ){
  context.buffer.clear()
  when(context.c){
-  0x9.toChar(),0xa.toChar(),0xd.toChar(),' '->{
+  0x9,0xa,0xd,0x20->{
    context.append()
    loop2@while(context.hasNext()){
     when(context.c){
-     0x9.toChar(),0xa.toChar(),0xd.toChar(),' '->{
+     0x9,0xa,0xd,0x20->{
       context.append()
      }
      else->{
@@ -112,16 +138,16 @@ inline fun parse_statement(context:ParserContext,
 ){
  context.buffer.clear()
  when(context.c){
-  'B'->{
+  0x42->{
    context.append()
    when(context.c){
-    'A'->{
+    0x41->{
      context.append()
      when(context.c){
-      'S'->{
+      0x53->{
        context.append()
        when(context.c){
-        'E'->{
+        0x45->{
          context.append()
          onBASE()
          return
@@ -141,22 +167,22 @@ inline fun parse_statement(context:ParserContext,
     }
    }
   }
-  'P'->{
+  0x50->{
    context.append()
    when(context.c){
-    'R'->{
+    0x52->{
      context.append()
      when(context.c){
-      'E'->{
+      0x45->{
        context.append()
        when(context.c){
-        'F'->{
+        0x46->{
          context.append()
          when(context.c){
-          'I'->{
+          0x49->{
            context.append()
            when(context.c){
-            'X'->{
+            0x58->{
              context.append()
              onPREFIX()
              return
@@ -186,19 +212,19 @@ inline fun parse_statement(context:ParserContext,
     }
    }
   }
-  '@'->{
+  0x40->{
    context.append()
    when(context.c){
-    'b'->{
+    0x62->{
      context.append()
      when(context.c){
-      'a'->{
+      0x61->{
        context.append()
        when(context.c){
-        's'->{
+        0x73->{
          context.append()
          when(context.c){
-          'e'->{
+          0x65->{
            context.append()
            onBASE2()
            return
@@ -218,22 +244,22 @@ inline fun parse_statement(context:ParserContext,
       }
      }
     }
-    'p'->{
+    0x70->{
      context.append()
      when(context.c){
-      'r'->{
+      0x72->{
        context.append()
        when(context.c){
-        'e'->{
+        0x65->{
          context.append()
          when(context.c){
-          'f'->{
+          0x66->{
            context.append()
            when(context.c){
-            'i'->{
+            0x69->{
              context.append()
              when(context.c){
-              'x'->{
+              0x78->{
                context.append()
                onPREFIX2()
                return
@@ -268,30 +294,30 @@ inline fun parse_statement(context:ParserContext,
     }
    }
   }
-  '<'->{
+  0x3c->{
    context.append()
    loop2@while(context.hasNext()){
     when(context.c){
-     '!',in ('#'..';'),'=',in ('?'..'['),']','_',in ('a'..'z'),in ('~'..0xffff.toChar())->{
+     0x21,in (0x23..0x3b),0x3d,in (0x3f..0x5b),0x5d,0x5f,in (0x61..0x7a),in (0x7e..0xeffff)->{
       context.append()
       continue@loop2
      }
-     0x5c.toChar()->{
+     0x5c->{
       context.append()
       when(context.c){
-       'u'->{
+       0x75->{
         context.append()
         when(context.c){
-         in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+         in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
           context.append()
           when(context.c){
-           in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+           in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
             context.append()
             when(context.c){
-             in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+             in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
               context.append()
               when(context.c){
-               in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+               in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                 context.append()
                 continue@loop2
                }
@@ -315,31 +341,31 @@ inline fun parse_statement(context:ParserContext,
          }
         }
        }
-       'U'->{
+       0x55->{
         context.append()
         when(context.c){
-         in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+         in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
           context.append()
           when(context.c){
-           in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+           in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
             context.append()
             when(context.c){
-             in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+             in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
               context.append()
               when(context.c){
-               in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+               in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                 context.append()
                 when(context.c){
-                 in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+                 in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                   context.append()
                   when(context.c){
-                   in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+                   in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                     context.append()
                     when(context.c){
-                     in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+                     in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                       context.append()
                       when(context.c){
-                       in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+                       in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                         context.append()
                         continue@loop2
                        }
@@ -394,7 +420,7 @@ inline fun parse_statement(context:ParserContext,
     }
    }
    when(context.c){
-    '>'->{
+    0x3e->{
      context.append()
      onIRIREF()
      return
@@ -404,12 +430,12 @@ inline fun parse_statement(context:ParserContext,
     }
    }
   }
-  in (0x0.toChar()..0xffff.toChar()),in ('A'..'Z'),in ('a'..'z'),in (0xc0.toChar()..0xd6.toChar()),in (0xd8.toChar()..0xf6.toChar()),in (0xf8.toChar()..0x2ff.toChar()),in (0x370.toChar()..0x37d.toChar()),in (0x37f.toChar()..0x1fff.toChar()),in (0x200c.toChar()..0x200d.toChar()),in (0x2070.toChar()..0x218f.toChar()),in (0x2c00.toChar()..0x2fef.toChar()),in (0x3001.toChar()..0xd7ff.toChar()),in (0xf900.toChar()..0xfdcf.toChar()),in (0xfdf0.toChar()..0xfffd.toChar())->{
+  in (0x41..0x5a),in (0x61..0x7a),in (0xc0..0xd6),in (0xd8..0xf6),in (0xf8..0x2ff),in (0x370..0x37d),in (0x37f..0x1fff),in (0x200c..0x200d),in (0x2070..0x218f),in (0x2c00..0x2fef),in (0x3001..0xd7ff),in (0xf900..0xfdcf),in (0xfdf0..0xfffd),in (0x10000..0xeffff)->{
    context.append()
    loop2@while(context.hasNext()){
     loop3@while(context.hasNext()){
      when(context.c){
-      '.'->{
+      0x2e->{
        context.append()
       }
       else->{
@@ -418,7 +444,7 @@ inline fun parse_statement(context:ParserContext,
      }
     }
     when(context.c){
-     in (0x0.toChar()..0xffff.toChar()),'-',in ('0'..'9'),in ('A'..'Z'),'_',in ('a'..'z'),0xb7.toChar(),in (0xc0.toChar()..0xd6.toChar()),in (0xd8.toChar()..0xf6.toChar()),in (0xf8.toChar()..0x2ff.toChar()),in (0x300.toChar()..0x36f.toChar()),in (0x370.toChar()..0x37d.toChar()),in (0x37f.toChar()..0x1fff.toChar()),in (0x200c.toChar()..0x200d.toChar()),in (0x203f.toChar()..0x2040.toChar()),in (0x2070.toChar()..0x218f.toChar()),in (0x2c00.toChar()..0x2fef.toChar()),in (0x3001.toChar()..0xd7ff.toChar()),in (0xf900.toChar()..0xfdcf.toChar()),in (0xfdf0.toChar()..0xfffd.toChar())->{
+     0x2d,in (0x30..0x39),in (0x41..0x5a),0x5f,in (0x61..0x7a),0xb7,in (0xc0..0xd6),in (0xd8..0xf6),in (0xf8..0x2ff),in (0x300..0x36f),in (0x370..0x37d),in (0x37f..0x1fff),in (0x200c..0x200d),in (0x203f..0x2040),in (0x2070..0x218f),in (0x2c00..0x2fef),in (0x3001..0xd7ff),in (0xf900..0xfdcf),in (0xfdf0..0xfffd),in (0x10000..0xeffff)->{
       context.append()
       continue@loop2
      }
@@ -428,7 +454,7 @@ inline fun parse_statement(context:ParserContext,
     }
    }
    when(context.c){
-    0x3a.toChar()->{
+    0x3a->{
      context.append()
      onPNAME_NS()
      return
@@ -438,23 +464,23 @@ inline fun parse_statement(context:ParserContext,
     }
    }
   }
-  0x3a.toChar()->{
+  0x3a->{
    context.append()
    onPNAME_NS()
    return
   }
-  '_'->{
+  0x5f->{
    context.append()
    when(context.c){
-    0x3a.toChar()->{
+    0x3a->{
      context.append()
      when(context.c){
-      in (0x0.toChar()..0xffff.toChar()),in ('0'..'9'),in ('A'..'Z'),'_',in ('a'..'z'),in (0xc0.toChar()..0xd6.toChar()),in (0xd8.toChar()..0xf6.toChar()),in (0xf8.toChar()..0x2ff.toChar()),in (0x370.toChar()..0x37d.toChar()),in (0x37f.toChar()..0x1fff.toChar()),in (0x200c.toChar()..0x200d.toChar()),in (0x2070.toChar()..0x218f.toChar()),in (0x2c00.toChar()..0x2fef.toChar()),in (0x3001.toChar()..0xd7ff.toChar()),in (0xf900.toChar()..0xfdcf.toChar()),in (0xfdf0.toChar()..0xfffd.toChar())->{
+      in (0x30..0x39),in (0x41..0x5a),0x5f,in (0x61..0x7a),in (0xc0..0xd6),in (0xd8..0xf6),in (0xf8..0x2ff),in (0x370..0x37d),in (0x37f..0x1fff),in (0x200c..0x200d),in (0x2070..0x218f),in (0x2c00..0x2fef),in (0x3001..0xd7ff),in (0xf900..0xfdcf),in (0xfdf0..0xfffd),in (0x10000..0xeffff)->{
        context.append()
        loop6@while(context.hasNext()){
         loop7@while(context.hasNext()){
          when(context.c){
-          '.'->{
+          0x2e->{
            context.append()
           }
           else->{
@@ -463,7 +489,7 @@ inline fun parse_statement(context:ParserContext,
          }
         }
         when(context.c){
-         in (0x0.toChar()..0xffff.toChar()),'-',in ('0'..'9'),in ('A'..'Z'),'_',in ('a'..'z'),0xb7.toChar(),in (0xc0.toChar()..0xd6.toChar()),in (0xd8.toChar()..0xf6.toChar()),in (0xf8.toChar()..0x2ff.toChar()),in (0x300.toChar()..0x36f.toChar()),in (0x370.toChar()..0x37d.toChar()),in (0x37f.toChar()..0x1fff.toChar()),in (0x200c.toChar()..0x200d.toChar()),in (0x203f.toChar()..0x2040.toChar()),in (0x2070.toChar()..0x218f.toChar()),in (0x2c00.toChar()..0x2fef.toChar()),in (0x3001.toChar()..0xd7ff.toChar()),in (0xf900.toChar()..0xfdcf.toChar()),in (0xfdf0.toChar()..0xfffd.toChar())->{
+         0x2d,in (0x30..0x39),in (0x41..0x5a),0x5f,in (0x61..0x7a),0xb7,in (0xc0..0xd6),in (0xd8..0xf6),in (0xf8..0x2ff),in (0x300..0x36f),in (0x370..0x37d),in (0x37f..0x1fff),in (0x200c..0x200d),in (0x203f..0x2040),in (0x2070..0x218f),in (0x2c00..0x2fef),in (0x3001..0xd7ff),in (0xf900..0xfdcf),in (0xfdf0..0xfffd),in (0x10000..0xeffff)->{
           context.append()
           continue@loop6
          }
@@ -495,30 +521,30 @@ inline fun parse_base(context:ParserContext,
 ){
  context.buffer.clear()
  when(context.c){
-  '<'->{
+  0x3c->{
    context.append()
    loop2@while(context.hasNext()){
     when(context.c){
-     '!',in ('#'..';'),'=',in ('?'..'['),']','_',in ('a'..'z'),in ('~'..0xffff.toChar())->{
+     0x21,in (0x23..0x3b),0x3d,in (0x3f..0x5b),0x5d,0x5f,in (0x61..0x7a),in (0x7e..0xeffff)->{
       context.append()
       continue@loop2
      }
-     0x5c.toChar()->{
+     0x5c->{
       context.append()
       when(context.c){
-       'u'->{
+       0x75->{
         context.append()
         when(context.c){
-         in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+         in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
           context.append()
           when(context.c){
-           in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+           in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
             context.append()
             when(context.c){
-             in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+             in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
               context.append()
               when(context.c){
-               in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+               in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                 context.append()
                 continue@loop2
                }
@@ -542,31 +568,31 @@ inline fun parse_base(context:ParserContext,
          }
         }
        }
-       'U'->{
+       0x55->{
         context.append()
         when(context.c){
-         in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+         in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
           context.append()
           when(context.c){
-           in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+           in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
             context.append()
             when(context.c){
-             in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+             in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
               context.append()
               when(context.c){
-               in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+               in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                 context.append()
                 when(context.c){
-                 in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+                 in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                   context.append()
                   when(context.c){
-                   in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+                   in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                     context.append()
                     when(context.c){
-                     in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+                     in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                       context.append()
                       when(context.c){
-                       in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+                       in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                         context.append()
                         continue@loop2
                        }
@@ -621,7 +647,7 @@ inline fun parse_base(context:ParserContext,
     }
    }
    when(context.c){
-    '>'->{
+    0x3e->{
      context.append()
      onIRIREF()
      return
@@ -641,12 +667,12 @@ inline fun parse_prefix(context:ParserContext,
 ){
  context.buffer.clear()
  when(context.c){
-  in (0x0.toChar()..0xffff.toChar()),in ('A'..'Z'),in ('a'..'z'),in (0xc0.toChar()..0xd6.toChar()),in (0xd8.toChar()..0xf6.toChar()),in (0xf8.toChar()..0x2ff.toChar()),in (0x370.toChar()..0x37d.toChar()),in (0x37f.toChar()..0x1fff.toChar()),in (0x200c.toChar()..0x200d.toChar()),in (0x2070.toChar()..0x218f.toChar()),in (0x2c00.toChar()..0x2fef.toChar()),in (0x3001.toChar()..0xd7ff.toChar()),in (0xf900.toChar()..0xfdcf.toChar()),in (0xfdf0.toChar()..0xfffd.toChar())->{
+  in (0x41..0x5a),in (0x61..0x7a),in (0xc0..0xd6),in (0xd8..0xf6),in (0xf8..0x2ff),in (0x370..0x37d),in (0x37f..0x1fff),in (0x200c..0x200d),in (0x2070..0x218f),in (0x2c00..0x2fef),in (0x3001..0xd7ff),in (0xf900..0xfdcf),in (0xfdf0..0xfffd),in (0x10000..0xeffff)->{
    context.append()
    loop2@while(context.hasNext()){
     loop3@while(context.hasNext()){
      when(context.c){
-      '.'->{
+      0x2e->{
        context.append()
       }
       else->{
@@ -655,7 +681,7 @@ inline fun parse_prefix(context:ParserContext,
      }
     }
     when(context.c){
-     in (0x0.toChar()..0xffff.toChar()),'-',in ('0'..'9'),in ('A'..'Z'),'_',in ('a'..'z'),0xb7.toChar(),in (0xc0.toChar()..0xd6.toChar()),in (0xd8.toChar()..0xf6.toChar()),in (0xf8.toChar()..0x2ff.toChar()),in (0x300.toChar()..0x36f.toChar()),in (0x370.toChar()..0x37d.toChar()),in (0x37f.toChar()..0x1fff.toChar()),in (0x200c.toChar()..0x200d.toChar()),in (0x203f.toChar()..0x2040.toChar()),in (0x2070.toChar()..0x218f.toChar()),in (0x2c00.toChar()..0x2fef.toChar()),in (0x3001.toChar()..0xd7ff.toChar()),in (0xf900.toChar()..0xfdcf.toChar()),in (0xfdf0.toChar()..0xfffd.toChar())->{
+     0x2d,in (0x30..0x39),in (0x41..0x5a),0x5f,in (0x61..0x7a),0xb7,in (0xc0..0xd6),in (0xd8..0xf6),in (0xf8..0x2ff),in (0x300..0x36f),in (0x370..0x37d),in (0x37f..0x1fff),in (0x200c..0x200d),in (0x203f..0x2040),in (0x2070..0x218f),in (0x2c00..0x2fef),in (0x3001..0xd7ff),in (0xf900..0xfdcf),in (0xfdf0..0xfffd),in (0x10000..0xeffff)->{
       context.append()
       continue@loop2
      }
@@ -665,7 +691,7 @@ inline fun parse_prefix(context:ParserContext,
     }
    }
    when(context.c){
-    0x3a.toChar()->{
+    0x3a->{
      context.append()
      onPNAME_NS()
      return
@@ -675,7 +701,7 @@ inline fun parse_prefix(context:ParserContext,
     }
    }
   }
-  0x3a.toChar()->{
+  0x3a->{
    context.append()
    onPNAME_NS()
    return
@@ -690,30 +716,30 @@ inline fun parse_prefix2(context:ParserContext,
 ){
  context.buffer.clear()
  when(context.c){
-  '<'->{
+  0x3c->{
    context.append()
    loop2@while(context.hasNext()){
     when(context.c){
-     '!',in ('#'..';'),'=',in ('?'..'['),']','_',in ('a'..'z'),in ('~'..0xffff.toChar())->{
+     0x21,in (0x23..0x3b),0x3d,in (0x3f..0x5b),0x5d,0x5f,in (0x61..0x7a),in (0x7e..0xeffff)->{
       context.append()
       continue@loop2
      }
-     0x5c.toChar()->{
+     0x5c->{
       context.append()
       when(context.c){
-       'u'->{
+       0x75->{
         context.append()
         when(context.c){
-         in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+         in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
           context.append()
           when(context.c){
-           in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+           in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
             context.append()
             when(context.c){
-             in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+             in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
               context.append()
               when(context.c){
-               in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+               in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                 context.append()
                 continue@loop2
                }
@@ -737,31 +763,31 @@ inline fun parse_prefix2(context:ParserContext,
          }
         }
        }
-       'U'->{
+       0x55->{
         context.append()
         when(context.c){
-         in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+         in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
           context.append()
           when(context.c){
-           in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+           in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
             context.append()
             when(context.c){
-             in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+             in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
               context.append()
               when(context.c){
-               in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+               in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                 context.append()
                 when(context.c){
-                 in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+                 in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                   context.append()
                   when(context.c){
-                   in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+                   in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                     context.append()
                     when(context.c){
-                     in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+                     in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                       context.append()
                       when(context.c){
-                       in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+                       in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                         context.append()
                         continue@loop2
                        }
@@ -816,7 +842,7 @@ inline fun parse_prefix2(context:ParserContext,
     }
    }
    when(context.c){
-    '>'->{
+    0x3e->{
      context.append()
      onIRIREF()
      return
@@ -838,35 +864,35 @@ inline fun parse_predicate(context:ParserContext,
 ){
  context.buffer.clear()
  when(context.c){
-  'a'->{
+  0x61->{
    context.append()
    onVERB1()
    return
   }
-  '<'->{
+  0x3c->{
    context.append()
    loop2@while(context.hasNext()){
     when(context.c){
-     '!',in ('#'..';'),'=',in ('?'..'['),']','_',in ('a'..'z'),in ('~'..0xffff.toChar())->{
+     0x21,in (0x23..0x3b),0x3d,in (0x3f..0x5b),0x5d,0x5f,in (0x61..0x7a),in (0x7e..0xeffff)->{
       context.append()
       continue@loop2
      }
-     0x5c.toChar()->{
+     0x5c->{
       context.append()
       when(context.c){
-       'u'->{
+       0x75->{
         context.append()
         when(context.c){
-         in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+         in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
           context.append()
           when(context.c){
-           in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+           in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
             context.append()
             when(context.c){
-             in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+             in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
               context.append()
               when(context.c){
-               in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+               in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                 context.append()
                 continue@loop2
                }
@@ -890,31 +916,31 @@ inline fun parse_predicate(context:ParserContext,
          }
         }
        }
-       'U'->{
+       0x55->{
         context.append()
         when(context.c){
-         in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+         in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
           context.append()
           when(context.c){
-           in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+           in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
             context.append()
             when(context.c){
-             in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+             in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
               context.append()
               when(context.c){
-               in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+               in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                 context.append()
                 when(context.c){
-                 in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+                 in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                   context.append()
                   when(context.c){
-                   in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+                   in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                     context.append()
                     when(context.c){
-                     in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+                     in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                       context.append()
                       when(context.c){
-                       in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+                       in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                         context.append()
                         continue@loop2
                        }
@@ -969,7 +995,7 @@ inline fun parse_predicate(context:ParserContext,
     }
    }
    when(context.c){
-    '>'->{
+    0x3e->{
      context.append()
      onIRIREF()
      return
@@ -979,12 +1005,12 @@ inline fun parse_predicate(context:ParserContext,
     }
    }
   }
-  in (0x0.toChar()..0xffff.toChar()),in ('A'..'Z'),in ('a'..'z'),in (0xc0.toChar()..0xd6.toChar()),in (0xd8.toChar()..0xf6.toChar()),in (0xf8.toChar()..0x2ff.toChar()),in (0x370.toChar()..0x37d.toChar()),in (0x37f.toChar()..0x1fff.toChar()),in (0x200c.toChar()..0x200d.toChar()),in (0x2070.toChar()..0x218f.toChar()),in (0x2c00.toChar()..0x2fef.toChar()),in (0x3001.toChar()..0xd7ff.toChar()),in (0xf900.toChar()..0xfdcf.toChar()),in (0xfdf0.toChar()..0xfffd.toChar())->{
+  in (0x41..0x5a),in (0x61..0x7a),in (0xc0..0xd6),in (0xd8..0xf6),in (0xf8..0x2ff),in (0x370..0x37d),in (0x37f..0x1fff),in (0x200c..0x200d),in (0x2070..0x218f),in (0x2c00..0x2fef),in (0x3001..0xd7ff),in (0xf900..0xfdcf),in (0xfdf0..0xfffd),in (0x10000..0xeffff)->{
    context.append()
    loop2@while(context.hasNext()){
     loop3@while(context.hasNext()){
      when(context.c){
-      '.'->{
+      0x2e->{
        context.append()
       }
       else->{
@@ -993,7 +1019,7 @@ inline fun parse_predicate(context:ParserContext,
      }
     }
     when(context.c){
-     in (0x0.toChar()..0xffff.toChar()),'-',in ('0'..'9'),in ('A'..'Z'),'_',in ('a'..'z'),0xb7.toChar(),in (0xc0.toChar()..0xd6.toChar()),in (0xd8.toChar()..0xf6.toChar()),in (0xf8.toChar()..0x2ff.toChar()),in (0x300.toChar()..0x36f.toChar()),in (0x370.toChar()..0x37d.toChar()),in (0x37f.toChar()..0x1fff.toChar()),in (0x200c.toChar()..0x200d.toChar()),in (0x203f.toChar()..0x2040.toChar()),in (0x2070.toChar()..0x218f.toChar()),in (0x2c00.toChar()..0x2fef.toChar()),in (0x3001.toChar()..0xd7ff.toChar()),in (0xf900.toChar()..0xfdcf.toChar()),in (0xfdf0.toChar()..0xfffd.toChar())->{
+     0x2d,in (0x30..0x39),in (0x41..0x5a),0x5f,in (0x61..0x7a),0xb7,in (0xc0..0xd6),in (0xd8..0xf6),in (0xf8..0x2ff),in (0x300..0x36f),in (0x370..0x37d),in (0x37f..0x1fff),in (0x200c..0x200d),in (0x203f..0x2040),in (0x2070..0x218f),in (0x2c00..0x2fef),in (0x3001..0xd7ff),in (0xf900..0xfdcf),in (0xfdf0..0xfffd),in (0x10000..0xeffff)->{
       context.append()
       continue@loop2
      }
@@ -1003,7 +1029,7 @@ inline fun parse_predicate(context:ParserContext,
     }
    }
    when(context.c){
-    0x3a.toChar()->{
+    0x3a->{
      context.append()
      onPNAME_NS()
      return
@@ -1013,7 +1039,7 @@ inline fun parse_predicate(context:ParserContext,
     }
    }
   }
-  0x3a.toChar()->{
+  0x3a->{
    context.append()
    onPNAME_NS()
    return
@@ -1038,30 +1064,30 @@ inline fun parse_obj(context:ParserContext,
 ){
  context.buffer.clear()
  when(context.c){
-  '<'->{
+  0x3c->{
    context.append()
    loop2@while(context.hasNext()){
     when(context.c){
-     '!',in ('#'..';'),'=',in ('?'..'['),']','_',in ('a'..'z'),in ('~'..0xffff.toChar())->{
+     0x21,in (0x23..0x3b),0x3d,in (0x3f..0x5b),0x5d,0x5f,in (0x61..0x7a),in (0x7e..0xeffff)->{
       context.append()
       continue@loop2
      }
-     0x5c.toChar()->{
+     0x5c->{
       context.append()
       when(context.c){
-       'u'->{
+       0x75->{
         context.append()
         when(context.c){
-         in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+         in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
           context.append()
           when(context.c){
-           in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+           in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
             context.append()
             when(context.c){
-             in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+             in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
               context.append()
               when(context.c){
-               in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+               in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                 context.append()
                 continue@loop2
                }
@@ -1085,31 +1111,31 @@ inline fun parse_obj(context:ParserContext,
          }
         }
        }
-       'U'->{
+       0x55->{
         context.append()
         when(context.c){
-         in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+         in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
           context.append()
           when(context.c){
-           in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+           in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
             context.append()
             when(context.c){
-             in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+             in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
               context.append()
               when(context.c){
-               in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+               in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                 context.append()
                 when(context.c){
-                 in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+                 in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                   context.append()
                   when(context.c){
-                   in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+                   in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                     context.append()
                     when(context.c){
-                     in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+                     in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                       context.append()
                       when(context.c){
-                       in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+                       in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                         context.append()
                         continue@loop2
                        }
@@ -1164,7 +1190,7 @@ inline fun parse_obj(context:ParserContext,
     }
    }
    when(context.c){
-    '>'->{
+    0x3e->{
      context.append()
      onIRIREF()
      return
@@ -1174,12 +1200,12 @@ inline fun parse_obj(context:ParserContext,
     }
    }
   }
-  in (0x0.toChar()..0xffff.toChar()),in ('A'..'Z'),in ('a'..'z'),in (0xc0.toChar()..0xd6.toChar()),in (0xd8.toChar()..0xf6.toChar()),in (0xf8.toChar()..0x2ff.toChar()),in (0x370.toChar()..0x37d.toChar()),in (0x37f.toChar()..0x1fff.toChar()),in (0x200c.toChar()..0x200d.toChar()),in (0x2070.toChar()..0x218f.toChar()),in (0x2c00.toChar()..0x2fef.toChar()),in (0x3001.toChar()..0xd7ff.toChar()),in (0xf900.toChar()..0xfdcf.toChar()),in (0xfdf0.toChar()..0xfffd.toChar())->{
+  in (0x41..0x5a),in (0x61..0x7a),in (0xc0..0xd6),in (0xd8..0xf6),in (0xf8..0x2ff),in (0x370..0x37d),in (0x37f..0x1fff),in (0x200c..0x200d),in (0x2070..0x218f),in (0x2c00..0x2fef),in (0x3001..0xd7ff),in (0xf900..0xfdcf),in (0xfdf0..0xfffd),in (0x10000..0xeffff)->{
    context.append()
    loop2@while(context.hasNext()){
     loop3@while(context.hasNext()){
      when(context.c){
-      '.'->{
+      0x2e->{
        context.append()
       }
       else->{
@@ -1188,7 +1214,7 @@ inline fun parse_obj(context:ParserContext,
      }
     }
     when(context.c){
-     in (0x0.toChar()..0xffff.toChar()),'-',in ('0'..'9'),in ('A'..'Z'),'_',in ('a'..'z'),0xb7.toChar(),in (0xc0.toChar()..0xd6.toChar()),in (0xd8.toChar()..0xf6.toChar()),in (0xf8.toChar()..0x2ff.toChar()),in (0x300.toChar()..0x36f.toChar()),in (0x370.toChar()..0x37d.toChar()),in (0x37f.toChar()..0x1fff.toChar()),in (0x200c.toChar()..0x200d.toChar()),in (0x203f.toChar()..0x2040.toChar()),in (0x2070.toChar()..0x218f.toChar()),in (0x2c00.toChar()..0x2fef.toChar()),in (0x3001.toChar()..0xd7ff.toChar()),in (0xf900.toChar()..0xfdcf.toChar()),in (0xfdf0.toChar()..0xfffd.toChar())->{
+     0x2d,in (0x30..0x39),in (0x41..0x5a),0x5f,in (0x61..0x7a),0xb7,in (0xc0..0xd6),in (0xd8..0xf6),in (0xf8..0x2ff),in (0x300..0x36f),in (0x370..0x37d),in (0x37f..0x1fff),in (0x200c..0x200d),in (0x203f..0x2040),in (0x2070..0x218f),in (0x2c00..0x2fef),in (0x3001..0xd7ff),in (0xf900..0xfdcf),in (0xfdf0..0xfffd),in (0x10000..0xeffff)->{
       context.append()
       continue@loop2
      }
@@ -1198,7 +1224,7 @@ inline fun parse_obj(context:ParserContext,
     }
    }
    when(context.c){
-    0x3a.toChar()->{
+    0x3a->{
      context.append()
      onPNAME_NS()
      return
@@ -1208,23 +1234,23 @@ inline fun parse_obj(context:ParserContext,
     }
    }
   }
-  0x3a.toChar()->{
+  0x3a->{
    context.append()
    onPNAME_NS()
    return
   }
-  '_'->{
+  0x5f->{
    context.append()
    when(context.c){
-    0x3a.toChar()->{
+    0x3a->{
      context.append()
      when(context.c){
-      in (0x0.toChar()..0xffff.toChar()),in ('0'..'9'),in ('A'..'Z'),'_',in ('a'..'z'),in (0xc0.toChar()..0xd6.toChar()),in (0xd8.toChar()..0xf6.toChar()),in (0xf8.toChar()..0x2ff.toChar()),in (0x370.toChar()..0x37d.toChar()),in (0x37f.toChar()..0x1fff.toChar()),in (0x200c.toChar()..0x200d.toChar()),in (0x2070.toChar()..0x218f.toChar()),in (0x2c00.toChar()..0x2fef.toChar()),in (0x3001.toChar()..0xd7ff.toChar()),in (0xf900.toChar()..0xfdcf.toChar()),in (0xfdf0.toChar()..0xfffd.toChar())->{
+      in (0x30..0x39),in (0x41..0x5a),0x5f,in (0x61..0x7a),in (0xc0..0xd6),in (0xd8..0xf6),in (0xf8..0x2ff),in (0x370..0x37d),in (0x37f..0x1fff),in (0x200c..0x200d),in (0x2070..0x218f),in (0x2c00..0x2fef),in (0x3001..0xd7ff),in (0xf900..0xfdcf),in (0xfdf0..0xfffd),in (0x10000..0xeffff)->{
        context.append()
        loop6@while(context.hasNext()){
         loop7@while(context.hasNext()){
          when(context.c){
-          '.'->{
+          0x2e->{
            context.append()
           }
           else->{
@@ -1233,7 +1259,7 @@ inline fun parse_obj(context:ParserContext,
          }
         }
         when(context.c){
-         in (0x0.toChar()..0xffff.toChar()),'-',in ('0'..'9'),in ('A'..'Z'),'_',in ('a'..'z'),0xb7.toChar(),in (0xc0.toChar()..0xd6.toChar()),in (0xd8.toChar()..0xf6.toChar()),in (0xf8.toChar()..0x2ff.toChar()),in (0x300.toChar()..0x36f.toChar()),in (0x370.toChar()..0x37d.toChar()),in (0x37f.toChar()..0x1fff.toChar()),in (0x200c.toChar()..0x200d.toChar()),in (0x203f.toChar()..0x2040.toChar()),in (0x2070.toChar()..0x218f.toChar()),in (0x2c00.toChar()..0x2fef.toChar()),in (0x3001.toChar()..0xd7ff.toChar()),in (0xf900.toChar()..0xfdcf.toChar()),in (0xfdf0.toChar()..0xfffd.toChar())->{
+         0x2d,in (0x30..0x39),in (0x41..0x5a),0x5f,in (0x61..0x7a),0xb7,in (0xc0..0xd6),in (0xd8..0xf6),in (0xf8..0x2ff),in (0x300..0x36f),in (0x370..0x37d),in (0x37f..0x1fff),in (0x200c..0x200d),in (0x203f..0x2040),in (0x2070..0x218f),in (0x2c00..0x2fef),in (0x3001..0xd7ff),in (0xf900..0xfdcf),in (0xfdf0..0xfffd),in (0x10000..0xeffff)->{
           context.append()
           continue@loop6
          }
@@ -1255,37 +1281,37 @@ inline fun parse_obj(context:ParserContext,
     }
    }
   }
-  0x22.toChar()->{
+  0x22->{
    context.append()
    when(context.c){
-    in (0x0.toChar()..0x9.toChar()),in (0xb.toChar()..0xc.toChar()),in (0xe.toChar()..'!'),in ('#'..'['),in (']'..0xffff.toChar())->{
+    in (0x0..0x9),in (0xb..0xc),in (0xe..0x21),in (0x23..0x5b),in (0x5d..0xeffff)->{
      context.append()
      loop4@while(context.hasNext()){
       when(context.c){
-       in (0x0.toChar()..0x9.toChar()),in (0xb.toChar()..0xc.toChar()),in (0xe.toChar()..'!'),in ('#'..'['),in (']'..0xffff.toChar())->{
+       in (0x0..0x9),in (0xb..0xc),in (0xe..0x21),in (0x23..0x5b),in (0x5d..0xeffff)->{
         context.append()
         continue@loop4
        }
-       0x5c.toChar()->{
+       0x5c->{
         context.append()
         when(context.c){
-         0x22.toChar(),0x27.toChar(),0x5c.toChar(),'b','f','n','r','t'->{
+         0x22,0x27,0x5c,0x62,0x66,0x6e,0x72,0x74->{
           context.append()
           continue@loop4
          }
-         'u'->{
+         0x75->{
           context.append()
           when(context.c){
-           in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+           in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
             context.append()
             when(context.c){
-             in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+             in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
               context.append()
               when(context.c){
-               in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+               in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                 context.append()
                 when(context.c){
-                 in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+                 in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                   context.append()
                   continue@loop4
                  }
@@ -1309,31 +1335,31 @@ inline fun parse_obj(context:ParserContext,
            }
           }
          }
-         'U'->{
+         0x55->{
           context.append()
           when(context.c){
-           in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+           in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
             context.append()
             when(context.c){
-             in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+             in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
               context.append()
               when(context.c){
-               in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+               in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                 context.append()
                 when(context.c){
-                 in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+                 in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                   context.append()
                   when(context.c){
-                   in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+                   in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                     context.append()
                     when(context.c){
-                     in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+                     in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                       context.append()
                       when(context.c){
-                       in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+                       in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                         context.append()
                         when(context.c){
-                         in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+                         in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                           context.append()
                           continue@loop4
                          }
@@ -1388,7 +1414,7 @@ inline fun parse_obj(context:ParserContext,
       }
      }
      when(context.c){
-      0x22.toChar()->{
+      0x22->{
        context.append()
        onSTRING_LITERAL_QUOTE()
        return
@@ -1398,37 +1424,37 @@ inline fun parse_obj(context:ParserContext,
       }
      }
     }
-    0x5c.toChar()->{
+    0x5c->{
      context.append()
      when(context.c){
-      0x22.toChar(),0x27.toChar(),0x5c.toChar(),'b','f','n','r','t'->{
+      0x22,0x27,0x5c,0x62,0x66,0x6e,0x72,0x74->{
        context.append()
        loop6@while(context.hasNext()){
         when(context.c){
-         in (0x0.toChar()..0x9.toChar()),in (0xb.toChar()..0xc.toChar()),in (0xe.toChar()..'!'),in ('#'..'['),in (']'..0xffff.toChar())->{
+         in (0x0..0x9),in (0xb..0xc),in (0xe..0x21),in (0x23..0x5b),in (0x5d..0xeffff)->{
           context.append()
           continue@loop6
          }
-         0x5c.toChar()->{
+         0x5c->{
           context.append()
           when(context.c){
-           0x22.toChar(),0x27.toChar(),0x5c.toChar(),'b','f','n','r','t'->{
+           0x22,0x27,0x5c,0x62,0x66,0x6e,0x72,0x74->{
             context.append()
             continue@loop6
            }
-           'u'->{
+           0x75->{
             context.append()
             when(context.c){
-             in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+             in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
               context.append()
               when(context.c){
-               in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+               in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                 context.append()
                 when(context.c){
-                 in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+                 in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                   context.append()
                   when(context.c){
-                   in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+                   in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                     context.append()
                     continue@loop6
                    }
@@ -1452,31 +1478,31 @@ inline fun parse_obj(context:ParserContext,
              }
             }
            }
-           'U'->{
+           0x55->{
             context.append()
             when(context.c){
-             in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+             in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
               context.append()
               when(context.c){
-               in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+               in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                 context.append()
                 when(context.c){
-                 in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+                 in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                   context.append()
                   when(context.c){
-                   in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+                   in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                     context.append()
                     when(context.c){
-                     in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+                     in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                       context.append()
                       when(context.c){
-                       in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+                       in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                         context.append()
                         when(context.c){
-                         in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+                         in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                           context.append()
                           when(context.c){
-                           in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+                           in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                             context.append()
                             continue@loop6
                            }
@@ -1531,7 +1557,7 @@ inline fun parse_obj(context:ParserContext,
         }
        }
        when(context.c){
-        0x22.toChar()->{
+        0x22->{
          context.append()
          onSTRING_LITERAL_QUOTE()
          return
@@ -1541,46 +1567,46 @@ inline fun parse_obj(context:ParserContext,
         }
        }
       }
-      'u'->{
+      0x75->{
        context.append()
        when(context.c){
-        in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+        in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
          context.append()
          when(context.c){
-          in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+          in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
            context.append()
            when(context.c){
-            in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+            in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
              context.append()
              when(context.c){
-              in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+              in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                context.append()
                loop14@while(context.hasNext()){
                 when(context.c){
-                 in (0x0.toChar()..0x9.toChar()),in (0xb.toChar()..0xc.toChar()),in (0xe.toChar()..'!'),in ('#'..'['),in (']'..0xffff.toChar())->{
+                 in (0x0..0x9),in (0xb..0xc),in (0xe..0x21),in (0x23..0x5b),in (0x5d..0xeffff)->{
                   context.append()
                   continue@loop14
                  }
-                 0x5c.toChar()->{
+                 0x5c->{
                   context.append()
                   when(context.c){
-                   0x22.toChar(),0x27.toChar(),0x5c.toChar(),'b','f','n','r','t'->{
+                   0x22,0x27,0x5c,0x62,0x66,0x6e,0x72,0x74->{
                     context.append()
                     continue@loop14
                    }
-                   'u'->{
+                   0x75->{
                     context.append()
                     when(context.c){
-                     in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+                     in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                       context.append()
                       when(context.c){
-                       in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+                       in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                         context.append()
                         when(context.c){
-                         in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+                         in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                           context.append()
                           when(context.c){
-                           in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+                           in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                             context.append()
                             continue@loop14
                            }
@@ -1604,31 +1630,31 @@ inline fun parse_obj(context:ParserContext,
                      }
                     }
                    }
-                   'U'->{
+                   0x55->{
                     context.append()
                     when(context.c){
-                     in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+                     in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                       context.append()
                       when(context.c){
-                       in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+                       in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                         context.append()
                         when(context.c){
-                         in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+                         in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                           context.append()
                           when(context.c){
-                           in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+                           in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                             context.append()
                             when(context.c){
-                             in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+                             in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                               context.append()
                               when(context.c){
-                               in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+                               in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                                 context.append()
                                 when(context.c){
-                                 in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+                                 in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                                   context.append()
                                   when(context.c){
-                                   in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+                                   in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                                     context.append()
                                     continue@loop14
                                    }
@@ -1683,7 +1709,7 @@ inline fun parse_obj(context:ParserContext,
                 }
                }
                when(context.c){
-                0x22.toChar()->{
+                0x22->{
                  context.append()
                  onSTRING_LITERAL_QUOTE()
                  return
@@ -1713,58 +1739,58 @@ inline fun parse_obj(context:ParserContext,
         }
        }
       }
-      'U'->{
+      0x55->{
        context.append()
        when(context.c){
-        in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+        in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
          context.append()
          when(context.c){
-          in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+          in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
            context.append()
            when(context.c){
-            in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+            in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
              context.append()
              when(context.c){
-              in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+              in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                context.append()
                when(context.c){
-                in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+                in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                  context.append()
                  when(context.c){
-                  in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+                  in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                    context.append()
                    when(context.c){
-                    in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+                    in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                      context.append()
                      when(context.c){
-                      in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+                      in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                        context.append()
                        loop22@while(context.hasNext()){
                         when(context.c){
-                         in (0x0.toChar()..0x9.toChar()),in (0xb.toChar()..0xc.toChar()),in (0xe.toChar()..'!'),in ('#'..'['),in (']'..0xffff.toChar())->{
+                         in (0x0..0x9),in (0xb..0xc),in (0xe..0x21),in (0x23..0x5b),in (0x5d..0xeffff)->{
                           context.append()
                           continue@loop22
                          }
-                         0x5c.toChar()->{
+                         0x5c->{
                           context.append()
                           when(context.c){
-                           0x22.toChar(),0x27.toChar(),0x5c.toChar(),'b','f','n','r','t'->{
+                           0x22,0x27,0x5c,0x62,0x66,0x6e,0x72,0x74->{
                             context.append()
                             continue@loop22
                            }
-                           'u'->{
+                           0x75->{
                             context.append()
                             when(context.c){
-                             in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+                             in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                               context.append()
                               when(context.c){
-                               in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+                               in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                                 context.append()
                                 when(context.c){
-                                 in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+                                 in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                                   context.append()
                                   when(context.c){
-                                   in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+                                   in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                                     context.append()
                                     continue@loop22
                                    }
@@ -1788,31 +1814,31 @@ inline fun parse_obj(context:ParserContext,
                              }
                             }
                            }
-                           'U'->{
+                           0x55->{
                             context.append()
                             when(context.c){
-                             in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+                             in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                               context.append()
                               when(context.c){
-                               in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+                               in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                                 context.append()
                                 when(context.c){
-                                 in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+                                 in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                                   context.append()
                                   when(context.c){
-                                   in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+                                   in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                                     context.append()
                                     when(context.c){
-                                     in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+                                     in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                                       context.append()
                                       when(context.c){
-                                       in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+                                       in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                                         context.append()
                                         when(context.c){
-                                         in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+                                         in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                                           context.append()
                                           when(context.c){
-                                           in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+                                           in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                                             context.append()
                                             continue@loop22
                                            }
@@ -1867,7 +1893,7 @@ inline fun parse_obj(context:ParserContext,
                         }
                        }
                        when(context.c){
-                        0x22.toChar()->{
+                        0x22->{
                          context.append()
                          onSTRING_LITERAL_QUOTE()
                          return
@@ -1922,37 +1948,37 @@ inline fun parse_obj(context:ParserContext,
       }
      }
     }
-    0x22.toChar()->{
+    0x22->{
      context.append()
      when(context.c){
-      0x22.toChar()->{
+      0x22->{
        context.append()
        loop6@while(context.hasNext()){
         when(context.c){
-         in (0x0.toChar()..'!'),in ('#'..'['),in (']'..0xffff.toChar())->{
+         in (0x0..0x21),in (0x23..0x5b),in (0x5d..0xeffff)->{
           context.append()
           continue@loop6
          }
-         0x5c.toChar()->{
+         0x5c->{
           context.append()
           when(context.c){
-           0x22.toChar(),0x27.toChar(),0x5c.toChar(),'b','f','n','r','t'->{
+           0x22,0x27,0x5c,0x62,0x66,0x6e,0x72,0x74->{
             context.append()
             continue@loop6
            }
-           'u'->{
+           0x75->{
             context.append()
             when(context.c){
-             in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+             in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
               context.append()
               when(context.c){
-               in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+               in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                 context.append()
                 when(context.c){
-                 in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+                 in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                   context.append()
                   when(context.c){
-                   in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+                   in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                     context.append()
                     continue@loop6
                    }
@@ -1976,31 +2002,31 @@ inline fun parse_obj(context:ParserContext,
              }
             }
            }
-           'U'->{
+           0x55->{
             context.append()
             when(context.c){
-             in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+             in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
               context.append()
               when(context.c){
-               in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+               in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                 context.append()
                 when(context.c){
-                 in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+                 in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                   context.append()
                   when(context.c){
-                   in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+                   in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                     context.append()
                     when(context.c){
-                     in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+                     in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                       context.append()
                       when(context.c){
-                       in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+                       in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                         context.append()
                         when(context.c){
-                         in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+                         in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                           context.append()
                           when(context.c){
-                           in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+                           in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                             context.append()
                             continue@loop6
                            }
@@ -2049,33 +2075,33 @@ inline fun parse_obj(context:ParserContext,
            }
           }
          }
-         0x22.toChar()->{
+         0x22->{
           context.append()
           when(context.c){
-           in (0x0.toChar()..'!'),in ('#'..'['),in (']'..0xffff.toChar())->{
+           in (0x0..0x21),in (0x23..0x5b),in (0x5d..0xeffff)->{
             context.append()
             continue@loop6
            }
-           0x5c.toChar()->{
+           0x5c->{
             context.append()
             when(context.c){
-             0x22.toChar(),0x27.toChar(),0x5c.toChar(),'b','f','n','r','t'->{
+             0x22,0x27,0x5c,0x62,0x66,0x6e,0x72,0x74->{
               context.append()
               continue@loop6
              }
-             'u'->{
+             0x75->{
               context.append()
               when(context.c){
-               in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+               in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                 context.append()
                 when(context.c){
-                 in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+                 in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                   context.append()
                   when(context.c){
-                   in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+                   in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                     context.append()
                     when(context.c){
-                     in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+                     in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                       context.append()
                       continue@loop6
                      }
@@ -2099,31 +2125,31 @@ inline fun parse_obj(context:ParserContext,
                }
               }
              }
-             'U'->{
+             0x55->{
               context.append()
               when(context.c){
-               in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+               in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                 context.append()
                 when(context.c){
-                 in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+                 in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                   context.append()
                   when(context.c){
-                   in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+                   in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                     context.append()
                     when(context.c){
-                     in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+                     in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                       context.append()
                       when(context.c){
-                       in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+                       in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                         context.append()
                         when(context.c){
-                         in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+                         in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                           context.append()
                           when(context.c){
-                           in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+                           in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                             context.append()
                             when(context.c){
-                             in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+                             in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                               context.append()
                               continue@loop6
                              }
@@ -2172,33 +2198,33 @@ inline fun parse_obj(context:ParserContext,
              }
             }
            }
-           0x22.toChar()->{
+           0x22->{
             context.append()
             when(context.c){
-             in (0x0.toChar()..'!'),in ('#'..'['),in (']'..0xffff.toChar())->{
+             in (0x0..0x21),in (0x23..0x5b),in (0x5d..0xeffff)->{
               context.append()
               continue@loop6
              }
-             0x5c.toChar()->{
+             0x5c->{
               context.append()
               when(context.c){
-               0x22.toChar(),0x27.toChar(),0x5c.toChar(),'b','f','n','r','t'->{
+               0x22,0x27,0x5c,0x62,0x66,0x6e,0x72,0x74->{
                 context.append()
                 continue@loop6
                }
-               'u'->{
+               0x75->{
                 context.append()
                 when(context.c){
-                 in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+                 in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                   context.append()
                   when(context.c){
-                   in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+                   in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                     context.append()
                     when(context.c){
-                     in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+                     in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                       context.append()
                       when(context.c){
-                       in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+                       in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                         context.append()
                         continue@loop6
                        }
@@ -2222,31 +2248,31 @@ inline fun parse_obj(context:ParserContext,
                  }
                 }
                }
-               'U'->{
+               0x55->{
                 context.append()
                 when(context.c){
-                 in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+                 in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                   context.append()
                   when(context.c){
-                   in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+                   in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                     context.append()
                     when(context.c){
-                     in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+                     in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                       context.append()
                       when(context.c){
-                       in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+                       in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                         context.append()
                         when(context.c){
-                         in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+                         in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                           context.append()
                           when(context.c){
-                           in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+                           in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                             context.append()
                             when(context.c){
-                             in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+                             in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                               context.append()
                               when(context.c){
-                               in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+                               in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                                 context.append()
                                 continue@loop6
                                }
@@ -2295,7 +2321,7 @@ inline fun parse_obj(context:ParserContext,
                }
               }
              }
-             0x22.toChar()->{
+             0x22->{
               context.append()
               onSTRING_LITERAL_LONG_QUOTE()
               return
@@ -2328,37 +2354,37 @@ inline fun parse_obj(context:ParserContext,
     }
    }
   }
-  0x27.toChar()->{
+  0x27->{
    context.append()
    when(context.c){
-    in (0x0.toChar()..0x9.toChar()),in (0xb.toChar()..0xc.toChar()),in (0xe.toChar()..'&'),in ('('..'['),in (']'..0xffff.toChar())->{
+    in (0x0..0x9),in (0xb..0xc),in (0xe..0x26),in (0x28..0x5b),in (0x5d..0xeffff)->{
      context.append()
      loop4@while(context.hasNext()){
       when(context.c){
-       in (0x0.toChar()..0x9.toChar()),in (0xb.toChar()..0xc.toChar()),in (0xe.toChar()..'&'),in ('('..'['),in (']'..0xffff.toChar())->{
+       in (0x0..0x9),in (0xb..0xc),in (0xe..0x26),in (0x28..0x5b),in (0x5d..0xeffff)->{
         context.append()
         continue@loop4
        }
-       0x5c.toChar()->{
+       0x5c->{
         context.append()
         when(context.c){
-         0x22.toChar(),0x27.toChar(),0x5c.toChar(),'b','f','n','r','t'->{
+         0x22,0x27,0x5c,0x62,0x66,0x6e,0x72,0x74->{
           context.append()
           continue@loop4
          }
-         'u'->{
+         0x75->{
           context.append()
           when(context.c){
-           in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+           in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
             context.append()
             when(context.c){
-             in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+             in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
               context.append()
               when(context.c){
-               in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+               in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                 context.append()
                 when(context.c){
-                 in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+                 in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                   context.append()
                   continue@loop4
                  }
@@ -2382,31 +2408,31 @@ inline fun parse_obj(context:ParserContext,
            }
           }
          }
-         'U'->{
+         0x55->{
           context.append()
           when(context.c){
-           in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+           in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
             context.append()
             when(context.c){
-             in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+             in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
               context.append()
               when(context.c){
-               in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+               in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                 context.append()
                 when(context.c){
-                 in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+                 in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                   context.append()
                   when(context.c){
-                   in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+                   in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                     context.append()
                     when(context.c){
-                     in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+                     in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                       context.append()
                       when(context.c){
-                       in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+                       in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                         context.append()
                         when(context.c){
-                         in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+                         in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                           context.append()
                           continue@loop4
                          }
@@ -2461,7 +2487,7 @@ inline fun parse_obj(context:ParserContext,
       }
      }
      when(context.c){
-      0x27.toChar()->{
+      0x27->{
        context.append()
        onSTRING_LITERAL_SINGLE_QUOTE()
        return
@@ -2471,37 +2497,37 @@ inline fun parse_obj(context:ParserContext,
       }
      }
     }
-    0x5c.toChar()->{
+    0x5c->{
      context.append()
      when(context.c){
-      0x22.toChar(),0x27.toChar(),0x5c.toChar(),'b','f','n','r','t'->{
+      0x22,0x27,0x5c,0x62,0x66,0x6e,0x72,0x74->{
        context.append()
        loop6@while(context.hasNext()){
         when(context.c){
-         in (0x0.toChar()..0x9.toChar()),in (0xb.toChar()..0xc.toChar()),in (0xe.toChar()..'&'),in ('('..'['),in (']'..0xffff.toChar())->{
+         in (0x0..0x9),in (0xb..0xc),in (0xe..0x26),in (0x28..0x5b),in (0x5d..0xeffff)->{
           context.append()
           continue@loop6
          }
-         0x5c.toChar()->{
+         0x5c->{
           context.append()
           when(context.c){
-           0x22.toChar(),0x27.toChar(),0x5c.toChar(),'b','f','n','r','t'->{
+           0x22,0x27,0x5c,0x62,0x66,0x6e,0x72,0x74->{
             context.append()
             continue@loop6
            }
-           'u'->{
+           0x75->{
             context.append()
             when(context.c){
-             in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+             in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
               context.append()
               when(context.c){
-               in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+               in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                 context.append()
                 when(context.c){
-                 in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+                 in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                   context.append()
                   when(context.c){
-                   in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+                   in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                     context.append()
                     continue@loop6
                    }
@@ -2525,31 +2551,31 @@ inline fun parse_obj(context:ParserContext,
              }
             }
            }
-           'U'->{
+           0x55->{
             context.append()
             when(context.c){
-             in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+             in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
               context.append()
               when(context.c){
-               in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+               in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                 context.append()
                 when(context.c){
-                 in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+                 in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                   context.append()
                   when(context.c){
-                   in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+                   in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                     context.append()
                     when(context.c){
-                     in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+                     in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                       context.append()
                       when(context.c){
-                       in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+                       in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                         context.append()
                         when(context.c){
-                         in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+                         in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                           context.append()
                           when(context.c){
-                           in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+                           in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                             context.append()
                             continue@loop6
                            }
@@ -2604,7 +2630,7 @@ inline fun parse_obj(context:ParserContext,
         }
        }
        when(context.c){
-        0x27.toChar()->{
+        0x27->{
          context.append()
          onSTRING_LITERAL_SINGLE_QUOTE()
          return
@@ -2614,46 +2640,46 @@ inline fun parse_obj(context:ParserContext,
         }
        }
       }
-      'u'->{
+      0x75->{
        context.append()
        when(context.c){
-        in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+        in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
          context.append()
          when(context.c){
-          in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+          in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
            context.append()
            when(context.c){
-            in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+            in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
              context.append()
              when(context.c){
-              in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+              in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                context.append()
                loop14@while(context.hasNext()){
                 when(context.c){
-                 in (0x0.toChar()..0x9.toChar()),in (0xb.toChar()..0xc.toChar()),in (0xe.toChar()..'&'),in ('('..'['),in (']'..0xffff.toChar())->{
+                 in (0x0..0x9),in (0xb..0xc),in (0xe..0x26),in (0x28..0x5b),in (0x5d..0xeffff)->{
                   context.append()
                   continue@loop14
                  }
-                 0x5c.toChar()->{
+                 0x5c->{
                   context.append()
                   when(context.c){
-                   0x22.toChar(),0x27.toChar(),0x5c.toChar(),'b','f','n','r','t'->{
+                   0x22,0x27,0x5c,0x62,0x66,0x6e,0x72,0x74->{
                     context.append()
                     continue@loop14
                    }
-                   'u'->{
+                   0x75->{
                     context.append()
                     when(context.c){
-                     in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+                     in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                       context.append()
                       when(context.c){
-                       in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+                       in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                         context.append()
                         when(context.c){
-                         in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+                         in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                           context.append()
                           when(context.c){
-                           in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+                           in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                             context.append()
                             continue@loop14
                            }
@@ -2677,31 +2703,31 @@ inline fun parse_obj(context:ParserContext,
                      }
                     }
                    }
-                   'U'->{
+                   0x55->{
                     context.append()
                     when(context.c){
-                     in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+                     in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                       context.append()
                       when(context.c){
-                       in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+                       in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                         context.append()
                         when(context.c){
-                         in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+                         in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                           context.append()
                           when(context.c){
-                           in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+                           in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                             context.append()
                             when(context.c){
-                             in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+                             in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                               context.append()
                               when(context.c){
-                               in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+                               in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                                 context.append()
                                 when(context.c){
-                                 in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+                                 in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                                   context.append()
                                   when(context.c){
-                                   in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+                                   in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                                     context.append()
                                     continue@loop14
                                    }
@@ -2756,7 +2782,7 @@ inline fun parse_obj(context:ParserContext,
                 }
                }
                when(context.c){
-                0x27.toChar()->{
+                0x27->{
                  context.append()
                  onSTRING_LITERAL_SINGLE_QUOTE()
                  return
@@ -2786,58 +2812,58 @@ inline fun parse_obj(context:ParserContext,
         }
        }
       }
-      'U'->{
+      0x55->{
        context.append()
        when(context.c){
-        in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+        in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
          context.append()
          when(context.c){
-          in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+          in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
            context.append()
            when(context.c){
-            in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+            in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
              context.append()
              when(context.c){
-              in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+              in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                context.append()
                when(context.c){
-                in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+                in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                  context.append()
                  when(context.c){
-                  in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+                  in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                    context.append()
                    when(context.c){
-                    in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+                    in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                      context.append()
                      when(context.c){
-                      in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+                      in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                        context.append()
                        loop22@while(context.hasNext()){
                         when(context.c){
-                         in (0x0.toChar()..0x9.toChar()),in (0xb.toChar()..0xc.toChar()),in (0xe.toChar()..'&'),in ('('..'['),in (']'..0xffff.toChar())->{
+                         in (0x0..0x9),in (0xb..0xc),in (0xe..0x26),in (0x28..0x5b),in (0x5d..0xeffff)->{
                           context.append()
                           continue@loop22
                          }
-                         0x5c.toChar()->{
+                         0x5c->{
                           context.append()
                           when(context.c){
-                           0x22.toChar(),0x27.toChar(),0x5c.toChar(),'b','f','n','r','t'->{
+                           0x22,0x27,0x5c,0x62,0x66,0x6e,0x72,0x74->{
                             context.append()
                             continue@loop22
                            }
-                           'u'->{
+                           0x75->{
                             context.append()
                             when(context.c){
-                             in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+                             in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                               context.append()
                               when(context.c){
-                               in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+                               in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                                 context.append()
                                 when(context.c){
-                                 in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+                                 in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                                   context.append()
                                   when(context.c){
-                                   in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+                                   in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                                     context.append()
                                     continue@loop22
                                    }
@@ -2861,31 +2887,31 @@ inline fun parse_obj(context:ParserContext,
                              }
                             }
                            }
-                           'U'->{
+                           0x55->{
                             context.append()
                             when(context.c){
-                             in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+                             in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                               context.append()
                               when(context.c){
-                               in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+                               in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                                 context.append()
                                 when(context.c){
-                                 in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+                                 in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                                   context.append()
                                   when(context.c){
-                                   in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+                                   in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                                     context.append()
                                     when(context.c){
-                                     in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+                                     in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                                       context.append()
                                       when(context.c){
-                                       in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+                                       in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                                         context.append()
                                         when(context.c){
-                                         in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+                                         in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                                           context.append()
                                           when(context.c){
-                                           in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+                                           in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                                             context.append()
                                             continue@loop22
                                            }
@@ -2940,7 +2966,7 @@ inline fun parse_obj(context:ParserContext,
                         }
                        }
                        when(context.c){
-                        0x27.toChar()->{
+                        0x27->{
                          context.append()
                          onSTRING_LITERAL_SINGLE_QUOTE()
                          return
@@ -2995,37 +3021,37 @@ inline fun parse_obj(context:ParserContext,
       }
      }
     }
-    0x27.toChar()->{
+    0x27->{
      context.append()
      when(context.c){
-      0x27.toChar()->{
+      0x27->{
        context.append()
        loop6@while(context.hasNext()){
         when(context.c){
-         in (0x0.toChar()..'&'),in ('('..'['),in (']'..0xffff.toChar())->{
+         in (0x0..0x26),in (0x28..0x5b),in (0x5d..0xeffff)->{
           context.append()
           continue@loop6
          }
-         0x5c.toChar()->{
+         0x5c->{
           context.append()
           when(context.c){
-           0x22.toChar(),0x27.toChar(),0x5c.toChar(),'b','f','n','r','t'->{
+           0x22,0x27,0x5c,0x62,0x66,0x6e,0x72,0x74->{
             context.append()
             continue@loop6
            }
-           'u'->{
+           0x75->{
             context.append()
             when(context.c){
-             in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+             in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
               context.append()
               when(context.c){
-               in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+               in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                 context.append()
                 when(context.c){
-                 in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+                 in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                   context.append()
                   when(context.c){
-                   in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+                   in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                     context.append()
                     continue@loop6
                    }
@@ -3049,31 +3075,31 @@ inline fun parse_obj(context:ParserContext,
              }
             }
            }
-           'U'->{
+           0x55->{
             context.append()
             when(context.c){
-             in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+             in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
               context.append()
               when(context.c){
-               in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+               in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                 context.append()
                 when(context.c){
-                 in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+                 in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                   context.append()
                   when(context.c){
-                   in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+                   in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                     context.append()
                     when(context.c){
-                     in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+                     in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                       context.append()
                       when(context.c){
-                       in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+                       in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                         context.append()
                         when(context.c){
-                         in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+                         in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                           context.append()
                           when(context.c){
-                           in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+                           in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                             context.append()
                             continue@loop6
                            }
@@ -3122,33 +3148,33 @@ inline fun parse_obj(context:ParserContext,
            }
           }
          }
-         0x27.toChar()->{
+         0x27->{
           context.append()
           when(context.c){
-           in (0x0.toChar()..'&'),in ('('..'['),in (']'..0xffff.toChar())->{
+           in (0x0..0x26),in (0x28..0x5b),in (0x5d..0xeffff)->{
             context.append()
             continue@loop6
            }
-           0x5c.toChar()->{
+           0x5c->{
             context.append()
             when(context.c){
-             0x22.toChar(),0x27.toChar(),0x5c.toChar(),'b','f','n','r','t'->{
+             0x22,0x27,0x5c,0x62,0x66,0x6e,0x72,0x74->{
               context.append()
               continue@loop6
              }
-             'u'->{
+             0x75->{
               context.append()
               when(context.c){
-               in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+               in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                 context.append()
                 when(context.c){
-                 in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+                 in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                   context.append()
                   when(context.c){
-                   in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+                   in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                     context.append()
                     when(context.c){
-                     in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+                     in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                       context.append()
                       continue@loop6
                      }
@@ -3172,31 +3198,31 @@ inline fun parse_obj(context:ParserContext,
                }
               }
              }
-             'U'->{
+             0x55->{
               context.append()
               when(context.c){
-               in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+               in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                 context.append()
                 when(context.c){
-                 in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+                 in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                   context.append()
                   when(context.c){
-                   in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+                   in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                     context.append()
                     when(context.c){
-                     in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+                     in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                       context.append()
                       when(context.c){
-                       in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+                       in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                         context.append()
                         when(context.c){
-                         in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+                         in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                           context.append()
                           when(context.c){
-                           in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+                           in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                             context.append()
                             when(context.c){
-                             in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+                             in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                               context.append()
                               continue@loop6
                              }
@@ -3245,33 +3271,33 @@ inline fun parse_obj(context:ParserContext,
              }
             }
            }
-           0x27.toChar()->{
+           0x27->{
             context.append()
             when(context.c){
-             in (0x0.toChar()..'&'),in ('('..'['),in (']'..0xffff.toChar())->{
+             in (0x0..0x26),in (0x28..0x5b),in (0x5d..0xeffff)->{
               context.append()
               continue@loop6
              }
-             0x5c.toChar()->{
+             0x5c->{
               context.append()
               when(context.c){
-               0x22.toChar(),0x27.toChar(),0x5c.toChar(),'b','f','n','r','t'->{
+               0x22,0x27,0x5c,0x62,0x66,0x6e,0x72,0x74->{
                 context.append()
                 continue@loop6
                }
-               'u'->{
+               0x75->{
                 context.append()
                 when(context.c){
-                 in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+                 in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                   context.append()
                   when(context.c){
-                   in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+                   in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                     context.append()
                     when(context.c){
-                     in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+                     in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                       context.append()
                       when(context.c){
-                       in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+                       in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                         context.append()
                         continue@loop6
                        }
@@ -3295,31 +3321,31 @@ inline fun parse_obj(context:ParserContext,
                  }
                 }
                }
-               'U'->{
+               0x55->{
                 context.append()
                 when(context.c){
-                 in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+                 in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                   context.append()
                   when(context.c){
-                   in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+                   in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                     context.append()
                     when(context.c){
-                     in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+                     in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                       context.append()
                       when(context.c){
-                       in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+                       in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                         context.append()
                         when(context.c){
-                         in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+                         in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                           context.append()
                           when(context.c){
-                           in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+                           in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                             context.append()
                             when(context.c){
-                             in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+                             in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                               context.append()
                               when(context.c){
-                               in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+                               in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                                 context.append()
                                 continue@loop6
                                }
@@ -3368,7 +3394,7 @@ inline fun parse_obj(context:ParserContext,
                }
               }
              }
-             0x27.toChar()->{
+             0x27->{
               context.append()
               onSTRING_LITERAL_LONG_SINGLE_QUOTE()
               return
@@ -3401,11 +3427,11 @@ inline fun parse_obj(context:ParserContext,
     }
    }
   }
-  in ('0'..'9')->{
+  in (0x30..0x39)->{
    context.append()
    loop2@while(context.hasNext()){
     when(context.c){
-     in ('0'..'9')->{
+     in (0x30..0x39)->{
       context.append()
      }
      else->{
@@ -3414,14 +3440,14 @@ inline fun parse_obj(context:ParserContext,
     }
    }
    when(context.c){
-    '.'->{
+    0x2e->{
      context.append()
      when(context.c){
-      in ('0'..'9')->{
+      in (0x30..0x39)->{
        context.append()
        loop6@while(context.hasNext()){
         when(context.c){
-         in ('0'..'9')->{
+         in (0x30..0x39)->{
           context.append()
          }
          else->{
@@ -3430,14 +3456,14 @@ inline fun parse_obj(context:ParserContext,
         }
        }
        when(context.c){
-        'E','e'->{
+        0x45,0x65->{
          context.append()
          when(context.c){
-          in ('0'..'9')->{
+          in (0x30..0x39)->{
            context.append()
            loop10@while(context.hasNext()){
             when(context.c){
-             in ('0'..'9')->{
+             in (0x30..0x39)->{
               context.append()
              }
              else->{
@@ -3448,14 +3474,14 @@ inline fun parse_obj(context:ParserContext,
            onDOUBLE()
            return
           }
-          '+','-'->{
+          0x2b,0x2d->{
            context.append()
            when(context.c){
-            in ('0'..'9')->{
+            in (0x30..0x39)->{
              context.append()
              loop12@while(context.hasNext()){
               when(context.c){
-               in ('0'..'9')->{
+               in (0x30..0x39)->{
                 context.append()
                }
                else->{
@@ -3482,14 +3508,14 @@ inline fun parse_obj(context:ParserContext,
         }
        }
       }
-      'E','e'->{
+      0x45,0x65->{
        context.append()
        when(context.c){
-        in ('0'..'9')->{
+        in (0x30..0x39)->{
          context.append()
          loop8@while(context.hasNext()){
           when(context.c){
-           in ('0'..'9')->{
+           in (0x30..0x39)->{
             context.append()
            }
            else->{
@@ -3500,14 +3526,14 @@ inline fun parse_obj(context:ParserContext,
          onDOUBLE()
          return
         }
-        '+','-'->{
+        0x2b,0x2d->{
          context.append()
          when(context.c){
-          in ('0'..'9')->{
+          in (0x30..0x39)->{
            context.append()
            loop10@while(context.hasNext()){
             when(context.c){
-             in ('0'..'9')->{
+             in (0x30..0x39)->{
               context.append()
              }
              else->{
@@ -3533,14 +3559,14 @@ inline fun parse_obj(context:ParserContext,
       }
      }
     }
-    'E','e'->{
+    0x45,0x65->{
      context.append()
      when(context.c){
-      in ('0'..'9')->{
+      in (0x30..0x39)->{
        context.append()
        loop6@while(context.hasNext()){
         when(context.c){
-         in ('0'..'9')->{
+         in (0x30..0x39)->{
           context.append()
          }
          else->{
@@ -3551,14 +3577,14 @@ inline fun parse_obj(context:ParserContext,
        onDOUBLE()
        return
       }
-      '+','-'->{
+      0x2b,0x2d->{
        context.append()
        when(context.c){
-        in ('0'..'9')->{
+        in (0x30..0x39)->{
          context.append()
          loop8@while(context.hasNext()){
           when(context.c){
-           in ('0'..'9')->{
+           in (0x30..0x39)->{
             context.append()
            }
            else->{
@@ -3585,14 +3611,14 @@ inline fun parse_obj(context:ParserContext,
     }
    }
   }
-  '+','-'->{
+  0x2b,0x2d->{
    context.append()
    when(context.c){
-    in ('0'..'9')->{
+    in (0x30..0x39)->{
      context.append()
      loop4@while(context.hasNext()){
       when(context.c){
-       in ('0'..'9')->{
+       in (0x30..0x39)->{
         context.append()
        }
        else->{
@@ -3601,14 +3627,14 @@ inline fun parse_obj(context:ParserContext,
       }
      }
      when(context.c){
-      '.'->{
+      0x2e->{
        context.append()
        when(context.c){
-        in ('0'..'9')->{
+        in (0x30..0x39)->{
          context.append()
          loop8@while(context.hasNext()){
           when(context.c){
-           in ('0'..'9')->{
+           in (0x30..0x39)->{
             context.append()
            }
            else->{
@@ -3617,14 +3643,14 @@ inline fun parse_obj(context:ParserContext,
           }
          }
          when(context.c){
-          'E','e'->{
+          0x45,0x65->{
            context.append()
            when(context.c){
-            in ('0'..'9')->{
+            in (0x30..0x39)->{
              context.append()
              loop12@while(context.hasNext()){
               when(context.c){
-               in ('0'..'9')->{
+               in (0x30..0x39)->{
                 context.append()
                }
                else->{
@@ -3635,14 +3661,14 @@ inline fun parse_obj(context:ParserContext,
              onDOUBLE()
              return
             }
-            '+','-'->{
+            0x2b,0x2d->{
              context.append()
              when(context.c){
-              in ('0'..'9')->{
+              in (0x30..0x39)->{
                context.append()
                loop14@while(context.hasNext()){
                 when(context.c){
-                 in ('0'..'9')->{
+                 in (0x30..0x39)->{
                   context.append()
                  }
                  else->{
@@ -3669,14 +3695,14 @@ inline fun parse_obj(context:ParserContext,
           }
          }
         }
-        'E','e'->{
+        0x45,0x65->{
          context.append()
          when(context.c){
-          in ('0'..'9')->{
+          in (0x30..0x39)->{
            context.append()
            loop10@while(context.hasNext()){
             when(context.c){
-             in ('0'..'9')->{
+             in (0x30..0x39)->{
               context.append()
              }
              else->{
@@ -3687,14 +3713,14 @@ inline fun parse_obj(context:ParserContext,
            onDOUBLE()
            return
           }
-          '+','-'->{
+          0x2b,0x2d->{
            context.append()
            when(context.c){
-            in ('0'..'9')->{
+            in (0x30..0x39)->{
              context.append()
              loop12@while(context.hasNext()){
               when(context.c){
-               in ('0'..'9')->{
+               in (0x30..0x39)->{
                 context.append()
                }
                else->{
@@ -3720,14 +3746,14 @@ inline fun parse_obj(context:ParserContext,
         }
        }
       }
-      'E','e'->{
+      0x45,0x65->{
        context.append()
        when(context.c){
-        in ('0'..'9')->{
+        in (0x30..0x39)->{
          context.append()
          loop8@while(context.hasNext()){
           when(context.c){
-           in ('0'..'9')->{
+           in (0x30..0x39)->{
             context.append()
            }
            else->{
@@ -3738,14 +3764,14 @@ inline fun parse_obj(context:ParserContext,
          onDOUBLE()
          return
         }
-        '+','-'->{
+        0x2b,0x2d->{
          context.append()
          when(context.c){
-          in ('0'..'9')->{
+          in (0x30..0x39)->{
            context.append()
            loop10@while(context.hasNext()){
             when(context.c){
-             in ('0'..'9')->{
+             in (0x30..0x39)->{
               context.append()
              }
              else->{
@@ -3772,14 +3798,14 @@ inline fun parse_obj(context:ParserContext,
       }
      }
     }
-    '.'->{
+    0x2e->{
      context.append()
      when(context.c){
-      in ('0'..'9')->{
+      in (0x30..0x39)->{
        context.append()
        loop6@while(context.hasNext()){
         when(context.c){
-         in ('0'..'9')->{
+         in (0x30..0x39)->{
           context.append()
          }
          else->{
@@ -3788,14 +3814,14 @@ inline fun parse_obj(context:ParserContext,
         }
        }
        when(context.c){
-        'E','e'->{
+        0x45,0x65->{
          context.append()
          when(context.c){
-          in ('0'..'9')->{
+          in (0x30..0x39)->{
            context.append()
            loop10@while(context.hasNext()){
             when(context.c){
-             in ('0'..'9')->{
+             in (0x30..0x39)->{
               context.append()
              }
              else->{
@@ -3806,14 +3832,14 @@ inline fun parse_obj(context:ParserContext,
            onDOUBLE()
            return
           }
-          '+','-'->{
+          0x2b,0x2d->{
            context.append()
            when(context.c){
-            in ('0'..'9')->{
+            in (0x30..0x39)->{
              context.append()
              loop12@while(context.hasNext()){
               when(context.c){
-               in ('0'..'9')->{
+               in (0x30..0x39)->{
                 context.append()
                }
                else->{
@@ -3850,14 +3876,14 @@ inline fun parse_obj(context:ParserContext,
     }
    }
   }
-  '.'->{
+  0x2e->{
    context.append()
    when(context.c){
-    in ('0'..'9')->{
+    in (0x30..0x39)->{
      context.append()
      loop4@while(context.hasNext()){
       when(context.c){
-       in ('0'..'9')->{
+       in (0x30..0x39)->{
         context.append()
        }
        else->{
@@ -3866,14 +3892,14 @@ inline fun parse_obj(context:ParserContext,
       }
      }
      when(context.c){
-      'E','e'->{
+      0x45,0x65->{
        context.append()
        when(context.c){
-        in ('0'..'9')->{
+        in (0x30..0x39)->{
          context.append()
          loop8@while(context.hasNext()){
           when(context.c){
-           in ('0'..'9')->{
+           in (0x30..0x39)->{
             context.append()
            }
            else->{
@@ -3884,14 +3910,14 @@ inline fun parse_obj(context:ParserContext,
          onDOUBLE()
          return
         }
-        '+','-'->{
+        0x2b,0x2d->{
          context.append()
          when(context.c){
-          in ('0'..'9')->{
+          in (0x30..0x39)->{
            context.append()
            loop10@while(context.hasNext()){
             when(context.c){
-             in ('0'..'9')->{
+             in (0x30..0x39)->{
               context.append()
              }
              else->{
@@ -3923,31 +3949,31 @@ inline fun parse_obj(context:ParserContext,
     }
    }
   }
-  't'->{
+  0x74->{
    context.append()
    when(context.c){
-    'r'->{
+    0x72->{
      context.append()
      when(context.c){
-      'u'->{
+      0x75->{
        context.append()
        when(context.c){
-        'e'->{
+        0x65->{
          context.append()
          when(context.c){
-          'f'->{
+          0x66->{
            context.append()
            when(context.c){
-            'a'->{
+            0x61->{
              context.append()
              when(context.c){
-              'l'->{
+              0x6c->{
                context.append()
                when(context.c){
-                's'->{
+                0x73->{
                  context.append()
                  when(context.c){
-                  'e'->{
+                  0x65->{
                    context.append()
                    onBOOLEAN()
                    return
@@ -4004,17 +4030,17 @@ inline fun parse_triple_end(context:ParserContext,
 ){
  context.buffer.clear()
  when(context.c){
-  ';'->{
+  0x3b->{
    context.append()
    onPREDICATE_LIST1()
    return
   }
-  ','->{
+  0x2c->{
    context.append()
    onOBJECT_LIST1()
    return
   }
-  '.'->{
+  0x2e->{
    context.append()
    onDOT()
    return
@@ -4033,12 +4059,12 @@ inline fun parse_triple_end_or_object_iri(context:ParserContext,
 ){
  context.buffer.clear()
  when(context.c){
-  in (0x0.toChar()..0xffff.toChar()),in ('0'..'9'),0x3a.toChar(),in ('A'..'Z'),'_',in ('a'..'z'),in (0xc0.toChar()..0xd6.toChar()),in (0xd8.toChar()..0xf6.toChar()),in (0xf8.toChar()..0x2ff.toChar()),in (0x370.toChar()..0x37d.toChar()),in (0x37f.toChar()..0x1fff.toChar()),in (0x200c.toChar()..0x200d.toChar()),in (0x2070.toChar()..0x218f.toChar()),in (0x2c00.toChar()..0x2fef.toChar()),in (0x3001.toChar()..0xd7ff.toChar()),in (0xf900.toChar()..0xfdcf.toChar()),in (0xfdf0.toChar()..0xfffd.toChar())->{
+  in (0x30..0x39),0x3a,in (0x41..0x5a),0x5f,in (0x61..0x7a),in (0xc0..0xd6),in (0xd8..0xf6),in (0xf8..0x2ff),in (0x370..0x37d),in (0x37f..0x1fff),in (0x200c..0x200d),in (0x2070..0x218f),in (0x2c00..0x2fef),in (0x3001..0xd7ff),in (0xf900..0xfdcf),in (0xfdf0..0xfffd),in (0x10000..0xeffff)->{
    context.append()
    loop2@while(context.hasNext()){
     loop3@while(context.hasNext()){
      when(context.c){
-      '.'->{
+      0x2e->{
        context.append()
       }
       else->{
@@ -4047,17 +4073,17 @@ inline fun parse_triple_end_or_object_iri(context:ParserContext,
      }
     }
     when(context.c){
-     in (0x0.toChar()..0xffff.toChar()),'-',in ('0'..'9'),0x3a.toChar(),in ('A'..'Z'),'_',in ('a'..'z'),0xb7.toChar(),in (0xc0.toChar()..0xd6.toChar()),in (0xd8.toChar()..0xf6.toChar()),in (0xf8.toChar()..0x2ff.toChar()),in (0x300.toChar()..0x36f.toChar()),in (0x370.toChar()..0x37d.toChar()),in (0x37f.toChar()..0x1fff.toChar()),in (0x200c.toChar()..0x200d.toChar()),in (0x203f.toChar()..0x2040.toChar()),in (0x2070.toChar()..0x218f.toChar()),in (0x2c00.toChar()..0x2fef.toChar()),in (0x3001.toChar()..0xd7ff.toChar()),in (0xf900.toChar()..0xfdcf.toChar()),in (0xfdf0.toChar()..0xfffd.toChar())->{
+     0x2d,in (0x30..0x39),0x3a,in (0x41..0x5a),0x5f,in (0x61..0x7a),0xb7,in (0xc0..0xd6),in (0xd8..0xf6),in (0xf8..0x2ff),in (0x300..0x36f),in (0x370..0x37d),in (0x37f..0x1fff),in (0x200c..0x200d),in (0x203f..0x2040),in (0x2070..0x218f),in (0x2c00..0x2fef),in (0x3001..0xd7ff),in (0xf900..0xfdcf),in (0xfdf0..0xfffd),in (0x10000..0xeffff)->{
       context.append()
       continue@loop2
      }
-     '%'->{
+     0x25->{
       context.append()
       when(context.c){
-       in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+       in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
         context.append()
         when(context.c){
-         in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+         in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
           context.append()
           continue@loop2
          }
@@ -4071,10 +4097,10 @@ inline fun parse_triple_end_or_object_iri(context:ParserContext,
        }
       }
      }
-     0x5c.toChar()->{
+     0x5c->{
       context.append()
       when(context.c){
-       '!','#','$','%','&',0x27.toChar(),'(',')','*','+',',','-','.','/',';','=','?','@','_','~'->{
+       0x21,0x23,0x24,0x25,0x26,0x27,0x28,0x29,0x2a,0x2b,0x2c,0x2d,0x2e,0x2f,0x3b,0x3d,0x3f,0x40,0x5f,0x7e->{
         context.append()
         continue@loop2
        }
@@ -4091,18 +4117,18 @@ inline fun parse_triple_end_or_object_iri(context:ParserContext,
    onPN_LOCAL()
    return
   }
-  '%'->{
+  0x25->{
    context.append()
    when(context.c){
-    in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+    in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
      context.append()
      when(context.c){
-      in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+      in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
        context.append()
        loop6@while(context.hasNext()){
         loop7@while(context.hasNext()){
          when(context.c){
-          '.'->{
+          0x2e->{
            context.append()
           }
           else->{
@@ -4111,17 +4137,17 @@ inline fun parse_triple_end_or_object_iri(context:ParserContext,
          }
         }
         when(context.c){
-         in (0x0.toChar()..0xffff.toChar()),'-',in ('0'..'9'),0x3a.toChar(),in ('A'..'Z'),'_',in ('a'..'z'),0xb7.toChar(),in (0xc0.toChar()..0xd6.toChar()),in (0xd8.toChar()..0xf6.toChar()),in (0xf8.toChar()..0x2ff.toChar()),in (0x300.toChar()..0x36f.toChar()),in (0x370.toChar()..0x37d.toChar()),in (0x37f.toChar()..0x1fff.toChar()),in (0x200c.toChar()..0x200d.toChar()),in (0x203f.toChar()..0x2040.toChar()),in (0x2070.toChar()..0x218f.toChar()),in (0x2c00.toChar()..0x2fef.toChar()),in (0x3001.toChar()..0xd7ff.toChar()),in (0xf900.toChar()..0xfdcf.toChar()),in (0xfdf0.toChar()..0xfffd.toChar())->{
+         0x2d,in (0x30..0x39),0x3a,in (0x41..0x5a),0x5f,in (0x61..0x7a),0xb7,in (0xc0..0xd6),in (0xd8..0xf6),in (0xf8..0x2ff),in (0x300..0x36f),in (0x370..0x37d),in (0x37f..0x1fff),in (0x200c..0x200d),in (0x203f..0x2040),in (0x2070..0x218f),in (0x2c00..0x2fef),in (0x3001..0xd7ff),in (0xf900..0xfdcf),in (0xfdf0..0xfffd),in (0x10000..0xeffff)->{
           context.append()
           continue@loop6
          }
-         '%'->{
+         0x25->{
           context.append()
           when(context.c){
-           in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+           in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
             context.append()
             when(context.c){
-             in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+             in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
               context.append()
               continue@loop6
              }
@@ -4135,10 +4161,10 @@ inline fun parse_triple_end_or_object_iri(context:ParserContext,
            }
           }
          }
-         0x5c.toChar()->{
+         0x5c->{
           context.append()
           when(context.c){
-           '!','#','$','%','&',0x27.toChar(),'(',')','*','+',',','-','.','/',';','=','?','@','_','~'->{
+           0x21,0x23,0x24,0x25,0x26,0x27,0x28,0x29,0x2a,0x2b,0x2c,0x2d,0x2e,0x2f,0x3b,0x3d,0x3f,0x40,0x5f,0x7e->{
             context.append()
             continue@loop6
            }
@@ -4165,15 +4191,15 @@ inline fun parse_triple_end_or_object_iri(context:ParserContext,
     }
    }
   }
-  0x5c.toChar()->{
+  0x5c->{
    context.append()
    when(context.c){
-    '!','#','$','%','&',0x27.toChar(),'(',')','*','+',',','-','.','/',';','=','?','@','_','~'->{
+    0x21,0x23,0x24,0x25,0x26,0x27,0x28,0x29,0x2a,0x2b,0x2c,0x2d,0x2e,0x2f,0x3b,0x3d,0x3f,0x40,0x5f,0x7e->{
      context.append()
      loop4@while(context.hasNext()){
       loop5@while(context.hasNext()){
        when(context.c){
-        '.'->{
+        0x2e->{
          context.append()
         }
         else->{
@@ -4182,17 +4208,17 @@ inline fun parse_triple_end_or_object_iri(context:ParserContext,
        }
       }
       when(context.c){
-       in (0x0.toChar()..0xffff.toChar()),'-',in ('0'..'9'),0x3a.toChar(),in ('A'..'Z'),'_',in ('a'..'z'),0xb7.toChar(),in (0xc0.toChar()..0xd6.toChar()),in (0xd8.toChar()..0xf6.toChar()),in (0xf8.toChar()..0x2ff.toChar()),in (0x300.toChar()..0x36f.toChar()),in (0x370.toChar()..0x37d.toChar()),in (0x37f.toChar()..0x1fff.toChar()),in (0x200c.toChar()..0x200d.toChar()),in (0x203f.toChar()..0x2040.toChar()),in (0x2070.toChar()..0x218f.toChar()),in (0x2c00.toChar()..0x2fef.toChar()),in (0x3001.toChar()..0xd7ff.toChar()),in (0xf900.toChar()..0xfdcf.toChar()),in (0xfdf0.toChar()..0xfffd.toChar())->{
+       0x2d,in (0x30..0x39),0x3a,in (0x41..0x5a),0x5f,in (0x61..0x7a),0xb7,in (0xc0..0xd6),in (0xd8..0xf6),in (0xf8..0x2ff),in (0x300..0x36f),in (0x370..0x37d),in (0x37f..0x1fff),in (0x200c..0x200d),in (0x203f..0x2040),in (0x2070..0x218f),in (0x2c00..0x2fef),in (0x3001..0xd7ff),in (0xf900..0xfdcf),in (0xfdf0..0xfffd),in (0x10000..0xeffff)->{
         context.append()
         continue@loop4
        }
-       '%'->{
+       0x25->{
         context.append()
         when(context.c){
-         in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+         in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
           context.append()
           when(context.c){
-           in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+           in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
             context.append()
             continue@loop4
            }
@@ -4206,10 +4232,10 @@ inline fun parse_triple_end_or_object_iri(context:ParserContext,
          }
         }
        }
-       0x5c.toChar()->{
+       0x5c->{
         context.append()
         when(context.c){
-         '!','#','$','%','&',0x27.toChar(),'(',')','*','+',',','-','.','/',';','=','?','@','_','~'->{
+         0x21,0x23,0x24,0x25,0x26,0x27,0x28,0x29,0x2a,0x2b,0x2c,0x2d,0x2e,0x2f,0x3b,0x3d,0x3f,0x40,0x5f,0x7e->{
           context.append()
           continue@loop4
          }
@@ -4231,26 +4257,26 @@ inline fun parse_triple_end_or_object_iri(context:ParserContext,
     }
    }
   }
-  ';'->{
+  0x3b->{
    context.append()
    onPREDICATE_LIST1()
    return
   }
-  ','->{
+  0x2c->{
    context.append()
    onOBJECT_LIST1()
    return
   }
-  '.'->{
+  0x2e->{
    context.append()
    onDOT()
    return
   }
-  0x9.toChar(),0xa.toChar(),0xd.toChar(),' '->{
+  0x9,0xa,0xd,0x20->{
    context.append()
    loop2@while(context.hasNext()){
     when(context.c){
-     0x9.toChar(),0xa.toChar(),0xd.toChar(),' '->{
+     0x9,0xa,0xd,0x20->{
       context.append()
      }
      else->{
@@ -4276,14 +4302,14 @@ inline fun parse_triple_end_or_object_string(context:ParserContext,
 ){
  context.buffer.clear()
  when(context.c){
-  '@'->{
+  0x40->{
    context.append()
    when(context.c){
-    in ('A'..'Z'),in ('a'..'z')->{
+    in (0x41..0x5a),in (0x61..0x7a)->{
      context.append()
      loop4@while(context.hasNext()){
       when(context.c){
-       in ('A'..'Z'),in ('a'..'z')->{
+       in (0x41..0x5a),in (0x61..0x7a)->{
         context.append()
        }
        else->{
@@ -4293,14 +4319,14 @@ inline fun parse_triple_end_or_object_string(context:ParserContext,
      }
      loop4@while(context.hasNext()){
       when(context.c){
-       '-'->{
+       0x2d->{
         context.append()
         when(context.c){
-         in ('0'..'9'),in ('A'..'Z'),in ('a'..'z')->{
+         in (0x30..0x39),in (0x41..0x5a),in (0x61..0x7a)->{
           context.append()
           loop9@while(context.hasNext()){
            when(context.c){
-            in ('0'..'9'),in ('A'..'Z'),in ('a'..'z')->{
+            in (0x30..0x39),in (0x41..0x5a),in (0x61..0x7a)->{
              context.append()
             }
             else->{
@@ -4328,10 +4354,10 @@ inline fun parse_triple_end_or_object_string(context:ParserContext,
     }
    }
   }
-  0x5e.toChar()->{
+  0x5e->{
    context.append()
    when(context.c){
-    0x5e.toChar()->{
+    0x5e->{
      context.append()
      onIRI1()
      return
@@ -4341,26 +4367,26 @@ inline fun parse_triple_end_or_object_string(context:ParserContext,
     }
    }
   }
-  ';'->{
+  0x3b->{
    context.append()
    onPREDICATE_LIST1()
    return
   }
-  ','->{
+  0x2c->{
    context.append()
    onOBJECT_LIST1()
    return
   }
-  '.'->{
+  0x2e->{
    context.append()
    onDOT()
    return
   }
-  0x9.toChar(),0xa.toChar(),0xd.toChar(),' '->{
+  0x9,0xa,0xd,0x20->{
    context.append()
    loop2@while(context.hasNext()){
     when(context.c){
-     0x9.toChar(),0xa.toChar(),0xd.toChar(),' '->{
+     0x9,0xa,0xd,0x20->{
       context.append()
      }
      else->{
@@ -4382,30 +4408,30 @@ inline fun parse_triple_end_or_object_string_typed(context:ParserContext,
 ){
  context.buffer.clear()
  when(context.c){
-  '<'->{
+  0x3c->{
    context.append()
    loop2@while(context.hasNext()){
     when(context.c){
-     '!',in ('#'..';'),'=',in ('?'..'['),']','_',in ('a'..'z'),in ('~'..0xffff.toChar())->{
+     0x21,in (0x23..0x3b),0x3d,in (0x3f..0x5b),0x5d,0x5f,in (0x61..0x7a),in (0x7e..0xeffff)->{
       context.append()
       continue@loop2
      }
-     0x5c.toChar()->{
+     0x5c->{
       context.append()
       when(context.c){
-       'u'->{
+       0x75->{
         context.append()
         when(context.c){
-         in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+         in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
           context.append()
           when(context.c){
-           in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+           in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
             context.append()
             when(context.c){
-             in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+             in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
               context.append()
               when(context.c){
-               in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+               in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                 context.append()
                 continue@loop2
                }
@@ -4429,31 +4455,31 @@ inline fun parse_triple_end_or_object_string_typed(context:ParserContext,
          }
         }
        }
-       'U'->{
+       0x55->{
         context.append()
         when(context.c){
-         in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+         in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
           context.append()
           when(context.c){
-           in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+           in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
             context.append()
             when(context.c){
-             in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+             in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
               context.append()
               when(context.c){
-               in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+               in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                 context.append()
                 when(context.c){
-                 in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+                 in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                   context.append()
                   when(context.c){
-                   in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+                   in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                     context.append()
                     when(context.c){
-                     in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+                     in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                       context.append()
                       when(context.c){
-                       in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+                       in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                         context.append()
                         continue@loop2
                        }
@@ -4508,7 +4534,7 @@ inline fun parse_triple_end_or_object_string_typed(context:ParserContext,
     }
    }
    when(context.c){
-    '>'->{
+    0x3e->{
      context.append()
      onIRIREF()
      return
@@ -4518,12 +4544,12 @@ inline fun parse_triple_end_or_object_string_typed(context:ParserContext,
     }
    }
   }
-  in (0x0.toChar()..0xffff.toChar()),in ('A'..'Z'),in ('a'..'z'),in (0xc0.toChar()..0xd6.toChar()),in (0xd8.toChar()..0xf6.toChar()),in (0xf8.toChar()..0x2ff.toChar()),in (0x370.toChar()..0x37d.toChar()),in (0x37f.toChar()..0x1fff.toChar()),in (0x200c.toChar()..0x200d.toChar()),in (0x2070.toChar()..0x218f.toChar()),in (0x2c00.toChar()..0x2fef.toChar()),in (0x3001.toChar()..0xd7ff.toChar()),in (0xf900.toChar()..0xfdcf.toChar()),in (0xfdf0.toChar()..0xfffd.toChar())->{
+  in (0x41..0x5a),in (0x61..0x7a),in (0xc0..0xd6),in (0xd8..0xf6),in (0xf8..0x2ff),in (0x370..0x37d),in (0x37f..0x1fff),in (0x200c..0x200d),in (0x2070..0x218f),in (0x2c00..0x2fef),in (0x3001..0xd7ff),in (0xf900..0xfdcf),in (0xfdf0..0xfffd),in (0x10000..0xeffff)->{
    context.append()
    loop2@while(context.hasNext()){
     loop3@while(context.hasNext()){
      when(context.c){
-      '.'->{
+      0x2e->{
        context.append()
       }
       else->{
@@ -4532,7 +4558,7 @@ inline fun parse_triple_end_or_object_string_typed(context:ParserContext,
      }
     }
     when(context.c){
-     in (0x0.toChar()..0xffff.toChar()),'-',in ('0'..'9'),in ('A'..'Z'),'_',in ('a'..'z'),0xb7.toChar(),in (0xc0.toChar()..0xd6.toChar()),in (0xd8.toChar()..0xf6.toChar()),in (0xf8.toChar()..0x2ff.toChar()),in (0x300.toChar()..0x36f.toChar()),in (0x370.toChar()..0x37d.toChar()),in (0x37f.toChar()..0x1fff.toChar()),in (0x200c.toChar()..0x200d.toChar()),in (0x203f.toChar()..0x2040.toChar()),in (0x2070.toChar()..0x218f.toChar()),in (0x2c00.toChar()..0x2fef.toChar()),in (0x3001.toChar()..0xd7ff.toChar()),in (0xf900.toChar()..0xfdcf.toChar()),in (0xfdf0.toChar()..0xfffd.toChar())->{
+     0x2d,in (0x30..0x39),in (0x41..0x5a),0x5f,in (0x61..0x7a),0xb7,in (0xc0..0xd6),in (0xd8..0xf6),in (0xf8..0x2ff),in (0x300..0x36f),in (0x370..0x37d),in (0x37f..0x1fff),in (0x200c..0x200d),in (0x203f..0x2040),in (0x2070..0x218f),in (0x2c00..0x2fef),in (0x3001..0xd7ff),in (0xf900..0xfdcf),in (0xfdf0..0xfffd),in (0x10000..0xeffff)->{
       context.append()
       continue@loop2
      }
@@ -4542,7 +4568,7 @@ inline fun parse_triple_end_or_object_string_typed(context:ParserContext,
     }
    }
    when(context.c){
-    0x3a.toChar()->{
+    0x3a->{
      context.append()
      onPNAME_NS()
      return
@@ -4552,7 +4578,7 @@ inline fun parse_triple_end_or_object_string_typed(context:ParserContext,
     }
    }
   }
-  0x3a.toChar()->{
+  0x3a->{
    context.append()
    onPNAME_NS()
    return
@@ -4571,12 +4597,12 @@ inline fun parse_triple_end_or_object_string_typed_iri(context:ParserContext,
 ){
  context.buffer.clear()
  when(context.c){
-  in (0x0.toChar()..0xffff.toChar()),in ('0'..'9'),0x3a.toChar(),in ('A'..'Z'),'_',in ('a'..'z'),in (0xc0.toChar()..0xd6.toChar()),in (0xd8.toChar()..0xf6.toChar()),in (0xf8.toChar()..0x2ff.toChar()),in (0x370.toChar()..0x37d.toChar()),in (0x37f.toChar()..0x1fff.toChar()),in (0x200c.toChar()..0x200d.toChar()),in (0x2070.toChar()..0x218f.toChar()),in (0x2c00.toChar()..0x2fef.toChar()),in (0x3001.toChar()..0xd7ff.toChar()),in (0xf900.toChar()..0xfdcf.toChar()),in (0xfdf0.toChar()..0xfffd.toChar())->{
+  in (0x30..0x39),0x3a,in (0x41..0x5a),0x5f,in (0x61..0x7a),in (0xc0..0xd6),in (0xd8..0xf6),in (0xf8..0x2ff),in (0x370..0x37d),in (0x37f..0x1fff),in (0x200c..0x200d),in (0x2070..0x218f),in (0x2c00..0x2fef),in (0x3001..0xd7ff),in (0xf900..0xfdcf),in (0xfdf0..0xfffd),in (0x10000..0xeffff)->{
    context.append()
    loop2@while(context.hasNext()){
     loop3@while(context.hasNext()){
      when(context.c){
-      '.'->{
+      0x2e->{
        context.append()
       }
       else->{
@@ -4585,17 +4611,17 @@ inline fun parse_triple_end_or_object_string_typed_iri(context:ParserContext,
      }
     }
     when(context.c){
-     in (0x0.toChar()..0xffff.toChar()),'-',in ('0'..'9'),0x3a.toChar(),in ('A'..'Z'),'_',in ('a'..'z'),0xb7.toChar(),in (0xc0.toChar()..0xd6.toChar()),in (0xd8.toChar()..0xf6.toChar()),in (0xf8.toChar()..0x2ff.toChar()),in (0x300.toChar()..0x36f.toChar()),in (0x370.toChar()..0x37d.toChar()),in (0x37f.toChar()..0x1fff.toChar()),in (0x200c.toChar()..0x200d.toChar()),in (0x203f.toChar()..0x2040.toChar()),in (0x2070.toChar()..0x218f.toChar()),in (0x2c00.toChar()..0x2fef.toChar()),in (0x3001.toChar()..0xd7ff.toChar()),in (0xf900.toChar()..0xfdcf.toChar()),in (0xfdf0.toChar()..0xfffd.toChar())->{
+     0x2d,in (0x30..0x39),0x3a,in (0x41..0x5a),0x5f,in (0x61..0x7a),0xb7,in (0xc0..0xd6),in (0xd8..0xf6),in (0xf8..0x2ff),in (0x300..0x36f),in (0x370..0x37d),in (0x37f..0x1fff),in (0x200c..0x200d),in (0x203f..0x2040),in (0x2070..0x218f),in (0x2c00..0x2fef),in (0x3001..0xd7ff),in (0xf900..0xfdcf),in (0xfdf0..0xfffd),in (0x10000..0xeffff)->{
       context.append()
       continue@loop2
      }
-     '%'->{
+     0x25->{
       context.append()
       when(context.c){
-       in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+       in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
         context.append()
         when(context.c){
-         in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+         in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
           context.append()
           continue@loop2
          }
@@ -4609,10 +4635,10 @@ inline fun parse_triple_end_or_object_string_typed_iri(context:ParserContext,
        }
       }
      }
-     0x5c.toChar()->{
+     0x5c->{
       context.append()
       when(context.c){
-       '!','#','$','%','&',0x27.toChar(),'(',')','*','+',',','-','.','/',';','=','?','@','_','~'->{
+       0x21,0x23,0x24,0x25,0x26,0x27,0x28,0x29,0x2a,0x2b,0x2c,0x2d,0x2e,0x2f,0x3b,0x3d,0x3f,0x40,0x5f,0x7e->{
         context.append()
         continue@loop2
        }
@@ -4629,18 +4655,18 @@ inline fun parse_triple_end_or_object_string_typed_iri(context:ParserContext,
    onPN_LOCAL()
    return
   }
-  '%'->{
+  0x25->{
    context.append()
    when(context.c){
-    in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+    in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
      context.append()
      when(context.c){
-      in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+      in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
        context.append()
        loop6@while(context.hasNext()){
         loop7@while(context.hasNext()){
          when(context.c){
-          '.'->{
+          0x2e->{
            context.append()
           }
           else->{
@@ -4649,17 +4675,17 @@ inline fun parse_triple_end_or_object_string_typed_iri(context:ParserContext,
          }
         }
         when(context.c){
-         in (0x0.toChar()..0xffff.toChar()),'-',in ('0'..'9'),0x3a.toChar(),in ('A'..'Z'),'_',in ('a'..'z'),0xb7.toChar(),in (0xc0.toChar()..0xd6.toChar()),in (0xd8.toChar()..0xf6.toChar()),in (0xf8.toChar()..0x2ff.toChar()),in (0x300.toChar()..0x36f.toChar()),in (0x370.toChar()..0x37d.toChar()),in (0x37f.toChar()..0x1fff.toChar()),in (0x200c.toChar()..0x200d.toChar()),in (0x203f.toChar()..0x2040.toChar()),in (0x2070.toChar()..0x218f.toChar()),in (0x2c00.toChar()..0x2fef.toChar()),in (0x3001.toChar()..0xd7ff.toChar()),in (0xf900.toChar()..0xfdcf.toChar()),in (0xfdf0.toChar()..0xfffd.toChar())->{
+         0x2d,in (0x30..0x39),0x3a,in (0x41..0x5a),0x5f,in (0x61..0x7a),0xb7,in (0xc0..0xd6),in (0xd8..0xf6),in (0xf8..0x2ff),in (0x300..0x36f),in (0x370..0x37d),in (0x37f..0x1fff),in (0x200c..0x200d),in (0x203f..0x2040),in (0x2070..0x218f),in (0x2c00..0x2fef),in (0x3001..0xd7ff),in (0xf900..0xfdcf),in (0xfdf0..0xfffd),in (0x10000..0xeffff)->{
           context.append()
           continue@loop6
          }
-         '%'->{
+         0x25->{
           context.append()
           when(context.c){
-           in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+           in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
             context.append()
             when(context.c){
-             in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+             in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
               context.append()
               continue@loop6
              }
@@ -4673,10 +4699,10 @@ inline fun parse_triple_end_or_object_string_typed_iri(context:ParserContext,
            }
           }
          }
-         0x5c.toChar()->{
+         0x5c->{
           context.append()
           when(context.c){
-           '!','#','$','%','&',0x27.toChar(),'(',')','*','+',',','-','.','/',';','=','?','@','_','~'->{
+           0x21,0x23,0x24,0x25,0x26,0x27,0x28,0x29,0x2a,0x2b,0x2c,0x2d,0x2e,0x2f,0x3b,0x3d,0x3f,0x40,0x5f,0x7e->{
             context.append()
             continue@loop6
            }
@@ -4703,15 +4729,15 @@ inline fun parse_triple_end_or_object_string_typed_iri(context:ParserContext,
     }
    }
   }
-  0x5c.toChar()->{
+  0x5c->{
    context.append()
    when(context.c){
-    '!','#','$','%','&',0x27.toChar(),'(',')','*','+',',','-','.','/',';','=','?','@','_','~'->{
+    0x21,0x23,0x24,0x25,0x26,0x27,0x28,0x29,0x2a,0x2b,0x2c,0x2d,0x2e,0x2f,0x3b,0x3d,0x3f,0x40,0x5f,0x7e->{
      context.append()
      loop4@while(context.hasNext()){
       loop5@while(context.hasNext()){
        when(context.c){
-        '.'->{
+        0x2e->{
          context.append()
         }
         else->{
@@ -4720,17 +4746,17 @@ inline fun parse_triple_end_or_object_string_typed_iri(context:ParserContext,
        }
       }
       when(context.c){
-       in (0x0.toChar()..0xffff.toChar()),'-',in ('0'..'9'),0x3a.toChar(),in ('A'..'Z'),'_',in ('a'..'z'),0xb7.toChar(),in (0xc0.toChar()..0xd6.toChar()),in (0xd8.toChar()..0xf6.toChar()),in (0xf8.toChar()..0x2ff.toChar()),in (0x300.toChar()..0x36f.toChar()),in (0x370.toChar()..0x37d.toChar()),in (0x37f.toChar()..0x1fff.toChar()),in (0x200c.toChar()..0x200d.toChar()),in (0x203f.toChar()..0x2040.toChar()),in (0x2070.toChar()..0x218f.toChar()),in (0x2c00.toChar()..0x2fef.toChar()),in (0x3001.toChar()..0xd7ff.toChar()),in (0xf900.toChar()..0xfdcf.toChar()),in (0xfdf0.toChar()..0xfffd.toChar())->{
+       0x2d,in (0x30..0x39),0x3a,in (0x41..0x5a),0x5f,in (0x61..0x7a),0xb7,in (0xc0..0xd6),in (0xd8..0xf6),in (0xf8..0x2ff),in (0x300..0x36f),in (0x370..0x37d),in (0x37f..0x1fff),in (0x200c..0x200d),in (0x203f..0x2040),in (0x2070..0x218f),in (0x2c00..0x2fef),in (0x3001..0xd7ff),in (0xf900..0xfdcf),in (0xfdf0..0xfffd),in (0x10000..0xeffff)->{
         context.append()
         continue@loop4
        }
-       '%'->{
+       0x25->{
         context.append()
         when(context.c){
-         in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+         in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
           context.append()
           when(context.c){
-           in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+           in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
             context.append()
             continue@loop4
            }
@@ -4744,10 +4770,10 @@ inline fun parse_triple_end_or_object_string_typed_iri(context:ParserContext,
          }
         }
        }
-       0x5c.toChar()->{
+       0x5c->{
         context.append()
         when(context.c){
-         '!','#','$','%','&',0x27.toChar(),'(',')','*','+',',','-','.','/',';','=','?','@','_','~'->{
+         0x21,0x23,0x24,0x25,0x26,0x27,0x28,0x29,0x2a,0x2b,0x2c,0x2d,0x2e,0x2f,0x3b,0x3d,0x3f,0x40,0x5f,0x7e->{
           context.append()
           continue@loop4
          }
@@ -4769,26 +4795,26 @@ inline fun parse_triple_end_or_object_string_typed_iri(context:ParserContext,
     }
    }
   }
-  ';'->{
+  0x3b->{
    context.append()
    onPREDICATE_LIST1()
    return
   }
-  ','->{
+  0x2c->{
    context.append()
    onOBJECT_LIST1()
    return
   }
-  '.'->{
+  0x2e->{
    context.append()
    onDOT()
    return
   }
-  0x9.toChar(),0xa.toChar(),0xd.toChar(),' '->{
+  0x9,0xa,0xd,0x20->{
    context.append()
    loop2@while(context.hasNext()){
     when(context.c){
-     0x9.toChar(),0xa.toChar(),0xd.toChar(),' '->{
+     0x9,0xa,0xd,0x20->{
       context.append()
      }
      else->{
@@ -4810,12 +4836,12 @@ inline fun parse_subject_iri_or_ws(context:ParserContext,
 ){
  context.buffer.clear()
  when(context.c){
-  in (0x0.toChar()..0xffff.toChar()),in ('0'..'9'),0x3a.toChar(),in ('A'..'Z'),'_',in ('a'..'z'),in (0xc0.toChar()..0xd6.toChar()),in (0xd8.toChar()..0xf6.toChar()),in (0xf8.toChar()..0x2ff.toChar()),in (0x370.toChar()..0x37d.toChar()),in (0x37f.toChar()..0x1fff.toChar()),in (0x200c.toChar()..0x200d.toChar()),in (0x2070.toChar()..0x218f.toChar()),in (0x2c00.toChar()..0x2fef.toChar()),in (0x3001.toChar()..0xd7ff.toChar()),in (0xf900.toChar()..0xfdcf.toChar()),in (0xfdf0.toChar()..0xfffd.toChar())->{
+  in (0x30..0x39),0x3a,in (0x41..0x5a),0x5f,in (0x61..0x7a),in (0xc0..0xd6),in (0xd8..0xf6),in (0xf8..0x2ff),in (0x370..0x37d),in (0x37f..0x1fff),in (0x200c..0x200d),in (0x2070..0x218f),in (0x2c00..0x2fef),in (0x3001..0xd7ff),in (0xf900..0xfdcf),in (0xfdf0..0xfffd),in (0x10000..0xeffff)->{
    context.append()
    loop2@while(context.hasNext()){
     loop3@while(context.hasNext()){
      when(context.c){
-      '.'->{
+      0x2e->{
        context.append()
       }
       else->{
@@ -4824,17 +4850,17 @@ inline fun parse_subject_iri_or_ws(context:ParserContext,
      }
     }
     when(context.c){
-     in (0x0.toChar()..0xffff.toChar()),'-',in ('0'..'9'),0x3a.toChar(),in ('A'..'Z'),'_',in ('a'..'z'),0xb7.toChar(),in (0xc0.toChar()..0xd6.toChar()),in (0xd8.toChar()..0xf6.toChar()),in (0xf8.toChar()..0x2ff.toChar()),in (0x300.toChar()..0x36f.toChar()),in (0x370.toChar()..0x37d.toChar()),in (0x37f.toChar()..0x1fff.toChar()),in (0x200c.toChar()..0x200d.toChar()),in (0x203f.toChar()..0x2040.toChar()),in (0x2070.toChar()..0x218f.toChar()),in (0x2c00.toChar()..0x2fef.toChar()),in (0x3001.toChar()..0xd7ff.toChar()),in (0xf900.toChar()..0xfdcf.toChar()),in (0xfdf0.toChar()..0xfffd.toChar())->{
+     0x2d,in (0x30..0x39),0x3a,in (0x41..0x5a),0x5f,in (0x61..0x7a),0xb7,in (0xc0..0xd6),in (0xd8..0xf6),in (0xf8..0x2ff),in (0x300..0x36f),in (0x370..0x37d),in (0x37f..0x1fff),in (0x200c..0x200d),in (0x203f..0x2040),in (0x2070..0x218f),in (0x2c00..0x2fef),in (0x3001..0xd7ff),in (0xf900..0xfdcf),in (0xfdf0..0xfffd),in (0x10000..0xeffff)->{
       context.append()
       continue@loop2
      }
-     '%'->{
+     0x25->{
       context.append()
       when(context.c){
-       in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+       in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
         context.append()
         when(context.c){
-         in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+         in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
           context.append()
           continue@loop2
          }
@@ -4848,10 +4874,10 @@ inline fun parse_subject_iri_or_ws(context:ParserContext,
        }
       }
      }
-     0x5c.toChar()->{
+     0x5c->{
       context.append()
       when(context.c){
-       '!','#','$','%','&',0x27.toChar(),'(',')','*','+',',','-','.','/',';','=','?','@','_','~'->{
+       0x21,0x23,0x24,0x25,0x26,0x27,0x28,0x29,0x2a,0x2b,0x2c,0x2d,0x2e,0x2f,0x3b,0x3d,0x3f,0x40,0x5f,0x7e->{
         context.append()
         continue@loop2
        }
@@ -4868,18 +4894,18 @@ inline fun parse_subject_iri_or_ws(context:ParserContext,
    onPN_LOCAL()
    return
   }
-  '%'->{
+  0x25->{
    context.append()
    when(context.c){
-    in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+    in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
      context.append()
      when(context.c){
-      in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+      in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
        context.append()
        loop6@while(context.hasNext()){
         loop7@while(context.hasNext()){
          when(context.c){
-          '.'->{
+          0x2e->{
            context.append()
           }
           else->{
@@ -4888,17 +4914,17 @@ inline fun parse_subject_iri_or_ws(context:ParserContext,
          }
         }
         when(context.c){
-         in (0x0.toChar()..0xffff.toChar()),'-',in ('0'..'9'),0x3a.toChar(),in ('A'..'Z'),'_',in ('a'..'z'),0xb7.toChar(),in (0xc0.toChar()..0xd6.toChar()),in (0xd8.toChar()..0xf6.toChar()),in (0xf8.toChar()..0x2ff.toChar()),in (0x300.toChar()..0x36f.toChar()),in (0x370.toChar()..0x37d.toChar()),in (0x37f.toChar()..0x1fff.toChar()),in (0x200c.toChar()..0x200d.toChar()),in (0x203f.toChar()..0x2040.toChar()),in (0x2070.toChar()..0x218f.toChar()),in (0x2c00.toChar()..0x2fef.toChar()),in (0x3001.toChar()..0xd7ff.toChar()),in (0xf900.toChar()..0xfdcf.toChar()),in (0xfdf0.toChar()..0xfffd.toChar())->{
+         0x2d,in (0x30..0x39),0x3a,in (0x41..0x5a),0x5f,in (0x61..0x7a),0xb7,in (0xc0..0xd6),in (0xd8..0xf6),in (0xf8..0x2ff),in (0x300..0x36f),in (0x370..0x37d),in (0x37f..0x1fff),in (0x200c..0x200d),in (0x203f..0x2040),in (0x2070..0x218f),in (0x2c00..0x2fef),in (0x3001..0xd7ff),in (0xf900..0xfdcf),in (0xfdf0..0xfffd),in (0x10000..0xeffff)->{
           context.append()
           continue@loop6
          }
-         '%'->{
+         0x25->{
           context.append()
           when(context.c){
-           in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+           in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
             context.append()
             when(context.c){
-             in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+             in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
               context.append()
               continue@loop6
              }
@@ -4912,10 +4938,10 @@ inline fun parse_subject_iri_or_ws(context:ParserContext,
            }
           }
          }
-         0x5c.toChar()->{
+         0x5c->{
           context.append()
           when(context.c){
-           '!','#','$','%','&',0x27.toChar(),'(',')','*','+',',','-','.','/',';','=','?','@','_','~'->{
+           0x21,0x23,0x24,0x25,0x26,0x27,0x28,0x29,0x2a,0x2b,0x2c,0x2d,0x2e,0x2f,0x3b,0x3d,0x3f,0x40,0x5f,0x7e->{
             context.append()
             continue@loop6
            }
@@ -4942,15 +4968,15 @@ inline fun parse_subject_iri_or_ws(context:ParserContext,
     }
    }
   }
-  0x5c.toChar()->{
+  0x5c->{
    context.append()
    when(context.c){
-    '!','#','$','%','&',0x27.toChar(),'(',')','*','+',',','-','.','/',';','=','?','@','_','~'->{
+    0x21,0x23,0x24,0x25,0x26,0x27,0x28,0x29,0x2a,0x2b,0x2c,0x2d,0x2e,0x2f,0x3b,0x3d,0x3f,0x40,0x5f,0x7e->{
      context.append()
      loop4@while(context.hasNext()){
       loop5@while(context.hasNext()){
        when(context.c){
-        '.'->{
+        0x2e->{
          context.append()
         }
         else->{
@@ -4959,17 +4985,17 @@ inline fun parse_subject_iri_or_ws(context:ParserContext,
        }
       }
       when(context.c){
-       in (0x0.toChar()..0xffff.toChar()),'-',in ('0'..'9'),0x3a.toChar(),in ('A'..'Z'),'_',in ('a'..'z'),0xb7.toChar(),in (0xc0.toChar()..0xd6.toChar()),in (0xd8.toChar()..0xf6.toChar()),in (0xf8.toChar()..0x2ff.toChar()),in (0x300.toChar()..0x36f.toChar()),in (0x370.toChar()..0x37d.toChar()),in (0x37f.toChar()..0x1fff.toChar()),in (0x200c.toChar()..0x200d.toChar()),in (0x203f.toChar()..0x2040.toChar()),in (0x2070.toChar()..0x218f.toChar()),in (0x2c00.toChar()..0x2fef.toChar()),in (0x3001.toChar()..0xd7ff.toChar()),in (0xf900.toChar()..0xfdcf.toChar()),in (0xfdf0.toChar()..0xfffd.toChar())->{
+       0x2d,in (0x30..0x39),0x3a,in (0x41..0x5a),0x5f,in (0x61..0x7a),0xb7,in (0xc0..0xd6),in (0xd8..0xf6),in (0xf8..0x2ff),in (0x300..0x36f),in (0x370..0x37d),in (0x37f..0x1fff),in (0x200c..0x200d),in (0x203f..0x2040),in (0x2070..0x218f),in (0x2c00..0x2fef),in (0x3001..0xd7ff),in (0xf900..0xfdcf),in (0xfdf0..0xfffd),in (0x10000..0xeffff)->{
         context.append()
         continue@loop4
        }
-       '%'->{
+       0x25->{
         context.append()
         when(context.c){
-         in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+         in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
           context.append()
           when(context.c){
-           in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+           in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
             context.append()
             continue@loop4
            }
@@ -4983,10 +5009,10 @@ inline fun parse_subject_iri_or_ws(context:ParserContext,
          }
         }
        }
-       0x5c.toChar()->{
+       0x5c->{
         context.append()
         when(context.c){
-         '!','#','$','%','&',0x27.toChar(),'(',')','*','+',',','-','.','/',';','=','?','@','_','~'->{
+         0x21,0x23,0x24,0x25,0x26,0x27,0x28,0x29,0x2a,0x2b,0x2c,0x2d,0x2e,0x2f,0x3b,0x3d,0x3f,0x40,0x5f,0x7e->{
           context.append()
           continue@loop4
          }
@@ -5008,11 +5034,11 @@ inline fun parse_subject_iri_or_ws(context:ParserContext,
     }
    }
   }
-  0x9.toChar(),0xa.toChar(),0xd.toChar(),' '->{
+  0x9,0xa,0xd,0x20->{
    context.append()
    loop2@while(context.hasNext()){
     when(context.c){
-     0x9.toChar(),0xa.toChar(),0xd.toChar(),' '->{
+     0x9,0xa,0xd,0x20->{
       context.append()
      }
      else->{
@@ -5034,12 +5060,12 @@ inline fun parse_predicate_iri_or_ws(context:ParserContext,
 ){
  context.buffer.clear()
  when(context.c){
-  in (0x0.toChar()..0xffff.toChar()),in ('0'..'9'),0x3a.toChar(),in ('A'..'Z'),'_',in ('a'..'z'),in (0xc0.toChar()..0xd6.toChar()),in (0xd8.toChar()..0xf6.toChar()),in (0xf8.toChar()..0x2ff.toChar()),in (0x370.toChar()..0x37d.toChar()),in (0x37f.toChar()..0x1fff.toChar()),in (0x200c.toChar()..0x200d.toChar()),in (0x2070.toChar()..0x218f.toChar()),in (0x2c00.toChar()..0x2fef.toChar()),in (0x3001.toChar()..0xd7ff.toChar()),in (0xf900.toChar()..0xfdcf.toChar()),in (0xfdf0.toChar()..0xfffd.toChar())->{
+  in (0x30..0x39),0x3a,in (0x41..0x5a),0x5f,in (0x61..0x7a),in (0xc0..0xd6),in (0xd8..0xf6),in (0xf8..0x2ff),in (0x370..0x37d),in (0x37f..0x1fff),in (0x200c..0x200d),in (0x2070..0x218f),in (0x2c00..0x2fef),in (0x3001..0xd7ff),in (0xf900..0xfdcf),in (0xfdf0..0xfffd),in (0x10000..0xeffff)->{
    context.append()
    loop2@while(context.hasNext()){
     loop3@while(context.hasNext()){
      when(context.c){
-      '.'->{
+      0x2e->{
        context.append()
       }
       else->{
@@ -5048,17 +5074,17 @@ inline fun parse_predicate_iri_or_ws(context:ParserContext,
      }
     }
     when(context.c){
-     in (0x0.toChar()..0xffff.toChar()),'-',in ('0'..'9'),0x3a.toChar(),in ('A'..'Z'),'_',in ('a'..'z'),0xb7.toChar(),in (0xc0.toChar()..0xd6.toChar()),in (0xd8.toChar()..0xf6.toChar()),in (0xf8.toChar()..0x2ff.toChar()),in (0x300.toChar()..0x36f.toChar()),in (0x370.toChar()..0x37d.toChar()),in (0x37f.toChar()..0x1fff.toChar()),in (0x200c.toChar()..0x200d.toChar()),in (0x203f.toChar()..0x2040.toChar()),in (0x2070.toChar()..0x218f.toChar()),in (0x2c00.toChar()..0x2fef.toChar()),in (0x3001.toChar()..0xd7ff.toChar()),in (0xf900.toChar()..0xfdcf.toChar()),in (0xfdf0.toChar()..0xfffd.toChar())->{
+     0x2d,in (0x30..0x39),0x3a,in (0x41..0x5a),0x5f,in (0x61..0x7a),0xb7,in (0xc0..0xd6),in (0xd8..0xf6),in (0xf8..0x2ff),in (0x300..0x36f),in (0x370..0x37d),in (0x37f..0x1fff),in (0x200c..0x200d),in (0x203f..0x2040),in (0x2070..0x218f),in (0x2c00..0x2fef),in (0x3001..0xd7ff),in (0xf900..0xfdcf),in (0xfdf0..0xfffd),in (0x10000..0xeffff)->{
       context.append()
       continue@loop2
      }
-     '%'->{
+     0x25->{
       context.append()
       when(context.c){
-       in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+       in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
         context.append()
         when(context.c){
-         in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+         in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
           context.append()
           continue@loop2
          }
@@ -5072,10 +5098,10 @@ inline fun parse_predicate_iri_or_ws(context:ParserContext,
        }
       }
      }
-     0x5c.toChar()->{
+     0x5c->{
       context.append()
       when(context.c){
-       '!','#','$','%','&',0x27.toChar(),'(',')','*','+',',','-','.','/',';','=','?','@','_','~'->{
+       0x21,0x23,0x24,0x25,0x26,0x27,0x28,0x29,0x2a,0x2b,0x2c,0x2d,0x2e,0x2f,0x3b,0x3d,0x3f,0x40,0x5f,0x7e->{
         context.append()
         continue@loop2
        }
@@ -5092,18 +5118,18 @@ inline fun parse_predicate_iri_or_ws(context:ParserContext,
    onPN_LOCAL()
    return
   }
-  '%'->{
+  0x25->{
    context.append()
    when(context.c){
-    in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+    in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
      context.append()
      when(context.c){
-      in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+      in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
        context.append()
        loop6@while(context.hasNext()){
         loop7@while(context.hasNext()){
          when(context.c){
-          '.'->{
+          0x2e->{
            context.append()
           }
           else->{
@@ -5112,17 +5138,17 @@ inline fun parse_predicate_iri_or_ws(context:ParserContext,
          }
         }
         when(context.c){
-         in (0x0.toChar()..0xffff.toChar()),'-',in ('0'..'9'),0x3a.toChar(),in ('A'..'Z'),'_',in ('a'..'z'),0xb7.toChar(),in (0xc0.toChar()..0xd6.toChar()),in (0xd8.toChar()..0xf6.toChar()),in (0xf8.toChar()..0x2ff.toChar()),in (0x300.toChar()..0x36f.toChar()),in (0x370.toChar()..0x37d.toChar()),in (0x37f.toChar()..0x1fff.toChar()),in (0x200c.toChar()..0x200d.toChar()),in (0x203f.toChar()..0x2040.toChar()),in (0x2070.toChar()..0x218f.toChar()),in (0x2c00.toChar()..0x2fef.toChar()),in (0x3001.toChar()..0xd7ff.toChar()),in (0xf900.toChar()..0xfdcf.toChar()),in (0xfdf0.toChar()..0xfffd.toChar())->{
+         0x2d,in (0x30..0x39),0x3a,in (0x41..0x5a),0x5f,in (0x61..0x7a),0xb7,in (0xc0..0xd6),in (0xd8..0xf6),in (0xf8..0x2ff),in (0x300..0x36f),in (0x370..0x37d),in (0x37f..0x1fff),in (0x200c..0x200d),in (0x203f..0x2040),in (0x2070..0x218f),in (0x2c00..0x2fef),in (0x3001..0xd7ff),in (0xf900..0xfdcf),in (0xfdf0..0xfffd),in (0x10000..0xeffff)->{
           context.append()
           continue@loop6
          }
-         '%'->{
+         0x25->{
           context.append()
           when(context.c){
-           in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+           in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
             context.append()
             when(context.c){
-             in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+             in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
               context.append()
               continue@loop6
              }
@@ -5136,10 +5162,10 @@ inline fun parse_predicate_iri_or_ws(context:ParserContext,
            }
           }
          }
-         0x5c.toChar()->{
+         0x5c->{
           context.append()
           when(context.c){
-           '!','#','$','%','&',0x27.toChar(),'(',')','*','+',',','-','.','/',';','=','?','@','_','~'->{
+           0x21,0x23,0x24,0x25,0x26,0x27,0x28,0x29,0x2a,0x2b,0x2c,0x2d,0x2e,0x2f,0x3b,0x3d,0x3f,0x40,0x5f,0x7e->{
             context.append()
             continue@loop6
            }
@@ -5166,15 +5192,15 @@ inline fun parse_predicate_iri_or_ws(context:ParserContext,
     }
    }
   }
-  0x5c.toChar()->{
+  0x5c->{
    context.append()
    when(context.c){
-    '!','#','$','%','&',0x27.toChar(),'(',')','*','+',',','-','.','/',';','=','?','@','_','~'->{
+    0x21,0x23,0x24,0x25,0x26,0x27,0x28,0x29,0x2a,0x2b,0x2c,0x2d,0x2e,0x2f,0x3b,0x3d,0x3f,0x40,0x5f,0x7e->{
      context.append()
      loop4@while(context.hasNext()){
       loop5@while(context.hasNext()){
        when(context.c){
-        '.'->{
+        0x2e->{
          context.append()
         }
         else->{
@@ -5183,17 +5209,17 @@ inline fun parse_predicate_iri_or_ws(context:ParserContext,
        }
       }
       when(context.c){
-       in (0x0.toChar()..0xffff.toChar()),'-',in ('0'..'9'),0x3a.toChar(),in ('A'..'Z'),'_',in ('a'..'z'),0xb7.toChar(),in (0xc0.toChar()..0xd6.toChar()),in (0xd8.toChar()..0xf6.toChar()),in (0xf8.toChar()..0x2ff.toChar()),in (0x300.toChar()..0x36f.toChar()),in (0x370.toChar()..0x37d.toChar()),in (0x37f.toChar()..0x1fff.toChar()),in (0x200c.toChar()..0x200d.toChar()),in (0x203f.toChar()..0x2040.toChar()),in (0x2070.toChar()..0x218f.toChar()),in (0x2c00.toChar()..0x2fef.toChar()),in (0x3001.toChar()..0xd7ff.toChar()),in (0xf900.toChar()..0xfdcf.toChar()),in (0xfdf0.toChar()..0xfffd.toChar())->{
+       0x2d,in (0x30..0x39),0x3a,in (0x41..0x5a),0x5f,in (0x61..0x7a),0xb7,in (0xc0..0xd6),in (0xd8..0xf6),in (0xf8..0x2ff),in (0x300..0x36f),in (0x370..0x37d),in (0x37f..0x1fff),in (0x200c..0x200d),in (0x203f..0x2040),in (0x2070..0x218f),in (0x2c00..0x2fef),in (0x3001..0xd7ff),in (0xf900..0xfdcf),in (0xfdf0..0xfffd),in (0x10000..0xeffff)->{
         context.append()
         continue@loop4
        }
-       '%'->{
+       0x25->{
         context.append()
         when(context.c){
-         in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+         in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
           context.append()
           when(context.c){
-           in ('0'..'9'),in ('A'..'F'),in ('a'..'f')->{
+           in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
             context.append()
             continue@loop4
            }
@@ -5207,10 +5233,10 @@ inline fun parse_predicate_iri_or_ws(context:ParserContext,
          }
         }
        }
-       0x5c.toChar()->{
+       0x5c->{
         context.append()
         when(context.c){
-         '!','#','$','%','&',0x27.toChar(),'(',')','*','+',',','-','.','/',';','=','?','@','_','~'->{
+         0x21,0x23,0x24,0x25,0x26,0x27,0x28,0x29,0x2a,0x2b,0x2c,0x2d,0x2e,0x2f,0x3b,0x3d,0x3f,0x40,0x5f,0x7e->{
           context.append()
           continue@loop4
          }
@@ -5232,11 +5258,11 @@ inline fun parse_predicate_iri_or_ws(context:ParserContext,
     }
    }
   }
-  0x9.toChar(),0xa.toChar(),0xd.toChar(),' '->{
+  0x9,0xa,0xd,0x20->{
    context.append()
    loop2@while(context.hasNext()){
     when(context.c){
-     0x9.toChar(),0xa.toChar(),0xd.toChar(),' '->{
+     0x9,0xa,0xd,0x20->{
       context.append()
      }
      else->{

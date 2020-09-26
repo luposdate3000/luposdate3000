@@ -11,8 +11,7 @@ enum class Turtle2ParserState {
     TRIPLE_END_OR_OBJECT_STRING,
 }
 
-abstract class Turtle2Parser(input: CharIterator) {
-    constructor(data: String) : this(data.iterator())
+abstract class Turtle2Parser(input: ByteIterator) {
 
     @JvmField
     val context = ParserContext(input)
@@ -55,9 +54,8 @@ break
     }
 
     fun statement() {
-try{
         parse_ws(context, {})
-}catch(e:ParserExceptionEOF){
+if(context.c==ParserContext.EOF){
 state=Turtle2ParserState.EOF
 return
 }
