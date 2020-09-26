@@ -155,7 +155,7 @@ object HttpEndpoint {
         try {
             for (fileName in fileNames.split(";")) {
                 val f = File(fileName)
-val                    iter = f.readAsInputStream()
+                val iter = f.readAsInputStream()
                 try {
                     val x = object : Turtle2Parser(iter) {
                         override fun onTriple(triple: Array<String>) {
@@ -184,7 +184,7 @@ val                    iter = f.readAsInputStream()
                 for (fileName in fileNames.split(";")) {
                     println("importing file '$fileName'")
                     val f = File(fileName)
-val                        iter = f.readAsInputStream()
+                    val iter = f.readAsInputStream()
                     try {
                         val x = object : Turtle2Parser(iter) {
                             override fun onTriple(triple: Array<String>) {

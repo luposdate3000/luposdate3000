@@ -1,12 +1,12 @@
 package lupos.s00misc
 
 import java.io.BufferedInputStream
-import java.io.InputStream
 import java.io.BufferedOutputStream
 import java.io.DataInputStream
 import java.io.DataOutputStream
 import java.io.FileInputStream
 import java.io.FileOutputStream
+import java.io.InputStream
 import kotlin.io.createTempFile
 import kotlin.jvm.JvmField
 import lupos.s00misc.Coverage
@@ -28,16 +28,18 @@ class MyCharIterator(val file: File) : CharIterator() {
         return dis.readChar()
     }
 }
-class MyInputStream(@JvmField val stream:InputStream){
-inline fun hasNext(): Boolean {
-if(stream.available() > 0){
-return true
-}else{
-stream.close()
-return false
-}
-}
-inline fun next(): Int {
+
+class MyInputStream(@JvmField val stream: InputStream) {
+    inline fun hasNext(): Boolean {
+        if (stream.available() > 0) {
+            return true
+        } else {
+            stream.close()
+            return false
+        }
+    }
+
+    inline fun next(): Int {
         return stream.read()
     }
 }

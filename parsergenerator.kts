@@ -56,6 +56,7 @@ open class CharGroup {
         ranges.add(MyPair(c, c))
         return this
     }
+
     fun addChars(c: Char): CharGroup {
         ranges.add(MyPair(c.toInt(), c.toInt()))
         return this
@@ -124,6 +125,7 @@ open class CharGroup {
         modifier = _modifier
         addChars(c)
     }
+
     constructor(c: Char, _modifier: CharGroupModifier = CharGroupModifier.ONE) {
         modifier = _modifier
         addChars(c.toInt())
@@ -149,40 +151,40 @@ open class CharGroup {
     }
 
     fun charToString(c: Int): String {
-                return "0x${c.toInt().toString(16)}"
+        return "0x${c.toInt().toString(16)}"
     }
 
     fun charsToRanges(): String {
         var arr: Array<MyPair> = ranges.toTypedArray()
-	if(arr.size>0){
-	        arr.sort()
-		var changed=true
-		while(changed){
-changed=false
-			ranges.clear()
-			ranges.add(arr[0])
-			for(a in 1 until arr.size){
-val last=ranges[ranges.size-1]
-val current=arr[a]
-				var a=last.second
-				var b=current.first
-				if(b<=a){
-if(current.first<last.first){
-last.first=current.first
-}
-if(current.second>last.second){
-last.second=current.second
-}
-				}else if(a+1==b){
-					last.second=current.second
-					changed=true
-				}else{
-					ranges.add(current)
-				}
-			}
-			arr=ranges.toTypedArray()
-		}
-	}
+        if (arr.size > 0) {
+            arr.sort()
+            var changed = true
+            while (changed) {
+                changed = false
+                ranges.clear()
+                ranges.add(arr[0])
+                for (a in 1 until arr.size) {
+                    val last = ranges[ranges.size - 1]
+                    val current = arr[a]
+                    var a = last.second
+                    var b = current.first
+                    if (b <= a) {
+                        if (current.first < last.first) {
+                            last.first = current.first
+                        }
+                        if (current.second > last.second) {
+                            last.second = current.second
+                        }
+                    } else if (a + 1 == b) {
+                        last.second = current.second
+                        changed = true
+                    } else {
+                        ranges.add(current)
+                    }
+                }
+                arr = ranges.toTypedArray()
+            }
+        }
         var res = ""
         if (arr.size > 0) {
             for (i in 0 until arr.size - 1) {
@@ -368,7 +370,7 @@ last.second=current.second
                         println(" ".repeat(indention + 3) + "}")
                         println(" ".repeat(indention + 2) + "}")
                         println(" ".repeat(indention + 1) + "}")
-                        c.myPrint(indention, printmode, true,{onElseBranch()})
+                        c.myPrint(indention, printmode, true, { onElseBranch() })
                         if (!skipheader) {
                             println(" ".repeat(indention) + "}")
                         }

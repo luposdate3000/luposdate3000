@@ -14,7 +14,6 @@ enum class Turtle2ParserState {
 }
 
 abstract class Turtle2Parser(input: MyInputStream) {
-
     @JvmField
     val context = ParserContext(input)
 
@@ -28,12 +27,12 @@ abstract class Turtle2Parser(input: MyInputStream) {
     var state = Turtle2ParserState.STATEMENT
     abstract fun onTriple(triple: Array<String>)
     fun turtleDoc() {
-var iter=0
+        var iter = 0
         while (true) {
-iter++
-if(iter % 10000==0){
-println("$iter :: at (${context.line}:${context.column})")
-}
+            iter++
+            if (iter % 10000 == 0) {
+                println("$iter :: at (${context.line}:${context.column})")
+            }
             //println("state :: $state at (${context.line}:${context.column})")
             when (state) {
                 Turtle2ParserState.EOF -> {
@@ -74,8 +73,8 @@ println("$iter :: at (${context.line}:${context.column})")
                     parse_base(context,
                             onIRIREF = {
                                 //println("onIRIREF(${context.getValue()})")
-val s=context.getValue()
-                                prefixMap[":"] = s.substring(1,s.length-1)
+                                val s = context.getValue()
+                                prefixMap[":"] = s.substring(1, s.length - 1)
                             })
                     state = Turtle2ParserState.STATEMENT
                 },
@@ -89,8 +88,8 @@ val s=context.getValue()
                                 parse_ws_forced(context, {})
                                 parse_prefix2(context, onIRIREF = {
                                     //println("onIRIREF(${context.getValue()})")
-val s=context.getValue()
-                                    prefixMap[prefix] = s.substring(1,s.length-1)
+                                    val s = context.getValue()
+                                    prefixMap[prefix] = s.substring(1, s.length - 1)
                                 })
                             })
                     state = Turtle2ParserState.STATEMENT
@@ -101,8 +100,8 @@ val s=context.getValue()
                     parse_base(context,
                             onIRIREF = {
                                 //println("onIRIREF(${context.getValue()})")
-val s=context.getValue()
-                                prefixMap[""] = s.substring(1,s.length-1)
+                                val s = context.getValue()
+                                prefixMap[""] = s.substring(1, s.length - 1)
                             })
                     parse_ws(context, {})
                     parse_dot(context, {})
@@ -118,8 +117,8 @@ val s=context.getValue()
                                 parse_ws_forced(context, {})
                                 parse_prefix2(context, onIRIREF = {
                                     //println("onIRIREF(${context.getValue()})")
-val s=context.getValue()
-prefixMap[prefix] = s.substring(1,s.length-1)
+                                    val s = context.getValue()
+                                    prefixMap[prefix] = s.substring(1, s.length - 1)
                                 })
                             })
                     parse_ws(context, {})
@@ -129,13 +128,13 @@ prefixMap[prefix] = s.substring(1,s.length-1)
                 onIRIREF = {
                     //println("onIRIREF(${context.getValue()})")
                     triple[0] = context.getValue()
-parse_ws_forced(context, {})
+                    parse_ws_forced(context, {})
                     state = Turtle2ParserState.PREDICATE
                 },
                 onPNAME_NS = {
                     //println("onPNAME_NS(${context.getValue()})")
                     triple[0] = context.getValue()
-parse_subject_iri_or_ws(context,
+                    parse_subject_iri_or_ws(context,
                             onPN_LOCAL = {
                                 //println("onPN_LOCAL(${context.getValue()})")
                                 triple[0] = "<" + prefixMap[triple[0]]!! + context.getValue() + ">"
@@ -150,7 +149,7 @@ parse_subject_iri_or_ws(context,
                 onBLANK_NODE_LABEL = {
 //println("onBLANK_NODE_LABEL(${context.getValue()})")
                     triple[0] = context.getValue()
-parse_ws_forced(context, {})
+                    parse_ws_forced(context, {})
                     state = Turtle2ParserState.PREDICATE
                 })
     }
