@@ -1,6 +1,7 @@
 package lupos.s00misc
 
 import java.io.BufferedInputStream
+import java.io.InputStream
 import java.io.BufferedOutputStream
 import java.io.DataInputStream
 import java.io.DataOutputStream
@@ -27,19 +28,17 @@ class MyCharIterator(val file: File) : CharIterator() {
         return dis.readChar()
     }
 }
-class MyByteIterator(val file: File) : ByteIterator() {
-    val fis = FileInputStream(file.filename)
-    val bis = BufferedInputStream(fis)
-    override fun hasNext(): Boolean {
-        val res = bis.available() > 0
-        if (res == false) {
-            bis.close()
-        }
-        return res
-    }
-
-    override fun nextByte(): Byte {
-        return bis.readChar()
+class MyInputStream(@JvmField val stream:InputStream){
+inline fun hasNext(): Boolean {
+if(stream.available() > 0){
+return true
+}else{
+stream.close()
+return false
+}
+}
+inline fun next(): Int {
+        return stream.read()
     }
 }
 
@@ -55,7 +54,7 @@ class File(@JvmField val filename: String) {
     fun length() = java.io.File(filename).length()
     fun readAsString() = java.io.File(filename).readText()
     fun readAsCharIterator(): CharIterator = MyCharIterator(this)
-    fun readAsByteIterator(): ByteIterator = MyByteIterator(this)
+    fun readAsInputStream(): MyInputStream = MyInputStream(BufferedInputStream(FileInputStream(java.io.File(filename))))
     fun walk(action: (String) -> Unit) {
         java.io.File(filename).walk().forEach {
             action(filename + "/" + it.toRelativeString(java.io.File(filename)))

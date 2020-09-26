@@ -155,13 +155,7 @@ object HttpEndpoint {
         try {
             for (fileName in fileNames.split(";")) {
                 val f = File(fileName)
-                val iter: ByteIterator
-                if (f.length() < Int.MAX_VALUE) {
-                    val data = f.readAsString()
-                    iter = data.iterator()
-                } else {
-                    iter = f.readAsByteIterator()
-                }
+val                    iter = f.readAsInputStream()
                 try {
                     val x = object : Turtle2Parser(iter) {
                         override fun onTriple(triple: Array<String>) {
@@ -190,13 +184,7 @@ object HttpEndpoint {
                 for (fileName in fileNames.split(";")) {
                     println("importing file '$fileName'")
                     val f = File(fileName)
-                    val iter: ByteIterator
-                    if (f.length() < Int.MAX_VALUE) {
-                        val data = f.readAsString()
-                        iter = data.iterator()
-                    } else {
-                        iter = f.readAsByteIterator()
-                    }
+val                        iter = f.readAsInputStream()
                     try {
                         val x = object : Turtle2Parser(iter) {
                             override fun onTriple(triple: Array<String>) {

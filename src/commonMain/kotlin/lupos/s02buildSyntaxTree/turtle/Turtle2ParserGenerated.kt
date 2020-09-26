@@ -1,10 +1,11 @@
 package lupos.s02buildSyntaxTree.turtle
 import kotlin.jvm.JvmField
 import lupos.s00misc.Luposdate3000Exception
+import lupos.s00misc.MyInputStream
 open class ParserException(msg:String):Luposdate3000Exception("ParserContext",msg)
 class ParserExceptionEOF():ParserException("EOF")
 class ParserExceptionUnexpectedChar(context:ParserContext):ParserException("unexpected char ${context.c} at ${context.line}:${context.column}")
-class ParserContext(val input:ByteIterator){
+class ParserContext(val input:MyInputStream){
  companion object{
   const val EOF=0x7fffffff.toInt()
  }
@@ -21,25 +22,25 @@ class ParserContext(val input:ByteIterator){
     c=EOF
    }
   }
-  val t:Int=input.nextByte() and 0xff
+  val t:Int=input.next() and 0xff
   if((t and 0x80)==0){
    //1byte
    c=t
   }else if((t and 0x20)==0){
    //2byte
    c=(t and 0x1f) shl 6
-   c=c or (input.nextByte() and 0x3f)
+   c=c or (input.next() and 0x3f)
   }else if((t and 0x10)==0){
    //3byte
    c=(t and 0x0f) shl 12
-   c=c or (input.nextByte() and 0x3f) shl 6
-   c=c or (input.nextByte() and 0x3f)
+   c=c or (input.next() and 0x3f) shl 6
+   c=c or (input.next() and 0x3f)
   }else{
    //4byte
    c=(t and 0x07) shl 18
-   c=c or (input.nextByte() and 0x3f) shl 12
-   c=c or (input.nextByte() and 0x3f) shl 6
-   c=c or (input.nextByte() and 0x3f)
+   c=c or (input.next() and 0x3f) shl 12
+   c=c or (input.next() and 0x3f) shl 6
+   c=c or (input.next() and 0x3f)
   }
   if((c=='\r'.toInt()) || (c=='\n'.toInt())){
    if(!tmp){
