@@ -28,7 +28,12 @@ abstract class Turtle2Parser(input: MyInputStream) {
     var state = Turtle2ParserState.STATEMENT
     abstract fun onTriple(triple: Array<String>)
     fun turtleDoc() {
+var iter=0
         while (true) {
+iter++
+if(iter % 10000==0){
+println("$iter :: at (${context.line}:${context.column})")
+}
             //println("state :: $state at (${context.line}:${context.column})")
             when (state) {
                 Turtle2ParserState.EOF -> {

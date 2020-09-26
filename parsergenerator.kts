@@ -149,19 +149,40 @@ open class CharGroup {
     }
 
     fun charToString(c: Int): String {
-//        when (c) {
-//            in 'a'..'z', in 'A'..'Z', in '0'..'9', '_', '~', '.', '-', '!', '$', '&', ' ', '(', ')', '*', '+', ',', ';', '=', '/', '?', '#', '@', '%', '<', '>', '{', '}', '[', ']' -> {
-//                return "'$c'"
-//            }
-//            else -> {
                 return "0x${c.toInt().toString(16)}"
-//            }
-//        }
     }
 
     fun charsToRanges(): String {
         var arr: Array<MyPair> = ranges.toTypedArray()
-        arr.sort()
+	if(arr.size>0){
+	        arr.sort()
+		var changed=true
+		while(changed){
+changed=false
+			ranges.clear()
+			ranges.add(arr[0])
+			for(a in 1 until arr.size){
+val last=ranges[ranges.size-1]
+val current=arr[a]
+				var a=last.second
+				var b=current.first
+				if(b<=a){
+if(current.first<last.first){
+last.first=current.first
+}
+if(current.second>last.second){
+last.second=current.second
+}
+				}else if(a+1==b){
+					last.second=current.second
+					changed=true
+				}else{
+					ranges.add(current)
+				}
+			}
+			arr=ranges.toTypedArray()
+		}
+	}
         var res = ""
         if (arr.size > 0) {
             for (i in 0 until arr.size - 1) {
@@ -825,7 +846,7 @@ fun parseRegex(str: String, tail: CharGroup): CharGroup {
                 }
                 if (negativeMode) {
                     var t = mutableListOf<MyPair>()
-                    t.add(MyPair(0x0, 0xEFFFF))
+                    t.add(MyPair(0x0, 0x3fffff))
                     var change = true
                     while (change) {
                         change = false
@@ -1041,7 +1062,7 @@ var allTokens = mapOf(
         "HEX" to "([0-9] | [A-F] | [a-f])",
         "PERCENT" to "'%' HEX HEX",
         "PLX" to "(PERCENT | PN_LOCAL_ESC)",
-        "PN_CHARS_BASE" to "([A-Z] | [a-z] | [#x00C0-#x00D6] | [#x00D8-#x00F6] | [#x00F8-#x02FF] | [#x0370-#x037D] | [#x037F-#x1FFF] | [#x200C-#x200D] | [#x2070-#x218F] | [#x2C00-#x2FEF] | [#x3001-#xD7FF] | [#xF900-#xFDCF] | [#xFDF0-#xFFFD] | [#x10000-#xEFFFF])",
+        "PN_CHARS_BASE" to "([A-Z] | [a-z] | [#x00C0-#x00D6] | [#x00D8-#x00F6] | [#x00F8-#x02FF] | [#x0370-#x037D] | [#x037F-#x1FFF] | [#x200C-#x200D] | [#x2070-#x218F] | [#x2C00-#x2FEF] | [#x3001-#xD7FF] | [#xF900-#xFDCF] | [#xFDF0-#xFFFD] | [#x10000-#x3FFFFF])",
         "PN_CHARS_U" to "(PN_CHARS_BASE | '_')",
         "PN_PREFIX" to "PN_CHARS_BASE ([.]* PN_CHARS)*",
         "UCHAR" to "(('\\\\') 'u' HEX HEX HEX HEX | ('\\\\') 'U' HEX HEX HEX HEX HEX HEX HEX HEX)",
