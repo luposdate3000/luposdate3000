@@ -27,28 +27,31 @@ class ParserContext(val input:MyInputStream){
   if((t and 0x80)==0){
    //1byte
    c=t
+   if((c=='\r'.toInt()) || (c=='\n'.toInt())){
+    if(!tmp){
+     line++
+     column=1
+    }
+   } else {
+    column++
+   }
   }else if((t and 0x20)==0){
    //2byte
    c=(t and 0x1f) shl 6
    c=c or (input.next() and 0x3f)
+   column++
   }else if((t and 0x10)==0){
    //3byte
    c=(t and 0x0f) shl 12
    c=c or (input.next() and 0x3f) shl 6
    c=c or (input.next() and 0x3f)
+   column++
   }else{
    //4byte
    c=(t and 0x07) shl 18
    c=c or (input.next() and 0x3f) shl 12
    c=c or (input.next() and 0x3f) shl 6
    c=c or (input.next() and 0x3f)
-  }
-  if((c=='\r'.toInt()) || (c=='\n'.toInt())){
-   if(!tmp){
-    line++
-    column=1
-   }
-  } else {
    column++
   }
  }
@@ -62,10 +65,10 @@ class ParserContext(val input:MyInputStream){
   }
   next()
  }
- fun hasNext():Boolean{
+ inline fun hasNext():Boolean{
   return input.hasNext()
  }
- fun getValue():String{
+ inline fun getValue():String{
   return buffer.toString()
  }
  init{

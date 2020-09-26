@@ -44,7 +44,7 @@ repositories {
     maven("http://dl.bintray.com/kotlin/kotlin-eap-1.2")
     maven("https://kotlin.bintray.com/kotlinx")
 }
-project.buildDir = file("build/build_1.4.255-SNAPSHOT_jvm_Endpoint_Off_Threads_Small_BPlusTreePartition_JavaNet_On_BTree_BTree_XML_false_8196_1048576_512_512_1048576_true_ECoverage.Disabled_Off_None_-1_Off_Off_true_EPOPDebugMode.NONE")
+project.buildDir = file("build/build_1.4.255-SNAPSHOT_jvm_Endpoint_Off_Threads_Small_BPlusTreePartition_JavaNet_On_BTree_BTree_XML_false_8196_1048576_512_512_1048576_true_ECoverage.Disabled_Off_None_-1_Off_On_true_EPOPDebugMode.NONE")
 dependencies {
     implementation("com.benasher44:uuid:0.0.7")
     implementation("com.soywiz.korlibs.krypto:krypto:1.9.1")
