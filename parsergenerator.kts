@@ -1122,7 +1122,7 @@ var root = CharGroup()
 //root.append(parseRegex(allTokens["STRING_LITERAL_SINGLE_QUOTE"]!!, CharGroupFinish("STRING_LITERAL_SINGLE_QUOTE")))
 
 if (args.size == 1 && args[0] == "PARSER_CONTEXT") {
-    println("class ParserContext(val input:MyInputStream){")
+    println("class ParserContext(@JvmField val input:MyInputStream){")
     println(" companion object{")
     println("  const val EOF=0x7fffffff.toInt()")
     println(" }")
