@@ -347,7 +347,7 @@ open class CharGroup {
                         println(" ".repeat(indention + 3) + "}")
                         println(" ".repeat(indention + 2) + "}")
                         println(" ".repeat(indention + 1) + "}")
-                        c.myPrint(indention, printmode, true)
+                        c.myPrint(indention, printmode, true,{onElseBranch()})
                         if (!skipheader) {
                             println(" ".repeat(indention) + "}")
                         }

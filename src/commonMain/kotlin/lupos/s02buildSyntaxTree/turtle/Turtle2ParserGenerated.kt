@@ -4,7 +4,7 @@ import lupos.s00misc.Luposdate3000Exception
 import lupos.s00misc.MyInputStream
 open class ParserException(msg:String):Luposdate3000Exception("ParserContext",msg)
 class ParserExceptionEOF():ParserException("EOF")
-class ParserExceptionUnexpectedChar(context:ParserContext):ParserException("unexpected char ${context.c} at ${context.line}:${context.column}")
+class ParserExceptionUnexpectedChar(context:ParserContext):ParserException("unexpected char 0x${context.c.toString(16)} at ${context.line}:${context.column}")
 class ParserContext(val input:MyInputStream){
  companion object{
   const val EOF=0x7fffffff.toInt()
@@ -450,7 +450,7 @@ inline fun parse_statement(context:ParserContext,
       continue@loop2
      }
      else->{
-      throw ParserExceptionUnexpectedChar(context)
+      break@loop2
      }
     }
    }
@@ -495,7 +495,7 @@ inline fun parse_statement(context:ParserContext,
           continue@loop6
          }
          else->{
-          throw ParserExceptionUnexpectedChar(context)
+          break@loop6
          }
         }
        }
@@ -687,7 +687,7 @@ inline fun parse_prefix(context:ParserContext,
       continue@loop2
      }
      else->{
-      throw ParserExceptionUnexpectedChar(context)
+      break@loop2
      }
     }
    }
@@ -1025,7 +1025,7 @@ inline fun parse_predicate(context:ParserContext,
       continue@loop2
      }
      else->{
-      throw ParserExceptionUnexpectedChar(context)
+      break@loop2
      }
     }
    }
@@ -1220,7 +1220,7 @@ inline fun parse_obj(context:ParserContext,
       continue@loop2
      }
      else->{
-      throw ParserExceptionUnexpectedChar(context)
+      break@loop2
      }
     }
    }
@@ -1265,7 +1265,7 @@ inline fun parse_obj(context:ParserContext,
           continue@loop6
          }
          else->{
-          throw ParserExceptionUnexpectedChar(context)
+          break@loop6
          }
         }
        }
@@ -4111,7 +4111,7 @@ inline fun parse_triple_end_or_object_iri(context:ParserContext,
       }
      }
      else->{
-      throw ParserExceptionUnexpectedChar(context)
+      break@loop2
      }
     }
    }
@@ -4175,7 +4175,7 @@ inline fun parse_triple_end_or_object_iri(context:ParserContext,
           }
          }
          else->{
-          throw ParserExceptionUnexpectedChar(context)
+          break@loop6
          }
         }
        }
@@ -4246,7 +4246,7 @@ inline fun parse_triple_end_or_object_iri(context:ParserContext,
         }
        }
        else->{
-        throw ParserExceptionUnexpectedChar(context)
+        break@loop4
        }
       }
      }
@@ -4564,7 +4564,7 @@ inline fun parse_triple_end_or_object_string_typed(context:ParserContext,
       continue@loop2
      }
      else->{
-      throw ParserExceptionUnexpectedChar(context)
+      break@loop2
      }
     }
    }
@@ -4649,7 +4649,7 @@ inline fun parse_triple_end_or_object_string_typed_iri(context:ParserContext,
       }
      }
      else->{
-      throw ParserExceptionUnexpectedChar(context)
+      break@loop2
      }
     }
    }
@@ -4713,7 +4713,7 @@ inline fun parse_triple_end_or_object_string_typed_iri(context:ParserContext,
           }
          }
          else->{
-          throw ParserExceptionUnexpectedChar(context)
+          break@loop6
          }
         }
        }
@@ -4784,7 +4784,7 @@ inline fun parse_triple_end_or_object_string_typed_iri(context:ParserContext,
         }
        }
        else->{
-        throw ParserExceptionUnexpectedChar(context)
+        break@loop4
        }
       }
      }
@@ -4888,7 +4888,7 @@ inline fun parse_subject_iri_or_ws(context:ParserContext,
       }
      }
      else->{
-      throw ParserExceptionUnexpectedChar(context)
+      break@loop2
      }
     }
    }
@@ -4952,7 +4952,7 @@ inline fun parse_subject_iri_or_ws(context:ParserContext,
           }
          }
          else->{
-          throw ParserExceptionUnexpectedChar(context)
+          break@loop6
          }
         }
        }
@@ -5023,7 +5023,7 @@ inline fun parse_subject_iri_or_ws(context:ParserContext,
         }
        }
        else->{
-        throw ParserExceptionUnexpectedChar(context)
+        break@loop4
        }
       }
      }
@@ -5112,7 +5112,7 @@ inline fun parse_predicate_iri_or_ws(context:ParserContext,
       }
      }
      else->{
-      throw ParserExceptionUnexpectedChar(context)
+      break@loop2
      }
     }
    }
@@ -5176,7 +5176,7 @@ inline fun parse_predicate_iri_or_ws(context:ParserContext,
           }
          }
          else->{
-          throw ParserExceptionUnexpectedChar(context)
+          break@loop6
          }
         }
        }
@@ -5247,7 +5247,7 @@ inline fun parse_predicate_iri_or_ws(context:ParserContext,
         }
        }
        else->{
-        throw ParserExceptionUnexpectedChar(context)
+        break@loop4
        }
       }
      }
