@@ -69,7 +69,8 @@ abstract class Turtle2Parser(input: MyInputStream) {
                     parse_base(context,
                             onIRIREF = {
                                 //println("onIRIREF(${context.getValue()})")
-                                prefixMap[":"] = context.getValue()
+val s=context.getValue()
+                                prefixMap[":"] = s.substring(1,s.length-1)
                             })
                     state = Turtle2ParserState.STATEMENT
                 },
@@ -83,7 +84,8 @@ abstract class Turtle2Parser(input: MyInputStream) {
                                 parse_ws_forced(context, {})
                                 parse_prefix2(context, onIRIREF = {
                                     //println("onIRIREF(${context.getValue()})")
-                                    prefixMap[prefix] = context.getValue()
+val s=context.getValue()
+                                    prefixMap[prefix] = s.substring(1,s.length-1)
                                 })
                             })
                     state = Turtle2ParserState.STATEMENT
@@ -94,7 +96,8 @@ abstract class Turtle2Parser(input: MyInputStream) {
                     parse_base(context,
                             onIRIREF = {
                                 //println("onIRIREF(${context.getValue()})")
-                                prefixMap[""] = context.getValue()
+val s=context.getValue()
+                                prefixMap[""] = s.substring(1,s.length-1)
                             })
                     parse_ws(context, {})
                     parse_dot(context, {})
@@ -110,7 +113,8 @@ abstract class Turtle2Parser(input: MyInputStream) {
                                 parse_ws_forced(context, {})
                                 parse_prefix2(context, onIRIREF = {
                                     //println("onIRIREF(${context.getValue()})")
-                                    prefixMap[prefix] = context.getValue()
+val s=context.getValue()
+prefixMap[prefix] = s.substring(1,s.length-1)
                                 })
                             })
                     parse_ws(context, {})
