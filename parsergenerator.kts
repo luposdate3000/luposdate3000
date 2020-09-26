@@ -337,7 +337,7 @@ open class CharGroup {
                             println(" ".repeat(indention) + charsToRanges() + "->{")
                             println(" ".repeat(indention + 1) + "context.append()")
                         }
-                        println(" ".repeat(indention + 1) + "loop$indention@while(context.hasNext()){")
+                        println(" ".repeat(indention + 1) + "loop$indention@while(context.c!=ParserContext.EOF){")
                         println(" ".repeat(indention + 2) + "when(context.c){")
                         println(" ".repeat(indention + 3) + c.charsToRanges() + "->{")
                         println(" ".repeat(indention + 4) + "context.append()")
@@ -372,7 +372,7 @@ open class CharGroup {
                                         println(" ".repeat(indention + 1) + "context.append()")
                                     }
                                     startEndMapElseBranch[identicalIdsMap[c.submodifierId]!!.first()] = "continue@loop$indention"
-                                    println(" ".repeat(indention + 1) + "loop$indention@while(context.hasNext()){")
+                                    println(" ".repeat(indention + 1) + "loop$indention@while(context.c!=ParserContext.EOF){")
                                     val tmp = c.deepCopy()
                                     tmp.modifier = CharGroupModifier.ONE
                                     tmp.myPrint(indention + 1, printmode, true, { "break@loop$indention" })
@@ -390,7 +390,7 @@ open class CharGroup {
                                     }
                                     startEndMapElseBranch[identicalIdsMap[c.submodifierId]!!.first()] = "flag$indention=true;continue@loop$indention"
                                     println(" ".repeat(indention + 1) + "var flag$indention=false")
-                                    println(" ".repeat(indention + 1) + "loop$indention@while(context.hasNext()){")
+                                    println(" ".repeat(indention + 1) + "loop$indention@while(context.c!=ParserContext.EOF){")
                                     val tmp = c.deepCopy()
                                     tmp.modifier = CharGroupModifier.ONE
                                     tmp.myPrint(indention + 1, printmode, true, { "break@loop$indention" })
@@ -1107,7 +1107,7 @@ if (args.size == 1 && args[0] == "PARSER_CONTEXT") {
     println(" }")
     println(" @JvmField var c:Int=0")
     println(" @JvmField var buffer=StringBuilder()")
-    println(" @JvmField var line=0")
+    println(" @JvmField var line=1")
     println(" @JvmField var column=0")
     println(" fun next(){")
     println("  val tmp=(c=='\\r'.toInt()) || (c=='\\n'.toInt())")
@@ -1116,6 +1116,7 @@ if (args.size == 1 && args[0] == "PARSER_CONTEXT") {
     println("    throw ParserExceptionEOF()")
     println("   } else {")
     println("    c=EOF")
+    println("    return")
     println("   }")
     println("  }")
     println("  val t:Int=input.next() and 0xff")
@@ -1141,7 +1142,7 @@ if (args.size == 1 && args[0] == "PARSER_CONTEXT") {
     println("  if((c=='\\r'.toInt()) || (c=='\\n'.toInt())){")
     println("   if(!tmp){")
     println("    line++")
-    println("    column=0")
+    println("    column=1")
     println("   }")
     println("  } else {")
     println("   column++")
@@ -1149,11 +1150,11 @@ if (args.size == 1 && args[0] == "PARSER_CONTEXT") {
     println(" }")
     println(" fun append(){")
     println("  if(c<=0xd7ff ||(c>=0xe000 && c<=0xffff)){")
-    println("   buffer.append(c)")
+    println("   buffer.append(c.toChar())")
     println("  }else{")
     println("   c-=0x100000")
-    println("   buffer.append(0xd800+((c shr 10)and 0x03ff))")
-    println("   buffer.append(0xdc00+(c and 0x03ff))")
+    println("   buffer.append((0xd800+((c shr 10)and 0x03ff)).toChar())")
+    println("   buffer.append((0xdc00+(c and 0x03ff)).toChar())")
     println("  }")
     println("  next()")
     println(" }")

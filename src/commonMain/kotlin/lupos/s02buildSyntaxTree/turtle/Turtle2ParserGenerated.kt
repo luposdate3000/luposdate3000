@@ -11,7 +11,7 @@ class ParserContext(val input:MyInputStream){
  }
  @JvmField var c:Int=0
  @JvmField var buffer=StringBuilder()
- @JvmField var line=0
+ @JvmField var line=1
  @JvmField var column=0
  fun next(){
   val tmp=(c=='\r'.toInt()) || (c=='\n'.toInt())
@@ -20,6 +20,7 @@ class ParserContext(val input:MyInputStream){
     throw ParserExceptionEOF()
    } else {
     c=EOF
+    return
    }
   }
   val t:Int=input.next() and 0xff
@@ -45,7 +46,7 @@ class ParserContext(val input:MyInputStream){
   if((c=='\r'.toInt()) || (c=='\n'.toInt())){
    if(!tmp){
     line++
-    column=0
+    column=1
    }
   } else {
    column++
@@ -53,11 +54,11 @@ class ParserContext(val input:MyInputStream){
  }
  fun append(){
   if(c<=0xd7ff ||(c>=0xe000 && c<=0xffff)){
-   buffer.append(c)
+   buffer.append(c.toChar())
   }else{
    c-=0x100000
-   buffer.append(0xd800+((c shr 10)and 0x03ff))
-   buffer.append(0xdc00+(c and 0x03ff))
+   buffer.append((0xd800+((c shr 10)and 0x03ff)).toChar())
+   buffer.append((0xdc00+(c and 0x03ff)).toChar())
   }
   next()
  }
@@ -90,7 +91,7 @@ inline fun parse_ws(context:ParserContext,
  crossinline onSKIP_WS:()->Unit
 ){
  context.buffer.clear()
- loop0@while(context.hasNext()){
+ loop0@while(context.c!=ParserContext.EOF){
   when(context.c){
    0x9,0xa,0xd,0x20->{
     context.append()
@@ -110,7 +111,7 @@ inline fun parse_ws_forced(context:ParserContext,
  when(context.c){
   0x9,0xa,0xd,0x20->{
    context.append()
-   loop2@while(context.hasNext()){
+   loop2@while(context.c!=ParserContext.EOF){
     when(context.c){
      0x9,0xa,0xd,0x20->{
       context.append()
@@ -297,7 +298,7 @@ inline fun parse_statement(context:ParserContext,
   }
   0x3c->{
    context.append()
-   loop2@while(context.hasNext()){
+   loop2@while(context.c!=ParserContext.EOF){
     when(context.c){
      0x21,in (0x23..0x3b),0x3d,in (0x3f..0x5b),0x5d,0x5f,in (0x61..0x7a),in (0x7e..0xeffff)->{
       context.append()
@@ -433,8 +434,8 @@ inline fun parse_statement(context:ParserContext,
   }
   in (0x41..0x5a),in (0x61..0x7a),in (0xc0..0xd6),in (0xd8..0xf6),in (0xf8..0x2ff),in (0x370..0x37d),in (0x37f..0x1fff),in (0x200c..0x200d),in (0x2070..0x218f),in (0x2c00..0x2fef),in (0x3001..0xd7ff),in (0xf900..0xfdcf),in (0xfdf0..0xfffd),in (0x10000..0xeffff)->{
    context.append()
-   loop2@while(context.hasNext()){
-    loop3@while(context.hasNext()){
+   loop2@while(context.c!=ParserContext.EOF){
+    loop3@while(context.c!=ParserContext.EOF){
      when(context.c){
       0x2e->{
        context.append()
@@ -478,8 +479,8 @@ inline fun parse_statement(context:ParserContext,
      when(context.c){
       in (0x30..0x39),in (0x41..0x5a),0x5f,in (0x61..0x7a),in (0xc0..0xd6),in (0xd8..0xf6),in (0xf8..0x2ff),in (0x370..0x37d),in (0x37f..0x1fff),in (0x200c..0x200d),in (0x2070..0x218f),in (0x2c00..0x2fef),in (0x3001..0xd7ff),in (0xf900..0xfdcf),in (0xfdf0..0xfffd),in (0x10000..0xeffff)->{
        context.append()
-       loop6@while(context.hasNext()){
-        loop7@while(context.hasNext()){
+       loop6@while(context.c!=ParserContext.EOF){
+        loop7@while(context.c!=ParserContext.EOF){
          when(context.c){
           0x2e->{
            context.append()
@@ -524,7 +525,7 @@ inline fun parse_base(context:ParserContext,
  when(context.c){
   0x3c->{
    context.append()
-   loop2@while(context.hasNext()){
+   loop2@while(context.c!=ParserContext.EOF){
     when(context.c){
      0x21,in (0x23..0x3b),0x3d,in (0x3f..0x5b),0x5d,0x5f,in (0x61..0x7a),in (0x7e..0xeffff)->{
       context.append()
@@ -670,8 +671,8 @@ inline fun parse_prefix(context:ParserContext,
  when(context.c){
   in (0x41..0x5a),in (0x61..0x7a),in (0xc0..0xd6),in (0xd8..0xf6),in (0xf8..0x2ff),in (0x370..0x37d),in (0x37f..0x1fff),in (0x200c..0x200d),in (0x2070..0x218f),in (0x2c00..0x2fef),in (0x3001..0xd7ff),in (0xf900..0xfdcf),in (0xfdf0..0xfffd),in (0x10000..0xeffff)->{
    context.append()
-   loop2@while(context.hasNext()){
-    loop3@while(context.hasNext()){
+   loop2@while(context.c!=ParserContext.EOF){
+    loop3@while(context.c!=ParserContext.EOF){
      when(context.c){
       0x2e->{
        context.append()
@@ -719,7 +720,7 @@ inline fun parse_prefix2(context:ParserContext,
  when(context.c){
   0x3c->{
    context.append()
-   loop2@while(context.hasNext()){
+   loop2@while(context.c!=ParserContext.EOF){
     when(context.c){
      0x21,in (0x23..0x3b),0x3d,in (0x3f..0x5b),0x5d,0x5f,in (0x61..0x7a),in (0x7e..0xeffff)->{
       context.append()
@@ -872,7 +873,7 @@ inline fun parse_predicate(context:ParserContext,
   }
   0x3c->{
    context.append()
-   loop2@while(context.hasNext()){
+   loop2@while(context.c!=ParserContext.EOF){
     when(context.c){
      0x21,in (0x23..0x3b),0x3d,in (0x3f..0x5b),0x5d,0x5f,in (0x61..0x7a),in (0x7e..0xeffff)->{
       context.append()
@@ -1008,8 +1009,8 @@ inline fun parse_predicate(context:ParserContext,
   }
   in (0x41..0x5a),in (0x61..0x7a),in (0xc0..0xd6),in (0xd8..0xf6),in (0xf8..0x2ff),in (0x370..0x37d),in (0x37f..0x1fff),in (0x200c..0x200d),in (0x2070..0x218f),in (0x2c00..0x2fef),in (0x3001..0xd7ff),in (0xf900..0xfdcf),in (0xfdf0..0xfffd),in (0x10000..0xeffff)->{
    context.append()
-   loop2@while(context.hasNext()){
-    loop3@while(context.hasNext()){
+   loop2@while(context.c!=ParserContext.EOF){
+    loop3@while(context.c!=ParserContext.EOF){
      when(context.c){
       0x2e->{
        context.append()
@@ -1067,7 +1068,7 @@ inline fun parse_obj(context:ParserContext,
  when(context.c){
   0x3c->{
    context.append()
-   loop2@while(context.hasNext()){
+   loop2@while(context.c!=ParserContext.EOF){
     when(context.c){
      0x21,in (0x23..0x3b),0x3d,in (0x3f..0x5b),0x5d,0x5f,in (0x61..0x7a),in (0x7e..0xeffff)->{
       context.append()
@@ -1203,8 +1204,8 @@ inline fun parse_obj(context:ParserContext,
   }
   in (0x41..0x5a),in (0x61..0x7a),in (0xc0..0xd6),in (0xd8..0xf6),in (0xf8..0x2ff),in (0x370..0x37d),in (0x37f..0x1fff),in (0x200c..0x200d),in (0x2070..0x218f),in (0x2c00..0x2fef),in (0x3001..0xd7ff),in (0xf900..0xfdcf),in (0xfdf0..0xfffd),in (0x10000..0xeffff)->{
    context.append()
-   loop2@while(context.hasNext()){
-    loop3@while(context.hasNext()){
+   loop2@while(context.c!=ParserContext.EOF){
+    loop3@while(context.c!=ParserContext.EOF){
      when(context.c){
       0x2e->{
        context.append()
@@ -1248,8 +1249,8 @@ inline fun parse_obj(context:ParserContext,
      when(context.c){
       in (0x30..0x39),in (0x41..0x5a),0x5f,in (0x61..0x7a),in (0xc0..0xd6),in (0xd8..0xf6),in (0xf8..0x2ff),in (0x370..0x37d),in (0x37f..0x1fff),in (0x200c..0x200d),in (0x2070..0x218f),in (0x2c00..0x2fef),in (0x3001..0xd7ff),in (0xf900..0xfdcf),in (0xfdf0..0xfffd),in (0x10000..0xeffff)->{
        context.append()
-       loop6@while(context.hasNext()){
-        loop7@while(context.hasNext()){
+       loop6@while(context.c!=ParserContext.EOF){
+        loop7@while(context.c!=ParserContext.EOF){
          when(context.c){
           0x2e->{
            context.append()
@@ -1287,7 +1288,7 @@ inline fun parse_obj(context:ParserContext,
    when(context.c){
     in (0x0..0x9),in (0xb..0xc),in (0xe..0x21),in (0x23..0x5b),in (0x5d..0xeffff)->{
      context.append()
-     loop4@while(context.hasNext()){
+     loop4@while(context.c!=ParserContext.EOF){
       when(context.c){
        in (0x0..0x9),in (0xb..0xc),in (0xe..0x21),in (0x23..0x5b),in (0x5d..0xeffff)->{
         context.append()
@@ -1430,7 +1431,7 @@ inline fun parse_obj(context:ParserContext,
      when(context.c){
       0x22,0x27,0x5c,0x62,0x66,0x6e,0x72,0x74->{
        context.append()
-       loop6@while(context.hasNext()){
+       loop6@while(context.c!=ParserContext.EOF){
         when(context.c){
          in (0x0..0x9),in (0xb..0xc),in (0xe..0x21),in (0x23..0x5b),in (0x5d..0xeffff)->{
           context.append()
@@ -1582,7 +1583,7 @@ inline fun parse_obj(context:ParserContext,
              when(context.c){
               in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                context.append()
-               loop14@while(context.hasNext()){
+               loop14@while(context.c!=ParserContext.EOF){
                 when(context.c){
                  in (0x0..0x9),in (0xb..0xc),in (0xe..0x21),in (0x23..0x5b),in (0x5d..0xeffff)->{
                   context.append()
@@ -1766,7 +1767,7 @@ inline fun parse_obj(context:ParserContext,
                      when(context.c){
                       in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                        context.append()
-                       loop22@while(context.hasNext()){
+                       loop22@while(context.c!=ParserContext.EOF){
                         when(context.c){
                          in (0x0..0x9),in (0xb..0xc),in (0xe..0x21),in (0x23..0x5b),in (0x5d..0xeffff)->{
                           context.append()
@@ -1954,7 +1955,7 @@ inline fun parse_obj(context:ParserContext,
      when(context.c){
       0x22->{
        context.append()
-       loop6@while(context.hasNext()){
+       loop6@while(context.c!=ParserContext.EOF){
         when(context.c){
          in (0x0..0x21),in (0x23..0x5b),in (0x5d..0xeffff)->{
           context.append()
@@ -2360,7 +2361,7 @@ inline fun parse_obj(context:ParserContext,
    when(context.c){
     in (0x0..0x9),in (0xb..0xc),in (0xe..0x26),in (0x28..0x5b),in (0x5d..0xeffff)->{
      context.append()
-     loop4@while(context.hasNext()){
+     loop4@while(context.c!=ParserContext.EOF){
       when(context.c){
        in (0x0..0x9),in (0xb..0xc),in (0xe..0x26),in (0x28..0x5b),in (0x5d..0xeffff)->{
         context.append()
@@ -2503,7 +2504,7 @@ inline fun parse_obj(context:ParserContext,
      when(context.c){
       0x22,0x27,0x5c,0x62,0x66,0x6e,0x72,0x74->{
        context.append()
-       loop6@while(context.hasNext()){
+       loop6@while(context.c!=ParserContext.EOF){
         when(context.c){
          in (0x0..0x9),in (0xb..0xc),in (0xe..0x26),in (0x28..0x5b),in (0x5d..0xeffff)->{
           context.append()
@@ -2655,7 +2656,7 @@ inline fun parse_obj(context:ParserContext,
              when(context.c){
               in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                context.append()
-               loop14@while(context.hasNext()){
+               loop14@while(context.c!=ParserContext.EOF){
                 when(context.c){
                  in (0x0..0x9),in (0xb..0xc),in (0xe..0x26),in (0x28..0x5b),in (0x5d..0xeffff)->{
                   context.append()
@@ -2839,7 +2840,7 @@ inline fun parse_obj(context:ParserContext,
                      when(context.c){
                       in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
                        context.append()
-                       loop22@while(context.hasNext()){
+                       loop22@while(context.c!=ParserContext.EOF){
                         when(context.c){
                          in (0x0..0x9),in (0xb..0xc),in (0xe..0x26),in (0x28..0x5b),in (0x5d..0xeffff)->{
                           context.append()
@@ -3027,7 +3028,7 @@ inline fun parse_obj(context:ParserContext,
      when(context.c){
       0x27->{
        context.append()
-       loop6@while(context.hasNext()){
+       loop6@while(context.c!=ParserContext.EOF){
         when(context.c){
          in (0x0..0x26),in (0x28..0x5b),in (0x5d..0xeffff)->{
           context.append()
@@ -3430,7 +3431,7 @@ inline fun parse_obj(context:ParserContext,
   }
   in (0x30..0x39)->{
    context.append()
-   loop2@while(context.hasNext()){
+   loop2@while(context.c!=ParserContext.EOF){
     when(context.c){
      in (0x30..0x39)->{
       context.append()
@@ -3446,7 +3447,7 @@ inline fun parse_obj(context:ParserContext,
      when(context.c){
       in (0x30..0x39)->{
        context.append()
-       loop6@while(context.hasNext()){
+       loop6@while(context.c!=ParserContext.EOF){
         when(context.c){
          in (0x30..0x39)->{
           context.append()
@@ -3462,7 +3463,7 @@ inline fun parse_obj(context:ParserContext,
          when(context.c){
           in (0x30..0x39)->{
            context.append()
-           loop10@while(context.hasNext()){
+           loop10@while(context.c!=ParserContext.EOF){
             when(context.c){
              in (0x30..0x39)->{
               context.append()
@@ -3480,7 +3481,7 @@ inline fun parse_obj(context:ParserContext,
            when(context.c){
             in (0x30..0x39)->{
              context.append()
-             loop12@while(context.hasNext()){
+             loop12@while(context.c!=ParserContext.EOF){
               when(context.c){
                in (0x30..0x39)->{
                 context.append()
@@ -3514,7 +3515,7 @@ inline fun parse_obj(context:ParserContext,
        when(context.c){
         in (0x30..0x39)->{
          context.append()
-         loop8@while(context.hasNext()){
+         loop8@while(context.c!=ParserContext.EOF){
           when(context.c){
            in (0x30..0x39)->{
             context.append()
@@ -3532,7 +3533,7 @@ inline fun parse_obj(context:ParserContext,
          when(context.c){
           in (0x30..0x39)->{
            context.append()
-           loop10@while(context.hasNext()){
+           loop10@while(context.c!=ParserContext.EOF){
             when(context.c){
              in (0x30..0x39)->{
               context.append()
@@ -3565,7 +3566,7 @@ inline fun parse_obj(context:ParserContext,
      when(context.c){
       in (0x30..0x39)->{
        context.append()
-       loop6@while(context.hasNext()){
+       loop6@while(context.c!=ParserContext.EOF){
         when(context.c){
          in (0x30..0x39)->{
           context.append()
@@ -3583,7 +3584,7 @@ inline fun parse_obj(context:ParserContext,
        when(context.c){
         in (0x30..0x39)->{
          context.append()
-         loop8@while(context.hasNext()){
+         loop8@while(context.c!=ParserContext.EOF){
           when(context.c){
            in (0x30..0x39)->{
             context.append()
@@ -3617,7 +3618,7 @@ inline fun parse_obj(context:ParserContext,
    when(context.c){
     in (0x30..0x39)->{
      context.append()
-     loop4@while(context.hasNext()){
+     loop4@while(context.c!=ParserContext.EOF){
       when(context.c){
        in (0x30..0x39)->{
         context.append()
@@ -3633,7 +3634,7 @@ inline fun parse_obj(context:ParserContext,
        when(context.c){
         in (0x30..0x39)->{
          context.append()
-         loop8@while(context.hasNext()){
+         loop8@while(context.c!=ParserContext.EOF){
           when(context.c){
            in (0x30..0x39)->{
             context.append()
@@ -3649,7 +3650,7 @@ inline fun parse_obj(context:ParserContext,
            when(context.c){
             in (0x30..0x39)->{
              context.append()
-             loop12@while(context.hasNext()){
+             loop12@while(context.c!=ParserContext.EOF){
               when(context.c){
                in (0x30..0x39)->{
                 context.append()
@@ -3667,7 +3668,7 @@ inline fun parse_obj(context:ParserContext,
              when(context.c){
               in (0x30..0x39)->{
                context.append()
-               loop14@while(context.hasNext()){
+               loop14@while(context.c!=ParserContext.EOF){
                 when(context.c){
                  in (0x30..0x39)->{
                   context.append()
@@ -3701,7 +3702,7 @@ inline fun parse_obj(context:ParserContext,
          when(context.c){
           in (0x30..0x39)->{
            context.append()
-           loop10@while(context.hasNext()){
+           loop10@while(context.c!=ParserContext.EOF){
             when(context.c){
              in (0x30..0x39)->{
               context.append()
@@ -3719,7 +3720,7 @@ inline fun parse_obj(context:ParserContext,
            when(context.c){
             in (0x30..0x39)->{
              context.append()
-             loop12@while(context.hasNext()){
+             loop12@while(context.c!=ParserContext.EOF){
               when(context.c){
                in (0x30..0x39)->{
                 context.append()
@@ -3752,7 +3753,7 @@ inline fun parse_obj(context:ParserContext,
        when(context.c){
         in (0x30..0x39)->{
          context.append()
-         loop8@while(context.hasNext()){
+         loop8@while(context.c!=ParserContext.EOF){
           when(context.c){
            in (0x30..0x39)->{
             context.append()
@@ -3770,7 +3771,7 @@ inline fun parse_obj(context:ParserContext,
          when(context.c){
           in (0x30..0x39)->{
            context.append()
-           loop10@while(context.hasNext()){
+           loop10@while(context.c!=ParserContext.EOF){
             when(context.c){
              in (0x30..0x39)->{
               context.append()
@@ -3804,7 +3805,7 @@ inline fun parse_obj(context:ParserContext,
      when(context.c){
       in (0x30..0x39)->{
        context.append()
-       loop6@while(context.hasNext()){
+       loop6@while(context.c!=ParserContext.EOF){
         when(context.c){
          in (0x30..0x39)->{
           context.append()
@@ -3820,7 +3821,7 @@ inline fun parse_obj(context:ParserContext,
          when(context.c){
           in (0x30..0x39)->{
            context.append()
-           loop10@while(context.hasNext()){
+           loop10@while(context.c!=ParserContext.EOF){
             when(context.c){
              in (0x30..0x39)->{
               context.append()
@@ -3838,7 +3839,7 @@ inline fun parse_obj(context:ParserContext,
            when(context.c){
             in (0x30..0x39)->{
              context.append()
-             loop12@while(context.hasNext()){
+             loop12@while(context.c!=ParserContext.EOF){
               when(context.c){
                in (0x30..0x39)->{
                 context.append()
@@ -3882,7 +3883,7 @@ inline fun parse_obj(context:ParserContext,
    when(context.c){
     in (0x30..0x39)->{
      context.append()
-     loop4@while(context.hasNext()){
+     loop4@while(context.c!=ParserContext.EOF){
       when(context.c){
        in (0x30..0x39)->{
         context.append()
@@ -3898,7 +3899,7 @@ inline fun parse_obj(context:ParserContext,
        when(context.c){
         in (0x30..0x39)->{
          context.append()
-         loop8@while(context.hasNext()){
+         loop8@while(context.c!=ParserContext.EOF){
           when(context.c){
            in (0x30..0x39)->{
             context.append()
@@ -3916,7 +3917,7 @@ inline fun parse_obj(context:ParserContext,
          when(context.c){
           in (0x30..0x39)->{
            context.append()
-           loop10@while(context.hasNext()){
+           loop10@while(context.c!=ParserContext.EOF){
             when(context.c){
              in (0x30..0x39)->{
               context.append()
@@ -4062,8 +4063,8 @@ inline fun parse_triple_end_or_object_iri(context:ParserContext,
  when(context.c){
   in (0x30..0x39),0x3a,in (0x41..0x5a),0x5f,in (0x61..0x7a),in (0xc0..0xd6),in (0xd8..0xf6),in (0xf8..0x2ff),in (0x370..0x37d),in (0x37f..0x1fff),in (0x200c..0x200d),in (0x2070..0x218f),in (0x2c00..0x2fef),in (0x3001..0xd7ff),in (0xf900..0xfdcf),in (0xfdf0..0xfffd),in (0x10000..0xeffff)->{
    context.append()
-   loop2@while(context.hasNext()){
-    loop3@while(context.hasNext()){
+   loop2@while(context.c!=ParserContext.EOF){
+    loop3@while(context.c!=ParserContext.EOF){
      when(context.c){
       0x2e->{
        context.append()
@@ -4126,8 +4127,8 @@ inline fun parse_triple_end_or_object_iri(context:ParserContext,
      when(context.c){
       in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
        context.append()
-       loop6@while(context.hasNext()){
-        loop7@while(context.hasNext()){
+       loop6@while(context.c!=ParserContext.EOF){
+        loop7@while(context.c!=ParserContext.EOF){
          when(context.c){
           0x2e->{
            context.append()
@@ -4197,8 +4198,8 @@ inline fun parse_triple_end_or_object_iri(context:ParserContext,
    when(context.c){
     0x21,0x23,0x24,0x25,0x26,0x27,0x28,0x29,0x2a,0x2b,0x2c,0x2d,0x2e,0x2f,0x3b,0x3d,0x3f,0x40,0x5f,0x7e->{
      context.append()
-     loop4@while(context.hasNext()){
-      loop5@while(context.hasNext()){
+     loop4@while(context.c!=ParserContext.EOF){
+      loop5@while(context.c!=ParserContext.EOF){
        when(context.c){
         0x2e->{
          context.append()
@@ -4275,7 +4276,7 @@ inline fun parse_triple_end_or_object_iri(context:ParserContext,
   }
   0x9,0xa,0xd,0x20->{
    context.append()
-   loop2@while(context.hasNext()){
+   loop2@while(context.c!=ParserContext.EOF){
     when(context.c){
      0x9,0xa,0xd,0x20->{
       context.append()
@@ -4308,7 +4309,7 @@ inline fun parse_triple_end_or_object_string(context:ParserContext,
    when(context.c){
     in (0x41..0x5a),in (0x61..0x7a)->{
      context.append()
-     loop4@while(context.hasNext()){
+     loop4@while(context.c!=ParserContext.EOF){
       when(context.c){
        in (0x41..0x5a),in (0x61..0x7a)->{
         context.append()
@@ -4318,14 +4319,14 @@ inline fun parse_triple_end_or_object_string(context:ParserContext,
        }
       }
      }
-     loop4@while(context.hasNext()){
+     loop4@while(context.c!=ParserContext.EOF){
       when(context.c){
        0x2d->{
         context.append()
         when(context.c){
          in (0x30..0x39),in (0x41..0x5a),in (0x61..0x7a)->{
           context.append()
-          loop9@while(context.hasNext()){
+          loop9@while(context.c!=ParserContext.EOF){
            when(context.c){
             in (0x30..0x39),in (0x41..0x5a),in (0x61..0x7a)->{
              context.append()
@@ -4385,7 +4386,7 @@ inline fun parse_triple_end_or_object_string(context:ParserContext,
   }
   0x9,0xa,0xd,0x20->{
    context.append()
-   loop2@while(context.hasNext()){
+   loop2@while(context.c!=ParserContext.EOF){
     when(context.c){
      0x9,0xa,0xd,0x20->{
       context.append()
@@ -4411,7 +4412,7 @@ inline fun parse_triple_end_or_object_string_typed(context:ParserContext,
  when(context.c){
   0x3c->{
    context.append()
-   loop2@while(context.hasNext()){
+   loop2@while(context.c!=ParserContext.EOF){
     when(context.c){
      0x21,in (0x23..0x3b),0x3d,in (0x3f..0x5b),0x5d,0x5f,in (0x61..0x7a),in (0x7e..0xeffff)->{
       context.append()
@@ -4547,8 +4548,8 @@ inline fun parse_triple_end_or_object_string_typed(context:ParserContext,
   }
   in (0x41..0x5a),in (0x61..0x7a),in (0xc0..0xd6),in (0xd8..0xf6),in (0xf8..0x2ff),in (0x370..0x37d),in (0x37f..0x1fff),in (0x200c..0x200d),in (0x2070..0x218f),in (0x2c00..0x2fef),in (0x3001..0xd7ff),in (0xf900..0xfdcf),in (0xfdf0..0xfffd),in (0x10000..0xeffff)->{
    context.append()
-   loop2@while(context.hasNext()){
-    loop3@while(context.hasNext()){
+   loop2@while(context.c!=ParserContext.EOF){
+    loop3@while(context.c!=ParserContext.EOF){
      when(context.c){
       0x2e->{
        context.append()
@@ -4600,8 +4601,8 @@ inline fun parse_triple_end_or_object_string_typed_iri(context:ParserContext,
  when(context.c){
   in (0x30..0x39),0x3a,in (0x41..0x5a),0x5f,in (0x61..0x7a),in (0xc0..0xd6),in (0xd8..0xf6),in (0xf8..0x2ff),in (0x370..0x37d),in (0x37f..0x1fff),in (0x200c..0x200d),in (0x2070..0x218f),in (0x2c00..0x2fef),in (0x3001..0xd7ff),in (0xf900..0xfdcf),in (0xfdf0..0xfffd),in (0x10000..0xeffff)->{
    context.append()
-   loop2@while(context.hasNext()){
-    loop3@while(context.hasNext()){
+   loop2@while(context.c!=ParserContext.EOF){
+    loop3@while(context.c!=ParserContext.EOF){
      when(context.c){
       0x2e->{
        context.append()
@@ -4664,8 +4665,8 @@ inline fun parse_triple_end_or_object_string_typed_iri(context:ParserContext,
      when(context.c){
       in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
        context.append()
-       loop6@while(context.hasNext()){
-        loop7@while(context.hasNext()){
+       loop6@while(context.c!=ParserContext.EOF){
+        loop7@while(context.c!=ParserContext.EOF){
          when(context.c){
           0x2e->{
            context.append()
@@ -4735,8 +4736,8 @@ inline fun parse_triple_end_or_object_string_typed_iri(context:ParserContext,
    when(context.c){
     0x21,0x23,0x24,0x25,0x26,0x27,0x28,0x29,0x2a,0x2b,0x2c,0x2d,0x2e,0x2f,0x3b,0x3d,0x3f,0x40,0x5f,0x7e->{
      context.append()
-     loop4@while(context.hasNext()){
-      loop5@while(context.hasNext()){
+     loop4@while(context.c!=ParserContext.EOF){
+      loop5@while(context.c!=ParserContext.EOF){
        when(context.c){
         0x2e->{
          context.append()
@@ -4813,7 +4814,7 @@ inline fun parse_triple_end_or_object_string_typed_iri(context:ParserContext,
   }
   0x9,0xa,0xd,0x20->{
    context.append()
-   loop2@while(context.hasNext()){
+   loop2@while(context.c!=ParserContext.EOF){
     when(context.c){
      0x9,0xa,0xd,0x20->{
       context.append()
@@ -4839,8 +4840,8 @@ inline fun parse_subject_iri_or_ws(context:ParserContext,
  when(context.c){
   in (0x30..0x39),0x3a,in (0x41..0x5a),0x5f,in (0x61..0x7a),in (0xc0..0xd6),in (0xd8..0xf6),in (0xf8..0x2ff),in (0x370..0x37d),in (0x37f..0x1fff),in (0x200c..0x200d),in (0x2070..0x218f),in (0x2c00..0x2fef),in (0x3001..0xd7ff),in (0xf900..0xfdcf),in (0xfdf0..0xfffd),in (0x10000..0xeffff)->{
    context.append()
-   loop2@while(context.hasNext()){
-    loop3@while(context.hasNext()){
+   loop2@while(context.c!=ParserContext.EOF){
+    loop3@while(context.c!=ParserContext.EOF){
      when(context.c){
       0x2e->{
        context.append()
@@ -4903,8 +4904,8 @@ inline fun parse_subject_iri_or_ws(context:ParserContext,
      when(context.c){
       in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
        context.append()
-       loop6@while(context.hasNext()){
-        loop7@while(context.hasNext()){
+       loop6@while(context.c!=ParserContext.EOF){
+        loop7@while(context.c!=ParserContext.EOF){
          when(context.c){
           0x2e->{
            context.append()
@@ -4974,8 +4975,8 @@ inline fun parse_subject_iri_or_ws(context:ParserContext,
    when(context.c){
     0x21,0x23,0x24,0x25,0x26,0x27,0x28,0x29,0x2a,0x2b,0x2c,0x2d,0x2e,0x2f,0x3b,0x3d,0x3f,0x40,0x5f,0x7e->{
      context.append()
-     loop4@while(context.hasNext()){
-      loop5@while(context.hasNext()){
+     loop4@while(context.c!=ParserContext.EOF){
+      loop5@while(context.c!=ParserContext.EOF){
        when(context.c){
         0x2e->{
          context.append()
@@ -5037,7 +5038,7 @@ inline fun parse_subject_iri_or_ws(context:ParserContext,
   }
   0x9,0xa,0xd,0x20->{
    context.append()
-   loop2@while(context.hasNext()){
+   loop2@while(context.c!=ParserContext.EOF){
     when(context.c){
      0x9,0xa,0xd,0x20->{
       context.append()
@@ -5063,8 +5064,8 @@ inline fun parse_predicate_iri_or_ws(context:ParserContext,
  when(context.c){
   in (0x30..0x39),0x3a,in (0x41..0x5a),0x5f,in (0x61..0x7a),in (0xc0..0xd6),in (0xd8..0xf6),in (0xf8..0x2ff),in (0x370..0x37d),in (0x37f..0x1fff),in (0x200c..0x200d),in (0x2070..0x218f),in (0x2c00..0x2fef),in (0x3001..0xd7ff),in (0xf900..0xfdcf),in (0xfdf0..0xfffd),in (0x10000..0xeffff)->{
    context.append()
-   loop2@while(context.hasNext()){
-    loop3@while(context.hasNext()){
+   loop2@while(context.c!=ParserContext.EOF){
+    loop3@while(context.c!=ParserContext.EOF){
      when(context.c){
       0x2e->{
        context.append()
@@ -5127,8 +5128,8 @@ inline fun parse_predicate_iri_or_ws(context:ParserContext,
      when(context.c){
       in (0x30..0x39),in (0x41..0x46),in (0x61..0x66)->{
        context.append()
-       loop6@while(context.hasNext()){
-        loop7@while(context.hasNext()){
+       loop6@while(context.c!=ParserContext.EOF){
+        loop7@while(context.c!=ParserContext.EOF){
          when(context.c){
           0x2e->{
            context.append()
@@ -5198,8 +5199,8 @@ inline fun parse_predicate_iri_or_ws(context:ParserContext,
    when(context.c){
     0x21,0x23,0x24,0x25,0x26,0x27,0x28,0x29,0x2a,0x2b,0x2c,0x2d,0x2e,0x2f,0x3b,0x3d,0x3f,0x40,0x5f,0x7e->{
      context.append()
-     loop4@while(context.hasNext()){
-      loop5@while(context.hasNext()){
+     loop4@while(context.c!=ParserContext.EOF){
+      loop5@while(context.c!=ParserContext.EOF){
        when(context.c){
         0x2e->{
          context.append()
@@ -5261,7 +5262,7 @@ inline fun parse_predicate_iri_or_ws(context:ParserContext,
   }
   0x9,0xa,0xd,0x20->{
    context.append()
-   loop2@while(context.hasNext()){
+   loop2@while(context.c!=ParserContext.EOF){
     when(context.c){
      0x9,0xa,0xd,0x20->{
       context.append()
