@@ -13,17 +13,26 @@ class ParserContext(@JvmField val input:MyInputStream){
  @JvmField var buffer=StringBuilder()
  @JvmField var line=1
  @JvmField var column=0
+
+ @JvmField val inBuf=ByteArray(8196)
+ @JvmField var inBufPosition=0
+ @JvmField var inBufSize=0
+
  fun next(){
   val tmp=(c=='\r'.toInt()) || (c=='\n'.toInt())
-  if(!hasNext()){//append 1 whitespace to the end of the input to prevent unexpected crashes
+  if(inBufPosition>=inBufSize){
    if(c==EOF){
     throw ParserExceptionEOF()
-   } else {
-    c=EOF
-    return
+   }else{
+    inBufSize=input.read(inBuf)
+    inBufPosition=0
+    if(inBufSize<=0){
+     c=EOF
+     return
+    }
    }
   }
-  val t:Int=input.next() and 0xff
+  val t:Int=inBuf[inBufPosition++].toInt() and 0xff
   if((t and 0x80)==0){
    //1byte
    c=t
@@ -38,20 +47,68 @@ class ParserContext(@JvmField val input:MyInputStream){
   }else if((t and 0x20)==0){
    //2byte
    c=(t and 0x1f) shl 6
-   c=c or (input.next() and 0x3f)
+   if(inBufPosition>=inBufSize){
+    inBufSize=input.read(inBuf)
+    inBufPosition=0
+    if(inBufSize<=0){
+     c=EOF
+     return
+    }
+   }
+   c=c or (inBuf[inBufPosition++].toInt() and 0x3f)
    column++
   }else if((t and 0x10)==0){
    //3byte
    c=(t and 0x0f) shl 12
-   c=c or (input.next() and 0x3f) shl 6
-   c=c or (input.next() and 0x3f)
+   if(inBufPosition>=inBufSize){
+    inBufSize=input.read(inBuf)
+    inBufPosition=0
+    if(inBufSize<=0){
+     c=EOF
+     return
+    }
+   }
+   c=c or (inBuf[inBufPosition++].toInt() and 0x3f) shl 6
+   if(inBufPosition>=inBufSize){
+    inBufSize=input.read(inBuf)
+    inBufPosition=0
+    if(inBufSize<=0){
+     c=EOF
+     return
+    }
+   }
+   c=c or (inBuf[inBufPosition++].toInt() and 0x3f)
    column++
   }else{
    //4byte
    c=(t and 0x07) shl 18
-   c=c or (input.next() and 0x3f) shl 12
-   c=c or (input.next() and 0x3f) shl 6
-   c=c or (input.next() and 0x3f)
+   if(inBufPosition>=inBufSize){
+    inBufSize=input.read(inBuf)
+    inBufPosition=0
+    if(inBufSize<=0){
+     c=EOF
+     return
+    }
+   }
+   c=c or (inBuf[inBufPosition++].toInt() and 0x3f) shl 12
+   if(inBufPosition>=inBufSize){
+    inBufSize=input.read(inBuf)
+    inBufPosition=0
+    if(inBufSize<=0){
+     c=EOF
+     return
+    }
+   }
+   c=c or (inBuf[inBufPosition++].toInt() and 0x3f) shl 6
+   if(inBufPosition>=inBufSize){
+    inBufSize=input.read(inBuf)
+    inBufPosition=0
+    if(inBufSize<=0){
+     c=EOF
+     return
+    }
+   }
+   c=c or (inBuf[inBufPosition++].toInt() and 0x3f)
    column++
   }
  }
@@ -64,9 +121,6 @@ class ParserContext(@JvmField val input:MyInputStream){
    buffer.append((0xdc00+(c and 0x03ff)).toChar())
   }
   next()
- }
- inline fun hasNext():Boolean{
-  return input.hasNext()
  }
  inline fun getValue():String{
   return buffer.toString()

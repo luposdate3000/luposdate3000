@@ -30,18 +30,9 @@ class MyCharIterator(val file: File) : CharIterator() {
 }
 
 class MyInputStream(@JvmField val stream: InputStream) {
-    inline fun hasNext(): Boolean {
-        if (stream.available() > 0) {
-            return true
-        } else {
-            stream.close()
-            return false
-        }
-    }
-
-    inline fun next(): Int {
-        return stream.read()
-    }
+	inline fun read(buf:ByteArray):Int{
+		return stream.read(buf,0,buf.size)
+	}
 }
 
 class File(@JvmField val filename: String) {
@@ -56,7 +47,7 @@ class File(@JvmField val filename: String) {
     fun length() = java.io.File(filename).length()
     fun readAsString() = java.io.File(filename).readText()
     fun readAsCharIterator(): CharIterator = MyCharIterator(this)
-    fun readAsInputStream(): MyInputStream = MyInputStream(BufferedInputStream(FileInputStream(java.io.File(filename))))
+    fun readAsInputStream(): MyInputStream = MyInputStream(FileInputStream(java.io.File(filename)))
     fun walk(action: (String) -> Unit) {
         java.io.File(filename).walk().forEach {
             action(filename + "/" + it.toRelativeString(java.io.File(filename)))
