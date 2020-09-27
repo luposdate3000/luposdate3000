@@ -361,7 +361,8 @@ class CharGroup {
                         }
                     }
                     var whenVariable = "context.c"
-                    if (allCounter < 256) {
+                    if (false) {//TODO ???
+//                    if (allCounter < 256) {
                         for (c in localChilds) {
                             var s = ""
                             for (r in c.ranges) {
@@ -374,65 +375,117 @@ class CharGroup {
                     } else {
                         //this is the expensive case ... .
                         whenVariable = "localswitch$indention"
-//helperfunctions
+//helperfunctions ->
                         var helperFunctionContent = StringBuilder()
-                        helperFunctionContent.appendLine(" when(c){")
-                        var checkMarks = MutableList(256) { it }
-                        for (cIdx in 0 until localChilds.size) {
-                            val c = localChilds[cIdx]
-                            c.rangesPreparedString = "$cIdx"
-                            var r2 = ""
-                            loop@ for (r in c.ranges) {
-                                for (i in r.first until r.second + 1) {
-                                    if (i >= maxValueBelowLimit) {
-                                        break@loop
+                        if (true) {//old or new variant
+                            var theMap = mutableMapOf<MyPair, Int>()
+                            var theKeys = mutableListOf<MyPair>()
+                            for (cIdx in 0 until localChilds.size) {
+                                val c = localChilds[cIdx]
+c.rangesPreparedString = "$cIdx"
+                                for (r in c.ranges) {
+                                    theKeys.add(r)
+                                    theMap[r] = cIdx
+                                }
+                            }
+                            var arr = theKeys.toTypedArray()
+if(arr.size==1&&arr[0].first==arr[0].second){
+helperFunctionContent.appendLine(" if(c==0x${arr[0].first.toString(16)}){")
+helperFunctionContent.appendLine("  return 0")
+helperFunctionContent.appendLine(" } else {")
+helperFunctionContent.appendLine("  return 1")
+helperFunctionContent.appendLine(" }")
+                }else            if (arr.size > 0) {
+                                arr.sort()
+                                var lastValue = 0
+                                if (arr[0].first > lastValue) {
+                                    helperFunctionContent.appendLine(" if(c<0x${arr[0].first.toString(16)}){")
+                                    helperFunctionContent.appendLine("  return ${localChilds.size}")
+                                    helperFunctionContent.appendLine(" } else if(c<=0x${arr[0].second.toString(16)}){")
+                                    helperFunctionContent.appendLine("  return ${theMap[arr[0]]!!}")
+                                } else {
+                                    helperFunctionContent.appendLine(" if(c<=0x${arr[0].second.toString(16)}){")
+                                    helperFunctionContent.appendLine("  return ${theMap[arr[0]]!!}")
+                                }
+                                lastValue = arr[0].second
+                                for (i in 1 until arr.size) {
+                                    if (arr[i].first > lastValue) {
+                                        helperFunctionContent.appendLine(" } else if(c<0x${arr[i].first.toString(16)}){")
+                                        helperFunctionContent.appendLine("  return ${localChilds.size}")
+                                        helperFunctionContent.appendLine(" } else if(c<=0x${arr[i].second.toString(16)}){")
+                                        helperFunctionContent.appendLine("  return ${theMap[arr[i]]!!}")
                                     } else {
-                                        checkMarks.remove(i)
-                                        r2 = "${r2},0x${i.toString(16)}"
+                                        helperFunctionContent.appendLine(" } else if(c<=0x${arr[i].second.toString(16)}){")
+                                        helperFunctionContent.appendLine("  return ${theMap[arr[i]]!!}")
                                     }
+                                    lastValue = arr[i].second
+                                }
+                                helperFunctionContent.appendLine(" } else {")
+                                helperFunctionContent.appendLine("  return ${localChilds.size}")
+                                helperFunctionContent.appendLine(" }")
+                            } else {
+                                helperFunctionContent.appendLine(" return ${localChilds.size}")
+                            }
+                        } else {
+                            helperFunctionContent.appendLine(" when(c){")
+                            var checkMarks = MutableList(256) { it }
+                            for (cIdx in 0 until localChilds.size) {
+                                val c = localChilds[cIdx]
+                                c.rangesPreparedString = "$cIdx"
+                                var r2 = ""
+                                loop@ for (r in c.ranges) {
+                                    for (i in r.first until r.second + 1) {
+                                        if (i >= maxValueBelowLimit) {
+                                            break@loop
+                                        } else {
+                                            checkMarks.remove(i)
+                                            r2 = "${r2},0x${i.toString(16)}"
+                                        }
+                                    }
+                                }
+                                if (r2.length > 0) {
+                                    helperFunctionContent.appendLine("  ${r2.substring(1)}->return $cIdx")
+                                }
+                            }
+                            var r2 = ""
+                            for (i in checkMarks) {
+                                if (i < maxValueBelowLimit) {
+                                    r2 = "${r2},0x${i.toString(16)}"
                                 }
                             }
                             if (r2.length > 0) {
-                                helperFunctionContent.appendLine("  ${r2.substring(1)}->return $cIdx")
+                                helperFunctionContent.appendLine("  ${r2.substring(1)}->return ${localChilds.size}")
                             }
-                        }
-                        var r2 = ""
-                        for (i in checkMarks) {
-                            if (i < maxValueBelowLimit) {
-                                r2 = "${r2},0x${i.toString(16)}"
-                            }
-                        }
-                        if (r2.length > 0) {
-                            helperFunctionContent.appendLine("  ${r2.substring(1)}->return ${localChilds.size}")
-                        }
-                        helperFunctionContent.appendLine("  else->{")
-                        helperFunctionContent.appendLine("   when(c){")
-                        for (cIdx in 0 until localChilds.size) {
-                            val c = localChilds[cIdx]
-                            var r2 = ""
-                            loop@ for (r in c.ranges) {
-                                if (r.second >= maxValueBelowLimit) {
-                                    if (r.first == r.second) {
-                                        r2 += ",${charToString(r.first)}"
-                                    } else {
-                                        r2 += ",in (${charToString(r.first)}..${charToString(r.second)})"
+                            helperFunctionContent.appendLine("  else->{")
+                            helperFunctionContent.appendLine("   when(c){")
+                            for (cIdx in 0 until localChilds.size) {
+                                val c = localChilds[cIdx]
+                                var r2 = ""
+                                loop@ for (r in c.ranges) {
+                                    if (r.second >= maxValueBelowLimit) {
+                                        if (r.first == r.second) {
+                                            r2 += ",${charToString(r.first)}"
+                                        } else {
+                                            r2 += ",in (${charToString(r.first)}..${charToString(r.second)})"
+                                        }
                                     }
                                 }
+                                if (r2.length > 0) {
+                                    helperFunctionContent.appendLine("    ${r2.substring(1)}->return ${cIdx}")
+                                }
                             }
-                            if (r2.length > 0) {
-                                helperFunctionContent.appendLine("    ${r2.substring(1)}->return ${cIdx}")
-                            }
+                            helperFunctionContent.appendLine("    else->return ${localChilds.size}")
+                            helperFunctionContent.appendLine("   }")
+                            helperFunctionContent.appendLine("  }")
+                            helperFunctionContent.appendLine(" }")
                         }
-                        helperFunctionContent.appendLine("    else->return ${localChilds.size}")
-                        helperFunctionContent.appendLine("   }")
-                        helperFunctionContent.appendLine("  }")
-                        helperFunctionContent.appendLine(" }")
                         val helperFunctionContentStr = helperFunctionContent.toString()
                         var helperFunctionName = helperfunctions[helperFunctionContentStr]
                         if (helperFunctionName == null) {
                             helperFunctionName = functionName + "_helper_" + helperfunctions.size
                             helperfunctions[helperFunctionContentStr] = helperFunctionName
                         }
+//helperfunctions <-
                         println(" ".repeat(indention + 1) + "val $whenVariable=${helperFunctionName}(context.c)")
                     }
                     println(" ".repeat(indention + 1) + "when($whenVariable){")//xxx - aaa
@@ -1302,7 +1355,11 @@ if (args.size == 1 && args[0] == "PARSER_CONTEXT") {
     println(" throw ParserExceptionUnexpectedChar(context)")
     println("}")
     for ((k, v) in CharGroup.helperfunctions) {
+if(k.length<300){
+        println("inline fun ${v}(c:Int):Int{")
+}else{
         println("fun ${v}(c:Int):Int{")
+}
         print(k)
         println("}")
     }
