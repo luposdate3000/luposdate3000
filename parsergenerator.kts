@@ -20,8 +20,8 @@ data class MyPair(var first: Int, var second: Int) : Comparable<MyPair> {
 
 class CharGroup {
     companion object {
-var functionName = "func"
-var helperfunctions = mutableMapOf<String, String>()//func content -> func name
+        var functionName = "func"
+        var helperfunctions = mutableMapOf<String, String>()//func content -> func name
         var uuid = 1
         var startEndMap = mutableMapOf<Int, String>()
         var startEndMapElseBranch = mutableMapOf<Int, String>()
@@ -95,11 +95,11 @@ var helperfunctions = mutableMapOf<String, String>()//func content -> func name
     }
 
     fun flatCopy(_modifier: CharGroupModifier = CharGroupModifier.ONE): CharGroup {
-        var res : CharGroup
+        var res: CharGroup
         if (modifier != CharGroupModifier.ACTION) {
             res = CharGroup(_modifier)
         } else {
-            res=CharGroup( CharGroupModifier.ACTION)
+            res = CharGroup(CharGroupModifier.ACTION)
         }
         res.submodifierTail = submodifierTail
         res.submodifier = submodifier
@@ -143,6 +143,7 @@ var helperfunctions = mutableMapOf<String, String>()//func content -> func name
     constructor(_modifier: CharGroupModifier) {
         modifier = _modifier
     }
+
     constructor() {
         modifier = CharGroupModifier.ONE
     }
@@ -375,7 +376,7 @@ var helperfunctions = mutableMapOf<String, String>()//func content -> func name
                         whenVariable = "localswitch$indention"
 //helperfunctions
                         var helperFunctionContent = StringBuilder()
-helperFunctionContent.appendLine(" when(c){")
+                        helperFunctionContent.appendLine(" when(c){")
                         var checkMarks = MutableList(256) { it }
                         for (cIdx in 0 until localChilds.size) {
                             val c = localChilds[cIdx]
@@ -392,7 +393,7 @@ helperFunctionContent.appendLine(" when(c){")
                                 }
                             }
                             if (r2.length > 0) {
-helperFunctionContent.appendLine("  ${r2.substring(1)}->return $cIdx")
+                                helperFunctionContent.appendLine("  ${r2.substring(1)}->return $cIdx")
                             }
                         }
                         var r2 = ""
@@ -402,10 +403,10 @@ helperFunctionContent.appendLine("  ${r2.substring(1)}->return $cIdx")
                             }
                         }
                         if (r2.length > 0) {
-helperFunctionContent.appendLine("  ${r2.substring(1)}->return ${localChilds.size}")
+                            helperFunctionContent.appendLine("  ${r2.substring(1)}->return ${localChilds.size}")
                         }
-helperFunctionContent.appendLine("  else->{")
-helperFunctionContent.appendLine("   when(c){")
+                        helperFunctionContent.appendLine("  else->{")
+                        helperFunctionContent.appendLine("   when(c){")
                         for (cIdx in 0 until localChilds.size) {
                             val c = localChilds[cIdx]
                             var r2 = ""
@@ -419,19 +420,19 @@ helperFunctionContent.appendLine("   when(c){")
                                 }
                             }
                             if (r2.length > 0) {
-helperFunctionContent.appendLine("    ${r2.substring(1)}->return ${cIdx}")
+                                helperFunctionContent.appendLine("    ${r2.substring(1)}->return ${cIdx}")
                             }
                         }
-helperFunctionContent.appendLine("    else->return ${localChilds.size}")
-helperFunctionContent.appendLine("   }")
-helperFunctionContent.appendLine("  }")
-helperFunctionContent.appendLine(" }")
-val helperFunctionContentStr=helperFunctionContent.toString()
-var helperFunctionName=helperfunctions[helperFunctionContentStr]
-if(helperFunctionName==null){
-helperFunctionName=functionName+"_helper_"+helperfunctions.size
-helperfunctions[helperFunctionContentStr]=helperFunctionName
-}
+                        helperFunctionContent.appendLine("    else->return ${localChilds.size}")
+                        helperFunctionContent.appendLine("   }")
+                        helperFunctionContent.appendLine("  }")
+                        helperFunctionContent.appendLine(" }")
+                        val helperFunctionContentStr = helperFunctionContent.toString()
+                        var helperFunctionName = helperfunctions[helperFunctionContentStr]
+                        if (helperFunctionName == null) {
+                            helperFunctionName = functionName + "_helper_" + helperfunctions.size
+                            helperfunctions[helperFunctionContentStr] = helperFunctionName
+                        }
                         println(" ".repeat(indention + 1) + "val $whenVariable=${helperFunctionName}(context.c)")
                     }
                     println(" ".repeat(indention + 1) + "when($whenVariable){")//xxx - aaa
@@ -851,7 +852,6 @@ helperfunctions[helperFunctionContentStr]=helperFunctionName
         return res
     }
 }
-
 
 
 fun parseRegex(str: String, tail: CharGroup): CharGroup {
@@ -1287,7 +1287,7 @@ if (args.size == 1 && args[0] == "PARSER_CONTEXT") {
         root.append(parseRegex(allTokens[args[idx]]!!, CharGroup(args[idx], CharGroupModifier.ACTION)))
     }
     println(" crossinline on${args[args.size - 1]}:()->Unit")
-    root.append(parseRegex(allTokens[args[args.size - 1]]!!, CharGroup(args[args.size - 1],CharGroupModifier.ACTION)))
+    root.append(parseRegex(allTokens[args[args.size - 1]]!!, CharGroup(args[args.size - 1], CharGroupModifier.ACTION)))
     println("){")
     println(" context.buffer.clear()")
     println(" error@while(true){")
@@ -1301,11 +1301,11 @@ if (args.size == 1 && args[0] == "PARSER_CONTEXT") {
     println(" }")
     println(" throw ParserExceptionUnexpectedChar(context)")
     println("}")
-for((k,v)in CharGroup.helperfunctions){
-println("fun ${v}(c:Int):Int{")
-print(k)
-    println("}")
-}
+    for ((k, v) in CharGroup.helperfunctions) {
+        println("fun ${v}(c:Int):Int{")
+        print(k)
+        println("}")
+    }
 } else {
     println("usage :: ./parsergenerator.kts 'functionName' 'TOKEN1' ['TOKEN2'] ['TOKENn']")
     println("usage :: ./parsergenerator.kts 'PARSER_CONTEXT'")
