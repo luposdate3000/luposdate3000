@@ -44,18 +44,12 @@ repositories {
     maven("http://dl.bintray.com/kotlin/kotlin-eap-1.2")
     maven("https://kotlin.bintray.com/kotlinx")
 }
-project.buildDir = file("build/build_1.4.255-SNAPSHOT_jvm_Endpoint_Off_Threads_Small_BPlusTreePartition_JavaNet_On_BTree_BTree_XML_false_8196_1048576_512_512_1048576_true_ECoverage.Disabled_Off_None_-1_Off_On_true_EPOPDebugMode.NONE")
+project.buildDir = file("build/build_1.4.255-SNAPSHOT_jvm_Endpoint_Off_Threads_Small_BPlusTreePartition_JavaNet_Off_BTree_BTree_XML_false_8196_1048576_512_512_1048576_true_ECoverage.Disabled_Off_None_-1_Off_On_true_EPOPDebugMode.NONE")
 dependencies {
     implementation("com.benasher44:uuid:0.0.7")
     implementation("com.soywiz.korlibs.krypto:krypto:1.9.1")
-    implementation("org.apache.jena:jena-arq:3.14.0")
-    implementation("org.apache.jena:jena-core:3.14.0")
-    implementation("org.jetbrains.kotlin:kotlin-reflect:1.4.255-SNAPSHOT")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-common:1.4.255-SNAPSHOT")
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.4.255-SNAPSHOT")
     implementation("org.jetbrains.kotlin:kotlin-stdlib:1.4.255-SNAPSHOT")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.3")
-    implementation("org.slf4j:slf4j-simple:1.7.25")
 }
 sourceSets["main"].java.srcDir("src.generated/commonConfig/kotlin")
 sourceSets["main"].java.srcDir("src.generated/commonMain/kotlin")
@@ -65,5 +59,4 @@ sourceSets["main"].java.srcDir("src.generated/commonS03DictionarySmallMain/kotli
 sourceSets["main"].java.srcDir("src.generated/commonS16ServerCommunicationNoneMain/kotlin")
 sourceSets["main"].java.srcDir("src.generated/jvmMain/kotlin")
 sourceSets["main"].java.srcDir("src.generated/jvmS00ParallelThreadsMain/kotlin")
-sourceSets["main"].java.srcDir("src.generated/jvmS00WrapperJenaOnMain/kotlin")
 sourceSets["main"].java.srcDir("src.generated/jvmS16HttpEndpointJavaNetMain/kotlin")
