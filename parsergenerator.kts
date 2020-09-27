@@ -7,6 +7,7 @@ enum class CharGroupModifier {
     ACTION,
 }
 
+
 data class MyPair(var first: Int, var second: Int) : Comparable<MyPair> {
     override fun compareTo(other: MyPair): Int {
         var res = first.compareTo(other.first)
@@ -17,8 +18,10 @@ data class MyPair(var first: Int, var second: Int) : Comparable<MyPair> {
     }
 }
 
-open class CharGroup {
+class CharGroup {
     companion object {
+var functionName = "func"
+var helperfunctions = mutableMapOf<String, String>()//func content -> func name
         var uuid = 1
         var startEndMap = mutableMapOf<Int, String>()
         var startEndMapElseBranch = mutableMapOf<Int, String>()
@@ -31,6 +34,7 @@ open class CharGroup {
     var submodifierTail: CharGroup? = null
     var submodifierFlag = false
     val ranges = mutableListOf<MyPair>()//start inclusice,end inclusive
+    var rangesPreparedString: String? = null
     val childs = mutableListOf<CharGroup>()
     var name: String = ""
     fun setTail(_tail: CharGroup): CharGroup {
@@ -91,11 +95,11 @@ open class CharGroup {
     }
 
     fun flatCopy(_modifier: CharGroupModifier = CharGroupModifier.ONE): CharGroup {
-        var res = CharGroup()
+        var res : CharGroup
         if (modifier != CharGroupModifier.ACTION) {
-            res.modifier = _modifier
+            res = CharGroup(_modifier)
         } else {
-            res.modifier = CharGroupModifier.ACTION
+            res=CharGroup( CharGroupModifier.ACTION)
         }
         res.submodifierTail = submodifierTail
         res.submodifier = submodifier
@@ -136,8 +140,11 @@ open class CharGroup {
         addChars(cFrom, cTo)
     }
 
-    constructor(_modifier: CharGroupModifier = CharGroupModifier.ONE) {
+    constructor(_modifier: CharGroupModifier) {
         modifier = _modifier
+    }
+    constructor() {
+        modifier = CharGroupModifier.ONE
     }
 
     constructor(_childs: List<CharGroup>, _modifier: CharGroupModifier = CharGroupModifier.ONE) {
@@ -184,25 +191,29 @@ open class CharGroup {
                 }
                 arr = ranges.toTypedArray()
             }
-        }
-        var res = ""
-        if (arr.size > 0) {
-            for (i in 0 until arr.size - 1) {
-                val a = arr[i]
-                if (a.first == a.second) {
-                    res += "${charToString(a.first)},"
-                } else {
-                    res += "in (${charToString(a.first)}..${charToString(a.second)}),"
+            var res = ""
+            var allCounters = 0
+            for (a in arr) {
+                allCounters += a.second - a.first + 1
+            }
+            if (allCounters < 256) {
+                for (a in arr) {
+                    for (i in a.first until a.second + 1) {
+                        res += ",${charToString(i)}"
+                    }
+                }
+            } else {
+                for (a in arr) {
+                    if (a.first == a.second) {
+                        res += ",${charToString(a.first)}"
+                    } else {
+                        res += ",in (${charToString(a.first)}..${charToString(a.second)})"
+                    }
                 }
             }
-            val a = arr[arr.size - 1]
-            if (a.first == a.second) {
-                res += "${charToString(a.first)}"
-            } else {
-                res += "in (${charToString(a.first)}..${charToString(a.second)})"
-            }
+            return res.substring(1)
         }
-        return res
+        return ""
     }
 
     fun cleanupIdenticalIDs() {
@@ -292,7 +303,7 @@ open class CharGroup {
             if (modifier == CharGroupModifier.ACTION && submodifier != null) {
                 if (!submodifierFlag) {
                     if (!skipheader) {
-                        println(" ".repeat(indention) + charsToRanges() + "->{")
+                        println(" ".repeat(indention) + rangesPreparedString!! + "->{")//xxx - a4
                         println(" ".repeat(indention + 1) + "context.append()")
                     }
                     for (ll in startEndMapElseBranch[identicalIdsMap[submodifierId]!!.first()]!!.split(";")) {
@@ -316,7 +327,7 @@ open class CharGroup {
                 println(" ".repeat(indention) + "return")
             } else if (childs.size > 1 || (childs.size == 1 && (childs[0].modifier == CharGroupModifier.ONE || (childs[0].modifier == CharGroupModifier.ACTION && childs[0].submodifier == null)))) {
                 if (!skipheader) {
-                    println(" ".repeat(indention) + charsToRanges() + "->{")
+                    println(" ".repeat(indention) + rangesPreparedString!! + "->{")//xxx - a5
                     println(" ".repeat(indention + 1) + "context.append()")
                 }
                 if (childs.size == 1 && childs[0].modifier == CharGroupModifier.ACTION) {
@@ -327,16 +338,107 @@ open class CharGroup {
                         throw Exception("unreachable??")
                     }
                 } else {
-                    println(" ".repeat(indention + 1) + "when(context.c){")
                     var elseBranch = onElseBranch()
+                    var localChilds = mutableListOf<CharGroup>()
+                    var allCounter = 0
+                    var maxValueBelowLimit = 0
                     for (c in childs) {
                         if (c.modifier == CharGroupModifier.ACTION && c.submodifier == null) {
                             elseBranch = "on${c.name}();return"
                         } else {
-                            c.myPrint(indention + 2, printmode)
+                            localChilds.add(c)
+                            c.rangesPreparedString = c.charsToRanges()
+                            for (r in c.ranges) {
+                                allCounter += r.second - r.first + 1
+                                if (r.first < 256 && r.first > maxValueBelowLimit) {
+                                    maxValueBelowLimit = r.first
+                                }
+                                if (r.second < 256 && r.second > maxValueBelowLimit) {
+                                    maxValueBelowLimit = r.second
+                                }
+                            }
                         }
                     }
-                    println(" ".repeat(indention + 2) + "else->{")
+                    var whenVariable = "context.c"
+                    if (allCounter < 256) {
+                        for (c in localChilds) {
+                            var s = ""
+                            for (r in c.ranges) {
+                                for (i in r.first until r.second + 1) {
+                                    s = "$s,0x${i.toString(16)}"
+                                }
+                            }
+                            c.rangesPreparedString = s.substring(1)
+                        }
+                    } else {
+                        //this is the expensive case ... .
+                        whenVariable = "localswitch$indention"
+//helperfunctions
+                        var helperFunctionContent = StringBuilder()
+helperFunctionContent.appendLine(" when(c){")
+                        var checkMarks = MutableList(256) { it }
+                        for (cIdx in 0 until localChilds.size) {
+                            val c = localChilds[cIdx]
+                            c.rangesPreparedString = "$cIdx"
+                            var r2 = ""
+                            loop@ for (r in c.ranges) {
+                                for (i in r.first until r.second + 1) {
+                                    if (i >= maxValueBelowLimit) {
+                                        break@loop
+                                    } else {
+                                        checkMarks.remove(i)
+                                        r2 = "${r2},0x${i.toString(16)}"
+                                    }
+                                }
+                            }
+                            if (r2.length > 0) {
+helperFunctionContent.appendLine("  ${r2.substring(1)}->return $cIdx")
+                            }
+                        }
+                        var r2 = ""
+                        for (i in checkMarks) {
+                            if (i < maxValueBelowLimit) {
+                                r2 = "${r2},0x${i.toString(16)}"
+                            }
+                        }
+                        if (r2.length > 0) {
+helperFunctionContent.appendLine("  ${r2.substring(1)}->return ${localChilds.size}")
+                        }
+helperFunctionContent.appendLine("  else->{")
+helperFunctionContent.appendLine("   when(c){")
+                        for (cIdx in 0 until localChilds.size) {
+                            val c = localChilds[cIdx]
+                            var r2 = ""
+                            loop@ for (r in c.ranges) {
+                                if (r.second >= maxValueBelowLimit) {
+                                    if (r.first == r.second) {
+                                        r2 += ",${charToString(r.first)}"
+                                    } else {
+                                        r2 += ",in (${charToString(r.first)}..${charToString(r.second)})"
+                                    }
+                                }
+                            }
+                            if (r2.length > 0) {
+helperFunctionContent.appendLine("    ${r2.substring(1)}->return ${cIdx}")
+                            }
+                        }
+helperFunctionContent.appendLine("    else->return ${localChilds.size}")
+helperFunctionContent.appendLine("   }")
+helperFunctionContent.appendLine("  }")
+helperFunctionContent.appendLine(" }")
+val helperFunctionContentStr=helperFunctionContent.toString()
+var helperFunctionName=helperfunctions[helperFunctionContentStr]
+if(helperFunctionName==null){
+helperFunctionName=functionName+"_helper_"+helperfunctions.size
+helperfunctions[helperFunctionContentStr]=helperFunctionName
+}
+                        println(" ".repeat(indention + 1) + "val $whenVariable=${helperFunctionName}(context.c)")
+                    }
+                    println(" ".repeat(indention + 1) + "when($whenVariable){")//xxx - aaa
+                    for (c in localChilds) {
+                        c.myPrint(indention + 2, printmode)
+                    }
+                    println(" ".repeat(indention + 2) + "else->{")//xxx - a6
                     for (ll in elseBranch.split(";")) {
                         println(" ".repeat(indention + 3) + ll)
                     }
@@ -357,7 +459,7 @@ open class CharGroup {
                 when (c.modifier) {
                     CharGroupModifier.ANY -> {
                         if (!skipheader) {
-                            println(" ".repeat(indention) + charsToRanges() + "->{")
+                            println(" ".repeat(indention) + rangesPreparedString!! + "->{")//xxx - a7
                             println(" ".repeat(indention + 1) + "context.append()")
                         }
                         println(" ".repeat(indention + 1) + "loop$indention@while(context.c!=ParserContext.EOF){")
@@ -378,7 +480,7 @@ open class CharGroup {
                     CharGroupModifier.ACTION -> {
                         if (!c.submodifierFlag) {
                             if (!skipheader) {
-                                println(" ".repeat(indention) + charsToRanges() + "->{")
+                                println(" ".repeat(indention) + rangesPreparedString!! + "->{")//xxx - a1
                                 println(" ".repeat(indention + 1) + "context.append()")
                             }
                             for (ll in startEndMapElseBranch[identicalIdsMap[c.submodifierId]!!.first()]!!.split(";")) {
@@ -391,7 +493,7 @@ open class CharGroup {
                             when (c.submodifier) {
                                 CharGroupModifier.ANY -> {
                                     if (!skipheader) {
-                                        println(" ".repeat(indention) + charsToRanges() + "->{")
+                                        println(" ".repeat(indention) + rangesPreparedString!! + "->{")//xxx - a2
                                         println(" ".repeat(indention + 1) + "context.append()")
                                     }
                                     startEndMapElseBranch[identicalIdsMap[c.submodifierId]!!.first()] = "continue@loop$indention"
@@ -408,7 +510,7 @@ open class CharGroup {
                                 }
                                 CharGroupModifier.AT_LEAST_ONE -> {
                                     if (!skipheader) {
-                                        println(" ".repeat(indention) + charsToRanges() + "->{")
+                                        println(" ".repeat(indention) + rangesPreparedString!! + "->{")//xxx - a3
                                         println(" ".repeat(indention + 1) + "context.append()")
                                     }
                                     startEndMapElseBranch[identicalIdsMap[c.submodifierId]!!.first()] = "flag$indention=true;continue@loop$indention"
@@ -750,7 +852,6 @@ open class CharGroup {
     }
 }
 
-class CharGroupFinish(name: String) : CharGroup(name, CharGroupModifier.ACTION)
 
 
 fun parseRegex(str: String, tail: CharGroup): CharGroup {
@@ -1106,22 +1207,6 @@ var allTokens = mapOf(
 
 
 var root = CharGroup()
-//root.append(parseRegex(allTokens["DECIMAL"]!!, CharGroupFinish("DECIMAL")))
-//root.append(parseRegex(allTokens["DOUBLE"]!!, CharGroupFinish("DOUBLE")))
-//root.append(parseRegex(allTokens["INTEGER"]!!, CharGroupFinish("INTEGER")))
-//root.append(parseRegex(allTokens["PN_PREFIX"]!!, CharGroupFinish("PN_PREFIX")))
-//root.append(parseRegex(allTokens["PN_LOCAL"]!!, CharGroupFinish("PN_LOCAL")))
-//root.append(parseRegex(allTokens["LANGTAG"]!!, CharGroupFinish("LANGTAG")))
-//root.append(parseRegex(allTokens["PNAME_NS"]!!, CharGroupFinish("PNAME_NS")))
-//root.append(parseRegex(allTokens["ANON"]!!, CharGroupFinish("ANON")))
-
-//root.append(parseRegex(allTokens["STRING_LITERAL_LONG_SINGLE_QUOTE"]!!, CharGroupFinish("STRING_LITERAL_LONG_SINGLE_QUOTE")))
-
-//root.append(parseRegex(allTokens["IRIREF"]!!, CharGroupFinish("IRIREF")))
-//root.append(parseRegex(allTokens["ECHAR"]!!, CharGroupFinish("ECHAR")))
-//root.append(parseRegex(allTokens["UCHAR"]!!, CharGroupFinish("UCHAR")))
-//root.append(parseRegex(allTokens["BLANK_NODE_LABEL"]!!, CharGroupFinish("BLANK_NODE_LABEL")))
-//root.append(parseRegex(allTokens["STRING_LITERAL_SINGLE_QUOTE"]!!, CharGroupFinish("STRING_LITERAL_SINGLE_QUOTE")))
 
 if (args.size == 1 && args[0] == "PARSER_CONTEXT") {
     println("class ParserContext(@JvmField val input:MyInputStream){")
@@ -1195,13 +1280,14 @@ if (args.size == 1 && args[0] == "PARSER_CONTEXT") {
     println(" }")
     println("}")
 } else if (args.size > 1) {
-    println("inline fun ${args[0]}(context:ParserContext,")
+    CharGroup.functionName = args[0]
+    println("inline fun ${CharGroup.functionName}(context:ParserContext,")
     for (idx in 1 until args.size - 1) {
         println(" crossinline on${args[idx]}:()->Unit,")
-        root.append(parseRegex(allTokens[args[idx]]!!, CharGroupFinish(args[idx])))
+        root.append(parseRegex(allTokens[args[idx]]!!, CharGroup(args[idx], CharGroupModifier.ACTION)))
     }
     println(" crossinline on${args[args.size - 1]}:()->Unit")
-    root.append(parseRegex(allTokens[args[args.size - 1]]!!, CharGroupFinish(args[args.size - 1])))
+    root.append(parseRegex(allTokens[args[args.size - 1]]!!, CharGroup(args[args.size - 1],CharGroupModifier.ACTION)))
     println("){")
     println(" context.buffer.clear()")
     val comp = root.compile()
@@ -1212,6 +1298,11 @@ if (args.size == 1 && args[0] == "PARSER_CONTEXT") {
         comp.myPrintRoot(true)
     }
     println("}")
+for((k,v)in CharGroup.helperfunctions){
+println("fun ${v}(c:Int):Int{")
+print(k)
+    println("}")
+}
 } else {
     println("usage :: ./parsergenerator.kts 'functionName' 'TOKEN1' ['TOKEN2'] ['TOKENn']")
     println("usage :: ./parsergenerator.kts 'PARSER_CONTEXT'")
