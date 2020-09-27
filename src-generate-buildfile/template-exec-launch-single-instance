@@ -6,7 +6,7 @@ Parallel->Threads
 Dictionary->Small
 TripleStore->BPlusTreePartition
 Endpoint->JavaNet
-Jena->On
+Jena->Off
 Set->BTree
 Map->BTree
 OutputFormat->XML

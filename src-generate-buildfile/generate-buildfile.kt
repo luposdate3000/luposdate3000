@@ -565,12 +565,14 @@ class GenerateBuildFile(val args: Array<String>) {
                             ChooseableOptionDependency("com.soywiz.korlibs.krypto:krypto:1.9.1")
                     ),
                     ChooseableOption("jvmMain") to listOf(
-                            ChooseableOptionDependency("org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion"),
-                            ChooseableOptionDependency("org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion"),
-                            ChooseableOptionDependency("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.3"),
-                            ChooseableOptionDependency("org.slf4j:slf4j-simple:1.7.25")
+//                            ChooseableOptionDependency("org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion"),
+                            ChooseableOptionDependency("org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"),
                     ),
+ChooseableOption("commonS00ParallelCoroutinesMain") to listOf(
+                            ChooseableOptionDependency("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.3"),
+),
                     ChooseableOption("jvmS00WrapperJenaOnMain") to listOf(
+                            ChooseableOptionDependency("org.slf4j:slf4j-simple:1.7.25"),
                             ChooseableOptionDependency("org.apache.jena:jena-core:3.14.0"),
                             ChooseableOptionDependency("org.apache.jena:jena-arq:3.14.0")
                     ),
