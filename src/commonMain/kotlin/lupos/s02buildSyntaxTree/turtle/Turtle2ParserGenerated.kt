@@ -79,58 +79,67 @@ inline fun parse_dot(context:ParserContext,
  crossinline onDOT:()->Unit
 ){
  context.buffer.clear()
- when(context.c){
-  0x2e->{
-   context.append()
-   onDOT()
-   return
-  }
-  else->{
-   throw ParserExceptionUnexpectedChar(context)
+ error@while(true){
+  when(context.c){
+   0x2e->{
+    context.append()
+    onDOT()
+    return
+   }
+   else->{
+    break@error
+   }
   }
  }
+ throw ParserExceptionUnexpectedChar(context)
 }
 inline fun parse_ws(context:ParserContext,
  crossinline onSKIP_WS:()->Unit
 ){
  context.buffer.clear()
- loop0@while(context.c!=ParserContext.EOF){
-  when(context.c){
-   0x9,0xa,0xd,0x20->{
-    context.append()
-   }
-   else->{
-    break@loop0
+ error@while(true){
+  loop1@while(context.c!=ParserContext.EOF){
+   when(context.c){
+    0x9,0xa,0xd,0x20->{
+     context.append()
+    }
+    else->{
+     break@loop1
+    }
    }
   }
+  onSKIP_WS()
+  return
  }
- onSKIP_WS()
- return
+ throw ParserExceptionUnexpectedChar(context)
 }
 inline fun parse_ws_forced(context:ParserContext,
  crossinline onSKIP_WS_FORCED:()->Unit
 ){
  context.buffer.clear()
- when(context.c){
-  0x9,0xa,0xd,0x20->{
-   context.append()
-   loop2@while(context.c!=ParserContext.EOF){
-    when(context.c){
-     0x9,0xa,0xd,0x20->{
-      context.append()
-     }
-     else->{
-      break@loop2
+ error@while(true){
+  when(context.c){
+   0x9,0xa,0xd,0x20->{
+    context.append()
+    loop3@while(context.c!=ParserContext.EOF){
+     when(context.c){
+      0x9,0xa,0xd,0x20->{
+       context.append()
+      }
+      else->{
+       break@loop3
+      }
      }
     }
+    onSKIP_WS_FORCED()
+    return
    }
-   onSKIP_WS_FORCED()
-   return
-  }
-  else->{
-   throw ParserExceptionUnexpectedChar(context)
+   else->{
+    break@error
+   }
   }
  }
+ throw ParserExceptionUnexpectedChar(context)
 }
 inline fun parse_statement(context:ParserContext,
  crossinline onBASE:()->Unit,
@@ -142,389 +151,392 @@ inline fun parse_statement(context:ParserContext,
  crossinline onBLANK_NODE_LABEL:()->Unit
 ){
  context.buffer.clear()
- val localswitch0=parse_statement_helper_0(context.c)
- when(localswitch0){
-  0->{
-   context.append()
-   when(context.c){
-    0x41->{
-     context.append()
-     when(context.c){
-      0x53->{
-       context.append()
-       when(context.c){
-        0x45->{
-         context.append()
-         onBASE()
-         return
-        }
-        else->{
-         throw ParserExceptionUnexpectedChar(context)
-        }
-       }
-      }
-      else->{
-       throw ParserExceptionUnexpectedChar(context)
-      }
-     }
-    }
-    else->{
-     throw ParserExceptionUnexpectedChar(context)
-    }
-   }
-  }
-  1->{
-   context.append()
-   when(context.c){
-    0x52->{
-     context.append()
-     when(context.c){
-      0x45->{
-       context.append()
-       when(context.c){
-        0x46->{
-         context.append()
-         when(context.c){
-          0x49->{
-           context.append()
-           when(context.c){
-            0x58->{
-             context.append()
-             onPREFIX()
-             return
-            }
-            else->{
-             throw ParserExceptionUnexpectedChar(context)
-            }
-           }
-          }
-          else->{
-           throw ParserExceptionUnexpectedChar(context)
-          }
-         }
-        }
-        else->{
-         throw ParserExceptionUnexpectedChar(context)
-        }
-       }
-      }
-      else->{
-       throw ParserExceptionUnexpectedChar(context)
-      }
-     }
-    }
-    else->{
-     throw ParserExceptionUnexpectedChar(context)
-    }
-   }
-  }
-  2->{
-   context.append()
-   when(context.c){
-    0x62->{
-     context.append()
-     when(context.c){
-      0x61->{
-       context.append()
-       when(context.c){
-        0x73->{
-         context.append()
-         when(context.c){
-          0x65->{
-           context.append()
-           onBASE2()
-           return
-          }
-          else->{
-           throw ParserExceptionUnexpectedChar(context)
-          }
-         }
-        }
-        else->{
-         throw ParserExceptionUnexpectedChar(context)
-        }
-       }
-      }
-      else->{
-       throw ParserExceptionUnexpectedChar(context)
-      }
-     }
-    }
-    0x70->{
-     context.append()
-     when(context.c){
-      0x72->{
-       context.append()
-       when(context.c){
-        0x65->{
-         context.append()
-         when(context.c){
-          0x66->{
-           context.append()
-           when(context.c){
-            0x69->{
-             context.append()
-             when(context.c){
-              0x78->{
-               context.append()
-               onPREFIX2()
-               return
-              }
-              else->{
-               throw ParserExceptionUnexpectedChar(context)
-              }
-             }
-            }
-            else->{
-             throw ParserExceptionUnexpectedChar(context)
-            }
-           }
-          }
-          else->{
-           throw ParserExceptionUnexpectedChar(context)
-          }
-         }
-        }
-        else->{
-         throw ParserExceptionUnexpectedChar(context)
-        }
-       }
-      }
-      else->{
-       throw ParserExceptionUnexpectedChar(context)
-      }
-     }
-    }
-    else->{
-     throw ParserExceptionUnexpectedChar(context)
-    }
-   }
-  }
-  3->{
-   context.append()
-   loop2@while(context.c!=ParserContext.EOF){
-    val localswitch3=parse_statement_helper_1(context.c)
-    when(localswitch3){
-     0->{
-      context.append()
-      continue@loop2
-     }
-     1->{
+ error@while(true){
+  val localswitch1=parse_statement_helper_0(context.c)
+  when(localswitch1){
+   0->{
+    context.append()
+    when(context.c){
+     0x41->{
       context.append()
       when(context.c){
-       0x75->{
+       0x53->{
         context.append()
         when(context.c){
-         0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+         0x45->{
           context.append()
-          when(context.c){
-           0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-            context.append()
-            when(context.c){
-             0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-              context.append()
-              when(context.c){
-               0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                context.append()
-                continue@loop2
-               }
-               else->{
-                throw ParserExceptionUnexpectedChar(context)
-               }
-              }
-             }
-             else->{
-              throw ParserExceptionUnexpectedChar(context)
-             }
-            }
-           }
-           else->{
-            throw ParserExceptionUnexpectedChar(context)
-           }
-          }
+          onBASE()
+          return
          }
          else->{
-          throw ParserExceptionUnexpectedChar(context)
-         }
-        }
-       }
-       0x55->{
-        context.append()
-        when(context.c){
-         0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-          context.append()
-          when(context.c){
-           0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-            context.append()
-            when(context.c){
-             0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-              context.append()
-              when(context.c){
-               0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                context.append()
-                when(context.c){
-                 0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                  context.append()
-                  when(context.c){
-                   0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                    context.append()
-                    when(context.c){
-                     0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                      context.append()
-                      when(context.c){
-                       0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                        context.append()
-                        continue@loop2
-                       }
-                       else->{
-                        throw ParserExceptionUnexpectedChar(context)
-                       }
-                      }
-                     }
-                     else->{
-                      throw ParserExceptionUnexpectedChar(context)
-                     }
-                    }
-                   }
-                   else->{
-                    throw ParserExceptionUnexpectedChar(context)
-                   }
-                  }
-                 }
-                 else->{
-                  throw ParserExceptionUnexpectedChar(context)
-                 }
-                }
-               }
-               else->{
-                throw ParserExceptionUnexpectedChar(context)
-               }
-              }
-             }
-             else->{
-              throw ParserExceptionUnexpectedChar(context)
-             }
-            }
-           }
-           else->{
-            throw ParserExceptionUnexpectedChar(context)
-           }
-          }
-         }
-         else->{
-          throw ParserExceptionUnexpectedChar(context)
+          break@error
          }
         }
        }
        else->{
-        throw ParserExceptionUnexpectedChar(context)
+        break@error
        }
       }
      }
      else->{
-      break@loop2
+      break@error
      }
     }
    }
-   when(context.c){
-    0x3e->{
-     context.append()
-     onIRIREF()
-     return
-    }
-    else->{
-     throw ParserExceptionUnexpectedChar(context)
+   1->{
+    context.append()
+    when(context.c){
+     0x52->{
+      context.append()
+      when(context.c){
+       0x45->{
+        context.append()
+        when(context.c){
+         0x46->{
+          context.append()
+          when(context.c){
+           0x49->{
+            context.append()
+            when(context.c){
+             0x58->{
+              context.append()
+              onPREFIX()
+              return
+             }
+             else->{
+              break@error
+             }
+            }
+           }
+           else->{
+            break@error
+           }
+          }
+         }
+         else->{
+          break@error
+         }
+        }
+       }
+       else->{
+        break@error
+       }
+      }
+     }
+     else->{
+      break@error
+     }
     }
    }
-  }
-  4->{
-   context.append()
-   loop2@while(context.c!=ParserContext.EOF){
+   2->{
+    context.append()
+    when(context.c){
+     0x62->{
+      context.append()
+      when(context.c){
+       0x61->{
+        context.append()
+        when(context.c){
+         0x73->{
+          context.append()
+          when(context.c){
+           0x65->{
+            context.append()
+            onBASE2()
+            return
+           }
+           else->{
+            break@error
+           }
+          }
+         }
+         else->{
+          break@error
+         }
+        }
+       }
+       else->{
+        break@error
+       }
+      }
+     }
+     0x70->{
+      context.append()
+      when(context.c){
+       0x72->{
+        context.append()
+        when(context.c){
+         0x65->{
+          context.append()
+          when(context.c){
+           0x66->{
+            context.append()
+            when(context.c){
+             0x69->{
+              context.append()
+              when(context.c){
+               0x78->{
+                context.append()
+                onPREFIX2()
+                return
+               }
+               else->{
+                break@error
+               }
+              }
+             }
+             else->{
+              break@error
+             }
+            }
+           }
+           else->{
+            break@error
+           }
+          }
+         }
+         else->{
+          break@error
+         }
+        }
+       }
+       else->{
+        break@error
+       }
+      }
+     }
+     else->{
+      break@error
+     }
+    }
+   }
+   3->{
+    context.append()
     loop3@while(context.c!=ParserContext.EOF){
-     when(context.c){
-      0x2e->{
+     val localswitch4=parse_statement_helper_1(context.c)
+     when(localswitch4){
+      0->{
        context.append()
+       continue@loop3
+      }
+      1->{
+       context.append()
+       when(context.c){
+        0x75->{
+         context.append()
+         when(context.c){
+          0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+           context.append()
+           when(context.c){
+            0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+             context.append()
+             when(context.c){
+              0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+               context.append()
+               when(context.c){
+                0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                 context.append()
+                 continue@loop3
+                }
+                else->{
+                 break@error
+                }
+               }
+              }
+              else->{
+               break@error
+              }
+             }
+            }
+            else->{
+             break@error
+            }
+           }
+          }
+          else->{
+           break@error
+          }
+         }
+        }
+        0x55->{
+         context.append()
+         when(context.c){
+          0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+           context.append()
+           when(context.c){
+            0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+             context.append()
+             when(context.c){
+              0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+               context.append()
+               when(context.c){
+                0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                 context.append()
+                 when(context.c){
+                  0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                   context.append()
+                   when(context.c){
+                    0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                     context.append()
+                     when(context.c){
+                      0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                       context.append()
+                       when(context.c){
+                        0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                         context.append()
+                         continue@loop3
+                        }
+                        else->{
+                         break@error
+                        }
+                       }
+                      }
+                      else->{
+                       break@error
+                      }
+                     }
+                    }
+                    else->{
+                     break@error
+                    }
+                   }
+                  }
+                  else->{
+                   break@error
+                  }
+                 }
+                }
+                else->{
+                 break@error
+                }
+               }
+              }
+              else->{
+               break@error
+              }
+             }
+            }
+            else->{
+             break@error
+            }
+           }
+          }
+          else->{
+           break@error
+          }
+         }
+        }
+        else->{
+         break@error
+        }
+       }
       }
       else->{
        break@loop3
       }
      }
     }
-    val localswitch3=parse_statement_helper_2(context.c)
-    when(localswitch3){
-     0->{
+    when(context.c){
+     0x3e->{
       context.append()
-      continue@loop2
+      onIRIREF()
+      return
      }
      else->{
-      break@loop2
+      break@error
      }
     }
    }
-   when(context.c){
-    0x3a->{
-     context.append()
-     onPNAME_NS()
-     return
-    }
-    else->{
-     throw ParserExceptionUnexpectedChar(context)
-    }
-   }
-  }
-  5->{
-   context.append()
-   onPNAME_NS()
-   return
-  }
-  6->{
-   context.append()
-   when(context.c){
-    0x3a->{
-     context.append()
-     val localswitch4=parse_statement_helper_3(context.c)
+   4->{
+    context.append()
+    loop3@while(context.c!=ParserContext.EOF){
+     loop4@while(context.c!=ParserContext.EOF){
+      when(context.c){
+       0x2e->{
+        context.append()
+       }
+       else->{
+        break@loop4
+       }
+      }
+     }
+     val localswitch4=parse_statement_helper_2(context.c)
      when(localswitch4){
       0->{
        context.append()
-       loop6@while(context.c!=ParserContext.EOF){
+       continue@loop3
+      }
+      else->{
+       break@loop3
+      }
+     }
+    }
+    when(context.c){
+     0x3a->{
+      context.append()
+      onPNAME_NS()
+      return
+     }
+     else->{
+      break@error
+     }
+    }
+   }
+   5->{
+    context.append()
+    onPNAME_NS()
+    return
+   }
+   6->{
+    context.append()
+    when(context.c){
+     0x3a->{
+      context.append()
+      val localswitch5=parse_statement_helper_3(context.c)
+      when(localswitch5){
+       0->{
+        context.append()
         loop7@while(context.c!=ParserContext.EOF){
-         when(context.c){
-          0x2e->{
+         loop8@while(context.c!=ParserContext.EOF){
+          when(context.c){
+           0x2e->{
+            context.append()
+           }
+           else->{
+            break@loop8
+           }
+          }
+         }
+         val localswitch8=parse_statement_helper_2(context.c)
+         when(localswitch8){
+          0->{
            context.append()
+           continue@loop7
           }
           else->{
            break@loop7
           }
          }
         }
-        val localswitch7=parse_statement_helper_2(context.c)
-        when(localswitch7){
-         0->{
-          context.append()
-          continue@loop6
-         }
-         else->{
-          break@loop6
-         }
-        }
+        onBLANK_NODE_LABEL()
+        return
        }
-       onBLANK_NODE_LABEL()
-       return
-      }
-      else->{
-       throw ParserExceptionUnexpectedChar(context)
+       else->{
+        break@error
+       }
       }
      }
-    }
-    else->{
-     throw ParserExceptionUnexpectedChar(context)
+     else->{
+      break@error
+     }
     }
    }
-  }
-  else->{
-   throw ParserExceptionUnexpectedChar(context)
+   else->{
+    break@error
+   }
   }
  }
+ throw ParserExceptionUnexpectedChar(context)
 }
 fun parse_statement_helper_0(c:Int):Int{
  when(c){
@@ -585,148 +597,151 @@ inline fun parse_base(context:ParserContext,
  crossinline onIRIREF:()->Unit
 ){
  context.buffer.clear()
- when(context.c){
-  0x3c->{
-   context.append()
-   loop2@while(context.c!=ParserContext.EOF){
-    val localswitch3=parse_base_helper_0(context.c)
-    when(localswitch3){
-     0->{
-      context.append()
-      continue@loop2
-     }
-     1->{
-      context.append()
-      when(context.c){
-       0x75->{
-        context.append()
-        when(context.c){
-         0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-          context.append()
-          when(context.c){
-           0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-            context.append()
-            when(context.c){
-             0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-              context.append()
-              when(context.c){
-               0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                context.append()
-                continue@loop2
-               }
-               else->{
-                throw ParserExceptionUnexpectedChar(context)
-               }
-              }
-             }
-             else->{
-              throw ParserExceptionUnexpectedChar(context)
-             }
-            }
-           }
-           else->{
-            throw ParserExceptionUnexpectedChar(context)
-           }
-          }
-         }
-         else->{
-          throw ParserExceptionUnexpectedChar(context)
-         }
-        }
-       }
-       0x55->{
-        context.append()
-        when(context.c){
-         0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-          context.append()
-          when(context.c){
-           0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-            context.append()
-            when(context.c){
-             0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-              context.append()
-              when(context.c){
-               0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                context.append()
-                when(context.c){
-                 0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                  context.append()
-                  when(context.c){
-                   0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                    context.append()
-                    when(context.c){
-                     0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                      context.append()
-                      when(context.c){
-                       0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                        context.append()
-                        continue@loop2
-                       }
-                       else->{
-                        throw ParserExceptionUnexpectedChar(context)
-                       }
-                      }
-                     }
-                     else->{
-                      throw ParserExceptionUnexpectedChar(context)
-                     }
-                    }
-                   }
-                   else->{
-                    throw ParserExceptionUnexpectedChar(context)
-                   }
-                  }
-                 }
-                 else->{
-                  throw ParserExceptionUnexpectedChar(context)
-                 }
+ error@while(true){
+  when(context.c){
+   0x3c->{
+    context.append()
+    loop3@while(context.c!=ParserContext.EOF){
+     val localswitch4=parse_base_helper_0(context.c)
+     when(localswitch4){
+      0->{
+       context.append()
+       continue@loop3
+      }
+      1->{
+       context.append()
+       when(context.c){
+        0x75->{
+         context.append()
+         when(context.c){
+          0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+           context.append()
+           when(context.c){
+            0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+             context.append()
+             when(context.c){
+              0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+               context.append()
+               when(context.c){
+                0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                 context.append()
+                 continue@loop3
+                }
+                else->{
+                 break@error
                 }
                }
-               else->{
-                throw ParserExceptionUnexpectedChar(context)
-               }
+              }
+              else->{
+               break@error
               }
              }
-             else->{
-              throw ParserExceptionUnexpectedChar(context)
-             }
+            }
+            else->{
+             break@error
             }
            }
-           else->{
-            throw ParserExceptionUnexpectedChar(context)
-           }
+          }
+          else->{
+           break@error
           }
          }
-         else->{
-          throw ParserExceptionUnexpectedChar(context)
+        }
+        0x55->{
+         context.append()
+         when(context.c){
+          0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+           context.append()
+           when(context.c){
+            0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+             context.append()
+             when(context.c){
+              0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+               context.append()
+               when(context.c){
+                0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                 context.append()
+                 when(context.c){
+                  0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                   context.append()
+                   when(context.c){
+                    0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                     context.append()
+                     when(context.c){
+                      0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                       context.append()
+                       when(context.c){
+                        0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                         context.append()
+                         continue@loop3
+                        }
+                        else->{
+                         break@error
+                        }
+                       }
+                      }
+                      else->{
+                       break@error
+                      }
+                     }
+                    }
+                    else->{
+                     break@error
+                    }
+                   }
+                  }
+                  else->{
+                   break@error
+                  }
+                 }
+                }
+                else->{
+                 break@error
+                }
+               }
+              }
+              else->{
+               break@error
+              }
+             }
+            }
+            else->{
+             break@error
+            }
+           }
+          }
+          else->{
+           break@error
+          }
          }
         }
-       }
-       else->{
-        throw ParserExceptionUnexpectedChar(context)
+        else->{
+         break@error
+        }
        }
       }
+      else->{
+       break@loop3
+      }
+     }
+    }
+    when(context.c){
+     0x3e->{
+      context.append()
+      onIRIREF()
+      return
      }
      else->{
-      break@loop2
+      break@error
      }
     }
    }
-   when(context.c){
-    0x3e->{
-     context.append()
-     onIRIREF()
-     return
-    }
-    else->{
-     throw ParserExceptionUnexpectedChar(context)
-    }
+   else->{
+    break@error
    }
   }
-  else->{
-   throw ParserExceptionUnexpectedChar(context)
-  }
  }
+ throw ParserExceptionUnexpectedChar(context)
 }
 fun parse_base_helper_0(c:Int):Int{
  when(c){
@@ -745,52 +760,55 @@ inline fun parse_prefix(context:ParserContext,
  crossinline onPNAME_NS:()->Unit
 ){
  context.buffer.clear()
- val localswitch0=parse_prefix_helper_0(context.c)
- when(localswitch0){
-  0->{
-   context.append()
-   loop2@while(context.c!=ParserContext.EOF){
+ error@while(true){
+  val localswitch1=parse_prefix_helper_0(context.c)
+  when(localswitch1){
+   0->{
+    context.append()
     loop3@while(context.c!=ParserContext.EOF){
-     when(context.c){
-      0x2e->{
+     loop4@while(context.c!=ParserContext.EOF){
+      when(context.c){
+       0x2e->{
+        context.append()
+       }
+       else->{
+        break@loop4
+       }
+      }
+     }
+     val localswitch4=parse_prefix_helper_1(context.c)
+     when(localswitch4){
+      0->{
        context.append()
+       continue@loop3
       }
       else->{
        break@loop3
       }
      }
     }
-    val localswitch3=parse_prefix_helper_1(context.c)
-    when(localswitch3){
-     0->{
+    when(context.c){
+     0x3a->{
       context.append()
-      continue@loop2
+      onPNAME_NS()
+      return
      }
      else->{
-      break@loop2
+      break@error
      }
     }
    }
-   when(context.c){
-    0x3a->{
-     context.append()
-     onPNAME_NS()
-     return
-    }
-    else->{
-     throw ParserExceptionUnexpectedChar(context)
-    }
+   1->{
+    context.append()
+    onPNAME_NS()
+    return
+   }
+   else->{
+    break@error
    }
   }
-  1->{
-   context.append()
-   onPNAME_NS()
-   return
-  }
-  else->{
-   throw ParserExceptionUnexpectedChar(context)
-  }
  }
+ throw ParserExceptionUnexpectedChar(context)
 }
 fun parse_prefix_helper_0(c:Int):Int{
  when(c){
@@ -821,148 +839,151 @@ inline fun parse_prefix2(context:ParserContext,
  crossinline onIRIREF:()->Unit
 ){
  context.buffer.clear()
- when(context.c){
-  0x3c->{
-   context.append()
-   loop2@while(context.c!=ParserContext.EOF){
-    val localswitch3=parse_prefix2_helper_0(context.c)
-    when(localswitch3){
-     0->{
-      context.append()
-      continue@loop2
-     }
-     1->{
-      context.append()
-      when(context.c){
-       0x75->{
-        context.append()
-        when(context.c){
-         0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-          context.append()
-          when(context.c){
-           0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-            context.append()
-            when(context.c){
-             0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-              context.append()
-              when(context.c){
-               0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                context.append()
-                continue@loop2
-               }
-               else->{
-                throw ParserExceptionUnexpectedChar(context)
-               }
-              }
-             }
-             else->{
-              throw ParserExceptionUnexpectedChar(context)
-             }
-            }
-           }
-           else->{
-            throw ParserExceptionUnexpectedChar(context)
-           }
-          }
-         }
-         else->{
-          throw ParserExceptionUnexpectedChar(context)
-         }
-        }
-       }
-       0x55->{
-        context.append()
-        when(context.c){
-         0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-          context.append()
-          when(context.c){
-           0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-            context.append()
-            when(context.c){
-             0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-              context.append()
-              when(context.c){
-               0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                context.append()
-                when(context.c){
-                 0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                  context.append()
-                  when(context.c){
-                   0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                    context.append()
-                    when(context.c){
-                     0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                      context.append()
-                      when(context.c){
-                       0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                        context.append()
-                        continue@loop2
-                       }
-                       else->{
-                        throw ParserExceptionUnexpectedChar(context)
-                       }
-                      }
-                     }
-                     else->{
-                      throw ParserExceptionUnexpectedChar(context)
-                     }
-                    }
-                   }
-                   else->{
-                    throw ParserExceptionUnexpectedChar(context)
-                   }
-                  }
-                 }
-                 else->{
-                  throw ParserExceptionUnexpectedChar(context)
-                 }
+ error@while(true){
+  when(context.c){
+   0x3c->{
+    context.append()
+    loop3@while(context.c!=ParserContext.EOF){
+     val localswitch4=parse_prefix2_helper_0(context.c)
+     when(localswitch4){
+      0->{
+       context.append()
+       continue@loop3
+      }
+      1->{
+       context.append()
+       when(context.c){
+        0x75->{
+         context.append()
+         when(context.c){
+          0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+           context.append()
+           when(context.c){
+            0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+             context.append()
+             when(context.c){
+              0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+               context.append()
+               when(context.c){
+                0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                 context.append()
+                 continue@loop3
+                }
+                else->{
+                 break@error
                 }
                }
-               else->{
-                throw ParserExceptionUnexpectedChar(context)
-               }
+              }
+              else->{
+               break@error
               }
              }
-             else->{
-              throw ParserExceptionUnexpectedChar(context)
-             }
+            }
+            else->{
+             break@error
             }
            }
-           else->{
-            throw ParserExceptionUnexpectedChar(context)
-           }
+          }
+          else->{
+           break@error
           }
          }
-         else->{
-          throw ParserExceptionUnexpectedChar(context)
+        }
+        0x55->{
+         context.append()
+         when(context.c){
+          0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+           context.append()
+           when(context.c){
+            0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+             context.append()
+             when(context.c){
+              0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+               context.append()
+               when(context.c){
+                0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                 context.append()
+                 when(context.c){
+                  0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                   context.append()
+                   when(context.c){
+                    0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                     context.append()
+                     when(context.c){
+                      0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                       context.append()
+                       when(context.c){
+                        0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                         context.append()
+                         continue@loop3
+                        }
+                        else->{
+                         break@error
+                        }
+                       }
+                      }
+                      else->{
+                       break@error
+                      }
+                     }
+                    }
+                    else->{
+                     break@error
+                    }
+                   }
+                  }
+                  else->{
+                   break@error
+                  }
+                 }
+                }
+                else->{
+                 break@error
+                }
+               }
+              }
+              else->{
+               break@error
+              }
+             }
+            }
+            else->{
+             break@error
+            }
+           }
+          }
+          else->{
+           break@error
+          }
          }
         }
-       }
-       else->{
-        throw ParserExceptionUnexpectedChar(context)
+        else->{
+         break@error
+        }
        }
       }
+      else->{
+       break@loop3
+      }
+     }
+    }
+    when(context.c){
+     0x3e->{
+      context.append()
+      onIRIREF()
+      return
      }
      else->{
-      break@loop2
+      break@error
      }
     }
    }
-   when(context.c){
-    0x3e->{
-     context.append()
-     onIRIREF()
-     return
-    }
-    else->{
-     throw ParserExceptionUnexpectedChar(context)
-    }
+   else->{
+    break@error
    }
   }
-  else->{
-   throw ParserExceptionUnexpectedChar(context)
-  }
  }
+ throw ParserExceptionUnexpectedChar(context)
 }
 fun parse_prefix2_helper_0(c:Int):Int{
  when(c){
@@ -983,194 +1004,197 @@ inline fun parse_predicate(context:ParserContext,
  crossinline onPNAME_NS:()->Unit
 ){
  context.buffer.clear()
- val localswitch0=parse_predicate_helper_0(context.c)
- when(localswitch0){
-  0->{
-   context.append()
-   onVERB1()
-   return
-  }
-  1->{
-   context.append()
-   loop2@while(context.c!=ParserContext.EOF){
-    val localswitch3=parse_predicate_helper_1(context.c)
-    when(localswitch3){
-     0->{
-      context.append()
-      continue@loop2
-     }
-     1->{
-      context.append()
-      when(context.c){
-       0x75->{
-        context.append()
-        when(context.c){
-         0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-          context.append()
-          when(context.c){
-           0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-            context.append()
-            when(context.c){
-             0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-              context.append()
-              when(context.c){
-               0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                context.append()
-                continue@loop2
-               }
-               else->{
-                throw ParserExceptionUnexpectedChar(context)
-               }
-              }
-             }
-             else->{
-              throw ParserExceptionUnexpectedChar(context)
-             }
-            }
-           }
-           else->{
-            throw ParserExceptionUnexpectedChar(context)
-           }
-          }
-         }
-         else->{
-          throw ParserExceptionUnexpectedChar(context)
-         }
-        }
-       }
-       0x55->{
-        context.append()
-        when(context.c){
-         0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-          context.append()
-          when(context.c){
-           0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-            context.append()
-            when(context.c){
-             0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-              context.append()
-              when(context.c){
-               0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                context.append()
-                when(context.c){
-                 0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                  context.append()
-                  when(context.c){
-                   0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                    context.append()
-                    when(context.c){
-                     0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                      context.append()
-                      when(context.c){
-                       0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                        context.append()
-                        continue@loop2
-                       }
-                       else->{
-                        throw ParserExceptionUnexpectedChar(context)
-                       }
-                      }
-                     }
-                     else->{
-                      throw ParserExceptionUnexpectedChar(context)
-                     }
-                    }
-                   }
-                   else->{
-                    throw ParserExceptionUnexpectedChar(context)
-                   }
-                  }
-                 }
-                 else->{
-                  throw ParserExceptionUnexpectedChar(context)
-                 }
+ error@while(true){
+  val localswitch1=parse_predicate_helper_0(context.c)
+  when(localswitch1){
+   0->{
+    context.append()
+    onVERB1()
+    return
+   }
+   1->{
+    context.append()
+    loop3@while(context.c!=ParserContext.EOF){
+     val localswitch4=parse_predicate_helper_1(context.c)
+     when(localswitch4){
+      0->{
+       context.append()
+       continue@loop3
+      }
+      1->{
+       context.append()
+       when(context.c){
+        0x75->{
+         context.append()
+         when(context.c){
+          0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+           context.append()
+           when(context.c){
+            0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+             context.append()
+             when(context.c){
+              0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+               context.append()
+               when(context.c){
+                0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                 context.append()
+                 continue@loop3
+                }
+                else->{
+                 break@error
                 }
                }
-               else->{
-                throw ParserExceptionUnexpectedChar(context)
-               }
+              }
+              else->{
+               break@error
               }
              }
-             else->{
-              throw ParserExceptionUnexpectedChar(context)
-             }
+            }
+            else->{
+             break@error
             }
            }
-           else->{
-            throw ParserExceptionUnexpectedChar(context)
-           }
+          }
+          else->{
+           break@error
           }
          }
-         else->{
-          throw ParserExceptionUnexpectedChar(context)
+        }
+        0x55->{
+         context.append()
+         when(context.c){
+          0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+           context.append()
+           when(context.c){
+            0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+             context.append()
+             when(context.c){
+              0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+               context.append()
+               when(context.c){
+                0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                 context.append()
+                 when(context.c){
+                  0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                   context.append()
+                   when(context.c){
+                    0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                     context.append()
+                     when(context.c){
+                      0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                       context.append()
+                       when(context.c){
+                        0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                         context.append()
+                         continue@loop3
+                        }
+                        else->{
+                         break@error
+                        }
+                       }
+                      }
+                      else->{
+                       break@error
+                      }
+                     }
+                    }
+                    else->{
+                     break@error
+                    }
+                   }
+                  }
+                  else->{
+                   break@error
+                  }
+                 }
+                }
+                else->{
+                 break@error
+                }
+               }
+              }
+              else->{
+               break@error
+              }
+             }
+            }
+            else->{
+             break@error
+            }
+           }
+          }
+          else->{
+           break@error
+          }
          }
         }
+        else->{
+         break@error
+        }
        }
-       else->{
-        throw ParserExceptionUnexpectedChar(context)
-       }
-      }
-     }
-     else->{
-      break@loop2
-     }
-    }
-   }
-   when(context.c){
-    0x3e->{
-     context.append()
-     onIRIREF()
-     return
-    }
-    else->{
-     throw ParserExceptionUnexpectedChar(context)
-    }
-   }
-  }
-  2->{
-   context.append()
-   loop2@while(context.c!=ParserContext.EOF){
-    loop3@while(context.c!=ParserContext.EOF){
-     when(context.c){
-      0x2e->{
-       context.append()
       }
       else->{
        break@loop3
       }
      }
     }
-    val localswitch3=parse_predicate_helper_2(context.c)
-    when(localswitch3){
-     0->{
+    when(context.c){
+     0x3e->{
       context.append()
-      continue@loop2
+      onIRIREF()
+      return
      }
      else->{
-      break@loop2
+      break@error
      }
     }
    }
-   when(context.c){
-    0x3a->{
-     context.append()
-     onPNAME_NS()
-     return
+   2->{
+    context.append()
+    loop3@while(context.c!=ParserContext.EOF){
+     loop4@while(context.c!=ParserContext.EOF){
+      when(context.c){
+       0x2e->{
+        context.append()
+       }
+       else->{
+        break@loop4
+       }
+      }
+     }
+     val localswitch4=parse_predicate_helper_2(context.c)
+     when(localswitch4){
+      0->{
+       context.append()
+       continue@loop3
+      }
+      else->{
+       break@loop3
+      }
+     }
     }
-    else->{
-     throw ParserExceptionUnexpectedChar(context)
+    when(context.c){
+     0x3a->{
+      context.append()
+      onPNAME_NS()
+      return
+     }
+     else->{
+      break@error
+     }
     }
    }
-  }
-  3->{
-   context.append()
-   onPNAME_NS()
-   return
-  }
-  else->{
-   throw ParserExceptionUnexpectedChar(context)
+   3->{
+    context.append()
+    onPNAME_NS()
+    return
+   }
+   else->{
+    break@error
+   }
   }
  }
+ throw ParserExceptionUnexpectedChar(context)
 }
 fun parse_predicate_helper_0(c:Int):Int{
  when(c){
@@ -1226,20 +1250,519 @@ inline fun parse_obj(context:ParserContext,
  crossinline onBOOLEAN:()->Unit
 ){
  context.buffer.clear()
- val localswitch0=parse_obj_helper_0(context.c)
- when(localswitch0){
-  0->{
-   context.append()
-   loop2@while(context.c!=ParserContext.EOF){
-    val localswitch3=parse_obj_helper_1(context.c)
+ error@while(true){
+  val localswitch1=parse_obj_helper_0(context.c)
+  when(localswitch1){
+   0->{
+    context.append()
+    loop3@while(context.c!=ParserContext.EOF){
+     val localswitch4=parse_obj_helper_1(context.c)
+     when(localswitch4){
+      0->{
+       context.append()
+       continue@loop3
+      }
+      1->{
+       context.append()
+       when(context.c){
+        0x75->{
+         context.append()
+         when(context.c){
+          0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+           context.append()
+           when(context.c){
+            0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+             context.append()
+             when(context.c){
+              0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+               context.append()
+               when(context.c){
+                0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                 context.append()
+                 continue@loop3
+                }
+                else->{
+                 break@error
+                }
+               }
+              }
+              else->{
+               break@error
+              }
+             }
+            }
+            else->{
+             break@error
+            }
+           }
+          }
+          else->{
+           break@error
+          }
+         }
+        }
+        0x55->{
+         context.append()
+         when(context.c){
+          0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+           context.append()
+           when(context.c){
+            0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+             context.append()
+             when(context.c){
+              0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+               context.append()
+               when(context.c){
+                0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                 context.append()
+                 when(context.c){
+                  0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                   context.append()
+                   when(context.c){
+                    0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                     context.append()
+                     when(context.c){
+                      0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                       context.append()
+                       when(context.c){
+                        0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                         context.append()
+                         continue@loop3
+                        }
+                        else->{
+                         break@error
+                        }
+                       }
+                      }
+                      else->{
+                       break@error
+                      }
+                     }
+                    }
+                    else->{
+                     break@error
+                    }
+                   }
+                  }
+                  else->{
+                   break@error
+                  }
+                 }
+                }
+                else->{
+                 break@error
+                }
+               }
+              }
+              else->{
+               break@error
+              }
+             }
+            }
+            else->{
+             break@error
+            }
+           }
+          }
+          else->{
+           break@error
+          }
+         }
+        }
+        else->{
+         break@error
+        }
+       }
+      }
+      else->{
+       break@loop3
+      }
+     }
+    }
+    when(context.c){
+     0x3e->{
+      context.append()
+      onIRIREF()
+      return
+     }
+     else->{
+      break@error
+     }
+    }
+   }
+   1->{
+    context.append()
+    loop3@while(context.c!=ParserContext.EOF){
+     loop4@while(context.c!=ParserContext.EOF){
+      when(context.c){
+       0x2e->{
+        context.append()
+       }
+       else->{
+        break@loop4
+       }
+      }
+     }
+     val localswitch4=parse_obj_helper_2(context.c)
+     when(localswitch4){
+      0->{
+       context.append()
+       continue@loop3
+      }
+      else->{
+       break@loop3
+      }
+     }
+    }
+    when(context.c){
+     0x3a->{
+      context.append()
+      onPNAME_NS()
+      return
+     }
+     else->{
+      break@error
+     }
+    }
+   }
+   2->{
+    context.append()
+    onPNAME_NS()
+    return
+   }
+   3->{
+    context.append()
+    when(context.c){
+     0x3a->{
+      context.append()
+      val localswitch5=parse_obj_helper_3(context.c)
+      when(localswitch5){
+       0->{
+        context.append()
+        loop7@while(context.c!=ParserContext.EOF){
+         loop8@while(context.c!=ParserContext.EOF){
+          when(context.c){
+           0x2e->{
+            context.append()
+           }
+           else->{
+            break@loop8
+           }
+          }
+         }
+         val localswitch8=parse_obj_helper_2(context.c)
+         when(localswitch8){
+          0->{
+           context.append()
+           continue@loop7
+          }
+          else->{
+           break@loop7
+          }
+         }
+        }
+        onBLANK_NODE_LABEL()
+        return
+       }
+       else->{
+        break@error
+       }
+      }
+     }
+     else->{
+      break@error
+     }
+    }
+   }
+   4->{
+    context.append()
+    val localswitch3=parse_obj_helper_4(context.c)
     when(localswitch3){
      0->{
       context.append()
-      continue@loop2
+      loop5@while(context.c!=ParserContext.EOF){
+       val localswitch6=parse_obj_helper_5(context.c)
+       when(localswitch6){
+        0->{
+         context.append()
+         continue@loop5
+        }
+        1->{
+         context.append()
+         when(context.c){
+          0x22,0x27,0x5c,0x62,0x66,0x6e,0x72,0x74->{
+           context.append()
+           continue@loop5
+          }
+          0x75->{
+           context.append()
+           when(context.c){
+            0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+             context.append()
+             when(context.c){
+              0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+               context.append()
+               when(context.c){
+                0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                 context.append()
+                 when(context.c){
+                  0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                   context.append()
+                   continue@loop5
+                  }
+                  else->{
+                   break@error
+                  }
+                 }
+                }
+                else->{
+                 break@error
+                }
+               }
+              }
+              else->{
+               break@error
+              }
+             }
+            }
+            else->{
+             break@error
+            }
+           }
+          }
+          0x55->{
+           context.append()
+           when(context.c){
+            0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+             context.append()
+             when(context.c){
+              0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+               context.append()
+               when(context.c){
+                0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                 context.append()
+                 when(context.c){
+                  0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                   context.append()
+                   when(context.c){
+                    0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                     context.append()
+                     when(context.c){
+                      0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                       context.append()
+                       when(context.c){
+                        0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                         context.append()
+                         when(context.c){
+                          0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                           context.append()
+                           continue@loop5
+                          }
+                          else->{
+                           break@error
+                          }
+                         }
+                        }
+                        else->{
+                         break@error
+                        }
+                       }
+                      }
+                      else->{
+                       break@error
+                      }
+                     }
+                    }
+                    else->{
+                     break@error
+                    }
+                   }
+                  }
+                  else->{
+                   break@error
+                  }
+                 }
+                }
+                else->{
+                 break@error
+                }
+               }
+              }
+              else->{
+               break@error
+              }
+             }
+            }
+            else->{
+             break@error
+            }
+           }
+          }
+          else->{
+           break@error
+          }
+         }
+        }
+        else->{
+         break@loop5
+        }
+       }
+      }
+      when(context.c){
+       0x22->{
+        context.append()
+        onSTRING_LITERAL_QUOTE()
+        return
+       }
+       else->{
+        break@error
+       }
+      }
      }
      1->{
       context.append()
       when(context.c){
+       0x22,0x27,0x5c,0x62,0x66,0x6e,0x72,0x74->{
+        context.append()
+        loop7@while(context.c!=ParserContext.EOF){
+         val localswitch8=parse_obj_helper_5(context.c)
+         when(localswitch8){
+          0->{
+           context.append()
+           continue@loop7
+          }
+          1->{
+           context.append()
+           when(context.c){
+            0x22,0x27,0x5c,0x62,0x66,0x6e,0x72,0x74->{
+             context.append()
+             continue@loop7
+            }
+            0x75->{
+             context.append()
+             when(context.c){
+              0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+               context.append()
+               when(context.c){
+                0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                 context.append()
+                 when(context.c){
+                  0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                   context.append()
+                   when(context.c){
+                    0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                     context.append()
+                     continue@loop7
+                    }
+                    else->{
+                     break@error
+                    }
+                   }
+                  }
+                  else->{
+                   break@error
+                  }
+                 }
+                }
+                else->{
+                 break@error
+                }
+               }
+              }
+              else->{
+               break@error
+              }
+             }
+            }
+            0x55->{
+             context.append()
+             when(context.c){
+              0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+               context.append()
+               when(context.c){
+                0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                 context.append()
+                 when(context.c){
+                  0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                   context.append()
+                   when(context.c){
+                    0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                     context.append()
+                     when(context.c){
+                      0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                       context.append()
+                       when(context.c){
+                        0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                         context.append()
+                         when(context.c){
+                          0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                           context.append()
+                           when(context.c){
+                            0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                             context.append()
+                             continue@loop7
+                            }
+                            else->{
+                             break@error
+                            }
+                           }
+                          }
+                          else->{
+                           break@error
+                          }
+                         }
+                        }
+                        else->{
+                         break@error
+                        }
+                       }
+                      }
+                      else->{
+                       break@error
+                      }
+                     }
+                    }
+                    else->{
+                     break@error
+                    }
+                   }
+                  }
+                  else->{
+                   break@error
+                  }
+                 }
+                }
+                else->{
+                 break@error
+                }
+               }
+              }
+              else->{
+               break@error
+              }
+             }
+            }
+            else->{
+             break@error
+            }
+           }
+          }
+          else->{
+           break@loop7
+          }
+         }
+        }
+        when(context.c){
+         0x22->{
+          context.append()
+          onSTRING_LITERAL_QUOTE()
+          return
+         }
+         else->{
+          break@error
+         }
+        }
+       }
        0x75->{
         context.append()
         when(context.c){
@@ -1254,25 +1777,162 @@ inline fun parse_obj(context:ParserContext,
               when(context.c){
                0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
                 context.append()
-                continue@loop2
+                loop15@while(context.c!=ParserContext.EOF){
+                 val localswitch16=parse_obj_helper_5(context.c)
+                 when(localswitch16){
+                  0->{
+                   context.append()
+                   continue@loop15
+                  }
+                  1->{
+                   context.append()
+                   when(context.c){
+                    0x22,0x27,0x5c,0x62,0x66,0x6e,0x72,0x74->{
+                     context.append()
+                     continue@loop15
+                    }
+                    0x75->{
+                     context.append()
+                     when(context.c){
+                      0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                       context.append()
+                       when(context.c){
+                        0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                         context.append()
+                         when(context.c){
+                          0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                           context.append()
+                           when(context.c){
+                            0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                             context.append()
+                             continue@loop15
+                            }
+                            else->{
+                             break@error
+                            }
+                           }
+                          }
+                          else->{
+                           break@error
+                          }
+                         }
+                        }
+                        else->{
+                         break@error
+                        }
+                       }
+                      }
+                      else->{
+                       break@error
+                      }
+                     }
+                    }
+                    0x55->{
+                     context.append()
+                     when(context.c){
+                      0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                       context.append()
+                       when(context.c){
+                        0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                         context.append()
+                         when(context.c){
+                          0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                           context.append()
+                           when(context.c){
+                            0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                             context.append()
+                             when(context.c){
+                              0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                               context.append()
+                               when(context.c){
+                                0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                                 context.append()
+                                 when(context.c){
+                                  0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                                   context.append()
+                                   when(context.c){
+                                    0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                                     context.append()
+                                     continue@loop15
+                                    }
+                                    else->{
+                                     break@error
+                                    }
+                                   }
+                                  }
+                                  else->{
+                                   break@error
+                                  }
+                                 }
+                                }
+                                else->{
+                                 break@error
+                                }
+                               }
+                              }
+                              else->{
+                               break@error
+                              }
+                             }
+                            }
+                            else->{
+                             break@error
+                            }
+                           }
+                          }
+                          else->{
+                           break@error
+                          }
+                         }
+                        }
+                        else->{
+                         break@error
+                        }
+                       }
+                      }
+                      else->{
+                       break@error
+                      }
+                     }
+                    }
+                    else->{
+                     break@error
+                    }
+                   }
+                  }
+                  else->{
+                   break@loop15
+                  }
+                 }
+                }
+                when(context.c){
+                 0x22->{
+                  context.append()
+                  onSTRING_LITERAL_QUOTE()
+                  return
+                 }
+                 else->{
+                  break@error
+                 }
+                }
                }
                else->{
-                throw ParserExceptionUnexpectedChar(context)
+                break@error
                }
               }
              }
              else->{
-              throw ParserExceptionUnexpectedChar(context)
+              break@error
              }
             }
            }
            else->{
-            throw ParserExceptionUnexpectedChar(context)
+            break@error
            }
           }
          }
          else->{
-          throw ParserExceptionUnexpectedChar(context)
+          break@error
          }
         }
        }
@@ -1302,75 +1962,1685 @@ inline fun parse_obj(context:ParserContext,
                       when(context.c){
                        0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
                         context.append()
-                        continue@loop2
+                        loop23@while(context.c!=ParserContext.EOF){
+                         val localswitch24=parse_obj_helper_5(context.c)
+                         when(localswitch24){
+                          0->{
+                           context.append()
+                           continue@loop23
+                          }
+                          1->{
+                           context.append()
+                           when(context.c){
+                            0x22,0x27,0x5c,0x62,0x66,0x6e,0x72,0x74->{
+                             context.append()
+                             continue@loop23
+                            }
+                            0x75->{
+                             context.append()
+                             when(context.c){
+                              0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                               context.append()
+                               when(context.c){
+                                0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                                 context.append()
+                                 when(context.c){
+                                  0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                                   context.append()
+                                   when(context.c){
+                                    0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                                     context.append()
+                                     continue@loop23
+                                    }
+                                    else->{
+                                     break@error
+                                    }
+                                   }
+                                  }
+                                  else->{
+                                   break@error
+                                  }
+                                 }
+                                }
+                                else->{
+                                 break@error
+                                }
+                               }
+                              }
+                              else->{
+                               break@error
+                              }
+                             }
+                            }
+                            0x55->{
+                             context.append()
+                             when(context.c){
+                              0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                               context.append()
+                               when(context.c){
+                                0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                                 context.append()
+                                 when(context.c){
+                                  0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                                   context.append()
+                                   when(context.c){
+                                    0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                                     context.append()
+                                     when(context.c){
+                                      0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                                       context.append()
+                                       when(context.c){
+                                        0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                                         context.append()
+                                         when(context.c){
+                                          0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                                           context.append()
+                                           when(context.c){
+                                            0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                                             context.append()
+                                             continue@loop23
+                                            }
+                                            else->{
+                                             break@error
+                                            }
+                                           }
+                                          }
+                                          else->{
+                                           break@error
+                                          }
+                                         }
+                                        }
+                                        else->{
+                                         break@error
+                                        }
+                                       }
+                                      }
+                                      else->{
+                                       break@error
+                                      }
+                                     }
+                                    }
+                                    else->{
+                                     break@error
+                                    }
+                                   }
+                                  }
+                                  else->{
+                                   break@error
+                                  }
+                                 }
+                                }
+                                else->{
+                                 break@error
+                                }
+                               }
+                              }
+                              else->{
+                               break@error
+                              }
+                             }
+                            }
+                            else->{
+                             break@error
+                            }
+                           }
+                          }
+                          else->{
+                           break@loop23
+                          }
+                         }
+                        }
+                        when(context.c){
+                         0x22->{
+                          context.append()
+                          onSTRING_LITERAL_QUOTE()
+                          return
+                         }
+                         else->{
+                          break@error
+                         }
+                        }
                        }
                        else->{
-                        throw ParserExceptionUnexpectedChar(context)
+                        break@error
                        }
                       }
                      }
                      else->{
-                      throw ParserExceptionUnexpectedChar(context)
+                      break@error
                      }
                     }
                    }
                    else->{
-                    throw ParserExceptionUnexpectedChar(context)
+                    break@error
                    }
                   }
                  }
                  else->{
-                  throw ParserExceptionUnexpectedChar(context)
+                  break@error
                  }
                 }
                }
                else->{
-                throw ParserExceptionUnexpectedChar(context)
+                break@error
                }
               }
              }
              else->{
-              throw ParserExceptionUnexpectedChar(context)
+              break@error
              }
             }
            }
            else->{
-            throw ParserExceptionUnexpectedChar(context)
+            break@error
            }
           }
          }
          else->{
-          throw ParserExceptionUnexpectedChar(context)
+          break@error
          }
         }
        }
        else->{
-        throw ParserExceptionUnexpectedChar(context)
+        break@error
+       }
+      }
+     }
+     2->{
+      context.append()
+      when(context.c){
+       0x22->{
+        context.append()
+        loop7@while(context.c!=ParserContext.EOF){
+         val localswitch8=parse_obj_helper_6(context.c)
+         when(localswitch8){
+          0->{
+           context.append()
+           continue@loop7
+          }
+          1->{
+           context.append()
+           when(context.c){
+            0x22,0x27,0x5c,0x62,0x66,0x6e,0x72,0x74->{
+             context.append()
+             continue@loop7
+            }
+            0x75->{
+             context.append()
+             when(context.c){
+              0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+               context.append()
+               when(context.c){
+                0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                 context.append()
+                 when(context.c){
+                  0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                   context.append()
+                   when(context.c){
+                    0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                     context.append()
+                     continue@loop7
+                    }
+                    else->{
+                     break@error
+                    }
+                   }
+                  }
+                  else->{
+                   break@error
+                  }
+                 }
+                }
+                else->{
+                 break@error
+                }
+               }
+              }
+              else->{
+               break@error
+              }
+             }
+            }
+            0x55->{
+             context.append()
+             when(context.c){
+              0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+               context.append()
+               when(context.c){
+                0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                 context.append()
+                 when(context.c){
+                  0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                   context.append()
+                   when(context.c){
+                    0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                     context.append()
+                     when(context.c){
+                      0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                       context.append()
+                       when(context.c){
+                        0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                         context.append()
+                         when(context.c){
+                          0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                           context.append()
+                           when(context.c){
+                            0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                             context.append()
+                             continue@loop7
+                            }
+                            else->{
+                             break@error
+                            }
+                           }
+                          }
+                          else->{
+                           break@error
+                          }
+                         }
+                        }
+                        else->{
+                         break@error
+                        }
+                       }
+                      }
+                      else->{
+                       break@error
+                      }
+                     }
+                    }
+                    else->{
+                     break@error
+                    }
+                   }
+                  }
+                  else->{
+                   break@error
+                  }
+                 }
+                }
+                else->{
+                 break@error
+                }
+               }
+              }
+              else->{
+               break@error
+              }
+             }
+            }
+            else->{
+             break@error
+            }
+           }
+          }
+          2->{
+           context.append()
+           val localswitch10=parse_obj_helper_6(context.c)
+           when(localswitch10){
+            0->{
+             context.append()
+             continue@loop7
+            }
+            1->{
+             context.append()
+             when(context.c){
+              0x22,0x27,0x5c,0x62,0x66,0x6e,0x72,0x74->{
+               context.append()
+               continue@loop7
+              }
+              0x75->{
+               context.append()
+               when(context.c){
+                0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                 context.append()
+                 when(context.c){
+                  0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                   context.append()
+                   when(context.c){
+                    0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                     context.append()
+                     when(context.c){
+                      0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                       context.append()
+                       continue@loop7
+                      }
+                      else->{
+                       break@error
+                      }
+                     }
+                    }
+                    else->{
+                     break@error
+                    }
+                   }
+                  }
+                  else->{
+                   break@error
+                  }
+                 }
+                }
+                else->{
+                 break@error
+                }
+               }
+              }
+              0x55->{
+               context.append()
+               when(context.c){
+                0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                 context.append()
+                 when(context.c){
+                  0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                   context.append()
+                   when(context.c){
+                    0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                     context.append()
+                     when(context.c){
+                      0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                       context.append()
+                       when(context.c){
+                        0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                         context.append()
+                         when(context.c){
+                          0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                           context.append()
+                           when(context.c){
+                            0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                             context.append()
+                             when(context.c){
+                              0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                               context.append()
+                               continue@loop7
+                              }
+                              else->{
+                               break@error
+                              }
+                             }
+                            }
+                            else->{
+                             break@error
+                            }
+                           }
+                          }
+                          else->{
+                           break@error
+                          }
+                         }
+                        }
+                        else->{
+                         break@error
+                        }
+                       }
+                      }
+                      else->{
+                       break@error
+                      }
+                     }
+                    }
+                    else->{
+                     break@error
+                    }
+                   }
+                  }
+                  else->{
+                   break@error
+                  }
+                 }
+                }
+                else->{
+                 break@error
+                }
+               }
+              }
+              else->{
+               break@error
+              }
+             }
+            }
+            2->{
+             context.append()
+             val localswitch12=parse_obj_helper_6(context.c)
+             when(localswitch12){
+              0->{
+               context.append()
+               continue@loop7
+              }
+              1->{
+               context.append()
+               when(context.c){
+                0x22,0x27,0x5c,0x62,0x66,0x6e,0x72,0x74->{
+                 context.append()
+                 continue@loop7
+                }
+                0x75->{
+                 context.append()
+                 when(context.c){
+                  0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                   context.append()
+                   when(context.c){
+                    0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                     context.append()
+                     when(context.c){
+                      0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                       context.append()
+                       when(context.c){
+                        0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                         context.append()
+                         continue@loop7
+                        }
+                        else->{
+                         break@error
+                        }
+                       }
+                      }
+                      else->{
+                       break@error
+                      }
+                     }
+                    }
+                    else->{
+                     break@error
+                    }
+                   }
+                  }
+                  else->{
+                   break@error
+                  }
+                 }
+                }
+                0x55->{
+                 context.append()
+                 when(context.c){
+                  0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                   context.append()
+                   when(context.c){
+                    0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                     context.append()
+                     when(context.c){
+                      0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                       context.append()
+                       when(context.c){
+                        0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                         context.append()
+                         when(context.c){
+                          0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                           context.append()
+                           when(context.c){
+                            0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                             context.append()
+                             when(context.c){
+                              0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                               context.append()
+                               when(context.c){
+                                0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                                 context.append()
+                                 continue@loop7
+                                }
+                                else->{
+                                 break@error
+                                }
+                               }
+                              }
+                              else->{
+                               break@error
+                              }
+                             }
+                            }
+                            else->{
+                             break@error
+                            }
+                           }
+                          }
+                          else->{
+                           break@error
+                          }
+                         }
+                        }
+                        else->{
+                         break@error
+                        }
+                       }
+                      }
+                      else->{
+                       break@error
+                      }
+                     }
+                    }
+                    else->{
+                     break@error
+                    }
+                   }
+                  }
+                  else->{
+                   break@error
+                  }
+                 }
+                }
+                else->{
+                 break@error
+                }
+               }
+              }
+              2->{
+               context.append()
+               onSTRING_LITERAL_LONG_QUOTE()
+               return
+              }
+              else->{
+               break@error
+              }
+             }
+            }
+            else->{
+             break@error
+            }
+           }
+          }
+          else->{
+           break@loop7
+          }
+         }
+        }
+        break@error
+       }
+       else->{
+        onSTRING_LITERAL_QUOTE()
+        return
        }
       }
      }
      else->{
-      break@loop2
+      break@error
      }
     }
    }
-   when(context.c){
-    0x3e->{
-     context.append()
-     onIRIREF()
-     return
-    }
-    else->{
-     throw ParserExceptionUnexpectedChar(context)
+   5->{
+    context.append()
+    val localswitch3=parse_obj_helper_7(context.c)
+    when(localswitch3){
+     0->{
+      context.append()
+      loop5@while(context.c!=ParserContext.EOF){
+       val localswitch6=parse_obj_helper_8(context.c)
+       when(localswitch6){
+        0->{
+         context.append()
+         continue@loop5
+        }
+        1->{
+         context.append()
+         when(context.c){
+          0x22,0x27,0x5c,0x62,0x66,0x6e,0x72,0x74->{
+           context.append()
+           continue@loop5
+          }
+          0x75->{
+           context.append()
+           when(context.c){
+            0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+             context.append()
+             when(context.c){
+              0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+               context.append()
+               when(context.c){
+                0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                 context.append()
+                 when(context.c){
+                  0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                   context.append()
+                   continue@loop5
+                  }
+                  else->{
+                   break@error
+                  }
+                 }
+                }
+                else->{
+                 break@error
+                }
+               }
+              }
+              else->{
+               break@error
+              }
+             }
+            }
+            else->{
+             break@error
+            }
+           }
+          }
+          0x55->{
+           context.append()
+           when(context.c){
+            0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+             context.append()
+             when(context.c){
+              0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+               context.append()
+               when(context.c){
+                0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                 context.append()
+                 when(context.c){
+                  0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                   context.append()
+                   when(context.c){
+                    0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                     context.append()
+                     when(context.c){
+                      0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                       context.append()
+                       when(context.c){
+                        0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                         context.append()
+                         when(context.c){
+                          0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                           context.append()
+                           continue@loop5
+                          }
+                          else->{
+                           break@error
+                          }
+                         }
+                        }
+                        else->{
+                         break@error
+                        }
+                       }
+                      }
+                      else->{
+                       break@error
+                      }
+                     }
+                    }
+                    else->{
+                     break@error
+                    }
+                   }
+                  }
+                  else->{
+                   break@error
+                  }
+                 }
+                }
+                else->{
+                 break@error
+                }
+               }
+              }
+              else->{
+               break@error
+              }
+             }
+            }
+            else->{
+             break@error
+            }
+           }
+          }
+          else->{
+           break@error
+          }
+         }
+        }
+        else->{
+         break@loop5
+        }
+       }
+      }
+      when(context.c){
+       0x27->{
+        context.append()
+        onSTRING_LITERAL_SINGLE_QUOTE()
+        return
+       }
+       else->{
+        break@error
+       }
+      }
+     }
+     1->{
+      context.append()
+      when(context.c){
+       0x22,0x27,0x5c,0x62,0x66,0x6e,0x72,0x74->{
+        context.append()
+        loop7@while(context.c!=ParserContext.EOF){
+         val localswitch8=parse_obj_helper_8(context.c)
+         when(localswitch8){
+          0->{
+           context.append()
+           continue@loop7
+          }
+          1->{
+           context.append()
+           when(context.c){
+            0x22,0x27,0x5c,0x62,0x66,0x6e,0x72,0x74->{
+             context.append()
+             continue@loop7
+            }
+            0x75->{
+             context.append()
+             when(context.c){
+              0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+               context.append()
+               when(context.c){
+                0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                 context.append()
+                 when(context.c){
+                  0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                   context.append()
+                   when(context.c){
+                    0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                     context.append()
+                     continue@loop7
+                    }
+                    else->{
+                     break@error
+                    }
+                   }
+                  }
+                  else->{
+                   break@error
+                  }
+                 }
+                }
+                else->{
+                 break@error
+                }
+               }
+              }
+              else->{
+               break@error
+              }
+             }
+            }
+            0x55->{
+             context.append()
+             when(context.c){
+              0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+               context.append()
+               when(context.c){
+                0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                 context.append()
+                 when(context.c){
+                  0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                   context.append()
+                   when(context.c){
+                    0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                     context.append()
+                     when(context.c){
+                      0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                       context.append()
+                       when(context.c){
+                        0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                         context.append()
+                         when(context.c){
+                          0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                           context.append()
+                           when(context.c){
+                            0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                             context.append()
+                             continue@loop7
+                            }
+                            else->{
+                             break@error
+                            }
+                           }
+                          }
+                          else->{
+                           break@error
+                          }
+                         }
+                        }
+                        else->{
+                         break@error
+                        }
+                       }
+                      }
+                      else->{
+                       break@error
+                      }
+                     }
+                    }
+                    else->{
+                     break@error
+                    }
+                   }
+                  }
+                  else->{
+                   break@error
+                  }
+                 }
+                }
+                else->{
+                 break@error
+                }
+               }
+              }
+              else->{
+               break@error
+              }
+             }
+            }
+            else->{
+             break@error
+            }
+           }
+          }
+          else->{
+           break@loop7
+          }
+         }
+        }
+        when(context.c){
+         0x27->{
+          context.append()
+          onSTRING_LITERAL_SINGLE_QUOTE()
+          return
+         }
+         else->{
+          break@error
+         }
+        }
+       }
+       0x75->{
+        context.append()
+        when(context.c){
+         0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+          context.append()
+          when(context.c){
+           0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+            context.append()
+            when(context.c){
+             0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+              context.append()
+              when(context.c){
+               0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                context.append()
+                loop15@while(context.c!=ParserContext.EOF){
+                 val localswitch16=parse_obj_helper_8(context.c)
+                 when(localswitch16){
+                  0->{
+                   context.append()
+                   continue@loop15
+                  }
+                  1->{
+                   context.append()
+                   when(context.c){
+                    0x22,0x27,0x5c,0x62,0x66,0x6e,0x72,0x74->{
+                     context.append()
+                     continue@loop15
+                    }
+                    0x75->{
+                     context.append()
+                     when(context.c){
+                      0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                       context.append()
+                       when(context.c){
+                        0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                         context.append()
+                         when(context.c){
+                          0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                           context.append()
+                           when(context.c){
+                            0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                             context.append()
+                             continue@loop15
+                            }
+                            else->{
+                             break@error
+                            }
+                           }
+                          }
+                          else->{
+                           break@error
+                          }
+                         }
+                        }
+                        else->{
+                         break@error
+                        }
+                       }
+                      }
+                      else->{
+                       break@error
+                      }
+                     }
+                    }
+                    0x55->{
+                     context.append()
+                     when(context.c){
+                      0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                       context.append()
+                       when(context.c){
+                        0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                         context.append()
+                         when(context.c){
+                          0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                           context.append()
+                           when(context.c){
+                            0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                             context.append()
+                             when(context.c){
+                              0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                               context.append()
+                               when(context.c){
+                                0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                                 context.append()
+                                 when(context.c){
+                                  0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                                   context.append()
+                                   when(context.c){
+                                    0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                                     context.append()
+                                     continue@loop15
+                                    }
+                                    else->{
+                                     break@error
+                                    }
+                                   }
+                                  }
+                                  else->{
+                                   break@error
+                                  }
+                                 }
+                                }
+                                else->{
+                                 break@error
+                                }
+                               }
+                              }
+                              else->{
+                               break@error
+                              }
+                             }
+                            }
+                            else->{
+                             break@error
+                            }
+                           }
+                          }
+                          else->{
+                           break@error
+                          }
+                         }
+                        }
+                        else->{
+                         break@error
+                        }
+                       }
+                      }
+                      else->{
+                       break@error
+                      }
+                     }
+                    }
+                    else->{
+                     break@error
+                    }
+                   }
+                  }
+                  else->{
+                   break@loop15
+                  }
+                 }
+                }
+                when(context.c){
+                 0x27->{
+                  context.append()
+                  onSTRING_LITERAL_SINGLE_QUOTE()
+                  return
+                 }
+                 else->{
+                  break@error
+                 }
+                }
+               }
+               else->{
+                break@error
+               }
+              }
+             }
+             else->{
+              break@error
+             }
+            }
+           }
+           else->{
+            break@error
+           }
+          }
+         }
+         else->{
+          break@error
+         }
+        }
+       }
+       0x55->{
+        context.append()
+        when(context.c){
+         0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+          context.append()
+          when(context.c){
+           0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+            context.append()
+            when(context.c){
+             0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+              context.append()
+              when(context.c){
+               0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                context.append()
+                when(context.c){
+                 0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                  context.append()
+                  when(context.c){
+                   0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                    context.append()
+                    when(context.c){
+                     0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                      context.append()
+                      when(context.c){
+                       0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                        context.append()
+                        loop23@while(context.c!=ParserContext.EOF){
+                         val localswitch24=parse_obj_helper_8(context.c)
+                         when(localswitch24){
+                          0->{
+                           context.append()
+                           continue@loop23
+                          }
+                          1->{
+                           context.append()
+                           when(context.c){
+                            0x22,0x27,0x5c,0x62,0x66,0x6e,0x72,0x74->{
+                             context.append()
+                             continue@loop23
+                            }
+                            0x75->{
+                             context.append()
+                             when(context.c){
+                              0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                               context.append()
+                               when(context.c){
+                                0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                                 context.append()
+                                 when(context.c){
+                                  0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                                   context.append()
+                                   when(context.c){
+                                    0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                                     context.append()
+                                     continue@loop23
+                                    }
+                                    else->{
+                                     break@error
+                                    }
+                                   }
+                                  }
+                                  else->{
+                                   break@error
+                                  }
+                                 }
+                                }
+                                else->{
+                                 break@error
+                                }
+                               }
+                              }
+                              else->{
+                               break@error
+                              }
+                             }
+                            }
+                            0x55->{
+                             context.append()
+                             when(context.c){
+                              0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                               context.append()
+                               when(context.c){
+                                0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                                 context.append()
+                                 when(context.c){
+                                  0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                                   context.append()
+                                   when(context.c){
+                                    0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                                     context.append()
+                                     when(context.c){
+                                      0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                                       context.append()
+                                       when(context.c){
+                                        0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                                         context.append()
+                                         when(context.c){
+                                          0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                                           context.append()
+                                           when(context.c){
+                                            0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                                             context.append()
+                                             continue@loop23
+                                            }
+                                            else->{
+                                             break@error
+                                            }
+                                           }
+                                          }
+                                          else->{
+                                           break@error
+                                          }
+                                         }
+                                        }
+                                        else->{
+                                         break@error
+                                        }
+                                       }
+                                      }
+                                      else->{
+                                       break@error
+                                      }
+                                     }
+                                    }
+                                    else->{
+                                     break@error
+                                    }
+                                   }
+                                  }
+                                  else->{
+                                   break@error
+                                  }
+                                 }
+                                }
+                                else->{
+                                 break@error
+                                }
+                               }
+                              }
+                              else->{
+                               break@error
+                              }
+                             }
+                            }
+                            else->{
+                             break@error
+                            }
+                           }
+                          }
+                          else->{
+                           break@loop23
+                          }
+                         }
+                        }
+                        when(context.c){
+                         0x27->{
+                          context.append()
+                          onSTRING_LITERAL_SINGLE_QUOTE()
+                          return
+                         }
+                         else->{
+                          break@error
+                         }
+                        }
+                       }
+                       else->{
+                        break@error
+                       }
+                      }
+                     }
+                     else->{
+                      break@error
+                     }
+                    }
+                   }
+                   else->{
+                    break@error
+                   }
+                  }
+                 }
+                 else->{
+                  break@error
+                 }
+                }
+               }
+               else->{
+                break@error
+               }
+              }
+             }
+             else->{
+              break@error
+             }
+            }
+           }
+           else->{
+            break@error
+           }
+          }
+         }
+         else->{
+          break@error
+         }
+        }
+       }
+       else->{
+        break@error
+       }
+      }
+     }
+     2->{
+      context.append()
+      when(context.c){
+       0x27->{
+        context.append()
+        loop7@while(context.c!=ParserContext.EOF){
+         val localswitch8=parse_obj_helper_9(context.c)
+         when(localswitch8){
+          0->{
+           context.append()
+           continue@loop7
+          }
+          1->{
+           context.append()
+           when(context.c){
+            0x22,0x27,0x5c,0x62,0x66,0x6e,0x72,0x74->{
+             context.append()
+             continue@loop7
+            }
+            0x75->{
+             context.append()
+             when(context.c){
+              0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+               context.append()
+               when(context.c){
+                0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                 context.append()
+                 when(context.c){
+                  0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                   context.append()
+                   when(context.c){
+                    0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                     context.append()
+                     continue@loop7
+                    }
+                    else->{
+                     break@error
+                    }
+                   }
+                  }
+                  else->{
+                   break@error
+                  }
+                 }
+                }
+                else->{
+                 break@error
+                }
+               }
+              }
+              else->{
+               break@error
+              }
+             }
+            }
+            0x55->{
+             context.append()
+             when(context.c){
+              0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+               context.append()
+               when(context.c){
+                0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                 context.append()
+                 when(context.c){
+                  0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                   context.append()
+                   when(context.c){
+                    0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                     context.append()
+                     when(context.c){
+                      0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                       context.append()
+                       when(context.c){
+                        0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                         context.append()
+                         when(context.c){
+                          0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                           context.append()
+                           when(context.c){
+                            0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                             context.append()
+                             continue@loop7
+                            }
+                            else->{
+                             break@error
+                            }
+                           }
+                          }
+                          else->{
+                           break@error
+                          }
+                         }
+                        }
+                        else->{
+                         break@error
+                        }
+                       }
+                      }
+                      else->{
+                       break@error
+                      }
+                     }
+                    }
+                    else->{
+                     break@error
+                    }
+                   }
+                  }
+                  else->{
+                   break@error
+                  }
+                 }
+                }
+                else->{
+                 break@error
+                }
+               }
+              }
+              else->{
+               break@error
+              }
+             }
+            }
+            else->{
+             break@error
+            }
+           }
+          }
+          2->{
+           context.append()
+           val localswitch10=parse_obj_helper_9(context.c)
+           when(localswitch10){
+            0->{
+             context.append()
+             continue@loop7
+            }
+            1->{
+             context.append()
+             when(context.c){
+              0x22,0x27,0x5c,0x62,0x66,0x6e,0x72,0x74->{
+               context.append()
+               continue@loop7
+              }
+              0x75->{
+               context.append()
+               when(context.c){
+                0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                 context.append()
+                 when(context.c){
+                  0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                   context.append()
+                   when(context.c){
+                    0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                     context.append()
+                     when(context.c){
+                      0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                       context.append()
+                       continue@loop7
+                      }
+                      else->{
+                       break@error
+                      }
+                     }
+                    }
+                    else->{
+                     break@error
+                    }
+                   }
+                  }
+                  else->{
+                   break@error
+                  }
+                 }
+                }
+                else->{
+                 break@error
+                }
+               }
+              }
+              0x55->{
+               context.append()
+               when(context.c){
+                0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                 context.append()
+                 when(context.c){
+                  0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                   context.append()
+                   when(context.c){
+                    0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                     context.append()
+                     when(context.c){
+                      0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                       context.append()
+                       when(context.c){
+                        0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                         context.append()
+                         when(context.c){
+                          0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                           context.append()
+                           when(context.c){
+                            0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                             context.append()
+                             when(context.c){
+                              0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                               context.append()
+                               continue@loop7
+                              }
+                              else->{
+                               break@error
+                              }
+                             }
+                            }
+                            else->{
+                             break@error
+                            }
+                           }
+                          }
+                          else->{
+                           break@error
+                          }
+                         }
+                        }
+                        else->{
+                         break@error
+                        }
+                       }
+                      }
+                      else->{
+                       break@error
+                      }
+                     }
+                    }
+                    else->{
+                     break@error
+                    }
+                   }
+                  }
+                  else->{
+                   break@error
+                  }
+                 }
+                }
+                else->{
+                 break@error
+                }
+               }
+              }
+              else->{
+               break@error
+              }
+             }
+            }
+            2->{
+             context.append()
+             val localswitch12=parse_obj_helper_9(context.c)
+             when(localswitch12){
+              0->{
+               context.append()
+               continue@loop7
+              }
+              1->{
+               context.append()
+               when(context.c){
+                0x22,0x27,0x5c,0x62,0x66,0x6e,0x72,0x74->{
+                 context.append()
+                 continue@loop7
+                }
+                0x75->{
+                 context.append()
+                 when(context.c){
+                  0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                   context.append()
+                   when(context.c){
+                    0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                     context.append()
+                     when(context.c){
+                      0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                       context.append()
+                       when(context.c){
+                        0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                         context.append()
+                         continue@loop7
+                        }
+                        else->{
+                         break@error
+                        }
+                       }
+                      }
+                      else->{
+                       break@error
+                      }
+                     }
+                    }
+                    else->{
+                     break@error
+                    }
+                   }
+                  }
+                  else->{
+                   break@error
+                  }
+                 }
+                }
+                0x55->{
+                 context.append()
+                 when(context.c){
+                  0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                   context.append()
+                   when(context.c){
+                    0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                     context.append()
+                     when(context.c){
+                      0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                       context.append()
+                       when(context.c){
+                        0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                         context.append()
+                         when(context.c){
+                          0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                           context.append()
+                           when(context.c){
+                            0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                             context.append()
+                             when(context.c){
+                              0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                               context.append()
+                               when(context.c){
+                                0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                                 context.append()
+                                 continue@loop7
+                                }
+                                else->{
+                                 break@error
+                                }
+                               }
+                              }
+                              else->{
+                               break@error
+                              }
+                             }
+                            }
+                            else->{
+                             break@error
+                            }
+                           }
+                          }
+                          else->{
+                           break@error
+                          }
+                         }
+                        }
+                        else->{
+                         break@error
+                        }
+                       }
+                      }
+                      else->{
+                       break@error
+                      }
+                     }
+                    }
+                    else->{
+                     break@error
+                    }
+                   }
+                  }
+                  else->{
+                   break@error
+                  }
+                 }
+                }
+                else->{
+                 break@error
+                }
+               }
+              }
+              2->{
+               context.append()
+               onSTRING_LITERAL_LONG_SINGLE_QUOTE()
+               return
+              }
+              else->{
+               break@error
+              }
+             }
+            }
+            else->{
+             break@error
+            }
+           }
+          }
+          else->{
+           break@loop7
+          }
+         }
+        }
+        break@error
+       }
+       else->{
+        onSTRING_LITERAL_SINGLE_QUOTE()
+        return
+       }
+      }
+     }
+     else->{
+      break@error
+     }
     }
    }
-  }
-  1->{
-   context.append()
-   loop2@while(context.c!=ParserContext.EOF){
+   6->{
+    context.append()
     loop3@while(context.c!=ParserContext.EOF){
      when(context.c){
-      0x2e->{
+      0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39->{
        context.append()
       }
       else->{
@@ -1378,46 +3648,15 @@ inline fun parse_obj(context:ParserContext,
       }
      }
     }
-    val localswitch3=parse_obj_helper_2(context.c)
-    when(localswitch3){
-     0->{
+    when(context.c){
+     0x2e->{
       context.append()
-      continue@loop2
-     }
-     else->{
-      break@loop2
-     }
-    }
-   }
-   when(context.c){
-    0x3a->{
-     context.append()
-     onPNAME_NS()
-     return
-    }
-    else->{
-     throw ParserExceptionUnexpectedChar(context)
-    }
-   }
-  }
-  2->{
-   context.append()
-   onPNAME_NS()
-   return
-  }
-  3->{
-   context.append()
-   when(context.c){
-    0x3a->{
-     context.append()
-     val localswitch4=parse_obj_helper_3(context.c)
-     when(localswitch4){
-      0->{
-       context.append()
-       loop6@while(context.c!=ParserContext.EOF){
+      when(context.c){
+       0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39->{
+        context.append()
         loop7@while(context.c!=ParserContext.EOF){
          when(context.c){
-          0x2e->{
+          0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39->{
            context.append()
           }
           else->{
@@ -1425,2787 +3664,575 @@ inline fun parse_obj(context:ParserContext,
           }
          }
         }
-        val localswitch7=parse_obj_helper_2(context.c)
-        when(localswitch7){
-         0->{
-          context.append()
-          continue@loop6
-         }
-         else->{
-          break@loop6
-         }
-        }
-       }
-       onBLANK_NODE_LABEL()
-       return
-      }
-      else->{
-       throw ParserExceptionUnexpectedChar(context)
-      }
-     }
-    }
-    else->{
-     throw ParserExceptionUnexpectedChar(context)
-    }
-   }
-  }
-  4->{
-   context.append()
-   val localswitch2=parse_obj_helper_4(context.c)
-   when(localswitch2){
-    0->{
-     context.append()
-     loop4@while(context.c!=ParserContext.EOF){
-      val localswitch5=parse_obj_helper_5(context.c)
-      when(localswitch5){
-       0->{
-        context.append()
-        continue@loop4
-       }
-       1->{
-        context.append()
         when(context.c){
-         0x22,0x27,0x5c,0x62,0x66,0x6e,0x72,0x74->{
+         0x45,0x65->{
           context.append()
-          continue@loop4
-         }
-         0x75->{
-          context.append()
-          when(context.c){
-           0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-            context.append()
-            when(context.c){
-             0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-              context.append()
-              when(context.c){
-               0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                context.append()
-                when(context.c){
-                 0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                  context.append()
-                  continue@loop4
-                 }
-                 else->{
-                  throw ParserExceptionUnexpectedChar(context)
-                 }
-                }
-               }
-               else->{
-                throw ParserExceptionUnexpectedChar(context)
-               }
-              }
-             }
-             else->{
-              throw ParserExceptionUnexpectedChar(context)
-             }
-            }
-           }
-           else->{
-            throw ParserExceptionUnexpectedChar(context)
-           }
-          }
-         }
-         0x55->{
-          context.append()
-          when(context.c){
-           0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-            context.append()
-            when(context.c){
-             0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-              context.append()
-              when(context.c){
-               0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                context.append()
-                when(context.c){
-                 0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                  context.append()
-                  when(context.c){
-                   0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                    context.append()
-                    when(context.c){
-                     0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                      context.append()
-                      when(context.c){
-                       0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                        context.append()
-                        when(context.c){
-                         0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                          context.append()
-                          continue@loop4
-                         }
-                         else->{
-                          throw ParserExceptionUnexpectedChar(context)
-                         }
-                        }
-                       }
-                       else->{
-                        throw ParserExceptionUnexpectedChar(context)
-                       }
-                      }
-                     }
-                     else->{
-                      throw ParserExceptionUnexpectedChar(context)
-                     }
-                    }
-                   }
-                   else->{
-                    throw ParserExceptionUnexpectedChar(context)
-                   }
-                  }
-                 }
-                 else->{
-                  throw ParserExceptionUnexpectedChar(context)
-                 }
-                }
-               }
-               else->{
-                throw ParserExceptionUnexpectedChar(context)
-               }
-              }
-             }
-             else->{
-              throw ParserExceptionUnexpectedChar(context)
-             }
-            }
-           }
-           else->{
-            throw ParserExceptionUnexpectedChar(context)
-           }
-          }
-         }
-         else->{
-          throw ParserExceptionUnexpectedChar(context)
-         }
-        }
-       }
-       else->{
-        break@loop4
-       }
-      }
-     }
-     when(context.c){
-      0x22->{
-       context.append()
-       onSTRING_LITERAL_QUOTE()
-       return
-      }
-      else->{
-       throw ParserExceptionUnexpectedChar(context)
-      }
-     }
-    }
-    1->{
-     context.append()
-     when(context.c){
-      0x22,0x27,0x5c,0x62,0x66,0x6e,0x72,0x74->{
-       context.append()
-       loop6@while(context.c!=ParserContext.EOF){
-        val localswitch7=parse_obj_helper_5(context.c)
-        when(localswitch7){
-         0->{
-          context.append()
-          continue@loop6
-         }
-         1->{
-          context.append()
-          when(context.c){
-           0x22,0x27,0x5c,0x62,0x66,0x6e,0x72,0x74->{
-            context.append()
-            continue@loop6
-           }
-           0x75->{
-            context.append()
-            when(context.c){
-             0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-              context.append()
-              when(context.c){
-               0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                context.append()
-                when(context.c){
-                 0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                  context.append()
-                  when(context.c){
-                   0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                    context.append()
-                    continue@loop6
-                   }
-                   else->{
-                    throw ParserExceptionUnexpectedChar(context)
-                   }
-                  }
-                 }
-                 else->{
-                  throw ParserExceptionUnexpectedChar(context)
-                 }
-                }
-               }
-               else->{
-                throw ParserExceptionUnexpectedChar(context)
-               }
-              }
-             }
-             else->{
-              throw ParserExceptionUnexpectedChar(context)
-             }
-            }
-           }
-           0x55->{
-            context.append()
-            when(context.c){
-             0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-              context.append()
-              when(context.c){
-               0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                context.append()
-                when(context.c){
-                 0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                  context.append()
-                  when(context.c){
-                   0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                    context.append()
-                    when(context.c){
-                     0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                      context.append()
-                      when(context.c){
-                       0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                        context.append()
-                        when(context.c){
-                         0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                          context.append()
-                          when(context.c){
-                           0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                            context.append()
-                            continue@loop6
-                           }
-                           else->{
-                            throw ParserExceptionUnexpectedChar(context)
-                           }
-                          }
-                         }
-                         else->{
-                          throw ParserExceptionUnexpectedChar(context)
-                         }
-                        }
-                       }
-                       else->{
-                        throw ParserExceptionUnexpectedChar(context)
-                       }
-                      }
-                     }
-                     else->{
-                      throw ParserExceptionUnexpectedChar(context)
-                     }
-                    }
-                   }
-                   else->{
-                    throw ParserExceptionUnexpectedChar(context)
-                   }
-                  }
-                 }
-                 else->{
-                  throw ParserExceptionUnexpectedChar(context)
-                 }
-                }
-               }
-               else->{
-                throw ParserExceptionUnexpectedChar(context)
-               }
-              }
-             }
-             else->{
-              throw ParserExceptionUnexpectedChar(context)
-             }
-            }
-           }
-           else->{
-            throw ParserExceptionUnexpectedChar(context)
-           }
-          }
-         }
-         else->{
-          break@loop6
-         }
-        }
-       }
-       when(context.c){
-        0x22->{
-         context.append()
-         onSTRING_LITERAL_QUOTE()
-         return
-        }
-        else->{
-         throw ParserExceptionUnexpectedChar(context)
-        }
-       }
-      }
-      0x75->{
-       context.append()
-       when(context.c){
-        0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-         context.append()
-         when(context.c){
-          0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-           context.append()
-           when(context.c){
-            0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-             context.append()
-             when(context.c){
-              0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-               context.append()
-               loop14@while(context.c!=ParserContext.EOF){
-                val localswitch15=parse_obj_helper_5(context.c)
-                when(localswitch15){
-                 0->{
-                  context.append()
-                  continue@loop14
-                 }
-                 1->{
-                  context.append()
-                  when(context.c){
-                   0x22,0x27,0x5c,0x62,0x66,0x6e,0x72,0x74->{
-                    context.append()
-                    continue@loop14
-                   }
-                   0x75->{
-                    context.append()
-                    when(context.c){
-                     0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                      context.append()
-                      when(context.c){
-                       0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                        context.append()
-                        when(context.c){
-                         0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                          context.append()
-                          when(context.c){
-                           0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                            context.append()
-                            continue@loop14
-                           }
-                           else->{
-                            throw ParserExceptionUnexpectedChar(context)
-                           }
-                          }
-                         }
-                         else->{
-                          throw ParserExceptionUnexpectedChar(context)
-                         }
-                        }
-                       }
-                       else->{
-                        throw ParserExceptionUnexpectedChar(context)
-                       }
-                      }
-                     }
-                     else->{
-                      throw ParserExceptionUnexpectedChar(context)
-                     }
-                    }
-                   }
-                   0x55->{
-                    context.append()
-                    when(context.c){
-                     0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                      context.append()
-                      when(context.c){
-                       0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                        context.append()
-                        when(context.c){
-                         0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                          context.append()
-                          when(context.c){
-                           0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                            context.append()
-                            when(context.c){
-                             0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                              context.append()
-                              when(context.c){
-                               0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                                context.append()
-                                when(context.c){
-                                 0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                                  context.append()
-                                  when(context.c){
-                                   0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                                    context.append()
-                                    continue@loop14
-                                   }
-                                   else->{
-                                    throw ParserExceptionUnexpectedChar(context)
-                                   }
-                                  }
-                                 }
-                                 else->{
-                                  throw ParserExceptionUnexpectedChar(context)
-                                 }
-                                }
-                               }
-                               else->{
-                                throw ParserExceptionUnexpectedChar(context)
-                               }
-                              }
-                             }
-                             else->{
-                              throw ParserExceptionUnexpectedChar(context)
-                             }
-                            }
-                           }
-                           else->{
-                            throw ParserExceptionUnexpectedChar(context)
-                           }
-                          }
-                         }
-                         else->{
-                          throw ParserExceptionUnexpectedChar(context)
-                         }
-                        }
-                       }
-                       else->{
-                        throw ParserExceptionUnexpectedChar(context)
-                       }
-                      }
-                     }
-                     else->{
-                      throw ParserExceptionUnexpectedChar(context)
-                     }
-                    }
-                   }
-                   else->{
-                    throw ParserExceptionUnexpectedChar(context)
-                   }
-                  }
-                 }
-                 else->{
-                  break@loop14
-                 }
-                }
-               }
-               when(context.c){
-                0x22->{
-                 context.append()
-                 onSTRING_LITERAL_QUOTE()
-                 return
-                }
-                else->{
-                 throw ParserExceptionUnexpectedChar(context)
-                }
-               }
-              }
-              else->{
-               throw ParserExceptionUnexpectedChar(context)
-              }
-             }
-            }
-            else->{
-             throw ParserExceptionUnexpectedChar(context)
-            }
-           }
-          }
-          else->{
-           throw ParserExceptionUnexpectedChar(context)
-          }
-         }
-        }
-        else->{
-         throw ParserExceptionUnexpectedChar(context)
-        }
-       }
-      }
-      0x55->{
-       context.append()
-       when(context.c){
-        0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-         context.append()
-         when(context.c){
-          0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-           context.append()
-           when(context.c){
-            0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-             context.append()
-             when(context.c){
-              0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-               context.append()
-               when(context.c){
-                0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                 context.append()
-                 when(context.c){
-                  0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                   context.append()
-                   when(context.c){
-                    0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                     context.append()
-                     when(context.c){
-                      0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                       context.append()
-                       loop22@while(context.c!=ParserContext.EOF){
-                        val localswitch23=parse_obj_helper_5(context.c)
-                        when(localswitch23){
-                         0->{
-                          context.append()
-                          continue@loop22
-                         }
-                         1->{
-                          context.append()
-                          when(context.c){
-                           0x22,0x27,0x5c,0x62,0x66,0x6e,0x72,0x74->{
-                            context.append()
-                            continue@loop22
-                           }
-                           0x75->{
-                            context.append()
-                            when(context.c){
-                             0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                              context.append()
-                              when(context.c){
-                               0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                                context.append()
-                                when(context.c){
-                                 0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                                  context.append()
-                                  when(context.c){
-                                   0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                                    context.append()
-                                    continue@loop22
-                                   }
-                                   else->{
-                                    throw ParserExceptionUnexpectedChar(context)
-                                   }
-                                  }
-                                 }
-                                 else->{
-                                  throw ParserExceptionUnexpectedChar(context)
-                                 }
-                                }
-                               }
-                               else->{
-                                throw ParserExceptionUnexpectedChar(context)
-                               }
-                              }
-                             }
-                             else->{
-                              throw ParserExceptionUnexpectedChar(context)
-                             }
-                            }
-                           }
-                           0x55->{
-                            context.append()
-                            when(context.c){
-                             0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                              context.append()
-                              when(context.c){
-                               0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                                context.append()
-                                when(context.c){
-                                 0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                                  context.append()
-                                  when(context.c){
-                                   0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                                    context.append()
-                                    when(context.c){
-                                     0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                                      context.append()
-                                      when(context.c){
-                                       0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                                        context.append()
-                                        when(context.c){
-                                         0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                                          context.append()
-                                          when(context.c){
-                                           0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                                            context.append()
-                                            continue@loop22
-                                           }
-                                           else->{
-                                            throw ParserExceptionUnexpectedChar(context)
-                                           }
-                                          }
-                                         }
-                                         else->{
-                                          throw ParserExceptionUnexpectedChar(context)
-                                         }
-                                        }
-                                       }
-                                       else->{
-                                        throw ParserExceptionUnexpectedChar(context)
-                                       }
-                                      }
-                                     }
-                                     else->{
-                                      throw ParserExceptionUnexpectedChar(context)
-                                     }
-                                    }
-                                   }
-                                   else->{
-                                    throw ParserExceptionUnexpectedChar(context)
-                                   }
-                                  }
-                                 }
-                                 else->{
-                                  throw ParserExceptionUnexpectedChar(context)
-                                 }
-                                }
-                               }
-                               else->{
-                                throw ParserExceptionUnexpectedChar(context)
-                               }
-                              }
-                             }
-                             else->{
-                              throw ParserExceptionUnexpectedChar(context)
-                             }
-                            }
-                           }
-                           else->{
-                            throw ParserExceptionUnexpectedChar(context)
-                           }
-                          }
-                         }
-                         else->{
-                          break@loop22
-                         }
-                        }
-                       }
-                       when(context.c){
-                        0x22->{
-                         context.append()
-                         onSTRING_LITERAL_QUOTE()
-                         return
-                        }
-                        else->{
-                         throw ParserExceptionUnexpectedChar(context)
-                        }
-                       }
-                      }
-                      else->{
-                       throw ParserExceptionUnexpectedChar(context)
-                      }
-                     }
-                    }
-                    else->{
-                     throw ParserExceptionUnexpectedChar(context)
-                    }
-                   }
-                  }
-                  else->{
-                   throw ParserExceptionUnexpectedChar(context)
-                  }
-                 }
-                }
-                else->{
-                 throw ParserExceptionUnexpectedChar(context)
-                }
-               }
-              }
-              else->{
-               throw ParserExceptionUnexpectedChar(context)
-              }
-             }
-            }
-            else->{
-             throw ParserExceptionUnexpectedChar(context)
-            }
-           }
-          }
-          else->{
-           throw ParserExceptionUnexpectedChar(context)
-          }
-         }
-        }
-        else->{
-         throw ParserExceptionUnexpectedChar(context)
-        }
-       }
-      }
-      else->{
-       throw ParserExceptionUnexpectedChar(context)
-      }
-     }
-    }
-    2->{
-     context.append()
-     when(context.c){
-      0x22->{
-       context.append()
-       loop6@while(context.c!=ParserContext.EOF){
-        val localswitch7=parse_obj_helper_6(context.c)
-        when(localswitch7){
-         0->{
-          context.append()
-          continue@loop6
-         }
-         1->{
-          context.append()
-          when(context.c){
-           0x22,0x27,0x5c,0x62,0x66,0x6e,0x72,0x74->{
-            context.append()
-            continue@loop6
-           }
-           0x75->{
-            context.append()
-            when(context.c){
-             0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-              context.append()
-              when(context.c){
-               0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                context.append()
-                when(context.c){
-                 0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                  context.append()
-                  when(context.c){
-                   0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                    context.append()
-                    continue@loop6
-                   }
-                   else->{
-                    throw ParserExceptionUnexpectedChar(context)
-                   }
-                  }
-                 }
-                 else->{
-                  throw ParserExceptionUnexpectedChar(context)
-                 }
-                }
-               }
-               else->{
-                throw ParserExceptionUnexpectedChar(context)
-               }
-              }
-             }
-             else->{
-              throw ParserExceptionUnexpectedChar(context)
-             }
-            }
-           }
-           0x55->{
-            context.append()
-            when(context.c){
-             0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-              context.append()
-              when(context.c){
-               0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                context.append()
-                when(context.c){
-                 0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                  context.append()
-                  when(context.c){
-                   0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                    context.append()
-                    when(context.c){
-                     0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                      context.append()
-                      when(context.c){
-                       0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                        context.append()
-                        when(context.c){
-                         0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                          context.append()
-                          when(context.c){
-                           0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                            context.append()
-                            continue@loop6
-                           }
-                           else->{
-                            throw ParserExceptionUnexpectedChar(context)
-                           }
-                          }
-                         }
-                         else->{
-                          throw ParserExceptionUnexpectedChar(context)
-                         }
-                        }
-                       }
-                       else->{
-                        throw ParserExceptionUnexpectedChar(context)
-                       }
-                      }
-                     }
-                     else->{
-                      throw ParserExceptionUnexpectedChar(context)
-                     }
-                    }
-                   }
-                   else->{
-                    throw ParserExceptionUnexpectedChar(context)
-                   }
-                  }
-                 }
-                 else->{
-                  throw ParserExceptionUnexpectedChar(context)
-                 }
-                }
-               }
-               else->{
-                throw ParserExceptionUnexpectedChar(context)
-               }
-              }
-             }
-             else->{
-              throw ParserExceptionUnexpectedChar(context)
-             }
-            }
-           }
-           else->{
-            throw ParserExceptionUnexpectedChar(context)
-           }
-          }
-         }
-         2->{
-          context.append()
-          val localswitch9=parse_obj_helper_6(context.c)
-          when(localswitch9){
-           0->{
-            context.append()
-            continue@loop6
-           }
-           1->{
-            context.append()
-            when(context.c){
-             0x22,0x27,0x5c,0x62,0x66,0x6e,0x72,0x74->{
-              context.append()
-              continue@loop6
-             }
-             0x75->{
-              context.append()
-              when(context.c){
-               0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                context.append()
-                when(context.c){
-                 0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                  context.append()
-                  when(context.c){
-                   0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                    context.append()
-                    when(context.c){
-                     0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                      context.append()
-                      continue@loop6
-                     }
-                     else->{
-                      throw ParserExceptionUnexpectedChar(context)
-                     }
-                    }
-                   }
-                   else->{
-                    throw ParserExceptionUnexpectedChar(context)
-                   }
-                  }
-                 }
-                 else->{
-                  throw ParserExceptionUnexpectedChar(context)
-                 }
-                }
-               }
-               else->{
-                throw ParserExceptionUnexpectedChar(context)
-               }
-              }
-             }
-             0x55->{
-              context.append()
-              when(context.c){
-               0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                context.append()
-                when(context.c){
-                 0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                  context.append()
-                  when(context.c){
-                   0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                    context.append()
-                    when(context.c){
-                     0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                      context.append()
-                      when(context.c){
-                       0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                        context.append()
-                        when(context.c){
-                         0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                          context.append()
-                          when(context.c){
-                           0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                            context.append()
-                            when(context.c){
-                             0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                              context.append()
-                              continue@loop6
-                             }
-                             else->{
-                              throw ParserExceptionUnexpectedChar(context)
-                             }
-                            }
-                           }
-                           else->{
-                            throw ParserExceptionUnexpectedChar(context)
-                           }
-                          }
-                         }
-                         else->{
-                          throw ParserExceptionUnexpectedChar(context)
-                         }
-                        }
-                       }
-                       else->{
-                        throw ParserExceptionUnexpectedChar(context)
-                       }
-                      }
-                     }
-                     else->{
-                      throw ParserExceptionUnexpectedChar(context)
-                     }
-                    }
-                   }
-                   else->{
-                    throw ParserExceptionUnexpectedChar(context)
-                   }
-                  }
-                 }
-                 else->{
-                  throw ParserExceptionUnexpectedChar(context)
-                 }
-                }
-               }
-               else->{
-                throw ParserExceptionUnexpectedChar(context)
-               }
-              }
-             }
-             else->{
-              throw ParserExceptionUnexpectedChar(context)
-             }
-            }
-           }
-           2->{
-            context.append()
-            val localswitch11=parse_obj_helper_6(context.c)
-            when(localswitch11){
-             0->{
-              context.append()
-              continue@loop6
-             }
-             1->{
-              context.append()
-              when(context.c){
-               0x22,0x27,0x5c,0x62,0x66,0x6e,0x72,0x74->{
-                context.append()
-                continue@loop6
-               }
-               0x75->{
-                context.append()
-                when(context.c){
-                 0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                  context.append()
-                  when(context.c){
-                   0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                    context.append()
-                    when(context.c){
-                     0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                      context.append()
-                      when(context.c){
-                       0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                        context.append()
-                        continue@loop6
-                       }
-                       else->{
-                        throw ParserExceptionUnexpectedChar(context)
-                       }
-                      }
-                     }
-                     else->{
-                      throw ParserExceptionUnexpectedChar(context)
-                     }
-                    }
-                   }
-                   else->{
-                    throw ParserExceptionUnexpectedChar(context)
-                   }
-                  }
-                 }
-                 else->{
-                  throw ParserExceptionUnexpectedChar(context)
-                 }
-                }
-               }
-               0x55->{
-                context.append()
-                when(context.c){
-                 0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                  context.append()
-                  when(context.c){
-                   0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                    context.append()
-                    when(context.c){
-                     0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                      context.append()
-                      when(context.c){
-                       0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                        context.append()
-                        when(context.c){
-                         0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                          context.append()
-                          when(context.c){
-                           0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                            context.append()
-                            when(context.c){
-                             0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                              context.append()
-                              when(context.c){
-                               0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                                context.append()
-                                continue@loop6
-                               }
-                               else->{
-                                throw ParserExceptionUnexpectedChar(context)
-                               }
-                              }
-                             }
-                             else->{
-                              throw ParserExceptionUnexpectedChar(context)
-                             }
-                            }
-                           }
-                           else->{
-                            throw ParserExceptionUnexpectedChar(context)
-                           }
-                          }
-                         }
-                         else->{
-                          throw ParserExceptionUnexpectedChar(context)
-                         }
-                        }
-                       }
-                       else->{
-                        throw ParserExceptionUnexpectedChar(context)
-                       }
-                      }
-                     }
-                     else->{
-                      throw ParserExceptionUnexpectedChar(context)
-                     }
-                    }
-                   }
-                   else->{
-                    throw ParserExceptionUnexpectedChar(context)
-                   }
-                  }
-                 }
-                 else->{
-                  throw ParserExceptionUnexpectedChar(context)
-                 }
-                }
-               }
-               else->{
-                throw ParserExceptionUnexpectedChar(context)
-               }
-              }
-             }
-             2->{
-              context.append()
-              onSTRING_LITERAL_LONG_QUOTE()
-              return
-             }
-             else->{
-              throw ParserExceptionUnexpectedChar(context)
-             }
-            }
-           }
-           else->{
-            throw ParserExceptionUnexpectedChar(context)
-           }
-          }
-         }
-         else->{
-          break@loop6
-         }
-        }
-       }
-       throw ParserExceptionUnexpectedChar(context)
-      }
-      else->{
-       onSTRING_LITERAL_QUOTE()
-       return
-      }
-     }
-    }
-    else->{
-     throw ParserExceptionUnexpectedChar(context)
-    }
-   }
-  }
-  5->{
-   context.append()
-   val localswitch2=parse_obj_helper_7(context.c)
-   when(localswitch2){
-    0->{
-     context.append()
-     loop4@while(context.c!=ParserContext.EOF){
-      val localswitch5=parse_obj_helper_8(context.c)
-      when(localswitch5){
-       0->{
-        context.append()
-        continue@loop4
-       }
-       1->{
-        context.append()
-        when(context.c){
-         0x22,0x27,0x5c,0x62,0x66,0x6e,0x72,0x74->{
-          context.append()
-          continue@loop4
-         }
-         0x75->{
-          context.append()
-          when(context.c){
-           0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-            context.append()
-            when(context.c){
-             0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-              context.append()
-              when(context.c){
-               0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                context.append()
-                when(context.c){
-                 0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                  context.append()
-                  continue@loop4
-                 }
-                 else->{
-                  throw ParserExceptionUnexpectedChar(context)
-                 }
-                }
-               }
-               else->{
-                throw ParserExceptionUnexpectedChar(context)
-               }
-              }
-             }
-             else->{
-              throw ParserExceptionUnexpectedChar(context)
-             }
-            }
-           }
-           else->{
-            throw ParserExceptionUnexpectedChar(context)
-           }
-          }
-         }
-         0x55->{
-          context.append()
-          when(context.c){
-           0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-            context.append()
-            when(context.c){
-             0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-              context.append()
-              when(context.c){
-               0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                context.append()
-                when(context.c){
-                 0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                  context.append()
-                  when(context.c){
-                   0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                    context.append()
-                    when(context.c){
-                     0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                      context.append()
-                      when(context.c){
-                       0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                        context.append()
-                        when(context.c){
-                         0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                          context.append()
-                          continue@loop4
-                         }
-                         else->{
-                          throw ParserExceptionUnexpectedChar(context)
-                         }
-                        }
-                       }
-                       else->{
-                        throw ParserExceptionUnexpectedChar(context)
-                       }
-                      }
-                     }
-                     else->{
-                      throw ParserExceptionUnexpectedChar(context)
-                     }
-                    }
-                   }
-                   else->{
-                    throw ParserExceptionUnexpectedChar(context)
-                   }
-                  }
-                 }
-                 else->{
-                  throw ParserExceptionUnexpectedChar(context)
-                 }
-                }
-               }
-               else->{
-                throw ParserExceptionUnexpectedChar(context)
-               }
-              }
-             }
-             else->{
-              throw ParserExceptionUnexpectedChar(context)
-             }
-            }
-           }
-           else->{
-            throw ParserExceptionUnexpectedChar(context)
-           }
-          }
-         }
-         else->{
-          throw ParserExceptionUnexpectedChar(context)
-         }
-        }
-       }
-       else->{
-        break@loop4
-       }
-      }
-     }
-     when(context.c){
-      0x27->{
-       context.append()
-       onSTRING_LITERAL_SINGLE_QUOTE()
-       return
-      }
-      else->{
-       throw ParserExceptionUnexpectedChar(context)
-      }
-     }
-    }
-    1->{
-     context.append()
-     when(context.c){
-      0x22,0x27,0x5c,0x62,0x66,0x6e,0x72,0x74->{
-       context.append()
-       loop6@while(context.c!=ParserContext.EOF){
-        val localswitch7=parse_obj_helper_8(context.c)
-        when(localswitch7){
-         0->{
-          context.append()
-          continue@loop6
-         }
-         1->{
-          context.append()
-          when(context.c){
-           0x22,0x27,0x5c,0x62,0x66,0x6e,0x72,0x74->{
-            context.append()
-            continue@loop6
-           }
-           0x75->{
-            context.append()
-            when(context.c){
-             0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-              context.append()
-              when(context.c){
-               0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                context.append()
-                when(context.c){
-                 0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                  context.append()
-                  when(context.c){
-                   0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                    context.append()
-                    continue@loop6
-                   }
-                   else->{
-                    throw ParserExceptionUnexpectedChar(context)
-                   }
-                  }
-                 }
-                 else->{
-                  throw ParserExceptionUnexpectedChar(context)
-                 }
-                }
-               }
-               else->{
-                throw ParserExceptionUnexpectedChar(context)
-               }
-              }
-             }
-             else->{
-              throw ParserExceptionUnexpectedChar(context)
-             }
-            }
-           }
-           0x55->{
-            context.append()
-            when(context.c){
-             0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-              context.append()
-              when(context.c){
-               0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                context.append()
-                when(context.c){
-                 0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                  context.append()
-                  when(context.c){
-                   0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                    context.append()
-                    when(context.c){
-                     0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                      context.append()
-                      when(context.c){
-                       0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                        context.append()
-                        when(context.c){
-                         0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                          context.append()
-                          when(context.c){
-                           0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                            context.append()
-                            continue@loop6
-                           }
-                           else->{
-                            throw ParserExceptionUnexpectedChar(context)
-                           }
-                          }
-                         }
-                         else->{
-                          throw ParserExceptionUnexpectedChar(context)
-                         }
-                        }
-                       }
-                       else->{
-                        throw ParserExceptionUnexpectedChar(context)
-                       }
-                      }
-                     }
-                     else->{
-                      throw ParserExceptionUnexpectedChar(context)
-                     }
-                    }
-                   }
-                   else->{
-                    throw ParserExceptionUnexpectedChar(context)
-                   }
-                  }
-                 }
-                 else->{
-                  throw ParserExceptionUnexpectedChar(context)
-                 }
-                }
-               }
-               else->{
-                throw ParserExceptionUnexpectedChar(context)
-               }
-              }
-             }
-             else->{
-              throw ParserExceptionUnexpectedChar(context)
-             }
-            }
-           }
-           else->{
-            throw ParserExceptionUnexpectedChar(context)
-           }
-          }
-         }
-         else->{
-          break@loop6
-         }
-        }
-       }
-       when(context.c){
-        0x27->{
-         context.append()
-         onSTRING_LITERAL_SINGLE_QUOTE()
-         return
-        }
-        else->{
-         throw ParserExceptionUnexpectedChar(context)
-        }
-       }
-      }
-      0x75->{
-       context.append()
-       when(context.c){
-        0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-         context.append()
-         when(context.c){
-          0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-           context.append()
-           when(context.c){
-            0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-             context.append()
-             when(context.c){
-              0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-               context.append()
-               loop14@while(context.c!=ParserContext.EOF){
-                val localswitch15=parse_obj_helper_8(context.c)
-                when(localswitch15){
-                 0->{
-                  context.append()
-                  continue@loop14
-                 }
-                 1->{
-                  context.append()
-                  when(context.c){
-                   0x22,0x27,0x5c,0x62,0x66,0x6e,0x72,0x74->{
-                    context.append()
-                    continue@loop14
-                   }
-                   0x75->{
-                    context.append()
-                    when(context.c){
-                     0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                      context.append()
-                      when(context.c){
-                       0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                        context.append()
-                        when(context.c){
-                         0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                          context.append()
-                          when(context.c){
-                           0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                            context.append()
-                            continue@loop14
-                           }
-                           else->{
-                            throw ParserExceptionUnexpectedChar(context)
-                           }
-                          }
-                         }
-                         else->{
-                          throw ParserExceptionUnexpectedChar(context)
-                         }
-                        }
-                       }
-                       else->{
-                        throw ParserExceptionUnexpectedChar(context)
-                       }
-                      }
-                     }
-                     else->{
-                      throw ParserExceptionUnexpectedChar(context)
-                     }
-                    }
-                   }
-                   0x55->{
-                    context.append()
-                    when(context.c){
-                     0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                      context.append()
-                      when(context.c){
-                       0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                        context.append()
-                        when(context.c){
-                         0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                          context.append()
-                          when(context.c){
-                           0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                            context.append()
-                            when(context.c){
-                             0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                              context.append()
-                              when(context.c){
-                               0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                                context.append()
-                                when(context.c){
-                                 0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                                  context.append()
-                                  when(context.c){
-                                   0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                                    context.append()
-                                    continue@loop14
-                                   }
-                                   else->{
-                                    throw ParserExceptionUnexpectedChar(context)
-                                   }
-                                  }
-                                 }
-                                 else->{
-                                  throw ParserExceptionUnexpectedChar(context)
-                                 }
-                                }
-                               }
-                               else->{
-                                throw ParserExceptionUnexpectedChar(context)
-                               }
-                              }
-                             }
-                             else->{
-                              throw ParserExceptionUnexpectedChar(context)
-                             }
-                            }
-                           }
-                           else->{
-                            throw ParserExceptionUnexpectedChar(context)
-                           }
-                          }
-                         }
-                         else->{
-                          throw ParserExceptionUnexpectedChar(context)
-                         }
-                        }
-                       }
-                       else->{
-                        throw ParserExceptionUnexpectedChar(context)
-                       }
-                      }
-                     }
-                     else->{
-                      throw ParserExceptionUnexpectedChar(context)
-                     }
-                    }
-                   }
-                   else->{
-                    throw ParserExceptionUnexpectedChar(context)
-                   }
-                  }
-                 }
-                 else->{
-                  break@loop14
-                 }
-                }
-               }
-               when(context.c){
-                0x27->{
-                 context.append()
-                 onSTRING_LITERAL_SINGLE_QUOTE()
-                 return
-                }
-                else->{
-                 throw ParserExceptionUnexpectedChar(context)
-                }
-               }
-              }
-              else->{
-               throw ParserExceptionUnexpectedChar(context)
-              }
-             }
-            }
-            else->{
-             throw ParserExceptionUnexpectedChar(context)
-            }
-           }
-          }
-          else->{
-           throw ParserExceptionUnexpectedChar(context)
-          }
-         }
-        }
-        else->{
-         throw ParserExceptionUnexpectedChar(context)
-        }
-       }
-      }
-      0x55->{
-       context.append()
-       when(context.c){
-        0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-         context.append()
-         when(context.c){
-          0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-           context.append()
-           when(context.c){
-            0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-             context.append()
-             when(context.c){
-              0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-               context.append()
-               when(context.c){
-                0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                 context.append()
-                 when(context.c){
-                  0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                   context.append()
-                   when(context.c){
-                    0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                     context.append()
-                     when(context.c){
-                      0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                       context.append()
-                       loop22@while(context.c!=ParserContext.EOF){
-                        val localswitch23=parse_obj_helper_8(context.c)
-                        when(localswitch23){
-                         0->{
-                          context.append()
-                          continue@loop22
-                         }
-                         1->{
-                          context.append()
-                          when(context.c){
-                           0x22,0x27,0x5c,0x62,0x66,0x6e,0x72,0x74->{
-                            context.append()
-                            continue@loop22
-                           }
-                           0x75->{
-                            context.append()
-                            when(context.c){
-                             0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                              context.append()
-                              when(context.c){
-                               0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                                context.append()
-                                when(context.c){
-                                 0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                                  context.append()
-                                  when(context.c){
-                                   0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                                    context.append()
-                                    continue@loop22
-                                   }
-                                   else->{
-                                    throw ParserExceptionUnexpectedChar(context)
-                                   }
-                                  }
-                                 }
-                                 else->{
-                                  throw ParserExceptionUnexpectedChar(context)
-                                 }
-                                }
-                               }
-                               else->{
-                                throw ParserExceptionUnexpectedChar(context)
-                               }
-                              }
-                             }
-                             else->{
-                              throw ParserExceptionUnexpectedChar(context)
-                             }
-                            }
-                           }
-                           0x55->{
-                            context.append()
-                            when(context.c){
-                             0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                              context.append()
-                              when(context.c){
-                               0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                                context.append()
-                                when(context.c){
-                                 0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                                  context.append()
-                                  when(context.c){
-                                   0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                                    context.append()
-                                    when(context.c){
-                                     0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                                      context.append()
-                                      when(context.c){
-                                       0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                                        context.append()
-                                        when(context.c){
-                                         0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                                          context.append()
-                                          when(context.c){
-                                           0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                                            context.append()
-                                            continue@loop22
-                                           }
-                                           else->{
-                                            throw ParserExceptionUnexpectedChar(context)
-                                           }
-                                          }
-                                         }
-                                         else->{
-                                          throw ParserExceptionUnexpectedChar(context)
-                                         }
-                                        }
-                                       }
-                                       else->{
-                                        throw ParserExceptionUnexpectedChar(context)
-                                       }
-                                      }
-                                     }
-                                     else->{
-                                      throw ParserExceptionUnexpectedChar(context)
-                                     }
-                                    }
-                                   }
-                                   else->{
-                                    throw ParserExceptionUnexpectedChar(context)
-                                   }
-                                  }
-                                 }
-                                 else->{
-                                  throw ParserExceptionUnexpectedChar(context)
-                                 }
-                                }
-                               }
-                               else->{
-                                throw ParserExceptionUnexpectedChar(context)
-                               }
-                              }
-                             }
-                             else->{
-                              throw ParserExceptionUnexpectedChar(context)
-                             }
-                            }
-                           }
-                           else->{
-                            throw ParserExceptionUnexpectedChar(context)
-                           }
-                          }
-                         }
-                         else->{
-                          break@loop22
-                         }
-                        }
-                       }
-                       when(context.c){
-                        0x27->{
-                         context.append()
-                         onSTRING_LITERAL_SINGLE_QUOTE()
-                         return
-                        }
-                        else->{
-                         throw ParserExceptionUnexpectedChar(context)
-                        }
-                       }
-                      }
-                      else->{
-                       throw ParserExceptionUnexpectedChar(context)
-                      }
-                     }
-                    }
-                    else->{
-                     throw ParserExceptionUnexpectedChar(context)
-                    }
-                   }
-                  }
-                  else->{
-                   throw ParserExceptionUnexpectedChar(context)
-                  }
-                 }
-                }
-                else->{
-                 throw ParserExceptionUnexpectedChar(context)
-                }
-               }
-              }
-              else->{
-               throw ParserExceptionUnexpectedChar(context)
-              }
-             }
-            }
-            else->{
-             throw ParserExceptionUnexpectedChar(context)
-            }
-           }
-          }
-          else->{
-           throw ParserExceptionUnexpectedChar(context)
-          }
-         }
-        }
-        else->{
-         throw ParserExceptionUnexpectedChar(context)
-        }
-       }
-      }
-      else->{
-       throw ParserExceptionUnexpectedChar(context)
-      }
-     }
-    }
-    2->{
-     context.append()
-     when(context.c){
-      0x27->{
-       context.append()
-       loop6@while(context.c!=ParserContext.EOF){
-        val localswitch7=parse_obj_helper_9(context.c)
-        when(localswitch7){
-         0->{
-          context.append()
-          continue@loop6
-         }
-         1->{
-          context.append()
-          when(context.c){
-           0x22,0x27,0x5c,0x62,0x66,0x6e,0x72,0x74->{
-            context.append()
-            continue@loop6
-           }
-           0x75->{
-            context.append()
-            when(context.c){
-             0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-              context.append()
-              when(context.c){
-               0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                context.append()
-                when(context.c){
-                 0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                  context.append()
-                  when(context.c){
-                   0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                    context.append()
-                    continue@loop6
-                   }
-                   else->{
-                    throw ParserExceptionUnexpectedChar(context)
-                   }
-                  }
-                 }
-                 else->{
-                  throw ParserExceptionUnexpectedChar(context)
-                 }
-                }
-               }
-               else->{
-                throw ParserExceptionUnexpectedChar(context)
-               }
-              }
-             }
-             else->{
-              throw ParserExceptionUnexpectedChar(context)
-             }
-            }
-           }
-           0x55->{
-            context.append()
-            when(context.c){
-             0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-              context.append()
-              when(context.c){
-               0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                context.append()
-                when(context.c){
-                 0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                  context.append()
-                  when(context.c){
-                   0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                    context.append()
-                    when(context.c){
-                     0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                      context.append()
-                      when(context.c){
-                       0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                        context.append()
-                        when(context.c){
-                         0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                          context.append()
-                          when(context.c){
-                           0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                            context.append()
-                            continue@loop6
-                           }
-                           else->{
-                            throw ParserExceptionUnexpectedChar(context)
-                           }
-                          }
-                         }
-                         else->{
-                          throw ParserExceptionUnexpectedChar(context)
-                         }
-                        }
-                       }
-                       else->{
-                        throw ParserExceptionUnexpectedChar(context)
-                       }
-                      }
-                     }
-                     else->{
-                      throw ParserExceptionUnexpectedChar(context)
-                     }
-                    }
-                   }
-                   else->{
-                    throw ParserExceptionUnexpectedChar(context)
-                   }
-                  }
-                 }
-                 else->{
-                  throw ParserExceptionUnexpectedChar(context)
-                 }
-                }
-               }
-               else->{
-                throw ParserExceptionUnexpectedChar(context)
-               }
-              }
-             }
-             else->{
-              throw ParserExceptionUnexpectedChar(context)
-             }
-            }
-           }
-           else->{
-            throw ParserExceptionUnexpectedChar(context)
-           }
-          }
-         }
-         2->{
-          context.append()
-          val localswitch9=parse_obj_helper_9(context.c)
-          when(localswitch9){
-           0->{
-            context.append()
-            continue@loop6
-           }
-           1->{
-            context.append()
-            when(context.c){
-             0x22,0x27,0x5c,0x62,0x66,0x6e,0x72,0x74->{
-              context.append()
-              continue@loop6
-             }
-             0x75->{
-              context.append()
-              when(context.c){
-               0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                context.append()
-                when(context.c){
-                 0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                  context.append()
-                  when(context.c){
-                   0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                    context.append()
-                    when(context.c){
-                     0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                      context.append()
-                      continue@loop6
-                     }
-                     else->{
-                      throw ParserExceptionUnexpectedChar(context)
-                     }
-                    }
-                   }
-                   else->{
-                    throw ParserExceptionUnexpectedChar(context)
-                   }
-                  }
-                 }
-                 else->{
-                  throw ParserExceptionUnexpectedChar(context)
-                 }
-                }
-               }
-               else->{
-                throw ParserExceptionUnexpectedChar(context)
-               }
-              }
-             }
-             0x55->{
-              context.append()
-              when(context.c){
-               0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                context.append()
-                when(context.c){
-                 0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                  context.append()
-                  when(context.c){
-                   0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                    context.append()
-                    when(context.c){
-                     0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                      context.append()
-                      when(context.c){
-                       0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                        context.append()
-                        when(context.c){
-                         0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                          context.append()
-                          when(context.c){
-                           0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                            context.append()
-                            when(context.c){
-                             0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                              context.append()
-                              continue@loop6
-                             }
-                             else->{
-                              throw ParserExceptionUnexpectedChar(context)
-                             }
-                            }
-                           }
-                           else->{
-                            throw ParserExceptionUnexpectedChar(context)
-                           }
-                          }
-                         }
-                         else->{
-                          throw ParserExceptionUnexpectedChar(context)
-                         }
-                        }
-                       }
-                       else->{
-                        throw ParserExceptionUnexpectedChar(context)
-                       }
-                      }
-                     }
-                     else->{
-                      throw ParserExceptionUnexpectedChar(context)
-                     }
-                    }
-                   }
-                   else->{
-                    throw ParserExceptionUnexpectedChar(context)
-                   }
-                  }
-                 }
-                 else->{
-                  throw ParserExceptionUnexpectedChar(context)
-                 }
-                }
-               }
-               else->{
-                throw ParserExceptionUnexpectedChar(context)
-               }
-              }
-             }
-             else->{
-              throw ParserExceptionUnexpectedChar(context)
-             }
-            }
-           }
-           2->{
-            context.append()
-            val localswitch11=parse_obj_helper_9(context.c)
-            when(localswitch11){
-             0->{
-              context.append()
-              continue@loop6
-             }
-             1->{
-              context.append()
-              when(context.c){
-               0x22,0x27,0x5c,0x62,0x66,0x6e,0x72,0x74->{
-                context.append()
-                continue@loop6
-               }
-               0x75->{
-                context.append()
-                when(context.c){
-                 0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                  context.append()
-                  when(context.c){
-                   0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                    context.append()
-                    when(context.c){
-                     0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                      context.append()
-                      when(context.c){
-                       0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                        context.append()
-                        continue@loop6
-                       }
-                       else->{
-                        throw ParserExceptionUnexpectedChar(context)
-                       }
-                      }
-                     }
-                     else->{
-                      throw ParserExceptionUnexpectedChar(context)
-                     }
-                    }
-                   }
-                   else->{
-                    throw ParserExceptionUnexpectedChar(context)
-                   }
-                  }
-                 }
-                 else->{
-                  throw ParserExceptionUnexpectedChar(context)
-                 }
-                }
-               }
-               0x55->{
-                context.append()
-                when(context.c){
-                 0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                  context.append()
-                  when(context.c){
-                   0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                    context.append()
-                    when(context.c){
-                     0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                      context.append()
-                      when(context.c){
-                       0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                        context.append()
-                        when(context.c){
-                         0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                          context.append()
-                          when(context.c){
-                           0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                            context.append()
-                            when(context.c){
-                             0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                              context.append()
-                              when(context.c){
-                               0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                                context.append()
-                                continue@loop6
-                               }
-                               else->{
-                                throw ParserExceptionUnexpectedChar(context)
-                               }
-                              }
-                             }
-                             else->{
-                              throw ParserExceptionUnexpectedChar(context)
-                             }
-                            }
-                           }
-                           else->{
-                            throw ParserExceptionUnexpectedChar(context)
-                           }
-                          }
-                         }
-                         else->{
-                          throw ParserExceptionUnexpectedChar(context)
-                         }
-                        }
-                       }
-                       else->{
-                        throw ParserExceptionUnexpectedChar(context)
-                       }
-                      }
-                     }
-                     else->{
-                      throw ParserExceptionUnexpectedChar(context)
-                     }
-                    }
-                   }
-                   else->{
-                    throw ParserExceptionUnexpectedChar(context)
-                   }
-                  }
-                 }
-                 else->{
-                  throw ParserExceptionUnexpectedChar(context)
-                 }
-                }
-               }
-               else->{
-                throw ParserExceptionUnexpectedChar(context)
-               }
-              }
-             }
-             2->{
-              context.append()
-              onSTRING_LITERAL_LONG_SINGLE_QUOTE()
-              return
-             }
-             else->{
-              throw ParserExceptionUnexpectedChar(context)
-             }
-            }
-           }
-           else->{
-            throw ParserExceptionUnexpectedChar(context)
-           }
-          }
-         }
-         else->{
-          break@loop6
-         }
-        }
-       }
-       throw ParserExceptionUnexpectedChar(context)
-      }
-      else->{
-       onSTRING_LITERAL_SINGLE_QUOTE()
-       return
-      }
-     }
-    }
-    else->{
-     throw ParserExceptionUnexpectedChar(context)
-    }
-   }
-  }
-  6->{
-   context.append()
-   loop2@while(context.c!=ParserContext.EOF){
-    when(context.c){
-     0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39->{
-      context.append()
-     }
-     else->{
-      break@loop2
-     }
-    }
-   }
-   when(context.c){
-    0x2e->{
-     context.append()
-     when(context.c){
-      0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39->{
-       context.append()
-       loop6@while(context.c!=ParserContext.EOF){
-        when(context.c){
-         0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39->{
-          context.append()
-         }
-         else->{
-          break@loop6
-         }
-        }
-       }
-       when(context.c){
-        0x45,0x65->{
-         context.append()
-         when(context.c){
-          0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39->{
-           context.append()
-           loop10@while(context.c!=ParserContext.EOF){
-            when(context.c){
-             0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39->{
-              context.append()
-             }
-             else->{
-              break@loop10
-             }
-            }
-           }
-           onDOUBLE()
-           return
-          }
-          0x2b,0x2d->{
-           context.append()
-           when(context.c){
-            0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39->{
-             context.append()
-             loop12@while(context.c!=ParserContext.EOF){
-              when(context.c){
-               0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39->{
-                context.append()
-               }
-               else->{
-                break@loop12
-               }
-              }
-             }
-             onDOUBLE()
-             return
-            }
-            else->{
-             throw ParserExceptionUnexpectedChar(context)
-            }
-           }
-          }
-          else->{
-           throw ParserExceptionUnexpectedChar(context)
-          }
-         }
-        }
-        else->{
-         onDECIMAL()
-         return
-        }
-       }
-      }
-      0x45,0x65->{
-       context.append()
-       when(context.c){
-        0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39->{
-         context.append()
-         loop8@while(context.c!=ParserContext.EOF){
           when(context.c){
            0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39->{
             context.append()
-           }
-           else->{
-            break@loop8
-           }
-          }
-         }
-         onDOUBLE()
-         return
-        }
-        0x2b,0x2d->{
-         context.append()
-         when(context.c){
-          0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39->{
-           context.append()
-           loop10@while(context.c!=ParserContext.EOF){
-            when(context.c){
-             0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39->{
-              context.append()
-             }
-             else->{
-              break@loop10
-             }
-            }
-           }
-           onDOUBLE()
-           return
-          }
-          else->{
-           throw ParserExceptionUnexpectedChar(context)
-          }
-         }
-        }
-        else->{
-         throw ParserExceptionUnexpectedChar(context)
-        }
-       }
-      }
-      else->{
-       throw ParserExceptionUnexpectedChar(context)
-      }
-     }
-    }
-    0x45,0x65->{
-     context.append()
-     when(context.c){
-      0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39->{
-       context.append()
-       loop6@while(context.c!=ParserContext.EOF){
-        when(context.c){
-         0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39->{
-          context.append()
-         }
-         else->{
-          break@loop6
-         }
-        }
-       }
-       onDOUBLE()
-       return
-      }
-      0x2b,0x2d->{
-       context.append()
-       when(context.c){
-        0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39->{
-         context.append()
-         loop8@while(context.c!=ParserContext.EOF){
-          when(context.c){
-           0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39->{
-            context.append()
-           }
-           else->{
-            break@loop8
-           }
-          }
-         }
-         onDOUBLE()
-         return
-        }
-        else->{
-         throw ParserExceptionUnexpectedChar(context)
-        }
-       }
-      }
-      else->{
-       throw ParserExceptionUnexpectedChar(context)
-      }
-     }
-    }
-    else->{
-     onINTEGER()
-     return
-    }
-   }
-  }
-  7->{
-   context.append()
-   when(context.c){
-    0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39->{
-     context.append()
-     loop4@while(context.c!=ParserContext.EOF){
-      when(context.c){
-       0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39->{
-        context.append()
-       }
-       else->{
-        break@loop4
-       }
-      }
-     }
-     when(context.c){
-      0x2e->{
-       context.append()
-       when(context.c){
-        0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39->{
-         context.append()
-         loop8@while(context.c!=ParserContext.EOF){
-          when(context.c){
-           0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39->{
-            context.append()
-           }
-           else->{
-            break@loop8
-           }
-          }
-         }
-         when(context.c){
-          0x45,0x65->{
-           context.append()
-           when(context.c){
-            0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39->{
-             context.append()
-             loop12@while(context.c!=ParserContext.EOF){
-              when(context.c){
-               0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39->{
-                context.append()
-               }
-               else->{
-                break@loop12
-               }
-              }
-             }
-             onDOUBLE()
-             return
-            }
-            0x2b,0x2d->{
-             context.append()
+            loop11@while(context.c!=ParserContext.EOF){
              when(context.c){
               0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39->{
                context.append()
-               loop14@while(context.c!=ParserContext.EOF){
-                when(context.c){
-                 0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39->{
-                  context.append()
-                 }
-                 else->{
-                  break@loop14
-                 }
-                }
-               }
-               onDOUBLE()
-               return
               }
               else->{
-               throw ParserExceptionUnexpectedChar(context)
+               break@loop11
               }
              }
             }
-            else->{
-             throw ParserExceptionUnexpectedChar(context)
-            }
+            onDOUBLE()
+            return
            }
-          }
-          else->{
-           onDECIMAL()
-           return
-          }
-         }
-        }
-        0x45,0x65->{
-         context.append()
-         when(context.c){
-          0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39->{
-           context.append()
-           loop10@while(context.c!=ParserContext.EOF){
+           0x2b,0x2d->{
+            context.append()
             when(context.c){
              0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39->{
               context.append()
-             }
-             else->{
-              break@loop10
-             }
-            }
-           }
-           onDOUBLE()
-           return
-          }
-          0x2b,0x2d->{
-           context.append()
-           when(context.c){
-            0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39->{
-             context.append()
-             loop12@while(context.c!=ParserContext.EOF){
-              when(context.c){
-               0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39->{
-                context.append()
-               }
-               else->{
-                break@loop12
+              loop13@while(context.c!=ParserContext.EOF){
+               when(context.c){
+                0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39->{
+                 context.append()
+                }
+                else->{
+                 break@loop13
+                }
                }
               }
+              onDOUBLE()
+              return
              }
-             onDOUBLE()
-             return
+             else->{
+              break@error
+             }
             }
-            else->{
-             throw ParserExceptionUnexpectedChar(context)
-            }
-           }
-          }
-          else->{
-           throw ParserExceptionUnexpectedChar(context)
-          }
-         }
-        }
-        else->{
-         throw ParserExceptionUnexpectedChar(context)
-        }
-       }
-      }
-      0x45,0x65->{
-       context.append()
-       when(context.c){
-        0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39->{
-         context.append()
-         loop8@while(context.c!=ParserContext.EOF){
-          when(context.c){
-           0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39->{
-            context.append()
            }
            else->{
-            break@loop8
+            break@error
            }
           }
          }
-         onDOUBLE()
-         return
-        }
-        0x2b,0x2d->{
-         context.append()
-         when(context.c){
-          0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39->{
-           context.append()
-           loop10@while(context.c!=ParserContext.EOF){
-            when(context.c){
-             0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39->{
-              context.append()
-             }
-             else->{
-              break@loop10
-             }
-            }
-           }
-           onDOUBLE()
-           return
-          }
-          else->{
-           throw ParserExceptionUnexpectedChar(context)
-          }
+         else->{
+          onDECIMAL()
+          return
          }
-        }
-        else->{
-         throw ParserExceptionUnexpectedChar(context)
         }
        }
-      }
-      else->{
-       onINTEGER()
-       return
-      }
-     }
-    }
-    0x2e->{
-     context.append()
-     when(context.c){
-      0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39->{
-       context.append()
-       loop6@while(context.c!=ParserContext.EOF){
+       0x45,0x65->{
+        context.append()
         when(context.c){
          0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39->{
           context.append()
-         }
-         else->{
-          break@loop6
-         }
-        }
-       }
-       when(context.c){
-        0x45,0x65->{
-         context.append()
-         when(context.c){
-          0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39->{
-           context.append()
-           loop10@while(context.c!=ParserContext.EOF){
-            when(context.c){
-             0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39->{
-              context.append()
-             }
-             else->{
-              break@loop10
-             }
-            }
-           }
-           onDOUBLE()
-           return
-          }
-          0x2b,0x2d->{
-           context.append()
+          loop9@while(context.c!=ParserContext.EOF){
            when(context.c){
             0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39->{
              context.append()
-             loop12@while(context.c!=ParserContext.EOF){
-              when(context.c){
-               0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39->{
-                context.append()
-               }
-               else->{
-                break@loop12
-               }
-              }
-             }
-             onDOUBLE()
-             return
             }
             else->{
-             throw ParserExceptionUnexpectedChar(context)
+             break@loop9
             }
            }
           }
-          else->{
-           throw ParserExceptionUnexpectedChar(context)
-          }
+          onDOUBLE()
+          return
          }
-        }
-        else->{
-         onDECIMAL()
-         return
-        }
-       }
-      }
-      else->{
-       throw ParserExceptionUnexpectedChar(context)
-      }
-     }
-    }
-    else->{
-     throw ParserExceptionUnexpectedChar(context)
-    }
-   }
-  }
-  8->{
-   context.append()
-   when(context.c){
-    0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39->{
-     context.append()
-     loop4@while(context.c!=ParserContext.EOF){
-      when(context.c){
-       0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39->{
-        context.append()
-       }
-       else->{
-        break@loop4
-       }
-      }
-     }
-     when(context.c){
-      0x45,0x65->{
-       context.append()
-       when(context.c){
-        0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39->{
-         context.append()
-         loop8@while(context.c!=ParserContext.EOF){
+         0x2b,0x2d->{
+          context.append()
           when(context.c){
            0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39->{
             context.append()
+            loop11@while(context.c!=ParserContext.EOF){
+             when(context.c){
+              0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39->{
+               context.append()
+              }
+              else->{
+               break@loop11
+              }
+             }
+            }
+            onDOUBLE()
+            return
            }
            else->{
-            break@loop8
+            break@error
            }
           }
          }
-         onDOUBLE()
-         return
+         else->{
+          break@error
+         }
         }
-        0x2b,0x2d->{
-         context.append()
+       }
+       else->{
+        break@error
+       }
+      }
+     }
+     0x45,0x65->{
+      context.append()
+      when(context.c){
+       0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39->{
+        context.append()
+        loop7@while(context.c!=ParserContext.EOF){
          when(context.c){
           0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39->{
            context.append()
-           loop10@while(context.c!=ParserContext.EOF){
+          }
+          else->{
+           break@loop7
+          }
+         }
+        }
+        onDOUBLE()
+        return
+       }
+       0x2b,0x2d->{
+        context.append()
+        when(context.c){
+         0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39->{
+          context.append()
+          loop9@while(context.c!=ParserContext.EOF){
+           when(context.c){
+            0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39->{
+             context.append()
+            }
+            else->{
+             break@loop9
+            }
+           }
+          }
+          onDOUBLE()
+          return
+         }
+         else->{
+          break@error
+         }
+        }
+       }
+       else->{
+        break@error
+       }
+      }
+     }
+     else->{
+      onINTEGER()
+      return
+     }
+    }
+   }
+   7->{
+    context.append()
+    when(context.c){
+     0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39->{
+      context.append()
+      loop5@while(context.c!=ParserContext.EOF){
+       when(context.c){
+        0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39->{
+         context.append()
+        }
+        else->{
+         break@loop5
+        }
+       }
+      }
+      when(context.c){
+       0x2e->{
+        context.append()
+        when(context.c){
+         0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39->{
+          context.append()
+          loop9@while(context.c!=ParserContext.EOF){
+           when(context.c){
+            0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39->{
+             context.append()
+            }
+            else->{
+             break@loop9
+            }
+           }
+          }
+          when(context.c){
+           0x45,0x65->{
+            context.append()
             when(context.c){
              0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39->{
               context.append()
-             }
-             else->{
-              break@loop10
-             }
-            }
-           }
-           onDOUBLE()
-           return
-          }
-          else->{
-           throw ParserExceptionUnexpectedChar(context)
-          }
-         }
-        }
-        else->{
-         throw ParserExceptionUnexpectedChar(context)
-        }
-       }
-      }
-      else->{
-       onDECIMAL()
-       return
-      }
-     }
-    }
-    else->{
-     throw ParserExceptionUnexpectedChar(context)
-    }
-   }
-  }
-  9->{
-   context.append()
-   when(context.c){
-    0x72->{
-     context.append()
-     when(context.c){
-      0x75->{
-       context.append()
-       when(context.c){
-        0x65->{
-         context.append()
-         when(context.c){
-          0x66->{
-           context.append()
-           when(context.c){
-            0x61->{
-             context.append()
-             when(context.c){
-              0x6c->{
-               context.append()
+              loop13@while(context.c!=ParserContext.EOF){
                when(context.c){
-                0x73->{
+                0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39->{
                  context.append()
-                 when(context.c){
-                  0x65->{
-                   context.append()
-                   onBOOLEAN()
-                   return
-                  }
-                  else->{
-                   throw ParserExceptionUnexpectedChar(context)
-                  }
-                 }
                 }
                 else->{
-                 throw ParserExceptionUnexpectedChar(context)
+                 break@loop13
                 }
                }
               }
+              onDOUBLE()
+              return
+             }
+             0x2b,0x2d->{
+              context.append()
+              when(context.c){
+               0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39->{
+                context.append()
+                loop15@while(context.c!=ParserContext.EOF){
+                 when(context.c){
+                  0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39->{
+                   context.append()
+                  }
+                  else->{
+                   break@loop15
+                  }
+                 }
+                }
+                onDOUBLE()
+                return
+               }
+               else->{
+                break@error
+               }
+              }
+             }
+             else->{
+              break@error
+             }
+            }
+           }
+           else->{
+            onDECIMAL()
+            return
+           }
+          }
+         }
+         0x45,0x65->{
+          context.append()
+          when(context.c){
+           0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39->{
+            context.append()
+            loop11@while(context.c!=ParserContext.EOF){
+             when(context.c){
+              0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39->{
+               context.append()
+              }
               else->{
-               throw ParserExceptionUnexpectedChar(context)
+               break@loop11
               }
              }
             }
+            onDOUBLE()
+            return
+           }
+           0x2b,0x2d->{
+            context.append()
+            when(context.c){
+             0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39->{
+              context.append()
+              loop13@while(context.c!=ParserContext.EOF){
+               when(context.c){
+                0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39->{
+                 context.append()
+                }
+                else->{
+                 break@loop13
+                }
+               }
+              }
+              onDOUBLE()
+              return
+             }
+             else->{
+              break@error
+             }
+            }
+           }
+           else->{
+            break@error
+           }
+          }
+         }
+         else->{
+          break@error
+         }
+        }
+       }
+       0x45,0x65->{
+        context.append()
+        when(context.c){
+         0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39->{
+          context.append()
+          loop9@while(context.c!=ParserContext.EOF){
+           when(context.c){
+            0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39->{
+             context.append()
+            }
             else->{
-             throw ParserExceptionUnexpectedChar(context)
+             break@loop9
             }
            }
           }
+          onDOUBLE()
+          return
+         }
+         0x2b,0x2d->{
+          context.append()
+          when(context.c){
+           0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39->{
+            context.append()
+            loop11@while(context.c!=ParserContext.EOF){
+             when(context.c){
+              0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39->{
+               context.append()
+              }
+              else->{
+               break@loop11
+              }
+             }
+            }
+            onDOUBLE()
+            return
+           }
+           else->{
+            break@error
+           }
+          }
+         }
+         else->{
+          break@error
+         }
+        }
+       }
+       else->{
+        onINTEGER()
+        return
+       }
+      }
+     }
+     0x2e->{
+      context.append()
+      when(context.c){
+       0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39->{
+        context.append()
+        loop7@while(context.c!=ParserContext.EOF){
+         when(context.c){
+          0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39->{
+           context.append()
+          }
           else->{
-           throw ParserExceptionUnexpectedChar(context)
+           break@loop7
           }
          }
         }
+        when(context.c){
+         0x45,0x65->{
+          context.append()
+          when(context.c){
+           0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39->{
+            context.append()
+            loop11@while(context.c!=ParserContext.EOF){
+             when(context.c){
+              0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39->{
+               context.append()
+              }
+              else->{
+               break@loop11
+              }
+             }
+            }
+            onDOUBLE()
+            return
+           }
+           0x2b,0x2d->{
+            context.append()
+            when(context.c){
+             0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39->{
+              context.append()
+              loop13@while(context.c!=ParserContext.EOF){
+               when(context.c){
+                0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39->{
+                 context.append()
+                }
+                else->{
+                 break@loop13
+                }
+               }
+              }
+              onDOUBLE()
+              return
+             }
+             else->{
+              break@error
+             }
+            }
+           }
+           else->{
+            break@error
+           }
+          }
+         }
+         else->{
+          onDECIMAL()
+          return
+         }
+        }
+       }
+       else->{
+        break@error
+       }
+      }
+     }
+     else->{
+      break@error
+     }
+    }
+   }
+   8->{
+    context.append()
+    when(context.c){
+     0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39->{
+      context.append()
+      loop5@while(context.c!=ParserContext.EOF){
+       when(context.c){
+        0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39->{
+         context.append()
+        }
         else->{
-         throw ParserExceptionUnexpectedChar(context)
+         break@loop5
         }
        }
       }
-      else->{
-       throw ParserExceptionUnexpectedChar(context)
+      when(context.c){
+       0x45,0x65->{
+        context.append()
+        when(context.c){
+         0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39->{
+          context.append()
+          loop9@while(context.c!=ParserContext.EOF){
+           when(context.c){
+            0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39->{
+             context.append()
+            }
+            else->{
+             break@loop9
+            }
+           }
+          }
+          onDOUBLE()
+          return
+         }
+         0x2b,0x2d->{
+          context.append()
+          when(context.c){
+           0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39->{
+            context.append()
+            loop11@while(context.c!=ParserContext.EOF){
+             when(context.c){
+              0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39->{
+               context.append()
+              }
+              else->{
+               break@loop11
+              }
+             }
+            }
+            onDOUBLE()
+            return
+           }
+           else->{
+            break@error
+           }
+          }
+         }
+         else->{
+          break@error
+         }
+        }
+       }
+       else->{
+        onDECIMAL()
+        return
+       }
       }
      }
-    }
-    else->{
-     throw ParserExceptionUnexpectedChar(context)
+     else->{
+      break@error
+     }
     }
    }
-  }
-  else->{
-   throw ParserExceptionUnexpectedChar(context)
+   9->{
+    context.append()
+    when(context.c){
+     0x72->{
+      context.append()
+      when(context.c){
+       0x75->{
+        context.append()
+        when(context.c){
+         0x65->{
+          context.append()
+          when(context.c){
+           0x66->{
+            context.append()
+            when(context.c){
+             0x61->{
+              context.append()
+              when(context.c){
+               0x6c->{
+                context.append()
+                when(context.c){
+                 0x73->{
+                  context.append()
+                  when(context.c){
+                   0x65->{
+                    context.append()
+                    onBOOLEAN()
+                    return
+                   }
+                   else->{
+                    break@error
+                   }
+                  }
+                 }
+                 else->{
+                  break@error
+                 }
+                }
+               }
+               else->{
+                break@error
+               }
+              }
+             }
+             else->{
+              break@error
+             }
+            }
+           }
+           else->{
+            break@error
+           }
+          }
+         }
+         else->{
+          break@error
+         }
+        }
+       }
+       else->{
+        break@error
+       }
+      }
+     }
+     else->{
+      break@error
+     }
+    }
+   }
+   else->{
+    break@error
+   }
   }
  }
+ throw ParserExceptionUnexpectedChar(context)
 }
 fun parse_obj_helper_0(c:Int):Int{
  when(c){
@@ -4351,26 +4378,29 @@ inline fun parse_triple_end(context:ParserContext,
  crossinline onDOT:()->Unit
 ){
  context.buffer.clear()
- when(context.c){
-  0x3b->{
-   context.append()
-   onPREDICATE_LIST1()
-   return
-  }
-  0x2c->{
-   context.append()
-   onOBJECT_LIST1()
-   return
-  }
-  0x2e->{
-   context.append()
-   onDOT()
-   return
-  }
-  else->{
-   throw ParserExceptionUnexpectedChar(context)
+ error@while(true){
+  when(context.c){
+   0x3b->{
+    context.append()
+    onPREDICATE_LIST1()
+    return
+   }
+   0x2c->{
+    context.append()
+    onOBJECT_LIST1()
+    return
+   }
+   0x2e->{
+    context.append()
+    onDOT()
+    return
+   }
+   else->{
+    break@error
+   }
   }
  }
+ throw ParserExceptionUnexpectedChar(context)
 }
 inline fun parse_triple_end_or_object_iri(context:ParserContext,
  crossinline onPN_LOCAL:()->Unit,
@@ -4380,14 +4410,230 @@ inline fun parse_triple_end_or_object_iri(context:ParserContext,
  crossinline onSKIP_WS_FORCED:()->Unit
 ){
  context.buffer.clear()
- val localswitch0=parse_triple_end_or_object_iri_helper_0(context.c)
- when(localswitch0){
-  0->{
-   context.append()
-   loop2@while(context.c!=ParserContext.EOF){
+ error@while(true){
+  val localswitch1=parse_triple_end_or_object_iri_helper_0(context.c)
+  when(localswitch1){
+   0->{
+    context.append()
+    loop3@while(context.c!=ParserContext.EOF){
+     loop4@while(context.c!=ParserContext.EOF){
+      when(context.c){
+       0x2e->{
+        context.append()
+       }
+       else->{
+        break@loop4
+       }
+      }
+     }
+     val localswitch4=parse_triple_end_or_object_iri_helper_1(context.c)
+     when(localswitch4){
+      0->{
+       context.append()
+       continue@loop3
+      }
+      1->{
+       context.append()
+       when(context.c){
+        0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+         context.append()
+         when(context.c){
+          0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+           context.append()
+           continue@loop3
+          }
+          else->{
+           break@error
+          }
+         }
+        }
+        else->{
+         break@error
+        }
+       }
+      }
+      2->{
+       context.append()
+       when(context.c){
+        0x21,0x23,0x24,0x25,0x26,0x27,0x28,0x29,0x2a,0x2b,0x2c,0x2d,0x2e,0x2f,0x3b,0x3d,0x3f,0x40,0x5f,0x7e->{
+         context.append()
+         continue@loop3
+        }
+        else->{
+         break@error
+        }
+       }
+      }
+      else->{
+       break@loop3
+      }
+     }
+    }
+    onPN_LOCAL()
+    return
+   }
+   1->{
+    context.append()
+    when(context.c){
+     0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+      context.append()
+      when(context.c){
+       0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+        context.append()
+        loop7@while(context.c!=ParserContext.EOF){
+         loop8@while(context.c!=ParserContext.EOF){
+          when(context.c){
+           0x2e->{
+            context.append()
+           }
+           else->{
+            break@loop8
+           }
+          }
+         }
+         val localswitch8=parse_triple_end_or_object_iri_helper_1(context.c)
+         when(localswitch8){
+          0->{
+           context.append()
+           continue@loop7
+          }
+          1->{
+           context.append()
+           when(context.c){
+            0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+             context.append()
+             when(context.c){
+              0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+               context.append()
+               continue@loop7
+              }
+              else->{
+               break@error
+              }
+             }
+            }
+            else->{
+             break@error
+            }
+           }
+          }
+          2->{
+           context.append()
+           when(context.c){
+            0x21,0x23,0x24,0x25,0x26,0x27,0x28,0x29,0x2a,0x2b,0x2c,0x2d,0x2e,0x2f,0x3b,0x3d,0x3f,0x40,0x5f,0x7e->{
+             context.append()
+             continue@loop7
+            }
+            else->{
+             break@error
+            }
+           }
+          }
+          else->{
+           break@loop7
+          }
+         }
+        }
+        onPN_LOCAL()
+        return
+       }
+       else->{
+        break@error
+       }
+      }
+     }
+     else->{
+      break@error
+     }
+    }
+   }
+   2->{
+    context.append()
+    when(context.c){
+     0x21,0x23,0x24,0x25,0x26,0x27,0x28,0x29,0x2a,0x2b,0x2c,0x2d,0x2e,0x2f,0x3b,0x3d,0x3f,0x40,0x5f,0x7e->{
+      context.append()
+      loop5@while(context.c!=ParserContext.EOF){
+       loop6@while(context.c!=ParserContext.EOF){
+        when(context.c){
+         0x2e->{
+          context.append()
+         }
+         else->{
+          break@loop6
+         }
+        }
+       }
+       val localswitch6=parse_triple_end_or_object_iri_helper_1(context.c)
+       when(localswitch6){
+        0->{
+         context.append()
+         continue@loop5
+        }
+        1->{
+         context.append()
+         when(context.c){
+          0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+           context.append()
+           when(context.c){
+            0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+             context.append()
+             continue@loop5
+            }
+            else->{
+             break@error
+            }
+           }
+          }
+          else->{
+           break@error
+          }
+         }
+        }
+        2->{
+         context.append()
+         when(context.c){
+          0x21,0x23,0x24,0x25,0x26,0x27,0x28,0x29,0x2a,0x2b,0x2c,0x2d,0x2e,0x2f,0x3b,0x3d,0x3f,0x40,0x5f,0x7e->{
+           context.append()
+           continue@loop5
+          }
+          else->{
+           break@error
+          }
+         }
+        }
+        else->{
+         break@loop5
+        }
+       }
+      }
+      onPN_LOCAL()
+      return
+     }
+     else->{
+      break@error
+     }
+    }
+   }
+   3->{
+    context.append()
+    onPREDICATE_LIST1()
+    return
+   }
+   4->{
+    context.append()
+    onOBJECT_LIST1()
+    return
+   }
+   5->{
+    context.append()
+    onDOT()
+    return
+   }
+   6->{
+    context.append()
     loop3@while(context.c!=ParserContext.EOF){
      when(context.c){
-      0x2e->{
+      0x9,0xa,0xd,0x20->{
        context.append()
       }
       else->{
@@ -4395,228 +4641,15 @@ inline fun parse_triple_end_or_object_iri(context:ParserContext,
       }
      }
     }
-    val localswitch3=parse_triple_end_or_object_iri_helper_1(context.c)
-    when(localswitch3){
-     0->{
-      context.append()
-      continue@loop2
-     }
-     1->{
-      context.append()
-      when(context.c){
-       0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-        context.append()
-        when(context.c){
-         0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-          context.append()
-          continue@loop2
-         }
-         else->{
-          throw ParserExceptionUnexpectedChar(context)
-         }
-        }
-       }
-       else->{
-        throw ParserExceptionUnexpectedChar(context)
-       }
-      }
-     }
-     2->{
-      context.append()
-      when(context.c){
-       0x21,0x23,0x24,0x25,0x26,0x27,0x28,0x29,0x2a,0x2b,0x2c,0x2d,0x2e,0x2f,0x3b,0x3d,0x3f,0x40,0x5f,0x7e->{
-        context.append()
-        continue@loop2
-       }
-       else->{
-        throw ParserExceptionUnexpectedChar(context)
-       }
-      }
-     }
-     else->{
-      break@loop2
-     }
-    }
+    onSKIP_WS_FORCED()
+    return
    }
-   onPN_LOCAL()
-   return
-  }
-  1->{
-   context.append()
-   when(context.c){
-    0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-     context.append()
-     when(context.c){
-      0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-       context.append()
-       loop6@while(context.c!=ParserContext.EOF){
-        loop7@while(context.c!=ParserContext.EOF){
-         when(context.c){
-          0x2e->{
-           context.append()
-          }
-          else->{
-           break@loop7
-          }
-         }
-        }
-        val localswitch7=parse_triple_end_or_object_iri_helper_1(context.c)
-        when(localswitch7){
-         0->{
-          context.append()
-          continue@loop6
-         }
-         1->{
-          context.append()
-          when(context.c){
-           0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-            context.append()
-            when(context.c){
-             0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-              context.append()
-              continue@loop6
-             }
-             else->{
-              throw ParserExceptionUnexpectedChar(context)
-             }
-            }
-           }
-           else->{
-            throw ParserExceptionUnexpectedChar(context)
-           }
-          }
-         }
-         2->{
-          context.append()
-          when(context.c){
-           0x21,0x23,0x24,0x25,0x26,0x27,0x28,0x29,0x2a,0x2b,0x2c,0x2d,0x2e,0x2f,0x3b,0x3d,0x3f,0x40,0x5f,0x7e->{
-            context.append()
-            continue@loop6
-           }
-           else->{
-            throw ParserExceptionUnexpectedChar(context)
-           }
-          }
-         }
-         else->{
-          break@loop6
-         }
-        }
-       }
-       onPN_LOCAL()
-       return
-      }
-      else->{
-       throw ParserExceptionUnexpectedChar(context)
-      }
-     }
-    }
-    else->{
-     throw ParserExceptionUnexpectedChar(context)
-    }
+   else->{
+    break@error
    }
-  }
-  2->{
-   context.append()
-   when(context.c){
-    0x21,0x23,0x24,0x25,0x26,0x27,0x28,0x29,0x2a,0x2b,0x2c,0x2d,0x2e,0x2f,0x3b,0x3d,0x3f,0x40,0x5f,0x7e->{
-     context.append()
-     loop4@while(context.c!=ParserContext.EOF){
-      loop5@while(context.c!=ParserContext.EOF){
-       when(context.c){
-        0x2e->{
-         context.append()
-        }
-        else->{
-         break@loop5
-        }
-       }
-      }
-      val localswitch5=parse_triple_end_or_object_iri_helper_1(context.c)
-      when(localswitch5){
-       0->{
-        context.append()
-        continue@loop4
-       }
-       1->{
-        context.append()
-        when(context.c){
-         0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-          context.append()
-          when(context.c){
-           0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-            context.append()
-            continue@loop4
-           }
-           else->{
-            throw ParserExceptionUnexpectedChar(context)
-           }
-          }
-         }
-         else->{
-          throw ParserExceptionUnexpectedChar(context)
-         }
-        }
-       }
-       2->{
-        context.append()
-        when(context.c){
-         0x21,0x23,0x24,0x25,0x26,0x27,0x28,0x29,0x2a,0x2b,0x2c,0x2d,0x2e,0x2f,0x3b,0x3d,0x3f,0x40,0x5f,0x7e->{
-          context.append()
-          continue@loop4
-         }
-         else->{
-          throw ParserExceptionUnexpectedChar(context)
-         }
-        }
-       }
-       else->{
-        break@loop4
-       }
-      }
-     }
-     onPN_LOCAL()
-     return
-    }
-    else->{
-     throw ParserExceptionUnexpectedChar(context)
-    }
-   }
-  }
-  3->{
-   context.append()
-   onPREDICATE_LIST1()
-   return
-  }
-  4->{
-   context.append()
-   onOBJECT_LIST1()
-   return
-  }
-  5->{
-   context.append()
-   onDOT()
-   return
-  }
-  6->{
-   context.append()
-   loop2@while(context.c!=ParserContext.EOF){
-    when(context.c){
-     0x9,0xa,0xd,0x20->{
-      context.append()
-     }
-     else->{
-      break@loop2
-     }
-    }
-   }
-   onSKIP_WS_FORCED()
-   return
-  }
-  else->{
-   throw ParserExceptionUnexpectedChar(context)
   }
  }
+ throw ParserExceptionUnexpectedChar(context)
 }
 fun parse_triple_end_or_object_iri_helper_0(c:Int):Int{
  when(c){
@@ -4659,257 +4692,93 @@ inline fun parse_triple_end_or_object_string(context:ParserContext,
  crossinline onSKIP_WS_FORCED:()->Unit
 ){
  context.buffer.clear()
- when(context.c){
-  0x40->{
-   context.append()
-   when(context.c){
-    0x41,0x42,0x43,0x44,0x45,0x46,0x47,0x48,0x49,0x4a,0x4b,0x4c,0x4d,0x4e,0x4f,0x50,0x51,0x52,0x53,0x54,0x55,0x56,0x57,0x58,0x59,0x5a,0x61,0x62,0x63,0x64,0x65,0x66,0x67,0x68,0x69,0x6a,0x6b,0x6c,0x6d,0x6e,0x6f,0x70,0x71,0x72,0x73,0x74,0x75,0x76,0x77,0x78,0x79,0x7a->{
-     context.append()
-     loop4@while(context.c!=ParserContext.EOF){
-      when(context.c){
-       0x41,0x42,0x43,0x44,0x45,0x46,0x47,0x48,0x49,0x4a,0x4b,0x4c,0x4d,0x4e,0x4f,0x50,0x51,0x52,0x53,0x54,0x55,0x56,0x57,0x58,0x59,0x5a,0x61,0x62,0x63,0x64,0x65,0x66,0x67,0x68,0x69,0x6a,0x6b,0x6c,0x6d,0x6e,0x6f,0x70,0x71,0x72,0x73,0x74,0x75,0x76,0x77,0x78,0x79,0x7a->{
-        context.append()
-       }
-       else->{
-        break@loop4
-       }
-      }
-     }
-     loop4@while(context.c!=ParserContext.EOF){
-      when(context.c){
-       0x2d->{
-        context.append()
-        when(context.c){
-         0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x47,0x48,0x49,0x4a,0x4b,0x4c,0x4d,0x4e,0x4f,0x50,0x51,0x52,0x53,0x54,0x55,0x56,0x57,0x58,0x59,0x5a,0x61,0x62,0x63,0x64,0x65,0x66,0x67,0x68,0x69,0x6a,0x6b,0x6c,0x6d,0x6e,0x6f,0x70,0x71,0x72,0x73,0x74,0x75,0x76,0x77,0x78,0x79,0x7a->{
-          context.append()
-          loop9@while(context.c!=ParserContext.EOF){
-           when(context.c){
-            0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x47,0x48,0x49,0x4a,0x4b,0x4c,0x4d,0x4e,0x4f,0x50,0x51,0x52,0x53,0x54,0x55,0x56,0x57,0x58,0x59,0x5a,0x61,0x62,0x63,0x64,0x65,0x66,0x67,0x68,0x69,0x6a,0x6b,0x6c,0x6d,0x6e,0x6f,0x70,0x71,0x72,0x73,0x74,0x75,0x76,0x77,0x78,0x79,0x7a->{
-             context.append()
-            }
-            else->{
-             break@loop9
-            }
-           }
-          }
-          continue@loop4
-         }
-         else->{
-          throw ParserExceptionUnexpectedChar(context)
-         }
-        }
-       }
-       else->{
-        break@loop4
-       }
-      }
-     }
-     onLANGTAG()
-     return
-    }
-    else->{
-     throw ParserExceptionUnexpectedChar(context)
-    }
-   }
-  }
-  0x5e->{
-   context.append()
-   when(context.c){
-    0x5e->{
-     context.append()
-     onIRI1()
-     return
-    }
-    else->{
-     throw ParserExceptionUnexpectedChar(context)
-    }
-   }
-  }
-  0x3b->{
-   context.append()
-   onPREDICATE_LIST1()
-   return
-  }
-  0x2c->{
-   context.append()
-   onOBJECT_LIST1()
-   return
-  }
-  0x2e->{
-   context.append()
-   onDOT()
-   return
-  }
-  0x9,0xa,0xd,0x20->{
-   context.append()
-   loop2@while(context.c!=ParserContext.EOF){
+ error@while(true){
+  when(context.c){
+   0x40->{
+    context.append()
     when(context.c){
-     0x9,0xa,0xd,0x20->{
+     0x41,0x42,0x43,0x44,0x45,0x46,0x47,0x48,0x49,0x4a,0x4b,0x4c,0x4d,0x4e,0x4f,0x50,0x51,0x52,0x53,0x54,0x55,0x56,0x57,0x58,0x59,0x5a,0x61,0x62,0x63,0x64,0x65,0x66,0x67,0x68,0x69,0x6a,0x6b,0x6c,0x6d,0x6e,0x6f,0x70,0x71,0x72,0x73,0x74,0x75,0x76,0x77,0x78,0x79,0x7a->{
       context.append()
-     }
-     else->{
-      break@loop2
-     }
-    }
-   }
-   onSKIP_WS_FORCED()
-   return
-  }
-  else->{
-   throw ParserExceptionUnexpectedChar(context)
-  }
- }
-}
-inline fun parse_triple_end_or_object_string_typed(context:ParserContext,
- crossinline onIRIREF:()->Unit,
- crossinline onPNAME_NS:()->Unit
-){
- context.buffer.clear()
- val localswitch0=parse_triple_end_or_object_string_typed_helper_0(context.c)
- when(localswitch0){
-  0->{
-   context.append()
-   loop2@while(context.c!=ParserContext.EOF){
-    val localswitch3=parse_triple_end_or_object_string_typed_helper_1(context.c)
-    when(localswitch3){
-     0->{
-      context.append()
-      continue@loop2
-     }
-     1->{
-      context.append()
-      when(context.c){
-       0x75->{
-        context.append()
-        when(context.c){
-         0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-          context.append()
-          when(context.c){
-           0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-            context.append()
-            when(context.c){
-             0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-              context.append()
-              when(context.c){
-               0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                context.append()
-                continue@loop2
-               }
-               else->{
-                throw ParserExceptionUnexpectedChar(context)
-               }
-              }
-             }
-             else->{
-              throw ParserExceptionUnexpectedChar(context)
-             }
-            }
-           }
-           else->{
-            throw ParserExceptionUnexpectedChar(context)
-           }
-          }
-         }
-         else->{
-          throw ParserExceptionUnexpectedChar(context)
-         }
+      loop5@while(context.c!=ParserContext.EOF){
+       when(context.c){
+        0x41,0x42,0x43,0x44,0x45,0x46,0x47,0x48,0x49,0x4a,0x4b,0x4c,0x4d,0x4e,0x4f,0x50,0x51,0x52,0x53,0x54,0x55,0x56,0x57,0x58,0x59,0x5a,0x61,0x62,0x63,0x64,0x65,0x66,0x67,0x68,0x69,0x6a,0x6b,0x6c,0x6d,0x6e,0x6f,0x70,0x71,0x72,0x73,0x74,0x75,0x76,0x77,0x78,0x79,0x7a->{
+         context.append()
         }
-       }
-       0x55->{
-        context.append()
-        when(context.c){
-         0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-          context.append()
-          when(context.c){
-           0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-            context.append()
-            when(context.c){
-             0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-              context.append()
-              when(context.c){
-               0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                context.append()
-                when(context.c){
-                 0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                  context.append()
-                  when(context.c){
-                   0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                    context.append()
-                    when(context.c){
-                     0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                      context.append()
-                      when(context.c){
-                       0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-                        context.append()
-                        continue@loop2
-                       }
-                       else->{
-                        throw ParserExceptionUnexpectedChar(context)
-                       }
-                      }
-                     }
-                     else->{
-                      throw ParserExceptionUnexpectedChar(context)
-                     }
-                    }
-                   }
-                   else->{
-                    throw ParserExceptionUnexpectedChar(context)
-                   }
-                  }
-                 }
-                 else->{
-                  throw ParserExceptionUnexpectedChar(context)
-                 }
-                }
-               }
-               else->{
-                throw ParserExceptionUnexpectedChar(context)
-               }
-              }
-             }
-             else->{
-              throw ParserExceptionUnexpectedChar(context)
-             }
-            }
-           }
-           else->{
-            throw ParserExceptionUnexpectedChar(context)
-           }
-          }
-         }
-         else->{
-          throw ParserExceptionUnexpectedChar(context)
-         }
+        else->{
+         break@loop5
         }
-       }
-       else->{
-        throw ParserExceptionUnexpectedChar(context)
        }
       }
+      loop5@while(context.c!=ParserContext.EOF){
+       when(context.c){
+        0x2d->{
+         context.append()
+         when(context.c){
+          0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x47,0x48,0x49,0x4a,0x4b,0x4c,0x4d,0x4e,0x4f,0x50,0x51,0x52,0x53,0x54,0x55,0x56,0x57,0x58,0x59,0x5a,0x61,0x62,0x63,0x64,0x65,0x66,0x67,0x68,0x69,0x6a,0x6b,0x6c,0x6d,0x6e,0x6f,0x70,0x71,0x72,0x73,0x74,0x75,0x76,0x77,0x78,0x79,0x7a->{
+           context.append()
+           loop10@while(context.c!=ParserContext.EOF){
+            when(context.c){
+             0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x47,0x48,0x49,0x4a,0x4b,0x4c,0x4d,0x4e,0x4f,0x50,0x51,0x52,0x53,0x54,0x55,0x56,0x57,0x58,0x59,0x5a,0x61,0x62,0x63,0x64,0x65,0x66,0x67,0x68,0x69,0x6a,0x6b,0x6c,0x6d,0x6e,0x6f,0x70,0x71,0x72,0x73,0x74,0x75,0x76,0x77,0x78,0x79,0x7a->{
+              context.append()
+             }
+             else->{
+              break@loop10
+             }
+            }
+           }
+           continue@loop5
+          }
+          else->{
+           break@error
+          }
+         }
+        }
+        else->{
+         break@loop5
+        }
+       }
+      }
+      onLANGTAG()
+      return
      }
      else->{
-      break@loop2
+      break@error
      }
     }
    }
-   when(context.c){
-    0x3e->{
-     context.append()
-     onIRIREF()
-     return
-    }
-    else->{
-     throw ParserExceptionUnexpectedChar(context)
+   0x5e->{
+    context.append()
+    when(context.c){
+     0x5e->{
+      context.append()
+      onIRI1()
+      return
+     }
+     else->{
+      break@error
+     }
     }
    }
-  }
-  1->{
-   context.append()
-   loop2@while(context.c!=ParserContext.EOF){
+   0x3b->{
+    context.append()
+    onPREDICATE_LIST1()
+    return
+   }
+   0x2c->{
+    context.append()
+    onOBJECT_LIST1()
+    return
+   }
+   0x2e->{
+    context.append()
+    onDOT()
+    return
+   }
+   0x9,0xa,0xd,0x20->{
+    context.append()
     loop3@while(context.c!=ParserContext.EOF){
      when(context.c){
-      0x2e->{
+      0x9,0xa,0xd,0x20->{
        context.append()
       }
       else->{
@@ -4917,37 +4786,207 @@ inline fun parse_triple_end_or_object_string_typed(context:ParserContext,
       }
      }
     }
-    val localswitch3=parse_triple_end_or_object_string_typed_helper_2(context.c)
-    when(localswitch3){
-     0->{
-      context.append()
-      continue@loop2
-     }
-     else->{
-      break@loop2
-     }
-    }
+    onSKIP_WS_FORCED()
+    return
    }
-   when(context.c){
-    0x3a->{
-     context.append()
-     onPNAME_NS()
-     return
-    }
-    else->{
-     throw ParserExceptionUnexpectedChar(context)
-    }
+   else->{
+    break@error
    }
-  }
-  2->{
-   context.append()
-   onPNAME_NS()
-   return
-  }
-  else->{
-   throw ParserExceptionUnexpectedChar(context)
   }
  }
+ throw ParserExceptionUnexpectedChar(context)
+}
+inline fun parse_triple_end_or_object_string_typed(context:ParserContext,
+ crossinline onIRIREF:()->Unit,
+ crossinline onPNAME_NS:()->Unit
+){
+ context.buffer.clear()
+ error@while(true){
+  val localswitch1=parse_triple_end_or_object_string_typed_helper_0(context.c)
+  when(localswitch1){
+   0->{
+    context.append()
+    loop3@while(context.c!=ParserContext.EOF){
+     val localswitch4=parse_triple_end_or_object_string_typed_helper_1(context.c)
+     when(localswitch4){
+      0->{
+       context.append()
+       continue@loop3
+      }
+      1->{
+       context.append()
+       when(context.c){
+        0x75->{
+         context.append()
+         when(context.c){
+          0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+           context.append()
+           when(context.c){
+            0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+             context.append()
+             when(context.c){
+              0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+               context.append()
+               when(context.c){
+                0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                 context.append()
+                 continue@loop3
+                }
+                else->{
+                 break@error
+                }
+               }
+              }
+              else->{
+               break@error
+              }
+             }
+            }
+            else->{
+             break@error
+            }
+           }
+          }
+          else->{
+           break@error
+          }
+         }
+        }
+        0x55->{
+         context.append()
+         when(context.c){
+          0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+           context.append()
+           when(context.c){
+            0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+             context.append()
+             when(context.c){
+              0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+               context.append()
+               when(context.c){
+                0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                 context.append()
+                 when(context.c){
+                  0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                   context.append()
+                   when(context.c){
+                    0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                     context.append()
+                     when(context.c){
+                      0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                       context.append()
+                       when(context.c){
+                        0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+                         context.append()
+                         continue@loop3
+                        }
+                        else->{
+                         break@error
+                        }
+                       }
+                      }
+                      else->{
+                       break@error
+                      }
+                     }
+                    }
+                    else->{
+                     break@error
+                    }
+                   }
+                  }
+                  else->{
+                   break@error
+                  }
+                 }
+                }
+                else->{
+                 break@error
+                }
+               }
+              }
+              else->{
+               break@error
+              }
+             }
+            }
+            else->{
+             break@error
+            }
+           }
+          }
+          else->{
+           break@error
+          }
+         }
+        }
+        else->{
+         break@error
+        }
+       }
+      }
+      else->{
+       break@loop3
+      }
+     }
+    }
+    when(context.c){
+     0x3e->{
+      context.append()
+      onIRIREF()
+      return
+     }
+     else->{
+      break@error
+     }
+    }
+   }
+   1->{
+    context.append()
+    loop3@while(context.c!=ParserContext.EOF){
+     loop4@while(context.c!=ParserContext.EOF){
+      when(context.c){
+       0x2e->{
+        context.append()
+       }
+       else->{
+        break@loop4
+       }
+      }
+     }
+     val localswitch4=parse_triple_end_or_object_string_typed_helper_2(context.c)
+     when(localswitch4){
+      0->{
+       context.append()
+       continue@loop3
+      }
+      else->{
+       break@loop3
+      }
+     }
+    }
+    when(context.c){
+     0x3a->{
+      context.append()
+      onPNAME_NS()
+      return
+     }
+     else->{
+      break@error
+     }
+    }
+   }
+   2->{
+    context.append()
+    onPNAME_NS()
+    return
+   }
+   else->{
+    break@error
+   }
+  }
+ }
+ throw ParserExceptionUnexpectedChar(context)
 }
 fun parse_triple_end_or_object_string_typed_helper_0(c:Int):Int{
  when(c){
@@ -4996,14 +5035,230 @@ inline fun parse_triple_end_or_object_string_typed_iri(context:ParserContext,
  crossinline onSKIP_WS_FORCED:()->Unit
 ){
  context.buffer.clear()
- val localswitch0=parse_triple_end_or_object_string_typed_iri_helper_0(context.c)
- when(localswitch0){
-  0->{
-   context.append()
-   loop2@while(context.c!=ParserContext.EOF){
+ error@while(true){
+  val localswitch1=parse_triple_end_or_object_string_typed_iri_helper_0(context.c)
+  when(localswitch1){
+   0->{
+    context.append()
+    loop3@while(context.c!=ParserContext.EOF){
+     loop4@while(context.c!=ParserContext.EOF){
+      when(context.c){
+       0x2e->{
+        context.append()
+       }
+       else->{
+        break@loop4
+       }
+      }
+     }
+     val localswitch4=parse_triple_end_or_object_string_typed_iri_helper_1(context.c)
+     when(localswitch4){
+      0->{
+       context.append()
+       continue@loop3
+      }
+      1->{
+       context.append()
+       when(context.c){
+        0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+         context.append()
+         when(context.c){
+          0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+           context.append()
+           continue@loop3
+          }
+          else->{
+           break@error
+          }
+         }
+        }
+        else->{
+         break@error
+        }
+       }
+      }
+      2->{
+       context.append()
+       when(context.c){
+        0x21,0x23,0x24,0x25,0x26,0x27,0x28,0x29,0x2a,0x2b,0x2c,0x2d,0x2e,0x2f,0x3b,0x3d,0x3f,0x40,0x5f,0x7e->{
+         context.append()
+         continue@loop3
+        }
+        else->{
+         break@error
+        }
+       }
+      }
+      else->{
+       break@loop3
+      }
+     }
+    }
+    onPN_LOCAL()
+    return
+   }
+   1->{
+    context.append()
+    when(context.c){
+     0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+      context.append()
+      when(context.c){
+       0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+        context.append()
+        loop7@while(context.c!=ParserContext.EOF){
+         loop8@while(context.c!=ParserContext.EOF){
+          when(context.c){
+           0x2e->{
+            context.append()
+           }
+           else->{
+            break@loop8
+           }
+          }
+         }
+         val localswitch8=parse_triple_end_or_object_string_typed_iri_helper_1(context.c)
+         when(localswitch8){
+          0->{
+           context.append()
+           continue@loop7
+          }
+          1->{
+           context.append()
+           when(context.c){
+            0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+             context.append()
+             when(context.c){
+              0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+               context.append()
+               continue@loop7
+              }
+              else->{
+               break@error
+              }
+             }
+            }
+            else->{
+             break@error
+            }
+           }
+          }
+          2->{
+           context.append()
+           when(context.c){
+            0x21,0x23,0x24,0x25,0x26,0x27,0x28,0x29,0x2a,0x2b,0x2c,0x2d,0x2e,0x2f,0x3b,0x3d,0x3f,0x40,0x5f,0x7e->{
+             context.append()
+             continue@loop7
+            }
+            else->{
+             break@error
+            }
+           }
+          }
+          else->{
+           break@loop7
+          }
+         }
+        }
+        onPN_LOCAL()
+        return
+       }
+       else->{
+        break@error
+       }
+      }
+     }
+     else->{
+      break@error
+     }
+    }
+   }
+   2->{
+    context.append()
+    when(context.c){
+     0x21,0x23,0x24,0x25,0x26,0x27,0x28,0x29,0x2a,0x2b,0x2c,0x2d,0x2e,0x2f,0x3b,0x3d,0x3f,0x40,0x5f,0x7e->{
+      context.append()
+      loop5@while(context.c!=ParserContext.EOF){
+       loop6@while(context.c!=ParserContext.EOF){
+        when(context.c){
+         0x2e->{
+          context.append()
+         }
+         else->{
+          break@loop6
+         }
+        }
+       }
+       val localswitch6=parse_triple_end_or_object_string_typed_iri_helper_1(context.c)
+       when(localswitch6){
+        0->{
+         context.append()
+         continue@loop5
+        }
+        1->{
+         context.append()
+         when(context.c){
+          0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+           context.append()
+           when(context.c){
+            0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+             context.append()
+             continue@loop5
+            }
+            else->{
+             break@error
+            }
+           }
+          }
+          else->{
+           break@error
+          }
+         }
+        }
+        2->{
+         context.append()
+         when(context.c){
+          0x21,0x23,0x24,0x25,0x26,0x27,0x28,0x29,0x2a,0x2b,0x2c,0x2d,0x2e,0x2f,0x3b,0x3d,0x3f,0x40,0x5f,0x7e->{
+           context.append()
+           continue@loop5
+          }
+          else->{
+           break@error
+          }
+         }
+        }
+        else->{
+         break@loop5
+        }
+       }
+      }
+      onPN_LOCAL()
+      return
+     }
+     else->{
+      break@error
+     }
+    }
+   }
+   3->{
+    context.append()
+    onPREDICATE_LIST1()
+    return
+   }
+   4->{
+    context.append()
+    onOBJECT_LIST1()
+    return
+   }
+   5->{
+    context.append()
+    onDOT()
+    return
+   }
+   6->{
+    context.append()
     loop3@while(context.c!=ParserContext.EOF){
      when(context.c){
-      0x2e->{
+      0x9,0xa,0xd,0x20->{
        context.append()
       }
       else->{
@@ -5011,228 +5266,15 @@ inline fun parse_triple_end_or_object_string_typed_iri(context:ParserContext,
       }
      }
     }
-    val localswitch3=parse_triple_end_or_object_string_typed_iri_helper_1(context.c)
-    when(localswitch3){
-     0->{
-      context.append()
-      continue@loop2
-     }
-     1->{
-      context.append()
-      when(context.c){
-       0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-        context.append()
-        when(context.c){
-         0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-          context.append()
-          continue@loop2
-         }
-         else->{
-          throw ParserExceptionUnexpectedChar(context)
-         }
-        }
-       }
-       else->{
-        throw ParserExceptionUnexpectedChar(context)
-       }
-      }
-     }
-     2->{
-      context.append()
-      when(context.c){
-       0x21,0x23,0x24,0x25,0x26,0x27,0x28,0x29,0x2a,0x2b,0x2c,0x2d,0x2e,0x2f,0x3b,0x3d,0x3f,0x40,0x5f,0x7e->{
-        context.append()
-        continue@loop2
-       }
-       else->{
-        throw ParserExceptionUnexpectedChar(context)
-       }
-      }
-     }
-     else->{
-      break@loop2
-     }
-    }
+    onSKIP_WS_FORCED()
+    return
    }
-   onPN_LOCAL()
-   return
-  }
-  1->{
-   context.append()
-   when(context.c){
-    0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-     context.append()
-     when(context.c){
-      0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-       context.append()
-       loop6@while(context.c!=ParserContext.EOF){
-        loop7@while(context.c!=ParserContext.EOF){
-         when(context.c){
-          0x2e->{
-           context.append()
-          }
-          else->{
-           break@loop7
-          }
-         }
-        }
-        val localswitch7=parse_triple_end_or_object_string_typed_iri_helper_1(context.c)
-        when(localswitch7){
-         0->{
-          context.append()
-          continue@loop6
-         }
-         1->{
-          context.append()
-          when(context.c){
-           0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-            context.append()
-            when(context.c){
-             0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-              context.append()
-              continue@loop6
-             }
-             else->{
-              throw ParserExceptionUnexpectedChar(context)
-             }
-            }
-           }
-           else->{
-            throw ParserExceptionUnexpectedChar(context)
-           }
-          }
-         }
-         2->{
-          context.append()
-          when(context.c){
-           0x21,0x23,0x24,0x25,0x26,0x27,0x28,0x29,0x2a,0x2b,0x2c,0x2d,0x2e,0x2f,0x3b,0x3d,0x3f,0x40,0x5f,0x7e->{
-            context.append()
-            continue@loop6
-           }
-           else->{
-            throw ParserExceptionUnexpectedChar(context)
-           }
-          }
-         }
-         else->{
-          break@loop6
-         }
-        }
-       }
-       onPN_LOCAL()
-       return
-      }
-      else->{
-       throw ParserExceptionUnexpectedChar(context)
-      }
-     }
-    }
-    else->{
-     throw ParserExceptionUnexpectedChar(context)
-    }
+   else->{
+    break@error
    }
-  }
-  2->{
-   context.append()
-   when(context.c){
-    0x21,0x23,0x24,0x25,0x26,0x27,0x28,0x29,0x2a,0x2b,0x2c,0x2d,0x2e,0x2f,0x3b,0x3d,0x3f,0x40,0x5f,0x7e->{
-     context.append()
-     loop4@while(context.c!=ParserContext.EOF){
-      loop5@while(context.c!=ParserContext.EOF){
-       when(context.c){
-        0x2e->{
-         context.append()
-        }
-        else->{
-         break@loop5
-        }
-       }
-      }
-      val localswitch5=parse_triple_end_or_object_string_typed_iri_helper_1(context.c)
-      when(localswitch5){
-       0->{
-        context.append()
-        continue@loop4
-       }
-       1->{
-        context.append()
-        when(context.c){
-         0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-          context.append()
-          when(context.c){
-           0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-            context.append()
-            continue@loop4
-           }
-           else->{
-            throw ParserExceptionUnexpectedChar(context)
-           }
-          }
-         }
-         else->{
-          throw ParserExceptionUnexpectedChar(context)
-         }
-        }
-       }
-       2->{
-        context.append()
-        when(context.c){
-         0x21,0x23,0x24,0x25,0x26,0x27,0x28,0x29,0x2a,0x2b,0x2c,0x2d,0x2e,0x2f,0x3b,0x3d,0x3f,0x40,0x5f,0x7e->{
-          context.append()
-          continue@loop4
-         }
-         else->{
-          throw ParserExceptionUnexpectedChar(context)
-         }
-        }
-       }
-       else->{
-        break@loop4
-       }
-      }
-     }
-     onPN_LOCAL()
-     return
-    }
-    else->{
-     throw ParserExceptionUnexpectedChar(context)
-    }
-   }
-  }
-  3->{
-   context.append()
-   onPREDICATE_LIST1()
-   return
-  }
-  4->{
-   context.append()
-   onOBJECT_LIST1()
-   return
-  }
-  5->{
-   context.append()
-   onDOT()
-   return
-  }
-  6->{
-   context.append()
-   loop2@while(context.c!=ParserContext.EOF){
-    when(context.c){
-     0x9,0xa,0xd,0x20->{
-      context.append()
-     }
-     else->{
-      break@loop2
-     }
-    }
-   }
-   onSKIP_WS_FORCED()
-   return
-  }
-  else->{
-   throw ParserExceptionUnexpectedChar(context)
   }
  }
+ throw ParserExceptionUnexpectedChar(context)
 }
 fun parse_triple_end_or_object_string_typed_iri_helper_0(c:Int):Int{
  when(c){
@@ -5271,14 +5313,215 @@ inline fun parse_subject_iri_or_ws(context:ParserContext,
  crossinline onSKIP_WS_FORCED:()->Unit
 ){
  context.buffer.clear()
- val localswitch0=parse_subject_iri_or_ws_helper_0(context.c)
- when(localswitch0){
-  0->{
-   context.append()
-   loop2@while(context.c!=ParserContext.EOF){
+ error@while(true){
+  val localswitch1=parse_subject_iri_or_ws_helper_0(context.c)
+  when(localswitch1){
+   0->{
+    context.append()
+    loop3@while(context.c!=ParserContext.EOF){
+     loop4@while(context.c!=ParserContext.EOF){
+      when(context.c){
+       0x2e->{
+        context.append()
+       }
+       else->{
+        break@loop4
+       }
+      }
+     }
+     val localswitch4=parse_subject_iri_or_ws_helper_1(context.c)
+     when(localswitch4){
+      0->{
+       context.append()
+       continue@loop3
+      }
+      1->{
+       context.append()
+       when(context.c){
+        0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+         context.append()
+         when(context.c){
+          0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+           context.append()
+           continue@loop3
+          }
+          else->{
+           break@error
+          }
+         }
+        }
+        else->{
+         break@error
+        }
+       }
+      }
+      2->{
+       context.append()
+       when(context.c){
+        0x21,0x23,0x24,0x25,0x26,0x27,0x28,0x29,0x2a,0x2b,0x2c,0x2d,0x2e,0x2f,0x3b,0x3d,0x3f,0x40,0x5f,0x7e->{
+         context.append()
+         continue@loop3
+        }
+        else->{
+         break@error
+        }
+       }
+      }
+      else->{
+       break@loop3
+      }
+     }
+    }
+    onPN_LOCAL()
+    return
+   }
+   1->{
+    context.append()
+    when(context.c){
+     0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+      context.append()
+      when(context.c){
+       0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+        context.append()
+        loop7@while(context.c!=ParserContext.EOF){
+         loop8@while(context.c!=ParserContext.EOF){
+          when(context.c){
+           0x2e->{
+            context.append()
+           }
+           else->{
+            break@loop8
+           }
+          }
+         }
+         val localswitch8=parse_subject_iri_or_ws_helper_1(context.c)
+         when(localswitch8){
+          0->{
+           context.append()
+           continue@loop7
+          }
+          1->{
+           context.append()
+           when(context.c){
+            0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+             context.append()
+             when(context.c){
+              0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+               context.append()
+               continue@loop7
+              }
+              else->{
+               break@error
+              }
+             }
+            }
+            else->{
+             break@error
+            }
+           }
+          }
+          2->{
+           context.append()
+           when(context.c){
+            0x21,0x23,0x24,0x25,0x26,0x27,0x28,0x29,0x2a,0x2b,0x2c,0x2d,0x2e,0x2f,0x3b,0x3d,0x3f,0x40,0x5f,0x7e->{
+             context.append()
+             continue@loop7
+            }
+            else->{
+             break@error
+            }
+           }
+          }
+          else->{
+           break@loop7
+          }
+         }
+        }
+        onPN_LOCAL()
+        return
+       }
+       else->{
+        break@error
+       }
+      }
+     }
+     else->{
+      break@error
+     }
+    }
+   }
+   2->{
+    context.append()
+    when(context.c){
+     0x21,0x23,0x24,0x25,0x26,0x27,0x28,0x29,0x2a,0x2b,0x2c,0x2d,0x2e,0x2f,0x3b,0x3d,0x3f,0x40,0x5f,0x7e->{
+      context.append()
+      loop5@while(context.c!=ParserContext.EOF){
+       loop6@while(context.c!=ParserContext.EOF){
+        when(context.c){
+         0x2e->{
+          context.append()
+         }
+         else->{
+          break@loop6
+         }
+        }
+       }
+       val localswitch6=parse_subject_iri_or_ws_helper_1(context.c)
+       when(localswitch6){
+        0->{
+         context.append()
+         continue@loop5
+        }
+        1->{
+         context.append()
+         when(context.c){
+          0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+           context.append()
+           when(context.c){
+            0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+             context.append()
+             continue@loop5
+            }
+            else->{
+             break@error
+            }
+           }
+          }
+          else->{
+           break@error
+          }
+         }
+        }
+        2->{
+         context.append()
+         when(context.c){
+          0x21,0x23,0x24,0x25,0x26,0x27,0x28,0x29,0x2a,0x2b,0x2c,0x2d,0x2e,0x2f,0x3b,0x3d,0x3f,0x40,0x5f,0x7e->{
+           context.append()
+           continue@loop5
+          }
+          else->{
+           break@error
+          }
+         }
+        }
+        else->{
+         break@loop5
+        }
+       }
+      }
+      onPN_LOCAL()
+      return
+     }
+     else->{
+      break@error
+     }
+    }
+   }
+   3->{
+    context.append()
     loop3@while(context.c!=ParserContext.EOF){
      when(context.c){
-      0x2e->{
+      0x9,0xa,0xd,0x20->{
        context.append()
       }
       else->{
@@ -5286,213 +5529,15 @@ inline fun parse_subject_iri_or_ws(context:ParserContext,
       }
      }
     }
-    val localswitch3=parse_subject_iri_or_ws_helper_1(context.c)
-    when(localswitch3){
-     0->{
-      context.append()
-      continue@loop2
-     }
-     1->{
-      context.append()
-      when(context.c){
-       0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-        context.append()
-        when(context.c){
-         0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-          context.append()
-          continue@loop2
-         }
-         else->{
-          throw ParserExceptionUnexpectedChar(context)
-         }
-        }
-       }
-       else->{
-        throw ParserExceptionUnexpectedChar(context)
-       }
-      }
-     }
-     2->{
-      context.append()
-      when(context.c){
-       0x21,0x23,0x24,0x25,0x26,0x27,0x28,0x29,0x2a,0x2b,0x2c,0x2d,0x2e,0x2f,0x3b,0x3d,0x3f,0x40,0x5f,0x7e->{
-        context.append()
-        continue@loop2
-       }
-       else->{
-        throw ParserExceptionUnexpectedChar(context)
-       }
-      }
-     }
-     else->{
-      break@loop2
-     }
-    }
+    onSKIP_WS_FORCED()
+    return
    }
-   onPN_LOCAL()
-   return
-  }
-  1->{
-   context.append()
-   when(context.c){
-    0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-     context.append()
-     when(context.c){
-      0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-       context.append()
-       loop6@while(context.c!=ParserContext.EOF){
-        loop7@while(context.c!=ParserContext.EOF){
-         when(context.c){
-          0x2e->{
-           context.append()
-          }
-          else->{
-           break@loop7
-          }
-         }
-        }
-        val localswitch7=parse_subject_iri_or_ws_helper_1(context.c)
-        when(localswitch7){
-         0->{
-          context.append()
-          continue@loop6
-         }
-         1->{
-          context.append()
-          when(context.c){
-           0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-            context.append()
-            when(context.c){
-             0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-              context.append()
-              continue@loop6
-             }
-             else->{
-              throw ParserExceptionUnexpectedChar(context)
-             }
-            }
-           }
-           else->{
-            throw ParserExceptionUnexpectedChar(context)
-           }
-          }
-         }
-         2->{
-          context.append()
-          when(context.c){
-           0x21,0x23,0x24,0x25,0x26,0x27,0x28,0x29,0x2a,0x2b,0x2c,0x2d,0x2e,0x2f,0x3b,0x3d,0x3f,0x40,0x5f,0x7e->{
-            context.append()
-            continue@loop6
-           }
-           else->{
-            throw ParserExceptionUnexpectedChar(context)
-           }
-          }
-         }
-         else->{
-          break@loop6
-         }
-        }
-       }
-       onPN_LOCAL()
-       return
-      }
-      else->{
-       throw ParserExceptionUnexpectedChar(context)
-      }
-     }
-    }
-    else->{
-     throw ParserExceptionUnexpectedChar(context)
-    }
+   else->{
+    break@error
    }
-  }
-  2->{
-   context.append()
-   when(context.c){
-    0x21,0x23,0x24,0x25,0x26,0x27,0x28,0x29,0x2a,0x2b,0x2c,0x2d,0x2e,0x2f,0x3b,0x3d,0x3f,0x40,0x5f,0x7e->{
-     context.append()
-     loop4@while(context.c!=ParserContext.EOF){
-      loop5@while(context.c!=ParserContext.EOF){
-       when(context.c){
-        0x2e->{
-         context.append()
-        }
-        else->{
-         break@loop5
-        }
-       }
-      }
-      val localswitch5=parse_subject_iri_or_ws_helper_1(context.c)
-      when(localswitch5){
-       0->{
-        context.append()
-        continue@loop4
-       }
-       1->{
-        context.append()
-        when(context.c){
-         0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-          context.append()
-          when(context.c){
-           0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-            context.append()
-            continue@loop4
-           }
-           else->{
-            throw ParserExceptionUnexpectedChar(context)
-           }
-          }
-         }
-         else->{
-          throw ParserExceptionUnexpectedChar(context)
-         }
-        }
-       }
-       2->{
-        context.append()
-        when(context.c){
-         0x21,0x23,0x24,0x25,0x26,0x27,0x28,0x29,0x2a,0x2b,0x2c,0x2d,0x2e,0x2f,0x3b,0x3d,0x3f,0x40,0x5f,0x7e->{
-          context.append()
-          continue@loop4
-         }
-         else->{
-          throw ParserExceptionUnexpectedChar(context)
-         }
-        }
-       }
-       else->{
-        break@loop4
-       }
-      }
-     }
-     onPN_LOCAL()
-     return
-    }
-    else->{
-     throw ParserExceptionUnexpectedChar(context)
-    }
-   }
-  }
-  3->{
-   context.append()
-   loop2@while(context.c!=ParserContext.EOF){
-    when(context.c){
-     0x9,0xa,0xd,0x20->{
-      context.append()
-     }
-     else->{
-      break@loop2
-     }
-    }
-   }
-   onSKIP_WS_FORCED()
-   return
-  }
-  else->{
-   throw ParserExceptionUnexpectedChar(context)
   }
  }
+ throw ParserExceptionUnexpectedChar(context)
 }
 fun parse_subject_iri_or_ws_helper_0(c:Int):Int{
  when(c){
@@ -5528,14 +5573,215 @@ inline fun parse_predicate_iri_or_ws(context:ParserContext,
  crossinline onSKIP_WS_FORCED:()->Unit
 ){
  context.buffer.clear()
- val localswitch0=parse_predicate_iri_or_ws_helper_0(context.c)
- when(localswitch0){
-  0->{
-   context.append()
-   loop2@while(context.c!=ParserContext.EOF){
+ error@while(true){
+  val localswitch1=parse_predicate_iri_or_ws_helper_0(context.c)
+  when(localswitch1){
+   0->{
+    context.append()
+    loop3@while(context.c!=ParserContext.EOF){
+     loop4@while(context.c!=ParserContext.EOF){
+      when(context.c){
+       0x2e->{
+        context.append()
+       }
+       else->{
+        break@loop4
+       }
+      }
+     }
+     val localswitch4=parse_predicate_iri_or_ws_helper_1(context.c)
+     when(localswitch4){
+      0->{
+       context.append()
+       continue@loop3
+      }
+      1->{
+       context.append()
+       when(context.c){
+        0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+         context.append()
+         when(context.c){
+          0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+           context.append()
+           continue@loop3
+          }
+          else->{
+           break@error
+          }
+         }
+        }
+        else->{
+         break@error
+        }
+       }
+      }
+      2->{
+       context.append()
+       when(context.c){
+        0x21,0x23,0x24,0x25,0x26,0x27,0x28,0x29,0x2a,0x2b,0x2c,0x2d,0x2e,0x2f,0x3b,0x3d,0x3f,0x40,0x5f,0x7e->{
+         context.append()
+         continue@loop3
+        }
+        else->{
+         break@error
+        }
+       }
+      }
+      else->{
+       break@loop3
+      }
+     }
+    }
+    onPN_LOCAL()
+    return
+   }
+   1->{
+    context.append()
+    when(context.c){
+     0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+      context.append()
+      when(context.c){
+       0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+        context.append()
+        loop7@while(context.c!=ParserContext.EOF){
+         loop8@while(context.c!=ParserContext.EOF){
+          when(context.c){
+           0x2e->{
+            context.append()
+           }
+           else->{
+            break@loop8
+           }
+          }
+         }
+         val localswitch8=parse_predicate_iri_or_ws_helper_1(context.c)
+         when(localswitch8){
+          0->{
+           context.append()
+           continue@loop7
+          }
+          1->{
+           context.append()
+           when(context.c){
+            0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+             context.append()
+             when(context.c){
+              0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+               context.append()
+               continue@loop7
+              }
+              else->{
+               break@error
+              }
+             }
+            }
+            else->{
+             break@error
+            }
+           }
+          }
+          2->{
+           context.append()
+           when(context.c){
+            0x21,0x23,0x24,0x25,0x26,0x27,0x28,0x29,0x2a,0x2b,0x2c,0x2d,0x2e,0x2f,0x3b,0x3d,0x3f,0x40,0x5f,0x7e->{
+             context.append()
+             continue@loop7
+            }
+            else->{
+             break@error
+            }
+           }
+          }
+          else->{
+           break@loop7
+          }
+         }
+        }
+        onPN_LOCAL()
+        return
+       }
+       else->{
+        break@error
+       }
+      }
+     }
+     else->{
+      break@error
+     }
+    }
+   }
+   2->{
+    context.append()
+    when(context.c){
+     0x21,0x23,0x24,0x25,0x26,0x27,0x28,0x29,0x2a,0x2b,0x2c,0x2d,0x2e,0x2f,0x3b,0x3d,0x3f,0x40,0x5f,0x7e->{
+      context.append()
+      loop5@while(context.c!=ParserContext.EOF){
+       loop6@while(context.c!=ParserContext.EOF){
+        when(context.c){
+         0x2e->{
+          context.append()
+         }
+         else->{
+          break@loop6
+         }
+        }
+       }
+       val localswitch6=parse_predicate_iri_or_ws_helper_1(context.c)
+       when(localswitch6){
+        0->{
+         context.append()
+         continue@loop5
+        }
+        1->{
+         context.append()
+         when(context.c){
+          0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+           context.append()
+           when(context.c){
+            0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
+             context.append()
+             continue@loop5
+            }
+            else->{
+             break@error
+            }
+           }
+          }
+          else->{
+           break@error
+          }
+         }
+        }
+        2->{
+         context.append()
+         when(context.c){
+          0x21,0x23,0x24,0x25,0x26,0x27,0x28,0x29,0x2a,0x2b,0x2c,0x2d,0x2e,0x2f,0x3b,0x3d,0x3f,0x40,0x5f,0x7e->{
+           context.append()
+           continue@loop5
+          }
+          else->{
+           break@error
+          }
+         }
+        }
+        else->{
+         break@loop5
+        }
+       }
+      }
+      onPN_LOCAL()
+      return
+     }
+     else->{
+      break@error
+     }
+    }
+   }
+   3->{
+    context.append()
     loop3@while(context.c!=ParserContext.EOF){
      when(context.c){
-      0x2e->{
+      0x9,0xa,0xd,0x20->{
        context.append()
       }
       else->{
@@ -5543,213 +5789,15 @@ inline fun parse_predicate_iri_or_ws(context:ParserContext,
       }
      }
     }
-    val localswitch3=parse_predicate_iri_or_ws_helper_1(context.c)
-    when(localswitch3){
-     0->{
-      context.append()
-      continue@loop2
-     }
-     1->{
-      context.append()
-      when(context.c){
-       0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-        context.append()
-        when(context.c){
-         0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-          context.append()
-          continue@loop2
-         }
-         else->{
-          throw ParserExceptionUnexpectedChar(context)
-         }
-        }
-       }
-       else->{
-        throw ParserExceptionUnexpectedChar(context)
-       }
-      }
-     }
-     2->{
-      context.append()
-      when(context.c){
-       0x21,0x23,0x24,0x25,0x26,0x27,0x28,0x29,0x2a,0x2b,0x2c,0x2d,0x2e,0x2f,0x3b,0x3d,0x3f,0x40,0x5f,0x7e->{
-        context.append()
-        continue@loop2
-       }
-       else->{
-        throw ParserExceptionUnexpectedChar(context)
-       }
-      }
-     }
-     else->{
-      break@loop2
-     }
-    }
+    onSKIP_WS_FORCED()
+    return
    }
-   onPN_LOCAL()
-   return
-  }
-  1->{
-   context.append()
-   when(context.c){
-    0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-     context.append()
-     when(context.c){
-      0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-       context.append()
-       loop6@while(context.c!=ParserContext.EOF){
-        loop7@while(context.c!=ParserContext.EOF){
-         when(context.c){
-          0x2e->{
-           context.append()
-          }
-          else->{
-           break@loop7
-          }
-         }
-        }
-        val localswitch7=parse_predicate_iri_or_ws_helper_1(context.c)
-        when(localswitch7){
-         0->{
-          context.append()
-          continue@loop6
-         }
-         1->{
-          context.append()
-          when(context.c){
-           0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-            context.append()
-            when(context.c){
-             0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-              context.append()
-              continue@loop6
-             }
-             else->{
-              throw ParserExceptionUnexpectedChar(context)
-             }
-            }
-           }
-           else->{
-            throw ParserExceptionUnexpectedChar(context)
-           }
-          }
-         }
-         2->{
-          context.append()
-          when(context.c){
-           0x21,0x23,0x24,0x25,0x26,0x27,0x28,0x29,0x2a,0x2b,0x2c,0x2d,0x2e,0x2f,0x3b,0x3d,0x3f,0x40,0x5f,0x7e->{
-            context.append()
-            continue@loop6
-           }
-           else->{
-            throw ParserExceptionUnexpectedChar(context)
-           }
-          }
-         }
-         else->{
-          break@loop6
-         }
-        }
-       }
-       onPN_LOCAL()
-       return
-      }
-      else->{
-       throw ParserExceptionUnexpectedChar(context)
-      }
-     }
-    }
-    else->{
-     throw ParserExceptionUnexpectedChar(context)
-    }
+   else->{
+    break@error
    }
-  }
-  2->{
-   context.append()
-   when(context.c){
-    0x21,0x23,0x24,0x25,0x26,0x27,0x28,0x29,0x2a,0x2b,0x2c,0x2d,0x2e,0x2f,0x3b,0x3d,0x3f,0x40,0x5f,0x7e->{
-     context.append()
-     loop4@while(context.c!=ParserContext.EOF){
-      loop5@while(context.c!=ParserContext.EOF){
-       when(context.c){
-        0x2e->{
-         context.append()
-        }
-        else->{
-         break@loop5
-        }
-       }
-      }
-      val localswitch5=parse_predicate_iri_or_ws_helper_1(context.c)
-      when(localswitch5){
-       0->{
-        context.append()
-        continue@loop4
-       }
-       1->{
-        context.append()
-        when(context.c){
-         0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-          context.append()
-          when(context.c){
-           0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
-            context.append()
-            continue@loop4
-           }
-           else->{
-            throw ParserExceptionUnexpectedChar(context)
-           }
-          }
-         }
-         else->{
-          throw ParserExceptionUnexpectedChar(context)
-         }
-        }
-       }
-       2->{
-        context.append()
-        when(context.c){
-         0x21,0x23,0x24,0x25,0x26,0x27,0x28,0x29,0x2a,0x2b,0x2c,0x2d,0x2e,0x2f,0x3b,0x3d,0x3f,0x40,0x5f,0x7e->{
-          context.append()
-          continue@loop4
-         }
-         else->{
-          throw ParserExceptionUnexpectedChar(context)
-         }
-        }
-       }
-       else->{
-        break@loop4
-       }
-      }
-     }
-     onPN_LOCAL()
-     return
-    }
-    else->{
-     throw ParserExceptionUnexpectedChar(context)
-    }
-   }
-  }
-  3->{
-   context.append()
-   loop2@while(context.c!=ParserContext.EOF){
-    when(context.c){
-     0x9,0xa,0xd,0x20->{
-      context.append()
-     }
-     else->{
-      break@loop2
-     }
-    }
-   }
-   onSKIP_WS_FORCED()
-   return
-  }
-  else->{
-   throw ParserExceptionUnexpectedChar(context)
   }
  }
+ throw ParserExceptionUnexpectedChar(context)
 }
 fun parse_predicate_iri_or_ws_helper_0(c:Int):Int{
  when(c){

@@ -252,13 +252,13 @@ var helperfunctions = mutableMapOf<String, String>()//func content -> func name
         startEndMap.clear()
         startEndMapElseBranch.clear()
         cleanupIdenticalIDs()
-        myPrint(0, printmode, true)
+        myPrint(1, printmode, true)
         //println(startEndMap)
         //println(startEndMapElseBranch)
         //println(identicalIdsMap)
     }
 
-    fun myPrint(indention: Int, printmode: Boolean, skipheader: Boolean = false, onElseBranch: () -> String = { "throw ParserExceptionUnexpectedChar(context)" }) {
+    fun myPrint(indention: Int, printmode: Boolean, skipheader: Boolean = false, onElseBranch: () -> String = { "break@error" }) {
         if (printmode) {
             when (modifier) {
                 CharGroupModifier.MAYBE -> {
@@ -450,7 +450,7 @@ helperfunctions[helperFunctionContentStr]=helperFunctionName
                 }
             } else if (childs.size == 0) {
                 if (modifier == CharGroupModifier.ONE && ranges.size == 0) {
-                    println(" ".repeat(indention + 1) + "throw ParserExceptionUnexpectedChar(context)")
+                    println(" ".repeat(indention + 1) + "break@error")
                 } else {
                     throw Exception("")
                 }
@@ -525,7 +525,7 @@ helperfunctions[helperFunctionContentStr]=helperFunctionName
                                     println(" ".repeat(indention + 1) + "if (flag$indention) {")
                                     cc.myPrint(indention + 2, printmode, true)
                                     println(" ".repeat(indention + 1) + "} else {")
-                                    println(" ".repeat(indention + 2) + "throw ParserExceptionUnexpectedChar(context)")
+                                    println(" ".repeat(indention + 2) + "break@error")
                                     println(" ".repeat(indention + 1) + "}")
                                     if (!skipheader) {
                                         println(" ".repeat(indention) + "}")
@@ -1290,6 +1290,7 @@ if (args.size == 1 && args[0] == "PARSER_CONTEXT") {
     root.append(parseRegex(allTokens[args[args.size - 1]]!!, CharGroup(args[args.size - 1],CharGroupModifier.ACTION)))
     println("){")
     println(" context.buffer.clear()")
+    println(" error@while(true){")
     val comp = root.compile()
     try {
         comp.myPrintRoot(false)
@@ -1297,6 +1298,8 @@ if (args.size == 1 && args[0] == "PARSER_CONTEXT") {
         e.printStackTrace()
         comp.myPrintRoot(true)
     }
+    println(" }")
+    println(" throw ParserExceptionUnexpectedChar(context)")
     println("}")
 for((k,v)in CharGroup.helperfunctions){
 println("fun ${v}(c:Int):Int{")
