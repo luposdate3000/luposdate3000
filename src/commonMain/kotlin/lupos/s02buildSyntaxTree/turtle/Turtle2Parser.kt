@@ -60,6 +60,42 @@ abstract class Turtle2Parser(input: MyInputStream) {
         }
     }
 
+    fun statement_helper_1() {
+        parse_base(context,
+                onIRIREF = {
+                    //println("onIRIREF(${context.getValue()})")
+                    val s = context.getValue()
+                    prefixMap[":"] = s.substring(1, s.length - 1)
+                })
+    }
+
+    fun statement_helper_2() {
+        parse_prefix(context,
+                onPNAME_NS = {
+                    //println("onPNAME_NS(${context.getValue()})")
+                    val prefix = context.getValue()
+                    parse_ws_forced(context, {})
+                    parse_prefix2(context, onIRIREF = {
+                        //println("onIRIREF(${context.getValue()})")
+                        val s = context.getValue()
+                        prefixMap[prefix] = s.substring(1, s.length - 1)
+                    })
+                })
+    }
+
+    fun statement_helper_3() {
+        parse_subject_iri_or_ws(context,
+                onPN_LOCAL = {
+                    //println("onPN_LOCAL(${context.getValue()})")
+                    triple[0] = "<" + prefixMap[triple[0]]!! + context.getValue() + ">"
+                    parse_ws_forced(context, {})
+                },
+                onSKIP_WS_FORCED = {
+                    //println("onSKIP_WS_FORCED(${context.getValue()})")
+                    triple[0] = "<" + prefixMap[triple[0]]!! + ">"
+                })
+    }
+
     fun statement() {
         parse_ws(context, {})
         if (context.c == ParserContext.EOF) {
@@ -70,39 +106,19 @@ abstract class Turtle2Parser(input: MyInputStream) {
                 onBASE = {
                     //println("onBASE(${context.getValue()})")
                     parse_ws_forced(context, {})
-                    parse_base(context,
-                            onIRIREF = {
-                                //println("onIRIREF(${context.getValue()})")
-                                val s = context.getValue()
-                                prefixMap[":"] = s.substring(1, s.length - 1)
-                            })
+                    statement_helper_1()
                     state = Turtle2ParserState.STATEMENT
                 },
                 onPREFIX = {
                     //println("onPREFIX(${context.getValue()})")
                     parse_ws_forced(context, {})
-                    parse_prefix(context,
-                            onPNAME_NS = {
-                                //println("onPNAME_NS(${context.getValue()})")
-                                val prefix = context.getValue()
-                                parse_ws_forced(context, {})
-                                parse_prefix2(context, onIRIREF = {
-                                    //println("onIRIREF(${context.getValue()})")
-                                    val s = context.getValue()
-                                    prefixMap[prefix] = s.substring(1, s.length - 1)
-                                })
-                            })
+                    statement_helper_2()
                     state = Turtle2ParserState.STATEMENT
                 },
                 onBASE2 = {
                     //println("onBASE2(${context.getValue()})")
                     parse_ws_forced(context, {})
-                    parse_base(context,
-                            onIRIREF = {
-                                //println("onIRIREF(${context.getValue()})")
-                                val s = context.getValue()
-                                prefixMap[""] = s.substring(1, s.length - 1)
-                            })
+                    statement_helper_1()
                     parse_ws(context, {})
                     parse_dot(context, {})
                     state = Turtle2ParserState.STATEMENT
@@ -110,17 +126,7 @@ abstract class Turtle2Parser(input: MyInputStream) {
                 onPREFIX2 = {
                     //println("onPREFIX2(${context.getValue()})")
                     parse_ws_forced(context, {})
-                    parse_prefix(context,
-                            onPNAME_NS = {
-                                //println("onPNAME_NS(${context.getValue()})")
-                                val prefix = context.getValue()
-                                parse_ws_forced(context, {})
-                                parse_prefix2(context, onIRIREF = {
-                                    //println("onIRIREF(${context.getValue()})")
-                                    val s = context.getValue()
-                                    prefixMap[prefix] = s.substring(1, s.length - 1)
-                                })
-                            })
+                    statement_helper_2()
                     parse_ws(context, {})
                     parse_dot(context, {})
                     state = Turtle2ParserState.STATEMENT
@@ -134,23 +140,27 @@ abstract class Turtle2Parser(input: MyInputStream) {
                 onPNAME_NS = {
                     //println("onPNAME_NS(${context.getValue()})")
                     triple[0] = context.getValue()
-                    parse_subject_iri_or_ws(context,
-                            onPN_LOCAL = {
-                                //println("onPN_LOCAL(${context.getValue()})")
-                                triple[0] = "<" + prefixMap[triple[0]]!! + context.getValue() + ">"
-                                parse_ws_forced(context, {})
-                            },
-                            onSKIP_WS_FORCED = {
-                                //println("onSKIP_WS_FORCED(${context.getValue()})")
-                                triple[0] = "<" + prefixMap[triple[0]]!! + ">"
-                            })
+                    statement_helper_3()
                     state = Turtle2ParserState.PREDICATE
                 },
                 onBLANK_NODE_LABEL = {
-//println("onBLANK_NODE_LABEL(${context.getValue()})")
+                    //println("onBLANK_NODE_LABEL(${context.getValue()})")
                     triple[0] = context.getValue()
                     parse_ws_forced(context, {})
                     state = Turtle2ParserState.PREDICATE
+                })
+    }
+
+    fun predicate_helper_1() {
+        parse_predicate_iri_or_ws(context,
+                onPN_LOCAL = {
+                    //println("onPN_LOCAL(${context.getValue()})")
+                    triple[1] = "<" + prefixMap[triple[1]]!! + context.getValue() + ">"
+                    parse_ws_forced(context, {})
+                },
+                onSKIP_WS_FORCED = {
+                    //println("onSKIP_WS_FORCED(${context.getValue()})")
+                    triple[1] = "<" + prefixMap[triple[1]]!! + ">"
                 })
     }
 
@@ -169,16 +179,7 @@ abstract class Turtle2Parser(input: MyInputStream) {
                 onPNAME_NS = {
                     //println("onPNAME_NS(${context.getValue()})")
                     triple[1] = context.getValue()
-                    parse_predicate_iri_or_ws(context,
-                            onPN_LOCAL = {
-                                //println("onPN_LOCAL(${context.getValue()})")
-                                triple[1] = "<" + prefixMap[triple[1]]!! + context.getValue() + ">"
-                                parse_ws_forced(context, {})
-                            },
-                            onSKIP_WS_FORCED = {
-                                //println("onSKIP_WS_FORCED(${context.getValue()})")
-                                triple[1] = "<" + prefixMap[triple[1]]!! + ">"
-                            })
+                    predicate_helper_1()
                 })
         state = Turtle2ParserState.OBJECT
     }
@@ -302,6 +303,54 @@ abstract class Turtle2Parser(input: MyInputStream) {
                 })
     }
 
+    fun triple_end_or_object_string_helper_2() {
+        val prefix = context.getValue()
+        parse_triple_end_or_object_string_typed_iri(context,
+                onPN_LOCAL = {
+                    //println("onPN_LOCAL(${context.getValue()})")
+                    triple[2] += "<" + prefixMap[prefix]!! + context.getValue() + ">"
+                    parse_ws(context, {})
+                    state = Turtle2ParserState.TRIPLE_END
+                },
+                onSKIP_WS_FORCED = {
+                    //println("onSKIP_WS_FORCED(${context.getValue()})")
+                    triple[2] += "<" + prefixMap[prefix]!! + ">"
+                    state = Turtle2ParserState.TRIPLE_END
+                },
+                onPREDICATE_LIST1 = {
+                    //println("onPREDICATE_LIST1(${context.getValue()})")
+                    triple[2] += "<" + prefixMap[prefix]!! + ">"
+                    onTriple(triple)
+                    state = Turtle2ParserState.PREDICATE
+                },
+                onOBJECT_LIST1 = {
+                    //println("onOBJECT_LIST1(${context.getValue()})")
+                    triple[2] += "<" + prefixMap[prefix]!! + ">"
+                    onTriple(triple)
+                    state = Turtle2ParserState.OBJECT
+                },
+                onDOT = {
+                    //println("onDOT(${context.getValue()})")
+                    triple[2] += "<" + prefixMap[prefix]!! + ">"
+                    onTriple(triple)
+                    state = Turtle2ParserState.STATEMENT
+                })
+    }
+
+    fun triple_end_or_object_string_helper_1() {
+        parse_triple_end_or_object_string_typed(context,
+                onIRIREF = {
+                    //println("onIRIREF(${context.getValue()})")
+                    triple[2] += context.getValue()
+                    parse_ws(context, {})
+                    state = Turtle2ParserState.TRIPLE_END
+                },
+                onPNAME_NS = {
+                    //println("onPNAME_NS(${context.getValue()})")
+                    triple_end_or_object_string_helper_2()
+                })
+    }
+
     fun triple_end_or_object_string() {
         parse_triple_end_or_object_string(context,
                 onLANGTAG = {
@@ -313,47 +362,7 @@ abstract class Turtle2Parser(input: MyInputStream) {
                 onIRI1 = {
                     //println("onIRI1(${context.getValue()})")
                     triple[2] += context.getValue()
-                    parse_triple_end_or_object_string_typed(context,
-                            onIRIREF = {
-                                //println("onIRIREF(${context.getValue()})")
-                                triple[2] += context.getValue()
-                                parse_ws(context, {})
-                                state = Turtle2ParserState.TRIPLE_END
-                            },
-                            onPNAME_NS = {
-                                //println("onPNAME_NS(${context.getValue()})")
-                                val prefix = context.getValue()
-                                parse_triple_end_or_object_string_typed_iri(context,
-                                        onPN_LOCAL = {
-                                            //println("onPN_LOCAL(${context.getValue()})")
-                                            triple[2] += "<" + prefixMap[prefix]!! + context.getValue() + ">"
-                                            parse_ws(context, {})
-                                            state = Turtle2ParserState.TRIPLE_END
-                                        },
-                                        onSKIP_WS_FORCED = {
-                                            //println("onSKIP_WS_FORCED(${context.getValue()})")
-                                            triple[2] += "<" + prefixMap[prefix]!! + ">"
-                                            state = Turtle2ParserState.TRIPLE_END
-                                        },
-                                        onPREDICATE_LIST1 = {
-                                            //println("onPREDICATE_LIST1(${context.getValue()})")
-                                            triple[2] += "<" + prefixMap[prefix]!! + ">"
-                                            onTriple(triple)
-                                            state = Turtle2ParserState.PREDICATE
-                                        },
-                                        onOBJECT_LIST1 = {
-                                            //println("onOBJECT_LIST1(${context.getValue()})")
-                                            triple[2] += "<" + prefixMap[prefix]!! + ">"
-                                            onTriple(triple)
-                                            state = Turtle2ParserState.OBJECT
-                                        },
-                                        onDOT = {
-                                            //println("onDOT(${context.getValue()})")
-                                            triple[2] += "<" + prefixMap[prefix]!! + ">"
-                                            onTriple(triple)
-                                            state = Turtle2ParserState.STATEMENT
-                                        })
-                            })
+                    triple_end_or_object_string_helper_1()
                 },
                 onPREDICATE_LIST1 = {
                     //println("onPREDICATE_LIST1(${context.getValue()})")
@@ -369,8 +378,9 @@ abstract class Turtle2Parser(input: MyInputStream) {
                     //println("onDOT(${context.getValue()})")
                     onTriple(triple)
                     state = Turtle2ParserState.STATEMENT
-                }, onSKIP_WS_FORCED = {
-            state = Turtle2ParserState.TRIPLE_END
-        })
+                },
+                onSKIP_WS_FORCED = {
+                    state = Turtle2ParserState.TRIPLE_END
+                })
     }
 }
