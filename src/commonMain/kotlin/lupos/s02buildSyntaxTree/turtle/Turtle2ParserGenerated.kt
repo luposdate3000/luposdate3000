@@ -98,7 +98,7 @@ inline fun parse_ws(context:ParserContext,
 ){
  context.buffer.clear()
  error@while(true){
-  loop1@while(context.c!=ParserContext.EOF){
+  loop1@while(true){
    when(context.c){
     0x9,0xa,0xd,0x20->{
      context.append()
@@ -121,7 +121,7 @@ inline fun parse_ws_forced(context:ParserContext,
   when(context.c){
    0x9,0xa,0xd,0x20->{
     context.append()
-    loop3@while(context.c!=ParserContext.EOF){
+    loop3@while(true){
      when(context.c){
       0x9,0xa,0xd,0x20->{
        context.append()
@@ -312,7 +312,7 @@ inline fun parse_statement(context:ParserContext,
    }
    3->{
     context.append()
-    loop3@while(context.c!=ParserContext.EOF){
+    loop3@while(true){
      val localswitch4=parse_statement_helper_1(context.c)
      when(localswitch4){
       0->{
@@ -449,8 +449,8 @@ inline fun parse_statement(context:ParserContext,
    }
    4->{
     context.append()
-    loop3@while(context.c!=ParserContext.EOF){
-     loop4@while(context.c!=ParserContext.EOF){
+    loop3@while(true){
+     loop4@while(true){
       when(context.c){
        0x2e->{
         context.append()
@@ -496,8 +496,8 @@ inline fun parse_statement(context:ParserContext,
       when(localswitch5){
        0->{
         context.append()
-        loop7@while(context.c!=ParserContext.EOF){
-         loop8@while(context.c!=ParserContext.EOF){
+        loop7@while(true){
+         loop8@while(true){
           when(context.c){
            0x2e->{
             context.append()
@@ -601,7 +601,7 @@ inline fun parse_base(context:ParserContext,
   when(context.c){
    0x3c->{
     context.append()
-    loop3@while(context.c!=ParserContext.EOF){
+    loop3@while(true){
      val localswitch4=parse_base_helper_0(context.c)
      when(localswitch4){
       0->{
@@ -765,8 +765,8 @@ inline fun parse_prefix(context:ParserContext,
   when(localswitch1){
    0->{
     context.append()
-    loop3@while(context.c!=ParserContext.EOF){
-     loop4@while(context.c!=ParserContext.EOF){
+    loop3@while(true){
+     loop4@while(true){
       when(context.c){
        0x2e->{
         context.append()
@@ -843,7 +843,7 @@ inline fun parse_prefix2(context:ParserContext,
   when(context.c){
    0x3c->{
     context.append()
-    loop3@while(context.c!=ParserContext.EOF){
+    loop3@while(true){
      val localswitch4=parse_prefix2_helper_0(context.c)
      when(localswitch4){
       0->{
@@ -1014,7 +1014,7 @@ inline fun parse_predicate(context:ParserContext,
    }
    1->{
     context.append()
-    loop3@while(context.c!=ParserContext.EOF){
+    loop3@while(true){
      val localswitch4=parse_predicate_helper_1(context.c)
      when(localswitch4){
       0->{
@@ -1151,8 +1151,8 @@ inline fun parse_predicate(context:ParserContext,
    }
    2->{
     context.append()
-    loop3@while(context.c!=ParserContext.EOF){
-     loop4@while(context.c!=ParserContext.EOF){
+    loop3@while(true){
+     loop4@while(true){
       when(context.c){
        0x2e->{
         context.append()
@@ -1255,7 +1255,7 @@ inline fun parse_obj(context:ParserContext,
   when(localswitch1){
    0->{
     context.append()
-    loop3@while(context.c!=ParserContext.EOF){
+    loop3@while(true){
      val localswitch4=parse_obj_helper_1(context.c)
      when(localswitch4){
       0->{
@@ -1392,8 +1392,8 @@ inline fun parse_obj(context:ParserContext,
    }
    1->{
     context.append()
-    loop3@while(context.c!=ParserContext.EOF){
-     loop4@while(context.c!=ParserContext.EOF){
+    loop3@while(true){
+     loop4@while(true){
       when(context.c){
        0x2e->{
         context.append()
@@ -1439,8 +1439,8 @@ inline fun parse_obj(context:ParserContext,
       when(localswitch5){
        0->{
         context.append()
-        loop7@while(context.c!=ParserContext.EOF){
-         loop8@while(context.c!=ParserContext.EOF){
+        loop7@while(true){
+         loop8@while(true){
           when(context.c){
            0x2e->{
             context.append()
@@ -1480,7 +1480,7 @@ inline fun parse_obj(context:ParserContext,
     when(localswitch3){
      0->{
       context.append()
-      loop5@while(context.c!=ParserContext.EOF){
+      loop5@while(true){
        val localswitch6=parse_obj_helper_5(context.c)
        when(localswitch6){
         0->{
@@ -1624,7 +1624,7 @@ inline fun parse_obj(context:ParserContext,
       when(context.c){
        0x22,0x27,0x5c,0x62,0x66,0x6e,0x72,0x74->{
         context.append()
-        loop7@while(context.c!=ParserContext.EOF){
+        loop7@while(true){
          val localswitch8=parse_obj_helper_5(context.c)
          when(localswitch8){
           0->{
@@ -1777,7 +1777,7 @@ inline fun parse_obj(context:ParserContext,
               when(context.c){
                0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
                 context.append()
-                loop15@while(context.c!=ParserContext.EOF){
+                loop15@while(true){
                  val localswitch16=parse_obj_helper_5(context.c)
                  when(localswitch16){
                   0->{
@@ -1962,7 +1962,7 @@ inline fun parse_obj(context:ParserContext,
                       when(context.c){
                        0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
                         context.append()
-                        loop23@while(context.c!=ParserContext.EOF){
+                        loop23@while(true){
                          val localswitch24=parse_obj_helper_5(context.c)
                          when(localswitch24){
                           0->{
@@ -2151,7 +2151,7 @@ inline fun parse_obj(context:ParserContext,
       when(context.c){
        0x22->{
         context.append()
-        loop7@while(context.c!=ParserContext.EOF){
+        loop7@while(true){
          val localswitch8=parse_obj_helper_6(context.c)
          when(localswitch8){
           0->{
@@ -2561,7 +2561,7 @@ inline fun parse_obj(context:ParserContext,
     when(localswitch3){
      0->{
       context.append()
-      loop5@while(context.c!=ParserContext.EOF){
+      loop5@while(true){
        val localswitch6=parse_obj_helper_8(context.c)
        when(localswitch6){
         0->{
@@ -2705,7 +2705,7 @@ inline fun parse_obj(context:ParserContext,
       when(context.c){
        0x22,0x27,0x5c,0x62,0x66,0x6e,0x72,0x74->{
         context.append()
-        loop7@while(context.c!=ParserContext.EOF){
+        loop7@while(true){
          val localswitch8=parse_obj_helper_8(context.c)
          when(localswitch8){
           0->{
@@ -2858,7 +2858,7 @@ inline fun parse_obj(context:ParserContext,
               when(context.c){
                0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
                 context.append()
-                loop15@while(context.c!=ParserContext.EOF){
+                loop15@while(true){
                  val localswitch16=parse_obj_helper_8(context.c)
                  when(localswitch16){
                   0->{
@@ -3043,7 +3043,7 @@ inline fun parse_obj(context:ParserContext,
                       when(context.c){
                        0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
                         context.append()
-                        loop23@while(context.c!=ParserContext.EOF){
+                        loop23@while(true){
                          val localswitch24=parse_obj_helper_8(context.c)
                          when(localswitch24){
                           0->{
@@ -3232,7 +3232,7 @@ inline fun parse_obj(context:ParserContext,
       when(context.c){
        0x27->{
         context.append()
-        loop7@while(context.c!=ParserContext.EOF){
+        loop7@while(true){
          val localswitch8=parse_obj_helper_9(context.c)
          when(localswitch8){
           0->{
@@ -3638,7 +3638,7 @@ inline fun parse_obj(context:ParserContext,
    }
    6->{
     context.append()
-    loop3@while(context.c!=ParserContext.EOF){
+    loop3@while(true){
      when(context.c){
       0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39->{
        context.append()
@@ -3654,7 +3654,7 @@ inline fun parse_obj(context:ParserContext,
       when(context.c){
        0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39->{
         context.append()
-        loop7@while(context.c!=ParserContext.EOF){
+        loop7@while(true){
          when(context.c){
           0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39->{
            context.append()
@@ -3670,7 +3670,7 @@ inline fun parse_obj(context:ParserContext,
           when(context.c){
            0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39->{
             context.append()
-            loop11@while(context.c!=ParserContext.EOF){
+            loop11@while(true){
              when(context.c){
               0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39->{
                context.append()
@@ -3688,7 +3688,7 @@ inline fun parse_obj(context:ParserContext,
             when(context.c){
              0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39->{
               context.append()
-              loop13@while(context.c!=ParserContext.EOF){
+              loop13@while(true){
                when(context.c){
                 0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39->{
                  context.append()
@@ -3722,7 +3722,7 @@ inline fun parse_obj(context:ParserContext,
         when(context.c){
          0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39->{
           context.append()
-          loop9@while(context.c!=ParserContext.EOF){
+          loop9@while(true){
            when(context.c){
             0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39->{
              context.append()
@@ -3740,7 +3740,7 @@ inline fun parse_obj(context:ParserContext,
           when(context.c){
            0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39->{
             context.append()
-            loop11@while(context.c!=ParserContext.EOF){
+            loop11@while(true){
              when(context.c){
               0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39->{
                context.append()
@@ -3773,7 +3773,7 @@ inline fun parse_obj(context:ParserContext,
       when(context.c){
        0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39->{
         context.append()
-        loop7@while(context.c!=ParserContext.EOF){
+        loop7@while(true){
          when(context.c){
           0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39->{
            context.append()
@@ -3791,7 +3791,7 @@ inline fun parse_obj(context:ParserContext,
         when(context.c){
          0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39->{
           context.append()
-          loop9@while(context.c!=ParserContext.EOF){
+          loop9@while(true){
            when(context.c){
             0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39->{
              context.append()
@@ -3825,7 +3825,7 @@ inline fun parse_obj(context:ParserContext,
     when(context.c){
      0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39->{
       context.append()
-      loop5@while(context.c!=ParserContext.EOF){
+      loop5@while(true){
        when(context.c){
         0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39->{
          context.append()
@@ -3841,7 +3841,7 @@ inline fun parse_obj(context:ParserContext,
         when(context.c){
          0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39->{
           context.append()
-          loop9@while(context.c!=ParserContext.EOF){
+          loop9@while(true){
            when(context.c){
             0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39->{
              context.append()
@@ -3857,7 +3857,7 @@ inline fun parse_obj(context:ParserContext,
             when(context.c){
              0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39->{
               context.append()
-              loop13@while(context.c!=ParserContext.EOF){
+              loop13@while(true){
                when(context.c){
                 0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39->{
                  context.append()
@@ -3875,7 +3875,7 @@ inline fun parse_obj(context:ParserContext,
               when(context.c){
                0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39->{
                 context.append()
-                loop15@while(context.c!=ParserContext.EOF){
+                loop15@while(true){
                  when(context.c){
                   0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39->{
                    context.append()
@@ -3909,7 +3909,7 @@ inline fun parse_obj(context:ParserContext,
           when(context.c){
            0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39->{
             context.append()
-            loop11@while(context.c!=ParserContext.EOF){
+            loop11@while(true){
              when(context.c){
               0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39->{
                context.append()
@@ -3927,7 +3927,7 @@ inline fun parse_obj(context:ParserContext,
             when(context.c){
              0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39->{
               context.append()
-              loop13@while(context.c!=ParserContext.EOF){
+              loop13@while(true){
                when(context.c){
                 0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39->{
                  context.append()
@@ -3960,7 +3960,7 @@ inline fun parse_obj(context:ParserContext,
         when(context.c){
          0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39->{
           context.append()
-          loop9@while(context.c!=ParserContext.EOF){
+          loop9@while(true){
            when(context.c){
             0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39->{
              context.append()
@@ -3978,7 +3978,7 @@ inline fun parse_obj(context:ParserContext,
           when(context.c){
            0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39->{
             context.append()
-            loop11@while(context.c!=ParserContext.EOF){
+            loop11@while(true){
              when(context.c){
               0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39->{
                context.append()
@@ -4012,7 +4012,7 @@ inline fun parse_obj(context:ParserContext,
       when(context.c){
        0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39->{
         context.append()
-        loop7@while(context.c!=ParserContext.EOF){
+        loop7@while(true){
          when(context.c){
           0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39->{
            context.append()
@@ -4028,7 +4028,7 @@ inline fun parse_obj(context:ParserContext,
           when(context.c){
            0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39->{
             context.append()
-            loop11@while(context.c!=ParserContext.EOF){
+            loop11@while(true){
              when(context.c){
               0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39->{
                context.append()
@@ -4046,7 +4046,7 @@ inline fun parse_obj(context:ParserContext,
             when(context.c){
              0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39->{
               context.append()
-              loop13@while(context.c!=ParserContext.EOF){
+              loop13@while(true){
                when(context.c){
                 0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39->{
                  context.append()
@@ -4090,7 +4090,7 @@ inline fun parse_obj(context:ParserContext,
     when(context.c){
      0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39->{
       context.append()
-      loop5@while(context.c!=ParserContext.EOF){
+      loop5@while(true){
        when(context.c){
         0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39->{
          context.append()
@@ -4106,7 +4106,7 @@ inline fun parse_obj(context:ParserContext,
         when(context.c){
          0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39->{
           context.append()
-          loop9@while(context.c!=ParserContext.EOF){
+          loop9@while(true){
            when(context.c){
             0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39->{
              context.append()
@@ -4124,7 +4124,7 @@ inline fun parse_obj(context:ParserContext,
           when(context.c){
            0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39->{
             context.append()
-            loop11@while(context.c!=ParserContext.EOF){
+            loop11@while(true){
              when(context.c){
               0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39->{
                context.append()
@@ -4415,8 +4415,8 @@ inline fun parse_triple_end_or_object_iri(context:ParserContext,
   when(localswitch1){
    0->{
     context.append()
-    loop3@while(context.c!=ParserContext.EOF){
-     loop4@while(context.c!=ParserContext.EOF){
+    loop3@while(true){
+     loop4@while(true){
       when(context.c){
        0x2e->{
         context.append()
@@ -4480,8 +4480,8 @@ inline fun parse_triple_end_or_object_iri(context:ParserContext,
       when(context.c){
        0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
         context.append()
-        loop7@while(context.c!=ParserContext.EOF){
-         loop8@while(context.c!=ParserContext.EOF){
+        loop7@while(true){
+         loop8@while(true){
           when(context.c){
            0x2e->{
             context.append()
@@ -4552,8 +4552,8 @@ inline fun parse_triple_end_or_object_iri(context:ParserContext,
     when(context.c){
      0x21,0x23,0x24,0x25,0x26,0x27,0x28,0x29,0x2a,0x2b,0x2c,0x2d,0x2e,0x2f,0x3b,0x3d,0x3f,0x40,0x5f,0x7e->{
       context.append()
-      loop5@while(context.c!=ParserContext.EOF){
-       loop6@while(context.c!=ParserContext.EOF){
+      loop5@while(true){
+       loop6@while(true){
         when(context.c){
          0x2e->{
           context.append()
@@ -4631,7 +4631,7 @@ inline fun parse_triple_end_or_object_iri(context:ParserContext,
    }
    6->{
     context.append()
-    loop3@while(context.c!=ParserContext.EOF){
+    loop3@while(true){
      when(context.c){
       0x9,0xa,0xd,0x20->{
        context.append()
@@ -4699,7 +4699,7 @@ inline fun parse_triple_end_or_object_string(context:ParserContext,
     when(context.c){
      0x41,0x42,0x43,0x44,0x45,0x46,0x47,0x48,0x49,0x4a,0x4b,0x4c,0x4d,0x4e,0x4f,0x50,0x51,0x52,0x53,0x54,0x55,0x56,0x57,0x58,0x59,0x5a,0x61,0x62,0x63,0x64,0x65,0x66,0x67,0x68,0x69,0x6a,0x6b,0x6c,0x6d,0x6e,0x6f,0x70,0x71,0x72,0x73,0x74,0x75,0x76,0x77,0x78,0x79,0x7a->{
       context.append()
-      loop5@while(context.c!=ParserContext.EOF){
+      loop5@while(true){
        when(context.c){
         0x41,0x42,0x43,0x44,0x45,0x46,0x47,0x48,0x49,0x4a,0x4b,0x4c,0x4d,0x4e,0x4f,0x50,0x51,0x52,0x53,0x54,0x55,0x56,0x57,0x58,0x59,0x5a,0x61,0x62,0x63,0x64,0x65,0x66,0x67,0x68,0x69,0x6a,0x6b,0x6c,0x6d,0x6e,0x6f,0x70,0x71,0x72,0x73,0x74,0x75,0x76,0x77,0x78,0x79,0x7a->{
          context.append()
@@ -4709,14 +4709,14 @@ inline fun parse_triple_end_or_object_string(context:ParserContext,
         }
        }
       }
-      loop5@while(context.c!=ParserContext.EOF){
+      loop5@while(true){
        when(context.c){
         0x2d->{
          context.append()
          when(context.c){
           0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x47,0x48,0x49,0x4a,0x4b,0x4c,0x4d,0x4e,0x4f,0x50,0x51,0x52,0x53,0x54,0x55,0x56,0x57,0x58,0x59,0x5a,0x61,0x62,0x63,0x64,0x65,0x66,0x67,0x68,0x69,0x6a,0x6b,0x6c,0x6d,0x6e,0x6f,0x70,0x71,0x72,0x73,0x74,0x75,0x76,0x77,0x78,0x79,0x7a->{
            context.append()
-           loop10@while(context.c!=ParserContext.EOF){
+           loop10@while(true){
             when(context.c){
              0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x47,0x48,0x49,0x4a,0x4b,0x4c,0x4d,0x4e,0x4f,0x50,0x51,0x52,0x53,0x54,0x55,0x56,0x57,0x58,0x59,0x5a,0x61,0x62,0x63,0x64,0x65,0x66,0x67,0x68,0x69,0x6a,0x6b,0x6c,0x6d,0x6e,0x6f,0x70,0x71,0x72,0x73,0x74,0x75,0x76,0x77,0x78,0x79,0x7a->{
               context.append()
@@ -4776,7 +4776,7 @@ inline fun parse_triple_end_or_object_string(context:ParserContext,
    }
    0x9,0xa,0xd,0x20->{
     context.append()
-    loop3@while(context.c!=ParserContext.EOF){
+    loop3@while(true){
      when(context.c){
       0x9,0xa,0xd,0x20->{
        context.append()
@@ -4806,7 +4806,7 @@ inline fun parse_triple_end_or_object_string_typed(context:ParserContext,
   when(localswitch1){
    0->{
     context.append()
-    loop3@while(context.c!=ParserContext.EOF){
+    loop3@while(true){
      val localswitch4=parse_triple_end_or_object_string_typed_helper_1(context.c)
      when(localswitch4){
       0->{
@@ -4943,8 +4943,8 @@ inline fun parse_triple_end_or_object_string_typed(context:ParserContext,
    }
    1->{
     context.append()
-    loop3@while(context.c!=ParserContext.EOF){
-     loop4@while(context.c!=ParserContext.EOF){
+    loop3@while(true){
+     loop4@while(true){
       when(context.c){
        0x2e->{
         context.append()
@@ -5040,8 +5040,8 @@ inline fun parse_triple_end_or_object_string_typed_iri(context:ParserContext,
   when(localswitch1){
    0->{
     context.append()
-    loop3@while(context.c!=ParserContext.EOF){
-     loop4@while(context.c!=ParserContext.EOF){
+    loop3@while(true){
+     loop4@while(true){
       when(context.c){
        0x2e->{
         context.append()
@@ -5105,8 +5105,8 @@ inline fun parse_triple_end_or_object_string_typed_iri(context:ParserContext,
       when(context.c){
        0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
         context.append()
-        loop7@while(context.c!=ParserContext.EOF){
-         loop8@while(context.c!=ParserContext.EOF){
+        loop7@while(true){
+         loop8@while(true){
           when(context.c){
            0x2e->{
             context.append()
@@ -5177,8 +5177,8 @@ inline fun parse_triple_end_or_object_string_typed_iri(context:ParserContext,
     when(context.c){
      0x21,0x23,0x24,0x25,0x26,0x27,0x28,0x29,0x2a,0x2b,0x2c,0x2d,0x2e,0x2f,0x3b,0x3d,0x3f,0x40,0x5f,0x7e->{
       context.append()
-      loop5@while(context.c!=ParserContext.EOF){
-       loop6@while(context.c!=ParserContext.EOF){
+      loop5@while(true){
+       loop6@while(true){
         when(context.c){
          0x2e->{
           context.append()
@@ -5256,7 +5256,7 @@ inline fun parse_triple_end_or_object_string_typed_iri(context:ParserContext,
    }
    6->{
     context.append()
-    loop3@while(context.c!=ParserContext.EOF){
+    loop3@while(true){
      when(context.c){
       0x9,0xa,0xd,0x20->{
        context.append()
@@ -5318,8 +5318,8 @@ inline fun parse_subject_iri_or_ws(context:ParserContext,
   when(localswitch1){
    0->{
     context.append()
-    loop3@while(context.c!=ParserContext.EOF){
-     loop4@while(context.c!=ParserContext.EOF){
+    loop3@while(true){
+     loop4@while(true){
       when(context.c){
        0x2e->{
         context.append()
@@ -5383,8 +5383,8 @@ inline fun parse_subject_iri_or_ws(context:ParserContext,
       when(context.c){
        0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
         context.append()
-        loop7@while(context.c!=ParserContext.EOF){
-         loop8@while(context.c!=ParserContext.EOF){
+        loop7@while(true){
+         loop8@while(true){
           when(context.c){
            0x2e->{
             context.append()
@@ -5455,8 +5455,8 @@ inline fun parse_subject_iri_or_ws(context:ParserContext,
     when(context.c){
      0x21,0x23,0x24,0x25,0x26,0x27,0x28,0x29,0x2a,0x2b,0x2c,0x2d,0x2e,0x2f,0x3b,0x3d,0x3f,0x40,0x5f,0x7e->{
       context.append()
-      loop5@while(context.c!=ParserContext.EOF){
-       loop6@while(context.c!=ParserContext.EOF){
+      loop5@while(true){
+       loop6@while(true){
         when(context.c){
          0x2e->{
           context.append()
@@ -5519,7 +5519,7 @@ inline fun parse_subject_iri_or_ws(context:ParserContext,
    }
    3->{
     context.append()
-    loop3@while(context.c!=ParserContext.EOF){
+    loop3@while(true){
      when(context.c){
       0x9,0xa,0xd,0x20->{
        context.append()
@@ -5578,8 +5578,8 @@ inline fun parse_predicate_iri_or_ws(context:ParserContext,
   when(localswitch1){
    0->{
     context.append()
-    loop3@while(context.c!=ParserContext.EOF){
-     loop4@while(context.c!=ParserContext.EOF){
+    loop3@while(true){
+     loop4@while(true){
       when(context.c){
        0x2e->{
         context.append()
@@ -5643,8 +5643,8 @@ inline fun parse_predicate_iri_or_ws(context:ParserContext,
       when(context.c){
        0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46,0x61,0x62,0x63,0x64,0x65,0x66->{
         context.append()
-        loop7@while(context.c!=ParserContext.EOF){
-         loop8@while(context.c!=ParserContext.EOF){
+        loop7@while(true){
+         loop8@while(true){
           when(context.c){
            0x2e->{
             context.append()
@@ -5715,8 +5715,8 @@ inline fun parse_predicate_iri_or_ws(context:ParserContext,
     when(context.c){
      0x21,0x23,0x24,0x25,0x26,0x27,0x28,0x29,0x2a,0x2b,0x2c,0x2d,0x2e,0x2f,0x3b,0x3d,0x3f,0x40,0x5f,0x7e->{
       context.append()
-      loop5@while(context.c!=ParserContext.EOF){
-       loop6@while(context.c!=ParserContext.EOF){
+      loop5@while(true){
+       loop6@while(true){
         when(context.c){
          0x2e->{
           context.append()
@@ -5779,7 +5779,7 @@ inline fun parse_predicate_iri_or_ws(context:ParserContext,
    }
    3->{
     context.append()
-    loop3@while(context.c!=ParserContext.EOF){
+    loop3@while(true){
      when(context.c){
       0x9,0xa,0xd,0x20->{
        context.append()

@@ -462,7 +462,7 @@ helperfunctions[helperFunctionContentStr]=helperFunctionName
                             println(" ".repeat(indention) + rangesPreparedString!! + "->{")//xxx - a7
                             println(" ".repeat(indention + 1) + "context.append()")
                         }
-                        println(" ".repeat(indention + 1) + "loop$indention@while(context.c!=ParserContext.EOF){")
+                        println(" ".repeat(indention + 1) + "loop$indention@while(true){")
                         println(" ".repeat(indention + 2) + "when(context.c){")
                         println(" ".repeat(indention + 3) + c.charsToRanges() + "->{")
                         println(" ".repeat(indention + 4) + "context.append()")
@@ -497,7 +497,7 @@ helperfunctions[helperFunctionContentStr]=helperFunctionName
                                         println(" ".repeat(indention + 1) + "context.append()")
                                     }
                                     startEndMapElseBranch[identicalIdsMap[c.submodifierId]!!.first()] = "continue@loop$indention"
-                                    println(" ".repeat(indention + 1) + "loop$indention@while(context.c!=ParserContext.EOF){")
+                                    println(" ".repeat(indention + 1) + "loop$indention@while(true){")
                                     val tmp = c.deepCopy()
                                     tmp.modifier = CharGroupModifier.ONE
                                     tmp.myPrint(indention + 1, printmode, true, { "break@loop$indention" })
@@ -515,7 +515,7 @@ helperfunctions[helperFunctionContentStr]=helperFunctionName
                                     }
                                     startEndMapElseBranch[identicalIdsMap[c.submodifierId]!!.first()] = "flag$indention=true;continue@loop$indention"
                                     println(" ".repeat(indention + 1) + "var flag$indention=false")
-                                    println(" ".repeat(indention + 1) + "loop$indention@while(context.c!=ParserContext.EOF){")
+                                    println(" ".repeat(indention + 1) + "loop$indention@while(true){")
                                     val tmp = c.deepCopy()
                                     tmp.modifier = CharGroupModifier.ONE
                                     tmp.myPrint(indention + 1, printmode, true, { "break@loop$indention" })
