@@ -10,20 +10,35 @@ class ParserContext(@JvmField val input:MyInputStream){
   const val EOF=0x7fffffff.toInt()
  }
  @JvmField var c:Int=0
- @JvmField var buffer=StringBuilder()
  @JvmField var line=1
  @JvmField var column=0
-
+ @JvmField val outBuffer=StringBuilder()
  @JvmField val inBuf=ByteArray(8196)
  @JvmField var inBufPosition=0
  @JvmField var inBufSize=0
-
+ @JvmField var flagR_N=false
+ inline fun clear(){
+  outBuffer.clear()
+ }
+ inline fun getValue():String{
+  return outBuffer.toString()
+ }
+ fun append(){
+  if(c<=0xd7ff ||(c>=0xe000 && c<=0xffff)){
+   outBuffer.append(c.toChar())
+   next()
+  } else {
+   c-=0x100000
+   outBuffer.append((0xd800+((c shr 10)and 0x03ff)).toChar())
+   outBuffer.append((0xdc00+(c and 0x03ff)).toChar())
+   next()
+  }
+ }
  fun next(){
-  val tmp=(c=='\r'.toInt()) || (c=='\n'.toInt())
   if(inBufPosition>=inBufSize){
    if(c==EOF){
     throw ParserExceptionEOF()
-   }else{
+   } else {
     inBufSize=input.read(inBuf)
     inBufPosition=0
     if(inBufSize<=0){
@@ -37,15 +52,18 @@ class ParserContext(@JvmField val input:MyInputStream){
    //1byte
    c=t
    if((c=='\r'.toInt()) || (c=='\n'.toInt())){
-    if(!tmp){
+    if(!flagR_N){
+     flagR_N=true
      line++
      column=1
     }
    } else {
     column++
+    flagR_N=false
    }
   }else if((t and 0x20)==0){
    //2byte
+   flagR_N=false
    c=(t and 0x1f) shl 6
    if(inBufPosition>=inBufSize){
     inBufSize=input.read(inBuf)
@@ -59,6 +77,7 @@ class ParserContext(@JvmField val input:MyInputStream){
    column++
   }else if((t and 0x10)==0){
    //3byte
+   flagR_N=false
    c=(t and 0x0f) shl 12
    if(inBufPosition>=inBufSize){
     inBufSize=input.read(inBuf)
@@ -81,6 +100,7 @@ class ParserContext(@JvmField val input:MyInputStream){
    column++
   }else{
    //4byte
+   flagR_N=false
    c=(t and 0x07) shl 18
    if(inBufPosition>=inBufSize){
     inBufSize=input.read(inBuf)
@@ -112,19 +132,6 @@ class ParserContext(@JvmField val input:MyInputStream){
    column++
   }
  }
- fun append(){
-  if(c<=0xd7ff ||(c>=0xe000 && c<=0xffff)){
-   buffer.append(c.toChar())
-  }else{
-   c-=0x100000
-   buffer.append((0xd800+((c shr 10)and 0x03ff)).toChar())
-   buffer.append((0xdc00+(c and 0x03ff)).toChar())
-  }
-  next()
- }
- inline fun getValue():String{
-  return buffer.toString()
- }
  init{
   next()
  }
@@ -132,7 +139,7 @@ class ParserContext(@JvmField val input:MyInputStream){
 inline fun parse_dot(context:ParserContext,
  crossinline onDOT:()->Unit
 ){
- context.buffer.clear()
+ context.clear()
  error@while(true){
   val localswitch1=parse_dot_helper_0(context.c)
   when(localswitch1){
@@ -158,7 +165,7 @@ inline fun parse_dot_helper_0(c:Int):Int{
 inline fun parse_ws(context:ParserContext,
  crossinline onSKIP_WS:()->Unit
 ){
- context.buffer.clear()
+ context.clear()
  error@while(true){
   loop1@while(true){
    when(context.c){
@@ -178,7 +185,7 @@ inline fun parse_ws(context:ParserContext,
 inline fun parse_ws_forced(context:ParserContext,
  crossinline onSKIP_WS_FORCED:()->Unit
 ){
- context.buffer.clear()
+ context.clear()
  error@while(true){
   val localswitch1=parse_ws_forced_helper_0(context.c)
   when(localswitch1){
@@ -230,7 +237,7 @@ inline fun parse_statement(context:ParserContext,
  crossinline onPNAME_NS:()->Unit,
  crossinline onBLANK_NODE_LABEL:()->Unit
 ){
- context.buffer.clear()
+ context.clear()
  error@while(true){
   val localswitch1=parse_statement_helper_0(context.c)
   when(localswitch1){
@@ -1079,7 +1086,7 @@ fun parse_statement_helper_22(c:Int):Int{
 inline fun parse_base(context:ParserContext,
  crossinline onIRIREF:()->Unit
 ){
- context.buffer.clear()
+ context.clear()
  error@while(true){
   val localswitch1=parse_base_helper_0(context.c)
   when(localswitch1){
@@ -1329,7 +1336,7 @@ inline fun parse_base_helper_4(c:Int):Int{
 inline fun parse_prefix(context:ParserContext,
  crossinline onPNAME_NS:()->Unit
 ){
- context.buffer.clear()
+ context.clear()
  error@while(true){
   val localswitch1=parse_prefix_helper_0(context.c)
   when(localswitch1){
@@ -1533,7 +1540,7 @@ inline fun parse_prefix_helper_2(c:Int):Int{
 inline fun parse_prefix2(context:ParserContext,
  crossinline onIRIREF:()->Unit
 ){
- context.buffer.clear()
+ context.clear()
  error@while(true){
   val localswitch1=parse_prefix2_helper_0(context.c)
   when(localswitch1){
@@ -1785,7 +1792,7 @@ inline fun parse_predicate(context:ParserContext,
  crossinline onIRIREF:()->Unit,
  crossinline onPNAME_NS:()->Unit
 ){
- context.buffer.clear()
+ context.clear()
  error@while(true){
   val localswitch1=parse_predicate_helper_0(context.c)
   when(localswitch1){
@@ -2239,7 +2246,7 @@ inline fun parse_obj(context:ParserContext,
  crossinline onDOUBLE:()->Unit,
  crossinline onBOOLEAN:()->Unit
 ){
- context.buffer.clear()
+ context.clear()
  error@while(true){
   val localswitch1=parse_obj_helper_0(context.c)
   when(localswitch1){
@@ -6184,7 +6191,7 @@ inline fun parse_triple_end(context:ParserContext,
  crossinline onOBJECT_LIST1:()->Unit,
  crossinline onDOT:()->Unit
 ){
- context.buffer.clear()
+ context.clear()
  error@while(true){
   val localswitch1=parse_triple_end_helper_0(context.c)
   when(localswitch1){
@@ -6234,7 +6241,7 @@ inline fun parse_triple_end_or_object_iri(context:ParserContext,
  crossinline onDOT:()->Unit,
  crossinline onSKIP_WS_FORCED:()->Unit
 ){
- context.buffer.clear()
+ context.clear()
  error@while(true){
   val localswitch1=parse_triple_end_or_object_iri_helper_0(context.c)
   when(localswitch1){
@@ -6732,7 +6739,7 @@ inline fun parse_triple_end_or_object_string(context:ParserContext,
  crossinline onDOT:()->Unit,
  crossinline onSKIP_WS_FORCED:()->Unit
 ){
- context.buffer.clear()
+ context.clear()
  error@while(true){
   val localswitch1=parse_triple_end_or_object_string_helper_0(context.c)
   when(localswitch1){
@@ -6927,7 +6934,7 @@ inline fun parse_triple_end_or_object_string_typed(context:ParserContext,
  crossinline onIRIREF:()->Unit,
  crossinline onPNAME_NS:()->Unit
 ){
- context.buffer.clear()
+ context.clear()
  error@while(true){
   val localswitch1=parse_triple_end_or_object_string_typed_helper_0(context.c)
   when(localswitch1){
@@ -7368,7 +7375,7 @@ inline fun parse_triple_end_or_object_string_typed_iri(context:ParserContext,
  crossinline onDOT:()->Unit,
  crossinline onSKIP_WS_FORCED:()->Unit
 ){
- context.buffer.clear()
+ context.clear()
  error@while(true){
   val localswitch1=parse_triple_end_or_object_string_typed_iri_helper_0(context.c)
   when(localswitch1){
@@ -7862,7 +7869,7 @@ inline fun parse_subject_iri_or_ws(context:ParserContext,
  crossinline onPN_LOCAL:()->Unit,
  crossinline onSKIP_WS_FORCED:()->Unit
 ){
- context.buffer.clear()
+ context.clear()
  error@while(true){
   val localswitch1=parse_subject_iri_or_ws_helper_0(context.c)
   when(localswitch1){
@@ -8329,7 +8336,7 @@ inline fun parse_predicate_iri_or_ws(context:ParserContext,
  crossinline onPN_LOCAL:()->Unit,
  crossinline onSKIP_WS_FORCED:()->Unit
 ){
- context.buffer.clear()
+ context.clear()
  error@while(true){
   val localswitch1=parse_predicate_iri_or_ws_helper_0(context.c)
   when(localswitch1){
