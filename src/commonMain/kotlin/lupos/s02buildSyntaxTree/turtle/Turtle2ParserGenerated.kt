@@ -61,7 +61,7 @@ class ParserContext(@JvmField val input:MyInputStream){
     column++
     flagR_N=false
    }
-  }else if((t and 0x20)==0){
+  } else if((t and 0x20)==0){
    //2byte
    flagR_N=false
    c=(t and 0x1f) shl 6
@@ -75,7 +75,7 @@ class ParserContext(@JvmField val input:MyInputStream){
    }
    c=c or (inBuf[inBufPosition++].toInt() and 0x3f)
    column++
-  }else if((t and 0x10)==0){
+  } else if((t and 0x10)==0){
    //3byte
    flagR_N=false
    c=(t and 0x0f) shl 12
@@ -87,7 +87,7 @@ class ParserContext(@JvmField val input:MyInputStream){
      return
     }
    }
-   c=c or (inBuf[inBufPosition++].toInt() and 0x3f) shl 6
+   c=c or ((inBuf[inBufPosition++].toInt() and 0x3f) shl 6)
    if(inBufPosition>=inBufSize){
     inBufSize=input.read(inBuf)
     inBufPosition=0
@@ -98,7 +98,7 @@ class ParserContext(@JvmField val input:MyInputStream){
    }
    c=c or (inBuf[inBufPosition++].toInt() and 0x3f)
    column++
-  }else{
+  } else {
    //4byte
    flagR_N=false
    c=(t and 0x07) shl 18
@@ -110,7 +110,7 @@ class ParserContext(@JvmField val input:MyInputStream){
      return
     }
    }
-   c=c or (inBuf[inBufPosition++].toInt() and 0x3f) shl 12
+   c=c or ((inBuf[inBufPosition++].toInt() and 0x3f) shl 12)
    if(inBufPosition>=inBufSize){
     inBufSize=input.read(inBuf)
     inBufPosition=0
@@ -119,7 +119,7 @@ class ParserContext(@JvmField val input:MyInputStream){
      return
     }
    }
-   c=c or (inBuf[inBufPosition++].toInt() and 0x3f) shl 6
+   c=c or ((inBuf[inBufPosition++].toInt() and 0x3f) shl 6)
    if(inBufPosition>=inBufSize){
     inBufSize=input.read(inBuf)
     inBufPosition=0
@@ -735,7 +735,7 @@ fun parse_statement_helper_0(c:Int):Int{
   return 4
  } else if(c<0x10000){
   return 7
- } else if(c<=0x3fffff){
+ } else if(c<=0x1fffff){
   return 4
  } else {
   return 7
@@ -887,7 +887,7 @@ fun parse_statement_helper_16(c:Int):Int{
   return 0
  } else if(c<0x7e){
   return 2
- } else if(c<=0x3fffff){
+ } else if(c<=0x1fffff){
   return 0
  } else {
   return 2
@@ -1001,7 +1001,7 @@ fun parse_statement_helper_20(c:Int):Int{
   return 0
  } else if(c<0x10000){
   return 1
- } else if(c<=0x3fffff){
+ } else if(c<=0x1fffff){
   return 0
  } else {
   return 1
@@ -1077,7 +1077,7 @@ fun parse_statement_helper_22(c:Int):Int{
   return 0
  } else if(c<0x10000){
   return 1
- } else if(c<=0x3fffff){
+ } else if(c<=0x1fffff){
   return 0
  } else {
   return 1
@@ -1290,7 +1290,7 @@ fun parse_base_helper_1(c:Int):Int{
   return 0
  } else if(c<0x7e){
   return 2
- } else if(c<=0x3fffff){
+ } else if(c<=0x1fffff){
   return 0
  } else {
   return 2
@@ -1447,7 +1447,7 @@ fun parse_prefix_helper_0(c:Int):Int{
   return 0
  } else if(c<0x10000){
   return 2
- } else if(c<=0x3fffff){
+ } else if(c<=0x1fffff){
   return 0
  } else {
   return 2
@@ -1524,7 +1524,7 @@ fun parse_prefix_helper_1(c:Int):Int{
   return 0
  } else if(c<0x10000){
   return 1
- } else if(c<=0x3fffff){
+ } else if(c<=0x1fffff){
   return 0
  } else {
   return 1
@@ -1744,7 +1744,7 @@ fun parse_prefix2_helper_1(c:Int):Int{
   return 0
  } else if(c<0x7e){
   return 2
- } else if(c<=0x3fffff){
+ } else if(c<=0x1fffff){
   return 0
  } else {
   return 2
@@ -2065,7 +2065,7 @@ fun parse_predicate_helper_0(c:Int):Int{
   return 2
  } else if(c<0x10000){
   return 4
- } else if(c<=0x3fffff){
+ } else if(c<=0x1fffff){
   return 2
  } else {
   return 4
@@ -2106,7 +2106,7 @@ fun parse_predicate_helper_1(c:Int):Int{
   return 0
  } else if(c<0x7e){
   return 2
- } else if(c<=0x3fffff){
+ } else if(c<=0x1fffff){
   return 0
  } else {
   return 2
@@ -2220,7 +2220,7 @@ fun parse_predicate_helper_5(c:Int):Int{
   return 0
  } else if(c<0x10000){
   return 1
- } else if(c<=0x3fffff){
+ } else if(c<=0x1fffff){
   return 0
  } else {
   return 1
@@ -5593,7 +5593,7 @@ fun parse_obj_helper_0(c:Int):Int{
   return 1
  } else if(c<0x10000){
   return 10
- } else if(c<=0x3fffff){
+ } else if(c<=0x1fffff){
   return 1
  } else {
   return 10
@@ -5634,7 +5634,7 @@ fun parse_obj_helper_1(c:Int):Int{
   return 0
  } else if(c<0x7e){
   return 2
- } else if(c<=0x3fffff){
+ } else if(c<=0x1fffff){
   return 0
  } else {
   return 2
@@ -5748,7 +5748,7 @@ fun parse_obj_helper_5(c:Int):Int{
   return 0
  } else if(c<0x10000){
   return 1
- } else if(c<=0x3fffff){
+ } else if(c<=0x1fffff){
   return 0
  } else {
   return 1
@@ -5824,7 +5824,7 @@ fun parse_obj_helper_7(c:Int):Int{
   return 0
  } else if(c<0x10000){
   return 1
- } else if(c<=0x3fffff){
+ } else if(c<=0x1fffff){
   return 0
  } else {
   return 1
@@ -5855,7 +5855,7 @@ fun parse_obj_helper_8(c:Int):Int{
   return 1
  } else if(c<0x5d){
   return 3
- } else if(c<=0x3fffff){
+ } else if(c<=0x1fffff){
   return 0
  } else {
   return 3
@@ -5882,7 +5882,7 @@ fun parse_obj_helper_9(c:Int):Int{
   return 1
  } else if(c<0x5d){
   return 2
- } else if(c<=0x3fffff){
+ } else if(c<=0x1fffff){
   return 0
  } else {
   return 2
@@ -5957,7 +5957,7 @@ fun parse_obj_helper_12(c:Int):Int{
   return 1
  } else if(c<0x5d){
   return 3
- } else if(c<=0x3fffff){
+ } else if(c<=0x1fffff){
   return 0
  } else {
   return 3
@@ -5988,7 +5988,7 @@ fun parse_obj_helper_13(c:Int):Int{
   return 1
  } else if(c<0x5d){
   return 3
- } else if(c<=0x3fffff){
+ } else if(c<=0x1fffff){
   return 0
  } else {
   return 3
@@ -6015,7 +6015,7 @@ fun parse_obj_helper_14(c:Int):Int{
   return 1
  } else if(c<0x5d){
   return 2
- } else if(c<=0x3fffff){
+ } else if(c<=0x1fffff){
   return 0
  } else {
   return 2
@@ -6045,7 +6045,7 @@ fun parse_obj_helper_16(c:Int):Int{
   return 1
  } else if(c<0x5d){
   return 3
- } else if(c<=0x3fffff){
+ } else if(c<=0x1fffff){
   return 0
  } else {
   return 3
@@ -6590,7 +6590,7 @@ fun parse_triple_end_or_object_iri_helper_0(c:Int):Int{
   return 0
  } else if(c<0x10000){
   return 7
- } else if(c<=0x3fffff){
+ } else if(c<=0x1fffff){
   return 0
  } else {
   return 7
@@ -6675,7 +6675,7 @@ fun parse_triple_end_or_object_iri_helper_1(c:Int):Int{
   return 0
  } else if(c<0x10000){
   return 3
- } else if(c<=0x3fffff){
+ } else if(c<=0x1fffff){
   return 0
  } else {
   return 3
@@ -7200,7 +7200,7 @@ fun parse_triple_end_or_object_string_typed_helper_0(c:Int):Int{
   return 1
  } else if(c<0x10000){
   return 3
- } else if(c<=0x3fffff){
+ } else if(c<=0x1fffff){
   return 1
  } else {
   return 3
@@ -7241,7 +7241,7 @@ fun parse_triple_end_or_object_string_typed_helper_1(c:Int):Int{
   return 0
  } else if(c<0x7e){
   return 2
- } else if(c<=0x3fffff){
+ } else if(c<=0x1fffff){
   return 0
  } else {
   return 2
@@ -7355,7 +7355,7 @@ fun parse_triple_end_or_object_string_typed_helper_5(c:Int):Int{
   return 0
  } else if(c<0x10000){
   return 1
- } else if(c<=0x3fffff){
+ } else if(c<=0x1fffff){
   return 0
  } else {
   return 1
@@ -7724,7 +7724,7 @@ fun parse_triple_end_or_object_string_typed_iri_helper_0(c:Int):Int{
   return 0
  } else if(c<0x10000){
   return 7
- } else if(c<=0x3fffff){
+ } else if(c<=0x1fffff){
   return 0
  } else {
   return 7
@@ -7809,7 +7809,7 @@ fun parse_triple_end_or_object_string_typed_iri_helper_1(c:Int):Int{
   return 0
  } else if(c<0x10000){
   return 3
- } else if(c<=0x3fffff){
+ } else if(c<=0x1fffff){
   return 0
  } else {
   return 3
@@ -8191,7 +8191,7 @@ fun parse_subject_iri_or_ws_helper_0(c:Int):Int{
   return 0
  } else if(c<0x10000){
   return 4
- } else if(c<=0x3fffff){
+ } else if(c<=0x1fffff){
   return 0
  } else {
   return 4
@@ -8276,7 +8276,7 @@ fun parse_subject_iri_or_ws_helper_1(c:Int):Int{
   return 0
  } else if(c<0x10000){
   return 3
- } else if(c<=0x3fffff){
+ } else if(c<=0x1fffff){
   return 0
  } else {
   return 3
@@ -8658,7 +8658,7 @@ fun parse_predicate_iri_or_ws_helper_0(c:Int):Int{
   return 0
  } else if(c<0x10000){
   return 4
- } else if(c<=0x3fffff){
+ } else if(c<=0x1fffff){
   return 0
  } else {
   return 4
@@ -8743,7 +8743,7 @@ fun parse_predicate_iri_or_ws_helper_1(c:Int):Int{
   return 0
  } else if(c<0x10000){
   return 3
- } else if(c<=0x3fffff){
+ } else if(c<=0x1fffff){
   return 0
  } else {
   return 3

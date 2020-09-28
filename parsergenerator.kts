@@ -1002,7 +1002,7 @@ fun parseRegex(str: String, tail: CharGroup): CharGroup {
                 }
                 if (negativeMode) {
                     var t = mutableListOf<MyPair>()
-                    t.add(MyPair(0x0, 0x3fffff))
+                    t.add(MyPair(0x0, 0x1fffff))
                     var change = true
                     while (change) {
                         change = false
@@ -1218,7 +1218,7 @@ var allTokens = mapOf(
         "HEX" to "([0-9] | [A-F] | [a-f])",
         "PERCENT" to "'%' HEX HEX",
         "PLX" to "(PERCENT | PN_LOCAL_ESC)",
-        "PN_CHARS_BASE" to "([A-Z] | [a-z] | [#x00C0-#x00D6] | [#x00D8-#x00F6] | [#x00F8-#x02FF] | [#x0370-#x037D] | [#x037F-#x1FFF] | [#x200C-#x200D] | [#x2070-#x218F] | [#x2C00-#x2FEF] | [#x3001-#xD7FF] | [#xF900-#xFDCF] | [#xFDF0-#xFFFD] | [#x10000-#x3FFFFF])",
+        "PN_CHARS_BASE" to "([A-Z] | [a-z] | [#x00C0-#x00D6] | [#x00D8-#x00F6] | [#x00F8-#x02FF] | [#x0370-#x037D] | [#x037F-#x1FFF] | [#x200C-#x200D] | [#x2070-#x218F] | [#x2C00-#x2FEF] | [#x3001-#xD7FF] | [#xF900-#xFDCF] | [#xFDF0-#xFFFD] | [#x10000-#x1fffff])",
         "PN_CHARS_U" to "(PN_CHARS_BASE | '_')",
         "PN_PREFIX" to "PN_CHARS_BASE ([.]* PN_CHARS)*",
         "UCHAR" to "(('\\\\') 'u' HEX HEX HEX HEX | ('\\\\') 'U' HEX HEX HEX HEX HEX HEX HEX HEX)",
@@ -1344,7 +1344,7 @@ if (args.size == 1 && args[0] == "PARSER_CONTEXT") {
     println("     return")
     println("    }")
     println("   }")
-    println("   c=c or (inBuf[inBufPosition++].toInt() and 0x3f) shl 6")
+    println("   c=c or ((inBuf[inBufPosition++].toInt() and 0x3f) shl 6)")
     println("   if(inBufPosition>=inBufSize){")
     println("    inBufSize=input.read(inBuf)")
     println("    inBufPosition=0")
@@ -1367,7 +1367,7 @@ if (args.size == 1 && args[0] == "PARSER_CONTEXT") {
     println("     return")
     println("    }")
     println("   }")
-    println("   c=c or (inBuf[inBufPosition++].toInt() and 0x3f) shl 12")
+    println("   c=c or ((inBuf[inBufPosition++].toInt() and 0x3f) shl 12)")
     println("   if(inBufPosition>=inBufSize){")
     println("    inBufSize=input.read(inBuf)")
     println("    inBufPosition=0")
@@ -1376,7 +1376,7 @@ if (args.size == 1 && args[0] == "PARSER_CONTEXT") {
     println("     return")
     println("    }")
     println("   }")
-    println("   c=c or (inBuf[inBufPosition++].toInt() and 0x3f) shl 6")
+    println("   c=c or ((inBuf[inBufPosition++].toInt() and 0x3f) shl 6)")
     println("   if(inBufPosition>=inBufSize){")
     println("    inBufSize=input.read(inBuf)")
     println("    inBufPosition=0")

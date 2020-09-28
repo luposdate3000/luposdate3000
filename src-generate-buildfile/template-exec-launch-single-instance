@@ -3,7 +3,7 @@ Platform->jvm
 Launch->Endpoint
 Sanity->Off
 Parallel->Threads
-Dictionary->Small
+Dictionary->MultiMap
 TripleStore->BPlusTreePartition
 Endpoint->JavaNet
 Jena->Off
