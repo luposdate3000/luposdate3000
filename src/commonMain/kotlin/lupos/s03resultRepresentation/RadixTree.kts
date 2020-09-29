@@ -6,9 +6,9 @@ class RadixTree {
         const val null_ptr = 0
         const val data_off = 16
     }
-
+var debugMap=mutableMapOf<String,Int>()
     var next_key = null_key + 1
-    var pages = Array<ByteArray>(1024) { ByteArray(1024) }
+    var pages = Array<ByteArray>(2048) { ByteArray(1024) }
     var pagesCounter = 1
     var rootNode = pages[0]
     var rootNodeOffset = 0
@@ -77,7 +77,7 @@ class RadixTree {
 
     fun shiftLeft(inBuffer: ByteArray, outBuffer: ByteArray, inBufferOffset: Int, inBufferLength: Int) {
         var offIn = inBufferOffset shr 3
-        val lenIn = (inBufferOffset + inBufferLength) shr 3
+        val lenIn = (inBufferOffset + inBufferLength+0x7) shr 3
         var offOut = 0
         var toShift = inBufferOffset and 0x7
         when (toShift) {
@@ -164,13 +164,13 @@ class RadixTree {
         }
     }
 
-    fun createChild(data: ByteArray, len: Int, key: Int): Int {
+    fun createChild(data: ByteArray, len: Int, key: Int,ptrA:Int=null_ptr,ptrB:Int=null_ptr): Int {
         var nodePtr = pagesCounter++
         var node = pages[nodePtr]
         writeHeader(node, 0, 0x1)
         writeLen(node, 0, len)
-        writePtrA(node, 0, null_ptr)
-        writePtrB(node, 0, null_ptr)
+        writePtrA(node, 0, ptrA)
+        writePtrB(node, 0, ptrB)
         writeKey(node, 0, key)
         val b = (len + 0x7) shr 3
         for (i in 0 until b) {
@@ -178,8 +178,12 @@ class RadixTree {
         }
         return nodePtr shl 9
     }
+fun print(){
+debugMap.clear()
+print(0,"")
+}
 
-    fun print(pagePtr: Int = 0, prefix: String = "") {
+    fun print(pagePtr: Int, prefix: String) {
         val currentPage = pages[pagePtr shr 9]
         val currentPageOffset = (pagePtr and 0x1ff) shl 4
         val len = readLen(currentPage, currentPageOffset)
@@ -188,15 +192,23 @@ class RadixTree {
         for (i in 0 until x) {
             s += (currentPage[currentPageOffset + data_off + i].toInt() and 0xff).toString(2).padStart(8, '0')
         }
-	s=s.substring(0,len)
-        println(prefix + s + " :: " + readKey(currentPage, currentPageOffset) + " = " + pagePtr)
+        s = s.substring(0, len)
+val key=readKey(currentPage, currentPageOffset)
+val value=prefix + s
+if(key!=null_key){
+if(debugMap[value]!=null){
+throw Exception("write twice ${value} ${debugMap[value]} $key")
+}
+debugMap[value]=key
+}
+        println(value + " :: " + key + " = " + pagePtr)
         var ptr = readPtrA(currentPage, currentPageOffset)
         if (ptr != null_ptr) {
-            print(ptr, prefix + s + "0")
+            print(ptr, value + "0")
         }
         ptr = readPtrB(currentPage, currentPageOffset)
         if (ptr != null_ptr) {
-            print(ptr, prefix + s + "1")
+            print(ptr, value + "1")
         }
     }
 
@@ -265,29 +277,32 @@ class RadixTree {
                 data = data2
             } else {
                 val significantByte = common shr 3
-                val significantBitNumber = ((8 - (common and 0x7)) and 0x7)
+                val significantBitNumber = ((15 - (common and 0x7)) and 0x7)
                 val significantBit = (data[significantByte].toInt() shr significantBitNumber) and 0x1
+println("significantBit $significantBit $significantByte $significantBitNumber $common")
                 shiftLeft(data, data1, common + 1, inLen)
                 inLen -= common
                 var currentKey = readKey(currentPage, currentPageOffset)
                 writeKey(currentPage, currentPageOffset, null_key)
                 var newKey = next_key++
-                val newPage = createChild(data1, inLen, newKey)
-                shiftLeft(currentPage, data1, ((currentPageOffset + data_off) shl 3) + len - common, len)
-                val splitChildLen = len - common
+                val newPage = createChild(data1, inLen - 1, newKey)
+                shiftLeft(currentPage, data1, ((currentPageOffset + data_off) shl 3) + common + 1, len)
+                val splitChildLen = len - common - 1
                 println("splitChildLen $splitChildLen")
-                val splitChildPage = createChild(data1, splitChildLen, currentKey)
-                    writeLen(currentPage, currentPageOffset, common)
-val off=currentPageOffset+data_off+(common shr 3)
-when(common%8){
-1->currentPage[off]=(currentPage[off].toInt() and 0x80).toByte()
-2->currentPage[off]=(currentPage[off].toInt() and 0xc0).toByte()
-3->currentPage[off]=(currentPage[off].toInt() and 0xe0).toByte()
-4->currentPage[off]=(currentPage[off].toInt() and 0xf0).toByte()
-5->currentPage[off]=(currentPage[off].toInt() and 0xf8).toByte()
-6->currentPage[off]=(currentPage[off].toInt() and 0xfc).toByte()
-7->currentPage[off]=(currentPage[off].toInt() and 0xfe).toByte()
-}
+val ptrA=readPtrA(currentPage, currentPageOffset)
+val ptrB=readPtrB(currentPage, currentPageOffset)
+                val splitChildPage = createChild(data1, splitChildLen, currentKey,ptrA,ptrB)
+                writeLen(currentPage, currentPageOffset, common)
+                val off = currentPageOffset + data_off + (common shr 3)
+                when (common % 8) {
+                    1 -> currentPage[off] = (currentPage[off].toInt() and 0x80).toByte()
+                    2 -> currentPage[off] = (currentPage[off].toInt() and 0xc0).toByte()
+                    3 -> currentPage[off] = (currentPage[off].toInt() and 0xe0).toByte()
+                    4 -> currentPage[off] = (currentPage[off].toInt() and 0xf0).toByte()
+                    5 -> currentPage[off] = (currentPage[off].toInt() and 0xf8).toByte()
+                    6 -> currentPage[off] = (currentPage[off].toInt() and 0xfc).toByte()
+                    7 -> currentPage[off] = (currentPage[off].toInt() and 0xfe).toByte()
+                }
                 if (significantBit == 0) {
                     writePtrA(currentPage, currentPageOffset, newPage)
                     writePtrB(currentPage, currentPageOffset, splitChildPage)
@@ -366,16 +381,30 @@ val data = ipsum.split(" ")
 
 tree.print()
 var i = 0
+val insertMap=mutableMapOf<String,Int>()
 for (s in data) {
     println("-----------")
-    if (i > 1) {
+    if (i > 10) {
         break
     }
     val arr = stringToIntArray(s)
     val key = tree.insertUTF32(arr, arr.size)
     val stream = convertToUTF8BitStream(arr)
     println("inserting " + stream + " -> " + key)
+insertMap[stream]=key
     println("printing")
     tree.print()
+
+println(insertMap)
+println(tree.debugMap)
+if(insertMap.size!=tree.debugMap.size){
+throw Exception("size ${insertMap.size} ${tree.debugMap}")
+}
+for((k,v) in insertMap){
+val v2=tree.debugMap[k]
+if(v!=v2){
+throw Exception("value $k $v $v2")
+}
+}
     i++
 }
