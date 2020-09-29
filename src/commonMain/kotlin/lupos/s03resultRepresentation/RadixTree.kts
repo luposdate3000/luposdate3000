@@ -143,7 +143,6 @@ class RadixTree {
     }
 
     fun equalBits(dataA: ByteArray, dataB: ByteArray, offsetA: Int, offsetB: Int, len: Int): Int {
-        println("calculating equalBits $offsetA $offsetB $len")
         val lenBytes = (len + 0x7) shr 3
         var b = 0
         while (b < lenBytes) {
@@ -224,7 +223,6 @@ class RadixTree {
     }
 
     fun insertUTF32(inData: IntArray, inDataLength: Int): Int {
-//bytes->
         var pageBuffer = ByteArray(rootNode.size)
         var data = ByteArray(0)
         var data1 = ByteArray(0)
@@ -233,8 +231,7 @@ class RadixTree {
             data = ByteArray(inDataLength shl 2)
             data1 = ByteArray(inDataLength shl 2)
         }
-        var inLen = convertUTF32ToUTF8(inData, inDataLength, data) shl 3 //bit
-//bit->
+        var inLen = convertUTF32ToUTF8(inData, inDataLength, data) shl 3
         var currentPage = rootNode
         var currentPageOffset = rootNodeOffset
         while (true) {
@@ -245,7 +242,6 @@ class RadixTree {
             } else {
                 common = equalBits(currentPage, data, currentPageOffset + data_off, 0, inLen)
             }
-            println("common $common $len $inLen")
             if (common == inLen) {
                 if (common == len) {
                     val k = readKey(currentPage, currentPageOffset)
@@ -264,12 +260,9 @@ class RadixTree {
                     val significantByte = (common) shr 3
                     val significantBitNumber = ((15 - ((common) and 0x7)) and 0x7)
                     val significantBit = (currentPage[currentPageOffset + data_off + significantByte].toInt() shr significantBitNumber) and 0x1
-                    println("significantBit $significantBit $significantByte $significantBitNumber $common")
-common+=1
+                    common += 1
                     val splitChildLen = len - common
-//common+=1
                     shiftLeft(currentPage, pageBuffer, ((currentPageOffset + data_off) shl 3) + common, splitChildLen)
-                    println("splitChildLen $splitChildLen")
                     val ptrA = readPtrA(currentPage, currentPageOffset)
                     val ptrB = readPtrB(currentPage, currentPageOffset)
                     val splitChildPage = createChild(pageBuffer, splitChildLen, currentKey, ptrA, ptrB)
@@ -285,9 +278,9 @@ common+=1
                     }
                     if (significantBit == 0) {
                         writePtrA(currentPage, currentPageOffset, splitChildPage)
-		writePtrB(currentPage, currentPageOffset,null_ptr)
+                        writePtrB(currentPage, currentPageOffset, null_ptr)
                     } else {
-		writePtrA(currentPage, currentPageOffset,null_ptr)
+                        writePtrA(currentPage, currentPageOffset, null_ptr)
                         writePtrB(currentPage, currentPageOffset, splitChildPage)
                     }
                     return newKey
@@ -297,7 +290,6 @@ common+=1
                 val significantByte = common shr 3
                 val significantBitNumber = ((15 - (common and 0x7)) and 0x7)
                 val significantBit = (data[significantByte].toInt() shr significantBitNumber) and 0x1
-                println("significantBit $significantBit $significantByte $significantBitNumber")
                 common += 1
                 shiftLeft(data, data1, common, inLen)
                 inLen -= common
@@ -329,7 +321,6 @@ common+=1
                 val significantByte = common shr 3
                 val significantBitNumber = ((15 - (common and 0x7)) and 0x7)
                 val significantBit = (data[significantByte].toInt() shr significantBitNumber) and 0x1
-                println("significantBit $significantBit $significantByte $significantBitNumber $common")
                 shiftLeft(data, data1, common + 1, inLen)
                 inLen -= common
                 var currentKey = readKey(currentPage, currentPageOffset)
@@ -338,7 +329,6 @@ common+=1
                 val newPage = createChild(data1, inLen - 1, newKey)
                 shiftLeft(currentPage, pageBuffer, ((currentPageOffset + data_off) shl 3) + common + 1, len)
                 val splitChildLen = len - common - 1
-                println("splitChildLen $splitChildLen")
                 val ptrA = readPtrA(currentPage, currentPageOffset)
                 val ptrB = readPtrB(currentPage, currentPageOffset)
                 val splitChildPage = createChild(pageBuffer, splitChildLen, currentKey, ptrA, ptrB)
@@ -429,35 +419,33 @@ tree.print()
 var i = 0
 val insertMap = mutableMapOf<String, Int>()
 java.io.File("/mnt/luposdate-testdata/sp2b/16384/intermediate.dictionary").forEachLine { it ->
-var s=it
-if(s.length>20){
-s=s.substring(0,20)
-}
-        println("-----------")
-        val arr = stringToIntArray(s)
-        val key = tree.insertUTF32(arr, arr.size)
-        val stream = convertToUTF8BitStream(arr)
-        println("inserting " + stream + " -> " + key)
-        insertMap[stream] = key
-        println("printing")
-        tree.print()
+    var s = it
+    if (s.length > 20) {
+        s = s.substring(0, 20)
+    }
+    println("-----------")
+    val arr = stringToIntArray(s)
+    val key = tree.insertUTF32(arr, arr.size)
+    val stream = convertToUTF8BitStream(arr)
+    println("inserting " + stream + " -> " + key)
+    insertMap[stream] = key
+    println("printing")
+    tree.print()
 
-        //println(insertMap)
-        //println(tree.debugMap)
-        var insertedBytes = 0
-        for ((k, v) in insertMap) {
-            insertedBytes += (k.length + 0x7) shr 3
-            val v2 = tree.debugMap[k]
-            if (v != v2) {
-                throw Exception("value $k $v $v2")
-            }
+    var insertedBytes = 0
+    for ((k, v) in insertMap) {
+        insertedBytes += (k.length + 0x7) shr 3
+        val v2 = tree.debugMap[k]
+        if (v != v2) {
+            throw Exception("value $k $v $v2")
         }
-        println("bytes inserted $insertedBytes")
-        for ((k, v) in tree.debugMap) {
-            val v2 = insertMap[k]
-            if (v != v2) {
-                throw Exception("value $k $v2 $v")
-            }
+    }
+    println("bytes inserted $insertedBytes")
+    for ((k, v) in tree.debugMap) {
+        val v2 = insertMap[k]
+        if (v != v2) {
+            throw Exception("value $k $v2 $v")
         }
-        i++
+    }
+    i++
 }
