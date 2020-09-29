@@ -1,11 +1,6 @@
 #!/bin/kscript
 
 class RadixTree {
-    companion object {
-        const val null_key = 0
-        const val null_ptr = 0
-        const val data_off = 16
-    }
 
     var debugMap = mutableMapOf<String, Int>()
     var next_key = null_key + 1
@@ -36,8 +31,17 @@ class RadixTree {
         return len
     }
 
-    fun readHeader(node: ByteArray, offset: Int): Int {
-        return node.readInt2(offset)
+    companion object {
+        const val null_key = 0
+        const val null_ptr = 0
+    }
+
+fun readDataOffset(node: ByteArray, offset: Int):Int{
+return offset+16
+}
+
+    fun readHeader(node: ByteArray, offset: Int) :Int{
+return node.readInt2(offset)
     }
 
     fun writeHeader(node: ByteArray, offset: Int, header: Int) {
@@ -178,8 +182,9 @@ class RadixTree {
         writePtrB(node, 0, ptrB)
         writeKey(node, 0, key)
         val b = (len + 0x7) shr 3
+	val dataOff=readDataOffset(node,0)
         for (i in 0 until b) {
-            node[data_off + i] = data[i]
+            node[dataOff + i] = data[i]
         }
         return nodePtr shl 9
     }
@@ -198,8 +203,9 @@ class RadixTree {
         var s = ""
         val x = (len + 0x7) shr 3
         usedBytes += 16 + ((len + 0x7) shr 3)
+val dataOff=readDataOffset(currentPage,currentPageOffset)
         for (i in 0 until x) {
-            s += (currentPage[currentPageOffset + data_off + i].toInt() and 0xff).toString(2).padStart(8, '0')
+            s += (currentPage[dataOff + i].toInt() and 0xff).toString(2).padStart(8, '0')
         }
         s = s.substring(0, len)
         val key = readKey(currentPage, currentPageOffset)
@@ -235,38 +241,111 @@ class RadixTree {
         var currentPage = rootNode
         var currentPageOffset = rootNodeOffset
         while (true) {
-            val len = readLen(currentPage, currentPageOffset)
-            var common: Int = 0
-            if (len <= inLen) {
-                common = equalBits(currentPage, data, currentPageOffset + data_off, 0, len)
-            } else {
-                common = equalBits(currentPage, data, currentPageOffset + data_off, 0, inLen)
-            }
-            if (common == inLen) {
-                if (common == len) {
-                    val k = readKey(currentPage, currentPageOffset)
-                    if (k == null_key) {
-                        val k2 = next_key++
-                        writeKey(currentPage, currentPageOffset, k2)
-                        return k2
-                    } else {
-                        return k
-                    }
+val len=readLen(currentPage, currentPageOffset)
+val dataOff=readDataOffset(currentPage, currentPageOffset)
+                var common: Int = 0
+                if (len <= inLen) {
+                    common = equalBits(currentPage, data, dataOff, 0, len)
                 } else {
-                    var currentKey = readKey(currentPage, currentPageOffset)
-                    var newKey = next_key++
-                    writeKey(currentPage, currentPageOffset, newKey)
-                    writeLen(currentPage, currentPageOffset, common)
-                    val significantByte = (common) shr 3
-                    val significantBitNumber = ((15 - ((common) and 0x7)) and 0x7)
-                    val significantBit = (currentPage[currentPageOffset + data_off + significantByte].toInt() shr significantBitNumber) and 0x1
+                    common = equalBits(currentPage, data, dataOff, 0, inLen)
+                }
+                if (common == inLen) {
+                    if (common == len) {
+                        val k = readKey(currentPage, currentPageOffset)
+                        if (k == null_key) {
+                            val k2 = next_key++
+                            writeKey(currentPage, currentPageOffset, k2)
+                            return k2
+                        } else {
+                            return k
+                        }
+                    } else {
+
+                        val ptrA = readPtrA(currentPage, currentPageOffset)
+                        val ptrB = readPtrB(currentPage, currentPageOffset)
+                        var currentKey = readKey(currentPage, currentPageOffset)
+
+                        var newKey = next_key++
+                        var newLen = common
+                        val significantByte = (common) shr 3
+                        val significantBitNumber = ((15 - ((common) and 0x7)) and 0x7)
+                        val significantBit = (currentPage[dataOff + significantByte].toInt() shr significantBitNumber) and 0x1
+                        common += 1
+                        val splitChildLen = len - common
+                        shiftLeft(currentPage, pageBuffer, (dataOff shl 3) + common, splitChildLen)
+                        val splitChildPage = createChild(pageBuffer, splitChildLen, currentKey, ptrA, ptrB)
+                        val off = dataOff + (common shr 3)
+                        when (common % 8) {
+                            1 -> currentPage[off] = (currentPage[off].toInt() and 0x80).toByte()
+                            2 -> currentPage[off] = (currentPage[off].toInt() and 0xc0).toByte()
+                            3 -> currentPage[off] = (currentPage[off].toInt() and 0xe0).toByte()
+                            4 -> currentPage[off] = (currentPage[off].toInt() and 0xf0).toByte()
+                            5 -> currentPage[off] = (currentPage[off].toInt() and 0xf8).toByte()
+                            6 -> currentPage[off] = (currentPage[off].toInt() and 0xfc).toByte()
+                            7 -> currentPage[off] = (currentPage[off].toInt() and 0xfe).toByte()
+                        }
+                        if (significantBit == 0) {
+                            writePtrA(currentPage, currentPageOffset, splitChildPage)
+                            writePtrB(currentPage, currentPageOffset, null_ptr)
+                            writeKey(currentPage, currentPageOffset, newKey)
+                            writeLen(currentPage, currentPageOffset, newLen)
+                        } else {
+                            writePtrA(currentPage, currentPageOffset, null_ptr)
+                            writePtrB(currentPage, currentPageOffset, splitChildPage)
+                            writeKey(currentPage, currentPageOffset, newKey)
+                            writeLen(currentPage, currentPageOffset, newLen)
+                        }
+                        return newKey
+
+                    }
+                } else if (common == len) {
+                    val significantByte = common shr 3
+                    val significantBitNumber = ((15 - (common and 0x7)) and 0x7)
+                    val significantBit = (data[significantByte].toInt() shr significantBitNumber) and 0x1
                     common += 1
-                    val splitChildLen = len - common
-                    shiftLeft(currentPage, pageBuffer, ((currentPageOffset + data_off) shl 3) + common, splitChildLen)
+                    shiftLeft(data, data1, common, inLen)
+                    inLen -= common
+                    if (significantBit == 0) {
+                        val ptr = readPtrA(currentPage, currentPageOffset)
+                        if (ptr == null_ptr) {
+                            var kk = next_key++
+                            val pagePtr = createChild(data1, inLen, kk)
+                            writePtrA(currentPage, currentPageOffset, pagePtr)
+                            return kk
+                        }
+                        currentPage = pages[ptr shr 9]
+                        currentPageOffset = (ptr and 0x1ff) shl 4
+                    } else {
+                        val ptr = readPtrB(currentPage, currentPageOffset)
+                        if (ptr == null_ptr) {
+                            var kk = next_key++
+                            val pagePtr = createChild(data1, inLen, kk)
+                            writePtrB(currentPage, currentPageOffset, pagePtr)
+                            return kk
+                        }
+                        currentPage = pages[ptr shr 9]
+                        currentPageOffset = (ptr and 0x1ff) shl 4
+                    }
+                    data2 = data1
+                    data1 = data
+                    data = data2
+                } else {
+                    val significantByte = common shr 3
+                    val significantBitNumber = ((15 - (common and 0x7)) and 0x7)
+                    val significantBit = (data[significantByte].toInt() shr significantBitNumber) and 0x1
+                    shiftLeft(data, data1, common + 1, inLen)
+                    inLen -= common
+
+                    var currentKey = readKey(currentPage, currentPageOffset)
                     val ptrA = readPtrA(currentPage, currentPageOffset)
                     val ptrB = readPtrB(currentPage, currentPageOffset)
+
+                    var newKey = next_key++
+                    val newPage = createChild(data1, inLen - 1, newKey)
+                    shiftLeft(currentPage, pageBuffer, ((dataOff) shl 3) + common + 1, len)
+                    val splitChildLen = len - common - 1
                     val splitChildPage = createChild(pageBuffer, splitChildLen, currentKey, ptrA, ptrB)
-                    val off = currentPageOffset + data_off + (common shr 3)
+                    val off = dataOff + (common shr 3)
                     when (common % 8) {
                         1 -> currentPage[off] = (currentPage[off].toInt() and 0x80).toByte()
                         2 -> currentPage[off] = (currentPage[off].toInt() and 0xc0).toByte()
@@ -277,81 +356,18 @@ class RadixTree {
                         7 -> currentPage[off] = (currentPage[off].toInt() and 0xfe).toByte()
                     }
                     if (significantBit == 0) {
-                        writePtrA(currentPage, currentPageOffset, splitChildPage)
-                        writePtrB(currentPage, currentPageOffset, null_ptr)
-                    } else {
-                        writePtrA(currentPage, currentPageOffset, null_ptr)
+                        writePtrA(currentPage, currentPageOffset, newPage)
                         writePtrB(currentPage, currentPageOffset, splitChildPage)
+                        writeKey(currentPage, currentPageOffset, null_key)
+                        writeLen(currentPage, currentPageOffset, common)
+                    } else {
+                        writePtrB(currentPage, currentPageOffset, newPage)
+                        writePtrA(currentPage, currentPageOffset, splitChildPage)
+                        writeKey(currentPage, currentPageOffset, null_key)
+                        writeLen(currentPage, currentPageOffset, common)
                     }
                     return newKey
-
                 }
-            } else if (common == len) {
-                val significantByte = common shr 3
-                val significantBitNumber = ((15 - (common and 0x7)) and 0x7)
-                val significantBit = (data[significantByte].toInt() shr significantBitNumber) and 0x1
-                common += 1
-                shiftLeft(data, data1, common, inLen)
-                inLen -= common
-                if (significantBit == 0) {
-                    val ptr = readPtrA(currentPage, currentPageOffset)
-                    if (ptr == null_ptr) {
-                        var kk = next_key++
-                        val pagePtr = createChild(data1, inLen, kk)
-                        writePtrA(currentPage, currentPageOffset, pagePtr)
-                        return kk
-                    }
-                    currentPage = pages[ptr shr 9]
-                    currentPageOffset = (ptr and 0x1ff) shl 4
-                } else {
-                    val ptr = readPtrB(currentPage, currentPageOffset)
-                    if (ptr == null_ptr) {
-                        var kk = next_key++
-                        val pagePtr = createChild(data1, inLen, kk)
-                        writePtrB(currentPage, currentPageOffset, pagePtr)
-                        return kk
-                    }
-                    currentPage = pages[ptr shr 9]
-                    currentPageOffset = (ptr and 0x1ff) shl 4
-                }
-                data2 = data1
-                data1 = data
-                data = data2
-            } else {
-                val significantByte = common shr 3
-                val significantBitNumber = ((15 - (common and 0x7)) and 0x7)
-                val significantBit = (data[significantByte].toInt() shr significantBitNumber) and 0x1
-                shiftLeft(data, data1, common + 1, inLen)
-                inLen -= common
-                var currentKey = readKey(currentPage, currentPageOffset)
-                writeKey(currentPage, currentPageOffset, null_key)
-                var newKey = next_key++
-                val newPage = createChild(data1, inLen - 1, newKey)
-                shiftLeft(currentPage, pageBuffer, ((currentPageOffset + data_off) shl 3) + common + 1, len)
-                val splitChildLen = len - common - 1
-                val ptrA = readPtrA(currentPage, currentPageOffset)
-                val ptrB = readPtrB(currentPage, currentPageOffset)
-                val splitChildPage = createChild(pageBuffer, splitChildLen, currentKey, ptrA, ptrB)
-                writeLen(currentPage, currentPageOffset, common)
-                val off = currentPageOffset + data_off + (common shr 3)
-                when (common % 8) {
-                    1 -> currentPage[off] = (currentPage[off].toInt() and 0x80).toByte()
-                    2 -> currentPage[off] = (currentPage[off].toInt() and 0xc0).toByte()
-                    3 -> currentPage[off] = (currentPage[off].toInt() and 0xe0).toByte()
-                    4 -> currentPage[off] = (currentPage[off].toInt() and 0xf0).toByte()
-                    5 -> currentPage[off] = (currentPage[off].toInt() and 0xf8).toByte()
-                    6 -> currentPage[off] = (currentPage[off].toInt() and 0xfc).toByte()
-                    7 -> currentPage[off] = (currentPage[off].toInt() and 0xfe).toByte()
-                }
-                if (significantBit == 0) {
-                    writePtrA(currentPage, currentPageOffset, newPage)
-                    writePtrB(currentPage, currentPageOffset, splitChildPage)
-                } else {
-                    writePtrB(currentPage, currentPageOffset, newPage)
-                    writePtrA(currentPage, currentPageOffset, splitChildPage)
-                }
-                return newKey
-            }
         }
     }
 }
