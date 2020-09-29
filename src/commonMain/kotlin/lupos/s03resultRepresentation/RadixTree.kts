@@ -4,11 +4,12 @@ class RadixTree {
 
     var debugMap = mutableMapOf<String, Int>()
     var next_key = null_key + 1
-    var pages = Array<ByteArray>(2048) { ByteArray(1024) }
+    var pages = Array<ByteArray>(2048) { ByteArray(8192) } //pages[0] is used as temporary buffer
     var pagesCounter = 2
     var rootNode = pages[1]
     var rootNodeOffset = 0
     var rootNodePtr = 512
+
     fun convertUTF32ToUTF8(data: IntArray, dataLength: Int, outBuffer: ByteArray): Int {
         var len = 0
         for (i in 0 until dataLength) {
@@ -33,15 +34,57 @@ class RadixTree {
     }
 
     var allocedBytes = 0
+    val listSliceSizes = intArrayOf(16, 32, 64, 128, 256, 512, 1024, 2048, 4096, 8196)
+    val freeLists = Array(listSliceSizes.size) { mutableListOf<Int>() }
+    val slotsAllocedBySize = IntArray(listSliceSizes.size)
+    fun pagePtrToPage(ptr: Int): ByteArray {
+        return pages[ptr shr 9]
+    }
+
+    fun pagePtrToPffset(ptr: Int): Int {
+        return (ptr and 0x1ff) shl 4
+    }
+
+    fun mapLenToList(len: Int): Int {
+        for (i in 0 until listSliceSizes.size - 1) {
+            if (len <= listSliceSizes[i]) {
+                return i
+            }
+        }
+        return listSliceSizes.size - 1
+    }
+
     fun allocBytes(len: Int): Int {
+        val listToUse = mapLenToList(len)
+        slotsAllocedBySize[listToUse]++
+        val list = freeLists[listToUse]
         allocedBytes += len
-        return (pagesCounter++) shl 9
+        if (list.size > 0) {
+            val ptr = list.removeAt(0)
+//println("alloc $len at ${ptr shr 9}:${(ptr and 0x1ff) shl 4}")
+            return ptr
+        }
+        val newPage = (pagesCounter++) shl 9
+        var ptr = newPage
+        val ptrEnd = ptr + (1 shl 9)
+        val slice = listSliceSizes[listToUse] shr 4
+        ptr += slice
+        while (ptr < ptrEnd) {
+            list.add(ptr)
+            ptr += slice
+        }
+//println("alloc $len at ${newPage shr 9}:${(newPage and 0x1ff) shl 4}")
+        return newPage
     }
 
     fun freeBytes(ptr: Int) {
-        val nodeOff = (ptr and 0x1ff) shl 4
-        var node = pages[ptr shr 9]
-        allocedBytes -= readConsumedBytes(node, nodeOff)
+        val nodeOff = pagePtrToPffset(ptr)
+        var node = pagePtrToPage(ptr)
+        val len = readConsumedBytes(node, nodeOff)
+        allocedBytes -= len
+        val listToUse = mapLenToList(len)
+        slotsAllocedBySize[listToUse]--
+        freeLists[listToUse].add(ptr)
     }
 
     companion object {
@@ -144,8 +187,8 @@ class RadixTree {
         when (header) {
             0x0 -> {
                 val nodePtr = allocBytes(off_0_data + ((len + 0x7) shr 3))
-                val nodeOff = (nodePtr and 0x1ff) shl 4
-                var node = pages[nodePtr shr 9]
+                val nodeOff = pagePtrToPffset(nodePtr)
+                var node = pagePtrToPage(nodePtr)
                 node.writeInt1(nodeOff, header)
                 node.writeInt4(nodeOff + off_ptrA, ptrA)
                 node.writeInt4(nodeOff + off_ptrB, ptrB)
@@ -159,8 +202,8 @@ class RadixTree {
             }
             0x1 -> {
                 val nodePtr = allocBytes(off_1_data + ((len + 0x7) shr 3))
-                val nodeOff = (nodePtr and 0x1ff) shl 4
-                var node = pages[nodePtr shr 9]
+                val nodeOff = pagePtrToPffset(nodePtr)
+                var node = pagePtrToPage(nodePtr)
                 node.writeInt1(nodeOff, header)
                 node.writeInt4(nodeOff + off_ptrA, ptrA)
                 node.writeInt4(nodeOff + off_ptrB, ptrB)
@@ -175,8 +218,8 @@ class RadixTree {
             }
             0x2 -> {
                 val nodePtr = allocBytes(off_2_data + ((len + 0x7) shr 3))
-                val nodeOff = (nodePtr and 0x1ff) shl 4
-                var node = pages[nodePtr shr 9]
+                val nodeOff = pagePtrToPffset(nodePtr)
+                var node = pagePtrToPage(nodePtr)
                 node.writeInt1(nodeOff, header)
                 node.writeInt2(nodeOff + off_2_len, len)
                 node.writeInt4(nodeOff + off_2_key, key)
@@ -289,13 +332,13 @@ class RadixTree {
     fun print() {
         debugMap.clear()
         var usedBytes = print(rootNodePtr, "")
-        println("bytes consumed $usedBytes ($allocedBytes)")
+        println("bytes consumed $usedBytes ($allocedBytes) .. ${slotsAllocedBySize.mapIndexed { idx, it -> it * listSliceSizes[idx] }.sum()} ${slotsAllocedBySize.map { it }}")
     }
 
     fun print(pagePtr: Int, prefix: String): Int {
         var usedBytes = 0
-        val currentPage = pages[pagePtr shr 9]
-        val currentPageOffset = (pagePtr and 0x1ff) shl 4
+        var currentPage = pagePtrToPage(pagePtr)
+        val currentPageOffset = pagePtrToPffset(pagePtr)
         val len = readLen(currentPage, currentPageOffset)
         var s = ""
         val x = (len + 0x7) shr 3
@@ -329,12 +372,12 @@ class RadixTree {
 
     fun updatePointer(parentPtr: Int, currentPtr: Int, newPtr: Int) {
         if (parentPtr == null_ptr) {
-            rootNode = pages[newPtr shr 9]
-            rootNodeOffset = (newPtr and 0x1ff) shl 4
+            rootNode = pagePtrToPage(newPtr)
+            rootNodeOffset = pagePtrToPffset(newPtr)
             rootNodePtr = newPtr
         } else {
-            val parent = pages[parentPtr shr 9]
-            val parentOff = (parentPtr and 0x1ff) shl 4
+            val parent = pagePtrToPage(parentPtr)
+            val parentOff = pagePtrToPffset(parentPtr)
             if (parent.readInt1(parentOff) == 2) {
                 throw Exception("invalud header")
             }
@@ -347,7 +390,7 @@ class RadixTree {
     }
 
     fun insertUTF32(inData: IntArray, inDataLength: Int): Int {
-        var pageBuffer = ByteArray(rootNode.size)
+        var pageBuffer = pages[0]
         var data = ByteArray(0)
         var data1 = ByteArray(0)
         var data2 = data1
@@ -443,8 +486,8 @@ class RadixTree {
                         println("return D")
                         return kk
                     }
-                    currentPage = pages[ptrA shr 9]
-                    currentPageOffset = (ptrA and 0x1ff) shl 4
+                    currentPage = pagePtrToPage(ptrA)
+                    currentPageOffset = pagePtrToPffset(ptrA)
                     currentDepth += common + 1
                     parentParentPtr = parentPtr
                     parentPtr = currentPtr
@@ -465,8 +508,8 @@ class RadixTree {
                         println("return E")
                         return kk
                     }
-                    currentPage = pages[ptrB shr 9]
-                    currentPageOffset = (ptrB and 0x1ff) shl 4
+                    currentPage = pagePtrToPage(ptrB)
+                    currentPageOffset = pagePtrToPffset(ptrB)
                     currentDepth += common + 1
                     parentParentPtr = parentPtr
                     parentPtr = currentPtr

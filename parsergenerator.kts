@@ -1270,7 +1270,7 @@ if (args.size == 1 && args[0] == "PARSER_CONTEXT") {
     println(" @JvmField var line=1")
     println(" @JvmField var column=0")
     println(" @JvmField val outBuffer=StringBuilder()")
-    println(" @JvmField val inBuf=ByteArray(8196)")
+    println(" @JvmField val inBuf=ByteArray(8192)")
     println(" @JvmField var inBufPosition=0")
     println(" @JvmField var inBufSize=0")
     println(" @JvmField var flagR_N=false")
