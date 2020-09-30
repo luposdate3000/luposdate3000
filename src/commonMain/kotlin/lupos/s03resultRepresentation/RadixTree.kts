@@ -294,6 +294,9 @@ class RadixTree {
             }
             7 -> {
                 while (offIn < lenIn) {
+                    if (offOut > 8000 || offIn > 8000) {
+                        println("$offIn $lenIn $offOut $inBufferOffset $inBufferLength")
+                    }
                     outBuffer[offOut] = (((inBuffer[offIn].toInt() shl 7) and 0x80) or ((inBuffer[offIn + 1].toInt() shr 1) and 0x7f)).toByte()
                     offIn++
                     offOut++
@@ -424,10 +427,8 @@ class RadixTree {
                         val newPtr = createChild(currentPage, dataOff, len, k2, currentDepth, ptrA, ptrB)
                         freeBytes(currentPtr)
                         updatePointer(parentPtr, currentPtr, newPtr)
-                        println("return A")
                         return k2
                     } else {
-                        println("return B")
                         return k
                     }
                 } else {
@@ -435,14 +436,14 @@ class RadixTree {
                     val ptrB = readPtrB(currentPage, currentPageOffset)
                     var currentKey = readKey(currentPage, currentPageOffset)
                     var newKey = next_key++
-                    var newLen = common
-                    val significantByte = (common) shr 3
-                    val significantBitNumber = ((15 - ((common) and 0x7)) and 0x7)
+
+                    val significantByte = common shr 3
+                    val significantBitNumber = ((15 - (common and 0x7)) and 0x7)
                     val significantBit = (currentPage[dataOff + significantByte].toInt() shr significantBitNumber) and 0x1
                     common += 1
-                    val splitChildLen = len - common
-                    shiftLeft(currentPage, pageBuffer, (dataOff shl 3) + common, splitChildLen)
-                    val splitChildPage = createChild(pageBuffer, 0, splitChildLen, currentKey, currentDepth, ptrA, ptrB)
+
+                    shiftLeft(currentPage, pageBuffer, (dataOff shl 3) + common, len - common)
+                    val splitChildPage = createChild(pageBuffer, 0, len - common, currentKey, currentDepth, ptrA, ptrB)
                     val off = dataOff + (common shr 3)
                     when (common % 8) {
                         1 -> currentPage[off] = (currentPage[off].toInt() and 0x80).toByte()
@@ -454,15 +455,14 @@ class RadixTree {
                         7 -> currentPage[off] = (currentPage[off].toInt() and 0xfe).toByte()
                     }
                     if (significantBit == 0) {
-                        val newPtr = createChild(currentPage, dataOff, newLen, newKey, currentDepth, splitChildPage, null_ptr)
+                        val newPtr = createChild(currentPage, dataOff, common - 1, newKey, currentDepth, splitChildPage, null_ptr)
                         freeBytes(currentPtr)
                         updatePointer(parentPtr, currentPtr, newPtr)
                     } else {
-                        val newPtr = createChild(currentPage, dataOff, newLen, newKey, currentDepth, null_ptr, splitChildPage)
+                        val newPtr = createChild(currentPage, dataOff, common - 1, newKey, currentDepth, null_ptr, splitChildPage)
                         freeBytes(currentPtr)
                         updatePointer(parentPtr, currentPtr, newPtr)
                     }
-                    println("return C")
                     return newKey
 
                 }
@@ -483,7 +483,6 @@ class RadixTree {
                         val newPtr = createChild(currentPage, dataOff, len, key, currentDepth, pagePtr, ptrB)
                         freeBytes(currentPtr)
                         updatePointer(parentPtr, currentPtr, newPtr)
-                        println("return D")
                         return kk
                     }
                     currentPage = pagePtrToPage(ptrA)
@@ -505,7 +504,6 @@ class RadixTree {
                         val newPtr = createChild(currentPage, dataOff, len, key, currentDepth, ptrA, pagePtr)
                         freeBytes(currentPtr)
                         updatePointer(parentPtr, currentPtr, newPtr)
-                        println("return E")
                         return kk
                     }
                     currentPage = pagePtrToPage(ptrB)
@@ -522,19 +520,22 @@ class RadixTree {
                 val significantByte = common shr 3
                 val significantBitNumber = ((15 - (common and 0x7)) and 0x7)
                 val significantBit = (data[significantByte].toInt() shr significantBitNumber) and 0x1
-                shiftLeft(data, data1, common + 1, inLen)
-                inLen -= common
+
+                common++
+
+                shiftLeft(data, data1, common, inLen - common)
+                var newKey = next_key++
+                val newPage = createChild(data1, 0, inLen - common, newKey, currentDepth)
 
                 var currentKey = readKey(currentPage, currentPageOffset)
                 val ptrA = readPtrA(currentPage, currentPageOffset)
                 val ptrB = readPtrB(currentPage, currentPageOffset)
 
-                var newKey = next_key++
-                val newPage = createChild(data1, 0, inLen - 1, newKey, currentDepth)
-                shiftLeft(currentPage, pageBuffer, ((dataOff) shl 3) + common + 1, len)
-                val splitChildLen = len - common - 1
-                val splitChildPage = createChild(pageBuffer, 0, splitChildLen, currentKey, currentDepth, ptrA, ptrB)
+
+                shiftLeft(currentPage, pageBuffer, (dataOff shl 3) + common, len - common)
+                val splitChildPage = createChild(pageBuffer, 0, len - common, currentKey, currentDepth, ptrA, ptrB)
                 val off = dataOff + (common shr 3)
+
                 when (common % 8) {
                     1 -> currentPage[off] = (currentPage[off].toInt() and 0x80).toByte()
                     2 -> currentPage[off] = (currentPage[off].toInt() and 0xc0).toByte()
@@ -544,16 +545,16 @@ class RadixTree {
                     6 -> currentPage[off] = (currentPage[off].toInt() and 0xfc).toByte()
                     7 -> currentPage[off] = (currentPage[off].toInt() and 0xfe).toByte()
                 }
+
                 if (significantBit == 0) {
-                    val newPtr = createChild(currentPage, dataOff, common, null_key, currentDepth, newPage, splitChildPage)
+                    val newPtr = createChild(currentPage, dataOff, common - 1, null_key, currentDepth, newPage, splitChildPage)
                     freeBytes(currentPtr)
                     updatePointer(parentPtr, currentPtr, newPtr)
                 } else {
-                    val newPtr = createChild(currentPage, dataOff, common, null_key, currentDepth, splitChildPage, newPage)
+                    val newPtr = createChild(currentPage, dataOff, common - 1, null_key, currentDepth, splitChildPage, newPage)
                     freeBytes(currentPtr)
                     updatePointer(parentPtr, currentPtr, newPtr)
                 }
-                println("return F")
                 return newKey
             }
         }
@@ -605,7 +606,7 @@ fun stringToIntArray(str: String): IntArray {
     val s = str.replace(Regex("[^a-zA-Z]"), "")
     val res = IntArray(s.length)
     for (c in 0 until s.length) {
-        res[c] = s[c].toInt()
+        res[c] = s[c].toInt() and 0x7f
     }
     return res
 }
@@ -618,37 +619,49 @@ fun convertToUTF8BitStream(arr: IntArray): String {
     return s
 }
 
-
-tree.print()
+val debugmode = false
+if (debugmode) {
+    tree.print()
+}
 var i = 0
 val insertMap = mutableMapOf<String, Int>()
 java.io.File("/mnt/luposdate-testdata/sp2b/16384/intermediate.dictionary").forEachLine { it ->
-    var s = it
-    if (s.length > 20) {
-        s = s.substring(0, 20)
+    if (i % 100 == 0) {
+        println("$i :: ${tree.slotsAllocedBySize.mapIndexed { idx, it -> it * tree.listSliceSizes[idx] }.sum()} ${tree.slotsAllocedBySize.map { it }} ${tree.freeLists.map { it.size }}")
     }
-    println("-----------")
-    val arr = stringToIntArray(s)
-    val key = tree.insertUTF32(arr, arr.size)
-    val stream = convertToUTF8BitStream(arr)
-    println("inserting " + stream + " -> " + key)
-    insertMap[stream] = key
-    println("printing")
-    tree.print()
-
-    var insertedBytes = 0
-    for ((k, v) in insertMap) {
-        insertedBytes += (k.length + 0x7) shr 3
-        val v2 = tree.debugMap[k]
-        if (v != v2) {
-            throw Exception("value $k $v $v2")
+    var s = it
+    if (debugmode) {
+        if (s.length > 20) {
+            s = s.substring(0, 20)
+        }
+        println("-----------")
+    } else {
+        if (s.length > 8192) {
+            s = s.substring(0, 8000)
         }
     }
-    println("bytes inserted $insertedBytes")
-    for ((k, v) in tree.debugMap) {
-        val v2 = insertMap[k]
-        if (v != v2) {
-            throw Exception("value $k $v2 $v")
+    val arr = stringToIntArray(s)
+    val key = tree.insertUTF32(arr, arr.size)
+    if (debugmode) {
+        val stream = convertToUTF8BitStream(arr)
+        println("inserting " + stream + " -> " + key)
+        insertMap[stream] = key
+        println("printing")
+        tree.print()
+        var insertedBytes = 0
+        for ((k, v) in insertMap) {
+            insertedBytes += (k.length + 0x7) shr 3
+            val v2 = tree.debugMap[k]
+            if (v != v2) {
+                throw Exception("value $k $v $v2")
+            }
+        }
+        println("bytes inserted $insertedBytes")
+        for ((k, v) in tree.debugMap) {
+            val v2 = insertMap[k]
+            if (v != v2) {
+                throw Exception("value $k $v2 $v")
+            }
         }
     }
     i++
