@@ -34,6 +34,7 @@ class RadixTree {
     }
 
     var allocedBytes = 0
+    var allocatedNodes = 0
     val listSliceSizes = intArrayOf(16, 32, 64, 128, 256, 512, 1024, 2048, 4096, 8196)
     val freeLists = Array(listSliceSizes.size) { mutableListOf<Int>() }
     val slotsAllocedBySize = IntArray(listSliceSizes.size)
@@ -55,6 +56,7 @@ class RadixTree {
     }
 
     fun allocBytes(len: Int): Int {
+        allocatedNodes++
         val listToUse = mapLenToList(len)
         slotsAllocedBySize[listToUse]++
         val list = freeLists[listToUse]
@@ -78,6 +80,7 @@ class RadixTree {
     }
 
     fun freeBytes(ptr: Int) {
+        allocatedNodes--
         val nodeOff = pagePtrToPffset(ptr)
         var node = pagePtrToPage(ptr)
         val len = readConsumedBytes(node, nodeOff)
@@ -249,9 +252,9 @@ class RadixTree {
                     offIn++
                     offOut++
                 }
-if((inBufferOffset + inBufferLength)%8!=0){
-outBuffer[offOut] = inBuffer[offIn]
-}
+                if ((inBufferOffset + inBufferLength) % 8 != 0) {
+                    outBuffer[offOut] = inBuffer[offIn]
+                }
             }
             1 -> {
                 while (offIn < lenIn) {
@@ -259,9 +262,9 @@ outBuffer[offOut] = inBuffer[offIn]
                     offIn++
                     offOut++
                 }
-if((inBufferOffset + inBufferLength)%8!=0){
-outBuffer[offOut] = ((inBuffer[offIn].toInt() shl 1) and 0xfe).toByte()
-}
+                if ((inBufferOffset + inBufferLength) % 8 != 0) {
+                    outBuffer[offOut] = ((inBuffer[offIn].toInt() shl 1) and 0xfe).toByte()
+                }
             }
             2 -> {
                 while (offIn < lenIn) {
@@ -269,9 +272,9 @@ outBuffer[offOut] = ((inBuffer[offIn].toInt() shl 1) and 0xfe).toByte()
                     offIn++
                     offOut++
                 }
-if((inBufferOffset + inBufferLength)%8!=0){
-outBuffer[offOut] = ((inBuffer[offIn].toInt() shl 2) and 0xfc).toByte()
-}
+                if ((inBufferOffset + inBufferLength) % 8 != 0) {
+                    outBuffer[offOut] = ((inBuffer[offIn].toInt() shl 2) and 0xfc).toByte()
+                }
             }
             3 -> {
                 while (offIn < lenIn) {
@@ -279,9 +282,9 @@ outBuffer[offOut] = ((inBuffer[offIn].toInt() shl 2) and 0xfc).toByte()
                     offIn++
                     offOut++
                 }
-if((inBufferOffset + inBufferLength)%8!=0){
-outBuffer[offOut] = ((inBuffer[offIn].toInt() shl 3) and 0xf8 ).toByte()
-}
+                if ((inBufferOffset + inBufferLength) % 8 != 0) {
+                    outBuffer[offOut] = ((inBuffer[offIn].toInt() shl 3) and 0xf8).toByte()
+                }
             }
             4 -> {
                 while (offIn < lenIn) {
@@ -289,9 +292,9 @@ outBuffer[offOut] = ((inBuffer[offIn].toInt() shl 3) and 0xf8 ).toByte()
                     offIn++
                     offOut++
                 }
-if((inBufferOffset + inBufferLength)%8!=0){
-outBuffer[offOut] = ((inBuffer[offIn].toInt() shl 4) and 0xf0 ).toByte()
-}
+                if ((inBufferOffset + inBufferLength) % 8 != 0) {
+                    outBuffer[offOut] = ((inBuffer[offIn].toInt() shl 4) and 0xf0).toByte()
+                }
             }
             5 -> {
                 while (offIn < lenIn) {
@@ -299,9 +302,9 @@ outBuffer[offOut] = ((inBuffer[offIn].toInt() shl 4) and 0xf0 ).toByte()
                     offIn++
                     offOut++
                 }
-if((inBufferOffset + inBufferLength)%8!=0){
-outBuffer[offOut] = ((inBuffer[offIn].toInt() shl 5) and 0xe0).toByte()
-}
+                if ((inBufferOffset + inBufferLength) % 8 != 0) {
+                    outBuffer[offOut] = ((inBuffer[offIn].toInt() shl 5) and 0xe0).toByte()
+                }
             }
             6 -> {
                 while (offIn < lenIn) {
@@ -309,9 +312,9 @@ outBuffer[offOut] = ((inBuffer[offIn].toInt() shl 5) and 0xe0).toByte()
                     offIn++
                     offOut++
                 }
-if((inBufferOffset + inBufferLength)%8!=0){
-outBuffer[offOut] = ((inBuffer[offIn].toInt() shl 6) and 0xc0 ).toByte()
-}
+                if ((inBufferOffset + inBufferLength) % 8 != 0) {
+                    outBuffer[offOut] = ((inBuffer[offIn].toInt() shl 6) and 0xc0).toByte()
+                }
             }
             7 -> {
                 while (offIn < lenIn) {
@@ -319,9 +322,9 @@ outBuffer[offOut] = ((inBuffer[offIn].toInt() shl 6) and 0xc0 ).toByte()
                     offIn++
                     offOut++
                 }
-if((inBufferOffset + inBufferLength)%8!=0){
-outBuffer[offOut] = ((inBuffer[offIn].toInt() shl 7) and 0x80).toByte()
-}
+                if ((inBufferOffset + inBufferLength) % 8 != 0) {
+                    outBuffer[offOut] = ((inBuffer[offIn].toInt() shl 7) and 0x80).toByte()
+                }
             }
         }
     }
@@ -356,7 +359,7 @@ outBuffer[offOut] = ((inBuffer[offIn].toInt() shl 7) and 0x80).toByte()
     fun print() {
         debugMap.clear()
         var usedBytes = print(rootNodePtr, "")
-        println("bytes consumed $usedBytes ($allocedBytes) .. ${slotsAllocedBySize.mapIndexed { idx, it -> it * listSliceSizes[idx] }.sum()} ${slotsAllocedBySize.map { it }}")
+        println("bytes consumed $usedBytes ($allocedBytes) .. ${slotsAllocedBySize.mapIndexed { idx, it -> it * listSliceSizes[idx] }.sum()} ${slotsAllocedBySize.map { it }} used nodes :: $allocatedNodes")
     }
 
     fun print(pagePtr: Int, prefix: String): Int {
@@ -626,7 +629,7 @@ if (debugmode) {
     tree.print()
 }
 var i = 0
-var insertedSize=0
+var insertedSize = 0
 val insertMap = mutableMapOf<String, Int>()
 java.io.File("/mnt/luposdate-testdata/sp2b/16384/intermediate.dictionary").forEachLine { it ->
     if (i % 100 == 0) {
@@ -642,12 +645,12 @@ java.io.File("/mnt/luposdate-testdata/sp2b/16384/intermediate.dictionary").forEa
         if (s.length > 8192) {
             s = s.substring(0, 8000)
         }
-insertedSize+=s.length
+        insertedSize += s.length
     }
     val arr = stringToIntArray(s)
-val stream = convertToUTF8BitStream(arr)
+    val stream = convertToUTF8BitStream(arr)
     val key = tree.insertUTF32(arr, arr.size)
-insertMap[stream] = key
+    insertMap[stream] = key
 
     if (debugmode) {
         println("inserting " + stream + " -> " + key)
@@ -674,18 +677,18 @@ insertMap[stream] = key
 
 
 
-if(!debugmode){
-tree.print()
-for ((k, v) in insertMap) {
-            val v2 = tree.debugMap[k]
-            if (v != v2) {
-                throw Exception("value $k $v $v2")
-            }
+if (!debugmode) {
+    tree.print()
+    for ((k, v) in insertMap) {
+        val v2 = tree.debugMap[k]
+        if (v != v2) {
+            throw Exception("value $k $v $v2")
         }
-        for ((k, v) in tree.debugMap) {
-            val v2 = insertMap[k]
-            if (v != v2) {
-                throw Exception("value $k $v2 $v")
-            }
+    }
+    for ((k, v) in tree.debugMap) {
+        val v2 = insertMap[k]
+        if (v != v2) {
+            throw Exception("value $k $v2 $v")
         }
+    }
 }
