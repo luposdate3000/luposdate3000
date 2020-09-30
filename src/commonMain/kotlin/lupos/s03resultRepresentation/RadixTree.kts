@@ -246,6 +246,9 @@ class RadixTree {
         var offOut = 0
         var toShift = inBufferOffset and 0x7
 val endoffset=(inBufferOffset+inBufferLength) and 0x7
+if(endoffset==0 && toShift>0){
+lenIn--
+}
         when (toShift) {
             0 -> {
                 while (offIn < lenIn) {
@@ -264,7 +267,7 @@ val endoffset=(inBufferOffset+inBufferLength) and 0x7
                     outBuffer[offOut] = ((inBuffer[offIn].toInt() shl 1) and 0xfe).toByte()
             }
             2 -> {
-                while (offIn < lenIn) {
+         while (offIn < lenIn) {
                     outBuffer[offOut] = (((inBuffer[offIn].toInt() shl 2) and 0xfc) or ((inBuffer[offIn + 1].toInt() shr 6) and 0x03)).toByte()
                     offIn++
                     offOut++
