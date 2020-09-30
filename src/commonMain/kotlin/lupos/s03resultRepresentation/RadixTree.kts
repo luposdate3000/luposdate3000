@@ -251,13 +251,13 @@ class RadixTree {
                                         node.writeInt4(nodeOff + off_ptrA + (((id shl 1) + id2) shl 2), p)
                                     }
                                 }
-                                0x0 ,0x1,0x2-> {
+                                0x0, 0x1, 0x2 -> {
                                     println("inserting as $nodePtr 0")
                                     var pageBuffer = pages[0]
                                     val childDataOff = readDataOffset(child, childOff)
                                     val significantBit = (child[childDataOff].toInt() shr 7) and 0x1
                                     val len = readLen(child, childOff)
-				val key = readKey(child, childOff)
+                                    val key = readKey(child, childOff)
                                     val ptrA = readPtrA(child, childOff)
                                     val ptrB = readPtrB(child, childOff)
                                     shiftLeft(child, pageBuffer, (childDataOff shl 3) + 1, len - 1)
@@ -554,9 +554,9 @@ class RadixTree {
                         }
                     }
                 }
-		else->{
-			throw Exception("unknown header $header")
-		}
+                else -> {
+                    throw Exception("unknown header $header")
+                }
             }
         }
     }
