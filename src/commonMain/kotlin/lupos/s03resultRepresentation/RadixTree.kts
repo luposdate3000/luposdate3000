@@ -100,6 +100,7 @@ class RadixTree {
 //header 0x0 stores PtrA, PtrB, len, data
 //header 0x1 stores PtrA, PtrB, len, key, data
 //header 0x2 stores len, key, data
+//header 0x3 stores PtrA, PtrB
 
         const val off_0_len = 9
         const val off_0_data = 11
@@ -111,6 +112,8 @@ class RadixTree {
         const val off_2_len = 1
         const val off_2_key = 3
         const val off_2_data = 7
+
+        const val off_3_data = 9
     }
 
 
@@ -124,6 +127,7 @@ class RadixTree {
             0x0 -> return offset + off_0_data
             0x1 -> return offset + off_1_data
             0x2 -> return offset + off_2_data
+            0x3 -> return offset + off_3_data
             else -> throw Exception("unknown header $header")
         }
     }
@@ -134,6 +138,7 @@ class RadixTree {
             0x0 -> return node.readInt2(offset + off_0_len)
             0x1 -> return node.readInt2(offset + off_1_len)
             0x2 -> return node.readInt2(offset + off_2_len)
+0x3->return 0
             else -> throw Exception("unknown header $header")
         }
     }
@@ -144,6 +149,7 @@ class RadixTree {
             0x0 -> return off_0_data + ((node.readInt2(offset + off_0_len) + 0x7) shr 3)
             0x1 -> return off_1_data + ((node.readInt2(offset + off_1_len) + 0x7) shr 3)
             0x2 -> return off_2_data + ((node.readInt2(offset + off_2_len) + 0x7) shr 3)
+            0x3 -> return off_3_data
             else -> throw Exception("unknown header $header")
         }
     }
@@ -154,6 +160,7 @@ class RadixTree {
             0x0 -> return node.readInt4(offset + off_ptrA)
             0x1 -> return node.readInt4(offset + off_ptrA)
             0x2 -> return null_ptr
+            0x3 -> return node.readInt4(offset + off_ptrA)
             else -> throw Exception("unknown header $header")
         }
     }
@@ -164,6 +171,7 @@ class RadixTree {
             0x0 -> return node.readInt4(offset + off_ptrB)
             0x1 -> return node.readInt4(offset + off_ptrB)
             0x2 -> return null_ptr
+            0x3 -> return node.readInt4(offset + off_ptrB)
             else -> throw Exception("unknown header $header")
         }
     }
@@ -174,6 +182,7 @@ class RadixTree {
             0x0 -> return null_key
             0x1 -> return node.readInt4(offset + off_1_key)
             0x2 -> return node.readInt4(offset + off_2_key)
+            0x3 -> return null_key
             else -> throw Exception("unknown header $header")
         }
     }
@@ -191,7 +200,11 @@ throw Exception("wrong depth ${(currentDepth+len )% 8}")
             } else {
                 header = 0x1
             }
-        }
+        }else{
+		if(ptrA != null_ptr && ptrB != null_ptr && len==0){
+			header = 0x3
+		}
+	}
         when (header) {
             0x0 -> {
                 val nodePtr = allocBytes(off_0_data + ((len + 0x7) shr 3))
@@ -236,6 +249,15 @@ throw Exception("wrong depth ${(currentDepth+len )% 8}")
                 for (i in 0 until b) {
                     node[dataOffOut + i] = data[dataOff + i]
                 }
+                return nodePtr
+            }
+0x3 -> {
+                val nodePtr = allocBytes(off_3_data)
+                val nodeOff = pagePtrToPffset(nodePtr)
+                var node = pagePtrToPage(nodePtr)
+                node.writeInt1(nodeOff, header)
+                node.writeInt4(nodeOff + off_ptrA, ptrA)
+                node.writeInt4(nodeOff + off_ptrB, ptrB)
                 return nodePtr
             }
             else -> {
@@ -428,6 +450,55 @@ throw Exception("wrong depth ${(currentDepth+len )% 8}")
         var currentPtr = rootNodePtr
         var currentDepth = 0
         while (true) {
+val header=readHeader(currentPage, currentPageOffset)
+when(header){
+0x3->{
+                val significantBit = (data[0].toInt() shr 7) and 0x1
+                shiftLeft(data, data1, 1, inLen)
+                inLen -= 1
+                if (significantBit == 0) {
+                    val ptrA = readPtrA(currentPage, currentPageOffset)
+                    val ptrB = readPtrB(currentPage, currentPageOffset)
+                    if (ptrA == null_ptr) {
+                        var kk = next_key++
+                        val pagePtr = createChild(data1, 0, inLen, kk, currentDepth+1)
+                        val newPtr = createChild(currentPage, 0, 0, null_key, currentDepth, pagePtr, ptrB)
+                        freeBytes(currentPtr)
+                        updatePointer(parentPtr, currentPtr, newPtr)
+                        return kk
+                    }
+                    currentPage = pagePtrToPage(ptrA)
+                    currentPageOffset = pagePtrToPffset(ptrA)
+                    currentDepth += 1
+                    parentParentPtr = parentPtr
+                    parentPtr = currentPtr
+                    currentPtr = ptrA
+                    data2 = data1
+                    data1 = data
+                    data = data2
+                } else {
+                    val ptrA = readPtrA(currentPage, currentPageOffset)
+                    val ptrB = readPtrB(currentPage, currentPageOffset)
+                    if (ptrB == null_ptr) {
+                        var kk = next_key++
+                        val pagePtr = createChild(data1, 0, inLen, kk, currentDepth)
+                        val newPtr = createChild(currentPage, 0, 0, null_key, currentDepth, ptrA, pagePtr)
+                        freeBytes(currentPtr)
+                        updatePointer(parentPtr, currentPtr, newPtr)
+                        return kk
+                    }
+                    currentPage = pagePtrToPage(ptrB)
+                    currentPageOffset = pagePtrToPffset(ptrB)
+                    currentDepth += 1
+                    parentParentPtr = parentPtr
+                    parentPtr = currentPtr
+                    currentPtr = ptrB
+                    data2 = data1
+                    data1 = data
+                    data = data2
+                }
+}
+0x0,0x1,0x2->{
             val len = readLen(currentPage, currentPageOffset)
             val dataOff = readDataOffset(currentPage, currentPageOffset)
             var common: Int = 0
@@ -560,6 +631,8 @@ throw Exception("wrong depth ${(currentDepth+len )% 8}")
         }
     }
 }
+}
+}
 
 
 inline fun ByteArray.writeInt1(offset: Int, value: Int) {
@@ -620,7 +693,7 @@ fun convertToUTF8BitStream(arr: IntArray): String {
 }
 
 val debugmode = false
-var fastMode=true
+var fastMode=false
 
 if (debugmode) {
 fastMode=false
@@ -629,8 +702,8 @@ fastMode=false
 var i = 0
 var insertedSize = 0
 val insertMap = mutableMapOf<String, Int>()
-//java.io.File("/mnt/luposdate-testdata/sp2b/16384/intermediate.dictionary").forEachLine { it2 ->
-java.io.File("/mnt/luposdate-testdata/yago2/yago-2.n3").forEachLine { it2 ->
+java.io.File("/mnt/luposdate-testdata/sp2b/16384/intermediate.dictionary").forEachLine { it2 ->
+//java.io.File("/mnt/luposdate-testdata/yago2/yago-2.n3").forEachLine { it2 ->
     for (it in it2.split(" ")) {
         if (i % 100 == 0) {
             println("$i :: $insertedSize ${tree.allocatedNodes} ${tree.allocatedBytes} ${tree.slotsAllocedBySize.mapIndexed { idx, it -> it * tree.listSliceSizes[idx] }.sum()} ${tree.slotsAllocedBySize.map { it }} ${tree.freeLists.map { it.size }}")
