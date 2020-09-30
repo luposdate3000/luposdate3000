@@ -242,9 +242,10 @@ class RadixTree {
 
     fun shiftLeft(inBuffer: ByteArray, outBuffer: ByteArray, inBufferOffset: Int, inBufferLength: Int) {
         var offIn = inBufferOffset shr 3
-        val lenIn = (inBufferOffset + inBufferLength) shr 3
+        var lenIn = (inBufferOffset + inBufferLength) shr 3
         var offOut = 0
         var toShift = inBufferOffset and 0x7
+val endoffset=(inBufferOffset+inBufferLength) and 0x7
         when (toShift) {
             0 -> {
                 while (offIn < lenIn) {
@@ -252,9 +253,7 @@ class RadixTree {
                     offIn++
                     offOut++
                 }
-                if ((inBufferOffset + inBufferLength) % 8 != 0) {
                     outBuffer[offOut] = inBuffer[offIn]
-                }
             }
             1 -> {
                 while (offIn < lenIn) {
@@ -262,9 +261,7 @@ class RadixTree {
                     offIn++
                     offOut++
                 }
-                if ((inBufferOffset + inBufferLength) % 8 != 0) {
                     outBuffer[offOut] = ((inBuffer[offIn].toInt() shl 1) and 0xfe).toByte()
-                }
             }
             2 -> {
                 while (offIn < lenIn) {
@@ -272,9 +269,7 @@ class RadixTree {
                     offIn++
                     offOut++
                 }
-                if ((inBufferOffset + inBufferLength) % 8 != 0) {
                     outBuffer[offOut] = ((inBuffer[offIn].toInt() shl 2) and 0xfc).toByte()
-                }
             }
             3 -> {
                 while (offIn < lenIn) {
@@ -282,9 +277,7 @@ class RadixTree {
                     offIn++
                     offOut++
                 }
-                if ((inBufferOffset + inBufferLength) % 8 != 0) {
                     outBuffer[offOut] = ((inBuffer[offIn].toInt() shl 3) and 0xf8).toByte()
-                }
             }
             4 -> {
                 while (offIn < lenIn) {
@@ -292,9 +285,7 @@ class RadixTree {
                     offIn++
                     offOut++
                 }
-                if ((inBufferOffset + inBufferLength) % 8 != 0) {
                     outBuffer[offOut] = ((inBuffer[offIn].toInt() shl 4) and 0xf0).toByte()
-                }
             }
             5 -> {
                 while (offIn < lenIn) {
@@ -302,9 +293,7 @@ class RadixTree {
                     offIn++
                     offOut++
                 }
-                if ((inBufferOffset + inBufferLength) % 8 != 0) {
                     outBuffer[offOut] = ((inBuffer[offIn].toInt() shl 5) and 0xe0).toByte()
-                }
             }
             6 -> {
                 while (offIn < lenIn) {
@@ -312,9 +301,7 @@ class RadixTree {
                     offIn++
                     offOut++
                 }
-                if ((inBufferOffset + inBufferLength) % 8 != 0) {
                     outBuffer[offOut] = ((inBuffer[offIn].toInt() shl 6) and 0xc0).toByte()
-                }
             }
             7 -> {
                 while (offIn < lenIn) {
@@ -322,9 +309,7 @@ class RadixTree {
                     offIn++
                     offOut++
                 }
-                if ((inBufferOffset + inBufferLength) % 8 != 0) {
                     outBuffer[offOut] = ((inBuffer[offIn].toInt() shl 7) and 0x80).toByte()
-                }
             }
         }
     }
@@ -546,8 +531,8 @@ class RadixTree {
                 val ptrA = readPtrA(currentPage, currentPageOffset)
                 val ptrB = readPtrB(currentPage, currentPageOffset)
 
-
                 shiftLeft(currentPage, pageBuffer, (dataOff shl 3) + common, len - common)
+
                 val splitChildPage = createChild(pageBuffer, 0, len - common, currentKey, currentDepth, ptrA, ptrB)
                 val off = dataOff + (common shr 3)
 
@@ -631,48 +616,51 @@ if (debugmode) {
 var i = 0
 var insertedSize = 0
 val insertMap = mutableMapOf<String, Int>()
-java.io.File("/mnt/luposdate-testdata/sp2b/16384/intermediate.dictionary").forEachLine { it ->
-    if (i % 100 == 0) {
-        println("$i :: $insertedSize ${tree.slotsAllocedBySize.mapIndexed { idx, it -> it * tree.listSliceSizes[idx] }.sum()} ${tree.slotsAllocedBySize.map { it }} ${tree.freeLists.map { it.size }}")
-    }
-    var s = it
-    if (debugmode) {
-        if (s.length > 20) {
-            s = s.substring(0, 20)
+java.io.File("/mnt/luposdate-testdata/sp2b/16384/intermediate.dictionary").forEachLine { it2 ->
+//java.io.File("/mnt/luposdate-testdata/yago2/yago-2.n3").forEachLine { it2 ->
+    for (it in it2.split(" ")) {
+        if (i % 100 == 0) {
+            println("$i :: $insertedSize ${tree.slotsAllocedBySize.mapIndexed { idx, it -> it * tree.listSliceSizes[idx] }.sum()} ${tree.slotsAllocedBySize.map { it }} ${tree.freeLists.map { it.size }}")
         }
-        println("-----------")
-    } else {
-        if (s.length > 8192) {
-            s = s.substring(0, 8000)
+        var s = it
+        if (debugmode) {
+            if (s.length > 20) {
+                s = s.substring(0, 20)
+            }
+            println("-----------")
+        } else {
+            if (s.length > 8000) {
+                s = s.substring(0, 8000)
+            }
+            insertedSize += s.length
         }
-        insertedSize += s.length
-    }
-    val arr = stringToIntArray(s)
-    val stream = convertToUTF8BitStream(arr)
-    val key = tree.insertUTF32(arr, arr.size)
-    insertMap[stream] = key
+        val arr = stringToIntArray(s)
+        val stream = convertToUTF8BitStream(arr)
+        val key = tree.insertUTF32(arr, arr.size)
+        insertMap[stream] = key
 
-    if (debugmode) {
-        println("inserting " + stream + " -> " + key)
-        println("printing")
-        tree.print()
-        var insertedBytes = 0
-        for ((k, v) in insertMap) {
-            insertedBytes += (k.length + 0x7) shr 3
-            val v2 = tree.debugMap[k]
-            if (v != v2) {
-                throw Exception("value $k $v $v2")
+        if (debugmode) {
+            println("inserting " + stream + " -> " + key)
+            println("printing")
+            tree.print()
+            var insertedBytes = 0
+            for ((k, v) in insertMap) {
+                insertedBytes += (k.length + 0x7) shr 3
+                val v2 = tree.debugMap[k]
+                if (v != v2) {
+                    throw Exception("value $k $v $v2")
+                }
+            }
+            println("bytes inserted $insertedBytes")
+            for ((k, v) in tree.debugMap) {
+                val v2 = insertMap[k]
+                if (v != v2) {
+                    throw Exception("value $k $v2 $v")
+                }
             }
         }
-        println("bytes inserted $insertedBytes")
-        for ((k, v) in tree.debugMap) {
-            val v2 = insertMap[k]
-            if (v != v2) {
-                throw Exception("value $k $v2 $v")
-            }
-        }
+        i++
     }
-    i++
 }
 
 
