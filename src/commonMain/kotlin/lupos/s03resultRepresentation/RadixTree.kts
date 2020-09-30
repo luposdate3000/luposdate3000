@@ -154,6 +154,16 @@ class RadixTree {
         }
     }
 
+    fun readPtrSpecific(node: ByteArray, offset: Int,id:Int): Int {
+        val header = readHeader(node, offset)
+        when (header) {
+            0x0 -> return node.readInt4(offset + off_ptrA+(id shl 2))
+            0x1 -> return node.readInt4(offset + off_ptrA+(id shl 2))
+            0x2 -> return null_ptr
+            0x3 -> return node.readInt4(offset + off_ptrA+(id shl 2))
+            else -> throw Exception("unknown header $header")
+        }
+    }
     fun readPtrA(node: ByteArray, offset: Int): Int {
         val header = readHeader(node, offset)
         when (header) {
@@ -373,13 +383,13 @@ class RadixTree {
         }
     }
 
-    fun print() {
+    fun print(maxdepth:Int=Int.MAX_VALUE) {
         debugMap.clear()
-        var usedBytes = print(rootNodePtr, "")
+        var usedBytes = print(rootNodePtr, "",maxdepth)
         println("bytes consumed $usedBytes ($allocatedBytes) .. ${slotsAllocedBySize.mapIndexed { idx, it -> it * listSliceSizes[idx] }.sum()} ${slotsAllocedBySize.map { it }} used nodes :: $allocatedNodes")
     }
 
-    fun print(pagePtr: Int, prefix: String): Int {
+    fun print(pagePtr: Int, prefix: String,maxdepth:Int): Int {
         var usedBytes = 0
         var currentPage = pagePtrToPage(pagePtr)
         val currentPageOffset = pagePtrToPffset(pagePtr)
@@ -403,12 +413,12 @@ class RadixTree {
         val header = readHeader(currentPage, currentPageOffset)
         println(value + " :: " + key + " = " + pagePtr + " ? " + header)
         var ptr = readPtrA(currentPage, currentPageOffset)
-        if (ptr != null_ptr) {
-            usedBytes += print(ptr, value + "0")
+        if (ptr != null_ptr && maxdepth>0) {
+            usedBytes += print(ptr, value + "0",maxdepth-1)
         }
         ptr = readPtrB(currentPage, currentPageOffset)
-        if (ptr != null_ptr) {
-            usedBytes += print(ptr, value + "1")
+        if (ptr != null_ptr&&maxdepth>0) {
+            usedBytes += print(ptr, value + "1",maxdepth-1)
         }
         return usedBytes
     }
@@ -430,6 +440,20 @@ class RadixTree {
             } else {
                 parent.writeInt4(parentOff + off_ptrB, newPtr)
             }
+        }
+    }
+    fun updatePointerSpecific(parentPtr: Int, id:Int, newPtr: Int) {
+        if (parentPtr == null_ptr) {
+            rootNode = pagePtrToPage(newPtr)
+            rootNodeOffset = pagePtrToPffset(newPtr)
+            rootNodePtr = newPtr
+        } else {
+            val parent = pagePtrToPage(parentPtr)
+            val parentOff = pagePtrToPffset(parentPtr)
+            if (parent.readInt1(parentOff) == 2) {
+                throw Exception("invalud header")
+            }
+	    parent.writeInt4(parentOff + off_ptrA+(id shl 2), newPtr)
         }
     }
 
@@ -456,47 +480,22 @@ class RadixTree {
                     val significantBit = (data[0].toInt() shr 7) and 0x1
                     shiftLeft(data, data1, 1, inLen)
                     inLen -= 1
-                    if (significantBit == 0) {
-                        val ptrA = readPtrA(currentPage, currentPageOffset)
-                        val ptrB = readPtrB(currentPage, currentPageOffset)
-                        if (ptrA == null_ptr) {
+			val ptr=readPtrSpecific(currentPage, currentPageOffset,significantBit)
+                        if (ptr == null_ptr) {
                             var kk = next_key++
                             val pagePtr = createChild(data1, 0, inLen, kk, currentDepth + 1)
-                            val newPtr = createChild(currentPage, 0, 0, null_key, currentDepth, pagePtr, ptrB)
-                            freeBytes(currentPtr)
-                            updatePointer(parentPtr, currentPtr, newPtr)
+			    updatePointerSpecific(currentPtr,significantBit,pagePtr)
                             return kk
                         }
-                        currentPage = pagePtrToPage(ptrA)
-                        currentPageOffset = pagePtrToPffset(ptrA)
+                        currentPage = pagePtrToPage(ptr)
+                        currentPageOffset = pagePtrToPffset(ptr)
                         currentDepth += 1
                         parentParentPtr = parentPtr
                         parentPtr = currentPtr
-                        currentPtr = ptrA
+                        currentPtr = ptr
                         data2 = data1
                         data1 = data
                         data = data2
-                    } else {
-                        val ptrA = readPtrA(currentPage, currentPageOffset)
-                        val ptrB = readPtrB(currentPage, currentPageOffset)
-                        if (ptrB == null_ptr) {
-                            var kk = next_key++
-                            val pagePtr = createChild(data1, 0, inLen, kk, currentDepth)
-                            val newPtr = createChild(currentPage, 0, 0, null_key, currentDepth, ptrA, pagePtr)
-                            freeBytes(currentPtr)
-                            updatePointer(parentPtr, currentPtr, newPtr)
-                            return kk
-                        }
-                        currentPage = pagePtrToPage(ptrB)
-                        currentPageOffset = pagePtrToPffset(ptrB)
-                        currentDepth += 1
-                        parentParentPtr = parentPtr
-                        parentPtr = currentPtr
-                        currentPtr = ptrB
-                        data2 = data1
-                        data1 = data
-                        data = data2
-                    }
                 }
                 0x0, 0x1, 0x2 -> {
                     val len = readLen(currentPage, currentPageOffset)
@@ -770,3 +769,4 @@ if (!fastMode) {
         }
     }
 }
+tree.print(4)
