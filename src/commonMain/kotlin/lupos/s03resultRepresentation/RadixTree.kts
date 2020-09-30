@@ -4,7 +4,7 @@ class RadixTree {
 
     var debugMap = mutableMapOf<String, Int>()
     var next_key = null_key + 1
-    var pages = Array<ByteArray>(2048) { ByteArray(8192) } //pages[0] is used as temporary buffer
+    var pages = Array<ByteArray>(16000) { ByteArray(8192) } //pages[0] is used as temporary buffer
     var pagesCounter = 2
     var rootNode = pages[1]
     var rootNodeOffset = 0
@@ -179,6 +179,11 @@ class RadixTree {
     }
 
     fun createChild(data: ByteArray, dataOff: Int, len: Int, key: Int, currentDepth: Int, ptrA: Int = null_ptr, ptrB: Int = null_ptr): Int {
+if(key!=null_key){
+if((currentDepth+len )% 8!=0){
+throw Exception("wrong depth ${(currentDepth+len )% 8}")
+}
+}
         var header = 0x0
         if (key != null_key) {
             if (ptrA == null_ptr && ptrB == null_ptr) {
@@ -457,7 +462,7 @@ class RadixTree {
                     common += 1
 
                     shiftLeft(currentPage, pageBuffer, (dataOff shl 3) + common, len - common)
-                    val splitChildPage = createChild(pageBuffer, 0, len - common, currentKey, currentDepth, ptrA, ptrB)
+                    val splitChildPage = createChild(pageBuffer, 0, len - common, currentKey, currentDepth + common, ptrA, ptrB)
                     val off = dataOff + (common shr 3)
                     if (significantBit == 0) {
                         val newPtr = createChild(currentPage, dataOff, common - 1, newKey, currentDepth, splitChildPage, null_ptr)
@@ -484,7 +489,7 @@ class RadixTree {
                     val ptrB = readPtrB(currentPage, currentPageOffset)
                     if (ptrA == null_ptr) {
                         var kk = next_key++
-                        val pagePtr = createChild(data1, 0, inLen, kk, currentDepth)
+                        val pagePtr = createChild(data1, 0, inLen, kk, currentDepth+common)
                         val newPtr = createChild(currentPage, dataOff, len, key, currentDepth, pagePtr, ptrB)
                         freeBytes(currentPtr)
                         updatePointer(parentPtr, currentPtr, newPtr)
@@ -492,7 +497,7 @@ class RadixTree {
                     }
                     currentPage = pagePtrToPage(ptrA)
                     currentPageOffset = pagePtrToPffset(ptrA)
-                    currentDepth += common + 1
+                    currentDepth += common
                     parentParentPtr = parentPtr
                     parentPtr = currentPtr
                     currentPtr = ptrA
@@ -513,7 +518,7 @@ class RadixTree {
                     }
                     currentPage = pagePtrToPage(ptrB)
                     currentPageOffset = pagePtrToPffset(ptrB)
-                    currentDepth += common + 1
+                    currentDepth += common
                     parentParentPtr = parentPtr
                     parentPtr = currentPtr
                     currentPtr = ptrB
@@ -530,7 +535,7 @@ class RadixTree {
 
                 shiftLeft(data, data1, common, inLen - common)
                 var newKey = next_key++
-                val newPage = createChild(data1, 0, inLen - common, newKey, currentDepth)
+                val newPage = createChild(data1, 0, inLen - common, newKey, currentDepth+common)
 
                 var currentKey = readKey(currentPage, currentPageOffset)
                 val ptrA = readPtrA(currentPage, currentPageOffset)
@@ -538,7 +543,7 @@ class RadixTree {
 
                 shiftLeft(currentPage, pageBuffer, (dataOff shl 3) + common, len - common)
 
-                val splitChildPage = createChild(pageBuffer, 0, len - common, currentKey, currentDepth, ptrA, ptrB)
+                val splitChildPage = createChild(pageBuffer, 0, len - common, currentKey, currentDepth+common, ptrA, ptrB)
                 val off = dataOff + (common shr 3)
 
                 if (significantBit == 0) {
@@ -615,7 +620,10 @@ fun convertToUTF8BitStream(arr: IntArray): String {
 }
 
 val debugmode = false
+var fastMode=true
+
 if (debugmode) {
+fastMode=false
     tree.print()
 }
 var i = 0
@@ -641,11 +649,12 @@ java.io.File("/mnt/luposdate-testdata/yago2/yago-2.n3").forEachLine { it2 ->
         val arr = stringToIntArray(s)
         val stream = convertToUTF8BitStream(arr)
         val key = tree.insertUTF32(arr, arr.size)
+if(!fastMode){
         if (insertMap[stream] == null) {
             insertedSize += stream.length shr 3
         }
         insertMap[stream] = key
-
+}
         if (debugmode) {
             println("inserting " + stream + " -> " + key)
             println("printing")
@@ -671,7 +680,7 @@ java.io.File("/mnt/luposdate-testdata/yago2/yago-2.n3").forEachLine { it2 ->
 }
 
 
-
+if(!fastMode){
 if (!debugmode) {
     tree.print()
     for ((k, v) in insertMap) {
@@ -686,4 +695,5 @@ if (!debugmode) {
             throw Exception("value $k $v2 $v")
         }
     }
+}
 }
