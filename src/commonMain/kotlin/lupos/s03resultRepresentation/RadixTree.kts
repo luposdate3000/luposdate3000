@@ -33,7 +33,7 @@ class RadixTree {
         return len
     }
 
-    var allocedBytes = 0
+    var allocatedBytes = 0
     var allocatedNodes = 0
     val listSliceSizes = intArrayOf(16, 32, 64, 128, 256, 512, 1024, 2048, 4096, 8196)
     val freeLists = Array(listSliceSizes.size) { mutableListOf<Int>() }
@@ -60,7 +60,7 @@ class RadixTree {
         val listToUse = mapLenToList(len)
         slotsAllocedBySize[listToUse]++
         val list = freeLists[listToUse]
-        allocedBytes += len
+        allocatedBytes += len
         if (list.size > 0) {
             val ptr = list.removeAt(0)
 //println("alloc $len at ${ptr shr 9}:${(ptr and 0x1ff) shl 4}")
@@ -84,7 +84,7 @@ class RadixTree {
         val nodeOff = pagePtrToPffset(ptr)
         var node = pagePtrToPage(ptr)
         val len = readConsumedBytes(node, nodeOff)
-        allocedBytes -= len
+        allocatedBytes -= len
         val listToUse = mapLenToList(len)
         slotsAllocedBySize[listToUse]--
         freeLists[listToUse].add(ptr)
@@ -241,78 +241,80 @@ class RadixTree {
 
 
     fun shiftLeft(inBuffer: ByteArray, outBuffer: ByteArray, inBufferOffset: Int, inBufferLength: Int) {
-        var offIn = inBufferOffset shr 3
-        var lenIn = (inBufferOffset + inBufferLength) shr 3
-        var offOut = 0
-        var toShift = inBufferOffset and 0x7
-val endoffset=(inBufferOffset+inBufferLength) and 0x7
-if(endoffset==0 && toShift>0){
-lenIn--
-}
-        when (toShift) {
-            0 -> {
-                while (offIn < lenIn) {
-                    outBuffer[offOut] = inBuffer[offIn]
-                    offIn++
-                    offOut++
-                }
-                    outBuffer[offOut] = inBuffer[offIn]
+        if (inBufferLength > 0) {
+            var offIn = inBufferOffset shr 3
+            var lenIn = (inBufferOffset + inBufferLength) shr 3
+            var offOut = 0
+            var toShift = inBufferOffset and 0x7
+            val endoffset = (inBufferOffset + inBufferLength) and 0x7
+            if (endoffset == 0) {
+                lenIn--
             }
-            1 -> {
-                while (offIn < lenIn) {
-                    outBuffer[offOut] = (((inBuffer[offIn].toInt() shl 1) and 0xfe) or ((inBuffer[offIn + 1].toInt() shr 7) and 0x01)).toByte()
-                    offIn++
-                    offOut++
+            when (toShift) {
+                0 -> {
+                    while (offIn < lenIn) {
+                        outBuffer[offOut] = inBuffer[offIn]
+                        offIn++
+                        offOut++
+                    }
+                    outBuffer[offOut] = inBuffer[offIn]
                 }
+                1 -> {
+                    while (offIn < lenIn) {
+                        outBuffer[offOut] = (((inBuffer[offIn].toInt() shl 1) and 0xfe) or ((inBuffer[offIn + 1].toInt() shr 7) and 0x01)).toByte()
+                        offIn++
+                        offOut++
+                    }
                     outBuffer[offOut] = ((inBuffer[offIn].toInt() shl 1) and 0xfe).toByte()
-            }
-            2 -> {
-         while (offIn < lenIn) {
-                    outBuffer[offOut] = (((inBuffer[offIn].toInt() shl 2) and 0xfc) or ((inBuffer[offIn + 1].toInt() shr 6) and 0x03)).toByte()
-                    offIn++
-                    offOut++
                 }
+                2 -> {
+                    while (offIn < lenIn) {
+                        outBuffer[offOut] = (((inBuffer[offIn].toInt() shl 2) and 0xfc) or ((inBuffer[offIn + 1].toInt() shr 6) and 0x03)).toByte()
+                        offIn++
+                        offOut++
+                    }
                     outBuffer[offOut] = ((inBuffer[offIn].toInt() shl 2) and 0xfc).toByte()
-            }
-            3 -> {
-                while (offIn < lenIn) {
-                    outBuffer[offOut] = (((inBuffer[offIn].toInt() shl 3) and 0xf8) or ((inBuffer[offIn + 1].toInt() shr 5) and 0x07)).toByte()
-                    offIn++
-                    offOut++
                 }
+                3 -> {
+                    while (offIn < lenIn) {
+                        outBuffer[offOut] = (((inBuffer[offIn].toInt() shl 3) and 0xf8) or ((inBuffer[offIn + 1].toInt() shr 5) and 0x07)).toByte()
+                        offIn++
+                        offOut++
+                    }
                     outBuffer[offOut] = ((inBuffer[offIn].toInt() shl 3) and 0xf8).toByte()
-            }
-            4 -> {
-                while (offIn < lenIn) {
-                    outBuffer[offOut] = (((inBuffer[offIn].toInt() shl 4) and 0xf0) or ((inBuffer[offIn + 1].toInt() shr 4) and 0x0f)).toByte()
-                    offIn++
-                    offOut++
                 }
+                4 -> {
+                    while (offIn < lenIn) {
+                        outBuffer[offOut] = (((inBuffer[offIn].toInt() shl 4) and 0xf0) or ((inBuffer[offIn + 1].toInt() shr 4) and 0x0f)).toByte()
+                        offIn++
+                        offOut++
+                    }
                     outBuffer[offOut] = ((inBuffer[offIn].toInt() shl 4) and 0xf0).toByte()
-            }
-            5 -> {
-                while (offIn < lenIn) {
-                    outBuffer[offOut] = (((inBuffer[offIn].toInt() shl 5) and 0xe0) or ((inBuffer[offIn + 1].toInt() shr 3) and 0x1f)).toByte()
-                    offIn++
-                    offOut++
                 }
+                5 -> {
+                    while (offIn < lenIn) {
+                        outBuffer[offOut] = (((inBuffer[offIn].toInt() shl 5) and 0xe0) or ((inBuffer[offIn + 1].toInt() shr 3) and 0x1f)).toByte()
+                        offIn++
+                        offOut++
+                    }
                     outBuffer[offOut] = ((inBuffer[offIn].toInt() shl 5) and 0xe0).toByte()
-            }
-            6 -> {
-                while (offIn < lenIn) {
-                    outBuffer[offOut] = (((inBuffer[offIn].toInt() shl 6) and 0xc0) or ((inBuffer[offIn + 1].toInt() shr 2) and 0x3f)).toByte()
-                    offIn++
-                    offOut++
                 }
+                6 -> {
+                    while (offIn < lenIn) {
+                        outBuffer[offOut] = (((inBuffer[offIn].toInt() shl 6) and 0xc0) or ((inBuffer[offIn + 1].toInt() shr 2) and 0x3f)).toByte()
+                        offIn++
+                        offOut++
+                    }
                     outBuffer[offOut] = ((inBuffer[offIn].toInt() shl 6) and 0xc0).toByte()
-            }
-            7 -> {
-                while (offIn < lenIn) {
-                    outBuffer[offOut] = (((inBuffer[offIn].toInt() shl 7) and 0x80) or ((inBuffer[offIn + 1].toInt() shr 1) and 0x7f)).toByte()
-                    offIn++
-                    offOut++
                 }
+                7 -> {
+                    while (offIn < lenIn) {
+                        outBuffer[offOut] = (((inBuffer[offIn].toInt() shl 7) and 0x80) or ((inBuffer[offIn + 1].toInt() shr 1) and 0x7f)).toByte()
+                        offIn++
+                        offOut++
+                    }
                     outBuffer[offOut] = ((inBuffer[offIn].toInt() shl 7) and 0x80).toByte()
+                }
             }
         }
     }
@@ -347,7 +349,7 @@ lenIn--
     fun print() {
         debugMap.clear()
         var usedBytes = print(rootNodePtr, "")
-        println("bytes consumed $usedBytes ($allocedBytes) .. ${slotsAllocedBySize.mapIndexed { idx, it -> it * listSliceSizes[idx] }.sum()} ${slotsAllocedBySize.map { it }} used nodes :: $allocatedNodes")
+        println("bytes consumed $usedBytes ($allocatedBytes) .. ${slotsAllocedBySize.mapIndexed { idx, it -> it * listSliceSizes[idx] }.sum()} ${slotsAllocedBySize.map { it }} used nodes :: $allocatedNodes")
     }
 
     fun print(pagePtr: Int, prefix: String): Int {
@@ -619,11 +621,11 @@ if (debugmode) {
 var i = 0
 var insertedSize = 0
 val insertMap = mutableMapOf<String, Int>()
-java.io.File("/mnt/luposdate-testdata/sp2b/16384/intermediate.dictionary").forEachLine { it2 ->
-//java.io.File("/mnt/luposdate-testdata/yago2/yago-2.n3").forEachLine { it2 ->
+//java.io.File("/mnt/luposdate-testdata/sp2b/16384/intermediate.dictionary").forEachLine { it2 ->
+java.io.File("/mnt/luposdate-testdata/yago2/yago-2.n3").forEachLine { it2 ->
     for (it in it2.split(" ")) {
         if (i % 100 == 0) {
-            println("$i :: $insertedSize ${tree.slotsAllocedBySize.mapIndexed { idx, it -> it * tree.listSliceSizes[idx] }.sum()} ${tree.slotsAllocedBySize.map { it }} ${tree.freeLists.map { it.size }}")
+            println("$i :: $insertedSize ${tree.allocatedNodes} ${tree.allocatedBytes} ${tree.slotsAllocedBySize.mapIndexed { idx, it -> it * tree.listSliceSizes[idx] }.sum()} ${tree.slotsAllocedBySize.map { it }} ${tree.freeLists.map { it.size }}")
         }
         var s = it
         if (debugmode) {
@@ -635,11 +637,13 @@ java.io.File("/mnt/luposdate-testdata/sp2b/16384/intermediate.dictionary").forEa
             if (s.length > 8000) {
                 s = s.substring(0, 8000)
             }
-            insertedSize += s.length
         }
         val arr = stringToIntArray(s)
         val stream = convertToUTF8BitStream(arr)
         val key = tree.insertUTF32(arr, arr.size)
+        if (insertMap[stream] == null) {
+            insertedSize += stream.length shr 3
+        }
         insertMap[stream] = key
 
         if (debugmode) {
