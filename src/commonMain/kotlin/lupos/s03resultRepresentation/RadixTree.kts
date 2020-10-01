@@ -6,10 +6,10 @@ class RadixTree {
     var debugMap = mutableMapOf<String, Int>()
     var next_key = null_key + 1
     var pages = Array<ByteArray>(16000) { ByteArray(8192) } //pages[0] is used as temporary buffer
-    var pagesCounter = 2
-    var rootNode = pages[1]
-    var rootNodeOffset = 0
-    var rootNodePtr = 512
+    var pagesCounter = 1
+    val rootNode: ByteArray
+    val rootNodeOffset: Int
+    val rootNodePtr: Int
     var rootKey = null_key
 
     var allocatedBytes = 0
@@ -19,9 +19,12 @@ class RadixTree {
     val slotsAllocedBySize = IntArray(listSliceSizes.size)
 
     init {
+        rootNodePtr = allocBytes(off_5_data)
+        rootNode = pagePtrToPage(rootNodePtr)
+        rootNodeOffset = pagePtrToOffset(rootNodePtr)
         rootNode.writeInt1(rootNodeOffset, header_5)
         for (id in 0 until 2) {
-            rootNode.writeInt4(rootNodeOffset + (id shl 2), null_ptr)
+            rootNode.writeInt4(rootNodeOffset + off_ptrA + (id shl 2), null_ptr)
         }
     }
 
@@ -193,7 +196,7 @@ class RadixTree {
     fun readPtrSpecific(node: ByteArray, offset: Int, id: Int): Int {
         val header = readHeader(node, offset)
         when (header) {
-            header_0,header_1,header_3,header_4,header_5,header_6 -> return node.readInt4(offset + off_ptrA + (id shl 2))
+            header_0, header_1, header_3, header_4, header_5, header_6 -> return node.readInt4(offset + off_ptrA + (id shl 2))
             header_1 -> return node.readInt4(offset + off_ptrA + (id shl 2))
             header_2 -> return null_ptr
             else -> throw Exception("unknown header $header")
@@ -203,7 +206,7 @@ class RadixTree {
     fun readPtrA(node: ByteArray, offset: Int): Int {
         val header = readHeader(node, offset)
         when (header) {
-            header_0,header_1,header_3,header_4,header_5,header_6  -> return node.readInt4(offset + off_ptrA)
+            header_0, header_1, header_3, header_4, header_5, header_6 -> return node.readInt4(offset + off_ptrA)
             header_1 -> return node.readInt4(offset + off_ptrA)
             header_2 -> return null_ptr
             else -> throw Exception("unknown header $header")
@@ -213,7 +216,7 @@ class RadixTree {
     fun readPtrB(node: ByteArray, offset: Int): Int {
         val header = readHeader(node, offset)
         when (header) {
-            header_0,header_1,header_3,header_4,header_5,header_6  -> return node.readInt4(offset + off_ptrB)
+            header_0, header_1, header_3, header_4, header_5, header_6 -> return node.readInt4(offset + off_ptrB)
             header_2 -> return null_ptr
             else -> throw Exception("unknown header $header")
         }
@@ -222,7 +225,7 @@ class RadixTree {
     fun readKey(node: ByteArray, offset: Int): Int {
         val header = readHeader(node, offset)
         when (header) {
-            header_0,header_3,header_4 -> return null_key
+            header_0, header_3, header_4 -> return null_key
             header_1 -> return node.readInt4(offset + off_1_key)
             header_2 -> return node.readInt4(offset + off_2_key)
             header_5 -> return node.readInt4(offset + off_5_key)
@@ -269,7 +272,7 @@ class RadixTree {
                 }
                 return res
             }
-            header_3,header_5 -> {
+            header_3, header_5 -> {
                 var res = 0
                 for (id2 in 0 until 2) {
                     val p = readPtrSpecific(current, currentOff, id2)
@@ -283,7 +286,7 @@ class RadixTree {
                 }
                 return res
             }
-            header_4,header_6 -> {
+            header_4, header_6 -> {
                 if (len < 2) {
                     throw Exception("wrong depth to start counting")
                 }
@@ -322,7 +325,7 @@ class RadixTree {
         val currentOff = pagePtrToOffset(currentPtr)
         val currentHeader = readHeader(current, currentOff)
         when (currentHeader) {
-            header_3 -> {
+            header_3, header_5 -> {
                 for (id2 in 0 until 2) {
                     val p = readPtrSpecific(current, currentOff, id2)
                     writeChilds(target, targetOff, idPrefix + (id2 shl (len - 1)), len - 1, p, currentDepth + 1)
@@ -383,7 +386,7 @@ class RadixTree {
                 if (sPtr != null_ptr) {
                     used_counter++
                     var currentPtr = stack[sPtr]
-			correctDepth+=calculateDepth(currentPtr)
+                    correctDepth += calculateDepth(currentPtr)
                 }
                 sPtr++
             }
@@ -468,7 +471,7 @@ class RadixTree {
                         }
                     }
                 }
-/*                header_5 -> {
+                header_5 -> {
                     if (currentDepth and 0x1 != 0) {
                         if (countChilds(currentPtr, 1) >= 2) {
                             println("createChild 18")
@@ -484,7 +487,6 @@ class RadixTree {
                         }
                     }
                 }
-*/
             }
         }
     }
@@ -772,52 +774,46 @@ class RadixTree {
 
     fun updatePointer(parentPtr: Int, currentPtr: Int, newPtr: Int) {
         if (parentPtr == null_ptr) {
-            rootNode = pagePtrToPage(newPtr)
-            rootNodeOffset = pagePtrToOffset(newPtr)
-            rootNodePtr = newPtr
-        } else {
-            val parent = pagePtrToPage(parentPtr)
-            val parentOff = pagePtrToOffset(parentPtr)
-            val header = readHeader(parent, parentOff)
-            when (header) {
-                header_2 -> {
-                    throw Exception("invalid header")
+            throw Exception("")
+        }
+        val parent = pagePtrToPage(parentPtr)
+        val parentOff = pagePtrToOffset(parentPtr)
+        val header = readHeader(parent, parentOff)
+        when (header) {
+            header_2 -> {
+                throw Exception("invalid header")
+            }
+            header_0, header_1, header_3, header_5 -> {
+                if (parent.readInt4(parentOff + off_ptrA) == currentPtr) {
+                    parent.writeInt4(parentOff + off_ptrA, newPtr)
+                } else {
+                    parent.writeInt4(parentOff + off_ptrB, newPtr)
                 }
-                header_0, header_1, header_3, header_5 -> {
-                    if (parent.readInt4(parentOff + off_ptrA) == currentPtr) {
-                        parent.writeInt4(parentOff + off_ptrA, newPtr)
-                    } else {
-                        parent.writeInt4(parentOff + off_ptrB, newPtr)
+            }
+            header_4, header_6 -> {
+                for (id in 0 until 4) {
+                    if (parent.readInt4(parentOff + off_ptrA + (id shl 2)) == currentPtr) {
+                        parent.writeInt4(parentOff + off_ptrA + (id shl 2), newPtr)
+                        return
                     }
                 }
-                header_4, header_6 -> {
-                    for (id in 0 until 4) {
-                        if (parent.readInt4(parentOff + off_ptrA + (id shl 2)) == currentPtr) {
-                            parent.writeInt4(parentOff + off_ptrA + (id shl 2), newPtr)
-                            return
-                        }
-                    }
-                }
-                else -> {
-                    throw Exception("unknown header $header")
-                }
+            }
+            else -> {
+                throw Exception("unknown header $header")
             }
         }
     }
 
     fun updatePointerSpecific(parentPtr: Int, id: Int, newPtr: Int) {
         if (parentPtr == null_ptr) {
-            rootNode = pagePtrToPage(newPtr)
-            rootNodeOffset = pagePtrToOffset(newPtr)
-            rootNodePtr = newPtr
-        } else {
-            val parent = pagePtrToPage(parentPtr)
-            val parentOff = pagePtrToOffset(parentPtr)
-            if (parent.readInt1(parentOff) == header_2) {
-                throw Exception("invalid header")
-            }
-            parent.writeInt4(parentOff + off_ptrA + (id shl 2), newPtr)
+            throw Exception("")
         }
+        val parent = pagePtrToPage(parentPtr)
+        val parentOff = pagePtrToOffset(parentPtr)
+        if (parent.readInt1(parentOff) == header_2) {
+            throw Exception("invalid header")
+        }
+        parent.writeInt4(parentOff + off_ptrA + (id shl 2), newPtr)
     }
 
 
@@ -1205,7 +1201,9 @@ fun testUsingFile(name: String) {
 
 fun testInsertArray(arr: IntArray) {
     val stream = convertToUTF8BitStream(arr)
-    println("going to insert $stream")
+    if (debugmode) {
+        println("going to insert $stream")
+    }
     val key = tree.insertUTF32(arr, arr.size)
     if (!fastMode) {
         if (insertMap[stream] == null) {
@@ -1237,7 +1235,9 @@ fun testInsertArray(arr: IntArray) {
 
 fun testInsertArray(arr: ByteArray) {
     val stream = convertToUTF8BitStream(arr)
-    println("going to insert $stream")
+    if (debugmode) {
+        println("going to insert $stream")
+    }
     val key = tree.insertByteArray(arr, arr.size)
     if (!fastMode) {
         if (insertMap[stream] == null) {
