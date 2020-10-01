@@ -193,13 +193,9 @@ class RadixTree {
     fun readPtrSpecific(node: ByteArray, offset: Int, id: Int): Int {
         val header = readHeader(node, offset)
         when (header) {
-            header_0 -> return node.readInt4(offset + off_ptrA + (id shl 2))
+            header_0,header_1,header_3,header_4,header_5,header_6 -> return node.readInt4(offset + off_ptrA + (id shl 2))
             header_1 -> return node.readInt4(offset + off_ptrA + (id shl 2))
             header_2 -> return null_ptr
-            header_3 -> return node.readInt4(offset + off_ptrA + (id shl 2))
-            header_4 -> return node.readInt4(offset + off_ptrA + (id shl 2))
-            header_5 -> return node.readInt4(offset + off_ptrA + (id shl 2))
-            header_6 -> return node.readInt4(offset + off_ptrA + (id shl 2))
             else -> throw Exception("unknown header $header")
         }
     }
@@ -207,13 +203,9 @@ class RadixTree {
     fun readPtrA(node: ByteArray, offset: Int): Int {
         val header = readHeader(node, offset)
         when (header) {
-            header_0 -> return node.readInt4(offset + off_ptrA)
+            header_0,header_1,header_3,header_4,header_5,header_6  -> return node.readInt4(offset + off_ptrA)
             header_1 -> return node.readInt4(offset + off_ptrA)
             header_2 -> return null_ptr
-            header_3 -> return node.readInt4(offset + off_ptrA)
-            header_4 -> return node.readInt4(offset + off_ptrA)
-            header_5 -> return node.readInt4(offset + off_ptrA)
-            header_6 -> return node.readInt4(offset + off_ptrA)
             else -> throw Exception("unknown header $header")
         }
     }
@@ -221,13 +213,8 @@ class RadixTree {
     fun readPtrB(node: ByteArray, offset: Int): Int {
         val header = readHeader(node, offset)
         when (header) {
-            header_0 -> return node.readInt4(offset + off_ptrB)
-            header_1 -> return node.readInt4(offset + off_ptrB)
+            header_0,header_1,header_3,header_4,header_5,header_6  -> return node.readInt4(offset + off_ptrB)
             header_2 -> return null_ptr
-            header_3 -> return node.readInt4(offset + off_ptrB)
-            header_4 -> return node.readInt4(offset + off_ptrB)
-            header_5 -> return node.readInt4(offset + off_ptrB)
-            header_6 -> return node.readInt4(offset + off_ptrB)
             else -> throw Exception("unknown header $header")
         }
     }
@@ -235,11 +222,9 @@ class RadixTree {
     fun readKey(node: ByteArray, offset: Int): Int {
         val header = readHeader(node, offset)
         when (header) {
-            header_0 -> return null_key
+            header_0,header_3,header_4 -> return null_key
             header_1 -> return node.readInt4(offset + off_1_key)
             header_2 -> return node.readInt4(offset + off_2_key)
-            header_3 -> return null_key
-            header_4 -> return null_key
             header_5 -> return node.readInt4(offset + off_5_key)
             header_6 -> return node.readInt4(offset + off_6_key)
             else -> throw Exception("unknown header $header")
@@ -398,17 +383,7 @@ class RadixTree {
                 if (sPtr != null_ptr) {
                     used_counter++
                     var currentPtr = stack[sPtr]
-                    val current = pagePtrToPage(currentPtr)
-                    val currentOff = pagePtrToOffset(currentPtr)
-                    val currentHeader = readHeader(current, currentOff)
-                    when (currentHeader) {
-                        header_4, header_6 -> correctDepth += 2
-                        header_3, header_5 -> correctDepth += 1
-                        header_0, header_1 -> correctDepth += 1 + readLen(current, currentOff)
-                        header_2 -> correctDepth += readLen(current, currentOff)
-                        else -> throw Exception("unkwnown header $currentHeader")
-                    }
-//                    println("xxx $correctDepth ${stack[sPtr]}")
+			correctDepth+=calculateDepth(currentPtr)
                 }
                 sPtr++
             }
@@ -457,16 +432,6 @@ class RadixTree {
         val currentHeader = readHeader(current, currentOff)
         if (maxStepsDeeper > 0) {
             when (currentHeader) {
-/*header_0,header_1->{
-val len=readLen(current,currentOff)
-for (id2 in 0 until 2) {
-                    val p = readPtrSpecific(current, currentOff, id2)
-                    if (p != null_ptr) {
-                        stack[stackPtr] = p
-                        checkStackHelper(stack, stackPtr + 1, currentDepth +calculateDepth(p),maxStepsDeeper-1)
-                    }
-                }
-}*/
                 header_4, header_6 -> {
                     for (id2 in 0 until 4) {
                         val p = readPtrSpecific(current, currentOff, id2)
@@ -489,7 +454,7 @@ for (id2 in 0 until 2) {
         }
         if (stackPtr > 2) {
             when (currentHeader) {
-/*TODO enable optimize                header_3 -> {
+                header_3 -> {
                     if (currentDepth and 0x1 != 0) {
                         if (countChilds(currentPtr, 1) >= 2) {
                             println("createChild 17")
@@ -503,7 +468,7 @@ for (id2 in 0 until 2) {
                         }
                     }
                 }
-                header_5 -> {
+/*                header_5 -> {
                     if (currentDepth and 0x1 != 0) {
                         if (countChilds(currentPtr, 1) >= 2) {
                             println("createChild 18")
@@ -1303,7 +1268,7 @@ fun testInsertArray(arr: ByteArray) {
 }
 
 val tree = RadixTree()
-val debugmode = true
+val debugmode = false
 var fastMode = false
 var testcaseNumber = 4
 
