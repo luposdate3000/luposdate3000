@@ -457,8 +457,8 @@ for (id2 in 0 until 2) {
             }
         }
         if (stackPtr > 2) {
-            val headerStackHead = readHeaderByPtr(currentPtr)
-            if (headerStackHead == 0x3) {
+            val header = readHeaderByPtr(currentPtr)
+            if (header == 0x3) {
                 if (currentDepth and 0x1 != 0) {
                     if (countChilds(currentPtr, 1) >= 2) {
                         val nodePtr = allocBytes(off_4_data)
@@ -771,21 +771,22 @@ for (id2 in 0 until 2) {
 
 
     fun insertUTF32(inData: IntArray, inDataLength: Int): Int {
+var            data = ByteArray(inDataLength shl 2)
+        var inLen = convertUTF32ToUTF8(inData, inDataLength, data) shl 3
+return insertByteArray(data,inLen)
+}
+fun insertByteArray(inData: ByteArray, inDataLength: Int):Int{
         if (inDataLength == 0) {
             if (rootKey == null_key) {
                 rootKey = next_key++
             }
             return rootKey
         }
-        var pageBuffer = pages[0]
-        var data = ByteArray(0)
-        var data1 = ByteArray(0)
-        var data2 = data1
-        if (data.size < inDataLength shl 2) {
-            data = ByteArray(inDataLength shl 2)
-            data1 = ByteArray(inDataLength shl 2)
-        }
-        var inLen = convertUTF32ToUTF8(inData, inDataLength, data) shl 3
+var pageBuffer = pages[0]
+var data=inData
+var data1=ByteArray(inDataLength)
+var data2 = data1
+var inLen=inDataLength
         var stack = IntArray(100) { null_ptr }
         var stackLen = IntArray(100) { 0 }
         var stackPtr = 1
