@@ -860,63 +860,33 @@ class RadixTree {
             val header = readHeader(currentPage, currentPageOffset)
             // println("path $currentPtr $header")
             when (header) {
-                header_21 -> {
+                header_20,header_21,header_22,header_23,header_24,header_25,header_26,header_27 -> {
+var bitCount=1+header-header_20
                     if (inLen == 0) {
                         var key = readKey(currentPage, currentPageOffset)
                         if (key == null_key) {
                             key = next_key++
-                            currentPage.writeInt4(currentPageOffset + off_21_key, key)
+val off_key=1 + (1 shl (2+bitCount))
+                            currentPage.writeInt4(currentPageOffset + off_key, key)
                         }
                         return key
                     }
-                    val significantBit = (data[0].toInt() shr 6) and 0x3
-                    shiftLeft(data, data1, 2, inLen - 2)
-                    inLen -= 2
+		    val significantBit = (data[0].toInt() shr (8-bitCount)) and ((1 shl bitCount)-1)
+                    shiftLeft(data, data1, bitCount, inLen - bitCount)
+                    inLen -= bitCount
                     val ptr = readPtrSpecific(currentPage, currentPageOffset, significantBit)
                     if (ptr == null_ptr) {
                         var kk = next_key++
-                        println("createChild 19")
-                        val pagePtr = createChild(data1, 0, inLen, kk, currentDepth + 2)
+                        println("createChild 19 :: $bitCount")
+                        val pagePtr = createChild(data1, 0, inLen, kk, currentDepth + bitCount)
                         updatePointerSpecific(currentPtr, significantBit, pagePtr)
                         checkStack(stack, stackPtr - 1, currentDepth - stackLen[stackPtr - 1])
                         return kk
                     }
                     currentPage = pagePtrToPage(ptr)
                     currentPageOffset = pagePtrToOffset(ptr)
-                    currentDepth += 2
-                    stackLen[stackPtr] = 2
-                    stack[stackPtr] = currentPtr
-                    stackPtr++
-                    currentPtr = ptr
-                    data2 = data1
-                    data1 = data
-                    data = data2
-                }
-                header_20 -> {
-                    if (inLen == 0) {
-                        var key = readKey(currentPage, currentPageOffset)
-                        if (key == null_key) {
-                            key = next_key++
-                            currentPage.writeInt4(currentPageOffset + off_20_key, key)
-                        }
-                        return key
-                    }
-                    val significantBit = (data[0].toInt() shr 7) and 0x1
-                    shiftLeft(data, data1, 1, inLen - 1)
-                    inLen -= 1
-                    val ptr = readPtrSpecific(currentPage, currentPageOffset, significantBit)
-                    if (ptr == null_ptr) {
-                        var kk = next_key++
-                        println("createChild 20")
-                        val pagePtr = createChild(data1, 0, inLen, kk, currentDepth + 1)
-                        updatePointerSpecific(currentPtr, significantBit, pagePtr)
-                        checkStack(stack, stackPtr - 1, currentDepth - stackLen[stackPtr - 1])
-                        return kk
-                    }
-                    currentPage = pagePtrToPage(ptr)
-                    currentPageOffset = pagePtrToOffset(ptr)
-                    currentDepth += 1
-                    stackLen[stackPtr] = 1
+                    currentDepth += bitCount
+                    stackLen[stackPtr] = bitCount
                     stack[stackPtr] = currentPtr
                     stackPtr++
                     currentPtr = ptr
@@ -949,7 +919,7 @@ var bitCount=1+header-header_10
                     data1 = data
                     data = data2
                 }
-                header_01, header_02, header_00 -> {
+                header_00,header_01, header_02 -> {
                     val len = readLen(currentPage, currentPageOffset)
                     val dataOff = readDataOffset(currentPage, currentPageOffset)
                     var common: Int = 0
