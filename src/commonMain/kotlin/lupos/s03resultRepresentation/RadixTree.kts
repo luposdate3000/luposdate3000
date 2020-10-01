@@ -1,11 +1,11 @@
 #!/bin/kscript
-import  kotlin.random.Random
+import kotlin.random.Random
 
 class RadixTree {
 
     var debugMap = mutableMapOf<String, Int>()
     var next_key = null_key + 1
-    var pages = Array<ByteArray>(16000) { ByteArray(8192) } //pages[0] is used as temporary buffer
+    var pages = Array<ByteArray>(16000) { ByteArray(8192) } // pages[0] is used as temporary buffer
     var pagesCounter = 1
     val rootNode: ByteArray
     val rootNodeOffset: Int
@@ -76,7 +76,7 @@ class RadixTree {
         allocatedBytes += len
         if (list.size > 0) {
             val ptr = list.removeAt(0)
-//println("alloc $len at ${ptr shr 9}:${(ptr and 0x1ff) shl 4}")
+            // println("alloc $len at ${ptr shr 9}:${(ptr and 0x1ff) shl 4}")
             return ptr
         }
         val newPage = (pagesCounter++) shl 9
@@ -88,7 +88,7 @@ class RadixTree {
             list.add(ptr)
             ptr += slice
         }
-//println("alloc $len at ${newPage shr 9}:${(newPage and 0x1ff) shl 4}")
+        // println("alloc $len at ${newPage shr 9}:${(newPage and 0x1ff) shl 4}")
         return newPage
     }
 
@@ -107,61 +107,65 @@ class RadixTree {
         const val null_key = 0
         const val null_ptr = 0
 
-        const val off_ptrA = 1 //if ptr exist always the same offset
-        const val off_ptrB = 5 //if ptr exist always the same offset
+        const val off_ptrA = 1 // if ptr exist always the same offset
+        const val off_ptrB = off_ptrA + 4 // if ptr exist always the same offset
 
-        //header 0x00 0bit stores len, key, data
-        //header 0x01 1bit stores PtrA, PtrB, len, data
-        //header 0x02 1bit stores PtrA, PtrB, len, key, data
+        const val header_00 = 0x00 // 0bit stores len, key, data
+        const val header_01 = 0x01 // 1bit stores PtrA, PtrB, len, data
+        const val header_02 = 0x02 // 1bit stores PtrA, PtrB, len, key, data
 
-        //header 0x10 1bit stores PtrA, PtrB
-        //header 0x11 2bit stores PtrA, PtrB, PtrC, PtrD
-        //header 0x12 3bit stores Ptr(8)
-        //header 0x13 4bit stores Ptr(16)
-        //header 0x14 5bit stores Ptr(32)
-        //header 0x15 6bit stores Ptr(64)
-        //header 0x16 7bit stores Ptr(128)
-        //header 0x17 8bit stores Ptr(256)
+        const val header_10 = 0x10 // 1bit stores PtrA, PtrB
+        const val header_11 = 0x11 // 2bit stores PtrA, PtrB, PtrC, PtrD
+        const val header_12 = 0x12 // 3bit stores Ptr(8)
+        const val header_13 = 0x13 // 4bit stores Ptr(16)
+        const val header_14 = 0x14 // 5bit stores Ptr(32)
+        const val header_15 = 0x15 // 6bit stores Ptr(64)
+        const val header_16 = 0x16 // 7bit stores Ptr(128)
+        const val header_17 = 0x17 // 8bit stores Ptr(256)
 
-        //header 0x20 1bit stores PtrA, PtrB, key
-        //header 0x21 2bit stores PtrA, PtrB, PtrC, PtrD, key
-        //header 0x22 3bit stores Ptr(8), key
-        //header 0x23 4bit stores Ptr(16), key
-        //header 0x24 5bit stores Ptr(32), key
-        //header 0x25 6bit stores Ptr(64), key
-        //header 0x26 7bit stores Ptr(128), key
-        //header 0x27 8bit stores Ptr(256), key
-
-        const val header_00 = 0x00
-        const val header_01 = 0x01
-        const val header_02 = 0x02
-
-        const val header_10 = 0x10
-        const val header_11 = 0x11
-
-        const val header_20 = 0x20
-        const val header_21 = 0x21
+        const val header_20 = 0x20 // 1bit stores PtrA, PtrB, key
+        const val header_21 = 0x21 // 2bit stores PtrA, PtrB, PtrC, PtrD, key
+        const val header_22 = 0x22 // 3bit stores Ptr(8), key
+        const val header_23 = 0x23 // 4bit stores Ptr(16), key
+        const val header_24 = 0x24 // 5bit stores Ptr(32), key
+        const val header_25 = 0x25 // 6bit stores Ptr(64), key
+        const val header_26 = 0x26 // 7bit stores Ptr(128), key
+        const val header_27 = 0x27 // 8bit stores Ptr(256), key
 
         const val off_00_len = 1
         const val off_00_key = 3
         const val off_00_data = 7
-
         const val off_01_len = 9
         const val off_01_data = 11
-
         const val off_02_len = 9
         const val off_02_key = 11
         const val off_02_data = 15
 
-        const val off_10_data = 9
+        const val off_10_data = 1 + (1 shl 3)
+        const val off_11_data = 1 + (1 shl 4)
+        const val off_12_data = 1 + (1 shl 5)
+        const val off_13_data = 1 + (1 shl 6)
+        const val off_14_data = 1 + (1 shl 7)
+        const val off_15_data = 1 + (1 shl 8)
+        const val off_16_data = 1 + (1 shl 9)
+        const val off_17_data = 1 + (1 shl 10)
 
-        const val off_11_data = 17
-
-        const val off_20_key = 9
-        const val off_20_data = 11
-
-        const val off_21_key = 17
-        const val off_21_data = 19
+        const val off_20_key = 1 + (1 shl 3)
+        const val off_21_key = 1 + (1 shl 4)
+        const val off_22_key = 1 + (1 shl 5)
+        const val off_23_key = 1 + (1 shl 6)
+        const val off_24_key = 1 + (1 shl 7)
+        const val off_25_key = 1 + (1 shl 8)
+        const val off_26_key = 1 + (1 shl 9)
+        const val off_27_key = 1 + (1 shl 10)
+        const val off_20_data = off_20_key + 2
+        const val off_21_data = off_21_key + 2
+        const val off_22_data = off_22_key + 2
+        const val off_23_data = off_23_key + 2
+        const val off_24_data = off_24_key + 2
+        const val off_25_data = off_25_key + 2
+        const val off_26_data = off_26_key + 2
+        const val off_27_data = off_27_key + 2
     }
 
     fun readHeader(node: ByteArray, offset: Int): Int {
@@ -431,7 +435,7 @@ class RadixTree {
         var depth = currentDepth
         var sPtr = stackPtr
         var maxStepsDeeper = 2
-        //println("checkStack initial $currentDepth")
+        // println("checkStack initial $currentDepth")
         while (sPtr > 2) {
             verifyCurrentDepth(stack, sPtr, depth)
             var currentPtr = stack[sPtr - 1]
@@ -738,17 +742,9 @@ class RadixTree {
         try {
             for (i in 0 until x) {
                 s += (currentPage[dataOff + i].toInt() and 0xff).toString(2).padStart(8, '0')
-
-/*val b = (len + 0x7) shr 3
-                val dataOffOut = nodeOff + off_00_data
-                for (i in 0 until b) {
-                    node[dataOffOut + i] = data[dataOff + i]
-                }
-*/
             }
         } catch (e: Throwable) {
             var header = readHeader(currentPage, currentPageOffset)
-//2 503 496 7 65534 1055
             println("$header $dataOff $currentPageOffset $off_00_data $len $pagePtr")
             throw e
         }
@@ -862,7 +858,7 @@ class RadixTree {
         while (true) {
             verifyCurrentDepth(stack, stackPtr, currentDepth)
             val header = readHeader(currentPage, currentPageOffset)
-            //println("path $currentPtr $header")
+            // println("path $currentPtr $header")
             when (header) {
                 header_21 -> {
                     if (inLen == 0) {
@@ -874,7 +870,7 @@ class RadixTree {
                         return key
                     }
                     val significantBit = (data[0].toInt() shr 6) and 0x3
-                    shiftLeft(data, data1, 2, inLen-2)
+                    shiftLeft(data, data1, 2, inLen - 2)
                     inLen -= 2
                     val ptr = readPtrSpecific(currentPage, currentPageOffset, significantBit)
                     if (ptr == null_ptr) {
@@ -1126,7 +1122,7 @@ class RadixTree {
         }
     }
 }
-//TEST - CODE :: -->>
+// TEST - CODE :: -->>
 
 inline fun ByteArray.writeInt1(offset: Int, value: Int) {
     this[offset] = (value and 0xFF).toByte()
