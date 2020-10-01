@@ -376,7 +376,7 @@ class RadixTree {
                         0x2 -> correctDepth += readLen(current, currentOff)
                         else -> throw Exception("unkwnown header $currentHeader")
                     }
-                    println("xxx $correctDepth ${stack[sPtr]}")
+//                    println("xxx $correctDepth ${stack[sPtr]}")
                 }
                 sPtr++
             }
@@ -404,7 +404,7 @@ class RadixTree {
         var depth = currentDepth
         var sPtr = stackPtr
         var maxStepsDeeper = 2
-        println("checkStack initial $currentDepth")
+        //println("checkStack initial $currentDepth")
         while (sPtr > 2) {
             verifyCurrentDepth(stack, sPtr, depth)
             var currentPtr = stack[sPtr - 1]
@@ -461,20 +461,13 @@ for (id2 in 0 until 2) {
             if (headerStackHead == 0x3) {
                 if (currentDepth and 0x1 != 0) {
                     if (countChilds(currentPtr, 1) >= 2) {
-                        println("++++>>")
-                        this.print()
-                        println("++++>>")
                         val nodePtr = allocBytes(off_4_data)
-                        println("alloced $nodePtr")
                         val nodeOff = pagePtrToOffset(nodePtr)
                         var node = pagePtrToPage(nodePtr)
                         node.writeInt1(nodeOff, 0x4)
                         writeChilds(node, nodeOff, 0, 2, currentPtr, currentDepth)
                         updatePointer(stack[stackPtr - 2], currentPtr, nodePtr)
                         stack[stackPtr - 1] == nodePtr
-                        println("++++<<")
-                        this.print()
-                        println("++++<<")
                     }
                 }
             }
@@ -803,7 +796,7 @@ for (id2 in 0 until 2) {
         while (true) {
             verifyCurrentDepth(stack, stackPtr, currentDepth)
             val header = readHeader(currentPage, currentPageOffset)
-            println("path $currentPtr $header")
+            //println("path $currentPtr $header")
             when (header) {
                 0x4 -> {
                     val significantBit = (data[0].toInt() shr 6) and 0x3
@@ -1062,9 +1055,9 @@ fun convertToUTF8BitStream(arr: IntArray): String {
     return s
 }
 
-val debugmode = true
+val debugmode = false
 var fastMode = false
-var testcaseNumber = 2
+var testcaseNumber = 3
 
 if (debugmode) {
     fastMode = false
@@ -1076,50 +1069,10 @@ val insertMap = mutableMapOf<String, Int>()
 
 when (testcaseNumber) {
     0 -> {
-        java.io.File("/mnt/luposdate-testdata/sp2b/16384/intermediate.dictionary").forEachLine { it2 ->
-            for (it in it2.split(" ")) {
-                if (i % 100 == 0) {
-                    println("$i :: $insertedSize ${tree.allocatedNodes} ${tree.allocatedBytes} ${tree.slotsAllocedBySize.mapIndexed { idx, it -> it * tree.listSliceSizes[idx] }.sum()} ${tree.slotsAllocedBySize.map { it }} ${tree.freeLists.map { it.size }}")
-                }
-                var s = it
-                if (debugmode) {
-                    if (s.length > 20) {
-                        s = s.substring(0, 20)
-                    }
-                    println("-----------")
-                } else {
-                    if (s.length > 8000) {
-                        s = s.substring(0, 8000)
-                    }
-                }
-                val arr = stringToIntArray(s)
-                testInsertArray(arr)
-                i++
-            }
-        }
+        testUsingFile("/mnt/luposdate-testdata/sp2b/16384/intermediate.dictionary")
     }
     1 -> {
-        java.io.File("/mnt/luposdate-testdata/yago2/yago-2.n3").forEachLine { it2 ->
-            for (it in it2.split(" ")) {
-                if (i % 100 == 0) {
-                    println("$i :: $insertedSize ${tree.allocatedNodes} ${tree.allocatedBytes} ${tree.slotsAllocedBySize.mapIndexed { idx, it -> it * tree.listSliceSizes[idx] }.sum()} ${tree.slotsAllocedBySize.map { it }} ${tree.freeLists.map { it.size }}")
-                }
-                var s = it
-                if (debugmode) {
-                    if (s.length > 20) {
-                        s = s.substring(0, 20)
-                    }
-                    println("-----------")
-                } else {
-                    if (s.length > 8000) {
-                        s = s.substring(0, 8000)
-                    }
-                }
-                val arr = stringToIntArray(s)
-                testInsertArray(arr)
-                i++
-            }
-        }
+        testUsingFile("/mnt/luposdate-testdata/yago2/yago-2.n3")
     }
     2 -> {
         val arr = IntArray(2)
@@ -1134,7 +1087,34 @@ when (testcaseNumber) {
             }
         }
     }
+    3 -> {
+        testUsingFile("/mnt/luposdate-testdata/generate_random_words")
+    }
 }
+fun testUsingFile(name: String) {
+    java.io.File(name).forEachLine { it2 ->
+        for (it in it2.split(" ")) {
+            if (i % 100 == 0) {
+                println("$i :: $insertedSize ${tree.allocatedNodes} ${tree.allocatedBytes} ${tree.slotsAllocedBySize.mapIndexed { idx, it -> it * tree.listSliceSizes[idx] }.sum()} ${tree.slotsAllocedBySize.map { it }} ${tree.freeLists.map { it.size }}")
+            }
+            var s = it
+            if (debugmode) {
+                if (s.length > 20) {
+                    s = s.substring(0, 20)
+                }
+                println("-----------")
+            } else {
+                if (s.length > 8000) {
+                    s = s.substring(0, 8000)
+                }
+            }
+            val arr = stringToIntArray(s)
+            testInsertArray(arr)
+            i++
+        }
+    }
+}
+
 fun testInsertArray(arr: IntArray) {
     val stream = convertToUTF8BitStream(arr)
     val key = tree.insertUTF32(arr, arr.size)
