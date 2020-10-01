@@ -347,7 +347,7 @@ class RadixTree {
                 val key = readKey(current, currentOff)
                 val ptrA = readPtrA(current, currentOff)
                 val ptrB = readPtrB(current, currentOff)
-                val newChild = createChild(pageBuffer, 0, l - len, key, currentDepth + len, ptrA, ptrB)
+                val newChild = createChild(pageBuffer, 0, l - len, key, currentDepth + len - 1, ptrA, ptrB)
                 for (id in 0 until (1 shl len)) {
                     target.writeInt4(targetOff + off_ptrA + ((idPrefix + id) shl 2), null_ptr)
                 }
@@ -357,49 +357,101 @@ class RadixTree {
         freeBytes(currentPtr)
     }
 
-    fun checkStack(stack: IntArray, stackPtr: Int, currentDepth: Int) {
-        var depth = currentDepth
-        var sPtr = stackPtr
-        while (sPtr > 2) {
-            var currentPtr = stack[sPtr - 1]
-            val current = pagePtrToPage(currentPtr)
-            val currentOff = pagePtrToOffset(currentPtr)
-            val currentHeader = readHeader(current, currentOff)
-            var parentDepth = 0
-            when (currentHeader) {
-                0x4 -> parentDepth = depth - 2
-                0x3 -> parentDepth = depth - 1
-                0x0,0x1,0x2 -> parentDepth = depth - 1 - readLen(current, currentOff)
-		else-> throw Exception("unkwnown header $currentHeader")
+    fun verifyCurrentDepth(stack: IntArray, stackPtr: Int, currentDepth: Int) {
+        if (stackPtr > 0) {
+            var correctDepth = 0
+            var used_counter = 0
+            var sPtr = 0
+            while (sPtr < stackPtr) {
+                if (sPtr != null_ptr) {
+                    used_counter++
+                    var currentPtr = stack[sPtr]
+                    val current = pagePtrToPage(currentPtr)
+                    val currentOff = pagePtrToOffset(currentPtr)
+                    val currentHeader = readHeader(current, currentOff)
+                    when (currentHeader) {
+                        0x4 -> correctDepth += 2
+                        0x3 -> correctDepth += 1
+                        0x0, 0x1 -> correctDepth += 1 + readLen(current, currentOff)
+                        0x2 -> correctDepth += readLen(current, currentOff)
+                        else -> throw Exception("unkwnown header $currentHeader")
+                    }
+                    println("xxx $correctDepth ${stack[sPtr]}")
+                }
+                sPtr++
             }
-            println("checkStack ${stack[sPtr - 1]} $depth -- ${stack[sPtr - 2]} $parentDepth")
-            checkStackHelper(stack, sPtr, depth)
-            depth = parentDepth
-            sPtr--
+            if (correctDepth != currentDepth) {
+                tree.print()
+                throw Exception("incorrect depth $correctDepth $currentDepth ${stack[stackPtr - 1]}")
+            }
         }
     }
 
-    fun checkStackHelper(stack: IntArray, stackPtr: Int, currentDepth: Int) {
-        var currentPtr = stack[stackPtr - 1]
+    fun calculateDepth(currentPtr: Int): Int {
         val current = pagePtrToPage(currentPtr)
         val currentOff = pagePtrToOffset(currentPtr)
         val currentHeader = readHeader(current, currentOff)
         when (currentHeader) {
-            0x4 -> {
-                for (id2 in 0 until 4) {
+            0x4 -> return 2
+            0x3 -> return 1
+            0x0, 0x1 -> return 1 + readLen(current, currentOff)
+            0x2 -> return readLen(current, currentOff)
+            else -> throw Exception("unkwnown header $currentHeader")
+        }
+    }
+
+    fun checkStack(stack: IntArray, stackPtr: Int, currentDepth: Int) {
+        var depth = currentDepth
+        var sPtr = stackPtr
+        var maxStepsDeeper = 2
+        println("checkStack initial $currentDepth")
+        while (sPtr > 2) {
+            verifyCurrentDepth(stack, sPtr, depth)
+            var currentPtr = stack[sPtr - 1]
+            val parentDepth = depth - calculateDepth(currentPtr)
+            println("checkStack ${stack[sPtr - 1]} $depth -- ${stack[sPtr - 2]} $parentDepth")
+            checkStackHelper(stack, sPtr, depth, maxStepsDeeper)
+            depth = parentDepth
+            sPtr--
+            maxStepsDeeper--
+        }
+    }
+
+    fun checkStackHelper(stack: IntArray, stackPtr: Int, currentDepth: Int, maxStepsDeeper: Int) {
+        verifyCurrentDepth(stack, stackPtr, currentDepth)
+        var currentPtr = stack[stackPtr - 1]
+        if (maxStepsDeeper > 0) {
+            val current = pagePtrToPage(currentPtr)
+            val currentOff = pagePtrToOffset(currentPtr)
+            val currentHeader = readHeader(current, currentOff)
+            when (currentHeader) {
+/*0x0,0x1->{
+val len=readLen(current,currentOff)
+for (id2 in 0 until 2) {
                     val p = readPtrSpecific(current, currentOff, id2)
                     if (p != null_ptr) {
                         stack[stackPtr] = p
-                        checkStackHelper(stack, stackPtr + 1, currentDepth + 2)
+                        checkStackHelper(stack, stackPtr + 1, currentDepth +calculateDepth(p),maxStepsDeeper-1)
                     }
                 }
-            }
-            0x3 -> {
-                for (id2 in 0 until 2) {
-                    val p = readPtrSpecific(current, currentOff, id2)
-                    if (p != null_ptr) {
-                        stack[stackPtr] = p
-                        checkStackHelper(stack, stackPtr + 1, currentDepth + 1)
+}*/
+                0x4 -> {
+                    for (id2 in 0 until 4) {
+                        val p = readPtrSpecific(current, currentOff, id2)
+                        if (p != null_ptr) {
+                            stack[stackPtr] = p
+                            checkStackHelper(stack, stackPtr + 1, currentDepth + calculateDepth(p), maxStepsDeeper - 1)
+                        }
+                    }
+                }
+                0x3 -> {
+                    for (id2 in 0 until 2) {
+                        val p = readPtrSpecific(current, currentOff, id2)
+                        if (p != null_ptr) {
+                            stack[stackPtr] = p
+
+                            checkStackHelper(stack, stackPtr + 1, currentDepth + calculateDepth(p), maxStepsDeeper - 1)
+                        }
                     }
                 }
             }
@@ -419,7 +471,7 @@ class RadixTree {
                         node.writeInt1(nodeOff, 0x4)
                         writeChilds(node, nodeOff, 0, 2, currentPtr, currentDepth)
                         updatePointer(stack[stackPtr - 2], currentPtr, nodePtr)
-                        stack[stackPtr] == nodePtr
+                        stack[stackPtr - 1] == nodePtr
                         println("++++<<")
                         this.print()
                         println("++++<<")
@@ -674,7 +726,6 @@ class RadixTree {
         return usedBytes
     }
 
-
     fun updatePointer(parentPtr: Int, currentPtr: Int, newPtr: Int) {
         if (parentPtr == null_ptr) {
             rootNode = pagePtrToPage(newPtr)
@@ -743,12 +794,14 @@ class RadixTree {
         }
         var inLen = convertUTF32ToUTF8(inData, inDataLength, data) shl 3
         var stack = IntArray(100) { null_ptr }
+        var stackLen = IntArray(100) { 0 }
         var stackPtr = 1
         var currentPage = rootNode
         var currentPageOffset = rootNodeOffset
         var currentPtr = rootNodePtr
         var currentDepth = 0
         while (true) {
+            verifyCurrentDepth(stack, stackPtr, currentDepth)
             val header = readHeader(currentPage, currentPageOffset)
             println("path $currentPtr $header")
             when (header) {
@@ -762,15 +815,15 @@ class RadixTree {
                         println("createChild 1")
                         val pagePtr = createChild(data1, 0, inLen, kk, currentDepth + 2)
                         updatePointerSpecific(currentPtr, significantBit, pagePtr)
-			stack[stackPtr++] = currentPtr
-			stack[stackPtr++] = pagePtr
-                        checkStack(stack, stackPtr, currentDepth+2+inLen)
+                        checkStack(stack, stackPtr - 1, currentDepth - stackLen[stackPtr - 1])
                         return kk
                     }
                     currentPage = pagePtrToPage(ptr)
                     currentPageOffset = pagePtrToOffset(ptr)
                     currentDepth += 2
-                    stack[stackPtr++] = currentPtr
+                    stackLen[stackPtr] = 2
+                    stack[stackPtr] = currentPtr
+                    stackPtr++
                     currentPtr = ptr
                     data2 = data1
                     data1 = data
@@ -786,14 +839,15 @@ class RadixTree {
                         println("createChild 2")
                         val pagePtr = createChild(data1, 0, inLen, kk, currentDepth + 1)
                         updatePointerSpecific(currentPtr, significantBit, pagePtr)
-			stack[stackPtr++] = pagePtr
-                        checkStack(stack, stackPtr, currentDepth+1+inLen)
+                        checkStack(stack, stackPtr - 1, currentDepth - stackLen[stackPtr - 1])
                         return kk
                     }
                     currentPage = pagePtrToPage(ptr)
                     currentPageOffset = pagePtrToOffset(ptr)
                     currentDepth += 1
-                    stack[stackPtr++] = currentPtr
+                    stackLen[stackPtr] = 1
+                    stack[stackPtr] = currentPtr
+                    stackPtr++
                     currentPtr = ptr
                     data2 = data1
                     data1 = data
@@ -819,8 +873,7 @@ class RadixTree {
                                 val newPtr = createChild(currentPage, dataOff, len, k2, currentDepth, ptrA, ptrB)
                                 freeBytes(currentPtr)
                                 updatePointer(stack[stackPtr - 1], currentPtr, newPtr)
-                                stack[stackPtr++] = newPtr
-                                checkStack(stack, stackPtr, currentDepth + len)
+                                checkStack(stack, stackPtr, currentDepth)
                                 return k2
                             } else {
                                 return k
@@ -850,9 +903,7 @@ class RadixTree {
                                 freeBytes(currentPtr)
                                 updatePointer(stack[stackPtr - 1], currentPtr, newPtr)
                             }
-                            stack[stackPtr++] = newPtr
-                            stack[stackPtr++] = splitChildPage
-                            checkStack(stack, stackPtr, currentDepth +1+len)
+                            checkStack(stack, stackPtr, currentDepth)
                             return newKey
                         }
                     } else if (common == len) {
@@ -874,14 +925,15 @@ class RadixTree {
                                 val newPtr = createChild(currentPage, dataOff, len, key, currentDepth, pagePtr, ptrB)
                                 freeBytes(currentPtr)
                                 updatePointer(stack[stackPtr - 1], currentPtr, newPtr)
-                                stack[stackPtr++] = newPtr
-                                checkStack(stack, stackPtr, currentDepth + len)
+                                checkStack(stack, stackPtr, currentDepth)
                                 return kk
                             }
                             currentPage = pagePtrToPage(ptrA)
                             currentPageOffset = pagePtrToOffset(ptrA)
                             currentDepth += common
-                            stack[stackPtr++] = currentPtr
+                            stackLen[stackPtr] = common
+                            stack[stackPtr] = currentPtr
+                            stackPtr++
                             currentPtr = ptrA
                             data2 = data1
                             data1 = data
@@ -898,14 +950,15 @@ class RadixTree {
                                 val newPtr = createChild(currentPage, dataOff, len, key, currentDepth, ptrA, pagePtr)
                                 freeBytes(currentPtr)
                                 updatePointer(stack[stackPtr - 1], currentPtr, newPtr)
-                                stack[stackPtr++] = newPtr
-                                checkStack(stack, stackPtr, currentDepth + len)
+                                checkStack(stack, stackPtr, currentDepth)
                                 return kk
                             }
                             currentPage = pagePtrToPage(ptrB)
                             currentPageOffset = pagePtrToOffset(ptrB)
                             currentDepth += common
-                            stack[stackPtr++] = currentPtr
+                            stackLen[stackPtr] = common
+                            stack[stackPtr] = currentPtr
+                            stackPtr++
                             currentPtr = ptrB
                             data2 = data1
                             data1 = data
@@ -939,9 +992,7 @@ class RadixTree {
                             freeBytes(currentPtr)
                             updatePointer(stack[stackPtr - 1], currentPtr, newPtr)
                         }
-                        stack[stackPtr++] = newPtr
-                        stack[stackPtr++] = splitChildPage
-                        checkStack(stack, stackPtr, currentDepth + len)
+                        checkStack(stack, stackPtr - 1, currentDepth - stackLen[stackPtr - 1])
                         return newKey
                     }
                 }
