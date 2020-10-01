@@ -19,8 +19,8 @@ class RadixTree {
     val slotsAllocedBySize = IntArray(listSliceSizes.size)
 
     init {
-        rootNode.writeInt1(rootNodeOffset, header_4)
-        for (id in 0 until 4) {
+        rootNode.writeInt1(rootNodeOffset, header_5)
+        for (id in 0 until 2) {
             rootNode.writeInt4(rootNodeOffset + (id shl 2), null_ptr)
         }
     }
@@ -284,7 +284,7 @@ class RadixTree {
                 }
                 return res
             }
-            header_3 -> {
+            header_3,header_5 -> {
                 var res = 0
                 for (id2 in 0 until 2) {
                     val p = readPtrSpecific(current, currentOff, id2)
@@ -298,7 +298,7 @@ class RadixTree {
                 }
                 return res
             }
-            header_4 -> {
+            header_4,header_6 -> {
                 if (len < 2) {
                     throw Exception("wrong depth to start counting")
                 }
@@ -314,9 +314,6 @@ class RadixTree {
                     }
                 }
                 return res
-            }
-            header_5, header_6 -> {
-                throw Exception("unexpected header $header")
             }
             else -> {
                 throw Exception("unknown header $header")
@@ -492,7 +489,7 @@ for (id2 in 0 until 2) {
         }
         if (stackPtr > 2) {
             when (currentHeader) {
-                header_3 -> {
+/*TODO enable optimize                header_3 -> {
                     if (currentDepth and 0x1 != 0) {
                         if (countChilds(currentPtr, 1) >= 2) {
                             println("createChild 17")
@@ -522,6 +519,7 @@ for (id2 in 0 until 2) {
                         }
                     }
                 }
+*/
             }
         }
     }
@@ -619,7 +617,7 @@ for (id2 in 0 until 2) {
                 node.writeInt1(nodeOff, header)
                 node.writeInt4(nodeOff + off_ptrA, ptrA)
                 node.writeInt4(nodeOff + off_ptrB, ptrB)
-                node.writeInt4(nodeOff + off_1_key, key)
+                node.writeInt4(nodeOff + off_5_key, key)
                 println("alloc as $header $nodePtr")
                 return nodePtr
             }
@@ -831,7 +829,7 @@ for (id2 in 0 until 2) {
                     for (id in 0 until 4) {
                         if (parent.readInt4(parentOff + off_ptrA + (id shl 2)) == currentPtr) {
                             parent.writeInt4(parentOff + off_ptrA + (id shl 2), newPtr)
-                            break
+                            return
                         }
                     }
                 }
