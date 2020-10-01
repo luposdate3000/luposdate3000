@@ -222,12 +222,6 @@ class RadixTree {
         return readHeader(node, offset)
     }
 
-    //header 0x0 stores PtrA, PtrB, len, data
-    //header 0x1 stores PtrA, PtrB, len, key, data
-    //header 0x2 stores len, key, data
-    //header 0x3 stores PtrA, PtrB
-    //header 0x4 stores PtrA, PtrB, PtrC, PtrD
-
     fun countChilds(currentPtr: Int, len: Int): Int {
         if (currentPtr == null_ptr) {
             return 0
@@ -353,7 +347,7 @@ class RadixTree {
                 val key = readKey(current, currentOff)
                 val ptrA = readPtrA(current, currentOff)
                 val ptrB = readPtrB(current, currentOff)
-                val newChild = createChild(pageBuffer, 0, l - len, key, currentDepth + len - 1, ptrA, ptrB)
+                val newChild = createChild(pageBuffer, 0, l - len, key, currentDepth + len, ptrA, ptrB)
                 for (id in 0 until (1 shl len)) {
                     target.writeInt4(targetOff + off_ptrA + ((idPrefix + id) shl 2), null_ptr)
                 }
@@ -367,7 +361,6 @@ class RadixTree {
         var depth = currentDepth
         var sPtr = stackPtr
         while (sPtr > 2) {
-            println("checkStack ${stack[sPtr - 1]} $depth")
             var currentPtr = stack[sPtr - 1]
             val current = pagePtrToPage(currentPtr)
             val currentOff = pagePtrToOffset(currentPtr)
@@ -376,8 +369,10 @@ class RadixTree {
             when (currentHeader) {
                 0x4 -> parentDepth = depth - 2
                 0x3 -> parentDepth = depth - 1
-                else -> parentDepth = depth - 1 - readLen(current, currentOff)
+                0x0,0x1,0x2 -> parentDepth = depth - 1 - readLen(current, currentOff)
+		else-> throw Exception("unkwnown header $currentHeader")
             }
+            println("checkStack ${stack[sPtr - 1]} $depth -- ${stack[sPtr - 2]} $parentDepth")
             checkStackHelper(stack, sPtr, depth)
             depth = parentDepth
             sPtr--
@@ -767,7 +762,9 @@ class RadixTree {
                         println("createChild 1")
                         val pagePtr = createChild(data1, 0, inLen, kk, currentDepth + 2)
                         updatePointerSpecific(currentPtr, significantBit, pagePtr)
-                        checkStack(stack, stackPtr, currentDepth)
+			stack[stackPtr++] = currentPtr
+			stack[stackPtr++] = pagePtr
+                        checkStack(stack, stackPtr, currentDepth+2+inLen)
                         return kk
                     }
                     currentPage = pagePtrToPage(ptr)
@@ -789,7 +786,8 @@ class RadixTree {
                         println("createChild 2")
                         val pagePtr = createChild(data1, 0, inLen, kk, currentDepth + 1)
                         updatePointerSpecific(currentPtr, significantBit, pagePtr)
-                        checkStack(stack, stackPtr, currentDepth)
+			stack[stackPtr++] = pagePtr
+                        checkStack(stack, stackPtr, currentDepth+1+inLen)
                         return kk
                     }
                     currentPage = pagePtrToPage(ptr)
@@ -853,7 +851,8 @@ class RadixTree {
                                 updatePointer(stack[stackPtr - 1], currentPtr, newPtr)
                             }
                             stack[stackPtr++] = newPtr
-                            checkStack(stack, stackPtr, currentDepth + common)
+                            stack[stackPtr++] = splitChildPage
+                            checkStack(stack, stackPtr, currentDepth +1+len)
                             return newKey
                         }
                     } else if (common == len) {
@@ -941,7 +940,8 @@ class RadixTree {
                             updatePointer(stack[stackPtr - 1], currentPtr, newPtr)
                         }
                         stack[stackPtr++] = newPtr
-                        checkStack(stack, stackPtr, currentDepth + common)
+                        stack[stackPtr++] = splitChildPage
+                        checkStack(stack, stackPtr, currentDepth + len)
                         return newKey
                     }
                 }
