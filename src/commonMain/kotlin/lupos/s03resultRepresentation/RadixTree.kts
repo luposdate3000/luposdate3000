@@ -19,11 +19,11 @@ class RadixTree {
     val slotsAllocedBySize = IntArray(listSliceSizes.size)
 
     init {
-        rootNodePtr = allocBytes(off_5_data)
+        rootNodePtr = allocBytes(off_6_data)
         rootNode = pagePtrToPage(rootNodePtr)
         rootNodeOffset = pagePtrToOffset(rootNodePtr)
-        rootNode.writeInt1(rootNodeOffset, header_5)
-        for (id in 0 until 2) {
+        rootNode.writeInt1(rootNodeOffset, header_6)
+        for (id in 0 until 4) {
             rootNode.writeInt4(rootNodeOffset + off_ptrA + (id shl 2), null_ptr)
         }
     }
@@ -857,7 +857,7 @@ class RadixTree {
                         return key
                     }
                     val significantBit = (data[0].toInt() shr 6) and 0x3
-                    shiftLeft(data, data1, 2, inLen)
+                    shiftLeft(data, data1, 2, inLen-2)
                     inLen -= 2
                     val ptr = readPtrSpecific(currentPage, currentPageOffset, significantBit)
                     if (ptr == null_ptr) {
