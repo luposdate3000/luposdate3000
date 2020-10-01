@@ -924,47 +924,24 @@ class RadixTree {
                     data1 = data
                     data = data2
                 }
-                header_11 -> {
-                    val significantBit = (data[0].toInt() shr 6) and 0x3
-                    shiftLeft(data, data1, 2, inLen)
-                    inLen -= 2
+                header_10,header_11,header_12,header_13,header_14,header_15,header_16,header_17 -> {
+var bitCount=1+header-header_10
+                    val significantBit = (data[0].toInt() shr (8-bitCount)) and ((1 shl bitCount)-1)
+                    shiftLeft(data, data1, bitCount, inLen - bitCount)
+                    inLen -= bitCount
                     val ptr = readPtrSpecific(currentPage, currentPageOffset, significantBit)
                     if (ptr == null_ptr) {
                         var kk = next_key++
-                        println("createChild 1")
-                        val pagePtr = createChild(data1, 0, inLen, kk, currentDepth + 2)
+                        println("createChild 1 :: $bitCount")
+                        val pagePtr = createChild(data1, 0, inLen, kk, currentDepth + bitCount)
                         updatePointerSpecific(currentPtr, significantBit, pagePtr)
                         checkStack(stack, stackPtr - 1, currentDepth - stackLen[stackPtr - 1])
                         return kk
                     }
                     currentPage = pagePtrToPage(ptr)
                     currentPageOffset = pagePtrToOffset(ptr)
-                    currentDepth += 2
-                    stackLen[stackPtr] = 2
-                    stack[stackPtr] = currentPtr
-                    stackPtr++
-                    currentPtr = ptr
-                    data2 = data1
-                    data1 = data
-                    data = data2
-                }
-                header_10 -> {
-                    val significantBit = (data[0].toInt() shr 7) and 0x1
-                    shiftLeft(data, data1, 1, inLen - 1)
-                    inLen -= 1
-                    val ptr = readPtrSpecific(currentPage, currentPageOffset, significantBit)
-                    if (ptr == null_ptr) {
-                        var kk = next_key++
-                        println("createChild 2")
-                        val pagePtr = createChild(data1, 0, inLen, kk, currentDepth + 1)
-                        updatePointerSpecific(currentPtr, significantBit, pagePtr)
-                        checkStack(stack, stackPtr - 1, currentDepth - stackLen[stackPtr - 1])
-                        return kk
-                    }
-                    currentPage = pagePtrToPage(ptr)
-                    currentPageOffset = pagePtrToOffset(ptr)
-                    currentDepth += 1
-                    stackLen[stackPtr] = 1
+                    currentDepth += bitCount
+                    stackLen[stackPtr] = bitCount
                     stack[stackPtr] = currentPtr
                     stackPtr++
                     currentPtr = ptr
