@@ -234,7 +234,7 @@ class RadixTree {
             header_00 -> return node.readInt4(offset + off_00_key)
             header_01 -> return null_key
             header_02 -> return node.readInt4(offset + off_02_key)
-            header_10, header_11,header_13,header_17 -> return null_key
+            header_10, header_11, header_13, header_17 -> return null_key
             header_20, header_21, header_23, header_27 -> return node.readInt4(offset + 1 + (1 shl (3 + header - header_20)))
             else -> throw Exception("unknown header 0x${header.toString(16)}")
         }
@@ -448,13 +448,13 @@ class RadixTree {
     fun checkStack(stack: IntArray, stackPtr: Int, currentDepth: Int) {
         var depth = currentDepth
         var sPtr = stackPtr
-        var maxStepsDeeper = 2
+        var maxStepsDeeper = 5
         // println("checkStack initial $currentDepth")
-        while (sPtr > 2) {
+        while (sPtr > 0) {
             verifyCurrentDepth(stack, sPtr, depth)
             var currentPtr = stack[sPtr - 1]
             val parentDepth = depth - calculateDepth(currentPtr)
-            println("checkStack ${stack[sPtr - 1]} $depth -- ${stack[sPtr - 2]} $parentDepth")
+            println("checkStack ${stack[sPtr - 1]} $depth")
             checkStackHelper(stack, sPtr, depth, maxStepsDeeper)
             depth = parentDepth
             sPtr--
@@ -463,6 +463,7 @@ class RadixTree {
     }
 
     fun checkStackHelper(stack: IntArray, stackPtr: Int, currentDepth: Int, maxStepsDeeper: Int) {
+        println("checkToOptimize $stackPtr")
         verifyCurrentDepth(stack, stackPtr, currentDepth)
         var currentPtr = stack[stackPtr - 1]
         val current = pagePtrToPage(currentPtr)
@@ -470,8 +471,8 @@ class RadixTree {
         val currentHeader = readHeader(current, currentOff)
         if (maxStepsDeeper > 0) {
             when (currentHeader) {
-                header_11, header_21 -> {
-                    for (id2 in 0 until 4) {
+                header_01, header_02 -> {
+                    for (id2 in 0 until 2) {
                         val p = readPtrSpecific(current, currentOff, id2)
                         if (p != null_ptr) {
                             stack[stackPtr] = p
@@ -479,8 +480,19 @@ class RadixTree {
                         }
                     }
                 }
-                header_10, header_20 -> {
-                    for (id2 in 0 until 2) {
+                header_20, header_21, header_23, header_27 -> {
+                    var bitCount = 1 + currentHeader - header_20
+                    for (id2 in 0 until (1 shl bitCount)) {
+                        val p = readPtrSpecific(current, currentOff, id2)
+                        if (p != null_ptr) {
+                            stack[stackPtr] = p
+                            checkStackHelper(stack, stackPtr + 1, currentDepth + calculateDepth(p), maxStepsDeeper - 1)
+                        }
+                    }
+                }
+                header_10, header_11, header_13, header_17 -> {
+                    var bitCount = 1 + currentHeader - header_10
+                    for (id2 in 0 until (1 shl bitCount)) {
                         val p = readPtrSpecific(current, currentOff, id2)
                         if (p != null_ptr) {
                             stack[stackPtr] = p
@@ -496,60 +508,60 @@ class RadixTree {
             var bitsC = 3
             while (bitsC > 0) {
                 val bits = 1 shl bitsC
-                if ((parentDepth ) and (bits - 1) == 0) {
-if((parentDepth) and (0x7) == 0) {
-                    //header_2x
-                    var newHeader = header_20 + bits - 1
-                    if (currentHeader < newHeader) {
-                        println("currentHeader 0x${currentHeader.toString(16)} 0x${newHeader.toString(16)} ${bits} ${(1 shl (bits - 1))} $currentDepth $parentDepth")
-                        var count = countChilds(currentPtr, bits)
-                        if (count >= (1 shl (bits - 1)) && count < (1 shl bits)) {
-                            println("bits $bits 0x${newHeader.toString(16)} alloc(${1 + (1 shl (bits + 2)) + 4}) key@${(1 + (1 shl (bits + 2)))}")
-                            var key = readKey(current, currentOff)
-                            println("createChild 18 :: $bits")
-                            val nodePtr = allocBytes(1 + (1 shl (bits + 2)) + 4)
-                            println("child18 at $nodePtr ?!?")
-                            val nodeOff = pagePtrToOffset(nodePtr)
-                            var node = pagePtrToPage(nodePtr)
-                            node.writeInt1(nodeOff, newHeader)
-                            node.writeInt4(nodeOff + 1 + (1 shl (bits + 2)), key)
-for(id in 0 until (1 shl bits)){
-node.writeInt4(nodeOff + 1 + (id shl 2), null_ptr)
-}
-                            writeChilds(node, nodeOff, 0, bits, currentPtr, currentDepth - calculateDepth(currentPtr))
-                            println("writing to parent ${stackPtr} ${stack[stackPtr - 2]} $currentPtr $nodePtr")
-                            updatePointer(stack[stackPtr - 2], currentPtr, nodePtr)
-                            stack[stackPtr - 1] == nodePtr
-                            this.print()
-                            return
+                if ((parentDepth) and (bits - 1) == 0) {
+                    if ((parentDepth) and (0x7) == 0) {
+                        //header_2x
+                        var newHeader = header_20 + bits - 1
+                        if (currentHeader < newHeader) {
+                            println("currentHeader 0x${currentHeader.toString(16)} 0x${newHeader.toString(16)} ${bits} ${(1 shl (bits - 1))} $currentDepth $parentDepth")
+                            var count = countChilds(currentPtr, bits)
+                            if (count >= (1 shl (bits - 1)) && count < (1 shl bits)) {
+                                println("bits $bits 0x${newHeader.toString(16)} alloc(${1 + (1 shl (bits + 2)) + 4}) key@${(1 + (1 shl (bits + 2)))}")
+                                var key = readKey(current, currentOff)
+                                println("createChild 18 :: $bits")
+                                val nodePtr = allocBytes(1 + (1 shl (bits + 2)) + 4)
+                                println("child18 at $nodePtr ?!?")
+                                val nodeOff = pagePtrToOffset(nodePtr)
+                                var node = pagePtrToPage(nodePtr)
+                                node.writeInt1(nodeOff, newHeader)
+                                node.writeInt4(nodeOff + 1 + (1 shl (bits + 2)), key)
+                                for (id in 0 until (1 shl bits)) {
+                                    node.writeInt4(nodeOff + 1 + (id shl 2), null_ptr)
+                                }
+                                writeChilds(node, nodeOff, 0, bits, currentPtr, currentDepth - calculateDepth(currentPtr))
+                                println("writing to parent ${stackPtr} ${stack[stackPtr - 2]} $currentPtr $nodePtr")
+                                updatePointer(stack[stackPtr - 2], currentPtr, nodePtr)
+                                stack[stackPtr - 1] == nodePtr
+                                this.print()
+                                return
+                            }
                         }
-                    }
-}else{
+                    } else {
 //header_1x
-                    var newHeader = header_10 + bits - 1
-                    if (currentHeader < newHeader) {
-                        println("currentHeader 0x${currentHeader.toString(16)} 0x${newHeader.toString(16)} ${bits} ${(1 shl (bits - 1))} $currentDepth $parentDepth")
-                        var count = countChilds(currentPtr, bits)
-                        if (count >= (1 shl (bits - 1)) && count < (1 shl bits)) {
-                            println("bits $bits 0x${newHeader.toString(16)} alloc(${1 + (1 shl (bits + 2))})")
-                            println("createChild 18 :: $bits")
-                            val nodePtr = allocBytes(1 + (1 shl (bits + 2)))
-                            println("child18 at $nodePtr ?!?")
-                            val nodeOff = pagePtrToOffset(nodePtr)
-                            var node = pagePtrToPage(nodePtr)
-                            node.writeInt1(nodeOff, newHeader)
-for(id in 0 until (1 shl bits)){
-node.writeInt4(nodeOff + 1 + (id shl 2), null_ptr)
-}
-                            writeChilds(node, nodeOff, 0, bits, currentPtr, currentDepth - calculateDepth(currentPtr))
-                            println("writing to parent ${stackPtr} ${stack[stackPtr - 2]} $currentPtr $nodePtr")
-                            updatePointer(stack[stackPtr - 2], currentPtr, nodePtr)
-                            stack[stackPtr - 1] == nodePtr
-                            this.print()
-                            return
+                        var newHeader = header_10 + bits - 1
+                        if (currentHeader < newHeader) {
+                            println("currentHeader 0x${currentHeader.toString(16)} 0x${newHeader.toString(16)} ${bits} ${(1 shl (bits - 1))} $currentDepth $parentDepth")
+                            var count = countChilds(currentPtr, bits)
+                            if (count >= (1 shl (bits - 1)) && count < (1 shl bits)) {
+                                println("bits $bits 0x${newHeader.toString(16)} alloc(${1 + (1 shl (bits + 2))})")
+                                println("createChild 18 :: $bits")
+                                val nodePtr = allocBytes(1 + (1 shl (bits + 2)))
+                                println("child18 at $nodePtr ?!?")
+                                val nodeOff = pagePtrToOffset(nodePtr)
+                                var node = pagePtrToPage(nodePtr)
+                                node.writeInt1(nodeOff, newHeader)
+                                for (id in 0 until (1 shl bits)) {
+                                    node.writeInt4(nodeOff + 1 + (id shl 2), null_ptr)
+                                }
+                                writeChilds(node, nodeOff, 0, bits, currentPtr, currentDepth - calculateDepth(currentPtr))
+                                println("writing to parent ${stackPtr} ${stack[stackPtr - 2]} $currentPtr $nodePtr")
+                                updatePointer(stack[stackPtr - 2], currentPtr, nodePtr)
+                                stack[stackPtr - 1] == nodePtr
+                                this.print()
+                                return
+                            }
                         }
                     }
-}
                 }
                 bitsC--
             }
@@ -1049,8 +1061,9 @@ node.writeInt4(nodeOff + 1 + (id shl 2), null_ptr)
                         val significantBitNumber = ((15 - (common and 0x7)) and 0x7)
                         val significantBit = (data[significantByte].toInt() shr significantBitNumber) and 0x1
                         common += 1
-                        shiftLeft(data, data1, common, inLen - 1)
+                        println("$common ${inLen - 1}")
                         inLen -= common
+                        shiftLeft(data, data1, common, inLen)
                         if (significantBit == 0) {
                             val key = readKey(currentPage, currentPageOffset)
                             val ptrA = readPtrA(currentPage, currentPageOffset)
@@ -1234,7 +1247,7 @@ fun testUsingFile(name: String) {
 fun testInsertArray(arr: IntArray) {
     val stream = convertToUTF8BitStream(arr)
     if (debugmode) {
-        println("going to insert $stream")
+        println("going to insert $stream IntArray")
     }
     val key = tree.insertUTF32(arr, arr.size)
     if (!fastMode) {
@@ -1268,7 +1281,7 @@ fun testInsertArray(arr: IntArray) {
 fun testInsertArray(arr: ByteArray) {
     val stream = convertToUTF8BitStream(arr)
     if (debugmode) {
-        println("going to insert $stream")
+        println("going to insert $stream ByteArray")
     }
     val key = tree.insertByteArray(arr, arr.size)
     if (!fastMode) {
@@ -1302,7 +1315,7 @@ fun testInsertArray(arr: ByteArray) {
 val tree = RadixTree()
 val debugmode = true
 var fastMode = false
-var testcaseNumber = 4
+var testcaseNumber = 5
 
 if (debugmode) {
     fastMode = false
@@ -1337,7 +1350,7 @@ when (testcaseNumber) {
         testUsingFile("/mnt/luposdate-testdata/generate_random_words")
     }
     4 -> {
-        val data = Array((2 shl 16) + (2 shl 8)) {
+        val data = Array((1 shl 16) + (1 shl 8)) {
             if (it < 256) {
                 byteArrayOf(it.toByte())
             } else {
@@ -1349,6 +1362,19 @@ when (testcaseNumber) {
         for (d in data) {
             testInsertArray(d)
         }
+    }
+    5 -> {
+        val data = ByteArray(2)
+        data[0] = 1
+        data[1] = 0
+        testInsertArray(data)
+        for (i in 0 until 256) {
+            data[0] = 0
+            data[1] = i.toByte()
+            testInsertArray(data)
+            println("xxxxx::: ${data[0]} ${data[1]}")
+        }
+        println("done 5")
     }
 }
 if (!fastMode) {
