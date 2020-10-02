@@ -517,11 +517,12 @@ class RadixTree {
             }
         }
         if (stackPtr > 2) {
-            if (currentDepth and 0x7 == 0x1) {
-                //header_2x
 //TODO                var bits = 8
-                var bits = 3
-                while (bits > 1) {
+            var bits = 3
+            while (bits > 1) {
+//TODO without key variant
+                if ((currentDepth+bits)==0) {
+                    //header_2x
                     var newHeader = header_20 + bits - 1
                     if (currentHeader < newHeader) {
                         println("currentHeader ${currentHeader.toString(16)} ${newHeader.toString(16)} ${bits} ${(1 shl (bits - 1))}")
@@ -543,9 +544,8 @@ class RadixTree {
                             return
                         }
                     }
-                    bits--
                 }
-            } else {
+                bits--
             }
         }
     }
