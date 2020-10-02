@@ -76,7 +76,7 @@ class RadixTree {
         allocatedBytes += len
         if (list.size > 0) {
             val ptr = list.removeAt(0)
-             println("alloc $len at ${ptr shr 9}:${(ptr and 0x1ff) shl 4} = $ptr")
+            println("alloc $len at ${ptr shr 9}:${(ptr and 0x1ff) shl 4} = $ptr")
             return ptr
         }
         val newPage = (pagesCounter++) shl 9
@@ -88,12 +88,12 @@ class RadixTree {
             list.add(ptr)
             ptr += slice
         }
-         println("alloc $len at ${newPage shr 9}:${(newPage and 0x1ff) shl 4} = $newPage")
+        println("alloc $len at ${newPage shr 9}:${(newPage and 0x1ff) shl 4} = $newPage")
         return newPage
     }
 
     fun freeBytes(ptr: Int) {
-println("freeing $ptr")
+        println("freeing $ptr")
         allocatedNodes--
         val nodeOff = pagePtrToOffset(ptr)
         var node = pagePtrToPage(ptr)
@@ -111,11 +111,11 @@ println("freeing $ptr")
         const val off_ptrA = 1 // if ptr exist always the same offset
         const val off_ptrB = off_ptrA + 4 // if ptr exist always the same offset
 
-	/*
-	 * these constants follow a strict alignment such that calculations are possible
-	 * - differences between the header-values are used to count bits
-	 * - relational-operators '<' and '>' are used to compare bit counts
-	 */
+        /*
+         * these constants follow a strict alignment such that calculations are possible
+         * - differences between the header-values are used to count bits
+         * - relational-operators '<' and '>' are used to compare bit counts
+         */
 
         const val header_00 = 0x00 // 0bit stores len, key, data
         const val header_01 = 0x01 // 1bit stores PtrA, PtrB, len, data
@@ -415,20 +415,20 @@ println("freeing $ptr")
                     val ptrA = readPtrA(current, currentOff)
                     val ptrB = readPtrB(current, currentOff)
                     println("previousid g :: ${idPrefix.toString(2)} depth :: $currentDepth $len add :: ${(significantBit shl (len - l)).toString(2)}")
-                    println("previousid h :: ${idPrefix.toString(2)} depth :: $currentDepth $len add :: ${((significantBit shl (len - l)) + (1 shl (len -l- 1))).toString(2)}")
-                    writeChilds(target, targetOff, idPrefix + (significantBit shl (len - l)), len - l-1, ptrA, currentDepth + l+1)
-                    writeChilds(target, targetOff, idPrefix + (significantBit shl (len - l)) + (1 shl (len - l - 1)), len - l-1, ptrB, currentDepth + l+1)
+                    println("previousid h :: ${idPrefix.toString(2)} depth :: $currentDepth $len add :: ${((significantBit shl (len - l)) + (1 shl (len - l - 1))).toString(2)}")
+                    writeChilds(target, targetOff, idPrefix + (significantBit shl (len - l)), len - l - 1, ptrA, currentDepth + l + 1)
+                    writeChilds(target, targetOff, idPrefix + (significantBit shl (len - l)) + (1 shl (len - l - 1)), len - l - 1, ptrB, currentDepth + l + 1)
                 } else {
-                val significantBit = (current[currentDataOff].toInt() shr (8 - len)) and ((1 shl len) - 1)
-                    shiftLeft(current, pageBuffer, (currentDataOff shl 3) + len , l - len )
+                    val significantBit = (current[currentDataOff].toInt() shr (8 - len)) and ((1 shl len) - 1)
+                    shiftLeft(current, pageBuffer, (currentDataOff shl 3) + len, l - len)
                     val key = readKey(current, currentOff)
                     val ptrA = readPtrA(current, currentOff)
                     val ptrB = readPtrB(current, currentOff)
                     println("createChild 16")
-println("??? $len $l $currentDepth")
-                    val newChild = createChild(pageBuffer, 0, l - len , key, currentDepth + len , ptrA, ptrB)
+                    println("??? $len $l $currentDepth")
+                    val newChild = createChild(pageBuffer, 0, l - len, key, currentDepth + len, ptrA, ptrB)
                     println("previousid i :: ${idPrefix.toString(2)} depth :: $currentDepth $len add :: ${significantBit.toString(2)}")
-                    writeChilds(target, targetOff, idPrefix + significantBit, 0, newChild, currentDepth + len )
+                    writeChilds(target, targetOff, idPrefix + significantBit, 0, newChild, currentDepth + len)
                 }
             }
             else -> {
@@ -531,13 +531,13 @@ println("??? $len $l $currentDepth")
                             var key = readKey(current, currentOff)
                             println("createChild 18 :: $bits")
                             val nodePtr = allocBytes(1 + (1 shl (bits + 2)) + 4)
-println("child18 at $nodePtr ?!?")
+                            println("child18 at $nodePtr ?!?")
                             val nodeOff = pagePtrToOffset(nodePtr)
                             var node = pagePtrToPage(nodePtr)
                             node.writeInt1(nodeOff, newHeader)
                             node.writeInt4(nodeOff + 1 + (1 shl (bits + 2)), key)
-                            writeChilds(node, nodeOff, 0, bits, currentPtr, currentDepth-calculateDepth(currentPtr))
-println("writing to parent ${stackPtr} ${stack[stackPtr - 2]} $currentPtr $nodePtr")
+                            writeChilds(node, nodeOff, 0, bits, currentPtr, currentDepth - calculateDepth(currentPtr))
+                            println("writing to parent ${stackPtr} ${stack[stackPtr - 2]} $currentPtr $nodePtr")
                             updatePointer(stack[stackPtr - 2], currentPtr, nodePtr)
                             stack[stackPtr - 1] == nodePtr
                             return
@@ -546,24 +546,6 @@ println("writing to parent ${stackPtr} ${stack[stackPtr - 2]} $currentPtr $nodeP
                     bits--
                 }
             } else {
-//TODO
-/*                //header_1x
-                if (currentDepth and 0x1 == 0x1) {
-                    println("start counting inner ${currentDepth.toString(2)} $currentDepth")
-                    var count = countChilds(currentPtr, 1)
-                    if (count >= 2 && count < 4) {
-                        if (currentHeader != header_11) {
-                            println("createChild 17")
-                            val nodePtr = allocBytes(off_11_data)
-                            val nodeOff = pagePtrToOffset(nodePtr)
-                            var node = pagePtrToPage(nodePtr)
-                            node.writeInt1(nodeOff, header_11)
-                            writeChilds(node, nodeOff, 0, 2, currentPtr, currentDepth)
-                            updatePointer(stack[stackPtr - 2], currentPtr, nodePtr)
-                            stack[stackPtr - 1] == nodePtr
-                        }
-                    }
-                }*/
             }
         }
     }
@@ -869,31 +851,31 @@ println("writing to parent ${stackPtr} ${stack[stackPtr - 2]} $currentPtr $nodeP
                 if (parent.readInt4(parentOff + off_ptrA) == currentPtr) {
                     parent.writeInt4(parentOff + off_ptrA, newPtr)
                 } else {
-if(parent.readInt4(parentOff + off_ptrB) != currentPtr){
-throw Exception("child not found")
-}
+                    if (parent.readInt4(parentOff + off_ptrB) != currentPtr) {
+                        throw Exception("child not found")
+                    }
                     parent.writeInt4(parentOff + off_ptrB, newPtr)
                 }
             }
-            header_10,header_11,header_12,header_13,header_14,header_15,header_16,header_17 -> {
-var bitCount = 1 + header - header_10
+            header_10, header_11, header_12, header_13, header_14, header_15, header_16, header_17 -> {
+                var bitCount = 1 + header - header_10
                 for (id in 0 until (1 shl bitCount)) {
                     if (parent.readInt4(parentOff + off_ptrA + (id shl 2)) == currentPtr) {
                         parent.writeInt4(parentOff + off_ptrA + (id shl 2), newPtr)
                         return
                     }
                 }
-throw Exception("child not found")
+                throw Exception("child not found")
             }
-            header_20,header_21,header_22,header_23,header_24,header_25,header_26,header_27 -> {
-var bitCount = 1 + header - header_20
+            header_20, header_21, header_22, header_23, header_24, header_25, header_26, header_27 -> {
+                var bitCount = 1 + header - header_20
                 for (id in 0 until (1 shl bitCount)) {
                     if (parent.readInt4(parentOff + off_ptrA + (id shl 2)) == currentPtr) {
                         parent.writeInt4(parentOff + off_ptrA + (id shl 2), newPtr)
                         return
                     }
                 }
-throw Exception("child not found")
+                throw Exception("child not found")
             }
             else -> {
                 throw Exception("unknown header 0x${header.toString(16)}")
@@ -942,7 +924,7 @@ throw Exception("child not found")
         while (true) {
             verifyCurrentDepth(stack, stackPtr, currentDepth)
             val header = readHeader(currentPage, currentPageOffset)
-            // println("path $currentPtr $header")
+            println("path $currentPtr 0x${header.toString(16)} $inLen $currentDepth")
             when (header) {
                 header_20, header_21, header_22, header_23, header_24, header_25, header_26, header_27 -> {
                     var bitCount = 1 + header - header_20
