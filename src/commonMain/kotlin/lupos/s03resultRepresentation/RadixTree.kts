@@ -281,8 +281,8 @@ class RadixTree {
             }
             header_10, header_11, header_13, header_17 -> {
                 var bitCount = 1 + header - header_10
-                if (len < 1 shl (bitCount - 1)) {
-                    throw Exception("wrong depth to start counting $len :: 0x${header.toString(16)}")
+                if (len < bitCount) {
+                    throw Exception("wrong depth to start counting $len :: 0x${header.toString(16)} $ bitCount ${1 shl (bitCount - 1)}")
                 }
                 var res = 0
                 for (id2 in 0 until (1 shl bitCount)) {
@@ -299,7 +299,7 @@ class RadixTree {
             }
             header_20, header_21, header_23, header_27 -> {
                 var bitCount = 1 + header - header_20
-                if (len < 1 shl (bitCount - 1)) {
+                if (len < bitCount) {
                     throw Exception("wrong depth to start counting $len :: 0x${header.toString(16)}")
                 }
                 var res = 0
