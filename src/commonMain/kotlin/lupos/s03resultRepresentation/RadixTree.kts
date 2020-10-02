@@ -232,8 +232,9 @@ class RadixTree {
         val header = readHeader(node, offset)
         when (header) {
             header_00 -> return node.readInt4(offset + off_00_key)
-            header_01, header_10, header_11 -> return null_key
+            header_01 -> return null_key
             header_02 -> return node.readInt4(offset + off_02_key)
+            header_10, header_11,header_13,header_17 -> return null_key
             header_20, header_21, header_23, header_27 -> return node.readInt4(offset + 1 + (1 shl (3 + header - header_20)))
             else -> throw Exception("unknown header 0x${header.toString(16)}")
         }
@@ -359,7 +360,7 @@ class RadixTree {
                 val currentDataOff = readDataOffset(current, currentOff)
                 val l = readLen(current, currentOff)
                 if (len > l) {
-                val significantBit = (current[currentDataOff].toInt() shr (8 - l)) and ((1 shl l) - 1)
+                    val significantBit = (current[currentDataOff].toInt() shr (8 - l)) and ((1 shl l) - 1)
                     val ll = len - l
                     val myPrefix = idPrefix + (significantBit shl ll)
                     for (id2 in 0 until 2) {
@@ -368,26 +369,18 @@ class RadixTree {
                         writeChilds(target, targetOff, myPrefix + (id2 shl (ll - 1)), ll - 1, p, currentDepth + l + 1)
                     }
                 } else {
-                val significantBit = (current[currentDataOff].toInt() shr (8 - len)) and ((1 shl len) - 1)
+                    val significantBit = (current[currentDataOff].toInt() shr (8 - len)) and ((1 shl len) - 1)
                     shiftLeft(current, pageBuffer, (currentDataOff shl 3) + len, l - len)
                     val key = readKey(current, currentOff)
                     val ptrA = readPtrA(current, currentOff)
                     val ptrB = readPtrB(current, currentOff)
                     println("createChild 15")
                     val newChild = createChild(pageBuffer, 0, l - len, key, currentDepth + len, ptrA, ptrB)
-                    for (id in 0 until (1 shl len)) {
-                        println("previousid d :: ${idPrefix.toString(2)} depth :: $currentDepth $len add :: ${id.toString(2)}")
-                        writeChilds(target, targetOff, idPrefix + id, 0, null_ptr, currentDepth + len)
-                    }
                     println("previousid e :: ${idPrefix.toString(2)} depth :: $currentDepth $len add :: ${(idPrefix + significantBit).toString(2)}")
                     writeChilds(target, targetOff, idPrefix + significantBit, 0, newChild, currentDepth + len)
                 }
             }
             header_02, header_00 -> {
-                for (id in 0 until (1 shl len)) {
-                    println("previousid f :: ${idPrefix.toString(2)} depth :: $currentDepth $len add :: ${id.toString(2)}")
-                    writeChilds(target, targetOff, idPrefix + id, 0, null_ptr, currentDepth + len)
-                }
                 val currentDataOff = readDataOffset(current, currentOff)
                 val l = readLen(current, currentOff)
                 if (len > l) {
@@ -499,12 +492,12 @@ class RadixTree {
         }
         if (stackPtr > 2) {
 //TODO                var bits = 3
-val parentDepth=currentDepth-calculateDepth(currentPtr)
-            var bitsC = 1
+            val parentDepth = currentDepth - calculateDepth(currentPtr)
+            var bitsC = 3
             while (bitsC > 0) {
-	val bits=1 shl bitsC
-//TODO without key variant
-                if ((parentDepth+bits) and (bits -1)==0) {
+                val bits = 1 shl bitsC
+                if ((parentDepth ) and (bits - 1) == 0) {
+if((parentDepth) and (0x7) == 0) {
                     //header_2x
                     var newHeader = header_20 + bits - 1
                     if (currentHeader < newHeader) {
@@ -520,14 +513,43 @@ val parentDepth=currentDepth-calculateDepth(currentPtr)
                             var node = pagePtrToPage(nodePtr)
                             node.writeInt1(nodeOff, newHeader)
                             node.writeInt4(nodeOff + 1 + (1 shl (bits + 2)), key)
+for(id in 0 until (1 shl bits)){
+node.writeInt4(nodeOff + 1 + (id shl 2), null_ptr)
+}
                             writeChilds(node, nodeOff, 0, bits, currentPtr, currentDepth - calculateDepth(currentPtr))
                             println("writing to parent ${stackPtr} ${stack[stackPtr - 2]} $currentPtr $nodePtr")
                             updatePointer(stack[stackPtr - 2], currentPtr, nodePtr)
                             stack[stackPtr - 1] == nodePtr
-this.print()
+                            this.print()
                             return
                         }
                     }
+}else{
+//header_1x
+                    var newHeader = header_10 + bits - 1
+                    if (currentHeader < newHeader) {
+                        println("currentHeader 0x${currentHeader.toString(16)} 0x${newHeader.toString(16)} ${bits} ${(1 shl (bits - 1))} $currentDepth $parentDepth")
+                        var count = countChilds(currentPtr, bits)
+                        if (count >= (1 shl (bits - 1)) && count < (1 shl bits)) {
+                            println("bits $bits 0x${newHeader.toString(16)} alloc(${1 + (1 shl (bits + 2))})")
+                            println("createChild 18 :: $bits")
+                            val nodePtr = allocBytes(1 + (1 shl (bits + 2)))
+                            println("child18 at $nodePtr ?!?")
+                            val nodeOff = pagePtrToOffset(nodePtr)
+                            var node = pagePtrToPage(nodePtr)
+                            node.writeInt1(nodeOff, newHeader)
+for(id in 0 until (1 shl bits)){
+node.writeInt4(nodeOff + 1 + (id shl 2), null_ptr)
+}
+                            writeChilds(node, nodeOff, 0, bits, currentPtr, currentDepth - calculateDepth(currentPtr))
+                            println("writing to parent ${stackPtr} ${stack[stackPtr - 2]} $currentPtr $nodePtr")
+                            updatePointer(stack[stackPtr - 2], currentPtr, nodePtr)
+                            stack[stackPtr - 1] == nodePtr
+                            this.print()
+                            return
+                        }
+                    }
+}
                 }
                 bitsC--
             }
