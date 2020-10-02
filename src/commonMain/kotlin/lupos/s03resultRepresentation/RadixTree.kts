@@ -88,7 +88,7 @@ class RadixTree {
             list.add(ptr)
             ptr += slice
         }
-         println("alloc $len at ${newPage shr 9}:${(newPage and 0x1ff) shl 4} = $ptr")
+         println("alloc $len at ${newPage shr 9}:${(newPage and 0x1ff) shl 4} = $newPage")
         return newPage
     }
 
@@ -520,7 +520,7 @@ println("??? $len $l $currentDepth")
             if (currentDepth and 0x7 == 0x1) {
                 //header_2x
 //TODO                var bits = 8
-                var bits = 2
+                var bits = 3
                 while (bits > 1) {
                     var newHeader = header_20 + bits - 1
                     if (currentHeader < newHeader) {
@@ -531,11 +531,13 @@ println("??? $len $l $currentDepth")
                             var key = readKey(current, currentOff)
                             println("createChild 18 :: $bits")
                             val nodePtr = allocBytes(1 + (1 shl (bits + 2)) + 4)
+println("child18 at $nodePtr ?!?")
                             val nodeOff = pagePtrToOffset(nodePtr)
                             var node = pagePtrToPage(nodePtr)
                             node.writeInt1(nodeOff, newHeader)
                             node.writeInt4(nodeOff + 1 + (1 shl (bits + 2)), key)
                             writeChilds(node, nodeOff, 0, bits, currentPtr, currentDepth-calculateDepth(currentPtr))
+println("writing to parent ${stackPtr} ${stack[stackPtr - 2]} $currentPtr $nodePtr")
                             updatePointer(stack[stackPtr - 2], currentPtr, nodePtr)
                             stack[stackPtr - 1] == nodePtr
                             return
@@ -819,7 +821,7 @@ println("??? $len $l $currentDepth")
                 for (id in 0 until (1 shl (bitCount))) {
                     var ptr = readPtrSpecific(currentPage, currentPageOffset, id)
                     if (ptr != null_ptr && maxdepth > 0) {
-                        usedBytes += print(ptr, value + id.toString(2).padStart(2, '0'), maxdepth - 1)
+                        usedBytes += print(ptr, value + id.toString(2).padStart(bitCount, '0'), maxdepth - 1)
                     }
                 }
             }
@@ -828,7 +830,7 @@ println("??? $len $l $currentDepth")
                 for (id in 0 until (1 shl (bitCount))) {
                     var ptr = readPtrSpecific(currentPage, currentPageOffset, id)
                     if (ptr != null_ptr && maxdepth > 0) {
-                        usedBytes += print(ptr, value + id.toString(2).padStart(2, '0'), maxdepth - 1)
+                        usedBytes += print(ptr, value + id.toString(2).padStart(bitCount, '0'), maxdepth - 1)
                     }
                 }
             }
@@ -853,6 +855,9 @@ println("??? $len $l $currentDepth")
         if (parentPtr == null_ptr) {
             throw Exception("")
         }
+        if (currentPtr == null_ptr) {
+            throw Exception("")
+        }
         val parent = pagePtrToPage(parentPtr)
         val parentOff = pagePtrToOffset(parentPtr)
         val header = readHeader(parent, parentOff)
@@ -860,20 +865,35 @@ println("??? $len $l $currentDepth")
             header_00 -> {
                 throw Exception("invalid header")
             }
-            header_01, header_02, header_10, header_20 -> {
+            header_01, header_02 -> {
                 if (parent.readInt4(parentOff + off_ptrA) == currentPtr) {
                     parent.writeInt4(parentOff + off_ptrA, newPtr)
                 } else {
+if(parent.readInt4(parentOff + off_ptrB) != currentPtr){
+throw Exception("child not found")
+}
                     parent.writeInt4(parentOff + off_ptrB, newPtr)
                 }
             }
-            header_11, header_21 -> {
-                for (id in 0 until 4) {
+            header_10,header_11,header_12,header_13,header_14,header_15,header_16,header_17 -> {
+var bitCount = 1 + header - header_10
+                for (id in 0 until (1 shl bitCount)) {
                     if (parent.readInt4(parentOff + off_ptrA + (id shl 2)) == currentPtr) {
                         parent.writeInt4(parentOff + off_ptrA + (id shl 2), newPtr)
                         return
                     }
                 }
+throw Exception("child not found")
+            }
+            header_20,header_21,header_22,header_23,header_24,header_25,header_26,header_27 -> {
+var bitCount = 1 + header - header_20
+                for (id in 0 until (1 shl bitCount)) {
+                    if (parent.readInt4(parentOff + off_ptrA + (id shl 2)) == currentPtr) {
+                        parent.writeInt4(parentOff + off_ptrA + (id shl 2), newPtr)
+                        return
+                    }
+                }
+throw Exception("child not found")
             }
             else -> {
                 throw Exception("unknown header 0x${header.toString(16)}")
