@@ -69,7 +69,9 @@ fun main(args: Array<String>) = Parallel.runBlocking {
                                                 byteBuf[0] = tripleType[i].ordinal.toByte()
                                                 outDictionary2.write(byteBuf)
                                                 outDictionary2.write(tmp)
+if(dictionary2Offset>0){
                                                 outDictionary2Offset.writeInt(dictionary2Offset)
+}
                                                 dictionary2Offset += tmp.size + 1
                                             }
                                         }
@@ -80,6 +82,7 @@ fun main(args: Array<String>) = Parallel.runBlocking {
                                     }
                                 }
                                 x.turtleDoc()
+				outDictionary2Offset.writeInt(dictionary2Offset)
                             }
                         }
                     }

@@ -75,31 +75,31 @@ class ResultSetDictionary(val global: Boolean = false) {
     @JvmField
     val iriToInt = mutableMapOf<String, Int>()
     @JvmField
-    var iriToValue = Array<String>(0) { emptyString }
+    var iriToValue = Array<String>(1) { emptyString }
     @JvmField
     val langTaggedToInt = mutableMapOf<String, Int>()
     @JvmField
-    var langTaggedToValue = Array<String>(0) { emptyString }
+    var langTaggedToValue = Array<String>(1) { emptyString }
     @JvmField
     val typedToInt = mutableMapOf<String, Int>()
     @JvmField
-    var typedToValue = Array<String>(0) { emptyString }
+    var typedToValue = Array<String>(1) { emptyString }
     @JvmField
     val doubleToInt = mutableMapOf<Double, Int>()
     @JvmField
-    var doubleToValue = DoubleArray(0) { 0.0 }
+    var doubleToValue = DoubleArray(1) { 0.0 }
     @JvmField
     val floatToInt = mutableMapOf<Double, Int>()
     @JvmField
-    var floatToValue = DoubleArray(0) { 0.0 }
+    var floatToValue = DoubleArray(1) { 0.0 }
     @JvmField
     val decimalToInt = mutableMapOf<String, Int>()
     @JvmField
-    var decimalToValue = Array<String>(0) { emptyString }
+    var decimalToValue = Array<String>(1) { emptyString }
     @JvmField
     val intToInt = mutableMapOf<String, Int>()
     @JvmField
-    var intToValue = Array<String>(0) { emptyString }
+    var intToValue = Array<String>(1) { emptyString }
     fun prepareBulk(total: Int, typed: IntArray) {
         for (t in ETripleComponentType.values()) {
             when (t) {
@@ -213,13 +213,13 @@ class ResultSetDictionary(val global: Boolean = false) {
         floatToInt.clear()
         decimalToInt.clear()
         intToInt.clear()
-        iriToValue = Array<String>(0) { emptyString }
-        langTaggedToValue = Array<String>(0) { emptyString }
-        typedToValue = Array<String>(0) { emptyString }
-        doubleToValue = DoubleArray(0) { 0.0 }
-        floatToValue = DoubleArray(0) { 0.0 }
-        decimalToValue = Array<String>(0) { emptyString }
-        intToValue = Array<String>(0) { emptyString }
+        iriToValue = Array<String>(1) { emptyString }
+        langTaggedToValue = Array<String>(1) { emptyString }
+        typedToValue = Array<String>(1) { emptyString }
+        doubleToValue = DoubleArray(1) { 0.0 }
+        floatToValue = DoubleArray(1) { 0.0 }
+        decimalToValue = Array<String>(1) { emptyString }
+        intToValue = Array<String>(1) { emptyString }
     }
     fun toBooleanOrError(value: Value): Value {
         var res: Value = errorValue

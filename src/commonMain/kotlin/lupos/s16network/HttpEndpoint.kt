@@ -236,7 +236,7 @@ object HttpEndpoint {
                     var buffer = ByteArray(0)
                     fileDictionaryOffset.dataInputStream { offsetStream ->
                         fileDictionary.dataInputStream { dictStream ->
-                            var lastOffset = offsetStream.readInt()
+                            var lastOffset = 0
                             for (i in 0 until dictTotal) {
                                 val nextOffset = offsetStream.readInt()
                                 var type = ETripleComponentType.values()[dictStream.readByte().toInt()]

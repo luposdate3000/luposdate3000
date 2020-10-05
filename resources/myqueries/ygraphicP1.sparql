@@ -1,5 +1,5 @@
-SELECT (COUNT(*) AS ?occurences) {
-  ?s ?p ?o .
-}
-GROUP BY ?p
-ORDER BY ?occurences
+SELECT (COUNT(*) AS ?occurences) { 
+  ?s ?p ?o . 
+} 
+GROUP BY ?p 
+ORDER BY ?occurences 
