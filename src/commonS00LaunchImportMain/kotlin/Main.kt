@@ -4,6 +4,7 @@ import lupos.s00misc.MyMapStringIntPatriciaTrieDouble
 import lupos.s00misc.Parallel
 import lupos.s02buildSyntaxTree.LexerCharIterator
 import lupos.s02buildSyntaxTree.LookAheadTokenIterator
+import lupos.s02buildSyntaxTree.turtle.Turtle2Parser
 import lupos.s02buildSyntaxTree.turtle.TurtleParserWithStringTriples
 import lupos.s02buildSyntaxTree.turtle.TurtleScanner
 
@@ -21,47 +22,54 @@ fun main(args: Array<String>) = Parallel.runBlocking {
             val inputFileName = args[1]
             println("importing $inputFileName start")
             val inputFile = File(inputFileName)
-            val dict = MyMapStringIntPatriciaTrieDouble()
-            val lcit: LexerCharIterator
-            if (inputFile.length() < Int.MAX_VALUE) {
-                val data = inputFile.readAsString()
-                println("read as string data :: ${data.substring(9, 100)}")
-                lcit = LexerCharIterator(data)
-            } else {
-                val data = inputFile.readAsCharIterator()
-                println("read as iterator :: $inputFileName")
-                lcit = LexerCharIterator(data)
-            }
-            val tit = TurtleScanner(lcit)
-            val ltit = LookAheadTokenIterator(tit, 3)
+            val dict = mutableMapOf<String, Int>()
+            var dictCounter = 0
+            var dictionary2Offset = 0
+            val iter = inputFile.readAsInputStream()
             val outputTriplesFile = File(inputFileName + ".triples")
-            outputTriplesFile.dataOutputStream { out ->
-                try {
-                    val x = object : TurtleParserWithStringTriples() {
-                        suspend override fun consume_triple(s: String, p: String, o: String) {
-                            out.writeInt(dict.getOrCreate(s))
-                            out.writeInt(dict.getOrCreate(p))
-                            out.writeInt(dict.getOrCreate(o))
-                            cnt++
-                            println("$cnt $s $p $o")
+            val outputDictionaryFile = File(inputFileName + ".dictionary")
+            val outputDictionary2File = File(inputFileName + ".dictionary2")
+            val outputDictionary2OffsetFile = File(inputFileName + ".dictionary2offset")
+            val outputDictionaryStatFile = File(inputFileName + ".stat")
+            try {
+                outputDictionaryFile.printWriter { outDictionary ->
+                    outputDictionary2File.dataOutputStream { outDictionary2 ->
+                        outputDictionary2OffsetFile.dataOutputStream { outDictionary2Offset ->
+                            outputTriplesFile.dataOutputStream { outTriples ->
+                                val x = object : Turtle2Parser(iter) {
+                                    override fun onTriple(triple: Array<String>) {
+                                        for (i in 0 until 3) {
+                                            val v = dict[triple[i]]
+                                            if (v != null) {
+                                                outTriples.writeInt(v)
+                                            } else {
+                                                val v2 = dictCounter++
+                                                dict[triple[i]] = v2
+                                                outTriples.writeInt(v2)
+                                                outDictionary.println(triple[i])
+                                                val tmp = triple[i].encodeToByteArray()
+                                                outDictionary2.write(tmp)
+                                                outDictionary2Offset.writeInt(dictionary2Offset)
+                                                dictionary2Offset += tmp.size
+                                            }
+                                        }
+                                        cnt++
+                                        if (cnt % 10000 == 0) {
+                                            println("$cnt :: $dictCounter $dictionary2Offset")
+                                        }
+                                    }
+                                }
+                                x.turtleDoc()
+                            }
                         }
                     }
-                    x.ltit = ltit
-                    x.turtleDoc()
-                } catch (e: lupos.s02buildSyntaxTree.ParseError) {
-                    println("error in file '$inputFileName'")
-                    throw e
                 }
+            } catch (e: lupos.s02buildSyntaxTree.ParseError) {
+                println("error in file '$inputFileName'")
+                throw e
             }
-            val outputDictionaryFile = File(inputFileName + ".dictionary")
-            outputDictionaryFile.printWriter { out ->
-                for (i in 0 until dict.size) {
-                    out.println(dict[i])
-                }
-            }
-            val outputDictionaryStatFile = File(inputFileName + ".stat")
             outputDictionaryStatFile.printWriter { out ->
-                out.print(dict.size)
+                out.print(dictCounter)
             }
             println("importing $inputFileName finish with $cnt triples")
         }

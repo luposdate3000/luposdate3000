@@ -382,20 +382,20 @@ class CharGroup {
                             var theKeys = mutableListOf<MyPair>()
                             for (cIdx in 0 until localChilds.size) {
                                 val c = localChilds[cIdx]
-c.rangesPreparedString = "$cIdx"
+                                c.rangesPreparedString = "$cIdx"
                                 for (r in c.ranges) {
                                     theKeys.add(r)
                                     theMap[r] = cIdx
                                 }
                             }
                             var arr = theKeys.toTypedArray()
-if(arr.size==1&&arr[0].first==arr[0].second){
-helperFunctionContent.appendLine(" if(c==0x${arr[0].first.toString(16)}){")
-helperFunctionContent.appendLine("  return 0")
-helperFunctionContent.appendLine(" } else {")
-helperFunctionContent.appendLine("  return 1")
-helperFunctionContent.appendLine(" }")
-                }else            if (arr.size > 0) {
+                            if (arr.size == 1 && arr[0].first == arr[0].second) {
+                                helperFunctionContent.appendLine(" if(c==0x${arr[0].first.toString(16)}){")
+                                helperFunctionContent.appendLine("  return 0")
+                                helperFunctionContent.appendLine(" } else {")
+                                helperFunctionContent.appendLine("  return 1")
+                                helperFunctionContent.appendLine(" }")
+                            } else if (arr.size > 0) {
                                 arr.sort()
                                 var lastValue = 0
                                 if (arr[0].first > lastValue) {
@@ -1416,11 +1416,11 @@ if (args.size == 1 && args[0] == "PARSER_CONTEXT") {
     println(" throw ParserExceptionUnexpectedChar(context)")
     println("}")
     for ((k, v) in CharGroup.helperfunctions) {
-if(k.length<300){
-        println("inline fun ${v}(c:Int):Int{")
-}else{
-        println("fun ${v}(c:Int):Int{")
-}
+        if (k.length < 300) {
+            println("inline fun ${v}(c:Int):Int{")
+        } else {
+            println("fun ${v}(c:Int):Int{")
+        }
         print(k)
         println("}")
     }
