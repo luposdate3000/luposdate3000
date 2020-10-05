@@ -1,12 +1,14 @@
 #!/bin/kscript
+
 import kotlin.random.Random
 
 class RadixTree {
 
     var debugMap = mutableMapOf<String, Int>()
     var next_key = null_key + 1
-    var pages = Array<ByteArray>(16000) { ByteArray(8192) } // pages[0] is used as temporary buffer
     var pagesCounter = 1
+    var pagesCapacity=1024
+    var pages = Array<ByteArray>(1024) { ByteArray(8192) } // pages[0] is used as temporary buffer
     val rootNode: ByteArray
     val rootNodeOffset: Int
     val rootNodePtr: Int
@@ -17,6 +19,7 @@ class RadixTree {
     val listSliceSizes = intArrayOf(16, 32, 64, 128, 256, 512, 1024, 2048, 4096, 8196)
     val freeLists = Array(listSliceSizes.size) { mutableListOf<Int>() }
     val slotsAllocedBySize = IntArray(listSliceSizes.size)
+    val pagesRequiredSpare=listSliceSizes.size
 
     init {
         rootNodePtr = allocBytes(off_21_data)
@@ -51,15 +54,15 @@ class RadixTree {
         return len
     }
 
-    fun pagePtrToPage(ptr: Int): ByteArray {
+    inline fun pagePtrToPage(ptr: Int): ByteArray {
         return pages[ptr shr 9]
     }
 
-    fun pagePtrToOffset(ptr: Int): Int {
+    inline fun pagePtrToOffset(ptr: Int): Int {
         return (ptr and 0x1ff) shl 4
     }
 
-    fun mapLenToList(len: Int): Int {
+    inline fun mapLenToList(len: Int): Int {
         for (i in 0 until listSliceSizes.size - 1) {
             if (len <= listSliceSizes[i]) {
                 return i
@@ -68,7 +71,7 @@ class RadixTree {
         return listSliceSizes.size - 1
     }
 
-    fun allocBytes(len: Int): Int {
+    inline fun allocBytes(len: Int): Int {
         allocatedNodes++
         val listToUse = mapLenToList(len)
         slotsAllocedBySize[listToUse]++
@@ -92,7 +95,7 @@ class RadixTree {
         return newPage
     }
 
-    fun freeBytes(ptr: Int) {
+    inline fun freeBytes(ptr: Int) {
         //println("freeing $ptr")
         allocatedNodes--
         val nodeOff = pagePtrToOffset(ptr)
@@ -155,11 +158,11 @@ class RadixTree {
         const val off_27_data = off_27_key + 4
     }
 
-    fun readHeader(node: ByteArray, offset: Int): Int {
+    inline fun readHeader(node: ByteArray, offset: Int): Int {
         return node.readInt1(offset)
     }
 
-    fun readDataOffset(node: ByteArray, offset: Int): Int {
+    inline fun readDataOffset(node: ByteArray, offset: Int): Int {
         val header = readHeader(node, offset)
         when (header) {
             header_00 -> return offset + off_00_data
@@ -171,7 +174,7 @@ class RadixTree {
         }
     }
 
-    fun readLen(node: ByteArray, offset: Int): Int {
+    inline fun readLen(node: ByteArray, offset: Int): Int {
         val header = readHeader(node, offset)
         when (header) {
             header_00 -> return node.readInt2(offset + off_00_len)
@@ -183,7 +186,7 @@ class RadixTree {
         }
     }
 
-    fun readConsumedBytes(node: ByteArray, offset: Int): Int {
+    inline fun readConsumedBytes(node: ByteArray, offset: Int): Int {
         val header = readHeader(node, offset)
         when (header) {
             header_00 -> return off_00_data + ((node.readInt2(offset + off_00_len) + 0x7) shr 3)
@@ -195,7 +198,7 @@ class RadixTree {
         }
     }
 
-    fun readPtrSpecific(node: ByteArray, offset: Int, id: Int): Int {
+    inline fun readPtrSpecific(node: ByteArray, offset: Int, id: Int): Int {
         val header = readHeader(node, offset)
         when (header) {
             header_00 -> return null_ptr
@@ -206,7 +209,7 @@ class RadixTree {
         }
     }
 
-    fun readPtrA(node: ByteArray, offset: Int): Int {
+    inline fun readPtrA(node: ByteArray, offset: Int): Int {
         val header = readHeader(node, offset)
         when (header) {
             header_00 -> return null_ptr
@@ -217,7 +220,7 @@ class RadixTree {
         }
     }
 
-    fun readPtrB(node: ByteArray, offset: Int): Int {
+    inline fun readPtrB(node: ByteArray, offset: Int): Int {
         val header = readHeader(node, offset)
         when (header) {
             header_00 -> return null_ptr
@@ -228,7 +231,7 @@ class RadixTree {
         }
     }
 
-    fun readKey(node: ByteArray, offset: Int): Int {
+    inline fun readKey(node: ByteArray, offset: Int): Int {
         val header = readHeader(node, offset)
         when (header) {
             header_00 -> return node.readInt4(offset + off_00_key)
@@ -240,7 +243,7 @@ class RadixTree {
         }
     }
 
-    fun readHeaderByPtr(ptr: Int): Int {
+    inline fun readHeaderByPtr(ptr: Int): Int {
         val node = pagePtrToPage(ptr)
         val offset = pagePtrToOffset(ptr)
         return readHeader(node, offset)
@@ -412,27 +415,29 @@ class RadixTree {
         freeBytes(currentPtr)
     }
 
-    fun verifyCurrentDepth(stack: IntArray, stackPtr: Int, currentDepth: Int) {
-        if (stackPtr > 0) {
-            var correctDepth = 0
-            var used_counter = 0
-            var sPtr = 0
-            while (sPtr < stackPtr) {
-                if (sPtr != null_ptr) {
-                    used_counter++
-                    var currentPtr = stack[sPtr]
-                    correctDepth += calculateDepth(currentPtr)
+    inline fun verifyCurrentDepth(stack: IntArray, stackPtr: Int, currentDepth: Int) {
+        if (debugmode) {
+            if (stackPtr > 0) {
+                var correctDepth = 0
+                var used_counter = 0
+                var sPtr = 0
+                while (sPtr < stackPtr) {
+                    if (sPtr != null_ptr) {
+                        used_counter++
+                        var currentPtr = stack[sPtr]
+                        correctDepth += calculateDepth(currentPtr)
+                    }
+                    sPtr++
                 }
-                sPtr++
-            }
-            if (correctDepth != currentDepth) {
-                tree.print()
-                throw Exception("incorrect depth $correctDepth $currentDepth ${stack[stackPtr - 1]}")
+                if (correctDepth != currentDepth) {
+                    tree.print()
+                    throw Exception("incorrect depth $correctDepth $currentDepth ${stack[stackPtr - 1]}")
+                }
             }
         }
     }
 
-    fun calculateDepth(currentPtr: Int): Int {
+    inline fun calculateDepth(currentPtr: Int): Int {
         val current = pagePtrToPage(currentPtr)
         val currentOff = pagePtrToOffset(currentPtr)
         val currentHeader = readHeader(current, currentOff)
@@ -448,18 +453,18 @@ class RadixTree {
     fun checkStack(stack: IntArray, stackPtr: Int, currentDepth: Int) {
         var depth = currentDepth
         var sPtr = stackPtr
-        var maxStepsDeeper = 5
+        var maxStepsDeeper = 2
         // println("checkStack initial $currentDepth")
         while (sPtr > 0) {
             verifyCurrentDepth(stack, sPtr, depth)
             var currentPtr = stack[sPtr - 1]
-if(currentPtr!=null_ptr){
-            val parentDepth = depth - calculateDepth(currentPtr)
-            //println("checkStack ${stack[sPtr - 1]} $depth")
-            checkStackHelper(stack, sPtr, depth, maxStepsDeeper)
-            depth = parentDepth
-            maxStepsDeeper--
-}
+            if (currentPtr != null_ptr) {
+                val parentDepth = depth - calculateDepth(currentPtr)
+                //println("checkStack ${stack[sPtr - 1]} $depth")
+                checkStackHelper(stack, sPtr, depth, maxStepsDeeper)
+                depth = parentDepth
+                maxStepsDeeper--
+            }
             sPtr--
         }
     }
@@ -752,7 +757,7 @@ if(currentPtr!=null_ptr){
         }
     }
 
-    fun equalBits(dataA: ByteArray, dataB: ByteArray, offsetA: Int, offsetB: Int, len: Int): Int {
+    inline fun equalBits(dataA: ByteArray, dataB: ByteArray, offsetA: Int, offsetB: Int, len: Int): Int {
         val lenBytes = (len + 0x7) shr 3
         var b = 0
         while (b < lenBytes) {
@@ -853,7 +858,7 @@ if(currentPtr!=null_ptr){
         return usedBytes
     }
 
-    fun updatePointer(parentPtr: Int, currentPtr: Int, newPtr: Int) {
+    inline fun updatePointer(parentPtr: Int, currentPtr: Int, newPtr: Int) {
         if (parentPtr == null_ptr) {
             throw Exception("")
         }
@@ -903,7 +908,7 @@ if(currentPtr!=null_ptr){
         }
     }
 
-    fun updatePointerSpecific(parentPtr: Int, id: Int, newPtr: Int) {
+    inline fun updatePointerSpecific(parentPtr: Int, id: Int, newPtr: Int) {
         if (parentPtr == null_ptr) {
             throw Exception("")
         }
@@ -916,7 +921,7 @@ if(currentPtr!=null_ptr){
     }
 
 
-    fun insertUTF32(inData: IntArray, inDataLength: Int): Int {
+    inline fun insertUTF32(inData: IntArray, inDataLength: Int): Int {
         var data = ByteArray(inDataLength shl 2)
         var inLen = convertUTF32ToUTF8(inData, inDataLength, data)
         return insertByteArray(data, inLen)
@@ -929,6 +934,19 @@ if(currentPtr!=null_ptr){
             }
             return rootKey
         }
+if(pagesRequiredSpare+pagesCounter>pagesCapacity){
+val newCapacity=pagesCapacity shl 1
+val newPages=Array<ByteArray>(newCapacity) {
+if(it<pagesCapacity){
+pages[it]
+}else{
+ ByteArray(8192)
+}
+ }
+pagesCapacity=newCapacity
+pages=newPages
+}
+
         var pageBuffer = pages[0]
         var data = inData
         var data1 = ByteArray(inDataLength)
@@ -1122,9 +1140,9 @@ if(currentPtr!=null_ptr){
                         val significantBitNumber = ((15 - (common and 0x7)) and 0x7)
                         val significantBit = (data[significantByte].toInt() shr significantBitNumber) and 0x1
                         common++
-if(inLen - common>0){
-                        shiftLeft(data, data1, common, inLen - common)
-}
+                        if (inLen - common > 0) {
+                            shiftLeft(data, data1, common, inLen - common)
+                        }
                         var newKey = next_key++
                         //println("createChild 11")
                         val newPage = createChild(data1, 0, inLen - common, newKey, currentDepth + common)
@@ -1199,7 +1217,7 @@ inline fun ByteArray.readInt1(offset: Int): Int {
 }
 
 
-fun stringToIntArray(str: String): IntArray {
+inline fun stringToIntArray(str: String): IntArray {
     val s = str.replace(Regex("[^a-zA-Z]"), "")
     val res = IntArray(s.length)
     for (c in 0 until s.length) {
@@ -1208,7 +1226,7 @@ fun stringToIntArray(str: String): IntArray {
     return res
 }
 
-fun convertToUTF8BitStream(arr: IntArray): String {
+inline fun convertToUTF8BitStream(arr: IntArray): String {
     var s = ""
     for (i in 0 until arr.size) {
         s += arr[i].toString(2).padStart(8, '0')
@@ -1216,7 +1234,7 @@ fun convertToUTF8BitStream(arr: IntArray): String {
     return s
 }
 
-fun convertToUTF8BitStream(arr: ByteArray): String {
+inline fun convertToUTF8BitStream(arr: ByteArray): String {
     var s = ""
     for (i in 0 until arr.size) {
         s += (arr[i].toInt() and 0xff).toString(2).padStart(8, '0')
@@ -1224,31 +1242,55 @@ fun convertToUTF8BitStream(arr: ByteArray): String {
     return s
 }
 
-fun testUsingFile(name: String) {
-    java.io.File(name).forEachLine { it2 ->
-        for (it in it2.split(" ")) {
-            if (i % 100 == 0) {
-                println("$i :: $insertedSize ${tree.allocatedNodes} ${tree.allocatedBytes} ${tree.slotsAllocedBySize.mapIndexed { idx, it -> it * tree.listSliceSizes[idx] }.sum()} ${tree.slotsAllocedBySize.map { it }} ${tree.freeLists.map { it.size }}")
-            }
-            var s = it
-            if (debugmode) {
-                if (s.length > 20) {
-                    s = s.substring(0, 20)
+inline fun testUsingFile(name: String) {
+    try {
+        java.io.File(name).forEachLine { it2 ->
+            for (it in it2.split(" ")) {
+                when (testmode) {
+                    0 -> {
+                        if (inputNumber % 10000 == 0) {
+                            println("$inputNumber :: $insertedSize ${tree.allocatedNodes} ${tree.allocatedBytes} ${tree.slotsAllocedBySize.mapIndexed { idx, it -> it * tree.listSliceSizes[idx] }.sum()} ${tree.slotsAllocedBySize.map { it }} ${tree.freeLists.map { it.size }}")
+                        }
+                        var s = it
+                        if (debugmode) {
+                            if (s.length > 20) {
+                                s = s.substring(0, 20)
+                            }
+                            println("-----------")
+                        } else {
+                            if (s.length > 8000) {
+                                s = s.substring(0, 8000)
+                            }
+                        }
+                        val arr = stringToIntArray(s)
+                        testInsertArray(arr)
+                    }
+                    1 -> {
+if (inputNumber % 10000 == 0) {
+	println(inputNumber)
+}
+                        val k = tree2[it]
+                        if (k == null) {
+                            tree2[it] = tree2Counter++
+                        }
+                    }
+2->{
+if (inputNumber % 10000 == 0) {
+        println(inputNumber)
+}
+tree3.getOrCreate(it)
+}
                 }
-                println("-----------")
-            } else {
-                if (s.length > 8000) {
-                    s = s.substring(0, 8000)
-                }
+                inputNumber++
             }
-            val arr = stringToIntArray(s)
-            testInsertArray(arr)
-            i++
         }
+    } catch (e: Throwable) {
+        println("$inputNumber :: $insertedSize ${tree.allocatedNodes} ${tree.allocatedBytes} ${tree.slotsAllocedBySize.mapIndexed { idx, it -> it * tree.listSliceSizes[idx] }.sum()} ${tree.slotsAllocedBySize.map { it }} ${tree.freeLists.map { it.size }}")
+        throw e
     }
 }
 
-fun testInsertArray(arr: IntArray) {
+inline fun testInsertArray(arr: IntArray) {
     val stream = convertToUTF8BitStream(arr)
     if (debugmode) {
         println("going to insert $stream IntArray")
@@ -1282,7 +1324,7 @@ fun testInsertArray(arr: IntArray) {
     }
 }
 
-fun testInsertArray(arr: ByteArray) {
+inline fun testInsertArray(arr: ByteArray) {
     val stream = convertToUTF8BitStream(arr)
     if (debugmode) {
         println("going to insert $stream ByteArray")
@@ -1315,18 +1357,22 @@ fun testInsertArray(arr: ByteArray) {
         }
     }
 }
-
+val tree3=MyMapStringIntPatriciaTrieDouble()
+tree3._init()
+val tree2 = mutableMapOf<String, Int>()
+var tree2Counter = 0
 val tree = RadixTree()
+val testmode = 0        //0:RadixTree, 1:MutableMap, 3:PatriciaTrie
 val debugmode = false
-var fastMode = false
-var testcaseNumber = 4
+var fastMode = true
+val testcaseNumber = 1
 
 if (debugmode) {
     fastMode = false
     tree.print()
 }
 
-var i = 0
+var inputNumber = 0
 var insertedSize = 0
 val insertMap = mutableMapOf<String, Int>()
 
