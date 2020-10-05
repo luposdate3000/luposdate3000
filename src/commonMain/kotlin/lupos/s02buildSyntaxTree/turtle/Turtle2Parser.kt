@@ -1,5 +1,6 @@
 package lupos.s02buildSyntaxTree.turtle
 
+import lupos.s00misc.ETripleComponentType
 import kotlin.jvm.JvmField
 import lupos.s00misc.MyInputStream
 
@@ -13,6 +14,7 @@ enum class Turtle2ParserState {
     TRIPLE_END_OR_OBJECT_STRING,
 }
 
+
 abstract class Turtle2Parser(input: MyInputStream) {
     @JvmField
     val context = ParserContext(input)
@@ -24,17 +26,20 @@ abstract class Turtle2Parser(input: MyInputStream) {
     val triple = Array(3) { "" }
 
     @JvmField
+    val tripleType = Array(3) { ETripleComponentType.IRI }
+
+    @JvmField
     var state = Turtle2ParserState.STATEMENT
-    abstract fun onTriple(triple: Array<String>)
+    abstract fun onTriple(triple: Array<String>, tripleType: Array<ETripleComponentType>)
     fun turtleDoc() {
         var iter = 0
         while (true) {
             iter++
-            if (iter % 10000 == 0) {
-                println("$iter :: at (${context.line}:${context.column})")
-            }
-            //println("state :: $state at (${context.line}:${context.column})")
             when (state) {
+//            if (iter % 10000 == 0) {
+//                println("$iter :: at (${context.line}:${context.column})")
+//            }
+                //println("state :: $state at (${context.line}:${context.column})")
                 Turtle2ParserState.EOF -> {
                     break
                 }
@@ -88,11 +93,13 @@ abstract class Turtle2Parser(input: MyInputStream) {
                 onPN_LOCAL = {
                     //println("onPN_LOCAL(${context.getValue()})")
                     triple[0] = "<" + prefixMap[triple[0]]!! + context.getValue() + ">"
+                    tripleType[0] = ETripleComponentType.IRI
                     parse_ws_forced(context, {})
                 },
                 onSKIP_WS_FORCED = {
                     //println("onSKIP_WS_FORCED(${context.getValue()})")
                     triple[0] = "<" + prefixMap[triple[0]]!! + ">"
+                    tripleType[0] = ETripleComponentType.IRI
                 })
     }
 
@@ -134,18 +141,21 @@ abstract class Turtle2Parser(input: MyInputStream) {
                 onIRIREF = {
                     //println("onIRIREF(${context.getValue()})")
                     triple[0] = context.getValue()
+                    tripleType[0] = ETripleComponentType.IRI
                     parse_ws_forced(context, {})
                     state = Turtle2ParserState.PREDICATE
                 },
                 onPNAME_NS = {
                     //println("onPNAME_NS(${context.getValue()})")
                     triple[0] = context.getValue()
+                    tripleType[0] = ETripleComponentType.IRI
                     statement_helper_3()
                     state = Turtle2ParserState.PREDICATE
                 },
                 onBLANK_NODE_LABEL = {
                     //println("onBLANK_NODE_LABEL(${context.getValue()})")
                     triple[0] = context.getValue()
+                    tripleType[0] = ETripleComponentType.BLANK_NODE
                     parse_ws_forced(context, {})
                     state = Turtle2ParserState.PREDICATE
                 })
@@ -156,11 +166,13 @@ abstract class Turtle2Parser(input: MyInputStream) {
                 onPN_LOCAL = {
                     //println("onPN_LOCAL(${context.getValue()})")
                     triple[1] = "<" + prefixMap[triple[1]]!! + context.getValue() + ">"
+                    tripleType[1] = ETripleComponentType.IRI
                     parse_ws_forced(context, {})
                 },
                 onSKIP_WS_FORCED = {
                     //println("onSKIP_WS_FORCED(${context.getValue()})")
                     triple[1] = "<" + prefixMap[triple[1]]!! + ">"
+                    tripleType[1] = ETripleComponentType.IRI
                 })
     }
 
@@ -169,16 +181,19 @@ abstract class Turtle2Parser(input: MyInputStream) {
                 onVERB1 = {
                     //println("onVERB1(${context.getValue()})")
                     triple[1] = "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>"
+                    tripleType[1] = ETripleComponentType.IRI
                     parse_ws_forced(context, {})
                 },
                 onIRIREF = {
                     //println("onIRIREF(${context.getValue()})")
                     triple[1] = context.getValue()
+                    tripleType[1] = ETripleComponentType.IRI
                     parse_ws_forced(context, {})
                 },
                 onPNAME_NS = {
                     //println("onPNAME_NS(${context.getValue()})")
                     triple[1] = context.getValue()
+                    tripleType[1] = ETripleComponentType.IRI
                     predicate_helper_1()
                 })
         state = Turtle2ParserState.OBJECT
@@ -189,61 +204,72 @@ abstract class Turtle2Parser(input: MyInputStream) {
                 onIRIREF = {
                     //println("onIRIREF(${context.getValue()})")
                     triple[2] = context.getValue()
+                    tripleType[2] = ETripleComponentType.IRI
                     parse_ws(context, {})
                     state = Turtle2ParserState.TRIPLE_END
                 },
                 onPNAME_NS = {
                     //println("onPNAME_NS(${context.getValue()})")
                     triple[2] = context.getValue()
+                    tripleType[2] = ETripleComponentType.IRI
                     state = Turtle2ParserState.TRIPLE_END_OR_OBJECT_IRI
                 },
                 onBLANK_NODE_LABEL = {
                     //println("onBLANK_NODE_LABEL(${context.getValue()})")
                     triple[2] = context.getValue()
+                    tripleType[2] = ETripleComponentType.BLANK_NODE
                     parse_ws(context, {})
                     state = Turtle2ParserState.TRIPLE_END
                 },
                 onSTRING_LITERAL_QUOTE = {
                     //println("onSTRING_LITERAL_QUOTE(${context.getValue()})")
                     triple[2] = context.getValue()
+                    tripleType[2] = ETripleComponentType.STRING
                     state = Turtle2ParserState.TRIPLE_END_OR_OBJECT_STRING
                 },
                 onSTRING_LITERAL_SINGLE_QUOTE = {
                     //println("onSTRING_LITERAL_SINGLE_QUOTE(${context.getValue()})")
                     triple[2] = context.getValue()
+                    tripleType[2] = ETripleComponentType.STRING
                     state = Turtle2ParserState.TRIPLE_END_OR_OBJECT_STRING
                 },
                 onSTRING_LITERAL_LONG_SINGLE_QUOTE = {
                     //println("onSTRING_LITERAL_LONG_SINGLE_QUOTE(${context.getValue()})")
                     triple[2] = context.getValue()
+                    tripleType[2] = ETripleComponentType.STRING
                     state = Turtle2ParserState.TRIPLE_END_OR_OBJECT_STRING
                 },
                 onSTRING_LITERAL_LONG_QUOTE = {
                     //println("onSTRING_LITERAL_LONG_QUOTE(${context.getValue()})")
                     triple[2] = context.getValue()
+                    tripleType[2] = ETripleComponentType.STRING
                     state = Turtle2ParserState.TRIPLE_END_OR_OBJECT_STRING
                 },
                 onINTEGER = {
                     //println("onINTEGER(${context.getValue()})")
                     triple[2] = context.getValue()
+                    tripleType[2] = ETripleComponentType.INTEGER
                     parse_ws(context, {})
                     state = Turtle2ParserState.TRIPLE_END
                 },
                 onDECIMAL = {
                     //println("onDECIMAL(${context.getValue()})")
                     triple[2] = context.getValue()
+                    tripleType[2] = ETripleComponentType.DECIMAL
                     parse_ws(context, {})
                     state = Turtle2ParserState.TRIPLE_END
                 },
                 onDOUBLE = {
                     //println("onDOUBLE(${context.getValue()})")
                     triple[2] = context.getValue()
+                    tripleType[2] = ETripleComponentType.DOUBLE
                     parse_ws(context, {})
                     state = Turtle2ParserState.TRIPLE_END
                 },
                 onBOOLEAN = {
                     //println("onBOOLEAN(${context.getValue()})")
                     triple[2] = context.getValue()
+                    tripleType[2] = ETripleComponentType.BOOLEAN
                     parse_ws(context, {})
                     state = Turtle2ParserState.TRIPLE_END
                 })
@@ -253,19 +279,19 @@ abstract class Turtle2Parser(input: MyInputStream) {
         parse_triple_end(context,
                 onPREDICATE_LIST1 = {
                     //println("onPREDICATE_LIST1(${context.getValue()})")
-                    onTriple(triple)
+                    onTriple(triple, tripleType)
                     parse_ws(context, {})
                     state = Turtle2ParserState.PREDICATE
                 },
                 onOBJECT_LIST1 = {
                     //println("onOBJECT_LIST1(${context.getValue()})")
-                    onTriple(triple)
+                    onTriple(triple, tripleType)
                     parse_ws(context, {})
                     state = Turtle2ParserState.OBJECT
                 },
                 onDOT = {
                     //println("onDOT(${context.getValue()})")
-                    onTriple(triple)
+                    onTriple(triple, tripleType)
                     state = Turtle2ParserState.STATEMENT
                 })
     }
@@ -275,30 +301,35 @@ abstract class Turtle2Parser(input: MyInputStream) {
                 onPN_LOCAL = {
                     //println("onPN_LOCAL(${context.getValue()})")
                     triple[2] = "<" + prefixMap[triple[2]]!! + context.getValue() + ">"
+                    tripleType[2] = ETripleComponentType.IRI
                     parse_ws_forced(context, {})
                     state = Turtle2ParserState.TRIPLE_END
                 },
                 onSKIP_WS_FORCED = {
                     //println("onSKIP_WS_FORCED(${context.getValue()})")
                     triple[2] = "<" + prefixMap[triple[2]]!! + ">"
+                    tripleType[2] = ETripleComponentType.IRI
                     state = Turtle2ParserState.TRIPLE_END
                 },
                 onPREDICATE_LIST1 = {
                     //println("onPREDICATE_LIST1(${context.getValue()})")
                     triple[2] = "<" + prefixMap[triple[2]]!! + ">"
-                    onTriple(triple)
+                    tripleType[2] = ETripleComponentType.IRI
+                    onTriple(triple, tripleType)
                     state = Turtle2ParserState.PREDICATE
                 },
                 onOBJECT_LIST1 = {
                     //println("onOBJECT_LIST1(${context.getValue()})")
                     triple[2] = "<" + prefixMap[triple[2]]!! + ">"
-                    onTriple(triple)
+                    tripleType[2] = ETripleComponentType.IRI
+                    onTriple(triple, tripleType)
                     state = Turtle2ParserState.OBJECT
                 },
                 onDOT = {
                     //println("onDOT(${context.getValue()})")
                     triple[2] = "<" + prefixMap[triple[2]]!! + ">"
-                    onTriple(triple)
+                    tripleType[2] = ETripleComponentType.IRI
+                    onTriple(triple, tripleType)
                     state = Turtle2ParserState.STATEMENT
                 })
     }
@@ -309,30 +340,35 @@ abstract class Turtle2Parser(input: MyInputStream) {
                 onPN_LOCAL = {
                     //println("onPN_LOCAL(${context.getValue()})")
                     triple[2] += "<" + prefixMap[prefix]!! + context.getValue() + ">"
+                    tripleType[2] = ETripleComponentType.STRING_TYPED
                     parse_ws(context, {})
                     state = Turtle2ParserState.TRIPLE_END
                 },
                 onSKIP_WS_FORCED = {
                     //println("onSKIP_WS_FORCED(${context.getValue()})")
                     triple[2] += "<" + prefixMap[prefix]!! + ">"
+                    tripleType[2] = ETripleComponentType.STRING_TYPED
                     state = Turtle2ParserState.TRIPLE_END
                 },
                 onPREDICATE_LIST1 = {
                     //println("onPREDICATE_LIST1(${context.getValue()})")
                     triple[2] += "<" + prefixMap[prefix]!! + ">"
-                    onTriple(triple)
+                    tripleType[2] = ETripleComponentType.STRING_TYPED
+                    onTriple(triple, tripleType)
                     state = Turtle2ParserState.PREDICATE
                 },
                 onOBJECT_LIST1 = {
                     //println("onOBJECT_LIST1(${context.getValue()})")
                     triple[2] += "<" + prefixMap[prefix]!! + ">"
-                    onTriple(triple)
+                    tripleType[2] = ETripleComponentType.STRING_TYPED
+                    onTriple(triple, tripleType)
                     state = Turtle2ParserState.OBJECT
                 },
                 onDOT = {
                     //println("onDOT(${context.getValue()})")
                     triple[2] += "<" + prefixMap[prefix]!! + ">"
-                    onTriple(triple)
+                    tripleType[2] = ETripleComponentType.STRING_TYPED
+                    onTriple(triple, tripleType)
                     state = Turtle2ParserState.STATEMENT
                 })
     }
@@ -342,6 +378,7 @@ abstract class Turtle2Parser(input: MyInputStream) {
                 onIRIREF = {
                     //println("onIRIREF(${context.getValue()})")
                     triple[2] += context.getValue()
+                    tripleType[2] = ETripleComponentType.STRING_TYPED
                     parse_ws(context, {})
                     state = Turtle2ParserState.TRIPLE_END
                 },
@@ -356,27 +393,29 @@ abstract class Turtle2Parser(input: MyInputStream) {
                 onLANGTAG = {
                     //println("onLANGTAG(${context.getValue()})")
                     triple[2] += context.getValue()
+                    tripleType[2] = ETripleComponentType.STRING_LANG
                     parse_ws(context, {})
                     state = Turtle2ParserState.TRIPLE_END
                 },
                 onIRI1 = {
                     //println("onIRI1(${context.getValue()})")
                     triple[2] += context.getValue()
+                    tripleType[2] = ETripleComponentType.STRING_TYPED
                     triple_end_or_object_string_helper_1()
                 },
                 onPREDICATE_LIST1 = {
                     //println("onPREDICATE_LIST1(${context.getValue()})")
-                    onTriple(triple)
+                    onTriple(triple, tripleType)
                     state = Turtle2ParserState.PREDICATE
                 },
                 onOBJECT_LIST1 = {
                     //println("onOBJECT_LIST1(${context.getValue()})")
-                    onTriple(triple)
+                    onTriple(triple, tripleType)
                     state = Turtle2ParserState.OBJECT
                 },
                 onDOT = {
                     //println("onDOT(${context.getValue()})")
-                    onTriple(triple)
+                    onTriple(triple, tripleType)
                     state = Turtle2ParserState.STATEMENT
                 },
                 onSKIP_WS_FORCED = {

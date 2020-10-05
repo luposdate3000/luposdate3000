@@ -1,5 +1,6 @@
 package lupos.s03resultRepresentation
 
+import lupos.s00misc.ETripleComponentType
 import kotlin.jvm.JvmField
 import lupos.s00misc.BigDecimal
 import lupos.s00misc.BigInteger
@@ -136,6 +137,50 @@ class ResultSetDictionary(val global: Boolean = false) {
         floatList.clear()
         decimalMap.clear()
         intMap.clear()
+    }
+
+    fun prepareBulk(total: Int, typed: IntArray) {
+    }
+
+    fun createByType(s: String, type: ETripleComponentType): Int {
+        when (type) {
+            ETripleComponentType.IRI -> {
+                return createIri(s)
+            }
+            ETripleComponentType.BLANK_NODE -> {
+                return createNewBNode(s)
+            }
+            ETripleComponentType.STRING -> {
+                return createTyped(s, "")
+            }
+            ETripleComponentType.INTEGER -> {
+                return createInteger(s.toBigInteger())
+            }
+            ETripleComponentType.DECIMAL -> {
+                return createDecimal(s.toBigDecimal())
+            }
+            ETripleComponentType.DOUBLE -> {
+                return createDouble(s.toDouble())
+            }
+            ETripleComponentType.BOOLEAN -> {
+                if (s.toLowerCase() == "true") {
+                    return booleanTrueValue
+                } else {
+                    return booleanFalseValue
+                }
+            }
+            ETripleComponentType.STRING_TYPED -> {
+                val s2 = s.split("^^")
+                return createTyped(s2[0], s2[1])
+            }
+            ETripleComponentType.STRING_LANG -> {
+                val s2 = s.split("@")
+                return createLangTagged(s2[0], s2[1])
+            }
+            else -> {
+                throw Exception("unexpected type")
+            }
+        }
     }
 
     fun toBooleanOrError(value: Value): Value {

@@ -1,5 +1,6 @@
 package lupos.s16network
 
+import lupos.s00misc.ETripleComponentType
 import java.io.PrintWriter
 import java.io.StringWriter
 import lupos.s00misc.BenchmarkUtils
@@ -158,7 +159,7 @@ object HttpEndpoint {
                 val iter = f.readAsInputStream()
                 try {
                     val x = object : Turtle2Parser(iter) {
-                        override fun onTriple(triple: Array<String>) {
+                        override fun onTriple(triple: Array<String>, tripleType: Array<ETripleComponentType>) {
 //                            res.append("${triple[0]} ${triple[1]} ${triple[2]} .\n")
                         }
                     }
@@ -187,7 +188,7 @@ object HttpEndpoint {
                     val iter = f.readAsInputStream()
                     try {
                         val x = object : Turtle2Parser(iter) {
-                            override fun onTriple(triple: Array<String>) {
+                            override fun onTriple(triple: Array<String>, tripleType: Array<ETripleComponentType>) {
                                 counter++
                                 bulk.insert(helper_import_turtle_files(bnodeDict, usePredefinedDict, triple[0]), helper_import_turtle_files(bnodeDict, usePredefinedDict, triple[1]), helper_import_turtle_files(bnodeDict, usePredefinedDict, triple[2]))
                             }
@@ -216,21 +217,41 @@ object HttpEndpoint {
                     println("importing file '$fileName'")
                     val startTime = DateHelper.markNow()
                     val fileTriples = File(fileName + ".triples")
-                    val fileDictionary = File(fileName + ".dictionary")
+                    val fileDictionary = File(fileName + ".dictionary2")
+                    val fileDictionaryOffset = File(fileName + ".dictionary2offset")
                     val fileDictionaryStat = File(fileName + ".stat")
-                    val size = fileDictionaryStat.readAsString().toInt()
-                    val mapping = IntArray(size)
-                    var idx = 0
-                    fileDictionary.forEachLine {
-                        val v = helper_clean_string(it)
-                        try {
-                            mapping[idx++] = nodeGlobalDictionary.createValue(v)
-                        } catch (e: Throwable) {
-                            println("dictionary $idx $it $v")
-                            throw e
+                    var dictTotal = 0
+                    var dictTyped = IntArray(ETripleComponentType.values().size)
+                    fileDictionaryStat.forEachLine {
+                        val p = it.split("=")
+                        if (p[0] == "total") {
+                            dictTotal = p[1].toInt()
+                        } else {
+                            dictTyped[ETripleComponentType.valueOf(p[0]).ordinal] = p[1].toInt()
                         }
-                        if (idx % 100000 == 0) {
-                            println("dictionary $idx / $size")
+                    }
+                    nodeGlobalDictionary.prepareBulk(dictTotal, dictTyped)
+                    val mapping = IntArray(dictTotal)
+                    var mappingIdx = 0
+                    var buffer = ByteArray(0)
+                    fileDictionaryOffset.dataInputStream { offsetStream ->
+                        fileDictionary.dataInputStream { dictStream ->
+                            var lastOffset = offsetStream.readInt()
+                            for (i in 0 until dictTotal) {
+                                val nextOffset = offsetStream.readInt()
+                                var type = ETripleComponentType.values()[dictStream.readByte().toInt()]
+                                var length = nextOffset - lastOffset - 1
+                                if (buffer.size < length) {
+                                    buffer = ByteArray(length)
+                                }
+                                val read = dictStream.read(buffer, 0, length)
+                                if (read < length) {
+                                    throw Exception("invalid read")
+                                }
+                                val s = buffer.decodeToString(0, length)
+                                mapping[mappingIdx++] = nodeGlobalDictionary.createByType(s, type)
+                                lastOffset = nextOffset
+                            }
                         }
                     }
                     val dictTime = DateHelper.elapsedSeconds(startTime)

@@ -1,4 +1,5 @@
 import lupos.s00misc.File
+import lupos.s00misc.ETripleComponentType
 import lupos.s00misc.MyMapStringIntPatriciaTrie
 import lupos.s00misc.MyMapStringIntPatriciaTrieDouble
 import lupos.s00misc.Parallel
@@ -13,6 +14,19 @@ enum class ImportMode {
     MERGE_INTERMEDIATE
 }
 
+fun helper_clean_string(s: String): String {
+    var res: String = s
+    while (true) {
+        val match = "\\\\u[0-9a-fA-f]{4}".toRegex().find(res)
+        if (match == null) {
+            break
+        }
+        val replacement = match.value.substring(2, 6).toInt(16).toChar() + ""
+        res = res.replace(match.value, replacement)
+    }
+    return res
+}
+
 @UseExperimental(ExperimentalStdlibApi::class, kotlin.time.ExperimentalTime::class)
 fun main(args: Array<String>) = Parallel.runBlocking {
     var mode = ImportMode.valueOf(args[0])
@@ -24,6 +38,7 @@ fun main(args: Array<String>) = Parallel.runBlocking {
             val inputFile = File(inputFileName)
             val dict = mutableMapOf<String, Int>()
             var dictCounter = 0
+            var dictCounterByType = IntArray(ETripleComponentType.values().size)
             var dictionary2Offset = 0
             val iter = inputFile.readAsInputStream()
             val outputTriplesFile = File(inputFileName + ".triples")
@@ -31,26 +46,31 @@ fun main(args: Array<String>) = Parallel.runBlocking {
             val outputDictionary2File = File(inputFileName + ".dictionary2")
             val outputDictionary2OffsetFile = File(inputFileName + ".dictionary2offset")
             val outputDictionaryStatFile = File(inputFileName + ".stat")
+            val byteBuf = ByteArray(1)
             try {
                 outputDictionaryFile.printWriter { outDictionary ->
                     outputDictionary2File.dataOutputStream { outDictionary2 ->
                         outputDictionary2OffsetFile.dataOutputStream { outDictionary2Offset ->
                             outputTriplesFile.dataOutputStream { outTriples ->
                                 val x = object : Turtle2Parser(iter) {
-                                    override fun onTriple(triple: Array<String>) {
+                                    override fun onTriple(triple: Array<String>, tripleType: Array<ETripleComponentType>) {
                                         for (i in 0 until 3) {
-                                            val v = dict[triple[i]]
+                                            val tripleCleaned = helper_clean_string(triple[i])
+                                            val v = dict[tripleCleaned]
                                             if (v != null) {
                                                 outTriples.writeInt(v)
                                             } else {
                                                 val v2 = dictCounter++
-                                                dict[triple[i]] = v2
+                                                dictCounterByType[tripleType[i].ordinal]++
+                                                dict[tripleCleaned] = v2
                                                 outTriples.writeInt(v2)
-                                                outDictionary.println(triple[i])
-                                                val tmp = triple[i].encodeToByteArray()
+                                                outDictionary.println(tripleCleaned)
+                                                val tmp = tripleCleaned.encodeToByteArray()
+                                                byteBuf[0] = tripleType[i].ordinal.toByte()
+                                                outDictionary2.write(byteBuf)
                                                 outDictionary2.write(tmp)
                                                 outDictionary2Offset.writeInt(dictionary2Offset)
-                                                dictionary2Offset += tmp.size
+                                                dictionary2Offset += tmp.size + 1
                                             }
                                         }
                                         cnt++
@@ -69,55 +89,15 @@ fun main(args: Array<String>) = Parallel.runBlocking {
                 throw e
             }
             outputDictionaryStatFile.printWriter { out ->
-                out.print(dictCounter)
+                out.println("total=$dictCounter")
+                for (t in ETripleComponentType.values()) {
+                    out.println("$t=${dictCounterByType[t.ordinal]}")
+                }
             }
             println("importing $inputFileName finish with $cnt triples")
         }
         ImportMode.MERGE_INTERMEDIATE -> {
-            val outDirectory = args[1].substring(0, args[1].lastIndexOf("/")) + "/out"
-            val tmp = args.toMutableList()
-            tmp.removeAt(0)
-            File(outDirectory).mkdirs()
-            val outputFileName = File("").createTempFile("out_", ".n3", outDirectory)
-            println("merging $tmp into $outputFileName")
-            val dict = MyMapStringIntPatriciaTrieDouble()
-            val outputTriplesFile = File(outputFileName + ".triples")
-            outputTriplesFile.dataOutputStream { out ->
-                for (argIndex in 1 until args.size) {
-                    val fileName = args[argIndex]
-                    val fileTriples = File(fileName + ".triples")
-                    val fileDictionary = File(fileName + ".dictionary")
-                    val fileDictionaryStat = File(fileName + ".stat")
-                    val size = fileDictionaryStat.readAsString().toInt()
-                    val mapping = IntArray(size)
-                    var idx = 0
-                    fileDictionary.forEachLine {
-                        mapping[idx++] = dict.getOrCreate(it)
-                    }
-                    var cnt = fileTriples.length().toInt() / 12
-                    fileTriples.dataInputStream {
-                        for (i in 0 until cnt) {
-                            var s = it.readInt()
-                            var p = it.readInt()
-                            var o = it.readInt()
-                            out.writeInt(mapping[s])
-                            out.writeInt(mapping[p])
-                            out.writeInt(mapping[o])
-                        }
-                    }
-                }
-            }
-            val outputDictionaryFile = File(outputFileName + ".dictionary")
-            outputDictionaryFile.printWriter { out ->
-                for (i in 0 until dict.size) {
-                    out.println(dict[i])
-                }
-            }
-            val outputDictionaryStatFile = File(outputFileName + ".stat")
-            outputDictionaryStatFile.printWriter { out ->
-                out.print(dict.size)
-            }
-            println("merging $tmp into $outputFileName finish")
+            throw Exception("outdated")
         }
     }
 }

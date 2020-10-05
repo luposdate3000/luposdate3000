@@ -1,7 +1,7 @@
 package lupos.s03resultRepresentation
-
 import kotlin.jvm.JvmField
 import lupos.s00misc.BigDecimal
+import lupos.s00misc.ETripleComponentType
 import lupos.s00misc.BigInteger
 import lupos.s00misc.SanityCheck
 import lupos.s03resultRepresentation.nodeGlobalDictionary
@@ -21,9 +21,7 @@ import lupos.s03resultRepresentation.ValueLanguageTaggedLiteral
 import lupos.s03resultRepresentation.ValueSimpleLiteral
 import lupos.s03resultRepresentation.ValueTypedLiteral
 import lupos.s03resultRepresentation.ValueUndef
-
 val nodeGlobalDictionary = ResultSetDictionary(true)
-
 @UseExperimental(kotlin.ExperimentalUnsignedTypes::class)
 class ResultSetDictionary(val global: Boolean = false) {
     companion object {
@@ -54,75 +52,156 @@ class ResultSetDictionary(val global: Boolean = false) {
         const val errorValue = (flaggedValueLocalBnode or 0x00000002.toInt()) /*lowest 5 values*/ /*required to be 2 for_ truth table loopups*/
         const val undefValue = (flaggedValueLocalBnode or 0x00000003.toInt()) /*lowest 5 values*/
         const val nullValue = (flaggedValueLocalBnode or 0x00000004.toInt()) /*lowest 5 values*/ /*symbol for no more results, previously 'null'*/
-
+        const val emptyString = ""
         @JvmField
         val booleanTrueValue2 = ValueBoolean(true)
-
         @JvmField
         val booleanFalseValue2 = ValueBoolean(false)
-
         @JvmField
         val errorValue2 = ValueError()
-
         @JvmField
         val undefValue2 = ValueUndef()
         fun isGlobalBNode(value: Value) = (value and mask3) == flaggedValueGlobalBnode
         fun debug() {
         }
     }
-
     fun isLocalBNode(value: Value) = (value and mask3) == flaggedValueLocalBnode
-
     @JvmField
     val localBnodeToInt = mutableMapOf<String, Int>()
-
     @JvmField
     var bNodeCounter = 5
-
     @JvmField
     val bnodeMapToGlobal = mutableMapOf<Int, Int>()
-
     @JvmField
     val iriToInt = mutableMapOf<String, Int>()
-
     @JvmField
-    var iriToValue = Array<String>(0) { "" }
-
+    var iriToValue = Array<String>(0) { emptyString }
     @JvmField
     val langTaggedToInt = mutableMapOf<String, Int>()
-
     @JvmField
-    var langTaggedToValue = Array<String>(0) { "" }
-
+    var langTaggedToValue = Array<String>(0) { emptyString }
     @JvmField
     val typedToInt = mutableMapOf<String, Int>()
-
     @JvmField
-    var typedToValue = Array<String>(0) { "" }
-
+    var typedToValue = Array<String>(0) { emptyString }
     @JvmField
     val doubleToInt = mutableMapOf<Double, Int>()
-
     @JvmField
-    var doubleToValue = Array<Double>(0) { 0.0 }
-
+    var doubleToValue = DoubleArray(0) { 0.0 }
     @JvmField
     val floatToInt = mutableMapOf<Double, Int>()
-
     @JvmField
-    var floatToValue = Array<Double>(0) { 0.0 }
-
+    var floatToValue = DoubleArray(0) { 0.0 }
     @JvmField
     val decimalToInt = mutableMapOf<String, Int>()
-
     @JvmField
-    var decimalToValue = Array<String>(0) { "" }
-
+    var decimalToValue = Array<String>(0) { emptyString }
     @JvmField
     val intToInt = mutableMapOf<String, Int>()
-
     @JvmField
-    var intToValue = Array<String>(0) { "" }
+    var intToValue = Array<String>(0) { emptyString }
+    fun prepareBulk(total: Int, typed: IntArray) {
+        for (t in ETripleComponentType.values()) {
+            when (t) {
+                ETripleComponentType.IRI -> {
+                    val tmp = Array<String>(iriToValue.size + typed[t.ordinal]) { emptyString }
+                    for (i in 0 until iriToValue.size) {
+                        tmp[i] = iriToValue[i]
+                    }
+                    iriToValue = tmp
+                }
+                ETripleComponentType.BLANK_NODE -> {
+                }
+                ETripleComponentType.STRING -> {
+                    val tmp = Array<String>(typedToValue.size + typed[t.ordinal]) { emptyString }
+                    for (i in 0 until typedToValue.size) {
+                        tmp[i] = typedToValue[i]
+                    }
+                    typedToValue = tmp
+                }
+                ETripleComponentType.INTEGER -> {
+                    val tmp = Array<String>(intToValue.size + typed[t.ordinal]) { emptyString }
+                    for (i in 0 until intToValue.size) {
+                        tmp[i] = intToValue[i]
+                    }
+                    intToValue = tmp
+                }
+                ETripleComponentType.DECIMAL -> {
+                    val tmp = Array<String>(decimalToValue.size + typed[t.ordinal]) { emptyString }
+                    for (i in 0 until decimalToValue.size) {
+                        tmp[i] = decimalToValue[i]
+                    }
+                    decimalToValue = tmp
+                }
+                ETripleComponentType.DOUBLE -> {
+                    val tmp = DoubleArray(doubleToValue.size + typed[t.ordinal]) { 0.0 }
+                    for (i in 0 until doubleToValue.size) {
+                        tmp[i] = doubleToValue[i]
+                    }
+                    doubleToValue = tmp
+                }
+                ETripleComponentType.BOOLEAN -> {
+                }
+                ETripleComponentType.STRING_TYPED -> {
+                    val tmp = Array<String>(typedToValue.size + typed[t.ordinal]) { emptyString }
+                    for (i in 0 until typedToValue.size) {
+                        tmp[i] = typedToValue[i]
+                    }
+                    typedToValue = tmp
+                }
+                ETripleComponentType.STRING_LANG -> {
+                    val tmp = Array<String>(langTaggedToValue.size + typed[t.ordinal]) { emptyString }
+                    for (i in 0 until langTaggedToValue.size) {
+                        tmp[i] = langTaggedToValue[i]
+                    }
+                    langTaggedToValue = tmp
+                }
+                else -> {
+                    throw Exception("unexpected type")
+                }
+            }
+        }
+    }
+    fun createByType(s: String, type: ETripleComponentType): Int {
+        when (type) {
+            ETripleComponentType.IRI -> {
+                return createIri(s)
+            }
+            ETripleComponentType.BLANK_NODE -> {
+                return createNewBNode(s)
+            }
+            ETripleComponentType.STRING -> {
+                return createTyped(s, "")
+            }
+            ETripleComponentType.INTEGER -> {
+                return createInteger(s.toBigInteger())
+            }
+            ETripleComponentType.DECIMAL -> {
+                return createDecimal(s.toBigDecimal())
+            }
+            ETripleComponentType.DOUBLE -> {
+                return createDouble(s.toDouble())
+            }
+            ETripleComponentType.BOOLEAN -> {
+                if (s.toLowerCase() == "true") {
+                    return booleanTrueValue
+                } else {
+                    return booleanFalseValue
+                }
+            }
+            ETripleComponentType.STRING_TYPED -> {
+                val s2 = s.split("^^")
+                return createTyped(s2[0], s2[1])
+            }
+            ETripleComponentType.STRING_LANG -> {
+                val s2 = s.split("@")
+                return createLangTagged(s2[0], s2[1])
+            }
+            else -> {
+                throw Exception("unexpected type")
+            }
+        }
+    }
     fun clear() {
         localBnodeToInt.clear()
         bNodeCounter = 5
@@ -134,15 +213,14 @@ class ResultSetDictionary(val global: Boolean = false) {
         floatToInt.clear()
         decimalToInt.clear()
         intToInt.clear()
-        iriToValue = Array<String>(0) { "" }
-        langTaggedToValue = Array<String>(0) { "" }
-        typedToValue = Array<String>(0) { "" }
-        doubleToValue = Array<Double>(0) { 0.0 }
-        floatToValue = Array<Double>(0) { 0.0 }
-        decimalToValue = Array<String>(0) { "" }
-        intToValue = Array<String>(0) { "" }
+        iriToValue = Array<String>(0) { emptyString }
+        langTaggedToValue = Array<String>(0) { emptyString }
+        typedToValue = Array<String>(0) { emptyString }
+        doubleToValue = DoubleArray(0) { 0.0 }
+        floatToValue = DoubleArray(0) { 0.0 }
+        decimalToValue = Array<String>(0) { emptyString }
+        intToValue = Array<String>(0) { emptyString }
     }
-
     fun toBooleanOrError(value: Value): Value {
         var res: Value = errorValue
         if (value < undefValue && value >= 0) {
@@ -162,8 +240,7 @@ class ResultSetDictionary(val global: Boolean = false) {
 //SanityCheck.check({(res and filter6) < 10000},{"${res} ${res and filter6} ${res.toString(16)} ${(res and filter6).toString(16)}"})
         return res
     }
-
-    fun createNewBNode(value: String = ""): Value {
+    fun createNewBNode(value: String = emptyString): Value {
         var res: Value
         if (global) {
             res = (flaggedValueGlobalBnode or (bNodeCounter++).toInt())
@@ -179,20 +256,21 @@ class ResultSetDictionary(val global: Boolean = false) {
 //SanityCheck.check({(res and filter6) < 10000},{"${res} ${res and filter6} ${res.toString(16)} ${(res and filter6).toString(16)}"})
         return res
     }
-
     fun createIri(iri: String): Value {
         var res: Value
         if (global) {
             val tmp3 = iriToInt[iri]
             if (tmp3 == null) {
-                res = iriToValue.size
+                res = iriToInt.size
                 iriToInt[iri] = res
-                val tmp2 = Array<String>(res + 1) { "" }
-                for (i in 0 until res) {
-                    tmp2[i] = iriToValue[i]
+                if (iriToValue.size <= res) {
+                    val tmp = Array<String>(iriToValue.size * 2) { emptyString }
+                    for (i in 0 until iriToValue.size) {
+                        tmp[i] = iriToValue[i]
+                    }
+                    iriToValue = tmp
                 }
-                tmp2[res] = iri
-                iriToValue = tmp2
+                iriToValue[res] = iri
                 res = res or flaggedValueGlobalIri
             } else {
                 res = tmp3 or flaggedValueGlobalIri
@@ -204,14 +282,16 @@ class ResultSetDictionary(val global: Boolean = false) {
             } else {
                 val tmp3 = iriToInt[iri]
                 if (tmp3 == null) {
-                    res = iriToValue.size
+                    res = iriToInt.size
                     iriToInt[iri] = res
-                    val tmp2 = Array<String>(res + 1) { "" }
-                    for (i in 0 until res) {
-                        tmp2[i] = iriToValue[i]
+                    if (iriToValue.size <= res) {
+                        val tmp = Array<String>(iriToValue.size * 2) { emptyString }
+                        for (i in 0 until iriToValue.size) {
+                            tmp[i] = iriToValue[i]
+                        }
+                        iriToValue = tmp
                     }
-                    tmp2[res] = iri
-                    iriToValue = tmp2
+                    iriToValue[res] = iri
                     res = res or flaggedValueLocalIri
                 } else {
                     res = tmp3 or flaggedValueLocalIri
@@ -221,21 +301,22 @@ class ResultSetDictionary(val global: Boolean = false) {
 //SanityCheck.check({(res and filter6) < 10000},{"${res} ${res and filter6} ${res.toString(16)} ${(res and filter6).toString(16)}"})
         return res
     }
-
     fun createLangTagged(content: String, lang: String): Value {
         var res: Value
         val key = lang + "@" + content
         if (global) {
             val tmp3 = langTaggedToInt[key]
             if (tmp3 == null) {
-                res = langTaggedToValue.size
+                res = langTaggedToInt.size
                 langTaggedToInt[key] = res
-                val tmp2 = Array<String>(res + 1) { "" }
-                for (i in 0 until res) {
-                    tmp2[i] = langTaggedToValue[i]
+                if (langTaggedToValue.size <= res) {
+                    val tmp = Array<String>(langTaggedToValue.size * 2) { emptyString }
+                    for (i in 0 until langTaggedToValue.size) {
+                        tmp[i] = langTaggedToValue[i]
+                    }
+                    langTaggedToValue = tmp
                 }
-                tmp2[res] = key
-                langTaggedToValue = tmp2
+                langTaggedToValue[res] = key
                 res = res or flaggedValueGlobalLangTagged
             } else {
                 res = tmp3 or flaggedValueGlobalLangTagged
@@ -247,14 +328,16 @@ class ResultSetDictionary(val global: Boolean = false) {
             } else {
                 val tmp3 = langTaggedToInt[key]
                 if (tmp3 == null) {
-                    res = langTaggedToValue.size
+                    res = langTaggedToInt.size
                     langTaggedToInt[key] = res
-                    val tmp2 = Array<String>(res + 1) { "" }
-                    for (i in 0 until res) {
-                        tmp2[i] = langTaggedToValue[i]
+                    if (langTaggedToValue.size <= res) {
+                        val tmp = Array<String>(langTaggedToValue.size * 2) { emptyString }
+                        for (i in 0 until langTaggedToValue.size) {
+                            tmp[i] = langTaggedToValue[i]
+                        }
+                        langTaggedToValue = tmp
                     }
-                    tmp2[res] = key
-                    langTaggedToValue = tmp2
+                    langTaggedToValue[res] = key
                     res = res or flaggedValueLocalLangTagged
                 } else {
                     res = tmp3 or flaggedValueLocalLangTagged
@@ -264,7 +347,6 @@ class ResultSetDictionary(val global: Boolean = false) {
 //SanityCheck.check({(res and filter6) < 10000},{"${res} ${res and filter6} ${res.toString(16)} ${(res and filter6).toString(16)}"})
         return res
     }
-
     fun createTyped(content: String, type: String): Value {
         var res: Value
         when (type) {
@@ -292,14 +374,16 @@ class ResultSetDictionary(val global: Boolean = false) {
                 if (global) {
                     val tmp3 = typedToInt[key]
                     if (tmp3 == null) {
-                        res = typedToValue.size
+                        res = typedToInt.size
                         typedToInt[key] = res
-                        val tmp2 = Array<String>(res + 1) { "" }
-                        for (i in 0 until res) {
-                            tmp2[i] = typedToValue[i]
+                        if (typedToValue.size <= res) {
+                            val tmp = Array<String>(typedToValue.size * 2) { emptyString }
+                            for (i in 0 until typedToValue.size) {
+                                tmp[i] = typedToValue[i]
+                            }
+                            typedToValue = tmp
                         }
-                        tmp2[res] = key
-                        typedToValue = tmp2
+                        typedToValue[res] = key
                         res = res or flaggedValueGlobalTyped
                     } else {
                         res = tmp3 or flaggedValueGlobalTyped
@@ -311,14 +395,16 @@ class ResultSetDictionary(val global: Boolean = false) {
                     } else {
                         val tmp3 = typedToInt[key]
                         if (tmp3 == null) {
-                            res = typedToValue.size
+                            res = typedToInt.size
                             typedToInt[key] = res
-                            val tmp2 = Array<String>(res + 1) { "" }
-                            for (i in 0 until res) {
-                                tmp2[i] = typedToValue[i]
+                            if (typedToValue.size <= res) {
+                                val tmp = Array<String>(typedToValue.size * 2) { emptyString }
+                                for (i in 0 until typedToValue.size) {
+                                    tmp[i] = typedToValue[i]
+                                }
+                                typedToValue = tmp
                             }
-                            tmp2[res] = key
-                            typedToValue = tmp2
+                            typedToValue[res] = key
                             res = res or flaggedValueLocalTyped
                         } else {
                             res = tmp3 or flaggedValueLocalTyped
@@ -330,20 +416,21 @@ class ResultSetDictionary(val global: Boolean = false) {
 //SanityCheck.check({(res and filter6) < 10000},{"${res} ${res and filter6} ${res.toString(16)} ${(res and filter6).toString(16)}"})
         return res
     }
-
     fun createDouble(value: Double): Value {
         var res: Value
         if (global) {
             val tmp3 = doubleToInt[value]
             if (tmp3 == null) {
-                res = doubleToValue.size
+                res = doubleToInt.size
                 doubleToInt[value] = res
-                val tmp2 = Array<Double>(res + 1) { 0.0 }
-                for (i in 0 until res) {
-                    tmp2[i] = doubleToValue[i]
+                if (doubleToValue.size <= res) {
+                    val tmp = DoubleArray(doubleToValue.size * 2) { 0.0 }
+                    for (i in 0 until doubleToValue.size) {
+                        tmp[i] = doubleToValue[i]
+                    }
+                    doubleToValue = tmp
                 }
-                tmp2[res] = value
-                doubleToValue = tmp2
+                doubleToValue[res] = value
                 res = res or flaggedValueGlobalDouble
             } else {
                 res = tmp3 or flaggedValueGlobalDouble
@@ -355,14 +442,16 @@ class ResultSetDictionary(val global: Boolean = false) {
             } else {
                 val tmp3 = doubleToInt[value]
                 if (tmp3 == null) {
-                    res = doubleToValue.size
+                    res = doubleToInt.size
                     doubleToInt[value] = res
-                    val tmp2 = Array<Double>(res + 1) { 0.0 }
-                    for (i in 0 until res) {
-                        tmp2[i] = doubleToValue[i]
+                    if (doubleToValue.size <= res) {
+                        val tmp = DoubleArray(doubleToValue.size * 2) { 0.0 }
+                        for (i in 0 until doubleToValue.size) {
+                            tmp[i] = doubleToValue[i]
+                        }
+                        doubleToValue = tmp
                     }
-                    tmp2[res] = value
-                    doubleToValue = tmp2
+                    doubleToValue[res] = value
                     res = res or flaggedValueLocalDouble
                 } else {
                     res = tmp3 or flaggedValueLocalDouble
@@ -372,20 +461,21 @@ class ResultSetDictionary(val global: Boolean = false) {
 //SanityCheck.check({(res and filter6) < 10000},{"${res} ${res and filter6} ${res.toString(16)} ${(res and filter6).toString(16)}"})
         return res
     }
-
     fun createFloat(value: Double): Value {
         var res: Value
         if (global) {
             val tmp3 = floatToInt[value]
             if (tmp3 == null) {
-                res = floatToValue.size
+                res = floatToInt.size
                 floatToInt[value] = res
-                val tmp2 = Array<Double>(res + 1) { 0.0 }
-                for (i in 0 until res) {
-                    tmp2[i] = floatToValue[i]
+                if (floatToValue.size <= res) {
+                    val tmp = DoubleArray(floatToValue.size * 2) { 0.0 }
+                    for (i in 0 until floatToValue.size) {
+                        tmp[i] = floatToValue[i]
+                    }
+                    floatToValue = tmp
                 }
-                tmp2[res] = value
-                floatToValue = tmp2
+                floatToValue[res] = value
                 res = res or flaggedValueGlobalFloat
             } else {
                 res = tmp3 or flaggedValueGlobalFloat
@@ -397,14 +487,16 @@ class ResultSetDictionary(val global: Boolean = false) {
             } else {
                 val tmp3 = floatToInt[value]
                 if (tmp3 == null) {
-                    res = floatToValue.size
+                    res = floatToInt.size
                     floatToInt[value] = res
-                    val tmp2 = Array<Double>(res + 1) { 0.0 }
-                    for (i in 0 until res) {
-                        tmp2[i] = floatToValue[i]
+                    if (floatToValue.size <= res) {
+                        val tmp = DoubleArray(floatToValue.size * 2) { 0.0 }
+                        for (i in 0 until floatToValue.size) {
+                            tmp[i] = floatToValue[i]
+                        }
+                        floatToValue = tmp
                     }
-                    tmp2[res] = value
-                    floatToValue = tmp2
+                    floatToValue[res] = value
                     res = res or flaggedValueLocalFloat
                 } else {
                     res = tmp3 or flaggedValueLocalFloat
@@ -414,21 +506,22 @@ class ResultSetDictionary(val global: Boolean = false) {
 //SanityCheck.check({(res and filter6) < 10000},{"${res} ${res and filter6} ${res.toString(16)} ${(res and filter6).toString(16)}"})
         return res
     }
-
     fun createDecimal(value2: BigDecimal): Value {
         val value = value2.toString()
         var res: Value
         if (global) {
             val tmp3 = decimalToInt[value]
             if (tmp3 == null) {
-                res = decimalToValue.size
+                res = decimalToInt.size
                 decimalToInt[value] = res
-                val tmp2 = Array<String>(res + 1) { "" }
-                for (i in 0 until res) {
-                    tmp2[i] = decimalToValue[i]
+                if (decimalToValue.size <= res) {
+                    val tmp = Array<String>(decimalToValue.size * 2) { emptyString }
+                    for (i in 0 until decimalToValue.size) {
+                        tmp[i] = decimalToValue[i]
+                    }
+                    decimalToValue = tmp
                 }
-                tmp2[res] = value
-                decimalToValue = tmp2
+                decimalToValue[res] = value
                 res = res or flaggedValueGlobalDecimal
             } else {
                 res = tmp3 or flaggedValueGlobalDecimal
@@ -440,14 +533,16 @@ class ResultSetDictionary(val global: Boolean = false) {
             } else {
                 val tmp3 = decimalToInt[value]
                 if (tmp3 == null) {
-                    res = decimalToValue.size
+                    res = decimalToInt.size
                     decimalToInt[value] = res
-                    val tmp2 = Array<String>(res + 1) { "" }
-                    for (i in 0 until res) {
-                        tmp2[i] = decimalToValue[i]
+                    if (decimalToValue.size <= res) {
+                        val tmp = Array<String>(decimalToValue.size * 2) { emptyString }
+                        for (i in 0 until decimalToValue.size) {
+                            tmp[i] = decimalToValue[i]
+                        }
+                        decimalToValue = tmp
                     }
-                    tmp2[res] = value
-                    decimalToValue = tmp2
+                    decimalToValue[res] = value
                     res = res or flaggedValueLocalDecimal
                 } else {
                     res = tmp3 or flaggedValueLocalDecimal
@@ -457,21 +552,22 @@ class ResultSetDictionary(val global: Boolean = false) {
 //SanityCheck.check({(res and filter6) < 10000},{"${res} ${res and filter6} ${res.toString(16)} ${(res and filter6).toString(16)}"})
         return res
     }
-
     fun createInteger(value2: BigInteger): Value {
         val value = value2.toString()
         var res: Value
         if (global) {
             val tmp3 = intToInt[value]
             if (tmp3 == null) {
-                res = intToValue.size
+                res = intToInt.size
                 intToInt[value] = res
-                val tmp2 = Array<String>(res + 1) { "" }
-                for (i in 0 until res) {
-                    tmp2[i] = intToValue[i]
+                if (intToValue.size <= res) {
+                    val tmp = Array<String>(intToValue.size * 2) { emptyString }
+                    for (i in 0 until intToValue.size) {
+                        tmp[i] = intToValue[i]
+                    }
+                    intToValue = tmp
                 }
-                tmp2[res] = value
-                intToValue = tmp2
+                intToValue[res] = value
                 res = res or flaggedValueGlobalInt
             } else {
                 res = tmp3 or flaggedValueGlobalInt
@@ -483,14 +579,16 @@ class ResultSetDictionary(val global: Boolean = false) {
             } else {
                 val tmp3 = intToInt[value]
                 if (tmp3 == null) {
-                    res = intToValue.size
+                    res = intToInt.size
                     intToInt[value] = res
-                    val tmp2 = Array<String>(res + 1) { "" }
-                    for (i in 0 until res) {
-                        tmp2[i] = intToValue[i]
+                    if (intToValue.size <= res) {
+                        val tmp = Array<String>(intToValue.size * 2) { emptyString }
+                        for (i in 0 until intToValue.size) {
+                            tmp[i] = intToValue[i]
+                        }
+                        intToValue = tmp
                     }
-                    tmp2[res] = value
-                    intToValue = tmp2
+                    intToValue[res] = value
                     res = res or flaggedValueLocalInt
                 } else {
                     res = tmp3 or flaggedValueLocalInt
@@ -500,13 +598,11 @@ class ResultSetDictionary(val global: Boolean = false) {
 //SanityCheck.check({(res and filter6) < 10000},{"${res} ${res and filter6} ${res.toString(16)} ${(res and filter6).toString(16)}"})
         return res
     }
-
     fun createValue(value: String?): Value {
         val res = createValue(ValueDefinition(value))
 //SanityCheck.check({(res and filter6) < 10000},{"${res} ${res and filter6} ${res.toString(16)} ${(res and filter6).toString(16)}"})
         return res
     }
-
     fun createValue(value: ValueDefinition): Value {
         var res: Value
         when (value) {
@@ -530,7 +626,7 @@ class ResultSetDictionary(val global: Boolean = false) {
                 res = createLangTagged(value.content, value.language)
             }
             is ValueSimpleLiteral -> {
-                res = createTyped(value.content, "")
+                res = createTyped(value.content, emptyString)
             }
             is ValueTypedLiteral -> {
                 res = createTyped(value.content, value.type_iri)
@@ -562,7 +658,6 @@ class ResultSetDictionary(val global: Boolean = false) {
 //SanityCheck.check({(res and filter6) < 10000},{"${res} ${res and filter6} ${res.toString(16)} ${(res and filter6).toString(16)}"})
         return res
     }
-
     fun getValue(value: Value): ValueDefinition {
 //SanityCheck.check({(value and filter6) < 10000},{"${value} ${value and filter6} ${value.toString(16)} ${(value and filter6).toString(16)}"})
         var res: ValueDefinition
@@ -590,7 +685,7 @@ class ResultSetDictionary(val global: Boolean = false) {
                     res = undefValue2
                 }
                 else -> {
-                    res = ValueBnode("" + value)
+                    res = ValueBnode(emptyString + value)
                 }
             }
         } else if (bit3 == flaggedValueLocalTyped) {
@@ -623,7 +718,6 @@ class ResultSetDictionary(val global: Boolean = false) {
         }
         return res
     }
-
     inline fun getValue(value: Value,
                         crossinline onBNode: (value: Int) -> Unit,
                         crossinline onBoolean: (value: Boolean) -> Unit,
@@ -701,10 +795,8 @@ class ResultSetDictionary(val global: Boolean = false) {
             }
         }
     }
-
     fun printContents() {
     }
-
     fun valueToGlobal(value: Value): Value {
         var res: Value
         if ((value and mask1) == mask1) {
@@ -725,10 +817,8 @@ class ResultSetDictionary(val global: Boolean = false) {
 //SanityCheck.check({(res and filter6) < 10000},{"${res} ${res and filter6} ${res.toString(16)} ${(res and filter6).toString(16)}"})
         return res
     }
-
     fun safeToFolder() {
     }
-
     fun loadFromFolder() {
     }
 }
