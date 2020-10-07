@@ -43,6 +43,7 @@ dependencieshome=/opt
     cd $dependencieshome
     git clone https://github.com/JetBrains/kotlin.git
     cd kotlin
+    git checkout 3a5ffe479eb43f53db55b33280cbdca72bf23dc8
     export JAVA_HOME="/usr/lib/jvm/java-8-openjdk-amd64/"
     export JDK_16="/usr/lib/jvm/java-8-openjdk-amd64/"
     export JDK_17="/usr/lib/jvm/java-8-openjdk-amd64/"
