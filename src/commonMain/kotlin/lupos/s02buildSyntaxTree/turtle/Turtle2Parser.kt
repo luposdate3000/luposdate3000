@@ -302,7 +302,7 @@ abstract class Turtle2Parser(input: MyInputStream) {
                     //println("onPN_LOCAL(${context.getValue()})")
                     triple[2] = "<" + prefixMap[triple[2]]!! + context.getValue() + ">"
                     tripleType[2] = ETripleComponentType.IRI
-                    parse_ws_forced(context, {})
+                    parse_ws(context, {})
                     state = Turtle2ParserState.TRIPLE_END
                 },
                 onSKIP_WS_FORCED = {
