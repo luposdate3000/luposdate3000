@@ -57,25 +57,25 @@ object QueryResultToXMLStream {
         }, { value ->
             output.print("   <binding name=\"")
             output.print(columnName)
-            output.print("\">\n    <literal datatype=\"http://www.w3.org/2001/XMLSchema#decimal>")
+            output.print("\">\n    <literal datatype=\"http://www.w3.org/2001/XMLSchema#decimal\">")
             output.print(value)
             output.print("</literal>\n   </binding>\n")
         }, { value ->
             output.print("   <binding name=\"")
             output.print(columnName)
-            output.print("\">\n    <literal datatype=\"http://www.w3.org/2001/XMLSchema#float>")
+            output.print("\">\n    <literal datatype=\"http://www.w3.org/2001/XMLSchema#float\">")
             output.print(value)
             output.print("</literal>\n   </binding>\n")
         }, { value ->
             output.print("   <binding name=\"")
             output.print(columnName)
-            output.print("\">\n    <literal datatype=\"http://www.w3.org/2001/XMLSchema#double>")
+            output.print("\">\n    <literal datatype=\"http://www.w3.org/2001/XMLSchema#double\">")
             output.print(value)
             output.print("</literal>\n   </binding>\n")
         }, { value ->
             output.print("   <binding name=\"")
             output.print(columnName)
-            output.print("\">\n    <literal datatype=\"http://www.w3.org/2001/XMLSchema#integer>")
+            output.print("\">\n    <literal datatype=\"http://www.w3.org/2001/XMLSchema#integer\">")
             output.print(value)
             output.print("</literal>\n   </binding>\n")
         }, { value ->

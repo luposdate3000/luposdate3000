@@ -217,8 +217,8 @@ object HttpEndpoint {
                     println("importing file '$fileName'")
                     val startTime = DateHelper.markNow()
                     val fileTriples = File(fileName + ".triples")
-                    val fileDictionary = File(fileName + ".dictionary2")
-                    val fileDictionaryOffset = File(fileName + ".dictionary2offset")
+                    val fileDictionary = File(fileName + ".dictionary")
+                    val fileDictionaryOffset = File(fileName + ".dictionaryoffset")
                     val fileDictionaryStat = File(fileName + ".stat")
                     var dictTotal = 0
                     var dictTyped = IntArray(ETripleComponentType.values().size)

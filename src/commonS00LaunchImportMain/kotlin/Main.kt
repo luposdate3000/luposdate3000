@@ -39,23 +39,21 @@ fun main(args: Array<String>) = Parallel.runBlocking {
             val dict = mutableMapOf<String, Int>()
             var dictCounter = 0
             var dictCounterByType = IntArray(ETripleComponentType.values().size)
-            var dictionary2Offset = 0
+            var DictionaryOffset = 0
             val iter = inputFile.readAsInputStream()
             val outputTriplesFile = File(inputFileName + ".triples")
             val outputDictionaryFile = File(inputFileName + ".dictionary")
-            val outputDictionary2File = File(inputFileName + ".dictionary2")
-            val outputDictionary2OffsetFile = File(inputFileName + ".dictionary2offset")
+            val outputDictionaryOffsetFile = File(inputFileName + ".dictionaryoffset")
             val outputDictionaryStatFile = File(inputFileName + ".stat")
             val byteBuf = ByteArray(1)
             try {
-                outputDictionaryFile.printWriter { outDictionary ->
-                    outputDictionary2File.dataOutputStream { outDictionary2 ->
-                        outputDictionary2OffsetFile.dataOutputStream { outDictionary2Offset ->
+                    outputDictionaryFile.dataOutputStream { outDictionary ->
+                        outputDictionaryOffsetFile.dataOutputStream { outDictionaryOffset ->
                             outputTriplesFile.dataOutputStream { outTriples ->
                                 val x = object : Turtle2Parser(iter) {
                                     override fun onTriple(triple: Array<String>, tripleType: Array<ETripleComponentType>) {
                                         for (i in 0 until 3) {
-                                            val tripleCleaned = helper_clean_string(triple[i])
+                                            var tripleCleaned = helper_clean_string(triple[i])
                                             val v = dict[tripleCleaned]
                                             if (v != null) {
                                                 outTriples.writeInt(v)
@@ -64,28 +62,30 @@ fun main(args: Array<String>) = Parallel.runBlocking {
                                                 dictCounterByType[tripleType[i].ordinal]++
                                                 dict[tripleCleaned] = v2
                                                 outTriples.writeInt(v2)
-                                                outDictionary.println(tripleCleaned)
-                                                val tmp = tripleCleaned.encodeToByteArray()
-                                                byteBuf[0] = tripleType[i].ordinal.toByte()
-                                                outDictionary2.write(byteBuf)
-                                                outDictionary2.write(tmp)
-if(dictionary2Offset>0){
-                                                outDictionary2Offset.writeInt(dictionary2Offset)
+var tripleCleaned2=tripleCleaned
+if(tripleType[i]==ETripleComponentType.IRI){
+tripleCleaned2=tripleCleaned.substring(1,tripleCleaned.length-1)
 }
-                                                dictionary2Offset += tmp.size + 1
+                                                val tmp = tripleCleaned2.encodeToByteArray()
+                                                byteBuf[0] = tripleType[i].ordinal.toByte()
+                                                outDictionary.write(byteBuf)
+                                                outDictionary.write(tmp)
+if(DictionaryOffset>0){
+                                                outDictionaryOffset.writeInt(DictionaryOffset)
+}
+                                                DictionaryOffset += tmp.size + 1
                                             }
                                         }
                                         cnt++
                                         if (cnt % 10000 == 0) {
-                                            println("$cnt :: $dictCounter $dictionary2Offset")
+                                            println("$cnt :: $dictCounter $DictionaryOffset")
                                         }
                                     }
                                 }
                                 x.turtleDoc()
-				outDictionary2Offset.writeInt(dictionary2Offset)
+				outDictionaryOffset.writeInt(DictionaryOffset)
                             }
                         }
-                    }
                 }
             } catch (e: lupos.s02buildSyntaxTree.ParseError) {
                 println("error in file '$inputFileName'")

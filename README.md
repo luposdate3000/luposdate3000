@@ -12,9 +12,9 @@ Make sure you read the following comments.
 # The basic dependencies which can be installed via package manager apt.
 # Yes, there are 3 versions of java ... because the dependencies dont like the wrong one.
 # Sadly latex installs a complete gui for linux - even on server distributions.
-apt install docker docker-compose docker.io g++ gnuplot gzip htop lcov make maven net-tools ntfs-3g openjdk-8-jdk openjdk-11-jdk openjdk-14-jdk unzip zip poppler-utils texlive texlive-latex-extra
+apt install docker docker-compose docker.io g++ gnuplot gzip htop lcov make maven net-tools ntfs-3g openjdk-8-jdk openjdk-11-jdk openjdk-14-jdk unzip zip poppler-utils texlive texlive-latex-extra p7zip-full
 
-# Unfortunately the ifis-git uses incorrect ssl such that thefollowing git option mus be used.
+# Unfortunately the ifis-git uses incorrect ssl such that thefollowing git option must be used.
 git config --global http.sslVerify false
 # Prevent repeatingly typing the password on commit.
 git config --global credential.helper store
@@ -42,7 +42,7 @@ dependencieshome=/opt
     # Compile from source to get a up to date version - not every version in their githup compiles, but the following should work.
     cd $dependencieshome
     git clone https://github.com/JetBrains/kotlin.git
-    git checkout build-1.4-M3-eap-48
+    cd kotlin
     export JAVA_HOME="/usr/lib/jvm/java-8-openjdk-amd64/"
     export JDK_16="/usr/lib/jvm/java-8-openjdk-amd64/"
     export JDK_17="/usr/lib/jvm/java-8-openjdk-amd64/"
@@ -68,6 +68,7 @@ dependencieshome=/opt
     # Currently unused ... but planned to be used to shrink and optimize the library.
     cd $dependencieshome
     git clone https://github.com/Guardsquare/proguard.git
+    cd proguard
     gradle assemble
     cd build/distributions
     tar -xzf proguard-7.0.0.tar.gz
@@ -140,6 +141,35 @@ dependencieshome=/opt
     # Make sure you have enough space available and a good enough internet connection.
     wget -i 000-CONTENTS
 }
+#yago2
+{
+    cd /mnt/luposdate-testdata
+    mkdir yago2
+    cd yago2
+    wget https://yago-knowledge.org/data/yago2/yago-2.3.0-turtle.7z
+    7z x yago-2.3.0-turtle.7z
+    rm yago-2.3.0-turtle.7z statistics.txt
+}
+#barton
+{
+    cd /mnt/luposdate-testdata
+    mkdir barton
+    cd barton
+    wget http://dslam.cs.umd.edu/data/barton/barton.mods.rdf.tar.gz
+    tar -xzf barton.mods.rdf.tar.gz
+    rm barton.mods.rdf.tar.gz
+}
+#virtuoso
+{
+    apt install autoconf automake libtool flex bison gperf gawk m4 make libssl-dev
+    cd $dependencieshome
+    git clone git://github.com/openlink/virtuoso-opensource.git --depth=1 virtuoso
+    cd virtuoso
+    ./autogen.sh
+    CFLAGS="-O2 -m64" ./configure --prefix=$dependencieshome/virtuoso-dist
+    make -j8
+    make install
+}
 # Finally preprocess all benchmark files, to be able to fast-load them later using an intermediate binary triple format
 # This may take some time
 ${luposdate3000home}/exec-import.sh
@@ -166,11 +196,11 @@ luposdate3000 allows for many configuration options where completely independent
 Therefore the script
 
 ```bash
-exec-sparql-test-suite-jvm-all.sh
+tool-compile-all.sh
 ```
 
-tries to test many different build-options - therefore this needs a lot of time.
-Because this takes a long time, currently I (the maintainer) can not guarantee, that all of these testes configurations work as intended.
+tries to compile many different build-options - therefore this needs a lot of time.
+Because this takes a long time, currently I (the maintainer) can not guarantee, that all of these configurations work as intended.
 
 Currently the only tests are integration tests using complete sparql-queries at once.
 To gain usefull insight, what breakes when, the object "lupos.s00misc.SanityCheck" provides assertion functions, which are included in debug-build, but not in release-build.
