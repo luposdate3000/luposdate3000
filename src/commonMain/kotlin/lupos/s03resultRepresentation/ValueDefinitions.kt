@@ -58,10 +58,12 @@ sealed class ValueDefinition : Comparable<ValueDefinition> {
                 return ValueInteger(BigInteger(tmp))
             } catch (e: Throwable) {
             }
+if(!tmp.contains("e")&&!tmp.contains("E")){
             try {
                 return ValueDecimal(BigDecimal(tmp))
             } catch (e: Throwable) {
             }
+}
             try {
                 return ValueDouble(tmp.toDouble())
             } catch (e: Throwable) {
