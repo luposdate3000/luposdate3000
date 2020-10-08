@@ -168,7 +168,7 @@ object QueryResultToXMLStream {
                 output.print(" <results/>\n")
             } else {
                 val columnNames: List<String>
-                if (columnProjectionOrder[i].size > 0) {
+                if (columnProjectionOrder.size>i && columnProjectionOrder[i].size > 0) {
                     columnNames = columnProjectionOrder[i]
                     SanityCheck.check { columnNames.containsAll(node.getProvidedVariableNames()) }
                 } else {
@@ -205,8 +205,8 @@ object QueryResultToXMLStream {
                         output.print(" </results>\n")
                     }
                 }
-                output.print("</sparql>\n")
             }
+            output.print("</sparql>\n")
         }
     }
 }

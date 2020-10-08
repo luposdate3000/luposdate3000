@@ -1,0 +1,11 @@
+SELECT ?x WHERE {
+	?p <hasGivenName> ?gn. 
+	?p <hasFamilyName> ?fn. 
+	?p <bornIn> ?city. 
+	?p <hasAcademicAdvisor> ?a. 
+	?p a <wordnet_scientist_110560637>. 
+	?city <locatedIn> ?state. 
+	?state a <wikicategory_States_of_the_United_States>. 
+	?a <bornIn> ?city2. 
+	FILTER (?city != ?city2)
+}

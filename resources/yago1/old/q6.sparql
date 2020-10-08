@@ -1,0 +1,12 @@
+select distinct ?n1 ?n2 where { 
+	?p1 <hasFamilyName> ?n1. 
+	?p2 <hasFamilyName> ?n2. 
+	?scientist <http://www.w3.org/2000/01/rdf-schema#label> "scientist"
+	?p1 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?scientist. 
+	?p1 <hasWonPrize> ?award. 
+	?p1 <bornIn> ?city. 
+	?p2 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?scientist. 
+	?p2 <hasWonPrize> ?award. 
+	?p2 <bornIn> ?city. 
+	filter (?p1 != ?p2). 
+}

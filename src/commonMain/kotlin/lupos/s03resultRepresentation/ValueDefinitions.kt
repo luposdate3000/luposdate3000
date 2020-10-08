@@ -48,29 +48,35 @@ sealed class ValueDefinition : Comparable<ValueDefinition> {
             if (tmp == null || tmp.length == 0) {
                 return ValueUndef()
             }
-            when {
-                tmp.startsWith("_:") -> {
-                    return ValueBnode(tmp.substring(2, tmp.length))
-                }
-                tmp.startsWith("<") && tmp.endsWith(">") -> {
-                    return ValueIri(tmp.substring(1, tmp.length - 1))
-                }
-                !tmp.endsWith("" + tmp.get(0)) -> {
-                    val typeIdx = tmp.lastIndexOf("" + tmp.get(0) + "^^<")
-                    val langIdx = tmp.lastIndexOf("" + tmp.get(0) + "@")
-                    if (tmp.endsWith(">") && typeIdx > 0) {
-                        return ValueTypedLiteral("" + tmp.get(0), tmp.substring(1, typeIdx), tmp.substring(typeIdx + 4, tmp.length - 1))
-                    } else {
-                        SanityCheck.check { langIdx > 0 }
-                        return ValueLanguageTaggedLiteral("" + tmp.get(0), tmp.substring(1, langIdx), tmp.substring(langIdx + 2, tmp.length))
-                    }
-/*Coverage Unreachable*/
-                }
-                else -> {
-                    return ValueSimpleLiteral("" + tmp.get(0), tmp.substring(1, tmp.length - 1))
+            if (tmp.startsWith("_:")) {
+                return ValueBnode(tmp.substring(2, tmp.length))
+            }
+            if (tmp.startsWith("<") && tmp.endsWith(">")) {
+                return ValueIri(tmp.substring(1, tmp.length - 1))
+            }
+            try {
+                return ValueInteger(BigInteger(tmp))
+            } catch (e: Throwable) {
+            }
+            try {
+                return ValueDecimal(BigDecimal(tmp))
+            } catch (e: Throwable) {
+            }
+            try {
+                return ValueDouble(tmp.toDouble())
+            } catch (e: Throwable) {
+            }
+            if (!tmp.endsWith("" + tmp.get(0))) {
+                val typeIdx = tmp.lastIndexOf("" + tmp.get(0) + "^^<")
+                val langIdx = tmp.lastIndexOf("" + tmp.get(0) + "@")
+                if (tmp.endsWith(">") && typeIdx > 0) {
+                    return ValueTypedLiteral("" + tmp.get(0), tmp.substring(1, typeIdx), tmp.substring(typeIdx + 4, tmp.length - 1))
+                } else {
+                    SanityCheck.check { langIdx > 0 }
+                    return ValueLanguageTaggedLiteral("" + tmp.get(0), tmp.substring(1, langIdx), tmp.substring(langIdx + 2, tmp.length))
                 }
             }
-/*Coverage Unreachable*/
+            return ValueSimpleLiteral("" + tmp.get(0), tmp.substring(1, tmp.length - 1))
         }
     }
 

@@ -197,6 +197,7 @@ object HttpEndpoint {
                     } catch (e: Exception) {
                         println("fast_parser :: error in file '$fileName'")
                         e.printStackTrace()
+			throw e
                     }
                 }
             }
