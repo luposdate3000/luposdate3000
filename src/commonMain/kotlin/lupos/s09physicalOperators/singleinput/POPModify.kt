@@ -24,6 +24,10 @@ import lupos.s09physicalOperators.POPBase
 import lupos.s15tripleStoreDistributed.DistributedTripleStore
 
 class POPModify(query: Query, projectedVariables: List<String>, insert: List<LOPTriple>, delete: List<LOPTriple>, child: OPBase) : POPBase(query, projectedVariables, EOperatorID.POPModifyID, "POPModify", arrayOf(child), ESortPriority.PREVENT_ANY) {
+override fun getPartitionCount(variable:String):Int{
+SanityCheck.check{children[0].getPartitionCount(variable)==1}
+return 1
+}
     @JvmField
     val modify = Array<Pair<LOPTriple, EModifyType>>(insert.size + delete.size) {
         if (it < insert.size) {

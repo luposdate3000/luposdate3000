@@ -27,30 +27,30 @@ class PhysicalOptimizerPartition(query: Query) : OptimizerBase(query, EOptimizer
             is POPProjection -> {
                 val c = node.children[0]
                 if (c is POPMergePartition) {
-                    res = POPMergePartition(query, node.projectedVariables, c.partitionVariable, POPProjection(query, node.projectedVariables, c.children[0]))
+                    res = POPMergePartition(query, node.projectedVariables, c.partitionVariable, c.partitionCount,POPProjection(query, node.projectedVariables, c.children[0]))
                     onChange()
                 } else if (c is POPMergePartitionCount) {
-                    res = POPMergePartitionCount(query, node.projectedVariables, c.partitionVariable, POPProjection(query, node.projectedVariables, c.children[0]))
+                    res = POPMergePartitionCount(query, node.projectedVariables, c.partitionVariable,c.partitionCount, POPProjection(query, node.projectedVariables, c.children[0]))
                     onChange()
                 }
             }
             is POPReduced -> {
                 val c = node.children[0]
                 if (c is POPMergePartition) {
-                    res = POPMergePartition(query, node.projectedVariables, c.partitionVariable, POPReduced(query, node.projectedVariables, c.children[0]))
+                    res = POPMergePartition(query, node.projectedVariables, c.partitionVariable,c.partitionCount, POPReduced(query, node.projectedVariables, c.children[0]))
                     onChange()
                 } else if (c is POPMergePartitionCount) {
-                    res = POPMergePartitionCount(query, node.projectedVariables, c.partitionVariable, POPReduced(query, node.projectedVariables, c.children[0]))
+                    res = POPMergePartitionCount(query, node.projectedVariables, c.partitionVariable, c.partitionCount,POPReduced(query, node.projectedVariables, c.children[0]))
                     onChange()
                 }
             }
             is POPFilter -> {
                 val c = node.children[0]
                 if (c is POPMergePartition) {
-                    res = POPMergePartition(query, node.projectedVariables, c.partitionVariable, POPFilter(query, node.projectedVariables, node.children[1] as AOPBase, c.children[0]))
+                    res = POPMergePartition(query, node.projectedVariables, c.partitionVariable,c.partitionCount, POPFilter(query, node.projectedVariables, node.children[1] as AOPBase, c.children[0]))
                     onChange()
                 } else if (c is POPMergePartitionCount) {
-                    res = POPMergePartitionCount(query, node.projectedVariables, c.partitionVariable, POPFilter(query, node.projectedVariables, node.children[1] as AOPBase, c.children[0]))
+                    res = POPMergePartitionCount(query, node.projectedVariables, c.partitionVariable,c.partitionCount, POPFilter(query, node.projectedVariables, node.children[1] as AOPBase, c.children[0]))
                     onChange()
                 }
             }
@@ -85,7 +85,7 @@ class PhysicalOptimizerPartition(query: Query) : OptimizerBase(query, EOptimizer
                     is TripleStoreIteratorGlobal -> {
                         if (TripleStoreLocal.providesFeature(TripleStoreFeature.PARTITION, null)) {
                             try {
-                                val p = Partition(Partition(), node.partitionVariable, 0)
+                                val p = Partition(Partition(), node.partitionVariable, 0,0)
                                 val params = TripleStoreFeatureParamsPartition(c.idx, Array(3) { c.children[it] as AOPBase }, p)
                                 if (params.getColumn() > 0 && TripleStoreLocal.providesFeature(TripleStoreFeature.PARTITION, params)) {
                                     res = POPSplitPartitionFromStore(query, node.projectedVariables, node.partitionVariable, c)

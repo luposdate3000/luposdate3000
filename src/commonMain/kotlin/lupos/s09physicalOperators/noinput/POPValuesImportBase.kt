@@ -6,6 +6,7 @@ import lupos.s03resultRepresentation.Variable
 import lupos.s04logicalOperators.Query
 
 abstract class POPValuesImportBase(query: Query, projectedVariables: List<String>, variables: List<String>) : POPValues(query, projectedVariables, variables, mutableListOf<List<String?>>()) {
+override fun getPartitionCount(variable:String):Int=1
     fun cleanString(s: String?): String? {
         if (s == null) {
             return null

@@ -15,6 +15,7 @@ import lupos.s04logicalOperators.Query
 import lupos.s09physicalOperators.POPBase
 
 class POPProjection(query: Query, projectedVariables: List<String>, child: OPBase) : POPBase(query, projectedVariables, EOperatorID.POPProjectionID, "POPProjection", arrayOf(child), ESortPriority.SAME_AS_CHILD) {
+override fun getPartitionCount(variable:String):Int=children[0].getPartitionCount(variable)
     override fun toSparql(): String {
         var res = "{SELECT "
         for (c in projectedVariables) {

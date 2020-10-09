@@ -29,6 +29,7 @@ class POPGraphOperation(query: Query,
                         @JvmField var graph2type: EGraphRefType = EGraphRefType.DefaultGraphRef,
                         @JvmField var graph2iri: String? = null,
                         @JvmField val action: EGraphOperationType) : POPBase(query, projectedVariables, EOperatorID.POPGraphOperationID, "POPGraphOperation", arrayOf(), ESortPriority.PREVENT_ANY) {
+override fun getPartitionCount(variable:String):Int=1
     override fun toSparqlQuery() = toSparql()
     override fun toSparql(): String {
         var res = ""
@@ -109,7 +110,7 @@ class POPGraphOperation(query: Query,
     override fun equals(other: Any?) = other is POPGraphOperation && silent == other.silent && graph1iri == other.graph1iri && graph1type == other.graph1type && graph2iri == other.graph2iri && graph2type == other.graph2type && action == other.action
     override fun cloneOP() = POPGraphOperation(query, projectedVariables, silent, graph1type, graph1iri, graph2type, graph2iri, action)
     suspend fun copyData(source: DistributedGraph, target: DistributedGraph, parent: Partition) {
-        val row = source.getIterator(EIndexPattern.SPO).evaluate(parent)
+        val row = source.getIterator(EIndexPattern.SPO,Partition()).evaluate(parent)
         val iterator = arrayOf(row.columns["s"]!!, row.columns["p"]!!, row.columns["o"]!!)
         target.modify(iterator, EModifyType.INSERT)
     }

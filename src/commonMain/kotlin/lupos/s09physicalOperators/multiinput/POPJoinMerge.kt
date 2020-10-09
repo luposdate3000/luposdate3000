@@ -17,6 +17,10 @@ import lupos.s04logicalOperators.Query
 import lupos.s09physicalOperators.POPBase
 
 class POPJoinMerge(query: Query, projectedVariables: List<String>, childA: OPBase, childB: OPBase, @JvmField val optional: Boolean) : POPBase(query, projectedVariables, EOperatorID.POPJoinMergeID, "POPJoinMerge", arrayOf(childA, childB), ESortPriority.JOIN) {
+override fun getPartitionCount(variable:String):Int{
+SanityCheck.check{children[0].getPartitionCount(variable)==children[1].getPartitionCount(variable)}
+return children[0].getPartitionCount(variable)
+}
     override fun toSparql() = children[0].toSparql() + children[1].toSparql()
     override suspend fun toXMLElement() = super.toXMLElement().addAttribute("optional", "" + optional)
     override fun cloneOP() = POPJoinMerge(query, projectedVariables, children[0].cloneOP(), children[1].cloneOP(), optional)

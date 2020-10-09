@@ -2,6 +2,7 @@ package lupos.s09physicalOperators.singleinput.modifiers
 
 import kotlin.jvm.JvmField
 import lupos.s00misc.EOperatorID
+import lupos.s00misc.SanityCheck
 import lupos.s00misc.ESortPriority
 import lupos.s00misc.Partition
 import lupos.s00misc.XMLElement
@@ -15,6 +16,10 @@ import lupos.s04logicalOperators.Query
 import lupos.s09physicalOperators.POPBase
 
 class POPLimit(query: Query, projectedVariables: List<String>, @JvmField val limit: Int, child: OPBase) : POPBase(query, projectedVariables, EOperatorID.POPLimitID, "POPLimit", arrayOf(child), ESortPriority.SAME_AS_CHILD) {
+override fun getPartitionCount(variable:String):Int{
+SanityCheck.check{children[0].getPartitionCount(variable)==1}
+return 1
+}
     override fun toSparql(): String {
         val sparql = children[0].toSparql()
         if (sparql.startsWith("{SELECT ")) {

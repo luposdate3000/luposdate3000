@@ -27,6 +27,7 @@ import lupos.s09physicalOperators.POPBase
 import lupos.s15tripleStoreDistributed.DistributedTripleStore
 
 class POPJoinWithStore(query: Query, projectedVariables: List<String>, childA: OPBase, val childB: LOPTriple, @JvmField val optional: Boolean) : POPBase(query, projectedVariables, EOperatorID.POPJoinWithStoreID, "POPJoinWithStore", arrayOf(childA), ESortPriority.SAME_AS_CHILD) {
+override fun getPartitionCount(variable:String):Int=children[0].getPartitionCount(variable)
     override fun toSparql(): String {
         if (optional) {
             return "OPTIONAL{" + children[0].toSparql() + childB.toSparql() + "}"
@@ -139,7 +140,7 @@ class POPJoinWithStore(query: Query, projectedVariables: List<String>, childA: O
                 params[indicesINBJ[i]] = AOPConstant(query, valuesAJ[i])
             }
             SanityCheck.println({ "POPJoinWithStoreXXXopening store for join with store A $theuuid" })
-            var columnsInBRoot = distributedStore.getIterator(params, index).evaluate(parent)
+            var columnsInBRoot = distributedStore.getIterator(params, index,Partition()).evaluate(parent)
             for (i in 0 until variablINBO.size) {
                 columnsInB[i] = columnsInBRoot.columns[variablINBO[i]]!!
             }
@@ -204,7 +205,7 @@ class POPJoinWithStore(query: Query, projectedVariables: List<String>, childA: O
                                             params[indicesINBJ[i]] = AOPConstant(query, valuesAJ[i])
                                         }
                                         SanityCheck.println({ "POPJoinWithStoreXXXopening store for join with store B $theuuid" })
-                                        columnsInBRoot = distributedStore.getIterator(params, index).evaluate(parent)
+                                        columnsInBRoot = distributedStore.getIterator(params, index,Partition()).evaluate(parent)
                                         for (i in 0 until variablINBO.size) {
                                             columnsInB[i] = columnsInBRoot.columns[variablINBO[i]]!!
                                         }

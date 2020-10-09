@@ -1,5 +1,5 @@
 package lupos.s05tripleStore
-
+import kotlin.jvm.JvmField
 import lupos.s00misc.File
 import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
@@ -7,13 +7,13 @@ import lupos.s03resultRepresentation.Value
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.Query
 
-class TripleStoreIndex_Partition(childIndex: (Int) -> TripleStoreIndex, val column: Int) : TripleStoreIndex() {
-    val partitions = Array(Partition.k) { childIndex(it) }
+class TripleStoreIndex_Partition(childIndex: (Int) -> TripleStoreIndex, val column: Int, @JvmField val partitionCount:Int) : TripleStoreIndex() {
+    val partitions = Array(partitionCount) { childIndex(it) }
     suspend override fun safeToFile(filename: String) {
         val a = filename.lastIndexOf('k')
         val b = filename.substring(0, a)
         val c = filename.substring(a + 1, filename.length)
-        for (i in 0 until Partition.k) {
+        for (i in 0 until partitionCount) {
             partitions[i].safeToFile("$b$i$c")
         }
     }
@@ -22,7 +22,7 @@ class TripleStoreIndex_Partition(childIndex: (Int) -> TripleStoreIndex, val colu
         val a = filename.lastIndexOf('k')
         val b = filename.substring(0, a)
         val c = filename.substring(a + 1, filename.length)
-        for (i in 0 until Partition.k) {
+        for (i in 0 until partitionCount) {
             partitions[i].loadFromFile("$b$i$c")
         }
     }
@@ -50,25 +50,25 @@ class TripleStoreIndex_Partition(childIndex: (Int) -> TripleStoreIndex, val colu
     }
 
     suspend override fun import(dataImport: IntArray, count: Int, order: IntArray) {
-        var counters = IntArray(Partition.k)
+        var counters = IntArray(partitionCount)
         for (i in 0 until count / 3) {
             val a = i * 3
-            val h = Partition.hashFunction(dataImport[a + order[column]])
+            val h = Partition.hashFunction(dataImport[a + order[column]],partitionCount)
             SanityCheck.println({ "partitioning by ${dataImport[a + order[column]]} -> $h" })
             counters[h]++
         }
-        val data = Array(Partition.k) { IntArray(counters[it] * 3) }
-        counters = IntArray(Partition.k)
+        val data = Array(partitionCount) { IntArray(counters[it] * 3) }
+        counters = IntArray(partitionCount)
         for (i in 0 until count / 3) {
             val a = i * 3
-            val h = Partition.hashFunction(dataImport[a + order[column]])
+            val h = Partition.hashFunction(dataImport[a + order[column]],partitionCount)
             val b = counters[h] * 3
             counters[h]++
             for (j in 0 until 3) {
                 data[h][b + j] = dataImport[a + j]
             }
         }
-        for (i in 0 until Partition.k) {
+        for (i in 0 until partitionCount) {
             if (data[i].size > 0) {
                 partitions[i].import(data[i], data[i].size, order)
             }
@@ -76,24 +76,24 @@ class TripleStoreIndex_Partition(childIndex: (Int) -> TripleStoreIndex, val colu
     }
 
     suspend override fun insertAsBulk(dataImport: IntArray, order: IntArray) {
-        var counters = IntArray(Partition.k)
+        var counters = IntArray(partitionCount)
         for (i in 0 until dataImport.size / 3) {
             val a = i * 3
-            val h = Partition.hashFunction(dataImport[a + order[column]])
+            val h = Partition.hashFunction(dataImport[a + order[column]],partitionCount)
             counters[h]++
         }
-        val data = Array(Partition.k) { IntArray(counters[it] * 3) }
-        counters = IntArray(Partition.k)
+        val data = Array(partitionCount) { IntArray(counters[it] * 3) }
+        counters = IntArray(partitionCount)
         for (i in 0 until dataImport.size / 3) {
             val a = i * 3
-            val h = Partition.hashFunction(dataImport[a + order[column]])
+            val h = Partition.hashFunction(dataImport[a + order[column]],partitionCount)
             val b = counters[h] * 3
             counters[h]++
             for (j in 0 until 3) {
                 data[h][b + j] = dataImport[a + j]
             }
         }
-        for (i in 0 until Partition.k) {
+        for (i in 0 until partitionCount) {
             if (data[i].size > 0) {
                 partitions[i].insertAsBulk(data[i], order)
             }
@@ -101,24 +101,24 @@ class TripleStoreIndex_Partition(childIndex: (Int) -> TripleStoreIndex, val colu
     }
 
     suspend override fun removeAsBulk(dataImport: IntArray, order: IntArray) {
-        var counters = IntArray(Partition.k)
+        var counters = IntArray(partitionCount)
         for (i in 0 until dataImport.size / 3) {
             val a = i * 3
-            val h = Partition.hashFunction(dataImport[a + order[column]])
+            val h = Partition.hashFunction(dataImport[a + order[column]],partitionCount)
             counters[h]++
         }
-        val data = Array(Partition.k) { IntArray(counters[it] * 3) }
-        counters = IntArray(Partition.k)
+        val data = Array(partitionCount) { IntArray(counters[it] * 3) }
+        counters = IntArray(partitionCount)
         for (i in 0 until dataImport.size / 3) {
             val a = i * 3
-            val h = Partition.hashFunction(dataImport[a + order[column]])
+            val h = Partition.hashFunction(dataImport[a + order[column]],partitionCount)
             val b = counters[h] * 3
             counters[h]++
             for (j in 0 until 3) {
                 data[h][b + j] = dataImport[a + j]
             }
         }
-        for (i in 0 until Partition.k) {
+        for (i in 0 until partitionCount) {
             if (data[i].size > 0) {
                 partitions[i].removeAsBulk(data[i], order)
             }
@@ -126,7 +126,7 @@ class TripleStoreIndex_Partition(childIndex: (Int) -> TripleStoreIndex, val colu
     }
 
     suspend override fun flush() {
-        for (i in 0 until Partition.k) {
+        for (i in 0 until partitionCount) {
             partitions[i].flush()
         }
     }
@@ -140,13 +140,13 @@ class TripleStoreIndex_Partition(childIndex: (Int) -> TripleStoreIndex, val colu
     }
 
     suspend override fun clear() {
-        for (i in 0 until Partition.k) {
+        for (i in 0 until partitionCount) {
             partitions[i].clear()
         }
     }
 
     suspend override fun printContents() {
-        for (i in 0 until Partition.k) {
+        for (i in 0 until partitionCount) {
             SanityCheck.println({ "TripleStoreIndex_Partition :: " + i })
             partitions[i].printContents()
         }

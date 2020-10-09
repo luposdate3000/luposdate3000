@@ -58,6 +58,9 @@ abstract class OPBase(@JvmField val query: Query, @JvmField val operatorID: EOpe
 
     @JvmField
     var histogramResult: HistogramResult? = null
+
+abstract fun getPartitionCount(variable:String):Int
+
     suspend fun getHistogram(): HistogramResult {
         if (histogramResult == null) {
             histogramResult = calculateHistogram()

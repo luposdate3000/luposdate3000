@@ -22,6 +22,7 @@ import lupos.s04logicalOperators.Query
 import lupos.s09physicalOperators.POPBase
 
 open class POPValues : POPBase {
+override fun getPartitionCount(variable:String):Int=1
     @JvmField
     val variables: List<String>
 

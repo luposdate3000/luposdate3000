@@ -1,45 +1,38 @@
 package lupos.s05tripleStore
-
+import lupos.s00misc.Partition
 import lupos.s00misc.EIndexPattern
 
 class TripleStoreLocalBPlusTree(name: String) : TripleStoreLocalBase(name) {
     init {
-        dataDistinct = arrayOf(/*return*/
-/*return*/                TripleStoreDistinctContainer("SPO", TripleStoreIndex_IDTriple(), { it -> it.dataSPO }, EIndexPattern.SPO),
-/*return*/                TripleStoreDistinctContainer("SOP", TripleStoreIndex_IDTriple(), { it -> it.dataSOP }, EIndexPattern.SOP),
-/*return*/                TripleStoreDistinctContainer("POS", TripleStoreIndex_IDTriple(), { it -> it.dataPOS }, EIndexPattern.POS),
-/*return*/                TripleStoreDistinctContainer("PSO", TripleStoreIndex_IDTriple(), { it -> it.dataPSO }, EIndexPattern.PSO),
-/*return*/                TripleStoreDistinctContainer("OSP", TripleStoreIndex_IDTriple(), { it -> it.dataOSP }, EIndexPattern.OSP),
-/*return*/                TripleStoreDistinctContainer("OPS", TripleStoreIndex_IDTriple(), { it -> it.dataOPS }, EIndexPattern.OPS)
-        )
-        var d = mutableListOf<Int>()
-        for (it in 0 until EIndexPattern.values().size) {
-            when (EIndexPattern.values()[it]) {
-                EIndexPattern.SPO, EIndexPattern.SP_O, EIndexPattern.S_PO -> {
-                    d.add(0)
+var dataDistinctList = mutableListOf<TripleStoreDistinctContainer>()
+        for (p in enabledPartitions) {
+            val name = StringBuilder(p.index.toString())
+            if (p.column >= 0) {
+                name.insert(p.column, p.partitionCount)
+                when (p.index) {
+                    EIndexPattern.SPO -> dataDistinctList.add(TripleStoreDistinctContainer(name.toString(), TripleStoreIndex_Partition({ TripleStoreIndex_IDTriple() }, 1, Partition.default_k), { it -> it.dataSPO }, p.index))
+                    EIndexPattern.SOP -> dataDistinctList.add(TripleStoreDistinctContainer(name.toString(), TripleStoreIndex_Partition({ TripleStoreIndex_IDTriple() }, 1, Partition.default_k), { it -> it.dataSOP }, p.index))
+                    EIndexPattern.POS -> dataDistinctList.add(TripleStoreDistinctContainer(name.toString(), TripleStoreIndex_Partition({ TripleStoreIndex_IDTriple() }, 1, Partition.default_k), { it -> it.dataPOS }, p.index))
+                    EIndexPattern.PSO -> dataDistinctList.add(TripleStoreDistinctContainer(name.toString(), TripleStoreIndex_Partition({ TripleStoreIndex_IDTriple() }, 1, Partition.default_k), { it -> it.dataPSO }, p.index))
+                    EIndexPattern.OSP -> dataDistinctList.add(TripleStoreDistinctContainer(name.toString(), TripleStoreIndex_Partition({ TripleStoreIndex_IDTriple() }, 1, Partition.default_k), { it -> it.dataOSP }, p.index))
+                    EIndexPattern.OPS -> dataDistinctList.add(TripleStoreDistinctContainer(name.toString(), TripleStoreIndex_Partition({ TripleStoreIndex_IDTriple() }, 1, Partition.default_k), { it -> it.dataOPS }, p.index))
+                    else -> throw Exception("")
                 }
-                EIndexPattern.SOP, EIndexPattern.SO_P, EIndexPattern.S_OP -> {
-                    d.add(1)
-                }
-                EIndexPattern.POS, EIndexPattern.P_OS, EIndexPattern.PO_S -> {
-                    d.add(2)
-                }
-                EIndexPattern.PSO, EIndexPattern.P_SO, EIndexPattern.PS_O -> {
-                    d.add(3)
-                }
-                EIndexPattern.OSP, EIndexPattern.O_SP, EIndexPattern.OS_P -> {
-                    d.add(4)
-                }
-                EIndexPattern.OPS, EIndexPattern.O_PS, EIndexPattern.OP_S -> {
-                    d.add(5)
+            } else {
+                when (p.index) {
+                    EIndexPattern.SPO -> dataDistinctList.add(TripleStoreDistinctContainer(name.toString(), TripleStoreIndex_IDTriple(), { it -> it.dataSPO }, p.index))
+                    EIndexPattern.SOP -> dataDistinctList.add(TripleStoreDistinctContainer(name.toString(), TripleStoreIndex_IDTriple(), { it -> it.dataSOP }, p.index))
+                    EIndexPattern.POS -> dataDistinctList.add(TripleStoreDistinctContainer(name.toString(), TripleStoreIndex_IDTriple(), { it -> it.dataPOS }, p.index))
+                    EIndexPattern.PSO -> dataDistinctList.add(TripleStoreDistinctContainer(name.toString(), TripleStoreIndex_IDTriple(), { it -> it.dataPSO }, p.index))
+                    EIndexPattern.OSP -> dataDistinctList.add(TripleStoreDistinctContainer(name.toString(), TripleStoreIndex_IDTriple(), { it -> it.dataOSP }, p.index))
+                    EIndexPattern.OPS -> dataDistinctList.add(TripleStoreDistinctContainer(name.toString(), TripleStoreIndex_IDTriple(), { it -> it.dataOPS }, p.index))
+                    else -> throw Exception("")
                 }
             }
+
         }
-        featureDataMap[TripleStoreFeature.DEFAULT.ordinal] = Pair(0, d.size)
-        data = IntArray(d.size)
-        for (i in 0 until d.size) {
-            data[i] = d[i]
-        }
+
+        dataDistinct= dataDistinctList . toTypedArray ()
         pendingModificationsInsert = Array(dataDistinct.size) { mutableMapOf<Long, MutableList<Int>>() }
         pendingModificationsRemove = Array(dataDistinct.size) { mutableMapOf<Long, MutableList<Int>>() }
     }

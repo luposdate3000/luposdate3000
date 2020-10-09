@@ -30,8 +30,9 @@ import lupos.s09physicalOperators.POPBase
 import lupos.s16network.ServerCommunicationSend
 import lupos.s16network.TripleStoreBulkImportDistributed
 
-class TripleStoreIteratorGlobal(query: Query, projectedVariables: List<String>, @JvmField val graphName: String, params: Array<AOPBase>, @JvmField val idx: EIndexPattern) : POPBase(query, projectedVariables, EOperatorID.TripleStoreIteratorGlobalID, "TripleStoreIteratorGlobal", Array<OPBase>(3) { params[it] }, ESortPriority.ANY_PROVIDED_VARIABLE) {
-    override fun cloneOP() = TripleStoreIteratorGlobal(query, projectedVariables, graphName, Array(3) { children[it] as AOPBase }, idx)
+class TripleStoreIteratorGlobal(query: Query, projectedVariables: List<String>, @JvmField val graphName: String, params: Array<AOPBase>, @JvmField val idx: EIndexPattern,@JvmField val partition:Partition) : POPBase(query, projectedVariables, EOperatorID.TripleStoreIteratorGlobalID, "TripleStoreIteratorGlobal", Array<OPBase>(3) { params[it] }, ESortPriority.ANY_PROVIDED_VARIABLE) {
+override fun getPartitionCount(variable: String): Int=partition.limit[variable]!!
+    override fun cloneOP() = TripleStoreIteratorGlobal(query, projectedVariables, graphName, Array(3) { children[it] as AOPBase }, idx,partition)
     override fun equals(other: Any?) = other is TripleStoreIteratorGlobal && graphName == other.graphName && idx == other.idx && projectedVariables.containsAll(other.projectedVariables) && other.projectedVariables.containsAll(projectedVariables) && children[0] == other.children[0] && children[1] == other.children[1] && children[2] == other.children[2]
     override suspend fun toXMLElement() = XMLElement("TripleStoreIteratorGlobal").//
     addAttribute("uuid", "" + uuid).//
@@ -120,12 +121,12 @@ class DistributedGraph(val query: Query, @JvmField val name: String) {
         }
     }
 
-    fun getIterator(idx: EIndexPattern): POPBase {
+    fun getIterator(idx: EIndexPattern,partition:Partition): POPBase {
         val projectedVariables = listOf<String>("s", "p", "o")
-        return TripleStoreIteratorGlobal(query, projectedVariables, name, arrayOf<AOPBase>(AOPVariable(query, "s"), AOPVariable(query, "p"), AOPVariable(query, "o")), idx)
+        return TripleStoreIteratorGlobal(query, projectedVariables, name, arrayOf<AOPBase>(AOPVariable(query, "s"), AOPVariable(query, "p"), AOPVariable(query, "o")), idx,partition)
     }
 
-    fun getIterator(params: Array<AOPBase>, idx: EIndexPattern): POPBase {
+    fun getIterator(params: Array<AOPBase>, idx: EIndexPattern,partition:Partition): POPBase {
         val projectedVariables = mutableListOf<String>()
         SanityCheck {
             if (idx.keyIndices.size == 3) {
@@ -156,7 +157,7 @@ class DistributedGraph(val query: Query, @JvmField val name: String) {
                 }
             }
         }
-        return TripleStoreIteratorGlobal(query, projectedVariables, name, params, idx)
+        return TripleStoreIteratorGlobal(query, projectedVariables, name, params, idx,partition)
     }
 
     suspend fun getHistogram(params: Array<AOPBase>, idx: EIndexPattern): Pair<Int, Int> {

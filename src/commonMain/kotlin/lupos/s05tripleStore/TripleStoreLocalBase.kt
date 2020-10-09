@@ -1,5 +1,7 @@
 package lupos.s05tripleStore
 
+import lupos.s04arithmetikOperators.noinput.AOPConstant
+import lupos.s04arithmetikOperators.noinput.AOPVariable
 import kotlin.jvm.JvmField
 import lupos.s00misc.EIndexPattern
 import lupos.s00misc.EModifyType
@@ -11,22 +13,31 @@ import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.Query
 
-class TripleStoreDistinctContainer(val first: String, val second: TripleStoreIndex, val importField: (TripleStoreBulkImport) -> IntArray, val idx: EIndexPattern)
+class TripleStoreDistinctContainer(@JvmField val first: String, @JvmField val second: TripleStoreIndex, @JvmField val importField: (TripleStoreBulkImport) -> IntArray, @JvmField val idx: EIndexPattern)
+
+class EnabledPartitionContainer(@JvmField val index: EIndexPattern, @JvmField val column: Int, @JvmField val partitionCount: Int)
+
 abstract class TripleStoreLocalBase(@JvmField val name: String) {
-    @JvmField //override this during initialisation
-    var data = IntArray(0)
 
     @JvmField //override this during initialisation
     var dataDistinct = arrayOf<TripleStoreDistinctContainer>()
 
-    @JvmField
-    val featureDataMap = Array(TripleStoreFeature.values().size) { Pair(0, 0) }//maps the range in 'data' to each Feature
+    @JvmField //override this during initialisation
+    var enabledPartitions = arrayOf(//
+            EnabledPartitionContainer(EIndexPattern.SPO, -1, 1),//
+            EnabledPartitionContainer(EIndexPattern.SOP, -1, 1),//
+            EnabledPartitionContainer(EIndexPattern.POS, -1, 1),//
+            EnabledPartitionContainer(EIndexPattern.PSO, -1, 1),//
+            EnabledPartitionContainer(EIndexPattern.OSP, -1, 1),//
+            EnabledPartitionContainer(EIndexPattern.OPS, -1, 1),//
+    )
 
     @JvmField //override this during initialisation
     var pendingModificationsInsert = Array(0) { mutableMapOf<Long, MutableList<Int>>() }
 
     @JvmField //override this during initialisation
     var pendingModificationsRemove = Array(0) { mutableMapOf<Long, MutableList<Int>>() }
+
     suspend fun safeToFolder(foldername: String) {
         File(foldername).mkdirs()
         dataDistinct.forEach {
@@ -47,13 +58,95 @@ abstract class TripleStoreLocalBase(@JvmField val name: String) {
     }
 
     suspend fun getHistogram(query: Query, params: TripleStoreFeatureParams): Pair<Int, Int> {
-        val theData = dataDistinct[params.chooseData(data, featureDataMap[params.feature.ordinal], params)]
-        return theData.second.getHistogram(query, params)
+        var idx = 0
+        when (params) {
+            is TripleStoreFeatureParamsDefault -> {
+                for (p in enabledPartitions) {
+                    if (p.index == params.idx && p.column == -1) {
+                        return dataDistinct[idx].second.getHistogram(query, params)
+                    }
+                    idx++
+                }
+            }
+            is TripleStoreFeatureParamsPartition -> {
+                var partitionName = ""
+                var partitionLimit = -1
+                for ((k, v) in params.partition.limit) {
+                    //this should be implemented more nice, as there is only one entry in the map
+                    partitionName = k
+                    partitionLimit = v
+                }
+                var partitionColumn = -1
+                var j = 0
+                for (ii in 0 until 3) {
+                    val i = params.idx.tripleIndicees[ii]
+                    val param = params.params[i]
+                    if (param is AOPVariable) {
+                        if (param.name == name) {
+                            partitionColumn = j
+                            break
+                        } else {
+                            j++
+                        }
+                    } else {
+                        j++ //constants at the front do count
+                    }
+                }
+                for (p in enabledPartitions) {
+                    if (p.index == params.idx && p.column == partitionColumn && p.partitionCount == partitionLimit) {
+                        return dataDistinct[idx].second.getHistogram(query, params)
+                    }
+                    idx++
+                }
+            }
+        }
+        throw Exception("")
     }
 
     suspend fun getIterator(query: Query, params: TripleStoreFeatureParams): IteratorBundle {
-        val theData = dataDistinct[params.chooseData(data, featureDataMap[params.feature.ordinal], params)]
-        return theData.second.getIterator(query, params)
+        var idx = 0
+        when (params) {
+            is TripleStoreFeatureParamsDefault -> {
+                for (p in enabledPartitions) {
+                    if (p.index == params.idx && p.column == -1) {
+                        return dataDistinct[idx].second.getIterator(query, params)
+                    }
+                    idx++
+                }
+            }
+            is TripleStoreFeatureParamsPartition -> {
+                var partitionName = ""
+                var partitionLimit = -1
+                for ((k, v) in params.partition.limit) {
+                    //this should be implemented more nice, as there is only one entry in the map
+                    partitionName = k
+                    partitionLimit = v
+                }
+                var partitionColumn = -1
+                var j = 0
+                for (ii in 0 until 3) {
+                    val i = params.idx.tripleIndicees[ii]
+                    val param = params.params[i]
+                    if (param is AOPVariable) {
+                        if (param.name == name) {
+                            partitionColumn = j
+                            break
+                        } else {
+                            j++
+                        }
+                    } else {
+                        j++ //constants at the front do count
+                    }
+                }
+                for (p in enabledPartitions) {
+                    if (p.index == params.idx && p.column == partitionColumn && p.partitionCount == partitionLimit) {
+                        return dataDistinct[idx].second.getIterator(query, params)
+                    }
+                    idx++
+                }
+            }
+        }
+        throw Exception("")
     }
 
     suspend fun import(dataImport: TripleStoreBulkImport) {

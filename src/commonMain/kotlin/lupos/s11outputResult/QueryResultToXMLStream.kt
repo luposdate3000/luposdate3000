@@ -120,17 +120,17 @@ object QueryResultToXMLStream {
     }
 
     suspend fun writeNodeResult(variables: Array<String>, node: OPBase, output: PrintWriter, parent: Partition = Partition()) {
-        if (Partition.k > 1 && node is POPMergePartition) {
-            val jobs = Array<ParallelJob?>(Partition.k) { null }
+if(node is POPMergePartition && node.partitionCount>1){
+            val jobs = Array<ParallelJob?>(node.partitionCount) { null }
             val lock = Lock()
-            for (p in 0 until Partition.k) {
+            for (p in 0 until node.partitionCount) {
                 jobs[p] = Parallel.launch {
-                    val child = node.children[0].evaluate(Partition(parent, node.partitionVariable, p))
+                    val child = node.children[0].evaluate(Partition(parent, node.partitionVariable, p,node.partitionCount))
                     val columns = variables.map { child.columns[it]!! }.toTypedArray()
                     writeAllRows(variables, columns, node.query.dictionary, lock, output)
                 }
             }
-            for (p in 0 until Partition.k) {
+            for (p in 0 until node.partitionCount) {
                 jobs[p]!!.join()
             }
         } else {

@@ -21,6 +21,7 @@ import lupos.s04logicalOperators.Query
 import lupos.s09physicalOperators.POPBase
 
 class POPSplitPartition(query: Query, projectedVariables: List<String>, val partitionVariable: String, child: OPBase) : POPBase(query, projectedVariables, EOperatorID.POPSplitPartitionID, "POPSplitPartition", arrayOf(child), ESortPriority.PREVENT_ANY) {
+override fun getPartitionCount(variable: String): Int=Partition.default_k
     override suspend fun toXMLElement(): XMLElement {
         val res = super.toXMLElement()
         res.addAttribute("partitionVariable", partitionVariable)
@@ -43,7 +44,8 @@ class POPSplitPartition(query: Query, projectedVariables: List<String>, val part
     override fun equals(other: Any?): Boolean = other is POPSplitPartition && children[0] == other.children[0] && partitionVariable == other.partitionVariable
     override suspend fun evaluate(parent: Partition): IteratorBundle {
 //throw BugException("POPSplitPartition","child is not launching, because coroutine is missing suspension point")
-        if (Partition.k == 1) {
+var partitionCount=parent.limit[partitionVariable]!!
+        if (partitionCount == 1) {
             //single partition - just pass through
             return children[0].evaluate(parent)
         } else {
@@ -61,23 +63,23 @@ class POPSplitPartition(query: Query, projectedVariables: List<String>, val part
                 job = partitionHelper.jobs!![childPartition]
             }
             if (iterators == null) {
-                iterators = Array(Partition.k) { IteratorBundle(0) }
+                iterators = Array(partitionCount) { IteratorBundle(0) }
                 val variables = getProvidedVariableNames()
                 val variables0 = children[0].getProvidedVariableNames()
                 SanityCheck.check { variables0.containsAll(variables) }
                 SanityCheck.check { variables.containsAll(variables0) }
                 SanityCheck.check { variables.contains(partitionVariable) }
                 val elementsPerRing = Partition.queue_size * variables.size
-                val ringbuffer = IntArray(elementsPerRing * Partition.k) //only modified by writer, reader just modifies its pointer
-                val ringbufferStart = IntArray(Partition.k) { it * elementsPerRing } //constant
-                val ringbufferReadHead = IntArray(Partition.k) { 0 } //owned by read-thread - no locking required
-                val ringbufferWriteHead = IntArray(Partition.k) { 0 } //owned by write thread - no locking required
+                val ringbuffer = IntArray(elementsPerRing * partitionCount) //only modified by writer, reader just modifies its pointer
+                val ringbufferStart = IntArray(partitionCount) { it * elementsPerRing } //constant
+                val ringbufferReadHead = IntArray(partitionCount) { 0 } //owned by read-thread - no locking required
+                val ringbufferWriteHead = IntArray(partitionCount) { 0 } //owned by write thread - no locking required
                 var continuationLock = Lock()
-                val ringbufferReaderContinuation = Array(Partition.k) { Parallel.createCondition(continuationLock) }
+                val ringbufferReaderContinuation = Array(partitionCount) { Parallel.createCondition(continuationLock) }
                 var ringbufferWriterContinuation = Parallel.createCondition(continuationLock)
-                val readerFinished = IntArray(Partition.k) { 0 } //writer changes to 1 if finished
+                val readerFinished = IntArray(partitionCount) { 0 } //writer changes to 1 if finished
                 var writerFinished = 0
-                SanityCheck.println({ "ringbuffersize = ${ringbuffer.size} ${elementsPerRing} ${Partition.k} ${ringbufferStart.map { it }} ${ringbufferReadHead.map { it }} ${ringbufferWriteHead.map { it }}" })
+                SanityCheck.println({ "ringbuffersize = ${ringbuffer.size} ${elementsPerRing} ${partitionCount} ${ringbufferStart.map { it }} ${ringbufferReadHead.map { it }} ${ringbufferWriteHead.map { it }}" })
                 var child2: RowIterator?
                 SanityCheck.println({ "split $uuid writer launched A" })
                 try {
@@ -104,18 +106,18 @@ class POPSplitPartition(query: Query, projectedVariables: List<String>, val part
                         }
                     }
                     SanityCheck.check { hashVariableIndex != -1 }
-                    val cacheArr = IntArray(Partition.k) { it }
+                    val cacheArr = IntArray(partitionCount) { it }
                     SanityCheck.println({ "split $uuid writer launched D" })
                     loop@ while (true) {
                         SanityCheck.println({ "split $uuid writer loop start" })
                         var tmp = child.next()
                         var readerFinishedCounter = 0
-                        for (p in 0 until Partition.k) {
+                        for (p in 0 until partitionCount) {
                             if (readerFinished[p] != 0) {
                                 readerFinishedCounter++
                             }
                         }
-                        if (readerFinishedCounter == Partition.k) {
+                        if (readerFinishedCounter == partitionCount) {
                             SanityCheck.println({ "split $uuid writer launched E" })
                             tmp = -1
                         }
@@ -128,11 +130,11 @@ class POPSplitPartition(query: Query, projectedVariables: List<String>, val part
                             if (q == ResultSetDictionary.undefValue) {
                                 //broadcast undef to every partition
                                 SanityCheck.println({ " attention may increase result count here - this is always ok, _if there is a join afterwards immediately - otherwise probably not" })
-                                cacheSize = Partition.k
+                                cacheSize = partitionCount
                                 cacheArr[0] = 0
                             } else {
                                 cacheSize = 1
-                                q = Partition.hashFunction(q)
+                                q = Partition.hashFunction(q,partitionCount)
                                 cacheArr[0] = q
                             }
                             loopcache@ for (i in 0 until cacheSize) {
@@ -167,14 +169,14 @@ class POPSplitPartition(query: Query, projectedVariables: List<String>, val part
                     child.close()
                     continuationLock.lock()
                     writerFinished = 1
-                    for (p in 0 until Partition.k) {
+                    for (p in 0 until partitionCount) {
                         ringbufferReaderContinuation[p].signal()
                     }
                     continuationLock.unlock()
                     SanityCheck.println({ "split $uuid writer launched G" })
                     SanityCheck.println({ "split $uuid writer exited loop" })
                 }
-                for (p in 0 until Partition.k) {
+                for (p in 0 until partitionCount) {
                     var iterator = RowIterator()
                     iterator.columns = variables.toTypedArray()
                     iterator.buf = IntArray(variables.size)
