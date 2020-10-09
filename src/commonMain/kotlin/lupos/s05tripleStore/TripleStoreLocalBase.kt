@@ -82,7 +82,7 @@ abstract class TripleStoreLocalBase(@JvmField val name: String) {
                     val i = params.idx.tripleIndicees[ii]
                     val param = params.params[i]
                     if (param is AOPVariable) {
-                        if (param.name == name) {
+                        if (param.name == partitionName) {
                             partitionColumn = j
                             break
                         } else {
@@ -128,7 +128,8 @@ abstract class TripleStoreLocalBase(@JvmField val name: String) {
                     val i = params.idx.tripleIndicees[ii]
                     val param = params.params[i]
                     if (param is AOPVariable) {
-                        if (param.name == name) {
+println("param $ii AOPVariable ${param.name}")
+                        if (param.name == partitionName) {
                             partitionColumn = j
                             break
                         } else {
@@ -138,7 +139,9 @@ abstract class TripleStoreLocalBase(@JvmField val name: String) {
                         j++ //constants at the front do count
                     }
                 }
+SanityCheck.println{"TripleStoreFeatureParamsPartition $partitionName $partitionLimit $partitionColumn ${params.idx}"}
                 for (p in enabledPartitions) {
+SanityCheck.println{"invalid :: ${p.index} ${p.column} ${p.partitionCount}"}
                     if (p.index == params.idx && p.column == partitionColumn && p.partitionCount == partitionLimit) {
                         return dataDistinct[idx].second.getIterator(query, params)
                     }
