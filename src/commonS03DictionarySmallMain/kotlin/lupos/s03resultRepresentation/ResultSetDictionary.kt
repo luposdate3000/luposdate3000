@@ -1,8 +1,9 @@
 package lupos.s03resultRepresentation
+
 import kotlin.jvm.JvmField
 import lupos.s00misc.BigDecimal
-import lupos.s00misc.ETripleComponentType
 import lupos.s00misc.BigInteger
+import lupos.s00misc.ETripleComponentType
 import lupos.s00misc.SanityCheck
 import lupos.s03resultRepresentation.nodeGlobalDictionary
 import lupos.s03resultRepresentation.ResultSetDictionary
@@ -21,7 +22,9 @@ import lupos.s03resultRepresentation.ValueLanguageTaggedLiteral
 import lupos.s03resultRepresentation.ValueSimpleLiteral
 import lupos.s03resultRepresentation.ValueTypedLiteral
 import lupos.s03resultRepresentation.ValueUndef
+
 val nodeGlobalDictionary = ResultSetDictionary(true)
+
 @UseExperimental(kotlin.ExperimentalUnsignedTypes::class)
 class ResultSetDictionary(val global: Boolean = false) {
     companion object {
@@ -53,51 +56,73 @@ class ResultSetDictionary(val global: Boolean = false) {
         const val undefValue = (flaggedValueLocalBnode or 0x00000003.toInt()) /*lowest 5 values*/
         const val nullValue = (flaggedValueLocalBnode or 0x00000004.toInt()) /*lowest 5 values*/ /*symbol for no more results, previously 'null'*/
         const val emptyString = ""
+
         @JvmField
         val booleanTrueValue2 = ValueBoolean(true)
+
         @JvmField
         val booleanFalseValue2 = ValueBoolean(false)
+
         @JvmField
         val errorValue2 = ValueError()
+
         @JvmField
         val undefValue2 = ValueUndef()
         fun isGlobalBNode(value: Value) = (value and mask3) == flaggedValueGlobalBnode
         fun debug() {
         }
     }
+
     fun isLocalBNode(value: Value) = (value and mask3) == flaggedValueLocalBnode
+
     @JvmField
     val localBnodeToInt = mutableMapOf<String, Int>()
+
     @JvmField
     var bNodeCounter = 5
+
     @JvmField
     val bnodeMapToGlobal = mutableMapOf<Int, Int>()
+
     @JvmField
     val iriToInt = mutableMapOf<String, Int>()
+
     @JvmField
     var iriToValue = Array<String>(1) { emptyString }
+
     @JvmField
     val langTaggedToInt = mutableMapOf<String, Int>()
+
     @JvmField
     var langTaggedToValue = Array<String>(1) { emptyString }
+
     @JvmField
     val typedToInt = mutableMapOf<String, Int>()
+
     @JvmField
     var typedToValue = Array<String>(1) { emptyString }
+
     @JvmField
     val doubleToInt = mutableMapOf<Double, Int>()
+
     @JvmField
     var doubleToValue = DoubleArray(1) { 0.0 }
+
     @JvmField
     val floatToInt = mutableMapOf<Double, Int>()
+
     @JvmField
     var floatToValue = DoubleArray(1) { 0.0 }
+
     @JvmField
     val decimalToInt = mutableMapOf<String, Int>()
+
     @JvmField
     var decimalToValue = Array<String>(1) { emptyString }
+
     @JvmField
     val intToInt = mutableMapOf<String, Int>()
+
     @JvmField
     var intToValue = Array<String>(1) { emptyString }
     fun prepareBulk(total: Int, typed: IntArray) {
@@ -162,6 +187,7 @@ class ResultSetDictionary(val global: Boolean = false) {
             }
         }
     }
+
     fun createByType(s: String, type: ETripleComponentType): Int {
         when (type) {
             ETripleComponentType.IRI -> {
@@ -202,6 +228,7 @@ class ResultSetDictionary(val global: Boolean = false) {
             }
         }
     }
+
     fun clear() {
         localBnodeToInt.clear()
         bNodeCounter = 5
@@ -221,6 +248,7 @@ class ResultSetDictionary(val global: Boolean = false) {
         decimalToValue = Array<String>(1) { emptyString }
         intToValue = Array<String>(1) { emptyString }
     }
+
     fun toBooleanOrError(value: Value): Value {
         var res: Value = errorValue
         if (value < undefValue && value >= 0) {
@@ -240,6 +268,7 @@ class ResultSetDictionary(val global: Boolean = false) {
 //SanityCheck.check({(res and filter6) < 10000},{"${res} ${res and filter6} ${res.toString(16)} ${(res and filter6).toString(16)}"})
         return res
     }
+
     fun createNewBNode(value: String = emptyString): Value {
         var res: Value
         if (global) {
@@ -256,6 +285,7 @@ class ResultSetDictionary(val global: Boolean = false) {
 //SanityCheck.check({(res and filter6) < 10000},{"${res} ${res and filter6} ${res.toString(16)} ${(res and filter6).toString(16)}"})
         return res
     }
+
     fun createIri(iri: String): Value {
         var res: Value
         if (global) {
@@ -301,6 +331,7 @@ class ResultSetDictionary(val global: Boolean = false) {
 //SanityCheck.check({(res and filter6) < 10000},{"${res} ${res and filter6} ${res.toString(16)} ${(res and filter6).toString(16)}"})
         return res
     }
+
     fun createLangTagged(content: String, lang: String): Value {
         var res: Value
         val key = lang + "@" + content
@@ -347,6 +378,7 @@ class ResultSetDictionary(val global: Boolean = false) {
 //SanityCheck.check({(res and filter6) < 10000},{"${res} ${res and filter6} ${res.toString(16)} ${(res and filter6).toString(16)}"})
         return res
     }
+
     fun createTyped(content: String, type: String): Value {
         var res: Value
         when (type) {
@@ -416,6 +448,7 @@ class ResultSetDictionary(val global: Boolean = false) {
 //SanityCheck.check({(res and filter6) < 10000},{"${res} ${res and filter6} ${res.toString(16)} ${(res and filter6).toString(16)}"})
         return res
     }
+
     fun createDouble(value: Double): Value {
         var res: Value
         if (global) {
@@ -461,6 +494,7 @@ class ResultSetDictionary(val global: Boolean = false) {
 //SanityCheck.check({(res and filter6) < 10000},{"${res} ${res and filter6} ${res.toString(16)} ${(res and filter6).toString(16)}"})
         return res
     }
+
     fun createFloat(value: Double): Value {
         var res: Value
         if (global) {
@@ -506,6 +540,7 @@ class ResultSetDictionary(val global: Boolean = false) {
 //SanityCheck.check({(res and filter6) < 10000},{"${res} ${res and filter6} ${res.toString(16)} ${(res and filter6).toString(16)}"})
         return res
     }
+
     fun createDecimal(value2: BigDecimal): Value {
         val value = value2.toString()
         var res: Value
@@ -552,6 +587,7 @@ class ResultSetDictionary(val global: Boolean = false) {
 //SanityCheck.check({(res and filter6) < 10000},{"${res} ${res and filter6} ${res.toString(16)} ${(res and filter6).toString(16)}"})
         return res
     }
+
     fun createInteger(value2: BigInteger): Value {
         val value = value2.toString()
         var res: Value
@@ -598,11 +634,13 @@ class ResultSetDictionary(val global: Boolean = false) {
 //SanityCheck.check({(res and filter6) < 10000},{"${res} ${res and filter6} ${res.toString(16)} ${(res and filter6).toString(16)}"})
         return res
     }
+
     fun createValue(value: String?): Value {
         val res = createValue(ValueDefinition(value))
 //SanityCheck.check({(res and filter6) < 10000},{"${res} ${res and filter6} ${res.toString(16)} ${(res and filter6).toString(16)}"})
         return res
     }
+
     fun createValue(value: ValueDefinition): Value {
         var res: Value
         when (value) {
@@ -658,6 +696,7 @@ class ResultSetDictionary(val global: Boolean = false) {
 //SanityCheck.check({(res and filter6) < 10000},{"${res} ${res and filter6} ${res.toString(16)} ${(res and filter6).toString(16)}"})
         return res
     }
+
     fun getValue(value: Value): ValueDefinition {
 //SanityCheck.check({(value and filter6) < 10000},{"${value} ${value and filter6} ${value.toString(16)} ${(value and filter6).toString(16)}"})
         var res: ValueDefinition
@@ -718,6 +757,7 @@ class ResultSetDictionary(val global: Boolean = false) {
         }
         return res
     }
+
     inline fun getValue(value: Value,
                         crossinline onBNode: (value: Int) -> Unit,
                         crossinline onBoolean: (value: Boolean) -> Unit,
@@ -795,8 +835,10 @@ class ResultSetDictionary(val global: Boolean = false) {
             }
         }
     }
+
     fun printContents() {
     }
+
     fun valueToGlobal(value: Value): Value {
         var res: Value
         if ((value and mask1) == mask1) {
@@ -817,8 +859,10 @@ class ResultSetDictionary(val global: Boolean = false) {
 //SanityCheck.check({(res and filter6) < 10000},{"${res} ${res and filter6} ${res.toString(16)} ${(res and filter6).toString(16)}"})
         return res
     }
+
     fun safeToFolder() {
     }
+
     fun loadFromFolder() {
     }
 }

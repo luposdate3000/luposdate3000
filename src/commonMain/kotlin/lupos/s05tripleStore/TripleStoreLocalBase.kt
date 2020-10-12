@@ -1,7 +1,5 @@
 package lupos.s05tripleStore
 
-import lupos.s04arithmetikOperators.noinput.AOPConstant
-import lupos.s04arithmetikOperators.noinput.AOPVariable
 import kotlin.jvm.JvmField
 import lupos.s00misc.EIndexPattern
 import lupos.s00misc.EModifyType
@@ -9,27 +7,26 @@ import lupos.s00misc.File
 import lupos.s00misc.SanityCheck
 import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s03resultRepresentation.Value
+import lupos.s04arithmetikOperators.noinput.AOPConstant
+import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.Query
 
 class TripleStoreDistinctContainer(@JvmField val first: String, @JvmField val second: TripleStoreIndex, @JvmField val importField: (TripleStoreBulkImport) -> IntArray, @JvmField val idx: EIndexPattern)
-
 class EnabledPartitionContainer(@JvmField val index: MutableSet<EIndexPattern>, @JvmField val column: Int, @JvmField val partitionCount: Int)
-
 abstract class TripleStoreLocalBase(@JvmField val name: String) {
-
     @JvmField //override this during initialisation
     var dataDistinct = arrayOf<TripleStoreDistinctContainer>()
 
     @JvmField //override this during initialisation
     var enabledPartitions = arrayOf(//
-            EnabledPartitionContainer(mutableSetOf(EIndexPattern.SPO,EIndexPattern.S_PO,EIndexPattern.SP_O), -1, 1),//
-            EnabledPartitionContainer(mutableSetOf(EIndexPattern.SOP,EIndexPattern.S_OP,EIndexPattern.SO_P), -1, 1),//
-            EnabledPartitionContainer(mutableSetOf(EIndexPattern.POS,EIndexPattern.P_OS,EIndexPattern.PO_S), -1, 1),//
-            EnabledPartitionContainer(mutableSetOf(EIndexPattern.PSO,EIndexPattern.P_SO,EIndexPattern.PS_O), -1, 1),//
-            EnabledPartitionContainer(mutableSetOf(EIndexPattern.OSP,EIndexPattern.O_SP,EIndexPattern.OS_P), -1, 1),//
-            EnabledPartitionContainer(mutableSetOf(EIndexPattern.OPS,EIndexPattern.O_PS,EIndexPattern.OP_S), -1, 1),//
+            EnabledPartitionContainer(mutableSetOf(EIndexPattern.SPO, EIndexPattern.S_PO, EIndexPattern.SP_O), -1, 1),//
+            EnabledPartitionContainer(mutableSetOf(EIndexPattern.SOP, EIndexPattern.S_OP, EIndexPattern.SO_P), -1, 1),//
+            EnabledPartitionContainer(mutableSetOf(EIndexPattern.POS, EIndexPattern.P_OS, EIndexPattern.PO_S), -1, 1),//
+            EnabledPartitionContainer(mutableSetOf(EIndexPattern.PSO, EIndexPattern.P_SO, EIndexPattern.PS_O), -1, 1),//
+            EnabledPartitionContainer(mutableSetOf(EIndexPattern.OSP, EIndexPattern.O_SP, EIndexPattern.OS_P), -1, 1),//
+            EnabledPartitionContainer(mutableSetOf(EIndexPattern.OPS, EIndexPattern.O_PS, EIndexPattern.OP_S), -1, 1),//
     )
 
     @JvmField //override this during initialisation
@@ -37,7 +34,6 @@ abstract class TripleStoreLocalBase(@JvmField val name: String) {
 
     @JvmField //override this during initialisation
     var pendingModificationsRemove = Array(0) { mutableMapOf<Long, MutableList<Int>>() }
-
     suspend fun safeToFolder(foldername: String) {
         File(foldername).mkdirs()
         dataDistinct.forEach {
@@ -62,7 +58,7 @@ abstract class TripleStoreLocalBase(@JvmField val name: String) {
         when (params) {
             is TripleStoreFeatureParamsDefault -> {
                 for (p in enabledPartitions) {
-                    if (p.index.contains( params.idx) && p.column == -1) {
+                    if (p.index.contains(params.idx) && p.column == -1) {
                         return dataDistinct[idx].second.getHistogram(query, params)
                     }
                     idx++
@@ -93,7 +89,7 @@ abstract class TripleStoreLocalBase(@JvmField val name: String) {
                     }
                 }
                 for (p in enabledPartitions) {
-                    if (p.index .contains( params.idx) && p.column == partitionColumn && p.partitionCount == partitionLimit) {
+                    if (p.index.contains(params.idx) && p.column == partitionColumn && p.partitionCount == partitionLimit) {
                         return dataDistinct[idx].second.getHistogram(query, params)
                     }
                     idx++
@@ -108,7 +104,7 @@ abstract class TripleStoreLocalBase(@JvmField val name: String) {
         when (params) {
             is TripleStoreFeatureParamsDefault -> {
                 for (p in enabledPartitions) {
-                    if (p.index .contains( params.idx) && p.column == -1) {
+                    if (p.index.contains(params.idx) && p.column == -1) {
                         return dataDistinct[idx].second.getIterator(query, params)
                     }
                     idx++
@@ -128,7 +124,7 @@ abstract class TripleStoreLocalBase(@JvmField val name: String) {
                     val i = params.idx.tripleIndicees[ii]
                     val param = params.params[i]
                     if (param is AOPVariable) {
-println("param $ii AOPVariable ${param.name}")
+                        println("param $ii AOPVariable ${param.name}")
                         if (param.name == partitionName) {
                             partitionColumn = j
                             break
@@ -139,12 +135,13 @@ println("param $ii AOPVariable ${param.name}")
                         j++ //constants at the front do count
                     }
                 }
-SanityCheck.println{"TripleStoreFeatureParamsPartition $partitionName $partitionLimit $partitionColumn ${params.idx}"}
+                SanityCheck.println { "TripleStoreFeatureParamsPartition ${params.idx} $partitionColumn $partitionLimit" }
                 for (p in enabledPartitions) {
-SanityCheck.println{"invalid :: ${p.index} ${p.column} ${p.partitionCount}"}
-                    if (p.index .contains( params.idx) && p.column == partitionColumn && p.partitionCount == partitionLimit) {
+                    if (p.index.contains(params.idx) && p.column == partitionColumn && p.partitionCount == partitionLimit) {
+                        SanityCheck.println { "found :: ${p.index} ${p.column} ${p.partitionCount}" }
                         return dataDistinct[idx].second.getIterator(query, params)
                     }
+                    SanityCheck.println { "invalid :: ${p.index} ${p.column} ${p.partitionCount}" }
                     idx++
                 }
             }

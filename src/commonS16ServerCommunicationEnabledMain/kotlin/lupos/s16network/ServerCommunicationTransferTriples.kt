@@ -15,7 +15,7 @@ object ServerCommunicationTransferTriples {
     fun receiveTriples(packet: ByteArrayRead, dict: ResultSetDictionary, remoteName: String, bulk: TripleStoreBulkImport) {
 /*always assume SPO*/
         val columns = packet.readInt()
-        require(columns == 3)
+        SanityCheck.check { columns == 3 }
         while (packet.remaining() > 0) {
             var si = packet.readInt()
             var pi = packet.readInt()
@@ -27,8 +27,8 @@ object ServerCommunicationTransferTriples {
     fun receiveTriples(packet: ByteArrayRead, dict: ResultSetDictionary, expectedColumns: Int, outputAsSingle: Boolean, remoteName: String): Array<MutableList<Value>> {
 /*always assume SPO even _if some of the components are allowed to be missing*/
         val columns = packet.readInt()
-        require(columns == expectedColumns)
-        require(columns > 0)
+        SanityCheck.check { columns == expectedColumns }
+        SanityCheck.check { columns > 0 }
         var res: Array<MutableList<Value>>
         if (outputAsSingle) {
             res = Array(1) { mutableListOf<Value>() }
@@ -73,7 +73,7 @@ object ServerCommunicationTransferTriples {
                         val it = iterators[i]
                         val v = it.next()
                         if (v == null) {
-                            require(i == 0)
+                            SanityCheck.check { i == 0 }
                             for (closeIndex in 0 until iterators.size) {
                                 iterators[closeIndex].close()
                             }

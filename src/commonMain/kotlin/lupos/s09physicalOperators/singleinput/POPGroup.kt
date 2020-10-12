@@ -32,10 +32,11 @@ import lupos.s09physicalOperators.POPBase
 import lupos.s09physicalOperators.singleinput.POPBind
 
 class POPGroup : POPBase {
-override fun getPartitionCount(variable:String):Int{
-SanityCheck.check{children[0].getPartitionCount(variable)==1}
-return 1
-}
+    override fun getPartitionCount(variable: String): Int {
+        SanityCheck.check { children[0].getPartitionCount(variable) == 1 }
+        return 1
+    }
+
     @JvmField
     var by: List<AOPVariable>
 

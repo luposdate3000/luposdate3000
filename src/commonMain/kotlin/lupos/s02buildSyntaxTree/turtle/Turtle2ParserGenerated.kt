@@ -14,18 +14,25 @@ class ParserContext(@JvmField val input: MyInputStream) {
 
     @JvmField
     var c: Int = 0
+
     @JvmField
     var line = 1
+
     @JvmField
     var column = 0
+
     @JvmField
     val outBuffer = StringBuilder()
+
     @JvmField
     val inBuf = ByteArray(8192)
+
     @JvmField
     var inBufPosition = 0
+
     @JvmField
     var inBufSize = 0
+
     @JvmField
     var flagR_N = false
     inline fun clear() {

@@ -43,7 +43,7 @@ object ServerCommunicationReceive {
                                         val packet2 = input.readByteArray()
                                         val header2 = ServerCommunicationHeader.values()[packet2.readInt()]
                                         if (header2 != ServerCommunicationHeader.RESPONSE_TRIPLES) {
-                                            require(header2 == ServerCommunicationHeader.RESPONSE_FINISHED)
+                                            SanityCheck.check { header2 == ServerCommunicationHeader.RESPONSE_FINISHED }
                                             break
                                         }
                                         val data = ServerCommunicationTransferTriples.receiveTriples(packet2, nodeGlobalDictionary, 3, true, socket.localAddress.toString())[0]
@@ -59,7 +59,7 @@ object ServerCommunicationReceive {
                                         val packet2 = input.readByteArray()
                                         val header2 = ServerCommunicationHeader.values()[packet2.readInt()]
                                         if (header2 != ServerCommunicationHeader.RESPONSE_TRIPLES) {
-                                            require(header2 == ServerCommunicationHeader.RESPONSE_FINISHED)
+                                            SanityCheck.check { header2 == ServerCommunicationHeader.RESPONSE_FINISHED }
                                             break
                                         }
                                         SanityCheck.println({ "Receive processing RESPONSE_TRIPLES" })
@@ -76,7 +76,7 @@ object ServerCommunicationReceive {
                                         val packet2 = input.readByteArray()
                                         val header2 = ServerCommunicationHeader.values()[packet2.readInt()]
                                         if (header2 != ServerCommunicationHeader.RESPONSE_TRIPLES) {
-                                            require(header2 == ServerCommunicationHeader.RESPONSE_FINISHED)
+                                            SanityCheck.check { header2 == ServerCommunicationHeader.RESPONSE_FINISHED }
                                             break
                                         }
                                         val data = ServerCommunicationTransferTriples.receiveTriples(packet2, nodeGlobalDictionary, 3, true, socket.localAddress.toString())[0]

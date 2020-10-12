@@ -21,7 +21,7 @@ class LogicalOptimizerColumnSortOrder(query: Query) : OptimizerBase(query, EOpti
                         break
                     }
                 }
-                require(found)
+                SanityCheck.check { found }
             }
         }
         var done = node.initializeSortPriorities {

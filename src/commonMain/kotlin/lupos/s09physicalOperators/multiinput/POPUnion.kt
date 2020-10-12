@@ -14,15 +14,36 @@ import lupos.s04logicalOperators.Query
 import lupos.s09physicalOperators.POPBase
 
 class POPUnion(query: Query, projectedVariables: List<String>, childA: OPBase, childB: OPBase) : POPBase(query, projectedVariables, EOperatorID.POPUnionID, "POPUnion", arrayOf(childA, childB), ESortPriority.UNION) {
-override fun getPartitionCount(variable:String):Int{
-SanityCheck.check{children[0].getPartitionCount(variable)==children[1].getPartitionCount(variable)}
-return children[0].getPartitionCount(variable)
-}
+    override fun getPartitionCount(variable: String): Int {
+        if (children[0].getProvidedVariableNames().contains(variable)) {
+            if (children[1].getProvidedVariableNames().contains(variable)) {
+                SanityCheck.check { children[0].getPartitionCount(variable) == children[1].getPartitionCount(variable) }
+                return children[0].getPartitionCount(variable)
+            } else {
+                return children[0].getPartitionCount(variable)
+            }
+        } else {
+            if (children[1].getProvidedVariableNames().contains(variable)) {
+                return children[1].getPartitionCount(variable)
+            } else {
+                throw Exception("unknown variable $variable")
+            }
+        }
+    }
+
     override fun cloneOP() = POPUnion(query, projectedVariables, children[0].cloneOP(), children[1].cloneOP())
     override fun toSparql() = "{" + children[0].toSparql() + "} UNION {" + children[1].toSparql() + "}"
     override fun equals(other: Any?): Boolean = other is POPUnion && children[0] == other.children[0] && children[1] == other.children[1]
     override suspend fun evaluate(parent: Partition): IteratorBundle {
         val variables = getProvidedVariableNames()
+        SanityCheck {
+            for (v in children[0].getProvidedVariableNames()) {
+                getPartitionCount(v)
+            }
+            for (v in children[1].getProvidedVariableNames()) {
+                getPartitionCount(v)
+            }
+        }
         SanityCheck.check { children[0].getProvidedVariableNames().containsAll(variables) }
         SanityCheck.check { children[1].getProvidedVariableNames().containsAll(variables) }
         val outMap = mutableMapOf<String, ColumnIterator>()

@@ -12,18 +12,19 @@ import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
 import lupos.s09physicalOperators.POPBase
 
-class POPMergePartitionCount(query: Query, projectedVariables: List<String>, val partitionVariable: String, val partitionCount:Int, child: OPBase) : POPBase(query, projectedVariables, EOperatorID.POPMergePartitionCountID, "POPMergePartitionCount", arrayOf(child), ESortPriority.PREVENT_ANY) {
-override fun getPartitionCount(variable: String): Int{
-if(variable==partitionVariable){
-return partitionCount
-}else{
-return children[0].getPartitionCount(variable)
-}
-}
+class POPMergePartitionCount(query: Query, projectedVariables: List<String>, val partitionVariable: String, val partitionCount: Int, child: OPBase) : POPBase(query, projectedVariables, EOperatorID.POPMergePartitionCountID, "POPMergePartitionCount", arrayOf(child), ESortPriority.PREVENT_ANY) {
+    override fun getPartitionCount(variable: String): Int {
+        if (variable == partitionVariable) {
+            return 1
+        } else {
+            return children[0].getPartitionCount(variable)
+        }
+    }
+
     override suspend fun toXMLElement(): XMLElement {
         val res = super.toXMLElement()
         res.addAttribute("partitionVariable", partitionVariable)
-        res.addAttribute("partitionCount", ""+partitionCount)
+        res.addAttribute("partitionCount", "" + partitionCount)
         return res
     }
 
@@ -38,7 +39,7 @@ return children[0].getPartitionCount(variable)
         }
     }
 
-    override fun cloneOP() = POPMergePartitionCount(query, projectedVariables, partitionVariable, partitionCount,children[0].cloneOP())
+    override fun cloneOP() = POPMergePartitionCount(query, projectedVariables, partitionVariable, partitionCount, children[0].cloneOP())
     override fun toSparql() = children[0].toSparql()
     override fun equals(other: Any?): Boolean = other is POPMergePartitionCount && children[0] == other.children[0] && partitionVariable == other.partitionVariable
     override suspend fun evaluate(parent: Partition): IteratorBundle {
@@ -57,7 +58,7 @@ return children[0].getPartitionCount(variable)
             var readerFinished = 0
             for (p in 0 until partitionCount) {
                 Parallel.launch {
-                    val child = children[0].evaluate(Partition(parent, partitionVariable, p,partitionCount))
+                    val child = children[0].evaluate(Partition(parent, partitionVariable, p, partitionCount))
                     loop@ while (readerFinished == 0) {
                         SanityCheck.println({ "merge $uuid $p writer loop start" })
                         var tmp = child.hasNext2()

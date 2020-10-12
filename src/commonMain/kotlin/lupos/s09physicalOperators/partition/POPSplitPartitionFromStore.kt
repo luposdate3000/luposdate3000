@@ -11,7 +11,14 @@ import lupos.s04logicalOperators.Query
 import lupos.s09physicalOperators.POPBase
 
 class POPSplitPartitionFromStore(query: Query, projectedVariables: List<String>, val partitionVariable: String, child: OPBase) : POPBase(query, projectedVariables, EOperatorID.POPSplitPartitionFromStoreID, "POPSplitPartitionFromStore", arrayOf(child), ESortPriority.PREVENT_ANY) {
-override fun getPartitionCount(variable: String): Int=Partition.default_k
+    override fun getPartitionCount(variable: String): Int {
+        if (variable == partitionVariable) {
+            return Partition.default_k
+        } else {
+            return 1
+        }
+    }
+
     override suspend fun toXMLElement(): XMLElement {
         val res = super.toXMLElement()
         res.addAttribute("partitionVariable", partitionVariable)

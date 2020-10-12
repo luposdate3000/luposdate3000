@@ -470,7 +470,7 @@ class SparqlTestSuite() {
                         val query = Query()
                         query.workingDirectory = queryFile.substring(0, queryFile.lastIndexOf("/"))
                         HttpEndpoint.import_turtle_files(inputDataFileName, MyMapStringIntPatriciaTrie())
-                        val bulkSelect = DistributedTripleStore.getDefaultGraph(query).getIterator(arrayOf(AOPVariable(query, "s"), AOPVariable(query, "p"), AOPVariable(query, "o")), EIndexPattern.SPO,Partition())
+                        val bulkSelect = DistributedTripleStore.getDefaultGraph(query).getIterator(arrayOf(AOPVariable(query, "s"), AOPVariable(query, "p"), AOPVariable(query, "o")), EIndexPattern.SPO, Partition())
                         val xmlGraphBulk = QueryResultToXMLElement.toXML(bulkSelect)
                         if (!xmlGraphBulk.myEqualsUnclean(xmlQueryInput, true, true, true)) {
                             println("test xmlQueryInput :: " + xmlQueryInput.toPrettyString())
@@ -492,7 +492,7 @@ class SparqlTestSuite() {
                         DistributedTripleStore.localStore.loadFromFolder()
                         val query = Query()
                         query.workingDirectory = queryFile.substring(0, queryFile.lastIndexOf("/"))
-                        val loadSelect = DistributedTripleStore.getDefaultGraph(query).getIterator(arrayOf(AOPVariable(query, "s"), AOPVariable(query, "p"), AOPVariable(query, "o")), EIndexPattern.SPO,Partition())
+                        val loadSelect = DistributedTripleStore.getDefaultGraph(query).getIterator(arrayOf(AOPVariable(query, "s"), AOPVariable(query, "p"), AOPVariable(query, "o")), EIndexPattern.SPO, Partition())
                         val xmlGraphLoad = QueryResultToXMLElement.toXML(loadSelect)
                         if (!xmlGraphLoad.myEqualsUnclean(xmlQueryInput, true, true, true)) {
                             println("test xmlQueryInput :: " + xmlQueryInput.toPrettyString())
@@ -620,7 +620,7 @@ class SparqlTestSuite() {
             outputDataGraph.forEach {
                 val outputData = readFileOrNull(it["filename"])
                 var xmlGraphTarget = XMLElement.parseFromAny(outputData!!, it["filename"]!!)!!
-                val tmp = DistributedTripleStore.getNamedGraph(query, it["name"]!!).getIterator(arrayOf(AOPVariable(query, "s"), AOPVariable(query, "p"), AOPVariable(query, "o")), EIndexPattern.SPO,Partition())
+                val tmp = DistributedTripleStore.getNamedGraph(query, it["name"]!!).getIterator(arrayOf(AOPVariable(query, "s"), AOPVariable(query, "p"), AOPVariable(query, "o")), EIndexPattern.SPO, Partition())
                 var xmlGraphActual = QueryResultToXMLElement.toXML(tmp)
                 if (!xmlGraphTarget.myEqualsUnclean(xmlGraphActual, true, true, true)) {
                     println("OutputData Graph[${it["name"]}] Original")

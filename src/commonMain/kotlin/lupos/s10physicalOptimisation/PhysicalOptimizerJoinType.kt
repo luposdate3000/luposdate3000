@@ -48,11 +48,11 @@ class PhysicalOptimizerJoinType(query: Query) : OptimizerBase(query, EOptimizerI
             var c = create(a, b)
             if (c.getProvidedVariableNames().size == 0) {
                 for (s in joinColumns) {
-                    c = POPMergePartitionCount(query, c.getProvidedVariableNames(), s,Partition.default_k, c)
+                    c = POPMergePartitionCount(query, c.getProvidedVariableNames(), s, Partition.default_k, c)
                 }
             } else {
                 for (s in joinColumns) {
-                    c = POPMergePartition(query, c.getProvidedVariableNames(), s,Partition.default_k,  c)
+                    c = POPMergePartition(query, c.getProvidedVariableNames(), s, Partition.default_k, c)
                 }
             }
             return c

@@ -79,7 +79,7 @@ object ServerCommunicationDistribution {
      * use during bulk-import
      */
     fun getHostForFullTriple(str: Array<String>, idx: EIndexPattern): ServerCommunicationKnownHost {
-        require(str.size == 3)
+        SanityCheck.check { str.size == 3 }
         var hash = 0
         for (i in idx.tripleIndicees) {
             /*
@@ -101,7 +101,7 @@ object ServerCommunicationDistribution {
      * use during query processing
      */
     fun getHostForPartialTriple(values: Array<AOPBase>, idx: EIndexPattern): List<ServerCommunicationKnownHost> {
-        require(values.size == 3)
+        SanityCheck.check { values.size == 3 }
         /*
          * 'hash' contains at least 1 entry all the time
          */

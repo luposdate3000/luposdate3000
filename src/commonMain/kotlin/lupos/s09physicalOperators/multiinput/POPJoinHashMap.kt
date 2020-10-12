@@ -19,10 +19,23 @@ import lupos.s04logicalOperators.Query
 import lupos.s09physicalOperators.POPBase
 
 class POPJoinHashMap(query: Query, projectedVariables: List<String>, childA: OPBase, childB: OPBase, @JvmField val optional: Boolean) : POPBase(query, projectedVariables, EOperatorID.POPJoinHashMapID, "POPJoinHashMap", arrayOf(childA, childB), ESortPriority.JOIN) {
-override fun getPartitionCount(variable:String):Int{
-SanityCheck.check{children[0].getPartitionCount(variable)==children[1].getPartitionCount(variable)}
-return children[0].getPartitionCount(variable)
-}
+    override fun getPartitionCount(variable: String): Int {
+        if (children[0].getProvidedVariableNames().contains(variable)) {
+            if (children[1].getProvidedVariableNames().contains(variable)) {
+                SanityCheck.check { children[0].getPartitionCount(variable) == children[1].getPartitionCount(variable) }
+                return children[0].getPartitionCount(variable)
+            } else {
+                return children[0].getPartitionCount(variable)
+            }
+        } else {
+            if (children[1].getProvidedVariableNames().contains(variable)) {
+                return children[1].getPartitionCount(variable)
+            } else {
+                throw Exception("unknown variable $variable")
+            }
+        }
+    }
+
     override fun toSparql(): String {
         if (optional) {
             return "OPTIONAL{" + children[0].toSparql() + children[1].toSparql() + "}"
@@ -60,7 +73,15 @@ return children[0].getPartitionCount(variable)
     override suspend fun evaluate(parent: Partition): IteratorBundle {
 //--- obtain child columns
         val columns = LOPJoin.getColumns(children[0].getProvidedVariableNames(), children[1].getProvidedVariableNames())
-        require(columns[0].size != 0)
+        SanityCheck {
+            for (v in children[0].getProvidedVariableNames()) {
+                getPartitionCount(v)
+            }
+            for (v in children[1].getProvidedVariableNames()) {
+                getPartitionCount(v)
+            }
+        }
+        SanityCheck.check { columns[0].size != 0 }
         val childA = children[0].evaluate(parent)
         val childB = children[1].evaluate(parent)
         val columnsINAO = mutableListOf<ColumnIterator>()//only in childA
@@ -107,7 +128,7 @@ return children[0].getPartitionCount(variable)
         var count: Int
         var countA: Int
         var countB: Int
-        require(columnsINAJ.size > 0)
+        SanityCheck.check { columnsINAJ.size > 0 }
 //--- insert second child into hash table
         while (true) {
             if (currentKey != null) {

@@ -1,4 +1,5 @@
 package lupos.s05tripleStore
+
 import kotlin.jvm.JvmField
 import lupos.s00misc.File
 import lupos.s00misc.Partition
@@ -7,7 +8,7 @@ import lupos.s03resultRepresentation.Value
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.Query
 
-class TripleStoreIndex_Partition(childIndex: (Int) -> TripleStoreIndex, val column: Int, @JvmField val partitionCount:Int) : TripleStoreIndex() {
+class TripleStoreIndex_Partition(childIndex: (Int) -> TripleStoreIndex, val column: Int, @JvmField val partitionCount: Int) : TripleStoreIndex() {
     val partitions = Array(partitionCount) { childIndex(it) }
     suspend override fun safeToFile(filename: String) {
         val a = filename.lastIndexOf('k')
@@ -53,7 +54,7 @@ class TripleStoreIndex_Partition(childIndex: (Int) -> TripleStoreIndex, val colu
         var counters = IntArray(partitionCount)
         for (i in 0 until count / 3) {
             val a = i * 3
-            val h = Partition.hashFunction(dataImport[a + order[column]],partitionCount)
+            val h = Partition.hashFunction(dataImport[a + order[column]], partitionCount)
             SanityCheck.println({ "partitioning by ${dataImport[a + order[column]]} -> $h" })
             counters[h]++
         }
@@ -61,7 +62,7 @@ class TripleStoreIndex_Partition(childIndex: (Int) -> TripleStoreIndex, val colu
         counters = IntArray(partitionCount)
         for (i in 0 until count / 3) {
             val a = i * 3
-            val h = Partition.hashFunction(dataImport[a + order[column]],partitionCount)
+            val h = Partition.hashFunction(dataImport[a + order[column]], partitionCount)
             val b = counters[h] * 3
             counters[h]++
             for (j in 0 until 3) {
@@ -79,14 +80,14 @@ class TripleStoreIndex_Partition(childIndex: (Int) -> TripleStoreIndex, val colu
         var counters = IntArray(partitionCount)
         for (i in 0 until dataImport.size / 3) {
             val a = i * 3
-            val h = Partition.hashFunction(dataImport[a + order[column]],partitionCount)
+            val h = Partition.hashFunction(dataImport[a + order[column]], partitionCount)
             counters[h]++
         }
         val data = Array(partitionCount) { IntArray(counters[it] * 3) }
         counters = IntArray(partitionCount)
         for (i in 0 until dataImport.size / 3) {
             val a = i * 3
-            val h = Partition.hashFunction(dataImport[a + order[column]],partitionCount)
+            val h = Partition.hashFunction(dataImport[a + order[column]], partitionCount)
             val b = counters[h] * 3
             counters[h]++
             for (j in 0 until 3) {
@@ -104,14 +105,14 @@ class TripleStoreIndex_Partition(childIndex: (Int) -> TripleStoreIndex, val colu
         var counters = IntArray(partitionCount)
         for (i in 0 until dataImport.size / 3) {
             val a = i * 3
-            val h = Partition.hashFunction(dataImport[a + order[column]],partitionCount)
+            val h = Partition.hashFunction(dataImport[a + order[column]], partitionCount)
             counters[h]++
         }
         val data = Array(partitionCount) { IntArray(counters[it] * 3) }
         counters = IntArray(partitionCount)
         for (i in 0 until dataImport.size / 3) {
             val a = i * 3
-            val h = Partition.hashFunction(dataImport[a + order[column]],partitionCount)
+            val h = Partition.hashFunction(dataImport[a + order[column]], partitionCount)
             val b = counters[h] * 3
             counters[h]++
             for (j in 0 until 3) {

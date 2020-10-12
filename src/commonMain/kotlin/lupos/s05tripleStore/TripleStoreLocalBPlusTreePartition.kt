@@ -6,24 +6,24 @@ import lupos.s00misc.Partition
 class TripleStoreLocalBPlusTreePartition(name: String) : TripleStoreLocalBase(name) {
     init {
         enabledPartitions = arrayOf(//
-                EnabledPartitionContainer(mutableSetOf(EIndexPattern.SPO,EIndexPattern.S_PO,EIndexPattern.SP_O), -1, 1),//
-                EnabledPartitionContainer(mutableSetOf(EIndexPattern.SOP,EIndexPattern.S_OP,EIndexPattern.SO_P), -1, 1),//
-                EnabledPartitionContainer(mutableSetOf(EIndexPattern.POS,EIndexPattern.P_OS,EIndexPattern.PO_S), -1, 1),//
-                EnabledPartitionContainer(mutableSetOf(EIndexPattern.PSO,EIndexPattern.P_SO,EIndexPattern.PS_O), -1, 1),//
-                EnabledPartitionContainer(mutableSetOf(EIndexPattern.OSP,EIndexPattern.O_SP,EIndexPattern.OS_P), -1, 1),//
-                EnabledPartitionContainer(mutableSetOf(EIndexPattern.OPS,EIndexPattern.O_PS,EIndexPattern.OP_S), -1, 1),//
-                EnabledPartitionContainer(mutableSetOf(EIndexPattern.SPO,EIndexPattern.S_PO,EIndexPattern.SP_O), 1, Partition.default_k),//
-                EnabledPartitionContainer(mutableSetOf(EIndexPattern.SOP,EIndexPattern.S_OP,EIndexPattern.SO_P), 1, Partition.default_k),//
-                EnabledPartitionContainer(mutableSetOf(EIndexPattern.POS,EIndexPattern.P_OS,EIndexPattern.PO_S), 1, Partition.default_k),//
-                EnabledPartitionContainer(mutableSetOf(EIndexPattern.PSO,EIndexPattern.P_SO,EIndexPattern.PS_O), 1, Partition.default_k),//
-                EnabledPartitionContainer(mutableSetOf(EIndexPattern.OSP,EIndexPattern.O_SP,EIndexPattern.OS_P), 1, Partition.default_k),//
-                EnabledPartitionContainer(mutableSetOf(EIndexPattern.OPS,EIndexPattern.O_PS,EIndexPattern.OP_S), 1, Partition.default_k),//
-                EnabledPartitionContainer(mutableSetOf(EIndexPattern.SPO,EIndexPattern.S_PO,EIndexPattern.SP_O), 2, Partition.default_k),//
-                EnabledPartitionContainer(mutableSetOf(EIndexPattern.SOP,EIndexPattern.S_OP,EIndexPattern.SO_P), 2, Partition.default_k),//
-                EnabledPartitionContainer(mutableSetOf(EIndexPattern.POS,EIndexPattern.P_OS,EIndexPattern.PO_S), 2, Partition.default_k),//
-                EnabledPartitionContainer(mutableSetOf(EIndexPattern.PSO,EIndexPattern.P_SO,EIndexPattern.PS_O), 2, Partition.default_k),//
-                EnabledPartitionContainer(mutableSetOf(EIndexPattern.OSP,EIndexPattern.O_SP,EIndexPattern.OS_P), 2, Partition.default_k),//
-                EnabledPartitionContainer(mutableSetOf(EIndexPattern.OPS,EIndexPattern.O_PS,EIndexPattern.OP_S), 2, Partition.default_k),//
+                EnabledPartitionContainer(mutableSetOf(EIndexPattern.SPO, EIndexPattern.S_PO, EIndexPattern.SP_O), -1, 1),//
+                EnabledPartitionContainer(mutableSetOf(EIndexPattern.SOP, EIndexPattern.S_OP, EIndexPattern.SO_P), -1, 1),//
+                EnabledPartitionContainer(mutableSetOf(EIndexPattern.POS, EIndexPattern.P_OS, EIndexPattern.PO_S), -1, 1),//
+                EnabledPartitionContainer(mutableSetOf(EIndexPattern.PSO, EIndexPattern.P_SO, EIndexPattern.PS_O), -1, 1),//
+                EnabledPartitionContainer(mutableSetOf(EIndexPattern.OSP, EIndexPattern.O_SP, EIndexPattern.OS_P), -1, 1),//
+                EnabledPartitionContainer(mutableSetOf(EIndexPattern.OPS, EIndexPattern.O_PS, EIndexPattern.OP_S), -1, 1),//
+                EnabledPartitionContainer(mutableSetOf(EIndexPattern.SPO, EIndexPattern.S_PO, EIndexPattern.SP_O), 1, Partition.default_k),//
+                EnabledPartitionContainer(mutableSetOf(EIndexPattern.SOP, EIndexPattern.S_OP, EIndexPattern.SO_P), 1, Partition.default_k),//
+                EnabledPartitionContainer(mutableSetOf(EIndexPattern.POS, EIndexPattern.P_OS, EIndexPattern.PO_S), 1, Partition.default_k),//
+                EnabledPartitionContainer(mutableSetOf(EIndexPattern.PSO, EIndexPattern.P_SO, EIndexPattern.PS_O), 1, Partition.default_k),//
+                EnabledPartitionContainer(mutableSetOf(EIndexPattern.OSP, EIndexPattern.O_SP, EIndexPattern.OS_P), 1, Partition.default_k),//
+                EnabledPartitionContainer(mutableSetOf(EIndexPattern.OPS, EIndexPattern.O_PS, EIndexPattern.OP_S), 1, Partition.default_k),//
+                EnabledPartitionContainer(mutableSetOf(EIndexPattern.SPO, EIndexPattern.S_PO, EIndexPattern.SP_O), 2, Partition.default_k),//
+                EnabledPartitionContainer(mutableSetOf(EIndexPattern.SOP, EIndexPattern.S_OP, EIndexPattern.SO_P), 2, Partition.default_k),//
+                EnabledPartitionContainer(mutableSetOf(EIndexPattern.POS, EIndexPattern.P_OS, EIndexPattern.PO_S), 2, Partition.default_k),//
+                EnabledPartitionContainer(mutableSetOf(EIndexPattern.PSO, EIndexPattern.P_SO, EIndexPattern.PS_O), 2, Partition.default_k),//
+                EnabledPartitionContainer(mutableSetOf(EIndexPattern.OSP, EIndexPattern.O_SP, EIndexPattern.OS_P), 2, Partition.default_k),//
+                EnabledPartitionContainer(mutableSetOf(EIndexPattern.OPS, EIndexPattern.O_PS, EIndexPattern.OP_S), 2, Partition.default_k),//
         )
         var dataDistinctList = mutableListOf<TripleStoreDistinctContainer>()
         for (p in enabledPartitions) {
@@ -31,29 +31,27 @@ class TripleStoreLocalBPlusTreePartition(name: String) : TripleStoreLocalBase(na
             if (p.column >= 0) {
                 name.insert(p.column, p.partitionCount)
                 when {
-p.index.contains(EIndexPattern.SPO) -> dataDistinctList.add(TripleStoreDistinctContainer(name.toString(), TripleStoreIndex_Partition({ TripleStoreIndex_IDTriple() }, 1, Partition.default_k), { it -> it.dataSPO }, EIndexPattern.SPO))
-p.index.contains(EIndexPattern.SOP) -> dataDistinctList.add(TripleStoreDistinctContainer(name.toString(), TripleStoreIndex_Partition({ TripleStoreIndex_IDTriple() }, 1, Partition.default_k), { it -> it.dataSOP }, EIndexPattern.SOP))
-p.index.contains(EIndexPattern.POS) -> dataDistinctList.add(TripleStoreDistinctContainer(name.toString(), TripleStoreIndex_Partition({ TripleStoreIndex_IDTriple() }, 1, Partition.default_k), { it -> it.dataPOS }, EIndexPattern.POS))
-p.index.contains(EIndexPattern.PSO) -> dataDistinctList.add(TripleStoreDistinctContainer(name.toString(), TripleStoreIndex_Partition({ TripleStoreIndex_IDTriple() }, 1, Partition.default_k), { it -> it.dataPSO }, EIndexPattern.PSO))
-p.index.contains(EIndexPattern.OSP) -> dataDistinctList.add(TripleStoreDistinctContainer(name.toString(), TripleStoreIndex_Partition({ TripleStoreIndex_IDTriple() }, 1, Partition.default_k), { it -> it.dataOSP }, EIndexPattern.OSP))
-p.index.contains(EIndexPattern.OPS) -> dataDistinctList.add(TripleStoreDistinctContainer(name.toString(), TripleStoreIndex_Partition({ TripleStoreIndex_IDTriple() }, 1, Partition.default_k), { it -> it.dataOPS }, EIndexPattern.OPS))
+                    p.index.contains(EIndexPattern.SPO) -> dataDistinctList.add(TripleStoreDistinctContainer(name.toString(), TripleStoreIndex_Partition({ TripleStoreIndex_IDTriple() }, 1, Partition.default_k), { it -> it.dataSPO }, EIndexPattern.SPO))
+                    p.index.contains(EIndexPattern.SOP) -> dataDistinctList.add(TripleStoreDistinctContainer(name.toString(), TripleStoreIndex_Partition({ TripleStoreIndex_IDTriple() }, 1, Partition.default_k), { it -> it.dataSOP }, EIndexPattern.SOP))
+                    p.index.contains(EIndexPattern.POS) -> dataDistinctList.add(TripleStoreDistinctContainer(name.toString(), TripleStoreIndex_Partition({ TripleStoreIndex_IDTriple() }, 1, Partition.default_k), { it -> it.dataPOS }, EIndexPattern.POS))
+                    p.index.contains(EIndexPattern.PSO) -> dataDistinctList.add(TripleStoreDistinctContainer(name.toString(), TripleStoreIndex_Partition({ TripleStoreIndex_IDTriple() }, 1, Partition.default_k), { it -> it.dataPSO }, EIndexPattern.PSO))
+                    p.index.contains(EIndexPattern.OSP) -> dataDistinctList.add(TripleStoreDistinctContainer(name.toString(), TripleStoreIndex_Partition({ TripleStoreIndex_IDTriple() }, 1, Partition.default_k), { it -> it.dataOSP }, EIndexPattern.OSP))
+                    p.index.contains(EIndexPattern.OPS) -> dataDistinctList.add(TripleStoreDistinctContainer(name.toString(), TripleStoreIndex_Partition({ TripleStoreIndex_IDTriple() }, 1, Partition.default_k), { it -> it.dataOPS }, EIndexPattern.OPS))
                     else -> throw Exception("")
                 }
             } else {
                 when {
-p.index.contains(EIndexPattern.SPO) -> dataDistinctList.add(TripleStoreDistinctContainer(name.toString(), TripleStoreIndex_IDTriple(), { it -> it.dataSPO }, EIndexPattern.SPO))
-p.index.contains(EIndexPattern.SOP) -> dataDistinctList.add(TripleStoreDistinctContainer(name.toString(), TripleStoreIndex_IDTriple(), { it -> it.dataSOP }, EIndexPattern.SOP))
-p.index.contains(EIndexPattern.POS) -> dataDistinctList.add(TripleStoreDistinctContainer(name.toString(), TripleStoreIndex_IDTriple(), { it -> it.dataPOS }, EIndexPattern.POS))
-p.index.contains(EIndexPattern.PSO) -> dataDistinctList.add(TripleStoreDistinctContainer(name.toString(), TripleStoreIndex_IDTriple(), { it -> it.dataPSO }, EIndexPattern.PSO))
-p.index.contains(EIndexPattern.OSP) -> dataDistinctList.add(TripleStoreDistinctContainer(name.toString(), TripleStoreIndex_IDTriple(), { it -> it.dataOSP }, EIndexPattern.OSP))
-p.index.contains(EIndexPattern.OPS) -> dataDistinctList.add(TripleStoreDistinctContainer(name.toString(), TripleStoreIndex_IDTriple(), { it -> it.dataOPS }, EIndexPattern.OPS))
+                    p.index.contains(EIndexPattern.SPO) -> dataDistinctList.add(TripleStoreDistinctContainer(name.toString(), TripleStoreIndex_IDTriple(), { it -> it.dataSPO }, EIndexPattern.SPO))
+                    p.index.contains(EIndexPattern.SOP) -> dataDistinctList.add(TripleStoreDistinctContainer(name.toString(), TripleStoreIndex_IDTriple(), { it -> it.dataSOP }, EIndexPattern.SOP))
+                    p.index.contains(EIndexPattern.POS) -> dataDistinctList.add(TripleStoreDistinctContainer(name.toString(), TripleStoreIndex_IDTriple(), { it -> it.dataPOS }, EIndexPattern.POS))
+                    p.index.contains(EIndexPattern.PSO) -> dataDistinctList.add(TripleStoreDistinctContainer(name.toString(), TripleStoreIndex_IDTriple(), { it -> it.dataPSO }, EIndexPattern.PSO))
+                    p.index.contains(EIndexPattern.OSP) -> dataDistinctList.add(TripleStoreDistinctContainer(name.toString(), TripleStoreIndex_IDTriple(), { it -> it.dataOSP }, EIndexPattern.OSP))
+                    p.index.contains(EIndexPattern.OPS) -> dataDistinctList.add(TripleStoreDistinctContainer(name.toString(), TripleStoreIndex_IDTriple(), { it -> it.dataOPS }, EIndexPattern.OPS))
                     else -> throw Exception("")
                 }
             }
-
         }
-
-        dataDistinct= dataDistinctList . toTypedArray ()
+        dataDistinct = dataDistinctList.toTypedArray()
         pendingModificationsInsert = Array(dataDistinct.size) { mutableMapOf<Long, MutableList<Int>>() }
         pendingModificationsRemove = Array(dataDistinct.size) { mutableMapOf<Long, MutableList<Int>>() }
     }

@@ -21,7 +21,14 @@ import lupos.s04logicalOperators.Query
 import lupos.s09physicalOperators.POPBase
 
 class POPSplitPartition(query: Query, projectedVariables: List<String>, val partitionVariable: String, child: OPBase) : POPBase(query, projectedVariables, EOperatorID.POPSplitPartitionID, "POPSplitPartition", arrayOf(child), ESortPriority.PREVENT_ANY) {
-override fun getPartitionCount(variable: String): Int=Partition.default_k
+    override fun getPartitionCount(variable: String): Int {
+        if (variable == partitionVariable) {
+            return Partition.default_k
+        } else {
+            return children[0].getPartitionCount(variable)
+        }
+    }
+
     override suspend fun toXMLElement(): XMLElement {
         val res = super.toXMLElement()
         res.addAttribute("partitionVariable", partitionVariable)
@@ -44,7 +51,7 @@ override fun getPartitionCount(variable: String): Int=Partition.default_k
     override fun equals(other: Any?): Boolean = other is POPSplitPartition && children[0] == other.children[0] && partitionVariable == other.partitionVariable
     override suspend fun evaluate(parent: Partition): IteratorBundle {
 //throw BugException("POPSplitPartition","child is not launching, because coroutine is missing suspension point")
-var partitionCount=parent.limit[partitionVariable]!!
+        var partitionCount = parent.limit[partitionVariable]!!
         if (partitionCount == 1) {
             //single partition - just pass through
             return children[0].evaluate(parent)
@@ -134,7 +141,7 @@ var partitionCount=parent.limit[partitionVariable]!!
                                 cacheArr[0] = 0
                             } else {
                                 cacheSize = 1
-                                q = Partition.hashFunction(q,partitionCount)
+                                q = Partition.hashFunction(q, partitionCount)
                                 cacheArr[0] = q
                             }
                             loopcache@ for (i in 0 until cacheSize) {

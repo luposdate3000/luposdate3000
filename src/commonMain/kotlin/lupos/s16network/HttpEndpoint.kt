@@ -1,6 +1,5 @@
 package lupos.s16network
 
-import lupos.s00misc.ETripleComponentType
 import java.io.PrintWriter
 import java.io.StringWriter
 import lupos.s00misc.BenchmarkUtils
@@ -8,6 +7,7 @@ import lupos.s00misc.Coverage
 import lupos.s00misc.DateHelper
 import lupos.s00misc.EBenchmark
 import lupos.s00misc.EModifyType
+import lupos.s00misc.ETripleComponentType
 import lupos.s00misc.File
 import lupos.s00misc.MyMapStringIntPatriciaTrie
 import lupos.s00misc.OperatorGraphToLatex
@@ -197,7 +197,7 @@ object HttpEndpoint {
                     } catch (e: Exception) {
                         println("fast_parser :: error in file '$fileName'")
                         e.printStackTrace()
-			throw e
+                        throw e
                     }
                 }
             }

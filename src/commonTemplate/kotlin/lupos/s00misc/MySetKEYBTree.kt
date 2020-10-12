@@ -316,10 +316,10 @@ class MySetKEYBTreeGDEF() {
             while (iterator.hasNext()) {
                 sanitycheckhelper2!!.add(iterator.next())
             }
-            require(size == sanitycheckhelper!!.size)
-            require(size == sanitycheckhelper2!!.size)
-            require(sanitycheckhelper!!.containsAll(sanitycheckhelper2))
-            require(sanitycheckhelper2!!.containsAll(sanitycheckhelper!!))
+            SanityCheck.check { size == sanitycheckhelper!!.size }
+            SanityCheck.check { size == sanitycheckhelper2!!.size }
+            SanityCheck.check { sanitycheckhelper!!.containsAll(sanitycheckhelper2) }
+            SanityCheck.check { sanitycheckhelper2!!.containsAll(sanitycheckhelper!!) }
         }
         if (root == null) {
             root = MySetKEYBTreeNodeGUSE(true, uuid)
@@ -351,17 +351,17 @@ class MySetKEYBTreeGDEF() {
             forEach {
                 sanitycheckhelper2.add(it)
             }
-            require(sanitycheckhelper2.containsAll(sanitycheckhelper!!))
-            require(sanitycheckhelper2.contains(k))
+            SanityCheck.check { sanitycheckhelper2.containsAll(sanitycheckhelper!!) }
+            SanityCheck.check { sanitycheckhelper2.contains(k) }
             val sanitycheckhelper3 = mutableSetOf<KEY>()
             val iterator = iterator()
             while (iterator.hasNext()) {
                 sanitycheckhelper3.add(iterator.next())
             }
-            require(size == sanitycheckhelper3.size, { "c $size ${sanitycheckhelper3.size}" })
-            require(size == sanitycheckhelper2.size, { "d $size ${sanitycheckhelper2.size}" })
-            require(sanitycheckhelper3.containsAll(sanitycheckhelper2), { "l" })
-            require(sanitycheckhelper2.containsAll(sanitycheckhelper3), { "m" })
+            SanityCheck.check({ size == sanitycheckhelper3.size }, { "c $size ${sanitycheckhelper3.size}" })
+            SanityCheck.check({ size == sanitycheckhelper2.size }, { "d $size ${sanitycheckhelper2.size}" })
+            SanityCheck.check({ sanitycheckhelper3.containsAll(sanitycheckhelper2) }, { "l" })
+            SanityCheck.check({ sanitycheckhelper2.containsAll(sanitycheckhelper3) }, { "m" })
         }
     }
 

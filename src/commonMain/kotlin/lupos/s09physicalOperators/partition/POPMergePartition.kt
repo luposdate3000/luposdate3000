@@ -21,18 +21,19 @@ import lupos.s04logicalOperators.Query
 import lupos.s09physicalOperators.POPBase
 
 //http://blog.pronghorn.tech/optimizing-suspending-functions-in-kotlin/
-class POPMergePartition(query: Query, projectedVariables: List<String>, val partitionVariable: String, val partitionCount:Int, child: OPBase) : POPBase(query, projectedVariables, EOperatorID.POPMergePartitionID, "POPMergePartition", arrayOf(child), ESortPriority.PREVENT_ANY) {
-override fun getPartitionCount(variable: String): Int{ 
-if(variable==partitionVariable){ 
-return partitionCount
-}else{ 
-return children[0].getPartitionCount(variable)
-}
-}
+class POPMergePartition(query: Query, projectedVariables: List<String>, val partitionVariable: String, val partitionCount: Int, child: OPBase) : POPBase(query, projectedVariables, EOperatorID.POPMergePartitionID, "POPMergePartition", arrayOf(child), ESortPriority.PREVENT_ANY) {
+    override fun getPartitionCount(variable: String): Int {
+        if (variable == partitionVariable) {
+            return 1
+        } else {
+            return children[0].getPartitionCount(variable)
+        }
+    }
+
     override suspend fun toXMLElement(): XMLElement {
         val res = super.toXMLElement()
         res.addAttribute("partitionVariable", partitionVariable)
-res.addAttribute("partitionCount", ""+partitionCount)
+        res.addAttribute("partitionCount", "" + partitionCount)
         return res
     }
 
@@ -47,7 +48,7 @@ res.addAttribute("partitionCount", ""+partitionCount)
         }
     }
 
-    override fun cloneOP() = POPMergePartition(query, projectedVariables, partitionVariable, partitionCount,children[0].cloneOP())
+    override fun cloneOP() = POPMergePartition(query, projectedVariables, partitionVariable, partitionCount, children[0].cloneOP())
     override fun toSparql() = children[0].toSparql()
     override fun equals(other: Any?): Boolean = other is POPMergePartition && children[0] == other.children[0] && partitionVariable == other.partitionVariable
     override suspend fun evaluate(parent: Partition): IteratorBundle {
@@ -75,7 +76,7 @@ res.addAttribute("partitionCount", ""+partitionCount)
                 SanityCheck.println({ "merge $uuid $p writer launched F" })
                 var childEval2: IteratorBundle?
                 try {
-                    childEval2 = children[0].evaluate(Partition(parent, partitionVariable,p,partitionCount))
+                    childEval2 = children[0].evaluate(Partition(parent, partitionVariable, p, partitionCount))
                 } catch (e: Throwable) {
                     e.printStackTrace()
                     throw e

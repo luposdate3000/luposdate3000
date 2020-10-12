@@ -17,10 +17,23 @@ import lupos.s04logicalOperators.Query
 import lupos.s09physicalOperators.POPBase
 
 class POPJoinMerge(query: Query, projectedVariables: List<String>, childA: OPBase, childB: OPBase, @JvmField val optional: Boolean) : POPBase(query, projectedVariables, EOperatorID.POPJoinMergeID, "POPJoinMerge", arrayOf(childA, childB), ESortPriority.JOIN) {
-override fun getPartitionCount(variable:String):Int{
-SanityCheck.check{children[0].getPartitionCount(variable)==children[1].getPartitionCount(variable)}
-return children[0].getPartitionCount(variable)
-}
+    override fun getPartitionCount(variable: String): Int {
+        if (children[0].getProvidedVariableNames().contains(variable)) {
+            if (children[1].getProvidedVariableNames().contains(variable)) {
+                SanityCheck.check { children[0].getPartitionCount(variable) == children[1].getPartitionCount(variable) }
+                return children[0].getPartitionCount(variable)
+            } else {
+                return children[0].getPartitionCount(variable)
+            }
+        } else {
+            if (children[1].getProvidedVariableNames().contains(variable)) {
+                return children[1].getPartitionCount(variable)
+            } else {
+                throw Exception("unknown variable $variable")
+            }
+        }
+    }
+
     override fun toSparql() = children[0].toSparql() + children[1].toSparql()
     override suspend fun toXMLElement() = super.toXMLElement().addAttribute("optional", "" + optional)
     override fun cloneOP() = POPJoinMerge(query, projectedVariables, children[0].cloneOP(), children[1].cloneOP(), optional)
@@ -330,6 +343,14 @@ return children[0].getPartitionCount(variable)
     override suspend fun evaluate(parent: Partition): IteratorBundle {
         SanityCheck.check { !optional }
         //setup columns
+        SanityCheck {
+            for (v in children[0].getProvidedVariableNames()) {
+                getPartitionCount(v)
+            }
+            for (v in children[1].getProvidedVariableNames()) {
+                getPartitionCount(v)
+            }
+        }
         SanityCheck.println({ "$uuid open $classname" })
         val child0 = children[0].evaluate(parent)
         val child1 = children[1].evaluate(parent)

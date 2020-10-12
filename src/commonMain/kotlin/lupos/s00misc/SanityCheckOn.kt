@@ -13,6 +13,7 @@ object SanityCheckOn {
         } catch (e: Throwable) {
             println("Exception during SanityCheck.invoke")
             e.printStackTrace()
+            throw e
         }
     }
 
@@ -22,6 +23,7 @@ object SanityCheckOn {
         } catch (e: Throwable) {
             println("Exception during SanityCheck.suspended")
             e.printStackTrace()
+            throw e
         }
     }
 
@@ -34,6 +36,7 @@ object SanityCheckOn {
         } catch (e: Throwable) {
             println("Exception during SanityCheck.check")
             e.printStackTrace()
+            throw e
         }
     }
 
@@ -45,6 +48,7 @@ object SanityCheckOn {
         } catch (e: Throwable) {
             println("Exception during SanityCheck.check")
             e.printStackTrace()
+            throw e
         }
     }
 

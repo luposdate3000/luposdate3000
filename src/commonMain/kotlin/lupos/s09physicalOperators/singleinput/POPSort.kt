@@ -22,10 +22,11 @@ import lupos.s04logicalOperators.Query
 import lupos.s09physicalOperators.POPBase
 
 class POPSort(query: Query, projectedVariables: List<String>, @JvmField val sortBy: Array<AOPVariable>, @JvmField val sortOrder: Boolean, child: OPBase) : POPBase(query, projectedVariables, EOperatorID.POPSortID, "POPSort", arrayOf(child), ESortPriority.SORT) {
-override fun getPartitionCount(variable:String):Int{
-SanityCheck.check{children[0].getPartitionCount(variable)==1}
-return 1
-}
+    override fun getPartitionCount(variable: String): Int {
+        SanityCheck.check { children[0].getPartitionCount(variable) == 1 }
+        return 1
+    }
+
     override fun equals(other: Any?): Boolean = other is POPSort && sortBy == other.sortBy && sortOrder == other.sortOrder && children[0] == other.children[0]
     override fun cloneOP() = POPSort(query, projectedVariables, sortBy, sortOrder, children[0].cloneOP())
     override fun getRequiredVariableNames(): List<String> = sortBy.map { it.name }

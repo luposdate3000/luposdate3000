@@ -2,8 +2,8 @@ package lupos.s10physicalOptimisation
 
 import lupos.s00misc.EIndexPattern
 import lupos.s00misc.EOptimizerID
-import lupos.s00misc.SanityCheck
 import lupos.s00misc.Partition
+import lupos.s00misc.SanityCheck
 import lupos.s03resultRepresentation.Value
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04arithmetikOperators.noinput.AOPVariable
@@ -154,7 +154,7 @@ class PhysicalOptimizerNaive(query: Query) : OptimizerBase(query, EOptimizerID.P
                     res = POPJoinHashMap(query, projectedVariables, node.children[0], node.children[1], node.optional)
                 }
                 is LOPTriple -> {
-                    res = DistributedTripleStore.getNamedGraph(query, node.graph).getIterator(Array(3) { node.children[it] as AOPBase }, EIndexPattern.SPO,Partition())
+                    res = DistributedTripleStore.getNamedGraph(query, node.graph).getIterator(Array(3) { node.children[it] as AOPBase }, EIndexPattern.SPO, Partition())
                 }
                 is OPEmptyRow -> {
                     res = POPEmptyRow(query, projectedVariables)

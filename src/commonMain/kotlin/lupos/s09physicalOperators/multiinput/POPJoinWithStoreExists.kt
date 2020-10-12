@@ -20,7 +20,7 @@ import lupos.s09physicalOperators.POPBase
 import lupos.s15tripleStoreDistributed.DistributedTripleStore
 
 class POPJoinWithStoreExists(query: Query, projectedVariables: List<String>, childA: OPBase, val childB: LOPTriple, @JvmField val optional: Boolean) : POPBase(query, projectedVariables, EOperatorID.POPJoinWithStoreExistsID, "POPJoinWithStoreExists", arrayOf(childA), ESortPriority.SAME_AS_CHILD) {
-override fun getPartitionCount(variable:String):Int=children[0].getPartitionCount(variable)
+    override fun getPartitionCount(variable: String): Int = children[0].getPartitionCount(variable)
     override fun toSparql(): String {
         if (optional) {
             return "OPTIONAL{" + children[0].toSparql() + childB.toSparql() + "}"
@@ -67,7 +67,7 @@ override fun getPartitionCount(variable:String):Int=children[0].getPartitionCoun
         if (!done) {
             val distributedStore = DistributedTripleStore.getNamedGraph(query, childB.graph)
             SanityCheck.println({ "opening store for join with store C $uuid" })
-            var iteratorB = distributedStore.getIterator(params, index,Partition()).evaluate(parent)
+            var iteratorB = distributedStore.getIterator(params, index, Partition()).evaluate(parent)
             res = object : IteratorBundle(0) {
                 override suspend fun hasNext2(): Boolean {
                     var t = iteratorB.hasNext2()
@@ -87,7 +87,7 @@ override fun getPartitionCount(variable:String):Int=children[0].getPartitionCoun
                         }
                         if (!done) {
                             SanityCheck.println({ "opening store for join with store D $uuid" })
-                            iteratorB = distributedStore.getIterator(params, index,Partition()).evaluate(parent)
+                            iteratorB = distributedStore.getIterator(params, index, Partition()).evaluate(parent)
                         }
                     }
                     return t

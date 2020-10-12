@@ -159,7 +159,7 @@ object ServerCommunicationSend {
                     for (closeIndex in 0 until data.size) {
                         data[closeIndex].close()
                     }
-                    require(i == 0)
+                    SanityCheck.check { i == 0 }
                     break@loop
                 } else {
                     values[i] = v
@@ -242,11 +242,11 @@ object ServerCommunicationSend {
                     output.flush()
                     val packet2 = input.readByteArray()
                     val header2 = ServerCommunicationHeader.values()[packet2.readInt()]
-                    require(header2 == ServerCommunicationHeader.RESPONSE_TRIPLES_COUNT)
+                    SanityCheck.check { header2 == ServerCommunicationHeader.RESPONSE_TRIPLES_COUNT }
                     count += packet2.readInt()
                     val packet3 = input.readByteArray()
                     val header3 = ServerCommunicationHeader.values()[packet3.readInt()]
-                    require(header3 == ServerCommunicationHeader.RESPONSE_FINISHED)
+                    SanityCheck.check { header3 == ServerCommunicationHeader.RESPONSE_FINISHED }
                 } catch (e: Throwable) {
                     e.printStackTrace()
                     ServerCommunicationConnectionPool.closeSocketException(host, conn)
@@ -272,7 +272,7 @@ object ServerCommunicationSend {
                             val data = ServerCommunicationTransferTriples.receiveTriples(packet2, nodeGlobalDictionary, columns.size, true, conn.localAddress)[0]
                             iterator.childs.add(RowIteratorBuf(data, columns))
                         } else {
-                            require(header2 == ServerCommunicationHeader.RESPONSE_FINISHED)
+                            SanityCheck.check { header2 == ServerCommunicationHeader.RESPONSE_FINISHED }
                         }
                     }
                     var tmp = iterator.close
@@ -320,12 +320,12 @@ object ServerCommunicationSend {
                 output.flush()
                 val packet2 = input.readByteArray()
                 val header2 = ServerCommunicationHeader.values()[packet2.readInt()]
-                require(header2 == ServerCommunicationHeader.RESPONSE_HISTOGRAM, { "received $header2 but expected RESPONSE_HISTOGRAM" })
+                SanityCheck.check({ header2 == ServerCommunicationHeader.RESPONSE_HISTOGRAM }, { "received $header2 but expected RESPONSE_HISTOGRAM" })
                 resFirst += packet2.readInt()
                 resSecond += packet2.readInt()
                 val packet3 = input.readByteArray()
                 val header3 = ServerCommunicationHeader.values()[packet3.readInt()]
-                require(header3 == ServerCommunicationHeader.RESPONSE_FINISHED)
+                SanityCheck.check { header3 == ServerCommunicationHeader.RESPONSE_FINISHED }
             } catch (e: Throwable) {
                 e.printStackTrace()
                 ServerCommunicationConnectionPool.closeSocketException(host, conn)
@@ -346,7 +346,7 @@ object ServerCommunicationSend {
                 if (h2.size == 1) {
                     ServerCommunicationDistribution.registerKnownHost(h2[0], NETWORK_DEFAULT_PORT)
                 } else {
-                    require(h2.size == 2)
+                    SanityCheck.check { h2.size == 2 }
                     ServerCommunicationDistribution.registerKnownHost(h2[0], h2[1].toInt())
                 }
             }

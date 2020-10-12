@@ -19,10 +19,23 @@ import lupos.s04logicalOperators.Query
 import lupos.s09physicalOperators.POPBase
 
 class POPJoinMergeOptional(query: Query, projectedVariables: List<String>, childA: OPBase, childB: OPBase, @JvmField val optional: Boolean) : POPBase(query, projectedVariables, EOperatorID.POPJoinMergeOptionalID, "POPJoinMergeOptional", arrayOf(childA, childB), ESortPriority.JOIN) {
-override fun getPartitionCount(variable:String):Int{
-SanityCheck.check{children[0].getPartitionCount(variable)==children[1].getPartitionCount(variable)}
-return children[0].getPartitionCount(variable)
-}
+    override fun getPartitionCount(variable: String): Int {
+        if (children[0].getProvidedVariableNames().contains(variable)) {
+            if (children[1].getProvidedVariableNames().contains(variable)) {
+                SanityCheck.check { children[0].getPartitionCount(variable) == children[1].getPartitionCount(variable) }
+                return children[0].getPartitionCount(variable)
+            } else {
+                return children[0].getPartitionCount(variable)
+            }
+        } else {
+            if (children[1].getProvidedVariableNames().contains(variable)) {
+                return children[1].getPartitionCount(variable)
+            } else {
+                throw Exception("unknown variable $variable")
+            }
+        }
+    }
+
     override fun toSparql(): String {
         if (optional) {
             return "OPTIONAL{" + children[0].toSparql() + children[1].toSparql() + "}"
@@ -32,6 +45,14 @@ return children[0].getPartitionCount(variable)
 
     override fun equals(other: Any?) = other is POPJoinMergeOptional && optional == other.optional && children[0] == other.children[0] && children[1] == other.children[1]
     override suspend fun evaluate(parent: Partition): IteratorBundle {
+        SanityCheck {
+            for (v in children[0].getProvidedVariableNames()) {
+                getPartitionCount(v)
+            }
+            for (v in children[1].getProvidedVariableNames()) {
+                getPartitionCount(v)
+            }
+        }
         SanityCheck.check { optional }
 //setup columns
         val child = Array(2) { children[it].evaluate(parent) }

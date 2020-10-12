@@ -1,11 +1,11 @@
 package lupos.s14endpoint
-import lupos.s00misc.Partition
 
 import lupos.s00misc.BigDecimal
 import lupos.s00misc.BigInteger
 import lupos.s00misc.Coverage
 import lupos.s00misc.EIndexPattern
 import lupos.s00misc.ESortType
+import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.SortHelper
 import lupos.s00misc.UnknownOperatorTypeInXMLException
@@ -127,6 +127,19 @@ import lupos.s09physicalOperators.singleinput.POPProjection
 import lupos.s09physicalOperators.singleinput.POPSort
 import lupos.s12p2p.POPServiceIRI
 import lupos.s15tripleStoreDistributed.DistributedTripleStore
+
+fun convertToPartition(node: XMLElement):Partition{
+val res=Partition()
+for(c in node.childs){
+if(c.tag=="Limit"){
+res.limit[c.attributes["name"]!!]=c.attributes["value"]!!.toInt()
+res.data[c.attributes["name"]!!]=0
+}else{
+throw Exception("unexpected xml ${c.tag}")
+}
+}
+return res
+}
 
 fun createAOPVariable(query: Query, mapping: MutableMap<String, String>, name: String): AOPVariable {
     val n = mapping[name]
@@ -459,10 +472,10 @@ suspend fun XMLElement.Companion.convertToOPBase(query: Query, node: XMLElement,
             res = POPMakeBooleanResult(query, createProjectedVariables(query, node, mapping), convertToOPBase(query, node["children"]!!.childs[0], mapping))
         }
         "POPMergePartition" -> {
-            res = POPMergePartition(query, createProjectedVariables(query, node, mapping), node.attributes["partitionVariable"]!!,node.attributes["partitionCount"]!!.toInt(), convertToOPBase(query, node["children"]!!.childs[0], mapping))
+            res = POPMergePartition(query, createProjectedVariables(query, node, mapping), node.attributes["partitionVariable"]!!, node.attributes["partitionCount"]!!.toInt(), convertToOPBase(query, node["children"]!!.childs[0], mapping))
         }
         "POPMergePartitionCount" -> {
-            res = POPMergePartitionCount(query, listOf<String>(), node.attributes["partitionVariable"]!!,node.attributes["partitionCount"]!!.toInt(), convertToOPBase(query, node["children"]!!.childs[0], mapping))
+            res = POPMergePartitionCount(query, listOf<String>(), node.attributes["partitionVariable"]!!, node.attributes["partitionCount"]!!.toInt(), convertToOPBase(query, node["children"]!!.childs[0], mapping))
         }
         "POPSplitPartition" -> {
             res = POPSplitPartition(query, createProjectedVariables(query, node, mapping), node.attributes["partitionVariable"]!!, convertToOPBase(query, node["children"]!!.childs[0], mapping))
@@ -562,7 +575,8 @@ suspend fun XMLElement.Companion.convertToOPBase(query: Query, node: XMLElement,
             val p = convertToOPBase(query, node["pparam"]!!.childs[0], mapping) as AOPBase
             val o = convertToOPBase(query, node["oparam"]!!.childs[0], mapping) as AOPBase
             val idx = EIndexPattern.valueOf(node.attributes["idx"]!!)
-            res = DistributedTripleStore.getNamedGraph(query, node.attributes["name"]!!).getIterator(arrayOf(s, p, o), idx,Partition())
+val partition=convertToPartition(node["partition"]!!.childs[0])
+            res = DistributedTripleStore.getNamedGraph(query, node.attributes["name"]!!).getIterator(arrayOf(s, p, o), idx, partition)
         }
         "POPServiceIRI" -> {
             res = POPServiceIRI(query, createProjectedVariables(query, node, mapping), node.attributes["name"]!!, node.attributes["silent"]!!.toBoolean(), convertToOPBase(query, node["children"]!!.childs[0], mapping))

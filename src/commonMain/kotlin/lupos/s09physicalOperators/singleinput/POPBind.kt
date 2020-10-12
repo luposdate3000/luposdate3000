@@ -24,7 +24,7 @@ import lupos.s04logicalOperators.Query
 import lupos.s09physicalOperators.POPBase
 
 class POPBind(query: Query, projectedVariables: List<String>, @JvmField val name: AOPVariable, value: AOPBase, child: OPBase) : POPBase(query, projectedVariables, EOperatorID.POPBindID, "POPBind", arrayOf(child, value), ESortPriority.BIND) {
-override fun getPartitionCount(variable:String):Int=children[0].getPartitionCount(variable)
+    override fun getPartitionCount(variable: String): Int = children[0].getPartitionCount(variable)
     override fun toSparql(): String {
         if (children[1] is AOPConstant && (children[1] as AOPConstant).value == ResultSetDictionary.undefValue) {
             return children[0].toSparql()
