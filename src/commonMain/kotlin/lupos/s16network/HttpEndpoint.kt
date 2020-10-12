@@ -58,7 +58,7 @@ object HttpEndpoint {
             var res: Value
             if (v2.startsWith("_:")) {
                 res = dict.getOrCreate(v2, {
-                    SanityCheck.check { !usePredefinedDict }
+//                    SanityCheck.check { !usePredefinedDict }
                     /*return*/ nodeGlobalDictionary.createNewBNode()
                 })
             } else {
