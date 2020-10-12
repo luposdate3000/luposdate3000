@@ -7,29 +7,15 @@ class TripleStoreLocalMapMapList(name: String) : TripleStoreLocalBase(name) {
 var dataDistinctList = mutableListOf<TripleStoreDistinctContainer>()
         for (p in enabledPartitions) {
             val name = StringBuilder(p.index.toString())
-            if (p.column >= 0) {
-                name.insert(p.column, p.partitionCount)
-                when (p.index) {
-                    EIndexPattern.SPO -> dataDistinctList.add(TripleStoreDistinctContainer(name.toString(), TripleStoreIndex_Partition({ TripleStoreIndex_IDTriple() }, 1, Partition.default_k), { it -> it.dataSPO }, p.index))
-                    EIndexPattern.SOP -> dataDistinctList.add(TripleStoreDistinctContainer(name.toString(), TripleStoreIndex_Partition({ TripleStoreIndex_IDTriple() }, 1, Partition.default_k), { it -> it.dataSOP }, p.index))
-                    EIndexPattern.POS -> dataDistinctList.add(TripleStoreDistinctContainer(name.toString(), TripleStoreIndex_Partition({ TripleStoreIndex_IDTriple() }, 1, Partition.default_k), { it -> it.dataPOS }, p.index))
-                    EIndexPattern.PSO -> dataDistinctList.add(TripleStoreDistinctContainer(name.toString(), TripleStoreIndex_Partition({ TripleStoreIndex_IDTriple() }, 1, Partition.default_k), { it -> it.dataPSO }, p.index))
-                    EIndexPattern.OSP -> dataDistinctList.add(TripleStoreDistinctContainer(name.toString(), TripleStoreIndex_Partition({ TripleStoreIndex_IDTriple() }, 1, Partition.default_k), { it -> it.dataOSP }, p.index))
-                    EIndexPattern.OPS -> dataDistinctList.add(TripleStoreDistinctContainer(name.toString(), TripleStoreIndex_Partition({ TripleStoreIndex_IDTriple() }, 1, Partition.default_k), { it -> it.dataOPS }, p.index))
+                when {
+p.index.contains(EIndexPattern.SPO) -> dataDistinctList.add(TripleStoreDistinctContainer(name.toString(), TripleStoreIndex_IDTriple(), { it -> it.dataSPO }, EIndexPattern.SPO))
+p.index.contains(EIndexPattern.SOP) -> dataDistinctList.add(TripleStoreDistinctContainer(name.toString(), TripleStoreIndex_IDTriple(), { it -> it.dataSOP }, EIndexPattern.SOP))
+p.index.contains(EIndexPattern.POS) -> dataDistinctList.add(TripleStoreDistinctContainer(name.toString(), TripleStoreIndex_IDTriple(), { it -> it.dataPOS }, EIndexPattern.POS))
+p.index.contains(EIndexPattern.PSO) -> dataDistinctList.add(TripleStoreDistinctContainer(name.toString(), TripleStoreIndex_IDTriple(), { it -> it.dataPSO }, EIndexPattern.PSO))
+p.index.contains(EIndexPattern.OSP) -> dataDistinctList.add(TripleStoreDistinctContainer(name.toString(), TripleStoreIndex_IDTriple(), { it -> it.dataOSP }, EIndexPattern.OSP))
+p.index.contains(EIndexPattern.OPS) -> dataDistinctList.add(TripleStoreDistinctContainer(name.toString(), TripleStoreIndex_IDTriple(), { it -> it.dataOPS }, EIndexPattern.OPS))
                     else -> throw Exception("")
                 }
-            } else {
-                when (p.index) {
-                    EIndexPattern.SPO -> dataDistinctList.add(TripleStoreDistinctContainer(name.toString(), TripleStoreIndex_IDTriple(), { it -> it.dataSPO }, p.index))
-                    EIndexPattern.SOP -> dataDistinctList.add(TripleStoreDistinctContainer(name.toString(), TripleStoreIndex_IDTriple(), { it -> it.dataSOP }, p.index))
-                    EIndexPattern.POS -> dataDistinctList.add(TripleStoreDistinctContainer(name.toString(), TripleStoreIndex_IDTriple(), { it -> it.dataPOS }, p.index))
-                    EIndexPattern.PSO -> dataDistinctList.add(TripleStoreDistinctContainer(name.toString(), TripleStoreIndex_IDTriple(), { it -> it.dataPSO }, p.index))
-                    EIndexPattern.OSP -> dataDistinctList.add(TripleStoreDistinctContainer(name.toString(), TripleStoreIndex_IDTriple(), { it -> it.dataOSP }, p.index))
-                    EIndexPattern.OPS -> dataDistinctList.add(TripleStoreDistinctContainer(name.toString(), TripleStoreIndex_IDTriple(), { it -> it.dataOPS }, p.index))
-                    else -> throw Exception("")
-                }
-            }
-
         }
 
         dataDistinct= dataDistinctList . toTypedArray ()
