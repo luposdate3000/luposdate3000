@@ -1,3 +1,4 @@
+generateTestcase.jar
 afl-out
 .afl-showmap*
 build/build*

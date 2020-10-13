@@ -75,7 +75,7 @@ class File(@JvmField val filename: String) {
     fun dataOutputStream(action: (java.io.DataOutputStream) -> Unit) {
         var dos: DataOutputStream? = null
         try {
-            val fos = FileOutputStream(filename);
+            val fos = FileOutputStream(filename)
             val bos = BufferedOutputStream(fos)
             dos = DataOutputStream(bos)
             action(dos)
@@ -87,7 +87,7 @@ class File(@JvmField val filename: String) {
     inline fun dataOutputStreamSuspend(crossinline action: (java.io.DataOutputStream) -> Unit) {
         var dos: DataOutputStream? = null
         try {
-            val fos = FileOutputStream(filename);
+            val fos = FileOutputStream(filename)
             val bos = BufferedOutputStream(fos)
             dos = DataOutputStream(bos)
             action(dos)
