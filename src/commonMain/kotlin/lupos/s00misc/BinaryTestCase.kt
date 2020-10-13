@@ -126,8 +126,10 @@ class SparqlTestSuiteConverter(resource_folder: String, val output_folder: Strin
 }
 
 object BinaryTestCase {
+    var ourSummaryBuf = StringWriter()
+    var outSummary = PrintWriter(ourSummaryBuf)
     fun rowToString(row: IntArray, dict: Array<String>): String {
-        var res = ""
+        var res = "${row.map{it}}::"
         if (row.size > 0) {
             for (i in 0 until row.size) {
                 if (i > 0) {
@@ -157,8 +159,40 @@ object BinaryTestCase {
     }
 
     fun executeAllTestCase(folder: String = "resources/binary/") {
-        File(folder).walk { it ->
-            executeTestCase(it)
+        outSummary = java.io.File("log/error").printWriter()
+        java.io.File(folder + "/config2").printWriter().use { newConfig ->
+        java.io.File(folder + "/config").forEachLine { line ->
+            val setting = line.split("=")
+            try {
+                when (setting[1]) {
+                    "disabled", "missingFeatures" -> {
+                        newConfig.println(line)
+
+                    }
+                    "hadSuccess" -> {
+                        newConfig.println(line)
+
+                        executeTestCase(folder + "/" + setting[0])
+                    }
+                    else -> {
+                        val res = executeTestCase(folder + "/" + setting[0])
+                        if (res) {
+                            newConfig.println(setting[0] + "=hadSuccess")
+
+                        } else {
+                            newConfig.println(setting[0] + "=enabled")
+
+                        }
+                    }
+                }
+            } catch (e: SparqlFeatureNotImplementedException) {
+                newConfig.println(setting[0] + "=missingFeatures")
+
+            }finally{
+newConfig.flush()
+}
+        }
+        outSummary.close()
         }
     }
 
@@ -170,22 +204,25 @@ object BinaryTestCase {
         return tmp[0]
     }
 
-    fun verifyEqual(expected: MemoryTable, actual: MemoryTable, mapping_live_to_target: Map<Int, Int>, dict: Map<String, Int>, dict2: Array<String>, allowOrderBy: Boolean) {
+    fun verifyEqual(expected: MemoryTable, actual: MemoryTable, mapping_live_to_target: Map<Int, Int>, dict: Map<String, Int>, dict2: Array<String>, allowOrderBy: Boolean, out: PrintWriter): Boolean {
         if (expected.booleanResult != null) {
             if (expected.booleanResult != actual.booleanResult) {
-                throw Exception("invalid result to ask query expected:${expected.booleanResult} found:${actual.booleanResult}")
+                out.println("invalid result to ask query expected:${expected.booleanResult} found:${actual.booleanResult}")
+                return false
             }
         }
         val expectedRows = mutableListOf<IntArray>()
         val actualRows = mutableListOf<IntArray>()
         val columnCount = expected.columns.size
         if (expected.columns.size != actual.columns.size) {
-            throw Exception("wrong result column count expected:${expected.columns.map { it }} found:${actual.columns.map { it }}")
+            out.println("wrong result column count expected:${expected.columns.map { it }} found:${actual.columns.map { it }}")
+            return false
         }
         for (i in 0 until columnCount) {
             val tmp = expected.columns.indexOf(actual.columns[i])
             if (tmp != i) {
-                throw Exception("wrong column order expected:${expected.columns.map { it }} found:${actual.columns.map { it }}")
+                out.println("wrong column order expected:${expected.columns.map { it }} found:${actual.columns.map { it }}")
+                return false
             }
         }
         for (row in actual.data) {
@@ -196,10 +233,10 @@ object BinaryTestCase {
                 val value = nodeGlobalDictionary.getValue(col).valueToString()
                 if (m == null) {
                     if (value != null && !value.startsWith("_:")) {
-                        println("found wrong $value")
-                        println("row :: ${row.map { nodeGlobalDictionary.getValue(it).valueToString() }}")
-                        println("dict :: $dict")
-                        throw Exception("missing value in dictionary")
+                        out.println("found wrong $value")
+                        out.println("row :: ${row.map { nodeGlobalDictionary.getValue(it).valueToString() }}")
+                        out.println("dict :: $dict")
+                        out.println("missing value in dictionary")
                     }
                 } else {
                     if (value != null) {
@@ -222,10 +259,10 @@ object BinaryTestCase {
                 val value = nodeGlobalDictionary.getValue(col).valueToString()
                 if (m == null) {
                     if (value != null && !value.startsWith("_:")) {
-                        println("found wrong $value")
-                        println("row :: ${row.map { nodeGlobalDictionary.getValue(it).valueToString() }}")
-                        println("dict :: $dict")
-                        throw Exception("missing value in dictionary")
+                        out.println("found wrong $value")
+                        out.println("row :: ${row.map { nodeGlobalDictionary.getValue(it).valueToString() }}")
+                        out.println("dict :: $dict")
+                        out.println("missing value in dictionary")
                     }
                 } else {
                     if (value != null) {
@@ -240,22 +277,22 @@ object BinaryTestCase {
             }
             expectedRows.add(tmpRow)
         }
+        val comparator = IntArrayComparator()
         if (allowOrderBy) {
-            expectedRows.sortWith(IntArrayComparator())
-            actualRows.sortWith(IntArrayComparator())
+            expectedRows.sortWith(comparator)
+            actualRows.sortWith(comparator)
         }
         var flag = false
-        val comparator = IntArrayComparator()
         var idxExpected = 0
         var idxActual = 0
         while (idxExpected < expectedRows.size && idxActual < actualRows.size) {
             val tmp = comparator.compare(expectedRows[idxExpected], actualRows[idxActual])
             if (tmp < 0) {
-                println("missing row ${rowToString(expectedRows[idxExpected], dict2)}")
+                out.println("missing row $allowOrderBy ${rowToString(expectedRows[idxExpected], dict2)}")
                 flag = true
                 idxExpected++
             } else if (tmp > 0) {
-                println("additional row ${rowToString(actualRows[idxActual], dict2)}")
+                out.println("additional row $allowOrderBy ${rowToString(actualRows[idxActual], dict2)}")
                 flag = true
                 idxActual++
             } else {
@@ -264,30 +301,46 @@ object BinaryTestCase {
             }
         }
         while (idxExpected < expectedRows.size) {
-            println("missing row ${rowToString(expectedRows[idxExpected], dict2)}")
+            out.println("missing row $allowOrderBy ${rowToString(expectedRows[idxExpected], dict2)}")
             flag = true
             idxExpected++
         }
         while (idxActual < actualRows.size) {
-            println("additional row ${rowToString(actualRows[idxActual], dict2)}")
+            out.println("additional row $allowOrderBy ${rowToString(actualRows[idxActual], dict2)}")
             flag = true
             idxActual++
         }
         if (flag) {
-            throw Exception("invalid row content")
+            return false
         }
+        return true
     }
 
     class IntArrayComparator : Comparator<IntArray> {
         override fun compare(p1: IntArray, p2: IntArray): Int {
             for (i in 0 until p1.size) {
-                val tmp = p1[i].compareTo(p2[i])
-                if (tmp != 0) {
-                    return tmp
-                }
+if(p1[i]<p2[i]){
+return -1
+}else if(p1[i]>p2[i]){
+return 1
+}
             }
             return 0
         }
+    }
+
+    fun verifyEqual(expected: MemoryTable, actual: MemoryTable, mapping_live_to_target: Map<Int, Int>, dict: Map<String, Int>, dict2: Array<String>, allowOrderBy: Boolean, query_name: String, query_folder: String): Boolean {
+        val buf = StringWriter()
+        val out = PrintWriter(buf)
+        val res = verifyEqual(expected, actual, mapping_live_to_target, dict, dict2, allowOrderBy, out)
+        if (!res) {
+            out.println("----------Failed")
+            val x = buf.toString()
+            println(x)
+            outSummary.println("Test: $query_folder named: $query_name")
+            outSummary.println(x)
+        }
+        return res
     }
 
     fun executeTestCase(query_folder: String): Boolean {
@@ -309,6 +362,12 @@ object BinaryTestCase {
                     variables.add(buf.decodeToString())
                 }
                 target_result_count = targetStat.readInt()
+                if (target_result_count > MAX_TRIPLES_DURING_TEST && MAX_TRIPLES_DURING_TEST > 0) {
+                    println("Test: $query_folder named: $query_folder")
+                    println("----------Skipped")
+                    targetStat.close()
+                    return true
+                }
             }
         }
         val len = targetStat.readInt()
@@ -322,6 +381,11 @@ object BinaryTestCase {
         val dictionarySize = targetStat.readInt()
         val target_input_count = targetStat.readInt()
         targetStat.close()
+        if (target_input_count > MAX_TRIPLES_DURING_TEST && MAX_TRIPLES_DURING_TEST > 0) {
+            println("Test: $query_folder named: $query_folder")
+            println("----------Skipped")
+            return true
+        }
         val targetDictionary = java.io.DataInputStream(java.io.BufferedInputStream(java.io.FileInputStream(query_folder + "/query.dictionary")))
         val targetDict = mutableMapOf<String, Int>()
         val targetDict2 = Array<String>(dictionarySize) { "" }
@@ -361,7 +425,9 @@ object BinaryTestCase {
         val query3 = Query()
 //TODO test other indices too ... 
         val tmpTable = operatorGraphToTable(DistributedTripleStore.getDefaultGraph(query3).getIterator(arrayOf(AOPVariable(query3, "s"), AOPVariable(query3, "p"), AOPVariable(query3, "o")), EIndexPattern.SPO, Partition()))
-        verifyEqual(tableInput, tmpTable, mapping_live_to_target, targetDict, targetDict2, true)
+        if (!verifyEqual(tableInput, tmpTable, mapping_live_to_target, targetDict, targetDict2, true, query_name, query_folder)) {
+            return false
+        }
         val targetResult = java.io.DataInputStream(java.io.BufferedInputStream(java.io.FileInputStream(query_folder + "/query.result")))
         val tableOutput = MemoryTable(variables.toTypedArray())
         if (mode == BinaryTestCaseOutputMode.ASK_QUERY_RESULT) {
@@ -392,20 +458,24 @@ object BinaryTestCase {
         val pop_optimizer = PhysicalOptimizer(query4)
         val pop_node = pop_optimizer.optimizeCall(lop_node2)
         val pop_distributed_node = KeyDistributionOptimizer(query4).optimizeCall(pop_node)
-        val allowOrderBy = toParse.toLowerCase().contains("order")
+        val allowOrderBy = !toParse.toLowerCase().contains("order")
         if (mode == BinaryTestCaseOutputMode.MODIFY_RESULT) {
             val resultBuf = StringWriter()
             val resultWriter = PrintWriter(resultBuf)
             QueryResultToXMLStream(pop_distributed_node, resultWriter)
             val actualResult = operatorGraphToTable(DistributedTripleStore.getDefaultGraph(query3).getIterator(arrayOf(AOPVariable(query3, "s"), AOPVariable(query3, "p"), AOPVariable(query3, "o")), EIndexPattern.SPO, Partition()))
-            verifyEqual(tableOutput, actualResult, mapping_live_to_target, targetDict, targetDict2, allowOrderBy)
+            if (!verifyEqual(tableOutput, actualResult, mapping_live_to_target, targetDict, targetDict2, allowOrderBy, query_name, query_folder)) {
+                return false
+            }
         } else {
             val actualResult = operatorGraphToTable(pop_distributed_node)
-            verifyEqual(tableOutput, actualResult, mapping_live_to_target, targetDict, targetDict2, allowOrderBy)
+            if (!verifyEqual(tableOutput, actualResult, mapping_live_to_target, targetDict, targetDict2, allowOrderBy, query_name, query_folder)) {
+                return false
+            }
         }
         targetTriples.close()
         targetResult.close()
-        println("----------Success($mode)")
+        println("----------Success")
         return true
     }
 

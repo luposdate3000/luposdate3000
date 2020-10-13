@@ -93,7 +93,7 @@ open class SparqlTestSuite() {
                             lastinput = inputFile
                         }
                         ServerCommunicationSend.distributedLogMessage("  Test: " + queryFile + "-" + triplesCount)
-                        parseSPARQLAndEvaluate(false, queryFile, true, queryFile, inputFile, outputFile, null, mutableListOf<MutableMap<String, String>>(), mutableListOf<MutableMap<String, String>>())
+                        parseSPARQLAndEvaluate(false, queryFile + "-" + triplesCount, true, queryFile, inputFile, outputFile, null, mutableListOf<MutableMap<String, String>>(), mutableListOf<MutableMap<String, String>>())
                     }
                 }
             }
