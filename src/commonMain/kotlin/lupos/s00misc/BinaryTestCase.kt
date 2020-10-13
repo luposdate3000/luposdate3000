@@ -1,6 +1,7 @@
 package lupos.s00misc
-import java.io.StringWriter
+
 import java.io.PrintWriter
+import java.io.StringWriter
 import kotlin.jvm.JvmField
 import lupos.s00misc.Coverage
 import lupos.s00misc.DateHelper
@@ -36,8 +37,8 @@ import lupos.s03resultRepresentation.nodeGlobalDictionary
 import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s03resultRepresentation.Value
 import lupos.s04arithmetikOperators.noinput.AOPVariable
-import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.OPBase
+import lupos.s04logicalOperators.Query
 import lupos.s05tripleStore.index_IDTriple.NodeManager
 import lupos.s06buildOperatorGraph.OperatorGraphVisitor
 import lupos.s08logicalOptimisation.LogicalOptimizer
@@ -45,8 +46,8 @@ import lupos.s09physicalOperators.noinput.POPValuesImportXML
 import lupos.s09physicalOperators.POPBase
 import lupos.s10physicalOptimisation.PhysicalOptimizer
 import lupos.s11outputResult.QueryResultToMemoryTable
-import lupos.s11outputResult.QueryResultToXMLStream
 import lupos.s11outputResult.QueryResultToXMLElement
+import lupos.s11outputResult.QueryResultToXMLStream
 import lupos.s13keyDistributionOptimizer.KeyDistributionOptimizer
 import lupos.s14endpoint.convertToOPBase
 import lupos.s15tripleStoreDistributed.DistributedTripleStore
@@ -126,7 +127,7 @@ class SparqlTestSuiteConverter(resource_folder: String, val output_folder: Strin
 
 object BinaryTestCase {
     fun rowToString(row: IntArray, dict: Array<String>): String {
-            var res = ""
+        var res = ""
         if (row.size > 0) {
             for (i in 0 until row.size) {
                 if (i > 0) {
@@ -139,7 +140,7 @@ object BinaryTestCase {
                 }
             }
         }
-return res
+        return res
     }
 
     fun helper_clean_string(s: String): String {
@@ -188,51 +189,51 @@ return res
             }
         }
         for (row in actual.data) {
-            val tmpRow = IntArray(columnCount){-1}
+            val tmpRow = IntArray(columnCount) { -1 }
             var idx = 0
             for (col in row) {
                 val m = mapping_live_to_target[col]
                 val value = nodeGlobalDictionary.getValue(col).valueToString()
                 if (m == null) {
-                    if (value!=null&&!value.startsWith("_:")) {
+                    if (value != null && !value.startsWith("_:")) {
                         println("found wrong $value")
                         println("row :: ${row.map { nodeGlobalDictionary.getValue(it).valueToString() }}")
                         println("dict :: $dict")
                         throw Exception("missing value in dictionary")
                     }
                 } else {
-if(value!=null){
-                    if (!value.startsWith("_:")) {
-                        tmpRow[idx] = m
-                    } else {
-                        tmpRow[idx] = -2
+                    if (value != null) {
+                        if (!value.startsWith("_:")) {
+                            tmpRow[idx] = m
+                        } else {
+                            tmpRow[idx] = -2
+                        }
                     }
                 }
-}
                 idx++
             }
             actualRows.add(tmpRow)
         }
         for (row in expected.data) {
-            val tmpRow = IntArray(columnCount){-1}
+            val tmpRow = IntArray(columnCount) { -1 }
             var idx = 0
             for (col in row) {
                 val m = mapping_live_to_target[col]
-                    val value = nodeGlobalDictionary.getValue(col).valueToString()
+                val value = nodeGlobalDictionary.getValue(col).valueToString()
                 if (m == null) {
-                    if (value!=null&&!value.startsWith("_:")) {
+                    if (value != null && !value.startsWith("_:")) {
                         println("found wrong $value")
                         println("row :: ${row.map { nodeGlobalDictionary.getValue(it).valueToString() }}")
                         println("dict :: $dict")
                         throw Exception("missing value in dictionary")
                     }
                 } else {
-if(value!=null){
-                    if (!value.startsWith("_:")) {
-                        tmpRow[idx] = m
-                    } else {
-                        tmpRow[idx] = -2
-}
+                    if (value != null) {
+                        if (!value.startsWith("_:")) {
+                            tmpRow[idx] = m
+                        } else {
+                            tmpRow[idx] = -2
+                        }
                     }
                 }
                 idx++
@@ -311,19 +312,20 @@ if(value!=null){
             }
         }
         val len = targetStat.readInt()
-        val buf = ByteArray(len){0}
+        val buf = ByteArray(len) { 0 }
         val read = targetStat.read(buf, 0, len)
         if (read < len) {
             throw Exception("not enough data available")
         }
         val query_name = buf.decodeToString()
+        println("Test: $query_folder named: $query_name")
         val dictionarySize = targetStat.readInt()
         val target_input_count = targetStat.readInt()
         targetStat.close()
         val targetDictionary = java.io.DataInputStream(java.io.BufferedInputStream(java.io.FileInputStream(query_folder + "/query.dictionary")))
         val targetDict = mutableMapOf<String, Int>()
-        val targetDict2 = Array<String>(dictionarySize){""}
-        val mapping_target_to_live = IntArray(dictionarySize){0}
+        val targetDict2 = Array<String>(dictionarySize) { "" }
+        val mapping_target_to_live = IntArray(dictionarySize) { 0 }
         val mapping_live_to_target = mutableMapOf<Int, Int>(ResultSetDictionary.undefValue to -1, ResultSetDictionary.errorValue to -1, ResultSetDictionary.nullValue to -1)
         for (i in 0 until dictionarySize) {
             val len = targetDictionary.readInt()
@@ -362,47 +364,48 @@ if(value!=null){
         verifyEqual(tableInput, tmpTable, mapping_live_to_target, targetDict, targetDict2, true)
         val targetResult = java.io.DataInputStream(java.io.BufferedInputStream(java.io.FileInputStream(query_folder + "/query.result")))
         val tableOutput = MemoryTable(variables.toTypedArray())
-if(mode==BinaryTestCaseOutputMode.ASK_QUERY_RESULT){
-tableOutput.booleanResult=targetResult.readInt()==1
-}else{
-        for (i in 0 until target_result_count) {
-            val row = IntArray(variables.size){-1}
-            for (j in 0 until variables.size) {
-                val tmp = targetResult.readInt()
-                if (tmp == -1) {
- row[j]=                   ResultSetDictionary.undefValue
-                } else {
-                    row[j] = mapping_target_to_live[tmp]
+        if (mode == BinaryTestCaseOutputMode.ASK_QUERY_RESULT) {
+            tableOutput.booleanResult = targetResult.readInt() == 1
+        } else {
+            for (i in 0 until target_result_count) {
+                val row = IntArray(variables.size) { -1 }
+                for (j in 0 until variables.size) {
+                    val tmp = targetResult.readInt()
+                    if (tmp == -1) {
+                        row[j] = ResultSetDictionary.undefValue
+                    } else {
+                        row[j] = mapping_target_to_live[tmp]
+                    }
                 }
+                tableOutput.data.add(row)
             }
-            tableOutput.data.add(row)
         }
-}
-        val toParse = File(query_folder+"/query.sparql").readAsString()
+        val toParse = File(query_folder + "/query.sparql").readAsString()
         val lcit = LexerCharIterator(toParse)
         val tit = TokenIteratorSPARQLParser(lcit)
         val ltit = LookAheadTokenIterator(tit, 3)
         val parser = SPARQLParser(ltit)
         val ast_node = parser.expr()
-val query4 = Query()
+        val query4 = Query()
         val lop_node = ast_node.visit(OperatorGraphVisitor(query4))
         val lop_node2 = LogicalOptimizer(query4).optimizeCall(lop_node)
         val pop_optimizer = PhysicalOptimizer(query4)
         val pop_node = pop_optimizer.optimizeCall(lop_node2)
         val pop_distributed_node = KeyDistributionOptimizer(query4).optimizeCall(pop_node)
         val allowOrderBy = toParse.toLowerCase().contains("order")
- if (mode==BinaryTestCaseOutputMode.MODIFY_RESULT){
-val resultBuf = StringWriter()
-        val resultWriter = PrintWriter(resultBuf)
-        QueryResultToXMLStream(pop_distributed_node,resultWriter)
-val actualResult = operatorGraphToTable(DistributedTripleStore.getDefaultGraph(query3).getIterator(arrayOf(AOPVariable(query3, "s"), AOPVariable(query3, "p"), AOPVariable(query3, "o")), EIndexPattern.SPO, Partition()))
-verifyEqual(tableOutput, actualResult, mapping_live_to_target, targetDict, targetDict2, allowOrderBy)
-}else{
-        val actualResult = operatorGraphToTable(pop_distributed_node)
-        verifyEqual(tableOutput, actualResult, mapping_live_to_target, targetDict, targetDict2, allowOrderBy)
-}
+        if (mode == BinaryTestCaseOutputMode.MODIFY_RESULT) {
+            val resultBuf = StringWriter()
+            val resultWriter = PrintWriter(resultBuf)
+            QueryResultToXMLStream(pop_distributed_node, resultWriter)
+            val actualResult = operatorGraphToTable(DistributedTripleStore.getDefaultGraph(query3).getIterator(arrayOf(AOPVariable(query3, "s"), AOPVariable(query3, "p"), AOPVariable(query3, "o")), EIndexPattern.SPO, Partition()))
+            verifyEqual(tableOutput, actualResult, mapping_live_to_target, targetDict, targetDict2, allowOrderBy)
+        } else {
+            val actualResult = operatorGraphToTable(pop_distributed_node)
+            verifyEqual(tableOutput, actualResult, mapping_live_to_target, targetDict, targetDict2, allowOrderBy)
+        }
         targetTriples.close()
         targetResult.close()
+        println("----------Success($mode)")
         return true
     }
 

@@ -92,7 +92,7 @@ object QueryResultToMemoryTable {
                 if (variables.size == 1 && variables[0] == "?boolean") {
                     val child = node.evaluate(Partition())
                     val value = node.query.dictionary.getValue(child.columns["?boolean"]!!.next())
-                    val res = MemoryTable(Array<String>(0){""})
+                    val res = MemoryTable(Array<String>(0) { "" })
                     res.booleanResult = value.toBoolean()
                     resultList.add(res)
                     child.columns["?boolean"]!!.close()
@@ -101,7 +101,7 @@ object QueryResultToMemoryTable {
                     var bnodeMapSize = 0
                     if (variables.size == 0) {
                         val child = node.evaluate(Partition())
-                        val res = MemoryTable(Array<String>(0){""})
+                        val res = MemoryTable(Array<String>(0) { "" })
                         for (j in 0 until child.count()) {
                             res.data.add(IntArray(0))
                         }
@@ -114,6 +114,6 @@ object QueryResultToMemoryTable {
                 }
             }
         }
-return resultList
+        return resultList
     }
 }
