@@ -49,11 +49,11 @@ class File(@JvmField val filename: String) {
     fun readAsCharIterator(): CharIterator = MyCharIterator(this)
     fun readAsInputStream(): MyInputStream = MyInputStream(FileInputStream(java.io.File(filename)))
     fun walk(action: (String) -> Unit) {
-java.nio.file.Files.walk(java.nio.file.Paths.get(filename),1).forEach {it->
-val tmp=it.toString()
-if(tmp.length>filename.length){
-            action( tmp)
-}
+        java.nio.file.Files.walk(java.nio.file.Paths.get(filename), 1).forEach { it ->
+            val tmp = it.toString()
+            if (tmp.length > filename.length) {
+                action(tmp)
+            }
         }
     }
 

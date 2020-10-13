@@ -55,11 +55,11 @@ class Partition {
 
     override fun equals(other: Any?) = other is Partition && data == other.data && limit == other.limit
     override fun hashCode() = data.hashCode()
-fun toXMLElement() :XMLElement{
-val res=XMLElement("Partition")//
-for((k,v) in limit){
-res.addContent(XMLElement("Limit").addAttribute("name",k).addAttribute("value","$v"))
-}
-return res
-}
+    fun toXMLElement(): XMLElement {
+        val res = XMLElement("Partition")//
+        for ((k, v) in limit) {
+            res.addContent(XMLElement("Limit").addAttribute("name", k).addAttribute("value", "$v"))
+        }
+        return res
+    }
 }

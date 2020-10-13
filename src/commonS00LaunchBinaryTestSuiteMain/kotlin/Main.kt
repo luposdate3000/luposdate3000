@@ -1,9 +1,9 @@
-import lupos.s00misc.Parallel
 import lupos.s00misc.BinaryTestCase
+import lupos.s00misc.Parallel
 import lupos.s16network.ServerCommunicationSend
 import lupos.SparqlTestSuite
 
-fun main(args: Array<String>) : Unit = Parallel.runBlocking {
+fun main(args: Array<String>): Unit = Parallel.runBlocking {
     ServerCommunicationSend.start()
     if (args.size == 1) {
         BinaryTestCase.executeAllTestCase(args[0])

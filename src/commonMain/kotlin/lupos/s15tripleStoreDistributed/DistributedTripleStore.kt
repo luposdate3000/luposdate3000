@@ -32,28 +32,29 @@ import lupos.s16network.TripleStoreBulkImportDistributed
 
 class TripleStoreIteratorGlobal(query: Query, projectedVariables: List<String>, @JvmField val graphName: String, params: Array<AOPBase>, @JvmField val idx: EIndexPattern, @JvmField val partition: Partition) : POPBase(query, projectedVariables, EOperatorID.TripleStoreIteratorGlobalID, "TripleStoreIteratorGlobal", Array<OPBase>(3) { params[it] }, ESortPriority.ANY_PROVIDED_VARIABLE) {
     override fun getPartitionCount(variable: String): Int {
-val res=partition.limit[variable]
-if(res!=null){
-return res
-}
-return 1
-}
+        val res = partition.limit[variable]
+        if (res != null) {
+            return res
+        }
+        return 1
+    }
+
     override fun cloneOP() = TripleStoreIteratorGlobal(query, projectedVariables, graphName, Array(3) { children[it] as AOPBase }, idx, partition)
     override fun equals(other: Any?) = other is TripleStoreIteratorGlobal && graphName == other.graphName && idx == other.idx && projectedVariables.containsAll(other.projectedVariables) && other.projectedVariables.containsAll(projectedVariables) && children[0] == other.children[0] && children[1] == other.children[1] && children[2] == other.children[2]
-    override suspend fun toXMLElement() :XMLElement{
-val res= XMLElement("TripleStoreIteratorGlobal").//
-    addAttribute("uuid", "" + uuid).//
-    addAttribute("name", graphName).//
-    addAttribute("idx", "" + idx).//
-    addAttribute("providedVariables", getProvidedVariableNames().toString()).//
-    addAttribute("providedSort", getPossibleSortPriorities().toString()).//
-    addAttribute("selectedSort", mySortPriority.toString()).//
-    addContent(XMLElement("sparam").addContent(children[0].toXMLElement())).//
-    addContent(XMLElement("pparam").addContent(children[1].toXMLElement())).//
-    addContent(XMLElement("oparam").addContent(children[2].toXMLElement())).//
-addContent(XMLElement("partition").addContent(partition.toXMLElement()))
-return res
-}
+    override suspend fun toXMLElement(): XMLElement {
+        val res = XMLElement("TripleStoreIteratorGlobal").//
+        addAttribute("uuid", "" + uuid).//
+        addAttribute("name", graphName).//
+        addAttribute("idx", "" + idx).//
+        addAttribute("providedVariables", getProvidedVariableNames().toString()).//
+        addAttribute("providedSort", getPossibleSortPriorities().toString()).//
+        addAttribute("selectedSort", mySortPriority.toString()).//
+        addContent(XMLElement("sparam").addContent(children[0].toXMLElement())).//
+        addContent(XMLElement("pparam").addContent(children[1].toXMLElement())).//
+        addContent(XMLElement("oparam").addContent(children[2].toXMLElement())).//
+        addContent(XMLElement("partition").addContent(partition.toXMLElement()))
+        return res
+    }
 
     override fun toSparql(): String {
         if (graphName == PersistentStoreLocal.defaultGraphName) {
@@ -90,14 +91,14 @@ return res
 
     override suspend fun evaluate(parent: Partition): IteratorBundle {
         SanityCheck.println({ "opening store for $uuid" })
-SanityCheck{
-for((k,v) in parent.limit){
-SanityCheck.check({partition.limit[k]==v},{"${parent.limit} ${partition.limit}"})
-}
-for((k,v) in partition.limit){
-SanityCheck.check({parent.limit[k]==v},{"${parent.limit} ${partition.limit}"})
-}
-}
+        SanityCheck {
+            for ((k, v) in parent.limit) {
+                SanityCheck.check({ partition.limit[k] == v }, { "${parent.limit} ${partition.limit}" })
+            }
+            for ((k, v) in partition.limit) {
+                SanityCheck.check({ parent.limit[k] == v }, { "${parent.limit} ${partition.limit}" })
+            }
+        }
         var params: TripleStoreFeatureParams? = null
         if (parent.data.size > 0) {
             params = TripleStoreFeatureParamsPartition(idx, Array(3) { children[it] as AOPBase }, parent)

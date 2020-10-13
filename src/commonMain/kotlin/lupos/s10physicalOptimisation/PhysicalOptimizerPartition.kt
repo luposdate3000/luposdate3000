@@ -89,8 +89,8 @@ class PhysicalOptimizerPartition(query: Query) : OptimizerBase(query, EOptimizer
                                 val params = TripleStoreFeatureParamsPartition(c.idx, Array(3) { c.children[it] as AOPBase }, p)
                                 if (params.getColumn() > 0 && TripleStoreLocal.providesFeature(TripleStoreFeature.PARTITION, params)) {
                                     res = POPSplitPartitionFromStore(query, node.projectedVariables, node.partitionVariable, c)
-c.partition.limit[node.partitionVariable]=Partition.default_k
-println("had update .... ${c.partition.limit}")
+                                    c.partition.limit[node.partitionVariable] = Partition.default_k
+                                    println("had update .... ${c.partition.limit}")
                                     onChange()
                                 }
                             } catch (e: DontCareWhichException) {

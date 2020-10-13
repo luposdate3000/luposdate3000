@@ -128,17 +128,17 @@ import lupos.s09physicalOperators.singleinput.POPSort
 import lupos.s12p2p.POPServiceIRI
 import lupos.s15tripleStoreDistributed.DistributedTripleStore
 
-fun convertToPartition(node: XMLElement):Partition{
-val res=Partition()
-for(c in node.childs){
-if(c.tag=="Limit"){
-res.limit[c.attributes["name"]!!]=c.attributes["value"]!!.toInt()
-res.data[c.attributes["name"]!!]=0
-}else{
-throw Exception("unexpected xml ${c.tag}")
-}
-}
-return res
+fun convertToPartition(node: XMLElement): Partition {
+    val res = Partition()
+    for (c in node.childs) {
+        if (c.tag == "Limit") {
+            res.limit[c.attributes["name"]!!] = c.attributes["value"]!!.toInt()
+            res.data[c.attributes["name"]!!] = 0
+        } else {
+            throw Exception("unexpected xml ${c.tag}")
+        }
+    }
+    return res
 }
 
 fun createAOPVariable(query: Query, mapping: MutableMap<String, String>, name: String): AOPVariable {
@@ -575,7 +575,7 @@ suspend fun XMLElement.Companion.convertToOPBase(query: Query, node: XMLElement,
             val p = convertToOPBase(query, node["pparam"]!!.childs[0], mapping) as AOPBase
             val o = convertToOPBase(query, node["oparam"]!!.childs[0], mapping) as AOPBase
             val idx = EIndexPattern.valueOf(node.attributes["idx"]!!)
-val partition=convertToPartition(node["partition"]!!.childs[0])
+            val partition = convertToPartition(node["partition"]!!.childs[0])
             res = DistributedTripleStore.getNamedGraph(query, node.attributes["name"]!!).getIterator(arrayOf(s, p, o), idx, partition)
         }
         "POPServiceIRI" -> {

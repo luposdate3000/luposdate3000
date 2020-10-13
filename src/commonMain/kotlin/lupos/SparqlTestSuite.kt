@@ -52,26 +52,26 @@ open class SparqlTestSuite() {
         const val testPersistence = false
         const val errorBoundForDecimalsDigits = 6
         val filterList = mutableListOf<String>()
-var prefixDirectory="."
+        var prefixDirectory = "."
         val enabledTestCases = listOf("resources/myqueries/", "resources/bsbm/", "resources/btc/", "resources/sp2b/")
     }
 
     suspend fun testMain() {
         repeat(1) {
             println("Starting tests...")
-            val (nr_t, nr_e) = parseManifestFile(prefixDirectory+"/resources/sparql11-test-suite/", "manifest-all.ttl")
+            val (nr_t, nr_e) = parseManifestFile(prefixDirectory + "/resources/sparql11-test-suite/", "manifest-all.ttl")
             println("Number of tests: " + nr_t)
             println("Number of errors: " + nr_e)
             var prefixes = enabledTestCases
             for (prefix in prefixes) {
                 var lastinput: String? = null
-                File(prefixDirectory+prefix + "config.csv").forEachLineSuspended {
+                File(prefixDirectory + prefix + "config.csv").forEachLineSuspended {
                     val line = it.split(",")
                     if (line.size > 3) {
                         val triplesCount = line[0]
-                        val queryFile = prefixDirectory+"/"+prefix + line[1]
-                        var inputFile = prefixDirectory+"/"+prefix + line[2]
-                        val outputFile = prefixDirectory+"/"+prefix + line[3]
+                        val queryFile = prefixDirectory + "/" + prefix + line[1]
+                        var inputFile = prefixDirectory + "/" + prefix + line[2]
+                        val outputFile = prefixDirectory + "/" + prefix + line[3]
                         if (!File(outputFile).exists()) {
                             try {
                                 JenaWrapper.loadFromFile("/src/luposdate3000/" + inputFile)
@@ -427,7 +427,7 @@ var prefixDirectory="."
     var lastTripleCount = 0
 
     @UseExperimental(ExperimentalStdlibApi::class, kotlin.time.ExperimentalTime::class)
-open     suspend fun parseSPARQLAndEvaluate(executeJena: Boolean, testName: String, expectedResult: Boolean, queryFile: String, inputDataFileName: String?, resultDataFileName: String?, services: List<Map<String, String>>?, inputDataGraph: MutableList<MutableMap<String, String>>, outputDataGraph: MutableList<MutableMap<String, String>>): Boolean {
+    open suspend fun parseSPARQLAndEvaluate(executeJena: Boolean, testName: String, expectedResult: Boolean, queryFile: String, inputDataFileName: String?, resultDataFileName: String?, services: List<Map<String, String>>?, inputDataGraph: MutableList<MutableMap<String, String>>, outputDataGraph: MutableList<MutableMap<String, String>>): Boolean {
 //        if (!testName.contains("resources")) {
 //            return true
 //        }
