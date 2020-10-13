@@ -1,5 +1,6 @@
 Launch->Endpoint
 Launch->SparqlTestSuite
+Launch->BinaryTestSuite
 Launch->Benchmark
 Launch->BenchmarkJena
 Launch->Import

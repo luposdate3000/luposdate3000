@@ -1,0 +1,7 @@
+#Scalable Join Processing on Very Large RDF Graphs --- BTC 2008
+select ?b ?p ?bn where {
+ ?a ?c "Tim Berners-Lee" .
+ ?a <http://dbpedia.org/property/dateOfBirth> ?b .
+ ?a <http://dbpedia.org/property/placeOfBirth> ?p .
+ ?a <http://dbpedia.org/property/name> ?bn.
+}

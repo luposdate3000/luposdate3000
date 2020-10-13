@@ -206,6 +206,7 @@ class GenerateBuildFile(val args: Array<String>) {
             ChooseableGroup("Launch Type", "Launch") to listOf(
                     ChooseableOptionDirectory("Endpoint", "commonS00LaunchEndpointMain"),
                     ChooseableOptionDirectory("SparqlTestSuite", "commonS00LaunchSparqlTestSuiteMain"),
+                    ChooseableOptionDirectory("BinaryTestSuite", "commonS00LaunchBinaryTestSuiteMain"),
                     ChooseableOptionDirectory("Benchmark", "commonS00LaunchBenchmarkMain"),
                     ChooseableOptionDirectory("BenchmarkJena", "commonS00LaunchBenchmarkJenaMain"),
                     ChooseableOptionDirectory("Import", "commonS00LaunchImportMain")

@@ -1,0 +1,2 @@
+PREFIX : <http://example.org/>
+ASK WHERE { :s1 :p1 :o1 }

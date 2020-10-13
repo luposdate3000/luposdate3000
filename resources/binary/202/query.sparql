@@ -1,0 +1,7 @@
+PREFIX : <http://example/>
+SELECT ?s ?w
+{
+  ?s :p ?v .
+  OPTIONAL { ?s :q ?w }
+}
+GROUP BY ?s ?w
