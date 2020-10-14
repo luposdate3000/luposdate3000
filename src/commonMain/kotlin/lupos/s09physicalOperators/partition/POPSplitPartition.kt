@@ -69,6 +69,7 @@ class POPSplitPartition(query: Query, projectedVariables: List<String>, val part
             if (partitionHelper.jobs != null) {
                 job = partitionHelper.jobs!![childPartition]
             }
+var error:Throwable?=null
             if (iterators == null) {
                 iterators = Array(partitionCount) { IteratorBundle(0) }
                 val variables = getProvidedVariableNames()
@@ -87,17 +88,13 @@ class POPSplitPartition(query: Query, projectedVariables: List<String>, val part
                 val readerFinished = IntArray(partitionCount) { 0 } //writer changes to 1 if finished
                 var writerFinished = 0
                 SanityCheck.println({ "ringbuffersize = ${ringbuffer.size} ${elementsPerRing} ${partitionCount} ${ringbufferStart.map { it }} ${ringbufferReadHead.map { it }} ${ringbufferWriteHead.map { it }}" })
-                var child2: RowIterator?
                 SanityCheck.println({ "split $uuid writer launched A" })
-                try {
-                    child2 = children[0].evaluate(childPartition).rows
-                } catch (e: Throwable) {
-                    e.printStackTrace()
-                    throw e
-                }
-                SanityCheck.println({ "split $uuid writer launched B" })
                 job = Parallel.launch {
-                    val child = child2
+var child2: RowIterator?=null
+try{
+                SanityCheck.println({ "split $uuid writer launched B" })
+                    val child = children[0].evaluate(childPartition).rows
+child2=child
                     SanityCheck.println({ "split $uuid writer launched C" })
                     var hashVariableIndex = -1
                     val variableMapping = IntArray(variables.size)
@@ -172,8 +169,13 @@ class POPSplitPartition(query: Query, projectedVariables: List<String>, val part
                         }
                         SanityCheck.println({ "split $uuid writer loop end of iteration" })
                     }
+}catch(e:Throwable){
+error=e
+}
                     SanityCheck.println({ "split $uuid writer launched F" })
-                    child.close()
+if(child2!=null){
+                    child2.close()
+}
                     continuationLock.lock()
                     writerFinished = 1
                     for (p in 0 until partitionCount) {
@@ -203,6 +205,9 @@ class POPSplitPartition(query: Query, projectedVariables: List<String>, val part
                             } else if (writerFinished == 1) {
                                 SanityCheck.println({ "split $uuid $p reader closed" })
                                 iterator.close()
+if(error!=null){
+throw error!!
+}
                                 break@loop
                             }
                             ringbufferWriterContinuation.signal()

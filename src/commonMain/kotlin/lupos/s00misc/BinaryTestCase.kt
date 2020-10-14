@@ -331,7 +331,7 @@ return 1
         val buf = StringWriter()
         val out = PrintWriter(buf)
         val res = verifyEqual(expected, actual, mapping_live_to_target, dict, dict2, allowOrderBy, out)
-        if (!res) {
+        if (!res && tag !="this is no error") {
             out.println("----------Failed($tag)")
             val x = buf.toString()
             println(x)

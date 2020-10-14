@@ -56,7 +56,7 @@ class POPMergePartition(query: Query, projectedVariables: List<String>, val part
             //single partition - just pass through
             return children[0].evaluate(parent)
         } else {
-            var ex: Throwable? = null
+            var error: Throwable? = null
             val variables = getProvidedVariableNames()
             val variables0 = children[0].getProvidedVariableNames()
             SanityCheck.check { variables0.containsAll(variables) }
@@ -76,17 +76,11 @@ class POPMergePartition(query: Query, projectedVariables: List<String>, val part
                 SanityCheck.println({ "merge $uuid $p writer launched F" })
                 SanityCheck.println({ "merge $uuid $p writer launched G" })
                 Parallel.launch {
-                var childEval2: IteratorBundle?
-                try {
-                    childEval2 = children[0].evaluate(Partition(parent, partitionVariable, p, partitionCount))
-                } catch (e: Throwable) {
-                    e.printStackTrace()
-//TODO throw exception in parent thread too ... 
-                    throw e
-                }
-                    SanityCheck.println({ "merge $uuid $p writer launched A" })
-                    val childEval = childEval2
                     try {
+                        var childEval2: IteratorBundle?
+                        childEval2 = children[0].evaluate(Partition(parent, partitionVariable, p, partitionCount))
+                        SanityCheck.println({ "merge $uuid $p writer launched A" })
+                        val childEval = childEval2
                         if (childEval.hasColumnMode()) {
                             SanityCheck.println({ "merge $uuid $p writer launched B" })
                             val child = childEval.columns
@@ -197,7 +191,7 @@ class POPMergePartition(query: Query, projectedVariables: List<String>, val part
                             }
                         }
                     } catch (e: Throwable) {
-                        ex = e
+                        error = e
                         e.printStackTrace()
                     }
                     continuationLock.lock()
@@ -247,8 +241,9 @@ class POPMergePartition(query: Query, projectedVariables: List<String>, val part
                         break@loop
                     }
                 }
-                if (ex != null) {
-                    throw ex!!
+                if (error != null) {
+		iterator.close()
+                    throw error!!
                 }
                 /*return*/res
             }
