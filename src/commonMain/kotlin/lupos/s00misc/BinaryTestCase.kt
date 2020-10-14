@@ -128,9 +128,9 @@ class SparqlTestSuiteConverter(resource_folder: String, val output_folder: Strin
 object BinaryTestCase {
     var ourSummaryBuf = StringWriter()
     var outSummary = PrintWriter(ourSummaryBuf)
-var lastInput=MemoryTable(Array<String>(0){""})
+    var lastInput = MemoryTable(Array<String>(0) { "" })
     fun rowToString(row: IntArray, dict: Array<String>): String {
-        var res = "${row.map{it}}::"
+        var res = "${row.map { it }}::"
         if (row.size > 0) {
             for (i in 0 until row.size) {
                 if (i > 0) {
@@ -162,35 +162,35 @@ var lastInput=MemoryTable(Array<String>(0){""})
     fun executeAllTestCase(folder: String = "resources/binary/") {
         outSummary = java.io.File("log/error").printWriter()
         java.io.File(folder + "/config2").printWriter().use { newConfig ->
-        java.io.File(folder + "/config").forEachLine { line ->
-            val setting = line.split("=")
-            try {
-                when (setting[1]) {
-                    "disabled", "missingFeatures" -> {
-                        newConfig.println(line)
-                    }
-                    "hadSuccess" -> {
-                        newConfig.println(line)
-                        executeTestCase(folder + "/" + setting[0])
-                    }
-                    else -> {
-                        val res = executeTestCase(folder + "/" + setting[0])
-                        if (res) {
-                            newConfig.println(setting[0] + "=hadSuccess")
+            java.io.File(folder + "/config").forEachLine { line ->
+                val setting = line.split("=")
+                try {
+                    when (setting[1]) {
+                        "disabled", "missingFeatures" -> {
+                            newConfig.println(line)
+                        }
+                        "hadSuccess" -> {
+                            executeTestCase(folder + "/" + setting[0])
+                            newConfig.println(line)
+                        }
+                        else -> {
+                            val res = executeTestCase(folder + "/" + setting[0])
+                            if (res) {
+                                newConfig.println(setting[0] + "=hadSuccess")
 
-                        } else {
-                            newConfig.println(setting[0] + "=enabled")
+                            } else {
+                                newConfig.println(setting[0] + "=enabled")
+                            }
                         }
                     }
-                }
-            } catch (e: NotImplementedException) {
-                newConfig.println(setting[0] + "=missingFeatures")
+                } catch (e: NotImplementedException) {
+                    newConfig.println(setting[0] + "=missingFeatures")
 
-            }finally{
-newConfig.flush()
-}
-        }
-        outSummary.close()
+                } finally {
+                    newConfig.flush()
+                }
+            }
+            outSummary.close()
         }
     }
 
@@ -317,21 +317,21 @@ newConfig.flush()
     class IntArrayComparator : Comparator<IntArray> {
         override fun compare(p1: IntArray, p2: IntArray): Int {
             for (i in 0 until p1.size) {
-if(p1[i]<p2[i]){
-return -1
-}else if(p1[i]>p2[i]){
-return 1
-}
+                if (p1[i] < p2[i]) {
+                    return -1
+                } else if (p1[i] > p2[i]) {
+                    return 1
+                }
             }
             return 0
         }
     }
 
-    fun verifyEqual(expected: MemoryTable, actual: MemoryTable, mapping_live_to_target: Map<Int, Int>, dict: Map<String, Int>, dict2: Array<String>, allowOrderBy: Boolean, query_name: String, query_folder: String,tag:String): Boolean {
+    fun verifyEqual(expected: MemoryTable, actual: MemoryTable, mapping_live_to_target: Map<Int, Int>, dict: Map<String, Int>, dict2: Array<String>, allowOrderBy: Boolean, query_name: String, query_folder: String, tag: String): Boolean {
         val buf = StringWriter()
         val out = PrintWriter(buf)
         val res = verifyEqual(expected, actual, mapping_live_to_target, dict, dict2, allowOrderBy, out)
-        if (!res && tag !="this is no error") {
+        if (!res && tag != "this is no error") {
             out.println("----------Failed($tag)")
             val x = buf.toString()
             println(x)
@@ -340,6 +340,57 @@ return 1
         }
         return res
     }
+
+    var notImplementedFeaturesList = mutableSetOf(//
+            "rdfs:subPropertyOf",//
+            "rdfs:subClassOf",//
+            "rdfs:domain",//
+         // "rdfs:label",//
+            "rdfs:range",//
+         // "owl:Class",//
+            "owl:allValuesFrom",//
+            "owl:complementOf",//
+            "owl:DatatypeProperty",//
+            "owl:intersectionOf",//
+            "owl:maxQualifiedCardinality",//
+            "owl:minCardinality",//
+            "owl:minQualifiedCardinality",//
+            "owl:Nothing",//
+            "owl:ObjectProperty",//
+            "owl:onClass",//
+            "owl:onProperty",//
+            "owl:qualifiedCardinality",//
+            "owl:Restriction",//
+            "owl:sameAs",//
+            "owl:someValuesFrom",//
+            "owl:Thing",//
+            "owl:unionOf",//
+            "<http://www.w3.org/2000/01/rdf-schema#domain>",//
+            "<http://www.w3.org/2000/01/rdf-schema#range>",//
+         // "<http://www.w3.org/2000/01/rdf-schema#label>",//
+            "<http://www.w3.org/2000/01/rdf-schema#seeAlso>",//
+            "<http://www.w3.org/2000/01/rdf-schema#subClassOf>",//
+            "<http://www.w3.org/2000/01/rdf-schema#subPropertyOf>",//
+            "<http://www.w3.org/2002/07/owl#allValuesFrom>",//
+         // "<http://www.w3.org/2002/07/owl#Class>",//
+            "<http://www.w3.org/2002/07/owl#DatatypeProperty>",//
+            "<http://www.w3.org/2002/07/owl#disjointWith>",//
+            "<http://www.w3.org/2002/07/owl#equivalentClass>",//
+            "<http://www.w3.org/2002/07/owl#FunctionalProperty>",//
+            "<http://www.w3.org/2002/07/owl#intersectionOf>",//
+            "<http://www.w3.org/2002/07/owl#inverseOf>",//
+            "<http://www.w3.org/2002/07/owl#minCardinality>",//
+            "<http://www.w3.org/2002/07/owl#NamedIndividual>",//
+            "<http://www.w3.org/2002/07/owl#Nothing>",//
+            "<http://www.w3.org/2002/07/owl#ObjectProperty>",//
+            "<http://www.w3.org/2002/07/owl#oneOf>",//
+            "<http://www.w3.org/2002/07/owl#onProperty>",//
+            "<http://www.w3.org/2002/07/owl#Ontology>",//
+            "<http://www.w3.org/2002/07/owl#Restriction>",//
+            "<http://www.w3.org/2002/07/owl#sameAs>",//
+            "<http://www.w3.org/2002/07/owl#someValuesFrom>",//
+            "<http://www.w3.org/2002/07/owl#Thing>",//
+    )
 
     fun executeTestCase(query_folder: String): Boolean {
         val targetStat = java.io.DataInputStream(java.io.BufferedInputStream(java.io.FileInputStream(query_folder + "/query.stat")))
@@ -397,6 +448,12 @@ return 1
                 throw Exception("not enough data available")
             }
             val s = buf.decodeToString()
+            if (notImplementedFeaturesList.contains(s)) {
+                throw object : NotImplementedException("NotImplementedException", "Inference not implemented '$s'") {}
+            }
+            if (s.startsWith("<http://www.w3.org/2000/01/rdf-schema") || s.startsWith("<http://www.w3.org/2002/07/owl")) {
+                outSummary.println(s)
+            }
             targetDict[s] = i
             targetDict2[i] = s
             val tmp = nodeGlobalDictionary.createValue(s)
@@ -406,30 +463,30 @@ return 1
         targetDictionary.close()
         val targetTriples = java.io.DataInputStream(java.io.BufferedInputStream(java.io.FileInputStream(query_folder + "/query.triples")))
         val tableInput = MemoryTable(arrayOf("s", "p", "o"))
-for (i in 0 until target_input_count) {
-                val s = mapping_target_to_live[targetTriples.readInt()]
-                val p = mapping_target_to_live[targetTriples.readInt()]
-                val o = mapping_target_to_live[targetTriples.readInt()]
-                tableInput.data.add(intArrayOf(s, p, o))
-            }
-if(!verifyEqual(lastInput,tableInput, mapping_live_to_target, targetDict, targetDict2, true, query_name, query_folder,"this is no error")){
-        val query1 = Query()
-        ServerCommunicationSend.graphClearAll(query1)
-        query1.commit()
-        val query2 = Query()
-        var store = DistributedTripleStore.getDefaultGraph(query2)
-        store.bulkImport { bulk ->
-            for (row in tableInput.data) {
-                bulk.insert(row[0],row[1],row[2])
-            }
+        for (i in 0 until target_input_count) {
+            val s = mapping_target_to_live[targetTriples.readInt()]
+            val p = mapping_target_to_live[targetTriples.readInt()]
+            val o = mapping_target_to_live[targetTriples.readInt()]
+            tableInput.data.add(intArrayOf(s, p, o))
         }
-        val query3 = Query()
+        if (!verifyEqual(lastInput, tableInput, mapping_live_to_target, targetDict, targetDict2, true, query_name, query_folder, "this is no error")) {
+            val query1 = Query()
+            ServerCommunicationSend.graphClearAll(query1)
+            query1.commit()
+            val query2 = Query()
+            var store = DistributedTripleStore.getDefaultGraph(query2)
+            store.bulkImport { bulk ->
+                for (row in tableInput.data) {
+                    bulk.insert(row[0], row[1], row[2])
+                }
+            }
+            val query3 = Query()
 //TODO test other indices too ... 
-        val tmpTable = operatorGraphToTable(DistributedTripleStore.getDefaultGraph(query3).getIterator(arrayOf(AOPVariable(query3, "s"), AOPVariable(query3, "p"), AOPVariable(query3, "o")), EIndexPattern.SPO, Partition()))
-        if (!verifyEqual(tableInput, tmpTable, mapping_live_to_target, targetDict, targetDict2, true, query_name, query_folder,"import (SPO)")) {
-            return false
+            val tmpTable = operatorGraphToTable(DistributedTripleStore.getDefaultGraph(query3).getIterator(arrayOf(AOPVariable(query3, "s"), AOPVariable(query3, "p"), AOPVariable(query3, "o")), EIndexPattern.SPO, Partition()))
+            if (!verifyEqual(tableInput, tmpTable, mapping_live_to_target, targetDict, targetDict2, true, query_name, query_folder, "import (SPO)")) {
+                return false
+            }
         }
-}
         val targetResult = java.io.DataInputStream(java.io.BufferedInputStream(java.io.FileInputStream(query_folder + "/query.result")))
         val tableOutput = MemoryTable(variables.toTypedArray())
         if (mode == BinaryTestCaseOutputMode.ASK_QUERY_RESULT) {
@@ -449,6 +506,11 @@ if(!verifyEqual(lastInput,tableInput, mapping_live_to_target, targetDict, target
             }
         }
         val toParse = File(query_folder + "/query.sparql").readAsString()
+        for (f in notImplementedFeaturesList) {
+            if (toParse.contains(f)) {
+                throw object : NotImplementedException("NotImplementedException", "Inference not implemented '$f'") {}
+            }
+        }
         val lcit = LexerCharIterator(toParse)
         val tit = TokenIteratorSPARQLParser(lcit)
         val ltit = LookAheadTokenIterator(tit, 3)
@@ -465,15 +527,15 @@ if(!verifyEqual(lastInput,tableInput, mapping_live_to_target, targetDict, target
             val resultBuf = StringWriter()
             val resultWriter = PrintWriter(resultBuf)
             QueryResultToXMLStream(pop_distributed_node, resultWriter)
-val query4 = Query()
+            val query4 = Query()
             val actualResult = operatorGraphToTable(DistributedTripleStore.getDefaultGraph(query4).getIterator(arrayOf(AOPVariable(query4, "s"), AOPVariable(query4, "p"), AOPVariable(query4, "o")), EIndexPattern.SPO, Partition()))
-            if (!verifyEqual(tableOutput, actualResult, mapping_live_to_target, targetDict, targetDict2, allowOrderBy, query_name, query_folder,"result in store (SPO) is wrong")) {
+            if (!verifyEqual(tableOutput, actualResult, mapping_live_to_target, targetDict, targetDict2, allowOrderBy, query_name, query_folder, "result in store (SPO) is wrong")) {
                 return false
             }
-query4.commit()
+            query4.commit()
         } else {
             val actualResult = operatorGraphToTable(pop_distributed_node)
-            if (!verifyEqual(tableOutput, actualResult, mapping_live_to_target, targetDict, targetDict2, allowOrderBy, query_name, query_folder,"query result is wrong")) {
+            if (!verifyEqual(tableOutput, actualResult, mapping_live_to_target, targetDict, targetDict2, allowOrderBy, query_name, query_folder, "query result is wrong")) {
                 return false
             }
         }
@@ -661,7 +723,7 @@ query4.commit()
             outResult.close()
             outStat.close()
             outDictionary.close()
-println("added Testcase $output_folder $output_mode ($output_mode_tmp) $query_name $query_input_file $query_output_file $query_file")
+            println("added Testcase $output_folder $output_mode ($output_mode_tmp) $query_name $query_input_file $query_output_file $query_file")
             return true
         } catch (e: UnknownDataFile) {
             java.io.File(output_folder).deleteRecursively()

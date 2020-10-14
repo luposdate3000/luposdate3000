@@ -93,10 +93,10 @@ class TripleStoreIteratorGlobal(query: Query, projectedVariables: List<String>, 
         SanityCheck.println({ "opening store for $uuid" })
         SanityCheck {
             for ((k, v) in parent.limit) {
-                SanityCheck.check({ partition.limit[k] == v }, { "${parent.limit} ${partition.limit}" })
+                SanityCheck.check({ partition.limit[k] == v ||v==1}, { "${parent.limit} ${partition.limit}" })
             }
             for ((k, v) in partition.limit) {
-                SanityCheck.check({ parent.limit[k] == v }, { "${parent.limit} ${partition.limit}" })
+                SanityCheck.check({ parent.limit[k] == v ||v==1}, { "${parent.limit} ${partition.limit}" })
             }
         }
         var params: TripleStoreFeatureParams? = null
