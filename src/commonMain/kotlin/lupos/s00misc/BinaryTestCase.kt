@@ -128,6 +128,7 @@ class SparqlTestSuiteConverter(resource_folder: String, val output_folder: Strin
 object BinaryTestCase {
     var ourSummaryBuf = StringWriter()
     var outSummary = PrintWriter(ourSummaryBuf)
+var lastInput=MemoryTable(Array<String>(0){""})
     fun rowToString(row: IntArray, dict: Array<String>): String {
         var res = "${row.map{it}}::"
         if (row.size > 0) {
@@ -326,12 +327,12 @@ return 1
         }
     }
 
-    fun verifyEqual(expected: MemoryTable, actual: MemoryTable, mapping_live_to_target: Map<Int, Int>, dict: Map<String, Int>, dict2: Array<String>, allowOrderBy: Boolean, query_name: String, query_folder: String): Boolean {
+    fun verifyEqual(expected: MemoryTable, actual: MemoryTable, mapping_live_to_target: Map<Int, Int>, dict: Map<String, Int>, dict2: Array<String>, allowOrderBy: Boolean, query_name: String, query_folder: String,tag:String): Boolean {
         val buf = StringWriter()
         val out = PrintWriter(buf)
         val res = verifyEqual(expected, actual, mapping_live_to_target, dict, dict2, allowOrderBy, out)
         if (!res) {
-            out.println("----------Failed")
+            out.println("----------Failed($tag)")
             val x = buf.toString()
             println(x)
             outSummary.println("Test: $query_folder named: $query_name")
@@ -404,27 +405,31 @@ return 1
         }
         targetDictionary.close()
         val targetTriples = java.io.DataInputStream(java.io.BufferedInputStream(java.io.FileInputStream(query_folder + "/query.triples")))
-        val query1 = Query()
-        ServerCommunicationSend.graphClearAll(query1)
-        query1.commit()
         val tableInput = MemoryTable(arrayOf("s", "p", "o"))
-        val query2 = Query()
-        var store = DistributedTripleStore.getDefaultGraph(query2)
-        store.bulkImport { bulk ->
-            for (i in 0 until target_input_count) {
+for (i in 0 until target_input_count) {
                 val s = mapping_target_to_live[targetTriples.readInt()]
                 val p = mapping_target_to_live[targetTriples.readInt()]
                 val o = mapping_target_to_live[targetTriples.readInt()]
                 tableInput.data.add(intArrayOf(s, p, o))
-                bulk.insert(s, p, o)
+            }
+if(!verifyEqual(lastInput,tableInput, mapping_live_to_target, targetDict, targetDict2, true, query_name, query_folder,"this is no error")){
+        val query1 = Query()
+        ServerCommunicationSend.graphClearAll(query1)
+        query1.commit()
+        val query2 = Query()
+        var store = DistributedTripleStore.getDefaultGraph(query2)
+        store.bulkImport { bulk ->
+            for (row in tableInput.data) {
+                bulk.insert(row[0],row[1],row[2])
             }
         }
         val query3 = Query()
 //TODO test other indices too ... 
         val tmpTable = operatorGraphToTable(DistributedTripleStore.getDefaultGraph(query3).getIterator(arrayOf(AOPVariable(query3, "s"), AOPVariable(query3, "p"), AOPVariable(query3, "o")), EIndexPattern.SPO, Partition()))
-        if (!verifyEqual(tableInput, tmpTable, mapping_live_to_target, targetDict, targetDict2, true, query_name, query_folder)) {
+        if (!verifyEqual(tableInput, tmpTable, mapping_live_to_target, targetDict, targetDict2, true, query_name, query_folder,"import (SPO)")) {
             return false
         }
+}
         val targetResult = java.io.DataInputStream(java.io.BufferedInputStream(java.io.FileInputStream(query_folder + "/query.result")))
         val tableOutput = MemoryTable(variables.toTypedArray())
         if (mode == BinaryTestCaseOutputMode.ASK_QUERY_RESULT) {
@@ -460,13 +465,15 @@ return 1
             val resultBuf = StringWriter()
             val resultWriter = PrintWriter(resultBuf)
             QueryResultToXMLStream(pop_distributed_node, resultWriter)
-            val actualResult = operatorGraphToTable(DistributedTripleStore.getDefaultGraph(query3).getIterator(arrayOf(AOPVariable(query3, "s"), AOPVariable(query3, "p"), AOPVariable(query3, "o")), EIndexPattern.SPO, Partition()))
-            if (!verifyEqual(tableOutput, actualResult, mapping_live_to_target, targetDict, targetDict2, allowOrderBy, query_name, query_folder)) {
+val query4 = Query()
+            val actualResult = operatorGraphToTable(DistributedTripleStore.getDefaultGraph(query4).getIterator(arrayOf(AOPVariable(query4, "s"), AOPVariable(query4, "p"), AOPVariable(query4, "o")), EIndexPattern.SPO, Partition()))
+            if (!verifyEqual(tableOutput, actualResult, mapping_live_to_target, targetDict, targetDict2, allowOrderBy, query_name, query_folder,"result in store (SPO) is wrong")) {
                 return false
             }
+query4.commit()
         } else {
             val actualResult = operatorGraphToTable(pop_distributed_node)
-            if (!verifyEqual(tableOutput, actualResult, mapping_live_to_target, targetDict, targetDict2, allowOrderBy, query_name, query_folder)) {
+            if (!verifyEqual(tableOutput, actualResult, mapping_live_to_target, targetDict, targetDict2, allowOrderBy, query_name, query_folder,"query result is wrong")) {
                 return false
             }
         }
@@ -557,13 +564,11 @@ return 1
             var resultCounter = 0
             when (output_mode) {
                 BinaryTestCaseOutputMode.SELECT_QUERY_RESULT, BinaryTestCaseOutputMode.SELECT_QUERY_RESULT_COUNT, BinaryTestCaseOutputMode.MODIFY_RESULT -> {
-                    val variablesSet = mutableSetOf<String>()
-                    for (node in target["results"]!!.childs) {
-                        for (v in node.childs) {
-                            variablesSet.add(v.attributes["name"]!!)
-                        }
+                    val variablesTmp = mutableListOf<String>()
+                    for (node in target["head"]!!.childs) {
+                        variablesTmp.add(node.attributes["name"]!!)
                     }
-                    val variables = variablesSet.toTypedArray()
+                    val variables = variablesTmp.toTypedArray()
                     if (variables.size == 0) {
                         output_mode = BinaryTestCaseOutputMode.SELECT_QUERY_RESULT_COUNT
                     }
@@ -656,6 +661,7 @@ return 1
             outResult.close()
             outStat.close()
             outDictionary.close()
+println("added Testcase $output_folder $output_mode ($output_mode_tmp) $query_name $query_input_file $query_output_file $query_file")
             return true
         } catch (e: UnknownDataFile) {
             java.io.File(output_folder).deleteRecursively()
