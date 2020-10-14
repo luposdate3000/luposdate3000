@@ -99,7 +99,7 @@ object QueryResultToEmptyWithDictionaryStream {
                 val columnNames: List<String>
                 if (columnProjectionOrder[i].size > 0) {
                     columnNames = columnProjectionOrder[i]
-                    SanityCheck.check { columnNames.containsAll(node.getProvidedVariableNames()) }
+SanityCheck.check ({ node.getProvidedVariableNames().containsAll(columnNames) },{"${columnNames.map{it}} vs ${node.getProvidedVariableNames()}"})
                 } else {
                     columnNames = node.getProvidedVariableNames()
                 }

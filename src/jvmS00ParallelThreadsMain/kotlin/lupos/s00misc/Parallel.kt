@@ -25,7 +25,64 @@ class MyMutex {
         return semaphore.tryAcquire()
     }
 }
+class ReadWriteLock {
+@JvmField
+    val uuid = debuguuidtmp123.incrementAndGet()
+@JvmField val lock =ReentrantReadWriteLock()
+inline suspend fun downgradeToReadLock() {
+  println("ReadWriteLock.downgradeToReadLock($uuid)")
+lock.readLock().lock()
+lock.writeLock().unlock()
+}
+inline suspend fun readLock() {
+ println("ReadWriteLock.readLock($uuid)")
+lock.readLock().lock()
+}
+inline fun readUnlock() {
+ println("ReadWriteLock.readUnlock($uuid)")
+lock.readLock().unlock()
+}
+ inline suspend fun writeLock() {
+ println("ReadWriteLock.writeLock($uuid)")
+lock.writeLock().lock()
+}
+inline suspend fun tryWriteLock(): Boolean {
+     println("ReadWriteLock.tryWriteLock($uuid)")
+return lock.writeLock().tryLock()
+}
+ inline fun writeUnlock() {
+    println("ReadWriteLock.writeUnlock($uuid)")
+lock.writeLock().unlock()
+}
+ inline suspend fun <T> withReadLock(crossinline action: suspend () -> T): T {
+        readLock()
+        try {
+            return action()
+        } finally {
+            readUnlock()
+        }
+        /*Coverage Unreachable*/
+    }
 
+    inline suspend fun <T> withWriteLock(crossinline action: suspend () -> T): T {
+        writeLock()
+        try {
+            return action()
+        } finally {
+            writeUnlock()
+        }
+    }
+
+    inline fun <T> withWriteLockSuspend(crossinline action: suspend () -> T): T {
+        var res: T? = null
+        Parallel.runBlocking {
+            withWriteLock {
+                res = action()
+            }
+        }
+        return res!!
+    }
+}
 object Parallel {
     inline fun <T> runBlocking(crossinline action: () -> T): T {
         return action()

@@ -167,11 +167,9 @@ object BinaryTestCase {
                 when (setting[1]) {
                     "disabled", "missingFeatures" -> {
                         newConfig.println(line)
-
                     }
                     "hadSuccess" -> {
                         newConfig.println(line)
-
                         executeTestCase(folder + "/" + setting[0])
                     }
                     else -> {
@@ -181,11 +179,10 @@ object BinaryTestCase {
 
                         } else {
                             newConfig.println(setting[0] + "=enabled")
-
                         }
                     }
                 }
-            } catch (e: SparqlFeatureNotImplementedException) {
+            } catch (e: NotImplementedException) {
                 newConfig.println(setting[0] + "=missingFeatures")
 
             }finally{

@@ -4,6 +4,7 @@ import lupos.s16network.ServerCommunicationSend
 import lupos.SparqlTestSuite
 
 fun main(args: Array<String>): Unit = Parallel.runBlocking {
+try{
     ServerCommunicationSend.start()
     if (args.size == 1) {
         BinaryTestCase.executeAllTestCase(args[0])
@@ -12,4 +13,8 @@ fun main(args: Array<String>): Unit = Parallel.runBlocking {
     } else {
         BinaryTestCase.executeAllTestCase()
     }
+}catch(e:IllegalMonitorStateException){
+println("going to terminate now")
+throw e
+}
 }

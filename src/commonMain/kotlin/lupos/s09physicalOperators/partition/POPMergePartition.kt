@@ -74,15 +74,16 @@ class POPMergePartition(query: Query, projectedVariables: List<String>, val part
             var readerFinished = 0
             for (p in 0 until partitionCount) {
                 SanityCheck.println({ "merge $uuid $p writer launched F" })
+                SanityCheck.println({ "merge $uuid $p writer launched G" })
+                Parallel.launch {
                 var childEval2: IteratorBundle?
                 try {
                     childEval2 = children[0].evaluate(Partition(parent, partitionVariable, p, partitionCount))
                 } catch (e: Throwable) {
                     e.printStackTrace()
+//TODO throw exception in parent thread too ... 
                     throw e
                 }
-                SanityCheck.println({ "merge $uuid $p writer launched G" })
-                Parallel.launch {
                     SanityCheck.println({ "merge $uuid $p writer launched A" })
                     val childEval = childEval2
                     try {
