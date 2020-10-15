@@ -63,6 +63,9 @@ class ChooseableOptionConstantValue(val pkg: String, val variableName: String, v
 class ChoosableOptionExternalScript(label: String, val scriptName: String, internalID: String, val beforeTemplate: Boolean) : ChooseableOption(label, "common" + internalID) {
     override fun toString() = "ExternalScript($scriptName)"
 }
+class ChoosableOptionInternalScript(label: String, val action: ()->Unit, internalID: String, val beforeTemplate: Boolean) : ChooseableOption(label, "common" + internalID) {
+    override fun toString() = "InternalScript($internalID)"
+}
 
 class ChooseableGroup(val name: String, val shortcut: String) : Comparable<ChooseableGroup> {
     override fun equals(other: Any?) = other is ChooseableGroup && name == other.name
@@ -368,8 +371,8 @@ class GenerateBuildFile(val args: Array<String>) {
             ),
             ChooseableGroup("Inline", "Inline") to listOf(
                     ChooseableOptionSymbolic("DontChange", "commonInlineModeDontChange"),
-                    ChoosableOptionExternalScript("On", "./src/generateBuildfile/generate-buildfile-inline-enable.sh", "InlineModeOn", false),
-                    ChoosableOptionExternalScript("Off", "./src/generateBuildfile/generate-buildfile-inline-disable.sh", "InlineModeOff", false)
+ChoosableOptionInternalScript("On",{applyInlineEnable()},"InlineModeOn", false),
+ChoosableOptionInternalScript("Off",{applyInlineDisable()}, "InlineModeOff", false)
             ),
             ChooseableGroup("BigInteger Implementation", "BigInteger") to listOf(
                     ChooseableOptionTypeAlias("jvmBigInteger", "lupos.s00misc", listOf("BigInteger" to "java.math.BigInteger"))
@@ -835,6 +838,9 @@ ChooseableOption("commonS00ParallelCoroutinesMain") to listOf(
                     if (option is ChoosableOptionExternalScript && option.beforeTemplate) {
                         println("running script before template ${option.scriptName}")
                         option.scriptName.runCommand()
+                    }else                    if (option is ChoosableOptionInternalScript && option.beforeTemplate) {
+                        println("running script before template ${option.internalID}")
+                        option.action()
                     }
                 }
 //create config files as defined by above configuration
@@ -865,6 +871,9 @@ ChooseableOption("commonS00ParallelCoroutinesMain") to listOf(
                     if (option is ChoosableOptionExternalScript && !option.beforeTemplate) {
                         println("running script after template ${option.scriptName}")
                         option.scriptName.runCommand()
+                    }else                    if (option is ChoosableOptionInternalScript && !option.beforeTemplate) {
+                        println("running script after template ${option.internalID}")
+                        option.action()
                     }
                 }
             }
