@@ -30,7 +30,7 @@ class MyCharIterator(val file: File) : CharIterator() {
     }
 }
 
-class MyInputStream(@JvmField val stream: InputStream):IMyInputStream {
+class MyInputStream(@JvmField val stream: InputStream) : IMyInputStream {
     inline fun read(buf: ByteArray): Int {
         return stream.read(buf, 0, buf.size)
     }

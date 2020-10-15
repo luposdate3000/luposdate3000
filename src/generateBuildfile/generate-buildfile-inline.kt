@@ -12,7 +12,6 @@ val regexEnableCrossInline = "/\\*crossinline\\*/".toRegex()
 val regexDisableNoInline = "(^|[^a-zA-Z])noinline ".toRegex()
 val regexDisableInline = "(^|[^a-zA-Z])inline ".toRegex()
 val regexDisableCrossInline = "(^|[^a-zA-Z])crossinline ".toRegex()
-
 fun applyInlineEnable() {
     Files.walk(Paths.get("src.generated")).forEach { it ->
         val tmp = it.toString()
@@ -62,4 +61,3 @@ fun applyInline(f: String, inlineMode: InlineMode) {
     fileTarget.copyTo(fileSource)
     fileTarget.delete()
 }
-

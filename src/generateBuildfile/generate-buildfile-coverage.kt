@@ -1,11 +1,9 @@
-#!/bin/kscript
 import java.io.File
 import java.nio.file.Files
 import java.nio.file.Paths
 
 val separator = "([^a-zA-Z_\\{]|$|^)"
 val separatorB = "([^a-zA-Z_]|$|^)"
-
 val regexCoverage = "Coverage\\.[a-zA-Z]+\\s*\\(\\s*[0-9]+\\s*\\)".toRegex()
 val regexSpace = "\\s*".toRegex()
 val regexFunBracket = "(.*\\s*fun\\s+.*\\{\\s*|.*\\s*init\\s+\\{\\s*|.*\\s*constructor.*\\{\\s*)".toRegex()
@@ -27,8 +25,8 @@ val regexCommentOnly = "^\\s*//.*$".toRegex()
 //output->
 val coverageMap = mutableMapOf<Int, String>()
 val whenCaseMap = mutableMapOf<Int, Int>()
-//output<-
 
+//output<-
 var counter = 0
 val whenBrackets = mutableMapOf<Int, Int>()
 
@@ -53,7 +51,6 @@ fun applyCoverageDisable() {
         }
     }
 }
-
 
 fun appendCoverageForLoop(filename: String, counter: Int, linenumber: Int) {
     coverageMap[counter] = "$filename:$linenumber"
@@ -114,33 +111,36 @@ fun applyCoverage(f: String, coverageMode: CoverageMode) {
             !f.endsWith("BenchmarkUtils.kt") &&
             !f.endsWith("CacheOfFiles.kt")
     ) {
-            val fileSource = File(f)
-            val fileTarget = File(f + ".tmp")
-            fileTarget.printWriter().use { out ->
-                when (coverageMode) {
-                    CoverageMode.Enable -> addCoverage(f, removeCoverage(fileSource.bufferedReader().readLines())).forEach {
-                        out.println(it)
-                    }
-                    CoverageMode.Disable -> removeCoverage(fileSource.bufferedReader().readLines()).forEach {
-                        out.println(it)
-                    }
+        val fileSource = File(f)
+        val fileTarget = File(f + ".tmp")
+        fileTarget.printWriter().use { out ->
+            when (coverageMode) {
+                CoverageMode.Enable -> addCoverage(f, removeCoverage(fileSource.bufferedReader().readLines())).forEach {
+                    out.println(it)
+                }
+                CoverageMode.Disable -> removeCoverage(fileSource.bufferedReader().readLines()).forEach {
+                    out.println(it)
                 }
             }
-            fileSource.delete()
-            fileTarget.copyTo(fileSource)
-            fileTarget.delete()
+        }
+        fileSource.delete()
+        fileTarget.copyTo(fileSource)
+        fileTarget.delete()
     }
 }
-File("resources/CoverageMapGenerated.txt").printWriter().use { out ->
+File("resources/CoverageMapGenerated.txt").printWriter().use {
+    out ->
     coverageMap.forEach { k, v ->
         out.println("$k:$v")
     }
 }
-File("resources/CoverageMapWhenCaseGenerated.txt").printWriter().use { out ->
+File("resources/CoverageMapWhenCaseGenerated.txt").printWriter().use {
+    out ->
     whenCaseMap.forEach { k, v ->
         out.println("$k:$v")
     }
 }
+
 fun addCoverage(filename: String, lines: List<String>): List<String> {
     val res = mutableListOf<String>()
     var appendClosingBracket = 0

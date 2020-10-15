@@ -1,5 +1,6 @@
-import java.nio.file.Paths
 import java.nio.file.Files
+import java.nio.file.Paths
+
 fun createBuildFileForModule(moduleName: String, moduleFolder: String, platform: String, args: Array<String>) {
     val validPlatforms = listOf("iosArm32", "iosArm64", "linuxX64", "macosX64", "mingwX64")
     if (!validPlatforms.contains(platform)) {
@@ -28,39 +29,49 @@ fun createBuildFileForModule(moduleName: String, moduleFolder: String, platform:
     var hadJVM = false
     var hadJS = false
     var hadNative = false
-File("src/luposdate3000_interfaces").copyRecursively(File("src.generated"))
-val p=Paths.get(moduleFolder)
+    File("src/luposdate3000_interfaces").copyRecursively(File("src.generated"))
+    val p = Paths.get(moduleFolder)
     Files.walk(p, 1).forEach { it ->
         val tmp = it.toString()
-if(tmp.length>p.toString().length){
-println("found tmp :: $tmp $p")
-        val idx = tmp.lastIndexOf("/")
-        val f: String
-        if (idx >= 0) {
-            f = tmp.substring(idx+1)
-        } else {
-            f = tmp
+        if (tmp.length > p.toString().length) {
+            println("found tmp :: $tmp $p")
+            val idx = tmp.lastIndexOf("/")
+            val f: String
+            if (idx >= 0) {
+                f = tmp.substring(idx + 1)
+            } else {
+                f = tmp
+            }
+            println("use tmp as :: $f")
+            if (f.startsWith("common")) {
+                File(tmp).copyRecursively(File("src.generated/" + f.replace("common.*Main", "commonMain")))
+                hadCommon = true
+            } else if (f.startsWith("jvm")) {
+                File(tmp).copyRecursively(File("src.generated/" + f.replace("jvm.*Main", "jvmMain")))
+                hadJVM = true
+            } else if (f.startsWith("js")) {
+                File(tmp).copyRecursively(File("src.generated/" + f.replace("js.*Main", "jsMain")))
+                hadJS = true
+            } else if (f.startsWith("native")) {
+                File(tmp).copyRecursively(File("src.generated/" + f.replace("native.*Main", "${platform}Main")))
+                hadNative = true
+            } else if (f.startsWith(platform)) {
+                File(tmp).copyRecursively(File("src.generated/" + f.replace("${platform}.*Main", "${platform}Main")))
+                hadNative = true
+            }
         }
-println("use tmp as :: $f")
-        if (f.startsWith("common")) {
-            File(tmp).copyRecursively(File("src.generated/" + f.replace("common.*Main", "commonMain")))
-            hadCommon = true
-        } else if (f.startsWith("jvm")) {
-            File(tmp).copyRecursively(File("src.generated/" + f.replace("jvm.*Main", "jvmMain")))
-            hadJVM = true
-        } else if (f.startsWith("js")) {
-            File(tmp).copyRecursively(File("src.generated/" + f.replace("js.*Main", "jsMain")))
-            hadJS = true
-        } else if (f.startsWith("native")) {
-            File(tmp).copyRecursively(File("src.generated/" + f.replace("native.*Main", "${platform}Main")))
-            hadNative = true
-        } else if (f.startsWith(platform)) {
-            File(tmp).copyRecursively(File("src.generated/" + f.replace("${platform}.*Main", "${platform}Main")))
-            hadNative = true
-        }
-}
     }
     File("build.gradle.kts").printWriter().use { out ->
+        out.println("tasks.withType<KotlinCompile>().all {")
+        out.println("    kotlinOptions.jvmTarget = \"1.8\"")//kotlinOptions.jvmTarget = \"14\"
+        //see /opt/kotlin/compiler/cli/cli-common/src/org/jetbrains/kotlin/cli/common/arguments/K2JVMCompilerArguments.kt
+        //or kotlinc -X
+        out.println("    kotlinOptions.freeCompilerArgs += \"-Xno-param-assertions\"")
+        out.println("    kotlinOptions.freeCompilerArgs += \"-Xuse-ir\"")
+        out.println("    kotlinOptions.freeCompilerArgs += \"-Xnew-inference\"")
+        out.println("    kotlinOptions.freeCompilerArgs += \"-Xno-receiver-assertions\"")
+        out.println("    kotlinOptions.freeCompilerArgs += \"-Xno-call-assertions\"")
+        out.println("}")
         out.println("buildscript {")
         out.println("    repositories {")
         out.println("        mavenLocal()")
@@ -74,8 +85,8 @@ println("use tmp as :: $f")
         out.println("    mavenLocal()")
         out.println("    mavenCentral()")
         out.println("}")
-        out.println("group \"luposdate3000.${moduleName}\"")
-        out.println("version \"0.0.1\"")
+        out.println("group = \"luposdate3000.${moduleName}\"")
+        out.println("version = \"0.0.1\"")
         out.println("apply(plugin = \"maven-publish\")")
         out.println("kotlin {")
         if (hadCommon || hadJVM) {
@@ -99,11 +110,11 @@ println("use tmp as :: $f")
             out.println("    }")
         }
         out.println("    sourceSets {")
-            out.println("        val commonMain by getting {")
-            out.println("            dependencies {")
-            out.println("                implementation(\"org.jetbrains.kotlin:kotlin-stdlib-common:1.4.255-SNAPSHOT\")")
-            out.println("            }")
-            out.println("        }")
+        out.println("        val commonMain by getting {")
+        out.println("            dependencies {")
+        out.println("                implementation(\"org.jetbrains.kotlin:kotlin-stdlib-common:1.4.255-SNAPSHOT\")")
+        out.println("            }")
+        out.println("        }")
         if (hadJVM) {
             out.println("        val jvmMain by getting {")
             out.println("            dependencies {")
@@ -123,7 +134,7 @@ println("use tmp as :: $f")
             out.println("        }")
         }
         out.println("    }")
-            out.println("   sourceSets[\"commonMain\"].kotlin.srcDir(\"src.generated/commonMain/kotlin\")")
+        out.println("   sourceSets[\"commonMain\"].kotlin.srcDir(\"src.generated/commonMain/kotlin\")")
         if (hadJVM) {
             out.println("   sourceSets[\"jvmMain\"].kotlin.srcDir(\"src.generated/jvmMain/kotlin\")")
         }

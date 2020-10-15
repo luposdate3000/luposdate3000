@@ -1,3 +1,4 @@
+build-cache
 resources/binary/config2
 build.gradle.kts
 generateTestcase.jar

@@ -1,6 +1,6 @@
-import java.util.concurrent.TimeUnit
 import java.io.File
 import java.lang.ProcessBuilder.Redirect
+import java.util.concurrent.TimeUnit
 
 abstract class ChooseableOption(val label: String, val internalID: String) : Comparable<ChooseableOption> {
     companion object {
@@ -63,7 +63,8 @@ class ChooseableOptionConstantValue(val pkg: String, val variableName: String, v
 class ChoosableOptionExternalScript(label: String, val scriptName: String, internalID: String, val beforeTemplate: Boolean) : ChooseableOption(label, "common" + internalID) {
     override fun toString() = "ExternalScript($scriptName)"
 }
-class ChoosableOptionInternalScript(label: String, val action: ()->Unit, internalID: String, val beforeTemplate: Boolean) : ChooseableOption(label, "common" + internalID) {
+
+class ChoosableOptionInternalScript(label: String, val action: () -> Unit, internalID: String, val beforeTemplate: Boolean) : ChooseableOption(label, "common" + internalID) {
     override fun toString() = "InternalScript($internalID)"
 }
 
@@ -82,7 +83,6 @@ class GenerateBuildFile(val args: Array<String>) {
     var choicesCount = 0
     val myReadLineCache = mutableMapOf<String, String>()
     var newCommandString = java.io.PrintWriter(java.io.StringWriter())
-
     var additionalSources = mapOf<ChooseableOption, List<ChooseableOption>>()
     val allChoosenOptions = mutableSetOf<ChooseableOption>(ChooseableOptionDirectory("commonMain"), ChooseableOptionDirectory("commonConfig"))
     var platformPrefix = mapOf(
@@ -343,8 +343,8 @@ class GenerateBuildFile(val args: Array<String>) {
             ),
             ChooseableGroup("Generate Code-Coverage-Code", "CoverageGenerate") to listOf(
                     ChooseableOptionSymbolic("DontChange", "commonCoverageModeDontChange"),
-                    ChoosableOptionInternalScript("On", {applyCoverageEnable()}, "CoverageModeOn", true),
-                    ChoosableOptionInternalScript("Off", {applyCoverageDisable()}, "CoverageModeOff", true)
+                    ChoosableOptionInternalScript("On", { applyCoverageEnable() }, "CoverageModeOn", true),
+                    ChoosableOptionInternalScript("Off", { applyCoverageDisable() }, "CoverageModeOff", true)
             ),
             ChooseableGroup("ServerCommunication implementation", "ServerCommunication") to listOf(
                     ChooseableOptionDirectory("None", "commonS16ServerCommunicationNoneMain"),
@@ -371,8 +371,8 @@ class GenerateBuildFile(val args: Array<String>) {
             ),
             ChooseableGroup("Inline", "Inline") to listOf(
                     ChooseableOptionSymbolic("DontChange", "commonInlineModeDontChange"),
-ChoosableOptionInternalScript("On",{applyInlineEnable()},"InlineModeOn", false),
-ChoosableOptionInternalScript("Off",{applyInlineDisable()}, "InlineModeOff", false)
+                    ChoosableOptionInternalScript("On", { applyInlineEnable() }, "InlineModeOn", false),
+                    ChoosableOptionInternalScript("Off", { applyInlineDisable() }, "InlineModeOff", false)
             ),
             ChooseableGroup("BigInteger Implementation", "BigInteger") to listOf(
                     ChooseableOptionTypeAlias("jvmBigInteger", "lupos.s00misc", listOf("BigInteger" to "java.math.BigInteger"))
@@ -543,21 +543,17 @@ ChoosableOptionInternalScript("Off",{applyInlineDisable()}, "InlineModeOff", fal
                 done = true
             }
             /*<<<--- autogenerating all possible build-files*/
-
             val conflicts = listOf(
                     setOf("commonCoverageModeOff", "commonlupos.s00misc.COVERAGE_MODEECoverage.Count", "commonlupos.s00misc.COVERAGE_MODEECoverage.Verbose")
             )
             val ktorVersion = presentChoice(ChooseableGroup("ktor-version", "KtorVersion"), listOf(ChooseableOption("1.3.2-1.4-M1-2"))).label
             val kotlinVersion = presentChoice(ChooseableGroup("kotlin-version", "KotlinVersion"), listOf(ChooseableOption("1.3.70"), ChooseableOption("1.4.255-SNAPSHOT"))).label
             val platform = presentChoice(ChooseableGroup("Platform", "Platform"), platformPrefix.keys.toList().map { ChooseableOption(it) }).label
-
             additionalSources = mapOf(
                     /*if the key is choosen, automatically add all dependent things*/
-
                     ChooseableOption("jvmS00ParallelThreadsMain") to listOf(
-                            ChoosableOptionInternalScript("SuspendModeOff", {applySuspendDisable()}, "SuspendModeOff", false)
+                            ChoosableOptionInternalScript("SuspendModeOff", { applySuspendDisable() }, "SuspendModeOff", false)
                     ),
-
                     ChooseableOption("jvmS16ServerCommunicationSocketsMain") to listOf(
                             ChooseableOptionDirectory("commonS16ServerCommunicationEnabledMain")
                     ),
@@ -571,9 +567,9 @@ ChoosableOptionInternalScript("Off",{applyInlineDisable()}, "InlineModeOff", fal
 //                            ChooseableOptionDependency("org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion"),
                             ChooseableOptionDependency("org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"),
                     ),
-ChooseableOption("commonS00ParallelCoroutinesMain") to listOf(
+                    ChooseableOption("commonS00ParallelCoroutinesMain") to listOf(
                             ChooseableOptionDependency("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.3"),
-),
+                    ),
                     ChooseableOption("jvmS00WrapperJenaOnMain") to listOf(
                             ChooseableOptionDependency("org.slf4j:slf4j-simple:1.7.25"),
                             ChooseableOptionDependency("org.apache.jena:jena-core:3.14.0"),
@@ -826,7 +822,7 @@ ChooseableOption("commonS00ParallelCoroutinesMain") to listOf(
 //copy to save location
                 File("src.generated").deleteRecursively()
                 File("src.generated").mkdirs()
-File("src/luposdate3000_interfaces").copyRecursively(File("src.generated"))
+                File("src/luposdate3000_interfaces").copyRecursively(File("src.generated"))
                 for (option in allChoosenOptions) {
                     if (option is ChooseableOptionDirectory && option.internalID != "commonConfig") {
                         File("src/luposdate3000_core/${option.internalID}").copyRecursively(File("src.generated/${option.internalID}"))
@@ -838,7 +834,7 @@ File("src/luposdate3000_interfaces").copyRecursively(File("src.generated"))
                     if (option is ChoosableOptionExternalScript && option.beforeTemplate) {
                         println("running script before template ${option.scriptName}")
                         option.scriptName.runCommand()
-                    }else                    if (option is ChoosableOptionInternalScript && option.beforeTemplate) {
+                    } else if (option is ChoosableOptionInternalScript && option.beforeTemplate) {
                         println("running script before template ${option.internalID}")
                         option.action()
                     }
@@ -871,7 +867,7 @@ File("src/luposdate3000_interfaces").copyRecursively(File("src.generated"))
                     if (option is ChoosableOptionExternalScript && !option.beforeTemplate) {
                         println("running script after template ${option.scriptName}")
                         option.scriptName.runCommand()
-                    }else                    if (option is ChoosableOptionInternalScript && !option.beforeTemplate) {
+                    } else if (option is ChoosableOptionInternalScript && !option.beforeTemplate) {
                         println("running script after template ${option.internalID}")
                         option.action()
                     }
