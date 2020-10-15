@@ -1,5 +1,5 @@
 #!/bin/bash
-./generate-buildfile-module-parser.kts --inline --nosuspend
+./generate-buildfile-module.kts "Luposdate3000_Parser" "src/luposdate3000_parser" "linuxX64" --inline --nosuspend
 gradle build
 gradle publishToMavenLocal
 mkdir build-cache

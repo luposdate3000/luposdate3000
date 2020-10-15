@@ -242,8 +242,8 @@ class GenerateBuildFile(val args: Array<String>) {
                     ChooseableOptionDirectory("None", "commonS16HttpEndpointNoneMain")
             ),
             ChooseableGroup("Include Jena Wrapper", "Jena") to listOf(
-                    ChooseableOptionTypeAlias("Off", "lupos.s00misc", listOf("JenaWrapper" to "JenaWrapperOff")),
-                    ChooseableOptionDirectory("On", "jvmS00WrapperJenaOnMain")
+                    ChooseableOptionSymbolic("Off", "commonS00WrapperJenaOffMain"),
+                    ChooseableOptionSymbolic("On", "jvmS00WrapperJenaOnMain")
             ),
             ChooseableGroup("Set Implementation", "Set") to listOf(
                     ChooseableOptionTypeAlias("BTree", "lupos.s00misc", listOf(
@@ -571,11 +571,12 @@ class GenerateBuildFile(val args: Array<String>) {
                     ChooseableOption("commonS00ParallelCoroutinesMain") to listOf(
                             ChooseableOptionDependency("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.3"),
                     ),
-                    ChooseableOption("jvmS00WrapperJenaOnMain") to listOf(
-                            ChooseableOptionDependency("org.slf4j:slf4j-simple:1.7.25"),
-                            ChooseableOptionDependency("org.apache.jena:jena-core:3.14.0"),
-                            ChooseableOptionDependency("org.apache.jena:jena-arq:3.14.0")
-                    ),
+                    ChooseableOptionSymbolic("Off", "commonS00WrapperJenaOffMain")to listOf(
+ChooseableOptionDependency("luposdate3000:Luposdate3000_Jena_Wrapper_Off:0.0.1"),
+),
+                    ChooseableOptionSymbolic("On", "jvmS00WrapperJenaOnMain") to listOf(
+ChooseableOptionDependency("luposdate3000:Luposdate3000_Jena_Wrapper_On:0.0.1"),
+),
                     ChooseableOption("jvmS16ServerCommunicationKtorMain") to listOf(
                             ChooseableOptionDirectory("commonS16ServerCommunicationEnabledMain"),
                             ChooseableOptionDependency("io.ktor:ktor-network:$ktorVersion")

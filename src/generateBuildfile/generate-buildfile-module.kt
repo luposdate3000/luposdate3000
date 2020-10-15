@@ -1,7 +1,11 @@
 import java.nio.file.Files
 import java.nio.file.Paths
+import java.io.File
 
-fun createBuildFileForModule(moduleName: String, moduleFolder: String, platform: String, args: Array<String>) {
+fun createBuildFileForModule(args: Array<String>) {
+    val moduleName = args[0]
+    val moduleFolder = args[1]
+    val platform = args[2]
     val validPlatforms = listOf("iosArm32", "iosArm64", "linuxX64", "macosX64", "mingwX64")
     if (!validPlatforms.contains(platform)) {
         throw Exception("unsupported platform $platform")
@@ -61,15 +65,15 @@ fun createBuildFileForModule(moduleName: String, moduleFolder: String, platform:
             }
         }
     }
-File("settings.gradle").printWriter().use { out ->
-out.println("pluginManagement {")
-out.println("    repositories {")
-out.println("        mavenLocal()")
-out.println("        gradlePluginPortal()")
-out.println("    }")
-out.println("}")
-out.println("rootProject.name = \"$moduleName\"")//maven-artifactID
-}
+    File("settings.gradle").printWriter().use { out ->
+        out.println("pluginManagement {")
+        out.println("    repositories {")
+        out.println("        mavenLocal()")
+        out.println("        gradlePluginPortal()")
+        out.println("    }")
+        out.println("}")
+        out.println("rootProject.name = \"$moduleName\"")//maven-artifactID
+    }
     File("build.gradle.kts").printWriter().use { out ->
         out.println("import org.jetbrains.kotlin.gradle.tasks.KotlinCompile")
         out.println("tasks.withType<KotlinCompile>().all {")
@@ -129,25 +133,68 @@ out.println("rootProject.name = \"$moduleName\"")//maven-artifactID
         out.println("    sourceSets {")
         out.println("        val commonMain by getting {")
         out.println("            dependencies {")
-        out.println("                implementation(\"org.jetbrains.kotlin:kotlin-stdlib-common:1.4.255-SNAPSHOT\")")
+        val commonDependencies = mutableSetOf("org.jetbrains.kotlin:kotlin-stdlib-common:1.4.255-SNAPSHOT")
+        if (File("${moduleFolder}/commonDependencies").exists()) {
+            File("${moduleFolder}/commonDependencies").forEachLine {
+ if(it.length>0){
+               commonDependencies.add(it)
+}
+            }
+        }
+        for (d in commonDependencies) {
+            out.println("                implementation(\"$d\")")
+        }
         out.println("            }")
         out.println("        }")
         if (hadJVM) {
             out.println("        val jvmMain by getting {")
             out.println("            dependencies {")
-            out.println("                implementation(\"org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.4.255-SNAPSHOT\")")
+            val jvmDependencies = mutableSetOf("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.4.255-SNAPSHOT")
+            if (File("${moduleFolder}/jvmDependencies").exists()) {
+                File("${moduleFolder}/jvmDependencies").forEachLine {
+if(it.length>0){
+                    jvmDependencies.add(it)
+}
+                }
+            }
+            for (d in jvmDependencies) {
+                out.println("                implementation(\"$d\")")
+            }
             out.println("            }")
             out.println("        }")
         }
         if (hadJS) {
             out.println("        val jsMain by getting {")
             out.println("            dependencies {")
-            out.println("                implementation(\"org.jetbrains.kotlin:kotlin-stdlib-js:1.4.255-SNAPSHOT\")")
+            val jsDependencies = mutableSetOf("org.jetbrains.kotlin:kotlin-stdlib-js:1.4.255-SNAPSHOT")
+            if (File("${moduleFolder}/jsDependencies").exists()) {
+                File("${moduleFolder}/jsDependencies").forEachLine {
+if(it.length>0){
+                    jsDependencies.add(it)
+}
+                }
+            }
+            for (d in jsDependencies) {
+                out.println("                implementation(\"$d\")")
+            }
             out.println("            }")
             out.println("        }")
         }
         if (hadNative) {
             out.println("        val ${platform}Main by getting {")
+            out.println("            dependencies {")
+            val nativeDependencies = mutableSetOf<String>()
+            if (File("${moduleFolder}/nativeDependencies").exists()) {
+                File("${moduleFolder}/nativeDependencies").forEachLine {
+if(it.length>0){
+                    nativeDependencies.add(it)
+}
+                }
+            }
+            for (d in nativeDependencies) {
+                out.println("                implementation(\"$d\")")
+            }
+            out.println("            }")
             out.println("        }")
         }
         out.println("    }")

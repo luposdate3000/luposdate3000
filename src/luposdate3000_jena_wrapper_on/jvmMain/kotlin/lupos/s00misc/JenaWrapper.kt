@@ -1,5 +1,6 @@
 package lupos.s00misc
 
+import java.io.File
 import java.io.ByteArrayOutputStream
 import lupos.s00misc.JenaBugException
 import org.apache.jena.query.ARQ
@@ -31,7 +32,6 @@ object JenaWrapper {
         try {
             UpdateAction.parseExecute(queryString, dataset)
         } catch (e: Throwable) {
-            SanityCheck.println({ "TODO exception 5" })
             e.printStackTrace()
         }
     }
@@ -39,7 +39,6 @@ object JenaWrapper {
     fun execQuery(queryString: String, logging: Boolean = true): String {
         if (logging) {
             checkExceptions(queryString)
-            SanityCheck.println({ "Jena optimized query >>" })
         }
         var res = ""
         try {
@@ -55,8 +54,7 @@ object JenaWrapper {
                 ResultSetFormatter.outputAsXML(stream, results)
                 res = String(stream.toByteArray())
             } else if (query.isAskType()) {
-                val nodeSparql = XMLElement("sparql").addAttribute("xmlns", "http://www.w3.org/2005/sparql-results#").addContent(XMLElement("head")).addContent(XMLElement("boolean").addContent("" + qexec.execAsk()))
-                res = nodeSparql.toPrettyString()
+                res = "<sparql xmlns=\"http://www.w3.org/2005/sparql-results#\"><head><boolean>${qexec.execAsk()}</boolean></head></sparql>"
             } else if (query.isConstructType()) {
                 val resultModel = qexec.execConstruct()
                 val query2 = QueryFactory.create("select ?s ?p ?o where{?s ?p ?o}")
@@ -76,22 +74,14 @@ object JenaWrapper {
             } else if (query.isJsonType()) {
             } else if (query.isConstructQuad()) {
             }
-            SanityCheck {
-                if (logging) {
-                    SanityCheck.println({ "------" })
-                    val plan = QueryExecutionFactory.createPlan(query, dataset.asDatasetGraph(), null)
-                    val op = plan.getOp()
-                    val op2 = Optimize.optimize(op, qexec.getContext())
-                    SanityCheck.println({ op2 })
-                }
+            if (logging) {
+                val plan = QueryExecutionFactory.createPlan(query, dataset.asDatasetGraph(), null)
+                val op = plan.getOp()
+                val op2 = Optimize.optimize(op, qexec.getContext())
+                //println({ op2 })
             }
         } catch (e: Throwable) {
             e.printStackTrace()
-        }
-        SanityCheck {
-            if (logging) {
-                SanityCheck.println({ "Jena optimized query <<" })
-            }
         }
         return res
     }
@@ -105,7 +95,6 @@ object JenaWrapper {
         for (fileName in fileNames.split(";")) {
             updateString.append("load <file://${fileName}> INTO GRAPH $graph2 ;")
         }
-        SanityCheck.println({ "jena-load-from-file-string ${updateString.toString()}" })
         JenaWrapper.updateQuery(updateString.toString())
     }
 
@@ -118,7 +107,7 @@ object JenaWrapper {
     }
 
     fun execQueryFile(fileName: String) {
-        val queryString = java.io.File(fileName).readText()
+        val queryString = File(fileName).readText()
         JenaWrapper.execQuery(queryString)
     }
 }
