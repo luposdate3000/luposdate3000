@@ -1,5 +1,5 @@
 #!/bin/bash
-./generate-buildfile-module-parser.kts
+./generate-buildfile-module-parser.kts --inline --nosuspend
 gradle build
 gradle publishToMavenLocal
 mkdir build-cache

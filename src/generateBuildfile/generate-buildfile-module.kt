@@ -20,7 +20,7 @@ fun createBuildFileForModule(moduleName: String, moduleFolder: String, platform:
     if (args.contains("--suspend")) {
         suspendMode = SuspendMode.Enable
     }
-    if (args.contains("--suspend")) {
+    if (args.contains("--nosuspend")) {
         suspendMode = SuspendMode.Disable
     }
     File("src.generated").deleteRecursively()
@@ -62,6 +62,7 @@ fun createBuildFileForModule(moduleName: String, moduleFolder: String, platform:
         }
     }
     File("build.gradle.kts").printWriter().use { out ->
+        out.println("import org.jetbrains.kotlin.gradle.tasks.KotlinCompile")
         out.println("tasks.withType<KotlinCompile>().all {")
         out.println("    kotlinOptions.jvmTarget = \"1.8\"")//kotlinOptions.jvmTarget = \"14\"
         //see /opt/kotlin/compiler/cli/cli-common/src/org/jetbrains/kotlin/cli/common/arguments/K2JVMCompilerArguments.kt
@@ -74,8 +75,15 @@ fun createBuildFileForModule(moduleName: String, moduleFolder: String, platform:
         out.println("}")
         out.println("buildscript {")
         out.println("    repositories {")
+        out.println("        jcenter()")
+        out.println("        google()")
         out.println("        mavenLocal()")
         out.println("        mavenCentral()")
+        out.println("        maven(\"https://plugins.gradle.org/m2/\")")
+        out.println("        maven(\"https://dl.bintray.com/kotlin/kotlin-eap\")")
+        out.println("    }")
+        out.println("    dependencies {")
+        out.println("        classpath(\"org.jetbrains.kotlin:kotlin-gradle-plugin:1.4.255-SNAPSHOT\")")
         out.println("    }")
         out.println("}")
         out.println("plugins {")
