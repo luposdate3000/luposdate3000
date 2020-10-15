@@ -1,5 +1,7 @@
 #!/bin/kscript
 import java.io.File
+import java.nio.file.Files
+import java.nio.file.Paths
 
 val separator = "([^a-zA-Z_\\{]|$|^)"
 val separatorB = "([^a-zA-Z_]|$|^)"
@@ -34,6 +36,25 @@ enum class CoverageMode {
     Enable, Disable
 }
 
+fun applyCoverageEnable() {
+    Files.walk(Paths.get("src.generated")).forEach { it ->
+        val tmp = it.toString()
+        if (tmp.endsWith(".kt")) {
+            applyCoverage(tmp, CoverageMode.Enable)
+        }
+    }
+}
+
+fun applyCoverageDisable() {
+    Files.walk(Paths.get("src.generated")).forEach { it ->
+        val tmp = it.toString()
+        if (tmp.endsWith(".kt")) {
+            applyCoverage(tmp, CoverageMode.Disable)
+        }
+    }
+}
+
+
 fun appendCoverageForLoop(filename: String, counter: Int, linenumber: Int) {
     coverageMap[counter] = "$filename:$linenumber"
 }
@@ -66,42 +87,38 @@ fun appendCoverageStatement(filename: String, counter: Int, linenumber: Int) {
     coverageMap[counter] = "$filename:$linenumber"
 }
 
-var coveragemode = CoverageMode.Enable
-for (arg in args) {
-    if (!arg.endsWith("Coverage.kt") &&
-            !arg.endsWith("SPARQLParser.kt") &&
-            !arg.endsWith("SPARQLScanner.kt") &&
-            !arg.endsWith("Benchmark.kt") &&
-            !arg.endsWith("Runtime.kt") &&
-            !arg.endsWith("TurtleParser.kt") &&
-            !arg.endsWith("TurtleParserWithDictionary.kt") &&
-            !arg.endsWith("TurtleParserWithStringTriples.kt") &&
-            !arg.endsWith("TurtleScanner.kt") &&
-            !arg.endsWith("BinaryTestHelper.kt") &&
-            !arg.endsWith("BufferManager.kt") &&
-            !arg.endsWith("BPlusTreeTests.kt") &&
-            !arg.endsWith("B_Plus_Tree.kt") &&
-            !arg.endsWith("EndpointServer.kt") &&
-            !arg.endsWith("B_Plus_Tree_Int_to_Int.kt") &&
-            !arg.endsWith("LSM_Tree.kt") &&
-            !arg.endsWith("Radix_Tree.kt") &&
-            !arg.endsWith("MappedByteBufferPage.kt") &&
-            !arg.endsWith("CachedFile.kt") &&
-            !arg.endsWith("UnsafePage.kt") &&
-            !arg.endsWith("PageHelper.kt") &&
-            !arg.endsWith("Model.kt") &&
-            !arg.endsWith("Cache.kt") &&
-            !arg.endsWith("BenchmarkUtils.kt") &&
-            !arg.endsWith("CacheOfFiles.kt")
+fun applyCoverage(f: String, coverageMode: CoverageMode) {
+    if (!f.endsWith("Coverage.kt") &&
+            !f.endsWith("SPARQLParser.kt") &&
+            !f.endsWith("SPARQLScanner.kt") &&
+            !f.endsWith("Benchmark.kt") &&
+            !f.endsWith("Runtime.kt") &&
+            !f.endsWith("TurtleParser.kt") &&
+            !f.endsWith("TurtleParserWithDictionary.kt") &&
+            !f.endsWith("TurtleParserWithStringTriples.kt") &&
+            !f.endsWith("TurtleScanner.kt") &&
+            !f.endsWith("BinaryTestHelper.kt") &&
+            !f.endsWith("BufferManager.kt") &&
+            !f.endsWith("BPlusTreeTests.kt") &&
+            !f.endsWith("B_Plus_Tree.kt") &&
+            !f.endsWith("EndpointServer.kt") &&
+            !f.endsWith("B_Plus_Tree_Int_to_Int.kt") &&
+            !f.endsWith("LSM_Tree.kt") &&
+            !f.endsWith("Radix_Tree.kt") &&
+            !f.endsWith("MappedByteBufferPage.kt") &&
+            !f.endsWith("CachedFile.kt") &&
+            !f.endsWith("UnsafePage.kt") &&
+            !f.endsWith("PageHelper.kt") &&
+            !f.endsWith("Model.kt") &&
+            !f.endsWith("Cache.kt") &&
+            !f.endsWith("BenchmarkUtils.kt") &&
+            !f.endsWith("CacheOfFiles.kt")
     ) {
-        try {
-            coveragemode = CoverageMode.valueOf(arg)
-        } catch (e: Throwable) {
-            val fileSource = File(arg)
-            val fileTarget = File(arg + ".tmp")
+            val fileSource = File(f)
+            val fileTarget = File(f + ".tmp")
             fileTarget.printWriter().use { out ->
-                when (coveragemode) {
-                    CoverageMode.Enable -> addCoverage(arg, removeCoverage(fileSource.bufferedReader().readLines())).forEach {
+                when (coverageMode) {
+                    CoverageMode.Enable -> addCoverage(f, removeCoverage(fileSource.bufferedReader().readLines())).forEach {
                         out.println(it)
                     }
                     CoverageMode.Disable -> removeCoverage(fileSource.bufferedReader().readLines()).forEach {
@@ -112,7 +129,6 @@ for (arg in args) {
             fileSource.delete()
             fileTarget.copyTo(fileSource)
             fileTarget.delete()
-        }
     }
 }
 File("resources/CoverageMapGenerated.txt").printWriter().use { out ->

@@ -14,7 +14,7 @@ val regexDisableInline = "(^|[^a-zA-Z])inline ".toRegex()
 val regexDisableCrossInline = "(^|[^a-zA-Z])crossinline ".toRegex()
 
 fun applyInlineEnable() {
-    Files.walk(Paths.get("src.generated"), 1).forEach { it ->
+    Files.walk(Paths.get("src.generated")).forEach { it ->
         val tmp = it.toString()
         if (tmp.endsWith(".kt")) {
             applyInline(tmp, InlineMode.Enable)
@@ -23,7 +23,7 @@ fun applyInlineEnable() {
 }
 
 fun applyInlineDisable() {
-    Files.walk(Paths.get("src.generated"), 1).forEach { it ->
+    Files.walk(Paths.get("src.generated")).forEach { it ->
         val tmp = it.toString()
         if (tmp.endsWith(".kt")) {
             applyInline(tmp, InlineMode.Disable)

@@ -343,8 +343,8 @@ class GenerateBuildFile(val args: Array<String>) {
             ),
             ChooseableGroup("Generate Code-Coverage-Code", "CoverageGenerate") to listOf(
                     ChooseableOptionSymbolic("DontChange", "commonCoverageModeDontChange"),
-                    ChoosableOptionExternalScript("On", "./src/generateBuildfile/generate-buildfile-coverage-enable.sh", "CoverageModeOn", true),
-                    ChoosableOptionExternalScript("Off", "./src/generateBuildfile/generate-buildfile-coverage-disable.sh", "CoverageModeOff", true)
+                    ChoosableOptionInternalScript("On", {applyCoverageEnable()}, "CoverageModeOn", true),
+                    ChoosableOptionInternalScript("Off", {applyCoverageDisable()}, "CoverageModeOff", true)
             ),
             ChooseableGroup("ServerCommunication implementation", "ServerCommunication") to listOf(
                     ChooseableOptionDirectory("None", "commonS16ServerCommunicationNoneMain"),
@@ -556,7 +556,7 @@ ChoosableOptionInternalScript("Off",{applyInlineDisable()}, "InlineModeOff", fal
                     /*if the key is choosen, automatically add all dependent things*/
 
                     ChooseableOption("jvmS00ParallelThreadsMain") to listOf(
-                            ChoosableOptionExternalScript("SuspendModeOff", "./src/generateBuildfile/generate-buildfile-suspend-disable.sh", "SuspendModeOff", false)
+                            ChoosableOptionInternalScript("SuspendModeOff", {applySuspendDisable()}, "SuspendModeOff", false)
                     ),
 
                     ChooseableOption("jvmS16ServerCommunicationSocketsMain") to listOf(

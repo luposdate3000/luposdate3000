@@ -1,21 +1,35 @@
 #!/bin/kscript
 import java.io.File
+import java.nio.file.Files
+import java.nio.file.Paths
 
 enum class SuspendMode {
     Enable, Disable
 }
-
-var suspendMode = SuspendMode.Enable
-
 val regexEnableSuspend = "/\\*suspend\\*/ ".toRegex()
 val regexDisableSuspend = "(^|[^a-zA-Z])suspend ".toRegex()
 
-for (arg in args) {
-    try {
-        suspendMode = SuspendMode.valueOf(arg)
-    } catch (e: Throwable) {
-        val fileSource = File(arg)
-        val fileTarget = File(arg + ".tmp")
+fun applySuspendEnable() {
+    Files.walk(Paths.get("src.generated")).forEach { it ->
+        val tmp = it.toString()
+        if (tmp.endsWith(".kt")) {
+            applySuspend(tmp, SuspendMode.Enable)
+        }
+    }
+}
+
+fun applySuspendDisable() {
+    Files.walk(Paths.get("src.generated")).forEach { it ->
+        val tmp = it.toString()
+        if (tmp.endsWith(".kt")) {
+            applySuspend(tmp, SuspendMode.Disable)
+        }
+    }
+}
+
+fun applySuspend(f: String, suspendMode: SuspendMode) {
+        val fileSource = File(f)
+        val fileTarget = File(f + ".tmp")
         fileTarget.printWriter().use { out ->
             fileSource.bufferedReader().readLines().forEach {
                 when (suspendMode) {
@@ -36,4 +50,3 @@ for (arg in args) {
         fileTarget.copyTo(fileSource)
         fileTarget.delete()
     }
-}

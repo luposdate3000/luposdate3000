@@ -494,6 +494,8 @@ object BinaryTestCase {
                                         val node = DistributedTripleStore.getDefaultGraph(query3).getIterator(queryParam, idx, Partition())
                                         tmpTable = operatorGraphToTable(node)
                                     } else {
+//TODO
+/*
                                         for (value in 0 until p.partitionCount) {
                                             val partition = Partition()
                                             val key = idx.toString().substring(p.column, p.column + 1)
@@ -508,6 +510,7 @@ object BinaryTestCase {
                                                 tmpTable = table
                                             }
                                         }
+*/
                                     }
                                     failed = verifyEqual(tableInput, tmpTable!!, mapping_live_to_target, targetDict, targetDict2, true, query_name, query_folder, "import ($idx ${p.column} ${p.partitionCount})") || failed
                                 }
