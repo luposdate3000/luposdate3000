@@ -1,3 +1,4 @@
+resources/binary/config2
 generateTestcase.jar
 afl-out
 .afl-showmap*

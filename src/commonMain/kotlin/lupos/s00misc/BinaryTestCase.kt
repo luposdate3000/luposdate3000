@@ -37,6 +37,7 @@ import lupos.s03resultRepresentation.nodeGlobalDictionary
 import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s03resultRepresentation.Value
 import lupos.s04arithmetikOperators.noinput.AOPVariable
+import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
 import lupos.s05tripleStore.index_IDTriple.NodeManager
@@ -345,9 +346,9 @@ object BinaryTestCase {
             "rdfs:subPropertyOf",//
             "rdfs:subClassOf",//
             "rdfs:domain",//
-         // "rdfs:label",//
+            // "rdfs:label",//
             "rdfs:range",//
-         // "owl:Class",//
+            // "owl:Class",//
             "owl:allValuesFrom",//
             "owl:complementOf",//
             "owl:DatatypeProperty",//
@@ -367,12 +368,12 @@ object BinaryTestCase {
             "owl:unionOf",//
             "<http://www.w3.org/2000/01/rdf-schema#domain>",//
             "<http://www.w3.org/2000/01/rdf-schema#range>",//
-         // "<http://www.w3.org/2000/01/rdf-schema#label>",//
+            // "<http://www.w3.org/2000/01/rdf-schema#label>",//
             "<http://www.w3.org/2000/01/rdf-schema#seeAlso>",//
             "<http://www.w3.org/2000/01/rdf-schema#subClassOf>",//
             "<http://www.w3.org/2000/01/rdf-schema#subPropertyOf>",//
             "<http://www.w3.org/2002/07/owl#allValuesFrom>",//
-         // "<http://www.w3.org/2002/07/owl#Class>",//
+            // "<http://www.w3.org/2002/07/owl#Class>",//
             "<http://www.w3.org/2002/07/owl#DatatypeProperty>",//
             "<http://www.w3.org/2002/07/owl#disjointWith>",//
             "<http://www.w3.org/2002/07/owl#equivalentClass>",//
@@ -463,10 +464,15 @@ object BinaryTestCase {
         targetDictionary.close()
         val targetTriples = java.io.DataInputStream(java.io.BufferedInputStream(java.io.FileInputStream(query_folder + "/query.triples")))
         val tableInput = MemoryTable(arrayOf("s", "p", "o"))
+        println("----------Triple-Store-Target")
         for (i in 0 until target_input_count) {
-            val s = mapping_target_to_live[targetTriples.readInt()]
-            val p = mapping_target_to_live[targetTriples.readInt()]
-            val o = mapping_target_to_live[targetTriples.readInt()]
+            val s1 = targetTriples.readInt()
+            val p1 = targetTriples.readInt()
+            val o1 = targetTriples.readInt()
+            println("[$s1, $p1, $o1] :: [${targetDict2[s1]}, ${targetDict2[p1]}, ${targetDict2[o1]}]")
+            val s = mapping_target_to_live[s1]
+            val p = mapping_target_to_live[p1]
+            val o = mapping_target_to_live[o1]
             tableInput.data.add(intArrayOf(s, p, o))
         }
         if (!verifyEqual(lastInput, tableInput, mapping_live_to_target, targetDict, targetDict2, true, query_name, query_folder, "this is no error")) {
@@ -481,12 +487,38 @@ object BinaryTestCase {
                 }
             }
             val query3 = Query()
-//TODO test other indices too ... 
-            val tmpTable = operatorGraphToTable(DistributedTripleStore.getDefaultGraph(query3).getIterator(arrayOf(AOPVariable(query3, "s"), AOPVariable(query3, "p"), AOPVariable(query3, "o")), EIndexPattern.SPO, Partition()))
-            if (!verifyEqual(tableInput, tmpTable, mapping_live_to_target, targetDict, targetDict2, true, query_name, query_folder, "import (SPO)")) {
+            val queryParam = arrayOf<AOPBase>(AOPVariable(query3, "s"), AOPVariable(query3, "p"), AOPVariable(query3, "o"))
+            val enablesPartitions = DistributedTripleStore.localStore.getDefaultGraph(query3).enabledPartitions
+            var failed = false
+            for (p in enablesPartitions) {
+                val idx = p.index.toList().first()
+                var tmpTable : MemoryTable?=null
+                if (p.partitionCount == 1) {
+                    val node = DistributedTripleStore.getDefaultGraph(query3).getIterator(queryParam, idx, Partition())
+                    tmpTable = operatorGraphToTable(node)
+                } else {
+                    for (value in 0 until p.partitionCount) {
+                        val partition = Partition()
+                        val key = idx.toString().substring(p.column,p.column+1)
+                        partition.limit[key] = p.partitionCount
+                        partition.data[key] = value
+println("using Partitioning on ${key} (${value}/${p.partitionCount})")
+                        val node = DistributedTripleStore.getDefaultGraph(query3).getIterator(queryParam, idx, partition)
+                        val table = operatorGraphToTable(node)
+if(tmpTable!=null){
+                        tmpTable = MemoryTable(tmpTable!!, table)
+}else{
+tmpTable=table
+}
+                    }
+                }
+                failed = verifyEqual(tableInput, tmpTable!!, mapping_live_to_target, targetDict, targetDict2, true, query_name, query_folder, "import ($idx ${p.column} ${p.partitionCount})") || failed
+            }
+            if (failed) {
                 return false
             }
         }
+
         val targetResult = java.io.DataInputStream(java.io.BufferedInputStream(java.io.FileInputStream(query_folder + "/query.result")))
         val tableOutput = MemoryTable(variables.toTypedArray())
         if (mode == BinaryTestCaseOutputMode.ASK_QUERY_RESULT) {
@@ -505,23 +537,35 @@ object BinaryTestCase {
                 tableOutput.data.add(row)
             }
         }
+        println("----------String query")
         val toParse = File(query_folder + "/query.sparql").readAsString()
+        println(toParse)
         for (f in notImplementedFeaturesList) {
             if (toParse.contains(f)) {
                 throw object : NotImplementedException("NotImplementedException", "Inference not implemented '$f'") {}
             }
         }
+        println("----------AST")
         val lcit = LexerCharIterator(toParse)
         val tit = TokenIteratorSPARQLParser(lcit)
         val ltit = LookAheadTokenIterator(tit, 3)
         val parser = SPARQLParser(ltit)
         val ast_node = parser.expr()
+        println(ast_node)
+        println("----------Logical Operatorgraph")
         val query4 = Query()
         val lop_node = ast_node.visit(OperatorGraphVisitor(query4))
+        println(lop_node.toXMLElement().toPrettyString())
+        println("----------Logical Operatorgraph optimized")
         val lop_node2 = LogicalOptimizer(query4).optimizeCall(lop_node)
+        println(lop_node2.toXMLElement().toPrettyString())
+        println("----------Physical Operatorgraph optimized")
         val pop_optimizer = PhysicalOptimizer(query4)
         val pop_node = pop_optimizer.optimizeCall(lop_node2)
+        println(pop_node.toXMLElement().toPrettyString())
+        println("----------Distributed Operatorgraph optimized")
         val pop_distributed_node = KeyDistributionOptimizer(query4).optimizeCall(pop_node)
+        println(pop_distributed_node.toXMLElement().toPrettyString())
         val allowOrderBy = !toParse.toLowerCase().contains("order")
         if (mode == BinaryTestCaseOutputMode.MODIFY_RESULT) {
             val resultBuf = StringWriter()
