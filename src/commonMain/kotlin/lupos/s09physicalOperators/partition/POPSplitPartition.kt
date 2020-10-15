@@ -69,7 +69,7 @@ class POPSplitPartition(query: Query, projectedVariables: List<String>, val part
             if (partitionHelper.jobs != null) {
                 job = partitionHelper.jobs!![childPartition]
             }
-var error:Throwable?=null
+            var error: Throwable? = null
             if (iterators == null) {
                 iterators = Array(partitionCount) { IteratorBundle(0) }
                 val variables = getProvidedVariableNames()
@@ -90,92 +90,92 @@ var error:Throwable?=null
                 SanityCheck.println({ "ringbuffersize = ${ringbuffer.size} ${elementsPerRing} ${partitionCount} ${ringbufferStart.map { it }} ${ringbufferReadHead.map { it }} ${ringbufferWriteHead.map { it }}" })
                 SanityCheck.println({ "split $uuid writer launched A" })
                 job = Parallel.launch {
-var child2: RowIterator?=null
-try{
-                SanityCheck.println({ "split $uuid writer launched B" })
-                    val child = children[0].evaluate(childPartition).rows
-child2=child
-                    SanityCheck.println({ "split $uuid writer launched C" })
-                    var hashVariableIndex = -1
-                    val variableMapping = IntArray(variables.size)
-                    for (variable in 0 until variables.size) {
-                        for (variable2 in 0 until variables.size) {
-                            if (child.columns[variable] == partitionVariable) {
-                                hashVariableIndex = variable
-                            }
-                            if (variables[variable2] == child.columns[variable]) {
-                                variableMapping[variable] = variable2
-                                break
-                            }
-                        }
-                    }
-                    SanityCheck.check { hashVariableIndex != -1 }
-                    val cacheArr = IntArray(partitionCount) { it }
-                    SanityCheck.println({ "split $uuid writer launched D" })
-                    loop@ while (true) {
-                        SanityCheck.println({ "split $uuid writer loop start" })
-                        var tmp = child.next()
-                        var readerFinishedCounter = 0
-                        for (p in 0 until partitionCount) {
-                            if (readerFinished[p] != 0) {
-                                readerFinishedCounter++
+                    var child2: RowIterator? = null
+                    try {
+                        SanityCheck.println({ "split $uuid writer launched B" })
+                        val child = children[0].evaluate(childPartition).rows
+                        child2 = child
+                        SanityCheck.println({ "split $uuid writer launched C" })
+                        var hashVariableIndex = -1
+                        val variableMapping = IntArray(variables.size)
+                        for (variable in 0 until variables.size) {
+                            for (variable2 in 0 until variables.size) {
+                                if (child.columns[variable] == partitionVariable) {
+                                    hashVariableIndex = variable
+                                }
+                                if (variables[variable2] == child.columns[variable]) {
+                                    variableMapping[variable] = variable2
+                                    break
+                                }
                             }
                         }
-                        if (readerFinishedCounter == partitionCount) {
-                            SanityCheck.println({ "split $uuid writer launched E" })
-                            tmp = -1
-                        }
-                        if (tmp == -1) {
-                            SanityCheck.println({ "split $uuid writer closed A" })
-                            break@loop
-                        } else {
-                            var q = child.buf[tmp + hashVariableIndex]
-                            var cacheSize: Int
-                            if (q == ResultSetDictionary.undefValue) {
-                                //broadcast undef to every partition
-                                SanityCheck.println({ " attention may increase result count here - this is always ok, _if there is a join afterwards immediately - otherwise probably not" })
-                                cacheSize = partitionCount
-                                cacheArr[0] = 0
+                        SanityCheck.check { hashVariableIndex != -1 }
+                        val cacheArr = IntArray(partitionCount) { it }
+                        SanityCheck.println({ "split $uuid writer launched D" })
+                        loop@ while (true) {
+                            SanityCheck.println({ "split $uuid writer loop start" })
+                            var tmp = child.next()
+                            var readerFinishedCounter = 0
+                            for (p in 0 until partitionCount) {
+                                if (readerFinished[p] != 0) {
+                                    readerFinishedCounter++
+                                }
+                            }
+                            if (readerFinishedCounter == partitionCount) {
+                                SanityCheck.println({ "split $uuid writer launched E" })
+                                tmp = -1
+                            }
+                            if (tmp == -1) {
+                                SanityCheck.println({ "split $uuid writer closed A" })
+                                break@loop
                             } else {
-                                cacheSize = 1
-                                q = Partition.hashFunction(q, partitionCount)
-                                cacheArr[0] = q
-                            }
-                            loopcache@ for (i in 0 until cacheSize) {
-                                val p = cacheArr[i]
-                                if (readerFinished[p] != 0) {
-                                    continue@loopcache
+                                var q = child.buf[tmp + hashVariableIndex]
+                                var cacheSize: Int
+                                if (q == ResultSetDictionary.undefValue) {
+                                    //broadcast undef to every partition
+                                    SanityCheck.println({ " attention may increase result count here - this is always ok, _if there is a join afterwards immediately - otherwise probably not" })
+                                    cacheSize = partitionCount
+                                    cacheArr[0] = 0
+                                } else {
+                                    cacheSize = 1
+                                    q = Partition.hashFunction(q, partitionCount)
+                                    cacheArr[0] = q
                                 }
-                                SanityCheck.println({ "selected $p for $partitionVariable = $hashVariableIndex value ${child.buf[tmp + hashVariableIndex]}" })
-                                var t = (ringbufferWriteHead[p] + variables.size) % elementsPerRing
-                                while (ringbufferReadHead[p] == t && readerFinished[p] == 0) {
+                                loopcache@ for (i in 0 until cacheSize) {
+                                    val p = cacheArr[i]
+                                    if (readerFinished[p] != 0) {
+                                        continue@loopcache
+                                    }
+                                    SanityCheck.println({ "selected $p for $partitionVariable = $hashVariableIndex value ${child.buf[tmp + hashVariableIndex]}" })
+                                    var t = (ringbufferWriteHead[p] + variables.size) % elementsPerRing
+                                    while (ringbufferReadHead[p] == t && readerFinished[p] == 0) {
+                                        ringbufferReaderContinuation[p].signal()
+                                        ringbufferWriterContinuation.waitCondition({ ringbufferReadHead[p] == t && readerFinished[p] == 0 })
+                                    }
+                                    if (readerFinished[p] != 0) {
+                                        continue@loopcache
+                                    }
+                                    SanityCheck.println({ "split $uuid $p writer append data ${variables.size} ${variableMapping.toMutableList()} ${ringbufferStart[p]}" })
+                                    for (variable in 0 until variables.size) {
+                                        SanityCheck.println({ "split $uuid $p writer append data ... ${variable} ${ringbufferWriteHead[p] + variableMapping[variable] + ringbufferStart[p]} ${tmp + variable}" })
+                                        ringbuffer[ringbufferWriteHead[p] + variableMapping[variable] + ringbufferStart[p]] = child.buf[tmp + variable]
+                                        SanityCheck.println({ "split $uuid $p writer append data --- $variables ${child.columns.map { it }} ${ringbufferWriteHead[p] + variableMapping[variable] + ringbufferStart[p]}<-${tmp + variable} = ${child.buf[tmp + variable]}" })
+                                    }
+                                    SanityCheck.println({ "split $uuid $p writer append data - written data" })
+                                    ringbufferWriteHead[p] = (ringbufferWriteHead[p] + variables.size) % elementsPerRing
+                                    SanityCheck.println({ "split $uuid $p writer append data - increased pointer" })
                                     ringbufferReaderContinuation[p].signal()
-                                    ringbufferWriterContinuation.waitCondition({ ringbufferReadHead[p] == t && readerFinished[p] == 0 })
                                 }
-                                if (readerFinished[p] != 0) {
-                                    continue@loopcache
-                                }
-                                SanityCheck.println({ "split $uuid $p writer append data ${variables.size} ${variableMapping.toMutableList()} ${ringbufferStart[p]}" })
-                                for (variable in 0 until variables.size) {
-                                    SanityCheck.println({ "split $uuid $p writer append data ... ${variable} ${ringbufferWriteHead[p] + variableMapping[variable] + ringbufferStart[p]} ${tmp + variable}" })
-                                    ringbuffer[ringbufferWriteHead[p] + variableMapping[variable] + ringbufferStart[p]] = child.buf[tmp + variable]
-                                    SanityCheck.println({ "split $uuid $p writer append data --- $variables ${child.columns.map { it }} ${ringbufferWriteHead[p] + variableMapping[variable] + ringbufferStart[p]}<-${tmp + variable} = ${child.buf[tmp + variable]}" })
-                                }
-                                SanityCheck.println({ "split $uuid $p writer append data - written data" })
-                                ringbufferWriteHead[p] = (ringbufferWriteHead[p] + variables.size) % elementsPerRing
-                                SanityCheck.println({ "split $uuid $p writer append data - increased pointer" })
-                                ringbufferReaderContinuation[p].signal()
                             }
+                            SanityCheck.println({ "split $uuid writer loop end of iteration" })
                         }
-                        SanityCheck.println({ "split $uuid writer loop end of iteration" })
+                    } catch (e: Throwable) {
+                        error = e
                     }
-}catch(e:Throwable){
-error=e
-}
                     SanityCheck.println({ "split $uuid writer launched F" })
-if(child2!=null){
-                    child2.close()
-}
+                    if (child2 != null) {
+                        child2.close()
+                    }
                     continuationLock.lock()
                     writerFinished = 1
                     for (p in 0 until partitionCount) {
@@ -205,9 +205,9 @@ if(child2!=null){
                             } else if (writerFinished == 1) {
                                 SanityCheck.println({ "split $uuid $p reader closed" })
                                 iterator.close()
-if(error!=null){
-throw error!!
-}
+                                if (error != null) {
+                                    throw error!!
+                                }
                                 break@loop
                             }
                             ringbufferWriterContinuation.signal()

@@ -36,19 +36,19 @@ class MyInputStream(@JvmField val stream: InputStream) {
 }
 
 class File(@JvmField val filename: String) {
-    fun createTempFile(prefix: String, suffix: String, directory: String): String {
+    inline fun createTempFile(prefix: String, suffix: String, directory: String): String {
         var f = createTempFile(prefix, suffix, java.io.File(directory))
         return f.getAbsolutePath()
     }
 
-    fun exists() = java.io.File(filename).exists()
-    fun mkdirs() = java.io.File(filename).mkdirs()
-    fun deleteRecursively() = java.io.File(filename).deleteRecursively()
-    fun length() = java.io.File(filename).length()
-    fun readAsString() = java.io.File(filename).readText()
-    fun readAsCharIterator(): CharIterator = MyCharIterator(this)
-    fun readAsInputStream(): MyInputStream = MyInputStream(FileInputStream(java.io.File(filename)))
-    fun walk(action: (String) -> Unit) {
+    inline fun exists() = java.io.File(filename).exists()
+    inline fun mkdirs() = java.io.File(filename).mkdirs()
+    inline fun deleteRecursively() = java.io.File(filename).deleteRecursively()
+    inline fun length() = java.io.File(filename).length()
+    inline fun readAsString() = java.io.File(filename).readText()
+    inline fun readAsCharIterator(): CharIterator = MyCharIterator(this)
+    inline fun readAsInputStream(): MyInputStream = MyInputStream(FileInputStream(java.io.File(filename)))
+    inline fun walk(crossinline action: (String) -> Unit) {
         java.nio.file.Files.walk(java.nio.file.Paths.get(filename), 1).forEach { it ->
             val tmp = it.toString()
             if (tmp.length > filename.length) {
@@ -57,25 +57,26 @@ class File(@JvmField val filename: String) {
         }
     }
 
-    fun printWriter(action: (java.io.PrintWriter) -> Unit) = java.io.File(filename).printWriter().use {
+    inline fun myPrintWriter() = MyPrintWriter(java.io.File(filename))
+    inline fun printWriter(crossinline action: (java.io.PrintWriter) -> Unit) = java.io.File(filename).printWriter().use {
         action(it)
     }
 
-    suspend fun printWriterSuspended(action: suspend (java.io.PrintWriter) -> Unit) = java.io.File(filename).printWriter().use {
+    inline suspend fun printWriterSuspended(crossinline action: suspend (java.io.PrintWriter) -> Unit) = java.io.File(filename).printWriter().use {
         action(it)
     }
 
-    fun forEachLine(action: (String) -> Unit) = java.io.File(filename).forEachLine {
+    inline fun forEachLine(crossinline action: (String) -> Unit) = java.io.File(filename).forEachLine {
         action(it)
     }
 
-    suspend fun forEachLineSuspended(action: suspend (String) -> Unit) = java.io.File(filename).forEachLine {
+    inline suspend fun forEachLineSuspended(crossinline action: suspend (String) -> Unit) = java.io.File(filename).forEachLine {
         Parallel.runBlocking {
             action(it)
         }
     }
 
-    fun dataOutputStream(action: (java.io.DataOutputStream) -> Unit) {
+    inline fun dataOutputStream(crossinline action: (java.io.DataOutputStream) -> Unit) {
         var dos: DataOutputStream? = null
         try {
             val fos = FileOutputStream(filename)
@@ -99,7 +100,7 @@ class File(@JvmField val filename: String) {
         }
     }
 
-    fun dataInputStream(action: (java.io.DataInputStream) -> Unit) {
+    inline fun dataInputStream(crossinline action: (java.io.DataInputStream) -> Unit) {
         var dis: DataInputStream? = null
         try {
             val fis = FileInputStream(filename)

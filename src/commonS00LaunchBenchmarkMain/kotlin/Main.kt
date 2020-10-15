@@ -1,5 +1,3 @@
-import java.io.PrintWriter
-import java.io.StringWriter
 import lupos.s00misc.BenchmarkUtils
 import lupos.s00misc.DateHelper
 import lupos.s00misc.File
@@ -99,7 +97,7 @@ fun main(args: Array<String>) = Parallel.runBlocking {
         val queryFile = queryFiles[queryFileIdx]
         val query = File(queryFile).readAsString()
         val node = HttpEndpoint.evaluate_sparql_query_string_part1(query, true)
-        val writer = PrintWriter(StringWriter())
+        val writer = MyPrintWriter(false)
         HttpEndpoint.evaluate_sparql_query_string_part2(node, writer)
         printBenchmarkTimesHelper()
         val timer = DateHelper.markNow()

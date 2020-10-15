@@ -242,7 +242,7 @@ class POPMergePartition(query: Query, projectedVariables: List<String>, val part
                     }
                 }
                 if (error != null) {
-		iterator.close()
+                    iterator.close()
                     throw error!!
                 }
                 /*return*/res

@@ -1,7 +1,5 @@
 package lupos.s16network
 
-import java.io.PrintWriter
-import java.io.StringWriter
 import lupos.s00misc.BenchmarkUtils
 import lupos.s00misc.Coverage
 import lupos.s00misc.DateHelper
@@ -10,6 +8,7 @@ import lupos.s00misc.EModifyType
 import lupos.s00misc.ETripleComponentType
 import lupos.s00misc.File
 import lupos.s00misc.MyMapStringIntPatriciaTrie
+import lupos.s00misc.MyPrintWriter
 import lupos.s00misc.OperatorGraphToLatex
 import lupos.s00misc.parseFromXml
 import lupos.s00misc.Partition
@@ -336,7 +335,7 @@ object HttpEndpoint {
         return pop_distributed_node
     }
 
-    suspend fun evaluate_sparql_query_string_part2(node: OPBase, output: PrintWriter) {
+    suspend fun evaluate_sparql_query_string_part2(node: OPBase, output: MyPrintWriter) {
 //var timer = DateHelper.markNow()
         output.println("HTTP/1.1 200 OK")
         output.println("Content-Type: text/plain")
@@ -349,12 +348,12 @@ object HttpEndpoint {
 
     suspend fun evaluate_sparql_query_string(query: String, logOperatorGraph: Boolean = false): String {
         val node = evaluate_sparql_query_string_part1(query, logOperatorGraph)
-        var buf = StringWriter()
-        evaluate_sparql_query_string_part2(node, PrintWriter(buf))
+        val buf = MyPrintWriter()
+        evaluate_sparql_query_string_part2(node, buf)
         return buf.toString()
     }
 
-    suspend fun evaluate_sparql_query_string(query: String, output: PrintWriter, logOperatorGraph: Boolean = false) {
+    suspend fun evaluate_sparql_query_string(query: String, output: MyPrintWriter, logOperatorGraph: Boolean = false) {
 //var timer = DateHelper.markNow()
         val node = evaluate_sparql_query_string_part1(query, logOperatorGraph)
         evaluate_sparql_query_string_part2(node, output)
@@ -377,8 +376,8 @@ object HttpEndpoint {
                 SanityCheck.println({ b })
             }
         }
-        var buf = StringWriter()
-        val res = QueryResultToStream(pop_node, PrintWriter(buf))
+        var buf = MyPrintWriter()
+        val res = QueryResultToStream(pop_node, buf)
         q.commit()
         return buf.toString()
     }

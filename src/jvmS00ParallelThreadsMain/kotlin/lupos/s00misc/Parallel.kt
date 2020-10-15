@@ -25,36 +25,44 @@ class MyMutex {
         return semaphore.tryAcquire()
     }
 }
+
 class ReadWriteLock {
-@JvmField
+    @JvmField
     val uuid = debuguuidtmp123.incrementAndGet()
-@JvmField val lock =ReentrantReadWriteLock()
-inline suspend fun downgradeToReadLock() {
-  println("ReadWriteLock.downgradeToReadLock($uuid)")
-lock.readLock().lock()
-lock.writeLock().unlock()
-}
-inline suspend fun readLock() {
- println("ReadWriteLock.readLock($uuid)")
-lock.readLock().lock()
-}
-inline fun readUnlock() {
- println("ReadWriteLock.readUnlock($uuid)")
-lock.readLock().unlock()
-}
- inline suspend fun writeLock() {
- println("ReadWriteLock.writeLock($uuid)")
-lock.writeLock().lock()
-}
-inline suspend fun tryWriteLock(): Boolean {
-     println("ReadWriteLock.tryWriteLock($uuid)")
-return lock.writeLock().tryLock()
-}
- inline fun writeUnlock() {
-    println("ReadWriteLock.writeUnlock($uuid)")
-lock.writeLock().unlock()
-}
- inline suspend fun <T> withReadLock(crossinline action: suspend () -> T): T {
+    @JvmField
+    val lock = ReentrantReadWriteLock()
+    inline suspend fun downgradeToReadLock() {
+        println("ReadWriteLock.downgradeToReadLock($uuid)")
+        lock.readLock().lock()
+        lock.writeLock().unlock()
+    }
+
+    inline suspend fun readLock() {
+        println("ReadWriteLock.readLock($uuid)")
+        lock.readLock().lock()
+    }
+
+    inline fun readUnlock() {
+        println("ReadWriteLock.readUnlock($uuid)")
+        lock.readLock().unlock()
+    }
+
+    inline suspend fun writeLock() {
+        println("ReadWriteLock.writeLock($uuid)")
+        lock.writeLock().lock()
+    }
+
+    inline suspend fun tryWriteLock(): Boolean {
+        println("ReadWriteLock.tryWriteLock($uuid)")
+        return lock.writeLock().tryLock()
+    }
+
+    inline fun writeUnlock() {
+        println("ReadWriteLock.writeUnlock($uuid)")
+        lock.writeLock().unlock()
+    }
+
+    inline suspend fun <T> withReadLock(crossinline action: suspend () -> T): T {
         readLock()
         try {
             return action()
@@ -83,6 +91,7 @@ lock.writeLock().unlock()
         return res!!
     }
 }
+
 object Parallel {
     inline fun <T> runBlocking(crossinline action: () -> T): T {
         return action()

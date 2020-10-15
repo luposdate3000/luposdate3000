@@ -1,9 +1,8 @@
 package lupos.s11outputResult
 
-import java.io.PrintWriter
-import java.io.StringWriter
 import lupos.s00misc.Lock
 import lupos.s00misc.MyMapIntInt
+import lupos.s00misc.MyPrintWriter
 import lupos.s00misc.Parallel
 import lupos.s00misc.ParallelJob
 import lupos.s00misc.Partition
@@ -19,7 +18,7 @@ import lupos.s04logicalOperators.Query
 import lupos.s09physicalOperators.partition.POPMergePartition
 
 object QueryResultToXMLStream {
-    suspend fun writeValue(valueID: Int, columnName: String, dictionary: ResultSetDictionary, output: PrintWriter) {
+    suspend fun writeValue(valueID: Int, columnName: String, dictionary: ResultSetDictionary, output: MyPrintWriter) {
         dictionary.getValue(valueID, { value ->
             output.print("   <binding name=\"")
             output.print(columnName)
@@ -88,7 +87,7 @@ object QueryResultToXMLStream {
         )
     }
 
-    suspend fun writeRow(variables: Array<String>, rowBuf: IntArray, dictionary: ResultSetDictionary, output: PrintWriter) {
+    suspend fun writeRow(variables: Array<String>, rowBuf: IntArray, dictionary: ResultSetDictionary, output: MyPrintWriter) {
         output.print("  <result>\n")
         for (variableIndex in 0 until variables.size) {
             writeValue(rowBuf[variableIndex], variables[variableIndex], dictionary, output)
@@ -96,10 +95,9 @@ object QueryResultToXMLStream {
         output.print("  </result>\n")
     }
 
-    inline suspend fun writeAllRows(variables: Array<String>, columns: Array<ColumnIterator>, dictionary: ResultSetDictionary, lock: Lock?, output: PrintWriter) {
+    inline suspend fun writeAllRows(variables: Array<String>, columns: Array<ColumnIterator>, dictionary: ResultSetDictionary, lock: Lock?, output: MyPrintWriter) {
         val rowBuf = IntArray(variables.size)
-        val resultBuf = StringWriter()
-        val resultWriter = PrintWriter(resultBuf)
+        val resultWriter = MyPrintWriter()
         loop@ while (true) {
             for (variableIndex in 0 until variables.size) {
                 val valueID = columns[variableIndex].next()
@@ -110,39 +108,39 @@ object QueryResultToXMLStream {
             }
             writeRow(variables, rowBuf, dictionary, resultWriter)
             lock?.lock()
-            output.print(resultBuf.toString())
+            output.print(resultWriter.toString())
             lock?.unlock()
-            resultBuf.getBuffer().setLength(0)
+            resultWriter.clearBuffer()
         }
         for (closeIndex in 0 until columns.size) {
             columns[closeIndex]!!.close()
         }
     }
 
-    suspend fun writeNodeResult(variables: Array<String>, node: OPBase, output: PrintWriter, parent: Partition = Partition()) {
+    suspend fun writeNodeResult(variables: Array<String>, node: OPBase, output: MyPrintWriter, parent: Partition = Partition()) {
         if (node is POPMergePartition && node.partitionCount > 1) {
             val jobs = Array<ParallelJob?>(node.partitionCount) { null }
             val lock = Lock()
-val errors=Array<Throwable?>(node.partitionCount){null}
+            val errors = Array<Throwable?>(node.partitionCount) { null }
             for (p in 0 until node.partitionCount) {
                 jobs[p] = Parallel.launch {
-try{
-                    val child = node.children[0].evaluate(Partition(parent, node.partitionVariable, p, node.partitionCount))
-                    val columns = variables.map { child.columns[it]!! }.toTypedArray()
-                    writeAllRows(variables, columns, node.query.dictionary, lock, output)
-}catch(e:Throwable){ 
-errors[p]=e
-}
+                    try {
+                        val child = node.children[0].evaluate(Partition(parent, node.partitionVariable, p, node.partitionCount))
+                        val columns = variables.map { child.columns[it]!! }.toTypedArray()
+                        writeAllRows(variables, columns, node.query.dictionary, lock, output)
+                    } catch (e: Throwable) {
+                        errors[p] = e
+                    }
                 }
             }
             for (p in 0 until node.partitionCount) {
                 jobs[p]!!.join()
             }
-for (e in errors){ 
-if(e!=null){ 
-throw e
-}
-}
+            for (e in errors) {
+                if (e != null) {
+                    throw e
+                }
+            }
         } else {
             val child = node.evaluate(parent)
             val columns = variables.map { child.columns[it]!! }.toTypedArray()
@@ -150,7 +148,7 @@ throw e
         }
     }
 
-    suspend operator fun invoke(rootNode: OPBase, output: PrintWriter) {
+    suspend operator fun invoke(rootNode: OPBase, output: MyPrintWriter) {
         val nodes: Array<OPBase>
         var columnProjectionOrder = listOf<List<String>>()
         if (rootNode is OPBaseCompound) {
@@ -180,7 +178,7 @@ throw e
                 val columnNames: List<String>
                 if (columnProjectionOrder.size > i && columnProjectionOrder[i].size > 0) {
                     columnNames = columnProjectionOrder[i]
-SanityCheck.check ({ node.getProvidedVariableNames().containsAll(columnNames) },{"${columnNames.map{it}} vs ${node.getProvidedVariableNames()}"})
+                    SanityCheck.check({ node.getProvidedVariableNames().containsAll(columnNames) }, { "${columnNames.map { it }} vs ${node.getProvidedVariableNames()}" })
                 } else {
                     columnNames = node.getProvidedVariableNames()
                 }

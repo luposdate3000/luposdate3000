@@ -38,7 +38,7 @@ class PhysicalOptimizerJoinType(query: Query) : OptimizerBase(query, EOptimizerI
     }
 
     fun embedWithinPartitionContext(joinColumns: MutableList<String>, childA: OPBase, childB: OPBase, create: (OPBase, OPBase) -> OPBase): OPBase {
-        if (USE_PARTITIONS&&Partition.default_k>1) {
+        if (USE_PARTITIONS && Partition.default_k > 1) {
             var a = childA
             var b = childB
             for (s in joinColumns) {
