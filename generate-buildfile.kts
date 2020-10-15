@@ -1,4 +1,3 @@
 #!/bin/kscript
-//INCLUDE src-generate-buildfile/generate-buildfile.kt
-
+//INCLUDE src/generateBuildfile/generate-buildfile.kt
 GenerateBuildFile(args).main()

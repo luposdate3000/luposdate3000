@@ -6,7 +6,7 @@ products=1
 
 rm -rf log/benchtmp
 mkdir -p log/benchtmp
-./generate-buildfile.kts --file=src-generate-buildfile/template-exec-benchmark-luposdate3000-internal
+./generate-buildfile.kts --file=src/generateBuildfile/template-exec-benchmark-luposdate3000-internal
 ./tool-gradle-build.sh
 ret=$?
 if [ $ret -ne 0 ]

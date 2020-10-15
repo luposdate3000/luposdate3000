@@ -1,7 +1,7 @@
 #!/bin/bash
 export JAVA_OPTS="-Xmx60g"
 port="3030"
-./generate-buildfile.kts --file=src-generate-buildfile/template-exec-sparql-test-suite-jvm-fast
+./generate-buildfile.kts --file=src/generateBuildfile/template-exec-sparql-test-suite-jvm-fast
 ./tool-gradle-build.sh
 ret=$?
 if [ $ret -ne 0 ]

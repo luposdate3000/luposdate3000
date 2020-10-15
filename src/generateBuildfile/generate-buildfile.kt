@@ -340,8 +340,8 @@ class GenerateBuildFile(val args: Array<String>) {
             ),
             ChooseableGroup("Generate Code-Coverage-Code", "CoverageGenerate") to listOf(
                     ChooseableOptionSymbolic("DontChange", "commonCoverageModeDontChange"),
-                    ChoosableOptionExternalScript("On", "./src-generate-buildfile/generate-buildfile-coverage-enable.sh", "CoverageModeOn", true),
-                    ChoosableOptionExternalScript("Off", "./src-generate-buildfile/generate-buildfile-coverage-disable.sh", "CoverageModeOff", true)
+                    ChoosableOptionExternalScript("On", "./src/generateBuildfile/generate-buildfile-coverage-enable.sh", "CoverageModeOn", true),
+                    ChoosableOptionExternalScript("Off", "./src/generateBuildfile/generate-buildfile-coverage-disable.sh", "CoverageModeOff", true)
             ),
             ChooseableGroup("ServerCommunication implementation", "ServerCommunication") to listOf(
                     ChooseableOptionDirectory("None", "commonS16ServerCommunicationNoneMain"),
@@ -368,8 +368,8 @@ class GenerateBuildFile(val args: Array<String>) {
             ),
             ChooseableGroup("Inline", "Inline") to listOf(
                     ChooseableOptionSymbolic("DontChange", "commonInlineModeDontChange"),
-                    ChoosableOptionExternalScript("On", "./src-generate-buildfile/generate-buildfile-inline-enable.sh", "InlineModeOn", false),
-                    ChoosableOptionExternalScript("Off", "./src-generate-buildfile/generate-buildfile-inline-disable.sh", "InlineModeOff", false)
+                    ChoosableOptionExternalScript("On", "./src/generateBuildfile/generate-buildfile-inline-enable.sh", "InlineModeOn", false),
+                    ChoosableOptionExternalScript("Off", "./src/generateBuildfile/generate-buildfile-inline-disable.sh", "InlineModeOff", false)
             ),
             ChooseableGroup("BigInteger Implementation", "BigInteger") to listOf(
                     ChooseableOptionTypeAlias("jvmBigInteger", "lupos.s00misc", listOf("BigInteger" to "java.math.BigInteger"))
@@ -392,7 +392,7 @@ class GenerateBuildFile(val args: Array<String>) {
     )
 
     init {
-        java.io.File("src-generate-buildfile/all-template").printWriter().use { out ->
+        java.io.File("src/generateBuildfile/all-template").printWriter().use { out ->
             for ((grp, ops) in options) {
                 for (o in ops) {
                     out.println(grp.shortcut + "->" + o.label)
@@ -553,7 +553,7 @@ class GenerateBuildFile(val args: Array<String>) {
                     /*if the key is choosen, automatically add all dependent things*/
 
                     ChooseableOption("jvmS00ParallelThreadsMain") to listOf(
-                            ChoosableOptionExternalScript("SuspendModeOff", "./src-generate-buildfile/generate-buildfile-suspend-disable.sh", "SuspendModeOff", false)
+                            ChoosableOptionExternalScript("SuspendModeOff", "./src/generateBuildfile/generate-buildfile-suspend-disable.sh", "SuspendModeOff", false)
                     ),
 
                     ChooseableOption("jvmS16ServerCommunicationSocketsMain") to listOf(
@@ -826,10 +826,10 @@ ChooseableOption("commonS00ParallelCoroutinesMain") to listOf(
                 File("src.generated").deleteRecursively()
                 for (option in allChoosenOptions) {
                     if (option is ChooseableOptionDirectory && option.internalID != "commonConfig") {
-                        File("src/${option.internalID}").copyRecursively(File("src.generated/${option.internalID}"))
+                        File("src/luposdate3000_core/${option.internalID}").copyRecursively(File("src.generated/${option.internalID}"))
                     }
                 }
-                File("src/commonTemplate").copyRecursively(File("src.generated/commonTemplate"))
+                File("src/luposdate3000_core/commonTemplate").copyRecursively(File("src.generated/commonTemplate"))
 //perform scripts "before template"
                 for (option in allChoosenOptions) {
                     if (option is ChoosableOptionExternalScript && option.beforeTemplate) {

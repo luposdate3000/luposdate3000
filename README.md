@@ -12,7 +12,7 @@ Make sure you read the following comments.
 # The basic dependencies which can be installed via package manager apt.
 # Yes, there are 3 versions of java ... because the dependencies dont like the wrong one.
 # Sadly latex installs a complete gui for linux - even on server distributions.
-apt install docker docker-compose docker.io g++ gnuplot gzip htop lcov make maven net-tools ntfs-3g openjdk-8-jdk openjdk-11-jdk openjdk-14-jdk unzip zip poppler-utils texlive texlive-latex-extra p7zip-full
+apt install docker docker-compose docker.io g++ gnuplot gzip htop lcov make maven net-tools ntfs-3g openjdk-8-jdk openjdk-11-jdk openjdk-14-jdk unzip zip poppler-utils texlive texlive-latex-extra p7zip-full libncurses5
 
 # Unfortunately the ifis-git uses incorrect ssl such that thefollowing git option must be used.
 git config --global http.sslVerify false

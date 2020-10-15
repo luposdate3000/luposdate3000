@@ -1,5 +1,5 @@
 #!/bin/bash
-for f in src-generate-buildfile/template*
+for f in src/generateBuildfile/template*
 do
 	echo $f
 	./generate-buildfile.kts --file=$f
