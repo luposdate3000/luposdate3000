@@ -61,6 +61,15 @@ fun createBuildFileForModule(moduleName: String, moduleFolder: String, platform:
             }
         }
     }
+File("settings.gradle").printWriter().use { out ->
+out.println("pluginManagement {")
+out.println("    repositories {")
+out.println("        mavenLocal()")
+out.println("        gradlePluginPortal()")
+out.println("    }")
+out.println("}")
+out.println("rootProject.name = \"$moduleName\"")//maven-artifactID
+}
     File("build.gradle.kts").printWriter().use { out ->
         out.println("import org.jetbrains.kotlin.gradle.tasks.KotlinCompile")
         out.println("tasks.withType<KotlinCompile>().all {")
@@ -93,8 +102,8 @@ fun createBuildFileForModule(moduleName: String, moduleFolder: String, platform:
         out.println("    mavenLocal()")
         out.println("    mavenCentral()")
         out.println("}")
-        out.println("group = \"luposdate3000.${moduleName}\"")
-        out.println("version = \"0.0.1\"")
+        out.println("group = \"luposdate3000\"")//maven-groupID
+        out.println("version = \"0.0.1\"")//maven-version
         out.println("apply(plugin = \"maven-publish\")")
         out.println("kotlin {")
         if (hadCommon || hadJVM) {
@@ -154,6 +163,7 @@ fun createBuildFileForModule(moduleName: String, moduleFolder: String, platform:
         }
         out.println("}")
     }
+
     if (inlineMode == InlineMode.Enable) {
         applyInlineEnable()
     } else {

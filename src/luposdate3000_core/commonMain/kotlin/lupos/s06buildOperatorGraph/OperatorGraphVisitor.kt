@@ -1362,12 +1362,13 @@ return tmp
     }
 
     override fun visit(node: ASTService, childrenValues: List<OPBase>): OPBase {
-        when {
-            node.iriOrVar is ASTIri -> {
-                return LOPServiceIRI(query, node.iriOrVar.iri, node.silent, parseGroup(node.children))
+val iriOrVar=node.iriOrVar
+        when (iriOrVar){
+            is ASTIri -> {
+                return LOPServiceIRI(query, iriOrVar.iri, node.silent, parseGroup(node.children))
             }
-            node.iriOrVar is ASTVar -> {
-                return LOPServiceVAR(query, node.iriOrVar.name, node.silent, parseGroup(node.children))
+            is ASTVar -> {
+                return LOPServiceVAR(query, iriOrVar.name, node.silent, parseGroup(node.children))
             }
             else -> {
                 SanityCheck.checkUnreachable()
@@ -1649,8 +1650,9 @@ return tmp
     }
 
     override fun visit(node: ASTLoad, childrenValues: List<OPBase>): OPBase {
-        if (node.into != null) {
-            var g2 = graphRefToEnum(node.into)
+val tmp=node.into
+        if (tmp != null) {
+            var g2 = graphRefToEnum(tmp)
             return LOPGraphOperation(query, EGraphOperationType.LOAD, node.silent, EGraphRefType.DefaultGraphRef, node.iri, g2.first, g2.second)
         } else {
             return LOPGraphOperation(query, EGraphOperationType.LOAD, node.silent, EGraphRefType.DefaultGraphRef, node.iri, EGraphRefType.DefaultGraphRef, PersistentStoreLocal.defaultGraphName)

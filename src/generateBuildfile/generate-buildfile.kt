@@ -558,6 +558,7 @@ class GenerateBuildFile(val args: Array<String>) {
                             ChooseableOptionDirectory("commonS16ServerCommunicationEnabledMain")
                     ),
                     ChooseableOption("commonMain") to listOf(
+			    ChooseableOptionDependency("luposdate3000:Luposdate3000_Parser:0.0.1"),
                             ChooseableOptionDependency("org.jetbrains.kotlin:kotlin-stdlib-common:$kotlinVersion"),
                             ChooseableOptionDependency("org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"),
                             ChooseableOptionDependency("com.benasher44:uuid:0.0.7"),
@@ -639,6 +640,15 @@ class GenerateBuildFile(val args: Array<String>) {
                     println(option.toString() + " :: " + option.internalID)
                 }
                 allChoicesString = allChoicesString.replace("Main", "").replace("common", "")
+File("settings.gradle").printWriter().use { out ->
+out.println("pluginManagement {")
+out.println("    repositories {")
+out.println("        mavenLocal()")
+out.println("        gradlePluginPortal()")
+out.println("    }")
+out.println("}")
+out.println("rootProject.name = \"luposdate3000\"")//maven-artifactID
+}
                 File("build.gradle.kts").printWriter().use { out ->
                     when (platform) {
                         "jvm" -> {
