@@ -10,6 +10,7 @@ import java.io.InputStream
 import kotlin.io.createTempFile
 import kotlin.jvm.JvmField
 import lupos.s00misc.Coverage
+import lupos.s00misc.IMyInputStream
 import lupos.s00misc.Parallel
 
 class MyCharIterator(val file: File) : CharIterator() {
@@ -29,7 +30,7 @@ class MyCharIterator(val file: File) : CharIterator() {
     }
 }
 
-class MyInputStream(@JvmField val stream: InputStream) {
+class MyInputStream(@JvmField val stream: InputStream):IMyInputStream {
     inline fun read(buf: ByteArray): Int {
         return stream.read(buf, 0, buf.size)
     }

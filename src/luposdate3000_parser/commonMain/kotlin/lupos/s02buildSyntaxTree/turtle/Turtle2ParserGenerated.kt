@@ -2,12 +2,12 @@ package lupos.s02buildSyntaxTree.turtle
 
 import kotlin.jvm.JvmField
 import lupos.s00misc.Luposdate3000Exception
-import lupos.s00misc.MyInputStream
+import lupos.s00misc.IMyInputStream
 
 open class ParserException(msg: String) : Luposdate3000Exception("ParserContext", msg)
 class ParserExceptionEOF() : ParserException("EOF")
 class ParserExceptionUnexpectedChar(context: ParserContext) : ParserException("unexpected char 0x${context.c.toString(16)} at ${context.line}:${context.column}")
-class ParserContext(@JvmField val input: MyInputStream) {
+class ParserContext(@JvmField val input: IMyInputStream) {
     companion object {
         const val EOF = 0x7fffffff.toInt()
     }

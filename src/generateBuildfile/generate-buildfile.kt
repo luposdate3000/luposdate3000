@@ -492,7 +492,6 @@ ChoosableOptionInternalScript("Off",{applyInlineDisable()}, "InlineModeOff", fal
         }
     }
 
-
     /*--->>> autogenerating all possible build-files*/
     fun presentAutoChoice(group: ChooseableGroup, options: List<ChooseableOption>): ChooseableOption {
         if (options.size == 1) {
@@ -768,7 +767,6 @@ ChooseableOption("commonS00ParallelCoroutinesMain") to listOf(
                     File("build.gradle.kts").copyTo(File("build/script${allChoicesString}.gradle.kts"))
                 } catch (e: FileAlreadyExistsException) {
                 }
-                File("src.generated/commonConfig").deleteRecursively()
                 val configFilesContent = mutableMapOf<String, StringBuilder>()
                 for (option in allChoosenOptions) {
                     //first all alias definitions
@@ -827,6 +825,8 @@ ChooseableOption("commonS00ParallelCoroutinesMain") to listOf(
                 }
 //copy to save location
                 File("src.generated").deleteRecursively()
+                File("src.generated").mkdirs()
+File("src/luposdate3000_interfaces").copyRecursively(File("src.generated"))
                 for (option in allChoosenOptions) {
                     if (option is ChooseableOptionDirectory && option.internalID != "commonConfig") {
                         File("src/luposdate3000_core/${option.internalID}").copyRecursively(File("src.generated/${option.internalID}"))

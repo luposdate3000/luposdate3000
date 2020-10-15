@@ -1,8 +1,6 @@
 package lupos.s02buildSyntaxTree.sparql1_1
 
 import kotlin.jvm.JvmField
-import lupos.s00misc.classNameToString
-import lupos.s00misc.ThreadSafeUuid
 import lupos.s02buildSyntaxTree.LexerCharIterator
 import lupos.s02buildSyntaxTree.LookAheadTokenIterator
 
@@ -69,10 +67,10 @@ enum class Aggregation {
 
 open abstract class ASTNode(@JvmField val children: Array<ASTNode>) {
     companion object {
-        private val global_uuid = ThreadSafeUuid()
+        private var global_uuid = 0L
     }
 
-    val uuid: Long = global_uuid.next()
+    val uuid: Long = global_uuid++
     override fun toString(): String {
         return toString("")
     }
@@ -92,7 +90,7 @@ open abstract class ASTNode(@JvmField val children: Array<ASTNode>) {
     }
 
     open fun nodeToString(): String {
-        return classNameToString(this)
+        return "classname"
     }
 
     protected /*inline*/ fun propertyToString(indentation2: String, indentation3: String, propertyname: String, property: Array<out ASTNode>): String {

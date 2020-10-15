@@ -1,11 +1,9 @@
 resources/binary/config2
+build.gradle.kts
 generateTestcase.jar
 afl-out
 .afl-showmap*
-build/build*
-build/compile*
-build/executable
-build/gradle*
+build
 *.generated
 .git
 .gradle

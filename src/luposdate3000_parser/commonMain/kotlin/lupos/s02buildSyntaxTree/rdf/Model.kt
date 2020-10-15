@@ -1,7 +1,6 @@
 package lupos.s02buildSyntaxTree.rdf
 
 import kotlin.jvm.JvmField
-import lupos.s00misc.ThreadSafeUuid
 
 abstract class RDFTerm {
     abstract fun toN3String(): String
@@ -18,9 +17,9 @@ class BlankNode(@JvmField val local_name: String) : RDFResource() {
     override fun toN3String(): String = "_:" + local_name
 
     companion object NewNameCreator { // just for creating internal new names in case of [] in RDF documents...
-        private val counter = ThreadSafeUuid()
+        private var counter = 0L
         fun createNewName(): String {
-            return "_" + counter.next() // local names for blank nodes in RDF documents cannot start with "_". Hence we start internally given names with "_"!
+            return "_" + counter++ // local names for blank nodes in RDF documents cannot start with "_". Hence we start internally given names with "_"!
         }
     }
 }

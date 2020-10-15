@@ -1,15 +1,14 @@
 package lupos.s02buildSyntaxTree.rdf
 
 import kotlin.jvm.JvmField
-import lupos.s00misc.ThreadSafeUuid
 import lupos.s02buildSyntaxTree.rdf.RDFTerm
 
 object Dictionary {
-    private val max_id = ThreadSafeUuid()
+    private var max_id = 0L
     private val RDFTerm_to_ID = mutableMapOf<String, Long>()
     private val ID_to_RDFTerm = mutableMapOf<Long, RDFTerm>()
     private fun addRDFTerm(term: RDFTerm): Long {
-        val result = max_id.next()
+        val result = max_id++
         this.RDFTerm_to_ID[term.toN3String()] = result
         this.ID_to_RDFTerm[result] = term
         return result

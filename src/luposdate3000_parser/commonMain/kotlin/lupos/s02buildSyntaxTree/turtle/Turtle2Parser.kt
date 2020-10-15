@@ -2,7 +2,7 @@ package lupos.s02buildSyntaxTree.turtle
 
 import kotlin.jvm.JvmField
 import lupos.s00misc.ETripleComponentType
-import lupos.s00misc.MyInputStream
+import lupos.s00misc.IMyInputStream
 
 enum class Turtle2ParserState {
     EOF,
@@ -14,7 +14,7 @@ enum class Turtle2ParserState {
     TRIPLE_END_OR_OBJECT_STRING,
 }
 
-abstract class Turtle2Parser(input: MyInputStream) {
+abstract class Turtle2Parser(input: IMyInputStream) {
     @JvmField
     val context = ParserContext(input)
 
