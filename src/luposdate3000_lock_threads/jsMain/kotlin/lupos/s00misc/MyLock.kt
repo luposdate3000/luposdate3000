@@ -8,14 +8,14 @@ var uuidCounter=0
     val uuid = uuidCounter++
 
     inline fun lock() {
-throw NotImplementedException("MyLock","lock not implemented")
+throw object:NotImplementedException("MyLock","lock not implemented"){}
     }
 
     inline fun unlock() {
-throw NotImplementedException("MyLock","unlock not implemented")
+throw object:NotImplementedException("MyLock","unlock not implemented"){}
     }
 
     inline fun tryLock(): Boolean {
-throw NotImplementedException("MyLock","trylock not implemented")
+throw object:NotImplementedException("MyLock","trylock not implemented"){}
     }
 }

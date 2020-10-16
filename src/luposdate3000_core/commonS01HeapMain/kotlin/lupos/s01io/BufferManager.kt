@@ -4,6 +4,8 @@ import kotlin.jvm.JvmField
 import lupos.s00misc.Configuration
 import lupos.s00misc.PAGE_SIZE_IN_BYTES
 import lupos.s00misc.MyReadWriteLock
+import lupos.s00misc.withReadLock
+import lupos.s00misc.withWriteLock
 import lupos.s00misc.SanityCheck
 
 class BufferManager(@JvmField val bufferName: String) {
@@ -47,7 +49,7 @@ class BufferManager(@JvmField val bufferName: String) {
 
     init {
         val manager = this
-        managerListLock.withWriteLockSuspend {
+        managerListLock.withWriteLock {
             managerList.add(manager)
         }
     }

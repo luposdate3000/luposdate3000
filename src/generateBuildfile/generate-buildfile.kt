@@ -552,6 +552,7 @@ class GenerateBuildFile(val args: Array<String>) {
             additionalSources = mapOf(
                     /*if the key is choosen, automatically add all dependent things*/
                     ChooseableOption("jvmS00ParallelThreadsMain") to listOf(
+			ChooseableOptionDependency("luposdate3000:Luposdate3000_Lock_Threads:0.0.1"),
                             ChoosableOptionInternalScript("SuspendModeOff", { applySuspendDisable() }, "SuspendModeOff", false)
                     ),
                     ChooseableOption("jvmS16ServerCommunicationSocketsMain") to listOf(

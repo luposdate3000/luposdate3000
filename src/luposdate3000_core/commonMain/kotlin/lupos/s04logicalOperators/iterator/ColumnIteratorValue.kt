@@ -1,7 +1,7 @@
 package lupos.s04logicalOperators.iterator
 
 import lupos.s00misc.ClassCacheManager
-import lupos.s00misc.Lock
+import lupos.s00misc.MyLock
 import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s03resultRepresentation.Value
 

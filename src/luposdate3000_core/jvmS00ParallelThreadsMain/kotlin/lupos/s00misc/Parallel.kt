@@ -28,9 +28,9 @@ object Parallel {
         Thread.sleep(milliseconds)
     }
 
-    inline fun createCondition(lock: Lock) = ParallelCondition(lock)
+    inline fun createCondition(lock: MyLock) = ParallelCondition(lock)
     inline fun <T> createQueue(terminationValue: T) = ParallelQueue<T>(terminationValue)
-    class ParallelCondition(@JvmField val lock: Lock) {
+    class ParallelCondition(@JvmField val lock: MyLock) {
         @JvmField
         val lock2 = ReentrantLock()
 

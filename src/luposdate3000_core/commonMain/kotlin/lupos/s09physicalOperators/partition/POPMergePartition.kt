@@ -4,7 +4,7 @@ import kotlin.coroutines.Continuation
 import kotlin.coroutines.resume
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.ESortPriority
-import lupos.s00misc.Lock
+import lupos.s00misc.MyLock
 import lupos.s00misc.Parallel
 import lupos.s00misc.ParallelJob
 import lupos.s00misc.Partition
@@ -67,7 +67,7 @@ class POPMergePartition(query: Query, projectedVariables: List<String>, val part
             val ringbufferStart = IntArray(partitionCount) { it * elementsPerRing } //constant
             val ringbufferReadHead = IntArray(partitionCount) { 0 } //owned by read-thread - no locking required
             val ringbufferWriteHead = IntArray(partitionCount) { 0 } //owned by write thread - no locking required
-            var continuationLock = Lock()
+            var continuationLock = MyLock()
             val ringbufferWriterContinuation = Array(partitionCount) { Parallel.createCondition(continuationLock) }
             var ringbufferReaderContinuation = Parallel.createCondition(continuationLock)
             val writerFinished = IntArray(partitionCount) { 0 } //writer changes to 1 if finished

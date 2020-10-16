@@ -3,6 +3,6 @@
 gradle build
 gradle publishToMavenLocal
 mkdir build-cache
-rm -rf build-cache/build-module-jena-on
+rm -rf build-cache/build-module-jena-on build-cache/src-module-jena-on
 mv build build-cache/build-module-jena-on
 mv src.generated build-cache/src-module-jena-on

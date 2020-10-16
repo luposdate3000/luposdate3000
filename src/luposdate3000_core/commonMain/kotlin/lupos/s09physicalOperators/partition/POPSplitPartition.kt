@@ -4,7 +4,7 @@ import kotlin.coroutines.Continuation
 import lupos.s00misc.BugException
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.ESortPriority
-import lupos.s00misc.Lock
+import lupos.s00misc.MyLock
 import lupos.s00misc.Parallel
 import lupos.s00misc.ParallelJob
 import lupos.s00misc.Partition
@@ -82,7 +82,7 @@ class POPSplitPartition(query: Query, projectedVariables: List<String>, val part
                 val ringbufferStart = IntArray(partitionCount) { it * elementsPerRing } //constant
                 val ringbufferReadHead = IntArray(partitionCount) { 0 } //owned by read-thread - no locking required
                 val ringbufferWriteHead = IntArray(partitionCount) { 0 } //owned by write thread - no locking required
-                var continuationLock = Lock()
+                var continuationLock = MyLock()
                 val ringbufferReaderContinuation = Array(partitionCount) { Parallel.createCondition(continuationLock) }
                 var ringbufferWriterContinuation = Parallel.createCondition(continuationLock)
                 val readerFinished = IntArray(partitionCount) { 0 } //writer changes to 1 if finished

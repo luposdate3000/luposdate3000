@@ -1,7 +1,8 @@
 package lupos.s04logicalOperators
 
 import kotlin.jvm.JvmField
-import lupos.s00misc.Lock
+import lupos.s00misc.MyLock
+import lupos.s00misc.withLock
 import lupos.s00misc.ParallelJob
 import lupos.s00misc.Partition
 import lupos.s00misc.ThreadSafeUuid
@@ -12,7 +13,7 @@ import lupos.s15tripleStoreDistributed.DistributedTripleStore
 class PartitionHelper() {
     var iterators: MutableMap<Partition, Array<IteratorBundle>>? = null
     var jobs: MutableMap<Partition, ParallelJob>? = null
-    val lock = Lock()
+    val lock = MyLock()
 }
 
 class Query(@JvmField val dictionary: ResultSetDictionary = ResultSetDictionary(), @JvmField val transactionID: Long = global_transactionID.next()) {
@@ -45,14 +46,14 @@ class Query(@JvmField val dictionary: ResultSetDictionary = ResultSetDictionary(
     val partitions = mutableMapOf<Long, PartitionHelper>()
 
     @JvmField
-    val partitionsLock = Lock()
+    val partitionsLock = MyLock()
     inline fun reset() {
         partitions.clear()
     }
 
     inline suspend fun getPartitionHelper(uuid: Long): PartitionHelper {
         var res: PartitionHelper? = null
-        partitionsLock.withWriteLock {
+        partitionsLock.withLock {
             res = partitions[uuid]
             if (res == null) {
                 res = PartitionHelper()

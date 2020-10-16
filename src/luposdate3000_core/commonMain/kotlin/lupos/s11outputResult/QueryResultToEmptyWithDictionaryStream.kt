@@ -1,6 +1,6 @@
 package lupos.s11outputResult
 
-import lupos.s00misc.Lock
+import lupos.s00misc.MyLock
 import lupos.s00misc.MyMapIntInt
 import lupos.s00misc.MyPrintWriter
 import lupos.s00misc.Parallel
@@ -39,7 +39,7 @@ object QueryResultToEmptyWithDictionaryStream {
         }
     }
 
-    inline suspend fun writeAllRows(variables: Array<String>, columns: Array<ColumnIterator>, dictionary: ResultSetDictionary, lock: Lock?, output: MyPrintWriter) {
+    inline suspend fun writeAllRows(variables: Array<String>, columns: Array<ColumnIterator>, dictionary: ResultSetDictionary, lock: MyLock?, output: MyPrintWriter) {
         val rowBuf = IntArray(variables.size)
         loop@ while (true) {
             for (variableIndex in 0 until variables.size) {
@@ -59,7 +59,7 @@ object QueryResultToEmptyWithDictionaryStream {
     suspend fun writeNodeResult(variables: Array<String>, node: OPBase, output: MyPrintWriter, parent: Partition = Partition()) {
         if (node is POPMergePartition && node.partitionCount > 1) {
             val jobs = Array<ParallelJob?>(node.partitionCount) { null }
-            val lock = Lock()
+            val lock = MyLock()
             val errors = Array<Throwable?>(node.partitionCount) { null }
             for (p in 0 until node.partitionCount) {
                 jobs[p] = Parallel.launch {

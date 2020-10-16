@@ -4,7 +4,7 @@ import kotlin.jvm.JvmField
 import kotlin.math.ceil
 import kotlin.math.pow
 import lupos.s00misc.EIndexPattern
-import lupos.s00misc.Lock
+import lupos.s00misc.MyLock
 import lupos.s03resultRepresentation.Value
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04arithmetikOperators.noinput.AOPConstant
@@ -22,7 +22,7 @@ object ServerCommunicationDistribution {
     val knownHosts = mutableListOf<ServerCommunicationKnownHost>()
 
     @JvmField
-    val knownHostsLock = Lock()
+    val knownHostsLock = MyLock()
     fun printKnownHosts(): StringBuilder {
         var res = StringBuilder()
         res.append("KnownHostList :: \n")

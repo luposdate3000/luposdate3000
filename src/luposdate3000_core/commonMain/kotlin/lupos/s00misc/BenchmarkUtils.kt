@@ -4,7 +4,8 @@ import kotlin.jvm.JvmField
 import kotlin.time.DurationUnit
 import kotlin.time.TimeMark
 import kotlin.time.TimeSource.Monotonic
-import lupos.s00misc.Lock
+import lupos.s00misc.MyLock
+import lupos.s00misc.withLock
 
 enum class EBenchmark {
     HTTP,//contains all other
@@ -41,10 +42,10 @@ enum class EBenchmark {
 object BenchmarkUtils {
     val timesHelper = DoubleArray(30)
     val timesCounter = IntArray(timesHelper.size)
-    val timesLock = Lock()
+    val timesLock = MyLock()
     inline fun timesHelperMark() = Monotonic.markNow()
     suspend inline fun timesHelperDuration(i: Int, timer: TimeMark) {
-        timesLock.withWriteLock {
+        timesLock.withLock {
             timesHelper[i] += timer.elapsedNow().toDouble(DurationUnit.SECONDS)
             timesCounter[i]++
         }
@@ -52,7 +53,7 @@ object BenchmarkUtils {
 
     inline fun timesHelperDuration(timer: TimeMark) = timer.elapsedNow().toDouble(DurationUnit.SECONDS)
     suspend inline fun setTimesHelper(i: Int, t: Double, c: Int) {
-        timesLock.withWriteLock {
+        timesLock.withLock {
             timesHelper[i] += t
             timesCounter[i] += c
         }
