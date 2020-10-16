@@ -1,11 +1,11 @@
 package lupos.s05tripleStore.index_SingleList
 
-import lupos.s03resultRepresentation.MyListValue
+import lupos.s00misc.MyListInt
 import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s03resultRepresentation.Value
 import lupos.s04logicalOperators.iterator.ColumnIterator
 
-class ColumnIteratorStore3a(@JvmField val values: MyListValue) : ColumnIterator() {
+class ColumnIteratorStore3a(@JvmField val values: MyListInt) : ColumnIterator() {
     @JvmField
     var counterPrimary: Int
 

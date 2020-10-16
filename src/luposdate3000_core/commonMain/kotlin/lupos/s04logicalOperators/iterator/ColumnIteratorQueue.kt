@@ -1,6 +1,6 @@
 package lupos.s04logicalOperators.iterator
 
-import lupos.s03resultRepresentation.MyListValue
+import lupos.s00misc.MyListInt
 import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s03resultRepresentation.Value
 
@@ -9,7 +9,7 @@ abstract class ColumnIteratorQueue() : ColumnIterator() {
     var tmp: Value = ResultSetDictionary.nullValue
 
     @JvmField
-    val queue = MyListValue()
+    val queue = MyListInt()
 
     @JvmField
     var label = 1

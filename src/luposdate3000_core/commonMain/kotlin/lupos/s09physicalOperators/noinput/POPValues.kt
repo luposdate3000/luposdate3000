@@ -7,7 +7,7 @@ import lupos.s00misc.ESortPriority
 import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.XMLElement
-import lupos.s03resultRepresentation.MyListValue
+import lupos.s00misc.MyListInt
 import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s03resultRepresentation.Value
 
@@ -28,7 +28,7 @@ open class POPValues : POPBase {
     val variables: List<String>
 
     @JvmField
-    val data: Map<String, MyListValue>
+    val data: Map<String, MyListInt>
 
     @JvmField
     val rows: Int
@@ -99,14 +99,14 @@ open class POPValues : POPBase {
 
     constructor(query: Query, count: Int) : super(query, listOf<String>(), EOperatorID.POPValuesID, "POPValues", arrayOf(), ESortPriority.PREVENT_ANY) {
         variables = listOf<String>()
-        data = mapOf<String, MyListValue>()
+        data = mapOf<String, MyListInt>()
         rows = count
     }
 
     constructor(query: Query, projectedVariables: List<String>, v: List<String>, d: MutableList<List<String?>>) : super(query, projectedVariables, EOperatorID.POPValuesID, "POPValues", arrayOf(), ESortPriority.PREVENT_ANY) {
         variables = v
-        var columns = Array(variables.size) { MyListValue() }
-        data = mutableMapOf<String, MyListValue>()
+        var columns = Array(variables.size) { MyListInt() }
+        data = mutableMapOf<String, MyListInt>()
         if (projectedVariables.size == 0) {
             rows = d.size
         } else {
@@ -122,7 +122,7 @@ open class POPValues : POPBase {
         }
     }
 
-    constructor(query: Query, projectedVariables: List<String>, v: List<String>, d: Map<String, MyListValue>) : super(query, projectedVariables, EOperatorID.POPValuesID, "POPValues", arrayOf(), ESortPriority.PREVENT_ANY) {
+    constructor(query: Query, projectedVariables: List<String>, v: List<String>, d: Map<String, MyListInt>) : super(query, projectedVariables, EOperatorID.POPValuesID, "POPValues", arrayOf(), ESortPriority.PREVENT_ANY) {
         variables = v
         data = d
         rows = -1
@@ -131,7 +131,7 @@ open class POPValues : POPBase {
     constructor(query: Query, projectedVariables: List<String>, values: LOPValues) : super(query, projectedVariables, EOperatorID.POPValuesID, "POPValues", arrayOf(), ESortPriority.PREVENT_ANY) {
         if (projectedVariables.size == 0) {
             variables = listOf<String>()
-            data = mapOf<String, MyListValue>()
+            data = mapOf<String, MyListInt>()
             rows = values.children.size
         } else {
             val tmpVariables = mutableListOf<String>()
@@ -139,8 +139,8 @@ open class POPValues : POPBase {
                 tmpVariables.add(name.name)
             }
             variables = tmpVariables
-            var columns = Array(variables.size) { MyListValue() }
-            data = mutableMapOf<String, MyListValue>()
+            var columns = Array(variables.size) { MyListInt() }
+            data = mutableMapOf<String, MyListInt>()
             for (variableIndex in 0 until variables.size) {
                 data[variables[variableIndex]] = columns[variableIndex]
             }

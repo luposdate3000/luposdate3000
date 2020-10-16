@@ -6,7 +6,7 @@ import lupos.s00misc.ESortPriority
 import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.XMLElement
-import lupos.s03resultRepresentation.MyListValue
+import lupos.s00misc.MyListInt
 import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s03resultRepresentation.Value
 
@@ -66,7 +66,7 @@ class POPJoinHashMap(query: Query, projectedVariables: List<String>, childA: OPB
     }
 
     class MapRow(columns: Int) {
-        val columns = Array(columns) { MyListValue() }
+        val columns = Array(columns) { MyListInt() }
         var count = 0
     }
 
@@ -275,7 +275,7 @@ class POPJoinHashMap(query: Query, projectedVariables: List<String>, childA: OPB
                                         }
                                     }
                                 }
-                                val dataOA = Array(columnsINAO.size) { MyListValue() }
+                                val dataOA = Array(columnsINAO.size) { MyListInt() }
                                 for (columnIndex in 0 until columnsINAO.size) {
                                     for (i in 0 until countA) {
                                         var tmp2 = columnsINAO[columnIndex].next()
@@ -289,7 +289,7 @@ class POPJoinHashMap(query: Query, projectedVariables: List<String>, childA: OPB
                                         done = true
                                         countB = 1
                                         val dataJ = IntArray(outJ.size) { currentKey!![it] }
-                                        POPJoin.crossProduct(dataOA, Array(outO[1].size) { MyListValue(ResultSetDictionary.undefValue) }, dataJ, outO[0], outO[1], outJ, countA, countB)
+                                        POPJoin.crossProduct(dataOA, Array(outO[1].size) { MyListInt(ResultSetDictionary.undefValue) }, dataJ, outO[0], outO[1], outJ, countA, countB)
                                     }
                                 } else {
                                     done = true

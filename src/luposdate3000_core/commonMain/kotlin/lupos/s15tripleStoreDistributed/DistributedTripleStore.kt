@@ -10,7 +10,7 @@ import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.TriplePatternsContainingTheSameVariableTwiceNotImplementedException
 import lupos.s00misc.XMLElement
-import lupos.s03resultRepresentation.MyListValue
+import lupos.s00misc.MyListInt
 import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s03resultRepresentation.Value
 import lupos.s04arithmetikOperators.AOPBase
@@ -117,7 +117,7 @@ class DistributedGraph(val query: Query, @JvmField val name: String) {
 
     suspend fun modify(data: Array<ColumnIterator>, type: EModifyType) {
         SanityCheck.check { data.size == 3 }
-        val map = Array(3) { MyListValue() }
+        val map = Array(3) { MyListInt() }
         loop@ while (true) {
             val row = Array(3) { ResultSetDictionary.undefValue }
             for (columnIndex in 0 until 3) {

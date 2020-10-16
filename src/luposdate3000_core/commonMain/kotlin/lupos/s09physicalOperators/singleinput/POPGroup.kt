@@ -11,7 +11,7 @@ import lupos.s00misc.SanityCheck
 import lupos.s00misc.SortHelper
 import lupos.s00misc.VariableNotDefinedSyntaxException
 import lupos.s00misc.XMLElement
-import lupos.s03resultRepresentation.MyListValue
+import lupos.s00misc.MyListInt
 import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s03resultRepresentation.Value
 
@@ -482,8 +482,8 @@ class POPGroup : POPBase {
                         outMap[b.first] = ColumnIteratorRepeatValue(1, ResultSetDictionary.undefValue)
                     }
                 } else {
-                    val outKeys = Array(keyColumnNames.size) { MyListValue() }
-                    val outValues = Array(bindings.size) { MyListValue() }
+                    val outKeys = Array(keyColumnNames.size) { MyListInt() }
+                    val outValues = Array(bindings.size) { MyListInt() }
                     for ((k, v) in map) {
                         for (columnIndex in 0 until keyColumnNames.size) {
                             outKeys[columnIndex].add(k.data[columnIndex])

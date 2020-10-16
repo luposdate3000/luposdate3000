@@ -6,7 +6,7 @@ import lupos.s00misc.ESortPriority
 import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.XMLElement
-import lupos.s03resultRepresentation.MyListValue
+import lupos.s00misc.MyListInt
 import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s03resultRepresentation.Value
 
@@ -121,7 +121,7 @@ class POPJoinCartesianProduct(query: Query, projectedVariables: List<String>, ch
             res = IteratorBundle(outMap)
         } else {
             SanityCheck.println({ "POPJoinCartesianProductXXX$uuid mode D" })
-            val data = Array(columnsINBO.size) { MyListValue() }
+            val data = Array(columnsINBO.size) { MyListInt() }
             loopC@ while (true) {
                 for (columnIndex in 0 until columnsINBO.size) {
                     val value = columnsINBO[columnIndex].next()

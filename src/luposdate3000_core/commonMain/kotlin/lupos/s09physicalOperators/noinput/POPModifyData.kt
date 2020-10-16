@@ -8,7 +8,7 @@ import lupos.s00misc.GraphVariablesNotImplementedException
 import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.XMLElement
-import lupos.s03resultRepresentation.MyListValue
+import lupos.s00misc.MyListInt
 import lupos.s03resultRepresentation.Value
 import lupos.s03resultRepresentation.ValueBoolean
 
@@ -65,12 +65,12 @@ class POPModifyData(query: Query, projectedVariables: List<String>, @JvmField va
     }
 
     override suspend fun evaluate(parent: Partition): IteratorBundle {
-        val iteratorDataMap = mutableMapOf<String, Array<MyListValue>>()
+        val iteratorDataMap = mutableMapOf<String, Array<MyListInt>>()
         for (t in data) {
             for (i in 0 until 3) {
                 var tmp = iteratorDataMap[t.graph]
                 if (tmp == null) {
-                    tmp = Array(3) { MyListValue() }
+                    tmp = Array(3) { MyListInt() }
                     iteratorDataMap[t.graph] = tmp
                 }
                 tmp[i].add((t.children[i] as AOPConstant).value)

@@ -24,6 +24,7 @@ import lupos.s03resultRepresentation.ValueTypedLiteral
 import lupos.s03resultRepresentation.ValueUndef
 
 val nodeGlobalDictionary = ResultSetDictionary(true)
+typealias Value = Int
 
 @UseExperimental(kotlin.ExperimentalUnsignedTypes::class)
 class ResultSetDictionary(val global: Boolean = false) {
@@ -746,19 +747,19 @@ class ResultSetDictionary(val global: Boolean = false) {
         return res
     }
 
-    inline fun getValue(value: Value,
-                        crossinline onBNode: (value: Int) -> Unit,
-                        crossinline onBoolean: (value: Boolean) -> Unit,
-                        crossinline onLanguageTaggedLiteral: (content: String, lang: String) -> Unit,
-                        crossinline onSimpleLiteral: (content: String) -> Unit,
-                        crossinline onTypedLiteral: (content: String, type: String) -> Unit,
-                        crossinline onDecimal: (value: String) -> Unit,
-                        crossinline onFloat: (value: Double) -> Unit,
-                        crossinline onDouble: (value: Double) -> Unit,
-                        crossinline onInteger: (value: String) -> Unit,
-                        crossinline onIri: (value: String) -> Unit,
-                        crossinline onError: () -> Unit,
-                        crossinline onUndefined: () -> Unit
+     fun getValue(value: Value,
+                         onBNode: (value: Int) -> Unit,
+                         onBoolean: (value: Boolean) -> Unit,
+                         onLanguageTaggedLiteral: (content: String, lang: String) -> Unit,
+                         onSimpleLiteral: (content: String) -> Unit,
+                         onTypedLiteral: (content: String, type: String) -> Unit,
+                         onDecimal: (value: String) -> Unit,
+                         onFloat: (value: Double) -> Unit,
+                         onDouble: (value: Double) -> Unit,
+                         onInteger: (value: String) -> Unit,
+                         onIri: (value: String) -> Unit,
+                         onError: () -> Unit,
+                         onUndefined: () -> Unit
     ) {
         val dict: ResultSetDictionary
         if ((value and mask1) == mask1) {

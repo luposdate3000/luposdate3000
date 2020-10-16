@@ -1,16 +1,16 @@
 package lupos.s04logicalOperators.iterator
 
-import lupos.s03resultRepresentation.MyListValue
+import lupos.s00misc.MyListInt
 import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s03resultRepresentation.Value
 
 object ColumnIteratorMultiValue {
     operator fun invoke(values: IntArray, size: Int) = ColumnIteratorMultiValue_3(values, size)
-    operator fun invoke(values: MyListValue) = ColumnIteratorMultiValue_1(values)
+    operator fun invoke(values: MyListInt) = ColumnIteratorMultiValue_1(values)
     operator fun invoke(iterator: Iterator<Value>) = ColumnIteratorMultiValue_2(iterator)
 }
 
-class ColumnIteratorMultiValue_1(@JvmField val values: MyListValue) : ColumnIterator() {
+class ColumnIteratorMultiValue_1(@JvmField val values: MyListInt) : ColumnIterator() {
     @JvmField
     var index = 0
     override suspend fun close() {

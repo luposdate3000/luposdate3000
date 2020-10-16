@@ -6,7 +6,7 @@ import lupos.s00misc.ESortPriority
 import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.XMLElement
-import lupos.s03resultRepresentation.MyListValue
+import lupos.s00misc.MyListInt
 import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s03resultRepresentation.Value
 
@@ -138,7 +138,7 @@ class POPJoinMergeOptional(query: Query, projectedVariables: List<String>, child
                             for (i in 0 until columnsINJ[0].size) {
                                 keyCopy[i] = key[0][i]
                             }
-                            val data = Array(2) { Array(columnsINO[it].size) { MyListValue() } }
+                            val data = Array(2) { Array(columnsINO[it].size) { MyListInt() } }
                             val countA = sameElements(key[0], keyCopy, columnsINJ[0], columnsINO[0], data[0])
                             val countB = sameElements(key[1], keyCopy, columnsINJ[1], columnsINO[1], data[1])
                             done = findNextKey(key, columnsINJ, columnsINO)
@@ -201,7 +201,7 @@ class POPJoinMergeOptional(query: Query, projectedVariables: List<String>, child
         return res
     }
 
-    suspend    /*inline*/ fun sameElements(key: IntArray, keyCopy: IntArray, columnsINJ: MutableList<ColumnIterator>, columnsINO: MutableList<ColumnIterator>, data: Array<MyListValue>): Int {
+    suspend    /*inline*/ fun sameElements(key: IntArray, keyCopy: IntArray, columnsINJ: MutableList<ColumnIterator>, columnsINO: MutableList<ColumnIterator>, data: Array<MyListInt>): Int {
         SanityCheck.check { keyCopy[0] != ResultSetDictionary.nullValue }
         for (i in 0 until columnsINJ.size) {
             if (key[i] != keyCopy[i]) {

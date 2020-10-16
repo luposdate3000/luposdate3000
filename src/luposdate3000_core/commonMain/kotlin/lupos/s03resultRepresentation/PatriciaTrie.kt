@@ -1,14 +1,14 @@
 package lupos.s03resultRepresentation
 
 import lupos.s00misc.MyMapStringIntPatriciaTrie
-import lupos.s03resultRepresentation.MyListValue
+import lupos.s00misc.MyListInt
 
 class PatriciaTrie {
     var nextValue = 0
     val data = MyMapStringIntPatriciaTrie()
     fun insert(key: String) = data.getOrCreate(key, { nextValue++ })
-    fun getDictionaryMapping(dictionary: ResultSetDictionary): MyListValue {
-        val res = MyListValue(nextValue) { ResultSetDictionary.undefValue }
+    fun getDictionaryMapping(dictionary: ResultSetDictionary): MyListInt {
+        val res = MyListInt(nextValue) { ResultSetDictionary.undefValue }
         data.forEach { v, k ->
             res[k] = dictionary.createValue(ValueDefinition(v))
         }

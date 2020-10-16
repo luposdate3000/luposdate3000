@@ -1,6 +1,6 @@
 package lupos.s04logicalOperators.iterator
 
-import lupos.s03resultRepresentation.MyListValue
+import lupos.s00misc.MyListInt
 import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s03resultRepresentation.Value
 
@@ -13,7 +13,7 @@ class ColumnIteratorRepeatIterator(@JvmField val count: Int, @JvmField val child
 
     //TODO use pages instead
     @JvmField
-    val data = MyListValue()
+    val data = MyListInt()
 
     @JvmField
     var label = 1

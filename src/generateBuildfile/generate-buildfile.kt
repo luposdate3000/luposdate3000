@@ -228,7 +228,7 @@ class GenerateBuildFile(val args: Array<String>) {
             ChooseableGroup("Dictionary", "Dictionary") to listOf(
                     ChooseableOptionDirectory("MultiMap", "commonS03DictionaryMultiMapMain"),
                     ChooseableOptionDirectory("ObjectMap", "commonS03DictionaryObjectMapMain"),
-                    ChooseableOptionDirectory("Small", "commonS03DictionarySmallMain")
+                    ChooseableOptionSymbolic("Small", "commonS03DictionarySmallMain")
             ),
             ChooseableGroup("Triple Store", "TripleStore") to listOf(
                     ChooseableOptionTypeAlias("BPlusTreePartition", "lupos.s05tripleStore", listOf("TripleStoreLocal" to "TripleStoreLocalBPlusTreePartition")),
@@ -540,6 +540,9 @@ class GenerateBuildFile(val args: Array<String>) {
                     ChooseableOption("jvmS16ServerCommunicationSocketsMain") to listOf(
                             ChooseableOptionDirectory("commonS16ServerCommunicationEnabledMain")
                     ),
+ChooseableOptionSymbolic("Small", "commonS03DictionarySmallMain") to listOf(
+ChooseableOptionDependency("luposdate3000:Luposdate3000_Dictionary_Inmemory:0.0.1"),
+),
                     ChooseableOption("commonMain") to listOf(
                             ChooseableOptionDependency("luposdate3000:Luposdate3000_Parser:0.0.1"),
                             ChooseableOptionDependency("luposdate3000:Luposdate3000_Value_Definition:0.0.1"),
