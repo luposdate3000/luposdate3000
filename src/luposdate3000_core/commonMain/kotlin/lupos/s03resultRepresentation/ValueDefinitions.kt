@@ -497,12 +497,12 @@ class ValueDateTime : ValueDefinition {
 
     constructor() : super() {
         val time = DateHelper()
-        year = MyBigInteger(time.year.toString())
-        month = time.month
-        day = time.day
-        hours = time.hours
-        minutes = time.minutes
-        seconds = MyBigDecimal(time.seconds.toString())
+        year = MyBigInteger(time.year().toString())
+        month = time.month()
+        day = time.day()
+        hours = time.hours()
+        minutes = time.minutes()
+        seconds = MyBigDecimal(time.seconds().toString())
         timezoneHours = 0
         timezoneMinutes = 0
     }

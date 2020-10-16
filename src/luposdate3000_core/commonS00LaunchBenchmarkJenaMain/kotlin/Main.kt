@@ -2,6 +2,7 @@ import lupos.s00misc.DateHelper
 import lupos.s00misc.File
 import lupos.s00misc.JenaWrapper
 import lupos.s00misc.Parallel
+import lupos.s00misc.DateHelperRelative
 
 enum class Datasource {
     LOAD, IMPORT
@@ -22,19 +23,19 @@ fun main(args: Array<String>) = Parallel.runBlocking {
     val originalTripleSize = args[6].toLong()
     val datasourceBNodeFile = args[7]
     val benchmarkname = args[8]
-    val timer = DateHelper.markNow()
+    val timer = DateHelperRelative.markNow()
     JenaWrapper.loadFromFile(datasourceFiles)
-    val time = DateHelper.elapsedSeconds(timer)
+    val time = DateHelperRelative.elapsedSeconds(timer)
     printBenchmarkLine("resources/${benchmarkname}/persistence-import.sparql", time, 1, numberOfTriples, originalTripleSize)
     for (queryFile in queryFiles) {
         val query = File(queryFile).readAsString()
-        val timer = DateHelper.markNow()
+        val timer = DateHelperRelative.markNow()
         var time: Double
         var counter = 0
         while (true) {
             counter++
             JenaWrapper.execQuery(query, false)
-            time = DateHelper.elapsedSeconds(timer)
+            time = DateHelperRelative.elapsedSeconds(timer)
             if (time > minimumTime) {
                 break
             }
