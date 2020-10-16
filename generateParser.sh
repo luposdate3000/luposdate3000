@@ -2,7 +2,7 @@
 echo "package lupos.s02buildSyntaxTree.turtle"
 echo "import kotlin.jvm.JvmField"
 echo "import lupos.s00misc.Luposdate3000Exception"
-echo "import lupos.s00misc.MyInputStream"
+echo "import lupos.s00misc.IMyInputStream"
 echo "open class ParserException(msg:String):Luposdate3000Exception(\"ParserContext\",msg)"
 echo "internal class ParserExceptionEOF():ParserException(\"EOF\")"
 echo "internal class ParserExceptionUnexpectedChar(context:ParserContext):ParserException(\"unexpected char 0x\${context.c.toString(16)} at \${context.line}:\${context.column}\")"

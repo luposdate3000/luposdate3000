@@ -1262,7 +1262,7 @@ var allTokens = mapOf(
 var root = CharGroup()
 
 if (args.size == 1 && args[0] == "PARSER_CONTEXT") {
-    println("internal class ParserContext(@JvmField val input:MyInputStream){")
+    println("internal class ParserContext(@JvmField val input:IMyInputStream){")
     println(" internal companion object{")
     println("  const val EOF=0x7fffffff.toInt()")
     println(" }")
@@ -1286,8 +1286,8 @@ if (args.size == 1 && args[0] == "PARSER_CONTEXT") {
     println("   next()")
     println("  } else {")
     println("   c-=0x100000")
-    println("   outBuffer.append((0xd800+((c shr 10)and 0x3ff)).toChar())")
-    println("   outBuffer.append((0xdc00+(c and 0x3ff)).toChar())")
+    println("   outBuffer.append((0xd800+((c shr 10)and 0x03ff)).toChar())")
+    println("   outBuffer.append((0xdc00+(c and 0x03ff)).toChar())")
     println("   next()")
     println("  }")
     println(" }")
@@ -1335,7 +1335,7 @@ if (args.size == 1 && args[0] == "PARSER_CONTEXT") {
     println("  } else if((t and 0x10)==0){")
     println("   //3byte")
     println("   flagR_N=false")
-    println("   c=(t and 0xf) shl 12")
+    println("   c=(t and 0x0f) shl 12")
     println("   if(inBufPosition>=inBufSize){")
     println("    inBufSize=input.read(inBuf)")
     println("    inBufPosition=0")
@@ -1358,7 +1358,7 @@ if (args.size == 1 && args[0] == "PARSER_CONTEXT") {
     println("  } else {")
     println("   //4byte")
     println("   flagR_N=false")
-    println("   c=(t and 0x7) shl 18")
+    println("   c=(t and 0x07) shl 18")
     println("   if(inBufPosition>=inBufSize){")
     println("    inBufSize=input.read(inBuf)")
     println("    inBufPosition=0")
@@ -1417,9 +1417,9 @@ if (args.size == 1 && args[0] == "PARSER_CONTEXT") {
     println("}")
     for ((k, v) in CharGroup.helperfunctions) {
         if (k.length < 300) {
-            println("inline fun ${v}(c:Int):Int{")
+            println("internal inline fun ${v}(c:Int):Int{")
         } else {
-            println("fun ${v}(c:Int):Int{")
+            println("internal fun ${v}(c:Int):Int{")
         }
         print(k)
         println("}")
