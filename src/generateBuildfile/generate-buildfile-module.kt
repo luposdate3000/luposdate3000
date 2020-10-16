@@ -36,7 +36,7 @@ fun createBuildFileForModule(args: Array<String>) {
     }
     File("src.generated").deleteRecursively()
     File("src.generated").mkdirs()
-    File("src/luposdate3000_interfaces").copyRecursively(File("src.generated"))
+    File("src/luposdate3000_shared_inline").copyRecursively(File("src.generated"))
     val p = Paths.get(moduleFolder)
     Files.walk(p, 1).forEach { it ->
         val tmp = it.toString()
@@ -126,6 +126,9 @@ fun createBuildFileForModule(args: Array<String>) {
         out.println("        val commonMain by getting {")
         out.println("            dependencies {")
         val commonDependencies = mutableSetOf("org.jetbrains.kotlin:kotlin-stdlib-common:1.4.255-SNAPSHOT")
+if(moduleName!="Luposdate3000_Shared"){
+commonDependencies.add("luposdate3000:Luposdate3000_Shared:0.0.1")
+}
         if (File("${moduleFolder}/commonDependencies").exists()) {
             File("${moduleFolder}/commonDependencies").forEachLine {
                 if (it.length > 0) {

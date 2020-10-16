@@ -2,9 +2,8 @@ package lupos.s00misc
 
 import kotlin.jvm.JvmField
 
-expect class MyReadWriteLock {
-constructor()
-fun getUUID():Long
+expect class MyReadWriteLock (){
+     fun getUUID():Long
      fun downgradeToReadLock()
      fun readLock()
      fun readUnlock()

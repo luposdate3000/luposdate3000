@@ -3,7 +3,7 @@ package lupos.s00misc
 import lupos.s00misc.NotImplementedException
 
 actual class MyReadWriteLock {
-    companion object {
+internal    companion object {
         var uuidCounter = 0L
     }
 

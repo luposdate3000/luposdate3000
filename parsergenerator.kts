@@ -1262,8 +1262,8 @@ var allTokens = mapOf(
 var root = CharGroup()
 
 if (args.size == 1 && args[0] == "PARSER_CONTEXT") {
-    println("class ParserContext(@JvmField val input:MyInputStream){")
-    println(" companion object{")
+    println("internal class ParserContext(@JvmField val input:MyInputStream){")
+    println(" internal companion object{")
     println("  const val EOF=0x7fffffff.toInt()")
     println(" }")
     println(" @JvmField var c:Int=0")
@@ -1395,7 +1395,7 @@ if (args.size == 1 && args[0] == "PARSER_CONTEXT") {
     println("}")
 } else if (args.size > 1) {
     CharGroup.functionName = args[0]
-    println("inline fun ${CharGroup.functionName}(context:ParserContext,")
+    println("internal inline fun ${CharGroup.functionName}(context:ParserContext,")
     for (idx in 1 until args.size - 1) {
         println(" crossinline on${args[idx]}:()->Unit,")
         root.append(parseRegex(allTokens[args[idx]]!!, CharGroup(args[idx], CharGroupModifier.ACTION)))

@@ -3,7 +3,7 @@ package lupos.s00misc
 import java.util.concurrent.locks.ReentrantReadWriteLock
 
 actual class MyReadWriteLock {
-    companion object {
+internal    companion object {
         var uuidCounter = 0L
     }
 

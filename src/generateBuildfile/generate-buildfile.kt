@@ -560,6 +560,7 @@ class GenerateBuildFile(val args: Array<String>) {
                     ),
                     ChooseableOption("commonMain") to listOf(
                             ChooseableOptionDependency("luposdate3000:Luposdate3000_Parser:0.0.1"),
+                            ChooseableOptionDependency("luposdate3000:Luposdate3000_Shared:0.0.1"),
                             ChooseableOptionDependency("luposdate3000:Luposdate3000_Buffer_Manager_Inmemory:0.0.1"),
                             ChooseableOptionDependency("org.jetbrains.kotlin:kotlin-stdlib-common:$kotlinVersion"),
                             ChooseableOptionDependency("org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"),
@@ -836,7 +837,7 @@ class GenerateBuildFile(val args: Array<String>) {
 //copy to save location
                 File("src.generated").deleteRecursively()
                 File("src.generated").mkdirs()
-                File("src/luposdate3000_interfaces").copyRecursively(File("src.generated"))
+                File("src/luposdate3000_shared_inline").copyRecursively(File("src.generated"))
                 for (option in allChoosenOptions) {
                     if (option is ChooseableOptionDirectory && option.internalID != "commonConfig") {
                         File("src/luposdate3000_core/${option.internalID}").copyRecursively(File("src.generated/${option.internalID}"))

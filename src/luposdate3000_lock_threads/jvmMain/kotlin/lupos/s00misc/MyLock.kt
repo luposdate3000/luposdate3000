@@ -3,7 +3,7 @@ package lupos.s00misc
 import java.util.concurrent.Semaphore
 
 actual class MyLock {
-    companion object {
+internal    companion object {
         var uuidCounter = 0L
     }
 
