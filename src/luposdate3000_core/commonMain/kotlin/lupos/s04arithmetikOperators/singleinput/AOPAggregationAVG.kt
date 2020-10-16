@@ -2,9 +2,9 @@ package lupos.s04arithmetikOperators.singleinput
 
 import kotlin.jvm.JvmField
 import lupos.s00misc.Coverage
-import lupos.s00misc.MyBigDecimal
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.EvaluationException
+import lupos.s00misc.MyBigDecimal
 import lupos.s00misc.SanityCheck
 import lupos.s02buildSyntaxTree.sparql1_1.Aggregation
 import lupos.s03resultRepresentation.Value
@@ -51,7 +51,7 @@ class AOPAggregationAVG(query: Query, @JvmField val distinct: Boolean, childs: A
                 } else if (tmp1 is ValueFloat || value is ValueFloat) {
                     tmp1 = ValueFloat(tmp1.toDouble() + value.toDouble())
                 } else if (tmp1 is ValueDecimal || value is ValueDecimal) {
-                    tmp1 = ValueDecimal(tmp1.toDecimal()+ value.toDecimal())
+                    tmp1 = ValueDecimal(tmp1.toDecimal() + value.toDecimal())
                 } else if (tmp1 is ValueInteger || value is ValueInteger) {
                     tmp1 = ValueDecimal((tmp1.toInt() + value.toInt()).toMyBigDecimal())
                 } else {
@@ -82,7 +82,7 @@ class AOPAggregationAVG(query: Query, @JvmField val distinct: Boolean, childs: A
             } else if (tmp1 is ValueFloat) {
                 res = ValueFloat(tmp1.toDouble() / tmp.count)
             } else if (tmp1 is ValueDecimal) {
-                res = ValueDecimal(tmp1.value/ MyBigDecimal(tmp.count))
+                res = ValueDecimal(tmp1.value / MyBigDecimal(tmp.count))
                 SanityCheck.println({ "AOPAggregationAVG C ${tmp1.value.toString()} / ${tmp.count.toBigDecimal().toString()} = ${(res as ValueDecimal).value.toString()}" })
             } else {
                 res = ValueError()

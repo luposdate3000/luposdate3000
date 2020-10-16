@@ -2,8 +2,8 @@ package lupos.s04arithmetikOperators.singleinput
 
 import kotlin.math.roundToInt
 import lupos.s00misc.Coverage
-import lupos.s00misc.MyBigDecimal
 import lupos.s00misc.EOperatorID
+import lupos.s00misc.MyBigDecimal
 import lupos.s00misc.SanityCheck
 import lupos.s03resultRepresentation.Value
 import lupos.s03resultRepresentation.ValueDecimal

@@ -1,10 +1,10 @@
 package lupos.s14endpoint
 
-import lupos.s00misc.MyBigDecimal
-import lupos.s00misc.MyBigInteger
 import lupos.s00misc.Coverage
 import lupos.s00misc.EIndexPattern
 import lupos.s00misc.ESortType
+import lupos.s00misc.MyBigDecimal
+import lupos.s00misc.MyBigInteger
 import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.SortHelper

@@ -1,6 +1,6 @@
 package lupos.s00misc
 
- inline fun <T> MyReadWriteLock.withReadLock(crossinline action: () -> T): T {
+inline fun <T> MyReadWriteLock.withReadLock(crossinline action: () -> T): T {
     readLock()
     try {
         return action()
@@ -9,7 +9,7 @@ package lupos.s00misc
     }
 }
 
- inline fun <T> MyReadWriteLock.withWriteLock(crossinline action: () -> T): T {
+inline fun <T> MyReadWriteLock.withWriteLock(crossinline action: () -> T): T {
     writeLock()
     try {
         return action()

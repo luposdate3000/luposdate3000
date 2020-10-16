@@ -538,9 +538,9 @@ class GenerateBuildFile(val args: Array<String>) {
                     ChooseableOption("jvmS16ServerCommunicationSocketsMain") to listOf(
                             ChooseableOptionDirectory("commonS16ServerCommunicationEnabledMain")
                     ),
-ChooseableOptionSymbolic("Inmemory", "commonS03DictionaryInmemoryMain") to listOf(
-ChooseableOptionDependency("luposdate3000:Luposdate3000_Dictionary_Inmemory:0.0.1"),
-),
+                    ChooseableOptionSymbolic("Inmemory", "commonS03DictionaryInmemoryMain") to listOf(
+                            ChooseableOptionDependency("luposdate3000:Luposdate3000_Dictionary_Inmemory:0.0.1"),
+                    ),
                     ChooseableOption("commonMain") to listOf(
                             ChooseableOptionDependency("luposdate3000:Luposdate3000_Parser:0.0.1"),
                             ChooseableOptionDependency("luposdate3000:Luposdate3000_Value_Definition:0.0.1"),

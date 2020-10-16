@@ -1,10 +1,10 @@
 package lupos.s03resultRepresentation
 
 import kotlin.jvm.JvmField
-import lupos.s00misc.MyBigDecimal
-import lupos.s00misc.MyBigInteger
 import lupos.s00misc.ETripleComponentType
 import lupos.s00misc.File
+import lupos.s00misc.MyBigDecimal
+import lupos.s00misc.MyBigInteger
 import lupos.s00misc.MyListDouble
 import lupos.s00misc.MyMapDoubleInt
 import lupos.s00misc.MyMapIntInt

@@ -27,19 +27,21 @@ actual class MyBigInteger {
         throw object : NotImplementedException("MyBigDecimal", "toInt not implemented") {}
     }
 
-actual operator fun plus(other:MyBigInteger):MyBigInteger{
-throw object : NotImplementedException("MyBigInteger", "plus not implemented") {}
-}
-actual operator fun minus(other:MyBigInteger):MyBigInteger{
-throw object : NotImplementedException("MyBigInteger", "minus not implemented") {}
-}
-actual operator fun times(other:MyBigInteger):MyBigInteger{
-throw object : NotImplementedException("MyBigInteger", "times not implemented") {}
-}
-actual operator fun div(other:MyBigInteger):MyBigInteger{
-throw object : NotImplementedException("MyBigInteger", "div not implemented") {}
-}
+    actual operator fun plus(other: MyBigInteger): MyBigInteger {
+        throw object : NotImplementedException("MyBigInteger", "plus not implemented") {}
+    }
 
+    actual operator fun minus(other: MyBigInteger): MyBigInteger {
+        throw object : NotImplementedException("MyBigInteger", "minus not implemented") {}
+    }
+
+    actual operator fun times(other: MyBigInteger): MyBigInteger {
+        throw object : NotImplementedException("MyBigInteger", "times not implemented") {}
+    }
+
+    actual operator fun div(other: MyBigInteger): MyBigInteger {
+        throw object : NotImplementedException("MyBigInteger", "div not implemented") {}
+    }
 
     actual fun ceil(): MyBigInteger {
         throw object : NotImplementedException("MyBigInteger", "ceil not implemented") {}
@@ -56,7 +58,8 @@ throw object : NotImplementedException("MyBigInteger", "div not implemented") {}
     actual fun toMyBigDecimal(): MyBigDecimal {
         throw object : NotImplementedException("MyBigInteger", "toMyBigDecimal not implemented") {}
     }
-actual fun abs():MyBigInteger{ 
-throw object : NotImplementedException("MyBigInteger", "abs not implemented") {}
-}
+
+    actual fun abs(): MyBigInteger {
+        throw object : NotImplementedException("MyBigInteger", "abs not implemented") {}
+    }
 }

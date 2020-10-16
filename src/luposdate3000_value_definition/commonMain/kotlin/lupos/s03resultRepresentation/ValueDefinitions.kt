@@ -1,8 +1,6 @@
 package lupos.s03resultRepresentation
 
 import kotlin.jvm.JvmField
-import lupos.s00misc.MyBigDecimal
-import lupos.s00misc.MyBigInteger
 import lupos.s00misc.CanNotCastBNodeToBooleanException
 import lupos.s00misc.CanNotCastBNodeToDecimalException
 import lupos.s00misc.CanNotCastBNodeToDoubleException
@@ -31,6 +29,8 @@ import lupos.s00misc.CanNotCastUndefToDoubleException
 import lupos.s00misc.CanNotCastUndefToIntException
 import lupos.s00misc.DateHelper
 import lupos.s00misc.IncompatibleTypesDuringCompareException
+import lupos.s00misc.MyBigDecimal
+import lupos.s00misc.MyBigInteger
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.XMLElement
 
@@ -162,7 +162,7 @@ class ValueBoolean(@JvmField var value: Boolean, x: Boolean) : ValueDefinition()
 sealed class ValueNumeric() : ValueDefinition()
 class ValueUndef() : ValueDefinition() {
     override suspend fun toXMLElement() = XMLElement("ValueUndef")
-    override fun valueToString():String? = null
+    override fun valueToString(): String? = null
     override fun equals(other: Any?): Boolean {
         if (other is ValueUndef) {
             return true
@@ -180,7 +180,7 @@ class ValueUndef() : ValueDefinition() {
 
 class ValueError() : ValueDefinition() {
     override suspend fun toXMLElement() = XMLElement("ValueError")
-    override fun valueToString() :String?= null
+    override fun valueToString(): String? = null
     override fun equals(other: Any?): Boolean = throw IncompatibleTypesDuringCompareException()
     override fun toDouble() = throw CanNotCastErrorToDoubleException()
     override fun toDecimal() = throw CanNotCastErrorToDecimalException()

@@ -6,7 +6,6 @@ import lupos.s02buildSyntaxTree.rdf.Dictionary
 import lupos.s02buildSyntaxTree.turtle.TurtleParserWithDictionary
 import lupos.s02buildSyntaxTree.turtle.TurtleScanner
 import lupos.s03resultRepresentation.Value
-
 import lupos.s04logicalOperators.Query
 import lupos.s09physicalOperators.noinput.POPValuesImportBase
 

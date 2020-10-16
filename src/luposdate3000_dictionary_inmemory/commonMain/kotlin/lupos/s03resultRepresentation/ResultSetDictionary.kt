@@ -1,9 +1,9 @@
 package lupos.s03resultRepresentation
 
 import kotlin.jvm.JvmField
+import lupos.s00misc.ETripleComponentType
 import lupos.s00misc.MyBigDecimal
 import lupos.s00misc.MyBigInteger
-import lupos.s00misc.ETripleComponentType
 import lupos.s00misc.SanityCheck
 import lupos.s03resultRepresentation.nodeGlobalDictionary
 import lupos.s03resultRepresentation.ResultSetDictionary
@@ -747,19 +747,19 @@ class ResultSetDictionary(val global: Boolean = false) {
         return res
     }
 
-     fun getValue(value: Value,
-                         onBNode: (value: Int) -> Unit,
-                         onBoolean: (value: Boolean) -> Unit,
-                         onLanguageTaggedLiteral: (content: String, lang: String) -> Unit,
-                         onSimpleLiteral: (content: String) -> Unit,
-                         onTypedLiteral: (content: String, type: String) -> Unit,
-                         onDecimal: (value: String) -> Unit,
-                         onFloat: (value: Double) -> Unit,
-                         onDouble: (value: Double) -> Unit,
-                         onInteger: (value: String) -> Unit,
-                         onIri: (value: String) -> Unit,
-                         onError: () -> Unit,
-                         onUndefined: () -> Unit
+    fun getValue(value: Value,
+                 onBNode: (value: Int) -> Unit,
+                 onBoolean: (value: Boolean) -> Unit,
+                 onLanguageTaggedLiteral: (content: String, lang: String) -> Unit,
+                 onSimpleLiteral: (content: String) -> Unit,
+                 onTypedLiteral: (content: String, type: String) -> Unit,
+                 onDecimal: (value: String) -> Unit,
+                 onFloat: (value: Double) -> Unit,
+                 onDouble: (value: Double) -> Unit,
+                 onInteger: (value: String) -> Unit,
+                 onIri: (value: String) -> Unit,
+                 onError: () -> Unit,
+                 onUndefined: () -> Unit
     ) {
         val dict: ResultSetDictionary
         if ((value and mask1) == mask1) {

@@ -1,7 +1,7 @@
 package lupos.s09physicalOperators.multiinput
 
-import lupos.s00misc.SanityCheck
 import lupos.s00misc.MyListInt
+import lupos.s00misc.SanityCheck
 import lupos.s03resultRepresentation.Value
 import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.s04logicalOperators.iterator.ColumnIteratorChildIterator

@@ -3,12 +3,12 @@ package lupos.s00misc
 import lupos.s00misc.NotImplementedException
 
 actual class MyReadWriteLock {
-internal    companion object {
+    internal companion object {
         var uuidCounter = 0L
     }
 
     val uuid = uuidCounter++
-actual fun getUUID()=uuid
+    actual fun getUUID() = uuid
     actual fun downgradeToReadLock() {
         throw object : NotImplementedException("MyReadWriteLock", "downgradeToReadLock not implemented") {}
     }

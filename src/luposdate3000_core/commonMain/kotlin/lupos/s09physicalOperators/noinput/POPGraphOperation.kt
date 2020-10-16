@@ -1,6 +1,5 @@
 package lupos.s09physicalOperators.noinput
 
-import lupos.s00misc.parseFromAny
 import kotlin.jvm.JvmField
 import lupos.s00misc.EGraphOperationType
 import lupos.s00misc.EGraphRefType
@@ -10,10 +9,10 @@ import lupos.s00misc.EOperatorID
 import lupos.s00misc.ESortPriority
 import lupos.s00misc.EvaluationException
 import lupos.s00misc.File
+import lupos.s00misc.parseFromAny
 import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.XMLElement
-
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query

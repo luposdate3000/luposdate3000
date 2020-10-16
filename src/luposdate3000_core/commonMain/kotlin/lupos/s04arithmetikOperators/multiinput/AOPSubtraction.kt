@@ -1,9 +1,9 @@
 package lupos.s04arithmetikOperators.multiinput
 
 import lupos.s00misc.Coverage
-import lupos.s00misc.MyBigDecimal
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.EvaluationException
+import lupos.s00misc.MyBigDecimal
 import lupos.s00misc.SanityCheck
 import lupos.s03resultRepresentation.Value
 import lupos.s03resultRepresentation.ValueDecimal
@@ -33,7 +33,7 @@ class AOPSubtraction(query: Query, childA: AOPBase, childB: AOPBase) : AOPBase(q
                 } else if (a is ValueFloat || b is ValueFloat) {
                     res = ValueFloat(a.toDouble() - b.toDouble())
                 } else if (a is ValueDecimal || b is ValueDecimal) {
-                    res = ValueDecimal(a.toDecimal()- b.toDecimal())
+                    res = ValueDecimal(a.toDecimal() - b.toDecimal())
                 } else if (a is ValueInteger || b is ValueInteger) {
                     res = ValueInteger(a.toInt() - b.toInt())
                 }

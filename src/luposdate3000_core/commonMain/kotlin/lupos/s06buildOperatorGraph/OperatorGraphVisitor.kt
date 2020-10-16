@@ -1,11 +1,9 @@
 package lupos.s06buildOperatorGraph
-import lupos.s00misc.parseFromAny
+
 import kotlin.jvm.JvmField
 import lupos.s00misc.AggregateNotAllowedSyntaxException
 import lupos.s00misc.classNameToString
 import lupos.s00misc.Coverage
-import lupos.s00misc.MyBigDecimal
-import lupos.s00misc.MyBigInteger
 import lupos.s00misc.DatasetImportFailedException
 import lupos.s00misc.EGraphOperationType
 import lupos.s00misc.EGraphRefType
@@ -13,6 +11,9 @@ import lupos.s00misc.EGroupMember
 import lupos.s00misc.EModifyType
 import lupos.s00misc.File
 import lupos.s00misc.GroupByClauseNotUsedException
+import lupos.s00misc.MyBigDecimal
+import lupos.s00misc.MyBigInteger
+import lupos.s00misc.parseFromAny
 import lupos.s00misc.ProjectionDoubleDefinitionOfVariableSyntaxException
 import lupos.s00misc.RecoursiveVariableDefinitionSyntaxException
 import lupos.s00misc.SanityCheck

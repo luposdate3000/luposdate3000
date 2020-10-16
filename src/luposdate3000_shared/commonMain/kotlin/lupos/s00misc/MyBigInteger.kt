@@ -9,12 +9,12 @@ expect class MyBigInteger {
     fun toInt(): Int
     fun toMyBigDecimal(): MyBigDecimal
     fun compareTo(other: MyBigInteger): Int
-operator fun plus(other:MyBigInteger):MyBigInteger
-operator fun minus(other:MyBigInteger):MyBigInteger
-operator fun times(other:MyBigInteger):MyBigInteger
-operator fun div(other:MyBigInteger):MyBigInteger
+    operator fun plus(other: MyBigInteger): MyBigInteger
+    operator fun minus(other: MyBigInteger): MyBigInteger
+    operator fun times(other: MyBigInteger): MyBigInteger
+    operator fun div(other: MyBigInteger): MyBigInteger
     fun ceil(): MyBigInteger
     fun floor(): MyBigInteger
     fun round(): MyBigInteger
-fun abs():MyBigInteger
+    fun abs(): MyBigInteger
 }

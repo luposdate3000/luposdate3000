@@ -1,5 +1,5 @@
 package lupos.s00misc
-import lupos.s00misc.parseFromAny
+
 import kotlin.jvm.JvmField
 import lupos.s00misc.Coverage
 import lupos.s00misc.DateHelper
@@ -15,6 +15,7 @@ import lupos.s00misc.MyMapStringIntPatriciaTrie
 import lupos.s00misc.MyPrintWriter
 import lupos.s00misc.NotImplementedException
 import lupos.s00misc.OperatorGraphToLatex
+import lupos.s00misc.parseFromAny
 import lupos.s00misc.parseFromXml
 import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck

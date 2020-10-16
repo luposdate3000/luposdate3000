@@ -1,7 +1,7 @@
 package lupos.s03resultRepresentation
 
-import lupos.s00misc.MyMapStringIntPatriciaTrie
 import lupos.s00misc.MyListInt
+import lupos.s00misc.MyMapStringIntPatriciaTrie
 
 class PatriciaTrie {
     var nextValue = 0

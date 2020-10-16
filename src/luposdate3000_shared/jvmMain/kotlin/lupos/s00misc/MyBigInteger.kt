@@ -1,8 +1,8 @@
 package lupos.s00misc
 
 import java.math.BigInteger
-import java.math.RoundingMode
 import java.math.MathContext
+import java.math.RoundingMode
 
 actual class MyBigInteger {
     val s: String
@@ -39,18 +39,22 @@ actual class MyBigInteger {
     actual fun compareTo(other: MyBigInteger): Int {
         return v.compareTo(other.v)
     }
-actual operator fun plus(other:MyBigInteger):MyBigInteger{ 
-  return MyBigInteger(v.add(other.v))
-}
-actual operator fun minus(other:MyBigInteger):MyBigInteger{ 
- return MyBigInteger(v.subtract(other.v))
-}
-actual operator fun times(other:MyBigInteger):MyBigInteger{ 
- return MyBigInteger(v.multiply(other.v))
-}
-actual operator fun div(other:MyBigInteger):MyBigInteger{ 
- return MyBigInteger(v.divide(other.v))
-}
+
+    actual operator fun plus(other: MyBigInteger): MyBigInteger {
+        return MyBigInteger(v.add(other.v))
+    }
+
+    actual operator fun minus(other: MyBigInteger): MyBigInteger {
+        return MyBigInteger(v.subtract(other.v))
+    }
+
+    actual operator fun times(other: MyBigInteger): MyBigInteger {
+        return MyBigInteger(v.multiply(other.v))
+    }
+
+    actual operator fun div(other: MyBigInteger): MyBigInteger {
+        return MyBigInteger(v.divide(other.v))
+    }
 
     actual fun ceil(): MyBigInteger {
         return this
@@ -67,7 +71,8 @@ actual operator fun div(other:MyBigInteger):MyBigInteger{
     actual fun toMyBigDecimal(): MyBigDecimal {
         return MyBigDecimal(v.toBigDecimal())
     }
-actual fun abs():MyBigInteger{
-return MyBigInteger(v.abs())
-}
+
+    actual fun abs(): MyBigInteger {
+        return MyBigInteger(v.abs())
+    }
 }

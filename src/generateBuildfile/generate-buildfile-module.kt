@@ -126,9 +126,9 @@ fun createBuildFileForModule(args: Array<String>) {
         out.println("        val commonMain by getting {")
         out.println("            dependencies {")
         val commonDependencies = mutableSetOf("org.jetbrains.kotlin:kotlin-stdlib-common:1.4.255-SNAPSHOT")
-if(moduleName!="Luposdate3000_Shared"){
-commonDependencies.add("luposdate3000:Luposdate3000_Shared:0.0.1")
-}
+        if (moduleName != "Luposdate3000_Shared") {
+            commonDependencies.add("luposdate3000:Luposdate3000_Shared:0.0.1")
+        }
         if (File("${moduleFolder}/commonDependencies").exists()) {
             File("${moduleFolder}/commonDependencies").forEachLine {
                 if (it.length > 0) {
@@ -202,19 +202,19 @@ commonDependencies.add("luposdate3000:Luposdate3000_Shared:0.0.1")
         } else {
             out.println("internal typealias SanityCheck = SanityCheckOn")
         }
-if(File("${moduleFolder}/configOptions").exists()){
-        File("${moduleFolder}/configOptions").forEachLine {
-            val opt = it.split(",")
-            if (opt.size == 4) {
-                var value = opt[3]
-                for (a in args) {
-                    if (a.startsWith("--${opt[0]}") && a.contains("=")) {
-                        value = a.substring(a.indexOf("=") + 1)
+        if (File("${moduleFolder}/configOptions").exists()) {
+            File("${moduleFolder}/configOptions").forEachLine {
+                val opt = it.split(",")
+                if (opt.size == 4) {
+                    var value = opt[3]
+                    for (a in args) {
+                        if (a.startsWith("--${opt[0]}") && a.contains("=")) {
+                            value = a.substring(a.indexOf("=") + 1)
+                        }
                     }
+                    out.println("${opt[1]} ${opt[0]}: ${opt[2]} = $value")
                 }
-                out.println("${opt[1]} ${opt[0]}: ${opt[2]} = $value")
             }
-}
         }
     }
     if (inlineMode == InlineMode.Enable) {

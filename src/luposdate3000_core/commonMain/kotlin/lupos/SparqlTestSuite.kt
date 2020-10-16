@@ -1,10 +1,9 @@
 package lupos
-import lupos.s00misc.DateHelperRelative
 
 import kotlin.jvm.JvmField
 import lupos.s00misc.Coverage
-import lupos.s00misc.parseFromAny
 import lupos.s00misc.DateHelper
+import lupos.s00misc.DateHelperRelative
 import lupos.s00misc.EIndexPattern
 import lupos.s00misc.EModifyType
 import lupos.s00misc.File
@@ -15,6 +14,7 @@ import lupos.s00misc.MAX_TRIPLES_DURING_TEST
 import lupos.s00misc.MyMapStringIntPatriciaTrie
 import lupos.s00misc.NotImplementedException
 import lupos.s00misc.OperatorGraphToLatex
+import lupos.s00misc.parseFromAny
 import lupos.s00misc.parseFromXml
 import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck

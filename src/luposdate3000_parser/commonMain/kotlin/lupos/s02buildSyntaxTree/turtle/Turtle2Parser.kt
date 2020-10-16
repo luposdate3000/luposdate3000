@@ -16,19 +16,19 @@ internal enum class Turtle2ParserState {
 
 abstract class Turtle2Parser(input: IMyInputStream) {
     @JvmField
-internal    val context = ParserContext(input)
+    internal val context = ParserContext(input)
 
     @JvmField
-internal    val prefixMap = mutableMapOf<String, String>()
+    internal val prefixMap = mutableMapOf<String, String>()
 
     @JvmField
-internal    val triple = Array(3) { "" }
+    internal val triple = Array(3) { "" }
 
     @JvmField
-internal    val tripleType = Array(3) { ETripleComponentType.IRI }
+    internal val tripleType = Array(3) { ETripleComponentType.IRI }
 
     @JvmField
-internal    var state = Turtle2ParserState.STATEMENT
+    internal var state = Turtle2ParserState.STATEMENT
     abstract fun onTriple(triple: Array<String>, tripleType: Array<ETripleComponentType>)
     fun turtleDoc() {
         var iter = 0
@@ -64,7 +64,7 @@ internal    var state = Turtle2ParserState.STATEMENT
         }
     }
 
-internal    fun statement_helper_1() {
+    internal fun statement_helper_1() {
         parse_base(context,
                 onIRIREF = {
                     //println("onIRIREF(${context.getValue()})")
@@ -73,7 +73,7 @@ internal    fun statement_helper_1() {
                 })
     }
 
-internal    fun statement_helper_2() {
+    internal fun statement_helper_2() {
         parse_prefix(context,
                 onPNAME_NS = {
                     //println("onPNAME_NS(${context.getValue()})")
@@ -87,7 +87,7 @@ internal    fun statement_helper_2() {
                 })
     }
 
-internal    fun statement_helper_3() {
+    internal fun statement_helper_3() {
         parse_subject_iri_or_ws(context,
                 onPN_LOCAL = {
                     //println("onPN_LOCAL(${context.getValue()})")
@@ -102,7 +102,7 @@ internal    fun statement_helper_3() {
                 })
     }
 
-internal    fun statement() {
+    internal fun statement() {
         parse_ws(context, {})
         if (context.c == ParserContext.EOF) {
             state = Turtle2ParserState.EOF
@@ -160,7 +160,7 @@ internal    fun statement() {
                 })
     }
 
-internal    fun predicate_helper_1() {
+    internal fun predicate_helper_1() {
         parse_predicate_iri_or_ws(context,
                 onPN_LOCAL = {
                     //println("onPN_LOCAL(${context.getValue()})")
@@ -175,7 +175,7 @@ internal    fun predicate_helper_1() {
                 })
     }
 
-internal    fun predicate() {
+    internal fun predicate() {
         parse_predicate(context,
                 onVERB1 = {
                     //println("onVERB1(${context.getValue()})")
@@ -198,7 +198,7 @@ internal    fun predicate() {
         state = Turtle2ParserState.OBJECT
     }
 
-internal    fun obj() {
+    internal fun obj() {
         parse_obj(context,
                 onIRIREF = {
                     //println("onIRIREF(${context.getValue()})")
@@ -274,7 +274,7 @@ internal    fun obj() {
                 })
     }
 
-internal    fun triple_end() {
+    internal fun triple_end() {
         parse_triple_end(context,
                 onPREDICATE_LIST1 = {
                     //println("onPREDICATE_LIST1(${context.getValue()})")
@@ -295,7 +295,7 @@ internal    fun triple_end() {
                 })
     }
 
-internal    fun triple_end_or_object_iri() {
+    internal fun triple_end_or_object_iri() {
         parse_triple_end_or_object_iri(context,
                 onPN_LOCAL = {
                     //println("onPN_LOCAL(${context.getValue()})")
@@ -333,7 +333,7 @@ internal    fun triple_end_or_object_iri() {
                 })
     }
 
-internal    fun triple_end_or_object_string_helper_2() {
+    internal fun triple_end_or_object_string_helper_2() {
         val prefix = context.getValue()
         parse_triple_end_or_object_string_typed_iri(context,
                 onPN_LOCAL = {
@@ -372,7 +372,7 @@ internal    fun triple_end_or_object_string_helper_2() {
                 })
     }
 
-internal    fun triple_end_or_object_string_helper_1() {
+    internal fun triple_end_or_object_string_helper_1() {
         parse_triple_end_or_object_string_typed(context,
                 onIRIREF = {
                     //println("onIRIREF(${context.getValue()})")
@@ -387,7 +387,7 @@ internal    fun triple_end_or_object_string_helper_1() {
                 })
     }
 
-internal    fun triple_end_or_object_string() {
+    internal fun triple_end_or_object_string() {
         parse_triple_end_or_object_string(context,
                 onLANGTAG = {
                     //println("onLANGTAG(${context.getValue()})")

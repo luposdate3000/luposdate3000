@@ -1,6 +1,5 @@
 package lupos.s00misc
 
-
 internal object SanityCheckOn {
     /*inline*/ fun println(/*crossinline*/s: () -> Any?) {
         println(s())

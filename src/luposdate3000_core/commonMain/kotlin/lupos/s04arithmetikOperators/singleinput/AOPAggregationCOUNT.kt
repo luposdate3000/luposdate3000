@@ -2,8 +2,8 @@ package lupos.s04arithmetikOperators.singleinput
 
 import kotlin.jvm.JvmField
 import lupos.s00misc.Coverage
-import lupos.s00misc.MyBigInteger
 import lupos.s00misc.EOperatorID
+import lupos.s00misc.MyBigInteger
 import lupos.s00misc.XMLElement
 import lupos.s02buildSyntaxTree.sparql1_1.Aggregation
 import lupos.s03resultRepresentation.Value
