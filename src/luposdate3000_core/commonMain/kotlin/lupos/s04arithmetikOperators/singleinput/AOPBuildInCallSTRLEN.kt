@@ -1,6 +1,7 @@
 package lupos.s04arithmetikOperators.singleinput
 
 import lupos.s00misc.Coverage
+import lupos.s00misc.MyBigInteger
 import lupos.s00misc.EOperatorID
 import lupos.s03resultRepresentation.Value
 import lupos.s03resultRepresentation.ValueDefinition
@@ -23,11 +24,11 @@ class AOPBuildInCallSTRLEN(query: Query, child: AOPBase) : AOPBase(query, EOpera
             var res: ValueDefinition = ValueError()
             val a = childA()
             if (a is ValueSimpleLiteral) {
-                res = ValueInteger(a.content.length.toBigInteger())
+                res = ValueInteger(MyBigInteger(a.content.length))
             } else if (a is ValueTypedLiteral) {
-                res = ValueInteger(a.content.length.toBigInteger())
+                res = ValueInteger(MyBigInteger(a.content.length))
             } else if (a is ValueLanguageTaggedLiteral) {
-                res = ValueInteger(a.content.length.toBigInteger())
+                res = ValueInteger(MyBigInteger(a.content.length))
             }
 /*return*/res
         }

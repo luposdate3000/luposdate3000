@@ -2,44 +2,10 @@ package lupos.s00misc
 
 import kotlin.jvm.JvmField
 import kotlin.math.abs
-import lupos.s00misc.Coverage
 
 class XMLElement {
     // https://regex101.com
     companion object {
-        val XMLHeader = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
-        fun parseFromAny(data: String, filename: String): XMLElement? {
-            when {
-                filename.endsWith(".srx") -> {
-                    return XMLElement.parseFromXml(data)
-                }
-                filename.endsWith(".tsv") -> {
-                    return XMLElement.parseFromTsv(data)
-                }
-                filename.endsWith(".csv") -> {
-                    return XMLElement.parseFromCsv(data)
-                }
-                filename.endsWith(".ttl") -> {
-                    return XMLElement.parseFromTtl(data)
-                }
-                filename.endsWith(".nt") -> {
-                    return XMLElement.parseFromTtl(data)
-                }
-                filename.endsWith(".n3") -> {
-                    return XMLElement.parseFromTtl(data)
-                }
-                filename.endsWith(".srj") -> {
-                    return XMLElement.parseFromJson(data)
-                }
-                filename.endsWith(".rdf") -> {
-                    throw UnknownDataFile(filename)
-                }
-                else -> {
-                    throw UnknownDataFile(filename)
-                }
-            }
-/*Coverage Unreachable*/
-        }
 
         fun parseBindingFromString(nodeResult: XMLElement, value: String?, name: String) {
             val nodeBinding = XMLElement("binding").addAttribute("name", name)
@@ -189,7 +155,7 @@ class XMLElement {
         val c1 = content.replace("""^\s*$""".toRegex(), "")
         val c2 = other.content.replace("""^\s*$""".toRegex(), "")
         if (attributes["datatype"] == "http://www.w3.org/2001/XMLSchema#integer" && fixNumbers) {
-            if (BigInteger(c1) != BigInteger(c2)) {
+            if (c1 != c2) {
                 return false
             }
         } else if ((attributes["datatype"] == "http://www.w3.org/2001/XMLSchema#decimal" || attributes["datatype"] == "http://www.w3.org/2001/XMLSchema#double" || attributes["datatype"] == "http://www.w3.org/2001/XMLSchema#float") && fixNumbers) {

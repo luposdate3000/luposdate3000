@@ -1,9 +1,11 @@
 package lupos.s06buildOperatorGraph
-
+import lupos.s00misc.parseFromAny
 import kotlin.jvm.JvmField
 import lupos.s00misc.AggregateNotAllowedSyntaxException
 import lupos.s00misc.classNameToString
 import lupos.s00misc.Coverage
+import lupos.s00misc.MyBigDecimal
+import lupos.s00misc.MyBigInteger
 import lupos.s00misc.DatasetImportFailedException
 import lupos.s00misc.EGraphOperationType
 import lupos.s00misc.EGraphRefType
@@ -902,7 +904,7 @@ return tmp
     }
 
     override fun visit(node: ASTInteger, childrenValues: List<OPBase>): OPBase {
-        return AOPConstant(query, ValueInteger(node.value.toBigInteger()))
+        return AOPConstant(query, ValueInteger(MyBigInteger(node.value)))
     }
 
     override fun visit(node: ASTDouble, childrenValues: List<OPBase>): OPBase {
@@ -910,7 +912,7 @@ return tmp
     }
 
     override fun visit(node: ASTDecimal, childrenValues: List<OPBase>): OPBase {
-        return AOPConstant(query, ValueDecimal(node.toDouble().toBigDecimal()))
+        return AOPConstant(query, ValueDecimal(MyBigDecimal(node.toDouble())))
     }
 
     override fun visit(node: ASTFunctionCall, childrenValues: List<OPBase>): OPBase {

@@ -2,7 +2,7 @@ package lupos.s04arithmetikOperators.singleinput
 
 import kotlin.math.ceil
 import lupos.s00misc.Coverage
-import lupos.s00misc.DecimalHelper
+import lupos.s00misc.MyBigDecimal
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.SanityCheck
 import lupos.s03resultRepresentation.Value
@@ -32,8 +32,7 @@ class AOPBuildInCallCEIL(query: Query, child: AOPBase) : AOPBase(query, EOperato
                 } else if (a is ValueFloat) {
                     res = ValueFloat(ceil(a.toDouble()))
                 } else if (a is ValueDecimal) {
-                    res = ValueDecimal(DecimalHelper.ceil(a.value))
-                    SanityCheck.println({ "AOPBuildInCallCEIL A ${a.value.toString()} = ${(res as ValueDecimal).value.toString()}" })
+                    res = ValueDecimal(a.value.ceil())
                 } else if (a is ValueInteger) {
                     res = a
                 }

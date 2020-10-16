@@ -1,5 +1,5 @@
 package lupos.s00misc
-
+import lupos.s00misc.parseFromAny
 import kotlin.jvm.JvmField
 import lupos.s00misc.Coverage
 import lupos.s00misc.DateHelper

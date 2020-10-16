@@ -2,6 +2,7 @@ package lupos.s04arithmetikOperators.singleinput
 
 import kotlin.jvm.JvmField
 import lupos.s00misc.Coverage
+import lupos.s00misc.MyBigInteger
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.XMLElement
 import lupos.s02buildSyntaxTree.sparql1_1.Aggregation
@@ -42,7 +43,7 @@ class AOPAggregationCOUNT(query: Query, @JvmField val distinct: Boolean, childs:
     override fun evaluate(row: IteratorBundle): () -> ValueDefinition {
         val tmp = row.columns["#" + uuid]!! as ColumnIteratorAggregate
         return {
-            /*return*/ValueInteger(tmp.count.toBigInteger())
+            /*return*/ValueInteger(MyBigInteger(tmp.count))
         }
 /*Coverage Unreachable*/
     }

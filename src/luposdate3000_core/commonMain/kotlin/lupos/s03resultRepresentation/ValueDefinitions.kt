@@ -1,8 +1,8 @@
 package lupos.s03resultRepresentation
 
 import kotlin.jvm.JvmField
-import lupos.s00misc.BigDecimal
-import lupos.s00misc.BigInteger
+import lupos.s00misc.MyBigDecimal
+import lupos.s00misc.MyBigInteger
 import lupos.s00misc.CanNotCastBNodeToBooleanException
 import lupos.s00misc.CanNotCastBNodeToDecimalException
 import lupos.s00misc.CanNotCastBNodeToDoubleException
@@ -29,7 +29,6 @@ import lupos.s00misc.CanNotCastUndefToBooleanException
 import lupos.s00misc.CanNotCastUndefToDecimalException
 import lupos.s00misc.CanNotCastUndefToDoubleException
 import lupos.s00misc.CanNotCastUndefToIntException
-import lupos.s00misc.Coverage
 import lupos.s00misc.DateHelper
 import lupos.s00misc.IncompatibleTypesDuringCompareException
 import lupos.s00misc.SanityCheck
@@ -39,8 +38,8 @@ sealed class ValueDefinition : Comparable<ValueDefinition> {
     abstract suspend fun toXMLElement(): XMLElement
     abstract fun valueToString(): String?
     abstract fun toDouble(): Double
-    abstract fun toDecimal(): BigDecimal
-    abstract fun toInt(): BigInteger
+    abstract fun toDecimal(): MyBigDecimal
+    abstract fun toInt(): MyBigInteger
     abstract fun toBoolean(): Boolean
 
     companion object {
@@ -55,12 +54,12 @@ sealed class ValueDefinition : Comparable<ValueDefinition> {
                 return ValueIri(tmp.substring(1, tmp.length - 1))
             }
             try {
-                return ValueInteger(BigInteger(tmp))
+                return ValueInteger(MyBigInteger(tmp))
             } catch (e: Throwable) {
             }
             if (!tmp.contains("e") && !tmp.contains("E")) {
                 try {
-                    return ValueDecimal(BigDecimal(tmp))
+                    return ValueDecimal(MyBigDecimal(tmp))
                 } catch (e: Throwable) {
                 }
             }
@@ -126,7 +125,6 @@ class ValueBoolean(@JvmField var value: Boolean, x: Boolean) : ValueDefinition()
             } else {
                 return localFalse
             }
-/*Coverage Unreachable*/
         }
     }
 
@@ -247,7 +245,7 @@ class ValueTypedLiteral(delimiter: String, content: String, @JvmField val type_i
                     return ValueBoolean(content.toBoolean())
                 }
                 "http://www.w3.org/2001/XMLSchema#integer" -> {
-                    return ValueInteger(BigInteger(content))
+                    return ValueInteger(MyBigInteger(content))
                 }
                 "http://www.w3.org/2001/XMLSchema#double" -> {
                     return ValueDouble(content.toDouble())
@@ -256,7 +254,7 @@ class ValueTypedLiteral(delimiter: String, content: String, @JvmField val type_i
                     return ValueFloat(content.toDouble())
                 }
                 "http://www.w3.org/2001/XMLSchema#decimal" -> {
-                    return ValueDecimal(BigDecimal(content))
+                    return ValueDecimal(MyBigDecimal(content))
                 }
                 "http://www.w3.org/2001/XMLSchema#dateTime" -> {
                     return ValueDateTime(delimiter + content + delimiter + "^^<" + type_iri + ">")
@@ -265,7 +263,6 @@ class ValueTypedLiteral(delimiter: String, content: String, @JvmField val type_i
                     return ValueTypedLiteral(delimiter, content, type_iri, true)
                 }
             }
-/*Coverage Unreachable*/
         }
     }
 
@@ -284,10 +281,10 @@ class ValueTypedLiteral(delimiter: String, content: String, @JvmField val type_i
     override fun hashCode() = delimiter.hashCode() + content.hashCode() + type_iri.hashCode()
 }
 
-val decimalZero = BigDecimal("0.0")
-val integerZero = BigInteger("0")
+val decimalZero = MyBigDecimal("0.0")
+val integerZero = MyBigInteger("0")
 
-class ValueDecimal(@JvmField var value: BigDecimal) : ValueNumeric() {
+class ValueDecimal(@JvmField var value: MyBigDecimal) : ValueNumeric() {
     override suspend fun toXMLElement() = XMLElement("ValueDecimal").addAttribute("value", "" + value)
     override fun valueToString() = "\"" + value.toPlainString() + "\"^^<http://www.w3.org/2001/XMLSchema#decimal>"
     override fun equals(other: Any?): Boolean {
@@ -301,13 +298,13 @@ class ValueDecimal(@JvmField var value: BigDecimal) : ValueNumeric() {
     }
 
     override fun toDouble(): Double = value.toDouble()
-    override fun toDecimal(): BigDecimal = value
-    override fun toInt(): BigInteger = value.toBigInteger()
+    override fun toDecimal(): MyBigDecimal = value
+    override fun toInt(): MyBigInteger = value.toMyBigInteger()
     override fun toBoolean() = value != decimalZero
     override fun hashCode() = value.hashCode()
     override operator fun compareTo(other: ValueDefinition): Int {
         if (other is ValueInteger) {
-            return value.compareTo(other.value.toBigDecimal())
+            return value.compareTo(other.value.toMyBigDecimal())
         } else if (other is ValueDecimal) {
             return value.compareTo(other.value)
         } else if (other is ValueDouble) {
@@ -336,8 +333,8 @@ class ValueDouble(@JvmField var value: Double) : ValueNumeric() {
     }
 
     override fun toDouble(): Double = value
-    override fun toDecimal(): BigDecimal = value.toBigDecimal()
-    override fun toInt(): BigInteger = value.toBigDecimal().toBigInteger()
+    override fun toDecimal(): MyBigDecimal = MyBigDecimal(value)
+    override fun toInt(): MyBigInteger = MyBigDecimal(value).toMyBigInteger()
     override fun toBoolean() = value > 0 || value < 0
     override fun hashCode() = value.hashCode()
     override operator fun compareTo(other: ValueDefinition): Int {
@@ -368,9 +365,9 @@ class ValueFloat(@JvmField var value: Double) : ValueNumeric() {
         }
     }
 
-    override fun toDecimal(): BigDecimal = value.toBigDecimal()
+    override fun toDecimal(): MyBigDecimal = MyBigDecimal(value)
     override fun toDouble(): Double = value
-    override fun toInt(): BigInteger = value.toBigDecimal().toBigInteger()
+    override fun toInt(): MyBigInteger = MyBigDecimal(value).toMyBigInteger()
     override fun toBoolean() = value > 0 || value < 0
     override fun hashCode() = value.hashCode()
     override operator fun compareTo(other: ValueDefinition): Int {
@@ -390,7 +387,7 @@ class ValueFloat(@JvmField var value: Double) : ValueNumeric() {
     }
 }
 
-class ValueInteger(@JvmField var value: BigInteger) : ValueNumeric() {
+class ValueInteger(@JvmField var value: MyBigInteger) : ValueNumeric() {
     override suspend fun toXMLElement() = XMLElement("ValueInteger").addAttribute("value", "" + value)
     override fun valueToString() = "\"" + value + "\"^^<http://www.w3.org/2001/XMLSchema#integer>"
     override fun equals(other: Any?): Boolean {
@@ -403,16 +400,16 @@ class ValueInteger(@JvmField var value: BigInteger) : ValueNumeric() {
         }
     }
 
-    override fun toDecimal(): BigDecimal = value.toBigDecimal()
+    override fun toDecimal(): MyBigDecimal = value.toMyBigDecimal()
     override fun toDouble(): Double = value.toDouble()
-    override fun toInt(): BigInteger = value
+    override fun toInt(): MyBigInteger = value
     override fun toBoolean() = value != integerZero
     override fun hashCode() = value.hashCode()
     override operator fun compareTo(other: ValueDefinition): Int {
         if (other is ValueInteger) {
             return value.compareTo(other.value)
         } else if (other is ValueDecimal) {
-            return value.toBigDecimal().compareTo(other.value)
+            return value.toMyBigDecimal().compareTo(other.value)
         } else if (other is ValueDouble) {
             return value.toDouble().compareTo(other.value)
         } else if (other is ValueFloat) {
@@ -437,8 +434,8 @@ class ValueIri(@JvmField var iri: String) : ValueDefinition() {
     }
 
     override fun toDouble(): Double = throw CanNotCastIriToDoubleException()
-    override fun toDecimal(): BigDecimal = throw CanNotCastIriToDecimalException()
-    override fun toInt(): BigInteger = throw CanNotCastIriToIntException()
+    override fun toDecimal(): MyBigDecimal = throw CanNotCastIriToDecimalException()
+    override fun toInt(): MyBigInteger = throw CanNotCastIriToIntException()
     override fun toBoolean(): Boolean = throw CanNotCastIriToBooleanException()
     override fun hashCode() = iri.hashCode()
     override operator fun compareTo(other: ValueDefinition): Int {
@@ -451,7 +448,7 @@ class ValueIri(@JvmField var iri: String) : ValueDefinition() {
 
 class ValueDateTime : ValueDefinition {
     @JvmField
-    val year: BigInteger
+    val year: MyBigInteger
 
     @JvmField
     val month: Int
@@ -466,7 +463,7 @@ class ValueDateTime : ValueDefinition {
     val minutes: Int
 
     @JvmField
-    val seconds: BigDecimal
+    val seconds: MyBigDecimal
 
     @JvmField
     val timezoneHours: Int
@@ -500,12 +497,12 @@ class ValueDateTime : ValueDefinition {
 
     constructor() : super() {
         val time = DateHelper()
-        year = BigInteger(time.year.toString())
+        year = MyBigInteger(time.year.toString())
         month = time.month
         day = time.day
         hours = time.hours
         minutes = time.minutes
-        seconds = BigDecimal(time.seconds.toString())
+        seconds = MyBigDecimal(time.seconds.toString())
         timezoneHours = 0
         timezoneMinutes = 0
     }
@@ -518,7 +515,7 @@ class ValueDateTime : ValueDefinition {
             idx2 = str.length - 1
         }
         if (idx2 > idx) {
-            year = BigInteger(str.substring(idx + 1, idx2))
+            year = MyBigInteger(str.substring(idx + 1, idx2))
             idx = idx2
             idx2 = str.indexOf('-', idx + 1)
             if (idx2 < idx) {
@@ -552,11 +549,11 @@ class ValueDateTime : ValueDefinition {
                             val idxb = str.indexOf('+', idx + 1)
                             val idxc = str.indexOf('-', idx + 1)
                             if (idxa > idx) {
-                                seconds = BigDecimal(str.substring(idx + 1, idxa))
+                                seconds = MyBigDecimal(str.substring(idx + 1, idxa))
                                 timezoneHours = 0
                                 timezoneMinutes = 0
                             } else if (idxb > idx) {
-                                seconds = BigDecimal(str.substring(idx + 1, idxb))
+                                seconds = MyBigDecimal(str.substring(idx + 1, idxb))
                                 idx = idxb
                                 idx2 = str.indexOf(':', idx + 1)
                                 if (idx2 > idx) {
@@ -567,7 +564,7 @@ class ValueDateTime : ValueDefinition {
                                     timezoneMinutes = -1
                                 }
                             } else if (idxc > idx) {
-                                seconds = BigDecimal(str.substring(idx + 1, idxc))
+                                seconds = MyBigDecimal(str.substring(idx + 1, idxc))
                                 idx = idxc
                                 idx2 = str.indexOf(':', idx + 1)
                                 if (idx2 > idx) {
@@ -578,20 +575,20 @@ class ValueDateTime : ValueDefinition {
                                     timezoneMinutes = -1
                                 }
                             } else {
-                                seconds = BigDecimal(str.substring(idx + 1, str.length - 1))
+                                seconds = MyBigDecimal(str.substring(idx + 1, str.length - 1))
                                 timezoneHours = -1
                                 timezoneMinutes = -1
                             }
                         } else {
                             minutes = 0
-                            seconds = BigDecimal(0.0)
+                            seconds = MyBigDecimal(0.0)
                             timezoneHours = -1
                             timezoneMinutes = -1
                         }
                     } else {
                         hours = 0
                         minutes = 0
-                        seconds = BigDecimal(0.0)
+                        seconds = MyBigDecimal(0.0)
                         timezoneHours = -1
                         timezoneMinutes = -1
                     }
@@ -599,7 +596,7 @@ class ValueDateTime : ValueDefinition {
                     day = 0
                     hours = 0
                     minutes = 0
-                    seconds = BigDecimal(0.0)
+                    seconds = MyBigDecimal(0.0)
                     timezoneHours = -1
                     timezoneMinutes = -1
                 }
@@ -608,17 +605,17 @@ class ValueDateTime : ValueDefinition {
                 day = 0
                 hours = 0
                 minutes = 0
-                seconds = BigDecimal(0.0)
+                seconds = MyBigDecimal(0.0)
                 timezoneHours = -1
                 timezoneMinutes = -1
             }
         } else {
-            year = BigInteger("0")
+            year = MyBigInteger("0")
             month = 0
             day = 0
             hours = 0
             minutes = 0
-            seconds = BigDecimal(0.0)
+            seconds = MyBigDecimal(0.0)
             timezoneHours = -1
             timezoneMinutes = -1
         }
@@ -657,7 +654,6 @@ class ValueDateTime : ValueDefinition {
         } else {
             return "\"${year.toString().padStart(4, '0')}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}T${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${secondsString}-${timezoneHours.toString().padStart(2, '0')}:${timezoneMinutes.toString().padStart(2, '0')}\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"
         }
-/*Coverage Unreachable*/
     }
 
     override suspend fun toXMLElement() = XMLElement("ValueDateTime").addAttribute("value", valueToString())
@@ -672,7 +668,7 @@ class ValueDateTime : ValueDefinition {
 
     override fun hashCode() = valueToString().hashCode()
     override fun toDouble(): Double = throw CanNotCastDateTimeToDoubleException()
-    override fun toDecimal(): BigDecimal = throw CanNotCastDateTimeToDecimalException()
-    override fun toInt(): BigInteger = throw CanNotCastDateTimeToIntException()
+    override fun toDecimal(): MyBigDecimal = throw CanNotCastDateTimeToDecimalException()
+    override fun toInt(): MyBigInteger = throw CanNotCastDateTimeToIntException()
     override fun toBoolean(): Boolean = throw CanNotCastDateTimeToBooleanException()
 }

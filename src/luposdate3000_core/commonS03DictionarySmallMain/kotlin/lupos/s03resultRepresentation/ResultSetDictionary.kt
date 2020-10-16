@@ -1,8 +1,8 @@
 package lupos.s03resultRepresentation
 
 import kotlin.jvm.JvmField
-import lupos.s00misc.BigDecimal
-import lupos.s00misc.BigInteger
+import lupos.s00misc.MyBigDecimal
+import lupos.s00misc.MyBigInteger
 import lupos.s00misc.ETripleComponentType
 import lupos.s00misc.SanityCheck
 import lupos.s03resultRepresentation.nodeGlobalDictionary
@@ -200,10 +200,10 @@ class ResultSetDictionary(val global: Boolean = false) {
                 return createTyped(s, "")
             }
             ETripleComponentType.INTEGER -> {
-                return createInteger(s.toBigInteger())
+                return createInteger(MyBigInteger(s))
             }
             ETripleComponentType.DECIMAL -> {
-                return createDecimal(s.toBigDecimal())
+                return createDecimal(MyBigDecimal(s))
             }
             ETripleComponentType.DOUBLE -> {
                 return createDouble(s.toDouble())
@@ -383,10 +383,10 @@ class ResultSetDictionary(val global: Boolean = false) {
         var res: Value
         when (type) {
             "http://www.w3.org/2001/XMLSchema#integer" -> {
-                res = createInteger(BigInteger(content))
+                res = createInteger(MyBigInteger(content))
             }
             "http://www.w3.org/2001/XMLSchema#decimal" -> {
-                res = createDecimal(BigDecimal(content))
+                res = createDecimal(MyBigDecimal(content))
             }
             "http://www.w3.org/2001/XMLSchema#double" -> {
                 res = createDouble(content.toDouble())
@@ -541,7 +541,7 @@ class ResultSetDictionary(val global: Boolean = false) {
         return res
     }
 
-    fun createDecimal(value2: BigDecimal): Value {
+    fun createDecimal(value2: MyBigDecimal): Value {
         val value = value2.toString()
         var res: Value
         if (global) {
@@ -588,7 +588,7 @@ class ResultSetDictionary(val global: Boolean = false) {
         return res
     }
 
-    fun createInteger(value2: BigInteger): Value {
+    fun createInteger(value2: MyBigInteger): Value {
         val value = value2.toString()
         var res: Value
         if (global) {
@@ -740,9 +740,9 @@ class ResultSetDictionary(val global: Boolean = false) {
         } else {
             var bit5 = value and mask6
             if (bit5 == flaggedValueLocalInt) {
-                res = ValueInteger(BigInteger(dict.intToValue[value and filter6]))
+                res = ValueInteger(MyBigInteger(dict.intToValue[value and filter6]))
             } else if (bit5 == flaggedValueLocalDecimal) {
-                res = ValueDecimal(BigDecimal(dict.decimalToValue[value and filter6]))
+                res = ValueDecimal(MyBigDecimal(dict.decimalToValue[value and filter6]))
             } else if (bit5 == flaggedValueLocalDouble) {
                 res = ValueDouble(dict.doubleToValue[value and filter6])
             } else if (bit5 == flaggedValueLocalFloat) {

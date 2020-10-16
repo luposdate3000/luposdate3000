@@ -286,15 +286,6 @@ class GenerateBuildFile(val args: Array<String>) {
                     ChooseableOptionConstantValue("lupos.s11outputResult", "PRETTY_BNODE_NAMES", "true"),
                     ChooseableOptionConstantValue("lupos.s11outputResult", "PRETTY_BNODE_NAMES", "false"),
             ),
-            ChooseableGroup("PageSize in Bytes", "Pagesize") to listOf(
-                    ChooseableOptionConstantValue("lupos.s00misc", "PAGE_SIZE_IN_BYTES", "128"),
-                    ChooseableOptionConstantValue("lupos.s00misc", "PAGE_SIZE_IN_BYTES", "256"),
-                    ChooseableOptionConstantValue("lupos.s00misc", "PAGE_SIZE_IN_BYTES", "512"),
-                    ChooseableOptionConstantValue("lupos.s00misc", "PAGE_SIZE_IN_BYTES", "1024"),
-                    ChooseableOptionConstantValue("lupos.s00misc", "PAGE_SIZE_IN_BYTES", "2048"),
-                    ChooseableOptionConstantValue("lupos.s00misc", "PAGE_SIZE_IN_BYTES", "4096"),
-                    ChooseableOptionConstantValue("lupos.s00misc", "PAGE_SIZE_IN_BYTES", "8196")
-            ),
             ChooseableGroup("ArrayList Block Capacity in Elements", "BlockCapacity") to listOf(
                     ChooseableOptionConstantValue("lupos.s00misc", "ARRAY_LIST_BLOCK_CAPACITY", "8"),
                     ChooseableOptionConstantValue("lupos.s00misc", "ARRAY_LIST_BLOCK_CAPACITY", "16"),
@@ -373,15 +364,6 @@ class GenerateBuildFile(val args: Array<String>) {
                     ChooseableOptionSymbolic("DontChange", "commonInlineModeDontChange"),
                     ChoosableOptionInternalScript("On", { applyInlineEnable() }, "InlineModeOn", false),
                     ChoosableOptionInternalScript("Off", { applyInlineDisable() }, "InlineModeOff", false)
-            ),
-            ChooseableGroup("BigInteger Implementation", "BigInteger") to listOf(
-                    ChooseableOptionTypeAlias("jvmBigInteger", "lupos.s00misc", listOf("BigInteger" to "java.math.BigInteger"))
-            ),
-            ChooseableGroup("BigDecimal Implementation", "BigDecimal") to listOf(
-                    ChooseableOptionTypeAlias("jvmBigDecimal", "lupos.s00misc", listOf("BigDecimal" to "java.math.BigDecimal"))
-            ),
-            ChooseableGroup("MathContext Implementation", "BigDecimal") to listOf(
-                    ChooseableOptionTypeAlias("jvmMathContext", "lupos.s00misc", listOf("MathContext" to "java.math.MathContext"))
             ),
             ChooseableGroup("Use Partitions for parallel Join", "UsePartitions") to listOf(
                     ChooseableOptionConstantValue("lupos.s10physicalOptimisation", "USE_PARTITIONS", "true"),

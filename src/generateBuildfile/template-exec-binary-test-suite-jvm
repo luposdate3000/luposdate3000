@@ -11,7 +11,6 @@ Set->BTree
 Map->BTree
 OutputFormat->Empty
 EnumerateBnodes->false
-Pagesize->128
 BlockCapacity->8
 BTreeBranching->8
 MergeSortRows->8

@@ -30,13 +30,6 @@ OutputFormat->XML
 OutputFormat->EmptyWithDictionary
 EnumerateBnodes->true
 EnumerateBnodes->false
-Pagesize->128
-Pagesize->256
-Pagesize->512
-Pagesize->1024
-Pagesize->2048
-Pagesize->4096
-Pagesize->8196
 BlockCapacity->8
 BlockCapacity->16
 BlockCapacity->32
@@ -88,9 +81,6 @@ ConnectionPool->On
 Inline->DontChange
 Inline->On
 Inline->Off
-BigInteger->jvmBigInteger
-BigDecimal->jvmBigDecimal
-BigDecimal->jvmMathContext
 UsePartitions->true
 UsePartitions->false
 IteratorDebug->EPOPDebugMode.NONE

@@ -1,0 +1,73 @@
+package lupos.s00misc
+
+import java.math.BigInteger
+import java.math.RoundingMode
+import java.math.MathContext
+
+actual class MyBigInteger {
+    val s: String
+    val v: BigInteger
+
+    actual constructor(s1: String) {
+        v = BigInteger(s1)
+        s = s1
+    }
+
+    constructor(v1: BigInteger) {
+        v = v1
+        s = v1.toString()
+    }
+
+    actual constructor(s1: Int) {
+        v = BigInteger("" + s1)
+        s = "" + s1
+    }
+
+    actual constructor(s1: Long) {
+        v = BigInteger("" + s1)
+        s = "" + s1
+    }
+
+    actual fun toDouble(): Double {
+        return v.toDouble()
+    }
+
+    actual fun toInt(): Int {
+        return v.toInt()
+    }
+
+    actual fun compareTo(other: MyBigInteger): Int {
+        return v.compareTo(other.v)
+    }
+actual operator fun plus(other:MyBigInteger):MyBigInteger{ 
+  return MyBigInteger(v.add(other.v))
+}
+actual operator fun minus(other:MyBigInteger):MyBigInteger{ 
+ return MyBigInteger(v.subtract(other.v))
+}
+actual operator fun times(other:MyBigInteger):MyBigInteger{ 
+ return MyBigInteger(v.multiply(other.v))
+}
+actual operator fun div(other:MyBigInteger):MyBigInteger{ 
+ return MyBigInteger(v.divide(other.v))
+}
+
+    actual fun ceil(): MyBigInteger {
+        return this
+    }
+
+    actual fun floor(): MyBigInteger {
+        return this
+    }
+
+    actual fun round(): MyBigInteger {
+        return this
+    }
+
+    actual fun toMyBigDecimal(): MyBigDecimal {
+        return MyBigDecimal(v.toBigDecimal())
+    }
+actual fun abs():MyBigInteger{
+return MyBigInteger(v.abs())
+}
+}

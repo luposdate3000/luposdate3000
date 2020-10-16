@@ -1,6 +1,7 @@
 package lupos.s04arithmetikOperators.singleinput
 
 import lupos.s00misc.Coverage
+import lupos.s00misc.MyBigInteger
 import lupos.s00misc.EOperatorID
 import lupos.s03resultRepresentation.Value
 import lupos.s03resultRepresentation.ValueDateTime
@@ -21,7 +22,7 @@ class AOPBuildInCallMINUTES(query: Query, child: AOPBase) : AOPBase(query, EOper
             var res: ValueDefinition = ValueError()
             val a = childA()
             if (a is ValueDateTime) {
-                res = ValueInteger(a.minutes.toBigInteger())
+                res = ValueInteger(MyBigInteger(a.minutes))
             }
 /*return*/res
         }

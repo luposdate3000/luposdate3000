@@ -2,7 +2,7 @@ package lupos.s04arithmetikOperators.singleinput
 
 import kotlin.math.roundToInt
 import lupos.s00misc.Coverage
-import lupos.s00misc.DecimalHelper
+import lupos.s00misc.MyBigDecimal
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.SanityCheck
 import lupos.s03resultRepresentation.Value
@@ -31,8 +31,7 @@ class AOPBuildInCallROUND(query: Query, child: AOPBase) : AOPBase(query, EOperat
                 } else if (a is ValueFloat) {
                     res = ValueFloat(a.toDouble().roundToInt().toDouble())
                 } else if (a is ValueDecimal) {
-                    res = ValueDecimal(DecimalHelper.round(a.value))
-                    SanityCheck.println({ "AOPBuildInCallROUND A ${a.value.toString()} = ${(res as ValueDecimal).value.toString()}" })
+                    res = ValueDecimal(a.value.round())
                 } else if (a is ValueInteger) {
                     res = a
                 }
