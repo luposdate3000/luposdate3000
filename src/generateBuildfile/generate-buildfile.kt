@@ -226,9 +226,7 @@ class GenerateBuildFile(val args: Array<String>) {
                     ChooseableOptionDirectory("Heap", "commonS01HeapMain"),
             ),
             ChooseableGroup("Dictionary", "Dictionary") to listOf(
-                    ChooseableOptionDirectory("MultiMap", "commonS03DictionaryMultiMapMain"),
-                    ChooseableOptionDirectory("ObjectMap", "commonS03DictionaryObjectMapMain"),
-                    ChooseableOptionSymbolic("Small", "commonS03DictionarySmallMain")
+                    ChooseableOptionSymbolic("Inmemory", "commonS03DictionaryInmemoryMain")
             ),
             ChooseableGroup("Triple Store", "TripleStore") to listOf(
                     ChooseableOptionTypeAlias("BPlusTreePartition", "lupos.s05tripleStore", listOf("TripleStoreLocal" to "TripleStoreLocalBPlusTreePartition")),
@@ -540,7 +538,7 @@ class GenerateBuildFile(val args: Array<String>) {
                     ChooseableOption("jvmS16ServerCommunicationSocketsMain") to listOf(
                             ChooseableOptionDirectory("commonS16ServerCommunicationEnabledMain")
                     ),
-ChooseableOptionSymbolic("Small", "commonS03DictionarySmallMain") to listOf(
+ChooseableOptionSymbolic("Inmemory", "commonS03DictionaryInmemoryMain") to listOf(
 ChooseableOptionDependency("luposdate3000:Luposdate3000_Dictionary_Inmemory:0.0.1"),
 ),
                     ChooseableOption("commonMain") to listOf(
