@@ -1,6 +1,6 @@
 package lupos.s05tripleStore.index_IDTriple
 
-import lupos.s00misc.ReadWriteLock
+import lupos.s00misc.MyReadWriteLock
 import lupos.s00misc.SanityCheck
 import lupos.s04logicalOperators.iterator.ColumnIterator
 
@@ -18,7 +18,7 @@ object NodeLeaf {
         return NodeLeafIterator(node, nodeid)
     }
 
-    suspend inline fun iterator(node: ByteArray, nodeid: Int, lock: ReadWriteLock, component: Int): ColumnIterator {
+    suspend inline fun iterator(node: ByteArray, nodeid: Int, lock: MyReadWriteLock, component: Int): ColumnIterator {
         when (component) {
             0 -> {
                 val res = NodeLeafColumnIterator0(node, nodeid, lock)
@@ -38,17 +38,17 @@ object NodeLeaf {
         }
     }
 
-    suspend inline fun iterator3(node: ByteArray, nodeid: Int, prefix: IntArray, lock: ReadWriteLock): ColumnIterator {
+    suspend inline fun iterator3(node: ByteArray, nodeid: Int, prefix: IntArray, lock: MyReadWriteLock): ColumnIterator {
         val res = NodeLeafColumnIteratorPrefix3(node, nodeid, prefix, lock)
         return res
     }
 
-    suspend inline fun iterator2(node: ByteArray, nodeid: Int, prefix: IntArray, lock: ReadWriteLock): ColumnIterator {
+    suspend inline fun iterator2(node: ByteArray, nodeid: Int, prefix: IntArray, lock: MyReadWriteLock): ColumnIterator {
         val res = NodeLeafColumnIteratorPrefix2_2(node, nodeid, prefix, lock)
         return res
     }
 
-    suspend inline fun iterator1(node: ByteArray, nodeid: Int, prefix: IntArray, lock: ReadWriteLock, component: Int): ColumnIterator {
+    suspend inline fun iterator1(node: ByteArray, nodeid: Int, prefix: IntArray, lock: MyReadWriteLock, component: Int): ColumnIterator {
         when (component) {
             1 -> {
                 val res = NodeLeafColumnIteratorPrefix1_1(node, nodeid, prefix, lock)

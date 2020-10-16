@@ -2,9 +2,8 @@ package lupos.s01io
 
 import kotlin.jvm.JvmField
 import lupos.s00misc.Configuration
-import lupos.s00misc.File
 import lupos.s00misc.PAGE_SIZE_IN_BYTES
-import lupos.s00misc.ReadWriteLock
+import lupos.s00misc.MyReadWriteLock
 import lupos.s00misc.SanityCheck
 
 class BufferManager(@JvmField val bufferName: String) {
@@ -32,7 +31,7 @@ class BufferManager(@JvmField val bufferName: String) {
         val managerList = mutableListOf<BufferManager>()
 
         @JvmField
-        val managerListLock = ReadWriteLock()
+        val managerListLock = MyReadWriteLock()
         suspend fun safeToFolder() = managerListLock.withReadLock {
             managerList.forEach {
                 it.safeToFolder()
@@ -63,7 +62,7 @@ class BufferManager(@JvmField val bufferName: String) {
     var counter = 0
 
     @JvmField
-    val lock = ReadWriteLock()
+    val lock = MyReadWriteLock()
 
     @JvmField
     val freeList = mutableListOf<Int>()
@@ -157,43 +156,9 @@ class BufferManager(@JvmField val bufferName: String) {
     fun debug() {
     }
 
-    suspend fun safeToFolder() = lock.withWriteLock {
-/*
-        File(bufferPrefix + "buffermanager").mkdirs()
-        File(bufferPrefix + "buffermanager/" + bufferName + ".data").dataOutputStream { fos ->
-            for (i in 0 until counter) {
-                fos.write(allPages[i])
-            }
-        }
-        File(bufferPrefix + "buffermanager/" + bufferName + ".header").dataOutputStream { fos ->
-            fos.writeInt(counter)
-            fos.writeInt(freeList.size)
-            freeList.forEach { v ->
-                fos.writeInt(v)
-            }
-        }
-*/
+    suspend fun safeToFolder() {
     }
 
-    suspend fun loadFromFolder() = lock.withWriteLock {
-/*
-        File(bufferPrefix + "buffermanager/" + bufferName + ".header").dataInputStream { fis ->
-            counter = fis.readInt()
-            val size = fis.readInt()
-            freeList.clear()
-            for (i in 0 until size) {
-                val v = fis.readInt()
-                freeList.add(v)
-            }
-        }
-        allPages = Array<ByteArray>(counter) { ByteArray(PAGE_SIZE_IN_BYTES) }
-SanityCheck.println({ "BufferManager.refcount($pageid) reset due to reload" })
-        allPagesRefcounters = IntArray(counter)
-        File(bufferPrefix + "buffermanager/" + bufferName + ".data").dataInputStream { fis ->
-            for (i in 0 until counter) {
-                fis.read(allPages[i])
-            }
-        }
-*/
+    suspend fun loadFromFolder() {
     }
 }

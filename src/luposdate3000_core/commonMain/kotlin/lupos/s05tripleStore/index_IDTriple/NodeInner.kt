@@ -1,7 +1,7 @@
 package lupos.s05tripleStore.index_IDTriple
 
 import lupos.s00misc.readInt4
-import lupos.s00misc.ReadWriteLock
+import lupos.s00misc.MyReadWriteLock
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.writeInt4
 import lupos.s04logicalOperators.iterator.ColumnIterator
@@ -68,7 +68,7 @@ object NodeInner {
         return iterator!!
     }
 
-    suspend inline fun iterator(_node: ByteArray, lock: ReadWriteLock, component: Int): ColumnIterator {
+    suspend inline fun iterator(_node: ByteArray, lock: MyReadWriteLock, component: Int): ColumnIterator {
         var iterator: ColumnIterator? = null
         var node = _node
         while (true) {
@@ -128,7 +128,7 @@ object NodeInner {
         action(lastChildPointer)
     }
 
-    suspend inline fun iterator3(_node: ByteArray, prefix: IntArray, lock: ReadWriteLock): ColumnIterator {
+    suspend inline fun iterator3(_node: ByteArray, prefix: IntArray, lock: MyReadWriteLock): ColumnIterator {
         var node = _node
         var iterator: ColumnIterator? = null
         var nodeid = 0
@@ -154,7 +154,7 @@ object NodeInner {
         return iterator!!
     }
 
-    suspend inline fun iterator2(_node: ByteArray, prefix: IntArray, lock: ReadWriteLock): ColumnIterator {
+    suspend inline fun iterator2(_node: ByteArray, prefix: IntArray, lock: MyReadWriteLock): ColumnIterator {
         var node = _node
         var iterator: ColumnIterator? = null
         var nodeid = 0
@@ -180,7 +180,7 @@ object NodeInner {
         return iterator!!
     }
 
-    suspend inline fun iterator1(_node: ByteArray, prefix: IntArray, lock: ReadWriteLock, component: Int): ColumnIterator {
+    suspend inline fun iterator1(_node: ByteArray, prefix: IntArray, lock: MyReadWriteLock, component: Int): ColumnIterator {
         var node = _node
         var iterator: ColumnIterator? = null
         var nodeid = 0

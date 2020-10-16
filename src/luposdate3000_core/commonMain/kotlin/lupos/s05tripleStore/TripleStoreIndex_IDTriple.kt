@@ -5,7 +5,7 @@ import lupos.s00misc.BenchmarkUtils
 import lupos.s00misc.EBenchmark
 import lupos.s00misc.File
 import lupos.s00misc.Parallel
-import lupos.s00misc.ReadWriteLock
+import lupos.s00misc.MyReadWriteLock
 import lupos.s00misc.SanityCheck
 import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s03resultRepresentation.Value
@@ -32,7 +32,7 @@ import lupos.s05tripleStore.index_IDTriple.NodeManager
 import lupos.s05tripleStore.index_IDTriple.NodeShared
 import lupos.s05tripleStore.index_IDTriple.TripleIterator
 
-var debugLock = ReadWriteLock()
+var debugLock = MyReadWriteLock()
 
 class TripleStoreIndex_IDTriple : TripleStoreIndex() {
     @JvmField
@@ -54,7 +54,7 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
     var distinctPrimary = 0
 
     @JvmField
-    var lock = ReadWriteLock()
+    var lock = MyReadWriteLock()
 
     companion object {
         @JvmField
