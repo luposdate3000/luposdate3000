@@ -1,10 +1,9 @@
 package lupos.s00misc
 
-inline fun helperSanityPrintln(s: Any?) = println(s)
 
-object SanityCheckOn {
+internal object SanityCheckOn {
     /*inline*/ fun println(/*crossinline*/s: () -> Any?) {
-        helperSanityPrintln(s())
+        println(s())
     }
 
     inline operator fun invoke(crossinline action: () -> Unit) {

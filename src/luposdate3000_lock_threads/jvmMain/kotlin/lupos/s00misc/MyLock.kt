@@ -7,20 +7,18 @@ actual class MyLock {
         var uuidCounter = 0L
     }
 
-    @JvmField
     val uuid = uuidCounter++
-
-    @JvmField
     val semaphore = Semaphore(1)
-    inline fun lock() {
+actual fun getUUID()=uuid
+     actual fun lock() {
         semaphore.acquire()
     }
 
-    inline fun unlock() {
+     actual fun unlock() {
         semaphore.release()
     }
 
-    inline fun tryLock(): Boolean {
+     actual fun tryLock(): Boolean {
         return semaphore.tryAcquire()
     }
 }

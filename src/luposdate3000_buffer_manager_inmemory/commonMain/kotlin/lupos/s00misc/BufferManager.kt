@@ -1,13 +1,13 @@
 package lupos.s01io
 
 import kotlin.jvm.JvmField
+import lupos.s00misc.Configuration
 import lupos.s00misc.BUFFER_MANAGER_PAGE_SIZE_IN_BYTES
 import lupos.s00misc.BUFFER_MANAGER_USE_FREE_LIST
-import lupos.s00misc.Configuration
 import lupos.s00misc.MyReadWriteLock
-import lupos.s00misc.SanityCheck
 import lupos.s00misc.withReadLock
 import lupos.s00misc.withWriteLock
+import lupos.s00misc.SanityCheck
 
 class BufferManager(@JvmField val bufferName: String) {
     /*
@@ -22,9 +22,8 @@ class BufferManager(@JvmField val bufferName: String) {
     companion object {
         @JvmField
         var bufferPrefix: String
-
-        @JvmField
-        val page_size_in_bytes = BUFFER_MANAGER_PAGE_SIZE_IN_BYTES
+@JvmField
+val page_size_in_bytes=BUFFER_MANAGER_PAGE_SIZE_IN_BYTES
 
         init {
             bufferPrefix = Configuration.getEnv("LUPOS_HOME", "/tmp/luposdate3000/")!!
@@ -70,11 +69,11 @@ class BufferManager(@JvmField val bufferName: String) {
 
     @JvmField
     val freeList = mutableListOf<Int>()
-    inline suspend fun clear() = lock.withWriteLock {
+     suspend fun clear() = lock.withWriteLock {
         clearAssumeLocks()
     }
 
-    inline suspend fun clearAssumeLocks() {
+     suspend fun clearAssumeLocks() {
         counter = 0
         SanityCheck {
             for (i in 0 until counter) {
@@ -86,19 +85,19 @@ class BufferManager(@JvmField val bufferName: String) {
         freeList.clear()
     }
 
-    inline fun releasePage(pageid: Int) {
+     fun releasePage(pageid: Int) {
         SanityCheck.check({ allPagesRefcounters[pageid] > 0 }, { "Failed requirement pageid = $pageid" })
         allPagesRefcounters[pageid]--
         SanityCheck.println({ "BufferManager.refcount($pageid) decreased a ${allPagesRefcounters[pageid]}" })
     }
 
-    inline fun referencePage(pageid: Int) {
+     fun referencePage(pageid: Int) {
         SanityCheck.check({ allPagesRefcounters[pageid] > 0 }, { "Failed requirement pageid = $pageid" })
         allPagesRefcounters[pageid]++
         SanityCheck.println({ "BufferManager.refcount($pageid) increased a ${allPagesRefcounters[pageid]}" })
     }
 
-    inline fun getPage(pageid: Int): ByteArray {
+     fun getPage(pageid: Int): ByteArray {
         //no locking required, assuming an assignment to 'allPages' is atomic
         SanityCheck.check { !freeList.contains(pageid) }
         allPagesRefcounters[pageid]++
@@ -106,7 +105,7 @@ class BufferManager(@JvmField val bufferName: String) {
         return allPages[pageid]
     }
 
-    inline suspend fun createPage(crossinline action: (ByteArray, Int) -> Unit) = lock.withWriteLock {
+     suspend fun createPage(action: (ByteArray, Int) -> Unit) = lock.withWriteLock {
         val pageid: Int
         if (freeList.size > 0 && BUFFER_MANAGER_USE_FREE_LIST) {
             pageid = freeList.removeAt(0)
@@ -146,7 +145,7 @@ class BufferManager(@JvmField val bufferName: String) {
         action(allPages[pageid], pageid)
     }
 
-    inline suspend fun deletePage(pageid: Int) = lock.withWriteLock {
+     suspend fun deletePage(pageid: Int) = lock.withWriteLock {
         SanityCheck.check { !freeList.contains(pageid) }
         SanityCheck.check({ allPagesRefcounters[pageid] == 1 }, { "Failed requirement pageid = $pageid" })
         allPagesRefcounters[pageid] = 0

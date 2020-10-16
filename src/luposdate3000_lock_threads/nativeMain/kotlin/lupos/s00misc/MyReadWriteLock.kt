@@ -8,27 +8,28 @@ actual class MyReadWriteLock {
     }
 
     val uuid = uuidCounter++
-    inline fun downgradeToReadLock() {
+actual fun getUUID()=uuid
+     actual fun downgradeToReadLock() {
         throw object : NotImplementedException("MyReadWriteLock", "downgradeToReadLock not implemented") {}
     }
 
-    inline fun readLock() {
+     actual fun readLock() {
         throw object : NotImplementedException("MyReadWriteLock", "readLock not implemented") {}
     }
 
-    inline fun readUnlock() {
+     actual fun readUnlock() {
         throw object : NotImplementedException("MyReadWriteLock", "readUnlock not implemented") {}
     }
 
-    inline fun writeLock() {
+     actual fun writeLock() {
         throw object : NotImplementedException("MyReadWriteLock", "writeLock not implemented") {}
     }
 
-    inline fun tryWriteLock(): Boolean {
+     actual fun tryWriteLock(): Boolean {
         throw object : NotImplementedException("MyReadWriteLock", "tryWriteLock not implemented") {}
     }
 
-    inline fun writeUnlock() {
+     actual fun writeUnlock() {
         throw object : NotImplementedException("MyReadWriteLock", "writeUnlock not implemented") {}
     }
 }

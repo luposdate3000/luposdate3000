@@ -8,15 +8,16 @@ actual class MyLock {
     }
 
     val uuid = uuidCounter++
-    inline fun lock() {
+actual fun getUUID()=uuid
+     actual fun lock() {
         throw object : NotImplementedException("MyLock", "lock not implemented") {}
     }
 
-    inline fun unlock() {
+     actual fun unlock() {
         throw object : NotImplementedException("MyLock", "unlock not implemented") {}
     }
 
-    inline fun tryLock(): Boolean {
+     actual fun tryLock(): Boolean {
         throw object : NotImplementedException("MyLock", "trylock not implemented") {}
     }
 }

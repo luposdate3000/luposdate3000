@@ -187,6 +187,7 @@ fun createBuildFileForModule(args: Array<String>) {
         out.println("   sourceSets[\"commonMain\"].kotlin.srcDir(\"src.generated/commonMain/kotlin\")")
         out.println("   sourceSets[\"jvmMain\"].kotlin.srcDir(\"src.generated/jvmMain/kotlin\")")
         out.println("   sourceSets[\"jsMain\"].kotlin.srcDir(\"src.generated/jsMain/kotlin\")")
+        out.println("   sourceSets[\"${platform}Main\"].kotlin.srcDir(\"src.generated/nativeMain/kotlin\")")
         out.println("   sourceSets[\"${platform}Main\"].kotlin.srcDir(\"src.generated/${platform}Main/kotlin\")")
         out.println("}")
     }
@@ -194,10 +195,11 @@ fun createBuildFileForModule(args: Array<String>) {
     File("src.generated/commonMain/kotlin/lupos/s00misc/Config.kt").printWriter().use { out ->
         out.println("package lupos.s00misc")
         if (releaseMode) {
-            out.println("typealias SanityCheck = SanityCheckOff")
+            out.println("internal typealias SanityCheck = SanityCheckOff")
         } else {
-            out.println("typealias SanityCheck = SanityCheckOn")
+            out.println("internal typealias SanityCheck = SanityCheckOn")
         }
+if(File("${moduleFolder}/configOptions").exists()){
         File("${moduleFolder}/configOptions").forEachLine {
             val opt = it.split(",")
             if (opt.size == 4) {
@@ -209,6 +211,7 @@ fun createBuildFileForModule(args: Array<String>) {
                 }
                 out.println("${opt[1]} ${opt[0]}: ${opt[2]} = $value")
             }
+}
         }
     }
     if (inlineMode == InlineMode.Enable) {

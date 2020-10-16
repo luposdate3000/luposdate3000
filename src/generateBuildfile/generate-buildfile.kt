@@ -561,7 +561,6 @@ class GenerateBuildFile(val args: Array<String>) {
                     ChooseableOption("commonMain") to listOf(
                             ChooseableOptionDependency("luposdate3000:Luposdate3000_Parser:0.0.1"),
                             ChooseableOptionDependency("luposdate3000:Luposdate3000_Buffer_Manager_Inmemory:0.0.1"),
-                            ChooseableOptionDependency("luposdate3000:Luposdate3000_Interfaces:0.0.1"),
                             ChooseableOptionDependency("org.jetbrains.kotlin:kotlin-stdlib-common:$kotlinVersion"),
                             ChooseableOptionDependency("org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"),
                             ChooseableOptionDependency("com.benasher44:uuid:0.0.7"),
@@ -664,6 +663,7 @@ class GenerateBuildFile(val args: Array<String>) {
                             //or kotlinc -X
                             out.println("    kotlinOptions.freeCompilerArgs += \"-Xno-param-assertions\"")
                             out.println("    kotlinOptions.freeCompilerArgs += \"-Xuse-ir\"")
+                            out.println("    kotlinOptions.freeCompilerArgs += \"-Xmulti-platform\"")
                             out.println("    kotlinOptions.freeCompilerArgs += \"-Xnew-inference\"")
                             out.println("    kotlinOptions.freeCompilerArgs += \"-Xno-receiver-assertions\"")
                             out.println("    kotlinOptions.freeCompilerArgs += \"-Xno-call-assertions\"")
@@ -791,7 +791,7 @@ class GenerateBuildFile(val args: Array<String>) {
                         }
                         val fc = f!!
                         for (alias in option.aliasList) {
-                            fc.append("typealias ${alias.first} = ${alias.second}\n")
+                            fc.append("internal typealias ${alias.first} = ${alias.second}\n")
                         }
                     }
                 }

@@ -7,33 +7,32 @@ actual class MyReadWriteLock {
         var uuidCounter = 0L
     }
 
-    @JvmField
     val uuid = uuidCounter++
 
-    @JvmField
     val lock = ReentrantReadWriteLock()
-    inline fun downgradeToReadLock() {
+actual fun getUUID()=uuid
+     actual fun downgradeToReadLock() {
         lock.readLock().lock()
         lock.writeLock().unlock()
     }
 
-    inline fun readLock() {
+     actual fun readLock() {
         lock.readLock().lock()
     }
 
-    inline fun readUnlock() {
+     actual fun readUnlock() {
         lock.readLock().unlock()
     }
 
-    inline fun writeLock() {
+     actual fun writeLock() {
         lock.writeLock().lock()
     }
 
-    inline fun tryWriteLock(): Boolean {
+     actual fun tryWriteLock(): Boolean {
         return lock.writeLock().tryLock()
     }
 
-    inline fun writeUnlock() {
+     actual fun writeUnlock() {
         lock.writeLock().unlock()
     }
 }
