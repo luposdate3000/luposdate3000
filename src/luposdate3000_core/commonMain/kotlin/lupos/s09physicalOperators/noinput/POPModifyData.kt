@@ -11,7 +11,7 @@ import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.MyListValue
 import lupos.s03resultRepresentation.Value
 import lupos.s03resultRepresentation.ValueBoolean
-import lupos.s03resultRepresentation.Variable
+
 import lupos.s04arithmetikOperators.noinput.AOPConstant
 import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.s04logicalOperators.iterator.ColumnIteratorMultiValue

@@ -542,6 +542,7 @@ class GenerateBuildFile(val args: Array<String>) {
                     ),
                     ChooseableOption("commonMain") to listOf(
                             ChooseableOptionDependency("luposdate3000:Luposdate3000_Parser:0.0.1"),
+                            ChooseableOptionDependency("luposdate3000:Luposdate3000_Value_Definition:0.0.1"),
                             ChooseableOptionDependency("luposdate3000:Luposdate3000_Shared:0.0.1"),
                             ChooseableOptionDependency("luposdate3000:Luposdate3000_Buffer_Manager_Inmemory:0.0.1"),
                             ChooseableOptionDependency("org.jetbrains.kotlin:kotlin-stdlib-common:$kotlinVersion"),

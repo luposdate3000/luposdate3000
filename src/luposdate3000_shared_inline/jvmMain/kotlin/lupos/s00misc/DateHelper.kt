@@ -1,6 +1,8 @@
 package lupos.s00misc
+import lupos.s00misc.NotImplementedException
 import java.util.Calendar
-actual class DateHelper {
+
+internal actual class DateHelper {
 actual constructor(){}
 @JvmField
 internal    val time = Calendar.getInstance()

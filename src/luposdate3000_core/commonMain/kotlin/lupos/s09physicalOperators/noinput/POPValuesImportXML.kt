@@ -3,7 +3,7 @@ package lupos.s09physicalOperators.noinput
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.Value
-import lupos.s03resultRepresentation.Variable
+
 import lupos.s04logicalOperators.Query
 
 class POPValuesImportXML : POPValuesImportBase {

@@ -1,5 +1,6 @@
 package lupos.s00misc
-actual class DateHelper() {
+import lupos.s00misc.NotImplementedException
+internal actual class DateHelper {
 actual constructor(){}
     actual inline fun year ():Int= throw object : NotImplementedException("DateHelper", "year not implemented") {}
     actual inline fun month ():Int= throw object : NotImplementedException("DateHelper", "month not implemented") {}

@@ -2,7 +2,7 @@ package lupos.s09physicalOperators.noinput
 
 import lupos.s00misc.SanityCheck
 import lupos.s03resultRepresentation.Value
-import lupos.s03resultRepresentation.Variable
+
 import lupos.s04logicalOperators.Query
 
 abstract class POPValuesImportBase(query: Query, projectedVariables: List<String>, variables: List<String>) : POPValues(query, projectedVariables, variables, mutableListOf<List<String?>>()) {

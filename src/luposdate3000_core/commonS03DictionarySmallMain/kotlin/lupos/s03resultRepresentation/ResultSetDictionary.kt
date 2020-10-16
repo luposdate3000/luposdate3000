@@ -28,34 +28,34 @@ val nodeGlobalDictionary = ResultSetDictionary(true)
 @UseExperimental(kotlin.ExperimentalUnsignedTypes::class)
 class ResultSetDictionary(val global: Boolean = false) {
     companion object {
-        /*to most bit leads to signed errors because toInt sadly performs a whole reencoding of the int and stores it completely different*/
-        const val mask1 = 0x40000000.toInt()/*first 2 bit*/
-        const val mask3 = 0x30000000.toInt()/*first 4 bit*/
-        const val mask6 = 0x3E000000.toInt()/*first 7 bit*/
-        const val filter3 = 0x0FFFFFFF.toInt()
-        const val filter6 = 0x01FFFFFF.toInt()
-        const val flaggedValueLocalBnode = 0x00000000.toInt()/*first 4 bit*/ /*required to be 0 by booleanTrueValue*/
-        const val flaggedValueLocalIri = 0x10000000.toInt()/*first 4 bit*/
-        const val flaggedValueLocalTyped = 0x20000000.toInt()/*first 4 bit*/
-        const val flaggedValueLocalInt = 0x30000000.toInt()/*first 7 bit*/
-        const val flaggedValueLocalDecimal = 0x34000000.toInt()/*first 7 bit*/
-        const val flaggedValueLocalDouble = 0x38000000.toInt()/*first 7 bit*/
-        const val flaggedValueLocalFloat = 0x3C000000.toInt()/*first 7 bit*/
-        const val flaggedValueLocalLangTagged = 0x3E000000.toInt()/*first 7 bit*/
-        const val flaggedValueGlobalBnode = 0x40000000.toInt()/*first 4 bit*/
-        const val flaggedValueGlobalIri = 0x50000000.toInt()/*first 4 bit*/
-        const val flaggedValueGlobalTyped = 0x60000000.toInt()/*first 4 bit*/
-        const val flaggedValueGlobalInt = 0x70000000.toInt()/*first 7 bit*/
-        const val flaggedValueGlobalDecimal = 0x74000000.toInt()/*first 7 bit*/
-        const val flaggedValueGlobalDouble = 0x78000000.toInt()/*first 7 bit*/
-        const val flaggedValueGlobalFloat = 0x7C000000.toInt()/*first 7 bit*/
-        const val flaggedValueGlobalLangTagged = 0x7E000000.toInt()/*first 7 bit*/
+        /*to most significant bit leads to signed errors because toInt sadly performs a whole reencoding of the int and stores it completely different*/
+        internal const val mask1 = 0x40000000.toInt()/*first 2 bit*/
+        internal const val mask3 = 0x30000000.toInt()/*first 4 bit*/
+        internal const val mask6 = 0x3E000000.toInt()/*first 7 bit*/
+        internal const val filter3 = 0x0FFFFFFF.toInt()
+        internal const val filter6 = 0x01FFFFFF.toInt()
+        internal const val flaggedValueLocalBnode = 0x00000000.toInt()/*first 4 bit*/ /*required to be 0 by booleanTrueValue*/
+        internal const val flaggedValueLocalIri = 0x10000000.toInt()/*first 4 bit*/
+        internal const val flaggedValueLocalTyped = 0x20000000.toInt()/*first 4 bit*/
+        internal const val flaggedValueLocalInt = 0x30000000.toInt()/*first 7 bit*/
+        internal const val flaggedValueLocalDecimal = 0x34000000.toInt()/*first 7 bit*/
+        internal const val flaggedValueLocalDouble = 0x38000000.toInt()/*first 7 bit*/
+        internal const val flaggedValueLocalFloat = 0x3C000000.toInt()/*first 7 bit*/
+        internal const val flaggedValueLocalLangTagged = 0x3E000000.toInt()/*first 7 bit*/
+        internal const val flaggedValueGlobalBnode = 0x40000000.toInt()/*first 4 bit*/
+        internal const val flaggedValueGlobalIri = 0x50000000.toInt()/*first 4 bit*/
+        internal const val flaggedValueGlobalTyped = 0x60000000.toInt()/*first 4 bit*/
+        internal const val flaggedValueGlobalInt = 0x70000000.toInt()/*first 7 bit*/
+        internal const val flaggedValueGlobalDecimal = 0x74000000.toInt()/*first 7 bit*/
+        internal const val flaggedValueGlobalDouble = 0x78000000.toInt()/*first 7 bit*/
+        internal const val flaggedValueGlobalFloat = 0x7C000000.toInt()/*first 7 bit*/
+        internal const val flaggedValueGlobalLangTagged = 0x7E000000.toInt()/*first 7 bit*/
+        internal const val emptyString = ""
         const val booleanTrueValue = (flaggedValueLocalBnode or 0x00000000.toInt()) /*lowest 5 values*/ /*required to be 0 for_ truth table loopups*/
         const val booleanFalseValue = (flaggedValueLocalBnode or 0x00000001.toInt()) /*lowest 5 values*/ /*required to be 1 for_ truth table loopups*/
         const val errorValue = (flaggedValueLocalBnode or 0x00000002.toInt()) /*lowest 5 values*/ /*required to be 2 for_ truth table loopups*/
         const val undefValue = (flaggedValueLocalBnode or 0x00000003.toInt()) /*lowest 5 values*/
         const val nullValue = (flaggedValueLocalBnode or 0x00000004.toInt()) /*lowest 5 values*/ /*symbol for no more results, previously 'null'*/
-        const val emptyString = ""
 
         @JvmField
         val booleanTrueValue2 = ValueBoolean(true)
@@ -76,55 +76,55 @@ class ResultSetDictionary(val global: Boolean = false) {
     fun isLocalBNode(value: Value) = (value and mask3) == flaggedValueLocalBnode
 
     @JvmField
-    val localBnodeToInt = mutableMapOf<String, Int>()
+    internal val localBnodeToInt = mutableMapOf<String, Int>()
 
     @JvmField
-    var bNodeCounter = 5
+    internal var bNodeCounter = 5
 
     @JvmField
-    val bnodeMapToGlobal = mutableMapOf<Int, Int>()
+    internal val bnodeMapToGlobal = mutableMapOf<Int, Int>()
 
     @JvmField
-    val iriToInt = mutableMapOf<String, Int>()
+    internal val iriToInt = mutableMapOf<String, Int>()
 
     @JvmField
-    var iriToValue = Array<String>(1) { emptyString }
+    internal var iriToValue = Array<String>(1) { emptyString }
 
     @JvmField
-    val langTaggedToInt = mutableMapOf<String, Int>()
+    internal val langTaggedToInt = mutableMapOf<String, Int>()
 
     @JvmField
-    var langTaggedToValue = Array<String>(1) { emptyString }
+    internal var langTaggedToValue = Array<String>(1) { emptyString }
 
     @JvmField
-    val typedToInt = mutableMapOf<String, Int>()
+    internal val typedToInt = mutableMapOf<String, Int>()
 
     @JvmField
-    var typedToValue = Array<String>(1) { emptyString }
+    internal var typedToValue = Array<String>(1) { emptyString }
 
     @JvmField
-    val doubleToInt = mutableMapOf<Double, Int>()
+    internal val doubleToInt = mutableMapOf<Double, Int>()
 
     @JvmField
-    var doubleToValue = DoubleArray(1) { 0.0 }
+    internal var doubleToValue = DoubleArray(1) { 0.0 }
 
     @JvmField
-    val floatToInt = mutableMapOf<Double, Int>()
+    internal val floatToInt = mutableMapOf<Double, Int>()
 
     @JvmField
-    var floatToValue = DoubleArray(1) { 0.0 }
+    internal var floatToValue = DoubleArray(1) { 0.0 }
 
     @JvmField
-    val decimalToInt = mutableMapOf<String, Int>()
+    internal val decimalToInt = mutableMapOf<String, Int>()
 
     @JvmField
-    var decimalToValue = Array<String>(1) { emptyString }
+    internal var decimalToValue = Array<String>(1) { emptyString }
 
     @JvmField
-    val intToInt = mutableMapOf<String, Int>()
+    internal val intToInt = mutableMapOf<String, Int>()
 
     @JvmField
-    var intToValue = Array<String>(1) { emptyString }
+    internal var intToValue = Array<String>(1) { emptyString }
     fun prepareBulk(total: Int, typed: IntArray) {
         for (t in ETripleComponentType.values()) {
             when (t) {
@@ -265,7 +265,6 @@ class ResultSetDictionary(val global: Boolean = false) {
                 e.printStackTrace()
             }
         }
-//SanityCheck.check({(res and filter6) < 10000},{"${res} ${res and filter6} ${res.toString(16)} ${(res and filter6).toString(16)}"})
         return res
     }
 
@@ -282,7 +281,6 @@ class ResultSetDictionary(val global: Boolean = false) {
                 res = tmp
             }
         }
-//SanityCheck.check({(res and filter6) < 10000},{"${res} ${res and filter6} ${res.toString(16)} ${(res and filter6).toString(16)}"})
         return res
     }
 
@@ -328,7 +326,6 @@ class ResultSetDictionary(val global: Boolean = false) {
                 }
             }
         }
-//SanityCheck.check({(res and filter6) < 10000},{"${res} ${res and filter6} ${res.toString(16)} ${(res and filter6).toString(16)}"})
         return res
     }
 
@@ -375,7 +372,6 @@ class ResultSetDictionary(val global: Boolean = false) {
                 }
             }
         }
-//SanityCheck.check({(res and filter6) < 10000},{"${res} ${res and filter6} ${res.toString(16)} ${(res and filter6).toString(16)}"})
         return res
     }
 
@@ -445,7 +441,6 @@ class ResultSetDictionary(val global: Boolean = false) {
                 }
             }
         }
-//SanityCheck.check({(res and filter6) < 10000},{"${res} ${res and filter6} ${res.toString(16)} ${(res and filter6).toString(16)}"})
         return res
     }
 
@@ -491,7 +486,6 @@ class ResultSetDictionary(val global: Boolean = false) {
                 }
             }
         }
-//SanityCheck.check({(res and filter6) < 10000},{"${res} ${res and filter6} ${res.toString(16)} ${(res and filter6).toString(16)}"})
         return res
     }
 
@@ -537,7 +531,6 @@ class ResultSetDictionary(val global: Boolean = false) {
                 }
             }
         }
-//SanityCheck.check({(res and filter6) < 10000},{"${res} ${res and filter6} ${res.toString(16)} ${(res and filter6).toString(16)}"})
         return res
     }
 
@@ -584,7 +577,6 @@ class ResultSetDictionary(val global: Boolean = false) {
                 }
             }
         }
-//SanityCheck.check({(res and filter6) < 10000},{"${res} ${res and filter6} ${res.toString(16)} ${(res and filter6).toString(16)}"})
         return res
     }
 
@@ -631,13 +623,11 @@ class ResultSetDictionary(val global: Boolean = false) {
                 }
             }
         }
-//SanityCheck.check({(res and filter6) < 10000},{"${res} ${res and filter6} ${res.toString(16)} ${(res and filter6).toString(16)}"})
         return res
     }
 
     fun createValue(value: String?): Value {
         val res = createValue(ValueDefinition(value))
-//SanityCheck.check({(res and filter6) < 10000},{"${res} ${res and filter6} ${res.toString(16)} ${(res and filter6).toString(16)}"})
         return res
     }
 
@@ -693,12 +683,10 @@ class ResultSetDictionary(val global: Boolean = false) {
             val tmp2 = getValue(res)
             SanityCheck.check({ (value is ValueBnode && tmp2 is ValueBnode) || (value is ValueError && tmp2 is ValueError) || tmp2 == value || (value is ValueSimpleLiteral && tmp2 is ValueTypedLiteral && tmp2.type_iri == "http://www.w3.org/2001/XMLSchema#string" && tmp2.content == value.content) }, { "$value (${value.toSparql()}) -> ${res.toString(16)} -> ${tmp2} (${tmp2.toSparql()})" })
         }
-//SanityCheck.check({(res and filter6) < 10000},{"${res} ${res and filter6} ${res.toString(16)} ${(res and filter6).toString(16)}"})
         return res
     }
 
     fun getValue(value: Value): ValueDefinition {
-//SanityCheck.check({(value and filter6) < 10000},{"${value} ${value and filter6} ${value.toString(16)} ${(value and filter6).toString(16)}"})
         var res: ValueDefinition
         val dict: ResultSetDictionary
         if ((value and mask1) == mask1) {
@@ -856,7 +844,6 @@ class ResultSetDictionary(val global: Boolean = false) {
                 res = nodeGlobalDictionary.createValue(getValue(value))
             }
         }
-//SanityCheck.check({(res and filter6) < 10000},{"${res} ${res and filter6} ${res.toString(16)} ${(res and filter6).toString(16)}"})
         return res
     }
 

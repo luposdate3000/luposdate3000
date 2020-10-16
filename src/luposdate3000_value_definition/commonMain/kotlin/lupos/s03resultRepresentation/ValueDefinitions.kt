@@ -162,7 +162,7 @@ class ValueBoolean(@JvmField var value: Boolean, x: Boolean) : ValueDefinition()
 sealed class ValueNumeric() : ValueDefinition()
 class ValueUndef() : ValueDefinition() {
     override suspend fun toXMLElement() = XMLElement("ValueUndef")
-    override fun valueToString() = null
+    override fun valueToString():String? = null
     override fun equals(other: Any?): Boolean {
         if (other is ValueUndef) {
             return true
@@ -180,7 +180,7 @@ class ValueUndef() : ValueDefinition() {
 
 class ValueError() : ValueDefinition() {
     override suspend fun toXMLElement() = XMLElement("ValueError")
-    override fun valueToString() = null
+    override fun valueToString() :String?= null
     override fun equals(other: Any?): Boolean = throw IncompatibleTypesDuringCompareException()
     override fun toDouble() = throw CanNotCastErrorToDoubleException()
     override fun toDecimal() = throw CanNotCastErrorToDecimalException()

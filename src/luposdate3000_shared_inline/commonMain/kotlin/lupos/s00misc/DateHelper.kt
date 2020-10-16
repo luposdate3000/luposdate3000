@@ -1,6 +1,6 @@
 package lupos.s00misc
-
-expect class DateHelper() {
+internal expect class DateHelper {
+constructor()
     fun year ():Int
     fun month ():Int    
     fun day ():Int
