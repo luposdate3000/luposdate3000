@@ -4,8 +4,8 @@ import kotlin.jvm.JvmField
 import lupos.s00misc.BenchmarkUtils
 import lupos.s00misc.EBenchmark
 import lupos.s00misc.File
-import lupos.s00misc.Parallel
 import lupos.s00misc.MyReadWriteLock
+import lupos.s00misc.Parallel
 import lupos.s00misc.SanityCheck
 import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s03resultRepresentation.Value

@@ -1,7 +1,7 @@
 package lupos.s11outputResult
 
-import lupos.s00misc.MyLock
 import lupos.s00misc.MemoryTable
+import lupos.s00misc.MyLock
 import lupos.s00misc.MyMapIntInt
 import lupos.s00misc.Parallel
 import lupos.s00misc.ParallelJob

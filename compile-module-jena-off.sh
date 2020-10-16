@@ -1,5 +1,5 @@
 #!/bin/bash
-./generate-buildfile-module.kts "Luposdate3000_Jena_Wrapper_Off" "src/luposdate3000_jena_wrapper_off" "linuxX64" --inline --nosuspend
+./generate-buildfile-module.kts "Luposdate3000_Jena_Wrapper_Off" "src/luposdate3000_jena_wrapper_off" "linuxX64" --inline --nosuspend --release
 gradle build
 gradle publishToMavenLocal
 mkdir build-cache

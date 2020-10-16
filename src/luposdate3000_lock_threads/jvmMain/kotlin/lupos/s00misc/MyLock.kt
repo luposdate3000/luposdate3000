@@ -1,14 +1,16 @@
 package lupos.s00misc
+
 import java.util.concurrent.Semaphore
 
-class MyLock {
-companion object{
-var uuidCounter=0
-}
+actual class MyLock {
+    companion object {
+        var uuidCounter = 0L
+    }
+
     @JvmField
     val uuid = uuidCounter++
 
-@JvmField
+    @JvmField
     val semaphore = Semaphore(1)
     inline fun lock() {
         semaphore.acquire()

@@ -2,10 +2,10 @@ package lupos.s04logicalOperators
 
 import kotlin.jvm.JvmField
 import lupos.s00misc.MyLock
-import lupos.s00misc.withLock
 import lupos.s00misc.ParallelJob
 import lupos.s00misc.Partition
 import lupos.s00misc.ThreadSafeUuid
+import lupos.s00misc.withLock
 import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s15tripleStoreDistributed.DistributedTripleStore

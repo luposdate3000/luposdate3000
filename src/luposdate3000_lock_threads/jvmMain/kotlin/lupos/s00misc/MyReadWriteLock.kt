@@ -1,22 +1,23 @@
 package lupos.s00misc
+
 import java.util.concurrent.locks.ReentrantReadWriteLock
 
-class MyReadWriteLock {
-companion object{
-var uuidCounter=0
-}
+actual class MyReadWriteLock {
+    companion object {
+        var uuidCounter = 0L
+    }
+
     @JvmField
     val uuid = uuidCounter++
 
     @JvmField
     val lock = ReentrantReadWriteLock()
-
-    inline  fun downgradeToReadLock() {
+    inline fun downgradeToReadLock() {
         lock.readLock().lock()
         lock.writeLock().unlock()
     }
 
-    inline  fun readLock() {
+    inline fun readLock() {
         lock.readLock().lock()
     }
 
@@ -24,16 +25,15 @@ var uuidCounter=0
         lock.readLock().unlock()
     }
 
-    inline  fun writeLock() {
+    inline fun writeLock() {
         lock.writeLock().lock()
     }
 
-    inline  fun tryWriteLock(): Boolean {
+    inline fun tryWriteLock(): Boolean {
         return lock.writeLock().tryLock()
     }
 
     inline fun writeUnlock() {
         lock.writeLock().unlock()
     }
-
 }

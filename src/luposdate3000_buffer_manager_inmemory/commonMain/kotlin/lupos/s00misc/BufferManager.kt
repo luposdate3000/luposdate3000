@@ -1,12 +1,13 @@
 package lupos.s01io
 
 import kotlin.jvm.JvmField
+import lupos.s00misc.BUFFER_MANAGER_PAGE_SIZE_IN_BYTES
+import lupos.s00misc.BUFFER_MANAGER_USE_FREE_LIST
 import lupos.s00misc.Configuration
-import lupos.s00misc.PAGE_SIZE_IN_BYTES
 import lupos.s00misc.MyReadWriteLock
+import lupos.s00misc.SanityCheck
 import lupos.s00misc.withReadLock
 import lupos.s00misc.withWriteLock
-import lupos.s00misc.SanityCheck
 
 class BufferManager(@JvmField val bufferName: String) {
     /*
@@ -19,10 +20,11 @@ class BufferManager(@JvmField val bufferName: String) {
      * additionally this should make it more easy to exchange this with on disk storage
      */
     companion object {
-        const val useFreeList = true
-
         @JvmField
         var bufferPrefix: String
+
+        @JvmField
+        val page_size_in_bytes = BUFFER_MANAGER_PAGE_SIZE_IN_BYTES
 
         init {
             bufferPrefix = Configuration.getEnv("LUPOS_HOME", "/tmp/luposdate3000/")!!
@@ -55,7 +57,7 @@ class BufferManager(@JvmField val bufferName: String) {
     }
 
     @JvmField
-    var allPages = Array<ByteArray>(100) { ByteArray(PAGE_SIZE_IN_BYTES) }
+    var allPages = Array<ByteArray>(100) { ByteArray(BUFFER_MANAGER_PAGE_SIZE_IN_BYTES) }
 
     @JvmField
     var allPagesRefcounters = IntArray(100)
@@ -79,7 +81,7 @@ class BufferManager(@JvmField val bufferName: String) {
                 SanityCheck.check({ allPagesRefcounters[i] == 0 }, { "Failed requirement pageid = $i" })
             }
         }
-        allPages = Array<ByteArray>(100) { ByteArray(PAGE_SIZE_IN_BYTES) }
+        allPages = Array<ByteArray>(100) { ByteArray(BUFFER_MANAGER_PAGE_SIZE_IN_BYTES) }
         allPagesRefcounters = IntArray(100)
         freeList.clear()
     }
@@ -106,7 +108,7 @@ class BufferManager(@JvmField val bufferName: String) {
 
     inline suspend fun createPage(crossinline action: (ByteArray, Int) -> Unit) = lock.withWriteLock {
         val pageid: Int
-        if (freeList.size > 0 && useFreeList) {
+        if (freeList.size > 0 && BUFFER_MANAGER_USE_FREE_LIST) {
             pageid = freeList.removeAt(0)
         } else {
             if (counter == allPages.size) {
@@ -121,7 +123,7 @@ class BufferManager(@JvmField val bufferName: String) {
                     if (it < counter) {
                         res = allPages[it]
                     } else {
-                        res = ByteArray(PAGE_SIZE_IN_BYTES)
+                        res = ByteArray(BUFFER_MANAGER_PAGE_SIZE_IN_BYTES)
                     }
                     /*return*/ res
                 }

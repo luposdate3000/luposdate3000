@@ -1,5 +1,5 @@
 #!/bin/bash
-./generate-buildfile-module.kts "Luposdate3000_Lock_Threads" "src/luposdate3000_lock_threads" "linuxX64" --inline --nosuspend
+./generate-buildfile-module.kts "Luposdate3000_Lock_Threads" "src/luposdate3000_lock_threads" "linuxX64" --inline --nosuspend --release
 gradle build
 gradle publishToMavenLocal
 mkdir build-cache

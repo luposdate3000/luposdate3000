@@ -1,6 +1,6 @@
+import java.io.File
 import java.nio.file.Files
 import java.nio.file.Paths
-import java.io.File
 
 fun createBuildFileForModule(args: Array<String>) {
     val moduleName = args[0]
@@ -15,6 +15,7 @@ fun createBuildFileForModule(args: Array<String>) {
     }
     var inlineMode = InlineMode.Enable
     var suspendMode = SuspendMode.Enable
+    var releaseMode = true
     if (args.contains("--inline")) {
         inlineMode = InlineMode.Enable
     }
@@ -27,12 +28,14 @@ fun createBuildFileForModule(args: Array<String>) {
     if (args.contains("--nosuspend")) {
         suspendMode = SuspendMode.Disable
     }
+    if (args.contains("--release")) {
+        releaseMode = true
+    }
+    if (args.contains("--debug")) {
+        releaseMode = false
+    }
     File("src.generated").deleteRecursively()
     File("src.generated").mkdirs()
-    var hadCommon = false
-    var hadJVM = false
-    var hadJS = false
-    var hadNative = false
     File("src/luposdate3000_interfaces").copyRecursively(File("src.generated"))
     val p = Paths.get(moduleFolder)
     Files.walk(p, 1).forEach { it ->
@@ -49,19 +52,14 @@ fun createBuildFileForModule(args: Array<String>) {
             println("use tmp as :: $f")
             if (f.startsWith("common")) {
                 File(tmp).copyRecursively(File("src.generated/" + f.replace("common.*Main", "commonMain")))
-                hadCommon = true
             } else if (f.startsWith("jvm")) {
                 File(tmp).copyRecursively(File("src.generated/" + f.replace("jvm.*Main", "jvmMain")))
-                hadJVM = true
             } else if (f.startsWith("js")) {
                 File(tmp).copyRecursively(File("src.generated/" + f.replace("js.*Main", "jsMain")))
-                hadJS = true
             } else if (f.startsWith("native")) {
                 File(tmp).copyRecursively(File("src.generated/" + f.replace("native.*Main", "${platform}Main")))
-                hadNative = true
             } else if (f.startsWith(platform)) {
                 File(tmp).copyRecursively(File("src.generated/" + f.replace("${platform}.*Main", "${platform}Main")))
-                hadNative = true
             }
         }
     }
@@ -110,35 +108,29 @@ fun createBuildFileForModule(args: Array<String>) {
         out.println("version = \"0.0.1\"")//maven-version
         out.println("apply(plugin = \"maven-publish\")")
         out.println("kotlin {")
-        if (hadCommon || hadJVM) {
-            out.println("    jvm()")
-        }
-        if (hadCommon || hadJS) {
-            out.println("    js {")
-            out.println("        browser {")
-            out.println("        }")
-            out.println("        nodejs {")
-            out.println("        }")
-            out.println("    }")
-        }
-        if (hadCommon || hadNative) {
-            out.println("    $platform(\"$platform\") {")
-            out.println("        binaries {")
-            out.println("            sharedLib {")
-            out.println("                baseName = \"${moduleName}\"")
-            out.println("            }")
-            out.println("        }")
-            out.println("    }")
-        }
+        out.println("    jvm()")
+        out.println("    js {")
+        out.println("        browser {")
+        out.println("        }")
+        out.println("        nodejs {")
+        out.println("        }")
+        out.println("    }")
+        out.println("    $platform(\"$platform\") {")
+        out.println("        binaries {")
+        out.println("            sharedLib {")
+        out.println("                baseName = \"${moduleName}\"")
+        out.println("            }")
+        out.println("        }")
+        out.println("    }")
         out.println("    sourceSets {")
         out.println("        val commonMain by getting {")
         out.println("            dependencies {")
         val commonDependencies = mutableSetOf("org.jetbrains.kotlin:kotlin-stdlib-common:1.4.255-SNAPSHOT")
         if (File("${moduleFolder}/commonDependencies").exists()) {
             File("${moduleFolder}/commonDependencies").forEachLine {
- if(it.length>0){
-               commonDependencies.add(it)
-}
+                if (it.length > 0) {
+                    commonDependencies.add(it)
+                }
             }
         }
         for (d in commonDependencies) {
@@ -146,71 +138,79 @@ fun createBuildFileForModule(args: Array<String>) {
         }
         out.println("            }")
         out.println("        }")
-        if (hadJVM) {
-            out.println("        val jvmMain by getting {")
-            out.println("            dependencies {")
-            val jvmDependencies = mutableSetOf("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.4.255-SNAPSHOT")
-            if (File("${moduleFolder}/jvmDependencies").exists()) {
-                File("${moduleFolder}/jvmDependencies").forEachLine {
-if(it.length>0){
+        out.println("        val jvmMain by getting {")
+        out.println("            dependencies {")
+        val jvmDependencies = mutableSetOf("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.4.255-SNAPSHOT")
+        if (File("${moduleFolder}/jvmDependencies").exists()) {
+            File("${moduleFolder}/jvmDependencies").forEachLine {
+                if (it.length > 0) {
                     jvmDependencies.add(it)
-}
                 }
             }
-            for (d in jvmDependencies) {
-                out.println("                implementation(\"$d\")")
-            }
-            out.println("            }")
-            out.println("        }")
         }
-        if (hadJS) {
-            out.println("        val jsMain by getting {")
-            out.println("            dependencies {")
-            val jsDependencies = mutableSetOf("org.jetbrains.kotlin:kotlin-stdlib-js:1.4.255-SNAPSHOT")
-            if (File("${moduleFolder}/jsDependencies").exists()) {
-                File("${moduleFolder}/jsDependencies").forEachLine {
-if(it.length>0){
+        for (d in jvmDependencies) {
+            out.println("                implementation(\"$d\")")
+        }
+        out.println("            }")
+        out.println("        }")
+        out.println("        val jsMain by getting {")
+        out.println("            dependencies {")
+        val jsDependencies = mutableSetOf("org.jetbrains.kotlin:kotlin-stdlib-js:1.4.255-SNAPSHOT")
+        if (File("${moduleFolder}/jsDependencies").exists()) {
+            File("${moduleFolder}/jsDependencies").forEachLine {
+                if (it.length > 0) {
                     jsDependencies.add(it)
-}
                 }
             }
-            for (d in jsDependencies) {
-                out.println("                implementation(\"$d\")")
-            }
-            out.println("            }")
-            out.println("        }")
         }
-        if (hadNative) {
-            out.println("        val ${platform}Main by getting {")
-            out.println("            dependencies {")
-            val nativeDependencies = mutableSetOf<String>()
-            if (File("${moduleFolder}/nativeDependencies").exists()) {
-                File("${moduleFolder}/nativeDependencies").forEachLine {
-if(it.length>0){
+        for (d in jsDependencies) {
+            out.println("                implementation(\"$d\")")
+        }
+        out.println("            }")
+        out.println("        }")
+        out.println("        val ${platform}Main by getting {")
+        out.println("            dependencies {")
+        val nativeDependencies = mutableSetOf<String>()
+        if (File("${moduleFolder}/nativeDependencies").exists()) {
+            File("${moduleFolder}/nativeDependencies").forEachLine {
+                if (it.length > 0) {
                     nativeDependencies.add(it)
-}
                 }
             }
-            for (d in nativeDependencies) {
-                out.println("                implementation(\"$d\")")
-            }
-            out.println("            }")
-            out.println("        }")
         }
+        for (d in nativeDependencies) {
+            out.println("                implementation(\"$d\")")
+        }
+        out.println("            }")
+        out.println("        }")
         out.println("    }")
         out.println("   sourceSets[\"commonMain\"].kotlin.srcDir(\"src.generated/commonMain/kotlin\")")
-        if (hadJVM) {
-            out.println("   sourceSets[\"jvmMain\"].kotlin.srcDir(\"src.generated/jvmMain/kotlin\")")
-        }
-        if (hadJS) {
-            out.println("   sourceSets[\"jsMain\"].kotlin.srcDir(\"src.generated/jsMain/kotlin\")")
-        }
-        if (hadNative) {
-            out.println("   sourceSets[\"${platform}Main\"].kotlin.srcDir(\"src.generated/${platform}Main/kotlin\")")
-        }
+        out.println("   sourceSets[\"jvmMain\"].kotlin.srcDir(\"src.generated/jvmMain/kotlin\")")
+        out.println("   sourceSets[\"jsMain\"].kotlin.srcDir(\"src.generated/jsMain/kotlin\")")
+        out.println("   sourceSets[\"${platform}Main\"].kotlin.srcDir(\"src.generated/${platform}Main/kotlin\")")
         out.println("}")
     }
-
+    File("src.generated/commonMain/kotlin/lupos/s00misc/").mkdirs()
+    File("src.generated/commonMain/kotlin/lupos/s00misc/Config.kt").printWriter().use { out ->
+        out.println("package lupos.s00misc")
+        if (releaseMode) {
+            out.println("typealias SanityCheck = SanityCheckOff")
+        } else {
+            out.println("typealias SanityCheck = SanityCheckOn")
+        }
+        File("${moduleFolder}/configOptions").forEachLine {
+            val opt = it.split(",")
+            if (opt.size == 4) {
+                var value = opt[3]
+                for (a in args) {
+                    if (a.startsWith("--${opt[0]}") && a.contains("=")) {
+                        value = a.substring(a.indexOf("=") + 1)
+                    }
+                }
+                out.println("${opt[1]} ${opt[0]}: ${opt[2]} = $value")
+            }
+        }
+    }
     if (inlineMode == InlineMode.Enable) {
         applyInlineEnable()
     } else {

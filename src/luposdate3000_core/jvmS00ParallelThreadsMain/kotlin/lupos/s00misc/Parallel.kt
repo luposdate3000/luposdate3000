@@ -10,7 +10,6 @@ import lupos.s03resultRepresentation.ResultSetDictionary
 
 typealias ParallelJob = Thread
 
-
 object Parallel {
     inline fun <T> runBlocking(crossinline action: () -> T): T {
         return action()

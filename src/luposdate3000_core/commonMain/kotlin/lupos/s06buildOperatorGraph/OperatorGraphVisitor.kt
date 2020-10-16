@@ -1362,8 +1362,8 @@ return tmp
     }
 
     override fun visit(node: ASTService, childrenValues: List<OPBase>): OPBase {
-val iriOrVar=node.iriOrVar
-        when (iriOrVar){
+        val iriOrVar = node.iriOrVar
+        when (iriOrVar) {
             is ASTIri -> {
                 return LOPServiceIRI(query, iriOrVar.iri, node.silent, parseGroup(node.children))
             }
@@ -1650,7 +1650,7 @@ val iriOrVar=node.iriOrVar
     }
 
     override fun visit(node: ASTLoad, childrenValues: List<OPBase>): OPBase {
-val tmp=node.into
+        val tmp = node.into
         if (tmp != null) {
             var g2 = graphRefToEnum(tmp)
             return LOPGraphOperation(query, EGraphOperationType.LOAD, node.silent, EGraphRefType.DefaultGraphRef, node.iri, g2.first, g2.second)

@@ -552,14 +552,16 @@ class GenerateBuildFile(val args: Array<String>) {
             additionalSources = mapOf(
                     /*if the key is choosen, automatically add all dependent things*/
                     ChooseableOption("jvmS00ParallelThreadsMain") to listOf(
-			ChooseableOptionDependency("luposdate3000:Luposdate3000_Lock_Threads:0.0.1"),
+                            ChooseableOptionDependency("luposdate3000:Luposdate3000_Lock_Threads:0.0.1"),
                             ChoosableOptionInternalScript("SuspendModeOff", { applySuspendDisable() }, "SuspendModeOff", false)
                     ),
                     ChooseableOption("jvmS16ServerCommunicationSocketsMain") to listOf(
                             ChooseableOptionDirectory("commonS16ServerCommunicationEnabledMain")
                     ),
                     ChooseableOption("commonMain") to listOf(
-			    ChooseableOptionDependency("luposdate3000:Luposdate3000_Parser:0.0.1"),
+                            ChooseableOptionDependency("luposdate3000:Luposdate3000_Parser:0.0.1"),
+                            ChooseableOptionDependency("luposdate3000:Luposdate3000_Buffer_Manager_Inmemory:0.0.1"),
+                            ChooseableOptionDependency("luposdate3000:Luposdate3000_Interfaces:0.0.1"),
                             ChooseableOptionDependency("org.jetbrains.kotlin:kotlin-stdlib-common:$kotlinVersion"),
                             ChooseableOptionDependency("org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"),
                             ChooseableOptionDependency("com.benasher44:uuid:0.0.7"),
@@ -572,12 +574,12 @@ class GenerateBuildFile(val args: Array<String>) {
                     ChooseableOption("commonS00ParallelCoroutinesMain") to listOf(
                             ChooseableOptionDependency("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.3"),
                     ),
-                    ChooseableOptionSymbolic("Off", "commonS00WrapperJenaOffMain")to listOf(
-ChooseableOptionDependency("luposdate3000:Luposdate3000_Jena_Wrapper_Off:0.0.1"),
-),
+                    ChooseableOptionSymbolic("Off", "commonS00WrapperJenaOffMain") to listOf(
+                            ChooseableOptionDependency("luposdate3000:Luposdate3000_Jena_Wrapper_Off:0.0.1"),
+                    ),
                     ChooseableOptionSymbolic("On", "jvmS00WrapperJenaOnMain") to listOf(
-ChooseableOptionDependency("luposdate3000:Luposdate3000_Jena_Wrapper_On:0.0.1"),
-),
+                            ChooseableOptionDependency("luposdate3000:Luposdate3000_Jena_Wrapper_On:0.0.1"),
+                    ),
                     ChooseableOption("jvmS16ServerCommunicationKtorMain") to listOf(
                             ChooseableOptionDirectory("commonS16ServerCommunicationEnabledMain"),
                             ChooseableOptionDependency("io.ktor:ktor-network:$ktorVersion")
@@ -642,15 +644,15 @@ ChooseableOptionDependency("luposdate3000:Luposdate3000_Jena_Wrapper_On:0.0.1"),
                     println(option.toString() + " :: " + option.internalID)
                 }
                 allChoicesString = allChoicesString.replace("Main", "").replace("common", "")
-File("settings.gradle").printWriter().use { out ->
-out.println("pluginManagement {")
-out.println("    repositories {")
-out.println("        mavenLocal()")
-out.println("        gradlePluginPortal()")
-out.println("    }")
-out.println("}")
-out.println("rootProject.name = \"luposdate3000\"")//maven-artifactID
-}
+                File("settings.gradle").printWriter().use { out ->
+                    out.println("pluginManagement {")
+                    out.println("    repositories {")
+                    out.println("        mavenLocal()")
+                    out.println("        gradlePluginPortal()")
+                    out.println("    }")
+                    out.println("}")
+                    out.println("rootProject.name = \"luposdate3000\"")//maven-artifactID
+                }
                 File("build.gradle.kts").printWriter().use { out ->
                     when (platform) {
                         "jvm" -> {
