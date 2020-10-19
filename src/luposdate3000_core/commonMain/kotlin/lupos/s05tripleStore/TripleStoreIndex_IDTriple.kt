@@ -1,9 +1,6 @@
 package lupos.s05tripleStore
 
 import kotlin.jvm.JvmField
-import lupos.s00misc.BenchmarkUtils
-import lupos.s00misc.EBenchmark
-import lupos.s00misc.File
 import lupos.s00misc.MyReadWriteLock
 import lupos.s00misc.Parallel
 import lupos.s00misc.SanityCheck
@@ -32,7 +29,6 @@ import lupos.s05tripleStore.index_IDTriple.NodeManager
 import lupos.s05tripleStore.index_IDTriple.NodeShared
 import lupos.s05tripleStore.index_IDTriple.TripleIterator
 
-var debugLock = MyReadWriteLock()
 
 class TripleStoreIndex_IDTriple : TripleStoreIndex() {
     @JvmField
@@ -55,100 +51,26 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
 
     @JvmField
     var lock = MyReadWriteLock()
+@JvmField    var cachedHistograms1Size = 0
+   @JvmField var cachedHistograms1Cursor = 0
+  @JvmField  val cachedHistograms1 = IntArray(300)
+  @JvmField  var cachedHistograms2Size = 0
+@JvmField    var cachedHistograms2Cursor = 0
+@JvmField    val cachedHistograms2 = IntArray(400)
 
-    companion object {
+internal    companion object {
         @JvmField
         var debuguuiditerator = 0
+@JvmField
+var debugLock = MyReadWriteLock()
     }
 
     suspend override fun safeToFile(filename: String) {
-/*
-        flushContinueWithReadLock()
-        SanityCheck.suspended {
-            if (root != NodeManager.nodeNullPointer) {
-                var found = false
-                SanityCheck.println({ "Outside.refcount($root) ${NodeManager.bufferManager.allPagesRefcounters[root]} x123" })
-                NodeManager.getNodeAny(root, {
-                    SanityCheck.checkUnreachable()
-                }, {
-                    found = true
-                    SanityCheck.check { rootNode == it }
-                })
-SanityCheck.println({ "Outside.refcount($root) ${NodeManager.bufferManager.allPagesRefcounters[root]} x80" })
-		NodeManager.releaseNode(root)
-                SanityCheck.check { found }
-            } else {
-                SanityCheck.check { rootNode == null }
-            }
-        }
-        File(filename).dataOutputStream { out ->
-            out.writeInt(firstLeaf)
-            out.writeInt(root)
-            out.writeInt(countPrimary)
-            out.writeInt(distinctPrimary)
-        }
-        SanityCheck.suspended {
-            SanityCheck.println { firstLeaf }
-            SanityCheck.println { root }
-            SanityCheck.println { countPrimary }
-            SanityCheck.println { distinctPrimary }
-            if (rootNode != null) {
-                val iterator = NodeInner.iterator(rootNode!!)
-                while (iterator.hasNext()) {
-                    SanityCheck.println { iterator.next().map { it } }
-                }
-            }
-        }
-        SanityCheck.println{"readUnlock(${lock.uuid}) x126"} 
-        lock.readUnlock()
-*/
     }
 
     suspend override fun loadFromFile(filename: String) {
-/*
-        clear()
-        SanityCheck.println{"writeLock(${	lock.uuid}) x127"} 
-	lock.writeLock()
-SanityCheck.check{rootNode==null}
-        File(filename).dataInputStreamSuspended { fis ->
-            firstLeaf = fis.readInt()
-            root = fis.readInt()
-            countPrimary = fis.readInt()
-            distinctPrimary = fis.readInt()
-            if (root == NodeManager.nodeNullPointer) {
-                rootNode = null
-            } else {
-                SanityCheck.println({ "Outside.refcount($root) ${NodeManager.bufferManager.allPagesRefcounters[root]} x124" })
-                NodeManager.getNodeInner(root, {
-			"xxx refcount of rootnode is too high here"
-                    rootNode = it
-                })
-                SanityCheck.check { rootNode != null }
-            }
-        }
-        SanityCheck.suspended {
-            SanityCheck.println { firstLeaf }
-            SanityCheck.println { root }
-            SanityCheck.println { countPrimary }
-            SanityCheck.println { distinctPrimary }
-            if (rootNode != null) {
-                val iterator = NodeInner.iterator(rootNode!!)
-                while (iterator.hasNext()) {
-                    SanityCheck.println { iterator.next().map { it } }
-                }
-            }
-        }
-        SanityCheck.println{"writeUnlock(${lock.uuid}) x128"} 
-        lock.writeUnlock()
-*/
     }
 
-    var cachedHistograms1Size = 0
-    var cachedHistograms1Cursor = 0
-    val cachedHistograms1 = IntArray(300)
-    var cachedHistograms2Size = 0
-    var cachedHistograms2Cursor = 0
-    val cachedHistograms2 = IntArray(400)
     inline fun clearCachedHistogram() {
         cachedHistograms1Size = 0
         cachedHistograms2Size = 0
@@ -456,7 +378,6 @@ SanityCheck.check{rootNode==null}
     suspend fun flushAssumeLocks() {
         if (pendingImport.size > 0) {
             //check again, that there is something to be done ... this may be changed, because there could be someone _else beforehand, holding exactly this lock ... .
-            BenchmarkUtils.start(EBenchmark.IMPORT_REBUILD_MAP)
             var j = 1
             while (j < pendingImport.size) {
                 if (pendingImport[j] == null) {
@@ -493,14 +414,12 @@ SanityCheck.check{rootNode==null}
             SanityCheck.println({ "Outside.refcount($firstLeaf2) ${NodeManager.bufferManager.allPagesRefcounters[firstLeaf2]} x48" })
             NodeManager.freeAllLeaves(firstLeaf2)
             pendingImport.clear()
-            BenchmarkUtils.elapsedSeconds(EBenchmark.IMPORT_REBUILD_MAP)
         }
     }
 
     suspend override fun import(dataImport: IntArray, count: Int, order: IntArray) {
         SanityCheck.println { "writeLock(${lock.uuid}) x142" }
         lock.writeLock()
-        BenchmarkUtils.start(EBenchmark.IMPORT_MERGE_DATA)
         if (count > 0) {
             val iteratorImport = BulkImportIterator(dataImport, count, order)
             val iterator = iteratorImport
@@ -541,7 +460,6 @@ SanityCheck.check{rootNode==null}
                 }
             }
         }
-        BenchmarkUtils.elapsedSeconds(EBenchmark.IMPORT_MERGE_DATA)
         SanityCheck.println { "writeUnlock(${lock.uuid}) x61" }
         lock.writeUnlock()
     }

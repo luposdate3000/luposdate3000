@@ -6,7 +6,6 @@ import java.util.concurrent.locks.ReentrantLock
 import java.util.concurrent.locks.ReentrantReadWriteLock
 import java.util.concurrent.Semaphore
 import kotlin.jvm.JvmField
-import lupos.s03resultRepresentation.ResultSetDictionary
 
 typealias ParallelJob = Thread
 

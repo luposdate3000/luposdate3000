@@ -4,7 +4,7 @@ package lupos.s00misc
 abstract class Luposdate3000Exception(val classname: String, msg: String) : Exception(msg)
 
 //not implemented exceptions --->>>
-abstract class NotImplementedException(classname: String, msg: String) : Luposdate3000Exception(classname, msg)
+open class NotImplementedException(classname: String, msg: String) : Luposdate3000Exception(classname, msg)
 class HistogramNotImplementedException(classname: String) : NotImplementedException("HistogramNotImplementedException", "Histograms not implemented in '$classname'.")
 class FileIONotImplementedException() : NotImplementedException("FileIONotImplementedException", "File IO not implemented.")
 class ServiceNotImplementedException() : NotImplementedException("ServiceNotImplementedException", "Service is currently not implemented.")

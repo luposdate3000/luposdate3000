@@ -2,36 +2,36 @@ package lupos.s00misc
 
 import java.util.concurrent.locks.ReentrantReadWriteLock
 
-actual class MyReadWriteLock {
+internal actual class MyThreadReadWriteLock {
     internal companion object {
         var uuidCounter = 0L
     }
 
     val uuid = uuidCounter++
     val lock = ReentrantReadWriteLock()
-    actual fun getUUID() = uuid
-    actual fun downgradeToReadLock() {
+    actual inline fun getUUID() = uuid
+    actual inline fun downgradeToReadLock() {
         lock.readLock().lock()
         lock.writeLock().unlock()
     }
 
-    actual fun readLock() {
+    actual inline fun readLock() {
         lock.readLock().lock()
     }
 
-    actual fun readUnlock() {
+    actual inline fun readUnlock() {
         lock.readLock().unlock()
     }
 
-    actual fun writeLock() {
+    actual inline fun writeLock() {
         lock.writeLock().lock()
     }
 
-    actual fun tryWriteLock(): Boolean {
+    actual inline fun tryWriteLock(): Boolean {
         return lock.writeLock().tryLock()
     }
 
-    actual fun writeUnlock() {
+    actual inline fun writeUnlock() {
         lock.writeLock().unlock()
     }
 }
