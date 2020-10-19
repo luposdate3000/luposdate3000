@@ -5,7 +5,7 @@ import lupos.s00misc.MyLock
 import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s03resultRepresentation.Value
 
-class ColumnIteratorValue() : ColumnIterator() {
+internal class ColumnIteratorValue() : ColumnIterator() {
     companion object {
         inline operator fun invoke(value: Value): ColumnIteratorValue {
             var res = ColumnIteratorValue()

@@ -46,7 +46,14 @@ class Query(@JvmField val dictionary: ResultSetDictionary = ResultSetDictionary(
     val partitions = mutableMapOf<Long, PartitionHelper>()
 
     @JvmField
-    val partitionsLock = MyLock()
+internal    val partitionsLock = MyLock()
+inline fun partitionsLockLock(){
+partitionsLock.lock()
+}
+inline fun partitionsLockUnLock(){
+partitionsLock.unlock()
+}
+
     inline fun reset() {
         partitions.clear()
     }

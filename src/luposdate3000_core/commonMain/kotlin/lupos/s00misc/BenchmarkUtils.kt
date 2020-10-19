@@ -5,7 +5,6 @@ import kotlin.time.DurationUnit
 import kotlin.time.TimeMark
 import kotlin.time.TimeSource.Monotonic
 import lupos.s00misc.MyLock
-import lupos.s00misc.withLock
 
 enum class EBenchmark {
     HTTP,//contains all other
@@ -39,10 +38,10 @@ enum class EBenchmark {
 }
 
 @UseExperimental(ExperimentalStdlibApi::class, kotlin.time.ExperimentalTime::class)
-object BenchmarkUtils {
+internal object BenchmarkUtils {
     val timesHelper = DoubleArray(30)
     val timesCounter = IntArray(timesHelper.size)
-    val timesLock = MyLock()
+internal    val timesLock = MyLock()
     inline fun timesHelperMark() = Monotonic.markNow()
     suspend inline fun timesHelperDuration(i: Int, timer: TimeMark) {
         timesLock.withLock {

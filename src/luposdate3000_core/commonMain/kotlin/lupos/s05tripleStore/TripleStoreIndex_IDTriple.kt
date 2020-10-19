@@ -30,7 +30,7 @@ import lupos.s05tripleStore.index_IDTriple.NodeShared
 import lupos.s05tripleStore.index_IDTriple.TripleIterator
 
 
-class TripleStoreIndex_IDTriple : TripleStoreIndex() {
+internal class TripleStoreIndex_IDTriple : TripleStoreIndex() {
     @JvmField
     var firstLeaf = NodeManager.nodeNullPointer
 

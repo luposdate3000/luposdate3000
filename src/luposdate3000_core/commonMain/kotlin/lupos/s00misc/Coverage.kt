@@ -11,7 +11,7 @@ enum class ECoverage {
     VeryVerbose
 }
 
-object Coverage {
+internal object Coverage {
     @JvmField
     val CoverageMapGenerated = mutableMapOf<Int, String>()
 

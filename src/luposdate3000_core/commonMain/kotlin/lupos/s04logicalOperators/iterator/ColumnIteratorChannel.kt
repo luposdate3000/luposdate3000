@@ -5,7 +5,7 @@ import lupos.s00misc.SanityCheck
 import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s03resultRepresentation.Value
 
-class ColumnIteratorChannel() : ColumnIterator() {
+internal class ColumnIteratorChannel() : ColumnIterator() {
     @JvmField
     var queue = Parallel.createQueue<Int>(ResultSetDictionary.nullValue)
 

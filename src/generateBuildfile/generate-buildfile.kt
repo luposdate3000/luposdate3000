@@ -223,7 +223,7 @@ class GenerateBuildFile(val args: Array<String>) {
                     ChooseableOptionDirectory("Threads", "jvmS00ParallelThreadsMain")
             ),
             ChooseableGroup("Buffer Manager Type", "BufferManager") to listOf(
-                    ChooseableOptionDirectory("Heap", "commonS01HeapMain"),
+                    ChooseableOptionSymbolic("Heap", "commonS01HeapMain"),
             ),
             ChooseableGroup("Dictionary", "Dictionary") to listOf(
                     ChooseableOptionSymbolic("Inmemory", "commonS03DictionaryInmemoryMain")
@@ -540,11 +540,13 @@ class GenerateBuildFile(val args: Array<String>) {
                     ChooseableOptionSymbolic("Inmemory", "commonS03DictionaryInmemoryMain") to listOf(
                             ChooseableOptionDependency("luposdate3000:Luposdate3000_Dictionary_Inmemory:0.0.1"),
                     ),
+ChooseableOptionSymbolic("Heap", "commonS01HeapMain") to listOf(
+                            ChooseableOptionDependency("luposdate3000:Luposdate3000_Buffer_Manager_Inmemory:0.0.1"),
+),
                     ChooseableOption("commonMain") to listOf(
                             ChooseableOptionDependency("luposdate3000:Luposdate3000_Parser:0.0.1"),
                             ChooseableOptionDependency("luposdate3000:Luposdate3000_Value_Definition:0.0.1"),
                             ChooseableOptionDependency("luposdate3000:Luposdate3000_Shared:0.0.1"),
-                            ChooseableOptionDependency("luposdate3000:Luposdate3000_Buffer_Manager_Inmemory:0.0.1"),
                             ChooseableOptionDependency("org.jetbrains.kotlin:kotlin-stdlib-common:$kotlinVersion"),
                             ChooseableOptionDependency("org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"),
                             ChooseableOptionDependency("com.benasher44:uuid:0.0.7"),

@@ -16,7 +16,7 @@ import lupos.s04logicalOperators.OPBaseCompound
 import lupos.s04logicalOperators.Query
 import lupos.s09physicalOperators.partition.POPMergePartition
 
-object QueryResultToEmptyWithDictionaryStream {
+internal object QueryResultToEmptyWithDictionaryStream {
     suspend fun writeValue(valueID: Int, columnName: String, dictionary: ResultSetDictionary, output: MyPrintWriter) {
         dictionary.getValue(valueID, { value ->
         }, { value ->

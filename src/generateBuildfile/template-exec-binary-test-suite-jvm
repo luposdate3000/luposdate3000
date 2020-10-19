@@ -3,7 +3,6 @@ Platform->jvm
 Launch->BinaryTestSuite
 Sanity->On
 Parallel->Threads
-Dictionary->Small
 TripleStore->BPlusTreePartition
 Endpoint->None
 Jena->On

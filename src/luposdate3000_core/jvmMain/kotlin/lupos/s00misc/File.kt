@@ -36,7 +36,7 @@ class MyInputStream(@JvmField val stream: InputStream) : IMyInputStream {
     }
 }
 
-class File(@JvmField val filename: String) {
+internal class File(@JvmField val filename: String) {
     inline fun createTempFile(prefix: String, suffix: String, directory: String): String {
         var f = createTempFile(prefix, suffix, java.io.File(directory))
         return f.getAbsolutePath()

@@ -11,7 +11,7 @@ import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
 import lupos.s09physicalOperators.POPBase
 
-class POPMergePartitionCount(query: Query, projectedVariables: List<String>, val partitionVariable: String, val partitionCount: Int, child: OPBase) : POPBase(query, projectedVariables, EOperatorID.POPMergePartitionCountID, "POPMergePartitionCount", arrayOf(child), ESortPriority.PREVENT_ANY) {
+internal class POPMergePartitionCount(query: Query, projectedVariables: List<String>, val partitionVariable: String, val partitionCount: Int, child: OPBase) : POPBase(query, projectedVariables, EOperatorID.POPMergePartitionCountID, "POPMergePartitionCount", arrayOf(child), ESortPriority.PREVENT_ANY) {
     override fun getPartitionCount(variable: String): Int {
         if (variable == partitionVariable) {
             return 1

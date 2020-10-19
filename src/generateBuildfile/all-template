@@ -9,9 +9,7 @@ Sanity->Off
 Parallel->Coroutines
 Parallel->Threads
 BufferManager->Heap
-Dictionary->MultiMap
-Dictionary->ObjectMap
-Dictionary->Small
+Dictionary->Inmemory
 TripleStore->BPlusTreePartition
 TripleStore->BPlusTree
 TripleStore->MapMapList

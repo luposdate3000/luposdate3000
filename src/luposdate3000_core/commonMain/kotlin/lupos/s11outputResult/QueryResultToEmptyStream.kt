@@ -16,7 +16,7 @@ import lupos.s04logicalOperators.OPBaseCompound
 import lupos.s04logicalOperators.Query
 import lupos.s09physicalOperators.partition.POPMergePartition
 
-object QueryResultToEmptyStream {
+internal object QueryResultToEmptyStream {
     inline suspend fun writeAllRows(variables: Array<String>, columns: Array<ColumnIterator>, dictionary: ResultSetDictionary, lock: MyLock?, output: MyPrintWriter) {
         val rowBuf = IntArray(variables.size)
         loop@ while (true) {
