@@ -32,4 +32,22 @@ internal actual class MyThreadReadWriteLock {
     actual inline fun writeUnlock() {
         throw  NotImplementedException("MyThreadReadWriteLock", "writeUnlock not implemented")
     }
+actual inline fun <T> withReadLock(crossinline action: () -> T): T {
+    readLock()
+    try {
+        return action()
+    } finally {
+        readUnlock()
+    }
+}
+
+actual inline fun <T> withWriteLock(crossinline action: () -> T): T {
+    writeLock()
+    try {
+        return action()
+    } finally {
+        writeUnlock()
+    }
+}
+
 }

@@ -21,4 +21,12 @@ internal actual class MyThreadLock {
     actual inline fun tryLock(): Boolean {
         return semaphore.tryAcquire()
     }
+actual inline fun <T> withLock(crossinline action: () -> T): T {
+    lock()
+    try {
+        return action()
+    } finally {
+        unlock()
+    }
+} 
 }

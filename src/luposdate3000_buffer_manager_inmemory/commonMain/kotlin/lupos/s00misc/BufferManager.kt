@@ -6,8 +6,6 @@ import lupos.s00misc.BUFFER_MANAGER_USE_FREE_LIST
 import lupos.s00misc.Configuration
 import lupos.s00misc.MyReadWriteLock
 import lupos.s00misc.SanityCheck
-import lupos.s00misc.withReadLock
-import lupos.s00misc.withWriteLock
 
 class BufferManager(@JvmField val bufferName: String) {
     /*
@@ -32,10 +30,10 @@ class BufferManager(@JvmField val bufferName: String) {
         }
 
         @JvmField
-        val managerList = mutableListOf<BufferManager>()
+internal        val managerList = mutableListOf<BufferManager>()
 
         @JvmField
-        val managerListLock = MyReadWriteLock()
+internal        val managerListLock = MyReadWriteLock()
         suspend fun safeToFolder() = managerListLock.withReadLock {
             managerList.forEach {
                 it.safeToFolder()
@@ -57,19 +55,19 @@ class BufferManager(@JvmField val bufferName: String) {
     }
 
     @JvmField
-    var allPages = Array<ByteArray>(100) { ByteArray(BUFFER_MANAGER_PAGE_SIZE_IN_BYTES) }
+internal    var allPages = Array<ByteArray>(100) { ByteArray(BUFFER_MANAGER_PAGE_SIZE_IN_BYTES) }
 
     @JvmField
-    var allPagesRefcounters = IntArray(100)
+internal    var allPagesRefcounters = IntArray(100)
 
     @JvmField
-    var counter = 0
+internal    var counter = 0
 
     @JvmField
-    val lock = MyReadWriteLock()
+internal    val lock = MyReadWriteLock()
 
     @JvmField
-    val freeList = mutableListOf<Int>()
+internal    val freeList = mutableListOf<Int>()
     suspend fun clear() = lock.withWriteLock {
         clearAssumeLocks()
     }
