@@ -34,11 +34,11 @@ internal class NodeLeafIterator(@JvmField var node: ByteArray, @JvmField var nod
         if (remaining == 0) {
             needsReset = true
             offset = NodeLeaf.START_OFFSET
-            SanityCheck.println({ "Outside.refcount($nodeid) ${NodeManager.bufferManager.allPagesRefcounters[nodeid]} x194" })
+            SanityCheck.println({ "Outside.refcount($nodeid)  x194" })
             NodeManager.releaseNode(nodeid)
             nodeid = NodeShared.getNextNode(node)
             if (nodeid != NodeManager.nodeNullPointer) {
-                SanityCheck.println({ "Outside.refcount($nodeid) ${NodeManager.bufferManager.allPagesRefcounters[nodeid]} x05" })
+                SanityCheck.println({ "Outside.refcount($nodeid)  x05" })
                 NodeManager.getNodeLeaf(nodeid, {
                     SanityCheck.check { node != it }
                     node = it

@@ -2,7 +2,7 @@ package lupos.s05tripleStore.index_IDTriple
 
 import kotlin.jvm.JvmField
 
-class DistinctIterator(@JvmField val a: TripleIterator) : TripleIterator() {
+internal class DistinctIterator(@JvmField val a: TripleIterator) : TripleIterator() {
     @JvmField
     var flag = 0
 

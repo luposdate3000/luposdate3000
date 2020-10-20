@@ -1,7 +1,6 @@
 package lupos.s05tripleStore.index_IDTriple
 
 import kotlin.jvm.JvmField
-import lupos.s00misc.File
 import lupos.s00misc.SanityCheck
 import lupos.s01io.BufferManager
 
@@ -17,7 +16,6 @@ internal object NodeManager {
 
     suspend fun safeToFolder() {
         SanityCheck.println { "debug NodeManager saving to folder '${BufferManager.bufferPrefix + "nodemanager/"}'" }
-        File(BufferManager.bufferPrefix + "nodemanager/").mkdirs()
         debug()
         bufferManager.safeToFolder()
     }
@@ -119,7 +117,7 @@ internal object NodeManager {
     }
 
     /*inline*/    suspend fun freeNodeAndAllRelated(nodeid: Int) {
-        SanityCheck.println({ "Outside.refcount($nodeid) ${NodeManager.bufferManager.allPagesRefcounters[nodeid]} x70" })
+        SanityCheck.println({ "Outside.refcount($nodeid)  x70" })
         releaseNode(nodeid)
         freeNodeAndAllRelatedInternal(nodeid)
     }
@@ -129,7 +127,7 @@ internal object NodeManager {
         SanityCheck.println({ "debug NodeManager freeNodeAndAllRelatedInternal ${nodeid.toString(16)}" })
         if (nodeid != nodeNullPointer) {
             var node: ByteArray? = null
-            SanityCheck.println({ "Outside.refcount($nodeid) ${NodeManager.bufferManager.allPagesRefcounters[nodeid]} x16" })
+            SanityCheck.println({ "Outside.refcount($nodeid)  x16" })
             getNodeAny(nodeid, {
             }, { n ->
                 node = n
@@ -150,7 +148,7 @@ internal object NodeManager {
         var pageid = nodeid
         while (pageid != nodeNullPointer) {
             var id = pageid
-            SanityCheck.println({ "Outside.refcount($pageid) ${NodeManager.bufferManager.allPagesRefcounters[pageid]} x01" })
+            SanityCheck.println({ "Outside.refcount($pageid)  x01" })
             getNodeLeaf(pageid, { node ->
                 val tmp = NodeShared.getNextNode(node)
                 pageid = tmp
@@ -165,7 +163,7 @@ internal object NodeManager {
         SanityCheck.println({ "debug NodeManager freeAllInnerNodes ${nodeid.toString(16)}" })
         if (nodeid != nodeNullPointer) {
             var node: ByteArray? = null
-            SanityCheck.println({ "Outside.refcount($nodeid) ${NodeManager.bufferManager.allPagesRefcounters[nodeid]} x17" })
+            SanityCheck.println({ "Outside.refcount($nodeid)  x17" })
             getNodeAny(nodeid, {
             }, { n ->
                 node = n

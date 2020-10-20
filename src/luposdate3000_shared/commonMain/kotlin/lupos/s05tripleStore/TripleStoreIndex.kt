@@ -1,22 +1,20 @@
 package lupos.s05tripleStore
 
-import lupos.s00misc.File
 import lupos.s00misc.HistogramNotImplementedException
-import lupos.s03resultRepresentation.Value
 import lupos.s04logicalOperators.iterator.IteratorBundle
-import lupos.s04logicalOperators.Query
+import lupos.s04logicalOperators.IQuery
 
 abstract class TripleStoreIndex {
     suspend abstract fun safeToFile(filename: String)
     suspend abstract fun loadFromFile(filename: String)
-    suspend abstract fun getIterator(query: Query, params: TripleStoreFeatureParams): IteratorBundle
+    suspend abstract fun getIterator(query: IQuery, params: TripleStoreFeatureParams): IteratorBundle
     suspend abstract fun import(dataImport: IntArray, count: Int, order: IntArray)
-    abstract fun insert(a: Value, b: Value, c: Value)
-    abstract fun remove(a: Value, b: Value, c: Value)
+    abstract fun insert(a: Int, b: Int, c: Int)
+    abstract fun remove(a: Int, b: Int, c: Int)
     suspend abstract fun clear()
     suspend abstract fun printContents()
     suspend abstract fun flush()
-    suspend open fun getHistogram(query: Query, params: TripleStoreFeatureParams): Pair<Int, Int> = throw HistogramNotImplementedException("TripleStoreIndex")
+    suspend open fun getHistogram(query: IQuery, params: TripleStoreFeatureParams): Pair<Int, Int> = throw HistogramNotImplementedException("TripleStoreIndex")
     suspend open fun insertAsBulk(data: IntArray, order: IntArray) {
         var i = 0
         while (i < data.size) {

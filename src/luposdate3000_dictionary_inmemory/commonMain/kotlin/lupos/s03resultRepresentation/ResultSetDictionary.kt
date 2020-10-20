@@ -829,7 +829,7 @@ override fun getNullValue()=nullValue
     fun printContents() {
     }
 
-    fun valueToGlobal(value: Value): Value {
+override    fun valueToGlobal(value: Value): Value {
         var res: Value
         if ((value and mask1) == mask1) {
             res = value

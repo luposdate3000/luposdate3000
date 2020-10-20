@@ -4,47 +4,47 @@ import lupos.s00misc.BugException
 import lupos.s00misc.EIndexPattern
 import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
-import lupos.s04arithmetikOperators.AOPBase
-import lupos.s04arithmetikOperators.noinput.AOPConstant
-import lupos.s04arithmetikOperators.noinput.AOPVariable
-import lupos.s04logicalOperators.Query
+import lupos.s04arithmetikOperators.IAOPBase
+import lupos.s04arithmetikOperators.noinput.IAOPConstant
+import lupos.s04arithmetikOperators.noinput.IAOPVariable
+import lupos.s04logicalOperators.IQuery
 
 enum class TripleStoreFeature {
     DEFAULT,
     PARTITION
 }
 
-sealed class TripleStoreFeatureParams(val feature: TripleStoreFeature, val params: Array<AOPBase>) {
+sealed class TripleStoreFeatureParams(val feature: TripleStoreFeature, val params: Array<IAOPBase>) {
     abstract fun chooseData(data: IntArray, featureRange: Pair<Int, Int>, params: TripleStoreFeatureParams): Int
 }
 
-fun myToStringHelper(n: AOPBase): String {
-    if (n is AOPVariable) {
-        return n.name
-    } else if (n is AOPConstant) {
-        return "${n.value} (${n.toSparql()})"
+fun myToStringHelper(n: IAOPBase): String {
+    if (n is IAOPVariable) {
+        return n.getName()
+    } else if (n is IAOPConstant) {
+        return "${n.getValue()} (${n.toSparql()})"
     } else {
-        return "??? ${n.classname} ???"
+        return "??? ${n.getClassname()} ???"
     }
 }
 
-class TripleStoreFeatureParamsDefault(val idx: EIndexPattern, params: Array<AOPBase>) : TripleStoreFeatureParams(TripleStoreFeature.DEFAULT, params) {
+class TripleStoreFeatureParamsDefault(val idx: EIndexPattern, params: Array<IAOPBase>) : TripleStoreFeatureParams(TripleStoreFeature.DEFAULT, params) {
     override fun toString() = "TripleStoreFeatureParamsDefault $feature $idx ${params.map { myToStringHelper(it) }}"
     override fun chooseData(data: IntArray, featureRange: Pair<Int, Int>, params: TripleStoreFeatureParams): Int {
         return data[featureRange.first + idx.ordinal]
     }
 
-    fun getFilter(query: Query): IntArray {
+    fun getFilter(query: IQuery): IntArray {
         var variableCount = 0
         val filter = mutableListOf<Int>()
         for (ii in 0 until 3) {
             val i = idx.tripleIndicees[ii]
             val param = params[i]
-            if (param is AOPConstant) {
+            if (param is IAOPConstant) {
                 SanityCheck.check { filter.size == ii }
-                filter.add(query.dictionary.valueToGlobal(param.value))
-            } else if (param is AOPVariable) {
-                if (param.name != "_") {
+                filter.add(query.getDictionary().valueToGlobal(param.getValue()))
+            } else if (param is IAOPVariable) {
+                if (param.getName() != "_") {
                     variableCount++
                 }
             } else {
@@ -57,17 +57,17 @@ class TripleStoreFeatureParamsDefault(val idx: EIndexPattern, params: Array<AOPB
         return IntArray(filter.size) { filter[it] }
     }
 
-    fun getFilterAndProjection(query: Query): Pair<IntArray, List<String>> {
+    fun getFilterAndProjection(query: IQuery): Pair<IntArray, List<String>> {
         val filter = mutableListOf<Int>()
         val projection = mutableListOf<String>()
         for (ii in 0 until 3) {
             val i = idx.tripleIndicees[ii]
             val param = params[i]
-            if (param is AOPConstant) {
+            if (param is IAOPConstant) {
                 SanityCheck.check { filter.size == ii }
-                filter.add(query.dictionary.valueToGlobal(param.value))
-            } else if (param is AOPVariable) {
-                projection.add(param.name)
+                filter.add(query.getDictionary().valueToGlobal(param.getValue()))
+            } else if (param is IAOPVariable) {
+                projection.add(param.getName())
             } else {
                 SanityCheck.checkUnreachable()
             }
@@ -76,7 +76,7 @@ class TripleStoreFeatureParamsDefault(val idx: EIndexPattern, params: Array<AOPB
     }
 }
 
-class TripleStoreFeatureParamsPartition(val idx: EIndexPattern, params: Array<AOPBase>, val partition: Partition) : TripleStoreFeatureParams(TripleStoreFeature.PARTITION, params) {
+class TripleStoreFeatureParamsPartition(val idx: EIndexPattern, params: Array<IAOPBase>, val partition: Partition) : TripleStoreFeatureParams(TripleStoreFeature.PARTITION, params) {
     override fun toString() = "TripleStoreFeatureParamsDefault $feature $idx ${params.map { myToStringHelper(it) }} ${partition.data.map { it }} ${getColumn()}"
 
     /*
@@ -104,8 +104,8 @@ class TripleStoreFeatureParamsPartition(val idx: EIndexPattern, params: Array<AO
         for (ii in 0 until 3) {
             val i = idx.tripleIndicees[ii]
             val param = params[i]
-            if (param is AOPVariable) {
-                if (param.name == name) {
+            if (param is IAOPVariable) {
+                if (param.getName() == name) {
                     return j
                 } else {
                     j++

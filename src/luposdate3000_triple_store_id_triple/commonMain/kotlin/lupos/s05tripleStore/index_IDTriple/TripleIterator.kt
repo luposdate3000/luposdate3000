@@ -1,6 +1,6 @@
 package lupos.s05tripleStore.index_IDTriple
 
-abstract class TripleIterator() {
+internal abstract class TripleIterator() {
     var value = IntArray(3)
     abstract fun hasNext(): Boolean
     abstract fun next(component: Int): Int//write the current triple-data into "value" and update offset

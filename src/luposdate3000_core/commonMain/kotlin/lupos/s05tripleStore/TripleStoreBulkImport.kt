@@ -1,11 +1,8 @@
 package lupos.s05tripleStore
 
 import kotlin.jvm.JvmField
-import lupos.s00misc.BenchmarkUtils
-import lupos.s00misc.EBenchmark
 import lupos.s00misc.EIndexPattern
 import lupos.s00misc.MyMapStringIntPatriciaTrie
-import lupos.s03resultRepresentation.Value
 import lupos.s04logicalOperators.Query
 import lupos.s15tripleStoreDistributed.DistributedTripleStore
 
@@ -39,7 +36,7 @@ class TripleStoreBulkImport(@JvmField val query: Query, @JvmField val graphName:
 
     @JvmField
     var dataOPS = data[0]
-    suspend fun insert(si: Value, pi: Value, oi: Value) {
+    suspend fun insert(si: Int, pi: Int, oi: Int) {
         data[8][idx++] = si
         data[8][idx++] = pi
         data[8][idx++] = oi
@@ -70,81 +67,10 @@ class TripleStoreBulkImport(@JvmField val query: Query, @JvmField val graphName:
     companion object {
         const val sizeshift = 20
         const val size = 3 * (1 shl sizeshift)
-        fun mergeSort(source: IntArray, target: IntArray, off: Int, mid: Int, count: Int, orderBy: IntArray) {
-            //assuming that "off .. off + count / 2" and "off + count / 2 .. off + count" are sorted
-            val aEnd = (off + mid) * 3
-            val bEnd = (off + count) * 3
-            var a = off * 3
-            var b = aEnd
-            var c = a
-            if (count < mid) {
-                b = a
-                a = aEnd
-            }
-            loop@ while (a < aEnd && b < bEnd) {
-                for (i in 0 until 3) {
-                    if (source[a + orderBy[i]] < source[b + orderBy[i]]) {
-                        target[c++] = source[a++]
-                        target[c++] = source[a++]
-                        target[c++] = source[a++]
-                        continue@loop
-                    } else if (source[a + orderBy[i]] > source[b + orderBy[i]]) {
-                        target[c++] = source[b++]
-                        target[c++] = source[b++]
-                        target[c++] = source[b++]
-                        continue@loop
-                    }
-                }
-                target[c++] = source[a++]
-                target[c++] = source[a++]
-                target[c++] = source[a++]
-                target[c++] = source[b++]
-                target[c++] = source[b++]
-                target[c++] = source[b++]
-            }
-            while (a < aEnd) {
-                target[c++] = source[a++]
-                target[c++] = source[a++]
-                target[c++] = source[a++]
-            }
-            while (b < bEnd) {
-                target[c++] = source[b++]
-                target[c++] = source[b++]
-                target[c++] = source[b++]
-            }
-        }
 
-        fun sortUsingBuffers(firstIdx: Int, dataIdxA: Int, dataIdxB: Int, data: Array<IntArray>, total: Int, order: IntArray) {
-            /*in the first step the data is moved into dataIdxB*/
-            var off: Int
-            var shift = 0
-            var count = 1 shl shift
-            var first = true
-            while (count / 2 < total) {
-                off = 0
-                shift++
-                count = 1 shl shift
-                var sourceIdx = dataIdxA
-                if (first) {
-                    first = false
-                    sourceIdx = firstIdx
-                }
-                while (off + count <= total) {
-                    mergeSort(data[sourceIdx], data[dataIdxB], off, count / 2, count, order)
-                    off += count
-                }
-                if (off < total) {
-                    mergeSort(data[sourceIdx], data[dataIdxB], off, count / 2, total - off, order)
-                }
-                var t = data[dataIdxA]
-                data[dataIdxA] = data[dataIdxB]
-                data[dataIdxB] = t
-            }
-        }
     }
 
     fun sort() {
-        BenchmarkUtils.start(EBenchmark.IMPORT_SORT)
         //the target data is sorted, but may contain duplicates, _if the input contains those
         val total = idx / 3
         val orderSPO = EIndexPattern.SPO.tripleIndicees
@@ -167,7 +93,7 @@ class TripleStoreBulkImport(@JvmField val query: Query, @JvmField val graphName:
                     val order = orders[i * 2 + j]
                     val dataIdxA = i
                     val dataIdxB = i + 3
-                    sortUsingBuffers(8, dataIdxA, dataIdxB, data, total, order)
+                    TripleStoreBulkImportExt.sortUsingBuffers(8, dataIdxA, dataIdxB, data, total, order)
                 }
                 if (j == 0) {
                     dataSPO = data[0]
@@ -186,6 +112,5 @@ class TripleStoreBulkImport(@JvmField val query: Query, @JvmField val graphName:
                 }
             }
         }
-        BenchmarkUtils.elapsedSeconds(EBenchmark.IMPORT_SORT)
     }
 }

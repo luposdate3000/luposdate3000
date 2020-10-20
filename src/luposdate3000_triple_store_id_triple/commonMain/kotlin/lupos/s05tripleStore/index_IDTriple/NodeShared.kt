@@ -2,6 +2,7 @@ package lupos.s05tripleStore.index_IDTriple
 
 import lupos.s00misc.ByteArrayHelper
 import lupos.s00misc.SanityCheck
+import lupos.s00misc.IntegerExt
 
 internal object NodeShared {
     const val MAX_TRIPLE_SIZE = 13
@@ -46,7 +47,7 @@ internal object NodeShared {
     }
 
     inline fun numberOfBytesUsed(value: Int): Int {
-        return (((32 + 7 - Integer.numberOfLeadingZeros(value))) shr 3)
+        return (((32 + 7 - IntegerExt.numberOfLeadingZeros(value))) shr 3)
     }
 
     inline fun readTriple000(node: ByteArray, offset: Int): Int {
