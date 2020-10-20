@@ -4,13 +4,13 @@ import java.io.File
 import java.io.PrintWriter
 import java.io.StringWriter
 
-enum class MyPrintWriterMode {
+
+internal class MyPrintWriter :IPrintWriter{
+internal enum class MyPrintWriterMode {
     BUFFER,
     FILE,
     NONE
 }
-
-class MyPrintWriter {
     val buffer = StringWriter()
     val printer: PrintWriter
     val bufferMode: MyPrintWriterMode
@@ -30,7 +30,7 @@ class MyPrintWriter {
         printer = f.printWriter()
     }
 
-    fun clearBuffer() {
+    override fun clearBuffer() {
         if (bufferMode == MyPrintWriterMode.BUFFER) {
             buffer.getBuffer().setLength(0)
         } else {
@@ -46,61 +46,61 @@ class MyPrintWriter {
         }
     }
 
-    fun println(x: String) {
+    override fun println(x: String) {
         if (bufferMode != MyPrintWriterMode.NONE) {
             printer.println(x)
         }
     }
 
-    fun print(x: String) {
+    override fun print(x: String) {
         if (bufferMode != MyPrintWriterMode.NONE) {
             printer.print(x)
         }
     }
 
-    fun println(x: Boolean) {
+    override fun println(x: Boolean) {
         if (bufferMode != MyPrintWriterMode.NONE) {
             printer.println(x)
         }
     }
 
-    fun print(x: Boolean) {
+    override fun print(x: Boolean) {
         if (bufferMode != MyPrintWriterMode.NONE) {
             printer.print(x)
         }
     }
 
-    fun println(x: Int) {
+    override fun println(x: Int) {
         if (bufferMode != MyPrintWriterMode.NONE) {
             printer.println(x)
         }
     }
 
-    fun print(x: Int) {
+    override fun print(x: Int) {
         if (bufferMode != MyPrintWriterMode.NONE) {
             printer.print(x)
         }
     }
 
-    fun println(x: Double) {
+    override fun println(x: Double) {
         if (bufferMode != MyPrintWriterMode.NONE) {
             printer.println(x)
         }
     }
 
-    fun print(x: Double) {
+    override fun print(x: Double) {
         if (bufferMode != MyPrintWriterMode.NONE) {
             printer.print(x)
         }
     }
 
-    fun println() {
+    override fun println() {
         if (bufferMode != MyPrintWriterMode.NONE) {
             printer.println()
         }
     }
 
-    fun close() {
+    override fun close() {
         if (bufferMode == MyPrintWriterMode.FILE) {
             printer.close()
         } else {
