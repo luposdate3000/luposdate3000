@@ -1,12 +1,11 @@
 package lupos.s04logicalOperators.iterator
-import lupos.s03resultRepresentation.IResultSetDictionary
 
 object ColumnIteratorFromRow {
-    operator fun invoke(dictionary:IResultSetDictionary,iterator: RowIterator): Map<String, ColumnIterator> {
+    operator fun invoke(iterator: RowIterator): Map<String, ColumnIterator> {
         var res = mutableMapOf<String, ColumnIterator>()
         val iterators = mutableListOf<ColumnIteratorQueue>()
         for (i in 0 until iterator.columns.size) {
-            val iterator2 = object : ColumnIteratorQueue(dictionary) {
+            val iterator2 = object : ColumnIteratorQueue() {
                 override suspend fun next(): Int {
                     return next_helper({
                         var res2 = iterator.next()

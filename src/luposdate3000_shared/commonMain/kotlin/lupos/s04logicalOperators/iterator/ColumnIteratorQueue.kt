@@ -1,10 +1,10 @@
 package lupos.s04logicalOperators.iterator
 import kotlin.jvm.JvmField
-import lupos.s03resultRepresentation.IResultSetDictionary
+import lupos.s03resultRepresentation.ResultSetDictionaryExt
 
-abstract class ColumnIteratorQueue(@JvmField val dictionary:IResultSetDictionary) : ColumnIterator() {
+abstract class ColumnIteratorQueue() : ColumnIterator() {
     @JvmField
-    var tmp = dictionary.getNullValue()
+    var tmp = ResultSetDictionaryExt.nullValue
 
     @JvmField
     val queue = mutableListOf<Int>()
@@ -18,7 +18,7 @@ abstract class ColumnIteratorQueue(@JvmField val dictionary:IResultSetDictionary
         }
     }
 
-    inline suspend fun next_helper(crossinline onEmptyQueue: suspend () -> Unit, crossinline onClose: suspend () -> Unit): Int {
+internal    inline suspend fun next_helper(crossinline onEmptyQueue: suspend () -> Unit, crossinline onClose: suspend () -> Unit): Int {
         when (label) {
             1 -> {
                 if (queue.size == 0) {
@@ -27,7 +27,7 @@ abstract class ColumnIteratorQueue(@JvmField val dictionary:IResultSetDictionary
                         return queue.removeAt(0)
                     } else {
                         onClose()
-                        return dictionary.getNullValue()
+                        return ResultSetDictionaryExt.nullValue
                     }
                 } else {
                     return queue.removeAt(0)
@@ -36,13 +36,13 @@ abstract class ColumnIteratorQueue(@JvmField val dictionary:IResultSetDictionary
             2 -> {
                 if (queue.size == 0) {
                     onClose()
-                    return dictionary.getNullValue()
+                    return ResultSetDictionaryExt.nullValue
                 } else {
                     return queue.removeAt(0)
                 }
             }
             else -> {
-                return dictionary.getNullValue()
+                return ResultSetDictionaryExt.nullValue
             }
         }
     }

@@ -35,7 +35,7 @@ class ResultSetDictionary(val global: Boolean = false):IResultSetDictionary {
         internal const val mask6 = 0x3E000000.toInt()/*first 7 bit*/
         internal const val filter3 = 0x0FFFFFFF.toInt()
         internal const val filter6 = 0x01FFFFFF.toInt()
-        internal const val flaggedValueLocalBnode = 0x00000000.toInt()/*first 4 bit*/ /*required to be 0 by booleanTrueValue*/
+        internal const val flaggedValueLocalBnode = 0x00000000.toInt()/*first 4 bit*/ /*required to be 0 byResultSetDictionaryExt.booleanTrueValue*/
         internal const val flaggedValueLocalIri = 0x10000000.toInt()/*first 4 bit*/
         internal const val flaggedValueLocalTyped = 0x20000000.toInt()/*first 4 bit*/
         internal const val flaggedValueLocalInt = 0x30000000.toInt()/*first 7 bit*/
@@ -52,28 +52,12 @@ class ResultSetDictionary(val global: Boolean = false):IResultSetDictionary {
         internal const val flaggedValueGlobalFloat = 0x7C000000.toInt()/*first 7 bit*/
         internal const val flaggedValueGlobalLangTagged = 0x7E000000.toInt()/*first 7 bit*/
         internal const val emptyString = ""
-        const val booleanTrueValue = (flaggedValueLocalBnode or 0x00000000.toInt()) /*lowest 5 values*/ /*required to be 0 for_ truth table loopups*/
-        const val booleanFalseValue = (flaggedValueLocalBnode or 0x00000001.toInt()) /*lowest 5 values*/ /*required to be 1 for_ truth table loopups*/
-        const val errorValue = (flaggedValueLocalBnode or 0x00000002.toInt()) /*lowest 5 values*/ /*required to be 2 for_ truth table loopups*/
-        const val undefValue = (flaggedValueLocalBnode or 0x00000003.toInt()) /*lowest 5 values*/
-        const val nullValue = (flaggedValueLocalBnode or 0x00000004.toInt()) /*lowest 5 values*/ /*symbol for no more results, previously 'null'*/
 
-        @JvmField
-        val booleanTrueValue2 = ValueBoolean(true)
-
-        @JvmField
-        val booleanFalseValue2 = ValueBoolean(false)
-
-        @JvmField
-        val errorValue2 = ValueError()
-
-        @JvmField
-        val undefValue2 = ValueUndef()
         fun isGlobalBNode(value: Value) = (value and mask3) == flaggedValueGlobalBnode
         fun debug() {
         }
     }
-override fun getNullValue()=nullValue
+
 
     fun isLocalBNode(value: Value) = (value and mask3) == flaggedValueLocalBnode
 
@@ -212,9 +196,9 @@ override fun getNullValue()=nullValue
             }
             ETripleComponentType.BOOLEAN -> {
                 if (s.toLowerCase() == "true") {
-                    return booleanTrueValue
+                    return ResultSetDictionaryExt.booleanTrueValue
                 } else {
-                    return booleanFalseValue
+                    return ResultSetDictionaryExt.booleanFalseValue
                 }
             }
             ETripleComponentType.STRING_TYPED -> {
@@ -252,15 +236,15 @@ override fun getNullValue()=nullValue
     }
 
     fun toBooleanOrError(value: Value): Value {
-        var res: Value = errorValue
-        if (value < undefValue && value >= 0) {
+        var res: Value = ResultSetDictionaryExt.errorValue
+        if (value <ResultSetDictionaryExt.undefValue && value >= 0) {
             res = value
         } else {
             try {
                 if (getValue(value).toBoolean()) {
-                    res = booleanTrueValue
+                    res = ResultSetDictionaryExt.booleanTrueValue
                 } else {
-                    res = booleanFalseValue
+                    res =ResultSetDictionaryExt.booleanFalseValue
                 }
             } catch (e: Throwable) {
                 SanityCheck.println({ "TODO exception 1" })
@@ -394,9 +378,9 @@ override fun getNullValue()=nullValue
             }
             "http://www.w3.org/2001/XMLSchema#boolean" -> {
                 if (content == "true") {
-                    res = booleanTrueValue
+                    res =ResultSetDictionaryExt.booleanTrueValue
                 } else {
-                    res = booleanFalseValue
+                    res =ResultSetDictionaryExt.booleanFalseValue
                 }
             }
             else -> {
@@ -637,19 +621,19 @@ override fun getNullValue()=nullValue
         var res: Value
         when (value) {
             is ValueUndef -> {
-                res = undefValue
+                res =ResultSetDictionaryExt.undefValue
             }
             is ValueError -> {
-                res = errorValue
+                res =ResultSetDictionaryExt.errorValue
             }
             is ValueBnode -> {
                 res = createNewBNode(value.value)
             }
             is ValueBoolean -> {
                 if (value.value) {
-                    res = booleanTrueValue
+                    res =ResultSetDictionaryExt.booleanTrueValue
                 } else {
-                    res = booleanFalseValue
+                    res =ResultSetDictionaryExt.booleanFalseValue
                 }
             }
             is ValueLanguageTaggedLiteral -> {
@@ -688,7 +672,7 @@ override fun getNullValue()=nullValue
         return res
     }
 
-    fun getValue(value: Value): ValueDefinition {
+override    fun getValue(value: Value): ValueDefinition {
         var res: ValueDefinition
         val dict: ResultSetDictionary
         if ((value and mask1) == mask1) {
@@ -702,16 +686,16 @@ override fun getNullValue()=nullValue
         } else if (bit3 == flaggedValueLocalBnode) {
             when (value) {
                 0 -> {
-                    res = booleanTrueValue2
+                    res =ResultSetDictionaryExt.booleanTrueValue2
                 }
                 1 -> {
-                    res = booleanFalseValue2
+                    res =ResultSetDictionaryExt.booleanFalseValue2
                 }
                 2 -> {
-                    res = errorValue2
+                    res =ResultSetDictionaryExt.errorValue2
                 }
                 3 -> {
-                    res = undefValue2
+                    res =ResultSetDictionaryExt.undefValue2
                 }
                 else -> {
                     res = ValueBnode(emptyString + value)

@@ -2,7 +2,6 @@ package lupos.s06buildOperatorGraph
 
 import kotlin.jvm.JvmField
 import lupos.s00misc.AggregateNotAllowedSyntaxException
-import lupos.s00misc.classNameToString
 import lupos.s00misc.Coverage
 import lupos.s00misc.DatasetImportFailedException
 import lupos.s00misc.EGraphOperationType
@@ -1414,7 +1413,7 @@ return tmp
 /*return*/name.name
             }
             else -> {
-                SanityCheck.println({ name.toString() + " --- " + classNameToString(name) })
+                SanityCheck.println({ name.toString() + " --- " + name })
                 SanityCheck.checkUnreachable()
             }
         }

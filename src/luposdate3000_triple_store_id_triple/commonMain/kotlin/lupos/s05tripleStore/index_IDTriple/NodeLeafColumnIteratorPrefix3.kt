@@ -2,7 +2,7 @@ package lupos.s05tripleStore.index_IDTriple
 
 import kotlin.jvm.JvmField
 import lupos.s00misc.MyReadWriteLock
-import lupos.s03resultRepresentation.ResultSetDictionary
+import lupos.s03resultRepresentation.ResultSetDictionaryExt
 import lupos.s04logicalOperators.iterator.ColumnIterator
 
 internal class NodeLeafColumnIteratorPrefix3(node: ByteArray, nodeid: Int, prefix: IntArray, lock: MyReadWriteLock) : NodeLeafColumnIteratorPrefix(node, nodeid, prefix, lock) {
@@ -35,13 +35,13 @@ internal class NodeLeafColumnIteratorPrefix3(node: ByteArray, nodeid: Int, prefi
                 }
                 if (value0 > prefix[0] || (value0 == prefix[0] && value1 > prefix[1]) || (value0 == prefix[0] && value1 == prefix[1] && value2 > prefix[2])) {
                     _close()
-                    value2 = ResultSetDictionary.nullValue
+                    value2 = ResultSetDictionaryExt.nullValue
                     done = true
                 } else {
                     done = value0 == prefix[0] && value1 == prefix[1] && value2 == prefix[2]
                     updateRemaining() {
                         if (!done) {
-                            value2 = ResultSetDictionary.nullValue
+                            value2 = ResultSetDictionaryExt.nullValue
                         }
                         done = true
                     }
@@ -49,7 +49,7 @@ internal class NodeLeafColumnIteratorPrefix3(node: ByteArray, nodeid: Int, prefi
             }
             return value2
         } else {
-            return ResultSetDictionary.nullValue
+            return ResultSetDictionaryExt.nullValue
         }
     }
 }

@@ -4,7 +4,6 @@ import kotlin.jvm.JvmField
 import lupos.s00misc.IteratorBundleColumnModeNotImplementedException
 import lupos.s00misc.IteratorBundleRowModeNotImplementedException
 import lupos.s00misc.SanityCheck
-import lupos.s03resultRepresentation.IResultSetDictionary
 
 open class IteratorBundle {
 internal enum class IteratorBundleMode {
@@ -20,8 +19,6 @@ internal    var mode: IteratorBundleMode
 
     @JvmField
     var _rows: RowIterator?
-    @JvmField
-    val _dictionary: IResultSetDictionary
 
     @JvmField
     var counter = 0
@@ -29,23 +26,20 @@ internal    var mode: IteratorBundleMode
      fun hasCountMode() = mode == IteratorBundleMode.COUNT
      fun hasRowMode() = mode == IteratorBundleMode.ROW
 
-    constructor (dictionary: IResultSetDictionary,columns: Map<String, ColumnIterator>) {
-_dictionary=dictionary
+    constructor (columns: Map<String, ColumnIterator>) {
         _rows = null
         _columns = columns
         mode = IteratorBundleMode.COLUMN
     }
 
-    constructor(dictionary: IResultSetDictionary,count: Int) {
-_dictionary=dictionary
+    constructor(count: Int) {
         _rows = null
         _columns = null
         counter = count
         mode = IteratorBundleMode.COUNT
     }
 
-    constructor(dictionary: IResultSetDictionary,rows: RowIterator) {
-_dictionary=dictionary
+    constructor(rows: RowIterator) {
         _rows = rows
         _columns = null
         mode = IteratorBundleMode.ROW
@@ -58,7 +52,7 @@ _dictionary=dictionary
                 return _columns!!
             } else if (mode == IteratorBundleMode.ROW) {
                 if (_columns == null) {
-                    _columns = ColumnIteratorFromRow(_dictionary,_rows!!)
+                    _columns = ColumnIteratorFromRow(_rows!!)
                 }
                 return _columns!!
             } else {
@@ -72,7 +66,7 @@ _dictionary=dictionary
             } else if (mode == IteratorBundleMode.COLUMN) {
                 SanityCheck.check { _columns!!.size > 0 }
                 if (_rows == null) {
-                    _rows = RowIteratorFromColumn(_dictionary,this)
+                    _rows = RowIteratorFromColumn(this)
                 }
                 return _rows!!
             } else {

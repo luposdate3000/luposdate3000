@@ -4,7 +4,7 @@ import kotlin.jvm.JvmField
 import lupos.s00misc.MyReadWriteLock
 import lupos.s00misc.Parallel
 import lupos.s00misc.SanityCheck
-import lupos.s03resultRepresentation.IResultSetDictionary
+import lupos.s03resultRepresentation.ResultSetDictionaryExt
 import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.s04logicalOperators.iterator.ColumnIteratorEmpty
 import lupos.s04logicalOperators.iterator.IteratorBundle
@@ -29,8 +29,7 @@ import lupos.s05tripleStore.index_IDTriple.NodeShared
 import lupos.s05tripleStore.index_IDTriple.TripleIterator
 
 
-class TripleStoreIndex_IDTriple (dictionary:IResultSetDictionary): TripleStoreIndex() {
-@JvmField val dictionaryNullValue=dictionary.getNullValue()
+class TripleStoreIndex_IDTriple (): TripleStoreIndex() {
     @JvmField
     var firstLeaf = NodeManager.nodeNullPointer
 
@@ -169,11 +168,11 @@ var debugLock = MyReadWriteLock()
                         var count = 0
                         var distinct = 0
                         var lastValue = iterator.next()
-                        if (lastValue != dictionaryNullValue) {
+                        if (lastValue != ResultSetDictionaryExt.nullValue) {
                             distinct++
                             count++
                             var value = iterator.next()
-                            while (value != dictionaryNullValue) {
+                            while (value != ResultSetDictionaryExt.nullValue) {
                                 count++
                                 if (value != lastValue) {
                                     distinct++
@@ -187,7 +186,7 @@ var debugLock = MyReadWriteLock()
                     2 -> {
                         var iterator = NodeInner.iterator2(node, filter, lock)
                         var count = 0
-                        while (iterator.next() != dictionaryNullValue) {
+                        while (iterator.next() != ResultSetDictionaryExt.nullValue) {
                             count++
                         }
                         res = Pair(count, count)
@@ -219,13 +218,13 @@ var debugLock = MyReadWriteLock()
         val columns = mutableMapOf<String, ColumnIterator>()
         for (s in projection) {
             if (s != "_") {
-                columns[s] = ColumnIteratorEmpty(query.getDictionary())
+                columns[s] = ColumnIteratorEmpty()
             }
         }
         if (columns.size > 0) {
-            res = IteratorBundle(query.getDictionary(),columns)
+            res = IteratorBundle(columns)
         } else {
-            res = IteratorBundle(query.getDictionary(),0)
+            res = IteratorBundle(0)
         }
         flushContinueWithReadLock()
         val node = rootNode
@@ -233,18 +232,18 @@ var debugLock = MyReadWriteLock()
             if (filter.size == 3) {
                 var count = 0
                 var it = NodeInner.iterator3(node, filter, lock)
-                while (it.next() != dictionaryNullValue) {
+                while (it.next() != ResultSetDictionaryExt.nullValue) {
                     count++
                 }
-                res = IteratorBundle(query.getDictionary(),count)
+                res = IteratorBundle(count)
             } else if (filter.size == 2) {
                 if (projection[0] == "_") {
                     var count = 0
                     var it = NodeInner.iterator2(node, filter, lock)
-                    while (it.next() != dictionaryNullValue) {
+                    while (it.next() != ResultSetDictionaryExt.nullValue) {
                         count++
                     }
-                    res = IteratorBundle(query.getDictionary(),count)
+                    res = IteratorBundle(count)
                 } else {
                     columns[projection[0]] = NodeInner.iterator2(node, filter, lock)
                 }
@@ -258,10 +257,10 @@ var debugLock = MyReadWriteLock()
                     SanityCheck.check { projection[1] == "_" }
                     var count = 0
                     var it = NodeInner.iterator1(node, filter, lock, 1)
-                    while (it.next() != dictionaryNullValue) {
+                    while (it.next() != ResultSetDictionaryExt.nullValue) {
                         count++
                     }
-                    res = IteratorBundle(query.getDictionary(),count)
+                    res = IteratorBundle(count)
                 }
             } else {
                 SanityCheck.check { filter.size == 0 }
@@ -278,7 +277,7 @@ var debugLock = MyReadWriteLock()
                 } else {
                     SanityCheck.check { projection[1] == "_" }
                     SanityCheck.check { projection[2] == "_" }
-                    res = IteratorBundle(query.getDictionary(),countPrimary)
+                    res = IteratorBundle(countPrimary)
                 }
             }
         }
@@ -568,7 +567,7 @@ internal    suspend fun rebuildData(_iterator: TripleIterator) {
                     SanityCheck.check { tmpa == s }
                 }
                 val tmpa = iterator0.next()
-                SanityCheck.check { tmpa == dictionaryNullValue }
+                SanityCheck.check { tmpa == ResultSetDictionaryExt.nullValue }
                 SanityCheck.check { iterator0.label == 0 }
 //
                 NodeManager.getNodeLeaf(firstLeaf) { it ->
@@ -580,7 +579,7 @@ internal    suspend fun rebuildData(_iterator: TripleIterator) {
                     SanityCheck.check { tmpb == s }
                 }
                 val tmpb = iterator1.next()
-                SanityCheck.check { tmpb == dictionaryNullValue }
+                SanityCheck.check { tmpb == ResultSetDictionaryExt.nullValue }
                 SanityCheck.check { iterator1.label == 0 }
 //
                 NodeManager.getNodeLeaf(firstLeaf) { it ->
@@ -592,7 +591,7 @@ internal    suspend fun rebuildData(_iterator: TripleIterator) {
                     SanityCheck.check { tmpc == s }
                 }
                 val tmpc = iterator2.next()
-                SanityCheck.check { tmpc == dictionaryNullValue }
+                SanityCheck.check { tmpc == ResultSetDictionaryExt.nullValue }
                 SanityCheck.check { iterator2.label == 0 }
 //
                 if (queueS.size > 0) {
@@ -625,8 +624,8 @@ internal    suspend fun rebuildData(_iterator: TripleIterator) {
                             SanityCheck.check { tmpf == current_p }
                             SanityCheck.check { tmpg == current_o }
                         } else {
-                            SanityCheck.check { tmpf == dictionaryNullValue }
-                            SanityCheck.check { tmpg == dictionaryNullValue }
+                            SanityCheck.check { tmpf == ResultSetDictionaryExt.nullValue }
+                            SanityCheck.check { tmpg == ResultSetDictionaryExt.nullValue }
                             SanityCheck.check { iterator_1_1.label == 0 }
                             SanityCheck.check { iterator_1_2.label == 0 }
                             NodeManager.getNodeLeaf(firstLeaf) { it ->
@@ -649,8 +648,8 @@ internal    suspend fun rebuildData(_iterator: TripleIterator) {
                     counters.add(count)
                     val tmpj = iterator_1_1.next()
                     val tmpk = iterator_1_2.next()
-                    SanityCheck.check({ tmpj == dictionaryNullValue }, { "$queueS $queueP $queueO $tmpj $counters" })
-                    SanityCheck.check { tmpk == dictionaryNullValue }
+                    SanityCheck.check({ tmpj == ResultSetDictionaryExt.nullValue }, { "$queueS $queueP $queueO $tmpj $counters" })
+                    SanityCheck.check { tmpk == ResultSetDictionaryExt.nullValue }
                     SanityCheck.check { iterator_1_1.label == 0 }
                     SanityCheck.check { iterator_1_2.label == 0 }
                 }
@@ -780,7 +779,7 @@ internal    suspend fun rebuildData(_iterator: TripleIterator) {
                         if (last_s == current_s && last_p == current_p) {
                             SanityCheck.check { tmpl == current_o }
                         } else {
-                            SanityCheck.check { tmpl == dictionaryNullValue }
+                            SanityCheck.check { tmpl == ResultSetDictionaryExt.nullValue }
                             SanityCheck.check { iterator_2_2.label == 0 }
                             NodeManager.getNodeLeaf(firstLeaf) { it ->
                                 myleaf = it
@@ -793,7 +792,7 @@ internal    suspend fun rebuildData(_iterator: TripleIterator) {
                         last_p = current_p
                     }
                     val tmpn = iterator_2_2.next()
-                    SanityCheck.check { tmpn == dictionaryNullValue }
+                    SanityCheck.check { tmpn == ResultSetDictionaryExt.nullValue }
                     SanityCheck.check { iterator_2_2.label == 0 }
                 }
                 debugLock.writeLock()

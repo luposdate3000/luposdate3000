@@ -1,9 +1,9 @@
 package lupos.s04logicalOperators.iterator
 import kotlin.jvm.JvmField
 import lupos.s00misc.SanityCheck
-import lupos.s03resultRepresentation.IResultSetDictionary
+import lupos.s03resultRepresentation.ResultSetDictionaryExt
 
-open class RowIteratorFromColumn(@JvmField val dictionary:IResultSetDictionary,@JvmField val bundle: IteratorBundle) : RowIterator() {
+open class RowIteratorFromColumn(@JvmField val bundle: IteratorBundle) : RowIterator() {
 @JvmField     var iterators: Array<ColumnIterator>
 
     init {
@@ -16,7 +16,7 @@ open class RowIteratorFromColumn(@JvmField val dictionary:IResultSetDictionary,@
             var res = 0
             for (columnIndex in 0 until columns.size) {
                 var tmp = iterators[columnIndex].next()
-                if (tmp == dictionary.getNullValue()) {
+                if (tmp == ResultSetDictionaryExt.nullValue) {
                     SanityCheck.check({ columnIndex == 0 }, { "" + iterators[columnIndex] })
                     res = -1
                     close()

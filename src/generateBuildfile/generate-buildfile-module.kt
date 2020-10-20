@@ -101,8 +101,12 @@ fun createBuildFileForModule(args: Array<String>) {
         out.println("    id(\"org.jetbrains.kotlin.multiplatform\") version \"1.4.255-SNAPSHOT\"")
         out.println("}")
         out.println("repositories {")
+        out.println("    jcenter()")
+        out.println("    google()")
         out.println("    mavenLocal()")
         out.println("    mavenCentral()")
+        out.println("    maven(\"https://plugins.gradle.org/m2/\")")
+        out.println("    maven(\"https://dl.bintray.com/kotlin/kotlin-eap\")")
         out.println("}")
         out.println("group = \"luposdate3000\"")//maven-groupID
         out.println("version = \"0.0.1\"")//maven-version

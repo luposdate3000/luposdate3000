@@ -5,11 +5,10 @@ import lupos.s00misc.EModifyType
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.ESortPriority
 import lupos.s00misc.GraphVariablesNotImplementedException
-import lupos.s00misc.MyListInt
 import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.XMLElement
-import lupos.s03resultRepresentation.Value
+
 import lupos.s03resultRepresentation.ValueBoolean
 import lupos.s04arithmetikOperators.noinput.AOPConstant
 import lupos.s04logicalOperators.iterator.ColumnIterator
@@ -64,12 +63,12 @@ class POPModifyData(query: Query, projectedVariables: List<String>, @JvmField va
     }
 
     override suspend fun evaluate(parent: Partition): IteratorBundle {
-        val iteratorDataMap = mutableMapOf<String, Array<MyListInt>>()
+        val iteratorDataMap = mutableMapOf<String, Array<MutableList<Int>>>()
         for (t in data) {
             for (i in 0 until 3) {
                 var tmp = iteratorDataMap[t.graph]
                 if (tmp == null) {
-                    tmp = Array(3) { MyListInt() }
+                    tmp = Array(3) { mutableListOf<Int>() }
                     iteratorDataMap[t.graph] = tmp
                 }
                 tmp[i].add((t.children[i] as AOPConstant).value)
