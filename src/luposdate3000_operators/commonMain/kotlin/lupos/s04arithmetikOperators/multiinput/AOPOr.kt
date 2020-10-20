@@ -2,7 +2,7 @@ package lupos.s04arithmetikOperators.multiinput
 
 
 import lupos.s00misc.EOperatorID
-import lupos.s03resultRepresentation.ResultSetDictionary
+import lupos.s03resultRepresentation.ResultSetDictionaryExt
 
 import lupos.s03resultRepresentation.ValueDefinition
 import lupos.s04arithmetikOperators.AOPBase
@@ -16,26 +16,26 @@ class AOPOr(query: Query, childA: AOPBase, childB: AOPBase) : AOPBase(query, EOp
 
     companion object {
         val truthTable = arrayOf(
-                ResultSetDictionary.booleanTrueValue,//T,T
-                ResultSetDictionary.booleanTrueValue,//T,F
-                ResultSetDictionary.errorValue,//T,E
-                ResultSetDictionary.booleanTrueValue,//F,T
-                ResultSetDictionary.booleanFalseValue,//F,F
-                ResultSetDictionary.errorValue,//F,E
-                ResultSetDictionary.errorValue,//E,T
-                ResultSetDictionary.errorValue,//E,F
-                ResultSetDictionary.errorValue//E,E
+                ResultSetDictionaryExt.booleanTrueValue,//T,T
+                ResultSetDictionaryExt.booleanTrueValue,//T,F
+                ResultSetDictionaryExt.errorValue,//T,E
+                ResultSetDictionaryExt.booleanTrueValue,//F,T
+                ResultSetDictionaryExt.booleanFalseValue,//F,F
+                ResultSetDictionaryExt.errorValue,//F,E
+                ResultSetDictionaryExt.errorValue,//E,T
+                ResultSetDictionaryExt.errorValue,//E,F
+                ResultSetDictionaryExt.errorValue//E,E
         )
         val truthTable2 = arrayOf(
-                ResultSetDictionary.booleanTrueValue2,//T,T
-                ResultSetDictionary.booleanTrueValue2,//T,F
-                ResultSetDictionary.errorValue2,//T,E
-                ResultSetDictionary.booleanTrueValue2,//F,T
-                ResultSetDictionary.booleanFalseValue2,//F,F
-                ResultSetDictionary.errorValue2,//F,E
-                ResultSetDictionary.errorValue2,//E,T
-                ResultSetDictionary.errorValue2,//E,F
-                ResultSetDictionary.errorValue2//E,E
+                ResultSetDictionaryExt.booleanTrueValue2,//T,T
+                ResultSetDictionaryExt.booleanTrueValue2,//T,F
+                ResultSetDictionaryExt.errorValue2,//T,E
+                ResultSetDictionaryExt.booleanTrueValue2,//F,T
+                ResultSetDictionaryExt.booleanFalseValue2,//F,F
+                ResultSetDictionaryExt.errorValue2,//F,E
+                ResultSetDictionaryExt.errorValue2,//E,T
+                ResultSetDictionaryExt.errorValue2,//E,F
+                ResultSetDictionaryExt.errorValue2//E,E
         )
     }
 

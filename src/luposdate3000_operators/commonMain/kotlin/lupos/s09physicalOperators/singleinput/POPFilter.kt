@@ -10,6 +10,7 @@ import lupos.s03resultRepresentation.ResultSetDictionaryExt
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.s04logicalOperators.iterator.ColumnIteratorQueue
+import lupos.s04logicalOperators.iterator.ColumnIteratorQueueExt
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
@@ -52,7 +53,7 @@ class POPFilter(query: Query, projectedVariables: List<String>, filter: AOPBase,
 
                     inline suspend fun __close() {
                         if (label != 0) {
-                            _close()
+ColumnIteratorQueueExt.                            _close(this)
                             SanityCheck.println { "POPFilterXXX$uuid close E $classname" }
                             for ((k, v) in child.columns) {
                                 v.close()
@@ -61,7 +62,7 @@ class POPFilter(query: Query, projectedVariables: List<String>, filter: AOPBase,
                     }
 
                     override suspend fun next(): Int {
-                        return next_helper({
+                        return ColumnIteratorQueueExt.next_helper(this,{
                             try {
                                 var done = false
                                 while (!done) {
@@ -75,7 +76,7 @@ class POPFilter(query: Query, projectedVariables: List<String>, filter: AOPBase,
                                                 v.close()
                                             }
                                             for (variableIndex3 in 0 until variables.size) {
-                                                columnsLocal[variableIndex3].closeOnEmptyQueue()
+                                             ColumnIteratorQueueExt.closeOnEmptyQueue(columnsLocal[variableIndex3])
                                             }
                                             done = true
                                             break
@@ -155,7 +156,7 @@ class POPFilter(query: Query, projectedVariables: List<String>, filter: AOPBase,
                                             }
                                             SanityCheck.check { variableIndex2 == 0 }
                                             for (variableIndex3 in 0 until variables.size) {
-                                                columnsLocal[variableIndex3].closeOnEmptyQueue()
+ ColumnIteratorQueueExt.                                                closeOnEmptyQueue(columnsLocal[variableIndex3])
                                             }
                                             done = true
                                             break

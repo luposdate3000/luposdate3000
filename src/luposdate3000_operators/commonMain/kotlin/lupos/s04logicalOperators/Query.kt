@@ -4,18 +4,18 @@ import kotlin.jvm.JvmField
 import lupos.s00misc.MyLock
 import lupos.s00misc.ParallelJob
 import lupos.s00misc.Partition
-import lupos.s00misc.withLock
 import lupos.s03resultRepresentation.ResultSetDictionary
+import lupos.s03resultRepresentation.IResultSetDictionary
 import lupos.s04logicalOperators.iterator.IteratorBundle
-import lupos.s15tripleStoreDistributed.DistributedTripleStore
 
-class PartitionHelper() {
+internal class PartitionHelper() {
     var iterators: MutableMap<Partition, Array<IteratorBundle>>? = null
     var jobs: MutableMap<Partition, ParallelJob>? = null
     val lock = MyLock()
 }
 
 class Query(@JvmField val dictionary: ResultSetDictionary = ResultSetDictionary(), @JvmField val transactionID: Long = global_transactionID++) :IQuery{
+override fun getDictionary():IResultSetDictionary=dictionary
     @JvmField
     var _workingDirectory = ""
     var workingDirectory: String
@@ -42,22 +42,22 @@ class Query(@JvmField val dictionary: ResultSetDictionary = ResultSetDictionary(
     var generatedNameByBase = mutableMapOf<String, String>()
 
     @JvmField
-    val partitions = mutableMapOf<Long, PartitionHelper>()
+internal    val partitions = mutableMapOf<Long, PartitionHelper>()
 
     @JvmField
 internal    val partitionsLock = MyLock()
-inline fun partitionsLockLock(){
+internal inline fun partitionsLockLock(){
 partitionsLock.lock()
 }
-inline fun partitionsLockUnLock(){
+internal inline fun partitionsLockUnLock(){
 partitionsLock.unlock()
 }
 
-    inline fun reset() {
+internal    inline fun reset() {
         partitions.clear()
     }
 
-    inline suspend fun getPartitionHelper(uuid: Long): PartitionHelper {
+internal    inline suspend fun getPartitionHelper(uuid: Long): PartitionHelper {
         var res: PartitionHelper? = null
         partitionsLock.withLock {
             res = partitions[uuid]
@@ -87,8 +87,4 @@ partitionsLock.unlock()
       @JvmField  internal  var global_transactionID = 0L
     }
 
-    suspend inline fun commit() {
-        DistributedTripleStore.commit(this)
-        commited = true
-    }
 }

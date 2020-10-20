@@ -20,6 +20,7 @@ import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.s04logicalOperators.iterator.ColumnIteratorAggregate
 import lupos.s04logicalOperators.iterator.ColumnIteratorMultiValue
 import lupos.s04logicalOperators.iterator.ColumnIteratorQueue
+import lupos.s04logicalOperators.iterator.ColumnIteratorQueueExt
 import lupos.s04logicalOperators.iterator.ColumnIteratorQueueEmpty
 import lupos.s04logicalOperators.iterator.ColumnIteratorRepeatValue
 import lupos.s04logicalOperators.iterator.IteratorBundle
@@ -319,7 +320,7 @@ class POPGroup : POPBase {
 
                             inline suspend fun __close() {
                                 if (label != 0) {
-                                    _close()
+ColumnIteratorQueueExt.                                    _close(this)
                                     for (closeIndex in 0 until keyColumns.size) {
                                         keyColumns[closeIndex].close()
                                     }
@@ -330,7 +331,7 @@ class POPGroup : POPBase {
                             }
 
                             override suspend fun next(): Int {
-                                return next_helper({
+                                return ColumnIteratorQueueExt.  next_helper(this,{
                                     loop@ while (true) {
                                         var changedKey = false
                                         if (nextKey != null) {
@@ -358,7 +359,7 @@ class POPGroup : POPBase {
                                                     }
                                                 }
                                                 for (outIndex2 in 0 until output.size) {
-                                                    output[outIndex2].closeOnEmptyQueue()
+ColumnIteratorQueueExt.                                                      closeOnEmptyQueue( output[outIndex2])
                                                 }
                                                 break@loop
                                             }

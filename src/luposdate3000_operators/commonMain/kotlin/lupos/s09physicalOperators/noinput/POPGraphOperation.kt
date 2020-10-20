@@ -16,7 +16,7 @@ import lupos.s00misc.XMLElement
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
-import lupos.s05tripleStore.PersistentStoreLocal
+import lupos.s05tripleStore.PersistentStoreLocalExt
 import lupos.s09physicalOperators.POPBase
 import lupos.s15tripleStoreDistributed.DistributedGraph
 import lupos.s15tripleStoreDistributed.DistributedTripleStore
@@ -126,7 +126,7 @@ class POPGraphOperation(query: Query,
                             }
                         }
                         EGraphRefType.DefaultGraphRef -> {
-                            DistributedTripleStore.clearGraph(query, PersistentStoreLocal.defaultGraphName)
+                            DistributedTripleStore.clearGraph(query, PersistentStoreLocalExt.defaultGraphName)
                         }
                         EGraphRefType.IriGraphRef -> {
                             DistributedTripleStore.clearGraph(query, graph1iri!!)
@@ -141,13 +141,13 @@ class POPGraphOperation(query: Query,
                 EGraphOperationType.DROP -> {
                     when (graph1type) {
                         EGraphRefType.AllGraphRef -> {
-                            DistributedTripleStore.clearGraph(query, PersistentStoreLocal.defaultGraphName)
+                            DistributedTripleStore.clearGraph(query, PersistentStoreLocalExt.defaultGraphName)
                             for (name in DistributedTripleStore.getGraphNames(false)) {
                                 DistributedTripleStore.dropGraph(query, name)
                             }
                         }
                         EGraphRefType.DefaultGraphRef -> {
-                            DistributedTripleStore.clearGraph(query, PersistentStoreLocal.defaultGraphName)
+                            DistributedTripleStore.clearGraph(query, PersistentStoreLocalExt.defaultGraphName)
                         }
                         EGraphRefType.IriGraphRef -> {
                             DistributedTripleStore.dropGraph(query, graph1iri!!)
@@ -205,7 +205,7 @@ class POPGraphOperation(query: Query,
                                 EGraphRefType.DefaultGraphRef -> {
                                     val source = DistributedTripleStore.getNamedGraph(query, graph1iri!!)
                                     val target = DistributedTripleStore.getDefaultGraph(query)
-                                    DistributedTripleStore.clearGraph(query, PersistentStoreLocal.defaultGraphName)
+                                    DistributedTripleStore.clearGraph(query, PersistentStoreLocalExt.defaultGraphName)
                                     copyData(source, target, parent)
                                 }
                                 EGraphRefType.IriGraphRef -> {
@@ -237,7 +237,7 @@ class POPGraphOperation(query: Query,
                                     val target = DistributedTripleStore.getNamedGraph(query, graph2iri!!)
                                     DistributedTripleStore.clearGraph(query, graph2iri!!)
                                     copyData(source, target, parent)
-                                    DistributedTripleStore.clearGraph(query, PersistentStoreLocal.defaultGraphName)
+                                    DistributedTripleStore.clearGraph(query, PersistentStoreLocalExt.defaultGraphName)
                                 }
                                 else -> {
                                     SanityCheck.checkUnreachable()
@@ -249,7 +249,7 @@ class POPGraphOperation(query: Query,
                                 EGraphRefType.DefaultGraphRef -> {
                                     val source = DistributedTripleStore.getNamedGraph(query, graph1iri!!)
                                     val target = DistributedTripleStore.getDefaultGraph(query)
-                                    DistributedTripleStore.clearGraph(query, PersistentStoreLocal.defaultGraphName)
+                                    DistributedTripleStore.clearGraph(query, PersistentStoreLocalExt.defaultGraphName)
                                     copyData(source, target, parent)
                                     DistributedTripleStore.clearGraph(query, graph1iri!!)
                                 }

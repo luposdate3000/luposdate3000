@@ -6,11 +6,13 @@ import lupos.s00misc.EOperatorID
 import lupos.s00misc.ESortPriority
 import lupos.s00misc.MyLock
 import lupos.s00misc.Parallel
+import lupos.s00misc.ParallelCondition
 import lupos.s00misc.ParallelJob
 import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.ResultSetDictionary
+import lupos.s03resultRepresentation.ResultSetDictionaryExt
 
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.iterator.RowIterator
@@ -19,7 +21,7 @@ import lupos.s04logicalOperators.PartitionHelper
 import lupos.s04logicalOperators.Query
 import lupos.s09physicalOperators.POPBase
 
-internal class POPSplitPartition(query: Query, projectedVariables: List<String>, val partitionVariable: String, child: OPBase) : POPBase(query, projectedVariables, EOperatorID.POPSplitPartitionID, "POPSplitPartition", arrayOf(child), ESortPriority.PREVENT_ANY) {
+ class POPSplitPartition(query: Query, projectedVariables: List<String>, val partitionVariable: String, child: OPBase) : POPBase(query, projectedVariables, EOperatorID.POPSplitPartitionID, "POPSplitPartition", arrayOf(child), ESortPriority.PREVENT_ANY) {
     override fun getPartitionCount(variable: String): Int {
         if (variable == partitionVariable) {
             return Partition.default_k
@@ -82,8 +84,8 @@ internal class POPSplitPartition(query: Query, projectedVariables: List<String>,
                 val ringbufferReadHead = IntArray(partitionCount) { 0 } //owned by read-thread - no locking required
                 val ringbufferWriteHead = IntArray(partitionCount) { 0 } //owned by write thread - no locking required
                 var continuationLock = MyLock()
-                val ringbufferReaderContinuation = Array(partitionCount) { Parallel.createCondition(continuationLock) }
-                var ringbufferWriterContinuation = Parallel.createCondition(continuationLock)
+                val ringbufferReaderContinuation = Array<ParallelCondition>(partitionCount) { Parallel.createCondition(continuationLock) }
+                var ringbufferWriterContinuation:ParallelCondition = Parallel.createCondition(continuationLock)
                 val readerFinished = IntArray(partitionCount) { 0 } //writer changes to 1 if finished
                 var writerFinished = 0
                 SanityCheck.println({ "ringbuffersize = ${ringbuffer.size} ${elementsPerRing} ${partitionCount} ${ringbufferStart.map { it }} ${ringbufferReadHead.map { it }} ${ringbufferWriteHead.map { it }}" })
@@ -130,7 +132,7 @@ internal class POPSplitPartition(query: Query, projectedVariables: List<String>,
                             } else {
                                 var q = child.buf[tmp + hashVariableIndex]
                                 var cacheSize: Int
-                                if (q == ResultSetDictionary.undefValue) {
+                                if (q == ResultSetDictionaryExt.undefValue) {
                                     //broadcast undef to every partition
                                     SanityCheck.println({ " attention may increase result count here - this is always ok, _if there is a join afterwards immediately - otherwise probably not" })
                                     cacheSize = partitionCount

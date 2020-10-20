@@ -5,27 +5,27 @@ import lupos.s00misc.SanityCheck
 import lupos.s03resultRepresentation.ResultSetDictionaryExt
 
 
-internal class ColumnIteratorChannel() : ColumnIterator() {
+ class ColumnIteratorChannel() : ColumnIterator() {
     @JvmField
-    var queue = Parallel.createQueue<Int>(ResultSetDictionaryExt.nullValue)
+internal    var queue = Parallel.createQueue<Int>(ResultSetDictionaryExt.nullValue)
 
     @JvmField
     var doneReading = false
 
     @JvmField
     var doneWriting = false
-    suspend inline fun append(v: Int) {
+internal    suspend inline fun append(v: Int) {
         queue.send(v)
     }
 
-    inline fun writeFinish() {
+internal    inline fun writeFinish() {
         doneWriting = true
         queue.close()
     }
 
     @JvmField
     var label = 1
-    inline fun _close() {
+internal    inline fun _close() {
         if (label != 0) {
             label = 0
             queue.close()

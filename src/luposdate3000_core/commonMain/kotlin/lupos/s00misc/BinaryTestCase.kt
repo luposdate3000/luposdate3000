@@ -476,7 +476,8 @@ object BinaryTestCase {
                             if (!verifyEqual(lastInput, tableInput, mapping_live_to_target, targetDict, targetDict2, true, query_name, query_folder, "this is no error")) {
                                 val query1 = Query()
                                 ServerCommunicationSend.graphClearAll(query1)
-                                query1.commit()
+                                DistributedTripleStore.commit(query1)
+query1.commited=true
                                 val query2 = Query()
                                 var store = DistributedTripleStore.getDefaultGraph(query2)
                                 store.bulkImport { bulk ->
@@ -576,7 +577,8 @@ object BinaryTestCase {
                                     return_value = false
                                     break@func
                                 }
-                                query4.commit()
+DistributedTripleStore.commit(query4)
+query4.commited=true
                             } else {
                                 val actualResult = operatorGraphToTable(pop_distributed_node)
                                 if (!verifyEqual(tableOutput, actualResult, mapping_live_to_target, targetDict, targetDict2, allowOrderBy, query_name, query_folder, "query result is wrong")) {

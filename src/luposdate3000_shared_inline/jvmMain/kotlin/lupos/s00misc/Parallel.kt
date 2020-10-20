@@ -24,7 +24,7 @@ internal actual object ParallelThread {
         Thread.sleep(milliseconds)
     }
 
-    actual inline fun <T> createCondition(lock: MyLock): ParallelThreadCondition {
+    actual inline fun createCondition(lock: MyLock): ParallelThreadCondition {
         return ParallelThreadCondition(lock)
     }
 

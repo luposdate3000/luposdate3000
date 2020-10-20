@@ -3,6 +3,7 @@ package lupos.s04arithmetikOperators.multiinput
 
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.Luposdate3000Exception
+import lupos.s03resultRepresentation.ResultSetDictionaryExt
 import lupos.s03resultRepresentation.ResultSetDictionary
 
 import lupos.s03resultRepresentation.ValueDefinition
@@ -18,23 +19,23 @@ class AOPEQ(query: Query, childA: AOPBase, childB: AOPBase) : AOPBinaryOperation
         val childA = (children[0] as AOPBase).evaluateID(row)
         val childB = (children[1] as AOPBase).evaluateID(row)
         return {
-            var res: ValueDefinition = ResultSetDictionary.booleanTrueValue2
+            var res: ValueDefinition = ResultSetDictionaryExt.booleanTrueValue2
             val a1 = childA()
             val b1 = childB()
             if (a1 != b1) {
                 if (ResultSetDictionary.isGlobalBNode(a1) || ResultSetDictionary.isGlobalBNode(b1)) {
-                    res = ResultSetDictionary.booleanFalseValue2
+                    res = ResultSetDictionaryExt.booleanFalseValue2
                 } else {
                     val a = query.dictionary.getValue(a1)
                     val b = query.dictionary.getValue(b1)
                     try {
                         if (a != b) {
-                            res = ResultSetDictionary.booleanFalseValue2
+                            res = ResultSetDictionaryExt.booleanFalseValue2
                         }
                     } catch (e: Luposdate3000Exception) {
-                        res = ResultSetDictionary.errorValue2
+                        res = ResultSetDictionaryExt.errorValue2
                     } catch (e: Throwable) {
-                        res = ResultSetDictionary.errorValue2
+                        res = ResultSetDictionaryExt.errorValue2
                         e.printStackTrace()
                     }
                 }

@@ -80,7 +80,7 @@ class POPJoinCartesianProduct(query: Query, projectedVariables: List<String>, ch
             try {
                 res = IteratorBundle(childA.count() * childB.count())
             } catch (e: Throwable) {
-                println("exception from $uuid ${childA.mode} ${childB.mode} ${children[0].uuid} ${children[1].uuid}")
+                println("exception from $uuid ${children[0].uuid} ${children[1].uuid}")
                 throw e
             }
         } else if (columnsINAO.size == 0) {

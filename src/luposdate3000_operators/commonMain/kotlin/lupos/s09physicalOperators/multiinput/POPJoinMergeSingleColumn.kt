@@ -134,7 +134,7 @@ class POPJoinMergeSingleColumn(query: Query, projectedVariables: List<String>, c
             }
         }
 
-        suspend inline fun _close() {
+internal        suspend inline fun _close() {
             if (label != 0) {
                 label = 0
                 SanityCheck.println({ "\$uuid close ColumnIteratorJoinMergeSingleColumn" })

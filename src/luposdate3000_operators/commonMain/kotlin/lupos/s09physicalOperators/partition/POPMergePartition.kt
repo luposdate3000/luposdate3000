@@ -6,6 +6,7 @@ import lupos.s00misc.EOperatorID
 import lupos.s00misc.ESortPriority
 import lupos.s00misc.MyLock
 import lupos.s00misc.Parallel
+import lupos.s00misc.ParallelCondition
 import lupos.s00misc.ParallelJob
 import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
@@ -20,7 +21,7 @@ import lupos.s04logicalOperators.Query
 import lupos.s09physicalOperators.POPBase
 
 //http://blog.pronghorn.tech/optimizing-suspending-functions-in-kotlin/
-internal class POPMergePartition(query: Query, projectedVariables: List<String>, val partitionVariable: String, val partitionCount: Int, child: OPBase) : POPBase(query, projectedVariables, EOperatorID.POPMergePartitionID, "POPMergePartition", arrayOf(child), ESortPriority.PREVENT_ANY) {
+ class POPMergePartition(query: Query, projectedVariables: List<String>, val partitionVariable: String, val partitionCount: Int, child: OPBase) : POPBase(query, projectedVariables, EOperatorID.POPMergePartitionID, "POPMergePartition", arrayOf(child), ESortPriority.PREVENT_ANY) {
     override fun getPartitionCount(variable: String): Int {
         if (variable == partitionVariable) {
             return 1
@@ -67,8 +68,8 @@ internal class POPMergePartition(query: Query, projectedVariables: List<String>,
             val ringbufferReadHead = IntArray(partitionCount) { 0 } //owned by read-thread - no locking required
             val ringbufferWriteHead = IntArray(partitionCount) { 0 } //owned by write thread - no locking required
             var continuationLock = MyLock()
-            val ringbufferWriterContinuation = Array(partitionCount) { Parallel.createCondition(continuationLock) }
-            var ringbufferReaderContinuation = Parallel.createCondition(continuationLock)
+            val ringbufferWriterContinuation = Array<ParallelCondition>(partitionCount) { Parallel.createCondition(continuationLock) }
+            var ringbufferReaderContinuation :ParallelCondition= Parallel.createCondition(continuationLock)
             val writerFinished = IntArray(partitionCount) { 0 } //writer changes to 1 if finished
             var readerFinished = 0
             for (p in 0 until partitionCount) {

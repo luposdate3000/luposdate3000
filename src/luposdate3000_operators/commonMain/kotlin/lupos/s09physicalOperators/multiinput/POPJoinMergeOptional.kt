@@ -199,7 +199,7 @@ class POPJoinMergeOptional(query: Query, projectedVariables: List<String>, child
         return res
     }
 
-    suspend    /*inline*/ fun sameElements(key: IntArray, keyCopy: IntArray, columnsINJ: MutableList<ColumnIterator>, columnsINO: MutableList<ColumnIterator>, data: Array<MutableList<Int>>): Int {
+internal    suspend    /*inline*/ fun sameElements(key: IntArray, keyCopy: IntArray, columnsINJ: MutableList<ColumnIterator>, columnsINO: MutableList<ColumnIterator>, data: Array<MutableList<Int>>): Int {
         SanityCheck.check { keyCopy[0] != ResultSetDictionaryExt.nullValue }
         for (i in 0 until columnsINJ.size) {
             if (key[i] != keyCopy[i]) {
@@ -230,7 +230,7 @@ class POPJoinMergeOptional(query: Query, projectedVariables: List<String>, child
         return count
     }
 
-    suspend    /*inline*/ fun findNextKey(key: Array<IntArray>, columnsINJ: Array<MutableList<ColumnIterator>>, columnsINO: Array<MutableList<ColumnIterator>>): Boolean {
+internal    suspend    /*inline*/ fun findNextKey(key: Array<IntArray>, columnsINJ: Array<MutableList<ColumnIterator>>, columnsINO: Array<MutableList<ColumnIterator>>): Boolean {
         if (key[0][0] != ResultSetDictionaryExt.nullValue && key[1][0] != ResultSetDictionaryExt.nullValue) {
             loop@ while (true) {
                 for (i in 0 until columnsINJ[0].size) {

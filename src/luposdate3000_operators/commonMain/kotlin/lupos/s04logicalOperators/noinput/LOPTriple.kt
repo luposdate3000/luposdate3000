@@ -14,12 +14,12 @@ import lupos.s04logicalOperators.HistogramResult
 import lupos.s04logicalOperators.LOPBase
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
-import lupos.s05tripleStore.PersistentStoreLocal
+import lupos.s05tripleStore.PersistentStoreLocalExt
 import lupos.s15tripleStoreDistributed.DistributedTripleStore
 
 class LOPTriple(query: Query, s: AOPBase, p: AOPBase, o: AOPBase, @JvmField val graph: String, @JvmField val graphVar: Boolean) : LOPBase(query, EOperatorID.LOPTripleID, "LOPTriple", arrayOf<OPBase>(s, p, o), ESortPriority.ANY_PROVIDED_VARIABLE) {
     override fun toSparql(): String {
-        if (graph == PersistentStoreLocal.defaultGraphName) {
+        if (graph == PersistentStoreLocalExt.defaultGraphName) {
             return children[0].toSparql() + " " + children[1].toSparql() + " " + children[2].toSparql() + "."
         }
         return "GRAPH <$graph> {" + children[0].toSparql() + " " + children[1].toSparql() + " " + children[2].toSparql() + "}."
@@ -106,7 +106,6 @@ class LOPTriple(query: Query, s: AOPBase, p: AOPBase, o: AOPBase, @JvmField val 
         }
         var res = HistogramResult()
         res.count = -1
-        var store = DistributedTripleStore.getNamedGraph(query, graph)
         for (v in getProvidedVariableNames()) {
             val params = Array(3) {
                 var t = children[it]
@@ -116,6 +115,7 @@ class LOPTriple(query: Query, s: AOPBase, p: AOPBase, o: AOPBase, @JvmField val 
                 /*return*/t as AOPBase
             }
             var idx = getIndex(params.map { it }.toTypedArray(), listOf<String>())
+        var store = DistributedTripleStore.getNamedGraph(query, graph)
             var childHistogram = store.getHistogram(params, idx)
             if (childHistogram.first < res.count || res.count == -1) {
                 res.count = childHistogram.first

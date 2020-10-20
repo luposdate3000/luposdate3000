@@ -3,7 +3,7 @@ package lupos.s04arithmetikOperators.singleinput
 import kotlin.jvm.JvmField
 
 import lupos.s00misc.EOperatorID
-import lupos.s03resultRepresentation.ResultSetDictionary
+import lupos.s03resultRepresentation.ResultSetDictionaryExt
 
 import lupos.s03resultRepresentation.ValueBoolean
 import lupos.s03resultRepresentation.ValueDefinition
@@ -21,10 +21,10 @@ class AOPNot(query: Query, @JvmField var child: AOPBase) : AOPBase(query, EOpera
             return {
                 val a = childA()
                 val res: ValueDefinition
-                if (a == ResultSetDictionary.errorValue) {
-                    res = ResultSetDictionary.errorValue2
+                if (a == ResultSetDictionaryExt.errorValue) {
+                    res = ResultSetDictionaryExt.errorValue2
                 } else {
-                    res = ValueBoolean(a == ResultSetDictionary.booleanFalseValue)
+                    res = ValueBoolean(a == ResultSetDictionaryExt.booleanFalseValue)
                 }
                 /*return*/res
             }
@@ -32,7 +32,7 @@ class AOPNot(query: Query, @JvmField var child: AOPBase) : AOPBase(query, EOpera
             val childA = (children[0] as AOPBase).evaluate(row)
             return {
                 val a = childA()
-                var res: ValueDefinition = ResultSetDictionary.errorValue2
+                var res: ValueDefinition = ResultSetDictionaryExt.errorValue2
                 try {
                     res = ValueBoolean(!a.toBoolean())
                 } catch (e: Throwable) {

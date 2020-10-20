@@ -4,10 +4,10 @@ package lupos.s04logicalOperators.iterator
 
 class ColumnIteratorQueueEmpty() : ColumnIteratorQueue() {
     override suspend fun close() {
-        _close()
+ColumnIteratorQueueExt.        _close(this)
     }
 
     override suspend fun next(): Int {
-        return next_helper({}, { _close() })
+        return ColumnIteratorQueueExt.next_helper(this,{}, { ColumnIteratorQueueExt._close(this) })
     }
 }

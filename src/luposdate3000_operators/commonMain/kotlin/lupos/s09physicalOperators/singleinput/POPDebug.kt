@@ -2,8 +2,10 @@ package lupos.s09physicalOperators.singleinput
 
 import kotlin.jvm.JvmField
 import lupos.s00misc.EOperatorID
+import lupos.s00misc.EPOPDebugMode
 import lupos.s00misc.ESortPriority
 import lupos.s00misc.Partition
+import lupos.s00misc.ITERATOR_DEBUG_MODE
 import lupos.s00misc.SanityCheck
 import lupos.s03resultRepresentation.ResultSetDictionaryExt
 
@@ -13,12 +15,6 @@ import lupos.s04logicalOperators.iterator.RowIterator
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
 import lupos.s09physicalOperators.POPBase
-
-enum class EPOPDebugMode {
-    NONE,
-    DEBUG1,
-    DEBUG2
-}
 
 class POPDebug(query: Query, projectedVariables: List<String>, child: OPBase) : POPBase(query, projectedVariables, EOperatorID.POPDebugID, "POPDebug", arrayOf(child), ESortPriority.SAME_AS_CHILD) {
     override fun getPartitionCount(variable: String): Int = children[0].getPartitionCount(variable)
@@ -36,7 +32,7 @@ class POPDebug(query: Query, projectedVariables: List<String>, child: OPBase) : 
             }
             EPOPDebugMode.DEBUG1 -> {
                 val target = children[0].getProvidedVariableNames()
-                SanityCheck.println({ "POPDebug-child-mode ... ${uuid} ${children[0].uuid} ${child.mode}" })
+                SanityCheck.println({ "POPDebug-child-mode ... ${uuid} ${children[0].uuid}" })
                 if (child.hasColumnMode()) {
                     try {
                         child.columns
@@ -59,7 +55,7 @@ class POPDebug(query: Query, projectedVariables: List<String>, child: OPBase) : 
             }
             EPOPDebugMode.DEBUG2 -> {
                 val target = children[0].getProvidedVariableNames()
-                SanityCheck.println({ "POPDebug-child-mode ... ${uuid} ${children[0].uuid} ${child.mode}" })
+                SanityCheck.println({ "POPDebug-child-mode ... ${uuid} ${children[0].uuid}" })
                 if (child.hasColumnMode()) {
                     try {
                         child.columns

@@ -109,7 +109,7 @@ class POPJoinMerge(query: Query, projectedVariables: List<String>, childA: OPBas
 
         @JvmField
         var sipbuf = IntArray(2)
-        suspend inline fun __close() {
+internal        suspend inline fun __close() {
             if (label != 0) {
                 local___close_i = 0
                 while (local___close_i < columnsOUT0.size) {

@@ -18,7 +18,7 @@ import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.noinput.LOPTriple
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
-import lupos.s05tripleStore.PersistentStoreLocal
+import lupos.s05tripleStore.PersistentStoreLocalExt
 import lupos.s09physicalOperators.POPBase
 import lupos.s15tripleStoreDistributed.DistributedTripleStore
 
@@ -44,7 +44,7 @@ class POPModifyData(query: Query, projectedVariables: List<String>, @JvmField va
                 throw GraphVariablesNotImplementedException(classname)
             }
             SanityCheck.check({ !c.graphVar })
-            if (c.graph == PersistentStoreLocal.defaultGraphName) {
+            if (c.graph == PersistentStoreLocalExt.defaultGraphName) {
                 res += c.children[0].toSparql() + " " + c.children[1].toSparql() + " " + c.children[2].toSparql() + "."
             }
             res += "GRAPH <${c.graph}> {" + c.children[0].toSparql() + " " + c.children[1].toSparql() + " " + c.children[2].toSparql() + "}."

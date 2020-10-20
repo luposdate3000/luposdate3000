@@ -5,7 +5,7 @@ import lupos.s00misc.EOperatorID
 import lupos.s00misc.ESortPriority
 import lupos.s00misc.EvaluationException
 import lupos.s00misc.SanityCheck
-import lupos.s03resultRepresentation.ResultSetDictionary
+import lupos.s03resultRepresentation.ResultSetDictionaryExt
 
 import lupos.s03resultRepresentation.ValueDefinition
 import lupos.s04logicalOperators.HistogramResult
@@ -22,7 +22,7 @@ abstract class AOPBase(query: Query,
         if (enforcesBooleanOrError()) {
             val tmp = evaluateID(row)
             return {
-                /*return*/tmp() == ResultSetDictionary.booleanTrueValue
+                /*return*/tmp() == ResultSetDictionaryExt.booleanTrueValue
             }
 
         } else {

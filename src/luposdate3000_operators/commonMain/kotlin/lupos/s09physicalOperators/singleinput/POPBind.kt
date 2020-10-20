@@ -15,6 +15,7 @@ import lupos.s04arithmetikOperators.noinput.AOPConstant
 import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.s04logicalOperators.iterator.ColumnIteratorQueue
+import lupos.s04logicalOperators.iterator.ColumnIteratorQueueExt
 import lupos.s04logicalOperators.iterator.ColumnIteratorQueueEmpty
 import lupos.s04logicalOperators.iterator.ColumnIteratorRepeatValue
 import lupos.s04logicalOperators.iterator.IteratorBundle
@@ -74,11 +75,11 @@ class POPBind(query: Query, projectedVariables: List<String>, @JvmField val name
             for (variableIndex in 0 until variablesLocal.size) {
                 columnsLocal[variableIndex] = object : ColumnIteratorQueue() {
                     override suspend fun close() {
-                        _close()
+ColumnIteratorQueueExt.                        _close(this)
                     }
 
                     override suspend fun next(): Int {
-                        return next_helper({
+                        return ColumnIteratorQueueExt.next_helper(this,{
                             var done = false
                             for (variableIndex2 in 0 until variablesLocal.size) {
                                 if (boundIndex != variableIndex2) {
@@ -86,7 +87,7 @@ class POPBind(query: Query, projectedVariables: List<String>, @JvmField val name
                                     if (value == ResultSetDictionaryExt.nullValue) {
                                         SanityCheck.check { variableIndex2 == 0 || (boundIndex == 0 && variableIndex2 == 1) }
                                         for (variableIndex3 in 0 until variablesLocal.size) {
-                                            columnsLocal[variableIndex3].closeOnEmptyQueue()
+                                        ColumnIteratorQueueExt.    closeOnEmptyQueue( columnsLocal[variableIndex3])
                                         }
                                         for (closeIndex in 0 until variablesLocal.size) {
                                             if (boundIndex != closeIndex) {
@@ -106,7 +107,7 @@ class POPBind(query: Query, projectedVariables: List<String>, @JvmField val name
                                     columnsOut[variableIndex2].queue.add(columnsOut[variableIndex2].tmp)
                                 }
                             }
-                        }, { _close() })
+                        }, { ColumnIteratorQueueExt._close(this) })
                     }
                 }
             }

@@ -285,7 +285,8 @@ object HttpEndpoint {
         val import = POPValuesImportXML(query, listOf("s", "p", "o"), XMLElement.parseFromXml(data)!!).evaluate(Partition())
         val dataLocal = arrayOf(import.columns["s"]!!, import.columns["p"]!!, import.columns["o"]!!)
         DistributedTripleStore.getDefaultGraph(query).modify(dataLocal, EModifyType.INSERT)
-        query.commit()
+DistributedTripleStore.commit(query)
+query.commited=true
         return XMLElement("success").toString()
     }
 
@@ -343,7 +344,8 @@ object HttpEndpoint {
         output.println();
         node.query.reset()
         QueryResultToStream(node, output)
-        node.query.commit()
+DistributedTripleStore.commit(node.query)
+node.query.commited=true
 //println("timer #407 ${DateHelperRelative.elapsedSeconds(timer)}")
     }
 
@@ -379,7 +381,8 @@ object HttpEndpoint {
         }
         var buf = MyPrintWriter()
         val res = QueryResultToStream(pop_node, buf)
-        q.commit()
+DistributedTripleStore.commit(q)
+q.commited=true
         return buf.toString()
     }
 }

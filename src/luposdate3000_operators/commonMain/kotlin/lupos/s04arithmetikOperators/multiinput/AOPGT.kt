@@ -4,7 +4,7 @@ package lupos.s04arithmetikOperators.multiinput
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.EvaluationException
 import lupos.s00misc.SanityCheck
-import lupos.s03resultRepresentation.ResultSetDictionary
+import lupos.s03resultRepresentation.ResultSetDictionaryExt
 
 import lupos.s03resultRepresentation.ValueDefinition
 import lupos.s04arithmetikOperators.AOPBase
@@ -19,14 +19,14 @@ class AOPGT(query: Query, childA: AOPBase, childB: AOPBase) : AOPBinaryOperation
         val childA = (children[0] as AOPBase).evaluate(row)
         val childB = (children[1] as AOPBase).evaluate(row)
         return {
-            var res: ValueDefinition = ResultSetDictionary.errorValue2
+            var res: ValueDefinition = ResultSetDictionaryExt.errorValue2
             val a = childA()
             val b = childB()
             try {
                 if (a.compareTo(b) > 0) {
-                    res = ResultSetDictionary.booleanTrueValue2
+                    res = ResultSetDictionaryExt.booleanTrueValue2
                 } else {
-                    res = ResultSetDictionary.booleanFalseValue2
+                    res = ResultSetDictionaryExt.booleanFalseValue2
                 }
             } catch (e: Throwable) {
                 SanityCheck.println({ "TODO exception 20" })
@@ -41,14 +41,14 @@ class AOPGT(query: Query, childA: AOPBase, childB: AOPBase) : AOPBinaryOperation
         val childA = (children[0] as AOPBase).evaluate(row)
         val childB = (children[1] as AOPBase).evaluate(row)
         return {
-            var res: Int = ResultSetDictionary.errorValue
+            var res: Int = ResultSetDictionaryExt.errorValue
             val a = childA()
             val b = childB()
             try {
                 if (a.compareTo(b) > 0) {
-                    res = ResultSetDictionary.booleanTrueValue
+                    res = ResultSetDictionaryExt.booleanTrueValue
                 } else {
-                    res = ResultSetDictionary.booleanFalseValue
+                    res = ResultSetDictionaryExt.booleanFalseValue
                 }
             } catch (e: EvaluationException) {
             } catch (e: Throwable) {

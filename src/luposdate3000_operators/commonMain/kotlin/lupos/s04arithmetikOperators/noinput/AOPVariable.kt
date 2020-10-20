@@ -4,7 +4,7 @@ import kotlin.jvm.JvmField
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.XMLElement
-import lupos.s03resultRepresentation.ResultSetDictionary
+import lupos.s03resultRepresentation.ResultSetDictionaryExt
 
 import lupos.s03resultRepresentation.ValueDefinition
 import lupos.s04arithmetikOperators.AOPBase
@@ -26,7 +26,7 @@ class AOPVariable(query: Query, @JvmField var name: String) : AOPBase(query, EOp
         var res: () -> ValueDefinition
         if (tmp == null) {
             res = {
-                /*return*/ResultSetDictionary.undefValue2
+                /*return*/ ResultSetDictionaryExt.undefValue2
             }
         } else {
             SanityCheck.check { tmp is ColumnIteratorQueue }
@@ -42,7 +42,7 @@ class AOPVariable(query: Query, @JvmField var name: String) : AOPBase(query, EOp
         var tmp = row.columns[name]
         if (tmp == null) {
             return {
-                /*return*/ResultSetDictionary.undefValue
+                /*return*/ ResultSetDictionaryExt.undefValue
             }
         } else {
             SanityCheck.check { tmp is ColumnIteratorQueue }

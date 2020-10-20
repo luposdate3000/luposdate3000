@@ -15,6 +15,7 @@ import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.s04logicalOperators.iterator.ColumnIteratorEmpty
 import lupos.s04logicalOperators.iterator.ColumnIteratorQueue
+import lupos.s04logicalOperators.iterator.ColumnIteratorQueueExt
 import lupos.s04logicalOperators.iterator.ColumnIteratorQueueEmpty
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.multiinput.LOPJoin
@@ -151,7 +152,7 @@ class POPJoinWithStore(query: Query, projectedVariables: List<String>, childA: O
 
                     inline suspend fun __close() {
                         if (label != 0) {
-                            _close()
+ColumnIteratorQueueExt.                            _close(this)
                             SanityCheck.println { "POPJoinWithStoreXXXclosing store for join with store A $theuuid" }
                             for (closeIndex in 0 until columnsInB.size) {
                                 columnsInB[closeIndex].close()
@@ -166,7 +167,7 @@ class POPJoinWithStore(query: Query, projectedVariables: List<String>, childA: O
                     }
 
                     override suspend fun next(): Int {
-                        return next_helper({
+                        return ColumnIteratorQueueExt.next_helper(this,{
                             loopA@ while (true) {
                                 var done = true
                                 loopB@ for (i in 0 until variablINBO.size) {

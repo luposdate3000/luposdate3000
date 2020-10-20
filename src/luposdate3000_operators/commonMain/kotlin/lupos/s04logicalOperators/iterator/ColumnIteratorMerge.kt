@@ -1,6 +1,7 @@
 package lupos.s04logicalOperators.iterator
 
 import lupos.s00misc.SanityCheck
+import lupos.s00misc.MERGE_SORT_MIN_ROWS
 import lupos.s03resultRepresentation.ResultSetDictionaryExt
 
 

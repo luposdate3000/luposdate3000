@@ -6,7 +6,6 @@ import lupos.s00misc.EIndexPattern
 import lupos.s00misc.EModifyType
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.ESortPriority
-import lupos.s00misc.MyListInt
 import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.TriplePatternsContainingTheSameVariableTwiceNotImplementedException
@@ -22,6 +21,7 @@ import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
 import lupos.s05tripleStore.PersistentStoreLocal
+import lupos.s05tripleStore.PersistentStoreLocalExt
 import lupos.s05tripleStore.TripleStoreBulkImport
 import lupos.s05tripleStore.TripleStoreFeatureParams
 import lupos.s05tripleStore.TripleStoreFeatureParamsDefault
@@ -57,7 +57,7 @@ class TripleStoreIteratorGlobal(query: Query, projectedVariables: List<String>, 
     }
 
     override fun toSparql(): String {
-        if (graphName == PersistentStoreLocal.defaultGraphName) {
+        if (graphName == PersistentStoreLocalExt.defaultGraphName) {
             return children[0].toSparql() + " " + children[1].toSparql() + " " + children[2].toSparql() + "."
         }
         return "GRAPH <$graphName> {" + children[0].toSparql() + " " + children[1].toSparql() + " " + children[2].toSparql() + "}."
@@ -117,7 +117,7 @@ class DistributedGraph(val query: Query, @JvmField val name: String) {
 
     suspend fun modify(data: Array<ColumnIterator>, type: EModifyType) {
         SanityCheck.check { data.size == 3 }
-        val map = Array(3) { MyListInt() }
+        val map = Array(3) { mutableListOf<Int>() }
         loop@ while (true) {
             val row = Array(3) { ResultSetDictionary.undefValue }
             for (columnIndex in 0 until 3) {
@@ -247,7 +247,7 @@ object DistributedTripleStore {
     }
 
     fun getDefaultGraph(query: Query): DistributedGraph {
-        return DistributedGraph(query, PersistentStoreLocal.defaultGraphName)
+        return DistributedGraph(query, PersistentStoreLocalExt.defaultGraphName)
     }
 
     suspend fun commit(query: Query) {

@@ -2,7 +2,7 @@ package lupos.s04logicalOperators.iterator
 
 import lupos.s00misc.Parallel
 
-internal open class RowIteratorMinus(val a: RowIterator, val b: RowIterator, val projection: Array<String>) : RowIterator() {
+ open class RowIteratorMinus(val a: RowIterator, val b: RowIterator, val projection: Array<String>) : RowIterator() {
     var flag = 2
     var aIdx = -1
     var bIdx = -1

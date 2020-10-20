@@ -4,7 +4,7 @@ internal expect object ParallelThread {
     inline fun <T> runBlocking(crossinline action: () -> T): T
     inline fun launch(crossinline action: () -> Unit): ParallelThreadJob
     inline fun delay(milliseconds: Long)
-    inline fun <T> createCondition(lock: MyLock): ParallelThreadCondition
+    inline fun createCondition(lock: MyLock): ParallelThreadCondition
     inline fun <T> createQueue(terminationValue: T): ParallelThreadQueue<T>
 }
 

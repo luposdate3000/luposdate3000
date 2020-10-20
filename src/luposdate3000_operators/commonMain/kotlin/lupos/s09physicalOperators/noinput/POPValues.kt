@@ -8,6 +8,7 @@ import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.ResultSetDictionary
+import lupos.s03resultRepresentation.ResultSetDictionaryExt
 
 import lupos.s04arithmetikOperators.noinput.AOPConstant
 import lupos.s04arithmetikOperators.noinput.AOPValue
@@ -41,7 +42,7 @@ open class POPValues : POPBase {
             for (i in 0 until columns[0]!!.size) {
                 res += "("
                 for (v in 0 until variables.size) {
-                    if (columns[v]!![i] == ResultSetDictionary.undefValue) {
+                    if (columns[v]!![i] == ResultSetDictionaryExt.undefValue) {
                         res += "UNDEF "
                     } else {
                         res += query.dictionary.getValue(columns[v]!![i]).valueToString() + " "

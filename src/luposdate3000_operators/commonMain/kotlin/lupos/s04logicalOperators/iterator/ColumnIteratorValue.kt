@@ -1,11 +1,10 @@
 package lupos.s04logicalOperators.iterator
 
-import lupos.s00misc.ClassCacheManager
 import lupos.s00misc.MyLock
 import lupos.s03resultRepresentation.ResultSetDictionaryExt
 
 
-internal class ColumnIteratorValue() : ColumnIterator() {
+ class ColumnIteratorValue() : ColumnIterator() {
     companion object {
         inline operator fun invoke(value: Int): ColumnIteratorValue {
             var res = ColumnIteratorValue()

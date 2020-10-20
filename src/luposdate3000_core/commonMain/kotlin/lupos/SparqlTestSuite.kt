@@ -454,7 +454,8 @@ open class SparqlTestSuite() {
                 val query2 = Query()
                 query2.workingDirectory = queryFile.substring(0, queryFile.lastIndexOf("/"))
                 ServerCommunicationSend.graphClearAll(query2)
-                query2.commit()
+                DistributedTripleStore.commit(query2)
+query2.commited=true
                 nodeGlobalDictionary.clear()
                 JenaWrapper.dropAll()
                 val inputData = readFileOrNull(inputDataFileName)
@@ -487,7 +488,8 @@ open class SparqlTestSuite() {
                         query.workingDirectory = queryFile.substring(0, queryFile.lastIndexOf("/"))
                         val tmp = POPValuesImportXML(query, listOf("s", "p", "o"), xmlQueryInput).evaluate(Partition())
                         DistributedTripleStore.getDefaultGraph(query).modify(arrayOf(tmp.columns["s"]!!, tmp.columns["p"]!!, tmp.columns["o"]!!), EModifyType.INSERT)
-                        query.commit()
+DistributedTripleStore.commit(query)
+query.commited=true
                     }
                     if (testPersistence) {
                         File("log/storetest").mkdirs()
@@ -529,7 +531,8 @@ open class SparqlTestSuite() {
                     query.workingDirectory = queryFile.substring(0, queryFile.lastIndexOf("/"))
                     val tmp = POPValuesImportXML(query, listOf("s", "p", "o"), xmlQueryInput).evaluate(Partition())
                     DistributedTripleStore.getNamedGraph(query, it["name"]!!).modify(arrayOf(tmp.columns["s"]!!, tmp.columns["p"]!!, tmp.columns["o"]!!), EModifyType.INSERT)
-                    query.commit()
+DistributedTripleStore.commit(query)
+query.commited=true
                     println("test Input Graph[${it["name"]!!}] :: " + xmlQueryInput.toPrettyString())
                     try {
                         if (!ignoreJena) {
@@ -617,7 +620,8 @@ open class SparqlTestSuite() {
                 SanityCheck.println { "----------Query Result" }
                 xmlQueryResult = QueryResultToXMLElement.toXML(pop_distributed_node)
                 SanityCheck.println { "test xmlQueryResult :: " + xmlQueryResult.toPrettyString() }
-                query.commit()
+DistributedTripleStore.commit(query)
+query.commited=true
             }
             var verifiedOutput = false
             outputDataGraph.forEach {
@@ -685,7 +689,8 @@ open class SparqlTestSuite() {
                         SanityCheck.println { x }
                     }
                     val xmlQueryResultRecovered = QueryResultToXMLElement.toXML(popNodeRecovered)
-                    query4.commit()
+DistributedTripleStore.commit(query4)
+query4.commited=true
                     SanityCheck.println { "test xmlQueryResultRecovered :: " + xmlQueryResultRecovered.toPrettyString() }
                     if (xmlQueryResultRecovered.myEqualsUnclean(xmlQueryResult, true, true, true)) {
                         if (expectedResult) {

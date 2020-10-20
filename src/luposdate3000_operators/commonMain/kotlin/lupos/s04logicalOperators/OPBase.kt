@@ -14,6 +14,7 @@ import lupos.s00misc.SortHelper
 import lupos.s00misc.ToSparqlNotImplementedException
 import lupos.s00misc.VariableNotDefinedSyntaxException
 import lupos.s00misc.XMLElement
+import lupos.s03resultRepresentation.ResultSetDictionaryExt
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04arithmetikOperators.noinput.AOPConstant
 import lupos.s04arithmetikOperators.noinput.AOPVariable
@@ -350,7 +351,7 @@ abstract class OPBase(@JvmField val query: Query, @JvmField val operatorID: EOpe
     open fun toString(indentation: String): String = "${indentation}$classname\n"
 
     internal companion object {
-        private val global_uuid = 0L
+         var global_uuid = 0L
     }
 
     fun replaceVariableWithUndef(node: OPBase, name: String, existsClauses: Boolean): OPBase {
@@ -358,7 +359,7 @@ abstract class OPBase(@JvmField val query: Query, @JvmField val operatorID: EOpe
             return node
         }
         if (node is AOPVariable && node.name == name) {
-            return AOPConstant(query, query.getDictionary().getUndefValue2())
+            return AOPConstant(query, ResultSetDictionaryExt.undefValue2)
         }
         for (i in 0 until node.children.size) {
             node.children[i] = replaceVariableWithUndef(node.children[i], name, existsClauses)
