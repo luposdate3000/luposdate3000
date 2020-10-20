@@ -27,7 +27,7 @@ val nodeGlobalDictionary = ResultSetDictionary(true)
 typealias Value = Int
 
 @UseExperimental(kotlin.ExperimentalUnsignedTypes::class)
-class ResultSetDictionary(val global: Boolean = false) {
+class ResultSetDictionary(val global: Boolean = false):IResultSetDictionary {
     companion object {
         /*to most significant bit leads to signed errors because toInt sadly performs a whole reencoding of the int and stores it completely different*/
         internal const val mask1 = 0x40000000.toInt()/*first 2 bit*/
@@ -73,6 +73,7 @@ class ResultSetDictionary(val global: Boolean = false) {
         fun debug() {
         }
     }
+override fun getNullValue()=nullValue
 
     fun isLocalBNode(value: Value) = (value and mask3) == flaggedValueLocalBnode
 

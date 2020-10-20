@@ -1,15 +1,13 @@
 package lupos.s04logicalOperators.iterator
+import kotlin.jvm.JvmField
+import lupos.s03resultRepresentation.IResultSetDictionary
 
-import lupos.s00misc.MyListInt
-import lupos.s03resultRepresentation.ResultSetDictionary
-import lupos.s03resultRepresentation.Value
-
-abstract class ColumnIteratorQueue() : ColumnIterator() {
+abstract class ColumnIteratorQueue(@JvmField val dictionary:IResultSetDictionary) : ColumnIterator() {
     @JvmField
-    var tmp: Value = ResultSetDictionary.nullValue
+    var tmp = dictionary.getNullValue()
 
     @JvmField
-    val queue = MyListInt()
+    val queue = mutableListOf<Int>()
 
     @JvmField
     var label = 1
@@ -20,7 +18,7 @@ abstract class ColumnIteratorQueue() : ColumnIterator() {
         }
     }
 
-    inline suspend fun next_helper(crossinline onEmptyQueue: suspend () -> Unit, crossinline onClose: suspend () -> Unit): Value {
+    inline suspend fun next_helper(crossinline onEmptyQueue: suspend () -> Unit, crossinline onClose: suspend () -> Unit): Int {
         when (label) {
             1 -> {
                 if (queue.size == 0) {
@@ -29,7 +27,7 @@ abstract class ColumnIteratorQueue() : ColumnIterator() {
                         return queue.removeAt(0)
                     } else {
                         onClose()
-                        return ResultSetDictionary.nullValue
+                        return dictionary.getNullValue()
                     }
                 } else {
                     return queue.removeAt(0)
@@ -38,13 +36,13 @@ abstract class ColumnIteratorQueue() : ColumnIterator() {
             2 -> {
                 if (queue.size == 0) {
                     onClose()
-                    return ResultSetDictionary.nullValue
+                    return dictionary.getNullValue()
                 } else {
                     return queue.removeAt(0)
                 }
             }
             else -> {
-                return ResultSetDictionary.nullValue
+                return dictionary.getNullValue()
             }
         }
     }

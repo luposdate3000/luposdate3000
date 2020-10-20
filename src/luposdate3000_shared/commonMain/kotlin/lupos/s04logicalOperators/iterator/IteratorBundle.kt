@@ -4,43 +4,48 @@ import kotlin.jvm.JvmField
 import lupos.s00misc.IteratorBundleColumnModeNotImplementedException
 import lupos.s00misc.IteratorBundleRowModeNotImplementedException
 import lupos.s00misc.SanityCheck
+import lupos.s03resultRepresentation.IResultSetDictionary
 
-enum class IteratorBundleMode {
+open class IteratorBundle {
+internal enum class IteratorBundleMode {
     COUNT,
     COLUMN,
     ROW
 }
-
-open class IteratorBundle {
     @JvmField
-    var mode: IteratorBundleMode
+internal    var mode: IteratorBundleMode
 
     @JvmField
     var _columns: Map<String, ColumnIterator>?
 
     @JvmField
     var _rows: RowIterator?
+    @JvmField
+    val _dictionary: IResultSetDictionary
 
     @JvmField
     var counter = 0
-    inline fun hasColumnMode() = mode == IteratorBundleMode.COLUMN
-    inline fun hasCountMode() = mode == IteratorBundleMode.COUNT
-    inline fun hasRowMode() = mode == IteratorBundleMode.ROW
+     fun hasColumnMode() = mode == IteratorBundleMode.COLUMN
+     fun hasCountMode() = mode == IteratorBundleMode.COUNT
+     fun hasRowMode() = mode == IteratorBundleMode.ROW
 
-    constructor (columns: Map<String, ColumnIterator>) {
+    constructor (dictionary: IResultSetDictionary,columns: Map<String, ColumnIterator>) {
+_dictionary=dictionary
         _rows = null
         _columns = columns
         mode = IteratorBundleMode.COLUMN
     }
 
-    constructor(count: Int) {
+    constructor(dictionary: IResultSetDictionary,count: Int) {
+_dictionary=dictionary
         _rows = null
         _columns = null
         counter = count
         mode = IteratorBundleMode.COUNT
     }
 
-    constructor(rows: RowIterator) {
+    constructor(dictionary: IResultSetDictionary,rows: RowIterator) {
+_dictionary=dictionary
         _rows = rows
         _columns = null
         mode = IteratorBundleMode.ROW
@@ -53,7 +58,7 @@ open class IteratorBundle {
                 return _columns!!
             } else if (mode == IteratorBundleMode.ROW) {
                 if (_columns == null) {
-                    _columns = ColumnIteratorFromRow(_rows!!)
+                    _columns = ColumnIteratorFromRow(_dictionary,_rows!!)
                 }
                 return _columns!!
             } else {
@@ -67,7 +72,7 @@ open class IteratorBundle {
             } else if (mode == IteratorBundleMode.COLUMN) {
                 SanityCheck.check { _columns!!.size > 0 }
                 if (_rows == null) {
-                    _rows = RowIteratorFromColumn(this)
+                    _rows = RowIteratorFromColumn(_dictionary,this)
                 }
                 return _rows!!
             } else {
@@ -86,7 +91,7 @@ open class IteratorBundle {
     suspend open fun hasNext2Close() {
     }
 
-    suspend inline fun count(): Int {
+    suspend  fun count(): Int {
         SanityCheck.check { mode == IteratorBundleMode.COUNT }
         if (counter > 0) {
             return counter
