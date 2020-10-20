@@ -110,19 +110,19 @@ class TripleStoreIteratorGlobal(query: Query, projectedVariables: List<String>, 
     }
 }
 
-class DistributedGraph(val query: Query, @JvmField val name: String) {
-    suspend fun bulkImport(action: suspend (TripleStoreBulkImportDistributed) -> Unit) {
+class DistributedGraph(val query: Query, @JvmField val name: String) :IDistributedGraph{
+    suspend override fun bulkImport(action: suspend (TripleStoreBulkImportDistributed) -> Unit) {
         ServerCommunicationSend.bulkImport(query, name, action)
     }
 
-    suspend fun modify(data: Array<ColumnIterator>, type: EModifyType) {
+    suspend override fun modify(data: Array<ColumnIterator>, type: EModifyType) {
         SanityCheck.check { data.size == 3 }
         val map = Array(3) { mutableListOf<Int>() }
         loop@ while (true) {
-            val row = Array(3) { ResultSetDictionary.undefValue }
+            val row = Array(3) { ResultSetDictionaryExt.undefValue }
             for (columnIndex in 0 until 3) {
                 val v = data[columnIndex].next()
-                if (v == ResultSetDictionary.nullValue) {
+                if (v == ResultSetDictionaryExt.nullValue) {
                     for (closeIndex in 0 until data.size) {
                         data[closeIndex].close()
                     }
@@ -140,12 +140,12 @@ class DistributedGraph(val query: Query, @JvmField val name: String) {
         }
     }
 
-    fun getIterator(idx: EIndexPattern, partition: Partition): POPBase {
+    override fun getIterator(idx: EIndexPattern, partition: Partition): POPBase {
         val projectedVariables = listOf<String>("s", "p", "o")
         return TripleStoreIteratorGlobal(query, projectedVariables, name, arrayOf<AOPBase>(AOPVariable(query, "s"), AOPVariable(query, "p"), AOPVariable(query, "o")), idx, partition)
     }
 
-    fun getIterator(params: Array<AOPBase>, idx: EIndexPattern, partition: Partition): POPBase {
+    override fun getIterator(params: Array<AOPBase>, idx: EIndexPattern, partition: Partition): POPBase {
         val projectedVariables = mutableListOf<String>()
         SanityCheck {
             if (idx.keyIndices.size == 3) {
@@ -179,7 +179,7 @@ class DistributedGraph(val query: Query, @JvmField val name: String) {
         return TripleStoreIteratorGlobal(query, projectedVariables, name, params, idx, partition)
     }
 
-    suspend fun getHistogram(params: Array<AOPBase>, idx: EIndexPattern): Pair<Int, Int> {
+    suspend override fun getHistogram(params: Array<AOPBase>, idx: EIndexPattern): Pair<Int, Int> {
         SanityCheck {
             if (idx.keyIndices.size == 3) {
                 if (params[0] is AOPVariable) {
@@ -218,39 +218,40 @@ class DistributedGraph(val query: Query, @JvmField val name: String) {
     }
 }
 
-object DistributedTripleStore {
+class DistributedTripleStore :IDistributedTripleStore{
     @JvmField
     val localStore = PersistentStoreLocal()
-    fun getGraphNames(includeDefault: Boolean = false): List<String> {
+    override fun getGraphNames(includeDefault: Boolean = false): List<String> {
         return localStore.getGraphNames(includeDefault)
     }
 
-    suspend fun createGraph(query: Query, name: String): DistributedGraph {
+    suspend override fun createGraph(query: Query, name: String): DistributedGraph {
         ServerCommunicationSend.graphOperation(query, name, EGraphOperationType.CREATE)
         return DistributedGraph(query, name)
     }
 
-    suspend fun dropGraph(query: Query, name: String) {
+    suspend override fun dropGraph(query: Query, name: String) {
         ServerCommunicationSend.graphOperation(query, name, EGraphOperationType.DROP)
     }
 
-    suspend fun clearGraph(query: Query, name: String) {
+    suspend override fun clearGraph(query: Query, name: String) {
         SanityCheck.println { "DistributedTripleStore.clearGraph $name" }
         ServerCommunicationSend.graphOperation(query, name, EGraphOperationType.CLEAR)
     }
 
-    suspend fun getNamedGraph(query: Query, name: String): DistributedGraph {
+    suspend override fun getNamedGraph(query: Query, name: String): DistributedGraph {
         if (!(localStore.getGraphNames(true).contains(name))) {
             createGraph(query, name)
         }
         return DistributedGraph(query, name)
     }
 
-    fun getDefaultGraph(query: Query): DistributedGraph {
+    override fun getDefaultGraph(query: Query): DistributedGraph {
         return DistributedGraph(query, PersistentStoreLocalExt.defaultGraphName)
     }
 
-    suspend fun commit(query: Query) {
+    suspend override fun commit(query: Query) {
         ServerCommunicationSend.commit(query)
     }
 }
+distributedTripleStore=DistributedTripleStore()

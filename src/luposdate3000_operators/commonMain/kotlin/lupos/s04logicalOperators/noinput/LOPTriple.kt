@@ -8,14 +8,16 @@ import lupos.s00misc.GraphVarHistogramsNotImplementedException
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.XMLElement
 import lupos.s04arithmetikOperators.AOPBase
+import lupos.s04arithmetikOperators.IAOPBase
 import lupos.s04arithmetikOperators.noinput.AOPConstant
 import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s04logicalOperators.HistogramResult
 import lupos.s04logicalOperators.LOPBase
 import lupos.s04logicalOperators.OPBase
+import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.Query
 import lupos.s05tripleStore.PersistentStoreLocalExt
-import lupos.s15tripleStoreDistributed.DistributedTripleStore
+import lupos.s15tripleStoreDistributed.distributedTripleStore
 
 class LOPTriple(query: Query, s: AOPBase, p: AOPBase, o: AOPBase, @JvmField val graph: String, @JvmField val graphVar: Boolean) : LOPBase(query, EOperatorID.LOPTripleID, "LOPTriple", arrayOf<OPBase>(s, p, o), ESortPriority.ANY_PROVIDED_VARIABLE) {
     override fun toSparql(): String {
@@ -43,7 +45,7 @@ class LOPTriple(query: Query, s: AOPBase, p: AOPBase, o: AOPBase, @JvmField val 
     override fun cloneOP() = LOPTriple(query, children[0].cloneOP() as AOPBase, children[1].cloneOP() as AOPBase, children[2].cloneOP() as AOPBase, graph, graphVar)
 
     companion object {
-        fun getIndex(children: Array<OPBase>, sortPriority: List<String>): EIndexPattern {
+        fun getIndex(children: Array<IOPBase>, sortPriority: List<String>): EIndexPattern {
             /*
              * always prefer P over S over O to access the best compressed triple store, which should be the fastest
              */
@@ -107,15 +109,15 @@ class LOPTriple(query: Query, s: AOPBase, p: AOPBase, o: AOPBase, @JvmField val 
         var res = HistogramResult()
         res.count = -1
         for (v in getProvidedVariableNames()) {
-            val params = Array(3) {
+            val params = Array<IAOPBase>(3) {
                 var t = children[it]
                 if (t is AOPVariable && t.name != v) {
                     t = AOPVariable(query, "_")
                 }
-                /*return*/t as AOPBase
+                /*return*/t as IAOPBase
             }
             var idx = getIndex(params.map { it }.toTypedArray(), listOf<String>())
-        var store = DistributedTripleStore.getNamedGraph(query, graph)
+            var store = distributedTripleStore.getNamedGraph(query, graph)
             var childHistogram = store.getHistogram(params, idx)
             if (childHistogram.first < res.count || res.count == -1) {
                 res.count = childHistogram.first

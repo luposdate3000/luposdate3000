@@ -32,7 +32,8 @@ import lupos.s04logicalOperators.singleinput.modifiers.LOPDistinct
 import lupos.s04logicalOperators.singleinput.modifiers.LOPSortAny
 import lupos.s09physicalOperators.singleinput.POPSort
 
-abstract class OPBase(@JvmField val query: Query, @JvmField val operatorID: EOperatorID, @JvmField val classname: String, @JvmField val children: Array<OPBase>, val sortPriority: ESortPriority) {
+abstract class OPBase(@JvmField val query: Query, @JvmField val operatorID: EOperatorID, @JvmField val classname: String, @JvmField val children: Array<OPBase>, val sortPriority: ESortPriority) :IOPBase{
+override fun getClassname()=classname
     @JvmField
     var onlyExistenceRequired = false
 
@@ -76,7 +77,7 @@ abstract class OPBase(@JvmField val query: Query, @JvmField val operatorID: EOpe
     }
 
     suspend abstract fun calculateHistogram(): HistogramResult
-    open suspend fun evaluate(parent: Partition): IteratorBundle = throw EvaluateNotImplementedException(classname)
+override    open suspend fun evaluate(parent: Partition): IteratorBundle = throw EvaluateNotImplementedException(classname)
     abstract fun cloneOP(): OPBase
     fun getChildrenCountRecoursive(): Int {
         var res = children.size
@@ -440,7 +441,7 @@ abstract class OPBase(@JvmField val query: Query, @JvmField val operatorID: EOpe
         return "SELECT * WHERE{" + toSparql() + "}"
     }
 
-    open fun toSparql(): String = throw ToSparqlNotImplementedException(classname)
+override    open fun toSparql(): String = throw ToSparqlNotImplementedException(classname)
     open suspend fun toXMLElement(): XMLElement {
         val res = XMLElement(classname)
         try {

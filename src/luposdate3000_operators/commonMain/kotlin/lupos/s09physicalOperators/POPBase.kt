@@ -17,7 +17,7 @@ abstract class POPBase(query: Query,
                        children: Array<OPBase>,
                        sortPriority: ESortPriority
 ) :
-        OPBase(query, operatorID, classname, children, sortPriority) {
+        OPBase(query, operatorID, classname, children, sortPriority) ,IPOPBase{
     open fun getProvidedVariableNamesInternal() = super.getProvidedVariableNames()
     override fun getProvidedVariableNames() = projectedVariables
     override suspend fun toXMLElement(): XMLElement {

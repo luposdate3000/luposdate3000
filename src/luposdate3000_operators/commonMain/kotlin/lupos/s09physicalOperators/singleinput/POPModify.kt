@@ -19,7 +19,7 @@ import lupos.s04logicalOperators.noinput.LOPTriple
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
 import lupos.s09physicalOperators.POPBase
-import lupos.s15tripleStoreDistributed.DistributedTripleStore
+import lupos.s15tripleStoreDistributed.distributedTripleStore
 
 class POPModify(query: Query, projectedVariables: List<String>, insert: List<LOPTriple>, delete: List<LOPTriple>, child: OPBase) : POPBase(query, projectedVariables, EOperatorID.POPModifyID, "POPModify", arrayOf(child), ESortPriority.PREVENT_ANY) {
     override fun getPartitionCount(variable: String): Int {
@@ -162,7 +162,7 @@ class POPModify(query: Query, projectedVariables: List<String>, insert: List<LOP
             child.hasNext2Close()
         }
         for ((graphName, iterator) in data) {
-            val store = DistributedTripleStore.getNamedGraph(query, graphName)
+            val store = distributedTripleStore.getNamedGraph(query, graphName)
             for (type in EModifyType.values()) {
                 if (iterator[type.ordinal][0].size > 0) {
                     store.modify(Array(3) { ColumnIteratorMultiValue(iterator[type.ordinal][it]) }, type)

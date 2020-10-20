@@ -11,15 +11,6 @@ fun XMLElement.Companion.parseFromAny(data: String, filename: String): XMLElemen
         filename.endsWith(".csv") -> {
             return XMLElement.parseFromCsv(data)
         }
-        filename.endsWith(".ttl") -> {
-            return XMLElement.parseFromTtl(data)
-        }
-        filename.endsWith(".nt") -> {
-            return XMLElement.parseFromTtl(data)
-        }
-        filename.endsWith(".n3") -> {
-            return XMLElement.parseFromTtl(data)
-        }
         filename.endsWith(".srj") -> {
             return XMLElement.parseFromJson(data)
         }

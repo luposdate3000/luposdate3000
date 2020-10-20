@@ -8,6 +8,7 @@ import lupos.s00misc.SanityCheck
 import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.ResultSetDictionaryExt
 import lupos.s04arithmetikOperators.AOPBase
+import lupos.s04arithmetikOperators.IAOPBase
 import lupos.s04arithmetikOperators.noinput.AOPConstant
 import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s04logicalOperators.iterator.ColumnIterator
@@ -16,7 +17,7 @@ import lupos.s04logicalOperators.noinput.LOPTriple
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
 import lupos.s09physicalOperators.POPBase
-import lupos.s15tripleStoreDistributed.DistributedTripleStore
+import lupos.s15tripleStoreDistributed.distributedTripleStore
 
 class POPJoinWithStoreExists(query: Query, projectedVariables: List<String>, childA: OPBase, val childB: LOPTriple, @JvmField val optional: Boolean) : POPBase(query, projectedVariables, EOperatorID.POPJoinWithStoreExistsID, "POPJoinWithStoreExists", arrayOf(childA), ESortPriority.SAME_AS_CHILD) {
     override fun getPartitionCount(variable: String): Int = children[0].getPartitionCount(variable)
@@ -34,7 +35,7 @@ class POPJoinWithStoreExists(query: Query, projectedVariables: List<String>, chi
         SanityCheck.check { projectedVariables.size == 0 }
         val childAv = children[0].evaluate(parent)
         val iteratorsHelper = mutableListOf<ColumnIterator>()
-        val params = Array(3) { childB.children[it] as AOPBase }
+        val params = Array<IAOPBase>(3) { childB.children[it] as IAOPBase }
         var res = IteratorBundle(0)
         val mappingHelper = mutableListOf<Int>()
         for (i in 0 until 3) {
@@ -64,7 +65,7 @@ class POPJoinWithStoreExists(query: Query, projectedVariables: List<String>, chi
             }
         }
         if (!done) {
-            val distributedStore = DistributedTripleStore.getNamedGraph(query, childB.graph)
+            val distributedStore = distributedTripleStore.getNamedGraph(query, childB.graph)
             SanityCheck.println({ "opening store for join with store C $uuid" })
             var iteratorB = distributedStore.getIterator(params, index, Partition()).evaluate(parent)
             res = object : IteratorBundle(0) {

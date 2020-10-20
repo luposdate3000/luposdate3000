@@ -10,6 +10,7 @@ import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.ResultSetDictionaryExt
 
 import lupos.s04arithmetikOperators.AOPBase
+import lupos.s04arithmetikOperators.IAOPBase
 import lupos.s04arithmetikOperators.noinput.AOPConstant
 import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s04logicalOperators.iterator.ColumnIterator
@@ -23,7 +24,7 @@ import lupos.s04logicalOperators.noinput.LOPTriple
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
 import lupos.s09physicalOperators.POPBase
-import lupos.s15tripleStoreDistributed.DistributedTripleStore
+import lupos.s15tripleStoreDistributed.distributedTripleStore
 
 class POPJoinWithStore(query: Query, projectedVariables: List<String>, childA: OPBase, val childB: LOPTriple, @JvmField val optional: Boolean) : POPBase(query, projectedVariables, EOperatorID.POPJoinWithStoreID, "POPJoinWithStore", arrayOf(childA), ESortPriority.SAME_AS_CHILD) {
     override fun getPartitionCount(variable: String): Int = children[0].getPartitionCount(variable)
@@ -54,7 +55,7 @@ class POPJoinWithStore(query: Query, projectedVariables: List<String>, childA: O
         val columnsTmp = LOPJoin.getColumns(childA.getProvidedVariableNames(), childB.getProvidedVariableNames())
         var localSortPriority = mutableListOf<String>()
         localSortPriority.addAll(childB.mySortPriority.map { it.variableName })
-        val paramsHelper = Array<OPBase>(3) {
+        val paramsHelper = Array<IOPBase>(3) {
             var tmp = childB.children[it] as AOPBase
             if (tmp is AOPVariable && columnsTmp[0].contains(tmp.name)) {
                 localSortPriority.remove(tmp.name)
@@ -101,11 +102,11 @@ class POPJoinWithStore(query: Query, projectedVariables: List<String>, childA: O
             }
         }
         SanityCheck.check { variablINBO.size > 0 }
-        val distributedStore = DistributedTripleStore.getNamedGraph(query, childB.graph)
+        val distributedStore = distributedTripleStore.getNamedGraph(query, childB.graph)
         val valuesAO = IntArray(columnsINAO.size) { ResultSetDictionaryExt.nullValue }
         val valuesAJ = IntArray(columnsINAJ.size) { ResultSetDictionaryExt.nullValue }
         var count = 0
-        val params = Array<AOPBase>(3) {
+        val params = Array<IAOPBase>(3) {
             if (childB.children[it] is AOPConstant) {
                 count++
             }

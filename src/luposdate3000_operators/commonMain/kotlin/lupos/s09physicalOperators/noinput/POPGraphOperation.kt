@@ -18,8 +18,8 @@ import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
 import lupos.s05tripleStore.PersistentStoreLocalExt
 import lupos.s09physicalOperators.POPBase
-import lupos.s15tripleStoreDistributed.DistributedGraph
-import lupos.s15tripleStoreDistributed.DistributedTripleStore
+import lupos.s15tripleStoreDistributed.IDistributedGraph
+import lupos.s15tripleStoreDistributed.distributedTripleStore
 
 class POPGraphOperation(query: Query,
                         projectedVariables: List<String>,
@@ -109,7 +109,7 @@ class POPGraphOperation(query: Query,
 
     override fun equals(other: Any?) = other is POPGraphOperation && silent == other.silent && graph1iri == other.graph1iri && graph1type == other.graph1type && graph2iri == other.graph2iri && graph2type == other.graph2type && action == other.action
     override fun cloneOP() = POPGraphOperation(query, projectedVariables, silent, graph1type, graph1iri, graph2type, graph2iri, action)
-    suspend fun copyData(source: DistributedGraph, target: DistributedGraph, parent: Partition) {
+    suspend fun copyData(source: IDistributedGraph, target: IDistributedGraph, parent: Partition) {
         val row = source.getIterator(EIndexPattern.SPO, Partition()).evaluate(parent)
         val iterator = arrayOf(row.columns["s"]!!, row.columns["p"]!!, row.columns["o"]!!)
         target.modify(iterator, EModifyType.INSERT)
@@ -121,19 +121,19 @@ class POPGraphOperation(query: Query,
                 EGraphOperationType.CLEAR -> {
                     when (graph1type) {
                         EGraphRefType.AllGraphRef -> {
-                            for (name in DistributedTripleStore.getGraphNames(true)) {
-                                DistributedTripleStore.clearGraph(query, name)
+                            for (name in distributedTripleStore.getGraphNames(true)) {
+                                distributedTripleStore.clearGraph(query, name)
                             }
                         }
                         EGraphRefType.DefaultGraphRef -> {
-                            DistributedTripleStore.clearGraph(query, PersistentStoreLocalExt.defaultGraphName)
+                            distributedTripleStore.clearGraph(query, PersistentStoreLocalExt.defaultGraphName)
                         }
                         EGraphRefType.IriGraphRef -> {
-                            DistributedTripleStore.clearGraph(query, graph1iri!!)
+                            distributedTripleStore.clearGraph(query, graph1iri!!)
                         }
                         EGraphRefType.NamedGraphRef -> {
-                            for (name in DistributedTripleStore.getGraphNames()) {
-                                DistributedTripleStore.clearGraph(query, name)
+                            for (name in distributedTripleStore.getGraphNames()) {
+                                distributedTripleStore.clearGraph(query, name)
                             }
                         }
                     }
@@ -141,20 +141,20 @@ class POPGraphOperation(query: Query,
                 EGraphOperationType.DROP -> {
                     when (graph1type) {
                         EGraphRefType.AllGraphRef -> {
-                            DistributedTripleStore.clearGraph(query, PersistentStoreLocalExt.defaultGraphName)
-                            for (name in DistributedTripleStore.getGraphNames(false)) {
-                                DistributedTripleStore.dropGraph(query, name)
+                            distributedTripleStore.clearGraph(query, PersistentStoreLocalExt.defaultGraphName)
+                            for (name in distributedTripleStore.getGraphNames(false)) {
+                                distributedTripleStore.dropGraph(query, name)
                             }
                         }
                         EGraphRefType.DefaultGraphRef -> {
-                            DistributedTripleStore.clearGraph(query, PersistentStoreLocalExt.defaultGraphName)
+                            distributedTripleStore.clearGraph(query, PersistentStoreLocalExt.defaultGraphName)
                         }
                         EGraphRefType.IriGraphRef -> {
-                            DistributedTripleStore.dropGraph(query, graph1iri!!)
+                            distributedTripleStore.dropGraph(query, graph1iri!!)
                         }
                         EGraphRefType.NamedGraphRef -> {
-                            for (name in DistributedTripleStore.getGraphNames(false)) {
-                                DistributedTripleStore.dropGraph(query, name)
+                            for (name in distributedTripleStore.getGraphNames(false)) {
+                                distributedTripleStore.dropGraph(query, name)
                             }
                         }
                     }
@@ -162,7 +162,7 @@ class POPGraphOperation(query: Query,
                 EGraphOperationType.CREATE -> {
                     when (graph1type) {
                         EGraphRefType.IriGraphRef -> {
-                            DistributedTripleStore.createGraph(query, graph1iri!!)
+                            distributedTripleStore.createGraph(query, graph1iri!!)
                         }
                         else -> {
                             SanityCheck.checkUnreachable()
@@ -171,11 +171,11 @@ class POPGraphOperation(query: Query,
                 }
                 EGraphOperationType.LOAD -> {
                     var fileName = query.workingDirectory + graph1iri
-                    val target: DistributedGraph
+                    val target: IDistributedGraph
                     if (graph2type == EGraphRefType.DefaultGraphRef) {
-                        target = DistributedTripleStore.getDefaultGraph(query)
+                        target = distributedTripleStore.getDefaultGraph(query)
                     } else {
-                        target = DistributedTripleStore.getNamedGraph(query, graph2iri!!)
+                        target = distributedTripleStore.getNamedGraph(query, graph2iri!!)
                     }
                     val xml = XMLElement.parseFromAny(File(fileName).readAsString(), fileName)!!
                     val d = POPValuesImportXML(query, listOf("s", "p", "o"), xml)
@@ -190,9 +190,9 @@ class POPGraphOperation(query: Query,
                                 EGraphRefType.DefaultGraphRef -> {
                                 }
                                 EGraphRefType.IriGraphRef -> {
-                                    val source = DistributedTripleStore.getDefaultGraph(query)
-                                    val target = DistributedTripleStore.getNamedGraph(query, graph2iri!!)
-                                    DistributedTripleStore.clearGraph(query, graph2iri!!)
+                                    val source = distributedTripleStore.getDefaultGraph(query)
+                                    val target = distributedTripleStore.getNamedGraph(query, graph2iri!!)
+                                    distributedTripleStore.clearGraph(query, graph2iri!!)
                                     copyData(source, target, parent)
                                 }
                                 else -> {
@@ -203,16 +203,16 @@ class POPGraphOperation(query: Query,
                         EGraphRefType.IriGraphRef -> {
                             when (graph2type) {
                                 EGraphRefType.DefaultGraphRef -> {
-                                    val source = DistributedTripleStore.getNamedGraph(query, graph1iri!!)
-                                    val target = DistributedTripleStore.getDefaultGraph(query)
-                                    DistributedTripleStore.clearGraph(query, PersistentStoreLocalExt.defaultGraphName)
+                                    val source = distributedTripleStore.getNamedGraph(query, graph1iri!!)
+                                    val target = distributedTripleStore.getDefaultGraph(query)
+                                    distributedTripleStore.clearGraph(query, PersistentStoreLocalExt.defaultGraphName)
                                     copyData(source, target, parent)
                                 }
                                 EGraphRefType.IriGraphRef -> {
                                     if (graph1iri != graph2iri) {
-                                        val source = DistributedTripleStore.getNamedGraph(query, graph1iri!!)
-                                        val target = DistributedTripleStore.getNamedGraph(query, graph2iri!!)
-                                        DistributedTripleStore.clearGraph(query, graph2iri!!)
+                                        val source = distributedTripleStore.getNamedGraph(query, graph1iri!!)
+                                        val target = distributedTripleStore.getNamedGraph(query, graph2iri!!)
+                                        distributedTripleStore.clearGraph(query, graph2iri!!)
                                         copyData(source, target, parent)
                                     }
                                 }
@@ -233,11 +233,11 @@ class POPGraphOperation(query: Query,
                                 EGraphRefType.DefaultGraphRef -> {
                                 }
                                 EGraphRefType.IriGraphRef -> {
-                                    val source = DistributedTripleStore.getDefaultGraph(query)
-                                    val target = DistributedTripleStore.getNamedGraph(query, graph2iri!!)
-                                    DistributedTripleStore.clearGraph(query, graph2iri!!)
+                                    val source = distributedTripleStore.getDefaultGraph(query)
+                                    val target = distributedTripleStore.getNamedGraph(query, graph2iri!!)
+                                    distributedTripleStore.clearGraph(query, graph2iri!!)
                                     copyData(source, target, parent)
-                                    DistributedTripleStore.clearGraph(query, PersistentStoreLocalExt.defaultGraphName)
+                                    distributedTripleStore.clearGraph(query, PersistentStoreLocalExt.defaultGraphName)
                                 }
                                 else -> {
                                     SanityCheck.checkUnreachable()
@@ -247,19 +247,19 @@ class POPGraphOperation(query: Query,
                         EGraphRefType.IriGraphRef -> {
                             when (graph2type) {
                                 EGraphRefType.DefaultGraphRef -> {
-                                    val source = DistributedTripleStore.getNamedGraph(query, graph1iri!!)
-                                    val target = DistributedTripleStore.getDefaultGraph(query)
-                                    DistributedTripleStore.clearGraph(query, PersistentStoreLocalExt.defaultGraphName)
+                                    val source = distributedTripleStore.getNamedGraph(query, graph1iri!!)
+                                    val target = distributedTripleStore.getDefaultGraph(query)
+                                    distributedTripleStore.clearGraph(query, PersistentStoreLocalExt.defaultGraphName)
                                     copyData(source, target, parent)
-                                    DistributedTripleStore.clearGraph(query, graph1iri!!)
+                                    distributedTripleStore.clearGraph(query, graph1iri!!)
                                 }
                                 EGraphRefType.IriGraphRef -> {
                                     if (graph1iri != graph2iri) {
-                                        val source = DistributedTripleStore.getNamedGraph(query, graph1iri!!)
-                                        val target = DistributedTripleStore.getNamedGraph(query, graph2iri!!)
-                                        DistributedTripleStore.clearGraph(query, graph2iri!!)
+                                        val source = distributedTripleStore.getNamedGraph(query, graph1iri!!)
+                                        val target = distributedTripleStore.getNamedGraph(query, graph2iri!!)
+                                        distributedTripleStore.clearGraph(query, graph2iri!!)
                                         copyData(source, target, parent)
-                                        DistributedTripleStore.clearGraph(query, graph1iri!!)
+                                        distributedTripleStore.clearGraph(query, graph1iri!!)
                                     }
                                 }
                                 else -> {
@@ -279,8 +279,8 @@ class POPGraphOperation(query: Query,
                                 EGraphRefType.DefaultGraphRef -> {
                                 }
                                 EGraphRefType.IriGraphRef -> {
-                                    val source = DistributedTripleStore.getDefaultGraph(query)
-                                    val target = DistributedTripleStore.getNamedGraph(query, graph2iri!!)
+                                    val source = distributedTripleStore.getDefaultGraph(query)
+                                    val target = distributedTripleStore.getNamedGraph(query, graph2iri!!)
                                     copyData(source, target, parent)
                                 }
                                 else -> {
@@ -291,14 +291,14 @@ class POPGraphOperation(query: Query,
                         EGraphRefType.IriGraphRef -> {
                             when (graph2type) {
                                 EGraphRefType.DefaultGraphRef -> {
-                                    val source = DistributedTripleStore.getNamedGraph(query, graph1iri!!)
-                                    val target = DistributedTripleStore.getDefaultGraph(query)
+                                    val source = distributedTripleStore.getNamedGraph(query, graph1iri!!)
+                                    val target = distributedTripleStore.getDefaultGraph(query)
                                     copyData(source, target, parent)
                                 }
                                 EGraphRefType.IriGraphRef -> {
                                     if (graph1iri != graph2iri) {
-                                        val source = DistributedTripleStore.getNamedGraph(query, graph1iri!!)
-                                        val target = DistributedTripleStore.getNamedGraph(query, graph2iri!!)
+                                        val source = distributedTripleStore.getNamedGraph(query, graph1iri!!)
+                                        val target = distributedTripleStore.getNamedGraph(query, graph2iri!!)
                                         copyData(source, target, parent)
                                     }
                                 }

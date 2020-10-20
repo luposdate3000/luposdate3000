@@ -17,7 +17,7 @@ abstract class AOPBase(query: Query,
                        operatorID: EOperatorID,
                        classname: String,
                        children: Array<OPBase>) :
-        OPBase(query, operatorID, classname, children, ESortPriority.PREVENT_ANY) {
+        OPBase(query, operatorID, classname, children, ESortPriority.PREVENT_ANY) ,IAOPBase{
     fun evaluateAsBoolean(row: IteratorBundle): () -> Boolean {
         if (enforcesBooleanOrError()) {
             val tmp = evaluateID(row)
