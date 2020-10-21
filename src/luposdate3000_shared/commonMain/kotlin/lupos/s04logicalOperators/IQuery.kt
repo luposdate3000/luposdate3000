@@ -5,4 +5,7 @@ fun getDictionary():IResultSetDictionary
 fun checkVariableExistence():Boolean
 fun getWorkingDirectory():String
 fun setWorkingDirectory(value:String)
+fun reset()
+fun setCommited()
+fun getTransactionID():Long
 }

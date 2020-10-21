@@ -1,9 +1,12 @@
+import lupos.s15tripleStoreDistributed.distributedTripleStore
+import lupos.s15tripleStoreDistributed.DistributedTripleStore
 import lupos.s00misc.BinaryTestCase
 import lupos.s00misc.Parallel
 import lupos.s16network.ServerCommunicationSend
 import lupos.SparqlTestSuite
 
 internal fun main(args: Array<String>): Unit {
+distributedTripleStore=DistributedTripleStore()
  Parallel.runBlocking {
     try {
         ServerCommunicationSend.start()

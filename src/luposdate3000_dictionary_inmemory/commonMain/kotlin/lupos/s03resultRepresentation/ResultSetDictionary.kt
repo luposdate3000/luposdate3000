@@ -730,7 +730,7 @@ override    fun getValue(value: Int): ValueDefinition {
         return res
     }
 
-    fun getValue(value: Int,
+override    fun getValue(value: Int,
                  onBNode: (value: Int) -> Unit,
                  onBoolean: (value: Boolean) -> Unit,
                  onLanguageTaggedLiteral: (content: String, lang: String) -> Unit,

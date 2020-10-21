@@ -2,14 +2,15 @@ package lupos.s08logicalOptimisation
 
 import lupos.s00misc.EOptimizerID
 import lupos.s00misc.SanityCheck
+import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
 
 abstract class OptimizerCompoundBase(query: Query, optimizerID: EOptimizerID) : OptimizerBase(query, optimizerID) {
     override val classname = "OptimizerCompoundBase"
     abstract val childrenOptimizers: Array<Array<OptimizerBase>>
-    override suspend fun optimize(node: OPBase, parent: OPBase?, onChange: () -> Unit) = node
-    override suspend fun optimizeCall(node: OPBase, onChange: () -> Unit): OPBase {
+    override suspend fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit) = node
+    override suspend fun optimizeCall(node: IOPBase, onChange: () -> Unit): IOPBase {
         if (query.filtersMovedUpFromOptionals) {
             node.syntaxVerifyAllVariableExists(listOf(), true)
         }

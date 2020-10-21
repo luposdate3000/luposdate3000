@@ -1,5 +1,5 @@
 package lupos.s08logicalOptimisation
-
+import lupos.s04logicalOperators.IOPBase
 import lupos.s00misc.EOptimizerID
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04arithmetikOperators.multiinput.AOPAnd
@@ -16,7 +16,7 @@ import lupos.s08logicalOptimisation.OptimizerBase
 
 class LogicalOptimizerFilterDown(query: Query) : OptimizerBase(query, EOptimizerID.LogicalOptimizerFilterDownID) {
     override val classname = "LogicalOptimizerFilterDown"
-    override suspend fun optimize(node: OPBase, parent: OPBase?, onChange: () -> Unit): OPBase {
+    override suspend fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
         var res: OPBase = node
         if (node is LOPFilter) {
             var child = node.children[0]

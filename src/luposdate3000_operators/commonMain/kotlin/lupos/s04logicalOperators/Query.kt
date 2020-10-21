@@ -15,7 +15,6 @@ internal    val lock = MyLock()
 }
 
 class Query(@JvmField val dictionary: ResultSetDictionary = ResultSetDictionary(), @JvmField val transactionID: Long = global_transactionID++) :IQuery{
-override fun getDictionary():IResultSetDictionary=dictionary
     @JvmField
     var _workingDirectory = ""
     var filtersMovedUpFromOptionals = false
@@ -37,7 +36,7 @@ internal    val partitions = mutableMapOf<Long, PartitionHelper>()
 
     @JvmField
 internal    val partitionsLock = MyLock()
-
+override fun getTransactionID()=transactionID
 override fun getWorkingDirectory()=_workingDirectory
 	override fun setWorkingDirectory(value:String){
 if (value.endsWith("/")) {
@@ -47,6 +46,8 @@ if (value.endsWith("/")) {
             }
 }
 
+override fun getDictionary():IResultSetDictionary=dictionary
+
 override fun checkVariableExistence()=!dontCheckVariableExistence
 internal inline fun partitionsLockLock(){
 partitionsLock.lock()
@@ -55,7 +56,10 @@ internal inline fun partitionsLockUnLock(){
 partitionsLock.unlock()
 }
 
-internal    inline fun reset() {
+override fun setCommited(){
+commited=true
+}
+override fun reset() {
         partitions.clear()
     }
 

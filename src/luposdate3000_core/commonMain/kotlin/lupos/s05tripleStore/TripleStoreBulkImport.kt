@@ -5,7 +5,7 @@ import lupos.s00misc.EIndexPattern
 import lupos.s04logicalOperators.Query
 import lupos.s15tripleStoreDistributed.distributedTripleStore
 
-class TripleStoreBulkImport(@JvmField val query: Query, @JvmField val graphName: String) {
+class TripleStoreBulkImport(@JvmField val query: Query, @JvmField val graphName: String) :ITripleStoreBulkImport{
     @JvmField
     val dictionaryBNode = mutableMapOf<String,Int>()
 
@@ -35,6 +35,7 @@ class TripleStoreBulkImport(@JvmField val query: Query, @JvmField val graphName:
 
     @JvmField
     var dataOPS = data[0]
+
     suspend fun insert(si: Int, pi: Int, oi: Int) {
         data[8][idx++] = si
         data[8][idx++] = pi

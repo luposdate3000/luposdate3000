@@ -21,7 +21,7 @@ import lupos.s15tripleStoreDistributed.TripleStoreIteratorGlobal
 
 class PhysicalOptimizerPartition(query: Query) : OptimizerBase(query, EOptimizerID.PhysicalOptimizerPartitionID) {
     override val classname = "PhysicalOptimizerPartition"
-    override suspend fun optimize(node: OPBase, parent: OPBase?, onChange: () -> Unit): OPBase {
+    override suspend fun optimize(node: IOPBase, parent: OPBase?, onChange: () -> Unit): IOPBase {
         var res = node
         when (node) {
             is POPProjection -> {

@@ -37,6 +37,7 @@ internal class MyInputStream(@JvmField val stream: InputStream) : IMyInputStream
 
 internal actual class MyDataInputStream(@JvmField val it:DataInputStream){
 actual inline fun readInt():Int=it.readInt()
+actual inline fun readByte():Byte=it.readByte()
 actual inline fun read(buf:ByteArray,off:Int,len:Int):Int=it.read(buf,off,len)
 }
 internal actual class MyDataOutputStream(@JvmField val it:DataOutputStream){

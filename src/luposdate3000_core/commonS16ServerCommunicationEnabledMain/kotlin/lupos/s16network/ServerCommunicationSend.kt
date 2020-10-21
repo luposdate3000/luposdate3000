@@ -31,8 +31,8 @@ object ServerCommunicationSend {
 
     @JvmField
     var myPort = NETWORK_DEFAULT_PORT
-    suspend fun bulkImport(query: Query, graphName: String, action: suspend (TripleStoreBulkImportDistributed) -> Unit) {
-        val bulk = TripleStoreBulkImportDistributed(query, graphName)
+    suspend fun bulkImport(query: IQuery, graphName: String, action: suspend (ITripleStoreBulkImportDistributed) -> Unit) {
+        val bulk = ITripleStoreBulkImportDistributed(query, graphName)
         action(bulk)
         bulk.finishImport()
     }
@@ -63,7 +63,7 @@ object ServerCommunicationSend {
         }
     }
 
-    suspend fun commit(query: Query) {
+    suspend fun commit(query: IQuery) {
         for (host in ServerCommunicationDistribution.knownHosts) {
             val conn = ServerCommunicationConnectionPool.openSocket(host)
             val input = conn.input
@@ -88,7 +88,7 @@ object ServerCommunicationSend {
         }
     }
 
-    suspend fun graphClearAll(query: Query) {
+    suspend fun graphClearAll(query: IQuery) {
         for (host in ServerCommunicationDistribution.knownHosts) {
             val conn = ServerCommunicationConnectionPool.openSocket(host)
             val input = conn.input
@@ -113,7 +113,7 @@ object ServerCommunicationSend {
         }
     }
 
-    suspend fun graphOperation(query: Query, graphName: String, type: EGraphOperationType) {
+    suspend fun graphOperation(query: IQuery, graphName: String, type: EGraphOperationType) {
         for (host in ServerCommunicationDistribution.knownHosts) {
             val conn = ServerCommunicationConnectionPool.openSocket(host)
             val input = conn.input
@@ -148,7 +148,7 @@ object ServerCommunicationSend {
         }
     }
 
-    suspend fun tripleModify(query: Query, graphName: String, data: Array<ColumnIterator>, idx: EIndexPattern, type: EModifyType) {
+    suspend fun tripleModify(query: IQuery, graphName: String, data: Array<ColumnIterator>, idx: EIndexPattern, type: EModifyType) {
         val values = Array(3) { ResultSetDictionary.undefValue }
         val accessedHosts = mutableMapOf<ServerCommunicationKnownHost, ServerCommunicationModifyHelper>()
         loop@ while (true) {
@@ -215,7 +215,7 @@ object ServerCommunicationSend {
         }
     }
 
-    suspend fun tripleGet(query: Query, graphName: String, params: Array<AOPBase>, idx: EIndexPattern): IteratorBundle {
+    suspend fun tripleGet(query: IQuery, graphName: String, params: Array<AOPBase>, idx: EIndexPattern): IteratorBundle {
         val hosts = ServerCommunicationDistribution.getHostForPartialTriple(params, idx)
         var columnsTmp = mutableListOf<String>()
         for (p in params) {
@@ -300,7 +300,7 @@ object ServerCommunicationSend {
 /*Coverage Unreachable*/
     }
 
-    suspend fun histogramGet(query: Query, graphName: String, params: Array<AOPBase>, idx: EIndexPattern): Pair<Int, Int> {
+    suspend fun histogramGet(query: IQuery, graphName: String, params: Array<AOPBase>, idx: EIndexPattern): Pair<Int, Int> {
         val hosts = ServerCommunicationDistribution.getHostForPartialTriple(params, idx)
         var builder = ByteArrayBuilder()
         builder.writeInt(ServerCommunicationHeader.GET_HISTOGRAM.ordinal)

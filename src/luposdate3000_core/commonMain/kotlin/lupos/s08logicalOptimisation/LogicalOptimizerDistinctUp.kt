@@ -1,5 +1,5 @@
 package lupos.s08logicalOptimisation
-
+import lupos.s04logicalOperators.IOPBase
 import lupos.s00misc.EOptimizerID
 import lupos.s04logicalOperators.multiinput.LOPUnion
 import lupos.s04logicalOperators.OPBase
@@ -12,7 +12,7 @@ import lupos.s08logicalOptimisation.OptimizerBase
 
 class LogicalOptimizerDistinctUp(query: Query) : OptimizerBase(query, EOptimizerID.LogicalOptimizerDistinctUpID) {
     override val classname = "LogicalOptimizerDistinctUp"
-    override suspend fun optimize(node: OPBase, parent: OPBase?, onChange: () -> Unit): OPBase {
+    override suspend fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
         var res: OPBase = node
         if (node is LOPDistinct) {
             if (node.children[0] is LOPDistinct) {

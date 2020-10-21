@@ -1,5 +1,5 @@
 package lupos.s08logicalOptimisation
-
+import lupos.s04logicalOperators.IOPBase
 import lupos.s00misc.EOptimizerID
 import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s04logicalOperators.OPBase
@@ -10,7 +10,7 @@ import lupos.s08logicalOptimisation.OptimizerBase
 
 class LogicalOptimizerRemoveBindVariable(query: Query) : OptimizerBase(query, EOptimizerID.LogicalOptimizerRemoveBindVariableID) {
     override val classname = "LogicalOptimizerRemoveBindVariable"
-    override suspend fun optimize(node: OPBase, parent: OPBase?, onChange: () -> Unit): OPBase {
+    override suspend fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
         var res = node
         if (node is LOPProjection) {
             val child = node.children[0]

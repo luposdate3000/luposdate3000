@@ -1,5 +1,5 @@
 package lupos.s08logicalOptimisation
-
+import lupos.s04logicalOperators.IOPBase
 import lupos.s00misc.Coverage
 import lupos.s00misc.HistogramNotImplementedException
 import lupos.s00misc.SanityCheck

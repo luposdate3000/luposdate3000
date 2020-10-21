@@ -1,3 +1,5 @@
+import lupos.s15tripleStoreDistributed.distributedTripleStore
+import lupos.s15tripleStoreDistributed.DistributedTripleStore
 import lupos.s00misc.DateHelper
 import lupos.s00misc.DateHelperRelative
 import lupos.s00misc.File
@@ -18,6 +20,7 @@ fun printBenchmarkLine(title: String, time: Double, count: Int, numberOfTriples:
 
 @UseExperimental(ExperimentalStdlibApi::class, kotlin.time.ExperimentalTime::class)
 fun main(args: Array<String>) = Parallel.runBlocking {
+distributedTripleStore=DistributedTripleStore()
     ServerCommunicationSend.start()
     val datasourceType = Datasource.valueOf(args[0])
     val persistenceFolder = args[1]

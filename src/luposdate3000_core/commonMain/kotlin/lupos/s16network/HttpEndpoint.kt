@@ -339,7 +339,7 @@ internal    suspend fun evaluate_sparql_query_string_part2(node: OPBase, output:
         node.query.reset()
         QueryResultToStream(node, output)
 distributedTripleStore.commit(node.query)
-node.query.commited=true
+node.query.setCommited()
 //println("timer #407 ${DateHelperRelative.elapsedSeconds(timer)}")
     }
 

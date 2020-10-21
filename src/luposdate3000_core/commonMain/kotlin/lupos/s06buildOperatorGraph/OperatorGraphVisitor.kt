@@ -550,7 +550,7 @@ class OperatorGraphVisitor(@JvmField val query: Query) : Visitor<OPBase> {
             val datasets = mutableMapOf<String, OPBase>()
             for (d in node.datasets) {
                 try {
-                    val data = POPValuesImportXML(query, listOf("s", "p", "o"), XMLElement.parseFromAny(File(query.workingDirectory + d.source_iri).readAsString(), d.source_iri)!!)
+                    val data = POPValuesImportXML(query, listOf("s", "p", "o"), XMLElement.parseFromAny(File(query.getWorkingDirectory() + d.source_iri).readAsString(), d.source_iri)!!)
                     when (d) {
                         is ASTDefaultGraph -> {
                             datasets[PersistentStoreLocalExt.defaultGraphName] = data
@@ -560,7 +560,7 @@ class OperatorGraphVisitor(@JvmField val query: Query) : Visitor<OPBase> {
                         }
                     }
                 } catch (e: Throwable) {
-                    throw  DatasetImportFailedException(query.workingDirectory + d.source_iri)
+                    throw  DatasetImportFailedException(query.getWorkingDirectory() + d.source_iri)
                 }
             }
             return applyDatasets(result, datasets)
@@ -1581,7 +1581,7 @@ return tmp
         return res
     }
 
-    fun joinToList(node: OPBase): List<OPBase> {
+    fun joinToList(node: IOPBase): List<IOPBase> {
         if (node is LOPJoin) {
             val res = mutableListOf<OPBase>()
             res.addAll(joinToList(node.children[0]))

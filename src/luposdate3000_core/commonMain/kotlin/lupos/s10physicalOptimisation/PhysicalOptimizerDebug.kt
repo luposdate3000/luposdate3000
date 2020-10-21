@@ -2,6 +2,7 @@ package lupos.s10physicalOptimisation
 
 import lupos.s00misc.EOptimizerID
 import lupos.s00misc.SanityCheck
+import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.OPBaseCompound
 import lupos.s04logicalOperators.Query
@@ -13,7 +14,7 @@ import lupos.s09physicalOperators.singleinput.POPProjection
 
 class PhysicalOptimizerDebug(query: Query) : OptimizerBase(query, EOptimizerID.PhysicalOptimizerDebugID) {
     override val classname = "PhysicalOptimizerDebug"
-    override suspend fun optimize(node: OPBase, parent: OPBase?, onChange: () -> Unit): OPBase {
+    override suspend fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
         var res = node
         var change = true
         var projectedVariables = listOf<String>()

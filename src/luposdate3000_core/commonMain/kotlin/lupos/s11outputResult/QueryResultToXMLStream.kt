@@ -7,16 +7,18 @@ import lupos.s00misc.ParallelJob
 import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
 import lupos.s03resultRepresentation.ResultSetDictionaryExt
-import lupos.s03resultRepresentation.ResultSetDictionary
+import lupos.s03resultRepresentation.IResultSetDictionary
 import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s04logicalOperators.OPBase
+import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.OPBaseCompound
 import lupos.s04logicalOperators.Query
+import lupos.s04logicalOperators.IQuery
 import lupos.s09physicalOperators.partition.POPMergePartition
 
 internal object QueryResultToXMLStream {
-    suspend fun writeValue(valueID: Int, columnName: String, dictionary: ResultSetDictionary, output: MyPrintWriter) {
+    suspend fun writeValue(valueID: Int, columnName: String, dictionary: IResultSetDictionary, output: MyPrintWriter) {
         dictionary.getValue(valueID, { value ->
             output.print("   <binding name=\"")
             output.print(columnName)
@@ -85,7 +87,7 @@ internal object QueryResultToXMLStream {
         )
     }
 
-    suspend fun writeRow(variables: Array<String>, rowBuf: IntArray, dictionary: ResultSetDictionary, output: MyPrintWriter) {
+    suspend fun writeRow(variables: Array<String>, rowBuf: IntArray, dictionary: IResultSetDictionary, output: MyPrintWriter) {
         output.print("  <result>\n")
         for (variableIndex in 0 until variables.size) {
             writeValue(rowBuf[variableIndex], variables[variableIndex], dictionary, output)
@@ -93,7 +95,7 @@ internal object QueryResultToXMLStream {
         output.print("  </result>\n")
     }
 
-    inline suspend fun writeAllRows(variables: Array<String>, columns: Array<ColumnIterator>, dictionary: ResultSetDictionary, lock: MyLock?, output: MyPrintWriter) {
+    inline suspend fun writeAllRows(variables: Array<String>, columns: Array<ColumnIterator>, dictionary: IResultSetDictionary, lock: MyLock?, output: MyPrintWriter) {
         val rowBuf = IntArray(variables.size)
         val resultWriter = MyPrintWriter()
         loop@ while (true) {
@@ -115,7 +117,7 @@ internal object QueryResultToXMLStream {
         }
     }
 
-    suspend fun writeNodeResult(variables: Array<String>, node: OPBase, output: MyPrintWriter, parent: Partition = Partition()) {
+    suspend fun writeNodeResult(variables: Array<String>, node: IOPBase, output: MyPrintWriter, parent: Partition = Partition()) {
         if (node is POPMergePartition && node.partitionCount > 1) {
             val jobs = Array<ParallelJob?>(node.partitionCount) { null }
             val lock = MyLock()

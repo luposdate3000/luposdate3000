@@ -1,3 +1,5 @@
+import lupos.s15tripleStoreDistributed.distributedTripleStore
+import lupos.s15tripleStoreDistributed.DistributedTripleStore
 import lupos.s00misc.ETripleComponentType
 import lupos.s00misc.File
 import lupos.s00misc.Parallel
@@ -27,6 +29,7 @@ fun helper_clean_string(s: String): String {
 
 @UseExperimental(ExperimentalStdlibApi::class, kotlin.time.ExperimentalTime::class)
 fun main(args: Array<String>) = Parallel.runBlocking {
+distributedTripleStore=DistributedTripleStore()
     var mode = ImportMode.valueOf(args[0])
     when (mode) {
         ImportMode.IMPORT_STRING -> {
