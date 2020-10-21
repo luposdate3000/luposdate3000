@@ -1,4 +1,4 @@
 package lupos.s00misc
-expect object IntegerExt{
-fun numberOfLeadingZeros(value:Int):Int
+internal expect object IntegerExt{
+inline fun numberOfLeadingZeros(value:Int):Int
 }

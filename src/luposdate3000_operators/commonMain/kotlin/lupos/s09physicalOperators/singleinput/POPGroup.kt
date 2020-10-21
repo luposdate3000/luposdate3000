@@ -163,7 +163,7 @@ class POPGroup : POPBase {
         return res
     }
 
-    class MapKey(@JvmField val data: IntArray) {
+internal     class MapKey(@JvmField val data: IntArray) {
         override fun hashCode(): Int {
             var res = 0
             for (i in 0 until data.size) {
@@ -175,7 +175,7 @@ class POPGroup : POPBase {
         override fun equals(other: Any?) = other is MapKey && data.contentEquals(other.data)
     }
 
-    class MapRow(val iterators: IteratorBundle, val aggregates: Array<ColumnIteratorAggregate>, val columns: Array<ColumnIteratorQueue>)
+internal     class MapRow(val iterators: IteratorBundle, val aggregates: Array<ColumnIteratorAggregate>, val columns: Array<ColumnIteratorQueue>)
 
     override suspend fun evaluate(parent: Partition): IteratorBundle {
         val localVariables = children[0].getProvidedVariableNames()

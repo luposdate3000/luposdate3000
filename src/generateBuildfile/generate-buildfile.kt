@@ -544,8 +544,8 @@ ChooseableOptionSymbolic("Heap", "commonS01HeapMain") to listOf(
 ),
                     ChooseableOption("commonMain") to listOf(
                             ChooseableOptionDependency("luposdate3000:Luposdate3000_Parser:0.0.1"),
-                            ChooseableOptionDependency("luposdate3000:Luposdate3000_Value_Definition:0.0.1"),
                             ChooseableOptionDependency("luposdate3000:Luposdate3000_Shared:0.0.1"),
+                            ChooseableOptionDependency("luposdate3000:Luposdate3000_Operators:0.0.1"),
                             ChooseableOptionDependency("org.jetbrains.kotlin:kotlin-stdlib-common:$kotlinVersion"),
                             ChooseableOptionDependency("org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"),
                             ChooseableOptionDependency("com.benasher44:uuid:0.0.7"),

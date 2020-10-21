@@ -4,10 +4,8 @@ package lupos.s04arithmetikOperators.multiinput
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.EvaluationException
 import lupos.s00misc.MyBigDecimal
+import lupos.s00misc.MyBigInteger
 import lupos.s00misc.SanityCheck
-import lupos.s03resultRepresentation.decimalZero
-import lupos.s03resultRepresentation.integerZero
-
 import lupos.s03resultRepresentation.ValueDecimal
 import lupos.s03resultRepresentation.ValueDefinition
 import lupos.s03resultRepresentation.ValueDouble
@@ -41,12 +39,12 @@ class AOPDivision(query: Query, childA: AOPBase, childB: AOPBase) : AOPBinaryOpe
                     }
                 }
                 if (a is ValueDecimal || b is ValueDecimal) {
-                    if (b.toDecimal() != decimalZero) {
+                    if (b.toDecimal() != MyBigDecimal("0.0")) {
                         res = ValueDecimal(a.toDecimal() / b.toDecimal())
                     }
                 }
                 if (a is ValueInteger || b is ValueInteger) {
-                    if (b.toInt() != integerZero) {
+                    if (b.toInt() != MyBigInteger("0")) {
                         res = ValueDecimal(a.toDecimal() / b.toDecimal())
                     }
                 }

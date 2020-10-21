@@ -14,7 +14,7 @@ class AOPAnd(query: Query, childA: AOPBase, childB: AOPBase) : AOPBase(query, EO
     override fun toSparql() = "(" + children[0].toSparql() + " && " + children[1].toSparql() + ")"
     override fun equals(other: Any?) = other is AOPAnd && children[0] == other.children[0] && children[1] == other.children[1]
 
-    companion object {
+internal    companion object {
         val truthTable = arrayOf(
                 ResultSetDictionaryExt.booleanTrueValue,//T,T
                 ResultSetDictionaryExt.booleanFalseValue,//T,F

@@ -37,7 +37,7 @@ class POPJoinMerge(query: Query, projectedVariables: List<String>, childA: OPBas
     override suspend fun toXMLElement() = super.toXMLElement().addAttribute("optional", "" + optional)
     override fun cloneOP() = POPJoinMerge(query, projectedVariables, children[0].cloneOP(), children[1].cloneOP(), optional)
     override fun equals(other: Any?) = other is POPJoinMerge && optional == other.optional && children[0] == other.children[0] && children[1] == other.children[1]
-    class IteratorBundleImpl(@JvmField val columnsINJ0: List<ColumnIterator>, @JvmField val columnsINJ1: List<ColumnIterator>, @JvmField val columnsOUTJ: ColumnIteratorChildIterator) : IteratorBundle(0) {
+internal    class IteratorBundleImpl(@JvmField val columnsINJ0: List<ColumnIterator>, @JvmField val columnsINJ1: List<ColumnIterator>, @JvmField val columnsOUTJ: ColumnIteratorChildIterator) : IteratorBundle(0) {
         override suspend fun hasNext2(): Boolean {
             val tmp = columnsOUTJ.next() != ResultSetDictionaryExt.nullValue
             if (!tmp) {
@@ -66,7 +66,7 @@ class POPJoinMerge(query: Query, projectedVariables: List<String>, childA: OPBas
         }
     }
 
-    class ColumnIteratorChildIteratorImpl(
+internal    class ColumnIteratorChildIteratorImpl(
             @JvmField val columnsINJ0: List<ColumnIterator>,
             @JvmField val columnsINJ1: List<ColumnIterator>,
             @JvmField val columnsINO0: List<ColumnIterator>,

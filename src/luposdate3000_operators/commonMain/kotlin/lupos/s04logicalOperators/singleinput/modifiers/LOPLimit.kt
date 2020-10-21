@@ -20,11 +20,11 @@ class LOPLimit(query: Query, @JvmField val limit: Int, child: OPBase = OPEmptyRo
         if (res.count > limit) {
             res.count = limit
             var scale = limit.toDouble() / res.count.toDouble()
-            childHistogram.values.forEach { k, v ->
+for((k,v) in            childHistogram.values){
                 res.values[k] = (v.toDouble() * scale).toInt()
             }
         } else {
-            childHistogram.values.forEach { k, v ->
+for((k,v) in             childHistogram.values){
                 res.values[k] = v
             }
         }

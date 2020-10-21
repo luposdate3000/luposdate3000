@@ -14,7 +14,7 @@ class AOPOr(query: Query, childA: AOPBase, childB: AOPBase) : AOPBase(query, EOp
     override fun toSparql() = "(" + children[0].toSparql() + " || " + children[1].toSparql() + ")"
     override fun equals(other: Any?) = other is AOPOr && children[0] == other.children[0] && children[1] == other.children[1]
 
-    companion object {
+internal    companion object {
         val truthTable = arrayOf(
                 ResultSetDictionaryExt.booleanTrueValue,//T,T
                 ResultSetDictionaryExt.booleanTrueValue,//T,F

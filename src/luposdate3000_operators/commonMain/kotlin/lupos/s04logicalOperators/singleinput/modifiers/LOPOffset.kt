@@ -19,11 +19,11 @@ class LOPOffset(query: Query, @JvmField val offset: Int, child: OPBase = OPEmpty
         res.count = childHistogram.count - offset
         if (res.count < 0) {
             res.count = 0
-            childHistogram.values.forEach { k, v ->
+for((k,v) in            childHistogram.values){
                 res.values[k] = 0
             }
         } else {
-            childHistogram.values.forEach { k, v ->
+for((k,v) in            childHistogram.values){
                 if (v > childHistogram.count - offset) {
                     res.values[k] = childHistogram.count - offset
                 } else {

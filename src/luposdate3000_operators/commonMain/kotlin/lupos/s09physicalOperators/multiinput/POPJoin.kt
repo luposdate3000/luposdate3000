@@ -10,7 +10,7 @@ import lupos.s04logicalOperators.iterator.ColumnIteratorRepeatIterator
 import lupos.s04logicalOperators.iterator.ColumnIteratorRepeatValue
 import lupos.s04logicalOperators.iterator.ColumnIteratorValue
 
-object POPJoin {
+internal object POPJoin {
     fun crossProduct(dataO0: Array<MutableList<Int>>, dataO1: Array<MutableList<Int>>, dataJ: IntArray, outO0: List<ColumnIteratorChildIterator>, outO1: List<ColumnIteratorChildIterator>, outJ: List<ColumnIteratorChildIterator>, countA: Int, countB: Int) {
         /*result ordered by first child*/
         val count = countA * countB

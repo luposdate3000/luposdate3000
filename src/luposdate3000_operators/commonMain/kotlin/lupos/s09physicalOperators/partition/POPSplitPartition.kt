@@ -62,7 +62,7 @@ import lupos.s09physicalOperators.POPBase
             val childPartition = Partition(parent, partitionVariable)
             var partitionHelper: PartitionHelper?
             partitionHelper = query.getPartitionHelper(uuid)
-            SanityCheck.println { "lock(${partitionHelper.lock.uuid}) x178" }
+            SanityCheck.println { "lock(${partitionHelper.lock.getUUID()}) x178" }
             partitionHelper.lock.lock()
             if (partitionHelper.iterators != null) {
                 iterators = partitionHelper.iterators!![childPartition]
@@ -233,7 +233,7 @@ import lupos.s09physicalOperators.POPBase
                     partitionHelper.jobs!![childPartition] = job
                 }
             }
-            SanityCheck.println { "unlock(${partitionHelper.lock.uuid}) x191" }
+            SanityCheck.println { "unlock(${partitionHelper.lock.getUUID()}) x191" }
             partitionHelper.lock.unlock()
             return iterators!![parent.data[partitionVariable]!!]
         }

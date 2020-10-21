@@ -42,7 +42,7 @@ class POPJoinHashMap(query: Query, projectedVariables: List<String>, childA: OPB
     }
 
     override fun equals(other: Any?) = other is POPJoinHashMap && optional == other.optional && children[0] == other.children[0] && children[1] == other.children[1]
-    class MapKey(@JvmField val data: IntArray) {
+internal    class MapKey(@JvmField val data: IntArray) {
         override fun hashCode(): Int {
             var res = 0
             for (i in 0 until data.size) {
@@ -63,7 +63,7 @@ class POPJoinHashMap(query: Query, projectedVariables: List<String>, childA: OPB
         }
     }
 
-    class MapRow(columns: Int) {
+internal    class MapRow(columns: Int) {
         val columns = Array(columns) { mutableListOf<Int>() }
         var count = 0
     }

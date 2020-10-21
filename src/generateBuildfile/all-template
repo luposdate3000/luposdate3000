@@ -6,7 +6,6 @@ Launch->BenchmarkJena
 Launch->Import
 Sanity->On
 Sanity->Off
-Parallel->Coroutines
 Parallel->Threads
 BufferManager->Heap
 Dictionary->Inmemory

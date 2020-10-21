@@ -23,7 +23,7 @@ class LOPBind(query: Query, @JvmField val name: AOPVariable, expression: AOPBase
         var childHistogram = children[0].getHistogram()
         var distinct = 1
         var requiredVariables = getRequiredVariableNames()
-        childHistogram.values.forEach { k, v ->
+for((k,v) in        childHistogram.values){
             res.values[k] = v
             if (requiredVariables.contains(k)) {
                 distinct *= v

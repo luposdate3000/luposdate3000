@@ -83,7 +83,7 @@ internal    inline suspend fun getPartitionHelper(uuid: Long): PartitionHelper {
     inline fun getUniqueVariableName() = "#+${generatedNameCounter++}"
     inline fun isGeneratedVariableName(name: String) = name.startsWith('#')
 
-    companion object {
+internal    companion object {
       @JvmField  internal  var global_transactionID = 0L
     }
 

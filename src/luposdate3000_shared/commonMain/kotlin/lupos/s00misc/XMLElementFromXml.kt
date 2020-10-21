@@ -4,7 +4,7 @@ fun XMLElement.Companion.parseFromXml(xml: String): XMLElement? {
     return XMLElement.parseFromXmlHelper(xml)?.first()
 }
 
-fun XMLElement.Companion.parseFromXmlHelper(xml: String): List<XMLElement>? {
+internal fun XMLElement.Companion.parseFromXmlHelper(xml: String): List<XMLElement>? {
     val x = xml.replace("\n", "").replace("\r", "")
     val res = mutableListOf<XMLElement>()
     var lastindex = 0

@@ -83,7 +83,6 @@ class AOPAggregationAVG(query: Query, @JvmField val distinct: Boolean, childs: A
                 res = ValueFloat(tmp1.toDouble() / tmp.count)
             } else if (tmp1 is ValueDecimal) {
                 res = ValueDecimal(tmp1.value / MyBigDecimal(tmp.count))
-                SanityCheck.println({ "AOPAggregationAVG C ${tmp1.value.toString()} / ${tmp.count.toBigDecimal().toString()} = ${(res as ValueDecimal).value.toString()}" })
             } else {
                 res = ValueError()
             }

@@ -32,17 +32,3 @@ class AOPBuildInCallMD5(query: Query, child: AOPBase) : AOPBase(query, EOperator
 
     override fun cloneOP() = AOPBuildInCallMD5(query, children[0].cloneOP() as AOPBase)
 }
-
-@UseExperimental(ExperimentalStdlibApi::class)
-fun ByteArray.toHexString1(): String {
-    val sb = StringBuilder()
-    for (b in this) {
-        val tmp = (b + 256) % 256
-        if (tmp == 0) {
-            sb.append("00")
-        } else {
-            sb.append(tmp.toString(16).padStart(2, '0'))
-        }
-    }
-    return sb.toString()
-}
