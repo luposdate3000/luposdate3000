@@ -1,5 +1,5 @@
 package lupos.s04arithmetikOperators.multiinput
-
+import lupos.s04logicalOperators.IQuery
 
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.Luposdate3000Exception
@@ -10,9 +10,10 @@ import lupos.s03resultRepresentation.ValueDefinition
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.OPBase
+import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.Query
 
-class AOPNEQ(query: Query, childA: AOPBase, childB: AOPBase) : AOPBinaryOperationFixedName(query, EOperatorID.AOPNEQID, "AOPNEQ", arrayOf(childA, childB)) {
+class AOPNEQ(query: IQuery, childA: AOPBase, childB: AOPBase) : AOPBinaryOperationFixedName(query, EOperatorID.AOPNEQID, "AOPNEQ", arrayOf(childA, childB)) {
     override fun toSparql() = "(" + children[0].toSparql() + " != " + children[1].toSparql() + ")"
     override fun equals(other: Any?) = other is AOPNEQ && children[0] == other.children[0] && children[1] == other.children[1]
     override fun evaluate(row: IteratorBundle): () -> ValueDefinition {
@@ -26,8 +27,8 @@ class AOPNEQ(query: Query, childA: AOPBase, childB: AOPBase) : AOPBinaryOperatio
                 if (ResultSetDictionary.isGlobalBNode(a1) || ResultSetDictionary.isGlobalBNode(b1)) {
                     res = ResultSetDictionaryExt.booleanTrueValue2
                 } else {
-                    val a = query.dictionary.getValue(a1)
-                    val b = query.dictionary.getValue(b1)
+                    val a = query.getDictionary().getValue(a1)
+                    val b = query.getDictionary().getValue(b1)
                     try {
                         if (a != b) {
                             res = ResultSetDictionaryExt.booleanTrueValue2

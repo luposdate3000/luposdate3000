@@ -1,5 +1,5 @@
 package lupos.s04arithmetikOperators.singleinput
-
+import lupos.s04logicalOperators.IQuery
 import kotlin.math.roundToInt
 
 import lupos.s00misc.EOperatorID
@@ -15,9 +15,10 @@ import lupos.s03resultRepresentation.ValueInteger
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.OPBase
+import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.Query
 
-class AOPBuildInCallROUND(query: Query, child: AOPBase) : AOPBase(query, EOperatorID.AOPBuildInCallROUNDID, "AOPBuildInCallROUND", arrayOf(child)) {
+class AOPBuildInCallROUND(query: IQuery, child: AOPBase) : AOPBase(query, EOperatorID.AOPBuildInCallROUNDID, "AOPBuildInCallROUND", arrayOf(child)) {
     override fun toSparql() = "ROUND(" + children[0].toSparql() + ")"
     override fun equals(other: Any?) = other is AOPBuildInCallROUND && children[0] == other.children[0]
     override fun evaluate(row: IteratorBundle): () -> ValueDefinition {

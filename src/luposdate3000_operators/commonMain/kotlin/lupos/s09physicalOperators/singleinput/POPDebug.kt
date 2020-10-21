@@ -1,5 +1,5 @@
 package lupos.s09physicalOperators.singleinput
-
+import lupos.s04logicalOperators.IQuery
 import kotlin.jvm.JvmField
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.EPOPDebugMode
@@ -13,31 +13,32 @@ import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.iterator.RowIterator
 import lupos.s04logicalOperators.OPBase
+import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.Query
 import lupos.s09physicalOperators.POPBase
 
-class POPDebug(query: Query, projectedVariables: List<String>, child: OPBase) : POPBase(query, projectedVariables, EOperatorID.POPDebugID, "POPDebug", arrayOf(child), ESortPriority.SAME_AS_CHILD) {
-    override fun getPartitionCount(variable: String): Int = children[0].getPartitionCount(variable)
-    override fun equals(other: Any?): Boolean = other is POPDebug && children[0] == other.children[0]
-    override fun cloneOP() :IOPBase= POPDebug(query, projectedVariables, children[0].cloneOP())
+class POPDebug(query: IQuery, projectedVariables: List<String>, child: IOPBase) : POPBase(query, projectedVariables, EOperatorID.POPDebugID, "POPDebug", arrayOf(child), ESortPriority.SAME_AS_CHILD) {
+    override fun getPartitionCount(variable: String): Int = getChildren()[0].getPartitionCount(variable)
+    override fun equals(other: Any?): Boolean = other is POPDebug && getChildren()[0] == other.getChildren()[0]
+    override fun cloneOP() :IOPBase= POPDebug(query, projectedVariables, getChildren()[0].cloneOP())
     override fun getRequiredVariableNames(): List<String> = listOf<String>()
-    override fun getProvidedVariableNames(): List<String> = children[0].getProvidedVariableNames()
-    override fun getProvidedVariableNamesInternal(): List<String> = (children[0] as POPBase).getProvidedVariableNamesInternal()
-    override fun toSparql(): String = children[0].toSparql()
+    override fun getProvidedVariableNames(): List<String> = getChildren()[0].getProvidedVariableNames()
+    override fun getProvidedVariableNamesInternal(): List<String> = (getChildren()[0] as POPBase).getProvidedVariableNamesInternal()
+    override fun toSparql(): String = getChildren()[0].toSparql()
     override suspend fun evaluate(parent: Partition): IteratorBundle {
-        val child = children[0].evaluate(parent)
+        val child = getChildren()[0].evaluate(parent)
         when (ITERATOR_DEBUG_MODE) {
             EPOPDebugMode.NONE -> {
                 return child
             }
             EPOPDebugMode.DEBUG1 -> {
-                val target = children[0].getProvidedVariableNames()
-                SanityCheck.println({ "POPDebug-child-mode ... ${uuid} ${children[0].uuid}" })
+                val target = getChildren()[0].getProvidedVariableNames()
+                SanityCheck.println({ "POPDebug-child-mode ... ${uuid} ${getChildren()[0].getUUID()}" })
                 if (child.hasColumnMode()) {
                     try {
                         child.columns
                     } catch (e: Throwable) {
-                        println("debugchildclassname::" + children[0].classname)
+                        println("debugchildclassname::" + getChildren()[0].getClassname())
                         throw e
                     }
                     val columnMode = mutableListOf<String>()
@@ -54,13 +55,13 @@ class POPDebug(query: Query, projectedVariables: List<String>, child: OPBase) : 
                 return child
             }
             EPOPDebugMode.DEBUG2 -> {
-                val target = children[0].getProvidedVariableNames()
-                SanityCheck.println({ "POPDebug-child-mode ... ${uuid} ${children[0].uuid}" })
+                val target = getChildren()[0].getProvidedVariableNames()
+                SanityCheck.println({ "POPDebug-child-mode ... ${uuid} ${getChildren()[0].getUUID()}" })
                 if (child.hasColumnMode()) {
                     try {
                         child.columns
                     } catch (e: Throwable) {
-                        println("debugchildclassname2::" + children[0].classname)
+                        println("debugchildclassname2::" + getChildren()[0].getClassname())
                         throw e
                     }
                     val outMap = mutableMapOf<String, ColumnIterator>()

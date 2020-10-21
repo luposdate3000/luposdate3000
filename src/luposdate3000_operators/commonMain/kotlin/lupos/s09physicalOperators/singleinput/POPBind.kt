@@ -1,5 +1,5 @@
 package lupos.s09physicalOperators.singleinput
-
+import lupos.s04logicalOperators.IQuery
 import kotlin.jvm.JvmField
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.ESortPriority
@@ -20,10 +20,11 @@ import lupos.s04logicalOperators.iterator.ColumnIteratorQueueEmpty
 import lupos.s04logicalOperators.iterator.ColumnIteratorRepeatValue
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.OPBase
+import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.Query
 import lupos.s09physicalOperators.POPBase
 
-class POPBind(query: Query, projectedVariables: List<String>, @JvmField val name: AOPVariable, value: AOPBase, child: OPBase) : POPBase(query, projectedVariables, EOperatorID.POPBindID, "POPBind", arrayOf(child, value), ESortPriority.BIND) {
+class POPBind(query: IQuery, projectedVariables: List<String>, @JvmField val name: AOPVariable, value: AOPBase, child: IOPBase) : POPBase(query, projectedVariables, EOperatorID.POPBindID, "POPBind", arrayOf(child, value), ESortPriority.BIND) {
     override fun getPartitionCount(variable: String): Int {
         if (variable == name.name) {
             return 1
@@ -62,7 +63,7 @@ class POPBind(query: Query, projectedVariables: List<String>, @JvmField val name
         var expression: () -> ValueDefinition = { ValueError() }
         val columnsOut = Array<ColumnIteratorQueue>(variablesOut.size) { ColumnIteratorQueueEmpty() }
         if (variablesLocal.size == 1 && children[0].getProvidedVariableNames().size == 0) {
-            outMap[name.name] = ColumnIteratorRepeatValue(child.count(), query.dictionary.createValue(expression()))
+            outMap[name.name] = ColumnIteratorRepeatValue(child.count(), query.getDictionary().createValue(expression()))
         } else {
             var boundIndex = -1
             for (variableIndex in 0 until variablesLocal.size) {
@@ -102,7 +103,7 @@ ColumnIteratorQueueExt.                        _close(this)
                                 }
                             }
                             if (!done) {
-                                columnsLocal[boundIndex].tmp = query.dictionary.createValue(expression())
+                                columnsLocal[boundIndex].tmp = query.getDictionary().createValue(expression())
                                 for (variableIndex2 in 0 until columnsOut.size) {
                                     columnsOut[variableIndex2].queue.add(columnsOut[variableIndex2].tmp)
                                 }

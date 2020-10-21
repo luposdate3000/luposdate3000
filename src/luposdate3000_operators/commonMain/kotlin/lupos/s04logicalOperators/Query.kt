@@ -8,25 +8,16 @@ import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s03resultRepresentation.IResultSetDictionary
 import lupos.s04logicalOperators.iterator.IteratorBundle
 
-internal class PartitionHelper() {
+ class PartitionHelper() {
     var iterators: MutableMap<Partition, Array<IteratorBundle>>? = null
-    var jobs: MutableMap<Partition, ParallelJob>? = null
-    val lock = MyLock()
+internal    var jobs: MutableMap<Partition, ParallelJob>? = null
+internal    val lock = MyLock()
 }
 
 class Query(@JvmField val dictionary: ResultSetDictionary = ResultSetDictionary(), @JvmField val transactionID: Long = global_transactionID++) :IQuery{
 override fun getDictionary():IResultSetDictionary=dictionary
     @JvmField
     var _workingDirectory = ""
-    var workingDirectory: String
-        set(value) {
-            if (value.endsWith("/")) {
-                _workingDirectory = value
-            } else {
-                _workingDirectory = value + "/"
-            }
-        }
-        get() = _workingDirectory
     var filtersMovedUpFromOptionals = false
 
     @JvmField
@@ -46,6 +37,17 @@ internal    val partitions = mutableMapOf<Long, PartitionHelper>()
 
     @JvmField
 internal    val partitionsLock = MyLock()
+
+override fun getWorkingDirectory()=_workingDirectory
+	override fun setWorkingDirectory(value:String){
+if (value.endsWith("/")) {
+                _workingDirectory = value
+            } else {
+                _workingDirectory = value + "/"
+            }
+}
+
+override fun checkVariableExistence()=!dontCheckVariableExistence
 internal inline fun partitionsLockLock(){
 partitionsLock.lock()
 }
@@ -57,7 +59,7 @@ internal    inline fun reset() {
         partitions.clear()
     }
 
-internal    inline suspend fun getPartitionHelper(uuid: Long): PartitionHelper {
+    inline suspend fun getPartitionHelper(uuid: Long): PartitionHelper {
         var res: PartitionHelper? = null
         partitionsLock.withLock {
             res = partitions[uuid]

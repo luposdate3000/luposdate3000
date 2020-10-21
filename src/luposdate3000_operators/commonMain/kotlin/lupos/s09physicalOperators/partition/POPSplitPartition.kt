@@ -1,5 +1,5 @@
 package lupos.s09physicalOperators.partition
-
+import lupos.s04logicalOperators.IQuery
 import kotlin.coroutines.Continuation
 import lupos.s00misc.BugException
 import lupos.s00misc.EOperatorID
@@ -17,11 +17,12 @@ import lupos.s03resultRepresentation.ResultSetDictionaryExt
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.iterator.RowIterator
 import lupos.s04logicalOperators.OPBase
+import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.PartitionHelper
 import lupos.s04logicalOperators.Query
 import lupos.s09physicalOperators.POPBase
 
- class POPSplitPartition(query: Query, projectedVariables: List<String>, val partitionVariable: String, child: OPBase) : POPBase(query, projectedVariables, EOperatorID.POPSplitPartitionID, "POPSplitPartition", arrayOf(child), ESortPriority.PREVENT_ANY) {
+ class POPSplitPartition(query: IQuery, projectedVariables: List<String>, val partitionVariable: String, child: IOPBase) : POPBase(query, projectedVariables, EOperatorID.POPSplitPartitionID, "POPSplitPartition", arrayOf(child), ESortPriority.PREVENT_ANY) {
     override fun getPartitionCount(variable: String): Int {
         if (variable == partitionVariable) {
             return Partition.default_k
@@ -61,7 +62,7 @@ import lupos.s09physicalOperators.POPBase
             var job: ParallelJob?
             val childPartition = Partition(parent, partitionVariable)
             var partitionHelper: PartitionHelper?
-            partitionHelper = query.getPartitionHelper(uuid)
+            partitionHelper = (query as Query).getPartitionHelper(uuid)
             SanityCheck.println { "lock(${partitionHelper.lock.getUUID()}) x178" }
             partitionHelper.lock.lock()
             if (partitionHelper.iterators != null) {

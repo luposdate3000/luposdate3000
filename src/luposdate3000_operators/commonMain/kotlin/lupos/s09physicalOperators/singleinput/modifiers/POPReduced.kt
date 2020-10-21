@@ -1,5 +1,5 @@
 package lupos.s09physicalOperators.singleinput.modifiers
-
+import lupos.s04logicalOperators.IQuery
 
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.ESortPriority
@@ -10,10 +10,11 @@ import lupos.s04logicalOperators.iterator.ColumnIteratorReduced
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.iterator.RowIteratorReduced
 import lupos.s04logicalOperators.OPBase
+import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.Query
 import lupos.s09physicalOperators.POPBase
 
-class POPReduced(query: Query, projectedVariables: List<String>, child: OPBase) : POPBase(query, projectedVariables, EOperatorID.POPReducedID, "POPReduced", arrayOf(child), ESortPriority.SAME_AS_CHILD) {
+class POPReduced(query: IQuery, projectedVariables: List<String>, child: IOPBase) : POPBase(query, projectedVariables, EOperatorID.POPReducedID, "POPReduced", arrayOf(child), ESortPriority.SAME_AS_CHILD) {
     override fun getPartitionCount(variable: String): Int = children[0].getPartitionCount(variable)
     override fun equals(other: Any?) = other is POPReduced && children[0] == other.children[0]
     override fun toSparql(): String {

@@ -1,5 +1,5 @@
 package lupos.s04arithmetikOperators.multiinput
-
+import lupos.s04logicalOperators.IQuery
 
 import lupos.s00misc.EOperatorID
 
@@ -11,9 +11,10 @@ import lupos.s03resultRepresentation.ValueTypedLiteral
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.OPBase
+import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.Query
 
-class AOPBuildInCallSTRBEFORE(query: Query, child: AOPBase, childB: AOPBase) : AOPBase(query, EOperatorID.AOPBuildInCallSTRBEFOREID, "AOPBuildInCallSTRBEFORE", arrayOf(child, childB)) {
+class AOPBuildInCallSTRBEFORE(query: IQuery, child: AOPBase, childB: AOPBase) : AOPBase(query, EOperatorID.AOPBuildInCallSTRBEFOREID, "AOPBuildInCallSTRBEFORE", arrayOf(child, childB)) {
     override fun toSparql() = "STRBEFORE(" + children[0].toSparql() + ", " + children[1].toSparql() + ")"
     override fun equals(other: Any?) = other is AOPBuildInCallSTRBEFORE && children[0] == other.children[0] && children[1] == other.children[1]
     override fun evaluate(row: IteratorBundle): () -> ValueDefinition {

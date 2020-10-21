@@ -1,5 +1,5 @@
 package lupos.s09physicalOperators.singleinput
-
+import lupos.s04logicalOperators.IQuery
 import kotlin.jvm.JvmField
 
 import lupos.s00misc.EOperatorID
@@ -26,6 +26,7 @@ import lupos.s04logicalOperators.iterator.ColumnIteratorRepeatValue
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.noinput.OPEmptyRow
 import lupos.s04logicalOperators.OPBase
+import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.Query
 import lupos.s09physicalOperators.POPBase
 import lupos.s09physicalOperators.singleinput.POPBind
@@ -83,9 +84,9 @@ class POPGroup : POPBase {
 
     }
 
-    constructor(query: Query, projectedVariables: List<String>, by: List<AOPVariable>, bindings: POPBind?, child: OPBase) : super(query, projectedVariables, EOperatorID.POPGroupID, "POPGroup", arrayOf(child), ESortPriority.PREVENT_ANY) {
+    constructor(query: IQuery, projectedVariables: List<String>, by: List<AOPVariable>, bindings: POPBind?, child: IOPBase) : super(query, projectedVariables, EOperatorID.POPGroupID, "POPGroup", arrayOf(child), ESortPriority.PREVENT_ANY) {
         this.by = by
-        var tmpBind: OPBase? = bindings
+        var tmpBind: IOPBase? = bindings
         while (tmpBind != null && tmpBind is POPBind) {
             this.bindings.add(Pair(tmpBind.name.name, tmpBind.children[1] as AOPBase))
             tmpBind = tmpBind.children[0]
@@ -93,7 +94,7 @@ class POPGroup : POPBase {
         this.bindings = this.bindings.asReversed()
     }
 
-    constructor(query: Query, projectedVariables: List<String>, by: List<AOPVariable>, bindings: List<Pair<String, AOPBase>>, child: OPBase) : super(query, projectedVariables, EOperatorID.POPGroupID, "POPGroup", arrayOf(child), ESortPriority.PREVENT_ANY) {
+    constructor(query: IQuery, projectedVariables: List<String>, by: List<AOPVariable>, bindings: List<Pair<String, AOPBase>>, child: IOPBase) : super(query, projectedVariables, EOperatorID.POPGroupID, "POPGroup", arrayOf(child), ESortPriority.PREVENT_ANY) {
         this.by = by
         this.bindings = bindings.toMutableList()
     }
@@ -152,9 +153,9 @@ class POPGroup : POPBase {
         }
     }
 
-    fun getAggregations(node: OPBase): MutableList<AOPAggregationBase> {
+    fun getAggregations(node: IOPBase): MutableList<AOPAggregationBase> {
         var res = mutableListOf<AOPAggregationBase>()
-        for (n in node.children) {
+        for (n in node.getChildren()) {
             res.addAll(getAggregations(n))
         }
         if (node is AOPAggregationBase) {
@@ -236,7 +237,7 @@ internal     class MapRow(val iterators: IteratorBundle, val aggregates: Array<C
                 }
             }
             for (columnIndex in 0 until bindings.size) {
-                val value = query.dictionary.createValue(bindings[columnIndex].second.evaluate(localRow.iterators)())
+                val value = query.getDictionary().createValue(bindings[columnIndex].second.evaluate(localRow.iterators)())
                 if (projectedVariables.contains(bindings[columnIndex].first)) {
                     outMap[bindings[columnIndex].first] = ColumnIteratorRepeatValue(1, value)
                 }
@@ -355,7 +356,7 @@ ColumnIteratorQueueExt.                                    _close(this)
                                                 }
                                                 for (columnIndex2 in 0 until bindings.size) {
                                                     if (projectedVariables.contains(bindings[columnIndex2].first)) {
-                                                        output[columnIndex2 + keyColumnNames.size].queue.add(query.dictionary.createValue(bindings[columnIndex2].second.evaluate(localRowIterators)()))
+                                                        output[columnIndex2 + keyColumnNames.size].queue.add(query.getDictionary().createValue(bindings[columnIndex2].second.evaluate(localRowIterators)()))
                                                     }
                                                 }
                                                 for (outIndex2 in 0 until output.size) {
@@ -379,7 +380,7 @@ ColumnIteratorQueueExt.                                                      clo
                                             }
                                             for (columnIndex in 0 until bindings.size) {
                                                 if (projectedVariables.contains(bindings[columnIndex].first)) {
-                                                    output[columnIndex + keyColumnNames.size].queue.add(query.dictionary.createValue(bindings[columnIndex].second.evaluate(localRowIterators)()))
+                                                    output[columnIndex + keyColumnNames.size].queue.add(query.getDictionary().createValue(bindings[columnIndex].second.evaluate(localRowIterators)()))
                                                 }
                                             }
                                             localMap.clear()
@@ -488,7 +489,7 @@ ColumnIteratorQueueExt.                                                      clo
                             outKeys[columnIndex].add(k.data[columnIndex])
                         }
                         for (columnIndex in 0 until bindings.size) {
-                            outValues[columnIndex].add(query.dictionary.createValue(bindings[columnIndex].second.evaluate(v.iterators)()))
+                            outValues[columnIndex].add(query.getDictionary().createValue(bindings[columnIndex].second.evaluate(v.iterators)()))
                         }
                     }
                     for (columnIndex in 0 until keyColumnNames.size) {

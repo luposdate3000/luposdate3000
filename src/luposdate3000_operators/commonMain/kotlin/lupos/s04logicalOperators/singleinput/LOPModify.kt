@@ -1,5 +1,5 @@
 package lupos.s04logicalOperators.singleinput
-
+import lupos.s04logicalOperators.IQuery
 import kotlin.jvm.JvmField
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.ESortPriority
@@ -8,12 +8,13 @@ import lupos.s04logicalOperators.HistogramResult
 import lupos.s04logicalOperators.LOPBase
 import lupos.s04logicalOperators.noinput.LOPTriple
 import lupos.s04logicalOperators.OPBase
+import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.Query
 
-class LOPModify(query: Query,
+class LOPModify(query: IQuery,
                 @JvmField val insert: MutableList<LOPTriple> = mutableListOf<LOPTriple>(),
                 @JvmField val delete: MutableList<LOPTriple> = mutableListOf<LOPTriple>(),
-                child: OPBase) : LOPBase(query, EOperatorID.LOPModifyID, "LOPModify", arrayOf(child), ESortPriority.PREVENT_ANY) {
+                child: IOPBase) : LOPBase(query, EOperatorID.LOPModifyID, "LOPModify", arrayOf(child), ESortPriority.PREVENT_ANY) {
     override fun getProvidedVariableNames() = mutableListOf<String>("?boolean")
     override suspend fun toXMLElement(): XMLElement {
         val res = super.toXMLElement()

@@ -1,12 +1,12 @@
 package lupos.s09physicalOperators.noinput
-
+import lupos.s04logicalOperators.IQuery
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.XMLElement
 
 import lupos.s04logicalOperators.Query
 
 class POPValuesImportXML : POPValuesImportBase {
-    constructor(query: Query, projectedVariables: List<String>, data: XMLElement) : super(query, projectedVariables, data["head"]!!.childs.map { it.attributes["name"]!! }) {
+    constructor(query: IQuery, projectedVariables: List<String>, data: XMLElement) : super(query, projectedVariables, data["head"]!!.childs.map { it.attributes["name"]!! }) {
         val variables = data["head"]!!.childs.map { it.attributes["name"]!! }
         SanityCheck.check({ data.tag == "sparql" })
         for (node in data["results"]!!.childs) {

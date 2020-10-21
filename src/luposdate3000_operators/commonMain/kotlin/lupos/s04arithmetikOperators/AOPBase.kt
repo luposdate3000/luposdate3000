@@ -1,5 +1,5 @@
 package lupos.s04arithmetikOperators
-
+import lupos.s04logicalOperators.IQuery
 
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.ESortPriority
@@ -11,12 +11,13 @@ import lupos.s03resultRepresentation.ValueDefinition
 import lupos.s04logicalOperators.HistogramResult
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.OPBase
+import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.Query
 
-abstract class AOPBase(query: Query,
+abstract class AOPBase(query: IQuery,
                        operatorID: EOperatorID,
                        classname: String,
-                       children: Array<OPBase>) :
+                       children: Array<IOPBase>) :
         OPBase(query, operatorID, classname, children, ESortPriority.PREVENT_ANY) ,IAOPBase{
     fun evaluateAsBoolean(row: IteratorBundle): () -> Boolean {
         if (enforcesBooleanOrError()) {
@@ -46,14 +47,14 @@ abstract class AOPBase(query: Query,
 
     open fun evaluate(row: IteratorBundle): () -> ValueDefinition {
         return {
-            /*return*/query.dictionary.getValue(evaluateID(row)())
+            /*return*/query.getDictionary().getValue(evaluateID(row)())
         }
 
     }
 
     open fun evaluateID(row: IteratorBundle): () -> Int {
         return {
-            /*return*/query.dictionary.createValue(evaluate(row)())
+            /*return*/query.getDictionary().createValue(evaluate(row)())
         }
 
     }

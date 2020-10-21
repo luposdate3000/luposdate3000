@@ -1,10 +1,10 @@
 package lupos.s09physicalOperators.noinput
-
+import lupos.s04logicalOperators.IQuery
 import lupos.s00misc.SanityCheck
 
 import lupos.s04logicalOperators.Query
 
-abstract class POPValuesImportBase(query: Query, projectedVariables: List<String>, variables: List<String>) : POPValues(query, projectedVariables, variables, mutableListOf<List<String?>>()) {
+abstract class POPValuesImportBase(query: IQuery, projectedVariables: List<String>, variables: List<String>) : POPValues(query, projectedVariables, variables, mutableListOf<List<String?>>()) {
     override fun getPartitionCount(variable: String): Int = 1
     fun cleanString(s: String?): String? {
         if (s == null) {
@@ -25,7 +25,7 @@ abstract class POPValuesImportBase(query: Query, projectedVariables: List<String
     fun addRow(values: Array<String?>) {
         SanityCheck.check({ values.size == variables.size })
         for (i in 0 until variables.size) {
-            data[variables[i]]!!.add(query.dictionary.createValue(cleanString(values[i])))
+            data[variables[i]]!!.add(query.getDictionary().createValue(cleanString(values[i])))
         }
     }
 }

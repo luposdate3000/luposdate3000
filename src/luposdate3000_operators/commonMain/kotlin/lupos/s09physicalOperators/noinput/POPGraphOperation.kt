@@ -1,5 +1,5 @@
 package lupos.s09physicalOperators.noinput
-
+import lupos.s04logicalOperators.IQuery
 import kotlin.jvm.JvmField
 import lupos.s00misc.EGraphOperationType
 import lupos.s00misc.EGraphRefType
@@ -15,13 +15,14 @@ import lupos.s00misc.SanityCheck
 import lupos.s00misc.XMLElement
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.OPBase
+import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.Query
 import lupos.s05tripleStore.PersistentStoreLocalExt
 import lupos.s09physicalOperators.POPBase
 import lupos.s15tripleStoreDistributed.IDistributedGraph
 import lupos.s15tripleStoreDistributed.distributedTripleStore
 
-class POPGraphOperation(query: Query,
+class POPGraphOperation(query: IQuery,
                         projectedVariables: List<String>,
                         @JvmField val silent: Boolean,
                         @JvmField var graph1type: EGraphRefType = EGraphRefType.DefaultGraphRef,

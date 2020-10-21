@@ -32,7 +32,7 @@ import lupos.s04logicalOperators.singleinput.modifiers.LOPDistinct
 import lupos.s04logicalOperators.singleinput.modifiers.LOPSortAny
 import lupos.s09physicalOperators.singleinput.POPSort
 
-abstract class OPBase(@JvmField val query: Query, @JvmField val operatorID: EOperatorID, @JvmField val classname: String, @JvmField val children: Array<OPBase>, val sortPriority: ESortPriority) :IOPBase{
+abstract class OPBase(@JvmField val query: IQuery, @JvmField val operatorID: EOperatorID, @JvmField val classname: String, @JvmField val children: Array<IOPBase>, val sortPriority: ESortPriority) :IOPBase{
 override fun getClassname()=classname
     @JvmField
     var onlyExistenceRequired = false
@@ -46,7 +46,6 @@ override fun getClassname()=classname
     var alreadyCheckedStore = -1L
     @JvmField
     val uuid: Long = global_uuid++
-
     @JvmField
     var sortPrioritiesInitialized = false
 
@@ -58,8 +57,15 @@ override fun getClassname()=classname
 
     @JvmField
     var histogramResult: HistogramResult? = null
+
+override fun getQuery()=query
+override fun getSortPriorities()=sortPriorities
+override fun getUUID()=uuid
+override fun getChildren()=children
+override fun getMySortPriority()=mySortPriority
+
 suspend abstract fun calculateHistogram(): HistogramResult
-    suspend fun getHistogram(): HistogramResult {
+override    suspend fun getHistogram(): HistogramResult {
         if (histogramResult == null) {
             histogramResult = calculateHistogram()
         } else {
@@ -79,7 +85,7 @@ suspend abstract fun calculateHistogram(): HistogramResult
     }
 
 override    open suspend fun evaluate(parent: Partition): IteratorBundle = throw EvaluateNotImplementedException(classname)
-    fun getChildrenCountRecoursive(): Int {
+override    fun getChildrenCountRecoursive(): Int {
         var res = children.size
         for (c in children) {
             res += c.getChildrenCountRecoursive()
@@ -118,7 +124,7 @@ override    open suspend fun evaluate(parent: Partition): IteratorBundle = throw
         }
     }
 
-    fun selectSortPriority(priority: List<SortHelper>) {
+override    fun selectSortPriority(priority: List<SortHelper>) {
         var tmp = mutableListOf<List<SortHelper>>()
         for (x in sortPriorities) {
             var size = x.size
@@ -337,14 +343,14 @@ override    open fun getPossibleSortPriorities(): List<List<SortHelper>> {
         return res
     }
 
-    open fun applyPrefix(prefix: String, iri: String) {
+override    open fun applyPrefix(prefix: String, iri: String) {
         for (c in children) {
             c.applyPrefix(prefix, iri)
         }
     }
 
     open fun childrenToVerifyCount(): Int = children.size
-    open fun updateChildren(i: Int, child: OPBase) {
+    open fun updateChildren(i: Int, child: IOPBase) {
         SanityCheck.check({ i < children.size })
         children[i] = child
     }
@@ -355,35 +361,35 @@ override    open fun getPossibleSortPriorities(): List<List<SortHelper>> {
          var global_uuid = 0L
     }
 
-    fun replaceVariableWithUndef(node: OPBase, name: String, existsClauses: Boolean): OPBase {
+    fun replaceVariableWithUndef(node: IOPBase, name: String, existsClauses: Boolean): IOPBase {
         if (!existsClauses && (node is AOPBuildInCallExists || node is AOPBuildInCallNotExists)) {
             return node
         }
         if (node is AOPVariable && node.name == name) {
             return AOPConstant(query, ResultSetDictionaryExt.undefValue2)
         }
-        for (i in 0 until node.children.size) {
-            node.children[i] = replaceVariableWithUndef(node.children[i], name, existsClauses)
+        for (i in 0 until node.getChildren().size) {
+            node.getChildren()[i] = replaceVariableWithUndef(node.getChildren()[i], name, existsClauses)
         }
         return node
     }
 
-    fun replaceVariableWithAnother(node: OPBase, name: String, name2: String): OPBase {
-        var tmp = LOPNOOP(node.query, node)
+    fun replaceVariableWithAnother(node: IOPBase, name: String, name2: String): IOPBase {
+        var tmp = LOPNOOP(node.getQuery(), node)
         return replaceVariableWithAnother(node, name, name2, tmp, 0)
     }
 
-    fun replaceVariableWithAnother(node: OPBase, name: String, name2: String, parent: OPBase, parentIdx: Int): OPBase {
-        SanityCheck.check { parent.children[parentIdx] == node }
+    fun replaceVariableWithAnother(node: IOPBase, name: String, name2: String, parent: IOPBase, parentIdx: Int): IOPBase {
+        SanityCheck.check { parent.getChildren()[parentIdx] == node }
         if (node is LOPBind && node.name.name == name) {
-            var exp = node.children[1]
+            var exp = node.getChildren()[1]
             if (exp is AOPVariable) {
-                replaceVariableWithAnother(node.children[0], exp.name, node.name.name, node, 0)
-                parent.children[parentIdx] = node.children[0]
+                replaceVariableWithAnother(node.getChildren()[0], exp.name, node.name.name, node, 0)
+                parent.getChildren()[parentIdx] = node.getChildren()[0]
             } else {
-                parent.children[parentIdx] = LOPBind(query, AOPVariable(query, name2), node.children[1] as AOPBase, node.children[0])
+                parent.getChildren()[parentIdx] = LOPBind(query, AOPVariable(query, name2), node.getChildren()[1] as AOPBase, node.getChildren()[0])
             }
-            var res = replaceVariableWithAnother(parent.children[parentIdx], name, name2, parent, parentIdx)
+            var res = replaceVariableWithAnother(parent.getChildren()[parentIdx], name, name2, parent, parentIdx)
             return res
         } else if (node is LOPProjection) {
             for (i in 0 until node.variables.size) {
@@ -398,18 +404,18 @@ override    open fun getPossibleSortPriorities(): List<List<SortHelper>> {
         } else if (node is AOPVariable && node.name == name) {
             return AOPVariable(query, name2)
         }
-        for (i in 0 until node.children.size) {
-            node.children[i] = replaceVariableWithAnother(node.children[i], name, name2, node, i)
+        for (i in 0 until node.getChildren().size) {
+            node.getChildren()[i] = replaceVariableWithAnother(node.getChildren()[i], name, name2, node, i)
         }
         return node
     }
 
-    fun replaceVariableWithConstant(node: OPBase, name: String, value: Int): OPBase {
+    fun replaceVariableWithConstant(node: IOPBase, name: String, value: Int): IOPBase {
         if (node is AOPVariable && node.name == name) {
             return AOPConstant(query, value)
         }
-        for (i in 0 until node.children.size) {
-            node.children[i] = replaceVariableWithConstant(node.children[i], name, value)
+        for (i in 0 until node.getChildren().size) {
+            node.getChildren()[i] = replaceVariableWithConstant(node.getChildren()[i], name, value)
         }
         return node
     }
@@ -498,8 +504,7 @@ override    open suspend fun toXMLElement(): XMLElement {
         }
     }
 
-    open fun syntaxVerifyAllVariableExists(additionalProvided: List<String> = listOf(), autocorrect: Boolean = false) {
-        SanityCheck.check { query.filtersMovedUpFromOptionals }
+override    open fun syntaxVerifyAllVariableExists(additionalProvided: List<String> , autocorrect: Boolean ) {
         for (i in 0 until childrenToVerifyCount()) {
             children[i].syntaxVerifyAllVariableExists(additionalProvided, autocorrect)
         }
@@ -507,7 +512,7 @@ override    open suspend fun toXMLElement(): XMLElement {
         if (!res) {
             if (autocorrect) {
                 syntaxVerifyAllVariableExistsAutocorrect()
-            } else if (!query.dontCheckVariableExistence) {
+            } else if (query.checkVariableExistence()) {
                 var tmp = getRequiredVariableNames().toMutableSet()
                 tmp.removeAll(additionalProvided)
                 tmp.removeAll(getProvidedVariableNames())
@@ -520,14 +525,14 @@ override    open suspend fun toXMLElement(): XMLElement {
         }
     }
 
-    fun setChild(child: OPBase): OPBase {
+    fun setChild(child: IOPBase): IOPBase {
         SanityCheck.check({ children.isNotEmpty() })
-        this.children[0] = child
+        this.getChildren()[0] = child
         return child
     }
 
-override    fun getLatestChild(): OPBase {
-        if (children.isNotEmpty() && children[0].children.isNotEmpty()) {
+override    fun getLatestChild(): IOPBase {
+        if (children.isNotEmpty() && children[0].getChildren().isNotEmpty()) {
             return children[0].getLatestChild()
         }
         return this

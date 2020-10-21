@@ -1,5 +1,5 @@
 package lupos.s09physicalOperators.noinput
-
+import lupos.s04logicalOperators.IQuery
 import kotlin.jvm.JvmField
 
 import lupos.s00misc.EOperatorID
@@ -17,6 +17,7 @@ import lupos.s04logicalOperators.iterator.ColumnIteratorMultiValue
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.noinput.LOPValues
 import lupos.s04logicalOperators.OPBase
+import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.Query
 import lupos.s09physicalOperators.POPBase
 
@@ -45,7 +46,7 @@ open class POPValues : POPBase {
                     if (columns[v]!![i] == ResultSetDictionaryExt.undefValue) {
                         res += "UNDEF "
                     } else {
-                        res += query.dictionary.getValue(columns[v]!![i]).valueToString() + " "
+                        res += query.getDictionary().getValue(columns[v]!![i]).valueToString() + " "
                     }
                 }
                 res += ")"
@@ -96,13 +97,13 @@ open class POPValues : POPBase {
 
     }
 
-    constructor(query: Query, count: Int) : super(query, listOf<String>(), EOperatorID.POPValuesID, "POPValues", arrayOf(), ESortPriority.PREVENT_ANY) {
+    constructor(query: IQuery, count: Int) : super(query, listOf<String>(), EOperatorID.POPValuesID, "POPValues", arrayOf(), ESortPriority.PREVENT_ANY) {
         variables = listOf<String>()
         data = mapOf<String, MutableList<Int>>()
         rows = count
     }
 
-    constructor(query: Query, projectedVariables: List<String>, v: List<String>, d: MutableList<List<String?>>) : super(query, projectedVariables, EOperatorID.POPValuesID, "POPValues", arrayOf(), ESortPriority.PREVENT_ANY) {
+    constructor(query: IQuery, projectedVariables: List<String>, v: List<String>, d: MutableList<List<String?>>) : super(query, projectedVariables, EOperatorID.POPValuesID, "POPValues", arrayOf(), ESortPriority.PREVENT_ANY) {
         variables = v
         var columns = Array(variables.size) { mutableListOf<Int>() }
         data = mutableMapOf<String, MutableList<Int>>()
@@ -114,20 +115,20 @@ open class POPValues : POPBase {
             }
             d.forEach {
                 for (variableIndex in 0 until variables.size) {
-                    columns[variableIndex].add(query.dictionary.createValue(it[variableIndex]))
+                    columns[variableIndex].add(query.getDictionary().createValue(it[variableIndex]))
                 }
             }
             rows = -1
         }
     }
 
-    constructor(query: Query, projectedVariables: List<String>, v: List<String>, d: Map<String, MutableList<Int>>) : super(query, projectedVariables, EOperatorID.POPValuesID, "POPValues", arrayOf(), ESortPriority.PREVENT_ANY) {
+    constructor(query: IQuery, projectedVariables: List<String>, v: List<String>, d: Map<String, MutableList<Int>>) : super(query, projectedVariables, EOperatorID.POPValuesID, "POPValues", arrayOf(), ESortPriority.PREVENT_ANY) {
         variables = v
         data = d
         rows = -1
     }
 
-    constructor(query: Query, projectedVariables: List<String>, values: LOPValues) : super(query, projectedVariables, EOperatorID.POPValuesID, "POPValues", arrayOf(), ESortPriority.PREVENT_ANY) {
+    constructor(query: IQuery, projectedVariables: List<String>, values: LOPValues) : super(query, projectedVariables, EOperatorID.POPValuesID, "POPValues", arrayOf(), ESortPriority.PREVENT_ANY) {
         if (projectedVariables.size == 0) {
             variables = listOf<String>()
             data = mapOf<String, MutableList<Int>>()
@@ -185,7 +186,7 @@ open class POPValues : POPBase {
                 val b = XMLElement("binding")
                 bindings.addContent(b)
                 for (variableIndex in 0 until variables.size) {
-                    val value = query.dictionary.getValue(columns[variableIndex]!![i]).valueToString()
+                    val value = query.getDictionary().getValue(columns[variableIndex]!![i]).valueToString()
                     if (value != null) {
                         b.addContent(XMLElement("value").addAttribute("name", variables[variableIndex]).addAttribute("content", value))
                     } else {

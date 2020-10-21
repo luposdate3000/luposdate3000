@@ -6,9 +6,9 @@ import lupos.s00misc.SanityCheck
 import lupos.s00misc.XMLElement
 import lupos.s04logicalOperators.HistogramResult
 
-class OPBaseCompound(query: Query, children: Array<OPBase>, val columnProjectionOrder: List<List<String>>) : OPBase(query, EOperatorID.OPCompoundID, "OPBaseCompound", children, ESortPriority.PREVENT_ANY) {
+class OPBaseCompound(query: IQuery, children: Array<IOPBase>, val columnProjectionOrder: List<List<String>>) : OPBase(query, EOperatorID.OPCompoundID, "OPBaseCompound", children, ESortPriority.PREVENT_ANY) {
     override fun getPartitionCount(variable: String): Int = SanityCheck.checkUnreachable()
-    override fun cloneOP() :IOPBase= OPBaseCompound(query, children.map { it.cloneOP() }.toTypedArray(), columnProjectionOrder)
+    override fun cloneOP() :IOPBase= OPBaseCompound(query, getChildren().map { it.cloneOP() }.toTypedArray(), columnProjectionOrder)
     override suspend fun toXMLElement(): XMLElement {
         var res = super.toXMLElement()
         var x = XMLElement("columnProjectionOrders")
@@ -30,11 +30,11 @@ class OPBaseCompound(query: Query, children: Array<OPBase>, val columnProjection
         if (other !is OPBaseCompound) {
             return false
         }
-        if (children.size != other.children.size) {
+        if (getChildren().size != other.getChildren().size) {
             return false
         }
-        for (i in 0 until children.size) {
-            if (children[i] != other.children[i]) {
+        for (i in 0 until getChildren().size) {
+            if (getChildren()[i] != other.getChildren()[i]) {
                 return false
             }
         }
@@ -57,7 +57,7 @@ class OPBaseCompound(query: Query, children: Array<OPBase>, val columnProjection
     override fun toSparqlQuery() = toSparql()
     override fun toSparql(): String {
         var res = StringBuilder()
-        for (c in children) {
+        for (c in getChildren()) {
             res.append(c.toSparqlQuery() + "\n")
         }
         return res.toString()
