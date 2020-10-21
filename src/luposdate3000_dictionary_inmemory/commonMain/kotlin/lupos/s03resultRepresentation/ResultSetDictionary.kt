@@ -233,7 +233,7 @@ class ResultSetDictionary(val global: Boolean = false):IResultSetDictionary {
         intToValue = Array<String>(1) { emptyString }
     }
 
-    fun toBooleanOrError(value: Int): Int {
+override    fun toBooleanOrError(value: Int): Int {
         var res: Int = ResultSetDictionaryExt.errorValue
         if (value <ResultSetDictionaryExt.undefValue && value >= 0) {
             res = value
@@ -610,12 +610,12 @@ class ResultSetDictionary(val global: Boolean = false):IResultSetDictionary {
         return res
     }
 
-    fun createValue(value: String?): Int {
+override    fun createValue(value: String?): Int {
         val res = createValue(ValueDefinition(value))
         return res
     }
 
-    fun createValue(value: IntDefinition): Int {
+override    fun createValue(value: ValueDefinition): Int {
         var res: Int
         when (value) {
             is ValueUndef -> {
@@ -670,8 +670,8 @@ class ResultSetDictionary(val global: Boolean = false):IResultSetDictionary {
         return res
     }
 
-override    fun getValue(value: Int): IntDefinition {
-        var res: IntDefinition
+override    fun getValue(value: Int): ValueDefinition {
+        var res: ValueDefinition
         val dict: ResultSetDictionary
         if ((value and mask1) == mask1) {
             dict = nodeGlobalDictionary

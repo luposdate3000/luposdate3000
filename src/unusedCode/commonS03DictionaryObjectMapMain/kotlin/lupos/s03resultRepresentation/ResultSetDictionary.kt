@@ -117,7 +117,7 @@ class ResultSetDictionary(val global: Boolean = false) {
         return createValue(ValueInteger(value))
     }
 
-    inline fun checkValue(value: IntDefinition): Int {
+    inline fun checkValue(value: ValueDefinition): Int {
         var res: Int
         if (value is ValueUndef) {
             res = undefValue
@@ -139,7 +139,7 @@ class ResultSetDictionary(val global: Boolean = false) {
         return res
     }
 
-    inline fun createValue(value: IntDefinition): Int {
+    inline fun createValue(value: ValueDefinition): Int {
         var res = checkValue(value)
         if (res == null) {
             val l = mapLTS.size
@@ -154,7 +154,7 @@ class ResultSetDictionary(val global: Boolean = false) {
         return res
     }
 
-    inline fun getValue(value: Int): IntDefinition {
+    inline fun getValue(value: Int): ValueDefinition {
         if (value < 0) {
             return mapLTS[-value]!!
         } else {

@@ -374,7 +374,7 @@ class ResultSetDictionary(val global: Boolean = false) {
         return res
     }
 
-    fun createValue(value: IntDefinition): Int {
+    fun createValue(value: ValueDefinition): Int {
         var res: Int
         when (value) {
             is ValueUndef -> {
@@ -430,9 +430,9 @@ class ResultSetDictionary(val global: Boolean = false) {
         return res
     }
 
-    fun getValue(value: Int): IntDefinition {
+    fun getValue(value: Int): ValueDefinition {
 //SanityCheck.check({(value and filter6) < 10000},{"${value} ${value and filter6} ${value.toString(16)} ${(value and filter6).toString(16)}"})
-        var res: IntDefinition
+        var res: ValueDefinition
         val dict: ResultSetDictionary
         if ((value and mask1) == mask1) {
             dict = nodeGlobalDictionary
