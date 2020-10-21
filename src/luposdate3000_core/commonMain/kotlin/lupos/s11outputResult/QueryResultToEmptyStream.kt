@@ -42,7 +42,7 @@ internal object QueryResultToEmptyStream {
                     try {
                         val child = node.children[0].evaluate(Partition(parent, node.partitionVariable, p, node.partitionCount))
                         val columns = variables.map { child.columns[it]!! }.toTypedArray()
-                        writeAllRows(variables, columns, node.query.dictionary, lock, output)
+                        writeAllRows(variables, columns, node.getQuery().getDictionary(), lock, output)
                     } catch (e: Throwable) {
                         errors[p] = e
                     }
@@ -59,7 +59,7 @@ internal object QueryResultToEmptyStream {
         } else {
             val child = node.evaluate(parent)
             val columns = variables.map { child.columns[it]!! }.toTypedArray()
-            writeAllRows(variables, columns, node.query.dictionary, null, output)
+            writeAllRows(variables, columns, node.getQuery().getDictionary(), null, output)
         }
     }
 

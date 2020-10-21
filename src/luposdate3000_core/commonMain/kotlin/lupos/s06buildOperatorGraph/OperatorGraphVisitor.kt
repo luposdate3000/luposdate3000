@@ -592,7 +592,7 @@ class OperatorGraphVisitor(@JvmField val query: Query) : Visitor<OPBase> {
         }
     }
 
-    private fun parseGroup(nodes: Array<ASTNode>): OPBase {
+    internal fun parseGroup(nodes: Array<ASTNode>): OPBase {
         if (nodes.isEmpty()) {
             return LOPNOOP(query)
         }
@@ -1395,7 +1395,7 @@ return tmp
         return AOPValue(query, tmp)
     }
 
-    fun setGraphNameForAllTriples(node: OPBase, name: ASTNode, optional: Boolean): OPBase {
+    fun setGraphNameForAllTriples(node: IOPBase, name: ASTNode, optional: Boolean): OPBase {
         var iriIsVariable = false
         val iri = when (name) {
             is ASTIri -> {

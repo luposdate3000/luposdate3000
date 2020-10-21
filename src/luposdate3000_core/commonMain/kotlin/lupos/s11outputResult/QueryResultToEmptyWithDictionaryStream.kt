@@ -65,7 +65,7 @@ internal object QueryResultToEmptyWithDictionaryStream {
                     try {
                         val child = node.children[0].evaluate(Partition(parent, node.partitionVariable, p, node.partitionCount))
                         val columns = variables.map { child.columns[it]!! }.toTypedArray()
-                        writeAllRows(variables, columns, node.query.dictionary, lock, output)
+                        writeAllRows(variables, columns, node.getQuery().getDictionary(), lock, output)
                     } catch (e: Throwable) {
                         errors[p] = e
                     }
@@ -82,7 +82,7 @@ internal object QueryResultToEmptyWithDictionaryStream {
         } else {
             val child = node.evaluate(parent)
             val columns = variables.map { child.columns[it]!! }.toTypedArray()
-            writeAllRows(variables, columns, node.query.dictionary, null, output)
+            writeAllRows(variables, columns, node.getQuery().getDictionary(), null, output)
         }
     }
 
@@ -115,7 +115,7 @@ internal object QueryResultToEmptyWithDictionaryStream {
                 val variables = columnNames.toTypedArray()
                 if (variables.size == 1 && variables[0] == "?boolean") {
                     val child = node.evaluate(Partition())
-                    val value = node.query.dictionary.getValue(child.columns["?boolean"]!!.next())
+                    val value = node.getQuery().getDictionary().getValue(child.columns["?boolean"]!!.next())
                     child.columns["?boolean"]!!.close()
                 } else {
                     if (variables.size == 0) {

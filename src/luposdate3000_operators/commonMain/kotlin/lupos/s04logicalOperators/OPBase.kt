@@ -525,7 +525,7 @@ override    open fun syntaxVerifyAllVariableExists(additionalProvided: List<Stri
         }
     }
 
-    fun setChild(child: IOPBase): IOPBase {
+override    fun setChild(child: IOPBase): IOPBase {
         SanityCheck.check({ children.isNotEmpty() })
         this.getChildren()[0] = child
         return child

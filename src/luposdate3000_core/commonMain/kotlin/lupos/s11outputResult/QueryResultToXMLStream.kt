@@ -125,7 +125,7 @@ internal object QueryResultToXMLStream {
                     try {
                         val child = node.children[0].evaluate(Partition(parent, node.partitionVariable, p, node.partitionCount))
                         val columns = variables.map { child.columns[it]!! }.toTypedArray()
-                        writeAllRows(variables, columns, node.query.dictionary, lock, output)
+                        writeAllRows(variables, columns, node.getQuery().getDictionary(), lock, output)
                     } catch (e: Throwable) {
                         errors[p] = e
                     }
@@ -142,7 +142,7 @@ internal object QueryResultToXMLStream {
         } else {
             val child = node.evaluate(parent)
             val columns = variables.map { child.columns[it]!! }.toTypedArray()
-            writeAllRows(variables, columns, node.query.dictionary, null, output)
+            writeAllRows(variables, columns, node.getQuery().getDictionary(), null, output)
         }
     }
 
@@ -153,7 +153,7 @@ internal object QueryResultToXMLStream {
             nodes = Array(rootNode.children.size) { rootNode.children[it] }
             columnProjectionOrder = rootNode.columnProjectionOrder
         } else {
-            nodes = arrayOf<OPBase>(rootNode)
+            nodes = arrayOf<IOPBase>(rootNode)
         }
         for (i in 0 until nodes.size) {
             val node = nodes[i]
@@ -184,7 +184,7 @@ internal object QueryResultToXMLStream {
                 if (variables.size == 1 && variables[0] == "?boolean") {
                     val child = node.evaluate(Partition())
                     output.print(" <head/>\n")
-                    val value = node.query.dictionary.getValue(child.columns["?boolean"]!!.next())
+                    val value = node.getQuery().getDictionary().getValue(child.columns["?boolean"]!!.next())
                     output.print(" <boolean>")
                     output.print(value.toBoolean())
                     output.print("</boolean>\n")

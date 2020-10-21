@@ -3,7 +3,6 @@ package lupos.s16network
 import lupos.s00misc.Coverage
 import lupos.s00misc.DateHelper
 import lupos.s00misc.DateHelperRelative
-import lupos.s00misc.EBenchmark
 import lupos.s00misc.EModifyType
 import lupos.s00misc.ETripleComponentType
 import lupos.s00misc.File
@@ -52,10 +51,13 @@ object HttpEndpoint {
             val v2 = helper_clean_string(v)
             var res: Int
             if (v2.startsWith("_:")) {
-                res = dict.getOrCreate(v2, {
-//                    SanityCheck.check { !usePredefinedDict }
-                    /*return*/ nodeGlobalDictionary.createNewBNode()
-                })
+val tmp=dict[v2]
+if(tmp!=null){
+res=tmp
+}else{
+res=nodeGlobalDictionary.createNewBNode()
+dict[v2]=res
+}
             } else {
                 res = nodeGlobalDictionary.createValue(v2)
             }
@@ -329,7 +331,7 @@ query.commited=true
         return pop_distributed_node
     }
 
-    suspend fun evaluate_sparql_query_string_part2(node: OPBase, output: MyPrintWriter) {
+internal    suspend fun evaluate_sparql_query_string_part2(node: OPBase, output: MyPrintWriter) {
 //var timer = DateHelperRelative.markNow()
         output.println("HTTP/1.1 200 OK")
         output.println("Content-Type: text/plain")
@@ -348,7 +350,7 @@ node.query.commited=true
         return buf.toString()
     }
 
-    suspend fun evaluate_sparql_query_string(query: String, output: MyPrintWriter, logOperatorGraph: Boolean = false) {
+internal    suspend fun evaluate_sparql_query_string(query: String, output: MyPrintWriter, logOperatorGraph: Boolean = false) {
 //var timer = DateHelperRelative.markNow()
         val node = evaluate_sparql_query_string_part1(query, logOperatorGraph)
         evaluate_sparql_query_string_part2(node, output)

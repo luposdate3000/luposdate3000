@@ -159,7 +159,7 @@ abstract class TripleStoreLocalBase(@JvmField val name: String) :ITripleStoreLoc
          * the input is ALWAYS in SPO order. The remapping of the triple layout is within the index, using the parameter order.
          */
         for (idx in 0 until dataDistinct.size) {
-            var list = pendingModificationsInsert[idx][query.transactionID]
+            var list = pendingModificationsInsert[idx][query.getTransactionID()]
             if (list != null) {
                 var tmp = IntArray(list.size)
                 var i = 0
@@ -169,9 +169,9 @@ abstract class TripleStoreLocalBase(@JvmField val name: String) :ITripleStoreLoc
                     i++
                 }
                 dataDistinct[idx].second.insertAsBulk(tmp, dataDistinct[idx].idx.tripleIndicees)
-                pendingModificationsInsert[idx].remove(query.transactionID)
+                pendingModificationsInsert[idx].remove(query.getTransactionID())
             }
-            list = pendingModificationsRemove[idx][query.transactionID]
+            list = pendingModificationsRemove[idx][query.getTransactionID()]
             if (list != null) {
                 var tmp = IntArray(list.size)
                 var i = 0
@@ -181,7 +181,7 @@ abstract class TripleStoreLocalBase(@JvmField val name: String) :ITripleStoreLoc
                     i++
                 }
                 dataDistinct[idx].second.removeAsBulk(tmp, dataDistinct[idx].idx.tripleIndicees)
-                pendingModificationsRemove[idx].remove(query.transactionID)
+                pendingModificationsRemove[idx].remove(query.getTransactionID())
             }
         }
     }
@@ -204,16 +204,16 @@ abstract class TripleStoreLocalBase(@JvmField val name: String) :ITripleStoreLoc
         for (idx in 0 until dataDistinct.size) {
             var tmp: MutableList<Int>?
             if (type == EModifyType.INSERT) {
-                tmp = pendingModificationsInsert[idx][query.transactionID]
+                tmp = pendingModificationsInsert[idx][query.getTransactionID()]
             } else {
-                tmp = pendingModificationsRemove[idx][query.transactionID]
+                tmp = pendingModificationsRemove[idx][query.getTransactionID()]
             }
             if (tmp == null) {
                 tmp = mutableListOf<Int>()
                 if (type == EModifyType.INSERT) {
-                    pendingModificationsInsert[idx][query.transactionID] = tmp
+                    pendingModificationsInsert[idx][query.getTransactionID()] = tmp
                 } else {
-                    pendingModificationsRemove[idx][query.transactionID] = tmp
+                    pendingModificationsRemove[idx][query.getTransactionID()] = tmp
                 }
             }
         }
@@ -229,9 +229,9 @@ abstract class TripleStoreLocalBase(@JvmField val name: String) :ITripleStoreLoc
                 } else {
                     for (idx in 0 until dataDistinct.size) {
                         if (type == EModifyType.INSERT) {
-                            pendingModificationsInsert[idx][query.transactionID]!!.add(query.dictionary.valueToGlobal(v))
+                            pendingModificationsInsert[idx][query.getTransactionID()]!!.add(query.getDictionary().valueToGlobal(v))
                         } else {
-                            pendingModificationsRemove[idx][query.transactionID]!!.add(query.dictionary.valueToGlobal(v))
+                            pendingModificationsRemove[idx][query.getTransactionID()]!!.add(query.getDictionary().valueToGlobal(v))
                         }
                     }
                 }
@@ -247,20 +247,20 @@ abstract class TripleStoreLocalBase(@JvmField val name: String) :ITripleStoreLoc
         for (idx in 0 until dataDistinct.size) {
             var tmp: MutableList<Int>?
             if (type == EModifyType.INSERT) {
-                tmp = pendingModificationsInsert[idx][query.transactionID]
+                tmp = pendingModificationsInsert[idx][query.getTransactionID()]
             } else {
-                tmp = pendingModificationsRemove[idx][query.transactionID]
+                tmp = pendingModificationsRemove[idx][query.getTransactionID()]
             }
             if (tmp == null) {
                 tmp = mutableListOf<Int>()
                 if (type == EModifyType.INSERT) {
-                    pendingModificationsInsert[idx][query.transactionID] = tmp
+                    pendingModificationsInsert[idx][query.getTransactionID()] = tmp
                 } else {
-                    pendingModificationsRemove[idx][query.transactionID] = tmp
+                    pendingModificationsRemove[idx][query.getTransactionID()] = tmp
                 }
             }
             for (v in dataModify) {
-                tmp.add(query.dictionary.valueToGlobal(v))
+                tmp.add(query.getDictionary().valueToGlobal(v))
             }
         }
     }

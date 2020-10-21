@@ -19,7 +19,7 @@ object QueryResultToXMLElement {
             nodes = Array(rootNode.children.size) { rootNode.children[it] }
             columnProjectionOrder = rootNode.columnProjectionOrder
         } else {
-            nodes = arrayOf<OPBase>(rootNode)
+            nodes = arrayOf<IOPBase>(rootNode)
             columnProjectionOrder = listOf(listOf<String>())
         }
         for (i in 0 until nodes.size) {
@@ -44,7 +44,7 @@ object QueryResultToXMLElement {
                 val child = node.evaluate(Partition())
                 val variables = columnNames.toTypedArray()
                 if (variables.size == 1 && variables[0] == "?boolean") {
-                    val value = node.query.dictionary.getValue(child.columns["?boolean"]!!.next()).valueToString()!!
+                    val value = node.getQuery().dictionary.getValue(child.columns["?boolean"]!!.next()).valueToString()!!
                     val datatype = "http://www.w3.org/2001/XMLSchema#boolean"
                     SanityCheck.check({ value.endsWith("\"^^<" + datatype + ">") })
                     nodeSparql.addContent(XMLElement("boolean").addContent(value.substring(1, value.length - ("\"^^<" + datatype + ">").length)))
@@ -74,7 +74,7 @@ object QueryResultToXMLElement {
                                     break@loop
                                 }
                                 if (valueID != ResultSetDictionaryExt.undefValue && valueID != ResultSetDictionaryExt.errorValue) {
-                                    val value = node.query.dictionary.getValue(valueID).valueToString()
+                                    val value = node.getQuery().dictionary.getValue(valueID).valueToString()
                                     SanityCheck.check { value != null }
                                     val nodeBinding = XMLElement("binding").addAttribute("name", variables[variableIndex])
                                     if (value!!.length > 1) {

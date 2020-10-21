@@ -9,6 +9,8 @@ import lupos.s00misc.SanityCheck
 import lupos.s01io.BufferManager
 import lupos.s03resultRepresentation.nodeGlobalDictionary
 import lupos.s04logicalOperators.Query
+import lupos.s04logicalOperators.IQuery
+import lupos.s15tripleStoreDistributed.IPersistentStoreLocal
 
 class PersistentStoreLocal :IPersistentStoreLocal{
     @JvmField
@@ -28,7 +30,7 @@ class PersistentStoreLocal :IPersistentStoreLocal{
         return res
     }
 
-    override fun createGraph(query: Query, name: String): TripleStoreLocal {
+    override fun createGraph(query: IQuery, name: String): TripleStoreLocal {
         val tmp = stores[name]
         if (tmp != null) {
             throw GraphNameAlreadyExistsDuringCreateException(name)
@@ -38,7 +40,7 @@ class PersistentStoreLocal :IPersistentStoreLocal{
         return tmp2
     }
 
-    suspend override fun dropGraph(query: Query, name: String) {
+    suspend override fun dropGraph(query: IQuery, name: String) {
         SanityCheck.check({ name != PersistentStoreLocalExt.defaultGraphName })
         var store = stores[name]
         if (store == null) {
@@ -48,11 +50,11 @@ class PersistentStoreLocal :IPersistentStoreLocal{
         stores.remove(name)
     }
 
-    suspend override fun clearGraph(query: Query, name: String) {
+    suspend override fun clearGraph(query: IQuery, name: String) {
         getNamedGraph(query, name).clear()
     }
 
-    suspend override fun getNamedGraph(query: Query, name: String, create: Boolean ): TripleStoreLocal {
+    suspend override fun getNamedGraph(query: IQuery, name: String, create: Boolean ): TripleStoreLocal {
         val tmp = stores[name]
         if (tmp != null) {
             return tmp
@@ -62,11 +64,11 @@ class PersistentStoreLocal :IPersistentStoreLocal{
         return createGraph(query, name)
     }
 
-    suspend override fun getDefaultGraph(query: Query): TripleStoreLocal {
+    suspend override fun getDefaultGraph(query: IQuery): TripleStoreLocal {
         return getNamedGraph(query, PersistentStoreLocalExt.defaultGraphName, true)
     }
 
-    suspend override fun commit(query: Query) {
+    suspend override fun commit(query: IQuery) {
         stores.values.forEach { v ->
             v.commit(query)
         }
