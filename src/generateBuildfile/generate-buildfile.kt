@@ -219,8 +219,7 @@ class GenerateBuildFile(val args: Array<String>) {
                     ChooseableOptionTypeAlias("Off", "lupos.s00misc", listOf("SanityCheck" to "SanityCheckOff"))
             ),
             ChooseableGroup("Parallelisation Method", "Parallel") to listOf(
-                    ChooseableOptionDirectory("Coroutines", "commonS00ParallelCoroutinesMain"),
-                    ChooseableOptionDirectory("Threads", "jvmS00ParallelThreadsMain")
+                    ChooseableOptionSymbolic("Threads", "commonS00ParallelThreadsMain")
             ),
             ChooseableGroup("Buffer Manager Type", "BufferManager") to listOf(
                     ChooseableOptionSymbolic("Heap", "commonS01HeapMain"),
@@ -531,7 +530,7 @@ class GenerateBuildFile(val args: Array<String>) {
             val platform = presentChoice(ChooseableGroup("Platform", "Platform"), platformPrefix.keys.toList().map { ChooseableOption(it) }).label
             additionalSources = mapOf(
                     /*if the key is choosen, automatically add all dependent things*/
-                    ChooseableOption("jvmS00ParallelThreadsMain") to listOf(
+                    ChooseableOption("commonS00ParallelThreadsMain") to listOf(
                             ChoosableOptionInternalScript("SuspendModeOff", { applySuspendDisable() }, "SuspendModeOff", false)
                     ),
                     ChooseableOption("jvmS16ServerCommunicationSocketsMain") to listOf(
