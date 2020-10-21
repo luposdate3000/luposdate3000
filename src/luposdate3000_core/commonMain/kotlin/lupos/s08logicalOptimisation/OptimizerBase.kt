@@ -14,7 +14,7 @@ abstract class OptimizerBase(@JvmField val query: Query, @JvmField val optimizer
         SanityCheck {
             if (parent != null) {
                 var found = false
-                for (c in parent.children) {
+                for (c in parent.getChildren()) {
                     if (c === node) {
                         found = true
                         break
@@ -23,8 +23,8 @@ abstract class OptimizerBase(@JvmField val query: Query, @JvmField val optimizer
                 SanityCheck.check({ found })
             }
         }
-        for (i in node.children.indices) {
-            val tmp = optimizeInternal(node.children[i], node, onChange)
+        for (i in node.getChildren().indices) {
+            val tmp = optimizeInternal(node.getChildren()[i], node, onChange)
             node.updateChildren(i, tmp)
         }
         return optimize(node, parent, onChange)

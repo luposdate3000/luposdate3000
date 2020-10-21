@@ -18,13 +18,13 @@ class LogicalOptimizerJoinOrder(query: Query) : OptimizerBase(query, EOptimizerI
     override val classname = "LogicalOptimizerJoinOrder"
     fun findAllJoinsInChildren(node: LOPJoin): List<OPBase> {
         val res = mutableListOf<OPBase>()
-        for (c in node.children) {
+        for (c in node.getChildren()) {
             if (c is LOPJoin && !c.optional) {
                 res.addAll(findAllJoinsInChildren(c))
             } else if (c is LOPProjection) {
-                var d = c.children[0]
+                var d = c.getChildren()[0]
                 while (d is LOPProjection) {
-                    d = d.children[0]
+                    d = d.getChildren()[0]
                 }
                 if (d is LOPJoin && !d.optional) {
                     res.addAll(findAllJoinsInChildren(d))
@@ -63,7 +63,7 @@ class LogicalOptimizerJoinOrder(query: Query) : OptimizerBase(query, EOptimizerI
         return res
     }
 
-    suspend fun applyOptimisation(nodes: List<OPBase>, root: LOPJoin): OPBase {
+    suspend fun applyOptimisation(nodes: List<OPBase>, root: LOPJoin): IOPBase {
         if (nodes.size > 2) {
             var result = LogicalOptimizerJoinOrderStore(nodes, root)
             if (result != null) {
@@ -90,7 +90,7 @@ class LogicalOptimizerJoinOrder(query: Query) : OptimizerBase(query, EOptimizerI
     }
 
     override suspend fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
-        var res: OPBase = node
+        var res: IOPBase = node
         if (node is LOPJoin && !node.optional && (parent !is LOPJoin || parent.optional)) {
             var originalProvided = node.getProvidedVariableNames()
             try {

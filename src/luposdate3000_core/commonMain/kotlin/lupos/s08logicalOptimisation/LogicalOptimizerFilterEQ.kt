@@ -15,27 +15,27 @@ import lupos.s08logicalOptimisation.OptimizerBase
 class LogicalOptimizerFilterEQ(query: Query) : OptimizerBase(query, EOptimizerID.LogicalOptimizerFilterEQID) {
     override val classname = "LogicalOptimizerFilterEQ"
     override suspend fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
-        var res: OPBase = node
+        var res: IOPBase = node
         if (node is LOPFilter) {
-            val filter = node.children[1]
+            val filter = node.getChildren()[1]
             if (filter is AOPEQ) {
-                val v1 = filter.children[0]
-                val v2 = filter.children[1]
+                val v1 = filter.getChildren()[0]
+                val v2 = filter.getChildren()[1]
                 if (v1 is AOPVariable && v2 is AOPVariable) {
-                    val child = node.children[0]
+                    val child = node.getChildren()[0]
                     if (child !is LOPTriple) {
                         /* child may only be a triple, if_ both variables are from the same triple - which leads to errors if_ those are inlined */
                         if (parent != null) {
                             if (parent is LOPProjection && parent.variables.map { it.name }.contains(v1.name)) {
-                                node.replaceVariableWithAnother(node.children[0], v2.name, v1.name, node, 0)
-                                res = LOPBind(query, v2, v1, node.children[0])
+                                node.replaceVariableWithAnother(node.getChildren()[0], v2.name, v1.name, node, 0)
+                                res = LOPBind(query, v2, v1, node.getChildren()[0])
                             } else {
-                                node.replaceVariableWithAnother(node.children[0], v1.name, v2.name, node, 0)
-                                res = LOPBind(query, v1, v2, node.children[0])
+                                node.replaceVariableWithAnother(node.getChildren()[0], v1.name, v2.name, node, 0)
+                                res = LOPBind(query, v1, v2, node.getChildren()[0])
                             }
                         } else {
-                            node.replaceVariableWithAnother(node.children[0], v1.name, v2.name, node, 0)
-                            res = LOPBind(query, v1, v2, node.children[0])
+                            node.replaceVariableWithAnother(node.getChildren()[0], v1.name, v2.name, node, 0)
+                            res = LOPBind(query, v1, v2, node.getChildren()[0])
                         }
                         onChange()
                     }

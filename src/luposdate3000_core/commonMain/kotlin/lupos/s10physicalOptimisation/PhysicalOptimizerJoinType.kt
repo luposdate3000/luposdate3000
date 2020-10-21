@@ -26,7 +26,7 @@ import lupos.s15tripleStoreDistributed.TripleStoreIteratorGlobal
 
 class PhysicalOptimizerJoinType(query: Query) : OptimizerBase(query, EOptimizerID.PhysicalOptimizerJoinTypeID) {
     override val classname = "PhysicalOptimizerJoinType"
-    fun localGetProjected(node: OPBase, parent: OPBase?): List<String> {
+    fun localGetProjected(node: IOPBase, parent: IOPBase?): List<String> {
         if (parent is LOPProjection) {
             return parent.getProvidedVariableNames()
         } else if (parent is POPProjection) {
@@ -38,7 +38,7 @@ class PhysicalOptimizerJoinType(query: Query) : OptimizerBase(query, EOptimizerI
         }
     }
 
-    fun embedWithinPartitionContext(joinColumns: MutableList<String>, childA: OPBase, childB: OPBase, create: (OPBase, OPBase) -> OPBase): OPBase {
+    fun embedWithinPartitionContext(joinColumns: MutableList<String>, childA: IOPBase, childB: IOPBase, create: (IOPBase, IOPBase) -> IOPBase): IOPBase {
         if (USE_PARTITIONS && Partition.default_k > 1) {
             var a = childA
             var b = childB
@@ -126,8 +126,8 @@ class PhysicalOptimizerJoinType(query: Query) : OptimizerBase(query, EOptimizerI
                 val tmp = node.getMySortPriority().map { it.variableName }
                 SanityCheck.check { (!projectedVariables.containsAll(tmp)) || (projectedVariables.containsAll(tmp) && res.getProvidedVariableNames().containsAll(tmp)) }
             }
-            res.getMySortPriority() = node.getMySortPriority()
-            res.sortPriorities = node.sortPriorities
+            res.setMySortPriority( node.getMySortPriority())
+            res.setSortPriorities ( node.getSortPriorities())
             onChange()
         }
         return res

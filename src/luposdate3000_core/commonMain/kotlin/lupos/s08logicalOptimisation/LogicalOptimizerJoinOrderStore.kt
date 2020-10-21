@@ -7,7 +7,7 @@ import lupos.s04logicalOperators.multiinput.LOPJoin
 import lupos.s04logicalOperators.OPBase
 
 object LogicalOptimizerJoinOrderStore {
-    suspend operator fun invoke(allChilds: List<OPBase>, root: LOPJoin): OPBase? {
+    suspend operator fun invoke(allChilds: List<OPBase>, root: LOPJoin): IOPBase? {
         SanityCheck.check { allChilds.size > 2 }
         if (root.onlyExistenceRequired) {
             SanityCheck {

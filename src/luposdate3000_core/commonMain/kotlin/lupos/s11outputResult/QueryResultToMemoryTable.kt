@@ -40,7 +40,7 @@ internal object QueryResultToMemoryTable {
         }
     }
 
-    suspend fun writeNodeResult(variables: Array<String>, node: OPBase, output: MemoryTable, parent: Partition = Partition()) {
+    suspend fun writeNodeResult(variables: Array<String>, node: IOPBase, output: MemoryTable, parent: Partition = Partition()) {
         if (node is POPMergePartition && node.partitionCount > 1) {
             val jobs = Array<ParallelJob?>(node.partitionCount) { null }
             val lock = MyLock()

@@ -13,14 +13,14 @@ import lupos.s08logicalOptimisation.OptimizerBase
 class LogicalOptimizerFilterUp(query: Query) : OptimizerBase(query, EOptimizerID.LogicalOptimizerFilterUpID) {
     override val classname = "LogicalOptimizerFilterUp"
     override suspend fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
-        var res: OPBase = node
+        var res: IOPBase = node
         if (node !is LOPFilter && node !is LOPMinus && node !is LOPUnion && (node !is LOPJoin || !node.optional)) {
-            for (idx in 0 until node.children.size) {
-                val child = node.children[idx]
-                if (child is LOPFilter && node.getProvidedVariableNames().containsAll(child.children[1].getRequiredVariableNamesRecoursive())) {
+            for (idx in 0 until node.getChildren().size) {
+                val child = node.getChildren()[idx]
+                if (child is LOPFilter && node.getProvidedVariableNames().containsAll(child.getChildren()[1].getRequiredVariableNamesRecoursive())) {
                     res = child
-                    node.children[idx] = res.children[0]
-                    res.children[0] = node
+                    node.getChildren()[idx] = res.getChildren()[0]
+                    res.getChildren()[0] = node
                     onChange()
                     break
                 }

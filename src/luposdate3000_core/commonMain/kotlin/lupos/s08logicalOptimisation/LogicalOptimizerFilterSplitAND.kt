@@ -11,13 +11,13 @@ import lupos.s04logicalOperators.singleinput.LOPFilter
 class LogicalOptimizerFilterSplitAND(query: Query) : OptimizerBase(query, EOptimizerID.LogicalOptimizerFilterSplitANDID) {
     override val classname = "LogicalOptimizerFilterSplitAND"
     override suspend fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
-        var res: OPBase = node
+        var res: IOPBase = node
         if (node is LOPFilter && node.dontSplitFilter == 0) {
-            val child = node.children[0]
-            val aopcompare = node.children[1]
+            val child = node.getChildren()[0]
+            val aopcompare = node.getChildren()[1]
             if (aopcompare is AOPAnd) {
                 onChange()
-                res = LOPFilter(query, aopcompare.children[0] as AOPBase, LOPFilter(query, aopcompare.children[1] as AOPBase, child))
+                res = LOPFilter(query, aopcompare.getChildren()[0] as AOPBase, LOPFilter(query, aopcompare.getChildren()[1] as AOPBase, child))
             }
         }
         return res

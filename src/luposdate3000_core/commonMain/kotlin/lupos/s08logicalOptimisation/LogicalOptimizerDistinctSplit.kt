@@ -15,9 +15,9 @@ import lupos.s08logicalOptimisation.OptimizerBase
 class LogicalOptimizerDistinctSplit(query: Query) : OptimizerBase(query, EOptimizerID.LogicalOptimizerDistinctSplitID) {
     override val classname = "LogicalOptimizerDistinctSplit"
     override suspend fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
-        var res: OPBase = node
+        var res: IOPBase = node
         if (node is LOPDistinct) {
-            val child = node.children[0]
+            val child = node.getChildren()[0]
             val provided = child.getProvidedVariableNames().toMutableList()
             if (provided.size == 0) {
                 //no variables -> no sort required
@@ -29,7 +29,7 @@ class LogicalOptimizerDistinctSplit(query: Query) : OptimizerBase(query, EOptimi
                     onChange()
                 } else {
                     if (child is LOPJoin) {
-                        val columns = LOPJoin.getColumns(child.children[0].getProvidedVariableNames(), child.children[1].getProvidedVariableNames())
+                        val columns = LOPJoin.getColumns(child.getChildren()[0].getProvidedVariableNames(), child.getChildren()[1].getProvidedVariableNames())
                         val variables = mutableListOf<String>()
                         variables.addAll(columns[0])
                         variables.addAll(columns[1])

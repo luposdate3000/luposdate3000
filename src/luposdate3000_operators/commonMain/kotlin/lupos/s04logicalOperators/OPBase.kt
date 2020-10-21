@@ -60,6 +60,12 @@ abstract class OPBase(@JvmField val query: IQuery, @JvmField val operatorID: EOp
 
     @JvmField
     var histogramResult: HistogramResult? = null
+override fun setSortPriorities(value:MutableList<List<SortHelper>>){
+sortPriorities=value
+}
+override fun setMySortPriority(value:MutableList<SortHelper>){
+mySortPriority=value
+}
     override fun getQuery() = query
     override fun getSortPriorities() = sortPriorities
     override fun getUUID() = uuid
@@ -351,7 +357,7 @@ abstract class OPBase(@JvmField val query: IQuery, @JvmField val operatorID: EOp
     }
 
     open fun childrenToVerifyCount(): Int = children.size
-    open fun updateChildren(i: Int, child: IOPBase) {
+override    open fun updateChildren(i: Int, child: IOPBase) {
         SanityCheck.check({ i < children.size })
         children[i] = child
     }

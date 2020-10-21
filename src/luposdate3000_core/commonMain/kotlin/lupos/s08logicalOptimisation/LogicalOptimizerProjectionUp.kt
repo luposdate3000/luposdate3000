@@ -16,13 +16,13 @@ import lupos.s08logicalOptimisation.OptimizerBase
 class LogicalOptimizerProjectionUp(query: Query) : OptimizerBase(query, EOptimizerID.LogicalOptimizerProjectionUpID) {
     override val classname = "LogicalOptimizerProjectionUp"
     override suspend fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
-        var res: OPBase = node
+        var res: IOPBase = node
         if (node !is LOPProjection && node !is OPBaseCompound && node !is LOPUnion && node !is LOPMinus && node !is LOPReduced && node !is LOPDistinct) {
-            for (i in 0 until node.children.size) {
-                val child = node.children[i]
+            for (i in 0 until node.getChildren().size) {
+                val child = node.getChildren()[i]
                 if (child is LOPProjection) {
                     res = LOPProjection(query, node.getProvidedVariableNames().map { AOPVariable(query, it) }.toMutableList(), node)
-                    node.children[i] = child.children[0]
+                    node.getChildren()[i] = child.getChildren()[0]
                     onChange()
                     break
                 }

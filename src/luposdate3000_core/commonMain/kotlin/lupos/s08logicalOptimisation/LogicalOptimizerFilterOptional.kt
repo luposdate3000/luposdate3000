@@ -20,20 +20,20 @@ import lupos.s04logicalOperators.singleinput.LOPSubGroup
 class LogicalOptimizerFilterOptional(query: Query) : OptimizerBase(query, EOptimizerID.LogicalOptimizerFilterOptionalID) {
     override val classname = "LogicalOptimizerFilterOptional"
     override suspend fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
-        var res: OPBase = node
+        var res: IOPBase = node
         if (node is LOPJoin && node.optional) {
-            var child = node.children[1]
+            var child = node.getChildren()[1]
             var changed = false
             val filters = mutableListOf<AOPBase>()
             loop@ while (true) {
                 when (child) {
                     is LOPSubGroup -> {
-                        child = child.children[0]
+                        child = child.getChildren()[0]
                         changed = true
                     }
                     is LOPFilter -> {
-                        addFilters(filters, child.children[1] as AOPBase)
-                        child = child.children[0]
+                        addFilters(filters, child.getChildren()[1] as AOPBase)
+                        child = child.getChildren()[0]
                         changed = true
                     }
                     else -> {
@@ -63,12 +63,12 @@ class LogicalOptimizerFilterOptional(query: Query) : OptimizerBase(query, EOptim
                 }
                 if (filterOutside != null) {
                     if (filterInside != null) {
-                        node.children[1] = LOPFilter(query, filterInside, child)
+                        node.getChildren()[1] = LOPFilter(query, filterInside, child)
                     } else {
-                        node.children[1] = child
+                        node.getChildren()[1] = child
                     }
                     val optionalIndicatorList = childProvided.toMutableSet()
-                    optionalIndicatorList.removeAll(node.children[0].getProvidedVariableNames())
+                    optionalIndicatorList.removeAll(node.getChildren()[0].getProvidedVariableNames())
                     var t = optionalIndicatorList.toList()
                     if (t.size < 1) {
                         throw Exception("optional clause must add at least 1 new variable")
@@ -116,8 +116,8 @@ class LogicalOptimizerFilterOptional(query: Query) : OptimizerBase(query, EOptim
 
     fun addFilters(filters: MutableList<AOPBase>, filter: AOPBase) {
         if (filter is AOPAnd) {
-            addFilters(filters, filter.children[0] as AOPBase)
-            addFilters(filters, filter.children[1] as AOPBase)
+            addFilters(filters, filter.getChildren()[0] as AOPBase)
+            addFilters(filters, filter.getChildren()[1] as AOPBase)
         } else {
             filters.add(filter)
         }

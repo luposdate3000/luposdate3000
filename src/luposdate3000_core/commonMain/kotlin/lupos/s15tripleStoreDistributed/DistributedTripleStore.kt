@@ -21,6 +21,7 @@ import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.s04logicalOperators.iterator.ColumnIteratorMultiValue
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.OPBase
+import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.Query
 import lupos.s05tripleStore.PersistentStoreLocal
 import lupos.s05tripleStore.PersistentStoreLocalExt
@@ -32,7 +33,7 @@ import lupos.s09physicalOperators.POPBase
 import lupos.s16network.ITripleStoreBulkImportDistributed
 import lupos.s16network.ServerCommunicationSend
 
-class TripleStoreIteratorGlobal(query: IQuery, projectedVariables: List<String>, @JvmField val graphName: String, params: Array<IAOPBase>, @JvmField val idx: EIndexPattern, @JvmField val partition: Partition) : POPBase(query, projectedVariables, EOperatorID.TripleStoreIteratorGlobalID, "TripleStoreIteratorGlobal", Array<OPBase>(3) { params[it] }, ESortPriority.ANY_PROVIDED_VARIABLE) {
+class TripleStoreIteratorGlobal(query: IQuery, projectedVariables: List<String>, @JvmField val graphName: String, params: Array<IAOPBase>, @JvmField val idx: EIndexPattern, @JvmField val partition: Partition) : POPBase(query, projectedVariables, EOperatorID.TripleStoreIteratorGlobalID, "TripleStoreIteratorGlobal", Array<IOPBase>(3) { params[it] }, ESortPriority.ANY_PROVIDED_VARIABLE) {
     override fun getPartitionCount(variable: String): Int {
         val res = partition.limit[variable]
         if (res != null) {
@@ -112,7 +113,7 @@ class TripleStoreIteratorGlobal(query: IQuery, projectedVariables: List<String>,
     }
 }
 
-class DistributedGraph(val query: Query, @JvmField val name: String) : IDistributedGraph {
+class DistributedGraph(val query: IQuery, @JvmField val name: String) : IDistributedGraph {
     suspend override fun bulkImport(action: suspend (ITripleStoreBulkImportDistributed) -> Unit) {
         ServerCommunicationSend.bulkImport(query, name, action)
     }
@@ -144,7 +145,7 @@ class DistributedGraph(val query: Query, @JvmField val name: String) : IDistribu
 
     override fun getIterator(idx: EIndexPattern, partition: Partition): POPBase {
         val projectedVariables = listOf<String>("s", "p", "o")
-        return TripleStoreIteratorGlobal(query, projectedVariables, name, arrayOf<AOPBase>(AOPVariable(query, "s"), AOPVariable(query, "p"), AOPVariable(query, "o")), idx, partition)
+        return TripleStoreIteratorGlobal(query, projectedVariables, name, arrayOf<IAOPBase>(AOPVariable(query, "s"), AOPVariable(query, "p"), AOPVariable(query, "o")), idx, partition)
     }
 
     override fun getIterator(params: Array<IAOPBase>, idx: EIndexPattern, partition: Partition): POPBase {

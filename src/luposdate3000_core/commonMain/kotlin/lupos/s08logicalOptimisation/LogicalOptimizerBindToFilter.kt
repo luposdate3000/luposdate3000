@@ -15,14 +15,14 @@ import lupos.s08logicalOptimisation.OptimizerBase
 class LogicalOptimizerBindToFilter(query: Query) : OptimizerBase(query, EOptimizerID.LogicalOptimizerBindToFilterID) {
     override val classname = "LogicalOptimizerBindToFilter"
     override suspend fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
-        var res: OPBase = node
+        var res = node
         if (node is LOPBind) {
-            var v = node.children[0].getProvidedVariableNames()
+            var v = node.getChildren()[0].getProvidedVariableNames()
             if (v.contains(node.name.name)) {
                 val v2 = mutableListOf<String>()
                 v2.addAll(v)
                 v2.remove(node.name.name)
-                node.children[0] = LOPProjection(query, v2.map { AOPVariable(query, it) }.toMutableList(), LOPFilter(query, AOPEQ(query, AOPVariable(query, node.name.name), node.children[1] as AOPBase), node.children[0]))
+                node.getChildren()[0] = LOPProjection(query, v2.map { AOPVariable(query, it) }.toMutableList(), LOPFilter(query, AOPEQ(query, AOPVariable(query, node.name.name), node.getChildren()[1] as AOPBase), node.getChildren()[0]))
                 onChange()
             }
         }

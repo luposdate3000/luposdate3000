@@ -14,14 +14,14 @@ class LogicalOptimizerRemoveBindVariable(query: Query) : OptimizerBase(query, EO
     override suspend fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
         var res = node
         if (node is LOPProjection) {
-            val child = node.children[0]
+            val child = node.getChildren()[0]
             if (child is LOPBind) {
-                var exp = child.children[1]
+                var exp = child.getChildren()[1]
                 if (exp is AOPVariable) {
                     var provided = node.getProvidedVariableNames()
                     if (!provided.contains(exp.name)) {
-                        node.replaceVariableWithAnother(child.children[0], exp.name, child.name.name, child, 0)
-                        node.children[0] = child.children[0]
+                        node.replaceVariableWithAnother(child.getChildren()[0], exp.name, child.name.name, child, 0)
+                        node.getChildren()[0] = child.getChildren()[0]
                         onChange()
                     }
                 }

@@ -16,13 +16,13 @@ import lupos.s08logicalOptimisation.OptimizerBase
 class LogicalOptimizerMinusAddSort(query: Query) : OptimizerBase(query, EOptimizerID.LogicalOptimizerMinusAddSortID) {
     override val classname = "LogicalOptimizerMinusAddSort"
     override suspend fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
-        var res: OPBase = node
+        var res: IOPBase = node
         if (node is LOPMinus) {
             if (!node.hadSortPushDown) {
                 node.hadSortPushDown = true
-                val provided = node.children[0].getProvidedVariableNames().intersect(node.children[1].getProvidedVariableNames())
-                node.children[1] = LOPReduced(query, LOPSortAny(query, provided.map { SortHelper(it, ESortType.FAST) }, LOPProjection(query, provided.map { AOPVariable(query, it) }.toMutableList(), node.children[1])))
-                node.children[0] = LOPSortAny(query, provided.map { SortHelper(it, ESortType.FAST) }, LOPProjection(query, provided.map { AOPVariable(query, it) }.toMutableList(), node.children[0]))
+                val provided = node.getChildren()[0].getProvidedVariableNames().intersect(node.getChildren()[1].getProvidedVariableNames())
+                node.getChildren()[1] = LOPReduced(query, LOPSortAny(query, provided.map { SortHelper(it, ESortType.FAST) }, LOPProjection(query, provided.map { AOPVariable(query, it) }.toMutableList(), node.getChildren()[1])))
+                node.getChildren()[0] = LOPSortAny(query, provided.map { SortHelper(it, ESortType.FAST) }, LOPProjection(query, provided.map { AOPVariable(query, it) }.toMutableList(), node.getChildren()[0]))
                 onChange()
             }
         }

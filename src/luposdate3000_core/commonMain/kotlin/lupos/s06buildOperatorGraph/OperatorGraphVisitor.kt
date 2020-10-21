@@ -122,6 +122,7 @@ import lupos.s03resultRepresentation.ValueSimpleLiteral
 import lupos.s03resultRepresentation.ValueUndef
 import lupos.s04arithmetikOperators.AOPAggregationBase
 import lupos.s04arithmetikOperators.AOPBase
+import lupos.s04arithmetikOperators.IAOPBase
 import lupos.s04arithmetikOperators.multiinput.AOPAddition
 import lupos.s04arithmetikOperators.multiinput.AOPAnd
 import lupos.s04arithmetikOperators.multiinput.AOPBuildInCallCOALESCE
@@ -195,6 +196,7 @@ import lupos.s04arithmetikOperators.singleinput.AOPFunctionCallFloat
 import lupos.s04arithmetikOperators.singleinput.AOPFunctionCallString
 import lupos.s04arithmetikOperators.singleinput.AOPNot
 import lupos.s04logicalOperators.LOPBase
+import lupos.s04logicalOperators.ILOPBase
 import lupos.s04logicalOperators.multiinput.LOPJoin
 import lupos.s04logicalOperators.multiinput.LOPMinus
 import lupos.s04logicalOperators.multiinput.LOPUnion
@@ -204,8 +206,10 @@ import lupos.s04logicalOperators.noinput.LOPTriple
 import lupos.s04logicalOperators.noinput.LOPValues
 import lupos.s04logicalOperators.noinput.OPEmptyRow
 import lupos.s04logicalOperators.OPBase
+import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.OPBaseCompound
 import lupos.s04logicalOperators.Query
+import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.singleinput.LOPBind
 import lupos.s04logicalOperators.singleinput.LOPFilter
 import lupos.s04logicalOperators.singleinput.LOPGroup

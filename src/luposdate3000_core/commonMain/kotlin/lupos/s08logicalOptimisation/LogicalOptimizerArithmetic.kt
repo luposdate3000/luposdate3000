@@ -17,8 +17,8 @@ import lupos.s08logicalOptimisation.OptimizerBase
 
 class LogicalOptimizerArithmetic(query: Query) : OptimizerBase(query, EOptimizerID.LogicalOptimizerArithmeticID) {
     override val classname = "LogicalOptimizerArithmetic"
-    fun hasAggregation(node: OPBase): Boolean {
-        for (n in node.children) {
+    fun hasAggregation(node: IOPBase): Boolean {
+        for (n in node.getChildren()) {
             if (hasAggregation(n)) {
                 return true
             }
@@ -29,7 +29,7 @@ class LogicalOptimizerArithmetic(query: Query) : OptimizerBase(query, EOptimizer
     override suspend fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
         var res = node
         if (node is AOPBase && node !is AOPValue && node !is AOPBuildInCallNotExists && node !is AOPBuildInCallExists && node !is AOPVariable) {
-            if (node.children.size > 0 && node.getRequiredVariableNamesRecoursive().size == 0 && !hasAggregation(node)) {
+            if (node.getChildren().size > 0 && node.getRequiredVariableNamesRecoursive().size == 0 && !hasAggregation(node)) {
                 var value = node.evaluateID(IteratorBundle(0))()
                 if (value == ResultSetDictionaryExt.errorValue) {
                     value = ResultSetDictionaryExt.undefValue

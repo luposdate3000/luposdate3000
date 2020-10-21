@@ -30,16 +30,16 @@ import lupos.s08logicalOptimisation.OptimizerBase
 class LogicalOptimizerProjectionDown(query: Query) : OptimizerBase(query, EOptimizerID.LogicalOptimizerProjectionDownID) {
     override val classname = "LogicalOptimizerProjectionDown"
     override suspend fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
-        var res: OPBase = node
+        var res: IOPBase = node
         if (node is LOPReduced) {
-            val child = node.children[0]
+            val child = node.getChildren()[0]
             if (child is LOPProjection) {
                 //move projection into Minus if_ duplicates are removed anyway
-                val child2 = child.children[0]
+                val child2 = child.getChildren()[0]
                 if (child2 is LOPMinus) {
                     res = child2
-                    child2.children[0] = LOPProjection(query, child.variables, child2.children[0])
-                    child2.children[1] = LOPProjection(query, child.variables, child2.children[1])
+                    child2.getChildren()[0] = LOPProjection(query, child.variables, child2.getChildren()[0])
+                    child2.getChildren()[1] = LOPProjection(query, child.variables, child2.getChildren()[1])
                     onChange()
                 } else if (child2 is LOPSortAny) {
                     val p = child.variables.map { it.name }
@@ -49,55 +49,55 @@ class LogicalOptimizerProjectionDown(query: Query) : OptimizerBase(query, EOptim
                             list.add(x)
                         }
                     }
-                    node.children[0] = LOPSortAny(query, list, LOPProjection(query, child.variables, child2.children[0]))
+                    node.getChildren()[0] = LOPSortAny(query, list, LOPProjection(query, child.variables, child2.getChildren()[0]))
                     onChange()
                 }
             }
         } else if (node is LOPMakeBooleanResult) {
-            val child = node.children[0]
+            val child = node.getChildren()[0]
             if (child !is LOPProjection && child.getProvidedVariableNames().size > 0) {
-                node.children[0] = LOPProjection(query, mutableListOf<AOPVariable>(), node.children[0])
+                node.getChildren()[0] = LOPProjection(query, mutableListOf<AOPVariable>(), node.getChildren()[0])
                 onChange()
             }
         } else if (node is LOPUnion) {
-            var va = node.children[0].getProvidedVariableNames()
-            var vb = node.children[1].getProvidedVariableNames()
+            var va = node.getChildren()[0].getProvidedVariableNames()
+            var vb = node.getChildren()[1].getProvidedVariableNames()
             var variables = va.intersect(vb)
             if (!variables.containsAll(va) || !variables.containsAll(vb)) {
-                node.children[0] = LOPProjection(query, variables.map { AOPVariable(query, it) }.toMutableList(), node.children[0])
-                node.children[1] = LOPProjection(query, variables.map { AOPVariable(query, it) }.toMutableList(), node.children[1])
+                node.getChildren()[0] = LOPProjection(query, variables.map { AOPVariable(query, it) }.toMutableList(), node.getChildren()[0])
+                node.getChildren()[1] = LOPProjection(query, variables.map { AOPVariable(query, it) }.toMutableList(), node.getChildren()[1])
                 onChange()
             }
         } else if (node is LOPMinus) {
-            var va = node.children[0].getProvidedVariableNames()
-            var vb = node.children[1].getProvidedVariableNames()
+            var va = node.getChildren()[0].getProvidedVariableNames()
+            var vb = node.getChildren()[1].getProvidedVariableNames()
             var variables = va.intersect(vb).toMutableList()
             variables.addAll(node.tmpFakeVariables)
             variables = variables.distinct().toMutableList()
             if (!variables.containsAll(va) || !variables.containsAll(vb)) {
-                node.children[0] = LOPProjection(query, variables.map { AOPVariable(query, it) }.toMutableList(), node.children[0])
-                node.children[1] = LOPProjection(query, variables.map { AOPVariable(query, it) }.toMutableList(), node.children[1])
+                node.getChildren()[0] = LOPProjection(query, variables.map { AOPVariable(query, it) }.toMutableList(), node.getChildren()[0])
+                node.getChildren()[1] = LOPProjection(query, variables.map { AOPVariable(query, it) }.toMutableList(), node.getChildren()[1])
                 onChange()
             }
         } else if (node is LOPProjection) {
             var variables = node.variables.distinct().map { it.name }.toMutableList()
-            val child = node.children[0]
+            val child = node.getChildren()[0]
             val childProvided = child.getProvidedVariableNames()
             if (!childProvided.containsAll(variables)) {
                 variables = childProvided.intersect(variables).toMutableList()
-                res = LOPProjection(query, variables.map { AOPVariable(query, it) }.toMutableList(), node.children[0])
+                res = LOPProjection(query, variables.map { AOPVariable(query, it) }.toMutableList(), node.getChildren()[0])
                 onChange()
             } else if (variables.containsAll(childProvided)) {
-                res = node.children[0]
+                res = node.getChildren()[0]
                 onChange()
             } else {
                 when (child) {
                     is LOPReduced -> {
-                        node.children[0] = child.children[0]
+                        node.getChildren()[0] = child.getChildren()[0]
                         res = LOPReduced(query, node)
                     }
                     is LOPDistinct -> {
-                        node.children[0] = child.children[0]
+                        node.getChildren()[0] = child.getChildren()[0]
                         res = LOPReduced(query, node)
                     }
                     is LOPValues -> {
@@ -110,11 +110,11 @@ class LogicalOptimizerProjectionDown(query: Query) : OptimizerBase(query, EOptim
                                 }
                             }
                         }
-                        for (c in child.children) {
+                        for (c in child.getChildren()) {
                             val cc = c as AOPValue
                             var list = mutableListOf<AOPConstant>()
                             for (i in 0 until mapping.size) {
-                                list.add(cc.children[i] as AOPConstant)
+                                list.add(cc.getChildren()[i] as AOPConstant)
                             }
                             values.add(AOPValue(query, list))
                         }
@@ -122,8 +122,8 @@ class LogicalOptimizerProjectionDown(query: Query) : OptimizerBase(query, EOptim
                         onChange()
                     }
                     is LOPMinus -> {
-                        val p0 = child.children[0].getProvidedVariableNames()
-                        val p1 = child.children[1].getProvidedVariableNames()
+                        val p0 = child.getChildren()[0].getProvidedVariableNames()
+                        val p1 = child.getChildren()[1].getProvidedVariableNames()
                         var target = node.variables.map { it.name }.distinct().toMutableList()
                         target.addAll(p0.intersect(p1))
                         var newFake = mutableListOf<String>()
@@ -136,19 +136,19 @@ class LogicalOptimizerProjectionDown(query: Query) : OptimizerBase(query, EOptim
                         }
                         child.tmpFakeVariables = newFake
                         if (!target.containsAll(p0)) {
-                            child.children[0] = LOPProjection(query, target.intersect(p0).map { AOPVariable(query, it) }.toMutableList(), child.children[0])
+                            child.getChildren()[0] = LOPProjection(query, target.intersect(p0).map { AOPVariable(query, it) }.toMutableList(), child.getChildren()[0])
                             onChange()
                         }
                         if (!target.containsAll(p1)) {
-                            child.children[1] = LOPProjection(query, target.intersect(p1).map { AOPVariable(query, it) }.toMutableList(), child.children[1])
+                            child.getChildren()[1] = LOPProjection(query, target.intersect(p1).map { AOPVariable(query, it) }.toMutableList(), child.getChildren()[1])
                             onChange()
                         }
                     }
                     is LOPUnion -> {
-                        var variables2 = node.variables.map { it.name }.intersect(child.children[0].getProvidedVariableNames()).intersect(child.children[1].getProvidedVariableNames())
-                        if (!variables2.containsAll(child.children[0].getProvidedVariableNames()) || !variables2.containsAll(child.children[1].getProvidedVariableNames())) {
-                            child.children[0] = LOPProjection(query, variables2.map { AOPVariable(query, it) }.toMutableList(), child.children[0])
-                            child.children[1] = LOPProjection(query, variables2.map { AOPVariable(query, it) }.toMutableList(), child.children[1])
+                        var variables2 = node.variables.map { it.name }.intersect(child.getChildren()[0].getProvidedVariableNames()).intersect(child.getChildren()[1].getProvidedVariableNames())
+                        if (!variables2.containsAll(child.getChildren()[0].getProvidedVariableNames()) || !variables2.containsAll(child.getChildren()[1].getProvidedVariableNames())) {
+                            child.getChildren()[0] = LOPProjection(query, variables2.map { AOPVariable(query, it) }.toMutableList(), child.getChildren()[0])
+                            child.getChildren()[1] = LOPProjection(query, variables2.map { AOPVariable(query, it) }.toMutableList(), child.getChildren()[1])
                             res = child
                             onChange()
                         }
@@ -160,11 +160,11 @@ class LogicalOptimizerProjectionDown(query: Query) : OptimizerBase(query, EOptim
                                 variables2.add(variable)
                             }
                         }
-                        res = LOPProjection(query, variables2.distinct().map { AOPVariable(query, it) }.toMutableList(), child.children[0])
+                        res = LOPProjection(query, variables2.distinct().map { AOPVariable(query, it) }.toMutableList(), child.getChildren()[0])
                         onChange()
                     }
                     is LOPLimit, is LOPOffset, is LOPSubGroup -> {
-                        child.children[0] = LOPProjection(query, node.variables.map { AOPVariable(query, it.name) }.toMutableList(), child.children[0])
+                        child.getChildren()[0] = LOPProjection(query, node.variables.map { AOPVariable(query, it.name) }.toMutableList(), child.getChildren()[0])
                         res = child
                         onChange()
                     }
@@ -186,10 +186,10 @@ class LogicalOptimizerProjectionDown(query: Query) : OptimizerBase(query, EOptim
                             res = child
                             d = true
                         }
-                        val a = child.children[0].getProvidedVariableNames()
+                        val a = child.getChildren()[0].getProvidedVariableNames()
                         val b = child.getRequiredVariableNames()
                         if (!b.containsAll(a)) {
-                            child.children[0] = LOPProjection(query, b.map { AOPVariable(query, it) }.toMutableList(), child.children[0])
+                            child.getChildren()[0] = LOPProjection(query, b.map { AOPVariable(query, it) }.toMutableList(), child.getChildren()[0])
                             d = true
                         }
                         if (d) {
@@ -197,15 +197,15 @@ class LogicalOptimizerProjectionDown(query: Query) : OptimizerBase(query, EOptim
                         }
                     }
                     is LOPFilter -> {
-                        if (child.children[0] !is LOPTriple) {
+                        if (child.getChildren()[0] !is LOPTriple) {
                             if (variables.containsAll(child.getRequiredVariableNames())) {
-                                child.children[0] = LOPProjection(query, node.variables.map { AOPVariable(query, it.name) }.toMutableList(), child.children[0])
+                                child.getChildren()[0] = LOPProjection(query, node.variables.map { AOPVariable(query, it.name) }.toMutableList(), child.getChildren()[0])
                                 res = child
                                 onChange()
                             } else {
                                 variables.addAll(child.getRequiredVariableNames())
-                                if (!variables.containsAll(child.children[0].getProvidedVariableNames()) && child.children[0] !is LOPProjection) {
-                                    child.children[0] = LOPProjection(query, variables.distinct().map { AOPVariable(query, it) }.toMutableList(), child.children[0])
+                                if (!variables.containsAll(child.getChildren()[0].getProvidedVariableNames()) && child.getChildren()[0] !is LOPProjection) {
+                                    child.getChildren()[0] = LOPProjection(query, variables.distinct().map { AOPVariable(query, it) }.toMutableList(), child.getChildren()[0])
                                     onChange()
                                 }
                             }
@@ -213,13 +213,13 @@ class LogicalOptimizerProjectionDown(query: Query) : OptimizerBase(query, EOptim
                     }
                     is LOPSort -> {
                         if (variables.containsAll(child.getRequiredVariableNames())) {
-                            child.children[0] = LOPProjection(query, node.variables.map { AOPVariable(query, it.name) }.toMutableList(), child.children[0])
+                            child.getChildren()[0] = LOPProjection(query, node.variables.map { AOPVariable(query, it.name) }.toMutableList(), child.getChildren()[0])
                             res = child
                             onChange()
                         } else {
                             variables.addAll(child.getRequiredVariableNames())
                             if (!variables.containsAll(child.getProvidedVariableNames())) {
-                                child.children[0] = LOPProjection(query, variables.distinct().map { AOPVariable(query, it) }.toMutableList(), child.children[0])
+                                child.getChildren()[0] = LOPProjection(query, variables.distinct().map { AOPVariable(query, it) }.toMutableList(), child.getChildren()[0])
                                 res = child
                                 onChange()
                             }
@@ -227,23 +227,23 @@ class LogicalOptimizerProjectionDown(query: Query) : OptimizerBase(query, EOptim
                     }
                     is LOPBind -> {
                         if (variables.contains(child.name.name)) {
-                            if (child.children[0] !is LOPProjection) {
+                            if (child.getChildren()[0] !is LOPProjection) {
                                 variables.remove(child.name.name)
                                 variables.addAll(child.getRequiredVariableNames())
-                                if (!variables.containsAll(child.children[0].getProvidedVariableNames())) {
-                                    child.children[0] = LOPProjection(query, variables.distinct().map { AOPVariable(query, it) }.toMutableList(), child.children[0])
+                                if (!variables.containsAll(child.getChildren()[0].getProvidedVariableNames())) {
+                                    child.getChildren()[0] = LOPProjection(query, variables.distinct().map { AOPVariable(query, it) }.toMutableList(), child.getChildren()[0])
                                     onChange()
                                 }
                             }
                         } else {
                             /*bind of unused variable -> no sideeffects -> useless*/
-                            node.children[0] = child.children[0]
+                            node.getChildren()[0] = child.getChildren()[0]
                             onChange()
                         }
                     }
                     is LOPJoin -> {
-                        val childA = child.children[0]
-                        val childB = child.children[1]
+                        val childA = child.getChildren()[0]
+                        val childB = child.getChildren()[1]
                         val variablesA = childA.getProvidedVariableNames()
                         val variablesB = childB.getProvidedVariableNames()
                         val variablesJ = mutableListOf<String>()
@@ -255,11 +255,11 @@ class LogicalOptimizerProjectionDown(query: Query) : OptimizerBase(query, EOptim
                         val flag = variables.containsAll(variablesJ)
                         variables.addAll(variablesJ)
                         if (!variables.containsAll(variablesA)) {
-                            child.children[0] = LOPProjection(query, variables.intersect(variablesA).distinct().map { AOPVariable(query, it) }.toMutableList(), childA)
+                            child.getChildren()[0] = LOPProjection(query, variables.intersect(variablesA).distinct().map { AOPVariable(query, it) }.toMutableList(), childA)
                             onChange()
                         }
                         if (!variables.containsAll(variablesB)) {
-                            child.children[1] = LOPProjection(query, variables.intersect(variablesB).distinct().map { AOPVariable(query, it) }.toMutableList(), childB)
+                            child.getChildren()[1] = LOPProjection(query, variables.intersect(variablesB).distinct().map { AOPVariable(query, it) }.toMutableList(), childB)
                             onChange()
                         }
                         if (flag) {

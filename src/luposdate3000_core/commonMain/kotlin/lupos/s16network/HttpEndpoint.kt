@@ -21,6 +21,7 @@ import lupos.s02buildSyntaxTree.turtle.TurtleParserWithStringTriples
 import lupos.s02buildSyntaxTree.turtle.TurtleScanner
 import lupos.s03resultRepresentation.nodeGlobalDictionary
 import lupos.s04logicalOperators.OPBase
+import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.Query
 import lupos.s06buildOperatorGraph.OperatorGraphVisitor
 import lupos.s08logicalOptimisation.LogicalOptimizer
@@ -284,7 +285,7 @@ object HttpEndpoint {
         return XMLElement("success").toString()
     }
 
-    suspend fun evaluate_sparql_query_string_part1(query: String, logOperatorGraph: Boolean = false): OPBase {
+    suspend fun evaluate_sparql_query_string_part1(query: String, logOperatorGraph: Boolean = false): IOPBase {
         val q = Query()
 //        var timer = DateHelperRelative.markNow()
         SanityCheck.println { "----------String Query" }
@@ -331,7 +332,7 @@ object HttpEndpoint {
         return pop_distributed_node
     }
 
-    internal suspend fun evaluate_sparql_query_string_part2(node: OPBase, output: MyPrintWriter) {
+    internal suspend fun evaluate_sparql_query_string_part2(node: IOPBase, output: MyPrintWriter) {
 //var timer = DateHelperRelative.markNow()
         output.println("HTTP/1.1 200 OK")
         output.println("Content-Type: text/plain")

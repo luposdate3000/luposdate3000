@@ -18,20 +18,20 @@ import lupos.s08logicalOptimisation.OptimizerBase
 class LogicalOptimizerReducedDown(query: Query) : OptimizerBase(query, EOptimizerID.LogicalOptimizerReducedDownID) {
     override val classname = "LogicalOptimizerReducedDown"
     override suspend fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
-        var res: OPBase = node
+        var res: IOPBase = node
         if (node is LOPReduced) {
-            val child = node.children[0]
+            val child = node.getChildren()[0]
             if (child is LOPReduced) {
                 res = child
                 onChange()
             } else if (!node.hadPushDown) {
                 node.hadPushDown = true
                 if (child is LOPProjection) {
-                    child.children[0] = LOPReduced(query, child.children[0])
+                    child.getChildren()[0] = LOPReduced(query, child.getChildren()[0])
                     onChange()
                 } else if (child is LOPTriple) {
                     var flag = true
-                    for (c in child.children) {
+                    for (c in child.getChildren()) {
                         if (c is AOPVariable && c.name == "_") {
                             flag = false
                             break
@@ -43,24 +43,24 @@ class LogicalOptimizerReducedDown(query: Query) : OptimizerBase(query, EOptimize
                         onChange()
                     }
                 } else if (child is LOPJoin) {
-                    child.children[0] = LOPReduced(query, child.children[0])
-                    child.children[1] = LOPReduced(query, child.children[1])
+                    child.getChildren()[0] = LOPReduced(query, child.getChildren()[0])
+                    child.getChildren()[1] = LOPReduced(query, child.getChildren()[1])
                     res = child
                     onChange()
                 } else if (child is LOPUnion) {
-                    child.children[0] = LOPReduced(query, child.children[0])
-                    child.children[1] = LOPReduced(query, child.children[1])
+                    child.getChildren()[0] = LOPReduced(query, child.getChildren()[0])
+                    child.getChildren()[1] = LOPReduced(query, child.getChildren()[1])
                     onChange()
                 } else if (child is LOPMinus) {
-                    child.children[0] = LOPReduced(query, child.children[0])
+                    child.getChildren()[0] = LOPReduced(query, child.getChildren()[0])
                     res = child
                     onChange()
                 } else if (child is LOPFilter) {
-                    child.children[0] = LOPReduced(query, child.children[0])
+                    child.getChildren()[0] = LOPReduced(query, child.getChildren()[0])
                     res = child
                     onChange()
                 } else if (child is LOPSortAny) {
-                    child.children[0] = LOPReduced(query, child.children[0])
+                    child.getChildren()[0] = LOPReduced(query, child.getChildren()[0])
                     onChange()
                 }
             }

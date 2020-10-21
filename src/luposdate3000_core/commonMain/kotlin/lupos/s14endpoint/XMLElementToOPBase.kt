@@ -164,7 +164,7 @@ suspend fun XMLElement.Companion.convertToOPBase(query: Query, node: XMLElement,
     var res: IOPBase
     when (node.tag) {
         "OPBaseCompound" -> {
-            var childs = mutableListOf<OPBase>()
+            var childs = mutableListOf<IOPBase>()
             for (c in node["children"]!!.childs) {
                 childs.add(convertToOPBase(query, c, mapping))
             }
@@ -603,7 +603,7 @@ suspend fun XMLElement.Companion.convertToOPBase(query: Query, node: XMLElement,
                 }
                 tmp3.add(SortHelper(tmp5[0], ESortType.valueOf(tmp5[1])))
             }
-            res.mySortPriority = tmp3
+            res.setMySortPriority ( tmp3)
         }
     }
     return res

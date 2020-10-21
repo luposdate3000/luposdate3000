@@ -25,4 +25,5 @@ interface ITripleStoreLocalBase {
 }
 
 interface ITripleStoreBulkImport {
+fun getData(idx:EIndexPattern):IntArray
 }

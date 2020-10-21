@@ -33,7 +33,7 @@ internal object QueryResultToEmptyStream {
         }
     }
 
-    suspend fun writeNodeResult(variables: Array<String>, node: OPBase, output: MyPrintWriter, parent: Partition = Partition()) {
+    suspend fun writeNodeResult(variables: Array<String>, node: IOPBase, output: MyPrintWriter, parent: Partition = Partition()) {
         if (node is POPMergePartition && node.partitionCount > 1) {
             val jobs = Array<ParallelJob?>(node.partitionCount) { null }
             val lock = MyLock()

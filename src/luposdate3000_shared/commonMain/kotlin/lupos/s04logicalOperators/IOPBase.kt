@@ -21,6 +21,7 @@ interface IOPBase {
     fun getUUID(): Long
     fun getChildren(): Array<IOPBase>
     fun getMySortPriority(): MutableList<SortHelper>
+fun setMySortPriority(value:MutableList<SortHelper>)
     suspend fun getHistogram(): HistogramResult
     fun selectSortPriority(priority: List<SortHelper>)
     fun syntaxVerifyAllVariableExists(additionalProvided: List<String> = listOf(), autocorrect: Boolean = false)
@@ -28,6 +29,8 @@ interface IOPBase {
     fun applyPrefix(prefix: String, iri: String)
     fun getChildrenCountRecoursive(): Int
     fun getSortPriorities(): MutableList<List<SortHelper>>
+fun setSortPriorities(value:MutableList<List<SortHelper>>)
     fun toSparqlQuery(): String
     fun setChild(child: IOPBase): IOPBase
+fun updateChildren(i: Int, child: IOPBase)
 }

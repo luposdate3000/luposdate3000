@@ -18,24 +18,24 @@ import lupos.s08logicalOptimisation.OptimizerBase
 class LogicalOptimizerFilterDown(query: Query) : OptimizerBase(query, EOptimizerID.LogicalOptimizerFilterDownID) {
     override val classname = "LogicalOptimizerFilterDown"
     override suspend fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
-        var res: OPBase = node
+        var res: IOPBase = node
         if (node is LOPFilter) {
-            var child = node.children[0]
+            var child = node.getChildren()[0]
             if (child is LOPMinus) {
-                if (child.children[0].getProvidedVariableNames().containsAll(node.children[1].getRequiredVariableNamesRecoursive()) && child.tmpFakeVariables.intersect(node.children[1].getRequiredVariableNamesRecoursive()).size == 0) {
-                    child.children[0] = LOPFilter(query, node.children[1] as AOPBase, child.children[0])
+                if (child.getChildren()[0].getProvidedVariableNames().containsAll(node.getChildren()[1].getRequiredVariableNamesRecoursive()) && child.tmpFakeVariables.intersect(node.getChildren()[1].getRequiredVariableNamesRecoursive()).size == 0) {
+                    child.getChildren()[0] = LOPFilter(query, node.getChildren()[1] as AOPBase, child.getChildren()[0])
                     res = child
                     onChange()
-                } else if (child.children[1].getProvidedVariableNames().containsAll(node.children[1].getRequiredVariableNamesRecoursive())) {
-                    child.children[1] = LOPFilter(query, node.children[1] as AOPBase, child.children[1])
+                } else if (child.getChildren()[1].getProvidedVariableNames().containsAll(node.getChildren()[1].getRequiredVariableNamesRecoursive())) {
+                    child.getChildren()[1] = LOPFilter(query, node.getChildren()[1] as AOPBase, child.getChildren()[1])
                     res = child
                     onChange()
                 }
             } else {
                 val filters = mutableListOf<AOPBase>()
-                addFilters(filters, node.children[1] as AOPBase)
+                addFilters(filters, node.getChildren()[1] as AOPBase)
                 while (child is LOPFilter) {
-                    val filter = child.children[1] as AOPBase
+                    val filter = child.getChildren()[1] as AOPBase
                     var found = false
                     for (f in filters) {
                         if (f == filter) {
@@ -46,11 +46,11 @@ class LogicalOptimizerFilterDown(query: Query) : OptimizerBase(query, EOptimizer
                     if (!found) {
                         addFilters(filters, filter)
                     }
-                    child = child.children[0]
+                    child = child.getChildren()[0]
                 }
                 if (child is LOPUnion) {
-                    var a = child.children[0]
-                    var b = child.children[1]
+                    var a = child.getChildren()[0]
+                    var b = child.getChildren()[1]
                     for (filterIndex in 0 until filters.size) {
                         val filter = filters[filterIndex]
                         a = LOPFilter(query, filter, a)
@@ -58,16 +58,16 @@ class LogicalOptimizerFilterDown(query: Query) : OptimizerBase(query, EOptimizer
                         res = LOPUnion(query, a, b)
                         onChange()
                     }
-                } else if (child !is LOPGroup && child !is LOPTriple && child.children.size > 0) {
-                    loop@ for (targetIndex in 0 until child.children.size) {
-                        val target = child.children[targetIndex]
+                } else if (child !is LOPGroup && child !is LOPTriple && child.getChildren().size > 0) {
+                    loop@ for (targetIndex in 0 until child.getChildren().size) {
+                        val target = child.getChildren()[targetIndex]
                         loop2@ for (filterIndex in 0 until filters.size) {
                             val filter = filters[filterIndex]
                             if (target.getProvidedVariableNames().containsAll(filter.getRequiredVariableNamesRecoursive())) {
                                 if (child is LOPJoin && child.optional && targetIndex == 1 && containsBound(filter)) {
                                     continue@loop2
                                 }
-                                child.children[targetIndex] = LOPFilter(query, filter, target)
+                                child.getChildren()[targetIndex] = LOPFilter(query, filter, target)
                                 filters.removeAt(filterIndex)
                                 res = child
                                 for (filter2 in filters) {
@@ -86,8 +86,8 @@ class LogicalOptimizerFilterDown(query: Query) : OptimizerBase(query, EOptimizer
 
     fun addFilters(filters: MutableList<AOPBase>, filter: AOPBase) {
         if (filter is AOPAnd) {
-            addFilters(filters, filter.children[0] as AOPBase)
-            addFilters(filters, filter.children[1] as AOPBase)
+            addFilters(filters, filter.getChildren()[0] as AOPBase)
+            addFilters(filters, filter.getChildren()[1] as AOPBase)
         } else {
             filters.add(filter)
         }
@@ -97,7 +97,7 @@ class LogicalOptimizerFilterDown(query: Query) : OptimizerBase(query, EOptimizer
         if (filter is AOPBuildInCallBOUND) {
             return true
         }
-        for (f in filter.children) {
+        for (f in filter.getChildren()) {
             if (containsBound(f as AOPBase)) {
                 return true
             }

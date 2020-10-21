@@ -14,21 +14,21 @@ import lupos.s04logicalOperators.singleinput.LOPFilter
 class LogicalOptimizerFilterIntoTriple(query: Query) : OptimizerBase(query, EOptimizerID.LogicalOptimizerFilterIntoTripleID) {
     override val classname = "LogicalOptimizerFilterIntoTriple"
     override suspend fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
-        var res: OPBase = node
+        var res: IOPBase = node
         if (node is LOPFilter) {
-            val loptriple = node.children[0]
-            val aopcompare = node.children[1]
+            val loptriple = node.getChildren()[0]
+            val aopcompare = node.getChildren()[1]
             if (loptriple is LOPTriple && aopcompare is AOPEQ) {
                 for (c in 0 until 2) {
-                    val compareVar = aopcompare.children[1 - c]
-                    val compareVal = aopcompare.children[c]
+                    val compareVar = aopcompare.getChildren()[1 - c]
+                    val compareVal = aopcompare.getChildren()[c]
                     if (compareVal is AOPConstant && compareVar is AOPVariable) {
                         for (i in 0 until 3) {
-                            val tmp = loptriple.children[i]
+                            val tmp = loptriple.getChildren()[i]
                             if (tmp is AOPVariable) {
                                 if (tmp.name == compareVar.name) {
                                     onChange()
-                                    loptriple.children[i] = compareVal
+                                    loptriple.getChildren()[i] = compareVal
                                     res = LOPBind(query, compareVar, compareVal, loptriple)
                                 }
                             }

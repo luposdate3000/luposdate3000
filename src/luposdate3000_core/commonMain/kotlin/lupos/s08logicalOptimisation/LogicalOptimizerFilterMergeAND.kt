@@ -17,12 +17,12 @@ import lupos.s04logicalOperators.singleinput.LOPFilter
 class LogicalOptimizerFilterMergeAND(query: Query) : OptimizerBase(query, EOptimizerID.LogicalOptimizerFilterMergeANDID) {
     override val classname = "LogicalOptimizerFilterMergeAND"
     override suspend fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
-        var res: OPBase = node
+        var res: IOPBase = node
         if (node is LOPFilter) {
-            val child = node.children[0]
+            val child = node.getChildren()[0]
             if (child is LOPFilter) {
                 if (node.dontSplitFilter == 0 && child.dontSplitFilter == 0) {
-                    res = LOPFilter(query, AOPAnd(query, node.children[1] as AOPBase, child.children[1] as AOPBase), child.children[0])
+                    res = LOPFilter(query, AOPAnd(query, node.getChildren()[1] as AOPBase, child.getChildren()[1] as AOPBase), child.getChildren()[0])
                     onChange()
                 } else {
                     SanityCheck.check { node.dontSplitFilter == 0 || child.dontSplitFilter == 0 }
@@ -30,32 +30,32 @@ class LogicalOptimizerFilterMergeAND(query: Query) : OptimizerBase(query, EOptim
                     val a: AOPBase
                     val b: AOPBase
                     if (node.dontSplitFilter < child.dontSplitFilter) {
-                        a = node.children[1] as AOPBase
-                        b = child.children[1] as AOPBase
+                        a = node.getChildren()[1] as AOPBase
+                        b = child.getChildren()[1] as AOPBase
                     } else {
-                        a = child.children[1] as AOPBase
-                        b = node.children[1] as AOPBase
+                        a = child.getChildren()[1] as AOPBase
+                        b = node.getChildren()[1] as AOPBase
                     }
                     SanityCheck.check { b is AOPOr }
-                    val c = b.children[0] as AOPBase
+                    val c = b.getChildren()[0] as AOPBase
                     SanityCheck.check { c is AOPAnd }
-                    val d = c.children[1] as AOPBase
+                    val d = c.getChildren()[1] as AOPBase
                     SanityCheck.check { d is AOPBuildInCallCOALESCE }
-                    val e = d.children[0] as AOPBase //original-filter
+                    val e = d.getChildren()[0] as AOPBase //original-filter
                     if (a is AOPBuildInCallBOUND) {
                         //TODO check if that bound is one of the options for this optional block
-                        res = LOPFilter(query, c, child.children[0])
+                        res = LOPFilter(query, c, child.getChildren()[0])
                         res.dontSplitFilter = 2
                         onChange()
-                    } else if (a is AOPNot && a.children[0] is AOPBuildInCallBOUND) {
+                    } else if (a is AOPNot && a.getChildren()[0] is AOPBuildInCallBOUND) {
                         //TODO check if that bound is one of the options for this optional block
-                        res = LOPFilter(query, AOPOr(query, a, AOPNot(query, d)), child.children[0])
+                        res = LOPFilter(query, AOPOr(query, a, AOPNot(query, d)), child.getChildren()[0])
                         res.dontSplitFilter = 2
                         onChange()
                     } else if (containsBound(a)) {
                         throw BugException("not evaluated", "dont know what happens here?? debug later if it happens")
                     } else {
-                        res = LOPFilter(query, AOPAnd(query, node.children[1] as AOPBase, child.children[1] as AOPBase), child.children[0])
+                        res = LOPFilter(query, AOPAnd(query, node.getChildren()[1] as AOPBase, child.getChildren()[1] as AOPBase), child.getChildren()[0])
                         onChange()
                     }
                 }
@@ -68,7 +68,7 @@ class LogicalOptimizerFilterMergeAND(query: Query) : OptimizerBase(query, EOptim
         if (filter is AOPBuildInCallBOUND) {
             return true
         }
-        for (f in filter.children) {
+        for (f in filter.getChildren()) {
             if (containsBound(f as AOPBase)) {
                 return true
             }

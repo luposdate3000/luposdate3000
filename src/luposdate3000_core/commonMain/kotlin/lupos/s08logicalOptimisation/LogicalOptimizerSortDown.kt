@@ -13,18 +13,18 @@ import lupos.s08logicalOptimisation.OptimizerBase
 class LogicalOptimizerSortDown(query: Query) : OptimizerBase(query, EOptimizerID.LogicalOptimizerSortDownID) {
     override val classname = "LogicalOptimizerSortDown"
     override suspend fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
-        var res: OPBase = node
+        var res: IOPBase = node
         if (node is LOPSortAny) {
-            val child = node.children[0]
+            val child = node.getChildren()[0]
             if (child is LOPFilter) {
-                child.children[0] = LOPSortAny(query, node.possibleSortOrder, child.children[0])
+                child.getChildren()[0] = LOPSortAny(query, node.possibleSortOrder, child.getChildren()[0])
                 res = child
                 onChange()
             } else if (child is LOPSortAny || child is LOPSort) {
-                node.children[0] = child.children[0]
+                node.getChildren()[0] = child.getChildren()[0]
                 onChange()
             } else if (child is LOPReduced) {
-                node.children[0] = child.children[0]
+                node.getChildren()[0] = child.getChildren()[0]
                 res = LOPReduced(query, node)
             }
         }

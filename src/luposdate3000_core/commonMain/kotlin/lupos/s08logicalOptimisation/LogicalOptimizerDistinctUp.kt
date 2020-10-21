@@ -14,17 +14,17 @@ import lupos.s08logicalOptimisation.OptimizerBase
 class LogicalOptimizerDistinctUp(query: Query) : OptimizerBase(query, EOptimizerID.LogicalOptimizerDistinctUpID) {
     override val classname = "LogicalOptimizerDistinctUp"
     override suspend fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
-        var res: OPBase = node
+        var res: IOPBase = node
         if (node is LOPDistinct) {
-            if (node.children[0] is LOPDistinct) {
-                res = node.children[0]
+            if (node.getChildren()[0] is LOPDistinct) {
+                res = node.getChildren()[0]
                 onChange()
             }
         } else if (node !is LOPUnion && node !is OPBaseCompound && node !is LOPLimit && node !is LOPOffset) {
-            for (i in node.children.indices) {
-                val c = node.children[i]
+            for (i in node.getChildren().indices) {
+                val c = node.getChildren()[i]
                 if (c is LOPDistinct && c.getProvidedVariableNames().containsAll(node.getProvidedVariableNames())) {
-                    node.children[i] = c.children[0]
+                    node.getChildren()[i] = c.getChildren()[0]
                     res = LOPDistinct(query, node)
                     onChange()
                     break

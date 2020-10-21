@@ -23,11 +23,11 @@ import lupos.s15tripleStoreDistributed.distributedTripleStore
 class LogicalOptimizerStoreToValues(query: Query) : OptimizerBase(query, EOptimizerID.LogicalOptimizerStoreToValuesID) {
     override val classname = "LogicalOptimizerStoreToValues"
     override suspend fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
-        var res: OPBase = node
+        var res: IOPBase = node
         if (node is LOPTriple && REPLACE_STORE_WITH_VALUES) {
             var hashCode = 0L
-            for (c in node.children) {
-                hashCode += c.uuid + c.toString().hashCode()
+            for (c in node.getChildren()) {
+                hashCode += c.getUUID() + c.toString().hashCode()
             }
             if (hashCode == -1L) {
                 //just avoid this flag ...
@@ -37,14 +37,14 @@ class LogicalOptimizerStoreToValues(query: Query) : OptimizerBase(query, EOptimi
                 node.alreadyCheckedStore = hashCode
                 //dont query the same statements twice ... 
                 var variables = mutableListOf<String>()
-                for (c in node.children) {
+                for (c in node.getChildren()) {
                     if (c is AOPVariable) {
                         variables.add(c.name)
                     }
                 }
                 if (variables.size == 0) {
-                    val idx = LOPTriple.getIndex(node.children, listOf<String>())
-                    val tmp = distributedTripleStore.getNamedGraph(query, node.graph).getIterator(Array(3) { node.children[it] as IAOPBase }, idx, Partition())
+                    val idx = LOPTriple.getIndex(node.getChildren(), listOf<String>())
+                    val tmp = distributedTripleStore.getNamedGraph(query, node.graph).getIterator(Array(3) { node.getChildren()[it] as IAOPBase }, idx, Partition())
                     val tmp2 = tmp.evaluate(Partition())
                     SanityCheck.check { tmp2.hasCountMode() }
                     if (tmp2.count() > 0) {//closed childs due to reading from count
@@ -54,8 +54,8 @@ class LogicalOptimizerStoreToValues(query: Query) : OptimizerBase(query, EOptimi
                     }
                     onChange()
                 } else if (variables.size == 1) {
-                    val idx = LOPTriple.getIndex(node.children, listOf<String>())
-                    val tmp = distributedTripleStore.getNamedGraph(query, node.graph).getIterator(Array(3) { node.children[it] as IAOPBase }, idx, Partition())
+                    val idx = LOPTriple.getIndex(node.getChildren(), listOf<String>())
+                    val tmp = distributedTripleStore.getNamedGraph(query, node.graph).getIterator(Array(3) { node.getChildren()[it] as IAOPBase }, idx, Partition())
                     val tmp2 = tmp.evaluate(Partition())
                     val columns = tmp2.columns
                     SanityCheck.check { columns.size == 1 }

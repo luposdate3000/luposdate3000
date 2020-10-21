@@ -23,60 +23,60 @@ class LogicalOptimizerRemoveNOOP(query: Query) : OptimizerBase(query, EOptimizer
         var res = node
         if (node is LOPNOOP || node is LOPSubGroup) {
             onChange()
-            res = node.children[0]
+            res = node.getChildren()[0]
         } else if (node is LOPJoin) {
             if (!node.optional) {
-                for (i in node.children.indices) {
-                    var c = node.children[i]
+                for (i in node.getChildren().indices) {
+                    var c = node.getChildren()[i]
                     if (c is OPNothing) {
                         res = OPNothing(query, node.getProvidedVariableNames())
                         onChange()
                         break
                     } else if (c is OPEmptyRow) {
-                        res = node.children[1 - i]
+                        res = node.getChildren()[1 - i]
                         onChange()
                         break
                     }
                 }
             } else {
-                if (node.children[0] is OPNothing) {
+                if (node.getChildren()[0] is OPNothing) {
                     res = OPNothing(query, node.getProvidedVariableNames())
                     onChange()
-                } else if (node.children[0] is OPEmptyRow) {
-                    res = node.children[1]
+                } else if (node.getChildren()[0] is OPEmptyRow) {
+                    res = node.getChildren()[1]
                     onChange()
-                } else if (node.children[1] is OPNothing || node.children[1] is OPEmptyRow) {
+                } else if (node.getChildren()[1] is OPNothing || node.getChildren()[1] is OPEmptyRow) {
                     res = OPNothing(query, node.getProvidedVariableNames())
                     onChange()
                 }
             }
         } else if (node is LOPUnion) {
-            if (node.children[0] is OPNothing) {
-                res = node.children[1]
+            if (node.getChildren()[0] is OPNothing) {
+                res = node.getChildren()[1]
                 onChange()
-            } else if (node.children[1] is OPNothing) {
-                res = node.children[0]
+            } else if (node.getChildren()[1] is OPNothing) {
+                res = node.getChildren()[0]
                 onChange()
             }
-        } else if (node is LOPFilter && node.children[1] is AOPConstant && (node.children[1] as AOPConstant).value == ResultSetDictionaryExt.booleanFalseValue) {
+        } else if (node is LOPFilter && node.getChildren()[1] is AOPConstant && (node.getChildren()[1] as AOPConstant).value == ResultSetDictionaryExt.booleanFalseValue) {
             res = OPNothing(query, node.getProvidedVariableNames())
             onChange()
         } else if (node is LOPMinus) {
-            if (node.children[0] is OPNothing) {
+            if (node.getChildren()[0] is OPNothing) {
                 res = OPNothing(query, node.getProvidedVariableNames())
                 onChange()
-            } else if (node.children[0] is OPEmptyRow) {
-                res = node.children[0]
+            } else if (node.getChildren()[0] is OPEmptyRow) {
+                res = node.getChildren()[0]
                 onChange()
-            } else if (node.children[1] is OPNothing) {
-                res = node.children[0]
+            } else if (node.getChildren()[1] is OPNothing) {
+                res = node.getChildren()[0]
                 onChange()
-            } else if (node.children[1] is OPEmptyRow) {
+            } else if (node.getChildren()[1] is OPEmptyRow) {
                 res = OPNothing(query, node.getProvidedVariableNames())
                 onChange()
             }
-        } else if (node.children.size > 0 && node !is LOPMakeBooleanResult) {
-            for (c in node.children) {
+        } else if (node.getChildren().size > 0 && node !is LOPMakeBooleanResult) {
+            for (c in node.getChildren()) {
                 if (c is OPNothing) {
                     res = OPNothing(query, node.getProvidedVariableNames())
                     onChange()

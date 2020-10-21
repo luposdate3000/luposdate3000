@@ -12,24 +12,24 @@ import lupos.s04logicalOperators.singleinput.LOPProjection
 class LogicalOptimizerRemoveProjection(query: Query) : OptimizerBase(query, EOptimizerID.LogicalOptimizerRemoveProjectionID) {
     override val classname = "LogicalOptimizerRemoveProjection"
     override suspend fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
-        var res: OPBase = node
+        var res: IOPBase = node
         if (node is LOPProjection) {
-            val child = node.children[0]
+            val child = node.getChildren()[0]
             val projection = node.getProvidedVariableNames()
             if (projection.containsAll(child.getProvidedVariableNames())) {
                 onChange()
                 res = child
             } else if (child is LOPTriple) {
                 for (i in 0 until 3) {
-                    val cc = child.children[i]
+                    val cc = child.getChildren()[i]
                     if (cc is AOPVariable && !projection.contains(cc.name)) {
-                        child.children[i] = AOPVariable(query, "_")
+                        child.getChildren()[i] = AOPVariable(query, "_")
                         onChange()
                     }
                 }
             } else if (child is LOPBind) {
                 if (!projection.contains(child.name.name)) {
-                    res.children[0] = child.children[0]
+                    res.getChildren()[0] = child.getChildren()[0]
                     onChange()
                 }
             }

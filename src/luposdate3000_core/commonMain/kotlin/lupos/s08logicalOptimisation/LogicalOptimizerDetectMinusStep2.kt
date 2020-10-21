@@ -13,10 +13,10 @@ import lupos.s04logicalOperators.singleinput.LOPBind
 class LogicalOptimizerDetectMinusStep2(query: Query) : OptimizerBase(query, EOptimizerID.LogicalOptimizerDetectMinusStep2ID) {
     override val classname = "LogicalOptimizerDetectMinusStep2"
     override suspend fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
-        var res: OPBase = node
+        var res: IOPBase = node
         if (node is LOPMinus) {
             val tmp = node.tmpFakeVariables.toMutableSet()
-            tmp.removeAll(node.children[0].getProvidedVariableNames())
+            tmp.removeAll(node.getChildren()[0].getProvidedVariableNames())
             if (tmp.size > 0) {
                 for (v in tmp) {
                     res = LOPBind(query, AOPVariable(query, v), AOPConstant(query, ValueUndef()), res)
