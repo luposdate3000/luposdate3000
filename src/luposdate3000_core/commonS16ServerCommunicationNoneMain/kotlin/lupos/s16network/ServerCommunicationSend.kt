@@ -14,7 +14,7 @@ import lupos.s15tripleStoreDistributed.distributedTripleStore
 object ServerCommunicationSend {
     suspend fun bulkImport(query: IQuery, graphName: String, action: suspend (ITripleStoreBulkImportDistributed) -> Unit) {
         val bulk = TripleStoreBulkImportDistributed(query, graphName)
-        action(bulk)
+        action(bulk as ITripleStoreBulkImportDistributed)
         bulk.finishImport()
     }
 

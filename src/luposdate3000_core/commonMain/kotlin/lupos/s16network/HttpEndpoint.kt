@@ -337,10 +337,10 @@ object HttpEndpoint {
         output.println("HTTP/1.1 200 OK")
         output.println("Content-Type: text/plain")
         output.println();
-        node.query.reset()
+        node.getQuery().reset()
         QueryResultToStream(node, output)
-        distributedTripleStore.commit(node.query)
-        node.query.setCommited()
+        distributedTripleStore.commit(node.getQuery())
+        node.getQuery().setCommited()
 //println("timer #407 ${DateHelperRelative.elapsedSeconds(timer)}")
     }
 

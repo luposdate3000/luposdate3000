@@ -7,15 +7,15 @@ import lupos.s04logicalOperators.multiinput.LOPJoin
 import lupos.s04logicalOperators.OPBase
 
 object LogicalOptimizerJoinOrderStore {
-    suspend operator fun invoke(allChilds: List<OPBase>, root: LOPJoin): IOPBase? {
+    suspend operator fun invoke(allChilds: List<IOPBase>, root: LOPJoin): IOPBase? {
         SanityCheck.check { allChilds.size > 2 }
         if (root.onlyExistenceRequired) {
             SanityCheck {
                 for (c in allChilds) {
-                    SanityCheck.check { c.onlyExistenceRequired }
+                    SanityCheck.check { c.getOnlyExistenceRequired() }
                 }
             }
-            val queue = mutableListOf<OPBase>()
+            val queue = mutableListOf<IOPBase>()
             queue.addAll(allChilds)
             var lastVariable = 0
             var lastVariableCount = Int.MAX_VALUE
@@ -55,7 +55,7 @@ object LogicalOptimizerJoinOrderStore {
             }
             var allVariablesOrdered = mutableListOf<String>()
             allVariablesOrdered.addAll(lastChild.getProvidedVariableNames())
-            val result = mutableListOf<OPBase>()
+            val result = mutableListOf<IOPBase>()
             while (queue.size > 0) {
                 var max = -1
                 var maxI = 0

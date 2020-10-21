@@ -31,7 +31,7 @@ class LogicalOptimizerColumnSortOrder(query: Query) : OptimizerBase(query, EOpti
         }
         if (!hadChange && !done) {
             for (c in node.getChildren()) {
-                if (c.sortPriorities.size > 1 && c !is LOPTriple) {
+                if (c.getSortPriorities().size > 1 && c !is LOPTriple) {
                     done = true
                     break
                 }
@@ -39,7 +39,7 @@ class LogicalOptimizerColumnSortOrder(query: Query) : OptimizerBase(query, EOpti
             if (!done) {
                 var flag = true
                 if (node is LOPTriple && parent != null) {
-                    if (!parent.sortPrioritiesInitialized || parent.sortPriorities.size > 1) {
+                    if (!parent.getSortPrioritiesInitialized() || parent.getSortPriorities().size > 1) {
                         //let the parent-operator choose first ..
                         flag = false
                     }
@@ -49,10 +49,10 @@ class LogicalOptimizerColumnSortOrder(query: Query) : OptimizerBase(query, EOpti
                     if (node.getChildren().size > 0 && node !is LOPTriple) {
                         //filter only valid sort orders based on children, which may had an update
                         var tmp = mutableListOf<List<SortHelper>>()
-                        loop@ for (x in node.sortPriorities) {
+                        loop@ for (x in node.getSortPriorities()) {
                             var maxI = 0
                             for (c in node.getChildren()) {
-                                loop2@ for (p in c.sortPriorities) {
+                                loop2@ for (p in c.getSortPriorities()) {
                                     var i = 0
                                     while (i < x.size && i < p.size) {
                                         if (x[i] != p[i]) {
@@ -75,18 +75,18 @@ class LogicalOptimizerColumnSortOrder(query: Query) : OptimizerBase(query, EOpti
                                 tmp.add(y)
                             }
                         }
-                        if (node.sortPriorities != tmp) {
-                            node.sortPriorities = tmp
+                        if (node.getSortPriorities() != tmp) {
+                            node.setSortPriorities (tmp)
                             onChange()
                         }
                     }
-                    for (x in node.sortPriorities) {
+                    for (x in node.getSortPriorities()) {
                         if (x.size > maxSize) {
                             maxSize = x.size
                         }
                     }
                     if (maxSize > 0) {
-                        for (x in node.sortPriorities) {
+                        for (x in node.getSortPriorities()) {
                             if (x.size == maxSize) {
                                 node.selectSortPriority(x)
                                 break

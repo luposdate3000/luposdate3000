@@ -2,10 +2,10 @@ package lupos.s05tripleStore
 
 import kotlin.jvm.JvmField
 import lupos.s00misc.EIndexPattern
-import lupos.s04logicalOperators.Query
+import lupos.s04logicalOperators.IQuery
 import lupos.s15tripleStoreDistributed.distributedTripleStore
 
-class TripleStoreBulkImport(@JvmField val query: Query, @JvmField val graphName: String) : ITripleStoreBulkImport {
+class TripleStoreBulkImport(@JvmField val query: IQuery, @JvmField val graphName: String) : ITripleStoreBulkImport {
     @JvmField
     val dictionaryBNode = mutableMapOf<String, Int>()
 
@@ -48,6 +48,7 @@ else->throw Exception("unreachable")
 }
 }
 
+override fun getIdx()=idx
     suspend fun insert(si: Int, pi: Int, oi: Int) {
         data[8][idx++] = si
         data[8][idx++] = pi

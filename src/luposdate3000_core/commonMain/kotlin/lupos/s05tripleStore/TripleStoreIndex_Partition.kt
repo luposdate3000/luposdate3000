@@ -6,6 +6,7 @@ import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.Query
+import lupos.s04logicalOperators.IQuery
 
 class TripleStoreIndex_Partition(childIndex: (Int) -> TripleStoreIndex, val column: Int, @JvmField val partitionCount: Int) : TripleStoreIndex() {
     val partitions = Array(partitionCount) { childIndex(it) }
@@ -27,7 +28,7 @@ class TripleStoreIndex_Partition(childIndex: (Int) -> TripleStoreIndex, val colu
         }
     }
 
-    suspend override fun getHistogram(query: Query, params: TripleStoreFeatureParams): Pair<Int, Int> {
+    suspend override fun getHistogram(query: IQuery, params: TripleStoreFeatureParams): Pair<Int, Int> {
         var i = -1
         val partition = (params as TripleStoreFeatureParamsPartition).partition
         for ((k, v) in partition.data) {
@@ -38,7 +39,7 @@ class TripleStoreIndex_Partition(childIndex: (Int) -> TripleStoreIndex, val colu
         return partitions[i].getHistogram(query, p2)
     }
 
-    suspend override fun getIterator(query: Query, params: TripleStoreFeatureParams): IteratorBundle {
+    suspend override fun getIterator(query: IQuery, params: TripleStoreFeatureParams): IteratorBundle {
         var i = -1
         val partition = (params as TripleStoreFeatureParamsPartition).partition
         for ((k, v) in partition.data) {

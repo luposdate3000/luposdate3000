@@ -5,6 +5,7 @@ import lupos.s00misc.ESortType
 import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
 import lupos.s04arithmetikOperators.AOPBase
+import lupos.s04arithmetikOperators.IAOPBase
 import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.noinput.LOPTriple
@@ -33,7 +34,7 @@ class PhysicalOptimizerTripleIndex(query: Query) : OptimizerBase(query, EOptimiz
             }
             onChange()
             val store = distributedTripleStore.getNamedGraph(query, node.graph)
-            val params = Array<AOPBase>(3) {
+            val params = Array<IAOPBase>(3) {
                 var res2 = node.children[it] as AOPBase
                 SanityCheck {
                     if (res2 is AOPVariable) {

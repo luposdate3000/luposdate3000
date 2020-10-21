@@ -70,7 +70,7 @@ class PhysicalOptimizerNaive(query: Query) : OptimizerBase(query, EOptimizerID.P
                 is LOPSortAny -> {
                     val child = node.getChildren()[0]
                     val v1 = node.possibleSortOrder
-                    val v2 = child.mySortPriority
+                    val v2 = child.getMySortPriority()
                     var flag = v1.size == v2.size
                     var i = 0
                     while (flag && i < v1.size) {
@@ -167,7 +167,7 @@ class PhysicalOptimizerNaive(query: Query) : OptimizerBase(query, EOptimizerID.P
         } finally {
             if (change) {
                 SanityCheck {
-                    val tmp = node.mySortPriority.map { it.variableName }
+                    val tmp = node.getMySortPriority().map { it.variableName }
                     SanityCheck.check { (!projectedVariables.containsAll(tmp)) || (res.getProvidedVariableNames().containsAll(tmp) && projectedVariables.containsAll(tmp)) }
                 }
                 res.setMySortPriority ( node.getMySortPriority())

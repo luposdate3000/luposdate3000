@@ -24,8 +24,8 @@ class LogicalOptimizerDistinctSplit(query: Query) : OptimizerBase(query, EOptimi
                 res = LOPReduced(query, child)
                 onChange()
             } else {
-                if (child.mySortPriority.size == provided.size) {
-                    res = LOPReduced(query, LOPSortAny(query, child.mySortPriority, child))
+                if (child.getMySortPriority().size == provided.size) {
+                    res = LOPReduced(query, LOPSortAny(query, child.getMySortPriority(), child))
                     onChange()
                 } else {
                     if (child is LOPJoin) {

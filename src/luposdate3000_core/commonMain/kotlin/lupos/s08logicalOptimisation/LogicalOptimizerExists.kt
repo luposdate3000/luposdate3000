@@ -17,9 +17,9 @@ class LogicalOptimizerExists(query: Query) : OptimizerBase(query, EOptimizerID.L
     fun applyRecoursive(node: IOPBase, askFlag: Boolean) {
         if (node !is LOPLimit && node !is LOPOffset) {
             if (askFlag) {
-                node.partOfAskQuery = true
+                node.setPartOfAskQuery ( true)
             }
-            node.onlyExistenceRequired = true
+            node.setOnlyExistenceRequired (true)
             if (node is LOPMinus) {
                 applyRecoursive(node.getChildren()[0], askFlag)
             } else {
@@ -38,7 +38,7 @@ class LogicalOptimizerExists(query: Query) : OptimizerBase(query, EOptimizerID.L
                 onChange()
             }
         } else if (node is LOPDistinct || node is LOPReduced) {
-            if (!node.onlyExistenceRequired) {
+            if (!node.getOnlyExistenceRequired()) {
                 applyRecoursive(node, false)
                 onChange()
             }

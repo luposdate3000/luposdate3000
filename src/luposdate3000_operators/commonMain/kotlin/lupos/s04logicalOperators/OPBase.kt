@@ -60,6 +60,15 @@ abstract class OPBase(@JvmField val query: IQuery, @JvmField val operatorID: EOp
 
     @JvmField
     var histogramResult: HistogramResult? = null
+override fun setPartOfAskQuery(value:Boolean){
+partOfAskQuery=value
+}
+override fun setOnlyExistenceRequired(value:Boolean){
+onlyExistenceRequired=value
+}
+override fun getPartOfAskQuery()=partOfAskQuery
+override fun getOnlyExistenceRequired()=onlyExistenceRequired
+override fun getSortPrioritiesInitialized()=sortPrioritiesInitialized
 override fun setSortPriorities(value:MutableList<List<SortHelper>>){
 sortPriorities=value
 }
@@ -212,7 +221,7 @@ mySortPriority=value
         sortPriorities = tmp
     }
 
-    fun initializeSortPriorities(onChange: () -> Unit): Boolean {
+override    fun initializeSortPriorities(onChange: () -> Unit): Boolean {
         if (!sortPrioritiesInitialized) {
             sortPriorities.addAll(getPossibleSortPriorities())
             if (sortPriorities.size > 0) {
@@ -381,7 +390,7 @@ override    open fun updateChildren(i: Int, child: IOPBase) {
         return node
     }
 
-    fun replaceVariableWithAnother(node: IOPBase, name: String, name2: String): IOPBase {
+override    fun replaceVariableWithAnother(node: IOPBase, name: String, name2: String): IOPBase {
         var tmp = LOPNOOP(node.getQuery(), node)
         return replaceVariableWithAnother(node, name, name2, tmp, 0)
     }

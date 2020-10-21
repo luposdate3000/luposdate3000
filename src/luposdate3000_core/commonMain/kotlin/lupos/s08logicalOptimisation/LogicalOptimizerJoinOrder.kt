@@ -16,8 +16,8 @@ import lupos.s08logicalOptimisation.OptimizerBase
 
 class LogicalOptimizerJoinOrder(query: Query) : OptimizerBase(query, EOptimizerID.LogicalOptimizerJoinOrderID) {
     override val classname = "LogicalOptimizerJoinOrder"
-    fun findAllJoinsInChildren(node: LOPJoin): List<OPBase> {
-        val res = mutableListOf<OPBase>()
+    fun findAllJoinsInChildren(node: LOPJoin): List<IOPBase> {
+        val res = mutableListOf<IOPBase>()
         for (c in node.getChildren()) {
             if (c is LOPJoin && !c.optional) {
                 res.addAll(findAllJoinsInChildren(c))
@@ -43,9 +43,9 @@ class LogicalOptimizerJoinOrder(query: Query) : OptimizerBase(query, EOptimizerI
         return res
     }
 
-    fun clusterizeChildren(nodes: List<OPBase>): List<MutableList<OPBase>> {
+    fun clusterizeChildren(nodes: List<IOPBase>): List<MutableList<IOPBase>> {
         //put children with same variables into groups, such that those definetly can use Merge-Join as much as possible
-        var res = mutableListOf<MutableList<OPBase>>()
+        var res = mutableListOf<MutableList<IOPBase>>()
         var variables = mutableListOf<List<String>>()
         loop@ for (node in nodes) {
             val v = node.getProvidedVariableNames()
@@ -63,7 +63,7 @@ class LogicalOptimizerJoinOrder(query: Query) : OptimizerBase(query, EOptimizerI
         return res
     }
 
-    suspend fun applyOptimisation(nodes: List<OPBase>, root: LOPJoin): IOPBase {
+    suspend fun applyOptimisation(nodes: List<IOPBase>, root: LOPJoin): IOPBase {
         if (nodes.size > 2) {
             var result = LogicalOptimizerJoinOrderStore(nodes, root)
             if (result != null) {
@@ -96,14 +96,14 @@ class LogicalOptimizerJoinOrder(query: Query) : OptimizerBase(query, EOptimizerI
             try {
                 val allChilds2 = findAllJoinsInChildren(node)
                 if (allChilds2.size > 2) {
-                    var result: OPBase? = null
+                    var result: IOPBase? = null
                     if (result == null && node.onlyExistenceRequired) {
                         //dont not prefer merge join for_ ask-queries, as this makes it harder later, to avoid any materialisation
                         result = LogicalOptimizerJoinOrderStore(allChilds2, node)
                     }
                     if (result == null) {
                         val allChilds3 = clusterizeChildren(allChilds2)
-                        val allChilds4 = mutableListOf<OPBase>()
+                        val allChilds4 = mutableListOf<IOPBase>()
                         for (child in allChilds3) {
                             allChilds4.add(applyOptimisation(child, node))
                         }

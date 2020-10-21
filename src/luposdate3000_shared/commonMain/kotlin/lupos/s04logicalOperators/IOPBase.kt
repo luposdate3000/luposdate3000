@@ -7,6 +7,7 @@ import lupos.s04logicalOperators.HistogramResult
 import lupos.s04logicalOperators.iterator.IteratorBundle
 
 interface IOPBase {
+fun replaceVariableWithAnother(node: IOPBase, name: String, name2: String): IOPBase
     fun getClassname(): String
     fun toSparql(): String
     suspend fun evaluate(parent: Partition): IteratorBundle
@@ -33,4 +34,12 @@ fun setSortPriorities(value:MutableList<List<SortHelper>>)
     fun toSparqlQuery(): String
     fun setChild(child: IOPBase): IOPBase
 fun updateChildren(i: Int, child: IOPBase)
+   fun initializeSortPriorities(onChange: () -> Unit): Boolean
+fun getSortPrioritiesInitialized():Boolean
+ fun getOnlyExistenceRequired():Boolean
+fun getPartOfAskQuery():Boolean
+fun setPartOfAskQuery(value:Boolean)
+fun setOnlyExistenceRequired(value:Boolean)
 }
+
+

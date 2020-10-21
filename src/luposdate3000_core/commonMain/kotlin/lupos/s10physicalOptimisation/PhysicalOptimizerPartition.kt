@@ -5,6 +5,7 @@ import lupos.s00misc.EOptimizerID
 import lupos.s00misc.Partition
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04logicalOperators.OPBase
+import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.Query
 import lupos.s05tripleStore.TripleStoreFeature
 import lupos.s05tripleStore.TripleStoreFeatureParamsPartition
@@ -21,7 +22,7 @@ import lupos.s15tripleStoreDistributed.TripleStoreIteratorGlobal
 
 class PhysicalOptimizerPartition(query: Query) : OptimizerBase(query, EOptimizerID.PhysicalOptimizerPartitionID) {
     override val classname = "PhysicalOptimizerPartition"
-    override suspend fun optimize(node: IOPBase, parent: OPBase?, onChange: () -> Unit): IOPBase {
+    override suspend fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
         var res = node
         when (node) {
             is POPProjection -> {

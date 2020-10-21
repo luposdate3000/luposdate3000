@@ -9,7 +9,7 @@ import lupos.s04logicalOperators.OPBase
 object LogicalOptimizerJoinOrderCostBasedOnVariable {
     class Plan : Comparable<Plan> {
         @JvmField
-        val child: OPBase?
+        val child: IOPBase?
 
         @JvmField
         val childs: Pair<Int, Int>?
@@ -26,7 +26,7 @@ object LogicalOptimizerJoinOrderCostBasedOnVariable {
         @JvmField
         val depth: Int
 
-        constructor(child: OPBase, variables: Array<Int>, allVariables: List<Int>) {
+        constructor(child: IOPBase, variables: Array<Int>, allVariables: List<Int>) {
             depth = 1
             this.child = child
             childs = null
@@ -80,13 +80,13 @@ object LogicalOptimizerJoinOrderCostBasedOnVariable {
             return res
         }
 
-        fun toOPBase(plans: Array<Plan?>): OPBase {
+        fun toOPBase(plans: Array<Plan?>): IOPBase {
             if (child != null) {
                 return child
             }
             val cA = plans[childs!!.first]!!.toOPBase(plans)
             val cB = plans[childs.second]!!.toOPBase(plans)
-            return LOPJoin(cA.query, cA, cB, false)
+            return LOPJoin(cA.getQuery(), cA, cB, false)
         }
     }
 
@@ -108,7 +108,7 @@ object LogicalOptimizerJoinOrderCostBasedOnVariable {
         }
     }
 
-    suspend operator fun invoke(allChilds: List<OPBase>, root: LOPJoin): OPBase? {
+    suspend operator fun invoke(allChilds: List<IOPBase>, root: LOPJoin): IOPBase? {
         SanityCheck.check { allChilds.size > 2 }
         if (allChilds.size < 30) {
             val allVariables = mutableListOf<String>()
