@@ -48,5 +48,5 @@ class AOPAggregationCOUNT(query: Query, @JvmField val distinct: Boolean, childs:
 
     }
 
-    override fun cloneOP() = AOPAggregationCOUNT(query, distinct, Array(children.size) { (children[it].cloneOP()) as AOPBase })
+    override fun cloneOP() :IOPBase= AOPAggregationCOUNT(query, distinct, Array(children.size) { (children[it].cloneOP()) as AOPBase })
 }

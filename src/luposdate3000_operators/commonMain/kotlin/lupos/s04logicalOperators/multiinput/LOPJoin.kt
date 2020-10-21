@@ -11,7 +11,7 @@ import lupos.s04logicalOperators.Query
 class LOPJoin(query: Query, first: OPBase, second: OPBase, @JvmField val optional: Boolean) : LOPBase(query, EOperatorID.LOPJoinID, "LOPJoin", arrayOf(first, second), ESortPriority.JOIN) {
     override suspend fun toXMLElement() = super.toXMLElement().addAttribute("optional", "" + optional)
     override fun equals(other: Any?) = other is LOPJoin && optional == other.optional && children[0] == other.children[0] && children[1] == other.children[1]
-    override fun cloneOP() = LOPJoin(query, children[0].cloneOP(), children[1].cloneOP(), optional)
+    override fun cloneOP() :IOPBase= LOPJoin(query, children[0].cloneOP(), children[1].cloneOP(), optional)
 
     companion object {
         inline fun getColumns(columnsA: List<String>, columnsB: List<String>): Array<MutableList<String>> {

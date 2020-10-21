@@ -30,6 +30,6 @@ class AOPBuildInCallSHA1(query: Query, child: AOPBase) : AOPBase(query, EOperato
 
     }
 
-    override fun cloneOP() = AOPBuildInCallSHA1(query, children[0].cloneOP() as AOPBase)
+    override fun cloneOP() :IOPBase= AOPBuildInCallSHA1(query, children[0].cloneOP() as AOPBase)
 }
 

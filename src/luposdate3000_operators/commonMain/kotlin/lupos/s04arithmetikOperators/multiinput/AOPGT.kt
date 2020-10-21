@@ -61,5 +61,5 @@ class AOPGT(query: Query, childA: AOPBase, childB: AOPBase) : AOPBinaryOperation
     }
 
     override fun enforcesBooleanOrError() = true
-    override fun cloneOP() = AOPGT(query, children[0].cloneOP() as AOPBase, children[1].cloneOP() as AOPBase)
+    override fun cloneOP() :IOPBase= AOPGT(query, children[0].cloneOP() as AOPBase, children[1].cloneOP() as AOPBase)
 }

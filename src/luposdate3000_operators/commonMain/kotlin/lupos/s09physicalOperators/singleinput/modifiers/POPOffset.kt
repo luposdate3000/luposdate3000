@@ -29,7 +29,7 @@ class POPOffset(query: Query, projectedVariables: List<String>, @JvmField val of
         return "{SELECT * {" + sparql + "} OFFSET " + offset + "}"
     }
 
-    override fun cloneOP() = POPOffset(query, projectedVariables, offset, children[0].cloneOP())
+    override fun cloneOP() :IOPBase= POPOffset(query, projectedVariables, offset, children[0].cloneOP())
     override suspend fun evaluate(parent: Partition): IteratorBundle {
         val variables = getProvidedVariableNames()
         val outMap = mutableMapOf<String, ColumnIterator>()

@@ -25,7 +25,7 @@ import lupos.s15tripleStoreDistributed.distributedTripleStore
 class POPModifyData(query: Query, projectedVariables: List<String>, @JvmField val type: EModifyType, @JvmField val data: List<LOPTriple>) : POPBase(query, projectedVariables, EOperatorID.POPModifyDataID, "POPModifyData", arrayOf(), ESortPriority.PREVENT_ANY) {
     override fun getPartitionCount(variable: String): Int = 1
     override fun equals(other: Any?): Boolean = other is POPModifyData && type == other.type && data == other.data
-    override fun cloneOP() = POPModifyData(query, projectedVariables, type, data)
+    override fun cloneOP() :IOPBase= POPModifyData(query, projectedVariables, type, data)
     override fun toSparqlQuery() = toSparql()
     override fun getProvidedVariableNames() = listOf<String>("?success")
     override fun toSparql(): String {

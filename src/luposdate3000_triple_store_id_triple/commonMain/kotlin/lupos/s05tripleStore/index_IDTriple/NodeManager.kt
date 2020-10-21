@@ -14,16 +14,6 @@ internal object NodeManager {
     fun debug() {
     }
 
-    suspend fun safeToFolder() {
-        SanityCheck.println { "debug NodeManager saving to folder '${BufferManager.bufferPrefix + "nodemanager/"}'" }
-        debug()
-        bufferManager.safeToFolder()
-    }
-
-    suspend    /*inline*/ fun loadFromFolder() {
-        SanityCheck.println({ "debug NodeManager loading from folder '${BufferManager.bufferPrefix + "nodemanager/"}'" })
-        bufferManager.loadFromFolder()
-    }
 
     inline fun referenceNode(nodeid: Int) {
         bufferManager.referencePage(nodeid)

@@ -30,5 +30,5 @@ class AOPBuildInCallSTRLANG(query: Query, child: AOPBase, childB: AOPBase) : AOP
 
     }
 
-    override fun cloneOP() = AOPBuildInCallSTRLANG(query, children[0].cloneOP() as AOPBase, children[1].cloneOP() as AOPBase)
+    override fun cloneOP() :IOPBase= AOPBuildInCallSTRLANG(query, children[0].cloneOP() as AOPBase, children[1].cloneOP() as AOPBase)
 }

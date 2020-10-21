@@ -45,5 +45,5 @@ class AOPBuildInCallCEIL(query: Query, child: AOPBase) : AOPBase(query, EOperato
 
     }
 
-    override fun cloneOP() = AOPBuildInCallCEIL(query, children[0].cloneOP() as AOPBase)
+    override fun cloneOP() :IOPBase= AOPBuildInCallCEIL(query, children[0].cloneOP() as AOPBase)
 }

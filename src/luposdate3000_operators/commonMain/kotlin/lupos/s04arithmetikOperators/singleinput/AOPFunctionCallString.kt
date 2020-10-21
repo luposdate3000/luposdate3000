@@ -56,5 +56,5 @@ class AOPFunctionCallString(query: Query, child: AOPBase) : AOPBase(query, EOper
         
     }
 
-    override fun cloneOP() = AOPFunctionCallString(query, children[0].cloneOP() as AOPBase)
+    override fun cloneOP() :IOPBase= AOPFunctionCallString(query, children[0].cloneOP() as AOPBase)
 }

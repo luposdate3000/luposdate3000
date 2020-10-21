@@ -34,5 +34,5 @@ class AOPBuildInCallLANG(query: Query, child: AOPBase) : AOPBase(query, EOperato
 
     }
 
-    override fun cloneOP() = AOPBuildInCallLANG(query, children[0].cloneOP() as AOPBase)
+    override fun cloneOP() :IOPBase= AOPBuildInCallLANG(query, children[0].cloneOP() as AOPBase)
 }

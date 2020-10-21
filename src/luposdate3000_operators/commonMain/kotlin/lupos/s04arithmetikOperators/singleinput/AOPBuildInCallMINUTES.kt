@@ -29,5 +29,5 @@ class AOPBuildInCallMINUTES(query: Query, child: AOPBase) : AOPBase(query, EOper
 
     }
 
-    override fun cloneOP() = AOPBuildInCallMINUTES(query, children[0].cloneOP() as AOPBase)
+    override fun cloneOP() :IOPBase= AOPBuildInCallMINUTES(query, children[0].cloneOP() as AOPBase)
 }

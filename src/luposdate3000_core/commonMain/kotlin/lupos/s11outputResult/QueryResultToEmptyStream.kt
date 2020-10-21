@@ -1,14 +1,13 @@
 package lupos.s11outputResult
-
+import lupos.s04logicalOperators.IOPBase
 import lupos.s00misc.MyLock
-import lupos.s00misc.MyMapIntInt
 import lupos.s00misc.MyPrintWriter
 import lupos.s00misc.Parallel
 import lupos.s00misc.ParallelJob
 import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
 import lupos.s03resultRepresentation.ResultSetDictionary
-import lupos.s03resultRepresentation.Value
+import lupos.s03resultRepresentation.ResultSetDictionaryExt
 import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s04logicalOperators.OPBase
@@ -22,7 +21,7 @@ internal object QueryResultToEmptyStream {
         loop@ while (true) {
             for (variableIndex in 0 until variables.size) {
                 val valueID = columns[variableIndex].next()
-                if (valueID == ResultSetDictionary.nullValue) {
+                if (valueID == ResultSetDictionaryExt.nullValue) {
                     break@loop
                 }
                 rowBuf[variableIndex] = valueID
@@ -64,8 +63,8 @@ internal object QueryResultToEmptyStream {
         }
     }
 
-    suspend operator fun invoke(rootNode: OPBase, output: MyPrintWriter) {
-        val nodes: Array<OPBase>
+    suspend operator fun invoke(rootNode: IOPBase, output: MyPrintWriter) {
+        val nodes: Array<IOPBase>
         var columnProjectionOrder = listOf<List<String>>()
         if (rootNode is OPBaseCompound) {
             nodes = Array(rootNode.children.size) { rootNode.children[it] }
@@ -88,8 +87,6 @@ internal object QueryResultToEmptyStream {
                     val child = node.evaluate(Partition())
                     child.columns["?boolean"]!!.next()
                 } else {
-                    val bnodeMap = MyMapIntInt()
-                    var bnodeMapSize = 0
                     if (variables.size == 0) {
                         val child = node.evaluate(Partition())
                         child.count()

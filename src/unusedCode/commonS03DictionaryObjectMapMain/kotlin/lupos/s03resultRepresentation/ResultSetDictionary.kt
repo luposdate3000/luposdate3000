@@ -7,7 +7,6 @@ import lupos.s00misc.MyMapIntInt
 import lupos.s01io.BufferManager
 import lupos.s03resultRepresentation.nodeGlobalDictionary
 import lupos.s03resultRepresentation.ResultSetDictionary
-import lupos.s03resultRepresentation.Value
 import lupos.s03resultRepresentation.ValueBnode
 import lupos.s03resultRepresentation.ValueBoolean
 import lupos.s03resultRepresentation.ValueDecimal
@@ -41,7 +40,7 @@ class ResultSetDictionary(val global: Boolean = false) {
         fun debug() {
         }
 
-        fun isGlobalBNode(value: Value): Boolean {
+        fun isGlobalBNode(value: Int): Boolean {
             if (value >= 0) {
                 return false
             }
@@ -49,7 +48,7 @@ class ResultSetDictionary(val global: Boolean = false) {
         }
     }
 
-    fun isLocalBNode(value: Value): Boolean {
+    fun isLocalBNode(value: Int): Boolean {
         if (value < 0) {
             return false
         }
@@ -57,18 +56,18 @@ class ResultSetDictionary(val global: Boolean = false) {
     }
 
     val bnodeMapToGlobal = MyMapIntInt()
-    var mapSTL = mutableMapOf<ValueDefinition, Value>(errorValue2 to errorValue, booleanTrueValue2 to booleanTrueValue, booleanFalseValue2 to booleanFalseValue, undefValue2 to undefValue)
-    var mapLTS = mutableMapOf<Value, ValueDefinition>(errorValue to errorValue2, booleanTrueValue to booleanTrueValue2, booleanFalseValue to booleanFalseValue2, undefValue to undefValue2)
+    var mapSTL = mutableMapOf<ValueDefinition, Int>(errorValue2 to errorValue, booleanTrueValue2 to booleanTrueValue, booleanFalseValue2 to booleanFalseValue, undefValue2 to undefValue)
+    var mapLTS = mutableMapOf<Int, ValueDefinition>(errorValue to errorValue2, booleanTrueValue to booleanTrueValue2, booleanFalseValue to booleanFalseValue2, undefValue to undefValue2)
     var bNodeCounter = 0
     fun clear() {
-        mapSTL = mutableMapOf<ValueDefinition, Value>(errorValue2 to errorValue, booleanTrueValue2 to booleanTrueValue, booleanFalseValue2 to booleanFalseValue, undefValue2 to undefValue)
-        mapLTS = mutableMapOf<Value, ValueDefinition>(errorValue to errorValue2, booleanTrueValue to booleanTrueValue2, booleanFalseValue to booleanFalseValue2, undefValue to undefValue2)
+        mapSTL = mutableMapOf<ValueDefinition, Int>(errorValue2 to errorValue, booleanTrueValue2 to booleanTrueValue, booleanFalseValue2 to booleanFalseValue, undefValue2 to undefValue)
+        mapLTS = mutableMapOf<Int, ValueDefinition>(errorValue to errorValue2, booleanTrueValue to booleanTrueValue2, booleanFalseValue to booleanFalseValue2, undefValue to undefValue2)
         bNodeCounter = 0
         bnodeMapToGlobal.clear()
     }
 
-    inline fun toBooleanOrError(value: Value): Value {
-        var res: Value = errorValue
+    inline fun toBooleanOrError(value: Int): Int {
+        var res: Int = errorValue
         if (value < undefValue && value >= 0) {
             res = value
         } else {
@@ -86,40 +85,40 @@ class ResultSetDictionary(val global: Boolean = false) {
         return res
     }
 
-    inline fun createNewBNode(): Value {
+    inline fun createNewBNode(): Int {
         return createValue(ValueBnode("" + bNodeCounter++))
     }
 
-    inline fun createIri(iri: String): Value {
+    inline fun createIri(iri: String): Int {
         return createValue("<" + iri + ">")
     }
 
-    inline fun createValue(value: String?): Value {
+    inline fun createValue(value: String?): Int {
         return createValue(ValueDefinition(value))
     }
 
-    inline fun createTyped(content: String, type: String): Value {
+    inline fun createTyped(content: String, type: String): Int {
         return createValue(ValueDefinition("\"$content\"^^<$type>"))
     }
 
-    inline fun createDouble(value: Double): Value {
+    inline fun createDouble(value: Double): Int {
         return createValue(ValueDouble(value))
     }
 
-    inline fun createFloat(value: Double): Value {
+    inline fun createFloat(value: Double): Int {
         return createValue(ValueFloat(value))
     }
 
-    inline fun createDecimal(value: Double): Value {
+    inline fun createDecimal(value: Double): Int {
         return createValue(ValueDecimal(value))
     }
 
-    inline fun createInteger(value: Int): Value {
+    inline fun createInteger(value: Int): Int {
         return createValue(ValueInteger(value))
     }
 
-    inline fun checkValue(value: ValueDefinition): Value {
-        var res: Value
+    inline fun checkValue(value: IntDefinition): Int {
+        var res: Int
         if (value is ValueUndef) {
             res = undefValue
         } else if (value is ValueError) {
@@ -140,7 +139,7 @@ class ResultSetDictionary(val global: Boolean = false) {
         return res
     }
 
-    inline fun createValue(value: ValueDefinition): Value {
+    inline fun createValue(value: IntDefinition): Int {
         var res = checkValue(value)
         if (res == null) {
             val l = mapLTS.size
@@ -155,7 +154,7 @@ class ResultSetDictionary(val global: Boolean = false) {
         return res
     }
 
-    inline fun getValue(value: Value): ValueDefinition {
+    inline fun getValue(value: Int): IntDefinition {
         if (value < 0) {
             return mapLTS[-value]!!
         } else {
@@ -164,7 +163,7 @@ class ResultSetDictionary(val global: Boolean = false) {
 /*Coverage Unreachable*/
     }
 
-    inline fun valueToGlobal(value: Value): Value {
+    inline fun valueToGlobal(value: Int): Int {
         if (value >= 0) {
             return value
         } else {

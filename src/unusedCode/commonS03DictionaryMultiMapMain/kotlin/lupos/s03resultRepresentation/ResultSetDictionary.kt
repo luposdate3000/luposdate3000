@@ -14,7 +14,6 @@ import lupos.s00misc.SanityCheck
 import lupos.s01io.BufferManager
 import lupos.s03resultRepresentation.nodeGlobalDictionary
 import lupos.s03resultRepresentation.ResultSetDictionary
-import lupos.s03resultRepresentation.Value
 import lupos.s03resultRepresentation.ValueBnode
 import lupos.s03resultRepresentation.ValueBoolean
 import lupos.s03resultRepresentation.ValueDateTime
@@ -74,7 +73,7 @@ class ResultSetDictionary(val global: Boolean = false) {
 
         @JvmField
         val undefValue2 = ValueUndef()
-        fun isGlobalBNode(value: Value) = (value and mask3) == flaggedValueGlobalBnode
+        fun isGlobalBNode(value: Int) = (value and mask3) == flaggedValueGlobalBnode
         fun debug() {
             SanityCheck {
                 nodeGlobalDictionary.printContents()
@@ -87,7 +86,7 @@ class ResultSetDictionary(val global: Boolean = false) {
         }
     }
 
-    fun isLocalBNode(value: Value) = (value and mask3) == flaggedValueLocalBnode
+    fun isLocalBNode(value: Int) = (value and mask3) == flaggedValueLocalBnode
 
     @JvmField
     val localBnodeMap = MyMapStringIntPatriciaTrie()
@@ -183,8 +182,8 @@ class ResultSetDictionary(val global: Boolean = false) {
         }
     }
 
-    fun toBooleanOrError(value: Value): Value {
-        var res: Value = errorValue
+    fun toBooleanOrError(value: Int): Int {
+        var res: Int = errorValue
         if (value < undefValue && value >= 0) {
             res = value
         } else {
@@ -203,8 +202,8 @@ class ResultSetDictionary(val global: Boolean = false) {
         return res
     }
 
-    fun createNewBNode(value: String = ""): Value {
-        var res: Value
+    fun createNewBNode(value: String = ""): Int {
+        var res: Int
         if (global) {
             res = (flaggedValueGlobalBnode or (bNodeCounter++).toInt())
         } else {
@@ -214,8 +213,8 @@ class ResultSetDictionary(val global: Boolean = false) {
         return res
     }
 
-    fun createIri(iri: String): Value {
-        var res: Value
+    fun createIri(iri: String): Int {
+        var res: Int
         if (global) {
             res = flaggedValueGlobalIri or iriMap.getOrCreate(iri)
         } else {
@@ -230,8 +229,8 @@ class ResultSetDictionary(val global: Boolean = false) {
         return res
     }
 
-    fun createLangTagged(content: String, lang: String): Value {
-        var res: Value
+    fun createLangTagged(content: String, lang: String): Int {
+        var res: Int
         val key = lang + "@" + content
         if (global) {
             res = flaggedValueGlobalLangTagged or langTaggedMap.getOrCreate(key)
@@ -247,8 +246,8 @@ class ResultSetDictionary(val global: Boolean = false) {
         return res
     }
 
-    fun createTyped(content: String, type: String): Value {
-        var res: Value
+    fun createTyped(content: String, type: String): Int {
+        var res: Int
         when (type) {
             "http://www.w3.org/2001/XMLSchema#integer" -> {
                 res = createInteger(MyBigInteger(content))
@@ -287,8 +286,8 @@ class ResultSetDictionary(val global: Boolean = false) {
         return res
     }
 
-    fun createDouble(value: Double): Value {
-        var res: Value
+    fun createDouble(value: Double): Int {
+        var res: Int
         if (global) {
             res = doubleMap.getOrCreate(value, {
                 val idx = doubleList.size
@@ -311,8 +310,8 @@ class ResultSetDictionary(val global: Boolean = false) {
         return res
     }
 
-    fun createFloat(value: Double): Value {
-        var res: Value
+    fun createFloat(value: Double): Int {
+        var res: Int
         if (global) {
             res = floatMap.getOrCreate(value, {
                 val idx = floatList.size
@@ -335,9 +334,9 @@ class ResultSetDictionary(val global: Boolean = false) {
         return res
     }
 
-    fun createDecimal(value2: MyBigDecimal): Value {
+    fun createDecimal(value2: MyBigDecimal): Int {
         val value = value2.toString()
-        var res: Value
+        var res: Int
         if (global) {
             res = flaggedValueGlobalDecimal or decimalMap.getOrCreate(value)
         } else {
@@ -352,9 +351,9 @@ class ResultSetDictionary(val global: Boolean = false) {
         return res
     }
 
-    fun createInteger(value2: MyBigInteger): Value {
+    fun createInteger(value2: MyBigInteger): Int {
         val value = value2.toString()
-        var res: Value
+        var res: Int
         if (global) {
             res = flaggedValueGlobalInt or intMap.getOrCreate(value)
         } else {
@@ -369,14 +368,14 @@ class ResultSetDictionary(val global: Boolean = false) {
         return res
     }
 
-    fun createValue(value: String?): Value {
+    fun createValue(value: String?): Int {
         val res = createValue(ValueDefinition(value))
 //SanityCheck.check({(res and filter6) < 10000},{"${res} ${res and filter6} ${res.toString(16)} ${(res and filter6).toString(16)}"})
         return res
     }
 
-    fun createValue(value: ValueDefinition): Value {
-        var res: Value
+    fun createValue(value: IntDefinition): Int {
+        var res: Int
         when (value) {
             is ValueUndef -> {
                 res = undefValue
@@ -431,9 +430,9 @@ class ResultSetDictionary(val global: Boolean = false) {
         return res
     }
 
-    fun getValue(value: Value): ValueDefinition {
+    fun getValue(value: Int): IntDefinition {
 //SanityCheck.check({(value and filter6) < 10000},{"${value} ${value and filter6} ${value.toString(16)} ${(value and filter6).toString(16)}"})
-        var res: ValueDefinition
+        var res: IntDefinition
         val dict: ResultSetDictionary
         if ((value and mask1) == mask1) {
             dict = nodeGlobalDictionary
@@ -492,7 +491,7 @@ class ResultSetDictionary(val global: Boolean = false) {
         return res
     }
 
-    inline fun getValue(value: Value,
+    inline fun getValue(value: Int,
                         crossinline onBNode: (value: Int) -> Unit,
                         crossinline onBoolean: (value: Boolean) -> Unit,
                         crossinline onLanguageTaggedLiteral: (content: String, lang: String) -> Unit,
@@ -602,8 +601,8 @@ class ResultSetDictionary(val global: Boolean = false) {
         }
     }
 
-    fun valueToGlobal(value: Value): Value {
-        var res: Value
+    fun valueToGlobal(value: Int): Int {
+        var res: Int
         if ((value and mask1) == mask1) {
             res = value
         } else {

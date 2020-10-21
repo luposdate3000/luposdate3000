@@ -28,5 +28,5 @@ class AOPValue(query: Query, childs: List<AOPConstant>) : AOPBase(query, EOperat
         SanityCheck.checkUnreachable()
     }
 
-    override fun cloneOP() = this
+    override fun cloneOP() :IOPBase= this
 }

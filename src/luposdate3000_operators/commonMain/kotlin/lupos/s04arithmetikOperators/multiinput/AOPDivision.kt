@@ -58,5 +58,5 @@ class AOPDivision(query: Query, childA: AOPBase, childB: AOPBase) : AOPBinaryOpe
 
     }
 
-    override fun cloneOP() = AOPDivision(query, children[0].cloneOP() as AOPBase, children[1].cloneOP() as AOPBase)
+    override fun cloneOP() :IOPBase= AOPDivision(query, children[0].cloneOP() as AOPBase, children[1].cloneOP() as AOPBase)
 }

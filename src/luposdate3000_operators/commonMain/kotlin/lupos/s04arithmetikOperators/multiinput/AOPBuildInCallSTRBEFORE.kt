@@ -64,5 +64,5 @@ class AOPBuildInCallSTRBEFORE(query: Query, child: AOPBase, childB: AOPBase) : A
         
     }
 
-    override fun cloneOP() = AOPBuildInCallSTRBEFORE(query, children[0].cloneOP() as AOPBase, children[1].cloneOP() as AOPBase)
+    override fun cloneOP() :IOPBase= AOPBuildInCallSTRBEFORE(query, children[0].cloneOP() as AOPBase, children[1].cloneOP() as AOPBase)
 }

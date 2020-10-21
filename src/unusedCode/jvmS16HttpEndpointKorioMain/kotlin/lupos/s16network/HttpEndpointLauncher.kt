@@ -12,7 +12,7 @@ import lupos.s00misc.MyMapStringIntPatriciaTrie
 import lupos.s00misc.Parallel
 import lupos.s00misc.SanityCheck
 import lupos.s03resultRepresentation.nodeGlobalDictionary
-import lupos.s15tripleStoreDistributed.DistributedTripleStore
+import lupos.s15tripleStoreDistributed.distributedTripleStore
 import lupos.SparqlTestSuite
 
 @UseExperimental(ExperimentalStdlibApi::class)
@@ -85,11 +85,11 @@ object HttpEndpointLauncher {
 /*Coverage Unreachable*/
             }
             "/persistence/store" -> {
-                DistributedTripleStore.localStore.safeToFolder()
+                distributedTripleStore.localStore.safeToFolder()
                 return "success\n"
             }
             "/persistence/load" -> {
-                DistributedTripleStore.localStore.loadFromFolder()
+                distributedTripleStore.localStore.loadFromFolder()
                 return "success\n"
             }
             "/debug/unittest" -> {

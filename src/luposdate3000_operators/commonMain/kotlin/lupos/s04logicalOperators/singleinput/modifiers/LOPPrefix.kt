@@ -12,7 +12,7 @@ import lupos.s04logicalOperators.Query
 class LOPPrefix(query: Query, @JvmField val name: String, @JvmField val iri: String, child: OPBase = OPEmptyRow(query)) : LOPBase(query, EOperatorID.LOPPrefixID, "LOPPrefix", arrayOf(child), ESortPriority.SAME_AS_CHILD) {
     override suspend fun toXMLElement() = super.toXMLElement().addAttribute("name", name).addAttribute("iri", iri)
     override fun equals(other: Any?) = other is LOPPrefix && name == other.name && iri == other.iri && children[0] == other.children[0]
-    override fun cloneOP() = LOPPrefix(query, name, iri, children[0].cloneOP())
+    override fun cloneOP() :IOPBase= LOPPrefix(query, name, iri, children[0].cloneOP())
     suspend override fun calculateHistogram(): HistogramResult {
         return children[0].getHistogram()
     }

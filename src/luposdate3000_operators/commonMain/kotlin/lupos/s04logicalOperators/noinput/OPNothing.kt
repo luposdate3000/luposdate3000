@@ -21,7 +21,7 @@ class OPNothing(query: Query, @JvmField val myProvidedVariableNames: List<String
     }
 
     override fun equals(other: Any?) = other is OPNothing
-    override fun cloneOP() = this
+    override fun cloneOP() :IOPBase= this
     suspend override fun calculateHistogram(): HistogramResult {
         var res = HistogramResult()
         res.count = 0

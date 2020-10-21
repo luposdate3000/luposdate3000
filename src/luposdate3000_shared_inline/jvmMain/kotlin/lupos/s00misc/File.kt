@@ -35,6 +35,15 @@ internal class MyInputStream(@JvmField val stream: InputStream) : IMyInputStream
     }
 }
 
+internal actual class MyDataInputStream(@JvmField val it:DataInputStream){
+actual inline fun readInt():Int=it.readInt()
+actual inline fun read(buf:ByteArray,off:Int,len:Int):Int=it.read(buf,off,len)
+}
+internal actual class MyDataOutputStream(@JvmField val it:DataOutputStream){
+actual inline fun writeInt(value:Int)=it.writeInt(value)
+actual inline fun write(buf:ByteArray,off:Int,len:Int)=it.write(buf,off,len)
+}
+
 internal actual class File{
 @JvmField val filename: String
 actual constructor(filename: String){
@@ -61,12 +70,12 @@ this.filename=filename
         }
     }
 
-    inline actual fun myPrintWriter() :IPrintWriter= MyPrintWriter(java.io.File(filename))
-    inline actual fun printWriter(crossinline action: (IPrintWriter) -> Unit) {
+    inline actual fun myPrintWriter() :MyPrintWriter= MyPrintWriter(java.io.File(filename))
+    inline actual fun printWriter(crossinline action: (MyPrintWriter) -> Unit) {
         action(MyPrintWriter(java.io.File(filename)))
     }
 
-    inline suspend actual fun printWriterSuspended(crossinline action: suspend (IPrintWriter) -> Unit) {
+    inline suspend actual fun printWriterSuspended(crossinline action: suspend (MyPrintWriter) -> Unit) {
 action(MyPrintWriter(java.io.File(filename)))
     }
 
@@ -80,49 +89,49 @@ action(MyPrintWriter(java.io.File(filename)))
         }
     }
 
-    inline actual fun dataOutputStream(crossinline action: (IDataOutputStream) -> Unit) {
+    inline actual fun dataOutputStream(crossinline action: (MyDataOutputStream) -> Unit) {
         var dos: DataOutputStream? = null
         try {
             val fos = FileOutputStream(filename)
             val bos = BufferedOutputStream(fos)
             dos = DataOutputStream(bos)
-            action(object:IDataOutputStream{})
+            action(MyDataOutputStream(dos))
         } finally {
             dos?.close()
         }
     }
 
-    inline actual fun dataOutputStreamSuspend(crossinline action: (IDataOutputStream) -> Unit) {
+    inline actual fun dataOutputStreamSuspend(crossinline action: (MyDataOutputStream) -> Unit) {
         var dos: DataOutputStream? = null
         try {
             val fos = FileOutputStream(filename)
             val bos = BufferedOutputStream(fos)
             dos = DataOutputStream(bos)
-            action(object:IDataOutputStream{})
+            action(MyDataOutputStream(dos))
         } finally {
             dos?.close()
         }
     }
 
-    inline actual fun dataInputStream(crossinline action: (IDataInputStream) -> Unit) {
+    inline actual fun dataInputStream(crossinline action: (MyDataInputStream) -> Unit) {
         var dis: DataInputStream? = null
         try {
             val fis = FileInputStream(filename)
             val bis = BufferedInputStream(fis)
             dis = DataInputStream(bis)
-            action(object:IDataInputStream{})
+            action(MyDataInputStream(dis))
         } finally {
             dis?.close()
         }
     }
 
-    suspend inline actual fun dataInputStreamSuspended(crossinline action: suspend (IDataInputStream) -> Unit) {
+    suspend inline actual fun dataInputStreamSuspended(crossinline action: suspend (MyDataInputStream) -> Unit) {
         var dis: DataInputStream? = null
         try {
             val fis = FileInputStream(filename)
             val bis = BufferedInputStream(fis)
             dis = DataInputStream(bis)
-            action(object:IDataInputStream{})
+            action(MyDataInputStream(dis))
         } finally {
             dis?.close()
         }

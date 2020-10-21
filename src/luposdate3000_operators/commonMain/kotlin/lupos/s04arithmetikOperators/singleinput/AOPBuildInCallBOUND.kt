@@ -25,5 +25,5 @@ class AOPBuildInCallBOUND(query: Query, child: AOPBase) : AOPBase(query, EOperat
     }
 
     override fun enforcesBooleanOrError() = true
-    override fun cloneOP() = AOPBuildInCallBOUND(query, children[0].cloneOP() as AOPBase)
+    override fun cloneOP() :IOPBase= AOPBuildInCallBOUND(query, children[0].cloneOP() as AOPBase)
 }

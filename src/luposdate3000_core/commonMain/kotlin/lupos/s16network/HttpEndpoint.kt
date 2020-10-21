@@ -1,6 +1,5 @@
 package lupos.s16network
 
-import lupos.s00misc.BenchmarkUtils
 import lupos.s00misc.Coverage
 import lupos.s00misc.DateHelper
 import lupos.s00misc.DateHelperRelative
@@ -8,7 +7,6 @@ import lupos.s00misc.EBenchmark
 import lupos.s00misc.EModifyType
 import lupos.s00misc.ETripleComponentType
 import lupos.s00misc.File
-import lupos.s00misc.MyMapStringIntPatriciaTrie
 import lupos.s00misc.MyPrintWriter
 import lupos.s00misc.OperatorGraphToLatex
 import lupos.s00misc.parseFromXml
@@ -23,7 +21,6 @@ import lupos.s02buildSyntaxTree.turtle.Turtle2Parser
 import lupos.s02buildSyntaxTree.turtle.TurtleParserWithStringTriples
 import lupos.s02buildSyntaxTree.turtle.TurtleScanner
 import lupos.s03resultRepresentation.nodeGlobalDictionary
-import lupos.s03resultRepresentation.Value
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
 import lupos.s06buildOperatorGraph.OperatorGraphVisitor
@@ -33,7 +30,7 @@ import lupos.s10physicalOptimisation.PhysicalOptimizer
 import lupos.s11outputResult.QueryResultToStream
 import lupos.s13keyDistributionOptimizer.KeyDistributionOptimizer
 import lupos.s14endpoint.convertToOPBase
-import lupos.s15tripleStoreDistributed.DistributedTripleStore
+import lupos.s15tripleStoreDistributed.distributedTripleStore
 
 /*this object transforms the text input to the response-body*/
 @UseExperimental(ExperimentalStdlibApi::class, kotlin.time.ExperimentalTime::class)
@@ -51,11 +48,9 @@ object HttpEndpoint {
         return res
     }
 
-    fun helper_import_turtle_files(dict: MyMapStringIntPatriciaTrie, usePredefinedDict: Boolean, v: String): Value {
-        try {
+    fun helper_import_turtle_files(dict: MutableMap<String,Int>, usePredefinedDict: Boolean, v: String): Int {
             val v2 = helper_clean_string(v)
-            BenchmarkUtils.start(EBenchmark.IMPORT_DICT)
-            var res: Value
+            var res: Int
             if (v2.startsWith("_:")) {
                 res = dict.getOrCreate(v2, {
 //                    SanityCheck.check { !usePredefinedDict }
@@ -65,13 +60,10 @@ object HttpEndpoint {
                 res = nodeGlobalDictionary.createValue(v2)
             }
             return res
-        } finally {
-            BenchmarkUtils.elapsedSeconds(EBenchmark.IMPORT_DICT)
-        }
 /*Coverage Unreachable*/
     }
 
-    suspend fun cleanup_turtle_files_old(fileNames: String, bnodeDict: MyMapStringIntPatriciaTrie): String {
+    suspend fun cleanup_turtle_files_old(fileNames: String, bnodeDict: MutableMap<String,Int>): String {
         var res = StringBuilder()
         try {
             for (fileName in fileNames.split(";")) {
@@ -107,12 +99,12 @@ object HttpEndpoint {
         return res.toString()
     }
 
-    suspend fun import_turtle_files_old(fileNames: String, bnodeDict: MyMapStringIntPatriciaTrie): String {
+    suspend fun import_turtle_files_old(fileNames: String, bnodeDict: MutableMap<String,Int>): String {
         try {
             val usePredefinedDict = bnodeDict.size > 0
             val query = Query()
             var counter = 0
-            var store = DistributedTripleStore.getDefaultGraph(query)
+            var store = distributedTripleStore.getDefaultGraph(query)
             store.bulkImport { bulk ->
                 for (fileName in fileNames.split(";")) {
                     println("importing file '$fileName'")
@@ -151,7 +143,7 @@ object HttpEndpoint {
 /*Coverage Unreachable*/
     }
 
-    suspend fun cleanup_turtle_files(fileNames: String, bnodeDict: MyMapStringIntPatriciaTrie): String {
+    suspend fun cleanup_turtle_files(fileNames: String, bnodeDict: MutableMap<String,Int>): String {
         var res = StringBuilder()
         try {
             for (fileName in fileNames.split(";")) {
@@ -175,12 +167,12 @@ object HttpEndpoint {
         return res.toString()
     }
 
-    suspend fun import_turtle_files(fileNames: String, bnodeDict: MyMapStringIntPatriciaTrie): String {
+    suspend fun import_turtle_files(fileNames: String, bnodeDict: MutableMap<String,Int>): String {
         try {
             val usePredefinedDict = bnodeDict.size > 0
             val query = Query()
             var counter = 0
-            var store = DistributedTripleStore.getDefaultGraph(query)
+            var store = distributedTripleStore.getDefaultGraph(query)
             store.bulkImport { bulk ->
                 for (fileName in fileNames.split(";")) {
                     println("importing file '$fileName'")
@@ -212,7 +204,7 @@ object HttpEndpoint {
         try {
             val query = Query()
             var counter = 0L
-            var store = DistributedTripleStore.getDefaultGraph(query)
+            var store = distributedTripleStore.getDefaultGraph(query)
             store.bulkImport { bulk ->
                 for (fileName in fileNames.split(";")) {
                     println("importing file '$fileName'")
@@ -284,8 +276,8 @@ object HttpEndpoint {
         val query = Query()
         val import = POPValuesImportXML(query, listOf("s", "p", "o"), XMLElement.parseFromXml(data)!!).evaluate(Partition())
         val dataLocal = arrayOf(import.columns["s"]!!, import.columns["p"]!!, import.columns["o"]!!)
-        DistributedTripleStore.getDefaultGraph(query).modify(dataLocal, EModifyType.INSERT)
-DistributedTripleStore.commit(query)
+        distributedTripleStore.getDefaultGraph(query).modify(dataLocal, EModifyType.INSERT)
+distributedTripleStore.commit(query)
 query.commited=true
         return XMLElement("success").toString()
     }
@@ -344,7 +336,7 @@ query.commited=true
         output.println();
         node.query.reset()
         QueryResultToStream(node, output)
-DistributedTripleStore.commit(node.query)
+distributedTripleStore.commit(node.query)
 node.query.commited=true
 //println("timer #407 ${DateHelperRelative.elapsedSeconds(timer)}")
     }
@@ -381,7 +373,7 @@ node.query.commited=true
         }
         var buf = MyPrintWriter()
         val res = QueryResultToStream(pop_node, buf)
-DistributedTripleStore.commit(q)
+distributedTripleStore.commit(q)
 q.commited=true
         return buf.toString()
     }

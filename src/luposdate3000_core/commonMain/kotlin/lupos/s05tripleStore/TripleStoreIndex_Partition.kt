@@ -4,7 +4,6 @@ import kotlin.jvm.JvmField
 import lupos.s00misc.File
 import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
-import lupos.s03resultRepresentation.Value
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.Query
 
@@ -132,11 +131,11 @@ class TripleStoreIndex_Partition(childIndex: (Int) -> TripleStoreIndex, val colu
         }
     }
 
-    override fun insert(a: Value, b: Value, c: Value) {
+    override fun insert(a: Int, b: Int, c: Int) {
         SanityCheck.checkUnreachable()
     }
 
-    override fun remove(a: Value, b: Value, c: Value) {
+    override fun remove(a: Int, b: Int, c: Int) {
         SanityCheck.checkUnreachable()
     }
 

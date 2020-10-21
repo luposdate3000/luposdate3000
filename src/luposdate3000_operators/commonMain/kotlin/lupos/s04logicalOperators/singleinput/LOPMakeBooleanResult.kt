@@ -13,7 +13,7 @@ class LOPMakeBooleanResult(query: Query, child: OPBase) : LOPBase(query, EOperat
     }
 
     override fun equals(other: Any?) = other is LOPMakeBooleanResult && children[0] == other.children[0]
-    override fun cloneOP() = LOPMakeBooleanResult(query, children[0].cloneOP())
+    override fun cloneOP() :IOPBase= LOPMakeBooleanResult(query, children[0].cloneOP())
     suspend override fun calculateHistogram(): HistogramResult {
         var res = HistogramResult()
         res.values["?boolean"] = 1

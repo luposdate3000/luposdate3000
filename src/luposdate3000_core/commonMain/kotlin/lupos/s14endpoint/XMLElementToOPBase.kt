@@ -12,7 +12,6 @@ import lupos.s00misc.UnknownOperatorTypeInXMLException
 import lupos.s00misc.XMLElement
 import lupos.s00misc.XMLNotParseableException
 import lupos.s02buildSyntaxTree.sparql1_1.Aggregation
-import lupos.s03resultRepresentation.Value
 import lupos.s03resultRepresentation.ValueBnode
 import lupos.s03resultRepresentation.ValueBoolean
 import lupos.s03resultRepresentation.ValueDateTime
@@ -26,6 +25,7 @@ import lupos.s03resultRepresentation.ValueSimpleLiteral
 import lupos.s03resultRepresentation.ValueTypedLiteral
 import lupos.s03resultRepresentation.ValueUndef
 import lupos.s04arithmetikOperators.AOPBase
+import lupos.s04arithmetikOperators.IAOPBase
 import lupos.s04arithmetikOperators.multiinput.AOPAddition
 import lupos.s04arithmetikOperators.multiinput.AOPAnd
 import lupos.s04arithmetikOperators.multiinput.AOPBuildInCallCOALESCE
@@ -126,7 +126,7 @@ import lupos.s09physicalOperators.singleinput.POPMakeBooleanResult
 import lupos.s09physicalOperators.singleinput.POPProjection
 import lupos.s09physicalOperators.singleinput.POPSort
 import lupos.s12p2p.POPServiceIRI
-import lupos.s15tripleStoreDistributed.DistributedTripleStore
+import lupos.s15tripleStoreDistributed.distributedTripleStore
 
 fun convertToPartition(node: XMLElement): Partition {
     val res = Partition()
@@ -571,12 +571,12 @@ suspend fun XMLElement.Companion.convertToOPBase(query: Query, node: XMLElement,
             res = POPJoinWithStoreExists(query, createProjectedVariables(query, node, mapping), convertToOPBase(query, node["children"]!!.childs[0], mapping), convertToOPBase(query, node["children"]!!.childs[1], mapping) as LOPTriple, node.attributes["optional"]!!.toBoolean())
         }
         "TripleStoreIteratorGlobal" -> {
-            val s = convertToOPBase(query, node["sparam"]!!.childs[0], mapping) as AOPBase
-            val p = convertToOPBase(query, node["pparam"]!!.childs[0], mapping) as AOPBase
-            val o = convertToOPBase(query, node["oparam"]!!.childs[0], mapping) as AOPBase
+            val s = convertToOPBase(query, node["sparam"]!!.childs[0], mapping) as IAOPBase
+            val p = convertToOPBase(query, node["pparam"]!!.childs[0], mapping) as IAOPBase
+            val o = convertToOPBase(query, node["oparam"]!!.childs[0], mapping) as IAOPBase
             val idx = EIndexPattern.valueOf(node.attributes["idx"]!!)
             val partition = convertToPartition(node["partition"]!!.childs[0])
-            res = DistributedTripleStore.getNamedGraph(query, node.attributes["name"]!!).getIterator(arrayOf(s, p, o), idx, partition)
+            res = distributedTripleStore.getNamedGraph(query, node.attributes["name"]!!).getIterator(arrayOf(s, p, o), idx, partition)
         }
         "POPServiceIRI" -> {
             res = POPServiceIRI(query, createProjectedVariables(query, node, mapping), node.attributes["name"]!!, node.attributes["silent"]!!.toBoolean(), convertToOPBase(query, node["children"]!!.childs[0], mapping))

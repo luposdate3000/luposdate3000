@@ -3,7 +3,8 @@ import lupos.s00misc.Parallel
 import lupos.s16network.ServerCommunicationSend
 import lupos.SparqlTestSuite
 
-internal fun main(args: Array<String>): Unit = Parallel.runBlocking {
+internal fun main(args: Array<String>): Unit {
+ Parallel.runBlocking {
     try {
         ServerCommunicationSend.start()
         if (args.size == 1) {
@@ -17,4 +18,5 @@ internal fun main(args: Array<String>): Unit = Parallel.runBlocking {
         println("going to terminate now")
         throw e
     }
+}
 }

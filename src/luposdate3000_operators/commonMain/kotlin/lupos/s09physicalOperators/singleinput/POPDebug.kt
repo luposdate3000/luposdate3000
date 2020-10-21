@@ -19,7 +19,7 @@ import lupos.s09physicalOperators.POPBase
 class POPDebug(query: Query, projectedVariables: List<String>, child: OPBase) : POPBase(query, projectedVariables, EOperatorID.POPDebugID, "POPDebug", arrayOf(child), ESortPriority.SAME_AS_CHILD) {
     override fun getPartitionCount(variable: String): Int = children[0].getPartitionCount(variable)
     override fun equals(other: Any?): Boolean = other is POPDebug && children[0] == other.children[0]
-    override fun cloneOP() = POPDebug(query, projectedVariables, children[0].cloneOP())
+    override fun cloneOP() :IOPBase= POPDebug(query, projectedVariables, children[0].cloneOP())
     override fun getRequiredVariableNames(): List<String> = listOf<String>()
     override fun getProvidedVariableNames(): List<String> = children[0].getProvidedVariableNames()
     override fun getProvidedVariableNamesInternal(): List<String> = (children[0] as POPBase).getProvidedVariableNamesInternal()

@@ -61,5 +61,5 @@ class AOPGEQ(query: Query, childA: AOPBase, childB: AOPBase) : AOPBinaryOperatio
     }
 
     override fun enforcesBooleanOrError() = true
-    override fun cloneOP() = AOPGEQ(query, children[0].cloneOP() as AOPBase, children[1].cloneOP() as AOPBase)
+    override fun cloneOP() :IOPBase= AOPGEQ(query, children[0].cloneOP() as AOPBase, children[1].cloneOP() as AOPBase)
 }

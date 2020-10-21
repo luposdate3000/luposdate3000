@@ -30,5 +30,5 @@ class AOPSet(query: Query, childs: List<AOPBase>) : AOPBase(query, EOperatorID.A
 
     }
 
-    override fun cloneOP() = AOPSet(query, List(children.size) { children[it].cloneOP() as AOPBase })
+    override fun cloneOP() :IOPBase= AOPSet(query, List(children.size) { children[it].cloneOP() as AOPBase })
 }

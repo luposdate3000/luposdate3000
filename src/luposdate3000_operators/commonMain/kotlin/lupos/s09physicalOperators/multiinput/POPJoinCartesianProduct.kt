@@ -263,5 +263,5 @@ class POPJoinCartesianProduct(query: Query, projectedVariables: List<String>, ch
     }
 
     override suspend fun toXMLElement() = super.toXMLElement().addAttribute("optional", "" + optional)
-    override fun cloneOP() = POPJoinCartesianProduct(query, projectedVariables, children[0].cloneOP(), children[1].cloneOP(), optional)
+    override fun cloneOP() :IOPBase= POPJoinCartesianProduct(query, projectedVariables, children[0].cloneOP(), children[1].cloneOP(), optional)
 }

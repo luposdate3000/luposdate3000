@@ -5,8 +5,6 @@ Sanity->On
 TripleStore->BPlusTreePartition
 Endpoint->None
 Jena->On
-Set->BTree
-Map->BTree
 OutputFormat->Empty
 EnumerateBnodes->false
 BlockCapacity->8

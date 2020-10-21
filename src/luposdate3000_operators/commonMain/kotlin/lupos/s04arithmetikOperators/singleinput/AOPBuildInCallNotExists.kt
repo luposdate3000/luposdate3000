@@ -15,5 +15,5 @@ class AOPBuildInCallNotExists(query: Query, @JvmField var child: OPBase) : AOPBa
     override fun equals(other: Any?) = other is AOPBuildInCallNotExists && children[0] == other.children[0]
     override fun evaluate(row: IteratorBundle): () -> ValueDefinition = throw EvaluateNotImplementedException(classname)
     override fun enforcesBooleanOrError() = true
-    override fun cloneOP() = AOPBuildInCallNotExists(query, children[0].cloneOP())
+    override fun cloneOP() :IOPBase= AOPBuildInCallNotExists(query, children[0].cloneOP())
 }

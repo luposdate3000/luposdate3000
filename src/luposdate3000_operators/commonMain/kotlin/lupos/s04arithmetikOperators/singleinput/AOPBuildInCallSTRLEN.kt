@@ -35,5 +35,5 @@ class AOPBuildInCallSTRLEN(query: Query, child: AOPBase) : AOPBase(query, EOpera
 
     }
 
-    override fun cloneOP() = AOPBuildInCallSTRLEN(query, children[0].cloneOP() as AOPBase)
+    override fun cloneOP() :IOPBase= AOPBuildInCallSTRLEN(query, children[0].cloneOP() as AOPBase)
 }

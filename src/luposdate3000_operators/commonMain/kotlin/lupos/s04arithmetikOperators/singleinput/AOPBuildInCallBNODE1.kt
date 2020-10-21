@@ -22,5 +22,5 @@ class AOPBuildInCallBNODE1(query: Query, child: AOPBase) : AOPBase(query, EOpera
 
     }
 
-    override fun cloneOP() = AOPBuildInCallBNODE1(query, children[0].cloneOP() as AOPBase)
+    override fun cloneOP() :IOPBase= AOPBuildInCallBNODE1(query, children[0].cloneOP() as AOPBase)
 }

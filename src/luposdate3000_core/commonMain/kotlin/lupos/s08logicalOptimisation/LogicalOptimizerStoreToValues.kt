@@ -5,6 +5,7 @@ import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
 import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s04arithmetikOperators.AOPBase
+import lupos.s04arithmetikOperators.IAOPBase
 import lupos.s04arithmetikOperators.noinput.AOPConstant
 import lupos.s04arithmetikOperators.noinput.AOPValue
 import lupos.s04arithmetikOperators.noinput.AOPVariable
@@ -15,7 +16,7 @@ import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.singleinput.LOPBind
-import lupos.s15tripleStoreDistributed.DistributedTripleStore
+import lupos.s15tripleStoreDistributed.distributedTripleStore
 
 class LogicalOptimizerStoreToValues(query: Query) : OptimizerBase(query, EOptimizerID.LogicalOptimizerStoreToValuesID) {
     override val classname = "LogicalOptimizerStoreToValues"
@@ -41,7 +42,7 @@ class LogicalOptimizerStoreToValues(query: Query) : OptimizerBase(query, EOptimi
                 }
                 if (variables.size == 0) {
                     val idx = LOPTriple.getIndex(node.children, listOf<String>())
-                    val tmp = DistributedTripleStore.getNamedGraph(query, node.graph).getIterator(Array(3) { node.children[it] as AOPBase }, idx, Partition())
+                    val tmp = distributedTripleStore.getNamedGraph(query, node.graph).getIterator(Array(3) { node.children[it] as IAOPBase }, idx, Partition())
                     val tmp2 = tmp.evaluate(Partition())
                     SanityCheck.check { tmp2.hasCountMode() }
                     if (tmp2.count() > 0) {//closed childs due to reading from count
@@ -52,7 +53,7 @@ class LogicalOptimizerStoreToValues(query: Query) : OptimizerBase(query, EOptimi
                     onChange()
                 } else if (variables.size == 1) {
                     val idx = LOPTriple.getIndex(node.children, listOf<String>())
-                    val tmp = DistributedTripleStore.getNamedGraph(query, node.graph).getIterator(Array(3) { node.children[it] as AOPBase }, idx, Partition())
+                    val tmp = distributedTripleStore.getNamedGraph(query, node.graph).getIterator(Array(3) { node.children[it] as IAOPBase }, idx, Partition())
                     val tmp2 = tmp.evaluate(Partition())
                     val columns = tmp2.columns
                     SanityCheck.check { columns.size == 1 }

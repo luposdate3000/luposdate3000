@@ -11,7 +11,6 @@ import lupos.s00misc.JenaWrapper
 import lupos.s00misc.Luposdate3000Exception
 import lupos.s00misc.MAX_TRIPLES_DURING_TEST
 import lupos.s00misc.MemoryTable
-import lupos.s00misc.MyMapStringIntPatriciaTrie
 import lupos.s00misc.MyPrintWriter
 import lupos.s00misc.NotImplementedException
 import lupos.s00misc.OperatorGraphToLatex
@@ -35,12 +34,13 @@ import lupos.s02buildSyntaxTree.sparql1_1.TokenIteratorSPARQLParser
 import lupos.s02buildSyntaxTree.turtle.TurtleParserWithDictionary
 import lupos.s03resultRepresentation.nodeGlobalDictionary
 import lupos.s03resultRepresentation.ResultSetDictionary
-import lupos.s03resultRepresentation.Value
+import lupos.s03resultRepresentation.ResultSetDictionaryExt
 import lupos.s04arithmetikOperators.AOPBase
+import lupos.s04arithmetikOperators.IAOPBase
 import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s04logicalOperators.OPBase
+import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.Query
-import lupos.s05tripleStore.index_IDTriple.NodeManager
 import lupos.s06buildOperatorGraph.OperatorGraphVisitor
 import lupos.s08logicalOptimisation.LogicalOptimizer
 import lupos.s09physicalOperators.noinput.POPValuesImportXML
@@ -51,7 +51,7 @@ import lupos.s11outputResult.QueryResultToXMLElement
 import lupos.s11outputResult.QueryResultToXMLStream
 import lupos.s13keyDistributionOptimizer.KeyDistributionOptimizer
 import lupos.s14endpoint.convertToOPBase
-import lupos.s15tripleStoreDistributed.DistributedTripleStore
+import lupos.s15tripleStoreDistributed.distributedTripleStore
 import lupos.s16network.HttpEndpoint
 import lupos.s16network.ServerCommunicationSend
 import lupos.SparqlTestSuite
@@ -127,9 +127,9 @@ class SparqlTestSuiteConverter(resource_folder: String, val output_folder: Strin
 }
 
 object BinaryTestCase {
-    var outSummary = MyPrintWriter(false)
-    var lastInput = MemoryTable(Array<String>(0) { "" })
-    fun rowToString(row: IntArray, dict: Array<String>): String {
+internal    var outSummary = MyPrintWriter(false)
+internal    var lastInput = MemoryTable(Array<String>(0) { "" })
+ internal   fun rowToString(row: IntArray, dict: Array<String>): String {
         var res = "${row.map { it }}::"
         if (row.size > 0) {
             for (i in 0 until row.size) {
@@ -146,7 +146,7 @@ object BinaryTestCase {
         return res
     }
 
-    fun helper_clean_string(s: String): String {
+internal    fun helper_clean_string(s: String): String {
         var res: String = s
         while (true) {
             val match = "\\\\u[0-9a-fA-f]{4}".toRegex().find(res)
@@ -192,7 +192,7 @@ object BinaryTestCase {
         }
     }
 
-    fun operatorGraphToTable(node: OPBase): MemoryTable {
+internal    fun operatorGraphToTable(node: IOPBase): MemoryTable {
         val tmp = QueryResultToMemoryTable(node)
         if (tmp.size != 1) {
             throw Exception("multi-queries are not supported right now")
@@ -200,7 +200,7 @@ object BinaryTestCase {
         return tmp[0]
     }
 
-    fun verifyEqual(expected: MemoryTable, actual: MemoryTable, mapping_live_to_target: Map<Int, Int>, dict: Map<String, Int>, dict2: Array<String>, allowOrderBy: Boolean, out: MyPrintWriter): Boolean {
+internal    fun verifyEqual(expected: MemoryTable, actual: MemoryTable, mapping_live_to_target: Map<Int, Int>, dict: Map<String, Int>, dict2: Array<String>, allowOrderBy: Boolean, out: MyPrintWriter): Boolean {
         if (expected.booleanResult != null) {
             if (expected.booleanResult != actual.booleanResult) {
                 out.println("invalid result to ask query expected:${expected.booleanResult} found:${actual.booleanResult}")
@@ -312,7 +312,7 @@ object BinaryTestCase {
         return true
     }
 
-    class IntArrayComparator : Comparator<IntArray> {
+internal    class IntArrayComparator : Comparator<IntArray> {
         override fun compare(p1: IntArray, p2: IntArray): Int {
             for (i in 0 until p1.size) {
                 if (p1[i] < p2[i]) {
@@ -325,7 +325,7 @@ object BinaryTestCase {
         }
     }
 
-    fun verifyEqual(expected: MemoryTable, actual: MemoryTable, mapping_live_to_target: Map<Int, Int>, dict: Map<String, Int>, dict2: Array<String>, allowOrderBy: Boolean, query_name: String, query_folder: String, tag: String): Boolean {
+internal    fun verifyEqual(expected: MemoryTable, actual: MemoryTable, mapping_live_to_target: Map<Int, Int>, dict: Map<String, Int>, dict2: Array<String>, allowOrderBy: Boolean, query_name: String, query_folder: String, tag: String): Boolean {
         val out = MyPrintWriter()
         val res = verifyEqual(expected, actual, mapping_live_to_target, dict, dict2, allowOrderBy, out)
         if (!res && tag != "this is no error") {
@@ -338,7 +338,7 @@ object BinaryTestCase {
         return res
     }
 
-    var notImplementedFeaturesList = mutableSetOf(//
+internal    var notImplementedFeaturesList = mutableSetOf(//
             "rdfs:subPropertyOf",//
             "rdfs:subClassOf",//
             "rdfs:domain",//
@@ -440,7 +440,7 @@ object BinaryTestCase {
                             val targetDict = mutableMapOf<String, Int>()
                             val targetDict2 = Array<String>(dictionarySize) { "" }
                             val mapping_target_to_live = IntArray(dictionarySize) { 0 }
-                            val mapping_live_to_target = mutableMapOf<Int, Int>(ResultSetDictionary.undefValue to -1, ResultSetDictionary.errorValue to -1, ResultSetDictionary.nullValue to -1)
+                            val mapping_live_to_target = mutableMapOf<Int, Int>(ResultSetDictionaryExt.undefValue to -1, ResultSetDictionaryExt.errorValue to -1, ResultSetDictionaryExt.nullValue to -1)
                             for (i in 0 until dictionarySize) {
                                 val len = targetDictionary.readInt()
                                 val buf = ByteArray(len)
@@ -476,24 +476,24 @@ object BinaryTestCase {
                             if (!verifyEqual(lastInput, tableInput, mapping_live_to_target, targetDict, targetDict2, true, query_name, query_folder, "this is no error")) {
                                 val query1 = Query()
                                 ServerCommunicationSend.graphClearAll(query1)
-                                DistributedTripleStore.commit(query1)
+                                distributedTripleStore.commit(query1)
 query1.commited=true
                                 val query2 = Query()
-                                var store = DistributedTripleStore.getDefaultGraph(query2)
+                                var store = distributedTripleStore.getDefaultGraph(query2)
                                 store.bulkImport { bulk ->
                                     for (row in tableInput.data) {
                                         bulk.insert(row[0], row[1], row[2])
                                     }
                                 }
                                 val query3 = Query()
-                                val queryParam = arrayOf<AOPBase>(AOPVariable(query3, "s"), AOPVariable(query3, "p"), AOPVariable(query3, "o"))
-                                val enablesPartitions = DistributedTripleStore.localStore.getDefaultGraph(query3).enabledPartitions
+                                val queryParam = arrayOf<IAOPBase>(AOPVariable(query3, "s"), AOPVariable(query3, "p"), AOPVariable(query3, "o"))
+                                val enablesPartitions = distributedTripleStore.getLocalStore().getDefaultGraph(query3).enabledPartitions
                                 var failed = false
                                 for (p in enablesPartitions) {
                                     val idx = p.index.toList().first()
                                     var tmpTable: MemoryTable? = null
                                     if (p.partitionCount == 1) {
-                                        val node = DistributedTripleStore.getDefaultGraph(query3).getIterator(queryParam, idx, Partition())
+                                        val node = distributedTripleStore.getDefaultGraph(query3).getIterator(queryParam, idx, Partition())
                                         tmpTable = operatorGraphToTable(node)
                                     } else {
 //TODO
@@ -504,7 +504,7 @@ query1.commited=true
                                             partition.limit[key] = p.partitionCount
                                             partition.data[key] = value
                                             println("using Partitioning on ${key} (${value}/${p.partitionCount})")
-                                            val node = DistributedTripleStore.getDefaultGraph(query3).getIterator(queryParam, idx, partition)
+                                            val node = distributedTripleStore.getDefaultGraph(query3).getIterator(queryParam, idx, partition)
                                             val table = operatorGraphToTable(node)
                                             if (tmpTable != null) {
                                                 tmpTable = MemoryTable(tmpTable!!, table)
@@ -530,7 +530,7 @@ query1.commited=true
                                     for (j in 0 until variables.size) {
                                         val tmp = targetResult.readInt()
                                         if (tmp == -1) {
-                                            row[j] = ResultSetDictionary.undefValue
+                                            row[j] = ResultSetDictionaryExt.undefValue
                                         } else {
                                             row[j] = mapping_target_to_live[tmp]
                                         }
@@ -572,12 +572,12 @@ query1.commited=true
                                 val resultWriter = MyPrintWriter(false)
                                 QueryResultToXMLStream(pop_distributed_node, resultWriter)
                                 val query4 = Query()
-                                val actualResult = operatorGraphToTable(DistributedTripleStore.getDefaultGraph(query4).getIterator(arrayOf(AOPVariable(query4, "s"), AOPVariable(query4, "p"), AOPVariable(query4, "o")), EIndexPattern.SPO, Partition()))
+                                val actualResult = operatorGraphToTable(distributedTripleStore.getDefaultGraph(query4).getIterator(arrayOf(AOPVariable(query4, "s"), AOPVariable(query4, "p"), AOPVariable(query4, "o")), EIndexPattern.SPO, Partition()))
                                 if (!verifyEqual(tableOutput, actualResult, mapping_live_to_target, targetDict, targetDict2, allowOrderBy, query_name, query_folder, "result in store (SPO) is wrong")) {
                                     return_value = false
                                     break@func
                                 }
-DistributedTripleStore.commit(query4)
+distributedTripleStore.commit(query4)
 query4.commited=true
                             } else {
                                 val actualResult = operatorGraphToTable(pop_distributed_node)

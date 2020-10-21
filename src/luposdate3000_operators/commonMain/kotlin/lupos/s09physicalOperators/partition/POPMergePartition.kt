@@ -48,7 +48,7 @@ import lupos.s09physicalOperators.POPBase
         }
     }
 
-    override fun cloneOP() = POPMergePartition(query, projectedVariables, partitionVariable, partitionCount, children[0].cloneOP())
+    override fun cloneOP() :IOPBase= POPMergePartition(query, projectedVariables, partitionVariable, partitionCount, children[0].cloneOP())
     override fun toSparql() = children[0].toSparql()
     override fun equals(other: Any?): Boolean = other is POPMergePartition && children[0] == other.children[0] && partitionVariable == other.partitionVariable
     override suspend fun evaluate(parent: Partition): IteratorBundle {

@@ -11,7 +11,6 @@ import lupos.s00misc.JenaBugException
 import lupos.s00misc.JenaWrapper
 import lupos.s00misc.Luposdate3000Exception
 import lupos.s00misc.MAX_TRIPLES_DURING_TEST
-import lupos.s00misc.MyMapStringIntPatriciaTrie
 import lupos.s00misc.NotImplementedException
 import lupos.s00misc.OperatorGraphToLatex
 import lupos.s00misc.parseFromAny
@@ -34,10 +33,8 @@ import lupos.s02buildSyntaxTree.sparql1_1.TokenIteratorSPARQLParser
 import lupos.s02buildSyntaxTree.turtle.TurtleParserWithDictionary
 import lupos.s03resultRepresentation.nodeGlobalDictionary
 import lupos.s03resultRepresentation.ResultSetDictionary
-import lupos.s03resultRepresentation.Value
 import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s04logicalOperators.Query
-import lupos.s05tripleStore.index_IDTriple.NodeManager
 import lupos.s06buildOperatorGraph.OperatorGraphVisitor
 import lupos.s08logicalOptimisation.LogicalOptimizer
 import lupos.s09physicalOperators.noinput.POPValuesImportXML
@@ -45,7 +42,7 @@ import lupos.s10physicalOptimisation.PhysicalOptimizer
 import lupos.s11outputResult.QueryResultToXMLElement
 import lupos.s13keyDistributionOptimizer.KeyDistributionOptimizer
 import lupos.s14endpoint.convertToOPBase
-import lupos.s15tripleStoreDistributed.DistributedTripleStore
+import lupos.s15tripleStoreDistributed.distributedTripleStore
 import lupos.s16network.HttpEndpoint
 import lupos.s16network.ServerCommunicationSend
 
@@ -454,7 +451,7 @@ open class SparqlTestSuite() {
                 val query2 = Query()
                 query2.workingDirectory = queryFile.substring(0, queryFile.lastIndexOf("/"))
                 ServerCommunicationSend.graphClearAll(query2)
-                DistributedTripleStore.commit(query2)
+                distributedTripleStore.commit(query2)
 query2.commited=true
                 nodeGlobalDictionary.clear()
                 JenaWrapper.dropAll()
@@ -473,8 +470,8 @@ query2.commited=true
                     if (inputDataFileName.endsWith(".ttl") || inputDataFileName.endsWith(".n3")) {
                         val query = Query()
                         query.workingDirectory = queryFile.substring(0, queryFile.lastIndexOf("/"))
-                        HttpEndpoint.import_turtle_files(inputDataFileName, MyMapStringIntPatriciaTrie())
-                        val bulkSelect = DistributedTripleStore.getDefaultGraph(query).getIterator(arrayOf(AOPVariable(query, "s"), AOPVariable(query, "p"), AOPVariable(query, "o")), EIndexPattern.SPO, Partition())
+                        HttpEndpoint.import_turtle_files(inputDataFileName, mutableMapOf<String,Int>())
+                        val bulkSelect = distributedTripleStore.getDefaultGraph(query).getIterator(arrayOf(AOPVariable(query, "s"), AOPVariable(query, "p"), AOPVariable(query, "o")), EIndexPattern.SPO, Partition())
                         val xmlGraphBulk = QueryResultToXMLElement.toXML(bulkSelect)
                         if (!xmlGraphBulk.myEqualsUnclean(xmlQueryInput, true, true, true)) {
                             println("test xmlQueryInput :: " + xmlQueryInput.toPrettyString())
@@ -487,17 +484,17 @@ query2.commited=true
                         val query = Query()
                         query.workingDirectory = queryFile.substring(0, queryFile.lastIndexOf("/"))
                         val tmp = POPValuesImportXML(query, listOf("s", "p", "o"), xmlQueryInput).evaluate(Partition())
-                        DistributedTripleStore.getDefaultGraph(query).modify(arrayOf(tmp.columns["s"]!!, tmp.columns["p"]!!, tmp.columns["o"]!!), EModifyType.INSERT)
-DistributedTripleStore.commit(query)
+                        distributedTripleStore.getDefaultGraph(query).modify(arrayOf(tmp.columns["s"]!!, tmp.columns["p"]!!, tmp.columns["o"]!!), EModifyType.INSERT)
+distributedTripleStore.commit(query)
 query.commited=true
                     }
                     if (testPersistence) {
                         File("log/storetest").mkdirs()
-                        DistributedTripleStore.localStore.safeToFolder()
-                        DistributedTripleStore.localStore.loadFromFolder()
+                        distributedTripleStore.getLocalStore().safeToFolder()
+                        distributedTripleStore.getLocalStore().loadFromFolder()
                         val query = Query()
                         query.workingDirectory = queryFile.substring(0, queryFile.lastIndexOf("/"))
-                        val loadSelect = DistributedTripleStore.getDefaultGraph(query).getIterator(arrayOf(AOPVariable(query, "s"), AOPVariable(query, "p"), AOPVariable(query, "o")), EIndexPattern.SPO, Partition())
+                        val loadSelect = distributedTripleStore.getDefaultGraph(query).getIterator(arrayOf(AOPVariable(query, "s"), AOPVariable(query, "p"), AOPVariable(query, "o")), EIndexPattern.SPO, Partition())
                         val xmlGraphLoad = QueryResultToXMLElement.toXML(loadSelect)
                         if (!xmlGraphLoad.myEqualsUnclean(xmlQueryInput, true, true, true)) {
                             println("test xmlQueryInput :: " + xmlQueryInput.toPrettyString())
@@ -530,8 +527,8 @@ query.commited=true
                     val query = Query()
                     query.workingDirectory = queryFile.substring(0, queryFile.lastIndexOf("/"))
                     val tmp = POPValuesImportXML(query, listOf("s", "p", "o"), xmlQueryInput).evaluate(Partition())
-                    DistributedTripleStore.getNamedGraph(query, it["name"]!!).modify(arrayOf(tmp.columns["s"]!!, tmp.columns["p"]!!, tmp.columns["o"]!!), EModifyType.INSERT)
-DistributedTripleStore.commit(query)
+                    distributedTripleStore.getNamedGraph(query, it["name"]!!).modify(arrayOf(tmp.columns["s"]!!, tmp.columns["p"]!!, tmp.columns["o"]!!), EModifyType.INSERT)
+distributedTripleStore.commit(query)
 query.commited=true
                     println("test Input Graph[${it["name"]!!}] :: " + xmlQueryInput.toPrettyString())
                     try {
@@ -620,14 +617,14 @@ query.commited=true
                 SanityCheck.println { "----------Query Result" }
                 xmlQueryResult = QueryResultToXMLElement.toXML(pop_distributed_node)
                 SanityCheck.println { "test xmlQueryResult :: " + xmlQueryResult.toPrettyString() }
-DistributedTripleStore.commit(query)
+distributedTripleStore.commit(query)
 query.commited=true
             }
             var verifiedOutput = false
             outputDataGraph.forEach {
                 val outputData = readFileOrNull(it["filename"])
                 var xmlGraphTarget = XMLElement.parseFromAny(outputData!!, it["filename"]!!)!!
-                val tmp = DistributedTripleStore.getNamedGraph(query, it["name"]!!).getIterator(arrayOf(AOPVariable(query, "s"), AOPVariable(query, "p"), AOPVariable(query, "o")), EIndexPattern.SPO, Partition())
+                val tmp = distributedTripleStore.getNamedGraph(query, it["name"]!!).getIterator(arrayOf(AOPVariable(query, "s"), AOPVariable(query, "p"), AOPVariable(query, "o")), EIndexPattern.SPO, Partition())
                 var xmlGraphActual = QueryResultToXMLElement.toXML(tmp)
                 if (!xmlGraphTarget.myEqualsUnclean(xmlGraphActual, true, true, true)) {
                     println("OutputData Graph[${it["name"]}] Original")
@@ -647,8 +644,7 @@ query.commited=true
                 }
                 verifiedOutput = true
             }
-            NodeManager.debug()
-            if (resultData != null && resultDataFileName != null) {
+                        if (resultData != null && resultDataFileName != null) {
                 SanityCheck.println { "----------Target Result" }
                 var xmlQueryTarget = XMLElement.parseFromAny(resultData, resultDataFileName)!!
                 SanityCheck.println { "test xmlQueryTarget :: " + xmlQueryTarget.toPrettyString() }
@@ -689,7 +685,7 @@ query.commited=true
                         SanityCheck.println { x }
                     }
                     val xmlQueryResultRecovered = QueryResultToXMLElement.toXML(popNodeRecovered)
-DistributedTripleStore.commit(query4)
+distributedTripleStore.commit(query4)
 query4.commited=true
                     SanityCheck.println { "test xmlQueryResultRecovered :: " + xmlQueryResultRecovered.toPrettyString() }
                     if (xmlQueryResultRecovered.myEqualsUnclean(xmlQueryResult, true, true, true)) {

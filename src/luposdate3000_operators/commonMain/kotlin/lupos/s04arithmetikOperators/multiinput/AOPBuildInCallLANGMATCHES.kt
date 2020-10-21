@@ -31,5 +31,5 @@ class AOPBuildInCallLANGMATCHES(query: Query, child: AOPBase, childB: AOPBase) :
     }
 
     override fun enforcesBooleanOrError() = true
-    override fun cloneOP() = AOPBuildInCallLANGMATCHES(query, children[0].cloneOP() as AOPBase, children[1].cloneOP() as AOPBase)
+    override fun cloneOP() :IOPBase= AOPBuildInCallLANGMATCHES(query, children[0].cloneOP() as AOPBase, children[1].cloneOP() as AOPBase)
 }

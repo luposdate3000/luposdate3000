@@ -21,7 +21,7 @@ class LOPModifyData(query: Query, @JvmField val type: EModifyType, @JvmField val
     }
 
     override fun equals(other: Any?) = other is LOPModifyData && type == other.type && data == other.data
-    override fun cloneOP() = LOPModifyData(query, type, data)
+    override fun cloneOP() :IOPBase= LOPModifyData(query, type, data)
     suspend override fun calculateHistogram(): HistogramResult {
         var res = HistogramResult()
         res.count = 1

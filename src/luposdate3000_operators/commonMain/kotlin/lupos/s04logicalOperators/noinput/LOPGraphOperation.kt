@@ -19,7 +19,7 @@ class LOPGraphOperation(query: Query,
                         var graph2iri: String? = null
 ) : LOPBase(query, EOperatorID.LOPGraphOperationID, "LOPGraphOperation", arrayOf(), ESortPriority.PREVENT_ANY) {
     override fun equals(other: Any?) = other is LOPGraphOperation && silent == other.silent && graph1iri == other.graph1iri && graph1type == other.graph1type && graph2iri == other.graph2iri && graph2type == other.graph2type && action == other.action
-    override fun cloneOP() = LOPGraphOperation(query, action, silent, graph1type, graph1iri, graph2type, graph2iri)
+    override fun cloneOP() :IOPBase= LOPGraphOperation(query, action, silent, graph1type, graph1iri, graph2type, graph2iri)
     suspend override fun calculateHistogram(): HistogramResult {
         var res = HistogramResult()
         res.count = 1

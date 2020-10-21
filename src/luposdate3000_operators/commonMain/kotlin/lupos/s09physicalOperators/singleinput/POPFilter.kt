@@ -28,7 +28,7 @@ class POPFilter(query: Query, projectedVariables: List<String>, filter: AOPBase,
 
     override fun equals(other: Any?) = other is POPFilter && children[0] == other.children[0] && children[1] == other.children[1]
     override fun childrenToVerifyCount() = 1
-    override fun cloneOP() = POPFilter(query, projectedVariables, children[1].cloneOP() as AOPBase, children[0].cloneOP())
+    override fun cloneOP() :IOPBase= POPFilter(query, projectedVariables, children[1].cloneOP() as AOPBase, children[0].cloneOP())
     override fun getProvidedVariableNamesInternal() = children[0].getProvidedVariableNames()
     override fun getRequiredVariableNames() = children[1].getRequiredVariableNamesRecoursive()
     override suspend fun evaluate(parent: Partition): IteratorBundle {

@@ -60,5 +60,5 @@ class AOPAggregationMIN(query: Query, @JvmField val distinct: Boolean, childs: A
 
     }
 
-    override fun cloneOP() = AOPAggregationMIN(query, distinct, Array(children.size) { (children[it].cloneOP()) as AOPBase })
+    override fun cloneOP() :IOPBase= AOPAggregationMIN(query, distinct, Array(children.size) { (children[it].cloneOP()) as AOPBase })
 }

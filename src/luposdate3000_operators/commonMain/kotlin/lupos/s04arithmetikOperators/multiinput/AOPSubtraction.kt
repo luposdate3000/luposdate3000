@@ -47,5 +47,5 @@ class AOPSubtraction(query: Query, childA: AOPBase, childB: AOPBase) : AOPBase(q
 
     }
 
-    override fun cloneOP() = AOPSubtraction(query, children[0].cloneOP() as AOPBase, children[1].cloneOP() as AOPBase)
+    override fun cloneOP() :IOPBase= AOPSubtraction(query, children[0].cloneOP() as AOPBase, children[1].cloneOP() as AOPBase)
 }

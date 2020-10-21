@@ -11,17 +11,10 @@ BufferManager->Heap
 Dictionary->Inmemory
 TripleStore->BPlusTreePartition
 TripleStore->BPlusTree
-TripleStore->MapMapList
-TripleStore->SingleList
 Endpoint->JavaNet
-Endpoint->Korio
 Endpoint->None
 Jena->Off
 Jena->On
-Set->BTree
-Set->Bisection
-Map->BTree
-Map->Bisection
 OutputFormat->Empty
 OutputFormat->XML
 OutputFormat->EmptyWithDictionary

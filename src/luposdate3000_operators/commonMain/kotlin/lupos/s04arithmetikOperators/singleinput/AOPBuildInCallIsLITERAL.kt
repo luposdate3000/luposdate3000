@@ -35,5 +35,5 @@ class AOPBuildInCallIsLITERAL(query: Query, child: AOPBase) : AOPBase(query, EOp
     }
 
     override fun enforcesBooleanOrError() = true
-    override fun cloneOP() = AOPBuildInCallIsLITERAL(query, children[0].cloneOP() as AOPBase)
+    override fun cloneOP() :IOPBase= AOPBuildInCallIsLITERAL(query, children[0].cloneOP() as AOPBase)
 }

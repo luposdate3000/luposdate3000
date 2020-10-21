@@ -7,6 +7,7 @@ import lupos.s00misc.EIndexPattern
 import lupos.s04arithmetikOperators.IAOPBase
 import lupos.s09physicalOperators.IPOPBase
 import lupos.s16network.ITripleStoreBulkImportDistributed
+import lupos.s05tripleStore.ITripleStoreLocalBase
 
 interface IDistributedTripleStore{
 fun getGraphNames(includeDefault: Boolean = false): List<String> 
@@ -16,6 +17,7 @@ suspend fun dropGraph(query: IQuery, name: String)
  suspend fun getNamedGraph(query: IQuery, name: String): IDistributedGraph
  fun getDefaultGraph(query: IQuery): IDistributedGraph 
 suspend fun commit(query: IQuery)
+fun getLocalStore():IPersistentStoreLocal
 }
 
 interface IDistributedGraph{
@@ -34,5 +36,17 @@ suspend override fun dropGraph(query: IQuery, name: String){throw Exception("unr
  suspend override fun getNamedGraph(query: IQuery, name: String): IDistributedGraph{throw Exception("unreachable")}
  override fun getDefaultGraph(query: IQuery): IDistributedGraph {throw Exception("unreachable")}
 suspend override fun commit(query: IQuery){throw Exception("unreachable")}
+override fun getLocalStore():IPersistentStoreLocal{throw Exception("unreachable")}
+}
 
+interface IPersistentStoreLocal{
+fun getGraphNames(includeDefault: Boolean = false): List<String>
+ fun createGraph(query: IQuery, name: String): ITripleStoreLocalBase
+ suspend fun dropGraph(query: IQuery, name: String)
+suspend fun clearGraph(query: IQuery, name: String) 
+ suspend fun getNamedGraph(query: IQuery, name: String, create: Boolean = false): ITripleStoreLocalBase
+ suspend fun getDefaultGraph(query: IQuery): ITripleStoreLocalBase
+  suspend fun commit(query: IQuery) 
+suspend fun safeToFolder()
+ suspend fun loadFromFolder() 
 }

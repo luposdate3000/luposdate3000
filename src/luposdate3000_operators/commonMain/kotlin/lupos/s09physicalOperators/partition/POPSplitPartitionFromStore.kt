@@ -35,7 +35,7 @@ class POPSplitPartitionFromStore(query: Query, projectedVariables: List<String>,
         }
     }
 
-    override fun cloneOP() = POPSplitPartitionFromStore(query, projectedVariables, partitionVariable, children[0].cloneOP())
+    override fun cloneOP() :IOPBase= POPSplitPartitionFromStore(query, projectedVariables, partitionVariable, children[0].cloneOP())
     override fun toSparql() = children[0].toSparql()
     override fun equals(other: Any?): Boolean = other is POPSplitPartitionFromStore && children[0] == other.children[0] && partitionVariable == other.partitionVariable
     override suspend fun evaluate(parent: Partition): IteratorBundle {

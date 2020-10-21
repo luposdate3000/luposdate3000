@@ -30,5 +30,5 @@ class AOPBuildInCallMD5(query: Query, child: AOPBase) : AOPBase(query, EOperator
 
     }
 
-    override fun cloneOP() = AOPBuildInCallMD5(query, children[0].cloneOP() as AOPBase)
+    override fun cloneOP() :IOPBase= AOPBuildInCallMD5(query, children[0].cloneOP() as AOPBase)
 }

@@ -109,5 +109,5 @@ class POPJoinWithStoreExists(query: Query, projectedVariables: List<String>, chi
         return res
     }
 
-    override fun cloneOP() = POPJoinWithStoreExists(query, projectedVariables, children[0].cloneOP(), childB.cloneOP(), optional)
+    override fun cloneOP() :IOPBase= POPJoinWithStoreExists(query, projectedVariables, children[0].cloneOP(), childB.cloneOP(), optional)
 }

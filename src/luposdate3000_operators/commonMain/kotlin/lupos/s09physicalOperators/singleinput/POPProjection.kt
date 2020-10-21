@@ -26,7 +26,7 @@ class POPProjection(query: Query, projectedVariables: List<String>, child: OPBas
         return res
     }
 
-    override fun cloneOP() = POPProjection(query, projectedVariables, children[0].cloneOP())
+    override fun cloneOP() :IOPBase= POPProjection(query, projectedVariables, children[0].cloneOP())
     override fun equals(other: Any?) = other is POPProjection && projectedVariables == other.projectedVariables && children[0] == other.children[0]
     override fun getProvidedVariableNamesInternal(): List<String> = projectedVariables
     override fun getRequiredVariableNames(): List<String> = projectedVariables

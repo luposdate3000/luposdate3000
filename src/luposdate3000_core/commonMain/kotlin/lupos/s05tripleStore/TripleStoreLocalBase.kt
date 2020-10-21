@@ -5,17 +5,16 @@ import lupos.s00misc.EIndexPattern
 import lupos.s00misc.EModifyType
 import lupos.s00misc.File
 import lupos.s00misc.SanityCheck
-import lupos.s03resultRepresentation.ResultSetDictionary
-import lupos.s03resultRepresentation.Value
+import lupos.s03resultRepresentation.ResultSetDictionaryExt
 import lupos.s04arithmetikOperators.noinput.AOPConstant
 import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.s04logicalOperators.iterator.IteratorBundle
-import lupos.s04logicalOperators.Query
+import lupos.s04logicalOperators.IQuery
 
 class TripleStoreDistinctContainer(@JvmField val first: String, @JvmField val second: TripleStoreIndex, @JvmField val importField: (TripleStoreBulkImport) -> IntArray, @JvmField val idx: EIndexPattern)
 class EnabledPartitionContainer(@JvmField val index: MutableSet<EIndexPattern>, @JvmField val column: Int, @JvmField val partitionCount: Int)
-abstract class TripleStoreLocalBase(@JvmField val name: String) {
+abstract class TripleStoreLocalBase(@JvmField val name: String) :ITripleStoreLocalBase{
     @JvmField //override this during initialisation
     var dataDistinct = arrayOf<TripleStoreDistinctContainer>()
 
@@ -53,7 +52,7 @@ abstract class TripleStoreLocalBase(@JvmField val name: String) {
         }
     }
 
-    suspend fun getHistogram(query: Query, params: TripleStoreFeatureParams): Pair<Int, Int> {
+    suspend fun getHistogram(query: IQuery, params: TripleStoreFeatureParams): Pair<Int, Int> {
         var idx = 0
         when (params) {
             is TripleStoreFeatureParamsDefault -> {
@@ -99,7 +98,7 @@ abstract class TripleStoreLocalBase(@JvmField val name: String) {
         throw Exception("")
     }
 
-    suspend fun getIterator(query: Query, params: TripleStoreFeatureParams): IteratorBundle {
+    suspend fun getIterator(query: IQuery, params: TripleStoreFeatureParams): IteratorBundle {
         var idx = 0
         when (params) {
             is TripleStoreFeatureParamsDefault -> {
@@ -155,7 +154,7 @@ abstract class TripleStoreLocalBase(@JvmField val name: String) {
         }
     }
 
-    suspend fun commit(query: Query) {
+    suspend fun commit(query: IQuery) {
         /*
          * the input is ALWAYS in SPO order. The remapping of the triple layout is within the index, using the parameter order.
          */
@@ -197,7 +196,7 @@ abstract class TripleStoreLocalBase(@JvmField val name: String) {
         }
     }
 
-    suspend fun modify(query: Query, dataModify: Array<ColumnIterator>, type: EModifyType) {
+    suspend fun modify(query: IQuery, dataModify: Array<ColumnIterator>, type: EModifyType) {
         /*
          * the input iterators are always in the SPO order. The real remapping to the ordering of the store happens within the commit-phase
          */
@@ -221,7 +220,7 @@ abstract class TripleStoreLocalBase(@JvmField val name: String) {
         loop@ while (true) {
             for (columnIndex in 0 until 3) {
                 val v = dataModify[columnIndex].next()
-                if (v == ResultSetDictionary.nullValue) {
+                if (v == ResultSetDictionaryExt.nullValue) {
                     SanityCheck.check { columnIndex == 0 }
                     for (closeIndex in 0 until dataModify.size) {
                         dataModify[closeIndex].close()
@@ -240,7 +239,7 @@ abstract class TripleStoreLocalBase(@JvmField val name: String) {
         }
     }
 
-    fun modify(query: Query, dataModify: MutableList<Value>, type: EModifyType) {
+    fun modify(query: IQuery, dataModify: MutableList<Int>, type: EModifyType) {
         /*
          * the input iterators are always in the SPO order. The real remapping to the ordering of the store happens within the commit-phase 
          */

@@ -2,7 +2,6 @@ package lupos.s05tripleStore.index_SingleList
 
 import lupos.s00misc.MyListInt
 import lupos.s03resultRepresentation.ResultSetDictionary
-import lupos.s03resultRepresentation.Value
 import lupos.s04logicalOperators.iterator.ColumnIterator
 
 class ColumnIteratorStore2a(@JvmField val values: MyListInt, start: Int) : ColumnIterator() {
@@ -34,9 +33,9 @@ class ColumnIteratorStore2a(@JvmField val values: MyListInt, start: Int) : Colum
         _close()
     }
 
-    override suspend fun next(): Value {
+    override suspend fun next(): Int {
         if (label == 1) {
-            var res: Value = value
+            var res: Int = value
             index++
             if (counterTerniary == 0) {
                 if (counterSecondary == 0) {

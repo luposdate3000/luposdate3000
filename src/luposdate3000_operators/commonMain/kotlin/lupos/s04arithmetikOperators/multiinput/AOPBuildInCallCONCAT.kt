@@ -36,5 +36,5 @@ class AOPBuildInCallCONCAT(query: Query, child: AOPBase, childB: AOPBase) : AOPB
 
     }
 
-    override fun cloneOP() = AOPBuildInCallCONCAT(query, children[0].cloneOP() as AOPBase, children[1].cloneOP() as AOPBase)
+    override fun cloneOP() :IOPBase= AOPBuildInCallCONCAT(query, children[0].cloneOP() as AOPBase, children[1].cloneOP() as AOPBase)
 }

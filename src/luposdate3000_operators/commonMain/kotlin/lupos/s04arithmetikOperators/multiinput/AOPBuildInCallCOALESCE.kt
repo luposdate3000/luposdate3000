@@ -53,5 +53,5 @@ class AOPBuildInCallCOALESCE(query: Query, childs: List<AOPBase>) : AOPBase(quer
         
     }
 
-    override fun cloneOP() = AOPBuildInCallCOALESCE(query, children.map { it.cloneOP() as AOPBase })
+    override fun cloneOP() :IOPBase= AOPBuildInCallCOALESCE(query, children.map { it.cloneOP() as AOPBase })
 }

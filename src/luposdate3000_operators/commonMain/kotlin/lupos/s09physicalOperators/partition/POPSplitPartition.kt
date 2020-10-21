@@ -47,7 +47,7 @@ import lupos.s09physicalOperators.POPBase
         }
     }
 
-    override fun cloneOP() = POPSplitPartition(query, projectedVariables, partitionVariable, children[0].cloneOP())
+    override fun cloneOP() :IOPBase= POPSplitPartition(query, projectedVariables, partitionVariable, children[0].cloneOP())
     override fun toSparql() = children[0].toSparql()
     override fun equals(other: Any?): Boolean = other is POPSplitPartition && children[0] == other.children[0] && partitionVariable == other.partitionVariable
     override suspend fun evaluate(parent: Partition): IteratorBundle {

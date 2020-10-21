@@ -29,5 +29,5 @@ class AOPBuildInCallDAY(query: Query, child: AOPBase) : AOPBase(query, EOperator
 
     }
 
-    override fun cloneOP() = AOPBuildInCallDAY(query, children[0].cloneOP() as AOPBase)
+    override fun cloneOP() :IOPBase= AOPBuildInCallDAY(query, children[0].cloneOP() as AOPBase)
 }

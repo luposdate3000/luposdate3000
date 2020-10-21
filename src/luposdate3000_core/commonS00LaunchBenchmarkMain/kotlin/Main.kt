@@ -1,12 +1,10 @@
-import lupos.s00misc.BenchmarkUtils
 import lupos.s00misc.DateHelper
 import lupos.s00misc.DateHelperRelative
 import lupos.s00misc.File
-import lupos.s00misc.MyMapStringIntPatriciaTrie
 import lupos.s00misc.Parallel
 import lupos.s00misc.Partition
 import lupos.s03resultRepresentation.nodeGlobalDictionary
-import lupos.s15tripleStoreDistributed.DistributedTripleStore
+import lupos.s15tripleStoreDistributed.distributedTripleStore
 import lupos.s16network.HttpEndpoint
 import lupos.s16network.ServerCommunicationSend
 
@@ -36,13 +34,13 @@ fun main(args: Array<String>) = Parallel.runBlocking {
     when (datasourceType) {
         Datasource.LOAD -> {
             val timer = DateHelperRelative.markNow()
-            DistributedTripleStore.localStore.loadFromFolder()
+            distributedTripleStore.localStore.loadFromFolder()
             val time = DateHelperRelative.elapsedSeconds(timer)
             printBenchmarkLine("resources/${benchmarkname}/persistence-load.sparql", time, 1, numberOfTriples, originalTripleSize)
         }
         Datasource.IMPORT -> {
             val timer = DateHelperRelative.markNow()
-            val dict = MyMapStringIntPatriciaTrie()
+            val dict = mutableMapOf<String,Int>()
             File(datasourceBNodeFile).forEachLine {
                 dict[it] = nodeGlobalDictionary.createNewBNode()
             }
@@ -51,7 +49,7 @@ fun main(args: Array<String>) = Parallel.runBlocking {
             printBenchmarkLine("resources/${benchmarkname}/persistence-import.sparql", time, 1, numberOfTriples, originalTripleSize)
 /*
             val timer2 = DateHelperRelative.markNow()
-            DistributedTripleStore.localStore.safeToFolder()
+            distributedTripleStore.localStore.safeToFolder()
             val time2 = DateHelperRelative.elapsedSeconds(timer2)
             printBenchmarkLine("resources/${benchmarkname}/persistence-store.sparql", time2, 1, numberOfTriples, originalTripleSize)
 */
@@ -63,7 +61,7 @@ fun main(args: Array<String>) = Parallel.runBlocking {
             printBenchmarkLine("resources/${benchmarkname}/persistence-import.sparql", time, 1, numberOfTriples, originalTripleSize)
 /*
             val timer2 = DateHelperRelative.markNow()
-            DistributedTripleStore.localStore.safeToFolder()
+            distributedTripleStore.localStore.safeToFolder()
             val time2 = DateHelperRelative.elapsedSeconds(timer2)
             printBenchmarkLine("resources/${benchmarkname}/persistence-store.sparql", time2, 1, numberOfTriples, originalTripleSize)
 */
@@ -119,10 +117,3 @@ fun main(args: Array<String>) = Parallel.runBlocking {
     }
 }
 
-fun printBenchmarkTimesHelper() {
-    for (j in 0 until BenchmarkUtils.timesHelper.size) {
-        println("statistics.BenchmarkUtils.timesHelper[${j}] :: ${BenchmarkUtils.timesHelper[j]} (${BenchmarkUtils.timesCounter[j]})")
-        BenchmarkUtils.timesHelper[j] = 0.0
-        BenchmarkUtils.timesCounter[j] = 0
-    }
-}

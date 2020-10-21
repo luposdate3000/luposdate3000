@@ -6,7 +6,6 @@ import lupos.s00misc.MyMapIntGeneric
 import lupos.s00misc.MyMapLongGeneric
 import lupos.s00misc.MySetInt
 import lupos.s00misc.SanityCheck
-import lupos.s03resultRepresentation.Value
 import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.s04logicalOperators.iterator.ColumnIteratorChildIterator
 import lupos.s04logicalOperators.iterator.ColumnIteratorChildIteratorEmpty
@@ -124,7 +123,7 @@ class TripleStoreIndex_MapMapList : TripleStoreIndex() {
                                     _close()
                                 }
 
-                                override suspend fun next(): Value {
+                                override suspend fun next(): Int {
                                     return next_helper({
                                         if (iter.hasNext()) {
                                             val key = iter.next()
@@ -177,7 +176,7 @@ class TripleStoreIndex_MapMapList : TripleStoreIndex() {
                                 _close()
                             }
 
-                            override suspend fun next(): Value {
+                            override suspend fun next(): Int {
                                 return next_helper({
                                     while (true) {
                                         if (iter2.hasNext()) {
@@ -267,7 +266,7 @@ class TripleStoreIndex_MapMapList : TripleStoreIndex() {
         }
     }
 
-    override fun insert(a: Value, b: Value, c: Value) {
+    override fun insert(a: Int, b: Int, c: Int) {
         val tmp = data[a]
         if (tmp == null) {
             data[a] = MyMapIntGeneric(b to MySetInt(c))
@@ -281,7 +280,7 @@ class TripleStoreIndex_MapMapList : TripleStoreIndex() {
         }
     }
 
-    override fun remove(a: Value, b: Value, c: Value) {
+    override fun remove(a: Int, b: Int, c: Int) {
         val tmp = data[a]
         if (tmp != null) {
             val tmp2 = tmp[b]

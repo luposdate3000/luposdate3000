@@ -47,5 +47,5 @@ class AOPMultiplication(query: Query, childA: AOPBase, childB: AOPBase) : AOPBin
 
     }
 
-    override fun cloneOP() = AOPMultiplication(query, children[0].cloneOP() as AOPBase, children[1].cloneOP() as AOPBase)
+    override fun cloneOP() :IOPBase= AOPMultiplication(query, children[0].cloneOP() as AOPBase, children[1].cloneOP() as AOPBase)
 }

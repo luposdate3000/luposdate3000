@@ -2,13 +2,12 @@ package lupos.s05tripleStore
 
 import kotlin.jvm.JvmField
 import lupos.s00misc.EIndexPattern
-import lupos.s00misc.MyMapStringIntPatriciaTrie
 import lupos.s04logicalOperators.Query
-import lupos.s15tripleStoreDistributed.DistributedTripleStore
+import lupos.s15tripleStoreDistributed.distributedTripleStore
 
 class TripleStoreBulkImport(@JvmField val query: Query, @JvmField val graphName: String) {
     @JvmField
-    val dictionaryBNode = MyMapStringIntPatriciaTrie()
+    val dictionaryBNode = mutableMapOf<String,Int>()
 
     @JvmField
     var totalflushed = 0
@@ -55,7 +54,7 @@ class TripleStoreBulkImport(@JvmField val query: Query, @JvmField val graphName:
     suspend fun flush() {
         totalflushed += idx / 3
         println("flushed triples $totalflushed")
-        DistributedTripleStore.localStore.getNamedGraph(query, graphName).import(this)
+        distributedTripleStore.getLocalStore().getNamedGraph(query, graphName).import(this)
     }
 
     fun reset() {

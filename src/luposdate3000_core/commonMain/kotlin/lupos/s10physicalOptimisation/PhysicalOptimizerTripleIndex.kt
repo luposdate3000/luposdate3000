@@ -13,7 +13,7 @@ import lupos.s04logicalOperators.singleinput.LOPProjection
 import lupos.s08logicalOptimisation.OptimizerBase
 import lupos.s09physicalOperators.POPBase
 import lupos.s09physicalOperators.singleinput.POPProjection
-import lupos.s15tripleStoreDistributed.DistributedTripleStore
+import lupos.s15tripleStoreDistributed.distributedTripleStore
 
 class PhysicalOptimizerTripleIndex(query: Query) : OptimizerBase(query, EOptimizerID.PhysicalOptimizerTripleIndexID) {
     override val classname = "PhysicalOptimizerTripleIndex"
@@ -31,7 +31,7 @@ class PhysicalOptimizerTripleIndex(query: Query) : OptimizerBase(query, EOptimiz
                 projectedVariables = node.getProvidedVariableNames()
             }
             onChange()
-            val store = DistributedTripleStore.getNamedGraph(query, node.graph)
+            val store = distributedTripleStore.getNamedGraph(query, node.graph)
             val params = Array<AOPBase>(3) {
                 var res2 = node.children[it] as AOPBase
                 SanityCheck {

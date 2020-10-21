@@ -3,7 +3,6 @@ package lupos.s16network
 import lupos.s00misc.ByteArrayBuilder
 import lupos.s00misc.ByteArrayRead
 import lupos.s03resultRepresentation.ResultSetDictionary
-import lupos.s03resultRepresentation.Value
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s04logicalOperators.iterator.ColumnIterator
@@ -24,16 +23,16 @@ object ServerCommunicationTransferTriples {
         }
     }
 
-    fun receiveTriples(packet: ByteArrayRead, dict: ResultSetDictionary, expectedColumns: Int, outputAsSingle: Boolean, remoteName: String): Array<MutableList<Value>> {
+    fun receiveTriples(packet: ByteArrayRead, dict: ResultSetDictionary, expectedColumns: Int, outputAsSingle: Boolean, remoteName: String): Array<MutableList<Int>> {
 /*always assume SPO even _if some of the components are allowed to be missing*/
         val columns = packet.readInt()
         SanityCheck.check { columns == expectedColumns }
         SanityCheck.check { columns > 0 }
-        var res: Array<MutableList<Value>>
+        var res: Array<MutableList<Int>>
         if (outputAsSingle) {
-            res = Array(1) { mutableListOf<Value>() }
+            res = Array(1) { mutableListOf<Int>() }
         } else {
-            res = Array(columns) { mutableListOf<Value>() }
+            res = Array(columns) { mutableListOf<Int>() }
         }
         while (packet.remaining() > 0) {
             for (i in 0 until columns) {
@@ -94,7 +93,7 @@ object ServerCommunicationTransferTriples {
         }
     }
 
-    fun sendTriples(si: Value, pi: Value, oi: Value, dict: ResultSetDictionary, builder: ByteArrayBuilder, onFullPacket: (ByteArrayBuilder) -> Unit) {
+    fun sendTriples(si: Int, pi: Int, oi: Int, dict: ResultSetDictionary, builder: ByteArrayBuilder, onFullPacket: (ByteArrayBuilder) -> Unit) {
         /*always assume SPO requires exactly 3 columns*/
         if (builder.size >= NETWORK_PACKET_SIZE) {
             onFullPacket(builder)

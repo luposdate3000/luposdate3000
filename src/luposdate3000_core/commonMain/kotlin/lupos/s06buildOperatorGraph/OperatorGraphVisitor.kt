@@ -109,7 +109,6 @@ import lupos.s02buildSyntaxTree.sparql1_1.ASTValues
 import lupos.s02buildSyntaxTree.sparql1_1.ASTVar
 import lupos.s02buildSyntaxTree.sparql1_1.BuiltInFunctions
 import lupos.s02buildSyntaxTree.sparql1_1.Visitor
-import lupos.s03resultRepresentation.Value
 import lupos.s03resultRepresentation.ValueBnode
 import lupos.s03resultRepresentation.ValueBoolean
 import lupos.s03resultRepresentation.ValueDateTime
@@ -224,7 +223,7 @@ import lupos.s04logicalOperators.singleinput.modifiers.LOPLimit
 import lupos.s04logicalOperators.singleinput.modifiers.LOPOffset
 import lupos.s04logicalOperators.singleinput.modifiers.LOPPrefix
 import lupos.s04logicalOperators.singleinput.modifiers.LOPReduced
-import lupos.s05tripleStore.PersistentStoreLocal
+import lupos.s05tripleStore.PersistentStoreLocalExt
 import lupos.s09physicalOperators.noinput.POPValuesImportXML
 
 class OperatorGraphVisitor(@JvmField val query: Query) : Visitor<OPBase> {
@@ -554,7 +553,7 @@ class OperatorGraphVisitor(@JvmField val query: Query) : Visitor<OPBase> {
                     val data = POPValuesImportXML(query, listOf("s", "p", "o"), XMLElement.parseFromAny(File(query.workingDirectory + d.source_iri).readAsString(), d.source_iri)!!)
                     when (d) {
                         is ASTDefaultGraph -> {
-                            datasets[PersistentStoreLocal.defaultGraphName] = data
+                            datasets[PersistentStoreLocalExt.defaultGraphName] = data
                         }
                         is ASTNamedGraph -> {
                             datasets["<" + d.source_iri + ">"] = data
@@ -934,7 +933,7 @@ return tmp
 
     override fun visit(node: ASTTriple, childrenValues: List<OPBase>): OPBase {
         SanityCheck.check({ childrenValues.size == 3 })
-        return LOPTriple(query, childrenValues[0] as AOPBase, childrenValues[1] as AOPBase, childrenValues[2] as AOPBase, PersistentStoreLocal.defaultGraphName, false)
+        return LOPTriple(query, childrenValues[0] as AOPBase, childrenValues[1] as AOPBase, childrenValues[2] as AOPBase, PersistentStoreLocalExt.defaultGraphName, false)
     }
 
     override fun visit(node: ASTMinusGroup, childrenValues: List<OPBase>): OPBase {
@@ -1423,7 +1422,7 @@ return tmp
             }
             is LOPTriple -> {
                 var res: OPBase
-                if (!optional || node.graph == PersistentStoreLocal.defaultGraphName) {
+                if (!optional || node.graph == PersistentStoreLocalExt.defaultGraphName) {
                     res = LOPTriple(query, node.children[0] as AOPBase, node.children[1] as AOPBase, node.children[2] as AOPBase, iri, iriIsVariable)
                 } else {
                     res = node
@@ -1540,7 +1539,7 @@ return tmp
         for (c in children) {
             when {
                 c is ASTTriple -> {
-                    modify.data.add(LOPTriple(query, simpleAstToLiteralValue(c.children[0]), simpleAstToLiteralValue(c.children[1]), simpleAstToLiteralValue(c.children[2]), PersistentStoreLocal.defaultGraphName, false))
+                    modify.data.add(LOPTriple(query, simpleAstToLiteralValue(c.children[0]), simpleAstToLiteralValue(c.children[1]), simpleAstToLiteralValue(c.children[2]), PersistentStoreLocalExt.defaultGraphName, false))
                 }
                 c is ASTGraph -> {
                     for (c2 in c.children) {
@@ -1657,7 +1656,7 @@ return tmp
             var g2 = graphRefToEnum(tmp)
             return LOPGraphOperation(query, EGraphOperationType.LOAD, node.silent, EGraphRefType.DefaultGraphRef, node.iri, g2.first, g2.second)
         } else {
-            return LOPGraphOperation(query, EGraphOperationType.LOAD, node.silent, EGraphRefType.DefaultGraphRef, node.iri, EGraphRefType.DefaultGraphRef, PersistentStoreLocal.defaultGraphName)
+            return LOPGraphOperation(query, EGraphOperationType.LOAD, node.silent, EGraphRefType.DefaultGraphRef, node.iri, EGraphRefType.DefaultGraphRef, PersistentStoreLocalExt.defaultGraphName)
         }
     }
 

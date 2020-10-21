@@ -9,9 +9,8 @@ import lupos.s00misc.SanityCheck
 import lupos.s01io.BufferManager
 import lupos.s03resultRepresentation.nodeGlobalDictionary
 import lupos.s04logicalOperators.Query
-import lupos.s05tripleStore.index_IDTriple.NodeManager
 
-class PersistentStoreLocal {
+class PersistentStoreLocal :IPersistentStoreLocal{
     @JvmField
     val stores = mutableMapOf<String, TripleStoreLocal>()
 
@@ -19,7 +18,7 @@ class PersistentStoreLocal {
         stores[PersistentStoreLocalExt.defaultGraphName] = TripleStoreLocal(PersistentStoreLocalExt.defaultGraphName)
     }
 
-    fun getGraphNames(includeDefault: Boolean = false): List<String> {
+    override fun getGraphNames(includeDefault: Boolean ): List<String> {
         val res = mutableListOf<String>()
         stores.keys.forEach { t ->
             if (t != PersistentStoreLocalExt.defaultGraphName || includeDefault) {
@@ -29,7 +28,7 @@ class PersistentStoreLocal {
         return res
     }
 
-    fun createGraph(query: Query, name: String): TripleStoreLocal {
+    override fun createGraph(query: Query, name: String): TripleStoreLocal {
         val tmp = stores[name]
         if (tmp != null) {
             throw GraphNameAlreadyExistsDuringCreateException(name)
@@ -39,7 +38,7 @@ class PersistentStoreLocal {
         return tmp2
     }
 
-    suspend fun dropGraph(query: Query, name: String) {
+    suspend override fun dropGraph(query: Query, name: String) {
         SanityCheck.check({ name != PersistentStoreLocalExt.defaultGraphName })
         var store = stores[name]
         if (store == null) {
@@ -49,11 +48,11 @@ class PersistentStoreLocal {
         stores.remove(name)
     }
 
-    suspend fun clearGraph(query: Query, name: String) {
+    suspend override fun clearGraph(query: Query, name: String) {
         getNamedGraph(query, name).clear()
     }
 
-    suspend fun getNamedGraph(query: Query, name: String, create: Boolean = false): TripleStoreLocal {
+    suspend override fun getNamedGraph(query: Query, name: String, create: Boolean ): TripleStoreLocal {
         val tmp = stores[name]
         if (tmp != null) {
             return tmp
@@ -63,17 +62,17 @@ class PersistentStoreLocal {
         return createGraph(query, name)
     }
 
-    suspend fun getDefaultGraph(query: Query): TripleStoreLocal {
+    suspend override fun getDefaultGraph(query: Query): TripleStoreLocal {
         return getNamedGraph(query, PersistentStoreLocalExt.defaultGraphName, true)
     }
 
-    suspend fun commit(query: Query) {
+    suspend override fun commit(query: Query) {
         stores.values.forEach { v ->
             v.commit(query)
         }
     }
 
-    suspend fun safeToFolder() {
+    suspend override fun safeToFolder() {
         stores.values.forEach { v ->
             v.flush()
         }
@@ -90,13 +89,11 @@ class PersistentStoreLocal {
             }
         }
         nodeGlobalDictionary.safeToFolder()
-        NodeManager.safeToFolder()
         BufferManager.safeToFolder()
     }
 
-    suspend fun loadFromFolder() {
+    suspend override fun loadFromFolder() {
         BufferManager.loadFromFolder()
-        NodeManager.loadFromFolder()
         nodeGlobalDictionary.loadFromFolder()
         var i = 0
         val store = TripleStoreLocal(PersistentStoreLocalExt.defaultGraphName)

@@ -31,5 +31,5 @@ class AOPBuildInCallSTRDT(query: Query, child: AOPBase, childB: AOPBase) : AOPBa
         
     }
 
-    override fun cloneOP() = AOPBuildInCallSTRDT(query, children[0].cloneOP() as AOPBase, children[1].cloneOP() as AOPBase)
+    override fun cloneOP() :IOPBase= AOPBuildInCallSTRDT(query, children[0].cloneOP() as AOPBase, children[1].cloneOP() as AOPBase)
 }

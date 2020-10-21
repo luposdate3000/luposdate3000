@@ -14,10 +14,9 @@ import lupos.s00misc.DateHelper
 import lupos.s00misc.EnpointRecievedInvalidPath
 import lupos.s00misc.File
 import lupos.s00misc.JenaWrapper
-import lupos.s00misc.MyMapStringIntPatriciaTrie
 import lupos.s00misc.Parallel
 import lupos.s03resultRepresentation.nodeGlobalDictionary
-import lupos.s15tripleStoreDistributed.DistributedTripleStore
+import lupos.s15tripleStoreDistributed.distributedTripleStore
 import lupos.SparqlTestSuite
 
 class MyPrintWriterExtension(out: OutputStream) : PrintWriter(out, false) {
@@ -125,7 +124,7 @@ object HttpEndpointLauncher {
                                     /*Coverage Unreachable*/
                                 }
                                 "/import/turtle" -> {
-                                    val dict = MyMapStringIntPatriciaTrie()
+                                    val dict = mutableMapOf<String,Int>()
                                     var dictfile = params["bnodeList"]
                                     if (dictfile != null) {
                                         File(dictfile).forEachLine {
@@ -141,7 +140,7 @@ object HttpEndpointLauncher {
                                     /*Coverage Unreachable*/
                                 }
                                 "/cleanup/turtle/old" -> {
-                                    val dict = MyMapStringIntPatriciaTrie()
+                                    val dict = mutableMapOf<String,Int>()
                                     printHeaderSuccess(connectionOut)
                                     if (isPost) {
                                         connectionOut.print(HttpEndpoint.cleanup_turtle_files_old(content.toString(), dict))
@@ -151,7 +150,7 @@ object HttpEndpointLauncher {
                                     /*Coverage Unreachable*/
                                 }
                                 "/cleanup/turtle/new" -> {
-                                    val dict = MyMapStringIntPatriciaTrie()
+                                    val dict = mutableMapOf<String,Int>()
                                     printHeaderSuccess(connectionOut)
                                     if (isPost) {
                                         connectionOut.print(HttpEndpoint.cleanup_turtle_files(content.toString(), dict))
@@ -179,12 +178,12 @@ object HttpEndpointLauncher {
                                     /*Coverage Unreachable*/
                                 }
                                 "/persistence/store" -> {
-                                    DistributedTripleStore.localStore.safeToFolder()
+                                    distributedTripleStore.localStore.safeToFolder()
                                     printHeaderSuccess(connectionOut)
                                     connectionOut.print("success")
                                 }
                                 "/persistence/load" -> {
-                                    DistributedTripleStore.localStore.loadFromFolder()
+                                    distributedTripleStore.localStore.loadFromFolder()
                                     printHeaderSuccess(connectionOut)
                                     connectionOut.print("success")
                                 }

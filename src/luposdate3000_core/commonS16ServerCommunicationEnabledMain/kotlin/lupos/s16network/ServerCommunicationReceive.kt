@@ -8,7 +8,7 @@ import lupos.s00misc.EModifyType
 import lupos.s03resultRepresentation.nodeGlobalDictionary
 import lupos.s04logicalOperators.Query
 import lupos.s05tripleStore.TripleStoreBulkImport
-import lupos.s15tripleStoreDistributed.DistributedTripleStore
+import lupos.s15tripleStoreDistributed.distributedTripleStore
 
 object ServerCommunicationReceive {
     fun start(hostname: String, port: Int, bootstrap: String? = null) {
@@ -33,12 +33,12 @@ object ServerCommunicationReceive {
                                     println(msg)
                                 }
                                 ServerCommunicationHeader.COMMIT -> {
-                                    DistributedTripleStore.localStore.commit(query)
+                                    distributedTripleStore.localStore.commit(query)
                                 }
                                 ServerCommunicationHeader.INSERT -> {
                                     val idx = EIndexPattern.values()[packet.readInt()]
                                     val graphName = packet.readString()
-                                    val graph = DistributedTripleStore.localStore.getNamedGraph(query, graphName)
+                                    val graph = distributedTripleStore.localStore.getNamedGraph(query, graphName)
                                     while (true) {
                                         val packet2 = input.readByteArray()
                                         val header2 = ServerCommunicationHeader.values()[packet2.readInt()]
@@ -71,7 +71,7 @@ object ServerCommunicationReceive {
                                 ServerCommunicationHeader.DELETE -> {
                                     val idx = EIndexPattern.values()[packet.readInt()]
                                     val graphName = packet.readString()
-                                    val graph = DistributedTripleStore.localStore.getNamedGraph(query, graphName)
+                                    val graph = distributedTripleStore.localStore.getNamedGraph(query, graphName)
                                     while (true) {
                                         val packet2 = input.readByteArray()
                                         val header2 = ServerCommunicationHeader.values()[packet2.readInt()]
@@ -84,27 +84,27 @@ object ServerCommunicationReceive {
                                     }
                                 }
                                 ServerCommunicationHeader.CLEAR_ALL_GRAPH -> {
-                                    DistributedTripleStore.localStore.getDefaultGraph(query).clear()
-                                    for (g in DistributedTripleStore.getGraphNames()) {
-                                        DistributedTripleStore.dropGraph(query, g)
+                                    distributedTripleStore.localStore.getDefaultGraph(query).clear()
+                                    for (g in distributedTripleStore.getGraphNames()) {
+                                        distributedTripleStore.dropGraph(query, g)
                                     }
                                 }
                                 ServerCommunicationHeader.CLEAR_GRAPH -> {
                                     val graphName = packet.readString()
-                                    DistributedTripleStore.localStore.clearGraph(query, graphName)
+                                    distributedTripleStore.localStore.clearGraph(query, graphName)
                                 }
                                 ServerCommunicationHeader.CREATE_GRAPH -> {
                                     val graphName = packet.readString()
-                                    DistributedTripleStore.localStore.createGraph(query, graphName)
+                                    distributedTripleStore.localStore.createGraph(query, graphName)
                                 }
                                 ServerCommunicationHeader.DROP_GRAPH -> {
                                     val graphName = packet.readString()
-                                    DistributedTripleStore.localStore.dropGraph(query, graphName)
+                                    distributedTripleStore.localStore.dropGraph(query, graphName)
                                 }
                                 ServerCommunicationHeader.GET_TRIPLES -> {
                                     val idx = EIndexPattern.values()[packet.readInt()]
                                     val graphName = packet.readString()
-                                    val graph = DistributedTripleStore.localStore.getNamedGraph(query, graphName)
+                                    val graph = distributedTripleStore.localStore.getNamedGraph(query, graphName)
                                     val params = ServerCommunicationTransferParams.receiveParams(packet, query)
                                     var bundle = graph.getIterator(query, params, idx)
                                     if (bundle.hasCountMode()) {
@@ -122,7 +122,7 @@ object ServerCommunicationReceive {
                                 ServerCommunicationHeader.GET_HISTOGRAM -> {
                                     val idx = EIndexPattern.values()[packet.readInt()]
                                     val graphName = packet.readString()
-                                    val graph = DistributedTripleStore.localStore.getNamedGraph(query, graphName)
+                                    val graph = distributedTripleStore.localStore.getNamedGraph(query, graphName)
                                     val params = ServerCommunicationTransferParams.receiveParams(packet, query)
                                     val histogram = graph.getHistogram(query, params, idx)
                                     var builder = ByteArrayBuilder()

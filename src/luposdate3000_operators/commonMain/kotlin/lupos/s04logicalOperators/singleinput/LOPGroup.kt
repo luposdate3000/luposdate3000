@@ -132,7 +132,7 @@ class LOPGroup(query: Query, @JvmField var by: List<AOPVariable>) : LOPBase(quer
     }
 
     override fun equals(other: Any?) = other is LOPGroup && children[0] == other.children[0] && by == other.by && bindings == other.bindings
-    override fun cloneOP() = LOPGroup(query, by, bindings.map { it }, children[0].cloneOP())
+    override fun cloneOP() :IOPBase= LOPGroup(query, by, bindings.map { it }, children[0].cloneOP())
     suspend override fun calculateHistogram(): HistogramResult {
         var res = HistogramResult()
         for (v in getProvidedVariableNames()) {

@@ -1,7 +1,7 @@
 package lupos.s08logicalOptimisation
 
 import lupos.s00misc.EOptimizerID
-import lupos.s03resultRepresentation.ResultSetDictionary
+import lupos.s03resultRepresentation.ResultSetDictionaryExt
 import lupos.s04arithmetikOperators.noinput.AOPConstant
 import lupos.s04logicalOperators.multiinput.LOPJoin
 import lupos.s04logicalOperators.multiinput.LOPMinus
@@ -57,7 +57,7 @@ class LogicalOptimizerRemoveNOOP(query: Query) : OptimizerBase(query, EOptimizer
                 res = node.children[0]
                 onChange()
             }
-        } else if (node is LOPFilter && node.children[1] is AOPConstant && (node.children[1] as AOPConstant).value == ResultSetDictionary.booleanFalseValue) {
+        } else if (node is LOPFilter && node.children[1] is AOPConstant && (node.children[1] as AOPConstant).value == ResultSetDictionaryExt.booleanFalseValue) {
             res = OPNothing(query, node.getProvidedVariableNames())
             onChange()
         } else if (node is LOPMinus) {

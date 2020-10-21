@@ -8,7 +8,7 @@ import lupos.s04logicalOperators.HistogramResult
 
 class OPBaseCompound(query: Query, children: Array<OPBase>, val columnProjectionOrder: List<List<String>>) : OPBase(query, EOperatorID.OPCompoundID, "OPBaseCompound", children, ESortPriority.PREVENT_ANY) {
     override fun getPartitionCount(variable: String): Int = SanityCheck.checkUnreachable()
-    override fun cloneOP() = OPBaseCompound(query, children.map { it.cloneOP() }.toTypedArray(), columnProjectionOrder)
+    override fun cloneOP() :IOPBase= OPBaseCompound(query, children.map { it.cloneOP() }.toTypedArray(), columnProjectionOrder)
     override suspend fun toXMLElement(): XMLElement {
         var res = super.toXMLElement()
         var x = XMLElement("columnProjectionOrders")

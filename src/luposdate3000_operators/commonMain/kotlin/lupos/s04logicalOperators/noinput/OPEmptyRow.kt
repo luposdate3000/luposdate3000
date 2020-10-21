@@ -10,7 +10,7 @@ import lupos.s04logicalOperators.Query
 class OPEmptyRow(query: Query) : LOPBase(query, EOperatorID.OPEmptyRowID, "OPEmptyRow", arrayOf(), ESortPriority.PREVENT_ANY) {
     override fun toSparql() = "{}"
     override fun equals(other: Any?) = other is OPEmptyRow
-    override fun cloneOP() = this
+    override fun cloneOP() :IOPBase= this
     suspend override fun calculateHistogram(): HistogramResult {
         var res = HistogramResult()
         res.count = 1

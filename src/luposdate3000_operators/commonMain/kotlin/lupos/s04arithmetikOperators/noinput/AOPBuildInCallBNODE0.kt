@@ -24,5 +24,5 @@ class AOPBuildInCallBNODE0(query: Query) : AOPBase(query, EOperatorID.AOPBuildIn
 
     }
 
-    override fun cloneOP() = this
+    override fun cloneOP() :IOPBase= this
 }

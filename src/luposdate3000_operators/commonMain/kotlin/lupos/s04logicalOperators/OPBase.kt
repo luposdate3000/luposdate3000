@@ -44,6 +44,8 @@ override fun getClassname()=classname
     /*partOfAskQuery :: if_ true, prefer join with store, otherwiese perform fast-sort followed by reduced everywhere*/
     @JvmField
     var alreadyCheckedStore = -1L
+    @JvmField
+    val uuid: Long = global_uuid++
 
     @JvmField
     var sortPrioritiesInitialized = false
@@ -56,7 +58,7 @@ override fun getClassname()=classname
 
     @JvmField
     var histogramResult: HistogramResult? = null
-    abstract fun getPartitionCount(variable: String): Int
+suspend abstract fun calculateHistogram(): HistogramResult
     suspend fun getHistogram(): HistogramResult {
         if (histogramResult == null) {
             histogramResult = calculateHistogram()
@@ -76,9 +78,7 @@ override fun getClassname()=classname
         return histogramResult!!
     }
 
-    suspend abstract fun calculateHistogram(): HistogramResult
 override    open suspend fun evaluate(parent: Partition): IteratorBundle = throw EvaluateNotImplementedException(classname)
-    abstract fun cloneOP(): OPBase
     fun getChildrenCountRecoursive(): Int {
         var res = children.size
         for (c in children) {
@@ -213,7 +213,7 @@ override    open suspend fun evaluate(parent: Partition): IteratorBundle = throw
         return sortPriorities.size <= 1
     }
 
-    open fun getPossibleSortPriorities(): List<List<SortHelper>> {
+override    open fun getPossibleSortPriorities(): List<List<SortHelper>> {
         /*possibilities for_ next operator*/
         val res = mutableListOf<List<SortHelper>>()
         when (sortPriority) {
@@ -414,10 +414,8 @@ override    open suspend fun evaluate(parent: Partition): IteratorBundle = throw
         return node
     }
 
-    @JvmField
-    val uuid: Long = global_uuid++
     override fun toString(): String = Parallel.runBlocking { toXMLElement().toPrettyString() }
-    fun getRequiredVariableNamesRecoursive(): List<String> {
+override    fun getRequiredVariableNamesRecoursive(): List<String> {
         val res = getRequiredVariableNames().toMutableList()
         for (c in children) {
             res += c.getRequiredVariableNamesRecoursive()
@@ -425,11 +423,11 @@ override    open suspend fun evaluate(parent: Partition): IteratorBundle = throw
         return res.distinct()
     }
 
-    open fun getRequiredVariableNames(): List<String> {
+override    open fun getRequiredVariableNames(): List<String> {
         return mutableListOf()
     }
 
-    open fun getProvidedVariableNames(): List<String> {
+override    open fun getProvidedVariableNames(): List<String> {
         val res = mutableListOf<String>()
         for (c in children) {
             res.addAll(c.getProvidedVariableNames())
@@ -442,7 +440,7 @@ override    open suspend fun evaluate(parent: Partition): IteratorBundle = throw
     }
 
 override    open fun toSparql(): String = throw ToSparqlNotImplementedException(classname)
-    open suspend fun toXMLElement(): XMLElement {
+override    open suspend fun toXMLElement(): XMLElement {
         val res = XMLElement(classname)
         try {
             res.addAttribute("uuid", "" + uuid)
@@ -528,7 +526,7 @@ override    open fun toSparql(): String = throw ToSparqlNotImplementedException(
         return child
     }
 
-    fun getLatestChild(): OPBase {
+override    fun getLatestChild(): OPBase {
         if (children.isNotEmpty() && children[0].children.isNotEmpty()) {
             return children[0].getLatestChild()
         }

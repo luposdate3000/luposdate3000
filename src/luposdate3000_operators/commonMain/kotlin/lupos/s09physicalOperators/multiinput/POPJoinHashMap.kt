@@ -357,5 +357,5 @@ internal    class MapRow(columns: Int) {
     }
 
     override suspend fun toXMLElement() = super.toXMLElement().addAttribute("optional", "" + optional)
-    override fun cloneOP() = POPJoinHashMap(query, projectedVariables, children[0].cloneOP(), children[1].cloneOP(), optional)
+    override fun cloneOP() :IOPBase= POPJoinHashMap(query, projectedVariables, children[0].cloneOP(), children[1].cloneOP(), optional)
 }

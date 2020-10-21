@@ -66,5 +66,5 @@ class AOPAggregationSUM(query: Query, @JvmField val distinct: Boolean, childs: A
 
     }
 
-    override fun cloneOP() = AOPAggregationSUM(query, distinct, Array(children.size) { (children[it].cloneOP()) as AOPBase })
+    override fun cloneOP() :IOPBase= AOPAggregationSUM(query, distinct, Array(children.size) { (children[it].cloneOP()) as AOPBase })
 }

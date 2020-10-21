@@ -10,7 +10,6 @@ import lupos.s00misc.MySetInt
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.TripleStoreModifyOperationsNotImplementedException
 import lupos.s03resultRepresentation.ResultSetDictionary
-import lupos.s03resultRepresentation.Value
 import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.s04logicalOperators.iterator.ColumnIteratorEmpty
 import lupos.s04logicalOperators.iterator.IteratorBundle
@@ -268,7 +267,7 @@ class TripleStoreIndex_SingleList : TripleStoreIndex() {
         override suspend fun close() {
         }
 
-        override suspend fun next(): Value {
+        override suspend fun next(): Int {
             if (idx >= count) {
                 return ResultSetDictionary.nullValue
             } else {
@@ -372,11 +371,11 @@ class TripleStoreIndex_SingleList : TripleStoreIndex() {
         }
     }
 
-    override fun insert(a: Value, b: Value, c: Value) {
+    override fun insert(a: Int, b: Int, c: Int) {
         throw TripleStoreModifyOperationsNotImplementedException()
     }
 
-    override fun remove(a: Value, b: Value, c: Value) {
+    override fun remove(a: Int, b: Int, c: Int) {
         throw TripleStoreModifyOperationsNotImplementedException()
     }
 

@@ -45,5 +45,5 @@ class AOPAggregationSAMPLE(query: Query, @JvmField val distinct: Boolean, childs
 
     }
 
-    override fun cloneOP() = AOPAggregationSAMPLE(query, distinct, Array(children.size) { (children[it].cloneOP()) as AOPBase })
+    override fun cloneOP() :IOPBase= AOPAggregationSAMPLE(query, distinct, Array(children.size) { (children[it].cloneOP()) as AOPBase })
 }

@@ -62,5 +62,5 @@ class AOPBuildInCallDATATYPE(query: Query, child: AOPBase) : AOPBase(query, EOpe
 
     }
 
-    override fun cloneOP() = AOPBuildInCallDATATYPE(query, children[0].cloneOP() as AOPBase)
+    override fun cloneOP() :IOPBase= AOPBuildInCallDATATYPE(query, children[0].cloneOP() as AOPBase)
 }

@@ -230,19 +230,19 @@ class GenerateBuildFile(val args: Array<String>) {
             ChooseableGroup("Triple Store", "TripleStore") to listOf(
                     ChooseableOptionTypeAlias("BPlusTreePartition", "lupos.s05tripleStore", listOf("TripleStoreLocal" to "TripleStoreLocalBPlusTreePartition")),
                     ChooseableOptionTypeAlias("BPlusTree", "lupos.s05tripleStore", listOf("TripleStoreLocal" to "TripleStoreLocalBPlusTree")),
-                    ChooseableOptionTypeAlias("MapMapList", "lupos.s05tripleStore", listOf("TripleStoreLocal" to "TripleStoreLocalMapMapList")),
-                    ChooseableOptionTypeAlias("SingleList", "lupos.s05tripleStore", listOf("TripleStoreLocal" to "TripleStoreLocalSingleList"))
+//                    ChooseableOptionTypeAlias("MapMapList", "lupos.s05tripleStore", listOf("TripleStoreLocal" to "TripleStoreLocalMapMapList")),
+//                    ChooseableOptionTypeAlias("SingleList", "lupos.s05tripleStore", listOf("TripleStoreLocal" to "TripleStoreLocalSingleList"))
             ),
             ChooseableGroup("HttpEndpoint implementation", "Endpoint") to listOf(
                     ChooseableOptionDirectory("JavaNet", "jvmS16HttpEndpointJavaNetMain"),
-                    ChooseableOptionDirectory("Korio", "jvmS16HttpEndpointKorioMain"),
+//                    ChooseableOptionDirectory("Korio", "jvmS16HttpEndpointKorioMain"),
                     ChooseableOptionDirectory("None", "commonS16HttpEndpointNoneMain")
             ),
             ChooseableGroup("Include Jena Wrapper", "Jena") to listOf(
                     ChooseableOptionSymbolic("Off", "commonS00WrapperJenaOffMain"),
                     ChooseableOptionSymbolic("On", "jvmS00WrapperJenaOnMain")
             ),
-            ChooseableGroup("Set Implementation", "Set") to listOf(
+/*            ChooseableGroup("Set Implementation", "Set") to listOf(
                     ChooseableOptionTypeAlias("BTree", "lupos.s00misc", listOf(
                             "MySetGeneric<T>" to "MySetGenericBTree<T>",
                             "MySetLong" to "MySetLongBTree",
@@ -274,6 +274,7 @@ class GenerateBuildFile(val args: Array<String>) {
                             "MyMapDoubleInt" to "MyMapDoubleIntBinaryTree"
                     ))
             ),
+*/
             ChooseableGroup("Default Result Format", "OutputFormat") to listOf(
                     ChooseableOptionTypeAlias("Empty", "lupos.s11outputResult", listOf("QueryResultToStream" to "QueryResultToEmptyStream")),
                     ChooseableOptionTypeAlias("XML", "lupos.s11outputResult", listOf("QueryResultToStream" to "QueryResultToXMLStream")),
@@ -367,9 +368,9 @@ class GenerateBuildFile(val args: Array<String>) {
                     ChooseableOptionConstantValue("lupos.s10physicalOptimisation", "USE_PARTITIONS", "false")
             ),
             ChooseableGroup("Iterator Debug mode", "IteratorDebug") to listOf(
-                    ChooseableOptionConstantValue("lupos.s09physicalOperators.singleinput", "ITERATOR_DEBUG_MODE", "EPOPDebugMode.NONE"),
-                    ChooseableOptionConstantValue("lupos.s09physicalOperators.singleinput", "ITERATOR_DEBUG_MODE", "EPOPDebugMode.DEBUG1"),
-                    ChooseableOptionConstantValue("lupos.s09physicalOperators.singleinput", "ITERATOR_DEBUG_MODE", "EPOPDebugMode.DEBUG2")
+                    ChooseableOptionConstantValue("lupos.s00misc", "ITERATOR_DEBUG_MODE", "EPOPDebugMode.NONE"),
+                    ChooseableOptionConstantValue("lupos.s00misc", "ITERATOR_DEBUG_MODE", "EPOPDebugMode.DEBUG1"),
+                    ChooseableOptionConstantValue("lupos.s00misc", "ITERATOR_DEBUG_MODE", "EPOPDebugMode.DEBUG2")
             ),
     )
 
@@ -531,6 +532,14 @@ class GenerateBuildFile(val args: Array<String>) {
             additionalSources = mapOf(
                     /*if the key is choosen, automatically add all dependent things*/
                     ChooseableOption("commonS00ParallelThreadsMain") to listOf(
+ChooseableOptionTypeAlias("commonS00ParallelThreadsMainTypes", "lupos.s00misc", listOf(
+"Parallel" to "ParallelThread",
+"ParallelJob" to "ParallelThreadJob",
+"ParallelCondition" to "ParallelThreadCondition",
+"ParallelQueue<T>" to "ParallelThreadQueue<T>",
+"MyLock" to "MyThreadLock",
+"MyReadWriteLock" to "MyThreadReadWriteLock",
+)),
                             ChoosableOptionInternalScript("SuspendModeOff", { applySuspendDisable() }, "SuspendModeOff", false)
                     ),
                     ChooseableOption("jvmS16ServerCommunicationSocketsMain") to listOf(
@@ -544,6 +553,7 @@ ChooseableOptionSymbolic("Heap", "commonS01HeapMain") to listOf(
 ),
                     ChooseableOption("commonMain") to listOf(
                             ChooseableOptionDependency("luposdate3000:Luposdate3000_Parser:0.0.1"),
+                            ChooseableOptionDependency("luposdate3000:Luposdate3000_Triple_Store_Id_Triple:0.0.1"),
                             ChooseableOptionDependency("luposdate3000:Luposdate3000_Shared:0.0.1"),
                             ChooseableOptionDependency("luposdate3000:Luposdate3000_Operators:0.0.1"),
                             ChooseableOptionDependency("org.jetbrains.kotlin:kotlin-stdlib-common:$kotlinVersion"),
@@ -847,6 +857,7 @@ ChooseableOptionSymbolic("Heap", "commonS01HeapMain") to listOf(
                 }
 //expand the template files
                 for (template in templates) {
+try{
                     val sourceFile = File("src.generated/commonTemplate/kotlin/" + template.pkg.replace(".", "/") + "/" + template.sourceClass + ".kt")
                     var fileContent = sourceFile.readText()
                     var targetClass = template.sourceClass
@@ -860,6 +871,8 @@ ChooseableOptionSymbolic("Heap", "commonS01HeapMain") to listOf(
                         it.println("/* DO NOT MODIFY DIRECTLY */")
                         it.print(fileContent)
                     }
+}catch(e:Throwable){
+}
                 }
 //perform scripts "after template"
                 for (option in allChoosenOptions) {

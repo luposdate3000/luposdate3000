@@ -8,7 +8,7 @@ import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.Query
 import lupos.s05tripleStore.TripleStoreBulkImport
 import lupos.s05tripleStore.TripleStoreFeatureParams
-import lupos.s15tripleStoreDistributed.DistributedTripleStore
+import lupos.s15tripleStoreDistributed.distributedTripleStore
 
 object ServerCommunicationSend {
     suspend fun bulkImport(query: Query, graphName: String, action: suspend (TripleStoreBulkImportDistributed) -> Unit) {
@@ -22,30 +22,30 @@ object ServerCommunicationSend {
     }
 
     suspend fun commit(query: Query) {
-        DistributedTripleStore.localStore.commit(query)
+        distributedTripleStore.getLocalStore().commit(query)
     }
 
     suspend fun tripleModify(query: Query, graphName: String, data: Array<ColumnIterator>, type: EModifyType) {
-        DistributedTripleStore.localStore.getNamedGraph(query, graphName).modify(query, data, type)
+        distributedTripleStore.getLocalStore().getNamedGraph(query, graphName).modify(query, data, type)
     }
 
     suspend fun graphClearAll(query: Query) {
-        DistributedTripleStore.localStore.getDefaultGraph(query).clear()
-        for (g in DistributedTripleStore.getGraphNames()) {
-            DistributedTripleStore.dropGraph(query, g)
+        distributedTripleStore.getLocalStore().getDefaultGraph(query).clear()
+        for (g in distributedTripleStore.getGraphNames()) {
+            distributedTripleStore.dropGraph(query, g)
         }
     }
 
     suspend fun graphOperation(query: Query, graphName: String, type: EGraphOperationType) {
         when (type) {
             EGraphOperationType.CLEAR -> {
-                DistributedTripleStore.localStore.clearGraph(query, graphName)
+                distributedTripleStore.getLocalStore().clearGraph(query, graphName)
             }
             EGraphOperationType.CREATE -> {
-                DistributedTripleStore.localStore.createGraph(query, graphName)
+                distributedTripleStore.getLocalStore().createGraph(query, graphName)
             }
             EGraphOperationType.DROP -> {
-                DistributedTripleStore.localStore.dropGraph(query, graphName)
+                distributedTripleStore.getLocalStore().dropGraph(query, graphName)
             }
             else -> {
                 SanityCheck.checkUnreachable()
@@ -54,11 +54,11 @@ object ServerCommunicationSend {
     }
 
     suspend fun tripleGet(query: Query, graphName: String, params: TripleStoreFeatureParams): IteratorBundle {
-        return DistributedTripleStore.localStore.getNamedGraph(query, graphName).getIterator(query, params)
+        return distributedTripleStore.getLocalStore().getNamedGraph(query, graphName).getIterator(query, params)
     }
 
     suspend fun histogramGet(query: Query, graphName: String, params: TripleStoreFeatureParams): Pair<Int, Int> {
-        return DistributedTripleStore.localStore.getNamedGraph(query, graphName).getHistogram(query, params)
+        return distributedTripleStore.getLocalStore().getNamedGraph(query, graphName).getHistogram(query, params)
     }
 
     fun start(hostname: String = "localhost", port: Int = NETWORK_DEFAULT_PORT, bootstrap: String? = null) {

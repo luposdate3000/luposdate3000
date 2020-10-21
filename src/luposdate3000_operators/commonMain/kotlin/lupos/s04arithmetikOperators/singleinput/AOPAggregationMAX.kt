@@ -60,5 +60,5 @@ class AOPAggregationMAX(query: Query, @JvmField val distinct: Boolean, childs: A
 
     }
 
-    override fun cloneOP() = AOPAggregationMAX(query, distinct, Array(children.size) { (children[it].cloneOP()) as AOPBase })
+    override fun cloneOP() :IOPBase= AOPAggregationMAX(query, distinct, Array(children.size) { (children[it].cloneOP()) as AOPBase })
 }

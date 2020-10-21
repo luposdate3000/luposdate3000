@@ -31,7 +31,7 @@ class LOPModify(query: Query,
     }
 
     override fun equals(other: Any?) = other is LOPModify && insert == other.insert && delete == other.delete && children[0] == other.children[0]
-    override fun cloneOP() = LOPModify(query, insert, delete, children[0].cloneOP())
+    override fun cloneOP() :IOPBase= LOPModify(query, insert, delete, children[0].cloneOP())
     suspend override fun calculateHistogram(): HistogramResult {
         var res = HistogramResult()
         res.values["?boolean"] = 1

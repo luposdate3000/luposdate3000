@@ -46,7 +46,7 @@ class POPBind(query: Query, projectedVariables: List<String>, @JvmField val name
         return res
     }
 
-    override fun cloneOP() = POPBind(query, projectedVariables, name, children[1].cloneOP() as AOPBase, children[0].cloneOP())
+    override fun cloneOP() :IOPBase= POPBind(query, projectedVariables, name, children[1].cloneOP() as AOPBase, children[0].cloneOP())
     override fun equals(other: Any?): Boolean = other is POPBind && name == other.name && children[0] == other.children[0]
     override fun childrenToVerifyCount(): Int = 1
     override fun getProvidedVariableNamesInternal(): List<String> = (children[0].getProvidedVariableNames() + name.name).distinct()

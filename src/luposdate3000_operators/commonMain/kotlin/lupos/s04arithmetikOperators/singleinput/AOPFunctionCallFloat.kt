@@ -74,5 +74,5 @@ class AOPFunctionCallFloat(query: Query, child: AOPBase) : AOPBase(query, EOpera
         
     }
 
-    override fun cloneOP() = AOPFunctionCallFloat(query, children[0].cloneOP() as AOPBase)
+    override fun cloneOP() :IOPBase= AOPFunctionCallFloat(query, children[0].cloneOP() as AOPBase)
 }

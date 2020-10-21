@@ -258,5 +258,5 @@ internal    suspend    /*inline*/ fun findNextKey(key: Array<IntArray>, columnsI
     }
 
     override suspend fun toXMLElement() = super.toXMLElement().addAttribute("optional", "" + optional)
-    override fun cloneOP() = POPJoinMergeOptional(query, projectedVariables, children[0].cloneOP(), children[1].cloneOP(), optional)
+    override fun cloneOP() :IOPBase= POPJoinMergeOptional(query, projectedVariables, children[0].cloneOP(), children[1].cloneOP(), optional)
 }

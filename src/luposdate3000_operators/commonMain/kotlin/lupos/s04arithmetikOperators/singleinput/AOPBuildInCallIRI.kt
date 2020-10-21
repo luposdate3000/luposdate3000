@@ -46,5 +46,5 @@ class AOPBuildInCallIRI(query: Query, child: AOPBase, @JvmField var prefix: Stri
 
     }
 
-    override fun cloneOP() = AOPBuildInCallIRI(query, children[0].cloneOP() as AOPBase, prefix)
+    override fun cloneOP() :IOPBase= AOPBuildInCallIRI(query, children[0].cloneOP() as AOPBase, prefix)
 }

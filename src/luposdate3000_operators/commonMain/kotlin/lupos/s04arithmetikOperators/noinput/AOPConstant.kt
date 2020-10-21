@@ -48,5 +48,5 @@ class AOPConstant : AOPBase {
 
     }
 
-    override fun cloneOP() = this
+    override fun cloneOP() :IOPBase= this
 }

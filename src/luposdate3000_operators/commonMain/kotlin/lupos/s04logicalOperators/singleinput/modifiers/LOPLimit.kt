@@ -12,7 +12,7 @@ import lupos.s04logicalOperators.Query
 class LOPLimit(query: Query, @JvmField val limit: Int, child: OPBase = OPEmptyRow(query)) : LOPBase(query, EOperatorID.LOPLimitID, "LOPLimit", arrayOf(child), ESortPriority.SAME_AS_CHILD) {
     override suspend fun toXMLElement() = super.toXMLElement().addAttribute("limit", "" + limit)
     override fun equals(other: Any?) = other is LOPLimit && limit == other.limit && children[0] == other.children[0]
-    override fun cloneOP() = LOPLimit(query, limit, children[0].cloneOP())
+    override fun cloneOP() :IOPBase= LOPLimit(query, limit, children[0].cloneOP())
     suspend override fun calculateHistogram(): HistogramResult {
         var res = HistogramResult()
         var childHistogram = children[0].getHistogram()

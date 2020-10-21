@@ -64,5 +64,5 @@ class AOPBuildInCallSTRAFTER(query: Query, child: AOPBase, childB: AOPBase) : AO
         
     }
 
-    override fun cloneOP() = AOPBuildInCallSTRAFTER(query, children[0].cloneOP() as AOPBase, children[1].cloneOP() as AOPBase)
+    override fun cloneOP() :IOPBase= AOPBuildInCallSTRAFTER(query, children[0].cloneOP() as AOPBase, children[1].cloneOP() as AOPBase)
 }

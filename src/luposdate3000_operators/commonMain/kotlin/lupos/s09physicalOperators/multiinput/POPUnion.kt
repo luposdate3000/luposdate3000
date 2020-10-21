@@ -29,7 +29,7 @@ class POPUnion(query: Query, projectedVariables: List<String>, childA: OPBase, c
         }
     }
 
-    override fun cloneOP() = POPUnion(query, projectedVariables, children[0].cloneOP(), children[1].cloneOP())
+    override fun cloneOP() :IOPBase= POPUnion(query, projectedVariables, children[0].cloneOP(), children[1].cloneOP())
     override fun toSparql() = "{" + children[0].toSparql() + "} UNION {" + children[1].toSparql() + "}"
     override fun equals(other: Any?): Boolean = other is POPUnion && children[0] == other.children[0] && children[1] == other.children[1]
     override suspend fun evaluate(parent: Partition): IteratorBundle {
