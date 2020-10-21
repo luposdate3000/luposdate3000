@@ -255,5 +255,5 @@ ColumnIteratorQueueExt.                            _close(this)
         return res
     }
 
-    override fun cloneOP() :IOPBase= POPJoinWithStore(query, projectedVariables, children[0].cloneOP(), childB.cloneOP(), optional)
+    override fun cloneOP() :IOPBase= POPJoinWithStore(query, projectedVariables, children[0].cloneOP(), childB.cloneOP()as LOPTriple, optional)
 }

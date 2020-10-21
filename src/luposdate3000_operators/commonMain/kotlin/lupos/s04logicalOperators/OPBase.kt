@@ -156,7 +156,7 @@ override    fun selectSortPriority(priority: List<SortHelper>) {
                 }
                 mySortPriority.clear()
                 for (c in children) {
-                    for (p in c.sortPriorities) {
+                    for (p in c.getSortPriorities()) {
                         if (p.size > mySortPriority.size) {
                             mySortPriority.clear()
                             var provided = getProvidedVariableNames()
@@ -180,7 +180,7 @@ override    fun selectSortPriority(priority: List<SortHelper>) {
                     if (mySortPriority.size > 0) {
                         var foundfullchild = false
                         for (c in children) {
-                            for (p in c.sortPriorities) {
+                            for (p in c.getSortPriorities()) {
                                 var fullchild = true
                                 for (i in 0 until mySortPriority.size) {
                                     if (p.size > i) {
@@ -441,7 +441,7 @@ override    open fun getProvidedVariableNames(): List<String> {
         return res.distinct()
     }
 
-    open fun toSparqlQuery(): String {
+override    open fun toSparqlQuery(): String {
         return "SELECT * WHERE{" + toSparql() + "}"
     }
 

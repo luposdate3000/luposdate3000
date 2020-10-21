@@ -243,9 +243,9 @@ internal     class MapRow(val iterators: IteratorBundle, val aggregates: Array<C
                 }
             }
         } else {
-            var tmpSortPriority = children[0].mySortPriority.map { it.variableName }
+            var tmpSortPriority = children[0].getMySortPriority().map { it.variableName }
             var canUseSortedInput = true
-            if ((!localVariables.containsAll(keyColumnNames.toMutableList())) || (children[0].mySortPriority.size < keyColumnNames.size)) {
+            if ((!localVariables.containsAll(keyColumnNames.toMutableList())) || (children[0].getMySortPriority().size < keyColumnNames.size)) {
                 canUseSortedInput = false
             } else {
                 for (i in 0 until keyColumnNames.size) {

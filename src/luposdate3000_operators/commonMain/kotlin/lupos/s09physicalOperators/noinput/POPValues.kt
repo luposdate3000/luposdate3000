@@ -146,7 +146,7 @@ open class POPValues : POPBase {
             }
             for (v in values.children) {
                 SanityCheck.check({ v is AOPValue })
-                val it = v.children.iterator()
+                val it = v.getChildren().iterator()
                 for (variableIndex in 0 until variables.size) {
                     columns[variableIndex].add((it.next() as AOPConstant).value)
                 }

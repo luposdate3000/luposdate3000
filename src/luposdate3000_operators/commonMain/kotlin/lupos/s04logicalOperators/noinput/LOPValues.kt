@@ -40,7 +40,7 @@ class LOPValues(query: IQuery, @JvmField val variables: List<AOPVariable>, value
         for (i in 0 until p.size) {
             var localSet = mutableSetOf<Int>()
             for (row in children) {
-                localSet.add((row.children[i] as AOPConstant).value)
+                localSet.add((row.getChildren()[i] as AOPConstant).value)
             }
             res.values[p[i]] = localSet.size
         }

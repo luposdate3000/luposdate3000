@@ -59,7 +59,7 @@ internal    inline fun reset() {
         partitions.clear()
     }
 
-    inline suspend fun getPartitionHelper(uuid: Long): PartitionHelper {
+     suspend fun getPartitionHelper(uuid: Long): PartitionHelper {
         var res: PartitionHelper? = null
         partitionsLock.withLock {
             res = partitions[uuid]

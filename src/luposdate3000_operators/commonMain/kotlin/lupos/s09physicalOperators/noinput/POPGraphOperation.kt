@@ -171,7 +171,7 @@ class POPGraphOperation(query: IQuery,
                     }
                 }
                 EGraphOperationType.LOAD -> {
-                    var fileName = query.workingDirectory + graph1iri
+                    var fileName = query.getWorkingDirectory() + graph1iri
                     val target: IDistributedGraph
                     if (graph2type == EGraphRefType.DefaultGraphRef) {
                         target = distributedTripleStore.getDefaultGraph(query)

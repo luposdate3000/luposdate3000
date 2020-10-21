@@ -26,5 +26,6 @@ fun getQuery():IQuery
 fun applyPrefix(prefix: String, iri: String) 
   fun getChildrenCountRecoursive(): Int 
 fun getSortPriorities():MutableList<List<SortHelper>>
+fun toSparqlQuery(): String
 }
 
