@@ -32,8 +32,9 @@ import lupos.s04logicalOperators.singleinput.modifiers.LOPDistinct
 import lupos.s04logicalOperators.singleinput.modifiers.LOPSortAny
 import lupos.s09physicalOperators.singleinput.POPSort
 
-abstract class OPBase(@JvmField val query: IQuery, @JvmField val operatorID: EOperatorID, @JvmField val classname: String, @JvmField val children: Array<IOPBase>, val sortPriority: ESortPriority) :IOPBase{
-override fun getClassname()=classname
+abstract class OPBase(@JvmField val query: IQuery, @JvmField val operatorID: EOperatorID, @JvmField val classname: String, @JvmField val children: Array<IOPBase>, val sortPriority: ESortPriority) : IOPBase {
+    override fun getClassname() = classname
+
     @JvmField
     var onlyExistenceRequired = false
 
@@ -44,8 +45,10 @@ override fun getClassname()=classname
     /*partOfAskQuery :: if_ true, prefer join with store, otherwiese perform fast-sort followed by reduced everywhere*/
     @JvmField
     var alreadyCheckedStore = -1L
+
     @JvmField
     val uuid: Long = global_uuid++
+
     @JvmField
     var sortPrioritiesInitialized = false
 
@@ -57,15 +60,13 @@ override fun getClassname()=classname
 
     @JvmField
     var histogramResult: HistogramResult? = null
-
-override fun getQuery()=query
-override fun getSortPriorities()=sortPriorities
-override fun getUUID()=uuid
-override fun getChildren()=children
-override fun getMySortPriority()=mySortPriority
-
-suspend abstract fun calculateHistogram(): HistogramResult
-override    suspend fun getHistogram(): HistogramResult {
+    override fun getQuery() = query
+    override fun getSortPriorities() = sortPriorities
+    override fun getUUID() = uuid
+    override fun getChildren() = children
+    override fun getMySortPriority() = mySortPriority
+    suspend abstract fun calculateHistogram(): HistogramResult
+    override suspend fun getHistogram(): HistogramResult {
         if (histogramResult == null) {
             histogramResult = calculateHistogram()
         } else {
@@ -84,8 +85,8 @@ override    suspend fun getHistogram(): HistogramResult {
         return histogramResult!!
     }
 
-override    open suspend fun evaluate(parent: Partition): IteratorBundle = throw EvaluateNotImplementedException(classname)
-override    fun getChildrenCountRecoursive(): Int {
+    override open suspend fun evaluate(parent: Partition): IteratorBundle = throw EvaluateNotImplementedException(classname)
+    override fun getChildrenCountRecoursive(): Int {
         var res = children.size
         for (c in children) {
             res += c.getChildrenCountRecoursive()
@@ -124,7 +125,7 @@ override    fun getChildrenCountRecoursive(): Int {
         }
     }
 
-override    fun selectSortPriority(priority: List<SortHelper>) {
+    override fun selectSortPriority(priority: List<SortHelper>) {
         var tmp = mutableListOf<List<SortHelper>>()
         for (x in sortPriorities) {
             var size = x.size
@@ -219,7 +220,7 @@ override    fun selectSortPriority(priority: List<SortHelper>) {
         return sortPriorities.size <= 1
     }
 
-override    open fun getPossibleSortPriorities(): List<List<SortHelper>> {
+    override open fun getPossibleSortPriorities(): List<List<SortHelper>> {
         /*possibilities for_ next operator*/
         val res = mutableListOf<List<SortHelper>>()
         when (sortPriority) {
@@ -343,7 +344,7 @@ override    open fun getPossibleSortPriorities(): List<List<SortHelper>> {
         return res
     }
 
-override    open fun applyPrefix(prefix: String, iri: String) {
+    override open fun applyPrefix(prefix: String, iri: String) {
         for (c in children) {
             c.applyPrefix(prefix, iri)
         }
@@ -358,7 +359,7 @@ override    open fun applyPrefix(prefix: String, iri: String) {
     open fun toString(indentation: String): String = "${indentation}$classname\n"
 
     internal companion object {
-         var global_uuid = 0L
+        var global_uuid = 0L
     }
 
     fun replaceVariableWithUndef(node: IOPBase, name: String, existsClauses: Boolean): IOPBase {
@@ -421,7 +422,7 @@ override    open fun applyPrefix(prefix: String, iri: String) {
     }
 
     override fun toString(): String = Parallel.runBlocking { toXMLElement().toPrettyString() }
-override    fun getRequiredVariableNamesRecoursive(): List<String> {
+    override fun getRequiredVariableNamesRecoursive(): List<String> {
         val res = getRequiredVariableNames().toMutableList()
         for (c in children) {
             res += c.getRequiredVariableNamesRecoursive()
@@ -429,11 +430,11 @@ override    fun getRequiredVariableNamesRecoursive(): List<String> {
         return res.distinct()
     }
 
-override    open fun getRequiredVariableNames(): List<String> {
+    override open fun getRequiredVariableNames(): List<String> {
         return mutableListOf()
     }
 
-override    open fun getProvidedVariableNames(): List<String> {
+    override open fun getProvidedVariableNames(): List<String> {
         val res = mutableListOf<String>()
         for (c in children) {
             res.addAll(c.getProvidedVariableNames())
@@ -441,12 +442,12 @@ override    open fun getProvidedVariableNames(): List<String> {
         return res.distinct()
     }
 
-override    open fun toSparqlQuery(): String {
+    override open fun toSparqlQuery(): String {
         return "SELECT * WHERE{" + toSparql() + "}"
     }
 
-override    open fun toSparql(): String = throw ToSparqlNotImplementedException(classname)
-override    open suspend fun toXMLElement(): XMLElement {
+    override open fun toSparql(): String = throw ToSparqlNotImplementedException(classname)
+    override open suspend fun toXMLElement(): XMLElement {
         val res = XMLElement(classname)
         try {
             res.addAttribute("uuid", "" + uuid)
@@ -504,7 +505,7 @@ override    open suspend fun toXMLElement(): XMLElement {
         }
     }
 
-override    open fun syntaxVerifyAllVariableExists(additionalProvided: List<String> , autocorrect: Boolean ) {
+    override open fun syntaxVerifyAllVariableExists(additionalProvided: List<String>, autocorrect: Boolean) {
         for (i in 0 until childrenToVerifyCount()) {
             children[i].syntaxVerifyAllVariableExists(additionalProvided, autocorrect)
         }
@@ -525,13 +526,13 @@ override    open fun syntaxVerifyAllVariableExists(additionalProvided: List<Stri
         }
     }
 
-override    fun setChild(child: IOPBase): IOPBase {
+    override fun setChild(child: IOPBase): IOPBase {
         SanityCheck.check({ children.isNotEmpty() })
         this.getChildren()[0] = child
         return child
     }
 
-override    fun getLatestChild(): IOPBase {
+    override fun getLatestChild(): IOPBase {
         if (children.isNotEmpty() && children[0].getChildren().isNotEmpty()) {
             return children[0].getLatestChild()
         }

@@ -1,8 +1,9 @@
 package lupos.s08logicalOptimisation
-import lupos.s04logicalOperators.IOPBase
+
 import lupos.s00misc.EOptimizerID
 import lupos.s00misc.ESortType
 import lupos.s00misc.SortHelper
+import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.multiinput.LOPJoin
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query

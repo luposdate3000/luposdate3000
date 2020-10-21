@@ -1,7 +1,6 @@
 package lupos.s09physicalOperators.multiinput
 
 import lupos.s00misc.SanityCheck
-
 import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.s04logicalOperators.iterator.ColumnIteratorChildIterator
 import lupos.s04logicalOperators.iterator.ColumnIteratorMultiIterator

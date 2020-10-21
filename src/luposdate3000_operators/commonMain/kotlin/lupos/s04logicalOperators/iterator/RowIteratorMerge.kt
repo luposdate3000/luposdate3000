@@ -1,9 +1,8 @@
 package lupos.s04logicalOperators.iterator
 
 import kotlin.jvm.JvmField
-import lupos.s00misc.SanityCheck
 import lupos.s00misc.MERGE_SORT_MIN_ROWS
-
+import lupos.s00misc.SanityCheck
 
 open class RowIteratorMerge(@JvmField val a: RowIterator, @JvmField val b: RowIterator, @JvmField val comparator: Comparator<Int>, @JvmField val compCount: Int) : RowIterator() {
     companion object {

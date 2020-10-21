@@ -1,17 +1,16 @@
 package lupos.s04arithmetikOperators.singleinput
-import lupos.s04logicalOperators.IQuery
 
 import lupos.s00misc.EOperatorID
-
 import lupos.s03resultRepresentation.ValueDefinition
 import lupos.s03resultRepresentation.ValueError
 import lupos.s03resultRepresentation.ValueLanguageTaggedLiteral
 import lupos.s03resultRepresentation.ValueSimpleLiteral
 import lupos.s03resultRepresentation.ValueTypedLiteral
 import lupos.s04arithmetikOperators.AOPBase
+import lupos.s04logicalOperators.IOPBase
+import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.OPBase
-import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.Query
 
 class AOPBuildInCallUCASE(query: IQuery, child: AOPBase) : AOPBase(query, EOperatorID.AOPBuildInCallUCASEID, "AOPBuildInCallUCASE", arrayOf(child)) {
@@ -31,8 +30,7 @@ class AOPBuildInCallUCASE(query: IQuery, child: AOPBase) : AOPBase(query, EOpera
             }
 /*return*/res
         }
-
     }
 
-    override fun cloneOP() :IOPBase= AOPBuildInCallUCASE(query, children[0].cloneOP() as AOPBase)
+    override fun cloneOP(): IOPBase = AOPBuildInCallUCASE(query, children[0].cloneOP() as AOPBase)
 }

@@ -5,6 +5,7 @@ import lupos.s00misc.JenaWrapper
 import lupos.s00misc.Parallel
 import lupos.s15tripleStoreDistributed.distributedTripleStore
 import lupos.s15tripleStoreDistributed.DistributedTripleStore
+
 enum class Datasource {
     LOAD, IMPORT
 }
@@ -15,7 +16,7 @@ fun printBenchmarkLine(title: String, time: Double, count: Int, numberOfTriples:
 
 @UseExperimental(ExperimentalStdlibApi::class, kotlin.time.ExperimentalTime::class)
 fun main(args: Array<String>) = Parallel.runBlocking {
-distributedTripleStore=DistributedTripleStore()
+    distributedTripleStore = DistributedTripleStore()
     val datasourceType = Datasource.valueOf(args[0])
     val persistenceFolder = args[1]
     val datasourceFiles = args[2]

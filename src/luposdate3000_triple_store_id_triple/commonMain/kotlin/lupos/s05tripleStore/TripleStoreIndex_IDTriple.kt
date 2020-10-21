@@ -5,10 +5,10 @@ import lupos.s00misc.MyReadWriteLock
 import lupos.s00misc.Parallel
 import lupos.s00misc.SanityCheck
 import lupos.s03resultRepresentation.ResultSetDictionaryExt
+import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.s04logicalOperators.iterator.ColumnIteratorEmpty
 import lupos.s04logicalOperators.iterator.IteratorBundle
-import lupos.s04logicalOperators.IQuery
 import lupos.s05tripleStore.index_IDTriple.BulkImportIterator
 import lupos.s05tripleStore.index_IDTriple.Count1PassThroughIterator
 import lupos.s05tripleStore.index_IDTriple.DebugPassThroughIterator
@@ -28,8 +28,7 @@ import lupos.s05tripleStore.index_IDTriple.NodeManager
 import lupos.s05tripleStore.index_IDTriple.NodeShared
 import lupos.s05tripleStore.index_IDTriple.TripleIterator
 
-
-class TripleStoreIndex_IDTriple (): TripleStoreIndex() {
+class TripleStoreIndex_IDTriple() : TripleStoreIndex() {
     @JvmField
     var firstLeaf = NodeManager.nodeNullPointer
 
@@ -49,19 +48,26 @@ class TripleStoreIndex_IDTriple (): TripleStoreIndex() {
     var distinctPrimary = 0
 
     @JvmField
-internal    var lock = MyReadWriteLock()
-@JvmField    var cachedHistograms1Size = 0
-   @JvmField var cachedHistograms1Cursor = 0
-  @JvmField  val cachedHistograms1 = IntArray(300)
-  @JvmField  var cachedHistograms2Size = 0
-@JvmField    var cachedHistograms2Cursor = 0
-@JvmField    val cachedHistograms2 = IntArray(400)
+    internal var lock = MyReadWriteLock()
+    @JvmField
+    var cachedHistograms1Size = 0
+    @JvmField
+    var cachedHistograms1Cursor = 0
+    @JvmField
+    val cachedHistograms1 = IntArray(300)
+    @JvmField
+    var cachedHistograms2Size = 0
+    @JvmField
+    var cachedHistograms2Cursor = 0
+    @JvmField
+    val cachedHistograms2 = IntArray(400)
 
-internal    companion object {
+    internal companion object {
         @JvmField
         var debuguuiditerator = 0
-@JvmField
-var debugLock = MyReadWriteLock()
+
+        @JvmField
+        var debugLock = MyReadWriteLock()
     }
 
     suspend override fun safeToFile(filename: String) {
@@ -286,11 +292,11 @@ var debugLock = MyReadWriteLock()
         return res
     }
 
-internal    suspend fun importHelper(a: TripleIterator, b: TripleIterator): Int {
+    internal suspend fun importHelper(a: TripleIterator, b: TripleIterator): Int {
         return importHelper(MergeIterator(a, b))
     }
 
-internal    suspend fun importHelper(a: Int, b: Int): Int {
+    internal suspend fun importHelper(a: Int, b: Int): Int {
         var nodeA: ByteArray? = null
         var nodeB: ByteArray? = null
         SanityCheck.println({ "Outside.refcount($a)  x132" })
@@ -309,7 +315,7 @@ internal    suspend fun importHelper(a: Int, b: Int): Int {
         return res
     }
 
-internal    suspend fun importHelper(iterator: TripleIterator): Int {
+    internal suspend fun importHelper(iterator: TripleIterator): Int {
         var res = NodeManager.nodeNullPointer
         var node2: ByteArray? = null
         SanityCheck.println({ "Outside.refcount(??) - x135" })
@@ -346,13 +352,13 @@ internal    suspend fun importHelper(iterator: TripleIterator): Int {
         }
     }
 
-internal    inline suspend fun flushContinueWithWriteLock() {
+    internal inline suspend fun flushContinueWithWriteLock() {
         SanityCheck.println { "writeLock(${lock.getUUID()}) x140" }
         lock.writeLock()
         flushAssumeLocks()
     }
 
-internal    inline suspend fun flushContinueWithReadLock() {
+    internal inline suspend fun flushContinueWithReadLock() {
         var hasLock = false
         while (pendingImport.size > 0) {
             SanityCheck.println { "tryWriteLock(${lock.getUUID()}) x204" }
@@ -374,7 +380,7 @@ internal    inline suspend fun flushContinueWithReadLock() {
         }
     }
 
-internal    suspend fun flushAssumeLocks() {
+    internal suspend fun flushAssumeLocks() {
         if (pendingImport.size > 0) {
             //check again, that there is something to be done ... this may be changed, because there could be someone _else beforehand, holding exactly this lock ... .
             var j = 1
@@ -463,7 +469,7 @@ internal    suspend fun flushAssumeLocks() {
         lock.writeUnlock()
     }
 
-internal    suspend fun rebuildData(_iterator: TripleIterator) {
+    internal suspend fun rebuildData(_iterator: TripleIterator) {
 //assuming to have write-lock
         var iterator: TripleIterator = Count1PassThroughIterator(DistinctIterator(_iterator))
         SanityCheck {

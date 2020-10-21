@@ -1,8 +1,8 @@
 package lupos.s05tripleStore.index_IDTriple
 
+import lupos.s00misc.ByteArrayHelper
 import lupos.s00misc.MyReadWriteLock
 import lupos.s00misc.SanityCheck
-import lupos.s00misc.ByteArrayHelper
 import lupos.s04logicalOperators.iterator.ColumnIterator
 
 internal object NodeInner {
@@ -27,20 +27,20 @@ internal object NodeInner {
     }
 
     inline fun setFirstChild(data: ByteArray, node: Int) {
-        ByteArrayHelper.writeInt4(data,12, node)
+        ByteArrayHelper.writeInt4(data, 12, node)
     }
 
     inline fun getFirstChild(data: ByteArray): Int {
-        return ByteArrayHelper.readInt4(data,12)
+        return ByteArrayHelper.readInt4(data, 12)
     }
 
     inline fun writeChildPointer(node: ByteArray, offset: Int, pointer: Int): Int {
-        ByteArrayHelper.writeInt4(node,offset, pointer)
+        ByteArrayHelper.writeInt4(node, offset, pointer)
         return 4
     }
 
     inline fun readChildPointer(node: ByteArray, offset: Int, crossinline action: (pointer: Int) -> Unit): Int {
-        action(ByteArrayHelper.readInt4(node,offset))
+        action(ByteArrayHelper.readInt4(node, offset))
         return 4
     }
 

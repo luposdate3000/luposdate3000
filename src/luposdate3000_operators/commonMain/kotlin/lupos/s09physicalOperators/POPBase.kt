@@ -1,5 +1,5 @@
 package lupos.s09physicalOperators
-import lupos.s04logicalOperators.IQuery
+
 import kotlin.jvm.JvmField
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.ESortPriority
@@ -8,8 +8,9 @@ import lupos.s00misc.SanityCheck
 import lupos.s00misc.VariableNotDefinedSyntaxException
 import lupos.s00misc.XMLElement
 import lupos.s04logicalOperators.HistogramResult
-import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.IOPBase
+import lupos.s04logicalOperators.IQuery
+import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
 
 abstract class POPBase(query: IQuery,
@@ -19,7 +20,7 @@ abstract class POPBase(query: IQuery,
                        children: Array<IOPBase>,
                        sortPriority: ESortPriority
 ) :
-        OPBase(query, operatorID, classname, children, sortPriority) ,IPOPBase{
+        OPBase(query, operatorID, classname, children, sortPriority), IPOPBase {
     open fun getProvidedVariableNamesInternal() = super.getProvidedVariableNames()
     override fun getProvidedVariableNames() = projectedVariables
     override suspend fun toXMLElement(): XMLElement {

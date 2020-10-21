@@ -1,19 +1,19 @@
 package lupos.s09physicalOperators.singleinput
-import lupos.s04logicalOperators.IQuery
+
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.ESortPriority
 import lupos.s00misc.NotImplementedException
 import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
 import lupos.s03resultRepresentation.ResultSetDictionaryExt
-
 import lupos.s04arithmetikOperators.AOPBase
+import lupos.s04logicalOperators.IOPBase
+import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.s04logicalOperators.iterator.ColumnIteratorQueue
 import lupos.s04logicalOperators.iterator.ColumnIteratorQueueExt
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.OPBase
-import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.Query
 import lupos.s09physicalOperators.POPBase
 
@@ -29,7 +29,7 @@ class POPFilter(query: IQuery, projectedVariables: List<String>, filter: AOPBase
 
     override fun equals(other: Any?) = other is POPFilter && children[0] == other.children[0] && children[1] == other.children[1]
     override fun childrenToVerifyCount() = 1
-    override fun cloneOP() :IOPBase= POPFilter(query, projectedVariables, children[1].cloneOP() as AOPBase, children[0].cloneOP())
+    override fun cloneOP(): IOPBase = POPFilter(query, projectedVariables, children[1].cloneOP() as AOPBase, children[0].cloneOP())
     override fun getProvidedVariableNamesInternal() = children[0].getProvidedVariableNames()
     override fun getRequiredVariableNames() = children[1].getRequiredVariableNamesRecoursive()
     override suspend fun evaluate(parent: Partition): IteratorBundle {
@@ -54,7 +54,7 @@ class POPFilter(query: IQuery, projectedVariables: List<String>, filter: AOPBase
 
                     inline suspend fun __close() {
                         if (label != 0) {
-ColumnIteratorQueueExt.                            _close(this)
+                            ColumnIteratorQueueExt._close(this)
                             SanityCheck.println { "POPFilterXXX$uuid close E $classname" }
                             for ((k, v) in child.columns) {
                                 v.close()
@@ -63,7 +63,7 @@ ColumnIteratorQueueExt.                            _close(this)
                     }
 
                     override suspend fun next(): Int {
-                        return ColumnIteratorQueueExt.next_helper(this,{
+                        return ColumnIteratorQueueExt.next_helper(this, {
                             try {
                                 var done = false
                                 while (!done) {
@@ -77,7 +77,7 @@ ColumnIteratorQueueExt.                            _close(this)
                                                 v.close()
                                             }
                                             for (variableIndex3 in 0 until variables.size) {
-                                             ColumnIteratorQueueExt.closeOnEmptyQueue(columnsLocal[variableIndex3])
+                                                ColumnIteratorQueueExt.closeOnEmptyQueue(columnsLocal[variableIndex3])
                                             }
                                             done = true
                                             break
@@ -157,7 +157,7 @@ ColumnIteratorQueueExt.                            _close(this)
                                             }
                                             SanityCheck.check { variableIndex2 == 0 }
                                             for (variableIndex3 in 0 until variables.size) {
- ColumnIteratorQueueExt.                                                closeOnEmptyQueue(columnsLocal[variableIndex3])
+                                                ColumnIteratorQueueExt.closeOnEmptyQueue(columnsLocal[variableIndex3])
                                             }
                                             done = true
                                             break

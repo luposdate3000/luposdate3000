@@ -1,5 +1,3 @@
-import lupos.s15tripleStoreDistributed.distributedTripleStore
-import lupos.s15tripleStoreDistributed.DistributedTripleStore
 import lupos.s00misc.DateHelper
 import lupos.s00misc.DateHelperRelative
 import lupos.s00misc.File
@@ -7,6 +5,7 @@ import lupos.s00misc.Parallel
 import lupos.s00misc.Partition
 import lupos.s03resultRepresentation.nodeGlobalDictionary
 import lupos.s15tripleStoreDistributed.distributedTripleStore
+import lupos.s15tripleStoreDistributed.DistributedTripleStore
 import lupos.s16network.HttpEndpoint
 import lupos.s16network.ServerCommunicationSend
 
@@ -20,7 +19,7 @@ fun printBenchmarkLine(title: String, time: Double, count: Int, numberOfTriples:
 
 @UseExperimental(ExperimentalStdlibApi::class, kotlin.time.ExperimentalTime::class)
 fun main(args: Array<String>) = Parallel.runBlocking {
-distributedTripleStore=DistributedTripleStore()
+    distributedTripleStore = DistributedTripleStore()
     ServerCommunicationSend.start()
     val datasourceType = Datasource.valueOf(args[0])
     val persistenceFolder = args[1]
@@ -43,7 +42,7 @@ distributedTripleStore=DistributedTripleStore()
         }
         Datasource.IMPORT -> {
             val timer = DateHelperRelative.markNow()
-            val dict = mutableMapOf<String,Int>()
+            val dict = mutableMapOf<String, Int>()
             File(datasourceBNodeFile).forEachLine {
                 dict[it] = nodeGlobalDictionary.createNewBNode()
             }
@@ -119,4 +118,3 @@ distributedTripleStore=DistributedTripleStore()
         printBenchmarkTimesHelper()
     }
 }
-

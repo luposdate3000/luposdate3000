@@ -1,15 +1,16 @@
 package lupos.s04logicalOperators.singleinput
-import lupos.s04logicalOperators.IQuery
+
 import kotlin.jvm.JvmField
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.ESortPriority
 import lupos.s00misc.XMLElement
 import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s04logicalOperators.HistogramResult
+import lupos.s04logicalOperators.IOPBase
+import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.LOPBase
 import lupos.s04logicalOperators.noinput.OPEmptyRow
 import lupos.s04logicalOperators.OPBase
-import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.Query
 
 class LOPSort(query: IQuery, @JvmField val asc: Boolean, @JvmField var by: AOPVariable, child: IOPBase = OPEmptyRow(query)) : LOPBase(query, EOperatorID.LOPSortID, "LOPSort", arrayOf(child), ESortPriority.SORT) {
@@ -31,7 +32,7 @@ class LOPSort(query: IQuery, @JvmField val asc: Boolean, @JvmField var by: AOPVa
 
     override fun getRequiredVariableNames() = listOf(by.name)
     override fun equals(other: Any?) = other is LOPSort && asc == other.asc && by == other.by && children[0] == other.children[0]
-    override fun cloneOP() :IOPBase= LOPSort(query, asc, by, children[0].cloneOP())
+    override fun cloneOP(): IOPBase = LOPSort(query, asc, by, children[0].cloneOP())
     suspend override fun calculateHistogram(): HistogramResult {
         return children[0].getHistogram()
     }

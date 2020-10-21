@@ -1,4 +1,4 @@
-package lupos.s00misc 
+package lupos.s00misc
 
 import java.io.BufferedInputStream
 import java.io.BufferedOutputStream
@@ -35,21 +35,25 @@ internal class MyInputStream(@JvmField val stream: InputStream) : IMyInputStream
     }
 }
 
-internal actual class MyDataInputStream(@JvmField val it:DataInputStream){
-actual inline fun readInt():Int=it.readInt()
-actual inline fun readByte():Byte=it.readByte()
-actual inline fun read(buf:ByteArray,off:Int,len:Int):Int=it.read(buf,off,len)
-}
-internal actual class MyDataOutputStream(@JvmField val it:DataOutputStream){
-actual inline fun writeInt(value:Int)=it.writeInt(value)
-actual inline fun write(buf:ByteArray,off:Int,len:Int)=it.write(buf,off,len)
+internal actual class MyDataInputStream(@JvmField val it: DataInputStream) {
+    actual inline fun readInt(): Int = it.readInt()
+    actual inline fun readByte(): Byte = it.readByte()
+    actual inline fun read(buf: ByteArray, off: Int, len: Int): Int = it.read(buf, off, len)
 }
 
-internal actual class File{
-@JvmField val filename: String
-actual constructor(filename: String){
-this.filename=filename
+internal actual class MyDataOutputStream(@JvmField val it: DataOutputStream) {
+    actual inline fun writeInt(value: Int) = it.writeInt(value)
+    actual inline fun write(buf: ByteArray, off: Int, len: Int) = it.write(buf, off, len)
 }
+
+internal actual class File {
+    @JvmField
+    val filename: String
+
+    actual constructor(filename: String) {
+        this.filename = filename
+    }
+
     inline actual fun createTempFile(prefix: String, suffix: String, directory: String): String {
         var f = createTempFile(prefix, suffix, java.io.File(directory))
         return f.getAbsolutePath()
@@ -71,13 +75,13 @@ this.filename=filename
         }
     }
 
-    inline actual fun myPrintWriter() :MyPrintWriter= MyPrintWriter(java.io.File(filename))
+    inline actual fun myPrintWriter(): MyPrintWriter = MyPrintWriter(java.io.File(filename))
     inline actual fun printWriter(crossinline action: (MyPrintWriter) -> Unit) {
         action(MyPrintWriter(java.io.File(filename)))
     }
 
     inline suspend actual fun printWriterSuspended(crossinline action: suspend (MyPrintWriter) -> Unit) {
-action(MyPrintWriter(java.io.File(filename)))
+        action(MyPrintWriter(java.io.File(filename)))
     }
 
     inline actual fun forEachLine(crossinline action: (String) -> Unit) = java.io.File(filename).forEachLine {

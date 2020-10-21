@@ -34,21 +34,22 @@ internal actual class MyThreadReadWriteLock {
     actual inline fun writeUnlock() {
         lock.writeLock().unlock()
     }
-actual inline fun <T> withReadLock(crossinline action: () -> T): T {
-    readLock()
-    try {
-        return action()
-    } finally {
-        readUnlock()
-    }
-}
 
-actual inline fun <T> withWriteLock(crossinline action: () -> T): T {
-    writeLock()
-    try {
-        return action()
-    } finally {
-        writeUnlock()
+    actual inline fun <T> withReadLock(crossinline action: () -> T): T {
+        readLock()
+        try {
+            return action()
+        } finally {
+            readUnlock()
+        }
     }
-}
+
+    actual inline fun <T> withWriteLock(crossinline action: () -> T): T {
+        writeLock()
+        try {
+            return action()
+        } finally {
+            writeUnlock()
+        }
+    }
 }

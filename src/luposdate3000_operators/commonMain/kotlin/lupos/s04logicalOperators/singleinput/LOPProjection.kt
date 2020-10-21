@@ -1,5 +1,5 @@
 package lupos.s04logicalOperators.singleinput
-import lupos.s04logicalOperators.IQuery
+
 import kotlin.jvm.JvmField
 import lupos.s00misc.BugException
 import lupos.s00misc.EOperatorID
@@ -7,10 +7,11 @@ import lupos.s00misc.ESortPriority
 import lupos.s00misc.XMLElement
 import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s04logicalOperators.HistogramResult
+import lupos.s04logicalOperators.IOPBase
+import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.LOPBase
 import lupos.s04logicalOperators.noinput.OPEmptyRow
 import lupos.s04logicalOperators.OPBase
-import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.Query
 
 class LOPProjection(query: IQuery, @JvmField val variables: MutableList<AOPVariable> = mutableListOf(), child: IOPBase = OPEmptyRow(query)) : LOPBase(query, EOperatorID.LOPProjectionID, "LOPProjection", arrayOf(child), ESortPriority.SAME_AS_CHILD) {
@@ -33,7 +34,7 @@ class LOPProjection(query: IQuery, @JvmField val variables: MutableList<AOPVaria
     }
 
     override fun equals(other: Any?) = other is LOPProjection && variables == other.variables && children[0] == other.children[0]
-    override fun cloneOP() :IOPBase= LOPProjection(query, variables, children[0].cloneOP())
+    override fun cloneOP(): IOPBase = LOPProjection(query, variables, children[0].cloneOP())
     suspend override fun calculateHistogram(): HistogramResult {
         var res = HistogramResult()
         var childHistogram = children[0].getHistogram()

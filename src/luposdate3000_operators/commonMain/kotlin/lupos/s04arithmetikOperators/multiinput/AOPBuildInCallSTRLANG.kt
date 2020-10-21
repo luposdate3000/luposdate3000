@@ -1,17 +1,15 @@
 package lupos.s04arithmetikOperators.multiinput
-import lupos.s04logicalOperators.IQuery
-
 
 import lupos.s00misc.EOperatorID
-
 import lupos.s03resultRepresentation.ValueDefinition
 import lupos.s03resultRepresentation.ValueError
 import lupos.s03resultRepresentation.ValueLanguageTaggedLiteral
 import lupos.s03resultRepresentation.ValueSimpleLiteral
 import lupos.s04arithmetikOperators.AOPBase
+import lupos.s04logicalOperators.IOPBase
+import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.OPBase
-import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.Query
 
 class AOPBuildInCallSTRLANG(query: IQuery, child: AOPBase, childB: AOPBase) : AOPBase(query, EOperatorID.AOPBuildInCallSTRLANGID, "AOPBuildInCallSTRLANG", arrayOf(child, childB)) {
@@ -29,8 +27,7 @@ class AOPBuildInCallSTRLANG(query: IQuery, child: AOPBase, childB: AOPBase) : AO
             }
 /*return*/res
         }
-
     }
 
-    override fun cloneOP() :IOPBase= AOPBuildInCallSTRLANG(query, children[0].cloneOP() as AOPBase, children[1].cloneOP() as AOPBase)
+    override fun cloneOP(): IOPBase = AOPBuildInCallSTRLANG(query, children[0].cloneOP() as AOPBase, children[1].cloneOP() as AOPBase)
 }

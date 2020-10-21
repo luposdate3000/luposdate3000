@@ -206,21 +206,21 @@ fun createBuildFileForModule(args: Array<String>) {
         } else {
             out.println("internal typealias SanityCheck = SanityCheckOn")
         }
-if(suspendMode == SuspendMode.Enable){
-out.println("internal typealias Parallel=ParallelCoroutine")
-out.println("internal typealias ParallelJob=ParallelCoroutineJob")
-out.println("internal typealias ParallelCondition=ParallelCoroutineCondition")
-out.println("internal typealias ParallelQueue<T> =ParallelCoroutineQueue<T>")
-out.println("internal typealias MyLock=MyCoroutineLock")
-out.println("internal typealias MyReadWriteLock=MyCoroutineReadWriteLock")
-}else{
-out.println("internal typealias Parallel=ParallelThread")
-out.println("internal typealias ParallelJob=ParallelThreadJob")
-out.println("internal typealias ParallelCondition=ParallelThreadCondition")
-out.println("internal typealias ParallelQueue<T> =ParallelThreadQueue<T>")
-out.println("internal typealias MyLock=MyThreadLock")
-out.println("internal typealias MyReadWriteLock=MyThreadReadWriteLock")
-}
+        if (suspendMode == SuspendMode.Enable) {
+            out.println("internal typealias Parallel=ParallelCoroutine")
+            out.println("internal typealias ParallelJob=ParallelCoroutineJob")
+            out.println("internal typealias ParallelCondition=ParallelCoroutineCondition")
+            out.println("internal typealias ParallelQueue<T> =ParallelCoroutineQueue<T>")
+            out.println("internal typealias MyLock=MyCoroutineLock")
+            out.println("internal typealias MyReadWriteLock=MyCoroutineReadWriteLock")
+        } else {
+            out.println("internal typealias Parallel=ParallelThread")
+            out.println("internal typealias ParallelJob=ParallelThreadJob")
+            out.println("internal typealias ParallelCondition=ParallelThreadCondition")
+            out.println("internal typealias ParallelQueue<T> =ParallelThreadQueue<T>")
+            out.println("internal typealias MyLock=MyThreadLock")
+            out.println("internal typealias MyReadWriteLock=MyThreadReadWriteLock")
+        }
         if (File("${moduleFolder}/configOptions").exists()) {
             File("${moduleFolder}/configOptions").forEachLine {
                 val opt = it.split(",")

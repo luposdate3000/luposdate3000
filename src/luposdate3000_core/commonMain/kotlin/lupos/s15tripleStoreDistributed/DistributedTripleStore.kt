@@ -16,12 +16,12 @@ import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04arithmetikOperators.IAOPBase
 import lupos.s04arithmetikOperators.noinput.AOPConstant
 import lupos.s04arithmetikOperators.noinput.AOPVariable
+import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.s04logicalOperators.iterator.ColumnIteratorMultiValue
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
-import lupos.s04logicalOperators.IQuery
 import lupos.s05tripleStore.PersistentStoreLocal
 import lupos.s05tripleStore.PersistentStoreLocalExt
 import lupos.s05tripleStore.TripleStoreBulkImport
@@ -29,8 +29,8 @@ import lupos.s05tripleStore.TripleStoreFeatureParams
 import lupos.s05tripleStore.TripleStoreFeatureParamsDefault
 import lupos.s05tripleStore.TripleStoreFeatureParamsPartition
 import lupos.s09physicalOperators.POPBase
-import lupos.s16network.ServerCommunicationSend
 import lupos.s16network.ITripleStoreBulkImportDistributed
+import lupos.s16network.ServerCommunicationSend
 
 class TripleStoreIteratorGlobal(query: IQuery, projectedVariables: List<String>, @JvmField val graphName: String, params: Array<IAOPBase>, @JvmField val idx: EIndexPattern, @JvmField val partition: Partition) : POPBase(query, projectedVariables, EOperatorID.TripleStoreIteratorGlobalID, "TripleStoreIteratorGlobal", Array<OPBase>(3) { params[it] }, ESortPriority.ANY_PROVIDED_VARIABLE) {
     override fun getPartitionCount(variable: String): Int {
@@ -112,7 +112,7 @@ class TripleStoreIteratorGlobal(query: IQuery, projectedVariables: List<String>,
     }
 }
 
-class DistributedGraph(val query: Query, @JvmField val name: String) :IDistributedGraph{
+class DistributedGraph(val query: Query, @JvmField val name: String) : IDistributedGraph {
     suspend override fun bulkImport(action: suspend (ITripleStoreBulkImportDistributed) -> Unit) {
         ServerCommunicationSend.bulkImport(query, name, action)
     }
@@ -220,11 +220,11 @@ class DistributedGraph(val query: Query, @JvmField val name: String) :IDistribut
     }
 }
 
-class DistributedTripleStore :IDistributedTripleStore{
+class DistributedTripleStore : IDistributedTripleStore {
     @JvmField
     val localStore = PersistentStoreLocal()
-override fun getLocalStore()=localStore
-    override fun getGraphNames(includeDefault: Boolean ): List<String> {
+    override fun getLocalStore() = localStore
+    override fun getGraphNames(includeDefault: Boolean): List<String> {
         return localStore.getGraphNames(includeDefault)
     }
 

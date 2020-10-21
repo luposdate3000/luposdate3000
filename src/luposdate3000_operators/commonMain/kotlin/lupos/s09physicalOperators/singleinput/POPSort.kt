@@ -1,22 +1,22 @@
 package lupos.s09physicalOperators.singleinput
-import lupos.s04logicalOperators.IQuery
+
 import kotlin.jvm.JvmField
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.ESortPriority
 import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.XMLElement
-
 import lupos.s03resultRepresentation.ValueComparatorASC
 import lupos.s03resultRepresentation.ValueComparatorDESC
 import lupos.s04arithmetikOperators.noinput.AOPVariable
+import lupos.s04logicalOperators.IOPBase
+import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.s04logicalOperators.iterator.ColumnIteratorMerge
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.iterator.RowIterator
 import lupos.s04logicalOperators.iterator.RowIteratorMerge
 import lupos.s04logicalOperators.OPBase
-import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.Query
 import lupos.s09physicalOperators.POPBase
 
@@ -27,7 +27,7 @@ class POPSort(query: IQuery, projectedVariables: List<String>, @JvmField val sor
     }
 
     override fun equals(other: Any?): Boolean = other is POPSort && sortBy == other.sortBy && sortOrder == other.sortOrder && children[0] == other.children[0]
-    override fun cloneOP() :IOPBase= POPSort(query, projectedVariables, sortBy, sortOrder, children[0].cloneOP())
+    override fun cloneOP(): IOPBase = POPSort(query, projectedVariables, sortBy, sortOrder, children[0].cloneOP())
     override fun getRequiredVariableNames(): List<String> = sortBy.map { it.name }
     override fun toSparql(): String {
         val variables = Array(sortBy.size) { sortBy[it].name }

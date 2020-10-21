@@ -1,5 +1,5 @@
 package lupos.s09physicalOperators.multiinput
-import lupos.s04logicalOperators.IQuery
+
 import kotlin.jvm.JvmField
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.ESortPriority
@@ -8,21 +8,21 @@ import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.ResultSetDictionaryExt
-
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04arithmetikOperators.IAOPBase
 import lupos.s04arithmetikOperators.noinput.AOPConstant
 import lupos.s04arithmetikOperators.noinput.AOPVariable
+import lupos.s04logicalOperators.IOPBase
+import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.s04logicalOperators.iterator.ColumnIteratorEmpty
 import lupos.s04logicalOperators.iterator.ColumnIteratorQueue
-import lupos.s04logicalOperators.iterator.ColumnIteratorQueueExt
 import lupos.s04logicalOperators.iterator.ColumnIteratorQueueEmpty
+import lupos.s04logicalOperators.iterator.ColumnIteratorQueueExt
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.multiinput.LOPJoin
 import lupos.s04logicalOperators.noinput.LOPTriple
 import lupos.s04logicalOperators.OPBase
-import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.Query
 import lupos.s09physicalOperators.POPBase
 import lupos.s15tripleStoreDistributed.distributedTripleStore
@@ -154,7 +154,7 @@ class POPJoinWithStore(query: IQuery, projectedVariables: List<String>, childA: 
 
                     inline suspend fun __close() {
                         if (label != 0) {
-ColumnIteratorQueueExt.                            _close(this)
+                            ColumnIteratorQueueExt._close(this)
                             SanityCheck.println { "POPJoinWithStoreXXXclosing store for join with store A $theuuid" }
                             for (closeIndex in 0 until columnsInB.size) {
                                 columnsInB[closeIndex].close()
@@ -169,7 +169,7 @@ ColumnIteratorQueueExt.                            _close(this)
                     }
 
                     override suspend fun next(): Int {
-                        return ColumnIteratorQueueExt.next_helper(this,{
+                        return ColumnIteratorQueueExt.next_helper(this, {
                             loopA@ while (true) {
                                 var done = true
                                 loopB@ for (i in 0 until variablINBO.size) {
@@ -255,5 +255,5 @@ ColumnIteratorQueueExt.                            _close(this)
         return res
     }
 
-    override fun cloneOP() :IOPBase= POPJoinWithStore(query, projectedVariables, children[0].cloneOP(), childB.cloneOP()as LOPTriple, optional)
+    override fun cloneOP(): IOPBase = POPJoinWithStore(query, projectedVariables, children[0].cloneOP(), childB.cloneOP() as LOPTriple, optional)
 }

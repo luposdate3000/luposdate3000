@@ -1,8 +1,8 @@
 package lupos.s09physicalOperators.noinput
-import lupos.s04logicalOperators.IQuery
+
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.XMLElement
-
+import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.Query
 
 class POPValuesImportXML : POPValuesImportBase {

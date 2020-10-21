@@ -14,7 +14,6 @@ internal object NodeManager {
     fun debug() {
     }
 
-
     inline fun referenceNode(nodeid: Int) {
         bufferManager.referencePage(nodeid)
     }

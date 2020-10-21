@@ -25,7 +25,7 @@ import lupos.s03resultRepresentation.ValueUndef
 val nodeGlobalDictionary = ResultSetDictionary(true)
 
 @UseExperimental(kotlin.ExperimentalUnsignedTypes::class)
-class ResultSetDictionary(val global: Boolean = false):IResultSetDictionary {
+class ResultSetDictionary(val global: Boolean = false) : IResultSetDictionary {
     companion object {
         /*to most significant bit leads to signed errors because toInt sadly performs a whole reencoding of the int and stores it completely different*/
         internal const val mask1 = 0x40000000.toInt()/*first 2 bit*/
@@ -50,12 +50,10 @@ class ResultSetDictionary(val global: Boolean = false):IResultSetDictionary {
         internal const val flaggedValueGlobalFloat = 0x7C000000.toInt()/*first 7 bit*/
         internal const val flaggedValueGlobalLangTagged = 0x7E000000.toInt()/*first 7 bit*/
         internal const val emptyString = ""
-
         fun isGlobalBNode(value: Int) = (value and mask3) == flaggedValueGlobalBnode
         fun debug() {
         }
     }
-
 
     fun isLocalBNode(value: Int) = (value and mask3) == flaggedValueLocalBnode
 
@@ -233,16 +231,16 @@ class ResultSetDictionary(val global: Boolean = false):IResultSetDictionary {
         intToValue = Array<String>(1) { emptyString }
     }
 
-override    fun toBooleanOrError(value: Int): Int {
+    override fun toBooleanOrError(value: Int): Int {
         var res: Int = ResultSetDictionaryExt.errorValue
-        if (value <ResultSetDictionaryExt.undefValue && value >= 0) {
+        if (value < ResultSetDictionaryExt.undefValue && value >= 0) {
             res = value
         } else {
             try {
                 if (getValue(value).toBoolean()) {
                     res = ResultSetDictionaryExt.booleanTrueValue
                 } else {
-                    res =ResultSetDictionaryExt.booleanFalseValue
+                    res = ResultSetDictionaryExt.booleanFalseValue
                 }
             } catch (e: Throwable) {
                 SanityCheck.println({ "TODO exception 1" })
@@ -376,9 +374,9 @@ override    fun toBooleanOrError(value: Int): Int {
             }
             "http://www.w3.org/2001/XMLSchema#boolean" -> {
                 if (content == "true") {
-                    res =ResultSetDictionaryExt.booleanTrueValue
+                    res = ResultSetDictionaryExt.booleanTrueValue
                 } else {
-                    res =ResultSetDictionaryExt.booleanFalseValue
+                    res = ResultSetDictionaryExt.booleanFalseValue
                 }
             }
             else -> {
@@ -610,28 +608,28 @@ override    fun toBooleanOrError(value: Int): Int {
         return res
     }
 
-override    fun createValue(value: String?): Int {
+    override fun createValue(value: String?): Int {
         val res = createValue(ValueDefinition(value))
         return res
     }
 
-override    fun createValue(value: ValueDefinition): Int {
+    override fun createValue(value: ValueDefinition): Int {
         var res: Int
         when (value) {
             is ValueUndef -> {
-                res =ResultSetDictionaryExt.undefValue
+                res = ResultSetDictionaryExt.undefValue
             }
             is ValueError -> {
-                res =ResultSetDictionaryExt.errorValue
+                res = ResultSetDictionaryExt.errorValue
             }
             is ValueBnode -> {
                 res = createNewBNode(value.value)
             }
             is ValueBoolean -> {
                 if (value.value) {
-                    res =ResultSetDictionaryExt.booleanTrueValue
+                    res = ResultSetDictionaryExt.booleanTrueValue
                 } else {
-                    res =ResultSetDictionaryExt.booleanFalseValue
+                    res = ResultSetDictionaryExt.booleanFalseValue
                 }
             }
             is ValueLanguageTaggedLiteral -> {
@@ -670,7 +668,7 @@ override    fun createValue(value: ValueDefinition): Int {
         return res
     }
 
-override    fun getValue(value: Int): ValueDefinition {
+    override fun getValue(value: Int): ValueDefinition {
         var res: ValueDefinition
         val dict: ResultSetDictionary
         if ((value and mask1) == mask1) {
@@ -684,16 +682,16 @@ override    fun getValue(value: Int): ValueDefinition {
         } else if (bit3 == flaggedValueLocalBnode) {
             when (value) {
                 0 -> {
-                    res =ResultSetDictionaryExt.booleanTrueValue2
+                    res = ResultSetDictionaryExt.booleanTrueValue2
                 }
                 1 -> {
-                    res =ResultSetDictionaryExt.booleanFalseValue2
+                    res = ResultSetDictionaryExt.booleanFalseValue2
                 }
                 2 -> {
-                    res =ResultSetDictionaryExt.errorValue2
+                    res = ResultSetDictionaryExt.errorValue2
                 }
                 3 -> {
-                    res =ResultSetDictionaryExt.undefValue2
+                    res = ResultSetDictionaryExt.undefValue2
                 }
                 else -> {
                     res = ValueBnode(emptyString + value)
@@ -730,19 +728,19 @@ override    fun getValue(value: Int): ValueDefinition {
         return res
     }
 
-override    fun getValue(value: Int,
-                 onBNode: (value: Int) -> Unit,
-                 onBoolean: (value: Boolean) -> Unit,
-                 onLanguageTaggedLiteral: (content: String, lang: String) -> Unit,
-                 onSimpleLiteral: (content: String) -> Unit,
-                 onTypedLiteral: (content: String, type: String) -> Unit,
-                 onDecimal: (value: String) -> Unit,
-                 onFloat: (value: Double) -> Unit,
-                 onDouble: (value: Double) -> Unit,
-                 onInteger: (value: String) -> Unit,
-                 onIri: (value: String) -> Unit,
-                 onError: () -> Unit,
-                 onUndefined: () -> Unit
+    override fun getValue(value: Int,
+                          onBNode: (value: Int) -> Unit,
+                          onBoolean: (value: Boolean) -> Unit,
+                          onLanguageTaggedLiteral: (content: String, lang: String) -> Unit,
+                          onSimpleLiteral: (content: String) -> Unit,
+                          onTypedLiteral: (content: String, type: String) -> Unit,
+                          onDecimal: (value: String) -> Unit,
+                          onFloat: (value: Double) -> Unit,
+                          onDouble: (value: Double) -> Unit,
+                          onInteger: (value: String) -> Unit,
+                          onIri: (value: String) -> Unit,
+                          onError: () -> Unit,
+                          onUndefined: () -> Unit
     ) {
         val dict: ResultSetDictionary
         if ((value and mask1) == mask1) {
@@ -811,7 +809,7 @@ override    fun getValue(value: Int,
     fun printContents() {
     }
 
-override    fun valueToGlobal(value: Int): Int {
+    override fun valueToGlobal(value: Int): Int {
         var res: Int
         if ((value and mask1) == mask1) {
             res = value

@@ -1,12 +1,13 @@
 package lupos.s09physicalOperators.partition
-import lupos.s04logicalOperators.IQuery
+
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.ESortPriority
 import lupos.s00misc.Partition
 import lupos.s00misc.XMLElement
+import lupos.s04logicalOperators.IOPBase
+import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.OPBase
-import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.Query
 import lupos.s09physicalOperators.POPBase
 
@@ -36,7 +37,7 @@ class POPSplitPartitionFromStore(query: IQuery, projectedVariables: List<String>
         }
     }
 
-    override fun cloneOP() :IOPBase= POPSplitPartitionFromStore(query, projectedVariables, partitionVariable, children[0].cloneOP())
+    override fun cloneOP(): IOPBase = POPSplitPartitionFromStore(query, projectedVariables, partitionVariable, children[0].cloneOP())
     override fun toSparql() = children[0].toSparql()
     override fun equals(other: Any?): Boolean = other is POPSplitPartitionFromStore && children[0] == other.children[0] && partitionVariable == other.partitionVariable
     override suspend fun evaluate(parent: Partition): IteratorBundle {

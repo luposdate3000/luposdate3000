@@ -1,17 +1,16 @@
 package lupos.s04arithmetikOperators.multiinput
-import lupos.s04logicalOperators.IQuery
 
 import lupos.s00misc.EOperatorID
-
 import lupos.s03resultRepresentation.ValueBoolean
 import lupos.s03resultRepresentation.ValueDefinition
 import lupos.s03resultRepresentation.ValueError
 import lupos.s03resultRepresentation.ValueSimpleLiteral
 import lupos.s03resultRepresentation.ValueStringBase
 import lupos.s04arithmetikOperators.AOPBase
+import lupos.s04logicalOperators.IOPBase
+import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.OPBase
-import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.Query
 
 class AOPBuildInCallCONTAINS(query: IQuery, child: AOPBase, childB: AOPBase) : AOPBase(query, EOperatorID.AOPBuildInCallCONTAINSID, "AOPBuildInCallCONTAINS", arrayOf(child, childB)) {
@@ -29,9 +28,8 @@ class AOPBuildInCallCONTAINS(query: IQuery, child: AOPBase, childB: AOPBase) : A
             }
 /*return*/res
         }
-
     }
 
     override fun enforcesBooleanOrError() = true
-    override fun cloneOP() :IOPBase= AOPBuildInCallCONTAINS(query, children[0].cloneOP() as AOPBase, children[1].cloneOP() as AOPBase)
+    override fun cloneOP(): IOPBase = AOPBuildInCallCONTAINS(query, children[0].cloneOP() as AOPBase, children[1].cloneOP() as AOPBase)
 }

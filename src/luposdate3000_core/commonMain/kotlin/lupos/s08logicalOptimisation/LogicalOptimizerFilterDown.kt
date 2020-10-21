@@ -1,9 +1,10 @@
 package lupos.s08logicalOptimisation
-import lupos.s04logicalOperators.IOPBase
+
 import lupos.s00misc.EOptimizerID
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04arithmetikOperators.multiinput.AOPAnd
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallBOUND
+import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.multiinput.LOPJoin
 import lupos.s04logicalOperators.multiinput.LOPMinus
 import lupos.s04logicalOperators.multiinput.LOPUnion

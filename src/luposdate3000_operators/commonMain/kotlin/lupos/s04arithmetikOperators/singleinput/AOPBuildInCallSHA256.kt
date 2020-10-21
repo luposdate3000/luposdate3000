@@ -1,16 +1,16 @@
 package lupos.s04arithmetikOperators.singleinput
-import lupos.s04logicalOperators.IQuery
+
 import lupos.s00misc.Crypto
 import lupos.s00misc.EOperatorID
-
 import lupos.s03resultRepresentation.ValueDefinition
 import lupos.s03resultRepresentation.ValueError
 import lupos.s03resultRepresentation.ValueSimpleLiteral
 import lupos.s03resultRepresentation.ValueStringBase
 import lupos.s04arithmetikOperators.AOPBase
+import lupos.s04logicalOperators.IOPBase
+import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.OPBase
-import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.Query
 
 @UseExperimental(ExperimentalStdlibApi::class)
@@ -27,9 +27,7 @@ class AOPBuildInCallSHA256(query: IQuery, child: AOPBase) : AOPBase(query, EOper
             }
 /*return*/res
         }
-
     }
 
-    override fun cloneOP() :IOPBase= AOPBuildInCallSHA256(query, children[0].cloneOP() as AOPBase)
+    override fun cloneOP(): IOPBase = AOPBuildInCallSHA256(query, children[0].cloneOP() as AOPBase)
 }
-

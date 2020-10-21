@@ -1,12 +1,12 @@
 package lupos.s04arithmetikOperators.noinput
-import lupos.s04logicalOperators.IQuery
 
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.XMLElement
-import lupos.s04logicalOperators.IOPBase
 import lupos.s03resultRepresentation.ValueBnode
 import lupos.s03resultRepresentation.ValueDefinition
 import lupos.s04arithmetikOperators.AOPBase
+import lupos.s04logicalOperators.IOPBase
+import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.Query
 
@@ -29,7 +29,6 @@ class AOPConstant : AOPBase {
         } else {
             return tmp.toXMLElement()
         }
-
     }
 
     override fun toSparql(): String = query.getDictionary().getValue(value).valueToString() ?: ""
@@ -38,15 +37,13 @@ class AOPConstant : AOPBase {
         return {
             /*return*/query.getDictionary().getValue(value)
         }
-
     }
 
     override fun evaluateID(row: IteratorBundle): () -> Int {
         return {
             /*return*/value
         }
-
     }
 
-    override fun cloneOP() :IOPBase= this
+    override fun cloneOP(): IOPBase = this
 }

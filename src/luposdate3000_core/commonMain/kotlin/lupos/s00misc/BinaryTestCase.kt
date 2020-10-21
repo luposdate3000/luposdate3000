@@ -38,8 +38,8 @@ import lupos.s03resultRepresentation.ResultSetDictionaryExt
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04arithmetikOperators.IAOPBase
 import lupos.s04arithmetikOperators.noinput.AOPVariable
-import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.IOPBase
+import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
 import lupos.s06buildOperatorGraph.OperatorGraphVisitor
 import lupos.s08logicalOptimisation.LogicalOptimizer
@@ -127,9 +127,9 @@ class SparqlTestSuiteConverter(resource_folder: String, val output_folder: Strin
 }
 
 object BinaryTestCase {
-internal    var outSummary = MyPrintWriter(false)
-internal    var lastInput = MemoryTable(Array<String>(0) { "" })
- internal   fun rowToString(row: IntArray, dict: Array<String>): String {
+    internal var outSummary = MyPrintWriter(false)
+    internal var lastInput = MemoryTable(Array<String>(0) { "" })
+    internal fun rowToString(row: IntArray, dict: Array<String>): String {
         var res = "${row.map { it }}::"
         if (row.size > 0) {
             for (i in 0 until row.size) {
@@ -146,7 +146,7 @@ internal    var lastInput = MemoryTable(Array<String>(0) { "" })
         return res
     }
 
-internal    fun helper_clean_string(s: String): String {
+    internal fun helper_clean_string(s: String): String {
         var res: String = s
         while (true) {
             val match = "\\\\u[0-9a-fA-f]{4}".toRegex().find(res)
@@ -192,7 +192,7 @@ internal    fun helper_clean_string(s: String): String {
         }
     }
 
-internal    fun operatorGraphToTable(node: IOPBase): MemoryTable {
+    internal fun operatorGraphToTable(node: IOPBase): MemoryTable {
         val tmp = QueryResultToMemoryTable(node)
         if (tmp.size != 1) {
             throw Exception("multi-queries are not supported right now")
@@ -200,7 +200,7 @@ internal    fun operatorGraphToTable(node: IOPBase): MemoryTable {
         return tmp[0]
     }
 
-internal    fun verifyEqual(expected: MemoryTable, actual: MemoryTable, mapping_live_to_target: Map<Int, Int>, dict: Map<String, Int>, dict2: Array<String>, allowOrderBy: Boolean, out: MyPrintWriter): Boolean {
+    internal fun verifyEqual(expected: MemoryTable, actual: MemoryTable, mapping_live_to_target: Map<Int, Int>, dict: Map<String, Int>, dict2: Array<String>, allowOrderBy: Boolean, out: MyPrintWriter): Boolean {
         if (expected.booleanResult != null) {
             if (expected.booleanResult != actual.booleanResult) {
                 out.println("invalid result to ask query expected:${expected.booleanResult} found:${actual.booleanResult}")
@@ -312,7 +312,7 @@ internal    fun verifyEqual(expected: MemoryTable, actual: MemoryTable, mapping_
         return true
     }
 
-internal    class IntArrayComparator : Comparator<IntArray> {
+    internal class IntArrayComparator : Comparator<IntArray> {
         override fun compare(p1: IntArray, p2: IntArray): Int {
             for (i in 0 until p1.size) {
                 if (p1[i] < p2[i]) {
@@ -325,7 +325,7 @@ internal    class IntArrayComparator : Comparator<IntArray> {
         }
     }
 
-internal    fun verifyEqual(expected: MemoryTable, actual: MemoryTable, mapping_live_to_target: Map<Int, Int>, dict: Map<String, Int>, dict2: Array<String>, allowOrderBy: Boolean, query_name: String, query_folder: String, tag: String): Boolean {
+    internal fun verifyEqual(expected: MemoryTable, actual: MemoryTable, mapping_live_to_target: Map<Int, Int>, dict: Map<String, Int>, dict2: Array<String>, allowOrderBy: Boolean, query_name: String, query_folder: String, tag: String): Boolean {
         val out = MyPrintWriter()
         val res = verifyEqual(expected, actual, mapping_live_to_target, dict, dict2, allowOrderBy, out)
         if (!res && tag != "this is no error") {
@@ -338,7 +338,7 @@ internal    fun verifyEqual(expected: MemoryTable, actual: MemoryTable, mapping_
         return res
     }
 
-internal    var notImplementedFeaturesList = mutableSetOf(//
+    internal var notImplementedFeaturesList = mutableSetOf(//
             "rdfs:subPropertyOf",//
             "rdfs:subClassOf",//
             "rdfs:domain",//
@@ -477,7 +477,7 @@ internal    var notImplementedFeaturesList = mutableSetOf(//
                                 val query1 = Query()
                                 ServerCommunicationSend.graphClearAll(query1)
                                 distributedTripleStore.commit(query1)
-query1.commited=true
+                                query1.commited = true
                                 val query2 = Query()
                                 var store = distributedTripleStore.getDefaultGraph(query2)
                                 store.bulkImport { bulk ->
@@ -577,8 +577,8 @@ query1.commited=true
                                     return_value = false
                                     break@func
                                 }
-distributedTripleStore.commit(query4)
-query4.commited=true
+                                distributedTripleStore.commit(query4)
+                                query4.commited = true
                             } else {
                                 val actualResult = operatorGraphToTable(pop_distributed_node)
                                 if (!verifyEqual(tableOutput, actualResult, mapping_live_to_target, targetDict, targetDict2, allowOrderBy, query_name, query_folder, "query result is wrong")) {

@@ -8,13 +8,13 @@ import lupos.s04logicalOperators.Query
 import lupos.s05tripleStore.TripleStoreBulkImport
 import lupos.s05tripleStore.TripleStoreLocalBase
 
-class TripleStoreBulkImportDistributed(val query: Query, val graphName: String) :ITripleStoreBulkImportDistributed{
+class TripleStoreBulkImportDistributed(val query: Query, val graphName: String) : ITripleStoreBulkImportDistributed {
     @JvmField
     val values = Array(3) { ResultSetDictionary.undefValue }
 
     @JvmField
     val accessedHosts = Array(TripleStoreLocalBase.distinctIndices.size) { mutableMapOf<ServerCommunicationKnownHost, ServerCommunicationImportHelper>() }
-override    fun insert(si: Int, pi: Int, oi: Int) {
+    override fun insert(si: Int, pi: Int, oi: Int) {
         values[0] = si
         values[1] = pi
         values[2] = oi
@@ -44,7 +44,7 @@ override    fun insert(si: Int, pi: Int, oi: Int) {
         }
     }
 
-override    fun finishImport() {
+    override fun finishImport() {
         for (i in 0 until TripleStoreLocalBase.distinctIndices.size) {
             val idx = TripleStoreLocalBase.distinctIndices[i]
             for ((host, helper) in accessedHosts[i]) {

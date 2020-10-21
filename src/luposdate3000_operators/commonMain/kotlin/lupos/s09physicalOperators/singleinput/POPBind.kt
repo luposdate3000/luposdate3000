@@ -1,5 +1,5 @@
 package lupos.s09physicalOperators.singleinput
-import lupos.s04logicalOperators.IQuery
+
 import kotlin.jvm.JvmField
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.ESortPriority
@@ -7,20 +7,20 @@ import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.ResultSetDictionaryExt
-
 import lupos.s03resultRepresentation.ValueDefinition
 import lupos.s03resultRepresentation.ValueError
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04arithmetikOperators.noinput.AOPConstant
 import lupos.s04arithmetikOperators.noinput.AOPVariable
+import lupos.s04logicalOperators.IOPBase
+import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.s04logicalOperators.iterator.ColumnIteratorQueue
-import lupos.s04logicalOperators.iterator.ColumnIteratorQueueExt
 import lupos.s04logicalOperators.iterator.ColumnIteratorQueueEmpty
+import lupos.s04logicalOperators.iterator.ColumnIteratorQueueExt
 import lupos.s04logicalOperators.iterator.ColumnIteratorRepeatValue
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.OPBase
-import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.Query
 import lupos.s09physicalOperators.POPBase
 
@@ -47,7 +47,7 @@ class POPBind(query: IQuery, projectedVariables: List<String>, @JvmField val nam
         return res
     }
 
-    override fun cloneOP() :IOPBase= POPBind(query, projectedVariables, name, children[1].cloneOP() as AOPBase, children[0].cloneOP())
+    override fun cloneOP(): IOPBase = POPBind(query, projectedVariables, name, children[1].cloneOP() as AOPBase, children[0].cloneOP())
     override fun equals(other: Any?): Boolean = other is POPBind && name == other.name && children[0] == other.children[0]
     override fun childrenToVerifyCount(): Int = 1
     override fun getProvidedVariableNamesInternal(): List<String> = (children[0].getProvidedVariableNames() + name.name).distinct()
@@ -76,11 +76,11 @@ class POPBind(query: IQuery, projectedVariables: List<String>, @JvmField val nam
             for (variableIndex in 0 until variablesLocal.size) {
                 columnsLocal[variableIndex] = object : ColumnIteratorQueue() {
                     override suspend fun close() {
-ColumnIteratorQueueExt.                        _close(this)
+                        ColumnIteratorQueueExt._close(this)
                     }
 
                     override suspend fun next(): Int {
-                        return ColumnIteratorQueueExt.next_helper(this,{
+                        return ColumnIteratorQueueExt.next_helper(this, {
                             var done = false
                             for (variableIndex2 in 0 until variablesLocal.size) {
                                 if (boundIndex != variableIndex2) {
@@ -88,7 +88,7 @@ ColumnIteratorQueueExt.                        _close(this)
                                     if (value == ResultSetDictionaryExt.nullValue) {
                                         SanityCheck.check { variableIndex2 == 0 || (boundIndex == 0 && variableIndex2 == 1) }
                                         for (variableIndex3 in 0 until variablesLocal.size) {
-                                        ColumnIteratorQueueExt.    closeOnEmptyQueue( columnsLocal[variableIndex3])
+                                            ColumnIteratorQueueExt.closeOnEmptyQueue(columnsLocal[variableIndex3])
                                         }
                                         for (closeIndex in 0 until variablesLocal.size) {
                                             if (boundIndex != closeIndex) {

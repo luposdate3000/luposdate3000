@@ -281,7 +281,6 @@ class ValueTypedLiteral(delimiter: String, content: String, @JvmField val type_i
     override fun hashCode() = delimiter.hashCode() + content.hashCode() + type_iri.hashCode()
 }
 
-
 class ValueDecimal(@JvmField var value: MyBigDecimal) : ValueNumeric() {
     override suspend fun toXMLElement() = XMLElement("ValueDecimal").addAttribute("value", "" + value)
     override fun valueToString() = "\"" + value.toPlainString() + "\"^^<http://www.w3.org/2001/XMLSchema#decimal>"

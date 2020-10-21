@@ -1,9 +1,9 @@
 package lupos.s04logicalOperators.iterator
-import kotlin.jvm.JvmField
-import lupos.s00misc.SanityCheck
-import lupos.s00misc.MERGE_SORT_MIN_ROWS
-import lupos.s03resultRepresentation.ResultSetDictionaryExt
 
+import kotlin.jvm.JvmField
+import lupos.s00misc.MERGE_SORT_MIN_ROWS
+import lupos.s00misc.SanityCheck
+import lupos.s03resultRepresentation.ResultSetDictionaryExt
 
 object ColumnIteratorMerge {
     operator suspend fun invoke(a: ColumnIterator, comparator: Comparator<Int>): ColumnIterator {

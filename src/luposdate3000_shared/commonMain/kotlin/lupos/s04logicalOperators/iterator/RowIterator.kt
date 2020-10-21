@@ -1,4 +1,5 @@
 package lupos.s04logicalOperators.iterator
+
 import kotlin.jvm.JvmField
 
 open class RowIterator() {

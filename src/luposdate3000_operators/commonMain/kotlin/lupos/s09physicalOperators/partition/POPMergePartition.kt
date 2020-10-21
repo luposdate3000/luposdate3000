@@ -1,5 +1,5 @@
 package lupos.s09physicalOperators.partition
-import lupos.s04logicalOperators.IQuery
+
 import kotlin.coroutines.Continuation
 import kotlin.coroutines.resume
 import lupos.s00misc.EOperatorID
@@ -12,17 +12,17 @@ import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.ResultSetDictionaryExt
-
+import lupos.s04logicalOperators.IOPBase
+import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.iterator.RowIterator
 import lupos.s04logicalOperators.OPBase
-import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.Query
 import lupos.s09physicalOperators.POPBase
 
 //http://blog.pronghorn.tech/optimizing-suspending-functions-in-kotlin/
- class POPMergePartition(query: IQuery, projectedVariables: List<String>, val partitionVariable: String, val partitionCount: Int, child: IOPBase) : POPBase(query, projectedVariables, EOperatorID.POPMergePartitionID, "POPMergePartition", arrayOf(child), ESortPriority.PREVENT_ANY) {
+class POPMergePartition(query: IQuery, projectedVariables: List<String>, val partitionVariable: String, val partitionCount: Int, child: IOPBase) : POPBase(query, projectedVariables, EOperatorID.POPMergePartitionID, "POPMergePartition", arrayOf(child), ESortPriority.PREVENT_ANY) {
     override fun getPartitionCount(variable: String): Int {
         if (variable == partitionVariable) {
             return 1
@@ -49,7 +49,7 @@ import lupos.s09physicalOperators.POPBase
         }
     }
 
-    override fun cloneOP() :IOPBase= POPMergePartition(query, projectedVariables, partitionVariable, partitionCount, children[0].cloneOP())
+    override fun cloneOP(): IOPBase = POPMergePartition(query, projectedVariables, partitionVariable, partitionCount, children[0].cloneOP())
     override fun toSparql() = children[0].toSparql()
     override fun equals(other: Any?): Boolean = other is POPMergePartition && children[0] == other.children[0] && partitionVariable == other.partitionVariable
     override suspend fun evaluate(parent: Partition): IteratorBundle {
@@ -70,7 +70,7 @@ import lupos.s09physicalOperators.POPBase
             val ringbufferWriteHead = IntArray(partitionCount) { 0 } //owned by write thread - no locking required
             var continuationLock = MyLock()
             val ringbufferWriterContinuation = Array<ParallelCondition>(partitionCount) { Parallel.createCondition(continuationLock) }
-            var ringbufferReaderContinuation :ParallelCondition= Parallel.createCondition(continuationLock)
+            var ringbufferReaderContinuation: ParallelCondition = Parallel.createCondition(continuationLock)
             val writerFinished = IntArray(partitionCount) { 0 } //writer changes to 1 if finished
             var readerFinished = 0
             for (p in 0 until partitionCount) {

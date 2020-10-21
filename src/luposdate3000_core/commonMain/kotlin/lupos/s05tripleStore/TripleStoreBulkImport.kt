@@ -5,9 +5,9 @@ import lupos.s00misc.EIndexPattern
 import lupos.s04logicalOperators.Query
 import lupos.s15tripleStoreDistributed.distributedTripleStore
 
-class TripleStoreBulkImport(@JvmField val query: Query, @JvmField val graphName: String) :ITripleStoreBulkImport{
+class TripleStoreBulkImport(@JvmField val query: Query, @JvmField val graphName: String) : ITripleStoreBulkImport {
     @JvmField
-    val dictionaryBNode = mutableMapOf<String,Int>()
+    val dictionaryBNode = mutableMapOf<String, Int>()
 
     @JvmField
     var totalflushed = 0
@@ -35,7 +35,6 @@ class TripleStoreBulkImport(@JvmField val query: Query, @JvmField val graphName:
 
     @JvmField
     var dataOPS = data[0]
-
     suspend fun insert(si: Int, pi: Int, oi: Int) {
         data[8][idx++] = si
         data[8][idx++] = pi
@@ -67,7 +66,6 @@ class TripleStoreBulkImport(@JvmField val query: Query, @JvmField val graphName:
     companion object {
         const val sizeshift = 20
         const val size = 3 * (1 shl sizeshift)
-
     }
 
     fun sort() {

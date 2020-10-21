@@ -1,5 +1,5 @@
 package lupos.s09physicalOperators.multiinput
-import lupos.s04logicalOperators.IQuery
+
 import kotlin.jvm.JvmField
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.ESortPriority
@@ -7,12 +7,12 @@ import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.ResultSetDictionaryExt
-
+import lupos.s04logicalOperators.IOPBase
+import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.s04logicalOperators.iterator.ColumnIteratorChildIterator
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.OPBase
-import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.Query
 import lupos.s09physicalOperators.POPBase
 
@@ -36,9 +36,9 @@ class POPJoinMerge(query: IQuery, projectedVariables: List<String>, childA: IOPB
 
     override fun toSparql() = children[0].toSparql() + children[1].toSparql()
     override suspend fun toXMLElement() = super.toXMLElement().addAttribute("optional", "" + optional)
-    override fun cloneOP() :IOPBase= POPJoinMerge(query, projectedVariables, children[0].cloneOP(), children[1].cloneOP(), optional)
+    override fun cloneOP(): IOPBase = POPJoinMerge(query, projectedVariables, children[0].cloneOP(), children[1].cloneOP(), optional)
     override fun equals(other: Any?) = other is POPJoinMerge && optional == other.optional && children[0] == other.children[0] && children[1] == other.children[1]
-internal    class IteratorBundleImpl(@JvmField val columnsINJ0: List<ColumnIterator>, @JvmField val columnsINJ1: List<ColumnIterator>, @JvmField val columnsOUTJ: ColumnIteratorChildIterator) : IteratorBundle(0) {
+    internal class IteratorBundleImpl(@JvmField val columnsINJ0: List<ColumnIterator>, @JvmField val columnsINJ1: List<ColumnIterator>, @JvmField val columnsOUTJ: ColumnIteratorChildIterator) : IteratorBundle(0) {
         override suspend fun hasNext2(): Boolean {
             val tmp = columnsOUTJ.next() != ResultSetDictionaryExt.nullValue
             if (!tmp) {
@@ -67,7 +67,7 @@ internal    class IteratorBundleImpl(@JvmField val columnsINJ0: List<ColumnItera
         }
     }
 
-internal    class ColumnIteratorChildIteratorImpl(
+    internal class ColumnIteratorChildIteratorImpl(
             @JvmField val columnsINJ0: List<ColumnIterator>,
             @JvmField val columnsINJ1: List<ColumnIterator>,
             @JvmField val columnsINO0: List<ColumnIterator>,
@@ -110,7 +110,7 @@ internal    class ColumnIteratorChildIteratorImpl(
 
         @JvmField
         var sipbuf = IntArray(2)
-internal        suspend inline fun __close() {
+        internal suspend inline fun __close() {
             if (label != 0) {
                 local___close_i = 0
                 while (local___close_i < columnsOUT0.size) {

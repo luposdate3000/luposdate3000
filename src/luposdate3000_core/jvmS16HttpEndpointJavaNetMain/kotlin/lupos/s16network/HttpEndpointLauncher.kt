@@ -124,7 +124,7 @@ object HttpEndpointLauncher {
                                     /*Coverage Unreachable*/
                                 }
                                 "/import/turtle" -> {
-                                    val dict = mutableMapOf<String,Int>()
+                                    val dict = mutableMapOf<String, Int>()
                                     var dictfile = params["bnodeList"]
                                     if (dictfile != null) {
                                         File(dictfile).forEachLine {
@@ -140,7 +140,7 @@ object HttpEndpointLauncher {
                                     /*Coverage Unreachable*/
                                 }
                                 "/cleanup/turtle/old" -> {
-                                    val dict = mutableMapOf<String,Int>()
+                                    val dict = mutableMapOf<String, Int>()
                                     printHeaderSuccess(connectionOut)
                                     if (isPost) {
                                         connectionOut.print(HttpEndpoint.cleanup_turtle_files_old(content.toString(), dict))
@@ -150,7 +150,7 @@ object HttpEndpointLauncher {
                                     /*Coverage Unreachable*/
                                 }
                                 "/cleanup/turtle/new" -> {
-                                    val dict = mutableMapOf<String,Int>()
+                                    val dict = mutableMapOf<String, Int>()
                                     printHeaderSuccess(connectionOut)
                                     if (isPost) {
                                         connectionOut.print(HttpEndpoint.cleanup_turtle_files(content.toString(), dict))

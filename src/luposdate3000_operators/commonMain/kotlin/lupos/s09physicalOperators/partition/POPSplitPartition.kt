@@ -1,5 +1,5 @@
 package lupos.s09physicalOperators.partition
-import lupos.s04logicalOperators.IQuery
+
 import kotlin.coroutines.Continuation
 import lupos.s00misc.BugException
 import lupos.s00misc.EOperatorID
@@ -13,16 +13,16 @@ import lupos.s00misc.SanityCheck
 import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s03resultRepresentation.ResultSetDictionaryExt
-
+import lupos.s04logicalOperators.IOPBase
+import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.iterator.RowIterator
 import lupos.s04logicalOperators.OPBase
-import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.PartitionHelper
 import lupos.s04logicalOperators.Query
 import lupos.s09physicalOperators.POPBase
 
- class POPSplitPartition(query: IQuery, projectedVariables: List<String>, val partitionVariable: String, child: IOPBase) : POPBase(query, projectedVariables, EOperatorID.POPSplitPartitionID, "POPSplitPartition", arrayOf(child), ESortPriority.PREVENT_ANY) {
+class POPSplitPartition(query: IQuery, projectedVariables: List<String>, val partitionVariable: String, child: IOPBase) : POPBase(query, projectedVariables, EOperatorID.POPSplitPartitionID, "POPSplitPartition", arrayOf(child), ESortPriority.PREVENT_ANY) {
     override fun getPartitionCount(variable: String): Int {
         if (variable == partitionVariable) {
             return Partition.default_k
@@ -48,7 +48,7 @@ import lupos.s09physicalOperators.POPBase
         }
     }
 
-    override fun cloneOP() :IOPBase= POPSplitPartition(query, projectedVariables, partitionVariable, children[0].cloneOP())
+    override fun cloneOP(): IOPBase = POPSplitPartition(query, projectedVariables, partitionVariable, children[0].cloneOP())
     override fun toSparql() = children[0].toSparql()
     override fun equals(other: Any?): Boolean = other is POPSplitPartition && children[0] == other.children[0] && partitionVariable == other.partitionVariable
     override suspend fun evaluate(parent: Partition): IteratorBundle {
@@ -86,7 +86,7 @@ import lupos.s09physicalOperators.POPBase
                 val ringbufferWriteHead = IntArray(partitionCount) { 0 } //owned by write thread - no locking required
                 var continuationLock = MyLock()
                 val ringbufferReaderContinuation = Array<ParallelCondition>(partitionCount) { Parallel.createCondition(continuationLock) }
-                var ringbufferWriterContinuation:ParallelCondition = Parallel.createCondition(continuationLock)
+                var ringbufferWriterContinuation: ParallelCondition = Parallel.createCondition(continuationLock)
                 val readerFinished = IntArray(partitionCount) { 0 } //writer changes to 1 if finished
                 var writerFinished = 0
                 SanityCheck.println({ "ringbuffersize = ${ringbuffer.size} ${elementsPerRing} ${partitionCount} ${ringbufferStart.map { it }} ${ringbufferReadHead.map { it }} ${ringbufferWriteHead.map { it }}" })

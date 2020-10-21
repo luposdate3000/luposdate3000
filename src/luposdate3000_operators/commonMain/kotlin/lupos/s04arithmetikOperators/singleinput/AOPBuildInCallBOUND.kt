@@ -1,16 +1,15 @@
 package lupos.s04arithmetikOperators.singleinput
-import lupos.s04logicalOperators.IQuery
 
 import lupos.s00misc.EOperatorID
-
 import lupos.s03resultRepresentation.ValueBoolean
 import lupos.s03resultRepresentation.ValueDefinition
 import lupos.s03resultRepresentation.ValueError
 import lupos.s03resultRepresentation.ValueUndef
 import lupos.s04arithmetikOperators.AOPBase
+import lupos.s04logicalOperators.IOPBase
+import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.OPBase
-import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.Query
 
 class AOPBuildInCallBOUND(query: IQuery, child: AOPBase) : AOPBase(query, EOperatorID.AOPBuildInCallBOUNDID, "AOPBuildInCallBOUND", arrayOf(child)) {
@@ -22,9 +21,8 @@ class AOPBuildInCallBOUND(query: IQuery, child: AOPBase) : AOPBase(query, EOpera
             val a = childA()
             /*return*/ValueBoolean(a !is ValueUndef && a !is ValueError)
         }
-        
     }
 
     override fun enforcesBooleanOrError() = true
-    override fun cloneOP() :IOPBase= AOPBuildInCallBOUND(query, children[0].cloneOP() as AOPBase)
+    override fun cloneOP(): IOPBase = AOPBuildInCallBOUND(query, children[0].cloneOP() as AOPBase)
 }

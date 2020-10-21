@@ -1,4 +1,5 @@
 package lupos.s04logicalOperators.iterator
+
 import kotlin.jvm.JvmField
 import lupos.s03resultRepresentation.ResultSetDictionaryExt
 
@@ -11,5 +12,4 @@ abstract class ColumnIteratorQueue() : ColumnIterator() {
 
     @JvmField
     var label = 1
-
 }

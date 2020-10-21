@@ -1,7 +1,7 @@
 package lupos.s09physicalOperators.noinput
-import lupos.s04logicalOperators.IQuery
-import lupos.s00misc.SanityCheck
 
+import lupos.s00misc.SanityCheck
+import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.Query
 
 abstract class POPValuesImportBase(query: IQuery, projectedVariables: List<String>, variables: List<String>) : POPValues(query, projectedVariables, variables, mutableListOf<List<String?>>()) {

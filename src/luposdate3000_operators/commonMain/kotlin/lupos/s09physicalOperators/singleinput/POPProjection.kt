@@ -1,5 +1,4 @@
 package lupos.s09physicalOperators.singleinput
-import lupos.s04logicalOperators.IQuery
 
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.ESortPriority
@@ -7,10 +6,11 @@ import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
 import lupos.s03resultRepresentation.ResultSetDictionaryExt
 import lupos.s04arithmetikOperators.noinput.AOPVariable
+import lupos.s04logicalOperators.IOPBase
+import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.OPBase
-import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.Query
 import lupos.s09physicalOperators.POPBase
 
@@ -27,7 +27,7 @@ class POPProjection(query: IQuery, projectedVariables: List<String>, child: IOPB
         return res
     }
 
-    override fun cloneOP() :IOPBase= POPProjection(query, projectedVariables, children[0].cloneOP())
+    override fun cloneOP(): IOPBase = POPProjection(query, projectedVariables, children[0].cloneOP())
     override fun equals(other: Any?) = other is POPProjection && projectedVariables == other.projectedVariables && children[0] == other.children[0]
     override fun getProvidedVariableNamesInternal(): List<String> = projectedVariables
     override fun getRequiredVariableNames(): List<String> = projectedVariables
@@ -63,6 +63,5 @@ class POPProjection(query: IQuery, projectedVariables: List<String>, child: IOPB
             }
             return IteratorBundle(outMap)
         }
-
     }
 }

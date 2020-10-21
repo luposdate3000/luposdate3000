@@ -1,7 +1,7 @@
 package lupos.s04logicalOperators.iterator
+
 import kotlin.jvm.JvmField
 import lupos.s03resultRepresentation.ResultSetDictionaryExt
-
 
 object ColumnIteratorMultiValue {
     operator fun invoke(values: IntArray, size: Int) = ColumnIteratorMultiValue_3(values, size)

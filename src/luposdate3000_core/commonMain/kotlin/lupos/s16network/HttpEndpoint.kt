@@ -47,25 +47,25 @@ object HttpEndpoint {
         return res
     }
 
-    fun helper_import_turtle_files(dict: MutableMap<String,Int>, usePredefinedDict: Boolean, v: String): Int {
-            val v2 = helper_clean_string(v)
-            var res: Int
-            if (v2.startsWith("_:")) {
-val tmp=dict[v2]
-if(tmp!=null){
-res=tmp
-}else{
-res=nodeGlobalDictionary.createNewBNode()
-dict[v2]=res
-}
+    fun helper_import_turtle_files(dict: MutableMap<String, Int>, usePredefinedDict: Boolean, v: String): Int {
+        val v2 = helper_clean_string(v)
+        var res: Int
+        if (v2.startsWith("_:")) {
+            val tmp = dict[v2]
+            if (tmp != null) {
+                res = tmp
             } else {
-                res = nodeGlobalDictionary.createValue(v2)
+                res = nodeGlobalDictionary.createNewBNode()
+                dict[v2] = res
             }
-            return res
+        } else {
+            res = nodeGlobalDictionary.createValue(v2)
+        }
+        return res
 /*Coverage Unreachable*/
     }
 
-    suspend fun cleanup_turtle_files_old(fileNames: String, bnodeDict: MutableMap<String,Int>): String {
+    suspend fun cleanup_turtle_files_old(fileNames: String, bnodeDict: MutableMap<String, Int>): String {
         var res = StringBuilder()
         try {
             for (fileName in fileNames.split(";")) {
@@ -101,7 +101,7 @@ dict[v2]=res
         return res.toString()
     }
 
-    suspend fun import_turtle_files_old(fileNames: String, bnodeDict: MutableMap<String,Int>): String {
+    suspend fun import_turtle_files_old(fileNames: String, bnodeDict: MutableMap<String, Int>): String {
         try {
             val usePredefinedDict = bnodeDict.size > 0
             val query = Query()
@@ -145,7 +145,7 @@ dict[v2]=res
 /*Coverage Unreachable*/
     }
 
-    suspend fun cleanup_turtle_files(fileNames: String, bnodeDict: MutableMap<String,Int>): String {
+    suspend fun cleanup_turtle_files(fileNames: String, bnodeDict: MutableMap<String, Int>): String {
         var res = StringBuilder()
         try {
             for (fileName in fileNames.split(";")) {
@@ -169,7 +169,7 @@ dict[v2]=res
         return res.toString()
     }
 
-    suspend fun import_turtle_files(fileNames: String, bnodeDict: MutableMap<String,Int>): String {
+    suspend fun import_turtle_files(fileNames: String, bnodeDict: MutableMap<String, Int>): String {
         try {
             val usePredefinedDict = bnodeDict.size > 0
             val query = Query()
@@ -279,8 +279,8 @@ dict[v2]=res
         val import = POPValuesImportXML(query, listOf("s", "p", "o"), XMLElement.parseFromXml(data)!!).evaluate(Partition())
         val dataLocal = arrayOf(import.columns["s"]!!, import.columns["p"]!!, import.columns["o"]!!)
         distributedTripleStore.getDefaultGraph(query).modify(dataLocal, EModifyType.INSERT)
-distributedTripleStore.commit(query)
-query.commited=true
+        distributedTripleStore.commit(query)
+        query.commited = true
         return XMLElement("success").toString()
     }
 
@@ -331,15 +331,15 @@ query.commited=true
         return pop_distributed_node
     }
 
-internal    suspend fun evaluate_sparql_query_string_part2(node: OPBase, output: MyPrintWriter) {
+    internal suspend fun evaluate_sparql_query_string_part2(node: OPBase, output: MyPrintWriter) {
 //var timer = DateHelperRelative.markNow()
         output.println("HTTP/1.1 200 OK")
         output.println("Content-Type: text/plain")
         output.println();
         node.query.reset()
         QueryResultToStream(node, output)
-distributedTripleStore.commit(node.query)
-node.query.setCommited()
+        distributedTripleStore.commit(node.query)
+        node.query.setCommited()
 //println("timer #407 ${DateHelperRelative.elapsedSeconds(timer)}")
     }
 
@@ -350,7 +350,7 @@ node.query.setCommited()
         return buf.toString()
     }
 
-internal    suspend fun evaluate_sparql_query_string(query: String, output: MyPrintWriter, logOperatorGraph: Boolean = false) {
+    internal suspend fun evaluate_sparql_query_string(query: String, output: MyPrintWriter, logOperatorGraph: Boolean = false) {
 //var timer = DateHelperRelative.markNow()
         val node = evaluate_sparql_query_string_part1(query, logOperatorGraph)
         evaluate_sparql_query_string_part2(node, output)
@@ -375,8 +375,8 @@ internal    suspend fun evaluate_sparql_query_string(query: String, output: MyPr
         }
         var buf = MyPrintWriter()
         val res = QueryResultToStream(pop_node, buf)
-distributedTripleStore.commit(q)
-q.commited=true
+        distributedTripleStore.commit(q)
+        q.commited = true
         return buf.toString()
     }
 }

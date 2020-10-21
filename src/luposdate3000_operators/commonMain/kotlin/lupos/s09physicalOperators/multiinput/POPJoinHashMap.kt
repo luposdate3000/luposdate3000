@@ -1,5 +1,5 @@
 package lupos.s09physicalOperators.multiinput
-import lupos.s04logicalOperators.IQuery
+
 import kotlin.jvm.JvmField
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.ESortPriority
@@ -7,13 +7,13 @@ import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.ResultSetDictionaryExt
-
+import lupos.s04logicalOperators.IOPBase
+import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.s04logicalOperators.iterator.ColumnIteratorChildIterator
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.multiinput.LOPJoin
 import lupos.s04logicalOperators.OPBase
-import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.Query
 import lupos.s09physicalOperators.POPBase
 
@@ -43,7 +43,7 @@ class POPJoinHashMap(query: IQuery, projectedVariables: List<String>, childA: IO
     }
 
     override fun equals(other: Any?) = other is POPJoinHashMap && optional == other.optional && children[0] == other.children[0] && children[1] == other.children[1]
-internal    class MapKey(@JvmField val data: IntArray) {
+    internal class MapKey(@JvmField val data: IntArray) {
         override fun hashCode(): Int {
             var res = 0
             for (i in 0 until data.size) {
@@ -64,7 +64,7 @@ internal    class MapKey(@JvmField val data: IntArray) {
         }
     }
 
-internal    class MapRow(columns: Int) {
+    internal class MapRow(columns: Int) {
         val columns = Array(columns) { mutableListOf<Int>() }
         var count = 0
     }
@@ -358,5 +358,5 @@ internal    class MapRow(columns: Int) {
     }
 
     override suspend fun toXMLElement() = super.toXMLElement().addAttribute("optional", "" + optional)
-    override fun cloneOP() :IOPBase= POPJoinHashMap(query, projectedVariables, children[0].cloneOP(), children[1].cloneOP(), optional)
+    override fun cloneOP(): IOPBase = POPJoinHashMap(query, projectedVariables, children[0].cloneOP(), children[1].cloneOP(), optional)
 }

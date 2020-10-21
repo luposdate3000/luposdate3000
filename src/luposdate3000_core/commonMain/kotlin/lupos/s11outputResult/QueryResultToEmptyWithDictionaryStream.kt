@@ -1,6 +1,5 @@
 package lupos.s11outputResult
 
-import lupos.s04logicalOperators.IOPBase
 import lupos.s00misc.MyLock
 import lupos.s00misc.MyPrintWriter
 import lupos.s00misc.Parallel
@@ -9,6 +8,7 @@ import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
 import lupos.s03resultRepresentation.IResultSetDictionary
 import lupos.s03resultRepresentation.ResultSetDictionaryExt
+import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s04logicalOperators.OPBase

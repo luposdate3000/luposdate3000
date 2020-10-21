@@ -1,13 +1,16 @@
 package  lupos.s04logicalOperators.iterator
+
 import lupos.s03resultRepresentation.ResultSetDictionaryExt
-internal object ColumnIteratorQueueExt{
-    inline fun _close(it:ColumnIteratorQueue ) {
+
+internal object ColumnIteratorQueueExt {
+    inline fun _close(it: ColumnIteratorQueue) {
         if (it.label != 0) {
             it.label = 0
             it.queue.clear()
         }
     }
-inline suspend fun next_helper(it:ColumnIteratorQueue,crossinline onEmptyQueue: suspend () -> Unit, crossinline onClose: suspend () -> Unit): Int {
+
+    inline suspend fun next_helper(it: ColumnIteratorQueue, crossinline onEmptyQueue: suspend () -> Unit, crossinline onClose: suspend () -> Unit): Int {
         when (it.label) {
             1 -> {
                 if (it.queue.size == 0) {
@@ -36,7 +39,7 @@ inline suspend fun next_helper(it:ColumnIteratorQueue,crossinline onEmptyQueue: 
         }
     }
 
-    inline fun closeOnEmptyQueue(it:ColumnIteratorQueue) {
+    inline fun closeOnEmptyQueue(it: ColumnIteratorQueue) {
         if (it.label != 0) {
             it.label = 2
         }

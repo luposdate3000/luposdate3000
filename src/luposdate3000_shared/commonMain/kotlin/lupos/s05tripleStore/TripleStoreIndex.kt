@@ -1,8 +1,8 @@
 package lupos.s05tripleStore
 
 import lupos.s00misc.HistogramNotImplementedException
-import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.IQuery
+import lupos.s04logicalOperators.iterator.IteratorBundle
 
 abstract class TripleStoreIndex {
     suspend abstract fun safeToFile(filename: String)

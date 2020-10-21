@@ -6,13 +6,14 @@ import lupos.s00misc.IteratorBundleRowModeNotImplementedException
 import lupos.s00misc.SanityCheck
 
 open class IteratorBundle {
-internal enum class IteratorBundleMode {
-    COUNT,
-    COLUMN,
-    ROW
-}
+    internal enum class IteratorBundleMode {
+        COUNT,
+        COLUMN,
+        ROW
+    }
+
     @JvmField
-internal    var mode: IteratorBundleMode
+    internal var mode: IteratorBundleMode
 
     @JvmField
     var _columns: Map<String, ColumnIterator>?
@@ -22,9 +23,9 @@ internal    var mode: IteratorBundleMode
 
     @JvmField
     var counter = 0
-     fun hasColumnMode() = mode == IteratorBundleMode.COLUMN
-     fun hasCountMode() = mode == IteratorBundleMode.COUNT
-     fun hasRowMode() = mode == IteratorBundleMode.ROW
+    fun hasColumnMode() = mode == IteratorBundleMode.COLUMN
+    fun hasCountMode() = mode == IteratorBundleMode.COUNT
+    fun hasRowMode() = mode == IteratorBundleMode.ROW
 
     constructor (columns: Map<String, ColumnIterator>) {
         _rows = null
@@ -85,7 +86,7 @@ internal    var mode: IteratorBundleMode
     suspend open fun hasNext2Close() {
     }
 
-    suspend  fun count(): Int {
+    suspend fun count(): Int {
         SanityCheck.check { mode == IteratorBundleMode.COUNT }
         if (counter > 0) {
             return counter

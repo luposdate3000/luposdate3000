@@ -1,7 +1,6 @@
 package lupos.s09physicalOperators.singleinput
-import lupos.s04logicalOperators.IQuery
-import kotlin.jvm.JvmField
 
+import kotlin.jvm.JvmField
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.ESortPriority
 import lupos.s00misc.GroupByColumnMissing
@@ -12,21 +11,21 @@ import lupos.s00misc.SortHelper
 import lupos.s00misc.VariableNotDefinedSyntaxException
 import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.ResultSetDictionaryExt
-
 import lupos.s04arithmetikOperators.AOPAggregationBase
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04arithmetikOperators.noinput.AOPVariable
+import lupos.s04logicalOperators.IOPBase
+import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.s04logicalOperators.iterator.ColumnIteratorAggregate
 import lupos.s04logicalOperators.iterator.ColumnIteratorMultiValue
 import lupos.s04logicalOperators.iterator.ColumnIteratorQueue
-import lupos.s04logicalOperators.iterator.ColumnIteratorQueueExt
 import lupos.s04logicalOperators.iterator.ColumnIteratorQueueEmpty
+import lupos.s04logicalOperators.iterator.ColumnIteratorQueueExt
 import lupos.s04logicalOperators.iterator.ColumnIteratorRepeatValue
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.noinput.OPEmptyRow
 import lupos.s04logicalOperators.OPBase
-import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.Query
 import lupos.s09physicalOperators.POPBase
 import lupos.s09physicalOperators.singleinput.POPBind
@@ -81,7 +80,6 @@ class POPGroup : POPBase {
         } else {
             return POPGroup(query, projectedVariables, by, null, children[0].cloneOP())
         }
-
     }
 
     constructor(query: IQuery, projectedVariables: List<String>, by: List<AOPVariable>, bindings: POPBind?, child: IOPBase) : super(query, projectedVariables, EOperatorID.POPGroupID, "POPGroup", arrayOf(child), ESortPriority.PREVENT_ANY) {
@@ -164,7 +162,7 @@ class POPGroup : POPBase {
         return res
     }
 
-internal     class MapKey(@JvmField val data: IntArray) {
+    internal class MapKey(@JvmField val data: IntArray) {
         override fun hashCode(): Int {
             var res = 0
             for (i in 0 until data.size) {
@@ -176,7 +174,7 @@ internal     class MapKey(@JvmField val data: IntArray) {
         override fun equals(other: Any?) = other is MapKey && data.contentEquals(other.data)
     }
 
-internal     class MapRow(val iterators: IteratorBundle, val aggregates: Array<ColumnIteratorAggregate>, val columns: Array<ColumnIteratorQueue>)
+    internal class MapRow(val iterators: IteratorBundle, val aggregates: Array<ColumnIteratorAggregate>, val columns: Array<ColumnIteratorQueue>)
 
     override suspend fun evaluate(parent: Partition): IteratorBundle {
         val localVariables = children[0].getProvidedVariableNames()
@@ -321,7 +319,7 @@ internal     class MapRow(val iterators: IteratorBundle, val aggregates: Array<C
 
                             inline suspend fun __close() {
                                 if (label != 0) {
-ColumnIteratorQueueExt.                                    _close(this)
+                                    ColumnIteratorQueueExt._close(this)
                                     for (closeIndex in 0 until keyColumns.size) {
                                         keyColumns[closeIndex].close()
                                     }
@@ -332,7 +330,7 @@ ColumnIteratorQueueExt.                                    _close(this)
                             }
 
                             override suspend fun next(): Int {
-                                return ColumnIteratorQueueExt.  next_helper(this,{
+                                return ColumnIteratorQueueExt.next_helper(this, {
                                     loop@ while (true) {
                                         var changedKey = false
                                         if (nextKey != null) {
@@ -360,7 +358,7 @@ ColumnIteratorQueueExt.                                    _close(this)
                                                     }
                                                 }
                                                 for (outIndex2 in 0 until output.size) {
-ColumnIteratorQueueExt.                                                      closeOnEmptyQueue( output[outIndex2])
+                                                    ColumnIteratorQueueExt.closeOnEmptyQueue(output[outIndex2])
                                                 }
                                                 break@loop
                                             }

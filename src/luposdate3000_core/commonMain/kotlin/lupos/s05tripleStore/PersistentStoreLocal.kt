@@ -8,11 +8,11 @@ import lupos.s00misc.GraphNameNotFoundException
 import lupos.s00misc.SanityCheck
 import lupos.s01io.BufferManager
 import lupos.s03resultRepresentation.nodeGlobalDictionary
-import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.IQuery
+import lupos.s04logicalOperators.Query
 import lupos.s15tripleStoreDistributed.IPersistentStoreLocal
 
-class PersistentStoreLocal :IPersistentStoreLocal{
+class PersistentStoreLocal : IPersistentStoreLocal {
     @JvmField
     val stores = mutableMapOf<String, TripleStoreLocal>()
 
@@ -20,7 +20,7 @@ class PersistentStoreLocal :IPersistentStoreLocal{
         stores[PersistentStoreLocalExt.defaultGraphName] = TripleStoreLocal(PersistentStoreLocalExt.defaultGraphName)
     }
 
-    override fun getGraphNames(includeDefault: Boolean ): List<String> {
+    override fun getGraphNames(includeDefault: Boolean): List<String> {
         val res = mutableListOf<String>()
         stores.keys.forEach { t ->
             if (t != PersistentStoreLocalExt.defaultGraphName || includeDefault) {
@@ -54,7 +54,7 @@ class PersistentStoreLocal :IPersistentStoreLocal{
         getNamedGraph(query, name).clear()
     }
 
-    suspend override fun getNamedGraph(query: IQuery, name: String, create: Boolean ): TripleStoreLocal {
+    suspend override fun getNamedGraph(query: IQuery, name: String, create: Boolean): TripleStoreLocal {
         val tmp = stores[name]
         if (tmp != null) {
             return tmp

@@ -1,7 +1,6 @@
 package lupos.s04logicalOperators.iterator
 
 import lupos.s03resultRepresentation.ResultSetDictionaryExt
-
 import lupos.s03resultRepresentation.ValueDefinition
 
 class ColumnIteratorAggregate() : ColumnIteratorEmpty() {

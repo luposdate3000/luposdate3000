@@ -20,12 +20,13 @@ internal actual class MyThreadLock {
     actual inline fun tryLock(): Boolean {
         throw  NotImplementedException("MyThreadLock", "trylock not implemented")
     }
-actual inline fun <T> withLock(crossinline action: () -> T): T {
-    lock()
-    try {
-        return action()
-    } finally {
-        unlock()
+
+    actual inline fun <T> withLock(crossinline action: () -> T): T {
+        lock()
+        try {
+            return action()
+        } finally {
+            unlock()
+        }
     }
-} 
 }

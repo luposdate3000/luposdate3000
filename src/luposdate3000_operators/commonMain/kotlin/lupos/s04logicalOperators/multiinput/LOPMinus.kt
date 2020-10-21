@@ -1,12 +1,13 @@
 package lupos.s04logicalOperators.multiinput
-import lupos.s04logicalOperators.IQuery
+
 import kotlin.jvm.JvmField
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.ESortPriority
 import lupos.s04logicalOperators.HistogramResult
+import lupos.s04logicalOperators.IOPBase
+import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.LOPBase
 import lupos.s04logicalOperators.OPBase
-import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.Query
 
 class LOPMinus(query: IQuery, first: IOPBase, second: IOPBase, @JvmField var tmpFakeVariables: List<String>) : LOPBase(query, EOperatorID.LOPMinusID, "LOPMinus", arrayOf(first, second), ESortPriority.MINUS) {
@@ -18,7 +19,7 @@ class LOPMinus(query: IQuery, first: IOPBase, second: IOPBase, @JvmField var tmp
     override fun getProvidedVariableNames() = (children[0].getProvidedVariableNames() + tmpFakeVariables).distinct()
     override fun getRequiredVariableNames() = listOf<String>()
     override fun equals(other: Any?) = other is LOPMinus && children[0] == other.children[0] && children[1] == other.children[1]
-    override fun cloneOP() :IOPBase= LOPMinus(query, children[0].cloneOP(), children[1].cloneOP(), tmpFakeVariables.toMutableList())
+    override fun cloneOP(): IOPBase = LOPMinus(query, children[0].cloneOP(), children[1].cloneOP(), tmpFakeVariables.toMutableList())
     suspend override fun calculateHistogram(): HistogramResult {
         return children[0].getHistogram()
     }

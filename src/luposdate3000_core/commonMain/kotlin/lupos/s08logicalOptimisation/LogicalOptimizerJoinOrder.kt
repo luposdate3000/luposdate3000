@@ -1,10 +1,11 @@
 package lupos.s08logicalOptimisation
-import lupos.s04logicalOperators.IOPBase
+
 import lupos.s00misc.Coverage
 import lupos.s00misc.EmptyResultException
 import lupos.s00misc.EOptimizerID
 import lupos.s00misc.SanityCheck
 import lupos.s04arithmetikOperators.noinput.AOPVariable
+import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.multiinput.LOPJoin
 import lupos.s04logicalOperators.noinput.OPEmptyRow
 import lupos.s04logicalOperators.noinput.OPNothing

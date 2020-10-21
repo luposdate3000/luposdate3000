@@ -1,7 +1,6 @@
 package lupos.s09physicalOperators.noinput
-import lupos.s04logicalOperators.IQuery
-import kotlin.jvm.JvmField
 
+import kotlin.jvm.JvmField
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.ESortPriority
 import lupos.s00misc.Partition
@@ -9,15 +8,15 @@ import lupos.s00misc.SanityCheck
 import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s03resultRepresentation.ResultSetDictionaryExt
-
 import lupos.s04arithmetikOperators.noinput.AOPConstant
 import lupos.s04arithmetikOperators.noinput.AOPValue
+import lupos.s04logicalOperators.IOPBase
+import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.s04logicalOperators.iterator.ColumnIteratorMultiValue
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.noinput.LOPValues
 import lupos.s04logicalOperators.OPBase
-import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.Query
 import lupos.s09physicalOperators.POPBase
 
@@ -94,7 +93,6 @@ open class POPValues : POPBase {
         } else {
             return POPValues(query, projectedVariables, variables, data)
         }
-
     }
 
     constructor(query: IQuery, count: Int) : super(query, listOf<String>(), EOperatorID.POPValuesID, "POPValues", arrayOf(), ESortPriority.PREVENT_ANY) {
@@ -167,7 +165,6 @@ open class POPValues : POPBase {
         } else {
             return IteratorBundle(rows)
         }
-
     }
 
     override suspend fun toXMLElement(): XMLElement {

@@ -41,7 +41,7 @@ enum class EBenchmark {
 internal object BenchmarkUtils {
     val timesHelper = DoubleArray(30)
     val timesCounter = IntArray(timesHelper.size)
-internal    val timesLock = MyLock()
+    internal val timesLock = MyLock()
     inline fun timesHelperMark() = Monotonic.markNow()
     suspend inline fun timesHelperDuration(i: Int, timer: TimeMark) {
         timesLock.withLock {

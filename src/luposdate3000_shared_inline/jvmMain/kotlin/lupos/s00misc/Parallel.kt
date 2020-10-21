@@ -48,7 +48,6 @@ internal actual class ParallelThreadCondition {
 
     actual constructor(lock: MyLock) {
         this.lock = lock
-
     }
 
     actual inline fun waitCondition(crossinline condition: () -> Boolean) {
@@ -93,6 +92,3 @@ internal actual class ParallelThreadQueue<T> {
         return queue.take()
     }
 }
-
-
-

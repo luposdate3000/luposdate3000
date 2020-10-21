@@ -1,14 +1,15 @@
 package lupos.s04logicalOperators.singleinput
-import lupos.s04logicalOperators.IQuery
+
 import kotlin.jvm.JvmField
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.ESortPriority
 import lupos.s00misc.XMLElement
 import lupos.s04logicalOperators.HistogramResult
+import lupos.s04logicalOperators.IOPBase
+import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.LOPBase
 import lupos.s04logicalOperators.noinput.LOPTriple
 import lupos.s04logicalOperators.OPBase
-import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.Query
 
 class LOPModify(query: IQuery,
@@ -32,7 +33,7 @@ class LOPModify(query: IQuery,
     }
 
     override fun equals(other: Any?) = other is LOPModify && insert == other.insert && delete == other.delete && children[0] == other.children[0]
-    override fun cloneOP() :IOPBase= LOPModify(query, insert, delete, children[0].cloneOP())
+    override fun cloneOP(): IOPBase = LOPModify(query, insert, delete, children[0].cloneOP())
     suspend override fun calculateHistogram(): HistogramResult {
         var res = HistogramResult()
         res.values["?boolean"] = 1

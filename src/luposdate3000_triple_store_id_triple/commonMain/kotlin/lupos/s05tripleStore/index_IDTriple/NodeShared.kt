@@ -1,33 +1,33 @@
 package lupos.s05tripleStore.index_IDTriple
 
 import lupos.s00misc.ByteArrayHelper
-import lupos.s00misc.SanityCheck
 import lupos.s00misc.IntegerExt
+import lupos.s00misc.SanityCheck
 
 internal object NodeShared {
     const val MAX_TRIPLE_SIZE = 13
     inline fun setNodeType(node: ByteArray, type: Int) {
-        ByteArrayHelper.writeInt4(node,0, type)
+        ByteArrayHelper.writeInt4(node, 0, type)
     }
 
     inline fun getNodeType(node: ByteArray): Int {
-        return ByteArrayHelper.readInt4(node,0)
+        return ByteArrayHelper.readInt4(node, 0)
     }
 
     inline fun setNextNode(node: ByteArray, nextNode: Int) {
-        ByteArrayHelper.writeInt4(node,8, nextNode)
+        ByteArrayHelper.writeInt4(node, 8, nextNode)
     }
 
     inline fun getNextNode(node: ByteArray): Int {
-        return ByteArrayHelper.readInt4(node,8)
+        return ByteArrayHelper.readInt4(node, 8)
     }
 
     inline fun setTripleCount(node: ByteArray, count: Int) {
-        ByteArrayHelper.writeInt4(node,4, count)
+        ByteArrayHelper.writeInt4(node, 4, count)
     }
 
     inline fun getTripleCount(node: ByteArray): Int {
-        return ByteArrayHelper.readInt4(node,4)
+        return ByteArrayHelper.readInt4(node, 4)
     }
 
     inline fun decodeTripleHeader(header: Int, crossinline action: (counter0: Int, counter1: Int, counter2: Int) -> Unit) {
@@ -51,7 +51,7 @@ internal object NodeShared {
     }
 
     inline fun readTriple000(node: ByteArray, offset: Int): Int {
-        var header = ByteArrayHelper.readInt1(node,offset)
+        var header = ByteArrayHelper.readInt1(node, offset)
         var localOff = offset + 1
         decodeTripleHeader(header) { counter0, counter1, counter2 ->
             localOff += counter0 + counter1 + counter2
@@ -60,14 +60,14 @@ internal object NodeShared {
     }
 
     inline fun readTriple111(node: ByteArray, offset: Int, d0: Int, d1: Int, d2: Int, crossinline action: (d0: Int, d1: Int, d2: Int) -> Unit): Int {
-        var header = ByteArrayHelper.readInt1(node,offset)
+        var header = ByteArrayHelper.readInt1(node, offset)
         var localOff = offset + 1
         decodeTripleHeader(header) { counter0, counter1, counter2 ->
-            val v0 = d0 xor ByteArrayHelper.readIntX(node,localOff, counter0)
+            val v0 = d0 xor ByteArrayHelper.readIntX(node, localOff, counter0)
             localOff += counter0
-            val v1 = d1 xor ByteArrayHelper.readIntX(node,localOff, counter1)
+            val v1 = d1 xor ByteArrayHelper.readIntX(node, localOff, counter1)
             localOff += counter1
-            val v2 = d2 xor ByteArrayHelper.readIntX(node,localOff, counter2)
+            val v2 = d2 xor ByteArrayHelper.readIntX(node, localOff, counter2)
             localOff += counter2
             action(v0, v1, v2)
         }
@@ -75,11 +75,11 @@ internal object NodeShared {
     }
 
     inline fun readTriple010(node: ByteArray, offset: Int, d1: Int, crossinline action: (d1: Int) -> Unit): Int {
-        var header = ByteArrayHelper.readInt1(node,offset)
+        var header = ByteArrayHelper.readInt1(node, offset)
         var localOff = offset + 1
         decodeTripleHeader(header) { counter0, counter1, counter2 ->
             localOff += counter0
-            val v1 = d1 xor ByteArrayHelper.readIntX(node,localOff, counter1)
+            val v1 = d1 xor ByteArrayHelper.readIntX(node, localOff, counter1)
             localOff += counter1 + counter2
             action(v1)
         }
@@ -87,11 +87,11 @@ internal object NodeShared {
     }
 
     inline fun readTriple001(node: ByteArray, offset: Int, d2: Int, crossinline action: (d2: Int) -> Unit): Int {
-        var header = ByteArrayHelper.readInt1(node,offset)
+        var header = ByteArrayHelper.readInt1(node, offset)
         var localOff = offset + 1
         decodeTripleHeader(header) { counter0, counter1, counter2 ->
             localOff += counter0 + counter1
-            val v2 = d2 xor ByteArrayHelper.readIntX(node,localOff, counter2)
+            val v2 = d2 xor ByteArrayHelper.readIntX(node, localOff, counter2)
             localOff += counter2
             action(v2)
         }
@@ -99,10 +99,10 @@ internal object NodeShared {
     }
 
     inline fun readTriple100(node: ByteArray, offset: Int, d0: Int, crossinline action: (d0: Int) -> Unit): Int {
-        var header = ByteArrayHelper.readInt1(node,offset)
+        var header = ByteArrayHelper.readInt1(node, offset)
         var localOff = offset + 1
         decodeTripleHeader(header) { counter0, counter1, counter2 ->
-            val v0 = d0 xor ByteArrayHelper.readIntX(node,localOff, counter0)
+            val v0 = d0 xor ByteArrayHelper.readIntX(node, localOff, counter0)
             localOff += counter0 + counter1 + counter2
             action(v0)
         }
@@ -110,12 +110,12 @@ internal object NodeShared {
     }
 
     inline fun readTriple110(node: ByteArray, offset: Int, d0: Int, d1: Int, crossinline action: (d0: Int, d1: Int) -> Unit): Int {
-        var header = ByteArrayHelper.readInt1(node,offset)
+        var header = ByteArrayHelper.readInt1(node, offset)
         var localOff = offset + 1
         decodeTripleHeader(header) { counter0, counter1, counter2 ->
-            val v0 = d0 xor ByteArrayHelper.readIntX(node,localOff, counter0)
+            val v0 = d0 xor ByteArrayHelper.readIntX(node, localOff, counter0)
             localOff += counter0
-            val v1 = d1 xor ByteArrayHelper.readIntX(node,localOff, counter1)
+            val v1 = d1 xor ByteArrayHelper.readIntX(node, localOff, counter1)
             localOff += counter1 + counter2
             action(v0, v1)
         }
@@ -123,12 +123,12 @@ internal object NodeShared {
     }
 
     inline fun readTriple101(node: ByteArray, offset: Int, d0: Int, d2: Int, crossinline action: (d0: Int, d2: Int) -> Unit): Int {
-        var header = ByteArrayHelper.readInt1(node,offset)
+        var header = ByteArrayHelper.readInt1(node, offset)
         var localOff = offset + 1
         decodeTripleHeader(header) { counter0, counter1, counter2 ->
-            val v0 = d0 xor ByteArrayHelper.readIntX(node,localOff, counter0)
+            val v0 = d0 xor ByteArrayHelper.readIntX(node, localOff, counter0)
             localOff += counter0 + counter1
-            val v2 = d2 xor ByteArrayHelper.readIntX(node,localOff, counter2)
+            val v2 = d2 xor ByteArrayHelper.readIntX(node, localOff, counter2)
             localOff += counter2
             action(v0, v2)
         }
@@ -152,14 +152,14 @@ internal object NodeShared {
         val counter1 = numberOfBytesUsed(b1)
         val counter2 = numberOfBytesUsed(b2)
         encodeTripleHeader(counter0, counter1, counter2) {
-            ByteArrayHelper.writeInt1(node,offset, it)
+            ByteArrayHelper.writeInt1(node, offset, it)
         }
         var localOff = offset + 1
-        ByteArrayHelper.writeIntX(node,localOff, b0, counter0)
+        ByteArrayHelper.writeIntX(node, localOff, b0, counter0)
         localOff += counter0
-        ByteArrayHelper.writeIntX(node,localOff, b1, counter1)
+        ByteArrayHelper.writeIntX(node, localOff, b1, counter1)
         localOff += counter1
-        ByteArrayHelper.writeIntX(node,localOff, b2, counter2)
+        ByteArrayHelper.writeIntX(node, localOff, b2, counter2)
         localOff += counter2
         SanityCheck {
             var size = readTriple000(node, offset)

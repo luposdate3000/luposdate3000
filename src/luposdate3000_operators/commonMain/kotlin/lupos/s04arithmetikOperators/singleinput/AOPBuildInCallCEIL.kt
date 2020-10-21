@@ -1,11 +1,9 @@
 package lupos.s04arithmetikOperators.singleinput
-import lupos.s04logicalOperators.IQuery
-import kotlin.math.ceil
 
+import kotlin.math.ceil
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.MyBigDecimal
 import lupos.s00misc.SanityCheck
-
 import lupos.s03resultRepresentation.ValueDecimal
 import lupos.s03resultRepresentation.ValueDefinition
 import lupos.s03resultRepresentation.ValueDouble
@@ -13,9 +11,10 @@ import lupos.s03resultRepresentation.ValueError
 import lupos.s03resultRepresentation.ValueFloat
 import lupos.s03resultRepresentation.ValueInteger
 import lupos.s04arithmetikOperators.AOPBase
+import lupos.s04logicalOperators.IOPBase
+import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.OPBase
-import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.Query
 
 class AOPBuildInCallCEIL(query: IQuery, child: AOPBase) : AOPBase(query, EOperatorID.AOPBuildInCallCEILID, "AOPBuildInCallCEIL", arrayOf(child)) {
@@ -43,8 +42,7 @@ class AOPBuildInCallCEIL(query: IQuery, child: AOPBase) : AOPBase(query, EOperat
             }
 /*return*/res
         }
-
     }
 
-    override fun cloneOP() :IOPBase= AOPBuildInCallCEIL(query, children[0].cloneOP() as AOPBase)
+    override fun cloneOP(): IOPBase = AOPBuildInCallCEIL(query, children[0].cloneOP() as AOPBase)
 }

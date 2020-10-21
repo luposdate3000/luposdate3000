@@ -30,10 +30,10 @@ class BufferManager(@JvmField val bufferName: String) {
         }
 
         @JvmField
-internal        val managerList = mutableListOf<BufferManager>()
+        internal val managerList = mutableListOf<BufferManager>()
 
         @JvmField
-internal        val managerListLock = MyReadWriteLock()
+        internal val managerListLock = MyReadWriteLock()
         suspend fun safeToFolder() = managerListLock.withReadLock {
             managerList.forEach {
                 it.safeToFolder()
@@ -55,19 +55,19 @@ internal        val managerListLock = MyReadWriteLock()
     }
 
     @JvmField
-internal    var allPages = Array<ByteArray>(100) { ByteArray(BUFFER_MANAGER_PAGE_SIZE_IN_BYTES) }
+    internal var allPages = Array<ByteArray>(100) { ByteArray(BUFFER_MANAGER_PAGE_SIZE_IN_BYTES) }
 
     @JvmField
-internal    var allPagesRefcounters = IntArray(100)
+    internal var allPagesRefcounters = IntArray(100)
 
     @JvmField
-internal    var counter = 0
+    internal var counter = 0
 
     @JvmField
-internal    val lock = MyReadWriteLock()
+    internal val lock = MyReadWriteLock()
 
     @JvmField
-internal    val freeList = mutableListOf<Int>()
+    internal val freeList = mutableListOf<Int>()
     suspend fun clear() = lock.withWriteLock {
         clearAssumeLocks()
     }

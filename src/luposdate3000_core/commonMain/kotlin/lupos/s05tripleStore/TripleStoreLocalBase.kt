@@ -8,11 +8,11 @@ import lupos.s00misc.SanityCheck
 import lupos.s03resultRepresentation.ResultSetDictionaryExt
 import lupos.s04arithmetikOperators.noinput.AOPConstant
 import lupos.s04arithmetikOperators.noinput.AOPVariable
+import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.s04logicalOperators.iterator.IteratorBundle
-import lupos.s04logicalOperators.IQuery
 
-abstract class TripleStoreLocalBase(@JvmField val name: String) :ITripleStoreLocalBase{
+abstract class TripleStoreLocalBase(@JvmField val name: String) : ITripleStoreLocalBase {
     @JvmField //override this during initialisation
     var dataDistinct = arrayOf<TripleStoreDistinctContainer>()
 
@@ -44,13 +44,13 @@ abstract class TripleStoreLocalBase(@JvmField val name: String) :ITripleStoreLoc
         }
     }
 
-override    suspend fun flush() {
+    override suspend fun flush() {
         dataDistinct.forEach {
             it.second.flush()
         }
     }
 
-override    suspend fun getHistogram(query: IQuery, params: TripleStoreFeatureParams): Pair<Int, Int> {
+    override suspend fun getHistogram(query: IQuery, params: TripleStoreFeatureParams): Pair<Int, Int> {
         var idx = 0
         when (params) {
             is TripleStoreFeatureParamsDefault -> {
@@ -96,7 +96,7 @@ override    suspend fun getHistogram(query: IQuery, params: TripleStoreFeaturePa
         throw Exception("")
     }
 
-override    suspend fun getIterator(query: IQuery, params: TripleStoreFeatureParams): IteratorBundle {
+    override suspend fun getIterator(query: IQuery, params: TripleStoreFeatureParams): IteratorBundle {
         var idx = 0
         when (params) {
             is TripleStoreFeatureParamsDefault -> {
@@ -146,13 +146,13 @@ override    suspend fun getIterator(query: IQuery, params: TripleStoreFeaturePar
         throw Exception("")
     }
 
-override    suspend fun import(dataImport: TripleStoreBulkImport) {
+    override suspend fun import(dataImport: TripleStoreBulkImport) {
         for (i in 0 until dataDistinct.size) {
             dataDistinct[i].second.import(dataDistinct[i].importField(dataImport), dataImport.idx, dataDistinct[i].idx.tripleIndicees)
         }
     }
 
- override   suspend fun commit(query: IQuery) {
+    override suspend fun commit(query: IQuery) {
         /*
          * the input is ALWAYS in SPO order. The remapping of the triple layout is within the index, using the parameter order.
          */
@@ -184,7 +184,7 @@ override    suspend fun import(dataImport: TripleStoreBulkImport) {
         }
     }
 
-override    suspend fun clear() {
+    override suspend fun clear() {
         dataDistinct.forEach {
             it.second.clear()
         }
@@ -194,7 +194,7 @@ override    suspend fun clear() {
         }
     }
 
-override    suspend fun modify(query: IQuery, dataModify: Array<ColumnIterator>, type: EModifyType) {
+    override suspend fun modify(query: IQuery, dataModify: Array<ColumnIterator>, type: EModifyType) {
         /*
          * the input iterators are always in the SPO order. The real remapping to the ordering of the store happens within the commit-phase
          */
@@ -237,7 +237,7 @@ override    suspend fun modify(query: IQuery, dataModify: Array<ColumnIterator>,
         }
     }
 
-override    fun modify(query: IQuery, dataModify: MutableList<Int>, type: EModifyType) {
+    override fun modify(query: IQuery, dataModify: MutableList<Int>, type: EModifyType) {
         /*
          * the input iterators are always in the SPO order. The real remapping to the ordering of the store happens within the commit-phase 
          */
