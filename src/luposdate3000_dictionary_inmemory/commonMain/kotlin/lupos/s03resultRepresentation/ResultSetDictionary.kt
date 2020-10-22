@@ -577,6 +577,7 @@ class ResultSetDictionary(val global: Boolean = false) : IResultSetDictionary {
                     }
                     intToValue = tmp
                 }
+println("adding int to dictionary $value")
                 intToValue[res] = value
                 res = res or flaggedValueGlobalInt
             } else {
@@ -598,6 +599,7 @@ class ResultSetDictionary(val global: Boolean = false) : IResultSetDictionary {
                         }
                         intToValue = tmp
                     }
+println("adding int to dictionary $value")
                     intToValue[res] = value
                     res = res or flaggedValueLocalInt
                 } else {
@@ -710,6 +712,7 @@ class ResultSetDictionary(val global: Boolean = false) : IResultSetDictionary {
         } else {
             var bit5 = value and mask6
             if (bit5 == flaggedValueLocalInt) {
+println("reading integer ${dict.intToValue[value and filter6]}")
                 res = ValueInteger(MyBigInteger(dict.intToValue[value and filter6]))
             } else if (bit5 == flaggedValueLocalDecimal) {
                 res = ValueDecimal(MyBigDecimal(dict.decimalToValue[value and filter6]))

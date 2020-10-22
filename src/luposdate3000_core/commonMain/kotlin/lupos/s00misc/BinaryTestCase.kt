@@ -387,6 +387,7 @@ object BinaryTestCase {
                                 }
                                 targetDict[s] = i
                                 targetDict2[i] = s
+println("XXX added value:$s")
                                 val tmp = nodeGlobalDictionary.createValue(s)
                                 mapping_target_to_live[i] = tmp
                                 mapping_live_to_target[tmp] = i
