@@ -837,7 +837,10 @@ class GenerateBuildFile(val args: Array<String>) {
                         File("src/luposdate3000_core/${option.internalID}").copyRecursively(File("src.generated/${option.internalID}"))
                     }
                 }
+try{
                 File("src/luposdate3000_core/commonTemplate").copyRecursively(File("src.generated/commonTemplate"))
+}catch(e:Throwable){
+}
 //perform scripts "before template"
                 for (option in allChoosenOptions) {
                     if (option is ChoosableOptionExternalScript && option.beforeTemplate) {

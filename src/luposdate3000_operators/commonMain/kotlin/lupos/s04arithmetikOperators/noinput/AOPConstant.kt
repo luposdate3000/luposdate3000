@@ -1,5 +1,5 @@
 package lupos.s04arithmetikOperators.noinput
-
+import kotlin.jvm.JvmField
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.ValueBnode
@@ -11,8 +11,8 @@ import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.Query
 
 class AOPConstant : AOPBase, IAOPConstant {
-    val value: Int
-
+@JvmField    val value: Int
+override fun getValue()=value
     constructor(query: IQuery, value2: ValueDefinition) : super(query, EOperatorID.AOPConstantID, "AOPConstant", arrayOf()) {
         value = query.getDictionary().createValue(value2)
     }
@@ -24,8 +24,7 @@ class AOPConstant : AOPBase, IAOPConstant {
     override suspend fun toXMLElement(): XMLElement {
         var tmp = query.getDictionary().getValue(value)
         if (tmp is ValueBnode) {
-            var res = XMLElement("ValueBnode").addAttribute("dictvalue", "" + value)
-            return res
+            return XMLElement("ValueBnode").addAttribute("dictvalue", "" + value)
         } else {
             return tmp.toXMLElement()
         }
@@ -35,13 +34,13 @@ class AOPConstant : AOPBase, IAOPConstant {
     override fun equals(other: Any?): Boolean = other is AOPConstant && value == other.value
     override fun evaluate(row: IteratorBundle): () -> ValueDefinition {
         return {
-            /*return*/query.getDictionary().getValue(value)
+            /*return*/ query.getDictionary().getValue(value)
         }
     }
 
     override fun evaluateID(row: IteratorBundle): () -> Int {
         return {
-            /*return*/value
+            /*return*/ value
         }
     }
 

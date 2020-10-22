@@ -1,6 +1,8 @@
 import java.io.File
 import java.nio.file.Files
 import java.nio.file.Paths
+import java.lang.ProcessBuilder.Redirect
+import java.nio.file.StandardCopyOption
 
 fun createBuildFileForModule(args: Array<String>) {
     val moduleName = args[0]
@@ -13,6 +15,8 @@ fun createBuildFileForModule(args: Array<String>) {
     if (moduleFolder.startsWith("/")) {
         throw Exception("only relative paths allowed")
     }
+    var shortFolder = "./${moduleFolder}"
+    shortFolder = shortFolder.substring(shortFolder.lastIndexOf("/") + 1)
     var inlineMode = InlineMode.Enable
     var suspendMode = SuspendMode.Enable
     var releaseMode = true
@@ -246,4 +250,73 @@ fun createBuildFileForModule(args: Array<String>) {
     } else {
         applySuspendDisable()
     }
+    runCommand(listOf("gradle", "build"), File("."))
+    runCommand(listOf("gradle", "publishToMavenLocal"), File("."))
+    try {
+        File(".gradle").deleteRecursively()
+    } catch (e: Throwable) {
+        e.printStackTrace()
+    }
+    try {
+        File("build-cache").mkdirs()
+    } catch (e: Throwable) {
+        e.printStackTrace()
+    }
+    try {
+        File("build-cache/bin").mkdirs()
+    } catch (e: Throwable) {
+        e.printStackTrace()
+    }
+    try {
+        File("build-cache/src-${shortFolder}").deleteRecursively()
+    } catch (e: Throwable) {
+        e.printStackTrace()
+    }
+    try {
+        File("build-cache/build-${shortFolder}").deleteRecursively()
+    } catch (e: Throwable) {
+        e.printStackTrace()
+    }
+    try {
+        Files.move(Paths.get("build"), Paths.get("build-cache/build-${shortFolder}"))
+    } catch (e: Throwable) {
+        e.printStackTrace()
+    }
+    try {
+        Files.move(Paths.get("src.generated"), Paths.get("build-cache/src-${shortFolder}"))
+    } catch (e: Throwable) {
+        e.printStackTrace()
+    }
+    try {
+        val localMavenRepositoryRoot = System.getProperty("user.home") + "/.m2/repository/luposdate3000/"
+    } catch (e: Throwable) {
+        e.printStackTrace()
+    }
+    try {
+        Files.copy(Paths.get("build-cache/build-${shortFolder}/libs/${moduleName}-jvm-0.0.1.jar"), Paths.get("build-cache/bin/${moduleName}-jvm.jar"), StandardCopyOption.REPLACE_EXISTING)
+    } catch (e: Throwable) {
+        e.printStackTrace()
+    }
+    try {
+        Files.copy(Paths.get("build-cache/build-${shortFolder}/js/packages/${moduleName}/kotlin/${moduleName}.js"), Paths.get("build-cache/bin/${moduleName}-js.js"), StandardCopyOption.REPLACE_EXISTING)
+    } catch (e: Throwable) {
+        e.printStackTrace()
+    }
+    if (platform == "linuxX64") {
+        try {
+            Files.copy(Paths.get("build-cache/build-${shortFolder}/bin/linuxX64/releaseShared/lib${moduleName}.so"), Paths.get("build-cache/bin/lib${moduleName}-linuxX64.so"), StandardCopyOption.REPLACE_EXISTING)
+            Files.copy(Paths.get("build-cache/build-${shortFolder}/bin/linuxX64/releaseShared/lib${moduleName}_api.h"), Paths.get("build-cache/bin/lib${moduleName}-linuxX64.h"), StandardCopyOption.REPLACE_EXISTING)
+        } catch (e: Throwable) {
+            e.printStackTrace()
+        }
+    }
+}
+
+fun runCommand(command: List<String>, workingDir: File) {
+    ProcessBuilder(command)
+            .directory(workingDir)
+            .redirectOutput(Redirect.INHERIT)
+            .redirectError(Redirect.INHERIT)
+            .start()
+            .waitFor()
 }
