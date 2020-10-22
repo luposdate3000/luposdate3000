@@ -194,14 +194,6 @@ The first complete run additionally writes its summary to log/a.
 Afterwards the difference between this two files is displayed, to show, which new test cases are successfull/broken, to prevent accidently destroying many tests.
 
 luposdate3000 allows for many configuration options where completely independent code is used.
-Therefore the script
-
-```bash
-tool-compile-all.sh
-```
-
-tries to compile many different build-options - therefore this needs a lot of time.
-Because this takes a long time, currently I (the maintainer) can not guarantee, that all of these configurations work as intended.
 
 Currently the only tests are integration tests using complete sparql-queries at once.
 To gain usefull insight, what breakes when, the object "lupos.s00misc.SanityCheck" provides assertion functions, which are included in debug-build, but not in release-build.
