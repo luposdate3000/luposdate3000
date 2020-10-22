@@ -1,4 +1,3 @@
-
 package lupos.s08logicalOptimisation
 
 import lupos.s00misc.EOptimizerID

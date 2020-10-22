@@ -23,6 +23,7 @@ import lupos.s04logicalOperators.iterator.RowIteratorChildIterator
 import lupos.s04logicalOperators.iterator.RowIteratorMerge
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
+import lupos.s05tripleStore.ITripleStoreBulkImport
 import lupos.s05tripleStore.TripleStoreBulkImport
 
 object ServerCommunicationSend {
@@ -31,8 +32,8 @@ object ServerCommunicationSend {
 
     @JvmField
     var myPort = NETWORK_DEFAULT_PORT
-    suspend fun bulkImport(query: IQuery, graphName: String, action: suspend (ITripleStoreBulkImportDistributed) -> Unit) {
-        val bulk = ITripleStoreBulkImportDistributed(query, graphName)
+    suspend fun bulkImport(query: IQuery, graphName: String, action: suspend (ITripleStoreBulkImport) -> Unit) {
+        val bulk = ITripleStoreBulkImport(query, graphName)
         action(bulk)
         bulk.finishImport()
     }

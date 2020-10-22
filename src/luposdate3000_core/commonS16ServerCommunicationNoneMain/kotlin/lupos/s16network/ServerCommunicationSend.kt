@@ -7,14 +7,15 @@ import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.Query
+import lupos.s05tripleStore.ITripleStoreBulkImport
 import lupos.s05tripleStore.TripleStoreBulkImport
 import lupos.s05tripleStore.TripleStoreFeatureParams
 import lupos.s15tripleStoreDistributed.distributedTripleStore
 
 object ServerCommunicationSend {
-    suspend fun bulkImport(query: IQuery, graphName: String, action: suspend (ITripleStoreBulkImportDistributed) -> Unit) {
+    suspend fun bulkImport(query: IQuery, graphName: String, action: suspend (ITripleStoreBulkImport) -> Unit) {
         val bulk = TripleStoreBulkImportDistributed(query, graphName)
-        action(bulk as ITripleStoreBulkImportDistributed)
+        action(bulk as ITripleStoreBulkImport)
         bulk.finishImport()
     }
 

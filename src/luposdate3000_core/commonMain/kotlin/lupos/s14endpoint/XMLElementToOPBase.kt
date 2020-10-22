@@ -603,7 +603,7 @@ suspend fun XMLElement.Companion.convertToOPBase(query: Query, node: XMLElement,
                 }
                 tmp3.add(SortHelper(tmp5[0], ESortType.valueOf(tmp5[1])))
             }
-            res.setMySortPriority ( tmp3)
+            res.setMySortPriority(tmp3)
         }
     }
     return res

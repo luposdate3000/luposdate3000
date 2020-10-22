@@ -10,8 +10,6 @@ import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.s04logicalOperators.iterator.IteratorBundle
 
-class TripleStoreDistinctContainer(@JvmField val first: String, @JvmField val second: TripleStoreIndex, @JvmField val importField: (ITripleStoreBulkImport) -> IntArray, @JvmField val idx: EIndexPattern)
-class EnabledPartitionContainer(@JvmField val index: MutableSet<EIndexPattern>, @JvmField val column: Int, @JvmField val partitionCount: Int)
 interface ITripleStoreLocalBase {
     fun getEnabledPartitions(): Array<EnabledPartitionContainer>
     suspend fun flush()
@@ -22,9 +20,4 @@ interface ITripleStoreLocalBase {
     suspend fun clear()
     suspend fun modify(query: IQuery, dataModify: Array<ColumnIterator>, type: EModifyType)
     fun modify(query: IQuery, dataModify: MutableList<Int>, type: EModifyType)
-}
-
-interface ITripleStoreBulkImport {
-fun getData(idx:EIndexPattern):IntArray
-fun getIdx():Int
 }

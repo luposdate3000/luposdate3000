@@ -195,6 +195,8 @@ import lupos.s04arithmetikOperators.singleinput.AOPFunctionCallDouble
 import lupos.s04arithmetikOperators.singleinput.AOPFunctionCallFloat
 import lupos.s04arithmetikOperators.singleinput.AOPFunctionCallString
 import lupos.s04arithmetikOperators.singleinput.AOPNot
+import lupos.s04logicalOperators.IOPBase
+import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.LOPBase
 import lupos.s04logicalOperators.multiinput.LOPJoin
 import lupos.s04logicalOperators.multiinput.LOPMinus
@@ -205,10 +207,8 @@ import lupos.s04logicalOperators.noinput.LOPTriple
 import lupos.s04logicalOperators.noinput.LOPValues
 import lupos.s04logicalOperators.noinput.OPEmptyRow
 import lupos.s04logicalOperators.OPBase
-import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.OPBaseCompound
 import lupos.s04logicalOperators.Query
-import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.singleinput.LOPBind
 import lupos.s04logicalOperators.singleinput.LOPFilter
 import lupos.s04logicalOperators.singleinput.LOPGroup
@@ -404,7 +404,7 @@ class OperatorGraphVisitor(@JvmField val query: Query) : Visitor<IOPBase> {
                 }
             }
         }
-        var mychild :IOPBase= child 
+        var mychild: IOPBase = child
         val provided = mychild.getProvidedVariableNames()
         for (selected in names) {
             if (provided.contains(selected)) {
@@ -1323,9 +1323,9 @@ return tmp
     override fun visit(node: ASTUnion, childrenValues: List<IOPBase>): IOPBase {
         SanityCheck.check { childrenValues.size >= 2 }
         var tmplist = mutableListOf<IOPBase>()
-for(v in childrenValues){
-tmplist.add(v)
-}
+        for (v in childrenValues) {
+            tmplist.add(v)
+        }
         while (tmplist.size > 1) {
             val a = tmplist.removeAt(0)
             val b = tmplist.removeAt(0)

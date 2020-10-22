@@ -35,21 +35,20 @@ class TripleStoreBulkImport(@JvmField val query: IQuery, @JvmField val graphName
 
     @JvmField
     var dataOPS = data[0]
+    override fun getData(idx: EIndexPattern): IntArray {
+        return when (idx) {
+            EIndexPattern.SPO -> dataSPO
+            EIndexPattern.SOP -> dataSOP
+            EIndexPattern.PSO -> dataPSO
+            EIndexPattern.POS -> dataPOS
+            EIndexPattern.OPS -> dataOPS
+            EIndexPattern.OSP -> dataOSP
+            else -> throw Exception("unreachable")
+        }
+    }
 
-override fun getData(idx:EIndexPattern):IntArray{
-return when(idx){
-EIndexPattern.SPO->dataSPO
-EIndexPattern.SOP->dataSOP
-EIndexPattern.PSO->dataPSO
-EIndexPattern.POS->dataPOS
-EIndexPattern.OPS->dataOPS
-EIndexPattern.OSP->dataOSP
-else->throw Exception("unreachable")
-}
-}
-
-override fun getIdx()=idx
-    suspend fun insert(si: Int, pi: Int, oi: Int) {
+    override fun getIdx() = idx
+    override suspend fun insert(si: Int, pi: Int, oi: Int) {
         data[8][idx++] = si
         data[8][idx++] = pi
         data[8][idx++] = oi
@@ -60,7 +59,7 @@ override fun getIdx()=idx
         }
     }
 
-    suspend fun finishImport() {
+    override suspend fun finishImport() {
         sort()
         flush()
     }

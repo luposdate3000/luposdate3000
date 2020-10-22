@@ -10,7 +10,7 @@ import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.Query
 
-class AOPConstant : AOPBase {
+class AOPConstant : AOPBase, IAOPConstant {
     val value: Int
 
     constructor(query: IQuery, value2: ValueDefinition) : super(query, EOperatorID.AOPConstantID, "AOPConstant", arrayOf()) {

@@ -5,12 +5,6 @@ import java.io.PrintWriter
 import java.io.StringWriter
 
 actual internal class MyPrintWriter {
-    internal enum class MyPrintWriterMode {
-        BUFFER,
-        FILE,
-        NONE
-    }
-
     val buffer = StringWriter()
     val printer: PrintWriter
     val bufferMode: MyPrintWriterMode

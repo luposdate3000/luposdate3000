@@ -49,16 +49,22 @@ class TripleStoreIndex_IDTriple() : TripleStoreIndex() {
 
     @JvmField
     internal var lock = MyReadWriteLock()
+
     @JvmField
     var cachedHistograms1Size = 0
+
     @JvmField
     var cachedHistograms1Cursor = 0
+
     @JvmField
     val cachedHistograms1 = IntArray(300)
+
     @JvmField
     var cachedHistograms2Size = 0
+
     @JvmField
     var cachedHistograms2Cursor = 0
+
     @JvmField
     val cachedHistograms2 = IntArray(400)
 

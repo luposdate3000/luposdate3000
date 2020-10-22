@@ -25,7 +25,8 @@ abstract class TripleStoreLocalBase(@JvmField val name: String) : ITripleStoreLo
             EnabledPartitionContainer(mutableSetOf(EIndexPattern.OSP, EIndexPattern.O_SP, EIndexPattern.OS_P), -1, 1),//
             EnabledPartitionContainer(mutableSetOf(EIndexPattern.OPS, EIndexPattern.O_PS, EIndexPattern.OP_S), -1, 1),//
     )
-override fun getEnabledPartitions()=enabledPartitions
+
+    override fun getEnabledPartitions() = enabledPartitions
 
     @JvmField //override this during initialisation
     var pendingModificationsInsert = Array(0) { mutableMapOf<Long, MutableList<Int>>() }

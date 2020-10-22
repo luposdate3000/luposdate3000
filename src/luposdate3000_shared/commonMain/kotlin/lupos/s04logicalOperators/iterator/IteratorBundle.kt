@@ -6,12 +6,6 @@ import lupos.s00misc.IteratorBundleRowModeNotImplementedException
 import lupos.s00misc.SanityCheck
 
 open class IteratorBundle {
-    internal enum class IteratorBundleMode {
-        COUNT,
-        COLUMN,
-        ROW
-    }
-
     @JvmField
     internal var mode: IteratorBundleMode
 

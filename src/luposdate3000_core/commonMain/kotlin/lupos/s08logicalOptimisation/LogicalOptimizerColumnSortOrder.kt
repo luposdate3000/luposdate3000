@@ -76,7 +76,7 @@ class LogicalOptimizerColumnSortOrder(query: Query) : OptimizerBase(query, EOpti
                             }
                         }
                         if (node.getSortPriorities() != tmp) {
-                            node.setSortPriorities (tmp)
+                            node.setSortPriorities(tmp)
                             onChange()
                         }
                     }

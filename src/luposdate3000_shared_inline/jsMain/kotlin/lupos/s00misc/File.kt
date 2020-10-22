@@ -30,30 +30,3 @@ internal actual class File {
     suspend inline actual fun dataInputStreamSuspended(crossinline action: suspend (MyDataInputStream) -> Unit): Unit = throw  NotImplementedException("File", "dataInputStreamSuspended not implemented")
     override actual fun equals(other: Any?): Boolean = throw  NotImplementedException("File", "equals not implemented")
 }
-
-internal actual class MyPrintWriter {
-    actual fun clearBuffer(): Unit = throw  NotImplementedException("MyPrintWriter", "xyz not implemented")
-    override actual fun toString(): String = throw  NotImplementedException("MyPrintWriter", "xyz not implemented")
-    actual fun println(x: String): Unit = throw  NotImplementedException("MyPrintWriter", "xyz not implemented")
-    actual fun print(x: String): Unit = throw  NotImplementedException("MyPrintWriter", "xyz not implemented")
-    actual fun println(x: Boolean): Unit = throw  NotImplementedException("MyPrintWriter", "xyz not implemented")
-    actual fun print(x: Boolean): Unit = throw  NotImplementedException("MyPrintWriter", "xyz not implemented")
-    actual fun println(x: Int): Unit = throw  NotImplementedException("MyPrintWriter", "xyz not implemented")
-    actual fun print(x: Int): Unit = throw  NotImplementedException("MyPrintWriter", "xyz not implemented")
-    actual fun println(x: Double): Unit = throw  NotImplementedException("MyPrintWriter", "xyz not implemented")
-    actual fun print(x: Double): Unit = throw  NotImplementedException("MyPrintWriter", "xyz not implemented")
-    actual fun println(): Unit = throw  NotImplementedException("MyPrintWriter", "xyz not implemented")
-    actual fun close(): Unit = throw  NotImplementedException("MyPrintWriter", "xyz not implemented")
-    actual fun flush(): Unit = throw  NotImplementedException("MyPrintWriter", "xyz not implemented")
-}
-
-internal actual class MyDataInputStream {
-    inline actual fun readInt(): Int = throw  NotImplementedException("MyDataOutputStream", "xyz not implemented")
-    inline actual fun readByte(): Byte = throw  NotImplementedException("MyDataOutputStream", "xyz not implemented")
-    inline actual fun read(buf: ByteArray, off: Int, len: Int): Int = throw  NotImplementedException("MyDataOutputStream", "xyz not implemented")
-}
-
-internal actual class MyDataOutputStream {
-    inline actual fun writeInt(value: Int): Unit = throw  NotImplementedException("MyDataInputStream", "xyz not implemented")
-    inline actual fun write(buf: ByteArray, off: Int, len: Int): Unit = throw  NotImplementedException("MyDataInputStream", "xyz not implemented")
-}

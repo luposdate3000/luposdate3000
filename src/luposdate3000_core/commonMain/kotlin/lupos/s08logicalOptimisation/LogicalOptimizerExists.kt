@@ -17,9 +17,9 @@ class LogicalOptimizerExists(query: Query) : OptimizerBase(query, EOptimizerID.L
     fun applyRecoursive(node: IOPBase, askFlag: Boolean) {
         if (node !is LOPLimit && node !is LOPOffset) {
             if (askFlag) {
-                node.setPartOfAskQuery ( true)
+                node.setPartOfAskQuery(true)
             }
-            node.setOnlyExistenceRequired (true)
+            node.setOnlyExistenceRequired(true)
             if (node is LOPMinus) {
                 applyRecoursive(node.getChildren()[0], askFlag)
             } else {

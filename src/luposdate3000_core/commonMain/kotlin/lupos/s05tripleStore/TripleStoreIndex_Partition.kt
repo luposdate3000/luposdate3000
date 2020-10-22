@@ -4,9 +4,9 @@ import kotlin.jvm.JvmField
 import lupos.s00misc.File
 import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
+import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.Query
-import lupos.s04logicalOperators.IQuery
 
 class TripleStoreIndex_Partition(childIndex: (Int) -> TripleStoreIndex, val column: Int, @JvmField val partitionCount: Int) : TripleStoreIndex() {
     val partitions = Array(partitionCount) { childIndex(it) }

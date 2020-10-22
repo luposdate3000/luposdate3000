@@ -23,30 +23,3 @@ internal expect class File {
     suspend inline fun dataInputStreamSuspended(crossinline action: suspend (MyDataInputStream) -> Unit)
     override fun equals(other: Any?): Boolean
 }
-
-internal expect class MyPrintWriter {
-    fun clearBuffer()
-    override fun toString(): String
-    fun println(x: String)
-    fun print(x: String)
-    fun println(x: Boolean)
-    fun print(x: Boolean)
-    fun println(x: Int)
-    fun print(x: Int)
-    fun println(x: Double)
-    fun print(x: Double)
-    fun println()
-    fun close()
-    fun flush()
-}
-
-internal expect class MyDataInputStream {
-    inline fun readInt(): Int
-    inline fun readByte(): Byte
-    inline fun read(buf: ByteArray, off: Int = 0, len: Int = buf.size): Int
-}
-
-internal expect class MyDataOutputStream {
-    inline fun writeInt(value: Int)
-    inline fun write(buf: ByteArray, off: Int = 0, len: Int = buf.size)
-}

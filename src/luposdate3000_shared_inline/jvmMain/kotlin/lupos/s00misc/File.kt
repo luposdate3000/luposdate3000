@@ -12,40 +12,6 @@ import kotlin.jvm.JvmField
 import lupos.s00misc.IMyInputStream
 import lupos.s00misc.Parallel
 
-internal class MyCharIterator(val file: File) : CharIterator() {
-    val fis = FileInputStream(file.filename)
-    val bis = BufferedInputStream(fis)
-    val dis = DataInputStream(bis)
-    override fun hasNext(): Boolean {
-        val res = dis.available() > 0
-        if (res == false) {
-            dis.close()
-        }
-        return res
-    }
-
-    override fun nextChar(): Char {
-        return dis.readChar()
-    }
-}
-
-internal class MyInputStream(@JvmField val stream: InputStream) : IMyInputStream {
-    override fun read(buf: ByteArray): Int {
-        return stream.read(buf, 0, buf.size)
-    }
-}
-
-internal actual class MyDataInputStream(@JvmField val it: DataInputStream) {
-    actual inline fun readInt(): Int = it.readInt()
-    actual inline fun readByte(): Byte = it.readByte()
-    actual inline fun read(buf: ByteArray, off: Int, len: Int): Int = it.read(buf, off, len)
-}
-
-internal actual class MyDataOutputStream(@JvmField val it: DataOutputStream) {
-    actual inline fun writeInt(value: Int) = it.writeInt(value)
-    actual inline fun write(buf: ByteArray, off: Int, len: Int) = it.write(buf, off, len)
-}
-
 internal actual class File {
     @JvmField
     val filename: String

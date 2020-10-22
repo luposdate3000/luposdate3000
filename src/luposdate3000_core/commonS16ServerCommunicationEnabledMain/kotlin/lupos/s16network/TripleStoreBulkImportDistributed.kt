@@ -5,12 +5,13 @@ import lupos.s00misc.ByteArrayBuilder
 import lupos.s00misc.CommuncationUnexpectedHeaderException
 import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s03resultRepresentation.ResultSetDictionaryExt
-import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.IQuery
+import lupos.s04logicalOperators.Query
+import lupos.s05tripleStore.ITripleStoreBulkImport
 import lupos.s05tripleStore.TripleStoreBulkImport
 import lupos.s05tripleStore.TripleStoreLocalBase
 
-class TripleStoreBulkImportDistributed(val query: IQuery, val graphName: String) : ITripleStoreBulkImportDistributed {
+class TripleStoreBulkImportDistributed(val query: IQuery, val graphName: String) : ITripleStoreBulkImport {
     @JvmField
     val values = Array(3) { ResultSetDictionaryExt.undefValue }
 

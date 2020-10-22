@@ -13,6 +13,7 @@ import lupos.s04logicalOperators.Query
 
 class AOPBuildInCallBNODE0(query: IQuery) : AOPBase(query, EOperatorID.AOPBuildInCallBNODE0ID, "AOPBuildInCallBNODE0", arrayOf()) {
     override fun toSparql() = "BNODE()"
+
     @JvmField
     internal var localbnode = 0L
     override fun equals(other: Any?) = other is AOPBuildInCallBNODE0

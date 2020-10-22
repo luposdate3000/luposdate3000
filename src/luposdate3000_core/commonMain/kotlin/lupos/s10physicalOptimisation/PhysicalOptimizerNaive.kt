@@ -170,8 +170,8 @@ class PhysicalOptimizerNaive(query: Query) : OptimizerBase(query, EOptimizerID.P
                     val tmp = node.getMySortPriority().map { it.variableName }
                     SanityCheck.check { (!projectedVariables.containsAll(tmp)) || (res.getProvidedVariableNames().containsAll(tmp) && projectedVariables.containsAll(tmp)) }
                 }
-                res.setMySortPriority ( node.getMySortPriority())
-                res.setSortPriorities ( node.getSortPriorities())
+                res.setMySortPriority(node.getMySortPriority())
+                res.setSortPriorities(node.getSortPriorities())
                 onChange()
             }
         }
