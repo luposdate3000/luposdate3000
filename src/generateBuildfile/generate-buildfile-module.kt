@@ -145,7 +145,11 @@ fun createBuildFileForModule(args: Array<String>) {
             }
         }
         for (d in commonDependencies) {
+if(d.startsWith("luposdate3000")){
+            out.println("                compileOnly(\"$d\")")
+}else{
             out.println("                implementation(\"$d\")")
+}
         }
         out.println("            }")
         out.println("        }")
@@ -160,7 +164,11 @@ fun createBuildFileForModule(args: Array<String>) {
             }
         }
         for (d in jvmDependencies) {
+if(d.startsWith("luposdate3000")){ 
+            out.println("                compileOnly(\"$d\")")
+}else{
             out.println("                implementation(\"$d\")")
+}
         }
         out.println("            }")
         out.println("        }")
@@ -175,7 +183,11 @@ fun createBuildFileForModule(args: Array<String>) {
             }
         }
         for (d in jsDependencies) {
+if(d.startsWith("luposdate3000")){ 
+            out.println("                compileOnly(\"$d\")")
+}else{
             out.println("                implementation(\"$d\")")
+}
         }
         out.println("            }")
         out.println("        }")
@@ -190,7 +202,11 @@ fun createBuildFileForModule(args: Array<String>) {
             }
         }
         for (d in nativeDependencies) {
+if(d.startsWith("luposdate3000")){ 
+            out.println("                compileOnly(\"$d\")")
+}else{
             out.println("                implementation(\"$d\")")
+}
         }
         out.println("            }")
         out.println("        }")

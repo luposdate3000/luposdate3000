@@ -444,7 +444,9 @@ object BinaryTestCase {
                                         }
 */
                                     }
+if(tmpTable!=null){
                                     failed = verifyEqual(tableInput, tmpTable!!, mapping_live_to_target, targetDict, targetDict2, true, query_name, query_folder, "import ($idx ${p.column} ${p.partitionCount})") || failed
+}
                                 }
                                 if (failed) {
                                     return_value = false

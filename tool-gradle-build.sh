@@ -31,7 +31,8 @@ time	gradle --project-cache-dir="$cachefile" --info --stacktrace shadowJar > $lo
 #		| grep -v "kotlin/lupos/s02buildSyntaxTree"
 		exit $ret
 	fi
-	echo "java -Xmx60g -jar ${output}/libs/luposdate3000-all.jar \$@" > build/executable
+	mv ${output}/libs/luposdate3000-all.jar build-cache/bin-effective/Luposdate3000_Core-jvm.jar
+	echo "java -Xmx60g -cp $(printf %s: build-cache/bin-effective/*.jar) MainKt \$@" > build/executable
 	chmod +x build/executable
 elif [ "$(uname)" == "Darwin" ]
 then
