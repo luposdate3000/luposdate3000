@@ -66,4 +66,6 @@ actual class MyBigDecimal {
     actual fun abs(): MyBigDecimal {
         throw object : NotImplementedException("MyBigDecimal", "abs not implemented") {}
     }
+actual override fun toString():String=s
+actual override fun equals(other: Any?) : Boolean=other is MyBigDecimal && s==other.s
 }

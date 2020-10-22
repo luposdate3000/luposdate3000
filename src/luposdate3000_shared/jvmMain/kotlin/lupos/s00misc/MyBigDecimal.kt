@@ -95,4 +95,6 @@ actual class MyBigDecimal {
     actual fun abs(): MyBigDecimal {
         return MyBigDecimal(v.abs())
     }
+actual override fun toString():String=s
+actual override fun equals(other: Any?) : Boolean=other is MyBigDecimal && s==other.s
 }

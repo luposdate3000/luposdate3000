@@ -33,7 +33,9 @@ time	gradle --project-cache-dir="$cachefile" --info --stacktrace shadowJar > $lo
 	fi
 	mv ${output}/libs/luposdate3000-all.jar build-cache/bin-effective/Luposdate3000_Core-jvm.jar
 	echo "java -Xmx60g -cp $(printf %s: build-cache/bin-effective/*.jar) MainKt \$@" > build/executable
+	echo "java -Xmx60g -cp $(printf %s: build-cache/bin-effective/*.jar) MainKt \$@" > build-cache/bin-effective/executable-jar.sh
 	chmod +x build/executable
+	chmod +x build-cache/bin-effective/executable-jar.sh
 elif [ "$(uname)" == "Darwin" ]
 then
 	gradle --project-cache-dir="$cachefile" linkReleaseExecutableMacosX64 > $logfile 2>&1
