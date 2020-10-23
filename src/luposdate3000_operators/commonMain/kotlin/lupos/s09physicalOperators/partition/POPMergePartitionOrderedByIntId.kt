@@ -217,10 +217,13 @@ class POPMergePartitionOrderedByIntId(query: IQuery, projectedVariables: List<St
             iterator.next = {
                 var res = -1
                 loop@ while (true) {
+println("DEBUGGING POPMergePartitionOrderedByIntId :: @loop")
                     SanityCheck.println({ "merge $uuid reader loop start" })
                     var partitionToUse = -1
                     loop2@ for (p in 0 until partitionCount) {
+println("DEBUGGING POPMergePartitionOrderedByIntId :: @loop2")
                         if (ringbufferReadHead[p] != ringbufferWriteHead[p]) {
+println("DEBUGGING POPMergePartitionOrderedByIntId :: there are ${ringbufferWriteHead[p]-ringbufferReadHead[p]} results in partition $p")
                             if (partitionToUse < 0) {
                                 partitionToUse = p
                             } else {
@@ -269,6 +272,7 @@ class POPMergePartitionOrderedByIntId(query: IQuery, projectedVariables: List<St
                     iterator.close()
                     throw error!!
                 }
+println("DEBUGGING POPMergePartitionOrderedByIntId :: returned response :: $res")
                 /*return*/res
             }
             iterator.close = {

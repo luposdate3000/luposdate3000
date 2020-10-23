@@ -511,7 +511,6 @@ val                                        table = operatorGraphToTable(OPBaseCo
                                 val actualResult = operatorGraphToTable(distributedTripleStore.getDefaultGraph(query4).getIterator(arrayOf(AOPVariable(query4, "s"), AOPVariable(query4, "p"), AOPVariable(query4, "o")), EIndexPattern.SPO, Partition()))
                                 if (!verifyEqual(tableOutput, actualResult, mapping_live_to_target, targetDict, targetDict2, allowOrderBy, query_name, query_folder, "result in store (SPO) is wrong")) {
                                     return_value = false
-                                    println("----------Failed(modifyResult)")
                                     break@func
                                 }
                                 distributedTripleStore.commit(query4)
@@ -520,7 +519,6 @@ val                                        table = operatorGraphToTable(OPBaseCo
                                 val actualResult = operatorGraphToTable(pop_distributed_node)
                                 if (!verifyEqual(tableOutput, actualResult, mapping_live_to_target, targetDict, targetDict2, allowOrderBy, query_name, query_folder, "query result is wrong")) {
                                     return_value = false
-                                    println("----------Failed(read-result)")
                                     break@func
                                 }
                             }

@@ -20,6 +20,7 @@ fun createBuildFileForModule(args: Array<String>) {
     var inlineMode = InlineMode.Enable
     var suspendMode = SuspendMode.Enable
     var releaseMode = true
+var fastMode=false
     if (args.contains("--inline")) {
         inlineMode = InlineMode.Enable
     }
@@ -37,6 +38,9 @@ fun createBuildFileForModule(args: Array<String>) {
     }
     if (args.contains("--debug")) {
         releaseMode = false
+    }
+    if (args.contains("--fast")) {
+        fastMode=true
     }
     File("src.generated").deleteRecursively()
     File("src.generated").mkdirs()
@@ -266,8 +270,13 @@ fun createBuildFileForModule(args: Array<String>) {
     } else {
         applySuspendDisable()
     }
+if(fastMode){
+    runCommand(listOf("gradle", "jvmJar"), File("."))
+    runCommand(listOf("gradle", "publishJvmPublicationToMavenLocal"), File("."))
+}else{
     runCommand(listOf("gradle", "build"), File("."))
     runCommand(listOf("gradle", "publishToMavenLocal"), File("."))
+}
     try {
         File(".gradle").deleteRecursively()
     } catch (e: Throwable) {

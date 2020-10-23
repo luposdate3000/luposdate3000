@@ -22,5 +22,6 @@ function execJvm
 {
 	cd log
 	cat x | grep -e Exception -e Success -e Failed -e "Token unrecognized" -e "java.lang" -e "lupos.s1buildSyntaxTree.UnexpectedToken" -e "Error in the following line"|grep -v "<h1>Success</h1>"| sort | uniq -c | sed "s/kotlin.//g" | sed "s/java.lang.//g"
+	cd ..
 	diff resources/binary/configsequential resources/binary/config2 -y | grep -e "|" -e "<" -e  ">"
 }
