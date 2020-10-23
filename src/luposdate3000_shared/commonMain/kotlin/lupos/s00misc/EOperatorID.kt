@@ -106,6 +106,7 @@ enum class EOperatorID {
     OPEmptyRowID,
     OPNothingID,
     POPBaseID,
+POPMergePartitionOrderedByIntIdID,
     POPBindID,
     POPReducedID,
     POPEmptyRowID,

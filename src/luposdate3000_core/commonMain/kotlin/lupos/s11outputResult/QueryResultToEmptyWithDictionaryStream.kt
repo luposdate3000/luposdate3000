@@ -15,6 +15,7 @@ import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.OPBaseCompound
 import lupos.s04logicalOperators.Query
 import lupos.s09physicalOperators.partition.POPMergePartition
+import lupos.s09physicalOperators.partition.POPMergePartitionOrderedByIntId
 
 internal object QueryResultToEmptyWithDictionaryStream {
     suspend fun writeValue(valueID: Int, columnName: String, dictionary: IResultSetDictionary, output: MyPrintWriter) {
@@ -56,7 +57,7 @@ internal object QueryResultToEmptyWithDictionaryStream {
     }
 
     suspend fun writeNodeResult(variables: Array<String>, node: IOPBase, output: MyPrintWriter, parent: Partition = Partition()) {
-        if (node is POPMergePartition && node.partitionCount > 1) {
+        if ((node is POPMergePartition && node.partitionCount > 1)||(node is POPMergePartitionOrderedByIntId && node.partitionCount > 1)) {
             val jobs = Array<ParallelJob?>(node.partitionCount) { null }
             val lock = MyLock()
             val errors = Array<Throwable?>(node.partitionCount) { null }

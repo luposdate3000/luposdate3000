@@ -113,6 +113,7 @@ import lupos.s09physicalOperators.multiinput.POPUnion
 import lupos.s09physicalOperators.noinput.POPEmptyRow
 import lupos.s09physicalOperators.noinput.POPValues
 import lupos.s09physicalOperators.partition.POPMergePartition
+import lupos.s09physicalOperators.partition.POPMergePartitionOrderedByIntId
 import lupos.s09physicalOperators.partition.POPMergePartitionCount
 import lupos.s09physicalOperators.partition.POPSplitPartition
 import lupos.s09physicalOperators.partition.POPSplitPartitionFromStore
@@ -475,6 +476,9 @@ suspend fun XMLElement.Companion.convertToOPBase(query: Query, node: XMLElement,
         }
         "POPMergePartition" -> {
             res = POPMergePartition(query, createProjectedVariables(query, node, mapping), node.attributes["partitionVariable"]!!, node.attributes["partitionCount"]!!.toInt(), convertToOPBase(query, node["children"]!!.childs[0], mapping))
+        }
+        "POPMergePartitionOrderedByIntId" -> {
+            res = POPMergePartitionOrderedByIntId(query, createProjectedVariables(query, node, mapping), node.attributes["partitionVariable"]!!, node.attributes["partitionCount"]!!.toInt(), convertToOPBase(query, node["children"]!!.childs[0], mapping))
         }
         "POPMergePartitionCount" -> {
             res = POPMergePartitionCount(query, listOf<String>(), node.attributes["partitionVariable"]!!, node.attributes["partitionCount"]!!.toInt(), convertToOPBase(query, node["children"]!!.childs[0], mapping))

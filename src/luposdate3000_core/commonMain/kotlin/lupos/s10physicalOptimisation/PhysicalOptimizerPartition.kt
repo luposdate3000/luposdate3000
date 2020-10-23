@@ -12,6 +12,7 @@ import lupos.s05tripleStore.TripleStoreFeatureParamsPartition
 import lupos.s05tripleStore.TripleStoreLocal
 import lupos.s08logicalOptimisation.OptimizerBase
 import lupos.s09physicalOperators.partition.POPMergePartition
+import lupos.s09physicalOperators.partition.POPMergePartitionOrderedByIntId
 import lupos.s09physicalOperators.partition.POPMergePartitionCount
 import lupos.s09physicalOperators.partition.POPSplitPartition
 import lupos.s09physicalOperators.partition.POPSplitPartitionFromStore
@@ -30,6 +31,9 @@ class PhysicalOptimizerPartition(query: Query) : OptimizerBase(query, EOptimizer
                 if (c is POPMergePartition) {
                     res = POPMergePartition(query, node.projectedVariables, c.partitionVariable, c.partitionCount, POPProjection(query, node.projectedVariables, c.children[0]))
                     onChange()
+}else                if (c is POPMergePartitionOrderedByIntId) {
+                    res = POPMergePartitionOrderedByIntId(query, node.projectedVariables, c.partitionVariable, c.partitionCount, POPProjection(query, node.projectedVariables, c.children[0]))
+                    onChange()
                 } else if (c is POPMergePartitionCount) {
                     res = POPMergePartitionCount(query, node.projectedVariables, c.partitionVariable, c.partitionCount, POPProjection(query, node.projectedVariables, c.children[0]))
                     onChange()
@@ -39,6 +43,9 @@ class PhysicalOptimizerPartition(query: Query) : OptimizerBase(query, EOptimizer
                 val c = node.children[0]
                 if (c is POPMergePartition) {
                     res = POPMergePartition(query, node.projectedVariables, c.partitionVariable, c.partitionCount, POPReduced(query, node.projectedVariables, c.children[0]))
+                    onChange()
+}else                if (c is POPMergePartitionOrderedByIntId) {
+                    res = POPMergePartitionOrderedByIntId(query, node.projectedVariables, c.partitionVariable, c.partitionCount, POPReduced(query, node.projectedVariables, c.children[0]))
                     onChange()
                 } else if (c is POPMergePartitionCount) {
                     res = POPMergePartitionCount(query, node.projectedVariables, c.partitionVariable, c.partitionCount, POPReduced(query, node.projectedVariables, c.children[0]))
@@ -50,6 +57,9 @@ class PhysicalOptimizerPartition(query: Query) : OptimizerBase(query, EOptimizer
                 if (c is POPMergePartition) {
                     res = POPMergePartition(query, node.projectedVariables, c.partitionVariable, c.partitionCount, POPFilter(query, node.projectedVariables, node.children[1] as AOPBase, c.children[0]))
                     onChange()
+}else                if (c is POPMergePartitionOrderedByIntId) {
+                    res = POPMergePartitionOrderedByIntId(query, node.projectedVariables, c.partitionVariable, c.partitionCount, POPFilter(query, node.projectedVariables, node.children[1] as AOPBase, c.children[0]))
+                    onChange()
                 } else if (c is POPMergePartitionCount) {
                     res = POPMergePartitionCount(query, node.projectedVariables, c.partitionVariable, c.partitionCount, POPFilter(query, node.projectedVariables, node.children[1] as AOPBase, c.children[0]))
                     onChange()
@@ -60,6 +70,12 @@ class PhysicalOptimizerPartition(query: Query) : OptimizerBase(query, EOptimizer
                 val c = node.children[0]
                 when (c) {
                     is POPMergePartition -> {
+                        if (node.partitionVariable == c.partitionVariable) {
+                            res = c.children[0]
+                            onChange()
+                        }
+                    }
+                    is POPMergePartitionOrderedByIntId -> {
                         if (node.partitionVariable == c.partitionVariable) {
                             res = c.children[0]
                             onChange()
