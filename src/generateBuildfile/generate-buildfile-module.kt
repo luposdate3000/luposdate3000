@@ -1,7 +1,7 @@
 import java.io.File
+import java.lang.ProcessBuilder.Redirect
 import java.nio.file.Files
 import java.nio.file.Paths
-import java.lang.ProcessBuilder.Redirect
 import java.nio.file.StandardCopyOption
 
 fun createBuildFileForModule(args: Array<String>) {
@@ -145,11 +145,11 @@ fun createBuildFileForModule(args: Array<String>) {
             }
         }
         for (d in commonDependencies) {
-if(d.startsWith("luposdate3000")){
-            out.println("                compileOnly(\"$d\")")
-}else{
-            out.println("                implementation(\"$d\")")
-}
+            if (d.startsWith("luposdate3000")) {
+                out.println("                compileOnly(\"$d\")")
+            } else {
+                out.println("                implementation(\"$d\")")
+            }
         }
         out.println("            }")
         out.println("        }")
@@ -164,11 +164,11 @@ if(d.startsWith("luposdate3000")){
             }
         }
         for (d in jvmDependencies) {
-if(d.startsWith("luposdate3000")){ 
-            out.println("                compileOnly(\"$d\")")
-}else{
-            out.println("                implementation(\"$d\")")
-}
+            if (d.startsWith("luposdate3000")) {
+                out.println("                compileOnly(\"$d\")")
+            } else {
+                out.println("                implementation(\"$d\")")
+            }
         }
         out.println("            }")
         out.println("        }")
@@ -183,11 +183,11 @@ if(d.startsWith("luposdate3000")){
             }
         }
         for (d in jsDependencies) {
-if(d.startsWith("luposdate3000")){ 
-            out.println("                compileOnly(\"$d\")")
-}else{
-            out.println("                implementation(\"$d\")")
-}
+            if (d.startsWith("luposdate3000")) {
+                out.println("                compileOnly(\"$d\")")
+            } else {
+                out.println("                implementation(\"$d\")")
+            }
         }
         out.println("            }")
         out.println("        }")
@@ -202,11 +202,11 @@ if(d.startsWith("luposdate3000")){
             }
         }
         for (d in nativeDependencies) {
-if(d.startsWith("luposdate3000")){ 
-            out.println("                compileOnly(\"$d\")")
-}else{
-            out.println("                implementation(\"$d\")")
-}
+            if (d.startsWith("luposdate3000")) {
+                out.println("                compileOnly(\"$d\")")
+            } else {
+                out.println("                implementation(\"$d\")")
+            }
         }
         out.println("            }")
         out.println("        }")
@@ -219,7 +219,7 @@ if(d.startsWith("luposdate3000")){
         out.println("}")
     }
     File("src.generated/commonMain/kotlin/lupos/s00misc/").mkdirs()
-    File("src.generated/commonMain/kotlin/lupos/s00misc/Config.kt").printWriter().use { out ->
+    File("src.generated/commonMain/kotlin/lupos/s00misc/Config-${moduleName}.kt").printWriter().use { out ->
         out.println("package lupos.s00misc")
         if (releaseMode) {
             out.println("internal typealias SanityCheck = SanityCheckOff")

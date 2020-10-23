@@ -18,6 +18,6 @@ expect class MyBigDecimal {
     fun floor(): MyBigDecimal
     fun round(): MyBigDecimal
     fun abs(): MyBigDecimal
-override fun toString():String
- override fun equals(other: Any?) : Boolean
+    override fun toString(): String
+    override fun equals(other: Any?): Boolean
 }

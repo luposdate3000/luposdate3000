@@ -62,6 +62,7 @@ actual class MyBigInteger {
     actual fun abs(): MyBigInteger {
         throw object : NotImplementedException("MyBigInteger", "abs not implemented") {}
     }
-override actual fun toString()=s
-actual override fun equals(other: Any?) : Boolean=other is MyBigInteger && s==other.s
+
+    override actual fun toString() = s
+    actual override fun equals(other: Any?): Boolean = other is MyBigInteger && s == other.s
 }

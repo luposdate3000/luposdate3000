@@ -511,8 +511,8 @@ class GenerateBuildFile(val args: Array<String>) {
     fun main() {
         var done = false
         var autogeneratemode = args.size > 0 && args[0] == "listAll"
-File("build-cache/bin-effective").deleteRecursively()
-File("build-cache/bin-effective").mkdirs()
+        File("build-cache/bin-effective").deleteRecursively()
+        File("build-cache/bin-effective").mkdirs()
         while (!done) {
             resetAllChoosenOptions()
             var presentChoice: (ChooseableGroup, List<ChooseableOption>) -> ChooseableOption
@@ -715,13 +715,13 @@ File("build-cache/bin-effective").mkdirs()
                             out.println("dependencies {")
                             for (option in allChoosenOptions.sorted()) {
                                 if (option is ChooseableOptionDependency) {
-if(option.internalID.startsWith("luposdate3000")){
-                                    out.println("    compileOnly(\"${option.internalID}\")")
-val tmpName=option.internalID.split(":")[1]
-Files.createSymbolicLink(Paths.get("build-cache/bin-effective/${tmpName}-jvm.jar"), Paths.get("../bin/${tmpName}-jvm.jar"))
-}else{
-                                    out.println("    implementation(\"${option.internalID}\")")
-}
+                                    if (option.internalID.startsWith("luposdate3000")) {
+                                        out.println("    compileOnly(\"${option.internalID}\")")
+                                        val tmpName = option.internalID.split(":")[1]
+                                        Files.createSymbolicLink(Paths.get("build-cache/bin-effective/${tmpName}-jvm.jar"), Paths.get("../bin/${tmpName}-jvm.jar"))
+                                    } else {
+                                        out.println("    implementation(\"${option.internalID}\")")
+                                    }
                                 }
                             }
                             out.println("}")
@@ -845,10 +845,10 @@ Files.createSymbolicLink(Paths.get("build-cache/bin-effective/${tmpName}-jvm.jar
                         File("src/luposdate3000_core/${option.internalID}").copyRecursively(File("src.generated/${option.internalID}"))
                     }
                 }
-try{
-                File("src/luposdate3000_core/commonTemplate").copyRecursively(File("src.generated/commonTemplate"))
-}catch(e:Throwable){
-}
+                try {
+                    File("src/luposdate3000_core/commonTemplate").copyRecursively(File("src.generated/commonTemplate"))
+                } catch (e: Throwable) {
+                }
 //perform scripts "before template"
                 for (option in allChoosenOptions) {
                     if (option is ChoosableOptionExternalScript && option.beforeTemplate) {

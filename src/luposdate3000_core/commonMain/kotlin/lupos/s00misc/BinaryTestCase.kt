@@ -40,6 +40,7 @@ import lupos.s04arithmetikOperators.IAOPBase
 import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.OPBase
+import lupos.s04logicalOperators.OPBaseCompound
 import lupos.s04logicalOperators.Query
 import lupos.s06buildOperatorGraph.OperatorGraphVisitor
 import lupos.s08logicalOptimisation.LogicalOptimizer
@@ -387,7 +388,7 @@ object BinaryTestCase {
                                 }
                                 targetDict[s] = i
                                 targetDict2[i] = s
-println("XXX added value:$s")
+                                println("XXX added value:$s")
                                 val tmp = nodeGlobalDictionary.createValue(s)
                                 mapping_target_to_live[i] = tmp
                                 mapping_live_to_target[tmp] = i
@@ -419,13 +420,13 @@ println("XXX added value:$s")
                                 val query3 = Query()
                                 val queryParam = arrayOf<IAOPBase>(AOPVariable(query3, "s"), AOPVariable(query3, "p"), AOPVariable(query3, "o"))
                                 val enablesPartitions = distributedTripleStore.getLocalStore().getDefaultGraph(query3).getEnabledPartitions()
-                                var failed = false
+                                var success = true
                                 for (p in enablesPartitions) {
                                     val idx = p.index.toList().first()
                                     var tmpTable: MemoryTable? = null
                                     if (p.partitionCount == 1) {
                                         val node = distributedTripleStore.getDefaultGraph(query3).getIterator(queryParam, idx, Partition())
-                                        tmpTable = operatorGraphToTable(node)
+                                        tmpTable = operatorGraphToTable(OPBaseCompound(query3, arrayOf(node), listOf(listOf("s", "p", "o"))))
                                     } else {
 //TODO
 /*
@@ -436,7 +437,7 @@ println("XXX added value:$s")
                                             partition.data[key] = value
                                             println("using Partitioning on ${key} (${value}/${p.partitionCount})")
                                             val node = distributedTripleStore.getDefaultGraph(query3).getIterator(queryParam, idx, partition)
-                                            val table = operatorGraphToTable(node)
+val                                        table = operatorGraphToTable(OPBaseCompound(query3,arrayOf(node),listOf(listOf("s","p","o"))))
                                             if (tmpTable != null) {
                                                 tmpTable = MemoryTable(tmpTable!!, table)
                                             } else {
@@ -445,12 +446,14 @@ println("XXX added value:$s")
                                         }
 */
                                     }
-if(tmpTable!=null){
-                                    failed = verifyEqual(tableInput, tmpTable!!, mapping_live_to_target, targetDict, targetDict2, true, query_name, query_folder, "import ($idx ${p.column} ${p.partitionCount})") || failed
-}
+                                    if (tmpTable != null) {
+                                        success = verifyEqual(tableInput, tmpTable!!, mapping_live_to_target, targetDict, targetDict2, true, query_name, query_folder, "import ($idx ${p.column} ${p.partitionCount})") && success
+                                        println("success after idx $idx $success")
+                                    }
                                 }
-                                if (failed) {
+                                if (!success) {
                                     return_value = false
+                                    println("----------Failed(import)")
                                     break@func
                                 }
                             }
@@ -508,6 +511,7 @@ if(tmpTable!=null){
                                 val actualResult = operatorGraphToTable(distributedTripleStore.getDefaultGraph(query4).getIterator(arrayOf(AOPVariable(query4, "s"), AOPVariable(query4, "p"), AOPVariable(query4, "o")), EIndexPattern.SPO, Partition()))
                                 if (!verifyEqual(tableOutput, actualResult, mapping_live_to_target, targetDict, targetDict2, allowOrderBy, query_name, query_folder, "result in store (SPO) is wrong")) {
                                     return_value = false
+                                    println("----------Failed(modifyResult)")
                                     break@func
                                 }
                                 distributedTripleStore.commit(query4)
@@ -516,6 +520,7 @@ if(tmpTable!=null){
                                 val actualResult = operatorGraphToTable(pop_distributed_node)
                                 if (!verifyEqual(tableOutput, actualResult, mapping_live_to_target, targetDict, targetDict2, allowOrderBy, query_name, query_folder, "query result is wrong")) {
                                     return_value = false
+                                    println("----------Failed(read-result)")
                                     break@func
                                 }
                             }

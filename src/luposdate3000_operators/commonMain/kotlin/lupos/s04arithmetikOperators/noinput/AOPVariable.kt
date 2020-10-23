@@ -16,7 +16,7 @@ import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
 
 class AOPVariable(query: IQuery, @JvmField var name: String) : AOPBase(query, EOperatorID.AOPVariableID, "AOPVariable", arrayOf()), IAOPVariable {
-override fun getName()=name
+    override fun getName() = name
     override fun toSparql(): String = "?$name".replace("#", "LuposVariable")
     override fun syntaxVerifyAllVariableExists(additionalProvided: List<String>, autocorrect: Boolean) {}
     override fun getRequiredVariableNames(): List<String> = listOf(name)

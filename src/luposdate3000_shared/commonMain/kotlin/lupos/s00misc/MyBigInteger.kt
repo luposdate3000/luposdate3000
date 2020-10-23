@@ -17,6 +17,6 @@ expect class MyBigInteger {
     fun floor(): MyBigInteger
     fun round(): MyBigInteger
     fun abs(): MyBigInteger
-override fun toString():String
-override fun equals(other: Any?) : Boolean 
+    override fun toString(): String
+    override fun equals(other: Any?): Boolean
 }

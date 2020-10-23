@@ -580,7 +580,6 @@ class TripleStoreIndex_IDTriple() : TripleStoreIndex() {
     }
 
     internal fun rebuildDataSanity2(iterator: TripleIterator) {
-
         if (firstLeaf != NodeManager.nodeNullPointer) {
             debugLock.writeLock()
             debugLock.writeUnlock()

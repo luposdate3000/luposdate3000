@@ -1,4 +1,5 @@
 package lupos.s04arithmetikOperators.noinput
+
 import kotlin.jvm.JvmField
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.XMLElement
@@ -11,8 +12,10 @@ import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.Query
 
 class AOPConstant : AOPBase, IAOPConstant {
-@JvmField    val value: Int
-override fun getValue()=value
+    @JvmField
+    val value: Int
+    override fun getValue() = value
+
     constructor(query: IQuery, value2: ValueDefinition) : super(query, EOperatorID.AOPConstantID, "AOPConstant", arrayOf()) {
         value = query.getDictionary().createValue(value2)
     }

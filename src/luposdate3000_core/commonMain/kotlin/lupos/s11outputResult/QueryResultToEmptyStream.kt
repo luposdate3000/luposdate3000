@@ -35,14 +35,23 @@ internal object QueryResultToEmptyStream {
     }
 
     suspend fun writeNodeResult(variables: Array<String>, node: IOPBase, output: MyPrintWriter, parent: Partition = Partition()) {
-        if ((node is POPMergePartition && node.partitionCount > 1)||(node is POPMergePartitionOrderedByIntId && node.partitionCount > 1)) {
-            val jobs = Array<ParallelJob?>(node.partitionCount) { null }
+        if ((node is POPMergePartition && node.partitionCount > 1) || (node is POPMergePartitionOrderedByIntId && node.partitionCount > 1)) {
+            var partitionCount = 0
+            var partitionVariable = ""
+            if (node is POPMergePartition) {
+                partitionCount = node.partitionCount
+                partitionVariable = node.partitionVariable
+            } else if (node is POPMergePartitionOrderedByIntId) {
+                partitionCount = node.partitionCount
+                partitionVariable = node.partitionVariable
+            }
+            val jobs = Array<ParallelJob?>(partitionCount) { null }
             val lock = MyLock()
-            val errors = Array<Throwable?>(node.partitionCount) { null }
-            for (p in 0 until node.partitionCount) {
+            val errors = Array<Throwable?>(partitionCount) { null }
+            for (p in 0 until partitionCount) {
                 jobs[p] = Parallel.launch {
                     try {
-                        val child = node.children[0].evaluate(Partition(parent, node.partitionVariable, p, node.partitionCount))
+                        val child = node.getChildren()[0].evaluate(Partition(parent, partitionVariable, p, partitionCount))
                         val columns = variables.map { child.columns[it]!! }.toTypedArray()
                         writeAllRows(variables, columns, node.getQuery().getDictionary(), lock, output)
                     } catch (e: Throwable) {
@@ -50,7 +59,7 @@ internal object QueryResultToEmptyStream {
                     }
                 }
             }
-            for (p in 0 until node.partitionCount) {
+            for (p in 0 until partitionCount) {
                 jobs[p]!!.join()
             }
             for (e in errors) {

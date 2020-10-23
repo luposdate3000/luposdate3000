@@ -75,6 +75,7 @@ actual class MyBigInteger {
     actual fun abs(): MyBigInteger {
         return MyBigInteger(v.abs())
     }
-override actual fun toString()=s
-actual override fun equals(other: Any?) : Boolean=other is MyBigInteger && s==other.s
+
+    override actual fun toString() = s
+    actual override fun equals(other: Any?): Boolean = other is MyBigInteger && s == other.s
 }

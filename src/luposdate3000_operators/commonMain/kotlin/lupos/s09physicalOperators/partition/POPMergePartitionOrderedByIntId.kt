@@ -4,8 +4,8 @@ import kotlin.coroutines.Continuation
 import kotlin.coroutines.resume
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.ESortPriority
-import lupos.s00misc.MyLock
 import lupos.s00misc.ESortType
+import lupos.s00misc.MyLock
 import lupos.s00misc.Parallel
 import lupos.s00misc.ParallelCondition
 import lupos.s00misc.ParallelJob
