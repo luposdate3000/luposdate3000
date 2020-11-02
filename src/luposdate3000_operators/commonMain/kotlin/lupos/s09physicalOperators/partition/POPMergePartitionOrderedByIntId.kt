@@ -1,7 +1,6 @@
 package lupos.s09physicalOperators.partition
 
 import kotlin.coroutines.Continuation
-import kotlin.coroutines.resume
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.ESortPriority
 import lupos.s00misc.ESortType

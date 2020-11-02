@@ -1,7 +1,6 @@
 package lupos.s15tripleStoreDistributed
 
 import kotlin.jvm.JvmField
-import lupos.s00misc.EGraphOperationType
 import lupos.s00misc.EIndexPattern
 import lupos.s00misc.EModifyType
 import lupos.s00misc.EOperatorID

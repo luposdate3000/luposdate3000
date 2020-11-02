@@ -1,36 +1,20 @@
 package lupos.s00misc
 
-import kotlin.jvm.JvmField
-import lupos.s00misc.DateHelper
 import lupos.s00misc.EIndexPattern
-import lupos.s00misc.EModifyType
 import lupos.s00misc.File
-import lupos.s00misc.JenaBugException
-import lupos.s00misc.JenaWrapper
-import lupos.s00misc.Luposdate3000Exception
 import lupos.s00misc.MAX_TRIPLES_DURING_TEST
 import lupos.s00misc.MemoryTable
 import lupos.s00misc.MyPrintWriter
 import lupos.s00misc.NotImplementedException
-import lupos.s00misc.OperatorGraphToLatex
 import lupos.s00misc.parseFromAny
-import lupos.s00misc.parseFromXml
 import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
-import lupos.s00misc.UnknownManifestException
 import lupos.s00misc.XMLElement
 import lupos.s02buildSyntaxTree.LexerCharIterator
 import lupos.s02buildSyntaxTree.LookAheadTokenIterator
-import lupos.s02buildSyntaxTree.ParseError
-import lupos.s02buildSyntaxTree.rdf.BlankNode
 import lupos.s02buildSyntaxTree.rdf.Dictionary
-import lupos.s02buildSyntaxTree.rdf.ID_Triple
-import lupos.s02buildSyntaxTree.rdf.IRI
-import lupos.s02buildSyntaxTree.rdf.SimpleLiteral
-import lupos.s02buildSyntaxTree.sparql1_1.parseSPARQL
 import lupos.s02buildSyntaxTree.sparql1_1.SPARQLParser
 import lupos.s02buildSyntaxTree.sparql1_1.TokenIteratorSPARQLParser
-import lupos.s02buildSyntaxTree.turtle.TurtleParserWithDictionary
 import lupos.s03resultRepresentation.nodeGlobalDictionary
 import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s03resultRepresentation.ResultSetDictionaryExt
@@ -43,16 +27,10 @@ import lupos.s04logicalOperators.OPBaseCompound
 import lupos.s04logicalOperators.Query
 import lupos.s06buildOperatorGraph.OperatorGraphVisitor
 import lupos.s08logicalOptimisation.LogicalOptimizer
-import lupos.s09physicalOperators.noinput.POPValuesImportXML
-import lupos.s09physicalOperators.POPBase
 import lupos.s10physicalOptimisation.PhysicalOptimizer
 import lupos.s11outputResult.QueryResultToMemoryTable
-import lupos.s11outputResult.QueryResultToXMLElement
 import lupos.s11outputResult.QueryResultToXMLStream
-import lupos.s14endpoint.convertToOPBase
 import lupos.s15tripleStoreDistributed.distributedTripleStore
-import lupos.s16network.HttpEndpoint
-import lupos.SparqlTestSuite
 
 object BinaryTestCase {
     internal var outSummary = MyPrintWriter(false)

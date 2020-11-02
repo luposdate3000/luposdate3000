@@ -2,7 +2,6 @@ package lupos.s04arithmetikOperators.singleinput
 
 import kotlin.math.ceil
 import lupos.s00misc.EOperatorID
-import lupos.s00misc.MyBigDecimal
 import lupos.s00misc.SanityCheck
 import lupos.s03resultRepresentation.ValueDecimal
 import lupos.s03resultRepresentation.ValueDefinition

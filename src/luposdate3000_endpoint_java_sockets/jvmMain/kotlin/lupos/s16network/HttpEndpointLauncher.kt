@@ -12,12 +12,10 @@ import java.util.Date
 import lupos.s00misc.DateHelper
 import lupos.s00misc.EnpointRecievedInvalidPath
 import lupos.s00misc.File
-import lupos.s00misc.IMyPrintWriter
 import lupos.s00misc.JenaWrapper
 import lupos.s00misc.MyPrintWriter
 import lupos.s00misc.Parallel
 import lupos.s03resultRepresentation.nodeGlobalDictionary
-import lupos.s15tripleStoreDistributed.distributedTripleStore
 
 internal class MyPrintWriterExtension(out: OutputStream) : MyPrintWriter(out) {
     var counter = 0

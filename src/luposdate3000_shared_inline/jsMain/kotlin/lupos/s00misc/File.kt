@@ -1,7 +1,6 @@
 package lupos.s00misc
 
 import lupos.s00misc.IMyInputStream
-import lupos.s00misc.Parallel
 
 internal actual class File {
     val filename: String

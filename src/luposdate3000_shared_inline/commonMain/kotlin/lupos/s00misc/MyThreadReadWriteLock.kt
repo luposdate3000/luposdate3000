@@ -1,7 +1,5 @@
 package lupos.s00misc
 
-import kotlin.jvm.JvmField
-
 internal expect class MyThreadReadWriteLock() {
     inline fun getUUID(): Long
     inline fun downgradeToReadLock()

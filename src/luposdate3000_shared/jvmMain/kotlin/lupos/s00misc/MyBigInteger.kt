@@ -1,8 +1,6 @@
 package lupos.s00misc
 
 import java.math.BigInteger
-import java.math.MathContext
-import java.math.RoundingMode
 
 actual class MyBigInteger {
     val s: String

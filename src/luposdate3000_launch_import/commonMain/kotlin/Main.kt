@@ -1,11 +1,7 @@
 import lupos.s00misc.ETripleComponentType
 import lupos.s00misc.File
 import lupos.s00misc.Parallel
-import lupos.s02buildSyntaxTree.LexerCharIterator
-import lupos.s02buildSyntaxTree.LookAheadTokenIterator
 import lupos.s02buildSyntaxTree.turtle.Turtle2Parser
-import lupos.s02buildSyntaxTree.turtle.TurtleParserWithStringTriples
-import lupos.s02buildSyntaxTree.turtle.TurtleScanner
 import lupos.s15tripleStoreDistributed.distributedTripleStore
 import lupos.s15tripleStoreDistributed.DistributedTripleStore
 
