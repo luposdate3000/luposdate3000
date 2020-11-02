@@ -22,3 +22,5 @@ ret=$? ; if [ $ret -ne 0 ] ; then exit $ret ; fi
 ret=$? ; if [ $ret -ne 0 ] ; then exit $ret ; fi
 ./generate-buildfile-module.kts "Luposdate3000_Optimizer" "src/luposdate3000_optimizer" "linuxX64" --inline --nosuspend --debug
 ret=$? ; if [ $ret -ne 0 ] ; then exit $ret ; fi
+./generate-buildfile-module.kts "Luposdate3000_Endpoint" "src/luposdate3000_endpoint" "linuxX64" --inline --nosuspend --debug
+ret=$? ; if [ $ret -ne 0 ] ; then exit $ret ; fi

@@ -26,7 +26,7 @@ import lupos.s06buildOperatorGraph.OperatorGraphVisitor
 import lupos.s08logicalOptimisation.LogicalOptimizer
 import lupos.s09physicalOperators.noinput.POPValuesImportXML
 import lupos.s10physicalOptimisation.PhysicalOptimizer
-import lupos.s11outputResult.QueryResultToStream
+import lupos.s00misc.QueryResultToStream
 import lupos.s14endpoint.convertToOPBase
 import lupos.s15tripleStoreDistributed.distributedTripleStore
 
