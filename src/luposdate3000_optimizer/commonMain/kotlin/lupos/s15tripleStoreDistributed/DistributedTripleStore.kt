@@ -102,8 +102,8 @@ class TripleStoreIteratorGlobal(query: IQuery, projectedVariables: List<String>,
 //            }
         }
         var params: TripleStoreFeatureParams? = null
-        if (partition.data.size > 0) {
-            params = TripleStoreFeatureParamsPartition(idx, Array(3) { children[it] as IAOPBase }, partition)
+        if (parent.data.size > 0) {
+            params = TripleStoreFeatureParamsPartition(idx, Array(3) { children[it] as IAOPBase }, parent)
         }
         if (params == null) {
             params = TripleStoreFeatureParamsDefault(idx, Array(3) { children[it] as IAOPBase })

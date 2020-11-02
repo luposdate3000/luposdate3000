@@ -436,6 +436,7 @@ distributedTripleStore.getLocalStore().getDefaultGraph(query1).clear()
                                         for (value in 0 until p.partitionCount) {
                                             val partition = Partition()
                                             val key = idx.toString().substring(p.column, p.column + 1).toLowerCase()
+println("extractKey :: $idx ${p.column} $key")
                                             partition.limit[key] = p.partitionCount
                                             partition.data[key] = value
                                             val node = distributedTripleStore.getDefaultGraph(query3).getIterator(queryParam, idx, partition)
