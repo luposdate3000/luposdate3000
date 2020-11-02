@@ -555,6 +555,7 @@ class GenerateBuildFile(val args: Array<String>) {
                     ),
                     ChooseableOption("commonMain") to listOf(
                             ChooseableOptionDependency("luposdate3000:Luposdate3000_Parser:0.0.1"),
+                            ChooseableOptionDependency("luposdate3000:Luposdate3000_Result_Format:0.0.1"),
                             ChooseableOptionDependency("luposdate3000:Luposdate3000_Triple_Store_Id_Triple:0.0.1"),
                             ChooseableOptionDependency("luposdate3000:Luposdate3000_Shared:0.0.1"),
                             ChooseableOptionDependency("luposdate3000:Luposdate3000_Operators:0.0.1"),

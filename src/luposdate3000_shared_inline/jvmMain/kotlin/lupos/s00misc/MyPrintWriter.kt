@@ -5,11 +5,11 @@ import java.io.PrintWriter
 import java.io.StringWriter
 
 actual internal class MyPrintWriter:IMyPrintWriter {
-    val buffer = StringWriter()
-    val printer: PrintWriter
-    val bufferMode: MyPrintWriterMode
+@JvmField    val buffer = StringWriter()
+@JvmField     val printer: PrintWriter
+@JvmField     val bufferMode: MyPrintWriterMode
 
-    constructor(hasBuffer: Boolean = true) {
+actual    constructor(hasBuffer: Boolean ) {
         if (hasBuffer) {
             bufferMode = MyPrintWriterMode.BUFFER
             printer = PrintWriter(buffer)
