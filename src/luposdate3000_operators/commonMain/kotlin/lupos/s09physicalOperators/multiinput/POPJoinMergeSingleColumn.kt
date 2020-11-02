@@ -182,6 +182,7 @@ println("DEBUGGING POPJoinMergeSingleColumn call close")
         if (a != ResultSetDictionaryExt.nullValue && b != ResultSetDictionaryExt.nullValue) {
             outMap[projectedVariables[0]] = ColumnIteratorImpl(child0, child1, a, b)
         } else {
+println("DEBUGGING POPJoinMergeSingleColumn $uuid empty result -> empty iterator $a $b")
             outMap[projectedVariables[0]] = ColumnIteratorEmpty()
             SanityCheck.println({ "$uuid close $classname" })
             child0.close()

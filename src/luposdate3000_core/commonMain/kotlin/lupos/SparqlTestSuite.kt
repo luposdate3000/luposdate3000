@@ -40,7 +40,6 @@ import lupos.s08logicalOptimisation.LogicalOptimizer
 import lupos.s09physicalOperators.noinput.POPValuesImportXML
 import lupos.s10physicalOptimisation.PhysicalOptimizer
 import lupos.s11outputResult.QueryResultToXMLElement
-import lupos.s13keyDistributionOptimizer.KeyDistributionOptimizer
 import lupos.s14endpoint.convertToOPBase
 import lupos.s15tripleStoreDistributed.distributedTripleStore
 import lupos.s16network.HttpEndpoint
@@ -604,18 +603,10 @@ open class SparqlTestSuite() {
                 val x = pop_node.toXMLElement().toPrettyString()
                 SanityCheck.println { x }
             }
-            SanityCheck.println { "----------Distributed Operator Graph" }
-            val pop_distributed_node = KeyDistributionOptimizer(query).optimizeCall(pop_node)
-            SanityCheck.check { pop_distributed_node == pop_distributed_node.cloneOP() }
-            SanityCheck { pop_distributed_node.toSparqlQuery() }
-            File("log/${testName2}-Distributed-Operator-Graph.tex").printWriterSuspended {
-                it.println(OperatorGraphToLatex(pop_distributed_node.toXMLElement().toString(), testName2))
-            }
-            SanityCheck.println { pop_distributed_node }
             var xmlQueryResult: XMLElement? = null
             if (!outputDataGraph.isEmpty() || (resultData != null && resultDataFileName != null)) {
                 SanityCheck.println { "----------Query Result" }
-                xmlQueryResult = QueryResultToXMLElement.toXML(pop_distributed_node)
+                xmlQueryResult = QueryResultToXMLElement.toXML(pop_node)
                 SanityCheck.println { "test xmlQueryResult :: " + xmlQueryResult.toPrettyString() }
                 distributedTripleStore.commit(query)
                 query.commited = true
@@ -675,7 +666,7 @@ open class SparqlTestSuite() {
                 }
                 res = xmlQueryResult!!.myEquals(xmlQueryTarget)
                 if (res) {
-                    val xmlPOP = pop_distributed_node.toXMLElement()
+                    val xmlPOP = pop_node.toXMLElement()
                     val query4 = Query()
                     query4.setWorkingDirectory(queryFile.substring(0, queryFile.lastIndexOf("/")))
                     val popNodeRecovered = XMLElement.convertToOPBase(query4, xmlPOP)

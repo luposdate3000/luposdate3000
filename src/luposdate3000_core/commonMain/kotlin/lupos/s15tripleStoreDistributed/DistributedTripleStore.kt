@@ -98,13 +98,13 @@ class TripleStoreIteratorGlobal(query: IQuery, projectedVariables: List<String>,
             for ((k, v) in parent.limit) {
                 SanityCheck.check({ partition.limit[k] == v || v == 1 }, { "${parent.limit} ${partition.limit}" })
             }
-            for ((k, v) in partition.limit) {
-                SanityCheck.check({ parent.limit[k] == v || v == 1 }, { "${parent.limit} ${partition.limit}" })
-            }
+//            for ((k, v) in partition.limit) {
+//                SanityCheck.check({ parent.limit[k] == v || v == 1 }, { "${parent.limit} ${partition.limit}" })
+//            }
         }
         var params: TripleStoreFeatureParams? = null
-        if (parent.data.size > 0) {
-            params = TripleStoreFeatureParamsPartition(idx, Array(3) { children[it] as IAOPBase }, parent)
+        if (partition.data.size > 0) {
+            params = TripleStoreFeatureParamsPartition(idx, Array(3) { children[it] as IAOPBase }, partition)
         }
         if (params == null) {
             params = TripleStoreFeatureParamsDefault(idx, Array(3) { children[it] as IAOPBase })

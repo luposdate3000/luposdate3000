@@ -49,7 +49,6 @@ import lupos.s10physicalOptimisation.PhysicalOptimizer
 import lupos.s11outputResult.QueryResultToMemoryTable
 import lupos.s11outputResult.QueryResultToXMLElement
 import lupos.s11outputResult.QueryResultToXMLStream
-import lupos.s13keyDistributionOptimizer.KeyDistributionOptimizer
 import lupos.s14endpoint.convertToOPBase
 import lupos.s15tripleStoreDistributed.distributedTripleStore
 import lupos.s16network.HttpEndpoint

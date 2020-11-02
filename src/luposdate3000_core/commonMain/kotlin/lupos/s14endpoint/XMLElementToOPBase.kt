@@ -128,7 +128,6 @@ import lupos.s09physicalOperators.singleinput.POPGroup
 import lupos.s09physicalOperators.singleinput.POPMakeBooleanResult
 import lupos.s09physicalOperators.singleinput.POPProjection
 import lupos.s09physicalOperators.singleinput.POPSort
-import lupos.s12p2p.POPServiceIRI
 import lupos.s15tripleStoreDistributed.distributedTripleStore
 
 fun convertToPartition(node: XMLElement): Partition {
@@ -583,9 +582,6 @@ suspend fun XMLElement.Companion.convertToOPBase(query: Query, node: XMLElement,
             val idx = EIndexPattern.valueOf(node.attributes["idx"]!!)
             val partition = convertToPartition(node["partition"]!!.childs[0])
             res = distributedTripleStore.getNamedGraph(query, node.attributes["name"]!!).getIterator(arrayOf(s, p, o), idx, partition)
-        }
-        "POPServiceIRI" -> {
-            res = POPServiceIRI(query, createProjectedVariables(query, node, mapping), node.attributes["name"]!!, node.attributes["silent"]!!.toBoolean(), convertToOPBase(query, node["children"]!!.childs[0], mapping))
         }
         "LOPTriple" -> {
             res = LOPTriple(query, convertToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase, convertToOPBase(query, node["children"]!!.childs[1], mapping) as AOPBase, convertToOPBase(query, node["children"]!!.childs[2], mapping) as AOPBase, node.attributes["graph"]!!, node.attributes["graphVar"]!!.toBoolean())

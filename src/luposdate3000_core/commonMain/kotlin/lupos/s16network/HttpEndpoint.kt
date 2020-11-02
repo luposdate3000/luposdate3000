@@ -28,7 +28,6 @@ import lupos.s08logicalOptimisation.LogicalOptimizer
 import lupos.s09physicalOperators.noinput.POPValuesImportXML
 import lupos.s10physicalOptimisation.PhysicalOptimizer
 import lupos.s11outputResult.QueryResultToStream
-import lupos.s13keyDistributionOptimizer.KeyDistributionOptimizer
 import lupos.s14endpoint.convertToOPBase
 import lupos.s15tripleStoreDistributed.distributedTripleStore
 
@@ -315,21 +314,16 @@ object HttpEndpoint {
 //println("timer #404 ${DateHelperRelative.elapsedSeconds(timer)}")
 //        timer = DateHelperRelative.markNow()
         SanityCheck.println { pop_node }
-        SanityCheck.println { "----------Distributed Operator Graph" }
-        val pop_distributed_node = KeyDistributionOptimizer(q).optimizeCall(pop_node)
-//println("timer #405 ${DateHelperRelative.elapsedSeconds(timer)}")
-//        timer = DateHelperRelative.markNow()
-        SanityCheck.println { pop_distributed_node }
         if (logOperatorGraph) {
             println("----------")
             println(query)
             println(">>>>>>>>>>")
-            println(pop_distributed_node.toXMLElement().toString())
+            println(pop_node.toXMLElement().toString())
             println("<<<<<<<<<<")
-            println(OperatorGraphToLatex(pop_distributed_node.toXMLElement().toString(), ""))
+            println(OperatorGraphToLatex(pop_node.toXMLElement().toString(), ""))
         }
 //println("timer #406 ${DateHelperRelative.elapsedSeconds(timer)}")
-        return pop_distributed_node
+        return pop_node
     }
 
     internal suspend fun evaluate_sparql_query_string_part2(node: IOPBase, output: MyPrintWriter) {

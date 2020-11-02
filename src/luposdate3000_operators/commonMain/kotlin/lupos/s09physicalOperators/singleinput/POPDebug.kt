@@ -27,11 +27,14 @@ class POPDebug(query: IQuery, projectedVariables: List<String>, child: IOPBase) 
     override fun toSparql(): String = getChildren()[0].toSparql()
     override suspend fun evaluate(parent: Partition): IteratorBundle {
         val child = getChildren()[0].evaluate(parent)
+println("DEBUGGING POPDebug $uuid :: $ITERATOR_DEBUG_MODE")
         when (ITERATOR_DEBUG_MODE) {
             EPOPDebugMode.NONE -> {
+println("DEBUGGING POPDebug $uuid :: pass through")
                 return child
             }
             EPOPDebugMode.DEBUG1 -> {
+println("DEBUGGING POPDebug $uuid :: debug1 pass through")
                 val target = getChildren()[0].getProvidedVariableNames()
                 SanityCheck.println({ "POPDebug-child-mode ... ${uuid} ${getChildren()[0].getUUID()}" })
                 if (child.hasColumnMode()) {
@@ -55,9 +58,11 @@ class POPDebug(query: IQuery, projectedVariables: List<String>, child: IOPBase) 
                 return child
             }
             EPOPDebugMode.DEBUG2 -> {
+println("DEBUGGING POPDebug $uuid :: debug2")
                 val target = getChildren()[0].getProvidedVariableNames()
                 SanityCheck.println({ "POPDebug-child-mode ... ${uuid} ${getChildren()[0].getUUID()}" })
                 if (child.hasColumnMode()) {
+println("DEBUGGING POPDebug $uuid :: columnmode")
                     try {
                         child.columns
                     } catch (e: Throwable) {
@@ -74,6 +79,7 @@ class POPDebug(query: IQuery, projectedVariables: List<String>, child: IOPBase) 
                             @JvmField
                             var label = 1
                             override suspend fun next(): Int {
+println("DEBUGGING POPDebug $uuid :: call next")
                                 if (label != 0) {
                                     SanityCheck.println({ "$uuid $k next call" })
                                     val res = v.next()
@@ -90,6 +96,7 @@ class POPDebug(query: IQuery, projectedVariables: List<String>, child: IOPBase) 
                             }
 
                             override suspend fun nextSIP(minValue: Int, result: IntArray) {
+println("DEBUGGING POPDebug $uuid :: call nextSIP")
                                 if (label != 0) {
                                     SanityCheck.println({ "$uuid $k next call minValue SIP" })
                                     v.nextSIP(minValue, result)
@@ -107,6 +114,7 @@ class POPDebug(query: IQuery, projectedVariables: List<String>, child: IOPBase) 
                             }
 
                             override suspend fun skipSIP(skipCount: Int): Int {
+println("DEBUGGING POPDebug $uuid :: call skipSIP")
                                 if (label != 0) {
                                     SanityCheck.println({ "$uuid $k next call skip SIP" })
                                     val res = v.skipSIP(skipCount)
@@ -123,6 +131,7 @@ class POPDebug(query: IQuery, projectedVariables: List<String>, child: IOPBase) 
                             }
 
                             override suspend fun close() {
+println("DEBUGGING POPDebug $uuid :: call close")
                                 if (label != 0) {
                                     label = 0
                                     SanityCheck.println({ "$uuid $k closed $counter ${parent.data}" })
@@ -136,6 +145,7 @@ class POPDebug(query: IQuery, projectedVariables: List<String>, child: IOPBase) 
                     SanityCheck.check({ target.containsAll(columnMode) }, { "$uuid $target $columnMode" })
                     return IteratorBundle(outMap)
                 } else if (child.hasRowMode()) {
+println("DEBUGGING POPDebug $uuid :: rowmode")
                     val rowMode = child.rows.columns.toMutableList()
                     SanityCheck.check { rowMode.containsAll(target) }
                     SanityCheck.check { target.containsAll(rowMode) }
@@ -143,6 +153,7 @@ class POPDebug(query: IQuery, projectedVariables: List<String>, child: IOPBase) 
                     var counter = 0
                     iterator.columns = child.rows.columns
                     iterator.next = {
+println("DEBUGGING POPDebug $uuid :: call next")
                         SanityCheck.println({ "$uuid next call" })
                         val res = child.rows.next()
                         iterator.buf = child.rows.buf
@@ -155,6 +166,7 @@ class POPDebug(query: IQuery, projectedVariables: List<String>, child: IOPBase) 
                         /*return*/ res
                     }
                     iterator.close = {
+println("DEBUGGING POPDebug $uuid :: call close")
                         SanityCheck.println({ "$uuid closed $counter ${parent.data}" })
                         child.rows.close()
                         iterator._close()

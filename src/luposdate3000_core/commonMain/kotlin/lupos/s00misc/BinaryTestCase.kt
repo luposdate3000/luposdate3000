@@ -50,7 +50,6 @@ import lupos.s10physicalOptimisation.PhysicalOptimizer
 import lupos.s11outputResult.QueryResultToMemoryTable
 import lupos.s11outputResult.QueryResultToXMLElement
 import lupos.s11outputResult.QueryResultToXMLStream
-import lupos.s13keyDistributionOptimizer.KeyDistributionOptimizer
 import lupos.s14endpoint.convertToOPBase
 import lupos.s15tripleStoreDistributed.distributedTripleStore
 import lupos.s16network.HttpEndpoint
@@ -427,24 +426,31 @@ object BinaryTestCase {
                                     if (p.partitionCount == 1) {
                                         val node = distributedTripleStore.getDefaultGraph(query3).getIterator(queryParam, idx, Partition())
                                         tmpTable = operatorGraphToTable(OPBaseCompound(query3, arrayOf(node), listOf(listOf("s", "p", "o"))))
+                                        println("storage content $idx x/${p.partitionCount} '' ${tmpTable.columns.map { it }}")
+                                        for (r in tmpTable.data) {
+                                            println(r.map { it })
+                                        }
                                     } else {
-//TODO
-/*
                                         for (value in 0 until p.partitionCount) {
                                             val partition = Partition()
-                                            val key = idx.toString().substring(p.column, p.column + 1)
+                                            val key = idx.toString().substring(p.column, p.column + 1).toLowerCase()
                                             partition.limit[key] = p.partitionCount
                                             partition.data[key] = value
-                                            println("using Partitioning on ${key} (${value}/${p.partitionCount})")
                                             val node = distributedTripleStore.getDefaultGraph(query3).getIterator(queryParam, idx, partition)
-val                                        table = operatorGraphToTable(OPBaseCompound(query3,arrayOf(node),listOf(listOf("s","p","o"))))
-                                            if (tmpTable != null) {
+                                            val table = operatorGraphToTable(OPBaseCompound(query3, arrayOf(node), listOf(listOf("s", "p", "o"))))
+                                            println("storage content $idx ${value}/${p.partitionCount} '$key' ${table.columns.map { it }}")
+                                            for (r in table.data) {
+                                                println(r.map { it })
+                                            }
+/*
+TODO
+if (tmpTable != null) {
                                                 tmpTable = MemoryTable(tmpTable!!, table)
                                             } else {
                                                 tmpTable = table
                                             }
-                                        }
 */
+                                        }
                                     }
                                     if (tmpTable != null) {
                                         success = verifyEqual(tableInput, tmpTable!!, mapping_live_to_target, targetDict, targetDict2, true, query_name, query_folder, "import ($idx ${p.column} ${p.partitionCount})") && success
@@ -500,13 +506,10 @@ val                                        table = operatorGraphToTable(OPBaseCo
                             val pop_optimizer = PhysicalOptimizer(query4)
                             val pop_node = pop_optimizer.optimizeCall(lop_node2)
                             println(pop_node.toXMLElement().toPrettyString())
-                            println("----------Distributed Operatorgraph optimized")
-                            val pop_distributed_node = KeyDistributionOptimizer(query4).optimizeCall(pop_node)
-                            println(pop_distributed_node.toXMLElement().toPrettyString())
                             val allowOrderBy = !toParse.toLowerCase().contains("order")
                             if (mode == BinaryTestCaseOutputMode.MODIFY_RESULT) {
                                 val resultWriter = MyPrintWriter(false)
-                                QueryResultToXMLStream(pop_distributed_node, resultWriter)
+                                QueryResultToXMLStream(pop_node, resultWriter)
                                 val query4 = Query()
                                 val actualResult = operatorGraphToTable(distributedTripleStore.getDefaultGraph(query4).getIterator(arrayOf(AOPVariable(query4, "s"), AOPVariable(query4, "p"), AOPVariable(query4, "o")), EIndexPattern.SPO, Partition()))
                                 if (!verifyEqual(tableOutput, actualResult, mapping_live_to_target, targetDict, targetDict2, allowOrderBy, query_name, query_folder, "result in store (SPO) is wrong")) {
@@ -516,7 +519,7 @@ val                                        table = operatorGraphToTable(OPBaseCo
                                 distributedTripleStore.commit(query4)
                                 query4.commited = true
                             } else {
-                                val actualResult = operatorGraphToTable(pop_distributed_node)
+                                val actualResult = operatorGraphToTable(pop_node)
                                 if (!verifyEqual(tableOutput, actualResult, mapping_live_to_target, targetDict, targetDict2, allowOrderBy, query_name, query_folder, "query result is wrong")) {
                                     return_value = false
                                     break@func
