@@ -1,17 +1,17 @@
 package lupos.s00misc
 
-internal expect class MyPrintWriter {
-    fun clearBuffer()
+internal expect class MyPrintWriter :IMyPrintWriter{
+    override fun clearBuffer()
     override fun toString(): String
-    fun println(x: String)
-    fun print(x: String)
-    fun println(x: Boolean)
-    fun print(x: Boolean)
-    fun println(x: Int)
-    fun print(x: Int)
-    fun println(x: Double)
-    fun print(x: Double)
-    fun println()
-    fun close()
-    fun flush()
+    override fun println(x: String)
+    override fun print(x: String)
+    override fun println(x: Boolean)
+    override fun print(x: Boolean)
+    override fun println(x: Int)
+    override fun print(x: Int)
+    override fun println(x: Double)
+    override fun print(x: Double)
+    override fun println()
+    override fun close()
+    override fun flush()
 }
