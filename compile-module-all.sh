@@ -30,3 +30,15 @@ ret=$? ; if [ $ret -ne 0 ] ; then exit $ret ; fi
 ret=$? ; if [ $ret -ne 0 ] ; then exit $ret ; fi
 ./generate-buildfile-module.kts "Luposdate3000_Endpoint_Java_Sockets" "src/luposdate3000_endpoint_java_sockets" "linuxX64" --inline --nosuspend --debug
 ret=$? ; if [ $ret -ne 0 ] ; then exit $ret ; fi
+./generate-buildfile-module.kts "Luposdate3000_Launch_Benchmark_Jena" "src/luposdate3000_launch_benchmark_jena" "linuxX64" --inline --nosuspend --debug
+ret=$? ; if [ $ret -ne 0 ] ; then exit $ret ; fi
+./generate-buildfile-module.kts "Luposdate3000_Launch_Benchmark" "src/luposdate3000_launch_benchmark" "linuxX64" --inline --nosuspend --debug
+ret=$? ; if [ $ret -ne 0 ] ; then exit $ret ; fi
+./generate-buildfile-module.kts "Luposdate3000_Launch_Binary_Test_Suite" "src/luposdate3000_launch_binary_test_suite" "linuxX64" --inline --nosuspend --debug
+ret=$? ; if [ $ret -ne 0 ] ; then exit $ret ; fi
+./generate-buildfile-module.kts "Luposdate3000_Launch_Endpoint" "src/luposdate3000_launch_endpoint" "linuxX64" --inline --nosuspend --debug
+ret=$? ; if [ $ret -ne 0 ] ; then exit $ret ; fi
+./generate-buildfile-module.kts "Luposdate3000_Launch_Import" "src/luposdate3000_launch_import" "linuxX64" --inline --nosuspend --debug
+ret=$? ; if [ $ret -ne 0 ] ; then exit $ret ; fi
+./generate-buildfile-module.kts "Luposdate3000_Launch_Sparql_Test_Suite" "src/luposdate3000_launch_sparql_test_suite" "linuxX64" --inline --nosuspend --debug
+ret=$? ; if [ $ret -ne 0 ] ; then exit $ret ; fi

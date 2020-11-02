@@ -15,7 +15,7 @@ internal fun main(args: Array<String>): Unit {
             } else {
                 BinaryTestCase.executeAllTestCase()
             }
-        } catch (e: IllegalMonitorStateException) {
+        } catch (e: Exception) {
             println("going to terminate now")
             throw e
         }
