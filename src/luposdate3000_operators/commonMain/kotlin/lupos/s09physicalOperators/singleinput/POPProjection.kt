@@ -36,10 +36,8 @@ class POPProjection(query: IQuery, projectedVariables: List<String>, child: IOPB
         val child = children[0].evaluate(parent)
         val outMap = mutableMapOf<String, ColumnIterator>()
         if (variables.containsAll(children[0].getProvidedVariableNames())) {
-            println("DEBUGGING POPProjection $uuid :: pass through")
             return child
         } else if (variables.size == 0) {
-            println("DEBUGGING POPProjection $uuid :: countonly")
             val variables2 = children[0].getProvidedVariableNames()
             SanityCheck {
                 SanityCheck.check { variables2.size > 0 }
@@ -59,7 +57,6 @@ class POPProjection(query: IQuery, projectedVariables: List<String>, child: IOPB
             }
             return res
         } else {
-            println("DEBUGGING POPProjection $uuid :: filtered columns")
             for (variable in variables) {
                 SanityCheck.check { child.columns[variable] != null }
                 outMap[variable] = child.columns[variable]!!

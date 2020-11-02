@@ -10,7 +10,6 @@ fun main(args: Array<String>) = Parallel.runBlocking {
     var bootStrapServer: String? = null
     var hostname = "localhost"
     for (a in args) {
-        println("args[$i]=$a")
         when (i) {
             0 -> {
                 hostname = a

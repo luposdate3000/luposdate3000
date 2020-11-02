@@ -107,7 +107,6 @@ class PhysicalOptimizerPartition(query: Query) : OptimizerBase(query, EOptimizer
                                 if (params.getColumn() > 0 && TripleStoreLocal.providesFeature(TripleStoreFeature.PARTITION, params)) {
                                     res = POPSplitPartitionFromStore(query, node.projectedVariables, node.partitionVariable, c)
                                     c.partition.limit[node.partitionVariable] = Partition.default_k
-                                    println("had update .... ${c.partition.limit}")
                                     onChange()
                                 }
                             } catch (e: DontCareWhichException) {

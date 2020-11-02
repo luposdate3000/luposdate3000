@@ -122,7 +122,6 @@ abstract class TripleStoreLocalBase(@JvmField val name: String) : ITripleStoreLo
                     val i = params.idx.tripleIndicees[ii]
                     val param = params.params[i]
                     if (param is AOPVariable) {
-                        println("param $ii AOPVariable ${param.name}")
                         if (param.name == partitionName) {
                             partitionColumn = j
                             break

@@ -5,7 +5,6 @@ import lupos.SparqlTestSuite
 
 fun main(args: Array<String>) = Parallel.runBlocking {
     distributedTripleStore = DistributedTripleStore()
-    println("args ${args.toMutableList()}")
     SparqlTestSuite.filterList.addAll(args)
     SparqlTestSuite().testMain()
 }

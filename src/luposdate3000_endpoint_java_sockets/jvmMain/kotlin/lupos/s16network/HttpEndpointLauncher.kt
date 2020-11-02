@@ -86,7 +86,6 @@ actual object HttpEndpointLauncher {
                             while (connectionIn.ready()) {
                                 content.append(connectionIn.read().toChar())
                             }
-//                            println("timer #409 ${DateHelperRelative.elapsedSeconds(timer)}")
                             when (path) {
                                 "/sparql/jenaquery" -> {
                                     printHeaderSuccess(connectionOut)
@@ -193,7 +192,6 @@ actual object HttpEndpointLauncher {
                             connectionIn?.close()
                             connection?.close()
                         }
-//                        println("timer #400 ${DateHelperRelative.elapsedSeconds(timertotal)}")
                     }
                 }.start()
             }

@@ -49,7 +49,6 @@ fun createBuildFileForModule(args: Array<String>) {
     Files.walk(p, 1).forEach { it ->
         val tmp = it.toString()
         if (tmp.length > p.toString().length) {
-            println("found tmp :: $tmp $p")
             val idx = tmp.lastIndexOf("/")
             val f: String
             if (idx >= 0) {
@@ -57,7 +56,6 @@ fun createBuildFileForModule(args: Array<String>) {
             } else {
                 f = tmp
             }
-            println("use tmp as :: $f")
             if (f.startsWith("common")) {
                 File(tmp).copyRecursively(File("src.generated/" + f.replace("common.*Main", "commonMain")))
             } else if (f.startsWith("jvm")) {

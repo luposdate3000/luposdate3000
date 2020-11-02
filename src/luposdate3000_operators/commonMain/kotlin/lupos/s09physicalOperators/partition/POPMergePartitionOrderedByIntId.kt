@@ -78,7 +78,6 @@ class POPMergePartitionOrderedByIntId(query: IQuery, projectedVariables: List<St
                 SanityCheck.println({ "merge $uuid $p writer launched F" })
                 SanityCheck.println({ "merge $uuid $p writer launched G" })
                 Parallel.launch {
-                    println("DEBUGGING POPMergePartitionOrderedByIntId $uuid :: child $p spawned")
                     try {
                         var childEval2: IteratorBundle?
                         childEval2 = children[0].evaluate(Partition(parent, partitionVariable, p, partitionCount))
@@ -88,11 +87,9 @@ class POPMergePartitionOrderedByIntId(query: IQuery, projectedVariables: List<St
                             SanityCheck.println({ "merge $uuid $p writer launched B" })
                             val child = childEval.columns
                             if (variables.size == 1) {
-                                println("DEBUGGING POPMergePartitionOrderedByIntId $uuid :: child $p columnmode 1")
                                 SanityCheck.println({ "merge $uuid $p writer launched C" })
                                 val childIterator = child[variables[0]]!!
                                 loop@ while (readerFinished == 0) {
-                                    println("DEBUGGING POPMergePartitionOrderedByIntId $uuid :: child $p loop")
                                     SanityCheck.println({ "merge $uuid $p writer loop start" })
                                     var t = (ringbufferWriteHead[p] + 1) % elementsPerRing
                                     while (ringbufferReadHead[p] == t && readerFinished == 0) {
@@ -101,12 +98,10 @@ class POPMergePartitionOrderedByIntId(query: IQuery, projectedVariables: List<St
                                     }
                                     if (readerFinished != 0) {
                                         childIterator.close()
-                                        println("DEBUGGING POPMergePartitionOrderedByIntId $uuid :: child $p exit1")
                                         break@loop
                                     }
                                     var tmp = childIterator.next()
                                     if (tmp == ResultSetDictionaryExt.nullValue) {
-                                        println("DEBUGGING POPMergePartitionOrderedByIntId $uuid :: child $p exit2")
                                         break@loop
                                     } else {
                                         SanityCheck.println({ "merge $uuid $p writer append data" })
@@ -114,15 +109,12 @@ class POPMergePartitionOrderedByIntId(query: IQuery, projectedVariables: List<St
                                         //println("$p produced")
                                         ringbufferWriteHead[p] = (ringbufferWriteHead[p] + 1) % elementsPerRing
                                         ringbufferReaderContinuation.signal()
-                                        println("DEBUGGING POPMergePartitionOrderedByIntId $uuid :: child $p signal")
                                     }
                                 }
                             } else {
-                                println("DEBUGGING POPMergePartitionOrderedByIntId $uuid :: child $p columnmode n")
                                 SanityCheck.println({ "merge $uuid $p writer launched D" })
                                 val variableMapping = Array<ColumnIterator>(variables.size) { child[variables[it]]!! }
                                 loop@ while (readerFinished == 0) {
-                                    println("DEBUGGING POPMergePartitionOrderedByIntId $uuid :: child $p loop")
                                     SanityCheck.println({ "merge $uuid $p writer loop start" })
                                     var t = (ringbufferWriteHead[p] + variables.size) % elementsPerRing
                                     while (ringbufferReadHead[p] == t && readerFinished == 0) {
@@ -133,7 +125,6 @@ class POPMergePartitionOrderedByIntId(query: IQuery, projectedVariables: List<St
                                         for (variable in 0 until variables.size) {
                                             variableMapping[variable].close()
                                         }
-                                        println("DEBUGGING POPMergePartitionOrderedByIntId $uuid :: child $p exit1")
                                         break@loop
                                     }
                                     var tmp = variableMapping[0].next()
@@ -142,7 +133,6 @@ class POPMergePartitionOrderedByIntId(query: IQuery, projectedVariables: List<St
                                         for (variable in 0 until variables.size) {
                                             variableMapping[variable].close()
                                         }
-                                        println("DEBUGGING POPMergePartitionOrderedByIntId $uuid :: child $p exit2")
                                         break@loop
                                     } else {
                                         SanityCheck.println({ "merge $uuid $p writer append data" })
@@ -161,12 +151,10 @@ class POPMergePartitionOrderedByIntId(query: IQuery, projectedVariables: List<St
                                         //println("$p produced")
                                         ringbufferWriteHead[p] = (ringbufferWriteHead[p] + variables.size) % elementsPerRing
                                         ringbufferReaderContinuation.signal()
-                                        println("DEBUGGING POPMergePartitionOrderedByIntId $uuid :: child $p signal")
                                     }
                                 }
                             }
                         } else {
-                            println("DEBUGGING POPMergePartitionOrderedByIntId $uuid :: child $p rowmode")
                             SanityCheck.println({ "merge $uuid $p writer launched E" })
                             val child = childEval.rows
                             val variableMapping = IntArray(variables.size)
@@ -179,7 +167,6 @@ class POPMergePartitionOrderedByIntId(query: IQuery, projectedVariables: List<St
                                 }
                             }
                             loop@ while (readerFinished == 0) {
-                                println("DEBUGGING POPMergePartitionOrderedByIntId $uuid :: child $p loop")
                                 SanityCheck.println({ "merge $uuid $p writer loop start" })
                                 var t = (ringbufferWriteHead[p] + variables.size) % elementsPerRing
                                 while (ringbufferReadHead[p] == t && readerFinished == 0) {
@@ -188,13 +175,11 @@ class POPMergePartitionOrderedByIntId(query: IQuery, projectedVariables: List<St
                                 }
                                 if (readerFinished != 0) {
                                     child.close()
-                                    println("DEBUGGING POPMergePartitionOrderedByIntId $uuid :: child $p exit1")
                                     break@loop
                                 }
                                 var tmp = child.next()
                                 if (tmp == -1) {
                                     SanityCheck.println({ "merge $uuid $p writer closed B" })
-                                    println("DEBUGGING POPMergePartitionOrderedByIntId $uuid :: child $p exit2")
                                     break@loop
                                 } else {
                                     SanityCheck.println({ "merge $uuid $p writer append data" })
@@ -204,7 +189,6 @@ class POPMergePartitionOrderedByIntId(query: IQuery, projectedVariables: List<St
                                     //println("$p produced")
                                     ringbufferWriteHead[p] = (ringbufferWriteHead[p] + variables.size) % elementsPerRing
                                     ringbufferReaderContinuation.signal()
-                                    println("DEBUGGING POPMergePartitionOrderedByIntId $uuid :: child $p signal")
                                 }
                             }
                         }
@@ -212,13 +196,11 @@ class POPMergePartitionOrderedByIntId(query: IQuery, projectedVariables: List<St
                         error = e
                         e.printStackTrace()
                     }
-                    println("DEBUGGING POPMergePartitionOrderedByIntId $uuid :: child $p finished")
                     continuationLock.lock()
                     writerFinished[p] = 1
                     ringbufferReaderContinuation.signal()
                     continuationLock.unlock()
                     SanityCheck.println({ "merge $uuid $p writer exited loop" })
-                    println("DEBUGGING POPMergePartitionOrderedByIntId $uuid :: child $p finished final")
                 }
                 SanityCheck.println({ "merge $uuid $p writer lupos.s00misc.ParallelJob init :: " })
             }
@@ -232,17 +214,13 @@ class POPMergePartitionOrderedByIntId(query: IQuery, projectedVariables: List<St
             var iterator = RowIterator()
             iterator.columns = variables.toTypedArray()
             iterator.buf = IntArray(variables.size)
-            println("DEBUGGING POPMergePartitionOrderedByIntId $uuid :: initialise reader")
             iterator.next = {
                 var res = -1
                 loop@ while (true) {
-                    println("DEBUGGING POPMergePartitionOrderedByIntId $uuid :: @loop")
                     SanityCheck.println({ "merge $uuid reader loop start" })
                     var partitionToUse = -1
                     loop2@ for (p in 0 until partitionCount) {
-                        println("DEBUGGING POPMergePartitionOrderedByIntId $uuid :: @loop2")
                         if (ringbufferReadHead[p] != ringbufferWriteHead[p]) {
-                            println("DEBUGGING POPMergePartitionOrderedByIntId $uuid :: there are ${ringbufferWriteHead[p] - ringbufferReadHead[p]} results in partition $p")
                             if (partitionToUse < 0) {
                                 partitionToUse = p
                             } else {
@@ -291,7 +269,6 @@ class POPMergePartitionOrderedByIntId(query: IQuery, projectedVariables: List<St
                     iterator.close()
                     throw error!!
                 }
-                println("DEBUGGING POPMergePartitionOrderedByIntId $uuid :: returned response :: $res")
                 /*return*/res
             }
             iterator.close = {

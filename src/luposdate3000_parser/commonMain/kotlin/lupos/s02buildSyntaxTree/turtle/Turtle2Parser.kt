@@ -35,9 +35,6 @@ abstract class Turtle2Parser(input: IMyInputStream) {
         while (true) {
             iter++
             when (state) {
-//            if (iter % 10000 == 0) {
-//                println("$iter :: at (${context.line}:${context.column})")
-//            }
                 //println("state :: $state at (${context.line}:${context.column})")
                 Turtle2ParserState.EOF -> {
                     break
