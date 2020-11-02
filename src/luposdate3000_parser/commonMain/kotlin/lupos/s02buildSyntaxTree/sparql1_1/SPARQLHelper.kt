@@ -4,67 +4,6 @@ import kotlin.jvm.JvmField
 import lupos.s02buildSyntaxTree.LexerCharIterator
 import lupos.s02buildSyntaxTree.LookAheadTokenIterator
 
-enum class BuiltInFunctions {
-    STR,
-    LANG,
-    LANGMATCHES,
-    DATATYPE,
-    BOUND,
-    IRI,
-    URI,
-    BNODE,
-    RAND,
-    ABS,
-    CEIL,
-    FLOOR,
-    ROUND,
-    CONCAT,
-    SubstringExpression,
-    STRLEN,
-    StrReplaceExpression,
-    UCASE,
-    LCASE,
-    ENCODE_FOR_URI,
-    CONTAINS,
-    STRSTARTS,
-    STRENDS,
-    STRBEFORE,
-    STRAFTER,
-    YEAR,
-    MONTH,
-    DAY,
-    HOURS,
-    MINUTES,
-    SECONDS,
-    TIMEZONE,
-    TZ,
-    NOW,
-    UUID,
-    STRUUID,
-    MD5,
-    SHA1,
-    SHA256,
-    SHA384,
-    SHA512,
-    COALESCE,
-    IF,
-    STRLANG,
-    STRDT,
-    sameTerm,
-    isIRI,
-    isURI,
-    isBLANK,
-    isLITERAL,
-    isNUMERIC,
-    RegexExpression,
-    Exists,
-    NotExists
-}
-
-enum class Aggregation {
-    COUNT, SUM, MIN, MAX, AVG, SAMPLE, GROUP_CONCAT
-}
-
 open abstract class ASTNode(@JvmField val children: Array<ASTNode>) {
     companion object {
         private var global_uuid = 0L
