@@ -1,5 +1,5 @@
-import lupos.s00misc.*
 import lupos.*
+import lupos.s00misc.*
 
 fun main(args: Array<String>) {
     if (args.size < 1) {
@@ -36,4 +36,3 @@ fun printUsage() {
     println("usage ./generateTestcase.kts Single query_input_file.n3 query_file.sparql query_output_file.srx output_folder query_name ${BinaryTestCaseOutputMode.values()}")
     println("usage ./generateTestcase.kts TestSuite resource_folder output_folder")
 }
-

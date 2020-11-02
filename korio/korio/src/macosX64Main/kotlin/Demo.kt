@@ -1,29 +1,24 @@
-import kotlinx.cinterop.*
-import platform.Foundation.*
-import platform.darwin.*
-
-/*
 import com.soywiz.korio.net.*
 import kotlinx.cinterop.*
 import kotlinx.coroutines.*
+import platform.darwin.*
+import platform.Foundation.*
 import platform.posix.*
 
+/*
 class NativeSocket private constructor(internal val sockfd: Int, private var endpoint: Endpoint) {
 	companion object {
 		init {
 			init_sockets()
 		}
-
 		operator fun invoke() = NativeSocket(socket(AF_INET, SOCK_STREAM, 0), Endpoint(IP(0, 0, 0, 0), 0))
 		suspend fun connect(host: String, port: Int) = NativeSocket().apply { connect(host, port) }
 		suspend fun bound(host: String, port: Int) = NativeSocket().apply { bind(host, port) }
 		//suspend fun listen(host: String, port: Int) = NativeSocket().listen(host, port)
 	}
-
 	data class Endpoint(val ip: IP, val port: Int) {
 		override fun toString(): String = "$ip:$port"
 	}
-
 	class IP(val data: UByteArray) {
 		constructor(v0: Int, v1: Int, v2: Int, v3: Int) : this(
 			ubyteArrayOf(
@@ -33,7 +28,6 @@ class NativeSocket private constructor(internal val sockfd: Int, private var end
 				v3.toUByte()
 			)
 		)
-
 		val v0 get() = data[0]
 		val v1 get() = data[1]
 		val v2 get() = data[2]
@@ -42,7 +36,6 @@ class NativeSocket private constructor(internal val sockfd: Int, private var end
 		val value: Int get() = (v0.toInt() shl 0) or (v1.toInt() shl 8) or (v2.toInt() shl 16) or (v3.toInt() shl 24)
 		//val value: Int get() = (v0.toInt() shl 24) or (v1.toInt() shl 16) or (v2.toInt() shl 8) or (v3.toInt() shl 0)
 		override fun toString(): String = str
-
 		companion object {
 			fun fromHost(host: String): IP {
 				val hname = gethostbyname(host)
@@ -58,16 +51,13 @@ class NativeSocket private constructor(internal val sockfd: Int, private var end
 			}
 		}
 	}
-
 	fun CPointer<sockaddr_in>.set(ip: IP, port: Int) {
 		val addr = this
 		addr.pointed.sin_family = AF_INET.convert()
 		addr.pointed.sin_addr.s_addr = ip.value.toUInt()
 		addr.pointed.sin_port = swapBytes(port.toUShort())
 	}
-
 	val connected get() = _connected
-
 	fun connect(host: String, port: Int) {
 		memScoped {
 			val ip = IP.fromHost(host)
@@ -83,7 +73,6 @@ class NativeSocket private constructor(internal val sockfd: Int, private var end
 			_connected = true
 		}
 	}
-
 	fun bind(host: String, port: Int, backlog: Int = 10) {
 		memScoped {
 			val ip = IP.fromHost(host)
@@ -94,14 +83,12 @@ class NativeSocket private constructor(internal val sockfd: Int, private var end
 			setSocketBlockingEnabled(false)
 		}
 	}
-
 	fun CPointer<sockaddr_in>.toEndpoint(): Endpoint {
 		return Endpoint(
 			IP(this.pointed.sin_addr.readValue().getBytes().toUByteArray()),
 			swapBytes(this.pointed.sin_port.toUShort()).toInt()
 		)
 	}
-
 	fun tryAccept(): NativeSocket? {
 		memScoped {
 			val addr = alloc<sockaddr>()
@@ -122,14 +109,12 @@ class NativeSocket private constructor(internal val sockfd: Int, private var end
 			}
 		}
 	}
-
 	val availableBytes
 		get() = run {
 			val bytes_available = intArrayOf(0, 0)
 			ioctl(sockfd, FIONREAD, bytes_available.refTo(0))
 			bytes_available[0]
 		}
-
 	//val connected: Boolean
 	//    get() {
 	//        memScoped {
@@ -140,13 +125,10 @@ class NativeSocket private constructor(internal val sockfd: Int, private var end
 	//            return (retval == 0 || errorPtr[0] == 0)
 	//        }
 	//    }
-
 	private var _connected = false
-
 	fun recv(data: ByteArray, offset: Int = 0, count: Int = data.size - offset): Int {
 		return platform.posix.recv(sockfd, data.refTo(offset), count.convert(), 0).convert()
 	}
-
 	fun recv(count: Int): ByteArray {
 		val data = ByteArray(count)
 		val len = recv(data)
@@ -156,20 +138,16 @@ class NativeSocket private constructor(internal val sockfd: Int, private var end
 		}
 		return data.copyOf(len.convert())
 	}
-
 	fun tryRecv(data: ByteArray, offset: Int = 0, count: Int = data.size - offset): Int {
 		if (availableBytes <= 0) return -1
 		return recv(data, offset, count)
 	}
-
 	fun tryRecv(count: Int): ByteArray? {
 		if (availableBytes <= 0) return null
 		return recv(count)
 	}
-
 	fun send(data: ByteArray, offset: Int = 0, count: Int = data.size - offset) {
 		if (count <= 0) return
-
 		memScoped {
 			val result = send(sockfd, data.refTo(offset), count.convert(), 0)
 			if (result < count) {
@@ -178,16 +156,13 @@ class NativeSocket private constructor(internal val sockfd: Int, private var end
 			}
 		}
 	}
-
 	fun close() {
 		//platform.posix.close(sockfd)
 		platform.posix.shutdown(sockfd, SHUT_RDWR)
 		_connected = false
 	}
-
 	private fun setSocketBlockingEnabled(blocking: Boolean): Boolean {
 		if (sockfd < 0) return false
-
 		//#ifdef _WIN32
 		//    unsigned long mode = blocking ? 0 : 1;
 		//    return (ioctlsocket(fd, FIONBIO, &mode) == 0) ? true : false;
@@ -198,7 +173,6 @@ class NativeSocket private constructor(internal val sockfd: Int, private var end
 		return (fcntl(sockfd, F_SETFL, flags) == 0)
 		//#endif
 	}
-
 	fun getLocalEndpoint(): Endpoint {
 		memScoped {
 			val localAddress = alloc<sockaddr_in>()
@@ -214,18 +188,13 @@ class NativeSocket private constructor(internal val sockfd: Int, private var end
 			return Endpoint(IP(ip.getBytes().toUByteArray()), port.toInt())
 		}
 	}
-
 	fun getRemoveEndpoint() = endpoint
-
 	private fun swapBytes(v: UShort): UShort =
 		(((v.toInt() and 0xFF) shl 8) or ((v.toInt() ushr 8) and 0xFF)).toUShort()
-
 	override fun toString(): String = "NativeSocket(local=${getLocalEndpoint()}, remote=${getRemoveEndpoint()})"
 }
-
 suspend fun NativeSocket.suspendRecvUpTo(data: ByteArray, offset: Int = 0, count: Int = data.size - offset): Int {
 	if (count <= 0) return count
-
 	while (true) {
 		val read = tryRecv(data, offset, count)
 		if (read <= 0) {
@@ -235,7 +204,6 @@ suspend fun NativeSocket.suspendRecvUpTo(data: ByteArray, offset: Int = 0, count
 		return read
 	}
 }
-
 suspend fun NativeSocket.suspendRecvExact(data: ByteArray, offset: Int = 0, count: Int = data.size - offset): Int {
 	var position = offset
 	var remaining = count
@@ -246,21 +214,17 @@ suspend fun NativeSocket.suspendRecvExact(data: ByteArray, offset: Int = 0, coun
 		position += read
 	}
 }
-
 suspend fun NativeSocket.suspendRecvExact(count: Int): ByteArray {
 	return ByteArray(count).apply { suspendRecvExact(this) }
 }
-
 suspend fun NativeSocket.suspendRecvUpTo(count: Int): ByteArray {
 	val out = ByteArray(count)
 	val result = suspendRecvUpTo(out)
 	return out.copyOf(result)
 }
-
 suspend fun NativeSocket.suspendSend(data: ByteArray, offset: Int = 0, count: Int = data.size - offset) {
 	send(data, offset, count)
 }
-
 suspend fun NativeSocket.accept(): NativeSocket {
 	while (true) {
 		val socket = tryAccept()
@@ -269,42 +233,33 @@ suspend fun NativeSocket.accept(): NativeSocket {
 		delay(10L)
 	}
 }
-
 object NativeAsyncSocketFactory : AsyncSocketFactory() {
 	class NativeAsyncClient(val socket: NativeSocket) : AsyncClient {
 		override suspend fun connect(host: String, port: Int) {
 			socket.connect(host, port)
 		}
-
 		override val connected: Boolean get() = socket.connected
-
 		override suspend fun read(buffer: ByteArray, offset: Int, len: Int): Int {
 			return socket.suspendRecvUpTo(buffer, offset, len)
 		}
-
 		override suspend fun write(buffer: ByteArray, offset: Int, len: Int) {
 			socket.suspendSend(buffer, offset, len)
 		}
-
 		override suspend fun close() {
 			socket.close()
 		}
 	}
-
 	class NativeAsyncServer(val socket: NativeSocket, override val requestPort: Int, override val backlog: Int) :
 		AsyncServer {
 		override val host: String get() = socket.getLocalEndpoint().ip.str
 		override val port: Int get() = socket.getLocalEndpoint().port
-
 		override suspend fun accept(): AsyncClient {
 			return NativeAsyncClient(socket.accept())
 		}
 	}
-
 	override suspend fun createClient(secure: Boolean): AsyncClient {
 		return NativeAsyncClient(NativeSocket())
 	}
-
 	override suspend fun createServer(port: Int, host: String, backlog: Int, secure: Boolean): AsyncServer {
 		val socket = NativeSocket()
 		socket.bind(host, port, backlog)

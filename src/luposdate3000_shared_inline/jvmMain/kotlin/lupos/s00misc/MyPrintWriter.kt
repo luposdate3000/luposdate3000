@@ -8,8 +8,10 @@ import java.io.StringWriter
 open actual internal class MyPrintWriter : IMyPrintWriter {
     @JvmField
     val buffer = StringWriter()
+
     @JvmField
     val printer: PrintWriter
+
     @JvmField
     val bufferMode: MyPrintWriterMode
 

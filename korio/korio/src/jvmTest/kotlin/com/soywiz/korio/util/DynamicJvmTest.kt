@@ -1,11 +1,8 @@
 package com.soywiz.korio.util
 
-
-
-
 import com.soywiz.korio.async.suspendTest
-import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.Test
 
 class DynamicJvmTest {
     @Test

@@ -1,19 +1,16 @@
 package com.soywiz.korio.async
 
-
-
-
-import kotlin.native.concurrent.*
 import kotlin.coroutines.*
+import kotlin.native.concurrent.*
 import kotlinx.coroutines.*
 
 suspend fun <T, R> executeInWorker(worker: kotlin.native.concurrent.Worker, value: T, func: (T) -> R): R {
-	class Info(val value: T, val func: (T) -> R)
-	val info = Info(value.freeze(), func.freeze())
-	val future = worker.execute(kotlin.native.concurrent.TransferMode.UNSAFE, { info }, { it: Info -> it.func(it.value) })
-	return future.await()
-}
+    class Info(val value: T, val func: (T) -> R)
 
+    val info = Info(value.freeze(), func.freeze())
+    val future = worker.execute(kotlin.native.concurrent.TransferMode.UNSAFE, { info }, { it: Info -> it.func(it.value) })
+    return future.await()
+}
 /*
 @UseExperimental(InternalCoroutinesApi::class)
 suspend fun <T, R> executeInWorker(worker: kotlin.native.concurrent.Worker, value: T, func: (T) -> R): R = kotlin.coroutines.suspendCoroutine { c ->
@@ -47,7 +44,6 @@ suspend fun <T, R> executeInWorker(worker: kotlin.native.concurrent.Worker, valu
 			println(e)
 		}
 	})
-
 	//val it = info
 	//val result = it.func(it.value)
 	//val c = it.c

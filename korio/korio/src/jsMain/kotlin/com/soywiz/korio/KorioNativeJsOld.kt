@@ -1,35 +1,26 @@
 package com.soywiz.korio
-
-
-
-
-
 /*
 class LocalVfsProviderJs : LocalVfsProvider() {
 	override fun invoke(): LocalVfs = object : LocalVfs() {
 		suspend override fun open(path: String, mode: VfsOpenMode): AsyncStream {
 			val stat = fstat(path)
 			val handle = open(path, "r")
-
 			return object : AsyncStreamBase() {
 				suspend override fun read(position: Long, buffer: ByteArray, offset: Int, len: Int): Int {
 					val data = read(handle, position.toDouble(), len.toDouble())
 					arraycopy(data, 0, buffer, offset, data.size)
 					return data.size
 				}
-
 				suspend override fun getLength(): Long = stat.size.toLong()
 				suspend override fun close(): Unit = close(handle)
 			}.toAsyncStream()
 		}
-
 		suspend override fun stat(path: String): VfsStat = try {
 			val stat = fstat(path)
 			createExistsStat(path, isDirectory = stat.isDirectory, size = stat.size.toLong())
 		} catch (t: Throwable) {
 			createNonExistsStat(path)
 		}
-
 		suspend override fun list(path: String): AsyncSequence<VfsFile> {
 			val emitter = AsyncSequenceEmitter<VfsFile>()
 			val fs = jsRequire("fs")
@@ -46,7 +37,6 @@ class LocalVfsProviderJs : LocalVfsProvider() {
 			})
 			return emitter.toSequence()
 		}
-
 		suspend override fun watch(path: String, handler: (VfsFileEvent) -> Unit): Closeable = withCoroutineContext {
 			val fs = jsRequire("fs")
 			val watcher = fs.call("watch", path, jsObject("persistent" to true, "recursive" to true), jsFunctionRaw2 { eventType, filename ->
@@ -69,14 +59,10 @@ class LocalVfsProviderJs : LocalVfsProvider() {
 					}
 				}
 			})
-
 			return@withCoroutineContext Closeable { watcher.call("close") }
 		}
-
 		override fun toString(): String = "LocalVfs"
 	}
-
-
 	suspend fun open(path: String, mode: String): JsDynamic = korioSuspendCoroutine { c ->
 		val fs = jsRequire("fs")
 		fs.call("open", path, mode, jsFunctionRaw2 { err, fd ->
@@ -87,7 +73,6 @@ class LocalVfsProviderJs : LocalVfsProvider() {
 			}
 		})
 	}
-
 	suspend fun read(fd: JsDynamic?, position: Double, len: Double): ByteArray = Promise.create { c ->
 		val fs = jsRequire("fs")
 		val buffer = jsNew("Buffer", len)
@@ -102,7 +87,6 @@ class LocalVfsProviderJs : LocalVfsProvider() {
 			}
 		})
 	}
-
 	suspend fun close(fd: Any): Unit = Promise.create { c ->
 		val fs = jsRequire("fs")
 		fs.call("close", fd, jsFunctionRaw2 { err, fd ->
@@ -113,9 +97,6 @@ class LocalVfsProviderJs : LocalVfsProvider() {
 			}
 		})
 	}
-
-
-
 	suspend fun fstat(path: String): JsStat = Promise.create { c ->
 		// https://nodejs.org/api/fs.html#fs_class_fs_stats
 		val fs = jsRequire("fs")
@@ -138,7 +119,6 @@ class LocalVfsProviderJs : LocalVfsProvider() {
 		//})
 	}
 }
-
 class ResourcesVfsProviderJs : ResourcesVfsProvider() {
 	override fun invoke(): Vfs {
 		return EmbededResourceListing(if (OS.isNodejs) {
@@ -147,9 +127,7 @@ class ResourcesVfsProviderJs : ResourcesVfsProvider() {
 			UrlVfs(getBaseUrl())
 		}.jail())
 	}
-
 	private fun getCWD(): String = global["process"].call("cwd").toJavaString()
-
 	private fun getBaseUrl(): String {
 		var baseHref = document["location"]["href"].call("replace", jsRegExp("/[^\\/]*$"), "")
 		val bases = document.call("getElementsByTagName", "base")
@@ -157,11 +135,9 @@ class ResourcesVfsProviderJs : ResourcesVfsProvider() {
 		return baseHref.toJavaString()
 	}
 }
-
 @Suppress("unused")
 private class EmbededResourceListing(parent: VfsFile) : Vfs.Decorator(parent) {
 	val nodeVfs = NodeVfs()
-
 	init {
 		for (asset in jsGetAssetStats()) {
 			val info = PathInfo(asset.path.trim('/'))
@@ -169,7 +145,6 @@ private class EmbededResourceListing(parent: VfsFile) : Vfs.Decorator(parent) {
 			folder.createChild(info.basename, isDirectory = false).data = asset.size
 		}
 	}
-
 	suspend override fun stat(path: String): VfsStat {
 		try {
 			val n = nodeVfs.rootNode[path]
@@ -178,7 +153,6 @@ private class EmbededResourceListing(parent: VfsFile) : Vfs.Decorator(parent) {
 			return createNonExistsStat(path)
 		}
 	}
-
 	suspend override fun list(path: String): AsyncSequence<VfsFile> = withCoroutineContext {
 		asyncGenerate(this@withCoroutineContext) {
 			for (item in nodeVfs.rootNode[path]) {
@@ -186,7 +160,6 @@ private class EmbededResourceListing(parent: VfsFile) : Vfs.Decorator(parent) {
 			}
 		}
 	}
-
 	override fun toString(): String = "ResourcesVfs[$parent]"
 }
 */

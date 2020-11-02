@@ -1,14 +1,9 @@
 package com.soywiz.korio.lang
 
-
-
-
 expect open class IOException(msg: String) : Exception
 expect open class EOFException(msg: String) : IOException
 expect open class FileNotFoundException(msg: String) : IOException
-
 class FileAlreadyExistsException(msg: String) : IOException(msg)
-
 class InvalidOperationException(str: String = "Invalid Operation") : Exception(str)
 class OutOfBoundsException(index: Int = -1, str: String = "Out Of Bounds") : Exception(str)
 class KeyNotFoundException(str: String = "Key Not Found") : Exception(str)
@@ -25,7 +20,6 @@ val mustValidate: Nothing get() = throw NotImplementedException()
 val noImpl: Nothing get() = throw NotImplementedException()
 val invalidOp: Nothing get() = throw InvalidOperationException()
 val invalidArg: Nothing get() = throw InvalidArgumentException()
-
 fun deprecated(msg: String): Nothing = throw DeprecatedException(msg)
 fun mustValidate(msg: String): Nothing = throw MustValidateCodeException(msg)
 fun noImpl(msg: String): Nothing = throw NotImplementedException(msg)
@@ -35,18 +29,16 @@ fun unsupported(msg: String): Nothing = throw UnsupportedOperationException(msg)
 fun unsupported(): Nothing = throw UnsupportedOperationException("unsupported")
 fun invalidArgument(msg: String): Nothing = throw InvalidArgumentException(msg)
 fun unexpected(msg: String): Nothing = throw UnexpectedException(msg)
-
 inline fun <R> runIgnoringExceptions(show: Boolean = false, action: () -> R): R? = try {
-	action()
+    action()
 } catch (e: Throwable) {
-	if (show) e.printStackTrace()
-	null
+    if (show) e.printStackTrace()
+    null
 }
 
 expect fun Throwable.printStackTrace()
-
 fun printStackTrace() {
-	Exception("printStackTrace").printStackTrace()
+    Exception("printStackTrace").printStackTrace()
 }
 
 expect fun enterDebugger(): Unit

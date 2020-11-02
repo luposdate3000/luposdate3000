@@ -1,16 +1,13 @@
 package com.soywiz.korio.compression.util
 
-
-
-
 import com.soywiz.kmem.*
 import com.soywiz.korio.async.*
 import com.soywiz.korio.compression.*
 import com.soywiz.korio.lang.*
 import com.soywiz.korio.stream.*
-import kotlinx.coroutines.*
 import kotlin.coroutines.*
 import kotlin.math.*
+import kotlinx.coroutines.*
 
 /*
 internal class CompressionAlgoAsyncStream internal constructor(
@@ -20,10 +17,8 @@ internal class CompressionAlgoAsyncStream internal constructor(
 	val compressing: Boolean = false
 ) :
 	AsyncInputStreamWithLength {
-
 	val los = LimitedOutputStream()
 	private var pos = 0L
-
 	internal suspend fun init() {
 		launchImmediately(coroutineContext) {
 			if (compressing) {
@@ -33,20 +28,17 @@ internal class CompressionAlgoAsyncStream internal constructor(
 			}
 		}
 	}
-
 	override suspend fun read(buffer: ByteArray, offset: Int, len: Int): Int {
 		val ret = los.provideOutput(buffer, offset, len)
 		if (ret > 0) pos += ret
 		return ret
 	}
-
 	override suspend fun getPosition(): Long = pos
 	override suspend fun getLength(): Long = uncompressedSize ?: throw UnsupportedOperationException()
 	override suspend fun close() {
 		//inflater.end()
 	}
 }
-
 internal suspend fun UncompressAsyncStream(
 	mode: CompressionMethod,
 	i: AsyncInputStreamWithLength,
@@ -56,7 +48,6 @@ internal suspend fun UncompressAsyncStream(
 		init()
 	}
 }
-
 suspend fun CompressAsyncStream(
 	mode: CompressionMethod,
 	i: AsyncInputStreamWithLength
@@ -65,16 +56,12 @@ suspend fun CompressAsyncStream(
 		init()
 	}
 }
-
 class LimitedOutputStream : AsyncOutputStream {
 	private data class ByteArraySlice(val data: ByteArray, val position: Int, val length: Int)
-
 	private class Task(val slice: ByteArraySlice) {
 		val count = CompletableDeferred<Int>(Job())
 	}
-
 	private val queue = ProduceConsumer<Task>()
-
 	override suspend fun write(buffer: ByteArray, offset: Int, len: Int) {
 		//println("write: $len")
 		if (len == 0) return // Ignore empty chunks
@@ -90,11 +77,9 @@ class LimitedOutputStream : AsyncOutputStream {
 			o += toRead
 		}
 	}
-
 	override suspend fun close() {
 		queue.close()
 	}
-
 	suspend fun provideOutput(buffer: ByteArray, offset: Int, len: Int): Int {
 		val task = Task(ByteArraySlice(buffer, offset, len))
 		queue.produce(task)
