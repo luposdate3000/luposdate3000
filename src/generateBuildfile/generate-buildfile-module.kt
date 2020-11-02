@@ -255,7 +255,11 @@ var fastMode=false
                             value = a.substring(a.indexOf("=") + 1)
                         }
                     }
+if(opt[1]=="typealias"){
+out.println("${opt[1]} ${opt[0]} = $value")
+}else{
                     out.println("${opt[1]} ${opt[0]}: ${opt[2]} = $value")
+}
                 }
             }
         }
