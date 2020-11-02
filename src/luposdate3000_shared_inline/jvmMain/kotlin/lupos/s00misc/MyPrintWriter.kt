@@ -1,15 +1,19 @@
 package lupos.s00misc
-import java.io.OutputStream
+
 import java.io.File
+import java.io.OutputStream
 import java.io.PrintWriter
 import java.io.StringWriter
 
-open actual internal class MyPrintWriter:IMyPrintWriter {
-@JvmField    val buffer = StringWriter()
-@JvmField     val printer: PrintWriter
-@JvmField     val bufferMode: MyPrintWriterMode
+open actual internal class MyPrintWriter : IMyPrintWriter {
+    @JvmField
+    val buffer = StringWriter()
+    @JvmField
+    val printer: PrintWriter
+    @JvmField
+    val bufferMode: MyPrintWriterMode
 
-actual    constructor(hasBuffer: Boolean ) {
+    actual constructor(hasBuffer: Boolean) {
         if (hasBuffer) {
             bufferMode = MyPrintWriterMode.BUFFER
             printer = PrintWriter(buffer)
@@ -23,7 +27,8 @@ actual    constructor(hasBuffer: Boolean ) {
         bufferMode = MyPrintWriterMode.FILE
         printer = f.printWriter()
     }
-    constructor(o:OutputStream) {
+
+    constructor(o: OutputStream) {
         bufferMode = MyPrintWriterMode.FILE
         printer = PrintWriter(o, false)
     }

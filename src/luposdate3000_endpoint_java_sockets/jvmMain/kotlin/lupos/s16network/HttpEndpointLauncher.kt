@@ -12,14 +12,14 @@ import java.util.Date
 import lupos.s00misc.DateHelper
 import lupos.s00misc.EnpointRecievedInvalidPath
 import lupos.s00misc.File
-import lupos.s00misc.MyPrintWriter
 import lupos.s00misc.IMyPrintWriter
 import lupos.s00misc.JenaWrapper
+import lupos.s00misc.MyPrintWriter
 import lupos.s00misc.Parallel
 import lupos.s03resultRepresentation.nodeGlobalDictionary
 import lupos.s15tripleStoreDistributed.distributedTripleStore
 
-internal class MyPrintWriterExtension(out: OutputStream) :MyPrintWriter(out){
+internal class MyPrintWriterExtension(out: OutputStream) : MyPrintWriter(out) {
     var counter = 0
     override fun print(s: String) {
         val len = s.length
@@ -34,13 +34,13 @@ internal class MyPrintWriterExtension(out: OutputStream) :MyPrintWriter(out){
 
 @UseExperimental(ExperimentalStdlibApi::class)
 actual object HttpEndpointLauncher {
-internal     fun printHeaderSuccess(stream: MyPrintWriter) {
+    internal fun printHeaderSuccess(stream: MyPrintWriter) {
         stream.println("HTTP/1.1 200 OK")
         stream.println("Content-Type: text/plain")
         stream.println();
     }
 
-actual    suspend fun start(hostname: String, port: Int ) {
+    actual suspend fun start(hostname: String, port: Int) {
         try {
             val server = ServerSocket()
             server.bind(InetSocketAddress(hostname, port))

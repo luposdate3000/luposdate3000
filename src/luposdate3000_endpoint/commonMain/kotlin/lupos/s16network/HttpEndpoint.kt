@@ -10,6 +10,7 @@ import lupos.s00misc.MyPrintWriter
 import lupos.s00misc.OperatorGraphToLatex
 import lupos.s00misc.parseFromXml
 import lupos.s00misc.Partition
+import lupos.s00misc.QueryResultToStream
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.XMLElement
 import lupos.s02buildSyntaxTree.LexerCharIterator
@@ -27,7 +28,6 @@ import lupos.s06buildOperatorGraph.OperatorGraphVisitor
 import lupos.s08logicalOptimisation.LogicalOptimizer
 import lupos.s09physicalOperators.noinput.POPValuesImportXML
 import lupos.s10physicalOptimisation.PhysicalOptimizer
-import lupos.s00misc.QueryResultToStream
 import lupos.s14endpoint.convertToOPBase
 import lupos.s15tripleStoreDistributed.distributedTripleStore
 

@@ -404,11 +404,10 @@ object BinaryTestCase {
                             }
                             if (!verifyEqual(lastInput, tableInput, mapping_live_to_target, targetDict, targetDict2, true, query_name, query_folder, "this is no error")) {
                                 val query1 = Query()
-                                
-distributedTripleStore.getLocalStore().getDefaultGraph(query1).clear()
-        for (g in distributedTripleStore.getGraphNames()) {
-            distributedTripleStore.dropGraph(query1, g)
-        }
+                                distributedTripleStore.getLocalStore().getDefaultGraph(query1).clear()
+                                for (g in distributedTripleStore.getGraphNames()) {
+                                    distributedTripleStore.dropGraph(query1, g)
+                                }
                                 distributedTripleStore.commit(query1)
                                 query1.commited = true
                                 val query2 = Query()
@@ -436,7 +435,7 @@ distributedTripleStore.getLocalStore().getDefaultGraph(query1).clear()
                                         for (value in 0 until p.partitionCount) {
                                             val partition = Partition()
                                             val key = idx.toString().substring(p.column, p.column + 1).toLowerCase()
-println("extractKey :: $idx ${p.column} $key")
+                                            println("extractKey :: $idx ${p.column} $key")
                                             partition.limit[key] = p.partitionCount
                                             partition.data[key] = value
                                             val node = distributedTripleStore.getDefaultGraph(query3).getIterator(queryParam, idx, partition)

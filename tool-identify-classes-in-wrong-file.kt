@@ -13,4 +13,4 @@ diff f g \
 	| grep -v "SPARQLScanner.kt" \
 	| grep -v "SPARQLHelper.kt" \
 	| grep -v "Runtime.kt" \
-	| grep -v "Model.kt" 
+	| grep -v "Model.kt"

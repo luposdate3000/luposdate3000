@@ -1,7 +1,7 @@
 package lupos.s11outputResult
 
-import lupos.s00misc.MyLock
 import lupos.s00misc.IMyPrintWriter
+import lupos.s00misc.MyLock
 import lupos.s00misc.MyPrintWriter
 import lupos.s00misc.Parallel
 import lupos.s00misc.ParallelJob
@@ -19,7 +19,7 @@ import lupos.s04logicalOperators.Query
 import lupos.s09physicalOperators.partition.POPMergePartition
 import lupos.s09physicalOperators.partition.POPMergePartitionOrderedByIntId
 
- object QueryResultToXMLStream {
+object QueryResultToXMLStream {
     suspend internal fun writeValue(valueID: Int, columnName: String, dictionary: IResultSetDictionary, output: IMyPrintWriter) {
         dictionary.getValue(valueID, { value ->
             output.print("   <binding name=\"")

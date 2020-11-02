@@ -20,7 +20,7 @@ fun createBuildFileForModule(args: Array<String>) {
     var inlineMode = InlineMode.Enable
     var suspendMode = SuspendMode.Enable
     var releaseMode = true
-var fastMode=false
+    var fastMode = false
     if (args.contains("--inline")) {
         inlineMode = InlineMode.Enable
     }
@@ -40,7 +40,7 @@ var fastMode=false
         releaseMode = false
     }
     if (args.contains("--fast")) {
-        fastMode=true
+        fastMode = true
     }
     File("src.generated").deleteRecursively()
     File("src.generated").mkdirs()
@@ -255,11 +255,11 @@ var fastMode=false
                             value = a.substring(a.indexOf("=") + 1)
                         }
                     }
-if(opt[1]=="typealias"){
-out.println("${opt[1]} ${opt[0]} = $value")
-}else{
-                    out.println("${opt[1]} ${opt[0]}: ${opt[2]} = $value")
-}
+                    if (opt[1] == "typealias") {
+                        out.println("${opt[1]} ${opt[0]} = $value")
+                    } else {
+                        out.println("${opt[1]} ${opt[0]}: ${opt[2]} = $value")
+                    }
                 }
             }
         }
@@ -274,13 +274,13 @@ out.println("${opt[1]} ${opt[0]} = $value")
     } else {
         applySuspendDisable()
     }
-if(fastMode){
-    runCommand(listOf("gradle", "jvmJar"), File("."))
-    runCommand(listOf("gradle", "publishJvmPublicationToMavenLocal"), File("."))
-}else{
-    runCommand(listOf("gradle", "build"), File("."))
-    runCommand(listOf("gradle", "publishToMavenLocal"), File("."))
-}
+    if (fastMode) {
+        runCommand(listOf("gradle", "jvmJar"), File("."))
+        runCommand(listOf("gradle", "publishJvmPublicationToMavenLocal"), File("."))
+    } else {
+        runCommand(listOf("gradle", "build"), File("."))
+        runCommand(listOf("gradle", "publishToMavenLocal"), File("."))
+    }
     try {
         File(".gradle").deleteRecursively()
     } catch (e: Throwable) {

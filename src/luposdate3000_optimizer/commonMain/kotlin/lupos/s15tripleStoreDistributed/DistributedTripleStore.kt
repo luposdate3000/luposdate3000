@@ -108,13 +108,13 @@ class TripleStoreIteratorGlobal(query: IQuery, projectedVariables: List<String>,
         if (params == null) {
             params = TripleStoreFeatureParamsDefault(idx, Array(3) { children[it] as IAOPBase })
         }
-return distributedTripleStore.getLocalStore().getNamedGraph(query, graphName).getIterator(query, params)
+        return distributedTripleStore.getLocalStore().getNamedGraph(query, graphName).getIterator(query, params)
     }
 }
 
 class DistributedGraph(val query: IQuery, @JvmField val name: String) : IDistributedGraph {
     suspend override fun bulkImport(action: suspend (ITripleStoreBulkImport) -> Unit) {
-val bulk = TripleStoreBulkImport(query, name)
+        val bulk = TripleStoreBulkImport(query, name)
         action(bulk as ITripleStoreBulkImport)
         bulk.finishImport()
     }
@@ -218,7 +218,7 @@ val bulk = TripleStoreBulkImport(query, name)
             }
             SanityCheck.check { variableNames > 0 }
         }
-return distributedTripleStore.getLocalStore().getNamedGraph(query, name).getHistogram(query, TripleStoreFeatureParamsDefault(idx, params))
+        return distributedTripleStore.getLocalStore().getNamedGraph(query, name).getHistogram(query, TripleStoreFeatureParamsDefault(idx, params))
     }
 }
 
@@ -231,17 +231,17 @@ class DistributedTripleStore : IDistributedTripleStore {
     }
 
     suspend override fun createGraph(query: IQuery, name: String): DistributedGraph {
-distributedTripleStore.getLocalStore().createGraph(query, name)
+        distributedTripleStore.getLocalStore().createGraph(query, name)
         return DistributedGraph(query, name)
     }
 
     suspend override fun dropGraph(query: IQuery, name: String) {
- distributedTripleStore.getLocalStore().dropGraph(query, name)
+        distributedTripleStore.getLocalStore().dropGraph(query, name)
     }
 
     suspend override fun clearGraph(query: IQuery, name: String) {
         SanityCheck.println { "DistributedTripleStore.clearGraph $name" }
- distributedTripleStore.getLocalStore().clearGraph(query, name)
+        distributedTripleStore.getLocalStore().clearGraph(query, name)
     }
 
     suspend override fun getNamedGraph(query: IQuery, name: String): DistributedGraph {
@@ -256,6 +256,6 @@ distributedTripleStore.getLocalStore().createGraph(query, name)
     }
 
     suspend override fun commit(query: IQuery) {
-distributedTripleStore.getLocalStore().commit(query)
+        distributedTripleStore.getLocalStore().commit(query)
     }
 }

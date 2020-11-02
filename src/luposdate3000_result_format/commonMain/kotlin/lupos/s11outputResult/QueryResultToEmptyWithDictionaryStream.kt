@@ -1,7 +1,7 @@
 package lupos.s11outputResult
 
-import lupos.s00misc.MyLock
 import lupos.s00misc.IMyPrintWriter
+import lupos.s00misc.MyLock
 import lupos.s00misc.Parallel
 import lupos.s00misc.ParallelJob
 import lupos.s00misc.Partition
@@ -17,8 +17,8 @@ import lupos.s04logicalOperators.Query
 import lupos.s09physicalOperators.partition.POPMergePartition
 import lupos.s09physicalOperators.partition.POPMergePartitionOrderedByIntId
 
- object QueryResultToEmptyWithDictionaryStream {
-internal    suspend fun writeValue(valueID: Int, columnName: String, dictionary: IResultSetDictionary, output: IMyPrintWriter) {
+object QueryResultToEmptyWithDictionaryStream {
+    internal suspend fun writeValue(valueID: Int, columnName: String, dictionary: IResultSetDictionary, output: IMyPrintWriter) {
         dictionary.getValue(valueID, { value ->
         }, { value ->
         }, { content, lang ->

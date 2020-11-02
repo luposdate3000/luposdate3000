@@ -56,7 +56,7 @@ class POPJoinMergeSingleColumn(query: IQuery, projectedVariables: List<String>, 
         @JvmField
         var sipbuf = IntArray(2)
         override suspend fun next(): Int {
-println("DEBUGGING POPJoinMergeSingleColumn call next")
+            println("DEBUGGING POPJoinMergeSingleColumn call next")
             when (label) {
                 1 -> {
                     if (counter == 0) {
@@ -68,7 +68,7 @@ println("DEBUGGING POPJoinMergeSingleColumn call next")
                                 val c = sipbuf[1]
                                 if (c == ResultSetDictionaryExt.nullValue) {
                                     _close()
-println("DEBUGGING POPJoinMergeSingleColumn close 1")
+                                    println("DEBUGGING POPJoinMergeSingleColumn close 1")
                                     return ResultSetDictionaryExt.nullValue
                                 } else {
                                     head0 = c
@@ -80,7 +80,7 @@ println("DEBUGGING POPJoinMergeSingleColumn close 1")
                                 val c = sipbuf[1]
                                 if (c == ResultSetDictionaryExt.nullValue) {
                                     _close()
-println("DEBUGGING POPJoinMergeSingleColumn close 2")
+                                    println("DEBUGGING POPJoinMergeSingleColumn close 2")
                                     return ResultSetDictionaryExt.nullValue
                                 } else {
                                     head1 = c
@@ -121,29 +121,29 @@ println("DEBUGGING POPJoinMergeSingleColumn close 2")
                         }
                     }
                     counter--
-println("DEBUGGING POPJoinMergeSingleColumn returned result 1")
+                    println("DEBUGGING POPJoinMergeSingleColumn returned result 1")
                     return value
                 }
                 2 -> {
                     if (counter == 0) {
                         _close()
-println("DEBUGGING POPJoinMergeSingleColumn close 3")
+                        println("DEBUGGING POPJoinMergeSingleColumn close 3")
                         return ResultSetDictionaryExt.nullValue
                     } else {
                         counter--
                     }
-println("DEBUGGING POPJoinMergeSingleColumn returned result 2")
+                    println("DEBUGGING POPJoinMergeSingleColumn returned result 2")
                     return value
                 }
                 else -> {
-println("DEBUGGING POPJoinMergeSingleColumn close 4")
+                    println("DEBUGGING POPJoinMergeSingleColumn close 4")
                     return ResultSetDictionaryExt.nullValue
                 }
             }
         }
 
         internal suspend inline fun _close() {
-println("DEBUGGING POPJoinMergeSingleColumn call _close")
+            println("DEBUGGING POPJoinMergeSingleColumn call _close")
             if (label != 0) {
                 label = 0
                 SanityCheck.println({ "\$uuid close ColumnIteratorJoinMergeSingleColumn" })
@@ -153,7 +153,7 @@ println("DEBUGGING POPJoinMergeSingleColumn call _close")
         }
 
         override suspend fun close() {
-println("DEBUGGING POPJoinMergeSingleColumn call close")
+            println("DEBUGGING POPJoinMergeSingleColumn call close")
             _close()
         }
     }
@@ -182,7 +182,7 @@ println("DEBUGGING POPJoinMergeSingleColumn call close")
         if (a != ResultSetDictionaryExt.nullValue && b != ResultSetDictionaryExt.nullValue) {
             outMap[projectedVariables[0]] = ColumnIteratorImpl(child0, child1, a, b)
         } else {
-println("DEBUGGING POPJoinMergeSingleColumn $uuid empty result -> empty iterator $a $b")
+            println("DEBUGGING POPJoinMergeSingleColumn $uuid empty result -> empty iterator $a $b")
             outMap[projectedVariables[0]] = ColumnIteratorEmpty()
             SanityCheck.println({ "$uuid close $classname" })
             child0.close()

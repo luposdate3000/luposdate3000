@@ -3,8 +3,9 @@ package lupos.s00misc
 import lupos.s00misc.IMyInputStream
 import lupos.s00misc.Parallel
 
-internal actual class MyPrintWriter :IMyPrintWriter{
-actual constructor(hasBuffer: Boolean )
+internal actual class MyPrintWriter : IMyPrintWriter {
+    actual constructor(hasBuffer: Boolean)
+
     actual override fun clearBuffer(): Unit = throw  NotImplementedException("MyPrintWriter", "xyz not implemented")
     override actual fun toString(): String = throw  NotImplementedException("MyPrintWriter", "xyz not implemented")
     actual override fun println(x: String): Unit = throw  NotImplementedException("MyPrintWriter", "xyz not implemented")

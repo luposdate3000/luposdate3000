@@ -1,6 +1,5 @@
 package lupos.s00misc
 
-
 class MySetKEYBTreeGDEF() {
     companion object {
         var debughelperUUID = 0

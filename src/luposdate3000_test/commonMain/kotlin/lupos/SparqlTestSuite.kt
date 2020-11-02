@@ -444,9 +444,9 @@ open class SparqlTestSuite() {
                 val query2 = Query()
                 query2.setWorkingDirectory(queryFile.substring(0, queryFile.lastIndexOf("/")))
                 distributedTripleStore.getLocalStore().getDefaultGraph(query2).clear()
-        for (g in distributedTripleStore.getGraphNames()) {
-            distributedTripleStore.dropGraph(query2, g)
-        }
+                for (g in distributedTripleStore.getGraphNames()) {
+                    distributedTripleStore.dropGraph(query2, g)
+                }
                 distributedTripleStore.commit(query2)
                 query2.commited = true
                 nodeGlobalDictionary.clear()

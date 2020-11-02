@@ -2,11 +2,11 @@ package lupos.s05tripleStore
 
 import kotlin.jvm.JvmField
 import lupos.s00misc.File
-import lupos.s00misc.TripleStoreLocal
 import lupos.s00misc.GraphNameAlreadyExistsDuringCreateException
 import lupos.s00misc.GraphNameNotExistsDuringDeleteException
 import lupos.s00misc.GraphNameNotFoundException
 import lupos.s00misc.SanityCheck
+import lupos.s00misc.TripleStoreLocal
 import lupos.s01io.BufferManager
 import lupos.s03resultRepresentation.nodeGlobalDictionary
 import lupos.s04logicalOperators.IQuery
@@ -18,11 +18,11 @@ class PersistentStoreLocal : IPersistentStoreLocal {
     val stores = mutableMapOf<String, TripleStoreLocal>()
 
     constructor() {
-println("PersistentStoreLocal a")
-val s=TripleStoreLocal(PersistentStoreLocalExt.defaultGraphName)
-println("PersistentStoreLocal b")
+        println("PersistentStoreLocal a")
+        val s = TripleStoreLocal(PersistentStoreLocalExt.defaultGraphName)
+        println("PersistentStoreLocal b")
         stores[PersistentStoreLocalExt.defaultGraphName] = s
-println("PersistentStoreLocal c")
+        println("PersistentStoreLocal c")
     }
 
     override fun getGraphNames(includeDefault: Boolean): List<String> {

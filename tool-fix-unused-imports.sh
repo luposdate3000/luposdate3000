@@ -17,7 +17,6 @@ do
 			echo $count
 			cat $file | grep -v "import.*$imp" > tmp3
 			mv tmp3 $file
-			changed=1
 		fi
 	fi
 done

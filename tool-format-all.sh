@@ -1,8 +1,10 @@
 #!/bin/bash
-./tool-format-sort-imports.sh
 for f in $(find src -type f -name "*.kt")
 do
-cat $f | egrep -v "^[[:space:]]*$|^#" > $f.tmp2
-mv $f.tmp2 $f
+        cat $f | grep "^package " > tmp2
+        cat $f | grep "^import " | sort | uniq >>tmp2
+        cat $f | grep -v "^package " | grep -v "^import " >>tmp2
+        cat tmp2 | egrep -v "^[[:space:]]*$|^#" > $f
 done
-/opt/idea-IC-201.7846.76/bin/format.sh $(find src -type f -name "*.kt" | grep -v "src/commonConfig" ) $(find . -type f -name "*.kts" | grep -v "src/commonConfig")
+rm tmp2
+/opt/idea-IC-201.7846.76/bin/format.sh $(find src -type f -name "*.kt") $(find . -type f -name "*.kts")
