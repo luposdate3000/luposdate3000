@@ -3,7 +3,6 @@ import lupos.s00misc.Partition
 import lupos.s15tripleStoreDistributed.distributedTripleStore
 import lupos.s15tripleStoreDistributed.DistributedTripleStore
 import lupos.s16network.HttpEndpointLauncher
-import lupos.s16network.ServerCommunicationSend
 
 fun main(args: Array<String>) = Parallel.runBlocking {
     distributedTripleStore = DistributedTripleStore()
@@ -29,9 +28,6 @@ fun main(args: Array<String>) = Parallel.runBlocking {
     }
     Parallel.launch {
         HttpEndpointLauncher.start(hostname, 2324)
-    }
-    Parallel.launch {
-        ServerCommunicationSend.start(hostname, lupos.s16network.NETWORK_DEFAULT_PORT, bootStrapServer)
     }
     while (true) {
         Parallel.delay(1000)

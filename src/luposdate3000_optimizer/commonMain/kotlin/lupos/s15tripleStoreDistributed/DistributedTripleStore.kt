@@ -31,7 +31,6 @@ import lupos.s05tripleStore.TripleStoreFeatureParams
 import lupos.s05tripleStore.TripleStoreFeatureParamsDefault
 import lupos.s05tripleStore.TripleStoreFeatureParamsPartition
 import lupos.s09physicalOperators.POPBase
-import lupos.s16network.ServerCommunicationSend
 
 class TripleStoreIteratorGlobal(query: IQuery, projectedVariables: List<String>, @JvmField val graphName: String, params: Array<IAOPBase>, @JvmField val idx: EIndexPattern, @JvmField val partition: Partition) : POPBase(query, projectedVariables, EOperatorID.TripleStoreIteratorGlobalID, "TripleStoreIteratorGlobal", Array<IOPBase>(3) { params[it] }, ESortPriority.ANY_PROVIDED_VARIABLE) {
     override fun getPartitionCount(variable: String): Int {
@@ -109,13 +108,15 @@ class TripleStoreIteratorGlobal(query: IQuery, projectedVariables: List<String>,
         if (params == null) {
             params = TripleStoreFeatureParamsDefault(idx, Array(3) { children[it] as IAOPBase })
         }
-        return ServerCommunicationSend.tripleGet(query, graphName, params)
+return distributedTripleStore.getLocalStore().getNamedGraph(query, graphName).getIterator(query, params)
     }
 }
 
 class DistributedGraph(val query: IQuery, @JvmField val name: String) : IDistributedGraph {
     suspend override fun bulkImport(action: suspend (ITripleStoreBulkImport) -> Unit) {
-        ServerCommunicationSend.bulkImport(query, name, action)
+val bulk = TripleStoreBulkImportDistributed(query, name)
+        action(bulk as ITripleStoreBulkImport)
+        bulk.finishImport()
     }
 
     suspend override fun modify(data: Array<ColumnIterator>, type: EModifyType) {
@@ -217,7 +218,7 @@ class DistributedGraph(val query: IQuery, @JvmField val name: String) : IDistrib
             }
             SanityCheck.check { variableNames > 0 }
         }
-        return ServerCommunicationSend.histogramGet(query, name, TripleStoreFeatureParamsDefault(idx, params))
+return distributedTripleStore.getLocalStore().getNamedGraph(query, name).getHistogram(query, TripleStoreFeatureParamsDefault(idx, params))
     }
 }
 
@@ -230,17 +231,17 @@ class DistributedTripleStore : IDistributedTripleStore {
     }
 
     suspend override fun createGraph(query: IQuery, name: String): DistributedGraph {
-        ServerCommunicationSend.graphOperation(query, name, EGraphOperationType.CREATE)
+distributedTripleStore.getLocalStore().createGraph(query, name)
         return DistributedGraph(query, name)
     }
 
     suspend override fun dropGraph(query: IQuery, name: String) {
-        ServerCommunicationSend.graphOperation(query, name, EGraphOperationType.DROP)
+ distributedTripleStore.getLocalStore().dropGraph(query, name)
     }
 
     suspend override fun clearGraph(query: IQuery, name: String) {
         SanityCheck.println { "DistributedTripleStore.clearGraph $name" }
-        ServerCommunicationSend.graphOperation(query, name, EGraphOperationType.CLEAR)
+ distributedTripleStore.getLocalStore().clearGraph(query, name)
     }
 
     suspend override fun getNamedGraph(query: IQuery, name: String): DistributedGraph {
@@ -255,6 +256,6 @@ class DistributedTripleStore : IDistributedTripleStore {
     }
 
     suspend override fun commit(query: IQuery) {
-        ServerCommunicationSend.commit(query)
+distributedTripleStore.getLocalStore().commit(query)
     }
 }

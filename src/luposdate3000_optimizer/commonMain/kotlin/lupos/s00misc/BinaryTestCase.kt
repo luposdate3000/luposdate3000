@@ -1,7 +1,6 @@
 package lupos.s00misc
 
 import kotlin.jvm.JvmField
-import lupos.s00misc.Coverage
 import lupos.s00misc.DateHelper
 import lupos.s00misc.EIndexPattern
 import lupos.s00misc.EModifyType
@@ -53,7 +52,6 @@ import lupos.s11outputResult.QueryResultToXMLStream
 import lupos.s14endpoint.convertToOPBase
 import lupos.s15tripleStoreDistributed.distributedTripleStore
 import lupos.s16network.HttpEndpoint
-import lupos.s16network.ServerCommunicationSend
 import lupos.SparqlTestSuite
 
 object BinaryTestCase {
@@ -406,7 +404,11 @@ object BinaryTestCase {
                             }
                             if (!verifyEqual(lastInput, tableInput, mapping_live_to_target, targetDict, targetDict2, true, query_name, query_folder, "this is no error")) {
                                 val query1 = Query()
-                                ServerCommunicationSend.graphClearAll(query1)
+                                
+distributedTripleStore.getLocalStore().getDefaultGraph(query1).clear()
+        for (g in distributedTripleStore.getGraphNames()) {
+            distributedTripleStore.dropGraph(query1, g)
+        }
                                 distributedTripleStore.commit(query1)
                                 query1.commited = true
                                 val query2 = Query()

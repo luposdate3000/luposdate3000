@@ -1,7 +1,6 @@
 package lupos.s00misc
 
 import kotlin.jvm.JvmField
-import lupos.s00misc.Coverage
 import lupos.s00misc.DateHelper
 import lupos.s00misc.EIndexPattern
 import lupos.s00misc.EModifyType
@@ -52,7 +51,6 @@ import lupos.s11outputResult.QueryResultToXMLStream
 import lupos.s14endpoint.convertToOPBase
 import lupos.s15tripleStoreDistributed.distributedTripleStore
 import lupos.s16network.HttpEndpoint
-import lupos.s16network.ServerCommunicationSend
 import lupos.SparqlTestSuite
 
 class SparqlTestSuiteConverter(resource_folder: String, val output_folder: String) : SparqlTestSuite() {

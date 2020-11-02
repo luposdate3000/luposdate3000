@@ -8,7 +8,6 @@ import kotlinx.cinterop.*
 import kotlinx.cinterop.allocArray
 import kotlinx.cinterop.ByteVar
 import kotlinx.cinterop.memScoped
-import lupos.s00misc.Coverage
 import lupos.s04logicalOperators.Query
 import platform.posix.FILE
 import stdio.fclose

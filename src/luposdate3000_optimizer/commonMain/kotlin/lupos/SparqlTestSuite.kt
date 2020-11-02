@@ -1,7 +1,6 @@
 package lupos
 
 import kotlin.jvm.JvmField
-import lupos.s00misc.Coverage
 import lupos.s00misc.DateHelper
 import lupos.s00misc.DateHelperRelative
 import lupos.s00misc.EIndexPattern
@@ -43,7 +42,6 @@ import lupos.s11outputResult.QueryResultToXMLElement
 import lupos.s14endpoint.convertToOPBase
 import lupos.s15tripleStoreDistributed.distributedTripleStore
 import lupos.s16network.HttpEndpoint
-import lupos.s16network.ServerCommunicationSend
 
 open class SparqlTestSuite() {
     companion object {
@@ -90,7 +88,6 @@ open class SparqlTestSuite() {
                         } else {
                             lastinput = inputFile
                         }
-                        ServerCommunicationSend.distributedLogMessage("  Test: " + queryFile + "-" + triplesCount)
                         parseSPARQLAndEvaluate(false, queryFile + "-" + triplesCount, true, queryFile, inputFile, outputFile, null, mutableListOf<MutableMap<String, String>>(), mutableListOf<MutableMap<String, String>>())
                     }
                 }
@@ -167,9 +164,6 @@ open class SparqlTestSuite() {
                 listMembers(data, it) {
                     // for_ printing out the name:
                     val name = data.sp(it, Dictionary.IRI("http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#name"))
-                    name.forEach {
-                        ServerCommunicationSend.distributedLogMessage("  Test: " + (Dictionary[it] as SimpleLiteral).content)
-                    }
                     numberOfTests++
                     if (!testOneEntry(data, it, newprefix)) {
                         numberOfErrors++
@@ -449,7 +443,10 @@ open class SparqlTestSuite() {
             if (inputDataFileName != "#keep-data#") {
                 val query2 = Query()
                 query2.setWorkingDirectory(queryFile.substring(0, queryFile.lastIndexOf("/")))
-                ServerCommunicationSend.graphClearAll(query2)
+                distributedTripleStore.getLocalStore().getDefaultGraph(query2).clear()
+        for (g in distributedTripleStore.getGraphNames()) {
+            distributedTripleStore.dropGraph(query2, g)
+        }
                 distributedTripleStore.commit(query2)
                 query2.commited = true
                 nodeGlobalDictionary.clear()
@@ -548,7 +545,7 @@ open class SparqlTestSuite() {
                         val n = s["name"]!!
                         val fn = s["filename"]!!
                         val fc = readFileOrNull(fn)!!
-//                        ServerCommunicationSend.insertOnNamedNode(n, XMLElement.parseFromAny(fc, fn)!!)
+//TODO
                     }
                 }
             } else {

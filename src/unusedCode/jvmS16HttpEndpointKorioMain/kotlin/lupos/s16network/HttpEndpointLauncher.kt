@@ -4,7 +4,6 @@ import com.soywiz.korio.net.http.createHttpServer
 import com.soywiz.korio.net.http.Http
 import com.soywiz.korio.net.http.HttpServer
 import kotlin.jvm.JvmField
-import lupos.s00misc.Coverage
 import lupos.s00misc.EnpointRecievedInvalidPath
 import lupos.s00misc.File
 import lupos.s00misc.JenaWrapper

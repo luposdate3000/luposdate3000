@@ -7,7 +7,6 @@ import lupos.s03resultRepresentation.nodeGlobalDictionary
 import lupos.s15tripleStoreDistributed.distributedTripleStore
 import lupos.s15tripleStoreDistributed.DistributedTripleStore
 import lupos.s16network.HttpEndpoint
-import lupos.s16network.ServerCommunicationSend
 
 enum class Datasource {
     LOAD, IMPORT, IMPORT_INTERMEDIATE
@@ -20,7 +19,6 @@ fun printBenchmarkLine(title: String, time: Double, count: Int, numberOfTriples:
 @UseExperimental(ExperimentalStdlibApi::class, kotlin.time.ExperimentalTime::class)
 fun main(args: Array<String>) = Parallel.runBlocking {
     distributedTripleStore = DistributedTripleStore()
-    ServerCommunicationSend.start()
     val datasourceType = Datasource.valueOf(args[0])
     val persistenceFolder = args[1]
     val datasourceFiles = args[2]

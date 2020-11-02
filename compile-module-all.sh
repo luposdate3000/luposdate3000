@@ -18,5 +18,7 @@ ret=$? ; if [ $ret -ne 0 ] ; then exit $ret ; fi
 ret=$? ; if [ $ret -ne 0 ] ; then exit $ret ; fi
 ./generate-buildfile-module.kts "Luposdate3000_Triple_Store_Id_Triple" "src/luposdate3000_triple_store_id_triple" "linuxX64" --inline --nosuspend --debug
 ret=$? ; if [ $ret -ne 0 ] ; then exit $ret ; fi
-./generate-buildfile-module.kts "luposdate3000_Triple_Store_All" "src/luposdate3000_triple_store_all" "linuxX64" --inline --nosuspend --debug
+./generate-buildfile-module.kts "Luposdate3000_Triple_Store_All" "src/luposdate3000_triple_store_all" "linuxX64" --inline --nosuspend --debug
+ret=$? ; if [ $ret -ne 0 ] ; then exit $ret ; fi
+./generate-buildfile-module.kts "Luposdate3000_Optimizer" "src/luposdate3000_optimizer" "linuxX64" --inline --nosuspend --debug
 ret=$? ; if [ $ret -ne 0 ] ; then exit $ret ; fi

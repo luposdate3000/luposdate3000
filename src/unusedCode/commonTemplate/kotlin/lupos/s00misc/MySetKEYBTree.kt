@@ -1,6 +1,5 @@
 package lupos.s00misc
 
-import lupos.s00misc.Coverage
 
 class MySetKEYBTreeGDEF() {
     companion object {

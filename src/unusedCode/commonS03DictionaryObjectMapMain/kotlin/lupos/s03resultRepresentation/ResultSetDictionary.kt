@@ -1,7 +1,6 @@
 package lupos.s03resultRepresentation
 
 import kotlin.jvm.JvmField
-import lupos.s00misc.Coverage
 import lupos.s00misc.File
 import lupos.s00misc.MyMapIntInt
 import lupos.s01io.BufferManager

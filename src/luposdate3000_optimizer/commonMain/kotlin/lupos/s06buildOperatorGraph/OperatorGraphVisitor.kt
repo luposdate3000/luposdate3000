@@ -2,7 +2,6 @@ package lupos.s06buildOperatorGraph
 
 import kotlin.jvm.JvmField
 import lupos.s00misc.AggregateNotAllowedSyntaxException
-import lupos.s00misc.Coverage
 import lupos.s00misc.DatasetImportFailedException
 import lupos.s00misc.EGraphOperationType
 import lupos.s00misc.EGraphRefType

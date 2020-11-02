@@ -9,7 +9,6 @@ import java.net.ServerSocket
 import java.net.Socket
 import java.net.URLDecoder
 import java.util.Date
-import lupos.s00misc.Coverage
 import lupos.s00misc.DateHelper
 import lupos.s00misc.EnpointRecievedInvalidPath
 import lupos.s00misc.File
@@ -191,10 +190,6 @@ object HttpEndpointLauncher {
                                     SparqlTestSuite().testMain()
                                     printHeaderSuccess(connectionOut)
                                     connectionOut.print("success")
-                                }
-                                "/debug/knownHosts" -> {
-                                    printHeaderSuccess(connectionOut)
-                                    connectionOut.print(ServerCommunicationDistribution.printKnownHosts().toString())
                                 }
                                 else -> {
                                     throw EnpointRecievedInvalidPath(path)

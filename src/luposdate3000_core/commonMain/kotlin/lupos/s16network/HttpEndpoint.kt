@@ -1,6 +1,5 @@
 package lupos.s16network
 
-import lupos.s00misc.Coverage
 import lupos.s00misc.DateHelper
 import lupos.s00misc.DateHelperRelative
 import lupos.s00misc.EModifyType
