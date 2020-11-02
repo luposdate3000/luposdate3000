@@ -9,7 +9,7 @@ import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
 import lupos.s05tripleStore.TripleStoreFeature
 import lupos.s05tripleStore.TripleStoreFeatureParamsPartition
-import lupos.s05tripleStore.TripleStoreLocal
+import lupos.s00misc.TripleStoreLocal
 import lupos.s08logicalOptimisation.OptimizerBase
 import lupos.s09physicalOperators.partition.POPMergePartition
 import lupos.s09physicalOperators.partition.POPMergePartitionCount

@@ -754,7 +754,6 @@ open class SparqlTestSuite() {
                 }
                 return expectedResult
             }
-/*Coverage Unreachable*/
         } catch (e: ParseError) {
             if (expectedResult) {
                 e.printStackTrace()
@@ -774,7 +773,6 @@ open class SparqlTestSuite() {
             e.printStackTrace()
             return false
         } catch (e: Luposdate3000Exception) {
-            SanityCheck.println({ "lastStatement :: ${Coverage.CoverageMapGenerated[Coverage.lastcounter]}" })
             if (expectedResult) {
                 println("----------Time(${DateHelperRelative.elapsedSeconds(timer)})")
                 println("----------Failed(${e.classname})")
@@ -787,7 +785,6 @@ open class SparqlTestSuite() {
         } catch (e: Throwable) {
             SanityCheck.println({ "TODO exception 44" })
             e.printStackTrace()
-            SanityCheck.println({ "lastStatement :: ${Coverage.CoverageMapGenerated[Coverage.lastcounter]}" })
             if (expectedResult) {
                 println("----------Time(${DateHelperRelative.elapsedSeconds(timer)})")
                 println("----------Failed(Throwable)")

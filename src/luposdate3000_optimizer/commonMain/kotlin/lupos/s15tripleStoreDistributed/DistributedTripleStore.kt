@@ -114,7 +114,7 @@ return distributedTripleStore.getLocalStore().getNamedGraph(query, graphName).ge
 
 class DistributedGraph(val query: IQuery, @JvmField val name: String) : IDistributedGraph {
     suspend override fun bulkImport(action: suspend (ITripleStoreBulkImport) -> Unit) {
-val bulk = TripleStoreBulkImportDistributed(query, name)
+val bulk = TripleStoreBulkImport(query, name)
         action(bulk as ITripleStoreBulkImport)
         bulk.finishImport()
     }

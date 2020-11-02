@@ -2,6 +2,7 @@ package lupos.s08logicalOptimisation
 
 import lupos.s00misc.EOptimizerID
 import lupos.s00misc.Partition
+import lupos.s00misc.REPLACE_STORE_WITH_VALUES
 import lupos.s00misc.SanityCheck
 import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s03resultRepresentation.ResultSetDictionaryExt
