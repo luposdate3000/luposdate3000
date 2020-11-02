@@ -26,3 +26,7 @@ ret=$? ; if [ $ret -ne 0 ] ; then exit $ret ; fi
 ret=$? ; if [ $ret -ne 0 ] ; then exit $ret ; fi
 ./generate-buildfile-module.kts "Luposdate3000_Test" "src/luposdate3000_test" "linuxX64" --inline --nosuspend --debug
 ret=$? ; if [ $ret -ne 0 ] ; then exit $ret ; fi
+./generate-buildfile-module.kts "Luposdate3000_Endpoint_None" "src/luposdate3000_endpoint_none" "linuxX64" --inline --nosuspend --debug
+ret=$? ; if [ $ret -ne 0 ] ; then exit $ret ; fi
+./generate-buildfile-module.kts "Luposdate3000_Endpoint_Java_Sockets" "src/luposdate3000_endpoint_java_sockets" "linuxX64" --inline --nosuspend --debug
+ret=$? ; if [ $ret -ne 0 ] ; then exit $ret ; fi

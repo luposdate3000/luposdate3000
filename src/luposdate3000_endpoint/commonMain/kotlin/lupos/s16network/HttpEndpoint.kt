@@ -5,6 +5,7 @@ import lupos.s00misc.DateHelperRelative
 import lupos.s00misc.EModifyType
 import lupos.s00misc.ETripleComponentType
 import lupos.s00misc.File
+import lupos.s00misc.IMyPrintWriter
 import lupos.s00misc.MyPrintWriter
 import lupos.s00misc.OperatorGraphToLatex
 import lupos.s00misc.parseFromXml
@@ -325,7 +326,7 @@ object HttpEndpoint {
         return pop_node
     }
 
-    internal suspend fun evaluate_sparql_query_string_part2(node: IOPBase, output: MyPrintWriter) {
+    internal suspend fun evaluate_sparql_query_string_part2(node: IOPBase, output: IMyPrintWriter) {
 //var timer = DateHelperRelative.markNow()
         output.println("HTTP/1.1 200 OK")
         output.println("Content-Type: text/plain")
@@ -344,7 +345,7 @@ object HttpEndpoint {
         return buf.toString()
     }
 
-    internal suspend fun evaluate_sparql_query_string(query: String, output: MyPrintWriter, logOperatorGraph: Boolean = false) {
+    suspend fun evaluate_sparql_query_string(query: String, output: IMyPrintWriter, logOperatorGraph: Boolean = false) {
 //var timer = DateHelperRelative.markNow()
         val node = evaluate_sparql_query_string_part1(query, logOperatorGraph)
         evaluate_sparql_query_string_part2(node, output)

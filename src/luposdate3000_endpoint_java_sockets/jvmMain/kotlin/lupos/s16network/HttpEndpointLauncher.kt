@@ -12,13 +12,14 @@ import java.util.Date
 import lupos.s00misc.DateHelper
 import lupos.s00misc.EnpointRecievedInvalidPath
 import lupos.s00misc.File
+import lupos.s00misc.MyPrintWriter
+import lupos.s00misc.IMyPrintWriter
 import lupos.s00misc.JenaWrapper
 import lupos.s00misc.Parallel
 import lupos.s03resultRepresentation.nodeGlobalDictionary
 import lupos.s15tripleStoreDistributed.distributedTripleStore
-import lupos.SparqlTestSuite
 
-class MyPrintWriterExtension(out: OutputStream) : PrintWriter(out, false) {
+internal class MyPrintWriterExtension(out: OutputStream) :MyPrintWriter(out){
     var counter = 0
     override fun print(s: String) {
         val len = s.length
@@ -32,14 +33,14 @@ class MyPrintWriterExtension(out: OutputStream) : PrintWriter(out, false) {
 }
 
 @UseExperimental(ExperimentalStdlibApi::class)
-object HttpEndpointLauncher {
-    fun printHeaderSuccess(stream: PrintWriter) {
+actual object HttpEndpointLauncher {
+internal     fun printHeaderSuccess(stream: MyPrintWriter) {
         stream.println("HTTP/1.1 200 OK")
         stream.println("Content-Type: text/plain")
         stream.println();
     }
 
-    suspend fun start(hostname: String = "localhost", port: Int = 80) {
+actual    suspend fun start(hostname: String, port: Int ) {
         try {
             val server = ServerSocket()
             server.bind(InetSocketAddress(hostname, port))
@@ -50,7 +51,7 @@ object HttpEndpointLauncher {
 //                        var timertotal = DateHelperRelative.markNow()
 //                        var timer = timertotal
                         var connectionIn: BufferedReader? = null
-                        var connectionOut: PrintWriter? = null
+                        var connectionOut: MyPrintWriter? = null
                         try {
                             connectionIn = BufferedReader(InputStreamReader(connection.getInputStream()))
                             connectionOut = MyPrintWriterExtension(connection.getOutputStream())
@@ -175,21 +176,6 @@ object HttpEndpointLauncher {
                                         connectionOut.print(HttpEndpoint.import_xml_data(params["query"]!!))
                                     }
                                     /*Coverage Unreachable*/
-                                }
-                                "/persistence/store" -> {
-                                    distributedTripleStore.localStore.safeToFolder()
-                                    printHeaderSuccess(connectionOut)
-                                    connectionOut.print("success")
-                                }
-                                "/persistence/load" -> {
-                                    distributedTripleStore.localStore.loadFromFolder()
-                                    printHeaderSuccess(connectionOut)
-                                    connectionOut.print("success")
-                                }
-                                "/debug/unittest" -> {
-                                    SparqlTestSuite().testMain()
-                                    printHeaderSuccess(connectionOut)
-                                    connectionOut.print("success")
                                 }
                                 else -> {
                                     throw EnpointRecievedInvalidPath(path)
