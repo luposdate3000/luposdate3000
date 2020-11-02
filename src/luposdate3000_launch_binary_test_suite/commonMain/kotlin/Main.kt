@@ -5,8 +5,11 @@ import lupos.s15tripleStoreDistributed.DistributedTripleStore
 import lupos.SparqlTestSuite
 
 internal fun main(args: Array<String>): Unit {
+println("main a")
     distributedTripleStore = DistributedTripleStore()
+println("main b")
     Parallel.runBlocking {
+
         try {
             if (args.size == 1) {
                 BinaryTestCase.executeAllTestCase(args[0])

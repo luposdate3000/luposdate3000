@@ -20,6 +20,7 @@ ln -s "$(pwd)/build-cache/bin/Luposdate3000_Shared-jvm.jar" "$(pwd)/build-cache/
 ln -s "$(pwd)/build-cache/bin/Luposdate3000_Test-jvm.jar" "$(pwd)/build-cache/bin-effective/Luposdate3000_Test-jvm.jar"
 ln -s "$(pwd)/build-cache/bin/Luposdate3000_Triple_Store_All-jvm.jar" "$(pwd)/build-cache/bin-effective/Luposdate3000_Triple_Store_All-jvm.jar"
 ln -s "$(pwd)/build-cache/bin/Luposdate3000_Triple_Store_Id_Triple-jvm.jar" "$(pwd)/build-cache/bin-effective/Luposdate3000_Triple_Store_Id_Triple-jvm.jar"
+ln -s /root/.m2/repository/org/jetbrains/kotlin/kotlin-stdlib/1.4.255-SNAPSHOT/kotlin-stdlib-1.4.255-SNAPSHOT.jar "$(pwd)/build-cache/bin-effective/kotlin-stdlib.jar"
 
 java -Xmx60g -cp $(printf %s: $(pwd)/build-cache/bin-effective/*.jar) MainKt $@ > log/x 2>&1
 

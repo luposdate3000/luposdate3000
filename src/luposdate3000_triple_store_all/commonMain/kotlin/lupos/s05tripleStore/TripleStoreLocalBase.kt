@@ -26,13 +26,14 @@ abstract class TripleStoreLocalBase(@JvmField val name: String) : ITripleStoreLo
             EnabledPartitionContainer(mutableSetOf(EIndexPattern.OPS, EIndexPattern.O_PS, EIndexPattern.OP_S), -1, 1),//
     )
 
-    override fun getEnabledPartitions() = enabledPartitions
 
     @JvmField //override this during initialisation
     var pendingModificationsInsert = Array(0) { mutableMapOf<Long, MutableList<Int>>() }
 
     @JvmField //override this during initialisation
     var pendingModificationsRemove = Array(0) { mutableMapOf<Long, MutableList<Int>>() }
+
+    override fun getEnabledPartitions() = enabledPartitions
     suspend fun safeToFolder(foldername: String) {
         File(foldername).mkdirs()
         dataDistinct.forEach {

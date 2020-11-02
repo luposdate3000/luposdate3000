@@ -18,7 +18,11 @@ class PersistentStoreLocal : IPersistentStoreLocal {
     val stores = mutableMapOf<String, TripleStoreLocal>()
 
     constructor() {
-        stores[PersistentStoreLocalExt.defaultGraphName] = TripleStoreLocal(PersistentStoreLocalExt.defaultGraphName)
+println("PersistentStoreLocal a")
+val s=TripleStoreLocal(PersistentStoreLocalExt.defaultGraphName)
+println("PersistentStoreLocal b")
+        stores[PersistentStoreLocalExt.defaultGraphName] = s
+println("PersistentStoreLocal c")
     }
 
     override fun getGraphNames(includeDefault: Boolean): List<String> {
