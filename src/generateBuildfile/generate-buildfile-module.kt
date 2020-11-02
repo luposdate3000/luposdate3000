@@ -8,6 +8,7 @@ fun createBuildFileForModule(args: Array<String>) {
     val moduleName = args[0]
     val moduleFolder = args[1]
     val platform = args[2]
+println("generating buildfile for $moduleName")
     val validPlatforms = listOf("iosArm32", "iosArm64", "linuxX64", "macosX64", "mingwX64")
     if (!validPlatforms.contains(platform)) {
         throw Exception("unsupported platform $platform")

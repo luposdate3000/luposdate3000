@@ -37,7 +37,7 @@ fun main(args: Array<String>) = Parallel.runBlocking {
         var counter = 0
         while (true) {
             counter++
-            JenaWrapper.execQuery(query, false)
+            JenaWrapper.execQuery(query)
             time = DateHelperRelative.elapsedSeconds(timer)
             if (time > minimumTime) {
                 break

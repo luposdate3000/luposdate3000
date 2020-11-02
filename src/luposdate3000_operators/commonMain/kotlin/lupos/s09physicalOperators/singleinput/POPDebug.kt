@@ -38,7 +38,7 @@ class POPDebug(query: IQuery, projectedVariables: List<String>, child: IOPBase) 
                     try {
                         child.columns
                     } catch (e: Throwable) {
-                        SanityCheck.println("debugchildclassname::" + getChildren()[0].getClassname())
+                        SanityCheck.println{"debugchildclassname::" + getChildren()[0].getClassname()}
                         throw e
                     }
                     val columnMode = mutableListOf<String>()
@@ -61,7 +61,7 @@ class POPDebug(query: IQuery, projectedVariables: List<String>, child: IOPBase) 
                     try {
                         child.columns
                     } catch (e: Throwable) {
-                        SanityCheck.println("debugchildclassname2::" + getChildren()[0].getClassname())
+                        SanityCheck.println{"debugchildclassname2::" + getChildren()[0].getClassname()}
                         throw e
                     }
                     val outMap = mutableMapOf<String, ColumnIterator>()

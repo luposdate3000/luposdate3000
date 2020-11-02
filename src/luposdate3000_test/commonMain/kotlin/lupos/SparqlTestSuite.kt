@@ -54,10 +54,10 @@ open class SparqlTestSuite() {
 
     suspend fun testMain() {
         repeat(1) {
-            SanityCheck.println("Starting tests...")
+            println("Starting tests...")
             val (nr_t, nr_e) = parseManifestFile(prefixDirectory + "/resources/sparql11-test-suite/", "manifest-all.ttl")
-            SanityCheck.println("Number of tests: " + nr_t)
-            SanityCheck.println("Number of errors: " + nr_e)
+            println("Number of tests: " + nr_t)
+            println("Number of errors: " + nr_e)
             var prefixes = enabledTestCases
             for (prefix in prefixes) {
                 var lastinput: String? = null
@@ -77,7 +77,7 @@ open class SparqlTestSuite() {
                                     it.println(jenaXML.toPrettyString())
                                 }
                             } catch (e: Throwable) {
-                                SanityCheck.println({ "TODO exception 39" })
+                                println({ "TODO exception 39" })
                                 e.printStackTrace()
                             } finally {
                                 JenaWrapper.dropAll()
@@ -424,10 +424,10 @@ open class SparqlTestSuite() {
 //            return true
 //        }
         if (filterList.size > 0 && !filterList.contains(testName)) {
-            SanityCheck.println({ "'$testName' not in WhiteList of Unit-Tests" })
+            println({ "'$testName' not in WhiteList of Unit-Tests" })
             return true
         } else {
-            SanityCheck.println({ "'$testName' is in WhiteList of Unit-Tests" })
+            println({ "'$testName' is in WhiteList of Unit-Tests" })
         }
         File("log/storetest").mkdirs()
         var ignoreJena = !executeJena
@@ -435,8 +435,8 @@ open class SparqlTestSuite() {
         try {
             val toParse = readFileOrNull(queryFile)!!
             if (toParse.contains("service", true)) {
-                SanityCheck.println("----------Time(${DateHelperRelative.elapsedSeconds(timer)})")
-                SanityCheck.println("----------Failed(Service)")
+                println("----------Time(${DateHelperRelative.elapsedSeconds(timer)})")
+                println("----------Failed(Service)")
                 return false
             }
             val resultData = readFileOrNull(resultDataFileName)
@@ -455,13 +455,13 @@ open class SparqlTestSuite() {
                 if (inputData != null && inputDataFileName != null) {
                     lastTripleCount = inputData.split("\n").size
                     if (MAX_TRIPLES_DURING_TEST > 0 && lastTripleCount > MAX_TRIPLES_DURING_TEST) {
-                        SanityCheck.println("----------Time(${DateHelperRelative.elapsedSeconds(timer)})")
-                        SanityCheck.println("----------Success(Skipped)")
+                        println("----------Time(${DateHelperRelative.elapsedSeconds(timer)})")
+                        println("----------Success(Skipped)")
                         return true
                     }
-                    SanityCheck.println("InputData Graph[] Original")
-                    SanityCheck.println(inputData)
-                    SanityCheck.println("----------Input Data Graph[]")
+                    println("InputData Graph[] Original")
+                    println(inputData)
+                    println("----------Input Data Graph[]")
                     var xmlQueryInput = XMLElement.parseFromAny(inputData, inputDataFileName)!!
                     if (inputDataFileName.endsWith(".ttl") || inputDataFileName.endsWith(".n3")) {
                         val query = Query()
@@ -470,10 +470,10 @@ open class SparqlTestSuite() {
                         val bulkSelect = distributedTripleStore.getDefaultGraph(query).getIterator(arrayOf(AOPVariable(query, "s"), AOPVariable(query, "p"), AOPVariable(query, "o")), EIndexPattern.SPO, Partition())
                         val xmlGraphBulk = QueryResultToXMLElement.toXML(bulkSelect)
                         if (!xmlGraphBulk.myEqualsUnclean(xmlQueryInput, true, true, true)) {
-                            SanityCheck.println("test xmlQueryInput :: " + xmlQueryInput.toPrettyString())
-                            SanityCheck.println("test xmlGraphBulk :: " + xmlGraphBulk.toPrettyString())
-                            SanityCheck.println("----------Time(${DateHelperRelative.elapsedSeconds(timer)})")
-                            SanityCheck.println("----------Failed(BulkImport)")
+                            println("test xmlQueryInput :: " + xmlQueryInput.toPrettyString())
+                            println("test xmlGraphBulk :: " + xmlGraphBulk.toPrettyString())
+                            println("----------Time(${DateHelperRelative.elapsedSeconds(timer)})")
+                            println("----------Failed(BulkImport)")
                             return false
                         }
                     } else {
@@ -493,32 +493,32 @@ open class SparqlTestSuite() {
                         val loadSelect = distributedTripleStore.getDefaultGraph(query).getIterator(arrayOf(AOPVariable(query, "s"), AOPVariable(query, "p"), AOPVariable(query, "o")), EIndexPattern.SPO, Partition())
                         val xmlGraphLoad = QueryResultToXMLElement.toXML(loadSelect)
                         if (!xmlGraphLoad.myEqualsUnclean(xmlQueryInput, true, true, true)) {
-                            SanityCheck.println("test xmlQueryInput :: " + xmlQueryInput.toPrettyString())
-                            SanityCheck.println("test xmlGraphLoad :: " + xmlGraphLoad.toPrettyString())
-                            SanityCheck.println("----------Time(${DateHelperRelative.elapsedSeconds(timer)})")
-                            SanityCheck.println("----------Failed(LoadImport)")
+                            println("test xmlQueryInput :: " + xmlQueryInput.toPrettyString())
+                            println("test xmlGraphLoad :: " + xmlGraphLoad.toPrettyString())
+                            println("----------Time(${DateHelperRelative.elapsedSeconds(timer)})")
+                            println("----------Failed(LoadImport)")
                             return false
                         }
                     }
-                    SanityCheck.println("test InputData Graph[] ::" + xmlQueryInput.toPrettyString())
+                    println("test InputData Graph[] ::" + xmlQueryInput.toPrettyString())
                     try {
                         if (!ignoreJena) {
                             JenaWrapper.loadFromFile("/src/luposdate3000/" + inputDataFileName)
                         }
                     } catch (e: JenaBugException) {
-                        SanityCheck.println({ e.message })
+                        println({ e.message })
                         ignoreJena = true
                     } catch (e: Throwable) {
-                        SanityCheck.println({ "TODO exception 41" })
+                        println({ "TODO exception 41" })
                         e.printStackTrace()
                         ignoreJena = true
                     }
                 }
                 inputDataGraph.forEach {
-                    SanityCheck.println("InputData Graph[${it["name"]}] Original")
+                    println("InputData Graph[${it["name"]}] Original")
                     val inputData2 = readFileOrNull(it["filename"])
-                    SanityCheck.println(inputData2)
-                    SanityCheck.println("----------Input Data Graph[${it["name"]}]")
+                    println(inputData2)
+                    println("----------Input Data Graph[${it["name"]}]")
                     var xmlQueryInput = XMLElement.parseFromAny(inputData2!!, it["filename"]!!)!!
                     val query = Query()
                     query.setWorkingDirectory(queryFile.substring(0, queryFile.lastIndexOf("/")))
@@ -526,16 +526,16 @@ open class SparqlTestSuite() {
                     distributedTripleStore.getNamedGraph(query, it["name"]!!).modify(arrayOf(tmp.columns["s"]!!, tmp.columns["p"]!!, tmp.columns["o"]!!), EModifyType.INSERT)
                     distributedTripleStore.commit(query)
                     query.commited = true
-                    SanityCheck.println("test Input Graph[${it["name"]!!}] :: " + xmlQueryInput.toPrettyString())
+                    println("test Input Graph[${it["name"]!!}] :: " + xmlQueryInput.toPrettyString())
                     try {
                         if (!ignoreJena) {
                             JenaWrapper.loadFromFile("/src/luposdate3000/" + it["filename"]!!, it["name"]!!)
                         }
                     } catch (e: JenaBugException) {
-                        SanityCheck.println({ e.message })
+                        println({ e.message })
                         ignoreJena = true
                     } catch (e: Throwable) {
-                        SanityCheck.println({ "TODO exception 42" })
+                        println({ "TODO exception 42" })
                         e.printStackTrace()
                         ignoreJena = true
                     }
@@ -550,8 +550,8 @@ open class SparqlTestSuite() {
                 }
             } else {
                 if (MAX_TRIPLES_DURING_TEST > 0 && lastTripleCount > MAX_TRIPLES_DURING_TEST) {
-                    SanityCheck.println("----------Time(${DateHelperRelative.elapsedSeconds(timer)})")
-                    SanityCheck.println("----------Success(Skipped)")
+                    println("----------Time(${DateHelperRelative.elapsedSeconds(timer)})")
+                    println("----------Success(Skipped)")
                     return true
                 }
             }
@@ -560,7 +560,7 @@ open class SparqlTestSuite() {
             query.setWorkingDirectory(queryFile.substring(0, queryFile.lastIndexOf("/")))
             var res: Boolean
             SanityCheck.println { "----------String Query" }
-            SanityCheck.println(toParse)
+            println(toParse)
             SanityCheck.println { "----------Abstract Syntax Tree" }
             val lcit = LexerCharIterator(toParse)
             val tit = TokenIteratorSPARQLParser(lcit)
@@ -615,13 +615,13 @@ open class SparqlTestSuite() {
                 val tmp = distributedTripleStore.getNamedGraph(query, it["name"]!!).getIterator(arrayOf(AOPVariable(query, "s"), AOPVariable(query, "p"), AOPVariable(query, "o")), EIndexPattern.SPO, Partition())
                 var xmlGraphActual = QueryResultToXMLElement.toXML(tmp)
                 if (!xmlGraphTarget.myEqualsUnclean(xmlGraphActual, true, true, true)) {
-                    SanityCheck.println("OutputData Graph[${it["name"]}] Original")
-                    SanityCheck.println(outputData)
-                    SanityCheck.println("----------Verify Output Data Graph[${it["name"]}] ... target,actual")
-                    SanityCheck.println("test xmlGraphTarget :: " + xmlGraphTarget.toPrettyString())
-                    SanityCheck.println("test xmlGraphActual :: " + xmlGraphActual.toPrettyString())
-                    SanityCheck.println("----------Time(${DateHelperRelative.elapsedSeconds(timer)})")
-                    SanityCheck.println("----------Failed(PersistentStore Graph)")
+                    println("OutputData Graph[${it["name"]}] Original")
+                    println(outputData)
+                    println("----------Verify Output Data Graph[${it["name"]}] ... target,actual")
+                    println("test xmlGraphTarget :: " + xmlGraphTarget.toPrettyString())
+                    println("test xmlGraphActual :: " + xmlGraphActual.toPrettyString())
+                    println("----------Time(${DateHelperRelative.elapsedSeconds(timer)})")
+                    println("----------Failed(PersistentStore Graph)")
                     return false
                 } else {
                     SanityCheck.println { "OutputData Graph[${it["name"]}] Original" }
@@ -643,20 +643,20 @@ open class SparqlTestSuite() {
                         val jenaXML = XMLElement.parseFromXml(jenaResult)
 //println("test xmlJena >>>>>"+jenaResult+"<<<<<")
                         if (jenaXML != null && !jenaXML.myEqualsUnclean(xmlQueryResult, true, true, true)) {
-                            SanityCheck.println("----------Verify Output Jena jena,actual")
-                            SanityCheck.println("test jenaOriginal :: " + jenaResult)
-                            SanityCheck.println("test xmlJena :: " + jenaXML.toPrettyString())
-                            SanityCheck.println("test xmlActual :: " + xmlQueryResult!!.toPrettyString())
-                            SanityCheck.println("test xmlTarget :: " + xmlQueryTarget.toPrettyString())
-                            SanityCheck.println("----------Time(${DateHelperRelative.elapsedSeconds(timer)})")
-                            SanityCheck.println("----------Failed(Jena)")
+                            println("----------Verify Output Jena jena,actual")
+                            println("test jenaOriginal :: " + jenaResult)
+                            println("test xmlJena :: " + jenaXML.toPrettyString())
+                            println("test xmlActual :: " + xmlQueryResult!!.toPrettyString())
+                            println("test xmlTarget :: " + xmlQueryTarget.toPrettyString())
+                            println("----------Time(${DateHelperRelative.elapsedSeconds(timer)})")
+                            println("----------Failed(Jena)")
                             return false
                         }
                     } catch (e: JenaBugException) {
-                        SanityCheck.println({ e.message })
+                        println({ e.message })
                         ignoreJena = true
                     } catch (e: Throwable) {
-                        SanityCheck.println({ "TODO exception 43" })
+                        println({ "TODO exception 43" })
                         e.printStackTrace()
                         ignoreJena = true
                     }
@@ -678,15 +678,15 @@ open class SparqlTestSuite() {
                     SanityCheck.println { "test xmlQueryResultRecovered :: " + xmlQueryResultRecovered.toPrettyString() }
                     if (xmlQueryResultRecovered.myEqualsUnclean(xmlQueryResult, true, true, true)) {
                         if (expectedResult) {
-                            SanityCheck.println("----------Time(${DateHelperRelative.elapsedSeconds(timer)})")
-                            SanityCheck.println("----------Success")
+                            println("----------Time(${DateHelperRelative.elapsedSeconds(timer)})")
+                            println("----------Success")
                         } else {
-                            SanityCheck.println("----------Time(${DateHelperRelative.elapsedSeconds(timer)})")
-                            SanityCheck.println("----------Failed(expectFalse)")
+                            println("----------Time(${DateHelperRelative.elapsedSeconds(timer)})")
+                            println("----------Failed(expectFalse)")
                         }
                     } else {
-                        SanityCheck.println("----------Time(${DateHelperRelative.elapsedSeconds(timer)})")
-                        SanityCheck.println("----------Failed(RecoverFromXMLOperatorGraph)")
+                        println("----------Time(${DateHelperRelative.elapsedSeconds(timer)})")
+                        println("----------Failed(RecoverFromXMLOperatorGraph)")
                         res = false
                     }
                 } else {
@@ -699,37 +699,37 @@ open class SparqlTestSuite() {
                         if (expectedResult) {
                             if (containsOrderBy) {
                                 if (correctIfIgnoreAllExceptOrder) {
-                                    SanityCheck.println("----------Time(${DateHelperRelative.elapsedSeconds(timer)})")
-                                    SanityCheck.println("----------Success")
+                                    println("----------Time(${DateHelperRelative.elapsedSeconds(timer)})")
+                                    println("----------Success")
                                 } else {
-                                    SanityCheck.println("----------Time(${DateHelperRelative.elapsedSeconds(timer)})")
-                                    SanityCheck.println("----------Success(Unordered)")
+                                    println("----------Time(${DateHelperRelative.elapsedSeconds(timer)})")
+                                    println("----------Success(Unordered)")
                                 }
                             } else if (correctIfIgnoreOrderBy) {
-                                SanityCheck.println("----------Time(${DateHelperRelative.elapsedSeconds(timer)})")
-                                SanityCheck.println("----------Success")
+                                println("----------Time(${DateHelperRelative.elapsedSeconds(timer)})")
+                                println("----------Success")
                             } else if (correctIfIgnoreString) {
-                                SanityCheck.println("----------Time(${DateHelperRelative.elapsedSeconds(timer)})")
-                                SanityCheck.println("----------Success(String)")
+                                println("----------Time(${DateHelperRelative.elapsedSeconds(timer)})")
+                                println("----------Success(String)")
                             } else if (correctIfIgnoreNumber) {
-                                SanityCheck.println("----------Time(${DateHelperRelative.elapsedSeconds(timer)})")
-                                SanityCheck.println("----------Success(Number & String)")
+                                println("----------Time(${DateHelperRelative.elapsedSeconds(timer)})")
+                                println("----------Success(Number & String)")
                             } else {
                                 SanityCheck.checkUnreachable()
                             }
                         } else {
-                            SanityCheck.println("----------Time(${DateHelperRelative.elapsedSeconds(timer)})")
-                            SanityCheck.println("----------Failed(expectFalse,Simplified)")
+                            println("----------Time(${DateHelperRelative.elapsedSeconds(timer)})")
+                            println("----------Failed(expectFalse,Simplified)")
                         }
                     } else {
                         if (expectedResult) {
-                            SanityCheck.println("test xmlQueryTarget :: " + xmlQueryTarget.toPrettyString())
-                            SanityCheck.println("test xmlQueryResult :: " + xmlQueryResult.toPrettyString())
-                            SanityCheck.println("----------Time(${DateHelperRelative.elapsedSeconds(timer)})")
-                            SanityCheck.println("----------Failed(Incorrect)")
+                            println("test xmlQueryTarget :: " + xmlQueryTarget.toPrettyString())
+                            println("test xmlQueryResult :: " + xmlQueryResult.toPrettyString())
+                            println("----------Time(${DateHelperRelative.elapsedSeconds(timer)})")
+                            println("----------Failed(Incorrect)")
                         } else {
-                            SanityCheck.println("----------Time(${DateHelperRelative.elapsedSeconds(timer)})")
-                            SanityCheck.println("----------Success(ExpectFalse)")
+                            println("----------Time(${DateHelperRelative.elapsedSeconds(timer)})")
+                            println("----------Success(ExpectFalse)")
                         }
                     }
                 }
@@ -737,19 +737,19 @@ open class SparqlTestSuite() {
             } else {
                 if (verifiedOutput) {
                     if (expectedResult) {
-                        SanityCheck.println("----------Time(${DateHelperRelative.elapsedSeconds(timer)})")
-                        SanityCheck.println("----------Success(Graph)")
+                        println("----------Time(${DateHelperRelative.elapsedSeconds(timer)})")
+                        println("----------Success(Graph)")
                     } else {
-                        SanityCheck.println("----------Time(${DateHelperRelative.elapsedSeconds(timer)})")
-                        SanityCheck.println("----------Failed(ExpectFalse,Graph)")
+                        println("----------Time(${DateHelperRelative.elapsedSeconds(timer)})")
+                        println("----------Failed(ExpectFalse,Graph)")
                     }
                 } else {
                     if (expectedResult) {
-                        SanityCheck.println("----------Time(${DateHelperRelative.elapsedSeconds(timer)})")
-                        SanityCheck.println("----------Success(Syntax)")
+                        println("----------Time(${DateHelperRelative.elapsedSeconds(timer)})")
+                        println("----------Success(Syntax)")
                     } else {
-                        SanityCheck.println("----------Time(${DateHelperRelative.elapsedSeconds(timer)})")
-                        SanityCheck.println("----------Failed(ExpectFalse,Syntax)")
+                        println("----------Time(${DateHelperRelative.elapsedSeconds(timer)})")
+                        println("----------Failed(ExpectFalse,Syntax)")
                     }
                 }
                 return expectedResult
@@ -760,39 +760,39 @@ open class SparqlTestSuite() {
                 SanityCheck.println { e }
                 SanityCheck.println { "Error in the following line:" }
                 SanityCheck.println { e.lineNumber }
-                SanityCheck.println("----------Time(${DateHelperRelative.elapsedSeconds(timer)})")
-                SanityCheck.println("----------Failed(ParseError)")
+                println("----------Time(${DateHelperRelative.elapsedSeconds(timer)})")
+                println("----------Failed(ParseError)")
             } else {
-                SanityCheck.println("----------Time(${DateHelperRelative.elapsedSeconds(timer)})")
-                SanityCheck.println("----------Success(ExpectFalse,ParseError)")
+                println("----------Time(${DateHelperRelative.elapsedSeconds(timer)})")
+                println("----------Success(ExpectFalse,ParseError)")
             }
             return false
         } catch (e: NotImplementedException) {
-            SanityCheck.println("----------Time(${DateHelperRelative.elapsedSeconds(timer)})")
-            SanityCheck.println("----------Failed(NotImplemented)")
+            println("----------Time(${DateHelperRelative.elapsedSeconds(timer)})")
+            println("----------Failed(NotImplemented)")
             e.printStackTrace()
             return false
         } catch (e: Luposdate3000Exception) {
             if (expectedResult) {
-                SanityCheck.println("----------Time(${DateHelperRelative.elapsedSeconds(timer)})")
-                SanityCheck.println("----------Failed(${e.classname})")
+                println("----------Time(${DateHelperRelative.elapsedSeconds(timer)})")
+                println("----------Failed(${e.classname})")
                 e.printStackTrace()
             } else {
-                SanityCheck.println("----------Time(${DateHelperRelative.elapsedSeconds(timer)})")
-                SanityCheck.println("----------Success(ExpectFalse,${e.classname})")
+                println("----------Time(${DateHelperRelative.elapsedSeconds(timer)})")
+                println("----------Success(ExpectFalse,${e.classname})")
             }
             return false
         } catch (e: Throwable) {
-            SanityCheck.println({ "TODO exception 44" })
+            println({ "TODO exception 44" })
             e.printStackTrace()
             if (expectedResult) {
-                SanityCheck.println("----------Time(${DateHelperRelative.elapsedSeconds(timer)})")
-                SanityCheck.println("----------Failed(Throwable)")
+                println("----------Time(${DateHelperRelative.elapsedSeconds(timer)})")
+                println("----------Failed(Throwable)")
                 e.printStackTrace()
                 throw e
             } else {
-                SanityCheck.println("----------Time(${DateHelperRelative.elapsedSeconds(timer)})")
-                SanityCheck.println("----------Success(ExpectFalse,Throwable)")
+                println("----------Time(${DateHelperRelative.elapsedSeconds(timer)})")
+                println("----------Success(ExpectFalse,Throwable)")
                 e.printStackTrace()
             }
             return false
