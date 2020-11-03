@@ -81,7 +81,7 @@ class POPJoinCartesianProduct(query: IQuery, projectedVariables: List<String>, c
             try {
                 res = IteratorBundle(childA.count() * childB.count())
             } catch (e: Throwable) {
-                SanityCheck.println{"exception from ${getUUID()} ${children[0].getUUID()} ${children[1].getUUID()}"}
+                SanityCheck.println { "exception from ${getUUID()} ${children[0].getUUID()} ${children[1].getUUID()}" }
                 throw e
             }
         } else if (columnsINAO.size == 0) {

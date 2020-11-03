@@ -22,7 +22,7 @@ fun createBuildFileForModule(args: Array<String>) {
     var suspendMode = SuspendMode.Enable
     var releaseMode = true
     var fastMode = false
-var dryMode=false
+    var dryMode = false
     if (args.contains("--inline")) {
         inlineMode = InlineMode.Enable
     }
@@ -45,7 +45,7 @@ var dryMode=false
         fastMode = true
     }
     if (args.contains("--dry")) {
-        dryMode=true
+        dryMode = true
     }
     File("src.generated").deleteRecursively()
     File("src.generated").mkdirs()
@@ -247,7 +247,6 @@ var dryMode=false
         typeAliasAll["MyLock"] = Pair("MyLock", "MyThreadLock")
         typeAliasAll["MyReadWriteLock"] = Pair("MyReadWriteLock", "MyThreadReadWriteLock")
     }
-
 //selectively copy classes which are inlined from the inline module ->
     val classNamesRegex = Regex("\\s*([a-zA-Z0-9_]*)")
     val classNamesFound = mutableMapOf<String, MutableSet<String>>()
@@ -255,31 +254,31 @@ var dryMode=false
         if (f.isFile()) {
             try {
                 f.forEachLine { it ->
-                        var tmp = ""
-                        var idxClass = it.indexOf("class")
-                        if (idxClass >= 0) {
-                            tmp = it.substring(idxClass + 5)
+                    var tmp = ""
+                    var idxClass = it.indexOf("class")
+                    if (idxClass >= 0) {
+                        tmp = it.substring(idxClass + 5)
+                    } else {
+                        var idxObject = it.indexOf("object")
+                        if (idxObject >= 0) {
+                            tmp = it.substring(idxObject + 6)
                         } else {
-                            var idxObject = it.indexOf("object")
-                            if (idxObject >= 0) {
-                                tmp = it.substring(idxObject + 6)
-                            } else {
-                                var idxInterface = it.indexOf("interface")
-                                if (idxInterface >= 0) {
-                                    tmp = it.substring(idxInterface + 9)
-                                }
+                            var idxInterface = it.indexOf("interface")
+                            if (idxInterface >= 0) {
+                                tmp = it.substring(idxInterface + 9)
                             }
                         }
-                        if (tmp.length > 0) {
-                            val tmp2 = classNamesRegex.find(tmp)!!.groupValues[1]
-                            if (tmp2.length > 0) {
-                                val tmp3 = classNamesFound[tmp2]
-                                if (tmp3 == null) {
-                                    classNamesFound[tmp2] = mutableSetOf(f.toString())
-                                } else {
-                                    tmp3.add(f.toString())
-                                }
+                    }
+                    if (tmp.length > 0) {
+                        val tmp2 = classNamesRegex.find(tmp)!!.groupValues[1]
+                        if (tmp2.length > 0) {
+                            val tmp3 = classNamesFound[tmp2]
+                            if (tmp3 == null) {
+                                classNamesFound[tmp2] = mutableSetOf(f.toString())
+                            } else {
+                                tmp3.add(f.toString())
                             }
+                        }
                     }
                 }
             } catch (e: Throwable) {
@@ -297,33 +296,33 @@ var dryMode=false
         for (f in File("src.generated").walk()) {
             if (f.isFile()) {
                 try {
-f.forEachLine { line ->
-                    val tmpSet = mutableListOf(line)
-                    val tmpAlias = mutableSetOf<String>()
-                    for ((k, v) in typeAliasAll) {
-                        if (line.indexOf(k)>=0) {
-                            tmpSet.add(v.second)
-                            typeAliasUsed[k] = v
-                            tmpAlias.add(k)
-                        }
-                    }
-                    for (a in tmpAlias) {
-                        typeAliasAll.remove(a)
-                    }
-                    for (it in tmpSet) {
-                        val tmp = mutableSetOf<String>()
-                        for ((k, v) in classNamesFound) {
-                            if (it.indexOf(k)>=0) {
-                                classNamesUsed[k] = v
-                                tmp.add(k)
-                                changed = true
+                    f.forEachLine { line ->
+                        val tmpSet = mutableListOf(line)
+                        val tmpAlias = mutableSetOf<String>()
+                        for ((k, v) in typeAliasAll) {
+                            if (line.indexOf(k) >= 0) {
+                                tmpSet.add(v.second)
+                                typeAliasUsed[k] = v
+                                tmpAlias.add(k)
                             }
                         }
-                        for (k in tmp) {
-                            classNamesFound.remove(k)
+                        for (a in tmpAlias) {
+                            typeAliasAll.remove(a)
+                        }
+                        for (it in tmpSet) {
+                            val tmp = mutableSetOf<String>()
+                            for ((k, v) in classNamesFound) {
+                                if (it.indexOf(k) >= 0) {
+                                    classNamesUsed[k] = v
+                                    tmp.add(k)
+                                    changed = true
+                                }
+                            }
+                            for (k in tmp) {
+                                classNamesFound.remove(k)
+                            }
                         }
                     }
-}
                 } catch (e: Throwable) {
                     e.printStackTrace()
                 }
@@ -338,11 +337,9 @@ f.forEachLine { line ->
         }
         println(classNamesUsed.keys)
     }
-println(typeAliasUsed.keys)
+    println(typeAliasUsed.keys)
     println()
 //selectively copy classes which are inlined from the inline module <-
-
-
     File("src.generated/commonMain/kotlin/lupos/s00misc/Config-${moduleName}.kt").printWriter().use { out ->
         out.println("package lupos.s00misc")
         for ((k, v) in typeAliasUsed) {
@@ -367,9 +364,6 @@ println(typeAliasUsed.keys)
             }
         }
     }
-
-
-
     if (inlineMode == InlineMode.Enable) {
         applyInlineEnable()
     } else {
@@ -380,15 +374,15 @@ println(typeAliasUsed.keys)
     } else {
         applySuspendDisable()
     }
-if(!dryMode){
-    if (fastMode) {
-        runCommand(listOf("gradle", "jvmJar"), File("."))
-        runCommand(listOf("gradle", "publishJvmPublicationToMavenLocal"), File("."))
-    } else {
-        runCommand(listOf("gradle", "build"), File("."))
-        runCommand(listOf("gradle", "publishToMavenLocal"), File("."))
+    if (!dryMode) {
+        if (fastMode) {
+            runCommand(listOf("gradle", "jvmJar"), File("."))
+            runCommand(listOf("gradle", "publishJvmPublicationToMavenLocal"), File("."))
+        } else {
+            runCommand(listOf("gradle", "build"), File("."))
+            runCommand(listOf("gradle", "publishToMavenLocal"), File("."))
+        }
     }
-}
     try {
         File(".gradle").deleteRecursively()
     } catch (e: Throwable) {
@@ -414,13 +408,13 @@ if(!dryMode){
     } catch (e: Throwable) {
         e.printStackTrace()
     }
-if(!dryMode){
-    try {
-        Files.move(Paths.get("build"), Paths.get("build-cache/build-${shortFolder}"))
-    } catch (e: Throwable) {
-        e.printStackTrace()
+    if (!dryMode) {
+        try {
+            Files.move(Paths.get("build"), Paths.get("build-cache/build-${shortFolder}"))
+        } catch (e: Throwable) {
+            e.printStackTrace()
+        }
     }
-}
     try {
         Files.move(Paths.get("src.generated"), Paths.get("build-cache/src-${shortFolder}"))
     } catch (e: Throwable) {
@@ -431,26 +425,26 @@ if(!dryMode){
     } catch (e: Throwable) {
         e.printStackTrace()
     }
-if(!dryMode){
-    try {
-        Files.copy(Paths.get("build-cache/build-${shortFolder}/libs/${moduleName}-jvm-0.0.1.jar"), Paths.get("build-cache/bin/${moduleName}-jvm.jar"), StandardCopyOption.REPLACE_EXISTING)
-    } catch (e: Throwable) {
-        e.printStackTrace()
-    }
-    try {
-        Files.copy(Paths.get("build-cache/build-${shortFolder}/js/packages/${moduleName}/kotlin/${moduleName}.js"), Paths.get("build-cache/bin/${moduleName}-js.js"), StandardCopyOption.REPLACE_EXISTING)
-    } catch (e: Throwable) {
-        e.printStackTrace()
-    }
-    if (platform == "linuxX64") {
+    if (!dryMode) {
         try {
-            Files.copy(Paths.get("build-cache/build-${shortFolder}/bin/linuxX64/releaseShared/lib${moduleName}.so"), Paths.get("build-cache/bin/lib${moduleName}-linuxX64.so"), StandardCopyOption.REPLACE_EXISTING)
-            Files.copy(Paths.get("build-cache/build-${shortFolder}/bin/linuxX64/releaseShared/lib${moduleName}_api.h"), Paths.get("build-cache/bin/lib${moduleName}-linuxX64.h"), StandardCopyOption.REPLACE_EXISTING)
+            Files.copy(Paths.get("build-cache/build-${shortFolder}/libs/${moduleName}-jvm-0.0.1.jar"), Paths.get("build-cache/bin/${moduleName}-jvm.jar"), StandardCopyOption.REPLACE_EXISTING)
         } catch (e: Throwable) {
             e.printStackTrace()
         }
+        try {
+            Files.copy(Paths.get("build-cache/build-${shortFolder}/js/packages/${moduleName}/kotlin/${moduleName}.js"), Paths.get("build-cache/bin/${moduleName}-js.js"), StandardCopyOption.REPLACE_EXISTING)
+        } catch (e: Throwable) {
+            e.printStackTrace()
+        }
+        if (platform == "linuxX64") {
+            try {
+                Files.copy(Paths.get("build-cache/build-${shortFolder}/bin/linuxX64/releaseShared/lib${moduleName}.so"), Paths.get("build-cache/bin/lib${moduleName}-linuxX64.so"), StandardCopyOption.REPLACE_EXISTING)
+                Files.copy(Paths.get("build-cache/build-${shortFolder}/bin/linuxX64/releaseShared/lib${moduleName}_api.h"), Paths.get("build-cache/bin/lib${moduleName}-linuxX64.h"), StandardCopyOption.REPLACE_EXISTING)
+            } catch (e: Throwable) {
+                e.printStackTrace()
+            }
+        }
     }
-}
 }
 
 fun runCommand(command: List<String>, workingDir: File) {

@@ -237,7 +237,7 @@ object BinaryTestCase {
         if (!res && tag != "this is no error") {
             out.println("----------Failed($tag)")
             val x = out.toString()
-            SanityCheck.println{x}
+            SanityCheck.println { x }
             outSummary.println("Test: $query_folder named: $query_name")
             outSummary.println(x)
         }
@@ -320,8 +320,8 @@ object BinaryTestCase {
                                     }
                                     target_result_count = targetStat.readInt()
                                     if (target_result_count > MAX_TRIPLES_DURING_TEST && MAX_TRIPLES_DURING_TEST > 0) {
-                                        SanityCheck.println{"Test: $query_folder named: $query_folder"}
-                                        SanityCheck.println{"----------Skipped"}
+                                        SanityCheck.println { "Test: $query_folder named: $query_folder" }
+                                        SanityCheck.println { "----------Skipped" }
                                         return_value = true
                                         break@func
                                     }
@@ -334,12 +334,12 @@ object BinaryTestCase {
                                 throw Exception("not enough data available")
                             }
                             val query_name = buf.decodeToString()
-                            SanityCheck.println{"Test: $query_folder named: $query_name"}
+                            SanityCheck.println { "Test: $query_folder named: $query_name" }
                             val dictionarySize = targetStat.readInt()
                             val target_input_count = targetStat.readInt()
                             if (target_input_count > MAX_TRIPLES_DURING_TEST && MAX_TRIPLES_DURING_TEST > 0) {
-                                SanityCheck.println{"Test: $query_folder named: $query_folder"}
-                                SanityCheck.println{"----------Skipped"}
+                                SanityCheck.println { "Test: $query_folder named: $query_folder" }
+                                SanityCheck.println { "----------Skipped" }
                                 return_value = true
                                 break@func
                             }
@@ -363,18 +363,18 @@ object BinaryTestCase {
                                 }
                                 targetDict[s] = i
                                 targetDict2[i] = s
-                                SanityCheck.println{"XXX added value:$s"}
+                                SanityCheck.println { "XXX added value:$s" }
                                 val tmp = nodeGlobalDictionary.createValue(s)
                                 mapping_target_to_live[i] = tmp
                                 mapping_live_to_target[tmp] = i
                             }
                             val tableInput = MemoryTable(arrayOf("s", "p", "o"))
-                            SanityCheck.println{"----------Triple-Store-Target"}
+                            SanityCheck.println { "----------Triple-Store-Target" }
                             for (i in 0 until target_input_count) {
                                 val s1 = targetTriples.readInt()
                                 val p1 = targetTriples.readInt()
                                 val o1 = targetTriples.readInt()
-                                SanityCheck.println{"[$s1, $p1, $o1] :: [${targetDict2[s1]}, ${targetDict2[p1]}, ${targetDict2[o1]}]"}
+                                SanityCheck.println { "[$s1, $p1, $o1] :: [${targetDict2[s1]}, ${targetDict2[p1]}, ${targetDict2[o1]}]" }
                                 val s = mapping_target_to_live[s1]
                                 val p = mapping_target_to_live[p1]
                                 val o = mapping_target_to_live[o1]
@@ -405,22 +405,22 @@ object BinaryTestCase {
                                     if (p.partitionCount == 1) {
                                         val node = distributedTripleStore.getDefaultGraph(query3).getIterator(queryParam, idx, Partition())
                                         tmpTable = operatorGraphToTable(OPBaseCompound(query3, arrayOf(node), listOf(listOf("s", "p", "o"))))
-                                        SanityCheck.println{"storage content $idx x/${p.partitionCount} '' ${tmpTable.columns.map { it }}"}
+                                        SanityCheck.println { "storage content $idx x/${p.partitionCount} '' ${tmpTable.columns.map { it }}" }
                                         for (r in tmpTable.data) {
-                                            SanityCheck.println{r.map { it }}
+                                            SanityCheck.println { r.map { it } }
                                         }
                                     } else {
                                         for (value in 0 until p.partitionCount) {
                                             val partition = Partition()
                                             val key = idx.toString().substring(p.column, p.column + 1).toLowerCase()
-                                            SanityCheck.println{"extractKey :: $idx ${p.column} $key"}
+                                            SanityCheck.println { "extractKey :: $idx ${p.column} $key" }
                                             partition.limit[key] = p.partitionCount
                                             partition.data[key] = value
                                             val node = distributedTripleStore.getDefaultGraph(query3).getIterator(queryParam, idx, partition)
                                             val table = operatorGraphToTable(OPBaseCompound(query3, arrayOf(node), listOf(listOf("s", "p", "o"))))
-                                            SanityCheck.println{"storage content $idx ${value}/${p.partitionCount} '$key' ${table.columns.map { it }}"}
+                                            SanityCheck.println { "storage content $idx ${value}/${p.partitionCount} '$key' ${table.columns.map { it }}" }
                                             for (r in table.data) {
-                                                SanityCheck.println{r.map { it }}
+                                                SanityCheck.println { r.map { it } }
                                             }
 /*
 TODO
@@ -434,12 +434,12 @@ if (tmpTable != null) {
                                     }
                                     if (tmpTable != null) {
                                         success = verifyEqual(tableInput, tmpTable!!, mapping_live_to_target, targetDict, targetDict2, true, query_name, query_folder, "import ($idx ${p.column} ${p.partitionCount})") && success
-                                        SanityCheck.println{"success after idx $idx $success"}
+                                        SanityCheck.println { "success after idx $idx $success" }
                                     }
                                 }
                                 if (!success) {
                                     return_value = false
-                                    SanityCheck.println{"----------Failed(import)"}
+                                    SanityCheck.println { "----------Failed(import)" }
                                     break@func
                                 }
                             }
@@ -460,32 +460,32 @@ if (tmpTable != null) {
                                     tableOutput.data.add(row)
                                 }
                             }
-                            SanityCheck.println{"----------String query"}
+                            SanityCheck.println { "----------String query" }
                             val toParse = File(query_folder + "/query.sparql").readAsString()
-                            SanityCheck.println{toParse}
+                            SanityCheck.println { toParse }
                             for (f in notImplementedFeaturesList) {
                                 if (toParse.contains(f)) {
                                     throw object : NotImplementedException("NotImplementedException", "Inference not implemented '$f'") {}
                                 }
                             }
-                            SanityCheck.println{"----------AST"}
+                            SanityCheck.println { "----------AST" }
                             val lcit = LexerCharIterator(toParse)
                             val tit = TokenIteratorSPARQLParser(lcit)
                             val ltit = LookAheadTokenIterator(tit, 3)
                             val parser = SPARQLParser(ltit)
                             val ast_node = parser.expr()
-                            SanityCheck.println{ast_node}
-                            SanityCheck.println{"----------Logical Operatorgraph"}
+                            SanityCheck.println { ast_node }
+                            SanityCheck.println { "----------Logical Operatorgraph" }
                             val query4 = Query()
                             val lop_node = ast_node.visit(OperatorGraphVisitor(query4))
-                            SanityCheck.println{lop_node.toXMLElement().toPrettyString()}
-                            SanityCheck.println{"----------Logical Operatorgraph optimized"}
+                            SanityCheck.println { lop_node.toXMLElement().toPrettyString() }
+                            SanityCheck.println { "----------Logical Operatorgraph optimized" }
                             val lop_node2 = LogicalOptimizer(query4).optimizeCall(lop_node)
-                            SanityCheck.println{lop_node2.toXMLElement().toPrettyString()}
-                            SanityCheck.println{"----------Physical Operatorgraph optimized"}
+                            SanityCheck.println { lop_node2.toXMLElement().toPrettyString() }
+                            SanityCheck.println { "----------Physical Operatorgraph optimized" }
                             val pop_optimizer = PhysicalOptimizer(query4)
                             val pop_node = pop_optimizer.optimizeCall(lop_node2)
-                            SanityCheck.println{pop_node.toXMLElement().toPrettyString()}
+                            SanityCheck.println { pop_node.toXMLElement().toPrettyString() }
                             val allowOrderBy = !toParse.toLowerCase().contains("order")
                             if (mode == BinaryTestCaseOutputMode.MODIFY_RESULT) {
                                 val resultWriter = MyPrintWriter(false)
@@ -505,7 +505,7 @@ if (tmpTable != null) {
                                     break@func
                                 }
                             }
-                            SanityCheck.println{"----------Success"}
+                            SanityCheck.println { "----------Success" }
                             return_value = true
                             break@func
                         }
@@ -517,7 +517,7 @@ if (tmpTable != null) {
     }
 
     fun generateTestcase(query_input_file: String, query_file: String, query_output_file: String, output_folder: String, query_name: String, output_mode_tmp: BinaryTestCaseOutputMode): Boolean {
-        SanityCheck.println{"generateTestcase.kts $query_input_file $query_file $query_output_file $output_folder $query_name $output_mode_tmp"}
+        SanityCheck.println { "generateTestcase.kts $query_input_file $query_file $query_output_file $output_folder $query_name $output_mode_tmp" }
         try {
             var output_mode = output_mode_tmp
             File(output_folder).deleteRecursively()
@@ -690,7 +690,7 @@ if (tmpTable != null) {
                             outStat.write(tmp2)
                             outStat.writeInt(dict.size)
                             outStat.writeInt(input_counter)
-                            SanityCheck.println{"added Testcase $output_folder $output_mode ($output_mode_tmp) $query_name $query_input_file $query_output_file $query_file"}
+                            SanityCheck.println { "added Testcase $output_folder $output_mode ($output_mode_tmp) $query_name $query_input_file $query_output_file $query_file" }
                         }
                     }
                 }
