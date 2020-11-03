@@ -8,7 +8,7 @@ fun createBuildFileForModule(args: Array<String>) {
     val moduleName = args[0]
     val moduleFolder = args[1]
     val platform = args[2]
-println("generating buildfile for $moduleName")
+    println("generating buildfile for $moduleName")
     val validPlatforms = listOf("iosArm32", "iosArm64", "linuxX64", "macosX64", "mingwX64")
     if (!validPlatforms.contains(platform)) {
         throw Exception("unsupported platform $platform")
@@ -22,6 +22,7 @@ println("generating buildfile for $moduleName")
     var suspendMode = SuspendMode.Enable
     var releaseMode = true
     var fastMode = false
+var dryMode=false
     if (args.contains("--inline")) {
         inlineMode = InlineMode.Enable
     }
@@ -43,9 +44,11 @@ println("generating buildfile for $moduleName")
     if (args.contains("--fast")) {
         fastMode = true
     }
+    if (args.contains("--dry")) {
+        dryMode=true
+    }
     File("src.generated").deleteRecursively()
     File("src.generated").mkdirs()
-    File("src/luposdate3000_shared_inline").copyRecursively(File("src.generated"))
     val p = Paths.get(moduleFolder)
     Files.walk(p, 1).forEach { it ->
         val tmp = it.toString()
@@ -222,27 +225,128 @@ println("generating buildfile for $moduleName")
         out.println("}")
     }
     File("src.generated/commonMain/kotlin/lupos/s00misc/").mkdirs()
+    val typeAliasAll = mutableMapOf<String, Pair<String, String>>()
+    val typeAliasUsed = mutableMapOf<String, Pair<String, String>>()
+    if (releaseMode) {
+        typeAliasAll["SanityCheck"] = Pair("SanityCheck", "SanityCheckOff")
+    } else {
+        typeAliasAll["SanityCheck"] = Pair("SanityCheck", "SanityCheckOn")
+    }
+    if (suspendMode == SuspendMode.Enable) {
+        typeAliasAll["Parallel"] = Pair("Parallel", "ParallelCoroutine")
+        typeAliasAll["ParallelJob"] = Pair("ParallelJob", "ParallelCoroutineJob")
+        typeAliasAll["ParallelCondition"] = Pair("ParallelCondition", "ParallelCoroutineCondition")
+        typeAliasAll["ParallelQueue"] = Pair("ParallelQueue<T>", "ParallelCoroutineQueue<T>")
+        typeAliasAll["MyLock"] = Pair("MyLock", "MyCoroutineLock")
+        typeAliasAll["MyReadWriteLock"] = Pair("MyReadWriteLock", "MyCoroutineReadWriteLock")
+    } else {
+        typeAliasAll["Parallel"] = Pair("Parallel", "ParallelThread")
+        typeAliasAll["ParallelJob"] = Pair("ParallelJob", "ParallelThreadJob")
+        typeAliasAll["ParallelCondition"] = Pair("ParallelCondition", "ParallelThreadCondition")
+        typeAliasAll["ParallelQueue"] = Pair("ParallelQueue<T>", "ParallelThreadQueue<T>")
+        typeAliasAll["MyLock"] = Pair("MyLock", "MyThreadLock")
+        typeAliasAll["MyReadWriteLock"] = Pair("MyReadWriteLock", "MyThreadReadWriteLock")
+    }
+
+//selectively copy classes which are inlined from the inline module ->
+    val classNamesRegex = Regex("\\s*([a-zA-Z0-9_]*)")
+    val classNamesFound = mutableMapOf<String, MutableSet<String>>()
+    for (f in File("src/luposdate3000_shared_inline").walk()) {
+        if (f.isFile()) {
+            try {
+                f.forEachLine { it ->
+                        var tmp = ""
+                        var idxClass = it.indexOf("class")
+                        if (idxClass >= 0) {
+                            tmp = it.substring(idxClass + 5)
+                        } else {
+                            var idxObject = it.indexOf("object")
+                            if (idxObject >= 0) {
+                                tmp = it.substring(idxObject + 6)
+                            } else {
+                                var idxInterface = it.indexOf("interface")
+                                if (idxInterface >= 0) {
+                                    tmp = it.substring(idxInterface + 9)
+                                }
+                            }
+                        }
+                        if (tmp.length > 0) {
+                            val tmp2 = classNamesRegex.find(tmp)!!.groupValues[1]
+                            if (tmp2.length > 0) {
+                                val tmp3 = classNamesFound[tmp2]
+                                if (tmp3 == null) {
+                                    classNamesFound[tmp2] = mutableSetOf(f.toString())
+                                } else {
+                                    tmp3.add(f.toString())
+                                }
+                            }
+                    }
+                }
+            } catch (e: Throwable) {
+                e.printStackTrace()
+            }
+        } else {
+            val f2 = File(f.toString().replace("src/luposdate3000_shared_inline", "src.generated"))
+            f2.mkdirs()
+        }
+    }
+    var changed = true
+    while (changed) {
+        changed = false
+        val classNamesUsed = mutableMapOf<String, MutableSet<String>>()
+        for (f in File("src.generated").walk()) {
+            if (f.isFile()) {
+                try {
+f.forEachLine { line ->
+                    val tmpSet = mutableListOf(line)
+                    val tmpAlias = mutableSetOf<String>()
+                    for ((k, v) in typeAliasAll) {
+                        if (line.indexOf(k)>=0) {
+                            tmpSet.add(v.second)
+                            typeAliasUsed[k] = v
+                            tmpAlias.add(k)
+                        }
+                    }
+                    for (a in tmpAlias) {
+                        typeAliasAll.remove(a)
+                    }
+                    for (it in tmpSet) {
+                        val tmp = mutableSetOf<String>()
+                        for ((k, v) in classNamesFound) {
+                            if (it.indexOf(k)>=0) {
+                                classNamesUsed[k] = v
+                                tmp.add(k)
+                                changed = true
+                            }
+                        }
+                        for (k in tmp) {
+                            classNamesFound.remove(k)
+                        }
+                    }
+}
+                } catch (e: Throwable) {
+                    e.printStackTrace()
+                }
+            }
+        }
+        for ((k, v) in classNamesUsed) {
+            for (fname in v) {
+                val src = File(fname)
+                val dest = File(fname.replace("src/luposdate3000_shared_inline", "src.generated"))
+                src.copyTo(dest)
+            }
+        }
+        println(classNamesUsed.keys)
+    }
+println(typeAliasUsed.keys)
+    println()
+//selectively copy classes which are inlined from the inline module <-
+
+
     File("src.generated/commonMain/kotlin/lupos/s00misc/Config-${moduleName}.kt").printWriter().use { out ->
         out.println("package lupos.s00misc")
-        if (releaseMode) {
-            out.println("internal typealias SanityCheck = SanityCheckOff")
-        } else {
-            out.println("internal typealias SanityCheck = SanityCheckOn")
-        }
-        if (suspendMode == SuspendMode.Enable) {
-            out.println("internal typealias Parallel=ParallelCoroutine")
-            out.println("internal typealias ParallelJob=ParallelCoroutineJob")
-            out.println("internal typealias ParallelCondition=ParallelCoroutineCondition")
-            out.println("internal typealias ParallelQueue<T> =ParallelCoroutineQueue<T>")
-            out.println("internal typealias MyLock=MyCoroutineLock")
-            out.println("internal typealias MyReadWriteLock=MyCoroutineReadWriteLock")
-        } else {
-            out.println("internal typealias Parallel=ParallelThread")
-            out.println("internal typealias ParallelJob=ParallelThreadJob")
-            out.println("internal typealias ParallelCondition=ParallelThreadCondition")
-            out.println("internal typealias ParallelQueue<T> =ParallelThreadQueue<T>")
-            out.println("internal typealias MyLock=MyThreadLock")
-            out.println("internal typealias MyReadWriteLock=MyThreadReadWriteLock")
+        for ((k, v) in typeAliasUsed) {
+            out.println("internal typealias ${v.first} = ${v.second}")
         }
         if (File("${moduleFolder}/configOptions").exists()) {
             File("${moduleFolder}/configOptions").forEachLine {
@@ -263,6 +367,9 @@ println("generating buildfile for $moduleName")
             }
         }
     }
+
+
+
     if (inlineMode == InlineMode.Enable) {
         applyInlineEnable()
     } else {
@@ -273,6 +380,7 @@ println("generating buildfile for $moduleName")
     } else {
         applySuspendDisable()
     }
+if(!dryMode){
     if (fastMode) {
         runCommand(listOf("gradle", "jvmJar"), File("."))
         runCommand(listOf("gradle", "publishJvmPublicationToMavenLocal"), File("."))
@@ -280,6 +388,7 @@ println("generating buildfile for $moduleName")
         runCommand(listOf("gradle", "build"), File("."))
         runCommand(listOf("gradle", "publishToMavenLocal"), File("."))
     }
+}
     try {
         File(".gradle").deleteRecursively()
     } catch (e: Throwable) {
@@ -305,11 +414,13 @@ println("generating buildfile for $moduleName")
     } catch (e: Throwable) {
         e.printStackTrace()
     }
+if(!dryMode){
     try {
         Files.move(Paths.get("build"), Paths.get("build-cache/build-${shortFolder}"))
     } catch (e: Throwable) {
         e.printStackTrace()
     }
+}
     try {
         Files.move(Paths.get("src.generated"), Paths.get("build-cache/src-${shortFolder}"))
     } catch (e: Throwable) {
@@ -320,6 +431,7 @@ println("generating buildfile for $moduleName")
     } catch (e: Throwable) {
         e.printStackTrace()
     }
+if(!dryMode){
     try {
         Files.copy(Paths.get("build-cache/build-${shortFolder}/libs/${moduleName}-jvm-0.0.1.jar"), Paths.get("build-cache/bin/${moduleName}-jvm.jar"), StandardCopyOption.REPLACE_EXISTING)
     } catch (e: Throwable) {
@@ -338,6 +450,7 @@ println("generating buildfile for $moduleName")
             e.printStackTrace()
         }
     }
+}
 }
 
 fun runCommand(command: List<String>, workingDir: File) {
