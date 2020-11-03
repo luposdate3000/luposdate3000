@@ -70,43 +70,43 @@ class PhysicalOptimizerPartition(query: Query) : OptimizerBase(query, EOptimizer
                 val c = node.children[0]
                 when (c) {
                     is POPMergePartition -> {
-                        if (node.partitionVariable == c.partitionVariable) {
+                        if (node.partitionVariable == c.partitionVariable&&node.partitionCount==c.partitionCount) {
                             res = c.children[0]
                             onChange()
                         }
                     }
                     is POPMergePartitionOrderedByIntId -> {
-                        if (node.partitionVariable == c.partitionVariable) {
+                        if (node.partitionVariable == c.partitionVariable&&node.partitionCount==c.partitionCount) {
                             res = c.children[0]
                             onChange()
                         }
                     }
                     is POPMergePartitionCount -> {
-                        if (node.partitionVariable == c.partitionVariable) {
+                        if (node.partitionVariable == c.partitionVariable&&node.partitionCount==c.partitionCount) {
                             res = c.children[0]
                             onChange()
                         }
                     }
                     is POPReduced -> {
-                        res = POPReduced(query, c.projectedVariables, POPSplitPartition(query, c.children[0].getProvidedVariableNames(), node.partitionVariable, c.children[0]))
+                        res = POPReduced(query, c.projectedVariables, POPSplitPartition(query, c.children[0].getProvidedVariableNames(), node.partitionVariable,node.partitionCount, c.children[0]))
                         onChange()
                     }
                     is POPProjection -> {
-                        res = POPProjection(query, c.projectedVariables, POPSplitPartition(query, c.children[0].getProvidedVariableNames(), node.partitionVariable, c.children[0]))
+                        res = POPProjection(query, c.projectedVariables, POPSplitPartition(query, c.children[0].getProvidedVariableNames(), node.partitionVariable,node.partitionCount, c.children[0]))
                         onChange()
                     }
                     is POPFilter -> {
-                        res = POPFilter(query, c.projectedVariables, c.children[1] as AOPBase, POPSplitPartition(query, c.children[0].getProvidedVariableNames(), node.partitionVariable, c.children[0]))
+                        res = POPFilter(query, c.projectedVariables, c.children[1] as AOPBase, POPSplitPartition(query, c.children[0].getProvidedVariableNames(), node.partitionVariable,node.partitionCount, c.children[0]))
                         onChange()
                     }
                     is TripleStoreIteratorGlobal -> {
                         if (TripleStoreLocal.providesFeature(TripleStoreFeature.PARTITION, null)) {
                             try {
-                                val p = Partition(Partition(), node.partitionVariable, 0, Partition.default_k)
+                                val p = Partition(Partition(), node.partitionVariable, 0, node.partitionCount)
                                 val params = TripleStoreFeatureParamsPartition(c.idx, Array(3) { c.children[it] as AOPBase }, p)
                                 if (params.getColumn() > 0 && TripleStoreLocal.providesFeature(TripleStoreFeature.PARTITION, params)) {
-                                    res = POPSplitPartitionFromStore(query, node.projectedVariables, node.partitionVariable, c)
-                                    c.partition.limit[node.partitionVariable] = Partition.default_k
+                                    res = POPSplitPartitionFromStore(query, node.projectedVariables, node.partitionVariable,node.partitionCount, c)
+                                    c.partition.limit[node.partitionVariable] = node.partitionCount
                                     onChange()
                                 }
                             } catch (e: DontCareWhichException) {

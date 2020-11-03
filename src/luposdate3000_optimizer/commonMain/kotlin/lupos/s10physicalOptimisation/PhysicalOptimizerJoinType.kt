@@ -45,8 +45,8 @@ class PhysicalOptimizerJoinType(query: Query) : OptimizerBase(query, EOptimizerI
             var a = childA
             var b = childB
             for (s in joinColumns) {
-                a = POPSplitPartition(query, a.getProvidedVariableNames(), s, a)
-                b = POPSplitPartition(query, b.getProvidedVariableNames(), s, b)
+                a = POPSplitPartition(query, a.getProvidedVariableNames(), s, Partition.default_k,a)
+                b = POPSplitPartition(query, b.getProvidedVariableNames(), s, Partition.default_k,b)
             }
             var c = create(a, b)
             if (c.getProvidedVariableNames().size == 0) {

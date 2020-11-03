@@ -481,10 +481,10 @@ suspend fun XMLElement.Companion.convertToOPBase(query: Query, node: XMLElement,
             res = POPMergePartitionCount(query, listOf<String>(), node.attributes["partitionVariable"]!!, node.attributes["partitionCount"]!!.toInt(), convertToOPBase(query, node["children"]!!.childs[0], mapping))
         }
         "POPSplitPartition" -> {
-            res = POPSplitPartition(query, createProjectedVariables(query, node, mapping), node.attributes["partitionVariable"]!!, convertToOPBase(query, node["children"]!!.childs[0], mapping))
+            res = POPSplitPartition(query, createProjectedVariables(query, node, mapping), node.attributes["partitionVariable"]!!, node.attributes["partitionCount"]!!.toInt(), convertToOPBase(query, node["children"]!!.childs[0], mapping))
         }
         "POPSplitPartitionFromStore" -> {
-            res = POPSplitPartitionFromStore(query, createProjectedVariables(query, node, mapping), node.attributes["partitionVariable"]!!, convertToOPBase(query, node["children"]!!.childs[0], mapping))
+            res = POPSplitPartitionFromStore(query, createProjectedVariables(query, node, mapping), node.attributes["partitionVariable"]!!,  node.attributes["partitionCount"]!!.toInt(),convertToOPBase(query, node["children"]!!.childs[0], mapping))
         }
         "POPGroup" -> {
             val child = convertToOPBase(query, node["children"]!!.childs[0], mapping)

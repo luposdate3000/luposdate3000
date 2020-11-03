@@ -11,10 +11,10 @@ import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
 import lupos.s09physicalOperators.POPBase
 
-class POPSplitPartitionFromStore(query: IQuery, projectedVariables: List<String>, val partitionVariable: String, child: IOPBase) : POPBase(query, projectedVariables, EOperatorID.POPSplitPartitionFromStoreID, "POPSplitPartitionFromStore", arrayOf(child), ESortPriority.PREVENT_ANY) {
+class POPSplitPartitionFromStore(query: IQuery, projectedVariables: List<String>, val partitionVariable: String, val partitionCount:Int,child: IOPBase) : POPBase(query, projectedVariables, EOperatorID.POPSplitPartitionFromStoreID, "POPSplitPartitionFromStore", arrayOf(child), ESortPriority.PREVENT_ANY) {
     override fun getPartitionCount(variable: String): Int {
         if (variable == partitionVariable) {
-            return Partition.default_k
+            return partitionCount
         } else {
             return 1
         }
@@ -23,6 +23,7 @@ class POPSplitPartitionFromStore(query: IQuery, projectedVariables: List<String>
     override suspend fun toXMLElement(): XMLElement {
         val res = super.toXMLElement()
         res.addAttribute("partitionVariable", partitionVariable)
+        res.addAttribute("partitionCount", ""+partitionCount)
         return res
     }
 
@@ -37,9 +38,9 @@ class POPSplitPartitionFromStore(query: IQuery, projectedVariables: List<String>
         }
     }
 
-    override fun cloneOP(): IOPBase = POPSplitPartitionFromStore(query, projectedVariables, partitionVariable, children[0].cloneOP())
+    override fun cloneOP(): IOPBase = POPSplitPartitionFromStore(query, projectedVariables, partitionVariable, partitionCount,children[0].cloneOP())
     override fun toSparql() = children[0].toSparql()
-    override fun equals(other: Any?): Boolean = other is POPSplitPartitionFromStore && children[0] == other.children[0] && partitionVariable == other.partitionVariable
+    override fun equals(other: Any?): Boolean = other is POPSplitPartitionFromStore && children[0] == other.children[0] && partitionVariable == other.partitionVariable&&partitionCount==other.partitionCount
     override suspend fun evaluate(parent: Partition): IteratorBundle {
         return children[0].evaluate(parent)
     }

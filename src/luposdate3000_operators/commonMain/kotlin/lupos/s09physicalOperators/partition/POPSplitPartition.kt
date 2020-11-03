@@ -22,10 +22,10 @@ import lupos.s04logicalOperators.PartitionHelper
 import lupos.s04logicalOperators.Query
 import lupos.s09physicalOperators.POPBase
 
-class POPSplitPartition(query: IQuery, projectedVariables: List<String>, val partitionVariable: String, child: IOPBase) : POPBase(query, projectedVariables, EOperatorID.POPSplitPartitionID, "POPSplitPartition", arrayOf(child), ESortPriority.PREVENT_ANY) {
+class POPSplitPartition(query: IQuery, projectedVariables: List<String>, val partitionVariable: String, val partitionCount:Int,child: IOPBase) : POPBase(query, projectedVariables, EOperatorID.POPSplitPartitionID, "POPSplitPartition", arrayOf(child), ESortPriority.PREVENT_ANY) {
     override fun getPartitionCount(variable: String): Int {
         if (variable == partitionVariable) {
-            return Partition.default_k
+            return partitionCount
         } else {
             return children[0].getPartitionCount(variable)
         }
@@ -34,6 +34,7 @@ class POPSplitPartition(query: IQuery, projectedVariables: List<String>, val par
     override suspend fun toXMLElement(): XMLElement {
         val res = super.toXMLElement()
         res.addAttribute("partitionVariable", partitionVariable)
+ res.addAttribute("partitionCount",""+ partitionCount)
         return res
     }
 
@@ -48,9 +49,9 @@ class POPSplitPartition(query: IQuery, projectedVariables: List<String>, val par
         }
     }
 
-    override fun cloneOP(): IOPBase = POPSplitPartition(query, projectedVariables, partitionVariable, children[0].cloneOP())
+    override fun cloneOP(): IOPBase = POPSplitPartition(query, projectedVariables, partitionVariable,partitionCount, children[0].cloneOP())
     override fun toSparql() = children[0].toSparql()
-    override fun equals(other: Any?): Boolean = other is POPSplitPartition && children[0] == other.children[0] && partitionVariable == other.partitionVariable
+    override fun equals(other: Any?): Boolean = other is POPSplitPartition && children[0] == other.children[0] && partitionVariable == other.partitionVariable&&partitionCount==other.partitionCount
     override suspend fun evaluate(parent: Partition): IteratorBundle {
 //throw BugException("POPSplitPartition","child is not launching, because coroutine is missing suspension point")
         var partitionCount = parent.limit[partitionVariable]!!
