@@ -26,4 +26,5 @@ ln -s $(find ~/.m2/repository/org/jetbrains/kotlin/kotlin-stdlib/1.4.255-SNAPSHO
 java -Xmx60g -cp $(printf %s: $(pwd)/build-cache/bin-effective/*.jar) MainKt $@ > log/x 2>&1
 
 cat log/x | grep -e Exception -e Success -e Failed -e "Token unrecognized" -e "java.lang" -e "lupos.s1buildSyntaxTree.UnexpectedToken" -e "Error in the following line"|grep -v "<h1>Success</h1>"| sort | uniq -c | sed "s/kotlin.//g" | sed "s/java.lang.//g"
-diff resources/binary/configsequential resources/binary/config2 -y | grep -e "|" -e "<" -e ">"
+#diff resources/binary/configsequential resources/binary/config2 -y | grep -e "|" -e "<" -e ">"
+diff resources/binary/config resources/binary/config2
