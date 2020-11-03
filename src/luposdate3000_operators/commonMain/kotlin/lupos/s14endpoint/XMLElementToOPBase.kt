@@ -472,19 +472,29 @@ suspend fun XMLElement.Companion.convertToOPBase(query: Query, node: XMLElement,
             res = POPMakeBooleanResult(query, createProjectedVariables(query, node, mapping), convertToOPBase(query, node["children"]!!.childs[0], mapping))
         }
         "POPMergePartition" -> {
-            res = POPMergePartition(query, createProjectedVariables(query, node, mapping), node.attributes["partitionVariable"]!!, node.attributes["partitionCount"]!!.toInt(), convertToOPBase(query, node["children"]!!.childs[0], mapping))
+            val id = node.attributes["partitionID"]!!.toInt()
+            res = POPMergePartition(query, createProjectedVariables(query, node, mapping), node.attributes["partitionVariable"]!!, node.attributes["partitionCount"]!!.toInt(), id, convertToOPBase(query, node["children"]!!.childs[0], mapping))
+            query.addPartitionOperator(res.uuid, id)
         }
         "POPMergePartitionOrderedByIntId" -> {
-            res = POPMergePartitionOrderedByIntId(query, createProjectedVariables(query, node, mapping), node.attributes["partitionVariable"]!!, node.attributes["partitionCount"]!!.toInt(), convertToOPBase(query, node["children"]!!.childs[0], mapping))
+            val id = node.attributes["partitionID"]!!.toInt()
+            res = POPMergePartitionOrderedByIntId(query, createProjectedVariables(query, node, mapping), node.attributes["partitionVariable"]!!, node.attributes["partitionCount"]!!.toInt(), id, convertToOPBase(query, node["children"]!!.childs[0], mapping))
+            query.addPartitionOperator(res.uuid, id)
         }
         "POPMergePartitionCount" -> {
-            res = POPMergePartitionCount(query, listOf<String>(), node.attributes["partitionVariable"]!!, node.attributes["partitionCount"]!!.toInt(), convertToOPBase(query, node["children"]!!.childs[0], mapping))
+            val id = node.attributes["partitionID"]!!.toInt()
+            res = POPMergePartitionCount(query, listOf<String>(), node.attributes["partitionVariable"]!!, node.attributes["partitionCount"]!!.toInt(), id, convertToOPBase(query, node["children"]!!.childs[0], mapping))
+            query.addPartitionOperator(res.uuid, id)
         }
         "POPSplitPartition" -> {
-            res = POPSplitPartition(query, createProjectedVariables(query, node, mapping), node.attributes["partitionVariable"]!!, node.attributes["partitionCount"]!!.toInt(), convertToOPBase(query, node["children"]!!.childs[0], mapping))
+            val id = node.attributes["partitionID"]!!.toInt()
+            res = POPSplitPartition(query, createProjectedVariables(query, node, mapping), node.attributes["partitionVariable"]!!, node.attributes["partitionCount"]!!.toInt(), id, convertToOPBase(query, node["children"]!!.childs[0], mapping))
+            query.addPartitionOperator(res.uuid, id)
         }
         "POPSplitPartitionFromStore" -> {
-            res = POPSplitPartitionFromStore(query, createProjectedVariables(query, node, mapping), node.attributes["partitionVariable"]!!,  node.attributes["partitionCount"]!!.toInt(),convertToOPBase(query, node["children"]!!.childs[0], mapping))
+            val id = node.attributes["partitionID"]!!.toInt()
+            res = POPSplitPartitionFromStore(query, createProjectedVariables(query, node, mapping), node.attributes["partitionVariable"]!!, node.attributes["partitionCount"]!!.toInt(), id, convertToOPBase(query, node["children"]!!.childs[0], mapping))
+            query.addPartitionOperator(res.uuid, id)
         }
         "POPGroup" -> {
             val child = convertToOPBase(query, node["children"]!!.childs[0], mapping)

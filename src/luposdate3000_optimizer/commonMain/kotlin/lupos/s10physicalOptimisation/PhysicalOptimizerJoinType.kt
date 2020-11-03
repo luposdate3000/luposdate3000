@@ -44,21 +44,27 @@ class PhysicalOptimizerJoinType(query: Query) : OptimizerBase(query, EOptimizerI
         if (USE_PARTITIONS && Partition.default_k > 1) {
             var a = childA
             var b = childB
+            var newID = query.getNextPartitionOperatorID()
             for (s in joinColumns) {
-                a = POPSplitPartition(query, a.getProvidedVariableNames(), s, Partition.default_k,a)
-                b = POPSplitPartition(query, b.getProvidedVariableNames(), s, Partition.default_k,b)
+                a = POPSplitPartition(query, a.getProvidedVariableNames(), s, Partition.default_k, newID, a)
+                b = POPSplitPartition(query, b.getProvidedVariableNames(), s, Partition.default_k, newID, b)
+                query.addPartitionOperator(a.uuid, newID)
+                query.addPartitionOperator(b.uuid, newID)
             }
             var c = create(a, b)
             if (c.getProvidedVariableNames().size == 0) {
                 for (s in joinColumns) {
-                    c = POPMergePartitionCount(query, c.getProvidedVariableNames(), s, Partition.default_k, c)
+                    c = POPMergePartitionCount(query, c.getProvidedVariableNames(), s, Partition.default_k, newID, c)
+                    query.addPartitionOperator(c.uuid, newID)
                 }
             } else {
                 for (s in joinColumns) {
                     if (keepOrder) {
-                        c = POPMergePartitionOrderedByIntId(query, c.getProvidedVariableNames(), s, Partition.default_k, c)
+                        c = POPMergePartitionOrderedByIntId(query, c.getProvidedVariableNames(), s, Partition.default_k, newID, c)
+                        query.addPartitionOperator(c.uuid, newID)
                     } else {
-                        c = POPMergePartition(query, c.getProvidedVariableNames(), s, Partition.default_k, c)
+                        c = POPMergePartition(query, c.getProvidedVariableNames(), s, Partition.default_k, newID, c)
+                        query.addPartitionOperator(c.uuid, newID)
                     }
                 }
             }

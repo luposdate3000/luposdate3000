@@ -1,5 +1,9 @@
 package lupos.s08logicalOptimisation
-
+import lupos.s09physicalOperators.partition.POPMergePartition
+import lupos.s09physicalOperators.partition.POPMergePartitionCount
+import lupos.s09physicalOperators.partition.POPMergePartitionOrderedByIntId
+import lupos.s09physicalOperators.partition.POPSplitPartition
+import lupos.s09physicalOperators.partition.POPSplitPartitionFromStore
 import kotlin.jvm.JvmField
 import lupos.s00misc.EOptimizerID
 import lupos.s00misc.SanityCheck
@@ -10,6 +14,7 @@ import lupos.s04logicalOperators.Query
 abstract class OptimizerBase(@JvmField val query: Query, @JvmField val optimizerID: EOptimizerID) {
     abstract val classname: String
     abstract suspend fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase
+
     suspend fun optimizeInternal(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
         SanityCheck {
             if (parent != null) {
@@ -27,7 +32,8 @@ abstract class OptimizerBase(@JvmField val query: Query, @JvmField val optimizer
             val tmp = optimizeInternal(node.getChildren()[i], node, onChange)
             node.updateChildren(i, tmp)
         }
-        return optimize(node, parent, onChange)
+        val res = optimize(node, parent, onChange)
+        return res
     }
 
     open suspend fun optimizeCall(node: IOPBase, onChange: () -> Unit = {}): IOPBase {

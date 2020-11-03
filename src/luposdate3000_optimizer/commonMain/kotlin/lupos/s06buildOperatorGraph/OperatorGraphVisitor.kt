@@ -435,7 +435,7 @@ class OperatorGraphVisitor(@JvmField val query: Query) : Visitor<IOPBase> {
         if (res == null) {
             return LOPNOOP(query)
         }
-        return LOPProjection(query,mutableListOf(AOPVariable(query, "s"),AOPVariable(query, "p"),AOPVariable(query, "o")),LOPDistinct(query, res))
+        return LOPProjection(query, mutableListOf(AOPVariable(query, "s"), AOPVariable(query, "p"), AOPVariable(query, "o")), LOPDistinct(query, res))
     }
 
     fun refineLopGroup(g: LOPGroup): LOPBase {

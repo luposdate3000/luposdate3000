@@ -21,7 +21,7 @@ import lupos.s04logicalOperators.Query
 import lupos.s09physicalOperators.POPBase
 
 //http://blog.pronghorn.tech/optimizing-suspending-functions-in-kotlin/
-class POPMergePartition(query: IQuery, projectedVariables: List<String>, val partitionVariable: String, val partitionCount: Int, child: IOPBase) : POPBase(query, projectedVariables, EOperatorID.POPMergePartitionID, "POPMergePartition", arrayOf(child), ESortPriority.PREVENT_ANY) {
+class POPMergePartition(query: IQuery, projectedVariables: List<String>, val partitionVariable: String, val partitionCount: Int, var partitionID: Int, child: IOPBase) : POPBase(query, projectedVariables, EOperatorID.POPMergePartitionID, "POPMergePartition", arrayOf(child), ESortPriority.PREVENT_ANY) {
     override fun getPartitionCount(variable: String): Int {
         if (variable == partitionVariable) {
             return 1
@@ -34,6 +34,7 @@ class POPMergePartition(query: IQuery, projectedVariables: List<String>, val par
         val res = super.toXMLElement()
         res.addAttribute("partitionVariable", partitionVariable)
         res.addAttribute("partitionCount", "" + partitionCount)
+        res.addAttribute("partitionID", "" + partitionID)
         return res
     }
 
@@ -48,7 +49,7 @@ class POPMergePartition(query: IQuery, projectedVariables: List<String>, val par
         }
     }
 
-    override fun cloneOP(): IOPBase = POPMergePartition(query, projectedVariables, partitionVariable, partitionCount, children[0].cloneOP())
+    override fun cloneOP(): IOPBase = POPMergePartition(query, projectedVariables, partitionVariable, partitionCount, partitionID, children[0].cloneOP())
     override fun toSparql() = children[0].toSparql()
     override fun equals(other: Any?): Boolean = other is POPMergePartition && children[0] == other.children[0] && partitionVariable == other.partitionVariable
     override suspend fun evaluate(parent: Partition): IteratorBundle {
