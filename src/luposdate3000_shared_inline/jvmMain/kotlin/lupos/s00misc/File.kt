@@ -43,11 +43,21 @@ internal actual class File {
 
     inline actual fun myPrintWriter(): MyPrintWriter = MyPrintWriter(java.io.File(filename))
     inline actual fun printWriter(crossinline action: (MyPrintWriter) -> Unit) {
-        action(MyPrintWriter(java.io.File(filename)))
+        val printer = MyPrintWriter(java.io.File(filename))
+        try {
+            action(printer)
+        } finally {
+            printer.close()
+        }
     }
 
     inline suspend actual fun printWriterSuspended(crossinline action: suspend (MyPrintWriter) -> Unit) {
-        action(MyPrintWriter(java.io.File(filename)))
+        val printer = MyPrintWriter(java.io.File(filename))
+        try {
+            action(printer)
+        } finally {
+            printer.close()
+        }
     }
 
     inline actual fun forEachLine(crossinline action: (String) -> Unit) = java.io.File(filename).forEachLine {
