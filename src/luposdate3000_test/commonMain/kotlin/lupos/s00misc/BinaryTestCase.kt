@@ -76,8 +76,12 @@ object BinaryTestCase {
                             newConfig.println(line)
                         }
                         "hadSuccess" -> {
-                            executeTestCase(folder + "/" + setting[0])
-                            newConfig.println(line)
+val res=                            executeTestCase(folder + "/" + setting[0])
+      if(res){
+                      newConfig.println(line)
+}else{
+newConfig.println(setting[0] + "=hadSuccessButFailedNow")
+}
                         }
                         else -> {
                             val res = executeTestCase(folder + "/" + setting[0])
