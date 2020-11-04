@@ -1,5 +1,5 @@
 #!/bin/kscript
-//INCLUDE src/commonMain/kotlin/lupos/s00misc/OperatorGraphToLatex.kt
+//INCLUDE ./src/luposdate3000_shared/commonMain/kotlin/lupos/s00misc/OperatorGraphToLatex.kt
 val inputString = StringBuilder()
 while (true) {
     val line = readLine()

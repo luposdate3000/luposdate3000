@@ -46,6 +46,8 @@ class Query(@JvmField val dictionary: ResultSetDictionary = ResultSetDictionary(
 
     @JvmField
     val partitionOperators = mutableMapOf<Int, MutableSet<Long>>()
+@JvmField
+    val partitionOperatorCount= mutableMapOf<Int, Int>()
 
     fun getNextPartitionOperatorID(): Int {
         var res = 0
