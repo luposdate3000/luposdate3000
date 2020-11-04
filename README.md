@@ -171,27 +171,41 @@ dependencieshome=/opt
     make -j8
     make install
 }
-# Finally preprocess all benchmark files, to be able to fast-load them later using an intermediate binary triple format
-# This may take some time
-${luposdate3000home}/exec-import.sh
 ```
 
 ## Usage
 
-### Tests
-
-To run all tests use one of the following:
+To compile everything the first time you must perform a complete rebuild, which is done by using:
 
 ```bash
-exec-sparql-test-suite-jvm.sh
-exec-sparql-test-suite-jvm-fast.sh
+./compile-module-korio.sh
+./compile-module-all.sh
 ```
 
-These tests are executed repeatedly and therefore these should work.
+This takes a lot of time (on my computer 20 Minutes using a 4GHz CPU with NVME-SSD and lots of available RAM).
+The final compiled jars/js/native-libs are than in the folder build-cache/bin
+
+Take a look into the file ./compile-module-all.sh.
+If you change somethin, compile only the necessary module (and the ones depending on it) instead of everything.
+If you only need the jars you can append "--fast" to the calls to "./generate-buildfile-module.kts".
+If you change the interface of a module you can not use "--fast", because then the medatada is not generated correctly.
+
+Compiling just a single Module for JVM only takes around 10 Seconds - which is much faster.
+
+### Tests
+
+To run all tests use the following:
+
+```bash
+exec-binary-test-suite-jvm.sh
+```
+
+These tests are executed repeatedly and therefore these should be compileable and executable.
 Currently luposdate3000 is not finished - thats why there are lots of failing tests.
-The test script writes a summary to the file log/c.
-The first complete run additionally writes its summary to log/a.
-Afterwards the difference between this two files is displayed, to show, which new test cases are successfull/broken, to prevent accidently destroying many tests.
+The test script writes a summary to the file resources/binary/config2.
+The comparison to the file resources/binary/config should show if there are new tests working.
+You can modify resources/binary/config to enable/disable specific tests.
+The found errors are summarized in the file log/error.
 
 luposdate3000 allows for many configuration options where completely independent code is used.
 
@@ -200,24 +214,20 @@ To gain usefull insight, what breakes when, the object "lupos.s00misc.SanityChec
 
 To add a new testcase::
 
-Currently only read-only test cases are supported this way.
-Create the folder "resources/yourfolder".
-Put as many "yourquery.sparql" as you want into that folder.
-Put the input-data for that query into that folder.
-Input-data can be resued for multiple queries.
-Create the file "resources/yourfolder/config.csv".
-This file configures, how the tests are executed.
-The columns in this csv-file should be number-of-triples,yourquery.sparql,yourquery.ttl,yourquery-result-data.srx
-
-You do NOT need to put the expected result there.
-The correct result is calculated using apache-jena during the first execution.
-apache-jena is NOT always correct, but a good starting point.
-
-As a last step announce the new tests-folder to the database.
-To do so modify "src/commonMain/kotlin/lupos/SparqlTestSuite.kt"
-Append your folder to the constant list "enabledTestCases" in that file.
+```bash
+inputdata=xyz/file.n3
+sparql=xyz/file.sparql
+targetdata=xyz/file.n3
+outputfoldername=xyz
+testname=xyz
+mode=SELECT_QUERY_RESULT  # or mode=MODIFY_RESULT
+java -Xmx60g -cp $(printf %s: $(pwd)/build-cache/bin-effective/*.jar) MainKt --generate "$inputdata" "$sparql" "$targetdata" "resources/binary/$outputfoldername" "$testname" "$mode"
+echo "$outputfoldername=enabled" >> resources/binary/config
+```
 
 ### Benchmarks
+
+The benchmarks are updated soon ...
 
 The script
 
@@ -237,14 +247,23 @@ You may want to change the targetfolder to something else to get a usefull histo
 It is unlikely that your hardware matches the one used to create the current benchmark values.
 The current git revision is part of the benchmark-result-filename, to be able to exactly compare which code-changes changes the performance.
 
-### Manual configuration
+### Configuration
 
 You can configure the database as you want.
 
-1. It may be a good idea to clear the "build" and "src.generated" folders first.
-2. execute the kotlin-script "generate-buildfile.kts" this prints a list of options to the console, than you can pick one of the provided options, repeat this until the script completes.
-3. use "tool-gradle-build.sh" or gradle to compile the database.
-4. there should be a "libs/luposdate3000-all.jar" in your build folder
+Take a look into "compile-module-all.sh"
+There you can change the parameters for the indiviual modules.
+
+The options "--nosuspend" or "--suspend" must be the same for EVERY module, because this changes method signatures in the binarys.
+
+All configurable options can be found in the files src/*/configOptions
+These csv files columns are: optionName,optionType(const val/val/typedef),variableType(Int,...),defaultValue
+
+Additionally you can exchange some modules.
+Currently these exchangeable Modules are:
+* luposdate3000_endpoint_none or luposdate3000_endpoint_java_sockets
+* luposdate3000_jena_wrapper_on or luposdate3000_jena_wrapper_off
+* one of luposdate3000_launch*
 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
@@ -266,6 +285,10 @@ Things you can change:
   There is a limit of 64kb byte-code per function - this is very easy to reach if you put inline everywhere.
   This modifier should NEVER be used during debugging, because it breaks the exception-stack-traces.
   if you have functional parameters combine it with "crossinline" to inline that parameter too.
+* "internal" function/class modifier <br/>
+  This hides the function/class from the api.
+  This decreases the binary size.
+  This increases the compile-speed, because there are no generated/exported functions
 * function pointers<br/>
   Be careful.
   This creates (multiple) additional objects.
@@ -313,10 +336,13 @@ Current limitations of the kotlin compiler:
 * at time of testing ... the native target is approximately 20 times slower
 * native target calls freeze on EVERYTHING
   that means, that any global variable needs a full replication on every modification which is very very bad.
+  this should change with upcoming kotlin-releases
 * gradle has more kotlin related features than maven especially if not-java targets should be build
 * If the program breaks and you dont think it should break, than clear the build folder and compile again.
   The incremental build sometimes just dont work - especially with enabled inlining.
-
+* My experiments show that Threads are faster than Coroutines, because of the constantly allocated and released intermediate Objects, which are completely useless.
+  Maybe this changes with updates to the kotlin-compiler.
+  Currently: just use Threads.
 
 ## License
 [GNU GPLv3](https://choosealicense.com/licenses/gpl-3.0)
