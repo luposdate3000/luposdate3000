@@ -66,7 +66,7 @@ class CanNotCastLiteralToDoubleException() : EvaluationException("CanNotCastLite
 class CanNotCastLiteralToDecimalException() : EvaluationException("CanNotCastLiteralToDecimalException", "Can not cast Literal to Decimal.")
 class CanNotCastLiteralToIntException() : EvaluationException("CanNotCastLiteralToIntException", "Can not cast Literal to Int.")
 class UnknownOperatorTypeInXMLException(type: String) : EvaluationException("UnknownOperatorTypeInXMLException", "Unknown type '$type' during parsing xml file.")
-class UnknownDataFile(filename: String) : EvaluationException("UnknownDataFile", "Unknown filetype '$filename' during parsing to xml.")
+class UnknownDataFileException(filename: String) : EvaluationException("UnknownDataFileException", "Unknown filetype '$filename' during parsing to xml.")
 class EnpointRecievedInvalidPath(path: String) : EvaluationException("EnpointRecievedInvalidPath", "There was a not recognized request with path '$path'.")
 class ResourceNotFoundException(resourceName: String) : EvaluationException("ResourceNotFoundException", "File '$resourceName' not found.")
 class GraphNameAlreadyExistsDuringCreateException(name: String) : EvaluationException("GraphNameAlreadyExistsDuringCreateException", "The graph '$name' already exists before creation.")

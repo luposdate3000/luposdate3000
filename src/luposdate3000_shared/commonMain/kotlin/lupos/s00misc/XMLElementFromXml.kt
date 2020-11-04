@@ -1,10 +1,11 @@
 package lupos.s00misc
 
-fun XMLElement.Companion.parseFromXml(xml: String): XMLElement? {
-    return XMLElement.parseFromXmlHelper(xml)?.first()
+class XMLElementFromXML():XMLElementParser{
+override operator fun invoke(data:String):XMLElement?{
+    return parseFromXmlHelper(data)?.first()
 }
 
-internal fun XMLElement.Companion.parseFromXmlHelper(xml: String): List<XMLElement>? {
+internal fun parseFromXmlHelper(xml: String): List<XMLElement>? {
     val x = xml.replace("\n", "").replace("\r", "")
     val res = mutableListOf<XMLElement>()
     var lastindex = 0
@@ -61,4 +62,5 @@ internal fun XMLElement.Companion.parseFromXmlHelper(xml: String): List<XMLEleme
         return null
     }
     return res
+}
 }

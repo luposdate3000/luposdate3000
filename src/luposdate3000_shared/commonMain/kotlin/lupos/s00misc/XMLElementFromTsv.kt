@@ -1,12 +1,12 @@
 package lupos.s00misc
-
-fun XMLElement.Companion.parseFromTsv(tsv: String): XMLElement? {
+class XMLElementFromTsv():XMLElementParser{
+override operator fun invoke(data:String):XMLElement?{
     val nodeSparql = XMLElement("sparql").addAttribute("xmlns", "http://www.w3.org/2005/sparql-results#")
     val nodeHead = XMLElement("head")
     val nodeResults = XMLElement("results")
     nodeSparql.addContent(nodeHead)
     nodeSparql.addContent(nodeResults)
-    val lines = tsv.lines()
+    val lines = data.lines()
     val variables = mutableListOf<String>()
     val columns = lines.first().split("\t")
     for (variableName in columns) {
@@ -27,9 +27,10 @@ fun XMLElement.Companion.parseFromTsv(tsv: String): XMLElement? {
         val values = line.split("\t")
         var i = 0
         while (i < variables.size && i < values.size) {
-            parseBindingFromString(nodeResult, values[i], variables[i])
+XMLElement.            parseBindingFromString(nodeResult, values[i], variables[i])
             i++
         }
     }
     return nodeSparql
+}
 }

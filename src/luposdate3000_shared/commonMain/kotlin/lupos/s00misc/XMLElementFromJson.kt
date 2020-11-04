@@ -2,13 +2,14 @@ package lupos.s00misc
 
 import lupos.s00misc.SanityCheck
 
-fun XMLElement.Companion.parseFromJson(json: String): XMLElement? {
+class XMLElementFromJson():XMLElementParser{
+override operator fun invoke(data:String):XMLElement?{
     val nodeSparql = XMLElement("sparql").addAttribute("xmlns", "http://www.w3.org/2005/sparql-results#")
     val nodeHead = XMLElement("head")
     val nodeResults = XMLElement("results")
     nodeSparql.addContent(nodeHead)
-    if (!json.contains("results")) {
-        nodeSparql.addContent(XMLElement("boolean").addContent("" + (json.contains("true") && !json.contains("false"))))
+    if (!data.contains("results")) {
+        nodeSparql.addContent(XMLElement("boolean").addContent("" + (data.contains("true") && !data.contains("false"))))
         return nodeSparql
     }
     nodeSparql.addContent(nodeResults)
@@ -22,8 +23,8 @@ fun XMLElement.Companion.parseFromJson(json: String): XMLElement? {
     val regexToken = """("([^"]*)")|[0-9]+ |\{|\}|\[|\]|,|:|true|false""".toRegex()
     var lasttokenbracket: Boolean
     var thistokenbracket = false
-    while (idx < json.length) {
-        val token = regexToken.find(json, idx + 1)
+    while (idx < data.length) {
+        val token = regexToken.find(data, idx + 1)
         if (token == null) {
             return nodeSparql
         }
@@ -108,13 +109,13 @@ fun XMLElement.Companion.parseFromJson(json: String): XMLElement? {
                     }
                 } else {
                     if (token.value == "\"boolean\"") {
-                        val token3 = regexToken.find(json, idx + 1)
+                        val token3 = regexToken.find(data, idx + 1)
                         if (token3 == null) {
                             return nodeSparql
                         }
                         SanityCheck.check({ token3.value == ":" })
                         idx = token3.range.last
-                        val token2 = regexToken.find(json, idx + 1)
+                        val token2 = regexToken.find(data, idx + 1)
                         if (token2 == null) {
                             return nodeSparql
                         }
@@ -126,13 +127,13 @@ fun XMLElement.Companion.parseFromJson(json: String): XMLElement? {
                     }
                 }
                 if (!flag && nodeBinding != null) {
-                    val token3 = regexToken.find(json, idx + 1)
+                    val token3 = regexToken.find(data, idx + 1)
                     if (token3 == null) {
                         return nodeSparql
                     }
                     SanityCheck.check({ token3.value == ":" })
                     idx = token3.range.last
-                    val token2 = regexToken.find(json, idx + 1)
+                    val token2 = regexToken.find(data, idx + 1)
                     if (token2 == null) {
                         return nodeSparql
                     }
@@ -147,4 +148,5 @@ fun XMLElement.Companion.parseFromJson(json: String): XMLElement? {
         }
     }
     return nodeSparql
+}
 }

@@ -6,6 +6,7 @@ import kotlin.math.abs
 class XMLElement {
     // https://regex101.com
     companion object {
+@JvmField val parseFromAnyRegistered=mutableMapOf<String,XMLElementParser>()
         fun parseBindingFromString(nodeResult: XMLElement, value: String?, name: String) {
             val nodeBinding = XMLElement("binding").addAttribute("name", name)
             if (value != null && value != "") {

@@ -517,7 +517,6 @@ if (tmpTable != null) {
     }
 
     fun generateTestcase(query_input_file: String, query_file: String, query_output_file: String, output_folder: String, query_name: String, output_mode_tmp: BinaryTestCaseOutputMode): Boolean {
-        SanityCheck.println { "generateTestcase.kts $query_input_file $query_file $query_output_file $output_folder $query_name $output_mode_tmp" }
         try {
             var output_mode = output_mode_tmp
             File(output_folder).deleteRecursively()
@@ -696,8 +695,9 @@ if (tmpTable != null) {
                 }
             }
             return true
-        } catch (e: UnknownDataFile) {
+        } catch (e: UnknownDataFileException) {
             File(output_folder).deleteRecursively()
+e.printStackTrace()
             return false
         }
     }

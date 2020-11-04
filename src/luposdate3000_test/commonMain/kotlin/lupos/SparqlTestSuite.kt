@@ -13,7 +13,7 @@ import lupos.s00misc.MAX_TRIPLES_DURING_TEST
 import lupos.s00misc.NotImplementedException
 import lupos.s00misc.OperatorGraphToLatex
 import lupos.s00misc.parseFromAny
-import lupos.s00misc.parseFromXml
+import lupos.s00misc.XMLElementFromXML
 import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.UnknownManifestException
@@ -72,7 +72,7 @@ open class SparqlTestSuite() {
                             try {
                                 JenaWrapper.loadFromFile("/src/luposdate3000/" + inputFile)
                                 val jenaResult = JenaWrapper.execQuery(File(queryFile).readAsString())
-                                val jenaXML = XMLElement.parseFromXml(jenaResult)!!
+                                val jenaXML = XMLElementFromXML()(jenaResult)!!
                                 File(outputFile).printWriterSuspended {
                                     it.println(jenaXML.toPrettyString())
                                 }
@@ -640,7 +640,7 @@ open class SparqlTestSuite() {
                 if (!ignoreJena) {
                     try {
                         val jenaResult = JenaWrapper.execQuery(toParse)
-                        val jenaXML = XMLElement.parseFromXml(jenaResult)
+                        val jenaXML = XMLElementFromXML()(jenaResult)
 //println("test xmlJena >>>>>"+jenaResult+"<<<<<")
                         if (jenaXML != null && !jenaXML.myEqualsUnclean(xmlQueryResult, true, true, true)) {
                             println("----------Verify Output Jena jena,actual")

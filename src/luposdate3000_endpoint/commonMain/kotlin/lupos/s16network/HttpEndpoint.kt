@@ -8,7 +8,7 @@ import lupos.s00misc.File
 import lupos.s00misc.IMyPrintWriter
 import lupos.s00misc.MyPrintWriter
 import lupos.s00misc.OperatorGraphToLatex
-import lupos.s00misc.parseFromXml
+import lupos.s00misc.XMLElementFromXML
 import lupos.s00misc.Partition
 import lupos.s00misc.QueryResultToStream
 import lupos.s00misc.SanityCheck
@@ -276,7 +276,7 @@ object HttpEndpoint {
 
     suspend fun import_xml_data(data: String): String {
         val query = Query()
-        val import = POPValuesImportXML(query, listOf("s", "p", "o"), XMLElement.parseFromXml(data)!!).evaluate(Partition())
+        val import = POPValuesImportXML(query, listOf("s", "p", "o"), XMLElementFromXML()(data)!!).evaluate(Partition())
         val dataLocal = arrayOf(import.columns["s"]!!, import.columns["p"]!!, import.columns["o"]!!)
         distributedTripleStore.getDefaultGraph(query).modify(dataLocal, EModifyType.INSERT)
         distributedTripleStore.commit(query)
@@ -354,7 +354,7 @@ object HttpEndpoint {
 
     suspend fun evaluate_sparql_query_operator_xml(query: String, logOperatorGraph: Boolean = false): String {
         val q = Query()
-        val pop_node = XMLElement.convertToOPBase(q, XMLElement.parseFromXml(query)!!)
+        val pop_node = XMLElement.convertToOPBase(q, XMLElementFromXML()(query)!!)
         SanityCheck.println { pop_node }
         if (logOperatorGraph) {
             SanityCheck.suspended {

@@ -1,24 +1,13 @@
 package lupos.s00misc
 
+
+
 fun XMLElement.Companion.parseFromAny(data: String, filename: String): XMLElement? {
-    when {
-        filename.endsWith(".srx") -> {
-            return XMLElement.parseFromXml(data)
-        }
-        filename.endsWith(".tsv") -> {
-            return XMLElement.parseFromTsv(data)
-        }
-        filename.endsWith(".csv") -> {
-            return XMLElement.parseFromCsv(data)
-        }
-        filename.endsWith(".srj") -> {
-            return XMLElement.parseFromJson(data)
-        }
-        filename.endsWith(".rdf") -> {
-            throw UnknownDataFile(filename)
-        }
-        else -> {
-            throw UnknownDataFile(filename)
-        }
-    }
+val ext=filename.substring(filename.lastIndexOf(".")+1)
+val parser=parseFromAnyRegistered[ext]
+if(parser==null){
+throw UnknownDataFileException("$filename ($ext)")
+}else{
+return parser(data)
+}
 }
