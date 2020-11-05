@@ -38,7 +38,7 @@ class PhysicalOptimizerPartition1(query: Query) : OptimizerBase(query, EOptimize
                             query.removePartitionOperator(c.getUUID(), c.partitionID)
                             query.removePartitionOperator(node.getUUID(), node.partitionID)
                             query.mergePartitionOperator(node.partitionID, c.partitionID, res)
-                            println("change ${node.getUUID()} ${c.getUUID()} P")
+                            println("change ${node.getUUID()} ${c.getUUID()} 7")
                             onChange()
                         }
                     }
@@ -48,7 +48,7 @@ class PhysicalOptimizerPartition1(query: Query) : OptimizerBase(query, EOptimize
                             query.removePartitionOperator(c.getUUID(), c.partitionID)
                             query.removePartitionOperator(node.getUUID(), node.partitionID)
                             query.mergePartitionOperator(node.partitionID, c.partitionID, res)
-                            println("change ${node.getUUID()} ${c.getUUID()} Q")
+                            println("change ${node.getUUID()} ${c.getUUID()} 8")
                             onChange()
                         }
                     }
@@ -58,7 +58,7 @@ class PhysicalOptimizerPartition1(query: Query) : OptimizerBase(query, EOptimize
                             query.removePartitionOperator(c.getUUID(), c.partitionID)
                             query.removePartitionOperator(node.getUUID(), node.partitionID)
                             query.mergePartitionOperator(node.partitionID, c.partitionID, res)
-                            println("change ${node.getUUID()} ${c.getUUID()} R")
+                            println("change ${node.getUUID()} ${c.getUUID()} 9")
                             onChange()
                         }
                     }
@@ -66,21 +66,21 @@ class PhysicalOptimizerPartition1(query: Query) : OptimizerBase(query, EOptimize
                         res = POPReduced(query, c.projectedVariables, POPSplitPartition(query, c.children[0].getProvidedVariableNames(), node.partitionVariable, node.partitionCount, node.partitionID, c.children[0]))
                         query.removePartitionOperator(node.getUUID(), node.partitionID)
                         query.addPartitionOperator(res.children[0].getUUID(), node.partitionID)
-                        println("change ${node.getUUID()} S")
+                        println("change ${node.getUUID()} 10")
                         onChange()
                     }
                     is POPProjection -> {
                         res = POPProjection(query, c.projectedVariables, POPSplitPartition(query, c.children[0].getProvidedVariableNames(), node.partitionVariable, node.partitionCount, node.partitionID, c.children[0]))
                         query.removePartitionOperator(node.getUUID(), node.partitionID)
                         query.addPartitionOperator(res.children[0].getUUID(), node.partitionID)
-                        println("change ${node.getUUID()} T")
+                        println("change ${node.getUUID()} 11")
                         onChange()
                     }
                     is POPFilter -> {
                         res = POPFilter(query, c.projectedVariables, c.children[1] as AOPBase, POPSplitPartition(query, c.children[0].getProvidedVariableNames(), node.partitionVariable, node.partitionCount, node.partitionID, c.children[0]))
                         query.removePartitionOperator(node.getUUID(), node.partitionID)
                         query.addPartitionOperator(res.children[0].getUUID(), node.partitionID)
-                        println("change ${node.getUUID()} U")
+                        println("change ${node.getUUID()} 12")
                         onChange()
                     }
                     is TripleStoreIteratorGlobal -> {
@@ -93,7 +93,7 @@ class PhysicalOptimizerPartition1(query: Query) : OptimizerBase(query, EOptimize
                                     c.partition.limit[node.partitionVariable] = node.partitionCount
                                     query.removePartitionOperator(node.getUUID(), node.partitionID)
                                     query.addPartitionOperator(res.getUUID(), node.partitionID)
-                                    println("change ${node.getUUID()} V")
+                                    println("change ${node.getUUID()} 13")
                                     onChange()
                                 }
                             } catch (e: DontCareWhichException) {

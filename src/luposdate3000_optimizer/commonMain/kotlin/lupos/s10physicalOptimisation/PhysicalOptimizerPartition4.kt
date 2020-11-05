@@ -34,19 +34,22 @@ class PhysicalOptimizerPartition4(query: Query) : OptimizerBase(query, EOptimize
                     res = POPMergePartition(query, node.projectedVariables, c.partitionVariable, c.partitionCount, c.partitionID, POPBind(query, node.projectedVariables, node.name, node.children[1] as AOPBase, c.children[0]))
                     query.removePartitionOperator(c.getUUID(), c.partitionID)
                     query.addPartitionOperator(res.getUUID(), c.partitionID)
+query.partitionOperatorCount.clear()
                     println("change ${c.getUUID()} A")
                     onChange()
                 } else if (c is POPMergePartitionOrderedByIntId) {
                     res = POPMergePartitionOrderedByIntId(query, node.projectedVariables, c.partitionVariable, c.partitionCount, c.partitionID, POPBind(query, node.projectedVariables, node.name, node.children[1] as AOPBase, c.children[0]))
                     query.removePartitionOperator(c.getUUID(), c.partitionID)
                     query.addPartitionOperator(res.getUUID(), c.partitionID)
-                    println("change ${c.getUUID()} B")
+                    query.partitionOperatorCount.clear()
+println("change ${c.getUUID()} B")
                     onChange()
                 } else if (c is POPMergePartitionCount) {
                     res = POPMergePartitionCount(query, node.projectedVariables, c.partitionVariable, c.partitionCount, c.partitionID, POPBind(query, node.projectedVariables, node.name, node.children[1] as AOPBase, c.children[0]))
                     query.removePartitionOperator(c.getUUID(), c.partitionID)
                     query.addPartitionOperator(res.getUUID(), c.partitionID)
-                    println("change ${c.getUUID()} C")
+                    query.partitionOperatorCount.clear()
+println("change ${c.getUUID()} C")
                     onChange()
                 }
             }
@@ -101,25 +104,28 @@ class PhysicalOptimizerPartition4(query: Query) : OptimizerBase(query, EOptimize
                             query.removePartitionOperator(c0.getUUID(), columnID)
                             query.removePartitionOperator(c1.getUUID(), columnID)
                             query.addPartitionOperator(res.getUUID(), columnID)
-                            println("change ${c0.getUUID()} ${c1.getUUID()} D")
+                            query.partitionOperatorCount.clear()
+println("change ${c0.getUUID()} ${c1.getUUID()} D")
                             onChange()
                         } else if (modeC0 == 2) {
                             res = POPMergePartitionOrderedByIntId(query, node.projectedVariables, columnNameC0, columnCountC0, columnID, POPUnion(query, node.projectedVariables, c0.getChildren()[0], c1.getChildren()[0]))
                             query.removePartitionOperator(c0.getUUID(), columnID)
                             query.removePartitionOperator(c1.getUUID(), columnID)
                             query.addPartitionOperator(res.getUUID(), columnID)
-                            println("change ${c0.getUUID()} ${c1.getUUID()} E")
+                            query.partitionOperatorCount.clear()
+println("change ${c0.getUUID()} ${c1.getUUID()} E")
                             onChange()
                         } else if (modeC0 == 3) {
                             res = POPMergePartitionCount(query, node.projectedVariables, columnNameC0, columnCountC0, columnID, POPUnion(query, node.projectedVariables, c0.getChildren()[0], c1.getChildren()[0]))
                             query.removePartitionOperator(c0.getUUID(), columnID)
                             query.removePartitionOperator(c1.getUUID(), columnID)
                             query.addPartitionOperator(res.getUUID(), columnID)
-                            println("change ${c0.getUUID()} ${c1.getUUID()} F")
+                            query.partitionOperatorCount.clear()
+println("change ${c0.getUUID()} ${c1.getUUID()} F")
                             onChange()
-                        }else{
-throw Exception("not reachable - implementation error")
-}
+                        } else {
+                            throw Exception("not reachable - implementation error")
+                        }
                     } else {
                         throw Exception("not implemented ... column counts are different")
                     }
@@ -131,19 +137,22 @@ throw Exception("not reachable - implementation error")
                     res = POPMergePartition(query, node.projectedVariables, c.partitionVariable, c.partitionCount, c.partitionID, POPProjection(query, node.projectedVariables, c.children[0]))
                     query.removePartitionOperator(c.getUUID(), c.partitionID)
                     query.addPartitionOperator(res.getUUID(), c.partitionID)
-                    println("change ${c.getUUID()} G")
+                    query.partitionOperatorCount.clear()
+println("change ${c.getUUID()} G")
                     onChange()
                 } else if (c is POPMergePartitionOrderedByIntId) {
                     res = POPMergePartitionOrderedByIntId(query, node.projectedVariables, c.partitionVariable, c.partitionCount, c.partitionID, POPProjection(query, node.projectedVariables, c.children[0]))
                     query.removePartitionOperator(c.getUUID(), c.partitionID)
                     query.addPartitionOperator(res.getUUID(), c.partitionID)
-                    println("change ${c.getUUID()} H")
+                    query.partitionOperatorCount.clear()
+println("change ${c.getUUID()} H")
                     onChange()
                 } else if (c is POPMergePartitionCount) {
                     res = POPMergePartitionCount(query, node.projectedVariables, c.partitionVariable, c.partitionCount, c.partitionID, POPProjection(query, node.projectedVariables, c.children[0]))
                     query.removePartitionOperator(c.getUUID(), c.partitionID)
                     query.addPartitionOperator(res.getUUID(), c.partitionID)
-                    println("change ${c.getUUID()} I")
+                    query.partitionOperatorCount.clear()
+println("change ${c.getUUID()} I")
                     onChange()
                 }
             }
@@ -153,19 +162,22 @@ throw Exception("not reachable - implementation error")
                     res = POPMergePartition(query, node.projectedVariables, c.partitionVariable, c.partitionCount, c.partitionID, POPReduced(query, node.projectedVariables, c.children[0]))
                     query.removePartitionOperator(c.getUUID(), c.partitionID)
                     query.addPartitionOperator(res.getUUID(), c.partitionID)
-                    println("change ${c.getUUID()} J")
+                    query.partitionOperatorCount.clear()
+println("change ${c.getUUID()} J")
                     onChange()
                 } else if (c is POPMergePartitionOrderedByIntId) {
                     res = POPMergePartitionOrderedByIntId(query, node.projectedVariables, c.partitionVariable, c.partitionCount, c.partitionID, POPReduced(query, node.projectedVariables, c.children[0]))
                     query.removePartitionOperator(c.getUUID(), c.partitionID)
                     query.addPartitionOperator(res.getUUID(), c.partitionID)
-                    println("change ${c.getUUID()} K")
+                    query.partitionOperatorCount.clear()
+println("change ${c.getUUID()} K")
                     onChange()
                 } else if (c is POPMergePartitionCount) {
                     res = POPMergePartitionCount(query, node.projectedVariables, c.partitionVariable, c.partitionCount, c.partitionID, POPReduced(query, node.projectedVariables, c.children[0]))
                     query.removePartitionOperator(c.getUUID(), c.partitionID)
                     query.addPartitionOperator(res.getUUID(), c.partitionID)
-                    println("change ${c.getUUID()} L")
+                    query.partitionOperatorCount.clear()
+println("change ${c.getUUID()} L")
                     onChange()
                 }
             }
@@ -175,19 +187,22 @@ throw Exception("not reachable - implementation error")
                     res = POPMergePartition(query, node.projectedVariables, c.partitionVariable, c.partitionCount, c.partitionID, POPFilter(query, node.projectedVariables, node.children[1] as AOPBase, c.children[0]))
                     query.removePartitionOperator(c.getUUID(), c.partitionID)
                     query.addPartitionOperator(res.getUUID(), c.partitionID)
-                    println("change ${c.getUUID()} M")
+                    query.partitionOperatorCount.clear()
+println("change ${c.getUUID()} M")
                     onChange()
                 } else if (c is POPMergePartitionOrderedByIntId) {
                     res = POPMergePartitionOrderedByIntId(query, node.projectedVariables, c.partitionVariable, c.partitionCount, c.partitionID, POPFilter(query, node.projectedVariables, node.children[1] as AOPBase, c.children[0]))
                     query.removePartitionOperator(c.getUUID(), c.partitionID)
                     query.addPartitionOperator(res.getUUID(), c.partitionID)
-                    println("change ${c.getUUID()} N")
+                    query.partitionOperatorCount.clear()
+println("change ${c.getUUID()} N")
                     onChange()
                 } else if (c is POPMergePartitionCount) {
                     res = POPMergePartitionCount(query, node.projectedVariables, c.partitionVariable, c.partitionCount, c.partitionID, POPFilter(query, node.projectedVariables, node.children[1] as AOPBase, c.children[0]))
                     query.removePartitionOperator(c.getUUID(), c.partitionID)
                     query.addPartitionOperator(res.getUUID(), c.partitionID)
-                    println("change ${c.getUUID()} O")
+                    query.partitionOperatorCount.clear()
+println("change ${c.getUUID()} O")
                     onChange()
                 }
             }
@@ -201,7 +216,8 @@ throw Exception("not reachable - implementation error")
                             query.removePartitionOperator(c.getUUID(), c.partitionID)
                             query.removePartitionOperator(node.getUUID(), node.partitionID)
                             query.mergePartitionOperator(node.partitionID, c.partitionID, res)
-                            println("change ${node.getUUID()} ${c.getUUID()} P")
+                            query.partitionOperatorCount.clear()
+println("change ${node.getUUID()} ${c.getUUID()} P")
                             onChange()
                         }
                     }
@@ -211,7 +227,8 @@ throw Exception("not reachable - implementation error")
                             query.removePartitionOperator(c.getUUID(), c.partitionID)
                             query.removePartitionOperator(node.getUUID(), node.partitionID)
                             query.mergePartitionOperator(node.partitionID, c.partitionID, res)
-                            println("change ${node.getUUID()} ${c.getUUID()} Q")
+                            query.partitionOperatorCount.clear()
+println("change ${node.getUUID()} ${c.getUUID()} Q")
                             onChange()
                         }
                     }
@@ -221,7 +238,8 @@ throw Exception("not reachable - implementation error")
                             query.removePartitionOperator(c.getUUID(), c.partitionID)
                             query.removePartitionOperator(node.getUUID(), node.partitionID)
                             query.mergePartitionOperator(node.partitionID, c.partitionID, res)
-                            println("change ${node.getUUID()} ${c.getUUID()} R")
+                            query.partitionOperatorCount.clear()
+println("change ${node.getUUID()} ${c.getUUID()} R")
                             onChange()
                         }
                     }
@@ -229,21 +247,24 @@ throw Exception("not reachable - implementation error")
                         res = POPReduced(query, c.projectedVariables, POPSplitPartition(query, c.children[0].getProvidedVariableNames(), node.partitionVariable, node.partitionCount, node.partitionID, c.children[0]))
                         query.removePartitionOperator(node.getUUID(), node.partitionID)
                         query.addPartitionOperator(res.children[0].getUUID(), node.partitionID)
-                        println("change ${node.getUUID()} S")
+                        query.partitionOperatorCount.clear()
+println("change ${node.getUUID()} S")
                         onChange()
                     }
                     is POPProjection -> {
                         res = POPProjection(query, c.projectedVariables, POPSplitPartition(query, c.children[0].getProvidedVariableNames(), node.partitionVariable, node.partitionCount, node.partitionID, c.children[0]))
                         query.removePartitionOperator(node.getUUID(), node.partitionID)
                         query.addPartitionOperator(res.children[0].getUUID(), node.partitionID)
-                        println("change ${node.getUUID()} T")
+                        query.partitionOperatorCount.clear()
+println("change ${node.getUUID()} T")
                         onChange()
                     }
                     is POPFilter -> {
                         res = POPFilter(query, c.projectedVariables, c.children[1] as AOPBase, POPSplitPartition(query, c.children[0].getProvidedVariableNames(), node.partitionVariable, node.partitionCount, node.partitionID, c.children[0]))
                         query.removePartitionOperator(node.getUUID(), node.partitionID)
                         query.addPartitionOperator(res.children[0].getUUID(), node.partitionID)
-                        println("change ${node.getUUID()} U")
+                        query.partitionOperatorCount.clear()
+println("change ${node.getUUID()} U")
                         onChange()
                     }
                     is TripleStoreIteratorGlobal -> {
@@ -256,7 +277,8 @@ throw Exception("not reachable - implementation error")
                                     c.partition.limit[node.partitionVariable] = node.partitionCount
                                     query.removePartitionOperator(node.getUUID(), node.partitionID)
                                     query.addPartitionOperator(res.getUUID(), node.partitionID)
-                                    println("change ${node.getUUID()} V")
+                                    query.partitionOperatorCount.clear()
+println("change ${node.getUUID()} V")
                                     onChange()
                                 }
                             } catch (e: DontCareWhichException) {
