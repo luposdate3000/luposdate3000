@@ -32,36 +32,6 @@ class PhysicalOptimizerPartition1(query: Query) : OptimizerBase(query, EOptimize
 //splitting must always split all variables provided by its direct children - if there is a different children, adapt the variables
                 val c = node.children[0]
                 when (c) {
-                    is POPMergePartition -> {
-                        if (node.partitionVariable == c.partitionVariable && node.partitionCount == c.partitionCount) {
-                            res = c.children[0]
-                            query.removePartitionOperator(c.getUUID(), c.partitionID)
-                            query.removePartitionOperator(node.getUUID(), node.partitionID)
-                            query.mergePartitionOperator(node.partitionID, c.partitionID, res)
-                            println("change ${node.getUUID()} ${c.getUUID()} 7")
-                            onChange()
-                        }
-                    }
-                    is POPMergePartitionOrderedByIntId -> {
-                        if (node.partitionVariable == c.partitionVariable && node.partitionCount == c.partitionCount) {
-                            res = c.children[0]
-                            query.removePartitionOperator(c.getUUID(), c.partitionID)
-                            query.removePartitionOperator(node.getUUID(), node.partitionID)
-                            query.mergePartitionOperator(node.partitionID, c.partitionID, res)
-                            println("change ${node.getUUID()} ${c.getUUID()} 8")
-                            onChange()
-                        }
-                    }
-                    is POPMergePartitionCount -> {
-                        if (node.partitionVariable == c.partitionVariable && node.partitionCount == c.partitionCount) {
-                            res = c.children[0]
-                            query.removePartitionOperator(c.getUUID(), c.partitionID)
-                            query.removePartitionOperator(node.getUUID(), node.partitionID)
-                            query.mergePartitionOperator(node.partitionID, c.partitionID, res)
-                            println("change ${node.getUUID()} ${c.getUUID()} 9")
-                            onChange()
-                        }
-                    }
                     is POPReduced -> {
                         res = POPReduced(query, c.projectedVariables, POPSplitPartition(query, c.children[0].getProvidedVariableNames(), node.partitionVariable, node.partitionCount, node.partitionID, c.children[0]))
                         query.removePartitionOperator(node.getUUID(), node.partitionID)

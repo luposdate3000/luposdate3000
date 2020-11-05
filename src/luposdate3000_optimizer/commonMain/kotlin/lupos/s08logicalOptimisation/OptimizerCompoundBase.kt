@@ -62,11 +62,11 @@ SanityCheck {
             verifyPartitionOperators(tmp, allPartitionOperators)
             for ((k, v1) in allPartitionOperators) {
                 val v2 = query.partitionOperators[k]
-                SanityCheck.check({ v1 == v2 }, { "$allPartitionOperators  <-a-> ${query.partitionOperators}" })
+                SanityCheck.check({ v1 == v2 }, { "$allPartitionOperators  <-a-> ${query.partitionOperators}\n$tmp" })
             }
             for ((k, v1) in query.partitionOperators) {
                 val v2 = allPartitionOperators[k]
-                SanityCheck.check({ v1 == v2 }, { "$allPartitionOperators  <-b-> ${query.partitionOperators}" })
+                SanityCheck.check({ v1 == v2 }, { "$allPartitionOperators  <-b-> ${query.partitionOperators}\n$tmp" })
             }
         }
                     }

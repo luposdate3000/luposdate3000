@@ -5,7 +5,7 @@ class Partition {
     val limit: MutableMap<String, Int>
 
     companion object {
-        var default_k = 4096
+        var default_k = 128
         const val queue_size = 1000
         inline fun hashFunction(v: Int, k: Int): Int {
             if (v < 0) {
