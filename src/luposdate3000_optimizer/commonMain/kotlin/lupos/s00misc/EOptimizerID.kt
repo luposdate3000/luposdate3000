@@ -42,6 +42,7 @@ enum class EOptimizerID(@JvmField val optional: Boolean, @JvmField val repeatOnC
     PhysicalOptimizerPartition2ID(false, true),
     PhysicalOptimizerPartition3ID(false, true),
     PhysicalOptimizerPartition4ID(false, true),
+    PhysicalOptimizerPartition5ID(false, false),
     KeyDistributionOptimizerID(false, true),
     LogicalOptimizerDistinctUpID(false, true),
     LogicalOptimizerStoreToValuesID(true, false),

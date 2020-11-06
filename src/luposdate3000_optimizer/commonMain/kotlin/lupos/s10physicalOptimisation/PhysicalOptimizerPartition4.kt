@@ -123,32 +123,6 @@ class PhysicalOptimizerPartition4(query: Query) : OptimizerBase(query, EOptimize
                     onChange()
                 }
             }
-            is POPSplitPartition -> {
-                val tmp = query.partitionOperatorCount[node.partitionID]
-                if (tmp != null && tmp != node.partitionCount) {
-                    node.partitionCount = tmp
-                    println("change ${node.getUUID()} 6")
-                    onChange()
-                }
-                query.partitionOperatorCount[node.partitionID] = node.partitionCount
-                var newCount = node.partitionCount
-                val count = getNumberOfEnclosingPartitions(node.children[0]) * node.partitionCount
-                if (count > Partition.default_k) {
-                    val reduceFactor = count / Partition.default_k
-                    if (reduceFactor > node.partitionCount) {
-                        println("DEBUG e ${node.uuid} ${count} ${node.partitionCount} ${Partition.default_k} ${count / Partition.default_k} ${node.partitionCount / (count / Partition.default_k)}")
-                        newCount = 1
-                    } else {
-                        println("DEBUG f ${node.uuid} ${count} ${node.partitionCount} ${Partition.default_k} ${count / Partition.default_k} ${node.partitionCount / (count / Partition.default_k)}")
-                        newCount = node.partitionCount / reduceFactor
-                    }
-                }
-                if (newCount < node.partitionCount) {
-                    node.partitionCount = newCount
-                    query.partitionOperatorCount[node.partitionID] = newCount
-                    onChange()
-                }
-            }
             is POPChangePartitionOrderedByIntId -> {
                 val tmp = query.partitionOperatorCount[node.partitionIDFrom]
                 if (tmp != null && tmp != node.partitionCountFrom) {
