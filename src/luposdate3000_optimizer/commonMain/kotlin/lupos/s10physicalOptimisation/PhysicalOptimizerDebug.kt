@@ -16,44 +16,17 @@ class PhysicalOptimizerDebug(query: Query) : OptimizerBase(query, EOptimizerID.P
     override val classname = "PhysicalOptimizerDebug"
     override suspend fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
         var res = node
-        var change = true
-        var projectedVariables = listOf<String>()
-        try {
-            if (parent is LOPProjection) {
-                projectedVariables = parent.getProvidedVariableNames()
-            } else if (parent is POPProjection) {
-                projectedVariables = parent.getProvidedVariableNamesInternal()
-            } else if (node is POPBase) {
-                projectedVariables = node.getProvidedVariableNamesInternal()
-            } else {
-                projectedVariables = node.getProvidedVariableNames()
-            }
             when (node) {
-                is POPDebug -> {
-                    change = false
-                }
-                else -> {
-                    change = false
+                !is POPDebug -> {
                     SanityCheck {
-//this code is intended to be debuggin only - even if it changes the resulting operator-graph
+			//this code is intended to be debugging only - even if it changes the resulting operator-graph
                         if (node is POPBase && (parent == null || (parent !is POPDebug && parent !is OPBaseCompound))) {
                             res = POPDebug(query, node.projectedVariables, node)
-                            change = true
+                            onChange()
                         }
                     }
                 }
             }
-        } finally {
-            if (change) {
-                SanityCheck {
-                    val tmp = node.getMySortPriority().map { it.variableName }
-                    SanityCheck.check { (!projectedVariables.containsAll(tmp)) || (projectedVariables.containsAll(tmp) && res.getProvidedVariableNames().containsAll(tmp)) }
-                }
-                res.setMySortPriority(node.getMySortPriority())
-                res.setSortPriorities(node.getSortPriorities())
-                onChange()
-            }
-        }
         return res
     }
 }

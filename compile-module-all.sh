@@ -1,5 +1,5 @@
 #!/bin/bash
-
+export JAVA_OPTS="-Xmx60g"
 ./generate-buildfile-module.kts "Luposdate3000_Shared" "src/luposdate3000_shared" "linuxX64" --inline --nosuspend --debug
 ret=$? ; if [ $ret -ne 0 ] ; then exit $ret ; fi
 ./generate-buildfile-module.kts "Luposdate3000_Jena_Wrapper_On" "src/luposdate3000_jena_wrapper_on" "linuxX64" --inline --nosuspend --debug
