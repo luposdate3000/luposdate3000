@@ -1,6 +1,7 @@
 import lupos.s00misc.DateHelper
 import lupos.s00misc.DateHelperRelative
 import lupos.s00misc.File
+import lupos.s00misc.MyPrintWriter
 import lupos.s00misc.Parallel
 import lupos.s00misc.Partition
 import lupos.s03resultRepresentation.nodeGlobalDictionary
@@ -18,7 +19,7 @@ fun printBenchmarkLine(title: String, time: Double, count: Int, numberOfTriples:
 
 @UseExperimental(ExperimentalStdlibApi::class, kotlin.time.ExperimentalTime::class)
 fun main(args: Array<String>) = Parallel.runBlocking {
-    distributedTripleStore = DistributedTripleStore()
+LuposdateEndpoint.initialize()
     val datasourceType = Datasource.valueOf(args[0])
     val persistenceFolder = args[1]
     val datasourceFiles = args[2]
@@ -29,12 +30,12 @@ fun main(args: Array<String>) = Parallel.runBlocking {
     val datasourceBNodeFile = args[7]
     val benchmarkname = args[8]
     if (args.size > 9) {
-        Partition.k = args[9].toInt()
+        Partition.default_k = args[9].toInt()
     }
     when (datasourceType) {
         Datasource.LOAD -> {
             val timer = DateHelperRelative.markNow()
-            distributedTripleStore.localStore.loadFromFolder()
+            distributedTripleStore.getLocalStore().loadFromFolder()
             val time = DateHelperRelative.elapsedSeconds(timer)
             printBenchmarkLine("resources/${benchmarkname}/persistence-load.sparql", time, 1, numberOfTriples, originalTripleSize)
         }
@@ -75,7 +76,6 @@ fun main(args: Array<String>) = Parallel.runBlocking {
         LuposdateEndpoint.evaluate_sparql_to_result(query, true)
         val timeFirst = DateHelperRelative.elapsedSeconds(timerFirst)
         groupSize[queryFileIdx] = 1 + (1.0 / timeFirst).toInt()
-        printBenchmarkTimesHelper()
         val timer = DateHelperRelative.markNow()
         var time: Double
         var counter = 0
@@ -90,7 +90,6 @@ fun main(args: Array<String>) = Parallel.runBlocking {
             }
         }
         println("${queryFile},$numberOfTriples,0,$counter,${time * 1000.0},${counter / time},$originalTripleSize,WithOptimizer")
-        printBenchmarkTimesHelper()
     }
     for (queryFileIdx in 0 until queryFiles.size) {
         val queryFile = queryFiles[queryFileIdx]
@@ -98,7 +97,6 @@ fun main(args: Array<String>) = Parallel.runBlocking {
         val node = LuposdateEndpoint.evaluate_sparql_to_operatorgraph(query, true)
         val writer = MyPrintWriter(false)
         LuposdateEndpoint.evaluate_operatorgraph_to_result(node, writer)
-        printBenchmarkTimesHelper()
         val timer = DateHelperRelative.markNow()
         var time: Double
         var counter = 0
@@ -113,6 +111,5 @@ fun main(args: Array<String>) = Parallel.runBlocking {
             }
         }
         println("${queryFile},$numberOfTriples,0,$counter,${time * 1000.0},${counter / time},$originalTripleSize,NoOptimizer")
-        printBenchmarkTimesHelper()
     }
 }

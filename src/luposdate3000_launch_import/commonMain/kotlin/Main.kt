@@ -4,6 +4,7 @@ import lupos.s00misc.Parallel
 import lupos.s02buildSyntaxTree.turtle.Turtle2Parser
 import lupos.s15tripleStoreDistributed.distributedTripleStore
 import lupos.s15tripleStoreDistributed.DistributedTripleStore
+import lupos.s16network.LuposdateEndpoint
 
 enum class ImportMode {
     IMPORT_STRING,
@@ -25,7 +26,7 @@ fun helper_clean_string(s: String): String {
 
 @UseExperimental(ExperimentalStdlibApi::class, kotlin.time.ExperimentalTime::class)
 fun main(args: Array<String>) = Parallel.runBlocking {
-    distributedTripleStore = DistributedTripleStore()
+LuposdateEndpoint.initialize()
     var mode = ImportMode.valueOf(args[0])
     when (mode) {
         ImportMode.IMPORT_STRING -> {

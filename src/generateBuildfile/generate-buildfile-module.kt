@@ -14,7 +14,7 @@ fun createBuildFileForModule(args: Array<String>) {
     var releaseMode = true
     var fastMode = false
     var dryMode = false
-var buildLibrary=true
+    var buildLibrary = true
     for (arg in args) {
         when {
             arg == "--inline" -> inlineMode = InlineMode.Enable
@@ -36,9 +36,9 @@ var buildLibrary=true
     }
     if (modulePrefix == "") {
         modulePrefix = moduleName
-    } else if(modulePrefix=="Luposdate3000_Main"){
-buildLibrary=false
-}
+    } else if (modulePrefix == "Luposdate3000_Main") {
+        buildLibrary = false
+    }
     println("generating buildfile for $moduleName")
     val validPlatforms = listOf("iosArm32", "iosArm64", "linuxX64", "macosX64", "mingwX64")
     if (!validPlatforms.contains(platform)) {
@@ -135,23 +135,23 @@ buildLibrary=false
             out.println("    }")
             out.println("    $platform(\"$platform\") {")
             out.println("        binaries {")
-if(buildLibrary){
-if(releaseMode){
-            out.println("            sharedLib (listOf(RELEASE)){")
-}else{
-            out.println("            sharedLib (listOf(DEBUG)){")
-}
-            out.println("                baseName = \"${modulePrefix}\"")
-            out.println("            }")
-}else{
-if(releaseMode){
-            out.println("            executable(listOf(RELEASE)) {")
-}else{
-            out.println("            executable(listOf(DEBUG)) {")
-}
-            out.println("            }")
+            if (buildLibrary) {
+                if (releaseMode) {
+                    out.println("            sharedLib (listOf(RELEASE)){")
+                } else {
+                    out.println("            sharedLib (listOf(DEBUG)){")
+                }
+                out.println("                baseName = \"${modulePrefix}\"")
+                out.println("            }")
+            } else {
+                if (releaseMode) {
+                    out.println("            executable(listOf(RELEASE)) {")
+                } else {
+                    out.println("            executable(listOf(DEBUG)) {")
+                }
+                out.println("            }")
 
-}
+            }
             out.println("        }")
             out.println("    }")
         }
@@ -463,21 +463,21 @@ if(releaseMode){
         }
         if (platform == "linuxX64") {
             try {
-if(buildLibrary){
-if(releaseMode){
-                Files.copy(Paths.get("build-cache/build-${shortFolder}/bin/linuxX64/releaseShared/lib${moduleName}.so"), Paths.get("build-cache/bin/lib${moduleName}-linuxX64.so"), StandardCopyOption.REPLACE_EXISTING)
-                Files.copy(Paths.get("build-cache/build-${shortFolder}/bin/linuxX64/releaseShared/lib${moduleName}_api.h"), Paths.get("build-cache/bin/lib${moduleName}-linuxX64.h"), StandardCopyOption.REPLACE_EXISTING)
-}else{
-                Files.copy(Paths.get("build-cache/build-${shortFolder}/bin/linuxX64/debugShared/lib${moduleName}.so"), Paths.get("build-cache/bin/lib${moduleName}-linuxX64.so"), StandardCopyOption.REPLACE_EXISTING)
-                Files.copy(Paths.get("build-cache/build-${shortFolder}/bin/linuxX64/debugShared/lib${moduleName}_api.h"), Paths.get("build-cache/bin/lib${moduleName}-linuxX64.h"), StandardCopyOption.REPLACE_EXISTING)
-}
-}else{
-if(releaseMode){
-                Files.copy(Paths.get("build-cache/build-${shortFolder}/bin/linuxX64/releaseShared/lib${moduleName}.kexe"), Paths.get("build-cache/bin/lib${moduleName}-linuxX64.kexe"), StandardCopyOption.REPLACE_EXISTING)
-}else{
-                Files.copy(Paths.get("build-cache/build-${shortFolder}/bin/linuxX64/debugShared/lib${moduleName}.kexe"), Paths.get("build-cache/bin/lib${moduleName}-linuxX64.kexe"), StandardCopyOption.REPLACE_EXISTING)
-}
-}
+                if (buildLibrary) {
+                    if (releaseMode) {
+                        Files.copy(Paths.get("build-cache/build-${shortFolder}/bin/linuxX64/releaseShared/lib${moduleName}.so"), Paths.get("build-cache/bin/lib${moduleName}-linuxX64.so"), StandardCopyOption.REPLACE_EXISTING)
+                        Files.copy(Paths.get("build-cache/build-${shortFolder}/bin/linuxX64/releaseShared/lib${moduleName}_api.h"), Paths.get("build-cache/bin/lib${moduleName}-linuxX64.h"), StandardCopyOption.REPLACE_EXISTING)
+                    } else {
+                        Files.copy(Paths.get("build-cache/build-${shortFolder}/bin/linuxX64/debugShared/lib${moduleName}.so"), Paths.get("build-cache/bin/lib${moduleName}-linuxX64.so"), StandardCopyOption.REPLACE_EXISTING)
+                        Files.copy(Paths.get("build-cache/build-${shortFolder}/bin/linuxX64/debugShared/lib${moduleName}_api.h"), Paths.get("build-cache/bin/lib${moduleName}-linuxX64.h"), StandardCopyOption.REPLACE_EXISTING)
+                    }
+                } else {
+                    if (releaseMode) {
+                        Files.copy(Paths.get("build-cache/build-${shortFolder}/bin/linuxX64/releaseExecutable/${moduleName}.kexe"), Paths.get("build-cache/bin/lib${moduleName}-linuxX64.kexe"), StandardCopyOption.REPLACE_EXISTING)
+                    } else {
+                        Files.copy(Paths.get("build-cache/build-${shortFolder}/bin/linuxX64/debugExecutable/${moduleName}.kexe"), Paths.get("build-cache/bin/lib${moduleName}-linuxX64.kexe"), StandardCopyOption.REPLACE_EXISTING)
+                    }
+                }
             } catch (e: Throwable) {
                 e.printStackTrace()
             }
