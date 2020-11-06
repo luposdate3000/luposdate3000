@@ -21,7 +21,7 @@ LuposdateEndpoint.initialize()
                 }
             }
             2 -> {
-                Partition.k = a.toInt()
+                Partition.default_k = a.toInt()
             }
         }
         i++
