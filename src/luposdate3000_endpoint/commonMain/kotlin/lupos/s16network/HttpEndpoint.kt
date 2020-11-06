@@ -1,6 +1,5 @@
 package lupos.s16network
-
-import lupos.s00misc.DateHelper
+import kotlin.js.JsName
 import lupos.s00misc.DateHelperRelative
 import lupos.s00misc.EModifyType
 import lupos.s00misc.ETripleComponentType
@@ -37,7 +36,11 @@ import lupos.s14endpoint.convertToOPBase
 import lupos.s15tripleStoreDistributed.distributedTripleStore
 import lupos.s15tripleStoreDistributed.DistributedTripleStore
 
-/*this object transforms the text input to the response-body*/
+/*
+ * This is the interface of the database
+ * Dont overload any function here - because that would yield bad function names in the exported headers.
+ * Dont use default parameters - for the same reason - mangled function names in the interface are bad
+ */
 @UseExperimental(ExperimentalStdlibApi::class, kotlin.time.ExperimentalTime::class)
 object LuposdateEndpoint {
 var initialized=false
@@ -71,7 +74,7 @@ var initialized=false
         return res
 /*Coverage Unreachable*/
     }
-
+@JsName("import_turtle_files_old")
     suspend fun import_turtle_files_old(fileNames: String, bnodeDict: MutableMap<String, Int>): String {
         try {
             val query = Query()
@@ -114,7 +117,7 @@ var initialized=false
         }
 /*Coverage Unreachable*/
     }
-
+@JsName("import_turtle_files")
     suspend fun import_turtle_files(fileNames: String, bnodeDict: MutableMap<String, Int>): String {
         try {
             val query = Query()
@@ -147,6 +150,7 @@ var initialized=false
 /*Coverage Unreachable*/
     }
 
+@JsName("import_intermediate_files")
     suspend fun import_intermediate_files(fileNames: String): String {
         try {
             val query = Query()
@@ -219,6 +223,7 @@ var initialized=false
 /*Coverage Unreachable*/
     }
 
+@JsName("import_xml_data")
     suspend fun import_xml_data(data: String): String {
         val query = Query()
         val import = POPValuesImportXML(query, listOf("s", "p", "o"), XMLElementFromXML()(data)!!).evaluate(Partition())
@@ -229,7 +234,12 @@ var initialized=false
         return XMLElement("success").toString()
     }
 
-    suspend fun evaluate_sparql_to_operatorgraph(query: String, logOperatorGraph: Boolean = false): IOPBase {
+@JsName("evaluate_sparql_to_operatorgraph_a")
+    suspend fun evaluate_sparql_to_operatorgraph_a(query: String): IOPBase {
+return evaluate_sparql_to_operatorgraph_b(query,false)
+}
+@JsName("evaluate_sparql_to_operatorgraph_b")
+    suspend fun evaluate_sparql_to_operatorgraph_b(query: String, logOperatorGraph: Boolean): IOPBase {
         val q = Query()
 //        var timer = DateHelperRelative.markNow()
         SanityCheck.println { "----------String Query" }
@@ -271,6 +281,7 @@ var initialized=false
         return pop_node
     }
 
+@JsName("evaluate_operatorgraph_to_result")
     suspend fun evaluate_operatorgraph_to_result(node: IOPBase, output: IMyPrintWriter) {
 //var timer = DateHelperRelative.markNow()
         output.println("HTTP/1.1 200 OK")
@@ -283,21 +294,36 @@ var initialized=false
 //println("timer #407 ${DateHelperRelative.elapsedSeconds(timer)}")
     }
 
-    suspend fun evaluate_sparql_to_result(query: String, logOperatorGraph: Boolean = false): String {
-        val node = evaluate_sparql_to_operatorgraph(query, logOperatorGraph)
+@JsName("evaluate_sparql_to_result_b")
+    suspend fun evaluate_sparql_to_result_b(query: String): String {
+return evaluate_sparql_to_result_c(query,false)
+}
+@JsName("evaluate_sparql_to_result_c")
+    suspend fun evaluate_sparql_to_result_c(query: String, logOperatorGraph: Boolean): String {
+        val node = evaluate_sparql_to_operatorgraph_b(query, logOperatorGraph)
         val buf = MyPrintWriter()
         evaluate_operatorgraph_to_result(node, buf)
         return buf.toString()
     }
 
-    suspend fun evaluate_sparql_to_result(query: String, output: IMyPrintWriter, logOperatorGraph: Boolean = false) {
+@JsName("evaluate_sparql_to_result_a")
+    suspend fun evaluate_sparql_to_result_a(query: String, output: IMyPrintWriter) {
+evaluate_sparql_to_result_d(query,output,false)
+}
+@JsName("evaluate_sparql_to_result_d")
+    suspend fun evaluate_sparql_to_result_d(query: String, output: IMyPrintWriter, logOperatorGraph: Boolean ) {
 //var timer = DateHelperRelative.markNow()
-        val node = evaluate_sparql_to_operatorgraph(query, logOperatorGraph)
+        val node = evaluate_sparql_to_operatorgraph_b(query, logOperatorGraph)
         evaluate_operatorgraph_to_result(node, output)
 //println("timer #408 ${DateHelperRelative.elapsedSeconds(timer)}")
     }
 
-    suspend fun evaluate_operatorgraphXML_to_result(query: String, logOperatorGraph: Boolean = false): String {
+@JsName("evaluate_operatorgraphXML_to_result_a")
+    suspend fun evaluate_operatorgraphXML_to_result_a(query: String): String {
+return evaluate_operatorgraphXML_to_result_b(query,false)
+}
+@JsName("evaluate_operatorgraphXML_to_result_b")
+    suspend fun evaluate_operatorgraphXML_to_result_b(query: String, logOperatorGraph: Boolean ): String {
         val q = Query()
         val pop_node = XMLElement.convertToOPBase(q, XMLElementFromXML()(query)!!)
         SanityCheck.println { pop_node }
@@ -318,6 +344,7 @@ var initialized=false
         return buf.toString()
     }
 
+@JsName("initialize")
     fun initialize() {
 if(!initialized){
 initialized=true

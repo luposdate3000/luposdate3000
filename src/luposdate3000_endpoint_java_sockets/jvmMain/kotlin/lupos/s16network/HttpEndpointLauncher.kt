@@ -9,7 +9,6 @@ import java.net.ServerSocket
 import java.net.Socket
 import java.net.URLDecoder
 import java.util.Date
-import lupos.s00misc.DateHelper
 import lupos.s00misc.EnpointRecievedInvalidPath
 import lupos.s00misc.File
 import lupos.s00misc.JenaWrapper
@@ -105,18 +104,18 @@ actual object HttpEndpointLauncher {
                                 }
                                 "/sparql/query" -> {
                                     if (isPost) {
-                                        LuposdateEndpoint.evaluate_sparql_to_result(content.toString(), connectionOut, false)
+                                        LuposdateEndpoint.evaluate_sparql_to_result_d(content.toString(), connectionOut, false)
                                     } else {
-                                        LuposdateEndpoint.evaluate_sparql_to_result(params["query"]!!, connectionOut, false)
+                                        LuposdateEndpoint.evaluate_sparql_to_result_d(params["query"]!!, connectionOut, false)
                                     }
                                     /*Coverage Unreachable*/
                                 }
                                 "/sparql/operator" -> {
                                     printHeaderSuccess(connectionOut)
                                     if (isPost) {
-                                        connectionOut.print(LuposdateEndpoint.evaluate_operatorgraphXML_to_result(content.toString(), true))
+                                        connectionOut.print(LuposdateEndpoint.evaluate_operatorgraphXML_to_result_b(content.toString(), true))
                                     } else {
-                                        connectionOut.print(LuposdateEndpoint.evaluate_operatorgraphXML_to_result(params["query"]!!, true))
+                                        connectionOut.print(LuposdateEndpoint.evaluate_operatorgraphXML_to_result_b(params["query"]!!, true))
                                     }
                                     /*Coverage Unreachable*/
                                 }

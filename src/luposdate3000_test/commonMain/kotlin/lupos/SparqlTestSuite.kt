@@ -1,7 +1,6 @@
 package lupos
 
 import kotlin.jvm.JvmField
-import lupos.s00misc.DateHelper
 import lupos.s00misc.DateHelperRelative
 import lupos.s00misc.EIndexPattern
 import lupos.s00misc.EModifyType

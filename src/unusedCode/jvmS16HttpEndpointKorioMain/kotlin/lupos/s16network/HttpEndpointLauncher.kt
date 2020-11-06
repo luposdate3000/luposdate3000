@@ -38,17 +38,17 @@ object HttpEndpointLauncher {
             }
             "/sparql/query" -> {
                 if (isPost) {
-                    return LuposdateEndpoint.evaluate_sparql_to_result(data, true)
+                    return LuposdateEndpoint.evaluate_sparql_to_result_c(data, true)
                 } else {
-                    return LuposdateEndpoint.evaluate_sparql_to_result(params["query"]!!, true)
+                    return LuposdateEndpoint.evaluate_sparql_to_result_c(params["query"]!!, true)
                 }
 /*Coverage Unreachable*/
             }
             "/sparql/operator" -> {
                 if (isPost) {
-                    return LuposdateEndpoint.evaluate_operatorgraphXML_to_result(data, true)
+                    return LuposdateEndpoint.evaluate_operatorgraphXML_to_result_b(data, true)
                 } else {
-                    return LuposdateEndpoint.evaluate_operatorgraphXML_to_result(params["query"]!!, true)
+                    return LuposdateEndpoint.evaluate_operatorgraphXML_to_result_b(params["query"]!!, true)
                 }
 /*Coverage Unreachable*/
             }

@@ -1,4 +1,3 @@
-import lupos.s00misc.DateHelper
 import lupos.s00misc.DateHelperRelative
 import lupos.s00misc.File
 import lupos.s00misc.MyPrintWriter
@@ -73,7 +72,7 @@ LuposdateEndpoint.initialize()
         val queryFile = queryFiles[queryFileIdx]
         val query = File(queryFile).readAsString()
         val timerFirst = DateHelperRelative.markNow()
-        LuposdateEndpoint.evaluate_sparql_to_result(query, true)
+        LuposdateEndpoint.evaluate_sparql_to_result_c(query, true)
         val timeFirst = DateHelperRelative.elapsedSeconds(timerFirst)
         groupSize[queryFileIdx] = 1 + (1.0 / timeFirst).toInt()
         val timer = DateHelperRelative.markNow()
@@ -82,7 +81,7 @@ LuposdateEndpoint.initialize()
         while (true) {
             counter += groupSize[queryFileIdx]
             for (i in 0 until groupSize[queryFileIdx]) {
-                LuposdateEndpoint.evaluate_sparql_to_result(query)
+                LuposdateEndpoint.evaluate_sparql_to_result_b(query)
             }
             time = DateHelperRelative.elapsedSeconds(timer)
             if (time > minimumTime) {
@@ -94,7 +93,7 @@ LuposdateEndpoint.initialize()
     for (queryFileIdx in 0 until queryFiles.size) {
         val queryFile = queryFiles[queryFileIdx]
         val query = File(queryFile).readAsString()
-        val node = LuposdateEndpoint.evaluate_sparql_to_operatorgraph(query, true)
+        val node = LuposdateEndpoint.evaluate_sparql_to_operatorgraph_b(query, true)
         val writer = MyPrintWriter(false)
         LuposdateEndpoint.evaluate_operatorgraph_to_result(node, writer)
         val timer = DateHelperRelative.markNow()

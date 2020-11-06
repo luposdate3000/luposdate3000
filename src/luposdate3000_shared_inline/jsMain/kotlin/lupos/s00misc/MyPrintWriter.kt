@@ -1,19 +1,95 @@
 package lupos.s00misc
 
-internal actual class MyPrintWriter : IMyPrintWriter {
-    actual constructor(hasBuffer: Boolean)
 
-    actual override fun clearBuffer(): Unit = throw  NotImplementedException("MyPrintWriter", "xyz not implemented")
-    override actual fun toString(): String = throw  NotImplementedException("MyPrintWriter", "xyz not implemented")
-    actual override fun println(x: String): Unit = throw  NotImplementedException("MyPrintWriter", "xyz not implemented")
-    actual override fun print(x: String): Unit = throw  NotImplementedException("MyPrintWriter", "xyz not implemented")
-    actual override fun println(x: Boolean): Unit = throw  NotImplementedException("MyPrintWriter", "xyz not implemented")
-    actual override fun print(x: Boolean): Unit = throw  NotImplementedException("MyPrintWriter", "xyz not implemented")
-    actual override fun println(x: Int): Unit = throw  NotImplementedException("MyPrintWriter", "xyz not implemented")
-    actual override fun print(x: Int): Unit = throw  NotImplementedException("MyPrintWriter", "xyz not implemented")
-    actual override fun println(x: Double): Unit = throw  NotImplementedException("MyPrintWriter", "xyz not implemented")
-    actual override fun print(x: Double): Unit = throw  NotImplementedException("MyPrintWriter", "xyz not implemented")
-    actual override fun println(): Unit = throw  NotImplementedException("MyPrintWriter", "xyz not implemented")
-    actual override fun close(): Unit = throw  NotImplementedException("MyPrintWriter", "xyz not implemented")
-    actual override fun flush(): Unit = throw  NotImplementedException("MyPrintWriter", "xyz not implemented")
+open actual internal class MyPrintWriter : IMyPrintWriter {
+
+    val buffer = StringBuilder()
+
+    val bufferMode: MyPrintWriterMode
+
+    actual constructor(hasBuffer: Boolean) {
+        if (hasBuffer) {
+            bufferMode = MyPrintWriterMode.BUFFER
+        } else {
+            bufferMode = MyPrintWriterMode.NONE
+        }
+    }
+
+    actual override fun clearBuffer() {
+        if (bufferMode == MyPrintWriterMode.BUFFER) {
+            buffer.clear()
+        } else {
+            throw Exception("not supported")
+        }
+    }
+
+    actual override fun toString(): String {
+        if (bufferMode == MyPrintWriterMode.BUFFER) {
+            return buffer.toString()
+        } else {
+            throw Exception("not supported")
+        }
+    }
+
+    actual override fun println(x: String) {
+        if (bufferMode != MyPrintWriterMode.NONE) {
+            buffer.appendLine(x)
+        }
+    }
+
+    actual override fun print(x: String) {
+        if (bufferMode != MyPrintWriterMode.NONE) {
+            buffer.append(x)
+        }
+    }
+
+    actual override fun println(x: Boolean) {
+        if (bufferMode != MyPrintWriterMode.NONE) {
+            buffer.appendLine(x)
+        }
+    }
+
+    actual override fun print(x: Boolean) {
+        if (bufferMode != MyPrintWriterMode.NONE) {
+            buffer.append(x)
+        }
+    }
+
+    actual override fun println(x: Int) {
+        if (bufferMode != MyPrintWriterMode.NONE) {
+            buffer.appendLine(x)
+        }
+    }
+
+    actual override fun print(x: Int) {
+        if (bufferMode != MyPrintWriterMode.NONE) {
+            buffer.append(x)
+        }
+    }
+
+    actual override fun println(x: Double) {
+        if (bufferMode != MyPrintWriterMode.NONE) {
+            buffer.appendLine(x)
+        }
+    }
+
+    actual override fun print(x: Double) {
+        if (bufferMode != MyPrintWriterMode.NONE) {
+            buffer.append(x)
+        }
+    }
+
+    actual override fun println() {
+        if (bufferMode != MyPrintWriterMode.NONE) {
+            buffer.appendLine()
+        }
+    }
+
+    actual override fun close() {
+            throw Exception("not supported")
+    }
+
+    actual override fun flush() {
+            throw Exception("not supported")
+    }
 }

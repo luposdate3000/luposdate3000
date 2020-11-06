@@ -1,4 +1,3 @@
-import lupos.s00misc.DateHelper
 import lupos.s00misc.DateHelperRelative
 import lupos.s00misc.File
 import lupos.s00misc.JenaWrapper
