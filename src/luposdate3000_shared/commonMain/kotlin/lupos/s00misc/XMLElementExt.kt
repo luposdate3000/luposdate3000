@@ -1,13 +1,11 @@
 package lupos.s00misc
 
-
-
 fun XMLElement.Companion.parseFromAny(data: String, filename: String): XMLElement? {
-val ext=filename.substring(filename.lastIndexOf(".")+1)
-val parser=parseFromAnyRegistered[ext]
-if(parser==null){
-throw UnknownDataFileException("$filename ($ext)")
-}else{
-return parser(data)
-}
+    val ext = filename.substring(filename.lastIndexOf(".") + 1)
+    val parser = parseFromAnyRegistered[ext]
+    if (parser == null) {
+        throw UnknownDataFileException("$filename ($ext)")
+    } else {
+        return parser(data)
+    }
 }

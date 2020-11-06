@@ -19,7 +19,10 @@ class PhysicalOptimizer(query: Query) : OptimizerCompoundBase(query, EOptimizerI
             ),
             arrayOf<OptimizerBase>(
                     PhysicalOptimizerPartition1(query),//
+                    PhysicalOptimizerPartition2(query),//
                     PhysicalOptimizerPartition3(query),//
+            ),
+            arrayOf<OptimizerBase>(
                     PhysicalOptimizerPartition4(query),//
             ),
             arrayOf<OptimizerBase>(

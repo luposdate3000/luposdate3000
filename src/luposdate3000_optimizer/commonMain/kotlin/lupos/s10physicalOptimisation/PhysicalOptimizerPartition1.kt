@@ -11,15 +11,15 @@ import lupos.s04logicalOperators.Query
 import lupos.s05tripleStore.TripleStoreFeature
 import lupos.s05tripleStore.TripleStoreFeatureParamsPartition
 import lupos.s08logicalOptimisation.OptimizerBase
+import lupos.s09physicalOperators.multiinput.POPUnion
 import lupos.s09physicalOperators.partition.POPMergePartition
 import lupos.s09physicalOperators.partition.POPMergePartitionCount
 import lupos.s09physicalOperators.partition.POPMergePartitionOrderedByIntId
 import lupos.s09physicalOperators.partition.POPSplitPartition
 import lupos.s09physicalOperators.partition.POPSplitPartitionFromStore
 import lupos.s09physicalOperators.singleinput.modifiers.POPReduced
-import lupos.s09physicalOperators.singleinput.POPFilter
 import lupos.s09physicalOperators.singleinput.POPBind
-import lupos.s09physicalOperators.multiinput.POPUnion
+import lupos.s09physicalOperators.singleinput.POPFilter
 import lupos.s09physicalOperators.singleinput.POPProjection
 import lupos.s15tripleStoreDistributed.TripleStoreIteratorGlobal
 

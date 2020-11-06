@@ -1,9 +1,9 @@
 package lupos.s00misc
 
-import lupos.s02buildSyntaxTree.turtle.Turtle2Parser
-import lupos.s00misc.IMyInputStream
-import lupos.s00misc.ETripleComponentType
 import kotlin.jvm.JvmField
+import lupos.s00misc.ETripleComponentType
+import lupos.s00misc.IMyInputStream
+import lupos.s02buildSyntaxTree.turtle.Turtle2Parser
 
 class XMLElementFromN3() : XMLElementParser {
     override operator fun invoke(data: String): XMLElement? {
@@ -18,6 +18,7 @@ class XMLElementFromN3() : XMLElementParser {
         val inputstream = object : IMyInputStream {
             @JvmField
             val dataBytes = data.encodeToByteArray()
+
             @JvmField
             var offset = 0
             override fun read(buf: ByteArray): Int {

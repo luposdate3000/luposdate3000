@@ -76,12 +76,12 @@ object BinaryTestCase {
                             newConfig.println(line)
                         }
                         "hadSuccess" -> {
-val res=                            executeTestCase(folder + "/" + setting[0])
-      if(res){
-                      newConfig.println(line)
-}else{
-newConfig.println(setting[0] + "=hadSuccessButFailedNow")
-}
+                            val res = executeTestCase(folder + "/" + setting[0])
+                            if (res) {
+                                newConfig.println(line)
+                            } else {
+                                newConfig.println(setting[0] + "=hadSuccessButFailedNow")
+                            }
                         }
                         else -> {
                             val res = executeTestCase(folder + "/" + setting[0])
@@ -701,7 +701,7 @@ if (tmpTable != null) {
             return true
         } catch (e: UnknownDataFileException) {
             File(output_folder).deleteRecursively()
-e.printStackTrace()
+            e.printStackTrace()
             return false
         }
     }

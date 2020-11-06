@@ -8,11 +8,11 @@ import lupos.s00misc.File
 import lupos.s00misc.IMyPrintWriter
 import lupos.s00misc.MyPrintWriter
 import lupos.s00misc.OperatorGraphToLatex
-import lupos.s00misc.XMLElementFromXML
 import lupos.s00misc.Partition
 import lupos.s00misc.QueryResultToStream
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.XMLElement
+import lupos.s00misc.XMLElementFromXML
 import lupos.s02buildSyntaxTree.LexerCharIterator
 import lupos.s02buildSyntaxTree.LookAheadTokenIterator
 import lupos.s02buildSyntaxTree.sparql1_1.SPARQLParser

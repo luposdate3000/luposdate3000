@@ -19,7 +19,6 @@ actual object Crypto {
     }
 
     actual fun uuid(): String = throw  NotImplementedException("Crypto", "uuid not implemented")
-
     internal fun toHexString(data: ByteArray): String {
         val sb = StringBuilder()
         for (b in data) {

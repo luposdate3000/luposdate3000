@@ -13,11 +13,11 @@ import lupos.s00misc.MAX_TRIPLES_DURING_TEST
 import lupos.s00misc.NotImplementedException
 import lupos.s00misc.OperatorGraphToLatex
 import lupos.s00misc.parseFromAny
-import lupos.s00misc.XMLElementFromXML
 import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.UnknownManifestException
 import lupos.s00misc.XMLElement
+import lupos.s00misc.XMLElementFromXML
 import lupos.s02buildSyntaxTree.LexerCharIterator
 import lupos.s02buildSyntaxTree.LookAheadTokenIterator
 import lupos.s02buildSyntaxTree.ParseError

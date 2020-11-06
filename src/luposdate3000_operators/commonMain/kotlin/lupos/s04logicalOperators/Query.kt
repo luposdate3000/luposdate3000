@@ -1,17 +1,19 @@
 package lupos.s04logicalOperators
+
+import kotlin.jvm.JvmField
+import lupos.s00misc.MyLock
+import lupos.s00misc.ParallelJob
+import lupos.s00misc.Partition
+import lupos.s00misc.SanityCheck
+import lupos.s03resultRepresentation.IResultSetDictionary
+import lupos.s03resultRepresentation.ResultSetDictionary
+import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s09physicalOperators.partition.POPMergePartition
 import lupos.s09physicalOperators.partition.POPMergePartitionCount
 import lupos.s09physicalOperators.partition.POPMergePartitionOrderedByIntId
 import lupos.s09physicalOperators.partition.POPSplitPartition
+import lupos.s09physicalOperators.partition.POPChangePartitionOrderedByIntId
 import lupos.s09physicalOperators.partition.POPSplitPartitionFromStore
-import kotlin.jvm.JvmField
-import lupos.s00misc.MyLock
-import lupos.s00misc.SanityCheck
-import lupos.s00misc.ParallelJob
-import lupos.s00misc.Partition
-import lupos.s03resultRepresentation.IResultSetDictionary
-import lupos.s03resultRepresentation.ResultSetDictionary
-import lupos.s04logicalOperators.iterator.IteratorBundle
 
 class PartitionHelper() {
     var iterators: MutableMap<Partition, Array<IteratorBundle>>? = null
@@ -46,9 +48,9 @@ class Query(@JvmField val dictionary: ResultSetDictionary = ResultSetDictionary(
 
     @JvmField
     val partitionOperators = mutableMapOf<Int, MutableSet<Long>>()
-@JvmField
-    val partitionOperatorCount= mutableMapOf<Int, Int>()
 
+    @JvmField
+    val partitionOperatorCount = mutableMapOf<Int, Int>()
     fun getNextPartitionOperatorID(): Int {
         var res = 0
         while (partitionOperators[res] != null) {
@@ -58,7 +60,7 @@ class Query(@JvmField val dictionary: ResultSetDictionary = ResultSetDictionary(
     }
 
     fun addPartitionOperator(uuid: Long, id: Int) {
-val tmp=partitionOperators[id]
+        val tmp = partitionOperators[id]
         if (tmp == null) {
             partitionOperators[id] = mutableSetOf(uuid)
         } else {
@@ -68,7 +70,7 @@ val tmp=partitionOperators[id]
     }
 
     fun removePartitionOperator(uuid: Long, id: Int) {
-val tmp=partitionOperators[id]
+        val tmp = partitionOperators[id]
         if (tmp != null) {
             SanityCheck.check { tmp.contains(uuid) }
             tmp.remove(uuid)
@@ -78,25 +80,36 @@ val tmp=partitionOperators[id]
         }
     }
 
-internal fun changeID(root:IOPBase,list:Set<Long>,id:Int){
-if(list.contains(root.getUUID())){
- when (root) {
-            is POPMergePartitionCount ->  root.partitionID=id
-            is POPMergePartition ->  root.partitionID=id
-            is POPMergePartitionOrderedByIntId ->  root.partitionID=id
-            is POPSplitPartitionFromStore ->  root.partitionID=id
-            is POPSplitPartition ->  root.partitionID=id
+    internal fun changeID(root: IOPBase, list: Set<Long>, idFrom: Int, idTo: Int) {
+        if (list.contains(root.getUUID())) {
+            when (root) {
+                is POPMergePartitionCount -> root.partitionID = idTo
+                is POPMergePartition -> root.partitionID = idTo
+                is POPMergePartitionOrderedByIntId -> root.partitionID = idTo
+                is POPSplitPartitionFromStore -> root.partitionID = idTo
+                is POPSplitPartition -> root.partitionID = idTo
+                is POPChangePartitionOrderedByIntId -> {
+                    if (root.partitionIDFrom == idFrom) {
+                        root.partitionIDFrom = idTo
+                    } else {
+                        SanityCheck.check { root.partitionIDTo == idFrom }
+                        root.partitionIDTo = idTo
+                    }
+                }
+                else -> {
+                    throw Exception("unreachable")
+                }
+            }
         }
-}
-for(c in root.getChildren()){
-changeID(c,list,id)
-}
-}
+        for (c in root.getChildren()) {
+            changeID(c, list, idFrom, idTo)
+        }
+    }
 
     fun mergePartitionOperator(id1: Int, id2: Int, root: IOPBase): Int {
         partitionOperators[id1]!!.addAll(partitionOperators[id2]!!)
-changeID(root,partitionOperators[id2]!!,id1)
-                partitionOperators.remove(id2)
+        changeID(root, partitionOperators[id2]!!, id2, id1)
+        partitionOperators.remove(id2)
         return id1
     }
 
@@ -130,7 +143,6 @@ changeID(root,partitionOperators[id2]!!,id1)
 
     inline fun getUniqueVariableName() = "#+${generatedNameCounter++}"
     inline fun isGeneratedVariableName(name: String) = name.startsWith('#')
-
     suspend fun getPartitionHelper(uuid: Long): PartitionHelper {
         var res: PartitionHelper? = null
         partitionsLock.withLock {
@@ -153,7 +165,6 @@ changeID(root,partitionOperators[id2]!!,id1)
             return tmp2
         }
     }
-
 
     internal companion object {
         @JvmField

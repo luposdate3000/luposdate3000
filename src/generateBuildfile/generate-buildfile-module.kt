@@ -123,21 +123,21 @@ fun createBuildFileForModule(args: Array<String>) {
         out.println("apply(plugin = \"maven-publish\")")
         out.println("kotlin {")
         out.println("    jvm()")
-if(!fastMode){
-        out.println("    js {")
-        out.println("        browser {")
-        out.println("        }")
-        out.println("        nodejs {")
-        out.println("        }")
-        out.println("    }")
-        out.println("    $platform(\"$platform\") {")
-        out.println("        binaries {")
-        out.println("            sharedLib {")
-        out.println("                baseName = \"${moduleName}\"")
-        out.println("            }")
-        out.println("        }")
-        out.println("    }")
-}
+        if (!fastMode) {
+            out.println("    js {")
+            out.println("        browser {")
+            out.println("        }")
+            out.println("        nodejs {")
+            out.println("        }")
+            out.println("    }")
+            out.println("    $platform(\"$platform\") {")
+            out.println("        binaries {")
+            out.println("            sharedLib {")
+            out.println("                baseName = \"${moduleName}\"")
+            out.println("            }")
+            out.println("        }")
+            out.println("    }")
+        }
         out.println("    sourceSets {")
         out.println("        val commonMain by getting {")
         out.println("            dependencies {")
@@ -180,54 +180,54 @@ if(!fastMode){
         }
         out.println("            }")
         out.println("        }")
-if(!fastMode){
-        out.println("        val jsMain by getting {")
-        out.println("            dependencies {")
-        val jsDependencies = mutableSetOf("org.jetbrains.kotlin:kotlin-stdlib-js:1.4.255-SNAPSHOT")
-        if (File("${moduleFolder}/jsDependencies").exists()) {
-            File("${moduleFolder}/jsDependencies").forEachLine {
-                if (it.length > 0) {
-                    jsDependencies.add(it)
+        if (!fastMode) {
+            out.println("        val jsMain by getting {")
+            out.println("            dependencies {")
+            val jsDependencies = mutableSetOf("org.jetbrains.kotlin:kotlin-stdlib-js:1.4.255-SNAPSHOT")
+            if (File("${moduleFolder}/jsDependencies").exists()) {
+                File("${moduleFolder}/jsDependencies").forEachLine {
+                    if (it.length > 0) {
+                        jsDependencies.add(it)
+                    }
                 }
             }
-        }
-        for (d in jsDependencies) {
-            if (d.startsWith("luposdate3000")) {
-                out.println("                compileOnly(\"$d\")")
-            } else {
-                out.println("                implementation(\"$d\")")
-            }
-        }
-        out.println("            }")
-        out.println("        }")
-        out.println("        val ${platform}Main by getting {")
-        out.println("            dependencies {")
-        val nativeDependencies = mutableSetOf<String>()
-        if (File("${moduleFolder}/nativeDependencies").exists()) {
-            File("${moduleFolder}/nativeDependencies").forEachLine {
-                if (it.length > 0) {
-                    nativeDependencies.add(it)
+            for (d in jsDependencies) {
+                if (d.startsWith("luposdate3000")) {
+                    out.println("                compileOnly(\"$d\")")
+                } else {
+                    out.println("                implementation(\"$d\")")
                 }
             }
-        }
-        for (d in nativeDependencies) {
-            if (d.startsWith("luposdate3000")) {
-                out.println("                compileOnly(\"$d\")")
-            } else {
-                out.println("                implementation(\"$d\")")
+            out.println("            }")
+            out.println("        }")
+            out.println("        val ${platform}Main by getting {")
+            out.println("            dependencies {")
+            val nativeDependencies = mutableSetOf<String>()
+            if (File("${moduleFolder}/nativeDependencies").exists()) {
+                File("${moduleFolder}/nativeDependencies").forEachLine {
+                    if (it.length > 0) {
+                        nativeDependencies.add(it)
+                    }
+                }
             }
+            for (d in nativeDependencies) {
+                if (d.startsWith("luposdate3000")) {
+                    out.println("                compileOnly(\"$d\")")
+                } else {
+                    out.println("                implementation(\"$d\")")
+                }
+            }
+            out.println("            }")
+            out.println("        }")
         }
-        out.println("            }")
-        out.println("        }")
-}
         out.println("    }")
         out.println("    sourceSets[\"commonMain\"].kotlin.srcDir(\"src.generated/commonMain/kotlin\")")
         out.println("    sourceSets[\"jvmMain\"].kotlin.srcDir(\"src.generated/jvmMain/kotlin\")")
-if(!fastMode){
-        out.println("    sourceSets[\"jsMain\"].kotlin.srcDir(\"src.generated/jsMain/kotlin\")")
-        out.println("    sourceSets[\"${platform}Main\"].kotlin.srcDir(\"src.generated/nativeMain/kotlin\")")
-        out.println("    sourceSets[\"${platform}Main\"].kotlin.srcDir(\"src.generated/${platform}Main/kotlin\")")
-}
+        if (!fastMode) {
+            out.println("    sourceSets[\"jsMain\"].kotlin.srcDir(\"src.generated/jsMain/kotlin\")")
+            out.println("    sourceSets[\"${platform}Main\"].kotlin.srcDir(\"src.generated/nativeMain/kotlin\")")
+            out.println("    sourceSets[\"${platform}Main\"].kotlin.srcDir(\"src.generated/${platform}Main/kotlin\")")
+        }
         out.println("}")
     }
     File("src.generated/commonMain/kotlin/lupos/s00misc/").mkdirs()
@@ -387,8 +387,8 @@ if(!fastMode){
             runCommand(listOf("gradle", "publishJvmPublicationToMavenLocal"), File("."))
         } else {
 */
-            runCommand(listOf("gradle", "build"), File("."))
-            runCommand(listOf("gradle", "publishToMavenLocal"), File("."))
+        runCommand(listOf("gradle", "build"), File("."))
+        runCommand(listOf("gradle", "publishToMavenLocal"), File("."))
 //        }
     }
     try {
