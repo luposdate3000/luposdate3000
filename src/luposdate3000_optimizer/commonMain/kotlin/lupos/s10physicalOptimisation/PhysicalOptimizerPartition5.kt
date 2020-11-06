@@ -26,64 +26,63 @@ import lupos.s15tripleStoreDistributed.TripleStoreIteratorGlobal
 
 class PhysicalOptimizerPartition5(query: Query) : OptimizerBase(query, EOptimizerID.PhysicalOptimizerPartition5ID) {
     override val classname = "PhysicalOptimizerPartition5"
-
     override suspend fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
         var res = node
         when (node) {
             is POPSplitPartitionFromStore -> {
-		if(node.partitionCount==1){
-			res=node.children[0]
-query.removePartitionOperator(node.getUUID(), node.partitionID)
-			onChange()
-		}
+                if (node.partitionCount == 1) {
+                    res = node.children[0]
+                    query.removePartitionOperator(node.getUUID(), node.partitionID)
+                    onChange()
+                }
             }
             is POPSplitPartition -> {
-                if(node.partitionCount==1){
-                        res=node.children[0]
-query.removePartitionOperator(node.getUUID(), node.partitionID)
-                        onChange()
+                if (node.partitionCount == 1) {
+                    res = node.children[0]
+                    query.removePartitionOperator(node.getUUID(), node.partitionID)
+                    onChange()
                 }
             }
             is POPMergePartition -> {
-                if(node.partitionCount==1){
-                        res=node.children[0]
-query.removePartitionOperator(node.getUUID(), node.partitionID)
-                        onChange()
+                if (node.partitionCount == 1) {
+                    res = node.children[0]
+                    query.removePartitionOperator(node.getUUID(), node.partitionID)
+                    onChange()
                 }
             }
             is POPMergePartitionCount -> {
-                if(node.partitionCount==1){
-                        res=node.children[0]
-query.removePartitionOperator(node.getUUID(), node.partitionID)
-                        onChange()
+                if (node.partitionCount == 1) {
+                    res = node.children[0]
+                    query.removePartitionOperator(node.getUUID(), node.partitionID)
+                    onChange()
                 }
             }
             is POPMergePartitionOrderedByIntId -> {
-                if(node.partitionCount==1){
-                        res=node.children[0]
-query.removePartitionOperator(node.getUUID(), node.partitionID)
-                        onChange()
+                if (node.partitionCount == 1) {
+                    res = node.children[0]
+                    query.removePartitionOperator(node.getUUID(), node.partitionID)
+                    onChange()
                 }
             }
             is POPChangePartitionOrderedByIntId -> {
-                if(node.partitionCountFrom==1 &&   node.partitionCountTo==1){
-                        res=node.children[0]
-query.removePartitionOperator(node.getUUID(), node.partitionIDFrom)
-query.removePartitionOperator(node.getUUID(), node.partitionIDTo)
-                        onChange()
-                }else if(node.partitionCountFrom==1){
-			res=POPSplitPartition(query, node.children[0].getProvidedVariableNames(), node.partitionVariable, node.partitionCountTo, node.partitionIDTo, node.children[0])
-query.removePartitionOperator(node.getUUID(), node.partitionIDFrom)
-query.removePartitionOperator(node.getUUID(), node.partitionIDTo)
- query.addPartitionOperator(res.getUUID(), res.partitionID)
-onChange()
-                }else if(node.partitionCountTo==1){
-			res=POPMergePartitionOrderedByIntId(query, node.children[0].getProvidedVariableNames(), node.partitionVariable, node.partitionCountFrom, node.partitionIDFrom, node.children[0])
-query.removePartitionOperator(node.getUUID(), node.partitionIDFrom)
-query.removePartitionOperator(node.getUUID(), node.partitionIDTo)
- query.addPartitionOperator(res.getUUID(), res.partitionID)
-onChange()
-		}
+                if (node.partitionCountFrom == 1 && node.partitionCountTo == 1) {
+                    res = node.children[0]
+                    query.removePartitionOperator(node.getUUID(), node.partitionIDFrom)
+                    query.removePartitionOperator(node.getUUID(), node.partitionIDTo)
+                    onChange()
+                } else if (node.partitionCountFrom == 1) {
+                    res = POPSplitPartition(query, node.children[0].getProvidedVariableNames(), node.partitionVariable, node.partitionCountTo, node.partitionIDTo, node.children[0])
+                    query.removePartitionOperator(node.getUUID(), node.partitionIDFrom)
+                    query.removePartitionOperator(node.getUUID(), node.partitionIDTo)
+                    query.addPartitionOperator(res.getUUID(), res.partitionID)
+                    onChange()
+                } else if (node.partitionCountTo == 1) {
+                    res = POPMergePartitionOrderedByIntId(query, node.children[0].getProvidedVariableNames(), node.partitionVariable, node.partitionCountFrom, node.partitionIDFrom, node.children[0])
+                    query.removePartitionOperator(node.getUUID(), node.partitionIDFrom)
+                    query.removePartitionOperator(node.getUUID(), node.partitionIDTo)
+                    query.addPartitionOperator(res.getUUID(), res.partitionID)
+                    onChange()
+                }
             }
         }
         return res

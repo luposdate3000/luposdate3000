@@ -105,18 +105,18 @@ actual object HttpEndpointLauncher {
                                 }
                                 "/sparql/query" -> {
                                     if (isPost) {
-                                        HttpEndpoint.evaluate_sparql_query_string(content.toString(), connectionOut, false)
+                                        LuposdateEndpoint.evaluate_sparql_to_result(content.toString(), connectionOut, false)
                                     } else {
-                                        HttpEndpoint.evaluate_sparql_query_string(params["query"]!!, connectionOut, false)
+                                        LuposdateEndpoint.evaluate_sparql_to_result(params["query"]!!, connectionOut, false)
                                     }
                                     /*Coverage Unreachable*/
                                 }
                                 "/sparql/operator" -> {
                                     printHeaderSuccess(connectionOut)
                                     if (isPost) {
-                                        connectionOut.print(HttpEndpoint.evaluate_sparql_query_operator_xml(content.toString(), true))
+                                        connectionOut.print(LuposdateEndpoint.evaluate_operatorgraphXML_to_result(content.toString(), true))
                                     } else {
-                                        connectionOut.print(HttpEndpoint.evaluate_sparql_query_operator_xml(params["query"]!!, true))
+                                        connectionOut.print(LuposdateEndpoint.evaluate_operatorgraphXML_to_result(params["query"]!!, true))
                                     }
                                     /*Coverage Unreachable*/
                                 }
@@ -130,47 +130,27 @@ actual object HttpEndpointLauncher {
                                     }
                                     printHeaderSuccess(connectionOut)
                                     if (isPost) {
-                                        connectionOut.print(HttpEndpoint.import_turtle_files(content.toString(), dict))
+                                        connectionOut.print(LuposdateEndpoint.import_turtle_files(content.toString(), dict))
                                     } else {
-                                        connectionOut.print(HttpEndpoint.import_turtle_files(params["query"]!!, dict))
-                                    }
-                                    /*Coverage Unreachable*/
-                                }
-                                "/cleanup/turtle/old" -> {
-                                    val dict = mutableMapOf<String, Int>()
-                                    printHeaderSuccess(connectionOut)
-                                    if (isPost) {
-                                        connectionOut.print(HttpEndpoint.cleanup_turtle_files_old(content.toString(), dict))
-                                    } else {
-                                        connectionOut.print(HttpEndpoint.cleanup_turtle_files_old(params["query"]!!, dict))
-                                    }
-                                    /*Coverage Unreachable*/
-                                }
-                                "/cleanup/turtle/new" -> {
-                                    val dict = mutableMapOf<String, Int>()
-                                    printHeaderSuccess(connectionOut)
-                                    if (isPost) {
-                                        connectionOut.print(HttpEndpoint.cleanup_turtle_files(content.toString(), dict))
-                                    } else {
-                                        connectionOut.print(HttpEndpoint.cleanup_turtle_files(params["query"]!!, dict))
+                                        connectionOut.print(LuposdateEndpoint.import_turtle_files(params["query"]!!, dict))
                                     }
                                     /*Coverage Unreachable*/
                                 }
                                 "/import/intermediate" -> {
                                     printHeaderSuccess(connectionOut)
                                     if (isPost) {
-                                        connectionOut.print(HttpEndpoint.import_intermediate_files(content.toString()))
+                                        connectionOut.print(LuposdateEndpoint.import_intermediate_files(content.toString()))
                                     } else {
-                                        connectionOut.print(HttpEndpoint.import_intermediate_files(params["query"]!!))
+                                        connectionOut.print(LuposdateEndpoint.import_intermediate_files(params["query"]!!))
                                     }
                                     /*Coverage Unreachable*/
                                 }
                                 "/import/xml" -> {
                                     printHeaderSuccess(connectionOut)
                                     if (isPost) {
-                                        connectionOut.print(HttpEndpoint.import_xml_data(content.toString()))
+                                        connectionOut.print(LuposdateEndpoint.import_xml_data(content.toString()))
                                     } else {
-                                        connectionOut.print(HttpEndpoint.import_xml_data(params["query"]!!))
+                                        connectionOut.print(LuposdateEndpoint.import_xml_data(params["query"]!!))
                                     }
                                     /*Coverage Unreachable*/
                                 }

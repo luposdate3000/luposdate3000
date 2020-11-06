@@ -6,7 +6,7 @@ import lupos.s00misc.Partition
 import lupos.s03resultRepresentation.nodeGlobalDictionary
 import lupos.s15tripleStoreDistributed.distributedTripleStore
 import lupos.s15tripleStoreDistributed.DistributedTripleStore
-import lupos.s16network.HttpEndpoint
+import lupos.s16network.LuposdateEndpoint
 
 enum class Datasource {
     LOAD, IMPORT, IMPORT_INTERMEDIATE
@@ -44,7 +44,7 @@ fun main(args: Array<String>) = Parallel.runBlocking {
             File(datasourceBNodeFile).forEachLine {
                 dict[it] = nodeGlobalDictionary.createNewBNode()
             }
-            HttpEndpoint.import_turtle_files(datasourceFiles, dict)
+            LuposdateEndpoint.import_turtle_files(datasourceFiles, dict)
             val time = DateHelperRelative.elapsedSeconds(timer)
             printBenchmarkLine("resources/${benchmarkname}/persistence-import.sparql", time, 1, numberOfTriples, originalTripleSize)
 /*
@@ -56,7 +56,7 @@ fun main(args: Array<String>) = Parallel.runBlocking {
         }
         Datasource.IMPORT_INTERMEDIATE -> {
             val timer = DateHelperRelative.markNow()
-            HttpEndpoint.import_intermediate_files(datasourceFiles)
+            LuposdateEndpoint.import_intermediate_files(datasourceFiles)
             val time = DateHelperRelative.elapsedSeconds(timer)
             printBenchmarkLine("resources/${benchmarkname}/persistence-import.sparql", time, 1, numberOfTriples, originalTripleSize)
 /*
@@ -72,7 +72,7 @@ fun main(args: Array<String>) = Parallel.runBlocking {
         val queryFile = queryFiles[queryFileIdx]
         val query = File(queryFile).readAsString()
         val timerFirst = DateHelperRelative.markNow()
-        HttpEndpoint.evaluate_sparql_query_string(query, true)
+        LuposdateEndpoint.evaluate_sparql_to_result(query, true)
         val timeFirst = DateHelperRelative.elapsedSeconds(timerFirst)
         groupSize[queryFileIdx] = 1 + (1.0 / timeFirst).toInt()
         printBenchmarkTimesHelper()
@@ -82,7 +82,7 @@ fun main(args: Array<String>) = Parallel.runBlocking {
         while (true) {
             counter += groupSize[queryFileIdx]
             for (i in 0 until groupSize[queryFileIdx]) {
-                HttpEndpoint.evaluate_sparql_query_string(query)
+                LuposdateEndpoint.evaluate_sparql_to_result(query)
             }
             time = DateHelperRelative.elapsedSeconds(timer)
             if (time > minimumTime) {
@@ -95,9 +95,9 @@ fun main(args: Array<String>) = Parallel.runBlocking {
     for (queryFileIdx in 0 until queryFiles.size) {
         val queryFile = queryFiles[queryFileIdx]
         val query = File(queryFile).readAsString()
-        val node = HttpEndpoint.evaluate_sparql_query_string_part1(query, true)
+        val node = LuposdateEndpoint.evaluate_sparql_to_operatorgraph(query, true)
         val writer = MyPrintWriter(false)
-        HttpEndpoint.evaluate_sparql_query_string_part2(node, writer)
+        LuposdateEndpoint.evaluate_operatorgraph_to_result(node, writer)
         printBenchmarkTimesHelper()
         val timer = DateHelperRelative.markNow()
         var time: Double
@@ -105,7 +105,7 @@ fun main(args: Array<String>) = Parallel.runBlocking {
         while (true) {
             counter += groupSize[queryFileIdx]
             for (i in 0 until groupSize[queryFileIdx]) {
-                HttpEndpoint.evaluate_sparql_query_string_part2(node, writer)
+                LuposdateEndpoint.evaluate_operatorgraph_to_result(node, writer)
             }
             time = DateHelperRelative.elapsedSeconds(timer)
             if (time > minimumTime) {

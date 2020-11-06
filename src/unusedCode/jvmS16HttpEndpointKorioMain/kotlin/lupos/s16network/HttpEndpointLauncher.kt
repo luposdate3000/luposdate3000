@@ -38,17 +38,17 @@ object HttpEndpointLauncher {
             }
             "/sparql/query" -> {
                 if (isPost) {
-                    return HttpEndpoint.evaluate_sparql_query_string(data, true)
+                    return LuposdateEndpoint.evaluate_sparql_to_result(data, true)
                 } else {
-                    return HttpEndpoint.evaluate_sparql_query_string(params["query"]!!, true)
+                    return LuposdateEndpoint.evaluate_sparql_to_result(params["query"]!!, true)
                 }
 /*Coverage Unreachable*/
             }
             "/sparql/operator" -> {
                 if (isPost) {
-                    return HttpEndpoint.evaluate_sparql_query_operator_xml(data, true)
+                    return LuposdateEndpoint.evaluate_operatorgraphXML_to_result(data, true)
                 } else {
-                    return HttpEndpoint.evaluate_sparql_query_operator_xml(params["query"]!!, true)
+                    return LuposdateEndpoint.evaluate_operatorgraphXML_to_result(params["query"]!!, true)
                 }
 /*Coverage Unreachable*/
             }
@@ -61,25 +61,25 @@ object HttpEndpointLauncher {
                     }
                 }
                 if (isPost) {
-                    return HttpEndpoint.import_turtle_files(data, dict)
+                    return LuposdateEndpoint.import_turtle_files(data, dict)
                 } else {
-                    return HttpEndpoint.import_turtle_files(params["query"]!!, dict)
+                    return LuposdateEndpoint.import_turtle_files(params["query"]!!, dict)
                 }
 /*Coverage Unreachable*/
             }
             "/import/intermediate" -> {
                 if (isPost) {
-                    return HttpEndpoint.import_intermediate_files(data)
+                    return LuposdateEndpoint.import_intermediate_files(data)
                 } else {
-                    return HttpEndpoint.import_intermediate_files(params["query"]!!)
+                    return LuposdateEndpoint.import_intermediate_files(params["query"]!!)
                 }
 /*Coverage Unreachable*/
             }
             "/import/xml" -> {
                 if (isPost) {
-                    return HttpEndpoint.import_xml_data(data)
+                    return LuposdateEndpoint.import_xml_data(data)
                 } else {
-                    return HttpEndpoint.import_xml_data(params["query"]!!)
+                    return LuposdateEndpoint.import_xml_data(params["query"]!!)
                 }
 /*Coverage Unreachable*/
             }

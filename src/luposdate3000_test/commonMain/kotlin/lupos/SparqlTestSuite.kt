@@ -41,7 +41,7 @@ import lupos.s10physicalOptimisation.PhysicalOptimizer
 import lupos.s11outputResult.QueryResultToXMLElement
 import lupos.s14endpoint.convertToOPBase
 import lupos.s15tripleStoreDistributed.distributedTripleStore
-import lupos.s16network.HttpEndpoint
+import lupos.s16network.LuposdateEndpoint
 
 open class SparqlTestSuite() {
     companion object {
@@ -466,7 +466,7 @@ open class SparqlTestSuite() {
                     if (inputDataFileName.endsWith(".ttl") || inputDataFileName.endsWith(".n3")) {
                         val query = Query()
                         query.setWorkingDirectory(queryFile.substring(0, queryFile.lastIndexOf("/")))
-                        HttpEndpoint.import_turtle_files(inputDataFileName, mutableMapOf<String, Int>())
+                        LuposdateEndpoint.import_turtle_files(inputDataFileName, mutableMapOf<String, Int>())
                         val bulkSelect = distributedTripleStore.getDefaultGraph(query).getIterator(arrayOf(AOPVariable(query, "s"), AOPVariable(query, "p"), AOPVariable(query, "o")), EIndexPattern.SPO, Partition())
                         val xmlGraphBulk = QueryResultToXMLElement.toXML(bulkSelect)
                         if (!xmlGraphBulk.myEqualsUnclean(xmlQueryInput, true, true, true)) {

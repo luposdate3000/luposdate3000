@@ -8,10 +8,15 @@ import lupos.s00misc.File
 import lupos.s00misc.IMyPrintWriter
 import lupos.s00misc.MyPrintWriter
 import lupos.s00misc.OperatorGraphToLatex
+import lupos.s00misc.Parallel
 import lupos.s00misc.Partition
 import lupos.s00misc.QueryResultToStream
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.XMLElement
+import lupos.s00misc.XMLElementFromCsv
+import lupos.s00misc.XMLElementFromJson
+import lupos.s00misc.XMLElementFromN3
+import lupos.s00misc.XMLElementFromTsv
 import lupos.s00misc.XMLElementFromXML
 import lupos.s02buildSyntaxTree.LexerCharIterator
 import lupos.s02buildSyntaxTree.LookAheadTokenIterator
@@ -30,11 +35,13 @@ import lupos.s09physicalOperators.noinput.POPValuesImportXML
 import lupos.s10physicalOptimisation.PhysicalOptimizer
 import lupos.s14endpoint.convertToOPBase
 import lupos.s15tripleStoreDistributed.distributedTripleStore
+import lupos.s15tripleStoreDistributed.DistributedTripleStore
 
 /*this object transforms the text input to the response-body*/
 @UseExperimental(ExperimentalStdlibApi::class, kotlin.time.ExperimentalTime::class)
-object HttpEndpoint {
-    fun helper_clean_string(s: String): String {
+object LuposdateEndpoint {
+var initialized=false
+    internal fun helper_clean_string(s: String): String {
         var res: String = s
         while (true) {
             val match = "\\\\u[0-9a-fA-f]{4}".toRegex().find(res)
@@ -47,7 +54,7 @@ object HttpEndpoint {
         return res
     }
 
-    fun helper_import_turtle_files(dict: MutableMap<String, Int>, usePredefinedDict: Boolean, v: String): Int {
+    internal fun helper_import_turtle_files(dict: MutableMap<String, Int>, v: String): Int {
         val v2 = helper_clean_string(v)
         var res: Int
         if (v2.startsWith("_:")) {
@@ -65,45 +72,8 @@ object HttpEndpoint {
 /*Coverage Unreachable*/
     }
 
-    suspend fun cleanup_turtle_files_old(fileNames: String, bnodeDict: MutableMap<String, Int>): String {
-        var res = StringBuilder()
-        try {
-            for (fileName in fileNames.split(";")) {
-                val f = File(fileName)
-                val lcit: LexerCharIterator
-                if (f.length() < Int.MAX_VALUE) {
-                    val data = f.readAsString()
-                    lcit = LexerCharIterator(data)
-                } else {
-                    val data = f.readAsCharIterator()
-                    lcit = LexerCharIterator(data)
-                }
-                val tit = TurtleScanner(lcit)
-                val ltit = LookAheadTokenIterator(tit, 3)
-                try {
-                    val x = object : TurtleParserWithStringTriples() {
-                        suspend override fun consume_triple(s: String, p: String, o: String) {
-//                            res.append("$s $p $o .\n")
-                        }
-                    }
-                    x.ltit = ltit
-                    x.turtleDoc()
-                } catch (e: lupos.s02buildSyntaxTree.ParseError) {
-                    println("error in file '$fileName'")
-                    throw e
-                }
-            }
-        } catch (e: Throwable) {
-            SanityCheck.println({ "TODO exception 15" })
-            e.printStackTrace()
-            throw e
-        }
-        return res.toString()
-    }
-
     suspend fun import_turtle_files_old(fileNames: String, bnodeDict: MutableMap<String, Int>): String {
         try {
-            val usePredefinedDict = bnodeDict.size > 0
             val query = Query()
             var counter = 0
             var store = distributedTripleStore.getDefaultGraph(query)
@@ -125,7 +95,7 @@ object HttpEndpoint {
                         val x = object : TurtleParserWithStringTriples() {
                             suspend override fun consume_triple(s: String, p: String, o: String) {
                                 counter++
-                                bulk.insert(helper_import_turtle_files(bnodeDict, usePredefinedDict, s), helper_import_turtle_files(bnodeDict, usePredefinedDict, p), helper_import_turtle_files(bnodeDict, usePredefinedDict, o))
+                                bulk.insert(helper_import_turtle_files(bnodeDict, s), helper_import_turtle_files(bnodeDict, p), helper_import_turtle_files(bnodeDict, o))
                             }
                         }
                         x.ltit = ltit
@@ -145,33 +115,8 @@ object HttpEndpoint {
 /*Coverage Unreachable*/
     }
 
-    suspend fun cleanup_turtle_files(fileNames: String, bnodeDict: MutableMap<String, Int>): String {
-        var res = StringBuilder()
-        try {
-            for (fileName in fileNames.split(";")) {
-                val f = File(fileName)
-                val iter = f.readAsInputStream()
-                try {
-                    val x = object : Turtle2Parser(iter) {
-                        override fun onTriple(triple: Array<String>, tripleType: Array<ETripleComponentType>) {
-//                            res.append("${triple[0]} ${triple[1]} ${triple[2]} .\n")
-                        }
-                    }
-                    x.turtleDoc()
-                } catch (e: Exception) {
-                    println("fast_parser :: error in file '$fileName'")
-                    e.printStackTrace()
-                }
-            }
-        } catch (e: Throwable) {
-            e.printStackTrace()
-        }
-        return res.toString()
-    }
-
     suspend fun import_turtle_files(fileNames: String, bnodeDict: MutableMap<String, Int>): String {
         try {
-            val usePredefinedDict = bnodeDict.size > 0
             val query = Query()
             var counter = 0
             var store = distributedTripleStore.getDefaultGraph(query)
@@ -184,7 +129,7 @@ object HttpEndpoint {
                         val x = object : Turtle2Parser(iter) {
                             override fun onTriple(triple: Array<String>, tripleType: Array<ETripleComponentType>) {
                                 counter++
-                                bulk.insert(helper_import_turtle_files(bnodeDict, usePredefinedDict, triple[0]), helper_import_turtle_files(bnodeDict, usePredefinedDict, triple[1]), helper_import_turtle_files(bnodeDict, usePredefinedDict, triple[2]))
+                                bulk.insert(helper_import_turtle_files(bnodeDict, triple[0]), helper_import_turtle_files(bnodeDict, triple[1]), helper_import_turtle_files(bnodeDict, triple[2]))
                             }
                         }
                         x.turtleDoc()
@@ -284,7 +229,7 @@ object HttpEndpoint {
         return XMLElement("success").toString()
     }
 
-    suspend fun evaluate_sparql_query_string_part1(query: String, logOperatorGraph: Boolean = false): IOPBase {
+    suspend fun evaluate_sparql_to_operatorgraph(query: String, logOperatorGraph: Boolean = false): IOPBase {
         val q = Query()
 //        var timer = DateHelperRelative.markNow()
         SanityCheck.println { "----------String Query" }
@@ -326,7 +271,7 @@ object HttpEndpoint {
         return pop_node
     }
 
-    internal suspend fun evaluate_sparql_query_string_part2(node: IOPBase, output: IMyPrintWriter) {
+    suspend fun evaluate_operatorgraph_to_result(node: IOPBase, output: IMyPrintWriter) {
 //var timer = DateHelperRelative.markNow()
         output.println("HTTP/1.1 200 OK")
         output.println("Content-Type: text/plain")
@@ -338,21 +283,21 @@ object HttpEndpoint {
 //println("timer #407 ${DateHelperRelative.elapsedSeconds(timer)}")
     }
 
-    suspend fun evaluate_sparql_query_string(query: String, logOperatorGraph: Boolean = false): String {
-        val node = evaluate_sparql_query_string_part1(query, logOperatorGraph)
+    suspend fun evaluate_sparql_to_result(query: String, logOperatorGraph: Boolean = false): String {
+        val node = evaluate_sparql_to_operatorgraph(query, logOperatorGraph)
         val buf = MyPrintWriter()
-        evaluate_sparql_query_string_part2(node, buf)
+        evaluate_operatorgraph_to_result(node, buf)
         return buf.toString()
     }
 
-    suspend fun evaluate_sparql_query_string(query: String, output: IMyPrintWriter, logOperatorGraph: Boolean = false) {
+    suspend fun evaluate_sparql_to_result(query: String, output: IMyPrintWriter, logOperatorGraph: Boolean = false) {
 //var timer = DateHelperRelative.markNow()
-        val node = evaluate_sparql_query_string_part1(query, logOperatorGraph)
-        evaluate_sparql_query_string_part2(node, output)
+        val node = evaluate_sparql_to_operatorgraph(query, logOperatorGraph)
+        evaluate_operatorgraph_to_result(node, output)
 //println("timer #408 ${DateHelperRelative.elapsedSeconds(timer)}")
     }
 
-    suspend fun evaluate_sparql_query_operator_xml(query: String, logOperatorGraph: Boolean = false): String {
+    suspend fun evaluate_operatorgraphXML_to_result(query: String, logOperatorGraph: Boolean = false): String {
         val q = Query()
         val pop_node = XMLElement.convertToOPBase(q, XMLElementFromXML()(query)!!)
         SanityCheck.println { pop_node }
@@ -369,9 +314,23 @@ object HttpEndpoint {
             }
         }
         var buf = MyPrintWriter()
-        val res = QueryResultToStream(pop_node, buf)
-        distributedTripleStore.commit(q)
-        q.commited = true
+        evaluate_operatorgraph_to_result(pop_node, buf)
         return buf.toString()
     }
+
+    fun initialize() {
+if(!initialized){
+initialized=true
+        distributedTripleStore = DistributedTripleStore()
+        XMLElement.parseFromAnyRegistered["n3"] = XMLElementFromN3()
+        XMLElement.parseFromAnyRegistered["ttl"] = XMLElementFromN3()
+        XMLElement.parseFromAnyRegistered["srx"] = XMLElementFromXML()
+        XMLElement.parseFromAnyRegistered["srj"] = XMLElementFromJson()
+        XMLElement.parseFromAnyRegistered["csv"] = XMLElementFromCsv()
+        XMLElement.parseFromAnyRegistered["tsv"] = XMLElementFromTsv()
+    }
+}
+init{
+initialize()
+}
 }

@@ -76,7 +76,7 @@ class POPChangePartitionOrderedByIntId(query: IQuery, projectedVariables: List<S
         var readerFinished = 0
         for (p1 in 0 until partitionCountSrc) {
             val pChild = p1 * partitionCountTo + parent.data[partitionVariable]!!
-	    val pLocal=p1
+            val pLocal = p1
             SanityCheck.println({ "merge $uuid $pChild writer launched G" })
             Parallel.launch {
                 try {

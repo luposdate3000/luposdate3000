@@ -9,15 +9,10 @@ import lupos.s00misc.XMLElementFromTsv
 import lupos.s00misc.XMLElementFromXML
 import lupos.s15tripleStoreDistributed.distributedTripleStore
 import lupos.s15tripleStoreDistributed.DistributedTripleStore
+import lupos.s16network.LuposdateEndpoint
 
-internal fun main(args: Array<String>): Unit {
-    distributedTripleStore = DistributedTripleStore()
-    XMLElement.parseFromAnyRegistered["n3"] = XMLElementFromN3()
-    XMLElement.parseFromAnyRegistered["ttl"] = XMLElementFromN3()
-    XMLElement.parseFromAnyRegistered["srx"] = XMLElementFromXML()
-    XMLElement.parseFromAnyRegistered["srj"] = XMLElementFromJson()
-    XMLElement.parseFromAnyRegistered["csv"] = XMLElementFromCsv()
-    XMLElement.parseFromAnyRegistered["tsv"] = XMLElementFromTsv()
+fun main(args: Array<String>): Unit {
+    LuposdateEndpoint.initialize()
     Parallel.runBlocking {
         if (args.size > 0 && args[0] == "--generate") {
             if (args.size < 7) {

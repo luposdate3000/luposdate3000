@@ -5,9 +5,40 @@ import java.nio.file.Paths
 import java.nio.file.StandardCopyOption
 
 fun createBuildFileForModule(args: Array<String>) {
-    val moduleName = args[0]
-    val moduleFolder = args[1]
-    val platform = args[2]
+    var moduleName = ""
+    var moduleFolder = ""
+    var modulePrefix = ""
+    var platform = "linuxX64"
+    var inlineMode = InlineMode.Enable
+    var suspendMode = SuspendMode.Enable
+    var releaseMode = true
+    var fastMode = false
+    var dryMode = false
+var buildLibrary=true
+    for (arg in args) {
+        when {
+            arg == "--inline" -> inlineMode = InlineMode.Enable
+            arg == "--noinline" -> inlineMode = InlineMode.Disable
+            arg == "--suspend" -> suspendMode = SuspendMode.Enable
+            arg == "--nosuspend" -> suspendMode = SuspendMode.Disable
+            arg == "--release" -> releaseMode = true
+            arg == "--debug" -> releaseMode = false
+            arg == "--fast" -> fastMode = true
+            arg == "--dry" -> dryMode = true
+            arg.startsWith("--module=") -> moduleName = arg.substring("--module=".length)
+            arg.startsWith("--src=") -> moduleFolder = arg.substring("--src=".length)
+            arg.startsWith("--platform=") -> platform = arg.substring("--platform=".length)
+            arg.startsWith("--prefix=") -> modulePrefix = arg.substring("--prefix=".length)
+        }
+    }
+    if (moduleFolder == "") {
+        moduleFolder = "src/${moduleName.toLowerCase()}"
+    }
+    if (modulePrefix == "") {
+        modulePrefix = moduleName
+    } else if(modulePrefix=="Luposdate3000_Main"){
+buildLibrary=false
+}
     println("generating buildfile for $moduleName")
     val validPlatforms = listOf("iosArm32", "iosArm64", "linuxX64", "macosX64", "mingwX64")
     if (!validPlatforms.contains(platform)) {
@@ -18,35 +49,6 @@ fun createBuildFileForModule(args: Array<String>) {
     }
     var shortFolder = "./${moduleFolder}"
     shortFolder = shortFolder.substring(shortFolder.lastIndexOf("/") + 1)
-    var inlineMode = InlineMode.Enable
-    var suspendMode = SuspendMode.Enable
-    var releaseMode = true
-    var fastMode = false
-    var dryMode = false
-    if (args.contains("--inline")) {
-        inlineMode = InlineMode.Enable
-    }
-    if (args.contains("--noinline")) {
-        inlineMode = InlineMode.Disable
-    }
-    if (args.contains("--suspend")) {
-        suspendMode = SuspendMode.Enable
-    }
-    if (args.contains("--nosuspend")) {
-        suspendMode = SuspendMode.Disable
-    }
-    if (args.contains("--release")) {
-        releaseMode = true
-    }
-    if (args.contains("--debug")) {
-        releaseMode = false
-    }
-    if (args.contains("--fast")) {
-        fastMode = true
-    }
-    if (args.contains("--dry")) {
-        dryMode = true
-    }
     File("src.generated").deleteRecursively()
     File("src.generated").mkdirs()
     val p = Paths.get(moduleFolder)
@@ -125,6 +127,7 @@ fun createBuildFileForModule(args: Array<String>) {
         out.println("    jvm()")
         if (!fastMode) {
             out.println("    js {")
+            out.println("        moduleName = \"${moduleName}\"")
             out.println("        browser {")
             out.println("        }")
             out.println("        nodejs {")
@@ -132,9 +135,23 @@ fun createBuildFileForModule(args: Array<String>) {
             out.println("    }")
             out.println("    $platform(\"$platform\") {")
             out.println("        binaries {")
-            out.println("            sharedLib {")
-            out.println("                baseName = \"${moduleName}\"")
+if(buildLibrary){
+if(releaseMode){
+            out.println("            sharedLib (listOf(RELEASE)){")
+}else{
+            out.println("            sharedLib (listOf(DEBUG)){")
+}
+            out.println("                baseName = \"${modulePrefix}\"")
             out.println("            }")
+}else{
+if(releaseMode){
+            out.println("            executable(listOf(RELEASE)) {")
+}else{
+            out.println("            executable(listOf(DEBUG)) {")
+}
+            out.println("            }")
+
+}
             out.println("        }")
             out.println("    }")
         }
@@ -446,8 +463,21 @@ fun createBuildFileForModule(args: Array<String>) {
         }
         if (platform == "linuxX64") {
             try {
+if(buildLibrary){
+if(releaseMode){
                 Files.copy(Paths.get("build-cache/build-${shortFolder}/bin/linuxX64/releaseShared/lib${moduleName}.so"), Paths.get("build-cache/bin/lib${moduleName}-linuxX64.so"), StandardCopyOption.REPLACE_EXISTING)
                 Files.copy(Paths.get("build-cache/build-${shortFolder}/bin/linuxX64/releaseShared/lib${moduleName}_api.h"), Paths.get("build-cache/bin/lib${moduleName}-linuxX64.h"), StandardCopyOption.REPLACE_EXISTING)
+}else{
+                Files.copy(Paths.get("build-cache/build-${shortFolder}/bin/linuxX64/debugShared/lib${moduleName}.so"), Paths.get("build-cache/bin/lib${moduleName}-linuxX64.so"), StandardCopyOption.REPLACE_EXISTING)
+                Files.copy(Paths.get("build-cache/build-${shortFolder}/bin/linuxX64/debugShared/lib${moduleName}_api.h"), Paths.get("build-cache/bin/lib${moduleName}-linuxX64.h"), StandardCopyOption.REPLACE_EXISTING)
+}
+}else{
+if(releaseMode){
+                Files.copy(Paths.get("build-cache/build-${shortFolder}/bin/linuxX64/releaseShared/lib${moduleName}.kexe"), Paths.get("build-cache/bin/lib${moduleName}-linuxX64.kexe"), StandardCopyOption.REPLACE_EXISTING)
+}else{
+                Files.copy(Paths.get("build-cache/build-${shortFolder}/bin/linuxX64/debugShared/lib${moduleName}.kexe"), Paths.get("build-cache/bin/lib${moduleName}-linuxX64.kexe"), StandardCopyOption.REPLACE_EXISTING)
+}
+}
             } catch (e: Throwable) {
                 e.printStackTrace()
             }
