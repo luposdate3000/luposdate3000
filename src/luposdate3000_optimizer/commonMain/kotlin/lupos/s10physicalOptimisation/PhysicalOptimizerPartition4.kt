@@ -1,5 +1,5 @@
 package lupos.s10physicalOptimisation
-
+import lupos.s00misc.USE_PARTITIONS
 import lupos.s00misc.DontCareWhichException
 import lupos.s00misc.EOptimizerID
 import lupos.s00misc.Partition
@@ -26,7 +26,7 @@ import lupos.s15tripleStoreDistributed.TripleStoreIteratorGlobal
 
 class PhysicalOptimizerPartition4(query: Query) : OptimizerBase(query, EOptimizerID.PhysicalOptimizerPartition4ID) {
     override val classname = "PhysicalOptimizerPartition4"
-    fun getNumberOfEnclosingPartitions(node: IOPBase): Int {
+internal    fun getNumberOfEnclosingPartitions(node: IOPBase): Int {
         var count = 1
         val childs = node.getChildren()
         if (childs.size > 0) {
@@ -46,6 +46,7 @@ class PhysicalOptimizerPartition4(query: Query) : OptimizerBase(query, EOptimize
 
     override suspend fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
         var res = node
+if (USE_PARTITIONS && Partition.default_k > 1) {
         when (node) {
             is POPSplitPartitionFromStore -> {
                 val tmp = query.partitionOperatorCount[node.partitionID]
@@ -156,6 +157,7 @@ class PhysicalOptimizerPartition4(query: Query) : OptimizerBase(query, EOptimize
                 }
             }
         }
+}
         return res
     }
 }

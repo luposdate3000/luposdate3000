@@ -2,6 +2,13 @@ package lupos.s00misc
 
 internal actual object IntegerExt {
     inline actual fun numberOfLeadingZeros(value: Int): Int {
-        throw  NotImplementedException("IntegerExt", "numberOfLeadingZeros")
+        var i = 31
+        while (i >= 0) {
+            if (value and (1 shl i) != 0) {
+                return 31 - i
+            }
+            i--
+        }
+        return 32
     }
 }

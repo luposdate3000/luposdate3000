@@ -457,7 +457,12 @@ fun createBuildFileForModule(args: Array<String>) {
             e.printStackTrace()
         }
         try {
-            Files.copy(Paths.get("build-cache/build-${shortFolder}/js/packages/${moduleName}/kotlin/${moduleName}.js"), Paths.get("build-cache/bin/${moduleName}-js.js"), StandardCopyOption.REPLACE_EXISTING)
+            Files.copy(Paths.get("build-cache/build-${shortFolder}/js/packages/${moduleName}/kotlin/${moduleName}.js"), Paths.get("build-cache/bin/${moduleName}.js"), StandardCopyOption.REPLACE_EXISTING)
+        } catch (e: Throwable) {
+            e.printStackTrace()
+        }
+        try {
+            Files.copy(Paths.get("build-cache/build-${shortFolder}/js/packages/${moduleName}/kotlin/${moduleName}.js.map"), Paths.get("build-cache/bin/${moduleName}.js.map"), StandardCopyOption.REPLACE_EXISTING)
         } catch (e: Throwable) {
             e.printStackTrace()
         }
@@ -465,17 +470,17 @@ fun createBuildFileForModule(args: Array<String>) {
             try {
                 if (buildLibrary) {
                     if (releaseMode) {
-                        Files.copy(Paths.get("build-cache/build-${shortFolder}/bin/linuxX64/releaseShared/lib${moduleName}.so"), Paths.get("build-cache/bin/lib${moduleName}-linuxX64.so"), StandardCopyOption.REPLACE_EXISTING)
-                        Files.copy(Paths.get("build-cache/build-${shortFolder}/bin/linuxX64/releaseShared/lib${moduleName}_api.h"), Paths.get("build-cache/bin/lib${moduleName}-linuxX64.h"), StandardCopyOption.REPLACE_EXISTING)
+                        Files.copy(Paths.get("build-cache/build-${shortFolder}/bin/linuxX64/releaseShared/lib${modulePrefix}.so"), Paths.get("build-cache/bin/lib${moduleName}.so"), StandardCopyOption.REPLACE_EXISTING)
+                        Files.copy(Paths.get("build-cache/build-${shortFolder}/bin/linuxX64/releaseShared/lib${modulePrefix}_api.h"), Paths.get("build-cache/bin/lib${moduleName}.h"), StandardCopyOption.REPLACE_EXISTING)
                     } else {
-                        Files.copy(Paths.get("build-cache/build-${shortFolder}/bin/linuxX64/debugShared/lib${moduleName}.so"), Paths.get("build-cache/bin/lib${moduleName}-linuxX64.so"), StandardCopyOption.REPLACE_EXISTING)
-                        Files.copy(Paths.get("build-cache/build-${shortFolder}/bin/linuxX64/debugShared/lib${moduleName}_api.h"), Paths.get("build-cache/bin/lib${moduleName}-linuxX64.h"), StandardCopyOption.REPLACE_EXISTING)
+                        Files.copy(Paths.get("build-cache/build-${shortFolder}/bin/linuxX64/debugShared/lib${modulePrefix}.so"), Paths.get("build-cache/bin/lib${moduleName}.so"), StandardCopyOption.REPLACE_EXISTING)
+                        Files.copy(Paths.get("build-cache/build-${shortFolder}/bin/linuxX64/debugShared/lib${modulePrefix}_api.h"), Paths.get("build-cache/bin/lib${moduleName}.h"), StandardCopyOption.REPLACE_EXISTING)
                     }
                 } else {
                     if (releaseMode) {
-                        Files.copy(Paths.get("build-cache/build-${shortFolder}/bin/linuxX64/releaseExecutable/${moduleName}.kexe"), Paths.get("build-cache/bin/lib${moduleName}-linuxX64.kexe"), StandardCopyOption.REPLACE_EXISTING)
+                        Files.copy(Paths.get("build-cache/build-${shortFolder}/bin/linuxX64/releaseExecutable/${modulePrefix}.kexe"), Paths.get("build-cache/bin/lib${moduleName}.kexe"), StandardCopyOption.REPLACE_EXISTING)
                     } else {
-                        Files.copy(Paths.get("build-cache/build-${shortFolder}/bin/linuxX64/debugExecutable/${moduleName}.kexe"), Paths.get("build-cache/bin/lib${moduleName}-linuxX64.kexe"), StandardCopyOption.REPLACE_EXISTING)
+                        Files.copy(Paths.get("build-cache/build-${shortFolder}/bin/linuxX64/debugExecutable/${modulePrefix}.kexe"), Paths.get("build-cache/bin/lib${moduleName}.kexe"), StandardCopyOption.REPLACE_EXISTING)
                     }
                 }
             } catch (e: Throwable) {

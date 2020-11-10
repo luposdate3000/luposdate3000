@@ -6,7 +6,7 @@ internal actual object ParallelThread {
     }
 
     actual inline fun launch(crossinline action: () -> Unit): ParallelThreadJob = throw  NotImplementedException("ParallelThread", "launch not implemented")
-    actual inline fun delay(milliseconds: Long): Unit = throw  NotImplementedException("ParallelThread", "delay not implemented")
+    actual inline fun delay(milliseconds: Long): Unit {}
     actual inline fun createCondition(lock: MyLock): ParallelThreadCondition {
         return ParallelThreadCondition(lock)
     }
