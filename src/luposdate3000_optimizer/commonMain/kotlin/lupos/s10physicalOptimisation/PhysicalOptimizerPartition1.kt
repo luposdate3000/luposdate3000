@@ -37,21 +37,18 @@ if (USE_PARTITIONS && Partition.default_k > 1) {
                         res = POPReduced(query, c.projectedVariables, POPSplitPartition(query, c.children[0].getProvidedVariableNames(), node.partitionVariable, node.partitionCount, node.partitionID, c.children[0]))
                         query.removePartitionOperator(node.getUUID(), node.partitionID)
                         query.addPartitionOperator(res.children[0].getUUID(), node.partitionID)
-                        println("change ${node.getUUID()} 10")
                         onChange()
                     }
                     is POPProjection -> {
                         res = POPProjection(query, c.projectedVariables, POPSplitPartition(query, c.children[0].getProvidedVariableNames(), node.partitionVariable, node.partitionCount, node.partitionID, c.children[0]))
                         query.removePartitionOperator(node.getUUID(), node.partitionID)
                         query.addPartitionOperator(res.children[0].getUUID(), node.partitionID)
-                        println("change ${node.getUUID()} 11")
                         onChange()
                     }
                     is POPFilter -> {
                         res = POPFilter(query, c.projectedVariables, c.children[1] as AOPBase, POPSplitPartition(query, c.children[0].getProvidedVariableNames(), node.partitionVariable, node.partitionCount, node.partitionID, c.children[0]))
                         query.removePartitionOperator(node.getUUID(), node.partitionID)
                         query.addPartitionOperator(res.children[0].getUUID(), node.partitionID)
-                        println("change ${node.getUUID()} 12")
                         onChange()
                     }
                     is TripleStoreIteratorGlobal -> {
@@ -64,7 +61,6 @@ if (USE_PARTITIONS && Partition.default_k > 1) {
                                     c.partition.limit[node.partitionVariable] = node.partitionCount
                                     query.removePartitionOperator(node.getUUID(), node.partitionID)
                                     query.addPartitionOperator(res.getUUID(), node.partitionID)
-                                    println("change ${node.getUUID()} 13")
                                     onChange()
                                 }
                             } catch (e: DontCareWhichException) {

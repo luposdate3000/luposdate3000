@@ -38,11 +38,15 @@ actual object HttpEndpointLauncher {
     }
 
     actual suspend fun start(hostname: String, port: Int) {
+println("call start on the launcher")
         try {
             val server = ServerSocket()
+println("created serversocket")
             server.bind(InetSocketAddress(hostname, port))
+println("bound server socket $hostname $port")
             while (true) {
                 val connection = server.accept()
+println("get connection")
                 Thread {
                     Parallel.runBlocking {
 //                        var timertotal = DateHelperRelative.markNow()

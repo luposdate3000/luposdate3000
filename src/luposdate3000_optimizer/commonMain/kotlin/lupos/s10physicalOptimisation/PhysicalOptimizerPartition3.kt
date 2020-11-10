@@ -61,7 +61,6 @@ if (USE_PARTITIONS && Partition.default_k > 1) {
                 val partitions = distributedTripleStore.getLocalStore().getDefaultGraph(query).getEnabledPartitions()
                 for (p in partitions) {
                     if (p.index.contains(idx) && p.column == partitionColumn) {
-                        println("${p.partitionCount}")
                         if (count == -1 || (p.partitionCount >= count && p.partitionCount <= node.partitionCount)) {
                             count = p.partitionCount
                         }
@@ -78,7 +77,6 @@ if (USE_PARTITIONS && Partition.default_k > 1) {
                     query.addPartitionOperator(node.getUUID(), node.partitionID)
                     query.addPartitionOperator(res.getUUID(), res.partitionIDTo)
                     query.addPartitionOperator(res.getUUID(), res.partitionIDFrom)
-                    println("change ${res.getUUID()} ${node.getUUID()} X")
                     onChange()
                 }
             }
@@ -89,21 +87,18 @@ if (USE_PARTITIONS && Partition.default_k > 1) {
                     query.removePartitionOperator(c.getUUID(), c.partitionID)
                     query.addPartitionOperator(res.getUUID(), c.partitionID)
                     query.partitionOperatorCount.clear()
-                    println("change ${c.getUUID()} A")
                     onChange()
                 } else if (c is POPMergePartitionOrderedByIntId) {
                     res = POPMergePartitionOrderedByIntId(query, node.projectedVariables, c.partitionVariable, c.partitionCount, c.partitionID, POPBind(query, node.projectedVariables, node.name, node.children[1] as AOPBase, c.children[0]))
                     query.removePartitionOperator(c.getUUID(), c.partitionID)
                     query.addPartitionOperator(res.getUUID(), c.partitionID)
                     query.partitionOperatorCount.clear()
-                    println("change ${c.getUUID()} B")
                     onChange()
                 } else if (c is POPMergePartitionCount) {
                     res = POPMergePartitionCount(query, node.projectedVariables, c.partitionVariable, c.partitionCount, c.partitionID, POPBind(query, node.projectedVariables, node.name, node.children[1] as AOPBase, c.children[0]))
                     query.removePartitionOperator(c.getUUID(), c.partitionID)
                     query.addPartitionOperator(res.getUUID(), c.partitionID)
                     query.partitionOperatorCount.clear()
-                    println("change ${c.getUUID()} C")
                     onChange()
                 }
             }
@@ -159,7 +154,6 @@ if (USE_PARTITIONS && Partition.default_k > 1) {
                             query.removePartitionOperator(c1.getUUID(), columnID)
                             query.addPartitionOperator(res.getUUID(), columnID)
                             query.partitionOperatorCount.clear()
-                            println("change ${c0.getUUID()} ${c1.getUUID()} D")
                             onChange()
                         } else if (modeC0 == 2) {
                             res = POPMergePartitionOrderedByIntId(query, node.projectedVariables, columnNameC0, columnCountC0, columnID, POPUnion(query, node.projectedVariables, c0.getChildren()[0], c1.getChildren()[0]))
@@ -167,7 +161,6 @@ if (USE_PARTITIONS && Partition.default_k > 1) {
                             query.removePartitionOperator(c1.getUUID(), columnID)
                             query.addPartitionOperator(res.getUUID(), columnID)
                             query.partitionOperatorCount.clear()
-                            println("change ${c0.getUUID()} ${c1.getUUID()} E")
                             onChange()
                         } else if (modeC0 == 3) {
                             res = POPMergePartitionCount(query, node.projectedVariables, columnNameC0, columnCountC0, columnID, POPUnion(query, node.projectedVariables, c0.getChildren()[0], c1.getChildren()[0]))
@@ -175,7 +168,6 @@ if (USE_PARTITIONS && Partition.default_k > 1) {
                             query.removePartitionOperator(c1.getUUID(), columnID)
                             query.addPartitionOperator(res.getUUID(), columnID)
                             query.partitionOperatorCount.clear()
-                            println("change ${c0.getUUID()} ${c1.getUUID()} F")
                             onChange()
                         } else {
                             throw Exception("not reachable - implementation error")
@@ -192,21 +184,18 @@ if (USE_PARTITIONS && Partition.default_k > 1) {
                     query.removePartitionOperator(c.getUUID(), c.partitionID)
                     query.addPartitionOperator(res.getUUID(), c.partitionID)
                     query.partitionOperatorCount.clear()
-                    println("change ${c.getUUID()} G")
                     onChange()
                 } else if (c is POPMergePartitionOrderedByIntId) {
                     res = POPMergePartitionOrderedByIntId(query, node.projectedVariables, c.partitionVariable, c.partitionCount, c.partitionID, POPProjection(query, node.projectedVariables, c.children[0]))
                     query.removePartitionOperator(c.getUUID(), c.partitionID)
                     query.addPartitionOperator(res.getUUID(), c.partitionID)
                     query.partitionOperatorCount.clear()
-                    println("change ${c.getUUID()} H")
                     onChange()
                 } else if (c is POPMergePartitionCount) {
                     res = POPMergePartitionCount(query, node.projectedVariables, c.partitionVariable, c.partitionCount, c.partitionID, POPProjection(query, node.projectedVariables, c.children[0]))
                     query.removePartitionOperator(c.getUUID(), c.partitionID)
                     query.addPartitionOperator(res.getUUID(), c.partitionID)
                     query.partitionOperatorCount.clear()
-                    println("change ${c.getUUID()} I")
                     onChange()
                 }
             }
@@ -217,21 +206,18 @@ if (USE_PARTITIONS && Partition.default_k > 1) {
                     query.removePartitionOperator(c.getUUID(), c.partitionID)
                     query.addPartitionOperator(res.getUUID(), c.partitionID)
                     query.partitionOperatorCount.clear()
-                    println("change ${c.getUUID()} J")
                     onChange()
                 } else if (c is POPMergePartitionOrderedByIntId) {
                     res = POPMergePartitionOrderedByIntId(query, node.projectedVariables, c.partitionVariable, c.partitionCount, c.partitionID, POPReduced(query, node.projectedVariables, c.children[0]))
                     query.removePartitionOperator(c.getUUID(), c.partitionID)
                     query.addPartitionOperator(res.getUUID(), c.partitionID)
                     query.partitionOperatorCount.clear()
-                    println("change ${c.getUUID()} K")
                     onChange()
                 } else if (c is POPMergePartitionCount) {
                     res = POPMergePartitionCount(query, node.projectedVariables, c.partitionVariable, c.partitionCount, c.partitionID, POPReduced(query, node.projectedVariables, c.children[0]))
                     query.removePartitionOperator(c.getUUID(), c.partitionID)
                     query.addPartitionOperator(res.getUUID(), c.partitionID)
                     query.partitionOperatorCount.clear()
-                    println("change ${c.getUUID()} L")
                     onChange()
                 }
             }
@@ -242,21 +228,18 @@ if (USE_PARTITIONS && Partition.default_k > 1) {
                     query.removePartitionOperator(c.getUUID(), c.partitionID)
                     query.addPartitionOperator(res.getUUID(), c.partitionID)
                     query.partitionOperatorCount.clear()
-                    println("change ${c.getUUID()} M")
                     onChange()
                 } else if (c is POPMergePartitionOrderedByIntId) {
                     res = POPMergePartitionOrderedByIntId(query, node.projectedVariables, c.partitionVariable, c.partitionCount, c.partitionID, POPFilter(query, node.projectedVariables, node.children[1] as AOPBase, c.children[0]))
                     query.removePartitionOperator(c.getUUID(), c.partitionID)
                     query.addPartitionOperator(res.getUUID(), c.partitionID)
                     query.partitionOperatorCount.clear()
-                    println("change ${c.getUUID()} N")
                     onChange()
                 } else if (c is POPMergePartitionCount) {
                     res = POPMergePartitionCount(query, node.projectedVariables, c.partitionVariable, c.partitionCount, c.partitionID, POPFilter(query, node.projectedVariables, node.children[1] as AOPBase, c.children[0]))
                     query.removePartitionOperator(c.getUUID(), c.partitionID)
                     query.addPartitionOperator(res.getUUID(), c.partitionID)
                     query.partitionOperatorCount.clear()
-                    println("change ${c.getUUID()} O")
                     onChange()
                 }
             }
@@ -272,7 +255,6 @@ if (USE_PARTITIONS && Partition.default_k > 1) {
                                 query.removePartitionOperator(node.getUUID(), node.partitionID)
                                 query.mergePartitionOperator(node.partitionID, c.partitionID, res)
                                 query.partitionOperatorCount.clear()
-                                println("change ${node.getUUID()} ${c.getUUID()} P")
                                 onChange()
                             } else if (node.partitionCount < c.partitionCount) {
                                 query.removePartitionOperator(c.getUUID(), c.partitionID)
@@ -292,7 +274,6 @@ if (USE_PARTITIONS && Partition.default_k > 1) {
                                 query.removePartitionOperator(node.getUUID(), node.partitionID)
                                 query.mergePartitionOperator(node.partitionID, c.partitionID, res)
                                 query.partitionOperatorCount.clear()
-                                println("change ${node.getUUID()} ${c.getUUID()} Q")
                                 onChange()
                             } else if (node.partitionCount < c.partitionCount) {
                                 query.removePartitionOperator(c.getUUID(), c.partitionID)
@@ -312,7 +293,6 @@ if (USE_PARTITIONS && Partition.default_k > 1) {
                                 query.removePartitionOperator(node.getUUID(), node.partitionID)
                                 query.mergePartitionOperator(node.partitionID, c.partitionID, res)
                                 query.partitionOperatorCount.clear()
-                                println("change ${node.getUUID()} ${c.getUUID()} R")
                                 onChange()
                             }
                         }
@@ -322,7 +302,6 @@ if (USE_PARTITIONS && Partition.default_k > 1) {
                         query.removePartitionOperator(node.getUUID(), node.partitionID)
                         query.addPartitionOperator(res.children[0].getUUID(), node.partitionID)
                         query.partitionOperatorCount.clear()
-                        println("change ${node.getUUID()} S")
                         onChange()
                     }
                     is POPProjection -> {
@@ -330,7 +309,6 @@ if (USE_PARTITIONS && Partition.default_k > 1) {
                         query.removePartitionOperator(node.getUUID(), node.partitionID)
                         query.addPartitionOperator(res.children[0].getUUID(), node.partitionID)
                         query.partitionOperatorCount.clear()
-                        println("change ${node.getUUID()} T")
                         onChange()
                     }
                     is POPFilter -> {
@@ -338,7 +316,6 @@ if (USE_PARTITIONS && Partition.default_k > 1) {
                         query.removePartitionOperator(node.getUUID(), node.partitionID)
                         query.addPartitionOperator(res.children[0].getUUID(), node.partitionID)
                         query.partitionOperatorCount.clear()
-                        println("change ${node.getUUID()} U")
                         onChange()
                     }
                     is TripleStoreIteratorGlobal -> {
@@ -352,7 +329,6 @@ if (USE_PARTITIONS && Partition.default_k > 1) {
                                     query.removePartitionOperator(node.getUUID(), node.partitionID)
                                     query.addPartitionOperator(res.getUUID(), node.partitionID)
                                     query.partitionOperatorCount.clear()
-                                    println("change ${node.getUUID()} V")
                                     onChange()
                                 }
                             } catch (e: DontCareWhichException) {

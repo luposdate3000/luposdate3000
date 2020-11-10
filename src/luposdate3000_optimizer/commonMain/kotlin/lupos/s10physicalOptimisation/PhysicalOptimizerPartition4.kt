@@ -52,7 +52,6 @@ if (USE_PARTITIONS && Partition.default_k > 1) {
                 val tmp = query.partitionOperatorCount[node.partitionID]
                 if (tmp != null && tmp != node.partitionCount) {
                     node.partitionCount = tmp
-                    println("change ${node.getUUID()} 6")
                     onChange()
                 }
                 query.partitionOperatorCount[node.partitionID] = node.partitionCount
@@ -61,10 +60,8 @@ if (USE_PARTITIONS && Partition.default_k > 1) {
                 if (count > Partition.default_k) {
                     val reduceFactor = count / Partition.default_k
                     if (reduceFactor > node.partitionCount) {
-                        println("DEBUG a ${node.uuid} ${count} ${node.partitionCount} ${Partition.default_k} ${count / Partition.default_k} ${node.partitionCount / (count / Partition.default_k)}")
                         newCount = 1
                     } else {
-                        println("DEBUG b ${node.uuid} ${count} ${node.partitionCount} ${Partition.default_k} ${count / Partition.default_k} ${node.partitionCount / (count / Partition.default_k)}")
                         newCount = node.partitionCount / reduceFactor
                     }
                 }
@@ -78,7 +75,6 @@ if (USE_PARTITIONS && Partition.default_k > 1) {
                 val tmp = query.partitionOperatorCount[node.partitionID]
                 if (tmp != null && tmp != node.partitionCount) {
                     node.partitionCount = tmp
-                    println("change ${node.getUUID()} 6")
                     onChange()
                 }
                 query.partitionOperatorCount[node.partitionID] = node.partitionCount
@@ -87,10 +83,8 @@ if (USE_PARTITIONS && Partition.default_k > 1) {
                 if (count > Partition.default_k) {
                     val reduceFactor = count / Partition.default_k
                     if (reduceFactor > node.partitionCount) {
-                        println("DEBUG c ${node.uuid} ${count} ${node.partitionCount} ${Partition.default_k} ${count / Partition.default_k} ${node.partitionCount / (count / Partition.default_k)}")
                         newCount = 1
                     } else {
-                        println("DEBUG d ${node.uuid} ${count} ${node.partitionCount} ${Partition.default_k} ${count / Partition.default_k} ${node.partitionCount / (count / Partition.default_k)}")
                         newCount = node.partitionCount / reduceFactor
                     }
                 }
@@ -104,7 +98,6 @@ if (USE_PARTITIONS && Partition.default_k > 1) {
                 val tmp = query.partitionOperatorCount[node.partitionID]
                 if (tmp != null && tmp != node.partitionCount) {
                     node.partitionCount = tmp
-                    println("change ${node.getUUID()} 6")
                     onChange()
                 }
             }
@@ -112,7 +105,6 @@ if (USE_PARTITIONS && Partition.default_k > 1) {
                 val tmp = query.partitionOperatorCount[node.partitionID]
                 if (tmp != null && tmp != node.partitionCount) {
                     node.partitionCount = tmp
-                    println("change ${node.getUUID()} 6")
                     onChange()
                 }
             }
@@ -120,7 +112,6 @@ if (USE_PARTITIONS && Partition.default_k > 1) {
                 val tmp = query.partitionOperatorCount[node.partitionID]
                 if (tmp != null && tmp != node.partitionCount) {
                     node.partitionCount = tmp
-                    println("change ${node.getUUID()} 6")
                     onChange()
                 }
             }
@@ -128,13 +119,11 @@ if (USE_PARTITIONS && Partition.default_k > 1) {
                 val tmp = query.partitionOperatorCount[node.partitionIDFrom]
                 if (tmp != null && tmp != node.partitionCountFrom) {
                     node.partitionCountFrom = tmp
-                    println("change ${node.getUUID()} 6")
                     onChange()
                 }
                 val tmp2 = query.partitionOperatorCount[node.partitionIDTo]
                 if (tmp2 != null && tmp2 != node.partitionCountTo) {
                     node.partitionCountTo = tmp2
-                    println("change ${node.getUUID()} 6")
                     onChange()
                 }
                 query.partitionOperatorCount[node.partitionIDTo] = node.partitionCountTo
@@ -143,10 +132,8 @@ if (USE_PARTITIONS && Partition.default_k > 1) {
                 if (count > Partition.default_k) {
                     val reduceFactor = count / Partition.default_k
                     if (reduceFactor > node.partitionCountTo) {
-                        println("DEBUG g ${node.uuid} ${count} ${node.partitionCountTo} ${Partition.default_k} ${count / Partition.default_k} ${node.partitionCountTo / (count / Partition.default_k)}")
                         newCount = 1
                     } else {
-                        println("DEBUG h ${node.uuid} ${count} ${node.partitionCountTo} ${Partition.default_k} ${count / Partition.default_k} ${node.partitionCountTo / (count / Partition.default_k)}")
                         newCount = node.partitionCountTo / reduceFactor
                     }
                 }
