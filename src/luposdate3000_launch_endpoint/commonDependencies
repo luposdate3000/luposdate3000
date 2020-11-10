@@ -9,4 +9,4 @@ luposdate3000:Luposdate3000_Triple_Store_Id_Triple:0.0.1
 luposdate3000:Luposdate3000_Result_Format:0.0.1
 luposdate3000:Luposdate3000_Triple_Store_All:0.0.1
 luposdate3000:Luposdate3000_Jena_Wrapper_Off:0.0.1
-luposdate3000:Luposdate3000_Optimizer:0.0.1
+luposdate3000:Luposdate3000_Optimizer_WithPartitions:0.0.1
