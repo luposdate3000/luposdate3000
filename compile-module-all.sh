@@ -20,7 +20,9 @@ ret=$? ; if [ $ret -ne 0 ] ; then exit $ret ; fi
 ret=$? ; if [ $ret -ne 0 ] ; then exit $ret ; fi
 ./generate-buildfile-module.kts --module="Luposdate3000_Triple_Store_All" --inline --nosuspend --debug
 ret=$? ; if [ $ret -ne 0 ] ; then exit $ret ; fi
-./generate-buildfile-module.kts --module="Luposdate3000_Optimizer"  --inline --nosuspend --debug
+./generate-buildfile-module.kts --module="Luposdate3000_Optimizer_WithPartitions" --src="src/luposdate3000_optimizer" --prefix="Luposdate3000_Optimizer" --inline --nosuspend --debug --USE_PARTITIONS=true
+ret=$? ; if [ $ret -ne 0 ] ; then exit $ret ; fi
+./generate-buildfile-module.kts --module="Luposdate3000_Optimizer_NoPartitions" --src="src/luposdate3000_optimizer" --prefix="Luposdate3000_Optimizer" --inline --nosuspend --debug --USE_PARTITIONS=false
 ret=$? ; if [ $ret -ne 0 ] ; then exit $ret ; fi
 ./generate-buildfile-module.kts --module="Luposdate3000_Endpoint" --inline --nosuspend --debug
 ret=$? ; if [ $ret -ne 0 ] ; then exit $ret ; fi

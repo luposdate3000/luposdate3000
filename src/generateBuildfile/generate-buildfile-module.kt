@@ -468,7 +468,12 @@ if(onWindows){
             e.printStackTrace()
         }
         try {
-            Files.copy(Paths.get("build-cache${pathSeparator}build-${shortFolder}${pathSeparator}js${pathSeparator}packages${pathSeparator}${moduleName}${pathSeparator}kotlin${pathSeparator}${moduleName}.js"), Paths.get("build-cache${pathSeparator}bin${pathSeparator}${moduleName}-js.js"), StandardCopyOption.REPLACE_EXISTING)
+            Files.copy(Paths.get("build-cache${pathSeparator}build-${shortFolder}${pathSeparator}js${pathSeparator}packages${pathSeparator}${moduleName}${pathSeparator}kotlin${pathSeparator}${moduleName}.js"), Paths.get("build-cache${pathSeparator}bin${pathSeparator}${moduleName}.js"), StandardCopyOption.REPLACE_EXISTING)
+        } catch (e: Throwable) {
+            e.printStackTrace()
+        }
+        try {
+            Files.copy(Paths.get("build-cache${pathSeparator}build-${shortFolder}${pathSeparator}js${pathSeparator}packages${pathSeparator}${moduleName}${pathSeparator}kotlin${pathSeparator}${moduleName}.js.map"), Paths.get("build-cache${pathSeparator}bin${pathSeparator}${moduleName}.js.map"), StandardCopyOption.REPLACE_EXISTING)
         } catch (e: Throwable) {
             e.printStackTrace()
         }
@@ -476,11 +481,11 @@ if(onWindows){
             try {
                 if (buildLibrary) {
                     if (releaseMode) {
-                        Files.copy(Paths.get("build-cache${pathSeparator}build-${shortFolder}${pathSeparator}bin${pathSeparator}linuxX64${pathSeparator}releaseShared${pathSeparator}lib${moduleName}.so"), Paths.get("build-cache${pathSeparator}bin${pathSeparator}lib${moduleName}-linuxX64.so"), StandardCopyOption.REPLACE_EXISTING)
-                        Files.copy(Paths.get("build-cache${pathSeparator}build-${shortFolder}${pathSeparator}bin${pathSeparator}linuxX64${pathSeparator}releaseShared${pathSeparator}lib${moduleName}_api.h"), Paths.get("build-cache${pathSeparator}bin${pathSeparator}lib${moduleName}-linuxX64.h"), StandardCopyOption.REPLACE_EXISTING)
+                        Files.copy(Paths.get("build-cache${pathSeparator}build-${shortFolder}${pathSeparator}bin${pathSeparator}linuxX64${pathSeparator}releaseShared${pathSeparator}lib${modulePrefix}.so"), Paths.get("build-cache${pathSeparator}bin${pathSeparator}lib${moduleName}-linuxX64.so"), StandardCopyOption.REPLACE_EXISTING)
+                        Files.copy(Paths.get("build-cache${pathSeparator}build-${shortFolder}${pathSeparator}bin${pathSeparator}linuxX64${pathSeparator}releaseShared${pathSeparator}lib${modulePrefix}_api.h"), Paths.get("build-cache${pathSeparator}bin${pathSeparator}lib${moduleName}-linuxX64.h"), StandardCopyOption.REPLACE_EXISTING)
                     } else {
-                        Files.copy(Paths.get("build-cache${pathSeparator}build-${shortFolder}${pathSeparator}bin${pathSeparator}linuxX64${pathSeparator}debugShared${pathSeparator}lib${moduleName}.so"), Paths.get("build-cache${pathSeparator}bin${pathSeparator}lib${moduleName}-linuxX64.so"), StandardCopyOption.REPLACE_EXISTING)
-                        Files.copy(Paths.get("build-cache${pathSeparator}build-${shortFolder}${pathSeparator}bin${pathSeparator}linuxX64${pathSeparator}debugShared${pathSeparator}lib${moduleName}_api.h"), Paths.get("build-cache${pathSeparator}bin${pathSeparator}lib${moduleName}-linuxX64.h"), StandardCopyOption.REPLACE_EXISTING)
+                        Files.copy(Paths.get("build-cache${pathSeparator}build-${shortFolder}${pathSeparator}bin${pathSeparator}linuxX64${pathSeparator}debugShared${pathSeparator}lib${modulePrefix}.so"), Paths.get("build-cache${pathSeparator}bin${pathSeparator}lib${moduleName}-linuxX64.so"), StandardCopyOption.REPLACE_EXISTING)
+                        Files.copy(Paths.get("build-cache${pathSeparator}build-${shortFolder}${pathSeparator}bin${pathSeparator}linuxX64${pathSeparator}debugShared${pathSeparator}lib${modulePrefix}_api.h"), Paths.get("build-cache${pathSeparator}bin${pathSeparator}lib${moduleName}-linuxX64.h"), StandardCopyOption.REPLACE_EXISTING)
                     }
                 } else {
                     if (releaseMode) {

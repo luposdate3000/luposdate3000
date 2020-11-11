@@ -9,16 +9,34 @@ internal actual class MyThreadLock {
 
     val uuid = uuidCounter++
     actual inline fun getUUID() = uuid
+
+    var locked = false
     actual inline fun lock() {
-        throw  NotImplementedException("MyThreadLock", "lock not implemented")
+        SanityCheck {
+            if (locked) {
+                throw Exception("deadlock")
+            }
+            locked = true
+        }
     }
 
     actual inline fun unlock() {
-        throw  NotImplementedException("MyThreadLock", "unlock not implemented")
+        SanityCheck {
+            if (!locked) {
+                throw Exception("unlock without previous lock")
+            }
+            locked = false
+        }
     }
 
     actual inline fun tryLock(): Boolean {
-        throw  NotImplementedException("MyThreadLock", "trylock not implemented")
+        SanityCheck {
+            if (locked) {
+                throw Exception("deadlock")
+            }
+            locked = true
+        }
+        return true
     }
 
     actual inline fun <T> withLock(crossinline action: () -> T): T {

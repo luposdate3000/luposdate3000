@@ -9,28 +9,62 @@ internal actual class MyThreadReadWriteLock {
 
     val uuid = uuidCounter++
     actual inline fun getUUID() = uuid
+    var lockedRead = 0
+    var lockedWrite = false
     actual inline fun downgradeToReadLock() {
-        throw  NotImplementedException("MyThreadReadWriteLock", "downgradeToReadLock not implemented")
+        SanityCheck {
+            if (!lockedWrite) {
+                throw Exception("something went wrong 1")
+            }
+            lockedRead = 1
+            lockedWrite = false
+        }
     }
 
     actual inline fun readLock() {
-        throw  NotImplementedException("MyThreadReadWriteLock", "readLock not implemented")
+        SanityCheck {
+            if (lockedWrite) {
+                throw Exception("something went wrong 2")
+            }
+            lockedRead++
+        }
     }
 
     actual inline fun readUnlock() {
-        throw  NotImplementedException("MyThreadReadWriteLock", "readUnlock not implemented")
+        SanityCheck {
+            if (lockedRead <= 0) {
+                throw Exception("something went wrong 3")
+            }
+            lockedRead--
+        }
     }
 
     actual inline fun writeLock() {
-        throw  NotImplementedException("MyThreadReadWriteLock", "writeLock not implemented")
+        SanityCheck {
+            if (lockedRead > 0 || lockedWrite) {
+                throw Exception("something went wrong 4 ${lockedRead} ${lockedWrite}")
+            }
+            lockedWrite = true
+        }
     }
 
     actual inline fun tryWriteLock(): Boolean {
-        throw  NotImplementedException("MyThreadReadWriteLock", "tryWriteLock not implemented")
+        SanityCheck {
+            if (lockedRead > 0 || lockedWrite) {
+                throw Exception("something went wrong 5 ${lockedRead} ${lockedWrite}")
+            }
+            lockedWrite = true
+        }
+        return true
     }
 
     actual inline fun writeUnlock() {
-        throw  NotImplementedException("MyThreadReadWriteLock", "writeUnlock not implemented")
+        SanityCheck {
+            if (!lockedWrite) {
+                throw Exception("something went wrong 6")
+            }
+            lockedWrite = false
+        }
     }
 
     actual inline fun <T> withReadLock(crossinline action: () -> T): T {

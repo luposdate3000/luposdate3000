@@ -1,5 +1,5 @@
 package lupos.s10physicalOptimisation
-
+import lupos.s00misc.USE_PARTITIONS
 import lupos.s00misc.DontCareWhichException
 import lupos.s00misc.EOptimizerID
 import lupos.s00misc.Partition
@@ -26,7 +26,7 @@ import lupos.s15tripleStoreDistributed.TripleStoreIteratorGlobal
 
 class PhysicalOptimizerPartition4(query: Query) : OptimizerBase(query, EOptimizerID.PhysicalOptimizerPartition4ID) {
     override val classname = "PhysicalOptimizerPartition4"
-    fun getNumberOfEnclosingPartitions(node: IOPBase): Int {
+internal    fun getNumberOfEnclosingPartitions(node: IOPBase): Int {
         var count = 1
         val childs = node.getChildren()
         if (childs.size > 0) {
@@ -46,12 +46,12 @@ class PhysicalOptimizerPartition4(query: Query) : OptimizerBase(query, EOptimize
 
     override suspend fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
         var res = node
+if (USE_PARTITIONS && Partition.default_k > 1) {
         when (node) {
             is POPSplitPartitionFromStore -> {
                 val tmp = query.partitionOperatorCount[node.partitionID]
                 if (tmp != null && tmp != node.partitionCount) {
                     node.partitionCount = tmp
-                    println("change ${node.getUUID()} 6")
                     onChange()
                 }
                 query.partitionOperatorCount[node.partitionID] = node.partitionCount
@@ -60,10 +60,8 @@ class PhysicalOptimizerPartition4(query: Query) : OptimizerBase(query, EOptimize
                 if (count > Partition.default_k) {
                     val reduceFactor = count / Partition.default_k
                     if (reduceFactor > node.partitionCount) {
-                        println("DEBUG a ${node.uuid} ${count} ${node.partitionCount} ${Partition.default_k} ${count / Partition.default_k} ${node.partitionCount / (count / Partition.default_k)}")
                         newCount = 1
                     } else {
-                        println("DEBUG b ${node.uuid} ${count} ${node.partitionCount} ${Partition.default_k} ${count / Partition.default_k} ${node.partitionCount / (count / Partition.default_k)}")
                         newCount = node.partitionCount / reduceFactor
                     }
                 }
@@ -77,7 +75,6 @@ class PhysicalOptimizerPartition4(query: Query) : OptimizerBase(query, EOptimize
                 val tmp = query.partitionOperatorCount[node.partitionID]
                 if (tmp != null && tmp != node.partitionCount) {
                     node.partitionCount = tmp
-                    println("change ${node.getUUID()} 6")
                     onChange()
                 }
                 query.partitionOperatorCount[node.partitionID] = node.partitionCount
@@ -86,10 +83,8 @@ class PhysicalOptimizerPartition4(query: Query) : OptimizerBase(query, EOptimize
                 if (count > Partition.default_k) {
                     val reduceFactor = count / Partition.default_k
                     if (reduceFactor > node.partitionCount) {
-                        println("DEBUG c ${node.uuid} ${count} ${node.partitionCount} ${Partition.default_k} ${count / Partition.default_k} ${node.partitionCount / (count / Partition.default_k)}")
                         newCount = 1
                     } else {
-                        println("DEBUG d ${node.uuid} ${count} ${node.partitionCount} ${Partition.default_k} ${count / Partition.default_k} ${node.partitionCount / (count / Partition.default_k)}")
                         newCount = node.partitionCount / reduceFactor
                     }
                 }
@@ -103,7 +98,6 @@ class PhysicalOptimizerPartition4(query: Query) : OptimizerBase(query, EOptimize
                 val tmp = query.partitionOperatorCount[node.partitionID]
                 if (tmp != null && tmp != node.partitionCount) {
                     node.partitionCount = tmp
-                    println("change ${node.getUUID()} 6")
                     onChange()
                 }
             }
@@ -111,7 +105,6 @@ class PhysicalOptimizerPartition4(query: Query) : OptimizerBase(query, EOptimize
                 val tmp = query.partitionOperatorCount[node.partitionID]
                 if (tmp != null && tmp != node.partitionCount) {
                     node.partitionCount = tmp
-                    println("change ${node.getUUID()} 6")
                     onChange()
                 }
             }
@@ -119,7 +112,6 @@ class PhysicalOptimizerPartition4(query: Query) : OptimizerBase(query, EOptimize
                 val tmp = query.partitionOperatorCount[node.partitionID]
                 if (tmp != null && tmp != node.partitionCount) {
                     node.partitionCount = tmp
-                    println("change ${node.getUUID()} 6")
                     onChange()
                 }
             }
@@ -127,13 +119,11 @@ class PhysicalOptimizerPartition4(query: Query) : OptimizerBase(query, EOptimize
                 val tmp = query.partitionOperatorCount[node.partitionIDFrom]
                 if (tmp != null && tmp != node.partitionCountFrom) {
                     node.partitionCountFrom = tmp
-                    println("change ${node.getUUID()} 6")
                     onChange()
                 }
                 val tmp2 = query.partitionOperatorCount[node.partitionIDTo]
                 if (tmp2 != null && tmp2 != node.partitionCountTo) {
                     node.partitionCountTo = tmp2
-                    println("change ${node.getUUID()} 6")
                     onChange()
                 }
                 query.partitionOperatorCount[node.partitionIDTo] = node.partitionCountTo
@@ -142,10 +132,8 @@ class PhysicalOptimizerPartition4(query: Query) : OptimizerBase(query, EOptimize
                 if (count > Partition.default_k) {
                     val reduceFactor = count / Partition.default_k
                     if (reduceFactor > node.partitionCountTo) {
-                        println("DEBUG g ${node.uuid} ${count} ${node.partitionCountTo} ${Partition.default_k} ${count / Partition.default_k} ${node.partitionCountTo / (count / Partition.default_k)}")
                         newCount = 1
                     } else {
-                        println("DEBUG h ${node.uuid} ${count} ${node.partitionCountTo} ${Partition.default_k} ${count / Partition.default_k} ${node.partitionCountTo / (count / Partition.default_k)}")
                         newCount = node.partitionCountTo / reduceFactor
                     }
                 }
@@ -156,6 +144,7 @@ class PhysicalOptimizerPartition4(query: Query) : OptimizerBase(query, EOptimize
                 }
             }
         }
+}
         return res
     }
 }

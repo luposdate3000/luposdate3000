@@ -1,5 +1,5 @@
 package lupos.s10physicalOptimisation
-
+import lupos.s00misc.USE_PARTITIONS
 import lupos.s00misc.DontCareWhichException
 import lupos.s00misc.EOptimizerID
 import lupos.s00misc.Partition
@@ -28,6 +28,7 @@ class PhysicalOptimizerPartition5(query: Query) : OptimizerBase(query, EOptimize
     override val classname = "PhysicalOptimizerPartition5"
     override suspend fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
         var res = node
+if (USE_PARTITIONS && Partition.default_k > 1) {
         when (node) {
             is POPSplitPartitionFromStore -> {
                 if (node.partitionCount == 1) {
@@ -84,6 +85,7 @@ class PhysicalOptimizerPartition5(query: Query) : OptimizerBase(query, EOptimize
                     onChange()
                 }
             }
+}
         }
         return res
     }
