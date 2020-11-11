@@ -5,7 +5,8 @@ luposdate3000 is a Database which can process sparql-queries.
 ## Installation
 
 This describes how to install the prerequisites for the database
-[readme](documentation/installation/README.md)
+[readme linux](documentation/installation/README-linux.md)
+[readme windows](documentation/installation/README-windows.md)
 
 ## Usage and Compilation
 

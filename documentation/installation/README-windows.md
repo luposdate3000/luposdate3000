@@ -1,0 +1,127 @@
+##Installation on Windows 10
+My windows10 gui is in german, so I do not know the exact english labels in the gui.
+Personally I prefer and therefore use linux.
+If you have some hints to simplify/improve this installation README, let me know.
+The installation for Linux contains additional resources, like benchmark data - which is not essential to build, but may be interesting to have.
+
+download and install git from https://git-scm.com/download/win
+download and unpack java 11 from https://download.java.net/java/GA/jdk11/9/GPL/openjdk-11.0.2_windows-x64_bin.zip
+download and unpack java 15 from https://download.java.net/java/GA/jdk15.0.1/51f4f36ad4ef43e39d0dfdbaf6549e32/9/GPL/openjdk-15.0.1_windows-x64_bin.zip
+download and install java 8 from https://download.oracle.com/otn-pub/java/jdk/8u271-b09/61ae65e088624f5aaa0b1d2d801acb16/jdk-8u271-windows-x64.exe
+yes, there are 3 versions of java, because the dependencies dont like the "wrong" version
+java8 seems to be available as installer only? I someone find a zipped version, let me know
+remember, where you install each java, you will need that path later
+
+## add java to the path
+
+open start-search
+type "env"
+open the suggested program
+click on "environment-variables"
+in the system variables select the row with the variable name "Path"
+below the system variables click on "change"
+click on "new"
+add the path to your java installation - in my case it was "C:\Users\benja\luposdate\jdk-15.0.1\bin"
+make sure your new java path is on top of that list, such that your wanted java version is used - this may break other programs which depend on another java version ...
+click "ok" on every window (3 times)
+restart gitbash, if it is already open
+
+## inside of gitbash:
+
+```gitbash
+#the windows Path-variable does not help here, and JAVA_HOME is completely ignored (correct me if I am wrong)
+#therefore backup the Path first
+export myPathBackup=$PATH
+
+#you may change the directory to whatever you want
+mkdir luposdate
+cd luposdate
+
+git config --global http.sslVerify false
+git config --global credential.helper store
+
+git clone https://github.com/gradle/gradle.git
+cd gradle
+#this enforces Windows to use java 11, because it is found first on the Path ... .
+export PATH="C:\Users\benja\luposdate\jdk-11.0.2\bin:$myPathBackup"
+./gradlew install -Pgradle_installPath="C:\Users\benja\luposdate\bin_gradle"
+export PATH="$myPathBackup"
+```
+
+## add gradle to the path
+open start-search
+type "env"
+open the suggested program
+click on "environment-variables"
+in the system variables select the row with the variable name "Path"
+below the system variables click on "change"
+click on "new"
+add the path you provided above (and append "\bin") - in my case it is "C:\Users\benja\luposdate\bin_gradle\bin"
+click "ok" on every window (3 times)
+
+restart gitbash, if it is still open
+
+## inside of gitbash:
+
+```gitbash
+export myPathBackup=$PATH
+git clone https://github.com/JetBrains/kotlin.git
+cd kotlin
+#you may test the head commit first, but this commit works for me
+git checkout 67b262aa3435c3fd15e1224bfd6a50a0f008d2f3
+#interestingly here the environment variables do effect the used jdk ...
+export JAVA_HOME="C:\Program Files\Java\jdk1.8.0_271"
+export JDK_16="C:\Program Files\Java\jdk1.8.0_271"
+export JDK_17="C:\Program Files\Java\jdk1.8.0_271"
+export JDK_18="C:\Program Files\Java\jdk1.8.0_271"
+export JDK_9="C:\Users\benja\luposdate\jdk-15.0.1"
+./gradlew install
+./gradlew dist
+export PATH="$myPathBackup"
+```
+
+## add kolin compiler to the path
+open start-search
+type "env"
+open the suggested program
+click on "environment-variables"
+in the system variables select the row with the variable name "Path"
+below the system variables click on "change"
+click on "new"
+add the path to the kotlin-compiler The compiler is located in a subfolder of your cloned kotlin repository.
+In my case it is "C:\Users\benja\luposdate\kotlin\dist\kotlinc\bin"
+click "ok" on every window (3 times)
+
+restart gitbash, if it is still open
+
+## inside of gitbash:
+
+```gitbash
+git clone https://github.com/holgerbrandl/kscript.git
+cd kscript
+export myPathBackup=$PATH
+export PATH="C:\Users\benja\luposdate\jdk-11.0.2\bin:$myPathBackup"
+./gradlew assemble
+export PATH="$myPathBackup"
+```
+
+## add kscript wrapper to the path
+open start-search
+type "env"
+open the suggested program
+click on "environment-variables"
+in the system variables select the row with the variable name "Path"
+below the system variables click on "change"
+click on "new"
+add the path to the kscript wrapper. The program is located in a subfolder of your cloned kotlinc repository.
+In my case it is "C:\Users\benja\luposdate\kscript\build\libs"
+click "ok" on every window (3 times)
+
+restart gitbash, if it is still open
+
+## inside of gitbash:
+
+
+```gitbash
+git clone https://sun01.pool.ifis.uni-luebeck.de/groppe/luposdate3000.git
+```

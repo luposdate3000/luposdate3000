@@ -1,4 +1,4 @@
-## Installation
+## Installation on Linux
 
 You can copy paste execute the following script.
 However, there are some commands (with comments), which will run until your disk-space is consumed.
