@@ -2,9 +2,8 @@
 My windows10 gui is in german, so I do not know the exact english labels in the gui.
 Personally I prefer and therefore use linux.
 If you have some hints to simplify/improve this installation README, let me know.
-The installation for Linux contains additional resources, like benchmark data - which is not essential to build, but may be interesting to have.
 I am not sure if every step is required, but it seems like adding the programs to the path is not enough (there are errors when you try to execute them).
-Instead copy paste them into the gitbash "/bin" folder works for me.
+Instead copy paste them into the gitbash "/bin" and "/lib" folders works for me.
 
 download and install git from https://git-scm.com/download/win
 download and unpack java 11 from https://download.java.net/java/GA/jdk11/9/GPL/openjdk-11.0.2_windows-x64_bin.zip
@@ -141,7 +140,6 @@ click "ok" on every window (3 times)
 restart gitbash, if it is still open
 
 ## inside of gitbash:
-
 
 ```gitbash
 git clone https://sun01.pool.ifis.uni-luebeck.de/groppe/luposdate3000.git

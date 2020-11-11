@@ -19,6 +19,8 @@ This describes how to compile the database itself (during development).
 
 ## Benchmarks
 
+[readme - benchmark-data](documentation/README-real-world-benchmark-data.md)
+[readme - other databases](documentation/README-other-databases.md)
 [readme - will be updated soon](documentation/README-benchmarks.md)
 
 ## Configuration
