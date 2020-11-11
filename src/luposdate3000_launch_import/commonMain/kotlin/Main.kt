@@ -26,12 +26,10 @@ fun helper_clean_string(s: String): String {
 
 @UseExperimental(ExperimentalStdlibApi::class, kotlin.time.ExperimentalTime::class)
 fun main(args: Array<String>) = Parallel.runBlocking {
+println("importing args ${args.map{it}}")
 LuposdateEndpoint.initialize()
-    var mode = ImportMode.valueOf(args[0])
-    when (mode) {
-        ImportMode.IMPORT_STRING -> {
             var cnt = 0
-            val inputFileName = args[1]
+            val inputFileName = args[0]
             println("importing $inputFileName start")
             val inputFile = File(inputFileName)
             val dict = mutableMapOf<String, Int>()
@@ -96,9 +94,4 @@ LuposdateEndpoint.initialize()
                 }
             }
             println("importing $inputFileName finish with $cnt triples")
-        }
-        ImportMode.MERGE_INTERMEDIATE -> {
-            throw Exception("outdated")
-        }
-    }
 }
