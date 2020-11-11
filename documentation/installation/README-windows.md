@@ -102,8 +102,12 @@ cd kscript
 export myPathBackup=$PATH
 export PATH="C:\Users\benja\luposdate\jdk-11.0.2\bin:$myPathBackup"
 ./gradlew assemble
-export PATH="$myPathBackup"
+ln -s $(pwd)/build/libs/kscript /bin/kscriptexport PATH="$myPathBackup"
 ```
+
+##copy the kscript binaries into the bin folder of your gitbash installation.
+In my case that means copy the content of the folder "C:\Users\benja\luposdate\kscript\build\libs" into the folder "C:\Program Files\Git\usr\bin"
+This cannot be done inside gitbash, because that folder is mounted as readonly.
 
 ## add kscript wrapper to the path
 open start-search
