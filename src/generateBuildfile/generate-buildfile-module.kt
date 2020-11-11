@@ -38,9 +38,9 @@ pathSeparatorEscaped="/"
             arg == "--fast" -> fastMode = true
             arg == "--dry" -> dryMode = true
             arg.startsWith("--module=") -> moduleName = arg.substring("--module=".length)
-            arg.startsWith("--src=") -> moduleFolder = arg.substring("--src=".length)
+            arg.startsWith("--src=") -> moduleFolder = arg.substring("--src=".length).replace("/",pathSeparator).replace("\\",pathSeparator)
             arg.startsWith("--platform=") -> platform = arg.substring("--platform=".length)
-            arg.startsWith("--prefix=") -> modulePrefix = arg.substring("--prefix=".length)
+            arg.startsWith("--prefix=") -> modulePrefix = arg.substring("--prefix=".length).replace("/",pathSeparator).replace("\\",pathSeparator)
         }
     }
     if (moduleFolder == "") {
