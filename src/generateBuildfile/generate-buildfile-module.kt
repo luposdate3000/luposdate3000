@@ -5,8 +5,18 @@ import java.nio.file.Paths
 import java.nio.file.StandardCopyOption
 
 fun createBuildFileForModule(args: Array<String>) {
-var onWindows=System.getProperty("os.name").contains("Windows")
-var onLinux=!onWindows //TODO this is not correct ...
+val onWindows=System.getProperty("os.name").contains("Windows")
+val onLinux=!onWindows //TODO this is not correct ...
+val pathSeparator:String
+val pathSeparatorEscaped:String
+if(onWindows){
+pathSeparator="\\"
+pathSeparatorEscaped="\\\\"
+}else{
+pathSeparator="/"
+pathSeparatorEscaped="/"
+}
+
     var moduleName = ""
     var moduleFolder = ""
     var modulePrefix = ""
@@ -34,7 +44,7 @@ var onLinux=!onWindows //TODO this is not correct ...
         }
     }
     if (moduleFolder == "") {
-        moduleFolder = "src/${moduleName.toLowerCase()}"
+        moduleFolder = "src${pathSeparator}${moduleName.toLowerCase()}"
     }
     if (modulePrefix == "") {
         modulePrefix = moduleName
@@ -46,18 +56,18 @@ var onLinux=!onWindows //TODO this is not correct ...
     if (!validPlatforms.contains(platform)) {
         throw Exception("unsupported platform $platform")
     }
-    if (moduleFolder.startsWith("/")) {
+    if (moduleFolder.startsWith("/")) {//TODO same for Windows
         throw Exception("only relative paths allowed")
     }
-    var shortFolder = "./${moduleFolder}"
-    shortFolder = shortFolder.substring(shortFolder.lastIndexOf("/") + 1)
+    var shortFolder = "./${moduleFolder}"//TODO does this work as intended on windows
+    shortFolder = shortFolder.substring(shortFolder.lastIndexOf(pathSeparator) + 1)
     File("src.generated").deleteRecursively()
     File("src.generated").mkdirs()
     val p = Paths.get(moduleFolder)
     Files.walk(p, 1).forEach { it ->
         val tmp = it.toString()
         if (tmp.length > p.toString().length) {
-            val idx = tmp.lastIndexOf("/")
+val idx= tmp.lastIndexOf(pathSeparator)
             val f: String
             if (idx >= 0) {
                 f = tmp.substring(idx + 1)
@@ -65,15 +75,15 @@ var onLinux=!onWindows //TODO this is not correct ...
                 f = tmp
             }
             if (f.startsWith("common")) {
-                File(tmp).copyRecursively(File("src.generated/" + f.replace("common.*Main", "commonMain")))
+                File(tmp).copyRecursively(File("src.generated${pathSeparator}" + f.replace("common.*Main", "commonMain")))
             } else if (f.startsWith("jvm")) {
-                File(tmp).copyRecursively(File("src.generated/" + f.replace("jvm.*Main", "jvmMain")))
+                File(tmp).copyRecursively(File("src.generated${pathSeparator}" + f.replace("jvm.*Main", "jvmMain")))
             } else if (f.startsWith("js")) {
-                File(tmp).copyRecursively(File("src.generated/" + f.replace("js.*Main", "jsMain")))
+                File(tmp).copyRecursively(File("src.generated${pathSeparator}" + f.replace("js.*Main", "jsMain")))
             } else if (f.startsWith("native")) {
-                File(tmp).copyRecursively(File("src.generated/" + f.replace("native.*Main", "${platform}Main")))
+                File(tmp).copyRecursively(File("src.generated${pathSeparator}" + f.replace("native.*Main", "${platform}Main")))
             } else if (f.startsWith(platform)) {
-                File(tmp).copyRecursively(File("src.generated/" + f.replace("${platform}.*Main", "${platform}Main")))
+                File(tmp).copyRecursively(File("src.generated${pathSeparator}" + f.replace("${platform}.*Main", "${platform}Main")))
             }
         }
     }
@@ -164,8 +174,8 @@ var onLinux=!onWindows //TODO this is not correct ...
         if (moduleName != "Luposdate3000_Shared") {
             commonDependencies.add("luposdate3000:Luposdate3000_Shared:0.0.1")
         }
-        if (File("${moduleFolder}/commonDependencies").exists()) {
-            File("${moduleFolder}/commonDependencies").forEachLine {
+        if (File("${moduleFolder}${pathSeparator}commonDependencies").exists()) {
+            File("${moduleFolder}${pathSeparator}commonDependencies").forEachLine {
                 if (it.length > 0) {
                     commonDependencies.add(it)
                 }
@@ -183,8 +193,8 @@ var onLinux=!onWindows //TODO this is not correct ...
         out.println("        val jvmMain by getting {")
         out.println("            dependencies {")
         val jvmDependencies = mutableSetOf("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.4.255-SNAPSHOT")
-        if (File("${moduleFolder}/jvmDependencies").exists()) {
-            File("${moduleFolder}/jvmDependencies").forEachLine {
+        if (File("${moduleFolder}${pathSeparator}jvmDependencies").exists()) {
+            File("${moduleFolder}${pathSeparator}jvmDependencies").forEachLine {
                 if (it.length > 0) {
                     jvmDependencies.add(it)
                 }
@@ -203,8 +213,8 @@ var onLinux=!onWindows //TODO this is not correct ...
             out.println("        val jsMain by getting {")
             out.println("            dependencies {")
             val jsDependencies = mutableSetOf("org.jetbrains.kotlin:kotlin-stdlib-js:1.4.255-SNAPSHOT")
-            if (File("${moduleFolder}/jsDependencies").exists()) {
-                File("${moduleFolder}/jsDependencies").forEachLine {
+            if (File("${moduleFolder}${pathSeparator}jsDependencies").exists()) {
+                File("${moduleFolder}${pathSeparator}jsDependencies").forEachLine {
                     if (it.length > 0) {
                         jsDependencies.add(it)
                     }
@@ -222,8 +232,8 @@ var onLinux=!onWindows //TODO this is not correct ...
             out.println("        val ${platform}Main by getting {")
             out.println("            dependencies {")
             val nativeDependencies = mutableSetOf<String>()
-            if (File("${moduleFolder}/nativeDependencies").exists()) {
-                File("${moduleFolder}/nativeDependencies").forEachLine {
+            if (File("${moduleFolder}${pathSeparator}nativeDependencies").exists()) {
+                File("${moduleFolder}${pathSeparator}nativeDependencies").forEachLine {
                     if (it.length > 0) {
                         nativeDependencies.add(it)
                     }
@@ -240,16 +250,16 @@ var onLinux=!onWindows //TODO this is not correct ...
             out.println("        }")
         }
         out.println("    }")
-        out.println("    sourceSets[\"commonMain\"].kotlin.srcDir(\"src.generated/commonMain/kotlin\")")
-        out.println("    sourceSets[\"jvmMain\"].kotlin.srcDir(\"src.generated/jvmMain/kotlin\")")
+        out.println("    sourceSets[\"commonMain\"].kotlin.srcDir(\"src.generated${pathSeparatorEscaped}commonMain${pathSeparatorEscaped}kotlin\")")
+        out.println("    sourceSets[\"jvmMain\"].kotlin.srcDir(\"src.generated${pathSeparatorEscaped}jvmMain${pathSeparatorEscaped}kotlin\")")
         if (!fastMode) {
-            out.println("    sourceSets[\"jsMain\"].kotlin.srcDir(\"src.generated/jsMain/kotlin\")")
-            out.println("    sourceSets[\"${platform}Main\"].kotlin.srcDir(\"src.generated/nativeMain/kotlin\")")
-            out.println("    sourceSets[\"${platform}Main\"].kotlin.srcDir(\"src.generated/${platform}Main/kotlin\")")
+            out.println("    sourceSets[\"jsMain\"].kotlin.srcDir(\"src.generated${pathSeparatorEscaped}jsMain${pathSeparatorEscaped}kotlin\")")
+            out.println("    sourceSets[\"${platform}Main\"].kotlin.srcDir(\"src.generated${pathSeparatorEscaped}nativeMain${pathSeparatorEscaped}kotlin\")")
+            out.println("    sourceSets[\"${platform}Main\"].kotlin.srcDir(\"src.generated${pathSeparatorEscaped}${platform}Main${pathSeparatorEscaped}kotlin\")")
         }
         out.println("}")
     }
-    File("src.generated/commonMain/kotlin/lupos/s00misc/").mkdirs()
+    File("src.generated${pathSeparator}commonMain${pathSeparator}kotlin${pathSeparator}lupos${pathSeparator}s00misc${pathSeparator}").mkdirs()
     val typeAliasAll = mutableMapOf<String, Pair<String, String>>()
     val typeAliasUsed = mutableMapOf<String, Pair<String, String>>()
     if (releaseMode) {
@@ -275,7 +285,7 @@ var onLinux=!onWindows //TODO this is not correct ...
 //selectively copy classes which are inlined from the inline module ->
     val classNamesRegex = Regex("\\s*([a-zA-Z0-9_]*)")
     val classNamesFound = mutableMapOf<String, MutableSet<String>>()
-    for (f in File("src/luposdate3000_shared_inline").walk()) {
+    for (f in File("src${pathSeparator}luposdate3000_shared_inline").walk()) {
         if (f.isFile()) {
             try {
                 f.forEachLine { it ->
@@ -310,7 +320,7 @@ var onLinux=!onWindows //TODO this is not correct ...
                 e.printStackTrace()
             }
         } else {
-            val f2 = File(f.toString().replace("src/luposdate3000_shared_inline", "src.generated"))
+            val f2 = File(f.toString().replace("src${pathSeparator}luposdate3000_shared_inline", "src.generated"))
             f2.mkdirs()
         }
     }
@@ -356,7 +366,7 @@ var onLinux=!onWindows //TODO this is not correct ...
         for ((k, v) in classNamesUsed) {
             for (fname in v) {
                 val src = File(fname)
-                val dest = File(fname.replace("src/luposdate3000_shared_inline", "src.generated"))
+                val dest = File(fname.replace("src${pathSeparator}luposdate3000_shared_inline", "src.generated"))
                 src.copyTo(dest)
             }
         }
@@ -365,13 +375,13 @@ var onLinux=!onWindows //TODO this is not correct ...
     println(typeAliasUsed.keys)
     println()
 //selectively copy classes which are inlined from the inline module <-
-    File("src.generated/commonMain/kotlin/lupos/s00misc/Config-${moduleName}.kt").printWriter().use { out ->
+    File("src.generated${pathSeparator}commonMain${pathSeparator}kotlin${pathSeparator}lupos${pathSeparator}s00misc${pathSeparator}Config-${moduleName}.kt").printWriter().use { out ->
         out.println("package lupos.s00misc")
         for ((k, v) in typeAliasUsed) {
             out.println("internal typealias ${v.first} = ${v.second}")
         }
-        if (File("${moduleFolder}/configOptions").exists()) {
-            File("${moduleFolder}/configOptions").forEachLine {
+        if (File("${moduleFolder}${pathSeparator}configOptions").exists()) {
+            File("${moduleFolder}${pathSeparator}configOptions").forEachLine {
                 val opt = it.split(",")
                 if (opt.size == 4) {
                     var value = opt[3]
@@ -420,45 +430,45 @@ if(onWindows){
         e.printStackTrace()
     }
     try {
-        File("build-cache/bin").mkdirs()
+        File("build-cache${pathSeparator}bin").mkdirs()
     } catch (e: Throwable) {
         e.printStackTrace()
     }
     try {
-        File("build-cache/src-${shortFolder}").deleteRecursively()
+        File("build-cache${pathSeparator}src-${shortFolder}").deleteRecursively()
     } catch (e: Throwable) {
         e.printStackTrace()
     }
     try {
-        File("build-cache/build-${shortFolder}").deleteRecursively()
+        File("build-cache${pathSeparator}build-${shortFolder}").deleteRecursively()
     } catch (e: Throwable) {
         e.printStackTrace()
     }
     if (!dryMode) {
         try {
-            Files.move(Paths.get("build"), Paths.get("build-cache/build-${shortFolder}"))
+            Files.move(Paths.get("build"), Paths.get("build-cache${pathSeparator}build-${shortFolder}"))
         } catch (e: Throwable) {
             e.printStackTrace()
         }
     }
     try {
-        Files.move(Paths.get("src.generated"), Paths.get("build-cache/src-${shortFolder}"))
+        Files.move(Paths.get("src.generated"), Paths.get("build-cache${pathSeparator}src-${shortFolder}"))
     } catch (e: Throwable) {
         e.printStackTrace()
     }
     try {
-        val localMavenRepositoryRoot = System.getProperty("user.home") + "/.m2/repository/luposdate3000/"
+        val localMavenRepositoryRoot = System.getProperty("user.home") + "${pathSeparator}.m2${pathSeparator}repository${pathSeparator}luposdate3000${pathSeparator}"
     } catch (e: Throwable) {
         e.printStackTrace()
     }
     if (!dryMode) {
         try {
-            Files.copy(Paths.get("build-cache/build-${shortFolder}/libs/${moduleName}-jvm-0.0.1.jar"), Paths.get("build-cache/bin/${moduleName}-jvm.jar"), StandardCopyOption.REPLACE_EXISTING)
+            Files.copy(Paths.get("build-cache${pathSeparator}build-${shortFolder}${pathSeparator}libs${pathSeparator}${moduleName}-jvm-0.0.1.jar"), Paths.get("build-cache${pathSeparator}bin${pathSeparator}${moduleName}-jvm.jar"), StandardCopyOption.REPLACE_EXISTING)
         } catch (e: Throwable) {
             e.printStackTrace()
         }
         try {
-            Files.copy(Paths.get("build-cache/build-${shortFolder}/js/packages/${moduleName}/kotlin/${moduleName}.js"), Paths.get("build-cache/bin/${moduleName}-js.js"), StandardCopyOption.REPLACE_EXISTING)
+            Files.copy(Paths.get("build-cache${pathSeparator}build-${shortFolder}${pathSeparator}js${pathSeparator}packages${pathSeparator}${moduleName}${pathSeparator}kotlin${pathSeparator}${moduleName}.js"), Paths.get("build-cache${pathSeparator}bin${pathSeparator}${moduleName}-js.js"), StandardCopyOption.REPLACE_EXISTING)
         } catch (e: Throwable) {
             e.printStackTrace()
         }
@@ -466,17 +476,17 @@ if(onWindows){
             try {
                 if (buildLibrary) {
                     if (releaseMode) {
-                        Files.copy(Paths.get("build-cache/build-${shortFolder}/bin/linuxX64/releaseShared/lib${moduleName}.so"), Paths.get("build-cache/bin/lib${moduleName}-linuxX64.so"), StandardCopyOption.REPLACE_EXISTING)
-                        Files.copy(Paths.get("build-cache/build-${shortFolder}/bin/linuxX64/releaseShared/lib${moduleName}_api.h"), Paths.get("build-cache/bin/lib${moduleName}-linuxX64.h"), StandardCopyOption.REPLACE_EXISTING)
+                        Files.copy(Paths.get("build-cache${pathSeparator}build-${shortFolder}${pathSeparator}bin${pathSeparator}linuxX64${pathSeparator}releaseShared${pathSeparator}lib${moduleName}.so"), Paths.get("build-cache${pathSeparator}bin${pathSeparator}lib${moduleName}-linuxX64.so"), StandardCopyOption.REPLACE_EXISTING)
+                        Files.copy(Paths.get("build-cache${pathSeparator}build-${shortFolder}${pathSeparator}bin${pathSeparator}linuxX64${pathSeparator}releaseShared${pathSeparator}lib${moduleName}_api.h"), Paths.get("build-cache${pathSeparator}bin${pathSeparator}lib${moduleName}-linuxX64.h"), StandardCopyOption.REPLACE_EXISTING)
                     } else {
-                        Files.copy(Paths.get("build-cache/build-${shortFolder}/bin/linuxX64/debugShared/lib${moduleName}.so"), Paths.get("build-cache/bin/lib${moduleName}-linuxX64.so"), StandardCopyOption.REPLACE_EXISTING)
-                        Files.copy(Paths.get("build-cache/build-${shortFolder}/bin/linuxX64/debugShared/lib${moduleName}_api.h"), Paths.get("build-cache/bin/lib${moduleName}-linuxX64.h"), StandardCopyOption.REPLACE_EXISTING)
+                        Files.copy(Paths.get("build-cache${pathSeparator}build-${shortFolder}${pathSeparator}bin${pathSeparator}linuxX64${pathSeparator}debugShared${pathSeparator}lib${moduleName}.so"), Paths.get("build-cache${pathSeparator}bin${pathSeparator}lib${moduleName}-linuxX64.so"), StandardCopyOption.REPLACE_EXISTING)
+                        Files.copy(Paths.get("build-cache${pathSeparator}build-${shortFolder}${pathSeparator}bin${pathSeparator}linuxX64${pathSeparator}debugShared${pathSeparator}lib${moduleName}_api.h"), Paths.get("build-cache${pathSeparator}bin${pathSeparator}lib${moduleName}-linuxX64.h"), StandardCopyOption.REPLACE_EXISTING)
                     }
                 } else {
                     if (releaseMode) {
-                        Files.copy(Paths.get("build-cache/build-${shortFolder}/bin/linuxX64/releaseExecutable/${moduleName}.kexe"), Paths.get("build-cache/bin/lib${moduleName}-linuxX64.kexe"), StandardCopyOption.REPLACE_EXISTING)
+                        Files.copy(Paths.get("build-cache${pathSeparator}build-${shortFolder}${pathSeparator}bin${pathSeparator}linuxX64${pathSeparator}releaseExecutable${pathSeparator}${moduleName}.kexe"), Paths.get("build-cache${pathSeparator}bin${pathSeparator}lib${moduleName}-linuxX64.kexe"), StandardCopyOption.REPLACE_EXISTING)
                     } else {
-                        Files.copy(Paths.get("build-cache/build-${shortFolder}/bin/linuxX64/debugExecutable/${moduleName}.kexe"), Paths.get("build-cache/bin/lib${moduleName}-linuxX64.kexe"), StandardCopyOption.REPLACE_EXISTING)
+                        Files.copy(Paths.get("build-cache${pathSeparator}build-${shortFolder}${pathSeparator}bin${pathSeparator}linuxX64${pathSeparator}debugExecutable${pathSeparator}${moduleName}.kexe"), Paths.get("build-cache${pathSeparator}bin${pathSeparator}lib${moduleName}-linuxX64.kexe"), StandardCopyOption.REPLACE_EXISTING)
                     }
                 }
             } catch (e: Throwable) {
