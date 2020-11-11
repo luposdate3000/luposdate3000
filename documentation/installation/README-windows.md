@@ -3,6 +3,8 @@ My windows10 gui is in german, so I do not know the exact english labels in the 
 Personally I prefer and therefore use linux.
 If you have some hints to simplify/improve this installation README, let me know.
 The installation for Linux contains additional resources, like benchmark data - which is not essential to build, but may be interesting to have.
+I am not sure if every step is required, but it seems like adding the programs to the path is not enough (there are errors when you try to execute them).
+Instead copy paste them into the gitbash "/bin" folder works for me.
 
 download and install git from https://git-scm.com/download/win
 download and unpack java 11 from https://download.java.net/java/GA/jdk11/9/GPL/openjdk-11.0.2_windows-x64_bin.zip
@@ -48,6 +50,12 @@ export PATH="C:\Users\benja\luposdate\jdk-11.0.2\bin:$myPathBackup"
 export PATH="$myPathBackup"
 ```
 
+##copy the gradle binaries into the bin folder of your gitbash installation.
+In my case that means copy the content of the folder "C:\Users\benja\luposdate\bin_gradle\bin" into the folder "C:\Program Files\Git\usr\bin"
+In my case that means copy the content of the folder "C:\Users\benja\luposdate\bin_gradle\lib" into the folder "C:\Program Files\Git\usr\lib"
+This cannot be done inside gitbash, because that folder is mounted as readonly.
+
+
 ## add gradle to the path
 open start-search
 type "env"
@@ -80,6 +88,12 @@ export JDK_9="C:\Users\benja\luposdate\jdk-15.0.1"
 export PATH="$myPathBackup"
 ```
 
+##copy the kotlin binaries into the bin folder of your gitbash installation.
+In my case that means copy the content of the folder "C:\Users\benja\luposdate\kotlin\dist\kotlinc\bin" into the folder "C:\Program Files\Git\usr\bin"
+In my case that means copy the content of the folder "C:\Users\benja\luposdate\kotlin\dist\kotlinc\lib" into the folder "C:\Program Files\Git\usr\lib"
+This cannot be done inside gitbash, because that folder is mounted as readonly.
+
+
 ## add kolin compiler to the path
 open start-search
 type "env"
@@ -90,7 +104,9 @@ below the system variables click on "change"
 click on "new"
 add the path to the kotlin-compiler The compiler is located in a subfolder of your cloned kotlin repository.
 In my case it is "C:\Users\benja\luposdate\kotlin\dist\kotlinc\bin"
-click "ok" on every window (3 times)
+click "ok"
+additionally create a new environment variable named "KOTLIN_HOME" and let it point to "C:\Users\benja\luposdate\kotlin\dist\kotlinc"
+click "ok" on every window (2 times)
 
 restart gitbash, if it is still open
 
@@ -107,6 +123,7 @@ ln -s $(pwd)/build/libs/kscript /bin/kscriptexport PATH="$myPathBackup"
 
 ##copy the kscript binaries into the bin folder of your gitbash installation.
 In my case that means copy the content of the folder "C:\Users\benja\luposdate\kscript\build\libs" into the folder "C:\Program Files\Git\usr\bin"
+Yes, I mean that you copy from lib folder into bin folder ... .
 This cannot be done inside gitbash, because that folder is mounted as readonly.
 
 ## add kscript wrapper to the path

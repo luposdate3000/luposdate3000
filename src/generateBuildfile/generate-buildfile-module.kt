@@ -5,6 +5,8 @@ import java.nio.file.Paths
 import java.nio.file.StandardCopyOption
 
 fun createBuildFileForModule(args: Array<String>) {
+var onWindows=System.getProperty("os.name").contains("Windows")
+var onLinux=!onWindows //TODO this is not correct ...
     var moduleName = ""
     var moduleFolder = ""
     var modulePrefix = ""
@@ -398,15 +400,14 @@ fun createBuildFileForModule(args: Array<String>) {
         applySuspendDisable()
     }
     if (!dryMode) {
-/*
-        if (fastMode) {
-            runCommand(listOf("gradle", "jvmJar"), File("."))
-            runCommand(listOf("gradle", "publishJvmPublicationToMavenLocal"), File("."))
-        } else {
-*/
+if(onWindows){
+	var path=System.getProperty("user.dir")
+        runCommand(listOf("gradle.bat", "build"), File(path))
+        runCommand(listOf("gradle.bat", "publishToMavenLocal"), File(path))
+}else if(onLinux){
         runCommand(listOf("gradle", "build"), File("."))
         runCommand(listOf("gradle", "publishToMavenLocal"), File("."))
-//        }
+}
     }
     try {
         File(".gradle").deleteRecursively()
