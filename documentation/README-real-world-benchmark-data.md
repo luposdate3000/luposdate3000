@@ -5,15 +5,16 @@ Some of these datasets are already used in scientific publications (not all of t
 
 These datasets are not required to run the database, but can be used to evaluate your own implementations.
 
-|Dataset|Size |
-|barton |4.7G |
-|btc2010|624GB|
-|btc2019|47GB|
-|yago1  |1.5GB|
-|yago2  |8.4GB|
-|yago2s |9.5GB|
-|yago3  |11GB|
-|yago4  |?|
+| Dataset | Size  |
+| :------ | ----: |
+| barton  | 4.7G  |
+| btc2010 | 624GB |
+| btc2019 | 47GB  |
+| yago1   | 1.5GB |
+| yago2   | 8.4GB |
+| yago2s  | 9.5GB |
+| yago3   | 11GB  |
+| yago4   |     ? |
 
 You can copy paste execute the following script.
 However, there are some commands (with comments), which will run until your disk-space is consumed.
