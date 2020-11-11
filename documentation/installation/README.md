@@ -39,7 +39,7 @@ dependencieshome=/opt
     cd $dependencieshome
     git clone https://github.com/JetBrains/kotlin.git
     cd kotlin
-    # you may chech first if the head commit is working, otherwise the following commit worked for me
+    # you may check first if the head commit is working, otherwise the following commit worked for me
     git checkout 3a5ffe479eb43f53db55b33280cbdca72bf23dc8
     export JAVA_HOME="/usr/lib/jvm/java-8-openjdk-amd64/"
     export JDK_16="/usr/lib/jvm/java-8-openjdk-amd64/"
