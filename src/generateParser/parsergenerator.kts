@@ -1223,7 +1223,7 @@ var allTokens = mapOf(
         "PN_PREFIX" to "PN_CHARS_BASE ([.]* PN_CHARS)*",
         "UCHAR" to "(('\\\\') 'u' HEX HEX HEX HEX | ('\\\\') 'U' HEX HEX HEX HEX HEX HEX HEX HEX)",
         "PN_CHARS" to "(PN_CHARS_U | '-' | [0-9] | #x00B7 | [#x0300-#x036F] | [#x203F-#x2040])",
-        "PN_LOCAL" to "(PN_CHARS_U | ':' | [0-9] | PLX) ([.]* (PN_CHARS | ':' | PLX))*",
+        "PN_LOCAL" to "(PN_CHARS_U | ':' | [0-9] | PLX) ([.]* (PN_CHARS | ':' | PLX))*",//TODO this includes a trailling dot, which is wrong due to the given grammar
         "ANON" to "'[' [#x20#x9#xD#xA]* ']'",
         "ECHAR" to "('\\\\') ([tbnrf\"'\\])",
         "PNAME_NS" to "(PN_PREFIX)? ':'",
@@ -1235,7 +1235,7 @@ var allTokens = mapOf(
         "STRING_LITERAL_LONG_SINGLE_QUOTE_A" to "([^\\'\\] | ECHAR | UCHAR)",
         "STRING_LITERAL_SINGLE_QUOTE" to "((('\\'') ([^#x27#x5C#xA#xD] | ECHAR | UCHAR) ([^#x27#x5C#xA#xD] | ECHAR | UCHAR)* '\\'') | (('\\'') ('\\'')))",
         "STRING_LITERAL_QUOTE" to "((('\"') ([^#x22#x5C#xA#xD] | ECHAR | UCHAR) ([^#x22#x5C#xA#xD] | ECHAR | UCHAR)* '\"') | (('\"') ('\"')))",
-        "BLANK_NODE_LABEL" to "'_' ':' (PN_CHARS_U | [0-9]) ([.]* PN_CHARS)*",
+        "BLANK_NODE_LABEL" to "'_' ':' (PN_CHARS_U | [0-9]) ([.]* PN_CHARS)*",//TODO this includes a trailling dot, which is wrong due to the given grammar
         "IRIREF" to "'<' (IRIREF_A)* '>'",
         "IRIREF_A" to "IRIREF_B | UCHAR",
         "IRIREF_B" to "[^#x00-#x20<>\"{}|^`\\]",

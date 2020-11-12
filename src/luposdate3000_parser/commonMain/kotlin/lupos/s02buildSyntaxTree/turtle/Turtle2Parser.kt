@@ -212,10 +212,17 @@ abstract class Turtle2Parser(input: IMyInputStream) {
                 },
                 onBLANK_NODE_LABEL = {
                     //println("onBLANK_NODE_LABEL(${context.getValue()})")
-                    triple[2] = context.getValue()
+val v=context.getValue()
                     tripleType[2] = ETripleComponentType.BLANK_NODE
+if(v.endsWith(".")){
+//TODO fix the underlying bug in the parser
+triple[2] = v.substring(0,v.length-1)
+state = Turtle2ParserState.STATEMENT
+}else{
+                    triple[2] = v
                     parse_ws(context, {})
                     state = Turtle2ParserState.TRIPLE_END
+}
                 },
                 onSTRING_LITERAL_QUOTE = {
                     //println("onSTRING_LITERAL_QUOTE(${context.getValue()})")
@@ -296,10 +303,17 @@ abstract class Turtle2Parser(input: IMyInputStream) {
         parse_triple_end_or_object_iri(context,
                 onPN_LOCAL = {
                     //println("onPN_LOCAL(${context.getValue()})")
-                    triple[2] = "<" + prefixMap[triple[2]]!! + context.getValue() + ">"
+val v=context.getValue()
                     tripleType[2] = ETripleComponentType.IRI
+if(v.endsWith(".")){
+//TODO fix the underlying bug in the parser
+triple[2] = "<" + prefixMap[triple[2]]!! + v.substring(0,v.length-1) + ">"
+state = Turtle2ParserState.STATEMENT
+}else{
+                    triple[2] = "<" + prefixMap[triple[2]]!! + v + ">"
                     parse_ws(context, {})
                     state = Turtle2ParserState.TRIPLE_END
+}
                 },
                 onSKIP_WS_FORCED = {
                     //println("onSKIP_WS_FORCED(${context.getValue()})")
@@ -335,10 +349,17 @@ abstract class Turtle2Parser(input: IMyInputStream) {
         parse_triple_end_or_object_string_typed_iri(context,
                 onPN_LOCAL = {
                     //println("onPN_LOCAL(${context.getValue()})")
-                    triple[2] += "<" + prefixMap[prefix]!! + context.getValue() + ">"
+val v=context.getValue()
                     tripleType[2] = ETripleComponentType.STRING_TYPED
+if(v.endsWith(".")){
+//TODO fix the underlying bug in the parser
+triple[2] += "<" + prefixMap[prefix]!! + v.substring(0,v.length-1) + ">"
+state = Turtle2ParserState.STATEMENT
+}else{
+                    triple[2] += "<" + prefixMap[prefix]!! + v + ">"
                     parse_ws(context, {})
                     state = Turtle2ParserState.TRIPLE_END
+}
                 },
                 onSKIP_WS_FORCED = {
                     //println("onSKIP_WS_FORCED(${context.getValue()})")
