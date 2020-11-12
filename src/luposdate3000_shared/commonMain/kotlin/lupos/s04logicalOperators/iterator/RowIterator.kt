@@ -2,7 +2,7 @@ package lupos.s04logicalOperators.iterator
 
 import kotlin.jvm.JvmField
 
-open class RowIterator() {
+open class RowIterator {
     @JvmField
     var columns = arrayOf<String>()
 

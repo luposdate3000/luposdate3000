@@ -19,7 +19,7 @@ import lupos.s09physicalOperators.partition.POPMergePartition
 import lupos.s09physicalOperators.partition.POPMergePartitionOrderedByIntId
 
 object QueryResultToXMLStream {
-    suspend internal fun writeValue(valueID: Int, columnName: String, dictionary: IResultSetDictionary, output: IMyPrintWriter) {
+    internal suspend fun writeValue(valueID: Int, columnName: String, dictionary: IResultSetDictionary, output: IMyPrintWriter) {
         dictionary.getValue(valueID, { value ->
             output.print("   <binding name=\"")
             output.print(columnName)
@@ -88,7 +88,7 @@ object QueryResultToXMLStream {
         )
     }
 
-    suspend internal fun writeRow(variables: Array<String>, rowBuf: IntArray, dictionary: IResultSetDictionary, output: IMyPrintWriter) {
+    internal suspend fun writeRow(variables: Array<String>, rowBuf: IntArray, dictionary: IResultSetDictionary, output: IMyPrintWriter) {
         output.print("  <result>\n")
         for (variableIndex in 0 until variables.size) {
             writeValue(rowBuf[variableIndex], variables[variableIndex], dictionary, output)
@@ -96,7 +96,7 @@ object QueryResultToXMLStream {
         output.print("  </result>\n")
     }
 
-    inline suspend internal fun writeAllRows(variables: Array<String>, columns: Array<ColumnIterator>, dictionary: IResultSetDictionary, lock: MyLock?, output: IMyPrintWriter) {
+    internal suspend inline fun writeAllRows(variables: Array<String>, columns: Array<ColumnIterator>, dictionary: IResultSetDictionary, lock: MyLock?, output: IMyPrintWriter) {
         val rowBuf = IntArray(variables.size)
         val resultWriter = MyPrintWriter()
         loop@ while (true) {
@@ -114,11 +114,11 @@ object QueryResultToXMLStream {
             resultWriter.clearBuffer()
         }
         for (closeIndex in 0 until columns.size) {
-            columns[closeIndex]!!.close()
+            columns[closeIndex].close()
         }
     }
 
-    suspend internal fun writeNodeResult(variables: Array<String>, node: IOPBase, output: IMyPrintWriter, parent: Partition = Partition()) {
+    internal suspend fun writeNodeResult(variables: Array<String>, node: IOPBase, output: IMyPrintWriter, parent: Partition = Partition()) {
         if ((node is POPMergePartition && node.partitionCount > 1) || (node is POPMergePartitionOrderedByIntId && node.partitionCount > 1)) {
             var partitionCount = 0
             var partitionVariable = ""

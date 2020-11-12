@@ -42,7 +42,7 @@ import lupos.s14endpoint.convertToOPBase
 import lupos.s15tripleStoreDistributed.distributedTripleStore
 import lupos.s16network.LuposdateEndpoint
 
-open class SparqlTestSuite() {
+open class SparqlTestSuite {
     companion object {
         const val testPersistence = false
         const val errorBoundForDecimalsDigits = 6
@@ -95,7 +95,7 @@ open class SparqlTestSuite() {
         ResultSetDictionary.debug()
     }
 
-    suspend private fun listMembers(data: SevenIndices, start: Long, f: suspend (Long) -> Unit) {
+    private suspend fun listMembers(data: SevenIndices, start: Long, f: suspend (Long) -> Unit) {
         val rdf = "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
         val nil = rdf + "nil"
         val first = rdf + "first"
@@ -134,7 +134,7 @@ open class SparqlTestSuite() {
         return data
     }
 
-    suspend private fun parseManifestFile(prefix: String, filename: String): Pair<Int, Int> {
+    private suspend fun parseManifestFile(prefix: String, filename: String): Pair<Int, Int> {
         var numberOfErrors = 0
         var numberOfTests = 0
         SanityCheck.println { "Reading file " + filename + "..." }
@@ -180,7 +180,7 @@ open class SparqlTestSuite() {
         return File(name).readAsString()
     }
 
-    suspend private fun testOneEntry(data: SevenIndices, node: Long, prefix: String): Boolean {
+    private suspend fun testOneEntry(data: SevenIndices, node: Long, prefix: String): Boolean {
         var testType: String? = null
         var comment: String? = null
         var features = mutableListOf<String>()
@@ -417,7 +417,7 @@ open class SparqlTestSuite() {
     @JvmField
     var lastTripleCount = 0
 
-    @UseExperimental(ExperimentalStdlibApi::class, kotlin.time.ExperimentalTime::class)
+    @OptIn(ExperimentalStdlibApi::class, kotlin.time.ExperimentalTime::class)
     open suspend fun parseSPARQLAndEvaluate(executeJena: Boolean, testName: String, expectedResult: Boolean, queryFile: String, inputDataFileName: String?, resultDataFileName: String?, services: List<Map<String, String>>?, inputDataGraph: MutableList<MutableMap<String, String>>, outputDataGraph: MutableList<MutableMap<String, String>>): Boolean {
 //        if (!testName.contains("resources")) {
 //            return true

@@ -9,7 +9,7 @@ class ColumnIteratorReduced(@JvmField val child: ColumnIterator) : ColumnIterato
 
     @JvmField
     var label = 1
-    inline suspend fun _close() {
+    suspend inline fun _close() {
         if (label != 0) {
             label = 0
             child.close()

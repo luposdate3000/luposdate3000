@@ -15,7 +15,7 @@ import lupos.s09physicalOperators.partition.POPMergePartitionOrderedByIntId
 import lupos.s09physicalOperators.partition.POPSplitPartition
 import lupos.s09physicalOperators.partition.POPSplitPartitionFromStore
 
-class PartitionHelper() {
+class PartitionHelper {
     var iterators: MutableMap<Partition, Array<IteratorBundle>>? = null
     internal var jobs: MutableMap<Partition, ParallelJob>? = null
     internal val lock = MyLock()

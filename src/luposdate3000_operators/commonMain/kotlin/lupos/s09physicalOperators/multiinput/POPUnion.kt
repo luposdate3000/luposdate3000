@@ -61,7 +61,7 @@ class POPUnion(query: IQuery, projectedVariables: List<String>, childA: IOPBase,
                     return childA.hasNext2() || childB.hasNext2()
                 }
 
-                suspend override fun hasNext2Close() {
+                override suspend fun hasNext2Close() {
                     childA.hasNext2Close()
                     childB.hasNext2Close()
                 }

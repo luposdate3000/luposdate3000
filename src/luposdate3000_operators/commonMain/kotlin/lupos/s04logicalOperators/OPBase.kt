@@ -84,7 +84,7 @@ abstract class OPBase(@JvmField val query: IQuery, @JvmField val operatorID: EOp
     override fun getUUID() = uuid
     override fun getChildren() = children
     override fun getMySortPriority() = mySortPriority
-    suspend abstract fun calculateHistogram(): HistogramResult
+    abstract suspend fun calculateHistogram(): HistogramResult
     override suspend fun getHistogram(): HistogramResult {
         if (histogramResult == null) {
             histogramResult = calculateHistogram()
@@ -104,7 +104,7 @@ abstract class OPBase(@JvmField val query: IQuery, @JvmField val operatorID: EOp
         return histogramResult!!
     }
 
-    override open suspend fun evaluate(parent: Partition): IteratorBundle = throw EvaluateNotImplementedException(classname)
+    override suspend fun evaluate(parent: Partition): IteratorBundle = throw EvaluateNotImplementedException(classname)
     override fun getChildrenCountRecoursive(): Int {
         var res = children.size
         for (c in children) {
@@ -239,7 +239,7 @@ abstract class OPBase(@JvmField val query: IQuery, @JvmField val operatorID: EOp
         return sortPriorities.size <= 1
     }
 
-    override open fun getPossibleSortPriorities(): List<List<SortHelper>> {
+    override fun getPossibleSortPriorities(): List<List<SortHelper>> {
         /*possibilities for_ next operator*/
         val res = mutableListOf<List<SortHelper>>()
         when (sortPriority) {
@@ -363,14 +363,14 @@ abstract class OPBase(@JvmField val query: IQuery, @JvmField val operatorID: EOp
         return res
     }
 
-    override open fun applyPrefix(prefix: String, iri: String) {
+    override fun applyPrefix(prefix: String, iri: String) {
         for (c in children) {
             c.applyPrefix(prefix, iri)
         }
     }
 
     open fun childrenToVerifyCount(): Int = children.size
-    override open fun updateChildren(i: Int, child: IOPBase) {
+    override fun updateChildren(i: Int, child: IOPBase) {
         SanityCheck.check({ i < children.size })
         children[i] = child
     }
@@ -449,11 +449,11 @@ abstract class OPBase(@JvmField val query: IQuery, @JvmField val operatorID: EOp
         return res.distinct()
     }
 
-    override open fun getRequiredVariableNames(): List<String> {
+    override fun getRequiredVariableNames(): List<String> {
         return mutableListOf()
     }
 
-    override open fun getProvidedVariableNames(): List<String> {
+    override fun getProvidedVariableNames(): List<String> {
         val res = mutableListOf<String>()
         for (c in children) {
             res.addAll(c.getProvidedVariableNames())
@@ -461,12 +461,12 @@ abstract class OPBase(@JvmField val query: IQuery, @JvmField val operatorID: EOp
         return res.distinct()
     }
 
-    override open fun toSparqlQuery(): String {
+    override fun toSparqlQuery(): String {
         return "SELECT * WHERE{" + toSparql() + "}"
     }
 
-    override open fun toSparql(): String = throw ToSparqlNotImplementedException(classname)
-    override open suspend fun toXMLElement(): XMLElement {
+    override fun toSparql(): String = throw ToSparqlNotImplementedException(classname)
+    override suspend fun toXMLElement(): XMLElement {
         val res = XMLElement(classname)
         try {
             res.addAttribute("uuid", "" + uuid)
@@ -524,7 +524,7 @@ abstract class OPBase(@JvmField val query: IQuery, @JvmField val operatorID: EOp
         }
     }
 
-    override open fun syntaxVerifyAllVariableExists(additionalProvided: List<String>, autocorrect: Boolean) {
+    override fun syntaxVerifyAllVariableExists(additionalProvided: List<String>, autocorrect: Boolean) {
         for (i in 0 until childrenToVerifyCount()) {
             children[i].syntaxVerifyAllVariableExists(additionalProvided, autocorrect)
         }

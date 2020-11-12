@@ -152,7 +152,7 @@ class POPJoinWithStore(query: IQuery, projectedVariables: List<String>, childA: 
                         __close()
                     }
 
-                    inline suspend fun __close() {
+                    suspend inline fun __close() {
                         if (label != 0) {
                             ColumnIteratorQueueExt._close(this)
                             SanityCheck.println { "POPJoinWithStoreXXXclosing store for join with store A $theuuid" }

@@ -103,7 +103,7 @@ class LOPTriple(query: IQuery, s: IAOPBase, p: IAOPBase, o: IAOPBase, @JvmField 
         }
     }
 
-    suspend override fun calculateHistogram(): HistogramResult {
+    override suspend fun calculateHistogram(): HistogramResult {
         if (graphVar) {
             throw GraphVarHistogramsNotImplementedException()
         }

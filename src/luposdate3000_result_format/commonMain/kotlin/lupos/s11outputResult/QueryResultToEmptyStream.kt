@@ -18,7 +18,7 @@ import lupos.s09physicalOperators.partition.POPMergePartition
 import lupos.s09physicalOperators.partition.POPMergePartitionOrderedByIntId
 
 object QueryResultToEmptyStream {
-    internal inline suspend fun writeAllRows(variables: Array<String>, columns: Array<ColumnIterator>, dictionary: IResultSetDictionary, lock: MyLock?, output: IMyPrintWriter) {
+    internal suspend inline fun writeAllRows(variables: Array<String>, columns: Array<ColumnIterator>, dictionary: IResultSetDictionary, lock: MyLock?, output: IMyPrintWriter) {
         val rowBuf = IntArray(variables.size)
         loop@ while (true) {
             for (variableIndex in 0 until variables.size) {
@@ -30,7 +30,7 @@ object QueryResultToEmptyStream {
             }
         }
         for (closeIndex in 0 until columns.size) {
-            columns[closeIndex]!!.close()
+            columns[closeIndex].close()
         }
     }
 

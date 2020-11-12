@@ -52,7 +52,7 @@ class POPFilter(query: IQuery, projectedVariables: List<String>, filter: AOPBase
                         __close()
                     }
 
-                    inline suspend fun __close() {
+                    suspend inline fun __close() {
                         if (label != 0) {
                             ColumnIteratorQueueExt._close(this)
                             SanityCheck.println { "POPFilterXXX$uuid close E $classname" }
@@ -128,21 +128,21 @@ class POPFilter(query: IQuery, projectedVariables: List<String>, filter: AOPBase
                         res = child
                     } else {
                         res = object : IteratorBundle(0) {
-                            suspend override fun hasNext2(): Boolean {
+                            override suspend fun hasNext2(): Boolean {
                                 return false
                             }
                         }
                     }
                 } else {
                     res = object : IteratorBundle(0) {
-                        suspend override fun hasNext2Close() {
+                        override suspend fun hasNext2Close() {
                             SanityCheck.println({ "POPFilterXXX$uuid close B $classname" })
                             for ((k, v) in child.columns) {
                                 v.close()
                             }
                         }
 
-                        suspend override fun hasNext2(): Boolean {
+                        override suspend fun hasNext2(): Boolean {
                             var res2 = false
                             try {
                                 var done = false

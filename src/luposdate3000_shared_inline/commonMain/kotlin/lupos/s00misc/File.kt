@@ -14,9 +14,9 @@ internal expect class File {
     inline fun walk(crossinline action: (String) -> Unit)
     inline fun myPrintWriter(): MyPrintWriter
     inline fun printWriter(crossinline action: (MyPrintWriter) -> Unit)
-    inline suspend fun printWriterSuspended(crossinline action: suspend (MyPrintWriter) -> Unit)
+    suspend inline fun printWriterSuspended(crossinline action: suspend (MyPrintWriter) -> Unit)
     inline fun forEachLine(crossinline action: (String) -> Unit)
-    inline suspend fun forEachLineSuspended(crossinline action: suspend (String) -> Unit)
+    suspend inline fun forEachLineSuspended(crossinline action: suspend (String) -> Unit)
     inline fun dataOutputStream(crossinline action: (MyDataOutputStream) -> Unit)
     inline fun dataOutputStreamSuspend(crossinline action: (MyDataOutputStream) -> Unit)
     inline fun dataInputStream(crossinline action: (MyDataInputStream) -> Unit)

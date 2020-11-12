@@ -16,7 +16,7 @@ class ColumnIteratorRepeatIterator(@JvmField val count: Int, @JvmField val child
 
     @JvmField
     var label = 1
-    inline suspend fun _close() {
+    suspend inline fun _close() {
         if (label != 0) {
             label = 0
             child.close()

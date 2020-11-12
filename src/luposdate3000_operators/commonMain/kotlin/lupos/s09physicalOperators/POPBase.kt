@@ -33,7 +33,7 @@ abstract class POPBase(query: IQuery,
         return res
     }
 
-    override open fun syntaxVerifyAllVariableExists(additionalProvided: List<String>, autocorrect: Boolean) {
+    override fun syntaxVerifyAllVariableExists(additionalProvided: List<String>, autocorrect: Boolean) {
         for (i in 0 until childrenToVerifyCount()) {
             children[i].syntaxVerifyAllVariableExists(additionalProvided, autocorrect)
         }
@@ -56,5 +56,5 @@ abstract class POPBase(query: IQuery,
         }
     }
 
-    suspend override fun calculateHistogram(): HistogramResult = throw HistogramNotImplementedException(classname)
+    override suspend fun calculateHistogram(): HistogramResult = throw HistogramNotImplementedException(classname)
 }

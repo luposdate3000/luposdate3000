@@ -24,7 +24,7 @@ import lupos.s03resultRepresentation.ValueUndef
 
 val nodeGlobalDictionary = ResultSetDictionary(true)
 
-@UseExperimental(kotlin.ExperimentalUnsignedTypes::class)
+@OptIn(kotlin.ExperimentalUnsignedTypes::class)
 class ResultSetDictionary(val global: Boolean = false) : IResultSetDictionary {
     companion object {
         /*to most significant bit leads to signed errors because toInt sadly performs a whole reencoding of the int and stores it completely different*/

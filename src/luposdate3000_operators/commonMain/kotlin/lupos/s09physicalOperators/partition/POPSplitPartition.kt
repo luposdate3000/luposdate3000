@@ -238,7 +238,7 @@ class POPSplitPartition(query: IQuery, projectedVariables: List<String>, val par
             }
             SanityCheck.println { "unlock(${partitionHelper.lock.getUUID()}) x191" }
             partitionHelper.lock.unlock()
-            return iterators!![parent.data[partitionVariable]!!]
+            return iterators[parent.data[partitionVariable]!!]
         }
     }
 }

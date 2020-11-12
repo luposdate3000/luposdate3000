@@ -185,7 +185,7 @@ class POPJoinMergeOptional(query: IQuery, projectedVariables: List<String>, chil
                     return columnsOUTJ[0].next() != ResultSetDictionaryExt.nullValue
                 }
 
-                suspend override fun hasNext2Close() {
+                override suspend fun hasNext2Close() {
                     for (closeIndex2 in 0 until 2) {
                         for (closeIndex in 0 until columnsINJ[closeIndex2].size) {
                             columnsINJ[closeIndex2][closeIndex].close()

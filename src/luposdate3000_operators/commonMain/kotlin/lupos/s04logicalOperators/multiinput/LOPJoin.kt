@@ -86,7 +86,7 @@ class LOPJoin(query: IQuery, first: IOPBase, second: IOPBase, @JvmField val opti
         }
     }
 
-    suspend override fun calculateHistogram(): HistogramResult {
+    override suspend fun calculateHistogram(): HistogramResult {
         return mergeHistograms(children[0].getHistogram(), children[1].getHistogram(), optional)
     }
 }

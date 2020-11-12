@@ -10,7 +10,7 @@ internal object ColumnIteratorQueueExt {
         }
     }
 
-    inline suspend fun next_helper(it: ColumnIteratorQueue, crossinline onEmptyQueue: suspend () -> Unit, crossinline onClose: suspend () -> Unit): Int {
+    suspend inline fun next_helper(it: ColumnIteratorQueue, crossinline onEmptyQueue: suspend () -> Unit, crossinline onClose: suspend () -> Unit): Int {
         when (it.label) {
             1 -> {
                 if (it.queue.size == 0) {

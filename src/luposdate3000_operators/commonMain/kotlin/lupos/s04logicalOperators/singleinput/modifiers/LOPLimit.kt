@@ -15,7 +15,7 @@ class LOPLimit(query: IQuery, @JvmField val limit: Int, child: IOPBase = OPEmpty
     override suspend fun toXMLElement() = super.toXMLElement().addAttribute("limit", "" + limit)
     override fun equals(other: Any?) = other is LOPLimit && limit == other.limit && children[0] == other.children[0]
     override fun cloneOP(): IOPBase = LOPLimit(query, limit, children[0].cloneOP())
-    suspend override fun calculateHistogram(): HistogramResult {
+    override suspend fun calculateHistogram(): HistogramResult {
         var res = HistogramResult()
         var childHistogram = children[0].getHistogram()
         res.count = childHistogram.count

@@ -24,7 +24,7 @@ class LOPModifyData(query: IQuery, @JvmField val type: EModifyType, @JvmField va
 
     override fun equals(other: Any?) = other is LOPModifyData && type == other.type && data == other.data
     override fun cloneOP(): IOPBase = LOPModifyData(query, type, data)
-    suspend override fun calculateHistogram(): HistogramResult {
+    override suspend fun calculateHistogram(): HistogramResult {
         var res = HistogramResult()
         res.count = 1
         return res

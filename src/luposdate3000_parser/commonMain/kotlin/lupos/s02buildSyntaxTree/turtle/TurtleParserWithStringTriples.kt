@@ -7,10 +7,10 @@ import lupos.s02buildSyntaxTree.Token
 import lupos.s02buildSyntaxTree.turtle.TurtleParser
 import lupos.s02buildSyntaxTree.UnexpectedToken
 
-abstract class TurtleParserWithStringTriples() {
+abstract class TurtleParserWithStringTriples {
     @JvmField
     var ltit: LookAheadTokenIterator? = null
-    suspend abstract fun consume_triple(s: String, p: String, o: String)
+    abstract suspend fun consume_triple(s: String, p: String, o: String)
 
     // for storing the prefixes...
     @JvmField

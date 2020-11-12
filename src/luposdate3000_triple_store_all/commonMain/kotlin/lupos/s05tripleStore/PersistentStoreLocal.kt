@@ -42,7 +42,7 @@ class PersistentStoreLocal : IPersistentStoreLocal {
         return tmp2
     }
 
-    suspend override fun dropGraph(query: IQuery, name: String) {
+    override suspend fun dropGraph(query: IQuery, name: String) {
         SanityCheck.check({ name != PersistentStoreLocalExt.defaultGraphName })
         var store = stores[name]
         if (store == null) {
@@ -52,11 +52,11 @@ class PersistentStoreLocal : IPersistentStoreLocal {
         stores.remove(name)
     }
 
-    suspend override fun clearGraph(query: IQuery, name: String) {
+    override suspend fun clearGraph(query: IQuery, name: String) {
         getNamedGraph(query, name).clear()
     }
 
-    suspend override fun getNamedGraph(query: IQuery, name: String, create: Boolean): TripleStoreLocal {
+    override suspend fun getNamedGraph(query: IQuery, name: String, create: Boolean): TripleStoreLocal {
         val tmp = stores[name]
         if (tmp != null) {
             return tmp
@@ -66,17 +66,17 @@ class PersistentStoreLocal : IPersistentStoreLocal {
         return createGraph(query, name)
     }
 
-    suspend override fun getDefaultGraph(query: IQuery): TripleStoreLocal {
+    override suspend fun getDefaultGraph(query: IQuery): TripleStoreLocal {
         return getNamedGraph(query, PersistentStoreLocalExt.defaultGraphName, true)
     }
 
-    suspend override fun commit(query: IQuery) {
+    override suspend fun commit(query: IQuery) {
         stores.values.forEach { v ->
             v.commit(query)
         }
     }
 
-    suspend override fun safeToFolder() {
+    override suspend fun safeToFolder() {
         stores.values.forEach { v ->
             v.flush()
         }
@@ -96,7 +96,7 @@ class PersistentStoreLocal : IPersistentStoreLocal {
         BufferManager.safeToFolder()
     }
 
-    suspend override fun loadFromFolder() {
+    override suspend fun loadFromFolder() {
         BufferManager.loadFromFolder()
         nodeGlobalDictionary.loadFromFolder()
         var i = 0

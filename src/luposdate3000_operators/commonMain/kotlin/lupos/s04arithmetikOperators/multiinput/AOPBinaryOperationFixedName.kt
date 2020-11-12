@@ -9,5 +9,4 @@ import lupos.s04logicalOperators.Query
 
 abstract class AOPBinaryOperationFixedName(query: IQuery, operatorID: EOperatorID,
                                            classname: String,
-                                           children: Array<IOPBase>) : AOPBase(query, operatorID, classname, children) {
-}
+                                           children: Array<IOPBase>) : AOPBase(query, operatorID, classname, children)

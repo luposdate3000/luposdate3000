@@ -3,8 +3,8 @@ package lupos.s00misc
 import kotlin.jvm.JvmField
 import lupos.s00misc.SanityCheck
 
-@UseExperimental(ExperimentalStdlibApi::class)
-internal class ByteArrayBuilder() {
+@OptIn(ExperimentalStdlibApi::class)
+internal class ByteArrayBuilder {
     internal companion object {
         @JvmField
         var debuguuidtmp = 0L

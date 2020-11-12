@@ -24,7 +24,7 @@ fun helper_clean_string(s: String): String {
     return res
 }
 
-@UseExperimental(ExperimentalStdlibApi::class, kotlin.time.ExperimentalTime::class)
+@OptIn(ExperimentalStdlibApi::class, kotlin.time.ExperimentalTime::class)
 fun main(args: Array<String>) = Parallel.runBlocking {
     println("importing args ${args.map { it }}")
     LuposdateEndpoint.initialize()

@@ -5,7 +5,7 @@ import java.io.OutputStream
 import java.io.PrintWriter
 import java.io.StringWriter
 
-open actual internal class MyPrintWriter : IMyPrintWriter {
+internal actual open class MyPrintWriter : IMyPrintWriter {
     @JvmField
     val buffer = StringWriter()
 
@@ -37,7 +37,7 @@ open actual internal class MyPrintWriter : IMyPrintWriter {
 
     actual override fun clearBuffer() {
         if (bufferMode == MyPrintWriterMode.BUFFER) {
-            buffer.getBuffer().setLength(0)
+            buffer.buffer.setLength(0)
         } else {
             throw Exception("not supported")
         }

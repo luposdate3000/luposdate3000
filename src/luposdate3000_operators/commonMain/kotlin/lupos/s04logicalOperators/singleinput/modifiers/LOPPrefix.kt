@@ -15,7 +15,7 @@ class LOPPrefix(query: IQuery, @JvmField val name: String, @JvmField val iri: St
     override suspend fun toXMLElement() = super.toXMLElement().addAttribute("name", name).addAttribute("iri", iri)
     override fun equals(other: Any?) = other is LOPPrefix && name == other.name && iri == other.iri && children[0] == other.children[0]
     override fun cloneOP(): IOPBase = LOPPrefix(query, name, iri, children[0].cloneOP())
-    suspend override fun calculateHistogram(): HistogramResult {
+    override suspend fun calculateHistogram(): HistogramResult {
         return children[0].getHistogram()
     }
 }

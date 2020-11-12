@@ -42,7 +42,7 @@ import lupos.s15tripleStoreDistributed.DistributedTripleStore
  * Dont overload any function here - because that would yield bad function names in the exported headers.
  * Dont use default parameters - for the same reason - mangled function names in the interface are bad
  */
-@UseExperimental(ExperimentalStdlibApi::class, kotlin.time.ExperimentalTime::class)
+@OptIn(ExperimentalStdlibApi::class, kotlin.time.ExperimentalTime::class)
 object LuposdateEndpoint {
     var initialized = false
     internal fun helper_clean_string(s: String): String {
@@ -98,7 +98,7 @@ object LuposdateEndpoint {
                     val ltit = LookAheadTokenIterator(tit, 3)
                     try {
                         val x = object : TurtleParserWithStringTriples() {
-                            suspend override fun consume_triple(s: String, p: String, o: String) {
+                            override suspend fun consume_triple(s: String, p: String, o: String) {
                                 counter++
                                 bulk.insert(helper_import_turtle_files(bnodeDict, s), helper_import_turtle_files(bnodeDict, p), helper_import_turtle_files(bnodeDict, o))
                             }
@@ -290,7 +290,7 @@ object LuposdateEndpoint {
 //var timer = DateHelperRelative.markNow()
         output.println("HTTP/1.1 200 OK")
         output.println("Content-Type: text/plain")
-        output.println();
+        output.println()
         node.getQuery().reset()
         QueryResultToStream(node, output)
         distributedTripleStore.commit(node.getQuery())

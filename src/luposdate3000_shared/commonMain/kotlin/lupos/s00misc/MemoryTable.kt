@@ -5,7 +5,7 @@ class MemoryTable(val columns: Array<String>) {
     var booleanResult: Boolean? = null
 
     companion object {
-        operator inline fun invoke(a: MemoryTable, b: MemoryTable): MemoryTable {
+        inline operator fun invoke(a: MemoryTable, b: MemoryTable): MemoryTable {
             if (a.columns.size != b.columns.size) {
                 throw Exception("incompatible input")
             }

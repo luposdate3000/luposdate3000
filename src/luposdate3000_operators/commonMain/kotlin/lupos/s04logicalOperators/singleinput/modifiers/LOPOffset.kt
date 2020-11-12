@@ -15,7 +15,7 @@ class LOPOffset(query: IQuery, @JvmField val offset: Int, child: IOPBase = OPEmp
     override suspend fun toXMLElement() = super.toXMLElement().addAttribute("offset", "" + offset)
     override fun equals(other: Any?) = other is LOPOffset && offset == other.offset && children[0] == other.children[0]
     override fun cloneOP(): IOPBase = LOPOffset(query, offset, children[0].cloneOP())
-    suspend override fun calculateHistogram(): HistogramResult {
+    override suspend fun calculateHistogram(): HistogramResult {
         var res = HistogramResult()
         var childHistogram = children[0].getHistogram()
         res.count = childHistogram.count - offset

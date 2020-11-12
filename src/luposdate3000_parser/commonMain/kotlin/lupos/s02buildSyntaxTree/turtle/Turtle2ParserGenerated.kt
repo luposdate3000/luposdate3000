@@ -5,7 +5,7 @@ import lupos.s00misc.IMyInputStream
 import lupos.s00misc.Luposdate3000Exception
 
 open class ParserException(msg: String) : Luposdate3000Exception("ParserContext", msg)
-internal class ParserExceptionEOF() : ParserException("EOF")
+internal class ParserExceptionEOF : ParserException("EOF")
 internal class ParserExceptionUnexpectedChar(context: ParserContext) : ParserException("unexpected char 0x${context.c.toString(16)} at ${context.line}:${context.column}")
 internal class ParserContext(@JvmField val input: IMyInputStream) {
     internal companion object {

@@ -45,17 +45,17 @@ object JenaWrapper {
             val query = QueryFactory.create(queryString)
             val qexec = QueryExecutionFactory.create(query, dataset)
             if (logging) {
-                qexec.getContext().set(ARQ.symLogExec, true)
-                qexec.getContext().set(ARQ.symLogExec, Explain.InfoLevel.FINE)
+                qexec.context.set(ARQ.symLogExec, true)
+                qexec.context.set(ARQ.symLogExec, Explain.InfoLevel.FINE)
             }
-            if (query.isSelectType()) {
+            if (query.isSelectType) {
                 val results = qexec.execSelect()
                 val stream = ByteArrayOutputStream()
                 ResultSetFormatter.outputAsXML(stream, results)
                 res = String(stream.toByteArray())
-            } else if (query.isAskType()) {
+            } else if (query.isAskType) {
                 res = "<sparql xmlns=\"http://www.w3.org/2005/sparql-results#\"><head><boolean>${qexec.execAsk()}</boolean></head></sparql>"
-            } else if (query.isConstructType()) {
+            } else if (query.isConstructType) {
                 val resultModel = qexec.execConstruct()
                 val query2 = QueryFactory.create("select ?s ?p ?o where{?s ?p ?o}")
                 val qexec2 = QueryExecutionFactory.create(query2, resultModel)
@@ -63,7 +63,7 @@ object JenaWrapper {
                 val stream = ByteArrayOutputStream()
                 ResultSetFormatter.outputAsXML(stream, results)
                 res = String(stream.toByteArray())
-            } else if (query.isDescribeType()) {
+            } else if (query.isDescribeType) {
                 val resultModel = qexec.execDescribe()
                 val query2 = QueryFactory.create("select ?s ?p ?o where{?s ?p ?o}")
                 val qexec2 = QueryExecutionFactory.create(query2, resultModel)
@@ -71,13 +71,13 @@ object JenaWrapper {
                 val stream = ByteArrayOutputStream()
                 ResultSetFormatter.outputAsXML(stream, results)
                 res = String(stream.toByteArray())
-            } else if (query.isJsonType()) {
-            } else if (query.isConstructQuad()) {
+            } else if (query.isJsonType) {
+            } else if (query.isConstructQuad) {
             }
             if (logging) {
                 val plan = QueryExecutionFactory.createPlan(query, dataset.asDatasetGraph(), null)
-                val op = plan.getOp()
-                val op2 = Optimize.optimize(op, qexec.getContext())
+                val op = plan.op
+                val op2 = Optimize.optimize(op, qexec.context)
                 //println({ op2 })
             }
         } catch (e: Throwable) {

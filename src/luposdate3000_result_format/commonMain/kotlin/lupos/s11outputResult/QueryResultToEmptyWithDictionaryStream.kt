@@ -33,13 +33,13 @@ object QueryResultToEmptyWithDictionaryStream {
         )
     }
 
-    suspend internal fun writeRow(variables: Array<String>, rowBuf: IntArray, dictionary: IResultSetDictionary, output: IMyPrintWriter) {
+    internal suspend fun writeRow(variables: Array<String>, rowBuf: IntArray, dictionary: IResultSetDictionary, output: IMyPrintWriter) {
         for (variableIndex in 0 until variables.size) {
             writeValue(rowBuf[variableIndex], variables[variableIndex], dictionary, output)
         }
     }
 
-    inline suspend internal fun writeAllRows(variables: Array<String>, columns: Array<ColumnIterator>, dictionary: IResultSetDictionary, lock: MyLock?, output: IMyPrintWriter) {
+    internal suspend inline fun writeAllRows(variables: Array<String>, columns: Array<ColumnIterator>, dictionary: IResultSetDictionary, lock: MyLock?, output: IMyPrintWriter) {
         val rowBuf = IntArray(variables.size)
         loop@ while (true) {
             for (variableIndex in 0 until variables.size) {
@@ -52,11 +52,11 @@ object QueryResultToEmptyWithDictionaryStream {
             writeRow(variables, rowBuf, dictionary, output)
         }
         for (closeIndex in 0 until columns.size) {
-            columns[closeIndex]!!.close()
+            columns[closeIndex].close()
         }
     }
 
-    suspend internal fun writeNodeResult(variables: Array<String>, node: IOPBase, output: IMyPrintWriter, parent: Partition = Partition()) {
+    internal suspend fun writeNodeResult(variables: Array<String>, node: IOPBase, output: IMyPrintWriter, parent: Partition = Partition()) {
         if ((node is POPMergePartition && node.partitionCount > 1) || (node is POPMergePartitionOrderedByIntId && node.partitionCount > 1)) {
             var partitionCount = 0
             var partitionVariable = ""

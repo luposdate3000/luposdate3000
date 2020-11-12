@@ -14,7 +14,7 @@ internal class NodeLeafColumnIteratorPrefix3(node: ByteArray, nodeid: Int, prefi
 
     @JvmField
     var value2 = 0
-    suspend override fun next(): Int {
+    override suspend fun next(): Int {
         if (label == 3) {
             label = 1
             __init()
@@ -39,7 +39,7 @@ internal class NodeLeafColumnIteratorPrefix3(node: ByteArray, nodeid: Int, prefi
                     done = true
                 } else {
                     done = value0 == prefix[0] && value1 == prefix[1] && value2 == prefix[2]
-                    updateRemaining() {
+                    updateRemaining {
                         if (!done) {
                             value2 = ResultSetDictionaryExt.nullValue
                         }

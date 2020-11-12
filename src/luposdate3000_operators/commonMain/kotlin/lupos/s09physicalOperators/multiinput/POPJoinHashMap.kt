@@ -343,7 +343,7 @@ class POPJoinHashMap(query: IQuery, projectedVariables: List<String>, childA: IO
                     return outJ[0].next() != ResultSetDictionaryExt.nullValue
                 }
 
-                suspend override fun hasNext2Close() {
+                override suspend fun hasNext2Close() {
                     outJ[0].close()
                     for (closeIndex in 0 until columnsINAJ.size) {
                         columnsINAJ[closeIndex].close()

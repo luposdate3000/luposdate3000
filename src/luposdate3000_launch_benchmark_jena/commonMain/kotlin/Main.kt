@@ -14,7 +14,7 @@ fun printBenchmarkLine(title: String, time: Double, count: Int, numberOfTriples:
     println("$title,$numberOfTriples,0,$count,${time * 1000.0},${count.toDouble() / time},$originalTripleSize")
 }
 
-@UseExperimental(ExperimentalStdlibApi::class, kotlin.time.ExperimentalTime::class)
+@OptIn(ExperimentalStdlibApi::class, kotlin.time.ExperimentalTime::class)
 fun main(args: Array<String>) = Parallel.runBlocking {
     LuposdateEndpoint.initialize()
     val datasourceType = Datasource.valueOf(args[0])

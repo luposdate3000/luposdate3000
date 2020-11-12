@@ -62,7 +62,7 @@ class POPJoinMerge(query: IQuery, projectedVariables: List<String>, childA: IOPB
             }
         }
 
-        suspend override fun hasNext2Close() {
+        override suspend fun hasNext2Close() {
             _hasNext2Close()
         }
     }

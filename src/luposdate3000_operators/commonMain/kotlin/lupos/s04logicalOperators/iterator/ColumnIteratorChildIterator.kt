@@ -3,7 +3,7 @@ package lupos.s04logicalOperators.iterator
 import kotlin.jvm.JvmField
 import lupos.s03resultRepresentation.ResultSetDictionaryExt
 
-abstract class ColumnIteratorChildIterator() : ColumnIterator() {
+abstract class ColumnIteratorChildIterator : ColumnIterator() {
     var queue = Array<ColumnIterator>(100) { this }
     var queue_read = 0
     var queue_write = 0
@@ -46,7 +46,7 @@ abstract class ColumnIteratorChildIterator() : ColumnIterator() {
         obj.close()
     }
 
-    internal inline suspend fun _close() {
+    internal suspend inline fun _close() {
         if (label != 0) {
             label = 0
             for (i in queue_read until queue_write) {
@@ -55,7 +55,7 @@ abstract class ColumnIteratorChildIterator() : ColumnIterator() {
         }
     }
 
-    internal inline suspend fun next_helper(crossinline onNoMoreElements: suspend () -> Unit, crossinline onClose: suspend () -> Unit): Int {
+    internal suspend inline fun next_helper(crossinline onNoMoreElements: suspend () -> Unit, crossinline onClose: suspend () -> Unit): Int {
         when (label) {
             1 -> {
                 while (queue_read < queue_write) {

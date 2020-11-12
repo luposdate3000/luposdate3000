@@ -317,7 +317,7 @@ class POPGroup : POPBase {
                                 __close()
                             }
 
-                            inline suspend fun __close() {
+                            suspend inline fun __close() {
                                 if (label != 0) {
                                     ColumnIteratorQueueExt._close(this)
                                     for (closeIndex in 0 until keyColumns.size) {

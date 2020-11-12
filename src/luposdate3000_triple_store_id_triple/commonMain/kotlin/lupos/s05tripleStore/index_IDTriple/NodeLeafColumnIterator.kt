@@ -17,7 +17,7 @@ internal abstract class NodeLeafColumnIterator(@JvmField var node: ByteArray, @J
 
     @JvmField
     var needsReset = true
-    inline suspend fun __init() {
+    suspend inline fun __init() {
         SanityCheck.println { "readLock(${lock.getUUID()}) x44" }
         lock.readLock()
         remaining = NodeShared.getTripleCount(node)
@@ -42,7 +42,7 @@ internal abstract class NodeLeafColumnIterator(@JvmField var node: ByteArray, @J
         }
     }
 
-    suspend override fun close() {
+    override suspend fun close() {
         _close()
     }
 

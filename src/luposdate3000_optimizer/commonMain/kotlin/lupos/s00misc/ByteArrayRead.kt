@@ -3,7 +3,7 @@ package lupos.s00misc
 import kotlin.jvm.JvmField
 import lupos.s00misc.SanityCheck
 
-@UseExperimental(ExperimentalStdlibApi::class)
+@OptIn(ExperimentalStdlibApi::class)
 internal class ByteArrayRead(@JvmField val data: ByteArray, @JvmField val size: Int) {
     @JvmField
     var uuid = debuguuidtmp++

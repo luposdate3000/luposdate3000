@@ -6,7 +6,7 @@ import lupos.s00misc.SanityCheck
 import lupos.s03resultRepresentation.ResultSetDictionaryExt
 
 object ColumnIteratorMerge {
-    operator suspend fun invoke(a: ColumnIterator, comparator: Comparator<Int>): ColumnIterator {
+    suspend operator fun invoke(a: ColumnIterator, comparator: Comparator<Int>): ColumnIterator {
         var buf1 = IntArray(MERGE_SORT_MIN_ROWS)
         var buf2 = IntArray(MERGE_SORT_MIN_ROWS)
         var done = false

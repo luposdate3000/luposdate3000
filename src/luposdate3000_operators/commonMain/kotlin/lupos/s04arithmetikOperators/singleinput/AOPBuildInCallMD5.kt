@@ -13,7 +13,7 @@ import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
 
-@UseExperimental(ExperimentalStdlibApi::class)
+@OptIn(ExperimentalStdlibApi::class)
 class AOPBuildInCallMD5(query: IQuery, child: AOPBase) : AOPBase(query, EOperatorID.AOPBuildInCallMD5ID, "AOPBuildInCallMD5", arrayOf(child)) {
     override fun toSparql() = "MD5(" + children[0].toSparql() + ")"
     override fun equals(other: Any?) = other is AOPBuildInCallMD5 && children[0] == other.children[0]

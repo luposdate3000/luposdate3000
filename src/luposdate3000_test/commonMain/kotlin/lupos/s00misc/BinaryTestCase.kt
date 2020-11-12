@@ -437,7 +437,7 @@ if (tmpTable != null) {
                                         }
                                     }
                                     if (tmpTable != null) {
-                                        success = verifyEqual(tableInput, tmpTable!!, mapping_live_to_target, targetDict, targetDict2, true, query_name, query_folder, "import ($idx ${p.column} ${p.partitionCount})") && success
+                                        success = verifyEqual(tableInput, tmpTable, mapping_live_to_target, targetDict, targetDict2, true, query_name, query_folder, "import ($idx ${p.column} ${p.partitionCount})") && success
                                         SanityCheck.println { "success after idx $idx $success" }
                                     }
                                 }

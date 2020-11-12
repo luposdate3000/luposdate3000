@@ -16,7 +16,7 @@ class LOPServiceVAR(query: IQuery, @JvmField val name: String, @JvmField val sil
     override suspend fun toXMLElement() = super.toXMLElement().addAttribute("name", name).addAttribute("silent", "" + silent).addContent(XMLElement("constraint").addContent(children[1].toXMLElement()))
     override fun equals(other: Any?) = other is LOPServiceVAR && name == other.name && silent == other.silent && children[0] == other.children[0] && children[1] == other.children[1]
     override fun cloneOP(): IOPBase = LOPServiceVAR(query, name, silent, children[1].cloneOP(), children[0].cloneOP())
-    suspend override fun calculateHistogram(): HistogramResult {
+    override suspend fun calculateHistogram(): HistogramResult {
         return children[0].getHistogram()
     }
 }

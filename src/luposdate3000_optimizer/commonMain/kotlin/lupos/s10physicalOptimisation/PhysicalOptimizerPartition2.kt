@@ -41,7 +41,7 @@ class PhysicalOptimizerPartition2(query: Query) : OptimizerBase(query, EOptimize
                         storeNodeTmp = storeNodeTmp.getChildren()[0]
                     }
                     SanityCheck.check { storeNodeTmp is TripleStoreIteratorGlobal }
-                    val storeNode = storeNodeTmp as TripleStoreIteratorGlobal
+                    val storeNode = storeNodeTmp
                     val idx = storeNode.idx
                     var partitionColumn = 0
                     for (ii in 0 until 3) {

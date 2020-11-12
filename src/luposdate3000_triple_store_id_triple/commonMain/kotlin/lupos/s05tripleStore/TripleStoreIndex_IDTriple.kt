@@ -28,7 +28,7 @@ import lupos.s05tripleStore.index_IDTriple.NodeManager
 import lupos.s05tripleStore.index_IDTriple.NodeShared
 import lupos.s05tripleStore.index_IDTriple.TripleIterator
 
-class TripleStoreIndex_IDTriple() : TripleStoreIndex() {
+class TripleStoreIndex_IDTriple : TripleStoreIndex() {
     @JvmField
     var firstLeaf = NodeManager.nodeNullPointer
 
@@ -76,10 +76,10 @@ class TripleStoreIndex_IDTriple() : TripleStoreIndex() {
         var debugLock = MyReadWriteLock()
     }
 
-    suspend override fun safeToFile(filename: String) {
+    override suspend fun safeToFile(filename: String) {
     }
 
-    suspend override fun loadFromFile(filename: String) {
+    override suspend fun loadFromFile(filename: String) {
     }
 
     inline fun clearCachedHistogram() {
@@ -163,7 +163,7 @@ class TripleStoreIndex_IDTriple() : TripleStoreIndex() {
         }
     }
 
-    suspend override fun getHistogram(query: IQuery, params: TripleStoreFeatureParams): Pair<Int, Int> {
+    override suspend fun getHistogram(query: IQuery, params: TripleStoreFeatureParams): Pair<Int, Int> {
         val filter = (params as TripleStoreFeatureParamsDefault).getFilter(query)
         var res: Pair<Int, Int>? = checkForCachedHistogram(filter)
         if (res == null) {
@@ -220,7 +220,7 @@ class TripleStoreIndex_IDTriple() : TripleStoreIndex() {
         return res
     }
 
-    suspend override fun getIterator(query: IQuery, params: TripleStoreFeatureParams): IteratorBundle {
+    override suspend fun getIterator(query: IQuery, params: TripleStoreFeatureParams): IteratorBundle {
         var fp = (params as TripleStoreFeatureParamsDefault).getFilterAndProjection(query)
         val filter = fp.first
         val projection = fp.second
@@ -348,7 +348,7 @@ class TripleStoreIndex_IDTriple() : TripleStoreIndex() {
         return res
     }
 
-    suspend override fun flush() {
+    override suspend fun flush() {
         if (pendingImport.size > 0) {
             SanityCheck.println { "writeLock(${lock.getUUID()}) x138" }
             lock.writeLock()
@@ -358,13 +358,13 @@ class TripleStoreIndex_IDTriple() : TripleStoreIndex() {
         }
     }
 
-    internal inline suspend fun flushContinueWithWriteLock() {
+    internal suspend inline fun flushContinueWithWriteLock() {
         SanityCheck.println { "writeLock(${lock.getUUID()}) x140" }
         lock.writeLock()
         flushAssumeLocks()
     }
 
-    internal inline suspend fun flushContinueWithReadLock() {
+    internal suspend inline fun flushContinueWithReadLock() {
         var hasLock = false
         while (pendingImport.size > 0) {
             SanityCheck.println { "tryWriteLock(${lock.getUUID()}) x204" }
@@ -428,7 +428,7 @@ class TripleStoreIndex_IDTriple() : TripleStoreIndex() {
         }
     }
 
-    suspend override fun import(dataImport: IntArray, count: Int, order: IntArray) {
+    override suspend fun import(dataImport: IntArray, count: Int, order: IntArray) {
         SanityCheck.println { "writeLock(${lock.getUUID()}) x142" }
         lock.writeLock()
         if (count > 0) {
@@ -584,8 +584,8 @@ class TripleStoreIndex_IDTriple() : TripleStoreIndex() {
             debugLock.writeLock()
             debugLock.writeUnlock()
             val queueS = (iterator as DebugPassThroughIterator).queueS
-            val queueP = (iterator as DebugPassThroughIterator).queueP
-            val queueO = (iterator as DebugPassThroughIterator).queueO
+            val queueP = iterator.queueP
+            val queueO = iterator.queueO
             var myleaf = ByteArray(0)
 //
             NodeManager.getNodeLeaf(firstLeaf) { it ->
@@ -831,7 +831,7 @@ class TripleStoreIndex_IDTriple() : TripleStoreIndex() {
 //
     }
 
-    suspend override fun insertAsBulk(data: IntArray, order: IntArray) {
+    override suspend fun insertAsBulk(data: IntArray, order: IntArray) {
         flushContinueWithWriteLock()
         var d = arrayOf(data, IntArray(data.size))
         TripleStoreBulkImportExt.sortUsingBuffers(0, 0, 1, d, data.size / 3, order)
@@ -860,7 +860,7 @@ class TripleStoreIndex_IDTriple() : TripleStoreIndex() {
         lock.writeUnlock()
     }
 
-    suspend override fun removeAsBulk(data: IntArray, order: IntArray) {
+    override suspend fun removeAsBulk(data: IntArray, order: IntArray) {
         flushContinueWithWriteLock()
         var d = arrayOf(data, IntArray(data.size))
         TripleStoreBulkImportExt.sortUsingBuffers(0, 0, 1, d, data.size / 3, order)
@@ -897,7 +897,7 @@ class TripleStoreIndex_IDTriple() : TripleStoreIndex() {
         SanityCheck.checkUnreachable()
     }
 
-    suspend override fun clear() {
+    override suspend fun clear() {
         flushContinueWithWriteLock()
         if (root != NodeManager.nodeNullPointer) {
             SanityCheck.println({ "Outside.refcount($root)  x151" })
@@ -911,7 +911,7 @@ class TripleStoreIndex_IDTriple() : TripleStoreIndex() {
         lock.writeUnlock()
     }
 
-    suspend override fun printContents() {
+    override suspend fun printContents() {
         SanityCheck.println { "readLock(${lock.getUUID()}) x65" }
         lock.readLock()
         if (firstLeaf != NodeManager.nodeNullPointer) {

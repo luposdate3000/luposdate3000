@@ -95,7 +95,7 @@ class POPJoinWithStoreExists(query: IQuery, projectedVariables: List<String>, ch
                     return t
                 }
 
-                suspend override fun hasNext2Close() {
+                override suspend fun hasNext2Close() {
                     for (closeIndex in 0 until iterators.size) {
                         iterators[closeIndex].close()
                     }

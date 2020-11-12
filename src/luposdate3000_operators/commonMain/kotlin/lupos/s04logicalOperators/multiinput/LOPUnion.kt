@@ -16,7 +16,7 @@ import lupos.s04logicalOperators.singleinput.LOPProjection
 class LOPUnion(query: IQuery, first: IOPBase, second: IOPBase) : LOPBase(query, EOperatorID.LOPUnionID, "LOPUnion", arrayOf(first, second), ESortPriority.UNION) {
     override fun equals(other: Any?) = other is LOPUnion && children[0] == other.children[0] && children[1] == other.children[1]
     override fun cloneOP(): IOPBase = LOPUnion(query, children[0].cloneOP(), children[1].cloneOP())
-    suspend override fun calculateHistogram(): HistogramResult {
+    override suspend fun calculateHistogram(): HistogramResult {
         var res = HistogramResult()
         var childHistogram0 = children[0].getHistogram()
         var childHistogram1 = children[1].getHistogram()

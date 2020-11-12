@@ -29,12 +29,12 @@ internal class MyPrintWriterExtension(out: OutputStream) : MyPrintWriter(out) {
     }
 }
 
-@UseExperimental(ExperimentalStdlibApi::class)
+@OptIn(ExperimentalStdlibApi::class)
 actual object HttpEndpointLauncher {
     internal fun printHeaderSuccess(stream: MyPrintWriter) {
         stream.println("HTTP/1.1 200 OK")
         stream.println("Content-Type: text/plain")
-        stream.println();
+        stream.println()
     }
 
     actual suspend fun start(hostname: String, port: Int) {

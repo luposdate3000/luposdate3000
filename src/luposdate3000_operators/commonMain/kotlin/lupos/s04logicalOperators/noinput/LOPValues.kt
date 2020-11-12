@@ -34,7 +34,7 @@ class LOPValues(query: IQuery, @JvmField val variables: List<AOPVariable>, value
 
     override fun equals(other: Any?) = other is LOPValues && variables == other.variables && children.contentEquals(other.children)
     override fun cloneOP(): IOPBase = LOPValues(query, variables, List(children.size) { children[it].cloneOP() as AOPValue })
-    suspend override fun calculateHistogram(): HistogramResult {
+    override suspend fun calculateHistogram(): HistogramResult {
         var res = HistogramResult()
         var p = getProvidedVariableNames()
         for (i in 0 until p.size) {

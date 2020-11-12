@@ -25,7 +25,7 @@ class OPBaseCompound(query: IQuery, children: Array<IOPBase>, val columnProjecti
         return res
     }
 
-    suspend override fun calculateHistogram(): HistogramResult = SanityCheck.checkUnreachable()
+    override suspend fun calculateHistogram(): HistogramResult = SanityCheck.checkUnreachable()
     override fun equals(other: Any?): Boolean {
         if (other !is OPBaseCompound) {
             return false

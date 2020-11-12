@@ -103,7 +103,7 @@ class POPMergePartitionCount(query: IQuery, projectedVariables: List<String>, va
                     return res
                 }
 
-                suspend override fun hasNext2Close() {
+                override suspend fun hasNext2Close() {
                     SanityCheck.println({ "merge $uuid reader closed" })
                     readerFinished = 1
                 }

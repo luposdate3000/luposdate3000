@@ -159,8 +159,8 @@ class ValueBoolean(@JvmField var value: Boolean, x: Boolean) : ValueDefinition()
     override fun hashCode() = value.hashCode()
 }
 
-sealed class ValueNumeric() : ValueDefinition()
-class ValueUndef() : ValueDefinition() {
+sealed class ValueNumeric : ValueDefinition()
+class ValueUndef : ValueDefinition() {
     override suspend fun toXMLElement() = XMLElement("ValueUndef")
     override fun valueToString(): String? = null
     override fun equals(other: Any?): Boolean {
@@ -178,7 +178,7 @@ class ValueUndef() : ValueDefinition() {
     override fun hashCode() = 0
 }
 
-class ValueError() : ValueDefinition() {
+class ValueError : ValueDefinition() {
     override suspend fun toXMLElement() = XMLElement("ValueError")
     override fun valueToString(): String? = null
     override fun equals(other: Any?): Boolean = throw IncompatibleTypesDuringCompareException()

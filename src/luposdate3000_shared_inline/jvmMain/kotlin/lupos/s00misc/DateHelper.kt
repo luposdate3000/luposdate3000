@@ -3,7 +3,7 @@ package lupos.s00misc
 import java.util.Calendar
 
 internal actual class DateHelper {
-    actual constructor() {}
+    actual constructor()
 
     @JvmField
     internal val time = Calendar.getInstance()

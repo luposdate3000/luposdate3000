@@ -51,7 +51,7 @@ class POPProjection(query: IQuery, projectedVariables: List<String>, child: IOPB
                     return column.next() != ResultSetDictionaryExt.nullValue
                 }
 
-                suspend override fun hasNext2Close() {
+                override suspend fun hasNext2Close() {
                     column.close()
                 }
             }
