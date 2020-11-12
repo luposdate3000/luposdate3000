@@ -1,11 +1,6 @@
-import lupos.s00misc.DateHelperRelative
-import lupos.s00misc.File
-import lupos.s00misc.MyPrintWriter
-import lupos.s00misc.Parallel
-import lupos.s00misc.Partition
+import lupos.s00misc.*
 import lupos.s03resultRepresentation.nodeGlobalDictionary
 import lupos.s15tripleStoreDistributed.distributedTripleStore
-import lupos.s15tripleStoreDistributed.DistributedTripleStore
 import lupos.s16network.LuposdateEndpoint
 
 enum class Datasource {
@@ -67,7 +62,7 @@ fun main(args: Array<String>) = Parallel.runBlocking {
 */
         }
     }
-    var groupSize = IntArray(queryFiles.size) { 1 }
+    val groupSize = IntArray(queryFiles.size) { 1 }
     for (queryFileIdx in 0 until queryFiles.size) {
         val queryFile = queryFiles[queryFileIdx]
         val query = File(queryFile).readAsString()

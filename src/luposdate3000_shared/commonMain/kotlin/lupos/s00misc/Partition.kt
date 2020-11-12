@@ -8,17 +8,17 @@ class Partition {
         var default_k = 128
         const val queue_size = 1000
         inline fun hashFunction(v: Int, k: Int): Int {
-            if (v < 0) {
-                return (-v) % k
+            return if (v < 0) {
+                (-v) % k
             } else {
-                return v % k
+                v % k
             }
         }
     }
 
     constructor() {
-        data = mutableMapOf<String, Int>()
-        limit = mutableMapOf<String, Int>()
+        data = mutableMapOf()
+        limit = mutableMapOf()
     }
 
     constructor(parentPartition: Partition, variableName: String, partitionNumber: Int, partitionLimit: Int) {

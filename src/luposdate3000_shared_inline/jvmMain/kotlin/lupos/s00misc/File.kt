@@ -1,27 +1,12 @@
 package lupos.s00misc
 
-import java.io.BufferedInputStream
-import java.io.BufferedOutputStream
-import java.io.DataInputStream
-import java.io.DataOutputStream
-import java.io.FileInputStream
-import java.io.FileOutputStream
-import java.io.InputStream
-import kotlin.io.createTempFile
-import kotlin.jvm.JvmField
 import lupos.s00misc.IMyInputStream
-import lupos.s00misc.Parallel
+import java.io.*
 
-internal actual class File {
-    @JvmField
-    val filename: String
-
-    actual constructor(filename: String) {
-        this.filename = filename
-    }
+internal actual class File actual constructor(@JvmField val filename: String) {
 
     actual inline fun createTempFile(prefix: String, suffix: String, directory: String): String {
-        var f = createTempFile(prefix, suffix, java.io.File(directory))
+        val f = createTempFile(prefix, suffix, java.io.File(directory))
         return f.absolutePath
     }
 

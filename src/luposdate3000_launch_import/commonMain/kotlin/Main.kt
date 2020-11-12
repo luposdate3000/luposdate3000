@@ -2,8 +2,6 @@ import lupos.s00misc.ETripleComponentType
 import lupos.s00misc.File
 import lupos.s00misc.Parallel
 import lupos.s02buildSyntaxTree.turtle.Turtle2Parser
-import lupos.s15tripleStoreDistributed.distributedTripleStore
-import lupos.s15tripleStoreDistributed.DistributedTripleStore
 import lupos.s16network.LuposdateEndpoint
 
 enum class ImportMode {
@@ -14,10 +12,7 @@ enum class ImportMode {
 fun helper_clean_string(s: String): String {
     var res: String = s
     while (true) {
-        val match = "\\\\u[0-9a-fA-f]{4}".toRegex().find(res)
-        if (match == null) {
-            break
-        }
+        val match = "\\\\u[0-9a-fA-f]{4}".toRegex().find(res) ?: break
         val replacement = match.value.substring(2, 6).toInt(16).toChar() + ""
         res = res.replace(match.value, replacement)
     }
@@ -34,13 +29,13 @@ fun main(args: Array<String>) = Parallel.runBlocking {
     val inputFile = File(inputFileName)
     val dict = mutableMapOf<String, Int>()
     var dictCounter = 0
-    var dictCounterByType = IntArray(ETripleComponentType.values().size)
+    val dictCounterByType = IntArray(ETripleComponentType.values().size)
     var DictionaryOffset = 0
     val iter = inputFile.readAsInputStream()
-    val outputTriplesFile = File(inputFileName + ".triples")
-    val outputDictionaryFile = File(inputFileName + ".dictionary")
-    val outputDictionaryOffsetFile = File(inputFileName + ".dictionaryoffset")
-    val outputDictionaryStatFile = File(inputFileName + ".stat")
+    val outputTriplesFile = File("$inputFileName.triples")
+    val outputDictionaryFile = File("$inputFileName.dictionary")
+    val outputDictionaryOffsetFile = File("$inputFileName.dictionaryoffset")
+    val outputDictionaryStatFile = File("$inputFileName.stat")
     val byteBuf = ByteArray(1)
     try {
         outputDictionaryFile.dataOutputStream { outDictionary ->
@@ -49,7 +44,7 @@ fun main(args: Array<String>) = Parallel.runBlocking {
                     val x = object : Turtle2Parser(iter) {
                         override fun onTriple(triple: Array<String>, tripleType: Array<ETripleComponentType>) {
                             for (i in 0 until 3) {
-                                var tripleCleaned = helper_clean_string(triple[i])
+                                val tripleCleaned = helper_clean_string(triple[i])
                                 val v = dict[tripleCleaned]
                                 if (v != null) {
                                     outTriples.writeInt(v)

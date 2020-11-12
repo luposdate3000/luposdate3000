@@ -3,22 +3,11 @@ package lupos.s04arithmetikOperators.singleinput
 import lupos.s00misc.CanNotCastLiteralToDoubleException
 import lupos.s00misc.DontCareWhichException
 import lupos.s00misc.EOperatorID
-import lupos.s03resultRepresentation.ValueBoolean
-import lupos.s03resultRepresentation.ValueDecimal
-import lupos.s03resultRepresentation.ValueDefinition
-import lupos.s03resultRepresentation.ValueDouble
-import lupos.s03resultRepresentation.ValueError
-import lupos.s03resultRepresentation.ValueFloat
-import lupos.s03resultRepresentation.ValueInteger
-import lupos.s03resultRepresentation.ValueLanguageTaggedLiteral
-import lupos.s03resultRepresentation.ValueSimpleLiteral
-import lupos.s03resultRepresentation.ValueTypedLiteral
+import lupos.s03resultRepresentation.*
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.IteratorBundle
-import lupos.s04logicalOperators.OPBase
-import lupos.s04logicalOperators.Query
 
 class AOPFunctionCallFloat(query: IQuery, child: AOPBase) : AOPBase(query, EOperatorID.AOPFunctionCallFloatID, "AOPFunctionCallFloat", arrayOf(child)) {
     override fun toSparql() = "<http://www.w3.org/2001/XMLSchema#float>(" + children[0].toSparql() + ")"
@@ -27,8 +16,7 @@ class AOPFunctionCallFloat(query: IQuery, child: AOPBase) : AOPBase(query, EOper
         val childA = (children[0] as AOPBase).evaluate(row)
         return {
             var res: ValueDefinition = ValueError()
-            val a = childA()
-            when (a) {
+            when (val a = childA()) {
                 is ValueFloat -> {
                     res = a
                 }
@@ -36,10 +24,10 @@ class AOPFunctionCallFloat(query: IQuery, child: AOPBase) : AOPBase(query, EOper
                     res = ValueFloat(a.toDouble())
                 }
                 is ValueBoolean -> {
-                    if (a.value) {
-                        res = ValueFloat(1.0)
+                    res = if (a.value) {
+                        ValueFloat(1.0)
                     } else {
-                        res = ValueFloat(0.0)
+                        ValueFloat(0.0)
                     }
                 }
                 is ValueDecimal -> {

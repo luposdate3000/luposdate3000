@@ -4,13 +4,7 @@ import kotlin.jvm.JvmField
 import lupos.s00misc.EOptimizerID
 import lupos.s00misc.SanityCheck
 import lupos.s04logicalOperators.IOPBase
-import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
-import lupos.s09physicalOperators.partition.POPMergePartition
-import lupos.s09physicalOperators.partition.POPMergePartitionCount
-import lupos.s09physicalOperators.partition.POPMergePartitionOrderedByIntId
-import lupos.s09physicalOperators.partition.POPSplitPartition
-import lupos.s09physicalOperators.partition.POPSplitPartitionFromStore
 
 abstract class OptimizerBase(@JvmField val query: Query, @JvmField val optimizerID: EOptimizerID) {
     abstract val classname: String
@@ -25,15 +19,14 @@ abstract class OptimizerBase(@JvmField val query: Query, @JvmField val optimizer
                         break
                     }
                 }
-                SanityCheck.check({ found })
+                SanityCheck.check { found }
             }
         }
         for (i in node.getChildren().indices) {
             val tmp = optimizeInternal(node.getChildren()[i], node, onChange)
             node.updateChildren(i, tmp)
         }
-        val res = optimize(node, parent, onChange)
-        return res
+        return optimize(node, parent, onChange)
     }
 
     open /*suspend*/ fun optimizeCall(node: IOPBase, onChange: () -> Unit = {}): IOPBase {

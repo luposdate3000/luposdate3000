@@ -4,7 +4,6 @@ import kotlin.jvm.JvmField
 import lupos.s00misc.SanityCheck
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.multiinput.LOPJoin
-import lupos.s04logicalOperators.OPBase
 
 object LogicalOptimizerJoinOrderCostBasedOnVariable {
     class Plan : Comparable<Plan> {
@@ -42,7 +41,7 @@ object LogicalOptimizerJoinOrderCostBasedOnVariable {
             cost = columns
         }
 
-        /*inline*/ fun sqr(i: Int) = i * i
+        /*inline*/ private fun sqr(i: Int) = i * i
 
         constructor(plans: Array<Plan?>, childA: Int, childB: Int, allVariables: List<Int>) {
             child = null
@@ -51,10 +50,10 @@ object LogicalOptimizerJoinOrderCostBasedOnVariable {
             val vb = plans[childB]!!.variables
             val depthA = plans[childA]!!.depth
             val depthB = plans[childB]!!.depth
-            if (depthB > depthA) {
-                depth = depthB + 1
+            depth = if (depthB > depthA) {
+                depthB + 1
             } else {
-                depth = depthA + 1
+                depthA + 1
             }
             this.variables = Array(allVariables.size) { va[it] + vb[it] }
             var c = 0
@@ -65,19 +64,18 @@ object LogicalOptimizerJoinOrderCostBasedOnVariable {
                 }
             }
             columns = c
-            if (depthA == depthB) {
-                cost = sqr(plans[childA]!!.columns + plans[childB]!!.columns)
+            cost = if (depthA == depthB) {
+                sqr(plans[childA]!!.columns + plans[childB]!!.columns)
             } else if (depthA < depthB) {
-                cost = sqr(plans[childA]!!.columns + plans[childB]!!.columns + plans[childB]!!.columns)
+                sqr(plans[childA]!!.columns + plans[childB]!!.columns + plans[childB]!!.columns)
             } else {
-                cost = sqr(plans[childA]!!.columns + plans[childA]!!.columns + plans[childB]!!.columns)
+                sqr(plans[childA]!!.columns + plans[childA]!!.columns + plans[childB]!!.columns)
             }
             //cost calculation ... the least cost for_ deepest partial results
         }
 
         override operator fun compareTo(other: Plan): Int {
-            var res = cost.compareTo(other.cost)
-            return res
+            return cost.compareTo(other.cost)
         }
 
         fun toOPBase(plans: Array<Plan?>): IOPBase {

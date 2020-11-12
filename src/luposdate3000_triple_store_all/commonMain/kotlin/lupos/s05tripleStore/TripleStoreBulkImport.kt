@@ -70,18 +70,18 @@ class TripleStoreBulkImport(@JvmField val query: IQuery, @JvmField val graphName
         distributedTripleStore.getLocalStore().getNamedGraph(query, graphName).import(this)
     }
 
-    fun reset() {
+    private fun reset() {
         idx = 0
     }
 
-    fun full() = idx >= size
+    private fun full() = idx >= size
 
     companion object {
-        const val sizeshift = 20
+        private const val sizeshift = 20
         const val size = 3 * (1 shl sizeshift)
     }
 
-    fun sort() {
+    private fun sort() {
         //the target data is sorted, but may contain duplicates, _if the input contains those
         val total = idx / 3
         val orderSPO = EIndexPattern.SPO.tripleIndicees
@@ -102,9 +102,8 @@ class TripleStoreBulkImport(@JvmField val query: IQuery, @JvmField val graphName
             for (j in 0 until 2) {
                 for (i in 0 until 3) {
                     val order = orders[i * 2 + j]
-                    val dataIdxA = i
                     val dataIdxB = i + 3
-                    TripleStoreBulkImportExt.sortUsingBuffers(8, dataIdxA, dataIdxB, data, total, order)
+                    TripleStoreBulkImportExt.sortUsingBuffers(8, i, dataIdxB, data, total, order)
                 }
                 if (j == 0) {
                     dataSPO = data[0]

@@ -1,6 +1,5 @@
 package lupos.s04logicalOperators.noinput
 
-import kotlin.jvm.JvmField
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.ESortPriority
 import lupos.s00misc.XMLElement
@@ -8,14 +7,13 @@ import lupos.s04logicalOperators.HistogramResult
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.LOPBase
-import lupos.s04logicalOperators.OPBase
-import lupos.s04logicalOperators.Query
+import kotlin.jvm.JvmField
 
 class OPNothing(query: IQuery, @JvmField val myProvidedVariableNames: List<String>) : LOPBase(query, EOperatorID.OPNothingID, "OPNothing", arrayOf(), ESortPriority.PREVENT_ANY) {
     override fun getProvidedVariableNames() = myProvidedVariableNames
     override fun toSparql() = "{}"
     override /*suspend*/ fun toXMLElement(): XMLElement {
-        var res = super.toXMLElement()
+        val res = super.toXMLElement()
         for (v in myProvidedVariableNames) {
             res.addContent(XMLElement("v").addContent(v))
         }
@@ -25,7 +23,7 @@ class OPNothing(query: IQuery, @JvmField val myProvidedVariableNames: List<Strin
     override fun equals(other: Any?) = other is OPNothing
     override fun cloneOP(): IOPBase = this
     override /*suspend*/ fun calculateHistogram(): HistogramResult {
-        var res = HistogramResult()
+        val res = HistogramResult()
         res.count = 0
         for (v in myProvidedVariableNames) {
             res.values[v] = 0

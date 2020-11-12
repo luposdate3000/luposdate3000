@@ -13,24 +13,24 @@ internal object ColumnIteratorQueueExt {
     /*suspend*/ inline fun nextHelper(it: ColumnIteratorQueue, crossinline onEmptyQueue: /*suspend*/ () -> Unit, crossinline onClose: /*suspend*/ () -> Unit): Int {
         when (it.label) {
             1 -> {
-                if (it.queue.size == 0) {
+                return if (it.queue.size == 0) {
                     onEmptyQueue()
                     if (it.queue.size > 0) {
-                        return it.queue.removeAt(0)
+                        it.queue.removeAt(0)
                     } else {
                         onClose()
-                        return ResultSetDictionaryExt.nullValue
+                        ResultSetDictionaryExt.nullValue
                     }
                 } else {
-                    return it.queue.removeAt(0)
+                    it.queue.removeAt(0)
                 }
             }
             2 -> {
-                if (it.queue.size == 0) {
+                return if (it.queue.size == 0) {
                     onClose()
-                    return ResultSetDictionaryExt.nullValue
+                    ResultSetDictionaryExt.nullValue
                 } else {
-                    return it.queue.removeAt(0)
+                    it.queue.removeAt(0)
                 }
             }
             else -> {

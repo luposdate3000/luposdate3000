@@ -16,16 +16,16 @@ import lupos.s09physicalOperators.POPBase
 
 class POPJoinHashMap(query: IQuery, projectedVariables: List<String>, childA: IOPBase, childB: IOPBase, @JvmField val optional: Boolean) : POPBase(query, projectedVariables, EOperatorID.POPJoinHashMapID, "POPJoinHashMap", arrayOf(childA, childB), ESortPriority.JOIN) {
     override fun getPartitionCount(variable: String): Int {
-        if (children[0].getProvidedVariableNames().contains(variable)) {
+        return if (children[0].getProvidedVariableNames().contains(variable)) {
             if (children[1].getProvidedVariableNames().contains(variable)) {
                 SanityCheck.check { children[0].getPartitionCount(variable) == children[1].getPartitionCount(variable) }
-                return children[0].getPartitionCount(variable)
+                children[0].getPartitionCount(variable)
             } else {
-                return children[0].getPartitionCount(variable)
+                children[0].getPartitionCount(variable)
             }
         } else {
             if (children[1].getProvidedVariableNames().contains(variable)) {
-                return children[1].getPartitionCount(variable)
+                children[1].getPartitionCount(variable)
             } else {
                 throw Exception("unknown variable $variable")
             }
@@ -109,7 +109,7 @@ class POPJoinHashMap(query: IQuery, projectedVariables: List<String>, childA: IO
             outIterators.add(Pair(name, 2))
             columnsINBO.add(childB.columns[name]!!)
         }
-        var emptyColumnsWithJoin = outIterators.size == 0 && columnsINAJ.size != 0
+        val emptyColumnsWithJoin = outIterators.size == 0 && columnsINAJ.size != 0
         if (emptyColumnsWithJoin) {
             outIterators.add(Pair("", 3))
         }
@@ -127,10 +127,10 @@ class POPJoinHashMap(query: IQuery, projectedVariables: List<String>, childA: IO
         SanityCheck.check { columnsINAJ.size > 0 }
 //--- insert second child into hash table
         while (true) {
-            if (currentKey != null) {
-                count = 1
+            count = if (currentKey != null) {
+                1
             } else {
-                count = 0
+                0
             }
             loopB@ while (true) {
                 nextKey = IntArray(columnsINBJ.size) { ResultSetDictionaryExt.undefValue }
@@ -214,10 +214,10 @@ class POPJoinHashMap(query: IQuery, projectedVariables: List<String>, childA: IO
                     return nextHelper({
                         var done = false
                         while (!done) {
-                            if (currentKey == null) {
-                                countA = 0
+                            countA = if (currentKey == null) {
+                                0
                             } else {
-                                countA = 1
+                                1
                             }
                             loopA@ while (true) {
                                 nextKey = IntArray(columnsINAJ.size) { ResultSetDictionaryExt.undefValue }
@@ -247,7 +247,7 @@ class POPJoinHashMap(query: IQuery, projectedVariables: List<String>, childA: IO
                                 __close()
                             } else {
                                 key = MapKey(currentKey!!)
-                                var others = mutableListOf<Pair<MapKey, MapRow>>()
+                                val others = mutableListOf<Pair<MapKey, MapRow>>()
 //search for_join-partners
                                 if (map == mapWithoutUndef) {
                                     val tmp2 = mapWithoutUndef[key]
@@ -274,7 +274,7 @@ class POPJoinHashMap(query: IQuery, projectedVariables: List<String>, childA: IO
                                 val dataOA = Array(columnsINAO.size) { mutableListOf<Int>() }
                                 for (columnIndex in 0 until columnsINAO.size) {
                                     for (i in 0 until countA) {
-                                        var tmp2 = columnsINAO[columnIndex].next()
+                                        val tmp2 = columnsINAO[columnIndex].next()
                                         SanityCheck.check { tmp2 != ResultSetDictionaryExt.nullValue }
                                         dataOA[columnIndex].add(tmp2)
                                     }
@@ -285,18 +285,17 @@ class POPJoinHashMap(query: IQuery, projectedVariables: List<String>, childA: IO
                                         done = true
                                         countB = 1
                                         val dataJ = IntArray(outJ.size) { currentKey!![it] }
-                                        POPJoin.crossProduct(dataOA, Array(outO[1].size) { mutableListOf<Int>(ResultSetDictionaryExt.undefValue) }, dataJ, outO[0], outO[1], outJ, countA, countB)
+                                        POPJoin.crossProduct(dataOA, Array(outO[1].size) { mutableListOf(ResultSetDictionaryExt.undefValue) }, dataJ, outO[0], outO[1], outJ, countA, countB)
                                     }
                                 } else {
                                     done = true
                                     for (otherIndex in 0 until others.size) {
                                         countB = others[otherIndex].second.count
                                         val dataJ = IntArray(outJ.size) {
-                                            var res2: Int
-                                            if (currentKey!![it] != ResultSetDictionaryExt.undefValue) {
-                                                res2 = currentKey!![it]
+                                            val res2: Int = if (currentKey!![it] != ResultSetDictionaryExt.undefValue) {
+                                                currentKey!![it]
                                             } else {
-                                                res2 = others[otherIndex].first.data[it]
+                                                others[otherIndex].first.data[it]
                                             }
                                             /*return*/res2
                                         }
@@ -329,10 +328,10 @@ class POPJoinHashMap(query: IQuery, projectedVariables: List<String>, childA: IO
                 }
             }
         }
-        if (outMap.size > 0) {
-            res = IteratorBundle(outMap)
+        res = if (outMap.isNotEmpty()) {
+            IteratorBundle(outMap)
         } else {
-            res = IteratorBundle(0)
+            IteratorBundle(0)
         }
         if (emptyColumnsWithJoin) {
             res = object : IteratorBundle(0) {

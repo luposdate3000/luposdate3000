@@ -1,6 +1,5 @@
 package lupos.s04arithmetikOperators.singleinput
 
-import kotlin.jvm.JvmField
 import lupos.s00misc.EOperatorID
 import lupos.s03resultRepresentation.ResultSetDictionaryExt
 import lupos.s03resultRepresentation.ValueBoolean
@@ -9,8 +8,7 @@ import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.IteratorBundle
-import lupos.s04logicalOperators.OPBase
-import lupos.s04logicalOperators.Query
+import kotlin.jvm.JvmField
 
 class AOPNot(query: IQuery, @JvmField var child: AOPBase) : AOPBase(query, EOperatorID.AOPNotID, "AOPNot", arrayOf(child)) {
     override fun toSparql() = "!(" + children[0].toSparql() + ")"
@@ -20,11 +18,10 @@ class AOPNot(query: IQuery, @JvmField var child: AOPBase) : AOPBase(query, EOper
             val childA = (children[0] as AOPBase).evaluateID(row)
             return {
                 val a = childA()
-                val res: ValueDefinition
-                if (a == ResultSetDictionaryExt.errorValue) {
-                    res = ResultSetDictionaryExt.errorValue2
+                val res: ValueDefinition = if (a == ResultSetDictionaryExt.errorValue) {
+                    ResultSetDictionaryExt.errorValue2
                 } else {
-                    res = ValueBoolean(a == ResultSetDictionaryExt.booleanFalseValue)
+                    ValueBoolean(a == ResultSetDictionaryExt.booleanFalseValue)
                 }
                 /*return*/res
             }

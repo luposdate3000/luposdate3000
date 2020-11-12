@@ -1,7 +1,7 @@
 package lupos.s00misc
 
 class XMLElementFromCsv : XMLElementParser {
-    override operator fun invoke(data: String): XMLElement? {
+    override operator fun invoke(data: String): XMLElement {
         val nodeSparql = XMLElement("sparql").addAttribute("xmlns", "http://www.w3.org/2005/sparql-results#")
         val nodeHead = XMLElement("head")
         val nodeResults = XMLElement("results")

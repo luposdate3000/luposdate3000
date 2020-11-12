@@ -3,33 +3,22 @@ package lupos.s10physicalOptimisation
 import lupos.s00misc.EIndexPattern
 import lupos.s00misc.EOptimizerID
 import lupos.s00misc.Partition
-import lupos.s00misc.SanityCheck
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04arithmetikOperators.IAOPBase
 import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s04logicalOperators.IOPBase
+import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.multiinput.LOPJoin
 import lupos.s04logicalOperators.multiinput.LOPMinus
 import lupos.s04logicalOperators.multiinput.LOPUnion
-import lupos.s04logicalOperators.noinput.LOPGraphOperation
-import lupos.s04logicalOperators.noinput.LOPModifyData
-import lupos.s04logicalOperators.noinput.LOPTriple
-import lupos.s04logicalOperators.noinput.LOPValues
-import lupos.s04logicalOperators.noinput.OPEmptyRow
-import lupos.s04logicalOperators.OPBase
-import lupos.s04logicalOperators.Query
-import lupos.s04logicalOperators.singleinput.LOPBind
-import lupos.s04logicalOperators.singleinput.LOPFilter
-import lupos.s04logicalOperators.singleinput.LOPGroup
-import lupos.s04logicalOperators.singleinput.LOPMakeBooleanResult
-import lupos.s04logicalOperators.singleinput.LOPModify
-import lupos.s04logicalOperators.singleinput.LOPProjection
-import lupos.s04logicalOperators.singleinput.LOPSort
+import lupos.s04logicalOperators.noinput.*
+import lupos.s04logicalOperators.singleinput.*
 import lupos.s04logicalOperators.singleinput.modifiers.LOPLimit
 import lupos.s04logicalOperators.singleinput.modifiers.LOPOffset
 import lupos.s04logicalOperators.singleinput.modifiers.LOPReduced
 import lupos.s04logicalOperators.singleinput.modifiers.LOPSortAny
 import lupos.s08logicalOptimisation.OptimizerBase
+import lupos.s09physicalOperators.POPBase
 import lupos.s09physicalOperators.multiinput.POPJoinHashMap
 import lupos.s09physicalOperators.multiinput.POPMinus
 import lupos.s09physicalOperators.multiinput.POPUnion
@@ -37,17 +26,10 @@ import lupos.s09physicalOperators.noinput.POPEmptyRow
 import lupos.s09physicalOperators.noinput.POPGraphOperation
 import lupos.s09physicalOperators.noinput.POPModifyData
 import lupos.s09physicalOperators.noinput.POPValues
-import lupos.s09physicalOperators.POPBase
+import lupos.s09physicalOperators.singleinput.*
 import lupos.s09physicalOperators.singleinput.modifiers.POPLimit
 import lupos.s09physicalOperators.singleinput.modifiers.POPOffset
 import lupos.s09physicalOperators.singleinput.modifiers.POPReduced
-import lupos.s09physicalOperators.singleinput.POPBind
-import lupos.s09physicalOperators.singleinput.POPFilter
-import lupos.s09physicalOperators.singleinput.POPGroup
-import lupos.s09physicalOperators.singleinput.POPMakeBooleanResult
-import lupos.s09physicalOperators.singleinput.POPModify
-import lupos.s09physicalOperators.singleinput.POPProjection
-import lupos.s09physicalOperators.singleinput.POPSort
 import lupos.s15tripleStoreDistributed.distributedTripleStore
 
 class PhysicalOptimizerNaive(query: Query) : OptimizerBase(query, EOptimizerID.PhysicalOptimizerNaiveID) {
@@ -57,14 +39,14 @@ class PhysicalOptimizerNaive(query: Query) : OptimizerBase(query, EOptimizerID.P
         var change = true
         var projectedVariables = listOf<String>()
         try {
-            if (parent is LOPProjection) {
-                projectedVariables = parent.getProvidedVariableNames()
+            projectedVariables = if (parent is LOPProjection) {
+                parent.getProvidedVariableNames()
             } else if (parent is POPProjection) {
-                projectedVariables = parent.getProvidedVariableNamesInternal()
+                parent.getProvidedVariableNamesInternal()
             } else if (node is POPBase) {
-                projectedVariables = node.getProvidedVariableNamesInternal()
+                node.getProvidedVariableNamesInternal()
             } else {
-                projectedVariables = node.getProvidedVariableNames()
+                node.getProvidedVariableNames()
             }
             when (node) {
                 is LOPSortAny -> {
@@ -79,10 +61,10 @@ class PhysicalOptimizerNaive(query: Query) : OptimizerBase(query, EOptimizerID.P
                         }
                         i++
                     }
-                    if (flag) {
-                        res = child
+                    res = if (flag) {
+                        child
                     } else {
-                        res = POPSort(query, projectedVariables, arrayOf<AOPVariable>(), true, child)
+                        POPSort(query, projectedVariables, arrayOf<AOPVariable>(), true, child)
                     }
                 }
                 is LOPGraphOperation -> {
@@ -98,10 +80,10 @@ class PhysicalOptimizerNaive(query: Query) : OptimizerBase(query, EOptimizerID.P
                     res = POPProjection(query, projectedVariables, node.getChildren()[0])
                 }
                 is LOPMakeBooleanResult -> {
-                    if (node.getChildren()[0] is LOPProjection || node.getChildren()[0] is POPProjection) {
-                        res = POPMakeBooleanResult(query, projectedVariables, node.getChildren()[0].getChildren()[0])
+                    res = if (node.getChildren()[0] is LOPProjection || node.getChildren()[0] is POPProjection) {
+                        POPMakeBooleanResult(query, projectedVariables, node.getChildren()[0].getChildren()[0])
                     } else {
-                        res = POPMakeBooleanResult(query, projectedVariables, node.getChildren()[0])
+                        POPMakeBooleanResult(query, projectedVariables, node.getChildren()[0])
                     }
                 }
                 is LOPValues -> {
@@ -120,12 +102,12 @@ class PhysicalOptimizerNaive(query: Query) : OptimizerBase(query, EOptimizerID.P
                     res = POPGroup(query, projectedVariables, node.by, node.bindings, node.getChildren()[0])
                 }
                 is LOPUnion -> {
-                    var countA = node.getChildren()[0].getChildrenCountRecoursive()
-                    var countB = node.getChildren()[1].getChildrenCountRecoursive()
-                    if (countA < countB) {
-                        res = POPUnion(query, projectedVariables, node.getChildren()[0], node.getChildren()[1])
+                    val countA = node.getChildren()[0].getChildrenCountRecoursive()
+                    val countB = node.getChildren()[1].getChildrenCountRecoursive()
+                    res = if (countA < countB) {
+                        POPUnion(query, projectedVariables, node.getChildren()[0], node.getChildren()[1])
                     } else {
-                        res = POPUnion(query, projectedVariables, node.getChildren()[1], node.getChildren()[0])
+                        POPUnion(query, projectedVariables, node.getChildren()[1], node.getChildren()[0])
                     }
                 }
                 is LOPMinus -> {

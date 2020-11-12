@@ -1,20 +1,12 @@
 import lupos.s00misc.BinaryTestCase
 import lupos.s00misc.BinaryTestCaseOutputMode
 import lupos.s00misc.Parallel
-import lupos.s00misc.XMLElement
-import lupos.s00misc.XMLElementFromCsv
-import lupos.s00misc.XMLElementFromJson
-import lupos.s00misc.XMLElementFromN3
-import lupos.s00misc.XMLElementFromTsv
-import lupos.s00misc.XMLElementFromXML
-import lupos.s15tripleStoreDistributed.distributedTripleStore
-import lupos.s15tripleStoreDistributed.DistributedTripleStore
 import lupos.s16network.LuposdateEndpoint
 
 fun main(args: Array<String>) {
     LuposdateEndpoint.initialize()
     Parallel.runBlocking {
-        if (args.size > 0 && args[0] == "--generate") {
+        if (args.isNotEmpty() && args[0] == "--generate") {
             if (args.size < 7) {
                 println("usage xyz.jar --generate 'query_input_file' 'query_file' 'query_output_file' 'output_folder' 'query_name' [SELECT_QUERY_RESULT|MODIFY_RESULT]")
             } else {
@@ -22,7 +14,7 @@ fun main(args: Array<String>) {
             }
         } else if (args.size == 1) {
             BinaryTestCase.executeAllTestCase(args[0])
-        } else if (args.size > 0) {
+        } else if (args.isNotEmpty()) {
             BinaryTestCase.executeTestCase(args[0] + "/" + args[1])
         } else {
             BinaryTestCase.executeAllTestCase()

@@ -1,27 +1,14 @@
 package lupos.s09physicalOperators.noinput
 
-import kotlin.jvm.JvmField
-import lupos.s00misc.EGraphOperationType
-import lupos.s00misc.EGraphRefType
-import lupos.s00misc.EIndexPattern
-import lupos.s00misc.EModifyType
-import lupos.s00misc.EOperatorID
-import lupos.s00misc.ESortPriority
-import lupos.s00misc.EvaluationException
-import lupos.s00misc.File
-import lupos.s00misc.parseFromAny
-import lupos.s00misc.Partition
-import lupos.s00misc.SanityCheck
-import lupos.s00misc.XMLElement
+import lupos.s00misc.*
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.IteratorBundle
-import lupos.s04logicalOperators.OPBase
-import lupos.s04logicalOperators.Query
 import lupos.s05tripleStore.PersistentStoreLocalExt
 import lupos.s09physicalOperators.POPBase
-import lupos.s15tripleStoreDistributed.distributedTripleStore
 import lupos.s15tripleStoreDistributed.IDistributedGraph
+import lupos.s15tripleStoreDistributed.distributedTripleStore
+import kotlin.jvm.JvmField
 
 class POPGraphOperation(query: IQuery,
                         projectedVariables: List<String>,
@@ -37,13 +24,13 @@ class POPGraphOperation(query: IQuery,
         var res = ""
         if (action == EGraphOperationType.LOAD) {
             res += "LOAD " + graph1iri!!
-            if (silent) {
-                res += " SILENT "
+            res += if (silent) {
+                " SILENT "
             } else {
-                res += " "
+                " "
             }
             if (graph2type == EGraphRefType.IriGraphRef) {
-                res += "INTO GRAPH " + graph2iri
+                res += "INTO GRAPH $graph2iri"
             }
         } else {
             when (action) {
@@ -69,39 +56,39 @@ class POPGraphOperation(query: IQuery,
                     res += "ADD"
                 }
             }
-            if (silent) {
-                res += " SILENT "
+            res += if (silent) {
+                " SILENT "
             } else {
-                res += " "
+                " "
             }
-            when (graph1type) {
+            res += when (graph1type) {
                 EGraphRefType.AllGraphRef -> {
-                    res += "ALL"
+                    "ALL"
                 }
                 EGraphRefType.DefaultGraphRef -> {
-                    res += "DEFAULT"
+                    "DEFAULT"
                 }
                 EGraphRefType.NamedGraphRef -> {
-                    res += "NAMED"
+                    "NAMED"
                 }
                 EGraphRefType.IriGraphRef -> {
-                    res += "GRAPH <" + graph1iri!! + ">"
+                    "GRAPH <" + graph1iri!! + ">"
                 }
             }
             if (action == EGraphOperationType.COPY || action == EGraphOperationType.MOVE || action == EGraphOperationType.ADD) {
                 res += " TO "
-                when (graph2type) {
+                res += when (graph2type) {
                     EGraphRefType.AllGraphRef -> {
-                        res += "ALL"
+                        "ALL"
                     }
                     EGraphRefType.DefaultGraphRef -> {
-                        res += "DEFAULT"
+                        "DEFAULT"
                     }
                     EGraphRefType.NamedGraphRef -> {
-                        res += "NAMED"
+                        "NAMED"
                     }
                     EGraphRefType.IriGraphRef -> {
-                        res += "GRAPH <" + graph2iri!! + ">"
+                        "GRAPH <" + graph2iri!! + ">"
                     }
                 }
             }
@@ -111,7 +98,7 @@ class POPGraphOperation(query: IQuery,
 
     override fun equals(other: Any?) = other is POPGraphOperation && silent == other.silent && graph1iri == other.graph1iri && graph1type == other.graph1type && graph2iri == other.graph2iri && graph2type == other.graph2type && action == other.action
     override fun cloneOP(): IOPBase = POPGraphOperation(query, projectedVariables, silent, graph1type, graph1iri, graph2type, graph2iri, action)
-    /*suspend*/ fun copyData(source: IDistributedGraph, target: IDistributedGraph, parent: Partition) {
+    /*suspend*/ private fun copyData(source: IDistributedGraph, target: IDistributedGraph, parent: Partition) {
         val row = source.getIterator(EIndexPattern.SPO, Partition()).evaluate(parent)
         val iterator = arrayOf(row.columns["s"]!!, row.columns["p"]!!, row.columns["o"]!!)
         target.modify(iterator, EModifyType.INSERT)
@@ -172,12 +159,11 @@ class POPGraphOperation(query: IQuery,
                     }
                 }
                 EGraphOperationType.LOAD -> {
-                    var fileName = query.getWorkingDirectory() + graph1iri
-                    val target: IDistributedGraph
-                    if (graph2type == EGraphRefType.DefaultGraphRef) {
-                        target = distributedTripleStore.getDefaultGraph(query)
+                    val fileName = query.getWorkingDirectory() + graph1iri
+                    val target: IDistributedGraph = if (graph2type == EGraphRefType.DefaultGraphRef) {
+                        distributedTripleStore.getDefaultGraph(query)
                     } else {
-                        target = distributedTripleStore.getNamedGraph(query, graph2iri!!)
+                        distributedTripleStore.getNamedGraph(query, graph2iri!!)
                     }
                     val xml = XMLElement.parseFromAny(File(fileName).readAsString(), fileName)!!
                     val d = POPValuesImportXML(query, listOf("s", "p", "o"), xml)
@@ -320,7 +306,7 @@ class POPGraphOperation(query: IQuery,
                 throw e
             }
         } catch (e: Throwable) {
-            SanityCheck.println({ "TODO exception 7" })
+            SanityCheck.println { "TODO exception 7" }
             e.printStackTrace()
             if (!silent) {
                 throw e

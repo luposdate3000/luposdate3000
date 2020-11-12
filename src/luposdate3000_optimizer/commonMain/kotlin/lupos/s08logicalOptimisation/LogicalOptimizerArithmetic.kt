@@ -10,14 +10,12 @@ import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallExists
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallNotExists
 import lupos.s04logicalOperators.IOPBase
-import lupos.s04logicalOperators.iterator.IteratorBundle
-import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
-import lupos.s08logicalOptimisation.OptimizerBase
+import lupos.s04logicalOperators.iterator.IteratorBundle
 
 class LogicalOptimizerArithmetic(query: Query) : OptimizerBase(query, EOptimizerID.LogicalOptimizerArithmeticID) {
     override val classname = "LogicalOptimizerArithmetic"
-    fun hasAggregation(node: IOPBase): Boolean {
+    private fun hasAggregation(node: IOPBase): Boolean {
         for (n in node.getChildren()) {
             if (hasAggregation(n)) {
                 return true
@@ -29,7 +27,7 @@ class LogicalOptimizerArithmetic(query: Query) : OptimizerBase(query, EOptimizer
     override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
         var res = node
         if (node is AOPBase && node !is AOPValue && node !is AOPBuildInCallNotExists && node !is AOPBuildInCallExists && node !is AOPVariable) {
-            if (node.getChildren().size > 0 && node.getRequiredVariableNamesRecoursive().size == 0 && !hasAggregation(node)) {
+            if (node.getChildren().isNotEmpty() && node.getRequiredVariableNamesRecoursive().isEmpty() && !hasAggregation(node)) {
                 var value = node.evaluateID(IteratorBundle(0))()
                 if (value == ResultSetDictionaryExt.errorValue) {
                     value = ResultSetDictionaryExt.undefValue

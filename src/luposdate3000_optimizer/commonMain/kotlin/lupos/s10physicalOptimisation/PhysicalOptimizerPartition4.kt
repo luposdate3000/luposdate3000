@@ -1,52 +1,35 @@
 package lupos.s10physicalOptimisation
 
-import lupos.s00misc.DontCareWhichException
 import lupos.s00misc.EOptimizerID
 import lupos.s00misc.Partition
-import lupos.s00misc.TripleStoreLocal
 import lupos.s00misc.USE_PARTITIONS
-import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04logicalOperators.IOPBase
-import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
-import lupos.s05tripleStore.TripleStoreFeature
-import lupos.s05tripleStore.TripleStoreFeatureParamsPartition
 import lupos.s08logicalOptimisation.OptimizerBase
-import lupos.s09physicalOperators.multiinput.POPUnion
-import lupos.s09physicalOperators.partition.POPChangePartitionOrderedByIntId
-import lupos.s09physicalOperators.partition.POPMergePartition
-import lupos.s09physicalOperators.partition.POPMergePartitionCount
-import lupos.s09physicalOperators.partition.POPMergePartitionOrderedByIntId
-import lupos.s09physicalOperators.partition.POPSplitPartition
-import lupos.s09physicalOperators.partition.POPSplitPartitionFromStore
-import lupos.s09physicalOperators.singleinput.modifiers.POPReduced
-import lupos.s09physicalOperators.singleinput.POPBind
-import lupos.s09physicalOperators.singleinput.POPFilter
-import lupos.s09physicalOperators.singleinput.POPProjection
-import lupos.s15tripleStoreDistributed.TripleStoreIteratorGlobal
+import lupos.s09physicalOperators.partition.*
 
 class PhysicalOptimizerPartition4(query: Query) : OptimizerBase(query, EOptimizerID.PhysicalOptimizerPartition4ID) {
     override val classname = "PhysicalOptimizerPartition4"
-    internal fun getNumberOfEnclosingPartitions(node: IOPBase): Int {
+    private fun getNumberOfEnclosingPartitions(node: IOPBase): Int {
         var count = 1
         val childs = node.getChildren()
-        if (childs.size > 0) {
+        if (childs.isNotEmpty()) {
             val tmp = getNumberOfEnclosingPartitions(childs[0])
             count = tmp
         }
         when (node) {
-            is POPSplitPartitionFromStore -> count = count * node.partitionCount
-            is POPSplitPartition -> count = count * node.partitionCount
+            is POPSplitPartitionFromStore -> count *= node.partitionCount
+            is POPSplitPartition -> count *= node.partitionCount
             is POPChangePartitionOrderedByIntId -> count = count * node.partitionCountTo / node.partitionCountFrom
-            is POPMergePartition -> count = count / node.partitionCount
-            is POPMergePartitionCount -> count = count / node.partitionCount
-            is POPMergePartitionOrderedByIntId -> count = count / node.partitionCount
+            is POPMergePartition -> count /= node.partitionCount
+            is POPMergePartitionCount -> count /= node.partitionCount
+            is POPMergePartitionOrderedByIntId -> count /= node.partitionCount
         }
         return count
     }
 
     override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
-        var res = node
+        val res = node
         if (USE_PARTITIONS && Partition.default_k > 1) {
             when (node) {
                 is POPSplitPartitionFromStore -> {
@@ -60,10 +43,10 @@ class PhysicalOptimizerPartition4(query: Query) : OptimizerBase(query, EOptimize
                     val count = getNumberOfEnclosingPartitions(node.children[0]) * node.partitionCount
                     if (count > Partition.default_k) {
                         val reduceFactor = count / Partition.default_k
-                        if (reduceFactor > node.partitionCount) {
-                            newCount = 1
+                        newCount = if (reduceFactor > node.partitionCount) {
+                            1
                         } else {
-                            newCount = node.partitionCount / reduceFactor
+                            node.partitionCount / reduceFactor
                         }
                     }
                     if (newCount < node.partitionCount) {
@@ -83,10 +66,10 @@ class PhysicalOptimizerPartition4(query: Query) : OptimizerBase(query, EOptimize
                     val count = getNumberOfEnclosingPartitions(node.children[0]) * node.partitionCount
                     if (count > Partition.default_k) {
                         val reduceFactor = count / Partition.default_k
-                        if (reduceFactor > node.partitionCount) {
-                            newCount = 1
+                        newCount = if (reduceFactor > node.partitionCount) {
+                            1
                         } else {
-                            newCount = node.partitionCount / reduceFactor
+                            node.partitionCount / reduceFactor
                         }
                     }
                     if (newCount < node.partitionCount) {
@@ -132,10 +115,10 @@ class PhysicalOptimizerPartition4(query: Query) : OptimizerBase(query, EOptimize
                     val count = getNumberOfEnclosingPartitions(node.children[0]) * node.partitionCountTo / node.partitionCountFrom
                     if (count > Partition.default_k) {
                         val reduceFactor = count / Partition.default_k
-                        if (reduceFactor > node.partitionCountTo) {
-                            newCount = 1
+                        newCount = if (reduceFactor > node.partitionCountTo) {
+                            1
                         } else {
-                            newCount = node.partitionCountTo / reduceFactor
+                            node.partitionCountTo / reduceFactor
                         }
                     }
                     if (newCount < node.partitionCountTo) {

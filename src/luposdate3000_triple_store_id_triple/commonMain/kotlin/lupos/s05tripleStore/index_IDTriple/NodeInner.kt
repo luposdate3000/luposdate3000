@@ -48,15 +48,15 @@ internal object NodeInner {
         var iterator: TripleIterator? = null
         var node = _node
         while (true) {
-            var nodeid = getFirstChild(node)
-            SanityCheck.println({ "Outside.refcount($nodeid)  x19" })
+            val nodeid = getFirstChild(node)
+            SanityCheck.println { "Outside.refcount($nodeid)  x19" }
             NodeManager.getNodeAny(nodeid, {
                 iterator = NodeLeaf.iterator(it, nodeid)
             }, {
                 node = it
             })
             if (iterator == null) {
-                SanityCheck.println({ "Outside.refcount($nodeid)  x25" })
+                SanityCheck.println { "Outside.refcount($nodeid)  x25" }
                 NodeManager.releaseNode(nodeid)
             } else {
                 break
@@ -69,15 +69,15 @@ internal object NodeInner {
         var iterator: ColumnIterator? = null
         var node = _node
         while (true) {
-            var nodeid = getFirstChild(node)
-            SanityCheck.println({ "Outside.refcount($nodeid)  x20" })
+            val nodeid = getFirstChild(node)
+            SanityCheck.println { "Outside.refcount($nodeid)  x20" }
             NodeManager.getNodeAnySuspended(nodeid, {
                 iterator = NodeLeaf.iterator(it, nodeid, lock, component)
             }, {
                 node = it
             })
             if (iterator == null) {
-                SanityCheck.println({ "Outside.refcount($nodeid)  x50" })
+                SanityCheck.println { "Outside.refcount($nodeid)  x50" }
                 NodeManager.releaseNode(nodeid)
             } else {
                 break
@@ -132,9 +132,9 @@ internal object NodeInner {
         while (true) {
             findIteratorN(node, { value0, value1, value2 ->
                 /*return*/ (value0 < prefix[0]) || (value0 == prefix[0] && value1 < prefix[1]) || (value0 == prefix[0] && value1 == prefix[1] && value2 < prefix[2])
-            }, {
+            }, { it ->
                 nodeid = it
-                SanityCheck.println({ "Outside.refcount($it)  x21" })
+                SanityCheck.println { "Outside.refcount($it)  x21" }
                 NodeManager.getNodeAnySuspended(it, { node ->
                     iterator = NodeLeaf.iterator3(node, it, prefix, lock)
                 }, {
@@ -142,7 +142,7 @@ internal object NodeInner {
                 })
             })
             if (iterator == null) {
-                SanityCheck.println({ "Outside.refcount($nodeid)  x78" })
+                SanityCheck.println { "Outside.refcount($nodeid)  x78" }
                 NodeManager.releaseNode(nodeid)
             } else {
                 break
@@ -158,9 +158,9 @@ internal object NodeInner {
         while (true) {
             findIteratorN(node, { value0, value1, value2 ->
                 /*return*/ (value0 < prefix[0]) || (value0 == prefix[0] && value1 < prefix[1])
-            }, {
+            }, { it ->
                 nodeid = it
-                SanityCheck.println({ "Outside.refcount($it)  x22" })
+                SanityCheck.println { "Outside.refcount($it)  x22" }
                 NodeManager.getNodeAnySuspended(it, { node ->
                     iterator = NodeLeaf.iterator2(node, it, prefix, lock)
                 }, {
@@ -168,7 +168,7 @@ internal object NodeInner {
                 })
             })
             if (iterator == null) {
-                SanityCheck.println({ "Outside.refcount($nodeid)  x79" })
+                SanityCheck.println { "Outside.refcount($nodeid)  x79" }
                 NodeManager.releaseNode(nodeid)
             } else {
                 break
@@ -184,9 +184,9 @@ internal object NodeInner {
         while (true) {
             findIteratorN(node, { value0, value1, value2 ->
                 /*return*/ (value0 < prefix[0])
-            }, {
+            }, { it ->
                 nodeid = it
-                SanityCheck.println({ "Outside.refcount($it)  x23" })
+                SanityCheck.println { "Outside.refcount($it)  x23" }
                 NodeManager.getNodeAnySuspended(it, { node ->
                     iterator = NodeLeaf.iterator1(node, it, prefix, lock, component)
                 }, {
@@ -194,7 +194,7 @@ internal object NodeInner {
                 })
             })
             if (iterator == null) {
-                SanityCheck.println({ "Outside.refcount($nodeid)  x82" })
+                SanityCheck.println { "Outside.refcount($nodeid)  x82" }
                 NodeManager.releaseNode(nodeid)
             } else {
                 break
@@ -208,8 +208,8 @@ internal object NodeInner {
         var writtenHeaders: MutableList<Int>? = null
         var writtenTriples: MutableList<Int>? = null
         SanityCheck {
-            writtenHeaders = mutableListOf<Int>()
-            writtenTriples = mutableListOf<Int>()
+            writtenHeaders = mutableListOf()
+            writtenTriples = mutableListOf()
         }
         var offset = START_OFFSET
         val offsetEnd = node.size - START_OFFSET - MAX_POINTER_SIZE
@@ -226,7 +226,7 @@ internal object NodeInner {
             NodeManager.getNodeAny(current, {
                 NodeLeaf.getFirstTriple(it, tripleCurrent)
             }, {
-                NodeInner.getFirstTriple(it, tripleCurrent)
+                getFirstTriple(it, tripleCurrent)
             })
             NodeManager.releaseNode(current)
             SanityCheck {

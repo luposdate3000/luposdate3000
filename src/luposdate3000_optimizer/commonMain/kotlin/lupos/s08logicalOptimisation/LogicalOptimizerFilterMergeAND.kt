@@ -10,7 +10,6 @@ import lupos.s04arithmetikOperators.multiinput.AOPOr
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallBOUND
 import lupos.s04arithmetikOperators.singleinput.AOPNot
 import lupos.s04logicalOperators.IOPBase
-import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.singleinput.LOPFilter
 
@@ -64,7 +63,7 @@ class LogicalOptimizerFilterMergeAND(query: Query) : OptimizerBase(query, EOptim
         return res
     }
 
-    fun containsBound(filter: AOPBase): Boolean {
+    private fun containsBound(filter: AOPBase): Boolean {
         if (filter is AOPBuildInCallBOUND) {
             return true
         }

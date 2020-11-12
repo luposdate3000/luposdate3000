@@ -3,15 +3,14 @@ package lupos.s00misc
 import java.io.BufferedInputStream
 import java.io.DataInputStream
 import java.io.FileInputStream
-import java.io.InputStream
 
 internal class MyCharIterator(file: File) : CharIterator() {
-    val fis = FileInputStream(file.filename)
-    val bis = BufferedInputStream(fis)
-    val dis = DataInputStream(bis)
+    private val fis = FileInputStream(file.filename)
+    private val bis = BufferedInputStream(fis)
+    private val dis = DataInputStream(bis)
     override fun hasNext(): Boolean {
         val res = dis.available() > 0
-        if (res == false) {
+        if (!res) {
             dis.close()
         }
         return res

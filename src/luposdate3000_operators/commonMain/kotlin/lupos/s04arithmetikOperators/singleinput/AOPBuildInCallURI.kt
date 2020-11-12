@@ -1,19 +1,12 @@
 package lupos.s04arithmetikOperators.singleinput
 
-import kotlin.jvm.JvmField
 import lupos.s00misc.EOperatorID
-import lupos.s03resultRepresentation.ValueDefinition
-import lupos.s03resultRepresentation.ValueError
-import lupos.s03resultRepresentation.ValueIri
-import lupos.s03resultRepresentation.ValueSimpleLiteral
-import lupos.s03resultRepresentation.ValueStringBase
-import lupos.s03resultRepresentation.ValueTypedLiteral
+import lupos.s03resultRepresentation.*
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.IteratorBundle
-import lupos.s04logicalOperators.OPBase
-import lupos.s04logicalOperators.Query
+import kotlin.jvm.JvmField
 
 class AOPBuildInCallURI(query: IQuery, child: AOPBase, @JvmField var prefix: String = "") : AOPBase(query, EOperatorID.AOPBuildInCallURIID, "AOPBuildInCallURI", arrayOf(child)) {
     override fun toSparql() = "URI(" + children[0].toSparql() + ")"
@@ -35,10 +28,10 @@ class AOPBuildInCallURI(query: IQuery, child: AOPBase, @JvmField var prefix: Str
             }
             if (a is ValueSimpleLiteral || a is ValueTypedLiteral && a.type_iri == "http://www.w3.org/2001/XMLSchema#string") {
                 val b = a as ValueStringBase
-                if (prefix != "" && !prefix.endsWith("/")) {
-                    res = ValueIri(prefix + "/" + b.content)
+                res = if (prefix != "" && !prefix.endsWith("/")) {
+                    ValueIri(prefix + "/" + b.content)
                 } else {
-                    res = ValueIri(prefix + b.content)
+                    ValueIri(prefix + b.content)
                 }
             }
 /*return*/res

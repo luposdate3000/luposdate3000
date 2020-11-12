@@ -1,17 +1,11 @@
 package lupos.s04arithmetikOperators.multiinput
 
 import lupos.s00misc.EOperatorID
-import lupos.s03resultRepresentation.ValueDefinition
-import lupos.s03resultRepresentation.ValueError
-import lupos.s03resultRepresentation.ValueIri
-import lupos.s03resultRepresentation.ValueSimpleLiteral
-import lupos.s03resultRepresentation.ValueTypedLiteral
+import lupos.s03resultRepresentation.*
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.IteratorBundle
-import lupos.s04logicalOperators.OPBase
-import lupos.s04logicalOperators.Query
 
 class AOPBuildInCallSTRDT(query: IQuery, child: AOPBase, childB: AOPBase) : AOPBase(query, EOperatorID.AOPBuildInCallSTRDTID, "AOPBuildInCallSTRDT", arrayOf(child, childB)) {
     override fun toSparql() = "STRDT(" + children[0].toSparql() + ", " + children[1].toSparql() + ")"

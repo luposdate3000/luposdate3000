@@ -19,11 +19,11 @@ import lupos.s11outputResult.QueryResultToXMLStream
 import lupos.s15tripleStoreDistributed.distributedTripleStore
 
 object BinaryTestCase {
-    internal var outSummary = MyPrintWriter(false)
-    internal var lastInput = MemoryTable(Array<String>(0) { "" })
-    internal fun rowToString(row: IntArray, dict: Array<String>): String {
+    private var outSummary = MyPrintWriter(false)
+    private var lastInput = MemoryTable(Array(0) { "" })
+    private fun rowToString(row: IntArray, dict: Array<String>): String {
         var res = "${row.map { it }}::"
-        if (row.size > 0) {
+        if (row.isNotEmpty()) {
             for (i in 0 until row.size) {
                 if (i > 0) {
                     res += ","
@@ -38,13 +38,10 @@ object BinaryTestCase {
         return res
     }
 
-    internal fun helperCleanString(s: String): String {
+    private fun helperCleanString(s: String): String {
         var res: String = s
         while (true) {
-            val match = "\\\\u[0-9a-fA-f]{4}".toRegex().find(res)
-            if (match == null) {
-                break
-            }
+            val match = "\\\\u[0-9a-fA-f]{4}".toRegex().find(res) ?: break
             val replacement = match.value.substring(2, 6).toInt(16).toChar() + ""
             res = res.replace(match.value, replacement)
         }
@@ -53,8 +50,8 @@ object BinaryTestCase {
 
     fun executeAllTestCase(folder: String = "resources/binary/") {
         outSummary = File("log/error").myPrintWriter()
-        File(folder + "/config2").printWriter { newConfig ->
-            File(folder + "/config").forEachLine { line ->
+        File("$folder/config2").printWriter { newConfig ->
+            File("$folder/config").forEachLine { line ->
                 val setting = line.split("=")
                 try {
                     when (setting[1]) {
@@ -88,7 +85,7 @@ object BinaryTestCase {
         }
     }
 
-    internal fun operatorGraphToTable(node: IOPBase): MemoryTable {
+    private fun operatorGraphToTable(node: IOPBase): MemoryTable {
         val tmp = QueryResultToMemoryTable(node)
         if (tmp.size != 1) {
             throw Exception("multi-queries are not supported right now")
@@ -96,7 +93,7 @@ object BinaryTestCase {
         return tmp[0]
     }
 
-    internal fun verifyEqual(expected: MemoryTable, actual: MemoryTable, mapping_live_to_target: Map<Int, Int>, dict: Map<String, Int>, dict2: Array<String>, allowOrderBy: Boolean, out: MyPrintWriter): Boolean {
+    private fun verifyEqual(expected: MemoryTable, actual: MemoryTable, mapping_live_to_target: Map<Int, Int>, dict: Map<String, Int>, dict2: Array<String>, allowOrderBy: Boolean, out: MyPrintWriter): Boolean {
         if (expected.booleanResult != null) {
             if (expected.booleanResult != actual.booleanResult) {
                 out.println("invalid result to ask query expected:${expected.booleanResult} found:${actual.booleanResult}")
@@ -119,8 +116,7 @@ object BinaryTestCase {
         }
         for (row in actual.data) {
             val tmpRow = IntArray(columnCount) { -1 }
-            var idx = 0
-            for (col in row) {
+            for ((idx, col) in row.withIndex()) {
                 val m = mapping_live_to_target[col]
                 val value = nodeGlobalDictionary.getValue(col).valueToString()
                 if (m == null) {
@@ -139,14 +135,12 @@ object BinaryTestCase {
                         }
                     }
                 }
-                idx++
             }
             actualRows.add(tmpRow)
         }
         for (row in expected.data) {
             val tmpRow = IntArray(columnCount) { -1 }
-            var idx = 0
-            for (col in row) {
+            for ((idx, col) in row.withIndex()) {
                 val m = mapping_live_to_target[col]
                 val value = nodeGlobalDictionary.getValue(col).valueToString()
                 if (m == null) {
@@ -165,7 +159,6 @@ object BinaryTestCase {
                         }
                     }
                 }
-                idx++
             }
             expectedRows.add(tmpRow)
         }
@@ -221,7 +214,7 @@ object BinaryTestCase {
         }
     }
 
-    internal fun verifyEqual(expected: MemoryTable, actual: MemoryTable, mapping_live_to_target: Map<Int, Int>, dict: Map<String, Int>, dict2: Array<String>, allowOrderBy: Boolean, query_name: String, query_folder: String, tag: String): Boolean {
+    private fun verifyEqual(expected: MemoryTable, actual: MemoryTable, mapping_live_to_target: Map<Int, Int>, dict: Map<String, Int>, dict2: Array<String>, allowOrderBy: Boolean, query_name: String, query_folder: String, tag: String): Boolean {
         val out = MyPrintWriter()
         val res = verifyEqual(expected, actual, mapping_live_to_target, dict, dict2, allowOrderBy, out)
         if (!res && tag != "this is no error") {
@@ -234,7 +227,7 @@ object BinaryTestCase {
         return res
     }
 
-    internal var notImplementedFeaturesList = mutableSetOf(//
+    private var notImplementedFeaturesList = mutableSetOf(//
             "rdfs:subPropertyOf",//
             "rdfs:subClassOf",//
             "rdfs:domain",//
@@ -287,10 +280,10 @@ object BinaryTestCase {
 
     fun executeTestCase(query_folder: String): Boolean {
         var return_value = true
-        File(query_folder + "/query.stat").dataInputStream { targetStat ->
-            File(query_folder + "/query.dictionary").dataInputStream { targetDictionary ->
-                File(query_folder + "/query.triples").dataInputStream { targetTriples ->
-                    File(query_folder + "/query.result").dataInputStream { targetResult ->
+        File("$query_folder/query.stat").dataInputStream { targetStat ->
+            File("$query_folder/query.dictionary").dataInputStream { targetDictionary ->
+                File("$query_folder/query.triples").dataInputStream { targetTriples ->
+                    File("$query_folder/query.result").dataInputStream { targetResult ->
                         func@ while (true) {
                             val mode_id = targetStat.readInt()
                             val mode = BinaryTestCaseOutputMode.values()[mode_id]
@@ -334,9 +327,9 @@ object BinaryTestCase {
                                 break@func
                             }
                             val targetDict = mutableMapOf<String, Int>()
-                            val targetDict2 = Array<String>(dictionarySize) { "" }
+                            val targetDict2 = Array(dictionarySize) { "" }
                             val mapping_target_to_live = IntArray(dictionarySize) { 0 }
-                            val mapping_live_to_target = mutableMapOf<Int, Int>(ResultSetDictionaryExt.undefValue to -1, ResultSetDictionaryExt.errorValue to -1, ResultSetDictionaryExt.nullValue to -1)
+                            val mapping_live_to_target = mutableMapOf(ResultSetDictionaryExt.undefValue to -1, ResultSetDictionaryExt.errorValue to -1, ResultSetDictionaryExt.nullValue to -1)
                             for (i in 0 until dictionarySize) {
                                 val len = targetDictionary.readInt()
                                 val buf = ByteArray(len)
@@ -379,7 +372,7 @@ object BinaryTestCase {
                                 distributedTripleStore.commit(query1)
                                 query1.commited = true
                                 val query2 = Query()
-                                var store = distributedTripleStore.getDefaultGraph(query2)
+                                val store = distributedTripleStore.getDefaultGraph(query2)
                                 store.bulkImport { bulk ->
                                     for (row in tableInput.data) {
                                         bulk.insert(row[0], row[1], row[2])
@@ -451,7 +444,7 @@ if (tmpTable != null) {
                                 }
                             }
                             SanityCheck.println { "----------String query" }
-                            val toParse = File(query_folder + "/query.sparql").readAsString()
+                            val toParse = File("$query_folder/query.sparql").readAsString()
                             SanityCheck.println { toParse }
                             for (f in notImplementedFeaturesList) {
                                 if (toParse.contains(f)) {
@@ -512,9 +505,9 @@ if (tmpTable != null) {
             File(output_folder).deleteRecursively()
             File(output_folder).mkdirs()
             var containsOrderBy = false
-            File(output_folder + "/query.sparql").printWriter { out ->
+            File("$output_folder/query.sparql").printWriter { out ->
                 File(query_file).forEachLine { line ->
-                    if (line.length > 0) {
+                    if (line.isNotEmpty()) {
                         if (line.toLowerCase().contains("order")) {
                             containsOrderBy = true
                         }
@@ -524,8 +517,8 @@ if (tmpTable != null) {
             }
             val dict = mutableMapOf<String, Int>()
             var dict_bnode_count = 0
-            File(output_folder + "/query.dictionary").dataOutputStream { outDictionary ->
-                File(output_folder + "/query.triples").dataOutputStream { outTriples ->
+            File("$output_folder/query.dictionary").dataOutputStream { outDictionary ->
+                File("$output_folder/query.triples").dataOutputStream { outTriples ->
                     val data = XMLElement.parseFromAny(File(query_input_file).readAsString(), query_input_file)!!
                     var input_counter = 0
                     for (node in data["results"]!!.childs) {
@@ -533,11 +526,10 @@ if (tmpTable != null) {
                         val row = IntArray(3) { -1 }
                         for (v in node.childs) {
                             val name = v.attributes["name"]
-                            val idx: Int
-                            when (name) {
-                                "s" -> idx = 0
-                                "p" -> idx = 1
-                                "o" -> idx = 2
+                            val idx: Int = when (name) {
+                                "s" -> 0
+                                "p" -> 1
+                                "o" -> 2
                                 else -> throw Exception("unknown name '$name'")
                             }
                             val child = v.childs.first()
@@ -547,13 +539,12 @@ if (tmpTable != null) {
                             if ((datatype != null) && (lang != null)) {
                                 throw Exception("overspecification")
                             }
-                            val s: String
-                            when {
-                                child.tag == "uri" -> s = "<" + content + ">"
-                                child.tag == "literal" && datatype != null -> s = "\"" + content + "\"^^<" + datatype + ">"
-                                child.tag == "literal" && lang != null -> s = "\"" + content + "\"@" + lang
-                                child.tag == "bnode" -> s = "_:" + content
-                                else -> s = "\"" + content + "\""
+                            val s: String = when {
+                                child.tag == "uri" -> "<$content>"
+                                child.tag == "literal" && datatype != null -> "\"$content\"^^<$datatype>"
+                                child.tag == "literal" && lang != null -> "\"$content\"@$lang"
+                                child.tag == "bnode" -> "_:$content"
+                                else -> "\"" + content + "\""
                             }
                             val id = dict[s]
                             if (id != null) {
@@ -562,11 +553,10 @@ if (tmpTable != null) {
                                 val id2 = dict.size
                                 row[idx] = id2
                                 dict[s] = id2
-                                val tmp: ByteArray
-                                if (s.startsWith("_:")) {
-                                    tmp = "_:b${dict_bnode_count++}".encodeToByteArray()
+                                val tmp: ByteArray = if (s.startsWith("_:")) {
+                                    "_:b${dict_bnode_count++}".encodeToByteArray()
                                 } else {
-                                    tmp = s.encodeToByteArray()
+                                    s.encodeToByteArray()
                                 }
                                 outDictionary.writeInt(tmp.size)
                                 outDictionary.write(tmp)
@@ -576,12 +566,12 @@ if (tmpTable != null) {
                             outTriples.writeInt(row[i])
                         }
                     }
-                    var target = XMLElement.parseFromAny(File(query_output_file).readAsString(), query_output_file)!!
+                    val target = XMLElement.parseFromAny(File(query_output_file).readAsString(), query_output_file)!!
                     if (target["results"] == null && target["boolean"] != null) {
                         output_mode = BinaryTestCaseOutputMode.ASK_QUERY_RESULT
                     }
-                    File(output_folder + "/query.stat").dataOutputStream { outStat ->
-                        File(output_folder + "/query.result").dataOutputStream { outResult ->
+                    File("$output_folder/query.stat").dataOutputStream { outStat ->
+                        File("$output_folder/query.result").dataOutputStream { outResult ->
                             var resultCounter = 0
                             when (output_mode) {
                                 BinaryTestCaseOutputMode.SELECT_QUERY_RESULT, BinaryTestCaseOutputMode.SELECT_QUERY_RESULT_COUNT, BinaryTestCaseOutputMode.MODIFY_RESULT -> {
@@ -590,7 +580,7 @@ if (tmpTable != null) {
                                         variablesTmp.add(node.attributes["name"]!!)
                                     }
                                     val variables = variablesTmp.toTypedArray()
-                                    if (variables.size == 0) {
+                                    if (variables.isEmpty()) {
                                         output_mode = BinaryTestCaseOutputMode.SELECT_QUERY_RESULT_COUNT
                                     }
                                     outStat.writeInt(output_mode.ordinal)
@@ -600,7 +590,7 @@ if (tmpTable != null) {
                                         outStat.writeInt(tmp.size)
                                         outStat.write(tmp)
                                     }
-                                    var allRows = mutableListOf<IntArray>()
+                                    val allRows = mutableListOf<IntArray>()
                                     for (node in target["results"]!!.childs) {
                                         val row_out = IntArray(variables.size) { -1 }
                                         resultCounter++
@@ -618,13 +608,12 @@ if (tmpTable != null) {
                                                 if ((datatype != null) && (lang != null)) {
                                                     throw Exception("overspecification")
                                                 }
-                                                val s: String
-                                                when {
-                                                    child.tag == "uri" -> s = "<" + content + ">"
-                                                    child.tag == "literal" && datatype != null -> s = "\"" + content + "\"^^<" + datatype + ">"
-                                                    child.tag == "literal" && lang != null -> s = "\"" + content + "\"@" + lang
-                                                    child.tag == "bnode" -> s = "_:" + content
-                                                    else -> s = "\"" + content + "\""
+                                                val s: String = when {
+                                                    child.tag == "uri" -> "<$content>"
+                                                    child.tag == "literal" && datatype != null -> "\"$content\"^^<$datatype>"
+                                                    child.tag == "literal" && lang != null -> "\"$content\"@$lang"
+                                                    child.tag == "bnode" -> "_:$content"
+                                                    else -> "\"" + content + "\""
                                                 }
                                                 val id = dict[s]
                                                 if (id != null) {
@@ -633,11 +622,10 @@ if (tmpTable != null) {
                                                     val id2 = dict.size
                                                     row_out[idx] = id2
                                                     dict[s] = id2
-                                                    val tmp: ByteArray
-                                                    if (s.startsWith("_:")) {
-                                                        tmp = "_:b${dict_bnode_count++}".encodeToByteArray()
+                                                    val tmp: ByteArray = if (s.startsWith("_:")) {
+                                                        "_:b${dict_bnode_count++}".encodeToByteArray()
                                                     } else {
-                                                        tmp = "$s".encodeToByteArray()
+                                                        s.encodeToByteArray()
                                                     }
                                                     outDictionary.writeInt(tmp.size)
                                                     outDictionary.write(tmp)

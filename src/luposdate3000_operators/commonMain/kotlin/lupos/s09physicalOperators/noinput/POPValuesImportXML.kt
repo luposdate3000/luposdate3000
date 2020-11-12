@@ -3,12 +3,11 @@ package lupos.s09physicalOperators.noinput
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.XMLElement
 import lupos.s04logicalOperators.IQuery
-import lupos.s04logicalOperators.Query
 
-class POPValuesImportXML : POPValuesImportBase {
-    constructor(query: IQuery, projectedVariables: List<String>, data: XMLElement) : super(query, projectedVariables, data["head"]!!.childs.map { it.attributes["name"]!! }) {
+class POPValuesImportXML(query: IQuery, projectedVariables: List<String>, data: XMLElement) : POPValuesImportBase(query, projectedVariables, data["head"]!!.childs.map { it.attributes["name"]!! }) {
+    init {
         val variables = data["head"]!!.childs.map { it.attributes["name"]!! }
-        SanityCheck.check({ data.tag == "sparql" })
+        SanityCheck.check { data.tag == "sparql" }
         for (node in data["results"]!!.childs) {
             val row = arrayOfNulls<String>(variables.size)
             for (v in node.childs) {
@@ -17,19 +16,19 @@ class POPValuesImportXML : POPValuesImportBase {
                 val content = child.content
                 val datatype = child.attributes["datatype"]
                 val lang = child.attributes["xml:lang"]
-                SanityCheck.check({ !((datatype != null) && (lang != null)) })
+                SanityCheck.check { !((datatype != null) && (lang != null)) }
                 when {
                     child.tag == "uri" -> {
-                        row[variables.indexOf(name)] = "<" + content + ">"
+                        row[variables.indexOf(name)] = "<$content>"
                     }
                     child.tag == "literal" && datatype != null -> {
-                        row[variables.indexOf(name)] = "\"" + content + "\"^^<" + datatype + ">"
+                        row[variables.indexOf(name)] = "\"$content\"^^<$datatype>"
                     }
                     child.tag == "literal" && lang != null -> {
-                        row[variables.indexOf(name)] = "\"" + content + "\"@" + lang
+                        row[variables.indexOf(name)] = "\"$content\"@$lang"
                     }
                     child.tag == "bnode" -> {
-                        row[variables.indexOf(name)] = "_:" + content
+                        row[variables.indexOf(name)] = "_:$content"
                     }
                     else -> {
                         row[variables.indexOf(name)] = "\"" + content + "\""

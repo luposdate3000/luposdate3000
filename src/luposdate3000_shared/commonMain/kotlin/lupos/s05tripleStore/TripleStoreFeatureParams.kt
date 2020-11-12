@@ -12,12 +12,12 @@ import lupos.s04logicalOperators.IQuery
 sealed class TripleStoreFeatureParams(val feature: TripleStoreFeature, val params: Array<IAOPBase>) {
     abstract fun chooseData(data: IntArray, featureRange: Pair<Int, Int>, params: TripleStoreFeatureParams): Int
     internal fun myToStringHelper(n: IAOPBase): String {
-        if (n is IAOPVariable) {
-            return n.getName()
+        return if (n is IAOPVariable) {
+            n.getName()
         } else if (n is IAOPConstant) {
-            return "${n.getValue()} (${n.toSparql()})"
+            "${n.getValue()} (${n.toSparql()})"
         } else {
-            return "??? ${n.getClassname()} ???"
+            "??? ${n.getClassname()} ???"
         }
     }
 }

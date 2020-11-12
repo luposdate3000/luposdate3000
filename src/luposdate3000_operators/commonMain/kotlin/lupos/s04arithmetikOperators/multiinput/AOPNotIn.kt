@@ -9,8 +9,6 @@ import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.IteratorBundle
-import lupos.s04logicalOperators.OPBase
-import lupos.s04logicalOperators.Query
 
 class AOPNotIn(query: IQuery, childA: AOPBase, childB: AOPBase) : AOPBase(query, EOperatorID.AOPNotInID, "AOPNotIn", arrayOf(childA, childB)) {
     override fun toSparql() = "( " + children[0].toSparql() + " NOT IN " + children[1].toSparql() + " )"
@@ -31,7 +29,7 @@ class AOPNotIn(query: IQuery, childA: AOPBase, childB: AOPBase) : AOPBase(query,
                         break
                     }
                 } catch (e: Throwable) {
-                    SanityCheck.println({ "TODO exception 24" })
+                    SanityCheck.println { "TODO exception 24" }
                     e.printStackTrace()
                     noError = false
                 }

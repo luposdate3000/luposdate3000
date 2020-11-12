@@ -1,24 +1,17 @@
 package lupos.s11outputResult
 
-import lupos.s00misc.IMyPrintWriter
-import lupos.s00misc.MyLock
-import lupos.s00misc.Parallel
-import lupos.s00misc.ParallelJob
-import lupos.s00misc.Partition
-import lupos.s00misc.SanityCheck
+import lupos.s00misc.*
 import lupos.s03resultRepresentation.IResultSetDictionary
 import lupos.s03resultRepresentation.ResultSetDictionaryExt
 import lupos.s04logicalOperators.IOPBase
+import lupos.s04logicalOperators.OPBaseCompound
 import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.s04logicalOperators.noinput.OPNothing
-import lupos.s04logicalOperators.OPBase
-import lupos.s04logicalOperators.OPBaseCompound
-import lupos.s04logicalOperators.Query
 import lupos.s09physicalOperators.partition.POPMergePartition
 import lupos.s09physicalOperators.partition.POPMergePartitionOrderedByIntId
 
 object QueryResultToEmptyStream {
-    internal /*suspend*/ inline fun writeAllRows(variables: Array<String>, columns: Array<ColumnIterator>, dictionary: IResultSetDictionary, lock: MyLock?, output: IMyPrintWriter) {
+    /*suspend*/ private inline fun writeAllRows(variables: Array<String>, columns: Array<ColumnIterator>, dictionary: IResultSetDictionary, lock: MyLock?, output: IMyPrintWriter) {
         val rowBuf = IntArray(variables.size)
         loop@ while (true) {
             for (variableIndex in 0 until variables.size) {
@@ -34,7 +27,7 @@ object QueryResultToEmptyStream {
         }
     }
 
-    internal /*suspend*/ fun writeNodeResult(variables: Array<String>, node: IOPBase, output: IMyPrintWriter, parent: Partition = Partition()) {
+    private /*suspend*/ fun writeNodeResult(variables: Array<String>, node: IOPBase, output: IMyPrintWriter, parent: Partition = Partition()) {
         if ((node is POPMergePartition && node.partitionCount > 1) || (node is POPMergePartitionOrderedByIntId && node.partitionCount > 1)) {
             var partitionCount = 0
             var partitionVariable = ""
@@ -81,13 +74,13 @@ object QueryResultToEmptyStream {
             nodes = Array(rootNode.children.size) { rootNode.children[it] }
             columnProjectionOrder = rootNode.columnProjectionOrder
         } else {
-            nodes = arrayOf<IOPBase>(rootNode)
+            nodes = arrayOf(rootNode)
         }
         for (i in 0 until nodes.size) {
             val node = nodes[i]
             if (node !is OPNothing) {
                 val columnNames: List<String>
-                if (columnProjectionOrder[i].size > 0) {
+                if (columnProjectionOrder[i].isNotEmpty()) {
                     columnNames = columnProjectionOrder[i]
                     SanityCheck.check({ node.getProvidedVariableNames().containsAll(columnNames) }, { "${columnNames.map { it }} vs ${node.getProvidedVariableNames()}" })
                 } else {
@@ -98,7 +91,7 @@ object QueryResultToEmptyStream {
                     val child = node.evaluate(Partition())
                     child.columns["?boolean"]!!.next()
                 } else {
-                    if (variables.size == 0) {
+                    if (variables.isEmpty()) {
                         val child = node.evaluate(Partition())
                         child.count()
                     } else {

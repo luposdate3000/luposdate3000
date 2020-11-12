@@ -1,23 +1,16 @@
 package lupos.s16network
 
+import lupos.s00misc.*
+import lupos.s03resultRepresentation.nodeGlobalDictionary
 import java.io.BufferedReader
 import java.io.InputStreamReader
 import java.io.OutputStream
-import java.io.PrintWriter
 import java.net.InetSocketAddress
 import java.net.ServerSocket
-import java.net.Socket
 import java.net.URLDecoder
-import java.util.Date
-import lupos.s00misc.EnpointRecievedInvalidPath
-import lupos.s00misc.File
-import lupos.s00misc.JenaWrapper
-import lupos.s00misc.MyPrintWriter
-import lupos.s00misc.Parallel
-import lupos.s03resultRepresentation.nodeGlobalDictionary
 
 internal class MyPrintWriterExtension(out: OutputStream) : MyPrintWriter(out) {
-    var counter = 0
+    private var counter = 0
     override fun print(s: String) {
         val len = s.length
         counter += len
@@ -31,7 +24,7 @@ internal class MyPrintWriterExtension(out: OutputStream) : MyPrintWriter(out) {
 
 @OptIn(ExperimentalStdlibApi::class)
 actual object HttpEndpointLauncher {
-    internal fun printHeaderSuccess(stream: MyPrintWriter) {
+    private fun printHeaderSuccess(stream: MyPrintWriter) {
         stream.println("HTTP/1.1 200 OK")
         stream.println("Content-Type: text/plain")
         stream.println()
@@ -60,7 +53,7 @@ actual object HttpEndpointLauncher {
                             var path = ""
                             var isPost = false
                             val params = mutableMapOf<String, String>()
-                            while (line != null && line.length > 0) {
+                            while (line != null && line.isNotEmpty()) {
                                 if (line.startsWith("POST")) {
                                     isPost = true
                                     path = line.substring(5)
@@ -76,7 +69,7 @@ actual object HttpEndpointLauncher {
                             }
                             idx = path.indexOf('?')
                             if (idx > 0) {
-                                var allparams = path.substring(idx + 1)
+                                val allparams = path.substring(idx + 1)
                                 for (p in allparams.split('&')) {
                                     val t = p.split('=')
                                     params[t[0]] = URLDecoder.decode(t[1])
@@ -125,7 +118,7 @@ actual object HttpEndpointLauncher {
                                 }
                                 "/import/turtle" -> {
                                     val dict = mutableMapOf<String, Int>()
-                                    var dictfile = params["bnodeList"]
+                                    val dictfile = params["bnodeList"]
                                     if (dictfile != null) {
                                         File(dictfile).forEachLine {
                                             dict[it] = nodeGlobalDictionary.createNewBNode()

@@ -1,26 +1,19 @@
 package lupos.s09physicalOperators.singleinput
 
-import kotlin.jvm.JvmField
-import lupos.s00misc.EModifyType
-import lupos.s00misc.EOperatorID
-import lupos.s00misc.ESortPriority
-import lupos.s00misc.Partition
-import lupos.s00misc.SanityCheck
+import lupos.s00misc.*
 import lupos.s03resultRepresentation.ResultSetDictionaryExt
 import lupos.s03resultRepresentation.ValueBoolean
 import lupos.s04arithmetikOperators.noinput.AOPConstant
 import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
-import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.s04logicalOperators.iterator.ColumnIteratorMultiValue
 import lupos.s04logicalOperators.iterator.ColumnIteratorRepeatValue
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.noinput.LOPTriple
-import lupos.s04logicalOperators.OPBase
-import lupos.s04logicalOperators.Query
 import lupos.s09physicalOperators.POPBase
 import lupos.s15tripleStoreDistributed.distributedTripleStore
+import kotlin.jvm.JvmField
 
 class POPModify(query: IQuery, projectedVariables: List<String>, insert: List<LOPTriple>, delete: List<LOPTriple>, child: IOPBase) : POPBase(query, projectedVariables, EOperatorID.POPModifyID, "POPModify", arrayOf(child), ESortPriority.PREVENT_ANY) {
     override fun getPartitionCount(variable: String): Int {
@@ -29,7 +22,7 @@ class POPModify(query: IQuery, projectedVariables: List<String>, insert: List<LO
     }
 
     @JvmField
-    val modify = Array<Pair<LOPTriple, EModifyType>>(insert.size + delete.size) {
+    val modify = Array(insert.size + delete.size) {
         if (it < insert.size) {
             Pair(insert[it], EModifyType.INSERT)
         } else {
@@ -39,9 +32,9 @@ class POPModify(query: IQuery, projectedVariables: List<String>, insert: List<LO
 
     override fun equals(other: Any?) = other is POPModify && modify.contentEquals(other.modify) && children[0] == other.children[0]
     override fun toSparql(): String {
-        var res = StringBuilder()
-        var insertions = StringBuilder()
-        var deletions = StringBuilder()
+        val res = StringBuilder()
+        val insertions = StringBuilder()
+        val deletions = StringBuilder()
         for (m in modify) {
             if (m.second == EModifyType.INSERT) {
                 insertions.append(m.first.toSparql() + ".")
@@ -49,14 +42,14 @@ class POPModify(query: IQuery, projectedVariables: List<String>, insert: List<LO
                 deletions.append(m.first.toSparql() + ".")
             }
         }
-        var istring = insertions.toString()
-        var dstring = deletions.toString()
-        if (istring.length > 0) {
+        val istring = insertions.toString()
+        val dstring = deletions.toString()
+        if (istring.isNotEmpty()) {
             res.append("INSERT{")
             res.append(istring)
             res.append("}")
         }
-        if (dstring.length > 0) {
+        if (dstring.isNotEmpty()) {
             res.append("DELETE{")
             res.append(dstring)
             res.append("}")
@@ -68,7 +61,7 @@ class POPModify(query: IQuery, projectedVariables: List<String>, insert: List<LO
     }
 
     override fun toSparqlQuery() = toSparql()
-    override fun getProvidedVariableNames() = listOf<String>("?success")
+    override fun getProvidedVariableNames() = listOf("?success")
     override fun getProvidedVariableNamesInternal() = children[0].getProvidedVariableNames()
     override fun getRequiredVariableNames(): List<String> {
         val res = mutableListOf<String>()
@@ -106,7 +99,7 @@ class POPModify(query: IQuery, projectedVariables: List<String>, insert: List<LO
         val row = IntArray(variables.size) { ResultSetDictionaryExt.undefValue }
         val data = mutableMapOf<String, Array<Array<MutableList<Int>>>>()
         loop@ while (true) {
-            if (variables.size > 0) {
+            if (variables.isNotEmpty()) {
                 for (columnIndex in 0 until variables.size) {
                     val value = columns[columnIndex].next()
                     if (value == ResultSetDictionaryExt.nullValue) {
@@ -129,14 +122,13 @@ class POPModify(query: IQuery, projectedVariables: List<String>, insert: List<LO
                         graphVarIdx++
                     }
                 }
-                var graphName: String
-                if (action.first.graphVar) {
-                    graphName = query.getDictionary().getValue(row[graphVarIdx]).valueToString()!!
+                var graphName: String = if (action.first.graphVar) {
+                    query.getDictionary().getValue(row[graphVarIdx]).valueToString()!!
                 } else {
-                    graphName = action.first.graph
+                    action.first.graph
                 }
                 if (data[graphName] == null) {
-                    data[graphName] = Array(EModifyType.values().size) { Array(3) { mutableListOf<Int>() } }
+                    data[graphName] = Array(EModifyType.values().size) { Array(3) { mutableListOf() } }
                 }
                 val target = data[graphName]!![action.second.ordinal]
                 loop2@ for (columnIndex in 0 until 3) {
@@ -155,7 +147,7 @@ class POPModify(query: IQuery, projectedVariables: List<String>, insert: List<LO
                 }
             }
         }
-        if (row.size > 0) {
+        if (row.isNotEmpty()) {
             for ((n, closeIndex) in child.columns) {
                 closeIndex.close()
             }

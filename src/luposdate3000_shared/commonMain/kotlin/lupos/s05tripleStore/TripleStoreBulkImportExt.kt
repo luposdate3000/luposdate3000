@@ -1,7 +1,7 @@
 package lupos.s05tripleStore
 
 object TripleStoreBulkImportExt {
-    fun mergeSort(source: IntArray, target: IntArray, off: Int, mid: Int, count: Int, orderBy: IntArray) {
+    private fun mergeSort(source: IntArray, target: IntArray, off: Int, mid: Int, count: Int, orderBy: IntArray) {
         //assuming that "off .. off + count / 2" and "off + count / 2 .. off + count" are sorted
         val aEnd = (off + mid) * 3
         val bEnd = (off + count) * 3
@@ -67,7 +67,7 @@ object TripleStoreBulkImportExt {
             if (off < total) {
                 mergeSort(data[sourceIdx], data[dataIdxB], off, count / 2, total - off, order)
             }
-            var t = data[dataIdxA]
+            val t = data[dataIdxA]
             data[dataIdxA] = data[dataIdxB]
             data[dataIdxB] = t
         }

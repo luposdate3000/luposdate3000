@@ -1,23 +1,6 @@
 package lupos.s16network
 
-import kotlin.js.JsName
-import lupos.s00misc.DateHelperRelative
-import lupos.s00misc.EModifyType
-import lupos.s00misc.ETripleComponentType
-import lupos.s00misc.File
-import lupos.s00misc.IMyPrintWriter
-import lupos.s00misc.MyPrintWriter
-import lupos.s00misc.OperatorGraphToLatex
-import lupos.s00misc.Parallel
-import lupos.s00misc.Partition
-import lupos.s00misc.QueryResultToStream
-import lupos.s00misc.SanityCheck
-import lupos.s00misc.XMLElement
-import lupos.s00misc.XMLElementFromCsv
-import lupos.s00misc.XMLElementFromJson
-import lupos.s00misc.XMLElementFromN3
-import lupos.s00misc.XMLElementFromTsv
-import lupos.s00misc.XMLElementFromXML
+import lupos.s00misc.*
 import lupos.s02buildSyntaxTree.LexerCharIterator
 import lupos.s02buildSyntaxTree.LookAheadTokenIterator
 import lupos.s02buildSyntaxTree.sparql1_1.SPARQLParser
@@ -27,15 +10,15 @@ import lupos.s02buildSyntaxTree.turtle.TurtleParserWithStringTriples
 import lupos.s02buildSyntaxTree.turtle.TurtleScanner
 import lupos.s03resultRepresentation.nodeGlobalDictionary
 import lupos.s04logicalOperators.IOPBase
-import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
 import lupos.s06buildOperatorGraph.OperatorGraphVisitor
 import lupos.s08logicalOptimisation.LogicalOptimizer
 import lupos.s09physicalOperators.noinput.POPValuesImportXML
 import lupos.s10physicalOptimisation.PhysicalOptimizer
 import lupos.s14endpoint.convertToOPBase
-import lupos.s15tripleStoreDistributed.distributedTripleStore
 import lupos.s15tripleStoreDistributed.DistributedTripleStore
+import lupos.s15tripleStoreDistributed.distributedTripleStore
+import kotlin.js.JsName
 
 /*
  * This is the interface of the database
@@ -44,14 +27,11 @@ import lupos.s15tripleStoreDistributed.DistributedTripleStore
  */
 @OptIn(ExperimentalStdlibApi::class, kotlin.time.ExperimentalTime::class)
 object LuposdateEndpoint {
-    var initialized = false
-    internal fun helper_clean_string(s: String): String {
+    private var initialized = false
+    private fun helper_clean_string(s: String): String {
         var res: String = s
         while (true) {
-            val match = "\\\\u[0-9a-fA-f]{4}".toRegex().find(res)
-            if (match == null) {
-                break
-            }
+            val match = "\\\\u[0-9a-fA-f]{4}".toRegex().find(res) ?: break
             val replacement = match.value.substring(2, 6).toInt(16).toChar() + ""
             res = res.replace(match.value, replacement)
         }
@@ -60,7 +40,7 @@ object LuposdateEndpoint {
 
     internal fun helper_import_turtle_files(dict: MutableMap<String, Int>, v: String): Int {
         val v2 = helper_clean_string(v)
-        var res: Int
+        val res: Int
         if (v2.startsWith("_:")) {
             val tmp = dict[v2]
             if (tmp != null) {
@@ -81,18 +61,17 @@ object LuposdateEndpoint {
         try {
             val query = Query()
             var counter = 0
-            var store = distributedTripleStore.getDefaultGraph(query)
+            val store = distributedTripleStore.getDefaultGraph(query)
             store.bulkImport { bulk ->
                 for (fileName in fileNames.split(";")) {
                     println("importing file '$fileName'")
                     val f = File(fileName)
-                    val lcit: LexerCharIterator
-                    if (f.length() < Int.MAX_VALUE) {
+                    val lcit: LexerCharIterator = if (f.length() < Int.MAX_VALUE) {
                         val data = f.readAsString()
-                        lcit = LexerCharIterator(data)
+                        LexerCharIterator(data)
                     } else {
                         val data = f.readAsCharIterator()
-                        lcit = LexerCharIterator(data)
+                        LexerCharIterator(data)
                     }
                     val tit = TurtleScanner(lcit)
                     val ltit = LookAheadTokenIterator(tit, 3)
@@ -113,7 +92,7 @@ object LuposdateEndpoint {
             }
             return "successfully imported $counter Triples"
         } catch (e: Throwable) {
-            SanityCheck.println({ "TODO exception 15" })
+            SanityCheck.println { "TODO exception 15" }
             e.printStackTrace()
             throw e
         }
@@ -125,7 +104,7 @@ object LuposdateEndpoint {
         try {
             val query = Query()
             var counter = 0
-            var store = distributedTripleStore.getDefaultGraph(query)
+            val store = distributedTripleStore.getDefaultGraph(query)
             store.bulkImport { bulk ->
                 for (fileName in fileNames.split(";")) {
                     println("importing file '$fileName'")
@@ -158,17 +137,17 @@ object LuposdateEndpoint {
         try {
             val query = Query()
             var counter = 0L
-            var store = distributedTripleStore.getDefaultGraph(query)
+            val store = distributedTripleStore.getDefaultGraph(query)
             store.bulkImport { bulk ->
                 for (fileName in fileNames.split(";")) {
                     println("importing file '$fileName'")
                     val startTime = DateHelperRelative.markNow()
-                    val fileTriples = File(fileName + ".triples")
-                    val fileDictionary = File(fileName + ".dictionary")
-                    val fileDictionaryOffset = File(fileName + ".dictionaryoffset")
-                    val fileDictionaryStat = File(fileName + ".stat")
+                    val fileTriples = File("$fileName.triples")
+                    val fileDictionary = File("$fileName.dictionary")
+                    val fileDictionaryOffset = File("$fileName.dictionaryoffset")
+                    val fileDictionaryStat = File("$fileName.stat")
                     var dictTotal = 0
-                    var dictTyped = IntArray(ETripleComponentType.values().size)
+                    val dictTyped = IntArray(ETripleComponentType.values().size)
                     fileDictionaryStat.forEachLine {
                         val p = it.split("=")
                         if (p[0] == "total") {
@@ -186,8 +165,8 @@ object LuposdateEndpoint {
                             var lastOffset = 0
                             for (i in 0 until dictTotal) {
                                 val nextOffset = offsetStream.readInt()
-                                var type = ETripleComponentType.values()[dictStream.readByte().toInt()]
-                                var length = nextOffset - lastOffset - 1
+                                val type = ETripleComponentType.values()[dictStream.readByte().toInt()]
+                                val length = nextOffset - lastOffset - 1
                                 if (buffer.size < length) {
                                     buffer = ByteArray(length)
                                 }
@@ -202,13 +181,13 @@ object LuposdateEndpoint {
                         }
                     }
                     val dictTime = DateHelperRelative.elapsedSeconds(startTime)
-                    var cnt = fileTriples.length() / 12L
+                    val cnt = fileTriples.length() / 12L
                     counter += cnt
                     fileTriples.dataInputStreamSuspended {
                         for (i in 0 until cnt) {
-                            var s = it.readInt()
-                            var p = it.readInt()
-                            var o = it.readInt()
+                            val s = it.readInt()
+                            val p = it.readInt()
+                            val o = it.readInt()
                             bulk.insert(mapping[s], mapping[p], mapping[o])
                         }
                     }
@@ -219,7 +198,7 @@ object LuposdateEndpoint {
             }
             return "successfully imported $counter Triples"
         } catch (e: Throwable) {
-            SanityCheck.println({ "TODO exception 15" })
+            SanityCheck.println { "TODO exception 15" }
             e.printStackTrace()
             throw e
         }
@@ -336,17 +315,17 @@ object LuposdateEndpoint {
         SanityCheck.println { pop_node }
         if (logOperatorGraph) {
             SanityCheck.suspended {
-                SanityCheck.println({ "----------" })
-                SanityCheck.println({ query })
-                SanityCheck.println({ ">>>>>>>>>>" })
+                SanityCheck.println { "----------" }
+                SanityCheck.println { query }
+                SanityCheck.println { ">>>>>>>>>>" }
                 val a = pop_node.toXMLElement().toString()
-                SanityCheck.println({ a })
-                SanityCheck.println({ "<<<<<<<<<<" })
+                SanityCheck.println { a }
+                SanityCheck.println { "<<<<<<<<<<" }
                 val b = OperatorGraphToLatex(pop_node.toXMLElement().toString(), "")
-                SanityCheck.println({ b })
+                SanityCheck.println { b }
             }
         }
-        var buf = MyPrintWriter()
+        val buf = MyPrintWriter()
         evaluate_operatorgraph_to_result(pop_node, buf)
         return buf.toString()
     }

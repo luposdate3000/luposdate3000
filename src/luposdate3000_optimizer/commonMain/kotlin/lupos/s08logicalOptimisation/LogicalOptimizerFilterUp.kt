@@ -2,13 +2,11 @@ package lupos.s08logicalOptimisation
 
 import lupos.s00misc.EOptimizerID
 import lupos.s04logicalOperators.IOPBase
+import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.multiinput.LOPJoin
 import lupos.s04logicalOperators.multiinput.LOPMinus
 import lupos.s04logicalOperators.multiinput.LOPUnion
-import lupos.s04logicalOperators.OPBase
-import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.singleinput.LOPFilter
-import lupos.s08logicalOptimisation.OptimizerBase
 
 class LogicalOptimizerFilterUp(query: Query) : OptimizerBase(query, EOptimizerID.LogicalOptimizerFilterUpID) {
     override val classname = "LogicalOptimizerFilterUp"

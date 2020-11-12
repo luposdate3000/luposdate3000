@@ -229,10 +229,10 @@ import lupos.s09physicalOperators.noinput.POPValuesImportXML
 class OperatorGraphVisitor(@JvmField val query: Query) : Visitor<IOPBase> {
     @JvmField
     val queryExecutionStartTime = ValueDateTime()
-    fun createUnion(a: IOPBase, b: IOPBase): IOPBase {
-        var pa = a.getProvidedVariableNames().toMutableSet()
-        var pb = b.getProvidedVariableNames().toMutableSet()
-        var pc = pa.intersect(pb)
+    private fun createUnion(a: IOPBase, b: IOPBase): IOPBase {
+        val pa = a.getProvidedVariableNames().toMutableSet()
+        val pb = b.getProvidedVariableNames().toMutableSet()
+        val pc = pa.intersect(pb)
         pa.removeAll(pc)
         pb.removeAll(pc)
         var a1 = a
@@ -248,19 +248,19 @@ class OperatorGraphVisitor(@JvmField val query: Query) : Visitor<IOPBase> {
 
     /*queryExecutionStartTime required for_ BuildInCall.NOW */
     override fun visit(node: ASTNode, childrenValues: List<IOPBase>): IOPBase = LOPNOOP(query)
-    fun mergeLOPBind(a: LOPBind, b: LOPBind): LOPBind {
+    private fun mergeLOPBind(a: LOPBind, b: LOPBind): LOPBind {
         val aName = a.name.name
-        if (b.getChildren()[1].getRequiredVariableNames().contains(aName)) {
+        return if (b.getChildren()[1].getRequiredVariableNames().contains(aName)) {
             b.getLatestChild().setChild(a)
-            return b
+            b
         } else {
             a.getLatestChild().setChild(b)
-            return a
+            a
         }
         /*Coverage Unreachable*/
     }
 
-    fun containsAggregate(node: ASTNode): Boolean {
+    private fun containsAggregate(node: ASTNode): Boolean {
         if (node is ASTAggregation) {
             return true
         }
@@ -272,7 +272,7 @@ class OperatorGraphVisitor(@JvmField val query: Query) : Visitor<IOPBase> {
         return false
     }
 
-    fun containsAggregate(node: IOPBase): Boolean {
+    private fun containsAggregate(node: IOPBase): Boolean {
         if (node is AOPAggregationBase) {
             return true
         }
@@ -300,7 +300,7 @@ class OperatorGraphVisitor(@JvmField val query: Query) : Visitor<IOPBase> {
         return visitSelectBase(node, node.select, node.distinct, node.reduced)
     }
 
-    fun visitSelectBase(node: ASTQueryBaseClass, select: Array<ASTNode>, distinct: Boolean, reduced: Boolean): IOPBase {
+    private fun visitSelectBase(node: ASTQueryBaseClass, select: Array<ASTNode>, distinct: Boolean, reduced: Boolean): IOPBase {
         val result = LOPNOOP(query)
         var bind: LOPBind? = null
         var bindIsAggregate = false
@@ -308,7 +308,7 @@ class OperatorGraphVisitor(@JvmField val query: Query) : Visitor<IOPBase> {
         result.getLatestChild().setChild(projection)
         val allNamesSelect = mutableSetOf<String>()
         val allNamesBind = mutableSetOf<String>()
-        if (select.size > 0) {
+        if (select.isNotEmpty()) {
             for (sel in select) {
                 when (sel) {
                     is ASTVar -> {
@@ -331,10 +331,10 @@ class OperatorGraphVisitor(@JvmField val query: Query) : Visitor<IOPBase> {
                         }
                         val tmp2 = LOPBind(query, v, tmp3)
                         bindIsAggregate = bindIsAggregate || containsAggregate(sel.expression)
-                        if (bind != null) {
-                            bind = mergeLOPBind(bind, tmp2)
+                        bind = if (bind != null) {
+                            mergeLOPBind(bind, tmp2)
                         } else {
-                            bind = tmp2
+                            tmp2
                         }
                     }
                     else -> {
@@ -345,7 +345,7 @@ class OperatorGraphVisitor(@JvmField val query: Query) : Visitor<IOPBase> {
         }
         val childNode = visitQueryBase(node, bind, bindIsAggregate, reduced, distinct)
         result.getLatestChild().setChild(childNode)
-        if (select.size == 0) {
+        if (select.isEmpty()) {
             for (s in childNode.getProvidedVariableNames()) {
                 if (!query.isGeneratedVariableName(s)) {
                     projection.variables.add(AOPVariable(query, s))
@@ -370,10 +370,10 @@ class OperatorGraphVisitor(@JvmField val query: Query) : Visitor<IOPBase> {
                     LOPJoin(query, tmp1, LOPTriple(query, AOPVariable(query, "s"), AOPVariable(query, "p"), AOPVariable(query, "o"), "", false), false),
                     LOPJoin(query, tmp2, LOPTriple(query, AOPVariable(query, "s"), AOPVariable(query, "p"), AOPVariable(query, "o"), "", false), false)),
                     LOPJoin(query, tmp3, LOPTriple(query, AOPVariable(query, "s"), AOPVariable(query, "p"), AOPVariable(query, "o"), "", false), false))
-            if (res == null) {
-                res = tmp4
+            res = if (res == null) {
+                tmp4
             } else {
-                res = LOPUnion(query, res, tmp4)
+                LOPUnion(query, res, tmp4)
             }
         }
         if (res == null) {
@@ -387,13 +387,13 @@ class OperatorGraphVisitor(@JvmField val query: Query) : Visitor<IOPBase> {
         return visitConstructBase(child, node.template)
     }
 
-    fun visitConstructBase(child: IOPBase, template: Array<ASTNode>): IOPBase {
-        var names = listOf("s", "p", "o")
-        var templates = mutableListOf<Pair<Any, Boolean>>()//name, isVariable
+    private fun visitConstructBase(child: IOPBase, template: Array<ASTNode>): IOPBase {
+        val names = listOf("s", "p", "o")
+        val templates = mutableListOf<Pair<Any, Boolean>>()//name, isVariable
         for (t in template) {
             val templateLocal = t.visit(this) as LOPTriple
             for (i in 0 until 3) {
-                var tmp1 = templateLocal.getChildren()[i]
+                val tmp1 = templateLocal.getChildren()[i]
                 if (tmp1 is AOPVariable) {
                     templates.add(Pair(tmp1.name, true))
                 } else {
@@ -405,7 +405,7 @@ class OperatorGraphVisitor(@JvmField val query: Query) : Visitor<IOPBase> {
         val provided = mychild.getProvidedVariableNames()
         for (selected in names) {
             if (provided.contains(selected)) {
-                var tmp = query.getUniqueVariableName()
+                val tmp = query.getUniqueVariableName()
                 mychild = mychild.replaceVariableWithAnother(mychild, selected, tmp)
                 for (i in 0 until templates.size) {
                     if (templates[i].second && templates[i].first == selected) {
@@ -418,18 +418,18 @@ class OperatorGraphVisitor(@JvmField val query: Query) : Visitor<IOPBase> {
         for (i in 0 until templates.size / 3) {
             var tmp = mychild.cloneOP()
             for (name in 0 until 3) {
-                var tmp2 = templates[i * 3 + name]
-                if (tmp2.second) {
-                    tmp = tmp.replaceVariableWithAnother(tmp, tmp2.first as String, names[name])
+                val tmp2 = templates[i * 3 + name]
+                tmp = if (tmp2.second) {
+                    tmp.replaceVariableWithAnother(tmp, tmp2.first as String, names[name])
                 } else {
-                    tmp = LOPBind(query, AOPVariable(query, names[name]), tmp2.first as AOPConstant, tmp)
+                    LOPBind(query, AOPVariable(query, names[name]), tmp2.first as AOPConstant, tmp)
                 }
             }
             tmp = LOPProjection(query, names.map { AOPVariable(query, it) }.toMutableList(), tmp)
-            if (res == null) {
-                res = tmp
+            res = if (res == null) {
+                tmp
             } else {
-                res = LOPUnion(query, res, tmp)
+                LOPUnion(query, res, tmp)
             }
         }
         if (res == null) {
@@ -438,9 +438,9 @@ class OperatorGraphVisitor(@JvmField val query: Query) : Visitor<IOPBase> {
         return LOPProjection(query, mutableListOf(AOPVariable(query, "s"), AOPVariable(query, "p"), AOPVariable(query, "o")), LOPDistinct(query, res))
     }
 
-    fun refineLopGroup(g: LOPGroup): LOPBase {
-        var bindingsInside = mutableListOf<Pair<String, AOPBase>>()
-        var bindingsOutside = mutableListOf<Pair<String, AOPBase>>()
+    private fun refineLopGroup(g: LOPGroup): LOPBase {
+        val bindingsInside = mutableListOf<Pair<String, AOPBase>>()
+        val bindingsOutside = mutableListOf<Pair<String, AOPBase>>()
         for (b in g.bindings) {
             if (containsAggregate(b.second)) {
                 bindingsInside.add(b)
@@ -455,7 +455,7 @@ class OperatorGraphVisitor(@JvmField val query: Query) : Visitor<IOPBase> {
         return res
     }
 
-    fun visitQueryBase(node: ASTQueryBaseClass, bindp: LOPBind?, bindIsAggregate: Boolean, reduced: Boolean, distinct: Boolean): IOPBase {
+    private fun visitQueryBase(node: ASTQueryBaseClass, bindp: LOPBind?, bindIsAggregate: Boolean, reduced: Boolean, distinct: Boolean): IOPBase {
         var bind = bindp
         val result = LOPNOOP(query)
         if (node.existsLimit()) {
@@ -480,10 +480,10 @@ class OperatorGraphVisitor(@JvmField val query: Query) : Visitor<IOPBase> {
                     val expression = h.visit(this) as AOPBase
                     val tmpVar = AOPVariable(query, query.getUniqueVariableName())
                     val tmpBind = LOPBind(query, tmpVar, expression)
-                    if (bind != null) {
-                        bind = mergeLOPBind(bind, tmpBind)
+                    bind = if (bind != null) {
+                        mergeLOPBind(bind, tmpBind)
                     } else {
-                        bind = tmpBind
+                        tmpBind
                     }
                     result.getLatestChild().setChild(LOPFilter(query, AOPVariable(query, tmpVar.name)))
                 }
@@ -503,10 +503,10 @@ class OperatorGraphVisitor(@JvmField val query: Query) : Visitor<IOPBase> {
                             throw RecoursiveVariableDefinitionSyntaxException(v.name)
                         }
                         val tmp2 = LOPBind(query, v, tmp)
-                        if (child != null) {
-                            child = mergeLOPBind(child, tmp2)
+                        child = if (child != null) {
+                            mergeLOPBind(child, tmp2)
                         } else {
-                            child = tmp2
+                            tmp2
                         }
                     }
                     else -> {
@@ -525,10 +525,10 @@ class OperatorGraphVisitor(@JvmField val query: Query) : Visitor<IOPBase> {
                     val expression = h.visit(this) as AOPBase
                     val tmpVar = AOPVariable(query, query.getUniqueVariableName())
                     val tmpBind = LOPBind(query, tmpVar, expression)
-                    if (bind != null) {
-                        bind = mergeLOPBind(bind, tmpBind)
+                    bind = if (bind != null) {
+                        mergeLOPBind(bind, tmpBind)
                     } else {
-                        bind = tmpBind
+                        tmpBind
                     }
                     result.getLatestChild().setChild(LOPFilter(query, AOPVariable(query, tmpVar.name)))
                 }
@@ -568,21 +568,21 @@ class OperatorGraphVisitor(@JvmField val query: Query) : Visitor<IOPBase> {
         return result
     }
 
-    fun applyDatasets(node: IOPBase, datasets: MutableMap<String, IOPBase>): IOPBase {
+    private fun applyDatasets(node: IOPBase, datasets: MutableMap<String, IOPBase>): IOPBase {
         if (node is LOPTriple) {
-            if (node.graphVar) {
+            return if (node.graphVar) {
                 var tmp: IOPBase? = null
                 for ((k, v) in datasets) {
-                    var t = LOPBind(node.query, AOPVariable(query, node.graph), AOPConstant(query, ValueDefinition(k)), v)
+                    val t = LOPBind(node.query, AOPVariable(query, node.graph), AOPConstant(query, ValueDefinition(k)), v)
                     if (tmp == null) {
                         tmp = t
                     } else {
                         tmp = createUnion(tmp, t)
                     }
                 }
-                return tmp!!
+                tmp!!
             } else {
-                return datasets[node.graph]!!
+                datasets[node.graph]!!
             }
         } else {
             for (i in 0 until node.getChildren().size) {
@@ -592,13 +592,13 @@ class OperatorGraphVisitor(@JvmField val query: Query) : Visitor<IOPBase> {
         }
     }
 
-    internal fun parseGroup(nodes: Array<ASTNode>): IOPBase {
+    private fun parseGroup(nodes: Array<ASTNode>): IOPBase {
         if (nodes.isEmpty()) {
             return LOPNOOP(query)
         }
         var result: IOPBase? = null
         val bind = mutableListOf<LOPBind>()
-        var members = mutableMapOf<EGroupMember, IOPBase>()
+        val members = mutableMapOf<EGroupMember, IOPBase>()
         for (n in nodes) {
             var tmp2 = n.visit(this)
             while (tmp2 is LOPNOOP) {
@@ -714,19 +714,19 @@ class OperatorGraphVisitor(@JvmField val query: Query) : Visitor<IOPBase> {
             firstJoin = members[EGroupMember.GMLOPDataSource]
         }
         if (members.containsKey(EGroupMember.GMLOPOptional)) {
-            if (firstJoin == null) {
-                firstJoin = LOPOptional(query, members[EGroupMember.GMLOPOptional]!!)
+            firstJoin = if (firstJoin == null) {
+                LOPOptional(query, members[EGroupMember.GMLOPOptional]!!)
             } else {
-                firstJoin = LOPJoin(query, firstJoin, members[EGroupMember.GMLOPOptional]!!, true)
+                LOPJoin(query, firstJoin, members[EGroupMember.GMLOPOptional]!!, true)
             }
         }
         if (firstJoin == null) {
             var bb: LOPBind? = null
             for (b in bind) {
-                if (bb == null) {
-                    bb = b
+                bb = if (bb == null) {
+                    b
                 } else {
-                    bb = mergeLOPBind(bb, b)
+                    mergeLOPBind(bb, b)
                 }
             }
             firstJoin = bb
@@ -751,7 +751,7 @@ return tmp
             while (tmp is LOPMinus) {
                 val a = result!!
                 val b = LOPJoin(query, result.cloneOP(), tmp.getChildren()[1], false)
-                var t = a.getProvidedVariableNames().toMutableList()
+                val t = a.getProvidedVariableNames().toMutableList()
                 result = LOPMinus(query, a, b, t)
                 tmp = tmp.getChildren()[0]
             }
@@ -759,7 +759,7 @@ return tmp
         return result!!
     }
 
-    fun insertLOPBind(a: IOPBase, b: LOPBind): IOPBase {
+    private fun insertLOPBind(a: IOPBase, b: LOPBind): IOPBase {
         if (a is LOPJoin) {
             val requiredVariables = b.getChildren()[1].getRequiredVariableNames()
             val providedLeft = a.getChildren()[0].getProvidedVariableNames()
@@ -795,7 +795,7 @@ return tmp
         if (childrenValues.isEmpty()) {
             return LOPNOOP(query) // empty query
         }
-        var childs = mutableListOf<IOPBase>()
+        val childs = mutableListOf<IOPBase>()
         var prefix: LOPPrefix? = null
         /*prefix is applied at the end*/
         for (q in childrenValues) {
@@ -822,7 +822,7 @@ return tmp
                 childs[i] = tmp
             }
         }
-        var columnProjectionOrder = mutableListOf<List<String>>()
+        val columnProjectionOrder = mutableListOf<List<String>>()
         for (i in 0 until childs.size) {
             var x = childs[i]
             val list = mutableListOf<String>()
@@ -832,7 +832,7 @@ return tmp
             if (x is LOPProjection) {
                 list.addAll(x.variables.map { it.name })
             } else {
-                SanityCheck.println({ "debug no force-selected column order ?!? ..." })
+                SanityCheck.println { "debug no force-selected column order ?!? ..." }
             }
             columnProjectionOrder.add(list)
         }
@@ -841,14 +841,14 @@ return tmp
         return res
     }
 
-    fun preventTriplesWithMultipleInstancesOfTheSameVariable(node: IOPBase): IOPBase {
+    private fun preventTriplesWithMultipleInstancesOfTheSameVariable(node: IOPBase): IOPBase {
         if (node is LOPTriple) {
-            var variables = mutableSetOf<String>()
+            val variables = mutableSetOf<String>()
             for (i in 0 until node.getChildren().size) {
                 val c = node.getChildren()[i]
                 if (c is AOPVariable) {
                     if (variables.contains(c.name)) {
-                        var newVariable = AOPVariable(node.query, query.getUniqueVariableName())
+                        val newVariable = AOPVariable(node.query, query.getUniqueVariableName())
                         node.updateChildren(i, newVariable)
                         val tmp = LOPFilter(node.query, AOPEQ(query, newVariable, c), node)
                         return preventTriplesWithMultipleInstancesOfTheSameVariable(tmp)
@@ -915,15 +915,15 @@ return tmp
     }
 
     override fun visit(node: ASTFunctionCall, childrenValues: List<IOPBase>): IOPBase {
-        when (node.iri) {
+        return when (node.iri) {
             "http://www.w3.org/2001/XMLSchema#double" -> {
-                return AOPFunctionCallDouble(query, childrenValues[0] as AOPBase)
+                AOPFunctionCallDouble(query, childrenValues[0] as AOPBase)
             }
             "http://www.w3.org/2001/XMLSchema#float" -> {
-                return AOPFunctionCallFloat(query, childrenValues[0] as AOPBase)
+                AOPFunctionCallFloat(query, childrenValues[0] as AOPBase)
             }
             "http://www.w3.org/2001/XMLSchema#string" -> {
-                return AOPFunctionCallString(query, childrenValues[0] as AOPBase)
+                AOPFunctionCallString(query, childrenValues[0] as AOPBase)
             }
             else -> {
                 throw SparqlFeatureNotImplementedException("ASTFunctionCall ${node.iri} ${node.distinct}")
@@ -932,12 +932,12 @@ return tmp
     }
 
     override fun visit(node: ASTTriple, childrenValues: List<IOPBase>): IOPBase {
-        SanityCheck.check({ childrenValues.size == 3 })
+        SanityCheck.check { childrenValues.size == 3 }
         return LOPTriple(query, childrenValues[0] as AOPBase, childrenValues[1] as AOPBase, childrenValues[2] as AOPBase, PersistentStoreLocalExt.defaultGraphName, false)
     }
 
     override fun visit(node: ASTMinusGroup, childrenValues: List<IOPBase>): IOPBase {
-        return LOPMinus(query, LOPNOOP(query), parseGroup(node.children), listOf<String>())
+        return LOPMinus(query, LOPNOOP(query), parseGroup(node.children), listOf())
     }
 
     override fun visit(node: ASTOptional, childrenValues: List<IOPBase>): IOPBase {
@@ -950,142 +950,142 @@ return tmp
     }
 
     override fun visit(node: ASTOr, childrenValues: List<IOPBase>): IOPBase {
-        SanityCheck.check({ childrenValues.size > 1 })
+        SanityCheck.check { childrenValues.size > 1 }
         var res: AOPBase? = null
         for (v in childrenValues) {
-            if (res == null) {
-                res = v as AOPBase
+            res = if (res == null) {
+                v as AOPBase
             } else {
-                res = AOPOr(query, v as AOPBase, res)
+                AOPOr(query, v as AOPBase, res)
             }
         }
         return res!!
     }
 
     override fun visit(node: ASTAnd, childrenValues: List<IOPBase>): IOPBase {
-        SanityCheck.check({ childrenValues.size > 1 })
+        SanityCheck.check { childrenValues.size > 1 }
         var res: AOPBase? = null
         for (v in childrenValues) {
-            if (res == null) {
-                res = v as AOPBase
+            res = if (res == null) {
+                v as AOPBase
             } else {
-                res = AOPAnd(query, v as AOPBase, res)
+                AOPAnd(query, v as AOPBase, res)
             }
         }
         return res!!
     }
 
     override fun visit(node: ASTEQ, childrenValues: List<IOPBase>): IOPBase {
-        SanityCheck.check({ childrenValues.size == 2 })
+        SanityCheck.check { childrenValues.size == 2 }
         return AOPEQ(query, childrenValues[0] as AOPBase, childrenValues[1] as AOPBase)
     }
 
     override fun visit(node: ASTNEQ, childrenValues: List<IOPBase>): IOPBase {
-        SanityCheck.check({ childrenValues.size == 2 })
+        SanityCheck.check { childrenValues.size == 2 }
         return AOPNEQ(query, childrenValues[0] as AOPBase, childrenValues[1] as AOPBase)
     }
 
     override fun visit(node: ASTLEQ, childrenValues: List<IOPBase>): IOPBase {
-        SanityCheck.check({ childrenValues.size == 2 })
+        SanityCheck.check { childrenValues.size == 2 }
         return AOPLEQ(query, childrenValues[0] as AOPBase, childrenValues[1] as AOPBase)
     }
 
     override fun visit(node: ASTGEQ, childrenValues: List<IOPBase>): IOPBase {
-        SanityCheck.check({ childrenValues.size == 2 })
+        SanityCheck.check { childrenValues.size == 2 }
         return AOPGEQ(query, childrenValues[0] as AOPBase, childrenValues[1] as AOPBase)
     }
 
     override fun visit(node: ASTLT, childrenValues: List<IOPBase>): IOPBase {
-        SanityCheck.check({ childrenValues.size == 2 })
+        SanityCheck.check { childrenValues.size == 2 }
         return AOPLT(query, childrenValues[0] as AOPBase, childrenValues[1] as AOPBase)
     }
 
     override fun visit(node: ASTGT, childrenValues: List<IOPBase>): IOPBase {
-        SanityCheck.check({ childrenValues.size == 2 })
+        SanityCheck.check { childrenValues.size == 2 }
         return AOPGT(query, childrenValues[0] as AOPBase, childrenValues[1] as AOPBase)
     }
 
     override fun visit(node: ASTIn, childrenValues: List<IOPBase>): IOPBase {
-        SanityCheck.check({ childrenValues.size == 2 })
+        SanityCheck.check { childrenValues.size == 2 }
         return AOPIn(query, childrenValues[0] as AOPBase, childrenValues[1] as AOPBase)
     }
 
     override fun visit(node: ASTNotIn, childrenValues: List<IOPBase>): IOPBase {
-        SanityCheck.check({ childrenValues.size == 2 })
+        SanityCheck.check { childrenValues.size == 2 }
         return AOPNotIn(query, childrenValues[0] as AOPBase, childrenValues[1] as AOPBase)
     }
 
     override fun visit(node: ASTAddition, childrenValues: List<IOPBase>): IOPBase {
-        SanityCheck.check({ childrenValues.size > 1 })
+        SanityCheck.check { childrenValues.size > 1 }
         var res: AOPBase? = null
         for (v in childrenValues) {
-            if (res == null) {
-                res = v as AOPBase
+            res = if (res == null) {
+                v as AOPBase
             } else {
-                res = AOPAddition(query, v as AOPBase, res)
+                AOPAddition(query, v as AOPBase, res)
             }
         }
         return res!!
     }
 
     override fun visit(node: ASTSubtraction, childrenValues: List<IOPBase>): IOPBase {
-        SanityCheck.check({ childrenValues.size > 1 })
+        SanityCheck.check { childrenValues.size > 1 }
         var res: AOPBase? = null
         for (i in 0 until childrenValues.size) {
             val v = childrenValues[childrenValues.size - 1 - i]
-            if (res == null) {
-                res = v as AOPBase
+            res = if (res == null) {
+                v as AOPBase
             } else {
-                res = AOPSubtraction(query, v as AOPBase, res)
+                AOPSubtraction(query, v as AOPBase, res)
             }
         }
         return res!!
     }
 
     override fun visit(node: ASTMultiplication, childrenValues: List<IOPBase>): IOPBase {
-        SanityCheck.check({ childrenValues.size > 1 })
+        SanityCheck.check { childrenValues.size > 1 }
         var res: AOPBase? = null
         for (v in childrenValues) {
-            if (res == null) {
-                res = v as AOPBase
+            res = if (res == null) {
+                v as AOPBase
             } else {
-                res = AOPMultiplication(query, v as AOPBase, res)
+                AOPMultiplication(query, v as AOPBase, res)
             }
         }
         return res!!
     }
 
     override fun visit(node: ASTDivision, childrenValues: List<IOPBase>): IOPBase {
-        SanityCheck.check({ childrenValues.size > 1 })
+        SanityCheck.check { childrenValues.size > 1 }
         var res: AOPBase? = null
         for (i in 0 until childrenValues.size) {
             val v = childrenValues[childrenValues.size - 1 - i]
-            if (res == null) {
-                res = v as AOPBase
+            res = if (res == null) {
+                v as AOPBase
             } else {
-                res = AOPDivision(query, v as AOPBase, res)
+                AOPDivision(query, v as AOPBase, res)
             }
         }
         return res!!
     }
 
     override fun visit(node: ASTNot, childrenValues: List<IOPBase>): IOPBase {
-        SanityCheck.check({ childrenValues.size == 1 })
+        SanityCheck.check { childrenValues.size == 1 }
         return AOPNot(query, childrenValues[0] as AOPBase)
     }
 
     override fun visit(node: ASTBase, childrenValues: List<IOPBase>): IOPBase {
-        SanityCheck.check({ childrenValues.size == 0 })
+        SanityCheck.check { childrenValues.size == 0 }
         return LOPPrefix(query, "", node.iri)
     }
 
     override fun visit(node: ASTPrefix, childrenValues: List<IOPBase>): IOPBase {
-        SanityCheck.check({ childrenValues.size == 0 })
+        SanityCheck.check { childrenValues.size == 0 }
         return LOPPrefix(query, node.name, node.iri)
     }
 
     override fun visit(node: ASTAs, childrenValues: List<IOPBase>): IOPBase {
-        SanityCheck.check({ childrenValues.size == 0 })
+        SanityCheck.check { childrenValues.size == 0 }
         val a = node.variable.visit(this) as AOPVariable
         val b = node.expression.visit(this) as AOPBase
         if (b.getRequiredVariableNamesRecoursive().contains(a.name)) {
@@ -1095,7 +1095,7 @@ return tmp
     }
 
     override fun visit(node: ASTBlankNode, childrenValues: List<IOPBase>): IOPBase {
-        SanityCheck.check({ childrenValues.size == 0 })
+        SanityCheck.check { childrenValues.size == 0 }
         return AOPVariable(query, query.getUniqueVariableName(node.name))
 //blank nodes are used for dont care within the queries. the only place, where the bnode is required as a value is within the insert/delete-clauses. there it needs to be replaced
     }
@@ -1103,31 +1103,31 @@ return tmp
     override fun visit(node: ASTBuiltInCall, childrenValues: List<IOPBase>): IOPBase {
         when (node.function) {
             BuiltInFunctions.STR -> {
-                SanityCheck.check({ childrenValues.size == 1 })
+                SanityCheck.check { childrenValues.size == 1 }
                 return AOPBuildInCallSTR(query, childrenValues[0] as AOPBase)
             }
             BuiltInFunctions.LANG -> {
-                SanityCheck.check({ childrenValues.size == 1 })
+                SanityCheck.check { childrenValues.size == 1 }
                 return AOPBuildInCallLANG(query, childrenValues[0] as AOPBase)
             }
             BuiltInFunctions.LANGMATCHES -> {
-                SanityCheck.check({ childrenValues.size == 2 })
+                SanityCheck.check { childrenValues.size == 2 }
                 return AOPBuildInCallLANGMATCHES(query, childrenValues[0] as AOPBase, childrenValues[1] as AOPBase)
             }
             BuiltInFunctions.DATATYPE -> {
-                SanityCheck.check({ childrenValues.size == 1 })
+                SanityCheck.check { childrenValues.size == 1 }
                 return AOPBuildInCallDATATYPE(query, childrenValues[0] as AOPBase)
             }
             BuiltInFunctions.BOUND -> {
-                SanityCheck.check({ childrenValues.size == 1 })
+                SanityCheck.check { childrenValues.size == 1 }
                 return AOPBuildInCallBOUND(query, childrenValues[0] as AOPBase)
             }
             BuiltInFunctions.IRI -> {
-                SanityCheck.check({ childrenValues.size == 1 })
+                SanityCheck.check { childrenValues.size == 1 }
                 return AOPBuildInCallIRI(query, childrenValues[0] as AOPBase)
             }
             BuiltInFunctions.URI -> {
-                SanityCheck.check({ childrenValues.size == 1 })
+                SanityCheck.check { childrenValues.size == 1 }
                 return AOPBuildInCallURI(query, childrenValues[0] as AOPBase)
             }
             BuiltInFunctions.BNODE -> {
@@ -1137,23 +1137,23 @@ return tmp
                 return AOPBuildInCallBNODE0(query)
             }
             BuiltInFunctions.ABS -> {
-                SanityCheck.check({ childrenValues.size == 1 })
+                SanityCheck.check { childrenValues.size == 1 }
                 return AOPBuildInCallABS(query, childrenValues[0] as AOPBase)
             }
             BuiltInFunctions.CEIL -> {
-                SanityCheck.check({ childrenValues.size == 1 })
+                SanityCheck.check { childrenValues.size == 1 }
                 return AOPBuildInCallCEIL(query, childrenValues[0] as AOPBase)
             }
             BuiltInFunctions.FLOOR -> {
-                SanityCheck.check({ childrenValues.size == 1 })
+                SanityCheck.check { childrenValues.size == 1 }
                 return AOPBuildInCallFLOOR(query, childrenValues[0] as AOPBase)
             }
             BuiltInFunctions.ROUND -> {
-                SanityCheck.check({ childrenValues.size == 1 })
+                SanityCheck.check { childrenValues.size == 1 }
                 return AOPBuildInCallROUND(query, childrenValues[0] as AOPBase)
             }
             BuiltInFunctions.CONCAT -> {
-                SanityCheck.check({ childrenValues.size > 0 })
+                SanityCheck.check { childrenValues.size > 0 }
                 var res = childrenValues[0] as AOPBase
                 for (i in 1 until childrenValues.size) {
                     res = AOPBuildInCallCONCAT(query, res, childrenValues[i] as AOPBase)
@@ -1164,115 +1164,115 @@ return tmp
                 return AOPBuildInCallCOALESCE(query, childrenValues.map { it as AOPBase })
             }
             BuiltInFunctions.STRLEN -> {
-                SanityCheck.check({ childrenValues.size == 1 })
+                SanityCheck.check { childrenValues.size == 1 }
                 return AOPBuildInCallSTRLEN(query, childrenValues[0] as AOPBase)
             }
             BuiltInFunctions.UCASE -> {
-                SanityCheck.check({ childrenValues.size == 1 })
+                SanityCheck.check { childrenValues.size == 1 }
                 return AOPBuildInCallUCASE(query, childrenValues[0] as AOPBase)
             }
             BuiltInFunctions.LCASE -> {
-                SanityCheck.check({ childrenValues.size == 1 })
+                SanityCheck.check { childrenValues.size == 1 }
                 return AOPBuildInCallLCASE(query, childrenValues[0] as AOPBase)
             }
             BuiltInFunctions.CONTAINS -> {
-                SanityCheck.check({ childrenValues.size == 2 })
+                SanityCheck.check { childrenValues.size == 2 }
                 return AOPBuildInCallCONTAINS(query, childrenValues[0] as AOPBase, childrenValues[1] as AOPBase)
             }
             BuiltInFunctions.STRSTARTS -> {
-                SanityCheck.check({ childrenValues.size == 2 })
+                SanityCheck.check { childrenValues.size == 2 }
                 return AOPBuildInCallSTRSTARTS(query, childrenValues[0] as AOPBase, childrenValues[1] as AOPBase)
             }
             BuiltInFunctions.STRENDS -> {
-                SanityCheck.check({ childrenValues.size == 2 })
+                SanityCheck.check { childrenValues.size == 2 }
                 return AOPBuildInCallSTRENDS(query, childrenValues[0] as AOPBase, childrenValues[1] as AOPBase)
             }
             BuiltInFunctions.YEAR -> {
-                SanityCheck.check({ childrenValues.size == 1 })
+                SanityCheck.check { childrenValues.size == 1 }
                 return AOPBuildInCallYEAR(query, childrenValues[0] as AOPBase)
             }
             BuiltInFunctions.MONTH -> {
-                SanityCheck.check({ childrenValues.size == 1 })
+                SanityCheck.check { childrenValues.size == 1 }
                 return AOPBuildInCallMONTH(query, childrenValues[0] as AOPBase)
             }
             BuiltInFunctions.DAY -> {
-                SanityCheck.check({ childrenValues.size == 1 })
+                SanityCheck.check { childrenValues.size == 1 }
                 return AOPBuildInCallDAY(query, childrenValues[0] as AOPBase)
             }
             BuiltInFunctions.HOURS -> {
-                SanityCheck.check({ childrenValues.size == 1 })
+                SanityCheck.check { childrenValues.size == 1 }
                 return AOPBuildInCallHOURS(query, childrenValues[0] as AOPBase)
             }
             BuiltInFunctions.MINUTES -> {
-                SanityCheck.check({ childrenValues.size == 1 })
+                SanityCheck.check { childrenValues.size == 1 }
                 return AOPBuildInCallMINUTES(query, childrenValues[0] as AOPBase)
             }
             BuiltInFunctions.SECONDS -> {
-                SanityCheck.check({ childrenValues.size == 1 })
+                SanityCheck.check { childrenValues.size == 1 }
                 return AOPBuildInCallSECONDS(query, childrenValues[0] as AOPBase)
             }
             BuiltInFunctions.TIMEZONE -> {
-                SanityCheck.check({ childrenValues.size == 1 })
+                SanityCheck.check { childrenValues.size == 1 }
                 return AOPBuildInCallTIMEZONE(query, childrenValues[0] as AOPBase)
             }
             BuiltInFunctions.TZ -> {
-                SanityCheck.check({ childrenValues.size == 1 })
+                SanityCheck.check { childrenValues.size == 1 }
                 return AOPBuildInCallTZ(query, childrenValues[0] as AOPBase)
             }
             BuiltInFunctions.NOW -> {
-                SanityCheck.check({ childrenValues.size == 0 })
+                SanityCheck.check { childrenValues.size == 0 }
                 return AOPConstant(query, queryExecutionStartTime)
             }
             BuiltInFunctions.UUID -> {
-                SanityCheck.check({ childrenValues.size == 0 })
+                SanityCheck.check { childrenValues.size == 0 }
                 return AOPBuildInCallUUID(query)
             }
             BuiltInFunctions.STRUUID -> {
-                SanityCheck.check({ childrenValues.size == 0 })
+                SanityCheck.check { childrenValues.size == 0 }
                 return AOPBuildInCallSTRUUID(query)
             }
             BuiltInFunctions.MD5 -> {
-                SanityCheck.check({ childrenValues.size == 1 })
+                SanityCheck.check { childrenValues.size == 1 }
                 return AOPBuildInCallMD5(query, childrenValues[0] as AOPBase)
             }
             BuiltInFunctions.SHA1 -> {
-                SanityCheck.check({ childrenValues.size == 1 })
+                SanityCheck.check { childrenValues.size == 1 }
                 return AOPBuildInCallSHA1(query, childrenValues[0] as AOPBase)
             }
             BuiltInFunctions.SHA256 -> {
-                SanityCheck.check({ childrenValues.size == 1 })
+                SanityCheck.check { childrenValues.size == 1 }
                 return AOPBuildInCallSHA256(query, childrenValues[0] as AOPBase)
             }
             BuiltInFunctions.IF -> {
-                SanityCheck.check({ childrenValues.size == 3 })
+                SanityCheck.check { childrenValues.size == 3 }
                 return AOPBuildInCallIF(query, childrenValues[0] as AOPBase, childrenValues[1] as AOPBase, childrenValues[2] as AOPBase)
             }
             BuiltInFunctions.STRLANG -> {
-                SanityCheck.check({ childrenValues.size == 2 })
+                SanityCheck.check { childrenValues.size == 2 }
                 return AOPBuildInCallSTRLANG(query, childrenValues[0] as AOPBase, childrenValues[1] as AOPBase)
             }
             BuiltInFunctions.STRAFTER -> {
-                SanityCheck.check({ childrenValues.size == 2 })
+                SanityCheck.check { childrenValues.size == 2 }
                 return AOPBuildInCallSTRAFTER(query, childrenValues[0] as AOPBase, childrenValues[1] as AOPBase)
             }
             BuiltInFunctions.STRBEFORE -> {
-                SanityCheck.check({ childrenValues.size == 2 })
+                SanityCheck.check { childrenValues.size == 2 }
                 return AOPBuildInCallSTRBEFORE(query, childrenValues[0] as AOPBase, childrenValues[1] as AOPBase)
             }
             BuiltInFunctions.STRDT -> {
-                SanityCheck.check({ childrenValues.size == 2 })
+                SanityCheck.check { childrenValues.size == 2 }
                 return AOPBuildInCallSTRDT(query, childrenValues[0] as AOPBase, childrenValues[1] as AOPBase)
             }
             BuiltInFunctions.isLITERAL -> {
-                SanityCheck.check({ childrenValues.size == 1 })
+                SanityCheck.check { childrenValues.size == 1 }
                 return AOPBuildInCallIsLITERAL(query, childrenValues[0] as AOPBase)
             }
             BuiltInFunctions.isIRI -> {
-                SanityCheck.check({ childrenValues.size == 1 })
+                SanityCheck.check { childrenValues.size == 1 }
                 return AOPBuildInCallIsIri(query, childrenValues[0] as AOPBase)
             }
             BuiltInFunctions.isNUMERIC -> {
-                SanityCheck.check({ childrenValues.size == 1 })
+                SanityCheck.check { childrenValues.size == 1 }
                 return AOPBuildInCallIsNUMERIC(query, childrenValues[0] as AOPBase)
             }
             BuiltInFunctions.NotExists -> {
@@ -1319,7 +1319,7 @@ return tmp
 
     override fun visit(node: ASTUnion, childrenValues: List<IOPBase>): IOPBase {
         SanityCheck.check { childrenValues.size >= 2 }
-        var tmplist = mutableListOf<IOPBase>()
+        val tmplist = mutableListOf<IOPBase>()
         for (v in childrenValues) {
             tmplist.add(v)
         }
@@ -1333,7 +1333,7 @@ return tmp
     }
 
     override fun visit(node: ASTFilter, childrenValues: List<IOPBase>): IOPBase {
-        SanityCheck.check({ childrenValues.size == 1 })
+        SanityCheck.check { childrenValues.size == 1 }
         val child = childrenValues.first() as AOPBase
         if (containsAggregate(node.children.first())) {
             throw AggregateNotAllowedSyntaxException()
@@ -1342,7 +1342,7 @@ return tmp
     }
 
     override fun visit(node: ASTOrderCondition, childrenValues: List<IOPBase>): IOPBase {
-        SanityCheck.check({ childrenValues.size == 1 })
+        SanityCheck.check { childrenValues.size == 1 }
         val tmp = childrenValues.first() as AOPBase
         if (tmp is AOPVariable) {
             return LOPSort(query, node.asc, tmp)
@@ -1352,12 +1352,12 @@ return tmp
     }
 
     override fun visit(node: ASTVar, childrenValues: List<IOPBase>): IOPBase {
-        SanityCheck.check({ childrenValues.size == 0 })
+        SanityCheck.check { childrenValues.size == 0 }
         return AOPVariable(query, node.name)
     }
 
     override fun visit(node: ASTIri, childrenValues: List<IOPBase>): IOPBase {
-        SanityCheck.check({ childrenValues.size == 0 })
+        SanityCheck.check { childrenValues.size == 0 }
         return AOPConstant(query, ValueIri(node.iri))
     }
 
@@ -1366,8 +1366,7 @@ return tmp
     }
 
     override fun visit(node: ASTService, childrenValues: List<IOPBase>): IOPBase {
-        val iriOrVar = node.iriOrVar
-        when (iriOrVar) {
+        when (val iriOrVar = node.iriOrVar) {
             is ASTIri -> {
                 return LOPServiceIRI(query, iriOrVar.iri, node.silent, parseGroup(node.children))
             }
@@ -1398,7 +1397,7 @@ return tmp
         return AOPValue(query, tmp)
     }
 
-    fun setGraphNameForAllTriples(node: IOPBase, name: ASTNode, optional: Boolean): IOPBase {
+    private fun setGraphNameForAllTriples(node: IOPBase, name: ASTNode, optional: Boolean): IOPBase {
         var iriIsVariable = false
         val iri = when (name) {
             is ASTIri -> {
@@ -1415,7 +1414,7 @@ return tmp
 /*return*/name.name
             }
             else -> {
-                SanityCheck.println({ name.toString() + " --- " + name })
+                SanityCheck.println { name.toString() + " --- " + name }
                 SanityCheck.checkUnreachable()
             }
         }
@@ -1424,11 +1423,11 @@ return tmp
                 return node
             }
             is LOPTriple -> {
-                var res: IOPBase
-                if (!optional || node.graph == PersistentStoreLocalExt.defaultGraphName) {
-                    res = LOPTriple(query, node.getChildren()[0] as AOPBase, node.getChildren()[1] as AOPBase, node.getChildren()[2] as AOPBase, iri, iriIsVariable)
+                val res: IOPBase
+                res = if (!optional || node.graph == PersistentStoreLocalExt.defaultGraphName) {
+                    LOPTriple(query, node.getChildren()[0] as AOPBase, node.getChildren()[1] as AOPBase, node.getChildren()[2] as AOPBase, iri, iriIsVariable)
                 } else {
-                    res = node
+                    node
                 }
                 return res
             }
@@ -1452,16 +1451,16 @@ return tmp
         var res: IOPBase = OPEmptyRow(query)
         for (c in childrenValues) {
             val tmp = setGraphNameForAllTriples(c, node.iriOrVar, false)
-            if (res is OPEmptyRow) {
-                res = tmp
+            res = if (res is OPEmptyRow) {
+                tmp
             } else {
-                res = LOPJoin(query, res, tmp, false)
+                LOPJoin(query, res, tmp, false)
             }
         }
         return res
     }
 
-    fun graphRefToEnum(ref: ASTGraphRef): Pair<EGraphRefType, String?> {
+    private fun graphRefToEnum(ref: ASTGraphRef): Pair<EGraphRefType, String?> {
         when (ref) {
             is ASTIriGraphRef -> {
                 return Pair(EGraphRefType.IriGraphRef, ref.iri)
@@ -1486,51 +1485,45 @@ return tmp
     }
 
     override fun visit(node: ASTAdd, childrenValues: List<IOPBase>): IOPBase {
-        SanityCheck.check({ childrenValues.size == 0 })
+        SanityCheck.check { childrenValues.size == 0 }
         val g1 = graphRefToEnum(node.fromGraph)
         val g2 = graphRefToEnum(node.toGraph)
-        val res = LOPGraphOperation(query, EGraphOperationType.ADD, node.silent, g1.first, g1.second, g2.first, g2.second)
-        return res
+        return LOPGraphOperation(query, EGraphOperationType.ADD, node.silent, g1.first, g1.second, g2.first, g2.second)
     }
 
     override fun visit(node: ASTMove, childrenValues: List<IOPBase>): IOPBase {
-        SanityCheck.check({ childrenValues.size == 0 })
+        SanityCheck.check { childrenValues.size == 0 }
         val g1 = graphRefToEnum(node.fromGraph)
         val g2 = graphRefToEnum(node.toGraph)
-        val res = LOPGraphOperation(query, EGraphOperationType.MOVE, node.silent, g1.first, g1.second, g2.first, g2.second)
-        return res
+        return LOPGraphOperation(query, EGraphOperationType.MOVE, node.silent, g1.first, g1.second, g2.first, g2.second)
     }
 
     override fun visit(node: ASTCopy, childrenValues: List<IOPBase>): IOPBase {
-        SanityCheck.check({ childrenValues.size == 0 })
+        SanityCheck.check { childrenValues.size == 0 }
         val g1 = graphRefToEnum(node.fromGraph)
         val g2 = graphRefToEnum(node.toGraph)
-        val res = LOPGraphOperation(query, EGraphOperationType.COPY, node.silent, g1.first, g1.second, g2.first, g2.second)
-        return res
+        return LOPGraphOperation(query, EGraphOperationType.COPY, node.silent, g1.first, g1.second, g2.first, g2.second)
     }
 
     override fun visit(node: ASTClear, childrenValues: List<IOPBase>): IOPBase {
-        SanityCheck.check({ childrenValues.size == 0 })
+        SanityCheck.check { childrenValues.size == 0 }
         val g1 = graphRefToEnum(node.graphref)
-        val res = LOPGraphOperation(query, EGraphOperationType.CLEAR, node.silent, g1.first, g1.second)
-        return res
+        return LOPGraphOperation(query, EGraphOperationType.CLEAR, node.silent, g1.first, g1.second)
     }
 
     override fun visit(node: ASTDrop, childrenValues: List<IOPBase>): IOPBase {
-        SanityCheck.check({ childrenValues.size == 0 })
+        SanityCheck.check { childrenValues.size == 0 }
         val g1 = graphRefToEnum(node.graphref)
-        val res = LOPGraphOperation(query, EGraphOperationType.DROP, node.silent, g1.first, g1.second)
-        return res
+        return LOPGraphOperation(query, EGraphOperationType.DROP, node.silent, g1.first, g1.second)
     }
 
     override fun visit(node: ASTCreate, childrenValues: List<IOPBase>): IOPBase {
-        SanityCheck.check({ childrenValues.size == 0 })
+        SanityCheck.check { childrenValues.size == 0 }
         val g1 = graphRefToEnum(node.graphref)
-        val res = LOPGraphOperation(query, EGraphOperationType.CREATE, node.silent, g1.first, g1.second)
-        return res
+        return LOPGraphOperation(query, EGraphOperationType.CREATE, node.silent, g1.first, g1.second)
     }
 
-    fun simpleAstToLiteralValue(node: ASTNode): AOPBase {
+    private fun simpleAstToLiteralValue(node: ASTNode): AOPBase {
         val tmp = node.visit(this) as AOPBase
         if (tmp is AOPVariable) {
             return AOPConstant(query, ValueBnode(tmp.name))
@@ -1538,17 +1531,17 @@ return tmp
         return tmp
     }
 
-    fun modifyDataHelper(children: Array<ASTNode>, modify: LOPModifyData) {
+    private fun modifyDataHelper(children: Array<ASTNode>, modify: LOPModifyData) {
         for (c in children) {
-            when {
-                c is ASTTriple -> {
+            when (c) {
+                is ASTTriple -> {
                     modify.data.add(LOPTriple(query, simpleAstToLiteralValue(c.children[0]), simpleAstToLiteralValue(c.children[1]), simpleAstToLiteralValue(c.children[2]), PersistentStoreLocalExt.defaultGraphName, false))
                 }
-                c is ASTGraph -> {
+                is ASTGraph -> {
                     for (c2 in c.children) {
-                        when {
-                            c2 is ASTTriple -> {
-                                var nameOrVar = c.iriOrVar
+                        when (c2) {
+                            is ASTTriple -> {
+                                val nameOrVar = c.iriOrVar
                                 if (nameOrVar is ASTIri) {
                                     modify.data.add(LOPTriple(query, simpleAstToLiteralValue(c2.children[0]), simpleAstToLiteralValue(c2.children[1]), simpleAstToLiteralValue(c2.children[2]), nameOrVar.iri, false))
                                 } else if (nameOrVar is ASTVar) {
@@ -1575,7 +1568,7 @@ return tmp
     }
 
     override fun visit(node: ASTDeleteWhere, childrenValues: List<IOPBase>): IOPBase {
-        return visit(ASTModifyWithWhere(null, node.children, arrayOf<ASTNode>(), arrayOf<ASTGraphRef>(), node.children), listOf<OPBase>())
+        return visit(ASTModifyWithWhere(null, node.children, arrayOf(), arrayOf(), node.children), listOf<OPBase>())
     }
 
     override fun visit(node: ASTInsertData, childrenValues: List<IOPBase>): IOPBase {
@@ -1584,7 +1577,7 @@ return tmp
         return res
     }
 
-    fun joinToList(node: IOPBase): List<IOPBase> {
+    private fun joinToList(node: IOPBase): List<IOPBase> {
         if (node is LOPJoin) {
             val res = mutableListOf<IOPBase>()
             res.addAll(joinToList(node.getChildren()[0]))
@@ -1594,7 +1587,7 @@ return tmp
         return listOf(node)
     }
 
-    fun variableToBNode(node: IOPBase, providedVariables: List<String>): IOPBase {
+    private fun variableToBNode(node: IOPBase, providedVariables: List<String>): IOPBase {
         if (node is AOPVariable) {
             if (!providedVariables.contains(node.name)) {
                 return AOPConstant(node.query, ValueBnode(node.name))
@@ -1615,18 +1608,18 @@ return tmp
             for (c in node.using) {
                 val t = parseGroup(node.children)
                 val tmp2 = setGraphNameForAllTriples(t, c, false)
-                if (tmp == null) {
-                    tmp = tmp2
+                tmp = if (tmp == null) {
+                    tmp2
                 } else {
-                    tmp = createUnion(tmp, tmp2)
+                    createUnion(tmp, tmp2)
                 }
             }
             /*return*/tmp!!
         }
         val providedVariables = child.getProvidedVariableNames()
         val iri = node.iri
-        val insert: MutableList<LOPTriple> = mutableListOf<LOPTriple>()
-        val delete: MutableList<LOPTriple> = mutableListOf<LOPTriple>()
+        val insert: MutableList<LOPTriple> = mutableListOf()
+        val delete: MutableList<LOPTriple> = mutableListOf()
         if (iri != null) {
             for (e in node.insert) {
                 insert.add(variableToBNode(setGraphNameForAllTriples(e.visit(this), ASTIri(iri), true), providedVariables) as LOPTriple)
@@ -1634,8 +1627,7 @@ return tmp
             for (e in node.delete) {
                 delete.add(variableToBNode(setGraphNameForAllTriples(e.visit(this), ASTIri(iri), true), providedVariables) as LOPTriple)
             }
-            val res = LOPModify(query, insert, delete, setGraphNameForAllTriples(child, ASTIri(iri), true))
-            return res
+            return LOPModify(query, insert, delete, setGraphNameForAllTriples(child, ASTIri(iri), true))
         } else {
             for (e in node.insert) {
                 for (tmp in joinToList(e.visit(this))) {
@@ -1647,19 +1639,18 @@ return tmp
                     delete.add(variableToBNode(tmp, providedVariables) as LOPTriple)
                 }
             }
-            val res = LOPModify(query, insert, delete, child)
-            return res
+            return LOPModify(query, insert, delete, child)
         }
         /*Coverage Unreachable*/
     }
 
     override fun visit(node: ASTLoad, childrenValues: List<IOPBase>): IOPBase {
         val tmp = node.into
-        if (tmp != null) {
-            var g2 = graphRefToEnum(tmp)
-            return LOPGraphOperation(query, EGraphOperationType.LOAD, node.silent, EGraphRefType.DefaultGraphRef, node.iri, g2.first, g2.second)
+        return if (tmp != null) {
+            val g2 = graphRefToEnum(tmp)
+            LOPGraphOperation(query, EGraphOperationType.LOAD, node.silent, EGraphRefType.DefaultGraphRef, node.iri, g2.first, g2.second)
         } else {
-            return LOPGraphOperation(query, EGraphOperationType.LOAD, node.silent, EGraphRefType.DefaultGraphRef, node.iri, EGraphRefType.DefaultGraphRef, PersistentStoreLocalExt.defaultGraphName)
+            LOPGraphOperation(query, EGraphOperationType.LOAD, node.silent, EGraphRefType.DefaultGraphRef, node.iri, EGraphRefType.DefaultGraphRef, PersistentStoreLocalExt.defaultGraphName)
         }
     }
 
@@ -1756,7 +1747,7 @@ return tmp
     }
 
     override fun visit(node: ASTMinus, childrenValues: List<IOPBase>): IOPBase {
-        SanityCheck.check({ childrenValues.size == 2 })
+        SanityCheck.check { childrenValues.size == 2 }
         return LOPMinus(query, childrenValues[0], childrenValues[1], listOf())
     }
 

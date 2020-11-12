@@ -7,14 +7,12 @@ import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.IteratorBundle
-import lupos.s04logicalOperators.OPBase
-import lupos.s04logicalOperators.Query
 
 class AOPSet(query: IQuery, childs: List<AOPBase>) : AOPBase(query, EOperatorID.AOPSetID, "AOPSet", Array(childs.size) { childs[it] }) {
     override fun toSparql(): String {
         var res = ""
         res += "("
-        if (children.size > 0) {
+        if (children.isNotEmpty()) {
             res += children[0].toSparql()
         }
         for (i in 1 until children.size) {

@@ -1,15 +1,13 @@
 package lupos.s00misc
 
-import lupos.s00misc.File
-import lupos.s02buildSyntaxTree.sparql1_1.parseSPARQL
 import lupos.SparqlTestSuite
 
-class SparqlTestSuiteConverter(resource_folder: String, val output_folder: String) : SparqlTestSuite() {
-    var counter = 0
-    var lastFile: String = ""
+class SparqlTestSuiteConverter(resource_folder: String, private val output_folder: String) : SparqlTestSuite() {
+    private var counter = 0
+    private var lastFile: String = ""
 
     init {
-        prefixDirectory = resource_folder + "/"
+        prefixDirectory = "$resource_folder/"
     }
 
     override fun parseSPARQLAndEvaluate(//
@@ -23,7 +21,7 @@ class SparqlTestSuiteConverter(resource_folder: String, val output_folder: Strin
             inputDataGraph: MutableList<MutableMap<String, String>>,//
             outputDataGraph: MutableList<MutableMap<String, String>>//
     ): Boolean {
-        if (services != null && services.size > 0) {
+        if (services != null && services.isNotEmpty()) {
             return false
         }
         if (inputDataGraph.size > 0) {
@@ -54,7 +52,7 @@ class SparqlTestSuiteConverter(resource_folder: String, val output_folder: Strin
                 return false
             }
         }
-        var tmp = BinaryTestCase.generateTestcase(inputFile, queryFile, outputFile!!, output_folder + "/${counter++}/", testName, mode)
+        val tmp = BinaryTestCase.generateTestcase(inputFile, queryFile, outputFile!!, output_folder + "/${counter++}/", testName, mode)
         if (!tmp) {
             counter--
         }

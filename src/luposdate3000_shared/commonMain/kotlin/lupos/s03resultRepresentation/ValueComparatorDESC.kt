@@ -1,13 +1,9 @@
 package lupos.s03resultRepresentation
 
-import kotlin.jvm.JvmField
 import lupos.s00misc.EvaluationException
 import lupos.s00misc.SanityCheck
-import lupos.s03resultRepresentation.ValueBnode
-import lupos.s03resultRepresentation.ValueError
-import lupos.s03resultRepresentation.ValueIri
-import lupos.s03resultRepresentation.ValueUndef
 import lupos.s04logicalOperators.IQuery
+import kotlin.jvm.JvmField
 
 class ValueComparatorDESC(@JvmField val query: IQuery) : Comparator<Int> {
     override fun compare(aID: Int, bID: Int): Int {
@@ -38,7 +34,7 @@ class ValueComparatorDESC(@JvmField val query: IQuery) : Comparator<Int> {
             val sB = b.valueToString()!!
             return sB.compareTo(sA)
         } catch (e: Throwable) {
-            SanityCheck.println({ "TODO exception 46" })
+            SanityCheck.println { "TODO exception 46" }
             e.printStackTrace()
             return 0
         }

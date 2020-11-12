@@ -10,8 +10,6 @@ import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.s04logicalOperators.iterator.IteratorBundle
-import lupos.s04logicalOperators.OPBase
-import lupos.s04logicalOperators.Query
 import lupos.s09physicalOperators.POPBase
 
 class POPProjection(query: IQuery, projectedVariables: List<String>, child: IOPBase) : POPBase(query, projectedVariables, EOperatorID.POPProjectionID, "POPProjection", arrayOf(child), ESortPriority.SAME_AS_CHILD) {
@@ -37,16 +35,16 @@ class POPProjection(query: IQuery, projectedVariables: List<String>, child: IOPB
         val outMap = mutableMapOf<String, ColumnIterator>()
         if (variables.containsAll(children[0].getProvidedVariableNames())) {
             return child
-        } else if (variables.size == 0) {
+        } else if (variables.isEmpty()) {
             val variables2 = children[0].getProvidedVariableNames()
             SanityCheck {
-                SanityCheck.check { variables2.size > 0 }
+                SanityCheck.check { variables2.isNotEmpty() }
                 for (variable in variables2) {
                     SanityCheck.check { child.columns[variable] != null }
                 }
             }
             val column = child.columns[variables2[0]]!!
-            val res = object : IteratorBundle(0) {
+            return object : IteratorBundle(0) {
                 override /*suspend*/ fun hasNext2(): Boolean {
                     return column.next() != ResultSetDictionaryExt.nullValue
                 }
@@ -55,7 +53,6 @@ class POPProjection(query: IQuery, projectedVariables: List<String>, child: IOPB
                     column.close()
                 }
             }
-            return res
         } else {
             for (variable in variables) {
                 SanityCheck.check { child.columns[variable] != null }

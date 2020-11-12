@@ -5,12 +5,9 @@ import lupos.s00misc.ESortPriority
 import lupos.s00misc.Partition
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
-import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.s04logicalOperators.iterator.ColumnIteratorReduced
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.iterator.RowIteratorReduced
-import lupos.s04logicalOperators.OPBase
-import lupos.s04logicalOperators.Query
 import lupos.s09physicalOperators.POPBase
 
 class POPReduced(query: IQuery, projectedVariables: List<String>, child: IOPBase) : POPBase(query, projectedVariables, EOperatorID.POPReducedID, "POPReduced", arrayOf(child), ESortPriority.SAME_AS_CHILD) {
@@ -21,20 +18,20 @@ class POPReduced(query: IQuery, projectedVariables: List<String>, child: IOPBase
         if (sparql.startsWith("{SELECT ")) {
             return "{SELECT REDUCED " + sparql.substring("{SELECT ".length, sparql.length)
         }
-        return "{SELECT REDUCED * {" + sparql + "}}"
+        return "{SELECT REDUCED * {$sparql}}"
     }
 
     override fun cloneOP(): IOPBase = POPReduced(query, projectedVariables, children[0].cloneOP())
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
         val child = children[0].evaluate(parent)
-        if (projectedVariables.size == 1) {
+        return if (projectedVariables.size == 1) {
             val reduced = ColumnIteratorReduced(child.columns[projectedVariables[0]]!!)
-            return IteratorBundle(mapOf(projectedVariables[0] to reduced))
-        } else if (projectedVariables.size > 0) {
+            IteratorBundle(mapOf(projectedVariables[0] to reduced))
+        } else if (projectedVariables.isNotEmpty()) {
             val reduced = RowIteratorReduced(child.rows)
-            return IteratorBundle(reduced)
+            IteratorBundle(reduced)
         } else {
-            return child
+            child
         }
     }
 }

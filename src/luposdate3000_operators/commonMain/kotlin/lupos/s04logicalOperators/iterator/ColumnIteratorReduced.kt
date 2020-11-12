@@ -21,7 +21,7 @@ class ColumnIteratorReduced(@JvmField val child: ColumnIterator) : ColumnIterato
     }
 
     override /*suspend*/ fun next(): Int {
-        if (label == 1) {
+        return if (label == 1) {
             var res = child.next()
             while (res != ResultSetDictionaryExt.nullValue && last == res) {
                 res = child.next()
@@ -30,9 +30,9 @@ class ColumnIteratorReduced(@JvmField val child: ColumnIterator) : ColumnIterato
             if (res == ResultSetDictionaryExt.nullValue) {
                 _close()
             }
-            return res
+            res
         } else {
-            return ResultSetDictionaryExt.nullValue
+            ResultSetDictionaryExt.nullValue
         }
     }
 }

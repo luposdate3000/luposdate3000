@@ -1,8 +1,6 @@
 package lupos.s00misc
 
 import java.io.DataInputStream
-import java.io.InputStream
-import kotlin.jvm.JvmField
 
 internal actual class MyDataInputStream(@JvmField val it: DataInputStream) {
     actual inline fun readInt(): Int = it.readInt()

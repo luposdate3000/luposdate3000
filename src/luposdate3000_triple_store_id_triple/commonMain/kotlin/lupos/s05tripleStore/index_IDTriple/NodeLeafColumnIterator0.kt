@@ -1,10 +1,9 @@
 package lupos.s05tripleStore.index_IDTriple
 
-import kotlin.jvm.JvmField
 import lupos.s00misc.MyReadWriteLock
 import lupos.s00misc.SanityCheck
 import lupos.s03resultRepresentation.ResultSetDictionaryExt
-import lupos.s04logicalOperators.iterator.ColumnIterator
+import kotlin.jvm.JvmField
 
 internal class NodeLeafColumnIterator0(node: ByteArray, nodeid: Int, lock: MyReadWriteLock) : NodeLeafColumnIterator(node, nodeid, lock) {
     @JvmField
@@ -14,7 +13,7 @@ internal class NodeLeafColumnIterator0(node: ByteArray, nodeid: Int, lock: MyRea
             label = 1
             __init()
         }
-        if (label != 0) {
+        return if (label != 0) {
             if (needsReset) {
                 needsReset = false
                 value = 0
@@ -23,9 +22,9 @@ internal class NodeLeafColumnIterator0(node: ByteArray, nodeid: Int, lock: MyRea
                 value = v
             }
             updateRemaining()
-            return value
+            value
         } else {
-            return ResultSetDictionaryExt.nullValue
+            ResultSetDictionaryExt.nullValue
         }
     }
 
@@ -56,16 +55,16 @@ internal class NodeLeafColumnIterator0(node: ByteArray, nodeid: Int, lock: MyRea
                 }
             }
             //look at the next pages
-            var nodeid_tmp = NodeShared.getNextNode(node)
+            val nodeid_tmp = NodeShared.getNextNode(node)
             var value_tmp = 0
             var usedNextPage = false
             while (nodeid_tmp != NodeManager.nodeNullPointer) {
                 var node_tmp = node
                 var remaining_tmp = 0
-                NodeManager.getNodeLeaf(nodeid_tmp, {
+                NodeManager.getNodeLeaf(nodeid_tmp) {
                     SanityCheck.check { node != it }
                     node_tmp = it
-                })
+                }
                 remaining_tmp = NodeShared.getTripleCount(node_tmp)
                 SanityCheck.check { remaining_tmp > 0 }
                 var offset_tmp = NodeLeaf.START_OFFSET

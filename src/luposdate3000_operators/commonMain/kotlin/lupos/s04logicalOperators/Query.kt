@@ -80,7 +80,7 @@ class Query(@JvmField val dictionary: ResultSetDictionary = ResultSetDictionary(
         }
     }
 
-    internal fun changeID(root: IOPBase, list: Set<Long>, idFrom: Int, idTo: Int) {
+    private fun changeID(root: IOPBase, list: Set<Long>, idFrom: Int, idTo: Int) {
         if (list.contains(root.getUUID())) {
             when (root) {
                 is POPMergePartitionCount -> root.partitionID = idTo
@@ -114,10 +114,10 @@ class Query(@JvmField val dictionary: ResultSetDictionary = ResultSetDictionary(
     }
 
     override fun setWorkingDirectory(value: String) {
-        if (value.endsWith("/")) {
-            _workingDirectory = value
+        _workingDirectory = if (value.endsWith("/")) {
+            value
         } else {
-            _workingDirectory = value + "/"
+            "$value/"
         }
     }
 
@@ -157,12 +157,12 @@ class Query(@JvmField val dictionary: ResultSetDictionary = ResultSetDictionary(
 
     fun getUniqueVariableName(name: String): String {
         val tmp = generatedNameByBase[name]
-        if (tmp != null) {
-            return tmp
+        return if (tmp != null) {
+            tmp
         } else {
             val tmp2 = getUniqueVariableName()
             generatedNameByBase[name] = tmp2
-            return tmp2
+            tmp2
         }
     }
 

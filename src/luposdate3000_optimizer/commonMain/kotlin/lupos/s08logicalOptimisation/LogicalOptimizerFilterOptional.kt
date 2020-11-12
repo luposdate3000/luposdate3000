@@ -11,9 +11,8 @@ import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallBOUND
 import lupos.s04arithmetikOperators.singleinput.AOPNot
 import lupos.s04logicalOperators.IOPBase
-import lupos.s04logicalOperators.multiinput.LOPJoin
-import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
+import lupos.s04logicalOperators.multiinput.LOPJoin
 import lupos.s04logicalOperators.singleinput.LOPFilter
 import lupos.s04logicalOperators.singleinput.LOPSubGroup
 
@@ -42,22 +41,22 @@ class LogicalOptimizerFilterOptional(query: Query) : OptimizerBase(query, EOptim
                 }
             }
             if (changed) {
-                var childProvided = child.getProvidedVariableNames()
+                val childProvided = child.getProvidedVariableNames()
                 var filterInside: AOPBase? = null
                 var filterOutside: AOPBase? = null
                 for (filter in filters) {
                     val req = filter.getRequiredVariableNamesRecoursive()
                     if (childProvided.containsAll(req)) {
-                        if (filterInside == null) {
-                            filterInside = filter
+                        filterInside = if (filterInside == null) {
+                            filter
                         } else {
-                            filterInside = AOPAnd(query, filterInside, filter)
+                            AOPAnd(query, filterInside, filter)
                         }
                     } else {
-                        if (filterOutside == null) {
-                            filterOutside = filter
+                        filterOutside = if (filterOutside == null) {
+                            filter
                         } else {
-                            filterOutside = AOPAnd(query, filterOutside, filter)
+                            AOPAnd(query, filterOutside, filter)
                         }
                     }
                 }
@@ -69,11 +68,11 @@ class LogicalOptimizerFilterOptional(query: Query) : OptimizerBase(query, EOptim
                     }
                     val optionalIndicatorList = childProvided.toMutableSet()
                     optionalIndicatorList.removeAll(node.getChildren()[0].getProvidedVariableNames())
-                    var t = optionalIndicatorList.toList()
-                    if (t.size < 1) {
+                    val t = optionalIndicatorList.toList()
+                    if (t.isEmpty()) {
                         throw Exception("optional clause must add at least 1 new variable")
                     }
-                    var optionalIndicator = t[0]
+                    val optionalIndicator = t[0]
                     res = LOPFilter(
                             query,
                             AOPOr(
@@ -114,7 +113,7 @@ class LogicalOptimizerFilterOptional(query: Query) : OptimizerBase(query, EOptim
         return res
     }
 
-    fun addFilters(filters: MutableList<AOPBase>, filter: AOPBase) {
+    private fun addFilters(filters: MutableList<AOPBase>, filter: AOPBase) {
         if (filter is AOPAnd) {
             addFilters(filters, filter.getChildren()[0] as AOPBase)
             addFilters(filters, filter.getChildren()[1] as AOPBase)

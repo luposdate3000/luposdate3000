@@ -1,14 +1,12 @@
 package lupos.s04logicalOperators.multiinput
 
-import kotlin.jvm.JvmField
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.ESortPriority
 import lupos.s04logicalOperators.HistogramResult
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.LOPBase
-import lupos.s04logicalOperators.OPBase
-import lupos.s04logicalOperators.Query
+import kotlin.jvm.JvmField
 
 class LOPJoin(query: IQuery, first: IOPBase, second: IOPBase, @JvmField val optional: Boolean) : LOPBase(query, EOperatorID.LOPJoinID, "LOPJoin", arrayOf(first, second), ESortPriority.JOIN) {
     override /*suspend*/ fun toXMLElement() = super.toXMLElement().addAttribute("optional", "" + optional)
@@ -32,12 +30,12 @@ class LOPJoin(query: IQuery, first: IOPBase, second: IOPBase, @JvmField val opti
         }
 
         fun mergeHistograms(a: HistogramResult, b: HistogramResult, optional: Boolean): HistogramResult {
-            var res = HistogramResult()
-            var columns = getColumns(a.values.keys.toList(), b.values.keys.toList())
-            var c0 = a.count.toDouble()
-            var c1 = b.count.toDouble()
+            val res = HistogramResult()
+            val columns = getColumns(a.values.keys.toList(), b.values.keys.toList())
+            val c0 = a.count.toDouble()
+            val c1 = b.count.toDouble()
             var estimatedResults = c0 * c1
-            var tmpMap = mutableMapOf<String, Int>()
+            val tmpMap = mutableMapOf<String, Int>()
             for (v in columns[0]) {
                 val av = a.values[v]!!.toDouble()
                 val bv = b.values[v]!!.toDouble()
@@ -50,12 +48,12 @@ class LOPJoin(query: IQuery, first: IOPBase, second: IOPBase, @JvmField val opti
                 } else if (av < bv) {
                     //not all rows from b get a match
                     val diff = bv - av
-                    estimatedResults = estimatedResults * (1 - diff / bv)
+                    estimatedResults *= (1 - diff / bv)
                     tmpMap[v] = av.toInt()
                 } else {
                     //not all rows from a get a match
                     val diff = av - bv
-                    estimatedResults = estimatedResults * (1 - diff / av)
+                    estimatedResults *= (1 - diff / av)
                     tmpMap[v] = bv.toInt()
                 }
             }

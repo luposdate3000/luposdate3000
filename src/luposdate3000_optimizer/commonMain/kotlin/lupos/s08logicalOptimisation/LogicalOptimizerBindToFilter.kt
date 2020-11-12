@@ -5,19 +5,17 @@ import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04arithmetikOperators.multiinput.AOPEQ
 import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s04logicalOperators.IOPBase
-import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.singleinput.LOPBind
 import lupos.s04logicalOperators.singleinput.LOPFilter
 import lupos.s04logicalOperators.singleinput.LOPProjection
-import lupos.s08logicalOptimisation.OptimizerBase
 
 class LogicalOptimizerBindToFilter(query: Query) : OptimizerBase(query, EOptimizerID.LogicalOptimizerBindToFilterID) {
     override val classname = "LogicalOptimizerBindToFilter"
     override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
-        var res = node
+        val res = node
         if (node is LOPBind) {
-            var v = node.getChildren()[0].getProvidedVariableNames()
+            val v = node.getChildren()[0].getProvidedVariableNames()
             if (v.contains(node.name.name)) {
                 val v2 = mutableListOf<String>()
                 v2.addAll(v)

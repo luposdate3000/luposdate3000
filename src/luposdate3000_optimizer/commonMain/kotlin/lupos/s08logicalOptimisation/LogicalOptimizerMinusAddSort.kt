@@ -5,18 +5,16 @@ import lupos.s00misc.ESortType
 import lupos.s00misc.SortHelper
 import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s04logicalOperators.IOPBase
-import lupos.s04logicalOperators.multiinput.LOPMinus
-import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
+import lupos.s04logicalOperators.multiinput.LOPMinus
 import lupos.s04logicalOperators.singleinput.LOPProjection
 import lupos.s04logicalOperators.singleinput.modifiers.LOPReduced
 import lupos.s04logicalOperators.singleinput.modifiers.LOPSortAny
-import lupos.s08logicalOptimisation.OptimizerBase
 
 class LogicalOptimizerMinusAddSort(query: Query) : OptimizerBase(query, EOptimizerID.LogicalOptimizerMinusAddSortID) {
     override val classname = "LogicalOptimizerMinusAddSort"
     override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
-        var res: IOPBase = node
+        val res: IOPBase = node
         if (node is LOPMinus) {
             if (!node.hadSortPushDown) {
                 node.hadSortPushDown = true

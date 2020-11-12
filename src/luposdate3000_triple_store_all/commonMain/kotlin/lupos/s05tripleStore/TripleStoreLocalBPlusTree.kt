@@ -1,11 +1,10 @@
 package lupos.s05tripleStore
 
 import lupos.s00misc.EIndexPattern
-import lupos.s00misc.Partition
 
 class TripleStoreLocalBPlusTree(name: String) : TripleStoreLocalBase(name) {
     init {
-        var dataDistinctList = mutableListOf<TripleStoreDistinctContainer>()
+        val dataDistinctList = mutableListOf<TripleStoreDistinctContainer>()
         for (p in enabledPartitions) {
             val name = StringBuilder(p.index.toString())
             when {
@@ -19,8 +18,8 @@ class TripleStoreLocalBPlusTree(name: String) : TripleStoreLocalBase(name) {
             }
         }
         dataDistinct = dataDistinctList.toTypedArray()
-        pendingModificationsInsert = Array(dataDistinct.size) { mutableMapOf<Long, MutableList<Int>>() }
-        pendingModificationsRemove = Array(dataDistinct.size) { mutableMapOf<Long, MutableList<Int>>() }
+        pendingModificationsInsert = Array(dataDistinct.size) { mutableMapOf() }
+        pendingModificationsRemove = Array(dataDistinct.size) { mutableMapOf() }
     }
 
     companion object {

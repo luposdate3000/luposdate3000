@@ -3,21 +3,15 @@ package lupos.s08logicalOptimisation
 import lupos.s00misc.EOptimizerID
 import lupos.s00misc.SanityCheck
 import lupos.s04logicalOperators.IOPBase
-import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
-import lupos.s09physicalOperators.partition.POPChangePartitionOrderedByIntId
-import lupos.s09physicalOperators.partition.POPMergePartition
-import lupos.s09physicalOperators.partition.POPMergePartitionCount
-import lupos.s09physicalOperators.partition.POPMergePartitionOrderedByIntId
-import lupos.s09physicalOperators.partition.POPSplitPartition
-import lupos.s09physicalOperators.partition.POPSplitPartitionFromStore
+import lupos.s09physicalOperators.partition.*
 
 abstract class OptimizerCompoundBase(query: Query, optimizerID: EOptimizerID) : OptimizerBase(query, optimizerID) {
     override val classname = "OptimizerCompoundBase"
     abstract val childrenOptimizers: Array<Array<OptimizerBase>>
     override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit) = node
-    internal fun verifyPartitionOperators(root: IOPBase, allList: MutableMap<Int, MutableSet<Long>>) {
-        var ids = mutableListOf<Int>()
+    private fun verifyPartitionOperators(root: IOPBase, allList: MutableMap<Int, MutableSet<Long>>) {
+        val ids = mutableListOf<Int>()
         when (root) {
             is POPMergePartitionCount -> ids.add(root.partitionID)
             is POPMergePartition -> ids.add(root.partitionID)
@@ -53,17 +47,17 @@ abstract class OptimizerCompoundBase(query: Query, optimizerID: EOptimizerID) : 
             while (d) {
                 d = false
                 for (o in opt) {
-                    SanityCheck.println({ "debug ${o.optimizerID}" })
+                    SanityCheck.println { "debug ${o.optimizerID}" }
                     var c = true
                     while (c) {
                         c = false
-                        tmp = o.optimizeInternal(tmp, null, {
+                        tmp = o.optimizeInternal(tmp, null) {
                             if (o.optimizerID.repeatOnChange) {
                                 c = true
                                 d = true
                                 onChange()
                             }
-                        })
+                        }
                         SanityCheck {
                             val allPartitionOperators = mutableMapOf<Int, MutableSet<Long>>()
                             verifyPartitionOperators(tmp, allPartitionOperators)

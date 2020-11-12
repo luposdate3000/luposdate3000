@@ -42,28 +42,28 @@ open class IteratorBundle {
 
     var columns: Map<String, ColumnIterator> = mapOf()
         get() {
-            if (mode == IteratorBundleMode.COLUMN) {
-                SanityCheck.check { _columns!!.size > 0 }
-                return _columns!!
+            return if (mode == IteratorBundleMode.COLUMN) {
+                SanityCheck.check { _columns!!.isNotEmpty() }
+                _columns!!
             } else if (mode == IteratorBundleMode.ROW) {
                 if (_columns == null) {
                     _columns = ColumnIteratorFromRow(_rows!!)
                 }
-                return _columns!!
+                _columns!!
             } else {
                 throw IteratorBundleColumnModeNotImplementedException()
             }
         }
     var rows: RowIterator = RowIterator()
         get() {
-            if (mode == IteratorBundleMode.ROW) {
-                return _rows!!
+            return if (mode == IteratorBundleMode.ROW) {
+                _rows!!
             } else if (mode == IteratorBundleMode.COLUMN) {
-                SanityCheck.check { _columns!!.size > 0 }
+                SanityCheck.check { _columns!!.isNotEmpty() }
                 if (_rows == null) {
                     _rows = RowIteratorFromColumn(this)
                 }
-                return _rows!!
+                _rows!!
             } else {
                 throw IteratorBundleRowModeNotImplementedException()
             }
@@ -82,8 +82,8 @@ open class IteratorBundle {
 
     /*suspend*/ fun count(): Int {
         SanityCheck.check { mode == IteratorBundleMode.COUNT }
-        if (counter > 0) {
-            return counter
+        return if (counter > 0) {
+            counter
         } else {
             var res = 0
             while (hasNext2()) {
@@ -91,7 +91,7 @@ open class IteratorBundle {
             }
             hasNext2Close()
             counter = res
-            return res
+            res
         }
     }
 }

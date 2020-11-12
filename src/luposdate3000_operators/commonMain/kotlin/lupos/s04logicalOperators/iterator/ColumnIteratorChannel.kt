@@ -7,7 +7,7 @@ import lupos.s03resultRepresentation.ResultSetDictionaryExt
 
 class ColumnIteratorChannel : ColumnIterator() {
     @JvmField
-    internal var queue = Parallel.createQueue<Int>(ResultSetDictionaryExt.nullValue)
+    internal var queue = Parallel.createQueue(ResultSetDictionaryExt.nullValue)
 
     @JvmField
     var doneReading = false
@@ -37,20 +37,20 @@ class ColumnIteratorChannel : ColumnIterator() {
     }
 
     override /*suspend*/ fun next(): Int {
-        if (label == 1) {
+        return if (label == 1) {
             var res: Int = ResultSetDictionaryExt.nullValue
             try {
                 res = queue.receive()
             } catch (e: Throwable) {
-                SanityCheck.println({ "TODO exception 12" })
+                SanityCheck.println { "TODO exception 12" }
                 e.printStackTrace()
                 SanityCheck.check { doneWriting }
                 doneReading = true
                 _close()
             }
-            return res
+            res
         } else {
-            return ResultSetDictionaryExt.nullValue
+            ResultSetDictionaryExt.nullValue
         }
     }
 }

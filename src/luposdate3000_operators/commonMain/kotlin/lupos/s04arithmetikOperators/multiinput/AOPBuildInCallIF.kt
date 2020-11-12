@@ -9,8 +9,6 @@ import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.IteratorBundle
-import lupos.s04logicalOperators.OPBase
-import lupos.s04logicalOperators.Query
 
 class AOPBuildInCallIF(query: IQuery, child: AOPBase, childA: AOPBase, childB: AOPBase) : AOPBase(query, EOperatorID.AOPBuildInCallIFID, "AOPBuildInCallIF", arrayOf(child, childA, childB)) {
     override fun toSparql() = "IF(" + children[0].toSparql() + ", " + children[1].toSparql() + ", " + children[1].toSparql() + ")"
@@ -22,14 +20,14 @@ class AOPBuildInCallIF(query: IQuery, child: AOPBase, childA: AOPBase, childB: A
         return {
             var res: ValueDefinition = ValueError()
             try {
-                if (childA().toBoolean()) {
-                    res = childB()
+                res = if (childA().toBoolean()) {
+                    childB()
                 } else {
-                    res = childC()
+                    childC()
                 }
             } catch (e: EvaluationException) {
             } catch (e: Throwable) {
-                SanityCheck.println({ "TODO exception 31" })
+                SanityCheck.println { "TODO exception 31" }
                 e.printStackTrace()
             }
 /*return*/res

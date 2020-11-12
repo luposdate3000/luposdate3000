@@ -10,7 +10,7 @@ object ColumnIteratorMerge {
         var buf1 = IntArray(MERGE_SORT_MIN_ROWS)
         var buf2 = IntArray(MERGE_SORT_MIN_ROWS)
         var done = false
-        var resultList = mutableListOf<ColumnIterator?>()
+        val resultList = mutableListOf<ColumnIterator?>()
         while (!done) {
             var i = 0
             while (i < buf1.size) {
@@ -23,7 +23,7 @@ object ColumnIteratorMerge {
                     buf1[i++] = next
                 }
             }
-            var total = i
+            val total = i
             var off: Int
             var shift = 0
             var size = 1 shl shift
@@ -34,10 +34,10 @@ object ColumnIteratorMerge {
                 shift++
                 size = 1 shl shift
                 while (off < total) {
-                    if (off + size <= total) {
-                        count = size
+                    count = if (off + size <= total) {
+                        size
                     } else {
-                        count = total - off
+                        total - off
                     }
                     mid = size / 2
                     val aEnd = (off + mid)
@@ -64,11 +64,11 @@ object ColumnIteratorMerge {
                     }
                     off += size
                 }
-                var t = buf1
+                val t = buf1
                 buf1 = buf2
                 buf2 = t
             }
-            var it = ColumnIteratorMultiValue(buf1, total)
+            val it = ColumnIteratorMultiValue(buf1, total)
             if (i > 0 || resultList.size == 0) {
                 if (resultList.size == 0) {
                     resultList.add(it)
@@ -112,7 +112,7 @@ object ColumnIteratorMerge {
         var buf1 = IntArray(MERGE_SORT_MIN_ROWS)
         var buf2 = IntArray(MERGE_SORT_MIN_ROWS)
         var done = false
-        var resultList = mutableListOf<ColumnIterator?>()
+        val resultList = mutableListOf<ColumnIterator?>()
         while (!done) {
             var i = 0
             while (i < buf1.size) {
@@ -125,7 +125,7 @@ object ColumnIteratorMerge {
                     buf1[i++] = next
                 }
             }
-            var total = i
+            val total = i
             var off: Int
             var shift = 0
             var size = 1 shl shift
@@ -136,10 +136,10 @@ object ColumnIteratorMerge {
                 shift++
                 size = 1 shl shift
                 while (off < total) {
-                    if (off + size <= total) {
-                        count = size
+                    count = if (off + size <= total) {
+                        size
                     } else {
-                        count = total - off
+                        total - off
                     }
                     mid = size / 2
                     val aEnd = (off + mid)
@@ -166,11 +166,11 @@ object ColumnIteratorMerge {
                     }
                     off += size
                 }
-                var t = buf1
+                val t = buf1
                 buf1 = buf2
                 buf2 = t
             }
-            var it = ColumnIteratorMultiValue(buf1, total)
+            val it = ColumnIteratorMultiValue(buf1, total)
             if (i > 0 || resultList.size == 0) {
                 if (resultList.size == 0) {
                     resultList.add(it)

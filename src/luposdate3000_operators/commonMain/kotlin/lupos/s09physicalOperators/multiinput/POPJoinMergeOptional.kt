@@ -16,16 +16,16 @@ import lupos.s09physicalOperators.POPBase
 
 class POPJoinMergeOptional(query: IQuery, projectedVariables: List<String>, childA: IOPBase, childB: IOPBase, @JvmField val optional: Boolean) : POPBase(query, projectedVariables, EOperatorID.POPJoinMergeOptionalID, "POPJoinMergeOptional", arrayOf(childA, childB), ESortPriority.JOIN) {
     override fun getPartitionCount(variable: String): Int {
-        if (children[0].getProvidedVariableNames().contains(variable)) {
+        return if (children[0].getProvidedVariableNames().contains(variable)) {
             if (children[1].getProvidedVariableNames().contains(variable)) {
                 SanityCheck.check { children[0].getPartitionCount(variable) == children[1].getPartitionCount(variable) }
-                return children[0].getPartitionCount(variable)
+                children[0].getPartitionCount(variable)
             } else {
-                return children[0].getPartitionCount(variable)
+                children[0].getPartitionCount(variable)
             }
         } else {
             if (children[1].getProvidedVariableNames().contains(variable)) {
-                return children[1].getPartitionCount(variable)
+                children[1].getPartitionCount(variable)
             } else {
                 throw Exception("unknown variable $variable")
             }
@@ -85,7 +85,7 @@ class POPJoinMergeOptional(query: IQuery, projectedVariables: List<String>, chil
         }
         SanityCheck.check { columnsINJ[0].size > 0 }
         SanityCheck.check { columnsINJ[0].size == columnsINJ[1].size }
-        var emptyColumnsWithJoin = outIterators.size == 0
+        val emptyColumnsWithJoin = outIterators.size == 0
         if (emptyColumnsWithJoin) {
             outIterators.add(Pair("", 3))
         }

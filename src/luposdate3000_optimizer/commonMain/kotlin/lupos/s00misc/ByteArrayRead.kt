@@ -1,7 +1,6 @@
 package lupos.s00misc
 
 import kotlin.jvm.JvmField
-import lupos.s00misc.SanityCheck
 
 @OptIn(ExperimentalStdlibApi::class)
 internal class ByteArrayRead(@JvmField val data: ByteArray, @JvmField val size: Int) {
@@ -51,7 +50,7 @@ internal class ByteArrayRead(@JvmField val data: ByteArray, @JvmField val size: 
 
     inline fun readString(): String {
         val len = readInt()
-        var d = CharArray(len)
+        val d = CharArray(len)
         for (i in 0 until len) {
             d[i] = readChar()
         }

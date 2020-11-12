@@ -1,15 +1,13 @@
 package lupos.s05tripleStore
 
-import kotlin.jvm.JvmField
-import lupos.s00misc.File
 import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.IteratorBundle
-import lupos.s04logicalOperators.Query
+import kotlin.jvm.JvmField
 
-class TripleStoreIndex_Partition(childIndex: (Int) -> TripleStoreIndex, val column: Int, @JvmField val partitionCount: Int) : TripleStoreIndex() {
-    val partitions = Array(partitionCount) { childIndex(it) }
+class TripleStoreIndex_Partition(childIndex: (Int) -> TripleStoreIndex, private val column: Int, @JvmField val partitionCount: Int) : TripleStoreIndex() {
+    private val partitions = Array(partitionCount) { childIndex(it) }
     override /*suspend*/ fun safeToFile(filename: String) {
         val a = filename.lastIndexOf('k')
         val b = filename.substring(0, a)
@@ -55,7 +53,7 @@ class TripleStoreIndex_Partition(childIndex: (Int) -> TripleStoreIndex, val colu
         for (i in 0 until count / 3) {
             val a = i * 3
             val h = Partition.hashFunction(dataImport[a + order[column]], partitionCount)
-            SanityCheck.println({ "partitioning by ${dataImport[a + order[column]]} -> $h" })
+            SanityCheck.println { "partitioning by ${dataImport[a + order[column]]} -> $h" }
             counters[h]++
         }
         val data = Array(partitionCount) { IntArray(counters[it] * 3) }
@@ -70,7 +68,7 @@ class TripleStoreIndex_Partition(childIndex: (Int) -> TripleStoreIndex, val colu
             }
         }
         for (i in 0 until partitionCount) {
-            if (data[i].size > 0) {
+            if (data[i].isNotEmpty()) {
                 partitions[i].import(data[i], data[i].size, order)
             }
         }
@@ -95,7 +93,7 @@ class TripleStoreIndex_Partition(childIndex: (Int) -> TripleStoreIndex, val colu
             }
         }
         for (i in 0 until partitionCount) {
-            if (data[i].size > 0) {
+            if (data[i].isNotEmpty()) {
                 partitions[i].insertAsBulk(data[i], order)
             }
         }
@@ -120,7 +118,7 @@ class TripleStoreIndex_Partition(childIndex: (Int) -> TripleStoreIndex, val colu
             }
         }
         for (i in 0 until partitionCount) {
-            if (data[i].size > 0) {
+            if (data[i].isNotEmpty()) {
                 partitions[i].removeAsBulk(data[i], order)
             }
         }
@@ -148,7 +146,7 @@ class TripleStoreIndex_Partition(childIndex: (Int) -> TripleStoreIndex, val colu
 
     override /*suspend*/ fun printContents() {
         for (i in 0 until partitionCount) {
-            SanityCheck.println({ "TripleStoreIndex_Partition :: " + i })
+            SanityCheck.println { "TripleStoreIndex_Partition :: $i" }
             partitions[i].printContents()
         }
     }

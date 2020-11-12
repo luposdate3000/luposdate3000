@@ -42,7 +42,7 @@ class RowIteratorChildIterator(columns: Array<String>) : RowIterator() {
         }
     }
 
-    /*suspend*/ fun _onNoMoreElements() {
+    /*suspend*/ private fun _onNoMoreElements() {
         close()
     }
 }

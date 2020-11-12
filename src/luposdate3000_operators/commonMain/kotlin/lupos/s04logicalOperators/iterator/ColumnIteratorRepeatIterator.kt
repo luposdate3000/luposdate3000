@@ -31,31 +31,31 @@ class ColumnIteratorRepeatIterator(@JvmField val count: Int, @JvmField val child
         when (label) {
             1 -> {
                 val tmp = child.next()
-                if (tmp == ResultSetDictionaryExt.nullValue) {
+                return if (tmp == ResultSetDictionaryExt.nullValue) {
                     child.close()
                     if (data.size == 0 || count == 1) {
                         label = 0
-                        return ResultSetDictionaryExt.nullValue
+                        ResultSetDictionaryExt.nullValue
                     } else {
                         index = 2
                         label = 2
-                        return data[index2++]
+                        data[index2++]
                     }
                 } else {
                     data.add(tmp)
-                    return tmp
+                    tmp
                 }
             }
             2 -> {
-                if (index2 < data.size) {
-                    return data[index2++]
+                return if (index2 < data.size) {
+                    data[index2++]
                 } else if (index < count) {
                     index++
                     index2 = 0
-                    return data[index2++]
+                    data[index2++]
                 } else {
                     label = 0
-                    return ResultSetDictionaryExt.nullValue
+                    ResultSetDictionaryExt.nullValue
                 }
             }
             else -> {

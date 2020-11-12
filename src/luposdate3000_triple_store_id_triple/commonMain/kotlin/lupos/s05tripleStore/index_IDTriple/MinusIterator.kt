@@ -18,7 +18,7 @@ internal class MinusIterator(@JvmField val a: TripleIterator, @JvmField val b: T
         nextInternal()
     }
 
-    fun nextInternal() {
+    private fun nextInternal() {
         flag = 0
         if (a.hasNext()) {
             a.next()

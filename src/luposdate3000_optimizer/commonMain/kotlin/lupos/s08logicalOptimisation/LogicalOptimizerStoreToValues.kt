@@ -4,20 +4,17 @@ import lupos.s00misc.EOptimizerID
 import lupos.s00misc.Partition
 import lupos.s00misc.REPLACE_STORE_WITH_VALUES
 import lupos.s00misc.SanityCheck
-import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s03resultRepresentation.ResultSetDictionaryExt
-import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04arithmetikOperators.IAOPBase
 import lupos.s04arithmetikOperators.noinput.AOPConstant
 import lupos.s04arithmetikOperators.noinput.AOPValue
 import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s04logicalOperators.IOPBase
+import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.noinput.LOPTriple
 import lupos.s04logicalOperators.noinput.LOPValues
 import lupos.s04logicalOperators.noinput.OPEmptyRow
 import lupos.s04logicalOperators.noinput.OPNothing
-import lupos.s04logicalOperators.OPBase
-import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.singleinput.LOPBind
 import lupos.s15tripleStoreDistributed.distributedTripleStore
 
@@ -37,25 +34,25 @@ class LogicalOptimizerStoreToValues(query: Query) : OptimizerBase(query, EOptimi
             if (node.alreadyCheckedStore != hashCode) {
                 node.alreadyCheckedStore = hashCode
                 //dont query the same statements twice ... 
-                var variables = mutableListOf<String>()
+                val variables = mutableListOf<String>()
                 for (c in node.getChildren()) {
                     if (c is AOPVariable) {
                         variables.add(c.name)
                     }
                 }
                 if (variables.size == 0) {
-                    val idx = LOPTriple.getIndex(node.getChildren(), listOf<String>())
+                    val idx = LOPTriple.getIndex(node.getChildren(), listOf())
                     val tmp = distributedTripleStore.getNamedGraph(query, node.graph).getIterator(Array(3) { node.getChildren()[it] as IAOPBase }, idx, Partition())
                     val tmp2 = tmp.evaluate(Partition())
                     SanityCheck.check { tmp2.hasCountMode() }
-                    if (tmp2.count() > 0) {//closed childs due to reading from count
-                        res = OPEmptyRow(query)
+                    res = if (tmp2.count() > 0) {//closed childs due to reading from count
+                        OPEmptyRow(query)
                     } else {
-                        res = OPNothing(query, node.getProvidedVariableNames())
+                        OPNothing(query, node.getProvidedVariableNames())
                     }
                     onChange()
                 } else if (variables.size == 1) {
-                    val idx = LOPTriple.getIndex(node.getChildren(), listOf<String>())
+                    val idx = LOPTriple.getIndex(node.getChildren(), listOf())
                     val tmp = distributedTripleStore.getNamedGraph(query, node.graph).getIterator(Array(3) { node.getChildren()[it] as IAOPBase }, idx, Partition())
                     val tmp2 = tmp.evaluate(Partition())
                     val columns = tmp2.columns
@@ -79,7 +76,7 @@ class LogicalOptimizerStoreToValues(query: Query) : OptimizerBase(query, EOptimi
                         res = LOPBind(query, AOPVariable(query, variables[0]), AOPConstant(query, data[0]))
                         onChange()
                     } else if (i < 5) {
-                        var constants = mutableListOf<AOPValue>()
+                        val constants = mutableListOf<AOPValue>()
                         for (j in 0 until i) {
                             constants.add(AOPValue(query, listOf(AOPConstant(query, data[j]))))
                         }

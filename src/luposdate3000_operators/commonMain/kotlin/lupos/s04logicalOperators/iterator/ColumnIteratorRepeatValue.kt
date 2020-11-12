@@ -11,11 +11,11 @@ class ColumnIteratorRepeatValue(@JvmField val count: Int, @JvmField val value: I
     }
 
     override /*suspend*/ fun next(): Int {
-        if (index == count) {
-            return ResultSetDictionaryExt.nullValue
+        return if (index == count) {
+            ResultSetDictionaryExt.nullValue
         } else {
             index++
-            return value
+            value
         }
     }
 }

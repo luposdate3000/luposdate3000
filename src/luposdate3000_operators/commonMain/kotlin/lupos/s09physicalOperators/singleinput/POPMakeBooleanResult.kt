@@ -13,8 +13,6 @@ import lupos.s04logicalOperators.iterator.ColumnIteratorRepeatValue
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.noinput.OPEmptyRow
 import lupos.s04logicalOperators.noinput.OPNothing
-import lupos.s04logicalOperators.OPBase
-import lupos.s04logicalOperators.Query
 import lupos.s09physicalOperators.POPBase
 
 class POPMakeBooleanResult(query: IQuery, projectedVariables: List<String>, child: IOPBase) : POPBase(query, projectedVariables, EOperatorID.POPMakeBooleanResultID, "POPMakeBooleanResult", arrayOf(child), ESortPriority.PREVENT_ANY) {
@@ -29,7 +27,7 @@ class POPMakeBooleanResult(query: IQuery, projectedVariables: List<String>, chil
     override fun getProvidedVariableNamesInternal() = mutableListOf("?boolean")
     override fun getRequiredVariableNames() = listOf<String>()
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
-        var flag: Boolean
+        val flag: Boolean
         val outMap = mutableMapOf<String, ColumnIterator>()
         val variables = children[0].getProvidedVariableNames()
         if (children[0] is OPNothing) {
@@ -38,7 +36,7 @@ class POPMakeBooleanResult(query: IQuery, projectedVariables: List<String>, chil
             flag = true
         } else {
             val child = children[0].evaluate(parent)
-            if (variables.size > 0) {
+            if (variables.isNotEmpty()) {
                 flag = child.columns[variables[0]]!!.next() != ResultSetDictionaryExt.nullValue
                 for (variable in variables) {
                     child.columns[variable]!!.close()

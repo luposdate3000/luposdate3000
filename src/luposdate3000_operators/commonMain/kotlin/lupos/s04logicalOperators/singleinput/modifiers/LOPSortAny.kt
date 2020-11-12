@@ -8,8 +8,6 @@ import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.LOPBase
 import lupos.s04logicalOperators.noinput.OPEmptyRow
-import lupos.s04logicalOperators.OPBase
-import lupos.s04logicalOperators.Query
 
 class LOPSortAny(query: IQuery, val possibleSortOrder: List<SortHelper>, child: IOPBase = OPEmptyRow(query)) : LOPBase(query, EOperatorID.LOPSortAnyID, "LOPSortAny", arrayOf(child), ESortPriority.SORT) {
     override fun equals(other: Any?) = other is LOPSortAny && possibleSortOrder == other.possibleSortOrder && children[0] == other.children[0]

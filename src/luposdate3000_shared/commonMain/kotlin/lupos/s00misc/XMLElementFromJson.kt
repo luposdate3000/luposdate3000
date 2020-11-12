@@ -1,9 +1,7 @@
 package lupos.s00misc
 
-import lupos.s00misc.SanityCheck
-
 class XMLElementFromJson : XMLElementParser {
-    override operator fun invoke(data: String): XMLElement? {
+    override operator fun invoke(data: String): XMLElement {
         val nodeSparql = XMLElement("sparql").addAttribute("xmlns", "http://www.w3.org/2005/sparql-results#")
         val nodeHead = XMLElement("head")
         val nodeResults = XMLElement("results")
@@ -24,10 +22,7 @@ class XMLElementFromJson : XMLElementParser {
         var lasttokenbracket: Boolean
         var thistokenbracket = false
         while (idx < data.length) {
-            val token = regexToken.find(data, idx + 1)
-            if (token == null) {
-                return nodeSparql
-            }
+            val token = regexToken.find(data, idx + 1) ?: return nodeSparql
             idx = token.range.last
             lasttokenbracket = thistokenbracket
             thistokenbracket = false
@@ -109,16 +104,10 @@ class XMLElementFromJson : XMLElementParser {
                         }
                     } else {
                         if (token.value == "\"boolean\"") {
-                            val token3 = regexToken.find(data, idx + 1)
-                            if (token3 == null) {
-                                return nodeSparql
-                            }
-                            SanityCheck.check({ token3.value == ":" })
+                            val token3 = regexToken.find(data, idx + 1) ?: return nodeSparql
+                            SanityCheck.check { token3.value == ":" }
                             idx = token3.range.last
-                            val token2 = regexToken.find(data, idx + 1)
-                            if (token2 == null) {
-                                return nodeSparql
-                            }
+                            val token2 = regexToken.find(data, idx + 1) ?: return nodeSparql
                             val nodeSparql2 = XMLElement("sparql").addAttribute("xmlns", "http://www.w3.org/2005/sparql-results#")
                             val node = XMLElement("boolean").addContentClean(token2.value)
                             nodeSparql2.addContent(nodeHead)
@@ -127,16 +116,10 @@ class XMLElementFromJson : XMLElementParser {
                         }
                     }
                     if (!flag && nodeBinding != null) {
-                        val token3 = regexToken.find(data, idx + 1)
-                        if (token3 == null) {
-                            return nodeSparql
-                        }
-                        SanityCheck.check({ token3.value == ":" })
+                        val token3 = regexToken.find(data, idx + 1) ?: return nodeSparql
+                        SanityCheck.check { token3.value == ":" }
                         idx = token3.range.last
-                        val token2 = regexToken.find(data, idx + 1)
-                        if (token2 == null) {
-                            return nodeSparql
-                        }
+                        val token2 = regexToken.find(data, idx + 1) ?: return nodeSparql
                         idx = token2.range.last
                         if (token2.value.startsWith("\"") && token2.value.endsWith("\"")) {
                             attributes[token.value.substring(1, token.value.length - 1)] = token2.value.substring(1, token2.value.length - 1)

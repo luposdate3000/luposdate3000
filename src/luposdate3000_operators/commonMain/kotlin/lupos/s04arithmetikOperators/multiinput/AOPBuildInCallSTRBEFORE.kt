@@ -1,17 +1,11 @@
 package lupos.s04arithmetikOperators.multiinput
 
 import lupos.s00misc.EOperatorID
-import lupos.s03resultRepresentation.ValueDefinition
-import lupos.s03resultRepresentation.ValueError
-import lupos.s03resultRepresentation.ValueLanguageTaggedLiteral
-import lupos.s03resultRepresentation.ValueSimpleLiteral
-import lupos.s03resultRepresentation.ValueTypedLiteral
+import lupos.s03resultRepresentation.*
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.IteratorBundle
-import lupos.s04logicalOperators.OPBase
-import lupos.s04logicalOperators.Query
 
 class AOPBuildInCallSTRBEFORE(query: IQuery, child: AOPBase, childB: AOPBase) : AOPBase(query, EOperatorID.AOPBuildInCallSTRBEFOREID, "AOPBuildInCallSTRBEFORE", arrayOf(child, childB)) {
     override fun toSparql() = "STRBEFORE(" + children[0].toSparql() + ", " + children[1].toSparql() + ")"
@@ -37,25 +31,25 @@ class AOPBuildInCallSTRBEFORE(query: IQuery, child: AOPBase, childB: AOPBase) : 
             }
             if (filter != null) {
                 if (a is ValueSimpleLiteral) {
-                    var idx = a.content.indexOf(filter)
-                    if (idx < 0) {
-                        res = ValueSimpleLiteral(a.delimiter, "")
+                    val idx = a.content.indexOf(filter)
+                    res = if (idx < 0) {
+                        ValueSimpleLiteral(a.delimiter, "")
                     } else {
-                        res = ValueSimpleLiteral(a.delimiter, a.content.substring(0, idx))
+                        ValueSimpleLiteral(a.delimiter, a.content.substring(0, idx))
                     }
                 } else if (a is ValueLanguageTaggedLiteral) {
-                    var idx = a.content.indexOf(filter)
-                    if (idx < 0) {
-                        res = ValueSimpleLiteral(a.delimiter, "")
+                    val idx = a.content.indexOf(filter)
+                    res = if (idx < 0) {
+                        ValueSimpleLiteral(a.delimiter, "")
                     } else {
-                        res = ValueLanguageTaggedLiteral(a.delimiter, a.content.substring(0, idx), a.language)
+                        ValueLanguageTaggedLiteral(a.delimiter, a.content.substring(0, idx), a.language)
                     }
                 } else if (a is ValueTypedLiteral) {
-                    var idx = a.content.indexOf(filter)
-                    if (idx < 0) {
-                        res = ValueSimpleLiteral(a.delimiter, "")
+                    val idx = a.content.indexOf(filter)
+                    res = if (idx < 0) {
+                        ValueSimpleLiteral(a.delimiter, "")
                     } else {
-                        res = ValueSimpleLiteral(a.delimiter, a.content.substring(0, idx))
+                        ValueSimpleLiteral(a.delimiter, a.content.substring(0, idx))
                     }
                 }
             }

@@ -1,7 +1,6 @@
 package lupos.s00misc
 
 import kotlin.jvm.JvmField
-import lupos.s00misc.SanityCheck
 
 @OptIn(ExperimentalStdlibApi::class)
 internal class ByteArrayBuilder {
@@ -36,7 +35,7 @@ internal class ByteArrayBuilder {
     inline fun writeByte(b: Byte) {
         if (size + 1 > capacity) {
             data += ByteArray(capacity)
-            capacity = capacity * 2
+            capacity *= 2
         }
         SanityCheck.println { "ByteArrayBuilder($uuid).writeByte at $size with value ${b.toInt()}" }
         ByteArrayHelper.writeInt1(data, size, b.toInt() and 0xFF)
@@ -46,7 +45,7 @@ internal class ByteArrayBuilder {
     inline fun writeChar(c: Char) {
         if (size + 2 > capacity) {
             data += ByteArray(capacity)
-            capacity = capacity * 2
+            capacity *= 2
         }
         SanityCheck.println { "ByteArrayBuilder($uuid).writeChar at $size with value '${c}' ${c.toInt()}" }
         ByteArrayHelper.writeChar(data, size, c)
@@ -56,7 +55,7 @@ internal class ByteArrayBuilder {
     inline fun writeInt(i: Int) {
         if (size + 4 > capacity) {
             data += ByteArray(capacity)
-            capacity = capacity * 2
+            capacity *= 2
         }
         SanityCheck.println { "ByteArrayBuilder($uuid).writeInt at $size with value $i" }
         ByteArrayHelper.writeInt4(data, size, i)
@@ -66,7 +65,7 @@ internal class ByteArrayBuilder {
     inline fun writeLong(l: Long) {
         if (size + 8 > capacity) {
             data += ByteArray(capacity)
-            capacity = capacity * 2
+            capacity *= 2
         }
         SanityCheck.println { "ByteArrayBuilder($uuid).writeLong at $size with value $l" }
         ByteArrayHelper.writeLong8(data, size, l)

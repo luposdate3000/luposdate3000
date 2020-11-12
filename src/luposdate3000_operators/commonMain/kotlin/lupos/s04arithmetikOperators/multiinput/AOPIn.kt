@@ -10,8 +10,6 @@ import lupos.s04arithmetikOperators.IAOPBase
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.IteratorBundle
-import lupos.s04logicalOperators.OPBase
-import lupos.s04logicalOperators.Query
 
 class AOPIn(query: IQuery, childA: IAOPBase, childB: IAOPBase) : AOPBase(query, EOperatorID.AOPInID, "AOPIn", arrayOf(childA, childB)) {
     override fun toSparql() = "( " + children[0].toSparql() + " IN " + children[1].toSparql() + " )"
@@ -33,7 +31,7 @@ class AOPIn(query: IQuery, childA: IAOPBase, childB: IAOPBase) : AOPBase(query, 
                     }
                 } catch (e: Throwable) {
                     noError = false
-                    SanityCheck.println({ "TODO exception 22" })
+                    SanityCheck.println { "TODO exception 22" }
                     e.printStackTrace()
                 }
             }

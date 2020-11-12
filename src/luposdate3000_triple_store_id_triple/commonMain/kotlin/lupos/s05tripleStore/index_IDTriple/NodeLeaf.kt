@@ -19,18 +19,15 @@ internal object NodeLeaf {
     }
 
     /*suspend*/ inline fun iterator(node: ByteArray, nodeid: Int, lock: MyReadWriteLock, component: Int): ColumnIterator {
-        when (component) {
+        return when (component) {
             0 -> {
-                val res = NodeLeafColumnIterator0(node, nodeid, lock)
-                return res
+                NodeLeafColumnIterator0(node, nodeid, lock)
             }
             1 -> {
-                val res = NodeLeafColumnIterator1(node, nodeid, lock)
-                return res
+                NodeLeafColumnIterator1(node, nodeid, lock)
             }
             2 -> {
-                val res = NodeLeafColumnIterator2(node, nodeid, lock)
-                return res
+                NodeLeafColumnIterator2(node, nodeid, lock)
             }
             else -> {
                 throw Exception("unreachable")
@@ -39,24 +36,20 @@ internal object NodeLeaf {
     }
 
     /*suspend*/ inline fun iterator3(node: ByteArray, nodeid: Int, prefix: IntArray, lock: MyReadWriteLock): ColumnIterator {
-        val res = NodeLeafColumnIteratorPrefix3(node, nodeid, prefix, lock)
-        return res
+        return NodeLeafColumnIteratorPrefix3(node, nodeid, prefix, lock)
     }
 
     /*suspend*/ inline fun iterator2(node: ByteArray, nodeid: Int, prefix: IntArray, lock: MyReadWriteLock): ColumnIterator {
-        val res = NodeLeafColumnIteratorPrefix22(node, nodeid, prefix, lock)
-        return res
+        return NodeLeafColumnIteratorPrefix22(node, nodeid, prefix, lock)
     }
 
     /*suspend*/ inline fun iterator1(node: ByteArray, nodeid: Int, prefix: IntArray, lock: MyReadWriteLock, component: Int): ColumnIterator {
-        when (component) {
+        return when (component) {
             1 -> {
-                val res = NodeLeafColumnIteratorPrefix11(node, nodeid, prefix, lock)
-                return res
+                NodeLeafColumnIteratorPrefix11(node, nodeid, prefix, lock)
             }
             2 -> {
-                val res = NodeLeafColumnIteratorPrefix12(node, nodeid, prefix, lock)
-                return res
+                NodeLeafColumnIteratorPrefix12(node, nodeid, prefix, lock)
             }
             else -> {
                 throw Exception("unreachable")
@@ -68,14 +61,14 @@ internal object NodeLeaf {
         SanityCheck.check { iterator.hasNext() }
         var writtenTriples: MutableList<Int>? = null
         SanityCheck {
-            writtenTriples = mutableListOf<Int>()
+            writtenTriples = mutableListOf()
         }
         val tripleLast = IntArray(3)
         var offset = START_OFFSET
         val offsetEnd = node.size - NodeShared.MAX_TRIPLE_SIZE
         var triples = 0
         while (iterator.hasNext() && offset <= offsetEnd) {
-            var tripleCurrent = iterator.next()
+            val tripleCurrent = iterator.next()
             SanityCheck {
                 writtenTriples!!.add(tripleCurrent[0])
                 writtenTriples!!.add(tripleCurrent[1])

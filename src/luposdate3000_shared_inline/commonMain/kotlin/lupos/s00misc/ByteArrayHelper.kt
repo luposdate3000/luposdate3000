@@ -1,7 +1,5 @@
 package lupos.s00misc
 
-import lupos.s00misc.SanityCheck
-
 internal object ByteArrayHelper {
     inline fun writeInt1(data: ByteArray, offset: Int, value: Int) {
         data[offset] = (value and 0xFF).toByte()
@@ -57,7 +55,7 @@ internal object ByteArrayHelper {
         data[offset + 5] = ((value shr 16) and 0xFF).toByte()
         data[offset + 6] = ((value shr 8) and 0xFF).toByte()
         data[offset + 7] = (value and 0xFF).toByte()
-        SanityCheck.check({ value == readLong8(data, offset) })
+        SanityCheck.check { value == readLong8(data, offset) }
     }
 
     inline fun writeChar(data: ByteArray, offset: Int, value: Char) {

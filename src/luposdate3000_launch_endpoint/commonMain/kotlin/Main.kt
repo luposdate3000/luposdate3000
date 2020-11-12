@@ -1,16 +1,13 @@
 import lupos.s00misc.Parallel
 import lupos.s00misc.Partition
-import lupos.s15tripleStoreDistributed.distributedTripleStore
-import lupos.s15tripleStoreDistributed.DistributedTripleStore
 import lupos.s16network.HttpEndpointLauncher
 import lupos.s16network.LuposdateEndpoint
 
 fun main(args: Array<String>) = Parallel.runBlocking {
     LuposdateEndpoint.initialize()
-    var i = 0
     var bootStrapServer: String? = null
     var hostname = "localhost"
-    for (a in args) {
+    for ((i, a) in args.withIndex()) {
         when (i) {
             0 -> {
                 hostname = a
@@ -24,7 +21,6 @@ fun main(args: Array<String>) = Parallel.runBlocking {
                 Partition.default_k = a.toInt()
             }
         }
-        i++
     }
     Parallel.launch {
         HttpEndpointLauncher.start(hostname, 2324)

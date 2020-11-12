@@ -17,10 +17,10 @@ class ColumnIteratorMultiValue1(@JvmField val values: MutableList<Int>) : Column
     }
 
     override /*suspend*/ fun next(): Int {
-        if (index == values.size) {
-            return ResultSetDictionaryExt.nullValue
+        return if (index == values.size) {
+            ResultSetDictionaryExt.nullValue
         } else {
-            return values[index++]
+            values[index++]
         }
     }
 }
@@ -33,10 +33,10 @@ class ColumnIteratorMultiValue3(@JvmField val values: IntArray, @JvmField val si
     }
 
     override /*suspend*/ fun next(): Int {
-        if (index == size) {
-            return ResultSetDictionaryExt.nullValue
+        return if (index == size) {
+            ResultSetDictionaryExt.nullValue
         } else {
-            return values[index++]
+            values[index++]
         }
     }
 }
@@ -49,10 +49,10 @@ class ColumnIteratorMultiValue2(@JvmField val iterator: Iterator<Int>) : ColumnI
     }
 
     override /*suspend*/ fun next(): Int {
-        if (label != 0 && iterator.hasNext()) {
-            return iterator.next()
+        return if (label != 0 && iterator.hasNext()) {
+            iterator.next()
         } else {
-            return ResultSetDictionaryExt.nullValue
+            ResultSetDictionaryExt.nullValue
         }
     }
 }

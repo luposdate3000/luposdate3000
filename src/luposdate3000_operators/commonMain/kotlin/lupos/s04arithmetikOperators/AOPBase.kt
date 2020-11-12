@@ -9,9 +9,8 @@ import lupos.s03resultRepresentation.ValueDefinition
 import lupos.s04logicalOperators.HistogramResult
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
-import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.OPBase
-import lupos.s04logicalOperators.Query
+import lupos.s04logicalOperators.iterator.IteratorBundle
 
 abstract class AOPBase(query: IQuery,
                        operatorID: EOperatorID,
@@ -35,7 +34,7 @@ abstract class AOPBase(query: IQuery,
                     res = false
                 } catch (e: Throwable) {
                     res = false
-                    SanityCheck.println({ "TODO exception 48" })
+                    SanityCheck.println { "TODO exception 48" }
                     e.printStackTrace()
                 }
 /*return*/res

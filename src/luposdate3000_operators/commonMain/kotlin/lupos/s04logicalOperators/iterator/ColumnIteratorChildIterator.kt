@@ -11,7 +11,7 @@ abstract class ColumnIteratorChildIterator : ColumnIterator() {
     @JvmField
     var label = 1
     internal inline fun addChildColumnIteratorValue(value: Int) {
-        var res = ColumnIteratorValue()
+        val res = ColumnIteratorValue()
         res.value = value
         res.done = false
         addChild(res)
@@ -68,15 +68,15 @@ abstract class ColumnIteratorChildIterator : ColumnIterator() {
                     }
                 }
                 onNoMoreElements()
-                if (queue_read == queue_write) {
+                return if (queue_read == queue_write) {
                     onClose()
-                    return ResultSetDictionaryExt.nullValue
+                    ResultSetDictionaryExt.nullValue
                 } else {
                     val res = queue[queue_read].next()
                     if (res == ResultSetDictionaryExt.nullValue) {
                         onClose()
                     }
-                    return res
+                    res
                 }
             }
             2 -> {

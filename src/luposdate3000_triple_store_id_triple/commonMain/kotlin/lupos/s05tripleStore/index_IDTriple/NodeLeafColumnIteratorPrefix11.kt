@@ -1,10 +1,9 @@
 package lupos.s05tripleStore.index_IDTriple
 
-import kotlin.jvm.JvmField
 import lupos.s00misc.MyReadWriteLock
 import lupos.s00misc.SanityCheck
 import lupos.s03resultRepresentation.ResultSetDictionaryExt
-import lupos.s04logicalOperators.iterator.ColumnIterator
+import kotlin.jvm.JvmField
 
 internal class NodeLeafColumnIteratorPrefix11(node: ByteArray, nodeid: Int, prefix: IntArray, lock: MyReadWriteLock) : NodeLeafColumnIteratorPrefix(node, nodeid, prefix, lock) {
     @JvmField
@@ -131,10 +130,10 @@ internal class NodeLeafColumnIteratorPrefix11(node: ByteArray, nodeid: Int, pref
             while (nodeid_tmp != NodeManager.nodeNullPointer) {
                 var node_tmp = node
                 var remaining_tmp = 0
-                NodeManager.getNodeLeaf(nodeid_tmp, {
+                NodeManager.getNodeLeaf(nodeid_tmp) {
                     SanityCheck.check { node != it }
                     node_tmp = it
-                })
+                }
                 remaining_tmp = NodeShared.getTripleCount(node_tmp)
                 SanityCheck.check { remaining_tmp > 0 }
                 var offset_tmp = NodeLeaf.START_OFFSET
@@ -210,27 +209,25 @@ internal class NodeLeafColumnIteratorPrefix11(node: ByteArray, nodeid: Int, pref
             __init()
         }
         if (skipCount == 0) {
-            val value = next()
-            return value
+            return next()
         }
         var toSkip = skipCount + 1
         if (label == 2) {
             next()
             toSkip--
             if (toSkip == 0) {
-                val value = next()
-                return value
+                return next()
             }
         }
         if (label != 0) {
             while (toSkip > remaining) {
                 toSkip -= remaining
-                var nodeid_tmp = NodeShared.getNextNode(node)
+                val nodeid_tmp = NodeShared.getNextNode(node)
                 SanityCheck.check { nodeid_tmp != NodeManager.nodeNullPointer }
-                NodeManager.getNodeLeaf(nodeid_tmp, {
+                NodeManager.getNodeLeaf(nodeid_tmp) {
                     SanityCheck.check { node != it }
                     node = it
-                })
+                }
                 NodeManager.releaseNode(nodeid)
                 nodeid = nodeid_tmp
                 remaining = NodeShared.getTripleCount(node)
@@ -257,12 +254,12 @@ internal class NodeLeafColumnIteratorPrefix11(node: ByteArray, nodeid: Int, pref
                 toSkip--
             }
             if (remaining == 0) {
-                var nodeid_tmp = NodeShared.getNextNode(node)
+                val nodeid_tmp = NodeShared.getNextNode(node)
                 if (nodeid_tmp != NodeManager.nodeNullPointer) {
-                    NodeManager.getNodeLeaf(nodeid_tmp, {
+                    NodeManager.getNodeLeaf(nodeid_tmp) {
                         SanityCheck.check { node != it }
                         node = it
-                    })
+                    }
                     NodeManager.releaseNode(nodeid)
                     nodeid = nodeid_tmp
                     needsReset = true

@@ -1,23 +1,17 @@
 package lupos.s05tripleStore
 
-import kotlin.jvm.JvmField
-import lupos.s00misc.File
-import lupos.s00misc.GraphNameAlreadyExistsDuringCreateException
-import lupos.s00misc.GraphNameNotExistsDuringDeleteException
-import lupos.s00misc.GraphNameNotFoundException
-import lupos.s00misc.SanityCheck
-import lupos.s00misc.TripleStoreLocal
+import lupos.s00misc.*
 import lupos.s01io.BufferManager
 import lupos.s03resultRepresentation.nodeGlobalDictionary
 import lupos.s04logicalOperators.IQuery
-import lupos.s04logicalOperators.Query
 import lupos.s15tripleStoreDistributed.IPersistentStoreLocal
+import kotlin.jvm.JvmField
 
 class PersistentStoreLocal : IPersistentStoreLocal {
     @JvmField
     val stores = mutableMapOf<String, TripleStoreLocal>()
 
-    constructor() {
+    init {
         val s = TripleStoreLocal(PersistentStoreLocalExt.defaultGraphName)
         stores[PersistentStoreLocalExt.defaultGraphName] = s
     }
@@ -43,11 +37,8 @@ class PersistentStoreLocal : IPersistentStoreLocal {
     }
 
     override /*suspend*/ fun dropGraph(query: IQuery, name: String) {
-        SanityCheck.check({ name != PersistentStoreLocalExt.defaultGraphName })
-        var store = stores[name]
-        if (store == null) {
-            throw GraphNameNotExistsDuringDeleteException(name)
-        }
+        SanityCheck.check { name != PersistentStoreLocalExt.defaultGraphName }
+        val store = stores[name] ?: throw GraphNameNotExistsDuringDeleteException(name)
         store.clear()
         stores.remove(name)
     }

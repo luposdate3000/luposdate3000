@@ -1,7 +1,6 @@
 package lupos.s05tripleStore
 
 import lupos.s00misc.EIndexPattern
-import lupos.s00misc.Partition
 
 class TripleStoreLocalBPlusTreePartition(name: String) : TripleStoreLocalBase(name) {
     init {
@@ -25,7 +24,7 @@ class TripleStoreLocalBPlusTreePartition(name: String) : TripleStoreLocalBase(na
                 EnabledPartitionContainer(mutableSetOf(EIndexPattern.OSP, EIndexPattern.O_SP, EIndexPattern.OS_P), 2, 32),//
                 EnabledPartitionContainer(mutableSetOf(EIndexPattern.OPS, EIndexPattern.O_PS, EIndexPattern.OP_S), 2, 64),//
         )
-        var dataDistinctList = mutableListOf<TripleStoreDistinctContainer>()
+        val dataDistinctList = mutableListOf<TripleStoreDistinctContainer>()
         for (p in enabledPartitions) {
             val name = StringBuilder(p.index.toString())
             if (p.column >= 0) {
@@ -52,8 +51,8 @@ class TripleStoreLocalBPlusTreePartition(name: String) : TripleStoreLocalBase(na
             }
         }
         dataDistinct = dataDistinctList.toTypedArray()
-        pendingModificationsInsert = Array(dataDistinct.size) { mutableMapOf<Long, MutableList<Int>>() }
-        pendingModificationsRemove = Array(dataDistinct.size) { mutableMapOf<Long, MutableList<Int>>() }
+        pendingModificationsInsert = Array(dataDistinct.size) { mutableMapOf() }
+        pendingModificationsRemove = Array(dataDistinct.size) { mutableMapOf() }
     }
 
     companion object {
@@ -67,7 +66,7 @@ class TripleStoreLocalBPlusTreePartition(name: String) : TripleStoreLocalBase(na
                         /*return*/ true
                     } else {
                         val p = params as TripleStoreFeatureParamsPartition
-                        var c = p.getColumn()
+                        val c = p.getColumn()
                         /*return*/ c >= 1 && c <= 2
                     }
                 }

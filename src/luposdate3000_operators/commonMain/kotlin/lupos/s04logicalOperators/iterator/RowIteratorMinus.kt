@@ -2,14 +2,14 @@ package lupos.s04logicalOperators.iterator
 
 import lupos.s00misc.Parallel
 
-open class RowIteratorMinus(val a: RowIterator, val b: RowIterator, val projection: Array<String>) : RowIterator() {
+open class RowIteratorMinus(val a: RowIterator, val b: RowIterator, private val projection: Array<String>) : RowIterator() {
     var flag = 2
-    var aIdx = -1
-    var bIdx = -1
+    private var aIdx = -1
+    private var bIdx = -1
     /*suspend*/ fun _init() {
         var compCount = 0
-        var columnsA = mutableListOf<String>()
-        var columnsB = mutableListOf<String>()
+        val columnsA = mutableListOf<String>()
+        val columnsB = mutableListOf<String>()
         for (i in 0 until a.columns.size) {
             for (j in 0 until b.columns.size) {
                 if (a.columns[i] == b.columns[j]) {

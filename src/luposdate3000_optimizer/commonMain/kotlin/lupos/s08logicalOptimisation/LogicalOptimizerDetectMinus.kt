@@ -7,10 +7,9 @@ import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallBOUND
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallNotExists
 import lupos.s04arithmetikOperators.singleinput.AOPNot
 import lupos.s04logicalOperators.IOPBase
+import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.multiinput.LOPJoin
 import lupos.s04logicalOperators.multiinput.LOPMinus
-import lupos.s04logicalOperators.OPBase
-import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.singleinput.LOPFilter
 import lupos.s04logicalOperators.singleinput.LOPSubGroup
 
@@ -26,7 +25,7 @@ class LogicalOptimizerDetectMinus(query: Query) : OptimizerBase(query, EOptimize
                     //there exists a filter, such that the variable is NOT bound.
                     //now search for_ an optional join, where this variable is bound only in the optional part
                     val variableName = (node10.getChildren()[0] as AOPVariable).name
-                    searchForOptionalJoin(node, variableName, { p, i ->
+                    searchForOptionalJoin(node, variableName) { p, i ->
                         val a = p.getChildren()[i].getChildren()[0]
                         val b = p.getChildren()[i].getChildren()[1]
                         var c = b
@@ -51,15 +50,15 @@ class LogicalOptimizerDetectMinus(query: Query) : OptimizerBase(query, EOptimize
                             res = node.getChildren()[0] // remove the !bound part
                             onChange()
                         }
-                    })
+                    }
                 }
             } else if (node1 is AOPBuildInCallNotExists) {
                 val a = node.getChildren()[0]
                 val b = node1.getChildren()[0]
-                if (b.getProvidedVariableNames().containsAll(a.getProvidedVariableNames())) {
-                    res = LOPMinus(query, a, b, listOf())
+                res = if (b.getProvidedVariableNames().containsAll(a.getProvidedVariableNames())) {
+                    LOPMinus(query, a, b, listOf())
                 } else {
-                    res = LOPMinus(query, a, LOPJoin(query, a.cloneOP(), b, false), listOf())
+                    LOPMinus(query, a, LOPJoin(query, a.cloneOP(), b, false), listOf())
                 }
                 onChange()
             }
@@ -67,7 +66,7 @@ class LogicalOptimizerDetectMinus(query: Query) : OptimizerBase(query, EOptimize
         return res
     }
 
-    fun searchForOptionalJoin(node: IOPBase, variableName: String, action: (IOPBase, Int) -> Unit) {
+    private fun searchForOptionalJoin(node: IOPBase, variableName: String, action: (IOPBase, Int) -> Unit) {
         for (c in 0 until node.getChildren().size) {
             val child = node.getChildren()[c]
             if (child is LOPJoin && child.optional && !child.getChildren()[0].getProvidedVariableNames().contains(variableName) && child.getChildren()[1].getProvidedVariableNames().contains(variableName)) {

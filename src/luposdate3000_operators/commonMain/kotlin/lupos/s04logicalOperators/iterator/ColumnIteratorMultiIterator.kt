@@ -23,7 +23,7 @@ class ColumnIteratorMultiIterator(@JvmField val childs: List<ColumnIterator>) : 
     }
 
     override /*suspend*/ fun next(): Int {
-        if (label == 1) {
+        return if (label == 1) {
             var res = childs[index].next()
             while (res == ResultSetDictionaryExt.nullValue && ++index < childs.size) {
                 res = childs[index].next()
@@ -31,9 +31,9 @@ class ColumnIteratorMultiIterator(@JvmField val childs: List<ColumnIterator>) : 
             if (res == ResultSetDictionaryExt.nullValue) {
                 _close()
             }
-            return res
+            res
         } else {
-            return ResultSetDictionaryExt.nullValue
+            ResultSetDictionaryExt.nullValue
         }
     }
 }

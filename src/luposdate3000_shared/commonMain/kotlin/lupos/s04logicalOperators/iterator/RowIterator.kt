@@ -20,5 +20,5 @@ open class RowIterator {
         close = ::_close
     }
 
-    /*suspend*/ fun _next() = -1
+    /*suspend*/ private fun _next() = -1
 }

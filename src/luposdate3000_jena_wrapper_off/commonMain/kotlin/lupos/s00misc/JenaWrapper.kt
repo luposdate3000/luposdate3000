@@ -8,8 +8,7 @@ object JenaWrapper {
     }
 
     fun execQuery(queryString: String): String {
-        var res = ""
-        return res
+        return ""
     }
 
     fun loadFromFile(fileName: String) {

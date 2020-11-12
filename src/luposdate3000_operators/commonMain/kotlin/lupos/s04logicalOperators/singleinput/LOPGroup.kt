@@ -1,13 +1,6 @@
 package lupos.s04logicalOperators.singleinput
 
-import kotlin.jvm.JvmField
-import lupos.s00misc.EOperatorID
-import lupos.s00misc.ESortPriority
-import lupos.s00misc.GroupByColumnMissing
-import lupos.s00misc.SanityCheck
-import lupos.s00misc.SortHelper
-import lupos.s00misc.VariableNotDefinedSyntaxException
-import lupos.s00misc.XMLElement
+import lupos.s00misc.*
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s04logicalOperators.HistogramResult
@@ -15,8 +8,7 @@ import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.LOPBase
 import lupos.s04logicalOperators.noinput.OPEmptyRow
-import lupos.s04logicalOperators.OPBase
-import lupos.s04logicalOperators.Query
+import kotlin.jvm.JvmField
 
 class LOPGroup(query: IQuery, @JvmField var by: List<AOPVariable>) : LOPBase(query, EOperatorID.LOPGroupID, "LOPGroup", arrayOf(OPEmptyRow(query)), ESortPriority.PREVENT_ANY) {
     override fun childrenToVerifyCount() = 1
@@ -61,7 +53,7 @@ class LOPGroup(query: IQuery, @JvmField var by: List<AOPVariable>) : LOPBase(que
 
     override fun syntaxVerifyAllVariableExists(additionalProvided: List<String>, autocorrect: Boolean) {
         children[0].syntaxVerifyAllVariableExists(additionalProvided, autocorrect)
-        SanityCheck.check({ additionalProvided.isEmpty() })
+        SanityCheck.check { additionalProvided.isEmpty() }
         val localProvide = additionalProvided + children[0].getProvidedVariableNames()
         val localRequire = mutableListOf<String>()
         for (v in by) {
@@ -92,7 +84,7 @@ class LOPGroup(query: IQuery, @JvmField var by: List<AOPVariable>) : LOPBase(que
                     }
                 }
             } else {
-                var tmp = localRequire.toMutableSet()
+                val tmp = localRequire.toMutableSet()
                 tmp.removeAll(localProvide)
                 if (tmp.size == 1) {
                     throw VariableNotDefinedSyntaxException(classname, tmp.first())
@@ -136,7 +128,7 @@ class LOPGroup(query: IQuery, @JvmField var by: List<AOPVariable>) : LOPBase(que
     override fun equals(other: Any?) = other is LOPGroup && children[0] == other.children[0] && by == other.by && bindings == other.bindings
     override fun cloneOP(): IOPBase = LOPGroup(query, by, bindings.map { it }, children[0].cloneOP())
     override /*suspend*/ fun calculateHistogram(): HistogramResult {
-        var res = HistogramResult()
+        val res = HistogramResult()
         for (v in getProvidedVariableNames()) {
             res.values[v] = 1
         }

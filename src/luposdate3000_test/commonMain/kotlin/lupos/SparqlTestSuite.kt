@@ -1,36 +1,15 @@
 package lupos
 
-import kotlin.jvm.JvmField
-import lupos.s00misc.DateHelperRelative
-import lupos.s00misc.EIndexPattern
-import lupos.s00misc.EModifyType
-import lupos.s00misc.File
-import lupos.s00misc.JenaBugException
-import lupos.s00misc.JenaWrapper
-import lupos.s00misc.Luposdate3000Exception
-import lupos.s00misc.MAX_TRIPLES_DURING_TEST
-import lupos.s00misc.NotImplementedException
-import lupos.s00misc.OperatorGraphToLatex
-import lupos.s00misc.parseFromAny
-import lupos.s00misc.Partition
-import lupos.s00misc.SanityCheck
-import lupos.s00misc.UnknownManifestException
-import lupos.s00misc.XMLElement
-import lupos.s00misc.XMLElementFromXML
+import lupos.s00misc.*
 import lupos.s02buildSyntaxTree.LexerCharIterator
 import lupos.s02buildSyntaxTree.LookAheadTokenIterator
 import lupos.s02buildSyntaxTree.ParseError
-import lupos.s02buildSyntaxTree.rdf.BlankNode
-import lupos.s02buildSyntaxTree.rdf.Dictionary
-import lupos.s02buildSyntaxTree.rdf.ID_Triple
-import lupos.s02buildSyntaxTree.rdf.IRI
-import lupos.s02buildSyntaxTree.rdf.SimpleLiteral
-import lupos.s02buildSyntaxTree.sparql1_1.parseSPARQL
+import lupos.s02buildSyntaxTree.rdf.*
 import lupos.s02buildSyntaxTree.sparql1_1.SPARQLParser
 import lupos.s02buildSyntaxTree.sparql1_1.TokenIteratorSPARQLParser
 import lupos.s02buildSyntaxTree.turtle.TurtleParserWithDictionary
-import lupos.s03resultRepresentation.nodeGlobalDictionary
 import lupos.s03resultRepresentation.ResultSetDictionary
+import lupos.s03resultRepresentation.nodeGlobalDictionary
 import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s04logicalOperators.Query
 import lupos.s06buildOperatorGraph.OperatorGraphVisitor
@@ -41,6 +20,7 @@ import lupos.s11outputResult.QueryResultToXMLElement
 import lupos.s14endpoint.convertToOPBase
 import lupos.s15tripleStoreDistributed.distributedTripleStore
 import lupos.s16network.LuposdateEndpoint
+import kotlin.jvm.JvmField
 
 open class SparqlTestSuite {
     companion object {
@@ -54,13 +34,13 @@ open class SparqlTestSuite {
     /*suspend*/ fun testMain() {
         repeat(1) {
             println("Starting tests...")
-            val (nr_t, nr_e) = parseManifestFile(prefixDirectory + "/resources/sparql11-test-suite/", "manifest-all.ttl")
-            println("Number of tests: " + nr_t)
-            println("Number of errors: " + nr_e)
-            var prefixes = enabledTestCases
+            val (nr_t, nr_e) = parseManifestFile("$prefixDirectory/resources/sparql11-test-suite/", "manifest-all.ttl")
+            println("Number of tests: $nr_t")
+            println("Number of errors: $nr_e")
+            val prefixes = enabledTestCases
             for (prefix in prefixes) {
                 var lastinput: String? = null
-                File(prefixDirectory + prefix + "config.csv").forEachLineSuspended {
+                File(prefixDirectory + prefix + "config.csv").forEachLineSuspended { it ->
                     val line = it.split(",")
                     if (line.size > 3) {
                         val triplesCount = line[0]
@@ -69,7 +49,7 @@ open class SparqlTestSuite {
                         val outputFile = prefixDirectory + "/" + prefix + line[3]
                         if (!File(outputFile).exists()) {
                             try {
-                                JenaWrapper.loadFromFile("/src/luposdate3000/" + inputFile)
+                                JenaWrapper.loadFromFile("/src/luposdate3000/$inputFile")
                                 val jenaResult = JenaWrapper.execQuery(File(queryFile).readAsString())
                                 val jenaXML = XMLElementFromXML()(jenaResult)!!
                                 File(outputFile).printWriterSuspended {
@@ -87,7 +67,7 @@ open class SparqlTestSuite {
                         } else {
                             lastinput = inputFile
                         }
-                        parseSPARQLAndEvaluate(false, queryFile + "-" + triplesCount, true, queryFile, inputFile, outputFile, null, mutableListOf<MutableMap<String, String>>(), mutableListOf<MutableMap<String, String>>())
+                        parseSPARQLAndEvaluate(false, "$queryFile-$triplesCount", true, queryFile, inputFile, outputFile, null, mutableListOf(), mutableListOf())
                     }
                 }
             }
@@ -137,14 +117,14 @@ open class SparqlTestSuite {
     private /*suspend*/ fun parseManifestFile(prefix: String, filename: String): Pair<Int, Int> {
         var numberOfErrors = 0
         var numberOfTests = 0
-        SanityCheck.println { "Reading file " + filename + "..." }
+        SanityCheck.println { "Reading file $filename..." }
         val data = createSevenIndices(prefix + filename)
         val newprefix = prefix + filename.substringBeforeLast("/") + "/"
         val manifestEntries = data.po(Dictionary.IRI("http://www.w3.org/1999/02/22-rdf-syntax-ns#type"), Dictionary.IRI("http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#Manifest"))
-        manifestEntries.forEach {
+        manifestEntries.forEach { it ->
             // Are other manifest files included?
             val included = data.sp(it, Dictionary.IRI("http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#include"))
-            included.forEach {
+            included.forEach { it ->
                 // follow list of included manifest files:
                 listMembers(data, it) {
                     val includedfile = Dictionary[it]
@@ -158,7 +138,7 @@ open class SparqlTestSuite {
             }
             // Now look for_ the tests:
             val tests = data.sp(it, Dictionary.IRI("http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#entries"))
-            tests.forEach {
+            tests.forEach { it ->
                 // follow list of entries:
                 listMembers(data, it) {
                     // for_ printing out the name:
@@ -183,29 +163,27 @@ open class SparqlTestSuite {
     private /*suspend*/ fun testOneEntry(data: SevenIndices, node: Long, prefix: String): Boolean {
         var testType: String? = null
         var comment: String? = null
-        var features = mutableListOf<String>()
+        val features = mutableListOf<String>()
         var description: String? = null
-        var names = mutableListOf<String>()
+        val names = mutableListOf<String>()
         var expectedResult = true
         var queryFile: String? = null
         var inputDataFile: String? = null
         var resultFile: String? = null
-        var services = mutableListOf<MutableMap<String, String>>()
-        var inputDataGraph = mutableListOf<MutableMap<String, String>>()
-        var outputDataGraph = mutableListOf<MutableMap<String, String>>()
-        data.s(node).forEach {
-            val iri = (Dictionary[it.first] as IRI).iri
-            when (iri) {
+        val services = mutableListOf<MutableMap<String, String>>()
+        val inputDataGraph = mutableListOf<MutableMap<String, String>>()
+        val outputDataGraph = mutableListOf<MutableMap<String, String>>()
+        data.s(node).forEach { it ->
+            when ((Dictionary[it.first] as IRI).iri) {
                 "http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#result" -> {
                     when {
                         Dictionary[it.second] is IRI -> {
-                            SanityCheck.check({ resultFile == null })
+                            SanityCheck.check { resultFile == null }
                             resultFile = prefix + (Dictionary[it.second] as IRI).iri
                         }
                         Dictionary[it.second] is BlankNode -> {
-                            data.s(it.second).forEach {
-                                val iri2 = (Dictionary[it.first] as IRI).iri
-                                when (iri2) {
+                            data.s(it.second).forEach { it ->
+                                when ((Dictionary[it.first] as IRI).iri) {
                                     "http://www.w3.org/2009/sparql/tests/test-update#data" -> {
                                         val graph = mutableMapOf<String, String>()
                                         graph["name"] = ""
@@ -215,8 +193,7 @@ open class SparqlTestSuite {
                                     "http://www.w3.org/2009/sparql/tests/test-update#graphData" -> {
                                         val graph = mutableMapOf<String, String>()
                                         data.s(it.second).forEach {
-                                            val iri3 = (Dictionary[it.first] as IRI).iri
-                                            when (iri3) {
+                                            when ((Dictionary[it.first] as IRI).iri) {
                                                 "http://www.w3.org/2009/sparql/tests/test-update#graph" -> {
                                                     graph["filename"] = prefix + (Dictionary[it.second] as IRI).iri
                                                 }
@@ -250,15 +227,14 @@ open class SparqlTestSuite {
                             queryFile = prefix + (Dictionary[it.second] as IRI).iri
                         }
                         Dictionary[it.second] is BlankNode -> {
-                            data.s(it.second).forEach {
-                                val iri2 = (Dictionary[it.first] as IRI).iri
-                                when (iri2) {
+                            data.s(it.second).forEach { it ->
+                                when ((Dictionary[it.first] as IRI).iri) {
                                     "http://www.w3.org/2001/sw/DataAccess/tests/test-query#data" -> {
-                                        SanityCheck.check({ inputDataFile == null })
+                                        SanityCheck.check { inputDataFile == null }
                                         inputDataFile = prefix + (Dictionary[it.second] as IRI).iri
                                     }
                                     "http://www.w3.org/2001/sw/DataAccess/tests/test-query#query" -> {
-                                        SanityCheck.check({ queryFile == null })
+                                        SanityCheck.check { queryFile == null }
                                         queryFile = prefix + (Dictionary[it.second] as IRI).iri
                                     }
                                     "http://www.w3.org/ns/sparql-service-description#entailmentRegime" -> {
@@ -276,8 +252,7 @@ open class SparqlTestSuite {
                                     "http://www.w3.org/2001/sw/DataAccess/tests/test-query#serviceData" -> {
                                         val service = mutableMapOf<String, String>()
                                         data.s(it.second).forEach {
-                                            val iri3 = (Dictionary[it.first] as IRI).iri
-                                            when (iri3) {
+                                            when ((Dictionary[it.first] as IRI).iri) {
                                                 "http://www.w3.org/2001/sw/DataAccess/tests/test-query#endpoint" -> {
                                                     service["name"] = (Dictionary[it.second] as IRI).iri
                                                 }
@@ -294,18 +269,17 @@ open class SparqlTestSuite {
                                         }
                                     }
                                     "http://www.w3.org/2009/sparql/tests/test-update#request" -> {
-                                        SanityCheck.check({ queryFile == null })
+                                        SanityCheck.check { queryFile == null }
                                         queryFile = prefix + (Dictionary[it.second] as IRI).iri
                                     }
                                     "http://www.w3.org/2009/sparql/tests/test-update#data" -> {
-                                        SanityCheck.check({ inputDataFile == null })
+                                        SanityCheck.check { inputDataFile == null }
                                         inputDataFile = prefix + (Dictionary[it.second] as IRI).iri
                                     }
                                     "http://www.w3.org/2009/sparql/tests/test-update#graphData" -> {
                                         val graph = mutableMapOf<String, String>()
                                         data.s(it.second).forEach {
-                                            val iri3 = (Dictionary[it.first] as IRI).iri
-                                            when (iri3) {
+                                            when ((Dictionary[it.first] as IRI).iri) {
                                                 "http://www.w3.org/2009/sparql/tests/test-update#graph" -> {
                                                     graph["filename"] = prefix + (Dictionary[it.second] as IRI).iri
                                                 }
@@ -331,7 +305,7 @@ open class SparqlTestSuite {
                     }
                 }
                 "http://www.w3.org/1999/02/22-rdf-syntax-ns#type" -> {
-                    SanityCheck.check({ testType == null })
+                    SanityCheck.check { testType == null }
                     testType = (Dictionary[it.second] as IRI).iri
                     when ((Dictionary[it.second] as IRI).iri) {
                         "http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#CSVResultFormatTest" -> {
@@ -366,7 +340,7 @@ open class SparqlTestSuite {
                     features.add((Dictionary[it.second] as IRI).iri)
                 }
                 "http://www.w3.org/2000/01/rdf-schema#comment" -> {
-                    SanityCheck.check({ comment == null })
+                    SanityCheck.check { comment == null }
                     comment = (Dictionary[it.second] as SimpleLiteral).content
                 }
                 "http://www.w3.org/2001/sw/DataAccess/tests/test-dawg#approval" -> {
@@ -382,7 +356,7 @@ open class SparqlTestSuite {
                     SanityCheck.println { "unknown-manifest::http://www.w3.org/2001/sw/DataAccess/tests/test-query#queryForm " + (Dictionary[it.second] as IRI).iri }
                 }
                 "http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#description" -> {
-                    SanityCheck.check({ description == null })
+                    SanityCheck.check { description == null }
                     description = (Dictionary[it.second] as SimpleLiteral).content
                 }
                 else -> {
@@ -430,7 +404,7 @@ open class SparqlTestSuite {
         }
         File("log/storetest").mkdirs()
         var ignoreJena = !executeJena
-        var timer = DateHelperRelative.markNow()
+        val timer = DateHelperRelative.markNow()
         try {
             val toParse = readFileOrNull(queryFile)!!
             if (toParse.contains("service", true)) {
@@ -461,11 +435,11 @@ open class SparqlTestSuite {
                     println("InputData Graph[] Original")
                     println(inputData)
                     println("----------Input Data Graph[]")
-                    var xmlQueryInput = XMLElement.parseFromAny(inputData, inputDataFileName)!!
+                    val xmlQueryInput = XMLElement.parseFromAny(inputData, inputDataFileName)!!
                     if (inputDataFileName.endsWith(".ttl") || inputDataFileName.endsWith(".n3")) {
                         val query = Query()
                         query.setWorkingDirectory(queryFile.substring(0, queryFile.lastIndexOf("/")))
-                        LuposdateEndpoint.import_turtle_files(inputDataFileName, mutableMapOf<String, Int>())
+                        LuposdateEndpoint.import_turtle_files(inputDataFileName, mutableMapOf())
                         val bulkSelect = distributedTripleStore.getDefaultGraph(query).getIterator(arrayOf(AOPVariable(query, "s"), AOPVariable(query, "p"), AOPVariable(query, "o")), EIndexPattern.SPO, Partition())
                         val xmlGraphBulk = QueryResultToXMLElement.toXML(bulkSelect)
                         if (!xmlGraphBulk.myEqualsUnclean(xmlQueryInput, true, true, true)) {
@@ -502,7 +476,7 @@ open class SparqlTestSuite {
                     println("test InputData Graph[] ::" + xmlQueryInput.toPrettyString())
                     try {
                         if (!ignoreJena) {
-                            JenaWrapper.loadFromFile("/src/luposdate3000/" + inputDataFileName)
+                            JenaWrapper.loadFromFile("/src/luposdate3000/$inputDataFileName")
                         }
                     } catch (e: JenaBugException) {
                         println({ e.message })
@@ -518,7 +492,7 @@ open class SparqlTestSuite {
                     val inputData2 = readFileOrNull(it["filename"])
                     println(inputData2)
                     println("----------Input Data Graph[${it["name"]}]")
-                    var xmlQueryInput = XMLElement.parseFromAny(inputData2!!, it["filename"]!!)!!
+                    val xmlQueryInput = XMLElement.parseFromAny(inputData2!!, it["filename"]!!)!!
                     val query = Query()
                     query.setWorkingDirectory(queryFile.substring(0, queryFile.lastIndexOf("/")))
                     val tmp = POPValuesImportXML(query, listOf("s", "p", "o"), xmlQueryInput).evaluate(Partition())
@@ -600,7 +574,7 @@ open class SparqlTestSuite {
                 SanityCheck.println { x }
             }
             var xmlQueryResult: XMLElement? = null
-            if (!outputDataGraph.isEmpty() || (resultData != null && resultDataFileName != null)) {
+            if (outputDataGraph.isNotEmpty() || (resultData != null && resultDataFileName != null)) {
                 SanityCheck.println { "----------Query Result" }
                 xmlQueryResult = QueryResultToXMLElement.toXML(pop_node)
                 SanityCheck.println { "test xmlQueryResult :: " + xmlQueryResult.toPrettyString() }
@@ -610,9 +584,9 @@ open class SparqlTestSuite {
             var verifiedOutput = false
             outputDataGraph.forEach {
                 val outputData = readFileOrNull(it["filename"])
-                var xmlGraphTarget = XMLElement.parseFromAny(outputData!!, it["filename"]!!)!!
+                val xmlGraphTarget = XMLElement.parseFromAny(outputData!!, it["filename"]!!)!!
                 val tmp = distributedTripleStore.getNamedGraph(query, it["name"]!!).getIterator(arrayOf(AOPVariable(query, "s"), AOPVariable(query, "p"), AOPVariable(query, "o")), EIndexPattern.SPO, Partition())
-                var xmlGraphActual = QueryResultToXMLElement.toXML(tmp)
+                val xmlGraphActual = QueryResultToXMLElement.toXML(tmp)
                 if (!xmlGraphTarget.myEqualsUnclean(xmlGraphActual, true, true, true)) {
                     println("OutputData Graph[${it["name"]}] Original")
                     println(outputData)
@@ -633,7 +607,7 @@ open class SparqlTestSuite {
             }
             if (resultData != null && resultDataFileName != null) {
                 SanityCheck.println { "----------Target Result" }
-                var xmlQueryTarget = XMLElement.parseFromAny(resultData, resultDataFileName)!!
+                val xmlQueryTarget = XMLElement.parseFromAny(resultData, resultDataFileName)!!
                 SanityCheck.println { "test xmlQueryTarget :: " + xmlQueryTarget.toPrettyString() }
                 SanityCheck.println { resultData }
                 if (!ignoreJena) {
@@ -643,7 +617,7 @@ open class SparqlTestSuite {
 //println("test xmlJena >>>>>"+jenaResult+"<<<<<")
                         if (jenaXML != null && !jenaXML.myEqualsUnclean(xmlQueryResult, true, true, true)) {
                             println("----------Verify Output Jena jena,actual")
-                            println("test jenaOriginal :: " + jenaResult)
+                            println("test jenaOriginal :: $jenaResult")
                             println("test xmlJena :: " + jenaXML.toPrettyString())
                             println("test xmlActual :: " + xmlQueryResult!!.toPrettyString())
                             println("test xmlTarget :: " + xmlQueryTarget.toPrettyString())
@@ -816,7 +790,7 @@ class SevenIndices {
     fun so(key1: Long, key2: Long): LongArray = this.so[Pair(key1, key2)] ?: longArrayOf()
     fun po(key1: Long, key2: Long): LongArray = this.po[Pair(key1, key2)] ?: longArrayOf()
     fun spo(key1: Long, key2: Long, key3: Long): Boolean = this.spo(ID_Triple(key1, key2, key3))
-    fun spo(key: ID_Triple): Boolean = this.spo.contains(key)
+    private fun spo(key: ID_Triple): Boolean = this.spo.contains(key)
     fun distinct() {
         distinctOneKeyMap(this.s)
         distinctOneKeyMap(this.p)

@@ -5,22 +5,20 @@ import lupos.s00misc.SanityCheck
 import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.ResultSetDictionaryExt
 import lupos.s04logicalOperators.IOPBase
-import lupos.s04logicalOperators.noinput.OPNothing
-import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.OPBaseCompound
-import lupos.s04logicalOperators.Query
+import lupos.s04logicalOperators.noinput.OPNothing
 
 object QueryResultToXMLElement {
     /*suspend*/ fun toXML(rootNode: IOPBase): XMLElement {
-        var res = mutableListOf<XMLElement>()
+        val res = mutableListOf<XMLElement>()
         val nodes: Array<IOPBase>
-        var columnProjectionOrder: List<List<String>>
+        val columnProjectionOrder: List<List<String>>
         if (rootNode is OPBaseCompound) {
             nodes = Array(rootNode.children.size) { rootNode.children[it] }
             columnProjectionOrder = rootNode.columnProjectionOrder
         } else {
-            nodes = arrayOf<IOPBase>(rootNode)
-            columnProjectionOrder = listOf(listOf<String>())
+            nodes = arrayOf(rootNode)
+            columnProjectionOrder = listOf(listOf())
         }
         for (i in 0 until nodes.size) {
             val node = nodes[i]
@@ -35,7 +33,7 @@ object QueryResultToXMLElement {
                 }
             } else {
                 val columnNames: List<String>
-                if (columnProjectionOrder[i].size > 0) {
+                if (columnProjectionOrder[i].isNotEmpty()) {
                     columnNames = columnProjectionOrder[i]
                     SanityCheck.check { node.getProvidedVariableNames().containsAll(columnNames) }
                 } else {
@@ -46,8 +44,8 @@ object QueryResultToXMLElement {
                 if (variables.size == 1 && variables[0] == "?boolean") {
                     val value = node.getQuery().getDictionary().getValue(child.columns["?boolean"]!!.next()).valueToString()!!
                     val datatype = "http://www.w3.org/2001/XMLSchema#boolean"
-                    SanityCheck.check({ value.endsWith("\"^^<" + datatype + ">") })
-                    nodeSparql.addContent(XMLElement("boolean").addContent(value.substring(1, value.length - ("\"^^<" + datatype + ">").length)))
+                    SanityCheck.check { value.endsWith("\"^^<$datatype>") }
+                    nodeSparql.addContent(XMLElement("boolean").addContent(value.substring(1, value.length - ("\"^^<$datatype>").length)))
                     child.columns["?boolean"]!!.close()
                 } else {
                     val bnodeMap = mutableMapOf<String, String>()
@@ -56,7 +54,7 @@ object QueryResultToXMLElement {
                     for (variable in variables) {
                         nodeHead.addContent(XMLElement("variable").addAttribute("name", variable))
                     }
-                    if (variables.size == 0) {
+                    if (variables.isEmpty()) {
                         for (j in 0 until child.count()) {
                             val nodeResult = XMLElement("result")
                             nodeResults.addContent(nodeResult)

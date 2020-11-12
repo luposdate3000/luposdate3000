@@ -4,7 +4,7 @@ import java.math.BigInteger
 
 actual class MyBigInteger {
     val s: String
-    val v: BigInteger
+    private val v: BigInteger
 
     actual constructor(s1: String) {
         v = BigInteger(s1)

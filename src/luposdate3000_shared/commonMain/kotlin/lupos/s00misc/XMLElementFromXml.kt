@@ -5,13 +5,13 @@ class XMLElementFromXML : XMLElementParser {
         return parseFromXmlHelper(data)?.first()
     }
 
-    internal fun parseFromXmlHelper(xml: String): List<XMLElement>? {
+    private fun parseFromXmlHelper(xml: String): List<XMLElement>? {
         val x = xml.replace("\n", "").replace("\r", "")
         val res = mutableListOf<XMLElement>()
         var lastindex = 0
         """((<([a-zA-Z]+)([^>]*?)>(.*?)<\/\3>)|(<([a-zA-Z]+)([^>]*?)>)|(<\?.*?\?>)|(<!--.*?-->))?""".toRegex().findAll(x).forEach { child ->
-            var value = child.value
-            if (value.length > 0 && !value.startsWith("<?") && !value.startsWith("<!--") && child.range.start >= lastindex) {
+            val value = child.value
+            if (value.isNotEmpty() && !value.startsWith("<?") && !value.startsWith("<!--") && child.range.first >= lastindex) {
                 var nodeName = ""
                 if (child.groups[3] != null) {
                     nodeName = child.groups[3]!!.value
@@ -58,7 +58,7 @@ class XMLElementFromXML : XMLElementParser {
                 }
             }
         }
-        if (res.isEmpty() && !xml.isEmpty()) {
+        if (res.isEmpty() && xml.isNotEmpty()) {
             return null
         }
         return res

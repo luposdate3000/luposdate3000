@@ -68,14 +68,14 @@ class POPGroup : POPBase {
     }
 
     override fun cloneOP(): POPGroup {
-        if (bindings.size > 0) {
-            var tmpBindings = POPBind(query, listOf<String>(), AOPVariable(query, bindings[0].first), bindings[0].second, OPEmptyRow(query))
+        return if (bindings.size > 0) {
+            var tmpBindings = POPBind(query, listOf(), AOPVariable(query, bindings[0].first), bindings[0].second, OPEmptyRow(query))
             for (bp in 1 until bindings.size) {
-                tmpBindings = POPBind(query, listOf<String>(), AOPVariable(query, bindings[bp].first), bindings[bp].second, tmpBindings)
+                tmpBindings = POPBind(query, listOf(), AOPVariable(query, bindings[bp].first), bindings[bp].second, tmpBindings)
             }
-            return POPGroup(query, projectedVariables, by, tmpBindings, children[0].cloneOP())
+            POPGroup(query, projectedVariables, by, tmpBindings, children[0].cloneOP())
         } else {
-            return POPGroup(query, projectedVariables, by, null, children[0].cloneOP())
+            POPGroup(query, projectedVariables, by, null, children[0].cloneOP())
         }
     }
 
@@ -97,7 +97,7 @@ class POPGroup : POPBase {
     override fun equals(other: Any?) = other is POPGroup && by == other.by && children[0] == other.children[0] && bindings == other.bindings
     override fun getProvidedVariableNamesInternal() = (MutableList(by.size) { by[it].name } + MutableList(bindings.size) { bindings[it].first }).distinct()
     override fun getRequiredVariableNames(): List<String> {
-        var res = MutableList(by.size) { by[it].name }
+        val res = MutableList(by.size) { by[it].name }
         for (b in bindings) {
             res.addAll(b.second.getRequiredVariableNamesRecoursive())
         }
@@ -106,7 +106,7 @@ class POPGroup : POPBase {
 
     override fun syntaxVerifyAllVariableExists(additionalProvided: List<String>, autocorrect: Boolean) {
         children[0].syntaxVerifyAllVariableExists(additionalProvided, autocorrect)
-        SanityCheck.check({ additionalProvided.isEmpty() })
+        SanityCheck.check { additionalProvided.isEmpty() }
         val localProvide = additionalProvided + children[0].getProvidedVariableNames()
         val localRequire = mutableListOf<String>()
         for (v in by) {
@@ -137,7 +137,7 @@ class POPGroup : POPBase {
                     }
                 }
             } else {
-                var tmp = localRequire.toMutableSet()
+                val tmp = localRequire.toMutableSet()
                 tmp.removeAll(localProvide)
                 if (tmp.size == 1) {
                     throw VariableNotDefinedSyntaxException(classname, tmp.first())
@@ -148,8 +148,8 @@ class POPGroup : POPBase {
         }
     }
 
-    fun getAggregations(node: IOPBase): MutableList<AOPAggregationBase> {
-        var res = mutableListOf<AOPAggregationBase>()
+    private fun getAggregations(node: IOPBase): MutableList<AOPAggregationBase> {
+        val res = mutableListOf<AOPAggregationBase>()
         for (n in node.getChildren()) {
             res.addAll(getAggregations(n))
         }
@@ -193,8 +193,8 @@ class POPGroup : POPBase {
             }
         }
         val valueColumns = Array(valueColumnNames.size) { child.columns[valueColumnNames[it]]!! }
-        if (keyColumnNames.size == 0) {
-            SanityCheck.println({ "group mode a" })
+        if (keyColumnNames.isEmpty()) {
+            SanityCheck.println { "group mode a" }
             val localMap = mutableMapOf<String, ColumnIterator>()
             val localColumns = Array<ColumnIteratorQueue>(valueColumnNames.size) { ColumnIteratorQueueEmpty() }
             for (columnIndex in 0 until valueColumnNames.size) {
@@ -238,7 +238,7 @@ class POPGroup : POPBase {
                 }
             }
         } else {
-            var tmpSortPriority = children[0].getMySortPriority().map { it.variableName }
+            val tmpSortPriority = children[0].getMySortPriority().map { it.variableName }
             var canUseSortedInput = true
             if ((!localVariables.containsAll(keyColumnNames.toMutableList())) || (children[0].getMySortPriority().size < keyColumnNames.size)) {
                 canUseSortedInput = false
@@ -251,7 +251,7 @@ class POPGroup : POPBase {
                 }
             }
             if (canUseSortedInput) {
-                SanityCheck.println({ "group mode b" })
+                SanityCheck.println { "group mode b" }
                 var currentKey = IntArray(keyColumnNames.size) { ResultSetDictionaryExt.undefValue }
                 var nextKey: IntArray? = null
                 //first row ->
@@ -422,7 +422,7 @@ class POPGroup : POPBase {
                     }
                 }
             } else {
-                SanityCheck.println({ "group mode c" })
+                SanityCheck.println { "group mode c" }
                 val map = mutableMapOf<MapKey, MapRow>()
                 loop@ while (true) {
                     val currentKey = IntArray(keyColumnNames.size) { ResultSetDictionaryExt.undefValue }
@@ -469,7 +469,7 @@ class POPGroup : POPBase {
                         aggregate.evaluate()
                     }
                 }
-                if (map.size == 0) {
+                if (map.isEmpty()) {
                     for (v in keyColumnNames) {
                         outMap[v] = ColumnIteratorRepeatValue(1, ResultSetDictionaryExt.undefValue)
                     }

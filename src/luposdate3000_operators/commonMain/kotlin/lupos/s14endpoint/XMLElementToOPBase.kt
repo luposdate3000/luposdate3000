@@ -1,131 +1,30 @@
 package lupos.s14endpoint
 
-import lupos.s00misc.EIndexPattern
-import lupos.s00misc.ESortType
-import lupos.s00misc.MyBigDecimal
-import lupos.s00misc.MyBigInteger
-import lupos.s00misc.Partition
-import lupos.s00misc.SanityCheck
-import lupos.s00misc.SortHelper
-import lupos.s00misc.UnknownOperatorTypeInXMLException
-import lupos.s00misc.XMLElement
-import lupos.s00misc.XMLNotParseableException
-import lupos.s02buildSyntaxTree.sparql1_1.Aggregation
-import lupos.s03resultRepresentation.ValueBnode
-import lupos.s03resultRepresentation.ValueBoolean
-import lupos.s03resultRepresentation.ValueDateTime
-import lupos.s03resultRepresentation.ValueDecimal
-import lupos.s03resultRepresentation.ValueDouble
-import lupos.s03resultRepresentation.ValueFloat
-import lupos.s03resultRepresentation.ValueInteger
-import lupos.s03resultRepresentation.ValueIri
-import lupos.s03resultRepresentation.ValueLanguageTaggedLiteral
-import lupos.s03resultRepresentation.ValueSimpleLiteral
-import lupos.s03resultRepresentation.ValueTypedLiteral
-import lupos.s03resultRepresentation.ValueUndef
+import lupos.s00misc.*
+import lupos.s03resultRepresentation.*
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04arithmetikOperators.IAOPBase
-import lupos.s04arithmetikOperators.multiinput.AOPAddition
-import lupos.s04arithmetikOperators.multiinput.AOPAnd
-import lupos.s04arithmetikOperators.multiinput.AOPBuildInCallCOALESCE
-import lupos.s04arithmetikOperators.multiinput.AOPBuildInCallCONCAT
-import lupos.s04arithmetikOperators.multiinput.AOPBuildInCallCONTAINS
-import lupos.s04arithmetikOperators.multiinput.AOPBuildInCallIF
-import lupos.s04arithmetikOperators.multiinput.AOPBuildInCallLANGMATCHES
-import lupos.s04arithmetikOperators.multiinput.AOPBuildInCallSTRAFTER
-import lupos.s04arithmetikOperators.multiinput.AOPBuildInCallSTRBEFORE
-import lupos.s04arithmetikOperators.multiinput.AOPBuildInCallSTRDT
-import lupos.s04arithmetikOperators.multiinput.AOPBuildInCallSTRENDS
-import lupos.s04arithmetikOperators.multiinput.AOPBuildInCallSTRLANG
-import lupos.s04arithmetikOperators.multiinput.AOPBuildInCallSTRSTARTS
-import lupos.s04arithmetikOperators.multiinput.AOPDivision
-import lupos.s04arithmetikOperators.multiinput.AOPEQ
-import lupos.s04arithmetikOperators.multiinput.AOPGEQ
-import lupos.s04arithmetikOperators.multiinput.AOPGT
-import lupos.s04arithmetikOperators.multiinput.AOPIn
-import lupos.s04arithmetikOperators.multiinput.AOPLEQ
-import lupos.s04arithmetikOperators.multiinput.AOPLT
-import lupos.s04arithmetikOperators.multiinput.AOPMultiplication
-import lupos.s04arithmetikOperators.multiinput.AOPNEQ
-import lupos.s04arithmetikOperators.multiinput.AOPNotIn
-import lupos.s04arithmetikOperators.multiinput.AOPOr
-import lupos.s04arithmetikOperators.multiinput.AOPSet
-import lupos.s04arithmetikOperators.multiinput.AOPSubtraction
+import lupos.s04arithmetikOperators.multiinput.*
 import lupos.s04arithmetikOperators.noinput.AOPBuildInCallBNODE0
 import lupos.s04arithmetikOperators.noinput.AOPConstant
 import lupos.s04arithmetikOperators.noinput.AOPVariable
-import lupos.s04arithmetikOperators.singleinput.AOPAggregationAVG
-import lupos.s04arithmetikOperators.singleinput.AOPAggregationCOUNT
-import lupos.s04arithmetikOperators.singleinput.AOPAggregationMAX
-import lupos.s04arithmetikOperators.singleinput.AOPAggregationMIN
-import lupos.s04arithmetikOperators.singleinput.AOPAggregationSAMPLE
-import lupos.s04arithmetikOperators.singleinput.AOPAggregationSUM
-import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallABS
-import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallBOUND
-import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallCEIL
-import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallDATATYPE
-import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallDAY
-import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallExists
-import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallFLOOR
-import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallHOURS
-import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallIRI
-import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallIsIri
-import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallIsLITERAL
-import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallLANG
-import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallLCASE
-import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallMD5
-import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallMINUTES
-import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallMONTH
-import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallNotExists
-import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallROUND
-import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallSECONDS
-import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallSHA1
-import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallSHA256
-import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallSTR
-import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallSTRLEN
-import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallTIMEZONE
-import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallTZ
-import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallUCASE
-import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallYEAR
-import lupos.s04arithmetikOperators.singleinput.AOPFunctionCallDouble
-import lupos.s04arithmetikOperators.singleinput.AOPFunctionCallFloat
-import lupos.s04arithmetikOperators.singleinput.AOPFunctionCallString
-import lupos.s04arithmetikOperators.singleinput.AOPNot
+import lupos.s04arithmetikOperators.singleinput.*
 import lupos.s04logicalOperators.IOPBase
-import lupos.s04logicalOperators.noinput.LOPTriple
-import lupos.s04logicalOperators.noinput.OPNothing
-import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.OPBaseCompound
 import lupos.s04logicalOperators.Query
+import lupos.s04logicalOperators.noinput.LOPTriple
+import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s04logicalOperators.singleinput.LOPMakeBooleanResult
 import lupos.s04logicalOperators.singleinput.LOPSubGroup
-import lupos.s09physicalOperators.multiinput.POPJoinCartesianProduct
-import lupos.s09physicalOperators.multiinput.POPJoinHashMap
-import lupos.s09physicalOperators.multiinput.POPJoinMerge
-import lupos.s09physicalOperators.multiinput.POPJoinMergeOptional
-import lupos.s09physicalOperators.multiinput.POPJoinMergeSingleColumn
-import lupos.s09physicalOperators.multiinput.POPJoinWithStore
-import lupos.s09physicalOperators.multiinput.POPJoinWithStoreExists
-import lupos.s09physicalOperators.multiinput.POPMinus
-import lupos.s09physicalOperators.multiinput.POPUnion
+import lupos.s09physicalOperators.POPBase
+import lupos.s09physicalOperators.multiinput.*
 import lupos.s09physicalOperators.noinput.POPEmptyRow
 import lupos.s09physicalOperators.noinput.POPValues
-import lupos.s09physicalOperators.partition.POPMergePartition
-import lupos.s09physicalOperators.partition.POPMergePartitionCount
-import lupos.s09physicalOperators.partition.POPMergePartitionOrderedByIntId
-import lupos.s09physicalOperators.partition.POPSplitPartition
-import lupos.s09physicalOperators.partition.POPSplitPartitionFromStore
-import lupos.s09physicalOperators.POPBase
+import lupos.s09physicalOperators.partition.*
+import lupos.s09physicalOperators.singleinput.*
 import lupos.s09physicalOperators.singleinput.modifiers.POPLimit
 import lupos.s09physicalOperators.singleinput.modifiers.POPOffset
 import lupos.s09physicalOperators.singleinput.modifiers.POPReduced
-import lupos.s09physicalOperators.singleinput.POPBind
-import lupos.s09physicalOperators.singleinput.POPDebug
-import lupos.s09physicalOperators.singleinput.POPFilter
-import lupos.s09physicalOperators.singleinput.POPGroup
-import lupos.s09physicalOperators.singleinput.POPMakeBooleanResult
-import lupos.s09physicalOperators.singleinput.POPProjection
-import lupos.s09physicalOperators.singleinput.POPSort
 import lupos.s15tripleStoreDistributed.distributedTripleStore
 
 fun convertToPartition(node: XMLElement): Partition {
@@ -149,7 +48,7 @@ fun createAOPVariable(query: Query, mapping: MutableMap<String, String>, name: S
     return AOPVariable(query, name)
 }
 
-fun createProjectedVariables(query: Query, node: XMLElement, mapping: MutableMap<String, String> = mutableMapOf<String, String>()): List<String> {
+fun createProjectedVariables(query: Query, node: XMLElement, mapping: MutableMap<String, String> = mutableMapOf()): List<String> {
     val res = mutableListOf<String>()
     SanityCheck.check { node["projectedVariables"] != null }
     for (c in node["projectedVariables"]!!.childs) {
@@ -158,11 +57,11 @@ fun createProjectedVariables(query: Query, node: XMLElement, mapping: MutableMap
     return res
 }
 
-/*suspend*/ fun XMLElement.Companion.convertToOPBase(query: Query, node: XMLElement, mapping: MutableMap<String, String> = mutableMapOf<String, String>()): IOPBase {
-    var res: IOPBase
+/*suspend*/ fun XMLElement.Companion.convertToOPBase(query: Query, node: XMLElement, mapping: MutableMap<String, String> = mutableMapOf()): IOPBase {
+    val res: IOPBase
     when (node.tag) {
         "OPBaseCompound" -> {
-            var childs = mutableListOf<IOPBase>()
+            val childs = mutableListOf<IOPBase>()
             for (c in node["children"]!!.childs) {
                 childs.add(convertToOPBase(query, c, mapping))
             }
@@ -178,7 +77,7 @@ fun createProjectedVariables(query: Query, node: XMLElement, mapping: MutableMap
             res = OPBaseCompound(query, childs.toTypedArray(), cpos)
         }
         "OPNothing" -> {
-            var list = mutableListOf<String>()
+            val list = mutableListOf<String>()
             for (c in node.childs) {
                 list.add(c.content)
             }
@@ -483,7 +382,7 @@ fun createProjectedVariables(query: Query, node: XMLElement, mapping: MutableMap
         }
         "POPMergePartitionCount" -> {
             val id = node.attributes["partitionID"]!!.toInt()
-            res = POPMergePartitionCount(query, listOf<String>(), node.attributes["partitionVariable"]!!, node.attributes["partitionCount"]!!.toInt(), id, convertToOPBase(query, node["children"]!!.childs[0], mapping))
+            res = POPMergePartitionCount(query, listOf(), node.attributes["partitionVariable"]!!, node.attributes["partitionCount"]!!.toInt(), id, convertToOPBase(query, node["children"]!!.childs[0], mapping))
             query.addPartitionOperator(res.uuid, id)
         }
         "POPSplitPartition" -> {
@@ -499,17 +398,17 @@ fun createProjectedVariables(query: Query, node: XMLElement, mapping: MutableMap
         "POPGroup" -> {
             val child = convertToOPBase(query, node["children"]!!.childs[0], mapping)
             val by = mutableListOf<AOPVariable>()
-            var bindings: POPBase = POPEmptyRow(query, listOf<String>())
+            var bindings: POPBase = POPEmptyRow(query, listOf())
             node["by"]!!.childs.forEach {
                 by.add(createAOPVariable(query, mapping, it.attributes["name"]!!))
             }
             node["bindings"]!!.childs.forEach {
-                bindings = POPBind(query, listOf<String>(), createAOPVariable(query, mapping, it.attributes["name"]!!), convertToOPBase(query, it.childs[0], mapping) as AOPBase, bindings)
+                bindings = POPBind(query, listOf(), createAOPVariable(query, mapping, it.attributes["name"]!!), convertToOPBase(query, it.childs[0], mapping) as AOPBase, bindings)
             }
-            if (bindings is POPEmptyRow) {
-                res = POPGroup(query, createProjectedVariables(query, node, mapping), by, null, child)
+            res = if (bindings is POPEmptyRow) {
+                POPGroup(query, createProjectedVariables(query, node, mapping), by, null, child)
             } else {
-                res = POPGroup(query, createProjectedVariables(query, node, mapping), by, bindings as POPBind, child)
+                POPGroup(query, createProjectedVariables(query, node, mapping), by, bindings as POPBind, child)
             }
         }
         "POPFilter" -> {
@@ -540,7 +439,7 @@ fun createProjectedVariables(query: Query, node: XMLElement, mapping: MutableMap
                 node["variables"]!!.childs.forEach {
                     vars.add(it.attributes["name"]!!)
                 }
-                node["bindings"]!!.childs.forEach {
+                node["bindings"]!!.childs.forEach { it ->
                     val exp = arrayOfNulls<String?>(vars.size)
                     it.childs.forEach {
                         exp[vars.indexOf(it.attributes["name"]!!)] = it.attributes["content"]

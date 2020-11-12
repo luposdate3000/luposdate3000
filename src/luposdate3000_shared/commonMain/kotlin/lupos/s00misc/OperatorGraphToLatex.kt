@@ -12,7 +12,7 @@ object OperatorGraphToLatex {
 
         @JvmField
         val children = mutableListOf<StackElement>()
-        fun getChildParallelism(): Int {
+        private fun getChildParallelism(): Int {
             var res = 0
             if (children.size > 0) {
                 res = children[0].getChildParallelism()
@@ -25,7 +25,7 @@ object OperatorGraphToLatex {
             return res
         }
 
-        fun getParallelism(): Int {
+        private fun getParallelism(): Int {
             var res = getChildParallelism()
             if (name.startsWith("MergePartition")) {
                 res++
@@ -33,13 +33,13 @@ object OperatorGraphToLatex {
             return res
         }
 
-        fun isChangingParallelism(): Boolean {
+        private fun isChangingParallelism(): Boolean {
             return name.startsWith("SplitPartition") || name.startsWith("MergePartition")
         }
 
         override fun toString(): String {
             val parallelism = getParallelism()
-            var res = StringBuilder()
+            val res = StringBuilder()
             res.append("[")
             if (isChangingParallelism()) {
                 res.append(coloredText("red", name))

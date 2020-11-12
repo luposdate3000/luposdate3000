@@ -6,7 +6,7 @@ internal actual object ParallelThread {
     }
 
     actual inline fun launch(crossinline action: () -> Unit): ParallelThreadJob {
-        var res = ParallelThreadJob {
+        val res = ParallelThreadJob {
             action()
         }
         res.start()
@@ -22,6 +22,6 @@ internal actual object ParallelThread {
     }
 
     actual inline fun <T> createQueue(terminationValue: T): ParallelThreadQueue<T> {
-        return ParallelThreadQueue<T>(terminationValue)
+        return ParallelThreadQueue(terminationValue)
     }
 }

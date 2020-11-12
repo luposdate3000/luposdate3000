@@ -58,7 +58,7 @@ class AOPAggregationAVG(query: IQuery, @JvmField val distinct: Boolean, childs: 
                 tmp1 = ValueError()
                 res.evaluate = res::aggregate_evaluate
             } catch (e: Throwable) {
-                SanityCheck.println({ "TODO exception 34" })
+                SanityCheck.println { "TODO exception 34" }
                 e.printStackTrace()
                 tmp1 = ValueError()
                 res.evaluate = res::aggregate_evaluate
@@ -69,18 +69,18 @@ class AOPAggregationAVG(query: IQuery, @JvmField val distinct: Boolean, childs: 
     }
 
     override fun evaluate(row: IteratorBundle): () -> ValueDefinition {
-        val tmp = row.columns["#" + uuid]!! as ColumnIteratorAggregate
+        val tmp = row.columns["#$uuid"]!! as ColumnIteratorAggregate
         return {
-            var res: ValueDefinition
-            var tmp1 = tmp.value
-            if (tmp1 is ValueDouble) {
-                res = ValueDouble(tmp1.toDouble() / tmp.count)
+            val res: ValueDefinition
+            val tmp1 = tmp.value
+            res = if (tmp1 is ValueDouble) {
+                ValueDouble(tmp1.toDouble() / tmp.count)
             } else if (tmp1 is ValueFloat) {
-                res = ValueFloat(tmp1.toDouble() / tmp.count)
+                ValueFloat(tmp1.toDouble() / tmp.count)
             } else if (tmp1 is ValueDecimal) {
-                res = ValueDecimal(tmp1.value / MyBigDecimal(tmp.count))
+                ValueDecimal(tmp1.value / MyBigDecimal(tmp.count))
             } else {
-                res = ValueError()
+                ValueError()
             }
 /*return*/res
         }

@@ -1,7 +1,6 @@
 package lupos.s00misc
 
-internal expect class File {
-    constructor(filename: String)
+internal expect class File(filename: String) {
 
     inline fun createTempFile(prefix: String, suffix: String, directory: String): String
     inline fun exists(): Boolean

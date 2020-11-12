@@ -3,7 +3,6 @@ package lupos.s04logicalOperators
 import lupos.s00misc.Partition
 import lupos.s00misc.SortHelper
 import lupos.s00misc.XMLElement
-import lupos.s04logicalOperators.HistogramResult
 import lupos.s04logicalOperators.iterator.IteratorBundle
 
 interface IOPBase {

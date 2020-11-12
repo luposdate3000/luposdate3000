@@ -8,8 +8,6 @@ import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.LOPBase
 import lupos.s04logicalOperators.noinput.OPEmptyRow
-import lupos.s04logicalOperators.OPBase
-import lupos.s04logicalOperators.Query
 
 class LOPFilter(query: IQuery, filter: AOPBase, child: IOPBase = OPEmptyRow(query)) : LOPBase(query, EOperatorID.LOPFilterID, "LOPFilter", arrayOf(child, filter), ESortPriority.SAME_AS_CHILD) {
     var dontSplitFilter = 0

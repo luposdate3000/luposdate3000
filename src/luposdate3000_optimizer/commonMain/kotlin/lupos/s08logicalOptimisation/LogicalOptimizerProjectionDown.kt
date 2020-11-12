@@ -6,26 +6,14 @@ import lupos.s04arithmetikOperators.noinput.AOPConstant
 import lupos.s04arithmetikOperators.noinput.AOPValue
 import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s04logicalOperators.IOPBase
+import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.multiinput.LOPJoin
 import lupos.s04logicalOperators.multiinput.LOPMinus
 import lupos.s04logicalOperators.multiinput.LOPUnion
 import lupos.s04logicalOperators.noinput.LOPTriple
 import lupos.s04logicalOperators.noinput.LOPValues
-import lupos.s04logicalOperators.OPBase
-import lupos.s04logicalOperators.Query
-import lupos.s04logicalOperators.singleinput.LOPBind
-import lupos.s04logicalOperators.singleinput.LOPFilter
-import lupos.s04logicalOperators.singleinput.LOPGroup
-import lupos.s04logicalOperators.singleinput.LOPMakeBooleanResult
-import lupos.s04logicalOperators.singleinput.LOPProjection
-import lupos.s04logicalOperators.singleinput.LOPSort
-import lupos.s04logicalOperators.singleinput.LOPSubGroup
-import lupos.s04logicalOperators.singleinput.modifiers.LOPDistinct
-import lupos.s04logicalOperators.singleinput.modifiers.LOPLimit
-import lupos.s04logicalOperators.singleinput.modifiers.LOPOffset
-import lupos.s04logicalOperators.singleinput.modifiers.LOPReduced
-import lupos.s04logicalOperators.singleinput.modifiers.LOPSortAny
-import lupos.s08logicalOptimisation.OptimizerBase
+import lupos.s04logicalOperators.singleinput.*
+import lupos.s04logicalOperators.singleinput.modifiers.*
 
 class LogicalOptimizerProjectionDown(query: Query) : OptimizerBase(query, EOptimizerID.LogicalOptimizerProjectionDownID) {
     override val classname = "LogicalOptimizerProjectionDown"
@@ -55,22 +43,22 @@ class LogicalOptimizerProjectionDown(query: Query) : OptimizerBase(query, EOptim
             }
         } else if (node is LOPMakeBooleanResult) {
             val child = node.getChildren()[0]
-            if (child !is LOPProjection && child.getProvidedVariableNames().size > 0) {
-                node.getChildren()[0] = LOPProjection(query, mutableListOf<AOPVariable>(), node.getChildren()[0])
+            if (child !is LOPProjection && child.getProvidedVariableNames().isNotEmpty()) {
+                node.getChildren()[0] = LOPProjection(query, mutableListOf(), node.getChildren()[0])
                 onChange()
             }
         } else if (node is LOPUnion) {
-            var va = node.getChildren()[0].getProvidedVariableNames()
-            var vb = node.getChildren()[1].getProvidedVariableNames()
-            var variables = va.intersect(vb)
+            val va = node.getChildren()[0].getProvidedVariableNames()
+            val vb = node.getChildren()[1].getProvidedVariableNames()
+            val variables = va.intersect(vb)
             if (!variables.containsAll(va) || !variables.containsAll(vb)) {
                 node.getChildren()[0] = LOPProjection(query, variables.map { AOPVariable(query, it) }.toMutableList(), node.getChildren()[0])
                 node.getChildren()[1] = LOPProjection(query, variables.map { AOPVariable(query, it) }.toMutableList(), node.getChildren()[1])
                 onChange()
             }
         } else if (node is LOPMinus) {
-            var va = node.getChildren()[0].getProvidedVariableNames()
-            var vb = node.getChildren()[1].getProvidedVariableNames()
+            val va = node.getChildren()[0].getProvidedVariableNames()
+            val vb = node.getChildren()[1].getProvidedVariableNames()
             var variables = va.intersect(vb).toMutableList()
             variables.addAll(node.tmpFakeVariables)
             variables = variables.distinct().toMutableList()
@@ -112,7 +100,7 @@ class LogicalOptimizerProjectionDown(query: Query) : OptimizerBase(query, EOptim
                         }
                         for (c in child.getChildren()) {
                             val cc = c as AOPValue
-                            var list = mutableListOf<AOPConstant>()
+                            val list = mutableListOf<AOPConstant>()
                             for (i in 0 until mapping.size) {
                                 list.add(cc.getChildren()[i] as AOPConstant)
                             }
@@ -124,9 +112,9 @@ class LogicalOptimizerProjectionDown(query: Query) : OptimizerBase(query, EOptim
                     is LOPMinus -> {
                         val p0 = child.getChildren()[0].getProvidedVariableNames()
                         val p1 = child.getChildren()[1].getProvidedVariableNames()
-                        var target = node.variables.map { it.name }.distinct().toMutableList()
+                        val target = node.variables.map { it.name }.distinct().toMutableList()
                         target.addAll(p0.intersect(p1))
-                        var newFake = mutableListOf<String>()
+                        val newFake = mutableListOf<String>()
                         for (v in child.tmpFakeVariables) {
                             if (!target.contains(v)) {
                                 onChange()
@@ -145,7 +133,7 @@ class LogicalOptimizerProjectionDown(query: Query) : OptimizerBase(query, EOptim
                         }
                     }
                     is LOPUnion -> {
-                        var variables2 = node.variables.map { it.name }.intersect(child.getChildren()[0].getProvidedVariableNames()).intersect(child.getChildren()[1].getProvidedVariableNames())
+                        val variables2 = node.variables.map { it.name }.intersect(child.getChildren()[0].getProvidedVariableNames()).intersect(child.getChildren()[1].getProvidedVariableNames())
                         if (!variables2.containsAll(child.getChildren()[0].getProvidedVariableNames()) || !variables2.containsAll(child.getChildren()[1].getProvidedVariableNames())) {
                             child.getChildren()[0] = LOPProjection(query, variables2.map { AOPVariable(query, it) }.toMutableList(), child.getChildren()[0])
                             child.getChildren()[1] = LOPProjection(query, variables2.map { AOPVariable(query, it) }.toMutableList(), child.getChildren()[1])

@@ -4,18 +4,16 @@ import lupos.s00misc.EOptimizerID
 import lupos.s03resultRepresentation.ResultSetDictionaryExt
 import lupos.s04arithmetikOperators.noinput.AOPConstant
 import lupos.s04logicalOperators.IOPBase
+import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.multiinput.LOPJoin
 import lupos.s04logicalOperators.multiinput.LOPMinus
 import lupos.s04logicalOperators.multiinput.LOPUnion
 import lupos.s04logicalOperators.noinput.OPEmptyRow
 import lupos.s04logicalOperators.noinput.OPNothing
-import lupos.s04logicalOperators.OPBase
-import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.singleinput.LOPFilter
 import lupos.s04logicalOperators.singleinput.LOPMakeBooleanResult
 import lupos.s04logicalOperators.singleinput.LOPNOOP
 import lupos.s04logicalOperators.singleinput.LOPSubGroup
-import lupos.s08logicalOptimisation.OptimizerBase
 
 class LogicalOptimizerRemoveNOOP(query: Query) : OptimizerBase(query, EOptimizerID.LogicalOptimizerRemoveNOOPID) {
     override val classname = "LogicalOptimizerRemoveNOOP"
@@ -27,7 +25,7 @@ class LogicalOptimizerRemoveNOOP(query: Query) : OptimizerBase(query, EOptimizer
         } else if (node is LOPJoin) {
             if (!node.optional) {
                 for (i in node.getChildren().indices) {
-                    var c = node.getChildren()[i]
+                    val c = node.getChildren()[i]
                     if (c is OPNothing) {
                         res = OPNothing(query, node.getProvidedVariableNames())
                         onChange()
@@ -75,7 +73,7 @@ class LogicalOptimizerRemoveNOOP(query: Query) : OptimizerBase(query, EOptimizer
                 res = OPNothing(query, node.getProvidedVariableNames())
                 onChange()
             }
-        } else if (node.getChildren().size > 0 && node !is LOPMakeBooleanResult) {
+        } else if (node.getChildren().isNotEmpty() && node !is LOPMakeBooleanResult) {
             for (c in node.getChildren()) {
                 if (c is OPNothing) {
                     res = OPNothing(query, node.getProvidedVariableNames())

@@ -158,9 +158,9 @@ abstract class TripleStoreLocalBase(@JvmField val name: String) : ITripleStoreLo
         for (idx in 0 until dataDistinct.size) {
             var list = pendingModificationsInsert[idx][query.getTransactionID()]
             if (list != null) {
-                var tmp = IntArray(list.size)
+                val tmp = IntArray(list.size)
                 var i = 0
-                var it = list.iterator()
+                val it = list.iterator()
                 while (it.hasNext()) {
                     tmp[i] = it.next()
                     i++
@@ -170,9 +170,9 @@ abstract class TripleStoreLocalBase(@JvmField val name: String) : ITripleStoreLo
             }
             list = pendingModificationsRemove[idx][query.getTransactionID()]
             if (list != null) {
-                var tmp = IntArray(list.size)
+                val tmp = IntArray(list.size)
                 var i = 0
-                var it = list.iterator()
+                val it = list.iterator()
                 while (it.hasNext()) {
                     tmp[i] = it.next()
                     i++
@@ -200,13 +200,13 @@ abstract class TripleStoreLocalBase(@JvmField val name: String) : ITripleStoreLo
         SanityCheck.check { dataModify.size == 3 }
         for (idx in 0 until dataDistinct.size) {
             var tmp: MutableList<Int>?
-            if (type == EModifyType.INSERT) {
-                tmp = pendingModificationsInsert[idx][query.getTransactionID()]
+            tmp = if (type == EModifyType.INSERT) {
+                pendingModificationsInsert[idx][query.getTransactionID()]
             } else {
-                tmp = pendingModificationsRemove[idx][query.getTransactionID()]
+                pendingModificationsRemove[idx][query.getTransactionID()]
             }
             if (tmp == null) {
-                tmp = mutableListOf<Int>()
+                tmp = mutableListOf()
                 if (type == EModifyType.INSERT) {
                     pendingModificationsInsert[idx][query.getTransactionID()] = tmp
                 } else {
@@ -243,13 +243,13 @@ abstract class TripleStoreLocalBase(@JvmField val name: String) : ITripleStoreLo
         SanityCheck.check { dataModify.size == 3 }
         for (idx in 0 until dataDistinct.size) {
             var tmp: MutableList<Int>?
-            if (type == EModifyType.INSERT) {
-                tmp = pendingModificationsInsert[idx][query.getTransactionID()]
+            tmp = if (type == EModifyType.INSERT) {
+                pendingModificationsInsert[idx][query.getTransactionID()]
             } else {
-                tmp = pendingModificationsRemove[idx][query.getTransactionID()]
+                pendingModificationsRemove[idx][query.getTransactionID()]
             }
             if (tmp == null) {
-                tmp = mutableListOf<Int>()
+                tmp = mutableListOf()
                 if (type == EModifyType.INSERT) {
                     pendingModificationsInsert[idx][query.getTransactionID()] = tmp
                 } else {

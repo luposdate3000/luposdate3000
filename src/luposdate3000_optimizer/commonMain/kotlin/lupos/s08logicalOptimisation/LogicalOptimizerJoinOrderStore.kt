@@ -4,7 +4,6 @@ import lupos.s00misc.HistogramNotImplementedException
 import lupos.s00misc.SanityCheck
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.multiinput.LOPJoin
-import lupos.s04logicalOperators.OPBase
 
 object LogicalOptimizerJoinOrderStore {
     /*suspend*/ operator fun invoke(allChilds: List<IOPBase>, root: LOPJoin): IOPBase? {
@@ -53,7 +52,7 @@ object LogicalOptimizerJoinOrderStore {
                     }
                 }
             }
-            var allVariablesOrdered = mutableListOf<String>()
+            val allVariablesOrdered = mutableListOf<String>()
             allVariablesOrdered.addAll(lastChild.getProvidedVariableNames())
             val result = mutableListOf<IOPBase>()
             while (queue.size > 0) {
@@ -61,7 +60,7 @@ object LogicalOptimizerJoinOrderStore {
                 var maxI = 0
                 var i = 0
                 while (i < queue.size) {
-                    var provided = queue[i].getProvidedVariableNames()
+                    val provided = queue[i].getProvidedVariableNames()
                     var score = provided.size
                     loop@ for (p in provided) {
                         for (s in allVariablesOrdered.indices) {
@@ -77,8 +76,8 @@ object LogicalOptimizerJoinOrderStore {
                     }
                     i++
                 }
-                var node = queue.removeAt(maxI)
-                var tmp = mutableListOf<String>()//push the variables of this node the the front of preferred variables ... this way, consecutive joins use the same variables.
+                val node = queue.removeAt(maxI)
+                val tmp = mutableListOf<String>()//push the variables of this node the the front of preferred variables ... this way, consecutive joins use the same variables.
                 tmp.addAll(node.getProvidedVariableNames())
                 allVariablesOrdered.removeAll(tmp)
                 tmp.addAll(allVariablesOrdered)

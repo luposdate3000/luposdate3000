@@ -11,8 +11,8 @@ open class RowIteratorMerge(@JvmField val a: RowIterator, @JvmField val b: RowIt
             var buf1 = IntArray(columns.size * MERGE_SORT_MIN_ROWS)
             var buf2 = IntArray(columns.size * MERGE_SORT_MIN_ROWS)
             var done = false
-            var resultList = mutableListOf<RowIterator?>()
-            var columnMapping = IntArray(columns.size)
+            val resultList = mutableListOf<RowIterator?>()
+            val columnMapping = IntArray(columns.size)
             for (i in 0 until columns.size) {
                 for (j in 0 until columns.size) {
                     if (a.columns[j] == columns[i]) {
@@ -33,7 +33,7 @@ open class RowIteratorMerge(@JvmField val a: RowIterator, @JvmField val b: RowIt
                         buf1[i++] = a.buf[next + columnMapping[j]]
                     }
                 }
-                var total = i / columns.size
+                val total = i / columns.size
                 var off: Int
                 var shift = 0
                 var size = 1 shl shift
@@ -44,10 +44,10 @@ open class RowIteratorMerge(@JvmField val a: RowIterator, @JvmField val b: RowIt
                     shift++
                     size = 1 shl shift
                     while (off < total) {
-                        if (off + size <= total) {
-                            count = size
+                        count = if (off + size <= total) {
+                            size
                         } else {
-                            count = total - off
+                            total - off
                         }
                         mid = size / 2
                         val aEnd = (off + mid) * columns.size
@@ -109,11 +109,11 @@ open class RowIteratorMerge(@JvmField val a: RowIterator, @JvmField val b: RowIt
                         }
                         off += size
                     }
-                    var t = buf1
+                    val t = buf1
                     buf1 = buf2
                     buf2 = t
                 }
-                var it = RowIteratorBuf(buf1, columns, i)
+                val it = RowIteratorBuf(buf1, columns, i)
                 if (i > 0 || resultList.size == 0) {
                     if (resultList.size == 0) {
                         resultList.add(it)
@@ -266,7 +266,7 @@ open class RowIteratorMerge(@JvmField val a: RowIterator, @JvmField val b: RowIt
         }
     }
 
-    /*inline*/ fun compare(/*crossinline*/ actionA: () -> Unit, /*crossinline*/ actionB: () -> Unit) {
+    /*inline*/ private fun compare(/*crossinline*/ actionA: () -> Unit, /*crossinline*/ actionB: () -> Unit) {
         var i = 0
         while (i < compCount) {
             val cmp = comparator.compare(a.buf[aIdx + i], b.buf[bIdx + i])

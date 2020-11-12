@@ -1,25 +1,17 @@
 package lupos.s11outputResult
 
-import lupos.s00misc.IMyPrintWriter
-import lupos.s00misc.MyLock
-import lupos.s00misc.MyPrintWriter
-import lupos.s00misc.Parallel
-import lupos.s00misc.ParallelJob
-import lupos.s00misc.Partition
-import lupos.s00misc.SanityCheck
+import lupos.s00misc.*
 import lupos.s03resultRepresentation.IResultSetDictionary
 import lupos.s03resultRepresentation.ResultSetDictionaryExt
 import lupos.s04logicalOperators.IOPBase
+import lupos.s04logicalOperators.OPBaseCompound
 import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.s04logicalOperators.noinput.OPNothing
-import lupos.s04logicalOperators.OPBase
-import lupos.s04logicalOperators.OPBaseCompound
-import lupos.s04logicalOperators.Query
 import lupos.s09physicalOperators.partition.POPMergePartition
 import lupos.s09physicalOperators.partition.POPMergePartitionOrderedByIntId
 
 object QueryResultToXMLStream {
-    internal /*suspend*/ fun writeValue(valueID: Int, columnName: String, dictionary: IResultSetDictionary, output: IMyPrintWriter) {
+    private /*suspend*/ fun writeValue(valueID: Int, columnName: String, dictionary: IResultSetDictionary, output: IMyPrintWriter) {
         dictionary.getValue(valueID, { value ->
             output.print("   <binding name=\"")
             output.print(columnName)
@@ -88,7 +80,7 @@ object QueryResultToXMLStream {
         )
     }
 
-    internal /*suspend*/ fun writeRow(variables: Array<String>, rowBuf: IntArray, dictionary: IResultSetDictionary, output: IMyPrintWriter) {
+    private /*suspend*/ fun writeRow(variables: Array<String>, rowBuf: IntArray, dictionary: IResultSetDictionary, output: IMyPrintWriter) {
         output.print("  <result>\n")
         for (variableIndex in 0 until variables.size) {
             writeValue(rowBuf[variableIndex], variables[variableIndex], dictionary, output)
@@ -96,7 +88,7 @@ object QueryResultToXMLStream {
         output.print("  </result>\n")
     }
 
-    internal /*suspend*/ inline fun writeAllRows(variables: Array<String>, columns: Array<ColumnIterator>, dictionary: IResultSetDictionary, lock: MyLock?, output: IMyPrintWriter) {
+    /*suspend*/ private inline fun writeAllRows(variables: Array<String>, columns: Array<ColumnIterator>, dictionary: IResultSetDictionary, lock: MyLock?, output: IMyPrintWriter) {
         val rowBuf = IntArray(variables.size)
         val resultWriter = MyPrintWriter()
         loop@ while (true) {
@@ -118,7 +110,7 @@ object QueryResultToXMLStream {
         }
     }
 
-    internal /*suspend*/ fun writeNodeResult(variables: Array<String>, node: IOPBase, output: IMyPrintWriter, parent: Partition = Partition()) {
+    private /*suspend*/ fun writeNodeResult(variables: Array<String>, node: IOPBase, output: IMyPrintWriter, parent: Partition = Partition()) {
         if ((node is POPMergePartition && node.partitionCount > 1) || (node is POPMergePartitionOrderedByIntId && node.partitionCount > 1)) {
             var partitionCount = 0
             var partitionVariable = ""
@@ -165,14 +157,14 @@ object QueryResultToXMLStream {
             nodes = Array(rootNode.children.size) { rootNode.children[it] }
             columnProjectionOrder = rootNode.columnProjectionOrder
         } else {
-            nodes = arrayOf<IOPBase>(rootNode)
+            nodes = arrayOf(rootNode)
         }
         for (i in 0 until nodes.size) {
             val node = nodes[i]
             output.print("<sparql xmlns=\"http://www.w3.org/2005/sparql-results#\">\n")
             if (node is OPNothing) {
                 val variables = node.getProvidedVariableNames()
-                if (variables.size == 0) {
+                if (variables.isEmpty()) {
                     output.print(" <head/>\n")
                 } else {
                     output.print(" <head>\n")
@@ -186,7 +178,7 @@ object QueryResultToXMLStream {
                 output.print(" <results/>\n")
             } else {
                 val columnNames: List<String>
-                if (columnProjectionOrder.size > i && columnProjectionOrder[i].size > 0) {
+                if (columnProjectionOrder.size > i && columnProjectionOrder[i].isNotEmpty()) {
                     columnNames = columnProjectionOrder[i]
                     SanityCheck.check({ node.getProvidedVariableNames().containsAll(columnNames) }, { "${columnNames.map { it }} vs ${node.getProvidedVariableNames()}" })
                 } else {
@@ -202,7 +194,7 @@ object QueryResultToXMLStream {
                     output.print("</boolean>\n")
                     child.columns["?boolean"]!!.close()
                 } else {
-                    if (variables.size == 0) {
+                    if (variables.isEmpty()) {
                         val child = node.evaluate(Partition())
                         output.print(" <head/>\n <results>\n")
                         for (j in 0 until child.count()) {

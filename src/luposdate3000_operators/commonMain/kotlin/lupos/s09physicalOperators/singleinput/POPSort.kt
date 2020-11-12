@@ -1,24 +1,16 @@
 package lupos.s09physicalOperators.singleinput
 
-import kotlin.jvm.JvmField
-import lupos.s00misc.EOperatorID
-import lupos.s00misc.ESortPriority
-import lupos.s00misc.Partition
-import lupos.s00misc.SanityCheck
-import lupos.s00misc.XMLElement
+import lupos.s00misc.*
 import lupos.s03resultRepresentation.ValueComparatorASC
 import lupos.s03resultRepresentation.ValueComparatorDESC
 import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
-import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.s04logicalOperators.iterator.ColumnIteratorMerge
 import lupos.s04logicalOperators.iterator.IteratorBundle
-import lupos.s04logicalOperators.iterator.RowIterator
 import lupos.s04logicalOperators.iterator.RowIteratorMerge
-import lupos.s04logicalOperators.OPBase
-import lupos.s04logicalOperators.Query
 import lupos.s09physicalOperators.POPBase
+import kotlin.jvm.JvmField
 
 class POPSort(query: IQuery, projectedVariables: List<String>, @JvmField val sortBy: Array<AOPVariable>, @JvmField val sortOrder: Boolean, child: IOPBase) : POPBase(query, projectedVariables, EOperatorID.POPSortID, "POPSort", arrayOf(child), ESortPriority.SORT) {
     override fun getPartitionCount(variable: String): Int {
@@ -31,20 +23,19 @@ class POPSort(query: IQuery, projectedVariables: List<String>, @JvmField val sor
     override fun getRequiredVariableNames(): List<String> = sortBy.map { it.name }
     override fun toSparql(): String {
         val variables = Array(sortBy.size) { sortBy[it].name }
-        var child = children[0]
-        SanityCheck.check({ child !is POPSort })
+        val child = children[0]
+        SanityCheck.check { child !is POPSort }
         val sparql = child.toSparql()
-        var res: String
-        if (sparql.startsWith("{SELECT ")) {
-            res = sparql.substring(0, sparql.length - 1)
+        var res: String = if (sparql.startsWith("{SELECT ")) {
+            sparql.substring(0, sparql.length - 1)
         } else {
-            res = "{SELECT *{" + sparql + "}"
+            "{SELECT *{$sparql}"
         }
         res += " ORDER BY "
-        if (sortOrder) {
-            res += "ASC("
+        res += if (sortOrder) {
+            "ASC("
         } else {
-            res += "DESC("
+            "DESC("
         }
         for (v in variables) {
             res += AOPVariable(query, v).toSparql() + " "
@@ -83,19 +74,18 @@ class POPSort(query: IQuery, projectedVariables: List<String>, @JvmField val sor
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
         val child = children[0].evaluate(parent)
         val variablesOut = getProvidedVariableNames()
-        var comparator: Comparator<Int>
-        if (sortOrder) {
-            comparator = ValueComparatorASC(query)
+        val comparator: Comparator<Int> = if (sortOrder) {
+            ValueComparatorASC(query)
         } else {
-            comparator = ValueComparatorDESC(query)
+            ValueComparatorDESC(query)
         }
-        if (variablesOut.size == 0) {
+        if (variablesOut.isEmpty()) {
             return child
         } else if (variablesOut.size == 1) {
-            if (sortBy.size == 1) {
-                return IteratorBundle(mapOf(variablesOut[0] to ColumnIteratorMerge(child.columns[variablesOut[0]]!!, comparator)))
+            return if (sortBy.size == 1) {
+                IteratorBundle(mapOf(variablesOut[0] to ColumnIteratorMerge(child.columns[variablesOut[0]]!!, comparator)))
             } else {
-                return IteratorBundle(mapOf(variablesOut[0] to ColumnIteratorMerge(child.columns[variablesOut[0]]!!)))
+                IteratorBundle(mapOf(variablesOut[0] to ColumnIteratorMerge(child.columns[variablesOut[0]]!!)))
             }
         } else {
             val columnNamesTmp = mutableListOf<String>()

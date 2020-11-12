@@ -1,33 +1,30 @@
 package lupos.s09physicalOperators.multiinput
 
-import kotlin.jvm.JvmField
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.ESortPriority
 import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
-import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.ResultSetDictionaryExt
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.s04logicalOperators.iterator.ColumnIteratorEmpty
 import lupos.s04logicalOperators.iterator.IteratorBundle
-import lupos.s04logicalOperators.OPBase
-import lupos.s04logicalOperators.Query
 import lupos.s09physicalOperators.POPBase
+import kotlin.jvm.JvmField
 
 class POPJoinMergeSingleColumn(query: IQuery, projectedVariables: List<String>, childA: IOPBase, childB: IOPBase, @JvmField val optional: Boolean) : POPBase(query, projectedVariables, EOperatorID.POPJoinMergeSingleColumnID, "POPJoinMergeSingleColumn", arrayOf(childA, childB), ESortPriority.JOIN) {
     override fun getPartitionCount(variable: String): Int {
-        if (children[0].getProvidedVariableNames().contains(variable)) {
+        return if (children[0].getProvidedVariableNames().contains(variable)) {
             if (children[1].getProvidedVariableNames().contains(variable)) {
                 SanityCheck.check { children[0].getPartitionCount(variable) == children[1].getPartitionCount(variable) }
-                return children[0].getPartitionCount(variable)
+                children[0].getPartitionCount(variable)
             } else {
-                return children[0].getPartitionCount(variable)
+                children[0].getPartitionCount(variable)
             }
         } else {
             if (children[1].getProvidedVariableNames().contains(variable)) {
-                return children[1].getPartitionCount(variable)
+                children[1].getPartitionCount(variable)
             } else {
                 throw Exception("unknown variable $variable")
             }
@@ -138,7 +135,7 @@ class POPJoinMergeSingleColumn(query: IQuery, projectedVariables: List<String>, 
         internal /*suspend*/ inline fun _close() {
             if (label != 0) {
                 label = 0
-                SanityCheck.println({ "\$uuid close ColumnIteratorJoinMergeSingleColumn" })
+                SanityCheck.println { "\$uuid close ColumnIteratorJoinMergeSingleColumn" }
                 child0.close()
                 child1.close()
             }
@@ -164,7 +161,7 @@ class POPJoinMergeSingleColumn(query: IQuery, projectedVariables: List<String>, 
         SanityCheck.check { children[0].getProvidedVariableNames()[0] == projectedVariables[0] }
         SanityCheck.check { children[1].getProvidedVariableNames().size == 1 }
         SanityCheck.check { children[1].getProvidedVariableNames()[0] == projectedVariables[0] }
-        SanityCheck.println({ "$uuid open $classname" })
+        SanityCheck.println { "$uuid open $classname" }
         val child0 = children[0].evaluate(parent).columns[projectedVariables[0]]!!
         val child1 = children[1].evaluate(parent).columns[projectedVariables[0]]!!
         val outMap = mutableMapOf<String, ColumnIterator>()
@@ -174,7 +171,7 @@ class POPJoinMergeSingleColumn(query: IQuery, projectedVariables: List<String>, 
             outMap[projectedVariables[0]] = ColumnIteratorImpl(child0, child1, a, b)
         } else {
             outMap[projectedVariables[0]] = ColumnIteratorEmpty()
-            SanityCheck.println({ "$uuid close $classname" })
+            SanityCheck.println { "$uuid close $classname" }
             child0.close()
             child1.close()
         }

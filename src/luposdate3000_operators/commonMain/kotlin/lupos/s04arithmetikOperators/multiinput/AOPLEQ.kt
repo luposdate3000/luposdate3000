@@ -9,8 +9,6 @@ import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.IteratorBundle
-import lupos.s04logicalOperators.OPBase
-import lupos.s04logicalOperators.Query
 
 class AOPLEQ(query: IQuery, childA: AOPBase, childB: AOPBase) : AOPBinaryOperationFixedName(query, EOperatorID.AOPLEQID, "AOPLEQ", arrayOf(childA, childB)) {
     override fun toSparql() = "(" + children[0].toSparql() + " <= " + children[1].toSparql() + ")"
@@ -23,13 +21,13 @@ class AOPLEQ(query: IQuery, childA: AOPBase, childB: AOPBase) : AOPBinaryOperati
             val a = childA()
             val b = childB()
             try {
-                if (a.compareTo(b) <= 0) {
-                    res = ResultSetDictionaryExt.booleanTrueValue2
+                res = if (a <= b) {
+                    ResultSetDictionaryExt.booleanTrueValue2
                 } else {
-                    res = ResultSetDictionaryExt.booleanFalseValue2
+                    ResultSetDictionaryExt.booleanFalseValue2
                 }
             } catch (e: Throwable) {
-                SanityCheck.println({ "TODO exception 27" })
+                SanityCheck.println { "TODO exception 27" }
                 e.printStackTrace()
             }
 /*return*/res
@@ -44,14 +42,14 @@ class AOPLEQ(query: IQuery, childA: AOPBase, childB: AOPBase) : AOPBinaryOperati
             val a = childA()
             val b = childB()
             try {
-                if (a.compareTo(b) <= 0) {
-                    res = ResultSetDictionaryExt.booleanTrueValue
+                res = if (a <= b) {
+                    ResultSetDictionaryExt.booleanTrueValue
                 } else {
-                    res = ResultSetDictionaryExt.booleanFalseValue
+                    ResultSetDictionaryExt.booleanFalseValue
                 }
             } catch (e: EvaluationException) {
             } catch (e: Throwable) {
-                SanityCheck.println({ "TODO exception 28" })
+                SanityCheck.println { "TODO exception 28" }
                 e.printStackTrace()
             }
 /*return*/res

@@ -21,12 +21,12 @@ class RowIteratorBuf1(buf: IntArray, columns: Array<String>, val size: Int) : Ro
         SanityCheck.check { size <= buf.size }
         SanityCheck.check { (buf.size % columns.size) == 0 }
         next = {
-            var res = offset
-            var tmp = offset + columns.size
-            if (tmp >= size) {
-                offset = -1
+            val res = offset
+            val tmp = offset + columns.size
+            offset = if (tmp >= size) {
+                -1
             } else {
-                offset = tmp
+                tmp
             }
             /*return*/ res
         }

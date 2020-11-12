@@ -1,6 +1,5 @@
 package lupos.s04logicalOperators.noinput
 
-import kotlin.jvm.JvmField
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.ESortPriority
 import lupos.s00misc.XMLElement
@@ -11,8 +10,7 @@ import lupos.s04logicalOperators.HistogramResult
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.LOPBase
-import lupos.s04logicalOperators.OPBase
-import lupos.s04logicalOperators.Query
+import kotlin.jvm.JvmField
 
 class LOPValues(query: IQuery, @JvmField val variables: List<AOPVariable>, values: List<AOPValue>) : LOPBase(query, EOperatorID.LOPValuesID, "LOPValues", Array(values.size) { values[it] }, ESortPriority.PREVENT_ANY) {
     override fun getProvidedVariableNames(): List<String> {
@@ -35,10 +33,10 @@ class LOPValues(query: IQuery, @JvmField val variables: List<AOPVariable>, value
     override fun equals(other: Any?) = other is LOPValues && variables == other.variables && children.contentEquals(other.children)
     override fun cloneOP(): IOPBase = LOPValues(query, variables, List(children.size) { children[it].cloneOP() as AOPValue })
     override /*suspend*/ fun calculateHistogram(): HistogramResult {
-        var res = HistogramResult()
-        var p = getProvidedVariableNames()
+        val res = HistogramResult()
+        val p = getProvidedVariableNames()
         for (i in 0 until p.size) {
-            var localSet = mutableSetOf<Int>()
+            val localSet = mutableSetOf<Int>()
             for (row in children) {
                 localSet.add((row.getChildren()[i] as AOPConstant).value)
             }

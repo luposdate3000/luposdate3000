@@ -9,22 +9,20 @@ import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.s04logicalOperators.iterator.ColumnIteratorMultiIterator
 import lupos.s04logicalOperators.iterator.IteratorBundle
-import lupos.s04logicalOperators.OPBase
-import lupos.s04logicalOperators.Query
 import lupos.s09physicalOperators.POPBase
 
 class POPUnion(query: IQuery, projectedVariables: List<String>, childA: IOPBase, childB: IOPBase) : POPBase(query, projectedVariables, EOperatorID.POPUnionID, "POPUnion", arrayOf(childA, childB), ESortPriority.UNION) {
     override fun getPartitionCount(variable: String): Int {
-        if (children[0].getProvidedVariableNames().contains(variable)) {
+        return if (children[0].getProvidedVariableNames().contains(variable)) {
             if (children[1].getProvidedVariableNames().contains(variable)) {
                 SanityCheck.check { children[0].getPartitionCount(variable) == children[1].getPartitionCount(variable) }
-                return children[0].getPartitionCount(variable)
+                children[0].getPartitionCount(variable)
             } else {
-                return children[0].getPartitionCount(variable)
+                children[0].getPartitionCount(variable)
             }
         } else {
             if (children[1].getProvidedVariableNames().contains(variable)) {
-                return children[1].getPartitionCount(variable)
+                children[1].getPartitionCount(variable)
             } else {
                 throw Exception("unknown variable $variable")
             }
@@ -49,14 +47,14 @@ class POPUnion(query: IQuery, projectedVariables: List<String>, childA: IOPBase,
         val outMap = mutableMapOf<String, ColumnIterator>()
         val childA = children[0].evaluate(parent)
         val childB = children[1].evaluate(parent)
-        if (variables.size > 0) {
+        if (variables.isNotEmpty()) {
             for (variable in variables) {
                 outMap[variable] = ColumnIteratorMultiIterator(listOf(childA.columns[variable]!!, childB.columns[variable]!!))
             }
             return IteratorBundle(outMap)
         } else {
             SanityCheck.check { childA.hasCountMode() && childB.hasCountMode() }
-            var res = object : IteratorBundle(0) {
+            return object : IteratorBundle(0) {
                 override /*suspend*/ fun hasNext2(): Boolean {
                     return childA.hasNext2() || childB.hasNext2()
                 }
@@ -66,7 +64,6 @@ class POPUnion(query: IQuery, projectedVariables: List<String>, childA: IOPBase,
                     childB.hasNext2Close()
                 }
             }
-            return res
         }
     }
 }

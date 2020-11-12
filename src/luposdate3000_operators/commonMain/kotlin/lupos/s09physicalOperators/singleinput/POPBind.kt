@@ -23,10 +23,10 @@ import lupos.s09physicalOperators.POPBase
 
 class POPBind(query: IQuery, projectedVariables: List<String>, @JvmField val name: AOPVariable, value: AOPBase, child: IOPBase) : POPBase(query, projectedVariables, EOperatorID.POPBindID, "POPBind", arrayOf(child, value), ESortPriority.BIND) {
     override fun getPartitionCount(variable: String): Int {
-        if (variable == name.name) {
-            return 1
+        return if (variable == name.name) {
+            1
         } else {
-            return children[0].getPartitionCount(variable)
+            children[0].getPartitionCount(variable)
         }
     }
 
@@ -59,7 +59,7 @@ class POPBind(query: IQuery, projectedVariables: List<String>, @JvmField val nam
         val columnsLocal = Array<ColumnIteratorQueue>(variablesLocal.size) { ColumnIteratorQueueEmpty() }
         var expression: () -> ValueDefinition = { ValueError() }
         val columnsOut = Array<ColumnIteratorQueue>(variablesOut.size) { ColumnIteratorQueueEmpty() }
-        if (variablesLocal.size == 1 && children[0].getProvidedVariableNames().size == 0) {
+        if (variablesLocal.size == 1 && children[0].getProvidedVariableNames().isEmpty()) {
             outMap[name.name] = ColumnIteratorRepeatValue(child.count(), query.getDictionary().createValue(expression()))
         } else {
             var boundIndex = -1
@@ -120,7 +120,7 @@ class POPBind(query: IQuery, projectedVariables: List<String>, @JvmField val nam
             columnsOut[it] = localMap[variablesOut[it]] as ColumnIteratorQueue
         }
         expression = (children[1] as AOPBase).evaluate(IteratorBundle(localMap))
-        SanityCheck.check { variablesLocal.size != 0 }
+        SanityCheck.check { variablesLocal.isNotEmpty() }
         return IteratorBundle(outMap)
     }
 }

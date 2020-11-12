@@ -6,7 +6,7 @@ import java.math.RoundingMode
 
 actual class MyBigDecimal {
     val s: String
-    val v: BigDecimal
+    private val v: BigDecimal
 
     actual constructor(s1: String) {
         v = BigDecimal(s1)
@@ -45,34 +45,34 @@ actual class MyBigDecimal {
     }
 
     actual operator fun plus(other: MyBigDecimal): MyBigDecimal {
-        try {
-            return MyBigDecimal(v.add(other.v, MathContext.UNLIMITED))
+        return try {
+            MyBigDecimal(v.add(other.v, MathContext.UNLIMITED))
         } catch (e: ArithmeticException) {
-            return MyBigDecimal(v.add(other.v, MathContext.DECIMAL128))
+            MyBigDecimal(v.add(other.v, MathContext.DECIMAL128))
         }
     }
 
     actual operator fun minus(other: MyBigDecimal): MyBigDecimal {
-        try {
-            return MyBigDecimal(v.subtract(other.v, MathContext.UNLIMITED))
+        return try {
+            MyBigDecimal(v.subtract(other.v, MathContext.UNLIMITED))
         } catch (e: ArithmeticException) {
-            return MyBigDecimal(v.subtract(other.v, MathContext.DECIMAL128))
+            MyBigDecimal(v.subtract(other.v, MathContext.DECIMAL128))
         }
     }
 
     actual operator fun times(other: MyBigDecimal): MyBigDecimal {
-        try {
-            return MyBigDecimal(v.multiply(other.v, MathContext.UNLIMITED))
+        return try {
+            MyBigDecimal(v.multiply(other.v, MathContext.UNLIMITED))
         } catch (e: ArithmeticException) {
-            return MyBigDecimal(v.multiply(other.v, MathContext.DECIMAL128))
+            MyBigDecimal(v.multiply(other.v, MathContext.DECIMAL128))
         }
     }
 
     actual operator fun div(other: MyBigDecimal): MyBigDecimal {
-        try {
-            return MyBigDecimal(v.divide(other.v, MathContext.UNLIMITED))
+        return try {
+            MyBigDecimal(v.divide(other.v, MathContext.UNLIMITED))
         } catch (e: ArithmeticException) {
-            return MyBigDecimal(v.divide(other.v, MathContext.DECIMAL128))
+            MyBigDecimal(v.divide(other.v, MathContext.DECIMAL128))
         }
     }
 

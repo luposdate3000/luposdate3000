@@ -2,8 +2,6 @@ import lupos.s00misc.DateHelperRelative
 import lupos.s00misc.File
 import lupos.s00misc.JenaWrapper
 import lupos.s00misc.Parallel
-import lupos.s15tripleStoreDistributed.distributedTripleStore
-import lupos.s15tripleStoreDistributed.DistributedTripleStore
 import lupos.s16network.LuposdateEndpoint
 
 enum class Datasource {

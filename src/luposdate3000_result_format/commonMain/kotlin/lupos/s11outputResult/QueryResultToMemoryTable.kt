@@ -1,28 +1,21 @@
 package lupos.s11outputResult
 
-import lupos.s00misc.MemoryTable
-import lupos.s00misc.MyLock
-import lupos.s00misc.Parallel
-import lupos.s00misc.ParallelJob
-import lupos.s00misc.Partition
-import lupos.s00misc.SanityCheck
+import lupos.s00misc.*
 import lupos.s03resultRepresentation.IResultSetDictionary
 import lupos.s03resultRepresentation.ResultSetDictionaryExt
 import lupos.s04logicalOperators.IOPBase
+import lupos.s04logicalOperators.OPBaseCompound
 import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.s04logicalOperators.noinput.OPNothing
-import lupos.s04logicalOperators.OPBase
-import lupos.s04logicalOperators.OPBaseCompound
-import lupos.s04logicalOperators.Query
 import lupos.s09physicalOperators.partition.POPMergePartition
 import lupos.s09physicalOperators.partition.POPMergePartitionOrderedByIntId
 
 object QueryResultToMemoryTable {
-    internal /*suspend*/ fun writeRow(variables: Array<String>, rowBuf: IntArray, dictionary: IResultSetDictionary, output: MemoryTable) {
+    private /*suspend*/ fun writeRow(variables: Array<String>, rowBuf: IntArray, dictionary: IResultSetDictionary, output: MemoryTable) {
         output.data.add(IntArray(variables.size) { rowBuf[it] })
     }
 
-    internal /*suspend*/ inline fun writeAllRows(variables: Array<String>, columns: Array<ColumnIterator>, dictionary: IResultSetDictionary, lock: MyLock?, output: MemoryTable) {
+    /*suspend*/ private inline fun writeAllRows(variables: Array<String>, columns: Array<ColumnIterator>, dictionary: IResultSetDictionary, lock: MyLock?, output: MemoryTable) {
         val rowBuf = IntArray(variables.size)
         loop@ while (true) {
             for (variableIndex in 0 until variables.size) {
@@ -41,7 +34,7 @@ object QueryResultToMemoryTable {
         }
     }
 
-    internal /*suspend*/ fun writeNodeResult(variables: Array<String>, node: IOPBase, output: MemoryTable, parent: Partition = Partition()) {
+    private /*suspend*/ fun writeNodeResult(variables: Array<String>, node: IOPBase, output: MemoryTable, parent: Partition = Partition()) {
         if ((node is POPMergePartition && node.partitionCount > 1) || (node is POPMergePartitionOrderedByIntId && node.partitionCount > 1)) {
             var partitionCount = 0
             var partitionVariable = ""
@@ -88,19 +81,19 @@ object QueryResultToMemoryTable {
             nodes = Array(rootNode.children.size) { rootNode.children[it] }
             columnProjectionOrder = rootNode.columnProjectionOrder
         } else {
-            nodes = arrayOf<IOPBase>(rootNode)
+            nodes = arrayOf(rootNode)
         }
-        var resultList = mutableListOf<MemoryTable>()
+        val resultList = mutableListOf<MemoryTable>()
         for (i in 0 until nodes.size) {
             val node = nodes[i]
             if (node is OPNothing) {
                 val variables = node.getProvidedVariableNames()
-                if (variables.size > 0) {
+                if (variables.isNotEmpty()) {
                     resultList.add(MemoryTable(variables.toTypedArray()))
                 }
             } else {
                 val columnNames: List<String>
-                if (columnProjectionOrder.size > i && columnProjectionOrder[i].size > 0) {
+                if (columnProjectionOrder.size > i && columnProjectionOrder[i].isNotEmpty()) {
                     columnNames = columnProjectionOrder[i]
                     SanityCheck.check({ node.getProvidedVariableNames().containsAll(columnNames) }, { "${columnNames.map { it }} vs ${node.getProvidedVariableNames()}" })
                 } else {
@@ -110,14 +103,14 @@ object QueryResultToMemoryTable {
                 if (variables.size == 1 && variables[0] == "?boolean") {
                     val child = node.evaluate(Partition())
                     val value = node.getQuery().getDictionary().getValue(child.columns["?boolean"]!!.next())
-                    val res = MemoryTable(Array<String>(0) { "" })
+                    val res = MemoryTable(Array(0) { "" })
                     res.booleanResult = value.toBoolean()
                     resultList.add(res)
                     child.columns["?boolean"]!!.close()
                 } else {
-                    if (variables.size == 0) {
+                    if (variables.isEmpty()) {
                         val child = node.evaluate(Partition())
-                        val res = MemoryTable(Array<String>(0) { "" })
+                        val res = MemoryTable(Array(0) { "" })
                         for (j in 0 until child.count()) {
                             res.data.add(IntArray(0))
                         }

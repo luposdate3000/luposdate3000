@@ -1,8 +1,6 @@
-import lupos.s00misc.Parallel
-import lupos.s15tripleStoreDistributed.distributedTripleStore
-import lupos.s15tripleStoreDistributed.DistributedTripleStore
-import lupos.s16network.LuposdateEndpoint
 import lupos.SparqlTestSuite
+import lupos.s00misc.Parallel
+import lupos.s16network.LuposdateEndpoint
 
 fun main(args: Array<String>) = Parallel.runBlocking {
     LuposdateEndpoint.initialize()

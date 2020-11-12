@@ -15,16 +15,16 @@ import lupos.s09physicalOperators.POPBase
 
 class POPJoinMerge(query: IQuery, projectedVariables: List<String>, childA: IOPBase, childB: IOPBase, @JvmField val optional: Boolean) : POPBase(query, projectedVariables, EOperatorID.POPJoinMergeID, "POPJoinMerge", arrayOf(childA, childB), ESortPriority.JOIN) {
     override fun getPartitionCount(variable: String): Int {
-        if (children[0].getProvidedVariableNames().contains(variable)) {
+        return if (children[0].getProvidedVariableNames().contains(variable)) {
             if (children[1].getProvidedVariableNames().contains(variable)) {
                 SanityCheck.check { children[0].getPartitionCount(variable) == children[1].getPartitionCount(variable) }
-                return children[0].getPartitionCount(variable)
+                children[0].getPartitionCount(variable)
             } else {
-                return children[0].getPartitionCount(variable)
+                children[0].getPartitionCount(variable)
             }
         } else {
             if (children[1].getProvidedVariableNames().contains(variable)) {
-                return children[1].getPartitionCount(variable)
+                children[1].getPartitionCount(variable)
             } else {
                 throw Exception("unknown variable $variable")
             }
@@ -46,7 +46,7 @@ class POPJoinMerge(query: IQuery, projectedVariables: List<String>, childA: IOPB
 
         @JvmField
         var local_hasNext2Close_i = 0
-        /*suspend*/ inline fun _hasNext2Close() {
+        /*suspend*/ private inline fun _hasNext2Close() {
             local_hasNext2Close_i = 0
             while (local_hasNext2Close_i < columnsINJ0.size) {
                 columnsINJ0[local_hasNext2Close_i].close()
@@ -107,7 +107,7 @@ class POPJoinMerge(query: IQuery, projectedVariables: List<String>, childA: IOPB
 
         @JvmField
         var sipbuf = IntArray(2)
-        internal /*suspend*/ inline fun __close() {
+        /*suspend*/ private inline fun __close() {
             if (label != 0) {
                 local___close_i = 0
                 while (local___close_i < columnsOUT0.size) {
@@ -156,7 +156,7 @@ class POPJoinMerge(query: IQuery, projectedVariables: List<String>, childA: IOPB
             return nextHelper({
                 if (key0[0] != ResultSetDictionaryExt.nullValue && key1[0] != ResultSetDictionaryExt.nullValue) {
                     loop@ while (true) {
-                        SanityCheck.check { columnsINJ0.size > 0 }
+                        SanityCheck.check { columnsINJ0.isNotEmpty() }
 //first join column
                         if (key0[0] != key1[0]) {
                             var skip0 = 0
@@ -250,7 +250,7 @@ class POPJoinMerge(query: IQuery, projectedVariables: List<String>, childA: IOPB
 //the only-A columns
                         local_next_countA = 0
                         loop2@ while (true) {
-                            if (columnsINO0.size > 0) {
+                            if (columnsINO0.isNotEmpty()) {
                                 if (local_next_countA >= data0[0].size) {
                                     local_next_i = 0
                                     while (local_next_i < data0.size) {
@@ -290,7 +290,7 @@ class POPJoinMerge(query: IQuery, projectedVariables: List<String>, childA: IOPB
 //the only-B columns
                         local_next_countB = 0
                         loop2@ while (true) {
-                            if (columnsINO1.size > 0) {
+                            if (columnsINO1.isNotEmpty()) {
                                 if (local_next_countB >= data1[0].size) {
                                     local_next_i = 0
                                     while (local_next_i < data1.size) {
@@ -348,7 +348,7 @@ class POPJoinMerge(query: IQuery, projectedVariables: List<String>, childA: IOPB
                 getPartitionCount(v)
             }
         }
-        SanityCheck.println({ "$uuid open $classname" })
+        SanityCheck.println { "$uuid open $classname" }
         val child0 = children[0].evaluate(parent)
         val child1 = children[1].evaluate(parent)
         val columnsINO0 = mutableListOf<ColumnIterator>()

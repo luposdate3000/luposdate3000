@@ -22,7 +22,7 @@ actual object Crypto {
         return com.benasher44.uuid.uuid4().toString()
     }
 
-    internal fun toHexString(data: ByteArray): String {
+    private fun toHexString(data: ByteArray): String {
         val sb = StringBuilder()
         for (b in data) {
             val tmp = (b + 256) % 256

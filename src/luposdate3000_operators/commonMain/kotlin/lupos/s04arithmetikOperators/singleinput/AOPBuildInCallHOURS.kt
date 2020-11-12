@@ -10,8 +10,6 @@ import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.IteratorBundle
-import lupos.s04logicalOperators.OPBase
-import lupos.s04logicalOperators.Query
 
 class AOPBuildInCallHOURS(query: IQuery, child: AOPBase) : AOPBase(query, EOperatorID.AOPBuildInCallHOURSID, "AOPBuildInCallHOURS", arrayOf(child)) {
     override fun toSparql() = "HOURS(" + children[0].toSparql() + ")"

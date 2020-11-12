@@ -1,13 +1,7 @@
 package lupos.s09physicalOperators.multiinput
 
-import kotlin.jvm.JvmField
-import lupos.s00misc.EOperatorID
-import lupos.s00misc.ESortPriority
-import lupos.s00misc.Partition
-import lupos.s00misc.SanityCheck
-import lupos.s00misc.XMLElement
+import lupos.s00misc.*
 import lupos.s03resultRepresentation.ResultSetDictionaryExt
-import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04arithmetikOperators.IAOPBase
 import lupos.s04arithmetikOperators.noinput.AOPConstant
 import lupos.s04arithmetikOperators.noinput.AOPVariable
@@ -16,10 +10,9 @@ import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.noinput.LOPTriple
-import lupos.s04logicalOperators.OPBase
-import lupos.s04logicalOperators.Query
 import lupos.s09physicalOperators.POPBase
 import lupos.s15tripleStoreDistributed.distributedTripleStore
+import kotlin.jvm.JvmField
 
 class POPJoinWithStoreExists(query: IQuery, projectedVariables: List<String>, childA: IOPBase, val childB: LOPTriple, @JvmField val optional: Boolean) : POPBase(query, projectedVariables, EOperatorID.POPJoinWithStoreExistsID, "POPJoinWithStoreExists", arrayOf(childA), ESortPriority.SAME_AS_CHILD) {
     override fun getPartitionCount(variable: String): Int = children[0].getPartitionCount(variable)
@@ -34,10 +27,10 @@ class POPJoinWithStoreExists(query: IQuery, projectedVariables: List<String>, ch
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
         SanityCheck.check { !optional }
         SanityCheck.check { !childB.graphVar }
-        SanityCheck.check { projectedVariables.size == 0 }
+        SanityCheck.check { projectedVariables.isEmpty() }
         val childAv = children[0].evaluate(parent)
         val iteratorsHelper = mutableListOf<ColumnIterator>()
-        val params = Array<IAOPBase>(3) { childB.children[it] as IAOPBase }
+        val params = Array(3) { childB.children[it] as IAOPBase }
         var res = IteratorBundle(0)
         val mappingHelper = mutableListOf<Int>()
         for (i in 0 until 3) {
@@ -52,9 +45,9 @@ class POPJoinWithStoreExists(query: IQuery, projectedVariables: List<String>, ch
         var done = false
         val iterators = iteratorsHelper.toTypedArray()
         val mapping = IntArray(mappingHelper.size) { mappingHelper[it] }
-        SanityCheck.check { mapping.size > 0 }
+        SanityCheck.check { mapping.isNotEmpty() }
         for (i in 0 until mapping.size) {
-            var tmp = iterators[i].next()
+            val tmp = iterators[i].next()
             if (tmp == ResultSetDictionaryExt.nullValue) {
                 done = true
                 for (closeIndex in 0 until iterators.size) {
@@ -68,14 +61,14 @@ class POPJoinWithStoreExists(query: IQuery, projectedVariables: List<String>, ch
         }
         if (!done) {
             val distributedStore = distributedTripleStore.getNamedGraph(query, childB.graph)
-            SanityCheck.println({ "opening store for join with store C $uuid" })
+            SanityCheck.println { "opening store for join with store C $uuid" }
             var iteratorB = distributedStore.getIterator(params, index, Partition()).evaluate(parent)
             res = object : IteratorBundle(0) {
                 override /*suspend*/ fun hasNext2(): Boolean {
-                    var t = iteratorB.hasNext2()
+                    val t = iteratorB.hasNext2()
                     loop@ while (!t && !done) {
                         for (i in 0 until mapping.size) {
-                            var tmp = iterators[i].next()
+                            val tmp = iterators[i].next()
                             if (tmp == ResultSetDictionaryExt.nullValue) {
                                 for (closeIndex in 0 until iterators.size) {
                                     iterators[closeIndex].close()
@@ -88,7 +81,7 @@ class POPJoinWithStoreExists(query: IQuery, projectedVariables: List<String>, ch
                             }
                         }
                         if (!done) {
-                            SanityCheck.println({ "opening store for join with store D $uuid" })
+                            SanityCheck.println { "opening store for join with store D $uuid" }
                             iteratorB = distributedStore.getIterator(params, index, Partition()).evaluate(parent)
                         }
                     }

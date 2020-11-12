@@ -70,7 +70,7 @@ class PhysicalOptimizerPartition3(query: Query) : OptimizerBase(query, EOptimize
 //SanityCheck failed :: -1 0 P_SO 1
                     SanityCheck.check({ count != -1 }, { "$count $partitionColumn $idx ${node.partitionCount}" })
                     if (count != node.partitionCount) {
-                        var newID = query.getNextPartitionOperatorID()
+                        val newID = query.getNextPartitionOperatorID()
                         query.removePartitionOperator(node.getUUID(), node.partitionID)
                         res = POPChangePartitionOrderedByIntId(query, node.projectedVariables, node.partitionVariable, count, node.partitionCount, newID, node.partitionID, node)
                         node.partitionID = newID
@@ -246,8 +246,7 @@ class PhysicalOptimizerPartition3(query: Query) : OptimizerBase(query, EOptimize
                 }
                 is POPSplitPartition -> {
 //splitting must always split all variables provided by its direct children - if there is a different children, adapt the variables
-                    val c = node.children[0]
-                    when (c) {
+                    when (val c = node.children[0]) {
                         is POPMergePartition -> {
                             if (node.partitionVariable == c.partitionVariable) {
                                 if (node.partitionCount == c.partitionCount) {

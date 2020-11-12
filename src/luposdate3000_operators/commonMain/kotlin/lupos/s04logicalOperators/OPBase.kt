@@ -32,7 +32,7 @@ import lupos.s04logicalOperators.singleinput.modifiers.LOPDistinct
 import lupos.s04logicalOperators.singleinput.modifiers.LOPSortAny
 import lupos.s09physicalOperators.singleinput.POPSort
 
-abstract class OPBase(@JvmField val query: IQuery, @JvmField val operatorID: EOperatorID, @JvmField val classname: String, @JvmField val children: Array<IOPBase>, val sortPriority: ESortPriority) : IOPBase {
+abstract class OPBase(@JvmField val query: IQuery, @JvmField val operatorID: EOperatorID, @JvmField val classname: String, @JvmField val children: Array<IOPBase>, private val sortPriority: ESortPriority) : IOPBase {
     override fun getClassname() = classname
 
     @JvmField
@@ -89,15 +89,15 @@ abstract class OPBase(@JvmField val query: IQuery, @JvmField val operatorID: EOp
         if (histogramResult == null) {
             histogramResult = calculateHistogram()
         } else {
-            var v1 = getProvidedVariableNames()
-            var v2 = histogramResult!!.values.keys.toList()
+            val v1 = getProvidedVariableNames()
+            val v2 = histogramResult!!.values.keys.toList()
             if (!v1.containsAll(v2) || !v2.containsAll(v1)) {
                 histogramResult = calculateHistogram()
             }
         }
         SanityCheck {
-            var v1 = getProvidedVariableNames()
-            var v2 = histogramResult!!.values.keys
+            val v1 = getProvidedVariableNames()
+            val v2 = histogramResult!!.values.keys
             SanityCheck.check({ v1.containsAll(v2) }, { "getHistogramSanity1 $classname $v1 $v2" })
             SanityCheck.check({ v2.containsAll(v1) }, { "getHistogramSanity2 $classname $v1 $v2" })
         }
@@ -114,7 +114,7 @@ abstract class OPBase(@JvmField val query: IQuery, @JvmField val operatorID: EOp
     }
 
     fun addToPrefixFreeList(data: List<SortHelper>, target: MutableList<List<SortHelper>>) {
-        if (data.size > 0) {
+        if (data.isNotEmpty()) {
             if (!target.contains(data)) {
                 var needToAdd = true
                 loop@ for (c in target) {
@@ -145,13 +145,13 @@ abstract class OPBase(@JvmField val query: IQuery, @JvmField val operatorID: EOp
     }
 
     override fun selectSortPriority(priority: List<SortHelper>) {
-        var tmp = mutableListOf<List<SortHelper>>()
+        val tmp = mutableListOf<List<SortHelper>>()
         for (x in sortPriorities) {
             var size = x.size
             if (priority.size < size) {
                 size = priority.size
             }
-            var t = mutableListOf<SortHelper>()
+            val t = mutableListOf<SortHelper>()
             for (i in 0 until size) {
                 if (x[i] == priority[i]) {
                     t.add(x[i])
@@ -179,7 +179,7 @@ abstract class OPBase(@JvmField val query: IQuery, @JvmField val operatorID: EOp
                     for (p in c.getSortPriorities()) {
                         if (p.size > mySortPriority.size) {
                             mySortPriority.clear()
-                            var provided = getProvidedVariableNames()
+                            val provided = getProvidedVariableNames()
                             for (x in p) {
                                 if (provided.contains(x.variableName)) {
                                     mySortPriority.add(x)
@@ -265,7 +265,7 @@ abstract class OPBase(@JvmField val query: IQuery, @JvmField val operatorID: EOp
                             res.add(listOf(SortHelper(provided[2], ESortType.FAST), SortHelper(provided[1], ESortType.FAST), SortHelper(provided[0], ESortType.FAST)))
                         }
                         else -> {
-                            SanityCheck.check { provided.size == 0 }
+                            SanityCheck.check { provided.isEmpty() }
                         }
                     }
                 }
@@ -287,7 +287,7 @@ abstract class OPBase(@JvmField val query: IQuery, @JvmField val operatorID: EOp
             ESortPriority.PREVENT_ANY, ESortPriority.UNION -> {
             }
             ESortPriority.SORT -> {
-                var requiredVariables = mutableListOf<String>()
+                val requiredVariables = mutableListOf<String>()
                 var sortType = ESortType.ASC
                 if (this is LOPSortAny) {
                     res.add(this.possibleSortOrder)
@@ -317,7 +317,7 @@ abstract class OPBase(@JvmField val query: IQuery, @JvmField val operatorID: EOp
                 val childA = children[0]
                 val childB = children[1]
                 val columns = LOPJoin.getColumns(childA.getProvidedVariableNames(), childB.getProvidedVariableNames())
-                var provided = getProvidedVariableNames()
+                val provided = getProvidedVariableNames()
                 for (child in 0 until 2) {
                     for (x in children[child].getPossibleSortPriorities()) {
                         val tmp = mutableListOf<SortHelper>()
@@ -371,7 +371,7 @@ abstract class OPBase(@JvmField val query: IQuery, @JvmField val operatorID: EOp
 
     open fun childrenToVerifyCount(): Int = children.size
     override fun updateChildren(i: Int, child: IOPBase) {
-        SanityCheck.check({ i < children.size })
+        SanityCheck.check { i < children.size }
         children[i] = child
     }
 
@@ -395,22 +395,21 @@ abstract class OPBase(@JvmField val query: IQuery, @JvmField val operatorID: EOp
     }
 
     override fun replaceVariableWithAnother(node: IOPBase, name: String, name2: String): IOPBase {
-        var tmp = LOPNOOP(node.getQuery(), node)
+        val tmp = LOPNOOP(node.getQuery(), node)
         return replaceVariableWithAnother(node, name, name2, tmp, 0)
     }
 
     fun replaceVariableWithAnother(node: IOPBase, name: String, name2: String, parent: IOPBase, parentIdx: Int): IOPBase {
         SanityCheck.check { parent.getChildren()[parentIdx] == node }
         if (node is LOPBind && node.name.name == name) {
-            var exp = node.getChildren()[1]
+            val exp = node.getChildren()[1]
             if (exp is AOPVariable) {
                 replaceVariableWithAnother(node.getChildren()[0], exp.name, node.name.name, node, 0)
                 parent.getChildren()[parentIdx] = node.getChildren()[0]
             } else {
                 parent.getChildren()[parentIdx] = LOPBind(query, AOPVariable(query, name2), node.getChildren()[1] as AOPBase, node.getChildren()[0])
             }
-            var res = replaceVariableWithAnother(parent.getChildren()[parentIdx], name, name2, parent, parentIdx)
-            return res
+            return replaceVariableWithAnother(parent.getChildren()[parentIdx], name, name2, parent, parentIdx)
         } else if (node is LOPProjection) {
             for (i in 0 until node.variables.size) {
                 if (node.variables[i].name == name) {
@@ -479,22 +478,22 @@ abstract class OPBase(@JvmField val query: IQuery, @JvmField val operatorID: EOp
             }
             if (this is LOPBase) {
                 try {
-                    var h = getHistogram()
+                    val h = getHistogram()
                     res.addAttribute("histogram", "${h.count} - ${h.values}")
                 } catch (e: BugException) {
                     e.printStackTrace()
                 } catch (e: HistogramNotImplementedException) {
                     e.printStackTrace()
                 } catch (e: Throwable) {
-                    SanityCheck.println({ "TODO exception 8" })
+                    SanityCheck.println { "TODO exception 8" }
                     e.printStackTrace()
                 }
             }
-            if (children.size > 0) {
+            if (children.isNotEmpty()) {
                 res.addContent(childrenToXML())
             }
         } catch (e: Throwable) {
-            SanityCheck.println({ "TODO exception 9" })
+            SanityCheck.println { "TODO exception 9" }
             e.printStackTrace()
         }
         return res
@@ -533,7 +532,7 @@ abstract class OPBase(@JvmField val query: IQuery, @JvmField val operatorID: EOp
             if (autocorrect) {
                 syntaxVerifyAllVariableExistsAutocorrect()
             } else if (query.checkVariableExistence()) {
-                var tmp = getRequiredVariableNames().toMutableSet()
+                val tmp = getRequiredVariableNames().toMutableSet()
                 tmp.removeAll(additionalProvided)
                 tmp.removeAll(getProvidedVariableNames())
                 if (tmp.size == 1) {
@@ -546,7 +545,7 @@ abstract class OPBase(@JvmField val query: IQuery, @JvmField val operatorID: EOp
     }
 
     override fun setChild(child: IOPBase): IOPBase {
-        SanityCheck.check({ children.isNotEmpty() })
+        SanityCheck.check { children.isNotEmpty() }
         this.getChildren()[0] = child
         return child
     }

@@ -6,7 +6,7 @@ import lupos.s03resultRepresentation.ResultSetDictionaryExt
 class ColumnIteratorValue : ColumnIterator() {
     companion object {
         inline operator fun invoke(value: Int): ColumnIteratorValue {
-            var res = ColumnIteratorValue()
+            val res = ColumnIteratorValue()
             res.value = value
             res.done = false
             return res
@@ -23,11 +23,11 @@ class ColumnIteratorValue : ColumnIterator() {
     }
 
     override /*suspend*/ fun next(): Int {
-        if (done) {
-            return ResultSetDictionaryExt.nullValue
+        return if (done) {
+            ResultSetDictionaryExt.nullValue
         } else {
             done = true
-            return value
+            value
         }
     }
 }

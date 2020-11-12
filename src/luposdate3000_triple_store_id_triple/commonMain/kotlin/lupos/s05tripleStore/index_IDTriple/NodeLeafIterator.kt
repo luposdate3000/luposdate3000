@@ -29,21 +29,21 @@ internal class NodeLeafIterator(@JvmField var node: ByteArray, @JvmField var nod
         return value[component]
     }
 
-    inline fun updateRemaining() {
+    private inline fun updateRemaining() {
         remaining--
         if (remaining == 0) {
             needsReset = true
             offset = NodeLeaf.START_OFFSET
-            SanityCheck.println({ "Outside.refcount($nodeid)  x194" })
+            SanityCheck.println { "Outside.refcount($nodeid)  x194" }
             NodeManager.releaseNode(nodeid)
             nodeid = NodeShared.getNextNode(node)
             if (nodeid != NodeManager.nodeNullPointer) {
-                SanityCheck.println({ "Outside.refcount($nodeid)  x05" })
-                NodeManager.getNodeLeaf(nodeid, {
+                SanityCheck.println { "Outside.refcount($nodeid)  x05" }
+                NodeManager.getNodeLeaf(nodeid) {
                     SanityCheck.check { node != it }
                     node = it
                     remaining = NodeShared.getTripleCount(node)
-                })
+                }
             }
         }
     }

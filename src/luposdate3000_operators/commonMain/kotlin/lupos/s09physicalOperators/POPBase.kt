@@ -1,17 +1,11 @@
 package lupos.s09physicalOperators
 
-import kotlin.jvm.JvmField
-import lupos.s00misc.EOperatorID
-import lupos.s00misc.ESortPriority
-import lupos.s00misc.HistogramNotImplementedException
-import lupos.s00misc.SanityCheck
-import lupos.s00misc.VariableNotDefinedSyntaxException
-import lupos.s00misc.XMLElement
+import lupos.s00misc.*
 import lupos.s04logicalOperators.HistogramResult
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.OPBase
-import lupos.s04logicalOperators.Query
+import kotlin.jvm.JvmField
 
 abstract class POPBase(query: IQuery,
                        @JvmField var projectedVariables: List<String>,
@@ -42,14 +36,14 @@ abstract class POPBase(query: IQuery,
             if (autocorrect) {
                 syntaxVerifyAllVariableExistsAutocorrect()
             } else {
-                var tmp = getRequiredVariableNames().toMutableSet()
+                val tmp = getRequiredVariableNames().toMutableSet()
                 tmp.removeAll(additionalProvided)
                 tmp.removeAll(getProvidedVariableNamesInternal())
                 if (tmp.size == 1) {
-                    SanityCheck.println({ this })
+                    SanityCheck.println { this }
                     throw VariableNotDefinedSyntaxException(classname, tmp.first())
                 } else {
-                    SanityCheck.println({ this })
+                    SanityCheck.println { this }
                     throw VariableNotDefinedSyntaxException(classname, tmp.toString())
                 }
             }

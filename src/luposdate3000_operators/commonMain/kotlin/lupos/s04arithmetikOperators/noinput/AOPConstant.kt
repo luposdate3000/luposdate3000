@@ -1,6 +1,5 @@
 package lupos.s04arithmetikOperators.noinput
 
-import kotlin.jvm.JvmField
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.ValueBnode
@@ -9,7 +8,7 @@ import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.IteratorBundle
-import lupos.s04logicalOperators.Query
+import kotlin.jvm.JvmField
 
 class AOPConstant : AOPBase, IAOPConstant {
     @JvmField
@@ -25,11 +24,11 @@ class AOPConstant : AOPBase, IAOPConstant {
     }
 
     override /*suspend*/ fun toXMLElement(): XMLElement {
-        var tmp = query.getDictionary().getValue(value)
-        if (tmp is ValueBnode) {
-            return XMLElement("ValueBnode").addAttribute("dictvalue", "" + value)
+        val tmp = query.getDictionary().getValue(value)
+        return if (tmp is ValueBnode) {
+            XMLElement("ValueBnode").addAttribute("dictvalue", "" + value)
         } else {
-            return tmp.toXMLElement()
+            tmp.toXMLElement()
         }
     }
 

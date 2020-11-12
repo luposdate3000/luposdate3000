@@ -7,16 +7,14 @@ import lupos.s00misc.XMLElement
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.IteratorBundle
-import lupos.s04logicalOperators.OPBase
-import lupos.s04logicalOperators.Query
 import lupos.s09physicalOperators.POPBase
 
 class POPSplitPartitionFromStore(query: IQuery, projectedVariables: List<String>, val partitionVariable: String, var partitionCount: Int, var partitionID: Int, child: IOPBase) : POPBase(query, projectedVariables, EOperatorID.POPSplitPartitionFromStoreID, "POPSplitPartitionFromStore", arrayOf(child), ESortPriority.PREVENT_ANY) {
     override fun getPartitionCount(variable: String): Int {
-        if (variable == partitionVariable) {
-            return partitionCount
+        return if (variable == partitionVariable) {
+            partitionCount
         } else {
-            return 1
+            1
         }
     }
 
@@ -28,14 +26,14 @@ class POPSplitPartitionFromStore(query: IQuery, projectedVariables: List<String>
         return res
     }
 
-    override fun getRequiredVariableNames(): List<String> = listOf<String>()
+    override fun getRequiredVariableNames(): List<String> = listOf()
     override fun getProvidedVariableNames(): List<String> = children[0].getProvidedVariableNames()
     override fun getProvidedVariableNamesInternal(): List<String> {
         val tmp = children[0]
-        if (tmp is POPBase) {
-            return tmp.getProvidedVariableNamesInternal()
+        return if (tmp is POPBase) {
+            tmp.getProvidedVariableNamesInternal()
         } else {
-            return tmp.getProvidedVariableNames()
+            tmp.getProvidedVariableNames()
         }
     }
 

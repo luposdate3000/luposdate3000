@@ -3,7 +3,7 @@ package lupos.s00misc
 import kotlin.jvm.JvmField
 import kotlin.math.abs
 
-class XMLElement {
+class XMLElement(tag: String) {
     // https://regex101.com
     companion object {
         @JvmField
@@ -63,7 +63,7 @@ class XMLElement {
     @JvmField
     val tag: String
 
-    constructor(tag: String) {
+    init {
         this.tag = decodeText(tag)
     }
 
@@ -98,13 +98,11 @@ class XMLElement {
         if (attributes != other.attributes) {
             return false
         }
-        var i = 0
-        for (c in childs) {
-            var d = other.childs[i]
+        for ((i, c) in childs.withIndex()) {
+            val d = other.childs[i]
             if (!c.myEquals(d)) {
                 return false
             }
-            i++
         }
         return true
     }
@@ -169,9 +167,9 @@ class XMLElement {
             return false
         }
         if (fixSortOrder) {
-            var biginput = childs.size > 10 || other.childs.size > 10
-            var myMap = mutableMapOf<String, MutableList<XMLElement>>()
-            var otherMap = mutableMapOf<String, MutableList<XMLElement>>()
+            val biginput = childs.size > 10 || other.childs.size > 10
+            val myMap = mutableMapOf<String, MutableList<XMLElement>>()
+            val otherMap = mutableMapOf<String, MutableList<XMLElement>>()
             var change = true
             if (biginput) {
                 if (childs.size > 10000 && childs.size == other.childs.size) {
@@ -180,7 +178,7 @@ class XMLElement {
                 var n = 0
                 for (c in childs) {
                     //SanityCheck.println({ "myEqualsUnclean - loop A ${n} ${childs.size}" })
-                    var s = c.toString()
+                    val s = c.toString()
                     if (myMap[s] == null) {
                         myMap[s] = mutableListOf(c)
                     } else {
@@ -191,7 +189,7 @@ class XMLElement {
                 n = 0
                 for (c in other.childs) {
                     //SanityCheck.println({ "myEqualsUnclean - loop B ${n} ${other.childs.size}" })
-                    var s = c.toString()
+                    val s = c.toString()
                     if (otherMap[s] == null) {
                         otherMap[s] = mutableListOf(c)
                     } else {
@@ -225,8 +223,8 @@ class XMLElement {
                     }
                 }
             }
-            var myRemaining = mutableListOf<XMLElement>()
-            var otherRemaining = mutableListOf<XMLElement>()
+            val myRemaining = mutableListOf<XMLElement>()
+            val otherRemaining = mutableListOf<XMLElement>()
             if (biginput) {
                 for ((k, v) in myMap) {
                     myRemaining.addAll(v)
@@ -242,29 +240,25 @@ class XMLElement {
             while (change) {
                 change = false
                 //SanityCheck.println({ "myEqualsUnclean - loop D ${myRemaining.size} ${otherRemaining.size}" })
-                var i = 0
+                val i = 0
                 loop@ for (c in myRemaining) {
-                    var j = 0
-                    for (d in otherRemaining) {
+                    for ((j, d) in otherRemaining.withIndex()) {
                         if (c.myEqualsUnclean(d, fixStringType, fixNumbers, fixSortOrder)) {
                             myRemaining.removeAt(i)
                             otherRemaining.removeAt(j)
                             change = true
                             break@loop
                         }
-                        j++
                     }
                     return false
                 }
             }
         } else {
-            var i = 0
-            for (c in childs) {
-                var d = other.childs[i]
+            for ((i, c) in childs.withIndex()) {
+                val d = other.childs[i]
                 if (!c.myEquals(d)) {
                     return false
                 }
-                i++
             }
         }
         return true
@@ -278,10 +272,7 @@ class XMLElement {
     fun addContentClean(s: String): XMLElement {
         var res: String = s
         while (true) {
-            val match = "\\\\u[0-9a-fA-f]{4}".toRegex().find(res)
-            if (match == null) {
-                break
-            }
+            val match = "\\\\u[0-9a-fA-f]{4}".toRegex().find(res) ?: break
             val replacement = match.value.substring(2, 6).toInt(16).toChar() + ""
             res = res.replace(match.value, replacement)
         }
@@ -314,11 +305,11 @@ class XMLElement {
         return this
     }
 
-    fun encodeText(text: String): String {
+    private fun encodeText(text: String): String {
         return text.replace("&", "&amp;").replace(">", "&gt;").replace("<", "&lt;").replace("'", "&apos;").replace("\"", "&quot;").replace("\\n", "&#x0A;")
     }
 
-    fun decodeText(text: String): String {
+    private fun decodeText(text: String): String {
         return text.replace("&quot;", "\"").replace("&apos;", "'").replace("&lt;", "<").replace("&gt;", ">").replace("&amp;", "&").replace("&#x0A;", "\\n")
     }
 
@@ -340,9 +331,9 @@ class XMLElement {
         return res
     }
 
-    fun toPrettyString(indention: String): StringBuilder {
+    private fun toPrettyString(indention: String): StringBuilder {
         val c = content.replace("^\\s*$".toRegex(), "")
-        var res = StringBuilder("${indention}<${encodeText(tag)}")
+        val res = StringBuilder("${indention}<${encodeText(tag)}")
         for ((k, v) in attributes) {
             res.append(" ${encodeText(k)}=\"${encodeText(v)}\"")
         }
@@ -352,7 +343,7 @@ class XMLElement {
             if (c.isEmpty()) {
                 res.append(">\n")
                 for (child in childs) {
-                    res.append(child.toPrettyString(indention + " "))
+                    res.append(child.toPrettyString("$indention "))
                 }
                 res.append("${indention}</${encodeText(tag)}>\n")
             } else {

@@ -54,18 +54,18 @@ internal class MergeIterator(@JvmField val a: TripleIterator, @JvmField val b: T
             }
             1 -> {
                 value = a.value
-                if (a.hasNext()) {
-                    flag = 4
+                flag = if (a.hasNext()) {
+                    4
                 } else {
-                    flag = 0
+                    0
                 }
             }
             2 -> {
                 value = b.value
-                if (b.hasNext()) {
-                    flag = 5
+                flag = if (b.hasNext()) {
+                    5
                 } else {
-                    flag = 0
+                    0
                 }
             }
             4 -> {

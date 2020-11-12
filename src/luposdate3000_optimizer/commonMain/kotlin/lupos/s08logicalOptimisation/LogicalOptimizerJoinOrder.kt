@@ -1,21 +1,19 @@
 package lupos.s08logicalOptimisation
 
-import lupos.s00misc.EmptyResultException
 import lupos.s00misc.EOptimizerID
+import lupos.s00misc.EmptyResultException
 import lupos.s00misc.SanityCheck
 import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s04logicalOperators.IOPBase
+import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.multiinput.LOPJoin
 import lupos.s04logicalOperators.noinput.OPEmptyRow
 import lupos.s04logicalOperators.noinput.OPNothing
-import lupos.s04logicalOperators.OPBase
-import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.singleinput.LOPProjection
-import lupos.s08logicalOptimisation.OptimizerBase
 
 class LogicalOptimizerJoinOrder(query: Query) : OptimizerBase(query, EOptimizerID.LogicalOptimizerJoinOrderID) {
     override val classname = "LogicalOptimizerJoinOrder"
-    fun findAllJoinsInChildren(node: LOPJoin): List<IOPBase> {
+    private fun findAllJoinsInChildren(node: LOPJoin): List<IOPBase> {
         val res = mutableListOf<IOPBase>()
         for (c in node.getChildren()) {
             if (c is LOPJoin && !c.optional) {
@@ -42,10 +40,10 @@ class LogicalOptimizerJoinOrder(query: Query) : OptimizerBase(query, EOptimizerI
         return res
     }
 
-    fun clusterizeChildren(nodes: List<IOPBase>): List<MutableList<IOPBase>> {
+    private fun clusterizeChildren(nodes: List<IOPBase>): List<MutableList<IOPBase>> {
         //put children with same variables into groups, such that those definetly can use Merge-Join as much as possible
-        var res = mutableListOf<MutableList<IOPBase>>()
-        var variables = mutableListOf<List<String>>()
+        val res = mutableListOf<MutableList<IOPBase>>()
+        val variables = mutableListOf<List<String>>()
         loop@ for (node in nodes) {
             val v = node.getProvidedVariableNames()
             if (res.size > 0) {
@@ -62,7 +60,7 @@ class LogicalOptimizerJoinOrder(query: Query) : OptimizerBase(query, EOptimizerI
         return res
     }
 
-    /*suspend*/ fun applyOptimisation(nodes: List<IOPBase>, root: LOPJoin): IOPBase {
+    /*suspend*/ private fun applyOptimisation(nodes: List<IOPBase>, root: LOPJoin): IOPBase {
         if (nodes.size > 2) {
             var result = LogicalOptimizerJoinOrderStore(nodes, root)
             if (result != null) {
@@ -78,7 +76,7 @@ class LogicalOptimizerJoinOrder(query: Query) : OptimizerBase(query, EOptimizerI
             }
             SanityCheck.checkUnreachable()
         } else if (nodes.size == 2) {
-            var res = LOPJoin(root.query, nodes[0], nodes[1], false)
+            val res = LOPJoin(root.query, nodes[0], nodes[1], false)
             res.onlyExistenceRequired = root.onlyExistenceRequired
             return res
         } else {
@@ -91,7 +89,7 @@ class LogicalOptimizerJoinOrder(query: Query) : OptimizerBase(query, EOptimizerI
     override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
         var res: IOPBase = node
         if (node is LOPJoin && !node.optional && (parent !is LOPJoin || parent.optional)) {
-            var originalProvided = node.getProvidedVariableNames()
+            val originalProvided = node.getProvidedVariableNames()
             try {
                 val allChilds2 = findAllJoinsInChildren(node)
                 if (allChilds2.size > 2) {

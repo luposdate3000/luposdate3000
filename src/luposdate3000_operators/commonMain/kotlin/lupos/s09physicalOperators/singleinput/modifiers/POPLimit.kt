@@ -1,19 +1,16 @@
 package lupos.s09physicalOperators.singleinput.modifiers
 
-import kotlin.jvm.JvmField
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.ESortPriority
 import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
-import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.ResultSetDictionaryExt
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.s04logicalOperators.iterator.IteratorBundle
-import lupos.s04logicalOperators.OPBase
-import lupos.s04logicalOperators.Query
 import lupos.s09physicalOperators.POPBase
+import kotlin.jvm.JvmField
 
 class POPLimit(query: IQuery, projectedVariables: List<String>, @JvmField val limit: Int, child: IOPBase) : POPBase(query, projectedVariables, EOperatorID.POPLimitID, "POPLimit", arrayOf(child), ESortPriority.SAME_AS_CHILD) {
     override fun getPartitionCount(variable: String): Int {
@@ -26,7 +23,7 @@ class POPLimit(query: IQuery, projectedVariables: List<String>, @JvmField val li
         if (sparql.startsWith("{SELECT ")) {
             return sparql.substring(0, sparql.length - 1) + " LIMIT " + limit + "}"
         }
-        return "{SELECT * {" + sparql + "} LIMIT " + limit + "}"
+        return "{SELECT * {$sparql} LIMIT $limit}"
     }
 
     override fun equals(other: Any?): Boolean = other is POPLimit && limit == other.limit && children[0] == other.children[0]
@@ -46,16 +43,16 @@ class POPLimit(query: IQuery, projectedVariables: List<String>, @JvmField val li
                 @JvmField
                 var label = 1
                 override /*suspend*/ fun next(): Int {
-                    if (label != 0) {
+                    return if (label != 0) {
                         if (count == limit) {
                             _close()
-                            return ResultSetDictionaryExt.nullValue
+                            ResultSetDictionaryExt.nullValue
                         } else {
                             count++
-                            return iterator.next()
+                            iterator.next()
                         }
                     } else {
-                        return ResultSetDictionaryExt.nullValue
+                        ResultSetDictionaryExt.nullValue
                     }
                 }
 

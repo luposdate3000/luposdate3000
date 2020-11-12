@@ -1,19 +1,16 @@
 package lupos.s09physicalOperators.singleinput.modifiers
 
-import kotlin.jvm.JvmField
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.ESortPriority
 import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
-import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.ResultSetDictionaryExt
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.s04logicalOperators.iterator.IteratorBundle
-import lupos.s04logicalOperators.OPBase
-import lupos.s04logicalOperators.Query
 import lupos.s09physicalOperators.POPBase
+import kotlin.jvm.JvmField
 
 class POPOffset(query: IQuery, projectedVariables: List<String>, @JvmField val offset: Int, child: IOPBase) : POPBase(query, projectedVariables, EOperatorID.POPOffsetID, "POPOffset", arrayOf(child), ESortPriority.SAME_AS_CHILD) {
     override fun getPartitionCount(variable: String): Int {
@@ -27,7 +24,7 @@ class POPOffset(query: IQuery, projectedVariables: List<String>, @JvmField val o
         if (sparql.startsWith("{SELECT ")) {
             return sparql.substring(0, sparql.length - 1) + " OFFSET " + offset + "}"
         }
-        return "{SELECT * {" + sparql + "} OFFSET " + offset + "}"
+        return "{SELECT * {$sparql} OFFSET $offset}"
     }
 
     override fun cloneOP(): IOPBase = POPOffset(query, projectedVariables, offset, children[0].cloneOP())
@@ -35,7 +32,7 @@ class POPOffset(query: IQuery, projectedVariables: List<String>, @JvmField val o
         val variables = getProvidedVariableNames()
         val outMap = mutableMapOf<String, ColumnIterator>()
         val child = children[0].evaluate(parent)
-        var columns = Array(variables.size) { child.columns[variables[it]] }
+        val columns = Array(variables.size) { child.columns[variables[it]] }
         var tmp: Int = ResultSetDictionaryExt.nullValue
         loop@ for (i in 0 until offset) {
             for (columnIndex in 0 until columns.size) {

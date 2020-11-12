@@ -4,14 +4,13 @@ import lupos.s00misc.EOptimizerID
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.SortHelper
 import lupos.s04logicalOperators.IOPBase
-import lupos.s04logicalOperators.noinput.LOPTriple
-import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
+import lupos.s04logicalOperators.noinput.LOPTriple
 
 class LogicalOptimizerColumnSortOrder(query: Query) : OptimizerBase(query, EOptimizerID.LogicalOptimizerColumnSortOrderID) {
     override val classname = "LogicalOptimizerColumnSortOrder"
     override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
-        var res: IOPBase = node
+        val res: IOPBase = node
         var hadChange = false
         SanityCheck {
             if (parent != null) {
@@ -46,9 +45,9 @@ class LogicalOptimizerColumnSortOrder(query: Query) : OptimizerBase(query, EOpti
                 }
                 if (flag) {
                     var maxSize = 0
-                    if (node.getChildren().size > 0 && node !is LOPTriple) {
+                    if (node.getChildren().isNotEmpty() && node !is LOPTriple) {
                         //filter only valid sort orders based on children, which may had an update
-                        var tmp = mutableListOf<List<SortHelper>>()
+                        val tmp = mutableListOf<List<SortHelper>>()
                         loop@ for (x in node.getSortPriorities()) {
                             var maxI = 0
                             for (c in node.getChildren()) {
@@ -68,7 +67,7 @@ class LogicalOptimizerColumnSortOrder(query: Query) : OptimizerBase(query, EOpti
                                 }
                             }
                             if (maxI > 0) {
-                                var y = mutableListOf<SortHelper>()
+                                val y = mutableListOf<SortHelper>()
                                 for (i in 0 until maxI) {
                                     y.add(x[i])
                                 }

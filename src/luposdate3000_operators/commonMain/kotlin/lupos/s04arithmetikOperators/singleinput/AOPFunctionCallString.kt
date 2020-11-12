@@ -1,22 +1,11 @@
 package lupos.s04arithmetikOperators.singleinput
 
 import lupos.s00misc.EOperatorID
-import lupos.s03resultRepresentation.ValueBoolean
-import lupos.s03resultRepresentation.ValueDecimal
-import lupos.s03resultRepresentation.ValueDefinition
-import lupos.s03resultRepresentation.ValueDouble
-import lupos.s03resultRepresentation.ValueError
-import lupos.s03resultRepresentation.ValueFloat
-import lupos.s03resultRepresentation.ValueInteger
-import lupos.s03resultRepresentation.ValueLanguageTaggedLiteral
-import lupos.s03resultRepresentation.ValueSimpleLiteral
-import lupos.s03resultRepresentation.ValueTypedLiteral
+import lupos.s03resultRepresentation.*
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.IteratorBundle
-import lupos.s04logicalOperators.OPBase
-import lupos.s04logicalOperators.Query
 
 class AOPFunctionCallString(query: IQuery, child: AOPBase) : AOPBase(query, EOperatorID.AOPFunctionCallStringID, "AOPFunctionCallString", arrayOf(child)) {
     override fun toSparql() = "<http://www.w3.org/2001/XMLSchema#String>(" + children[0].toSparql() + ")"
@@ -25,8 +14,7 @@ class AOPFunctionCallString(query: IQuery, child: AOPBase) : AOPBase(query, EOpe
         val childA = (children[0] as AOPBase).evaluate(row)
         return {
             var res: ValueDefinition = ValueError()
-            val a = childA()
-            when (a) {
+            when (val a = childA()) {
                 is ValueSimpleLiteral -> {
                     res = ValueTypedLiteral(a.delimiter, a.content, "http://www.w3.org/2001/XMLSchema#string")
                 }

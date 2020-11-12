@@ -52,7 +52,7 @@ class POPJoinWithStore(query: IQuery, projectedVariables: List<String>, childA: 
         val tmp2 = mutableListOf<String>()
         tmp2.addAll(childA.getProvidedVariableNames())
         val columnsTmp = LOPJoin.getColumns(childA.getProvidedVariableNames(), childB.getProvidedVariableNames())
-        var localSortPriority = mutableListOf<String>()
+        val localSortPriority = mutableListOf<String>()
         localSortPriority.addAll(childB.mySortPriority.map { it.variableName })
         val paramsHelper = Array<IOPBase>(3) {
             var tmp = childB.children[it] as AOPBase
@@ -132,13 +132,13 @@ class POPJoinWithStore(query: IQuery, projectedVariables: List<String>, childA: 
         for (i in 0 until columnsINAJ.size) {
             valuesAJ[i] = columnsINAJ[i].next()
         }
-        var theuuid = uuid
+        val theuuid = uuid
         if (valuesAJ[0] != ResultSetDictionaryExt.nullValue) {
 //there is at least one value in A
             for (i in 0 until indicesINBJ.size) {
                 params[indicesINBJ[i]] = AOPConstant(query, valuesAJ[i])
             }
-            SanityCheck.println({ "POPJoinWithStoreXXXopening store for join with store A $theuuid" })
+            SanityCheck.println { "POPJoinWithStoreXXXopening store for join with store A $theuuid" }
             var columnsInBRoot = distributedStore.getIterator(params, index, Partition()).evaluate(parent)
             for (i in 0 until variablINBO.size) {
                 columnsInB[i] = columnsInBRoot.columns[variablINBO[i]]!!
@@ -203,7 +203,7 @@ class POPJoinWithStore(query: IQuery, projectedVariables: List<String>, childA: 
                                         for (i in 0 until indicesINBJ.size) {
                                             params[indicesINBJ[i]] = AOPConstant(query, valuesAJ[i])
                                         }
-                                        SanityCheck.println({ "POPJoinWithStoreXXXopening store for join with store B $theuuid" })
+                                        SanityCheck.println { "POPJoinWithStoreXXXopening store for join with store B $theuuid" }
                                         columnsInBRoot = distributedStore.getIterator(params, index, Partition()).evaluate(parent)
                                         for (i in 0 until variablINBO.size) {
                                             columnsInB[i] = columnsInBRoot.columns[variablINBO[i]]!!

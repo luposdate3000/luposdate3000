@@ -9,7 +9,7 @@ import lupos.s00misc.SanityCheck
 val nodeGlobalDictionary = ResultSetDictionary(true)
 
 @OptIn(ExperimentalUnsignedTypes::class)
-class ResultSetDictionary(val global: Boolean = false) : IResultSetDictionary {
+class ResultSetDictionary(private val global: Boolean = false) : IResultSetDictionary {
     companion object {
         /*to most significant bit leads to signed errors because toInt sadly performs a whole reencoding of the int and stores it completely different*/
         internal const val mask1 = 0x40000000/*first 2 bit*/
@@ -39,7 +39,7 @@ class ResultSetDictionary(val global: Boolean = false) : IResultSetDictionary {
         }
     }
 
-    fun isLocalBNode(value: Int) = (value and mask3) == flaggedValueLocalBnode
+    private fun isLocalBNode(value: Int) = (value and mask3) == flaggedValueLocalBnode
 
     @JvmField
     internal val localBnodeToInt = mutableMapOf<String, Int>()
@@ -175,10 +175,10 @@ class ResultSetDictionary(val global: Boolean = false) : IResultSetDictionary {
                 return createDouble(s.toDouble())
             }
             ETripleComponentType.BOOLEAN -> {
-                if (s.toLowerCase() == "true") {
-                    return ResultSetDictionaryExt.booleanTrueValue
+                return if (s.toLowerCase() == "true") {
+                    ResultSetDictionaryExt.booleanTrueValue
                 } else {
-                    return ResultSetDictionaryExt.booleanFalseValue
+                    ResultSetDictionaryExt.booleanFalseValue
                 }
             }
             ETripleComponentType.STRING_TYPED -> {
@@ -221,13 +221,13 @@ class ResultSetDictionary(val global: Boolean = false) : IResultSetDictionary {
             res = value
         } else {
             try {
-                if (getValue(value).toBoolean()) {
-                    res = ResultSetDictionaryExt.booleanTrueValue
+                res = if (getValue(value).toBoolean()) {
+                    ResultSetDictionaryExt.booleanTrueValue
                 } else {
-                    res = ResultSetDictionaryExt.booleanFalseValue
+                    ResultSetDictionaryExt.booleanFalseValue
                 }
             } catch (e: Throwable) {
-                SanityCheck.println({ "TODO exception 1" })
+                SanityCheck.println { "TODO exception 1" }
                 e.printStackTrace()
             }
         }
@@ -235,7 +235,7 @@ class ResultSetDictionary(val global: Boolean = false) : IResultSetDictionary {
     }
 
     fun createNewBNode(value: String = emptyString): Int {
-        var res: Int
+        val res: Int
         if (global) {
             res = (flaggedValueGlobalBnode or (bNodeCounter++))
         } else {
@@ -250,7 +250,7 @@ class ResultSetDictionary(val global: Boolean = false) : IResultSetDictionary {
         return res
     }
 
-    fun createIri(iri: String): Int {
+    private fun createIri(iri: String): Int {
         var res: Int
         if (global) {
             val tmp3 = iriToInt[iri]
@@ -295,9 +295,9 @@ class ResultSetDictionary(val global: Boolean = false) : IResultSetDictionary {
         return res
     }
 
-    fun createLangTagged(content: String, lang: String): Int {
+    private fun createLangTagged(content: String, lang: String): Int {
         var res: Int
-        val key = lang + "@" + content
+        val key = "$lang@$content"
         if (global) {
             val tmp3 = langTaggedToInt[key]
             if (tmp3 == null) {
@@ -316,7 +316,7 @@ class ResultSetDictionary(val global: Boolean = false) : IResultSetDictionary {
                 res = tmp3 or flaggedValueGlobalLangTagged
             }
         } else {
-            var tmp = nodeGlobalDictionary.langTaggedToInt[key]
+            val tmp = nodeGlobalDictionary.langTaggedToInt[key]
             if (tmp != null) {
                 res = tmp or flaggedValueGlobalLangTagged
             } else {
@@ -341,7 +341,7 @@ class ResultSetDictionary(val global: Boolean = false) : IResultSetDictionary {
         return res
     }
 
-    fun createTyped(content: String, type: String): Int {
+    private fun createTyped(content: String, type: String): Int {
         var res: Int
         when (type) {
             "http://www.w3.org/2001/XMLSchema#integer" -> {
@@ -357,14 +357,14 @@ class ResultSetDictionary(val global: Boolean = false) : IResultSetDictionary {
                 res = createFloat(content.toDouble())
             }
             "http://www.w3.org/2001/XMLSchema#boolean" -> {
-                if (content == "true") {
-                    res = ResultSetDictionaryExt.booleanTrueValue
+                res = if (content == "true") {
+                    ResultSetDictionaryExt.booleanTrueValue
                 } else {
-                    res = ResultSetDictionaryExt.booleanFalseValue
+                    ResultSetDictionaryExt.booleanFalseValue
                 }
             }
             else -> {
-                val key = type + ">" + content
+                val key = "$type>$content"
                 if (global) {
                     val tmp3 = typedToInt[key]
                     if (tmp3 == null) {
@@ -383,7 +383,7 @@ class ResultSetDictionary(val global: Boolean = false) : IResultSetDictionary {
                         res = tmp3 or flaggedValueGlobalTyped
                     }
                 } else {
-                    var tmp = nodeGlobalDictionary.typedToInt[key]
+                    val tmp = nodeGlobalDictionary.typedToInt[key]
                     if (tmp != null) {
                         res = tmp or flaggedValueGlobalTyped
                     } else {
@@ -410,7 +410,7 @@ class ResultSetDictionary(val global: Boolean = false) : IResultSetDictionary {
         return res
     }
 
-    fun createDouble(value: Double): Int {
+    private fun createDouble(value: Double): Int {
         var res: Int
         if (global) {
             val tmp3 = doubleToInt[value]
@@ -455,7 +455,7 @@ class ResultSetDictionary(val global: Boolean = false) : IResultSetDictionary {
         return res
     }
 
-    fun createFloat(value: Double): Int {
+    private fun createFloat(value: Double): Int {
         var res: Int
         if (global) {
             val tmp3 = floatToInt[value]
@@ -500,7 +500,7 @@ class ResultSetDictionary(val global: Boolean = false) : IResultSetDictionary {
         return res
     }
 
-    fun createDecimal(value2: MyBigDecimal): Int {
+    private fun createDecimal(value2: MyBigDecimal): Int {
         val value = value2.toString()
         var res: Int
         if (global) {
@@ -546,7 +546,7 @@ class ResultSetDictionary(val global: Boolean = false) : IResultSetDictionary {
         return res
     }
 
-    fun createInteger(value2: MyBigInteger): Int {
+    private fun createInteger(value2: MyBigInteger): Int {
         val value = value2.toString()
         var res: Int
         if (global) {
@@ -597,7 +597,7 @@ class ResultSetDictionary(val global: Boolean = false) : IResultSetDictionary {
     }
 
     override fun createValue(value: ValueDefinition): Int {
-        var res: Int
+        val res: Int
         when (value) {
             is ValueUndef -> {
                 res = ResultSetDictionaryExt.undefValue
@@ -609,10 +609,10 @@ class ResultSetDictionary(val global: Boolean = false) : IResultSetDictionary {
                 res = createNewBNode(value.value)
             }
             is ValueBoolean -> {
-                if (value.value) {
-                    res = ResultSetDictionaryExt.booleanTrueValue
+                res = if (value.value) {
+                    ResultSetDictionaryExt.booleanTrueValue
                 } else {
-                    res = ResultSetDictionaryExt.booleanFalseValue
+                    ResultSetDictionaryExt.booleanFalseValue
                 }
             }
             is ValueLanguageTaggedLiteral -> {
@@ -652,14 +652,13 @@ class ResultSetDictionary(val global: Boolean = false) : IResultSetDictionary {
     }
 
     override fun getValue(value: Int): ValueDefinition {
-        var res: ValueDefinition
-        val dict: ResultSetDictionary
-        if ((value and mask1) == mask1) {
-            dict = nodeGlobalDictionary
+        val res: ValueDefinition
+        val dict: ResultSetDictionary = if ((value and mask1) == mask1) {
+            nodeGlobalDictionary
         } else {
-            dict = this
+            this
         }
-        var bit3 = value and mask3
+        val bit3 = value and mask3
         if (bit3 == flaggedValueLocalIri) {
             res = ValueIri(dict.iriToValue[value and filter3])
         } else if (bit3 == flaggedValueLocalBnode) {
@@ -682,30 +681,30 @@ class ResultSetDictionary(val global: Boolean = false) : IResultSetDictionary {
             }
         } else if (bit3 == flaggedValueLocalTyped) {
             val tmp = dict.typedToValue[value and filter3]
-            var idx = tmp.indexOf(">")
-            var type = tmp.substring(0, idx)
-            var content = tmp.substring(idx + 1, tmp.length)
-            if (idx == 0) {
-                res = ValueSimpleLiteral("\"", content)
+            val idx = tmp.indexOf(">")
+            val type = tmp.substring(0, idx)
+            val content = tmp.substring(idx + 1, tmp.length)
+            res = if (idx == 0) {
+                ValueSimpleLiteral("\"", content)
             } else {
-                res = ValueTypedLiteral("\"", content, type)
+                ValueTypedLiteral("\"", content, type)
             }
         } else {
-            var bit5 = value and mask6
-            if (bit5 == flaggedValueLocalInt) {
-                res = ValueInteger(MyBigInteger(dict.intToValue[value and filter6]))
+            val bit5 = value and mask6
+            res = if (bit5 == flaggedValueLocalInt) {
+                ValueInteger(MyBigInteger(dict.intToValue[value and filter6]))
             } else if (bit5 == flaggedValueLocalDecimal) {
-                res = ValueDecimal(MyBigDecimal(dict.decimalToValue[value and filter6]))
+                ValueDecimal(MyBigDecimal(dict.decimalToValue[value and filter6]))
             } else if (bit5 == flaggedValueLocalDouble) {
-                res = ValueDouble(dict.doubleToValue[value and filter6])
+                ValueDouble(dict.doubleToValue[value and filter6])
             } else if (bit5 == flaggedValueLocalFloat) {
-                res = ValueFloat(dict.floatToValue[value and filter6])
+                ValueFloat(dict.floatToValue[value and filter6])
             } else {
                 val tmp = dict.langTaggedToValue[value and filter6]
-                var idx = tmp.indexOf("@")
-                var lang = tmp.substring(0, idx)
-                var content = tmp.substring(idx + 1, tmp.length)
-                res = ValueLanguageTaggedLiteral("\"", content, lang)
+                val idx = tmp.indexOf("@")
+                val lang = tmp.substring(0, idx)
+                val content = tmp.substring(idx + 1, tmp.length)
+                ValueLanguageTaggedLiteral("\"", content, lang)
             }
         }
         return res
@@ -725,14 +724,12 @@ class ResultSetDictionary(val global: Boolean = false) : IResultSetDictionary {
                           onError: () -> Unit,
                           onUndefined: () -> Unit
     ) {
-        val dict: ResultSetDictionary
-        if ((value and mask1) == mask1) {
-            dict = nodeGlobalDictionary
+        val dict: ResultSetDictionary = if ((value and mask1) == mask1) {
+            nodeGlobalDictionary
         } else {
-            dict = this
+            this
         }
-        var bit3 = value and mask3
-        when (bit3) {
+        when (value and mask3) {
             flaggedValueLocalIri -> {
                 onIri(dict.iriToValue[value and filter3])
             }
@@ -757,7 +754,7 @@ class ResultSetDictionary(val global: Boolean = false) : IResultSetDictionary {
             }
             flaggedValueLocalTyped -> {
                 val tmp = dict.typedToValue[value and filter3]
-                var idx = tmp.indexOf(">")
+                val idx = tmp.indexOf(">")
                 if (idx == 0) {
                     onSimpleLiteral(tmp.substring(idx + 1, tmp.length))
                 } else {
@@ -765,8 +762,7 @@ class ResultSetDictionary(val global: Boolean = false) : IResultSetDictionary {
                 }
             }
             else -> {
-                var bit5 = value and mask6
-                when (bit5) {
+                when (value and mask6) {
                     flaggedValueLocalInt -> {
                         onInteger(dict.intToValue[value and filter6])
                     }
@@ -781,7 +777,7 @@ class ResultSetDictionary(val global: Boolean = false) : IResultSetDictionary {
                     }
                     else -> {
                         val tmp = dict.langTaggedToValue[value and filter6]
-                        var idx = tmp.indexOf("@")
+                        val idx = tmp.indexOf("@")
                         onLanguageTaggedLiteral(tmp.substring(idx + 1, tmp.length), tmp.substring(0, idx))
                     }
                 }
@@ -793,7 +789,7 @@ class ResultSetDictionary(val global: Boolean = false) : IResultSetDictionary {
     }
 
     override fun valueToGlobal(value: Int): Int {
-        var res: Int
+        val res: Int
         if ((value and mask1) == mask1) {
             res = value
         } else {

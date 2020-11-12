@@ -10,7 +10,7 @@ class LogicalOptimizer(query: Query) : OptimizerCompoundBase(query, EOptimizerID
                     //assign prefix to all operators which require those
                     LogicalOptimizerRemovePrefix(query)//
             ),
-            arrayOf<OptimizerBase>(
+            arrayOf(
                     LogicalOptimizerFilterSplitAND(query),//
                     LogicalOptimizerFilterSplitOR(query)//
             ),
@@ -18,7 +18,7 @@ class LogicalOptimizer(query: Query) : OptimizerCompoundBase(query, EOptimizerID
                     //search for_ structures, which form the minus-operator
                     LogicalOptimizerDetectMinus(query)//
             ),
-            arrayOf<OptimizerBase>(
+            arrayOf(
                     LogicalOptimizerFilterOptional(query),//deal with all optionals wich do are not another form of minus-operator
                     LogicalOptimizerFilterOptionalStep2(query)//this needs to execute immediately after LogicalOptimizerFilterOptional, and is used to set a single flag that it is finished
             ),
@@ -31,7 +31,7 @@ class LogicalOptimizer(query: Query) : OptimizerCompoundBase(query, EOptimizerID
             arrayOf<OptimizerBase>(
                     LogicalOptimizerDetectMinusStep2(query)//
             ),
-            arrayOf<OptimizerBase>(
+            arrayOf(
                     //remove all filters testing for_ equality by renaming one of the variables
                     LogicalOptimizerRemoveNOOP(query),// remove noops first, to be able to do a better choice
                     LogicalOptimizerFilterEQ(query)//
@@ -40,7 +40,7 @@ class LogicalOptimizer(query: Query) : OptimizerCompoundBase(query, EOptimizerID
                     //solve all arithmetic equations with only constants
                     LogicalOptimizerArithmetic(query)//
             ),
-            arrayOf<OptimizerBase>(
+            arrayOf(
                     LogicalOptimizerRemoveProjection(query),//
                     LogicalOptimizerRemoveNOOP(query),//
                     LogicalOptimizerDistinctUp(query),//
@@ -48,11 +48,11 @@ class LogicalOptimizer(query: Query) : OptimizerCompoundBase(query, EOptimizerID
                     LogicalOptimizerRemoveBindVariable(query),//
                     LogicalOptimizerBindToFilter(query)//
             ),
-            arrayOf<OptimizerBase>(
+            arrayOf(
                     LogicalOptimizerUnionUp(query),//
                     LogicalOptimizerProjectionDown(query)//
             ),
-            arrayOf<OptimizerBase>(
+            arrayOf(
                     //replace variables with constants, _if there are just a few in the store, afterwards eliminate constants
                     LogicalOptimizerStoreToValues(query),//
                     LogicalOptimizerBindUp(query),//
@@ -93,14 +93,14 @@ class LogicalOptimizer(query: Query) : OptimizerCompoundBase(query, EOptimizerID
 //merge consecutive filters into a single AND connected one
                     LogicalOptimizerFilterMergeAND(query)//
             ),
-            arrayOf<OptimizerBase>(
+            arrayOf(
 //try to remove any unnecessary projection operator, never used columns
                     LogicalOptimizerProjectionDown(query),//
                     LogicalOptimizerRemoveProjection(query),//
                     LogicalOptimizerFilterIntoTriple(query),//
                     LogicalOptimizerRemoveBindVariable(query)//
             ),
-            arrayOf<OptimizerBase>(
+            arrayOf(
                     LogicalOptimizerMinusAddSort(query),//
                     LogicalOptimizerDistinctSplit(query)//
             ),
