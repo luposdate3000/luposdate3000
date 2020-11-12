@@ -1,4 +1,5 @@
 package lupos.s16network
+
 import kotlin.js.JsName
 import lupos.s00misc.DateHelperRelative
 import lupos.s00misc.EModifyType
@@ -43,7 +44,7 @@ import lupos.s15tripleStoreDistributed.DistributedTripleStore
  */
 @UseExperimental(ExperimentalStdlibApi::class, kotlin.time.ExperimentalTime::class)
 object LuposdateEndpoint {
-var initialized=false
+    var initialized = false
     internal fun helper_clean_string(s: String): String {
         var res: String = s
         while (true) {
@@ -74,7 +75,8 @@ var initialized=false
         return res
 /*Coverage Unreachable*/
     }
-@JsName("import_turtle_files_old")
+
+    @JsName("import_turtle_files_old")
     suspend fun import_turtle_files_old(fileNames: String, bnodeDict: MutableMap<String, Int>): String {
         try {
             val query = Query()
@@ -117,7 +119,8 @@ var initialized=false
         }
 /*Coverage Unreachable*/
     }
-@JsName("import_turtle_files")
+
+    @JsName("import_turtle_files")
     suspend fun import_turtle_files(fileNames: String, bnodeDict: MutableMap<String, Int>): String {
         try {
             val query = Query()
@@ -150,7 +153,7 @@ var initialized=false
 /*Coverage Unreachable*/
     }
 
-@JsName("import_intermediate_files")
+    @JsName("import_intermediate_files")
     suspend fun import_intermediate_files(fileNames: String): String {
         try {
             val query = Query()
@@ -223,7 +226,7 @@ var initialized=false
 /*Coverage Unreachable*/
     }
 
-@JsName("import_xml_data")
+    @JsName("import_xml_data")
     suspend fun import_xml_data(data: String): String {
         val query = Query()
         val import = POPValuesImportXML(query, listOf("s", "p", "o"), XMLElementFromXML()(data)!!).evaluate(Partition())
@@ -234,11 +237,12 @@ var initialized=false
         return XMLElement("success").toString()
     }
 
-@JsName("evaluate_sparql_to_operatorgraph_a")
+    @JsName("evaluate_sparql_to_operatorgraph_a")
     suspend fun evaluate_sparql_to_operatorgraph_a(query: String): IOPBase {
-return evaluate_sparql_to_operatorgraph_b(query,false)
-}
-@JsName("evaluate_sparql_to_operatorgraph_b")
+        return evaluate_sparql_to_operatorgraph_b(query, false)
+    }
+
+    @JsName("evaluate_sparql_to_operatorgraph_b")
     suspend fun evaluate_sparql_to_operatorgraph_b(query: String, logOperatorGraph: Boolean): IOPBase {
         val q = Query()
 //        var timer = DateHelperRelative.markNow()
@@ -281,7 +285,7 @@ return evaluate_sparql_to_operatorgraph_b(query,false)
         return pop_node
     }
 
-@JsName("evaluate_operatorgraph_to_result")
+    @JsName("evaluate_operatorgraph_to_result")
     suspend fun evaluate_operatorgraph_to_result(node: IOPBase, output: IMyPrintWriter) {
 //var timer = DateHelperRelative.markNow()
         output.println("HTTP/1.1 200 OK")
@@ -294,11 +298,12 @@ return evaluate_sparql_to_operatorgraph_b(query,false)
 //println("timer #407 ${DateHelperRelative.elapsedSeconds(timer)}")
     }
 
-@JsName("evaluate_sparql_to_result_b")
+    @JsName("evaluate_sparql_to_result_b")
     suspend fun evaluate_sparql_to_result_b(query: String): String {
-return evaluate_sparql_to_result_c(query,false)
-}
-@JsName("evaluate_sparql_to_result_c")
+        return evaluate_sparql_to_result_c(query, false)
+    }
+
+    @JsName("evaluate_sparql_to_result_c")
     suspend fun evaluate_sparql_to_result_c(query: String, logOperatorGraph: Boolean): String {
         val node = evaluate_sparql_to_operatorgraph_b(query, logOperatorGraph)
         val buf = MyPrintWriter()
@@ -306,24 +311,26 @@ return evaluate_sparql_to_result_c(query,false)
         return buf.toString()
     }
 
-@JsName("evaluate_sparql_to_result_a")
+    @JsName("evaluate_sparql_to_result_a")
     suspend fun evaluate_sparql_to_result_a(query: String, output: IMyPrintWriter) {
-evaluate_sparql_to_result_d(query,output,false)
-}
-@JsName("evaluate_sparql_to_result_d")
-    suspend fun evaluate_sparql_to_result_d(query: String, output: IMyPrintWriter, logOperatorGraph: Boolean ) {
+        evaluate_sparql_to_result_d(query, output, false)
+    }
+
+    @JsName("evaluate_sparql_to_result_d")
+    suspend fun evaluate_sparql_to_result_d(query: String, output: IMyPrintWriter, logOperatorGraph: Boolean) {
 //var timer = DateHelperRelative.markNow()
         val node = evaluate_sparql_to_operatorgraph_b(query, logOperatorGraph)
         evaluate_operatorgraph_to_result(node, output)
 //println("timer #408 ${DateHelperRelative.elapsedSeconds(timer)}")
     }
 
-@JsName("evaluate_operatorgraphXML_to_result_a")
+    @JsName("evaluate_operatorgraphXML_to_result_a")
     suspend fun evaluate_operatorgraphXML_to_result_a(query: String): String {
-return evaluate_operatorgraphXML_to_result_b(query,false)
-}
-@JsName("evaluate_operatorgraphXML_to_result_b")
-    suspend fun evaluate_operatorgraphXML_to_result_b(query: String, logOperatorGraph: Boolean ): String {
+        return evaluate_operatorgraphXML_to_result_b(query, false)
+    }
+
+    @JsName("evaluate_operatorgraphXML_to_result_b")
+    suspend fun evaluate_operatorgraphXML_to_result_b(query: String, logOperatorGraph: Boolean): String {
         val q = Query()
         val pop_node = XMLElement.convertToOPBase(q, XMLElementFromXML()(query)!!)
         SanityCheck.println { pop_node }
@@ -344,20 +351,21 @@ return evaluate_operatorgraphXML_to_result_b(query,false)
         return buf.toString()
     }
 
-@JsName("initialize")
+    @JsName("initialize")
     fun initialize() {
-if(!initialized){
-initialized=true
-        distributedTripleStore = DistributedTripleStore()
-        XMLElement.parseFromAnyRegistered["n3"] = XMLElementFromN3()
-        XMLElement.parseFromAnyRegistered["ttl"] = XMLElementFromN3()
-        XMLElement.parseFromAnyRegistered["srx"] = XMLElementFromXML()
-        XMLElement.parseFromAnyRegistered["srj"] = XMLElementFromJson()
-        XMLElement.parseFromAnyRegistered["csv"] = XMLElementFromCsv()
-        XMLElement.parseFromAnyRegistered["tsv"] = XMLElementFromTsv()
+        if (!initialized) {
+            initialized = true
+            distributedTripleStore = DistributedTripleStore()
+            XMLElement.parseFromAnyRegistered["n3"] = XMLElementFromN3()
+            XMLElement.parseFromAnyRegistered["ttl"] = XMLElementFromN3()
+            XMLElement.parseFromAnyRegistered["srx"] = XMLElementFromXML()
+            XMLElement.parseFromAnyRegistered["srj"] = XMLElementFromJson()
+            XMLElement.parseFromAnyRegistered["csv"] = XMLElementFromCsv()
+            XMLElement.parseFromAnyRegistered["tsv"] = XMLElementFromTsv()
+        }
     }
-}
-init{
-initialize()
-}
+
+    init {
+        initialize()
+    }
 }

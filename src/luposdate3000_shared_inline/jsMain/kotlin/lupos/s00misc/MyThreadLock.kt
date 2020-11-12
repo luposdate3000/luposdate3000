@@ -9,7 +9,6 @@ internal actual class MyThreadLock {
 
     val uuid = uuidCounter++
     actual inline fun getUUID() = uuid
-
     var locked = false
     actual inline fun lock() {
         SanityCheck {

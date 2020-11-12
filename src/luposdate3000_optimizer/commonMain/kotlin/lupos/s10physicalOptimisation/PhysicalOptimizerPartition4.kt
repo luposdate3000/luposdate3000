@@ -1,9 +1,10 @@
 package lupos.s10physicalOptimisation
-import lupos.s00misc.USE_PARTITIONS
+
 import lupos.s00misc.DontCareWhichException
 import lupos.s00misc.EOptimizerID
 import lupos.s00misc.Partition
 import lupos.s00misc.TripleStoreLocal
+import lupos.s00misc.USE_PARTITIONS
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.OPBase
@@ -26,7 +27,7 @@ import lupos.s15tripleStoreDistributed.TripleStoreIteratorGlobal
 
 class PhysicalOptimizerPartition4(query: Query) : OptimizerBase(query, EOptimizerID.PhysicalOptimizerPartition4ID) {
     override val classname = "PhysicalOptimizerPartition4"
-internal    fun getNumberOfEnclosingPartitions(node: IOPBase): Int {
+    internal fun getNumberOfEnclosingPartitions(node: IOPBase): Int {
         var count = 1
         val childs = node.getChildren()
         if (childs.size > 0) {
@@ -46,105 +47,105 @@ internal    fun getNumberOfEnclosingPartitions(node: IOPBase): Int {
 
     override suspend fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
         var res = node
-if (USE_PARTITIONS && Partition.default_k > 1) {
-        when (node) {
-            is POPSplitPartitionFromStore -> {
-                val tmp = query.partitionOperatorCount[node.partitionID]
-                if (tmp != null && tmp != node.partitionCount) {
-                    node.partitionCount = tmp
-                    onChange()
-                }
-                query.partitionOperatorCount[node.partitionID] = node.partitionCount
-                var newCount = node.partitionCount
-                val count = getNumberOfEnclosingPartitions(node.children[0]) * node.partitionCount
-                if (count > Partition.default_k) {
-                    val reduceFactor = count / Partition.default_k
-                    if (reduceFactor > node.partitionCount) {
-                        newCount = 1
-                    } else {
-                        newCount = node.partitionCount / reduceFactor
+        if (USE_PARTITIONS && Partition.default_k > 1) {
+            when (node) {
+                is POPSplitPartitionFromStore -> {
+                    val tmp = query.partitionOperatorCount[node.partitionID]
+                    if (tmp != null && tmp != node.partitionCount) {
+                        node.partitionCount = tmp
+                        onChange()
+                    }
+                    query.partitionOperatorCount[node.partitionID] = node.partitionCount
+                    var newCount = node.partitionCount
+                    val count = getNumberOfEnclosingPartitions(node.children[0]) * node.partitionCount
+                    if (count > Partition.default_k) {
+                        val reduceFactor = count / Partition.default_k
+                        if (reduceFactor > node.partitionCount) {
+                            newCount = 1
+                        } else {
+                            newCount = node.partitionCount / reduceFactor
+                        }
+                    }
+                    if (newCount < node.partitionCount) {
+                        node.partitionCount = newCount
+                        query.partitionOperatorCount[node.partitionID] = newCount
+                        onChange()
                     }
                 }
-                if (newCount < node.partitionCount) {
-                    node.partitionCount = newCount
-                    query.partitionOperatorCount[node.partitionID] = newCount
-                    onChange()
-                }
-            }
-            is POPSplitPartition -> {
-                val tmp = query.partitionOperatorCount[node.partitionID]
-                if (tmp != null && tmp != node.partitionCount) {
-                    node.partitionCount = tmp
-                    onChange()
-                }
-                query.partitionOperatorCount[node.partitionID] = node.partitionCount
-                var newCount = node.partitionCount
-                val count = getNumberOfEnclosingPartitions(node.children[0]) * node.partitionCount
-                if (count > Partition.default_k) {
-                    val reduceFactor = count / Partition.default_k
-                    if (reduceFactor > node.partitionCount) {
-                        newCount = 1
-                    } else {
-                        newCount = node.partitionCount / reduceFactor
+                is POPSplitPartition -> {
+                    val tmp = query.partitionOperatorCount[node.partitionID]
+                    if (tmp != null && tmp != node.partitionCount) {
+                        node.partitionCount = tmp
+                        onChange()
+                    }
+                    query.partitionOperatorCount[node.partitionID] = node.partitionCount
+                    var newCount = node.partitionCount
+                    val count = getNumberOfEnclosingPartitions(node.children[0]) * node.partitionCount
+                    if (count > Partition.default_k) {
+                        val reduceFactor = count / Partition.default_k
+                        if (reduceFactor > node.partitionCount) {
+                            newCount = 1
+                        } else {
+                            newCount = node.partitionCount / reduceFactor
+                        }
+                    }
+                    if (newCount < node.partitionCount) {
+                        node.partitionCount = newCount
+                        query.partitionOperatorCount[node.partitionID] = newCount
+                        onChange()
                     }
                 }
-                if (newCount < node.partitionCount) {
-                    node.partitionCount = newCount
-                    query.partitionOperatorCount[node.partitionID] = newCount
-                    onChange()
-                }
-            }
-            is POPMergePartition -> {
-                val tmp = query.partitionOperatorCount[node.partitionID]
-                if (tmp != null && tmp != node.partitionCount) {
-                    node.partitionCount = tmp
-                    onChange()
-                }
-            }
-            is POPMergePartitionCount -> {
-                val tmp = query.partitionOperatorCount[node.partitionID]
-                if (tmp != null && tmp != node.partitionCount) {
-                    node.partitionCount = tmp
-                    onChange()
-                }
-            }
-            is POPMergePartitionOrderedByIntId -> {
-                val tmp = query.partitionOperatorCount[node.partitionID]
-                if (tmp != null && tmp != node.partitionCount) {
-                    node.partitionCount = tmp
-                    onChange()
-                }
-            }
-            is POPChangePartitionOrderedByIntId -> {
-                val tmp = query.partitionOperatorCount[node.partitionIDFrom]
-                if (tmp != null && tmp != node.partitionCountFrom) {
-                    node.partitionCountFrom = tmp
-                    onChange()
-                }
-                val tmp2 = query.partitionOperatorCount[node.partitionIDTo]
-                if (tmp2 != null && tmp2 != node.partitionCountTo) {
-                    node.partitionCountTo = tmp2
-                    onChange()
-                }
-                query.partitionOperatorCount[node.partitionIDTo] = node.partitionCountTo
-                var newCount = node.partitionCountTo
-                val count = getNumberOfEnclosingPartitions(node.children[0]) * node.partitionCountTo / node.partitionCountFrom
-                if (count > Partition.default_k) {
-                    val reduceFactor = count / Partition.default_k
-                    if (reduceFactor > node.partitionCountTo) {
-                        newCount = 1
-                    } else {
-                        newCount = node.partitionCountTo / reduceFactor
+                is POPMergePartition -> {
+                    val tmp = query.partitionOperatorCount[node.partitionID]
+                    if (tmp != null && tmp != node.partitionCount) {
+                        node.partitionCount = tmp
+                        onChange()
                     }
                 }
-                if (newCount < node.partitionCountTo) {
-                    node.partitionCountTo = newCount
-                    query.partitionOperatorCount[node.partitionIDTo] = newCount
-                    onChange()
+                is POPMergePartitionCount -> {
+                    val tmp = query.partitionOperatorCount[node.partitionID]
+                    if (tmp != null && tmp != node.partitionCount) {
+                        node.partitionCount = tmp
+                        onChange()
+                    }
+                }
+                is POPMergePartitionOrderedByIntId -> {
+                    val tmp = query.partitionOperatorCount[node.partitionID]
+                    if (tmp != null && tmp != node.partitionCount) {
+                        node.partitionCount = tmp
+                        onChange()
+                    }
+                }
+                is POPChangePartitionOrderedByIntId -> {
+                    val tmp = query.partitionOperatorCount[node.partitionIDFrom]
+                    if (tmp != null && tmp != node.partitionCountFrom) {
+                        node.partitionCountFrom = tmp
+                        onChange()
+                    }
+                    val tmp2 = query.partitionOperatorCount[node.partitionIDTo]
+                    if (tmp2 != null && tmp2 != node.partitionCountTo) {
+                        node.partitionCountTo = tmp2
+                        onChange()
+                    }
+                    query.partitionOperatorCount[node.partitionIDTo] = node.partitionCountTo
+                    var newCount = node.partitionCountTo
+                    val count = getNumberOfEnclosingPartitions(node.children[0]) * node.partitionCountTo / node.partitionCountFrom
+                    if (count > Partition.default_k) {
+                        val reduceFactor = count / Partition.default_k
+                        if (reduceFactor > node.partitionCountTo) {
+                            newCount = 1
+                        } else {
+                            newCount = node.partitionCountTo / reduceFactor
+                        }
+                    }
+                    if (newCount < node.partitionCountTo) {
+                        node.partitionCountTo = newCount
+                        query.partitionOperatorCount[node.partitionIDTo] = newCount
+                        onChange()
+                    }
                 }
             }
         }
-}
         return res
     }
 }

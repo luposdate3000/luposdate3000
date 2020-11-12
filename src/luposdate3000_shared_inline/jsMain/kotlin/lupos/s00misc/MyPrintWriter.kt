@@ -1,10 +1,7 @@
 package lupos.s00misc
 
-
 open actual internal class MyPrintWriter : IMyPrintWriter {
-
     val buffer = StringBuilder()
-
     val bufferMode: MyPrintWriterMode
 
     actual constructor(hasBuffer: Boolean) {
@@ -86,10 +83,10 @@ open actual internal class MyPrintWriter : IMyPrintWriter {
     }
 
     actual override fun close() {
-            throw Exception("not supported")
+        throw Exception("not supported")
     }
 
     actual override fun flush() {
-            throw Exception("not supported")
+        throw Exception("not supported")
     }
 }

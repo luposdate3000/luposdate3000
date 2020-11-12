@@ -16,7 +16,6 @@ fun createBuildFileForModule(args: Array<String>) {
         pathSeparator = "/"
         pathSeparatorEscaped = "/"
     }
-
     var moduleName = ""
     var moduleFolder = ""
     var modulePrefix = ""
@@ -279,11 +278,11 @@ fun createBuildFileForModule(args: Array<String>) {
                 out.println("    sourceSets[\"jvmMain\"].kotlin.srcDir(\"..${pathSeparator}xxx_generated_xxx${pathSeparator}${moduleName}${pathSeparator}jvmMain${pathSeparator}kotlin\")")
                 if (!fastMode) {
                     out.println("    sourceSets[\"jsMain\"].kotlin.srcDir(\"jsMain${pathSeparatorEscaped}kotlin\")")
-                out.println("    sourceSets[\"jsMain\"].kotlin.srcDir(\"..${pathSeparator}xxx_generated_xxx${pathSeparator}${moduleName}${pathSeparator}jsMain${pathSeparator}kotlin\")")
+                    out.println("    sourceSets[\"jsMain\"].kotlin.srcDir(\"..${pathSeparator}xxx_generated_xxx${pathSeparator}${moduleName}${pathSeparator}jsMain${pathSeparator}kotlin\")")
                     out.println("    sourceSets[\"${platform}Main\"].kotlin.srcDir(\"nativeMain${pathSeparatorEscaped}kotlin\")")
-                out.println("    sourceSets[\"${platform}Main\"].kotlin.srcDir(\"..${pathSeparator}xxx_generated_xxx${pathSeparator}${moduleName}${pathSeparator}nativeMain${pathSeparator}kotlin\")")
+                    out.println("    sourceSets[\"${platform}Main\"].kotlin.srcDir(\"..${pathSeparator}xxx_generated_xxx${pathSeparator}${moduleName}${pathSeparator}nativeMain${pathSeparator}kotlin\")")
                     out.println("    sourceSets[\"${platform}Main\"].kotlin.srcDir(\"${platform}Main${pathSeparatorEscaped}kotlin\")")
-                out.println("    sourceSets[\"${platform}Main\"].kotlin.srcDir(\"..${pathSeparator}xxx_generated_xxx${pathSeparator}${moduleName}${pathSeparator}${platform}Main${pathSeparator}kotlin\")")
+                    out.println("    sourceSets[\"${platform}Main\"].kotlin.srcDir(\"..${pathSeparator}xxx_generated_xxx${pathSeparator}${moduleName}${pathSeparator}${platform}Main${pathSeparator}kotlin\")")
                 }
             } else {
                 out.println("    sourceSets[\"commonMain\"].kotlin.srcDir(\"src.generated${pathSeparatorEscaped}commonMain${pathSeparatorEscaped}kotlin\")")
@@ -418,58 +417,58 @@ fun createBuildFileForModule(args: Array<String>) {
     }
     println(typeAliasUsed.keys)
     println()
-var configFile:String
+    var configFile: String
     if (ideaBuildfile) {
-var configPathBase="src${pathSeparator}xxx_generated_xxx${pathSeparator}${moduleName}"
-var configPath="${configPathBase}${pathSeparator}commonMain${pathSeparator}kotlin${pathSeparator}lupos${pathSeparator}s00misc"
-File(configPath).mkdirs()
-typeAliasUsed.putAll(typeAliasAll)
-try{
- File("src${pathSeparator}luposdate3000_shared_inline${pathSeparator}commonMain").copyRecursively(File("${configPathBase}${pathSeparator}commonMain"))
-}catch(e:Throwable){
-}
-try{
- File("src${pathSeparator}luposdate3000_shared_inline${pathSeparator}jvmMain").copyRecursively(File("${configPathBase}${pathSeparator}jvmMain"))
-}catch(e:Throwable){
-}
-try{
- File("src${pathSeparator}luposdate3000_shared_inline${pathSeparator}jsMain").copyRecursively(File("${configPathBase}${pathSeparator}jsMain"))
-}catch(e:Throwable){
-}
-try{
- File("src${pathSeparator}luposdate3000_shared_inline${pathSeparator}nativeMain").copyRecursively(File("${configPathBase}${pathSeparator}nativeMain"))
-}catch(e:Throwable){
-}
-configFile="${configPath}${pathSeparator}Config-${moduleName}.kt"
-}else{
-configFile="src.generated${pathSeparator}commonMain${pathSeparator}kotlin${pathSeparator}lupos${pathSeparator}s00misc${pathSeparator}Config-${moduleName}.kt"
-}
+        var configPathBase = "src${pathSeparator}xxx_generated_xxx${pathSeparator}${moduleName}"
+        var configPath = "${configPathBase}${pathSeparator}commonMain${pathSeparator}kotlin${pathSeparator}lupos${pathSeparator}s00misc"
+        File(configPath).mkdirs()
+        typeAliasUsed.putAll(typeAliasAll)
+        try {
+            File("src${pathSeparator}luposdate3000_shared_inline${pathSeparator}commonMain").copyRecursively(File("${configPathBase}${pathSeparator}commonMain"))
+        } catch (e: Throwable) {
+        }
+        try {
+            File("src${pathSeparator}luposdate3000_shared_inline${pathSeparator}jvmMain").copyRecursively(File("${configPathBase}${pathSeparator}jvmMain"))
+        } catch (e: Throwable) {
+        }
+        try {
+            File("src${pathSeparator}luposdate3000_shared_inline${pathSeparator}jsMain").copyRecursively(File("${configPathBase}${pathSeparator}jsMain"))
+        } catch (e: Throwable) {
+        }
+        try {
+            File("src${pathSeparator}luposdate3000_shared_inline${pathSeparator}nativeMain").copyRecursively(File("${configPathBase}${pathSeparator}nativeMain"))
+        } catch (e: Throwable) {
+        }
+        configFile = "${configPath}${pathSeparator}Config-${moduleName}.kt"
+    } else {
+        configFile = "src.generated${pathSeparator}commonMain${pathSeparator}kotlin${pathSeparator}lupos${pathSeparator}s00misc${pathSeparator}Config-${moduleName}.kt"
+    }
 //selectively copy classes which are inlined from the inline module <-
-        File(configFile).printWriter().use { out ->
-            out.println("package lupos.s00misc")
-            for ((k, v) in typeAliasUsed) {
-                out.println("internal typealias ${v.first} = ${v.second}")
-            }
-            if (File("${moduleFolder}${pathSeparator}configOptions").exists()) {
-                File("${moduleFolder}${pathSeparator}configOptions").forEachLine {
-                    val opt = it.split(",")
-                    if (opt.size == 4) {
-                        var value = opt[3]
-                        for (a in args) {
-                            if (a.startsWith("--${opt[0]}") && a.contains("=")) {
-                                value = a.substring(a.indexOf("=") + 1)
-                            }
+    File(configFile).printWriter().use { out ->
+        out.println("package lupos.s00misc")
+        for ((k, v) in typeAliasUsed) {
+            out.println("internal typealias ${v.first} = ${v.second}")
+        }
+        if (File("${moduleFolder}${pathSeparator}configOptions").exists()) {
+            File("${moduleFolder}${pathSeparator}configOptions").forEachLine {
+                val opt = it.split(",")
+                if (opt.size == 4) {
+                    var value = opt[3]
+                    for (a in args) {
+                        if (a.startsWith("--${opt[0]}") && a.contains("=")) {
+                            value = a.substring(a.indexOf("=") + 1)
                         }
-                        if (opt[1] == "typealias") {
-                            out.println("${opt[1]} ${opt[0]} = $value")
-                        } else {
-                            out.println("${opt[1]} ${opt[0]}: ${opt[2]} = $value")
-                        }
+                    }
+                    if (opt[1] == "typealias") {
+                        out.println("${opt[1]} ${opt[0]} = $value")
+                    } else {
+                        out.println("${opt[1]} ${opt[0]}: ${opt[2]} = $value")
                     }
                 }
             }
         }
-if (!ideaBuildfile) {
+    }
+    if (!ideaBuildfile) {
         if (inlineMode == InlineMode.Enable) {
             applyInlineEnable()
         } else {

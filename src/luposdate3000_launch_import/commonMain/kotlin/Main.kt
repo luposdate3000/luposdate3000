@@ -26,72 +26,72 @@ fun helper_clean_string(s: String): String {
 
 @UseExperimental(ExperimentalStdlibApi::class, kotlin.time.ExperimentalTime::class)
 fun main(args: Array<String>) = Parallel.runBlocking {
-println("importing args ${args.map{it}}")
-LuposdateEndpoint.initialize()
-            var cnt = 0
-            val inputFileName = args[0]
-            println("importing $inputFileName start")
-            val inputFile = File(inputFileName)
-            val dict = mutableMapOf<String, Int>()
-            var dictCounter = 0
-            var dictCounterByType = IntArray(ETripleComponentType.values().size)
-            var DictionaryOffset = 0
-            val iter = inputFile.readAsInputStream()
-            val outputTriplesFile = File(inputFileName + ".triples")
-            val outputDictionaryFile = File(inputFileName + ".dictionary")
-            val outputDictionaryOffsetFile = File(inputFileName + ".dictionaryoffset")
-            val outputDictionaryStatFile = File(inputFileName + ".stat")
-            val byteBuf = ByteArray(1)
-            try {
-                outputDictionaryFile.dataOutputStream { outDictionary ->
-                    outputDictionaryOffsetFile.dataOutputStream { outDictionaryOffset ->
-                        outputTriplesFile.dataOutputStream { outTriples ->
-                            val x = object : Turtle2Parser(iter) {
-                                override fun onTriple(triple: Array<String>, tripleType: Array<ETripleComponentType>) {
-                                    for (i in 0 until 3) {
-                                        var tripleCleaned = helper_clean_string(triple[i])
-                                        val v = dict[tripleCleaned]
-                                        if (v != null) {
-                                            outTriples.writeInt(v)
-                                        } else {
-                                            val v2 = dictCounter++
-                                            dictCounterByType[tripleType[i].ordinal]++
-                                            dict[tripleCleaned] = v2
-                                            outTriples.writeInt(v2)
-                                            var tripleCleaned2 = tripleCleaned
-                                            if (tripleType[i] == ETripleComponentType.IRI) {
-                                                tripleCleaned2 = tripleCleaned.substring(1, tripleCleaned.length - 1)
-                                            }
-                                            val tmp = tripleCleaned2.encodeToByteArray()
-                                            byteBuf[0] = tripleType[i].ordinal.toByte()
-                                            outDictionary.write(byteBuf)
-                                            outDictionary.write(tmp)
-                                            if (DictionaryOffset > 0) {
-                                                outDictionaryOffset.writeInt(DictionaryOffset)//TODO this is too small ... integer-overflow
-                                            }
-                                            DictionaryOffset += tmp.size + 1
-                                        }
+    println("importing args ${args.map { it }}")
+    LuposdateEndpoint.initialize()
+    var cnt = 0
+    val inputFileName = args[0]
+    println("importing $inputFileName start")
+    val inputFile = File(inputFileName)
+    val dict = mutableMapOf<String, Int>()
+    var dictCounter = 0
+    var dictCounterByType = IntArray(ETripleComponentType.values().size)
+    var DictionaryOffset = 0
+    val iter = inputFile.readAsInputStream()
+    val outputTriplesFile = File(inputFileName + ".triples")
+    val outputDictionaryFile = File(inputFileName + ".dictionary")
+    val outputDictionaryOffsetFile = File(inputFileName + ".dictionaryoffset")
+    val outputDictionaryStatFile = File(inputFileName + ".stat")
+    val byteBuf = ByteArray(1)
+    try {
+        outputDictionaryFile.dataOutputStream { outDictionary ->
+            outputDictionaryOffsetFile.dataOutputStream { outDictionaryOffset ->
+                outputTriplesFile.dataOutputStream { outTriples ->
+                    val x = object : Turtle2Parser(iter) {
+                        override fun onTriple(triple: Array<String>, tripleType: Array<ETripleComponentType>) {
+                            for (i in 0 until 3) {
+                                var tripleCleaned = helper_clean_string(triple[i])
+                                val v = dict[tripleCleaned]
+                                if (v != null) {
+                                    outTriples.writeInt(v)
+                                } else {
+                                    val v2 = dictCounter++
+                                    dictCounterByType[tripleType[i].ordinal]++
+                                    dict[tripleCleaned] = v2
+                                    outTriples.writeInt(v2)
+                                    var tripleCleaned2 = tripleCleaned
+                                    if (tripleType[i] == ETripleComponentType.IRI) {
+                                        tripleCleaned2 = tripleCleaned.substring(1, tripleCleaned.length - 1)
                                     }
-                                    cnt++
-                                    if (cnt % 10000 == 0) {
-                                        println("$cnt :: $dictCounter $DictionaryOffset")
+                                    val tmp = tripleCleaned2.encodeToByteArray()
+                                    byteBuf[0] = tripleType[i].ordinal.toByte()
+                                    outDictionary.write(byteBuf)
+                                    outDictionary.write(tmp)
+                                    if (DictionaryOffset > 0) {
+                                        outDictionaryOffset.writeInt(DictionaryOffset)//TODO this is too small ... integer-overflow
                                     }
+                                    DictionaryOffset += tmp.size + 1
                                 }
                             }
-                            x.turtleDoc()
-                            outDictionaryOffset.writeInt(DictionaryOffset)
+                            cnt++
+                            if (cnt % 10000 == 0) {
+                                println("$cnt :: $dictCounter $DictionaryOffset")
+                            }
                         }
                     }
-                }
-            } catch (e: lupos.s02buildSyntaxTree.ParseError) {
-                println("error in file '$inputFileName'")
-                throw e
-            }
-            outputDictionaryStatFile.printWriter { out ->
-                out.println("total=$dictCounter")
-                for (t in ETripleComponentType.values()) {
-                    out.println("$t=${dictCounterByType[t.ordinal]}")
+                    x.turtleDoc()
+                    outDictionaryOffset.writeInt(DictionaryOffset)
                 }
             }
-            println("importing $inputFileName finish with $cnt triples")
+        }
+    } catch (e: lupos.s02buildSyntaxTree.ParseError) {
+        println("error in file '$inputFileName'")
+        throw e
+    }
+    outputDictionaryStatFile.printWriter { out ->
+        out.println("total=$dictCounter")
+        for (t in ETripleComponentType.values()) {
+            out.println("$t=${dictCounterByType[t.ordinal]}")
+        }
+    }
+    println("importing $inputFileName finish with $cnt triples")
 }
