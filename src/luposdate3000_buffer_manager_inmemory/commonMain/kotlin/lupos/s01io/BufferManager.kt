@@ -55,7 +55,7 @@ class BufferManager(@JvmField val bufferName: String) {
     }
 
     @JvmField
-    internal var allPages = Array<ByteArray>(100) { ByteArray(BUFFER_MANAGER_PAGE_SIZE_IN_BYTES) }
+    internal var allPages = Array(100) { ByteArray(BUFFER_MANAGER_PAGE_SIZE_IN_BYTES) }
 
     @JvmField
     internal var allPagesRefcounters = IntArray(100)
@@ -79,7 +79,7 @@ class BufferManager(@JvmField val bufferName: String) {
                 SanityCheck.check({ allPagesRefcounters[i] == 0 }, { "Failed requirement pageid = $i" })
             }
         }
-        allPages = Array<ByteArray>(100) { ByteArray(BUFFER_MANAGER_PAGE_SIZE_IN_BYTES) }
+        allPages = Array(100) { ByteArray(BUFFER_MANAGER_PAGE_SIZE_IN_BYTES) }
         allPagesRefcounters = IntArray(100)
         freeList.clear()
     }
@@ -116,7 +116,7 @@ class BufferManager(@JvmField val bufferName: String) {
                 } else if (counter > 1000) {
                     size = counter + 1000
                 }
-                val tmp = Array<ByteArray>(size) {
+                val tmp = Array(size) {
                     val res: ByteArray
                     if (it < counter) {
                         res = allPages[it]
