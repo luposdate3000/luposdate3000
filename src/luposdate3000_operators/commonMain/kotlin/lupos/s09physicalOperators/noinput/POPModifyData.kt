@@ -1,5 +1,6 @@
 package lupos.s09physicalOperators.noinput
 
+import kotlin.jvm.JvmField
 import lupos.s00misc.*
 import lupos.s03resultRepresentation.ValueBoolean
 import lupos.s04arithmetikOperators.noinput.AOPConstant
@@ -12,7 +13,6 @@ import lupos.s04logicalOperators.noinput.LOPTriple
 import lupos.s05tripleStore.PersistentStoreLocalExt
 import lupos.s09physicalOperators.POPBase
 import lupos.s15tripleStoreDistributed.distributedTripleStore
-import kotlin.jvm.JvmField
 
 class POPModifyData(query: IQuery, projectedVariables: List<String>, @JvmField val type: EModifyType, @JvmField val data: List<LOPTriple>) : POPBase(query, projectedVariables, EOperatorID.POPModifyDataID, "POPModifyData", arrayOf(), ESortPriority.PREVENT_ANY) {
     override fun getPartitionCount(variable: String): Int = 1

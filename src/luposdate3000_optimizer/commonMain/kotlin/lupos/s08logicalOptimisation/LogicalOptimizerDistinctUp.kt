@@ -2,9 +2,9 @@ package lupos.s08logicalOptimisation
 
 import lupos.s00misc.EOptimizerID
 import lupos.s04logicalOperators.IOPBase
+import lupos.s04logicalOperators.multiinput.LOPUnion
 import lupos.s04logicalOperators.OPBaseCompound
 import lupos.s04logicalOperators.Query
-import lupos.s04logicalOperators.multiinput.LOPUnion
 import lupos.s04logicalOperators.singleinput.modifiers.LOPDistinct
 import lupos.s04logicalOperators.singleinput.modifiers.LOPLimit
 import lupos.s04logicalOperators.singleinput.modifiers.LOPOffset

@@ -1,12 +1,12 @@
 package lupos.s04arithmetikOperators.singleinput
 
+import kotlin.jvm.JvmField
 import lupos.s00misc.EOperatorID
 import lupos.s03resultRepresentation.*
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.IteratorBundle
-import kotlin.jvm.JvmField
 
 class AOPBuildInCallIRI(query: IQuery, child: AOPBase, @JvmField var prefix: String = "") : AOPBase(query, EOperatorID.AOPBuildInCallIRIID, "AOPBuildInCallIRI", arrayOf(child)) {
     override fun toSparql() = "IRI(" + children[0].toSparql() + ")"

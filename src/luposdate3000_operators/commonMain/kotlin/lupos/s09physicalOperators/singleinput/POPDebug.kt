@@ -1,5 +1,6 @@
 package lupos.s09physicalOperators.singleinput
 
+import kotlin.jvm.JvmField
 import lupos.s00misc.*
 import lupos.s03resultRepresentation.ResultSetDictionaryExt
 import lupos.s04logicalOperators.IOPBase
@@ -8,7 +9,6 @@ import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.iterator.RowIterator
 import lupos.s09physicalOperators.POPBase
-import kotlin.jvm.JvmField
 
 class POPDebug(query: IQuery, projectedVariables: List<String>, child: IOPBase) : POPBase(query, projectedVariables, EOperatorID.POPDebugID, "POPDebug", arrayOf(child), ESortPriority.SAME_AS_CHILD) {
     override fun getPartitionCount(variable: String): Int = getChildren()[0].getPartitionCount(variable)

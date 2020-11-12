@@ -5,8 +5,8 @@ import lupos.s00misc.SanityCheck
 import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.ResultSetDictionaryExt
 import lupos.s04logicalOperators.IOPBase
-import lupos.s04logicalOperators.OPBaseCompound
 import lupos.s04logicalOperators.noinput.OPNothing
+import lupos.s04logicalOperators.OPBaseCompound
 
 object QueryResultToXMLElement {
     /*suspend*/ fun toXML(rootNode: IOPBase): XMLElement {

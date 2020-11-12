@@ -1,12 +1,12 @@
 package lupos.s04arithmetikOperators.singleinput
 
+import kotlin.math.abs
 import lupos.s00misc.EOperatorID
 import lupos.s03resultRepresentation.*
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.IteratorBundle
-import kotlin.math.abs
 
 class AOPBuildInCallABS(query: IQuery, child: AOPBase) : AOPBase(query, EOperatorID.AOPBuildInCallABSID, "AOPBuildInCallABS", arrayOf(child)) {
     override fun toSparql() = "ABS(" + children[0].toSparql() + ")"

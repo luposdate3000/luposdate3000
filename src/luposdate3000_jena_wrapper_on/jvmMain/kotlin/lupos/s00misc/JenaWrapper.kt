@@ -1,11 +1,11 @@
 package lupos.s00misc
 
+import java.io.ByteArrayOutputStream
+import java.io.File
 import org.apache.jena.query.*
 import org.apache.jena.sparql.algebra.optimize.Optimize
 import org.apache.jena.sparql.mgt.Explain
 import org.apache.jena.update.UpdateAction
-import java.io.ByteArrayOutputStream
-import java.io.File
 
 object JenaWrapper {
     private var dataset = DatasetFactory.createTxnMem()!!

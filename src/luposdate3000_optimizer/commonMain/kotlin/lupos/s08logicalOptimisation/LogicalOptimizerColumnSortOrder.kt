@@ -4,8 +4,8 @@ import lupos.s00misc.EOptimizerID
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.SortHelper
 import lupos.s04logicalOperators.IOPBase
-import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.noinput.LOPTriple
+import lupos.s04logicalOperators.Query
 
 class LogicalOptimizerColumnSortOrder(query: Query) : OptimizerBase(query, EOptimizerID.LogicalOptimizerColumnSortOrderID) {
     override val classname = "LogicalOptimizerColumnSortOrder"

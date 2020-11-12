@@ -1,14 +1,14 @@
 package lupos.s09physicalOperators.noinput
 
+import kotlin.jvm.JvmField
 import lupos.s00misc.*
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s05tripleStore.PersistentStoreLocalExt
 import lupos.s09physicalOperators.POPBase
-import lupos.s15tripleStoreDistributed.IDistributedGraph
 import lupos.s15tripleStoreDistributed.distributedTripleStore
-import kotlin.jvm.JvmField
+import lupos.s15tripleStoreDistributed.IDistributedGraph
 
 class POPGraphOperation(query: IQuery,
                         projectedVariables: List<String>,

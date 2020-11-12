@@ -1,5 +1,6 @@
 package lupos.s04logicalOperators.noinput
 
+import kotlin.jvm.JvmField
 import lupos.s00misc.*
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04arithmetikOperators.IAOPBase
@@ -11,7 +12,6 @@ import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.LOPBase
 import lupos.s05tripleStore.PersistentStoreLocalExt
 import lupos.s15tripleStoreDistributed.distributedTripleStore
-import kotlin.jvm.JvmField
 
 class LOPTriple(query: IQuery, s: IAOPBase, p: IAOPBase, o: IAOPBase, @JvmField val graph: String, @JvmField val graphVar: Boolean) : LOPBase(query, EOperatorID.LOPTripleID, "LOPTriple", arrayOf(s, p, o), ESortPriority.ANY_PROVIDED_VARIABLE) {
     override fun toSparql(): String {

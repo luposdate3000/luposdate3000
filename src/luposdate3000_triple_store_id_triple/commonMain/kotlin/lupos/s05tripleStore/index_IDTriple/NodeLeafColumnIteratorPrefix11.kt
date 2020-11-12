@@ -1,9 +1,9 @@
 package lupos.s05tripleStore.index_IDTriple
 
+import kotlin.jvm.JvmField
 import lupos.s00misc.MyReadWriteLock
 import lupos.s00misc.SanityCheck
 import lupos.s03resultRepresentation.ResultSetDictionaryExt
-import kotlin.jvm.JvmField
 
 internal class NodeLeafColumnIteratorPrefix11(node: ByteArray, nodeid: Int, prefix: IntArray, lock: MyReadWriteLock) : NodeLeafColumnIteratorPrefix(node, nodeid, prefix, lock) {
     @JvmField

@@ -1,11 +1,11 @@
 package lupos.s05tripleStore
 
+import kotlin.jvm.JvmField
 import lupos.s00misc.*
 import lupos.s01io.BufferManager
 import lupos.s03resultRepresentation.nodeGlobalDictionary
 import lupos.s04logicalOperators.IQuery
 import lupos.s15tripleStoreDistributed.IPersistentStoreLocal
-import kotlin.jvm.JvmField
 
 class PersistentStoreLocal : IPersistentStoreLocal {
     @JvmField

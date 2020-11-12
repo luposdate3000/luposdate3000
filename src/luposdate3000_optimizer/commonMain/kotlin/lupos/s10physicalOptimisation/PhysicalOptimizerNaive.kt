@@ -7,18 +7,17 @@ import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04arithmetikOperators.IAOPBase
 import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s04logicalOperators.IOPBase
-import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.multiinput.LOPJoin
 import lupos.s04logicalOperators.multiinput.LOPMinus
 import lupos.s04logicalOperators.multiinput.LOPUnion
 import lupos.s04logicalOperators.noinput.*
+import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.singleinput.*
 import lupos.s04logicalOperators.singleinput.modifiers.LOPLimit
 import lupos.s04logicalOperators.singleinput.modifiers.LOPOffset
 import lupos.s04logicalOperators.singleinput.modifiers.LOPReduced
 import lupos.s04logicalOperators.singleinput.modifiers.LOPSortAny
 import lupos.s08logicalOptimisation.OptimizerBase
-import lupos.s09physicalOperators.POPBase
 import lupos.s09physicalOperators.multiinput.POPJoinHashMap
 import lupos.s09physicalOperators.multiinput.POPMinus
 import lupos.s09physicalOperators.multiinput.POPUnion
@@ -26,6 +25,7 @@ import lupos.s09physicalOperators.noinput.POPEmptyRow
 import lupos.s09physicalOperators.noinput.POPGraphOperation
 import lupos.s09physicalOperators.noinput.POPModifyData
 import lupos.s09physicalOperators.noinput.POPValues
+import lupos.s09physicalOperators.POPBase
 import lupos.s09physicalOperators.singleinput.*
 import lupos.s09physicalOperators.singleinput.modifiers.POPLimit
 import lupos.s09physicalOperators.singleinput.modifiers.POPOffset

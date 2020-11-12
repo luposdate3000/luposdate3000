@@ -1,5 +1,6 @@
 package lupos.s04logicalOperators.noinput
 
+import kotlin.jvm.JvmField
 import lupos.s00misc.EGraphOperationType
 import lupos.s00misc.EGraphRefType
 import lupos.s00misc.EOperatorID
@@ -8,7 +9,6 @@ import lupos.s04logicalOperators.HistogramResult
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.LOPBase
-import kotlin.jvm.JvmField
 
 class LOPGraphOperation(query: IQuery,
                         @JvmField var action: EGraphOperationType = EGraphOperationType.CREATE,

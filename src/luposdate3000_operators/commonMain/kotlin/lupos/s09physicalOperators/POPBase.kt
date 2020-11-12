@@ -1,11 +1,11 @@
 package lupos.s09physicalOperators
 
+import kotlin.jvm.JvmField
 import lupos.s00misc.*
 import lupos.s04logicalOperators.HistogramResult
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.OPBase
-import kotlin.jvm.JvmField
 
 abstract class POPBase(query: IQuery,
                        @JvmField var projectedVariables: List<String>,

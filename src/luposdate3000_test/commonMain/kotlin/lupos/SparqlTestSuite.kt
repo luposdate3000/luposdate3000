@@ -1,5 +1,6 @@
 package lupos
 
+import kotlin.jvm.JvmField
 import lupos.s00misc.*
 import lupos.s02buildSyntaxTree.LexerCharIterator
 import lupos.s02buildSyntaxTree.LookAheadTokenIterator
@@ -8,8 +9,8 @@ import lupos.s02buildSyntaxTree.rdf.*
 import lupos.s02buildSyntaxTree.sparql1_1.SPARQLParser
 import lupos.s02buildSyntaxTree.sparql1_1.TokenIteratorSPARQLParser
 import lupos.s02buildSyntaxTree.turtle.TurtleParserWithDictionary
-import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s03resultRepresentation.nodeGlobalDictionary
+import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s04logicalOperators.Query
 import lupos.s06buildOperatorGraph.OperatorGraphVisitor
@@ -20,7 +21,6 @@ import lupos.s11outputResult.QueryResultToXMLElement
 import lupos.s14endpoint.convertToOPBase
 import lupos.s15tripleStoreDistributed.distributedTripleStore
 import lupos.s16network.LuposdateEndpoint
-import kotlin.jvm.JvmField
 
 open class SparqlTestSuite {
     companion object {

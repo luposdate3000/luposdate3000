@@ -10,8 +10,8 @@ import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallExists
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallNotExists
 import lupos.s04logicalOperators.IOPBase
-import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.iterator.IteratorBundle
+import lupos.s04logicalOperators.Query
 
 class LogicalOptimizerArithmetic(query: Query) : OptimizerBase(query, EOptimizerID.LogicalOptimizerArithmeticID) {
     override val classname = "LogicalOptimizerArithmetic"

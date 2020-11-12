@@ -1,5 +1,6 @@
 package lupos.s09physicalOperators.noinput
 
+import kotlin.jvm.JvmField
 import lupos.s00misc.*
 import lupos.s03resultRepresentation.ResultSetDictionaryExt
 import lupos.s04arithmetikOperators.noinput.AOPConstant
@@ -10,7 +11,6 @@ import lupos.s04logicalOperators.iterator.ColumnIteratorMultiValue
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.noinput.LOPValues
 import lupos.s09physicalOperators.POPBase
-import kotlin.jvm.JvmField
 
 open class POPValues : POPBase {
     override fun getPartitionCount(variable: String): Int = 1

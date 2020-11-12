@@ -1,10 +1,9 @@
 package lupos.s00misc
 
-import lupos.s00misc.IMyInputStream
 import java.io.*
+import lupos.s00misc.IMyInputStream
 
 internal actual class File actual constructor(@JvmField val filename: String) {
-
     actual inline fun createTempFile(prefix: String, suffix: String, directory: String): String {
         val f = createTempFile(prefix, suffix, java.io.File(directory))
         return f.absolutePath

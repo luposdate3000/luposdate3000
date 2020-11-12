@@ -11,8 +11,8 @@ import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallBOUND
 import lupos.s04arithmetikOperators.singleinput.AOPNot
 import lupos.s04logicalOperators.IOPBase
-import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.multiinput.LOPJoin
+import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.singleinput.LOPFilter
 import lupos.s04logicalOperators.singleinput.LOPSubGroup
 

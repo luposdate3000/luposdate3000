@@ -1,5 +1,6 @@
 package lupos.s04arithmetikOperators.singleinput
 
+import kotlin.math.ceil
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.SanityCheck
 import lupos.s03resultRepresentation.*
@@ -7,7 +8,6 @@ import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.IteratorBundle
-import kotlin.math.ceil
 
 class AOPBuildInCallCEIL(query: IQuery, child: AOPBase) : AOPBase(query, EOperatorID.AOPBuildInCallCEILID, "AOPBuildInCallCEIL", arrayOf(child)) {
     //return integer which is equal or larger than input

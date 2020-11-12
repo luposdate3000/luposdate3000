@@ -1,5 +1,6 @@
 package lupos.s15tripleStoreDistributed
 
+import kotlin.jvm.JvmField
 import lupos.s00misc.*
 import lupos.s03resultRepresentation.ResultSetDictionaryExt
 import lupos.s04arithmetikOperators.IAOPBase
@@ -11,7 +12,6 @@ import lupos.s04logicalOperators.iterator.ColumnIteratorMultiValue
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s05tripleStore.*
 import lupos.s09physicalOperators.POPBase
-import kotlin.jvm.JvmField
 
 class TripleStoreIteratorGlobal(query: IQuery, projectedVariables: List<String>, @JvmField val graphName: String, params: Array<IAOPBase>, @JvmField val idx: EIndexPattern, @JvmField val partition: Partition) : POPBase(query, projectedVariables, EOperatorID.TripleStoreIteratorGlobalID, "TripleStoreIteratorGlobal", Array(3) { params[it] }, ESortPriority.ANY_PROVIDED_VARIABLE) {
     override fun getPartitionCount(variable: String): Int {

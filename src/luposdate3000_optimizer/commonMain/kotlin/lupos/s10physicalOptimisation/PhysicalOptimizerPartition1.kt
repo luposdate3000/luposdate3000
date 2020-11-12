@@ -9,9 +9,9 @@ import lupos.s05tripleStore.TripleStoreFeatureParamsPartition
 import lupos.s08logicalOptimisation.OptimizerBase
 import lupos.s09physicalOperators.partition.POPSplitPartition
 import lupos.s09physicalOperators.partition.POPSplitPartitionFromStore
+import lupos.s09physicalOperators.singleinput.modifiers.POPReduced
 import lupos.s09physicalOperators.singleinput.POPFilter
 import lupos.s09physicalOperators.singleinput.POPProjection
-import lupos.s09physicalOperators.singleinput.modifiers.POPReduced
 import lupos.s15tripleStoreDistributed.TripleStoreIteratorGlobal
 
 class PhysicalOptimizerPartition1(query: Query) : OptimizerBase(query, EOptimizerID.PhysicalOptimizerPartition1ID) {

@@ -5,8 +5,8 @@ import lupos.s04arithmetikOperators.multiinput.AOPEQ
 import lupos.s04arithmetikOperators.noinput.AOPConstant
 import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s04logicalOperators.IOPBase
-import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.noinput.LOPTriple
+import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.singleinput.LOPBind
 import lupos.s04logicalOperators.singleinput.LOPFilter
 

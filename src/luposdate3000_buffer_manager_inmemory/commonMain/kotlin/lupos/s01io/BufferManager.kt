@@ -20,7 +20,6 @@ class BufferManager(@JvmField val bufferName: String) {
     companion object {
         @JvmField
         var bufferPrefix: String = Configuration.getEnv("LUPOS_HOME", "/tmp/luposdate3000/")!!
-
         const val page_size_in_bytes = BUFFER_MANAGER_PAGE_SIZE_IN_BYTES
 
         init {

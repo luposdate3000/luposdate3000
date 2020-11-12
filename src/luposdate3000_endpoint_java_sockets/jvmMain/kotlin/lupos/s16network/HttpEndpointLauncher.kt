@@ -1,13 +1,13 @@
 package lupos.s16network
 
-import lupos.s00misc.*
-import lupos.s03resultRepresentation.nodeGlobalDictionary
 import java.io.BufferedReader
 import java.io.InputStreamReader
 import java.io.OutputStream
 import java.net.InetSocketAddress
 import java.net.ServerSocket
 import java.net.URLDecoder
+import lupos.s00misc.*
+import lupos.s03resultRepresentation.nodeGlobalDictionary
 
 internal class MyPrintWriterExtension(out: OutputStream) : MyPrintWriter(out) {
     private var counter = 0

@@ -4,8 +4,8 @@ import lupos.s00misc.EOptimizerID
 import lupos.s00misc.ESortType
 import lupos.s00misc.SortHelper
 import lupos.s04logicalOperators.IOPBase
-import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.multiinput.LOPJoin
+import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.singleinput.modifiers.LOPDistinct
 import lupos.s04logicalOperators.singleinput.modifiers.LOPReduced
 import lupos.s04logicalOperators.singleinput.modifiers.LOPSortAny

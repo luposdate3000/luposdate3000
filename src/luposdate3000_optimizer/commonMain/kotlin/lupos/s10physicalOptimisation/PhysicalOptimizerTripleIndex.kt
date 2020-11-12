@@ -8,8 +8,8 @@ import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04arithmetikOperators.IAOPBase
 import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s04logicalOperators.IOPBase
-import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.noinput.LOPTriple
+import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.singleinput.LOPProjection
 import lupos.s08logicalOptimisation.OptimizerBase
 import lupos.s09physicalOperators.POPBase

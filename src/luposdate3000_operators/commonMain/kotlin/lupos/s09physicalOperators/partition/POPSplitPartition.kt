@@ -4,10 +4,10 @@ import lupos.s00misc.*
 import lupos.s03resultRepresentation.ResultSetDictionaryExt
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
-import lupos.s04logicalOperators.PartitionHelper
-import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.iterator.RowIterator
+import lupos.s04logicalOperators.PartitionHelper
+import lupos.s04logicalOperators.Query
 import lupos.s09physicalOperators.POPBase
 
 class POPSplitPartition(query: IQuery, projectedVariables: List<String>, val partitionVariable: String, var partitionCount: Int, var partitionID: Int, child: IOPBase) : POPBase(query, projectedVariables, EOperatorID.POPSplitPartitionID, "POPSplitPartition", arrayOf(child), ESortPriority.PREVENT_ANY) {
@@ -165,9 +165,9 @@ class POPSplitPartition(query: IQuery, projectedVariables: List<String>, val par
                         error = e
                     }
                     SanityCheck.println { "split $uuid writer launched F" }
-                    if(child2!=null){
-child2.close()
-}
+                    if (child2 != null) {
+                        child2.close()
+                    }
                     continuationLock.lock()
                     writerFinished = 1
                     for (p in 0 until partitionCount) {

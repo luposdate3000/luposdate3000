@@ -10,8 +10,8 @@ import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
 import lupos.s08logicalOptimisation.OptimizerBase
 import lupos.s09physicalOperators.partition.*
-import lupos.s15tripleStoreDistributed.TripleStoreIteratorGlobal
 import lupos.s15tripleStoreDistributed.distributedTripleStore
+import lupos.s15tripleStoreDistributed.TripleStoreIteratorGlobal
 
 class PhysicalOptimizerPartition2(query: Query) : OptimizerBase(query, EOptimizerID.PhysicalOptimizerPartition2ID) {
     override val classname = "PhysicalOptimizerPartition2"
