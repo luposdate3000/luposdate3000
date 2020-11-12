@@ -5,7 +5,7 @@ import java.io.DataInputStream
 import java.io.FileInputStream
 import java.io.InputStream
 
-internal class MyCharIterator(val file: File) : CharIterator() {
+internal class MyCharIterator(file: File) : CharIterator() {
     val fis = FileInputStream(file.filename)
     val bis = BufferedInputStream(fis)
     val dis = DataInputStream(bis)

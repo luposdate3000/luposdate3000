@@ -25,10 +25,7 @@ import lupos.s04logicalOperators.iterator.ColumnIteratorQueueExt
 import lupos.s04logicalOperators.iterator.ColumnIteratorRepeatValue
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.noinput.OPEmptyRow
-import lupos.s04logicalOperators.OPBase
-import lupos.s04logicalOperators.Query
 import lupos.s09physicalOperators.POPBase
-import lupos.s09physicalOperators.singleinput.POPBind
 
 class POPGroup : POPBase {
     override fun getPartitionCount(variable: String): Int {
@@ -330,7 +327,7 @@ class POPGroup : POPBase {
                             }
 
                             override suspend fun next(): Int {
-                                return ColumnIteratorQueueExt.next_helper(this, {
+                                return ColumnIteratorQueueExt.nextHelper(this, {
                                     loop@ while (true) {
                                         var changedKey = false
                                         if (nextKey != null) {

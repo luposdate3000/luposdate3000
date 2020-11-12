@@ -22,8 +22,6 @@ import lupos.s04logicalOperators.iterator.ColumnIteratorQueueExt
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.multiinput.LOPJoin
 import lupos.s04logicalOperators.noinput.LOPTriple
-import lupos.s04logicalOperators.OPBase
-import lupos.s04logicalOperators.Query
 import lupos.s09physicalOperators.POPBase
 import lupos.s15tripleStoreDistributed.distributedTripleStore
 
@@ -169,7 +167,7 @@ class POPJoinWithStore(query: IQuery, projectedVariables: List<String>, childA: 
                     }
 
                     override suspend fun next(): Int {
-                        return ColumnIteratorQueueExt.next_helper(this, {
+                        return ColumnIteratorQueueExt.nextHelper(this, {
                             loopA@ while (true) {
                                 var done = true
                                 loopB@ for (i in 0 until variablINBO.size) {

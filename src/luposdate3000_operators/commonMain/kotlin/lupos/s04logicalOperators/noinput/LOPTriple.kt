@@ -98,7 +98,7 @@ class LOPTriple(query: IQuery, s: IAOPBase, p: IAOPBase, o: IAOPBase, @JvmField 
             if (!resString.contains("O")) {
                 resString += "O"
             }
-            SanityCheck.check({ resString.length == 3 || (resString.length == 4 && resString.contains("_")) }, { "${resString} ${children.map { it.toSparql() }} $sortPriority" })
+            SanityCheck.check({ resString.length == 3 || (resString.length == 4 && resString.contains("_")) }, { "$resString ${children.map { it.toSparql() }} $sortPriority" })
             return EIndexPattern.valueOf(resString)
         }
     }

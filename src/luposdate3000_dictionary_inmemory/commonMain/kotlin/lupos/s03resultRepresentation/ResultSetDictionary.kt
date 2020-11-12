@@ -5,50 +5,34 @@ import lupos.s00misc.ETripleComponentType
 import lupos.s00misc.MyBigDecimal
 import lupos.s00misc.MyBigInteger
 import lupos.s00misc.SanityCheck
-import lupos.s03resultRepresentation.nodeGlobalDictionary
-import lupos.s03resultRepresentation.ResultSetDictionary
-import lupos.s03resultRepresentation.ValueBnode
-import lupos.s03resultRepresentation.ValueBoolean
-import lupos.s03resultRepresentation.ValueDateTime
-import lupos.s03resultRepresentation.ValueDecimal
-import lupos.s03resultRepresentation.ValueDefinition
-import lupos.s03resultRepresentation.ValueDouble
-import lupos.s03resultRepresentation.ValueError
-import lupos.s03resultRepresentation.ValueFloat
-import lupos.s03resultRepresentation.ValueInteger
-import lupos.s03resultRepresentation.ValueIri
-import lupos.s03resultRepresentation.ValueLanguageTaggedLiteral
-import lupos.s03resultRepresentation.ValueSimpleLiteral
-import lupos.s03resultRepresentation.ValueTypedLiteral
-import lupos.s03resultRepresentation.ValueUndef
 
 val nodeGlobalDictionary = ResultSetDictionary(true)
 
-@OptIn(kotlin.ExperimentalUnsignedTypes::class)
+@OptIn(ExperimentalUnsignedTypes::class)
 class ResultSetDictionary(val global: Boolean = false) : IResultSetDictionary {
     companion object {
         /*to most significant bit leads to signed errors because toInt sadly performs a whole reencoding of the int and stores it completely different*/
-        internal const val mask1 = 0x40000000.toInt()/*first 2 bit*/
-        internal const val mask3 = 0x30000000.toInt()/*first 4 bit*/
-        internal const val mask6 = 0x3E000000.toInt()/*first 7 bit*/
-        internal const val filter3 = 0x0FFFFFFF.toInt()
-        internal const val filter6 = 0x01FFFFFF.toInt()
-        internal const val flaggedValueLocalBnode = 0x00000000.toInt()/*first 4 bit*/ /*required to be 0 byResultSetDictionaryExt.booleanTrueValue*/
-        internal const val flaggedValueLocalIri = 0x10000000.toInt()/*first 4 bit*/
-        internal const val flaggedValueLocalTyped = 0x20000000.toInt()/*first 4 bit*/
-        internal const val flaggedValueLocalInt = 0x30000000.toInt()/*first 7 bit*/
-        internal const val flaggedValueLocalDecimal = 0x34000000.toInt()/*first 7 bit*/
-        internal const val flaggedValueLocalDouble = 0x38000000.toInt()/*first 7 bit*/
-        internal const val flaggedValueLocalFloat = 0x3C000000.toInt()/*first 7 bit*/
-        internal const val flaggedValueLocalLangTagged = 0x3E000000.toInt()/*first 7 bit*/
-        internal const val flaggedValueGlobalBnode = 0x40000000.toInt()/*first 4 bit*/
-        internal const val flaggedValueGlobalIri = 0x50000000.toInt()/*first 4 bit*/
-        internal const val flaggedValueGlobalTyped = 0x60000000.toInt()/*first 4 bit*/
-        internal const val flaggedValueGlobalInt = 0x70000000.toInt()/*first 7 bit*/
-        internal const val flaggedValueGlobalDecimal = 0x74000000.toInt()/*first 7 bit*/
-        internal const val flaggedValueGlobalDouble = 0x78000000.toInt()/*first 7 bit*/
-        internal const val flaggedValueGlobalFloat = 0x7C000000.toInt()/*first 7 bit*/
-        internal const val flaggedValueGlobalLangTagged = 0x7E000000.toInt()/*first 7 bit*/
+        internal const val mask1 = 0x40000000/*first 2 bit*/
+        internal const val mask3 = 0x30000000/*first 4 bit*/
+        internal const val mask6 = 0x3E000000/*first 7 bit*/
+        internal const val filter3 = 0x0FFFFFFF
+        internal const val filter6 = 0x01FFFFFF
+        internal const val flaggedValueLocalBnode = 0x00000000/*first 4 bit*/ /*required to be 0 byResultSetDictionaryExt.booleanTrueValue*/
+        internal const val flaggedValueLocalIri = 0x10000000/*first 4 bit*/
+        internal const val flaggedValueLocalTyped = 0x20000000/*first 4 bit*/
+        internal const val flaggedValueLocalInt = 0x30000000/*first 7 bit*/
+        internal const val flaggedValueLocalDecimal = 0x34000000/*first 7 bit*/
+        internal const val flaggedValueLocalDouble = 0x38000000/*first 7 bit*/
+        internal const val flaggedValueLocalFloat = 0x3C000000/*first 7 bit*/
+        internal const val flaggedValueLocalLangTagged = 0x3E000000/*first 7 bit*/
+        internal const val flaggedValueGlobalBnode = 0x40000000/*first 4 bit*/
+        internal const val flaggedValueGlobalIri = 0x50000000/*first 4 bit*/
+        internal const val flaggedValueGlobalTyped = 0x60000000/*first 4 bit*/
+        internal const val flaggedValueGlobalInt = 0x70000000/*first 7 bit*/
+        internal const val flaggedValueGlobalDecimal = 0x74000000/*first 7 bit*/
+        internal const val flaggedValueGlobalDouble = 0x78000000/*first 7 bit*/
+        internal const val flaggedValueGlobalFloat = 0x7C000000/*first 7 bit*/
+        internal const val flaggedValueGlobalLangTagged = 0x7E000000/*first 7 bit*/
         internal const val emptyString = ""
         fun isGlobalBNode(value: Int) = (value and mask3) == flaggedValueGlobalBnode
         fun debug() {
@@ -70,19 +54,19 @@ class ResultSetDictionary(val global: Boolean = false) : IResultSetDictionary {
     internal val iriToInt = mutableMapOf<String, Int>()
 
     @JvmField
-    internal var iriToValue = Array<String>(1) { emptyString }
+    internal var iriToValue = Array(1) { emptyString }
 
     @JvmField
     internal val langTaggedToInt = mutableMapOf<String, Int>()
 
     @JvmField
-    internal var langTaggedToValue = Array<String>(1) { emptyString }
+    internal var langTaggedToValue = Array(1) { emptyString }
 
     @JvmField
     internal val typedToInt = mutableMapOf<String, Int>()
 
     @JvmField
-    internal var typedToValue = Array<String>(1) { emptyString }
+    internal var typedToValue = Array(1) { emptyString }
 
     @JvmField
     internal val doubleToInt = mutableMapOf<Double, Int>()
@@ -100,18 +84,18 @@ class ResultSetDictionary(val global: Boolean = false) : IResultSetDictionary {
     internal val decimalToInt = mutableMapOf<String, Int>()
 
     @JvmField
-    internal var decimalToValue = Array<String>(1) { emptyString }
+    internal var decimalToValue = Array(1) { emptyString }
 
     @JvmField
     internal val intToInt = mutableMapOf<String, Int>()
 
     @JvmField
-    internal var intToValue = Array<String>(1) { emptyString }
+    internal var intToValue = Array(1) { emptyString }
     fun prepareBulk(total: Int, typed: IntArray) {
         for (t in ETripleComponentType.values()) {
             when (t) {
                 ETripleComponentType.IRI -> {
-                    val tmp = Array<String>(iriToValue.size + typed[t.ordinal]) { emptyString }
+                    val tmp = Array(iriToValue.size + typed[t.ordinal]) { emptyString }
                     for (i in 0 until iriToValue.size) {
                         tmp[i] = iriToValue[i]
                     }
@@ -120,21 +104,21 @@ class ResultSetDictionary(val global: Boolean = false) : IResultSetDictionary {
                 ETripleComponentType.BLANK_NODE -> {
                 }
                 ETripleComponentType.STRING -> {
-                    val tmp = Array<String>(typedToValue.size + typed[t.ordinal]) { emptyString }
+                    val tmp = Array(typedToValue.size + typed[t.ordinal]) { emptyString }
                     for (i in 0 until typedToValue.size) {
                         tmp[i] = typedToValue[i]
                     }
                     typedToValue = tmp
                 }
                 ETripleComponentType.INTEGER -> {
-                    val tmp = Array<String>(intToValue.size + typed[t.ordinal]) { emptyString }
+                    val tmp = Array(intToValue.size + typed[t.ordinal]) { emptyString }
                     for (i in 0 until intToValue.size) {
                         tmp[i] = intToValue[i]
                     }
                     intToValue = tmp
                 }
                 ETripleComponentType.DECIMAL -> {
-                    val tmp = Array<String>(decimalToValue.size + typed[t.ordinal]) { emptyString }
+                    val tmp = Array(decimalToValue.size + typed[t.ordinal]) { emptyString }
                     for (i in 0 until decimalToValue.size) {
                         tmp[i] = decimalToValue[i]
                     }
@@ -150,14 +134,14 @@ class ResultSetDictionary(val global: Boolean = false) : IResultSetDictionary {
                 ETripleComponentType.BOOLEAN -> {
                 }
                 ETripleComponentType.STRING_TYPED -> {
-                    val tmp = Array<String>(typedToValue.size + typed[t.ordinal]) { emptyString }
+                    val tmp = Array(typedToValue.size + typed[t.ordinal]) { emptyString }
                     for (i in 0 until typedToValue.size) {
                         tmp[i] = typedToValue[i]
                     }
                     typedToValue = tmp
                 }
                 ETripleComponentType.STRING_LANG -> {
-                    val tmp = Array<String>(langTaggedToValue.size + typed[t.ordinal]) { emptyString }
+                    val tmp = Array(langTaggedToValue.size + typed[t.ordinal]) { emptyString }
                     for (i in 0 until langTaggedToValue.size) {
                         tmp[i] = langTaggedToValue[i]
                     }
@@ -222,13 +206,13 @@ class ResultSetDictionary(val global: Boolean = false) : IResultSetDictionary {
         floatToInt.clear()
         decimalToInt.clear()
         intToInt.clear()
-        iriToValue = Array<String>(1) { emptyString }
-        langTaggedToValue = Array<String>(1) { emptyString }
-        typedToValue = Array<String>(1) { emptyString }
+        iriToValue = Array(1) { emptyString }
+        langTaggedToValue = Array(1) { emptyString }
+        typedToValue = Array(1) { emptyString }
         doubleToValue = DoubleArray(1) { 0.0 }
         floatToValue = DoubleArray(1) { 0.0 }
-        decimalToValue = Array<String>(1) { emptyString }
-        intToValue = Array<String>(1) { emptyString }
+        decimalToValue = Array(1) { emptyString }
+        intToValue = Array(1) { emptyString }
     }
 
     override fun toBooleanOrError(value: Int): Int {
@@ -253,11 +237,11 @@ class ResultSetDictionary(val global: Boolean = false) : IResultSetDictionary {
     fun createNewBNode(value: String = emptyString): Int {
         var res: Int
         if (global) {
-            res = (flaggedValueGlobalBnode or (bNodeCounter++).toInt())
+            res = (flaggedValueGlobalBnode or (bNodeCounter++))
         } else {
             val tmp = localBnodeToInt[value]
             if (tmp == null) {
-                res = flaggedValueLocalBnode or (bNodeCounter++).toInt()
+                res = flaggedValueLocalBnode or (bNodeCounter++)
                 localBnodeToInt[value] = res
             } else {
                 res = tmp
@@ -274,7 +258,7 @@ class ResultSetDictionary(val global: Boolean = false) : IResultSetDictionary {
                 res = iriToInt.size
                 iriToInt[iri] = res
                 if (iriToValue.size <= res) {
-                    val tmp = Array<String>(iriToValue.size * 2) { emptyString }
+                    val tmp = Array(iriToValue.size * 2) { emptyString }
                     for (i in 0 until iriToValue.size) {
                         tmp[i] = iriToValue[i]
                     }
@@ -295,7 +279,7 @@ class ResultSetDictionary(val global: Boolean = false) : IResultSetDictionary {
                     res = iriToInt.size
                     iriToInt[iri] = res
                     if (iriToValue.size <= res) {
-                        val tmp = Array<String>(iriToValue.size * 2) { emptyString }
+                        val tmp = Array(iriToValue.size * 2) { emptyString }
                         for (i in 0 until iriToValue.size) {
                             tmp[i] = iriToValue[i]
                         }
@@ -320,7 +304,7 @@ class ResultSetDictionary(val global: Boolean = false) : IResultSetDictionary {
                 res = langTaggedToInt.size
                 langTaggedToInt[key] = res
                 if (langTaggedToValue.size <= res) {
-                    val tmp = Array<String>(langTaggedToValue.size * 2) { emptyString }
+                    val tmp = Array(langTaggedToValue.size * 2) { emptyString }
                     for (i in 0 until langTaggedToValue.size) {
                         tmp[i] = langTaggedToValue[i]
                     }
@@ -341,7 +325,7 @@ class ResultSetDictionary(val global: Boolean = false) : IResultSetDictionary {
                     res = langTaggedToInt.size
                     langTaggedToInt[key] = res
                     if (langTaggedToValue.size <= res) {
-                        val tmp = Array<String>(langTaggedToValue.size * 2) { emptyString }
+                        val tmp = Array(langTaggedToValue.size * 2) { emptyString }
                         for (i in 0 until langTaggedToValue.size) {
                             tmp[i] = langTaggedToValue[i]
                         }
@@ -387,7 +371,7 @@ class ResultSetDictionary(val global: Boolean = false) : IResultSetDictionary {
                         res = typedToInt.size
                         typedToInt[key] = res
                         if (typedToValue.size <= res) {
-                            val tmp = Array<String>(typedToValue.size * 2) { emptyString }
+                            val tmp = Array(typedToValue.size * 2) { emptyString }
                             for (i in 0 until typedToValue.size) {
                                 tmp[i] = typedToValue[i]
                             }
@@ -408,7 +392,7 @@ class ResultSetDictionary(val global: Boolean = false) : IResultSetDictionary {
                             res = typedToInt.size
                             typedToInt[key] = res
                             if (typedToValue.size <= res) {
-                                val tmp = Array<String>(typedToValue.size * 2) { emptyString }
+                                val tmp = Array(typedToValue.size * 2) { emptyString }
                                 for (i in 0 until typedToValue.size) {
                                     tmp[i] = typedToValue[i]
                                 }
@@ -525,7 +509,7 @@ class ResultSetDictionary(val global: Boolean = false) : IResultSetDictionary {
                 res = decimalToInt.size
                 decimalToInt[value] = res
                 if (decimalToValue.size <= res) {
-                    val tmp = Array<String>(decimalToValue.size * 2) { emptyString }
+                    val tmp = Array(decimalToValue.size * 2) { emptyString }
                     for (i in 0 until decimalToValue.size) {
                         tmp[i] = decimalToValue[i]
                     }
@@ -546,7 +530,7 @@ class ResultSetDictionary(val global: Boolean = false) : IResultSetDictionary {
                     res = decimalToInt.size
                     decimalToInt[value] = res
                     if (decimalToValue.size <= res) {
-                        val tmp = Array<String>(decimalToValue.size * 2) { emptyString }
+                        val tmp = Array(decimalToValue.size * 2) { emptyString }
                         for (i in 0 until decimalToValue.size) {
                             tmp[i] = decimalToValue[i]
                         }
@@ -571,7 +555,7 @@ class ResultSetDictionary(val global: Boolean = false) : IResultSetDictionary {
                 res = intToInt.size
                 intToInt[value] = res
                 if (intToValue.size <= res) {
-                    val tmp = Array<String>(intToValue.size * 2) { emptyString }
+                    val tmp = Array(intToValue.size * 2) { emptyString }
                     for (i in 0 until intToValue.size) {
                         tmp[i] = intToValue[i]
                     }
@@ -592,7 +576,7 @@ class ResultSetDictionary(val global: Boolean = false) : IResultSetDictionary {
                     res = intToInt.size
                     intToInt[value] = res
                     if (intToValue.size <= res) {
-                        val tmp = Array<String>(intToValue.size * 2) { emptyString }
+                        val tmp = Array(intToValue.size * 2) { emptyString }
                         for (i in 0 until intToValue.size) {
                             tmp[i] = intToValue[i]
                         }
@@ -609,8 +593,7 @@ class ResultSetDictionary(val global: Boolean = false) : IResultSetDictionary {
     }
 
     override fun createValue(value: String?): Int {
-        val res = createValue(ValueDefinition(value))
-        return res
+        return createValue(ValueDefinition(value))
     }
 
     override fun createValue(value: ValueDefinition): Int {
@@ -663,7 +646,7 @@ class ResultSetDictionary(val global: Boolean = false) : IResultSetDictionary {
         }
         SanityCheck {
             val tmp2 = getValue(res)
-            SanityCheck.check({ (value is ValueBnode && tmp2 is ValueBnode) || (value is ValueError && tmp2 is ValueError) || tmp2 == value || (value is ValueSimpleLiteral && tmp2 is ValueTypedLiteral && tmp2.type_iri == "http://www.w3.org/2001/XMLSchema#string" && tmp2.content == value.content) }, { "$value (${value.toSparql()}) -> ${res.toString(16)} -> ${tmp2} (${tmp2.toSparql()})" })
+            SanityCheck.check({ (value is ValueBnode && tmp2 is ValueBnode) || (value is ValueError && tmp2 is ValueError) || tmp2 == value || (value is ValueSimpleLiteral && tmp2 is ValueTypedLiteral && tmp2.type_iri == "http://www.w3.org/2001/XMLSchema#string" && tmp2.content == value.content) }, { "$value (${value.toSparql()}) -> ${res.toString(16)} -> $tmp2 (${tmp2.toSparql()})" })
         }
         return res
     }

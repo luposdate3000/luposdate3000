@@ -6,6 +6,6 @@ class ColumnIteratorChildIteratorEmpty : ColumnIteratorChildIterator() {
     }
 
     override suspend fun next(): Int {
-        return next_helper({}, { _close() })
+        return nextHelper({}, { _close() })
     }
 }

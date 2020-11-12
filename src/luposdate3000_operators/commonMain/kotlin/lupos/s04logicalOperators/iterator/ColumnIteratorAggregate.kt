@@ -6,7 +6,7 @@ import lupos.s03resultRepresentation.ValueDefinition
 class ColumnIteratorAggregate : ColumnIteratorEmpty() {
     var value: ValueDefinition = ResultSetDictionaryExt.undefValue2
     var count = 0
-    var evaluate: () -> Unit = ::_evaluate
-    fun _evaluate() {
+    var evaluate: () -> Unit = ::aggregate_evaluate
+    fun aggregate_evaluate() {
     }
 }

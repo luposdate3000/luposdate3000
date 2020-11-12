@@ -7,7 +7,7 @@ object ColumnIteratorFromRow {
         for (i in 0 until iterator.columns.size) {
             val iterator2 = object : ColumnIteratorQueue() {
                 override suspend fun next(): Int {
-                    return ColumnIteratorQueueExt.next_helper(this, {
+                    return ColumnIteratorQueueExt.nextHelper(this, {
                         var res2 = iterator.next()
                         if (res2 >= 0) {
                             for (j in 0 until iterator.columns.size) {

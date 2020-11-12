@@ -33,7 +33,7 @@ internal actual class File {
     actual inline fun readAsCharIterator(): CharIterator = MyCharIterator(this)
     actual inline fun readAsInputStream(): IMyInputStream = MyInputStream(FileInputStream(java.io.File(filename)))
     actual inline fun walk(crossinline action: (String) -> Unit) {
-        java.nio.file.Files.walk(java.nio.file.Paths.get(filename), 1).forEach { it ->
+        java.nio.file.Files.walk(java.nio.file.Paths.get(filename), 1).forEach {
             val tmp = it.toString()
             if (tmp.length > filename.length) {
                 action(tmp)

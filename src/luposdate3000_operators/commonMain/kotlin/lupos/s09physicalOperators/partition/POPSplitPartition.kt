@@ -91,7 +91,7 @@ class POPSplitPartition(query: IQuery, projectedVariables: List<String>, val par
                 var ringbufferWriterContinuation: ParallelCondition = Parallel.createCondition(continuationLock)
                 val readerFinished = IntArray(partitionCount) { 0 } //writer changes to 1 if finished
                 var writerFinished = 0
-                SanityCheck.println({ "ringbuffersize = ${ringbuffer.size} ${elementsPerRing} ${partitionCount} ${ringbufferStart.map { it }} ${ringbufferReadHead.map { it }} ${ringbufferWriteHead.map { it }}" })
+                SanityCheck.println({ "ringbuffersize = ${ringbuffer.size} $elementsPerRing $partitionCount ${ringbufferStart.map { it }} ${ringbufferReadHead.map { it }} ${ringbufferWriteHead.map { it }}" })
                 SanityCheck.println({ "split $uuid writer launched A" })
                 job = Parallel.launch {
                     var child2: RowIterator? = null
@@ -161,7 +161,7 @@ class POPSplitPartition(query: IQuery, projectedVariables: List<String>, val par
                                     }
                                     SanityCheck.println({ "split $uuid $p writer append data ${variables.size} ${variableMapping.toMutableList()} ${ringbufferStart[p]}" })
                                     for (variable in 0 until variables.size) {
-                                        SanityCheck.println({ "split $uuid $p writer append data ... ${variable} ${ringbufferWriteHead[p] + variableMapping[variable] + ringbufferStart[p]} ${tmp + variable}" })
+                                        SanityCheck.println({ "split $uuid $p writer append data ... $variable ${ringbufferWriteHead[p] + variableMapping[variable] + ringbufferStart[p]} ${tmp + variable}" })
                                         ringbuffer[ringbufferWriteHead[p] + variableMapping[variable] + ringbufferStart[p]] = child.buf[tmp + variable]
                                         SanityCheck.println({ "split $uuid $p writer append data --- $variables ${child.columns.map { it }} ${ringbufferWriteHead[p] + variableMapping[variable] + ringbufferStart[p]}<-${tmp + variable} = ${child.buf[tmp + variable]}" })
                                     }

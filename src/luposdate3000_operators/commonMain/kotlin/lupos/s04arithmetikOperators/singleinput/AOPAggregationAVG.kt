@@ -16,11 +16,8 @@ import lupos.s04arithmetikOperators.AOPAggregationBase
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
-import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.s04logicalOperators.iterator.ColumnIteratorAggregate
 import lupos.s04logicalOperators.iterator.IteratorBundle
-import lupos.s04logicalOperators.OPBase
-import lupos.s04logicalOperators.Query
 
 class AOPAggregationAVG(query: IQuery, @JvmField val distinct: Boolean, childs: Array<AOPBase>) : AOPAggregationBase(query, EOperatorID.AOPAggregationAVGID, "AOPAggregationAVG", Array(childs.size) { childs[it] }) {
     override suspend fun toXMLElement() = super.toXMLElement().addAttribute("distinct", "" + distinct)
@@ -42,7 +39,7 @@ class AOPAggregationAVG(query: IQuery, @JvmField val distinct: Boolean, childs: 
                 val value = child()
                 if (value is ValueError) {
                     tmp1 = value
-                    res.evaluate = res::_evaluate
+                    res.evaluate = res::aggregate_evaluate
                 } else if (tmp1 is ValueUndef) {
                     tmp1 = value
                 } else if (tmp1 is ValueDouble || value is ValueDouble) {
@@ -55,16 +52,16 @@ class AOPAggregationAVG(query: IQuery, @JvmField val distinct: Boolean, childs: 
                     tmp1 = ValueDecimal((tmp1.toInt() + value.toInt()).toMyBigDecimal())
                 } else {
                     tmp1 = ValueError()
-                    res.evaluate = res::_evaluate
+                    res.evaluate = res::aggregate_evaluate
                 }
             } catch (e: EvaluationException) {
                 tmp1 = ValueError()
-                res.evaluate = res::_evaluate
+                res.evaluate = res::aggregate_evaluate
             } catch (e: Throwable) {
                 SanityCheck.println({ "TODO exception 34" })
                 e.printStackTrace()
                 tmp1 = ValueError()
-                res.evaluate = res::_evaluate
+                res.evaluate = res::aggregate_evaluate
             }
             res.value = tmp1
         }

@@ -6,12 +6,9 @@ import lupos.s00misc.SanityCheck
 import lupos.s03resultRepresentation.ResultSetDictionaryExt
 import lupos.s04logicalOperators.iterator.ColumnIterator
 
-internal class NodeLeafColumnIteratorPrefix2_2(node: ByteArray, nodeid: Int, prefix: IntArray, lock: MyReadWriteLock) : NodeLeafColumnIteratorPrefix(node, nodeid, prefix, lock) {
+internal class NodeLeafColumnIteratorPrefix12(node: ByteArray, nodeid: Int, prefix: IntArray, lock: MyReadWriteLock) : NodeLeafColumnIteratorPrefix(node, nodeid, prefix, lock) {
     @JvmField
     var value0 = 0
-
-    @JvmField
-    var value1 = 0
 
     @JvmField
     var value2 = 0
@@ -32,19 +29,17 @@ internal class NodeLeafColumnIteratorPrefix2_2(node: ByteArray, nodeid: Int, pre
                     if (needsReset) {
                         needsReset = false
                         value0 = 0
-                        value1 = 0
                         value2 = 0
                     }
-                    offset += NodeShared.readTriple111(node, offset, value0, value1, value2) { v0, v1, v2 ->
+                    offset += NodeShared.readTriple101(node, offset, value0, value2) { v0, v2 ->
                         value0 = v0
-                        value1 = v1
                         value2 = v2
                     }
-                    if (value0 > prefix[0] || (value0 == prefix[0] && value1 > prefix[1])) {
+                    if (value0 > prefix[0]) {
                         _close()
                         return ResultSetDictionaryExt.nullValue
                     } else {
-                        done = value0 == prefix[0] && value1 == prefix[1]
+                        done = value0 == prefix[0]
                         updateRemaining {
                             if (!done) {
                                 value2 = ResultSetDictionaryExt.nullValue
@@ -62,15 +57,13 @@ internal class NodeLeafColumnIteratorPrefix2_2(node: ByteArray, nodeid: Int, pre
                 if (needsReset) {
                     needsReset = false
                     value0 = 0
-                    value1 = 0
                     value2 = 0
                 }
-                offset += NodeShared.readTriple111(node, offset, value0, value1, value2) { v0, v1, v2 ->
+                offset += NodeShared.readTriple101(node, offset, value0, value2) { v0, v2 ->
                     value0 = v0
-                    value1 = v1
                     value2 = v2
                 }
-                if (value0 > prefix[0] || (value0 == prefix[0] && value1 > prefix[1])) {
+                if (value0 > prefix[0]) {
                     _close()
                     return ResultSetDictionaryExt.nullValue
                 } else {
@@ -104,17 +97,15 @@ internal class NodeLeafColumnIteratorPrefix2_2(node: ByteArray, nodeid: Int, pre
             if (needsReset) {
                 needsReset = false
                 value0 = 0
-                value1 = 0
                 value2 = 0
             }
             while (remaining > 0) {
                 counter++
-                offset += NodeShared.readTriple111(node, offset, value0, value1, value2) { v0, v1, v2 ->
+                offset += NodeShared.readTriple101(node, offset, value0, value2) { v0, v2 ->
                     value0 = v0
-                    value1 = v1
                     value2 = v2
                 }
-                if (value0 > prefix[0] || (value0 == prefix[0] && value1 > prefix[1])) {
+                if (value0 > prefix[0]) {
                     _close()
                     result[0] = 0
                     result[1] = ResultSetDictionaryExt.nullValue
@@ -132,7 +123,6 @@ internal class NodeLeafColumnIteratorPrefix2_2(node: ByteArray, nodeid: Int, pre
             //look at the next pages
             var nodeid_tmp = NodeShared.getNextNode(node)
             var value0_tmp = 0
-            var value1_tmp = 0
             var value2_tmp = 0
             var usedNextPage = false
             while (nodeid_tmp != NodeManager.nodeNullPointer) {
@@ -145,12 +135,11 @@ internal class NodeLeafColumnIteratorPrefix2_2(node: ByteArray, nodeid: Int, pre
                 remaining_tmp = NodeShared.getTripleCount(node_tmp)
                 SanityCheck.check { remaining_tmp > 0 }
                 var offset_tmp = NodeLeaf.START_OFFSET
-                offset_tmp += NodeShared.readTriple111(node_tmp, offset_tmp, 0, 0, 0) { v0, v1, v2 ->
+                offset_tmp += NodeShared.readTriple101(node_tmp, offset_tmp, 0, 0) { v0, v2 ->
                     value0_tmp = v0
-                    value1_tmp = v1
                     value2_tmp = v2
                 }
-                if (value0_tmp > prefix[0] || (value0_tmp == prefix[0] && value1_tmp > prefix[1]) || value2_tmp >= minValue) {
+                if (value0_tmp > prefix[0] || value2_tmp >= minValue) {
                     //dont accidentially skip some results at the end of this page
                     NodeManager.releaseNode(nodeid_tmp)
                     break
@@ -161,7 +150,6 @@ internal class NodeLeafColumnIteratorPrefix2_2(node: ByteArray, nodeid: Int, pre
                 nodeid = nodeid_tmp
                 node = node_tmp
                 value0 = value0_tmp
-                value1 = value1_tmp
                 value2 = value2_tmp
                 offset = offset_tmp
                 needsReset = false
@@ -181,15 +169,13 @@ internal class NodeLeafColumnIteratorPrefix2_2(node: ByteArray, nodeid: Int, pre
                 if (needsReset) {
                     needsReset = false
                     value0 = 0
-                    value1 = 0
                     value2 = 0
                 }
-                offset += NodeShared.readTriple111(node, offset, value0, value1, value2) { v0, v1, v2 ->
+                offset += NodeShared.readTriple101(node, offset, value0, value2) { v0, v2 ->
                     value0 = v0
-                    value1 = v1
                     value2 = v2
                 }
-                if (value0 > prefix[0] || (value0 == prefix[0] && value1 > prefix[1])) {
+                if (value0 > prefix[0]) {
                     _close()
                     result[0] = 0
                     result[1] = ResultSetDictionaryExt.nullValue
@@ -250,16 +236,14 @@ internal class NodeLeafColumnIteratorPrefix2_2(node: ByteArray, nodeid: Int, pre
             if (needsReset) {
                 needsReset = false
                 value0 = 0
-                value1 = 0
                 value2 = 0
             }
             remaining -= toSkip
             SanityCheck.check { remaining >= 0 }
             SanityCheck.check { toSkip > 0 }
             while (toSkip > 0) {
-                offset += NodeShared.readTriple111(node, offset, value0, value1, value2) { v0, v1, v2 ->
+                offset += NodeShared.readTriple101(node, offset, value0, value2) { v0, v2 ->
                     value0 = v0
-                    value1 = v1
                     value2 = v2
                 }
                 toSkip--
@@ -280,7 +264,7 @@ internal class NodeLeafColumnIteratorPrefix2_2(node: ByteArray, nodeid: Int, pre
                     _close()
                 }
             }
-            if (value0 > prefix[0] || (value0 == prefix[0] && value1 > prefix[1])) {
+            if (value0 > prefix[0]) {
 //this must not happen?!?
                 _close()
                 return ResultSetDictionaryExt.nullValue

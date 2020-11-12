@@ -55,7 +55,7 @@ abstract class ColumnIteratorChildIterator : ColumnIterator() {
         }
     }
 
-    internal suspend inline fun next_helper(crossinline onNoMoreElements: suspend () -> Unit, crossinline onClose: suspend () -> Unit): Int {
+    internal suspend inline fun nextHelper(crossinline onNoMoreElements: suspend () -> Unit, crossinline onClose: suspend () -> Unit): Int {
         when (label) {
             1 -> {
                 while (queue_read < queue_write) {

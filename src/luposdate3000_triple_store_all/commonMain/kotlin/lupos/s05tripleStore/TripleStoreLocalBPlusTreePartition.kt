@@ -31,22 +31,22 @@ class TripleStoreLocalBPlusTreePartition(name: String) : TripleStoreLocalBase(na
             if (p.column >= 0) {
                 name.insert(p.column, p.partitionCount)
                 when {
-                    p.index.contains(EIndexPattern.SPO) -> dataDistinctList.add(TripleStoreDistinctContainer(name.toString(), TripleStoreIndex_Partition({ TripleStoreIndex_IDTriple() }, p.column, p.partitionCount), { it -> it.getData(EIndexPattern.SPO) }, EIndexPattern.SPO))
-                    p.index.contains(EIndexPattern.SOP) -> dataDistinctList.add(TripleStoreDistinctContainer(name.toString(), TripleStoreIndex_Partition({ TripleStoreIndex_IDTriple() }, p.column, p.partitionCount), { it -> it.getData(EIndexPattern.SOP) }, EIndexPattern.SOP))
-                    p.index.contains(EIndexPattern.POS) -> dataDistinctList.add(TripleStoreDistinctContainer(name.toString(), TripleStoreIndex_Partition({ TripleStoreIndex_IDTriple() }, p.column, p.partitionCount), { it -> it.getData(EIndexPattern.POS) }, EIndexPattern.POS))
-                    p.index.contains(EIndexPattern.PSO) -> dataDistinctList.add(TripleStoreDistinctContainer(name.toString(), TripleStoreIndex_Partition({ TripleStoreIndex_IDTriple() }, p.column, p.partitionCount), { it -> it.getData(EIndexPattern.PSO) }, EIndexPattern.PSO))
-                    p.index.contains(EIndexPattern.OSP) -> dataDistinctList.add(TripleStoreDistinctContainer(name.toString(), TripleStoreIndex_Partition({ TripleStoreIndex_IDTriple() }, p.column, p.partitionCount), { it -> it.getData(EIndexPattern.OSP) }, EIndexPattern.OSP))
-                    p.index.contains(EIndexPattern.OPS) -> dataDistinctList.add(TripleStoreDistinctContainer(name.toString(), TripleStoreIndex_Partition({ TripleStoreIndex_IDTriple() }, p.column, p.partitionCount), { it -> it.getData(EIndexPattern.OPS) }, EIndexPattern.OPS))
+                    p.index.contains(EIndexPattern.SPO) -> dataDistinctList.add(TripleStoreDistinctContainer(name.toString(), TripleStoreIndex_Partition({ TripleStoreIndex_IDTriple() }, p.column, p.partitionCount), { it.getData(EIndexPattern.SPO) }, EIndexPattern.SPO))
+                    p.index.contains(EIndexPattern.SOP) -> dataDistinctList.add(TripleStoreDistinctContainer(name.toString(), TripleStoreIndex_Partition({ TripleStoreIndex_IDTriple() }, p.column, p.partitionCount), { it.getData(EIndexPattern.SOP) }, EIndexPattern.SOP))
+                    p.index.contains(EIndexPattern.POS) -> dataDistinctList.add(TripleStoreDistinctContainer(name.toString(), TripleStoreIndex_Partition({ TripleStoreIndex_IDTriple() }, p.column, p.partitionCount), { it.getData(EIndexPattern.POS) }, EIndexPattern.POS))
+                    p.index.contains(EIndexPattern.PSO) -> dataDistinctList.add(TripleStoreDistinctContainer(name.toString(), TripleStoreIndex_Partition({ TripleStoreIndex_IDTriple() }, p.column, p.partitionCount), { it.getData(EIndexPattern.PSO) }, EIndexPattern.PSO))
+                    p.index.contains(EIndexPattern.OSP) -> dataDistinctList.add(TripleStoreDistinctContainer(name.toString(), TripleStoreIndex_Partition({ TripleStoreIndex_IDTriple() }, p.column, p.partitionCount), { it.getData(EIndexPattern.OSP) }, EIndexPattern.OSP))
+                    p.index.contains(EIndexPattern.OPS) -> dataDistinctList.add(TripleStoreDistinctContainer(name.toString(), TripleStoreIndex_Partition({ TripleStoreIndex_IDTriple() }, p.column, p.partitionCount), { it.getData(EIndexPattern.OPS) }, EIndexPattern.OPS))
                     else -> throw Exception("")
                 }
             } else {
                 when {
-                    p.index.contains(EIndexPattern.SPO) -> dataDistinctList.add(TripleStoreDistinctContainer(name.toString(), TripleStoreIndex_IDTriple(), { it -> it.getData(EIndexPattern.SPO) }, EIndexPattern.SPO))
-                    p.index.contains(EIndexPattern.SOP) -> dataDistinctList.add(TripleStoreDistinctContainer(name.toString(), TripleStoreIndex_IDTriple(), { it -> it.getData(EIndexPattern.SOP) }, EIndexPattern.SOP))
-                    p.index.contains(EIndexPattern.POS) -> dataDistinctList.add(TripleStoreDistinctContainer(name.toString(), TripleStoreIndex_IDTriple(), { it -> it.getData(EIndexPattern.POS) }, EIndexPattern.POS))
-                    p.index.contains(EIndexPattern.PSO) -> dataDistinctList.add(TripleStoreDistinctContainer(name.toString(), TripleStoreIndex_IDTriple(), { it -> it.getData(EIndexPattern.PSO) }, EIndexPattern.PSO))
-                    p.index.contains(EIndexPattern.OSP) -> dataDistinctList.add(TripleStoreDistinctContainer(name.toString(), TripleStoreIndex_IDTriple(), { it -> it.getData(EIndexPattern.OSP) }, EIndexPattern.OSP))
-                    p.index.contains(EIndexPattern.OPS) -> dataDistinctList.add(TripleStoreDistinctContainer(name.toString(), TripleStoreIndex_IDTriple(), { it -> it.getData(EIndexPattern.OPS) }, EIndexPattern.OPS))
+                    p.index.contains(EIndexPattern.SPO) -> dataDistinctList.add(TripleStoreDistinctContainer(name.toString(), TripleStoreIndex_IDTriple(), { it.getData(EIndexPattern.SPO) }, EIndexPattern.SPO))
+                    p.index.contains(EIndexPattern.SOP) -> dataDistinctList.add(TripleStoreDistinctContainer(name.toString(), TripleStoreIndex_IDTriple(), { it.getData(EIndexPattern.SOP) }, EIndexPattern.SOP))
+                    p.index.contains(EIndexPattern.POS) -> dataDistinctList.add(TripleStoreDistinctContainer(name.toString(), TripleStoreIndex_IDTriple(), { it.getData(EIndexPattern.POS) }, EIndexPattern.POS))
+                    p.index.contains(EIndexPattern.PSO) -> dataDistinctList.add(TripleStoreDistinctContainer(name.toString(), TripleStoreIndex_IDTriple(), { it.getData(EIndexPattern.PSO) }, EIndexPattern.PSO))
+                    p.index.contains(EIndexPattern.OSP) -> dataDistinctList.add(TripleStoreDistinctContainer(name.toString(), TripleStoreIndex_IDTriple(), { it.getData(EIndexPattern.OSP) }, EIndexPattern.OSP))
+                    p.index.contains(EIndexPattern.OPS) -> dataDistinctList.add(TripleStoreDistinctContainer(name.toString(), TripleStoreIndex_IDTriple(), { it.getData(EIndexPattern.OPS) }, EIndexPattern.OPS))
                     else -> throw Exception("")
                 }
             }

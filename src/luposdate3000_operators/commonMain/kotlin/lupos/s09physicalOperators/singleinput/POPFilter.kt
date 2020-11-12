@@ -13,8 +13,6 @@ import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.s04logicalOperators.iterator.ColumnIteratorQueue
 import lupos.s04logicalOperators.iterator.ColumnIteratorQueueExt
 import lupos.s04logicalOperators.iterator.IteratorBundle
-import lupos.s04logicalOperators.OPBase
-import lupos.s04logicalOperators.Query
 import lupos.s09physicalOperators.POPBase
 
 class POPFilter(query: IQuery, projectedVariables: List<String>, filter: AOPBase, child: IOPBase) : POPBase(query, projectedVariables, EOperatorID.POPFilterID, "POPFilter", arrayOf(child, filter), ESortPriority.SAME_AS_CHILD) {
@@ -63,7 +61,7 @@ class POPFilter(query: IQuery, projectedVariables: List<String>, filter: AOPBase
                     }
 
                     override suspend fun next(): Int {
-                        return ColumnIteratorQueueExt.next_helper(this, {
+                        return ColumnIteratorQueueExt.nextHelper(this, {
                             try {
                                 var done = false
                                 while (!done) {

@@ -93,7 +93,7 @@ internal object NodeInner {
         action(lastChildPointer)
         while (remaining > 0) {
             offset += NodeShared.readTriple000(node, offset)
-            offset += readChildPointer(node, offset) { it ->
+            offset += readChildPointer(node, offset) {
                 lastChildPointer = it
             }
             action(lastChildPointer)
@@ -117,7 +117,7 @@ internal object NodeInner {
             if (!checkTooSmall(value0, value1, value2)) {
                 break
             }
-            offset += readChildPointer(node, offset) { it ->
+            offset += readChildPointer(node, offset) {
                 lastChildPointer = it
             }
             remaining--
@@ -259,7 +259,7 @@ internal object NodeInner {
                 SanityCheck.check { value0 == writtenTriples!![i * 3] }
                 SanityCheck.check { value1 == writtenTriples!![i * 3 + 1] }
                 SanityCheck.check { value2 == writtenTriples!![i * 3 + 2] }
-                offset2 += readChildPointer(node, offset2) { it ->
+                offset2 += readChildPointer(node, offset2) {
                     lastChildPointer = it
                 }
                 SanityCheck.check { lastChildPointer == writtenHeaders!![i + 1] }

@@ -6,6 +6,6 @@ class ColumnIteratorQueueEmpty : ColumnIteratorQueue() {
     }
 
     override suspend fun next(): Int {
-        return ColumnIteratorQueueExt.next_helper(this, {}, { ColumnIteratorQueueExt._close(this) })
+        return ColumnIteratorQueueExt.nextHelper(this, {}, { ColumnIteratorQueueExt._close(this) })
     }
 }

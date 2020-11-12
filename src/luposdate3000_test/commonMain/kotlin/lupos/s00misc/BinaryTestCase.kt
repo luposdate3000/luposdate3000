@@ -1,28 +1,14 @@
 package lupos.s00misc
 
-import lupos.s00misc.EIndexPattern
-import lupos.s00misc.File
-import lupos.s00misc.MAX_TRIPLES_DURING_TEST
-import lupos.s00misc.MemoryTable
-import lupos.s00misc.MyPrintWriter
-import lupos.s00misc.NotImplementedException
-import lupos.s00misc.parseFromAny
-import lupos.s00misc.Partition
-import lupos.s00misc.SanityCheck
-import lupos.s00misc.XMLElement
 import lupos.s02buildSyntaxTree.LexerCharIterator
 import lupos.s02buildSyntaxTree.LookAheadTokenIterator
-import lupos.s02buildSyntaxTree.rdf.Dictionary
 import lupos.s02buildSyntaxTree.sparql1_1.SPARQLParser
 import lupos.s02buildSyntaxTree.sparql1_1.TokenIteratorSPARQLParser
 import lupos.s03resultRepresentation.nodeGlobalDictionary
-import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s03resultRepresentation.ResultSetDictionaryExt
-import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04arithmetikOperators.IAOPBase
 import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s04logicalOperators.IOPBase
-import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.OPBaseCompound
 import lupos.s04logicalOperators.Query
 import lupos.s06buildOperatorGraph.OperatorGraphVisitor
@@ -52,7 +38,7 @@ object BinaryTestCase {
         return res
     }
 
-    internal fun helper_clean_string(s: String): String {
+    internal fun helperCleanString(s: String): String {
         var res: String = s
         while (true) {
             val match = "\\\\u[0-9a-fA-f]{4}".toRegex().find(res)
@@ -555,7 +541,7 @@ if (tmpTable != null) {
                                 else -> throw Exception("unknown name '$name'")
                             }
                             val child = v.childs.first()
-                            val content = helper_clean_string(child.content)
+                            val content = helperCleanString(child.content)
                             val datatype = child.attributes["datatype"]
                             val lang = child.attributes["xml:lang"]
                             if ((datatype != null) && (lang != null)) {
@@ -626,7 +612,7 @@ if (tmpTable != null) {
                                             }
                                             if (v.childs.size > 0) {
                                                 val child = v.childs.first()
-                                                val content = helper_clean_string(child.content)
+                                                val content = helperCleanString(child.content)
                                                 val datatype = child.attributes["datatype"]
                                                 val lang = child.attributes["xml:lang"]
                                                 if ((datatype != null) && (lang != null)) {

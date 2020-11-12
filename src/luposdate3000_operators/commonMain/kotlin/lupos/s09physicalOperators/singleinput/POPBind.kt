@@ -5,7 +5,6 @@ import lupos.s00misc.EOperatorID
 import lupos.s00misc.ESortPriority
 import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
-import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.ResultSetDictionaryExt
 import lupos.s03resultRepresentation.ValueDefinition
 import lupos.s03resultRepresentation.ValueError
@@ -20,8 +19,6 @@ import lupos.s04logicalOperators.iterator.ColumnIteratorQueueEmpty
 import lupos.s04logicalOperators.iterator.ColumnIteratorQueueExt
 import lupos.s04logicalOperators.iterator.ColumnIteratorRepeatValue
 import lupos.s04logicalOperators.iterator.IteratorBundle
-import lupos.s04logicalOperators.OPBase
-import lupos.s04logicalOperators.Query
 import lupos.s09physicalOperators.POPBase
 
 class POPBind(query: IQuery, projectedVariables: List<String>, @JvmField val name: AOPVariable, value: AOPBase, child: IOPBase) : POPBase(query, projectedVariables, EOperatorID.POPBindID, "POPBind", arrayOf(child, value), ESortPriority.BIND) {
@@ -80,7 +77,7 @@ class POPBind(query: IQuery, projectedVariables: List<String>, @JvmField val nam
                     }
 
                     override suspend fun next(): Int {
-                        return ColumnIteratorQueueExt.next_helper(this, {
+                        return ColumnIteratorQueueExt.nextHelper(this, {
                             var done = false
                             for (variableIndex2 in 0 until variablesLocal.size) {
                                 if (boundIndex != variableIndex2) {

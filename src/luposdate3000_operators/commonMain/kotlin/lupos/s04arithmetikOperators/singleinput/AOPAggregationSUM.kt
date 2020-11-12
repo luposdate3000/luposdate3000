@@ -2,7 +2,6 @@ package lupos.s04arithmetikOperators.singleinput
 
 import kotlin.jvm.JvmField
 import lupos.s00misc.EOperatorID
-import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.ValueDecimal
 import lupos.s03resultRepresentation.ValueDefinition
 import lupos.s03resultRepresentation.ValueDouble
@@ -14,11 +13,8 @@ import lupos.s04arithmetikOperators.AOPAggregationBase
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
-import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.s04logicalOperators.iterator.ColumnIteratorAggregate
 import lupos.s04logicalOperators.iterator.IteratorBundle
-import lupos.s04logicalOperators.OPBase
-import lupos.s04logicalOperators.Query
 
 class AOPAggregationSUM(query: IQuery, @JvmField val distinct: Boolean, childs: Array<AOPBase>) : AOPAggregationBase(query, EOperatorID.AOPAggregationSUMID, "AOPAggregationSUM", Array(childs.size) { childs[it] }) {
     override suspend fun toXMLElement() = super.toXMLElement().addAttribute("distinct", "" + distinct)
@@ -38,7 +34,7 @@ class AOPAggregationSUM(query: IQuery, @JvmField val distinct: Boolean, childs: 
             res.count++
             if (value is ValueError) {
                 res.value = value
-                res.evaluate = res::_evaluate
+                res.evaluate = res::aggregate_evaluate
             } else if (res.value is ValueUndef) {
                 res.value = value
             } else if (res.value is ValueDouble || value is ValueDouble) {
@@ -51,7 +47,7 @@ class AOPAggregationSUM(query: IQuery, @JvmField val distinct: Boolean, childs: 
                 res.value = ValueInteger(res.value.toInt() + value.toInt())
             } else {
                 res.value = ValueError()
-                res.evaluate = res::_evaluate
+                res.evaluate = res::aggregate_evaluate
             }
         }
         return res

@@ -11,7 +11,7 @@ import lupos.s15tripleStoreDistributed.distributedTripleStore
 import lupos.s15tripleStoreDistributed.DistributedTripleStore
 import lupos.s16network.LuposdateEndpoint
 
-fun main(args: Array<String>): Unit {
+fun main(args: Array<String>) {
     LuposdateEndpoint.initialize()
     Parallel.runBlocking {
         if (args.size > 0 && args[0] == "--generate") {

@@ -89,7 +89,7 @@ class TripleStoreFeatureParamsPartition(val idx: EIndexPattern, params: Array<IA
         if (partition.data.size != 1) {
             throw throw BugException("TripleStoreFeature", "partition within store only supported for 1 partition at a time")
         }
-        var name: String = ""
+        var name = ""
         for ((k, v) in partition.data) {
             //this should be implemented more nice, as there is only one entry in the map
             name = k

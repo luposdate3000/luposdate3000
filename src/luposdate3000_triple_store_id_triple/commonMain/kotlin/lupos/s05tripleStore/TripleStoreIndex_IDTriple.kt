@@ -21,9 +21,9 @@ import lupos.s05tripleStore.index_IDTriple.NodeLeaf
 import lupos.s05tripleStore.index_IDTriple.NodeLeafColumnIterator0
 import lupos.s05tripleStore.index_IDTriple.NodeLeafColumnIterator1
 import lupos.s05tripleStore.index_IDTriple.NodeLeafColumnIterator2
-import lupos.s05tripleStore.index_IDTriple.NodeLeafColumnIteratorPrefix1_1
-import lupos.s05tripleStore.index_IDTriple.NodeLeafColumnIteratorPrefix1_2
-import lupos.s05tripleStore.index_IDTriple.NodeLeafColumnIteratorPrefix2_2
+import lupos.s05tripleStore.index_IDTriple.NodeLeafColumnIteratorPrefix11
+import lupos.s05tripleStore.index_IDTriple.NodeLeafColumnIteratorPrefix12
+import lupos.s05tripleStore.index_IDTriple.NodeLeafColumnIteratorPrefix22
 import lupos.s05tripleStore.index_IDTriple.NodeManager
 import lupos.s05tripleStore.index_IDTriple.NodeShared
 import lupos.s05tripleStore.index_IDTriple.TripleIterator
@@ -588,7 +588,7 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
             val queueO = iterator.queueO
             var myleaf = ByteArray(0)
 //
-            NodeManager.getNodeLeaf(firstLeaf) { it ->
+            NodeManager.getNodeLeaf(firstLeaf) {
                 myleaf = it
             }
             var iterator0 = NodeLeafColumnIterator0(myleaf, firstLeaf, debugLock)
@@ -600,7 +600,7 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
             SanityCheck.check { tmpa == ResultSetDictionaryExt.nullValue }
             SanityCheck.check { iterator0.label == 0 }
 //
-            NodeManager.getNodeLeaf(firstLeaf) { it ->
+            NodeManager.getNodeLeaf(firstLeaf) {
                 myleaf = it
             }
             var iterator1 = NodeLeafColumnIterator1(myleaf, firstLeaf, debugLock)
@@ -612,7 +612,7 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
             SanityCheck.check { tmpb == ResultSetDictionaryExt.nullValue }
             SanityCheck.check { iterator1.label == 0 }
 //
-            NodeManager.getNodeLeaf(firstLeaf) { it ->
+            NodeManager.getNodeLeaf(firstLeaf) {
                 myleaf = it
             }
             var iterator2 = NodeLeafColumnIterator2(myleaf, firstLeaf, debugLock)
@@ -628,14 +628,14 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
                 var iterator_s = queueS.iterator()
                 var iterator_p = queueP.iterator()
                 var iterator_o = queueO.iterator()
-                NodeManager.getNodeLeaf(firstLeaf) { it ->
+                NodeManager.getNodeLeaf(firstLeaf) {
                     myleaf = it
                 }
-                var iterator_1_1 = NodeLeafColumnIteratorPrefix1_1(myleaf, firstLeaf, intArrayOf(queueS[0]), debugLock)
-                NodeManager.getNodeLeaf(firstLeaf) { it ->
+                var iterator_1_1 = NodeLeafColumnIteratorPrefix11(myleaf, firstLeaf, intArrayOf(queueS[0]), debugLock)
+                NodeManager.getNodeLeaf(firstLeaf) {
                     myleaf = it
                 }
-                var iterator_1_2 = NodeLeafColumnIteratorPrefix1_2(myleaf, firstLeaf, intArrayOf(queueS[0]), debugLock)
+                var iterator_1_2 = NodeLeafColumnIteratorPrefix12(myleaf, firstLeaf, intArrayOf(queueS[0]), debugLock)
                 var last_s = iterator_s.next()
                 val tmpd = iterator_1_1.next()
                 SanityCheck.check { tmpd == iterator_p.next() }
@@ -658,14 +658,14 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
                         SanityCheck.check { tmpg == ResultSetDictionaryExt.nullValue }
                         SanityCheck.check { iterator_1_1.label == 0 }
                         SanityCheck.check { iterator_1_2.label == 0 }
-                        NodeManager.getNodeLeaf(firstLeaf) { it ->
+                        NodeManager.getNodeLeaf(firstLeaf) {
                             myleaf = it
                         }
-                        iterator_1_1 = NodeLeafColumnIteratorPrefix1_1(myleaf, firstLeaf, intArrayOf(current_s), debugLock)
-                        NodeManager.getNodeLeaf(firstLeaf) { it ->
+                        iterator_1_1 = NodeLeafColumnIteratorPrefix11(myleaf, firstLeaf, intArrayOf(current_s), debugLock)
+                        NodeManager.getNodeLeaf(firstLeaf) {
                             myleaf = it
                         }
-                        iterator_1_2 = NodeLeafColumnIteratorPrefix1_2(myleaf, firstLeaf, intArrayOf(current_s), debugLock)
+                        iterator_1_2 = NodeLeafColumnIteratorPrefix12(myleaf, firstLeaf, intArrayOf(current_s), debugLock)
                         val tmph = iterator_1_1.next()
                         val tmpi = iterator_1_2.next()
                         SanityCheck.check { tmph == current_p }
@@ -687,14 +687,14 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
                 var iterator_s = queueS.iterator()
                 var iterator_p = queueP.iterator()
                 var iterator_o = queueO.iterator()
-                NodeManager.getNodeLeaf(firstLeaf) { it ->
+                NodeManager.getNodeLeaf(firstLeaf) {
                     myleaf = it
                 }
-                var iterator_1_1 = NodeLeafColumnIteratorPrefix1_1(myleaf, firstLeaf, intArrayOf(queueS[0]), debugLock)
-                NodeManager.getNodeLeaf(firstLeaf) { it ->
+                var iterator_1_1 = NodeLeafColumnIteratorPrefix11(myleaf, firstLeaf, intArrayOf(queueS[0]), debugLock)
+                NodeManager.getNodeLeaf(firstLeaf) {
                     myleaf = it
                 }
-                var iterator_1_2 = NodeLeafColumnIteratorPrefix1_2(myleaf, firstLeaf, intArrayOf(queueS[0]), debugLock)
+                var iterator_1_2 = NodeLeafColumnIteratorPrefix12(myleaf, firstLeaf, intArrayOf(queueS[0]), debugLock)
                 var last_s = iterator_s.next()
                 val tmpd = iterator_1_1.skipSIP(0)
                 SanityCheck.check { tmpd == iterator_p.next() }
@@ -714,15 +714,15 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
                         SanityCheck.check { tmpg == current_o }
                     } else {
                         iterator_1_1.close()
-                        NodeManager.getNodeLeaf(firstLeaf) { it ->
+                        NodeManager.getNodeLeaf(firstLeaf) {
                             myleaf = it
                         }
-                        iterator_1_1 = NodeLeafColumnIteratorPrefix1_1(myleaf, firstLeaf, intArrayOf(current_s), debugLock)
+                        iterator_1_1 = NodeLeafColumnIteratorPrefix11(myleaf, firstLeaf, intArrayOf(current_s), debugLock)
                         iterator_1_2.close()
-                        NodeManager.getNodeLeaf(firstLeaf) { it ->
+                        NodeManager.getNodeLeaf(firstLeaf) {
                             myleaf = it
                         }
-                        iterator_1_2 = NodeLeafColumnIteratorPrefix1_2(myleaf, firstLeaf, intArrayOf(current_s), debugLock)
+                        iterator_1_2 = NodeLeafColumnIteratorPrefix12(myleaf, firstLeaf, intArrayOf(current_s), debugLock)
                         val tmph = iterator_1_1.skipSIP(0)
                         val tmpi = iterator_1_2.skipSIP(0)
                         SanityCheck.check { tmph == current_p }
@@ -740,14 +740,14 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
                 var iterator_s = queueS.iterator()
                 var iterator_p = queueP.iterator()
                 var iterator_o = queueO.iterator()
-                NodeManager.getNodeLeaf(firstLeaf) { it ->
+                NodeManager.getNodeLeaf(firstLeaf) {
                     myleaf = it
                 }
-                var iterator_1_1 = NodeLeafColumnIteratorPrefix1_1(myleaf, firstLeaf, intArrayOf(queueS[0]), debugLock)
-                NodeManager.getNodeLeaf(firstLeaf) { it ->
+                var iterator_1_1 = NodeLeafColumnIteratorPrefix11(myleaf, firstLeaf, intArrayOf(queueS[0]), debugLock)
+                NodeManager.getNodeLeaf(firstLeaf) {
                     myleaf = it
                 }
-                var iterator_1_2 = NodeLeafColumnIteratorPrefix1_2(myleaf, firstLeaf, intArrayOf(queueS[0]), debugLock)
+                var iterator_1_2 = NodeLeafColumnIteratorPrefix12(myleaf, firstLeaf, intArrayOf(queueS[0]), debugLock)
                 var skipping = 1
                 var last_s = iterator_s.next()
                 iterator_p.next()
@@ -773,15 +773,15 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
                     if (last_s != current_s) {
                         lastreset_idx = idx
                         iterator_1_1.close()
-                        NodeManager.getNodeLeaf(firstLeaf) { it ->
+                        NodeManager.getNodeLeaf(firstLeaf) {
                             myleaf = it
                         }
-                        iterator_1_1 = NodeLeafColumnIteratorPrefix1_1(myleaf, firstLeaf, intArrayOf(current_s), debugLock)
+                        iterator_1_1 = NodeLeafColumnIteratorPrefix11(myleaf, firstLeaf, intArrayOf(current_s), debugLock)
                         iterator_1_2.close()
-                        NodeManager.getNodeLeaf(firstLeaf) { it ->
+                        NodeManager.getNodeLeaf(firstLeaf) {
                             myleaf = it
                         }
-                        iterator_1_2 = NodeLeafColumnIteratorPrefix1_2(myleaf, firstLeaf, intArrayOf(current_s), debugLock)
+                        iterator_1_2 = NodeLeafColumnIteratorPrefix12(myleaf, firstLeaf, intArrayOf(current_s), debugLock)
                         skipping = 1
                     }
                     last_s = current_s
@@ -793,10 +793,10 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
                 var iterator_s = queueS.iterator()
                 var iterator_p = queueP.iterator()
                 var iterator_o = queueO.iterator()
-                NodeManager.getNodeLeaf(firstLeaf) { it ->
+                NodeManager.getNodeLeaf(firstLeaf) {
                     myleaf = it
                 }
-                var iterator_2_2 = NodeLeafColumnIteratorPrefix2_2(myleaf, firstLeaf, intArrayOf(queueS[0], queueP[0]), debugLock)
+                var iterator_2_2 = NodeLeafColumnIteratorPrefix22(myleaf, firstLeaf, intArrayOf(queueS[0], queueP[0]), debugLock)
                 var last_s = iterator_s.next()
                 var last_p = iterator_p.next()
                 val tmpo = iterator_2_2.next()
@@ -811,10 +811,10 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
                     } else {
                         SanityCheck.check { tmpl == ResultSetDictionaryExt.nullValue }
                         SanityCheck.check { iterator_2_2.label == 0 }
-                        NodeManager.getNodeLeaf(firstLeaf) { it ->
+                        NodeManager.getNodeLeaf(firstLeaf) {
                             myleaf = it
                         }
-                        iterator_2_2 = NodeLeafColumnIteratorPrefix2_2(myleaf, firstLeaf, intArrayOf(current_s, current_p), debugLock)
+                        iterator_2_2 = NodeLeafColumnIteratorPrefix22(myleaf, firstLeaf, intArrayOf(current_s, current_p), debugLock)
                         val tmpm = iterator_2_2.next()
                         SanityCheck.check { tmpm == current_o }
                     }

@@ -12,7 +12,7 @@ class IRI(@JvmField val iri: String) : RDFResource() {
 }
 
 class BlankNode(@JvmField val local_name: String) : RDFResource() {
-    constructor() : this(NewNameCreator.createNewName())
+    constructor() : this(createNewName())
 
     override fun toN3String(): String = "_:" + local_name
 

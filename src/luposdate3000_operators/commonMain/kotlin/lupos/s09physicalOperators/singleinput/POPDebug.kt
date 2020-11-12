@@ -33,7 +33,7 @@ class POPDebug(query: IQuery, projectedVariables: List<String>, child: IOPBase) 
             }
             EPOPDebugMode.DEBUG1 -> {
                 val target = getChildren()[0].getProvidedVariableNames()
-                SanityCheck.println({ "POPDebug-child-mode ... ${uuid} ${getChildren()[0].getUUID()}" })
+                SanityCheck.println({ "POPDebug-child-mode ... $uuid ${getChildren()[0].getUUID()}" })
                 if (child.hasColumnMode()) {
                     try {
                         child.columns
@@ -56,7 +56,7 @@ class POPDebug(query: IQuery, projectedVariables: List<String>, child: IOPBase) 
             }
             EPOPDebugMode.DEBUG2 -> {
                 val target = getChildren()[0].getProvidedVariableNames()
-                SanityCheck.println({ "POPDebug-child-mode ... ${uuid} ${getChildren()[0].getUUID()}" })
+                SanityCheck.println({ "POPDebug-child-mode ... $uuid ${getChildren()[0].getUUID()}" })
                 if (child.hasColumnMode()) {
                     try {
                         child.columns

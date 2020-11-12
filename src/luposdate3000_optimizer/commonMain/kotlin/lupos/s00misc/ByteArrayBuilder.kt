@@ -58,7 +58,7 @@ internal class ByteArrayBuilder {
             data += ByteArray(capacity)
             capacity = capacity * 2
         }
-        SanityCheck.println { "ByteArrayBuilder($uuid).writeInt at $size with value ${i}" }
+        SanityCheck.println { "ByteArrayBuilder($uuid).writeInt at $size with value $i" }
         ByteArrayHelper.writeInt4(data, size, i)
         size += 4
     }
@@ -68,7 +68,7 @@ internal class ByteArrayBuilder {
             data += ByteArray(capacity)
             capacity = capacity * 2
         }
-        SanityCheck.println { "ByteArrayBuilder($uuid).writeLong at $size with value ${l}" }
+        SanityCheck.println { "ByteArrayBuilder($uuid).writeLong at $size with value $l" }
         ByteArrayHelper.writeLong8(data, size, l)
         size += 8
     }
