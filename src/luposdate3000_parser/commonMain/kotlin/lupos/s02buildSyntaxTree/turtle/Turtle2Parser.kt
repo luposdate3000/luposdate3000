@@ -217,6 +217,7 @@ val v=context.getValue()
 if(v.endsWith(".")){
 //TODO fix the underlying bug in the parser
 triple[2] = v.substring(0,v.length-1)
+onTriple(triple, tripleType)
 state = Turtle2ParserState.STATEMENT
 }else{
                     triple[2] = v
@@ -308,6 +309,7 @@ val v=context.getValue()
 if(v.endsWith(".")){
 //TODO fix the underlying bug in the parser
 triple[2] = "<" + prefixMap[triple[2]]!! + v.substring(0,v.length-1) + ">"
+onTriple(triple, tripleType)
 state = Turtle2ParserState.STATEMENT
 }else{
                     triple[2] = "<" + prefixMap[triple[2]]!! + v + ">"
@@ -354,6 +356,7 @@ val v=context.getValue()
 if(v.endsWith(".")){
 //TODO fix the underlying bug in the parser
 triple[2] += "<" + prefixMap[prefix]!! + v.substring(0,v.length-1) + ">"
+onTriple(triple, tripleType)
 state = Turtle2ParserState.STATEMENT
 }else{
                     triple[2] += "<" + prefixMap[prefix]!! + v + ">"
