@@ -423,15 +423,23 @@ var configFile:String
 var configPathBase="src${pathSeparator}xxx_generated_xxx${pathSeparator}${moduleName}"
 var configPath="${configPathBase}${pathSeparator}commonMain${pathSeparator}kotlin${pathSeparator}lupos${pathSeparator}s00misc"
 File(configPath).mkdirs()
-
-
+typeAliasUsed.putAll(typeAliasAll)
+try{
  File("src${pathSeparator}luposdate3000_shared_inline${pathSeparator}commonMain").copyRecursively(File("${configPathBase}${pathSeparator}commonMain"))
+}catch(e:Throwable){
+}
+try{
  File("src${pathSeparator}luposdate3000_shared_inline${pathSeparator}jvmMain").copyRecursively(File("${configPathBase}${pathSeparator}jvmMain"))
+}catch(e:Throwable){
+}
+try{
  File("src${pathSeparator}luposdate3000_shared_inline${pathSeparator}jsMain").copyRecursively(File("${configPathBase}${pathSeparator}jsMain"))
+}catch(e:Throwable){
+}
+try{
  File("src${pathSeparator}luposdate3000_shared_inline${pathSeparator}nativeMain").copyRecursively(File("${configPathBase}${pathSeparator}nativeMain"))
-
-
-
+}catch(e:Throwable){
+}
 configFile="${configPath}${pathSeparator}Config-${moduleName}.kt"
 }else{
 configFile="src.generated${pathSeparator}commonMain${pathSeparator}kotlin${pathSeparator}lupos${pathSeparator}s00misc${pathSeparator}Config-${moduleName}.kt"
