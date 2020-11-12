@@ -24,3 +24,4 @@ echo "include(\":src:$fshort\")" >> settings.gradle
 echo "    project(\":src:$fshort\")" >> src/build.gradle.kts
 done
 echo "}" >> src/build.gradle.kts
+
