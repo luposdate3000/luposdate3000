@@ -9,7 +9,7 @@ import lupos.s08logicalOptimisation.OptimizerBase
 
 class LogicalOptimizerRemovePrefix(query: Query) : OptimizerBase(query, EOptimizerID.LogicalOptimizerRemovePrefixID) {
     override val classname = "LogicalOptimizerRemovePrefix"
-    override suspend fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
+    override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
         var res = node
         if (node is LOPPrefix) {
             node.getChildren()[0].applyPrefix(node.name, node.iri)

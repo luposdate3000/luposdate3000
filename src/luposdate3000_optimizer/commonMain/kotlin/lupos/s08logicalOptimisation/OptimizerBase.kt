@@ -14,8 +14,8 @@ import lupos.s09physicalOperators.partition.POPSplitPartitionFromStore
 
 abstract class OptimizerBase(@JvmField val query: Query, @JvmField val optimizerID: EOptimizerID) {
     abstract val classname: String
-    abstract suspend fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase
-    suspend fun optimizeInternal(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
+    abstract /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase
+    /*suspend*/ fun optimizeInternal(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
         SanityCheck {
             if (parent != null) {
                 var found = false
@@ -36,7 +36,7 @@ abstract class OptimizerBase(@JvmField val query: Query, @JvmField val optimizer
         return res
     }
 
-    open suspend fun optimizeCall(node: IOPBase, onChange: () -> Unit = {}): IOPBase {
+    open /*suspend*/ fun optimizeCall(node: IOPBase, onChange: () -> Unit = {}): IOPBase {
         if (query.filtersMovedUpFromOptionals) {
             node.syntaxVerifyAllVariableExists(listOf(), true)
         }

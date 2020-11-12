@@ -30,7 +30,7 @@ class POPFilter(query: IQuery, projectedVariables: List<String>, filter: AOPBase
     override fun cloneOP(): IOPBase = POPFilter(query, projectedVariables, children[1].cloneOP() as AOPBase, children[0].cloneOP())
     override fun getProvidedVariableNamesInternal() = children[0].getProvidedVariableNames()
     override fun getRequiredVariableNames() = children[1].getRequiredVariableNamesRecoursive()
-    override suspend fun evaluate(parent: Partition): IteratorBundle {
+    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
         //TODO not-equal shortcut during evaluation based on integer-ids
         val variables = children[0].getProvidedVariableNames()
         val variablesOut = getProvidedVariableNames()
@@ -46,11 +46,11 @@ class POPFilter(query: IQuery, projectedVariables: List<String>, filter: AOPBase
             val columnsLocal = mutableListOf<ColumnIteratorQueue>()
             for (i in 0 until variables.size) {
                 columnsLocal.add(object : ColumnIteratorQueue() {
-                    override suspend fun close() {
+                    override /*suspend*/ fun close() {
                         __close()
                     }
 
-                    suspend inline fun __close() {
+                    /*suspend*/ inline fun __close() {
                         if (label != 0) {
                             ColumnIteratorQueueExt._close(this)
                             SanityCheck.println { "POPFilterXXX$uuid close E $classname" }
@@ -60,7 +60,7 @@ class POPFilter(query: IQuery, projectedVariables: List<String>, filter: AOPBase
                         }
                     }
 
-                    override suspend fun next(): Int {
+                    override /*suspend*/ fun next(): Int {
                         return ColumnIteratorQueueExt.nextHelper(this, {
                             try {
                                 var done = false
@@ -126,21 +126,21 @@ class POPFilter(query: IQuery, projectedVariables: List<String>, filter: AOPBase
                         res = child
                     } else {
                         res = object : IteratorBundle(0) {
-                            override suspend fun hasNext2(): Boolean {
+                            override /*suspend*/ fun hasNext2(): Boolean {
                                 return false
                             }
                         }
                     }
                 } else {
                     res = object : IteratorBundle(0) {
-                        override suspend fun hasNext2Close() {
+                        override /*suspend*/ fun hasNext2Close() {
                             SanityCheck.println({ "POPFilterXXX$uuid close B $classname" })
                             for ((k, v) in child.columns) {
                                 v.close()
                             }
                         }
 
-                        override suspend fun hasNext2(): Boolean {
+                        override /*suspend*/ fun hasNext2(): Boolean {
                             var res2 = false
                             try {
                                 var done = false

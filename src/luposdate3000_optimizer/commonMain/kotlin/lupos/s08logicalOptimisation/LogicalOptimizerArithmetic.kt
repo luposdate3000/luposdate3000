@@ -26,7 +26,7 @@ class LogicalOptimizerArithmetic(query: Query) : OptimizerBase(query, EOptimizer
         return node is AOPAggregationBase
     }
 
-    override suspend fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
+    override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
         var res = node
         if (node is AOPBase && node !is AOPValue && node !is AOPBuildInCallNotExists && node !is AOPBuildInCallExists && node !is AOPVariable) {
             if (node.getChildren().size > 0 && node.getRequiredVariableNamesRecoursive().size == 0 && !hasAggregation(node)) {

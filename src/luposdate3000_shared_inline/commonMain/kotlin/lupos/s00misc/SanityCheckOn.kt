@@ -15,7 +15,7 @@ internal object SanityCheckOn {
         }
     }
 
-    suspend inline fun suspended(crossinline action: suspend () -> Unit) {
+    /*suspend*/ inline fun suspended(crossinline action: /*suspend*/ () -> Unit) {
         try {
             action()
         } catch (e: Throwable) {

@@ -4,11 +4,11 @@ import lupos.s04logicalOperators.IQuery
 
 interface IDistributedTripleStore {
     fun getGraphNames(includeDefault: Boolean = false): List<String>
-    suspend fun createGraph(query: IQuery, name: String): IDistributedGraph
-    suspend fun dropGraph(query: IQuery, name: String)
-    suspend fun clearGraph(query: IQuery, name: String)
-    suspend fun getNamedGraph(query: IQuery, name: String): IDistributedGraph
+    /*suspend*/ fun createGraph(query: IQuery, name: String): IDistributedGraph
+    /*suspend*/ fun dropGraph(query: IQuery, name: String)
+    /*suspend*/ fun clearGraph(query: IQuery, name: String)
+    /*suspend*/ fun getNamedGraph(query: IQuery, name: String): IDistributedGraph
     fun getDefaultGraph(query: IQuery): IDistributedGraph
-    suspend fun commit(query: IQuery)
+    /*suspend*/ fun commit(query: IQuery)
     fun getLocalStore(): IPersistentStoreLocal
 }

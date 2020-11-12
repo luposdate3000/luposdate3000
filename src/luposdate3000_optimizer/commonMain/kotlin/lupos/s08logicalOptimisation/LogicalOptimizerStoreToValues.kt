@@ -23,7 +23,7 @@ import lupos.s15tripleStoreDistributed.distributedTripleStore
 
 class LogicalOptimizerStoreToValues(query: Query) : OptimizerBase(query, EOptimizerID.LogicalOptimizerStoreToValuesID) {
     override val classname = "LogicalOptimizerStoreToValues"
-    override suspend fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
+    override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
         var res: IOPBase = node
         if (node is LOPTriple && REPLACE_STORE_WITH_VALUES) {
             var hashCode = 0L

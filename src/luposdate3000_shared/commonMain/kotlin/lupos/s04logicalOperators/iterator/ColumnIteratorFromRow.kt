@@ -6,7 +6,7 @@ object ColumnIteratorFromRow {
         val iterators = mutableListOf<ColumnIteratorQueue>()
         for (i in 0 until iterator.columns.size) {
             val iterator2 = object : ColumnIteratorQueue() {
-                override suspend fun next(): Int {
+                override /*suspend*/ fun next(): Int {
                     return ColumnIteratorQueueExt.nextHelper(this, {
                         var res2 = iterator.next()
                         if (res2 >= 0) {
@@ -22,7 +22,7 @@ object ColumnIteratorFromRow {
                     })
                 }
 
-                override suspend fun close() {
+                override /*suspend*/ fun close() {
                     if (label != 0) {
                         ColumnIteratorQueueExt._close(this)
                         iterator.close()

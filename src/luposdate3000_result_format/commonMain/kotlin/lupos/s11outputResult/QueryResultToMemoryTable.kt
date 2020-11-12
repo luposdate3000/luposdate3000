@@ -18,11 +18,11 @@ import lupos.s09physicalOperators.partition.POPMergePartition
 import lupos.s09physicalOperators.partition.POPMergePartitionOrderedByIntId
 
 object QueryResultToMemoryTable {
-    internal suspend fun writeRow(variables: Array<String>, rowBuf: IntArray, dictionary: IResultSetDictionary, output: MemoryTable) {
+    internal /*suspend*/ fun writeRow(variables: Array<String>, rowBuf: IntArray, dictionary: IResultSetDictionary, output: MemoryTable) {
         output.data.add(IntArray(variables.size) { rowBuf[it] })
     }
 
-    internal suspend inline fun writeAllRows(variables: Array<String>, columns: Array<ColumnIterator>, dictionary: IResultSetDictionary, lock: MyLock?, output: MemoryTable) {
+    internal /*suspend*/ inline fun writeAllRows(variables: Array<String>, columns: Array<ColumnIterator>, dictionary: IResultSetDictionary, lock: MyLock?, output: MemoryTable) {
         val rowBuf = IntArray(variables.size)
         loop@ while (true) {
             for (variableIndex in 0 until variables.size) {
@@ -41,7 +41,7 @@ object QueryResultToMemoryTable {
         }
     }
 
-    internal suspend fun writeNodeResult(variables: Array<String>, node: IOPBase, output: MemoryTable, parent: Partition = Partition()) {
+    internal /*suspend*/ fun writeNodeResult(variables: Array<String>, node: IOPBase, output: MemoryTable, parent: Partition = Partition()) {
         if ((node is POPMergePartition && node.partitionCount > 1) || (node is POPMergePartitionOrderedByIntId && node.partitionCount > 1)) {
             var partitionCount = 0
             var partitionVariable = ""
@@ -81,7 +81,7 @@ object QueryResultToMemoryTable {
         }
     }
 
-    suspend operator fun invoke(rootNode: IOPBase): List<MemoryTable> {
+    /*suspend*/ operator fun invoke(rootNode: IOPBase): List<MemoryTable> {
         val nodes: Array<IOPBase>
         var columnProjectionOrder = listOf<List<String>>()
         if (rootNode is OPBaseCompound) {

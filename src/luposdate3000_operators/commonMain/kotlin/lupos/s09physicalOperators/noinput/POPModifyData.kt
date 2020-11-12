@@ -54,7 +54,7 @@ class POPModifyData(query: IQuery, projectedVariables: List<String>, @JvmField v
         return res
     }
 
-    override suspend fun toXMLElement(): XMLElement {
+    override /*suspend*/ fun toXMLElement(): XMLElement {
         val res = XMLElement("POPModifyData")
         res.addAttribute("uuid", "" + uuid)
         for (t in data) {
@@ -63,7 +63,7 @@ class POPModifyData(query: IQuery, projectedVariables: List<String>, @JvmField v
         return res
     }
 
-    override suspend fun evaluate(parent: Partition): IteratorBundle {
+    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
         val iteratorDataMap = mutableMapOf<String, Array<MutableList<Int>>>()
         for (t in data) {
             for (i in 0 until 3) {

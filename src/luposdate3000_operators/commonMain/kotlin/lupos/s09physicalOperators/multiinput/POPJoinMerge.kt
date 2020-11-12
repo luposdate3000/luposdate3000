@@ -32,11 +32,11 @@ class POPJoinMerge(query: IQuery, projectedVariables: List<String>, childA: IOPB
     }
 
     override fun toSparql() = children[0].toSparql() + children[1].toSparql()
-    override suspend fun toXMLElement() = super.toXMLElement().addAttribute("optional", "" + optional)
+    override /*suspend*/ fun toXMLElement() = super.toXMLElement().addAttribute("optional", "" + optional)
     override fun cloneOP(): IOPBase = POPJoinMerge(query, projectedVariables, children[0].cloneOP(), children[1].cloneOP(), optional)
     override fun equals(other: Any?) = other is POPJoinMerge && optional == other.optional && children[0] == other.children[0] && children[1] == other.children[1]
     internal class IteratorBundleImpl(@JvmField val columnsINJ0: List<ColumnIterator>, @JvmField val columnsINJ1: List<ColumnIterator>, @JvmField val columnsOUTJ: ColumnIteratorChildIterator) : IteratorBundle(0) {
-        override suspend fun hasNext2(): Boolean {
+        override /*suspend*/ fun hasNext2(): Boolean {
             val tmp = columnsOUTJ.next() != ResultSetDictionaryExt.nullValue
             if (!tmp) {
                 _hasNext2Close()
@@ -46,7 +46,7 @@ class POPJoinMerge(query: IQuery, projectedVariables: List<String>, childA: IOPB
 
         @JvmField
         var local_hasNext2Close_i = 0
-        suspend inline fun _hasNext2Close() {
+        /*suspend*/ inline fun _hasNext2Close() {
             local_hasNext2Close_i = 0
             while (local_hasNext2Close_i < columnsINJ0.size) {
                 columnsINJ0[local_hasNext2Close_i].close()
@@ -59,7 +59,7 @@ class POPJoinMerge(query: IQuery, projectedVariables: List<String>, childA: IOPB
             }
         }
 
-        override suspend fun hasNext2Close() {
+        override /*suspend*/ fun hasNext2Close() {
             _hasNext2Close()
         }
     }
@@ -107,7 +107,7 @@ class POPJoinMerge(query: IQuery, projectedVariables: List<String>, childA: IOPB
 
         @JvmField
         var sipbuf = IntArray(2)
-        internal suspend inline fun __close() {
+        internal /*suspend*/ inline fun __close() {
             if (label != 0) {
                 local___close_i = 0
                 while (local___close_i < columnsOUT0.size) {
@@ -148,11 +148,11 @@ class POPJoinMerge(query: IQuery, projectedVariables: List<String>, childA: IOPB
             }
         }
 
-        override suspend fun close() {
+        override /*suspend*/ fun close() {
             __close()
         }
 
-        override suspend fun next(): Int {
+        override /*suspend*/ fun next(): Int {
             return nextHelper({
                 if (key0[0] != ResultSetDictionaryExt.nullValue && key1[0] != ResultSetDictionaryExt.nullValue) {
                     loop@ while (true) {
@@ -337,7 +337,7 @@ class POPJoinMerge(query: IQuery, projectedVariables: List<String>, childA: IOPB
         }
     }
 
-    override suspend fun evaluate(parent: Partition): IteratorBundle {
+    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
         SanityCheck.check { !optional }
         //setup columns
         SanityCheck {

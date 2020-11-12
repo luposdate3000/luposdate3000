@@ -51,7 +51,7 @@ internal actual class File {
         }
     }
 
-    actual suspend inline fun printWriterSuspended(crossinline action: suspend (MyPrintWriter) -> Unit) {
+    actual /*suspend*/ inline fun printWriterSuspended(crossinline action: /*suspend*/ (MyPrintWriter) -> Unit) {
         val printer = MyPrintWriter(java.io.File(filename))
         try {
             action(printer)
@@ -64,7 +64,7 @@ internal actual class File {
         action(it)
     }
 
-    actual suspend inline fun forEachLineSuspended(crossinline action: suspend (String) -> Unit) = java.io.File(filename).forEachLine {
+    actual /*suspend*/ inline fun forEachLineSuspended(crossinline action: /*suspend*/ (String) -> Unit) = java.io.File(filename).forEachLine {
         Parallel.runBlocking {
             action(it)
         }
@@ -106,7 +106,7 @@ internal actual class File {
         }
     }
 
-    actual suspend inline fun dataInputStreamSuspended(crossinline action: suspend (MyDataInputStream) -> Unit) {
+    actual /*suspend*/ inline fun dataInputStreamSuspended(crossinline action: /*suspend*/ (MyDataInputStream) -> Unit) {
         var dis: DataInputStream? = null
         try {
             val fis = FileInputStream(filename)

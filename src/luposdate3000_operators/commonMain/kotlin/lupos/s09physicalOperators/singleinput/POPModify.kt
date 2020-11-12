@@ -99,7 +99,7 @@ class POPModify(query: IQuery, projectedVariables: List<String>, insert: List<LO
         return POPModify(query, projectedVariables, insert, delete, children[0].cloneOP())
     }
 
-    override suspend fun evaluate(parent: Partition): IteratorBundle {
+    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
         val variables = children[0].getProvidedVariableNames()
         val child = children[0].evaluate(parent)
         val columns = Array(variables.size) { child.columns[variables[it]]!! }

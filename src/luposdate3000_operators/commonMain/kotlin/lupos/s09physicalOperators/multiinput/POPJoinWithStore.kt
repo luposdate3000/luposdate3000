@@ -35,7 +35,7 @@ class POPJoinWithStore(query: IQuery, projectedVariables: List<String>, childA: 
     }
 
     override fun equals(other: Any?) = other is POPJoinWithStore && optional == other.optional && children[0] == other.children[0]
-    override suspend fun evaluate(parent: Partition): IteratorBundle {
+    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
         SanityCheck.check { !optional }
         SanityCheck.check { !childB.graphVar }
         val childAv = children[0].evaluate(parent)
@@ -146,11 +146,11 @@ class POPJoinWithStore(query: IQuery, projectedVariables: List<String>, childA: 
             SanityCheck.println { "POPJoinWithStoreXXXopened ${columnsInBRoot.columns.size} columns for store, and saved ${variablINBO.size} of these" }
             for (columnConfig in columnsOUT) {
                 val column = object : ColumnIteratorQueue() {
-                    override suspend fun close() {
+                    override /*suspend*/ fun close() {
                         __close()
                     }
 
-                    suspend inline fun __close() {
+                    /*suspend*/ inline fun __close() {
                         if (label != 0) {
                             ColumnIteratorQueueExt._close(this)
                             SanityCheck.println { "POPJoinWithStoreXXXclosing store for join with store A $theuuid" }
@@ -166,7 +166,7 @@ class POPJoinWithStore(query: IQuery, projectedVariables: List<String>, childA: 
                         }
                     }
 
-                    override suspend fun next(): Int {
+                    override /*suspend*/ fun next(): Int {
                         return ColumnIteratorQueueExt.nextHelper(this, {
                             loopA@ while (true) {
                                 var done = true
@@ -247,7 +247,7 @@ class POPJoinWithStore(query: IQuery, projectedVariables: List<String>, childA: 
         return IteratorBundle(outMap)
     }
 
-    override suspend fun toXMLElement(): XMLElement {
+    override /*suspend*/ fun toXMLElement(): XMLElement {
         val res = super.toXMLElement().addAttribute("optional", "" + optional)
         res["children"]!!.addContent(childB.toXMLElement())
         return res

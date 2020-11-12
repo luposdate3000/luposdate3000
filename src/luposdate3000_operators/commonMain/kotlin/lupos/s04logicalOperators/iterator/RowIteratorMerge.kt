@@ -6,7 +6,7 @@ import lupos.s00misc.SanityCheck
 
 open class RowIteratorMerge(@JvmField val a: RowIterator, @JvmField val b: RowIterator, @JvmField val comparator: Comparator<Int>, @JvmField val compCount: Int) : RowIterator() {
     companion object {
-        suspend operator fun invoke(a: RowIterator, comparator: Comparator<Int>, compCount: Int, columns: Array<String>): RowIterator {
+        /*suspend*/ operator fun invoke(a: RowIterator, comparator: Comparator<Int>, compCount: Int, columns: Array<String>): RowIterator {
             SanityCheck.check { columns.size == a.columns.size }
             var buf1 = IntArray(columns.size * MERGE_SORT_MIN_ROWS)
             var buf2 = IntArray(columns.size * MERGE_SORT_MIN_ROWS)

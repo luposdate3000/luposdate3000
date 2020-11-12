@@ -28,7 +28,7 @@ class LOPTriple(query: IQuery, s: IAOPBase, p: IAOPBase, o: IAOPBase, @JvmField 
         return "GRAPH <$graph> {" + children[0].toSparql() + " " + children[1].toSparql() + " " + children[2].toSparql() + "}."
     }
 
-    override suspend fun toXMLElement() = super.toXMLElement().addAttribute("graph", graph).addAttribute("graphVar", "" + graphVar)
+    override /*suspend*/ fun toXMLElement() = super.toXMLElement().addAttribute("graph", graph).addAttribute("graphVar", "" + graphVar)
     override fun getRequiredVariableNames() = listOf<String>()
     override fun getProvidedVariableNames(): List<String> {
         var res = mutableListOf<String>()
@@ -103,7 +103,7 @@ class LOPTriple(query: IQuery, s: IAOPBase, p: IAOPBase, o: IAOPBase, @JvmField 
         }
     }
 
-    override suspend fun calculateHistogram(): HistogramResult {
+    override /*suspend*/ fun calculateHistogram(): HistogramResult {
         if (graphVar) {
             throw GraphVarHistogramsNotImplementedException()
         }

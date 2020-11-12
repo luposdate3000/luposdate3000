@@ -10,7 +10,7 @@ import lupos.s08logicalOptimisation.OptimizerBase
 
 class LogicalOptimizerUnionUp(query: Query) : OptimizerBase(query, EOptimizerID.LogicalOptimizerUnionUpID) {
     override val classname = "LogicalOptimizerUnionUp"
-    override suspend fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
+    override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
         var res: IOPBase = node
         if (node is LOPJoin && !node.optional) {
             val childA = node.getChildren()[0]

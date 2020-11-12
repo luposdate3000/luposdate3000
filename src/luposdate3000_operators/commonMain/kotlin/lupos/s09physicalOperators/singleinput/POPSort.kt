@@ -54,7 +54,7 @@ class POPSort(query: IQuery, projectedVariables: List<String>, @JvmField val sor
         return res
     }
 
-    override suspend fun toXMLElement(): XMLElement {
+    override /*suspend*/ fun toXMLElement(): XMLElement {
         val res = XMLElement("POPSort")
         val projectedXML = XMLElement("projectedVariables")
         res.addContent(projectedXML)
@@ -80,7 +80,7 @@ class POPSort(query: IQuery, projectedVariables: List<String>, @JvmField val sor
         return res
     }
 
-    override suspend fun evaluate(parent: Partition): IteratorBundle {
+    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
         val child = children[0].evaluate(parent)
         val variablesOut = getProvidedVariableNames()
         var comparator: Comparator<Int>

@@ -42,7 +42,7 @@ class TripleStoreIteratorGlobal(query: IQuery, projectedVariables: List<String>,
 
     override fun cloneOP() = TripleStoreIteratorGlobal(query, projectedVariables, graphName, Array(3) { children[it] as IAOPBase }, idx, partition)
     override fun equals(other: Any?) = other is TripleStoreIteratorGlobal && graphName == other.graphName && idx == other.idx && projectedVariables.containsAll(other.projectedVariables) && other.projectedVariables.containsAll(projectedVariables) && children[0] == other.children[0] && children[1] == other.children[1] && children[2] == other.children[2]
-    override suspend fun toXMLElement(): XMLElement {
+    override /*suspend*/ fun toXMLElement(): XMLElement {
         val res = XMLElement("TripleStoreIteratorGlobal").//
         addAttribute("uuid", "" + uuid).//
         addAttribute("name", graphName).//
@@ -90,7 +90,7 @@ class TripleStoreIteratorGlobal(query: IQuery, projectedVariables: List<String>,
         }
     }
 
-    override suspend fun evaluate(parent: Partition): IteratorBundle {
+    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
         SanityCheck.println({ "opening store for $uuid" })
         SanityCheck {
             for ((k, v) in parent.limit) {
@@ -112,13 +112,13 @@ class TripleStoreIteratorGlobal(query: IQuery, projectedVariables: List<String>,
 }
 
 class DistributedGraph(val query: IQuery, @JvmField val name: String) : IDistributedGraph {
-    override suspend fun bulkImport(action: suspend (ITripleStoreBulkImport) -> Unit) {
+    override /*suspend*/ fun bulkImport(action: /*suspend*/ (ITripleStoreBulkImport) -> Unit) {
         val bulk = TripleStoreBulkImport(query, name)
         action(bulk as ITripleStoreBulkImport)
         bulk.finishImport()
     }
 
-    override suspend fun modify(data: Array<ColumnIterator>, type: EModifyType) {
+    override /*suspend*/ fun modify(data: Array<ColumnIterator>, type: EModifyType) {
         SanityCheck.check { data.size == 3 }
         val map = Array(3) { mutableListOf<Int>() }
         loop@ while (true) {
@@ -182,7 +182,7 @@ class DistributedGraph(val query: IQuery, @JvmField val name: String) : IDistrib
         return TripleStoreIteratorGlobal(query, projectedVariables, name, params, idx, partition)
     }
 
-    override suspend fun getHistogram(params: Array<IAOPBase>, idx: EIndexPattern): Pair<Int, Int> {
+    override /*suspend*/ fun getHistogram(params: Array<IAOPBase>, idx: EIndexPattern): Pair<Int, Int> {
         SanityCheck {
             if (idx.keyIndices.size == 3) {
                 if (params[0] is AOPVariable) {
@@ -229,21 +229,21 @@ class DistributedTripleStore : IDistributedTripleStore {
         return localStore.getGraphNames(includeDefault)
     }
 
-    override suspend fun createGraph(query: IQuery, name: String): DistributedGraph {
+    override /*suspend*/ fun createGraph(query: IQuery, name: String): DistributedGraph {
         distributedTripleStore.getLocalStore().createGraph(query, name)
         return DistributedGraph(query, name)
     }
 
-    override suspend fun dropGraph(query: IQuery, name: String) {
+    override /*suspend*/ fun dropGraph(query: IQuery, name: String) {
         distributedTripleStore.getLocalStore().dropGraph(query, name)
     }
 
-    override suspend fun clearGraph(query: IQuery, name: String) {
+    override /*suspend*/ fun clearGraph(query: IQuery, name: String) {
         SanityCheck.println { "DistributedTripleStore.clearGraph $name" }
         distributedTripleStore.getLocalStore().clearGraph(query, name)
     }
 
-    override suspend fun getNamedGraph(query: IQuery, name: String): DistributedGraph {
+    override /*suspend*/ fun getNamedGraph(query: IQuery, name: String): DistributedGraph {
         if (!(localStore.getGraphNames(true).contains(name))) {
             createGraph(query, name)
         }
@@ -254,7 +254,7 @@ class DistributedTripleStore : IDistributedTripleStore {
         return DistributedGraph(query, PersistentStoreLocalExt.defaultGraphName)
     }
 
-    override suspend fun commit(query: IQuery) {
+    override /*suspend*/ fun commit(query: IQuery) {
         distributedTripleStore.getLocalStore().commit(query)
     }
 }

@@ -55,7 +55,7 @@ class POPJoinMergeSingleColumn(query: IQuery, projectedVariables: List<String>, 
 
         @JvmField
         var sipbuf = IntArray(2)
-        override suspend fun next(): Int {
+        override /*suspend*/ fun next(): Int {
             when (label) {
                 1 -> {
                     if (counter == 0) {
@@ -135,7 +135,7 @@ class POPJoinMergeSingleColumn(query: IQuery, projectedVariables: List<String>, 
             }
         }
 
-        internal suspend inline fun _close() {
+        internal /*suspend*/ inline fun _close() {
             if (label != 0) {
                 label = 0
                 SanityCheck.println({ "\$uuid close ColumnIteratorJoinMergeSingleColumn" })
@@ -144,12 +144,12 @@ class POPJoinMergeSingleColumn(query: IQuery, projectedVariables: List<String>, 
             }
         }
 
-        override suspend fun close() {
+        override /*suspend*/ fun close() {
             _close()
         }
     }
 
-    override suspend fun evaluate(parent: Partition): IteratorBundle {
+    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
         SanityCheck {
             for (v in children[0].getProvidedVariableNames()) {
                 getPartitionCount(v)
@@ -181,6 +181,6 @@ class POPJoinMergeSingleColumn(query: IQuery, projectedVariables: List<String>, 
         return IteratorBundle(outMap)
     }
 
-    override suspend fun toXMLElement() = super.toXMLElement().addAttribute("optional", "" + optional)
+    override /*suspend*/ fun toXMLElement() = super.toXMLElement().addAttribute("optional", "" + optional)
     override fun cloneOP(): IOPBase = POPJoinMergeSingleColumn(query, projectedVariables, children[0].cloneOP(), children[1].cloneOP(), optional)
 }

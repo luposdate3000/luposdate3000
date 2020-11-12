@@ -51,7 +51,7 @@ open class SparqlTestSuite {
         val enabledTestCases = listOf("resources/myqueries/", "resources/bsbm/", "resources/btc/", "resources/sp2b/")
     }
 
-    suspend fun testMain() {
+    /*suspend*/ fun testMain() {
         repeat(1) {
             println("Starting tests...")
             val (nr_t, nr_e) = parseManifestFile(prefixDirectory + "/resources/sparql11-test-suite/", "manifest-all.ttl")
@@ -95,7 +95,7 @@ open class SparqlTestSuite {
         ResultSetDictionary.debug()
     }
 
-    private suspend fun listMembers(data: SevenIndices, start: Long, f: suspend (Long) -> Unit) {
+    private /*suspend*/ fun listMembers(data: SevenIndices, start: Long, f: /*suspend*/ (Long) -> Unit) {
         val rdf = "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
         val nil = rdf + "nil"
         val first = rdf + "first"
@@ -103,7 +103,7 @@ open class SparqlTestSuite {
         val nil_iri = Dictionary.IRI(nil)
         val first_iri = Dictionary.IRI(first)
         val rest_iri = Dictionary.IRI(rest)
-        suspend fun recursiveListMembers(current: Long) {
+        /*suspend*/ fun recursiveListMembers(current: Long) {
             data.sp(current, first_iri).forEach { f(it) }
             data.sp(current, rest_iri).forEach {
                 if (it != nil_iri) {
@@ -134,7 +134,7 @@ open class SparqlTestSuite {
         return data
     }
 
-    private suspend fun parseManifestFile(prefix: String, filename: String): Pair<Int, Int> {
+    private /*suspend*/ fun parseManifestFile(prefix: String, filename: String): Pair<Int, Int> {
         var numberOfErrors = 0
         var numberOfTests = 0
         SanityCheck.println { "Reading file " + filename + "..." }
@@ -180,7 +180,7 @@ open class SparqlTestSuite {
         return File(name).readAsString()
     }
 
-    private suspend fun testOneEntry(data: SevenIndices, node: Long, prefix: String): Boolean {
+    private /*suspend*/ fun testOneEntry(data: SevenIndices, node: Long, prefix: String): Boolean {
         var testType: String? = null
         var comment: String? = null
         var features = mutableListOf<String>()
@@ -418,7 +418,7 @@ open class SparqlTestSuite {
     var lastTripleCount = 0
 
     @OptIn(ExperimentalStdlibApi::class, kotlin.time.ExperimentalTime::class)
-    open suspend fun parseSPARQLAndEvaluate(executeJena: Boolean, testName: String, expectedResult: Boolean, queryFile: String, inputDataFileName: String?, resultDataFileName: String?, services: List<Map<String, String>>?, inputDataGraph: MutableList<MutableMap<String, String>>, outputDataGraph: MutableList<MutableMap<String, String>>): Boolean {
+    open /*suspend*/ fun parseSPARQLAndEvaluate(executeJena: Boolean, testName: String, expectedResult: Boolean, queryFile: String, inputDataFileName: String?, resultDataFileName: String?, services: List<Map<String, String>>?, inputDataGraph: MutableList<MutableMap<String, String>>, outputDataGraph: MutableList<MutableMap<String, String>>): Boolean {
 //        if (!testName.contains("resources")) {
 //            return true
 //        }

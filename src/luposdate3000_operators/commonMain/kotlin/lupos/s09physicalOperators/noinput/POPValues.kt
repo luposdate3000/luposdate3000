@@ -154,7 +154,7 @@ open class POPValues : POPBase {
 
     override fun getProvidedVariableNamesInternal() = variables.distinct()
     override fun getRequiredVariableNames() = mutableListOf<String>()
-    override suspend fun evaluate(parent: Partition): IteratorBundle {
+    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
         if (rows == -1) {
             val outMap = mutableMapOf<String, ColumnIterator>()
             for (name in variables) {
@@ -166,7 +166,7 @@ open class POPValues : POPBase {
         }
     }
 
-    override suspend fun toXMLElement(): XMLElement {
+    override /*suspend*/ fun toXMLElement(): XMLElement {
         val res = super.toXMLElement()
         val xmlvariables = XMLElement("variables")
         res.addAttribute("rows", "" + rows)

@@ -45,7 +45,7 @@ class POPJoinCartesianProduct(query: IQuery, projectedVariables: List<String>, c
     }
 
     override fun equals(other: Any?) = other is POPJoinCartesianProduct && optional == other.optional && children[0] == other.children[0] && children[1] == other.children[1]
-    override suspend fun evaluate(parent: Partition): IteratorBundle {
+    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
         val columns = LOPJoin.getColumns(children[0].getProvidedVariableNames(), children[1].getProvidedVariableNames())
         SanityCheck {
             for (v in children[0].getProvidedVariableNames()) {
@@ -140,11 +140,11 @@ class POPJoinCartesianProduct(query: IQuery, projectedVariables: List<String>, c
                         val iterator = object : ColumnIteratorChildIterator() {
                             @JvmField
                             val childA0 = childA
-                            override suspend fun close() {
+                            override /*suspend*/ fun close() {
                                 __close()
                             }
 
-                            suspend inline fun __close() {
+                            /*suspend*/ inline fun __close() {
                                 if (label != 0) {
                                     _close()
                                     SanityCheck.println({ "POPJoinCartesianProductXXX$uuid close A $classname" })
@@ -154,7 +154,7 @@ class POPJoinCartesianProduct(query: IQuery, projectedVariables: List<String>, c
                                 }
                             }
 
-                            override suspend fun next(): Int {
+                            override /*suspend*/ fun next(): Int {
                                 return nextHelper({
                                     var done = false
                                     for (columnIndex in 0 until columnsINAO.size) {
@@ -208,11 +208,11 @@ class POPJoinCartesianProduct(query: IQuery, projectedVariables: List<String>, c
                     val iterator = object : ColumnIteratorChildIterator() {
                         @JvmField
                         val childA0 = childA
-                        override suspend fun close() {
+                        override /*suspend*/ fun close() {
                             __close()
                         }
 
-                        suspend inline fun __close() {
+                        /*suspend*/ inline fun __close() {
                             if (label != 0) {
                                 _close()
                                 SanityCheck.println({ "POPJoinCartesianProductXXX$uuid close A $classname" })
@@ -222,7 +222,7 @@ class POPJoinCartesianProduct(query: IQuery, projectedVariables: List<String>, c
                             }
                         }
 
-                        override suspend fun next(): Int {
+                        override /*suspend*/ fun next(): Int {
                             return nextHelper({
                                 var done = false
                                 for (columnIndex in 0 until columnsINAO.size) {
@@ -260,6 +260,6 @@ class POPJoinCartesianProduct(query: IQuery, projectedVariables: List<String>, c
         return res
     }
 
-    override suspend fun toXMLElement() = super.toXMLElement().addAttribute("optional", "" + optional)
+    override /*suspend*/ fun toXMLElement() = super.toXMLElement().addAttribute("optional", "" + optional)
     override fun cloneOP(): IOPBase = POPJoinCartesianProduct(query, projectedVariables, children[0].cloneOP(), children[1].cloneOP(), optional)
 }

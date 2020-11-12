@@ -31,7 +31,7 @@ class POPJoinWithStoreExists(query: IQuery, projectedVariables: List<String>, ch
     }
 
     override fun equals(other: Any?) = other is POPJoinWithStoreExists && optional == other.optional && children[0] == other.children[0]
-    override suspend fun evaluate(parent: Partition): IteratorBundle {
+    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
         SanityCheck.check { !optional }
         SanityCheck.check { !childB.graphVar }
         SanityCheck.check { projectedVariables.size == 0 }
@@ -71,7 +71,7 @@ class POPJoinWithStoreExists(query: IQuery, projectedVariables: List<String>, ch
             SanityCheck.println({ "opening store for join with store C $uuid" })
             var iteratorB = distributedStore.getIterator(params, index, Partition()).evaluate(parent)
             res = object : IteratorBundle(0) {
-                override suspend fun hasNext2(): Boolean {
+                override /*suspend*/ fun hasNext2(): Boolean {
                     var t = iteratorB.hasNext2()
                     loop@ while (!t && !done) {
                         for (i in 0 until mapping.size) {
@@ -95,7 +95,7 @@ class POPJoinWithStoreExists(query: IQuery, projectedVariables: List<String>, ch
                     return t
                 }
 
-                override suspend fun hasNext2Close() {
+                override /*suspend*/ fun hasNext2Close() {
                     for (closeIndex in 0 until iterators.size) {
                         iterators[closeIndex].close()
                     }
@@ -105,7 +105,7 @@ class POPJoinWithStoreExists(query: IQuery, projectedVariables: List<String>, ch
         return res
     }
 
-    override suspend fun toXMLElement(): XMLElement {
+    override /*suspend*/ fun toXMLElement(): XMLElement {
         val res = super.toXMLElement().addAttribute("optional", "" + optional)
         res["children"]!!.addContent(childB.toXMLElement())
         return res

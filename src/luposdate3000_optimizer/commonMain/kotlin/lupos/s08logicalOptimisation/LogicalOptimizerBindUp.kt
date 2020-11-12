@@ -17,7 +17,7 @@ import lupos.s08logicalOptimisation.OptimizerBase
 
 class LogicalOptimizerBindUp(query: Query) : OptimizerBase(query, EOptimizerID.LogicalOptimizerBindUpID) {
     override val classname = "LogicalOptimizerBindUp"
-    override suspend fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
+    override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
         var res: IOPBase = node
         if (node is LOPBind) {
             if (node.getChildren()[1] !is AOPConstant) {

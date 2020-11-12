@@ -7,19 +7,19 @@ var distributedTripleStore: IDistributedTripleStore = object : IDistributedTripl
         throw Exception("unreachable")
     }
 
-    override suspend fun createGraph(query: IQuery, name: String): IDistributedGraph {
+    override /*suspend*/ fun createGraph(query: IQuery, name: String): IDistributedGraph {
         throw Exception("unreachable")
     }
 
-    override suspend fun dropGraph(query: IQuery, name: String) {
+    override /*suspend*/ fun dropGraph(query: IQuery, name: String) {
         throw Exception("unreachable")
     }
 
-    override suspend fun clearGraph(query: IQuery, name: String) {
+    override /*suspend*/ fun clearGraph(query: IQuery, name: String) {
         throw Exception("unreachable")
     }
 
-    override suspend fun getNamedGraph(query: IQuery, name: String): IDistributedGraph {
+    override /*suspend*/ fun getNamedGraph(query: IQuery, name: String): IDistributedGraph {
         throw Exception("unreachable")
     }
 
@@ -27,7 +27,7 @@ var distributedTripleStore: IDistributedTripleStore = object : IDistributedTripl
         throw Exception("unreachable")
     }
 
-    override suspend fun commit(query: IQuery) {
+    override /*suspend*/ fun commit(query: IQuery) {
         throw Exception("unreachable")
     }
 

@@ -17,7 +17,7 @@ internal class NodeLeafColumnIteratorPrefix11(node: ByteArray, nodeid: Int, pref
         label = 3
     }
 
-    override suspend fun next(): Int {
+    override /*suspend*/ fun next(): Int {
         if (label == 3) {
             label = 2
             __init()
@@ -79,7 +79,7 @@ internal class NodeLeafColumnIteratorPrefix11(node: ByteArray, nodeid: Int, pref
         }
     }
 
-    override suspend fun nextSIP(minValue: Int, result: IntArray) {
+    override /*suspend*/ fun nextSIP(minValue: Int, result: IntArray) {
         if (label == 3) {
             label = 2
             __init()
@@ -204,7 +204,7 @@ internal class NodeLeafColumnIteratorPrefix11(node: ByteArray, nodeid: Int, pref
         }
     }
 
-    open override suspend fun skipSIP(skipCount: Int): Int {
+    open override /*suspend*/ fun skipSIP(skipCount: Int): Int {
         if (label == 3) {
             label = 2
             __init()

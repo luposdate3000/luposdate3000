@@ -76,10 +76,10 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
         var debugLock = MyReadWriteLock()
     }
 
-    override suspend fun safeToFile(filename: String) {
+    override /*suspend*/ fun safeToFile(filename: String) {
     }
 
-    override suspend fun loadFromFile(filename: String) {
+    override /*suspend*/ fun loadFromFile(filename: String) {
     }
 
     inline fun clearCachedHistogram() {
@@ -163,7 +163,7 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
         }
     }
 
-    override suspend fun getHistogram(query: IQuery, params: TripleStoreFeatureParams): Pair<Int, Int> {
+    override /*suspend*/ fun getHistogram(query: IQuery, params: TripleStoreFeatureParams): Pair<Int, Int> {
         val filter = (params as TripleStoreFeatureParamsDefault).getFilter(query)
         var res: Pair<Int, Int>? = checkForCachedHistogram(filter)
         if (res == null) {
@@ -220,7 +220,7 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
         return res
     }
 
-    override suspend fun getIterator(query: IQuery, params: TripleStoreFeatureParams): IteratorBundle {
+    override /*suspend*/ fun getIterator(query: IQuery, params: TripleStoreFeatureParams): IteratorBundle {
         var fp = (params as TripleStoreFeatureParamsDefault).getFilterAndProjection(query)
         val filter = fp.first
         val projection = fp.second
@@ -298,11 +298,11 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
         return res
     }
 
-    internal suspend fun importHelper(a: TripleIterator, b: TripleIterator): Int {
+    internal /*suspend*/ fun importHelper(a: TripleIterator, b: TripleIterator): Int {
         return importHelper(MergeIterator(a, b))
     }
 
-    internal suspend fun importHelper(a: Int, b: Int): Int {
+    internal /*suspend*/ fun importHelper(a: Int, b: Int): Int {
         var nodeA: ByteArray? = null
         var nodeB: ByteArray? = null
         SanityCheck.println({ "Outside.refcount($a)  x132" })
@@ -321,7 +321,7 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
         return res
     }
 
-    internal suspend fun importHelper(iterator: TripleIterator): Int {
+    internal /*suspend*/ fun importHelper(iterator: TripleIterator): Int {
         var res = NodeManager.nodeNullPointer
         var node2: ByteArray? = null
         SanityCheck.println({ "Outside.refcount(??) - x135" })
@@ -348,7 +348,7 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
         return res
     }
 
-    override suspend fun flush() {
+    override /*suspend*/ fun flush() {
         if (pendingImport.size > 0) {
             SanityCheck.println { "writeLock(${lock.getUUID()}) x138" }
             lock.writeLock()
@@ -358,13 +358,13 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
         }
     }
 
-    internal suspend inline fun flushContinueWithWriteLock() {
+    internal /*suspend*/ inline fun flushContinueWithWriteLock() {
         SanityCheck.println { "writeLock(${lock.getUUID()}) x140" }
         lock.writeLock()
         flushAssumeLocks()
     }
 
-    internal suspend inline fun flushContinueWithReadLock() {
+    internal /*suspend*/ inline fun flushContinueWithReadLock() {
         var hasLock = false
         while (pendingImport.size > 0) {
             SanityCheck.println { "tryWriteLock(${lock.getUUID()}) x204" }
@@ -386,7 +386,7 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
         }
     }
 
-    internal suspend fun flushAssumeLocks() {
+    internal /*suspend*/ fun flushAssumeLocks() {
         if (pendingImport.size > 0) {
             //check again, that there is something to be done ... this may be changed, because there could be someone _else beforehand, holding exactly this lock ... .
             var j = 1
@@ -428,7 +428,7 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
         }
     }
 
-    override suspend fun import(dataImport: IntArray, count: Int, order: IntArray) {
+    override /*suspend*/ fun import(dataImport: IntArray, count: Int, order: IntArray) {
         SanityCheck.println { "writeLock(${lock.getUUID()}) x142" }
         lock.writeLock()
         if (count > 0) {
@@ -475,7 +475,7 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
         lock.writeUnlock()
     }
 
-    internal suspend fun rebuildData(_iterator: TripleIterator) {
+    internal /*suspend*/ fun rebuildData(_iterator: TripleIterator) {
 //assuming to have write-lock
         var iterator: TripleIterator = Count1PassThroughIterator(DistinctIterator(_iterator))
         SanityCheck {
@@ -831,7 +831,7 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
 //
     }
 
-    override suspend fun insertAsBulk(data: IntArray, order: IntArray) {
+    override /*suspend*/ fun insertAsBulk(data: IntArray, order: IntArray) {
         flushContinueWithWriteLock()
         var d = arrayOf(data, IntArray(data.size))
         TripleStoreBulkImportExt.sortUsingBuffers(0, 0, 1, d, data.size / 3, order)
@@ -860,7 +860,7 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
         lock.writeUnlock()
     }
 
-    override suspend fun removeAsBulk(data: IntArray, order: IntArray) {
+    override /*suspend*/ fun removeAsBulk(data: IntArray, order: IntArray) {
         flushContinueWithWriteLock()
         var d = arrayOf(data, IntArray(data.size))
         TripleStoreBulkImportExt.sortUsingBuffers(0, 0, 1, d, data.size / 3, order)
@@ -897,7 +897,7 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
         SanityCheck.checkUnreachable()
     }
 
-    override suspend fun clear() {
+    override /*suspend*/ fun clear() {
         flushContinueWithWriteLock()
         if (root != NodeManager.nodeNullPointer) {
             SanityCheck.println({ "Outside.refcount($root)  x151" })
@@ -911,7 +911,7 @@ class TripleStoreIndex_IDTriple : TripleStoreIndex() {
         lock.writeUnlock()
     }
 
-    override suspend fun printContents() {
+    override /*suspend*/ fun printContents() {
         SanityCheck.println { "readLock(${lock.getUUID()}) x65" }
         lock.readLock()
         if (firstLeaf != NodeManager.nodeNullPointer) {

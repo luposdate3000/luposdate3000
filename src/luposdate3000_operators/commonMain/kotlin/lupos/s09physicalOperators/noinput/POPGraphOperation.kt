@@ -111,13 +111,13 @@ class POPGraphOperation(query: IQuery,
 
     override fun equals(other: Any?) = other is POPGraphOperation && silent == other.silent && graph1iri == other.graph1iri && graph1type == other.graph1type && graph2iri == other.graph2iri && graph2type == other.graph2type && action == other.action
     override fun cloneOP(): IOPBase = POPGraphOperation(query, projectedVariables, silent, graph1type, graph1iri, graph2type, graph2iri, action)
-    suspend fun copyData(source: IDistributedGraph, target: IDistributedGraph, parent: Partition) {
+    /*suspend*/ fun copyData(source: IDistributedGraph, target: IDistributedGraph, parent: Partition) {
         val row = source.getIterator(EIndexPattern.SPO, Partition()).evaluate(parent)
         val iterator = arrayOf(row.columns["s"]!!, row.columns["p"]!!, row.columns["o"]!!)
         target.modify(iterator, EModifyType.INSERT)
     }
 
-    override suspend fun evaluate(parent: Partition): IteratorBundle {
+    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
         try {
             when (action) {
                 EGraphOperationType.CLEAR -> {

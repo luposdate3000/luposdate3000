@@ -25,7 +25,7 @@ class POPDebug(query: IQuery, projectedVariables: List<String>, child: IOPBase) 
     override fun getProvidedVariableNames(): List<String> = getChildren()[0].getProvidedVariableNames()
     override fun getProvidedVariableNamesInternal(): List<String> = (getChildren()[0] as POPBase).getProvidedVariableNamesInternal()
     override fun toSparql(): String = getChildren()[0].toSparql()
-    override suspend fun evaluate(parent: Partition): IteratorBundle {
+    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
         val child = getChildren()[0].evaluate(parent)
         when (ITERATOR_DEBUG_MODE) {
             EPOPDebugMode.NONE -> {
@@ -73,7 +73,7 @@ class POPDebug(query: IQuery, projectedVariables: List<String>, child: IOPBase) 
                         val iterator = object : ColumnIterator() {
                             @JvmField
                             var label = 1
-                            override suspend fun next(): Int {
+                            override /*suspend*/ fun next(): Int {
                                 if (label != 0) {
                                     SanityCheck.println({ "$uuid $k next call" })
                                     val res = v.next()
@@ -89,7 +89,7 @@ class POPDebug(query: IQuery, projectedVariables: List<String>, child: IOPBase) 
                                 }
                             }
 
-                            override suspend fun nextSIP(minValue: Int, result: IntArray) {
+                            override /*suspend*/ fun nextSIP(minValue: Int, result: IntArray) {
                                 if (label != 0) {
                                     SanityCheck.println({ "$uuid $k next call minValue SIP" })
                                     v.nextSIP(minValue, result)
@@ -106,7 +106,7 @@ class POPDebug(query: IQuery, projectedVariables: List<String>, child: IOPBase) 
                                 }
                             }
 
-                            override suspend fun skipSIP(skipCount: Int): Int {
+                            override /*suspend*/ fun skipSIP(skipCount: Int): Int {
                                 if (label != 0) {
                                     SanityCheck.println({ "$uuid $k next call skip SIP" })
                                     val res = v.skipSIP(skipCount)
@@ -122,7 +122,7 @@ class POPDebug(query: IQuery, projectedVariables: List<String>, child: IOPBase) 
                                 }
                             }
 
-                            override suspend fun close() {
+                            override /*suspend*/ fun close() {
                                 if (label != 0) {
                                     label = 0
                                     SanityCheck.println({ "$uuid $k closed $counter ${parent.data}" })

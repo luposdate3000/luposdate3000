@@ -31,7 +31,7 @@ class POPSplitPartition(query: IQuery, projectedVariables: List<String>, val par
         }
     }
 
-    override suspend fun toXMLElement(): XMLElement {
+    override /*suspend*/ fun toXMLElement(): XMLElement {
         val res = super.toXMLElement()
         res.addAttribute("partitionVariable", partitionVariable)
         res.addAttribute("partitionCount", "" + partitionCount)
@@ -53,7 +53,7 @@ class POPSplitPartition(query: IQuery, projectedVariables: List<String>, val par
     override fun cloneOP(): IOPBase = POPSplitPartition(query, projectedVariables, partitionVariable, partitionCount, partitionID, children[0].cloneOP())
     override fun toSparql() = children[0].toSparql()
     override fun equals(other: Any?): Boolean = other is POPSplitPartition && children[0] == other.children[0] && partitionVariable == other.partitionVariable && partitionCount == other.partitionCount
-    override suspend fun evaluate(parent: Partition): IteratorBundle {
+    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
 //throw BugException("POPSplitPartition","child is not launching, because coroutine is missing suspension point")
         var partitionCount = parent.limit[partitionVariable]!!
         if (partitionCount == 1) {

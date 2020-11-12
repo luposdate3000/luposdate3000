@@ -15,7 +15,7 @@ import lupos.s08logicalOptimisation.OptimizerBase
 
 class LogicalOptimizerMinusAddSort(query: Query) : OptimizerBase(query, EOptimizerID.LogicalOptimizerMinusAddSortID) {
     override val classname = "LogicalOptimizerMinusAddSort"
-    override suspend fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
+    override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
         var res: IOPBase = node
         if (node is LOPMinus) {
             if (!node.hadSortPushDown) {

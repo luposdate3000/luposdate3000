@@ -173,7 +173,7 @@ class POPGroup : POPBase {
 
     internal class MapRow(val iterators: IteratorBundle, val aggregates: Array<ColumnIteratorAggregate>, val columns: Array<ColumnIteratorQueue>)
 
-    override suspend fun evaluate(parent: Partition): IteratorBundle {
+    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
         val localVariables = children[0].getProvidedVariableNames()
         val outMap = mutableMapOf<String, ColumnIterator>()
         val child = children[0].evaluate(parent)
@@ -310,11 +310,11 @@ class POPGroup : POPBase {
                     val output = mutableListOf<ColumnIteratorQueue>()
                     for (outIndex in 0 until keyColumnNames.size + bindings.size) {
                         val iterator = object : ColumnIteratorQueue() {
-                            override suspend fun close() {
+                            override /*suspend*/ fun close() {
                                 __close()
                             }
 
-                            suspend inline fun __close() {
+                            /*suspend*/ inline fun __close() {
                                 if (label != 0) {
                                     ColumnIteratorQueueExt._close(this)
                                     for (closeIndex in 0 until keyColumns.size) {
@@ -326,7 +326,7 @@ class POPGroup : POPBase {
                                 }
                             }
 
-                            override suspend fun next(): Int {
+                            override /*suspend*/ fun next(): Int {
                                 return ColumnIteratorQueueExt.nextHelper(this, {
                                     loop@ while (true) {
                                         var changedKey = false
@@ -499,7 +499,7 @@ class POPGroup : POPBase {
         return IteratorBundle(outMap)
     }
 
-    override suspend fun toXMLElement(): XMLElement {
+    override /*suspend*/ fun toXMLElement(): XMLElement {
         val res = super.toXMLElement()
         val byxml = XMLElement("by")
         res.addContent(byxml)

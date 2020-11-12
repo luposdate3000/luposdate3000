@@ -14,7 +14,7 @@ internal class NodeLeafColumnIteratorPrefix3(node: ByteArray, nodeid: Int, prefi
 
     @JvmField
     var value2 = 0
-    override suspend fun next(): Int {
+    override /*suspend*/ fun next(): Int {
         if (label == 3) {
             label = 1
             __init()

@@ -19,7 +19,7 @@ import lupos.s08logicalOptimisation.OptimizerBase
 
 class LogicalOptimizerRemoveNOOP(query: Query) : OptimizerBase(query, EOptimizerID.LogicalOptimizerRemoveNOOPID) {
     override val classname = "LogicalOptimizerRemoveNOOP"
-    override suspend fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
+    override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
         var res = node
         if (node is LOPNOOP || node is LOPSubGroup) {
             onChange()

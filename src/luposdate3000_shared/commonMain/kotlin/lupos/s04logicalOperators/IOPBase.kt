@@ -10,20 +10,20 @@ interface IOPBase {
     fun replaceVariableWithAnother(node: IOPBase, name: String, name2: String): IOPBase
     fun getClassname(): String
     fun toSparql(): String
-    suspend fun evaluate(parent: Partition): IteratorBundle
+    /*suspend*/ fun evaluate(parent: Partition): IteratorBundle
     fun cloneOP(): IOPBase
     fun getPartitionCount(variable: String): Int
     fun getRequiredVariableNamesRecoursive(): List<String>
     fun getRequiredVariableNames(): List<String>
     fun getProvidedVariableNames(): List<String>
-    suspend fun toXMLElement(): XMLElement
+    /*suspend*/ fun toXMLElement(): XMLElement
     fun getLatestChild(): IOPBase
     fun getPossibleSortPriorities(): List<List<SortHelper>>
     fun getUUID(): Long
     fun getChildren(): Array<IOPBase>
     fun getMySortPriority(): MutableList<SortHelper>
     fun setMySortPriority(value: MutableList<SortHelper>)
-    suspend fun getHistogram(): HistogramResult
+    /*suspend*/ fun getHistogram(): HistogramResult
     fun selectSortPriority(priority: List<SortHelper>)
     fun syntaxVerifyAllVariableExists(additionalProvided: List<String> = listOf(), autocorrect: Boolean = false)
     fun getQuery(): IQuery

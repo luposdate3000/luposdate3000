@@ -13,7 +13,7 @@ import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
 
 class LOPModifyData(query: IQuery, @JvmField val type: EModifyType, @JvmField val data: MutableList<LOPTriple> = mutableListOf<LOPTriple>()) : LOPBase(query, EOperatorID.LOPModifyDataID, "LOPModifyData", arrayOf(), ESortPriority.PREVENT_ANY) {
-    override suspend fun toXMLElement(): XMLElement {
+    override /*suspend*/ fun toXMLElement(): XMLElement {
         val res = XMLElement("LOPModifyData")
         res.addAttribute("type", "" + type)
         for (t in data) {
@@ -24,7 +24,7 @@ class LOPModifyData(query: IQuery, @JvmField val type: EModifyType, @JvmField va
 
     override fun equals(other: Any?) = other is LOPModifyData && type == other.type && data == other.data
     override fun cloneOP(): IOPBase = LOPModifyData(query, type, data)
-    override suspend fun calculateHistogram(): HistogramResult {
+    override /*suspend*/ fun calculateHistogram(): HistogramResult {
         var res = HistogramResult()
         res.count = 1
         return res

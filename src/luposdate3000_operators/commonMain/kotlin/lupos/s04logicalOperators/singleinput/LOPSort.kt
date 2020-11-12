@@ -14,7 +14,7 @@ import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
 
 class LOPSort(query: IQuery, @JvmField val asc: Boolean, @JvmField var by: AOPVariable, child: IOPBase = OPEmptyRow(query)) : LOPBase(query, EOperatorID.LOPSortID, "LOPSort", arrayOf(child), ESortPriority.SORT) {
-    override suspend fun toXMLElement(): XMLElement {
+    override /*suspend*/ fun toXMLElement(): XMLElement {
         val res = XMLElement("LOPSort")
         res.addAttribute("by", by.name)
         if (asc) {
@@ -33,7 +33,7 @@ class LOPSort(query: IQuery, @JvmField val asc: Boolean, @JvmField var by: AOPVa
     override fun getRequiredVariableNames() = listOf(by.name)
     override fun equals(other: Any?) = other is LOPSort && asc == other.asc && by == other.by && children[0] == other.children[0]
     override fun cloneOP(): IOPBase = LOPSort(query, asc, by, children[0].cloneOP())
-    override suspend fun calculateHistogram(): HistogramResult {
+    override /*suspend*/ fun calculateHistogram(): HistogramResult {
         return children[0].getHistogram()
     }
 }

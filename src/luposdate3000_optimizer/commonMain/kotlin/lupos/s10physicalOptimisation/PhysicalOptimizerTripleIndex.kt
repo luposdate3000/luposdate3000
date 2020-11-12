@@ -19,7 +19,7 @@ import lupos.s15tripleStoreDistributed.distributedTripleStore
 
 class PhysicalOptimizerTripleIndex(query: Query) : OptimizerBase(query, EOptimizerID.PhysicalOptimizerTripleIndexID) {
     override val classname = "PhysicalOptimizerTripleIndex"
-    override suspend fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
+    override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
         var res = node
         if (node is LOPTriple) {
             val projectedVariables: List<String>

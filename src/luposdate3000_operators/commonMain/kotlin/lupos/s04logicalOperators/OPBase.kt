@@ -84,8 +84,8 @@ abstract class OPBase(@JvmField val query: IQuery, @JvmField val operatorID: EOp
     override fun getUUID() = uuid
     override fun getChildren() = children
     override fun getMySortPriority() = mySortPriority
-    abstract suspend fun calculateHistogram(): HistogramResult
-    override suspend fun getHistogram(): HistogramResult {
+    abstract /*suspend*/ fun calculateHistogram(): HistogramResult
+    override /*suspend*/ fun getHistogram(): HistogramResult {
         if (histogramResult == null) {
             histogramResult = calculateHistogram()
         } else {
@@ -104,7 +104,7 @@ abstract class OPBase(@JvmField val query: IQuery, @JvmField val operatorID: EOp
         return histogramResult!!
     }
 
-    override suspend fun evaluate(parent: Partition): IteratorBundle = throw EvaluateNotImplementedException(classname)
+    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle = throw EvaluateNotImplementedException(classname)
     override fun getChildrenCountRecoursive(): Int {
         var res = children.size
         for (c in children) {
@@ -466,7 +466,7 @@ abstract class OPBase(@JvmField val query: IQuery, @JvmField val operatorID: EOp
     }
 
     override fun toSparql(): String = throw ToSparqlNotImplementedException(classname)
-    override suspend fun toXMLElement(): XMLElement {
+    override /*suspend*/ fun toXMLElement(): XMLElement {
         val res = XMLElement(classname)
         try {
             res.addAttribute("uuid", "" + uuid)
@@ -500,7 +500,7 @@ abstract class OPBase(@JvmField val query: IQuery, @JvmField val operatorID: EOp
         return res
     }
 
-    suspend fun childrenToXML(): XMLElement {
+    /*suspend*/ fun childrenToXML(): XMLElement {
         val res = XMLElement("children")
         for (c in children) {
             res.addContent(c.toXMLElement())

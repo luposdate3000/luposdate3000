@@ -9,18 +9,18 @@ class ColumnIteratorReduced(@JvmField val child: ColumnIterator) : ColumnIterato
 
     @JvmField
     var label = 1
-    suspend inline fun _close() {
+    /*suspend*/ inline fun _close() {
         if (label != 0) {
             label = 0
             child.close()
         }
     }
 
-    override suspend fun close() {
+    override /*suspend*/ fun close() {
         _close()
     }
 
-    override suspend fun next(): Int {
+    override /*suspend*/ fun next(): Int {
         if (label == 1) {
             var res = child.next()
             while (res != ResultSetDictionaryExt.nullValue && last == res) {

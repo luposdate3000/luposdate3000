@@ -15,7 +15,7 @@ class POPEmptyRow(query: IQuery, projectedVariables: List<String>) : POPBase(que
     override fun cloneOP(): IOPBase = POPEmptyRow(query, projectedVariables)
     override fun toSparql() = "{}"
     override fun equals(other: Any?) = other is POPEmptyRow
-    override suspend fun evaluate(parent: Partition): IteratorBundle {
+    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
         return IteratorBundle(1)
     }
 }

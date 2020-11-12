@@ -17,10 +17,10 @@ class LOPBind(query: IQuery, @JvmField val name: AOPVariable, expression: AOPBas
     override fun childrenToVerifyCount(): Int = 1
     override fun getProvidedVariableNames() = (children[0].getProvidedVariableNames() + name.name).distinct().toMutableList()
     override fun getRequiredVariableNames(): List<String> = children[1].getRequiredVariableNamesRecoursive().distinct()
-    override suspend fun toXMLElement() = super.toXMLElement().addAttribute("name", name.name)
+    override /*suspend*/ fun toXMLElement() = super.toXMLElement().addAttribute("name", name.name)
     override fun equals(other: Any?) = other is LOPBind && name == other.name && children[0] == other.children[0] && children[1] == other.children[1]
     override fun cloneOP(): IOPBase = LOPBind(query, name, children[1].cloneOP() as AOPBase, children[0].cloneOP())
-    override suspend fun calculateHistogram(): HistogramResult {
+    override /*suspend*/ fun calculateHistogram(): HistogramResult {
         var res = HistogramResult()
         var childHistogram = children[0].getHistogram()
         var distinct = 1

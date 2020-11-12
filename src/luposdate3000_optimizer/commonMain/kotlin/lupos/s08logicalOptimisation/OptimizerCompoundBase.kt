@@ -15,7 +15,7 @@ import lupos.s09physicalOperators.partition.POPSplitPartitionFromStore
 abstract class OptimizerCompoundBase(query: Query, optimizerID: EOptimizerID) : OptimizerBase(query, optimizerID) {
     override val classname = "OptimizerCompoundBase"
     abstract val childrenOptimizers: Array<Array<OptimizerBase>>
-    override suspend fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit) = node
+    override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit) = node
     internal fun verifyPartitionOperators(root: IOPBase, allList: MutableMap<Int, MutableSet<Long>>) {
         var ids = mutableListOf<Int>()
         when (root) {
@@ -42,7 +42,7 @@ abstract class OptimizerCompoundBase(query: Query, optimizerID: EOptimizerID) : 
         }
     }
 
-    override suspend fun optimizeCall(node: IOPBase, onChange: () -> Unit): IOPBase {
+    override /*suspend*/ fun optimizeCall(node: IOPBase, onChange: () -> Unit): IOPBase {
         if (query.filtersMovedUpFromOptionals) {
             node.syntaxVerifyAllVariableExists(listOf(), true)
         }

@@ -14,7 +14,7 @@ import lupos.s08logicalOptimisation.OptimizerBase
 
 class LogicalOptimizerFilterEQ(query: Query) : OptimizerBase(query, EOptimizerID.LogicalOptimizerFilterEQID) {
     override val classname = "LogicalOptimizerFilterEQ"
-    override suspend fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
+    override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
         var res: IOPBase = node
         if (node is LOPFilter) {
             val filter = node.getChildren()[1]

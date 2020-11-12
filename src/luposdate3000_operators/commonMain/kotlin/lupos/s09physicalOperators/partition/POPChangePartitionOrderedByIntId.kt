@@ -31,7 +31,7 @@ class POPChangePartitionOrderedByIntId(query: IQuery, projectedVariables: List<S
         }
     }
 
-    override suspend fun toXMLElement(): XMLElement {
+    override /*suspend*/ fun toXMLElement(): XMLElement {
         val res = super.toXMLElement()
         res.addAttribute("partitionVariable", partitionVariable)
         res.addAttribute("partitionCountFrom", "" + partitionCountFrom)
@@ -55,7 +55,7 @@ class POPChangePartitionOrderedByIntId(query: IQuery, projectedVariables: List<S
     override fun cloneOP(): IOPBase = POPChangePartitionOrderedByIntId(query, projectedVariables, partitionVariable, partitionCountFrom, partitionCountTo, partitionIDFrom, partitionIDTo, children[0].cloneOP())
     override fun toSparql() = children[0].toSparql()
     override fun equals(other: Any?): Boolean = other is POPChangePartitionOrderedByIntId && children[0] == other.children[0] && partitionVariable == other.partitionVariable
-    override suspend fun evaluate(parent: Partition): IteratorBundle {
+    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
         SanityCheck.check { partitionCountTo < partitionCountFrom }
         var partitionCountSrc = partitionCountFrom / partitionCountTo
         var error: Throwable? = null

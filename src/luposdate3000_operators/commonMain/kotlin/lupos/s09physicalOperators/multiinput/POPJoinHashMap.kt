@@ -66,7 +66,7 @@ class POPJoinHashMap(query: IQuery, projectedVariables: List<String>, childA: IO
         var count = 0
     }
 
-    override suspend fun evaluate(parent: Partition): IteratorBundle {
+    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
 //--- obtain child columns
         val columns = LOPJoin.getColumns(children[0].getProvidedVariableNames(), children[1].getProvidedVariableNames())
         SanityCheck {
@@ -191,11 +191,11 @@ class POPJoinHashMap(query: IQuery, projectedVariables: List<String>, childA: IO
 
                 @JvmField
                 val columnsINAO0 = columnsINAO
-                override suspend fun close() {
+                override /*suspend*/ fun close() {
                     __close()
                 }
 
-                suspend inline fun __close() {
+                /*suspend*/ inline fun __close() {
                     if (label != 0) {
                         _close()
                         for (iterator2 in outIteratorsAllocated0) {
@@ -210,7 +210,7 @@ class POPJoinHashMap(query: IQuery, projectedVariables: List<String>, childA: IO
                     }
                 }
 
-                override suspend fun next(): Int {
+                override /*suspend*/ fun next(): Int {
                     return nextHelper({
                         var done = false
                         while (!done) {
@@ -336,11 +336,11 @@ class POPJoinHashMap(query: IQuery, projectedVariables: List<String>, childA: IO
         }
         if (emptyColumnsWithJoin) {
             res = object : IteratorBundle(0) {
-                override suspend fun hasNext2(): Boolean {
+                override /*suspend*/ fun hasNext2(): Boolean {
                     return outJ[0].next() != ResultSetDictionaryExt.nullValue
                 }
 
-                override suspend fun hasNext2Close() {
+                override /*suspend*/ fun hasNext2Close() {
                     outJ[0].close()
                     for (closeIndex in 0 until columnsINAJ.size) {
                         columnsINAJ[closeIndex].close()
@@ -354,6 +354,6 @@ class POPJoinHashMap(query: IQuery, projectedVariables: List<String>, childA: IO
         return res
     }
 
-    override suspend fun toXMLElement() = super.toXMLElement().addAttribute("optional", "" + optional)
+    override /*suspend*/ fun toXMLElement() = super.toXMLElement().addAttribute("optional", "" + optional)
     override fun cloneOP(): IOPBase = POPJoinHashMap(query, projectedVariables, children[0].cloneOP(), children[1].cloneOP(), optional)
 }

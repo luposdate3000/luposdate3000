@@ -19,7 +19,7 @@ import lupos.s04logicalOperators.singleinput.LOPSubGroup
 
 class LogicalOptimizerFilterOptional(query: Query) : OptimizerBase(query, EOptimizerID.LogicalOptimizerFilterOptionalID) {
     override val classname = "LogicalOptimizerFilterOptional"
-    override suspend fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
+    override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
         var res: IOPBase = node
         if (node is LOPJoin && node.optional) {
             var child = node.getChildren()[1]

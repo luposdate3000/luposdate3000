@@ -34,13 +34,13 @@ class BufferManager(@JvmField val bufferName: String) {
 
         @JvmField
         internal val managerListLock = MyReadWriteLock()
-        suspend fun safeToFolder() = managerListLock.withReadLock {
+        /*suspend*/ fun safeToFolder() = managerListLock.withReadLock {
             managerList.forEach {
                 it.safeToFolder()
             }
         }
 
-        suspend fun loadFromFolder() = managerListLock.withReadLock {
+        /*suspend*/ fun loadFromFolder() = managerListLock.withReadLock {
             managerList.forEach {
                 it.loadFromFolder()
             }
@@ -68,11 +68,11 @@ class BufferManager(@JvmField val bufferName: String) {
 
     @JvmField
     internal val freeList = mutableListOf<Int>()
-    suspend fun clear() = lock.withWriteLock {
+    /*suspend*/ fun clear() = lock.withWriteLock {
         clearAssumeLocks()
     }
 
-    suspend fun clearAssumeLocks() {
+    /*suspend*/ fun clearAssumeLocks() {
         counter = 0
         SanityCheck {
             for (i in 0 until counter) {
@@ -104,7 +104,7 @@ class BufferManager(@JvmField val bufferName: String) {
         return allPages[pageid]
     }
 
-    suspend fun createPage(action: (ByteArray, Int) -> Unit) = lock.withWriteLock {
+    /*suspend*/ fun createPage(action: (ByteArray, Int) -> Unit) = lock.withWriteLock {
         val pageid: Int
         if (freeList.size > 0 && BUFFER_MANAGER_USE_FREE_LIST) {
             pageid = freeList.removeAt(0)
@@ -144,7 +144,7 @@ class BufferManager(@JvmField val bufferName: String) {
         action(allPages[pageid], pageid)
     }
 
-    suspend fun deletePage(pageid: Int) = lock.withWriteLock {
+    /*suspend*/ fun deletePage(pageid: Int) = lock.withWriteLock {
         SanityCheck.check { !freeList.contains(pageid) }
         SanityCheck.check({ allPagesRefcounters[pageid] == 1 }, { "Failed requirement pageid = $pageid" })
         allPagesRefcounters[pageid] = 0
@@ -158,9 +158,9 @@ class BufferManager(@JvmField val bufferName: String) {
     fun debug() {
     }
 
-    suspend fun safeToFolder() {
+    /*suspend*/ fun safeToFolder() {
     }
 
-    suspend fun loadFromFolder() {
+    /*suspend*/ fun loadFromFolder() {
     }
 }

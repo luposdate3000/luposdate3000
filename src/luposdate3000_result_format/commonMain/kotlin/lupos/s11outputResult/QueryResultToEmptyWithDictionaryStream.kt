@@ -18,7 +18,7 @@ import lupos.s09physicalOperators.partition.POPMergePartition
 import lupos.s09physicalOperators.partition.POPMergePartitionOrderedByIntId
 
 object QueryResultToEmptyWithDictionaryStream {
-    internal suspend fun writeValue(valueID: Int, columnName: String, dictionary: IResultSetDictionary, output: IMyPrintWriter) {
+    internal /*suspend*/ fun writeValue(valueID: Int, columnName: String, dictionary: IResultSetDictionary, output: IMyPrintWriter) {
         dictionary.getValue(valueID, { value ->
         }, { value ->
         }, { content, lang ->
@@ -33,13 +33,13 @@ object QueryResultToEmptyWithDictionaryStream {
         )
     }
 
-    internal suspend fun writeRow(variables: Array<String>, rowBuf: IntArray, dictionary: IResultSetDictionary, output: IMyPrintWriter) {
+    internal /*suspend*/ fun writeRow(variables: Array<String>, rowBuf: IntArray, dictionary: IResultSetDictionary, output: IMyPrintWriter) {
         for (variableIndex in 0 until variables.size) {
             writeValue(rowBuf[variableIndex], variables[variableIndex], dictionary, output)
         }
     }
 
-    internal suspend inline fun writeAllRows(variables: Array<String>, columns: Array<ColumnIterator>, dictionary: IResultSetDictionary, lock: MyLock?, output: IMyPrintWriter) {
+    internal /*suspend*/ inline fun writeAllRows(variables: Array<String>, columns: Array<ColumnIterator>, dictionary: IResultSetDictionary, lock: MyLock?, output: IMyPrintWriter) {
         val rowBuf = IntArray(variables.size)
         loop@ while (true) {
             for (variableIndex in 0 until variables.size) {
@@ -56,7 +56,7 @@ object QueryResultToEmptyWithDictionaryStream {
         }
     }
 
-    internal suspend fun writeNodeResult(variables: Array<String>, node: IOPBase, output: IMyPrintWriter, parent: Partition = Partition()) {
+    internal /*suspend*/ fun writeNodeResult(variables: Array<String>, node: IOPBase, output: IMyPrintWriter, parent: Partition = Partition()) {
         if ((node is POPMergePartition && node.partitionCount > 1) || (node is POPMergePartitionOrderedByIntId && node.partitionCount > 1)) {
             var partitionCount = 0
             var partitionVariable = ""
@@ -96,7 +96,7 @@ object QueryResultToEmptyWithDictionaryStream {
         }
     }
 
-    suspend operator fun invoke(rootNode: IOPBase, output: IMyPrintWriter) {
+    /*suspend*/ operator fun invoke(rootNode: IOPBase, output: IMyPrintWriter) {
         val nodes: Array<IOPBase>
         var columnProjectionOrder = listOf<List<String>>()
         if (rootNode is OPBaseCompound) {

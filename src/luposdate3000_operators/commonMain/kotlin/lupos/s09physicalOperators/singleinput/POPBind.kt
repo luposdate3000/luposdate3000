@@ -49,8 +49,8 @@ class POPBind(query: IQuery, projectedVariables: List<String>, @JvmField val nam
     override fun childrenToVerifyCount(): Int = 1
     override fun getProvidedVariableNamesInternal(): List<String> = (children[0].getProvidedVariableNames() + name.name).distinct()
     override fun getRequiredVariableNames(): List<String> = children[1].getRequiredVariableNamesRecoursive()
-    override suspend fun toXMLElement() = super.toXMLElement().addAttribute("name", name.name)
-    override suspend fun evaluate(parent: Partition): IteratorBundle {
+    override /*suspend*/ fun toXMLElement() = super.toXMLElement().addAttribute("name", name.name)
+    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
         val variablesOut = getProvidedVariableNames()
         val variablesLocal = getProvidedVariableNamesInternal()
         val outMap = mutableMapOf<String, ColumnIterator>()
@@ -72,11 +72,11 @@ class POPBind(query: IQuery, projectedVariables: List<String>, @JvmField val nam
             val columnsIn = Array(variablesLocal.size) { child.columns[variablesLocal[it]] }
             for (variableIndex in 0 until variablesLocal.size) {
                 columnsLocal[variableIndex] = object : ColumnIteratorQueue() {
-                    override suspend fun close() {
+                    override /*suspend*/ fun close() {
                         ColumnIteratorQueueExt._close(this)
                     }
 
-                    override suspend fun next(): Int {
+                    override /*suspend*/ fun next(): Int {
                         return ColumnIteratorQueueExt.nextHelper(this, {
                             var done = false
                             for (variableIndex2 in 0 until variablesLocal.size) {

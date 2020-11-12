@@ -23,7 +23,7 @@ abstract class POPBase(query: IQuery,
         OPBase(query, operatorID, classname, children, sortPriority), IPOPBase {
     open fun getProvidedVariableNamesInternal() = super.getProvidedVariableNames()
     override fun getProvidedVariableNames() = projectedVariables
-    override suspend fun toXMLElement(): XMLElement {
+    override /*suspend*/ fun toXMLElement(): XMLElement {
         val res = super.toXMLElement()
         val projectedXML = XMLElement("projectedVariables")
         res.addContent(projectedXML)
@@ -56,5 +56,5 @@ abstract class POPBase(query: IQuery,
         }
     }
 
-    override suspend fun calculateHistogram(): HistogramResult = throw HistogramNotImplementedException(classname)
+    override /*suspend*/ fun calculateHistogram(): HistogramResult = throw HistogramNotImplementedException(classname)
 }

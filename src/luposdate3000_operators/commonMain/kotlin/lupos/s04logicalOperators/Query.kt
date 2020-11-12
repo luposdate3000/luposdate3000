@@ -143,7 +143,7 @@ class Query(@JvmField val dictionary: ResultSetDictionary = ResultSetDictionary(
 
     inline fun getUniqueVariableName() = "#+${generatedNameCounter++}"
     inline fun isGeneratedVariableName(name: String) = name.startsWith('#')
-    suspend fun getPartitionHelper(uuid: Long): PartitionHelper {
+    /*suspend*/ fun getPartitionHelper(uuid: Long): PartitionHelper {
         var res: PartitionHelper? = null
         partitionsLock.withLock {
             res = partitions[uuid]

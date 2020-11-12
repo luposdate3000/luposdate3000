@@ -9,7 +9,7 @@ import lupos.s04logicalOperators.iterator.ColumnIterator
 internal class NodeLeafColumnIterator0(node: ByteArray, nodeid: Int, lock: MyReadWriteLock) : NodeLeafColumnIterator(node, nodeid, lock) {
     @JvmField
     var value = 0
-    override suspend fun next(): Int {
+    override /*suspend*/ fun next(): Int {
         if (label == 3) {
             label = 1
             __init()
@@ -29,7 +29,7 @@ internal class NodeLeafColumnIterator0(node: ByteArray, nodeid: Int, lock: MyRea
         }
     }
 
-    override suspend fun nextSIP(minValue: Int, result: IntArray) {
+    override /*suspend*/ fun nextSIP(minValue: Int, result: IntArray) {
         if (label == 3) {
             label = 1
             __init()
@@ -119,7 +119,7 @@ internal class NodeLeafColumnIterator0(node: ByteArray, nodeid: Int, lock: MyRea
         }
     }
 
-    open override suspend fun skipSIP(skipCount: Int): Int {
+    open override /*suspend*/ fun skipSIP(skipCount: Int): Int {
         if (label == 3) {
             label = 1
             __init()

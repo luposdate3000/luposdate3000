@@ -22,7 +22,7 @@ class POPMergePartitionCount(query: IQuery, projectedVariables: List<String>, va
         }
     }
 
-    override suspend fun toXMLElement(): XMLElement {
+    override /*suspend*/ fun toXMLElement(): XMLElement {
         val res = super.toXMLElement()
         res.addAttribute("partitionVariable", partitionVariable)
         res.addAttribute("partitionCount", "" + partitionCount)
@@ -44,7 +44,7 @@ class POPMergePartitionCount(query: IQuery, projectedVariables: List<String>, va
     override fun cloneOP(): IOPBase = POPMergePartitionCount(query, projectedVariables, partitionVariable, partitionCount, partitionID, children[0].cloneOP())
     override fun toSparql() = children[0].toSparql()
     override fun equals(other: Any?): Boolean = other is POPMergePartitionCount && children[0] == other.children[0] && partitionVariable == other.partitionVariable
-    override suspend fun evaluate(parent: Partition): IteratorBundle {
+    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
         if (partitionCount == 1) {
             //single partition - just pass through
             return children[0].evaluate(parent)
@@ -77,7 +77,7 @@ class POPMergePartitionCount(query: IQuery, projectedVariables: List<String>, va
                 }
             }
             var iterator = object : IteratorBundle(0) {
-                override suspend fun hasNext2(): Boolean {
+                override /*suspend*/ fun hasNext2(): Boolean {
                     var res = false
                     loop@ while (true) {
                         SanityCheck.println({ "merge $uuid reader loop start" })
@@ -103,7 +103,7 @@ class POPMergePartitionCount(query: IQuery, projectedVariables: List<String>, va
                     return res
                 }
 
-                override suspend fun hasNext2Close() {
+                override /*suspend*/ fun hasNext2Close() {
                     SanityCheck.println({ "merge $uuid reader closed" })
                     readerFinished = 1
                 }

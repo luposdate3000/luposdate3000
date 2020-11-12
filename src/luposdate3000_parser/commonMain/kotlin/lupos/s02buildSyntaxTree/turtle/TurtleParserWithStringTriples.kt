@@ -10,7 +10,7 @@ import lupos.s02buildSyntaxTree.UnexpectedToken
 abstract class TurtleParserWithStringTriples {
     @JvmField
     var ltit: LookAheadTokenIterator? = null
-    abstract suspend fun consume_triple(s: String, p: String, o: String)
+    abstract /*suspend*/ fun consume_triple(s: String, p: String, o: String)
 
     // for storing the prefixes...
     @JvmField
@@ -35,7 +35,7 @@ abstract class TurtleParserWithStringTriples {
 
     @JvmField
     var bnode_counter = 0
-    suspend fun turtleDoc() {
+    /*suspend*/ fun turtleDoc() {
         var token: Token
         var t1 = ltit!!.lookahead()
         while (t1.image == "@prefix" || t1.image == "@base" || t1.image == "PREFIX" || t1.image == "BASE" || t1 is IRI || t1 is PNAME_LN || t1 is PNAME_NS || t1 is BNODE || t1 is ANON_BNODE || t1.image == "(" || t1.image == "[") {
@@ -48,7 +48,7 @@ abstract class TurtleParserWithStringTriples {
         }
     }
 
-    suspend fun statement() {
+    /*suspend*/ fun statement() {
         var token: Token
         val t2 = ltit!!.lookahead()
         when {
@@ -160,7 +160,7 @@ abstract class TurtleParserWithStringTriples {
         prefixes.put(key, token.content)
     }
 
-    suspend fun triples() {
+    /*suspend*/ fun triples() {
         var token: Token
         val t5 = ltit!!.lookahead()
         when {
@@ -181,7 +181,7 @@ abstract class TurtleParserWithStringTriples {
         }
     }
 
-    suspend fun predicateObjectList(s: String) {
+    /*suspend*/ fun predicateObjectList(s: String) {
         var token: Token
         val p = verb()
         objectList(s, p)
@@ -200,7 +200,7 @@ abstract class TurtleParserWithStringTriples {
         }
     }
 
-    suspend fun objectList(s: String, p: String) {
+    /*suspend*/ fun objectList(s: String, p: String) {
         var token: Token
         val o = triple_object()
         consume_triple(s, p, o)
@@ -238,7 +238,7 @@ abstract class TurtleParserWithStringTriples {
         }
     }
 
-    suspend fun subject(): String {
+    /*suspend*/ fun subject(): String {
         var token: Token
         val result: String
         val t10 = ltit!!.lookahead()
@@ -265,7 +265,7 @@ abstract class TurtleParserWithStringTriples {
         return result
     }
 
-    suspend fun triple_object(): String {
+    /*suspend*/ fun triple_object(): String {
         var token: Token
         val result: String
         val t11 = ltit!!.lookahead()
@@ -313,7 +313,7 @@ abstract class TurtleParserWithStringTriples {
         return result
     }
 
-    suspend fun blankNodePropertyList(): String {
+    /*suspend*/ fun blankNodePropertyList(): String {
         var token: Token
         val result = "_:_" + bnode_counter; bnode_counter++
         token = ltit!!.nextToken()
@@ -328,7 +328,7 @@ abstract class TurtleParserWithStringTriples {
         return result
     }
 
-    suspend fun collection(): String {
+    /*suspend*/ fun collection(): String {
         var token: Token
         var first = nil_iri
         var current = nil_iri

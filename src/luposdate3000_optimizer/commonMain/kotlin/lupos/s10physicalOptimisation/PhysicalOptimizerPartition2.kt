@@ -30,7 +30,7 @@ import lupos.s15tripleStoreDistributed.TripleStoreIteratorGlobal
 
 class PhysicalOptimizerPartition2(query: Query) : OptimizerBase(query, EOptimizerID.PhysicalOptimizerPartition2ID) {
     override val classname = "PhysicalOptimizerPartition2"
-    override suspend fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
+    override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
         var res = node
         if (USE_PARTITIONS && Partition.default_k > 1) {
             when (node) {

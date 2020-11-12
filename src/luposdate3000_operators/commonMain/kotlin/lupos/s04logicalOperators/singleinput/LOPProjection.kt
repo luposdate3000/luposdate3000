@@ -23,7 +23,7 @@ class LOPProjection(query: IQuery, @JvmField val variables: MutableList<AOPVaria
         return MutableList(variables.size) { variables[it].name }.distinct()
     }
 
-    override suspend fun toXMLElement(): XMLElement {
+    override /*suspend*/ fun toXMLElement(): XMLElement {
         val res = super.toXMLElement()
         val vars = XMLElement("LocalVariables")
         res.addContent(vars)
@@ -35,7 +35,7 @@ class LOPProjection(query: IQuery, @JvmField val variables: MutableList<AOPVaria
 
     override fun equals(other: Any?) = other is LOPProjection && variables == other.variables && children[0] == other.children[0]
     override fun cloneOP(): IOPBase = LOPProjection(query, variables, children[0].cloneOP())
-    override suspend fun calculateHistogram(): HistogramResult {
+    override /*suspend*/ fun calculateHistogram(): HistogramResult {
         var res = HistogramResult()
         var childHistogram = children[0].getHistogram()
         for (v in variables) {

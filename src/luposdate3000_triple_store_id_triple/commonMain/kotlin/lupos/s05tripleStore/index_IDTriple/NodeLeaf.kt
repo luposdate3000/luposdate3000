@@ -18,7 +18,7 @@ internal object NodeLeaf {
         return NodeLeafIterator(node, nodeid)
     }
 
-    suspend inline fun iterator(node: ByteArray, nodeid: Int, lock: MyReadWriteLock, component: Int): ColumnIterator {
+    /*suspend*/ inline fun iterator(node: ByteArray, nodeid: Int, lock: MyReadWriteLock, component: Int): ColumnIterator {
         when (component) {
             0 -> {
                 val res = NodeLeafColumnIterator0(node, nodeid, lock)
@@ -38,17 +38,17 @@ internal object NodeLeaf {
         }
     }
 
-    suspend inline fun iterator3(node: ByteArray, nodeid: Int, prefix: IntArray, lock: MyReadWriteLock): ColumnIterator {
+    /*suspend*/ inline fun iterator3(node: ByteArray, nodeid: Int, prefix: IntArray, lock: MyReadWriteLock): ColumnIterator {
         val res = NodeLeafColumnIteratorPrefix3(node, nodeid, prefix, lock)
         return res
     }
 
-    suspend inline fun iterator2(node: ByteArray, nodeid: Int, prefix: IntArray, lock: MyReadWriteLock): ColumnIterator {
+    /*suspend*/ inline fun iterator2(node: ByteArray, nodeid: Int, prefix: IntArray, lock: MyReadWriteLock): ColumnIterator {
         val res = NodeLeafColumnIteratorPrefix22(node, nodeid, prefix, lock)
         return res
     }
 
-    suspend inline fun iterator1(node: ByteArray, nodeid: Int, prefix: IntArray, lock: MyReadWriteLock, component: Int): ColumnIterator {
+    /*suspend*/ inline fun iterator1(node: ByteArray, nodeid: Int, prefix: IntArray, lock: MyReadWriteLock, component: Int): ColumnIterator {
         when (component) {
             1 -> {
                 val res = NodeLeafColumnIteratorPrefix11(node, nodeid, prefix, lock)

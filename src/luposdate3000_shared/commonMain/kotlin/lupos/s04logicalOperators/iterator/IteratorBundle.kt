@@ -69,7 +69,7 @@ open class IteratorBundle {
             }
         }
 
-    open suspend fun hasNext2(): Boolean {
+    open /*suspend*/ fun hasNext2(): Boolean {
         if (counter > 0) {
             counter--
             return true
@@ -77,10 +77,10 @@ open class IteratorBundle {
         return false
     }
 
-    open suspend fun hasNext2Close() {
+    open /*suspend*/ fun hasNext2Close() {
     }
 
-    suspend fun count(): Int {
+    /*suspend*/ fun count(): Int {
         SanityCheck.check { mode == IteratorBundleMode.COUNT }
         if (counter > 0) {
             return counter

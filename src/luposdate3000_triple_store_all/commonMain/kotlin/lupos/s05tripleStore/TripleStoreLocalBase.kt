@@ -31,26 +31,26 @@ abstract class TripleStoreLocalBase(@JvmField val name: String) : ITripleStoreLo
     @JvmField //override this during initialisation
     var pendingModificationsRemove = Array(0) { mutableMapOf<Long, MutableList<Int>>() }
     override fun getEnabledPartitions() = enabledPartitions
-    suspend fun safeToFolder(foldername: String) {
+    /*suspend*/ fun safeToFolder(foldername: String) {
         File(foldername).mkdirs()
         dataDistinct.forEach {
             it.second.safeToFile(foldername + "/" + it.first + ".bin")
         }
     }
 
-    suspend fun loadFromFolder(foldername: String) {
+    /*suspend*/ fun loadFromFolder(foldername: String) {
         dataDistinct.forEach {
             it.second.loadFromFile(foldername + "/" + it.first + ".bin")
         }
     }
 
-    override suspend fun flush() {
+    override /*suspend*/ fun flush() {
         dataDistinct.forEach {
             it.second.flush()
         }
     }
 
-    override suspend fun getHistogram(query: IQuery, params: TripleStoreFeatureParams): Pair<Int, Int> {
+    override /*suspend*/ fun getHistogram(query: IQuery, params: TripleStoreFeatureParams): Pair<Int, Int> {
         var idx = 0
         when (params) {
             is TripleStoreFeatureParamsDefault -> {
@@ -96,7 +96,7 @@ abstract class TripleStoreLocalBase(@JvmField val name: String) : ITripleStoreLo
         throw Exception("")
     }
 
-    override suspend fun getIterator(query: IQuery, params: TripleStoreFeatureParams): IteratorBundle {
+    override /*suspend*/ fun getIterator(query: IQuery, params: TripleStoreFeatureParams): IteratorBundle {
         var idx = 0
         when (params) {
             is TripleStoreFeatureParamsDefault -> {
@@ -145,13 +145,13 @@ abstract class TripleStoreLocalBase(@JvmField val name: String) : ITripleStoreLo
         throw Exception("")
     }
 
-    override suspend fun import(dataImport: ITripleStoreBulkImport) {
+    override /*suspend*/ fun import(dataImport: ITripleStoreBulkImport) {
         for (i in 0 until dataDistinct.size) {
             dataDistinct[i].second.import(dataDistinct[i].importField(dataImport), dataImport.getIdx(), dataDistinct[i].idx.tripleIndicees)
         }
     }
 
-    override suspend fun commit(query: IQuery) {
+    override /*suspend*/ fun commit(query: IQuery) {
         /*
          * the input is ALWAYS in SPO order. The remapping of the triple layout is within the index, using the parameter order.
          */
@@ -183,7 +183,7 @@ abstract class TripleStoreLocalBase(@JvmField val name: String) : ITripleStoreLo
         }
     }
 
-    override suspend fun clear() {
+    override /*suspend*/ fun clear() {
         dataDistinct.forEach {
             it.second.clear()
         }
@@ -193,7 +193,7 @@ abstract class TripleStoreLocalBase(@JvmField val name: String) : ITripleStoreLo
         }
     }
 
-    override suspend fun modify(query: IQuery, dataModify: Array<ColumnIterator>, type: EModifyType) {
+    override /*suspend*/ fun modify(query: IQuery, dataModify: Array<ColumnIterator>, type: EModifyType) {
         /*
          * the input iterators are always in the SPO order. The real remapping to the ordering of the store happens within the commit-phase
          */

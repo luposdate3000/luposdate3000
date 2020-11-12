@@ -29,7 +29,7 @@ import lupos.s08logicalOptimisation.OptimizerBase
 
 class LogicalOptimizerProjectionDown(query: Query) : OptimizerBase(query, EOptimizerID.LogicalOptimizerProjectionDownID) {
     override val classname = "LogicalOptimizerProjectionDown"
-    override suspend fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
+    override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
         var res: IOPBase = node
         if (node is LOPReduced) {
             val child = node.getChildren()[0]

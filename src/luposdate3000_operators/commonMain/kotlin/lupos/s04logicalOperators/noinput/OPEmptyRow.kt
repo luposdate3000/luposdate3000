@@ -13,7 +13,7 @@ class OPEmptyRow(query: IQuery) : LOPBase(query, EOperatorID.OPEmptyRowID, "OPEm
     override fun toSparql() = "{}"
     override fun equals(other: Any?) = other is OPEmptyRow
     override fun cloneOP(): IOPBase = this
-    override suspend fun calculateHistogram(): HistogramResult {
+    override /*suspend*/ fun calculateHistogram(): HistogramResult {
         var res = HistogramResult()
         res.count = 1
         return res

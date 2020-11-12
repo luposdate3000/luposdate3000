@@ -31,7 +31,7 @@ class POPProjection(query: IQuery, projectedVariables: List<String>, child: IOPB
     override fun equals(other: Any?) = other is POPProjection && projectedVariables == other.projectedVariables && children[0] == other.children[0]
     override fun getProvidedVariableNamesInternal(): List<String> = projectedVariables
     override fun getRequiredVariableNames(): List<String> = projectedVariables
-    override suspend fun evaluate(parent: Partition): IteratorBundle {
+    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
         val variables = getProvidedVariableNames()
         val child = children[0].evaluate(parent)
         val outMap = mutableMapOf<String, ColumnIterator>()
@@ -47,11 +47,11 @@ class POPProjection(query: IQuery, projectedVariables: List<String>, child: IOPB
             }
             val column = child.columns[variables2[0]]!!
             val res = object : IteratorBundle(0) {
-                override suspend fun hasNext2(): Boolean {
+                override /*suspend*/ fun hasNext2(): Boolean {
                     return column.next() != ResultSetDictionaryExt.nullValue
                 }
 
-                override suspend fun hasNext2Close() {
+                override /*suspend*/ fun hasNext2Close() {
                     column.close()
                 }
             }

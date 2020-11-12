@@ -14,7 +14,7 @@ class ColumnIteratorChannel : ColumnIterator() {
 
     @JvmField
     var doneWriting = false
-    internal suspend inline fun append(v: Int) {
+    internal /*suspend*/ inline fun append(v: Int) {
         queue.send(v)
     }
 
@@ -32,11 +32,11 @@ class ColumnIteratorChannel : ColumnIterator() {
         }
     }
 
-    override suspend fun close() {
+    override /*suspend*/ fun close() {
         _close()
     }
 
-    override suspend fun next(): Int {
+    override /*suspend*/ fun next(): Int {
         if (label == 1) {
             var res: Int = ResultSetDictionaryExt.nullValue
             try {

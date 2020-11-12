@@ -18,11 +18,11 @@ class ColumnIteratorValue : ColumnIterator() {
 
     @JvmField
     var done = false
-    override suspend fun close() {
+    override /*suspend*/ fun close() {
         done = true
     }
 
-    override suspend fun next(): Int {
+    override /*suspend*/ fun next(): Int {
         if (done) {
             return ResultSetDictionaryExt.nullValue
         } else {

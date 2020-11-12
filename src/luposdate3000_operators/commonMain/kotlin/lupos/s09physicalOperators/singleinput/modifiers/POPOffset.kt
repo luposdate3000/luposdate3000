@@ -31,7 +31,7 @@ class POPOffset(query: IQuery, projectedVariables: List<String>, @JvmField val o
     }
 
     override fun cloneOP(): IOPBase = POPOffset(query, projectedVariables, offset, children[0].cloneOP())
-    override suspend fun evaluate(parent: Partition): IteratorBundle {
+    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
         val variables = getProvidedVariableNames()
         val outMap = mutableMapOf<String, ColumnIterator>()
         val child = children[0].evaluate(parent)
@@ -57,5 +57,5 @@ class POPOffset(query: IQuery, projectedVariables: List<String>, @JvmField val o
         return IteratorBundle(outMap)
     }
 
-    override suspend fun toXMLElement() = super.toXMLElement().addAttribute("offset", "" + offset)
+    override /*suspend*/ fun toXMLElement() = super.toXMLElement().addAttribute("offset", "" + offset)
 }

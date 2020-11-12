@@ -48,7 +48,7 @@ class TripleStoreBulkImport(@JvmField val query: IQuery, @JvmField val graphName
     }
 
     override fun getIdx() = idx
-    override suspend fun insert(si: Int, pi: Int, oi: Int) {
+    override /*suspend*/ fun insert(si: Int, pi: Int, oi: Int) {
         data[8][idx++] = si
         data[8][idx++] = pi
         data[8][idx++] = oi
@@ -59,12 +59,12 @@ class TripleStoreBulkImport(@JvmField val query: IQuery, @JvmField val graphName
         }
     }
 
-    override suspend fun finishImport() {
+    override /*suspend*/ fun finishImport() {
         sort()
         flush()
     }
 
-    suspend fun flush() {
+    /*suspend*/ fun flush() {
         totalflushed += idx / 3
         println("flushed triples $totalflushed")
         distributedTripleStore.getLocalStore().getNamedGraph(query, graphName).import(this)

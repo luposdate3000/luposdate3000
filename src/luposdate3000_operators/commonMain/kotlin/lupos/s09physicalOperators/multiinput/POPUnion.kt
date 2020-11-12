@@ -34,7 +34,7 @@ class POPUnion(query: IQuery, projectedVariables: List<String>, childA: IOPBase,
     override fun cloneOP(): IOPBase = POPUnion(query, projectedVariables, children[0].cloneOP(), children[1].cloneOP())
     override fun toSparql() = "{" + children[0].toSparql() + "} UNION {" + children[1].toSparql() + "}"
     override fun equals(other: Any?): Boolean = other is POPUnion && children[0] == other.children[0] && children[1] == other.children[1]
-    override suspend fun evaluate(parent: Partition): IteratorBundle {
+    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
         val variables = getProvidedVariableNames()
         SanityCheck {
             for (v in children[0].getProvidedVariableNames()) {
@@ -57,11 +57,11 @@ class POPUnion(query: IQuery, projectedVariables: List<String>, childA: IOPBase,
         } else {
             SanityCheck.check { childA.hasCountMode() && childB.hasCountMode() }
             var res = object : IteratorBundle(0) {
-                override suspend fun hasNext2(): Boolean {
+                override /*suspend*/ fun hasNext2(): Boolean {
                     return childA.hasNext2() || childB.hasNext2()
                 }
 
-                override suspend fun hasNext2Close() {
+                override /*suspend*/ fun hasNext2Close() {
                     childA.hasNext2Close()
                     childB.hasNext2Close()
                 }

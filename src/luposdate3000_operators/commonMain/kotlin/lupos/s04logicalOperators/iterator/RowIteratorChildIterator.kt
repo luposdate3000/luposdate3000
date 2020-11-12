@@ -4,7 +4,7 @@ import lupos.s00misc.SanityCheck
 
 class RowIteratorChildIterator(columns: Array<String>) : RowIterator() {
     val childs = mutableListOf(RowIterator())
-    var onNoMoreElements: suspend () -> Unit = ::_onNoMoreElements
+    var onNoMoreElements: /*suspend*/ () -> Unit = ::_onNoMoreElements
 
     init {
         this.columns = columns
@@ -42,7 +42,7 @@ class RowIteratorChildIterator(columns: Array<String>) : RowIterator() {
         }
     }
 
-    suspend fun _onNoMoreElements() {
+    /*suspend*/ fun _onNoMoreElements() {
         close()
     }
 }

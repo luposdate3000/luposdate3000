@@ -12,5 +12,5 @@ import lupos.s04logicalOperators.Query
 class LOPOptional(query: IQuery, child: IOPBase = OPEmptyRow(query)) : LOPBase(query, EOperatorID.LOPOptionalID, "LOPOptional", arrayOf(child), ESortPriority.SAME_AS_CHILD) {
     override fun equals(other: Any?) = other is LOPOptional && children[0] == other.children[0]
     override fun cloneOP(): IOPBase = LOPOptional(query, children[0].cloneOP())
-    override suspend fun calculateHistogram() = children[0].getHistogram()
+    override /*suspend*/ fun calculateHistogram() = children[0].getHistogram()
 }

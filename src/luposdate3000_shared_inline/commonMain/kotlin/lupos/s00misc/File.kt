@@ -14,12 +14,12 @@ internal expect class File {
     inline fun walk(crossinline action: (String) -> Unit)
     inline fun myPrintWriter(): MyPrintWriter
     inline fun printWriter(crossinline action: (MyPrintWriter) -> Unit)
-    suspend inline fun printWriterSuspended(crossinline action: suspend (MyPrintWriter) -> Unit)
+    /*suspend*/ inline fun printWriterSuspended(crossinline action: /*suspend*/ (MyPrintWriter) -> Unit)
     inline fun forEachLine(crossinline action: (String) -> Unit)
-    suspend inline fun forEachLineSuspended(crossinline action: suspend (String) -> Unit)
+    /*suspend*/ inline fun forEachLineSuspended(crossinline action: /*suspend*/ (String) -> Unit)
     inline fun dataOutputStream(crossinline action: (MyDataOutputStream) -> Unit)
     inline fun dataOutputStreamSuspend(crossinline action: (MyDataOutputStream) -> Unit)
     inline fun dataInputStream(crossinline action: (MyDataInputStream) -> Unit)
-    suspend inline fun dataInputStreamSuspended(crossinline action: suspend (MyDataInputStream) -> Unit)
+    /*suspend*/ inline fun dataInputStreamSuspended(crossinline action: /*suspend*/ (MyDataInputStream) -> Unit)
     override fun equals(other: Any?): Boolean
 }

@@ -11,7 +11,7 @@ import lupos.s08logicalOptimisation.OptimizerBase
 
 class LogicalOptimizerRemoveBindVariable(query: Query) : OptimizerBase(query, EOptimizerID.LogicalOptimizerRemoveBindVariableID) {
     override val classname = "LogicalOptimizerRemoveBindVariable"
-    override suspend fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
+    override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
         var res = node
         if (node is LOPProjection) {
             val child = node.getChildren()[0]

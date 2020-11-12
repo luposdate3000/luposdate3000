@@ -37,7 +37,7 @@ actual object HttpEndpointLauncher {
         stream.println()
     }
 
-    actual suspend fun start(hostname: String, port: Int) {
+    actual /*suspend*/ fun start(hostname: String, port: Int) {
         println("call start on the launcher")
         try {
             val server = ServerSocket()

@@ -90,7 +90,7 @@ object LogicalOptimizerJoinOrderCostBasedOnVariable {
         }
     }
 
-    suspend fun optimize(plans: Array<Plan?>, target: Int, variables: List<Int>) {
+    /*suspend*/ fun optimize(plans: Array<Plan?>, target: Int, variables: List<Int>) {
         val targetInv = target.inv()
         for (a in 1 until target) {
             //the other half is already calculated due to the inverse
@@ -108,7 +108,7 @@ object LogicalOptimizerJoinOrderCostBasedOnVariable {
         }
     }
 
-    suspend operator fun invoke(allChilds: List<IOPBase>, root: LOPJoin): IOPBase? {
+    /*suspend*/ operator fun invoke(allChilds: List<IOPBase>, root: LOPJoin): IOPBase? {
         SanityCheck.check { allChilds.size > 2 }
         if (allChilds.size < 30) {
             val allVariables = mutableListOf<String>()
