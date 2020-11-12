@@ -67,7 +67,7 @@ LuposdateEndpoint.initialize()
                                             outDictionary.write(byteBuf)
                                             outDictionary.write(tmp)
                                             if (DictionaryOffset > 0) {
-                                                outDictionaryOffset.writeInt(DictionaryOffset)
+                                                outDictionaryOffset.writeInt(DictionaryOffset)//TODO this is too small ... integer-overflow
                                             }
                                             DictionaryOffset += tmp.size + 1
                                         }

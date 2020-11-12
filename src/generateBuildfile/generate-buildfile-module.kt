@@ -26,6 +26,7 @@ fun createBuildFileForModule(args: Array<String>) {
     var releaseMode = true
     var fastMode = false
     var dryMode = false
+var ideaBuildfile=false
     var buildLibrary = true
     for (arg in args) {
         when {
@@ -37,6 +38,10 @@ fun createBuildFileForModule(args: Array<String>) {
             arg == "--debug" -> releaseMode = false
             arg == "--fast" -> fastMode = true
             arg == "--dry" -> dryMode = true
+            arg == "--idea" -> {
+dryMode = true
+ideaBuildfile=true
+}
             arg.startsWith("--module=") -> moduleName = arg.substring("--module=".length)
             arg.startsWith("--src=") -> moduleFolder = arg.substring("--src=".length).replace("/", pathSeparator).replace("\\", pathSeparator)
             arg.startsWith("--platform=") -> platform = arg.substring("--platform=".length)
@@ -62,6 +67,7 @@ fun createBuildFileForModule(args: Array<String>) {
     var shortFolder = "./${moduleFolder}"//TODO does this work as intended on windows
     shortFolder = shortFolder.substring(shortFolder.lastIndexOf(pathSeparator) + 1)
     File("src.generated").deleteRecursively()
+if(!ideaBuildfile){
     File("src.generated").mkdirs()
     val p = Paths.get(moduleFolder)
     Files.walk(p, 1).forEach { it ->
@@ -87,6 +93,7 @@ fun createBuildFileForModule(args: Array<String>) {
             }
         }
     }
+}
     File("settings.gradle").printWriter().use { out ->
         out.println("pluginManagement {")
         out.println("    repositories {")
@@ -96,8 +103,53 @@ fun createBuildFileForModule(args: Array<String>) {
         out.println("}")
         out.println("rootProject.name = \"$moduleName\"")//maven-artifactID
     }
+            val commonDependencies = mutableSetOf("org.jetbrains.kotlin:kotlin-stdlib-common:1.4.255-SNAPSHOT")
+            if (moduleName != "Luposdate3000_Shared" && moduleName != "Luposdate3000_Shared_Inline") {
+                commonDependencies.add("luposdate3000:Luposdate3000_Shared:0.0.1")
+            }
+            if (File("${moduleFolder}${pathSeparator}commonDependencies").exists()) {
+                File("${moduleFolder}${pathSeparator}commonDependencies").forEachLine {
+                    if (it.length > 0) {
+                        commonDependencies.add(it)
+                    }
+                }
+            }
+            val jvmDependencies = mutableSetOf("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.4.255-SNAPSHOT")
+            if (File("${moduleFolder}${pathSeparator}jvmDependencies").exists()) {
+                File("${moduleFolder}${pathSeparator}jvmDependencies").forEachLine {
+                    if (it.length > 0) {
+                        jvmDependencies.add(it)
+                    }
+                }
+            }
+                val jsDependencies = mutableSetOf("org.jetbrains.kotlin:kotlin-stdlib-js:1.4.255-SNAPSHOT")
+                if (File("${moduleFolder}${pathSeparator}jsDependencies").exists()) {
+                    File("${moduleFolder}${pathSeparator}jsDependencies").forEachLine {
+                        if (it.length > 0) {
+                            jsDependencies.add(it)
+                        }
+                    }
+                }
+                val nativeDependencies = mutableSetOf<String>()
+                if (File("${moduleFolder}${pathSeparator}nativeDependencies").exists()) {
+                    File("${moduleFolder}${pathSeparator}nativeDependencies").forEachLine {
+                        if (it.length > 0) {
+                            nativeDependencies.add(it)
+                        }
+                    }
+                }
     for (filename in listOf("build.gradle.kts", "${moduleFolder}${pathSeparator}build.gradle.kts")) {
         var buildForIDE = filename != "build.gradle.kts"
+if(ideaBuildfile&&!buildForIDE){
+continue
+}
+if(moduleName != "Luposdate3000_Shared_Inline") {
+            if (buildForIDE) {
+                commonDependencies.add("luposdate3000:Luposdate3000_Shared_Inline:0.0.1")
+         }else{
+                commonDependencies.remove("luposdate3000:Luposdate3000_Shared_Inline:0.0.1")
+   }
+}
         File(filename).printWriter().use { out ->
             out.println("import org.jetbrains.kotlin.gradle.tasks.KotlinCompile")
             out.println("tasks.withType<KotlinCompile>().all {")
@@ -123,6 +175,13 @@ fun createBuildFileForModule(args: Array<String>) {
             out.println("        classpath(\"org.jetbrains.kotlin:kotlin-gradle-plugin:1.4.255-SNAPSHOT\")")
             out.println("    }")
             out.println("}")
+if(buildForIDE){
+            for (d in commonDependencies) {
+                if (d.startsWith("luposdate3000")) {
+            out.println("    evaluationDependsOn(\":src:${d.substring("luposdate3000:".length, d.lastIndexOf(":")).toLowerCase()}\")")
+                }
+            }
+}
             out.println("plugins {")
             out.println("    id(\"org.jetbrains.kotlin.multiplatform\") version \"1.4.255-SNAPSHOT\"")
             out.println("}")
@@ -171,24 +230,10 @@ fun createBuildFileForModule(args: Array<String>) {
             out.println("    sourceSets {")
             out.println("        val commonMain by getting {")
             out.println("            dependencies {")
-            val commonDependencies = mutableSetOf("org.jetbrains.kotlin:kotlin-stdlib-common:1.4.255-SNAPSHOT")
-            if (buildForIDE) {
-                commonDependencies.add("luposdate3000:Luposdate3000_Shared_Inline:0.0.1")
-            }
-            if (moduleName != "Luposdate3000_Shared") {
-                commonDependencies.add("luposdate3000:Luposdate3000_Shared:0.0.1")
-            }
-            if (File("${moduleFolder}${pathSeparator}commonDependencies").exists()) {
-                File("${moduleFolder}${pathSeparator}commonDependencies").forEachLine {
-                    if (it.length > 0) {
-                        commonDependencies.add(it)
-                    }
-                }
-            }
             for (d in commonDependencies) {
                 if (d.startsWith("luposdate3000")) {
                     if (buildForIDE) {
-                        out.println("                compileOnly(project(\"${d.substring("luposdate3000:".length, d.lastIndexOf(":"))}\"))")
+                        out.println("                compileOnly(project(\":src:${d.substring("luposdate3000:".length, d.lastIndexOf(":")).toLowerCase()}\"))")
                     } else {
                         out.println("                compileOnly(\"$d\")")
                     }
@@ -200,14 +245,6 @@ fun createBuildFileForModule(args: Array<String>) {
             out.println("        }")
             out.println("        val jvmMain by getting {")
             out.println("            dependencies {")
-            val jvmDependencies = mutableSetOf("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.4.255-SNAPSHOT")
-            if (File("${moduleFolder}${pathSeparator}jvmDependencies").exists()) {
-                File("${moduleFolder}${pathSeparator}jvmDependencies").forEachLine {
-                    if (it.length > 0) {
-                        jvmDependencies.add(it)
-                    }
-                }
-            }
             for (d in jvmDependencies) {
                 if (d.startsWith("luposdate3000")) {
                     out.println("                compileOnly(\"$d\")")
@@ -220,14 +257,6 @@ fun createBuildFileForModule(args: Array<String>) {
             if (!fastMode) {
                 out.println("        val jsMain by getting {")
                 out.println("            dependencies {")
-                val jsDependencies = mutableSetOf("org.jetbrains.kotlin:kotlin-stdlib-js:1.4.255-SNAPSHOT")
-                if (File("${moduleFolder}${pathSeparator}jsDependencies").exists()) {
-                    File("${moduleFolder}${pathSeparator}jsDependencies").forEachLine {
-                        if (it.length > 0) {
-                            jsDependencies.add(it)
-                        }
-                    }
-                }
                 for (d in jsDependencies) {
                     if (d.startsWith("luposdate3000")) {
                         out.println("                compileOnly(\"$d\")")
@@ -239,14 +268,6 @@ fun createBuildFileForModule(args: Array<String>) {
                 out.println("        }")
                 out.println("        val ${platform}Main by getting {")
                 out.println("            dependencies {")
-                val nativeDependencies = mutableSetOf<String>()
-                if (File("${moduleFolder}${pathSeparator}nativeDependencies").exists()) {
-                    File("${moduleFolder}${pathSeparator}nativeDependencies").forEachLine {
-                        if (it.length > 0) {
-                            nativeDependencies.add(it)
-                        }
-                    }
-                }
                 for (d in nativeDependencies) {
                     if (d.startsWith("luposdate3000")) {
                         out.println("                compileOnly(\"$d\")")
@@ -278,7 +299,9 @@ fun createBuildFileForModule(args: Array<String>) {
             out.println("}")
         }
     }
+if(!ideaBuildfile){
     File("src.generated${pathSeparator}commonMain${pathSeparator}kotlin${pathSeparator}lupos${pathSeparator}s00misc${pathSeparator}").mkdirs()
+}
     val typeAliasAll = mutableMapOf<String, Pair<String, String>>()
     val typeAliasUsed = mutableMapOf<String, Pair<String, String>>()
     if (releaseMode) {
@@ -339,10 +362,13 @@ fun createBuildFileForModule(args: Array<String>) {
                 e.printStackTrace()
             }
         } else {
+if(!ideaBuildfile){
             val f2 = File(f.toString().replace("src${pathSeparator}luposdate3000_shared_inline", "src.generated"))
             f2.mkdirs()
+}
         }
     }
+if(!ideaBuildfile){
     var changed = true
     while (changed) {
         changed = false
@@ -391,8 +417,10 @@ fun createBuildFileForModule(args: Array<String>) {
         }
         println(classNamesUsed.keys)
     }
+}
     println(typeAliasUsed.keys)
     println()
+if(!ideaBuildfile){
 //selectively copy classes which are inlined from the inline module <-
     File("src.generated${pathSeparator}commonMain${pathSeparator}kotlin${pathSeparator}lupos${pathSeparator}s00misc${pathSeparator}Config-${moduleName}.kt").printWriter().use { out ->
         out.println("package lupos.s00misc")
@@ -428,6 +456,7 @@ fun createBuildFileForModule(args: Array<String>) {
     } else {
         applySuspendDisable()
     }
+}
     if (!dryMode) {
         if (onWindows) {
             var path = System.getProperty("user.dir")
@@ -470,11 +499,13 @@ fun createBuildFileForModule(args: Array<String>) {
             e.printStackTrace()
         }
     }
+if(!ideaBuildfile){
     try {
         Files.move(Paths.get("src.generated"), Paths.get("build-cache${pathSeparator}src-${shortFolder}"))
     } catch (e: Throwable) {
         e.printStackTrace()
     }
+}
     try {
         val localMavenRepositoryRoot = System.getProperty("user.home") + "${pathSeparator}.m2${pathSeparator}repository${pathSeparator}luposdate3000${pathSeparator}"
     } catch (e: Throwable) {

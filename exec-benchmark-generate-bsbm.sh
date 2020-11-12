@@ -6,18 +6,18 @@ do
 	productsfolder=/mnt/luposdate-testdata/bsbm/${products}
 	rm -rf $productsfolder
 	mkdir -p $productsfolder
-	triplesfile=${productsfolder}/complete.n3
+	productsfile=${productsfolder}/complete.n3
 	(
 		cd /opt/bsbmtools-0.2
 		./generate -s ttl -pc $products > /dev/null 2>&1
-		mv /opt/bsbmtools-0.2/dataset.ttl $triplesfile
+		mv /opt/bsbmtools-0.2/dataset.ttl $productsfile
 	)
-	size=$(du -sb ${triplesfile} | sed -E "s/([0-9]+).*/\1/g")
-	./exec-import.sh ${triplesfile}
-	countBytes=$(du -sb ${triplesfile}.triples | cut -f1)
+	size=$(du -sb ${productsfile} | sed -E "s/([0-9]+).*/\1/g")
+	./exec-import.sh ${productsfile}
+	countBytes=$(du -sb ${productsfile}.triples | cut -f1)
 	count=$((countBytes/12))
-	sizeIntermediate=$(du -sbc ${triplesfile}.* | grep total | cut -f1)
-	echo "$triples,$count,$size,$sizeIntermediate">>/mnt/luposdate-testdata/bsbm/stat.csv
+	sizeIntermediate=$(du -sbc ${productsfile}.* | grep total | cut -f1)
+	echo "$products,$count,$size,$sizeIntermediate">>/mnt/luposdate-testdata/bsbm/stat.csv
         products=$(($products * 2))
 	if [[ $products -le 0 ]]
 	then
