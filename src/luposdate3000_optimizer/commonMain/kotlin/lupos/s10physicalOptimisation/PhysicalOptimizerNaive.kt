@@ -64,7 +64,7 @@ class PhysicalOptimizerNaive(query: Query) : OptimizerBase(query, EOptimizerID.P
                     res = if (flag) {
                         child
                     } else {
-                        POPSort(query, projectedVariables, arrayOf<AOPVariable>(), true, child)
+                        POPSort(query, projectedVariables, arrayOf(), true, child)
                     }
                 }
                 is LOPGraphOperation -> {

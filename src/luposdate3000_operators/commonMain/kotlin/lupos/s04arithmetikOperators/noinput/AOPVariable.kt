@@ -21,7 +21,7 @@ class AOPVariable(query: IQuery, @JvmField var name: String) : AOPBase(query, EO
     override fun equals(other: Any?): Boolean = other is AOPVariable && name == other.name
     override fun evaluate(row: IteratorBundle): () -> ValueDefinition {
         val tmp = row.columns[name]
-        val res: () -> ValueDefinition = if (tmp == null) {
+        return if (tmp == null) {
             {
                 /*return*/ ResultSetDictionaryExt.undefValue2
             }
@@ -32,7 +32,6 @@ class AOPVariable(query: IQuery, @JvmField var name: String) : AOPBase(query, EO
                 /*return*/query.getDictionary().getValue(column.tmp)
             }
         }
-        return res
     }
 
     override fun evaluateID(row: IteratorBundle): () -> Int {

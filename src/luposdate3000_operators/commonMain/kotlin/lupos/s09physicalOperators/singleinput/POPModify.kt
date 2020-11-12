@@ -122,7 +122,7 @@ class POPModify(query: IQuery, projectedVariables: List<String>, insert: List<LO
                         graphVarIdx++
                     }
                 }
-                var graphName: String = if (action.first.graphVar) {
+                val graphName: String = if (action.first.graphVar) {
                     query.getDictionary().getValue(row[graphVarIdx]).valueToString()!!
                 } else {
                     action.first.graph

@@ -15,8 +15,6 @@ object LogicalOptimizerJoinOrderCostBasedOnHistogram {
             val nodes = mutableListOf<IOPBase>()
             nodes.addAll(allChilds)
             loop2@ while (nodes.size > 1) {
-                for ((x, c) in nodes.withIndex()) {
-                }
                 var bestA_1 = 0
                 var bestB_1 = 1
                 var h_1: HistogramResult? = null

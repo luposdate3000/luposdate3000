@@ -13,7 +13,6 @@ import lupos.s04logicalOperators.singleinput.LOPProjection
 class LogicalOptimizerBindToFilter(query: Query) : OptimizerBase(query, EOptimizerID.LogicalOptimizerBindToFilterID) {
     override val classname = "LogicalOptimizerBindToFilter"
     override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
-        val res = node
         if (node is LOPBind) {
             val v = node.getChildren()[0].getProvidedVariableNames()
             if (v.contains(node.name.name)) {
@@ -24,6 +23,6 @@ class LogicalOptimizerBindToFilter(query: Query) : OptimizerBase(query, EOptimiz
                 onChange()
             }
         }
-        return res
+        return node
     }
 }

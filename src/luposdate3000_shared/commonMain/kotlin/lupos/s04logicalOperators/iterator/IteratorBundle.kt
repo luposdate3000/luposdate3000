@@ -40,7 +40,7 @@ open class IteratorBundle {
         mode = IteratorBundleMode.ROW
     }
 
-    var columns: Map<String, ColumnIterator> = mapOf()
+    val columns: Map<String, ColumnIterator>
         get() {
             return if (mode == IteratorBundleMode.COLUMN) {
                 SanityCheck.check { _columns!!.isNotEmpty() }
@@ -54,7 +54,7 @@ open class IteratorBundle {
                 throw IteratorBundleColumnModeNotImplementedException()
             }
         }
-    var rows: RowIterator = RowIterator()
+    val rows: RowIterator
         get() {
             return if (mode == IteratorBundleMode.ROW) {
                 _rows!!

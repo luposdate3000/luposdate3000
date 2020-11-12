@@ -102,11 +102,6 @@ object QueryResultToEmptyWithDictionaryStream {
             val node = nodes[i]
             if (node is OPNothing) {
                 val variables = node.getProvidedVariableNames()
-                if (variables.isEmpty()) {
-                } else {
-                    for (variable in variables) {
-                    }
-                }
             } else {
                 val columnNames: List<String>
                 if (columnProjectionOrder[i].isNotEmpty()) {
@@ -123,11 +118,8 @@ object QueryResultToEmptyWithDictionaryStream {
                 } else {
                     if (variables.isEmpty()) {
                         val child = node.evaluate(Partition())
-                        for (j in 0 until child.count()) {
-                        }
+                       child.count()
                     } else {
-                        for (variable in variables) {
-                        }
                         writeNodeResult(variables, node, output)
                     }
                 }

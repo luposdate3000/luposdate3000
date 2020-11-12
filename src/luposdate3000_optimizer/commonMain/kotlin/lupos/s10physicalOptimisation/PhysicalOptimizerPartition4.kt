@@ -29,7 +29,6 @@ class PhysicalOptimizerPartition4(query: Query) : OptimizerBase(query, EOptimize
     }
 
     override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
-        val res = node
         if (USE_PARTITIONS && Partition.default_k > 1) {
             when (node) {
                 is POPSplitPartitionFromStore -> {
@@ -129,6 +128,6 @@ class PhysicalOptimizerPartition4(query: Query) : OptimizerBase(query, EOptimize
                 }
             }
         }
-        return res
+        return node
     }
 }

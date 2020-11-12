@@ -285,7 +285,7 @@ class OperatorGraphVisitor(@JvmField val query: Query) : Visitor<IOPBase> {
     }
 
     override fun visit(node: ASTAskQuery, childrenValues: List<IOPBase>): IOPBase {
-        return LOPMakeBooleanResult(query, visitSelectBase(node, arrayOf(), false, false))
+        return LOPMakeBooleanResult(query, visitSelectBase(node, arrayOf(), distinct = false, false))
     }
 
     override fun visit(node: ASTSubSelectQuery, childrenValues: List<IOPBase>): IOPBase {
@@ -574,10 +574,10 @@ class OperatorGraphVisitor(@JvmField val query: Query) : Visitor<IOPBase> {
                 var tmp: IOPBase? = null
                 for ((k, v) in datasets) {
                     val t = LOPBind(node.query, AOPVariable(query, node.graph), AOPConstant(query, ValueDefinition(k)), v)
-                    if (tmp == null) {
-                        tmp = t
+                    tmp = if (tmp == null) {
+                        t
                     } else {
-                        tmp = createUnion(tmp, t)
+                        createUnion(tmp, t)
                     }
                 }
                 tmp!!
@@ -1075,17 +1075,17 @@ return tmp
     }
 
     override fun visit(node: ASTBase, childrenValues: List<IOPBase>): IOPBase {
-        SanityCheck.check { childrenValues.size == 0 }
+        SanityCheck.check { childrenValues.isEmpty() }
         return LOPPrefix(query, "", node.iri)
     }
 
     override fun visit(node: ASTPrefix, childrenValues: List<IOPBase>): IOPBase {
-        SanityCheck.check { childrenValues.size == 0 }
+        SanityCheck.check { childrenValues.isEmpty() }
         return LOPPrefix(query, node.name, node.iri)
     }
 
     override fun visit(node: ASTAs, childrenValues: List<IOPBase>): IOPBase {
-        SanityCheck.check { childrenValues.size == 0 }
+        SanityCheck.check { childrenValues.isEmpty() }
         val a = node.variable.visit(this) as AOPVariable
         val b = node.expression.visit(this) as AOPBase
         if (b.getRequiredVariableNamesRecoursive().contains(a.name)) {
@@ -1095,7 +1095,7 @@ return tmp
     }
 
     override fun visit(node: ASTBlankNode, childrenValues: List<IOPBase>): IOPBase {
-        SanityCheck.check { childrenValues.size == 0 }
+        SanityCheck.check { childrenValues.isEmpty() }
         return AOPVariable(query, query.getUniqueVariableName(node.name))
 //blank nodes are used for dont care within the queries. the only place, where the bnode is required as a value is within the insert/delete-clauses. there it needs to be replaced
     }
@@ -1153,7 +1153,7 @@ return tmp
                 return AOPBuildInCallROUND(query, childrenValues[0] as AOPBase)
             }
             BuiltInFunctions.CONCAT -> {
-                SanityCheck.check { childrenValues.size > 0 }
+                SanityCheck.check { childrenValues.isNotEmpty() }
                 var res = childrenValues[0] as AOPBase
                 for (i in 1 until childrenValues.size) {
                     res = AOPBuildInCallCONCAT(query, res, childrenValues[i] as AOPBase)
@@ -1220,15 +1220,15 @@ return tmp
                 return AOPBuildInCallTZ(query, childrenValues[0] as AOPBase)
             }
             BuiltInFunctions.NOW -> {
-                SanityCheck.check { childrenValues.size == 0 }
+                SanityCheck.check { childrenValues.isEmpty() }
                 return AOPConstant(query, queryExecutionStartTime)
             }
             BuiltInFunctions.UUID -> {
-                SanityCheck.check { childrenValues.size == 0 }
+                SanityCheck.check { childrenValues.isEmpty() }
                 return AOPBuildInCallUUID(query)
             }
             BuiltInFunctions.STRUUID -> {
-                SanityCheck.check { childrenValues.size == 0 }
+                SanityCheck.check { childrenValues.isEmpty() }
                 return AOPBuildInCallSTRUUID(query)
             }
             BuiltInFunctions.MD5 -> {
@@ -1352,12 +1352,12 @@ return tmp
     }
 
     override fun visit(node: ASTVar, childrenValues: List<IOPBase>): IOPBase {
-        SanityCheck.check { childrenValues.size == 0 }
+        SanityCheck.check { childrenValues.isEmpty() }
         return AOPVariable(query, node.name)
     }
 
     override fun visit(node: ASTIri, childrenValues: List<IOPBase>): IOPBase {
-        SanityCheck.check { childrenValues.size == 0 }
+        SanityCheck.check { childrenValues.isEmpty() }
         return AOPConstant(query, ValueIri(node.iri))
     }
 
@@ -1414,7 +1414,7 @@ return tmp
 /*return*/name.name
             }
             else -> {
-                SanityCheck.println { name.toString() + " --- " + name }
+                SanityCheck.println { "$name --- $name" }
                 SanityCheck.checkUnreachable()
             }
         }
@@ -1423,13 +1423,11 @@ return tmp
                 return node
             }
             is LOPTriple -> {
-                val res: IOPBase
-                res = if (!optional || node.graph == PersistentStoreLocalExt.defaultGraphName) {
+                return if (!optional || node.graph == PersistentStoreLocalExt.defaultGraphName) {
                     LOPTriple(query, node.getChildren()[0] as AOPBase, node.getChildren()[1] as AOPBase, node.getChildren()[2] as AOPBase, iri, iriIsVariable)
                 } else {
                     node
                 }
-                return res
             }
             is LOPFilter -> {
                 node.getChildren()[0] = setGraphNameForAllTriples(node.getChildren()[0], name, optional)
@@ -1485,40 +1483,40 @@ return tmp
     }
 
     override fun visit(node: ASTAdd, childrenValues: List<IOPBase>): IOPBase {
-        SanityCheck.check { childrenValues.size == 0 }
+        SanityCheck.check { childrenValues.isEmpty() }
         val g1 = graphRefToEnum(node.fromGraph)
         val g2 = graphRefToEnum(node.toGraph)
         return LOPGraphOperation(query, EGraphOperationType.ADD, node.silent, g1.first, g1.second, g2.first, g2.second)
     }
 
     override fun visit(node: ASTMove, childrenValues: List<IOPBase>): IOPBase {
-        SanityCheck.check { childrenValues.size == 0 }
+        SanityCheck.check { childrenValues.isEmpty() }
         val g1 = graphRefToEnum(node.fromGraph)
         val g2 = graphRefToEnum(node.toGraph)
         return LOPGraphOperation(query, EGraphOperationType.MOVE, node.silent, g1.first, g1.second, g2.first, g2.second)
     }
 
     override fun visit(node: ASTCopy, childrenValues: List<IOPBase>): IOPBase {
-        SanityCheck.check { childrenValues.size == 0 }
+        SanityCheck.check { childrenValues.isEmpty() }
         val g1 = graphRefToEnum(node.fromGraph)
         val g2 = graphRefToEnum(node.toGraph)
         return LOPGraphOperation(query, EGraphOperationType.COPY, node.silent, g1.first, g1.second, g2.first, g2.second)
     }
 
     override fun visit(node: ASTClear, childrenValues: List<IOPBase>): IOPBase {
-        SanityCheck.check { childrenValues.size == 0 }
+        SanityCheck.check { childrenValues.isEmpty() }
         val g1 = graphRefToEnum(node.graphref)
         return LOPGraphOperation(query, EGraphOperationType.CLEAR, node.silent, g1.first, g1.second)
     }
 
     override fun visit(node: ASTDrop, childrenValues: List<IOPBase>): IOPBase {
-        SanityCheck.check { childrenValues.size == 0 }
+        SanityCheck.check { childrenValues.isEmpty() }
         val g1 = graphRefToEnum(node.graphref)
         return LOPGraphOperation(query, EGraphOperationType.DROP, node.silent, g1.first, g1.second)
     }
 
     override fun visit(node: ASTCreate, childrenValues: List<IOPBase>): IOPBase {
-        SanityCheck.check { childrenValues.size == 0 }
+        SanityCheck.check { childrenValues.isEmpty() }
         val g1 = graphRefToEnum(node.graphref)
         return LOPGraphOperation(query, EGraphOperationType.CREATE, node.silent, g1.first, g1.second)
     }

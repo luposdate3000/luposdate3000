@@ -525,8 +525,7 @@ if (tmpTable != null) {
                         input_counter++
                         val row = IntArray(3) { -1 }
                         for (v in node.childs) {
-                            val name = v.attributes["name"]
-                            val idx: Int = when (name) {
+                            val idx: Int = when (val name = v.attributes["name"]) {
                                 "s" -> 0
                                 "p" -> 1
                                 "o" -> 2

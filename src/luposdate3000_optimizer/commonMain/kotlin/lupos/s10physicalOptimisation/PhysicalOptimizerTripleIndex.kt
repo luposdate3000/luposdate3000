@@ -21,8 +21,7 @@ class PhysicalOptimizerTripleIndex(query: Query) : OptimizerBase(query, EOptimiz
     override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
         var res = node
         if (node is LOPTriple) {
-            val projectedVariables: List<String>
-            projectedVariables = if (parent is LOPProjection) {
+            val projectedVariables: List<String> = if (parent is LOPProjection) {
                 parent.getProvidedVariableNames()
             } else if (parent is POPProjection) {
                 parent.getProvidedVariableNamesInternal()

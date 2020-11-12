@@ -78,12 +78,12 @@ class POPMergePartitionCount(query: IQuery, projectedVariables: List<String>, va
                 override /*suspend*/ fun hasNext2(): Boolean {
                     var res = false
                     loop@ while (true) {
-                        SanityCheck.println { "merge ${uuid} reader loop start" }
+                        SanityCheck.println { "merge $uuid reader loop start" }
                         var finishedWriters = 0
                         for (p in 0 until partitionCount) {
                             if (ringbufferReadHead[p] != ringbufferWriteHead[p]) {
                                 //non empty queue -> read one row
-                                SanityCheck.println { "merge ${uuid} $p reader consumed data" }
+                                SanityCheck.println { "merge $uuid $p reader consumed data" }
                                 res = true
                                 ringbufferReadHead[p]++
                                 break@loop
@@ -95,14 +95,14 @@ class POPMergePartitionCount(query: IQuery, projectedVariables: List<String>, va
                             //done
                             break@loop
                         }
-                        SanityCheck.println { "merge ${uuid} reader wait for writer" }
+                        SanityCheck.println { "merge $uuid reader wait for writer" }
                         Parallel.delay(1)
                     }
                     return res
                 }
 
                 override /*suspend*/ fun hasNext2Close() {
-                    SanityCheck.println { "merge ${uuid} reader closed" }
+                    SanityCheck.println { "merge $uuid reader closed" }
                     readerFinished = 1
                 }
             }

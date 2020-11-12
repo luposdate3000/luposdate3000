@@ -18,7 +18,7 @@ class POPSort(query: IQuery, projectedVariables: List<String>, @JvmField val sor
         return 1
     }
 
-    override fun equals(other: Any?): Boolean = other is POPSort && sortBy == other.sortBy && sortOrder == other.sortOrder && children[0] == other.children[0]
+    override fun equals(other: Any?): Boolean = other is POPSort && sortBy.contentEquals(other.sortBy) && sortOrder == other.sortOrder && children[0] == other.children[0]
     override fun cloneOP(): IOPBase = POPSort(query, projectedVariables, sortBy, sortOrder, children[0].cloneOP())
     override fun getRequiredVariableNames(): List<String> = sortBy.map { it.name }
     override fun toSparql(): String {

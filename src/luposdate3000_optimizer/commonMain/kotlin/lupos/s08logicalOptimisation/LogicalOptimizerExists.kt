@@ -29,7 +29,6 @@ class LogicalOptimizerExists(query: Query) : OptimizerBase(query, EOptimizerID.L
     }
 
     override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
-        val res = node
         if (node is LOPMakeBooleanResult) {
             if (!node.partOfAskQuery) {
                 applyRecoursive(node, true)
@@ -41,6 +40,6 @@ class LogicalOptimizerExists(query: Query) : OptimizerBase(query, EOptimizerID.L
                 onChange()
             }
         }
-        return res
+        return node
     }
 }
