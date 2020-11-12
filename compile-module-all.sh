@@ -20,7 +20,9 @@ ret=$? ; if [ $ret -ne 0 ] ; then exit $ret ; fi
 ret=$? ; if [ $ret -ne 0 ] ; then exit $ret ; fi
 ./generate-buildfile-module.kts --module="Luposdate3000_Triple_Store_All" --inline --nosuspend --release --fast --dry
 ret=$? ; if [ $ret -ne 0 ] ; then exit $ret ; fi
-./generate-buildfile-module.kts --module="Luposdate3000_Optimizer_WithPartitions" --src="src/luposdate3000_optimizer" --prefix="Luposdate3000_Optimizer" --inline --nosuspend --release --fast --dry --USE_PARTITIONS=true
+
+#this is the only exception, where there is no postfix for the module-variant. This should make it easier for the idea-integration, but it breaks the similarity to other exchangeable modules
+./generate-buildfile-module.kts --module="Luposdate3000_Optimizer" --src="src/luposdate3000_optimizer" --prefix="Luposdate3000_Optimizer" --inline --nosuspend --release --fast --dry --USE_PARTITIONS=true
 ret=$? ; if [ $ret -ne 0 ] ; then exit $ret ; fi
 ./generate-buildfile-module.kts --module="Luposdate3000_Optimizer_NoPartitions" --src="src/luposdate3000_optimizer" --prefix="Luposdate3000_Optimizer" --inline --nosuspend --release --fast --dry --USE_PARTITIONS=false
 ret=$? ; if [ $ret -ne 0 ] ; then exit $ret ; fi

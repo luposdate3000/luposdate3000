@@ -16,7 +16,7 @@ ln -s "$(pwd)/build-cache/bin/Luposdate3000_Test-jvm.jar" "$(pwd)/build-cache/bi
 ln -s "$(pwd)/build-cache/bin/Luposdate3000_Triple_Store_All-jvm.jar" "$(pwd)/build-cache/bin-effective/Luposdate3000_Triple_Store_All-jvm.jar"
 ln -s "$(pwd)/build-cache/bin/Luposdate3000_Triple_Store_Id_Triple-jvm.jar" "$(pwd)/build-cache/bin-effective/Luposdate3000_Triple_Store_Id_Triple-jvm.jar"
 
-ln -s "$(pwd)/build-cache/bin/Luposdate3000_Optimizer_WithPartitions-jvm.jar" "$(pwd)/build-cache/bin-effective/Luposdate3000_Optimizer-jvm.jar"
+ln -s "$(pwd)/build-cache/bin/Luposdate3000_Optimizer-jvm.jar" "$(pwd)/build-cache/bin-effective/Luposdate3000_Optimizer-jvm.jar"
 ln -s "$(pwd)/build-cache/bin/Luposdate3000_Endpoint_None-jvm.jar" "$(pwd)/build-cache/bin-effective/Luposdate3000_Endpoint_impl-jvm.jar"
 ln -s "$(pwd)/build-cache/bin/Luposdate3000_Jena_Wrapper_Off-jvm.jar" "$(pwd)/build-cache/bin-effective/Luposdate3000_Jena_Wrapper_impl-jvm.jar"
 ln -s "$(pwd)/build-cache/bin/Luposdate3000_Launch_Binary_Test_Suite-jvm.jar" "$(pwd)/build-cache/bin-effective/Luposdate3000_Launch_impl.jar"
