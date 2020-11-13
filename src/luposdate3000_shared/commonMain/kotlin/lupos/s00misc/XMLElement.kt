@@ -7,7 +7,7 @@ class XMLElement(tag: String) {
     // https://regex101.com
     companion object {
         @JvmField
-        val parseFromAnyRegistered = mutableMapOf<String, XMLElementParser>()
+        val parseFromAnyRegistered: MutableMap<String, XMLElementParser> = mutableMapOf<String, XMLElementParser>()
         fun parseBindingFromString(nodeResult: XMLElement, value: String?, name: String) {
             val nodeBinding = XMLElement("binding").addAttribute("name", name)
             if (value != null && value != "") {
@@ -52,13 +52,13 @@ class XMLElement(tag: String) {
     }
 
     @JvmField
-    val attributes = mutableMapOf<String, String>()
+    val attributes: MutableMap<String, String> = mutableMapOf<String, String>()
 
     @JvmField
     var content: String = ""
 
     @JvmField
-    val childs = mutableListOf<XMLElement>()
+    val childs: MutableList<XMLElement> = mutableListOf<XMLElement>()
 
     @JvmField
     val tag: String
@@ -76,7 +76,7 @@ class XMLElement(tag: String) {
         return null
     }
 
-    override fun equals(other: Any?) = other is XMLElement && myEqualsUnclean(other, true, true, true)
+    override fun equals(other: Any?): Boolean = other is XMLElement && myEqualsUnclean(other, true, true, true)
     fun myEquals(other: XMLElement?): Boolean {
         if (other == null) {
             return false
@@ -92,7 +92,7 @@ class XMLElement(tag: String) {
         if (c1 != c2) {
             return false
         }
-        if (childs.count() != other.childs.count()) {
+        if (childs.size != other.childs.size) {
             return false
         }
         if (attributes != other.attributes) {
@@ -119,15 +119,15 @@ class XMLElement(tag: String) {
         }
 // avoid bugs in JENA -->>
         if (tag == "results") {
-            if (childs.count() == 0 && other.childs.count() == 1 && other.childs[0].childs.count() == 0 && other.childs[0].tag == "result") {
+            if (childs.size == 0 && other.childs.size == 1 && other.childs[0].childs.size == 0 && other.childs[0].tag == "result") {
                 childs.add(XMLElement("result"))
             }
-            if (childs.count() == 1 && other.childs.count() == 0 && childs[0].childs.count() == 0 && childs[0].tag == "result") {
+            if (childs.size == 1 && other.childs.size == 0 && childs[0].childs.size == 0 && childs[0].tag == "result") {
                 other.childs.add(XMLElement("result"))
             }
         }
 //<<-- avoid bugs in JENA
-        if (childs.count() != other.childs.count()) {
+        if (childs.size != other.childs.size) {
             return false
         }
         if (tag != "sparql") {
@@ -204,19 +204,23 @@ class XMLElement(tag: String) {
                         val w = otherMap[k]
                         if (w != null) {
                             change = true
-                            if (w.size == v.size) {
-                                myMap.remove(k)
-                                otherMap.remove(k)
-                            } else if (w.size < v.size) {
-                                for (i in 0 until w.size) {
-                                    v.removeAt(0)
+                            when {
+                                w.size == v.size -> {
+                                    myMap.remove(k)
+                                    otherMap.remove(k)
                                 }
-                                otherMap.remove(k)
-                            } else if (v.size < w.size) {
-                                for (i in 0 until v.size) {
-                                    w.removeAt(0)
+                                w.size < v.size -> {
+                                    for (i in 0 until w.size) {
+                                        v.removeAt(0)
+                                    }
+                                    otherMap.remove(k)
                                 }
-                                myMap.remove(k)
+                                v.size < w.size -> {
+                                    for (i in 0 until v.size) {
+                                        w.removeAt(0)
+                                    }
+                                    myMap.remove(k)
+                                }
                             }
                             break
                         }
@@ -353,7 +357,7 @@ class XMLElement(tag: String) {
         return res
     }
 
-    fun toPrettyString() = toPrettyString("").toString()
+    fun toPrettyString(): String = toPrettyString("").toString()
     override fun hashCode(): Int {
         var result = attributes.hashCode()
         result = 31 * result + content.hashCode()

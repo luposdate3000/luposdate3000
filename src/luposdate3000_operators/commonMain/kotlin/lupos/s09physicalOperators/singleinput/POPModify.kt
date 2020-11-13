@@ -22,7 +22,7 @@ class POPModify(query: IQuery, projectedVariables: List<String>, insert: List<LO
     }
 
     @JvmField
-    val modify = Array(insert.size + delete.size) {
+    val modify: Array<Pair<LOPTriple, EModifyType>> = Array(insert.size + delete.size) {
         if (it < insert.size) {
             Pair(insert[it], EModifyType.INSERT)
         } else {
@@ -30,16 +30,16 @@ class POPModify(query: IQuery, projectedVariables: List<String>, insert: List<LO
         }
     }
 
-    override fun equals(other: Any?) = other is POPModify && modify.contentEquals(other.modify) && children[0] == other.children[0]
+    override fun equals(other: Any?): Boolean = other is POPModify && modify.contentEquals(other.modify) && children[0] == other.children[0]
     override fun toSparql(): String {
         val res = StringBuilder()
         val insertions = StringBuilder()
         val deletions = StringBuilder()
-        for (m in modify) {
-            if (m.second == EModifyType.INSERT) {
-                insertions.append(m.first.toSparql() + ".")
+        for ((first, second) in modify) {
+            if (second == EModifyType.INSERT) {
+                insertions.append(first.toSparql() + ".")
             } else {
-                deletions.append(m.first.toSparql() + ".")
+                deletions.append(first.toSparql() + ".")
             }
         }
         val istring = insertions.toString()
@@ -60,17 +60,17 @@ class POPModify(query: IQuery, projectedVariables: List<String>, insert: List<LO
         return res.toString()
     }
 
-    override fun toSparqlQuery() = toSparql()
-    override fun getProvidedVariableNames() = listOf("?success")
-    override fun getProvidedVariableNamesInternal() = children[0].getProvidedVariableNames()
+    override fun toSparqlQuery(): String = toSparql()
+    override fun getProvidedVariableNames(): List<String> = listOf("?success")
+    override fun getProvidedVariableNamesInternal(): List<String> = children[0].getProvidedVariableNames()
     override fun getRequiredVariableNames(): List<String> {
         val res = mutableListOf<String>()
-        for (action in modify) {
-            if (action.first.graphVar) {
-                res.add(action.first.graph)
+        for ((first) in modify) {
+            if (first.graphVar) {
+                res.add(first.graph)
             }
             for (i in 0 until 3) {
-                val tmp = action.first.children[i]
+                val tmp = first.children[i]
                 if (tmp is AOPVariable) {
                     res.add(tmp.name)
                 }
@@ -82,11 +82,11 @@ class POPModify(query: IQuery, projectedVariables: List<String>, insert: List<LO
     override fun cloneOP(): POPModify {
         val insert = mutableListOf<LOPTriple>()
         val delete = mutableListOf<LOPTriple>()
-        for (action in modify) {
-            if (action.second == EModifyType.INSERT) {
-                insert.add(action.first)
+        for ((first, second) in modify) {
+            if (second == EModifyType.INSERT) {
+                insert.add(first)
             } else {
-                delete.add(action.first)
+                delete.add(first)
             }
         }
         return POPModify(query, projectedVariables, insert, delete, children[0].cloneOP())
@@ -114,25 +114,25 @@ class POPModify(query: IQuery, projectedVariables: List<String>, insert: List<LO
                     break@loop
                 }
             }
-            for (action in modify) {
+            for ((first, second) in modify) {
                 var graphVarIdx = 0
-                if (action.first.graphVar) {
-                    SanityCheck.check { variables.contains(action.first.graph) }
-                    while (variables[graphVarIdx] != action.first.graph) {
+                if (first.graphVar) {
+                    SanityCheck.check { variables.contains(first.graph) }
+                    while (variables[graphVarIdx] != first.graph) {
                         graphVarIdx++
                     }
                 }
-                val graphName: String = if (action.first.graphVar) {
+                val graphName: String = if (first.graphVar) {
                     query.getDictionary().getValue(row[graphVarIdx]).valueToString()!!
                 } else {
-                    action.first.graph
+                    first.graph
                 }
                 if (data[graphName] == null) {
                     data[graphName] = Array(EModifyType.values().size) { Array(3) { mutableListOf() } }
                 }
-                val target = data[graphName]!![action.second.ordinal]
+                val target = data[graphName]!![second.ordinal]
                 loop2@ for (columnIndex in 0 until 3) {
-                    val tmp = action.first.children[columnIndex]
+                    val tmp = first.children[columnIndex]
                     if (tmp is AOPConstant) {
                         target[columnIndex].add(tmp.value)
                     } else {

@@ -10,7 +10,7 @@ import lupos.s04logicalOperators.singleinput.modifiers.LOPLimit
 import lupos.s04logicalOperators.singleinput.modifiers.LOPOffset
 
 class LogicalOptimizerDistinctUp(query: Query) : OptimizerBase(query, EOptimizerID.LogicalOptimizerDistinctUpID) {
-    override val classname = "LogicalOptimizerDistinctUp"
+    override val classname: String = "LogicalOptimizerDistinctUp"
     override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
         var res: IOPBase = node
         if (node is LOPDistinct) {

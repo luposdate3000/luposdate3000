@@ -8,8 +8,8 @@ import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.IteratorBundle
 
 class AOPBuildInCallSTRENDS(query: IQuery, child: AOPBase, childB: AOPBase) : AOPBase(query, EOperatorID.AOPBuildInCallSTRENDSID, "AOPBuildInCallSTRENDS", arrayOf(child, childB)) {
-    override fun toSparql() = "STRENDS(" + children[0].toSparql() + ", " + children[1].toSparql() + ")"
-    override fun equals(other: Any?) = other is AOPBuildInCallSTRENDS && children[0] == other.children[0] && children[1] == other.children[1]
+    override fun toSparql(): String = "STRENDS(" + children[0].toSparql() + ", " + children[1].toSparql() + ")"
+    override fun equals(other: Any?): Boolean = other is AOPBuildInCallSTRENDS && children[0] == other.children[0] && children[1] == other.children[1]
     override fun evaluate(row: IteratorBundle): () -> ValueDefinition {
         val childA = (children[0] as AOPBase).evaluate(row)
         val childB = (children[1] as AOPBase).evaluate(row)
@@ -24,6 +24,6 @@ class AOPBuildInCallSTRENDS(query: IQuery, child: AOPBase, childB: AOPBase) : AO
         }
     }
 
-    override fun enforcesBooleanOrError() = true
+    override fun enforcesBooleanOrError(): Boolean = true
     override fun cloneOP(): IOPBase = AOPBuildInCallSTRENDS(query, children[0].cloneOP() as AOPBase, children[1].cloneOP() as AOPBase)
 }

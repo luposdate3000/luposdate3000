@@ -22,7 +22,7 @@ class AOPSet(query: IQuery, childs: List<AOPBase>) : AOPBase(query, EOperatorID.
         return res
     }
 
-    override fun equals(other: Any?) = other is AOPSet && children.contentEquals(other.children)
+    override fun equals(other: Any?): Boolean = other is AOPSet && children.contentEquals(other.children)
     override fun evaluate(row: IteratorBundle): () -> ValueDefinition {
         throw SparqlFeatureNotImplementedException("AOPSet")
     }

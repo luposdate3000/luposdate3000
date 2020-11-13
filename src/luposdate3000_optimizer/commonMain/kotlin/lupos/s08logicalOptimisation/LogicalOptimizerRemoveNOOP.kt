@@ -16,7 +16,7 @@ import lupos.s04logicalOperators.singleinput.LOPNOOP
 import lupos.s04logicalOperators.singleinput.LOPSubGroup
 
 class LogicalOptimizerRemoveNOOP(query: Query) : OptimizerBase(query, EOptimizerID.LogicalOptimizerRemoveNOOPID) {
-    override val classname = "LogicalOptimizerRemoveNOOP"
+    override val classname: String = "LogicalOptimizerRemoveNOOP"
     override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
         var res = node
         if (node is LOPNOOP || node is LOPSubGroup) {
@@ -60,18 +60,23 @@ class LogicalOptimizerRemoveNOOP(query: Query) : OptimizerBase(query, EOptimizer
             res = OPNothing(query, node.getProvidedVariableNames())
             onChange()
         } else if (node is LOPMinus) {
-            if (node.getChildren()[0] is OPNothing) {
-                res = OPNothing(query, node.getProvidedVariableNames())
-                onChange()
-            } else if (node.getChildren()[0] is OPEmptyRow) {
-                res = node.getChildren()[0]
-                onChange()
-            } else if (node.getChildren()[1] is OPNothing) {
-                res = node.getChildren()[0]
-                onChange()
-            } else if (node.getChildren()[1] is OPEmptyRow) {
-                res = OPNothing(query, node.getProvidedVariableNames())
-                onChange()
+            when {
+                node.getChildren()[0] is OPNothing -> {
+                    res = OPNothing(query, node.getProvidedVariableNames())
+                    onChange()
+                }
+                node.getChildren()[0] is OPEmptyRow -> {
+                    res = node.getChildren()[0]
+                    onChange()
+                }
+                node.getChildren()[1] is OPNothing -> {
+                    res = node.getChildren()[0]
+                    onChange()
+                }
+                node.getChildren()[1] is OPEmptyRow -> {
+                    res = OPNothing(query, node.getProvidedVariableNames())
+                    onChange()
+                }
             }
         } else if (node.getChildren().isNotEmpty() && node !is LOPMakeBooleanResult) {
             for (c in node.getChildren()) {

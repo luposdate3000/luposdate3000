@@ -13,10 +13,10 @@ import lupos.s04logicalOperators.iterator.IteratorBundle
 
 abstract class TripleStoreLocalBase(@JvmField val name: String) : ITripleStoreLocalBase {
     @JvmField //override this during initialisation
-    var dataDistinct = arrayOf<TripleStoreDistinctContainer>()
+    var dataDistinct: Array<TripleStoreDistinctContainer> = arrayOf<TripleStoreDistinctContainer>()
 
     @JvmField //override this during initialisation
-    var enabledPartitions = arrayOf(//
+    var enabledPartitions: Array<EnabledPartitionContainer> = arrayOf(//
             EnabledPartitionContainer(mutableSetOf(EIndexPattern.SPO, EIndexPattern.S_PO, EIndexPattern.SP_O), -1, 1),//
             EnabledPartitionContainer(mutableSetOf(EIndexPattern.SOP, EIndexPattern.S_OP, EIndexPattern.SO_P), -1, 1),//
             EnabledPartitionContainer(mutableSetOf(EIndexPattern.POS, EIndexPattern.P_OS, EIndexPattern.PO_S), -1, 1),//
@@ -26,11 +26,11 @@ abstract class TripleStoreLocalBase(@JvmField val name: String) : ITripleStoreLo
     )
 
     @JvmField //override this during initialisation
-    var pendingModificationsInsert = Array(0) { mutableMapOf<Long, MutableList<Int>>() }
+    var pendingModificationsInsert: Array<MutableMap<Long, MutableList<Int>>> = Array(0) { mutableMapOf<Long, MutableList<Int>>() }
 
     @JvmField //override this during initialisation
-    var pendingModificationsRemove = Array(0) { mutableMapOf<Long, MutableList<Int>>() }
-    override fun getEnabledPartitions() = enabledPartitions
+    var pendingModificationsRemove: Array<MutableMap<Long, MutableList<Int>>> = Array(0) { mutableMapOf<Long, MutableList<Int>>() }
+    override fun getEnabledPartitions(): Array<EnabledPartitionContainer> = enabledPartitions
     /*suspend*/ fun safeToFolder(foldername: String) {
         File(foldername).mkdirs()
         dataDistinct.forEach {

@@ -38,7 +38,7 @@ class POPMergePartitionOrderedByIntId(query: IQuery, projectedVariables: List<St
     }
 
     override fun cloneOP(): IOPBase = POPMergePartitionOrderedByIntId(query, projectedVariables, partitionVariable, partitionCount, partitionID, children[0].cloneOP())
-    override fun toSparql() = children[0].toSparql()
+    override fun toSparql(): String = children[0].toSparql()
     override fun equals(other: Any?): Boolean = other is POPMergePartitionOrderedByIntId && children[0] == other.children[0] && partitionVariable == other.partitionVariable
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
         if (partitionCount == 1) {

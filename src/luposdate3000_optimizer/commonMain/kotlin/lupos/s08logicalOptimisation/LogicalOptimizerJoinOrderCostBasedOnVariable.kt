@@ -64,12 +64,16 @@ object LogicalOptimizerJoinOrderCostBasedOnVariable {
                 }
             }
             columns = c
-            cost = if (depthA == depthB) {
-                sqr(plans[childA]!!.columns + plans[childB]!!.columns)
-            } else if (depthA < depthB) {
-                sqr(plans[childA]!!.columns + plans[childB]!!.columns + plans[childB]!!.columns)
-            } else {
-                sqr(plans[childA]!!.columns + plans[childA]!!.columns + plans[childB]!!.columns)
+            cost = when {
+                depthA == depthB -> {
+                    sqr(plans[childA]!!.columns + plans[childB]!!.columns)
+                }
+                depthA < depthB -> {
+                    sqr(plans[childA]!!.columns + plans[childB]!!.columns + plans[childB]!!.columns)
+                }
+                else -> {
+                    sqr(plans[childA]!!.columns + plans[childA]!!.columns + plans[childB]!!.columns)
+                }
             }
             //cost calculation ... the least cost for_ deepest partial results
         }

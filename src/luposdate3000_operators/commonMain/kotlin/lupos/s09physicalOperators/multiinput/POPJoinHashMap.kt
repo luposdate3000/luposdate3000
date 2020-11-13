@@ -1,10 +1,8 @@
 package lupos.s09physicalOperators.multiinput
 
-import kotlin.jvm.JvmField
-import lupos.s00misc.EOperatorID
-import lupos.s00misc.ESortPriority
-import lupos.s00misc.Partition
+import lupos.s00misc.*
 import lupos.s00misc.SanityCheck
+import kotlin.jvm.JvmField
 import lupos.s03resultRepresentation.ResultSetDictionaryExt
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
@@ -39,7 +37,7 @@ class POPJoinHashMap(query: IQuery, projectedVariables: List<String>, childA: IO
         return children[0].toSparql() + children[1].toSparql()
     }
 
-    override fun equals(other: Any?) = other is POPJoinHashMap && optional == other.optional && children[0] == other.children[0] && children[1] == other.children[1]
+    override fun equals(other: Any?): Boolean = other is POPJoinHashMap && optional == other.optional && children[0] == other.children[0] && children[1] == other.children[1]
     internal class MapKey(@JvmField val data: IntArray) {
         override fun hashCode(): Int {
             var res = 0
@@ -181,7 +179,7 @@ class POPJoinHashMap(query: IQuery, projectedVariables: List<String>, childA: IO
         }
 //--- iterate first child
 //--- calculate next "cartesian product"
-        for (iteratorConfig in outIterators) {
+        for ((first, second) in outIterators) {
             val iterator = object : ColumnIteratorChildIterator() {
                 @JvmField
                 val outIteratorsAllocated0 = outIteratorsAllocated
@@ -310,17 +308,17 @@ class POPJoinHashMap(query: IQuery, projectedVariables: List<String>, childA: IO
                 }
             }
             outIteratorsAllocated.add(iterator)
-            when (iteratorConfig.second) {
+            when (second) {
                 0 -> {
-                    outMap[iteratorConfig.first] = iterator
+                    outMap[first] = iterator
                     outJ.add(iterator)
                 }
                 1 -> {
-                    outMap[iteratorConfig.first] = iterator
+                    outMap[first] = iterator
                     outO[0].add(iterator)
                 }
                 2 -> {
-                    outMap[iteratorConfig.first] = iterator
+                    outMap[first] = iterator
                     outO[1].add(iterator)
                 }
                 3 -> {
@@ -353,6 +351,6 @@ class POPJoinHashMap(query: IQuery, projectedVariables: List<String>, childA: IO
         return res
     }
 
-    override /*suspend*/ fun toXMLElement() = super.toXMLElement().addAttribute("optional", "" + optional)
+    override /*suspend*/ fun toXMLElement(): XMLElement = super.toXMLElement().addAttribute("optional", "" + optional)
     override fun cloneOP(): IOPBase = POPJoinHashMap(query, projectedVariables, children[0].cloneOP(), children[1].cloneOP(), optional)
 }

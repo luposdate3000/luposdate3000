@@ -15,8 +15,8 @@ abstract class POPBase(query: IQuery,
                        sortPriority: ESortPriority
 ) :
         OPBase(query, operatorID, classname, children, sortPriority), IPOPBase {
-    open fun getProvidedVariableNamesInternal() = super.getProvidedVariableNames()
-    override fun getProvidedVariableNames() = projectedVariables
+    open fun getProvidedVariableNamesInternal(): List<String> = super.getProvidedVariableNames()
+    override fun getProvidedVariableNames(): List<String> = projectedVariables
     override /*suspend*/ fun toXMLElement(): XMLElement {
         val res = super.toXMLElement()
         val projectedXML = XMLElement("projectedVariables")

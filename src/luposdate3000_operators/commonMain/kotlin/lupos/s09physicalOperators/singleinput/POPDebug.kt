@@ -50,111 +50,115 @@ class POPDebug(query: IQuery, projectedVariables: List<String>, child: IOPBase) 
             EPOPDebugMode.DEBUG2 -> {
                 val target = getChildren()[0].getProvidedVariableNames()
                 SanityCheck.println { "POPDebug-child-mode ... $uuid ${getChildren()[0].getUUID()}" }
-                if (child.hasColumnMode()) {
-                    try {
-                        child.columns
-                    } catch (e: Throwable) {
-                        SanityCheck.println { "debugchildclassname2::" + getChildren()[0].getClassname() }
-                        throw e
+                when {
+                    child.hasColumnMode() -> {
+                        try {
+                            child.columns
+                        } catch (e: Throwable) {
+                            SanityCheck.println { "debugchildclassname2::" + getChildren()[0].getClassname() }
+                            throw e
+                        }
+                        val outMap = mutableMapOf<String, ColumnIterator>()
+                        val columnMode = mutableListOf<String>()
+                        for ((k, v) in child.columns) {
+                            columnMode.add(k)
+                            var counter = 0
+                            SanityCheck.println { "$uuid $k opened" }
+                            val iterator = object : ColumnIterator() {
+                                @JvmField
+                                var label = 1
+                                override /*suspend*/ fun next(): Int {
+                                    return if (label != 0) {
+                                        SanityCheck.println { "$uuid $k next call" }
+                                        val res = v.next()
+                                        if (res == ResultSetDictionaryExt.nullValue) {
+                                            SanityCheck.println { "$uuid $k next return closed $counter ${parent.data} ResultSetDictionaryExt.nullValue" }
+                                        } else {
+                                            counter++
+                                            SanityCheck.println { "$uuid $k next return $counter ${parent.data} ${res.toString(16)}" }
+                                        }
+                                        res
+                                    } else {
+                                        ResultSetDictionaryExt.nullValue
+                                    }
+                                }
+
+                                override /*suspend*/ fun nextSIP(minValue: Int, result: IntArray) {
+                                    if (label != 0) {
+                                        SanityCheck.println { "$uuid $k next call minValue SIP" }
+                                        v.nextSIP(minValue, result)
+                                        val res = result[1]
+                                        if (res == ResultSetDictionaryExt.nullValue) {
+                                            SanityCheck.println { "$uuid $k next return closed $counter ${parent.data} ResultSetDictionaryExt.nullValue" }
+                                        } else {
+                                            counter++
+                                            SanityCheck.println { "$uuid $k next return $counter ${parent.data} ${res.toString(16)}" }
+                                        }
+                                    } else {
+                                        result[0] = 0
+                                        result[1] = ResultSetDictionaryExt.nullValue
+                                    }
+                                }
+
+                                override /*suspend*/ fun skipSIP(skipCount: Int): Int {
+                                    return if (label != 0) {
+                                        SanityCheck.println { "$uuid $k next call skip SIP" }
+                                        val res = v.skipSIP(skipCount)
+                                        if (res == ResultSetDictionaryExt.nullValue) {
+                                            SanityCheck.println { "$uuid $k next return closed $counter ${parent.data} ResultSetDictionaryExt.nullValue" }
+                                        } else {
+                                            counter++
+                                            SanityCheck.println { "$uuid $k next return $counter ${parent.data} ${res.toString(16)}" }
+                                        }
+                                        res
+                                    } else {
+                                        ResultSetDictionaryExt.nullValue
+                                    }
+                                }
+
+                                override /*suspend*/ fun close() {
+                                    if (label != 0) {
+                                        label = 0
+                                        SanityCheck.println { "$uuid $k closed $counter ${parent.data}" }
+                                        v.close()
+                                    }
+                                }
+                            }
+                            outMap[k] = iterator
+                        }
+                        SanityCheck.check { columnMode.containsAll(target) }
+                        SanityCheck.check({ target.containsAll(columnMode) }, { "$uuid $target $columnMode" })
+                        return IteratorBundle(outMap)
                     }
-                    val outMap = mutableMapOf<String, ColumnIterator>()
-                    val columnMode = mutableListOf<String>()
-                    for ((k, v) in child.columns) {
-                        columnMode.add(k)
+                    child.hasRowMode() -> {
+                        val rowMode = child.rows.columns.toMutableList()
+                        SanityCheck.check { rowMode.containsAll(target) }
+                        SanityCheck.check { target.containsAll(rowMode) }
+                        val iterator = RowIterator()
                         var counter = 0
-                        SanityCheck.println { "$uuid $k opened" }
-                        val iterator = object : ColumnIterator() {
-                            @JvmField
-                            var label = 1
-                            override /*suspend*/ fun next(): Int {
-                                return if (label != 0) {
-                                    SanityCheck.println { "$uuid $k next call" }
-                                    val res = v.next()
-                                    if (res == ResultSetDictionaryExt.nullValue) {
-                                        SanityCheck.println { "$uuid $k next return closed $counter ${parent.data} ResultSetDictionaryExt.nullValue" }
-                                    } else {
-                                        counter++
-                                        SanityCheck.println { "$uuid $k next return $counter ${parent.data} ${res.toString(16)}" }
-                                    }
-                                    res
-                                } else {
-                                    ResultSetDictionaryExt.nullValue
-                                }
+                        iterator.columns = child.rows.columns
+                        iterator.next = {
+                            SanityCheck.println { "$uuid next call" }
+                            val res = child.rows.next()
+                            iterator.buf = child.rows.buf
+                            if (res < 0) {
+                                SanityCheck.println { "$uuid next return closed $counter ${parent.data} ResultSetDictionaryExt.nullValue" }
+                            } else {
+                                counter++
+                                SanityCheck.println { "$uuid next return $counter ${parent.data} ${iterator.buf.map { it.toString(16) }}" }
                             }
-
-                            override /*suspend*/ fun nextSIP(minValue: Int, result: IntArray) {
-                                if (label != 0) {
-                                    SanityCheck.println { "$uuid $k next call minValue SIP" }
-                                    v.nextSIP(minValue, result)
-                                    val res = result[1]
-                                    if (res == ResultSetDictionaryExt.nullValue) {
-                                        SanityCheck.println { "$uuid $k next return closed $counter ${parent.data} ResultSetDictionaryExt.nullValue" }
-                                    } else {
-                                        counter++
-                                        SanityCheck.println { "$uuid $k next return $counter ${parent.data} ${res.toString(16)}" }
-                                    }
-                                } else {
-                                    result[0] = 0
-                                    result[1] = ResultSetDictionaryExt.nullValue
-                                }
-                            }
-
-                            override /*suspend*/ fun skipSIP(skipCount: Int): Int {
-                                return if (label != 0) {
-                                    SanityCheck.println { "$uuid $k next call skip SIP" }
-                                    val res = v.skipSIP(skipCount)
-                                    if (res == ResultSetDictionaryExt.nullValue) {
-                                        SanityCheck.println { "$uuid $k next return closed $counter ${parent.data} ResultSetDictionaryExt.nullValue" }
-                                    } else {
-                                        counter++
-                                        SanityCheck.println { "$uuid $k next return $counter ${parent.data} ${res.toString(16)}" }
-                                    }
-                                    res
-                                } else {
-                                    ResultSetDictionaryExt.nullValue
-                                }
-                            }
-
-                            override /*suspend*/ fun close() {
-                                if (label != 0) {
-                                    label = 0
-                                    SanityCheck.println { "$uuid $k closed $counter ${parent.data}" }
-                                    v.close()
-                                }
-                            }
+                            res
                         }
-                        outMap[k] = iterator
-                    }
-                    SanityCheck.check { columnMode.containsAll(target) }
-                    SanityCheck.check({ target.containsAll(columnMode) }, { "$uuid $target $columnMode" })
-                    return IteratorBundle(outMap)
-                } else if (child.hasRowMode()) {
-                    val rowMode = child.rows.columns.toMutableList()
-                    SanityCheck.check { rowMode.containsAll(target) }
-                    SanityCheck.check { target.containsAll(rowMode) }
-                    val iterator = RowIterator()
-                    var counter = 0
-                    iterator.columns = child.rows.columns
-                    iterator.next = {
-                        SanityCheck.println { "$uuid next call" }
-                        val res = child.rows.next()
-                        iterator.buf = child.rows.buf
-                        if (res < 0) {
-                            SanityCheck.println { "$uuid next return closed $counter ${parent.data} ResultSetDictionaryExt.nullValue" }
-                        } else {
-                            counter++
-                            SanityCheck.println { "$uuid next return $counter ${parent.data} ${iterator.buf.map { it.toString(16) }}" }
+                        iterator.close = {
+                            SanityCheck.println { "$uuid closed $counter ${parent.data}" }
+                            child.rows.close()
+                            iterator._close()
                         }
-                        res
+                        return IteratorBundle(iterator)
                     }
-                    iterator.close = {
-                        SanityCheck.println { "$uuid closed $counter ${parent.data}" }
-                        child.rows.close()
-                        iterator._close()
+                    else -> {
+                        return child
                     }
-                    return IteratorBundle(iterator)
-                } else {
-                    return child
                 }
             }
         }

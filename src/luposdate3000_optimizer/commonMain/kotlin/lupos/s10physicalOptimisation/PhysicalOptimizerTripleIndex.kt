@@ -17,18 +17,23 @@ import lupos.s09physicalOperators.singleinput.POPProjection
 import lupos.s15tripleStoreDistributed.distributedTripleStore
 
 class PhysicalOptimizerTripleIndex(query: Query) : OptimizerBase(query, EOptimizerID.PhysicalOptimizerTripleIndexID) {
-    override val classname = "PhysicalOptimizerTripleIndex"
+    override val classname: String = "PhysicalOptimizerTripleIndex"
     override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
         var res = node
         if (node is LOPTriple) {
-            val projectedVariables: List<String> = if (parent is LOPProjection) {
-                parent.getProvidedVariableNames()
-            } else if (parent is POPProjection) {
-                parent.getProvidedVariableNamesInternal()
-            } else if (node is POPBase) {
-                node.getProvidedVariableNamesInternal()
-            } else {
-                node.getProvidedVariableNames()
+            val projectedVariables: List<String> = when {
+                parent is LOPProjection -> {
+                    parent.getProvidedVariableNames()
+                }
+                parent is POPProjection -> {
+                    parent.getProvidedVariableNamesInternal()
+                }
+                node is POPBase -> {
+                    node.getProvidedVariableNamesInternal()
+                }
+                else -> {
+                    node.getProvidedVariableNames()
+                }
             }
             onChange()
             val store = distributedTripleStore.getNamedGraph(query, node.graph)

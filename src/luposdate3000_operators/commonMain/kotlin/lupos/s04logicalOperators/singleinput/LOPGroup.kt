@@ -11,8 +11,8 @@ import lupos.s04logicalOperators.LOPBase
 import lupos.s04logicalOperators.noinput.OPEmptyRow
 
 class LOPGroup(query: IQuery, @JvmField var by: List<AOPVariable>) : LOPBase(query, EOperatorID.LOPGroupID, "LOPGroup", arrayOf(OPEmptyRow(query)), ESortPriority.PREVENT_ANY) {
-    override fun childrenToVerifyCount() = 1
-    var bindings = mutableListOf<Pair<String, AOPBase>>()
+    override fun childrenToVerifyCount(): Int = 1
+    var bindings: MutableList<Pair<String, AOPBase>> = mutableListOf<Pair<String, AOPBase>>()
 
     constructor(query: IQuery, by: List<AOPVariable>, bindings: List<Pair<String, AOPBase>>, child: IOPBase) : this(query, by) {
         this.bindings = bindings.toMutableList()
@@ -119,13 +119,13 @@ class LOPGroup(query: IQuery, @JvmField var by: List<AOPVariable>) : LOPBase(que
         }
         val bindingsxml = XMLElement("LocalBindings")
         res.addContent(bindingsxml)
-        for (b in bindings) {
-            bindingsxml.addContent(XMLElement("Binding").addAttribute("name", b.first).addContent(b.second.toXMLElement()))
+        for ((first, second) in bindings) {
+            bindingsxml.addContent(XMLElement("Binding").addAttribute("name", first).addContent(second.toXMLElement()))
         }
         return res
     }
 
-    override fun equals(other: Any?) = other is LOPGroup && children[0] == other.children[0] && by == other.by && bindings == other.bindings
+    override fun equals(other: Any?): Boolean = other is LOPGroup && children[0] == other.children[0] && by == other.by && bindings == other.bindings
     override fun cloneOP(): IOPBase = LOPGroup(query, by, bindings.map { it }, children[0].cloneOP())
     override /*suspend*/ fun calculateHistogram(): HistogramResult {
         val res = HistogramResult()

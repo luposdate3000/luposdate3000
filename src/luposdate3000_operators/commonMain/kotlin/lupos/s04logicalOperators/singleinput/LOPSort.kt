@@ -28,8 +28,8 @@ class LOPSort(query: IQuery, @JvmField val asc: Boolean, @JvmField var by: AOPVa
         return res
     }
 
-    override fun getRequiredVariableNames() = listOf(by.name)
-    override fun equals(other: Any?) = other is LOPSort && asc == other.asc && by == other.by && children[0] == other.children[0]
+    override fun getRequiredVariableNames(): List<String> = listOf(by.name)
+    override fun equals(other: Any?): Boolean = other is LOPSort && asc == other.asc && by == other.by && children[0] == other.children[0]
     override fun cloneOP(): IOPBase = LOPSort(query, asc, by, children[0].cloneOP())
     override /*suspend*/ fun calculateHistogram(): HistogramResult {
         return children[0].getHistogram()

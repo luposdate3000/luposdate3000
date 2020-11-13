@@ -79,33 +79,37 @@ class POPSort(query: IQuery, projectedVariables: List<String>, @JvmField val sor
         } else {
             ValueComparatorDESC(query)
         }
-        if (variablesOut.isEmpty()) {
-            return child
-        } else if (variablesOut.size == 1) {
-            return if (sortBy.size == 1) {
-                IteratorBundle(mapOf(variablesOut[0] to ColumnIteratorMerge(child.columns[variablesOut[0]]!!, comparator)))
-            } else {
-                IteratorBundle(mapOf(variablesOut[0] to ColumnIteratorMerge(child.columns[variablesOut[0]]!!)))
+        when {
+            variablesOut.isEmpty() -> {
+                return child
             }
-        } else {
-            val columnNamesTmp = mutableListOf<String>()
-            for (v in sortBy) {
-                columnNamesTmp.add(v.name)
+            variablesOut.size == 1 -> {
+                return if (sortBy.size == 1) {
+                    IteratorBundle(mapOf(variablesOut[0] to ColumnIteratorMerge(child.columns[variablesOut[0]]!!, comparator)))
+                } else {
+                    IteratorBundle(mapOf(variablesOut[0] to ColumnIteratorMerge(child.columns[variablesOut[0]]!!)))
+                }
             }
-            for (v in mySortPriority.map { it.variableName }) {
-                if (variablesOut.contains(v)) {
+            else -> {
+                val columnNamesTmp = mutableListOf<String>()
+                for (v in sortBy) {
+                    columnNamesTmp.add(v.name)
+                }
+                for (v in mySortPriority.map { it.variableName }) {
+                    if (variablesOut.contains(v)) {
+                        if (!columnNamesTmp.contains(v)) {
+                            columnNamesTmp.add(v)
+                        }
+                    }
+                }
+                for (v in variablesOut) {
                     if (!columnNamesTmp.contains(v)) {
                         columnNamesTmp.add(v)
                     }
                 }
+                val columnNames = columnNamesTmp.toTypedArray()
+                return IteratorBundle(RowIteratorMerge(child.rows, comparator, sortBy.size, columnNames))
             }
-            for (v in variablesOut) {
-                if (!columnNamesTmp.contains(v)) {
-                    columnNamesTmp.add(v)
-                }
-            }
-            val columnNames = columnNamesTmp.toTypedArray()
-            return IteratorBundle(RowIteratorMerge(child.rows, comparator, sortBy.size, columnNames))
         }
     }
 }

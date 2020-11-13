@@ -25,11 +25,11 @@ class POPFilter(query: IQuery, projectedVariables: List<String>, filter: AOPBase
         return "{SELECT * {" + sparql + " FILTER (" + children[1].toSparql() + ")}}"
     }
 
-    override fun equals(other: Any?) = other is POPFilter && children[0] == other.children[0] && children[1] == other.children[1]
-    override fun childrenToVerifyCount() = 1
+    override fun equals(other: Any?): Boolean = other is POPFilter && children[0] == other.children[0] && children[1] == other.children[1]
+    override fun childrenToVerifyCount(): Int = 1
     override fun cloneOP(): IOPBase = POPFilter(query, projectedVariables, children[1].cloneOP() as AOPBase, children[0].cloneOP())
-    override fun getProvidedVariableNamesInternal() = children[0].getProvidedVariableNames()
-    override fun getRequiredVariableNames() = children[1].getRequiredVariableNamesRecoursive()
+    override fun getProvidedVariableNamesInternal(): List<String> = children[0].getProvidedVariableNames()
+    override fun getRequiredVariableNames(): List<String> = children[1].getRequiredVariableNamesRecoursive()
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
         //TODO not-equal shortcut during evaluation based on integer-ids
         val variables = children[0].getProvidedVariableNames()

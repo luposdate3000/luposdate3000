@@ -228,7 +228,7 @@ import lupos.s09physicalOperators.noinput.POPValuesImportXML
 
 class OperatorGraphVisitor(@JvmField val query: Query) : Visitor<IOPBase> {
     @JvmField
-    val queryExecutionStartTime = ValueDateTime()
+    val queryExecutionStartTime: ValueDateTime = ValueDateTime()
     private fun createUnion(a: IOPBase, b: IOPBase): IOPBase {
         val pa = a.getProvidedVariableNames().toMutableSet()
         val pb = b.getProvidedVariableNames().toMutableSet()
@@ -449,8 +449,8 @@ class OperatorGraphVisitor(@JvmField val query: Query) : Visitor<IOPBase> {
             }
         }
         var res: LOPBase = LOPGroup(query, g.by, bindingsInside, g.getChildren()[0])
-        for (b in bindingsOutside) {
-            res = LOPBind(query, AOPVariable(query, b.first), b.second, res)
+        for ((first, second) in bindingsOutside) {
+            res = LOPBind(query, AOPVariable(query, first), second, res)
         }
         return res
     }

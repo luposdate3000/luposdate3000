@@ -9,7 +9,7 @@ import lupos.s08logicalOptimisation.OptimizerBase
 import lupos.s09physicalOperators.partition.*
 
 class PhysicalOptimizerPartition4(query: Query) : OptimizerBase(query, EOptimizerID.PhysicalOptimizerPartition4ID) {
-    override val classname = "PhysicalOptimizerPartition4"
+    override val classname: String = "PhysicalOptimizerPartition4"
     private fun getNumberOfEnclosingPartitions(node: IOPBase): Int {
         var count = 1
         val childs = node.getChildren()

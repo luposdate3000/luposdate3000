@@ -30,43 +30,43 @@ import lupos.s05tripleStore.index_IDTriple.TripleIterator
 
 class TripleStoreIndexIDTriple : TripleStoreIndex() {
     @JvmField
-    var firstLeaf = NodeManager.nodeNullPointer
+    var firstLeaf: Int = NodeManager.nodeNullPointer
 
     @JvmField
-    var root = NodeManager.nodeNullPointer
+    var root: Int = NodeManager.nodeNullPointer
 
     @JvmField
     var rootNode: ByteArray? = null
 
     @JvmField
-    var pendingImport = mutableListOf<Int?>()
+    var pendingImport: MutableList<Int?> = mutableListOf<Int?>()
 
     @JvmField
-    var countPrimary = 0
+    var countPrimary: Int = 0
 
     @JvmField
-    var distinctPrimary = 0
+    var distinctPrimary: Int = 0
 
     @JvmField
     internal var lock = MyReadWriteLock()
 
     @JvmField
-    var cachedHistograms1Size = 0
+    var cachedHistograms1Size: Int = 0
 
     @JvmField
-    var cachedHistograms1Cursor = 0
+    var cachedHistograms1Cursor: Int = 0
 
     @JvmField
-    val cachedHistograms1 = IntArray(300)
+    val cachedHistograms1: IntArray = IntArray(300)
 
     @JvmField
-    var cachedHistograms2Size = 0
+    var cachedHistograms2Size: Int = 0
 
     @JvmField
-    var cachedHistograms2Cursor = 0
+    var cachedHistograms2Cursor: Int = 0
 
     @JvmField
-    val cachedHistograms2 = IntArray(400)
+    val cachedHistograms2: IntArray = IntArray(400)
 
     internal companion object {
         @JvmField

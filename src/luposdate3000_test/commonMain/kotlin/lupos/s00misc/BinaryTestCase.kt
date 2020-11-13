@@ -172,17 +172,21 @@ object BinaryTestCase {
         var idxActual = 0
         while (idxExpected < expectedRows.size && idxActual < actualRows.size) {
             val tmp = comparator.compare(expectedRows[idxExpected], actualRows[idxActual])
-            if (tmp < 0) {
-                out.println("missing row $allowOrderBy ${rowToString(expectedRows[idxExpected], dict2)}")
-                flag = true
-                idxExpected++
-            } else if (tmp > 0) {
-                out.println("additional row $allowOrderBy ${rowToString(actualRows[idxActual], dict2)}")
-                flag = true
-                idxActual++
-            } else {
-                idxExpected++
-                idxActual++
+            when {
+                tmp < 0 -> {
+                    out.println("missing row $allowOrderBy ${rowToString(expectedRows[idxExpected], dict2)}")
+                    flag = true
+                    idxExpected++
+                }
+                tmp > 0 -> {
+                    out.println("additional row $allowOrderBy ${rowToString(actualRows[idxActual], dict2)}")
+                    flag = true
+                    idxActual++
+                }
+                else -> {
+                    idxExpected++
+                    idxActual++
+                }
             }
         }
         while (idxExpected < expectedRows.size) {

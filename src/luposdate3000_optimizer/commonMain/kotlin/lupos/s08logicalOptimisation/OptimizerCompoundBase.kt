@@ -7,9 +7,9 @@ import lupos.s04logicalOperators.Query
 import lupos.s09physicalOperators.partition.*
 
 abstract class OptimizerCompoundBase(query: Query, optimizerID: EOptimizerID) : OptimizerBase(query, optimizerID) {
-    override val classname = "OptimizerCompoundBase"
+    override val classname: String = "OptimizerCompoundBase"
     abstract val childrenOptimizers: Array<Array<OptimizerBase>>
-    override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit) = node
+    override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase = node
     private fun verifyPartitionOperators(root: IOPBase, allList: MutableMap<Int, MutableSet<Long>>) {
         val ids = mutableListOf<Int>()
         when (root) {

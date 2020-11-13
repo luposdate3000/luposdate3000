@@ -28,7 +28,7 @@ class AOPBuildInCallCOALESCE(query: IQuery, childs: List<AOPBase>) : AOPBase(que
         return res.toString()
     }
 
-    override fun equals(other: Any?) = other is AOPBuildInCallCOALESCE && children.contentEquals(other.children)
+    override fun equals(other: Any?): Boolean = other is AOPBuildInCallCOALESCE && children.contentEquals(other.children)
     override fun evaluate(row: IteratorBundle): () -> ValueDefinition {
         val tmpChilds = children.map { (it as AOPBase).evaluate(row) }
         return {

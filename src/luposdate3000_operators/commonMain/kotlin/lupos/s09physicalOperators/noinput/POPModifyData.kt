@@ -18,8 +18,8 @@ class POPModifyData(query: IQuery, projectedVariables: List<String>, @JvmField v
     override fun getPartitionCount(variable: String): Int = 1
     override fun equals(other: Any?): Boolean = other is POPModifyData && type == other.type && data == other.data
     override fun cloneOP(): IOPBase = POPModifyData(query, projectedVariables, type, data)
-    override fun toSparqlQuery() = toSparql()
-    override fun getProvidedVariableNames() = listOf("?success")
+    override fun toSparqlQuery(): String = toSparql()
+    override fun getProvidedVariableNames(): List<String> = listOf("?success")
     override fun toSparql(): String {
         var res = ""
         res += when (type) {

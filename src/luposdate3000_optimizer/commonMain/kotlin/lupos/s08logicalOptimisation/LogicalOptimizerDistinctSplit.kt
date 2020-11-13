@@ -11,7 +11,7 @@ import lupos.s04logicalOperators.singleinput.modifiers.LOPReduced
 import lupos.s04logicalOperators.singleinput.modifiers.LOPSortAny
 
 class LogicalOptimizerDistinctSplit(query: Query) : OptimizerBase(query, EOptimizerID.LogicalOptimizerDistinctSplitID) {
-    override val classname = "LogicalOptimizerDistinctSplit"
+    override val classname: String = "LogicalOptimizerDistinctSplit"
     override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
         var res: IOPBase = node
         if (node is LOPDistinct) {

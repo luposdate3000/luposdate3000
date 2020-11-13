@@ -14,13 +14,13 @@ class LookAheadTokenIterator(@JvmField val tokenIterator: TokenIterator, @JvmFie
     private val tokens: Array<Token> = Array(lookahead) { EOF(0) } // circular buffer for lookahead requests, EOF default value just to avoid unnecessary null checks...
 
     @JvmField
-    var index1 = 0
+    var index1: Int = 0
 
     @JvmField
-    var index2 = 0
+    var index2: Int = 0
 
     @JvmField
-    var buffered = 0 // how many tokens are currently buffered?
+    var buffered: Int = 0 // how many tokens are currently buffered?
     fun nextToken(): Token {
         return if (buffered > 0) {
             val result = tokens[index1]
@@ -63,25 +63,25 @@ class LexerCharIterator(@JvmField val content: CharIterator) {
     constructor(contentString: String) : this(contentString.iterator())
 
     companion object {
-        const val MAXSIZEPUTBACK = 256
+        const val MAXSIZEPUTBACK: Int = 256
     }
 
     @JvmField
-    var index = 0
+    var index: Int = 0
 
     @JvmField
-    var lineNumber = 0
+    var lineNumber: Int = 0
 
     @JvmField
-    var columnNumber = 0
-    var debugcounterindex = 0
+    var columnNumber: Int = 0
+    var debugcounterindex: Int = 0
 
     @JvmField
     var backArray: Array<Char> = Array(MAXSIZEPUTBACK) { ' ' }
 
     @JvmField
-    var backArrayIndex = 0
-    inline fun hasNext() = (this.content.hasNext() || this.backArrayIndex > 0)
+    var backArrayIndex: Int = 0
+    inline fun hasNext(): Boolean = (this.content.hasNext() || this.backArrayIndex > 0)
     inline fun updateLineNumber(c: Char) {
         if (c == '\n') {
             lineNumber++

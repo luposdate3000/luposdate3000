@@ -14,7 +14,7 @@ import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.Query
 
 class LogicalOptimizerArithmetic(query: Query) : OptimizerBase(query, EOptimizerID.LogicalOptimizerArithmeticID) {
-    override val classname = "LogicalOptimizerArithmetic"
+    override val classname: String = "LogicalOptimizerArithmetic"
     private fun hasAggregation(node: IOPBase): Boolean {
         for (n in node.getChildren()) {
             if (hasAggregation(n)) {

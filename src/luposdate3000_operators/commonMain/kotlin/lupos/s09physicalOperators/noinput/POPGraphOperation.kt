@@ -19,7 +19,7 @@ class POPGraphOperation(query: IQuery,
                         @JvmField var graph2iri: String? = null,
                         @JvmField val action: EGraphOperationType) : POPBase(query, projectedVariables, EOperatorID.POPGraphOperationID, "POPGraphOperation", arrayOf(), ESortPriority.PREVENT_ANY) {
     override fun getPartitionCount(variable: String): Int = 1
-    override fun toSparqlQuery() = toSparql()
+    override fun toSparqlQuery(): String = toSparql()
     override fun toSparql(): String {
         var res = ""
         if (action == EGraphOperationType.LOAD) {
@@ -96,7 +96,7 @@ class POPGraphOperation(query: IQuery,
         return res
     }
 
-    override fun equals(other: Any?) = other is POPGraphOperation && silent == other.silent && graph1iri == other.graph1iri && graph1type == other.graph1type && graph2iri == other.graph2iri && graph2type == other.graph2type && action == other.action
+    override fun equals(other: Any?): Boolean = other is POPGraphOperation && silent == other.silent && graph1iri == other.graph1iri && graph1type == other.graph1type && graph2iri == other.graph2iri && graph2type == other.graph2type && action == other.action
     override fun cloneOP(): IOPBase = POPGraphOperation(query, projectedVariables, silent, graph1type, graph1iri, graph2type, graph2iri, action)
     /*suspend*/ private fun copyData(source: IDistributedGraph, target: IDistributedGraph, parent: Partition) {
         val row = source.getIterator(EIndexPattern.SPO, Partition()).evaluate(parent)

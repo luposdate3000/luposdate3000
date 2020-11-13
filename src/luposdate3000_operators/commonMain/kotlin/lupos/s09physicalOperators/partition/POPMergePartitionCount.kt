@@ -40,7 +40,7 @@ class POPMergePartitionCount(query: IQuery, projectedVariables: List<String>, va
     }
 
     override fun cloneOP(): IOPBase = POPMergePartitionCount(query, projectedVariables, partitionVariable, partitionCount, partitionID, children[0].cloneOP())
-    override fun toSparql() = children[0].toSparql()
+    override fun toSparql(): String = children[0].toSparql()
     override fun equals(other: Any?): Boolean = other is POPMergePartitionCount && children[0] == other.children[0] && partitionVariable == other.partitionVariable
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
         if (partitionCount == 1) {

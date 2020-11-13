@@ -5,8 +5,8 @@ class Partition {
     val limit: MutableMap<String, Int>
 
     companion object {
-        var default_k = 128
-        const val queue_size = 1000
+        var default_k: Int = 128
+        const val queue_size: Int = 1000
         inline fun hashFunction(v: Int, k: Int): Int {
             return if (v < 0) {
                 (-v) % k
@@ -53,8 +53,8 @@ class Partition {
         limit = t2
     }
 
-    override fun equals(other: Any?) = other is Partition && data == other.data && limit == other.limit
-    override fun hashCode() = data.hashCode()
+    override fun equals(other: Any?): Boolean = other is Partition && data == other.data && limit == other.limit
+    override fun hashCode(): Int = data.hashCode()
     fun toXMLElement(): XMLElement {
         val res = XMLElement("Partition")//
         for ((k, v) in limit) {

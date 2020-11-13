@@ -22,8 +22,8 @@ class TripleStoreIteratorGlobal(query: IQuery, projectedVariables: List<String>,
         return 1
     }
 
-    override fun cloneOP() = TripleStoreIteratorGlobal(query, projectedVariables, graphName, Array(3) { children[it] as IAOPBase }, idx, partition)
-    override fun equals(other: Any?) = other is TripleStoreIteratorGlobal && graphName == other.graphName && idx == other.idx && projectedVariables.containsAll(other.projectedVariables) && other.projectedVariables.containsAll(projectedVariables) && children[0] == other.children[0] && children[1] == other.children[1] && children[2] == other.children[2]
+    override fun cloneOP(): TripleStoreIteratorGlobal = TripleStoreIteratorGlobal(query, projectedVariables, graphName, Array(3) { children[it] as IAOPBase }, idx, partition)
+    override fun equals(other: Any?): Boolean = other is TripleStoreIteratorGlobal && graphName == other.graphName && idx == other.idx && projectedVariables.containsAll(other.projectedVariables) && other.projectedVariables.containsAll(projectedVariables) && children[0] == other.children[0] && children[1] == other.children[1] && children[2] == other.children[2]
     override /*suspend*/ fun toXMLElement(): XMLElement {
         return XMLElement("TripleStoreIteratorGlobal").//
         addAttribute("uuid", "" + uuid).//
@@ -204,8 +204,8 @@ class DistributedGraph(val query: IQuery, @JvmField val name: String) : IDistrib
 
 class DistributedTripleStore : IDistributedTripleStore {
     @JvmField
-    val localStore = PersistentStoreLocal()
-    override fun getLocalStore() = localStore
+    val localStore: PersistentStoreLocal = PersistentStoreLocal()
+    override fun getLocalStore(): PersistentStoreLocal = localStore
     override fun getGraphNames(includeDefault: Boolean): List<String> {
         return localStore.getGraphNames(includeDefault)
     }

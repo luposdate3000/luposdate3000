@@ -14,7 +14,7 @@ import lupos.s04logicalOperators.singleinput.modifiers.LOPLimit
 import lupos.s04logicalOperators.singleinput.modifiers.LOPOffset
 
 class LogicalOptimizerBindUp(query: Query) : OptimizerBase(query, EOptimizerID.LogicalOptimizerBindUpID) {
-    override val classname = "LogicalOptimizerBindUp"
+    override val classname: String = "LogicalOptimizerBindUp"
     override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
         var res: IOPBase = node
         if (node is LOPBind) {

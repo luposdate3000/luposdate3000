@@ -14,7 +14,7 @@ import lupos.s04logicalOperators.singleinput.LOPFilter
 import lupos.s04logicalOperators.singleinput.LOPSubGroup
 
 class LogicalOptimizerDetectMinus(query: Query) : OptimizerBase(query, EOptimizerID.LogicalOptimizerDetectMinusID) {
-    override val classname = "LogicalOptimizerDetectMinus"
+    override val classname: String = "LogicalOptimizerDetectMinus"
     override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
         var res: IOPBase = node
         if (node is LOPFilter) {

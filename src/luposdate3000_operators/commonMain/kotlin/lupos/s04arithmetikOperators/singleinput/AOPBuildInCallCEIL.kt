@@ -11,22 +11,27 @@ import lupos.s04logicalOperators.iterator.IteratorBundle
 
 class AOPBuildInCallCEIL(query: IQuery, child: AOPBase) : AOPBase(query, EOperatorID.AOPBuildInCallCEILID, "AOPBuildInCallCEIL", arrayOf(child)) {
     //return integer which is equal or larger than input
-    override fun toSparql() = "CEIL(" + children[0].toSparql() + ")"
-    override fun equals(other: Any?) = other is AOPBuildInCallCEIL && children[0] == other.children[0]
+    override fun toSparql(): String = "CEIL(" + children[0].toSparql() + ")"
+    override fun equals(other: Any?): Boolean = other is AOPBuildInCallCEIL && children[0] == other.children[0]
     override fun evaluate(row: IteratorBundle): () -> ValueDefinition {
         val childA = (children[0] as AOPBase).evaluate(row)
         return {
             var res: ValueDefinition = ValueError()
             val a = childA()
             try {
-                if (a is ValueDouble) {
-                    res = ValueDouble(ceil(a.toDouble()))
-                } else if (a is ValueFloat) {
-                    res = ValueFloat(ceil(a.toDouble()))
-                } else if (a is ValueDecimal) {
-                    res = ValueDecimal(a.value.ceil())
-                } else if (a is ValueInteger) {
-                    res = a
+                when (a) {
+                    is ValueDouble -> {
+                        res = ValueDouble(ceil(a.toDouble()))
+                    }
+                    is ValueFloat -> {
+                        res = ValueFloat(ceil(a.toDouble()))
+                    }
+                    is ValueDecimal -> {
+                        res = ValueDecimal(a.value.ceil())
+                    }
+                    is ValueInteger -> {
+                        res = a
+                    }
                 }
             } catch (e: Throwable) {
                 SanityCheck.println { "TODO exception 36" }

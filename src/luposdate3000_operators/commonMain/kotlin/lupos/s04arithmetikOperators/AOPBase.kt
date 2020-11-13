@@ -54,7 +54,7 @@ abstract class AOPBase(query: IQuery,
         }
     }
 
-    open fun enforcesBooleanOrError() = false
+    open fun enforcesBooleanOrError(): Boolean = false
     override fun getPartitionCount(variable: String): Int = SanityCheck.checkUnreachable()
     override /*suspend*/ fun calculateHistogram(): HistogramResult = SanityCheck.checkUnreachable()
 }

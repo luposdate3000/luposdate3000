@@ -53,7 +53,7 @@ class OPBaseCompound(query: IQuery, children: Array<IOPBase>, val columnProjecti
         return true
     }
 
-    override fun toSparqlQuery() = toSparql()
+    override fun toSparqlQuery(): String = toSparql()
     override fun toSparql(): String {
         val res = StringBuilder()
         for (c in getChildren()) {

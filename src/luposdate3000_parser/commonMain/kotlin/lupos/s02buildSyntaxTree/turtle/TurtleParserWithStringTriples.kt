@@ -13,27 +13,27 @@ abstract class TurtleParserWithStringTriples {
 
     // for storing the prefixes...
     @JvmField
-    val prefixes = mutableMapOf<String, String>()
+    val prefixes: MutableMap<String, String> = mutableMapOf<String, String>()
 
     // some constants used for typed literals
     companion object {
         private const val xsd = "http://www.w3.org/2001/XMLSchema#"
-        const val xsd_boolean = xsd + "boolean"
-        const val xsd_integer = xsd + "integer"
-        const val xsd_decimal = xsd + "decimal"
-        const val xsd_double = xsd + "double"
+        const val xsd_boolean: String = xsd + "boolean"
+        const val xsd_integer: String = xsd + "integer"
+        const val xsd_decimal: String = xsd + "decimal"
+        const val xsd_double: String = xsd + "double"
         private const val rdf = "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
         private const val nil = rdf + "nil"
-        const val first = rdf + "first"
+        const val first: String = rdf + "first"
         private const val rest = rdf + "rest"
-        const val nil_iri = "<$nil>"
-        const val first_iri = "<$first>"
-        const val rest_iri = "<$rest>"
-        const val type_iri = "<" + rdf + "type" + ">"
+        const val nil_iri: String = "<$nil>"
+        const val first_iri: String = "<$first>"
+        const val rest_iri: String = "<$rest>"
+        const val type_iri: String = "<" + rdf + "type" + ">"
     }
 
     @JvmField
-    var bnode_counter = 0
+    var bnodeCounter: Int = 0
     /*suspend*/ fun turtleDoc() {
         var t1 = ltit!!.lookahead()
         while (t1.image == "@prefix" || t1.image == "@base" || t1.image == "PREFIX" || t1.image == "BASE" || t1 is IRI || t1 is PNAME_LN || t1 is PNAME_NS || t1 is BNODE || t1 is ANON_BNODE || t1.image == "(" || t1.image == "[") {
@@ -305,7 +305,7 @@ abstract class TurtleParserWithStringTriples {
     }
 
     /*suspend*/ private fun blankNodePropertyList(): String {
-        val result = "_:_$bnode_counter"; bnode_counter++
+        val result = "_:_$bnodeCounter"; bnodeCounter++
         var token: Token = ltit!!.nextToken()
         if (token.image != "[") {
             throw UnexpectedToken(token, arrayOf("["), ltit!!)
@@ -327,7 +327,7 @@ abstract class TurtleParserWithStringTriples {
         }
         var t13 = ltit!!.lookahead()
         while (t13 is IRI || t13 is PNAME_LN || t13 is PNAME_NS || t13 is BNODE || t13 is ANON_BNODE || t13.image == "(" || t13.image == "[" || t13 is STRING || t13 is INTEGER || t13 is DECIMAL || t13 is DOUBLE || t13.image == "true" || t13.image == "false") {
-            val next = "_:_$bnode_counter"; bnode_counter++
+            val next = "_:_$bnodeCounter"; bnodeCounter++
             if (current === nil_iri) {
                 first = next
             } else {
@@ -539,8 +539,8 @@ abstract class TurtleParserWithStringTriples {
                 if (token !is ANON_BNODE) {
                     throw UnexpectedToken(token, arrayOf("ANON_BNODE"), ltit!!)
                 }
-                val res = "_:_$bnode_counter"
-                bnode_counter++
+                val res = "_:_$bnodeCounter"
+                bnodeCounter++
                 return res
             }
             else -> {

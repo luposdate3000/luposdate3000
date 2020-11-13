@@ -21,8 +21,8 @@ class LOPTriple(query: IQuery, s: IAOPBase, p: IAOPBase, o: IAOPBase, @JvmField 
         return "GRAPH <$graph> {" + children[0].toSparql() + " " + children[1].toSparql() + " " + children[2].toSparql() + "}."
     }
 
-    override /*suspend*/ fun toXMLElement() = super.toXMLElement().addAttribute("graph", graph).addAttribute("graphVar", "" + graphVar)
-    override fun getRequiredVariableNames() = listOf<String>()
+    override /*suspend*/ fun toXMLElement(): XMLElement = super.toXMLElement().addAttribute("graph", graph).addAttribute("graphVar", "" + graphVar)
+    override fun getRequiredVariableNames(): List<String> = listOf<String>()
     override fun getProvidedVariableNames(): List<String> {
         val res = mutableListOf<String>()
         for (c in children) {
@@ -35,7 +35,7 @@ class LOPTriple(query: IQuery, s: IAOPBase, p: IAOPBase, o: IAOPBase, @JvmField 
     }
 
     override fun syntaxVerifyAllVariableExists(additionalProvided: List<String>, autocorrect: Boolean) {}
-    override fun equals(other: Any?) = other is LOPTriple && graph == other.graph && graphVar == other.graphVar && children[0] == other.children[0] && children[1] == other.children[1] && children[2] == other.children[2]
+    override fun equals(other: Any?): Boolean = other is LOPTriple && graph == other.graph && graphVar == other.graphVar && children[0] == other.children[0] && children[1] == other.children[1] && children[2] == other.children[2]
     override fun cloneOP(): IOPBase = LOPTriple(query, children[0].cloneOP() as AOPBase, children[1].cloneOP() as AOPBase, children[2].cloneOP() as AOPBase, graph, graphVar)
 
     companion object {

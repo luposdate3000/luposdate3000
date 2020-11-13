@@ -9,7 +9,7 @@ import lupos.s15tripleStoreDistributed.IPersistentStoreLocal
 
 class PersistentStoreLocal : IPersistentStoreLocal {
     @JvmField
-    val stores = mutableMapOf<String, TripleStoreLocal>()
+    val stores: MutableMap<String, TripleStoreLocal> = mutableMapOf<String, TripleStoreLocal>()
 
     init {
         val s = TripleStoreLocal(PersistentStoreLocalExt.defaultGraphName)

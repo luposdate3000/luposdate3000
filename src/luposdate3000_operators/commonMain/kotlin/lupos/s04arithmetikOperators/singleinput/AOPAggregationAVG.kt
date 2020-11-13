@@ -1,10 +1,8 @@
 package lupos.s04arithmetikOperators.singleinput
 
-import kotlin.jvm.JvmField
-import lupos.s00misc.EOperatorID
-import lupos.s00misc.EvaluationException
-import lupos.s00misc.MyBigDecimal
+import lupos.s00misc.*
 import lupos.s00misc.SanityCheck
+import kotlin.jvm.JvmField
 import lupos.s03resultRepresentation.ValueDecimal
 import lupos.s03resultRepresentation.ValueDefinition
 import lupos.s03resultRepresentation.ValueDouble
@@ -20,7 +18,7 @@ import lupos.s04logicalOperators.iterator.ColumnIteratorAggregate
 import lupos.s04logicalOperators.iterator.IteratorBundle
 
 class AOPAggregationAVG(query: IQuery, @JvmField val distinct: Boolean, childs: Array<AOPBase>) : AOPAggregationBase(query, EOperatorID.AOPAggregationAVGID, "AOPAggregationAVG", Array(childs.size) { childs[it] }) {
-    override /*suspend*/ fun toXMLElement() = super.toXMLElement().addAttribute("distinct", "" + distinct)
+    override /*suspend*/ fun toXMLElement(): XMLElement = super.toXMLElement().addAttribute("distinct", "" + distinct)
     override fun toSparql(): String {
         if (distinct) {
             return "AVG(DISTINCT " + children[0].toSparql() + ")"
@@ -28,7 +26,7 @@ class AOPAggregationAVG(query: IQuery, @JvmField val distinct: Boolean, childs: 
         return "AVG(" + children[0].toSparql() + ")"
     }
 
-    override fun equals(other: Any?) = other is AOPAggregationAVG && distinct == other.distinct && children.contentEquals(other.children)
+    override fun equals(other: Any?): Boolean = other is AOPAggregationAVG && distinct == other.distinct && children.contentEquals(other.children)
     override fun createIterator(row: IteratorBundle): ColumnIteratorAggregate {
         val res = ColumnIteratorAggregate()
         val child = (children[0] as AOPBase).evaluate(row)
@@ -73,14 +71,19 @@ class AOPAggregationAVG(query: IQuery, @JvmField val distinct: Boolean, childs: 
         return {
             val res: ValueDefinition
             val tmp1 = tmp.value
-            res = if (tmp1 is ValueDouble) {
-                ValueDouble(tmp1.toDouble() / tmp.count)
-            } else if (tmp1 is ValueFloat) {
-                ValueFloat(tmp1.toDouble() / tmp.count)
-            } else if (tmp1 is ValueDecimal) {
-                ValueDecimal(tmp1.value / MyBigDecimal(tmp.count))
-            } else {
-                ValueError()
+            res = when (tmp1) {
+                is ValueDouble -> {
+                    ValueDouble(tmp1.toDouble() / tmp.count)
+                }
+                is ValueFloat -> {
+                    ValueFloat(tmp1.toDouble() / tmp.count)
+                }
+                is ValueDecimal -> {
+                    ValueDecimal(tmp1.value / MyBigDecimal(tmp.count))
+                }
+                else -> {
+                    ValueError()
+                }
             }
 /*return*/res
         }

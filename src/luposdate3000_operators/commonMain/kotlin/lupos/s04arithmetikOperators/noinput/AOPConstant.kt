@@ -13,7 +13,7 @@ import lupos.s04logicalOperators.iterator.IteratorBundle
 class AOPConstant : AOPBase, IAOPConstant {
     @JvmField
     val value: Int
-    override fun getValue() = value
+    override fun getValue(): Int = value
 
     constructor(query: IQuery, value2: ValueDefinition) : super(query, EOperatorID.AOPConstantID, "AOPConstant", arrayOf()) {
         value = query.getDictionary().createValue(value2)

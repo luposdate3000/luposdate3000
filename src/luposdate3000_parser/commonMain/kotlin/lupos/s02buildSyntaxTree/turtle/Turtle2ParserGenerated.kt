@@ -34,7 +34,7 @@ internal class ParserContext(@JvmField val input: IMyInputStream) {
     var inBufSize = 0
 
     @JvmField
-    var flagR_N = false
+    var flagrN = false
     inline fun clear() {
         outBuffer.clear()
     }
@@ -73,18 +73,18 @@ internal class ParserContext(@JvmField val input: IMyInputStream) {
             //1byte
             c = t
             if ((c == '\r'.toInt()) || (c == '\n'.toInt())) {
-                if (!flagR_N) {
-                    flagR_N = true
+                if (!flagrN) {
+                    flagrN = true
                     line++
                     column = 1
                 }
             } else {
                 column++
-                flagR_N = false
+                flagrN = false
             }
         } else if ((t and 0x20) == 0) {
             //2byte
-            flagR_N = false
+            flagrN = false
             c = (t and 0x1f) shl 6
             if (inBufPosition >= inBufSize) {
                 inBufSize = input.read(inBuf)
@@ -98,7 +98,7 @@ internal class ParserContext(@JvmField val input: IMyInputStream) {
             column++
         } else if ((t and 0x10) == 0) {
             //3byte
-            flagR_N = false
+            flagrN = false
             c = (t and 0x0f) shl 12
             if (inBufPosition >= inBufSize) {
                 inBufSize = input.read(inBuf)
@@ -121,7 +121,7 @@ internal class ParserContext(@JvmField val input: IMyInputStream) {
             column++
         } else {
             //4byte
-            flagR_N = false
+            flagrN = false
             c = (t and 0x07) shl 18
             if (inBufPosition >= inBufSize) {
                 inBufSize = input.read(inBuf)
@@ -236,20 +236,28 @@ internal inline fun parse_ws_forced(context: ParserContext,
 }
 
 internal inline fun parse_ws_forced_helper_0(c: Int): Int {
-    return if (c < 0x9) {
-        1
-    } else if (c <= 0xa) {
-        0
-    } else if (c < 0xd) {
-        1
-    } else if (c <= 0xd) {
-        0
-    } else if (c < 0x20) {
-        1
-    } else if (c <= 0x20) {
-        0
-    } else {
-        1
+    return when {
+        c < 0x9 -> {
+            1
+        }
+        c <= 0xa -> {
+            0
+        }
+        c < 0xd -> {
+            1
+        }
+        c <= 0xd -> {
+            0
+        }
+        c < 0x20 -> {
+            1
+        }
+        c <= 0x20 -> {
+            0
+        }
+        else -> {
+            1
+        }
     }
 }
 
@@ -647,86 +655,127 @@ internal inline fun parse_statement(context: ParserContext,
 }
 
 fun parse_statement_helper_0(c: Int): Int {
-    if (c < 0x3a) {
-        return 7
-    } else if (c <= 0x3a) {
-        return 5
-    } else if (c < 0x3c) {
-        return 7
-    } else if (c <= 0x3c) {
-        return 3
-    } else if (c < 0x40) {
-        return 7
-    } else if (c <= 0x40) {
-        return 2
-    } else if (c < 0x41) {
-        return 7
-    } else if (c <= 0x5a) {
-        return 4
-    } else if (c <= 0x42) {
-        return 0
-    } else if (c < 0x50) {
-        return 7
-    } else if (c <= 0x50) {
-        return 1
-    } else if (c < 0x5f) {
-        return 7
-    } else if (c <= 0x5f) {
-        return 6
-    } else if (c < 0x61) {
-        return 7
-    } else if (c <= 0x7a) {
-        return 4
-    } else if (c < 0xc0) {
-        return 7
-    } else if (c <= 0xd6) {
-        return 4
-    } else if (c < 0xd8) {
-        return 7
-    } else if (c <= 0xf6) {
-        return 4
-    } else if (c < 0xf8) {
-        return 7
-    } else if (c <= 0x2ff) {
-        return 4
-    } else if (c < 0x370) {
-        return 7
-    } else if (c <= 0x37d) {
-        return 4
-    } else if (c < 0x37f) {
-        return 7
-    } else if (c <= 0x1fff) {
-        return 4
-    } else if (c < 0x200c) {
-        return 7
-    } else if (c <= 0x200d) {
-        return 4
-    } else if (c < 0x2070) {
-        return 7
-    } else if (c <= 0x218f) {
-        return 4
-    } else if (c < 0x2c00) {
-        return 7
-    } else if (c <= 0x2fef) {
-        return 4
-    } else if (c < 0x3001) {
-        return 7
-    } else if (c <= 0xd7ff) {
-        return 4
-    } else if (c < 0xf900) {
-        return 7
-    } else if (c <= 0xfdcf) {
-        return 4
-    } else if (c < 0xfdf0) {
-        return 7
-    } else if (c <= 0xfffd) {
-        return 4
-    } else if (c < 0x10000) {
-        return 7
-    } else if (c <= 0x1fffff) {
-        return 4
-    } else {
-        return 7
+    when {
+        c < 0x3a -> {
+            return 7
+        }
+        c <= 0x3a -> {
+            return 5
+        }
+        c < 0x3c -> {
+            return 7
+        }
+        c <= 0x3c -> {
+            return 3
+        }
+        c < 0x40 -> {
+            return 7
+        }
+        c <= 0x40 -> {
+            return 2
+        }
+        c < 0x41 -> {
+            return 7
+        }
+        c <= 0x5a -> {
+            return 4
+        }
+        c <= 0x42 -> {
+            return 0
+        }
+        c < 0x50 -> {
+            return 7
+        }
+        c <= 0x50 -> {
+            return 1
+        }
+        c < 0x5f -> {
+            return 7
+        }
+        c <= 0x5f -> {
+            return 6
+        }
+        c < 0x61 -> {
+            return 7
+        }
+        c <= 0x7a -> {
+            return 4
+        }
+        c < 0xc0 -> {
+            return 7
+        }
+        c <= 0xd6 -> {
+            return 4
+        }
+        c < 0xd8 -> {
+            return 7
+        }
+        c <= 0xf6 -> {
+            return 4
+        }
+        c < 0xf8 -> {
+            return 7
+        }
+        c <= 0x2ff -> {
+            return 4
+        }
+        c < 0x370 -> {
+            return 7
+        }
+        c <= 0x37d -> {
+            return 4
+        }
+        c < 0x37f -> {
+            return 7
+        }
+        c <= 0x1fff -> {
+            return 4
+        }
+        c < 0x200c -> {
+            return 7
+        }
+        c <= 0x200d -> {
+            return 4
+        }
+        c < 0x2070 -> {
+            return 7
+        }
+        c <= 0x218f -> {
+            return 4
+        }
+        c < 0x2c00 -> {
+            return 7
+        }
+        c <= 0x2fef -> {
+            return 4
+        }
+        c < 0x3001 -> {
+            return 7
+        }
+        c <= 0xd7ff -> {
+            return 4
+        }
+        c < 0xf900 -> {
+            return 7
+        }
+        c <= 0xfdcf -> {
+            return 4
+        }
+        c < 0xfdf0 -> {
+            return 7
+        }
+        c <= 0xfffd -> {
+            return 4
+        }
+        c < 0x10000 -> {
+            return 7
+        }
+        c <= 0x1fffff -> {
+            return 4
+        }
+        else -> {
+            return 7
+        }
     }
 }
 
@@ -787,16 +836,22 @@ internal inline fun parse_statement_helper_7(c: Int): Int {
 }
 
 internal inline fun parse_statement_helper_8(c: Int): Int {
-    return if (c < 0x62) {
-        2
-    } else if (c <= 0x62) {
-        0
-    } else if (c < 0x70) {
-        2
-    } else if (c <= 0x70) {
-        1
-    } else {
-        2
+    return when {
+        c < 0x62 -> {
+            2
+        }
+        c <= 0x62 -> {
+            0
+        }
+        c < 0x70 -> {
+            2
+        }
+        c <= 0x70 -> {
+            1
+        }
+        else -> {
+            2
+        }
     }
 }
 
@@ -857,44 +912,64 @@ internal inline fun parse_statement_helper_15(c: Int): Int {
 }
 
 fun parse_statement_helper_16(c: Int): Int {
-    if (c < 0x21) {
-        return 2
-    } else if (c <= 0x21) {
-        return 0
-    } else if (c < 0x23) {
-        return 2
-    } else if (c <= 0x3b) {
-        return 0
-    } else if (c < 0x3d) {
-        return 2
-    } else if (c <= 0x3d) {
-        return 0
-    } else if (c < 0x3f) {
-        return 2
-    } else if (c <= 0x5b) {
-        return 0
-    } else if (c < 0x5c) {
-        return 2
-    } else if (c <= 0x5c) {
-        return 1
-    } else if (c < 0x5d) {
-        return 2
-    } else if (c <= 0x5d) {
-        return 0
-    } else if (c < 0x5f) {
-        return 2
-    } else if (c <= 0x5f) {
-        return 0
-    } else if (c < 0x61) {
-        return 2
-    } else if (c <= 0x7a) {
-        return 0
-    } else if (c < 0x7e) {
-        return 2
-    } else if (c <= 0x1fffff) {
-        return 0
-    } else {
-        return 2
+    when {
+        c < 0x21 -> {
+            return 2
+        }
+        c <= 0x21 -> {
+            return 0
+        }
+        c < 0x23 -> {
+            return 2
+        }
+        c <= 0x3b -> {
+            return 0
+        }
+        c < 0x3d -> {
+            return 2
+        }
+        c <= 0x3d -> {
+            return 0
+        }
+        c < 0x3f -> {
+            return 2
+        }
+        c <= 0x5b -> {
+            return 0
+        }
+        c < 0x5c -> {
+            return 2
+        }
+        c <= 0x5c -> {
+            return 1
+        }
+        c < 0x5d -> {
+            return 2
+        }
+        c <= 0x5d -> {
+            return 0
+        }
+        c < 0x5f -> {
+            return 2
+        }
+        c <= 0x5f -> {
+            return 0
+        }
+        c < 0x61 -> {
+            return 2
+        }
+        c <= 0x7a -> {
+            return 0
+        }
+        c < 0x7e -> {
+            return 2
+        }
+        c <= 0x1fffff -> {
+            return 0
+        }
+        else -> {
+            return 2
+        }
     }
 }
 
@@ -913,20 +988,28 @@ internal inline fun parse_statement_helper_17(c: Int): Int {
 }
 
 internal inline fun parse_statement_helper_18(c: Int): Int {
-    return if (c < 0x30) {
-        1
-    } else if (c <= 0x39) {
-        0
-    } else if (c < 0x41) {
-        1
-    } else if (c <= 0x46) {
-        0
-    } else if (c < 0x61) {
-        1
-    } else if (c <= 0x66) {
-        0
-    } else {
-        1
+    return when {
+        c < 0x30 -> {
+            1
+        }
+        c <= 0x39 -> {
+            0
+        }
+        c < 0x41 -> {
+            1
+        }
+        c <= 0x46 -> {
+            0
+        }
+        c < 0x61 -> {
+            1
+        }
+        c <= 0x66 -> {
+            0
+        }
+        else -> {
+            1
+        }
     }
 }
 

@@ -7,7 +7,7 @@ import lupos.s04logicalOperators.multiinput.LOPUnion
 import lupos.s04logicalOperators.Query
 
 class LogicalOptimizerUnionUp(query: Query) : OptimizerBase(query, EOptimizerID.LogicalOptimizerUnionUpID) {
-    override val classname = "LogicalOptimizerUnionUp"
+    override val classname: String = "LogicalOptimizerUnionUp"
     override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
         var res: IOPBase = node
         if (node is LOPJoin && !node.optional) {

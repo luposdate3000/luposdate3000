@@ -3,7 +3,7 @@ package lupos.s04logicalOperators.iterator
 import lupos.s00misc.Parallel
 
 open class RowIteratorMinus(val a: RowIterator, val b: RowIterator, private val projection: Array<String>) : RowIterator() {
-    var flag = 2
+    var flag: Int = 2
     private var aIdx = -1
     private var bIdx = -1
     /*suspend*/ fun _init() {

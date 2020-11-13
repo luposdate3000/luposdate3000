@@ -30,13 +30,13 @@ class BufferManager {
 
         @JvmField
         internal val managerListLock = MyReadWriteLock()
-        /*suspend*/ fun safeToFolder() = managerListLock.withReadLock {
+        /*suspend*/ fun safeToFolder(): Unit = managerListLock.withReadLock {
             managerList.forEach {
                 it.safeToFolder()
             }
         }
 
-        /*suspend*/ fun loadFromFolder() = managerListLock.withReadLock {
+        /*suspend*/ fun loadFromFolder(): Unit = managerListLock.withReadLock {
             managerList.forEach {
                 it.loadFromFolder()
             }
@@ -64,7 +64,7 @@ class BufferManager {
 
     @JvmField
     internal val freeList = mutableListOf<Int>()
-    /*suspend*/ fun clear() = lock.withWriteLock {
+    /*suspend*/ fun clear(): Unit = lock.withWriteLock {
         clearAssumeLocks()
     }
 
@@ -94,7 +94,7 @@ class BufferManager {
         return allPages[pageid]
     }
 
-    /*suspend*/ fun createPage(action: (ByteArray, Int) -> Unit) = lock.withWriteLock {
+    /*suspend*/ fun createPage(action: (ByteArray, Int) -> Unit): Unit = lock.withWriteLock {
         val pageid: Int
         if (freeList.size > 0 && BUFFER_MANAGER_USE_FREE_LIST) {
             pageid = freeList.removeAt(0)
@@ -131,7 +131,7 @@ class BufferManager {
         action(allPages[pageid], pageid)
     }
 
-    /*suspend*/ fun deletePage(pageid: Int) = lock.withWriteLock {
+    /*suspend*/ fun deletePage(pageid: Int): Unit = lock.withWriteLock {
         SanityCheck.check { !freeList.contains(pageid) }
         SanityCheck.check({ allPagesRefcounters[pageid] == 1 }, { "Failed requirement pageid = $pageid" })
         allPagesRefcounters[pageid] = 0

@@ -5,11 +5,11 @@ import lupos.s03resultRepresentation.ResultSetDictionaryExt
 
 abstract class ColumnIteratorQueue : ColumnIterator() {
     @JvmField
-    var tmp = ResultSetDictionaryExt.nullValue
+    var tmp: Int = ResultSetDictionaryExt.nullValue
 
     @JvmField
-    val queue = mutableListOf<Int>()
+    val queue: MutableList<Int> = mutableListOf<Int>()
 
     @JvmField
-    var label = 1
+    var label: Int = 1
 }

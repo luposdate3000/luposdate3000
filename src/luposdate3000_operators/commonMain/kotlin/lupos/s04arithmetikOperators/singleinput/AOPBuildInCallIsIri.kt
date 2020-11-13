@@ -8,8 +8,8 @@ import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.IteratorBundle
 
 class AOPBuildInCallIsIri(query: IQuery, child: AOPBase) : AOPBase(query, EOperatorID.AOPBuildInCallIsIriID, "AOPBuildInCallIsIri", arrayOf(child)) {
-    override fun toSparql() = "isIRI(" + children[0].toSparql() + ")"
-    override fun equals(other: Any?) = other is AOPBuildInCallIsIri && children[0] == other.children[0]
+    override fun toSparql(): String = "isIRI(" + children[0].toSparql() + ")"
+    override fun equals(other: Any?): Boolean = other is AOPBuildInCallIsIri && children[0] == other.children[0]
     override fun evaluate(row: IteratorBundle): () -> ValueDefinition {
         val childA = (children[0] as AOPBase).evaluate(row)
         return {
@@ -22,6 +22,6 @@ class AOPBuildInCallIsIri(query: IQuery, child: AOPBase) : AOPBase(query, EOpera
         }
     }
 
-    override fun enforcesBooleanOrError() = true
+    override fun enforcesBooleanOrError(): Boolean = true
     override fun cloneOP(): IOPBase = AOPBuildInCallIsIri(query, children[0].cloneOP() as AOPBase)
 }

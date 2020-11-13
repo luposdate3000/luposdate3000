@@ -8,8 +8,8 @@ import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.IteratorBundle
 
 class AOPBuildInCallSTRBEFORE(query: IQuery, child: AOPBase, childB: AOPBase) : AOPBase(query, EOperatorID.AOPBuildInCallSTRBEFOREID, "AOPBuildInCallSTRBEFORE", arrayOf(child, childB)) {
-    override fun toSparql() = "STRBEFORE(" + children[0].toSparql() + ", " + children[1].toSparql() + ")"
-    override fun equals(other: Any?) = other is AOPBuildInCallSTRBEFORE && children[0] == other.children[0] && children[1] == other.children[1]
+    override fun toSparql(): String = "STRBEFORE(" + children[0].toSparql() + ", " + children[1].toSparql() + ")"
+    override fun equals(other: Any?): Boolean = other is AOPBuildInCallSTRBEFORE && children[0] == other.children[0] && children[1] == other.children[1]
     override fun evaluate(row: IteratorBundle): () -> ValueDefinition {
         val childA = (children[0] as AOPBase).evaluate(row)
         val childB = (children[1] as AOPBase).evaluate(row)
@@ -30,26 +30,30 @@ class AOPBuildInCallSTRBEFORE(query: IQuery, child: AOPBase, childB: AOPBase) : 
                 }
             }
             if (filter != null) {
-                if (a is ValueSimpleLiteral) {
-                    val idx = a.content.indexOf(filter)
-                    res = if (idx < 0) {
-                        ValueSimpleLiteral(a.delimiter, "")
-                    } else {
-                        ValueSimpleLiteral(a.delimiter, a.content.substring(0, idx))
+                when (a) {
+                    is ValueSimpleLiteral -> {
+                        val idx = a.content.indexOf(filter)
+                        res = if (idx < 0) {
+                            ValueSimpleLiteral(a.delimiter, "")
+                        } else {
+                            ValueSimpleLiteral(a.delimiter, a.content.substring(0, idx))
+                        }
                     }
-                } else if (a is ValueLanguageTaggedLiteral) {
-                    val idx = a.content.indexOf(filter)
-                    res = if (idx < 0) {
-                        ValueSimpleLiteral(a.delimiter, "")
-                    } else {
-                        ValueLanguageTaggedLiteral(a.delimiter, a.content.substring(0, idx), a.language)
+                    is ValueLanguageTaggedLiteral -> {
+                        val idx = a.content.indexOf(filter)
+                        res = if (idx < 0) {
+                            ValueSimpleLiteral(a.delimiter, "")
+                        } else {
+                            ValueLanguageTaggedLiteral(a.delimiter, a.content.substring(0, idx), a.language)
+                        }
                     }
-                } else if (a is ValueTypedLiteral) {
-                    val idx = a.content.indexOf(filter)
-                    res = if (idx < 0) {
-                        ValueSimpleLiteral(a.delimiter, "")
-                    } else {
-                        ValueSimpleLiteral(a.delimiter, a.content.substring(0, idx))
+                    is ValueTypedLiteral -> {
+                        val idx = a.content.indexOf(filter)
+                        res = if (idx < 0) {
+                            ValueSimpleLiteral(a.delimiter, "")
+                        } else {
+                            ValueSimpleLiteral(a.delimiter, a.content.substring(0, idx))
+                        }
                     }
                 }
             }

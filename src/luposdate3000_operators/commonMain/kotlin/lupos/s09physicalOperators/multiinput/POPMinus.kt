@@ -29,7 +29,7 @@ class POPMinus(query: IQuery, projectedVariables: List<String>, childA: IOPBase,
     }
 
     override fun cloneOP(): IOPBase = POPMinus(query, projectedVariables, children[0].cloneOP(), children[1].cloneOP())
-    override fun toSparql() = "{" + children[0].toSparql() + "} MINUS {" + children[1].toSparql() + "}"
+    override fun toSparql(): String = "{" + children[0].toSparql() + "} MINUS {" + children[1].toSparql() + "}"
     override fun equals(other: Any?): Boolean = other is POPMinus && children[0] == other.children[0] && children[1] == other.children[1]
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
         val variables = getProvidedVariableNames()

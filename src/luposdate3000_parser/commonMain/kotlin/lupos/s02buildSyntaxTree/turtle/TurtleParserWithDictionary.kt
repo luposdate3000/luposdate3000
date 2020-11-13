@@ -18,7 +18,7 @@ class TurtleParserWithDictionary(@JvmField val consume_triple: (Long, Long, Long
     private val xsd_double = xsd + "double"
     private val rdf = "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
     private val nil = rdf + "nil"
-    val first = rdf + "first"
+    val first: String = rdf + "first"
     private val rest = rdf + "rest"
     private val nil_iri = lupos.s02buildSyntaxTree.rdf.Dictionary.IRI(nil)
     private val first_iri = lupos.s02buildSyntaxTree.rdf.Dictionary.IRI(first)

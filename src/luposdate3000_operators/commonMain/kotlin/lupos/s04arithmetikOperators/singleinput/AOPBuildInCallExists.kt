@@ -10,9 +10,9 @@ import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.IteratorBundle
 
 class AOPBuildInCallExists(query: IQuery, @JvmField var child: IOPBase) : AOPBase(query, EOperatorID.AOPBuildInCallExistsID, "AOPBuildInCallExists", arrayOf(child)) {
-    override fun toSparql() = " EXISTS {" + children[0].toSparql() + "}"
-    override fun equals(other: Any?) = other is AOPBuildInCallExists && children[0] == other.children[0]
+    override fun toSparql(): String = " EXISTS {" + children[0].toSparql() + "}"
+    override fun equals(other: Any?): Boolean = other is AOPBuildInCallExists && children[0] == other.children[0]
     override fun evaluate(row: IteratorBundle): () -> ValueDefinition = throw EvaluateNotImplementedException(classname)
-    override fun enforcesBooleanOrError() = true
+    override fun enforcesBooleanOrError(): Boolean = true
     override fun cloneOP(): IOPBase = AOPBuildInCallExists(query, children[0].cloneOP())
 }

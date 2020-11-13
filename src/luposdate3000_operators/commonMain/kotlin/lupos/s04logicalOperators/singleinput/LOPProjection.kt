@@ -31,7 +31,7 @@ class LOPProjection(query: IQuery, @JvmField val variables: MutableList<AOPVaria
         return res
     }
 
-    override fun equals(other: Any?) = other is LOPProjection && variables == other.variables && children[0] == other.children[0]
+    override fun equals(other: Any?): Boolean = other is LOPProjection && variables == other.variables && children[0] == other.children[0]
     override fun cloneOP(): IOPBase = LOPProjection(query, variables, children[0].cloneOP())
     override /*suspend*/ fun calculateHistogram(): HistogramResult {
         val res = HistogramResult()

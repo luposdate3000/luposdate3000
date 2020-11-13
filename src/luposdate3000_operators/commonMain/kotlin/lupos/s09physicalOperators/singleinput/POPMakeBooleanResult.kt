@@ -22,10 +22,10 @@ class POPMakeBooleanResult(query: IQuery, projectedVariables: List<String>, chil
     }
 
     override fun equals(other: Any?): Boolean = other is POPMakeBooleanResult && children[0] == other.children[0]
-    override fun toSparqlQuery() = "ASK{" + children[0].toSparql() + "}"
+    override fun toSparqlQuery(): String = "ASK{" + children[0].toSparql() + "}"
     override fun cloneOP(): IOPBase = POPMakeBooleanResult(query, projectedVariables, children[0].cloneOP())
-    override fun getProvidedVariableNamesInternal() = mutableListOf("?boolean")
-    override fun getRequiredVariableNames() = listOf<String>()
+    override fun getProvidedVariableNamesInternal(): MutableList<String> = mutableListOf("?boolean")
+    override fun getRequiredVariableNames(): List<String> = listOf<String>()
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
         val flag: Boolean
         val outMap = mutableMapOf<String, ColumnIterator>()

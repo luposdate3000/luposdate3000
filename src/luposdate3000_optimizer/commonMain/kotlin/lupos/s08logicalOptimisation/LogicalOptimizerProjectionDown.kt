@@ -16,7 +16,7 @@ import lupos.s04logicalOperators.singleinput.*
 import lupos.s04logicalOperators.singleinput.modifiers.*
 
 class LogicalOptimizerProjectionDown(query: Query) : OptimizerBase(query, EOptimizerID.LogicalOptimizerProjectionDownID) {
-    override val classname = "LogicalOptimizerProjectionDown"
+    override val classname: String = "LogicalOptimizerProjectionDown"
     override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
         var res: IOPBase = node
         if (node is LOPReduced) {

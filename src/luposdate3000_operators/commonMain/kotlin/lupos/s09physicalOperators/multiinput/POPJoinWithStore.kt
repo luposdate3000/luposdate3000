@@ -34,7 +34,7 @@ class POPJoinWithStore(query: IQuery, projectedVariables: List<String>, childA: 
         return children[0].toSparql() + childB.toSparql()
     }
 
-    override fun equals(other: Any?) = other is POPJoinWithStore && optional == other.optional && children[0] == other.children[0]
+    override fun equals(other: Any?): Boolean = other is POPJoinWithStore && optional == other.optional && children[0] == other.children[0]
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
         SanityCheck.check { !optional }
         SanityCheck.check { !childB.graphVar }
@@ -144,7 +144,7 @@ class POPJoinWithStore(query: IQuery, projectedVariables: List<String>, childA: 
                 columnsInB[i] = columnsInBRoot.columns[variablINBO[i]]!!
             }
             SanityCheck.println { "POPJoinWithStoreXXXopened ${columnsInBRoot.columns.size} columns for store, and saved ${variablINBO.size} of these" }
-            for (columnConfig in columnsOUT) {
+            for ((first, second) in columnsOUT) {
                 val column = object : ColumnIteratorQueue() {
                     override /*suspend*/ fun close() {
                         __close()
@@ -226,8 +226,8 @@ class POPJoinWithStore(query: IQuery, projectedVariables: List<String>, childA: 
                         }, { __close() })
                     }
                 }
-                outMap[columnConfig.first] = column
-                when (columnConfig.second) {
+                outMap[first] = column
+                when (second) {
                     0 -> {
                         columnsOUTAO.add(column)
                     }
@@ -240,8 +240,8 @@ class POPJoinWithStore(query: IQuery, projectedVariables: List<String>, childA: 
                 }
             }
         } else {
-            for (columnConfig in columnsOUT) {
-                outMap[columnConfig.first] = ColumnIteratorQueueEmpty()
+            for ((first) in columnsOUT) {
+                outMap[first] = ColumnIteratorQueueEmpty()
             }
         }
         return IteratorBundle(outMap)

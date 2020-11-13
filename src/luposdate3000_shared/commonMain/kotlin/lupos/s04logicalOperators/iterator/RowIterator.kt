@@ -4,10 +4,10 @@ import kotlin.jvm.JvmField
 
 open class RowIterator {
     @JvmField
-    var columns = arrayOf<String>()
+    var columns: Array<String> = arrayOf<String>()
 
     @JvmField
-    var buf = IntArray(0)
+    var buf: IntArray = IntArray(0)
 
     @JvmField
     var next: /*suspend*/ () -> Int = ::_next

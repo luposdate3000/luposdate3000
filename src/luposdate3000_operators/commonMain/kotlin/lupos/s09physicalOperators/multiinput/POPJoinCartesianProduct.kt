@@ -1,10 +1,8 @@
 package lupos.s09physicalOperators.multiinput
 
-import kotlin.jvm.JvmField
-import lupos.s00misc.EOperatorID
-import lupos.s00misc.ESortPriority
-import lupos.s00misc.Partition
+import lupos.s00misc.*
 import lupos.s00misc.SanityCheck
+import kotlin.jvm.JvmField
 import lupos.s03resultRepresentation.ResultSetDictionaryExt
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
@@ -44,7 +42,7 @@ class POPJoinCartesianProduct(query: IQuery, projectedVariables: List<String>, c
         return children[0].toSparql() + children[1].toSparql()
     }
 
-    override fun equals(other: Any?) = other is POPJoinCartesianProduct && optional == other.optional && children[0] == other.children[0] && children[1] == other.children[1]
+    override fun equals(other: Any?): Boolean = other is POPJoinCartesianProduct && optional == other.optional && children[0] == other.children[0] && children[1] == other.children[1]
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
         val columns = LOPJoin.getColumns(children[0].getProvidedVariableNames(), children[1].getProvidedVariableNames())
         SanityCheck {
@@ -260,6 +258,6 @@ class POPJoinCartesianProduct(query: IQuery, projectedVariables: List<String>, c
         return res
     }
 
-    override /*suspend*/ fun toXMLElement() = super.toXMLElement().addAttribute("optional", "" + optional)
+    override /*suspend*/ fun toXMLElement(): XMLElement = super.toXMLElement().addAttribute("optional", "" + optional)
     override fun cloneOP(): IOPBase = POPJoinCartesianProduct(query, projectedVariables, children[0].cloneOP(), children[1].cloneOP(), optional)
 }

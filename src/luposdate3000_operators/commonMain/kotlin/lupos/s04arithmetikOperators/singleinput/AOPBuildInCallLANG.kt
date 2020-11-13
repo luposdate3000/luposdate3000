@@ -8,8 +8,8 @@ import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.IteratorBundle
 
 class AOPBuildInCallLANG(query: IQuery, child: AOPBase) : AOPBase(query, EOperatorID.AOPBuildInCallLANGID, "AOPBuildInCallLANG", arrayOf(child)) {
-    override fun toSparql() = "LANG(" + children[0].toSparql() + ")"
-    override fun equals(other: Any?) = other is AOPBuildInCallLANG && children[0] == other.children[0]
+    override fun toSparql(): String = "LANG(" + children[0].toSparql() + ")"
+    override fun equals(other: Any?): Boolean = other is AOPBuildInCallLANG && children[0] == other.children[0]
     override fun evaluate(row: IteratorBundle): () -> ValueDefinition {
         val childA = (children[0] as AOPBase).evaluate(row)
         return {

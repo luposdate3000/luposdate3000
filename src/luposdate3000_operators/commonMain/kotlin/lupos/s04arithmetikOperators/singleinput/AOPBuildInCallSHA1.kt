@@ -13,8 +13,8 @@ import lupos.s04logicalOperators.iterator.IteratorBundle
 
 @OptIn(ExperimentalStdlibApi::class)
 class AOPBuildInCallSHA1(query: IQuery, child: AOPBase) : AOPBase(query, EOperatorID.AOPBuildInCallSHA1ID, "AOPBuildInCallSHA1", arrayOf(child)) {
-    override fun toSparql() = "SHA1(" + children[0].toSparql() + ")"
-    override fun equals(other: Any?) = other is AOPBuildInCallSHA1 && children[0] == other.children[0]
+    override fun toSparql(): String = "SHA1(" + children[0].toSparql() + ")"
+    override fun equals(other: Any?): Boolean = other is AOPBuildInCallSHA1 && children[0] == other.children[0]
     override fun evaluate(row: IteratorBundle): () -> ValueDefinition {
         val childA = (children[0] as AOPBase).evaluate(row)
         return {

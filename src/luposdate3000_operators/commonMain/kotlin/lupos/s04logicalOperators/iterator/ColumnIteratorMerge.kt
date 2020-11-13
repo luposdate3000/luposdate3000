@@ -213,7 +213,7 @@ object ColumnIteratorMerge {
 
 class ColumnIteratorMerge1(@JvmField val a: ColumnIterator, @JvmField val b: ColumnIterator, @JvmField val comparator: Comparator<Int>) : ColumnIterator() {
     @JvmField
-    var label = 3
+    var label: Int = 3
 
     @JvmField
     var aBuf: Int = ResultSetDictionaryExt.nullValue
@@ -310,7 +310,7 @@ class ColumnIteratorMerge1(@JvmField val a: ColumnIterator, @JvmField val b: Col
 
 class ColumnIteratorMerge2(@JvmField val a: ColumnIterator, @JvmField val b: ColumnIterator) : ColumnIterator() {
     @JvmField
-    var label = 3
+    var label: Int = 3
 
     @JvmField
     var aBuf: Int = ResultSetDictionaryExt.nullValue

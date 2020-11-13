@@ -9,7 +9,7 @@ import lupos.s08logicalOptimisation.OptimizerBase
 import lupos.s09physicalOperators.partition.*
 
 class PhysicalOptimizerPartition5(query: Query) : OptimizerBase(query, EOptimizerID.PhysicalOptimizerPartition5ID) {
-    override val classname = "PhysicalOptimizerPartition5"
+    override val classname: String = "PhysicalOptimizerPartition5"
     override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
         var res = node
         if (USE_PARTITIONS && Partition.default_k > 1) {

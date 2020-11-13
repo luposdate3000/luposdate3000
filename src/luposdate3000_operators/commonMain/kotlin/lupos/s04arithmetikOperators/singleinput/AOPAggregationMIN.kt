@@ -4,6 +4,7 @@ import kotlin.jvm.JvmField
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.EvaluationException
 import lupos.s00misc.SanityCheck
+import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.ValueDefinition
 import lupos.s03resultRepresentation.ValueError
 import lupos.s03resultRepresentation.ValueUndef
@@ -15,7 +16,7 @@ import lupos.s04logicalOperators.iterator.ColumnIteratorAggregate
 import lupos.s04logicalOperators.iterator.IteratorBundle
 
 class AOPAggregationMIN(query: IQuery, @JvmField val distinct: Boolean, childs: Array<AOPBase>) : AOPAggregationBase(query, EOperatorID.AOPAggregationMINID, "AOPAggregationMIN", Array(childs.size) { childs[it] }) {
-    override /*suspend*/ fun toXMLElement() = super.toXMLElement().addAttribute("distinct", "" + distinct)
+    override /*suspend*/ fun toXMLElement(): XMLElement = super.toXMLElement().addAttribute("distinct", "" + distinct)
     override fun toSparql(): String {
         if (distinct) {
             return "MIN(DISTINCT " + children[0].toSparql() + ")"
@@ -23,7 +24,7 @@ class AOPAggregationMIN(query: IQuery, @JvmField val distinct: Boolean, childs: 
         return "MIN(" + children[0].toSparql() + ")"
     }
 
-    override fun equals(other: Any?) = other is AOPAggregationMIN && distinct == other.distinct && children.contentEquals(other.children)
+    override fun equals(other: Any?): Boolean = other is AOPAggregationMIN && distinct == other.distinct && children.contentEquals(other.children)
     override fun createIterator(row: IteratorBundle): ColumnIteratorAggregate {
         val res = ColumnIteratorAggregate()
         val child = (children[0] as AOPBase).evaluate(row)

@@ -9,7 +9,7 @@ import lupos.s04logicalOperators.singleinput.modifiers.LOPReduced
 import lupos.s04logicalOperators.singleinput.modifiers.LOPSortAny
 
 class LogicalOptimizerSortDown(query: Query) : OptimizerBase(query, EOptimizerID.LogicalOptimizerSortDownID) {
-    override val classname = "LogicalOptimizerSortDown"
+    override val classname: String = "LogicalOptimizerSortDown"
     override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
         var res: IOPBase = node
         if (node is LOPSortAny) {

@@ -9,21 +9,25 @@ import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.IteratorBundle
 
 class AOPBuildInCallABS(query: IQuery, child: AOPBase) : AOPBase(query, EOperatorID.AOPBuildInCallABSID, "AOPBuildInCallABS", arrayOf(child)) {
-    override fun toSparql() = "ABS(" + children[0].toSparql() + ")"
-    override fun equals(other: Any?) = other is AOPBuildInCallABS && children[0] == other.children[0]
+    override fun toSparql(): String = "ABS(" + children[0].toSparql() + ")"
+    override fun equals(other: Any?): Boolean = other is AOPBuildInCallABS && children[0] == other.children[0]
     override fun evaluate(row: IteratorBundle): () -> ValueDefinition {
         val childA = (children[0] as AOPBase).evaluate(row)
         return {
             var res: ValueDefinition = ValueError()
-            val a = childA()
-            if (a is ValueDouble) {
-                res = ValueDouble(abs(a.value))
-            } else if (a is ValueFloat) {
-                res = ValueFloat(abs(a.value))
-            } else if (a is ValueDecimal) {
-                res = ValueDecimal(a.value.abs())
-            } else if (a is ValueInteger) {
-                res = ValueInteger(a.value.abs())
+            when (val a = childA()) {
+                is ValueDouble -> {
+                    res = ValueDouble(abs(a.value))
+                }
+                is ValueFloat -> {
+                    res = ValueFloat(abs(a.value))
+                }
+                is ValueDecimal -> {
+                    res = ValueDecimal(a.value.abs())
+                }
+                is ValueInteger -> {
+                    res = ValueInteger(a.value.abs())
+                }
             }
 /*return*/res
         }

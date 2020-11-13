@@ -10,8 +10,8 @@ import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.IteratorBundle
 
 class AOPBuildInCallSTRUUID(query: IQuery) : AOPBase(query, EOperatorID.AOPBuildInCallSTRUUIDID, "AOPBuildInCallSTRUUID", arrayOf()) {
-    override fun toSparql() = "STRUUID()"
-    override fun equals(other: Any?) = other is AOPBuildInCallSTRUUID
+    override fun toSparql(): String = "STRUUID()"
+    override fun equals(other: Any?): Boolean = other is AOPBuildInCallSTRUUID
     override fun evaluate(row: IteratorBundle): () -> ValueDefinition {
         return {
             /*return*/ValueSimpleLiteral("\"", "" + Crypto.uuid())

@@ -12,7 +12,7 @@ class LOPMakeBooleanResult(query: IQuery, child: IOPBase) : LOPBase(query, EOper
         return mutableListOf("?boolean")
     }
 
-    override fun equals(other: Any?) = other is LOPMakeBooleanResult && children[0] == other.children[0]
+    override fun equals(other: Any?): Boolean = other is LOPMakeBooleanResult && children[0] == other.children[0]
     override fun cloneOP(): IOPBase = LOPMakeBooleanResult(query, children[0].cloneOP())
     override /*suspend*/ fun calculateHistogram(): HistogramResult {
         val res = HistogramResult()

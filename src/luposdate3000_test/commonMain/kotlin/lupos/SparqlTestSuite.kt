@@ -24,10 +24,10 @@ import lupos.s16network.LuposdateEndpoint
 
 open class SparqlTestSuite {
     companion object {
-        const val testPersistence = false
-        val filterList = mutableListOf<String>()
-        var prefixDirectory = "."
-        val enabledTestCases = listOf("resources/myqueries/", "resources/bsbm/", "resources/btc/", "resources/sp2b/")
+        const val testPersistence: Boolean = false
+        val filterList: MutableList<String> = mutableListOf<String>()
+        var prefixDirectory: String = "."
+        val enabledTestCases: List<String> = listOf("resources/myqueries/", "resources/bsbm/", "resources/btc/", "resources/sp2b/")
     }
 
     /*suspend*/ fun testMain() {
@@ -120,7 +120,7 @@ open class SparqlTestSuite {
         val data = createSevenIndices(prefix + filename)
         val newprefix = prefix + filename.substringBeforeLast("/") + "/"
         val manifestEntries = data.po(Dictionary.IRI("http://www.w3.org/1999/02/22-rdf-syntax-ns#type"), Dictionary.IRI("http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#Manifest"))
-        manifestEntries.forEach { it ->
+        manifestEntries.forEach {
             // Are other manifest files included?
             val included = data.sp(it, Dictionary.IRI("http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#include"))
             included.forEach { it2 ->
@@ -172,85 +172,85 @@ open class SparqlTestSuite {
         val services = mutableListOf<MutableMap<String, String>>()
         val inputDataGraph = mutableListOf<MutableMap<String, String>>()
         val outputDataGraph = mutableListOf<MutableMap<String, String>>()
-        data.s(node).forEach { it ->
-            when ((Dictionary[it.first] as IRI).iri) {
+        data.s(node).forEach { (first, second) ->
+            when ((Dictionary[first] as IRI).iri) {
                 "http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#result" -> {
                     when {
-                        Dictionary[it.second] is IRI -> {
+                        Dictionary[second] is IRI -> {
                             SanityCheck.check { resultFile == null }
-                            resultFile = prefix + (Dictionary[it.second] as IRI).iri
+                            resultFile = prefix + (Dictionary[second] as IRI).iri
                         }
-                        Dictionary[it.second] is BlankNode -> {
-                            data.s(it.second).forEach { it2 ->
-                                when ((Dictionary[it2.first] as IRI).iri) {
+                        Dictionary[second] is BlankNode -> {
+                            data.s(second).forEach { (first, second) ->
+                                when ((Dictionary[first] as IRI).iri) {
                                     "http://www.w3.org/2009/sparql/tests/test-update#data" -> {
                                         val graph = mutableMapOf<String, String>()
                                         graph["name"] = ""
-                                        graph["filename"] = prefix + (Dictionary[it2.second] as IRI).iri
+                                        graph["filename"] = prefix + (Dictionary[second] as IRI).iri
                                         outputDataGraph.add(graph)
                                     }
                                     "http://www.w3.org/2009/sparql/tests/test-update#graphData" -> {
                                         val graph = mutableMapOf<String, String>()
-                                        data.s(it2.second).forEach {
-                                            when ((Dictionary[it2.first] as IRI).iri) {
+                                        data.s(second).forEach { (first, second) ->
+                                            when ((Dictionary[first] as IRI).iri) {
                                                 "http://www.w3.org/2009/sparql/tests/test-update#graph" -> {
-                                                    graph["filename"] = prefix + (Dictionary[it2.second] as IRI).iri
+                                                    graph["filename"] = prefix + (Dictionary[second] as IRI).iri
                                                 }
                                                 "http://www.w3.org/2000/01/rdf-schema#label" -> {
-                                                    graph["name"] = (Dictionary[it2.second] as SimpleLiteral).content
+                                                    graph["name"] = (Dictionary[second] as SimpleLiteral).content
                                                 }
                                                 else -> {
-                                                    throw UnknownManifestException("SparqlTestSuite", (Dictionary[it2.first] as IRI).iri + " # " + Dictionary[it2.second])
+                                                    throw UnknownManifestException("SparqlTestSuite", (Dictionary[first] as IRI).iri + " # " + Dictionary[second])
                                                 }
                                             }
                                         }
                                         outputDataGraph.add(graph)
                                     }
                                     "http://www.w3.org/2009/sparql/tests/test-update#result" -> {
-                                        SanityCheck.println { "unknown-manifest::http://www.w3.org/2009/sparql/tests/test-update#result : " + (Dictionary[it2.second] as IRI).iri }
+                                        SanityCheck.println { "unknown-manifest::http://www.w3.org/2009/sparql/tests/test-update#result : " + (Dictionary[second] as IRI).iri }
                                     }
                                     else -> {
-                                        throw UnknownManifestException("SparqlTestSuite", (Dictionary[it2.first] as IRI).iri + " # " + Dictionary[it2.second])
+                                        throw UnknownManifestException("SparqlTestSuite", (Dictionary[first] as IRI).iri + " # " + Dictionary[second])
                                     }
                                 }
                             }
                         }
                         else -> {
-                            throw UnknownManifestException("SparqlTestSuite", (Dictionary[it.first] as IRI).iri + " # " + Dictionary[it.second])
+                            throw UnknownManifestException("SparqlTestSuite", (Dictionary[first] as IRI).iri + " # " + Dictionary[second])
                         }
                     }
                 }
                 "http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#action" -> {
                     when {
-                        Dictionary[it.second] is IRI -> {
-                            queryFile = prefix + (Dictionary[it.second] as IRI).iri
+                        Dictionary[second] is IRI -> {
+                            queryFile = prefix + (Dictionary[second] as IRI).iri
                         }
-                        Dictionary[it.second] is BlankNode -> {
-                            data.s(it.second).forEach { it ->
-                                when ((Dictionary[it.first] as IRI).iri) {
+                        Dictionary[second] is BlankNode -> {
+                            data.s(second).forEach { (first, second) ->
+                                when ((Dictionary[first] as IRI).iri) {
                                     "http://www.w3.org/2001/sw/DataAccess/tests/test-query#data" -> {
                                         SanityCheck.check { inputDataFile == null }
-                                        inputDataFile = prefix + (Dictionary[it.second] as IRI).iri
+                                        inputDataFile = prefix + (Dictionary[second] as IRI).iri
                                     }
                                     "http://www.w3.org/2001/sw/DataAccess/tests/test-query#query" -> {
                                         SanityCheck.check { queryFile == null }
-                                        queryFile = prefix + (Dictionary[it.second] as IRI).iri
+                                        queryFile = prefix + (Dictionary[second] as IRI).iri
                                     }
                                     "http://www.w3.org/ns/sparql-service-description#entailmentRegime" -> {
-                                        SanityCheck.println { "unknown-manifest::http://www.w3.org/ns/sparql-service-description#entailmentRegime " + Dictionary[it.second] }
+                                        SanityCheck.println { "unknown-manifest::http://www.w3.org/ns/sparql-service-description#entailmentRegime " + Dictionary[second] }
                                     }
                                     "http://www.w3.org/ns/sparql-service-description#EntailmentProfile" -> {
-                                        SanityCheck.println { "unknown-manifest::http://www.w3.org/ns/sparql-service-description#EntailmentProfile " + Dictionary[it.second] }
+                                        SanityCheck.println { "unknown-manifest::http://www.w3.org/ns/sparql-service-description#EntailmentProfile " + Dictionary[second] }
                                     }
                                     "http://www.w3.org/2001/sw/DataAccess/tests/test-query#graphData" -> {
                                         val graph = mutableMapOf<String, String>()
-                                        graph["name"] = (Dictionary[it.second] as IRI).iri
-                                        graph["filename"] = prefix + (Dictionary[it.second] as IRI).iri
+                                        graph["name"] = (Dictionary[second] as IRI).iri
+                                        graph["filename"] = prefix + (Dictionary[second] as IRI).iri
                                         inputDataGraph.add(graph)
                                     }
                                     "http://www.w3.org/2001/sw/DataAccess/tests/test-query#serviceData" -> {
                                         val service = mutableMapOf<String, String>()
-                                        data.s(it.second).forEach {
+                                        data.s(second).forEach {
                                             when ((Dictionary[it.first] as IRI).iri) {
                                                 "http://www.w3.org/2001/sw/DataAccess/tests/test-query#endpoint" -> {
                                                     service["name"] = (Dictionary[it.second] as IRI).iri
@@ -269,15 +269,15 @@ open class SparqlTestSuite {
                                     }
                                     "http://www.w3.org/2009/sparql/tests/test-update#request" -> {
                                         SanityCheck.check { queryFile == null }
-                                        queryFile = prefix + (Dictionary[it.second] as IRI).iri
+                                        queryFile = prefix + (Dictionary[second] as IRI).iri
                                     }
                                     "http://www.w3.org/2009/sparql/tests/test-update#data" -> {
                                         SanityCheck.check { inputDataFile == null }
-                                        inputDataFile = prefix + (Dictionary[it.second] as IRI).iri
+                                        inputDataFile = prefix + (Dictionary[second] as IRI).iri
                                     }
                                     "http://www.w3.org/2009/sparql/tests/test-update#graphData" -> {
                                         val graph = mutableMapOf<String, String>()
-                                        data.s(it.second).forEach {
+                                        data.s(second).forEach {
                                             when ((Dictionary[it.first] as IRI).iri) {
                                                 "http://www.w3.org/2009/sparql/tests/test-update#graph" -> {
                                                     graph["filename"] = prefix + (Dictionary[it.second] as IRI).iri
@@ -293,20 +293,20 @@ open class SparqlTestSuite {
                                         inputDataGraph.add(graph)
                                     }
                                     else -> {
-                                        throw UnknownManifestException("SparqlTestSuite", (Dictionary[it.first] as IRI).iri + " # " + Dictionary[it.second])
+                                        throw UnknownManifestException("SparqlTestSuite", (Dictionary[first] as IRI).iri + " # " + Dictionary[second])
                                     }
                                 }
                             }
                         }
                         else -> {
-                            throw UnknownManifestException("SparqlTestSuite", (Dictionary[it.first] as IRI).iri + " # " + Dictionary[it.second])
+                            throw UnknownManifestException("SparqlTestSuite", (Dictionary[first] as IRI).iri + " # " + Dictionary[second])
                         }
                     }
                 }
                 "http://www.w3.org/1999/02/22-rdf-syntax-ns#type" -> {
                     SanityCheck.check { testType == null }
-                    testType = (Dictionary[it.second] as IRI).iri
-                    when ((Dictionary[it.second] as IRI).iri) {
+                    testType = (Dictionary[second] as IRI).iri
+                    when ((Dictionary[second] as IRI).iri) {
                         "http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#CSVResultFormatTest" -> {
                         }
                         "http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#NegativeUpdateSyntaxTest11" -> {
@@ -328,38 +328,38 @@ open class SparqlTestSuite {
                             expectedResult = false
                         }
                         else -> {
-                            throw UnknownManifestException("SparqlTestSuite", (Dictionary[it.first] as IRI).iri + " # " + (Dictionary[it.second] as IRI).iri)
+                            throw UnknownManifestException("SparqlTestSuite", (Dictionary[first] as IRI).iri + " # " + (Dictionary[second] as IRI).iri)
                         }
                     }
                 }
                 "http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#name" -> {
-                    names.add((Dictionary[it.second] as SimpleLiteral).content)
+                    names.add((Dictionary[second] as SimpleLiteral).content)
                 }
                 "http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#feature" -> {
-                    features.add((Dictionary[it.second] as IRI).iri)
+                    features.add((Dictionary[second] as IRI).iri)
                 }
                 "http://www.w3.org/2000/01/rdf-schema#comment" -> {
                     SanityCheck.check { comment == null }
-                    comment = (Dictionary[it.second] as SimpleLiteral).content
+                    comment = (Dictionary[second] as SimpleLiteral).content
                 }
                 "http://www.w3.org/2001/sw/DataAccess/tests/test-dawg#approval" -> {
-                    SanityCheck.println { "unknown-manifest::http://www.w3.org/2001/sw/DataAccess/tests/test-dawg#approval " + Dictionary[it.second] }
+                    SanityCheck.println { "unknown-manifest::http://www.w3.org/2001/sw/DataAccess/tests/test-dawg#approval " + Dictionary[second] }
                 }
                 "http://www.w3.org/2001/sw/DataAccess/tests/test-dawg#approvedBy" -> {
-                    SanityCheck.println { "unknown-manifest::http://www.w3.org/2001/sw/DataAccess/tests/test-dawg#approvedBy " + Dictionary[it.second] }
+                    SanityCheck.println { "unknown-manifest::http://www.w3.org/2001/sw/DataAccess/tests/test-dawg#approvedBy " + Dictionary[second] }
                 }
                 "http://www.w3.org/2000/01/rdf-schema#seeAlso" -> {
-                    SanityCheck.println { "unknown-manifest::http://www.w3.org/2000/01/rdf-schema#seeAlso " + (Dictionary[it.second] as IRI).iri }
+                    SanityCheck.println { "unknown-manifest::http://www.w3.org/2000/01/rdf-schema#seeAlso " + (Dictionary[second] as IRI).iri }
                 }
                 "http://www.w3.org/2001/sw/DataAccess/tests/test-query#queryForm" -> {
-                    SanityCheck.println { "unknown-manifest::http://www.w3.org/2001/sw/DataAccess/tests/test-query#queryForm " + (Dictionary[it.second] as IRI).iri }
+                    SanityCheck.println { "unknown-manifest::http://www.w3.org/2001/sw/DataAccess/tests/test-query#queryForm " + (Dictionary[second] as IRI).iri }
                 }
                 "http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#description" -> {
                     SanityCheck.check { description == null }
-                    description = (Dictionary[it.second] as SimpleLiteral).content
+                    description = (Dictionary[second] as SimpleLiteral).content
                 }
                 else -> {
-                    throw UnknownManifestException("SparqlTestSuite", (Dictionary[it.first] as IRI).iri + " # " + Dictionary[it.second])
+                    throw UnknownManifestException("SparqlTestSuite", (Dictionary[first] as IRI).iri + " # " + Dictionary[second])
                 }
             }
         }
@@ -384,7 +384,7 @@ val         success = parseSPARQLAndEvaluate(true, names.first(), expectedResult
     }
 
     @JvmField
-    var lastTripleCount = 0
+    var lastTripleCount: Int = 0
 
     @OptIn(ExperimentalStdlibApi::class, kotlin.time.ExperimentalTime::class)
     open /*suspend*/ fun parseSPARQLAndEvaluate(executeJena: Boolean, testName: String, expectedResult: Boolean, queryFile: String, inputDataFileName: String?, resultDataFileName: String?, services: List<Map<String, String>>?, inputDataGraph: MutableList<MutableMap<String, String>>, outputDataGraph: MutableList<MutableMap<String, String>>): Boolean {
@@ -777,7 +777,7 @@ class SevenIndices {
     private val po = mutableMapOf<Pair<Long, Long>, LongArray>()
 
     @JvmField
-    val spo = mutableSetOf<ID_Triple>()
+    val spo: MutableSet<ID_Triple> = mutableSetOf<ID_Triple>()
     fun s(key: Long): Array<Pair<Long, Long>> = this.s[key] ?: arrayOf()
     fun o(key: Long): Array<Pair<Long, Long>> = this.o[key] ?: arrayOf()
     fun sp(key1: Long, key2: Long): LongArray = this.sp[Pair(key1, key2)] ?: longArrayOf()

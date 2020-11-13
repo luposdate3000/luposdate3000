@@ -6,7 +6,7 @@ import lupos.s00misc.MyBigDecimal
 import lupos.s00misc.MyBigInteger
 import lupos.s00misc.SanityCheck
 
-val nodeGlobalDictionary = ResultSetDictionary(true)
+val nodeGlobalDictionary: ResultSetDictionary = ResultSetDictionary(true)
 
 @OptIn(ExperimentalUnsignedTypes::class)
 class ResultSetDictionary(private val global: Boolean = false) : IResultSetDictionary {
@@ -34,7 +34,7 @@ class ResultSetDictionary(private val global: Boolean = false) : IResultSetDicti
         internal const val flaggedValueGlobalFloat = 0x7C000000/*first 7 bit*/
         internal const val flaggedValueGlobalLangTagged = 0x7E000000/*first 7 bit*/
         internal const val emptyString = ""
-        fun isGlobalBNode(value: Int) = (value and mask3) == flaggedValueGlobalBnode
+        fun isGlobalBNode(value: Int): Boolean = (value and mask3) == flaggedValueGlobalBnode
         fun debug() {
         }
     }
@@ -694,20 +694,26 @@ class ResultSetDictionary(private val global: Boolean = false) : IResultSetDicti
             }
             else -> {
                 val bit5 = value and mask6
-                res = if (bit5 == flaggedValueLocalInt) {
-                    ValueInteger(MyBigInteger(dict.intToValue[value and filter6]))
-                } else if (bit5 == flaggedValueLocalDecimal) {
-                    ValueDecimal(MyBigDecimal(dict.decimalToValue[value and filter6]))
-                } else if (bit5 == flaggedValueLocalDouble) {
-                    ValueDouble(dict.doubleToValue[value and filter6])
-                } else if (bit5 == flaggedValueLocalFloat) {
-                    ValueFloat(dict.floatToValue[value and filter6])
-                } else {
-                    val tmp = dict.langTaggedToValue[value and filter6]
-                    val idx = tmp.indexOf("@")
-                    val lang = tmp.substring(0, idx)
-                    val content = tmp.substring(idx + 1, tmp.length)
-                    ValueLanguageTaggedLiteral("\"", content, lang)
+                res = when (bit5) {
+                    flaggedValueLocalInt -> {
+                        ValueInteger(MyBigInteger(dict.intToValue[value and filter6]))
+                    }
+                    flaggedValueLocalDecimal -> {
+                        ValueDecimal(MyBigDecimal(dict.decimalToValue[value and filter6]))
+                    }
+                    flaggedValueLocalDouble -> {
+                        ValueDouble(dict.doubleToValue[value and filter6])
+                    }
+                    flaggedValueLocalFloat -> {
+                        ValueFloat(dict.floatToValue[value and filter6])
+                    }
+                    else -> {
+                        val tmp = dict.langTaggedToValue[value and filter6]
+                        val idx = tmp.indexOf("@")
+                        val lang = tmp.substring(0, idx)
+                        val content = tmp.substring(idx + 1, tmp.length)
+                        ValueLanguageTaggedLiteral("\"", content, lang)
+                    }
                 }
             }
         }

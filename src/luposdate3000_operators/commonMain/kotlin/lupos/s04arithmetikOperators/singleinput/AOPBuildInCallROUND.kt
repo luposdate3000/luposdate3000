@@ -10,22 +10,27 @@ import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.IteratorBundle
 
 class AOPBuildInCallROUND(query: IQuery, child: AOPBase) : AOPBase(query, EOperatorID.AOPBuildInCallROUNDID, "AOPBuildInCallROUND", arrayOf(child)) {
-    override fun toSparql() = "ROUND(" + children[0].toSparql() + ")"
-    override fun equals(other: Any?) = other is AOPBuildInCallROUND && children[0] == other.children[0]
+    override fun toSparql(): String = "ROUND(" + children[0].toSparql() + ")"
+    override fun equals(other: Any?): Boolean = other is AOPBuildInCallROUND && children[0] == other.children[0]
     override fun evaluate(row: IteratorBundle): () -> ValueDefinition {
         val childA = (children[0] as AOPBase).evaluate(row)
         return {
             var res: ValueDefinition = ValueError()
             val a = childA()
             try {
-                if (a is ValueDouble) {
-                    res = ValueDouble(a.toDouble().roundToInt().toDouble())
-                } else if (a is ValueFloat) {
-                    res = ValueFloat(a.toDouble().roundToInt().toDouble())
-                } else if (a is ValueDecimal) {
-                    res = ValueDecimal(a.value.round())
-                } else if (a is ValueInteger) {
-                    res = a
+                when (a) {
+                    is ValueDouble -> {
+                        res = ValueDouble(a.toDouble().roundToInt().toDouble())
+                    }
+                    is ValueFloat -> {
+                        res = ValueFloat(a.toDouble().roundToInt().toDouble())
+                    }
+                    is ValueDecimal -> {
+                        res = ValueDecimal(a.value.round())
+                    }
+                    is ValueInteger -> {
+                        res = a
+                    }
                 }
             } catch (e: Throwable) {
                 SanityCheck.println { "TODO exception 33" }

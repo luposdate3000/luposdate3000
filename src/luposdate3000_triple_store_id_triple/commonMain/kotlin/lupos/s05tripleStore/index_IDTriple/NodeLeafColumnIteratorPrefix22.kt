@@ -140,7 +140,7 @@ internal class NodeLeafColumnIteratorPrefix22(node: ByteArray, nodeid: Int, pref
                     SanityCheck.check { node != it }
                     nodeTmp = it
                 }
-var                remainingTmp = NodeShared.getTripleCount(nodeTmp)
+val remainingTmp = NodeShared.getTripleCount(nodeTmp)
                 SanityCheck.check { remainingTmp > 0 }
                 var offsetTmp = NodeLeaf.START_OFFSET
                 offsetTmp += NodeShared.readTriple111(nodeTmp, offsetTmp, 0, 0, 0) { v0, v1, v2 ->

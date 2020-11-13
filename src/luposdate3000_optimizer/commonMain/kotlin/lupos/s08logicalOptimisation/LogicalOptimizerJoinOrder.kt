@@ -12,7 +12,7 @@ import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.singleinput.LOPProjection
 
 class LogicalOptimizerJoinOrder(query: Query) : OptimizerBase(query, EOptimizerID.LogicalOptimizerJoinOrderID) {
-    override val classname = "LogicalOptimizerJoinOrder"
+    override val classname: String = "LogicalOptimizerJoinOrder"
     private fun findAllJoinsInChildren(node: LOPJoin): List<IOPBase> {
         val res = mutableListOf<IOPBase>()
         for (c in node.getChildren()) {
@@ -61,27 +61,31 @@ class LogicalOptimizerJoinOrder(query: Query) : OptimizerBase(query, EOptimizerI
     }
 
     /*suspend*/ private fun applyOptimisation(nodes: List<IOPBase>, root: LOPJoin): IOPBase {
-        if (nodes.size > 2) {
-            var result = LogicalOptimizerJoinOrderStore(nodes, root)
-            if (result != null) {
-                return result
+        when {
+            nodes.size > 2 -> {
+                var result = LogicalOptimizerJoinOrderStore(nodes, root)
+                if (result != null) {
+                    return result
+                }
+                result = LogicalOptimizerJoinOrderCostBasedOnHistogram(nodes, root)
+                if (result != null) {
+                    return result
+                }
+                result = LogicalOptimizerJoinOrderCostBasedOnVariable(nodes, root)
+                if (result != null) {
+                    return result
+                }
+                SanityCheck.checkUnreachable()
             }
-            result = LogicalOptimizerJoinOrderCostBasedOnHistogram(nodes, root)
-            if (result != null) {
-                return result
+            nodes.size == 2 -> {
+                val res = LOPJoin(root.query, nodes[0], nodes[1], false)
+                res.onlyExistenceRequired = root.onlyExistenceRequired
+                return res
             }
-            result = LogicalOptimizerJoinOrderCostBasedOnVariable(nodes, root)
-            if (result != null) {
-                return result
+            else -> {
+                SanityCheck.check { nodes.size == 1 }
+                return nodes[0]
             }
-            SanityCheck.checkUnreachable()
-        } else if (nodes.size == 2) {
-            val res = LOPJoin(root.query, nodes[0], nodes[1], false)
-            res.onlyExistenceRequired = root.onlyExistenceRequired
-            return res
-        } else {
-            SanityCheck.check { nodes.size == 1 }
-            return nodes[0]
         }
 /*Coverage Unreachable*/
     }

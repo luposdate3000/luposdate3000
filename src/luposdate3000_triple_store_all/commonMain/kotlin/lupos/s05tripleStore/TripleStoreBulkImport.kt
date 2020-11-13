@@ -7,31 +7,31 @@ import lupos.s15tripleStoreDistributed.distributedTripleStore
 
 class TripleStoreBulkImport(@JvmField val query: IQuery, @JvmField val graphName: String) : ITripleStoreBulkImport {
     @JvmField
-    var totalflushed = 0
+    var totalflushed: Int = 0
 
     @JvmField
-    val data = Array(9) { IntArray(size) }
+    val data: Array<IntArray> = Array(9) { IntArray(size) }
 
     @JvmField
-    var idx = 0
+    var idx: Int = 0
 
     @JvmField
-    var dataSPO = data[0]
+    var dataSPO: IntArray = data[0]
 
     @JvmField
-    var dataSOP = data[0]
+    var dataSOP: IntArray = data[0]
 
     @JvmField
-    var dataPSO = data[0]
+    var dataPSO: IntArray = data[0]
 
     @JvmField
-    var dataPOS = data[0]
+    var dataPOS: IntArray = data[0]
 
     @JvmField
-    var dataOSP = data[0]
+    var dataOSP: IntArray = data[0]
 
     @JvmField
-    var dataOPS = data[0]
+    var dataOPS: IntArray = data[0]
     override fun getData(idx: EIndexPattern): IntArray {
         return when (idx) {
             EIndexPattern.SPO -> dataSPO
@@ -44,7 +44,7 @@ class TripleStoreBulkImport(@JvmField val query: IQuery, @JvmField val graphName
         }
     }
 
-    override fun getIdx() = idx
+    override fun getIdx(): Int = idx
     override /*suspend*/ fun insert(si: Int, pi: Int, oi: Int) {
         data[8][idx++] = si
         data[8][idx++] = pi
@@ -75,7 +75,7 @@ class TripleStoreBulkImport(@JvmField val query: IQuery, @JvmField val graphName
 
     companion object {
         private const val sizeshift = 20
-        const val size = 3 * (1 shl sizeshift)
+        const val size: Int = 3 * (1 shl sizeshift)
     }
 
     private fun sort() {

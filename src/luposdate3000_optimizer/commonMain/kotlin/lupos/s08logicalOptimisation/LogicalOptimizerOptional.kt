@@ -8,7 +8,7 @@ import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.singleinput.LOPOptional
 
 class LogicalOptimizerOptional(query: Query) : OptimizerBase(query, EOptimizerID.LogicalOptimizerOptionalID) {
-    override val classname = "LogicalOptimizerOptional"
+    override val classname: String = "LogicalOptimizerOptional"
     override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
         var res: IOPBase = node
         if (node is LOPOptional) {

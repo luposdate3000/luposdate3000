@@ -8,7 +8,7 @@ import lupos.s04logicalOperators.noinput.LOPTriple
 import lupos.s04logicalOperators.Query
 
 class LogicalOptimizerColumnSortOrder(query: Query) : OptimizerBase(query, EOptimizerID.LogicalOptimizerColumnSortOrderID) {
-    override val classname = "LogicalOptimizerColumnSortOrder"
+    override val classname: String = "LogicalOptimizerColumnSortOrder"
     override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
         val res: IOPBase = node
         var hadChange = false

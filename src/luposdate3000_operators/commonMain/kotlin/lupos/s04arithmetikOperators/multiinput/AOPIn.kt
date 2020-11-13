@@ -12,8 +12,8 @@ import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.IteratorBundle
 
 class AOPIn(query: IQuery, childA: IAOPBase, childB: IAOPBase) : AOPBase(query, EOperatorID.AOPInID, "AOPIn", arrayOf(childA, childB)) {
-    override fun toSparql() = "( " + children[0].toSparql() + " IN " + children[1].toSparql() + " )"
-    override fun equals(other: Any?) = other is AOPIn && children[0] == other.getChildren()[0] && children[1] == other.getChildren()[1]
+    override fun toSparql(): String = "( " + children[0].toSparql() + " IN " + children[1].toSparql() + " )"
+    override fun equals(other: Any?): Boolean = other is AOPIn && children[0] == other.getChildren()[0] && children[1] == other.getChildren()[1]
     override fun evaluate(row: IteratorBundle): () -> ValueDefinition {
         val childA = (children[0] as AOPBase).evaluate(row)
         SanityCheck.check { children[1] is AOPSet }
@@ -42,6 +42,6 @@ class AOPIn(query: IQuery, childA: IAOPBase, childB: IAOPBase) : AOPBase(query, 
         }
     }
 
-    override fun enforcesBooleanOrError() = true
+    override fun enforcesBooleanOrError(): Boolean = true
     override fun cloneOP(): IOPBase = AOPIn(query, children[0].cloneOP() as AOPBase, children[1].cloneOP() as AOPBase)
 }

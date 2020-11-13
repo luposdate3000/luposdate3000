@@ -16,10 +16,10 @@ open class IteratorBundle {
     var _rows: RowIterator?
 
     @JvmField
-    var counter = 0
-    fun hasColumnMode() = mode == IteratorBundleMode.COLUMN
-    fun hasCountMode() = mode == IteratorBundleMode.COUNT
-    fun hasRowMode() = mode == IteratorBundleMode.ROW
+    var counter: Int = 0
+    fun hasColumnMode(): Boolean = mode == IteratorBundleMode.COLUMN
+    fun hasCountMode(): Boolean = mode == IteratorBundleMode.COUNT
+    fun hasRowMode(): Boolean = mode == IteratorBundleMode.ROW
 
     constructor (columns: Map<String, ColumnIterator>) {
         _rows = null
@@ -42,30 +42,38 @@ open class IteratorBundle {
 
     val columns: Map<String, ColumnIterator>
         get() {
-            return if (mode == IteratorBundleMode.COLUMN) {
-                SanityCheck.check { _columns!!.isNotEmpty() }
-                _columns!!
-            } else if (mode == IteratorBundleMode.ROW) {
-                if (_columns == null) {
-                    _columns = ColumnIteratorFromRow(_rows!!)
+            return when (mode) {
+                IteratorBundleMode.COLUMN -> {
+                    SanityCheck.check { _columns!!.isNotEmpty() }
+                    _columns!!
                 }
-                _columns!!
-            } else {
-                throw IteratorBundleColumnModeNotImplementedException()
+                IteratorBundleMode.ROW -> {
+                    if (_columns == null) {
+                        _columns = ColumnIteratorFromRow(_rows!!)
+                    }
+                    _columns!!
+                }
+                else -> {
+                    throw IteratorBundleColumnModeNotImplementedException()
+                }
             }
         }
     val rows: RowIterator
         get() {
-            return if (mode == IteratorBundleMode.ROW) {
-                _rows!!
-            } else if (mode == IteratorBundleMode.COLUMN) {
-                SanityCheck.check { _columns!!.isNotEmpty() }
-                if (_rows == null) {
-                    _rows = RowIteratorFromColumn(this)
+            return when (mode) {
+                IteratorBundleMode.ROW -> {
+                    _rows!!
                 }
-                _rows!!
-            } else {
-                throw IteratorBundleRowModeNotImplementedException()
+                IteratorBundleMode.COLUMN -> {
+                    SanityCheck.check { _columns!!.isNotEmpty() }
+                    if (_rows == null) {
+                        _rows = RowIteratorFromColumn(this)
+                    }
+                    _rows!!
+                }
+                else -> {
+                    throw IteratorBundleRowModeNotImplementedException()
+                }
             }
         }
 

@@ -62,8 +62,8 @@ class TurtleScanner(@JvmField val iterator: LexerCharIterator) : TokenIterator {
         return this.iterator.index
     }
 
-    override fun getLineNumber() = this.iterator.lineNumber
-    override fun getColumnNumber() = this.iterator.columnNumber
+    override fun getLineNumber(): Int = this.iterator.lineNumber
+    override fun getColumnNumber(): Int = this.iterator.columnNumber
     override fun nextToken(): Token {
         try {
             skip()

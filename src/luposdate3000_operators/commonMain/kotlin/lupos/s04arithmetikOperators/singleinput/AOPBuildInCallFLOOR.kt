@@ -10,22 +10,27 @@ import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.IteratorBundle
 
 class AOPBuildInCallFLOOR(query: IQuery, child: AOPBase) : AOPBase(query, EOperatorID.AOPBuildInCallFLOORID, "AOPBuildInCallFLOOR", arrayOf(child)) {
-    override fun toSparql() = "FLOOR(" + children[0].toSparql() + ")"
-    override fun equals(other: Any?) = other is AOPBuildInCallFLOOR && children[0] == other.children[0]
+    override fun toSparql(): String = "FLOOR(" + children[0].toSparql() + ")"
+    override fun equals(other: Any?): Boolean = other is AOPBuildInCallFLOOR && children[0] == other.children[0]
     override fun evaluate(row: IteratorBundle): () -> ValueDefinition {
         val childA = (children[0] as AOPBase).evaluate(row)
         return {
             var res: ValueDefinition = ValueError()
             val a = childA()
             try {
-                if (a is ValueDouble) {
-                    res = ValueDouble(floor(a.toDouble()))
-                } else if (a is ValueFloat) {
-                    res = ValueFloat(floor(a.toDouble()))
-                } else if (a is ValueDecimal) {
-                    res = ValueDecimal(a.value.floor())
-                } else if (a is ValueInteger) {
-                    res = a
+                when (a) {
+                    is ValueDouble -> {
+                        res = ValueDouble(floor(a.toDouble()))
+                    }
+                    is ValueFloat -> {
+                        res = ValueFloat(floor(a.toDouble()))
+                    }
+                    is ValueDecimal -> {
+                        res = ValueDecimal(a.value.floor())
+                    }
+                    is ValueInteger -> {
+                        res = a
+                    }
                 }
             } catch (e: Throwable) {
                 SanityCheck.println { "TODO exception 35" }

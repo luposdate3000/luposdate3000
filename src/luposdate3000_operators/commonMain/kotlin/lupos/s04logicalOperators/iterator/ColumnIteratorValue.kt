@@ -14,10 +14,10 @@ class ColumnIteratorValue : ColumnIterator() {
     }
 
     @JvmField
-    var value = ResultSetDictionaryExt.nullValue
+    var value: Int = ResultSetDictionaryExt.nullValue
 
     @JvmField
-    var done = false
+    var done: Boolean = false
     override /*suspend*/ fun close() {
         done = true
     }

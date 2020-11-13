@@ -11,8 +11,8 @@ import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.IteratorBundle
 
 class AOPNot(query: IQuery, @JvmField var child: AOPBase) : AOPBase(query, EOperatorID.AOPNotID, "AOPNot", arrayOf(child)) {
-    override fun toSparql() = "!(" + children[0].toSparql() + ")"
-    override fun equals(other: Any?) = other is AOPNot && children[0] == other.children[0]
+    override fun toSparql(): String = "!(" + children[0].toSparql() + ")"
+    override fun equals(other: Any?): Boolean = other is AOPNot && children[0] == other.children[0]
     override fun evaluate(row: IteratorBundle): () -> ValueDefinition {
         if ((children[0] as AOPBase).enforcesBooleanOrError()) {
             val childA = (children[0] as AOPBase).evaluateID(row)
@@ -39,6 +39,6 @@ class AOPNot(query: IQuery, @JvmField var child: AOPBase) : AOPBase(query, EOper
         }
     }
 
-    override fun enforcesBooleanOrError() = true
+    override fun enforcesBooleanOrError(): Boolean = true
     override fun cloneOP(): IOPBase = AOPNot(query, children[0].cloneOP() as AOPBase)
 }

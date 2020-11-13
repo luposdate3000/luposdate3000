@@ -5,17 +5,17 @@ import lupos.s03resultRepresentation.ResultSetDictionaryExt
 
 class ColumnIteratorRepeatIterator(@JvmField val count: Int, @JvmField val child: ColumnIterator) : ColumnIterator() {
     @JvmField
-    var index = 0
+    var index: Int = 0
 
     @JvmField
-    var index2 = 0
+    var index2: Int = 0
 
     //TODO use pages instead
     @JvmField
-    val data = mutableListOf<Int>()
+    val data: MutableList<Int> = mutableListOf<Int>()
 
     @JvmField
-    var label = 1
+    var label: Int = 1
     /*suspend*/ inline fun _close() {
         if (label != 0) {
             label = 0
@@ -47,15 +47,19 @@ class ColumnIteratorRepeatIterator(@JvmField val count: Int, @JvmField val child
                 }
             }
             2 -> {
-                return if (index2 < data.size) {
-                    data[index2++]
-                } else if (index < count) {
-                    index++
-                    index2 = 0
-                    data[index2++]
-                } else {
-                    label = 0
-                    ResultSetDictionaryExt.nullValue
+                return when {
+                    index2 < data.size -> {
+                        data[index2++]
+                    }
+                    index < count -> {
+                        index++
+                        index2 = 0
+                        data[index2++]
+                    }
+                    else -> {
+                        label = 0
+                        ResultSetDictionaryExt.nullValue
+                    }
                 }
             }
             else -> {

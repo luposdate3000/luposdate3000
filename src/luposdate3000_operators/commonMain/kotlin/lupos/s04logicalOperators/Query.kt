@@ -23,22 +23,22 @@ class PartitionHelper {
 
 class Query(@JvmField val dictionary: ResultSetDictionary = ResultSetDictionary(), @JvmField val transactionID: Long = global_transactionID++) : IQuery {
     @JvmField
-    var _workingDirectory = ""
+    var _workingDirectory: String = ""
 
     @JvmField
-    var filtersMovedUpFromOptionals = false
+    var filtersMovedUpFromOptionals: Boolean = false
 
     @JvmField
-    var commited = false
+    var commited: Boolean = false
 
     @JvmField
-    var dontCheckVariableExistence = false
+    var dontCheckVariableExistence: Boolean = false
 
     @JvmField
-    var generatedNameCounter = 0
+    var generatedNameCounter: Int = 0
 
     @JvmField
-    var generatedNameByBase = mutableMapOf<String, String>()
+    var generatedNameByBase: MutableMap<String, String> = mutableMapOf<String, String>()
 
     @JvmField
     internal val partitions = mutableMapOf<Long, PartitionHelper>()
@@ -47,10 +47,10 @@ class Query(@JvmField val dictionary: ResultSetDictionary = ResultSetDictionary(
     internal val partitionsLock = MyLock()
 
     @JvmField
-    val partitionOperators = mutableMapOf<Int, MutableSet<Long>>()
+    val partitionOperators: MutableMap<Int, MutableSet<Long>> = mutableMapOf<Int, MutableSet<Long>>()
 
     @JvmField
-    val partitionOperatorCount = mutableMapOf<Int, Int>()
+    val partitionOperatorCount: MutableMap<Int, Int> = mutableMapOf<Int, Int>()
     fun getNextPartitionOperatorID(): Int {
         var res = 0
         while (partitionOperators[res] != null) {
@@ -121,10 +121,10 @@ class Query(@JvmField val dictionary: ResultSetDictionary = ResultSetDictionary(
         }
     }
 
-    override fun getTransactionID() = transactionID
-    override fun getWorkingDirectory() = _workingDirectory
+    override fun getTransactionID(): Long = transactionID
+    override fun getWorkingDirectory(): String = _workingDirectory
     override fun getDictionary(): IResultSetDictionary = dictionary
-    override fun checkVariableExistence() = !dontCheckVariableExistence
+    override fun checkVariableExistence(): Boolean = !dontCheckVariableExistence
     override fun setCommited() {
         commited = true
     }
@@ -133,8 +133,8 @@ class Query(@JvmField val dictionary: ResultSetDictionary = ResultSetDictionary(
         partitions.clear()
     }
 
-    inline fun getUniqueVariableName() = "#+${generatedNameCounter++}"
-    inline fun isGeneratedVariableName(name: String) = name.startsWith('#')
+    inline fun getUniqueVariableName(): String = "#+${generatedNameCounter++}"
+    inline fun isGeneratedVariableName(name: String): Boolean = name.startsWith('#')
     /*suspend*/ fun getPartitionHelper(uuid: Long): PartitionHelper {
         var res: PartitionHelper? = null
         partitionsLock.withLock {

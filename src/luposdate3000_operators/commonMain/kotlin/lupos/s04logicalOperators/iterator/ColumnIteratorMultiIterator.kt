@@ -5,10 +5,10 @@ import lupos.s03resultRepresentation.ResultSetDictionaryExt
 
 class ColumnIteratorMultiIterator(@JvmField val childs: List<ColumnIterator>) : ColumnIterator() {
     @JvmField
-    var index = 0
+    var index: Int = 0
 
     @JvmField
-    var label = 1
+    var label: Int = 1
     /*suspend*/ inline fun _close() {
         if (label != 0) {
             label = 0

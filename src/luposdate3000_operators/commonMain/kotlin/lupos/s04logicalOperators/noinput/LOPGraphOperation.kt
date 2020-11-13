@@ -18,7 +18,7 @@ class LOPGraphOperation(query: IQuery,
                         var graph2type: EGraphRefType = EGraphRefType.DefaultGraphRef,
                         var graph2iri: String? = null
 ) : LOPBase(query, EOperatorID.LOPGraphOperationID, "LOPGraphOperation", arrayOf(), ESortPriority.PREVENT_ANY) {
-    override fun equals(other: Any?) = other is LOPGraphOperation && silent == other.silent && graph1iri == other.graph1iri && graph1type == other.graph1type && graph2iri == other.graph2iri && graph2type == other.graph2type && action == other.action
+    override fun equals(other: Any?): Boolean = other is LOPGraphOperation && silent == other.silent && graph1iri == other.graph1iri && graph1type == other.graph1type && graph2iri == other.graph2iri && graph2type == other.graph2type && action == other.action
     override fun cloneOP(): IOPBase = LOPGraphOperation(query, action, silent, graph1type, graph1iri, graph2type, graph2iri)
     override /*suspend*/ fun calculateHistogram(): HistogramResult {
         val res = HistogramResult()

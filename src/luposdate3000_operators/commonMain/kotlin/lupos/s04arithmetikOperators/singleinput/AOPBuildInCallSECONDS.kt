@@ -11,8 +11,8 @@ import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.IteratorBundle
 
 class AOPBuildInCallSECONDS(query: IQuery, child: AOPBase) : AOPBase(query, EOperatorID.AOPBuildInCallSECONDSID, "AOPBuildInCallSECONDS", arrayOf(child)) {
-    override fun toSparql() = "SECONDS(" + children[0].toSparql() + ")"
-    override fun equals(other: Any?) = other is AOPBuildInCallSECONDS && children[0] == other.children[0]
+    override fun toSparql(): String = "SECONDS(" + children[0].toSparql() + ")"
+    override fun equals(other: Any?): Boolean = other is AOPBuildInCallSECONDS && children[0] == other.children[0]
     override fun evaluate(row: IteratorBundle): () -> ValueDefinition {
         val childA = (children[0] as AOPBase).evaluate(row)
         return {

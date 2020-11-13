@@ -2,6 +2,7 @@ package lupos.s04arithmetikOperators.singleinput
 
 import kotlin.jvm.JvmField
 import lupos.s00misc.EOperatorID
+import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.ValueDefinition
 import lupos.s04arithmetikOperators.AOPAggregationBase
 import lupos.s04arithmetikOperators.AOPBase
@@ -11,7 +12,7 @@ import lupos.s04logicalOperators.iterator.ColumnIteratorAggregate
 import lupos.s04logicalOperators.iterator.IteratorBundle
 
 class AOPAggregationSAMPLE(query: IQuery, @JvmField val distinct: Boolean, childs: Array<AOPBase>) : AOPAggregationBase(query, EOperatorID.AOPAggregationSAMPLEID, "AOPAggregationSAMPLE", Array(childs.size) { childs[it] }) {
-    override /*suspend*/ fun toXMLElement() = super.toXMLElement().addAttribute("distinct", "" + distinct)
+    override /*suspend*/ fun toXMLElement(): XMLElement = super.toXMLElement().addAttribute("distinct", "" + distinct)
     override fun toSparql(): String {
         if (distinct) {
             return "SAMPLE(DISTINCT " + children[0].toSparql() + ")"
@@ -19,7 +20,7 @@ class AOPAggregationSAMPLE(query: IQuery, @JvmField val distinct: Boolean, child
         return "SAMPLE(" + children[0].toSparql() + ")"
     }
 
-    override fun equals(other: Any?) = other is AOPAggregationSAMPLE && distinct == other.distinct && children.contentEquals(other.children)
+    override fun equals(other: Any?): Boolean = other is AOPAggregationSAMPLE && distinct == other.distinct && children.contentEquals(other.children)
     override fun createIterator(row: IteratorBundle): ColumnIteratorAggregate {
         val res = ColumnIteratorAggregate()
         val child = (children[0] as AOPBase).evaluate(row)

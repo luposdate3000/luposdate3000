@@ -19,16 +19,21 @@ import lupos.s09physicalOperators.singleinput.POPProjection
 import lupos.s15tripleStoreDistributed.TripleStoreIteratorGlobal
 
 class PhysicalOptimizerJoinType(query: Query) : OptimizerBase(query, EOptimizerID.PhysicalOptimizerJoinTypeID) {
-    override val classname = "PhysicalOptimizerJoinType"
+    override val classname: String = "PhysicalOptimizerJoinType"
     private fun localGetProjected(node: IOPBase, parent: IOPBase?): List<String> {
-        return if (parent is LOPProjection) {
-            parent.getProvidedVariableNames()
-        } else if (parent is POPProjection) {
-            parent.getProvidedVariableNamesInternal()
-        } else if (node is POPBase) {
-            node.getProvidedVariableNamesInternal()
-        } else {
-            node.getProvidedVariableNames()
+        return when {
+            parent is LOPProjection -> {
+                parent.getProvidedVariableNames()
+            }
+            parent is POPProjection -> {
+                parent.getProvidedVariableNamesInternal()
+            }
+            node is POPBase -> {
+                node.getProvidedVariableNamesInternal()
+            }
+            else -> {
+                node.getProvidedVariableNames()
+            }
         }
     }
 

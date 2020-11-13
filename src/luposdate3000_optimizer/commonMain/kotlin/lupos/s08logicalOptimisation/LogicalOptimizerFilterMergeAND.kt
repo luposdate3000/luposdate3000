@@ -14,7 +14,7 @@ import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.singleinput.LOPFilter
 
 class LogicalOptimizerFilterMergeAND(query: Query) : OptimizerBase(query, EOptimizerID.LogicalOptimizerFilterMergeANDID) {
-    override val classname = "LogicalOptimizerFilterMergeAND"
+    override val classname: String = "LogicalOptimizerFilterMergeAND"
     override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
         var res: IOPBase = node
         if (node is LOPFilter) {

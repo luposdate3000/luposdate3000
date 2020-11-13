@@ -22,7 +22,7 @@ class AOPValue(query: IQuery, childs: List<AOPConstant>) : AOPBase(query, EOpera
         return res
     }
 
-    override fun equals(other: Any?) = other is AOPValue && children.contentEquals(other.children)
+    override fun equals(other: Any?): Boolean = other is AOPValue && children.contentEquals(other.children)
     override fun evaluate(row: IteratorBundle): () -> ValueDefinition {
         SanityCheck.checkUnreachable()
     }

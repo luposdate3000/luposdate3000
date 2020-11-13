@@ -11,8 +11,8 @@ import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.IteratorBundle
 
 class AOPGT(query: IQuery, childA: AOPBase, childB: AOPBase) : AOPBinaryOperationFixedName(query, EOperatorID.AOPGTID, "AOPGT", arrayOf(childA, childB)) {
-    override fun toSparql() = "(" + children[0].toSparql() + " > " + children[1].toSparql() + ")"
-    override fun equals(other: Any?) = other is AOPGT && children[0] == other.children[0] && children[1] == other.children[1]
+    override fun toSparql(): String = "(" + children[0].toSparql() + " > " + children[1].toSparql() + ")"
+    override fun equals(other: Any?): Boolean = other is AOPGT && children[0] == other.children[0] && children[1] == other.children[1]
     override fun evaluate(row: IteratorBundle): () -> ValueDefinition {
         val childA = (children[0] as AOPBase).evaluate(row)
         val childB = (children[1] as AOPBase).evaluate(row)
@@ -56,6 +56,6 @@ class AOPGT(query: IQuery, childA: AOPBase, childB: AOPBase) : AOPBinaryOperatio
         }
     }
 
-    override fun enforcesBooleanOrError() = true
+    override fun enforcesBooleanOrError(): Boolean = true
     override fun cloneOP(): IOPBase = AOPGT(query, children[0].cloneOP() as AOPBase, children[1].cloneOP() as AOPBase)
 }

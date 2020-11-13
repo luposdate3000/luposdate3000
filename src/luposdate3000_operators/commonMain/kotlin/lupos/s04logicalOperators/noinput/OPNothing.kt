@@ -10,8 +10,8 @@ import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.LOPBase
 
 class OPNothing(query: IQuery, @JvmField val myProvidedVariableNames: List<String>) : LOPBase(query, EOperatorID.OPNothingID, "OPNothing", arrayOf(), ESortPriority.PREVENT_ANY) {
-    override fun getProvidedVariableNames() = myProvidedVariableNames
-    override fun toSparql() = "{}"
+    override fun getProvidedVariableNames(): List<String> = myProvidedVariableNames
+    override fun toSparql(): String = "{}"
     override /*suspend*/ fun toXMLElement(): XMLElement {
         val res = super.toXMLElement()
         for (v in myProvidedVariableNames) {
@@ -20,7 +20,7 @@ class OPNothing(query: IQuery, @JvmField val myProvidedVariableNames: List<Strin
         return res
     }
 
-    override fun equals(other: Any?) = other is OPNothing
+    override fun equals(other: Any?): Boolean = other is OPNothing
     override fun cloneOP(): IOPBase = this
     override /*suspend*/ fun calculateHistogram(): HistogramResult {
         val res = HistogramResult()

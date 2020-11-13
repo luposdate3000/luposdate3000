@@ -33,30 +33,30 @@ import lupos.s04logicalOperators.singleinput.modifiers.LOPSortAny
 import lupos.s09physicalOperators.singleinput.POPSort
 
 abstract class OPBase(@JvmField val query: IQuery, @JvmField val operatorID: EOperatorID, @JvmField val classname: String, @JvmField val children: Array<IOPBase>, private val sortPriority: ESortPriority) : IOPBase {
-    override fun getClassname() = classname
+    override fun getClassname(): String = classname
 
     @JvmField
-    var onlyExistenceRequired = false
+    var onlyExistenceRequired: Boolean = false
 
     /* onlyExistenceRequired:: ask / distinct / reduced */
     @JvmField
-    var partOfAskQuery = false
+    var partOfAskQuery: Boolean = false
 
     /*partOfAskQuery :: if_ true, prefer join with store, otherwiese perform fast-sort followed by reduced everywhere*/
     @JvmField
-    var alreadyCheckedStore = -1L
+    var alreadyCheckedStore: Long = -1L
 
     @JvmField
     val uuid: Long = global_uuid++
 
     @JvmField
-    var sortPrioritiesInitialized = false
+    var sortPrioritiesInitialized: Boolean = false
 
     @JvmField
-    var sortPriorities = mutableListOf<List<SortHelper>>()//possibilities (filtered for_ parent)
+    var sortPriorities: MutableList<List<SortHelper>> = mutableListOf<List<SortHelper>>()//possibilities (filtered for_ parent)
 
     @JvmField
-    var mySortPriority = mutableListOf<SortHelper>()
+    var mySortPriority: MutableList<SortHelper> = mutableListOf<SortHelper>()
 
     @JvmField
     var histogramResult: HistogramResult? = null
@@ -68,9 +68,9 @@ abstract class OPBase(@JvmField val query: IQuery, @JvmField val operatorID: EOp
         onlyExistenceRequired = value
     }
 
-    override fun getPartOfAskQuery() = partOfAskQuery
-    override fun getOnlyExistenceRequired() = onlyExistenceRequired
-    override fun getSortPrioritiesInitialized() = sortPrioritiesInitialized
+    override fun getPartOfAskQuery(): Boolean = partOfAskQuery
+    override fun getOnlyExistenceRequired(): Boolean = onlyExistenceRequired
+    override fun getSortPrioritiesInitialized(): Boolean = sortPrioritiesInitialized
     override fun setSortPriorities(value: MutableList<List<SortHelper>>) {
         sortPriorities = value
     }
@@ -79,11 +79,11 @@ abstract class OPBase(@JvmField val query: IQuery, @JvmField val operatorID: EOp
         mySortPriority = value
     }
 
-    override fun getQuery() = query
-    override fun getSortPriorities() = sortPriorities
-    override fun getUUID() = uuid
-    override fun getChildren() = children
-    override fun getMySortPriority() = mySortPriority
+    override fun getQuery(): IQuery = query
+    override fun getSortPriorities(): MutableList<List<SortHelper>> = sortPriorities
+    override fun getUUID(): Long = uuid
+    override fun getChildren(): Array<IOPBase> = children
+    override fun getMySortPriority(): MutableList<SortHelper> = mySortPriority
     abstract /*suspend*/ fun calculateHistogram(): HistogramResult
     override /*suspend*/ fun getHistogram(): HistogramResult {
         if (histogramResult == null) {
@@ -289,22 +289,27 @@ abstract class OPBase(@JvmField val query: IQuery, @JvmField val operatorID: EOp
             ESortPriority.SORT -> {
                 val requiredVariables = mutableListOf<String>()
                 var sortType = ESortType.ASC
-                if (this is LOPSortAny) {
-                    res.add(this.possibleSortOrder)
-                } else if (this is LOPSort) {
-                    if (!this.asc) {
-                        sortType = ESortType.DESC
+                when (this) {
+                    is LOPSortAny -> {
+                        res.add(this.possibleSortOrder)
                     }
-                    requiredVariables.add(this.by.name)
-                } else if (this is POPSort) {
-                    if (!this.sortOrder) {
-                        sortType = ESortType.DESC
+                    is LOPSort -> {
+                        if (!this.asc) {
+                            sortType = ESortType.DESC
+                        }
+                        requiredVariables.add(this.by.name)
                     }
-                    for (v in this.sortBy) {
-                        requiredVariables.add(v.name)
+                    is POPSort -> {
+                        if (!this.sortOrder) {
+                            sortType = ESortType.DESC
+                        }
+                        for (v in this.sortBy) {
+                            requiredVariables.add(v.name)
+                        }
                     }
-                } else {
-                    SanityCheck.checkUnreachable()
+                    else -> {
+                        SanityCheck.checkUnreachable()
+                    }
                 }
                 val tmp = mutableListOf<SortHelper>()
                 for (v in requiredVariables) {

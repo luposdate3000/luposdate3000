@@ -11,8 +11,8 @@ import lupos.s09physicalOperators.POPBase
 class POPEmptyRow(query: IQuery, projectedVariables: List<String>) : POPBase(query, projectedVariables, EOperatorID.POPEmptyRowID, "POPEmptyRow", arrayOf(), ESortPriority.PREVENT_ANY) {
     override fun getPartitionCount(variable: String): Int = 1
     override fun cloneOP(): IOPBase = POPEmptyRow(query, projectedVariables)
-    override fun toSparql() = "{}"
-    override fun equals(other: Any?) = other is POPEmptyRow
+    override fun toSparql(): String = "{}"
+    override fun equals(other: Any?): Boolean = other is POPEmptyRow
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
         return IteratorBundle(1)
     }

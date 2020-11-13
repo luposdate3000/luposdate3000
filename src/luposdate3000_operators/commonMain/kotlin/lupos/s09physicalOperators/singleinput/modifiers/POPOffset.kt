@@ -1,10 +1,8 @@
 package lupos.s09physicalOperators.singleinput.modifiers
 
-import kotlin.jvm.JvmField
-import lupos.s00misc.EOperatorID
-import lupos.s00misc.ESortPriority
-import lupos.s00misc.Partition
+import lupos.s00misc.*
 import lupos.s00misc.SanityCheck
+import kotlin.jvm.JvmField
 import lupos.s03resultRepresentation.ResultSetDictionaryExt
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
@@ -18,7 +16,7 @@ class POPOffset(query: IQuery, projectedVariables: List<String>, @JvmField val o
         return 1
     }
 
-    override fun equals(other: Any?) = other is POPOffset && offset == other.offset && children[0] == other.children[0]
+    override fun equals(other: Any?): Boolean = other is POPOffset && offset == other.offset && children[0] == other.children[0]
     override fun toSparql(): String {
         val sparql = children[0].toSparql()
         if (sparql.startsWith("{SELECT ")) {
@@ -54,5 +52,5 @@ class POPOffset(query: IQuery, projectedVariables: List<String>, @JvmField val o
         return IteratorBundle(outMap)
     }
 
-    override /*suspend*/ fun toXMLElement() = super.toXMLElement().addAttribute("offset", "" + offset)
+    override /*suspend*/ fun toXMLElement(): XMLElement = super.toXMLElement().addAttribute("offset", "" + offset)
 }

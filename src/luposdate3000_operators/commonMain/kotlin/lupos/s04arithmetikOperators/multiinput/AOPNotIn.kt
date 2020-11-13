@@ -11,8 +11,8 @@ import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.IteratorBundle
 
 class AOPNotIn(query: IQuery, childA: AOPBase, childB: AOPBase) : AOPBase(query, EOperatorID.AOPNotInID, "AOPNotIn", arrayOf(childA, childB)) {
-    override fun toSparql() = "( " + children[0].toSparql() + " NOT IN " + children[1].toSparql() + " )"
-    override fun equals(other: Any?) = other is AOPNotIn && children[0] == other.getChildren()[0] && children[1] == other.getChildren()[1]
+    override fun toSparql(): String = "( " + children[0].toSparql() + " NOT IN " + children[1].toSparql() + " )"
+    override fun equals(other: Any?): Boolean = other is AOPNotIn && children[0] == other.getChildren()[0] && children[1] == other.getChildren()[1]
     override fun evaluate(row: IteratorBundle): () -> ValueDefinition {
         val childA = (children[0] as AOPBase).evaluate(row)
         SanityCheck.check { children[1] is AOPSet }
@@ -42,6 +42,6 @@ class AOPNotIn(query: IQuery, childA: AOPBase, childB: AOPBase) : AOPBase(query,
         }
     }
 
-    override fun enforcesBooleanOrError() = true
+    override fun enforcesBooleanOrError(): Boolean = true
     override fun cloneOP(): IOPBase = AOPNotIn(query, children[0].cloneOP() as AOPBase, children[1].cloneOP() as AOPBase)
 }

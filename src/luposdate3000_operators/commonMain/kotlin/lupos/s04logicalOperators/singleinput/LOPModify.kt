@@ -14,7 +14,7 @@ class LOPModify(query: IQuery,
                 @JvmField val insert: MutableList<LOPTriple> = mutableListOf(),
                 @JvmField val delete: MutableList<LOPTriple> = mutableListOf(),
                 child: IOPBase) : LOPBase(query, EOperatorID.LOPModifyID, "LOPModify", arrayOf(child), ESortPriority.PREVENT_ANY) {
-    override fun getProvidedVariableNames() = mutableListOf("?boolean")
+    override fun getProvidedVariableNames(): MutableList<String> = mutableListOf("?boolean")
     override /*suspend*/ fun toXMLElement(): XMLElement {
         val res = super.toXMLElement()
         val xmlI = XMLElement("insert")
@@ -30,7 +30,7 @@ class LOPModify(query: IQuery,
         return res
     }
 
-    override fun equals(other: Any?) = other is LOPModify && insert == other.insert && delete == other.delete && children[0] == other.children[0]
+    override fun equals(other: Any?): Boolean = other is LOPModify && insert == other.insert && delete == other.delete && children[0] == other.children[0]
     override fun cloneOP(): IOPBase = LOPModify(query, insert, delete, children[0].cloneOP())
     override /*suspend*/ fun calculateHistogram(): HistogramResult {
         val res = HistogramResult()

@@ -1,10 +1,8 @@
 package lupos.s09physicalOperators.multiinput
 
-import kotlin.jvm.JvmField
-import lupos.s00misc.EOperatorID
-import lupos.s00misc.ESortPriority
-import lupos.s00misc.Partition
+import lupos.s00misc.*
 import lupos.s00misc.SanityCheck
+import kotlin.jvm.JvmField
 import lupos.s03resultRepresentation.ResultSetDictionaryExt
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
@@ -39,7 +37,7 @@ class POPJoinMergeOptional(query: IQuery, projectedVariables: List<String>, chil
         return children[0].toSparql() + children[1].toSparql()
     }
 
-    override fun equals(other: Any?) = other is POPJoinMergeOptional && optional == other.optional && children[0] == other.children[0] && children[1] == other.children[1]
+    override fun equals(other: Any?): Boolean = other is POPJoinMergeOptional && optional == other.optional && children[0] == other.children[0] && children[1] == other.children[1]
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
         SanityCheck {
             for (v in children[0].getProvidedVariableNames()) {
@@ -100,21 +98,21 @@ class POPJoinMergeOptional(query: IQuery, projectedVariables: List<String>, chil
                     columnsINO[closeIndex2][closeIndex].close()
                 }
             }
-            for (iteratorConfig in outIterators) {
+            for ((first, second) in outIterators) {
                 val iterator = ColumnIteratorChildIteratorEmpty()
                 outIteratorsAllocated.add(iterator)
-                when (iteratorConfig.second) {
+                when (second) {
                     0 -> {
                         columnsOUTJ.add(iterator)
-                        outMap[iteratorConfig.first] = iterator
+                        outMap[first] = iterator
                     }
                     1 -> {
                         columnsOUT[0].add(iterator)
-                        outMap[iteratorConfig.first] = iterator
+                        outMap[first] = iterator
                     }
                     2 -> {
                         columnsOUT[1].add(iterator)
-                        outMap[iteratorConfig.first] = iterator
+                        outMap[first] = iterator
                     }
                     3 -> {
                         columnsOUTJ.add(iterator)
@@ -123,7 +121,7 @@ class POPJoinMergeOptional(query: IQuery, projectedVariables: List<String>, chil
             }
         } else {
             val keyCopy = IntArray(columnsINJ[0].size) { key[0][it] }
-            for (iteratorConfig in outIterators) {
+            for ((first, second) in outIterators) {
                 val iterator = object : ColumnIteratorChildIterator() {
                     override /*suspend*/ fun close() {
                         _close()
@@ -156,18 +154,18 @@ class POPJoinMergeOptional(query: IQuery, projectedVariables: List<String>, chil
                     }
                 }
                 outIteratorsAllocated.add(iterator)
-                when (iteratorConfig.second) {
+                when (second) {
                     0 -> {
                         columnsOUTJ.add(iterator)
-                        outMap[iteratorConfig.first] = iterator
+                        outMap[first] = iterator
                     }
                     1 -> {
                         columnsOUT[0].add(iterator)
-                        outMap[iteratorConfig.first] = iterator
+                        outMap[first] = iterator
                     }
                     2 -> {
                         columnsOUT[1].add(iterator)
-                        outMap[iteratorConfig.first] = iterator
+                        outMap[first] = iterator
                     }
                     3 -> {
                         columnsOUTJ.add(iterator)
@@ -255,6 +253,6 @@ class POPJoinMergeOptional(query: IQuery, projectedVariables: List<String>, chil
         return key[0][0] == ResultSetDictionaryExt.nullValue
     }
 
-    override /*suspend*/ fun toXMLElement() = super.toXMLElement().addAttribute("optional", "" + optional)
+    override /*suspend*/ fun toXMLElement(): XMLElement = super.toXMLElement().addAttribute("optional", "" + optional)
     override fun cloneOP(): IOPBase = POPJoinMergeOptional(query, projectedVariables, children[0].cloneOP(), children[1].cloneOP(), optional)
 }

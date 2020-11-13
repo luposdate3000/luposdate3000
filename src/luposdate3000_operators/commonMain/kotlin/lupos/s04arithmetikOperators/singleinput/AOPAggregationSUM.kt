@@ -2,6 +2,7 @@ package lupos.s04arithmetikOperators.singleinput
 
 import kotlin.jvm.JvmField
 import lupos.s00misc.EOperatorID
+import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.ValueDecimal
 import lupos.s03resultRepresentation.ValueDefinition
 import lupos.s03resultRepresentation.ValueDouble
@@ -17,7 +18,7 @@ import lupos.s04logicalOperators.iterator.ColumnIteratorAggregate
 import lupos.s04logicalOperators.iterator.IteratorBundle
 
 class AOPAggregationSUM(query: IQuery, @JvmField val distinct: Boolean, childs: Array<AOPBase>) : AOPAggregationBase(query, EOperatorID.AOPAggregationSUMID, "AOPAggregationSUM", Array(childs.size) { childs[it] }) {
-    override /*suspend*/ fun toXMLElement() = super.toXMLElement().addAttribute("distinct", "" + distinct)
+    override /*suspend*/ fun toXMLElement(): XMLElement = super.toXMLElement().addAttribute("distinct", "" + distinct)
     override fun toSparql(): String {
         if (distinct) {
             return "SUM(DISTINCT " + children[0].toSparql() + ")"
@@ -25,7 +26,7 @@ class AOPAggregationSUM(query: IQuery, @JvmField val distinct: Boolean, childs: 
         return "SUM(" + children[0].toSparql() + ")"
     }
 
-    override fun equals(other: Any?) = other is AOPAggregationSUM && distinct == other.distinct && children.contentEquals(other.children)
+    override fun equals(other: Any?): Boolean = other is AOPAggregationSUM && distinct == other.distinct && children.contentEquals(other.children)
     override fun createIterator(row: IteratorBundle): ColumnIteratorAggregate {
         val res = ColumnIteratorAggregate()
         val child = (children[0] as AOPBase).evaluate(row)

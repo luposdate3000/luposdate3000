@@ -5,13 +5,13 @@ import kotlin.jvm.JvmField
 object OperatorGraphToLatex {
     class StackElement(@JvmField val name: String) {
         @JvmField
-        var projectionHelper = ""
+        var projectionHelper: String = ""
 
         @JvmField
-        var partitionHelper = ""
+        var partitionHelper: String = ""
 
         @JvmField
-        val children = mutableListOf<StackElement>()
+        val children: MutableList<StackElement> = mutableListOf<StackElement>()
         private fun getChildParallelism(): Int {
             var res = 0
             if (children.size > 0) {
@@ -41,12 +41,16 @@ object OperatorGraphToLatex {
             val parallelism = getParallelism()
             val res = StringBuilder()
             res.append("[")
-            if (isChangingParallelism()) {
-                res.append(coloredText("red", name))
-            } else if (parallelism > 0) {
-                res.append(coloredText("blue", name))
-            } else {
-                res.append(name)
+            when {
+                isChangingParallelism() -> {
+                    res.append(coloredText("red", name))
+                }
+                parallelism > 0 -> {
+                    res.append(coloredText("blue", name))
+                }
+                else -> {
+                    res.append(name)
+                }
             }
             if (name == "Projection") {
                 res.append("(\\textit{${projectionHelper}})")
@@ -69,7 +73,7 @@ object OperatorGraphToLatex {
         }
     }
 
-    fun coloredText(color: String, str: String) = "\\textcolor{$color}{$str}"
+    fun coloredText(color: String, str: String): String = "\\textcolor{$color}{$str}"
     operator fun invoke(inputString: String, caption: String? = null): String {
         val output = StringBuilder()
         output.append("\\documentclass[tikz,border=10pt]{standalone}\n")

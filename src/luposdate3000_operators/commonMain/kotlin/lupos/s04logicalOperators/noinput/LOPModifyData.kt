@@ -20,7 +20,7 @@ class LOPModifyData(query: IQuery, @JvmField val type: EModifyType, @JvmField va
         return res
     }
 
-    override fun equals(other: Any?) = other is LOPModifyData && type == other.type && data == other.data
+    override fun equals(other: Any?): Boolean = other is LOPModifyData && type == other.type && data == other.data
     override fun cloneOP(): IOPBase = LOPModifyData(query, type, data)
     override /*suspend*/ fun calculateHistogram(): HistogramResult {
         val res = HistogramResult()

@@ -37,7 +37,7 @@ class POPGroup : POPBase {
     var by: List<AOPVariable>
 
     @JvmField
-    var bindings = mutableListOf<Pair<String, AOPBase>>()
+    var bindings: MutableList<Pair<String, AOPBase>> = mutableListOf<Pair<String, AOPBase>>()
     override fun getPossibleSortPriorities(): List<List<SortHelper>> {
         val res = mutableListOf<List<SortHelper>>()
         val provided = Array(by.size) { by[it].name }
@@ -94,8 +94,8 @@ class POPGroup : POPBase {
         this.bindings = bindings.toMutableList()
     }
 
-    override fun equals(other: Any?) = other is POPGroup && by == other.by && children[0] == other.children[0] && bindings == other.bindings
-    override fun getProvidedVariableNamesInternal() = (MutableList(by.size) { by[it].name } + MutableList(bindings.size) { bindings[it].first }).distinct()
+    override fun equals(other: Any?): Boolean = other is POPGroup && by == other.by && children[0] == other.children[0] && bindings == other.bindings
+    override fun getProvidedVariableNamesInternal(): List<String> = (MutableList(by.size) { by[it].name } + MutableList(bindings.size) { bindings[it].first }).distinct()
     override fun getRequiredVariableNames(): List<String> {
         val res = MutableList(by.size) { by[it].name }
         for (b in bindings) {
@@ -278,9 +278,9 @@ class POPGroup : POPBase {
                             outMap[v] = ColumnIteratorRepeatValue(1, ResultSetDictionaryExt.undefValue)
                         }
                     }
-                    for (b in bindings) {
-                        if (projectedVariables.contains(b.first)) {
-                            outMap[b.first] = ColumnIteratorRepeatValue(1, ResultSetDictionaryExt.undefValue)
+                    for ((first) in bindings) {
+                        if (projectedVariables.contains(first)) {
+                            outMap[first] = ColumnIteratorRepeatValue(1, ResultSetDictionaryExt.undefValue)
                         }
                     }
                 } else {
@@ -473,8 +473,8 @@ class POPGroup : POPBase {
                     for (v in keyColumnNames) {
                         outMap[v] = ColumnIteratorRepeatValue(1, ResultSetDictionaryExt.undefValue)
                     }
-                    for (b in bindings) {
-                        outMap[b.first] = ColumnIteratorRepeatValue(1, ResultSetDictionaryExt.undefValue)
+                    for ((first) in bindings) {
+                        outMap[first] = ColumnIteratorRepeatValue(1, ResultSetDictionaryExt.undefValue)
                     }
                 } else {
                     val outKeys = Array(keyColumnNames.size) { mutableListOf<Int>() }
@@ -508,8 +508,8 @@ class POPGroup : POPBase {
         }
         val xmlbindings = XMLElement("bindings")
         res.addContent(xmlbindings)
-        for (b in bindings) {
-            xmlbindings.addContent(XMLElement("binding").addAttribute("name", b.first).addContent(b.second.toXMLElement()))
+        for ((first, second) in bindings) {
+            xmlbindings.addContent(XMLElement("binding").addAttribute("name", first).addContent(second.toXMLElement()))
         }
         return res
     }

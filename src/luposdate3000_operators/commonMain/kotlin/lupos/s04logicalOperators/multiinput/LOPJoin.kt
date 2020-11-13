@@ -3,14 +3,15 @@ package lupos.s04logicalOperators.multiinput
 import kotlin.jvm.JvmField
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.ESortPriority
+import lupos.s00misc.XMLElement
 import lupos.s04logicalOperators.HistogramResult
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.LOPBase
 
 class LOPJoin(query: IQuery, first: IOPBase, second: IOPBase, @JvmField val optional: Boolean) : LOPBase(query, EOperatorID.LOPJoinID, "LOPJoin", arrayOf(first, second), ESortPriority.JOIN) {
-    override /*suspend*/ fun toXMLElement() = super.toXMLElement().addAttribute("optional", "" + optional)
-    override fun equals(other: Any?) = other is LOPJoin && optional == other.optional && children[0] == other.children[0] && children[1] == other.children[1]
+    override /*suspend*/ fun toXMLElement(): XMLElement = super.toXMLElement().addAttribute("optional", "" + optional)
+    override fun equals(other: Any?): Boolean = other is LOPJoin && optional == other.optional && children[0] == other.children[0] && children[1] == other.children[1]
     override fun cloneOP(): IOPBase = LOPJoin(query, children[0].cloneOP(), children[1].cloneOP(), optional)
 
     companion object {
@@ -39,22 +40,27 @@ class LOPJoin(query: IQuery, first: IOPBase, second: IOPBase, @JvmField val opti
             for (v in columns[0]) {
                 val av = a.values[v]!!.toDouble()
                 val bv = b.values[v]!!.toDouble()
-                if (av == 0.0) {
-                    estimatedResults = 0.0
-                    tmpMap[v] = 0
-                } else if (bv == 0.0) {
-                    estimatedResults = 0.0
-                    tmpMap[v] = 0
-                } else if (av < bv) {
-                    //not all rows from b get a match
-                    val diff = bv - av
-                    estimatedResults *= (1 - diff / bv)
-                    tmpMap[v] = av.toInt()
-                } else {
-                    //not all rows from a get a match
-                    val diff = av - bv
-                    estimatedResults *= (1 - diff / av)
-                    tmpMap[v] = bv.toInt()
+                when {
+                    av == 0.0 -> {
+                        estimatedResults = 0.0
+                        tmpMap[v] = 0
+                    }
+                    bv == 0.0 -> {
+                        estimatedResults = 0.0
+                        tmpMap[v] = 0
+                    }
+                    av < bv -> {
+                        //not all rows from b get a match
+                        val diff = bv - av
+                        estimatedResults *= (1 - diff / bv)
+                        tmpMap[v] = av.toInt()
+                    }
+                    else -> {
+                        //not all rows from a get a match
+                        val diff = av - bv
+                        estimatedResults *= (1 - diff / av)
+                        tmpMap[v] = bv.toInt()
+                    }
                 }
             }
             if (estimatedResults < 0.0) {

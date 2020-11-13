@@ -43,29 +43,34 @@ object JenaWrapper {
                 qexec.context.set(ARQ.symLogExec, true)
                 qexec.context.set(ARQ.symLogExec, Explain.InfoLevel.FINE)
             }
-            if (query.isSelectType) {
-                val results = qexec.execSelect()
-                val stream = ByteArrayOutputStream()
-                ResultSetFormatter.outputAsXML(stream, results)
-                res = String(stream.toByteArray())
-            } else if (query.isAskType) {
-                res = "<sparql xmlns=\"http://www.w3.org/2005/sparql-results#\"><head><boolean>${qexec.execAsk()}</boolean></head></sparql>"
-            } else if (query.isConstructType) {
-                val resultModel = qexec.execConstruct()
-                val query2 = QueryFactory.create("select ?s ?p ?o where{?s ?p ?o}")
-                val qexec2 = QueryExecutionFactory.create(query2, resultModel)
-                val results = qexec2.execSelect()
-                val stream = ByteArrayOutputStream()
-                ResultSetFormatter.outputAsXML(stream, results)
-                res = String(stream.toByteArray())
-            } else if (query.isDescribeType) {
-                val resultModel = qexec.execDescribe()
-                val query2 = QueryFactory.create("select ?s ?p ?o where{?s ?p ?o}")
-                val qexec2 = QueryExecutionFactory.create(query2, resultModel)
-                val results = qexec2.execSelect()
-                val stream = ByteArrayOutputStream()
-                ResultSetFormatter.outputAsXML(stream, results)
-                res = String(stream.toByteArray())
+            when {
+                query.isSelectType -> {
+                    val results = qexec.execSelect()
+                    val stream = ByteArrayOutputStream()
+                    ResultSetFormatter.outputAsXML(stream, results)
+                    res = String(stream.toByteArray())
+                }
+                query.isAskType -> {
+                    res = "<sparql xmlns=\"http://www.w3.org/2005/sparql-results#\"><head><boolean>${qexec.execAsk()}</boolean></head></sparql>"
+                }
+                query.isConstructType -> {
+                    val resultModel = qexec.execConstruct()
+                    val query2 = QueryFactory.create("select ?s ?p ?o where{?s ?p ?o}")
+                    val qexec2 = QueryExecutionFactory.create(query2, resultModel)
+                    val results = qexec2.execSelect()
+                    val stream = ByteArrayOutputStream()
+                    ResultSetFormatter.outputAsXML(stream, results)
+                    res = String(stream.toByteArray())
+                }
+                query.isDescribeType -> {
+                    val resultModel = qexec.execDescribe()
+                    val query2 = QueryFactory.create("select ?s ?p ?o where{?s ?p ?o}")
+                    val qexec2 = QueryExecutionFactory.create(query2, resultModel)
+                    val results = qexec2.execSelect()
+                    val stream = ByteArrayOutputStream()
+                    ResultSetFormatter.outputAsXML(stream, results)
+                    res = String(stream.toByteArray())
+                }
             }
             if (logging) {
                 val plan = QueryExecutionFactory.createPlan(query, dataset.asDatasetGraph(), null)
@@ -99,8 +104,4 @@ object JenaWrapper {
         updateQuery(updateString.toString())
     }
 
-    fun execQueryFile(fileName: String) {
-        val queryString = File(fileName).readText()
-        execQuery(queryString)
-    }
 }

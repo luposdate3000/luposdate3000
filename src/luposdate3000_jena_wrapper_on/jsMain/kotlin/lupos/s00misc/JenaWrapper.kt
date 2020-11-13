@@ -8,7 +8,7 @@ object JenaWrapper {
     }
 
     fun execQuery(queryString: String): String {
-        var res = ""
+        val res = ""
         return res
     }
 
@@ -18,6 +18,4 @@ object JenaWrapper {
     fun loadFromFile(fileName: String, graph: String) {
     }
 
-    fun execQueryFile(fileName: String) {
-    }
 }

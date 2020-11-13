@@ -10,8 +10,8 @@ import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.IteratorBundle
 
 class AOPFunctionCallDouble(query: IQuery, child: AOPBase) : AOPBase(query, EOperatorID.AOPFunctionCallDoubleID, "AOPFunctionCallDouble", arrayOf(child)) {
-    override fun toSparql() = "<http://www.w3.org/2001/XMLSchema#double>(" + children[0].toSparql() + ")"
-    override fun equals(other: Any?) = other is AOPFunctionCallDouble && children[0] == other.children[0]
+    override fun toSparql(): String = "<http://www.w3.org/2001/XMLSchema#double>(" + children[0].toSparql() + ")"
+    override fun equals(other: Any?): Boolean = other is AOPFunctionCallDouble && children[0] == other.children[0]
     override fun evaluate(row: IteratorBundle): () -> ValueDefinition {
         val childA = (children[0] as AOPBase).evaluate(row)
         return {

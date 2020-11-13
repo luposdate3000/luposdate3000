@@ -1,10 +1,8 @@
 package lupos.s09physicalOperators.multiinput
 
-import kotlin.jvm.JvmField
-import lupos.s00misc.EOperatorID
-import lupos.s00misc.ESortPriority
-import lupos.s00misc.Partition
+import lupos.s00misc.*
 import lupos.s00misc.SanityCheck
+import kotlin.jvm.JvmField
 import lupos.s03resultRepresentation.ResultSetDictionaryExt
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
@@ -31,10 +29,10 @@ class POPJoinMerge(query: IQuery, projectedVariables: List<String>, childA: IOPB
         }
     }
 
-    override fun toSparql() = children[0].toSparql() + children[1].toSparql()
-    override /*suspend*/ fun toXMLElement() = super.toXMLElement().addAttribute("optional", "" + optional)
+    override fun toSparql(): String = children[0].toSparql() + children[1].toSparql()
+    override /*suspend*/ fun toXMLElement(): XMLElement = super.toXMLElement().addAttribute("optional", "" + optional)
     override fun cloneOP(): IOPBase = POPJoinMerge(query, projectedVariables, children[0].cloneOP(), children[1].cloneOP(), optional)
-    override fun equals(other: Any?) = other is POPJoinMerge && optional == other.optional && children[0] == other.children[0] && children[1] == other.children[1]
+    override fun equals(other: Any?): Boolean = other is POPJoinMerge && optional == other.optional && children[0] == other.children[0] && children[1] == other.children[1]
     internal class IteratorBundleImpl(@JvmField val columnsINJ0: List<ColumnIterator>, @JvmField val columnsINJ1: List<ColumnIterator>, @JvmField val columnsOUTJ: ColumnIteratorChildIterator) : IteratorBundle(0) {
         override /*suspend*/ fun hasNext2(): Boolean {
             val tmp = columnsOUTJ.next() != ResultSetDictionaryExt.nullValue
@@ -390,19 +388,19 @@ class POPJoinMerge(query: IQuery, projectedVariables: List<String>, childA: IOPB
         }
         val key0 = IntArray(columnsINJ0.size)
         val key1 = IntArray(columnsINJ1.size)
-        for (iteratorConfig in outIterators) {
+        for ((first, second) in outIterators) {
             val iterator = ColumnIteratorChildIteratorImpl(columnsINJ0, columnsINJ1, columnsINO0, columnsINO1, columnsOUT0, columnsOUT1, columnsOUTJ, key0, key1)
-            when (iteratorConfig.second) {
+            when (second) {
                 0 -> {
-                    outMap[iteratorConfig.first] = iterator
+                    outMap[first] = iterator
                     columnsOUTJ.add(iterator)
                 }
                 1 -> {
-                    outMap[iteratorConfig.first] = iterator
+                    outMap[first] = iterator
                     columnsOUT0.add(iterator)
                 }
                 2 -> {
-                    outMap[iteratorConfig.first] = iterator
+                    outMap[first] = iterator
                     columnsOUT1.add(iterator)
                 }
                 3 -> {

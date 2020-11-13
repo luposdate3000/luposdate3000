@@ -155,13 +155,13 @@ open class RowIteratorMerge(@JvmField val a: RowIterator, @JvmField val b: RowIt
     }
 
     @JvmField
-    var flag = 3
+    var flag: Int = 3
 
     @JvmField
-    var aIdx = -1
+    var aIdx: Int = -1
 
     @JvmField
-    var bIdx = -1
+    var bIdx: Int = -1
 
     init {
         SanityCheck {

@@ -39,7 +39,7 @@ class POPSplitPartition(query: IQuery, projectedVariables: List<String>, val par
     }
 
     override fun cloneOP(): IOPBase = POPSplitPartition(query, projectedVariables, partitionVariable, partitionCount, partitionID, children[0].cloneOP())
-    override fun toSparql() = children[0].toSparql()
+    override fun toSparql(): String = children[0].toSparql()
     override fun equals(other: Any?): Boolean = other is POPSplitPartition && children[0] == other.children[0] && partitionVariable == other.partitionVariable && partitionCount == other.partitionCount
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
 //throw BugException("POPSplitPartition","child is not launching, because coroutine is missing suspension point")
@@ -77,7 +77,7 @@ class POPSplitPartition(query: IQuery, projectedVariables: List<String>, val par
                 var writerFinished = 0
                 SanityCheck.println { "ringbuffersize = ${ringbuffer.size} $elementsPerRing $partitionCount ${ringbufferStart.map { it }} ${ringbufferReadHead.map { it }} ${ringbufferWriteHead.map { it }}" }
                 SanityCheck.println { "split $uuid writer launched A" }
-            var    job = Parallel.launch {
+            val job = Parallel.launch {
                     var child2: RowIterator? = null
                     try {
                         SanityCheck.println { "split $uuid writer launched B" }

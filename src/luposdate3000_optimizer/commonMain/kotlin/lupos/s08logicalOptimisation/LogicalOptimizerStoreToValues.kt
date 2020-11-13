@@ -19,7 +19,7 @@ import lupos.s04logicalOperators.singleinput.LOPBind
 import lupos.s15tripleStoreDistributed.distributedTripleStore
 
 class LogicalOptimizerStoreToValues(query: Query) : OptimizerBase(query, EOptimizerID.LogicalOptimizerStoreToValuesID) {
-    override val classname = "LogicalOptimizerStoreToValues"
+    override val classname: String = "LogicalOptimizerStoreToValues"
     override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
         var res: IOPBase = node
         if (node is LOPTriple && REPLACE_STORE_WITH_VALUES) {
@@ -69,19 +69,23 @@ class LogicalOptimizerStoreToValues(query: Query) : OptimizerBase(query, EOptimi
                             break
                         }
                     }
-                    if (i == 0) {
-                        res = OPNothing(query, node.getProvidedVariableNames())
-                        onChange()
-                    } else if (i == 1) {
-                        res = LOPBind(query, AOPVariable(query, variables[0]), AOPConstant(query, data[0]))
-                        onChange()
-                    } else if (i < 5) {
-                        val constants = mutableListOf<AOPValue>()
-                        for (j in 0 until i) {
-                            constants.add(AOPValue(query, listOf(AOPConstant(query, data[j]))))
+                    when {
+                        i == 0 -> {
+                            res = OPNothing(query, node.getProvidedVariableNames())
+                            onChange()
                         }
-                        res = LOPValues(query, listOf(AOPVariable(query, variables[0])), constants)
-                        onChange()
+                        i == 1 -> {
+                            res = LOPBind(query, AOPVariable(query, variables[0]), AOPConstant(query, data[0]))
+                            onChange()
+                        }
+                        i < 5 -> {
+                            val constants = mutableListOf<AOPValue>()
+                            for (j in 0 until i) {
+                                constants.add(AOPValue(query, listOf(AOPConstant(query, data[j]))))
+                            }
+                            res = LOPValues(query, listOf(AOPVariable(query, variables[0])), constants)
+                            onChange()
+                        }
                     }
                     for ((k, v) in columns) {
                         v.close()

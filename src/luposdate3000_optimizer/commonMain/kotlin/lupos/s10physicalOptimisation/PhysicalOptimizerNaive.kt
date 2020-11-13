@@ -33,20 +33,25 @@ import lupos.s09physicalOperators.singleinput.modifiers.POPReduced
 import lupos.s15tripleStoreDistributed.distributedTripleStore
 
 class PhysicalOptimizerNaive(query: Query) : OptimizerBase(query, EOptimizerID.PhysicalOptimizerNaiveID) {
-    override val classname = "PhysicalOptimizerNaive"
+    override val classname: String = "PhysicalOptimizerNaive"
     override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
         var res = node
         var change = true
-        var projectedVariables : List<String>
+        val projectedVariables : List<String>
         try {
-            projectedVariables = if (parent is LOPProjection) {
-                parent.getProvidedVariableNames()
-            } else if (parent is POPProjection) {
-                parent.getProvidedVariableNamesInternal()
-            } else if (node is POPBase) {
-                node.getProvidedVariableNamesInternal()
-            } else {
-                node.getProvidedVariableNames()
+            projectedVariables = when {
+                parent is LOPProjection -> {
+                    parent.getProvidedVariableNames()
+                }
+                parent is POPProjection -> {
+                    parent.getProvidedVariableNamesInternal()
+                }
+                node is POPBase -> {
+                    node.getProvidedVariableNamesInternal()
+                }
+                else -> {
+                    node.getProvidedVariableNames()
+                }
             }
             when (node) {
                 is LOPSortAny -> {
