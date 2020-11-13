@@ -22,7 +22,7 @@ class RowIteratorBuf(buf: IntArray, columns: Array<String>, val size: Int) : Row
             } else {
                 tmp
             }
-             res
+            res
         }
     }
 }

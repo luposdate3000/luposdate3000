@@ -202,11 +202,11 @@ object BinaryTestCase {
     }
 
     internal class IntArrayComparator : Comparator<IntArray> {
-        override fun compare(p1: IntArray, p2: IntArray): Int {
-            for (i in p1.indices) {
-                if (p1[i] < p2[i]) {
+        override fun compare(a: IntArray, b: IntArray): Int {
+            for (i in a.indices) {
+                if (a[i] < b[i]) {
                     return -1
-                } else if (p1[i] > p2[i]) {
+                } else if (a[i] > b[i]) {
                     return 1
                 }
             }
@@ -331,13 +331,13 @@ object BinaryTestCase {
                             val mappingTargetToLive = IntArray(dictionarySize) { 0 }
                             val mappingLiveToTarget = mutableMapOf(ResultSetDictionaryExt.undefValue to -1, ResultSetDictionaryExt.errorValue to -1, ResultSetDictionaryExt.nullValue to -1)
                             for (i in 0 until dictionarySize) {
-                                val len = targetDictionary.readInt()
-                                val buf = ByteArray(len)
-                                val read = targetDictionary.read(buf, 0, len)
-                                if (read < len) {
+                                val len2 = targetDictionary.readInt()
+                                val buf2 = ByteArray(len2)
+                                val read2 = targetDictionary.read(buf2, 0, len2)
+                                if (read2 < len2) {
                                     throw Exception("not enough data available")
                                 }
-                                val s = buf.decodeToString()
+                                val s = buf2.decodeToString()
                                 if (notImplementedFeaturesList.contains(s)) {
                                     throw object : NotImplementedException("NotImplementedException", "Inference not implemented '$s'") {}
                                 }
@@ -473,14 +473,14 @@ if (tmpTable != null) {
                             if (mode == BinaryTestCaseOutputMode.MODIFY_RESULT) {
                                 val resultWriter = MyPrintWriter(false)
                                 QueryResultToXMLStream(popNode, resultWriter)
-                                val query4 = Query()
-                                val actualResult = operatorGraphToTable(distributedTripleStore.getDefaultGraph(query4).getIterator(arrayOf(AOPVariable(query4, "s"), AOPVariable(query4, "p"), AOPVariable(query4, "o")), EIndexPattern.SPO, Partition()))
+                                val query5 = Query()
+                                val actualResult = operatorGraphToTable(distributedTripleStore.getDefaultGraph(query5).getIterator(arrayOf(AOPVariable(query5, "s"), AOPVariable(query5, "p"), AOPVariable(query5, "o")), EIndexPattern.SPO, Partition()))
                                 if (!verifyEqual(tableOutput, actualResult, mappingLiveToTarget, targetDict, targetDict2, allowOrderBy, queryName, query_folder, "result in store (SPO) is wrong")) {
                                     returnValue = false
                                     break@func
                                 }
-                                distributedTripleStore.commit(query4)
-                                query4.commited = true
+                                distributedTripleStore.commit(query5)
+                                query5.commited = true
                             } else {
                                 val actualResult = operatorGraphToTable(popNode)
                                 if (!verifyEqual(tableOutput, actualResult, mappingLiveToTarget, targetDict, targetDict2, allowOrderBy, queryName, query_folder, "query result is wrong")) {

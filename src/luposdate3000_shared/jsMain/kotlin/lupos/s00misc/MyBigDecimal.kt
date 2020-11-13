@@ -27,9 +27,6 @@ actual class MyBigDecimal {
         throw object : NotImplementedException("MyBigDecimal", "toDouble not implemented") {}
     }
 
-    actual fun toInt(): Int {
-        throw object : NotImplementedException("MyBigDecimal", "toInt not implemented") {}
-    }
 
     actual operator fun plus(other: MyBigDecimal): MyBigDecimal {
         throw object : NotImplementedException("MyBigDecimal", "plus not implemented") {}
@@ -69,7 +66,7 @@ actual class MyBigDecimal {
 
     actual override fun toString(): String = s
     actual override fun equals(other: Any?): Boolean = other is MyBigDecimal && s == other.s
-actual    override fun hashCode(): Int {
+    actual override fun hashCode(): Int {
         return s.hashCode()
     }
 }

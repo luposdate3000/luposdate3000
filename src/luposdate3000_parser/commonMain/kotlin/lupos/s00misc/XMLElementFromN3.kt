@@ -1,7 +1,7 @@
 package lupos.s00misc
 
-import lupos.s02buildSyntaxTree.turtle.Turtle2Parser
 import kotlin.jvm.JvmField
+import lupos.s02buildSyntaxTree.turtle.Turtle2Parser
 
 class XMLElementFromN3 : XMLElementParser {
     override operator fun invoke(data: String): XMLElement {

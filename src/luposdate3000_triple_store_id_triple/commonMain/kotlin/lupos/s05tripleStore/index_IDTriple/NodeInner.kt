@@ -86,7 +86,7 @@ internal object NodeInner {
         return iterator!!
     }
 
-    inline /*suspend*/ fun forEachChild(node: ByteArray,crossinline action: /*suspend*/ (Int) -> Unit) {
+    inline /*suspend*/ fun forEachChild(node: ByteArray, crossinline action: /*suspend*/ (Int) -> Unit) {
         var remaining = NodeShared.getTripleCount(node)
         var offset = START_OFFSET
         var lastChildPointer = getFirstChild(node)
@@ -101,7 +101,7 @@ internal object NodeInner {
         }
     }
 
-    /*suspend*/    inline  fun findIteratorN(node: ByteArray,crossinline checkTooSmall: /*suspend*/ (value0: Int, value1: Int, value2: Int) -> Boolean, crossinline action: /*suspend*/ (Int) -> Unit) {
+    /*suspend*/    inline fun findIteratorN(node: ByteArray, crossinline checkTooSmall: /*suspend*/ (value0: Int, value1: Int, value2: Int) -> Boolean, crossinline action: /*suspend*/ (Int) -> Unit) {
         var remaining = NodeShared.getTripleCount(node)
         var offset = START_OFFSET
         var value0 = 0
@@ -131,7 +131,7 @@ internal object NodeInner {
         var nodeid = 0
         while (true) {
             findIteratorN(node, { value0, value1, value2 ->
-                 (value0 < prefix[0]) || (value0 == prefix[0] && value1 < prefix[1]) || (value0 == prefix[0] && value1 == prefix[1] && value2 < prefix[2])
+                (value0 < prefix[0]) || (value0 == prefix[0] && value1 < prefix[1]) || (value0 == prefix[0] && value1 == prefix[1] && value2 < prefix[2])
             }, { it ->
                 nodeid = it
                 SanityCheck.println { "Outside.refcount($it)  x21" }
@@ -157,7 +157,7 @@ internal object NodeInner {
         var nodeid = 0
         while (true) {
             findIteratorN(node, { value0, value1, value2 ->
-                 (value0 < prefix[0]) || (value0 == prefix[0] && value1 < prefix[1])
+                (value0 < prefix[0]) || (value0 == prefix[0] && value1 < prefix[1])
             }, { it ->
                 nodeid = it
                 SanityCheck.println { "Outside.refcount($it)  x22" }
@@ -183,7 +183,7 @@ internal object NodeInner {
         var nodeid = 0
         while (true) {
             findIteratorN(node, { value0, value1, value2 ->
-                 (value0 < prefix[0])
+                (value0 < prefix[0])
             }, { it ->
                 nodeid = it
                 SanityCheck.println { "Outside.refcount($it)  x23" }

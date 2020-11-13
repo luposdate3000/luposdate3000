@@ -37,7 +37,7 @@ class PhysicalOptimizerNaive(query: Query) : OptimizerBase(query, EOptimizerID.P
     override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
         var res = node
         var change = true
-        var projectedVariables = listOf<String>()
+        var projectedVariables : List<String>
         try {
             projectedVariables = if (parent is LOPProjection) {
                 parent.getProvidedVariableNames()

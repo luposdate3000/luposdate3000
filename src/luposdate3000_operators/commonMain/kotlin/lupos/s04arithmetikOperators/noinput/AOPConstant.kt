@@ -36,13 +36,13 @@ class AOPConstant : AOPBase, IAOPConstant {
     override fun equals(other: Any?): Boolean = other is AOPConstant && value == other.value
     override fun evaluate(row: IteratorBundle): () -> ValueDefinition {
         return {
-             query.getDictionary().getValue(value)
+            query.getDictionary().getValue(value)
         }
     }
 
     override fun evaluateID(row: IteratorBundle): () -> Int {
         return {
-             value
+            value
         }
     }
 

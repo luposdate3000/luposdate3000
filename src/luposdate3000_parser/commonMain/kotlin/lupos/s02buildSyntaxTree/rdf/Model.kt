@@ -29,14 +29,10 @@ abstract class Literal(@JvmField val content: String, @JvmField val delimiter: S
 }
 
 class SimpleLiteral(content: String, delimiter: String) : Literal(content, delimiter)
-
 class LanguageTaggedLiteral(content: String, delimiter: String, @JvmField val language: String) : Literal(content, delimiter) {
-
     override fun toN3String(): String = super.toN3String() + "@" + language
 }
 
 class TypedLiteral(content: String, delimiter: String, @JvmField val type: String) : Literal(content, delimiter) {
-
     override fun toN3String(): String = super.toN3String() + "^^<" + type + ">"
 }
-

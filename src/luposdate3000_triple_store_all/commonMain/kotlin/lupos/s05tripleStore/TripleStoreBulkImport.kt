@@ -6,7 +6,6 @@ import lupos.s04logicalOperators.IQuery
 import lupos.s15tripleStoreDistributed.distributedTripleStore
 
 class TripleStoreBulkImport(@JvmField val query: IQuery, @JvmField val graphName: String) : ITripleStoreBulkImport {
-
     @JvmField
     var totalflushed = 0
 

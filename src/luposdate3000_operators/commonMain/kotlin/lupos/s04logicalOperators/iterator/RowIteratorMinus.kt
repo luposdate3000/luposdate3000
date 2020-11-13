@@ -100,7 +100,7 @@ open class RowIteratorMinus(val a: RowIterator, val b: RowIterator, private val 
                         }
                     }
                 }
-                 res
+                res
             }
         }
     }

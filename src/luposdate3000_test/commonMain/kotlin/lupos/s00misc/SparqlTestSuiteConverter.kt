@@ -37,9 +37,6 @@ class SparqlTestSuiteConverter(resource_folder: String, private val output_folde
         lastFile = inputFile
         var outputFile = resultDataFileName
         var mode = BinaryTestCaseOutputMode.SELECT_QUERY_RESULT
-        if (inputDataFileName == null) {
-            return false
-        }
         if (outputFile == null) {
             if (outputDataGraph.size == 1 && outputDataGraph[0]["name"] == "") {
                 mode = BinaryTestCaseOutputMode.MODIFY_RESULT

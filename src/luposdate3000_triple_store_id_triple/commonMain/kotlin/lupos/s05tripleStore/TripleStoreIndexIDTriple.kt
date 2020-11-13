@@ -69,7 +69,6 @@ class TripleStoreIndexIDTriple : TripleStoreIndex() {
     val cachedHistograms2 = IntArray(400)
 
     internal companion object {
-
         @JvmField
         var debugLock = MyReadWriteLock()
     }

@@ -11,14 +11,14 @@ import lupos.s03resultRepresentation.nodeGlobalDictionary
 
 internal class MyPrintWriterExtension(out: OutputStream) : MyPrintWriter(out) {
     private var counter = 0
-    override fun print(s: String) {
-        val len = s.length
+    override fun print(x: String) {
+        val len = x.length
         counter += len
         if (counter > 8192) {
             flush()
             counter = len
         }
-        super.print(s)
+        super.print(x)
     }
 }
 

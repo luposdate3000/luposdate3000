@@ -39,8 +39,8 @@ open class SparqlTestSuite {
             val prefixes = enabledTestCases
             for (prefix in prefixes) {
                 var lastinput: String? = null
-                File(prefixDirectory + prefix + "config.csv").forEachLineSuspended { it ->
-                    val line = it.split(",")
+                File(prefixDirectory + prefix + "config.csv").forEachLineSuspended { it2 ->
+                    val line = it2.split(",")
                     if (line.size > 3) {
                         val triplesCount = line[0]
                         val queryFile = prefixDirectory + "/" + prefix + line[1]
@@ -51,8 +51,8 @@ open class SparqlTestSuite {
                                 JenaWrapper.loadFromFile("/src/luposdate3000/$inputFile")
                                 val jenaResult = JenaWrapper.execQuery(File(queryFile).readAsString())
                                 val jenaXML = XMLElementFromXML()(jenaResult)!!
-                                File(outputFile).printWriterSuspended {
-                                    it.println(jenaXML.toPrettyString())
+                                File(outputFile).printWriterSuspended {it3->
+                                    it3.println(jenaXML.toPrettyString())
                                 }
                             } catch (e: Throwable) {
                                 println({ "TODO exception 39" })
@@ -123,10 +123,10 @@ open class SparqlTestSuite {
         manifestEntries.forEach { it ->
             // Are other manifest files included?
             val included = data.sp(it, Dictionary.IRI("http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#include"))
-            included.forEach { it ->
+            included.forEach { it2 ->
                 // follow list of included manifest files:
-                listMembers(data, it) {
-                    val includedfile = Dictionary[it]
+                listMembers(data, it2) { it3 ->
+                    val includedfile = Dictionary[it3]
                     if (includedfile != null) {
                         includedfile as IRI
                         val (nr_t, nr_e) = parseManifestFile(prefix, includedfile.iri)
@@ -137,13 +137,13 @@ open class SparqlTestSuite {
             }
             // Now look for_ the tests:
             val tests = data.sp(it, Dictionary.IRI("http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#entries"))
-            tests.forEach { it ->
+            tests.forEach { it2 ->
                 // follow list of entries:
-                listMembers(data, it) {
+                listMembers(data, it2) { it3 ->
                     // for_ printing out the name:
-                    val name = data.sp(it, Dictionary.IRI("http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#name"))
+                    val name = data.sp(it3, Dictionary.IRI("http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#name"))
                     numberOfTests++
-                    if (!testOneEntry(data, it, newprefix)) {
+                    if (!testOneEntry(data, it3, newprefix)) {
                         numberOfErrors++
                     }
                 }
@@ -181,36 +181,36 @@ open class SparqlTestSuite {
                             resultFile = prefix + (Dictionary[it.second] as IRI).iri
                         }
                         Dictionary[it.second] is BlankNode -> {
-                            data.s(it.second).forEach { it ->
-                                when ((Dictionary[it.first] as IRI).iri) {
+                            data.s(it.second).forEach { it2 ->
+                                when ((Dictionary[it2.first] as IRI).iri) {
                                     "http://www.w3.org/2009/sparql/tests/test-update#data" -> {
                                         val graph = mutableMapOf<String, String>()
                                         graph["name"] = ""
-                                        graph["filename"] = prefix + (Dictionary[it.second] as IRI).iri
+                                        graph["filename"] = prefix + (Dictionary[it2.second] as IRI).iri
                                         outputDataGraph.add(graph)
                                     }
                                     "http://www.w3.org/2009/sparql/tests/test-update#graphData" -> {
                                         val graph = mutableMapOf<String, String>()
-                                        data.s(it.second).forEach {
-                                            when ((Dictionary[it.first] as IRI).iri) {
+                                        data.s(it2.second).forEach {
+                                            when ((Dictionary[it2.first] as IRI).iri) {
                                                 "http://www.w3.org/2009/sparql/tests/test-update#graph" -> {
-                                                    graph["filename"] = prefix + (Dictionary[it.second] as IRI).iri
+                                                    graph["filename"] = prefix + (Dictionary[it2.second] as IRI).iri
                                                 }
                                                 "http://www.w3.org/2000/01/rdf-schema#label" -> {
-                                                    graph["name"] = (Dictionary[it.second] as SimpleLiteral).content
+                                                    graph["name"] = (Dictionary[it2.second] as SimpleLiteral).content
                                                 }
                                                 else -> {
-                                                    throw UnknownManifestException("SparqlTestSuite", (Dictionary[it.first] as IRI).iri + " # " + Dictionary[it.second])
+                                                    throw UnknownManifestException("SparqlTestSuite", (Dictionary[it2.first] as IRI).iri + " # " + Dictionary[it2.second])
                                                 }
                                             }
                                         }
                                         outputDataGraph.add(graph)
                                     }
                                     "http://www.w3.org/2009/sparql/tests/test-update#result" -> {
-                                        SanityCheck.println { "unknown-manifest::http://www.w3.org/2009/sparql/tests/test-update#result : " + (Dictionary[it.second] as IRI).iri }
+                                        SanityCheck.println { "unknown-manifest::http://www.w3.org/2009/sparql/tests/test-update#result : " + (Dictionary[it2.second] as IRI).iri }
                                     }
                                     else -> {
-                                        throw UnknownManifestException("SparqlTestSuite", (Dictionary[it.first] as IRI).iri + " # " + Dictionary[it.second])
+                                        throw UnknownManifestException("SparqlTestSuite", (Dictionary[it2.first] as IRI).iri + " # " + Dictionary[it2.second])
                                     }
                                 }
                             }
@@ -378,9 +378,8 @@ open class SparqlTestSuite {
         if (queryFile == null) {
             return true
         }
-        var success = false
         lastTripleCount = 0//dont apply during w3c-tests
-        success = parseSPARQLAndEvaluate(true, names.first(), expectedResult, queryFile!!, inputDataFile, resultFile, services, inputDataGraph, outputDataGraph)
+val         success = parseSPARQLAndEvaluate(true, names.first(), expectedResult, queryFile!!, inputDataFile, resultFile, services, inputDataGraph, outputDataGraph)
         return success == expectedResult
     }
 

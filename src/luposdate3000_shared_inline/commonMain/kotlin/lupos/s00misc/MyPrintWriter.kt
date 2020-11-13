@@ -1,7 +1,6 @@
 package lupos.s00misc
 
 internal expect class MyPrintWriter(hasBuffer: Boolean = true) : IMyPrintWriter {
-
     override fun clearBuffer()
     override fun toString(): String
     override fun println(x: String)

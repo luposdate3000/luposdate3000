@@ -125,7 +125,6 @@ class Query(@JvmField val dictionary: ResultSetDictionary = ResultSetDictionary(
     override fun getWorkingDirectory() = _workingDirectory
     override fun getDictionary(): IResultSetDictionary = dictionary
     override fun checkVariableExistence() = !dontCheckVariableExistence
-
     override fun setCommited() {
         commited = true
     }

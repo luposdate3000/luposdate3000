@@ -40,7 +40,6 @@ class PhysicalOptimizerPartition3(query: Query) : OptimizerBase(query, EOptimize
 //this is POPDebug or something similar with is not affecting the calculation - otherwise this node wont be POPSplitPartitionFromStore
                         storeNodeTmp = storeNodeTmp.getChildren()[0]
                     }
-                    SanityCheck.check { storeNodeTmp is TripleStoreIteratorGlobal }
                     val storeNode = storeNodeTmp
                     val idx = storeNode.idx
                     var partitionColumn = 0

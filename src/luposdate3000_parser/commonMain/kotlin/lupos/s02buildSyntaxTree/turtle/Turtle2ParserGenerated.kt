@@ -204,7 +204,6 @@ internal inline fun parse_ws(context: ParserContext,
         onSKIP_WS()
         return
     }
-    throw ParserExceptionUnexpectedChar(context)
 }
 
 internal inline fun parse_ws_forced(context: ParserContext,

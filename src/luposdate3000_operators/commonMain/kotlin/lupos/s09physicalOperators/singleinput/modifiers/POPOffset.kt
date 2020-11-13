@@ -38,8 +38,8 @@ class POPOffset(query: IQuery, projectedVariables: List<String>, @JvmField val o
             for (element in columns) {
                 tmp = element!!.next()
                 if (tmp == ResultSetDictionaryExt.nullValue) {
-                    for (element in columns) {
-                        element!!.close()
+                    for (element2 in columns) {
+                        element2!!.close()
                     }
                     break@loop
                 }

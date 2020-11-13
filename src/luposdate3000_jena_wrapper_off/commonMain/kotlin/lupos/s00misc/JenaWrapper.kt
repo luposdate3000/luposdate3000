@@ -13,5 +13,4 @@ object JenaWrapper {
 
     fun loadFromFile(fileName: String, graph: String) {
     }
-
 }

@@ -49,7 +49,6 @@ class POPSplitPartition(query: IQuery, projectedVariables: List<String>, val par
             return children[0].evaluate(parent)
         } else {
             var iterators: Array<IteratorBundle>? = null
-            var job: ParallelJob?
             val childPartition = Partition(parent, partitionVariable)
             val partitionHelper: PartitionHelper?
             partitionHelper = (query as Query).getPartitionHelper(uuid)
@@ -57,9 +56,6 @@ class POPSplitPartition(query: IQuery, projectedVariables: List<String>, val par
             partitionHelper.lock.lock()
             if (partitionHelper.iterators != null) {
                 iterators = partitionHelper.iterators!![childPartition]
-            }
-            if (partitionHelper.jobs != null) {
-                job = partitionHelper.jobs!![childPartition]
             }
             var error: Throwable? = null
             if (iterators == null) {
@@ -81,7 +77,7 @@ class POPSplitPartition(query: IQuery, projectedVariables: List<String>, val par
                 var writerFinished = 0
                 SanityCheck.println { "ringbuffersize = ${ringbuffer.size} $elementsPerRing $partitionCount ${ringbufferStart.map { it }} ${ringbufferReadHead.map { it }} ${ringbufferWriteHead.map { it }}" }
                 SanityCheck.println { "split $uuid writer launched A" }
-                job = Parallel.launch {
+            var    job = Parallel.launch {
                     var child2: RowIterator? = null
                     try {
                         SanityCheck.println { "split $uuid writer launched B" }

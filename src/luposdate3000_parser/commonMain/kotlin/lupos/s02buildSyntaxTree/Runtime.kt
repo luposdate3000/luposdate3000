@@ -74,7 +74,7 @@ class LexerCharIterator(@JvmField val content: CharIterator) {
 
     @JvmField
     var columnNumber = 0
-     var debugcounterindex = 0
+    var debugcounterindex = 0
 
     @JvmField
     var backArray: Array<Char> = Array(MAXSIZEPUTBACK) { ' ' }
@@ -188,4 +188,3 @@ abstract class Token(@JvmField val image: String, @JvmField val index: Int) {
         return super.toString() + ": " + image
     }
 }
-

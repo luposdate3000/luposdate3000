@@ -26,7 +26,7 @@ internal object SanityCheckOn {
     }
 
     inline fun <T> helper(crossinlineaction: () -> T): T? = action()
-    inline fun check(crossinlinevalue: () -> Boolean,crossinline msg: () -> String) {
+    inline fun check(crossinlinevalue: () -> Boolean, crossinline msg: () -> String) {
         try {
             if (!value()) {
                 throw Exception("SanityCheck failed :: " + msg())

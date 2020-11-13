@@ -275,7 +275,7 @@ class MyMapKNAMEVNAMEBTreeGDEF(@JvmField val t: Int) {
 
         fun splitChild(i: Int, y: MyMapKNAMEVNAMEBTreeNodeGUSE) {
             val z = if (y is MyMapKNAMEVNAMEBTreeNodeLeafGUSE) {
-                        MyMapKNAMEVNAMEBTreeNodeLeafGUSE(y.t)
+                MyMapKNAMEVNAMEBTreeNodeLeafGUSE(y.t)
             } else {
                 MyMapKNAMEVNAMEBTreeNodeNonLeafGUSE(y.t)
             }
@@ -487,13 +487,13 @@ class MyMapKNAMEVNAMEBTreeGDEF(@JvmField val t: Int) {
             }
             s.C[i]!!.insertNonFull(k, {
                 size++
-                 onCreate()
+                onCreate()
             }, onExists)
             root = s
         } else {
             root!!.insertNonFull(k, {
                 size++
-                 onCreate()
+                onCreate()
             }, onExists)
         }
     }
@@ -556,7 +556,7 @@ class MyMapKNAMEVNAMEBTreeGDEF(@JvmField val t: Int) {
             res!!
         }, { a, b ->
             res = b
-             res!!
+            res!!
         })
         return res!!
     }

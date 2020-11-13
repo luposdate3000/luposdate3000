@@ -23,7 +23,7 @@ class AOPVariable(query: IQuery, @JvmField var name: String) : AOPBase(query, EO
         val tmp = row.columns[name]
         return if (tmp == null) {
             {
-                 ResultSetDictionaryExt.undefValue2
+                ResultSetDictionaryExt.undefValue2
             }
         } else {
             SanityCheck.check { tmp is ColumnIteratorQueue }
@@ -36,14 +36,14 @@ class AOPVariable(query: IQuery, @JvmField var name: String) : AOPBase(query, EO
 
     override fun evaluateID(row: IteratorBundle): () -> Int {
         val tmp = row.columns[name]
-        if (tmp == null) {
-            return {
-                 ResultSetDictionaryExt.undefValue
+        return if (tmp == null) {
+            {
+                ResultSetDictionaryExt.undefValue
             }
         } else {
             SanityCheck.check { tmp is ColumnIteratorQueue }
             val column = tmp as ColumnIteratorQueue
-            return {
+            {
                 column.tmp
             }
         }

@@ -126,12 +126,11 @@ internal class NodeLeafColumnIteratorPrefix12(node: ByteArray, nodeid: Int, pref
             var usedNextPage = false
             while (nodeidTmp != NodeManager.nodeNullPointer) {
                 var nodeTmp = node
-                var remainingTmp = 0
                 NodeManager.getNodeLeaf(nodeidTmp) {
                     SanityCheck.check { node != it }
                     nodeTmp = it
                 }
-                remainingTmp = NodeShared.getTripleCount(nodeTmp)
+var                remainingTmp = NodeShared.getTripleCount(nodeTmp)
                 SanityCheck.check { remainingTmp > 0 }
                 var offsetTmp = NodeLeaf.START_OFFSET
                 offsetTmp += NodeShared.readTriple101(nodeTmp, offsetTmp, 0, 0) { v0, v2 ->
@@ -197,7 +196,7 @@ internal class NodeLeafColumnIteratorPrefix12(node: ByteArray, nodeid: Int, pref
         }
     }
 
-    open override /*suspend*/ fun skipSIP(skipCount: Int): Int {
+     override /*suspend*/ fun skipSIP(skipCount: Int): Int {
         if (label == 3) {
             label = 2
             __init()

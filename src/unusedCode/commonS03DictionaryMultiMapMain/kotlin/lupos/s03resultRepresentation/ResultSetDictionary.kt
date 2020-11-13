@@ -292,7 +292,7 @@ class ResultSetDictionary(val global: Boolean = false) {
             res = doubleMap.getOrCreate(value, {
                 val idx = doubleList.size
                 doubleList.add(value)
-                 (flaggedValueGlobalDouble or idx.toInt())
+                (flaggedValueGlobalDouble or idx.toInt())
             })
         } else {
             val tmp = nodeGlobalDictionary.doubleMap[value]
@@ -302,7 +302,7 @@ class ResultSetDictionary(val global: Boolean = false) {
                 res = doubleMap.getOrCreate(value, {
                     val idx = doubleList.size
                     doubleList.add(value)
-                     (flaggedValueLocalDouble or idx.toInt())
+                    (flaggedValueLocalDouble or idx.toInt())
                 })
             }
         }
@@ -316,7 +316,7 @@ class ResultSetDictionary(val global: Boolean = false) {
             res = floatMap.getOrCreate(value, {
                 val idx = floatList.size
                 floatList.add(value)
-                 (flaggedValueGlobalFloat or idx.toInt())
+                (flaggedValueGlobalFloat or idx.toInt())
             })
         } else {
             val tmp = nodeGlobalDictionary.floatMap[value]
@@ -326,7 +326,7 @@ class ResultSetDictionary(val global: Boolean = false) {
                 res = floatMap.getOrCreate(value, {
                     val idx = floatList.size
                     floatList.add(value)
-                     (flaggedValueLocalFloat or idx.toInt())
+                    (flaggedValueLocalFloat or idx.toInt())
                 })
             }
         }

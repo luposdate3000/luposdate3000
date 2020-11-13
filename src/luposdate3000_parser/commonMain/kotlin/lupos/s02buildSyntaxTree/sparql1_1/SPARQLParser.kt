@@ -5237,5 +5237,4 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
             }
         }
     }
-
 }

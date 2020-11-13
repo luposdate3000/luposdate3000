@@ -11,7 +11,6 @@ internal object NodeManager {
 
     @JvmField
     val bufferManager = BufferManager()
-
     inline fun releaseNode(nodeid: Int) {
         bufferManager.releasePage(nodeid)
     }

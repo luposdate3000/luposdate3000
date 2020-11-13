@@ -112,15 +112,14 @@ class BufferManager {
                     } else {
                         ByteArray(BUFFER_MANAGER_PAGE_SIZE_IN_BYTES)
                     }
-                     res
+                    res
                 }
                 val tmp2 = IntArray(size) {
-                    val res: Int = if (it < counter) {
+                    if (it < counter) {
                         allPagesRefcounters[it]
                     } else {
                         0
                     }
-                     res
                 }
                 allPages = tmp
                 allPagesRefcounters = tmp2

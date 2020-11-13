@@ -322,7 +322,7 @@ class TurtleParserWithDictionary(@JvmField val consume_triple: (Long, Long, Long
         var t13 = ltit.lookahead()
         while (t13 is IRI || t13 is PNAME_LN || t13 is PNAME_NS || t13 is BNODE || t13 is ANON_BNODE || t13.image == "(" || t13.image == "[" || t13 is STRING || t13 is INTEGER || t13 is DECIMAL || t13 is DOUBLE || t13.image == "true" || t13.image == "false") {
             val next = lupos.s02buildSyntaxTree.rdf.Dictionary.BlankNode()
-            if (current === nil_iri) {
+            if (current == nil_iri) {
                 first = next
             } else {
                 consume_triple(current, rest_iri, next)
@@ -336,7 +336,7 @@ class TurtleParserWithDictionary(@JvmField val consume_triple: (Long, Long, Long
         if (token.image != ")") {
             throw UnexpectedToken(token, arrayOf(")"), ltit)
         }
-        if (current !== nil_iri) {
+        if (current != nil_iri) {
             consume_triple(current, rest_iri, nil_iri)
         }
         return first

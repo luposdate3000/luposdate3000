@@ -34,10 +34,10 @@ class LogicalOptimizerFilterDown(query: Query) : OptimizerBase(query, EOptimizer
                 addFilters(filters, node.getChildren()[1] as AOPBase)
                 while (child is LOPFilter) {
                     val filter = child.getChildren()[1] as AOPBase
-                    val found = false
+                    var found = false
                     for (f in filters) {
                         if (f == filter) {
-                            found
+                            found=true
                             break
                         }
                     }

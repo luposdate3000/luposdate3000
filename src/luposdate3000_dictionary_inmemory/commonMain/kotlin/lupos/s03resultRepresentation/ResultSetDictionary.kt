@@ -279,11 +279,11 @@ class ResultSetDictionary(private val global: Boolean = false) : IResultSetDicti
                     res = iriToInt.size
                     iriToInt[iri] = res
                     if (iriToValue.size <= res) {
-                        val tmp = Array(iriToValue.size * 2) { emptyString }
+                        val tmp2 = Array(iriToValue.size * 2) { emptyString }
                         for (i in iriToValue.indices) {
-                            tmp[i] = iriToValue[i]
+                            tmp2[i] = iriToValue[i]
                         }
-                        iriToValue = tmp
+                        iriToValue = tmp2
                     }
                     iriToValue[res] = iri
                     res = res or flaggedValueLocalIri
@@ -325,11 +325,11 @@ class ResultSetDictionary(private val global: Boolean = false) : IResultSetDicti
                     res = langTaggedToInt.size
                     langTaggedToInt[key] = res
                     if (langTaggedToValue.size <= res) {
-                        val tmp = Array(langTaggedToValue.size * 2) { emptyString }
+                        val tmp2 = Array(langTaggedToValue.size * 2) { emptyString }
                         for (i in langTaggedToValue.indices) {
-                            tmp[i] = langTaggedToValue[i]
+                            tmp2[i] = langTaggedToValue[i]
                         }
-                        langTaggedToValue = tmp
+                        langTaggedToValue = tmp2
                     }
                     langTaggedToValue[res] = key
                     res = res or flaggedValueLocalLangTagged
@@ -392,11 +392,11 @@ class ResultSetDictionary(private val global: Boolean = false) : IResultSetDicti
                             res = typedToInt.size
                             typedToInt[key] = res
                             if (typedToValue.size <= res) {
-                                val tmp = Array(typedToValue.size * 2) { emptyString }
+                                val tmp2 = Array(typedToValue.size * 2) { emptyString }
                                 for (i in typedToValue.indices) {
-                                    tmp[i] = typedToValue[i]
+                                    tmp2[i] = typedToValue[i]
                                 }
-                                typedToValue = tmp
+                                typedToValue = tmp2
                             }
                             typedToValue[res] = key
                             res = res or flaggedValueLocalTyped
@@ -439,11 +439,11 @@ class ResultSetDictionary(private val global: Boolean = false) : IResultSetDicti
                     res = doubleToInt.size
                     doubleToInt[value] = res
                     if (doubleToValue.size <= res) {
-                        val tmp = DoubleArray(doubleToValue.size * 2) { 0.0 }
+                        val tmp2 = DoubleArray(doubleToValue.size * 2) { 0.0 }
                         for (i in doubleToValue.indices) {
-                            tmp[i] = doubleToValue[i]
+                            tmp2[i] = doubleToValue[i]
                         }
-                        doubleToValue = tmp
+                        doubleToValue = tmp2
                     }
                     doubleToValue[res] = value
                     res = res or flaggedValueLocalDouble
@@ -484,11 +484,11 @@ class ResultSetDictionary(private val global: Boolean = false) : IResultSetDicti
                     res = floatToInt.size
                     floatToInt[value] = res
                     if (floatToValue.size <= res) {
-                        val tmp = DoubleArray(floatToValue.size * 2) { 0.0 }
+                        val tmp2 = DoubleArray(floatToValue.size * 2) { 0.0 }
                         for (i in floatToValue.indices) {
-                            tmp[i] = floatToValue[i]
+                            tmp2[i] = floatToValue[i]
                         }
-                        floatToValue = tmp
+                        floatToValue = tmp2
                     }
                     floatToValue[res] = value
                     res = res or flaggedValueLocalFloat
@@ -530,11 +530,11 @@ class ResultSetDictionary(private val global: Boolean = false) : IResultSetDicti
                     res = decimalToInt.size
                     decimalToInt[value] = res
                     if (decimalToValue.size <= res) {
-                        val tmp = Array(decimalToValue.size * 2) { emptyString }
+                        val tmp2 = Array(decimalToValue.size * 2) { emptyString }
                         for (i in decimalToValue.indices) {
-                            tmp[i] = decimalToValue[i]
+                            tmp2[i] = decimalToValue[i]
                         }
-                        decimalToValue = tmp
+                        decimalToValue = tmp2
                     }
                     decimalToValue[res] = value
                     res = res or flaggedValueLocalDecimal
@@ -576,11 +576,11 @@ class ResultSetDictionary(private val global: Boolean = false) : IResultSetDicti
                     res = intToInt.size
                     intToInt[value] = res
                     if (intToValue.size <= res) {
-                        val tmp = Array(intToValue.size * 2) { emptyString }
+                        val tmp2 = Array(intToValue.size * 2) { emptyString }
                         for (i in intToValue.indices) {
-                            tmp[i] = intToValue[i]
+                            tmp2[i] = intToValue[i]
                         }
-                        intToValue = tmp
+                        intToValue = tmp2
                     }
                     intToValue[res] = value
                     res = res or flaggedValueLocalInt

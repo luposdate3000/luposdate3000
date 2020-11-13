@@ -9,7 +9,6 @@ import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.LOPBase
 
 class LOPMinus(query: IQuery, first: IOPBase, second: IOPBase, @JvmField var tmpFakeVariables: List<String>) : LOPBase(query, EOperatorID.LOPMinusID, "LOPMinus", arrayOf(first, second), ESortPriority.MINUS) {
-
     @JvmField
     var hadSortPushDown = false
     override fun getProvidedVariableNames() = (children[0].getProvidedVariableNames() + tmpFakeVariables).distinct()

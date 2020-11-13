@@ -1,7 +1,7 @@
 package lupos.s02buildSyntaxTree.sparql1_1
 
-import lupos.s02buildSyntaxTree.*
 import kotlin.jvm.JvmField
+import lupos.s02buildSyntaxTree.*
 
 class EOF(index: Int) : Token("EOF", index)
 abstract class InBraces(@JvmField val content: String, index: Int, @JvmField val leftBrace: String, @JvmField val rightBrace: String) : Token(leftBrace + content + rightBrace, index) {
@@ -53,7 +53,6 @@ class PNAME_LN(@JvmField val beforeColon: String, @JvmField val afterColon: Stri
 class POSSIBLE_KEYWORD(@JvmField val original_image: String, index: Int) : Token(original_image.toUpperCase(), index)
 class VAR(prefix: Char, @JvmField val identifier: String, index: Int) : Token(prefix + identifier, index)
 class UnexpectedEndOfLine(index: Int, lineNumber: Int, columnNumber: Int) : ParseError("Unexpected End of Line", lineNumber, columnNumber)
-
 class TokenIteratorSPARQLParser(@JvmField val iterator: LexerCharIterator) : TokenIterator {
     private fun skip() {
         loop@ while (true) {

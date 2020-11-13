@@ -34,7 +34,6 @@ class PNAME_NS(@JvmField val beforeColon: String, index: Int) : Token("$beforeCo
 class PNAME_LN(@JvmField val beforeColon: String, @JvmField val afterColon: String, index: Int) : Token("$beforeColon:$afterColon", index)
 class POSSIBLE_KEYWORD(@JvmField val original_image: String, index: Int) : Token(original_image.toUpperCase(), index)
 class UnexpectedEndOfLine(index: Int, lineNumber: Int, columnNumber: Int) : ParseError("Unexpected End of Line", lineNumber, columnNumber)
-
 class TurtleScanner(@JvmField val iterator: LexerCharIterator) : TokenIterator {
     private fun skip() {
         loop@ while (true) {

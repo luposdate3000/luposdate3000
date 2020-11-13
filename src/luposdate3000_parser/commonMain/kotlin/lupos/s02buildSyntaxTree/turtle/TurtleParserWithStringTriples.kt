@@ -195,12 +195,11 @@ abstract class TurtleParserWithStringTriples {
     }
 
     /*suspend*/ private fun objectList(s: String, p: String) {
-        var token: Token
         val o = triple_object()
         consume_triple(s, p, o)
         var t8 = ltit!!.lookahead()
         while (t8.image == ",") {
-            token = ltit!!.nextToken()
+             ltit!!.nextToken()
             val o2 = triple_object()
             consume_triple(s, p, o2)
             t8 = ltit!!.lookahead()

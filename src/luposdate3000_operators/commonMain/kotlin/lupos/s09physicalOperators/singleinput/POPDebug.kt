@@ -145,7 +145,7 @@ class POPDebug(query: IQuery, projectedVariables: List<String>, child: IOPBase) 
                             counter++
                             SanityCheck.println { "$uuid next return $counter ${parent.data} ${iterator.buf.map { it.toString(16) }}" }
                         }
-                         res
+                        res
                     }
                     iterator.close = {
                         SanityCheck.println { "$uuid closed $counter ${parent.data}" }

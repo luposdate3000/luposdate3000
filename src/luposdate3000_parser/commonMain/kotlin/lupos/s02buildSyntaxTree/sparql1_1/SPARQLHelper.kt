@@ -2,7 +2,7 @@ package lupos.s02buildSyntaxTree.sparql1_1
 
 import kotlin.jvm.JvmField
 
-open abstract class ASTNode(@JvmField val children: Array<ASTNode>) {
+abstract class ASTNode(@JvmField val children: Array<ASTNode>) {
     companion object {
         private var global_uuid = 0L
     }
@@ -48,18 +48,17 @@ open abstract class ASTNode(@JvmField val children: Array<ASTNode>) {
     }
 }
 
-open abstract class ASTUnaryOperation(child: ASTNode) : ASTNode(arrayOf(child))
-open abstract class ASTUnaryOperationFixedName(child: ASTNode, @JvmField val name: String) : ASTNode(arrayOf(child)) {
+abstract class ASTUnaryOperation(child: ASTNode) : ASTNode(arrayOf(child))
+abstract class ASTUnaryOperationFixedName(child: ASTNode, @JvmField val name: String) : ASTNode(arrayOf(child)) {
     override fun nodeToString(): String {
         return name
     }
 }
 
-open abstract class ASTBinaryOperationFixedName(left: ASTNode, right: ASTNode, @JvmField val name: String) : ASTNode(arrayOf(left, right)) {
+abstract class ASTBinaryOperationFixedName(left: ASTNode, right: ASTNode, @JvmField val name: String) : ASTNode(arrayOf(left, right)) {
     override fun nodeToString(): String {
         return name
     }
 }
 
-open abstract class ASTLeafNode : ASTNode(arrayOf())
-
+abstract class ASTLeafNode : ASTNode(arrayOf())
