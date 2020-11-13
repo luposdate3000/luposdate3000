@@ -1,5 +1,4 @@
-#!/bin/kscript
-
+#!/usr/bin/env kotlin
 import kotlin.random.Random
 
 class RadixTree {

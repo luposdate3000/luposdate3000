@@ -1,4 +1,4 @@
-#!/bin/kscript
+#!/usr/bin/env kotlin
 import java.io.*
 
 var folderName = args[0]

@@ -1,4 +1,5 @@
-#!/bin/kscript
+#!/usr/bin/env kotlin
+
 enum class CharGroupModifier {
     MAYBE,
     ONE,
@@ -1425,6 +1426,6 @@ if (args.size == 1 && args[0] == "PARSER_CONTEXT") {
         println("}")
     }
 } else {
-    println("usage :: ./parsergenerator.kts 'functionName' 'TOKEN1' ['TOKEN2'] ['TOKENn']")
-    println("usage :: ./parsergenerator.kts 'PARSER_CONTEXT'")
+    println("usage :: ./parsergenerator.main.kts 'functionName' 'TOKEN1' ['TOKEN2'] ['TOKENn']")
+    println("usage :: ./parsergenerator.main.kts 'PARSER_CONTEXT'")
 }

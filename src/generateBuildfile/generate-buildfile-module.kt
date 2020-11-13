@@ -47,6 +47,9 @@ fun createBuildFileForModule(args: Array<String>) {
             arg.startsWith("--prefix=") -> modulePrefix = arg.substring("--prefix=".length).replace("/", pathSeparator).replace("\\", pathSeparator)
         }
     }
+if(moduleName==""){
+throw Exception("you must specify a moduleName '--module=xyz'")
+}
     if (moduleFolder == "") {
         moduleFolder = "src${pathSeparator}${moduleName.toLowerCase()}"
     }

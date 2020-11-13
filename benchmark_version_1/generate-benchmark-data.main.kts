@@ -1,12 +1,11 @@
-#!/bin/kscript
-
+#!/usr/bin/env kotlin
 import java.io.BufferedOutputStream
 import java.io.DataOutputStream
 import java.io.FileOutputStream
 import java.io.File
 import java.io.PrintWriter
 
-var targetNumberOfResults = 1L
+var targetNumberOfTriples = 100L
 var numberOfPredicates = 2
 var blockCount = 1 //if there is a match, than x elements match in a row
 var trashCount = 0 //if there is no match, than x elements dont match in a row
@@ -16,7 +15,7 @@ val object_counter = 100
 //successful match-blocks and trash-blocks are interleaved in the data (if the data is interpreted in the same ordering as generated)
 
 if (args.size > 0) {
-    targetNumberOfResults = args[0].toLong()
+    targetNumberOfTriples = args[0].toLong()
 }
 if (args.size > 1) {
     numberOfPredicates = args[1].toInt()
@@ -69,7 +68,7 @@ for (i in 0 until numberOfPredicates) {
 }
 
 var counter = 0
-loop@ while (targetNumberOfResults > 0) {
+loop@ while (targetNumberOfTriples > 0) {
     outIntermediateDictionary.println("_:_s${counter.toString(16)}")
     outIntermediateDictionaryStatCounter++
     outBnodes.println("_:s${counter.toString(16)}")
@@ -82,12 +81,15 @@ loop@ while (targetNumberOfResults > 0) {
             outIntermediateTriplesStatCounter++
         }
     }
-    targetNumberOfResults--
+    targetNumberOfTriples -= numberOfPredicates * blockCount
     counter++
     if (trashCount > 0) {
         var trashcounter = 1
         for (p in 0 until numberOfPredicates) {
             for (j in 0 until trashCount) {
+                if (targetNumberOfTriples <= 0) {
+                    break@loop
+                }
                 outN3.println("_:s${counter.toString(16)} <p${p}> <o${((j + counter) % object_counter).toString(16)}> .")
                 outBnodes.println("_:s${counter.toString(16)}")
                 outIntermediateDictionary.println("_:_s${counter.toString(16)}")
@@ -96,6 +98,7 @@ loop@ while (targetNumberOfResults > 0) {
                 outIntermediateTriples.writeInt(p_offset + p)
                 outIntermediateTriples.writeInt(o_offset + ((j + counter) % object_counter))
                 outIntermediateTriplesStatCounter++
+                targetNumberOfTriples--
                 counter++
                 trashcounter++
             }

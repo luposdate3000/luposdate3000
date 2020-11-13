@@ -1,4 +1,4 @@
-#!/bin/kscript
+#!/usr/bin/env kotlin
 
 import java.io.BufferedOutputStream
 import java.io.DataOutputStream
