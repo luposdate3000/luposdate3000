@@ -76,4 +76,7 @@ actual class MyBigInteger {
 
     actual override fun toString() = s
     actual override fun equals(other: Any?): Boolean = other is MyBigInteger && s == other.s
+    actual override fun hashCode(): Int {
+        return s.hashCode()
+    }
 }

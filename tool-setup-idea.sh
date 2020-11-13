@@ -1,5 +1,6 @@
 #!/bin/bash
 rm -rf .idea
+./compile-module-all.sh
 ./generate-buildfile-module.kts --module="Luposdate3000_Shared_Inline" --inline --nosuspend --release --fast --idea
 cat > settings.gradle << EOF
 pluginManagement {

@@ -18,7 +18,7 @@ object QueryResultToMemoryTable {
     /*suspend*/ private inline fun writeAllRows(variables: Array<String>, columns: Array<ColumnIterator>, dictionary: IResultSetDictionary, lock: MyLock?, output: MemoryTable) {
         val rowBuf = IntArray(variables.size)
         loop@ while (true) {
-            for (variableIndex in 0 until variables.size) {
+            for (variableIndex in variables.indices) {
                 val valueID = columns[variableIndex].next()
                 if (valueID == ResultSetDictionaryExt.nullValue) {
                     break@loop
@@ -84,7 +84,7 @@ object QueryResultToMemoryTable {
             nodes = arrayOf(rootNode)
         }
         val resultList = mutableListOf<MemoryTable>()
-        for (i in 0 until nodes.size) {
+        for (i in nodes.indices) {
             val node = nodes[i]
             if (node is OPNothing) {
                 val variables = node.getProvidedVariableNames()

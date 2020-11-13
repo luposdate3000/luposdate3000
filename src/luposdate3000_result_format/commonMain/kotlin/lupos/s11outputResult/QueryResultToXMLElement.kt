@@ -20,7 +20,7 @@ object QueryResultToXMLElement {
             nodes = arrayOf(rootNode)
             columnProjectionOrder = listOf(listOf())
         }
-        for (i in 0 until nodes.size) {
+        for (i in nodes.indices) {
             val node = nodes[i]
             val nodeSparql = XMLElement("sparql").addAttribute("xmlns", "http://www.w3.org/2005/sparql-results#")
             val nodeHead = XMLElement("head")
@@ -63,7 +63,7 @@ object QueryResultToXMLElement {
                         val columns = variables.map { child.columns[it]!! }.toTypedArray()
                         loop@ while (true) {
                             val nodeResult = XMLElement("result")
-                            for (variableIndex in 0 until variables.size) {
+                            for (variableIndex in variables.indices) {
                                 val valueID = columns[variableIndex].next()
                                 if (valueID == ResultSetDictionaryExt.nullValue) {
                                     for (closeIndex in 0 until columns.size) {

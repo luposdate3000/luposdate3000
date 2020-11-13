@@ -98,4 +98,7 @@ actual class MyBigDecimal {
 
     actual override fun toString(): String = s
     actual override fun equals(other: Any?): Boolean = other is MyBigDecimal && s == other.s
+actual    override fun hashCode(): Int {
+        return s.hashCode()
+    }
 }

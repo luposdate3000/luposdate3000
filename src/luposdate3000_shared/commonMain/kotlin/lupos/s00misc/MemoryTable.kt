@@ -15,7 +15,7 @@ class MemoryTable(val columns: Array<String>) {
             if (b.booleanResult != null) {
                 throw Exception("incompatible input")
             }
-            for (i in 0 until a.columns.size) {
+            for (i in a.columns.indices) {
                 if (a.columns[i] != b.columns[i]) {
                     throw Exception("incompatible input")
                 }

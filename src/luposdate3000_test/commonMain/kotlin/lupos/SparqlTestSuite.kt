@@ -80,13 +80,13 @@ open class SparqlTestSuite {
         val nil = rdf + "nil"
         val first = rdf + "first"
         val rest = rdf + "rest"
-        val nil_iri = Dictionary.IRI(nil)
-        val first_iri = Dictionary.IRI(first)
-        val rest_iri = Dictionary.IRI(rest)
+        val nilIri = Dictionary.IRI(nil)
+        val firstIri = Dictionary.IRI(first)
+        val restIri = Dictionary.IRI(rest)
         /*suspend*/ fun recursiveListMembers(current: Long) {
-            data.sp(current, first_iri).forEach { f(it) }
-            data.sp(current, rest_iri).forEach {
-                if (it != nil_iri) {
+            data.sp(current, firstIri).forEach { f(it) }
+            data.sp(current, restIri).forEach {
+                if (it != nilIri) {
                     listMembers(data, it, f)
                 }
             }
@@ -427,7 +427,7 @@ open class SparqlTestSuite {
                 val inputData = readFileOrNull(inputDataFileName)
                 if (inputData != null && inputDataFileName != null) {
                     lastTripleCount = inputData.split("\n").size
-                    if (MAX_TRIPLES_DURING_TEST > 0 && lastTripleCount > MAX_TRIPLES_DURING_TEST) {
+                    if (MAX_TRIPLES_DURING_TEST in 1 until lastTripleCount) {
                         println("----------Time(${DateHelperRelative.elapsedSeconds(timer)})")
                         println("----------Success(Skipped)")
                         return true
@@ -439,7 +439,7 @@ open class SparqlTestSuite {
                     if (inputDataFileName.endsWith(".ttl") || inputDataFileName.endsWith(".n3")) {
                         val query = Query()
                         query.setWorkingDirectory(queryFile.substring(0, queryFile.lastIndexOf("/")))
-                        LuposdateEndpoint.import_turtle_files(inputDataFileName, mutableMapOf())
+                        LuposdateEndpoint.importTurtleFiles(inputDataFileName, mutableMapOf())
                         val bulkSelect = distributedTripleStore.getDefaultGraph(query).getIterator(arrayOf(AOPVariable(query, "s"), AOPVariable(query, "p"), AOPVariable(query, "o")), EIndexPattern.SPO, Partition())
                         val xmlGraphBulk = QueryResultToXMLElement.toXML(bulkSelect)
                         if (!xmlGraphBulk.myEqualsUnclean(xmlQueryInput, true, true, true)) {
@@ -522,7 +522,7 @@ open class SparqlTestSuite {
                     }
                 }
             } else {
-                if (MAX_TRIPLES_DURING_TEST > 0 && lastTripleCount > MAX_TRIPLES_DURING_TEST) {
+                if (MAX_TRIPLES_DURING_TEST in 1 until lastTripleCount) {
                     println("----------Time(${DateHelperRelative.elapsedSeconds(timer)})")
                     println("----------Success(Skipped)")
                     return true
@@ -539,44 +539,44 @@ open class SparqlTestSuite {
             val tit = TokenIteratorSPARQLParser(lcit)
             val ltit = LookAheadTokenIterator(tit, 3)
             val parser = SPARQLParser(ltit)
-            val ast_node = parser.expr()
-            SanityCheck.println { ast_node }
+            val astNode = parser.expr()
+            SanityCheck.println { astNode }
             SanityCheck.println { "----------Logical Operator Graph" }
-            val lop_node = ast_node.visit(OperatorGraphVisitor(query))
+            val lopNode = astNode.visit(OperatorGraphVisitor(query))
             File("log/${testName2}-Logical-Operator-Graph.tex").printWriterSuspended {
-                it.println(OperatorGraphToLatex(lop_node.toXMLElement().toString(), testName2))
+                it.println(OperatorGraphToLatex(lopNode.toXMLElement().toString(), testName2))
             }
-            SanityCheck.check({ lop_node == lop_node.cloneOP() }, { lop_node.toString() + " - " + lop_node.cloneOP().toString() })
+            SanityCheck.check({ lopNode == lopNode.cloneOP() }, { lopNode.toString() + " - " + lopNode.cloneOP().toString() })
             SanityCheck.suspended {
-                val x = lop_node.toXMLElement().toPrettyString()
+                val x = lopNode.toXMLElement().toPrettyString()
                 SanityCheck.println { x }
             }
             SanityCheck.println { "----------Logical Operator Graph optimized" }
-            val lop_node2 = LogicalOptimizer(query).optimizeCall(lop_node)
-            SanityCheck.check { lop_node2 == lop_node2.cloneOP() }
+            val lopNode2 = LogicalOptimizer(query).optimizeCall(lopNode)
+            SanityCheck.check { lopNode2 == lopNode2.cloneOP() }
             File("log/${testName2}-Logical-Operator-Graph-Optimized.tex").printWriterSuspended {
-                it.println(OperatorGraphToLatex(lop_node2.toXMLElement().toString(), testName2))
+                it.println(OperatorGraphToLatex(lopNode2.toXMLElement().toString(), testName2))
             }
             SanityCheck.suspended {
-                val x = lop_node2.toXMLElement().toPrettyString()
+                val x = lopNode2.toXMLElement().toPrettyString()
                 SanityCheck.println { x }
             }
             SanityCheck.println { "----------Physical Operator Graph" }
-            val pop_optimizer = PhysicalOptimizer(query)
-            val pop_node = pop_optimizer.optimizeCall(lop_node2)
-            SanityCheck.check({ pop_node == pop_node.cloneOP() }, { pop_node.toString() + " - " + pop_node.cloneOP().toString() })
-            SanityCheck { pop_node.toSparqlQuery() }
+            val popOptimizer = PhysicalOptimizer(query)
+            val popNode = popOptimizer.optimizeCall(lopNode2)
+            SanityCheck.check({ popNode == popNode.cloneOP() }, { popNode.toString() + " - " + popNode.cloneOP().toString() })
+            SanityCheck { popNode.toSparqlQuery() }
             File("log/${testName2}-Physical-Operator-Graph.tex").printWriterSuspended {
-                it.println(OperatorGraphToLatex(pop_node.toXMLElement().toString(), testName2))
+                it.println(OperatorGraphToLatex(popNode.toXMLElement().toString(), testName2))
             }
             SanityCheck.suspended {
-                val x = pop_node.toXMLElement().toPrettyString()
+                val x = popNode.toXMLElement().toPrettyString()
                 SanityCheck.println { x }
             }
             var xmlQueryResult: XMLElement? = null
             if (outputDataGraph.isNotEmpty() || (resultData != null && resultDataFileName != null)) {
                 SanityCheck.println { "----------Query Result" }
-                xmlQueryResult = QueryResultToXMLElement.toXML(pop_node)
+                xmlQueryResult = QueryResultToXMLElement.toXML(popNode)
                 SanityCheck.println { "test xmlQueryResult :: " + xmlQueryResult.toPrettyString() }
                 distributedTripleStore.commit(query)
                 query.commited = true
@@ -636,7 +636,7 @@ open class SparqlTestSuite {
                 }
                 res = xmlQueryResult!!.myEquals(xmlQueryTarget)
                 if (res) {
-                    val xmlPOP = pop_node.toXMLElement()
+                    val xmlPOP = popNode.toXMLElement()
                     val query4 = Query()
                     query4.setWorkingDirectory(queryFile.substring(0, queryFile.lastIndexOf("/")))
                     val popNodeRecovered = XMLElement.convertToOPBase(query4, xmlPOP)

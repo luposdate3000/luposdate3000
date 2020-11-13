@@ -146,7 +146,7 @@ abstract class TripleStoreLocalBase(@JvmField val name: String) : ITripleStoreLo
     }
 
     override /*suspend*/ fun import(dataImport: ITripleStoreBulkImport) {
-        for (i in 0 until dataDistinct.size) {
+        for (i in dataDistinct.indices) {
             dataDistinct[i].second.import(dataDistinct[i].importField(dataImport), dataImport.getIdx(), dataDistinct[i].idx.tripleIndicees)
         }
     }
@@ -155,7 +155,7 @@ abstract class TripleStoreLocalBase(@JvmField val name: String) : ITripleStoreLo
         /*
          * the input is ALWAYS in SPO order. The remapping of the triple layout is within the index, using the parameter order.
          */
-        for (idx in 0 until dataDistinct.size) {
+        for (idx in dataDistinct.indices) {
             var list = pendingModificationsInsert[idx][query.getTransactionID()]
             if (list != null) {
                 val tmp = IntArray(list.size)
@@ -187,7 +187,7 @@ abstract class TripleStoreLocalBase(@JvmField val name: String) : ITripleStoreLo
         dataDistinct.forEach {
             it.second.clear()
         }
-        for (idx in 0 until dataDistinct.size) {
+        for (idx in dataDistinct.indices) {
             pendingModificationsInsert[idx].clear()
             pendingModificationsRemove[idx].clear()
         }
@@ -198,7 +198,7 @@ abstract class TripleStoreLocalBase(@JvmField val name: String) : ITripleStoreLo
          * the input iterators are always in the SPO order. The real remapping to the ordering of the store happens within the commit-phase
          */
         SanityCheck.check { dataModify.size == 3 }
-        for (idx in 0 until dataDistinct.size) {
+        for (idx in dataDistinct.indices) {
             var tmp: MutableList<Int>?
             tmp = if (type == EModifyType.INSERT) {
                 pendingModificationsInsert[idx][query.getTransactionID()]
@@ -224,7 +224,7 @@ abstract class TripleStoreLocalBase(@JvmField val name: String) : ITripleStoreLo
                     }
                     break@loop
                 } else {
-                    for (idx in 0 until dataDistinct.size) {
+                    for (idx in dataDistinct.indices) {
                         if (type == EModifyType.INSERT) {
                             pendingModificationsInsert[idx][query.getTransactionID()]!!.add(query.getDictionary().valueToGlobal(v))
                         } else {
@@ -241,7 +241,7 @@ abstract class TripleStoreLocalBase(@JvmField val name: String) : ITripleStoreLo
          * the input iterators are always in the SPO order. The real remapping to the ordering of the store happens within the commit-phase 
          */
         SanityCheck.check { dataModify.size == 3 }
-        for (idx in 0 until dataDistinct.size) {
+        for (idx in dataDistinct.indices) {
             var tmp: MutableList<Int>?
             tmp = if (type == EModifyType.INSERT) {
                 pendingModificationsInsert[idx][query.getTransactionID()]

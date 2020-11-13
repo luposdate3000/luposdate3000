@@ -10,7 +10,7 @@ internal object NodeManager {
     const val nodeNullPointer = -1
 
     @JvmField
-    val bufferManager = BufferManager("id_triples")
+    val bufferManager = BufferManager()
     fun debug() {
     }
 

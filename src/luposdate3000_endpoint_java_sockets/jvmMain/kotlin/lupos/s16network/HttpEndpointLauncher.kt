@@ -101,18 +101,18 @@ actual object HttpEndpointLauncher {
                                 }
                                 "/sparql/query" -> {
                                     if (isPost) {
-                                        LuposdateEndpoint.evaluate_sparql_to_result_d(content.toString(), connectionOut, false)
+                                        LuposdateEndpoint.evaluateSparqlToResultD(content.toString(), connectionOut, false)
                                     } else {
-                                        LuposdateEndpoint.evaluate_sparql_to_result_d(params["query"]!!, connectionOut, false)
+                                        LuposdateEndpoint.evaluateSparqlToResultD(params["query"]!!, connectionOut, false)
                                     }
                                     /*Coverage Unreachable*/
                                 }
                                 "/sparql/operator" -> {
                                     printHeaderSuccess(connectionOut)
                                     if (isPost) {
-                                        connectionOut.print(LuposdateEndpoint.evaluate_operatorgraphXML_to_result_b(content.toString(), true))
+                                        connectionOut.print(LuposdateEndpoint.evaluateOperatorgraphxmlToResultB(content.toString(), true))
                                     } else {
-                                        connectionOut.print(LuposdateEndpoint.evaluate_operatorgraphXML_to_result_b(params["query"]!!, true))
+                                        connectionOut.print(LuposdateEndpoint.evaluateOperatorgraphxmlToResultB(params["query"]!!, true))
                                     }
                                     /*Coverage Unreachable*/
                                 }
@@ -126,27 +126,27 @@ actual object HttpEndpointLauncher {
                                     }
                                     printHeaderSuccess(connectionOut)
                                     if (isPost) {
-                                        connectionOut.print(LuposdateEndpoint.import_turtle_files(content.toString(), dict))
+                                        connectionOut.print(LuposdateEndpoint.importTurtleFiles(content.toString(), dict))
                                     } else {
-                                        connectionOut.print(LuposdateEndpoint.import_turtle_files(params["query"]!!, dict))
+                                        connectionOut.print(LuposdateEndpoint.importTurtleFiles(params["query"]!!, dict))
                                     }
                                     /*Coverage Unreachable*/
                                 }
                                 "/import/intermediate" -> {
                                     printHeaderSuccess(connectionOut)
                                     if (isPost) {
-                                        connectionOut.print(LuposdateEndpoint.import_intermediate_files(content.toString()))
+                                        connectionOut.print(LuposdateEndpoint.importIntermediateFiles(content.toString()))
                                     } else {
-                                        connectionOut.print(LuposdateEndpoint.import_intermediate_files(params["query"]!!))
+                                        connectionOut.print(LuposdateEndpoint.importIntermediateFiles(params["query"]!!))
                                     }
                                     /*Coverage Unreachable*/
                                 }
                                 "/import/xml" -> {
                                     printHeaderSuccess(connectionOut)
                                     if (isPost) {
-                                        connectionOut.print(LuposdateEndpoint.import_xml_data(content.toString()))
+                                        connectionOut.print(LuposdateEndpoint.importXmlData(content.toString()))
                                     } else {
-                                        connectionOut.print(LuposdateEndpoint.import_xml_data(params["query"]!!))
+                                        connectionOut.print(LuposdateEndpoint.importXmlData(params["query"]!!))
                                     }
                                     /*Coverage Unreachable*/
                                 }

@@ -16,7 +16,7 @@ open class RowIteratorFromColumn(@JvmField val bundle: IteratorBundle) : RowIter
         buf = IntArray(keys.size)
         next = {
             var res = 0
-            for (columnIndex in 0 until columns.size) {
+            for (columnIndex in columns.indices) {
                 val tmp = iterators[columnIndex].next()
                 if (tmp == ResultSetDictionaryExt.nullValue) {
                     SanityCheck.check({ columnIndex == 0 }, { "" + iterators[columnIndex] })

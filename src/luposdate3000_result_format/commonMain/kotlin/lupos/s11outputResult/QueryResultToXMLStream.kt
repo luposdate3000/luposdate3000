@@ -82,7 +82,7 @@ object QueryResultToXMLStream {
 
     private /*suspend*/ fun writeRow(variables: Array<String>, rowBuf: IntArray, dictionary: IResultSetDictionary, output: IMyPrintWriter) {
         output.print("  <result>\n")
-        for (variableIndex in 0 until variables.size) {
+        for (variableIndex in variables.indices) {
             writeValue(rowBuf[variableIndex], variables[variableIndex], dictionary, output)
         }
         output.print("  </result>\n")
@@ -92,7 +92,7 @@ object QueryResultToXMLStream {
         val rowBuf = IntArray(variables.size)
         val resultWriter = MyPrintWriter()
         loop@ while (true) {
-            for (variableIndex in 0 until variables.size) {
+            for (variableIndex in variables.indices) {
                 val valueID = columns[variableIndex].next()
                 if (valueID == ResultSetDictionaryExt.nullValue) {
                     break@loop
@@ -159,7 +159,7 @@ object QueryResultToXMLStream {
         } else {
             nodes = arrayOf(rootNode)
         }
-        for (i in 0 until nodes.size) {
+        for (i in nodes.indices) {
             val node = nodes[i]
             output.print("<sparql xmlns=\"http://www.w3.org/2005/sparql-results#\">\n")
             if (node is OPNothing) {

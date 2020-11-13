@@ -7,7 +7,7 @@ import lupos.s00misc.Configuration
 import lupos.s00misc.MyReadWriteLock
 import lupos.s00misc.SanityCheck
 
-class BufferManager(@JvmField val bufferName: String) {
+class BufferManager {
     /*
      * each type safe page-manager safes to its own store
      * using another layer of indirection,
@@ -148,9 +148,6 @@ class BufferManager(@JvmField val bufferName: String) {
         if (freeList.size == counter) {
             clearAssumeLocks()
         }
-    }
-
-    fun debug() {
     }
 
     /*suspend*/ fun safeToFolder() {

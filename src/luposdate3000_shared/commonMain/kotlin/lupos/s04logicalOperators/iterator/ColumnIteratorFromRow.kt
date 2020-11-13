@@ -10,7 +10,7 @@ object ColumnIteratorFromRow {
                     return ColumnIteratorQueueExt.nextHelper(this, {
                         val res2 = iterator.next()
                         if (res2 >= 0) {
-                            for (j in 0 until iterator.columns.size) {
+                            for (j in iterator.columns.indices) {
                                 iterators[j].queue.add(iterator.buf[res2 + j])
                             }
                         }

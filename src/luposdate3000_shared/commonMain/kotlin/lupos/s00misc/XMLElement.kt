@@ -354,4 +354,11 @@ class XMLElement(tag: String) {
     }
 
     fun toPrettyString() = toPrettyString("").toString()
+    override fun hashCode(): Int {
+        var result = attributes.hashCode()
+        result = 31 * result + content.hashCode()
+        result = 31 * result + childs.hashCode()
+        result = 31 * result + tag.hashCode()
+        return result
+    }
 }

@@ -9,7 +9,7 @@ enum class ImportMode {
     MERGE_INTERMEDIATE
 }
 
-fun helper_clean_string(s: String): String {
+fun helperCleanString(s: String): String {
     var res: String = s
     while (true) {
         val match = "\\\\u[0-9a-fA-f]{4}".toRegex().find(res) ?: break
@@ -30,7 +30,7 @@ fun main(args: Array<String>) = Parallel.runBlocking {
     val dict = mutableMapOf<String, Int>()
     var dictCounter = 0
     val dictCounterByType = IntArray(ETripleComponentType.values().size)
-    var DictionaryOffset = 0
+    var dictionaryOffset = 0
     val iter = inputFile.readAsInputStream()
     val outputTriplesFile = File("$inputFileName.triples")
     val outputDictionaryFile = File("$inputFileName.dictionary")
@@ -44,7 +44,7 @@ fun main(args: Array<String>) = Parallel.runBlocking {
                     val x = object : Turtle2Parser(iter) {
                         override fun onTriple(triple: Array<String>, tripleType: Array<ETripleComponentType>) {
                             for (i in 0 until 3) {
-                                val tripleCleaned = helper_clean_string(triple[i])
+                                val tripleCleaned = helperCleanString(triple[i])
                                 val v = dict[tripleCleaned]
                                 if (v != null) {
                                     outTriples.writeInt(v)
@@ -61,20 +61,20 @@ fun main(args: Array<String>) = Parallel.runBlocking {
                                     byteBuf[0] = tripleType[i].ordinal.toByte()
                                     outDictionary.write(byteBuf)
                                     outDictionary.write(tmp)
-                                    if (DictionaryOffset > 0) {
-                                        outDictionaryOffset.writeInt(DictionaryOffset)//TODO this is too small ... integer-overflow
+                                    if (dictionaryOffset > 0) {
+                                        outDictionaryOffset.writeInt(dictionaryOffset)//TODO this is too small ... integer-overflow
                                     }
-                                    DictionaryOffset += tmp.size + 1
+                                    dictionaryOffset += tmp.size + 1
                                 }
                             }
                             cnt++
                             if (cnt % 10000 == 0) {
-                                println("$cnt :: $dictCounter $DictionaryOffset")
+                                println("$cnt :: $dictCounter $dictionaryOffset")
                             }
                         }
                     }
                     x.turtleDoc()
-                    outDictionaryOffset.writeInt(DictionaryOffset)
+                    outDictionaryOffset.writeInt(dictionaryOffset)
                 }
             }
         }

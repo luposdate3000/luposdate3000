@@ -6,7 +6,7 @@ import lupos.s00misc.SanityCheck
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.IteratorBundle
 
-class TripleStoreIndex_Partition(childIndex: (Int) -> TripleStoreIndex, private val column: Int, @JvmField val partitionCount: Int) : TripleStoreIndex() {
+class TripleStoreIndexPartition(childIndex: (Int) -> TripleStoreIndex, private val column: Int, @JvmField val partitionCount: Int) : TripleStoreIndex() {
     private val partitions = Array(partitionCount) { childIndex(it) }
     override /*suspend*/ fun safeToFile(filename: String) {
         val a = filename.lastIndexOf('k')

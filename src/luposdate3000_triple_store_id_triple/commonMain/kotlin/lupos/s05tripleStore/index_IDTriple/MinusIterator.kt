@@ -1,3 +1,5 @@
+@file:Suppress("ControlFlowWithEmptyBody", "ControlFlowWithEmptyBody")
+
 package lupos.s05tripleStore.index_IDTriple
 
 import kotlin.jvm.JvmField

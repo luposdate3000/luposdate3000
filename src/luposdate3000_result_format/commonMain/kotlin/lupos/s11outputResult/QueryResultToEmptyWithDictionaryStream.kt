@@ -27,7 +27,7 @@ object QueryResultToEmptyWithDictionaryStream {
     }
 
     private /*suspend*/ fun writeRow(variables: Array<String>, rowBuf: IntArray, dictionary: IResultSetDictionary, output: IMyPrintWriter) {
-        for (variableIndex in 0 until variables.size) {
+        for (variableIndex in variables.indices) {
             writeValue(rowBuf[variableIndex], variables[variableIndex], dictionary, output)
         }
     }
@@ -35,7 +35,7 @@ object QueryResultToEmptyWithDictionaryStream {
     /*suspend*/ private inline fun writeAllRows(variables: Array<String>, columns: Array<ColumnIterator>, dictionary: IResultSetDictionary, lock: MyLock?, output: IMyPrintWriter) {
         val rowBuf = IntArray(variables.size)
         loop@ while (true) {
-            for (variableIndex in 0 until variables.size) {
+            for (variableIndex in variables.indices) {
                 val valueID = columns[variableIndex].next()
                 if (valueID == ResultSetDictionaryExt.nullValue) {
                     break@loop
@@ -98,7 +98,7 @@ object QueryResultToEmptyWithDictionaryStream {
         } else {
             nodes = arrayOf(rootNode)
         }
-        for (i in 0 until nodes.size) {
+        for (i in nodes.indices) {
             val node = nodes[i]
             if (node is OPNothing) {
                 val variables = node.getProvidedVariableNames()

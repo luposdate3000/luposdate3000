@@ -96,7 +96,7 @@ class ResultSetDictionary(private val global: Boolean = false) : IResultSetDicti
             when (t) {
                 ETripleComponentType.IRI -> {
                     val tmp = Array(iriToValue.size + typed[t.ordinal]) { emptyString }
-                    for (i in 0 until iriToValue.size) {
+                    for (i in iriToValue.indices) {
                         tmp[i] = iriToValue[i]
                     }
                     iriToValue = tmp
@@ -105,28 +105,28 @@ class ResultSetDictionary(private val global: Boolean = false) : IResultSetDicti
                 }
                 ETripleComponentType.STRING -> {
                     val tmp = Array(typedToValue.size + typed[t.ordinal]) { emptyString }
-                    for (i in 0 until typedToValue.size) {
+                    for (i in typedToValue.indices) {
                         tmp[i] = typedToValue[i]
                     }
                     typedToValue = tmp
                 }
                 ETripleComponentType.INTEGER -> {
                     val tmp = Array(intToValue.size + typed[t.ordinal]) { emptyString }
-                    for (i in 0 until intToValue.size) {
+                    for (i in intToValue.indices) {
                         tmp[i] = intToValue[i]
                     }
                     intToValue = tmp
                 }
                 ETripleComponentType.DECIMAL -> {
                     val tmp = Array(decimalToValue.size + typed[t.ordinal]) { emptyString }
-                    for (i in 0 until decimalToValue.size) {
+                    for (i in decimalToValue.indices) {
                         tmp[i] = decimalToValue[i]
                     }
                     decimalToValue = tmp
                 }
                 ETripleComponentType.DOUBLE -> {
                     val tmp = DoubleArray(doubleToValue.size + typed[t.ordinal]) { 0.0 }
-                    for (i in 0 until doubleToValue.size) {
+                    for (i in doubleToValue.indices) {
                         tmp[i] = doubleToValue[i]
                     }
                     doubleToValue = tmp
@@ -135,14 +135,14 @@ class ResultSetDictionary(private val global: Boolean = false) : IResultSetDicti
                 }
                 ETripleComponentType.STRING_TYPED -> {
                     val tmp = Array(typedToValue.size + typed[t.ordinal]) { emptyString }
-                    for (i in 0 until typedToValue.size) {
+                    for (i in typedToValue.indices) {
                         tmp[i] = typedToValue[i]
                     }
                     typedToValue = tmp
                 }
                 ETripleComponentType.STRING_LANG -> {
                     val tmp = Array(langTaggedToValue.size + typed[t.ordinal]) { emptyString }
-                    for (i in 0 until langTaggedToValue.size) {
+                    for (i in langTaggedToValue.indices) {
                         tmp[i] = langTaggedToValue[i]
                     }
                     langTaggedToValue = tmp
@@ -259,7 +259,7 @@ class ResultSetDictionary(private val global: Boolean = false) : IResultSetDicti
                 iriToInt[iri] = res
                 if (iriToValue.size <= res) {
                     val tmp = Array(iriToValue.size * 2) { emptyString }
-                    for (i in 0 until iriToValue.size) {
+                    for (i in iriToValue.indices) {
                         tmp[i] = iriToValue[i]
                     }
                     iriToValue = tmp
@@ -280,7 +280,7 @@ class ResultSetDictionary(private val global: Boolean = false) : IResultSetDicti
                     iriToInt[iri] = res
                     if (iriToValue.size <= res) {
                         val tmp = Array(iriToValue.size * 2) { emptyString }
-                        for (i in 0 until iriToValue.size) {
+                        for (i in iriToValue.indices) {
                             tmp[i] = iriToValue[i]
                         }
                         iriToValue = tmp
@@ -305,7 +305,7 @@ class ResultSetDictionary(private val global: Boolean = false) : IResultSetDicti
                 langTaggedToInt[key] = res
                 if (langTaggedToValue.size <= res) {
                     val tmp = Array(langTaggedToValue.size * 2) { emptyString }
-                    for (i in 0 until langTaggedToValue.size) {
+                    for (i in langTaggedToValue.indices) {
                         tmp[i] = langTaggedToValue[i]
                     }
                     langTaggedToValue = tmp
@@ -326,7 +326,7 @@ class ResultSetDictionary(private val global: Boolean = false) : IResultSetDicti
                     langTaggedToInt[key] = res
                     if (langTaggedToValue.size <= res) {
                         val tmp = Array(langTaggedToValue.size * 2) { emptyString }
-                        for (i in 0 until langTaggedToValue.size) {
+                        for (i in langTaggedToValue.indices) {
                             tmp[i] = langTaggedToValue[i]
                         }
                         langTaggedToValue = tmp
@@ -372,7 +372,7 @@ class ResultSetDictionary(private val global: Boolean = false) : IResultSetDicti
                         typedToInt[key] = res
                         if (typedToValue.size <= res) {
                             val tmp = Array(typedToValue.size * 2) { emptyString }
-                            for (i in 0 until typedToValue.size) {
+                            for (i in typedToValue.indices) {
                                 tmp[i] = typedToValue[i]
                             }
                             typedToValue = tmp
@@ -393,7 +393,7 @@ class ResultSetDictionary(private val global: Boolean = false) : IResultSetDicti
                             typedToInt[key] = res
                             if (typedToValue.size <= res) {
                                 val tmp = Array(typedToValue.size * 2) { emptyString }
-                                for (i in 0 until typedToValue.size) {
+                                for (i in typedToValue.indices) {
                                     tmp[i] = typedToValue[i]
                                 }
                                 typedToValue = tmp
@@ -419,7 +419,7 @@ class ResultSetDictionary(private val global: Boolean = false) : IResultSetDicti
                 doubleToInt[value] = res
                 if (doubleToValue.size <= res) {
                     val tmp = DoubleArray(doubleToValue.size * 2) { 0.0 }
-                    for (i in 0 until doubleToValue.size) {
+                    for (i in doubleToValue.indices) {
                         tmp[i] = doubleToValue[i]
                     }
                     doubleToValue = tmp
@@ -440,7 +440,7 @@ class ResultSetDictionary(private val global: Boolean = false) : IResultSetDicti
                     doubleToInt[value] = res
                     if (doubleToValue.size <= res) {
                         val tmp = DoubleArray(doubleToValue.size * 2) { 0.0 }
-                        for (i in 0 until doubleToValue.size) {
+                        for (i in doubleToValue.indices) {
                             tmp[i] = doubleToValue[i]
                         }
                         doubleToValue = tmp
@@ -464,7 +464,7 @@ class ResultSetDictionary(private val global: Boolean = false) : IResultSetDicti
                 floatToInt[value] = res
                 if (floatToValue.size <= res) {
                     val tmp = DoubleArray(floatToValue.size * 2) { 0.0 }
-                    for (i in 0 until floatToValue.size) {
+                    for (i in floatToValue.indices) {
                         tmp[i] = floatToValue[i]
                     }
                     floatToValue = tmp
@@ -485,7 +485,7 @@ class ResultSetDictionary(private val global: Boolean = false) : IResultSetDicti
                     floatToInt[value] = res
                     if (floatToValue.size <= res) {
                         val tmp = DoubleArray(floatToValue.size * 2) { 0.0 }
-                        for (i in 0 until floatToValue.size) {
+                        for (i in floatToValue.indices) {
                             tmp[i] = floatToValue[i]
                         }
                         floatToValue = tmp
@@ -510,7 +510,7 @@ class ResultSetDictionary(private val global: Boolean = false) : IResultSetDicti
                 decimalToInt[value] = res
                 if (decimalToValue.size <= res) {
                     val tmp = Array(decimalToValue.size * 2) { emptyString }
-                    for (i in 0 until decimalToValue.size) {
+                    for (i in decimalToValue.indices) {
                         tmp[i] = decimalToValue[i]
                     }
                     decimalToValue = tmp
@@ -531,7 +531,7 @@ class ResultSetDictionary(private val global: Boolean = false) : IResultSetDicti
                     decimalToInt[value] = res
                     if (decimalToValue.size <= res) {
                         val tmp = Array(decimalToValue.size * 2) { emptyString }
-                        for (i in 0 until decimalToValue.size) {
+                        for (i in decimalToValue.indices) {
                             tmp[i] = decimalToValue[i]
                         }
                         decimalToValue = tmp
@@ -556,7 +556,7 @@ class ResultSetDictionary(private val global: Boolean = false) : IResultSetDicti
                 intToInt[value] = res
                 if (intToValue.size <= res) {
                     val tmp = Array(intToValue.size * 2) { emptyString }
-                    for (i in 0 until intToValue.size) {
+                    for (i in intToValue.indices) {
                         tmp[i] = intToValue[i]
                     }
                     intToValue = tmp
@@ -577,7 +577,7 @@ class ResultSetDictionary(private val global: Boolean = false) : IResultSetDicti
                     intToInt[value] = res
                     if (intToValue.size <= res) {
                         val tmp = Array(intToValue.size * 2) { emptyString }
-                        for (i in 0 until intToValue.size) {
+                        for (i in intToValue.indices) {
                             tmp[i] = intToValue[i]
                         }
                         intToValue = tmp
@@ -658,53 +658,57 @@ class ResultSetDictionary(private val global: Boolean = false) : IResultSetDicti
         } else {
             this
         }
-        val bit3 = value and mask3
-        if (bit3 == flaggedValueLocalIri) {
-            res = ValueIri(dict.iriToValue[value and filter3])
-        } else if (bit3 == flaggedValueLocalBnode) {
-            when (value) {
-                0 -> {
-                    res = ResultSetDictionaryExt.booleanTrueValue2
-                }
-                1 -> {
-                    res = ResultSetDictionaryExt.booleanFalseValue2
-                }
-                2 -> {
-                    res = ResultSetDictionaryExt.errorValue2
-                }
-                3 -> {
-                    res = ResultSetDictionaryExt.undefValue2
-                }
-                else -> {
-                    res = ValueBnode(emptyString + value)
+        when (value and mask3) {
+            flaggedValueLocalIri -> {
+                res = ValueIri(dict.iriToValue[value and filter3])
+            }
+            flaggedValueLocalBnode -> {
+                when (value) {
+                    0 -> {
+                        res = ResultSetDictionaryExt.booleanTrueValue2
+                    }
+                    1 -> {
+                        res = ResultSetDictionaryExt.booleanFalseValue2
+                    }
+                    2 -> {
+                        res = ResultSetDictionaryExt.errorValue2
+                    }
+                    3 -> {
+                        res = ResultSetDictionaryExt.undefValue2
+                    }
+                    else -> {
+                        res = ValueBnode(emptyString + value)
+                    }
                 }
             }
-        } else if (bit3 == flaggedValueLocalTyped) {
-            val tmp = dict.typedToValue[value and filter3]
-            val idx = tmp.indexOf(">")
-            val type = tmp.substring(0, idx)
-            val content = tmp.substring(idx + 1, tmp.length)
-            res = if (idx == 0) {
-                ValueSimpleLiteral("\"", content)
-            } else {
-                ValueTypedLiteral("\"", content, type)
-            }
-        } else {
-            val bit5 = value and mask6
-            res = if (bit5 == flaggedValueLocalInt) {
-                ValueInteger(MyBigInteger(dict.intToValue[value and filter6]))
-            } else if (bit5 == flaggedValueLocalDecimal) {
-                ValueDecimal(MyBigDecimal(dict.decimalToValue[value and filter6]))
-            } else if (bit5 == flaggedValueLocalDouble) {
-                ValueDouble(dict.doubleToValue[value and filter6])
-            } else if (bit5 == flaggedValueLocalFloat) {
-                ValueFloat(dict.floatToValue[value and filter6])
-            } else {
-                val tmp = dict.langTaggedToValue[value and filter6]
-                val idx = tmp.indexOf("@")
-                val lang = tmp.substring(0, idx)
+            flaggedValueLocalTyped -> {
+                val tmp = dict.typedToValue[value and filter3]
+                val idx = tmp.indexOf(">")
+                val type = tmp.substring(0, idx)
                 val content = tmp.substring(idx + 1, tmp.length)
-                ValueLanguageTaggedLiteral("\"", content, lang)
+                res = if (idx == 0) {
+                    ValueSimpleLiteral("\"", content)
+                } else {
+                    ValueTypedLiteral("\"", content, type)
+                }
+            }
+            else -> {
+                val bit5 = value and mask6
+                res = if (bit5 == flaggedValueLocalInt) {
+                    ValueInteger(MyBigInteger(dict.intToValue[value and filter6]))
+                } else if (bit5 == flaggedValueLocalDecimal) {
+                    ValueDecimal(MyBigDecimal(dict.decimalToValue[value and filter6]))
+                } else if (bit5 == flaggedValueLocalDouble) {
+                    ValueDouble(dict.doubleToValue[value and filter6])
+                } else if (bit5 == flaggedValueLocalFloat) {
+                    ValueFloat(dict.floatToValue[value and filter6])
+                } else {
+                    val tmp = dict.langTaggedToValue[value and filter6]
+                    val idx = tmp.indexOf("@")
+                    val lang = tmp.substring(0, idx)
+                    val content = tmp.substring(idx + 1, tmp.length)
+                    ValueLanguageTaggedLiteral("\"", content, lang)
+                }
             }
         }
         return res

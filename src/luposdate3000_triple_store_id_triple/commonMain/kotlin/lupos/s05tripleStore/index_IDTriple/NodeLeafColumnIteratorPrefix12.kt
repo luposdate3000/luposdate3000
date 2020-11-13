@@ -120,40 +120,40 @@ internal class NodeLeafColumnIteratorPrefix12(node: ByteArray, nodeid: Int, pref
                 }
             }
             //look at the next pages
-            var nodeid_tmp = NodeShared.getNextNode(node)
-            var value0_tmp = 0
-            var value2_tmp = 0
+            var nodeidTmp = NodeShared.getNextNode(node)
+            var value0Tmp = 0
+            var value2Tmp = 0
             var usedNextPage = false
-            while (nodeid_tmp != NodeManager.nodeNullPointer) {
+            while (nodeidTmp != NodeManager.nodeNullPointer) {
                 var node_tmp = node
-                var remaining_tmp = 0
-                NodeManager.getNodeLeaf(nodeid_tmp) {
+                var remainingTmp = 0
+                NodeManager.getNodeLeaf(nodeidTmp) {
                     SanityCheck.check { node != it }
                     node_tmp = it
                 }
-                remaining_tmp = NodeShared.getTripleCount(node_tmp)
-                SanityCheck.check { remaining_tmp > 0 }
-                var offset_tmp = NodeLeaf.START_OFFSET
-                offset_tmp += NodeShared.readTriple101(node_tmp, offset_tmp, 0, 0) { v0, v2 ->
-                    value0_tmp = v0
-                    value2_tmp = v2
+                remainingTmp = NodeShared.getTripleCount(node_tmp)
+                SanityCheck.check { remainingTmp > 0 }
+                var offsetTmp = NodeLeaf.START_OFFSET
+                offsetTmp += NodeShared.readTriple101(node_tmp, offsetTmp, 0, 0) { v0, v2 ->
+                    value0Tmp = v0
+                    value2Tmp = v2
                 }
-                if (value0_tmp > prefix[0] || value2_tmp >= minValue) {
+                if (value0Tmp > prefix[0] || value2Tmp >= minValue) {
                     //dont accidentially skip some results at the end of this page
-                    NodeManager.releaseNode(nodeid_tmp)
+                    NodeManager.releaseNode(nodeidTmp)
                     break
                 }
                 NodeManager.releaseNode(nodeid)
                 counter += remaining
-                remaining = remaining_tmp
-                nodeid = nodeid_tmp
+                remaining = remainingTmp
+                nodeid = nodeidTmp
                 node = node_tmp
-                value0 = value0_tmp
-                value2 = value2_tmp
-                offset = offset_tmp
+                value0 = value0Tmp
+                value2 = value2Tmp
+                offset = offsetTmp
                 needsReset = false
                 usedNextPage = true
-                nodeid_tmp = NodeShared.getNextNode(node)
+                nodeidTmp = NodeShared.getNextNode(node)
             }
             if (usedNextPage) {
                 updateRemaining()
@@ -216,15 +216,15 @@ internal class NodeLeafColumnIteratorPrefix12(node: ByteArray, nodeid: Int, pref
         if (label != 0) {
             while (toSkip > remaining) {
                 toSkip -= remaining
-                val nodeid_tmp = NodeShared.getNextNode(node)
-                SanityCheck.check { nodeid_tmp != NodeManager.nodeNullPointer }
-                NodeManager.getNodeLeaf(nodeid_tmp) {
+                val nodeidTmp = NodeShared.getNextNode(node)
+                SanityCheck.check { nodeidTmp != NodeManager.nodeNullPointer }
+                NodeManager.getNodeLeaf(nodeidTmp) {
                     SanityCheck.check { node != it }
                     node = it
                 }
                 remaining = NodeShared.getTripleCount(node)
                 NodeManager.releaseNode(nodeid)
-                nodeid = nodeid_tmp
+                nodeid = nodeidTmp
                 needsReset = true
                 offset = NodeLeaf.START_OFFSET
                 SanityCheck.check { remaining > 0 }
@@ -246,15 +246,15 @@ internal class NodeLeafColumnIteratorPrefix12(node: ByteArray, nodeid: Int, pref
                 toSkip--
             }
             if (remaining == 0) {
-                val nodeid_tmp = NodeShared.getNextNode(node)
-                if (nodeid_tmp != NodeManager.nodeNullPointer) {
-                    NodeManager.getNodeLeaf(nodeid_tmp) {
+                val nodeidTmp = NodeShared.getNextNode(node)
+                if (nodeidTmp != NodeManager.nodeNullPointer) {
+                    NodeManager.getNodeLeaf(nodeidTmp) {
                         SanityCheck.check { node != it }
                         node = it
                     }
                     remaining = NodeShared.getTripleCount(node)
                     NodeManager.releaseNode(nodeid)
-                    nodeid = nodeid_tmp
+                    nodeid = nodeidTmp
                     needsReset = true
                     offset = NodeLeaf.START_OFFSET
                 } else {

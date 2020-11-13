@@ -55,34 +55,34 @@ internal class NodeLeafColumnIterator1(node: ByteArray, nodeid: Int, lock: MyRea
                 }
             }
             //look at the next pages
-            val nodeid_tmp = NodeShared.getNextNode(node)
-            var value_tmp = 0
+            val nodeidTmp = NodeShared.getNextNode(node)
+            var valueTmp = 0
             var usedNextPage = false
-            while (nodeid_tmp != NodeManager.nodeNullPointer) {
-                var node_tmp = node
-                var remaining_tmp = 0
-                NodeManager.getNodeLeaf(nodeid_tmp) {
+            while (nodeidTmp != NodeManager.nodeNullPointer) {
+                var nodeTmp = node
+                var remainingTmp = 0
+                NodeManager.getNodeLeaf(nodeidTmp) {
                     SanityCheck.check { node != it }
-                    node_tmp = it
+                    nodeTmp = it
                 }
-                remaining_tmp = NodeShared.getTripleCount(node_tmp)
-                SanityCheck.check { remaining_tmp > 0 }
-                var offset_tmp = NodeLeaf.START_OFFSET
-                offset_tmp += NodeShared.readTriple010(node_tmp, offset_tmp, 0) { v ->
-                    value_tmp = v
+                remainingTmp = NodeShared.getTripleCount(nodeTmp)
+                SanityCheck.check { remainingTmp > 0 }
+                var offsetTmp = NodeLeaf.START_OFFSET
+                offsetTmp += NodeShared.readTriple010(nodeTmp, offsetTmp, 0) { v ->
+                    valueTmp = v
                 }
-                if (value_tmp >= minValue) {
+                if (valueTmp >= minValue) {
                     //dont accidentially skip some results at the end of this page
-                    NodeManager.releaseNode(nodeid_tmp)
+                    NodeManager.releaseNode(nodeidTmp)
                     break
                 }
                 NodeManager.releaseNode(nodeid)
                 counter += remaining
-                remaining = remaining_tmp
-                nodeid = nodeid_tmp
-                node = node_tmp
-                value = value_tmp
-                offset = offset_tmp
+                remaining = remainingTmp
+                nodeid = nodeidTmp
+                node = nodeTmp
+                value = valueTmp
+                offset = offsetTmp
                 needsReset = false
                 usedNextPage = true
             }
