@@ -2,7 +2,7 @@
 for f in src/generateBuildfile/template*
 do
 	echo $f
-	./generate-buildfile.kts --file=$f
+	./generate-buildfile.main.kts --file=$f
 	./tool-gradle-build.sh
 	ret=$?
 	if [ $ret -ne 0 ]

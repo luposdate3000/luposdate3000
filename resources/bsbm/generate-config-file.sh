@@ -9,7 +9,7 @@ do
 		./generate -s ttl -pc $triples2 > /dev/null 2>&1
 	)
 	mkdir tmpdata
-	cat /opt/bsbmtools-0.2/dataset.ttl | ./../../exec-compress-chunked-n3.kts tmpdata false
+	cat /opt/bsbmtools-0.2/dataset.ttl | ./../../exec-compress-chunked-n3.main.kts tmpdata false
 	mv tmpdata/data0.n3 bsbm-$triples2.n3
 	rm -rf tmpdata
 	triples=$(wc -l bsbm-$triples2.n3 | sed "s/ .*//g")
@@ -76,7 +76,7 @@ do
 		echo $triples,$q-$triples.sparql,bsbm-$triples.n3,$q-$triples.srx >> config.csv2
 	done
 	mkdir tmpdata
-        cat bsbm-$triples.n3 | ./../../exec-compress-chunked-n3.kts tmpdata
+        cat bsbm-$triples.n3 | ./../../exec-compress-chunked-n3.main.kts tmpdata
         mv tmpdata/data0.n3 bsbm-$triples.n3
         rm -rf tmpdata
 	rm bsbm-helper-*

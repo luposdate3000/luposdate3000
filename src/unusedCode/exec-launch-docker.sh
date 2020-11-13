@@ -1,7 +1,7 @@
 #!/bin/bash
 
 rm build/executable
-./generate-buildfile.kts --file=src/generateBuildfile/template-exec-launch-docker
+./generate-buildfile.main.kts --file=src/generateBuildfile/template-exec-launch-docker
 ./tool-gradle-build.sh
 ret=$?
 if [ $ret -ne 0 ]

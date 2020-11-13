@@ -33,6 +33,6 @@ fun main(args: Array<String>) {
 }
 
 fun printUsage() {
-    println("usage ./generateTestcase.kts Single query_input_file.n3 query_file.sparql query_output_file.srx output_folder query_name ${BinaryTestCaseOutputMode.values()}")
-    println("usage ./generateTestcase.kts TestSuite resource_folder output_folder")
+    println("usage ./generateTestcase.main.kts Single query_input_file.n3 query_file.sparql query_output_file.srx output_folder query_name ${BinaryTestCaseOutputMode.values()}")
+    println("usage ./generateTestcase.main.kts TestSuite resource_folder output_folder")
 }

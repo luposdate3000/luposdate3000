@@ -6,7 +6,7 @@ function generate(){
 	triplesfolder=/mnt/luposdate-testdata/${pattern}/$1
 	rm -rf $triplesfolder
 
-	count=$(./generate-benchmark-data.kts $1 $2 $3 $4 $triplesfolder)
+	count=$(./generate-benchmark-data.main.kts $1 $2 $3 $4 $triplesfolder)
 	size=$(du -sbc $triplesfolder/*.n3 | grep total | sed 's/\t.*//g')
 
 	bnodecount=$(wc -l $triplesfolder/bnodes.txt | sed "s/ .*//g")

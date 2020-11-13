@@ -1,5 +1,5 @@
 #!/bin/bash
-./generate-buildfile.kts --file=src/generateBuildfile/template-exec-import
+./generate-buildfile.main.kts --file=src/generateBuildfile/template-exec-import
 ./tool-gradle-build.sh
 ret=$?
 if [ $ret -ne 0 ]

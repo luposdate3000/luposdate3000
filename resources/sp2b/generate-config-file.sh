@@ -9,7 +9,7 @@ do
 		./sp2b_gen -t $triples2 > /dev/null 2>&1
 	)
 	mkdir tmpdata
-	cat /opt/sp2b/bin/sp2b.n3 | ./../../exec-compress-chunked-n3.kts tmpdata
+	cat /opt/sp2b/bin/sp2b.n3 | ./../../exec-compress-chunked-n3.main.kts tmpdata
 	mv tmpdata/data0.n3 sp2b-$triples2.n3
 	rm -rf tmpdata
 	triples=$(wc -l sp2b-$triples2.n3 | sed "s/ .*//g")

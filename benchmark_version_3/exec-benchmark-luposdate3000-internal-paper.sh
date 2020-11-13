@@ -33,7 +33,7 @@ mkdir -p log/benchtmp
   echo "Inline->On"
   echo "UsePartitions->true"
   echo "IteratorDebug->EPOPDebugMode.NONE"
-} | ./generate-buildfile.kts
+} | ./generate-buildfile.main.kts
 ./tool-gradle-build.sh
 
 ln -s $(readlink -f build/executable) log/benchtmp/Multi_BPlusTree_Empty.x
