@@ -101,7 +101,7 @@ internal object NodeInner {
         }
     }
 
-    /*suspend*/    inline  fun findIteratorN(node: ByteArray,crossinline checkTooSmall: /*suspend*/ (value0: Int, value1: Int, value2: Int) -> Boolean, crossinline action: /*suspend*/ (Int) -> Unit): Unit {
+    /*suspend*/    inline  fun findIteratorN(node: ByteArray,crossinline checkTooSmall: /*suspend*/ (value0: Int, value1: Int, value2: Int) -> Boolean, crossinline action: /*suspend*/ (Int) -> Unit) {
         var remaining = NodeShared.getTripleCount(node)
         var offset = START_OFFSET
         var value0 = 0
