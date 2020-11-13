@@ -69,8 +69,6 @@ class TripleStoreIndexIDTriple : TripleStoreIndex() {
     val cachedHistograms2 = IntArray(400)
 
     internal companion object {
-        @JvmField
-        var debuguuiditerator = 0
 
         @JvmField
         var debugLock = MyReadWriteLock()
@@ -296,10 +294,6 @@ class TripleStoreIndexIDTriple : TripleStoreIndex() {
         SanityCheck.println { "readUnlock(${lock.getUUID()}) x131" }
         lock.readUnlock()
         return res
-    }
-
-    internal /*suspend*/ fun importHelper(a: TripleIterator, b: TripleIterator): Int {
-        return importHelper(MergeIterator(a, b))
     }
 
     private /*suspend*/ fun importHelper(a: Int, b: Int): Int {

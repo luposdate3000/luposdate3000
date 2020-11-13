@@ -57,15 +57,7 @@ open abstract class ASTUnaryOperationFixedName(child: ASTNode, @JvmField val nam
     }
 }
 
-open abstract class ASTBinaryOperation(left: ASTNode, right: ASTNode) : ASTNode(arrayOf(left, right))
 open abstract class ASTBinaryOperationFixedName(left: ASTNode, right: ASTNode, @JvmField val name: String) : ASTNode(arrayOf(left, right)) {
-    override fun nodeToString(): String {
-        return name
-    }
-}
-
-open abstract class ASTNaryOperation(children: Array<ASTNode>) : ASTNode(children)
-open abstract class ASTNaryOperationFixedName(children: Array<ASTNode>, @JvmField val name: String) : ASTNode(children) {
     override fun nodeToString(): String {
         return name
     }
@@ -73,10 +65,3 @@ open abstract class ASTNaryOperationFixedName(children: Array<ASTNode>, @JvmFiel
 
 open abstract class ASTLeafNode : ASTNode(arrayOf())
 
-fun parseSPARQL(toParse: String): ASTNode {
-    val lcit = LexerCharIterator(toParse)
-    val tit = TokenIteratorSPARQLParser(lcit)
-    val ltit = LookAheadTokenIterator(tit, 3)
-    val parser = SPARQLParser(ltit)
-    return parser.expr()
-}

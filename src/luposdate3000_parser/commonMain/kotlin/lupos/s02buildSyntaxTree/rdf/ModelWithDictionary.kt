@@ -35,5 +35,4 @@ object Dictionary {
 }
 
 class ID_Triple(@JvmField val s: Long, @JvmField val p: Long, @JvmField val o: Long) {
-    fun toN3String(): String = Dictionary[s]?.toN3String() + " " + Dictionary[p]?.toN3String() + " " + Dictionary[o]?.toN3String() + "."
 }

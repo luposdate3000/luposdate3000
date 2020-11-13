@@ -32,10 +32,6 @@ actual class MyBigDecimal {
         return v.toDouble()
     }
 
-    actual fun toInt(): Int {
-        return v.toInt()
-    }
-
     actual fun toPlainString(): String {
         return v.toPlainString()
     }

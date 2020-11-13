@@ -25,7 +25,6 @@ import lupos.s16network.LuposdateEndpoint
 open class SparqlTestSuite {
     companion object {
         const val testPersistence = false
-        const val errorBoundForDecimalsDigits = 6
         val filterList = mutableListOf<String>()
         var prefixDirectory = "."
         val enabledTestCases = listOf("resources/myqueries/", "resources/bsbm/", "resources/btc/", "resources/sp2b/")
@@ -384,9 +383,6 @@ open class SparqlTestSuite {
         success = parseSPARQLAndEvaluate(true, names.first(), expectedResult, queryFile!!, inputDataFile, resultFile, services, inputDataGraph, outputDataGraph)
         return success == expectedResult
     }
-
-    @JvmField
-    var i = 0
 
     @JvmField
     var lastTripleCount = 0
@@ -784,12 +780,9 @@ class SevenIndices {
     @JvmField
     val spo = mutableSetOf<ID_Triple>()
     fun s(key: Long): Array<Pair<Long, Long>> = this.s[key] ?: arrayOf()
-    fun p(key: Long): Array<Pair<Long, Long>> = this.p[key] ?: arrayOf()
     fun o(key: Long): Array<Pair<Long, Long>> = this.o[key] ?: arrayOf()
     fun sp(key1: Long, key2: Long): LongArray = this.sp[Pair(key1, key2)] ?: longArrayOf()
-    fun so(key1: Long, key2: Long): LongArray = this.so[Pair(key1, key2)] ?: longArrayOf()
     fun po(key1: Long, key2: Long): LongArray = this.po[Pair(key1, key2)] ?: longArrayOf()
-    fun spo(key1: Long, key2: Long, key3: Long): Boolean = this.spo(ID_Triple(key1, key2, key3))
     private fun spo(key: ID_Triple): Boolean = this.spo.contains(key)
     fun distinct() {
         distinctOneKeyMap(this.s)

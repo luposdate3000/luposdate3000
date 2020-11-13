@@ -4,11 +4,6 @@ import lupos.s00misc.Parallel
 import lupos.s02buildSyntaxTree.turtle.Turtle2Parser
 import lupos.s16network.LuposdateEndpoint
 
-enum class ImportMode {
-    IMPORT_STRING,
-    MERGE_INTERMEDIATE
-}
-
 fun helperCleanString(s: String): String {
     var res: String = s
     while (true) {

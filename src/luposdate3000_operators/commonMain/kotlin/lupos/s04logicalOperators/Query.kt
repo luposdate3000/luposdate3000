@@ -125,13 +125,6 @@ class Query(@JvmField val dictionary: ResultSetDictionary = ResultSetDictionary(
     override fun getWorkingDirectory() = _workingDirectory
     override fun getDictionary(): IResultSetDictionary = dictionary
     override fun checkVariableExistence() = !dontCheckVariableExistence
-    internal inline fun partitionsLockLock() {
-        partitionsLock.lock()
-    }
-
-    internal inline fun partitionsLockUnLock() {
-        partitionsLock.unlock()
-    }
 
     override fun setCommited() {
         commited = true

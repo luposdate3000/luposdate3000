@@ -8,7 +8,6 @@ expect class MyBigDecimal {
     fun compareTo(other: MyBigDecimal): Int
     fun toPlainString(): String
     fun toDouble(): Double
-    fun toInt(): Int
     fun toMyBigInteger(): MyBigInteger
     operator fun plus(other: MyBigDecimal): MyBigDecimal
     operator fun minus(other: MyBigDecimal): MyBigDecimal

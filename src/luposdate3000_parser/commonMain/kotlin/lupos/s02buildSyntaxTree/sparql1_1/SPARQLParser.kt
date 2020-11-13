@@ -864,11 +864,6 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
         return ASTQuery(collect)
     }
 
-    fun QueryUnit(): ASTQuery {
-        var token: Token
-        return Query()
-    }
-
     fun Query(): ASTQuery {
         var token: Token
         val collect: MutableList<ASTNode> = mutableListOf()
@@ -905,11 +900,6 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
             collect.add(value)
         }
         return ASTQuery(collect)
-    }
-
-    fun UpdateUnit(): ASTNode {
-        var token: Token
-        return Update()
     }
 
     private fun Prologue(): MutableList<ASTNode> {
@@ -5284,42 +5274,4 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
         return IRIref()
     }
 
-    fun VarOrURI(): ASTNode {
-        var token: Token
-        val result: ASTNode
-        val t181 = ltit.lookahead()
-        result = when (t181) {
-            is VAR -> {
-                Var()
-            }
-            is IRI, is PNAME_LN, is PNAME_NS -> {
-                URI()
-            }
-            else -> {
-                throw UnexpectedToken(t181, arrayOf("VAR", "IRI", "PNAME_LN", "PNAME_NS"), ltit)
-            }
-        }
-        return result
-    }
-
-    fun VarOrBlankNodeOrIRIref(): ASTNode {
-        var token: Token
-        val result: ASTNode
-        val t182 = ltit.lookahead()
-        result = when (t182) {
-            is VAR -> {
-                Var()
-            }
-            is BNODE, is ANON_BNODE -> {
-                BlankNode()
-            }
-            is IRI, is PNAME_LN, is PNAME_NS -> {
-                URI()
-            }
-            else -> {
-                throw UnexpectedToken(t182, arrayOf("VAR", "BNODE", "ANON_BNODE", "IRI", "PNAME_LN", "PNAME_NS"), ltit)
-            }
-        }
-        return result
-    }
 }

@@ -6,9 +6,6 @@ abstract class Luposdate3000Exception(val classname: String, msg: String) : Exce
 //not implemented exceptions --->>>
 open class NotImplementedException(classname: String, msg: String) : Luposdate3000Exception(classname, msg)
 class HistogramNotImplementedException(classname: String) : NotImplementedException("HistogramNotImplementedException", "Histograms not implemented in '$classname'.")
-class FileIONotImplementedException : NotImplementedException("FileIONotImplementedException", "File IO not implemented.")
-class ServiceNotImplementedException : NotImplementedException("ServiceNotImplementedException", "Service is currently not implemented.")
-class TripleStoreModifyOperationsNotImplementedException : NotImplementedException("TripleStoreModifyOperationsNotImplementedException", "Triple store has not implemented Insert and Delete.")
 class IteratorBundleColumnModeNotImplementedException : NotImplementedException("IteratorBundleColumnModeNotImplementedException", "IteratorBundle is unable to convert to column Mode.")
 class IteratorBundleRowModeNotImplementedException : NotImplementedException("IteratorBundleRowModeNotImplementedException", "IteratorBundle is unable to convert to row Mode.")
 class SparqlFeatureNotImplementedException(name: String) : NotImplementedException("SparqlFeatureNotImplementedException", "Sparql feature '$name' not implemented.")
@@ -19,10 +16,6 @@ class UnknownManifestException(classname: String, msg: String) : NotImplementedE
 class DirectoryCompareNotImplementedException : NotImplementedException("DirectoryCompareNotImplementedException", "Comparing directories is not implemented")
 class GraphVarHistogramsNotImplementedException : NotImplementedException("GraphVarHistogramsNotImplementedException", "histograms for triples using graph variable not implemented.")
 class TriplePatternsContainingTheSameVariableTwiceNotImplementedException : NotImplementedException("TriplePatternsContainingTheSameVariableTwiceNotImplementedException", "triple pattern currently must not contain the same variable twice.")
-
-//incompatible implementation exceptions --->>>
-class FunktionWontWorkWithThisImplementationException : Luposdate3000Exception("FunktionWontWorkWithThisImplementationException", "Funktion should not work with this implementation of the interface.")
-class DictionaryCanNotInferTypeFromValueException : Luposdate3000Exception("DictionaryCanNotInferTypeFromValueException", "Dictionary can not infer the type of given Value.")
 
 //syntax exceptions --->>>
 abstract class SyntaxException(classname: String, msg: String) : Luposdate3000Exception(classname, msg)
@@ -68,13 +61,10 @@ class CanNotCastLiteralToIntException : EvaluationException("CanNotCastLiteralTo
 class UnknownOperatorTypeInXMLException(type: String) : EvaluationException("UnknownOperatorTypeInXMLException", "Unknown type '$type' during parsing xml file.")
 class UnknownDataFileException(filename: String) : EvaluationException("UnknownDataFileException", "Unknown filetype '$filename' during parsing to xml.")
 class EnpointRecievedInvalidPath(path: String) : EvaluationException("EnpointRecievedInvalidPath", "There was a not recognized request with path '$path'.")
-class ResourceNotFoundException(resourceName: String) : EvaluationException("ResourceNotFoundException", "File '$resourceName' not found.")
 class GraphNameAlreadyExistsDuringCreateException(name: String) : EvaluationException("GraphNameAlreadyExistsDuringCreateException", "The graph '$name' already exists before creation.")
 class GraphNameNotExistsDuringDeleteException(name: String) : EvaluationException("GraphNameNotExistsDuringDeleteException", "The graph '$name' did not exist before deletion.")
 class GraphNameNotFoundException(name: String) : EvaluationException("GraphNameNotFoundException", "The graph '$name' does not exist.")
-class CommuncationUnexpectedHeaderException(header: String) : EvaluationException("CommuncationUnexpectedHeaderException", "Unexpected Message with header '$header' received.")
 class UnreachableException : EvaluationException("UnreachableException", "This should be unreachable.")
-class CommunicationConnectionClosedException : EvaluationException("CommunicationConnectionClosedException", "Communication channel unexpectedly closed.")
 class EmptyResultException : EvaluationException("EmptyResultException", "")
 
 //known bugs --->>>

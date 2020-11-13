@@ -21,17 +21,8 @@ actual class MyBigInteger {
         s = "" + s1
     }
 
-    actual constructor(s1: Long) {
-        v = BigInteger("" + s1)
-        s = "" + s1
-    }
-
     actual fun toDouble(): Double {
         return v.toDouble()
-    }
-
-    actual fun toInt(): Int {
-        return v.toInt()
     }
 
     actual fun compareTo(other: MyBigInteger): Int {
@@ -52,18 +43,6 @@ actual class MyBigInteger {
 
     actual operator fun div(other: MyBigInteger): MyBigInteger {
         return MyBigInteger(v.divide(other.v))
-    }
-
-    actual fun ceil(): MyBigInteger {
-        return this
-    }
-
-    actual fun floor(): MyBigInteger {
-        return this
-    }
-
-    actual fun round(): MyBigInteger {
-        return this
     }
 
     actual fun toMyBigDecimal(): MyBigDecimal {

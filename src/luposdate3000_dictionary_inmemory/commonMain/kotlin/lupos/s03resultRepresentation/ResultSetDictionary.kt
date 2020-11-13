@@ -789,9 +789,6 @@ class ResultSetDictionary(private val global: Boolean = false) : IResultSetDicti
         }
     }
 
-    fun printContents() {
-    }
-
     override fun valueToGlobal(value: Int): Int {
         val res: Int
         if ((value and mask1) == mask1) {

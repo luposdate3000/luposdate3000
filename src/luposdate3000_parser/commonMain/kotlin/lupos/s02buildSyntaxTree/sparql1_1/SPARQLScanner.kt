@@ -53,7 +53,6 @@ class PNAME_LN(@JvmField val beforeColon: String, @JvmField val afterColon: Stri
 class POSSIBLE_KEYWORD(@JvmField val original_image: String, index: Int) : Token(original_image.toUpperCase(), index)
 class VAR(prefix: Char, @JvmField val identifier: String, index: Int) : Token(prefix + identifier, index)
 class UnexpectedEndOfLine(index: Int, lineNumber: Int, columnNumber: Int) : ParseError("Unexpected End of Line", lineNumber, columnNumber) {
-    constructor(index: Int, iterator: LexerCharIterator) : this(index, iterator.lineNumber, iterator.columnNumber)
 }
 
 class TokenIteratorSPARQLParser(@JvmField val iterator: LexerCharIterator) : TokenIterator {

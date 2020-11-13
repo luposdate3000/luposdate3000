@@ -4,9 +4,6 @@ object JenaWrapper {
     fun dropAll() {
     }
 
-    fun updateQuery(queryString: String) {
-    }
-
     fun execQuery(queryString: String): String {
         return ""
     }
@@ -17,6 +14,4 @@ object JenaWrapper {
     fun loadFromFile(fileName: String, graph: String) {
     }
 
-    fun execQueryFile(fileName: String) {
-    }
 }

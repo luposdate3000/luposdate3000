@@ -48,44 +48,6 @@ class LookAheadTokenIterator(@JvmField val tokenIterator: TokenIterator, @JvmFie
     }
 }
 
-fun getLineAndColumn(source: String, index: Int): Pair<Int, Int> {
-    var line = 0
-    var pos = 0
-    for (i in 0 until index) {
-        val c = source[i]
-        if (c == '\n') {
-            line++
-            pos = 0
-        } else {
-            if (c != '\r') {
-                pos++
-            }
-        }
-    }
-    return Pair(line, pos)
-}
-
-fun getErrorLine(source: String, index: Int): String {
-    var result = ""
-    for (i in 0..index) {
-        val c = source[i]
-        if (c == '\n') {
-            result = ""
-        } else {
-            if (c != '\r') {
-                result += c
-            }
-        }
-    }
-    // collect characters until end of this line...
-    var i = index + 1
-    while (i < source.length && source[i] != '\r' && source[i] != '\n') {
-        result += source[i]
-        i++
-    }
-    return result
-}
-
 open class ParseError(message: String, @JvmField val lineNumber: Int, @JvmField val columnNumber: Int) : Throwable("$message in line $lineNumber at column $columnNumber") {
     constructor(message: String, token: Token, lineNumber: Int, columnNumber: Int) : this(message, lineNumber, columnNumber)
     constructor(message: String, token: Token, tokenIterator: TokenIterator) : this(message, tokenIterator.getLineNumber(), tokenIterator.getColumnNumber())
@@ -93,11 +55,9 @@ open class ParseError(message: String, @JvmField val lineNumber: Int, @JvmField 
 }
 
 class UnexpectedEndOfFile(index: Int, lineNumber: Int, columnNumber: Int) : ParseError("Unexpected End of File", lineNumber, columnNumber)
-class UnexpectedChar(token: Char, index: Int, lineNumber: Int, columnNumber: Int) : ParseError("Unexpected Char $token", lineNumber, columnNumber)
 class LookAheadOverLimit(lookahead: Int, requestedLookahead: Int, index: Int, lineNumber: Int, columnNumber: Int) : ParseError("Requested $lookahead lookahead, but maximum is $requestedLookahead", lineNumber, columnNumber)
 class PutBackOverLimit(index: Int, lineNumber: Int, columnNumber: Int) : ParseError("Maximum of allowed put back is reached...", lineNumber, columnNumber)
 class UnexpectedToken(token: Token, expectedTokens: Array<String>, lineNumber: Int, columnNumber: Int) : ParseError("Unexpected Token " + token + ", expected: " + expectedTokens.contentToString(), lineNumber, columnNumber) {
-    constructor(token: Token, expectedTokens: Array<String>, tokenIterator: TokenIterator) : this(token, expectedTokens, tokenIterator.getLineNumber(), tokenIterator.getColumnNumber())
     constructor(token: Token, expectedTokens: Array<String>, tokenIterator: LookAheadTokenIterator) : this(token, expectedTokens, tokenIterator.tokenIterator.getLineNumber(), tokenIterator.tokenIterator.getColumnNumber())
 }
 
@@ -249,19 +209,3 @@ open abstract class ASTNode(@JvmField val children: Array<ASTNode>) {
 //    open fun <T> visit(visitor: Visitor<T>): T = visitor.visit(this, this.getChildrensValues(visitor));
 }
 
-open abstract class ASTUnaryOperation(child: ASTNode) : ASTNode(arrayOf(child))
-open abstract class ASTUnaryOperationFixedName(child: ASTNode, @JvmField val name: String) : ASTNode(arrayOf(child)) {
-    override fun nodeToString(): String = name
-}
-
-open abstract class ASTBinaryOperation(left: ASTNode, right: ASTNode) : ASTNode(arrayOf(left, right))
-open abstract class ASTBinaryOperationFixedName(left: ASTNode, right: ASTNode, @JvmField val name: String) : ASTNode(arrayOf(left, right)) {
-    override fun nodeToString(): String = name
-}
-
-open abstract class ASTNaryOperation(children: Array<ASTNode>) : ASTNode(children)
-open abstract class ASTNaryOperationFixedName(children: Array<ASTNode>, @JvmField val name: String) : ASTNode(children) {
-    override fun nodeToString(): String = name
-}
-
-open abstract class ASTLeafNode : ASTNode(arrayOf())

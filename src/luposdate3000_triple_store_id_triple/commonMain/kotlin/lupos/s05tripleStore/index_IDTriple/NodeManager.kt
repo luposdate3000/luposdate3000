@@ -11,12 +11,6 @@ internal object NodeManager {
 
     @JvmField
     val bufferManager = BufferManager()
-    fun debug() {
-    }
-
-    inline fun referenceNode(nodeid: Int) {
-        bufferManager.referencePage(nodeid)
-    }
 
     inline fun releaseNode(nodeid: Int) {
         bufferManager.releasePage(nodeid)
@@ -26,12 +20,6 @@ internal object NodeManager {
         SanityCheck.println { "debug NodeManager getNode ${nodeid.toString(16)}" }
         val node = bufferManager.getPage(nodeid)
         actionLeaf(node)
-    }
-
-    inline fun getNodeInner(nodeid: Int, crossinline actionInner: (ByteArray) -> Unit) {
-        SanityCheck.println { "debug NodeManager getNode ${nodeid.toString(16)}" }
-        val node = bufferManager.getPage(nodeid)
-        actionInner(node)
     }
 
     inline fun getNodeAny(nodeid: Int, crossinline actionLeaf: (ByteArray) -> Unit, crossinline actionInner: (ByteArray) -> Unit) {
