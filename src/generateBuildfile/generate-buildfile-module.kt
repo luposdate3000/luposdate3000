@@ -225,7 +225,7 @@ fun createBuildFileForModule(args: Array<String>) {
             for (d in commonDependencies) {
                 if (d.startsWith("luposdate3000")) {
                     if (buildForIDE) {
-                        out.println("                compileOnly(project(\":src:${d.substring("luposdate3000:".length, d.lastIndexOf(":")).toLowerCase()}\"))")
+                        out.println("                implementation(project(\":src:${d.substring("luposdate3000:".length, d.lastIndexOf(":")).toLowerCase()}\"))")
                     } else {
                         out.println("                compileOnly(\"$d\")")
                     }
@@ -273,17 +273,21 @@ fun createBuildFileForModule(args: Array<String>) {
             out.println("    }")
             if (buildForIDE) {
                 out.println("    sourceSets[\"commonMain\"].kotlin.srcDir(\"commonMain${pathSeparatorEscaped}kotlin\")")
-                out.println("    sourceSets[\"commonMain\"].kotlin.srcDir(\"..${pathSeparator}xxx_generated_xxx${pathSeparator}${moduleName}${pathSeparator}commonMain${pathSeparator}kotlin\")")
                 out.println("    sourceSets[\"jvmMain\"].kotlin.srcDir(\"jvmMain${pathSeparatorEscaped}kotlin\")")
+if(moduleName != "Luposdate3000_Shared_Inline"){
+                out.println("    sourceSets[\"commonMain\"].kotlin.srcDir(\"..${pathSeparator}xxx_generated_xxx${pathSeparator}${moduleName}${pathSeparator}commonMain${pathSeparator}kotlin\")")
                 out.println("    sourceSets[\"jvmMain\"].kotlin.srcDir(\"..${pathSeparator}xxx_generated_xxx${pathSeparator}${moduleName}${pathSeparator}jvmMain${pathSeparator}kotlin\")")
+}
                 if (!fastMode) {
                     out.println("    sourceSets[\"jsMain\"].kotlin.srcDir(\"jsMain${pathSeparatorEscaped}kotlin\")")
-                    out.println("    sourceSets[\"jsMain\"].kotlin.srcDir(\"..${pathSeparator}xxx_generated_xxx${pathSeparator}${moduleName}${pathSeparator}jsMain${pathSeparator}kotlin\")")
                     out.println("    sourceSets[\"${platform}Main\"].kotlin.srcDir(\"nativeMain${pathSeparatorEscaped}kotlin\")")
-                    out.println("    sourceSets[\"${platform}Main\"].kotlin.srcDir(\"..${pathSeparator}xxx_generated_xxx${pathSeparator}${moduleName}${pathSeparator}nativeMain${pathSeparator}kotlin\")")
                     out.println("    sourceSets[\"${platform}Main\"].kotlin.srcDir(\"${platform}Main${pathSeparatorEscaped}kotlin\")")
+if(moduleName != "Luposdate3000_Shared_Inline"){
+                    out.println("    sourceSets[\"jsMain\"].kotlin.srcDir(\"..${pathSeparator}xxx_generated_xxx${pathSeparator}${moduleName}${pathSeparator}jsMain${pathSeparator}kotlin\")")
+                    out.println("    sourceSets[\"${platform}Main\"].kotlin.srcDir(\"..${pathSeparator}xxx_generated_xxx${pathSeparator}${moduleName}${pathSeparator}nativeMain${pathSeparator}kotlin\")")
                     out.println("    sourceSets[\"${platform}Main\"].kotlin.srcDir(\"..${pathSeparator}xxx_generated_xxx${pathSeparator}${moduleName}${pathSeparator}${platform}Main${pathSeparator}kotlin\")")
                 }
+}
             } else {
                 out.println("    sourceSets[\"commonMain\"].kotlin.srcDir(\"src.generated${pathSeparatorEscaped}commonMain${pathSeparatorEscaped}kotlin\")")
                 out.println("    sourceSets[\"jvmMain\"].kotlin.srcDir(\"src.generated${pathSeparatorEscaped}jvmMain${pathSeparatorEscaped}kotlin\")")
@@ -294,7 +298,21 @@ fun createBuildFileForModule(args: Array<String>) {
                 }
             }
             out.println("}")
+if(!buildLibrary){
+//https://play.kotlinlang.org/hands-on/Introduction%20to%20Kotlin%20Multiplatform/03_multiplatform_jvm
+            out.println("val run by tasks.creating(JavaExec::class) {")
+            out.println("    group = \"application\"")
+            out.println("    main = \"MainKt\"")
+            out.println("    workingDir = project.rootDir")
+            out.println("    kotlin {")
+            out.println("        val main = targets[\"jvm\"].compilations[\"main\"]")
+            out.println("        dependsOn(main.compileAllTaskName)")
+            out.println("        classpath({ main.output.allOutputs.files},{ configurations[\"jvmRuntimeClasspath\"]})")
+            out.println("    }")
+            out.println("    File(\"\${project.rootDir}${pathSeparator}log\").mkdirs()")
+            out.println("}")
         }
+}
     }
     if (!ideaBuildfile) {
         File("src.generated${pathSeparator}commonMain${pathSeparator}kotlin${pathSeparator}lupos${pathSeparator}s00misc${pathSeparator}").mkdirs()

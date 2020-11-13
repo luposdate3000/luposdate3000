@@ -37,7 +37,7 @@ class POPGroup : POPBase {
     var by: List<AOPVariable>
 
     @JvmField
-    var bindings: MutableList<Pair<String, AOPBase>> = mutableListOf<Pair<String, AOPBase>>()
+    var bindings: MutableList<Pair<String, AOPBase>> = mutableListOf()
     override fun getPossibleSortPriorities(): List<List<SortHelper>> {
         val res = mutableListOf<List<SortHelper>>()
         val provided = Array(by.size) { by[it].name }

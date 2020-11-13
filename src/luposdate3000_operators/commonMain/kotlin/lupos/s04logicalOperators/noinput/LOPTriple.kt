@@ -22,7 +22,7 @@ class LOPTriple(query: IQuery, s: IAOPBase, p: IAOPBase, o: IAOPBase, @JvmField 
     }
 
     override /*suspend*/ fun toXMLElement(): XMLElement = super.toXMLElement().addAttribute("graph", graph).addAttribute("graphVar", "" + graphVar)
-    override fun getRequiredVariableNames(): List<String> = listOf<String>()
+    override fun getRequiredVariableNames(): List<String> = listOf()
     override fun getProvidedVariableNames(): List<String> {
         val res = mutableListOf<String>()
         for (c in children) {
