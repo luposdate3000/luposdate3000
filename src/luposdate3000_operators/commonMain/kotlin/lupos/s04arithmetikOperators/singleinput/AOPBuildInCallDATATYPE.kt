@@ -43,7 +43,7 @@ class AOPBuildInCallDATATYPE(query: IQuery, child: AOPBase) : AOPBase(query, EOp
                     res = ValueIri("http://www.w3.org/2001/XMLSchema#integer")
                 }
             }
-/*return*/res
+            res
         }
     }
 

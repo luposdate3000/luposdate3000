@@ -4,7 +4,7 @@ import kotlin.jvm.JvmField
 
 open class RowIterator {
     @JvmField
-    var columns: Array<String> = arrayOf<String>()
+    var columns: Array<String> = arrayOf()
 
     @JvmField
     var buf: IntArray = IntArray(0)

@@ -17,7 +17,7 @@ class AOPBuildInCallBNODE0(query: IQuery) : AOPBase(query, EOperatorID.AOPBuildI
     override fun equals(other: Any?): Boolean = other is AOPBuildInCallBNODE0
     override fun evaluate(row: IteratorBundle): () -> ValueDefinition {
         return {
-            /*return*/ValueBnode("" + uuid + localbnode++)
+            ValueBnode("" + uuid + localbnode++)
         }
     }
 

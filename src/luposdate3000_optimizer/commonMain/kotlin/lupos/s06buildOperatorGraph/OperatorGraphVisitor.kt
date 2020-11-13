@@ -1401,17 +1401,17 @@ return tmp
         var iriIsVariable = false
         val iri = when (name) {
             is ASTIri -> {
-                /*return*/name.iri
+                name.iri
             }
             is ASTNamedIriGraphRef -> {
-                /*return*/name.iri
+                name.iri
             }
             is ASTIriGraphRef -> {
-                /*return*/name.iri
+                name.iri
             }
             is ASTVar -> {
                 iriIsVariable = true
-/*return*/name.name
+                name.name
             }
             else -> {
                 SanityCheck.println { "$name --- $name" }
@@ -1600,7 +1600,7 @@ return tmp
 
     override fun visit(node: ASTModifyWithWhere, childrenValues: List<IOPBase>): IOPBase {
         val child: IOPBase = if (node.using.isEmpty()) {
-            /*return*/parseGroup(node.children)
+            parseGroup(node.children)
         } else {
             var tmp: IOPBase? = null
             for (c in node.using) {
@@ -1612,7 +1612,7 @@ return tmp
                     createUnion(tmp, tmp2)
                 }
             }
-            /*return*/tmp!!
+            tmp!!
         }
         val providedVariables = child.getProvidedVariableNames()
         val iri = node.iri

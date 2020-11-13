@@ -43,7 +43,7 @@ class AOPDivision(query: IQuery, childA: AOPBase, childB: AOPBase) : AOPBinaryOp
                 SanityCheck.println { "TODO exception 23" }
                 e.printStackTrace()
             }
-/*return*/res
+            res
         }
     }
 

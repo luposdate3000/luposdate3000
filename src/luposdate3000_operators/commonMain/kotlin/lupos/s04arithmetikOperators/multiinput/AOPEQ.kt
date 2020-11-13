@@ -38,7 +38,7 @@ class AOPEQ(query: IQuery, childA: AOPBase, childB: AOPBase) : AOPBinaryOperatio
                     }
                 }
             }
-/*return*/res
+            res
         }
     }
 

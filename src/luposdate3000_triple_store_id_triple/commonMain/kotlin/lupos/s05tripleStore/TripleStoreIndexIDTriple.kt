@@ -39,7 +39,7 @@ class TripleStoreIndexIDTriple : TripleStoreIndex() {
     var rootNode: ByteArray? = null
 
     @JvmField
-    var pendingImport: MutableList<Int?> = mutableListOf<Int?>()
+    var pendingImport: MutableList<Int?> = mutableListOf()
 
     @JvmField
     var countPrimary: Int = 0

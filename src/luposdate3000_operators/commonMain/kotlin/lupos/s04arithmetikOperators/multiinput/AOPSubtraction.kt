@@ -34,7 +34,7 @@ class AOPSubtraction(query: IQuery, childA: AOPBase, childB: AOPBase) : AOPBase(
                 SanityCheck.println { "TODO exception 16" }
                 e.printStackTrace()
             }
-/*return*/res
+            res
         }
     }
 

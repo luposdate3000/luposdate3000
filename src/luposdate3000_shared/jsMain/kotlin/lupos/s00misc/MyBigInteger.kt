@@ -11,7 +11,6 @@ actual class MyBigInteger {
         s = "" + s1
     }
 
-
     actual fun compareTo(other: MyBigInteger): Int {
         throw object : NotImplementedException("MyBigInteger", "compareTo not implemented") {}
     }
@@ -19,7 +18,6 @@ actual class MyBigInteger {
     actual fun toDouble(): Double {
         throw object : NotImplementedException("MyBigDecimal", "toDouble not implemented") {}
     }
-
 
     actual operator fun plus(other: MyBigInteger): MyBigInteger {
         throw object : NotImplementedException("MyBigInteger", "plus not implemented") {}
@@ -36,7 +34,6 @@ actual class MyBigInteger {
     actual operator fun div(other: MyBigInteger): MyBigInteger {
         throw object : NotImplementedException("MyBigInteger", "div not implemented") {}
     }
-
 
     actual fun toMyBigDecimal(): MyBigDecimal {
         throw object : NotImplementedException("MyBigInteger", "toMyBigDecimal not implemented") {}

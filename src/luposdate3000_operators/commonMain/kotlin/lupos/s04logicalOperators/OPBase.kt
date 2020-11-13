@@ -53,10 +53,10 @@ abstract class OPBase(@JvmField val query: IQuery, @JvmField val operatorID: EOp
     var sortPrioritiesInitialized: Boolean = false
 
     @JvmField
-    var sortPriorities: MutableList<List<SortHelper>> = mutableListOf<List<SortHelper>>()//possibilities (filtered for_ parent)
+    var sortPriorities: MutableList<List<SortHelper>> = mutableListOf()//possibilities (filtered for_ parent)
 
     @JvmField
-    var mySortPriority: MutableList<SortHelper> = mutableListOf<SortHelper>()
+    var mySortPriority: MutableList<SortHelper> = mutableListOf()
 
     @JvmField
     var histogramResult: HistogramResult? = null

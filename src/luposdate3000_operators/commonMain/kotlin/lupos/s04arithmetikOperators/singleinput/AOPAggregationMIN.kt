@@ -51,7 +51,7 @@ class AOPAggregationMIN(query: IQuery, @JvmField val distinct: Boolean, childs: 
         val tmp = row.columns["#$uuid"]!! as ColumnIteratorAggregate
         return {
             val res: ValueDefinition = tmp.value
-            /*return*/res
+            res
         }
     }
 

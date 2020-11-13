@@ -117,7 +117,7 @@ internal class NodeLeafColumnIterator0(node: ByteArray, nodeid: Int, lock: MyRea
         }
     }
 
-     override /*suspend*/ fun skipSIP(skipCount: Int): Int {
+    override /*suspend*/ fun skipSIP(skipCount: Int): Int {
         if (label == 3) {
             label = 1
             __init()

@@ -12,7 +12,7 @@ class ColumnIteratorRepeatIterator(@JvmField val count: Int, @JvmField val child
 
     //TODO use pages instead
     @JvmField
-    val data: MutableList<Int> = mutableListOf<Int>()
+    val data: MutableList<Int> = mutableListOf()
 
     @JvmField
     var label: Int = 1

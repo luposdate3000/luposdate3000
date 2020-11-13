@@ -25,7 +25,7 @@ import lupos.s16network.LuposdateEndpoint
 open class SparqlTestSuite {
     companion object {
         const val testPersistence: Boolean = false
-        val filterList: MutableList<String> = mutableListOf<String>()
+        val filterList: MutableList<String> = mutableListOf()
         var prefixDirectory: String = "."
         val enabledTestCases: List<String> = listOf("resources/myqueries/", "resources/bsbm/", "resources/btc/", "resources/sp2b/")
     }
@@ -51,7 +51,7 @@ open class SparqlTestSuite {
                                 JenaWrapper.loadFromFile("/src/luposdate3000/$inputFile")
                                 val jenaResult = JenaWrapper.execQuery(File(queryFile).readAsString())
                                 val jenaXML = XMLElementFromXML()(jenaResult)!!
-                                File(outputFile).printWriterSuspended {it3->
+                                File(outputFile).printWriterSuspended { it3 ->
                                     it3.println(jenaXML.toPrettyString())
                                 }
                             } catch (e: Throwable) {
@@ -379,7 +379,7 @@ open class SparqlTestSuite {
             return true
         }
         lastTripleCount = 0//dont apply during w3c-tests
-val         success = parseSPARQLAndEvaluate(true, names.first(), expectedResult, queryFile!!, inputDataFile, resultFile, services, inputDataGraph, outputDataGraph)
+        val success = parseSPARQLAndEvaluate(true, names.first(), expectedResult, queryFile!!, inputDataFile, resultFile, services, inputDataGraph, outputDataGraph)
         return success == expectedResult
     }
 
@@ -777,7 +777,7 @@ class SevenIndices {
     private val po = mutableMapOf<Pair<Long, Long>, LongArray>()
 
     @JvmField
-    val spo: MutableSet<ID_Triple> = mutableSetOf<ID_Triple>()
+    val spo: MutableSet<ID_Triple> = mutableSetOf()
     fun s(key: Long): Array<Pair<Long, Long>> = this.s[key] ?: arrayOf()
     fun o(key: Long): Array<Pair<Long, Long>> = this.o[key] ?: arrayOf()
     fun sp(key1: Long, key2: Long): LongArray = this.sp[Pair(key1, key2)] ?: longArrayOf()

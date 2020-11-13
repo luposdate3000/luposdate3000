@@ -23,7 +23,7 @@ class AOPBuildInCallSTR(query: IQuery, child: AOPBase) : AOPBase(query, EOperato
                 val tmp = a.valueToString()!!
                 res = ValueSimpleLiteral("" + tmp[0], tmp.substring(1, tmp.lastIndexOf(tmp[0])))
             }
-/*return*/res
+            res
         }
     }
 

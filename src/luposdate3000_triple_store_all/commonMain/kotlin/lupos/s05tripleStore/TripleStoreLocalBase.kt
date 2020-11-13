@@ -13,7 +13,7 @@ import lupos.s04logicalOperators.iterator.IteratorBundle
 
 abstract class TripleStoreLocalBase(@JvmField val name: String) : ITripleStoreLocalBase {
     @JvmField //override this during initialisation
-    var dataDistinct: Array<TripleStoreDistinctContainer> = arrayOf<TripleStoreDistinctContainer>()
+    var dataDistinct: Array<TripleStoreDistinctContainer> = arrayOf()
 
     @JvmField //override this during initialisation
     var enabledPartitions: Array<EnabledPartitionContainer> = arrayOf(//
@@ -26,10 +26,10 @@ abstract class TripleStoreLocalBase(@JvmField val name: String) : ITripleStoreLo
     )
 
     @JvmField //override this during initialisation
-    var pendingModificationsInsert: Array<MutableMap<Long, MutableList<Int>>> = Array(0) { mutableMapOf<Long, MutableList<Int>>() }
+    var pendingModificationsInsert: Array<MutableMap<Long, MutableList<Int>>> = Array(0) { mutableMapOf() }
 
     @JvmField //override this during initialisation
-    var pendingModificationsRemove: Array<MutableMap<Long, MutableList<Int>>> = Array(0) { mutableMapOf<Long, MutableList<Int>>() }
+    var pendingModificationsRemove: Array<MutableMap<Long, MutableList<Int>>> = Array(0) { mutableMapOf() }
     override fun getEnabledPartitions(): Array<EnabledPartitionContainer> = enabledPartitions
     /*suspend*/ fun safeToFolder(foldername: String) {
         File(foldername).mkdirs()

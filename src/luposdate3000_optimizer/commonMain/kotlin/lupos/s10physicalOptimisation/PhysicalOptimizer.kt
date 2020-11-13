@@ -8,13 +8,13 @@ import lupos.s08logicalOptimisation.OptimizerCompoundBase
 class PhysicalOptimizer(query: Query) : OptimizerCompoundBase(query, EOptimizerID.PhysicalOptimizerID) {
     override val classname: String = "PhysicalOptimizer"
     override val childrenOptimizers: Array<Array<OptimizerBase>> = arrayOf(//
-            arrayOf<OptimizerBase>(
+            arrayOf(
                     PhysicalOptimizerJoinType(query),//
             ),
-            arrayOf<OptimizerBase>(
+            arrayOf(
                     PhysicalOptimizerTripleIndex(query),//
             ),
-            arrayOf<OptimizerBase>(
+            arrayOf(
                     PhysicalOptimizerNaive(query),//
             ),
             arrayOf(
@@ -22,13 +22,13 @@ class PhysicalOptimizer(query: Query) : OptimizerCompoundBase(query, EOptimizerI
                     PhysicalOptimizerPartition2(query),//
                     PhysicalOptimizerPartition3(query),//
             ),
-            arrayOf<OptimizerBase>(
+            arrayOf(
                     PhysicalOptimizerPartition4(query),//
             ),
-            arrayOf<OptimizerBase>(
+            arrayOf(
                     PhysicalOptimizerPartition5(query),//
             ),
-            arrayOf<OptimizerBase>(
+            arrayOf(
                     PhysicalOptimizerDebug(query)
             )
     )

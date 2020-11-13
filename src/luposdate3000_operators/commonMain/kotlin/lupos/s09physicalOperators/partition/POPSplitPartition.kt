@@ -77,7 +77,7 @@ class POPSplitPartition(query: IQuery, projectedVariables: List<String>, val par
                 var writerFinished = 0
                 SanityCheck.println { "ringbuffersize = ${ringbuffer.size} $elementsPerRing $partitionCount ${ringbufferStart.map { it }} ${ringbufferReadHead.map { it }} ${ringbufferWriteHead.map { it }}" }
                 SanityCheck.println { "split $uuid writer launched A" }
-            val job = Parallel.launch {
+                val job = Parallel.launch {
                     var child2: RowIterator? = null
                     try {
                         SanityCheck.println { "split $uuid writer launched B" }
@@ -199,7 +199,7 @@ class POPSplitPartition(query: IQuery, projectedVariables: List<String>, val par
                             ringbufferWriterContinuation.signal()
                             ringbufferReaderContinuation[p].waitCondition { ringbufferReadHead[p] == ringbufferWriteHead[p] && writerFinished == 0 }
                         }
-                        /*return*/res
+                        res
                     }
                     iterator.close = {
                         SanityCheck.println { "split $uuid $p reader close" }

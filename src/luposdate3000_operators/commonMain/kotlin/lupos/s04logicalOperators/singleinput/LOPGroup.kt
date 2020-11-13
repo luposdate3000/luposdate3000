@@ -12,7 +12,7 @@ import lupos.s04logicalOperators.noinput.OPEmptyRow
 
 class LOPGroup(query: IQuery, @JvmField var by: List<AOPVariable>) : LOPBase(query, EOperatorID.LOPGroupID, "LOPGroup", arrayOf(OPEmptyRow(query)), ESortPriority.PREVENT_ANY) {
     override fun childrenToVerifyCount(): Int = 1
-    var bindings: MutableList<Pair<String, AOPBase>> = mutableListOf<Pair<String, AOPBase>>()
+    var bindings: MutableList<Pair<String, AOPBase>> = mutableListOf()
 
     constructor(query: IQuery, by: List<AOPVariable>, bindings: List<Pair<String, AOPBase>>, child: IOPBase) : this(query, by) {
         this.bindings = bindings.toMutableList()

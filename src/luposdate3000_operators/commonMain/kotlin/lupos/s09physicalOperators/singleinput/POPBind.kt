@@ -1,8 +1,8 @@
 package lupos.s09physicalOperators.singleinput
 
+import kotlin.jvm.JvmField
 import lupos.s00misc.*
 import lupos.s00misc.SanityCheck
-import kotlin.jvm.JvmField
 import lupos.s03resultRepresentation.ResultSetDictionaryExt
 import lupos.s03resultRepresentation.ValueDefinition
 import lupos.s03resultRepresentation.ValueError

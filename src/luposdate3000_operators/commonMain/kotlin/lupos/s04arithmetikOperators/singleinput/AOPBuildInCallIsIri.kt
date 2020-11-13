@@ -18,7 +18,7 @@ class AOPBuildInCallIsIri(query: IQuery, child: AOPBase) : AOPBase(query, EOpera
             if (a !is ValueUndef && a !is ValueError) {
                 res = ValueBoolean(a is ValueIri)
             }
-/*return*/res
+            res
         }
     }
 

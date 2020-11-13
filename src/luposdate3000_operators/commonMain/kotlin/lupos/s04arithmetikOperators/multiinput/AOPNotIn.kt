@@ -38,7 +38,7 @@ class AOPNotIn(query: IQuery, childA: AOPBase, childB: AOPBase) : AOPBase(query,
             if (found || noError) {
                 res = ValueBoolean(found)
             }
-/*return*/res
+            res
         }
     }
 

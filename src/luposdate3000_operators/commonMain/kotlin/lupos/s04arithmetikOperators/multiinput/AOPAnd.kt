@@ -45,13 +45,13 @@ class AOPAnd(query: IQuery, childA: AOPBase, childB: AOPBase) : AOPBase(query, E
                 return {
                     val a = childA()
                     val b = childB()
-                    /*return*/truthTable2[a * 3 + b]
+                    truthTable2[a * 3 + b]
                 }
             } else {
                 return {
                     val a = childA()
                     val b = query.getDictionary().toBooleanOrError(childB())
-                    /*return*/truthTable2[a * 3 + b]
+                    truthTable2[a * 3 + b]
                 }
             }
         } else {
@@ -59,13 +59,13 @@ class AOPAnd(query: IQuery, childA: AOPBase, childB: AOPBase) : AOPBase(query, E
                 return {
                     val a = query.getDictionary().toBooleanOrError(childA())
                     val b = childB()
-                    /*return*/truthTable2[a * 3 + b]
+                    truthTable2[a * 3 + b]
                 }
             } else {
                 return {
                     val a = query.getDictionary().toBooleanOrError(childA())
                     val b = query.getDictionary().toBooleanOrError(childB())
-                    /*return*/truthTable2[a * 3 + b]
+                    truthTable2[a * 3 + b]
                 }
             }
         }
@@ -79,13 +79,13 @@ class AOPAnd(query: IQuery, childA: AOPBase, childB: AOPBase) : AOPBase(query, E
                 return {
                     val a = childA()
                     val b = childB()
-                    /*return*/truthTable[a * 3 + b]
+                    truthTable[a * 3 + b]
                 }
             } else {
                 return {
                     val a = childA()
                     val b = query.getDictionary().toBooleanOrError(childB())
-                    /*return*/truthTable[a * 3 + b]
+                    truthTable[a * 3 + b]
                 }
             }
         } else {
@@ -93,13 +93,13 @@ class AOPAnd(query: IQuery, childA: AOPBase, childB: AOPBase) : AOPBase(query, E
                 return {
                     val a = query.getDictionary().toBooleanOrError(childA())
                     val b = childB()
-                    /*return*/truthTable[a * 3 + b]
+                    truthTable[a * 3 + b]
                 }
             } else {
                 return {
                     val a = query.getDictionary().toBooleanOrError(childA())
                     val b = query.getDictionary().toBooleanOrError(childB())
-                    /*return*/truthTable[a * 3 + b]
+                    truthTable[a * 3 + b]
                 }
             }
         }

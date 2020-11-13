@@ -22,7 +22,7 @@ class AOPBuildInCallMONTH(query: IQuery, child: AOPBase) : AOPBase(query, EOpera
             if (a is ValueDateTime) {
                 res = ValueInteger(MyBigInteger(a.month))
             }
-/*return*/res
+            res
         }
     }
 

@@ -18,7 +18,7 @@ class AOPBuildInCallIsLITERAL(query: IQuery, child: AOPBase) : AOPBase(query, EO
             if (a !is ValueUndef && a !is ValueError) {
                 res = ValueBoolean(a is ValueStringBase || a is ValueDouble || a is ValueBoolean || a is ValueInteger || a is ValueDecimal || a is ValueFloat || a is ValueDateTime)
             }
-/*return*/res
+            res
         }
     }
 

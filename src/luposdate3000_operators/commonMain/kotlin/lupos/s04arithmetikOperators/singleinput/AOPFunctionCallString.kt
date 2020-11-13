@@ -40,7 +40,7 @@ class AOPFunctionCallString(query: IQuery, child: AOPBase) : AOPBase(query, EOpe
                     res = ValueTypedLiteral(a.delimiter, a.content, "http://www.w3.org/2001/XMLSchema#string")
                 }
             }
-            /*return*/res
+            res
         }
     }
 

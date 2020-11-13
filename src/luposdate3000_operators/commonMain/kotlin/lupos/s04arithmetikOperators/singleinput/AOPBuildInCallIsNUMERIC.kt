@@ -18,7 +18,7 @@ class AOPBuildInCallIsNUMERIC(query: IQuery, child: AOPBase) : AOPBase(query, EO
             if (a !is ValueUndef && a !is ValueError) {
                 res = ValueBoolean(a is ValueNumeric)
             }
-/*return*/res
+            res
         }
     }
 

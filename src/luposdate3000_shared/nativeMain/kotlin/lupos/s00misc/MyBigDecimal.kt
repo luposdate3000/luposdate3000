@@ -27,7 +27,6 @@ actual class MyBigDecimal {
         throw object : NotImplementedException("MyBigDecimal", "compareTo not implemented") {}
     }
 
-
     actual operator fun plus(other: MyBigDecimal): MyBigDecimal {
         throw object : NotImplementedException("MyBigDecimal", "plus not implemented") {}
     }

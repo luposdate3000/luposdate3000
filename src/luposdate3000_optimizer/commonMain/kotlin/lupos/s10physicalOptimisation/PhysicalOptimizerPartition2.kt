@@ -56,7 +56,7 @@ class PhysicalOptimizerPartition2(query: Query) : OptimizerBase(query, EOptimize
                         node.partitionCount = count
                         storeNode.partition.limit[node.partitionVariable] = count
                         onChange()
-                    } else if ( node.partitionCount != tmp) {
+                    } else if (node.partitionCount != tmp) {
                         node.partitionCount = tmp
                         storeNode.partition.limit[node.partitionVariable] = tmp
                         onChange()

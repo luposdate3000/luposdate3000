@@ -36,7 +36,7 @@ class AOPAggregationSAMPLE(query: IQuery, @JvmField val distinct: Boolean, child
     override fun evaluate(row: IteratorBundle): () -> ValueDefinition {
         val tmp = row.columns["#$uuid"]!! as ColumnIteratorAggregate
         return {
-            /*return*/tmp.value
+            tmp.value
         }
     }
 

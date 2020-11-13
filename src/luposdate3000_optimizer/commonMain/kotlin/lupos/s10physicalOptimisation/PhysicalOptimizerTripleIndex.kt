@@ -44,7 +44,7 @@ class PhysicalOptimizerTripleIndex(query: Query) : OptimizerBase(query, EOptimiz
                         SanityCheck.check { projectedVariables.contains(res2.name) || res2.name == "_" }
                     }
                 }
-/*return*/res2
+                res2
             }
             SanityCheck {
                 for (i in 0 until node.mySortPriority.size) {

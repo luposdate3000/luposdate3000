@@ -23,7 +23,7 @@ class AOPNot(query: IQuery, @JvmField var child: AOPBase) : AOPBase(query, EOper
                 } else {
                     ValueBoolean(a == ResultSetDictionaryExt.booleanFalseValue)
                 }
-                /*return*/res
+                res
             }
         } else {
             val childA = (children[0] as AOPBase).evaluate(row)
@@ -34,7 +34,7 @@ class AOPNot(query: IQuery, @JvmField var child: AOPBase) : AOPBase(query, EOper
                     res = ValueBoolean(!a.toBoolean())
                 } catch (e: Throwable) {
                 }
-                /*return*/res
+                res
             }
         }
     }

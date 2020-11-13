@@ -21,7 +21,7 @@ abstract class AOPBase(query: IQuery,
         if (enforcesBooleanOrError()) {
             val tmp = evaluateID(row)
             return {
-                /*return*/tmp() == ResultSetDictionaryExt.booleanTrueValue
+                tmp() == ResultSetDictionaryExt.booleanTrueValue
             }
         } else {
             val tmp = evaluate(row)
@@ -37,20 +37,20 @@ abstract class AOPBase(query: IQuery,
                     SanityCheck.println { "TODO exception 48" }
                     e.printStackTrace()
                 }
-/*return*/res
+                res
             }
         }
     }
 
     open fun evaluate(row: IteratorBundle): () -> ValueDefinition {
         return {
-            /*return*/query.getDictionary().getValue(evaluateID(row)())
+            query.getDictionary().getValue(evaluateID(row)())
         }
     }
 
     open fun evaluateID(row: IteratorBundle): () -> Int {
         return {
-            /*return*/query.getDictionary().createValue(evaluate(row)())
+            query.getDictionary().createValue(evaluate(row)())
         }
     }
 

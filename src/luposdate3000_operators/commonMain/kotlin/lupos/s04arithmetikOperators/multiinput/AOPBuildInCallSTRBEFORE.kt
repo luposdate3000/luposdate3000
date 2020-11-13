@@ -55,9 +55,12 @@ class AOPBuildInCallSTRBEFORE(query: IQuery, child: AOPBase, childB: AOPBase) : 
                             ValueSimpleLiteral(a.delimiter, a.content.substring(0, idx))
                         }
                     }
+                    else -> {
+                        res = ValueError()
+                    }
                 }
             }
-            /*return*/res
+            res
         }
     }
 

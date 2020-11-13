@@ -29,7 +29,7 @@ class AOPBuildInCallABS(query: IQuery, child: AOPBase) : AOPBase(query, EOperato
                     res = ValueInteger(a.value.abs())
                 }
             }
-/*return*/res
+            res
         }
     }
 

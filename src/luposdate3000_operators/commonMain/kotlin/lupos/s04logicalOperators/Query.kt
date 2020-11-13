@@ -38,7 +38,7 @@ class Query(@JvmField val dictionary: ResultSetDictionary = ResultSetDictionary(
     var generatedNameCounter: Int = 0
 
     @JvmField
-    var generatedNameByBase: MutableMap<String, String> = mutableMapOf<String, String>()
+    var generatedNameByBase: MutableMap<String, String> = mutableMapOf()
 
     @JvmField
     internal val partitions = mutableMapOf<Long, PartitionHelper>()
@@ -47,10 +47,10 @@ class Query(@JvmField val dictionary: ResultSetDictionary = ResultSetDictionary(
     internal val partitionsLock = MyLock()
 
     @JvmField
-    val partitionOperators: MutableMap<Int, MutableSet<Long>> = mutableMapOf<Int, MutableSet<Long>>()
+    val partitionOperators: MutableMap<Int, MutableSet<Long>> = mutableMapOf()
 
     @JvmField
-    val partitionOperatorCount: MutableMap<Int, Int> = mutableMapOf<Int, Int>()
+    val partitionOperatorCount: MutableMap<Int, Int> = mutableMapOf()
     fun getNextPartitionOperatorID(): Int {
         var res = 0
         while (partitionOperators[res] != null) {

@@ -46,7 +46,7 @@ class AOPBuildInCallCOALESCE(query: IQuery, childs: List<AOPBase>) : AOPBase(que
                     e.printStackTrace()
                 }
             }
-            /*return*/res
+            res
         }
     }
 

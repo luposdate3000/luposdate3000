@@ -25,7 +25,7 @@ class AOPBuildInCallUCASE(query: IQuery, child: AOPBase) : AOPBase(query, EOpera
                     res = ValueSimpleLiteral(a.delimiter, a.content.toUpperCase())
                 }
             }
-/*return*/res
+            res
         }
     }
 

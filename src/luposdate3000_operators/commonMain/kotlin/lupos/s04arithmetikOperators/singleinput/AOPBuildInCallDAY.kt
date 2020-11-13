@@ -22,7 +22,7 @@ class AOPBuildInCallDAY(query: IQuery, child: AOPBase) : AOPBase(query, EOperato
             if (a is ValueDateTime) {
                 res = ValueInteger(MyBigInteger(a.day))
             }
-/*return*/res
+            res
         }
     }
 

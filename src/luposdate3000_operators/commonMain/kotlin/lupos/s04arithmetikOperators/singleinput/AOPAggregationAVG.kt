@@ -1,8 +1,8 @@
 package lupos.s04arithmetikOperators.singleinput
 
+import kotlin.jvm.JvmField
 import lupos.s00misc.*
 import lupos.s00misc.SanityCheck
-import kotlin.jvm.JvmField
 import lupos.s03resultRepresentation.ValueDecimal
 import lupos.s03resultRepresentation.ValueDefinition
 import lupos.s03resultRepresentation.ValueDouble
@@ -85,7 +85,7 @@ class AOPAggregationAVG(query: IQuery, @JvmField val distinct: Boolean, childs: 
                     ValueError()
                 }
             }
-/*return*/res
+            res
         }
     }
 

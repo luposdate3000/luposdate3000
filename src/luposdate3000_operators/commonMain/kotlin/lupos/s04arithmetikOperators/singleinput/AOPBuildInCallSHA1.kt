@@ -23,7 +23,7 @@ class AOPBuildInCallSHA1(query: IQuery, child: AOPBase) : AOPBase(query, EOperat
             if (a is ValueStringBase) {
                 res = ValueSimpleLiteral(a.delimiter, Crypto.sha1(a.content))
             }
-/*return*/res
+            res
         }
     }
 

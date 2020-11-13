@@ -1,8 +1,8 @@
 package lupos.s09physicalOperators.multiinput
 
+import kotlin.jvm.JvmField
 import lupos.s00misc.*
 import lupos.s00misc.SanityCheck
-import kotlin.jvm.JvmField
 import lupos.s03resultRepresentation.ResultSetDictionaryExt
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
@@ -295,7 +295,7 @@ class POPJoinHashMap(query: IQuery, projectedVariables: List<String>, childA: IO
                                             } else {
                                                 others[otherIndex].first.data[it]
                                             }
-                                            /*return*/res2
+                                            res2
                                         }
                                         POPJoin.crossProduct(dataOA, others[otherIndex].second.columns, dataJ, outO[0], outO[1], outJ, countA, countB)
                                     }

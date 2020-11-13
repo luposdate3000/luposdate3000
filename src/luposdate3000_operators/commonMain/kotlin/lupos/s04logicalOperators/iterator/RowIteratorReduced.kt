@@ -41,7 +41,7 @@ open class RowIteratorReduced(val child: RowIterator) : RowIterator() {
                     off = child.next()
                 }
             }
-            /*return*/res
+            res
         }
     }
 }

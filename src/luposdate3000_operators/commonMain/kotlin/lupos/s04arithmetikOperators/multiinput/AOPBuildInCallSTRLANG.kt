@@ -23,7 +23,7 @@ class AOPBuildInCallSTRLANG(query: IQuery, child: AOPBase, childB: AOPBase) : AO
             if (a is ValueSimpleLiteral && b is ValueSimpleLiteral) {
                 res = ValueLanguageTaggedLiteral(a.delimiter, a.content, b.content)
             }
-/*return*/res
+            res
         }
     }
 

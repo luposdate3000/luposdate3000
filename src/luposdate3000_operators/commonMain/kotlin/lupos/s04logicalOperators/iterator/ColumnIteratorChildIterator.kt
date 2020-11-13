@@ -4,7 +4,7 @@ import kotlin.jvm.JvmField
 import lupos.s03resultRepresentation.ResultSetDictionaryExt
 
 abstract class ColumnIteratorChildIterator : ColumnIterator() {
-    var queue: Array<ColumnIterator> = Array<ColumnIterator>(100) { this }
+    var queue: Array<ColumnIterator> = Array(100) { this }
     var queueRead: Int = 0
     var queueWrite: Int = 0
 

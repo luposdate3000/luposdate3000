@@ -14,7 +14,7 @@ class AOPBuildInCallSTRUUID(query: IQuery) : AOPBase(query, EOperatorID.AOPBuild
     override fun equals(other: Any?): Boolean = other is AOPBuildInCallSTRUUID
     override fun evaluate(row: IteratorBundle): () -> ValueDefinition {
         return {
-            /*return*/ValueSimpleLiteral("\"", "" + Crypto.uuid())
+            ValueSimpleLiteral("\"", "" + Crypto.uuid())
         }
     }
 

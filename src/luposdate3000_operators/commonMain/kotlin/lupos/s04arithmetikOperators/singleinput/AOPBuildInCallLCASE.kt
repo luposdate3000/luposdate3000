@@ -14,8 +14,7 @@ class AOPBuildInCallLCASE(query: IQuery, child: AOPBase) : AOPBase(query, EOpera
         val childA = (children[0] as AOPBase).evaluate(row)
         return {
             var res: ValueDefinition = ValueError()
-            val a = childA()
-            when (a) {
+            when (val a = childA()) {
                 is ValueLanguageTaggedLiteral -> {
                     res = ValueLanguageTaggedLiteral(a.delimiter, a.content.toLowerCase(), a.language)
                 }
@@ -26,7 +25,7 @@ class AOPBuildInCallLCASE(query: IQuery, child: AOPBase) : AOPBase(query, EOpera
                     res = ValueSimpleLiteral(a.delimiter, a.content.toLowerCase())
                 }
             }
-/*return*/res
+            res
         }
     }
 

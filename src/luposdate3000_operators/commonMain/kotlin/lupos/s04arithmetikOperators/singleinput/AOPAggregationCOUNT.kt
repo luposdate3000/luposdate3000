@@ -39,7 +39,7 @@ class AOPAggregationCOUNT(query: IQuery, @JvmField val distinct: Boolean, childs
     override fun evaluate(row: IteratorBundle): () -> ValueDefinition {
         val tmp = row.columns["#$uuid"]!! as ColumnIteratorAggregate
         return {
-            /*return*/ValueInteger(MyBigInteger(tmp.count))
+            ValueInteger(MyBigInteger(tmp.count))
         }
     }
 

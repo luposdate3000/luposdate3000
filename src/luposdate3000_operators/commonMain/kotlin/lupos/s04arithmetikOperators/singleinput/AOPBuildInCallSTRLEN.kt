@@ -26,7 +26,7 @@ class AOPBuildInCallSTRLEN(query: IQuery, child: AOPBase) : AOPBase(query, EOper
                     res = ValueInteger(MyBigInteger(a.content.length))
                 }
             }
-/*return*/res
+            res
         }
     }
 

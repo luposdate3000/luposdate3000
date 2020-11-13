@@ -7,7 +7,7 @@ class XMLElement(tag: String) {
     // https://regex101.com
     companion object {
         @JvmField
-        val parseFromAnyRegistered: MutableMap<String, XMLElementParser> = mutableMapOf<String, XMLElementParser>()
+        val parseFromAnyRegistered: MutableMap<String, XMLElementParser> = mutableMapOf()
         fun parseBindingFromString(nodeResult: XMLElement, value: String?, name: String) {
             val nodeBinding = XMLElement("binding").addAttribute("name", name)
             if (value != null && value != "") {
@@ -52,13 +52,13 @@ class XMLElement(tag: String) {
     }
 
     @JvmField
-    val attributes: MutableMap<String, String> = mutableMapOf<String, String>()
+    val attributes: MutableMap<String, String> = mutableMapOf()
 
     @JvmField
     var content: String = ""
 
     @JvmField
-    val childs: MutableList<XMLElement> = mutableListOf<XMLElement>()
+    val childs: MutableList<XMLElement> = mutableListOf()
 
     @JvmField
     val tag: String

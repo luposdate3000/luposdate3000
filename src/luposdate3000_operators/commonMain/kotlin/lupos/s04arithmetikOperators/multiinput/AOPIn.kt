@@ -38,7 +38,7 @@ class AOPIn(query: IQuery, childA: IAOPBase, childB: IAOPBase) : AOPBase(query, 
             if (found || noError) {
                 res = ValueBoolean(found)
             }
-/*return*/res
+            res
         }
     }
 

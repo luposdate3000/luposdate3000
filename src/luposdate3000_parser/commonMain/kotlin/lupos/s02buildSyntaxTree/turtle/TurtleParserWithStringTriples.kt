@@ -13,7 +13,7 @@ abstract class TurtleParserWithStringTriples {
 
     // for storing the prefixes...
     @JvmField
-    val prefixes: MutableMap<String, String> = mutableMapOf<String, String>()
+    val prefixes: MutableMap<String, String> = mutableMapOf()
 
     // some constants used for typed literals
     companion object {
@@ -199,7 +199,7 @@ abstract class TurtleParserWithStringTriples {
         consume_triple(s, p, o)
         var t8 = ltit!!.lookahead()
         while (t8.image == ",") {
-             ltit!!.nextToken()
+            ltit!!.nextToken()
             val o2 = triple_object()
             consume_triple(s, p, o2)
             t8 = ltit!!.lookahead()

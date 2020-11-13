@@ -81,8 +81,7 @@ class PhysicalOptimizerPartition3(query: Query) : OptimizerBase(query, EOptimize
                     }
                 }
                 is POPBind -> {
-                    val c = node.children[0]
-                    when (c) {
+                    when (val c = node.children[0]) {
                         is POPMergePartition -> {
                             res = POPMergePartition(query, node.projectedVariables, c.partitionVariable, c.partitionCount, c.partitionID, POPBind(query, node.projectedVariables, node.name, node.children[1] as AOPBase, c.children[0]))
                             query.removePartitionOperator(c.getUUID(), c.partitionID)

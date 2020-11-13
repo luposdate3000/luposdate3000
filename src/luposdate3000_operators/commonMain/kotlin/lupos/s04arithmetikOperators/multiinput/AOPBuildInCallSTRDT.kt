@@ -20,7 +20,7 @@ class AOPBuildInCallSTRDT(query: IQuery, child: AOPBase, childB: AOPBase) : AOPB
             if (a is ValueSimpleLiteral && b is ValueIri) {
                 res = ValueTypedLiteral(a.delimiter, a.content, b.iri)
             }
-            /*return*/res
+            res
         }
     }
 

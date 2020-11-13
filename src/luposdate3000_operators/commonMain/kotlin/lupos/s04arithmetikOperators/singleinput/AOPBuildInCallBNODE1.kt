@@ -15,7 +15,7 @@ class AOPBuildInCallBNODE1(query: IQuery, child: AOPBase) : AOPBase(query, EOper
         val childA = (children[0] as AOPBase).evaluate(row)
         return {
             val a = childA()
-/*return*/ValueBnode("" + uuid + a.valueToString())
+            ValueBnode("" + uuid + a.valueToString())
         }
     }
 

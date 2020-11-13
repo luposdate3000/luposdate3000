@@ -58,7 +58,7 @@ class AOPFunctionCallFloat(query: IQuery, child: AOPBase) : AOPBase(query, EOper
                     }
                 }
             }
-            /*return*/res
+            res
         }
     }
 

@@ -24,7 +24,7 @@ class AOPBuildInCallCONCAT(query: IQuery, child: AOPBase, childB: AOPBase) : AOP
             } else if (a is ValueStringBase && b is ValueStringBase) {
                 res = ValueSimpleLiteral(a.delimiter, a.content + b.content)
             }
-/*return*/res
+            res
         }
     }
 

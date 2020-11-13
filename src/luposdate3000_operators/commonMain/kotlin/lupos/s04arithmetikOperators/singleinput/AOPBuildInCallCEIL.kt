@@ -32,12 +32,16 @@ class AOPBuildInCallCEIL(query: IQuery, child: AOPBase) : AOPBase(query, EOperat
                     is ValueInteger -> {
                         res = a
                     }
+                    else -> {
+                        res = ValueError()
+                    }
                 }
             } catch (e: Throwable) {
                 SanityCheck.println { "TODO exception 36" }
                 e.printStackTrace()
+                res = ValueError()
             }
-/*return*/res
+            res
         }
     }
 

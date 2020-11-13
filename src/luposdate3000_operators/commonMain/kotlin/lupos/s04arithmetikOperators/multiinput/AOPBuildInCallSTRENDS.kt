@@ -20,7 +20,7 @@ class AOPBuildInCallSTRENDS(query: IQuery, child: AOPBase, childB: AOPBase) : AO
             if (a is ValueStringBase && b is ValueSimpleLiteral) {
                 res = ValueBoolean(a.content.endsWith(b.content))
             }
-/*return*/res
+            res
         }
     }
 

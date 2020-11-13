@@ -55,9 +55,12 @@ class AOPBuildInCallSTRAFTER(query: IQuery, child: AOPBase, childB: AOPBase) : A
                             ValueSimpleLiteral(a.delimiter, a.content.substring(idx + filter.length, a.content.length))
                         }
                     }
+                    else -> {
+                        res = ValueError()
+                    }
                 }
             }
-            /*return*/res
+            res
         }
     }
 

@@ -30,7 +30,7 @@ class AOPBuildInCallIF(query: IQuery, child: AOPBase, childA: AOPBase, childB: A
                 SanityCheck.println { "TODO exception 31" }
                 e.printStackTrace()
             }
-/*return*/res
+            res
         }
     }
 

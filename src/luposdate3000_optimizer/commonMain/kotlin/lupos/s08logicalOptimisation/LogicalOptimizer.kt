@@ -6,7 +6,7 @@ import lupos.s04logicalOperators.Query
 class LogicalOptimizer(query: Query) : OptimizerCompoundBase(query, EOptimizerID.LogicalOptimizerID) {
     override val classname: String = "LogicalOptimizer"
     override val childrenOptimizers: Array<Array<OptimizerBase>> = arrayOf(//
-            arrayOf<OptimizerBase>(
+            arrayOf(
                     //assign prefix to all operators which require those
                     LogicalOptimizerRemovePrefix(query)//
             ),
@@ -14,7 +14,7 @@ class LogicalOptimizer(query: Query) : OptimizerCompoundBase(query, EOptimizerID
                     LogicalOptimizerFilterSplitAND(query),//
                     LogicalOptimizerFilterSplitOR(query)//
             ),
-            arrayOf<OptimizerBase>(
+            arrayOf(
                     //search for_ structures, which form the minus-operator
                     LogicalOptimizerDetectMinus(query)//
             ),
@@ -22,13 +22,13 @@ class LogicalOptimizer(query: Query) : OptimizerCompoundBase(query, EOptimizerID
                     LogicalOptimizerFilterOptional(query),//deal with all optionals wich do are not another form of minus-operator
                     LogicalOptimizerFilterOptionalStep2(query)//this needs to execute immediately after LogicalOptimizerFilterOptional, and is used to set a single flag that it is finished
             ),
-            arrayOf<OptimizerBase>(
+            arrayOf(
                     LogicalOptimizerFilterDown(query)//
             ),
-            arrayOf<OptimizerBase>(
+            arrayOf(
                     LogicalOptimizerProjectionDown(query)//
             ),
-            arrayOf<OptimizerBase>(
+            arrayOf(
                     LogicalOptimizerDetectMinusStep2(query)//
             ),
             arrayOf(
@@ -36,7 +36,7 @@ class LogicalOptimizer(query: Query) : OptimizerCompoundBase(query, EOptimizerID
                     LogicalOptimizerRemoveNOOP(query),// remove noops first, to be able to do a better choice
                     LogicalOptimizerFilterEQ(query)//
             ),
-            arrayOf<OptimizerBase>(
+            arrayOf(
                     //solve all arithmetic equations with only constants
                     LogicalOptimizerArithmetic(query)//
             ),
@@ -63,33 +63,33 @@ class LogicalOptimizer(query: Query) : OptimizerCompoundBase(query, EOptimizerID
                     LogicalOptimizerFilterIntoTriple(query),//
                     LogicalOptimizerRemoveNOOP(query)//
             ),
-            arrayOf<OptimizerBase>(
+            arrayOf(
                     LogicalOptimizerProjectionDown(query)//
             ),
-            arrayOf<OptimizerBase>(
+            arrayOf(
                     LogicalOptimizerRemoveNOOP(query)//
             ),
-            arrayOf<OptimizerBase>(
+            arrayOf(
                     //force as much as possible joins to be next to each other
                     LogicalOptimizerFilterUp(query)//
             ),
-            arrayOf<OptimizerBase>(
+            arrayOf(
                     //force as much as possible joins to be next to each other
                     LogicalOptimizerProjectionUp(query),//
             ),
-            arrayOf<OptimizerBase>(
+            arrayOf(
                     //calculate if_ only count or real data is required. this must happen directly before join order optimisation{
                     LogicalOptimizerExists(query)//
             ),
-            arrayOf<OptimizerBase>(
+            arrayOf(
 //join order must stant alone otherwise there are lots of recalulations
                     LogicalOptimizerJoinOrder(query)//
             ),
-            arrayOf<OptimizerBase>(
+            arrayOf(
 //put the filters between the joins
                     LogicalOptimizerFilterDown(query)//
             ),
-            arrayOf<OptimizerBase>(
+            arrayOf(
 //merge consecutive filters into a single AND connected one
                     LogicalOptimizerFilterMergeAND(query)//
             ),
@@ -104,28 +104,28 @@ class LogicalOptimizer(query: Query) : OptimizerCompoundBase(query, EOptimizerID
                     LogicalOptimizerMinusAddSort(query),//
                     LogicalOptimizerDistinctSplit(query)//
             ),
-            arrayOf<OptimizerBase>(
+            arrayOf(
                     LogicalOptimizerSortDown(query)//
             ),
-            arrayOf<OptimizerBase>(
+            arrayOf(
                     LogicalOptimizerReducedDown(query)//
             ),
-            arrayOf<OptimizerBase>(
+            arrayOf(
                     LogicalOptimizerProjectionDown(query)//this may reduce the projected variables inside both minus-operator-childs ... afterwards pull down again
             ),
-            arrayOf<OptimizerBase>(
+            arrayOf(
                     LogicalOptimizerRemoveProjection(query)//
             ),
-            arrayOf<OptimizerBase>(
+            arrayOf(
                     LogicalOptimizerReducedDown(query)//
             ),
-            arrayOf<OptimizerBase>(
+            arrayOf(
                     LogicalOptimizerProjectionDown(query)//
             ),
-            arrayOf<OptimizerBase>(
+            arrayOf(
                     LogicalOptimizerRemoveProjection(query)//
             ),
-            arrayOf<OptimizerBase>(
+            arrayOf(
 //calculate the natural sort order of the columns, as a prerequisite _for physical optimisation, must be the last step here
                     LogicalOptimizerColumnSortOrder(query)//
             )

@@ -30,7 +30,7 @@ class AOPGEQ(query: IQuery, childA: AOPBase, childB: AOPBase) : AOPBinaryOperati
                 SanityCheck.println { "TODO exception 29" }
                 e.printStackTrace()
             }
-/*return*/res
+            res
         }
     }
 
@@ -52,7 +52,7 @@ class AOPGEQ(query: IQuery, childA: AOPBase, childB: AOPBase) : AOPBinaryOperati
                 SanityCheck.println { "TODO exception 30" }
                 e.printStackTrace()
             }
-/*return*/res
+            res
         }
     }
 

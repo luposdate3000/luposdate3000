@@ -204,7 +204,7 @@ class POPGroup : POPBase {
             val localAggregations = Array(aggregations.size) {
                 val tmp = aggregations[it].createIterator(row)
                 localMap["#" + aggregations[it].uuid] = tmp
-                /*return*/tmp
+                tmp
             }
             val localRow = MapRow(row, localAggregations, localColumns)
             if (valueColumnNames.size == 0) {
@@ -298,7 +298,7 @@ class POPGroup : POPBase {
                     var localRowAggregates = Array(aggregations.size) {
                         val tmp = aggregations[it].createIterator(localRowIterators)
                         localMap["#" + aggregations[it].uuid] = tmp
-                        /*return*/tmp
+                        tmp
                     }
                     for (columnIndex in 0 until valueColumnNames.size) {
                         localRowColumns[columnIndex].tmp = valueColumns[columnIndex].next()
@@ -392,7 +392,7 @@ class POPGroup : POPBase {
                                             localRowAggregates = Array(aggregations.size) {
                                                 val tmp = aggregations[it].createIterator(localRowIterators)
                                                 localMap["#" + aggregations[it].uuid] = tmp
-                                                /*return*/tmp
+                                                tmp
                                             }
                                         }
                                         for (columnIndex in 0 until valueColumnNames.size) {
@@ -457,7 +457,7 @@ class POPGroup : POPBase {
                         val localAggregations = Array(aggregations.size) {
                             val tmp = aggregations[it].createIterator(row)
                             localMap["#" + aggregations[it].uuid] = tmp
-                            /*return*/tmp
+                            tmp
                         }
                         localRow = MapRow(row, localAggregations, localColumns)
                         map[key] = localRow

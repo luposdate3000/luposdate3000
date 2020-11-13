@@ -11,7 +11,7 @@ object OperatorGraphToLatex {
         var partitionHelper: String = ""
 
         @JvmField
-        val children: MutableList<StackElement> = mutableListOf<StackElement>()
+        val children: MutableList<StackElement> = mutableListOf()
         private fun getChildParallelism(): Int {
             var res = 0
             if (children.size > 0) {

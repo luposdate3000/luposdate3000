@@ -31,12 +31,16 @@ class AOPBuildInCallROUND(query: IQuery, child: AOPBase) : AOPBase(query, EOpera
                     is ValueInteger -> {
                         res = a
                     }
+                    else -> {
+                        res = ValueError()
+                    }
                 }
             } catch (e: Throwable) {
                 SanityCheck.println { "TODO exception 33" }
                 e.printStackTrace()
+                res = ValueError()
             }
-/*return*/res
+            res
         }
     }
 

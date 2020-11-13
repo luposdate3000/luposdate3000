@@ -146,7 +146,7 @@ open class POPValues : POPBase {
     }
 
     override fun getProvidedVariableNamesInternal(): List<String> = variables.distinct()
-    override fun getRequiredVariableNames(): MutableList<String> = mutableListOf<String>()
+    override fun getRequiredVariableNames(): MutableList<String> = mutableListOf()
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
         return if (rows == -1) {
             val outMap = mutableMapOf<String, ColumnIterator>()

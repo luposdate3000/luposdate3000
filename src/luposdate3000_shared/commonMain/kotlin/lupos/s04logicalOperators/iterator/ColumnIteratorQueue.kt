@@ -8,7 +8,7 @@ abstract class ColumnIteratorQueue : ColumnIterator() {
     var tmp: Int = ResultSetDictionaryExt.nullValue
 
     @JvmField
-    val queue: MutableList<Int> = mutableListOf<Int>()
+    val queue: MutableList<Int> = mutableListOf()
 
     @JvmField
     var label: Int = 1

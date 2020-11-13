@@ -23,7 +23,7 @@ class AOPBuildInCallMD5(query: IQuery, child: AOPBase) : AOPBase(query, EOperato
             if (a is ValueStringBase) {
                 res = ValueSimpleLiteral(a.delimiter, Crypto.md5(a.content))
             }
-/*return*/res
+            res
         }
     }
 

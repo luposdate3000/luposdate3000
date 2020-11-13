@@ -133,7 +133,7 @@ internal class NodeLeafColumnIteratorPrefix11(node: ByteArray, nodeid: Int, pref
                     SanityCheck.check { node != it }
                     nodeTmp = it
                 }
-val remainingTmp = NodeShared.getTripleCount(nodeTmp)
+                val remainingTmp = NodeShared.getTripleCount(nodeTmp)
                 SanityCheck.check { remainingTmp > 0 }
                 var offsetTmp = NodeLeaf.START_OFFSET
 //println("node $nodeid :: read $offset_tmp $remaining_tmp D")
@@ -202,7 +202,7 @@ val remainingTmp = NodeShared.getTripleCount(nodeTmp)
         }
     }
 
-     override /*suspend*/ fun skipSIP(skipCount: Int): Int {
+    override /*suspend*/ fun skipSIP(skipCount: Int): Int {
         if (label == 3) {
             label = 2
             __init()

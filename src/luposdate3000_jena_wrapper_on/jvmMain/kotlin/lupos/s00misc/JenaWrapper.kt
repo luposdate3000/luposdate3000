@@ -1,7 +1,6 @@
 package lupos.s00misc
 
 import java.io.ByteArrayOutputStream
-import java.io.File
 import org.apache.jena.query.*
 import org.apache.jena.sparql.algebra.optimize.Optimize
 import org.apache.jena.sparql.mgt.Explain
@@ -103,5 +102,4 @@ object JenaWrapper {
         }
         updateQuery(updateString.toString())
     }
-
 }

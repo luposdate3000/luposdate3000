@@ -34,7 +34,7 @@ class AOPMultiplication(query: IQuery, childA: AOPBase, childB: AOPBase) : AOPBi
                 SanityCheck.println { "TODO exception 18" }
                 e.printStackTrace()
             }
-/*return*/res
+            res
         }
     }
 

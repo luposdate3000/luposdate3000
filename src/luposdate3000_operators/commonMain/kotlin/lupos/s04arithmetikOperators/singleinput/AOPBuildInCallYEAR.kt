@@ -21,7 +21,7 @@ class AOPBuildInCallYEAR(query: IQuery, child: AOPBase) : AOPBase(query, EOperat
             if (a is ValueDateTime) {
                 res = ValueInteger(a.year)
             }
-/*return*/res
+            res
         }
     }
 

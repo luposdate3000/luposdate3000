@@ -8,8 +8,7 @@ object JenaWrapper {
     }
 
     fun execQuery(queryString: String): String {
-        val res = ""
-        return res
+        return ""
     }
 
     fun loadFromFile(fileName: String) {
@@ -17,5 +16,4 @@ object JenaWrapper {
 
     fun loadFromFile(fileName: String, graph: String) {
     }
-
 }

@@ -21,7 +21,7 @@ class AOPBuildInCallTIMEZONE(query: IQuery, child: AOPBase) : AOPBase(query, EOp
             if (a is ValueDateTime) {
                 res = ValueSimpleLiteral("\"", a.getTimeZone())
             }
-/*return*/res
+            res
         }
     }
 

@@ -34,7 +34,7 @@ class AOPAddition(query: IQuery, childA: AOPBase, childB: AOPBase) : AOPBinaryOp
                 SanityCheck.println { "TODO exception 19" }
                 e.printStackTrace()
             }
-/*return*/res
+            res
         }
     }
 

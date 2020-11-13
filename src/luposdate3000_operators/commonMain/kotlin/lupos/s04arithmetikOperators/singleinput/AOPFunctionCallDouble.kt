@@ -58,7 +58,7 @@ class AOPFunctionCallDouble(query: IQuery, child: AOPBase) : AOPBase(query, EOpe
                     }
                 }
             }
-            /*return*/res
+            res
         }
     }
 

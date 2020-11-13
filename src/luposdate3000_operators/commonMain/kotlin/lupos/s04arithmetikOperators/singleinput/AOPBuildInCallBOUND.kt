@@ -17,7 +17,7 @@ class AOPBuildInCallBOUND(query: IQuery, child: AOPBase) : AOPBase(query, EOpera
         val childA = (children[0] as AOPBase).evaluate(row)
         return {
             val a = childA()
-            /*return*/ValueBoolean(a !is ValueUndef && a !is ValueError)
+            ValueBoolean(a !is ValueUndef && a !is ValueError)
         }
     }
 

@@ -108,7 +108,7 @@ class LOPTriple(query: IQuery, s: IAOPBase, p: IAOPBase, o: IAOPBase, @JvmField 
                 if (t is AOPVariable && t.name != v) {
                     t = AOPVariable(query, "_")
                 }
-                /*return*/t as IAOPBase
+                t as IAOPBase
             }
             val idx = getIndex(params.map { it }.toTypedArray(), listOf())
             val store = distributedTripleStore.getNamedGraph(query, graph)

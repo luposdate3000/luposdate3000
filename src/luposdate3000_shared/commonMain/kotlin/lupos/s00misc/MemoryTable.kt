@@ -1,7 +1,7 @@
 package lupos.s00misc
 
 class MemoryTable(val columns: Array<String>) {
-    val data: MutableList<IntArray> = mutableListOf<IntArray>()
+    val data: MutableList<IntArray> = mutableListOf()
     var booleanResult: Boolean? = null
 
     companion object {

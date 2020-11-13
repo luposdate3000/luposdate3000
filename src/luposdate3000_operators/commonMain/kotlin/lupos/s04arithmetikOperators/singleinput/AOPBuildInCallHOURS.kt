@@ -22,7 +22,7 @@ class AOPBuildInCallHOURS(query: IQuery, child: AOPBase) : AOPBase(query, EOpera
             if (a is ValueDateTime) {
                 res = ValueInteger(MyBigInteger(a.hours))
             }
-/*return*/res
+            res
         }
     }
 

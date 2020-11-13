@@ -37,7 +37,7 @@ class LogicalOptimizerFilterDown(query: Query) : OptimizerBase(query, EOptimizer
                     var found = false
                     for (f in filters) {
                         if (f == filter) {
-                            found=true
+                            found = true
                             break
                         }
                     }

@@ -30,7 +30,7 @@ class AOPLT(query: IQuery, childA: AOPBase, childB: AOPBase) : AOPBinaryOperatio
                 SanityCheck.println { "TODO exception 25" }
                 e.printStackTrace()
             }
-/*return*/res
+            res
         }
     }
 
@@ -52,7 +52,7 @@ class AOPLT(query: IQuery, childA: AOPBase, childB: AOPBase) : AOPBinaryOperatio
                 SanityCheck.println { "TODO exception 26" }
                 e.printStackTrace()
             }
-/*return*/res
+            res
         }
     }
 
