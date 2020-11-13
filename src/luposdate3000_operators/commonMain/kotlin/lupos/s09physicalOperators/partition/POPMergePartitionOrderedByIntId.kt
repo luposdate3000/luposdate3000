@@ -211,9 +211,9 @@ class POPMergePartitionOrderedByIntId(query: IQuery, projectedVariables: List<St
                                 p
                             } else {
                                 for (sp in sortColumns) {
-                                    val val_this = ringbuffer[ringbufferReadHead[p] + sp + ringbufferStart[p]]
-                                    val val_smallest = ringbuffer[ringbufferReadHead[partitionToUse] + sp + ringbufferStart[partitionToUse]]
-                                    if (val_this > val_smallest) {
+                                    val valThis = ringbuffer[ringbufferReadHead[p] + sp + ringbufferStart[p]]
+                                    val valSmallest = ringbuffer[ringbufferReadHead[partitionToUse] + sp + ringbufferStart[partitionToUse]]
+                                    if (valThis > valSmallest) {
                                         continue@loop2
                                     }
                                 }

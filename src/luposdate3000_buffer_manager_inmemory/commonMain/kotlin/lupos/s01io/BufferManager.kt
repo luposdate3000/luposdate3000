@@ -86,12 +86,6 @@ class BufferManager {
         SanityCheck.println { "BufferManager.refcount($pageid) decreased a ${allPagesRefcounters[pageid]}" }
     }
 
-    fun referencePage(pageid: Int) {
-        SanityCheck.check({ allPagesRefcounters[pageid] > 0 }, { "Failed requirement pageid = $pageid" })
-        allPagesRefcounters[pageid]++
-        SanityCheck.println { "BufferManager.refcount($pageid) increased a ${allPagesRefcounters[pageid]}" }
-    }
-
     fun getPage(pageid: Int): ByteArray {
         //no locking required, assuming an assignment to 'allPages' is atomic
         SanityCheck.check { !freeList.contains(pageid) }

@@ -162,8 +162,8 @@ class POPGroup : POPBase {
     internal class MapKey(@JvmField val data: IntArray) {
         override fun hashCode(): Int {
             var res = 0
-            for (i in 0 until data.size) {
-                res += data[i].hashCode()
+            for (element in data) {
+                res += element.hashCode()
             }
             return res
         }
@@ -243,8 +243,8 @@ class POPGroup : POPBase {
             if ((!localVariables.containsAll(keyColumnNames.toMutableList())) || (children[0].getMySortPriority().size < keyColumnNames.size)) {
                 canUseSortedInput = false
             } else {
-                for (i in 0 until keyColumnNames.size) {
-                    if (!tmpSortPriority.contains(keyColumnNames[i])) {
+                for (element in keyColumnNames) {
+                    if (!tmpSortPriority.contains(element)) {
                         canUseSortedInput = false
                         break
                     }
@@ -259,11 +259,11 @@ class POPGroup : POPBase {
                 for (columnIndex in keyColumnNames.indices) {
                     val value = keyColumns[columnIndex].next()
                     if (value == ResultSetDictionaryExt.nullValue) {
-                        for (closeIndex in 0 until keyColumns.size) {
-                            keyColumns[closeIndex].close()
+                        for (element in keyColumns) {
+                            element.close()
                         }
-                        for (closeIndex in 0 until valueColumns.size) {
-                            valueColumns[closeIndex].close()
+                        for (element in valueColumns) {
+                            element.close()
                         }
                         SanityCheck.check { columnIndex == 0 }
                         emptyResult = true
@@ -317,11 +317,11 @@ class POPGroup : POPBase {
                             /*suspend*/ inline fun __close() {
                                 if (label != 0) {
                                     ColumnIteratorQueueExt._close(this)
-                                    for (closeIndex in 0 until keyColumns.size) {
-                                        keyColumns[closeIndex].close()
+                                    for (element in keyColumns) {
+                                        element.close()
                                     }
-                                    for (closeIndex in 0 until valueColumns.size) {
-                                        valueColumns[closeIndex].close()
+                                    for (element in valueColumns) {
+                                        element.close()
                                     }
                                 }
                             }
@@ -337,11 +337,11 @@ class POPGroup : POPBase {
                                         for (columnIndex in keyColumnNames.indices) {
                                             val value = keyColumns[columnIndex].next()
                                             if (value == ResultSetDictionaryExt.nullValue) {
-                                                for (closeIndex in 0 until keyColumns.size) {
-                                                    keyColumns[closeIndex].close()
+                                                for (element in keyColumns) {
+                                                    element.close()
                                                 }
-                                                for (closeIndex in 0 until valueColumns.size) {
-                                                    valueColumns[closeIndex].close()
+                                                for (element in valueColumns) {
+                                                    element.close()
                                                 }
                                                 SanityCheck.check { columnIndex == 0 }
                                                 for (columnIndex2 in keyColumnNames.indices) {
@@ -429,11 +429,11 @@ class POPGroup : POPBase {
                     for (columnIndex in keyColumnNames.indices) {
                         val value = keyColumns[columnIndex].next()
                         if (value == ResultSetDictionaryExt.nullValue) {
-                            for (closeIndex in 0 until keyColumns.size) {
-                                keyColumns[closeIndex].close()
+                            for (element in keyColumns) {
+                                element.close()
                             }
-                            for (closeIndex in 0 until valueColumns.size) {
-                                valueColumns[closeIndex].close()
+                            for (element in valueColumns) {
+                                element.close()
                             }
                             SanityCheck.check { columnIndex == 0 }
                             break@loop

@@ -28,8 +28,7 @@ abstract class Literal(@JvmField val content: String, @JvmField val delimiter: S
     override fun toN3String(): String = delimiter + content + delimiter
 }
 
-class SimpleLiteral(content: String, delimiter: String) : Literal(content, delimiter) {
-}
+class SimpleLiteral(content: String, delimiter: String) : Literal(content, delimiter)
 
 class LanguageTaggedLiteral(content: String, delimiter: String, @JvmField val language: String) : Literal(content, delimiter) {
 
@@ -37,10 +36,7 @@ class LanguageTaggedLiteral(content: String, delimiter: String, @JvmField val la
 }
 
 class TypedLiteral(content: String, delimiter: String, @JvmField val type: String) : Literal(content, delimiter) {
-    constructor(content: String, type: String) : this(content, "\"", type)
 
     override fun toN3String(): String = super.toN3String() + "^^<" + type + ">"
 }
 
-class Triple(@JvmField val s: RDFResource, @JvmField val p: IRI, @JvmField val o: RDFTerm) {
-}

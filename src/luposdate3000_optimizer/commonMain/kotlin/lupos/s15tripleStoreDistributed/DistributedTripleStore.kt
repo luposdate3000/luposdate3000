@@ -107,8 +107,8 @@ class DistributedGraph(val query: IQuery, @JvmField val name: String) : IDistrib
             for (columnIndex in 0 until 3) {
                 val v = data[columnIndex].next()
                 if (v == ResultSetDictionaryExt.nullValue) {
-                    for (closeIndex in 0 until data.size) {
-                        data[closeIndex].close()
+                    for (element in data) {
+                        element.close()
                     }
                     SanityCheck.check { columnIndex == 0 }
                     break@loop

@@ -39,7 +39,7 @@ class AOPAggregationAVG(query: IQuery, @JvmField val distinct: Boolean, childs: 
                 val value = child()
                 if (value is ValueError) {
                     tmp1 = value
-                    res.evaluate = res::aggregate_evaluate
+                    res.evaluate = res::aggregateEvaluate
                 } else if (tmp1 is ValueUndef) {
                     tmp1 = value
                 } else if (tmp1 is ValueDouble || value is ValueDouble) {
@@ -52,16 +52,16 @@ class AOPAggregationAVG(query: IQuery, @JvmField val distinct: Boolean, childs: 
                     tmp1 = ValueDecimal((tmp1.toInt() + value.toInt()).toMyBigDecimal())
                 } else {
                     tmp1 = ValueError()
-                    res.evaluate = res::aggregate_evaluate
+                    res.evaluate = res::aggregateEvaluate
                 }
             } catch (e: EvaluationException) {
                 tmp1 = ValueError()
-                res.evaluate = res::aggregate_evaluate
+                res.evaluate = res::aggregateEvaluate
             } catch (e: Throwable) {
                 SanityCheck.println { "TODO exception 34" }
                 e.printStackTrace()
                 tmp1 = ValueError()
-                res.evaluate = res::aggregate_evaluate
+                res.evaluate = res::aggregateEvaluate
             }
             res.value = tmp1
         }

@@ -50,8 +50,8 @@ class POPJoinWithStoreExists(query: IQuery, projectedVariables: List<String>, ch
             val tmp = iterators[i].next()
             if (tmp == ResultSetDictionaryExt.nullValue) {
                 done = true
-                for (closeIndex in 0 until iterators.size) {
-                    iterators[closeIndex].close()
+                for (element in iterators) {
+                    element.close()
                 }
                 SanityCheck.check { i == 0 }
                 break
@@ -70,8 +70,8 @@ class POPJoinWithStoreExists(query: IQuery, projectedVariables: List<String>, ch
                         for (i in mapping.indices) {
                             val tmp = iterators[i].next()
                             if (tmp == ResultSetDictionaryExt.nullValue) {
-                                for (closeIndex in 0 until iterators.size) {
-                                    iterators[closeIndex].close()
+                                for (element in iterators) {
+                                    element.close()
                                 }
                                 done = true
                                 SanityCheck.check { i == 0 }
@@ -89,8 +89,8 @@ class POPJoinWithStoreExists(query: IQuery, projectedVariables: List<String>, ch
                 }
 
                 override /*suspend*/ fun hasNext2Close() {
-                    for (closeIndex in 0 until iterators.size) {
-                        iterators[closeIndex].close()
+                    for (element in iterators) {
+                        element.close()
                     }
                 }
             }

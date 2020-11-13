@@ -2,9 +2,7 @@ package lupos.s04logicalOperators.iterator
 
 import lupos.s00misc.SanityCheck
 
-fun RowIteratorBuf(buf: IntArray, columns: Array<String>, size: Int) = RowIteratorBuf1(buf, columns, size)
-
-class RowIteratorBuf1(buf: IntArray, columns: Array<String>, val size: Int) : RowIterator() {
+class RowIteratorBuf(buf: IntArray, columns: Array<String>, val size: Int) : RowIterator() {
     var offset = 0
 
     init {

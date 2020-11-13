@@ -5,8 +5,8 @@ import lupos.s03resultRepresentation.ResultSetDictionaryExt
 
 abstract class ColumnIteratorChildIterator : ColumnIterator() {
     var queue = Array<ColumnIterator>(100) { this }
-    var queue_read = 0
-    var queue_write = 0
+    var queueRead = 0
+    var queueWrite = 0
 
     @JvmField
     var label = 1
@@ -18,22 +18,22 @@ abstract class ColumnIteratorChildIterator : ColumnIterator() {
     }
 
     internal inline fun addChild(child: ColumnIterator) {
-        if (queue_read == queue_write) {
-            queue_read = 0
-            queue_write = 0
-        } else if (queue_write == queue.size) {
-            if (queue_read == 0) {
+        if (queueRead == queueWrite) {
+            queueRead = 0
+            queueWrite = 0
+        } else if (queueWrite == queue.size) {
+            if (queueRead == 0) {
                 val buf = Array<ColumnIterator>(queue.size * 2) { this }
-                queue.copyInto(buf, 0, queue_read, queue_write)
+                queue.copyInto(buf, 0, queueRead, queueWrite)
                 queue = buf
             } else {
-                queue.copyInto(queue, 0, queue_read, queue_write)
-                queue_write -= queue_read
+                queue.copyInto(queue, 0, queueRead, queueWrite)
+                queueWrite -= queueRead
             }
-            queue_read = 0
+            queueRead = 0
         }
-        queue[queue_write] = child
-        queue_write++
+        queue[queueWrite] = child
+        queueWrite++
     }
 
     internal inline fun closeOnNoMoreElements() {
@@ -49,7 +49,7 @@ abstract class ColumnIteratorChildIterator : ColumnIterator() {
     internal /*suspend*/ inline fun _close() {
         if (label != 0) {
             label = 0
-            for (i in queue_read until queue_write) {
+            for (i in queueRead until queueWrite) {
                 releaseValue(queue[i])
             }
         }
@@ -58,21 +58,21 @@ abstract class ColumnIteratorChildIterator : ColumnIterator() {
     internal /*suspend*/ inline fun nextHelper(crossinline onNoMoreElements: /*suspend*/ () -> Unit, crossinline onClose: /*suspend*/ () -> Unit): Int {
         when (label) {
             1 -> {
-                while (queue_read < queue_write) {
-                    val res = queue[queue_read].next()
+                while (queueRead < queueWrite) {
+                    val res = queue[queueRead].next()
                     if (res == ResultSetDictionaryExt.nullValue) {
-                        releaseValue(queue[queue_read])
-                        queue_read++
+                        releaseValue(queue[queueRead])
+                        queueRead++
                     } else {
                         return res
                     }
                 }
                 onNoMoreElements()
-                return if (queue_read == queue_write) {
+                return if (queueRead == queueWrite) {
                     onClose()
                     ResultSetDictionaryExt.nullValue
                 } else {
-                    val res = queue[queue_read].next()
+                    val res = queue[queueRead].next()
                     if (res == ResultSetDictionaryExt.nullValue) {
                         onClose()
                     }
@@ -80,11 +80,11 @@ abstract class ColumnIteratorChildIterator : ColumnIterator() {
                 }
             }
             2 -> {
-                while (queue_read < queue_write) {
-                    val res = queue[queue_read].next()
+                while (queueRead < queueWrite) {
+                    val res = queue[queueRead].next()
                     if (res == ResultSetDictionaryExt.nullValue) {
-                        releaseValue(queue[queue_read])
-                        queue_read++
+                        releaseValue(queue[queueRead])
+                        queueRead++
                     } else {
                         return res
                     }

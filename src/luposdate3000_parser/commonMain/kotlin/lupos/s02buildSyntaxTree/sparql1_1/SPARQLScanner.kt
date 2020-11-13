@@ -52,8 +52,7 @@ class PNAME_NS(@JvmField val beforeColon: String, index: Int) : Token("$beforeCo
 class PNAME_LN(@JvmField val beforeColon: String, @JvmField val afterColon: String, index: Int) : Token("$beforeColon:$afterColon", index)
 class POSSIBLE_KEYWORD(@JvmField val original_image: String, index: Int) : Token(original_image.toUpperCase(), index)
 class VAR(prefix: Char, @JvmField val identifier: String, index: Int) : Token(prefix + identifier, index)
-class UnexpectedEndOfLine(index: Int, lineNumber: Int, columnNumber: Int) : ParseError("Unexpected End of Line", lineNumber, columnNumber) {
-}
+class UnexpectedEndOfLine(index: Int, lineNumber: Int, columnNumber: Int) : ParseError("Unexpected End of Line", lineNumber, columnNumber)
 
 class TokenIteratorSPARQLParser(@JvmField val iterator: LexerCharIterator) : TokenIterator {
     private fun skip() {
@@ -229,8 +228,7 @@ class TokenIteratorSPARQLParser(@JvmField val iterator: LexerCharIterator) : Tok
                 // next token can be an integer, decimal or double literal!
                 var beforeDOT = "" + c
                 while (this.iterator.hasNext()) {
-                    val nextChar = this.iterator.nextChar()
-                    when (nextChar) {
+                    when (val nextChar = this.iterator.nextChar()) {
                         in '0'..'9' -> {
                             beforeDOT += nextChar
                         }
@@ -529,8 +527,7 @@ class TokenIteratorSPARQLParser(@JvmField val iterator: LexerCharIterator) : Tok
         // next token can only be a decimal or double literal!
         var afterDOT = ""
         while (this.iterator.hasNext()) {
-            val nextChar = this.iterator.nextChar()
-            when (nextChar) {
+            when (val nextChar = this.iterator.nextChar()) {
                 in '0'..'9' -> {
                     afterDOT += nextChar
                 }

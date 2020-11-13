@@ -1,8 +1,6 @@
 package lupos.s02buildSyntaxTree.sparql1_1
 
 import kotlin.jvm.JvmField
-import lupos.s02buildSyntaxTree.LexerCharIterator
-import lupos.s02buildSyntaxTree.LookAheadTokenIterator
 
 open abstract class ASTNode(@JvmField val children: Array<ASTNode>) {
     companion object {
@@ -22,8 +20,8 @@ open abstract class ASTNode(@JvmField val children: Array<ASTNode>) {
 
     fun toString(nodes: Array<out ASTNode>, indentation: String): String {
         var result = ""
-        for (i in 0 until nodes.size) {
-            result += nodes[i].toString(indentation)
+        for (element in nodes) {
+            result += element.toString(indentation)
         }
         return result
     }

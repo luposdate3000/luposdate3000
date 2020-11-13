@@ -11,8 +11,8 @@ open class RowIteratorMinus(val a: RowIterator, val b: RowIterator, private val 
         val columnsA = mutableListOf<String>()
         val columnsB = mutableListOf<String>()
         for (i in a.columns.indices) {
-            for (j in 0 until b.columns.size) {
-                if (a.columns[i] == b.columns[j]) {
+            for (element in b.columns) {
+                if (a.columns[i] == element) {
                     columnsA.add(a.columns[i])
                     columnsB.add(a.columns[i])
                     compCount++

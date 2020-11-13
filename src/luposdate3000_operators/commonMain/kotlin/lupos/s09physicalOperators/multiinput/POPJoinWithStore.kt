@@ -154,8 +154,8 @@ class POPJoinWithStore(query: IQuery, projectedVariables: List<String>, childA: 
                         if (label != 0) {
                             ColumnIteratorQueueExt._close(this)
                             SanityCheck.println { "POPJoinWithStoreXXXclosing store for join with store A $theuuid" }
-                            for (closeIndex in 0 until columnsInB.size) {
-                                columnsInB[closeIndex].close()
+                            for (element in columnsInB) {
+                                element.close()
                             }
                             for (closeIndex in 0 until columnsINAO.size) {
                                 columnsINAO[closeIndex].close()
@@ -174,8 +174,8 @@ class POPJoinWithStore(query: IQuery, projectedVariables: List<String>, childA: 
                                     val value = columnsInB[i].next()
                                     if (value == ResultSetDictionaryExt.nullValue) {
                                         SanityCheck.println { "POPJoinWithStoreXXXclosing store for join with store B $theuuid" }
-                                        for (closeIndex in 0 until columnsInB.size) {
-                                            columnsInB[closeIndex].close()
+                                        for (element in columnsInB) {
+                                            element.close()
                                         }
                                         SanityCheck.check { i == 0 }
                                         done = false
@@ -210,8 +210,8 @@ class POPJoinWithStore(query: IQuery, projectedVariables: List<String>, childA: 
                                         }
                                     } else {
                                         SanityCheck.println { "POPJoinWithStoreXXXclosing store for join with store C $theuuid" }
-                                        for (closeIndex in 0 until columnsInB.size) {
-                                            columnsInB[closeIndex].close()
+                                        for (element in columnsInB) {
+                                            element.close()
                                         }
                                         for (closeIndex in 0 until columnsINAO.size) {
                                             columnsINAO[closeIndex].close()

@@ -45,17 +45,17 @@ class POPJoinMerge(query: IQuery, projectedVariables: List<String>, childA: IOPB
         }
 
         @JvmField
-        var local_hasNext2Close_i = 0
+        var localHasnext2closeI = 0
         /*suspend*/ private inline fun _hasNext2Close() {
-            local_hasNext2Close_i = 0
-            while (local_hasNext2Close_i < columnsINJ0.size) {
-                columnsINJ0[local_hasNext2Close_i].close()
-                local_hasNext2Close_i++
+            localHasnext2closeI = 0
+            while (localHasnext2closeI < columnsINJ0.size) {
+                columnsINJ0[localHasnext2closeI].close()
+                localHasnext2closeI++
             }
-            local_hasNext2Close_i = 0
-            while (local_hasNext2Close_i < columnsINJ1.size) {
-                columnsINJ1[local_hasNext2Close_i].close()
-                local_hasNext2Close_i++
+            localHasnext2closeI = 0
+            while (localHasnext2closeI < columnsINJ1.size) {
+                columnsINJ1[localHasnext2closeI].close()
+                localHasnext2closeI++
             }
         }
 
@@ -82,22 +82,22 @@ class POPJoinMerge(query: IQuery, projectedVariables: List<String>, childA: IOPB
         val data1 = Array(columnsINO1.size) { IntArray(100) }
 
         @JvmField
-        var local_next_i = 0
+        var localNextI = 0
 
         @JvmField
-        var local_next_j = 0
+        var localNextJ = 0
 
         @JvmField
-        var local_next_countA = 0
+        var localNextCounta = 0
 
         @JvmField
-        var local_next_countB = 0
+        var localNextCountb = 0
 
         @JvmField
-        val local_next_keyCopy = IntArray(columnsINJ0.size)
+        val localNextKeycopy = IntArray(columnsINJ0.size)
 
         @JvmField
-        var local___close_i = 0
+        var localCloseI = 0
 
         @JvmField
         var skipO0 = 0
@@ -109,40 +109,40 @@ class POPJoinMerge(query: IQuery, projectedVariables: List<String>, childA: IOPB
         var sipbuf = IntArray(2)
         /*suspend*/ private inline fun __close() {
             if (label != 0) {
-                local___close_i = 0
-                while (local___close_i < columnsOUT0.size) {
-                    columnsOUT0[local___close_i].closeOnNoMoreElements()
-                    local___close_i++
+                localCloseI = 0
+                while (localCloseI < columnsOUT0.size) {
+                    columnsOUT0[localCloseI].closeOnNoMoreElements()
+                    localCloseI++
                 }
-                local___close_i = 0
-                while (local___close_i < columnsOUT1.size) {
-                    columnsOUT1[local___close_i].closeOnNoMoreElements()
-                    local___close_i++
+                localCloseI = 0
+                while (localCloseI < columnsOUT1.size) {
+                    columnsOUT1[localCloseI].closeOnNoMoreElements()
+                    localCloseI++
                 }
-                local___close_i = 0
-                while (local___close_i < columnsOUTJ.size) {
-                    columnsOUTJ[local___close_i].closeOnNoMoreElements()
-                    local___close_i++
+                localCloseI = 0
+                while (localCloseI < columnsOUTJ.size) {
+                    columnsOUTJ[localCloseI].closeOnNoMoreElements()
+                    localCloseI++
                 }
-                local___close_i = 0
-                while (local___close_i < columnsINJ0.size) {
-                    columnsINJ0[local___close_i].close()
-                    local___close_i++
+                localCloseI = 0
+                while (localCloseI < columnsINJ0.size) {
+                    columnsINJ0[localCloseI].close()
+                    localCloseI++
                 }
-                local___close_i = 0
-                while (local___close_i < columnsINJ1.size) {
-                    columnsINJ1[local___close_i].close()
-                    local___close_i++
+                localCloseI = 0
+                while (localCloseI < columnsINJ1.size) {
+                    columnsINJ1[localCloseI].close()
+                    localCloseI++
                 }
-                local___close_i = 0
-                while (local___close_i < columnsINO0.size) {
-                    columnsINO0[local___close_i].close()
-                    local___close_i++
+                localCloseI = 0
+                while (localCloseI < columnsINO0.size) {
+                    columnsINO0[localCloseI].close()
+                    localCloseI++
                 }
-                local___close_i = 0
-                while (local___close_i < columnsINO1.size) {
-                    columnsINO1[local___close_i].close()
-                    local___close_i++
+                localCloseI = 0
+                while (localCloseI < columnsINO1.size) {
+                    columnsINO1[localCloseI].close()
+                    localCloseI++
                 }
                 _close()
             }
@@ -189,145 +189,145 @@ class POPJoinMerge(query: IQuery, projectedVariables: List<String>, childA: IOPB
                                 }
                             }
                             if (skip0 > 0) {
-                                local_next_j = 1
-                                while (local_next_j < columnsINJ0.size) {
-                                    key0[local_next_j] = columnsINJ0[local_next_j].skipSIP(skip0)
-                                    SanityCheck.check { key0[local_next_j] != ResultSetDictionaryExt.undefValue }
-                                    SanityCheck.check { key0[local_next_j] != ResultSetDictionaryExt.nullValue }
-                                    local_next_j++
+                                localNextJ = 1
+                                while (localNextJ < columnsINJ0.size) {
+                                    key0[localNextJ] = columnsINJ0[localNextJ].skipSIP(skip0)
+                                    SanityCheck.check { key0[localNextJ] != ResultSetDictionaryExt.undefValue }
+                                    SanityCheck.check { key0[localNextJ] != ResultSetDictionaryExt.nullValue }
+                                    localNextJ++
                                 }
                             }
                             if (skip1 > 0) {
-                                local_next_j = 1
-                                while (local_next_j < columnsINJ1.size) {
-                                    key1[local_next_j] = columnsINJ1[local_next_j].skipSIP(skip1)
-                                    SanityCheck.check { key1[local_next_j] != ResultSetDictionaryExt.undefValue }
-                                    SanityCheck.check { key1[local_next_j] != ResultSetDictionaryExt.nullValue }
-                                    local_next_j++
+                                localNextJ = 1
+                                while (localNextJ < columnsINJ1.size) {
+                                    key1[localNextJ] = columnsINJ1[localNextJ].skipSIP(skip1)
+                                    SanityCheck.check { key1[localNextJ] != ResultSetDictionaryExt.undefValue }
+                                    SanityCheck.check { key1[localNextJ] != ResultSetDictionaryExt.nullValue }
+                                    localNextJ++
                                 }
                             }
                         }
 //other join columns
-                        local_next_i = 1
-                        while (local_next_i < columnsINJ0.size) {
-                            if (key0[local_next_i] < key1[local_next_i]) {
+                        localNextI = 1
+                        while (localNextI < columnsINJ0.size) {
+                            if (key0[localNextI] < key1[localNextI]) {
                                 skipO0++
-                                local_next_j = 0
-                                while (local_next_j < columnsINJ0.size) {
-                                    key0[local_next_j] = columnsINJ0[local_next_j].next()
-                                    SanityCheck.check { key0[local_next_j] != ResultSetDictionaryExt.undefValue }
-                                    if (key0[local_next_j] == ResultSetDictionaryExt.nullValue) {
-                                        SanityCheck.check { local_next_j == 0 }
+                                localNextJ = 0
+                                while (localNextJ < columnsINJ0.size) {
+                                    key0[localNextJ] = columnsINJ0[localNextJ].next()
+                                    SanityCheck.check { key0[localNextJ] != ResultSetDictionaryExt.undefValue }
+                                    if (key0[localNextJ] == ResultSetDictionaryExt.nullValue) {
+                                        SanityCheck.check { localNextJ == 0 }
                                         __close()
                                         break@loop
                                     }
-                                    local_next_j++
+                                    localNextJ++
                                 }
                                 continue@loop
-                            } else if (key0[local_next_i] > key1[local_next_i]) {
+                            } else if (key0[localNextI] > key1[localNextI]) {
                                 skipO1++
-                                local_next_j = 0
-                                while (local_next_j < columnsINJ1.size) {
-                                    key1[local_next_j] = columnsINJ1[local_next_j].next()
-                                    SanityCheck.check { key1[local_next_j] != ResultSetDictionaryExt.undefValue }
-                                    if (key1[local_next_j] == ResultSetDictionaryExt.nullValue) {
-                                        SanityCheck.check { local_next_j == 0 }
+                                localNextJ = 0
+                                while (localNextJ < columnsINJ1.size) {
+                                    key1[localNextJ] = columnsINJ1[localNextJ].next()
+                                    SanityCheck.check { key1[localNextJ] != ResultSetDictionaryExt.undefValue }
+                                    if (key1[localNextJ] == ResultSetDictionaryExt.nullValue) {
+                                        SanityCheck.check { localNextJ == 0 }
                                         __close()
                                         break@loop
                                     }
-                                    local_next_j++
+                                    localNextJ++
                                 }
                                 continue@loop
                             }
-                            local_next_i++
+                            localNextI++
                         }
 //safe the join columns
-                        local_next_i = 0
-                        while (local_next_i < columnsINJ0.size) {
-                            local_next_keyCopy[local_next_i] = key0[local_next_i]
-                            local_next_i++
+                        localNextI = 0
+                        while (localNextI < columnsINJ0.size) {
+                            localNextKeycopy[localNextI] = key0[localNextI]
+                            localNextI++
                         }
 //the only-A columns
-                        local_next_countA = 0
+                        localNextCounta = 0
                         loop2@ while (true) {
                             if (columnsINO0.isNotEmpty()) {
-                                if (local_next_countA >= data0[0].size) {
-                                    local_next_i = 0
-                                    while (local_next_i < data0.size) {
-                                        val x = data0[local_next_i]
-                                        val d = IntArray(local_next_countA * 2)
-                                        local_next_j = 0
-                                        while (local_next_j < local_next_countA) {
-                                            d[local_next_j] = x[local_next_j]
-                                            local_next_j++
+                                if (localNextCounta >= data0[0].size) {
+                                    localNextI = 0
+                                    while (localNextI < data0.size) {
+                                        val x = data0[localNextI]
+                                        val d = IntArray(localNextCounta * 2)
+                                        localNextJ = 0
+                                        while (localNextJ < localNextCounta) {
+                                            d[localNextJ] = x[localNextJ]
+                                            localNextJ++
                                         }
-                                        data0[local_next_i] = d
-                                        local_next_i++
+                                        data0[localNextI] = d
+                                        localNextI++
                                     }
                                 }
-                                local_next_i = 0
-                                while (local_next_i < columnsINO0.size) {
-                                    data0[local_next_i][local_next_countA] = columnsINO0[local_next_i].skipSIP(skipO0)
-                                    local_next_i++
+                                localNextI = 0
+                                while (localNextI < columnsINO0.size) {
+                                    data0[localNextI][localNextCounta] = columnsINO0[localNextI].skipSIP(skipO0)
+                                    localNextI++
                                 }
                                 skipO0 = 0
                             }
-                            local_next_countA++
-                            local_next_i = 0
-                            while (local_next_i < columnsINJ0.size) {
-                                key0[local_next_i] = columnsINJ0[local_next_i].next()
-                                SanityCheck.check { key0[local_next_i] != ResultSetDictionaryExt.undefValue }
-                                local_next_i++
+                            localNextCounta++
+                            localNextI = 0
+                            while (localNextI < columnsINJ0.size) {
+                                key0[localNextI] = columnsINJ0[localNextI].next()
+                                SanityCheck.check { key0[localNextI] != ResultSetDictionaryExt.undefValue }
+                                localNextI++
                             }
-                            local_next_i = 0
-                            while (local_next_i < columnsINJ0.size) {
-                                if (key0[local_next_i] != local_next_keyCopy[local_next_i]) {
+                            localNextI = 0
+                            while (localNextI < columnsINJ0.size) {
+                                if (key0[localNextI] != localNextKeycopy[localNextI]) {
                                     break@loop2
                                 }
-                                local_next_i++
+                                localNextI++
                             }
                         }
 //the only-B columns
-                        local_next_countB = 0
+                        localNextCountb = 0
                         loop2@ while (true) {
                             if (columnsINO1.isNotEmpty()) {
-                                if (local_next_countB >= data1[0].size) {
-                                    local_next_i = 0
-                                    while (local_next_i < data1.size) {
-                                        val x = data1[local_next_i]
-                                        val d = IntArray(local_next_countB * 2)
-                                        local_next_j = 0
-                                        while (local_next_j < local_next_countB) {
-                                            d[local_next_j] = x[local_next_j]
-                                            local_next_j++
+                                if (localNextCountb >= data1[0].size) {
+                                    localNextI = 0
+                                    while (localNextI < data1.size) {
+                                        val x = data1[localNextI]
+                                        val d = IntArray(localNextCountb * 2)
+                                        localNextJ = 0
+                                        while (localNextJ < localNextCountb) {
+                                            d[localNextJ] = x[localNextJ]
+                                            localNextJ++
                                         }
-                                        data1[local_next_i] = d
-                                        local_next_i++
+                                        data1[localNextI] = d
+                                        localNextI++
                                     }
                                 }
-                                local_next_i = 0
-                                while (local_next_i < columnsINO1.size) {
-                                    data1[local_next_i][local_next_countB] = columnsINO1[local_next_i].skipSIP(skipO1)
-                                    local_next_i++
+                                localNextI = 0
+                                while (localNextI < columnsINO1.size) {
+                                    data1[localNextI][localNextCountb] = columnsINO1[localNextI].skipSIP(skipO1)
+                                    localNextI++
                                 }
                                 skipO1 = 0
                             }
-                            local_next_countB++
-                            local_next_i = 0
-                            while (local_next_i < columnsINJ1.size) {
-                                key1[local_next_i] = columnsINJ1[local_next_i].next()
-                                SanityCheck.check { key1[local_next_i] != ResultSetDictionaryExt.undefValue }
-                                local_next_i++
+                            localNextCountb++
+                            localNextI = 0
+                            while (localNextI < columnsINJ1.size) {
+                                key1[localNextI] = columnsINJ1[localNextI].next()
+                                SanityCheck.check { key1[localNextI] != ResultSetDictionaryExt.undefValue }
+                                localNextI++
                             }
-                            local_next_i = 0
-                            while (local_next_i < columnsINJ1.size) {
-                                if (key1[local_next_i] != local_next_keyCopy[local_next_i]) {
+                            localNextI = 0
+                            while (localNextI < columnsINJ1.size) {
+                                if (key1[localNextI] != localNextKeycopy[localNextI]) {
                                     break@loop2
                                 }
-                                local_next_i++
+                                localNextI++
                             }
                         }
-                        POPJoin.crossProduct(data0, data1, local_next_keyCopy, columnsOUT0, columnsOUT1, columnsOUTJ, local_next_countA, local_next_countB)
+                        POPJoin.crossProduct(data0, data1, localNextKeycopy, columnsOUT0, columnsOUT1, columnsOUTJ, localNextCounta, localNextCountb)
                         break@loop
                     }
                 } else {

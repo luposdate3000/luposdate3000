@@ -165,9 +165,7 @@ class POPSplitPartition(query: IQuery, projectedVariables: List<String>, val par
                         error = e
                     }
                     SanityCheck.println { "split $uuid writer launched F" }
-                    if(child2!=null){
-child2.close()
-}
+                    child2?.close?.invoke()
                     continuationLock.lock()
                     writerFinished = 1
                     for (p in 0 until partitionCount) {

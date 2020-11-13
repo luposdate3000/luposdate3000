@@ -34,7 +34,7 @@ class AOPAggregationSUM(query: IQuery, @JvmField val distinct: Boolean, childs: 
             res.count++
             if (value is ValueError) {
                 res.value = value
-                res.evaluate = res::aggregate_evaluate
+                res.evaluate = res::aggregateEvaluate
             } else if (res.value is ValueUndef) {
                 res.value = value
             } else if (res.value is ValueDouble || value is ValueDouble) {
@@ -47,7 +47,7 @@ class AOPAggregationSUM(query: IQuery, @JvmField val distinct: Boolean, childs: 
                 res.value = ValueInteger(res.value.toInt() + value.toInt())
             } else {
                 res.value = ValueError()
-                res.evaluate = res::aggregate_evaluate
+                res.evaluate = res::aggregateEvaluate
             }
         }
         return res

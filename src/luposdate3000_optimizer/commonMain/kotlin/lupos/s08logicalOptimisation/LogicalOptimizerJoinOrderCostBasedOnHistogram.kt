@@ -15,14 +15,14 @@ object LogicalOptimizerJoinOrderCostBasedOnHistogram {
             val nodes = mutableListOf<IOPBase>()
             nodes.addAll(allChilds)
             loop2@ while (nodes.size > 1) {
-                var bestA_1 = 0
-                var bestB_1 = 1
-                var h_1: HistogramResult? = null
-                var r_1 = 1.0
-                var bestA_2 = 0
-                var bestB_2 = 1
-                var h_2: HistogramResult? = null
-                var r_2 = Int.MAX_VALUE
+                var besta1 = 0
+                var bestb1 = 1
+                var h1: HistogramResult? = null
+                var r1 = 1.0
+                var besta2 = 0
+                var bestb2 = 1
+                var h21: HistogramResult? = null
+                var r21 = Int.MAX_VALUE
                 for (i in 0 until nodes.size) {
                     for (j in i + 1 until nodes.size) {
                         val p0 = nodes[i].getProvidedVariableNames()
@@ -45,31 +45,31 @@ object LogicalOptimizerJoinOrderCostBasedOnHistogram {
                             if (nodes[j] is LOPValues) {
                                 r2 *= 0.1//prefer values clause as much as possible, because the result size is very likely to be small
                             }
-                            if (h_1 == null || r2 < r_1) {
-                                bestA_1 = i
-                                bestB_1 = j
-                                h_1 = h2
-                                r_1 = r2
+                            if (h1 == null || r2 < r1) {
+                                besta1 = i
+                                bestb1 = j
+                                h1 = h2
+                                r1 = r2
                             }
-                            if (h_2 == null || h2.count < r_2) {
-                                bestA_2 = i
-                                bestB_2 = j
-                                h_2 = h2
-                                r_2 = h2.count
+                            if (h21 == null || h2.count < r21) {
+                                besta2 = i
+                                bestb2 = j
+                                h21 = h2
+                                r21 = h2.count
                             }
                         }
                     }
                 }
                 var bestA: Int
                 var bestB: Int
-                if (r_1 < 0.6) {
+                if (r1 < 0.6) {
 //prefer the joins with strong result-count-reduction
-                    bestA = bestA_1
-                    bestB = bestB_1
+                    bestA = besta1
+                    bestB = bestb1
                 } else {
                     //otherwise choose join with least amount of expected rows
-                    bestA = bestA_2
-                    bestB = bestB_2
+                    bestA = besta2
+                    bestB = bestb2
                 }
                 val b = nodes.removeAt(bestB)//first remove at the end of list
                 val a = nodes.removeAt(bestA)//afterwards in front of b otherwise, the index would be wrong

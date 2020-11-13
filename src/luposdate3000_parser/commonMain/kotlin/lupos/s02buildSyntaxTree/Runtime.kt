@@ -49,8 +49,6 @@ class LookAheadTokenIterator(@JvmField val tokenIterator: TokenIterator, @JvmFie
 }
 
 open class ParseError(message: String, @JvmField val lineNumber: Int, @JvmField val columnNumber: Int) : Throwable("$message in line $lineNumber at column $columnNumber") {
-    constructor(message: String, token: Token, lineNumber: Int, columnNumber: Int) : this(message, lineNumber, columnNumber)
-    constructor(message: String, token: Token, tokenIterator: TokenIterator) : this(message, tokenIterator.getLineNumber(), tokenIterator.getColumnNumber())
     constructor(message: String, token: Token, tokenIterator: LookAheadTokenIterator) : this(message, tokenIterator.tokenIterator.getLineNumber(), tokenIterator.tokenIterator.getColumnNumber())
 }
 
@@ -189,23 +187,5 @@ abstract class Token(@JvmField val image: String, @JvmField val index: Int) {
     override fun toString(): String {
         return super.toString() + ": " + image
     }
-}
-
-open abstract class ASTNode(@JvmField val children: Array<ASTNode>) {
-    override fun toString(): String {
-        return toString("")
-    }
-
-    fun toString(indentation: String): String {
-        var result = indentation + nodeToString() + "\r\n"
-        for (i in 0 until children.size) {
-            result += children[i].toString("$indentation  ")
-        }
-        return result
-    }
-
-    abstract fun nodeToString(): String
-//    inline fun <T> getChildrensValues(visitor: Visitor<T>, nodes: Array<out ASTNode> = this.children): List<T> = List<T>(children.size) { children[it].visit(visitor) }
-//    open fun <T> visit(visitor: Visitor<T>): T = visitor.visit(this, this.getChildrensValues(visitor));
 }
 

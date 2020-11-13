@@ -34,5 +34,4 @@ object Dictionary {
     }
 }
 
-class ID_Triple(@JvmField val s: Long, @JvmField val p: Long, @JvmField val o: Long) {
-}
+class ID_Triple(@JvmField val s: Long, @JvmField val p: Long, @JvmField val o: Long)

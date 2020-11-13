@@ -783,7 +783,6 @@ class SevenIndices {
     fun o(key: Long): Array<Pair<Long, Long>> = this.o[key] ?: arrayOf()
     fun sp(key1: Long, key2: Long): LongArray = this.sp[Pair(key1, key2)] ?: longArrayOf()
     fun po(key1: Long, key2: Long): LongArray = this.po[Pair(key1, key2)] ?: longArrayOf()
-    private fun spo(key: ID_Triple): Boolean = this.spo.contains(key)
     fun distinct() {
         distinctOneKeyMap(this.s)
         distinctOneKeyMap(this.p)

@@ -43,8 +43,8 @@ class POPJoinHashMap(query: IQuery, projectedVariables: List<String>, childA: IO
     internal class MapKey(@JvmField val data: IntArray) {
         override fun hashCode(): Int {
             var res = 0
-            for (i in 0 until data.size) {
-                res += data[i].hashCode()
+            for (element in data) {
+                res += element.hashCode()
             }
             return res
         }

@@ -115,8 +115,8 @@ class POPFilter(query: IQuery, projectedVariables: List<String>, filter: AOPBase
             } else {
                 IteratorBundle(0)
             }
-            for (it in 0 until variablesOut.size) {
-                columnsOut.add(resLocal.columns[variablesOut[it]]!! as ColumnIteratorQueue)
+            for (element in variablesOut) {
+                columnsOut.add(resLocal.columns[element]!! as ColumnIteratorQueue)
             }
             expression = (children[1] as AOPBase).evaluateAsBoolean(resLocal)
             if (variablesOut.isEmpty()) {

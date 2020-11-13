@@ -40,7 +40,7 @@ abstract class TurtleParserWithStringTriples {
             statement()
             t1 = ltit!!.lookahead()
         }
-        var token: Token = ltit!!.nextToken()
+        val token: Token = ltit!!.nextToken()
         if (token !is EOF) {
             throw UnexpectedToken(token, arrayOf("EOF"), ltit!!)
         }
@@ -351,8 +351,7 @@ abstract class TurtleParserWithStringTriples {
 
     private fun NumericLiteral(): String {
         val token: Token
-        val t14 = ltit!!.lookahead()
-        when (t14) {
+        when (val t14 = ltit!!.lookahead()) {
             is INTEGER -> {
                 token = ltit!!.nextToken()
                 if (token !is INTEGER) {
@@ -426,7 +425,7 @@ abstract class TurtleParserWithStringTriples {
                 }
                 if ((token as POSSIBLE_KEYWORD).original_image != "true") {
                     throw UnexpectedToken(token, arrayOf("true"), ltit!!)
-                }; return "\"true\"^^<" + xsd_boolean + ">"
+                }; return "\"true\"^^<$xsd_boolean>"
             }
             "false" -> {
                 token = ltit!!.nextToken()
@@ -446,8 +445,7 @@ abstract class TurtleParserWithStringTriples {
     fun iri(): String {
         val token: Token
         val iri: String
-        val t18 = ltit!!.lookahead()
-        when (t18) {
+        when (val t18 = ltit!!.lookahead()) {
             is IRI -> {
                 token = ltit!!.nextToken()
                 if (token !is IRI) {
@@ -476,8 +474,7 @@ abstract class TurtleParserWithStringTriples {
     private fun iri_string(): String {
         val token: Token
         val iri: String
-        val t19 = ltit!!.lookahead()
-        when (t19) {
+        when (val t19 = ltit!!.lookahead()) {
             is IRI -> {
                 token = ltit!!.nextToken()
                 if (token !is IRI) {
@@ -505,15 +502,14 @@ abstract class TurtleParserWithStringTriples {
 
     private fun PrefixedName(): String {
         val token: Token
-        val t20 = ltit!!.lookahead()
-        when (t20) {
+        when (val t20 = ltit!!.lookahead()) {
             is PNAME_LN -> {
                 token = ltit!!.nextToken()
                 if (token !is PNAME_LN) {
                     throw UnexpectedToken(token, arrayOf("PNAME_LN"), ltit!!)
                 }
                 val key = token.beforeColon
-                val result = prefixes[key]; if (result == null) throw ParseError("Prefix " + key + " has not been defined", token, ltit!!); else return result + token.afterColon
+                val result = prefixes[key]; if (result == null) throw ParseError("Prefix $key has not been defined", token, ltit!!); else return result + token.afterColon
             }
             is PNAME_NS -> {
                 token = ltit!!.nextToken()
@@ -531,8 +527,7 @@ abstract class TurtleParserWithStringTriples {
 
     private fun BlankNode(): String {
         val token: Token
-        val t21 = ltit!!.lookahead()
-        when (t21) {
+        when (val t21 = ltit!!.lookahead()) {
             is BNODE -> {
                 token = ltit!!.nextToken()
                 if (token !is BNODE) {

@@ -52,22 +52,22 @@ open class RowIteratorMerge(@JvmField val a: RowIterator, @JvmField val b: RowIt
                         mid = size / 2
                         val aEnd = (off + mid) * columns.size
                         val bEnd = (off + count) * columns.size
-                        var a_ = off * columns.size
+                        var a = off * columns.size
                         var b = aEnd
-                        var c = a_
+                        var c = a
                         if (count < mid) {
-                            b = a_
-                            a_ = aEnd
+                            b = a
+                            a = aEnd
                         }
-                        loop@ while (a_ < aEnd && b < bEnd) {
+                        loop@ while (a < aEnd && b < bEnd) {
                             for (l in columns.indices) {
                                 var cmp: Int
                                 var j = 0
                                 while (j < compCount) {
-                                    cmp = comparator.compare(buf1[a_ + l], buf1[b + l])
+                                    cmp = comparator.compare(buf1[a + l], buf1[b + l])
                                     if (cmp < 0) {
                                         for (k in columns.indices) {
-                                            buf2[c++] = buf1[a_++]
+                                            buf2[c++] = buf1[a++]
                                         }
                                         continue@loop
                                     } else if (cmp > 0) {
@@ -79,10 +79,10 @@ open class RowIteratorMerge(@JvmField val a: RowIterator, @JvmField val b: RowIt
                                     j++
                                 }
                                 while (j < columns.size) {
-                                    cmp = buf1[a_ + l] - buf1[b + l]
+                                    cmp = buf1[a + l] - buf1[b + l]
                                     if (cmp < 0) {
                                         for (k in columns.indices) {
-                                            buf2[c++] = buf1[a_++]
+                                            buf2[c++] = buf1[a++]
                                         }
                                         continue@loop
                                     } else if (cmp > 0) {
@@ -95,14 +95,14 @@ open class RowIteratorMerge(@JvmField val a: RowIterator, @JvmField val b: RowIt
                                 }
                             }
                             for (j in columns.indices) {
-                                buf2[c++] = buf1[a_++]
+                                buf2[c++] = buf1[a++]
                             }
                             for (j in columns.indices) {
                                 buf2[c++] = buf1[b++]
                             }
                         }
-                        while (a_ < aEnd) {
-                            buf2[c++] = buf1[a_++]
+                        while (a < aEnd) {
+                            buf2[c++] = buf1[a++]
                         }
                         while (b < bEnd) {
                             buf2[c++] = buf1[b++]
@@ -266,7 +266,7 @@ open class RowIteratorMerge(@JvmField val a: RowIterator, @JvmField val b: RowIt
         }
     }
 
-    inline private fun compare(crossinline actionA: () -> Unit, crossinline actionB: () -> Unit) {
+    private inline fun compare(crossinline actionA: () -> Unit, crossinline actionB: () -> Unit) {
         var i = 0
         while (i < compCount) {
             val cmp = comparator.compare(a.buf[aIdx + i], b.buf[bIdx + i])

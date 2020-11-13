@@ -41,7 +41,7 @@ object LogicalOptimizerJoinOrderCostBasedOnVariable {
             cost = columns
         }
 
-        inline private fun sqr(i: Int) = i * i
+        private inline fun sqr(i: Int) = i * i
 
         constructor(plans: Array<Plan?>, childA: Int, childB: Int, allVariables: List<Int>) {
             child = null

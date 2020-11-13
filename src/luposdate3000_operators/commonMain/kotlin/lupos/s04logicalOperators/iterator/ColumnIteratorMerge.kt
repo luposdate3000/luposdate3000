@@ -42,22 +42,22 @@ object ColumnIteratorMerge {
                     mid = size / 2
                     val aEnd = (off + mid)
                     val bEnd = (off + count)
-                    var a_ = off
+                    var a = off
                     var b = aEnd
-                    var c = a_
+                    var c = a
                     if (count < mid) {
-                        b = a_
-                        a_ = aEnd
+                        b = a
+                        a = aEnd
                     }
-                    loop@ while (a_ < aEnd && b < bEnd) {
-                        if (comparator.compare(buf1[a_], buf1[b]) < 0) {
-                            buf2[c++] = buf1[a_++]
+                    loop@ while (a < aEnd && b < bEnd) {
+                        if (comparator.compare(buf1[a], buf1[b]) < 0) {
+                            buf2[c++] = buf1[a++]
                         } else {
                             buf2[c++] = buf1[b++]
                         }
                     }
-                    while (a_ < aEnd) {
-                        buf2[c++] = buf1[a_++]
+                    while (a < aEnd) {
+                        buf2[c++] = buf1[a++]
                     }
                     while (b < bEnd) {
                         buf2[c++] = buf1[b++]
@@ -144,22 +144,22 @@ object ColumnIteratorMerge {
                     mid = size / 2
                     val aEnd = (off + mid)
                     val bEnd = (off + count)
-                    var a_ = off
+                    var a = off
                     var b = aEnd
-                    var c = a_
+                    var c = a
                     if (count < mid) {
-                        b = a_
-                        a_ = aEnd
+                        b = a
+                        a = aEnd
                     }
-                    loop@ while (a_ < aEnd && b < bEnd) {
-                        if (buf1[a_] < buf1[b]) {
-                            buf2[c++] = buf1[a_++]
+                    loop@ while (a < aEnd && b < bEnd) {
+                        if (buf1[a] < buf1[b]) {
+                            buf2[c++] = buf1[a++]
                         } else {
                             buf2[c++] = buf1[b++]
                         }
                     }
-                    while (a_ < aEnd) {
-                        buf2[c++] = buf1[a_++]
+                    while (a < aEnd) {
+                        buf2[c++] = buf1[a++]
                     }
                     while (b < bEnd) {
                         buf2[c++] = buf1[b++]

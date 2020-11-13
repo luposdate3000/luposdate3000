@@ -35,12 +35,12 @@ class AOPAggregationMAX(query: IQuery, @JvmField val distinct: Boolean, childs: 
                 }
             } catch (e: EvaluationException) {
                 res.value = ValueError()
-                res.evaluate = res::aggregate_evaluate
+                res.evaluate = res::aggregateEvaluate
             } catch (e: Throwable) {
                 SanityCheck.println { "TODO exception 37" }
                 e.printStackTrace()
                 res.value = ValueError()
-                res.evaluate = res::aggregate_evaluate
+                res.evaluate = res::aggregateEvaluate
             }
         }
         return res

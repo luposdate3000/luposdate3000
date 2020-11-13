@@ -35,11 +35,11 @@ class POPOffset(query: IQuery, projectedVariables: List<String>, @JvmField val o
         val columns = Array(variables.size) { child.columns[variables[it]] }
         var tmp: Int = ResultSetDictionaryExt.nullValue
         loop@ for (i in 0 until offset) {
-            for (columnIndex in 0 until columns.size) {
-                tmp = columns[columnIndex]!!.next()
+            for (element in columns) {
+                tmp = element!!.next()
                 if (tmp == ResultSetDictionaryExt.nullValue) {
-                    for (closeIndex in 0 until columns.size) {
-                        columns[closeIndex]!!.close()
+                    for (element in columns) {
+                        element!!.close()
                     }
                     break@loop
                 }
