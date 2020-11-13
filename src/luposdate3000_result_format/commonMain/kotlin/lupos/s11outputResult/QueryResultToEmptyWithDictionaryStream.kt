@@ -44,8 +44,8 @@ object QueryResultToEmptyWithDictionaryStream {
             }
             writeRow(variables, rowBuf, dictionary, output)
         }
-        for (closeIndex in 0 until columns.size) {
-            columns[closeIndex].close()
+        for (element in columns) {
+            element.close()
         }
     }
 

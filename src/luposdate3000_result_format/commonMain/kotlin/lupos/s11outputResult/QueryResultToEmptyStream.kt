@@ -22,8 +22,8 @@ object QueryResultToEmptyStream {
                 rowBuf[variableIndex] = valueID
             }
         }
-        for (closeIndex in 0 until columns.size) {
-            columns[closeIndex].close()
+        for (element in columns) {
+            element.close()
         }
     }
 

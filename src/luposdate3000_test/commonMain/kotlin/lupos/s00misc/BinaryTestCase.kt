@@ -584,8 +584,8 @@ if (tmpTable != null) {
                                     }
                                     outStat.writeInt(outputMode.ordinal)
                                     outStat.writeInt(variables.size)
-                                    for (i in 0 until variables.size) {
-                                        val tmp = variables[i].encodeToByteArray()
+                                    for (element in variables) {
+                                        val tmp = element.encodeToByteArray()
                                         outStat.writeInt(tmp.size)
                                         outStat.write(tmp)
                                     }

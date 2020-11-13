@@ -59,16 +59,16 @@ internal class NodeLeafColumnIterator0(node: ByteArray, nodeid: Int, lock: MyRea
             var valueTmp = 0
             var usedNextPage = false
             while (nodeidTmp != NodeManager.nodeNullPointer) {
-                var node_tmp = node
+                var nodeTmp = node
                 var remainingTmp = 0
                 NodeManager.getNodeLeaf(nodeidTmp) {
                     SanityCheck.check { node != it }
-                    node_tmp = it
+                    nodeTmp = it
                 }
-                remainingTmp = NodeShared.getTripleCount(node_tmp)
+                remainingTmp = NodeShared.getTripleCount(nodeTmp)
                 SanityCheck.check { remainingTmp > 0 }
                 var offsetTmp = NodeLeaf.START_OFFSET
-                offsetTmp += NodeShared.readTriple100(node_tmp, offsetTmp, 0) { v ->
+                offsetTmp += NodeShared.readTriple100(nodeTmp, offsetTmp, 0) { v ->
                     valueTmp = v
                 }
                 if (valueTmp >= minValue) {
@@ -80,7 +80,7 @@ internal class NodeLeafColumnIterator0(node: ByteArray, nodeid: Int, lock: MyRea
                 counter += remaining
                 remaining = remainingTmp
                 nodeid = nodeidTmp
-                node = node_tmp
+                node = nodeTmp
                 value = valueTmp
                 offset = offsetTmp
                 needsReset = false

@@ -8,7 +8,7 @@ internal actual class ParallelThreadCondition actual constructor(@JvmField val l
     val lock2 = ReentrantLock()
 
     @JvmField
-    val cond = lock2.newCondition()
+    val cond = lock2.newCondition()!!
     actual inline fun waitCondition(crossinline condition: () -> Boolean) {
         lock.lock()//this lock is required to execute the "condition()"
         if (condition()) {

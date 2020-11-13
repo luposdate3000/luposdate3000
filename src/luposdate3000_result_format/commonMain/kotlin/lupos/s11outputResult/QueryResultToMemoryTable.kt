@@ -29,8 +29,8 @@ object QueryResultToMemoryTable {
             writeRow(variables, rowBuf, dictionary, output)
             lock?.unlock()
         }
-        for (closeIndex in 0 until columns.size) {
-            columns[closeIndex].close()
+        for (element in columns) {
+            element.close()
         }
     }
 

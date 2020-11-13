@@ -125,16 +125,16 @@ internal class NodeLeafColumnIteratorPrefix12(node: ByteArray, nodeid: Int, pref
             var value2Tmp = 0
             var usedNextPage = false
             while (nodeidTmp != NodeManager.nodeNullPointer) {
-                var node_tmp = node
+                var nodeTmp = node
                 var remainingTmp = 0
                 NodeManager.getNodeLeaf(nodeidTmp) {
                     SanityCheck.check { node != it }
-                    node_tmp = it
+                    nodeTmp = it
                 }
-                remainingTmp = NodeShared.getTripleCount(node_tmp)
+                remainingTmp = NodeShared.getTripleCount(nodeTmp)
                 SanityCheck.check { remainingTmp > 0 }
                 var offsetTmp = NodeLeaf.START_OFFSET
-                offsetTmp += NodeShared.readTriple101(node_tmp, offsetTmp, 0, 0) { v0, v2 ->
+                offsetTmp += NodeShared.readTriple101(nodeTmp, offsetTmp, 0, 0) { v0, v2 ->
                     value0Tmp = v0
                     value2Tmp = v2
                 }
@@ -147,7 +147,7 @@ internal class NodeLeafColumnIteratorPrefix12(node: ByteArray, nodeid: Int, pref
                 counter += remaining
                 remaining = remainingTmp
                 nodeid = nodeidTmp
-                node = node_tmp
+                node = nodeTmp
                 value0 = value0Tmp
                 value2 = value2Tmp
                 offset = offsetTmp

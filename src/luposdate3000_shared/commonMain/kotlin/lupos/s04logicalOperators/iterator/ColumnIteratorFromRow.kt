@@ -4,7 +4,7 @@ object ColumnIteratorFromRow {
     operator fun invoke(iterator: RowIterator): Map<String, ColumnIterator> {
         val res = mutableMapOf<String, ColumnIterator>()
         val iterators = mutableListOf<ColumnIteratorQueue>()
-        for (i in 0 until iterator.columns.size) {
+        for (element in iterator.columns) {
             val iterator2 = object : ColumnIteratorQueue() {
                 override /*suspend*/ fun next(): Int {
                     return ColumnIteratorQueueExt.nextHelper(this, {
@@ -30,7 +30,7 @@ object ColumnIteratorFromRow {
                 }
             }
             iterators.add(iterator2)
-            res[iterator.columns[i]] = iterator2
+            res[element] = iterator2
         }
         return res
     }

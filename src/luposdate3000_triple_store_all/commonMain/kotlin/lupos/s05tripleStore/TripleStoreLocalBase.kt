@@ -219,8 +219,8 @@ abstract class TripleStoreLocalBase(@JvmField val name: String) : ITripleStoreLo
                 val v = dataModify[columnIndex].next()
                 if (v == ResultSetDictionaryExt.nullValue) {
                     SanityCheck.check { columnIndex == 0 }
-                    for (closeIndex in 0 until dataModify.size) {
-                        dataModify[closeIndex].close()
+                    for (element in dataModify) {
+                        element.close()
                     }
                     break@loop
                 } else {

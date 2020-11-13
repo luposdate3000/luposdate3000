@@ -105,8 +105,8 @@ object QueryResultToXMLStream {
             lock?.unlock()
             resultWriter.clearBuffer()
         }
-        for (closeIndex in 0 until columns.size) {
-            columns[closeIndex].close()
+        for (element in columns) {
+            element.close()
         }
     }
 

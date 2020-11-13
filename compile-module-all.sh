@@ -46,3 +46,7 @@ ret=$? ; if [ $ret -ne 0 ] ; then exit $ret ; fi
 ret=$? ; if [ $ret -ne 0 ] ; then exit $ret ; fi
 ./generate-buildfile-module.kts --module="Luposdate3000_Launch_Sparql_Test_Suite" --prefix="Luposdate3000_Main"  --inline --nosuspend --release --fast --idea
 ret=$? ; if [ $ret -ne 0 ] ; then exit $ret ; fi
+
+diff build-cache/bin/libLuposdate3000_Optimizer-linuxX64.h build-cache/bin/libLuposdate3000_Optimizer_NoPartitions-linuxX64.h
+diff build-cache/bin/libLuposdate3000_Jena_Wrapper_On-linuxX64.h build-cache/bin/libLuposdate3000_Jena_Wrapper_Off-linuxX64.h
+diff build-cache/bin/libLuposdate3000_Endpoint_Java_Sockets-linuxX64.h build-cache/bin/libLuposdate3000_Endpoint_None-linuxX64.h

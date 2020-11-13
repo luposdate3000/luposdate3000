@@ -66,8 +66,8 @@ object QueryResultToXMLElement {
                             for (variableIndex in variables.indices) {
                                 val valueID = columns[variableIndex].next()
                                 if (valueID == ResultSetDictionaryExt.nullValue) {
-                                    for (closeIndex in 0 until columns.size) {
-                                        columns[closeIndex].close()
+                                    for (element in columns) {
+                                        element.close()
                                     }
                                     break@loop
                                 }
