@@ -60,7 +60,7 @@ class POPJoinWithStore(query: IQuery, projectedVariables: List<String>, childA: 
                 localSortPriority.remove(tmp.name)
                 tmp = AOPConstant(query, 0)
             }
-/*return*/ tmp
+ tmp
         }
         val index = LOPTriple.getIndex(paramsHelper, localSortPriority)
         for (i in 0 until 3) {
@@ -109,7 +109,7 @@ class POPJoinWithStore(query: IQuery, projectedVariables: List<String>, childA: 
             if (childB.children[it] is AOPConstant) {
                 count++
             }
-/*return*/ childB.children[it] as AOPBase
+ childB.children[it] as AOPBase
         }
         for (i in 0 until indicesINBJ.size) {
             SanityCheck.check { params[indicesINBJ[i]] is AOPVariable }

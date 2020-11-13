@@ -262,7 +262,7 @@ open class RowIteratorMerge(@JvmField val a: RowIterator, @JvmField val b: RowIt
                     }
                 }
             }
-            /*return*/ res
+             res
         }
     }
 

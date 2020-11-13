@@ -131,7 +131,7 @@ internal object NodeInner {
         var nodeid = 0
         while (true) {
             findIteratorN(node, { value0, value1, value2 ->
-                /*return*/ (value0 < prefix[0]) || (value0 == prefix[0] && value1 < prefix[1]) || (value0 == prefix[0] && value1 == prefix[1] && value2 < prefix[2])
+                 (value0 < prefix[0]) || (value0 == prefix[0] && value1 < prefix[1]) || (value0 == prefix[0] && value1 == prefix[1] && value2 < prefix[2])
             }, { it ->
                 nodeid = it
                 SanityCheck.println { "Outside.refcount($it)  x21" }
@@ -157,7 +157,7 @@ internal object NodeInner {
         var nodeid = 0
         while (true) {
             findIteratorN(node, { value0, value1, value2 ->
-                /*return*/ (value0 < prefix[0]) || (value0 == prefix[0] && value1 < prefix[1])
+                 (value0 < prefix[0]) || (value0 == prefix[0] && value1 < prefix[1])
             }, { it ->
                 nodeid = it
                 SanityCheck.println { "Outside.refcount($it)  x22" }
@@ -183,7 +183,7 @@ internal object NodeInner {
         var nodeid = 0
         while (true) {
             findIteratorN(node, { value0, value1, value2 ->
-                /*return*/ (value0 < prefix[0])
+                 (value0 < prefix[0])
             }, { it ->
                 nodeid = it
                 SanityCheck.println { "Outside.refcount($it)  x23" }

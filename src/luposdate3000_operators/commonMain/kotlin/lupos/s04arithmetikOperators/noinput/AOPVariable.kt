@@ -23,13 +23,13 @@ class AOPVariable(query: IQuery, @JvmField var name: String) : AOPBase(query, EO
         val tmp = row.columns[name]
         return if (tmp == null) {
             {
-                /*return*/ ResultSetDictionaryExt.undefValue2
+                 ResultSetDictionaryExt.undefValue2
             }
         } else {
             SanityCheck.check { tmp is ColumnIteratorQueue }
             val column = tmp as ColumnIteratorQueue
             {
-                /*return*/query.getDictionary().getValue(column.tmp)
+                query.getDictionary().getValue(column.tmp)
             }
         }
     }
@@ -38,13 +38,13 @@ class AOPVariable(query: IQuery, @JvmField var name: String) : AOPBase(query, EO
         val tmp = row.columns[name]
         if (tmp == null) {
             return {
-                /*return*/ ResultSetDictionaryExt.undefValue
+                 ResultSetDictionaryExt.undefValue
             }
         } else {
             SanityCheck.check { tmp is ColumnIteratorQueue }
             val column = tmp as ColumnIteratorQueue
             return {
-                /*return*/column.tmp
+                column.tmp
             }
         }
     }

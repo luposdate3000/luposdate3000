@@ -27,7 +27,7 @@ open class RowIteratorFromColumn(@JvmField val bundle: IteratorBundle) : RowIter
                     buf[columnIndex] = tmp
                 }
             }
-            /*return*/ res
+             res
         }
         close = {
             for (columnIndex in 0 until columns.size) {

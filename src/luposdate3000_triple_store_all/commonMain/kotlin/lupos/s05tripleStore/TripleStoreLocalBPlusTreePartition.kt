@@ -59,15 +59,15 @@ class TripleStoreLocalBPlusTreePartition(name: String) : TripleStoreLocalBase(na
         fun providesFeature(feature: TripleStoreFeature, params: TripleStoreFeatureParams?): Boolean {
             return when (feature) {
                 TripleStoreFeature.DEFAULT -> {
-                    /*return*/ true
+                     true
                 }
                 TripleStoreFeature.PARTITION -> {
                     if (params == null) {
-                        /*return*/ true
+                         true
                     } else {
                         val p = params as TripleStoreFeatureParamsPartition
                         val c = p.getColumn()
-                        /*return*/ c >= 1 && c <= 2
+                         c >= 1 && c <= 2
                     }
                 }
             }

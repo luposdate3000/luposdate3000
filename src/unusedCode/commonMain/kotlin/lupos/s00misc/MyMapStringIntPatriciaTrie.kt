@@ -332,7 +332,7 @@ class MyMapStringIntPatriciaTrie(@JvmField val undefinedValue: Int = Int.MAX_VAL
                                 } else {
                                     res = null
                                 }
-                                /*return*/ res
+                                 res
                             }
                             var arr = IntArray(node.arr.size + 2)
                             for (childIdx in 0 until childCount) {
@@ -364,7 +364,7 @@ class MyMapStringIntPatriciaTrie(@JvmField val undefinedValue: Int = Int.MAX_VAL
         var res: Int? = null
         walkInternal(key, { undefinedValue }, {
             res = it
-            /*return*/ it
+             it
         }, {}, false)
         return res
     }
@@ -377,10 +377,10 @@ class MyMapStringIntPatriciaTrie(@JvmField val undefinedValue: Int = Int.MAX_VAL
         var res = undefinedValue
         walkInternal(key, {
             res = onCreate()
-            /*return*/ res
+             res
         }, {
             res = it
-            /*return*/res
+            res
         }, {}, true)
         return res
     }

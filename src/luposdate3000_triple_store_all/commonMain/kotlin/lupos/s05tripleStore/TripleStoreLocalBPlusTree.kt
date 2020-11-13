@@ -26,10 +26,10 @@ class TripleStoreLocalBPlusTree(name: String) : TripleStoreLocalBase(name) {
         fun providesFeature(feature: TripleStoreFeature, params: TripleStoreFeatureParams?): Boolean {
             return when (feature) {
                 TripleStoreFeature.DEFAULT -> {
-/*return*/                true
+                true
                 }
                 TripleStoreFeature.PARTITION -> {
-                    /*return*/      false
+                          false
                 }
             }
         }

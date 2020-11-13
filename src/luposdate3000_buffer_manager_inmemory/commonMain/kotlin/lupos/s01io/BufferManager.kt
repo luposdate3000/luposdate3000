@@ -119,7 +119,7 @@ class BufferManager(@JvmField val bufferName: String) {
                     } else {
                         ByteArray(BUFFER_MANAGER_PAGE_SIZE_IN_BYTES)
                     }
-                    /*return*/ res
+                     res
                 }
                 val tmp2 = IntArray(size) {
                     val res: Int = if (it < counter) {
@@ -127,7 +127,7 @@ class BufferManager(@JvmField val bufferName: String) {
                     } else {
                         0
                     }
-                    /*return*/ res
+                     res
                 }
                 allPages = tmp
                 allPagesRefcounters = tmp2

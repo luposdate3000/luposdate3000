@@ -28,7 +28,7 @@ class RowIteratorBuf1(buf: IntArray, columns: Array<String>, val size: Int) : Ro
             } else {
                 tmp
             }
-            /*return*/ res
+             res
         }
     }
 }

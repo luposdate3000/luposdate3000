@@ -223,7 +223,7 @@ class POPMergePartition(query: IQuery, projectedVariables: List<String>, val par
                                 finishedWriters++
                             }
                         }
-                        /*return*/(flag && finishedWriters < partitionCount)
+                        (flag && finishedWriters < partitionCount)
                     }
                     if (finishedWriters == partitionCount) {
                         break@loop
@@ -233,7 +233,7 @@ class POPMergePartition(query: IQuery, projectedVariables: List<String>, val par
                     iterator.close()
                     throw error!!
                 }
-                /*return*/res
+                res
             }
             iterator.close = {
                 SanityCheck.println { "merge $uuid reader closed" }

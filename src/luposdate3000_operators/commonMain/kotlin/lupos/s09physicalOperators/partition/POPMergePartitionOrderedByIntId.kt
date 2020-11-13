@@ -245,7 +245,7 @@ class POPMergePartitionOrderedByIntId(query: IQuery, projectedVariables: List<St
                                 finishedWriters++
                             }
                         }
-                        /*return*/(flag && finishedWriters < partitionCount)
+                        (flag && finishedWriters < partitionCount)
                     }
                     if (finishedWriters == partitionCount) {
                         break@loop
@@ -255,7 +255,7 @@ class POPMergePartitionOrderedByIntId(query: IQuery, projectedVariables: List<St
                     iterator.close()
                     throw error!!
                 }
-                /*return*/res
+                res
             }
             iterator.close = {
                 SanityCheck.println { "merge $uuid reader closed" }
