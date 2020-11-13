@@ -256,7 +256,7 @@ class POPGroup : POPBase {
                 var nextKey: IntArray? = null
                 //first row ->
                 var emptyResult = false
-                for (columnIndex in 0 until keyColumnNames.size) {
+                for (columnIndex in keyColumnNames.indices) {
                     val value = keyColumns[columnIndex].next()
                     if (value == ResultSetDictionaryExt.nullValue) {
                         for (closeIndex in 0 until keyColumns.size) {
@@ -286,7 +286,7 @@ class POPGroup : POPBase {
                 } else {
                     val localMap = mutableMapOf<String, ColumnIterator>()
                     var localRowColumns = Array(valueColumnNames.size) { ColumnIteratorQueueEmpty() }
-                    for (columnIndex in 0 until keyColumnNames.size) {
+                    for (columnIndex in keyColumnNames.indices) {
                         val tmp = ColumnIteratorQueueEmpty()
                         tmp.tmp = currentKey[columnIndex]
                         localMap[keyColumnNames[columnIndex]] = tmp
@@ -334,7 +334,7 @@ class POPGroup : POPBase {
                                             currentKey = nextKey!!
                                             nextKey = null
                                         }
-                                        for (columnIndex in 0 until keyColumnNames.size) {
+                                        for (columnIndex in keyColumnNames.indices) {
                                             val value = keyColumns[columnIndex].next()
                                             if (value == ResultSetDictionaryExt.nullValue) {
                                                 for (closeIndex in 0 until keyColumns.size) {
@@ -344,7 +344,7 @@ class POPGroup : POPBase {
                                                     valueColumns[closeIndex].close()
                                                 }
                                                 SanityCheck.check { columnIndex == 0 }
-                                                for (columnIndex2 in 0 until keyColumnNames.size) {
+                                                for (columnIndex2 in keyColumnNames.indices) {
                                                     if (projectedVariables.contains(keyColumnNames[columnIndex2])) {
                                                         output[columnIndex2].queue.add(currentKey[columnIndex2])
                                                     }
@@ -368,7 +368,7 @@ class POPGroup : POPBase {
                                             }
                                         }
                                         if (changedKey) {
-                                            for (columnIndex in 0 until keyColumnNames.size) {
+                                            for (columnIndex in keyColumnNames.indices) {
                                                 if (projectedVariables.contains(keyColumnNames[columnIndex])) {
                                                     output[columnIndex].queue.add(currentKey[columnIndex])
                                                 }
@@ -380,7 +380,7 @@ class POPGroup : POPBase {
                                             }
                                             localMap.clear()
                                             localRowColumns = Array(valueColumnNames.size) { ColumnIteratorQueueEmpty() }
-                                            for (columnIndex in 0 until keyColumnNames.size) {
+                                            for (columnIndex in keyColumnNames.indices) {
                                                 val tmp = ColumnIteratorQueueEmpty()
                                                 tmp.tmp = currentKey[columnIndex]
                                                 localMap[keyColumnNames[columnIndex]] = tmp
@@ -410,7 +410,7 @@ class POPGroup : POPBase {
                         }
                         output.add(iterator)
                     }
-                    for (columnIndex in 0 until keyColumnNames.size) {
+                    for (columnIndex in keyColumnNames.indices) {
                         if (projectedVariables.contains(keyColumnNames[columnIndex])) {
                             outMap[keyColumnNames[columnIndex]] = output[columnIndex]
                         }
@@ -426,7 +426,7 @@ class POPGroup : POPBase {
                 val map = mutableMapOf<MapKey, MapRow>()
                 loop@ while (true) {
                     val currentKey = IntArray(keyColumnNames.size) { ResultSetDictionaryExt.undefValue }
-                    for (columnIndex in 0 until keyColumnNames.size) {
+                    for (columnIndex in keyColumnNames.indices) {
                         val value = keyColumns[columnIndex].next()
                         if (value == ResultSetDictionaryExt.nullValue) {
                             for (closeIndex in 0 until keyColumns.size) {
@@ -445,7 +445,7 @@ class POPGroup : POPBase {
                     if (localRow == null) {
                         val localMap = mutableMapOf<String, ColumnIterator>()
                         val localColumns = Array<ColumnIteratorQueue>(valueColumnNames.size) { ColumnIteratorQueueEmpty() }
-                        for (columnIndex in 0 until keyColumnNames.size) {
+                        for (columnIndex in keyColumnNames.indices) {
                             val tmp = ColumnIteratorQueueEmpty()
                             tmp.tmp = currentKey[columnIndex]
                             localMap[keyColumnNames[columnIndex]] = tmp
@@ -480,14 +480,14 @@ class POPGroup : POPBase {
                     val outKeys = Array(keyColumnNames.size) { mutableListOf<Int>() }
                     val outValues = Array(bindings.size) { mutableListOf<Int>() }
                     for ((k, v) in map) {
-                        for (columnIndex in 0 until keyColumnNames.size) {
+                        for (columnIndex in keyColumnNames.indices) {
                             outKeys[columnIndex].add(k.data[columnIndex])
                         }
                         for (columnIndex in 0 until bindings.size) {
                             outValues[columnIndex].add(query.getDictionary().createValue(bindings[columnIndex].second.evaluate(v.iterators)()))
                         }
                     }
-                    for (columnIndex in 0 until keyColumnNames.size) {
+                    for (columnIndex in keyColumnNames.indices) {
                         outMap[keyColumnNames[columnIndex]] = ColumnIteratorMultiValue(outKeys[columnIndex])
                     }
                     for (columnIndex in 0 until bindings.size) {

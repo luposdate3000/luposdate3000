@@ -52,7 +52,7 @@ class POPJoinHashMap(query: IQuery, projectedVariables: List<String>, childA: IO
         override fun equals(other: Any?) = other is MapKey && data.contentEquals(other.data)
         fun equalsFuzzy(other: Any?): Boolean {
             SanityCheck.check { other is MapKey }
-            for (i in 0 until data.size) {
+            for (i in data.indices) {
                 if (data[i] != ResultSetDictionaryExt.undefValue && (other as MapKey).data[i] != ResultSetDictionaryExt.undefValue && data[i] != other.data[i]) {
                     return false
                 }

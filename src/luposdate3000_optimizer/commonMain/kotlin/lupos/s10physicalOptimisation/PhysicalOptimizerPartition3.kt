@@ -57,7 +57,7 @@ class PhysicalOptimizerPartition3(query: Query) : OptimizerBase(query, EOptimize
                             partitionColumn++ //constants at the front do count
                         }
                     }
-                    SanityCheck.check({ partitionColumn <= 2 && partitionColumn >= 1 }, { "$partitionColumn ${node.partitionVariable} $idx ${idx.tripleIndicees.map { it }} ${storeNode.children.map { "${(it as OPBase).classname} ${(it as? IAOPVariable)?.getName()}" }}" })
+                    SanityCheck.check({ partitionColumn in 1..2 }, { "$partitionColumn ${node.partitionVariable} $idx ${idx.tripleIndicees.map { it }} ${storeNode.children.map { "${(it as OPBase).classname} ${(it as? IAOPVariable)?.getName()}" }}" })
                     var count = -1
                     val partitions = distributedTripleStore.getLocalStore().getDefaultGraph(query).getEnabledPartitions()
                     for (p in partitions) {

@@ -1,12 +1,10 @@
 package lupos.s00misc
 
-import kotlin.jvm.JvmField
-import lupos.s00misc.ETripleComponentType
-import lupos.s00misc.IMyInputStream
 import lupos.s02buildSyntaxTree.turtle.Turtle2Parser
+import kotlin.jvm.JvmField
 
 class XMLElementFromN3 : XMLElementParser {
-    override operator fun invoke(data: String): XMLElement? {
+    override operator fun invoke(data: String): XMLElement {
         val nodeSparql = XMLElement("sparql").addAttribute("xmlns", "http://www.w3.org/2005/sparql-results#")
         val nodeHead = XMLElement("head")
         val nodeResults = XMLElement("results")

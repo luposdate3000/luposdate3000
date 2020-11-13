@@ -388,7 +388,7 @@ abstract class OPBase(@JvmField val query: IQuery, @JvmField val operatorID: EOp
         if (node is AOPVariable && node.name == name) {
             return AOPConstant(query, ResultSetDictionaryExt.undefValue2)
         }
-        for (i in 0 until node.getChildren().size) {
+        for (i in node.getChildren().indices) {
             node.getChildren()[i] = replaceVariableWithUndef(node.getChildren()[i], name, existsClauses)
         }
         return node
@@ -423,7 +423,7 @@ abstract class OPBase(@JvmField val query: IQuery, @JvmField val operatorID: EOp
         } else if (node is AOPVariable && node.name == name) {
             return AOPVariable(query, name2)
         }
-        for (i in 0 until node.getChildren().size) {
+        for (i in node.getChildren().indices) {
             node.getChildren()[i] = replaceVariableWithAnother(node.getChildren()[i], name, name2, node, i)
         }
         return node
@@ -433,7 +433,7 @@ abstract class OPBase(@JvmField val query: IQuery, @JvmField val operatorID: EOp
         if (node is AOPVariable && node.name == name) {
             return AOPConstant(query, value)
         }
-        for (i in 0 until node.getChildren().size) {
+        for (i in node.getChildren().indices) {
             node.getChildren()[i] = replaceVariableWithConstant(node.getChildren()[i], name, value)
         }
         return node

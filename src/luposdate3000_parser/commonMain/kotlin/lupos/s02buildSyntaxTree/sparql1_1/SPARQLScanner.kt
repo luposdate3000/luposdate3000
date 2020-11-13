@@ -1,12 +1,7 @@
 package lupos.s02buildSyntaxTree.sparql1_1
 
+import lupos.s02buildSyntaxTree.*
 import kotlin.jvm.JvmField
-import lupos.s02buildSyntaxTree.LexerCharIterator
-import lupos.s02buildSyntaxTree.ParseError
-import lupos.s02buildSyntaxTree.sparql1_1.SPARQLParser
-import lupos.s02buildSyntaxTree.Token
-import lupos.s02buildSyntaxTree.TokenIterator
-import lupos.s02buildSyntaxTree.UnexpectedEndOfFile
 
 class EOF(index: Int) : Token("EOF", index)
 abstract class InBraces(@JvmField val content: String, index: Int, @JvmField val leftBrace: String, @JvmField val rightBrace: String) : Token(leftBrace + content + rightBrace, index) {
@@ -46,33 +41,31 @@ class INTEGER(image: String, index: Int) : Token(image, index) {
     fun toInt(): Int = this.image.toInt()
 }
 
-class DECIMAL(beforeDOT: String, afterDOT: String, index: Int) : Token(beforeDOT + "." + afterDOT, index)
+class DECIMAL(beforeDOT: String, afterDOT: String, index: Int) : Token("$beforeDOT.$afterDOT", index)
 class DOUBLE(beforeDOT: String, dot: Boolean, afterDOT: String, exp: String, plusminus: String, expnumber: String, index: Int) : Token(beforeDOT + (if (dot) "." else "") + afterDOT + exp + plusminus + expnumber, index)
-class LANGTAG(@JvmField val language: String, index: Int) : Token("@" + language, index)
+class LANGTAG(@JvmField val language: String, index: Int) : Token("@$language", index)
 class CIRCUMFLEX(index: Int) : Token("^", index)
 class DOUBLECIRCUMFLEX(index: Int) : Token("^^", index)
-class BNODE(@JvmField val name: String, index: Int) : Token("_:" + name, index)
+class BNODE(@JvmField val name: String, index: Int) : Token("_:$name", index)
 class ANON_BNODE(index: Int) : Token("[]", index)
-class PNAME_NS(@JvmField val beforeColon: String, index: Int) : Token(beforeColon + ":", index)
-class PNAME_LN(@JvmField val beforeColon: String, @JvmField val afterColon: String, index: Int) : Token(beforeColon + ":" + afterColon, index)
+class PNAME_NS(@JvmField val beforeColon: String, index: Int) : Token("$beforeColon:", index)
+class PNAME_LN(@JvmField val beforeColon: String, @JvmField val afterColon: String, index: Int) : Token("$beforeColon:$afterColon", index)
 class POSSIBLE_KEYWORD(@JvmField val original_image: String, index: Int) : Token(original_image.toUpperCase(), index)
 class VAR(prefix: Char, @JvmField val identifier: String, index: Int) : Token(prefix + identifier, index)
-class UnexpectedEndOfLine(index: Int, lineNumber: Int, columnNumber: Int) : ParseError("Unexpected End of Line", index, lineNumber, columnNumber) {
+class UnexpectedEndOfLine(index: Int, lineNumber: Int, columnNumber: Int) : ParseError("Unexpected End of Line", lineNumber, columnNumber) {
     constructor(index: Int, iterator: LexerCharIterator) : this(index, iterator.lineNumber, iterator.columnNumber)
 }
 
 class TokenIteratorSPARQLParser(@JvmField val iterator: LexerCharIterator) : TokenIterator {
     private fun skip() {
         loop@ while (true) {
-            val c = iterator.nextChar()
-            when (c) {
+            when (val c = iterator.nextChar()) {
                 ' ', '\t', '\n', '\r' -> {
                     continue@loop
                 }
                 '#' -> {
                     loop4@ while (iterator.hasNext()) {
-                        val c3 = iterator.nextChar()
-                        when (c3) {
+                        when (iterator.nextChar()) {
                             '\n', '\r' -> {
                                 continue@loop
                             }
@@ -106,11 +99,11 @@ class TokenIteratorSPARQLParser(@JvmField val iterator: LexerCharIterator) : Tok
         val c = this.iterator.nextChar()
         when {
             c == '>' -> {
-                if (iterator.hasNext() && iterator.lookahead() == '=') {
+                return if (iterator.hasNext() && iterator.lookahead() == '=') {
                     this.iterator.nextChar()
-                    return GEQ(startToken)
+                    GEQ(startToken)
                 } else {
-                    return GT(startToken)
+                    GT(startToken)
                 }
             }
             c == '=' -> {
@@ -118,20 +111,20 @@ class TokenIteratorSPARQLParser(@JvmField val iterator: LexerCharIterator) : Tok
             }
             c == '!' -> {
                 val nextChar = this.iterator.nextChar()
-                if (nextChar == '=') {
-                    return NEQ(startToken)
+                return if (nextChar == '=') {
+                    NEQ(startToken)
                 } else {
                     this.iterator.putBack(nextChar)
-                    return NOT(startToken)
+                    NOT(startToken)
                 }
             }
             c == '|' -> {
                 val nextChar = this.iterator.nextChar()
-                if (nextChar == '|') {
-                    return OR(startToken)
+                return if (nextChar == '|') {
+                    OR(startToken)
                 } else {
                     this.iterator.putBack(nextChar)
-                    return PATHOPTION(startToken)
+                    PATHOPTION(startToken)
                 }
             }
             c == '&' -> {
@@ -139,7 +132,7 @@ class TokenIteratorSPARQLParser(@JvmField val iterator: LexerCharIterator) : Tok
                 if (nextChar == '&') {
                     return AND(startToken)
                 } else {
-                    throw ParseError("'&&' expected!", startToken, this.iterator.lineNumber, this.iterator.columnNumber)
+                    throw ParseError("'&&' expected!", this.iterator.lineNumber, this.iterator.columnNumber)
                 }
             }
             c == '+' -> {
@@ -167,11 +160,11 @@ class TokenIteratorSPARQLParser(@JvmField val iterator: LexerCharIterator) : Tok
                 } catch (e: UnexpectedEndOfFile) {
                     return LBRACE(startToken)
                 }
-                if (this.iterator.lookahead() == ')') {
+                return if (this.iterator.lookahead() == ')') {
                     this.iterator.nextChar()
-                    return NIL(startToken)
+                    NIL(startToken)
                 } else {
-                    return LBRACE(startToken)
+                    LBRACE(startToken)
                 }
             }
             c == ')' -> {
@@ -191,11 +184,11 @@ class TokenIteratorSPARQLParser(@JvmField val iterator: LexerCharIterator) : Tok
                     return SLBRACE(startToken)
                 }
                 val nextChar = this.iterator.lookahead()
-                if (nextChar == ']') {
+                return if (nextChar == ']') {
                     this.iterator.nextChar()
-                    return ANON_BNODE(startToken)
+                    ANON_BNODE(startToken)
                 } else {
-                    return SLBRACE(startToken)
+                    SLBRACE(startToken)
                 }
             }
             c == ']' -> {
@@ -238,14 +231,14 @@ class TokenIteratorSPARQLParser(@JvmField val iterator: LexerCharIterator) : Tok
                 var beforeDOT = "" + c
                 while (this.iterator.hasNext()) {
                     val nextChar = this.iterator.nextChar()
-                    when {
-                        nextChar in '0'..'9' -> {
+                    when (nextChar) {
+                        in '0'..'9' -> {
                             beforeDOT += nextChar
                         }
-                        nextChar == '.' -> {
+                        '.' -> {
                             return numberAfterDot(beforeDOT, startToken)
                         }
-                        nextChar == 'e' || nextChar == 'E' -> {
+                        'e', 'E' -> {
                             return numberAfterExp(beforeDOT, false, "", nextChar, startToken)
                         }
                         else -> {
@@ -258,20 +251,20 @@ class TokenIteratorSPARQLParser(@JvmField val iterator: LexerCharIterator) : Tok
             }
             c == '.' -> {
                 // just dot, or decimal or double literal!
-                if (this.iterator.hasNext() && this.iterator.lookahead() in '0'..'9') {
+                return if (this.iterator.hasNext() && this.iterator.lookahead() in '0'..'9') {
                     // token is a decimal or double literal!
-                    return numberAfterDot("", startToken)
+                    numberAfterDot("", startToken)
                 } else {
-                    return DOT(startToken)
+                    DOT(startToken)
                 }
             }
             c == '^' -> {
                 val nextChar = this.iterator.nextChar()
-                if (nextChar == '^') {
-                    return DOUBLECIRCUMFLEX(startToken)
+                return if (nextChar == '^') {
+                    DOUBLECIRCUMFLEX(startToken)
                 } else {
                     this.iterator.putBack(nextChar)
-                    return CIRCUMFLEX(startToken)
+                    CIRCUMFLEX(startToken)
                 }
             }
             c == '@' -> {
@@ -296,7 +289,7 @@ class TokenIteratorSPARQLParser(@JvmField val iterator: LexerCharIterator) : Tok
                                     hadMinus = true
                                     language += nextNextNextChar
                                 } else {
-                                    throw ParseError("Letter ['a'..'z'|'A'..'Z'|'0'-'9'] expected!", this.iterator.index, this.iterator.lineNumber, this.iterator.columnNumber)
+                                    throw ParseError("Letter ['a'..'z'|'A'..'Z'|'0'-'9'] expected!", this.iterator.lineNumber, this.iterator.columnNumber)
                                 }
                             }
                             else -> {
@@ -307,7 +300,7 @@ class TokenIteratorSPARQLParser(@JvmField val iterator: LexerCharIterator) : Tok
                     }
                     return LANGTAG(language, startToken)
                 } else {
-                    throw ParseError("Letter ['a'..'z'|'A'..'Z'] expected", startToken + 1, this.iterator.lineNumber, this.iterator.columnNumber)
+                    throw ParseError("Letter ['a'..'z'|'A'..'Z'] expected", this.iterator.lineNumber, this.iterator.columnNumber)
                 }
             }
             c == '?' || c == '$' -> {
@@ -330,7 +323,7 @@ class TokenIteratorSPARQLParser(@JvmField val iterator: LexerCharIterator) : Tok
                         this.iterator.putBack(nextChar)
                         return PATHOPTIONAL(startToken)
                     }
-                    throw ParseError("Letter or number expected!", startToken + 1, this.iterator.lineNumber, this.iterator.columnNumber)
+                    throw ParseError("Letter or number expected!", this.iterator.lineNumber, this.iterator.columnNumber)
                 }
             }
             c == '_' -> {
@@ -379,10 +372,10 @@ class TokenIteratorSPARQLParser(@JvmField val iterator: LexerCharIterator) : Tok
                             }
                         }
                     } else {
-                        throw ParseError("No proper blank node!", startToken, this.iterator.lineNumber, this.iterator.columnNumber)
+                        throw ParseError("No proper blank node!", this.iterator.lineNumber, this.iterator.columnNumber)
                     }
                 } else {
-                    throw ParseError("Colon ':' expected!", startToken + 1, this.iterator.lineNumber, this.iterator.columnNumber)
+                    throw ParseError("Colon ':' expected!", this.iterator.lineNumber, this.iterator.columnNumber)
                 }
             }
             PN_CHARS_BASE(c) -> {
@@ -397,7 +390,7 @@ class TokenIteratorSPARQLParser(@JvmField val iterator: LexerCharIterator) : Tok
                                 la++
                                 when {
                                     PN_CHARS(nextNextNextChar) || nextNextNextChar == ':' -> {
-                                        for (i in 1..la - 1) {
+                                        for (i in 1 until la) {
                                             image += '.'
                                         }
                                         this.iterator.putBack(nextNextNextChar)
@@ -406,11 +399,11 @@ class TokenIteratorSPARQLParser(@JvmField val iterator: LexerCharIterator) : Tok
                                     nextNextNextChar == '.' -> {
                                     }
                                     else -> {
-                                        throw ParseError("Colon ':' expected!", this.iterator.index - 1, this.iterator.lineNumber, this.iterator.columnNumber)
+                                        throw ParseError("Colon ':' expected!", this.iterator.lineNumber, this.iterator.columnNumber)
                                     }
                                 }
                             }
-                            throw ParseError("Colon ':' expected!", this.iterator.index - 1, this.iterator.lineNumber, this.iterator.columnNumber)
+                            throw ParseError("Colon ':' expected!", this.iterator.lineNumber, this.iterator.columnNumber)
                         }
                         PN_CHARS(nextNextChar) -> {
                             image += nextNextChar
@@ -430,7 +423,7 @@ class TokenIteratorSPARQLParser(@JvmField val iterator: LexerCharIterator) : Tok
                 return PNAME_LN_after_colon("", startToken)
             }
             else -> {
-                throw ParseError("Token unrecognized: " + c, startToken, this.iterator.lineNumber, this.iterator.columnNumber)
+                throw ParseError("Token unrecognized: $c", this.iterator.lineNumber, this.iterator.columnNumber)
             }
         }
     }
@@ -492,7 +485,7 @@ class TokenIteratorSPARQLParser(@JvmField val iterator: LexerCharIterator) : Tok
                         if (this.iterator.hasNext()) {
                             afterColon += "\\" + this.iterator.nextChar()
                         } else {
-                            throw ParseError("Incomple Escape-Sequence", this.iterator.index - 1, this.iterator.lineNumber, this.iterator.columnNumber)
+                            throw ParseError("Incomple Escape-Sequence", this.iterator.lineNumber, this.iterator.columnNumber)
                         }
                     }
                     nextChar == '.' -> {
@@ -504,7 +497,7 @@ class TokenIteratorSPARQLParser(@JvmField val iterator: LexerCharIterator) : Tok
                             putBack += nextNextNextChar
                             when {
                                 PN_CHARS(nextNextNextChar) || nextNextNextChar == ':' || nextNextNextChar == '%' || nextNextNextChar == '\\' -> {
-                                    for (i in 1..la - 1) {
+                                    for (i in 1 until la) {
                                         afterColon += '.'
                                     }
                                     this.iterator.putBack(nextNextNextChar)
@@ -538,11 +531,11 @@ class TokenIteratorSPARQLParser(@JvmField val iterator: LexerCharIterator) : Tok
         var afterDOT = ""
         while (this.iterator.hasNext()) {
             val nextChar = this.iterator.nextChar()
-            when {
-                nextChar in '0'..'9' -> {
+            when (nextChar) {
+                in '0'..'9' -> {
                     afterDOT += nextChar
                 }
-                nextChar == 'e' || nextChar == 'E' -> {
+                'e', 'E' -> {
                     return numberAfterExp(beforeDOT, true, afterDOT, nextChar, startToken)
                 }
                 else -> {
@@ -579,7 +572,7 @@ class TokenIteratorSPARQLParser(@JvmField val iterator: LexerCharIterator) : Tok
             }
             return DOUBLE(beforeDOT, dot, afterDOT, exp + "", sign, expnumber, startToken)
         } else {
-            throw ParseError("Double without an integer in the exponent", startToken, this.iterator.lineNumber, this.iterator.columnNumber)
+            throw ParseError("Double without an integer in the exponent", this.iterator.lineNumber, this.iterator.columnNumber)
         }
     }
 
@@ -690,10 +683,10 @@ class TokenIteratorSPARQLParser(@JvmField val iterator: LexerCharIterator) : Tok
         }
     }
 
-    private /*inline*/ fun HEX(c: Char) = when {
-        c in '0'..'9'
-                || c in 'A'..'F'
-                || c in 'a'..'f' -> {
+    private /*inline*/ fun HEX(c: Char) = when (c) {
+        in '0'..'9',
+        in 'A'..'F',
+        in 'a'..'f' -> {
             true
         }
         else -> {

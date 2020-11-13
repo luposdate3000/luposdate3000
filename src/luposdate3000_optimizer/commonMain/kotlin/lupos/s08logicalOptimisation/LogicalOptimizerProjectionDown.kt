@@ -91,8 +91,8 @@ class LogicalOptimizerProjectionDown(query: Query) : OptimizerBase(query, EOptim
                     is LOPValues -> {
                         val values = mutableListOf<AOPValue>()
                         val mapping = IntArray(variables.size)
-                        for (i in 0 until mapping.size) {
-                            for (j in 0 until child.variables.size) {
+                        for (i in mapping.indices) {
+                            for (j in child.variables.indices) {
                                 if (child.variables[j].name == variables[i]) {
                                     mapping[i] = j
                                 }

@@ -57,7 +57,7 @@ class LogicalOptimizerFilterDown(query: Query) : OptimizerBase(query, EOptimizer
                         onChange()
                     }
                 } else if (child !is LOPGroup && child !is LOPTriple && child.getChildren().isNotEmpty()) {
-                    loop@ for (targetIndex in 0 until child.getChildren().size) {
+                    loop@ for (targetIndex in child.getChildren().indices) {
                         val target = child.getChildren()[targetIndex]
                         loop2@ for (filterIndex in 0 until filters.size) {
                             val filter = filters[filterIndex]

@@ -63,14 +63,14 @@ class POPBind(query: IQuery, projectedVariables: List<String>, @JvmField val nam
             outMap[name.name] = ColumnIteratorRepeatValue(child.count(), query.getDictionary().createValue(expression()))
         } else {
             var boundIndex = -1
-            for (variableIndex in 0 until variablesLocal.size) {
+            for (variableIndex in variablesLocal.indices) {
                 if (variablesLocal[variableIndex] == name.name) {
                     boundIndex = variableIndex
                 }
             }
             SanityCheck.check { boundIndex != -1 }
             val columnsIn = Array(variablesLocal.size) { child.columns[variablesLocal[it]] }
-            for (variableIndex in 0 until variablesLocal.size) {
+            for (variableIndex in variablesLocal.indices) {
                 columnsLocal[variableIndex] = object : ColumnIteratorQueue() {
                     override /*suspend*/ fun close() {
                         ColumnIteratorQueueExt._close(this)
@@ -79,7 +79,7 @@ class POPBind(query: IQuery, projectedVariables: List<String>, @JvmField val nam
                     override /*suspend*/ fun next(): Int {
                         return ColumnIteratorQueueExt.nextHelper(this, {
                             var done = false
-                            for (variableIndex2 in 0 until variablesLocal.size) {
+                            for (variableIndex2 in variablesLocal.indices) {
                                 if (boundIndex != variableIndex2) {
                                     val value = columnsIn[variableIndex2]!!.next()
                                     if (value == ResultSetDictionaryExt.nullValue) {
@@ -87,7 +87,7 @@ class POPBind(query: IQuery, projectedVariables: List<String>, @JvmField val nam
                                         for (variableIndex3 in 0 until variablesLocal.size) {
                                             ColumnIteratorQueueExt.closeOnEmptyQueue(columnsLocal[variableIndex3])
                                         }
-                                        for (closeIndex in 0 until variablesLocal.size) {
+                                        for (closeIndex in variablesLocal.indices) {
                                             if (boundIndex != closeIndex) {
                                                 columnsIn[closeIndex]!!.close()
                                             }
@@ -101,7 +101,7 @@ class POPBind(query: IQuery, projectedVariables: List<String>, @JvmField val nam
                             }
                             if (!done) {
                                 columnsLocal[boundIndex].tmp = query.getDictionary().createValue(expression())
-                                for (variableIndex2 in 0 until columnsOut.size) {
+                                for (variableIndex2 in columnsOut.indices) {
                                     columnsOut[variableIndex2].queue.add(columnsOut[variableIndex2].tmp)
                                 }
                             }
@@ -110,13 +110,13 @@ class POPBind(query: IQuery, projectedVariables: List<String>, @JvmField val nam
                 }
             }
         }
-        for (variableIndex in 0 until variablesLocal.size) {
+        for (variableIndex in variablesLocal.indices) {
             localMap[variablesLocal[variableIndex]] = columnsLocal[variableIndex]
             if (projectedVariables.contains(variablesLocal[variableIndex])) {
                 outMap[variablesLocal[variableIndex]] = columnsLocal[variableIndex]
             }
         }
-        for (it in 0 until variablesOut.size) {
+        for (it in variablesOut.indices) {
             columnsOut[it] = localMap[variablesOut[it]] as ColumnIteratorQueue
         }
         expression = (children[1] as AOPBase).evaluate(IteratorBundle(localMap))

@@ -46,7 +46,7 @@ class POPJoinWithStoreExists(query: IQuery, projectedVariables: List<String>, ch
         val iterators = iteratorsHelper.toTypedArray()
         val mapping = IntArray(mappingHelper.size) { mappingHelper[it] }
         SanityCheck.check { mapping.isNotEmpty() }
-        for (i in 0 until mapping.size) {
+        for (i in mapping.indices) {
             val tmp = iterators[i].next()
             if (tmp == ResultSetDictionaryExt.nullValue) {
                 done = true
@@ -67,7 +67,7 @@ class POPJoinWithStoreExists(query: IQuery, projectedVariables: List<String>, ch
                 override /*suspend*/ fun hasNext2(): Boolean {
                     val t = iteratorB.hasNext2()
                     loop@ while (!t && !done) {
-                        for (i in 0 until mapping.size) {
+                        for (i in mapping.indices) {
                             val tmp = iterators[i].next()
                             if (tmp == ResultSetDictionaryExt.nullValue) {
                                 for (closeIndex in 0 until iterators.size) {

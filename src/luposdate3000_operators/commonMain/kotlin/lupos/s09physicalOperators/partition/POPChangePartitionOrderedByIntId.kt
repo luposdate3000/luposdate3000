@@ -144,8 +144,8 @@ class POPChangePartitionOrderedByIntId(query: IQuery, projectedVariables: List<S
                         SanityCheck.println { "merge $uuid $pChild writer launched E" }
                         val child = childEval2.rows
                         val variableMapping = IntArray(variables.size)
-                        for (variable in 0 until variables.size) {
-                            for (variable2 in 0 until variables.size) {
+                        for (variable in variables.indices) {
+                            for (variable2 in variables.indices) {
                                 if (variables[variable2] == child.columns[variable]) {
                                     variableMapping[variable] = variable2
                                     break
@@ -169,7 +169,7 @@ class POPChangePartitionOrderedByIntId(query: IQuery, projectedVariables: List<S
                                 break@loop
                             } else {
                                 SanityCheck.println { "merge $uuid $pChild writer append data" }
-                                for (variable in 0 until variables.size) {
+                                for (variable in variables.indices) {
                                     ringbuffer[ringbufferWriteHead[p1] + variableMapping[variable] + ringbufferStart[p1]] = child.buf[tmp + variable]
                                 }
                                 //println("$p produced")
@@ -192,7 +192,7 @@ class POPChangePartitionOrderedByIntId(query: IQuery, projectedVariables: List<S
         }
         val sortColumns = IntArray(mySortPriority.size) { variables.indexOf(mySortPriority[it].variableName) }
         SanityCheck {
-            for (x in 0 until sortColumns.size) {
+            for (x in sortColumns.indices) {
                 SanityCheck.check { sortColumns[x] >= 0 }
                 SanityCheck.check { mySortPriority[x].sortType == ESortType.FAST }
             }
@@ -226,7 +226,7 @@ class POPChangePartitionOrderedByIntId(query: IQuery, projectedVariables: List<S
                     }
                 }
                 if (partitionToUse >= 0) {
-                    for (variable in 0 until variables.size) {
+                    for (variable in variables.indices) {
                         iterator.buf[variable] = (ringbuffer[ringbufferReadHead[partitionToUse] + variable + ringbufferStart[partitionToUse]])
                     }
                     res = 0

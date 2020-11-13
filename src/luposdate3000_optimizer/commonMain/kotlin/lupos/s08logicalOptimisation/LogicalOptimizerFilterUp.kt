@@ -13,7 +13,7 @@ class LogicalOptimizerFilterUp(query: Query) : OptimizerBase(query, EOptimizerID
     override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
         var res: IOPBase = node
         if (node !is LOPFilter && node !is LOPMinus && node !is LOPUnion && (node !is LOPJoin || !node.optional)) {
-            for (idx in 0 until node.getChildren().size) {
+            for (idx in node.getChildren().indices) {
                 val child = node.getChildren()[idx]
                 if (child is LOPFilter && node.getProvidedVariableNames().containsAll(child.getChildren()[1].getRequiredVariableNamesRecoursive())) {
                     res = child

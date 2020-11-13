@@ -31,7 +31,7 @@ object LogicalOptimizerJoinOrderCostBasedOnVariable {
             childs = null
             this.variables = variables
             var c = 0
-            for (i in 0 until variables.size) {
+            for (i in variables.indices) {
                 val t = variables[i]
                 if (t > 0 && allVariables[i] > t) {
                     c++
@@ -57,7 +57,7 @@ object LogicalOptimizerJoinOrderCostBasedOnVariable {
             }
             this.variables = Array(allVariables.size) { va[it] + vb[it] }
             var c = 0
-            for (i in 0 until variables.size) {
+            for (i in variables.indices) {
                 val t = va[i] + vb[i]
                 if (t > 0 && allVariables[i] > t) {
                     c++
@@ -153,7 +153,7 @@ object LogicalOptimizerJoinOrderCostBasedOnVariable {
                 plans[key] = Plan(allChilds[i], variables, allVariablesCounters)
                 key *= 2
             }
-            for (i in 0 until plans.size) {
+            for (i in plans.indices) {
                 optimize(plans, i, allVariablesCounters)
             }
             val bestPlan = plans[plans.size - 1]!!

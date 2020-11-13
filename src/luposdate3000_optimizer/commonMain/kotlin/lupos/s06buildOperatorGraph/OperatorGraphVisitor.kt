@@ -585,7 +585,7 @@ class OperatorGraphVisitor(@JvmField val query: Query) : Visitor<IOPBase> {
                 datasets[node.graph]!!
             }
         } else {
-            for (i in 0 until node.getChildren().size) {
+            for (i in node.getChildren().indices) {
                 node.getChildren()[i] = applyDatasets(node.getChildren()[i], datasets)
             }
             return node
@@ -844,7 +844,7 @@ return tmp
     private fun preventTriplesWithMultipleInstancesOfTheSameVariable(node: IOPBase): IOPBase {
         if (node is LOPTriple) {
             val variables = mutableSetOf<String>()
-            for (i in 0 until node.getChildren().size) {
+            for (i in node.getChildren().indices) {
                 val c = node.getChildren()[i]
                 if (c is AOPVariable) {
                     if (variables.contains(c.name)) {
@@ -858,7 +858,7 @@ return tmp
                 }
             }
         } else {
-            for (i in 0 until node.getChildren().size) {
+            for (i in node.getChildren().indices) {
                 node.updateChildren(i, preventTriplesWithMultipleInstancesOfTheSameVariable(node.getChildren()[i]))
             }
         }
@@ -1031,7 +1031,7 @@ return tmp
     override fun visit(node: ASTSubtraction, childrenValues: List<IOPBase>): IOPBase {
         SanityCheck.check { childrenValues.size > 1 }
         var res: AOPBase? = null
-        for (i in 0 until childrenValues.size) {
+        for (i in childrenValues.indices) {
             val v = childrenValues[childrenValues.size - 1 - i]
             res = if (res == null) {
                 v as AOPBase
@@ -1058,7 +1058,7 @@ return tmp
     override fun visit(node: ASTDivision, childrenValues: List<IOPBase>): IOPBase {
         SanityCheck.check { childrenValues.size > 1 }
         var res: AOPBase? = null
-        for (i in 0 until childrenValues.size) {
+        for (i in childrenValues.indices) {
             val v = childrenValues[childrenValues.size - 1 - i]
             res = if (res == null) {
                 v as AOPBase
@@ -1591,7 +1591,7 @@ return tmp
                 return AOPConstant(node.query, ValueBnode(node.name))
             }
         } else {
-            for (i in 0 until node.getChildren().size) {
+            for (i in node.getChildren().indices) {
                 node.updateChildren(i, variableToBNode(node.getChildren()[i], providedVariables))
             }
         }

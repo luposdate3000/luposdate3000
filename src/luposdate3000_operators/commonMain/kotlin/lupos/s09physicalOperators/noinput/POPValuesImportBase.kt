@@ -20,7 +20,7 @@ abstract class POPValuesImportBase(query: IQuery, projectedVariables: List<Strin
 
     fun addRow(values: Array<String?>) {
         SanityCheck.check { values.size == variables.size }
-        for (i in 0 until variables.size) {
+        for (i in variables.indices) {
             data[variables[i]]!!.add(query.getDictionary().createValue(cleanString(values[i])))
         }
     }

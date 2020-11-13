@@ -67,7 +67,7 @@ class LogicalOptimizerDetectMinus(query: Query) : OptimizerBase(query, EOptimize
     }
 
     private fun searchForOptionalJoin(node: IOPBase, variableName: String, action: (IOPBase, Int) -> Unit) {
-        for (c in 0 until node.getChildren().size) {
+        for (c in node.getChildren().indices) {
             val child = node.getChildren()[c]
             if (child is LOPJoin && child.optional && !child.getChildren()[0].getProvidedVariableNames().contains(variableName) && child.getChildren()[1].getProvidedVariableNames().contains(variableName)) {
                 action(node, c)

@@ -16,7 +16,7 @@ class LogicalOptimizerProjectionUp(query: Query) : OptimizerBase(query, EOptimiz
     override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
         var res: IOPBase = node
         if (node !is LOPProjection && node !is OPBaseCompound && node !is LOPUnion && node !is LOPMinus && node !is LOPReduced && node !is LOPDistinct) {
-            for (i in 0 until node.getChildren().size) {
+            for (i in node.getChildren().indices) {
                 val child = node.getChildren()[i]
                 if (child is LOPProjection) {
                     res = LOPProjection(query, node.getProvidedVariableNames().map { AOPVariable(query, it) }.toMutableList(), node)

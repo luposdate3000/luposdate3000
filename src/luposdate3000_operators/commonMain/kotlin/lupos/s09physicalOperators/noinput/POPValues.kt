@@ -33,7 +33,7 @@ open class POPValues : POPBase {
         if (columns.isNotEmpty()) {
             for (i in 0 until columns[0]!!.size) {
                 res += "("
-                for (v in 0 until variables.size) {
+                for (v in variables.indices) {
                     res += if (columns[v]!![i] == ResultSetDictionaryExt.undefValue) {
                         "UNDEF "
                     } else {
@@ -67,7 +67,7 @@ open class POPValues : POPBase {
                 }
                 val columns1 = Array(variables.size) { data[variables[it]] }
                 val columns2 = Array(variables.size) { other.data[variables[it]] }
-                for (vIndex in 0 until variables.size) {
+                for (vIndex in variables.indices) {
                     for (i in 0 until columns1[0]!!.size) {
                         if (columns1[vIndex]!![i] != columns2[vIndex]!![i]) {
                             return false
@@ -100,11 +100,11 @@ open class POPValues : POPBase {
         if (projectedVariables.isEmpty()) {
             rows = d.size
         } else {
-            for (variableIndex in 0 until variables.size) {
+            for (variableIndex in variables.indices) {
                 data[variables[variableIndex]] = columns[variableIndex]
             }
             d.forEach {
-                for (variableIndex in 0 until variables.size) {
+                for (variableIndex in variables.indices) {
                     columns[variableIndex].add(query.getDictionary().createValue(it[variableIndex]))
                 }
             }
@@ -131,7 +131,7 @@ open class POPValues : POPBase {
             variables = tmpVariables
             val columns = Array(variables.size) { mutableListOf<Int>() }
             data = mutableMapOf()
-            for (variableIndex in 0 until variables.size) {
+            for (variableIndex in variables.indices) {
                 data[variables[variableIndex]] = columns[variableIndex]
             }
             for (v in values.children) {
@@ -174,7 +174,7 @@ open class POPValues : POPBase {
             for (i in 0 until columns[0]!!.size) {
                 val b = XMLElement("binding")
                 bindings.addContent(b)
-                for (variableIndex in 0 until variables.size) {
+                for (variableIndex in variables.indices) {
                     val value = query.getDictionary().getValue(columns[variableIndex]!![i]).valueToString()
                     if (value != null) {
                         b.addContent(XMLElement("value").addAttribute("name", variables[variableIndex]).addAttribute("content", value))

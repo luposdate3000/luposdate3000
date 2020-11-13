@@ -32,7 +32,7 @@ class OPBaseCompound(query: IQuery, children: Array<IOPBase>, val columnProjecti
         if (getChildren().size != other.getChildren().size) {
             return false
         }
-        for (i in 0 until getChildren().size) {
+        for (i in getChildren().indices) {
             if (getChildren()[i] != other.getChildren()[i]) {
                 return false
             }
@@ -40,11 +40,11 @@ class OPBaseCompound(query: IQuery, children: Array<IOPBase>, val columnProjecti
         if (columnProjectionOrder.size != other.columnProjectionOrder.size) {
             return false
         }
-        for (i in 0 until columnProjectionOrder.size) {
+        for (i in columnProjectionOrder.indices) {
             if (columnProjectionOrder[i].size != other.columnProjectionOrder[i].size) {
                 return false
             }
-            for (j in 0 until columnProjectionOrder[i].size) {
+            for (j in columnProjectionOrder[i].indices) {
                 if (columnProjectionOrder[i][j] != other.columnProjectionOrder[i][j]) {
                     return false
                 }

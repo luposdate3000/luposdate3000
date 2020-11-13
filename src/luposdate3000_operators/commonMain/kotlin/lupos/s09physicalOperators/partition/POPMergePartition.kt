@@ -144,8 +144,8 @@ class POPMergePartition(query: IQuery, projectedVariables: List<String>, val par
                             SanityCheck.println { "merge $uuid $p writer launched E" }
                             val child = childEval2.rows
                             val variableMapping = IntArray(variables.size)
-                            for (variable in 0 until variables.size) {
-                                for (variable2 in 0 until variables.size) {
+                            for (variable in variables.indices) {
+                                for (variable2 in variables.indices) {
                                     if (variables[variable2] == child.columns[variable]) {
                                         variableMapping[variable] = variable2
                                         break
@@ -169,7 +169,7 @@ class POPMergePartition(query: IQuery, projectedVariables: List<String>, val par
                                     break@loop
                                 } else {
                                     SanityCheck.println { "merge $uuid $p writer append data" }
-                                    for (variable in 0 until variables.size) {
+                                    for (variable in variables.indices) {
                                         ringbuffer[ringbufferWriteHead[p] + variableMapping[variable] + ringbufferStart[p]] = child.buf[tmp + variable]
                                     }
                                     //println("$p produced")
@@ -201,7 +201,7 @@ class POPMergePartition(query: IQuery, projectedVariables: List<String>, val par
                         if (ringbufferReadHead[p] != ringbufferWriteHead[p]) {
                             //non empty queue -> read one row
                             SanityCheck.println { "merge $uuid $p reader consumed data" }
-                            for (variable in 0 until variables.size) {
+                            for (variable in variables.indices) {
                                 iterator.buf[variable] = (ringbuffer[ringbufferReadHead[p] + variable + ringbufferStart[p]])
                             }
                             res = 0

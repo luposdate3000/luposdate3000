@@ -35,7 +35,7 @@ class LOPValues(query: IQuery, @JvmField val variables: List<AOPVariable>, value
     override /*suspend*/ fun calculateHistogram(): HistogramResult {
         val res = HistogramResult()
         val p = getProvidedVariableNames()
-        for (i in 0 until p.size) {
+        for (i in p.indices) {
             val localSet = mutableSetOf<Int>()
             for (row in children) {
                 localSet.add((row.getChildren()[i] as AOPConstant).value)

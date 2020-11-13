@@ -63,7 +63,7 @@ class LogicalOptimizerBindUp(query: Query) : OptimizerBase(query, EOptimizerID.L
                 onChange()
             }
         } else if (node is LOPLimit || node is LOPOffset || node is LOPJoin) {
-            for (i in 0 until node.getChildren().size) {
+            for (i in node.getChildren().indices) {
                 val child = node.getChildren()[i]
                 if (child is LOPBind && child.getChildren()[1] is AOPConstant) {
                     node.getChildren()[i] = child.getChildren()[0]

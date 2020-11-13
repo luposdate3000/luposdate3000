@@ -44,7 +44,7 @@ class POPFilter(query: IQuery, projectedVariables: List<String>, filter: AOPBase
             val columnsIn = Array(variables.size) { child.columns[variables[it]] }
             val columnsOut = mutableListOf<ColumnIteratorQueue>()
             val columnsLocal = mutableListOf<ColumnIteratorQueue>()
-            for (i in 0 until variables.size) {
+            for (i in variables.indices) {
                 columnsLocal.add(object : ColumnIteratorQueue() {
                     override /*suspend*/ fun close() {
                         __close()
@@ -65,7 +65,7 @@ class POPFilter(query: IQuery, projectedVariables: List<String>, filter: AOPBase
                             try {
                                 var done = false
                                 while (!done) {
-                                    for (variableIndex2 in 0 until variables.size) {
+                                    for (variableIndex2 in variables.indices) {
                                         columnsLocal[variableIndex2].tmp = columnsIn[variableIndex2]!!.next()
                                         //point each iterator to the current value
                                         if (columnsLocal[variableIndex2].tmp == ResultSetDictionaryExt.nullValue) {
@@ -85,7 +85,7 @@ class POPFilter(query: IQuery, projectedVariables: List<String>, filter: AOPBase
                                         //evaluate
                                         if (expression()) {
                                             //accept/deny row in each iterator
-                                            for (variableIndex2 in 0 until variablesOut.size) {
+                                            for (variableIndex2 in variablesOut.indices) {
                                                 columnsOut[variableIndex2].queue.add(columnsOut[variableIndex2].tmp)
                                             }
                                             done = true
@@ -104,7 +104,7 @@ class POPFilter(query: IQuery, projectedVariables: List<String>, filter: AOPBase
                     }
                 })
             }
-            for (variableIndex in 0 until variables.size) {
+            for (variableIndex in variables.indices) {
                 if (projectedVariables.contains(variables[variableIndex])) {
                     outMap[variables[variableIndex]] = columnsLocal[variableIndex]
                 }
@@ -144,7 +144,7 @@ class POPFilter(query: IQuery, projectedVariables: List<String>, filter: AOPBase
                             try {
                                 var done = false
                                 while (!done) {
-                                    for (variableIndex2 in 0 until variables.size) {
+                                    for (variableIndex2 in variables.indices) {
                                         columnsLocal[variableIndex2].tmp = columnsIn[variableIndex2]!!.next()
                                         //point each iterator to the current value
                                         if (columnsLocal[variableIndex2].tmp == ResultSetDictionaryExt.nullValue) {

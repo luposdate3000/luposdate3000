@@ -9,17 +9,17 @@ internal object POPJoin {
         val count = countA * countB
         SanityCheck.check { count > 0 }
         if (count == 1) {
-            for (columnIndex in 0 until outO0.size) {
+            for (columnIndex in outO0.indices) {
                 outO0[columnIndex].addChildColumnIteratorValue(dataO0[columnIndex][0])
             }
-            for (columnIndex in 0 until outO1.size) {
+            for (columnIndex in outO1.indices) {
                 outO1[columnIndex].addChildColumnIteratorValue(dataO1[columnIndex][0])
             }
-            for (columnIndex in 0 until outJ.size) {
+            for (columnIndex in outJ.indices) {
                 outJ[columnIndex].addChildColumnIteratorValue(dataJ[columnIndex])
             }
         } else if (count < 100) {
-            for (columnIndex in 0 until outO0.size) {
+            for (columnIndex in outO0.indices) {
                 val d = IntArray(count)
                 for (i in 0 until countA) {
                     val x = dataO0[columnIndex][i]
@@ -29,7 +29,7 @@ internal object POPJoin {
                 }
                 outO0[columnIndex].addChild(ColumnIteratorMultiValue(d, count))
             }
-            for (columnIndex in 0 until outO1.size) {
+            for (columnIndex in outO1.indices) {
                 val d = IntArray(count)
                 for (j in 0 until countB) {
                     val x = dataO1[columnIndex][j]
@@ -39,11 +39,11 @@ internal object POPJoin {
                 }
                 outO1[columnIndex].addChild(ColumnIteratorMultiValue(d, count))
             }
-            for (columnIndex in 0 until outJ.size) {
+            for (columnIndex in outJ.indices) {
                 outJ[columnIndex].addChild(ColumnIteratorRepeatValue(count, dataJ[columnIndex]))
             }
         } else {
-            for (columnIndex in 0 until outO0.size) {
+            for (columnIndex in outO0.indices) {
                 val iterators = mutableListOf<ColumnIterator>()
                 for (i in 0 until countA) {
                     iterators.add(ColumnIteratorRepeatValue(countB, dataO0[columnIndex][i]))
@@ -54,7 +54,7 @@ internal object POPJoin {
                     outO0[columnIndex].addChild(ColumnIteratorMultiIterator(iterators))
                 }
             }
-            for (columnIndex in 0 until outO1.size) {
+            for (columnIndex in outO1.indices) {
                 val d = IntArray(countB) { dataO1[columnIndex][it] }
                 if (countA == 1) {
                     outO1[columnIndex].addChild(ColumnIteratorMultiValue(d, countB))
@@ -62,7 +62,7 @@ internal object POPJoin {
                     outO1[columnIndex].addChild(ColumnIteratorRepeatIterator(countA, ColumnIteratorMultiValue(d, countB)))
                 }
             }
-            for (columnIndex in 0 until outJ.size) {
+            for (columnIndex in outJ.indices) {
                 outJ[columnIndex].addChild(ColumnIteratorRepeatValue(count, dataJ[columnIndex]))
             }
         }
@@ -73,17 +73,17 @@ internal object POPJoin {
         val count = countA * countB
         SanityCheck.check { count > 0 }
         if (count == 1) {
-            for (columnIndex in 0 until outO0.size) {
+            for (columnIndex in outO0.indices) {
                 outO0[columnIndex].addChildColumnIteratorValue(dataO0[columnIndex][0])
             }
-            for (columnIndex in 0 until outO1.size) {
+            for (columnIndex in outO1.indices) {
                 outO1[columnIndex].addChildColumnIteratorValue(dataO1[columnIndex][0])
             }
-            for (columnIndex in 0 until outJ.size) {
+            for (columnIndex in outJ.indices) {
                 outJ[columnIndex].addChildColumnIteratorValue(dataJ[columnIndex])
             }
         } else if (count < 100) {
-            for (columnIndex in 0 until outO0.size) {
+            for (columnIndex in outO0.indices) {
                 val d = IntArray(count)
                 for (i in 0 until countA) {
                     val x = dataO0[columnIndex][i]
@@ -93,7 +93,7 @@ internal object POPJoin {
                 }
                 outO0[columnIndex].addChild(ColumnIteratorMultiValue(d, count))
             }
-            for (columnIndex in 0 until outO1.size) {
+            for (columnIndex in outO1.indices) {
                 val d = IntArray(count)
                 for (j in 0 until countB) {
                     val x = dataO1[columnIndex][j]
@@ -103,11 +103,11 @@ internal object POPJoin {
                 }
                 outO1[columnIndex].addChild(ColumnIteratorMultiValue(d, count))
             }
-            for (columnIndex in 0 until outJ.size) {
+            for (columnIndex in outJ.indices) {
                 outJ[columnIndex].addChild(ColumnIteratorRepeatValue(count, dataJ[columnIndex]))
             }
         } else {
-            for (columnIndex in 0 until outO0.size) {
+            for (columnIndex in outO0.indices) {
                 val iterators = mutableListOf<ColumnIterator>()
                 for (i in 0 until countA) {
                     iterators.add(ColumnIteratorRepeatValue(countB, dataO0[columnIndex][i]))
@@ -118,7 +118,7 @@ internal object POPJoin {
                     outO0[columnIndex].addChild(ColumnIteratorMultiIterator(iterators))
                 }
             }
-            for (columnIndex in 0 until outO1.size) {
+            for (columnIndex in outO1.indices) {
                 val d = IntArray(countB) { dataO1[columnIndex][it] }
                 if (countA == 1) {
                     outO1[columnIndex].addChild(ColumnIteratorMultiValue(d, countB))
@@ -126,7 +126,7 @@ internal object POPJoin {
                     outO1[columnIndex].addChild(ColumnIteratorRepeatIterator(countA, ColumnIteratorMultiValue(d, countB)))
                 }
             }
-            for (columnIndex in 0 until outJ.size) {
+            for (columnIndex in outJ.indices) {
                 outJ[columnIndex].addChild(ColumnIteratorRepeatValue(count, dataJ[columnIndex]))
             }
         }

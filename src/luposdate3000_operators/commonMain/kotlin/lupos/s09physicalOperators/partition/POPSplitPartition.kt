@@ -90,8 +90,8 @@ class POPSplitPartition(query: IQuery, projectedVariables: List<String>, val par
                         SanityCheck.println { "split $uuid writer launched C" }
                         var hashVariableIndex = -1
                         val variableMapping = IntArray(variables.size)
-                        for (variable in 0 until variables.size) {
-                            for (variable2 in 0 until variables.size) {
+                        for (variable in variables.indices) {
+                            for (variable2 in variables.indices) {
                                 if (child.columns[variable] == partitionVariable) {
                                     hashVariableIndex = variable
                                 }
@@ -148,7 +148,7 @@ class POPSplitPartition(query: IQuery, projectedVariables: List<String>, val par
                                         continue@loopcache
                                     }
                                     SanityCheck.println { "split $uuid $p writer append data ${variables.size} ${variableMapping.toMutableList()} ${ringbufferStart[p]}" }
-                                    for (variable in 0 until variables.size) {
+                                    for (variable in variables.indices) {
                                         SanityCheck.println { "split $uuid $p writer append data ... $variable ${ringbufferWriteHead[p] + variableMapping[variable] + ringbufferStart[p]} ${tmp + variable}" }
                                         ringbuffer[ringbufferWriteHead[p] + variableMapping[variable] + ringbufferStart[p]] = child.buf[tmp + variable]
                                         SanityCheck.println { "split $uuid $p writer append data --- $variables ${child.columns.map { it }} ${ringbufferWriteHead[p] + variableMapping[variable] + ringbufferStart[p]}<-${tmp + variable} = ${child.buf[tmp + variable]}" }
@@ -165,9 +165,9 @@ class POPSplitPartition(query: IQuery, projectedVariables: List<String>, val par
                         error = e
                     }
                     SanityCheck.println { "split $uuid writer launched F" }
-                    if (child2 != null) {
-                        child2.close()
-                    }
+                    if(child2!=null){
+child2.close()
+}
                     continuationLock.lock()
                     writerFinished = 1
                     for (p in 0 until partitionCount) {
@@ -188,7 +188,7 @@ class POPSplitPartition(query: IQuery, projectedVariables: List<String>, val par
                             if (ringbufferReadHead[p] != ringbufferWriteHead[p]) {
                                 //non empty queue -> read one row
                                 SanityCheck.println { "split $uuid $p reader consumed data" }
-                                for (variable in 0 until variables.size) {
+                                for (variable in variables.indices) {
                                     iterator.buf[variable] = (ringbuffer[ringbufferReadHead[p] + variable + ringbufferStart[p]])
                                 }
                                 res = 0

@@ -24,31 +24,29 @@ class SEMICOLON(index: Int) : Token(";", index)
 class COMMA(index: Int) : Token(",", index)
 class STRING(content: String, delimiter: String, index: Int) : InBraces(content, index, delimiter, delimiter)
 class INTEGER(image: String, index: Int) : Token(image, index)
-class DECIMAL(beforeDOT: String, afterDOT: String, index: Int) : Token(beforeDOT + "." + afterDOT, index)
+class DECIMAL(beforeDOT: String, afterDOT: String, index: Int) : Token("$beforeDOT.$afterDOT", index)
 class DOUBLE(beforeDOT: String, dot: Boolean, afterDOT: String, exp: String, plusminus: String, expnumber: String, index: Int) : Token(beforeDOT + (if (dot) "." else "") + afterDOT + exp + plusminus + expnumber, index)
-class LANGTAG(@JvmField val language: String, index: Int) : Token("@" + language, index)
+class LANGTAG(@JvmField val language: String, index: Int) : Token("@$language", index)
 class DOUBLECIRCUMFLEX(index: Int) : Token("^^", index)
-class BNODE(@JvmField val name: String, index: Int) : Token("_:" + name, index)
+class BNODE(@JvmField val name: String, index: Int) : Token("_:$name", index)
 class ANON_BNODE(index: Int) : Token("[]", index)
-class PNAME_NS(@JvmField val beforeColon: String, index: Int) : Token(beforeColon + ":", index)
-class PNAME_LN(@JvmField val beforeColon: String, @JvmField val afterColon: String, index: Int) : Token(beforeColon + ":" + afterColon, index)
+class PNAME_NS(@JvmField val beforeColon: String, index: Int) : Token("$beforeColon:", index)
+class PNAME_LN(@JvmField val beforeColon: String, @JvmField val afterColon: String, index: Int) : Token("$beforeColon:$afterColon", index)
 class POSSIBLE_KEYWORD(@JvmField val original_image: String, index: Int) : Token(original_image.toUpperCase(), index)
-class UnexpectedEndOfLine(index: Int, lineNumber: Int, columnNumber: Int) : ParseError("Unexpected End of Line", index, lineNumber, columnNumber) {
+class UnexpectedEndOfLine(index: Int, lineNumber: Int, columnNumber: Int) : ParseError("Unexpected End of Line", lineNumber, columnNumber) {
     constructor(index: Int, iterator: LexerCharIterator) : this(index, iterator.lineNumber, iterator.columnNumber)
 }
 
 class TurtleScanner(@JvmField val iterator: LexerCharIterator) : TokenIterator {
-    fun skip() {
+    private fun skip() {
         loop@ while (true) {
-            val c = iterator.nextChar()
-            when (c) {
+            when (val c = iterator.nextChar()) {
                 ' ', '\t', '\n', '\r' -> {
                     continue@loop
                 }
                 '#' -> {
                     loop4@ while (iterator.hasNext()) {
-                        val c3 = iterator.nextChar()
-                        when (c3) {
+                        when (iterator.nextChar()) {
                             '\n', '\r' -> {
                                 continue@loop
                             }
@@ -101,11 +99,11 @@ class TurtleScanner(@JvmField val iterator: LexerCharIterator) : TokenIterator {
                     return SLBRACE(startToken)
                 }
                 val nextChar = this.iterator.lookahead()
-                if (nextChar == ']') {
+                return if (nextChar == ']') {
                     this.iterator.nextChar()
-                    return ANON_BNODE(startToken)
+                    ANON_BNODE(startToken)
                 } else {
-                    return SLBRACE(startToken)
+                    SLBRACE(startToken)
                 }
             }
             c == ']' -> {
@@ -123,13 +121,13 @@ class TurtleScanner(@JvmField val iterator: LexerCharIterator) : TokenIterator {
                             return IRI(content, startToken)
                         }
                         ' ', '\n', '\r', '<', '\t' -> {
-                            throw ParseError("IRI is not valid!", startToken, this.iterator.lineNumber, this.iterator.columnNumber)
+                            throw ParseError("IRI is not valid!", this.iterator.lineNumber, this.iterator.columnNumber)
                         }
                     }
                     content += nextChar
                 }
                 // EOF reached without recognizing a full IRI!
-                throw ParseError("IRI is not valid!", startToken, this.iterator.lineNumber, this.iterator.columnNumber)
+                throw ParseError("IRI is not valid!", this.iterator.lineNumber, this.iterator.columnNumber)
             }
             c == '\'' || c == '"' -> {
                 return dealWithString(c, startToken)
@@ -139,14 +137,14 @@ class TurtleScanner(@JvmField val iterator: LexerCharIterator) : TokenIterator {
                 var beforeDOT = "" + c
                 while (this.iterator.hasNext()) {
                     val nextChar = this.iterator.nextChar()
-                    when {
-                        nextChar in '0'..'9' -> {
+                    when (nextChar) {
+                        in '0'..'9' -> {
                             beforeDOT += nextChar
                         }
-                        nextChar == '.' -> {
+                        '.' -> {
                             return numberAfterDot(beforeDOT, startToken)
                         }
-                        nextChar == 'e' || nextChar == 'E' -> {
+                        'e', 'E' -> {
                             return numberAfterExp(beforeDOT, false, "", nextChar, startToken)
                         }
                         else -> {
@@ -159,11 +157,11 @@ class TurtleScanner(@JvmField val iterator: LexerCharIterator) : TokenIterator {
             }
             c == '.' -> {
                 // just dot, or decimal or double literal!
-                if (this.iterator.hasNext() && this.iterator.lookahead() in '0'..'9') {
+                return if (this.iterator.hasNext() && this.iterator.lookahead() in '0'..'9') {
                     // token is a decimal or double literal!
-                    return numberAfterDot("", startToken)
+                    numberAfterDot("", startToken)
                 } else {
-                    return DOT(startToken)
+                    DOT(startToken)
                 }
             }
             c == '^' -> {
@@ -171,7 +169,7 @@ class TurtleScanner(@JvmField val iterator: LexerCharIterator) : TokenIterator {
                 if (nextChar == '^') {
                     return DOUBLECIRCUMFLEX(startToken)
                 } else {
-                    throw ParseError("'^^' expected!", startToken, this.iterator.lineNumber, this.iterator.columnNumber)
+                    throw ParseError("'^^' expected!", this.iterator.lineNumber, this.iterator.columnNumber)
                 }
             }
             c == '@' -> {
@@ -196,7 +194,7 @@ class TurtleScanner(@JvmField val iterator: LexerCharIterator) : TokenIterator {
                                     hadMinus = true
                                     language += nextNextNextChar
                                 } else {
-                                    throw ParseError("Letter ['a'..'z'|'A'..'Z'|'0'-'9'] expected!", this.iterator.index, this.iterator.lineNumber, this.iterator.columnNumber)
+                                    throw ParseError("Letter ['a'..'z'|'A'..'Z'|'0'-'9'] expected!", this.iterator.lineNumber, this.iterator.columnNumber)
                                 }
                             }
                             else -> {
@@ -207,7 +205,7 @@ class TurtleScanner(@JvmField val iterator: LexerCharIterator) : TokenIterator {
                     }
                     return LANGTAG(language, startToken)
                 } else {
-                    throw ParseError("Letter ['a'..'z'|'A'..'Z'] expected", startToken + 1, this.iterator.lineNumber, this.iterator.columnNumber)
+                    throw ParseError("Letter ['a'..'z'|'A'..'Z'] expected", this.iterator.lineNumber, this.iterator.columnNumber)
                 }
             }
             c == '_' -> {
@@ -256,10 +254,10 @@ class TurtleScanner(@JvmField val iterator: LexerCharIterator) : TokenIterator {
                             }
                         }
                     } else {
-                        throw ParseError("No proper blank node!", startToken, this.iterator.lineNumber, this.iterator.columnNumber)
+                        throw ParseError("No proper blank node!", this.iterator.lineNumber, this.iterator.columnNumber)
                     }
                 } else {
-                    throw ParseError("Colon ':' expected!", startToken + 1, this.iterator.lineNumber, this.iterator.columnNumber)
+                    throw ParseError("Colon ':' expected!", this.iterator.lineNumber, this.iterator.columnNumber)
                 }
             }
             PN_CHARS_BASE(c) -> {
@@ -284,11 +282,11 @@ class TurtleScanner(@JvmField val iterator: LexerCharIterator) : TokenIterator {
                                     nextNextNextChar == '.' -> {
                                     }
                                     else -> {
-                                        throw ParseError("Colon ':' expected!", this.iterator.index - 1, this.iterator.lineNumber, this.iterator.columnNumber)
+                                        throw ParseError("Colon ':' expected!", this.iterator.lineNumber, this.iterator.columnNumber)
                                     }
                                 }
                             }
-                            throw ParseError("Colon ':' expected!", this.iterator.index - 1, this.iterator.lineNumber, this.iterator.columnNumber)
+                            throw ParseError("Colon ':' expected!", this.iterator.lineNumber, this.iterator.columnNumber)
                         }
                         PN_CHARS(nextNextChar) -> {
                             image += nextNextChar
@@ -308,12 +306,12 @@ class TurtleScanner(@JvmField val iterator: LexerCharIterator) : TokenIterator {
                 return PNAME_LN_after_colon("", startToken)
             }
             else -> {
-                throw ParseError("Token unrecognized: " + c, startToken, this.iterator.lineNumber, this.iterator.columnNumber)
+                throw ParseError("Token unrecognized: $c", this.iterator.lineNumber, this.iterator.columnNumber)
             }
         }
     }
 
-    /*inline*/ fun PNAME_LN_after_colon(beforeColon: String, startToken: Int): Token {
+    /*inline*/ private fun PNAME_LN_after_colon(beforeColon: String, startToken: Int): Token {
         if (this.iterator.hasNext()) {
             val c = this.iterator.nextChar()
             var afterColon = ""
@@ -370,7 +368,7 @@ class TurtleScanner(@JvmField val iterator: LexerCharIterator) : TokenIterator {
                         if (this.iterator.hasNext()) {
                             afterColon += "\\" + this.iterator.nextChar()
                         } else {
-                            throw ParseError("Incomple Escape-Sequence", this.iterator.index - 1, this.iterator.lineNumber, this.iterator.columnNumber)
+                            throw ParseError("Incomple Escape-Sequence", this.iterator.lineNumber, this.iterator.columnNumber)
                         }
                     }
                     nextChar == '.' -> {
@@ -411,16 +409,16 @@ class TurtleScanner(@JvmField val iterator: LexerCharIterator) : TokenIterator {
         }
     }
 
-    /*inline*/ fun numberAfterDot(beforeDOT: String, startToken: Int): Token {
+    /*inline*/ private fun numberAfterDot(beforeDOT: String, startToken: Int): Token {
         // next token can only be a decimal or double literal!
         var afterDOT = ""
         while (this.iterator.hasNext()) {
             val nextChar = this.iterator.nextChar()
-            when {
-                nextChar in '0'..'9' -> {
+            when (nextChar) {
+                in '0'..'9' -> {
                     afterDOT += nextChar
                 }
-                nextChar == 'e' || nextChar == 'E' -> {
+                'e', 'E' -> {
                     return numberAfterExp(beforeDOT, true, afterDOT, nextChar, startToken)
                 }
                 else -> {
@@ -432,7 +430,7 @@ class TurtleScanner(@JvmField val iterator: LexerCharIterator) : TokenIterator {
         return DECIMAL(beforeDOT, afterDOT, startToken)
     }
 
-    /*inline*/ fun numberAfterExp(beforeDOT: String, dot: Boolean, afterDOT: String, exp: Char, startToken: Int): Token {
+    /*inline*/ private fun numberAfterExp(beforeDOT: String, dot: Boolean, afterDOT: String, exp: Char, startToken: Int): Token {
         // next token can only be a double literal!
         val maybesign = this.iterator.nextChar()
         val sign: String
@@ -457,11 +455,11 @@ class TurtleScanner(@JvmField val iterator: LexerCharIterator) : TokenIterator {
             }
             return DOUBLE(beforeDOT, dot, afterDOT, exp + "", sign, expnumber, startToken)
         } else {
-            throw ParseError("Double without an integer in the exponent", startToken, this.iterator.lineNumber, this.iterator.columnNumber)
+            throw ParseError("Double without an integer in the exponent", this.iterator.lineNumber, this.iterator.columnNumber)
         }
     }
 
-    /*inline*/ fun dealWithString(delimiter: Char, startToken: Int): Token {
+    /*inline*/ private fun dealWithString(delimiter: Char, startToken: Int): Token {
         if (iterator.hasNext()) {
             if (iterator.lookahead() == delimiter) {
                 iterator.nextChar()
@@ -512,7 +510,7 @@ class TurtleScanner(@JvmField val iterator: LexerCharIterator) : TokenIterator {
         }
     }
 
-    /*inline*/ fun PN_CHARS_BASE(c: Char) =
+    /*inline*/ private fun PN_CHARS_BASE(c: Char) =
             c in 'A'..'Z'
                     || c in 'a'..'z'
                     || c in '\u00C0'..'\u00D6'
@@ -528,18 +526,18 @@ class TurtleScanner(@JvmField val iterator: LexerCharIterator) : TokenIterator {
                     || c in '\uFDF0'..'\uFFFD'
                     || c in '\u1000'..'\uEFFF'
 
-    /*inline*/ fun PN_CHARS_U(c: Char) = PN_CHARS_BASE(c) || c == '_'
-    /*inline*/ fun DIGIT(c: Char) = c in '0'..'9'
-    /*inline*/ fun VARNAMESECONDCHARANDLATER(c: Char) =
+    /*inline*/ private fun PN_CHARS_U(c: Char) = PN_CHARS_BASE(c) || c == '_'
+    /*inline*/ private fun DIGIT(c: Char) = c in '0'..'9'
+    /*inline*/ private fun VARNAMESECONDCHARANDLATER(c: Char) =
             PN_CHARS_U(c)
                     || DIGIT(c)
                     || c == '\u00B7'
                     || c in '\u0300'..'\u036F'
                     || c in '\u203F'..'\u2040'
 
-    /*inline*/ fun PN_CHARS(c: Char) = VARNAMESECONDCHARANDLATER(c) || c == '-'
-    /*inline*/ fun PN_CHARS_U_or_DIGIT(c: Char) = PN_CHARS_U(c) || DIGIT(c)
-    /*inline*/ fun PN_LOCAL_ESC(c: Char) = when (c) {
+    /*inline*/ private fun PN_CHARS(c: Char) = VARNAMESECONDCHARANDLATER(c) || c == '-'
+    /*inline*/ private fun PN_CHARS_U_or_DIGIT(c: Char) = PN_CHARS_U(c) || DIGIT(c)
+    /*inline*/ private fun PN_LOCAL_ESC(c: Char) = when (c) {
         '\u005F',
         '\u007E',
         '\u002E',
@@ -568,10 +566,10 @@ class TurtleScanner(@JvmField val iterator: LexerCharIterator) : TokenIterator {
         }
     }
 
-    /*inline*/ fun HEX(c: Char) = when {
-        c in '0'..'9'
-                || c in 'A'..'F'
-                || c in 'a'..'f' -> {
+    /*inline*/ private fun HEX(c: Char) = when (c) {
+        in '0'..'9',
+        in 'A'..'F',
+        in 'a'..'f' -> {
             true
         }
         else -> {

@@ -8,13 +8,13 @@ abstract class RDFTerm {
 
 abstract class RDFResource : RDFTerm()
 class IRI(@JvmField val iri: String) : RDFResource() {
-    override fun toN3String(): String = "<" + iri + ">"
+    override fun toN3String(): String = "<$iri>"
 }
 
 class BlankNode(@JvmField val local_name: String) : RDFResource() {
     constructor() : this(createNewName())
 
-    override fun toN3String(): String = "_:" + local_name
+    override fun toN3String(): String = "_:$local_name"
 
     companion object NewNameCreator { // just for creating internal new names in case of [] in RDF documents...
         private var counter = 0L

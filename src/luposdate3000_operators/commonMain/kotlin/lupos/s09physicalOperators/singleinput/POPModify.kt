@@ -100,7 +100,7 @@ class POPModify(query: IQuery, projectedVariables: List<String>, insert: List<LO
         val data = mutableMapOf<String, Array<Array<MutableList<Int>>>>()
         loop@ while (true) {
             if (variables.isNotEmpty()) {
-                for (columnIndex in 0 until variables.size) {
+                for (columnIndex in variables.indices) {
                     val value = columns[columnIndex].next()
                     if (value == ResultSetDictionaryExt.nullValue) {
                         SanityCheck.check { columnIndex == 0 }
@@ -136,7 +136,7 @@ class POPModify(query: IQuery, projectedVariables: List<String>, insert: List<LO
                     if (tmp is AOPConstant) {
                         target[columnIndex].add(tmp.value)
                     } else {
-                        for (columnIndex2 in 0 until variables.size) {
+                        for (columnIndex2 in variables.indices) {
                             if (variables[columnIndex2] == (tmp as AOPVariable).name) {
                                 target[columnIndex].add(row[columnIndex2])
                                 continue@loop2
