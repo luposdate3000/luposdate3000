@@ -66,7 +66,7 @@ internal object NodeManager {
         }
     }
 
-    /*inline*/ /*suspend*/ fun allocateNodeLeaf(/*crossinline*/ action: /*suspend*/ (ByteArray, Int) -> Unit) {
+    inline /*suspend*/ fun allocateNodeLeaf(crossinline action: /*suspend*/ (ByteArray, Int) -> Unit) {
         SanityCheck.println { "NodeManager.allocateNodeLeaf A" }
         var node: ByteArray? = null
         var nodeid = -1
@@ -82,7 +82,7 @@ internal object NodeManager {
         SanityCheck.println { "NodeManager.allocateNodeLeaf B" }
     }
 
-    /*inline*/ /*suspend*/ fun allocateNodeInner(/*crossinline*/ action: /*suspend*/ (ByteArray, Int) -> Unit) {
+    inline /*suspend*/ fun allocateNodeInner(crossinline action: /*suspend*/ (ByteArray, Int) -> Unit) {
         SanityCheck.println { "NodeManager.allocateNodeInner A" }
         var node: ByteArray? = null
         var nodeid = -1
@@ -98,14 +98,14 @@ internal object NodeManager {
         SanityCheck.println { "NodeManager.allocateNodeInner B" }
     }
 
-    /*inline*/ /*suspend*/ fun freeNode(nodeid: Int) {
+    inline /*suspend*/ fun freeNode(nodeid: Int) {
         SanityCheck.println { "NodeManager.freeNode A" }
         SanityCheck.println { "debug NodeManager freeNode ${nodeid.toString(16)}" }
         bufferManager.deletePage(nodeid)
         SanityCheck.println { "NodeManager.freeNode B" }
     }
 
-    /*inline*/    /*suspend*/ fun freeNodeAndAllRelated(nodeid: Int) {
+    inline    /*suspend*/ fun freeNodeAndAllRelated(nodeid: Int) {
         SanityCheck.println { "Outside.refcount($nodeid)  x70" }
         releaseNode(nodeid)
         freeNodeAndAllRelatedInternal(nodeid)

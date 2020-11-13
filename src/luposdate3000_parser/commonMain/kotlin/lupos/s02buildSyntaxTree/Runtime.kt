@@ -123,7 +123,7 @@ class LexerCharIterator(@JvmField val content: CharIterator) {
 
     @JvmField
     var backArrayIndex = 0
-    /*inline*/ fun hasNext() = (this.content.hasNext() || this.backArrayIndex > 0)
+    inline fun hasNext() = (this.content.hasNext() || this.backArrayIndex > 0)
     inline fun updateLineNumber(c: Char) {
         if (c == '\n') {
             lineNumber++
@@ -142,7 +142,7 @@ class LexerCharIterator(@JvmField val content: CharIterator) {
         }
     }
 
-    /*inline*/ fun nextChar(): Char {
+    inline fun nextChar(): Char {
         this.index++
         if (this.backArrayIndex > 0) {
             this.backArrayIndex--
@@ -159,7 +159,7 @@ class LexerCharIterator(@JvmField val content: CharIterator) {
         throw UnexpectedEndOfFile(this.index - 1, this.lineNumber, this.columnNumber)
     }
 
-    /*inline*/ fun putBack(c: Char) {
+    inline fun putBack(c: Char) {
         this.index--
         if (this.backArrayIndex + 1 >= MAXSIZEPUTBACK) {
             throw PutBackOverLimit(this.index, this.lineNumber, this.columnNumber)
@@ -169,7 +169,7 @@ class LexerCharIterator(@JvmField val content: CharIterator) {
         this.backArrayIndex++
     }
 
-    /*inline*/ fun putBack(s: String) {
+    inline fun putBack(s: String) {
         val length = s.length
         this.index -= length
         if (this.index < 0) {
@@ -186,7 +186,7 @@ class LexerCharIterator(@JvmField val content: CharIterator) {
         this.backArrayIndex += length
     }
 
-    /*inline*/ fun lookaheadAvailable(number: Int = 0): Boolean {
+    inline fun lookaheadAvailable(number: Int = 0): Boolean {
         if (this.backArrayIndex > number) {
             return true
         }
@@ -203,7 +203,7 @@ class LexerCharIterator(@JvmField val content: CharIterator) {
         return true
     }
 
-    /*inline*/ fun lookahead(number: Int = 0): Char {
+    inline fun lookahead(number: Int = 0): Char {
         if (this.backArrayIndex > number) {
             return this.backArray[this.backArrayIndex - number - 1]
         }
@@ -245,7 +245,7 @@ open abstract class ASTNode(@JvmField val children: Array<ASTNode>) {
     }
 
     abstract fun nodeToString(): String
-//    /*inline*/ fun <T> getChildrensValues(visitor: Visitor<T>, nodes: Array<out ASTNode> = this.children): List<T> = List<T>(children.size) { children[it].visit(visitor) }
+//    inline fun <T> getChildrensValues(visitor: Visitor<T>, nodes: Array<out ASTNode> = this.children): List<T> = List<T>(children.size) { children[it].visit(visitor) }
 //    open fun <T> visit(visitor: Visitor<T>): T = visitor.visit(this, this.getChildrensValues(visitor));
 }
 

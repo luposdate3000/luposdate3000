@@ -428,7 +428,7 @@ class TokenIteratorSPARQLParser(@JvmField val iterator: LexerCharIterator) : Tok
         }
     }
 
-    private /*inline*/ fun PNAME_LN_after_colon(beforeColon: String, startToken: Int): Token {
+    private inline fun PNAME_LN_after_colon(beforeColon: String, startToken: Int): Token {
         if (this.iterator.hasNext()) {
             val c = this.iterator.nextChar()
             var afterColon = ""
@@ -526,7 +526,7 @@ class TokenIteratorSPARQLParser(@JvmField val iterator: LexerCharIterator) : Tok
         }
     }
 
-    private /*inline*/ fun numberAfterDot(beforeDOT: String, startToken: Int): Token {
+    private inline fun numberAfterDot(beforeDOT: String, startToken: Int): Token {
         // next token can only be a decimal or double literal!
         var afterDOT = ""
         while (this.iterator.hasNext()) {
@@ -547,7 +547,7 @@ class TokenIteratorSPARQLParser(@JvmField val iterator: LexerCharIterator) : Tok
         return DECIMAL(beforeDOT, afterDOT, startToken)
     }
 
-    private /*inline*/ fun numberAfterExp(beforeDOT: String, dot: Boolean, afterDOT: String, exp: Char, startToken: Int): Token {
+    private inline fun numberAfterExp(beforeDOT: String, dot: Boolean, afterDOT: String, exp: Char, startToken: Int): Token {
         // next token can only be a double literal!
         val maybesign = this.iterator.nextChar()
         val sign: String
@@ -576,7 +576,7 @@ class TokenIteratorSPARQLParser(@JvmField val iterator: LexerCharIterator) : Tok
         }
     }
 
-    private /*inline*/ fun dealWithString(delimiter: Char, startToken: Int): Token {
+    private inline fun dealWithString(delimiter: Char, startToken: Int): Token {
         if (iterator.hasNext()) {
             if (iterator.lookahead() == delimiter) {
                 iterator.nextChar()
@@ -627,7 +627,7 @@ class TokenIteratorSPARQLParser(@JvmField val iterator: LexerCharIterator) : Tok
         }
     }
 
-    private /*inline*/ fun PN_CHARS_BASE(c: Char) =
+    private inline fun PN_CHARS_BASE(c: Char) =
             c in 'A'..'Z'
                     || c in 'a'..'z'
                     || c in '\u00C0'..'\u00D6'
@@ -643,18 +643,18 @@ class TokenIteratorSPARQLParser(@JvmField val iterator: LexerCharIterator) : Tok
                     || c in '\uFDF0'..'\uFFFD'
                     || c in '\u1000'..'\uEFFF'
 
-    private /*inline*/ fun PN_CHARS_U(c: Char) = PN_CHARS_BASE(c) || c == '_'
-    private /*inline*/ fun DIGIT(c: Char) = c in '0'..'9'
-    private /*inline*/ fun VARNAMESECONDCHARANDLATER(c: Char) =
+    private inline fun PN_CHARS_U(c: Char) = PN_CHARS_BASE(c) || c == '_'
+    private inline fun DIGIT(c: Char) = c in '0'..'9'
+    private inline fun VARNAMESECONDCHARANDLATER(c: Char) =
             PN_CHARS_U(c)
                     || DIGIT(c)
                     || c == '\u00B7'
                     || c in '\u0300'..'\u036F'
                     || c in '\u203F'..'\u2040'
 
-    private /*inline*/ fun PN_CHARS(c: Char) = VARNAMESECONDCHARANDLATER(c) || c == '-'
-    private /*inline*/ fun PN_CHARS_U_or_DIGIT(c: Char) = PN_CHARS_U(c) || DIGIT(c)
-    private /*inline*/ fun PN_LOCAL_ESC(c: Char) = when (c) {
+    private inline fun PN_CHARS(c: Char) = VARNAMESECONDCHARANDLATER(c) || c == '-'
+    private inline fun PN_CHARS_U_or_DIGIT(c: Char) = PN_CHARS_U(c) || DIGIT(c)
+    private inline fun PN_LOCAL_ESC(c: Char) = when (c) {
         '\u005F',
         '\u007E',
         '\u002E',
@@ -683,7 +683,7 @@ class TokenIteratorSPARQLParser(@JvmField val iterator: LexerCharIterator) : Tok
         }
     }
 
-    private /*inline*/ fun HEX(c: Char) = when (c) {
+    private inline fun HEX(c: Char) = when (c) {
         in '0'..'9',
         in 'A'..'F',
         in 'a'..'f' -> {

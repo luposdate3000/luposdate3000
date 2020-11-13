@@ -1,7 +1,7 @@
 package lupos.s00misc
 
 internal object SanityCheckOn {
-    /*inline*/ fun println(/*crossinline*/s: () -> Any?) {
+    inline fun println(crossinlines: () -> Any?) {
         println(s())
     }
 
@@ -25,8 +25,8 @@ internal object SanityCheckOn {
         }
     }
 
-    /*inline*/ fun <T> helper(/*crossinline*/action: () -> T): T? = action()
-    /*inline*/ fun check(/*crossinline*/value: () -> Boolean,/*crossinline*/ msg: () -> String) {
+    inline fun <T> helper(crossinlineaction: () -> T): T? = action()
+    inline fun check(crossinlinevalue: () -> Boolean,crossinline msg: () -> String) {
         try {
             if (!value()) {
                 throw Exception("SanityCheck failed :: " + msg())
@@ -38,7 +38,7 @@ internal object SanityCheckOn {
         }
     }
 
-    /*inline*/ fun check(/*crossinline*/value: () -> Boolean) {
+    inline fun check(crossinlinevalue: () -> Boolean) {
         try {
             if (!value()) {
                 throw Exception("SanityCheck failed")
@@ -50,5 +50,5 @@ internal object SanityCheckOn {
         }
     }
 
-    /*inline*/ fun checkUnreachable(): Nothing = throw UnreachableException()
+    inline fun checkUnreachable(): Nothing = throw UnreachableException()
 }

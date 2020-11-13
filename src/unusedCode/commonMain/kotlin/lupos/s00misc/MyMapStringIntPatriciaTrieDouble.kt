@@ -99,7 +99,7 @@ class MyMapStringIntPatriciaTrieDouble() {
         }
     }
 
-    /*inline*/ fun walkInternal(_key: String, create: Boolean): Int {
+    inline fun walkInternal(_key: String, create: Boolean): Int {
         if (_key == "") {
             if (create && rootValue == undefinedValue) {
                 rootValue = allOutNodes.size

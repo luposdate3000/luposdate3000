@@ -32,7 +32,7 @@ open abstract class ASTNode(@JvmField val children: Array<ASTNode>) {
         return "classname"
     }
 
-    protected /*inline*/ fun propertyToString(indentation2: String, indentation3: String, propertyname: String, property: Array<out ASTNode>): String {
+    protected inline fun propertyToString(indentation2: String, indentation3: String, propertyname: String, property: Array<out ASTNode>): String {
         var result = ""
         if (property.isNotEmpty()) {
             result += "$indentation2$propertyname:\r\n"
@@ -41,7 +41,7 @@ open abstract class ASTNode(@JvmField val children: Array<ASTNode>) {
         return result
     }
 
-    /*inline*/ fun <T> getChildrensValues(visitor: Visitor<T>): List<T> {
+    inline fun <T> getChildrensValues(visitor: Visitor<T>): List<T> {
         return List(children.size) { children[it].visit(visitor) }
     }
 

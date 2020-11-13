@@ -98,7 +98,7 @@ data class NodeParams(@JvmField var nodeNumber: Int, @JvmField val filename: Str
         adrNode = pageOffset + startOffsetInPage
     }
 
-    /*inline*/ fun <K, V> write(key: K, value: V, sizeOfKey: Long, sizeOfValue: Long, lastEntryInLeaf: Boolean, PAGESIZE: Int, serializeKey: (Page, Long, K) -> Unit, serializeValue: (Page, Long, V) -> Unit) {
+    inline fun <K, V> write(key: K, value: V, sizeOfKey: Long, sizeOfValue: Long, lastEntryInLeaf: Boolean, PAGESIZE: Int, serializeKey: (Page, Long, K) -> Unit, serializeValue: (Page, Long, V) -> Unit) {
         val startOffsetInPage = 5
         val POINTERSIZE = 4
         val nextAdrKey = adrNode + sizeOfKey
@@ -136,7 +136,7 @@ data class NodeParams(@JvmField var nodeNumber: Int, @JvmField val filename: Str
     }
 
     // for B+-trees, which store only keys and no values
-    /*inline*/ fun <K> write(key: K, sizeOfKey: Long, lastEntryInLeaf: Boolean, PAGESIZE: Int, serializeKey: (Page, Long, K) -> Unit) {
+    inline fun <K> write(key: K, sizeOfKey: Long, lastEntryInLeaf: Boolean, PAGESIZE: Int, serializeKey: (Page, Long, K) -> Unit) {
         val startOffsetInPage = 5
         val POINTERSIZE = 4
         val nextAdrKey = adrNode + sizeOfKey
@@ -166,7 +166,7 @@ data class NodeParams(@JvmField var nodeNumber: Int, @JvmField val filename: Str
         adrNode += sizeOfKey
     }
 
-    /*inline*/ fun <K, V> write(key: K, oldkey: K?, value: V, sizeOfValue: Long, lastEntryInLeaf: Boolean, PAGESIZE: Int, serializeKey: (Page, Long, K) -> Unit, serializedSizeOfKey: (K) -> Long, serializeKeyDiff: (Page, Long, K, K) -> Unit, serializedSizeOfKeyDiff: (K, K) -> Long, serializeValue: (Page, Long, V) -> Unit) {
+    inline fun <K, V> write(key: K, oldkey: K?, value: V, sizeOfValue: Long, lastEntryInLeaf: Boolean, PAGESIZE: Int, serializeKey: (Page, Long, K) -> Unit, serializedSizeOfKey: (K) -> Long, serializeKeyDiff: (Page, Long, K, K) -> Unit, serializedSizeOfKeyDiff: (K, K) -> Long, serializeValue: (Page, Long, V) -> Unit) {
         val startOffsetInPage = 5
         val POINTERSIZE = 4
         val nextAdrKey = adrNode + (if (oldkey == null) serializedSizeOfKey(key) else serializedSizeOfKeyDiff(key, oldkey))
@@ -209,7 +209,7 @@ data class NodeParams(@JvmField var nodeNumber: Int, @JvmField val filename: Str
     }
 
     // for B+-trees, which contain only keys (and no values)
-    /*inline*/ fun <K> write(key: K, oldkey: K?, lastEntryInLeaf: Boolean, PAGESIZE: Int, serializeKey: (Page, Long, K) -> Unit, serializedSizeOfKey: (K) -> Long, serializeKeyDiff: (Page, Long, K, K) -> Unit, serializedSizeOfKeyDiff: (K, K) -> Long) {
+    inline fun <K> write(key: K, oldkey: K?, lastEntryInLeaf: Boolean, PAGESIZE: Int, serializeKey: (Page, Long, K) -> Unit, serializedSizeOfKey: (K) -> Long, serializeKeyDiff: (Page, Long, K, K) -> Unit, serializedSizeOfKeyDiff: (K, K) -> Long) {
         val startOffsetInPage = 5
         val POINTERSIZE = 4
         val nextAdrKey = adrNode + (if (oldkey == null) serializedSizeOfKey(key) else serializedSizeOfKeyDiff(key, oldkey))
@@ -245,7 +245,7 @@ data class NodeParams(@JvmField var nodeNumber: Int, @JvmField val filename: Str
     }
 }
 
-/*inline*/ fun <K : Any, V> search(filename: String, key: K, compare: (K, K) -> Int, innerNodeDeserializer: (Page, Long) -> K, serializedSizeOfKey: (K) -> Long, leafNodeDeserializerKey: (Page, Long) -> K, leafNodeDeserializerValue: (Page, Long) -> V, serializedSizeOfValue: (V) -> Long, deserializePointer: (Page, Long) -> Int, serializedSizeOfPointer: (Int) -> Long): V {
+inline fun <K : Any, V> search(filename: String, key: K, compare: (K, K) -> Int, innerNodeDeserializer: (Page, Long) -> K, serializedSizeOfKey: (K) -> Long, leafNodeDeserializerKey: (Page, Long) -> K, leafNodeDeserializerValue: (Page, Long) -> V, serializedSizeOfValue: (V) -> Long, deserializePointer: (Page, Long) -> Int, serializedSizeOfPointer: (Int) -> Long): V {
     var node = 0
     while (true) {
         var page = bufferManager.getPage(filename, node)
@@ -296,7 +296,7 @@ data class NodeParams(@JvmField var nodeNumber: Int, @JvmField val filename: Str
 }
 
 // search within B+-tree, which contains only keys (and does not contain values)
-/*inline*/ fun <K : Any> search(filename: String, key: K, compare: (K, K) -> Int, innerNodeDeserializer: (Page, Long) -> K, serializedSizeOfKey: (K) -> Long, leafNodeDeserializerKey: (Page, Long) -> K, deserializePointer: (Page, Long) -> Int, serializedSizeOfPointer: (Int) -> Long): Boolean {
+inline fun <K : Any> search(filename: String, key: K, compare: (K, K) -> Int, innerNodeDeserializer: (Page, Long) -> K, serializedSizeOfKey: (K) -> Long, leafNodeDeserializerKey: (Page, Long) -> K, deserializePointer: (Page, Long) -> Int, serializedSizeOfPointer: (Int) -> Long): Boolean {
     var node = 0
     while (true) {
         var page = bufferManager.getPage(filename, node)
@@ -344,7 +344,7 @@ data class NodeParams(@JvmField var nodeNumber: Int, @JvmField val filename: Str
     }
 }
 
-/*inline*/ fun <K, V> generate(filename: String, size: Int, iterator: Iterator<Pair<K, V>>, k: Int, k_star: Int, PAGESIZE: Int, serializeKey: (Page, Long, K) -> Unit, serializedSizeOfKey: (K) -> Long, serializeValue: (Page, Long, V) -> Unit, serializedSizeOfValue: (V) -> Long, MAXPOINTERSIZE: Int, serializePointer: (Page, Long, Int) -> Unit, serializedSizeOfPointer: (Int) -> Long) {
+inline fun <K, V> generate(filename: String, size: Int, iterator: Iterator<Pair<K, V>>, k: Int, k_star: Int, PAGESIZE: Int, serializeKey: (Page, Long, K) -> Unit, serializedSizeOfKey: (K) -> Long, serializeValue: (Page, Long, V) -> Unit, serializedSizeOfValue: (V) -> Long, MAXPOINTERSIZE: Int, serializePointer: (Page, Long, Int) -> Unit, serializedSizeOfPointer: (Int) -> Long) {
     val startOffsetInPage = 5
     val POINTERSIZE = 4
     // How many leaf nodes?
@@ -443,7 +443,7 @@ data class NodeParams(@JvmField var nodeNumber: Int, @JvmField val filename: Str
 }
 
 // generate B+-tree, which contains only keys (and does not contain values)
-/*inline*/ fun <K> generate(filename: String, size: Int, iterator: Iterator<K>, k: Int, k_star: Int, PAGESIZE: Int, serializeKey: (Page, Long, K) -> Unit, serializedSizeOfKey: (K) -> Long, MAXPOINTERSIZE: Int, serializePointer: (Page, Long, Int) -> Unit, serializedSizeOfPointer: (Int) -> Long) {
+inline fun <K> generate(filename: String, size: Int, iterator: Iterator<K>, k: Int, k_star: Int, PAGESIZE: Int, serializeKey: (Page, Long, K) -> Unit, serializedSizeOfKey: (K) -> Long, MAXPOINTERSIZE: Int, serializePointer: (Page, Long, Int) -> Unit, serializedSizeOfPointer: (Int) -> Long) {
     val startOffsetInPage = 5
     val POINTERSIZE = 4
     // How many leaf nodes?
@@ -544,7 +544,7 @@ data class PageAdr(@JvmField var nodeNumber: Int, @JvmField var page: Page, @Jvm
     var newNodeOnThisLevel = false
 }
 
-/*inline*/ fun <K, V> generateStaticTree(filename: String, iterator: Iterator<Pair<K, V>>, PAGESIZE: Int, serializeKey: (Page, Long, K) -> Unit, serializedSizeOfKey: (K) -> Long, serializeValue: (Page, Long, V) -> Unit, serializedSizeOfValue: (V) -> Long, MAXPOINTERSIZE: Int, serializePointer: (Page, Long, Int) -> Unit, serializedSizeOfPointer: (Int) -> Long) {
+inline fun <K, V> generateStaticTree(filename: String, iterator: Iterator<Pair<K, V>>, PAGESIZE: Int, serializeKey: (Page, Long, K) -> Unit, serializedSizeOfKey: (K) -> Long, serializeValue: (Page, Long, V) -> Unit, serializedSizeOfValue: (V) -> Long, MAXPOINTERSIZE: Int, serializePointer: (Page, Long, Int) -> Unit, serializedSizeOfPointer: (Int) -> Long) {
     val startOffsetInPage = 5L
     val POINTERSIZE = 4
     val innerNodes = mutableListOf<PageAdr>()
@@ -642,7 +642,7 @@ data class PageAdr(@JvmField var nodeNumber: Int, @JvmField var page: Page, @Jvm
 }
 
 // generate static B+-tree, which contains only keys (and does not contain values)
-/*inline*/ fun <K> generateStaticTree(filename: String, iterator: Iterator<K>, PAGESIZE: Int, serializeKey: (Page, Long, K) -> Unit, serializedSizeOfKey: (K) -> Long, MAXPOINTERSIZE: Int, serializePointer: (Page, Long, Int) -> Unit, serializedSizeOfPointer: (Int) -> Long) {
+inline fun <K> generateStaticTree(filename: String, iterator: Iterator<K>, PAGESIZE: Int, serializeKey: (Page, Long, K) -> Unit, serializedSizeOfKey: (K) -> Long, MAXPOINTERSIZE: Int, serializePointer: (Page, Long, Int) -> Unit, serializedSizeOfPointer: (Int) -> Long) {
     val startOffsetInPage = 5L
     val POINTERSIZE = 4
     val innerNodes = mutableListOf<PageAdr>()
@@ -742,7 +742,7 @@ data class PageAdr(@JvmField var nodeNumber: Int, @JvmField var page: Page, @Jvm
  * @param k_star: size of leaf nodes
  * @param pageSize: size of pages
  */
-/*inline*/ fun <K, V> generateDifferenceEncodedBPlusTree(filename: String, size: Int, iterator: Iterator<Pair<K, V>>, k: Int, k_star: Int, PAGESIZE: Int, serializeKey: (Page, Long, K) -> Unit, serializedSizeOfKey: (K) -> Long, serializeKeyDiff: (Page, Long, K, K) -> Unit, serializedSizeOfKeyDiff: (K, K) -> Long, serializeValue: (Page, Long, V) -> Unit, serializedSizeOfValue: (V) -> Long) {
+inline fun <K, V> generateDifferenceEncodedBPlusTree(filename: String, size: Int, iterator: Iterator<Pair<K, V>>, k: Int, k_star: Int, PAGESIZE: Int, serializeKey: (Page, Long, K) -> Unit, serializedSizeOfKey: (K) -> Long, serializeKeyDiff: (Page, Long, K, K) -> Unit, serializedSizeOfKeyDiff: (K, K) -> Long, serializeValue: (Page, Long, V) -> Unit, serializedSizeOfValue: (V) -> Long) {
     val startOffsetInPage = 5
     val POINTERSIZE = 4
     // How many leaf nodes?
@@ -860,7 +860,7 @@ data class PageAdr(@JvmField var nodeNumber: Int, @JvmField var page: Page, @Jvm
 }
 
 // generate static B+-tree, which contains only keys (and does not contain values)
-/*inline*/ fun <K> generateDifferenceEncodedBPlusTree(filename: String, size: Int, iterator: Iterator<K>, k: Int, k_star: Int, PAGESIZE: Int, serializeKey: (Page, Long, K) -> Unit, serializedSizeOfKey: (K) -> Long, serializeKeyDiff: (Page, Long, K, K) -> Unit, serializedSizeOfKeyDiff: (K, K) -> Long) {
+inline fun <K> generateDifferenceEncodedBPlusTree(filename: String, size: Int, iterator: Iterator<K>, k: Int, k_star: Int, PAGESIZE: Int, serializeKey: (Page, Long, K) -> Unit, serializedSizeOfKey: (K) -> Long, serializeKeyDiff: (Page, Long, K, K) -> Unit, serializedSizeOfKeyDiff: (K, K) -> Long) {
     val startOffsetInPage = 5
     val POINTERSIZE = 4
     // How many leaf nodes?
@@ -976,7 +976,7 @@ data class PageAdr(@JvmField var nodeNumber: Int, @JvmField var page: Page, @Jvm
     }
 }
 
-/*inline*/ fun <K, V> range_search(filename: String, compareLeftLimit: (K) -> Int, /*crossinline*/ compareRightLimit: (K) -> Int, innerNodeDeserializer: (Page, Long) -> K, /*crossinline*/ serializedSizeOfKey: (K) -> Long, /*crossinline*/ leafNodeDeserializerKey: (Page, Long) -> K, /*crossinline*/ leafNodeDeserializerValue: (Page, Long) -> V, /*crossinline*/ serializedSizeOfValue: (V) -> Long, deserializePointer: (Page, Long) -> Int, serializedSizeOfPointer: (Int) -> Long): () -> V? {
+inline fun <K, V> range_search(filename: String, compareLeftLimit: (K) -> Int, crossinline compareRightLimit: (K) -> Int, innerNodeDeserializer: (Page, Long) -> K, crossinline serializedSizeOfKey: (K) -> Long, crossinline leafNodeDeserializerKey: (Page, Long) -> K, crossinline leafNodeDeserializerValue: (Page, Long) -> V, crossinline serializedSizeOfValue: (V) -> Long, deserializePointer: (Page, Long) -> Int, serializedSizeOfPointer: (Int) -> Long): () -> V? {
     val startOffsetInPage = 5
     var node = 0
     while (true) {
@@ -1064,7 +1064,7 @@ data class PageAdr(@JvmField var nodeNumber: Int, @JvmField var page: Page, @Jvm
 }
 
 // for B+-trees with only keys (without values)
-/*inline*/ fun <K> range_search(filename: String, compareLeftLimit: (K) -> Int, /*crossinline*/ compareRightLimit: (K) -> Int, innerNodeDeserializer: (Page, Long) -> K, /*crossinline*/ serializedSizeOfKey: (K) -> Long, /*crossinline*/ leafNodeDeserializerKey: (Page, Long) -> K, deserializePointer: (Page, Long) -> Int, serializedSizeOfPointer: (Int) -> Long): () -> K? {
+inline fun <K> range_search(filename: String, compareLeftLimit: (K) -> Int, crossinline compareRightLimit: (K) -> Int, innerNodeDeserializer: (Page, Long) -> K, crossinline serializedSizeOfKey: (K) -> Long, crossinline leafNodeDeserializerKey: (Page, Long) -> K, deserializePointer: (Page, Long) -> Int, serializedSizeOfPointer: (Int) -> Long): () -> K? {
     val startOffsetInPage = 5
     var node = 0
     while (true) {
@@ -1149,7 +1149,7 @@ data class PageAdr(@JvmField var nodeNumber: Int, @JvmField var page: Page, @Jvm
 
 class NodeInSIPPath<K>(@JvmField var nodeNumber: Int, @JvmField var page: Page, @JvmField var adr: Long, @JvmField var key: K?, @JvmField var pointer: Int?, @JvmField var index: Int, @JvmField var numberOfElements: Int)
 
-/*inline*/ fun <K, V> sip_range_search(filename: String, /*crossinline*/ compare: (K, K) -> Int, /*crossinline*/ compareLeftLimit: (K) -> Int, /*crossinline*/ compareRightLimit: (K) -> Int, /*crossinline*/ innerNodeDeserializer: (Page, Long) -> K, /*crossinline*/ serializedSizeOfKey: (K) -> Long, /*crossinline*/ leafNodeDeserializerKey: (Page, Long) -> K, /*crossinline*/ leafNodeDeserializerValue: (Page, Long) -> V, /*crossinline*/ serializedSizeOfValue: (V) -> Long, /*crossinline*/ deserializePointer: (Page, Long) -> Int, /*crossinline*/ serializedSizeOfPointer: (Int) -> Long): (K) -> V? {
+inline fun <K, V> sip_range_search(filename: String, crossinline compare: (K, K) -> Int, crossinline compareLeftLimit: (K) -> Int, crossinline compareRightLimit: (K) -> Int, crossinline innerNodeDeserializer: (Page, Long) -> K, crossinline serializedSizeOfKey: (K) -> Long, crossinline leafNodeDeserializerKey: (Page, Long) -> K, crossinline leafNodeDeserializerValue: (Page, Long) -> V, crossinline serializedSizeOfValue: (V) -> Long, crossinline deserializePointer: (Page, Long) -> Int, crossinline serializedSizeOfPointer: (Int) -> Long): (K) -> V? {
     val startOffsetInPage = 5
     var node = 0
     val path = mutableListOf<NodeInSIPPath<K>>()
@@ -1351,7 +1351,7 @@ class NodeInSIPPath<K>(@JvmField var nodeNumber: Int, @JvmField var page: Page, 
 }
 
 // for B+-tree with only keys (without values)
-/*inline*/ fun <K> sip_range_search(filename: String, /*crossinline*/ compare: (K, K) -> Int, /*crossinline*/ compareLeftLimit: (K) -> Int, /*crossinline*/ compareRightLimit: (K) -> Int, /*crossinline*/ innerNodeDeserializer: (Page, Long) -> K, /*crossinline*/ serializedSizeOfKey: (K) -> Long, /*crossinline*/ leafNodeDeserializerKey: (Page, Long) -> K, /*crossinline*/ deserializePointer: (Page, Long) -> Int, /*crossinline*/ serializedSizeOfPointer: (Int) -> Long): (K) -> K? {
+inline fun <K> sip_range_search(filename: String, crossinline compare: (K, K) -> Int, crossinline compareLeftLimit: (K) -> Int, crossinline compareRightLimit: (K) -> Int, crossinline innerNodeDeserializer: (Page, Long) -> K, crossinline serializedSizeOfKey: (K) -> Long, crossinline leafNodeDeserializerKey: (Page, Long) -> K, crossinline deserializePointer: (Page, Long) -> Int, crossinline serializedSizeOfPointer: (Int) -> Long): (K) -> K? {
     val startOffsetInPage = 5
     var node = 0
     val path = mutableListOf<NodeInSIPPath<K>>()
@@ -1574,11 +1574,11 @@ class B_Plus_Tree<K : Any, V : Any>(@JvmField val filename: String) { // By K:An
     // TODO insertion/deletion of key/value-pairs
     // TODO range search with sip
     // TODO generate considering only full pages (some form of static B_Plus_Tree e.g., for LSM trees etc.)... (However, this means no splitting/merging of nodes according to k/k_star parameters)
-    /*inline*/ fun search(key: K, compare: (K, K) -> Int, innerNodeDeserializer: (Page, Long) -> K, serializedSizeOfKey: (K) -> Long, leafNodeDeserializerKey: (Page, Long) -> K, leafNodeDeserializerValue: (Page, Long) -> V, serializedSizeOfValue: (V) -> Long): V {
+    inline fun search(key: K, compare: (K, K) -> Int, innerNodeDeserializer: (Page, Long) -> K, serializedSizeOfKey: (K) -> Long, leafNodeDeserializerKey: (Page, Long) -> K, leafNodeDeserializerValue: (Page, Long) -> V, serializedSizeOfValue: (V) -> Long): V {
         return search(filename, key, compare, innerNodeDeserializer, serializedSizeOfKey, leafNodeDeserializerKey, leafNodeDeserializerValue, serializedSizeOfValue, ::deserializeInt, ::serializedSizeOfInt)
     }
 
-    /*inline*/ fun <K, V> sip_search(/*crossinline*/ compare: (K, K) -> Int, /*crossinline*/ compareLeftLimit: (K) -> Int, /*crossinline*/ compareRightLimit: (K) -> Int, /*crossinline*/ innerNodeDeserializer: (Page, Long) -> K, /*crossinline*/ serializedSizeOfKey: (K) -> Long, /*crossinline*/ leafNodeDeserializerKey: (Page, Long) -> K, /*crossinline*/ leafNodeDeserializerValue: (Page, Long) -> V, /*crossinline*/ serializedSizeOfValue: (V) -> Long): (K) -> V? {
+    inline fun <K, V> sip_search(crossinline compare: (K, K) -> Int, crossinline compareLeftLimit: (K) -> Int, crossinline compareRightLimit: (K) -> Int, crossinline innerNodeDeserializer: (Page, Long) -> K, crossinline serializedSizeOfKey: (K) -> Long, crossinline leafNodeDeserializerKey: (Page, Long) -> K, crossinline leafNodeDeserializerValue: (Page, Long) -> V, crossinline serializedSizeOfValue: (V) -> Long): (K) -> V? {
         return sip_range_search(filename, compare, compareLeftLimit, compareRightLimit, innerNodeDeserializer, serializedSizeOfKey, leafNodeDeserializerKey, leafNodeDeserializerValue, serializedSizeOfValue, ::deserializeInt, ::serializedSizeOfInt)
     }
 
@@ -1586,7 +1586,7 @@ class B_Plus_Tree<K : Any, V : Any>(@JvmField val filename: String) { // By K:An
      * binary search in inner nodes...
      * prerequirement: size of key is fixed...
      */
-    /*inline*/ fun binarySearch(key: K, compare: (K, K) -> Int, innerNodeDeserializer: (Page, Long) -> K, serializedSizeOfKey: Long, leafNodeDeserializerKey: (Page, Long) -> K, leafNodeDeserializerValue: (Page, Long) -> V, serializedSizeOfValue: (V) -> Long): V {
+    inline fun binarySearch(key: K, compare: (K, K) -> Int, innerNodeDeserializer: (Page, Long) -> K, serializedSizeOfKey: Long, leafNodeDeserializerKey: (Page, Long) -> K, leafNodeDeserializerValue: (Page, Long) -> V, serializedSizeOfValue: (V) -> Long): V {
         var node = 0
         while (true) {
             var page = bufferManager.getPage(filename, node)
@@ -1648,7 +1648,7 @@ class B_Plus_Tree<K : Any, V : Any>(@JvmField val filename: String) { // By K:An
         }
     }
 
-    /*inline*/ fun range_search(compareLeftLimit: (K) -> Int, /*crossinline*/ compareRightLimit: (K) -> Int, innerNodeDeserializer: (Page, Long) -> K, /*crossinline*/ serializedSizeOfKey: (K) -> Long, /*crossinline*/ leafNodeDeserializerKey: (Page, Long) -> K, /*crossinline*/ leafNodeDeserializerValue: (Page, Long) -> V, /*crossinline*/ serializedSizeOfValue: (V) -> Long): () -> V? {
+    inline fun range_search(compareLeftLimit: (K) -> Int, crossinline compareRightLimit: (K) -> Int, innerNodeDeserializer: (Page, Long) -> K, crossinline serializedSizeOfKey: (K) -> Long, crossinline leafNodeDeserializerKey: (Page, Long) -> K, crossinline leafNodeDeserializerValue: (Page, Long) -> V, crossinline serializedSizeOfValue: (V) -> Long): () -> V? {
         return range_search(filename, compareLeftLimit, compareRightLimit, innerNodeDeserializer, serializedSizeOfKey, leafNodeDeserializerKey, leafNodeDeserializerValue, serializedSizeOfValue, ::deserializeInt, ::serializedSizeOfInt)
     }
 
@@ -1656,7 +1656,7 @@ class B_Plus_Tree<K : Any, V : Any>(@JvmField val filename: String) { // By K:An
      * binary search in inner nodes for range search...
      * prerequirement: size of key is fixed...
      */
-    /*inline*/ fun range_binary_search(compareLeftLimit: (K) -> Int, /*crossinline*/ compareRightLimit: (K) -> Int, innerNodeDeserializer: (Page, Long) -> K, serializedSizeOfKey: Long, /*crossinline*/ leafNodeDeserializerKey: (Page, Long) -> K, /*crossinline*/ leafNodeDeserializerValue: (Page, Long) -> V, /*crossinline*/ serializedSizeOfValue: (V) -> Long): () -> V? {
+    inline fun range_binary_search(compareLeftLimit: (K) -> Int, crossinline compareRightLimit: (K) -> Int, innerNodeDeserializer: (Page, Long) -> K, serializedSizeOfKey: Long, crossinline leafNodeDeserializerKey: (Page, Long) -> K, crossinline leafNodeDeserializerValue: (Page, Long) -> V, crossinline serializedSizeOfValue: (V) -> Long): () -> V? {
         val startOffsetInPage = 5
         var node = 0
         while (true) {
@@ -1763,7 +1763,7 @@ class B_Plus_Tree<K : Any, V : Any>(@JvmField val filename: String) { // By K:An
      * @param k_star: size of leaf nodes
      * @param pageSize: size of pages
      */
-    /*inline*/ fun generate(size: Int, iterator: Iterator<Pair<K, V>>, k: Int, k_star: Int, PAGESIZE: Int, serializeKey: (Page, Long, K) -> Unit, serializedSizeOfKey: (K) -> Long, serializeValue: (Page, Long, V) -> Unit, serializedSizeOfValue: (V) -> Long) {
+    inline fun generate(size: Int, iterator: Iterator<Pair<K, V>>, k: Int, k_star: Int, PAGESIZE: Int, serializeKey: (Page, Long, K) -> Unit, serializedSizeOfKey: (K) -> Long, serializeValue: (Page, Long, V) -> Unit, serializedSizeOfValue: (V) -> Long) {
         generate(filename, size, iterator, k, k_star, PAGESIZE, serializeKey, serializedSizeOfKey, serializeValue, serializedSizeOfValue, 4, ::serializeInt, ::serializedSizeOfInt)
     }
 }
@@ -1772,15 +1772,15 @@ class B_Plus_Tree_VariableSizePointers<K : Any, V : Any>(@JvmField val filename:
     // TODO insertion/deletion of key/value-pairs
     // TODO range search with sip
     // TODO generate considering only full pages (some form of static B_Plus_Tree e.g., for LSM trees etc.)... (However, this means no splitting/merging of nodes according to k/k_star parameters)
-    /*inline*/ fun search(key: K, compare: (K, K) -> Int, innerNodeDeserializer: (Page, Long) -> K, serializedSizeOfKey: (K) -> Long, leafNodeDeserializerKey: (Page, Long) -> K, leafNodeDeserializerValue: (Page, Long) -> V, serializedSizeOfValue: (V) -> Long): V {
+    inline fun search(key: K, compare: (K, K) -> Int, innerNodeDeserializer: (Page, Long) -> K, serializedSizeOfKey: (K) -> Long, leafNodeDeserializerKey: (Page, Long) -> K, leafNodeDeserializerValue: (Page, Long) -> V, serializedSizeOfValue: (V) -> Long): V {
         return search(filename, key, compare, innerNodeDeserializer, serializedSizeOfKey, leafNodeDeserializerKey, leafNodeDeserializerValue, serializedSizeOfValue, ::deserializeCompressedInt, ::serializedSizeOfCompressedInt)
     }
 
-    /*inline*/ fun range_search(compareLeftLimit: (K) -> Int, /*crossinline*/ compareRightLimit: (K) -> Int, innerNodeDeserializer: (Page, Long) -> K, /*crossinline*/ serializedSizeOfKey: (K) -> Long, /*crossinline*/ leafNodeDeserializerKey: (Page, Long) -> K, /*crossinline*/ leafNodeDeserializerValue: (Page, Long) -> V, /*crossinline*/ serializedSizeOfValue: (V) -> Long): () -> V? {
+    inline fun range_search(compareLeftLimit: (K) -> Int, crossinline compareRightLimit: (K) -> Int, innerNodeDeserializer: (Page, Long) -> K, crossinline serializedSizeOfKey: (K) -> Long, crossinline leafNodeDeserializerKey: (Page, Long) -> K, crossinline leafNodeDeserializerValue: (Page, Long) -> V, crossinline serializedSizeOfValue: (V) -> Long): () -> V? {
         return range_search(filename, compareLeftLimit, compareRightLimit, innerNodeDeserializer, serializedSizeOfKey, leafNodeDeserializerKey, leafNodeDeserializerValue, serializedSizeOfValue, ::deserializeCompressedInt, ::serializedSizeOfCompressedInt)
     }
 
-    /*inline*/ fun <K, V> sip_search(/*crossinline*/ compare: (K, K) -> Int, /*crossinline*/ compareLeftLimit: (K) -> Int, /*crossinline*/ compareRightLimit: (K) -> Int, /*crossinline*/ innerNodeDeserializer: (Page, Long) -> K, /*crossinline*/ serializedSizeOfKey: (K) -> Long, /*crossinline*/ leafNodeDeserializerKey: (Page, Long) -> K, /*crossinline*/ leafNodeDeserializerValue: (Page, Long) -> V, /*crossinline*/ serializedSizeOfValue: (V) -> Long): (K) -> V? {
+    inline fun <K, V> sip_search(crossinline compare: (K, K) -> Int, crossinline compareLeftLimit: (K) -> Int, crossinline compareRightLimit: (K) -> Int, crossinline innerNodeDeserializer: (Page, Long) -> K, crossinline serializedSizeOfKey: (K) -> Long, crossinline leafNodeDeserializerKey: (Page, Long) -> K, crossinline leafNodeDeserializerValue: (Page, Long) -> V, crossinline serializedSizeOfValue: (V) -> Long): (K) -> V? {
         return sip_range_search(filename, compare, compareLeftLimit, compareRightLimit, innerNodeDeserializer, serializedSizeOfKey, leafNodeDeserializerKey, leafNodeDeserializerValue, serializedSizeOfValue, ::deserializeCompressedInt, ::serializedSizeOfCompressedInt)
     }
 
@@ -1791,7 +1791,7 @@ class B_Plus_Tree_VariableSizePointers<K : Any, V : Any>(@JvmField val filename:
      * @param k_star: size of leaf nodes
      * @param pageSize: size of pages
      */
-    /*inline*/ fun generate(size: Int, iterator: Iterator<Pair<K, V>>, k: Int, k_star: Int, PAGESIZE: Int, serializeKey: (Page, Long, K) -> Unit, serializedSizeOfKey: (K) -> Long, serializeValue: (Page, Long, V) -> Unit, serializedSizeOfValue: (V) -> Long) {
+    inline fun generate(size: Int, iterator: Iterator<Pair<K, V>>, k: Int, k_star: Int, PAGESIZE: Int, serializeKey: (Page, Long, K) -> Unit, serializedSizeOfKey: (K) -> Long, serializeValue: (Page, Long, V) -> Unit, serializedSizeOfValue: (V) -> Long) {
         generate(filename, size, iterator, k, k_star, PAGESIZE, serializeKey, serializedSizeOfKey, serializeValue, serializedSizeOfValue, 5, ::serializeCompressedInt, ::serializedSizeOfCompressedInt)
     }
 }
@@ -1800,7 +1800,7 @@ class B_Plus_Tree_Difference_Encoding<K : Any, V : Any>(@JvmField val filename: 
     // TODO still error for k = k_star = 8000, problem if (leaf?) node spans over two pages...
     // TODO insertion/deletion of key/value-pairs
     // TODO store numberOfElements and pointer with variable size
-    /*inline*/ fun search(key: K, compare: (K, K) -> Int, innerNodeDeserializer: (Page, Long) -> K, serializedSizeOfKey: (K) -> Long, innerNodeDeserializerDiff: (Page, Long, K) -> K, serializedSizeOfKeyDiff: (K, K) -> Long, leafNodeDeserializerKey: (Page, Long) -> K, leafNodeDeserializerKeyDiff: (Page, Long, K) -> K, leafNodeDeserializerValue: (Page, Long) -> V, serializedSizeOfValue: (V) -> Long): V {
+    inline fun search(key: K, compare: (K, K) -> Int, innerNodeDeserializer: (Page, Long) -> K, serializedSizeOfKey: (K) -> Long, innerNodeDeserializerDiff: (Page, Long, K) -> K, serializedSizeOfKeyDiff: (K, K) -> Long, leafNodeDeserializerKey: (Page, Long) -> K, leafNodeDeserializerKeyDiff: (Page, Long, K) -> K, leafNodeDeserializerValue: (Page, Long) -> V, serializedSizeOfValue: (V) -> Long): V {
         var node = 0
         while (true) {
             var page = bufferManager.getPage(filename, node)
@@ -1872,7 +1872,7 @@ class B_Plus_Tree_Difference_Encoding<K : Any, V : Any>(@JvmField val filename: 
         }
     }
 
-    /*inline*/ fun range_search(compareLeftLimit: (K) -> Int, /*crossinline*/ compareRightLimit: (K) -> Int, /*crossinline*/ innerNodeDeserializer: (Page, Long) -> K, /*crossinline*/ serializedSizeOfKey: (K) -> Long, /*crossinline*/ innerNodeDeserializerDiff: (Page, Long, K) -> K, /*crossinline*/ serializedSizeOfKeyDiff: (K, K) -> Long, /*crossinline*/ leafNodeDeserializerKey: (Page, Long) -> K, /*crossinline*/ leafNodeDeserializerKeyDiff: (Page, Long, K) -> K, /*crossinline*/ leafNodeDeserializerValue: (Page, Long) -> V, /*crossinline*/ serializedSizeOfValue: (V) -> Long): () -> V? {
+    inline fun range_search(compareLeftLimit: (K) -> Int, crossinline compareRightLimit: (K) -> Int, crossinline innerNodeDeserializer: (Page, Long) -> K, crossinline serializedSizeOfKey: (K) -> Long, crossinline innerNodeDeserializerDiff: (Page, Long, K) -> K, crossinline serializedSizeOfKeyDiff: (K, K) -> Long, crossinline leafNodeDeserializerKey: (Page, Long) -> K, crossinline leafNodeDeserializerKeyDiff: (Page, Long, K) -> K, crossinline leafNodeDeserializerValue: (Page, Long) -> V, crossinline serializedSizeOfValue: (V) -> Long): () -> V? {
         val startOffsetInPage = 5
         var node = 0
         while (true) {
@@ -1974,7 +1974,7 @@ class B_Plus_Tree_Difference_Encoding<K : Any, V : Any>(@JvmField val filename: 
         }
     }
 
-    /*inline*/ fun sip_search(/*crossinline*/ compare: (K, K) -> Int, /*crossinline*/ compareLeftLimit: (K) -> Int, /*crossinline*/ compareRightLimit: (K) -> Int, /*crossinline*/ keyDeserializer: (Page, Long) -> K, /*crossinline*/ serializedSizeOfKey: (K) -> Long, /*crossinline*/ keyDiffDeserializer: (Page, Long, K) -> K, /*crossinline*/ serializedSizeOfKeyDiff: (K, K) -> Long, /*crossinline*/ valueDeserializer: (Page, Long) -> V, /*crossinline*/ serializedSizeOfValue: (V) -> Long, /*crossinline*/ deserializePointer: (Page, Long) -> Int, /*crossinline*/ serializedSizeOfPointer: (Int) -> Long): (K) -> V? {
+    inline fun sip_search(crossinline compare: (K, K) -> Int, crossinline compareLeftLimit: (K) -> Int, crossinline compareRightLimit: (K) -> Int, crossinline keyDeserializer: (Page, Long) -> K, crossinline serializedSizeOfKey: (K) -> Long, crossinline keyDiffDeserializer: (Page, Long, K) -> K, crossinline serializedSizeOfKeyDiff: (K, K) -> Long, crossinline valueDeserializer: (Page, Long) -> V, crossinline serializedSizeOfValue: (V) -> Long, crossinline deserializePointer: (Page, Long) -> Int, crossinline serializedSizeOfPointer: (Int) -> Long): (K) -> V? {
         val startOffsetInPage = 5
         var node = 0
         val path = mutableListOf<NodeInSIPPath<K>>()
@@ -2234,7 +2234,7 @@ class B_Plus_Tree_Difference_Encoding<K : Any, V : Any>(@JvmField val filename: 
      * @param k_star: size of leaf nodes
      * @param pageSize: size of pages
      */
-    /*inline*/ fun generate(size: Int, iterator: Iterator<Pair<K, V>>, k: Int, k_star: Int, PAGESIZE: Int, serializeKey: (Page, Long, K) -> Unit, serializedSizeOfKey: (K) -> Long, serializeKeyDiff: (Page, Long, K, K) -> Unit, serializedSizeOfKeyDiff: (K, K) -> Long, serializeValue: (Page, Long, V) -> Unit, serializedSizeOfValue: (V) -> Long) {
+    inline fun generate(size: Int, iterator: Iterator<Pair<K, V>>, k: Int, k_star: Int, PAGESIZE: Int, serializeKey: (Page, Long, K) -> Unit, serializedSizeOfKey: (K) -> Long, serializeKeyDiff: (Page, Long, K, K) -> Unit, serializedSizeOfKeyDiff: (K, K) -> Long, serializeValue: (Page, Long, V) -> Unit, serializedSizeOfValue: (V) -> Long) {
         return generateDifferenceEncodedBPlusTree(this.filename, size, iterator, k, k_star, PAGESIZE, serializeKey, serializedSizeOfKey, serializeKeyDiff, serializedSizeOfKeyDiff, serializeValue, serializedSizeOfValue)
     }
 }
@@ -2243,7 +2243,7 @@ class B_Plus_Tree_Difference_Encoding_OnlyKeys<K : Any>(@JvmField val filename: 
     // TODO still error for k = k_star = 8000, problem if (leaf?) node spans over two pages...
     // TODO insertion/deletion of key/value-pairs
     // TODO store numberOfElements and pointer with variable size
-    /*inline*/ fun search(key: K, compare: (K, K) -> Int, innerNodeDeserializer: (Page, Long) -> K, serializedSizeOfKey: (K) -> Long, innerNodeDeserializerDiff: (Page, Long, K) -> K, serializedSizeOfKeyDiff: (K, K) -> Long, leafNodeDeserializerKey: (Page, Long) -> K, leafNodeDeserializerKeyDiff: (Page, Long, K) -> K): Boolean {
+    inline fun search(key: K, compare: (K, K) -> Int, innerNodeDeserializer: (Page, Long) -> K, serializedSizeOfKey: (K) -> Long, innerNodeDeserializerDiff: (Page, Long, K) -> K, serializedSizeOfKeyDiff: (K, K) -> Long, leafNodeDeserializerKey: (Page, Long) -> K, leafNodeDeserializerKeyDiff: (Page, Long, K) -> K): Boolean {
         var node = 0
         while (true) {
             var page = bufferManager.getPage(filename, node)
@@ -2311,7 +2311,7 @@ class B_Plus_Tree_Difference_Encoding_OnlyKeys<K : Any>(@JvmField val filename: 
         }
     }
 
-    /*inline*/ fun range_search(compareLeftLimit: (K) -> Int, /*crossinline*/ compareRightLimit: (K) -> Int, /*crossinline*/ innerNodeDeserializer: (Page, Long) -> K, /*crossinline*/ serializedSizeOfKey: (K) -> Long, /*crossinline*/ innerNodeDeserializerDiff: (Page, Long, K) -> K, /*crossinline*/ serializedSizeOfKeyDiff: (K, K) -> Long, /*crossinline*/ leafNodeDeserializerKey: (Page, Long) -> K, /*crossinline*/ leafNodeDeserializerKeyDiff: (Page, Long, K) -> K): () -> K? {
+    inline fun range_search(compareLeftLimit: (K) -> Int, crossinline compareRightLimit: (K) -> Int, crossinline innerNodeDeserializer: (Page, Long) -> K, crossinline serializedSizeOfKey: (K) -> Long, crossinline innerNodeDeserializerDiff: (Page, Long, K) -> K, crossinline serializedSizeOfKeyDiff: (K, K) -> Long, crossinline leafNodeDeserializerKey: (Page, Long) -> K, crossinline leafNodeDeserializerKeyDiff: (Page, Long, K) -> K): () -> K? {
         val startOffsetInPage = 5
         var node = 0
         while (true) {
@@ -2409,7 +2409,7 @@ class B_Plus_Tree_Difference_Encoding_OnlyKeys<K : Any>(@JvmField val filename: 
         }
     }
 
-    /*inline*/ fun sip_search(/*crossinline*/ compare: (K, K) -> Int, /*crossinline*/ compareLeftLimit: (K) -> Int, /*crossinline*/ compareRightLimit: (K) -> Int, /*crossinline*/ keyDeserializer: (Page, Long) -> K, /*crossinline*/ serializedSizeOfKey: (K) -> Long, /*crossinline*/ keyDiffDeserializer: (Page, Long, K) -> K, /*crossinline*/ serializedSizeOfKeyDiff: (K, K) -> Long, /*crossinline*/ deserializePointer: (Page, Long) -> Int, /*crossinline*/ serializedSizeOfPointer: (Int) -> Long): (K) -> K? {
+    inline fun sip_search(crossinline compare: (K, K) -> Int, crossinline compareLeftLimit: (K) -> Int, crossinline compareRightLimit: (K) -> Int, crossinline keyDeserializer: (Page, Long) -> K, crossinline serializedSizeOfKey: (K) -> Long, crossinline keyDiffDeserializer: (Page, Long, K) -> K, crossinline serializedSizeOfKeyDiff: (K, K) -> Long, crossinline deserializePointer: (Page, Long) -> Int, crossinline serializedSizeOfPointer: (Int) -> Long): (K) -> K? {
         val startOffsetInPage = 5
         var node = 0
         val path = mutableListOf<NodeInSIPPath<K>>()
@@ -2664,43 +2664,43 @@ class B_Plus_Tree_Difference_Encoding_OnlyKeys<K : Any>(@JvmField val filename: 
      * @param k_star: size of leaf nodes
      * @param pageSize: size of pages
      */
-    /*inline*/ fun generate(size: Int, iterator: Iterator<K>, k: Int, k_star: Int, PAGESIZE: Int, serializeKey: (Page, Long, K) -> Unit, serializedSizeOfKey: (K) -> Long, serializeKeyDiff: (Page, Long, K, K) -> Unit, serializedSizeOfKeyDiff: (K, K) -> Long) {
+    inline fun generate(size: Int, iterator: Iterator<K>, k: Int, k_star: Int, PAGESIZE: Int, serializeKey: (Page, Long, K) -> Unit, serializedSizeOfKey: (K) -> Long, serializeKeyDiff: (Page, Long, K, K) -> Unit, serializedSizeOfKeyDiff: (K, K) -> Long) {
         return generateDifferenceEncodedBPlusTree(this.filename, size, iterator, k, k_star, PAGESIZE, serializeKey, serializedSizeOfKey, serializeKeyDiff, serializedSizeOfKeyDiff)
     }
 }
 
 class B_Plus_Tree_Static<K : Any, V : Any>(@JvmField val filename: String) { // By K:Any and V:Any, neither K nor V can be nullable!
-    /*inline*/ fun search(key: K, compare: (K, K) -> Int, innerNodeDeserializer: (Page, Long) -> K, serializedSizeOfKey: (K) -> Long, leafNodeDeserializerKey: (Page, Long) -> K, leafNodeDeserializerValue: (Page, Long) -> V, serializedSizeOfValue: (V) -> Long): V {
+    inline fun search(key: K, compare: (K, K) -> Int, innerNodeDeserializer: (Page, Long) -> K, serializedSizeOfKey: (K) -> Long, leafNodeDeserializerKey: (Page, Long) -> K, leafNodeDeserializerValue: (Page, Long) -> V, serializedSizeOfValue: (V) -> Long): V {
         return search(filename, key, compare, innerNodeDeserializer, serializedSizeOfKey, leafNodeDeserializerKey, leafNodeDeserializerValue, serializedSizeOfValue, ::deserializeInt, ::serializedSizeOfInt)
     }
 
-    /*inline*/ fun range_search(compareLeftLimit: (K) -> Int, /*crossinline*/ compareRightLimit: (K) -> Int, innerNodeDeserializer: (Page, Long) -> K, /*crossinline*/ serializedSizeOfKey: (K) -> Long, /*crossinline*/ leafNodeDeserializerKey: (Page, Long) -> K, /*crossinline*/ leafNodeDeserializerValue: (Page, Long) -> V, /*crossinline*/ serializedSizeOfValue: (V) -> Long): () -> V? {
+    inline fun range_search(compareLeftLimit: (K) -> Int, crossinline compareRightLimit: (K) -> Int, innerNodeDeserializer: (Page, Long) -> K, crossinline serializedSizeOfKey: (K) -> Long, crossinline leafNodeDeserializerKey: (Page, Long) -> K, crossinline leafNodeDeserializerValue: (Page, Long) -> V, crossinline serializedSizeOfValue: (V) -> Long): () -> V? {
         return range_search(filename, compareLeftLimit, compareRightLimit, innerNodeDeserializer, serializedSizeOfKey, leafNodeDeserializerKey, leafNodeDeserializerValue, serializedSizeOfValue, ::deserializeInt, ::serializedSizeOfInt)
     }
 
-    /*inline*/ fun <K, V> sip_search(/*crossinline*/ compare: (K, K) -> Int, /*crossinline*/ compareLeftLimit: (K) -> Int, /*crossinline*/ compareRightLimit: (K) -> Int, /*crossinline*/ innerNodeDeserializer: (Page, Long) -> K, /*crossinline*/ serializedSizeOfKey: (K) -> Long, /*crossinline*/ leafNodeDeserializerKey: (Page, Long) -> K, /*crossinline*/ leafNodeDeserializerValue: (Page, Long) -> V, /*crossinline*/ serializedSizeOfValue: (V) -> Long): (K) -> V? {
+    inline fun <K, V> sip_search(crossinline compare: (K, K) -> Int, crossinline compareLeftLimit: (K) -> Int, crossinline compareRightLimit: (K) -> Int, crossinline innerNodeDeserializer: (Page, Long) -> K, crossinline serializedSizeOfKey: (K) -> Long, crossinline leafNodeDeserializerKey: (Page, Long) -> K, crossinline leafNodeDeserializerValue: (Page, Long) -> V, crossinline serializedSizeOfValue: (V) -> Long): (K) -> V? {
         return sip_range_search(filename, compare, compareLeftLimit, compareRightLimit, innerNodeDeserializer, serializedSizeOfKey, leafNodeDeserializerKey, leafNodeDeserializerValue, serializedSizeOfValue, ::deserializeInt, ::serializedSizeOfInt)
     }
 
-    /*inline*/ fun generate(iterator: Iterator<Pair<K, V>>, PAGESIZE: Int, serializeKey: (Page, Long, K) -> Unit, serializedSizeOfKey: (K) -> Long, serializeValue: (Page, Long, V) -> Unit, serializedSizeOfValue: (V) -> Long) {
+    inline fun generate(iterator: Iterator<Pair<K, V>>, PAGESIZE: Int, serializeKey: (Page, Long, K) -> Unit, serializedSizeOfKey: (K) -> Long, serializeValue: (Page, Long, V) -> Unit, serializedSizeOfValue: (V) -> Long) {
         return generateStaticTree(filename, iterator, PAGESIZE, serializeKey, serializedSizeOfKey, serializeValue, serializedSizeOfValue, 4, ::serializeInt, ::serializedSizeOfInt)
     }
 }
 
 class B_Plus_Tree_Static_CompressedPointer<K : Any, V : Any>(@JvmField val filename: String) { // By K:Any and V:Any, neither K nor V can be nullable!
-    /*inline*/ fun search(key: K, compare: (K, K) -> Int, innerNodeDeserializer: (Page, Long) -> K, serializedSizeOfKey: (K) -> Long, leafNodeDeserializerKey: (Page, Long) -> K, leafNodeDeserializerValue: (Page, Long) -> V, serializedSizeOfValue: (V) -> Long): V {
+    inline fun search(key: K, compare: (K, K) -> Int, innerNodeDeserializer: (Page, Long) -> K, serializedSizeOfKey: (K) -> Long, leafNodeDeserializerKey: (Page, Long) -> K, leafNodeDeserializerValue: (Page, Long) -> V, serializedSizeOfValue: (V) -> Long): V {
         return search(filename, key, compare, innerNodeDeserializer, serializedSizeOfKey, leafNodeDeserializerKey, leafNodeDeserializerValue, serializedSizeOfValue, ::deserializeCompressedInt, ::serializedSizeOfCompressedInt)
     }
 
-    /*inline*/ fun range_search(compareLeftLimit: (K) -> Int, /*crossinline*/ compareRightLimit: (K) -> Int, innerNodeDeserializer: (Page, Long) -> K, /*crossinline*/ serializedSizeOfKey: (K) -> Long, /*crossinline*/ leafNodeDeserializerKey: (Page, Long) -> K, /*crossinline*/ leafNodeDeserializerValue: (Page, Long) -> V, /*crossinline*/ serializedSizeOfValue: (V) -> Long): () -> V? {
+    inline fun range_search(compareLeftLimit: (K) -> Int, crossinline compareRightLimit: (K) -> Int, innerNodeDeserializer: (Page, Long) -> K, crossinline serializedSizeOfKey: (K) -> Long, crossinline leafNodeDeserializerKey: (Page, Long) -> K, crossinline leafNodeDeserializerValue: (Page, Long) -> V, crossinline serializedSizeOfValue: (V) -> Long): () -> V? {
         return range_search(filename, compareLeftLimit, compareRightLimit, innerNodeDeserializer, serializedSizeOfKey, leafNodeDeserializerKey, leafNodeDeserializerValue, serializedSizeOfValue, ::deserializeCompressedInt, ::serializedSizeOfCompressedInt)
     }
 
-    /*inline*/ fun <K, V> sip_search(/*crossinline*/ compare: (K, K) -> Int, /*crossinline*/ compareLeftLimit: (K) -> Int, /*crossinline*/ compareRightLimit: (K) -> Int, /*crossinline*/ innerNodeDeserializer: (Page, Long) -> K, /*crossinline*/ serializedSizeOfKey: (K) -> Long, /*crossinline*/ leafNodeDeserializerKey: (Page, Long) -> K, /*crossinline*/ leafNodeDeserializerValue: (Page, Long) -> V, /*crossinline*/ serializedSizeOfValue: (V) -> Long): (K) -> V? {
+    inline fun <K, V> sip_search(crossinline compare: (K, K) -> Int, crossinline compareLeftLimit: (K) -> Int, crossinline compareRightLimit: (K) -> Int, crossinline innerNodeDeserializer: (Page, Long) -> K, crossinline serializedSizeOfKey: (K) -> Long, crossinline leafNodeDeserializerKey: (Page, Long) -> K, crossinline leafNodeDeserializerValue: (Page, Long) -> V, crossinline serializedSizeOfValue: (V) -> Long): (K) -> V? {
         return sip_range_search(filename, compare, compareLeftLimit, compareRightLimit, innerNodeDeserializer, serializedSizeOfKey, leafNodeDeserializerKey, leafNodeDeserializerValue, serializedSizeOfValue, ::deserializeCompressedInt, ::serializedSizeOfCompressedInt)
     }
 
-    /*inline*/ fun generate(iterator: Iterator<Pair<K, V>>, PAGESIZE: Int, serializeKey: (Page, Long, K) -> Unit, serializedSizeOfKey: (K) -> Long, serializeValue: (Page, Long, V) -> Unit, serializedSizeOfValue: (V) -> Long) {
+    inline fun generate(iterator: Iterator<Pair<K, V>>, PAGESIZE: Int, serializeKey: (Page, Long, K) -> Unit, serializedSizeOfKey: (K) -> Long, serializeValue: (Page, Long, V) -> Unit, serializedSizeOfValue: (V) -> Long) {
         return generateStaticTree(filename, iterator, PAGESIZE, serializeKey, serializedSizeOfKey, serializeValue, serializedSizeOfValue, 4, ::serializeCompressedInt, ::serializedSizeOfCompressedInt)
     }
 }

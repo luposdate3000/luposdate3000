@@ -266,7 +266,7 @@ open class RowIteratorMerge(@JvmField val a: RowIterator, @JvmField val b: RowIt
         }
     }
 
-    /*inline*/ private fun compare(/*crossinline*/ actionA: () -> Unit, /*crossinline*/ actionB: () -> Unit) {
+    inline private fun compare(crossinline actionA: () -> Unit, crossinline actionB: () -> Unit) {
         var i = 0
         while (i < compCount) {
             val cmp = comparator.compare(a.buf[aIdx + i], b.buf[bIdx + i])

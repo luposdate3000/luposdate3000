@@ -147,30 +147,30 @@ class ASTUndef : ASTLeafNode() {
 open class ASTQueryBaseClass : ASTLeafNode() {
     @JvmField
     var datasets: Array<ASTDatasetClause> = arrayOf()
-    /*inline*/ fun existsDatasets() = datasets.isNotEmpty()
+    inline fun existsDatasets() = datasets.isNotEmpty()
 
     @JvmField
     var where: Array<ASTNode> = arrayOf()
 
     @JvmField
     var groupBy: Array<ASTNode> = arrayOf()
-    /*inline*/ fun existsGroupBy() = groupBy.isNotEmpty()
+    inline fun existsGroupBy() = groupBy.isNotEmpty()
 
     @JvmField
     var having: Array<ASTNode> = arrayOf()
-    /*inline*/ fun existsHaving() = having.isNotEmpty()
+    inline fun existsHaving() = having.isNotEmpty()
 
     @JvmField
     var orderBy: Array<ASTNode> = arrayOf()
-    /*inline*/ fun existsOrderBy() = orderBy.isNotEmpty()
+    inline fun existsOrderBy() = orderBy.isNotEmpty()
 
     @JvmField
     var limit: Int = -1
-    /*inline*/ fun existsLimit() = limit >= 0
+    inline fun existsLimit() = limit >= 0
 
     @JvmField
     var offset: Int = 0
-    /*inline*/ fun existsOffset() = offset > 0
+    inline fun existsOffset() = offset > 0
     override fun toString(indentation: String): String {
         var result = indentation + nodeToString() + "\r\n"
         val indentation2 = "$indentation  "
@@ -197,7 +197,7 @@ open class ASTQueryBaseClass : ASTLeafNode() {
 open class ASTSelectQuery(@JvmField val distinct: Boolean, @JvmField val reduced: Boolean, @JvmField val select: Array<ASTNode>) : ASTQueryBaseClass() {
     inline fun selectAll() = (select.isEmpty())
     override fun nodeToString() = "ASTSelectQuery" + innerNodeToString()
-    protected /*inline*/ fun innerNodeToString() = (if (distinct) " DISTINCT" else "") + (if (reduced) " REDUCED " else "") + (if (selectAll()) " *" else "")
+    protected inline fun innerNodeToString() = (if (distinct) " DISTINCT" else "") + (if (reduced) " REDUCED " else "") + (if (selectAll()) " *" else "")
     override fun toString(indentation: String) = super.toString(indentation) + propertyToString("$indentation  ", "$indentation    ", "Select", this.select)
     override fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))
@@ -207,7 +207,7 @@ open class ASTSelectQuery(@JvmField val distinct: Boolean, @JvmField val reduced
 class ASTSubSelectQuery(distinct: Boolean, reduced: Boolean, select: Array<ASTNode>) : ASTSelectQuery(distinct, reduced, select) {
     @JvmField
     var values: ASTValues? = null
-    /*inline*/ fun existsValues() = (values != null)
+    inline fun existsValues() = (values != null)
     override fun nodeToString() = "ASTSubSelectQuery" + innerNodeToString()
     override fun toString(indentation: String) = super.toString(indentation) + (if (this.values == null) "" else this.values?.toString("$indentation  "))
     override fun <T> visit(visitor: Visitor<T>): T {
@@ -223,7 +223,7 @@ class ASTConstructQuery(@JvmField val template: Array<ASTNode>) : ASTQueryBaseCl
 }
 
 class ASTDescribeQuery(@JvmField val select: Array<ASTNode>) : ASTQueryBaseClass() {
-    /*inline*/ private fun selectAll(): Boolean {
+    inline private fun selectAll(): Boolean {
         return select.isEmpty(); }
 
     override fun nodeToString() = "ASTSelectQuery" + (if (selectAll()) " *" else "")
