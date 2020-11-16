@@ -9,7 +9,12 @@ Prepare the project for intellij using:
 ```
 
 This should be fast.
+
+Download and install intellij from https://www.jetbrains.com/idea/download/
+
 Now, you can open intellij.
+Intellij on Windows warns you about not trusted git-ssl-certificates - you can accept these.
+The Linux-version of intellij ignores this.
 
 To compile and launch, click "Run Anything" in the top right corner.
 Type gradle run - dont hit "enter" directly.

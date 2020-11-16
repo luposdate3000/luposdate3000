@@ -278,17 +278,17 @@ throw Exception("you must specify a moduleName '--module=xyz'")
                 out.println("    sourceSets[\"commonMain\"].kotlin.srcDir(\"commonMain${pathSeparatorEscaped}kotlin\")")
                 out.println("    sourceSets[\"jvmMain\"].kotlin.srcDir(\"jvmMain${pathSeparatorEscaped}kotlin\")")
 if(moduleName != "Luposdate3000_Shared_Inline"){
-                out.println("    sourceSets[\"commonMain\"].kotlin.srcDir(\"..${pathSeparator}xxx_generated_xxx${pathSeparator}${moduleName}${pathSeparator}commonMain${pathSeparator}kotlin\")")
-                out.println("    sourceSets[\"jvmMain\"].kotlin.srcDir(\"..${pathSeparator}xxx_generated_xxx${pathSeparator}${moduleName}${pathSeparator}jvmMain${pathSeparator}kotlin\")")
+                out.println("    sourceSets[\"commonMain\"].kotlin.srcDir(\"..${pathSeparatorEscaped}xxx_generated_xxx${pathSeparatorEscaped}${moduleName}${pathSeparatorEscaped}commonMain${pathSeparatorEscaped}kotlin\")")
+                out.println("    sourceSets[\"jvmMain\"].kotlin.srcDir(\"..${pathSeparatorEscaped}xxx_generated_xxx${pathSeparatorEscaped}${moduleName}${pathSeparatorEscaped}jvmMain${pathSeparatorEscaped}kotlin\")")
 }
                 if (!fastMode) {
                     out.println("    sourceSets[\"jsMain\"].kotlin.srcDir(\"jsMain${pathSeparatorEscaped}kotlin\")")
                     out.println("    sourceSets[\"${platform}Main\"].kotlin.srcDir(\"nativeMain${pathSeparatorEscaped}kotlin\")")
                     out.println("    sourceSets[\"${platform}Main\"].kotlin.srcDir(\"${platform}Main${pathSeparatorEscaped}kotlin\")")
 if(moduleName != "Luposdate3000_Shared_Inline"){
-                    out.println("    sourceSets[\"jsMain\"].kotlin.srcDir(\"..${pathSeparator}xxx_generated_xxx${pathSeparator}${moduleName}${pathSeparator}jsMain${pathSeparator}kotlin\")")
-                    out.println("    sourceSets[\"${platform}Main\"].kotlin.srcDir(\"..${pathSeparator}xxx_generated_xxx${pathSeparator}${moduleName}${pathSeparator}nativeMain${pathSeparator}kotlin\")")
-                    out.println("    sourceSets[\"${platform}Main\"].kotlin.srcDir(\"..${pathSeparator}xxx_generated_xxx${pathSeparator}${moduleName}${pathSeparator}${platform}Main${pathSeparator}kotlin\")")
+                    out.println("    sourceSets[\"jsMain\"].kotlin.srcDir(\"..${pathSeparatorEscaped}xxx_generated_xxx${pathSeparatorEscaped}${moduleName}${pathSeparatorEscaped}jsMain${pathSeparatorEscaped}kotlin\")")
+                    out.println("    sourceSets[\"${platform}Main\"].kotlin.srcDir(\"..${pathSeparatorEscaped}xxx_generated_xxx${pathSeparatorEscaped}${moduleName}${pathSeparatorEscaped}nativeMain${pathSeparatorEscaped}kotlin\")")
+                    out.println("    sourceSets[\"${platform}Main\"].kotlin.srcDir(\"..${pathSeparatorEscaped}xxx_generated_xxx${pathSeparatorEscaped}${moduleName}${pathSeparatorEscaped}${platform}Main${pathSeparatorEscaped}kotlin\")")
                 }
 }
             } else {
