@@ -30,47 +30,6 @@ restart gitbash, if it is already open
 ## inside of gitbash:
 
 ```gitbash
-#the windows Path-variable does not help here, and JAVA_HOME is completely ignored (correct me if I am wrong)
-#therefore backup the Path first
-export myPathBackup=$PATH
-
-#you may change the directory to whatever you want
-mkdir luposdate
-cd luposdate
-
-git config --global http.sslVerify false
-git config --global credential.helper store
-
-git clone https://github.com/gradle/gradle.git
-cd gradle
-#this enforces Windows to use java 11, because it is found first on the Path ... .
-export PATH="C:\Users\benja\luposdate\jdk-11.0.2\bin:$myPathBackup"
-./gradlew install -Pgradle_installPath="C:\Users\benja\luposdate\bin_gradle"
-export PATH="$myPathBackup"
-```
-
-##copy the gradle binaries into the bin folder of your gitbash installation.
-In my case that means copy the content of the folder "C:\Users\benja\luposdate\bin_gradle\bin" into the folder "C:\Program Files\Git\usr\bin"
-In my case that means copy the content of the folder "C:\Users\benja\luposdate\bin_gradle\lib" into the folder "C:\Program Files\Git\usr\lib"
-This cannot be done inside gitbash, because that folder is mounted as readonly.
-
-
-## add gradle to the path
-open start-search
-type "env"
-open the suggested program
-click on "environment-variables"
-in the system variables select the row with the variable name "Path"
-below the system variables click on "change"
-click on "new"
-add the path you provided above (and append "\bin") - in my case it is "C:\Users\benja\luposdate\bin_gradle\bin"
-click "ok" on every window (3 times)
-
-restart gitbash, if it is still open
-
-## inside of gitbash:
-
-```gitbash
 export myPathBackup=$PATH
 git clone https://github.com/JetBrains/kotlin.git
 cd kotlin

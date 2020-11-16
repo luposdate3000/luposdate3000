@@ -504,11 +504,11 @@ if(!buildLibrary){
     if (!dryMode) {
         if (onWindows) {
             var path = System.getProperty("user.dir")
-            runCommand(listOf("gradle.bat", "build"), File(path))
-            runCommand(listOf("gradle.bat", "publishToMavenLocal"), File(path))
+            runCommand(listOf("./gradlew.bat", "build"), File(path))
+            runCommand(listOf("./gradlew.bat", "publishToMavenLocal"), File(path))
         } else if (onLinux) {
-            runCommand(listOf("gradle", "build"), File("."))
-            runCommand(listOf("gradle", "publishToMavenLocal"), File("."))
+            runCommand(listOf("./gradlew", "build"), File("."))
+            runCommand(listOf("./gradlew", "publishToMavenLocal"), File("."))
         }
     }
     try {

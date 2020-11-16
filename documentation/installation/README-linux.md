@@ -23,15 +23,6 @@ dependencieshome=/opt
 
 #Now the components are installed one by one.
 
-#gradle
-{
-    # Using the latest gradle version to enable all kotlin-features.
-    cd $dependencieshome
-    git clone https://github.com/gradle/gradle.git
-    cd gradle
-    export JAVA_HOME="/usr/lib/jvm/java-11-openjdk-amd64/"
-    ./gradlew install -Pgradle_installPath=/usr/local/gradle-source-build
-}
 #kotlin
 {
     # Compile from source to get a up to date version - not every version in their githup compiles, but the following should work.
