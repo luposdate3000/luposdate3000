@@ -10,8 +10,14 @@ This describes how to install the prerequisites for the database
 
 ## Usage and Compilation
 
+You can choose either the simple mode - and use intellij-IDE (and use only the standard (jvm-only) modules).
+
+[readme intelliJ-IDE](documentation/README-usage-compile-intellij.md)
+
+Or you may choose the advanced mode without IDE, which allows you to use all configurations.
+
 This describes how to compile the database itself (during development).
-[readme](documentation/README-usage-compile.md)
+[readme-advanced](documentation/README-usage-compile-advanced.md)
 
 ## Tests
 

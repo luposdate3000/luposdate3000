@@ -1,4 +1,6 @@
-## Usage / Compile
+## Usage / Compile (advanced)
+
+First edit the file ./compile-module-all.sh and remove all "--idea" flags - this disables the intellij-IDEA friendly mode.
 
 To compile everything the first time you must perform a complete rebuild, which is done by using:
 
@@ -7,8 +9,8 @@ To compile everything the first time you must perform a complete rebuild, which 
 ./compile-module-all.sh
 ```
 
-This takes a lot of time (on my computer 10 Minutes using a 4GHz CPU with NVME-SSD and lots of available RAM).
-The final compiled jars/js/native-libs can be found in the folder build-cache/bin
+This takes a lot of time (on my computer 15 Minutes using a 4GHz CPU with NVME-SSD and lots of available RAM).
+The final compiled jars, js and native-libs can be found in the folder build-cache/bin
 
 Take a look into the file ./compile-module-all.sh.
 If you change something, compile only the necessary module (and the ones depending on it) instead of everything.
