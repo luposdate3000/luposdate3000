@@ -312,7 +312,7 @@ if(!buildLibrary){
             out.println("        dependsOn(main.compileAllTaskName)")
             out.println("        classpath({ main.output.allOutputs.files},{ configurations[\"jvmRuntimeClasspath\"]})")
             out.println("    }")
-            out.println("    File(\"\${project.rootDir}${pathSeparator}log\").mkdirs()")
+            out.println("    File(\"\${project.rootDir}${pathSeparatorEscaped}log\").mkdirs()")
             out.println("}")
         }
 }
