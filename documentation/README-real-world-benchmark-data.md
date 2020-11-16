@@ -16,7 +16,7 @@ These datasets are not required to run the database, but can be used to evaluate
 | yago3   | 11GB  |
 | yago4   |     ? |
 
-Currently luposdate3000 is inmemory only, which means, you can only load benchmarks files, which are smaller than Your available RAM.
+Currently luposdate3000 is inmemory only, which means, you can only load benchmarks files, which are smaller than your available RAM.
 
 
 You can copy paste execute the following script.

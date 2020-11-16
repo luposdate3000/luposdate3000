@@ -3,8 +3,9 @@
 Things you can change:
 
 * "import java.xyz"<br/>
-  Only use java-only code within src/jvm* and never within src/common.
+  Only use java-only code within jvmMain and never within commonMain.
   Because jvm related code will not compile on native.
+  The current build-file layout should mark this as error (in most cases).
 * "import xyz.\*"<br/>
   Dont use the \* in imports, always include exactly what you want.
   Because otherwise the compilation is very very slow.
@@ -14,26 +15,26 @@ Things you can change:
   Use this when the code is performance critical.
   There is a limit of 64kb byte-code per function - this is very easy to reach if you put inline everywhere.
   This modifier should NEVER be used during debugging, because it breaks the exception-stack-traces.
-  if you have functional parameters combine it with "crossinline" to inline that parameter too.
+  If you have functional parameters combine it with "crossinline" to inline that parameter too.
 * "internal" function/class modifier <br/>
   This hides the function/class from the api.
   This decreases the binary size.
-  This increases the compile-speed, because there are no generated/exported functions
+  This increases the compile-speed, because there are no generated/exported functions.
 * function pointers<br/>
   Be careful.
   This creates (multiple) additional objects.
   If these are called, multiple indirect function calls are performed, which may be slow.
   Dont do this in performance-critical sections.
-  The kotlin way to to this is a function with a "when(xyz)" where each case contains the code you otherwise would have put into different function pointers.
+  The performant-kotlin way to to this is a function with a "when(xyz)" where each case contains the code you otherwise would have put into different function pointers.
 * coroutines<br/>
   If you have blocking code for example when you need a Lock, than recursively put the "suspend" keyword in front of every required function - the whole way up until "main" if necessary.
   Do the same for every function, which calles any of the functions you modify.
-  Do NOT use "runBlocking" - because it does just that blocking.
+  Do NOT use "runBlocking" - because it does just that: blocking.
   Use "runBlocking" only if you are really forced to do so by an external library.
 * "suspend" function modifier<br/>
   The compiler performs a lot of changes to functions with this keyword.
   Try to avoid any function-local variable ... and put that as a instance-variable instead - because otherwise all these local variables are transformet into a temporary object by the kotlin compiler - which is bad.
-  If a suspend function does not contain any suspend code, the compiler changes are minimal.
+  If a suspend function does not contain any suspend code (or only the last call is a suspendable function), then compiler changes are minimal.
   Try to call other suspending functions as late as possible within a function, to reduce the number of variabes which must be stored by the compiler.
 * debug-only-code<br/>
   use this:
@@ -59,6 +60,7 @@ Things you can change:
   Everything which is not primitive may at least use "val" instead of "var"
 * "class-variables" and "instance-variables"<br/>
   Annotate all of these with "@JvmField" - otherwise the kotlin compiler generates useless getter and setter code.
+  An "annotate-everything"-compiler option was suggested by other people too, but is currently not supported.
 
 Current limitations of the kotlin compiler:
 
@@ -66,9 +68,9 @@ Current limitations of the kotlin compiler:
 * At time of testing ... the native target is approximately 20 times slower.
 * Native target calls freeze on EVERYTHING.
   That means, that any global variable needs a full replication on every modification which is very very bad.
-  Currently the native version is not executable because of this memory model "freeze everything immediately" - which just dont work with a database.
+  Currently the native version of the database is not executable because of this memory model "freeze everything immediately" - which just dont work with a database.
   This should change with upcoming kotlin-releases.
-* Gradle has more kotlin related features than maven especially if not-java targets should be build
+* Gradle has more kotlin related features than maven especially if not-java targets should be build.
 * If the program breaks and you dont think it should break, than clear the build folder and compile again.
   The incremental build sometimes just dont work - especially with enabled inlining.
   The current version of the scripts automatically wipe the build folder for every build - just to be sure.

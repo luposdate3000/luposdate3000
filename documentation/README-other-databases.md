@@ -1,5 +1,7 @@
 ## other Databases used for benchmark-comparisons
 
+This installs other databases, which can be used to compare benchmark results.
+
 ```bash
 #virtuoso
 {

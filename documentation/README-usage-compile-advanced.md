@@ -17,4 +17,3 @@ If you change something, compile only the necessary module (and the ones dependi
 If you only need the jars you can append "--fast" to the calls to "./generate-buildfile-module.kts".
 
 Compiling just a single Module for JVM only takes around 10 Seconds - which is much faster.
-
