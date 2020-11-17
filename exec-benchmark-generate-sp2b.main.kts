@@ -2,6 +2,7 @@
 @file:Import("src/luposdate3000_shared/commonMain/kotlin/lupos/s00misc/EOperatingSystem.kt")
 @file:Import("src/luposdate3000_shared_inline/commonMain/kotlin/lupos/s00misc/Platform.kt")
 @file:Import("src/luposdate3000_shared_inline/jvmMain/kotlin/lupos/s00misc/Platform.kt")
+@file:Import("src/luposdate3000_scripting/exec-import.kt")
 @file:CompilerOptions("-Xmulti-platform")
 import lupos.s00misc.Platform
 import java.io.File
@@ -26,11 +27,7 @@ while (targetCount <= 536870912) {
             .start()
             .waitFor()
     Files.move(Paths.get("$sp2bGeneratorHome/sp2b.n3"), Paths.get(targetFile))
-    ProcessBuilder("./exec-import.sh", targetFile)
-            .redirectOutput(Redirect.INHERIT)
-            .redirectError(Redirect.INHERIT)
-            .start()
-            .waitFor()
+execImport(arrayOf(targetFile))
     val size = File(targetFile).length()
     val count = File("${targetFile}.targetCount").length() / 12
     val sizeIntermediate = File("${targetFile}.targetCount").length() + File("${targetFile}.dictionary").length() + File("${targetFile}.dictionaryoffset").length() + File("${targetFile}.stat").length()

@@ -1,7 +1,7 @@
 #!/usr/bin/env kotlin
-@file:Import("src/generateBuildfile/generate-buildfile-inline.kt")
-@file:Import("src/generateBuildfile/generate-buildfile-suspend.kt")
-@file:Import("src/generateBuildfile/generate-buildfile-module.kt")
+@file:Import("src/luposdate3000_scripting/generate-buildfile-inline.kt")
+@file:Import("src/luposdate3000_scripting/generate-buildfile-suspend.kt")
+@file:Import("src/luposdate3000_scripting/generate-buildfile-module.kt")
 
 createBuildFileForModule("Luposdate3000_Shared", ReleaseMode.Disable, SuspendMode.Disable, InlineMode.Enable, DryMode.Disable, FastMode.Enable, IntellijMode.Disable)
 createBuildFileForModule("Luposdate3000_Jena_Wrapper_On", "Luposdate3000_Jena_Wrapper", ReleaseMode.Disable, SuspendMode.Disable, InlineMode.Enable, DryMode.Disable, FastMode.Enable, IntellijMode.Disable)
