@@ -29,8 +29,8 @@ while (targetCount <= 2097152) {
     Files.move(Paths.get("$sp2bGeneratorHome/dataset.ttl"), Paths.get(targetFile))
 execImport(arrayOf(targetFile))
     val size = File(targetFile).length()
-    val count = File("${targetFile}.targetCount").length() / 12
-    val sizeIntermediate = File("${targetFile}.targetCount").length() + File("${targetFile}.dictionary").length() + File("${targetFile}.dictionaryoffset").length() + File("${targetFile}.stat").length()
+    val count = File("${targetFile}.triples").length() / 12
+    val sizeIntermediate = File("${targetFile}.triples").length() + File("${targetFile}.dictionary").length() + File("${targetFile}.dictionaryoffset").length() + File("${targetFile}.stat").length()
     Files.write(Paths.get("/mnt/luposdate-testdata/sp2b/stat.csv"), "$targetCount,$count,$size,$sizeIntermediate\n".toByteArray(), StandardOpenOption.APPEND)
     targetCount *= 2
 }
