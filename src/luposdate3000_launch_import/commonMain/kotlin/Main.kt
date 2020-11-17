@@ -1,6 +1,7 @@
 import lupos.s00misc.ETripleComponentType
 import lupos.s00misc.File
 import lupos.s00misc.Parallel
+import lupos.s00misc.Partition
 import lupos.s02buildSyntaxTree.turtle.Turtle2Parser
 import lupos.s16network.LuposdateEndpoint
 
@@ -30,6 +31,7 @@ fun main(args: Array<String>): Unit = Parallel.runBlocking {
     val outputDictionaryFile = File("$inputFileName.dictionary")
     val outputDictionaryStatFile = File("$inputFileName.stat")
     val byteBuf = ByteArray(1)
+
     try {
         outputDictionaryFile.dataOutputStream { outDictionary ->
             outputTriplesFile.dataOutputStream { outTriples ->
@@ -76,4 +78,78 @@ fun main(args: Array<String>): Unit = Parallel.runBlocking {
         }
     }
     println("importing $inputFileName finish with $cnt triples")
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    println("partition-stats :: ")
+    println("dict size :: $dictCounter")
+    val labels = arrayOf("s", "p", "o")
+    val partitionSizes = intArrayOf(2, 4, 8, 16, 32, 64, 128)
+    val tripleBuf = IntArray(3)
+
+    val counters = Array(3) { IntArray(dictCounter) }
+    var maxCounter = IntArray(3)
+    outputTriplesFile.dataInputStream { fis ->
+        for (c in 0 until cnt) {
+            for (i in 0 until 3) {
+                val tmp = fis.readInt()
+                counters[i][tmp]++
+                if (counters[i][tmp] > maxCounter[i]) {
+                    maxCounter[i] = counters[i][tmp]
+                }
+            }
+        }
+    }
+    println("maxcounter values :: ${maxCounter.map { it }}")
+    val estimatedPartitionSizes = Array(6) { mutableMapOf<Int, Array<IntArray>>() }
+
+    val minimumOccurences = IntArray(3) { maxCounter[it] / 2 } //TODO apply some minvalue here too
+
+    outputTriplesFile.dataInputStream { fis ->
+        for (c in 0 until cnt) {
+            for (i in 0 until 3) {
+                tripleBuf[i] = fis.readInt()
+            }
+            for (i in 0 until 3) {
+                val constantPart = tripleBuf[i]
+                if (counters[i][constantPart] > minimumOccurences[i]) {
+                    for (j2 in 0 until 2) {
+                        val j = (i + j2+1) % 3
+                        val partitionPart = tripleBuf[j]
+                        val x = estimatedPartitionSizes[i + j2 * 3]
+                        var y = x[constantPart]
+                        if (y == null) {
+                            y = Array(partitionSizes.size) { IntArray(partitionSizes[it]) }
+                            x[constantPart] = y
+                        }
+                        for (k in 0 until partitionSizes.size) {
+                            y[k][Partition.hashFunction(partitionPart, partitionSizes[k])]++
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    println("counts for access patterns :: ")
+    for (i in 0 until 3) {
+        for (j2 in 0 until 2) {
+            val j = (i + j2+1) % 3
+val x = estimatedPartitionSizes[i + j2 * 3]
+            for (ki in 0 until partitionSizes.size) {
+                val k = partitionSizes[ki]
+                var min = -1
+                var max = 0
+for((xk,xv) in x){
+for(xx in xv[ki]){
+if(xx>max){
+max=xx
+}
+if(xx<min|| min==-1){
+min=xx
+}
+}
+}
+                println("fixed '${labels[i]}', partitioned by '${labels[j]}' into '$k' partitions -> min=$min max=$max")
+            }
+        }
+    }
 }

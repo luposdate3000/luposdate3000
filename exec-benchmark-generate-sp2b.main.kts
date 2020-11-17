@@ -16,7 +16,7 @@ val targetBastFolder = "${Platform.getPathSeparator()}mnt${Platform.getPathSepar
 val sp2bGeneratorHome = "${Platform.getPathSeparator()}opt${Platform.getPathSeparator()}sp2b${Platform.getPathSeparator()}bin"
 
 var targetCount = 1024
-while (targetCount <= 536870912) {
+while (targetCount <= 1024) {
     val targetFolder = "$targetBastFolder${Platform.getPathSeparator()}$targetCount"
     File(targetFolder).deleteRecursively()
     File(targetFolder).mkdirs()
