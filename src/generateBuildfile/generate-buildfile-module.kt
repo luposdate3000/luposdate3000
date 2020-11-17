@@ -85,13 +85,10 @@ fun createBuildFileForModule(moduleName: String, releaseMode: ReleaseMode, suspe
 fun createBuildFileForModule(moduleName: String, modulePrefix: String, releaseMode: ReleaseMode, suspendMode: SuspendMode, inlineMode: InlineMode, dryMode: DryMode, fastMode: FastMode, ideaBuildfile: IntellijMode) {
     val onWindows = System.getProperty("os.name").contains("Windows")
     val pathSeparator: String
-    val pathSeparatorEscaped: String
     if (onWindows) {
         pathSeparator = "\\"
-        pathSeparatorEscaped = "\\\\"
     } else {
         pathSeparator = "/"
-        pathSeparatorEscaped = "/"
     }
     createBuildFileForModule(moduleName, modulePrefix, "src${pathSeparator}${moduleName.toLowerCase()}", releaseMode, suspendMode, inlineMode, dryMode, fastMode, ideaBuildfile)
 }

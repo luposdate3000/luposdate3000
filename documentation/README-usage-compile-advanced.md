@@ -1,7 +1,5 @@
 ## Usage / Compile (advanced)
 
-First edit the file ./compile-module-all.main.kts and remove all "--idea" flags - this disables the intellij-IDEA friendly mode.
-
 To compile everything the first time you must perform a complete rebuild, which is done by using:
 
 ```bash
@@ -14,6 +12,6 @@ The final compiled jars, js and native-libs can be found in the folder build-cac
 
 Take a look into the file ./compile-module-all.main.kts.
 If you change something, compile only the necessary module (and the ones depending on it) instead of everything.
-If you only need the jars you can append "--fast" to the calls to "./generate-buildfile-module.kts".
+If you only need the jars you can set "fastMode.Enable" - otherwise use "fastMode.Disable"
 
 Compiling just a single Module for JVM only takes around 10 Seconds - which is much faster.
