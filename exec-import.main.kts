@@ -4,7 +4,7 @@ import java.lang.ProcessBuilder.Redirect
 import java.nio.file.StandardOpenOption
 import java.nio.file.Files
 import java.nio.file.Paths
-import java.net.InetAddress
+
 val LUPOS_HOME = "/tmp/luposdate3000-test/"
 File("log").mkdirs()
 File(LUPOS_HOME).deleteRecursively()
@@ -19,10 +19,10 @@ val jars = mutableListOf(
         "build-cache/bin/Luposdate3000_Test-jvm.jar",
         "build-cache/bin/Luposdate3000_Triple_Store_All-jvm.jar",
         "build-cache/bin/Luposdate3000_Triple_Store_Id_Triple-jvm.jar",
-        "build-cache/bin/Luposdate3000_Optimizer-jvm.jar",
-        "build-cache/bin/Luposdate3000_Endpoint_Java_Sockets-jvm.jar",
+        "build-cache/bin/Luposdate3000_Optimizer_NoPartitions-jvm.jar",
+        "build-cache/bin/Luposdate3000_Endpoint_None-jvm.jar",
         "build-cache/bin/Luposdate3000_Jena_Wrapper_Off-jvm.jar",
-        "build-cache/bin/Luposdate3000_Launch_Endpoint-jvm.jar",
+        "build-cache/bin/Luposdate3000_Launch_Import-jvm.jar",
 )
 val userHome = System.getProperty("user.home")
 for (f in File("$userHome/.gradle/caches/modules-2/files-2.1/com.soywiz.korlibs.krypto/krypto-jvm/1.9.1/").walk()) {
@@ -47,7 +47,7 @@ for (jar in jars) {
         classpath = "$classpath:$jar"
     }
 }
-val cmd=mutableListOf("java", "-Xmx60g", "-cp", classpath, "MainKt", InetAddress.getLocalHost().getHostName())
+val cmd=mutableListOf("java", "-Xmx60g", "-cp", classpath, "MainKt")
 cmd.addAll(args)
 ProcessBuilder(cmd)
         .redirectOutput(Redirect.INHERIT)

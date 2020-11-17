@@ -47,8 +47,9 @@ for (jar in jars) {
         classpath = "$classpath:$jar"
     }
 }
-println(classpath)
-val p = ProcessBuilder("java", "-Xmx60g", "-cp", classpath, "MainKt")
+val cmd=mutableListOf("java", "-Xmx60g", "-cp", classpath, "MainKt")
+cmd.addAll(args)
+val p = ProcessBuilder(cmd)
         .redirectOutput(Redirect.INHERIT)
         .redirectError(Redirect.INHERIT)
         .start()
