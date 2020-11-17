@@ -1,7 +1,7 @@
 ## Configuration
 You can configure the database as you want.
 
-Take a look into "compile-module-all.sh" .
+Take a look into "compile-module-all.main.kts" .
 There you can change the parameters for the indiviual modules.
 
 The options "--nosuspend" or "--suspend" must be the same for EVERY module, because this changes method signatures in the binarys.
