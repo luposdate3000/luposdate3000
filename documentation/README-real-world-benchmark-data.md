@@ -36,6 +36,8 @@ Make sure you read the following comments.
     git commit -m a
     # The following line runs until your disk space is completely consumed.
     # Make sure to abort it if you have enough benchmark data.
+    mkdir -p /mnt/luposdate-testdata/bsbm
+    touch /mnt/luposdate-testdata/bsbm/stat.csv
     ${luposdate3000home}/exec-benchmark-generate-bsbm.main.kts
 }
 #sp2b
@@ -51,6 +53,8 @@ Make sure you read the following comments.
     git apply ${luposdate3000home}/documentation/installation/sp2b.patch
     # The following line runs until your disk space is completely consumed.
     # Make sure to abort it if you have enough benchmark data.
+    mkdir -p /mnt/luposdate-testdata/sp2b
+    touch /mnt/luposdate-testdata/sp2b/stat.csv
     ${luposdate3000home}/exec-benchmark-generate-sp2b.main.kts
 }
 #btc2019
@@ -71,6 +75,15 @@ Make sure you read the following comments.
     # Make sure you have enough space available and a good enough internet connection.
     wget -i 000-CONTENTS
 }
+#yago1
+{
+    cd /mnt/luposdate-testdata
+    mkdir yago1
+    cd yago1
+    wget https://yago-knowledge.org/data/yago1/yago-1.0.0-turtle.7z
+    7z x yago-1.0.0-turtle.7z
+    rm yago-1.0.0-turtle.7z statistics.txt
+}
 #yago2
 {
     cd /mnt/luposdate-testdata
@@ -79,6 +92,24 @@ Make sure you read the following comments.
     wget https://yago-knowledge.org/data/yago2/yago-2.3.0-turtle.7z
     7z x yago-2.3.0-turtle.7z
     rm yago-2.3.0-turtle.7z statistics.txt
+}
+#yago2s
+{
+    cd /mnt/luposdate-testdata
+    mkdir yago2s
+    cd yago2s
+    wget https://yago-knowledge.org/data/yago2s/yago-2.5.3-turtle-simple.7z
+    7z x yago-2.5.3-turtle-simple.7z
+    rm yago-2.5.3-turtle-simple.7z statistics.txt
+}
+#yago3
+{
+    cd /mnt/luposdate-testdata
+    mkdir yago3
+    cd yago3
+    wget https://yago-knowledge.org/data/yago3/yago-3.0.2-turtle-simple.7z
+    7z x yago-3.0.2-turtle-simple.7z
+    rm yago-3.0.2-turtle-simple.7z statistics.txt
 }
 #barton
 {
