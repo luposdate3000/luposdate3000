@@ -7,7 +7,8 @@ internal actual object Platform {
     val operatingSystem = if (System.getProperty("os.name").contains("Windows")) EOperatingSystem.Windows else EOperatingSystem.Linux
     @JvmField
     val pathSepatator = if (operatingSystem == EOperatingSystem.Windows) "\\\\" else "/"
-
+@JvmField
+val nullFileName=if (operatingSystem == EOperatingSystem.Windows) "NUL" else "/dev/null"
 actual inline fun getOperatingSystem()=operatingSystem
     actual inline fun getUserHome() = userHome
     actual inline fun getPathSeparator() = pathSepatator
@@ -22,4 +23,5 @@ actual inline fun getOperatingSystem()=operatingSystem
         }
         return res
     }
+actual inline fun getNullFileName():String=nullFileName
 }

@@ -23,8 +23,8 @@ while (targetCount <= 536870912) {
     val targetFile = "$targetFolder${Platform.getPathSeparator()}complete.n3"
     ProcessBuilder("./sp2b_gen", "-t", "$targetCount")
             .directory(File(sp2bGeneratorHome))
-            .redirectOutput(Redirect.INHERIT)
-            .redirectError(Redirect.INHERIT)
+            .redirectOutput(File(Platform.getNullFileName()))
+            .redirectError(File(Platform.getNullFileName()))
             .start()
             .waitFor()
     Files.move(Paths.get("$sp2bGeneratorHome${Platform.getPathSeparator()}sp2b.n3"), Paths.get(targetFile))
