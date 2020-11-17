@@ -3,7 +3,7 @@
 To compile everything the first time you must perform a complete rebuild, which is done by using:
 
 ```bash
-./compile-module-korio.sh
+./compile-module-korio.main.kts
 ./compile-module-all.main.kts
 ```
 

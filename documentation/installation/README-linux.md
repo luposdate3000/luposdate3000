@@ -67,7 +67,7 @@ dependencieshome=/opt
 #korio
 {
     # Currently unused ... because of massive performance problems during communication.
-    ${luposdate3000home}/compile-module-korio.sh
+    ${luposdate3000home}/compile-module-korio.main.kts
 }
 #intellij
 {

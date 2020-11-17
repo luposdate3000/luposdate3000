@@ -4,6 +4,7 @@
 @file:Import("src/luposdate3000_shared_inline/jvmMain/kotlin/lupos/s00misc/Platform.kt")
 @file:Import("src/luposdate3000_scripting/exec-import.kt")
 @file:CompilerOptions("-Xmulti-platform")
+
 import lupos.s00misc.Platform
 import java.io.File
 import java.lang.ProcessBuilder.Redirect
@@ -11,26 +12,26 @@ import java.nio.file.Files
 import java.nio.file.Paths
 import java.nio.file.StandardOpenOption
 
-val targetBastFolder = "/mnt/luposdate-testdata/sp2b"
-val sp2bGeneratorHome="/opt/sp2b/bin"
+val targetBastFolder = "${Platform.getPathSeparator()}mnt${Platform.getPathSeparator()}luposdate-testdata${Platform.getPathSeparator()}sp2b"
+val sp2bGeneratorHome = "${Platform.getPathSeparator()}opt${Platform.getPathSeparator()}sp2b${Platform.getPathSeparator()}bin"
 
 var targetCount = 1024
 while (targetCount <= 536870912) {
-    val targetFolder = "$targetBastFolder/$targetCount"
+    val targetFolder = "$targetBastFolder${Platform.getPathSeparator()}$targetCount"
     File(targetFolder).deleteRecursively()
     File(targetFolder).mkdirs()
-    val targetFile = "$targetFolder/complete.n3"
+    val targetFile = "$targetFolder${Platform.getPathSeparator()}complete.n3"
     ProcessBuilder("./sp2b_gen", "-t", "$targetCount")
             .directory(File(sp2bGeneratorHome))
             .redirectOutput(Redirect.INHERIT)
             .redirectError(Redirect.INHERIT)
             .start()
             .waitFor()
-    Files.move(Paths.get("$sp2bGeneratorHome/sp2b.n3"), Paths.get(targetFile))
-execImport(arrayOf(targetFile))
+    Files.move(Paths.get("$sp2bGeneratorHome${Platform.getPathSeparator()}sp2b.n3"), Paths.get(targetFile))
+    execImport(arrayOf(targetFile))
     val size = File(targetFile).length()
     val count = File("${targetFile}.triples").length() / 12
     val sizeIntermediate = File("${targetFile}.triples").length() + File("${targetFile}.dictionary").length() + File("${targetFile}.dictionaryoffset").length() + File("${targetFile}.stat").length()
-    Files.write(Paths.get("/mnt/luposdate-testdata/sp2b/stat.csv"), "$targetCount,$count,$size,$sizeIntermediate\n".toByteArray(), StandardOpenOption.APPEND)
+    Files.write(Paths.get("${targetBastFolder}${Platform.getPathSeparator()}stat.csv"), "$targetCount,$count,$size,$sizeIntermediate\n".toByteArray(), StandardOpenOption.APPEND)
     targetCount *= 2
 }

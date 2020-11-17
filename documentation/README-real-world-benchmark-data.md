@@ -36,7 +36,7 @@ Make sure you read the following comments.
     git commit -m a
     # The following line runs until your disk space is completely consumed.
     # Make sure to abort it if you have enough benchmark data.
-    ${luposdate3000home}/exec-benchmark-generate-bsbm.sh
+    ${luposdate3000home}/exec-benchmark-generate-bsbm.main.kts
 }
 #sp2b
 {
@@ -51,7 +51,7 @@ Make sure you read the following comments.
     git apply ${luposdate3000home}/documentation/installation/sp2b.patch
     # The following line runs until your disk space is completely consumed.
     # Make sure to abort it if you have enough benchmark data.
-    ${luposdate3000home}/exec-benchmark-generate-sp2b.sh
+    ${luposdate3000home}/exec-benchmark-generate-sp2b.main.kts
 }
 #btc2019
 {

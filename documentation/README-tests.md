@@ -3,7 +3,7 @@
 To run all tests use the following:
 
 ```bash
-./exec-binary-test-suite-jvm.sh
+./exec-binary-test-suite-jvm.main.kts
 ```
 
 These tests are executed repeatedly and therefore these should be compileable and executable.
@@ -27,5 +27,5 @@ targetdata=xyz/file.n3
 outputfoldername=xyz
 testname=xyz
 mode=SELECT_QUERY_RESULT  # or mode=MODIFY_RESULT
-./exec-binary-test-add.sh "$inputdata" "$sparql" "$targetdata" "$outputfoldername" "$testname" "$mode"
+./exec-binary-test-add.main.kts "$inputdata" "$sparql" "$targetdata" "$outputfoldername" "$testname" "$mode"
 ```

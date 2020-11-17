@@ -5,7 +5,7 @@ Prepare the project for intellij using:
 
 
 ```bash
-./tool-setup-idea.sh
+./tool-setup-idea.main.kts
 ```
 
 This should be fast.
