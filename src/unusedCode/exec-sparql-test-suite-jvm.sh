@@ -13,8 +13,6 @@ IFS=$'\n'
 function execJvm
 {
 	export JAVA_HOME=/usr/lib/jvm/java-14-openjdk-amd64
-	export LUPOS_HOME=/tmp/luposdate3000-test/
-	rm -rf $LUPOS_HOME
 	./build/executable "$@" > log/x 2>&1
 }
 

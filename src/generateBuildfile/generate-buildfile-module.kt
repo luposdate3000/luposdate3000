@@ -642,10 +642,13 @@ fun createBuildFileForModule(moduleName: String, moduleFolder: String, modulePre
 }
 
 fun runCommand(command: List<String>, workingDir: File) {
-    ProcessBuilder(command)
+val p=    ProcessBuilder(command)
             .directory(workingDir)
             .redirectOutput(Redirect.INHERIT)
             .redirectError(Redirect.INHERIT)
             .start()
-            .waitFor()
+p            .waitFor()
+if (p.exitValue() != 0) {
+throw Exception("executing '$command' failed")
+}
 }

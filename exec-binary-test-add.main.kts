@@ -1,13 +1,16 @@
 #!/usr/bin/env kotlin
+@file:Import("src/luposdate3000_shared/commonMain/kotlin/lupos/s00misc/EOperatingSystem.kt")
+@file:Import("src/luposdate3000_shared_inline/commonMain/kotlin/lupos/s00misc/Platform.kt")
+@file:Import("src/luposdate3000_shared_inline/jvmMain/kotlin/lupos/s00misc/Platform.kt")
+@file:CompilerOptions("-Xmulti-platform")
+import lupos.s00misc.Platform
 import java.io.File
 import java.lang.ProcessBuilder.Redirect
 import java.nio.file.StandardOpenOption
 import java.nio.file.Files
 import java.nio.file.Paths
 
-val LUPOS_HOME = "/tmp/luposdate3000-test/"
 File("log").mkdirs()
-File(LUPOS_HOME).deleteRecursively()
 val inputdata = args[0]
 val sparql = args[1]
 val targetdata = args[2]
@@ -15,35 +18,27 @@ val outputfoldername = args[3]
 val testname = args[4]
 val mode = args[5]
 val jars = mutableListOf(
-        "build-cache/bin/Luposdate3000_Buffer_Manager_Inmemory-jvm.jar",
-        "build-cache/bin/Luposdate3000_Dictionary_Inmemory-jvm.jar",
-        "build-cache/bin/Luposdate3000_Endpoint-jvm.jar",
-        "build-cache/bin/Luposdate3000_Operators-jvm.jar",
-        "build-cache/bin/Luposdate3000_Parser-jvm.jar",
-        "build-cache/bin/Luposdate3000_Result_Format-jvm.jar",
-        "build-cache/bin/Luposdate3000_Shared-jvm.jar",
-        "build-cache/bin/Luposdate3000_Test-jvm.jar",
-        "build-cache/bin/Luposdate3000_Triple_Store_All-jvm.jar",
-        "build-cache/bin/Luposdate3000_Triple_Store_Id_Triple-jvm.jar",
-        "build-cache/bin/Luposdate3000_Optimizer-jvm.jar",
-        "build-cache/bin/Luposdate3000_Endpoint_None-jvm.jar",
-        "build-cache/bin/Luposdate3000_Jena_Wrapper_Off-jvm.jar",
-        "build-cache/bin/Luposdate3000_Launch_Binary_Test_Suite-jvm.jar",
+        "build-cache${Platform.getPathSeparator()}bin${Platform.getPathSeparator()}Luposdate3000_Buffer_Manager_Inmemory-jvm.jar",
+        "build-cache${Platform.getPathSeparator()}bin${Platform.getPathSeparator()}Luposdate3000_Dictionary_Inmemory-jvm.jar",
+        "build-cache${Platform.getPathSeparator()}bin${Platform.getPathSeparator()}Luposdate3000_Endpoint-jvm.jar",
+        "build-cache${Platform.getPathSeparator()}bin${Platform.getPathSeparator()}Luposdate3000_Operators-jvm.jar",
+        "build-cache${Platform.getPathSeparator()}bin${Platform.getPathSeparator()}Luposdate3000_Parser-jvm.jar",
+        "build-cache${Platform.getPathSeparator()}bin${Platform.getPathSeparator()}Luposdate3000_Result_Format-jvm.jar",
+        "build-cache${Platform.getPathSeparator()}bin${Platform.getPathSeparator()}Luposdate3000_Shared-jvm.jar",
+        "build-cache${Platform.getPathSeparator()}bin${Platform.getPathSeparator()}Luposdate3000_Test-jvm.jar",
+        "build-cache${Platform.getPathSeparator()}bin${Platform.getPathSeparator()}Luposdate3000_Triple_Store_All-jvm.jar",
+        "build-cache${Platform.getPathSeparator()}bin${Platform.getPathSeparator()}Luposdate3000_Triple_Store_Id_Triple-jvm.jar",
+        "build-cache${Platform.getPathSeparator()}bin${Platform.getPathSeparator()}Luposdate3000_Optimizer-jvm.jar",
+        "build-cache${Platform.getPathSeparator()}bin${Platform.getPathSeparator()}Luposdate3000_Endpoint_None-jvm.jar",
+        "build-cache${Platform.getPathSeparator()}bin${Platform.getPathSeparator()}Luposdate3000_Jena_Wrapper_Off-jvm.jar",
+        "build-cache${Platform.getPathSeparator()}bin${Platform.getPathSeparator()}Luposdate3000_Launch_Binary_Test_Suite-jvm.jar",
 )
-val userHome = System.getProperty("user.home")
-for (f in File("$userHome/.gradle/caches/modules-2/files-2.1/com.soywiz.korlibs.krypto/krypto-jvm/1.9.1/").walk()) {
-    if (f.isFile()) {
-        if (f.getName() == "krypto-jvm-1.9.1.jar") {
-            jars.add(f.toString())
-        }
-    }
+val userHome = Platform.getUserHome()
+for (f in Platform.findNamedFileInDirectory("${Platform.getUserHome()}${Platform.getPathSeparator()}.gradle${Platform.getPathSeparator()}caches${Platform.getPathSepara>
+            jars.add(f)
 }
-for (f in File("$userHome/.m2/repository/org/jetbrains/kotlin/kotlin-stdlib/1.4.255-SNAPSHOT").walk()) {
-    if (f.isFile()) {
-        if (f.getName() == "kotlin-stdlib-1.4.255-SNAPSHOT.jar") {
-            jars.add(f.toString())
-        }
-    }
+for (f in Platform.findNamedFileInDirectory("${Platform.getUserHome()}${Platform.getPathSeparator()}.m2${Platform.getPathSeparator()}repository${Platform.getPathSepara>
+jars.add(f)
 }
 var classpath = ""
 for (jar in jars) {
@@ -54,9 +49,9 @@ for (jar in jars) {
     }
 }
 println(classpath)
-ProcessBuilder("java", "-Xmx60g", "-cp", classpath, "MainKt", "--generate", inputdata, sparql, targetdata, "resources/binary/$outputfoldername", testname, mode)
+ProcessBuilder("java", "-Xmx60g", "-cp", classpath, "MainKt", "--generate", inputdata, sparql, targetdata, "resources${Platform.getPathSeparator()}binary${Platform.getPathSeparator()}$outputfoldername", testname, mode)
         .redirectOutput(Redirect.INHERIT)
         .redirectError(Redirect.INHERIT)
         .start()
         .waitFor()
-Files.write(Paths.get("resources/binary/config"), "$outputfoldername=enabled\n".toByteArray(), StandardOpenOption.APPEND)
+Files.write(Paths.get("resources${Platform.getPathSeparator()}binary${Platform.getPathSeparator()}config"), "$outputfoldername=enabled\n".toByteArray(), StandardOpenOption.APPEND)
