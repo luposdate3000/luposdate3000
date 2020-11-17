@@ -144,7 +144,6 @@ object LuposdateEndpoint {
                     val startTime = DateHelperRelative.markNow()
                     val fileTriples = File("$fileName.triples")
                     val fileDictionary = File("$fileName.dictionary")
-                    val fileDictionaryOffset = File("$fileName.dictionaryoffset")
                     val fileDictionaryStat = File("$fileName.stat")
                     var dictTotal = 0
                     val dictTyped = IntArray(ETripleComponentType.values().size)
@@ -160,13 +159,11 @@ object LuposdateEndpoint {
                     val mapping = IntArray(dictTotal)
                     var mappingIdx = 0
                     var buffer = ByteArray(0)
-                    fileDictionaryOffset.dataInputStream { offsetStream ->
                         fileDictionary.dataInputStream { dictStream ->
                             var lastOffset = 0
                             for (i in 0 until dictTotal) {
-                                val nextOffset = offsetStream.readInt()
+val length=offsetStream.readInt()
                                 val type = ETripleComponentType.values()[dictStream.readByte().toInt()]
-                                val length = nextOffset - lastOffset - 1
                                 if (buffer.size < length) {
                                     buffer = ByteArray(length)
                                 }
@@ -179,7 +176,6 @@ object LuposdateEndpoint {
                                 lastOffset = nextOffset
                             }
                         }
-                    }
                     val dictTime = DateHelperRelative.elapsedSeconds(startTime)
                     val cnt = fileTriples.length() / 12L
                     counter += cnt
