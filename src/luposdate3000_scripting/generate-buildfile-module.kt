@@ -77,7 +77,6 @@ fun createBuildFileForModule(args: Array<String>) {
     createBuildFileForModule(moduleName, moduleFolder, modulePrefix, platform, releaseMode, suspendMode, inlineMode, dryMode, fastMode, ideaBuildfile, args)
 }
 
-
 fun createBuildFileForModule(moduleName: String, releaseMode: ReleaseMode, suspendMode: SuspendMode, inlineMode: InlineMode, dryMode: DryMode, fastMode: FastMode, ideaBuildfile: IntellijMode) {
     createBuildFileForModule(moduleName, moduleName, releaseMode, suspendMode, inlineMode, dryMode, fastMode, ideaBuildfile)
 }
@@ -642,13 +641,13 @@ fun createBuildFileForModule(moduleName: String, moduleFolder: String, modulePre
 }
 
 fun runCommand(command: List<String>, workingDir: File) {
-val p=    ProcessBuilder(command)
+    val p = ProcessBuilder(command)
             .directory(workingDir)
             .redirectOutput(Redirect.INHERIT)
             .redirectError(Redirect.INHERIT)
             .start()
-p            .waitFor()
-if (p.exitValue() != 0) {
-throw Exception("executing '$command' failed")
-}
+    p.waitFor()
+    if (p.exitValue() != 0) {
+        throw Exception("executing '$command' failed")
+    }
 }

@@ -6,7 +6,7 @@ class RadixTree {
     var debugMap = mutableMapOf<String, Int>()
     var next_key = null_key + 1
     var pagesCounter = 1
-    var pagesCapacity=1024
+    var pagesCapacity = 1024
     var pages = Array<ByteArray>(1024) { ByteArray(8192) } // pages[0] is used as temporary buffer
     val rootNode: ByteArray
     val rootNodeOffset: Int
@@ -18,7 +18,7 @@ class RadixTree {
     val listSliceSizes = intArrayOf(16, 32, 64, 128, 256, 512, 1024, 2048, 4096, 8196)
     val freeLists = Array(listSliceSizes.size) { mutableListOf<Int>() }
     val slotsAllocedBySize = IntArray(listSliceSizes.size)
-    val pagesRequiredSpare=listSliceSizes.size
+    val pagesRequiredSpare = listSliceSizes.size
 
     init {
         rootNodePtr = allocBytes(off_21_data)
@@ -933,18 +933,18 @@ class RadixTree {
             }
             return rootKey
         }
-if(pagesRequiredSpare+pagesCounter>pagesCapacity){
-val newCapacity=pagesCapacity shl 1
-val newPages=Array<ByteArray>(newCapacity) {
-if(it<pagesCapacity){
-pages[it]
-}else{
- ByteArray(8192)
-}
- }
-pagesCapacity=newCapacity
-pages=newPages
-}
+        if (pagesRequiredSpare + pagesCounter > pagesCapacity) {
+            val newCapacity = pagesCapacity shl 1
+            val newPages = Array<ByteArray>(newCapacity) {
+                if (it < pagesCapacity) {
+                    pages[it]
+                } else {
+                    ByteArray(8192)
+                }
+            }
+            pagesCapacity = newCapacity
+            pages = newPages
+        }
 
         var pageBuffer = pages[0]
         var data = inData
@@ -1265,20 +1265,20 @@ inline fun testUsingFile(name: String) {
                         testInsertArray(arr)
                     }
                     1 -> {
-if (inputNumber % 10000 == 0) {
-	println(inputNumber)
-}
+                        if (inputNumber % 10000 == 0) {
+                            println(inputNumber)
+                        }
                         val k = tree2[it]
                         if (k == null) {
                             tree2[it] = tree2Counter++
                         }
                     }
-2->{
-if (inputNumber % 10000 == 0) {
-        println(inputNumber)
-}
-tree3.getOrCreate(it)
-}
+                    2 -> {
+                        if (inputNumber % 10000 == 0) {
+                            println(inputNumber)
+                        }
+                        tree3.getOrCreate(it)
+                    }
                 }
                 inputNumber++
             }
@@ -1356,7 +1356,8 @@ inline fun testInsertArray(arr: ByteArray) {
         }
     }
 }
-val tree3=MyMapStringIntPatriciaTrieDouble()
+
+val tree3 = MyMapStringIntPatriciaTrieDouble()
 tree3._init()
 val tree2 = mutableMapOf<String, Int>()
 var tree2Counter = 0
