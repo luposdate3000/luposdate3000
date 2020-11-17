@@ -13,7 +13,7 @@ import java.nio.file.Files
 import java.nio.file.Paths
 
 val triplesFiles="/mnt/luposdate-testdata/sp2b/1024/complete.n3"
-val queryFiles="resources/sp2b/q10.sparql:resources/sp2b/q11.sparql:resources/sp2b/q12a.sparql:resources/sp2b/q12b.sparql:resources/sp2b/q12c.sparql:resources/sp2b/q1.sparql:resources/sp2b/q2.sparql:resources/sp2b/q3a.sparql:resources/sp2b/q3b.sparql:resources/sp2b/q3c.sparql:resources/sp2b/q4.sparql:resources/sp2b/q5a.sparql:resources/sp2b/q5b.sparql:resources/sp2b/q6.sparql:resources/sp2b/q7.sparql:resources/sp2b/q8.sparql:resources/sp2b/q9.sparql"
+val queryFiles="resources/sp2b/q10.sparql;resources/sp2b/q11.sparql;resources/sp2b/q12a.sparql;resources/sp2b/q12b.sparql;resources/sp2b/q12c.sparql;resources/sp2b/q1.sparql;resources/sp2b/q2.sparql;resources/sp2b/q3a.sparql;resources/sp2b/q3b.sparql;resources/sp2b/q3c.sparql;resources/sp2b/q4.sparql;resources/sp2b/q5a.sparql;resources/sp2b/q5b.sparql;resources/sp2b/q6.sparql;resources/sp2b/q7.sparql;resources/sp2b/q8.sparql;resources/sp2b/q9.sparql"
 val minimumTime=10.0
 val numberOfTriples=1024
 
@@ -49,7 +49,7 @@ for (jar in jars) {
         classpath = "$classpath:$jar"
     }
 }
-val cmd = mutableListOf("java", "-Xmx60g", "-cp", classpath, "MainKt",triplesFiles,queryFiles,minimumTime,numberOfTriples)
+val cmd = mutableListOf("java", "-Xmx60g", "-cp", classpath, "MainKt",triplesFiles,queryFiles,"$minimumTime","$numberOfTriples")
 cmd.addAll(args)
 ProcessBuilder(cmd)
         .redirectOutput(Redirect.INHERIT)
