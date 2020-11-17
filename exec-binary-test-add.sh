@@ -23,8 +23,11 @@ ln -s "$(pwd)/build-cache/bin/Luposdate3000_Launch_Binary_Test_Suite-jvm.jar" "$
 
 ln -s $(find ~/.gradle/caches/modules-2/files-2.1/com.soywiz.korlibs.krypto/krypto-jvm/1.9.1/ -name "krypto-jvm-1.9.1.jar") "$(pwd)/build-cache/bin-effective/krypto-jvm-1.9.1.jar"
 ln -s $(find ~/.m2/repository/org/jetbrains/kotlin/kotlin-stdlib/1.4.255-SNAPSHOT -name "kotlin-stdlib-1.4.255-SNAPSHOT.jar") "$(pwd)/build-cache/bin-effective/kotlin-stdlib.jar"
-java -Xmx60g -cp $(printf %s: $(pwd)/build-cache/bin-effective/*.jar) MainKt $@ > log/x 2>&1
-
-cat log/x | grep -e Exception -e Success -e Failed -e "Token unrecognized" -e "java.lang" -e "lupos.s1buildSyntaxTree.UnexpectedToken" -e "Error in the following line"|grep -v "<h1>Success</h1>"| sort | uniq -c | sed "s/kotlin.//g" | sed "s/java.lang.//g"
-#diff resources/binary/configsequential resources/binary/config2 -y | grep -e "|" -e "<" -e ">"
-diff resources/binary/config resources/binary/config2
+inputdata=$1
+sparql=$2
+targetdata=$3
+outputfoldername=$4
+testname=$5
+mode=$6
+java -Xmx60g -cp $(printf %s: $(pwd)/build-cache/bin-effective/*.jar) MainKt --generate "$inputdata" "$sparql" "$targetdata" "resources/binary/$outputfoldername" "$testname" "$mode"
+echo "$outputfoldername=enabled" >> resources/binary/config
