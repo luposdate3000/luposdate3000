@@ -59,7 +59,8 @@ File("settings.gradle").printWriter().use { outSettingsGradle ->
         outBuildGradle.println("dependencies {")
         Files.walk(Paths.get("src"), 1).forEach { it ->
             val name = it.toString()
-            if (name.startsWith("src${Platform.getPathSeparator()}lupos")) {
+            println(name)
+            if (name.startsWith("src/lupos")||name.startsWith("src\\lupos")) {
                 outSettingsGradle.println("include(\":src:${name.substring(4)}\")")
                 outBuildGradle.println("    project(\":src:${name.substring(4)}\")")
             }
