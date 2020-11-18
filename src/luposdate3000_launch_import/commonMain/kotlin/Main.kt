@@ -82,7 +82,7 @@ val outputPartitionsFile = File("$inputFileName.partitions")
     println("partition-stats :: ")
     val lowerBoundToAnalyse = 256
     val labels = arrayOf("s", "p", "o")
-    val partitionSizes = intArrayOf(1, 2, 4, 8, 16)
+    val partitionSizes = intArrayOf( 2, 4, 8, 16)
     val tripleBuf = IntArray(3)
     val counters = Array(3) { IntArray(dictCounter) }
     var maxCounter = IntArray(3)

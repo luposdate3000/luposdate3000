@@ -67,10 +67,11 @@ class POPMergePartitionCount(query: IQuery, projectedVariables: List<String>, va
                             ringbufferWriteHead[p]++
                         } else {
                             SanityCheck.println { "merge $uuid $p writer closed B" }
-                            writerFinished[p] = 1
                             break@loop
                         }
                     }
+writerFinished[p] = 1
+child.hasNext2Close()
                     SanityCheck.println { "merge $uuid $p writer exited loop" }
                 }
             }

@@ -162,12 +162,10 @@ class POPSplitPartition(query: IQuery, projectedVariables: List<String>, val par
                     }
                     SanityCheck.println { "split $uuid writer launched F" }
                     child2?.close?.invoke()
-                    continuationLock.lock()
                     writerFinished = 1
                     for (p in 0 until partitionCount) {
                         ringbufferReaderContinuation[p].signal()
                     }
-                    continuationLock.unlock()
                     SanityCheck.println { "split $uuid writer launched G" }
                     SanityCheck.println { "split $uuid writer exited loop" }
                 }
@@ -203,10 +201,8 @@ class POPSplitPartition(query: IQuery, projectedVariables: List<String>, val par
                     }
                     iterator.close = {
                         SanityCheck.println { "split $uuid $p reader close" }
-                        continuationLock.lock()
                         readerFinished[p] = 1
                         ringbufferWriterContinuation.signal()
-                        continuationLock.unlock()
                     }
                     iterators[p] = IteratorBundle(iterator)
                 }

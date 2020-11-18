@@ -182,10 +182,8 @@ class POPMergePartitionOrderedByIntId(query: IQuery, projectedVariables: List<St
                         error = e
                         e.printStackTrace()
                     }
-                    continuationLock.lock()
                     writerFinished[p] = 1
                     ringbufferReaderContinuation.signal()
-                    continuationLock.unlock()
                     SanityCheck.println { "merge $uuid $p writer exited loop" }
                 }
                 SanityCheck.println { "merge $uuid $p writer lupos.s00misc.ParallelJob init :: " }
@@ -259,12 +257,10 @@ class POPMergePartitionOrderedByIntId(query: IQuery, projectedVariables: List<St
             }
             iterator.close = {
                 SanityCheck.println { "merge $uuid reader closed" }
-                continuationLock.lock()
                 readerFinished = 1
                 for (p in 0 until partitionCount) {
                     ringbufferWriterContinuation[p].signal()
                 }
-                continuationLock.unlock()
             }
             return IteratorBundle(iterator)
         }
