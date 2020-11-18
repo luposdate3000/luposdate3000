@@ -212,6 +212,9 @@ outputPartitionsFile.printWriter{out->
         val t2 = configurations2[i]
         if (t1 == null && t2 == null) {
 out.println("$i,-1,1")
+//add smalles possible partitions to the other collation orders due to currently incomplete optimizer
+out.println("$i,1,${partitionSizes[0]}")
+out.println("$i,2,${partitionSizes[0]}")
 }else{
             if (t1 == null) {
                 out.println("$i,1,${partitionSizes[0]}")
