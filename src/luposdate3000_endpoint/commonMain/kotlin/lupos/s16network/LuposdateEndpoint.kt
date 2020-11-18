@@ -135,13 +135,43 @@ object LuposdateEndpoint {
     @JsName("import_intermediate_files")
             /*suspend*/ fun importIntermediateFiles(fileNames: String): String {
         try {
+            Partition.estimatedPartitions1.clear()
+            Partition.estimatedPartitions2.clear()
             val query = Query()
             var counter = 0L
             val store = distributedTripleStore.getDefaultGraph(query)
             store.bulkImport { bulk ->
-                for (fileName in fileNames.split(";")) {
+                val fileNamesS = fileNames.split(";")
+                for (fileName in fileNamesS) {
                     println("importing file '$fileName'")
                     val startTime = DateHelperRelative.markNow()
+                    if (fileNamesS.size == 1) {
+                        val filePartitions = File("$fileName.partitions")
+                        filePartitions.forEachLine {
+                            val t = it.split(",")
+                            if (t[1] == "1") {
+                                var t2 = Partition.estimatedPartitions1[t[0]]
+                                if (t2 == null) {
+                                    t2 = mutableSetOf<Int>()
+                                    Partition.estimatedPartitions1[t[0]] = t2
+                                }
+                                if (t[2].toInt() > 1) {
+                                    t2.add(t[2].toInt())
+                                }
+                            }
+                            if (t[1] == "2") {
+                                var t2 = Partition.estimatedPartitions2[t[0]]
+                                if (t2 == null) {
+                                    t2 = mutableSetOf<Int>()
+                                    Partition.estimatedPartitions2[t[0]] = t2
+                                }
+                                if (t[2].toInt() > 0) {
+                                    t2.add(t[2].toInt())
+                                }
+                            }
+                        }
+distributedTripleStore.reloadPartitioningScheme()
+                    }
                     val fileTriples = File("$fileName.triples")
                     val fileDictionary = File("$fileName.dictionary")
                     val fileDictionaryStat = File("$fileName.stat")
@@ -159,23 +189,21 @@ object LuposdateEndpoint {
                     val mapping = IntArray(dictTotal)
                     var mappingIdx = 0
                     var buffer = ByteArray(0)
-                        fileDictionary.dataInputStream { dictStream ->
-                            var lastOffset = 0
-                            for (i in 0 until dictTotal) {
-val length=offsetStream.readInt()
-                                val type = ETripleComponentType.values()[dictStream.readByte().toInt()]
-                                if (buffer.size < length) {
-                                    buffer = ByteArray(length)
-                                }
-                                val read = dictStream.read(buffer, 0, length)
-                                if (read < length) {
-                                    throw Exception("invalid read")
-                                }
-                                val s = buffer.decodeToString(0, length)
-                                mapping[mappingIdx++] = nodeGlobalDictionary.createByType(s, type)
-                                lastOffset = nextOffset
+                    fileDictionary.dataInputStream { dictStream ->
+                        for (i in 0 until dictTotal) {
+                            val length = dictStream.readInt()
+                            val type = ETripleComponentType.values()[dictStream.readByte().toInt()]
+                            if (buffer.size < length) {
+                                buffer = ByteArray(length)
                             }
+                            val read = dictStream.read(buffer, 0, length)
+                            if (read < length) {
+                                throw Exception("invalid read")
+                            }
+                            val s = buffer.decodeToString(0, length)
+                            mapping[mappingIdx++] = nodeGlobalDictionary.createByType(s, type)
                         }
+                    }
                     val dictTime = DateHelperRelative.elapsedSeconds(startTime)
                     val cnt = fileTriples.length() / 12L
                     counter += cnt

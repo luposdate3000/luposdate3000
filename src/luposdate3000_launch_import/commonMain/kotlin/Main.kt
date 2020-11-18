@@ -30,8 +30,8 @@ fun main(args: Array<String>): Unit = Parallel.runBlocking {
     val outputTriplesFile = File("$inputFileName.triples")
     val outputDictionaryFile = File("$inputFileName.dictionary")
     val outputDictionaryStatFile = File("$inputFileName.stat")
+val outputPartitionsFile = File("$inputFileName.partitions")
     val byteBuf = ByteArray(1)
-
     try {
         outputDictionaryFile.dataOutputStream { outDictionary ->
             outputTriplesFile.dataOutputStream { outTriples ->
@@ -80,11 +80,10 @@ fun main(args: Array<String>): Unit = Parallel.runBlocking {
     println("importing $inputFileName finish with $cnt triples")
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     println("partition-stats :: ")
-    println("dict size :: $dictCounter")
+    val lowerBoundToAnalyse = 256
     val labels = arrayOf("s", "p", "o")
-    val partitionSizes = intArrayOf(2, 4, 8, 16, 32, 64, 128)
+    val partitionSizes = intArrayOf(1, 2, 4, 8, 16)
     val tripleBuf = IntArray(3)
-
     val counters = Array(3) { IntArray(dictCounter) }
     var maxCounter = IntArray(3)
     outputTriplesFile.dataInputStream { fis ->
@@ -98,11 +97,15 @@ fun main(args: Array<String>): Unit = Parallel.runBlocking {
             }
         }
     }
-    println("maxcounter values :: ${maxCounter.map { it }}")
     val estimatedPartitionSizes = Array(6) { mutableMapOf<Int, Array<IntArray>>() }
-
-    val minimumOccurences = IntArray(3) { maxCounter[it] / 2 } //TODO apply some minvalue here too
-
+    val minimumOccurences = IntArray(3) {
+        val tmp = maxCounter[it] / 2
+        if (lowerBoundToAnalyse > tmp) {
+            lowerBoundToAnalyse
+        } else {
+            tmp
+        }
+    }
     outputTriplesFile.dataInputStream { fis ->
         for (c in 0 until cnt) {
             for (i in 0 until 3) {
@@ -112,7 +115,7 @@ fun main(args: Array<String>): Unit = Parallel.runBlocking {
                 val constantPart = tripleBuf[i]
                 if (counters[i][constantPart] > minimumOccurences[i]) {
                     for (j2 in 0 until 2) {
-                        val j = (i + j2+1) % 3
+                        val j = (i + j2 + 1) % 3
                         val partitionPart = tripleBuf[j]
                         val x = estimatedPartitionSizes[i + j2 * 3]
                         var y = x[constantPart]
@@ -128,28 +131,103 @@ fun main(args: Array<String>): Unit = Parallel.runBlocking {
             }
         }
     }
-
-    println("counts for access patterns :: ")
+    var configurations1 = mutableMapOf<String, MutableSet<Int>>()
+    var configurations2 = mutableMapOf<String, MutableSet<Int>>()
     for (i in 0 until 3) {
         for (j2 in 0 until 2) {
-            val j = (i + j2+1) % 3
-val x = estimatedPartitionSizes[i + j2 * 3]
+            val j = (i + j2 + 1) % 3
+            val x = estimatedPartitionSizes[i + j2 * 3]
+            var lastMax = -1
+            var maxPartition = partitionSizes[0]
             for (ki in 0 until partitionSizes.size) {
                 val k = partitionSizes[ki]
                 var min = -1
                 var max = 0
-for((xk,xv) in x){
-for(xx in xv[ki]){
-if(xx>max){
-max=xx
-}
-if(xx<min|| min==-1){
-min=xx
-}
-}
-}
-                println("fixed '${labels[i]}', partitioned by '${labels[j]}' into '$k' partitions -> min=$min max=$max")
+                for ((xk, xv) in x) {
+                    for (xx in xv[ki]) {
+                        if (xx > max) {
+                            max = xx
+                        }
+                        if (xx < min || min == -1) {
+                            min = xx
+                        }
+                    }
+                }
+                if (max < lowerBoundToAnalyse) {
+                    break
+                } else if (lastMax == -1) {
+                    lastMax = max
+                } else if (max > lastMax * 0.55) {
+                    break
+                }
+                maxPartition = k
+            }
+            val idxName: String
+            val idxNameSecondary: String
+            when (i + j2 * 3) {
+                0 -> {
+                    idxName = "SPO"
+                    idxNameSecondary = "SOP"
+                }
+                1 -> {
+                    idxName = "POS"
+                    idxNameSecondary = "PSO"
+                }
+                2 -> {
+                    idxName = "OSP"
+                    idxNameSecondary = "OPS"
+                }
+                3 -> {
+                    idxName = "SOP"
+                    idxNameSecondary = "SPO"
+                }
+                4 -> {
+                    idxName = "PSO"
+                    idxNameSecondary = "POS"
+                }
+                5 -> {
+                    idxName = "OPS"
+                    idxNameSecondary = "OSP"
+                }
+                else -> throw Exception("unreachable")
+            }
+            if (maxPartition > 1) {
+                if (configurations1[idxName] == null) {
+                    configurations1[idxName] = mutableSetOf(maxPartition)
+                } else {
+                    configurations1[idxName]!!.add(maxPartition)
+                }
+                if (configurations2[idxNameSecondary] == null) {
+                    configurations2[idxNameSecondary] = mutableSetOf(maxPartition)
+                } else {
+                    configurations2[idxNameSecondary]!!.add(maxPartition)
+                }
             }
         }
     }
+    var indicees = arrayOf("SPO", "SOP", "PSO", "POS", "OSP", "OPS")
+outputPartitionsFile.printWriter{out->
+    for (i in indicees) {
+        val t1 = configurations1[i]
+        val t2 = configurations2[i]
+        if (t1 == null && t2 == null) {
+out.println("$i,-1,1")
+}else{
+            if (t1 == null) {
+                out.println("$i,1,${partitionSizes[0]}")
+            } else {
+                for (j in t1) {
+                    out.println("$i,1,$j")
+                }
+            }
+            if (t2 == null) {
+                out.println("$i,2,${partitionSizes[0]}")
+            } else {
+                for (j in t2) {
+                    out.println("$i,2,$j")
+                }
+            }
+        }
+    }
+}
 }

@@ -205,23 +205,26 @@ class DistributedGraph(val query: IQuery, @JvmField val name: String) : IDistrib
 class DistributedTripleStore : IDistributedTripleStore {
     @JvmField
     val localStore: PersistentStoreLocal = PersistentStoreLocal()
+override fun reloadPartitioningScheme(){
+localStore.reloadPartitioningScheme()
+}
     override fun getLocalStore(): PersistentStoreLocal = localStore
     override fun getGraphNames(includeDefault: Boolean): List<String> {
         return localStore.getGraphNames(includeDefault)
     }
 
     override /*suspend*/ fun createGraph(query: IQuery, name: String): DistributedGraph {
-        distributedTripleStore.getLocalStore().createGraph(query, name)
+        localStore.createGraph(query, name)
         return DistributedGraph(query, name)
     }
 
     override /*suspend*/ fun dropGraph(query: IQuery, name: String) {
-        distributedTripleStore.getLocalStore().dropGraph(query, name)
+        localStore.dropGraph(query, name)
     }
 
     override /*suspend*/ fun clearGraph(query: IQuery, name: String) {
         SanityCheck.println { "DistributedTripleStore.clearGraph $name" }
-        distributedTripleStore.getLocalStore().clearGraph(query, name)
+        localStore.clearGraph(query, name)
     }
 
     override /*suspend*/ fun getNamedGraph(query: IQuery, name: String): DistributedGraph {
@@ -236,6 +239,6 @@ class DistributedTripleStore : IDistributedTripleStore {
     }
 
     override /*suspend*/ fun commit(query: IQuery) {
-        distributedTripleStore.getLocalStore().commit(query)
+        localStore.commit(query)
     }
 }
