@@ -6,12 +6,19 @@ To run all tests use the following:
 ./exec-binary-test-suite-jvm.main.kts
 ```
 
+or if you are using intellij, launch the main-function in the module Luposdate3000_Launch_Binary_Test_Suite .
+
+
 These tests are executed repeatedly and therefore these should be compileable and executable.
 Currently luposdate3000 is not finished - thats why there are lots of failing tests.
 The test script writes a summary to the file resources/binary/config2.
 The comparison to the file resources/binary/config should show if there are new tests working - or if there are some tests broken right now.
 You can modify resources/binary/config to enable/disable specific tests.
 The found errors are summarized in the file log/error.
+
+The errors are NOT displayed in the console.
+In the console are only debugging-logs, which may help to find the origin of the error.
+
 
 luposdate3000 allows for many configuration options where completely independent code is used.
 
