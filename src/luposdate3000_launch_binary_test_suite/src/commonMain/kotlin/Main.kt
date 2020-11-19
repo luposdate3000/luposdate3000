@@ -3,7 +3,7 @@ import lupos.s00misc.BinaryTestCaseOutputMode
 import lupos.s00misc.Parallel
 import lupos.s16network.LuposdateEndpoint
 
-inline fun mainFunc(args: Array<String>) {
+fun mainFunc(args: Array<String>) {
     LuposdateEndpoint.initialize()
     Parallel.runBlocking {
         if (args.isNotEmpty() && args[0] == "--generate") {

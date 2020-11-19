@@ -12,7 +12,7 @@ fun printBenchmarkLine(title: String, time: Double, count: Int, numberOfTriples:
 }
 
 @OptIn(ExperimentalStdlibApi::class, kotlin.time.ExperimentalTime::class)
-inline fun mainFunc(args: Array<String>): Unit = Parallel.runBlocking {
+fun mainFunc(args: Array<String>): Unit = Parallel.runBlocking {
     LuposdateEndpoint.initialize()
     val datasourceFiles = args[0]
     val queryFiles = args[1].split(";")

@@ -16,7 +16,7 @@ fun helperCleanString(s: String): String {
 }
 
 @OptIn(ExperimentalStdlibApi::class, kotlin.time.ExperimentalTime::class)
-inline fun mainFunc(args: Array<String>): Unit = Parallel.runBlocking {
+fun mainFunc(args: Array<String>): Unit = Parallel.runBlocking {
     println("importing args ${args.map { it }}")
     LuposdateEndpoint.initialize()
     var cnt = 0
