@@ -123,7 +123,7 @@ fun createBuildFileForModule(moduleName: String, moduleFolder: String, modulePre
     File("src.generated").deleteRecursively()
     if (ideaBuildfile == IntellijMode.Disable) {
         File("src.generated").mkdirs()
-        val p = Paths.get(moduleFolder)
+        val p = Paths.get("$moduleFolder/src")
         Files.walk(p, 1).forEach { it ->
             val tmp = it.toString()
             if (tmp.length > p.toString().length) {
@@ -335,25 +335,21 @@ fun createBuildFileForModule(moduleName: String, moduleFolder: String, modulePre
             }
             out.println("    }")
             if (buildForIDE) {
-                out.println("    sourceSets[\"commonMain\"].kotlin.srcDir(\"commonMain${pathSeparatorEscaped}kotlin\")")
                 if (moduleName != "Luposdate3000_Shared_Inline") {
                     out.println("    sourceSets[\"commonMain\"].kotlin.srcDir(\"..${pathSeparatorEscaped}xxx_generated_xxx${pathSeparatorEscaped}${moduleName}${pathSeparatorEscaped}commonMain${pathSeparatorEscaped}kotlin\")")
                 }
                 if (fastMode == FastMode.Disable || fastMode == FastMode.JVM) {
-                    out.println("    sourceSets[\"jvmMain\"].kotlin.srcDir(\"jvmMain${pathSeparatorEscaped}kotlin\")")
                     if (moduleName != "Luposdate3000_Shared_Inline") {
                         out.println("    sourceSets[\"jvmMain\"].kotlin.srcDir(\"..${pathSeparatorEscaped}xxx_generated_xxx${pathSeparatorEscaped}${moduleName}${pathSeparatorEscaped}jvmMain${pathSeparatorEscaped}kotlin\")")
                     }
                 }
                 if (fastMode == FastMode.Disable || fastMode == FastMode.JS) {
-                    out.println("    sourceSets[\"jsMain\"].kotlin.srcDir(\"jsMain${pathSeparatorEscaped}kotlin\")")
                     if (moduleName != "Luposdate3000_Shared_Inline") {
                         out.println("    sourceSets[\"jsMain\"].kotlin.srcDir(\"..${pathSeparatorEscaped}xxx_generated_xxx${pathSeparatorEscaped}${moduleName}${pathSeparatorEscaped}jsMain${pathSeparatorEscaped}kotlin\")")
                     }
                 }
                 if (fastMode == FastMode.Disable || fastMode == FastMode.NATIVE) {
                     out.println("    sourceSets[\"${platform}Main\"].kotlin.srcDir(\"nativeMain${pathSeparatorEscaped}kotlin\")")
-                    out.println("    sourceSets[\"${platform}Main\"].kotlin.srcDir(\"${platform}Main${pathSeparatorEscaped}kotlin\")")
                     if (moduleName != "Luposdate3000_Shared_Inline") {
                         out.println("    sourceSets[\"${platform}Main\"].kotlin.srcDir(\"..${pathSeparatorEscaped}xxx_generated_xxx${pathSeparatorEscaped}${moduleName}${pathSeparatorEscaped}nativeMain${pathSeparatorEscaped}kotlin\")")
                         out.println("    sourceSets[\"${platform}Main\"].kotlin.srcDir(\"..${pathSeparatorEscaped}xxx_generated_xxx${pathSeparatorEscaped}${moduleName}${pathSeparatorEscaped}${platform}Main${pathSeparatorEscaped}kotlin\")")
