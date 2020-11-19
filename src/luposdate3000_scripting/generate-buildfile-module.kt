@@ -197,6 +197,9 @@ fun createBuildFileForModule(moduleName: String, moduleFolder: String, modulePre
         if (ideaBuildfile == IntellijMode.Enable && !buildForIDE) {
             continue
         }
+        if (ideaBuildfile == IntellijMode.Disable && buildForIDE) {
+            continue
+        }
         File(filename).printWriter().use { out ->
             out.println("import org.jetbrains.kotlin.gradle.tasks.KotlinCompile")
             out.println("tasks.withType<KotlinCompile>().all {")
@@ -231,6 +234,9 @@ fun createBuildFileForModule(moduleName: String, moduleFolder: String, modulePre
             }
             out.println("plugins {")
             out.println("    id(\"org.jetbrains.kotlin.multiplatform\") version \"1.4.255-SNAPSHOT\"")
+if (buildForIDE&&!buildLibrary) {
+            out.println("    application")
+}
             out.println("}")
             out.println("repositories {")
             out.println("    jcenter()")
@@ -336,23 +342,23 @@ fun createBuildFileForModule(moduleName: String, moduleFolder: String, modulePre
             out.println("    }")
             if (buildForIDE) {
                 if (moduleName != "Luposdate3000_Shared_Inline") {
-                    out.println("    sourceSets[\"commonMain\"].kotlin.srcDir(\"..${pathSeparatorEscaped}xxx_generated_xxx${pathSeparatorEscaped}${moduleName}${pathSeparatorEscaped}commonMain${pathSeparatorEscaped}kotlin\")")
+                    out.println("    sourceSets[\"commonMain\"].kotlin.srcDir(\"..${pathSeparatorEscaped}xxx_generated_xxx${pathSeparatorEscaped}${moduleName}${pathSeparatorEscaped}src${pathSeparatorEscaped}commonMain${pathSeparatorEscaped}kotlin\")")
                 }
                 if (fastMode == FastMode.Disable || fastMode == FastMode.JVM) {
                     if (moduleName != "Luposdate3000_Shared_Inline") {
-                        out.println("    sourceSets[\"jvmMain\"].kotlin.srcDir(\"..${pathSeparatorEscaped}xxx_generated_xxx${pathSeparatorEscaped}${moduleName}${pathSeparatorEscaped}jvmMain${pathSeparatorEscaped}kotlin\")")
+                        out.println("    sourceSets[\"jvmMain\"].kotlin.srcDir(\"..${pathSeparatorEscaped}xxx_generated_xxx${pathSeparatorEscaped}${moduleName}${pathSeparatorEscaped}src${pathSeparatorEscaped}jvmMain${pathSeparatorEscaped}kotlin\")")
                     }
                 }
                 if (fastMode == FastMode.Disable || fastMode == FastMode.JS) {
                     if (moduleName != "Luposdate3000_Shared_Inline") {
-                        out.println("    sourceSets[\"jsMain\"].kotlin.srcDir(\"..${pathSeparatorEscaped}xxx_generated_xxx${pathSeparatorEscaped}${moduleName}${pathSeparatorEscaped}jsMain${pathSeparatorEscaped}kotlin\")")
+                        out.println("    sourceSets[\"jsMain\"].kotlin.srcDir(\"..${pathSeparatorEscaped}xxx_generated_xxx${pathSeparatorEscaped}${moduleName}${pathSeparatorEscaped}src${pathSeparatorEscaped}jsMain${pathSeparatorEscaped}kotlin\")")
                     }
                 }
                 if (fastMode == FastMode.Disable || fastMode == FastMode.NATIVE) {
                     out.println("    sourceSets[\"${platform}Main\"].kotlin.srcDir(\"nativeMain${pathSeparatorEscaped}kotlin\")")
                     if (moduleName != "Luposdate3000_Shared_Inline") {
-                        out.println("    sourceSets[\"${platform}Main\"].kotlin.srcDir(\"..${pathSeparatorEscaped}xxx_generated_xxx${pathSeparatorEscaped}${moduleName}${pathSeparatorEscaped}nativeMain${pathSeparatorEscaped}kotlin\")")
-                        out.println("    sourceSets[\"${platform}Main\"].kotlin.srcDir(\"..${pathSeparatorEscaped}xxx_generated_xxx${pathSeparatorEscaped}${moduleName}${pathSeparatorEscaped}${platform}Main${pathSeparatorEscaped}kotlin\")")
+                        out.println("    sourceSets[\"${platform}Main\"].kotlin.srcDir(\"..${pathSeparatorEscaped}xxx_generated_xxx${pathSeparatorEscaped}${moduleName}${pathSeparatorEscaped}src${pathSeparatorEscaped}nativeMain${pathSeparatorEscaped}kotlin\")")
+                        out.println("    sourceSets[\"${platform}Main\"].kotlin.srcDir(\"..${pathSeparatorEscaped}xxx_generated_xxx${pathSeparatorEscaped}${moduleName}${pathSeparatorEscaped}src${pathSeparatorEscaped}${platform}Main${pathSeparatorEscaped}kotlin\")")
                     }
                 }
             } else {
@@ -369,7 +375,12 @@ fun createBuildFileForModule(moduleName: String, moduleFolder: String, modulePre
                 }
             }
             out.println("}")
-            if (!buildLibrary) {
+if (buildForIDE&&!buildLibrary) {
+out.println("application{")
+out.println("    mainClass.set(\"MainKt\")")
+out.println("}")
+}
+/*            if (!buildLibrary) {
 //https://play.kotlinlang.org/hands-on/Introduction%20to%20Kotlin%20Multiplatform/03_multiplatform_jvm
                 out.println("val run by tasks.creating(JavaExec::class) {")
                 out.println("    group = \"application\"")
@@ -383,6 +394,7 @@ fun createBuildFileForModule(moduleName: String, moduleFolder: String, modulePre
                 out.println("    File(\"\${project.rootDir}${pathSeparatorEscaped}log\").mkdirs()")
                 out.println("}")
             }
+*/
         }
     }
     if (ideaBuildfile == IntellijMode.Disable) {
@@ -508,24 +520,24 @@ fun createBuildFileForModule(moduleName: String, moduleFolder: String, modulePre
     println()
     var configFile: String
     if (ideaBuildfile == IntellijMode.Enable) {
-        var configPathBase = "src${pathSeparator}xxx_generated_xxx${pathSeparator}${moduleName}"
+        var configPathBase = "src${pathSeparator}xxx_generated_xxx${pathSeparator}${moduleName}${pathSeparator}src"
         var configPath = "${configPathBase}${pathSeparator}commonMain${pathSeparator}kotlin${pathSeparator}lupos${pathSeparator}s00misc"
         File(configPath).mkdirs()
         typeAliasUsed.putAll(typeAliasAll)
         try {
-            File("src${pathSeparator}luposdate3000_shared_inline${pathSeparator}src${pathSeparator}commonMain").copyRecursively(File("${configPathBase}${pathSeparator}src${pathSeparator}commonMain"))
+            File("src${pathSeparator}luposdate3000_shared_inline${pathSeparator}src${pathSeparator}commonMain").copyRecursively(File("${configPathBase}${pathSeparator}commonMain"))
         } catch (e: Throwable) {
         }
         try {
-            File("src${pathSeparator}luposdate3000_shared_inline${pathSeparator}src${pathSeparator}jvmMain").copyRecursively(File("${configPathBase}${pathSeparator}src${pathSeparator}jvmMain"))
+            File("src${pathSeparator}luposdate3000_shared_inline${pathSeparator}src${pathSeparator}jvmMain").copyRecursively(File("${configPathBase}${pathSeparator}jvmMain"))
         } catch (e: Throwable) {
         }
         try {
-            File("src${pathSeparator}luposdate3000_shared_inline${pathSeparator}src${pathSeparator}jsMain").copyRecursively(File("${configPathBase}${pathSeparator}src${pathSeparator}jsMain"))
+            File("src${pathSeparator}luposdate3000_shared_inline${pathSeparator}src${pathSeparator}jsMain").copyRecursively(File("${configPathBase}${pathSeparator}jsMain"))
         } catch (e: Throwable) {
         }
         try {
-            File("src${pathSeparator}luposdate3000_shared_inline${pathSeparator}src${pathSeparator}nativeMain").copyRecursively(File("${configPathBase}${pathSeparator}src${pathSeparator}nativeMain"))
+            File("src${pathSeparator}luposdate3000_shared_inline${pathSeparator}src${pathSeparator}nativeMain").copyRecursively(File("${configPathBase}${pathSeparator}nativeMain"))
         } catch (e: Throwable) {
         }
         configFile = "${configPath}${pathSeparator}Config-${moduleName}.kt"
