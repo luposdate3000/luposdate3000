@@ -18,10 +18,10 @@ fun mainFunc(args: Array<String>): Unit = Parallel.runBlocking {
     val queryFiles = args[1].split(";")
     val minimumTime = args[2].toDouble()
     val numberOfTriples = args[3].toLong()
-            val timer = DateHelperRelative.markNow()
-            LuposdateEndpoint.importIntermediateFiles(datasourceFiles)
-            val time = DateHelperRelative.elapsedSeconds(timer)
-            printBenchmarkLine("$datasourceFiles/persistence-import.sparql", time, 1, numberOfTriples)
+    val timer = DateHelperRelative.markNow()
+    LuposdateEndpoint.importIntermediateFiles(datasourceFiles)
+    val time = DateHelperRelative.elapsedSeconds(timer)
+    printBenchmarkLine("$datasourceFiles/persistence-import.sparql", time, 1, numberOfTriples)
     val groupSize = IntArray(queryFiles.size) { 1 }
     for (queryFileIdx in queryFiles.indices) {
         val queryFile = queryFiles[queryFileIdx]

@@ -170,7 +170,7 @@ object LuposdateEndpoint {
                                 }
                             }
                         }
-distributedTripleStore.reloadPartitioningScheme()
+                        distributedTripleStore.reloadPartitioningScheme()
                     }
                     val fileTriples = File("$fileName.triples")
                     val fileDictionary = File("$fileName.dictionary")

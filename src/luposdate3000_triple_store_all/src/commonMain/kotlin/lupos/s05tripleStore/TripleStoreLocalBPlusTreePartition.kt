@@ -5,7 +5,7 @@ import lupos.s00misc.Partition
 
 class TripleStoreLocalBPlusTreePartition(name: String) : TripleStoreLocalBase(name) {
     init {
-        if (Partition.estimatedPartitions1.size > 0||Partition.estimatedPartitions2.size>0) {
+        if (Partition.estimatedPartitions1.size > 0 || Partition.estimatedPartitions2.size > 0) {
             val localindicees = mapOf(
                     "SPO" to mutableSetOf(EIndexPattern.SPO, EIndexPattern.S_PO, EIndexPattern.SP_O),
                     "SOP" to mutableSetOf(EIndexPattern.SOP, EIndexPattern.S_OP, EIndexPattern.SO_P),
@@ -20,13 +20,13 @@ class TripleStoreLocalBPlusTreePartition(name: String) : TripleStoreLocalBase(na
                 val tmp2 = Partition.estimatedPartitions1[k]
                 if (tmp2 != null) {
                     for (tmp in tmp2) {
-                            tmpEnabledPartitions.add(EnabledPartitionContainer(v, 1, tmp))
+                        tmpEnabledPartitions.add(EnabledPartitionContainer(v, 1, tmp))
                     }
                 }
                 val tmp3 = Partition.estimatedPartitions2[k]
                 if (tmp3 != null) {
                     for (tmp in tmp3) {
-                            tmpEnabledPartitions.add(EnabledPartitionContainer(v, 2, tmp))
+                        tmpEnabledPartitions.add(EnabledPartitionContainer(v, 2, tmp))
                     }
                 }
             }
@@ -54,9 +54,9 @@ class TripleStoreLocalBPlusTreePartition(name: String) : TripleStoreLocalBase(na
             )
         }
         val dataDistinctList = mutableListOf<TripleStoreDistinctContainer>()
-println("the activated Partitions are ::")
+        println("the activated Partitions are ::")
         for (p in enabledPartitions) {
-println("partition :: ${p.index.first()} ${p.column} ${p.partitionCount}")
+            println("partition :: ${p.index.first()} ${p.column} ${p.partitionCount}")
             val name2 = StringBuilder(p.index.toString())
             if (p.column >= 0) {
                 name2.insert(p.column, p.partitionCount)

@@ -3,9 +3,10 @@ package lupos.s15tripleStoreDistributed
 import lupos.s04logicalOperators.IQuery
 
 var distributedTripleStore: IDistributedTripleStore = object : IDistributedTripleStore {
-override fun reloadPartitioningScheme(){
-throw Exception("unreachable")
-}
+    override fun reloadPartitioningScheme() {
+        throw Exception("unreachable")
+    }
+
     override fun getGraphNames(includeDefault: Boolean): List<String> {
         throw Exception("unreachable")
     }

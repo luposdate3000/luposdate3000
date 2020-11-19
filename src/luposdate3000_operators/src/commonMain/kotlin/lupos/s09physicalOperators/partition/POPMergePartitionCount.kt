@@ -70,8 +70,8 @@ class POPMergePartitionCount(query: IQuery, projectedVariables: List<String>, va
                             break@loop
                         }
                     }
-writerFinished[p] = 1
-child.hasNext2Close()
+                    writerFinished[p] = 1
+                    child.hasNext2Close()
                     SanityCheck.println { "merge $uuid $p writer exited loop" }
                 }
             }

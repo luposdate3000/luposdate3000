@@ -12,12 +12,14 @@ class PersistentStoreLocal : IPersistentStoreLocal {
     val stores: MutableMap<String, TripleStoreLocal> = mutableMapOf()
 
     init {
- stores[PersistentStoreLocalExt.defaultGraphName] = TripleStoreLocal(PersistentStoreLocalExt.defaultGraphName)
-    }
-fun reloadPartitioningScheme(){
-stores.clear()
         stores[PersistentStoreLocalExt.defaultGraphName] = TripleStoreLocal(PersistentStoreLocalExt.defaultGraphName)
-}
+    }
+
+    fun reloadPartitioningScheme() {
+        stores.clear()
+        stores[PersistentStoreLocalExt.defaultGraphName] = TripleStoreLocal(PersistentStoreLocalExt.defaultGraphName)
+    }
+
     override fun getGraphNames(includeDefault: Boolean): List<String> {
         val res = mutableListOf<String>()
         stores.keys.forEach { t ->

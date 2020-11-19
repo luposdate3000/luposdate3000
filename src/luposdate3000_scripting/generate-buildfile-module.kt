@@ -234,9 +234,9 @@ fun createBuildFileForModule(moduleName: String, moduleFolder: String, modulePre
             }
             out.println("plugins {")
             out.println("    id(\"org.jetbrains.kotlin.multiplatform\") version \"1.4.255-SNAPSHOT\"")
-if (buildForIDE&&!buildLibrary) {
-            out.println("    application")
-}
+            if (buildForIDE && !buildLibrary) {
+                out.println("    application")
+            }
             out.println("}")
             out.println("repositories {")
             out.println("    jcenter()")
@@ -375,11 +375,11 @@ if (buildForIDE&&!buildLibrary) {
                 }
             }
             out.println("}")
-if (buildForIDE&&!buildLibrary) {
-out.println("application{")
-out.println("    mainClass.set(\"MainKt\")")
-out.println("}")
-}
+            if (buildForIDE && !buildLibrary) {
+                out.println("application{")
+                out.println("    mainClass.set(\"MainKt\")")
+                out.println("}")
+            }
 /*            if (!buildLibrary) {
 //https://play.kotlinlang.org/hands-on/Introduction%20to%20Kotlin%20Multiplatform/03_multiplatform_jvm
                 out.println("val run by tasks.creating(JavaExec::class) {")

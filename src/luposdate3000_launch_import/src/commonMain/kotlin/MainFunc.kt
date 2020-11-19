@@ -30,7 +30,7 @@ fun mainFunc(args: Array<String>): Unit = Parallel.runBlocking {
     val outputTriplesFile = File("$inputFileName.triples")
     val outputDictionaryFile = File("$inputFileName.dictionary")
     val outputDictionaryStatFile = File("$inputFileName.stat")
-val outputPartitionsFile = File("$inputFileName.partitions")
+    val outputPartitionsFile = File("$inputFileName.partitions")
     val byteBuf = ByteArray(1)
     try {
         outputDictionaryFile.dataOutputStream { outDictionary ->
@@ -82,7 +82,7 @@ val outputPartitionsFile = File("$inputFileName.partitions")
     println("partition-stats :: ")
     val lowerBoundToAnalyse = 256
     val labels = arrayOf("s", "p", "o")
-    val partitionSizes = intArrayOf( 2, 4, 8, 16)
+    val partitionSizes = intArrayOf(2, 4, 8, 16)
     val tripleBuf = IntArray(3)
     val counters = Array(3) { IntArray(dictCounter) }
     var maxCounter = IntArray(3)
@@ -206,31 +206,31 @@ val outputPartitionsFile = File("$inputFileName.partitions")
         }
     }
     var indicees = arrayOf("SPO", "SOP", "PSO", "POS", "OSP", "OPS")
-outputPartitionsFile.printWriter{out->
-    for (i in indicees) {
-        val t1 = configurations1[i]
-        val t2 = configurations2[i]
-        if (t1 == null && t2 == null) {
-out.println("$i,-1,1")
+    outputPartitionsFile.printWriter { out ->
+        for (i in indicees) {
+            val t1 = configurations1[i]
+            val t2 = configurations2[i]
+            if (t1 == null && t2 == null) {
+                out.println("$i,-1,1")
 //add smalles possible partitions to the other collation orders due to currently incomplete optimizer
-out.println("$i,1,${partitionSizes[0]}")
-out.println("$i,2,${partitionSizes[0]}")
-}else{
-            if (t1 == null) {
                 out.println("$i,1,${partitionSizes[0]}")
-            } else {
-                for (j in t1) {
-                    out.println("$i,1,$j")
-                }
-            }
-            if (t2 == null) {
                 out.println("$i,2,${partitionSizes[0]}")
             } else {
-                for (j in t2) {
-                    out.println("$i,2,$j")
+                if (t1 == null) {
+                    out.println("$i,1,${partitionSizes[0]}")
+                } else {
+                    for (j in t1) {
+                        out.println("$i,1,$j")
+                    }
+                }
+                if (t2 == null) {
+                    out.println("$i,2,${partitionSizes[0]}")
+                } else {
+                    for (j in t2) {
+                        out.println("$i,2,$j")
+                    }
                 }
             }
         }
     }
-}
 }
