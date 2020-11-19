@@ -13,6 +13,7 @@ import java.nio.file.Files
 import java.nio.file.Paths
 
 File(".idea").deleteRecursively()
+File("log").mkdirs()
 createBuildFileForModule("Luposdate3000_Shared", ReleaseMode.Disable, SuspendMode.Disable, InlineMode.Enable, DryMode.Disable, FastMode.JVM, IntellijMode.Enable)
 createBuildFileForModule("Luposdate3000_Jena_Wrapper_On", "Luposdate3000_Jena_Wrapper", ReleaseMode.Disable, SuspendMode.Disable, InlineMode.Enable, DryMode.Disable, FastMode.JVM, IntellijMode.Enable)
 createBuildFileForModule("Luposdate3000_Jena_Wrapper_Off", "Luposdate3000_Jena_Wrapper", ReleaseMode.Disable, SuspendMode.Disable, InlineMode.Enable, DryMode.Disable, FastMode.JVM, IntellijMode.Enable)
