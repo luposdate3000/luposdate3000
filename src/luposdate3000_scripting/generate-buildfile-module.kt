@@ -123,7 +123,7 @@ fun createBuildFileForModule(moduleName: String, moduleFolder: String, modulePre
     File("src.generated").deleteRecursively()
     if (ideaBuildfile == IntellijMode.Disable) {
         File("src.generated").mkdirs()
-        val p = Paths.get("$moduleFolder/src")
+        val p = Paths.get("$moduleFolder${pathSeparator}src")
         Files.walk(p, 1).forEach { it ->
             val tmp = it.toString()
             if (tmp.length > p.toString().length) {
@@ -413,7 +413,7 @@ fun createBuildFileForModule(moduleName: String, moduleFolder: String, modulePre
 //selectively copy classes which are inlined from the inline module ->
     val classNamesRegex = Regex("\\s*([a-zA-Z0-9_]*)")
     val classNamesFound = mutableMapOf<String, MutableSet<String>>()
-    for (f in File("src${pathSeparator}luposdate3000_shared_inline").walk()) {
+    for (f in File("src${pathSeparator}luposdate3000_shared_inline${pathSeparator}src").walk()) {
         if (f.isFile()) {
             try {
                 f.forEachLine { it ->
@@ -449,7 +449,7 @@ fun createBuildFileForModule(moduleName: String, moduleFolder: String, modulePre
             }
         } else {
             if (ideaBuildfile == IntellijMode.Disable) {
-                val f2 = File(f.toString().replace("src${pathSeparator}luposdate3000_shared_inline", "src.generated"))
+                val f2 = File(f.toString().replace("src${pathSeparator}luposdate3000_shared_inline${pathSeparator}src", "src.generated"))
                 f2.mkdirs()
             }
         }
@@ -497,7 +497,7 @@ fun createBuildFileForModule(moduleName: String, moduleFolder: String, modulePre
             for ((k, v) in classNamesUsed) {
                 for (fname in v) {
                     val src = File(fname)
-                    val dest = File(fname.replace("src${pathSeparator}luposdate3000_shared_inline", "src.generated"))
+                    val dest = File(fname.replace("src${pathSeparator}luposdate3000_shared_inline${pathSeparator}src", "src.generated"))
                     src.copyTo(dest)
                 }
             }
@@ -513,19 +513,19 @@ fun createBuildFileForModule(moduleName: String, moduleFolder: String, modulePre
         File(configPath).mkdirs()
         typeAliasUsed.putAll(typeAliasAll)
         try {
-            File("src${pathSeparator}luposdate3000_shared_inline${pathSeparator}commonMain").copyRecursively(File("${configPathBase}${pathSeparator}commonMain"))
+            File("src${pathSeparator}luposdate3000_shared_inline${pathSeparator}src${pathSeparator}commonMain").copyRecursively(File("${configPathBase}${pathSeparator}src${pathSeparator}commonMain"))
         } catch (e: Throwable) {
         }
         try {
-            File("src${pathSeparator}luposdate3000_shared_inline${pathSeparator}jvmMain").copyRecursively(File("${configPathBase}${pathSeparator}jvmMain"))
+            File("src${pathSeparator}luposdate3000_shared_inline${pathSeparator}src${pathSeparator}jvmMain").copyRecursively(File("${configPathBase}${pathSeparator}src${pathSeparator}jvmMain"))
         } catch (e: Throwable) {
         }
         try {
-            File("src${pathSeparator}luposdate3000_shared_inline${pathSeparator}jsMain").copyRecursively(File("${configPathBase}${pathSeparator}jsMain"))
+            File("src${pathSeparator}luposdate3000_shared_inline${pathSeparator}src${pathSeparator}jsMain").copyRecursively(File("${configPathBase}${pathSeparator}src${pathSeparator}jsMain"))
         } catch (e: Throwable) {
         }
         try {
-            File("src${pathSeparator}luposdate3000_shared_inline${pathSeparator}nativeMain").copyRecursively(File("${configPathBase}${pathSeparator}nativeMain"))
+            File("src${pathSeparator}luposdate3000_shared_inline${pathSeparator}src${pathSeparator}nativeMain").copyRecursively(File("${configPathBase}${pathSeparator}src${pathSeparator}nativeMain"))
         } catch (e: Throwable) {
         }
         configFile = "${configPath}${pathSeparator}Config-${moduleName}.kt"
