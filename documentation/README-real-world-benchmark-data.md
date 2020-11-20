@@ -113,6 +113,13 @@ Make sure you read the following comments.
     7z x yago-3.0.2-turtle-simple.7z
     rm yago-3.0.2-turtle-simple.7z statistics.txt
 }
+#yago4
+{
+#work in progress
+#    cd /mnt/luposdate-testdata
+#    mkdir yago4
+#    wget -r https://yago-knowledge.org/data/yago4/full/2020-02-24/
+}
 #barton
 {
     cd /mnt/luposdate-testdata
