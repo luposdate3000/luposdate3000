@@ -631,11 +631,14 @@ fun createBuildFileForModule(moduleName: String, moduleFolder: String, modulePre
         }
     }
     if (dryMode == DryMode.Disable) {
+if (fastMode == FastMode.Disable || fastMode == FastMode.JVM) {
         try {
             Files.copy(Paths.get("build-cache${pathSeparator}build-${shortFolder}${pathSeparator}libs${pathSeparator}${moduleName}-jvm-0.0.1.jar"), Paths.get("build-cache${pathSeparator}bin${pathSeparator}${moduleName}-jvm.jar"), StandardCopyOption.REPLACE_EXISTING)
         } catch (e: Throwable) {
             e.printStackTrace()
         }
+}
+if (fastMode == FastMode.Disable || fastMode == FastMode.JS) {
         try {
             Files.copy(Paths.get("build-cache${pathSeparator}build-${shortFolder}${pathSeparator}js${pathSeparator}packages${pathSeparator}${moduleName}${pathSeparator}kotlin${pathSeparator}${moduleName}.js"), Paths.get("build-cache${pathSeparator}bin${pathSeparator}${moduleName}.js"), StandardCopyOption.REPLACE_EXISTING)
         } catch (e: Throwable) {
@@ -646,6 +649,8 @@ fun createBuildFileForModule(moduleName: String, moduleFolder: String, modulePre
         } catch (e: Throwable) {
             e.printStackTrace()
         }
+}
+if (fastMode == FastMode.Disable || fastMode == FastMode.NATIVE) {
         if (platform == "linuxX64") {
             try {
                 if (buildLibrary) {
@@ -666,6 +671,7 @@ fun createBuildFileForModule(moduleName: String, moduleFolder: String, modulePre
             } catch (e: Throwable) {
                 e.printStackTrace()
             }
+}
         }
     }
 }

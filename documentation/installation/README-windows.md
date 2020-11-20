@@ -6,11 +6,13 @@ I am not sure if every step is required, but it seems like adding the programs t
 Instead copy paste them into the gitbash "/bin" and "/lib" folders works for me.
 
 Download and install git from https://git-scm.com/download/win .
-Download and unpack java 11 from https://download.java.net/java/GA/jdk11/9/GPL/openjdk-11.0.2_windows-x64_bin.zip .
 Download and unpack java 15 from https://download.java.net/java/GA/jdk15.0.1/51f4f36ad4ef43e39d0dfdbaf6549e32/9/GPL/openjdk-15.0.1_windows-x64_bin.zip .
+
+This download wants you to login (create an user) - there are workarounds in the internet, if you want to avoid creating credentials for that website.
 Download and install java 8 from https://download.oracle.com/otn-pub/java/jdk/8u271-b09/61ae65e088624f5aaa0b1d2d801acb16/jdk-8u271-windows-x64.exe .
-Yes, there are 3 versions of java, because the dependencies dont like the "wrong" version .
-Java8 seems to be available as installer only? I someone find a zipped version, let me know .
+
+Yes, there are 2 versions of java, because the dependencies dont like the "wrong" version .
+Java8 seems to be available as installer only? I someone find a zipped version, which is downloadable without login let me know .
 Remember, where you install each java, you will need that path later .
 
 ## add java to the path
