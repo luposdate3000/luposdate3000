@@ -53,6 +53,7 @@ Make sure you read the following comments.
     git apply ${luposdate3000home}/documentation/installation/sp2b.patch
     cd src
     make
+    mv sp2b_gen ../bin/
     # The following line runs until your disk space is completely consumed.
     # Make sure to abort it if you have enough benchmark data.
     mkdir -p /mnt/luposdate-testdata/sp2b
