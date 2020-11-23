@@ -12,10 +12,10 @@ import java.nio.file.StandardOpenOption
 import java.nio.file.Files
 import java.nio.file.Paths
 
-val triplesFiles = "/mnt/luposdate-testdata/sp2b/1048576/complete.n3"
-val queryFiles = "resources/sp2b/q10.sparql;resources/sp2b/q11.sparql;resources/sp2b/q12a.sparql;resources/sp2b/q12b.sparql;resources/sp2b/q12c.sparql;resources/sp2b/q1.sparql;resources/sp2b/q2.sparql;resources/sp2b/q3a.sparql;resources/sp2b/q3b.sparql;resources/sp2b/q3c.sparql;resources/sp2b/q4.sparql;resources/sp2b/q5a.sparql;resources/sp2b/q5b.sparql;resources/sp2b/q6.sparql;resources/sp2b/q7.sparql;resources/sp2b/q8.sparql;resources/sp2b/q9.sparql"
-val minimumTime = 10.0
 val numberOfTriples = 1048576
+val triplesFiles = "/mnt/luposdate-testdata/sp2b/${numberOfTriples}/complete.n3"
+val queryFiles = "resources/sp2b/q10.sparql;resources/sp2b/q1.sparql;resources/sp2b/q3a.sparql;resources/sp2b/q3b.sparql;resources/sp2b/q3c.sparql;resources/sp2b/q4.sparql;resources/sp2b/q5a.sparql;resources/sp2b/q6.sparql;resources/sp2b/q8.sparql"
+val minimumTime = 10.0
 
 File("log").mkdirs()
 val jars = mutableListOf(
