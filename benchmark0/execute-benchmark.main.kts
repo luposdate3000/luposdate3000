@@ -52,7 +52,8 @@ val result_rows = args[1].toLong()
 val data = "/hadoop/BigSIoT/data"
 val join = 1
 val predicates = 10
-var queriesList = listOf("q2.sparql", "q10.sparql")
+//var queriesList = listOf("q2.sparql", "q10.sparql")
+var queriesList = listOf("q2.sparql")
 var queries = ""
 for (q in queriesList) {
     if (queries.length > 0) {
@@ -71,21 +72,21 @@ val data_compressed = size
 val fileWriter = FileWriter("all-micro.csv", true)
 val benchmark_out = PrintWriter(fileWriter)
 for (process in listOf(2, 4, 8, 16)) {
-File("$data/intermediate.partitions").printWriter().use{out->
-out.println("SPO,1,$process")
-out.println("SPO,2,$process")
-out.println("SOP,1,$process")
-out.println("SOP,2,$process")
-out.println("PSO,1,$process")
-out.println("PSO,2,$process")
-out.println("POS,1,$process")
-out.println("POS,2,$process")
-out.println("OSP,1,$process")
-out.println("OSP,2,$process")
-out.println("OPS,1,$process")
-out.println("OPS,2,$process")
-}
-    val p = ProcessBuilder("java", "-Xmx60g", "-cp", classpath, "MainKt", "$data/intermediate.n3", "$queries", "10", "$triples","OnlyWithout")
+    File("$data/intermediate.partitions").printWriter().use { out ->
+        out.println("SPO,1,$process")
+        out.println("SPO,2,$process")
+        out.println("SOP,1,$process")
+        out.println("SOP,2,$process")
+        out.println("PSO,1,$process")
+        out.println("PSO,2,$process")
+        out.println("POS,1,$process")
+        out.println("POS,2,$process")
+        out.println("OSP,1,$process")
+        out.println("OSP,2,$process")
+        out.println("OPS,1,$process")
+        out.println("OPS,2,$process")
+    }
+    val p = ProcessBuilder("java", "-Xmx60g", "-cp", classpath, "MainKt", "$data/intermediate.n3", "$queries", "10", "$triples", "OnlyWithout")
             .directory(File("."))
             .redirectOutput(File("x"))
             .redirectError(Redirect.INHERIT)
@@ -137,7 +138,7 @@ out.println("OPS,2,$process")
         s += ",$with_time_per_triple"
         s += ",$time_per_optimizer"
         benchmark_out.println(s)
-benchmark_out.flush()
+        benchmark_out.flush()
     }
 }
 benchmark_out.close()
