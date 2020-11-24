@@ -11,6 +11,7 @@ import java.io.BufferedOutputStream
 import java.io.DataOutputStream
 import java.io.FileOutputStream
 import java.io.File
+import java.io.FileWriter
 import java.io.PrintWriter
 
 val jars = mutableListOf(
@@ -67,8 +68,23 @@ val triples = generateTriples(result_rows, predicates, join, trash, data)
 val size = File("$data/intermediate.n3").length()
 val data_bnodecount = 0
 val data_compressed = size
-val benchmark_out = File("all-micro.csv").printWriter()
-for (process in listOf(1, 2, 4, 8, 16)) {
+val fileWriter = FileWriter("all-micro.csv", true)
+val benchmark_out = PrintWriter(fileWriter)
+for (process in listOf(2, 4, 8, 16)) {
+File("$data/intermediate.partitions").printWriter().use{out->
+out.println("SPO,1,$process")
+out.println("SPO,2,$process")
+out.println("SOP,1,$process")
+out.println("SOP,2,$process")
+out.println("PSO,1,$process")
+out.println("PSO,2,$process")
+out.println("POS,1,$process")
+out.println("POS,2,$process")
+out.println("OSP,1,$process")
+out.println("OSP,2,$process")
+out.println("OPS,1,$process")
+out.println("OPS,2,$process")
+}
     val p = ProcessBuilder("java", "-Xmx60g", "-cp", classpath, "MainKt", "$data/intermediate.n3", "$queries", "10", "$triples")
             .directory(File("."))
             .redirectOutput(File("x"))
@@ -79,25 +95,25 @@ for (process in listOf(1, 2, 4, 8, 16)) {
         throw Exception("executing command failed")
     }
     for (q in queriesList) {
-        var no = List(5){""}
-        var with = List(5){""}
+        var no = List(5) { "1" }
+        var with = List(5) { "1" }
         File("x").forEachLine() {
-if(it.contains(q)){
-            if (it.contains("NoOptimizer")) {
-                no = it.split(",")
+            if (it.contains(q)) {
+                if (it.contains("NoOptimizer")) {
+                    no = it.split(",")
+                }
+                if (it.contains("WithOptimizer")) {
+                    with = it.split(",")
+                }
             }
-            if (it.contains("WithOptimizer")) {
-                with = it.split(",")
-            }
-}
         }
-        val no_repetitions = no[3]
-        val no_time = no[4]
+        val no_repetitions = no[3].toInt()
+        val no_time = no[4].toDouble()
         val no_time_per_repetition = no_time / no_repetitions
         val no_time_per_result_row = no_time / (no_repetitions * result_rows)
         val no_time_per_triple = no_time / (no_repetitions * triples)
-        val with_repetitions = with[3]
-        val with_time = with[4]
+        val with_repetitions = with[3].toInt()
+        val with_time = with[4].toDouble()
         val with_time_per_repetition = with_time / with_repetitions
         val with_time_per_result_row = with_time / (with_repetitions * result_rows)
         val with_time_per_triple = with_time / (with_repetitions * triples)
@@ -121,6 +137,7 @@ if(it.contains(q)){
         s += ",$with_time_per_triple"
         s += ",$time_per_optimizer"
         benchmark_out.println(s)
+benchmark_out.flush()
     }
 }
 benchmark_out.close()
