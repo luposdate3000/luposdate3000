@@ -1,0 +1,6 @@
+prefix b: <http://benchmark.com/>
+SELECT *
+WHERE {
+  ?s b:p0 ?o0 .
+  ?s b:p1 ?o1 .
+}

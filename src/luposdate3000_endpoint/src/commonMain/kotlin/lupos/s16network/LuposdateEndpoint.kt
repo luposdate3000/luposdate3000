@@ -147,7 +147,8 @@ object LuposdateEndpoint {
                     val startTime = DateHelperRelative.markNow()
                     if (fileNamesS.size == 1) {
                         val filePartitions = File("$fileName.partitions")
-                        filePartitions.forEachLine {
+                       try{
+ filePartitions.forEachLine {
                             val t = it.split(",")
                             if (t[1] == "1") {
                                 var t2 = Partition.estimatedPartitions1[t[0]]
@@ -171,6 +172,9 @@ object LuposdateEndpoint {
                             }
                         }
                         distributedTripleStore.reloadPartitioningScheme()
+}catch(e:Exception){
+e.printStackTrace()
+}
                     }
                     val fileTriples = File("$fileName.triples")
                     val fileDictionary = File("$fileName.dictionary")
