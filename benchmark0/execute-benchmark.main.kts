@@ -85,7 +85,7 @@ out.println("OSP,2,$process")
 out.println("OPS,1,$process")
 out.println("OPS,2,$process")
 }
-    val p = ProcessBuilder("java", "-Xmx60g", "-cp", classpath, "MainKt", "$data/intermediate.n3", "$queries", "10", "$triples")
+    val p = ProcessBuilder("java", "-Xmx60g", "-cp", classpath, "MainKt", "$data/intermediate.n3", "$queries", "10", "$triples","OnlyWithout")
             .directory(File("."))
             .redirectOutput(File("x"))
             .redirectError(Redirect.INHERIT)
