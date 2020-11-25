@@ -17,7 +17,7 @@ import java.nio.file.StandardOpenOption
 val targetBaseFolder = "${Platform.getPathSeparator()}mnt${Platform.getPathSeparator()}luposdate-testdata${Platform.getPathSeparator()}sp2b"
 val sp2bGeneratorHome = "${Platform.getPathSeparator()}opt${Platform.getPathSeparator()}sp2b${Platform.getPathSeparator()}bin"
 
-var targetCount =     1024
+var targetCount = 1024
 while (targetCount <= 9999999999) {
     val targetFolder = "$targetBaseFolder${Platform.getPathSeparator()}$targetCount"
     File(targetFolder).deleteRecursively()
@@ -34,8 +34,8 @@ while (targetCount <= 9999999999) {
     val size = File(targetFile).length()
     val count = File("${targetFile}.triples").length() / 12
     val sizeIntermediate = File("${targetFile}.triples").length() + File("${targetFile}.dictionary").length() + File("${targetFile}.dictionaryoffset").length() + File("${targetFile}.stat").length()
-val   fileWriter =  FileWriter("${targetBaseFolder}${Platform.getPathSeparator()}stat.csv", true)
-    val printWriter =  PrintWriter(fileWriter)
+    val fileWriter = FileWriter("${targetBaseFolder}${Platform.getPathSeparator()}stat.csv", true)
+    val printWriter = PrintWriter(fileWriter)
     printWriter.println("$targetCount,$count,$size,$sizeIntermediate")
     printWriter.close()
     targetCount *= 2

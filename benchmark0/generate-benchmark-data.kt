@@ -1,9 +1,7 @@
-#!/usr/bin/env kotlin
-
 import java.io.BufferedOutputStream
 import java.io.DataOutputStream
-import java.io.FileOutputStream
 import java.io.File
+import java.io.FileOutputStream
 import java.io.PrintWriter
 
 enum class ETripleComponentType {
@@ -46,7 +44,6 @@ fun generateTriples(targetNumberOfResults2: Long, numberOfPredicates: Int, block
     var targetNumberOfResults = targetNumberOfResults2
     val preventMultiplesOfList = intArrayOf(2, 3, 5, 7, 11, 13, 17, 19)
     val object_counter = 100
-
     File(folderName).mkdirs()
     var outN3: PrintWriter = File(folderName + "/intermediate.n3").printWriter()
     var outIntermediateDictionary = DataOutputStream(BufferedOutputStream(FileOutputStream(folderName + "/intermediate.n3.dictionary")))
@@ -55,7 +52,6 @@ fun generateTriples(targetNumberOfResults2: Long, numberOfPredicates: Int, block
     var dictCounterBnode = 0
     var dictCounterIri = 0
     var outIntermediateTriplesStatCounter = 0
-
     val byteBuf = ByteArray(1)
     fun writeToDict(s: String) {
         if (s.startsWith("_:")) {
@@ -70,8 +66,6 @@ fun generateTriples(targetNumberOfResults2: Long, numberOfPredicates: Int, block
         outIntermediateDictionary.write(byteBuf)
         outIntermediateDictionary.write(tmp)
     }
-
-
 //predefining unused values, to prevent mixing unwanted "new" values, which would break the target patterns
     writeToDict("_:_a1")
     writeToDict("<http://benchmark.com/unused>")
@@ -95,7 +89,6 @@ fun generateTriples(targetNumberOfResults2: Long, numberOfPredicates: Int, block
         outIntermediateTriples.writeInt(p_offset + i)
         outIntermediateTriplesStatCounter++
     }
-
     var counter = 0
     loop@ while (targetNumberOfResults > 0) {
         writeToDict("_:_s${counter.toString(16)}")

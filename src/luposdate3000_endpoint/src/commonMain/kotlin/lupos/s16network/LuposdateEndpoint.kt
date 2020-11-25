@@ -147,34 +147,34 @@ object LuposdateEndpoint {
                     val startTime = DateHelperRelative.markNow()
                     if (fileNamesS.size == 1) {
                         val filePartitions = File("$fileName.partitions")
-                       try{
- filePartitions.forEachLine {
-                            val t = it.split(",")
-                            if (t[1] == "1") {
-                                var t2 = Partition.estimatedPartitions1[t[0]]
-                                if (t2 == null) {
-                                    t2 = mutableSetOf<Int>()
-                                    Partition.estimatedPartitions1[t[0]] = t2
+                        try {
+                            filePartitions.forEachLine {
+                                val t = it.split(",")
+                                if (t[1] == "1") {
+                                    var t2 = Partition.estimatedPartitions1[t[0]]
+                                    if (t2 == null) {
+                                        t2 = mutableSetOf<Int>()
+                                        Partition.estimatedPartitions1[t[0]] = t2
+                                    }
+                                    if (t[2].toInt() > 1) {
+                                        t2.add(t[2].toInt())
+                                    }
                                 }
-                                if (t[2].toInt() > 1) {
-                                    t2.add(t[2].toInt())
+                                if (t[1] == "2") {
+                                    var t2 = Partition.estimatedPartitions2[t[0]]
+                                    if (t2 == null) {
+                                        t2 = mutableSetOf<Int>()
+                                        Partition.estimatedPartitions2[t[0]] = t2
+                                    }
+                                    if (t[2].toInt() > 0) {
+                                        t2.add(t[2].toInt())
+                                    }
                                 }
                             }
-                            if (t[1] == "2") {
-                                var t2 = Partition.estimatedPartitions2[t[0]]
-                                if (t2 == null) {
-                                    t2 = mutableSetOf<Int>()
-                                    Partition.estimatedPartitions2[t[0]] = t2
-                                }
-                                if (t[2].toInt() > 0) {
-                                    t2.add(t[2].toInt())
-                                }
-                            }
+                            distributedTripleStore.reloadPartitioningScheme()
+                        } catch (e: Exception) {
+                            e.printStackTrace()
                         }
-                        distributedTripleStore.reloadPartitioningScheme()
-}catch(e:Exception){
-e.printStackTrace()
-}
                     }
                     val fileTriples = File("$fileName.triples")
                     val fileDictionary = File("$fileName.dictionary")

@@ -4,6 +4,7 @@
 @file:Import("src/luposdate3000_shared_inline/src/jvmMain/kotlin/lupos/s00misc/Platform.kt")
 @file:Import("src/luposdate3000_scripting/exec-import.kt")
 @file:CompilerOptions("-Xmulti-platform")
+
 import java.io.PrintWriter
 import java.io.FileWriter
 import lupos.s00misc.Platform
@@ -33,8 +34,8 @@ while (targetCount <= 2097152) {
     val size = File(targetFile).length()
     val count = File("${targetFile}.triples").length() / 12
     val sizeIntermediate = File("${targetFile}.triples").length() + File("${targetFile}.dictionary").length() + File("${targetFile}.dictionaryoffset").length() + File("${targetFile}.stat").length()
-val fileWriter =  FileWriter("${targetBaseFolder}${Platform.getPathSeparator()}stat.csv", true)
-    val printWriter =  PrintWriter(fileWriter)
+    val fileWriter = FileWriter("${targetBaseFolder}${Platform.getPathSeparator()}stat.csv", true)
+    val printWriter = PrintWriter(fileWriter)
     printWriter.println("$targetCount,$count,$size,$sizeIntermediate")
     printWriter.close()
     targetCount *= 2
