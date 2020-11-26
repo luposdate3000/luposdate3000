@@ -21,12 +21,12 @@ val todos2 = todos.sortedBy {
 println(todos2)
 var skip = true
 for (t in todos2) {
-    if (t.first == 131072 && t.second == 256) {
-        skip = false
-    }
-    if (skip || (t.first == 131072 && t.second == 256)) {
-        continue
-    }
+//    if (t.first == 131072 && t.second == 256) {
+//        skip = false
+//    }
+//    if (skip || (t.first == 131072 && t.second == 256)) {
+//        continue
+//    }
     val p = ProcessBuilder("./execute-benchmark.main.kts", "${t.second}", "${t.first}")
             .directory(File("."))
             .redirectOutput(Redirect.INHERIT)

@@ -73,5 +73,10 @@ restart gitbash, if it is still open
 ## inside of gitbash:
 
 ```gitbash
+# Unfortunately the ifis-git uses incorrect ssl such that the following git option must be used.
+git config --global http.sslVerify false
+# Prevent repeatingly typing the password on commit.
+git config --global credential.helper store
+
 git clone https://sun01.pool.ifis.uni-luebeck.de/groppe/luposdate3000.git
 ```

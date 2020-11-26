@@ -72,7 +72,7 @@ val data_compressed = size
 val fileWriter = FileWriter("all-micro.csv", true)
 val benchmark_out = PrintWriter(fileWriter)
 for (process in listOf(2, 4, 8, 16)) {
-    File("$data/intermediate.partitions").printWriter().use { out ->
+    File("$data/intermediate.n3.partitions").printWriter().use { out ->
         out.println("SPO,1,$process")
         out.println("SPO,2,$process")
         out.println("SOP,1,$process")

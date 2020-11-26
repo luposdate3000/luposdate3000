@@ -10,13 +10,14 @@ Prepare the project for intellij using:
 
 This should be fast.
 
+If you pull again from the git, than execute this setup-script again.
+
 Download and install intellij from https://www.jetbrains.com/idea/download/
 
 Now, you can open intellij.
 Intellij on Windows warns you about not trusted git-ssl-certificates - you can accept these.
 The Linux-version of intellij ignores this.
 
-To compile and launch, click "Run Anything" in the top right corner.
-Type gradle run - dont hit "enter" directly.
-Now there shoule be a dropdown with multiple suggestions e.g. "src:luposdate3000_launch_binary_test_suite:run"
-The module name tells you, what exactly is launched.
+You can compile and run the database by navigating to the main functions, which are located within the src/luposdate3000_launch_*/src/jvmMain/kotlin/Main.kt files.
+Substitute the "*" with the wanted target.
+Within the IDE this works only for main functions, which dont require arguments.
