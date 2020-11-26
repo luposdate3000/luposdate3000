@@ -121,7 +121,7 @@ var enableJVM=fastMode == FastMode.Disable || fastMode == FastMode.JVM
 var enableJS=fastMode == FastMode.Disable || fastMode == FastMode.JS
 var enableNATIVE=fastMode == FastMode.Disable || fastMode == FastMode.NATIVE
 
-if(File("$moduleFolder/disableTarget").exists){
+if(File("$moduleFolder/disableTarget").exists()){
 File("$moduleFolder/disableTarget").forEachLine{
 when(it){
 "jvm"->enableJVM=false
