@@ -19,6 +19,7 @@ enum class FastMode {
 enum class IntellijMode {
     Enable, Disable
 }
+    val validPlatforms = listOf("iosArm32", "iosArm64", "linuxX64", "macosX64", "mingwX64")
 
 fun createBuildFileForModule(args: Array<String>) {
     val onWindows = System.getProperty("os.name").contains("Windows")
@@ -69,7 +70,6 @@ fun createBuildFileForModule(args: Array<String>) {
     if (modulePrefix == "") {
         modulePrefix = moduleName
     }
-    val validPlatforms = listOf("iosArm32", "iosArm64", "linuxX64", "macosX64", "mingwX64")
     if (!validPlatforms.contains(platform)) {
         throw Exception("unsupported platform $platform")
     }
@@ -116,6 +116,23 @@ fun createBuildFileForModule(moduleName: String, moduleFolder: String, modulePre
         pathSeparator = "/"
         pathSeparatorEscaped = "/"
     }
+
+var enableJVM=fastMode == FastMode.Disable || fastMode == FastMode.JVM
+var enableJS=fastMode == FastMode.Disable || fastMode == FastMode.JS
+var enableNATIVE=fastMode == FastMode.Disable || fastMode == FastMode.NATIVE
+
+if(File("$moduleFolder/disableTarget").exists){
+File("$moduleFolder/disableTarget").forEachLine{
+when(it){
+"jvm"->enableJVM=false
+"js"->enableJS=false
+platform,"native"->enableNATIVE=false
+}
+}
+}
+if(!(enableJVM||enableJS||enableNATIVE)){
+return
+}
     val buildLibrary = modulePrefix != "Luposdate3000_Main"
     println("generating buildfile for $moduleName")
     var shortFolder = "./${moduleFolder}"//TODO does this work as intended on windows
@@ -137,13 +154,21 @@ fun createBuildFileForModule(moduleName: String, moduleFolder: String, modulePre
                 if (f.startsWith("common")) {
                     File(tmp).copyRecursively(File("src.generated${pathSeparator}" + f.replace("common.*Main", "commonMain")))
                 } else if (f.startsWith("jvm")) {
-                    File(tmp).copyRecursively(File("src.generated${pathSeparator}" + f.replace("jvm.*Main", "jvmMain")))
+     if (enableJVM) {
+               File(tmp).copyRecursively(File("src.generated${pathSeparator}" + f.replace("jvm.*Main", "jvmMain")))
+}
                 } else if (f.startsWith("js")) {
+if (enableJS) {
                     File(tmp).copyRecursively(File("src.generated${pathSeparator}" + f.replace("js.*Main", "jsMain")))
+}
                 } else if (f.startsWith("native")) {
+if (enableNATIVE) {
                     File(tmp).copyRecursively(File("src.generated${pathSeparator}" + f.replace("native.*Main", "${platform}Main")))
+}
                 } else if (f.startsWith(platform)) {
+if (enableNATIVE) {
                     File(tmp).copyRecursively(File("src.generated${pathSeparator}" + f.replace("${platform}.*Main", "${platform}Main")))
+}
                 }
             }
         }
@@ -250,10 +275,10 @@ fun createBuildFileForModule(moduleName: String, moduleFolder: String, modulePre
             out.println("version = \"0.0.1\"")//maven-version
             out.println("apply(plugin = \"maven-publish\")")
             out.println("kotlin {")
-            if (fastMode == FastMode.Disable || fastMode == FastMode.JVM) {
+            if (enableJVM) {
                 out.println("    jvm()")
             }
-            if (fastMode == FastMode.Disable || fastMode == FastMode.JS) {
+            if (enableJS) {
                 out.println("    js {")
                 out.println("        moduleName = \"${moduleName}\"")
                 out.println("        browser {")
@@ -262,7 +287,7 @@ fun createBuildFileForModule(moduleName: String, moduleFolder: String, modulePre
                 out.println("        }")
                 out.println("    }")
             }
-            if (fastMode == FastMode.Disable || fastMode == FastMode.NATIVE) {
+            if (enableNATIVE) {
                 out.println("    $platform(\"$platform\") {")
                 out.println("        binaries {")
                 if (buildLibrary) {
@@ -300,7 +325,7 @@ fun createBuildFileForModule(moduleName: String, moduleFolder: String, modulePre
             }
             out.println("            }")
             out.println("        }")
-            if (fastMode == FastMode.Disable || fastMode == FastMode.JVM) {
+            if (enableJVM) {
                 out.println("        val jvmMain by getting {")
                 out.println("            dependencies {")
                 for (d in jvmDependencies) {
@@ -313,7 +338,7 @@ fun createBuildFileForModule(moduleName: String, moduleFolder: String, modulePre
                 out.println("            }")
                 out.println("        }")
             }
-            if (fastMode == FastMode.Disable || fastMode == FastMode.JS) {
+            if (enableJS) {
                 out.println("        val jsMain by getting {")
                 out.println("            dependencies {")
                 for (d in jsDependencies) {
@@ -326,7 +351,7 @@ fun createBuildFileForModule(moduleName: String, moduleFolder: String, modulePre
                 out.println("            }")
                 out.println("        }")
             }
-            if (fastMode == FastMode.Disable || fastMode == FastMode.NATIVE) {
+            if (enableNATIVE) {
                 out.println("        val ${platform}Main by getting {")
                 out.println("            dependencies {")
                 for (d in nativeDependencies) {
@@ -344,17 +369,17 @@ fun createBuildFileForModule(moduleName: String, moduleFolder: String, modulePre
                 if (moduleName != "Luposdate3000_Shared_Inline") {
                     out.println("    sourceSets[\"commonMain\"].kotlin.srcDir(\"..${pathSeparatorEscaped}xxx_generated_xxx${pathSeparatorEscaped}${moduleName}${pathSeparatorEscaped}src${pathSeparatorEscaped}commonMain${pathSeparatorEscaped}kotlin\")")
                 }
-                if (fastMode == FastMode.Disable || fastMode == FastMode.JVM) {
+                if (enableJVM) {
                     if (moduleName != "Luposdate3000_Shared_Inline") {
                         out.println("    sourceSets[\"jvmMain\"].kotlin.srcDir(\"..${pathSeparatorEscaped}xxx_generated_xxx${pathSeparatorEscaped}${moduleName}${pathSeparatorEscaped}src${pathSeparatorEscaped}jvmMain${pathSeparatorEscaped}kotlin\")")
                     }
                 }
-                if (fastMode == FastMode.Disable || fastMode == FastMode.JS) {
+                if (enableJS) {
                     if (moduleName != "Luposdate3000_Shared_Inline") {
                         out.println("    sourceSets[\"jsMain\"].kotlin.srcDir(\"..${pathSeparatorEscaped}xxx_generated_xxx${pathSeparatorEscaped}${moduleName}${pathSeparatorEscaped}src${pathSeparatorEscaped}jsMain${pathSeparatorEscaped}kotlin\")")
                     }
                 }
-                if (fastMode == FastMode.Disable || fastMode == FastMode.NATIVE) {
+                if (enableNATIVE) {
                     out.println("    sourceSets[\"${platform}Main\"].kotlin.srcDir(\"nativeMain${pathSeparatorEscaped}kotlin\")")
                     if (moduleName != "Luposdate3000_Shared_Inline") {
                         out.println("    sourceSets[\"${platform}Main\"].kotlin.srcDir(\"..${pathSeparatorEscaped}xxx_generated_xxx${pathSeparatorEscaped}${moduleName}${pathSeparatorEscaped}src${pathSeparatorEscaped}nativeMain${pathSeparatorEscaped}kotlin\")")
@@ -363,13 +388,13 @@ fun createBuildFileForModule(moduleName: String, moduleFolder: String, modulePre
                 }
             } else {
                 out.println("    sourceSets[\"commonMain\"].kotlin.srcDir(\"src.generated${pathSeparatorEscaped}commonMain${pathSeparatorEscaped}kotlin\")")
-                if (fastMode == FastMode.Disable || fastMode == FastMode.JVM) {
+                if (enableJVM) {
                     out.println("    sourceSets[\"jvmMain\"].kotlin.srcDir(\"src.generated${pathSeparatorEscaped}jvmMain${pathSeparatorEscaped}kotlin\")")
                 }
-                if (fastMode == FastMode.Disable || fastMode == FastMode.JS) {
+                if (enableJS) {
                     out.println("    sourceSets[\"jsMain\"].kotlin.srcDir(\"src.generated${pathSeparatorEscaped}jsMain${pathSeparatorEscaped}kotlin\")")
                 }
-                if (fastMode == FastMode.Disable || fastMode == FastMode.NATIVE) {
+                if (enableNATIVE) {
                     out.println("    sourceSets[\"${platform}Main\"].kotlin.srcDir(\"src.generated${pathSeparatorEscaped}nativeMain${pathSeparatorEscaped}kotlin\")")
                     out.println("    sourceSets[\"${platform}Main\"].kotlin.srcDir(\"src.generated${pathSeparatorEscaped}${platform}Main${pathSeparatorEscaped}kotlin\")")
                 }
@@ -631,14 +656,14 @@ fun createBuildFileForModule(moduleName: String, moduleFolder: String, modulePre
         }
     }
     if (dryMode == DryMode.Disable) {
-        if (fastMode == FastMode.Disable || fastMode == FastMode.JVM) {
+        if (enableJVM) {
             try {
                 Files.copy(Paths.get("build-cache${pathSeparator}build-${shortFolder}${pathSeparator}libs${pathSeparator}${moduleName}-jvm-0.0.1.jar"), Paths.get("build-cache${pathSeparator}bin${pathSeparator}${moduleName}-jvm.jar"), StandardCopyOption.REPLACE_EXISTING)
             } catch (e: Throwable) {
                 e.printStackTrace()
             }
         }
-        if (fastMode == FastMode.Disable || fastMode == FastMode.JS) {
+        if (enableJS) {
             try {
                 Files.copy(Paths.get("build-cache${pathSeparator}build-${shortFolder}${pathSeparator}js${pathSeparator}packages${pathSeparator}${moduleName}${pathSeparator}kotlin${pathSeparator}${moduleName}.js"), Paths.get("build-cache${pathSeparator}bin${pathSeparator}${moduleName}.js"), StandardCopyOption.REPLACE_EXISTING)
             } catch (e: Throwable) {
@@ -650,7 +675,7 @@ fun createBuildFileForModule(moduleName: String, moduleFolder: String, modulePre
                 e.printStackTrace()
             }
         }
-        if (fastMode == FastMode.Disable || fastMode == FastMode.NATIVE) {
+        if (enableNATIVE) {
             if (platform == "linuxX64") {
                 try {
                     if (buildLibrary) {
