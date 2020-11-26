@@ -173,7 +173,7 @@ if (enableNATIVE) {
             }
         }
     }
-    File("settings.gradle").printWriter().use { out ->
+    File("src.generated${pathSeparator}settings.gradle").printWriter().use { out ->
         out.println("pluginManagement {")
         out.println("    repositories {")
         out.println("        mavenLocal()")
@@ -217,8 +217,8 @@ if (enableNATIVE) {
             }
         }
     }
-    for (filename in listOf("build.gradle.kts", "${moduleFolder}${pathSeparator}build.gradle.kts")) {
-        var buildForIDE = filename != "build.gradle.kts"
+    for (filename in listOf("src.generated${pathSeparator}build.gradle.kts", "${moduleFolder}${pathSeparator}build.gradle.kts")) {
+        var buildForIDE = filename != "src.generated${pathSeparator}build.gradle.kts"
         if (ideaBuildfile == IntellijMode.Enable && !buildForIDE) {
             continue
         }
@@ -387,16 +387,16 @@ if (enableNATIVE) {
                     }
                 }
             } else {
-                out.println("    sourceSets[\"commonMain\"].kotlin.srcDir(\"src.generated${pathSeparatorEscaped}commonMain${pathSeparatorEscaped}kotlin\")")
+                out.println("    sourceSets[\"commonMain\"].kotlin.srcDir(\"commonMain${pathSeparatorEscaped}kotlin\")")
                 if (enableJVM) {
-                    out.println("    sourceSets[\"jvmMain\"].kotlin.srcDir(\"src.generated${pathSeparatorEscaped}jvmMain${pathSeparatorEscaped}kotlin\")")
+                    out.println("    sourceSets[\"jvmMain\"].kotlin.srcDir(\"jvmMain${pathSeparatorEscaped}kotlin\")")
                 }
                 if (enableJS) {
-                    out.println("    sourceSets[\"jsMain\"].kotlin.srcDir(\"src.generated${pathSeparatorEscaped}jsMain${pathSeparatorEscaped}kotlin\")")
+                    out.println("    sourceSets[\"jsMain\"].kotlin.srcDir(\"jsMain${pathSeparatorEscaped}kotlin\")")
                 }
                 if (enableNATIVE) {
-                    out.println("    sourceSets[\"${platform}Main\"].kotlin.srcDir(\"src.generated${pathSeparatorEscaped}nativeMain${pathSeparatorEscaped}kotlin\")")
-                    out.println("    sourceSets[\"${platform}Main\"].kotlin.srcDir(\"src.generated${pathSeparatorEscaped}${platform}Main${pathSeparatorEscaped}kotlin\")")
+                    out.println("    sourceSets[\"${platform}Main\"].kotlin.srcDir(\"nativeMain${pathSeparatorEscaped}kotlin\")")
+                    out.println("    sourceSets[\"${platform}Main\"].kotlin.srcDir(\"${platform}Main${pathSeparatorEscaped}kotlin\")")
                 }
             }
             out.println("}")
@@ -606,20 +606,16 @@ if (enableNATIVE) {
             applySuspendDisable()
         }
     }
+File("gradle.properties").copyTo(File("src.generated${pathSeparator}gradle.properties"))
     if (dryMode == DryMode.Disable) {
         if (onWindows) {
             var path = System.getProperty("user.dir")
-            runCommand(listOf("./gradlew.bat", "build"), File(path))
-            runCommand(listOf("./gradlew.bat", "publishToMavenLocal"), File(path))
+            runCommand(listOf("../gradlew.bat", "build"), File("$path${pathSeparator}src.generated"))
+            runCommand(listOf("../gradlew.bat", "publishToMavenLocal"), File("$path${pathSeparator}src.generated"))
         } else if (onLinux) {
-            runCommand(listOf("./gradlew", "build"), File("."))
-            runCommand(listOf("./gradlew", "publishToMavenLocal"), File("."))
+            runCommand(listOf("../gradlew", "build"), File("src.generated"))
+            runCommand(listOf("../gradlew", "publishToMavenLocal"), File("src.generated"))
         }
-    }
-    try {
-        File(".gradle").deleteRecursively()
-    } catch (e: Throwable) {
-        e.printStackTrace()
     }
     try {
         File("build-cache").mkdirs()
@@ -643,7 +639,7 @@ if (enableNATIVE) {
     }
     if (dryMode == DryMode.Disable) {
         try {
-            Files.move(Paths.get("build"), Paths.get("build-cache${pathSeparator}build-${shortFolder}"))
+            Files.move(Paths.get("src.generated${pathSeparator}build"), Paths.get("build-cache${pathSeparator}build-${shortFolder}"))
         } catch (e: Throwable) {
             e.printStackTrace()
         }
