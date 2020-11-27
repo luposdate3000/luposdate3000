@@ -58,6 +58,10 @@ fun mainFunc(args: Array<String>): Unit = Parallel.runBlocking {
             val node = LuposdateEndpoint.evaluateSparqlToOperatorgraphB(query, true)
             val writer = MyPrintWriter(false)
             LuposdateEndpoint.evaluateOperatorgraphToResult(node, writer)
+val timerFirst = DateHelperRelative.markNow()
+            LuposdateEndpoint.evaluateOperatorgraphToResult(node, writer)
+val timeFirst = DateHelperRelative.elapsedSeconds(timerFirst)
+            groupSize[queryFileIdx] = 1 + (1.0 / timeFirst).toInt()
             val timer = DateHelperRelative.markNow()
             var time: Double
             var counter = 0

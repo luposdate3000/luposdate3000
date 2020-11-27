@@ -87,8 +87,15 @@ fun generateTriples(folderName: String, years: Int, authorsPerYear: Int, booksPe
             }
         }
     }
-
     outIntermediateTriples.close()
+File("$folderName/intermediate.n3.partitions").printWriter().use { out ->
+for(i in listOf(2,4,8,16)){
+out.println("PSO,1,$i")
+out.println("PSO,2,$i")
+out.println("POS,2,$i")
+}
+}
+
     outIntermediateDictionaryStat.printWriter().use { out ->
         out.println("total=${dictCounterBnode + dictCounterIri}")
         for (t in ETripleComponentType.values()) {
