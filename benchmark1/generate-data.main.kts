@@ -25,7 +25,8 @@ enum class ETripleComponentType {
     STRING_TYPED,
     STRING_LANG,
 }
-generateTriples("/mnt/luposdate-testdata/bench_1", 10, 10000, 1000)
+//generateTriples("/mnt/luposdate-testdata/bench_1", 10, 10000, 1000)
+generateTriples("/mnt/luposdate-testdata/bench_1", 10, 10, 10)
 
 fun generateTriples(folderName: String, years: Int, authorsPerYear: Int, booksPerAuthor: Int): Int {
     val byteBuf = ByteArray(1)
@@ -76,7 +77,7 @@ fun generateTriples(folderName: String, years: Int, authorsPerYear: Int, booksPe
     for (y in 2010 - years until 2010) {
         for (a in 0 until authorsPerYear) {
             for (b in 0 until booksPerAuthor) {
-                appendTriple("_:${y}_${a}", "<hasWritten>", "_:${y}_${a}_${b}")
+                appendTriple("_:${y}_${a}_${b}", "<writtenBy>", "_:${y}_${a}")
             }
         }
     }

@@ -43,76 +43,77 @@ continue
                         var aPartitionID = partitionID++
                         var bPartitionID = partitionID++
                         var xPartitionID = if (x != a) partitionID++ else aPartitionID
-                        xP.limit["?a"] = x
-                        var opX: IOPBase = TripleStoreIteratorGlobal(query, listOf("?a"), "", arrayOf(AOPVariable(query, "a"), AOPConstant(query, ValueIri("bornIn")), AOPConstant(query, ValueIri("2010"))), EIndexPattern.POS, xP)
+                        xP.limit["a"] = x
+                        var opX: IOPBase = TripleStoreIteratorGlobal(query, listOf("a"), "", arrayOf(AOPVariable(query, "a"), AOPConstant(query, ValueIri("bornIn")), AOPConstant(query, ValueIri("2009"))), EIndexPattern.POS, xP)
                         if (x > 1) {
-                            opX = POPSplitPartitionFromStore(query, listOf("?a"), "?a", x, xPartitionID, opX)
+                            opX = POPSplitPartitionFromStore(query, listOf("a"), "a", x, xPartitionID, opX)
                         }
                         val yP = Partition()
                         var yPartitionID = if (y != a) partitionID++ else aPartitionID
-                        yP.limit["?a"] = y
-                        var opY: IOPBase = TripleStoreIteratorGlobal(query, listOf("?a", "?b"), "", arrayOf(AOPVariable(query, "b"), AOPConstant(query, ValueIri("writtenBy")), AOPVariable(query, "?a")), EIndexPattern.PSO, yP)
+                        yP.limit["a"] = y
+                        var opY: IOPBase = TripleStoreIteratorGlobal(query, listOf("a", "b"), "", arrayOf(AOPVariable(query, "b"), AOPConstant(query, ValueIri("writtenBy")), AOPVariable(query, "a")), EIndexPattern.PSO, yP)
                         if (y > 1) {
-                            opY = POPSplitPartitionFromStore(query, listOf("?a", "?b"), "?b", y, yPartitionID, opY)
+                            opY = POPSplitPartitionFromStore(query, listOf("a", "b"), "b", y, yPartitionID, opY)
                         }
                         val zP = Partition()
                         var zPartitionID = if (z != b) partitionID++ else bPartitionID
-                        zP.limit["?b"] = z
-                        var opZ: IOPBase = TripleStoreIteratorGlobal(query, listOf("?b", "?t"), "", arrayOf(AOPVariable(query, "b"), AOPConstant(query, ValueIri("title")), AOPVariable(query, "?t")), EIndexPattern.PSO, zP)
+                        zP.limit["b"] = z
+                        var opZ: IOPBase = TripleStoreIteratorGlobal(query, listOf("b", "t"), "", arrayOf(AOPVariable(query, "b"), AOPConstant(query, ValueIri("title")), AOPVariable(query, "t")), EIndexPattern.PSO, zP)
                         if (z > 1) {
-                            opZ = POPSplitPartitionFromStore(query, listOf("?b", "?t"), "?b", z, zPartitionID, opZ)
+                            opZ = POPSplitPartitionFromStore(query, listOf("b", "t"), "b", z, zPartitionID, opZ)
                         }
                         if (x != a) {
                             if (x > 1) {
                                 if (a > 1) {
-                                    opX = POPChangePartitionOrderedByIntId(query, listOf("?a"), "?a", x, a, xPartitionID, aPartitionID, opX)
+                                    opX = POPChangePartitionOrderedByIntId(query, listOf("a"), "a", x, a, xPartitionID, aPartitionID, opX)
                                 } else {
-                                    opX = POPMergePartitionOrderedByIntId(query, listOf("?a"), "?a", x, xPartitionID, opX)
+                                    opX = POPMergePartitionOrderedByIntId(query, listOf("a"), "a", x, xPartitionID, opX)
                                 }
                             } else {
                                 if (a > 1) {
-                                    opX = POPSplitPartition(query, listOf("?a"), "?a", a, aPartitionID, opX)
+                                    opX = POPSplitPartition(query, listOf("a"), "a", a, aPartitionID, opX)
                                 }
                             }
                         }
                         if (y != a) {
                             if (y > 1) {
                                 if (a > 1) {
-                                    opY = POPChangePartitionOrderedByIntId(query, listOf("?a", "?b"), "?a", y, a, yPartitionID, aPartitionID, opY)
+                                    opY = POPChangePartitionOrderedByIntId(query, listOf("a", "b"), "a", y, a, yPartitionID, aPartitionID, opY)
                                 } else {
-                                    opY = POPMergePartitionOrderedByIntId(query, listOf("?a", "?b"), "?a", y, yPartitionID, opY)
+                                    opY = POPMergePartitionOrderedByIntId(query, listOf("a", "b"), "a", y, yPartitionID, opY)
                                 }
                             } else {
                                 if (a > 1) {
-                                    opY = POPSplitPartition(query, listOf("?a", "?b"), "?a", a, aPartitionID, opY)
+                                    opY = POPSplitPartition(query, listOf("a", "b"), "a", a, aPartitionID, opY)
                                 }
                             }
                         }
                         if (z != b) {
                             if (z > 1) {
                                 if (b > 1) {
-                                    opZ = POPChangePartitionOrderedByIntId(query, listOf("?b", "?t"), "?b", z, b, zPartitionID, bPartitionID, opZ)
+                                    opZ = POPChangePartitionOrderedByIntId(query, listOf("b", "t"), "b", z, b, zPartitionID, bPartitionID, opZ)
                                 } else {
-                                    opZ = POPMergePartitionOrderedByIntId(query, listOf("?b", "?t"), "?b", z, zPartitionID, opZ)
+                                    opZ = POPMergePartitionOrderedByIntId(query, listOf("b", "t"), "b", z, zPartitionID, opZ)
                                 }
                             } else {
                                 if (b > 1) {
-                                    opZ = POPSplitPartition(query, listOf("?b", "?t"), "?b", b, bPartitionID, opZ)
+                                    opZ = POPSplitPartition(query, listOf("b", "t"), "b", b, bPartitionID, opZ)
                                 }
                             }
                         }
-                        var opA: IOPBase = POPJoinMerge(query, listOf("?b"), opX, opY, false)
+                        var opA: IOPBase = POPJoinMerge(query, listOf("b"), opX, opY, false)
                         if (a > 1) {
-                            opA = POPMergePartition(query, listOf("?b"), "?a", a, aPartitionID, opA)
+                            opA = POPMergePartition(query, listOf("b"), "a", a, aPartitionID, opA)
                         }
                         if (b > 1) {
-                            opA = POPSplitPartition(query, listOf("?b"), "?b", b, bPartitionID, opA)
+                            opA = POPSplitPartition(query, listOf("b"), "b", b, bPartitionID, opA)
                         }
-                        var opB: IOPBase = POPJoinHashMap(query, listOf("?t"), opZ, opA, false)
+                        var opB: IOPBase = POPJoinHashMap(query, listOf("t"), opZ, opA, false)
                         if (b > 1) {
-                            opB = POPMergePartition(query, listOf("?t"), "?b", b, bPartitionID, opB)
+                            opB = POPMergePartition(query, listOf("t"), "b", b, bPartitionID, opB)
                         }
 val node=opB
+println(node.toXMLElement().toPrettyString())
 val writer = MyPrintWriter(false)
             LuposdateEndpoint.evaluateOperatorgraphToResult(node, writer)
 val timerFirst = DateHelperRelative.markNow()
