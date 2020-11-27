@@ -75,6 +75,7 @@ object QueryResultToEmptyStream {
             columnProjectionOrder = rootNode.columnProjectionOrder
         } else {
             nodes = arrayOf(rootNode)
+columnProjectionOrder=listOf(listOf<String>())
         }
         for (i in nodes.indices) {
             val node = nodes[i]

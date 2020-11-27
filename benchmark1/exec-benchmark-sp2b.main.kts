@@ -14,7 +14,8 @@ import java.nio.file.Paths
 
 val numberOfTriples = 200100000
 val triplesFiles = "/mnt/luposdate-testdata/bench_1/intermediate.n3"
-val minimumTime = 10.0
+//val minimumTime = 10.0
+val minimumTime = 1.0
 
 File("log").mkdirs()
 val jars = mutableListOf(

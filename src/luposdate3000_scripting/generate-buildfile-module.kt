@@ -79,11 +79,11 @@ fun createBuildFileForModule(args: Array<String>) {
     createBuildFileForModule(moduleName, moduleFolder, modulePrefix, platform, releaseMode, suspendMode, inlineMode, dryMode, fastMode, ideaBuildfile, args)
 }
 
-fun createBuildFileForModule(moduleName: String, releaseMode: ReleaseMode, suspendMode: SuspendMode, inlineMode: InlineMode, dryMode: DryMode, fastMode: FastMode, ideaBuildfile: IntellijMode) {
-    createBuildFileForModule(moduleName, moduleName, releaseMode, suspendMode, inlineMode, dryMode, fastMode, ideaBuildfile)
+fun createBuildFileForModule(moduleName: String, releaseMode: ReleaseMode, suspendMode: SuspendMode, inlineMode: InlineMode, dryMode: DryMode, fastMode: FastMode, ideaBuildfile: IntellijMode,args:Array<String> =arrayOf<String>()) {
+    createBuildFileForModule(moduleName, moduleName, releaseMode, suspendMode, inlineMode, dryMode, fastMode, ideaBuildfile,args)
 }
 
-fun createBuildFileForModule(moduleName: String, modulePrefix: String, releaseMode: ReleaseMode, suspendMode: SuspendMode, inlineMode: InlineMode, dryMode: DryMode, fastMode: FastMode, ideaBuildfile: IntellijMode) {
+fun createBuildFileForModule(moduleName: String, modulePrefix: String, releaseMode: ReleaseMode, suspendMode: SuspendMode, inlineMode: InlineMode, dryMode: DryMode, fastMode: FastMode, ideaBuildfile: IntellijMode,args:Array<String> =arrayOf<String>()) {
     val onWindows = System.getProperty("os.name").contains("Windows")
     val pathSeparator: String
     if (onWindows) {
@@ -91,14 +91,14 @@ fun createBuildFileForModule(moduleName: String, modulePrefix: String, releaseMo
     } else {
         pathSeparator = "/"
     }
-    createBuildFileForModule(moduleName, modulePrefix, "src${pathSeparator}${moduleName.toLowerCase()}", releaseMode, suspendMode, inlineMode, dryMode, fastMode, ideaBuildfile)
+    createBuildFileForModule(moduleName, modulePrefix, "src${pathSeparator}${moduleName.toLowerCase()}", releaseMode, suspendMode, inlineMode, dryMode, fastMode, ideaBuildfile,args)
 }
 
-fun createBuildFileForModule(moduleName: String, modulePrefix: String, moduleFolder: String, releaseMode: ReleaseMode, suspendMode: SuspendMode, inlineMode: InlineMode, dryMode: DryMode, fastMode: FastMode, ideaBuildfile: IntellijMode) {
-    createBuildFileForModule(moduleName, moduleFolder, modulePrefix, "linuxX64", releaseMode, suspendMode, inlineMode, dryMode, fastMode, ideaBuildfile, arrayOf<String>())
+fun createBuildFileForModule(moduleName: String, modulePrefix: String, moduleFolder: String, releaseMode: ReleaseMode, suspendMode: SuspendMode, inlineMode: InlineMode, dryMode: DryMode, fastMode: FastMode, ideaBuildfile: IntellijMode,args:Array<String> =arrayOf<String>()) {
+    createBuildFileForModule(moduleName, moduleFolder, modulePrefix, "linuxX64", releaseMode, suspendMode, inlineMode, dryMode, fastMode, ideaBuildfile, args)
 }
 
-fun createBuildFileForModule(moduleName: String, moduleFolder: String, modulePrefix: String, platform: String, releaseMode: ReleaseMode, suspendMode: SuspendMode, inlineMode: InlineMode, dryMode2: DryMode, fastMode: FastMode, ideaBuildfile: IntellijMode, args: Array<String>) {
+fun createBuildFileForModule(moduleName: String, moduleFolder: String, modulePrefix: String, platform: String, releaseMode: ReleaseMode, suspendMode: SuspendMode, inlineMode: InlineMode, dryMode2: DryMode, fastMode: FastMode, ideaBuildfile: IntellijMode, args:Array<String> =arrayOf<String>()) {
     var dryMode: DryMode
     if (dryMode2 == DryMode.Enable || ideaBuildfile == IntellijMode.Enable) {
         dryMode = DryMode.Enable
