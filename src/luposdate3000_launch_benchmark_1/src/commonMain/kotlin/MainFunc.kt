@@ -16,7 +16,7 @@ fun mainFunc(args: Array<String>): Unit = Parallel.runBlocking {
 
 
     val partitionOptions = listOf(1, 2)
-
+val avoidPartitionBug=false
 
 
 val datasourceFiles = args[0]
@@ -65,8 +65,10 @@ continue
                         if (x != a) {
                             if (x > 1) {
                                 if (a > 1) {
+if(avoidPartitionBug)continue
                                     opX = POPChangePartitionOrderedByIntId(query, listOf("a"), "a", x, a, xPartitionID, aPartitionID, opX)
                                 } else {
+if(avoidPartitionBug)continue
                                     opX = POPMergePartitionOrderedByIntId(query, listOf("a"), "a", x, xPartitionID, opX)
                                 }
                             } else {
@@ -78,8 +80,10 @@ continue
                         if (y != a) {
                             if (y > 1) {
                                 if (a > 1) {
+if(avoidPartitionBug)continue
                                     opY = POPChangePartitionOrderedByIntId(query, listOf("a", "b"), "a", y, a, yPartitionID, aPartitionID, opY)
                                 } else {
+if(avoidPartitionBug)continue
                                     opY = POPMergePartitionOrderedByIntId(query, listOf("a", "b"), "a", y, yPartitionID, opY)
                                 }
                             } else {
@@ -91,8 +95,10 @@ continue
                         if (z != b) {
                             if (z > 1) {
                                 if (b > 1) {
+if(avoidPartitionBug)continue
                                     opZ = POPChangePartitionOrderedByIntId(query, listOf("b", "t"), "b", z, b, zPartitionID, bPartitionID, opZ)
                                 } else {
+if(avoidPartitionBug)continue
                                     opZ = POPMergePartitionOrderedByIntId(query, listOf("b", "t"), "b", z, zPartitionID, opZ)
                                 }
                             } else {
@@ -103,6 +109,7 @@ continue
                         }
                         var opA: IOPBase = POPJoinMerge(query, listOf("b"), opX, opY, false)
                         if (a > 1) {
+if(avoidPartitionBug)continue
                             opA = POPMergePartition(query, listOf("b"), "a", a, aPartitionID, opA)
                         }
                         if (b > 1) {

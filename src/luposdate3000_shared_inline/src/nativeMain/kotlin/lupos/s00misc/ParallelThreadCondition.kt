@@ -1,7 +1,7 @@
 package lupos.s00misc
 
 internal actual class ParallelThreadCondition {
-    actual constructor(lock: MyLock) {
+    actual constructor() {
     }
 
     actual inline fun waitCondition(crossinline condition: () -> Boolean): Unit = throw  NotImplementedException("ParallelThreadCondition", "waitCondition not implemented")

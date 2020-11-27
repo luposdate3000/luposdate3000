@@ -71,8 +71,8 @@ class POPSplitPartition(query: IQuery, projectedVariables: List<String>, val par
                 val ringbufferReadHead = IntArray(partitionCount) { 0 } //owned by read-thread - no locking required
                 val ringbufferWriteHead = IntArray(partitionCount) { 0 } //owned by write thread - no locking required
                 val continuationLock = MyLock()
-                val ringbufferReaderContinuation = Array(partitionCount) { Parallel.createCondition(continuationLock) }
-                val ringbufferWriterContinuation: ParallelCondition = Parallel.createCondition(continuationLock)
+                val ringbufferReaderContinuation = Array(partitionCount) { Parallel.createCondition() }
+                val ringbufferWriterContinuation: ParallelCondition = Parallel.createCondition()
                 val readerFinished = IntArray(partitionCount) { 0 } //writer changes to 1 if finished
                 var writerFinished = 0
                 SanityCheck.println { "ringbuffersize = ${ringbuffer.size} $elementsPerRing $partitionCount ${ringbufferStart.map { it }} ${ringbufferReadHead.map { it }} ${ringbufferWriteHead.map { it }}" }

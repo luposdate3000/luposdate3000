@@ -57,8 +57,8 @@ class POPChangePartitionOrderedByIntId(query: IQuery, projectedVariables: List<S
         val ringbufferReadHead = IntArray(partitionCountSrc) { 0 } //owned by read-thread - no locking required
         val ringbufferWriteHead = IntArray(partitionCountSrc) { 0 } //owned by write thread - no locking required
         val continuationLock = MyLock()
-        val ringbufferWriterContinuation = Array(partitionCountSrc) { Parallel.createCondition(continuationLock) }
-        val ringbufferReaderContinuation: ParallelCondition = Parallel.createCondition(continuationLock)
+        val ringbufferWriterContinuation = Array(partitionCountSrc) { Parallel.createCondition() }
+        val ringbufferReaderContinuation: ParallelCondition = Parallel.createCondition()
         val writerFinished = IntArray(partitionCountSrc) { 0 } //writer changes to 1 if finished
         var readerFinished = 0
         for (p1 in 0 until partitionCountSrc) {
