@@ -1,0 +1,124 @@
+the activated Partitions are ::
+partition :: SPO -1 1
+partition :: SOP -1 1
+partition :: POS -1 1
+partition :: PSO -1 1
+partition :: OSP -1 1
+partition :: OPS -1 1
+partition :: SPO 1 2
+partition :: SOP 1 4
+partition :: POS 1 8
+partition :: PSO 1 16
+partition :: OSP 1 32
+partition :: OPS 1 64
+partition :: SPO 2 2
+partition :: SOP 2 4
+partition :: POS 2 8
+partition :: PSO 2 16
+partition :: OSP 2 32
+partition :: OPS 2 64
+importing file '/mnt/luposdate-testdata/bench_1/intermediate.n3'
+the activated Partitions are ::
+partition :: SPO -1 1
+partition :: SOP -1 1
+partition :: PSO -1 1
+partition :: PSO 1 2
+partition :: PSO 1 4
+partition :: PSO 1 8
+partition :: PSO 1 16
+partition :: PSO 2 2
+partition :: PSO 2 4
+partition :: PSO 2 8
+partition :: PSO 2 16
+partition :: POS -1 1
+partition :: POS 2 2
+partition :: POS 2 4
+partition :: POS 2 8
+partition :: POS 2 16
+partition :: OSP -1 1
+partition :: OPS -1 1
+flushed triples 1048576
+flushed triples 2097152
+flushed triples 3145728
+flushed triples 4194304
+flushed triples 5242880
+flushed triples 6291456
+flushed triples 7340032
+flushed triples 8388608
+flushed triples 9437184
+flushed triples 10485760
+flushed triples 11534336
+flushed triples 12582912
+flushed triples 13631488
+flushed triples 14680064
+flushed triples 15728640
+flushed triples 16777216
+flushed triples 17825792
+flushed triples 18874368
+flushed triples 19922944
+imported file /mnt/luposdate-testdata/bench_1/intermediate.n3,20100000,30.214727307,0.952008166,29.262719141
+flushed triples 20100000
+/mnt/luposdate-testdata/bench_1/intermediate.n3/persistence-import.sparql,20100000,0,1,2.01E10,0.03176226156695601
+<POPJoinHashMap uuid="13" providedVariables="[t]" providedSort="[]" filteredSort="[]" selectedSort="[]" existOnly="false" optional="false">
+ <children>
+  <TripleStoreIteratorGlobal uuid="11" name="" idx="PSO" providedVariables="[b, t]" providedSort="[[b.FAST, t.FAST], [t.FAST, b.FAST]]" selectedSort="[]">
+   <sparam>
+    <AOPVariable uuid="8" name="b"/>
+   </sparam>
+   <pparam>
+    <ValueIri value="title"/>
+   </pparam>
+   <oparam>
+    <AOPVariable uuid="10" name="t"/>
+   </oparam>
+   <partition>
+    <Partition>
+     <Limit name="b" value="1"/>
+    </Partition>
+   </partition>
+  </TripleStoreIteratorGlobal>
+  <POPJoinMerge uuid="12" providedVariables="[b]" providedSort="[]" filteredSort="[]" selectedSort="[]" existOnly="false" optional="false">
+   <children>
+    <TripleStoreIteratorGlobal uuid="3" name="" idx="POS" providedVariables="[a]" providedSort="[[a.FAST]]" selectedSort="[]">
+     <sparam>
+      <AOPVariable uuid="0" name="a"/>
+     </sparam>
+     <pparam>
+      <ValueIri value="bornIn"/>
+     </pparam>
+     <oparam>
+      <ValueIri value="2009"/>
+     </oparam>
+     <partition>
+      <Partition>
+       <Limit name="a" value="1"/>
+      </Partition>
+     </partition>
+    </TripleStoreIteratorGlobal>
+    <TripleStoreIteratorGlobal uuid="7" name="" idx="PSO" providedVariables="[a, b]" providedSort="[[a.FAST, b.FAST], [b.FAST, a.FAST]]" selectedSort="[]">
+     <sparam>
+      <AOPVariable uuid="4" name="b"/>
+     </sparam>
+     <pparam>
+      <ValueIri value="writtenBy"/>
+     </pparam>
+     <oparam>
+      <AOPVariable uuid="6" name="a"/>
+     </oparam>
+     <partition>
+      <Partition>
+       <Limit name="a" value="1"/>
+      </Partition>
+     </partition>
+    </TripleStoreIteratorGlobal>
+   </children>
+   <projectedVariables>
+    <variable name="b"/>
+   </projectedVariables>
+  </POPJoinMerge>
+ </children>
+ <projectedVariables>
+  <variable name="t"/>
+ </projectedVariables>
+</POPJoinHashMap>
+
