@@ -25,11 +25,9 @@ enum class ETripleComponentType {
     STRING_TYPED,
     STRING_LANG,
 }
-//generateTriples("/mnt/luposdate-testdata/bench_1", 10, 10000, 1000)
-//generateTriples("/mnt/luposdate-testdata/bench_1", 10, 10, 10)
-generateTriples("/mnt/luposdate-testdata/bench_1", 100, 1000, 100)
+generateTriples("/mnt/luposdate-testdata/bench_2", 2097152, 16,16,16)
 
-fun generateTriples(folderName: String, years: Int, authorsPerYear: Int, booksPerAuthor: Int): Int {
+fun generateTriples(folderName: String, count:Int,a:Int,b:Int,c:Int): Int {
     val byteBuf = ByteArray(1)
 File(folderName).mkdirs()
     var outN3: PrintWriter = File(folderName + "/intermediate.n3").printWriter()
@@ -71,31 +69,26 @@ File(folderName).mkdirs()
         outIntermediateTriplesStatCounter++
     }
 
-    for (y in 2010 - years until 2010) {
-        for (a in 0 until authorsPerYear) {
-            appendTriple("_:${y}_${a}", "<bornIn>", "<${y}>")
-        }
-    }
-    for (y in 2010 - years until 2010) {
-        for (a in 0 until authorsPerYear) {
-            for (b in 0 until booksPerAuthor) {
-                appendTriple("_:${y}_${a}_${b}", "<writtenBy>", "_:${y}_${a}")
-            }
-        }
-    }
-    for (y in 2010 - years until 2010) {
-        for (a in 0 until authorsPerYear) {
-            for (b in 0 until booksPerAuthor) {
-                appendTriple("_:${y}_${a}_${b}", "<title>", "_:t${y}_${a}_${b}")
-            }
-        }
-    }
+for(i in 0 until count){
+appendTriple("_:${i}","<a>","_:a")
+appendTriple("_:${i}","<b>","_:b")
+appendTriple("_:${i}","<c>","_:c")
+for(j in 0 until a){
+appendTriple("_:${i}${j}","<a>","_:${j}")
+}
+for(k in 0 until b){
+appendTriple("_:${i}${k}","<b>","_:${k}")
+}
+for(l in 0 until c){
+appendTriple("_:${i}${l}","<c>","_:${l}")
+}
+}
+
     outIntermediateTriples.close()
 File("$folderName/intermediate.n3.partitions").printWriter().use { out ->
 for(i in listOf(2,4,8,16)){
 out.println("PSO,1,$i")
 out.println("PSO,2,$i")
-out.println("POS,2,$i")
 }
 }
 
