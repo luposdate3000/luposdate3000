@@ -10,4 +10,5 @@ inline fun getEnv(key: String, default: String? = null): String?
 inline fun getBenchmarkHome():String
 inline fun getGradleCache():String
 inline fun getMavenCache():String
+inline fun getAvailableRam():Int
 }

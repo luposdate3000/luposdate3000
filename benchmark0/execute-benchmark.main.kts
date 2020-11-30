@@ -86,7 +86,7 @@ for (process in listOf(2, 4, 8, 16)) {
         out.println("OPS,1,$process")
         out.println("OPS,2,$process")
     }
-    val p = ProcessBuilder("java", "-Xmx60g", "-cp", classpath, "MainKt", "$data/intermediate.n3", "$queries", "10", "$triples", "OnlyWithout")
+    val p = ProcessBuilder("java", "-Xmx${Platform.getAvailableRam()}g", "-cp", classpath, "MainKt", "$data/intermediate.n3", "$queries", "10", "$triples", "OnlyWithout")
             .directory(File("."))
             .redirectOutput(File("x"))
             .redirectError(Redirect.INHERIT)

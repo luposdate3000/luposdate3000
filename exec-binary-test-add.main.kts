@@ -50,7 +50,7 @@ for (jar in jars) {
     }
 }
 println(classpath)
-ProcessBuilder("java", "-Xmx60g", "-cp", classpath, "MainKt", "--generate", inputdata, sparql, targetdata, "resources${Platform.getPathSeparator()}binary${Platform.getPathSeparator()}$outputfoldername", testname, mode)
+ProcessBuilder("java", "-Xmx${Platform.getAvailableRam()}g", "-cp", classpath, "MainKt", "--generate", inputdata, sparql, targetdata, "resources${Platform.getPathSeparator()}binary${Platform.getPathSeparator()}$outputfoldername", testname, mode)
         .redirectOutput(Redirect.INHERIT)
         .redirectError(Redirect.INHERIT)
         .start()

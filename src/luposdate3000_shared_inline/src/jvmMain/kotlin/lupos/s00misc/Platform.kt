@@ -34,12 +34,15 @@ inline     actual fun getEnv(key: String, default: String?): String? {
         return System.getenv(key) ?: default
     }
 actual inline fun getBenchmarkHome():String{
-return Platform.getEnv("LUPOS_BENCHMARK_HOME", "${Platform.getPathSeparator()}mnt")!!
+return getEnv("LUPOS_BENCHMARK_HOME", "${getPathSeparator()}mnt")!!
 }
 actual inline fun getGradleCache():String{
-return Platform.getEnv("LUPOS_GRADLE_CACHE","${Platform.getUserHome()}${Platform.getPathSeparator()}.gradle${Platform.getPathSeparator()}caches${Platform.getPathSeparator()}")!!
+return getEnv("LUPOS_GRADLE_CACHE","${getUserHome()}${getPathSeparator()}.gradle${getPathSeparator()}caches${getPathSeparator()}")!!
 }
 actual inline fun getMavenCache():String{
-return Platform.getEnv("LUPOS_MAVEN_CACHE","${Platform.getUserHome()}${Platform.getPathSeparator()}.m2${Platform.getPathSeparator()}repository${Platform.getPathSeparator()}")!!
+return getEnv("LUPOS_MAVEN_CACHE","${getUserHome()}${getPathSeparator()}.m2${getPathSeparator()}repository${getPathSeparator()}")!!
+}
+actual inline fun getAvailableRam():Int{  
+return getEnv("LUPOS_RAM","60").toInt()
 }
 }

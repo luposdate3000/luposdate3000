@@ -45,7 +45,7 @@ for (jar in jars) {
         classpath = "$classpath:$jar"
     }
 }
-val cmd = mutableListOf("java", "-Xmx60g", "-cp", classpath, "MainKt")
+val cmd = mutableListOf("java", "-Xmx${Platform.getAvailableRam()}g", "-cp", classpath, "MainKt")
 cmd.addAll(args)
 ProcessBuilder(cmd)
         .redirectOutput(Redirect.INHERIT)
