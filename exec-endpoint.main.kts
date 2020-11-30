@@ -31,10 +31,10 @@ val jars = mutableListOf(
         "build-cache${Platform.getPathSeparator()}bin${Platform.getPathSeparator()}Luposdate3000_Launch_Endpoint-jvm.jar",
 )
 val userHome = Platform.getUserHome()
-for (f in Platform.findNamedFileInDirectory("${Platform.getUserHome()}${Platform.getPathSeparator()}.gradle${Platform.getPathSeparator()}caches${Platform.getPathSeparator()}modules-2${Platform.getPathSeparator()}files-2.1${Platform.getPathSeparator()}com.soywiz.korlibs.krypto${Platform.getPathSeparator()}krypto-jvm${Platform.getPathSeparator()}1.9.1${Platform.getPathSeparator()}", "krypto-jvm-1.9.1.jar")) {
+for (f in Platform.findNamedFileInDirectory("${Platform.getGradleCache()}modules-2${Platform.getPathSeparator()}files-2.1${Platform.getPathSeparator()}com.soywiz.korlibs.krypto${Platform.getPathSeparator()}krypto-jvm${Platform.getPathSeparator()}1.9.1${Platform.getPathSeparator()}", "krypto-jvm-1.9.1.jar")) {
     jars.add(f)
 }
-for (f in Platform.findNamedFileInDirectory("${Platform.getUserHome()}${Platform.getPathSeparator()}.m2${Platform.getPathSeparator()}repository${Platform.getPathSeparator()}org${Platform.getPathSeparator()}jetbrains${Platform.getPathSeparator()}kotlin${Platform.getPathSeparator()}kotlin-stdlib${Platform.getPathSeparator()}1.4.255-SNAPSHOT", "kotlin-stdlib-1.4.255-SNAPSHOT.jar")) {
+for (f in Platform.findNamedFileInDirectory("${Platform.getMavenCache()}org${Platform.getPathSeparator()}jetbrains${Platform.getPathSeparator()}kotlin${Platform.getPathSeparator()}kotlin-stdlib${Platform.getPathSeparator()}1.4.255-SNAPSHOT", "kotlin-stdlib-1.4.255-SNAPSHOT.jar")) {
     jars.add(f)
 }
 var classpath = ""
@@ -53,5 +53,5 @@ ProcessBuilder(cmd)
         .start()
         .waitFor()
 
-//curl -H "Content-Type: application/x-www-form-urlencoded" --data-binary "${Platform.getEnv("LUPOS_BENCHMARK_HOME", "${Platform.getPathSeparator()}mnt")!!}/luposdate-testdata/sp2b/1024/data0.n3" $(hostname):2324/import/turtle
+//curl -H "Content-Type: application/x-www-form-urlencoded" --data-binary "${Platform.getBenchmarkHome()}/luposdate-testdata/sp2b/1024/data0.n3" $(hostname):2324/import/turtle
 //curl -H "Content-Type: application/x-www-form-urlencoded" --data-binary "@resources/sp2b/q10.sparql" $(hostname):2324/sparql/query
