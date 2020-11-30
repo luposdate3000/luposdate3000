@@ -30,4 +30,8 @@ internal actual object Platform {
     }
 
     actual inline fun getNullFileName(): String = nullFileName
+inline     actual fun getEnv(key: String, default: String?): String? {
+        return System.getenv(key) ?: default
+    }
+
 }

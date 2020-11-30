@@ -14,7 +14,7 @@ import java.nio.file.Files
 import java.nio.file.Paths
 import java.nio.file.StandardOpenOption
 
-val targetBaseFolder = "${Platform.getPathSeparator()}mnt${Platform.getPathSeparator()}luposdate-testdata${Platform.getPathSeparator()}bsbm"
+val targetBaseFolder = "${Platform.getEnv("LUPOS_BENCHMARK_HOME", "${Platform.getPathSeparator()}mnt")!!}${Platform.getPathSeparator()}luposdate-testdata${Platform.getPathSeparator()}bsbm"
 val sp2bGeneratorHome = "${Platform.getPathSeparator()}opt${Platform.getPathSeparator()}bsbmtools-0.2"
 
 var targetCount = 1

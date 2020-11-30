@@ -25,9 +25,10 @@ enum class ETripleComponentType {
     STRING_TYPED,
     STRING_LANG,
 }
-//generateTriples("/mnt/luposdate-testdata/bench_1", 10, 10000, 1000)
-//generateTriples("/mnt/luposdate-testdata/bench_1", 10, 10, 10)
-generateTriples("/mnt/luposdate-testdata/bench_1", 100, 1000, 100)
+
+//generateTriples("${Platform.getEnv("LUPOS_BENCHMARK_HOME", "${Platform.getPathSeparator()}mnt")!!}/luposdate-testdata/bench_1", 10, 10000, 1000)
+//generateTriples("${Platform.getEnv("LUPOS_BENCHMARK_HOME", "${Platform.getPathSeparator()}mnt")!!}/luposdate-testdata/bench_1", 10, 10, 10)
+generateTriples("${Platform.getEnv("LUPOS_BENCHMARK_HOME", "${Platform.getPathSeparator()}mnt")!!}/luposdate-testdata/bench_1", 100, 1000, 100)
 
 fun generateTriples(folderName: String, years: Int, authorsPerYear: Int, booksPerAuthor: Int): Int {
     val byteBuf = ByteArray(1)

@@ -13,7 +13,7 @@ import java.nio.file.Files
 import java.nio.file.Paths
 
 val numberOfTriples = 1048576
-val triplesFiles = "/mnt/luposdate-testdata/sp2b/${numberOfTriples}/complete.n3"
+val triplesFiles = "${Platform.getEnv("LUPOS_BENCHMARK_HOME", "${Platform.getPathSeparator()}mnt")!!}/luposdate-testdata/sp2b/${numberOfTriples}/complete.n3"
 val queryFiles = "resources/sp2b/q10.sparql;resources/sp2b/q1.sparql;resources/sp2b/q3a.sparql;resources/sp2b/q3b.sparql;resources/sp2b/q3c.sparql;resources/sp2b/q4.sparql;resources/sp2b/q5a.sparql;resources/sp2b/q6.sparql;resources/sp2b/q8.sparql"
 val minimumTime = 10.0
 

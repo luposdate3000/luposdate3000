@@ -53,5 +53,5 @@ ProcessBuilder(cmd)
         .start()
         .waitFor()
 
-//curl -H "Content-Type: application/x-www-form-urlencoded" --data-binary "/mnt/luposdate-testdata/sp2b/1024/data0.n3" $(hostname):2324/import/turtle
+//curl -H "Content-Type: application/x-www-form-urlencoded" --data-binary "${Platform.getEnv("LUPOS_BENCHMARK_HOME", "${Platform.getPathSeparator()}mnt")!!}/luposdate-testdata/sp2b/1024/data0.n3" $(hostname):2324/import/turtle
 //curl -H "Content-Type: application/x-www-form-urlencoded" --data-binary "@resources/sp2b/q10.sparql" $(hostname):2324/sparql/query
