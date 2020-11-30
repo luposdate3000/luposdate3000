@@ -13,7 +13,7 @@ import java.nio.file.Files
 import java.nio.file.Paths
 
 val numberOfTriples = 20100000
-val triplesFiles = "${Platform.getBenchmarkHome()}/luposdate-testdata/bench_1/intermediate.n3"
+val triplesFiles = "${Platform.getBenchmarkHome()}/luposdate-testdata/bench_2/intermediate.n3"
 val minimumTime = 10.0
 //val minimumTime = 0.1
 
