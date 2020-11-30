@@ -138,7 +138,6 @@ fun mainFunc(args: Array<String>): Unit = Parallel.runBlocking {
                             val node = opB
 println("------------------------------")
                             println(node.toXMLElement().toPrettyString())
-/*
                             val writer = MyPrintWriter(false)
                             LuposdateEndpoint.evaluateOperatorgraphToResult(node, writer)
                             val timerFirst = DateHelperRelative.markNow()
@@ -161,7 +160,6 @@ println("------------------------------")
                                 }
                             }
                             println("${x}_${y}_${z}__${a}_${b}__${zPt},$numberOfTriples,0,$counter,${time * 1000.0},${counter / time},NoOptimizer")
-*/
                         }
                     }
                 }
