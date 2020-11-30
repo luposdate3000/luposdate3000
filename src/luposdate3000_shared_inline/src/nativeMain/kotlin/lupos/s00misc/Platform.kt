@@ -32,6 +32,6 @@ actual inline fun getMavenCache():String{
 return getEnv("LUPOS_MAVEN_CACHE","${getUserHome()}${getPathSeparator()}.m2${getPathSeparator()}repository${getPathSeparator()}")!!
 }
 actual inline fun getAvailableRam():Int{  
-return getEnv("LUPOS_RAM","60").toInt()
+return getEnv("LUPOS_RAM","60")!!.toInt()
 }
 }
