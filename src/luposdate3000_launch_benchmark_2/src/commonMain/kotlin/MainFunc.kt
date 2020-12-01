@@ -15,8 +15,8 @@ fun mainFunc(args: Array<String>): Unit = Parallel.runBlocking {
     LuposdateEndpoint.initialize()
 
 
-    val partitionOptions = listOf(1,2,4,8,16)
-    val enableDisable = listOf(0, 1)
+    val partitionOptions = listOf(1,2,4,8)
+    val enableDisable = listOf(0)
 
     val datasourceFiles = args[0]
     val minimumTime = args[1].toDouble()
@@ -118,12 +118,16 @@ fun mainFunc(args: Array<String>): Unit = Parallel.runBlocking {
                             }
                             var opA: IOPBase = POPJoinMerge(query, listOf("j","a","b"), opX, opY, false)
                             if (zPt != 1 && a!=b) {
+if(a>b&&b>1){
+opA = POPChangePartitionOrderedByIntId(query, listOf("j","a","b"), "j", a,b,aPartitionID,bPartitionID, opA)
+}else{
                                 if (a > 1) {
                                     opA = POPMergePartition(query, listOf("j","a","b"), "j", a, aPartitionID, opA)
                                 }
                                 if (b > 1) {
                                     opA = POPSplitPartition(query, listOf("j","a","b"), "j", b, bPartitionID, opA)
                                 }
+}
                             }
                             var opB: IOPBase = POPJoinMerge(query, listOf("j","a","b","c"), opZ, opA, false)
                             if (zPt == 1) {
