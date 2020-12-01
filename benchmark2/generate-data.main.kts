@@ -74,13 +74,13 @@ appendTriple("_:${i}","<a>","_:a")
 appendTriple("_:${i}","<b>","_:b")
 appendTriple("_:${i}","<c>","_:c")
 for(j in 0 until a){
-appendTriple("_:${i}${j}","<a>","_:${j}")
+appendTriple("_:a${i}_${j}","<a>","_:${j}")
 }
 for(k in 0 until b){
-appendTriple("_:${i}${k}","<b>","_:${k}")
+appendTriple("_:b${i}_${k}","<b>","_:${k}")
 }
 for(l in 0 until c){
-appendTriple("_:${i}${l}","<c>","_:${l}")
+appendTriple("_:c${i}_${l}","<c>","_:${l}")
 }
 }
 
