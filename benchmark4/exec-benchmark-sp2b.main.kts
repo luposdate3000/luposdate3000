@@ -48,12 +48,13 @@ for (jar in jars) {
     }
 }
 
-
-for (output_count in listOf(32, 128, 512, 2048, 8196, 32768, 131072, 524288, 2097152)) {
+val join_count=16
+for (output_count in listOf(32768)) {
+//for (output_count in listOf(32, 128, 512, 2048, 8196, 32768, 131072, 524288, 2097152)) {
     for (trash in listOf(0, 1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024)) {
         try {
-            generateTriples("${Platform.getBenchmarkHome()}/luposdate-testdata/bench_4", output_count, trash, 1)
-            val cmd = mutableListOf("java", "-Xmx${Platform.getAvailableRam()}g", "-cp", classpath, "MainKt", triplesFiles, "$minimumTime", "$output_count", "$trash", "1")
+            generateTriples("${Platform.getBenchmarkHome()}/luposdate-testdata/bench_4", output_count, trash, 1,join_count)
+            val cmd = mutableListOf("java", "-Xmx${Platform.getAvailableRam()}g", "-cp", classpath, "MainKt", triplesFiles, "$minimumTime", "$output_count", "$trash", "1","$join_count")
             cmd.addAll(args)
             ProcessBuilder(cmd)
                     .directory(File("."))
@@ -71,8 +72,8 @@ for (output_count in listOf(32, 128, 512, 2048, 8196, 32768, 131072, 524288, 209
             if (count == 0) {
                 continue
             }
-            generateTriples("${Platform.getBenchmarkHome()}/luposdate-testdata/bench_4", count, 0, join)
-            val cmd = mutableListOf("java", "-Xmx${Platform.getAvailableRam()}g", "-cp", classpath, "MainKt", triplesFiles, "$minimumTime", "$output_count", "0", "$join")
+            generateTriples("${Platform.getBenchmarkHome()}/luposdate-testdata/bench_4", count, 0, join,join_count)
+            val cmd = mutableListOf("java", "-Xmx${Platform.getAvailableRam()}g", "-cp", classpath, "MainKt", triplesFiles, "$minimumTime", "$output_count", "0", "$join","$join_count")
             cmd.addAll(args)
             ProcessBuilder(cmd)
                     .directory(File("."))

@@ -13,167 +13,74 @@ import lupos.s16network.*
 @OptIn(ExperimentalStdlibApi::class, kotlin.time.ExperimentalTime::class)
 fun mainFunc(args: Array<String>): Unit = Parallel.runBlocking {
     LuposdateEndpoint.initialize()
-    val partitionOptions = listOf(1, 2, 4, 8)
     val datasourceFiles = args[0]
     val minimumTime = args[1].toDouble()
     val numberOfTriples = args[2].toLong()
     val trash = args[3].toLong()
     val join = args[4].toLong()
+    val joincount2 = args[5].toLong()
     val timer = DateHelperRelative.markNow()
     LuposdateEndpoint.importIntermediateFiles(datasourceFiles)
     val time = DateHelperRelative.elapsedSeconds(timer)
     println("$datasourceFiles/persistence-import.sparql,$numberOfTriples,0,1,${numberOfTriples * 1000.0},${1.0 / time}")
-    for (i in partitionOptions) {
-        val x = i
-        val y = i
-        val z = i
-        val a = i
-        val b = i
-        val zPt = 0
-        if (a != x && a != y) {
-            continue
-        }
-        if (b != a && b != z && b != 1) {
-            continue
-        }
-        if (zPt == 1 && b == 1) {
-            continue
-        }
-        if (zPt == 1 && z != 1) {
-            continue
-        }
-        if (zPt == 1 && a != b) {
-            continue
-        }
-        val query = Query()
-        var partitionID = 1
-        val xP = Partition()
-        var aPartitionID = partitionID++
-        var bPartitionID = if (a == b) aPartitionID else partitionID++
-        var xPartitionID = if (x != a) partitionID++ else aPartitionID
-        xP.limit["a"] = x
-        var opX: IOPBase = TripleStoreIteratorGlobal(query, listOf("j", "a"), "", arrayOf(AOPVariable(query, "j"), AOPConstant(query, ValueIri("a")), AOPVariable(query, "a")), EIndexPattern.PSO, xP)
-        if (x > 1) {
-            opX = POPSplitPartitionFromStore(query, listOf("j", "a"), "j", x, xPartitionID, opX)
-        }
-        val yP = Partition()
-        var yPartitionID = if (y != a) partitionID++ else aPartitionID
-        yP.limit["a"] = y
-        var opY: IOPBase = TripleStoreIteratorGlobal(query, listOf("j", "b"), "", arrayOf(AOPVariable(query, "j"), AOPConstant(query, ValueIri("b")), AOPVariable(query, "b")), EIndexPattern.PSO, yP)
-        if (y > 1) {
-            opY = POPSplitPartitionFromStore(query, listOf("j", "b"), "j", y, yPartitionID, opY)
-        }
-        val zP = Partition()
-        var zPartitionID = if (z != b) partitionID++ else bPartitionID
-        zP.limit["b"] = z
-        var opZ: IOPBase = TripleStoreIteratorGlobal(query, listOf("j", "c"), "", arrayOf(AOPVariable(query, "j"), AOPConstant(query, ValueIri("c")), AOPVariable(query, "c")), EIndexPattern.PSO, zP)
-        if (zPt == 1) {
-            opZ = POPSplitPartitionPassThrough(query, listOf("j", "c"), "j", z, zPartitionID, opZ)
-        } else {
-            if (z > 1) {
-                opZ = POPSplitPartitionFromStore(query, listOf("j", "c"), "j", z, zPartitionID, opZ)
+    var joincount = 1
+    while (joincount <= joincount2) {
+var allpartitions=listOf(1, 2, 4, 8,16)
+var partitionTimes=DoubleArray(allpartitions.size)
+        for (partitionC in 0 until allpartitions.size){
+if(partitionC>1&&partitionTimes[partitionC-1]<partitionTimes[partitionC-2]){
+break
+}
+val partitions=allpartitions[partitionC]
+            var variables = mutableListOf("j", "a")
+            val query = Query()
+            val p = Partition()
+            p.limit["j"] = partitions
+            var op: IOPBase = TripleStoreIteratorGlobal(query, listOf("j", "a"), "", arrayOf(AOPVariable(query, "j"), AOPConstant(query, ValueIri("a")), AOPVariable(query, "a")), EIndexPattern.PSO, p)
+            if (partitions > 1) {
+                op = POPSplitPartitionFromStore(query, listOf("j", "a"), "j", partitions, 1, op)
             }
-        }
-        if (x != a) {
-            if (x > 1) {
-                if (a > 1) {
-                    opX = POPMergePartitionOrderedByIntId(query, listOf("j", "a"), "j", x, xPartitionID, opX)
-                    opX.mySortPriority = mutableListOf(SortHelper("j", ESortType.FAST))
-                    opX = POPSplitPartition(query, listOf("j", "a"), "j", a, aPartitionID, opX)
-                } else {
-                    opX = POPMergePartitionOrderedByIntId(query, listOf("j", "a"), "j", x, xPartitionID, opX)
-                    opX.mySortPriority = mutableListOf(SortHelper("j", ESortType.FAST))
+            for (j in 0 until joincount) {
+                var cc = 'b' + j
+                var op2: IOPBase = TripleStoreIteratorGlobal(query, listOf("j", "$cc"), "", arrayOf(AOPVariable(query, "j"), AOPConstant(query, ValueIri("$cc")), AOPVariable(query, "$cc")), EIndexPattern.PSO, p)
+                if (partitions > 1) {
+                    op2 = POPSplitPartitionFromStore(query, listOf("j", "$cc"), "j", partitions, 1, op2)
                 }
-            } else {
-                if (a > 1) {
-                    opX = POPSplitPartition(query, listOf("j", "a"), "j", a, aPartitionID, opX)
-                }
+                variables.add("$cc")
+                val v = mutableListOf<String>()
+                v.addAll(variables)
+                op = POPJoinMerge(query, v, op, op2, false)
             }
-        }
-        if (y != a) {
-            if (y > 1) {
-                if (a > 1) {
-                    opY = POPMergePartitionOrderedByIntId(query, listOf("j", "b"), "j", y, yPartitionID, opY)
-                    opY.mySortPriority = mutableListOf(SortHelper("j", ESortType.FAST))
-                    opY = POPSplitPartition(query, listOf("j", "b"), "j", a, aPartitionID, opY)
-                } else {
-                    opY = POPMergePartitionOrderedByIntId(query, listOf("j", "b"), "j", y, yPartitionID, opY)
-                    opY.mySortPriority = mutableListOf(SortHelper("j", ESortType.FAST))
-                }
-            } else {
-                if (a > 1) {
-                    opY = POPSplitPartition(query, listOf("j", "b"), "j", a, aPartitionID, opY)
-                }
+            if (partitions > 1) {
+                op = POPMergePartition(query, variables, "j", partitions, 1, op)
             }
-        }
-        if (zPt != 1) {
-            if (z != b) {
-                if (z > 1) {
-                    if (b > 1) {
-                        opZ = POPMergePartitionOrderedByIntId(query, listOf("j", "c"), "j", z, zPartitionID, opZ)
-                        opZ.mySortPriority = mutableListOf(SortHelper("j", ESortType.FAST))
-                        opZ = POPSplitPartition(query, listOf("j", "c"), "j", b, bPartitionID, opZ)
-                    } else {
-                        opZ = POPMergePartitionOrderedByIntId(query, listOf("j", "c"), "j", z, zPartitionID, opZ)
-                        opZ.mySortPriority = mutableListOf(SortHelper("j", ESortType.FAST))
-                    }
-                } else {
-                    if (b > 1) {
-                        opZ = POPSplitPartition(query, listOf("j", "c"), "j", b, bPartitionID, opZ)
-                    }
-                }
-            }
-        }
-        var opA: IOPBase = POPJoinMerge(query, listOf("j", "a", "b"), opX, opY, false)
-        if (zPt != 1 && a != b) {
-            if (a > b && b > 1) {
-                opA = POPMergePartitionOrderedByIntId(query, listOf("j", "a", "b"), "j", a, aPartitionID, opA)
-                opA.mySortPriority = mutableListOf(SortHelper("j", ESortType.FAST))
-                opA = POPSplitPartition(query, listOf("j", "a", "b"), "j", b, bPartitionID, opA)
-            } else {
-                if (a > 1) {
-                    opA = POPMergePartitionOrderedByIntId(query, listOf("j", "a", "b"), "j", a, aPartitionID, opA)
-                    opA.mySortPriority = mutableListOf(SortHelper("j", ESortType.FAST))
-                }
-                if (b > 1) {
-                    opA = POPSplitPartition(query, listOf("j", "a", "b"), "j", b, bPartitionID, opA)
-                }
-            }
-        }
-        var opB: IOPBase = POPJoinMerge(query, listOf("j", "a", "b", "c"), opZ, opA, false)
-        if (zPt == 1) {
-            if (a > 1) {
-                opB = POPMergePartition(query, listOf("j", "a", "b", "c"), "j", a, aPartitionID, opB)
-            }
-        } else {
-            if (b > 1) {
-                opB = POPMergePartition(query, listOf("j", "a", "b", "c"), "j", b, bPartitionID, opB)
-            }
-        }
-        val node = opB
-        println("------------------------------")
-        println(node.toXMLElement().toPrettyString())
-        val writer = MyPrintWriter(false)
-        LuposdateEndpoint.evaluateOperatorgraphToResult(node, writer)
-        val timerFirst = DateHelperRelative.markNow()
-        LuposdateEndpoint.evaluateOperatorgraphToResult(node, writer)
-        val timeFirst = DateHelperRelative.elapsedSeconds(timerFirst)
+            val node = op
+            println("------------------------------")
+            println(node.toXMLElement().toPrettyString())
+            val writer = MyPrintWriter(false)
+            LuposdateEndpoint.evaluateOperatorgraphToResult(node, writer)
+            val timerFirst = DateHelperRelative.markNow()
+            LuposdateEndpoint.evaluateOperatorgraphToResult(node, writer)
+            val timeFirst = DateHelperRelative.elapsedSeconds(timerFirst)
 //        val groupSize = 100
- val groupSize =1 + (1.0 / timeFirst).toInt()
-println("groupSize $groupSize")
-        val timer = DateHelperRelative.markNow()
-        var time: Double
-        var counter = 0
-        while (true) {
-            counter += groupSize
-            for (i in 0 until groupSize) {
-                LuposdateEndpoint.evaluateOperatorgraphToResult(node, writer)
+            val groupSize = 1 + (1.0 / timeFirst).toInt()
+            println("groupSize $groupSize")
+            val timer = DateHelperRelative.markNow()
+            var time: Double
+            var counter = 0
+            while (true) {
+                counter += groupSize
+                for (i in 0 until groupSize) {
+                    LuposdateEndpoint.evaluateOperatorgraphToResult(node, writer)
+                }
+                time = DateHelperRelative.elapsedSeconds(timer)
+                if (time > minimumTime) {
+                    break
+                }
             }
-            time = DateHelperRelative.elapsedSeconds(timer)
-            if (time > minimumTime) {
-                break
-            }
+partitionTimes[partitionC]=counter / time
+            println("${trash}_${join}_${joincount},$numberOfTriples,0,$counter,${time * 1000.0},${counter / time},NoOptimizer")
         }
-        println("${x}_${y}_${z}__${a}_${b}__${zPt},$numberOfTriples,0,$counter,${time * 1000.0},${counter / time},NoOptimizer,${trash},${join}")
+        joincount *= 2
     }
 }

@@ -27,7 +27,7 @@ enum class ETripleComponentType {
 }
 //generateTriples("${Platform.getBenchmarkHome()}/luposdate-testdata/bench_4", 2097152, 16,1)
 
-fun generateTriples(folderName: String, count: Int, trash: Int, join: Int): Int {
+fun generateTriples(folderName: String, count: Int, trash_block: Int, join_block: Int,join_count:Int): Int {
     val byteBuf = ByteArray(1)
     File(folderName).mkdirs()
     var outN3: PrintWriter = File(folderName + "/intermediate.n3").printWriter()
@@ -72,29 +72,23 @@ val tmp: ByteArray
     }
 
     for (i in 0 until count) {
-        for (j in 0 until join) {
-            appendTriple("_:a${i}", "<a>", "_:${j}")
+for(c in 0 until join_count){
+val cc='a'+c
+        for (j in 0 until join_block) {
+            appendTriple("_:${cc}${i}", "<${cc}>", "_:${j}")
         }
-        for (k in 0 until join) {
-            appendTriple("_:b${i}", "<b>", "_:${k}")
+}
+for(c in 0 until join_count){
+val cc='a'+c
+        for (j in 0 until trash_block) {
+            appendTriple("_:${cc}${i}_${j}", "<${cc}>", "_:${j}")
         }
-        for (l in 0 until join) {
-            appendTriple("_:c${i}", "<c>", "_:${l}")
-        }
-        for (j in 0 until trash) {
-            appendTriple("_:a${i}_${j}", "<a>", "_:${j}")
-        }
-        for (k in 0 until trash) {
-            appendTriple("_:b${i}_${k}", "<b>", "_:${k}")
-        }
-        for (l in 0 until trash) {
-            appendTriple("_:c${i}_${l}", "<c>", "_:${l}")
-        }
+}
     }
 
     outIntermediateTriples.close()
     File("$folderName/intermediate.n3.partitions").printWriter().use { out ->
-        for (i in listOf(2, 4, 8)) {
+        for (i in listOf(2, 4, 8,16)) {
             out.println("PSO,1,$i")
             out.println("PSO,2,$i")
         }
