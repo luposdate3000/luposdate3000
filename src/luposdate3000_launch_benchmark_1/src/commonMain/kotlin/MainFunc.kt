@@ -13,6 +13,7 @@ import lupos.s16network.*
 @OptIn(ExperimentalStdlibApi::class, kotlin.time.ExperimentalTime::class)
 fun mainFunc(args: Array<String>): Unit = Parallel.runBlocking {
     LuposdateEndpoint.initialize()
+var debugMode=false
     val partitionOptions = listOf(1, 2, 4, 8, 16)
     val enableDisable = listOf(0, 1)
     val datasourceFiles = args[0]
@@ -28,6 +29,11 @@ fun mainFunc(args: Array<String>): Unit = Parallel.runBlocking {
                 for (a in partitionOptions) {
                     for (b in partitionOptions) {
                         for (zPt in enableDisable) {
+//fast->
+                            if (a != x || a != y) continue
+                            if (b > a) continue
+                            if (zPt==0&&z!=b) continue
+//
                             if (a != x && a != y) {
                                 continue
                             }
@@ -50,57 +56,57 @@ fun mainFunc(args: Array<String>): Unit = Parallel.runBlocking {
                             var bPartitionID = partitionID++
                             var xPartitionID = if (x != a) partitionID++ else aPartitionID
                             xP.limit["a"] = x
-                            var opX: IOPBase = TripleStoreIteratorGlobal(query, listOf("a"), "", arrayOf(AOPVariable(query, "a"), AOPConstant(query, ValueIri("bornIn")), AOPConstant(query, ValueIri("2009"))), EIndexPattern.POS, xP)
+                            var opX: IOPBase = TripleStoreIteratorGlobal(query, listOf("a","b"), "", arrayOf(AOPVariable(query, "a"), AOPConstant(query, ValueIri("a")), AOPVariable(query, "b")), EIndexPattern.PSO, xP)
                             if (x > 1) {
-                                opX = POPSplitPartitionFromStore(query, listOf("a"), "a", x, xPartitionID, opX)
+                                opX = POPSplitPartitionFromStore(query, listOf("a","b"), "a", x, xPartitionID, opX)
                             }
                             val yP = Partition()
                             var yPartitionID = if (y != a) partitionID++ else aPartitionID
                             yP.limit["a"] = y
-                            var opY: IOPBase = TripleStoreIteratorGlobal(query, listOf("a", "b"), "", arrayOf(AOPVariable(query, "b"), AOPConstant(query, ValueIri("writtenBy")), AOPVariable(query, "a")), EIndexPattern.PSO, yP)
+                            var opY: IOPBase = TripleStoreIteratorGlobal(query, listOf("a", "c"), "", arrayOf(AOPVariable(query, "a"), AOPConstant(query, ValueIri("b")), AOPVariable(query, "c")), EIndexPattern.PSO, yP)
                             if (y > 1) {
-                                opY = POPSplitPartitionFromStore(query, listOf("a", "b"), "b", y, yPartitionID, opY)
+                                opY = POPSplitPartitionFromStore(query, listOf("a", "c"), "a", y, yPartitionID, opY)
                             }
                             val zP = Partition()
                             var zPartitionID = if (z != b) partitionID++ else bPartitionID
                             zP.limit["b"] = z
-                            var opZ: IOPBase = TripleStoreIteratorGlobal(query, listOf("b", "t"), "", arrayOf(AOPVariable(query, "b"), AOPConstant(query, ValueIri("title")), AOPVariable(query, "t")), EIndexPattern.PSO, zP)
+                            var opZ: IOPBase = TripleStoreIteratorGlobal(query, listOf("c", "d"), "", arrayOf(AOPVariable(query, "c"), AOPConstant(query, ValueIri("c")), AOPVariable(query, "d")), EIndexPattern.PSO, zP)
                             if (zPt == 1) {
-                                opZ = POPSplitPartitionPassThrough(query, listOf("b", "t"), "a", z, zPartitionID, opZ)
+                                opZ = POPSplitPartitionPassThrough(query, listOf("c", "d"), "a", b, zPartitionID, opZ)
                             } else {
                                 if (z > 1) {
-                                    opZ = POPSplitPartitionFromStore(query, listOf("b", "t"), "b", z, zPartitionID, opZ)
+                                    opZ = POPSplitPartitionFromStore(query, listOf("c", "d"), "c", z, zPartitionID, opZ)
                                 }
                             }
                             if (x != a) {
                                 if (x > 1) {
                                     if (a > 1) {
-                                        opX = POPMergePartitionOrderedByIntId(query, listOf("a"), "a", x, xPartitionID, opX)
+                                        opX = POPMergePartitionOrderedByIntId(query, listOf("a","b"), "a", x, xPartitionID, opX)
                                         opX.mySortPriority = mutableListOf(SortHelper("a", ESortType.FAST))
-                                        opX = POPSplitPartition(query, listOf("a"), "a", a, aPartitionID, opX)
+                                        opX = POPSplitPartition(query, listOf("a","b"), "a", a, aPartitionID, opX)
                                     } else {
-                                        opX = POPMergePartitionOrderedByIntId(query, listOf("a"), "a", x, xPartitionID, opX)
+                                        opX = POPMergePartitionOrderedByIntId(query, listOf("a","b"), "a", x, xPartitionID, opX)
                                         opX.mySortPriority = mutableListOf(SortHelper("a", ESortType.FAST))
                                     }
                                 } else {
                                     if (a > 1) {
-                                        opX = POPSplitPartition(query, listOf("a"), "a", a, aPartitionID, opX)
+                                        opX = POPSplitPartition(query, listOf("a","b"), "a", a, aPartitionID, opX)
                                     }
                                 }
                             }
                             if (y != a) {
                                 if (y > 1) {
                                     if (a > 1) {
-                                        opY = POPMergePartitionOrderedByIntId(query, listOf("a", "b"), "a", y, yPartitionID, opY)
+                                        opY = POPMergePartitionOrderedByIntId(query, listOf("a", "c"), "a", y, yPartitionID, opY)
                                         opY.mySortPriority = mutableListOf(SortHelper("a", ESortType.FAST))
-                                        opY = POPSplitPartition(query, listOf("a", "b"), "a", a, aPartitionID, opY)
+                                        opY = POPSplitPartition(query, listOf("a", "c"), "a", a, aPartitionID, opY)
                                     } else {
-                                        opY = POPMergePartitionOrderedByIntId(query, listOf("a", "b"), "a", y, yPartitionID, opY)
+                                        opY = POPMergePartitionOrderedByIntId(query, listOf("a", "c"), "a", y, yPartitionID, opY)
                                         opY.mySortPriority = mutableListOf(SortHelper("a", ESortType.FAST))
                                     }
                                 } else {
                                     if (a > 1) {
-                                        opY = POPSplitPartition(query, listOf("a", "b"), "a", a, aPartitionID, opY)
+                                        opY = POPSplitPartition(query, listOf("a", "c"), "a", a, aPartitionID, opY)
                                     }
                                 }
                             }
@@ -108,43 +114,51 @@ fun mainFunc(args: Array<String>): Unit = Parallel.runBlocking {
                                 if (z != b) {
                                     if (z > 1) {
                                         if (b > 1) {
-                                            opZ = POPMergePartitionOrderedByIntId(query, listOf("b", "t"), "b", z, zPartitionID, opZ)
-                                            opZ.mySortPriority = mutableListOf(SortHelper("b", ESortType.FAST))
-                                            opZ = POPSplitPartition(query, listOf("b", "t"), "b", b, bPartitionID, opZ)
+                                            opZ = POPMergePartitionOrderedByIntId(query, listOf("c", "d"), "c", z, zPartitionID, opZ)
+                                            opZ.mySortPriority = mutableListOf(SortHelper("c", ESortType.FAST))
+                                            opZ = POPSplitPartition(query, listOf("c", "d"), "b", b, bPartitionID, opZ)
                                         } else {
-                                            opZ = POPMergePartitionOrderedByIntId(query, listOf("b", "t"), "b", z, zPartitionID, opZ)
-                                            opZ.mySortPriority = mutableListOf(SortHelper("b", ESortType.FAST))
+                                            opZ = POPMergePartitionOrderedByIntId(query, listOf("c", "d"), "c", z, zPartitionID, opZ)
+                                            opZ.mySortPriority = mutableListOf(SortHelper("c", ESortType.FAST))
                                         }
                                     } else {
                                         if (b > 1) {
-                                            opZ = POPSplitPartition(query, listOf("b", "t"), "b", b, bPartitionID, opZ)
+                                            opZ = POPSplitPartition(query, listOf("c", "d"), "c", b, bPartitionID, opZ)
                                         }
                                     }
                                 }
                             }
-                            var opA: IOPBase = POPJoinMerge(query, listOf("b"), opX, opY, false)
+                            var opA: IOPBase = POPJoinMerge(query, listOf("a","b","c"), opX, opY, false)
                             if (zPt != 1) {
                                 if (a > 1) {
-                                    opA = POPMergePartition(query, listOf("b"), "a", a, aPartitionID, opA)
+                                    opA = POPMergePartition(query, listOf("a","b","c"), "a", a, aPartitionID, opA)
                                 }
                                 if (b > 1) {
-                                    opA = POPSplitPartition(query, listOf("b"), "b", b, bPartitionID, opA)
+                                    opA = POPSplitPartition(query, listOf("a","b","c"), "c", b, bPartitionID, opA)
                                 }
                             }
-                            var opB: IOPBase = POPJoinHashMap(query, listOf("t"), opZ, opA, false)
+                            var opB: IOPBase = POPJoinHashMap(query, listOf("a","b","c","d"), opZ, opA, false)
                             if (zPt == 1) {
                                 if (a > 1) {
-                                    opB = POPMergePartition(query, listOf("t"), "a", a, aPartitionID, opB)
+                                    opB = POPMergePartition(query, listOf("a","b","c","d"), "a", a, aPartitionID, opB)
                                 }
                             } else {
                                 if (b > 1) {
-                                    opB = POPMergePartition(query, listOf("t"), "b", b, bPartitionID, opB)
+                                    opB = POPMergePartition(query, listOf("a","b","c","d"), "c", b, bPartitionID, opB)
                                 }
                             }
                             val node = opB
+println("------------------------------")
+println("${x}_${y}_${z}__${a}_${b}__${zPt}")
                             println(node.toXMLElement().toPrettyString())
+                            val writer1 = MyPrintWriter(debugMode)
+                            LuposdateEndpoint.evaluateOperatorgraphToResult(node, writer1)
+if(debugMode){
+File("/tmp/result_${x}_${y}_${z}__${a}_${b}__${zPt}.xml").printWriter{
+it.println(writer1.toString())
+}
+}else{
                             val writer = MyPrintWriter(false)
-                            LuposdateEndpoint.evaluateOperatorgraphToResult(node, writer)
                             val timerFirst = DateHelperRelative.markNow()
                             LuposdateEndpoint.evaluateOperatorgraphToResult(node, writer)
                             val timeFirst = DateHelperRelative.elapsedSeconds(timerFirst)
@@ -165,7 +179,8 @@ println("groupSize $groupSize")
                                 }
                             }
                             println("${x}_${y}_${z}__${a}_${b}__${zPt},$numberOfTriples,0,$counter,${time * 1000.0},${counter / time},NoOptimizer")
-                        }
+      }
+                  }
                     }
                 }
             }

@@ -1,0 +1,2165 @@
+the activated Partitions are ::
+partition :: SPO -1 1
+partition :: SOP -1 1
+partition :: POS -1 1
+partition :: PSO -1 1
+partition :: OSP -1 1
+partition :: OPS -1 1
+partition :: SPO 1 2
+partition :: SOP 1 4
+partition :: POS 1 8
+partition :: PSO 1 16
+partition :: OSP 1 32
+partition :: OPS 1 64
+partition :: SPO 2 2
+partition :: SOP 2 4
+partition :: POS 2 8
+partition :: PSO 2 16
+partition :: OSP 2 32
+partition :: OPS 2 64
+importing file '/mnt/luposdate-testdata/bench_1/intermediate.n3'
+the activated Partitions are ::
+partition :: SPO -1 1
+partition :: SOP -1 1
+partition :: PSO -1 1
+partition :: PSO 1 2
+partition :: PSO 1 4
+partition :: PSO 1 8
+partition :: PSO 1 16
+partition :: PSO 1 32
+partition :: PSO 2 2
+partition :: PSO 2 4
+partition :: PSO 2 8
+partition :: PSO 2 16
+partition :: PSO 2 32
+partition :: POS -1 1
+partition :: OSP -1 1
+partition :: OPS -1 1
+imported file /mnt/luposdate-testdata/bench_1/intermediate.n3,10560,0.017686721,0.016003545,0.001683175999999998
+flushed triples 10560
+/mnt/luposdate-testdata/bench_1/intermediate.n3/persistence-import.sparql,20100000,0,1,2.01E10,10.895475843237376
+------------------------------
+1_1_1__1_1__0
+<POPJoinHashMap uuid="13" providedVariables="[a, b, c, d]" providedSort="[]" filteredSort="[]" selectedSort="[]" existOnly="false" optional="false">
+ <children>
+  <TripleStoreIteratorGlobal uuid="11" name="" idx="PSO" providedVariables="[c, d]" providedSort="[[c.FAST, d.FAST], [d.FAST, c.FAST]]" selectedSort="[]">
+   <sparam>
+    <AOPVariable uuid="8" name="c"/>
+   </sparam>
+   <pparam>
+    <ValueIri value="c"/>
+   </pparam>
+   <oparam>
+    <AOPVariable uuid="10" name="d"/>
+   </oparam>
+   <partition>
+    <Partition>
+     <Limit name="b" value="1"/>
+    </Partition>
+   </partition>
+  </TripleStoreIteratorGlobal>
+  <POPJoinMerge uuid="12" providedVariables="[a, b, c]" providedSort="[[a.FAST, b.FAST], [a.FAST, c.FAST]]" filteredSort="[]" selectedSort="[]" existOnly="false" optional="false">
+   <children>
+    <TripleStoreIteratorGlobal uuid="3" name="" idx="PSO" providedVariables="[a, b]" providedSort="[[a.FAST, b.FAST], [b.FAST, a.FAST]]" selectedSort="[]">
+     <sparam>
+      <AOPVariable uuid="0" name="a"/>
+     </sparam>
+     <pparam>
+      <ValueIri value="a"/>
+     </pparam>
+     <oparam>
+      <AOPVariable uuid="2" name="b"/>
+     </oparam>
+     <partition>
+      <Partition>
+       <Limit name="a" value="1"/>
+      </Partition>
+     </partition>
+    </TripleStoreIteratorGlobal>
+    <TripleStoreIteratorGlobal uuid="7" name="" idx="PSO" providedVariables="[a, c]" providedSort="[[a.FAST, c.FAST], [c.FAST, a.FAST]]" selectedSort="[]">
+     <sparam>
+      <AOPVariable uuid="4" name="a"/>
+     </sparam>
+     <pparam>
+      <ValueIri value="b"/>
+     </pparam>
+     <oparam>
+      <AOPVariable uuid="6" name="c"/>
+     </oparam>
+     <partition>
+      <Partition>
+       <Limit name="a" value="1"/>
+      </Partition>
+     </partition>
+    </TripleStoreIteratorGlobal>
+   </children>
+   <projectedVariables>
+    <variable name="a"/>
+    <variable name="b"/>
+    <variable name="c"/>
+   </projectedVariables>
+  </POPJoinMerge>
+ </children>
+ <projectedVariables>
+  <variable name="a"/>
+  <variable name="b"/>
+  <variable name="c"/>
+  <variable name="d"/>
+ </projectedVariables>
+</POPJoinHashMap>
+
+groupSize 124
+1_1_1__1_1__0,20100000,0,5208,5012.877571999999,1038.9242356705215,NoOptimizer
+------------------------------
+2_2_1__2_1__0
+<POPJoinHashMap uuid="30" providedVariables="[a, b, c, d]" providedSort="[]" filteredSort="[]" selectedSort="[]" existOnly="false" optional="false">
+ <children>
+  <TripleStoreIteratorGlobal uuid="27" name="" idx="PSO" providedVariables="[c, d]" providedSort="[[c.FAST, d.FAST], [d.FAST, c.FAST]]" selectedSort="[]">
+   <sparam>
+    <AOPVariable uuid="24" name="c"/>
+   </sparam>
+   <pparam>
+    <ValueIri value="c"/>
+   </pparam>
+   <oparam>
+    <AOPVariable uuid="26" name="d"/>
+   </oparam>
+   <partition>
+    <Partition>
+     <Limit name="b" value="1"/>
+    </Partition>
+   </partition>
+  </TripleStoreIteratorGlobal>
+  <POPMergePartition uuid="29" providedVariables="[a, b, c]" providedSort="[]" filteredSort="[]" selectedSort="[]" existOnly="false" partitionVariable="a" partitionCount="2" partitionID="1">
+   <children>
+    <POPJoinMerge uuid="28" providedVariables="[a, b, c]" providedSort="[]" filteredSort="[]" selectedSort="[]" existOnly="false" optional="false">
+     <children>
+      <POPSplitPartitionFromStore uuid="18" providedVariables="[a, b]" providedSort="[]" filteredSort="[]" selectedSort="[]" existOnly="false" partitionVariable="a" partitionCount="2" partitionID="1">
+       <children>
+        <TripleStoreIteratorGlobal uuid="17" name="" idx="PSO" providedVariables="[a, b]" providedSort="[[a.FAST, b.FAST], [b.FAST, a.FAST]]" selectedSort="[]">
+         <sparam>
+          <AOPVariable uuid="14" name="a"/>
+         </sparam>
+         <pparam>
+          <ValueIri value="a"/>
+         </pparam>
+         <oparam>
+          <AOPVariable uuid="16" name="b"/>
+         </oparam>
+         <partition>
+          <Partition>
+           <Limit name="a" value="2"/>
+          </Partition>
+         </partition>
+        </TripleStoreIteratorGlobal>
+       </children>
+       <projectedVariables>
+        <variable name="a"/>
+        <variable name="b"/>
+       </projectedVariables>
+      </POPSplitPartitionFromStore>
+      <POPSplitPartitionFromStore uuid="23" providedVariables="[a, c]" providedSort="[]" filteredSort="[]" selectedSort="[]" existOnly="false" partitionVariable="a" partitionCount="2" partitionID="1">
+       <children>
+        <TripleStoreIteratorGlobal uuid="22" name="" idx="PSO" providedVariables="[a, c]" providedSort="[[a.FAST, c.FAST], [c.FAST, a.FAST]]" selectedSort="[]">
+         <sparam>
+          <AOPVariable uuid="19" name="a"/>
+         </sparam>
+         <pparam>
+          <ValueIri value="b"/>
+         </pparam>
+         <oparam>
+          <AOPVariable uuid="21" name="c"/>
+         </oparam>
+         <partition>
+          <Partition>
+           <Limit name="a" value="2"/>
+          </Partition>
+         </partition>
+        </TripleStoreIteratorGlobal>
+       </children>
+       <projectedVariables>
+        <variable name="a"/>
+        <variable name="c"/>
+       </projectedVariables>
+      </POPSplitPartitionFromStore>
+     </children>
+     <projectedVariables>
+      <variable name="a"/>
+      <variable name="b"/>
+      <variable name="c"/>
+     </projectedVariables>
+    </POPJoinMerge>
+   </children>
+   <projectedVariables>
+    <variable name="a"/>
+    <variable name="b"/>
+    <variable name="c"/>
+   </projectedVariables>
+  </POPMergePartition>
+ </children>
+ <projectedVariables>
+  <variable name="a"/>
+  <variable name="b"/>
+  <variable name="c"/>
+  <variable name="d"/>
+ </projectedVariables>
+</POPJoinHashMap>
+
+groupSize 138
+2_2_1__2_1__0,20100000,0,3036,5094.434407,595.9444675209458,NoOptimizer
+------------------------------
+2_2_1__2_2__1
+<POPMergePartition uuid="48" providedVariables="[a, b, c, d]" providedSort="[]" filteredSort="[]" selectedSort="[]" existOnly="false" partitionVariable="a" partitionCount="2" partitionID="1">
+ <children>
+  <POPJoinHashMap uuid="47" providedVariables="[a, b, c, d]" providedSort="[]" filteredSort="[]" selectedSort="[]" existOnly="false" optional="false">
+   <children>
+    <POPSplitPartitionPassThrough uuid="45" providedVariables="[c, d]" providedSort="[]" filteredSort="[]" selectedSort="[]" existOnly="false" partitionVariable="a" partitionCount="2" partitionID="3">
+     <children>
+      <TripleStoreIteratorGlobal uuid="44" name="" idx="PSO" providedVariables="[c, d]" providedSort="[[c.FAST, d.FAST], [d.FAST, c.FAST]]" selectedSort="[]">
+       <sparam>
+        <AOPVariable uuid="41" name="c"/>
+       </sparam>
+       <pparam>
+        <ValueIri value="c"/>
+       </pparam>
+       <oparam>
+        <AOPVariable uuid="43" name="d"/>
+       </oparam>
+       <partition>
+        <Partition>
+         <Limit name="b" value="1"/>
+        </Partition>
+       </partition>
+      </TripleStoreIteratorGlobal>
+     </children>
+     <projectedVariables>
+      <variable name="c"/>
+      <variable name="d"/>
+     </projectedVariables>
+    </POPSplitPartitionPassThrough>
+    <POPJoinMerge uuid="46" providedVariables="[a, b, c]" providedSort="[]" filteredSort="[]" selectedSort="[]" existOnly="false" optional="false">
+     <children>
+      <POPSplitPartitionFromStore uuid="35" providedVariables="[a, b]" providedSort="[]" filteredSort="[]" selectedSort="[]" existOnly="false" partitionVariable="a" partitionCount="2" partitionID="1">
+       <children>
+        <TripleStoreIteratorGlobal uuid="34" name="" idx="PSO" providedVariables="[a, b]" providedSort="[[a.FAST, b.FAST], [b.FAST, a.FAST]]" selectedSort="[]">
+         <sparam>
+          <AOPVariable uuid="31" name="a"/>
+         </sparam>
+         <pparam>
+          <ValueIri value="a"/>
+         </pparam>
+         <oparam>
+          <AOPVariable uuid="33" name="b"/>
+         </oparam>
+         <partition>
+          <Partition>
+           <Limit name="a" value="2"/>
+          </Partition>
+         </partition>
+        </TripleStoreIteratorGlobal>
+       </children>
+       <projectedVariables>
+        <variable name="a"/>
+        <variable name="b"/>
+       </projectedVariables>
+      </POPSplitPartitionFromStore>
+      <POPSplitPartitionFromStore uuid="40" providedVariables="[a, c]" providedSort="[]" filteredSort="[]" selectedSort="[]" existOnly="false" partitionVariable="a" partitionCount="2" partitionID="1">
+       <children>
+        <TripleStoreIteratorGlobal uuid="39" name="" idx="PSO" providedVariables="[a, c]" providedSort="[[a.FAST, c.FAST], [c.FAST, a.FAST]]" selectedSort="[]">
+         <sparam>
+          <AOPVariable uuid="36" name="a"/>
+         </sparam>
+         <pparam>
+          <ValueIri value="b"/>
+         </pparam>
+         <oparam>
+          <AOPVariable uuid="38" name="c"/>
+         </oparam>
+         <partition>
+          <Partition>
+           <Limit name="a" value="2"/>
+          </Partition>
+         </partition>
+        </TripleStoreIteratorGlobal>
+       </children>
+       <projectedVariables>
+        <variable name="a"/>
+        <variable name="c"/>
+       </projectedVariables>
+      </POPSplitPartitionFromStore>
+     </children>
+     <projectedVariables>
+      <variable name="a"/>
+      <variable name="b"/>
+      <variable name="c"/>
+     </projectedVariables>
+    </POPJoinMerge>
+   </children>
+   <projectedVariables>
+    <variable name="a"/>
+    <variable name="b"/>
+    <variable name="c"/>
+    <variable name="d"/>
+   </projectedVariables>
+  </POPJoinHashMap>
+ </children>
+ <projectedVariables>
+  <variable name="a"/>
+  <variable name="b"/>
+  <variable name="c"/>
+  <variable name="d"/>
+ </projectedVariables>
+</POPMergePartition>
+
+groupSize 230
+2_2_1__2_2__1,20100000,0,4140,5012.037598,826.0113614574684,NoOptimizer
+------------------------------
+2_2_2__2_2__0
+<POPMergePartition uuid="68" providedVariables="[a, b, c, d]" providedSort="[]" filteredSort="[]" selectedSort="[]" existOnly="false" partitionVariable="c" partitionCount="2" partitionID="2">
+ <children>
+  <POPJoinHashMap uuid="67" providedVariables="[a, b, c, d]" providedSort="[]" filteredSort="[]" selectedSort="[]" existOnly="false" optional="false">
+   <children>
+    <POPSplitPartitionFromStore uuid="63" providedVariables="[c, d]" providedSort="[]" filteredSort="[]" selectedSort="[]" existOnly="false" partitionVariable="c" partitionCount="2" partitionID="2">
+     <children>
+      <TripleStoreIteratorGlobal uuid="62" name="" idx="PSO" providedVariables="[c, d]" providedSort="[[c.FAST, d.FAST], [d.FAST, c.FAST]]" selectedSort="[]">
+       <sparam>
+        <AOPVariable uuid="59" name="c"/>
+       </sparam>
+       <pparam>
+        <ValueIri value="c"/>
+       </pparam>
+       <oparam>
+        <AOPVariable uuid="61" name="d"/>
+       </oparam>
+       <partition>
+        <Partition>
+         <Limit name="b" value="2"/>
+        </Partition>
+       </partition>
+      </TripleStoreIteratorGlobal>
+     </children>
+     <projectedVariables>
+      <variable name="c"/>
+      <variable name="d"/>
+     </projectedVariables>
+    </POPSplitPartitionFromStore>
+    <POPSplitPartition uuid="66" providedVariables="[a, b, c]" providedSort="[]" filteredSort="[]" selectedSort="[]" existOnly="false" partitionVariable="c" partitionCount="2" partitionID="2">
+     <children>
+      <POPMergePartition uuid="65" providedVariables="[a, b, c]" providedSort="[]" filteredSort="[]" selectedSort="[]" existOnly="false" partitionVariable="a" partitionCount="2" partitionID="1">
+       <children>
+        <POPJoinMerge uuid="64" providedVariables="[a, b, c]" providedSort="[]" filteredSort="[]" selectedSort="[]" existOnly="false" optional="false">
+         <children>
+          <POPSplitPartitionFromStore uuid="53" providedVariables="[a, b]" providedSort="[]" filteredSort="[]" selectedSort="[]" existOnly="false" partitionVariable="a" partitionCount="2" partitionID="1">
+           <children>
+            <TripleStoreIteratorGlobal uuid="52" name="" idx="PSO" providedVariables="[a, b]" providedSort="[[a.FAST, b.FAST], [b.FAST, a.FAST]]" selectedSort="[]">
+             <sparam>
+              <AOPVariable uuid="49" name="a"/>
+             </sparam>
+             <pparam>
+              <ValueIri value="a"/>
+             </pparam>
+             <oparam>
+              <AOPVariable uuid="51" name="b"/>
+             </oparam>
+             <partition>
+              <Partition>
+               <Limit name="a" value="2"/>
+              </Partition>
+             </partition>
+            </TripleStoreIteratorGlobal>
+           </children>
+           <projectedVariables>
+            <variable name="a"/>
+            <variable name="b"/>
+           </projectedVariables>
+          </POPSplitPartitionFromStore>
+          <POPSplitPartitionFromStore uuid="58" providedVariables="[a, c]" providedSort="[]" filteredSort="[]" selectedSort="[]" existOnly="false" partitionVariable="a" partitionCount="2" partitionID="1">
+           <children>
+            <TripleStoreIteratorGlobal uuid="57" name="" idx="PSO" providedVariables="[a, c]" providedSort="[[a.FAST, c.FAST], [c.FAST, a.FAST]]" selectedSort="[]">
+             <sparam>
+              <AOPVariable uuid="54" name="a"/>
+             </sparam>
+             <pparam>
+              <ValueIri value="b"/>
+             </pparam>
+             <oparam>
+              <AOPVariable uuid="56" name="c"/>
+             </oparam>
+             <partition>
+              <Partition>
+               <Limit name="a" value="2"/>
+              </Partition>
+             </partition>
+            </TripleStoreIteratorGlobal>
+           </children>
+           <projectedVariables>
+            <variable name="a"/>
+            <variable name="c"/>
+           </projectedVariables>
+          </POPSplitPartitionFromStore>
+         </children>
+         <projectedVariables>
+          <variable name="a"/>
+          <variable name="b"/>
+          <variable name="c"/>
+         </projectedVariables>
+        </POPJoinMerge>
+       </children>
+       <projectedVariables>
+        <variable name="a"/>
+        <variable name="b"/>
+        <variable name="c"/>
+       </projectedVariables>
+      </POPMergePartition>
+     </children>
+     <projectedVariables>
+      <variable name="a"/>
+      <variable name="b"/>
+      <variable name="c"/>
+     </projectedVariables>
+    </POPSplitPartition>
+   </children>
+   <projectedVariables>
+    <variable name="a"/>
+    <variable name="b"/>
+    <variable name="c"/>
+    <variable name="d"/>
+   </projectedVariables>
+  </POPJoinHashMap>
+ </children>
+ <projectedVariables>
+  <variable name="a"/>
+  <variable name="b"/>
+  <variable name="c"/>
+  <variable name="d"/>
+ </projectedVariables>
+</POPMergePartition>
+
+groupSize 173
+2_2_2__2_2__0,20100000,0,1038,5654.537143,183.56940165915893,NoOptimizer
+------------------------------
+4_4_1__4_1__0
+<POPJoinHashMap uuid="85" providedVariables="[a, b, c, d]" providedSort="[]" filteredSort="[]" selectedSort="[]" existOnly="false" optional="false">
+ <children>
+  <TripleStoreIteratorGlobal uuid="82" name="" idx="PSO" providedVariables="[c, d]" providedSort="[[c.FAST, d.FAST], [d.FAST, c.FAST]]" selectedSort="[]">
+   <sparam>
+    <AOPVariable uuid="79" name="c"/>
+   </sparam>
+   <pparam>
+    <ValueIri value="c"/>
+   </pparam>
+   <oparam>
+    <AOPVariable uuid="81" name="d"/>
+   </oparam>
+   <partition>
+    <Partition>
+     <Limit name="b" value="1"/>
+    </Partition>
+   </partition>
+  </TripleStoreIteratorGlobal>
+  <POPMergePartition uuid="84" providedVariables="[a, b, c]" providedSort="[]" filteredSort="[]" selectedSort="[]" existOnly="false" partitionVariable="a" partitionCount="4" partitionID="1">
+   <children>
+    <POPJoinMerge uuid="83" providedVariables="[a, b, c]" providedSort="[]" filteredSort="[]" selectedSort="[]" existOnly="false" optional="false">
+     <children>
+      <POPSplitPartitionFromStore uuid="73" providedVariables="[a, b]" providedSort="[]" filteredSort="[]" selectedSort="[]" existOnly="false" partitionVariable="a" partitionCount="4" partitionID="1">
+       <children>
+        <TripleStoreIteratorGlobal uuid="72" name="" idx="PSO" providedVariables="[a, b]" providedSort="[[a.FAST, b.FAST], [b.FAST, a.FAST]]" selectedSort="[]">
+         <sparam>
+          <AOPVariable uuid="69" name="a"/>
+         </sparam>
+         <pparam>
+          <ValueIri value="a"/>
+         </pparam>
+         <oparam>
+          <AOPVariable uuid="71" name="b"/>
+         </oparam>
+         <partition>
+          <Partition>
+           <Limit name="a" value="4"/>
+          </Partition>
+         </partition>
+        </TripleStoreIteratorGlobal>
+       </children>
+       <projectedVariables>
+        <variable name="a"/>
+        <variable name="b"/>
+       </projectedVariables>
+      </POPSplitPartitionFromStore>
+      <POPSplitPartitionFromStore uuid="78" providedVariables="[a, c]" providedSort="[]" filteredSort="[]" selectedSort="[]" existOnly="false" partitionVariable="a" partitionCount="4" partitionID="1">
+       <children>
+        <TripleStoreIteratorGlobal uuid="77" name="" idx="PSO" providedVariables="[a, c]" providedSort="[[a.FAST, c.FAST], [c.FAST, a.FAST]]" selectedSort="[]">
+         <sparam>
+          <AOPVariable uuid="74" name="a"/>
+         </sparam>
+         <pparam>
+          <ValueIri value="b"/>
+         </pparam>
+         <oparam>
+          <AOPVariable uuid="76" name="c"/>
+         </oparam>
+         <partition>
+          <Partition>
+           <Limit name="a" value="4"/>
+          </Partition>
+         </partition>
+        </TripleStoreIteratorGlobal>
+       </children>
+       <projectedVariables>
+        <variable name="a"/>
+        <variable name="c"/>
+       </projectedVariables>
+      </POPSplitPartitionFromStore>
+     </children>
+     <projectedVariables>
+      <variable name="a"/>
+      <variable name="b"/>
+      <variable name="c"/>
+     </projectedVariables>
+    </POPJoinMerge>
+   </children>
+   <projectedVariables>
+    <variable name="a"/>
+    <variable name="b"/>
+    <variable name="c"/>
+   </projectedVariables>
+  </POPMergePartition>
+ </children>
+ <projectedVariables>
+  <variable name="a"/>
+  <variable name="b"/>
+  <variable name="c"/>
+  <variable name="d"/>
+ </projectedVariables>
+</POPJoinHashMap>
+
+groupSize 562
+4_4_1__4_1__0,20100000,0,3372,5090.239467,662.4442763175801,NoOptimizer
+------------------------------
+4_4_1__4_4__1
+<POPMergePartition uuid="103" providedVariables="[a, b, c, d]" providedSort="[]" filteredSort="[]" selectedSort="[]" existOnly="false" partitionVariable="a" partitionCount="4" partitionID="1">
+ <children>
+  <POPJoinHashMap uuid="102" providedVariables="[a, b, c, d]" providedSort="[]" filteredSort="[]" selectedSort="[]" existOnly="false" optional="false">
+   <children>
+    <POPSplitPartitionPassThrough uuid="100" providedVariables="[c, d]" providedSort="[]" filteredSort="[]" selectedSort="[]" existOnly="false" partitionVariable="a" partitionCount="4" partitionID="3">
+     <children>
+      <TripleStoreIteratorGlobal uuid="99" name="" idx="PSO" providedVariables="[c, d]" providedSort="[[c.FAST, d.FAST], [d.FAST, c.FAST]]" selectedSort="[]">
+       <sparam>
+        <AOPVariable uuid="96" name="c"/>
+       </sparam>
+       <pparam>
+        <ValueIri value="c"/>
+       </pparam>
+       <oparam>
+        <AOPVariable uuid="98" name="d"/>
+       </oparam>
+       <partition>
+        <Partition>
+         <Limit name="b" value="1"/>
+        </Partition>
+       </partition>
+      </TripleStoreIteratorGlobal>
+     </children>
+     <projectedVariables>
+      <variable name="c"/>
+      <variable name="d"/>
+     </projectedVariables>
+    </POPSplitPartitionPassThrough>
+    <POPJoinMerge uuid="101" providedVariables="[a, b, c]" providedSort="[]" filteredSort="[]" selectedSort="[]" existOnly="false" optional="false">
+     <children>
+      <POPSplitPartitionFromStore uuid="90" providedVariables="[a, b]" providedSort="[]" filteredSort="[]" selectedSort="[]" existOnly="false" partitionVariable="a" partitionCount="4" partitionID="1">
+       <children>
+        <TripleStoreIteratorGlobal uuid="89" name="" idx="PSO" providedVariables="[a, b]" providedSort="[[a.FAST, b.FAST], [b.FAST, a.FAST]]" selectedSort="[]">
+         <sparam>
+          <AOPVariable uuid="86" name="a"/>
+         </sparam>
+         <pparam>
+          <ValueIri value="a"/>
+         </pparam>
+         <oparam>
+          <AOPVariable uuid="88" name="b"/>
+         </oparam>
+         <partition>
+          <Partition>
+           <Limit name="a" value="4"/>
+          </Partition>
+         </partition>
+        </TripleStoreIteratorGlobal>
+       </children>
+       <projectedVariables>
+        <variable name="a"/>
+        <variable name="b"/>
+       </projectedVariables>
+      </POPSplitPartitionFromStore>
+      <POPSplitPartitionFromStore uuid="95" providedVariables="[a, c]" providedSort="[]" filteredSort="[]" selectedSort="[]" existOnly="false" partitionVariable="a" partitionCount="4" partitionID="1">
+       <children>
+        <TripleStoreIteratorGlobal uuid="94" name="" idx="PSO" providedVariables="[a, c]" providedSort="[[a.FAST, c.FAST], [c.FAST, a.FAST]]" selectedSort="[]">
+         <sparam>
+          <AOPVariable uuid="91" name="a"/>
+         </sparam>
+         <pparam>
+          <ValueIri value="b"/>
+         </pparam>
+         <oparam>
+          <AOPVariable uuid="93" name="c"/>
+         </oparam>
+         <partition>
+          <Partition>
+           <Limit name="a" value="4"/>
+          </Partition>
+         </partition>
+        </TripleStoreIteratorGlobal>
+       </children>
+       <projectedVariables>
+        <variable name="a"/>
+        <variable name="c"/>
+       </projectedVariables>
+      </POPSplitPartitionFromStore>
+     </children>
+     <projectedVariables>
+      <variable name="a"/>
+      <variable name="b"/>
+      <variable name="c"/>
+     </projectedVariables>
+    </POPJoinMerge>
+   </children>
+   <projectedVariables>
+    <variable name="a"/>
+    <variable name="b"/>
+    <variable name="c"/>
+    <variable name="d"/>
+   </projectedVariables>
+  </POPJoinHashMap>
+ </children>
+ <projectedVariables>
+  <variable name="a"/>
+  <variable name="b"/>
+  <variable name="c"/>
+  <variable name="d"/>
+ </projectedVariables>
+</POPMergePartition>
+
+groupSize 1292
+4_4_1__4_4__1,20100000,0,7752,5239.2434220000005,1479.6029456178223,NoOptimizer
+------------------------------
+4_4_2__4_2__0
+<POPMergePartition uuid="123" providedVariables="[a, b, c, d]" providedSort="[]" filteredSort="[]" selectedSort="[]" existOnly="false" partitionVariable="c" partitionCount="2" partitionID="2">
+ <children>
+  <POPJoinHashMap uuid="122" providedVariables="[a, b, c, d]" providedSort="[]" filteredSort="[]" selectedSort="[]" existOnly="false" optional="false">
+   <children>
+    <POPSplitPartitionFromStore uuid="118" providedVariables="[c, d]" providedSort="[]" filteredSort="[]" selectedSort="[]" existOnly="false" partitionVariable="c" partitionCount="2" partitionID="2">
+     <children>
+      <TripleStoreIteratorGlobal uuid="117" name="" idx="PSO" providedVariables="[c, d]" providedSort="[[c.FAST, d.FAST], [d.FAST, c.FAST]]" selectedSort="[]">
+       <sparam>
+        <AOPVariable uuid="114" name="c"/>
+       </sparam>
+       <pparam>
+        <ValueIri value="c"/>
+       </pparam>
+       <oparam>
+        <AOPVariable uuid="116" name="d"/>
+       </oparam>
+       <partition>
+        <Partition>
+         <Limit name="b" value="2"/>
+        </Partition>
+       </partition>
+      </TripleStoreIteratorGlobal>
+     </children>
+     <projectedVariables>
+      <variable name="c"/>
+      <variable name="d"/>
+     </projectedVariables>
+    </POPSplitPartitionFromStore>
+    <POPSplitPartition uuid="121" providedVariables="[a, b, c]" providedSort="[]" filteredSort="[]" selectedSort="[]" existOnly="false" partitionVariable="c" partitionCount="2" partitionID="2">
+     <children>
+      <POPMergePartition uuid="120" providedVariables="[a, b, c]" providedSort="[]" filteredSort="[]" selectedSort="[]" existOnly="false" partitionVariable="a" partitionCount="4" partitionID="1">
+       <children>
+        <POPJoinMerge uuid="119" providedVariables="[a, b, c]" providedSort="[]" filteredSort="[]" selectedSort="[]" existOnly="false" optional="false">
+         <children>
+          <POPSplitPartitionFromStore uuid="108" providedVariables="[a, b]" providedSort="[]" filteredSort="[]" selectedSort="[]" existOnly="false" partitionVariable="a" partitionCount="4" partitionID="1">
+           <children>
+            <TripleStoreIteratorGlobal uuid="107" name="" idx="PSO" providedVariables="[a, b]" providedSort="[[a.FAST, b.FAST], [b.FAST, a.FAST]]" selectedSort="[]">
+             <sparam>
+              <AOPVariable uuid="104" name="a"/>
+             </sparam>
+             <pparam>
+              <ValueIri value="a"/>
+             </pparam>
+             <oparam>
+              <AOPVariable uuid="106" name="b"/>
+             </oparam>
+             <partition>
+              <Partition>
+               <Limit name="a" value="4"/>
+              </Partition>
+             </partition>
+            </TripleStoreIteratorGlobal>
+           </children>
+           <projectedVariables>
+            <variable name="a"/>
+            <variable name="b"/>
+           </projectedVariables>
+          </POPSplitPartitionFromStore>
+          <POPSplitPartitionFromStore uuid="113" providedVariables="[a, c]" providedSort="[]" filteredSort="[]" selectedSort="[]" existOnly="false" partitionVariable="a" partitionCount="4" partitionID="1">
+           <children>
+            <TripleStoreIteratorGlobal uuid="112" name="" idx="PSO" providedVariables="[a, c]" providedSort="[[a.FAST, c.FAST], [c.FAST, a.FAST]]" selectedSort="[]">
+             <sparam>
+              <AOPVariable uuid="109" name="a"/>
+             </sparam>
+             <pparam>
+              <ValueIri value="b"/>
+             </pparam>
+             <oparam>
+              <AOPVariable uuid="111" name="c"/>
+             </oparam>
+             <partition>
+              <Partition>
+               <Limit name="a" value="4"/>
+              </Partition>
+             </partition>
+            </TripleStoreIteratorGlobal>
+           </children>
+           <projectedVariables>
+            <variable name="a"/>
+            <variable name="c"/>
+           </projectedVariables>
+          </POPSplitPartitionFromStore>
+         </children>
+         <projectedVariables>
+          <variable name="a"/>
+          <variable name="b"/>
+          <variable name="c"/>
+         </projectedVariables>
+        </POPJoinMerge>
+       </children>
+       <projectedVariables>
+        <variable name="a"/>
+        <variable name="b"/>
+        <variable name="c"/>
+       </projectedVariables>
+      </POPMergePartition>
+     </children>
+     <projectedVariables>
+      <variable name="a"/>
+      <variable name="b"/>
+      <variable name="c"/>
+     </projectedVariables>
+    </POPSplitPartition>
+   </children>
+   <projectedVariables>
+    <variable name="a"/>
+    <variable name="b"/>
+    <variable name="c"/>
+    <variable name="d"/>
+   </projectedVariables>
+  </POPJoinHashMap>
+ </children>
+ <projectedVariables>
+  <variable name="a"/>
+  <variable name="b"/>
+  <variable name="c"/>
+  <variable name="d"/>
+ </projectedVariables>
+</POPMergePartition>
+
+groupSize 773
+4_4_2__4_2__0,20100000,0,3865,5012.729410000001,771.0370307022017,NoOptimizer
+------------------------------
+4_4_4__4_4__0
+<POPMergePartition uuid="143" providedVariables="[a, b, c, d]" providedSort="[]" filteredSort="[]" selectedSort="[]" existOnly="false" partitionVariable="c" partitionCount="4" partitionID="2">
+ <children>
+  <POPJoinHashMap uuid="142" providedVariables="[a, b, c, d]" providedSort="[]" filteredSort="[]" selectedSort="[]" existOnly="false" optional="false">
+   <children>
+    <POPSplitPartitionFromStore uuid="138" providedVariables="[c, d]" providedSort="[]" filteredSort="[]" selectedSort="[]" existOnly="false" partitionVariable="c" partitionCount="4" partitionID="2">
+     <children>
+      <TripleStoreIteratorGlobal uuid="137" name="" idx="PSO" providedVariables="[c, d]" providedSort="[[c.FAST, d.FAST], [d.FAST, c.FAST]]" selectedSort="[]">
+       <sparam>
+        <AOPVariable uuid="134" name="c"/>
+       </sparam>
+       <pparam>
+        <ValueIri value="c"/>
+       </pparam>
+       <oparam>
+        <AOPVariable uuid="136" name="d"/>
+       </oparam>
+       <partition>
+        <Partition>
+         <Limit name="b" value="4"/>
+        </Partition>
+       </partition>
+      </TripleStoreIteratorGlobal>
+     </children>
+     <projectedVariables>
+      <variable name="c"/>
+      <variable name="d"/>
+     </projectedVariables>
+    </POPSplitPartitionFromStore>
+    <POPSplitPartition uuid="141" providedVariables="[a, b, c]" providedSort="[]" filteredSort="[]" selectedSort="[]" existOnly="false" partitionVariable="c" partitionCount="4" partitionID="2">
+     <children>
+      <POPMergePartition uuid="140" providedVariables="[a, b, c]" providedSort="[]" filteredSort="[]" selectedSort="[]" existOnly="false" partitionVariable="a" partitionCount="4" partitionID="1">
+       <children>
+        <POPJoinMerge uuid="139" providedVariables="[a, b, c]" providedSort="[]" filteredSort="[]" selectedSort="[]" existOnly="false" optional="false">
+         <children>
+          <POPSplitPartitionFromStore uuid="128" providedVariables="[a, b]" providedSort="[]" filteredSort="[]" selectedSort="[]" existOnly="false" partitionVariable="a" partitionCount="4" partitionID="1">
+           <children>
+            <TripleStoreIteratorGlobal uuid="127" name="" idx="PSO" providedVariables="[a, b]" providedSort="[[a.FAST, b.FAST], [b.FAST, a.FAST]]" selectedSort="[]">
+             <sparam>
+              <AOPVariable uuid="124" name="a"/>
+             </sparam>
+             <pparam>
+              <ValueIri value="a"/>
+             </pparam>
+             <oparam>
+              <AOPVariable uuid="126" name="b"/>
+             </oparam>
+             <partition>
+              <Partition>
+               <Limit name="a" value="4"/>
+              </Partition>
+             </partition>
+            </TripleStoreIteratorGlobal>
+           </children>
+           <projectedVariables>
+            <variable name="a"/>
+            <variable name="b"/>
+           </projectedVariables>
+          </POPSplitPartitionFromStore>
+          <POPSplitPartitionFromStore uuid="133" providedVariables="[a, c]" providedSort="[]" filteredSort="[]" selectedSort="[]" existOnly="false" partitionVariable="a" partitionCount="4" partitionID="1">
+           <children>
+            <TripleStoreIteratorGlobal uuid="132" name="" idx="PSO" providedVariables="[a, c]" providedSort="[[a.FAST, c.FAST], [c.FAST, a.FAST]]" selectedSort="[]">
+             <sparam>
+              <AOPVariable uuid="129" name="a"/>
+             </sparam>
+             <pparam>
+              <ValueIri value="b"/>
+             </pparam>
+             <oparam>
+              <AOPVariable uuid="131" name="c"/>
+             </oparam>
+             <partition>
+              <Partition>
+               <Limit name="a" value="4"/>
+              </Partition>
+             </partition>
+            </TripleStoreIteratorGlobal>
+           </children>
+           <projectedVariables>
+            <variable name="a"/>
+            <variable name="c"/>
+           </projectedVariables>
+          </POPSplitPartitionFromStore>
+         </children>
+         <projectedVariables>
+          <variable name="a"/>
+          <variable name="b"/>
+          <variable name="c"/>
+         </projectedVariables>
+        </POPJoinMerge>
+       </children>
+       <projectedVariables>
+        <variable name="a"/>
+        <variable name="b"/>
+        <variable name="c"/>
+       </projectedVariables>
+      </POPMergePartition>
+     </children>
+     <projectedVariables>
+      <variable name="a"/>
+      <variable name="b"/>
+      <variable name="c"/>
+     </projectedVariables>
+    </POPSplitPartition>
+   </children>
+   <projectedVariables>
+    <variable name="a"/>
+    <variable name="b"/>
+    <variable name="c"/>
+    <variable name="d"/>
+   </projectedVariables>
+  </POPJoinHashMap>
+ </children>
+ <projectedVariables>
+  <variable name="a"/>
+  <variable name="b"/>
+  <variable name="c"/>
+  <variable name="d"/>
+ </projectedVariables>
+</POPMergePartition>
+
+groupSize 278
+4_4_4__4_4__0,20100000,0,1390,5334.439305,260.5709654803168,NoOptimizer
+------------------------------
+8_8_1__8_1__0
+<POPJoinHashMap uuid="160" providedVariables="[a, b, c, d]" providedSort="[]" filteredSort="[]" selectedSort="[]" existOnly="false" optional="false">
+ <children>
+  <TripleStoreIteratorGlobal uuid="157" name="" idx="PSO" providedVariables="[c, d]" providedSort="[[c.FAST, d.FAST], [d.FAST, c.FAST]]" selectedSort="[]">
+   <sparam>
+    <AOPVariable uuid="154" name="c"/>
+   </sparam>
+   <pparam>
+    <ValueIri value="c"/>
+   </pparam>
+   <oparam>
+    <AOPVariable uuid="156" name="d"/>
+   </oparam>
+   <partition>
+    <Partition>
+     <Limit name="b" value="1"/>
+    </Partition>
+   </partition>
+  </TripleStoreIteratorGlobal>
+  <POPMergePartition uuid="159" providedVariables="[a, b, c]" providedSort="[]" filteredSort="[]" selectedSort="[]" existOnly="false" partitionVariable="a" partitionCount="8" partitionID="1">
+   <children>
+    <POPJoinMerge uuid="158" providedVariables="[a, b, c]" providedSort="[]" filteredSort="[]" selectedSort="[]" existOnly="false" optional="false">
+     <children>
+      <POPSplitPartitionFromStore uuid="148" providedVariables="[a, b]" providedSort="[]" filteredSort="[]" selectedSort="[]" existOnly="false" partitionVariable="a" partitionCount="8" partitionID="1">
+       <children>
+        <TripleStoreIteratorGlobal uuid="147" name="" idx="PSO" providedVariables="[a, b]" providedSort="[[a.FAST, b.FAST], [b.FAST, a.FAST]]" selectedSort="[]">
+         <sparam>
+          <AOPVariable uuid="144" name="a"/>
+         </sparam>
+         <pparam>
+          <ValueIri value="a"/>
+         </pparam>
+         <oparam>
+          <AOPVariable uuid="146" name="b"/>
+         </oparam>
+         <partition>
+          <Partition>
+           <Limit name="a" value="8"/>
+          </Partition>
+         </partition>
+        </TripleStoreIteratorGlobal>
+       </children>
+       <projectedVariables>
+        <variable name="a"/>
+        <variable name="b"/>
+       </projectedVariables>
+      </POPSplitPartitionFromStore>
+      <POPSplitPartitionFromStore uuid="153" providedVariables="[a, c]" providedSort="[]" filteredSort="[]" selectedSort="[]" existOnly="false" partitionVariable="a" partitionCount="8" partitionID="1">
+       <children>
+        <TripleStoreIteratorGlobal uuid="152" name="" idx="PSO" providedVariables="[a, c]" providedSort="[[a.FAST, c.FAST], [c.FAST, a.FAST]]" selectedSort="[]">
+         <sparam>
+          <AOPVariable uuid="149" name="a"/>
+         </sparam>
+         <pparam>
+          <ValueIri value="b"/>
+         </pparam>
+         <oparam>
+          <AOPVariable uuid="151" name="c"/>
+         </oparam>
+         <partition>
+          <Partition>
+           <Limit name="a" value="8"/>
+          </Partition>
+         </partition>
+        </TripleStoreIteratorGlobal>
+       </children>
+       <projectedVariables>
+        <variable name="a"/>
+        <variable name="c"/>
+       </projectedVariables>
+      </POPSplitPartitionFromStore>
+     </children>
+     <projectedVariables>
+      <variable name="a"/>
+      <variable name="b"/>
+      <variable name="c"/>
+     </projectedVariables>
+    </POPJoinMerge>
+   </children>
+   <projectedVariables>
+    <variable name="a"/>
+    <variable name="b"/>
+    <variable name="c"/>
+   </projectedVariables>
+  </POPMergePartition>
+ </children>
+ <projectedVariables>
+  <variable name="a"/>
+  <variable name="b"/>
+  <variable name="c"/>
+  <variable name="d"/>
+ </projectedVariables>
+</POPJoinHashMap>
+
+groupSize 480
+8_8_1__8_1__0,20100000,0,3360,5235.68884,641.7493672141143,NoOptimizer
+------------------------------
+8_8_1__8_8__1
+<POPMergePartition uuid="178" providedVariables="[a, b, c, d]" providedSort="[]" filteredSort="[]" selectedSort="[]" existOnly="false" partitionVariable="a" partitionCount="8" partitionID="1">
+ <children>
+  <POPJoinHashMap uuid="177" providedVariables="[a, b, c, d]" providedSort="[]" filteredSort="[]" selectedSort="[]" existOnly="false" optional="false">
+   <children>
+    <POPSplitPartitionPassThrough uuid="175" providedVariables="[c, d]" providedSort="[]" filteredSort="[]" selectedSort="[]" existOnly="false" partitionVariable="a" partitionCount="8" partitionID="3">
+     <children>
+      <TripleStoreIteratorGlobal uuid="174" name="" idx="PSO" providedVariables="[c, d]" providedSort="[[c.FAST, d.FAST], [d.FAST, c.FAST]]" selectedSort="[]">
+       <sparam>
+        <AOPVariable uuid="171" name="c"/>
+       </sparam>
+       <pparam>
+        <ValueIri value="c"/>
+       </pparam>
+       <oparam>
+        <AOPVariable uuid="173" name="d"/>
+       </oparam>
+       <partition>
+        <Partition>
+         <Limit name="b" value="1"/>
+        </Partition>
+       </partition>
+      </TripleStoreIteratorGlobal>
+     </children>
+     <projectedVariables>
+      <variable name="c"/>
+      <variable name="d"/>
+     </projectedVariables>
+    </POPSplitPartitionPassThrough>
+    <POPJoinMerge uuid="176" providedVariables="[a, b, c]" providedSort="[]" filteredSort="[]" selectedSort="[]" existOnly="false" optional="false">
+     <children>
+      <POPSplitPartitionFromStore uuid="165" providedVariables="[a, b]" providedSort="[]" filteredSort="[]" selectedSort="[]" existOnly="false" partitionVariable="a" partitionCount="8" partitionID="1">
+       <children>
+        <TripleStoreIteratorGlobal uuid="164" name="" idx="PSO" providedVariables="[a, b]" providedSort="[[a.FAST, b.FAST], [b.FAST, a.FAST]]" selectedSort="[]">
+         <sparam>
+          <AOPVariable uuid="161" name="a"/>
+         </sparam>
+         <pparam>
+          <ValueIri value="a"/>
+         </pparam>
+         <oparam>
+          <AOPVariable uuid="163" name="b"/>
+         </oparam>
+         <partition>
+          <Partition>
+           <Limit name="a" value="8"/>
+          </Partition>
+         </partition>
+        </TripleStoreIteratorGlobal>
+       </children>
+       <projectedVariables>
+        <variable name="a"/>
+        <variable name="b"/>
+       </projectedVariables>
+      </POPSplitPartitionFromStore>
+      <POPSplitPartitionFromStore uuid="170" providedVariables="[a, c]" providedSort="[]" filteredSort="[]" selectedSort="[]" existOnly="false" partitionVariable="a" partitionCount="8" partitionID="1">
+       <children>
+        <TripleStoreIteratorGlobal uuid="169" name="" idx="PSO" providedVariables="[a, c]" providedSort="[[a.FAST, c.FAST], [c.FAST, a.FAST]]" selectedSort="[]">
+         <sparam>
+          <AOPVariable uuid="166" name="a"/>
+         </sparam>
+         <pparam>
+          <ValueIri value="b"/>
+         </pparam>
+         <oparam>
+          <AOPVariable uuid="168" name="c"/>
+         </oparam>
+         <partition>
+          <Partition>
+           <Limit name="a" value="8"/>
+          </Partition>
+         </partition>
+        </TripleStoreIteratorGlobal>
+       </children>
+       <projectedVariables>
+        <variable name="a"/>
+        <variable name="c"/>
+       </projectedVariables>
+      </POPSplitPartitionFromStore>
+     </children>
+     <projectedVariables>
+      <variable name="a"/>
+      <variable name="b"/>
+      <variable name="c"/>
+     </projectedVariables>
+    </POPJoinMerge>
+   </children>
+   <projectedVariables>
+    <variable name="a"/>
+    <variable name="b"/>
+    <variable name="c"/>
+    <variable name="d"/>
+   </projectedVariables>
+  </POPJoinHashMap>
+ </children>
+ <projectedVariables>
+  <variable name="a"/>
+  <variable name="b"/>
+  <variable name="c"/>
+  <variable name="d"/>
+ </projectedVariables>
+</POPMergePartition>
+
+groupSize 1840
+8_8_1__8_8__1,20100000,0,11040,5989.12451,1843.3412064762701,NoOptimizer
+------------------------------
+8_8_2__8_2__0
+<POPMergePartition uuid="198" providedVariables="[a, b, c, d]" providedSort="[]" filteredSort="[]" selectedSort="[]" existOnly="false" partitionVariable="c" partitionCount="2" partitionID="2">
+ <children>
+  <POPJoinHashMap uuid="197" providedVariables="[a, b, c, d]" providedSort="[]" filteredSort="[]" selectedSort="[]" existOnly="false" optional="false">
+   <children>
+    <POPSplitPartitionFromStore uuid="193" providedVariables="[c, d]" providedSort="[]" filteredSort="[]" selectedSort="[]" existOnly="false" partitionVariable="c" partitionCount="2" partitionID="2">
+     <children>
+      <TripleStoreIteratorGlobal uuid="192" name="" idx="PSO" providedVariables="[c, d]" providedSort="[[c.FAST, d.FAST], [d.FAST, c.FAST]]" selectedSort="[]">
+       <sparam>
+        <AOPVariable uuid="189" name="c"/>
+       </sparam>
+       <pparam>
+        <ValueIri value="c"/>
+       </pparam>
+       <oparam>
+        <AOPVariable uuid="191" name="d"/>
+       </oparam>
+       <partition>
+        <Partition>
+         <Limit name="b" value="2"/>
+        </Partition>
+       </partition>
+      </TripleStoreIteratorGlobal>
+     </children>
+     <projectedVariables>
+      <variable name="c"/>
+      <variable name="d"/>
+     </projectedVariables>
+    </POPSplitPartitionFromStore>
+    <POPSplitPartition uuid="196" providedVariables="[a, b, c]" providedSort="[]" filteredSort="[]" selectedSort="[]" existOnly="false" partitionVariable="c" partitionCount="2" partitionID="2">
+     <children>
+      <POPMergePartition uuid="195" providedVariables="[a, b, c]" providedSort="[]" filteredSort="[]" selectedSort="[]" existOnly="false" partitionVariable="a" partitionCount="8" partitionID="1">
+       <children>
+        <POPJoinMerge uuid="194" providedVariables="[a, b, c]" providedSort="[]" filteredSort="[]" selectedSort="[]" existOnly="false" optional="false">
+         <children>
+          <POPSplitPartitionFromStore uuid="183" providedVariables="[a, b]" providedSort="[]" filteredSort="[]" selectedSort="[]" existOnly="false" partitionVariable="a" partitionCount="8" partitionID="1">
+           <children>
+            <TripleStoreIteratorGlobal uuid="182" name="" idx="PSO" providedVariables="[a, b]" providedSort="[[a.FAST, b.FAST], [b.FAST, a.FAST]]" selectedSort="[]">
+             <sparam>
+              <AOPVariable uuid="179" name="a"/>
+             </sparam>
+             <pparam>
+              <ValueIri value="a"/>
+             </pparam>
+             <oparam>
+              <AOPVariable uuid="181" name="b"/>
+             </oparam>
+             <partition>
+              <Partition>
+               <Limit name="a" value="8"/>
+              </Partition>
+             </partition>
+            </TripleStoreIteratorGlobal>
+           </children>
+           <projectedVariables>
+            <variable name="a"/>
+            <variable name="b"/>
+           </projectedVariables>
+          </POPSplitPartitionFromStore>
+          <POPSplitPartitionFromStore uuid="188" providedVariables="[a, c]" providedSort="[]" filteredSort="[]" selectedSort="[]" existOnly="false" partitionVariable="a" partitionCount="8" partitionID="1">
+           <children>
+            <TripleStoreIteratorGlobal uuid="187" name="" idx="PSO" providedVariables="[a, c]" providedSort="[[a.FAST, c.FAST], [c.FAST, a.FAST]]" selectedSort="[]">
+             <sparam>
+              <AOPVariable uuid="184" name="a"/>
+             </sparam>
+             <pparam>
+              <ValueIri value="b"/>
+             </pparam>
+             <oparam>
+              <AOPVariable uuid="186" name="c"/>
+             </oparam>
+             <partition>
+              <Partition>
+               <Limit name="a" value="8"/>
+              </Partition>
+             </partition>
+            </TripleStoreIteratorGlobal>
+           </children>
+           <projectedVariables>
+            <variable name="a"/>
+            <variable name="c"/>
+           </projectedVariables>
+          </POPSplitPartitionFromStore>
+         </children>
+         <projectedVariables>
+          <variable name="a"/>
+          <variable name="b"/>
+          <variable name="c"/>
+         </projectedVariables>
+        </POPJoinMerge>
+       </children>
+       <projectedVariables>
+        <variable name="a"/>
+        <variable name="b"/>
+        <variable name="c"/>
+       </projectedVariables>
+      </POPMergePartition>
+     </children>
+     <projectedVariables>
+      <variable name="a"/>
+      <variable name="b"/>
+      <variable name="c"/>
+     </projectedVariables>
+    </POPSplitPartition>
+   </children>
+   <projectedVariables>
+    <variable name="a"/>
+    <variable name="b"/>
+    <variable name="c"/>
+    <variable name="d"/>
+   </projectedVariables>
+  </POPJoinHashMap>
+ </children>
+ <projectedVariables>
+  <variable name="a"/>
+  <variable name="b"/>
+  <variable name="c"/>
+  <variable name="d"/>
+ </projectedVariables>
+</POPMergePartition>
+
+groupSize 675
+8_8_2__8_2__0,20100000,0,3375,5129.961383999999,657.8996891723972,NoOptimizer
+------------------------------
+8_8_4__8_4__0
+<POPMergePartition uuid="218" providedVariables="[a, b, c, d]" providedSort="[]" filteredSort="[]" selectedSort="[]" existOnly="false" partitionVariable="c" partitionCount="4" partitionID="2">
+ <children>
+  <POPJoinHashMap uuid="217" providedVariables="[a, b, c, d]" providedSort="[]" filteredSort="[]" selectedSort="[]" existOnly="false" optional="false">
+   <children>
+    <POPSplitPartitionFromStore uuid="213" providedVariables="[c, d]" providedSort="[]" filteredSort="[]" selectedSort="[]" existOnly="false" partitionVariable="c" partitionCount="4" partitionID="2">
+     <children>
+      <TripleStoreIteratorGlobal uuid="212" name="" idx="PSO" providedVariables="[c, d]" providedSort="[[c.FAST, d.FAST], [d.FAST, c.FAST]]" selectedSort="[]">
+       <sparam>
+        <AOPVariable uuid="209" name="c"/>
+       </sparam>
+       <pparam>
+        <ValueIri value="c"/>
+       </pparam>
+       <oparam>
+        <AOPVariable uuid="211" name="d"/>
+       </oparam>
+       <partition>
+        <Partition>
+         <Limit name="b" value="4"/>
+        </Partition>
+       </partition>
+      </TripleStoreIteratorGlobal>
+     </children>
+     <projectedVariables>
+      <variable name="c"/>
+      <variable name="d"/>
+     </projectedVariables>
+    </POPSplitPartitionFromStore>
+    <POPSplitPartition uuid="216" providedVariables="[a, b, c]" providedSort="[]" filteredSort="[]" selectedSort="[]" existOnly="false" partitionVariable="c" partitionCount="4" partitionID="2">
+     <children>
+      <POPMergePartition uuid="215" providedVariables="[a, b, c]" providedSort="[]" filteredSort="[]" selectedSort="[]" existOnly="false" partitionVariable="a" partitionCount="8" partitionID="1">
+       <children>
+        <POPJoinMerge uuid="214" providedVariables="[a, b, c]" providedSort="[]" filteredSort="[]" selectedSort="[]" existOnly="false" optional="false">
+         <children>
+          <POPSplitPartitionFromStore uuid="203" providedVariables="[a, b]" providedSort="[]" filteredSort="[]" selectedSort="[]" existOnly="false" partitionVariable="a" partitionCount="8" partitionID="1">
+           <children>
+            <TripleStoreIteratorGlobal uuid="202" name="" idx="PSO" providedVariables="[a, b]" providedSort="[[a.FAST, b.FAST], [b.FAST, a.FAST]]" selectedSort="[]">
+             <sparam>
+              <AOPVariable uuid="199" name="a"/>
+             </sparam>
+             <pparam>
+              <ValueIri value="a"/>
+             </pparam>
+             <oparam>
+              <AOPVariable uuid="201" name="b"/>
+             </oparam>
+             <partition>
+              <Partition>
+               <Limit name="a" value="8"/>
+              </Partition>
+             </partition>
+            </TripleStoreIteratorGlobal>
+           </children>
+           <projectedVariables>
+            <variable name="a"/>
+            <variable name="b"/>
+           </projectedVariables>
+          </POPSplitPartitionFromStore>
+          <POPSplitPartitionFromStore uuid="208" providedVariables="[a, c]" providedSort="[]" filteredSort="[]" selectedSort="[]" existOnly="false" partitionVariable="a" partitionCount="8" partitionID="1">
+           <children>
+            <TripleStoreIteratorGlobal uuid="207" name="" idx="PSO" providedVariables="[a, c]" providedSort="[[a.FAST, c.FAST], [c.FAST, a.FAST]]" selectedSort="[]">
+             <sparam>
+              <AOPVariable uuid="204" name="a"/>
+             </sparam>
+             <pparam>
+              <ValueIri value="b"/>
+             </pparam>
+             <oparam>
+              <AOPVariable uuid="206" name="c"/>
+             </oparam>
+             <partition>
+              <Partition>
+               <Limit name="a" value="8"/>
+              </Partition>
+             </partition>
+            </TripleStoreIteratorGlobal>
+           </children>
+           <projectedVariables>
+            <variable name="a"/>
+            <variable name="c"/>
+           </projectedVariables>
+          </POPSplitPartitionFromStore>
+         </children>
+         <projectedVariables>
+          <variable name="a"/>
+          <variable name="b"/>
+          <variable name="c"/>
+         </projectedVariables>
+        </POPJoinMerge>
+       </children>
+       <projectedVariables>
+        <variable name="a"/>
+        <variable name="b"/>
+        <variable name="c"/>
+       </projectedVariables>
+      </POPMergePartition>
+     </children>
+     <projectedVariables>
+      <variable name="a"/>
+      <variable name="b"/>
+      <variable name="c"/>
+     </projectedVariables>
+    </POPSplitPartition>
+   </children>
+   <projectedVariables>
+    <variable name="a"/>
+    <variable name="b"/>
+    <variable name="c"/>
+    <variable name="d"/>
+   </projectedVariables>
+  </POPJoinHashMap>
+ </children>
+ <projectedVariables>
+  <variable name="a"/>
+  <variable name="b"/>
+  <variable name="c"/>
+  <variable name="d"/>
+ </projectedVariables>
+</POPMergePartition>
+
+groupSize 654
+8_8_4__8_4__0,20100000,0,3270,5163.817177,633.2524734928274,NoOptimizer
+------------------------------
+8_8_8__8_8__0
+<POPMergePartition uuid="238" providedVariables="[a, b, c, d]" providedSort="[]" filteredSort="[]" selectedSort="[]" existOnly="false" partitionVariable="c" partitionCount="8" partitionID="2">
+ <children>
+  <POPJoinHashMap uuid="237" providedVariables="[a, b, c, d]" providedSort="[]" filteredSort="[]" selectedSort="[]" existOnly="false" optional="false">
+   <children>
+    <POPSplitPartitionFromStore uuid="233" providedVariables="[c, d]" providedSort="[]" filteredSort="[]" selectedSort="[]" existOnly="false" partitionVariable="c" partitionCount="8" partitionID="2">
+     <children>
+      <TripleStoreIteratorGlobal uuid="232" name="" idx="PSO" providedVariables="[c, d]" providedSort="[[c.FAST, d.FAST], [d.FAST, c.FAST]]" selectedSort="[]">
+       <sparam>
+        <AOPVariable uuid="229" name="c"/>
+       </sparam>
+       <pparam>
+        <ValueIri value="c"/>
+       </pparam>
+       <oparam>
+        <AOPVariable uuid="231" name="d"/>
+       </oparam>
+       <partition>
+        <Partition>
+         <Limit name="b" value="8"/>
+        </Partition>
+       </partition>
+      </TripleStoreIteratorGlobal>
+     </children>
+     <projectedVariables>
+      <variable name="c"/>
+      <variable name="d"/>
+     </projectedVariables>
+    </POPSplitPartitionFromStore>
+    <POPSplitPartition uuid="236" providedVariables="[a, b, c]" providedSort="[]" filteredSort="[]" selectedSort="[]" existOnly="false" partitionVariable="c" partitionCount="8" partitionID="2">
+     <children>
+      <POPMergePartition uuid="235" providedVariables="[a, b, c]" providedSort="[]" filteredSort="[]" selectedSort="[]" existOnly="false" partitionVariable="a" partitionCount="8" partitionID="1">
+       <children>
+        <POPJoinMerge uuid="234" providedVariables="[a, b, c]" providedSort="[]" filteredSort="[]" selectedSort="[]" existOnly="false" optional="false">
+         <children>
+          <POPSplitPartitionFromStore uuid="223" providedVariables="[a, b]" providedSort="[]" filteredSort="[]" selectedSort="[]" existOnly="false" partitionVariable="a" partitionCount="8" partitionID="1">
+           <children>
+            <TripleStoreIteratorGlobal uuid="222" name="" idx="PSO" providedVariables="[a, b]" providedSort="[[a.FAST, b.FAST], [b.FAST, a.FAST]]" selectedSort="[]">
+             <sparam>
+              <AOPVariable uuid="219" name="a"/>
+             </sparam>
+             <pparam>
+              <ValueIri value="a"/>
+             </pparam>
+             <oparam>
+              <AOPVariable uuid="221" name="b"/>
+             </oparam>
+             <partition>
+              <Partition>
+               <Limit name="a" value="8"/>
+              </Partition>
+             </partition>
+            </TripleStoreIteratorGlobal>
+           </children>
+           <projectedVariables>
+            <variable name="a"/>
+            <variable name="b"/>
+           </projectedVariables>
+          </POPSplitPartitionFromStore>
+          <POPSplitPartitionFromStore uuid="228" providedVariables="[a, c]" providedSort="[]" filteredSort="[]" selectedSort="[]" existOnly="false" partitionVariable="a" partitionCount="8" partitionID="1">
+           <children>
+            <TripleStoreIteratorGlobal uuid="227" name="" idx="PSO" providedVariables="[a, c]" providedSort="[[a.FAST, c.FAST], [c.FAST, a.FAST]]" selectedSort="[]">
+             <sparam>
+              <AOPVariable uuid="224" name="a"/>
+             </sparam>
+             <pparam>
+              <ValueIri value="b"/>
+             </pparam>
+             <oparam>
+              <AOPVariable uuid="226" name="c"/>
+             </oparam>
+             <partition>
+              <Partition>
+               <Limit name="a" value="8"/>
+              </Partition>
+             </partition>
+            </TripleStoreIteratorGlobal>
+           </children>
+           <projectedVariables>
+            <variable name="a"/>
+            <variable name="c"/>
+           </projectedVariables>
+          </POPSplitPartitionFromStore>
+         </children>
+         <projectedVariables>
+          <variable name="a"/>
+          <variable name="b"/>
+          <variable name="c"/>
+         </projectedVariables>
+        </POPJoinMerge>
+       </children>
+       <projectedVariables>
+        <variable name="a"/>
+        <variable name="b"/>
+        <variable name="c"/>
+       </projectedVariables>
+      </POPMergePartition>
+     </children>
+     <projectedVariables>
+      <variable name="a"/>
+      <variable name="b"/>
+      <variable name="c"/>
+     </projectedVariables>
+    </POPSplitPartition>
+   </children>
+   <projectedVariables>
+    <variable name="a"/>
+    <variable name="b"/>
+    <variable name="c"/>
+    <variable name="d"/>
+   </projectedVariables>
+  </POPJoinHashMap>
+ </children>
+ <projectedVariables>
+  <variable name="a"/>
+  <variable name="b"/>
+  <variable name="c"/>
+  <variable name="d"/>
+ </projectedVariables>
+</POPMergePartition>
+
+groupSize 436
+8_8_8__8_8__0,20100000,0,2180,5686.296459,383.37783049450394,NoOptimizer
+------------------------------
+16_16_1__16_1__0
+<POPJoinHashMap uuid="255" providedVariables="[a, b, c, d]" providedSort="[]" filteredSort="[]" selectedSort="[]" existOnly="false" optional="false">
+ <children>
+  <TripleStoreIteratorGlobal uuid="252" name="" idx="PSO" providedVariables="[c, d]" providedSort="[[c.FAST, d.FAST], [d.FAST, c.FAST]]" selectedSort="[]">
+   <sparam>
+    <AOPVariable uuid="249" name="c"/>
+   </sparam>
+   <pparam>
+    <ValueIri value="c"/>
+   </pparam>
+   <oparam>
+    <AOPVariable uuid="251" name="d"/>
+   </oparam>
+   <partition>
+    <Partition>
+     <Limit name="b" value="1"/>
+    </Partition>
+   </partition>
+  </TripleStoreIteratorGlobal>
+  <POPMergePartition uuid="254" providedVariables="[a, b, c]" providedSort="[]" filteredSort="[]" selectedSort="[]" existOnly="false" partitionVariable="a" partitionCount="16" partitionID="1">
+   <children>
+    <POPJoinMerge uuid="253" providedVariables="[a, b, c]" providedSort="[]" filteredSort="[]" selectedSort="[]" existOnly="false" optional="false">
+     <children>
+      <POPSplitPartitionFromStore uuid="243" providedVariables="[a, b]" providedSort="[]" filteredSort="[]" selectedSort="[]" existOnly="false" partitionVariable="a" partitionCount="16" partitionID="1">
+       <children>
+        <TripleStoreIteratorGlobal uuid="242" name="" idx="PSO" providedVariables="[a, b]" providedSort="[[a.FAST, b.FAST], [b.FAST, a.FAST]]" selectedSort="[]">
+         <sparam>
+          <AOPVariable uuid="239" name="a"/>
+         </sparam>
+         <pparam>
+          <ValueIri value="a"/>
+         </pparam>
+         <oparam>
+          <AOPVariable uuid="241" name="b"/>
+         </oparam>
+         <partition>
+          <Partition>
+           <Limit name="a" value="16"/>
+          </Partition>
+         </partition>
+        </TripleStoreIteratorGlobal>
+       </children>
+       <projectedVariables>
+        <variable name="a"/>
+        <variable name="b"/>
+       </projectedVariables>
+      </POPSplitPartitionFromStore>
+      <POPSplitPartitionFromStore uuid="248" providedVariables="[a, c]" providedSort="[]" filteredSort="[]" selectedSort="[]" existOnly="false" partitionVariable="a" partitionCount="16" partitionID="1">
+       <children>
+        <TripleStoreIteratorGlobal uuid="247" name="" idx="PSO" providedVariables="[a, c]" providedSort="[[a.FAST, c.FAST], [c.FAST, a.FAST]]" selectedSort="[]">
+         <sparam>
+          <AOPVariable uuid="244" name="a"/>
+         </sparam>
+         <pparam>
+          <ValueIri value="b"/>
+         </pparam>
+         <oparam>
+          <AOPVariable uuid="246" name="c"/>
+         </oparam>
+         <partition>
+          <Partition>
+           <Limit name="a" value="16"/>
+          </Partition>
+         </partition>
+        </TripleStoreIteratorGlobal>
+       </children>
+       <projectedVariables>
+        <variable name="a"/>
+        <variable name="c"/>
+       </projectedVariables>
+      </POPSplitPartitionFromStore>
+     </children>
+     <projectedVariables>
+      <variable name="a"/>
+      <variable name="b"/>
+      <variable name="c"/>
+     </projectedVariables>
+    </POPJoinMerge>
+   </children>
+   <projectedVariables>
+    <variable name="a"/>
+    <variable name="b"/>
+    <variable name="c"/>
+   </projectedVariables>
+  </POPMergePartition>
+ </children>
+ <projectedVariables>
+  <variable name="a"/>
+  <variable name="b"/>
+  <variable name="c"/>
+  <variable name="d"/>
+ </projectedVariables>
+</POPJoinHashMap>
+
+groupSize 436
+16_16_1__16_1__0,20100000,0,3052,5523.6744069999995,552.5307567245972,NoOptimizer
+------------------------------
+16_16_1__16_16__1
+<POPMergePartition uuid="273" providedVariables="[a, b, c, d]" providedSort="[]" filteredSort="[]" selectedSort="[]" existOnly="false" partitionVariable="a" partitionCount="16" partitionID="1">
+ <children>
+  <POPJoinHashMap uuid="272" providedVariables="[a, b, c, d]" providedSort="[]" filteredSort="[]" selectedSort="[]" existOnly="false" optional="false">
+   <children>
+    <POPSplitPartitionPassThrough uuid="270" providedVariables="[c, d]" providedSort="[]" filteredSort="[]" selectedSort="[]" existOnly="false" partitionVariable="a" partitionCount="16" partitionID="3">
+     <children>
+      <TripleStoreIteratorGlobal uuid="269" name="" idx="PSO" providedVariables="[c, d]" providedSort="[[c.FAST, d.FAST], [d.FAST, c.FAST]]" selectedSort="[]">
+       <sparam>
+        <AOPVariable uuid="266" name="c"/>
+       </sparam>
+       <pparam>
+        <ValueIri value="c"/>
+       </pparam>
+       <oparam>
+        <AOPVariable uuid="268" name="d"/>
+       </oparam>
+       <partition>
+        <Partition>
+         <Limit name="b" value="1"/>
+        </Partition>
+       </partition>
+      </TripleStoreIteratorGlobal>
+     </children>
+     <projectedVariables>
+      <variable name="c"/>
+      <variable name="d"/>
+     </projectedVariables>
+    </POPSplitPartitionPassThrough>
+    <POPJoinMerge uuid="271" providedVariables="[a, b, c]" providedSort="[]" filteredSort="[]" selectedSort="[]" existOnly="false" optional="false">
+     <children>
+      <POPSplitPartitionFromStore uuid="260" providedVariables="[a, b]" providedSort="[]" filteredSort="[]" selectedSort="[]" existOnly="false" partitionVariable="a" partitionCount="16" partitionID="1">
+       <children>
+        <TripleStoreIteratorGlobal uuid="259" name="" idx="PSO" providedVariables="[a, b]" providedSort="[[a.FAST, b.FAST], [b.FAST, a.FAST]]" selectedSort="[]">
+         <sparam>
+          <AOPVariable uuid="256" name="a"/>
+         </sparam>
+         <pparam>
+          <ValueIri value="a"/>
+         </pparam>
+         <oparam>
+          <AOPVariable uuid="258" name="b"/>
+         </oparam>
+         <partition>
+          <Partition>
+           <Limit name="a" value="16"/>
+          </Partition>
+         </partition>
+        </TripleStoreIteratorGlobal>
+       </children>
+       <projectedVariables>
+        <variable name="a"/>
+        <variable name="b"/>
+       </projectedVariables>
+      </POPSplitPartitionFromStore>
+      <POPSplitPartitionFromStore uuid="265" providedVariables="[a, c]" providedSort="[]" filteredSort="[]" selectedSort="[]" existOnly="false" partitionVariable="a" partitionCount="16" partitionID="1">
+       <children>
+        <TripleStoreIteratorGlobal uuid="264" name="" idx="PSO" providedVariables="[a, c]" providedSort="[[a.FAST, c.FAST], [c.FAST, a.FAST]]" selectedSort="[]">
+         <sparam>
+          <AOPVariable uuid="261" name="a"/>
+         </sparam>
+         <pparam>
+          <ValueIri value="b"/>
+         </pparam>
+         <oparam>
+          <AOPVariable uuid="263" name="c"/>
+         </oparam>
+         <partition>
+          <Partition>
+           <Limit name="a" value="16"/>
+          </Partition>
+         </partition>
+        </TripleStoreIteratorGlobal>
+       </children>
+       <projectedVariables>
+        <variable name="a"/>
+        <variable name="c"/>
+       </projectedVariables>
+      </POPSplitPartitionFromStore>
+     </children>
+     <projectedVariables>
+      <variable name="a"/>
+      <variable name="b"/>
+      <variable name="c"/>
+     </projectedVariables>
+    </POPJoinMerge>
+   </children>
+   <projectedVariables>
+    <variable name="a"/>
+    <variable name="b"/>
+    <variable name="c"/>
+    <variable name="d"/>
+   </projectedVariables>
+  </POPJoinHashMap>
+ </children>
+ <projectedVariables>
+  <variable name="a"/>
+  <variable name="b"/>
+  <variable name="c"/>
+  <variable name="d"/>
+ </projectedVariables>
+</POPMergePartition>
+
+groupSize 1604
+16_16_1__16_16__1,20100000,0,8020,5085.785348,1576.9442576167492,NoOptimizer
+------------------------------
+16_16_2__16_2__0
+<POPMergePartition uuid="293" providedVariables="[a, b, c, d]" providedSort="[]" filteredSort="[]" selectedSort="[]" existOnly="false" partitionVariable="c" partitionCount="2" partitionID="2">
+ <children>
+  <POPJoinHashMap uuid="292" providedVariables="[a, b, c, d]" providedSort="[]" filteredSort="[]" selectedSort="[]" existOnly="false" optional="false">
+   <children>
+    <POPSplitPartitionFromStore uuid="288" providedVariables="[c, d]" providedSort="[]" filteredSort="[]" selectedSort="[]" existOnly="false" partitionVariable="c" partitionCount="2" partitionID="2">
+     <children>
+      <TripleStoreIteratorGlobal uuid="287" name="" idx="PSO" providedVariables="[c, d]" providedSort="[[c.FAST, d.FAST], [d.FAST, c.FAST]]" selectedSort="[]">
+       <sparam>
+        <AOPVariable uuid="284" name="c"/>
+       </sparam>
+       <pparam>
+        <ValueIri value="c"/>
+       </pparam>
+       <oparam>
+        <AOPVariable uuid="286" name="d"/>
+       </oparam>
+       <partition>
+        <Partition>
+         <Limit name="b" value="2"/>
+        </Partition>
+       </partition>
+      </TripleStoreIteratorGlobal>
+     </children>
+     <projectedVariables>
+      <variable name="c"/>
+      <variable name="d"/>
+     </projectedVariables>
+    </POPSplitPartitionFromStore>
+    <POPSplitPartition uuid="291" providedVariables="[a, b, c]" providedSort="[]" filteredSort="[]" selectedSort="[]" existOnly="false" partitionVariable="c" partitionCount="2" partitionID="2">
+     <children>
+      <POPMergePartition uuid="290" providedVariables="[a, b, c]" providedSort="[]" filteredSort="[]" selectedSort="[]" existOnly="false" partitionVariable="a" partitionCount="16" partitionID="1">
+       <children>
+        <POPJoinMerge uuid="289" providedVariables="[a, b, c]" providedSort="[]" filteredSort="[]" selectedSort="[]" existOnly="false" optional="false">
+         <children>
+          <POPSplitPartitionFromStore uuid="278" providedVariables="[a, b]" providedSort="[]" filteredSort="[]" selectedSort="[]" existOnly="false" partitionVariable="a" partitionCount="16" partitionID="1">
+           <children>
+            <TripleStoreIteratorGlobal uuid="277" name="" idx="PSO" providedVariables="[a, b]" providedSort="[[a.FAST, b.FAST], [b.FAST, a.FAST]]" selectedSort="[]">
+             <sparam>
+              <AOPVariable uuid="274" name="a"/>
+             </sparam>
+             <pparam>
+              <ValueIri value="a"/>
+             </pparam>
+             <oparam>
+              <AOPVariable uuid="276" name="b"/>
+             </oparam>
+             <partition>
+              <Partition>
+               <Limit name="a" value="16"/>
+              </Partition>
+             </partition>
+            </TripleStoreIteratorGlobal>
+           </children>
+           <projectedVariables>
+            <variable name="a"/>
+            <variable name="b"/>
+           </projectedVariables>
+          </POPSplitPartitionFromStore>
+          <POPSplitPartitionFromStore uuid="283" providedVariables="[a, c]" providedSort="[]" filteredSort="[]" selectedSort="[]" existOnly="false" partitionVariable="a" partitionCount="16" partitionID="1">
+           <children>
+            <TripleStoreIteratorGlobal uuid="282" name="" idx="PSO" providedVariables="[a, c]" providedSort="[[a.FAST, c.FAST], [c.FAST, a.FAST]]" selectedSort="[]">
+             <sparam>
+              <AOPVariable uuid="279" name="a"/>
+             </sparam>
+             <pparam>
+              <ValueIri value="b"/>
+             </pparam>
+             <oparam>
+              <AOPVariable uuid="281" name="c"/>
+             </oparam>
+             <partition>
+              <Partition>
+               <Limit name="a" value="16"/>
+              </Partition>
+             </partition>
+            </TripleStoreIteratorGlobal>
+           </children>
+           <projectedVariables>
+            <variable name="a"/>
+            <variable name="c"/>
+           </projectedVariables>
+          </POPSplitPartitionFromStore>
+         </children>
+         <projectedVariables>
+          <variable name="a"/>
+          <variable name="b"/>
+          <variable name="c"/>
+         </projectedVariables>
+        </POPJoinMerge>
+       </children>
+       <projectedVariables>
+        <variable name="a"/>
+        <variable name="b"/>
+        <variable name="c"/>
+       </projectedVariables>
+      </POPMergePartition>
+     </children>
+     <projectedVariables>
+      <variable name="a"/>
+      <variable name="b"/>
+      <variable name="c"/>
+     </projectedVariables>
+    </POPSplitPartition>
+   </children>
+   <projectedVariables>
+    <variable name="a"/>
+    <variable name="b"/>
+    <variable name="c"/>
+    <variable name="d"/>
+   </projectedVariables>
+  </POPJoinHashMap>
+ </children>
+ <projectedVariables>
+  <variable name="a"/>
+  <variable name="b"/>
+  <variable name="c"/>
+  <variable name="d"/>
+ </projectedVariables>
+</POPMergePartition>
+
+groupSize 580
+16_16_2__16_2__0,20100000,0,3480,5881.1863730000005,591.7173473665736,NoOptimizer
+------------------------------
+16_16_4__16_4__0
+<POPMergePartition uuid="313" providedVariables="[a, b, c, d]" providedSort="[]" filteredSort="[]" selectedSort="[]" existOnly="false" partitionVariable="c" partitionCount="4" partitionID="2">
+ <children>
+  <POPJoinHashMap uuid="312" providedVariables="[a, b, c, d]" providedSort="[]" filteredSort="[]" selectedSort="[]" existOnly="false" optional="false">
+   <children>
+    <POPSplitPartitionFromStore uuid="308" providedVariables="[c, d]" providedSort="[]" filteredSort="[]" selectedSort="[]" existOnly="false" partitionVariable="c" partitionCount="4" partitionID="2">
+     <children>
+      <TripleStoreIteratorGlobal uuid="307" name="" idx="PSO" providedVariables="[c, d]" providedSort="[[c.FAST, d.FAST], [d.FAST, c.FAST]]" selectedSort="[]">
+       <sparam>
+        <AOPVariable uuid="304" name="c"/>
+       </sparam>
+       <pparam>
+        <ValueIri value="c"/>
+       </pparam>
+       <oparam>
+        <AOPVariable uuid="306" name="d"/>
+       </oparam>
+       <partition>
+        <Partition>
+         <Limit name="b" value="4"/>
+        </Partition>
+       </partition>
+      </TripleStoreIteratorGlobal>
+     </children>
+     <projectedVariables>
+      <variable name="c"/>
+      <variable name="d"/>
+     </projectedVariables>
+    </POPSplitPartitionFromStore>
+    <POPSplitPartition uuid="311" providedVariables="[a, b, c]" providedSort="[]" filteredSort="[]" selectedSort="[]" existOnly="false" partitionVariable="c" partitionCount="4" partitionID="2">
+     <children>
+      <POPMergePartition uuid="310" providedVariables="[a, b, c]" providedSort="[]" filteredSort="[]" selectedSort="[]" existOnly="false" partitionVariable="a" partitionCount="16" partitionID="1">
+       <children>
+        <POPJoinMerge uuid="309" providedVariables="[a, b, c]" providedSort="[]" filteredSort="[]" selectedSort="[]" existOnly="false" optional="false">
+         <children>
+          <POPSplitPartitionFromStore uuid="298" providedVariables="[a, b]" providedSort="[]" filteredSort="[]" selectedSort="[]" existOnly="false" partitionVariable="a" partitionCount="16" partitionID="1">
+           <children>
+            <TripleStoreIteratorGlobal uuid="297" name="" idx="PSO" providedVariables="[a, b]" providedSort="[[a.FAST, b.FAST], [b.FAST, a.FAST]]" selectedSort="[]">
+             <sparam>
+              <AOPVariable uuid="294" name="a"/>
+             </sparam>
+             <pparam>
+              <ValueIri value="a"/>
+             </pparam>
+             <oparam>
+              <AOPVariable uuid="296" name="b"/>
+             </oparam>
+             <partition>
+              <Partition>
+               <Limit name="a" value="16"/>
+              </Partition>
+             </partition>
+            </TripleStoreIteratorGlobal>
+           </children>
+           <projectedVariables>
+            <variable name="a"/>
+            <variable name="b"/>
+           </projectedVariables>
+          </POPSplitPartitionFromStore>
+          <POPSplitPartitionFromStore uuid="303" providedVariables="[a, c]" providedSort="[]" filteredSort="[]" selectedSort="[]" existOnly="false" partitionVariable="a" partitionCount="16" partitionID="1">
+           <children>
+            <TripleStoreIteratorGlobal uuid="302" name="" idx="PSO" providedVariables="[a, c]" providedSort="[[a.FAST, c.FAST], [c.FAST, a.FAST]]" selectedSort="[]">
+             <sparam>
+              <AOPVariable uuid="299" name="a"/>
+             </sparam>
+             <pparam>
+              <ValueIri value="b"/>
+             </pparam>
+             <oparam>
+              <AOPVariable uuid="301" name="c"/>
+             </oparam>
+             <partition>
+              <Partition>
+               <Limit name="a" value="16"/>
+              </Partition>
+             </partition>
+            </TripleStoreIteratorGlobal>
+           </children>
+           <projectedVariables>
+            <variable name="a"/>
+            <variable name="c"/>
+           </projectedVariables>
+          </POPSplitPartitionFromStore>
+         </children>
+         <projectedVariables>
+          <variable name="a"/>
+          <variable name="b"/>
+          <variable name="c"/>
+         </projectedVariables>
+        </POPJoinMerge>
+       </children>
+       <projectedVariables>
+        <variable name="a"/>
+        <variable name="b"/>
+        <variable name="c"/>
+       </projectedVariables>
+      </POPMergePartition>
+     </children>
+     <projectedVariables>
+      <variable name="a"/>
+      <variable name="b"/>
+      <variable name="c"/>
+     </projectedVariables>
+    </POPSplitPartition>
+   </children>
+   <projectedVariables>
+    <variable name="a"/>
+    <variable name="b"/>
+    <variable name="c"/>
+    <variable name="d"/>
+   </projectedVariables>
+  </POPJoinHashMap>
+ </children>
+ <projectedVariables>
+  <variable name="a"/>
+  <variable name="b"/>
+  <variable name="c"/>
+  <variable name="d"/>
+ </projectedVariables>
+</POPMergePartition>
+
+groupSize 601
+16_16_4__16_4__0,20100000,0,3005,5380.890732,558.4577256195433,NoOptimizer
+------------------------------
+16_16_8__16_8__0
+<POPMergePartition uuid="333" providedVariables="[a, b, c, d]" providedSort="[]" filteredSort="[]" selectedSort="[]" existOnly="false" partitionVariable="c" partitionCount="8" partitionID="2">
+ <children>
+  <POPJoinHashMap uuid="332" providedVariables="[a, b, c, d]" providedSort="[]" filteredSort="[]" selectedSort="[]" existOnly="false" optional="false">
+   <children>
+    <POPSplitPartitionFromStore uuid="328" providedVariables="[c, d]" providedSort="[]" filteredSort="[]" selectedSort="[]" existOnly="false" partitionVariable="c" partitionCount="8" partitionID="2">
+     <children>
+      <TripleStoreIteratorGlobal uuid="327" name="" idx="PSO" providedVariables="[c, d]" providedSort="[[c.FAST, d.FAST], [d.FAST, c.FAST]]" selectedSort="[]">
+       <sparam>
+        <AOPVariable uuid="324" name="c"/>
+       </sparam>
+       <pparam>
+        <ValueIri value="c"/>
+       </pparam>
+       <oparam>
+        <AOPVariable uuid="326" name="d"/>
+       </oparam>
+       <partition>
+        <Partition>
+         <Limit name="b" value="8"/>
+        </Partition>
+       </partition>
+      </TripleStoreIteratorGlobal>
+     </children>
+     <projectedVariables>
+      <variable name="c"/>
+      <variable name="d"/>
+     </projectedVariables>
+    </POPSplitPartitionFromStore>
+    <POPSplitPartition uuid="331" providedVariables="[a, b, c]" providedSort="[]" filteredSort="[]" selectedSort="[]" existOnly="false" partitionVariable="c" partitionCount="8" partitionID="2">
+     <children>
+      <POPMergePartition uuid="330" providedVariables="[a, b, c]" providedSort="[]" filteredSort="[]" selectedSort="[]" existOnly="false" partitionVariable="a" partitionCount="16" partitionID="1">
+       <children>
+        <POPJoinMerge uuid="329" providedVariables="[a, b, c]" providedSort="[]" filteredSort="[]" selectedSort="[]" existOnly="false" optional="false">
+         <children>
+          <POPSplitPartitionFromStore uuid="318" providedVariables="[a, b]" providedSort="[]" filteredSort="[]" selectedSort="[]" existOnly="false" partitionVariable="a" partitionCount="16" partitionID="1">
+           <children>
+            <TripleStoreIteratorGlobal uuid="317" name="" idx="PSO" providedVariables="[a, b]" providedSort="[[a.FAST, b.FAST], [b.FAST, a.FAST]]" selectedSort="[]">
+             <sparam>
+              <AOPVariable uuid="314" name="a"/>
+             </sparam>
+             <pparam>
+              <ValueIri value="a"/>
+             </pparam>
+             <oparam>
+              <AOPVariable uuid="316" name="b"/>
+             </oparam>
+             <partition>
+              <Partition>
+               <Limit name="a" value="16"/>
+              </Partition>
+             </partition>
+            </TripleStoreIteratorGlobal>
+           </children>
+           <projectedVariables>
+            <variable name="a"/>
+            <variable name="b"/>
+           </projectedVariables>
+          </POPSplitPartitionFromStore>
+          <POPSplitPartitionFromStore uuid="323" providedVariables="[a, c]" providedSort="[]" filteredSort="[]" selectedSort="[]" existOnly="false" partitionVariable="a" partitionCount="16" partitionID="1">
+           <children>
+            <TripleStoreIteratorGlobal uuid="322" name="" idx="PSO" providedVariables="[a, c]" providedSort="[[a.FAST, c.FAST], [c.FAST, a.FAST]]" selectedSort="[]">
+             <sparam>
+              <AOPVariable uuid="319" name="a"/>
+             </sparam>
+             <pparam>
+              <ValueIri value="b"/>
+             </pparam>
+             <oparam>
+              <AOPVariable uuid="321" name="c"/>
+             </oparam>
+             <partition>
+              <Partition>
+               <Limit name="a" value="16"/>
+              </Partition>
+             </partition>
+            </TripleStoreIteratorGlobal>
+           </children>
+           <projectedVariables>
+            <variable name="a"/>
+            <variable name="c"/>
+           </projectedVariables>
+          </POPSplitPartitionFromStore>
+         </children>
+         <projectedVariables>
+          <variable name="a"/>
+          <variable name="b"/>
+          <variable name="c"/>
+         </projectedVariables>
+        </POPJoinMerge>
+       </children>
+       <projectedVariables>
+        <variable name="a"/>
+        <variable name="b"/>
+        <variable name="c"/>
+       </projectedVariables>
+      </POPMergePartition>
+     </children>
+     <projectedVariables>
+      <variable name="a"/>
+      <variable name="b"/>
+      <variable name="c"/>
+     </projectedVariables>
+    </POPSplitPartition>
+   </children>
+   <projectedVariables>
+    <variable name="a"/>
+    <variable name="b"/>
+    <variable name="c"/>
+    <variable name="d"/>
+   </projectedVariables>
+  </POPJoinHashMap>
+ </children>
+ <projectedVariables>
+  <variable name="a"/>
+  <variable name="b"/>
+  <variable name="c"/>
+  <variable name="d"/>
+ </projectedVariables>
+</POPMergePartition>
+
+groupSize 574
+16_16_8__16_8__0,20100000,0,2870,5192.536499,552.7163844785138,NoOptimizer
+------------------------------
+16_16_16__16_16__0
+<POPMergePartition uuid="353" providedVariables="[a, b, c, d]" providedSort="[]" filteredSort="[]" selectedSort="[]" existOnly="false" partitionVariable="c" partitionCount="16" partitionID="2">
+ <children>
+  <POPJoinHashMap uuid="352" providedVariables="[a, b, c, d]" providedSort="[]" filteredSort="[]" selectedSort="[]" existOnly="false" optional="false">
+   <children>
+    <POPSplitPartitionFromStore uuid="348" providedVariables="[c, d]" providedSort="[]" filteredSort="[]" selectedSort="[]" existOnly="false" partitionVariable="c" partitionCount="16" partitionID="2">
+     <children>
+      <TripleStoreIteratorGlobal uuid="347" name="" idx="PSO" providedVariables="[c, d]" providedSort="[[c.FAST, d.FAST], [d.FAST, c.FAST]]" selectedSort="[]">
+       <sparam>
+        <AOPVariable uuid="344" name="c"/>
+       </sparam>
+       <pparam>
+        <ValueIri value="c"/>
+       </pparam>
+       <oparam>
+        <AOPVariable uuid="346" name="d"/>
+       </oparam>
+       <partition>
+        <Partition>
+         <Limit name="b" value="16"/>
+        </Partition>
+       </partition>
+      </TripleStoreIteratorGlobal>
+     </children>
+     <projectedVariables>
+      <variable name="c"/>
+      <variable name="d"/>
+     </projectedVariables>
+    </POPSplitPartitionFromStore>
+    <POPSplitPartition uuid="351" providedVariables="[a, b, c]" providedSort="[]" filteredSort="[]" selectedSort="[]" existOnly="false" partitionVariable="c" partitionCount="16" partitionID="2">
+     <children>
+      <POPMergePartition uuid="350" providedVariables="[a, b, c]" providedSort="[]" filteredSort="[]" selectedSort="[]" existOnly="false" partitionVariable="a" partitionCount="16" partitionID="1">
+       <children>
+        <POPJoinMerge uuid="349" providedVariables="[a, b, c]" providedSort="[]" filteredSort="[]" selectedSort="[]" existOnly="false" optional="false">
+         <children>
+          <POPSplitPartitionFromStore uuid="338" providedVariables="[a, b]" providedSort="[]" filteredSort="[]" selectedSort="[]" existOnly="false" partitionVariable="a" partitionCount="16" partitionID="1">
+           <children>
+            <TripleStoreIteratorGlobal uuid="337" name="" idx="PSO" providedVariables="[a, b]" providedSort="[[a.FAST, b.FAST], [b.FAST, a.FAST]]" selectedSort="[]">
+             <sparam>
+              <AOPVariable uuid="334" name="a"/>
+             </sparam>
+             <pparam>
+              <ValueIri value="a"/>
+             </pparam>
+             <oparam>
+              <AOPVariable uuid="336" name="b"/>
+             </oparam>
+             <partition>
+              <Partition>
+               <Limit name="a" value="16"/>
+              </Partition>
+             </partition>
+            </TripleStoreIteratorGlobal>
+           </children>
+           <projectedVariables>
+            <variable name="a"/>
+            <variable name="b"/>
+           </projectedVariables>
+          </POPSplitPartitionFromStore>
+          <POPSplitPartitionFromStore uuid="343" providedVariables="[a, c]" providedSort="[]" filteredSort="[]" selectedSort="[]" existOnly="false" partitionVariable="a" partitionCount="16" partitionID="1">
+           <children>
+            <TripleStoreIteratorGlobal uuid="342" name="" idx="PSO" providedVariables="[a, c]" providedSort="[[a.FAST, c.FAST], [c.FAST, a.FAST]]" selectedSort="[]">
+             <sparam>
+              <AOPVariable uuid="339" name="a"/>
+             </sparam>
+             <pparam>
+              <ValueIri value="b"/>
+             </pparam>
+             <oparam>
+              <AOPVariable uuid="341" name="c"/>
+             </oparam>
+             <partition>
+              <Partition>
+               <Limit name="a" value="16"/>
+              </Partition>
+             </partition>
+            </TripleStoreIteratorGlobal>
+           </children>
+           <projectedVariables>
+            <variable name="a"/>
+            <variable name="c"/>
+           </projectedVariables>
+          </POPSplitPartitionFromStore>
+         </children>
+         <projectedVariables>
+          <variable name="a"/>
+          <variable name="b"/>
+          <variable name="c"/>
+         </projectedVariables>
+        </POPJoinMerge>
+       </children>
+       <projectedVariables>
+        <variable name="a"/>
+        <variable name="b"/>
+        <variable name="c"/>
+       </projectedVariables>
+      </POPMergePartition>
+     </children>
+     <projectedVariables>
+      <variable name="a"/>
+      <variable name="b"/>
+      <variable name="c"/>
+     </projectedVariables>
+    </POPSplitPartition>
+   </children>
+   <projectedVariables>
+    <variable name="a"/>
+    <variable name="b"/>
+    <variable name="c"/>
+    <variable name="d"/>
+   </projectedVariables>
+  </POPJoinHashMap>
+ </children>
+ <projectedVariables>
+  <variable name="a"/>
+  <variable name="b"/>
+  <variable name="c"/>
+  <variable name="d"/>
+ </projectedVariables>
+</POPMergePartition>
+
+groupSize 383
+16_16_16__16_16__0,20100000,0,2298,5246.33176,438.02033594612016,NoOptimizer
+0

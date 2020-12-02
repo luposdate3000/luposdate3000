@@ -13,7 +13,8 @@ import lupos.s16network.*
 @OptIn(ExperimentalStdlibApi::class, kotlin.time.ExperimentalTime::class)
 fun mainFunc(args: Array<String>): Unit = Parallel.runBlocking {
     LuposdateEndpoint.initialize()
-    val partitionOptions = listOf(8,4,2,1)
+    var debugMode = false
+    val partitionOptions = listOf(32,16,8, 4, 2, 1)
     val enableDisable = listOf(0)
     val datasourceFiles = args[0]
     val minimumTime = args[1].toDouble()
@@ -29,9 +30,9 @@ fun mainFunc(args: Array<String>): Unit = Parallel.runBlocking {
                     for (b in partitionOptions) {
                         for (zPt in enableDisable) {
 //fast->
-if(a!=x||a!=y)continue
-if(b!=z)continue
-if(b>a)continue
+                            if (a != x || a != y) continue
+                            if (b != z) continue
+                            if (b > a) continue
 //
                             if (a != x && a != y) {
                                 continue
@@ -80,10 +81,15 @@ if(b>a)continue
                             if (x != a) {
                                 if (x > 1) {
                                     if (a > 1) {
+if(x>a){
+opX=POPChangePartitionOrderedByIntId(query, listOf("j", "a"), "j",x,a,xPartitionID,aPartitionID,opX)
+ opX.mySortPriority = mutableListOf(SortHelper("j", ESortType.FAST))
+}else{
                                         opX = POPMergePartitionOrderedByIntId(query, listOf("j", "a"), "j", x, xPartitionID, opX)
-                                        opX.mySortPriority = mutableListOf(SortHelper("j", ESortType.FAST))
+                                          opX.mySortPriority = mutableListOf(SortHelper("j", ESortType.FAST))
                                         opX = POPSplitPartition(query, listOf("j", "a"), "j", a, aPartitionID, opX)
-                                    } else {
+      }
+                              } else {
                                         opX = POPMergePartitionOrderedByIntId(query, listOf("j", "a"), "j", x, xPartitionID, opX)
                                         opX.mySortPriority = mutableListOf(SortHelper("j", ESortType.FAST))
                                     }
@@ -96,9 +102,14 @@ if(b>a)continue
                             if (y != a) {
                                 if (y > 1) {
                                     if (a > 1) {
+if(y>a){
+                                        opY = POPChangePartitionOrderedByIntId(query, listOf("j", "b"), "j", y,a, yPartitionID, aPartitionID,opY)
+                                        opY.mySortPriority = mutableListOf(SortHelper("j", ESortType.FAST))
+}else{
                                         opY = POPMergePartitionOrderedByIntId(query, listOf("j", "b"), "j", y, yPartitionID, opY)
                                         opY.mySortPriority = mutableListOf(SortHelper("j", ESortType.FAST))
                                         opY = POPSplitPartition(query, listOf("j", "b"), "j", a, aPartitionID, opY)
+}
                                     } else {
                                         opY = POPMergePartitionOrderedByIntId(query, listOf("j", "b"), "j", y, yPartitionID, opY)
                                         opY.mySortPriority = mutableListOf(SortHelper("j", ESortType.FAST))
@@ -113,9 +124,14 @@ if(b>a)continue
                                 if (z != b) {
                                     if (z > 1) {
                                         if (b > 1) {
+if(z>b){
+                                            opZ = POPChangePartitionOrderedByIntId(query, listOf("j", "c"), "j", z,b, zPartitionID,bPartitionID, opZ)
+                                            opZ.mySortPriority = mutableListOf(SortHelper("j", ESortType.FAST))
+}else{
                                             opZ = POPMergePartitionOrderedByIntId(query, listOf("j", "c"), "j", z, zPartitionID, opZ)
                                             opZ.mySortPriority = mutableListOf(SortHelper("j", ESortType.FAST))
                                             opZ = POPSplitPartition(query, listOf("j", "c"), "j", b, bPartitionID, opZ)
+}
                                         } else {
                                             opZ = POPMergePartitionOrderedByIntId(query, listOf("j", "c"), "j", z, zPartitionID, opZ)
                                             opZ.mySortPriority = mutableListOf(SortHelper("j", ESortType.FAST))
@@ -130,9 +146,14 @@ if(b>a)continue
                             var opA: IOPBase = POPJoinMerge(query, listOf("j", "a", "b"), opX, opY, false)
                             if (zPt != 1 && a != b) {
                                 if (a > b && b > 1) {
+if(a>b){
+                                    opA = POPChangePartitionOrderedByIntId(query, listOf("j", "a", "b"), "j", a, b,aPartitionID, bPartitionID,opA)
+                                    opA.mySortPriority = mutableListOf(SortHelper("j", ESortType.FAST))
+}else{
                                     opA = POPMergePartitionOrderedByIntId(query, listOf("j", "a", "b"), "j", a, aPartitionID, opA)
                                     opA.mySortPriority = mutableListOf(SortHelper("j", ESortType.FAST))
                                     opA = POPSplitPartition(query, listOf("j", "a", "b"), "j", b, bPartitionID, opA)
+}
                                 } else {
                                     if (a > 1) {
                                         opA = POPMergePartitionOrderedByIntId(query, listOf("j", "a", "b"), "j", a, aPartitionID, opA)
@@ -159,28 +180,35 @@ if(b>a)continue
                             println("------------------------------")
                             println("${x}_${y}_${z}__${a}_${b}__${zPt}")
                             println(node.toXMLElement().toPrettyString())
-                            val writer = MyPrintWriter(false)
-                            LuposdateEndpoint.evaluateOperatorgraphToResult(node, writer)
-                            val timerFirst = DateHelperRelative.markNow()
-                            LuposdateEndpoint.evaluateOperatorgraphToResult(node, writer)
-                            val timeFirst = DateHelperRelative.elapsedSeconds(timerFirst)
-//                            val groupSize = 100
- val groupSize =1 + (1.0 / timeFirst).toInt()
-println("groupSize $groupSize")
-                            val timer = DateHelperRelative.markNow()
-                            var time: Double
-                            var counter = 0
-                            while (true) {
-                                counter += groupSize
-                                for (i in 0 until groupSize) {
-                                    LuposdateEndpoint.evaluateOperatorgraphToResult(node, writer)
+                            val writer1 = MyPrintWriter(debugMode)
+                            LuposdateEndpoint.evaluateOperatorgraphToResult(node, writer1)
+                            if (debugMode) {
+                                File("/tmp/result_${x}_${y}_${z}__${a}_${b}.xml").printWriter {
+                                    it.println(writer1.toString())
                                 }
-                                time = DateHelperRelative.elapsedSeconds(timer)
-                                if (time > minimumTime) {
-                                    break
+                            } else {
+                                val writer = MyPrintWriter(false)
+                                val timerFirst = DateHelperRelative.markNow()
+                                LuposdateEndpoint.evaluateOperatorgraphToResult(node, writer)
+                                val timeFirst = DateHelperRelative.elapsedSeconds(timerFirst)
+//                              val groupSize = 100
+                                val groupSize = 1 + (1.0 / timeFirst).toInt()
+                                println("groupSize $groupSize")
+                                val timer = DateHelperRelative.markNow()
+                                var time: Double
+                                var counter = 0
+                                while (true) {
+                                    counter += groupSize
+                                    for (i in 0 until groupSize) {
+                                        LuposdateEndpoint.evaluateOperatorgraphToResult(node, writer)
+                                    }
+                                    time = DateHelperRelative.elapsedSeconds(timer)
+                                    if (time > minimumTime) {
+                                        break
+                                    }
                                 }
+                                println("${x}_${y}_${z}__${a}_${b}__${zPt},$numberOfTriples,0,$counter,${time * 1000.0},${counter / time},NoOptimizer")
                             }
-                            println("${x}_${y}_${z}__${a}_${b}__${zPt},$numberOfTriples,0,$counter,${time * 1000.0},${counter / time},NoOptimizer")
                         }
                     }
                 }

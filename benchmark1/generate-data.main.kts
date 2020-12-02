@@ -25,12 +25,9 @@ enum class ETripleComponentType {
     STRING_TYPED,
     STRING_LANG,
 }
+generateTriples("${Platform.getBenchmarkHome()}/luposdate-testdata/bench_1", 20, 265, 256, 4)
 
-//generateTriples("${Platform.getBenchmarkHome()}/luposdate-testdata/bench_1", 10, 10000, 1000)
-//generateTriples("${Platform.getBenchmarkHome()}/luposdate-testdata/bench_1", 10, 10, 10)
-generateTriples("${Platform.getBenchmarkHome()}/luposdate-testdata/bench_1", 100, 1000, 100)
-
-fun generateTriples(folderName: String, years: Int, authorsPerYear: Int, booksPerAuthor: Int): Int {
+fun generateTriples(folderName: String, count: Int, a: Int, b: Int, c: Int): Int {
     val byteBuf = ByteArray(1)
     File(folderName).mkdirs()
     var outN3: PrintWriter = File(folderName + "/intermediate.n3").printWriter()
@@ -46,7 +43,7 @@ fun generateTriples(folderName: String, years: Int, authorsPerYear: Int, booksPe
         if (idMapping[s] != null) {
             return idMapping[s]!!
         }
-val tmp: ByteArray
+        val tmp: ByteArray
         if (s.startsWith("_:")) {
             dictCounterBnode++
             byteBuf[0] = ETripleComponentType.BLANK_NODE.ordinal.toByte()
@@ -74,31 +71,26 @@ val tmp: ByteArray
         outIntermediateTriplesStatCounter++
     }
 
-    for (y in 2010 - years until 2010) {
-        for (a in 0 until authorsPerYear) {
-            appendTriple("_:${y}_${a}", "<bornIn>", "<${y}>")
+    for (i in 0 until count) {
+        appendTriple("_:${i}_a", "<a>", "_:${i}_b")
+        appendTriple("_:${i}_a", "<b>", "_:${i}_c")
+        appendTriple("_:${i}_c", "<c>", "_:${i}_d")
+        for (j in 0 until a) {
+            appendTriple("_:${i}_a_${j}", "<a>", "_:${i}_b_${j}")
+        }
+        for (k in 0 until b) {
+            appendTriple("_:${i}_a_${k}", "<b>", "_:${i}_c_${k}")
+        }
+        for (l in 0 until c) {
+            appendTriple("_:${i}_c_${l}", "<c>", "_:${i}_d_${l}")
         }
     }
-    for (y in 2010 - years until 2010) {
-        for (a in 0 until authorsPerYear) {
-            for (b in 0 until booksPerAuthor) {
-                appendTriple("_:${y}_${a}_${b}", "<writtenBy>", "_:${y}_${a}")
-            }
-        }
-    }
-    for (y in 2010 - years until 2010) {
-        for (a in 0 until authorsPerYear) {
-            for (b in 0 until booksPerAuthor) {
-                appendTriple("_:${y}_${a}_${b}", "<title>", "_:t${y}_${a}_${b}")
-            }
-        }
-    }
+
     outIntermediateTriples.close()
     File("$folderName/intermediate.n3.partitions").printWriter().use { out ->
-        for (i in listOf(2, 4, 8, 16)) {
+        for (i in listOf(2, 4, 8, 16,32)) {
             out.println("PSO,1,$i")
             out.println("PSO,2,$i")
-            out.println("POS,2,$i")
         }
     }
 
