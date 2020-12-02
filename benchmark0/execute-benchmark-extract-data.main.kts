@@ -8,7 +8,7 @@ import java.io.PrintWriter
 import kotlin.math.round
 import kotlin.math.log2
 
-File ("tmp").mkdirs()
+File("tmp").mkdirs()
 
 var data = mutableMapOf<String, Any>() //data[queries][trash][process][result_rows]
 var keys_0 = mutableSetOf<Int>()
@@ -157,14 +157,14 @@ for (display in 0 until 6) {
                 listOfValues.sortBy { it -> it.second }
 
 //listOfValues.insertAt(0,(Pair(0,0.0))
-                                val token = "${line}.${column}"
+                val token = "${line}.${column}"
                 if (mini_80 == 0) {
-if(display==5){
-row = "$row,$token"
-out2.println("${token}= ")
-}else{
-                    row = "$row,-1"
-}
+                    if (display == 5) {
+                        row = "$row,$token"
+                        out2.println("${token}= ")
+                    } else {
+                        row = "$row,-1"
+                    }
                 } else {
                     try {
                         when (display) {
@@ -175,13 +175,13 @@ out2.println("${token}= ")
                             4 -> row = "$row,$mini"
                             5 -> {
                                 val v1 = String.format("%.2f", (basev / minv))
-                                val v2 = "${(((basev - halfv) / basev)*100).toInt()}\\\\\\\\%"
-                                if (halfi != 0&&v2!="0\\\\\\\\%") {
-				out2.println("${token}=\\\\\\\\shortstack{$v1\\\\\\\\\\\\\\\\(+$v2)}")
+                                val v2 = "${(((basev - halfv) / basev) * 100).toInt()}\\\\\\\\%"
+                                if (halfi != 0 && v2 != "0\\\\\\\\%") {
+                                    out2.println("${token}=\\\\\\\\shortstack{$v1\\\\\\\\\\\\\\\\(+$v2)}")
                                 } else {
-				out2.println("${token}=$v1")
+                                    out2.println("${token}=$v1")
                                 }
-row="$row,$token"
+                                row = "$row,$token"
                             }
                         }
                     } catch (e: Throwable) {

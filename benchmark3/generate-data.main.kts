@@ -25,11 +25,11 @@ enum class ETripleComponentType {
     STRING_TYPED,
     STRING_LANG,
 }
-generateTriples("${Platform.getBenchmarkHome()}/luposdate-testdata/bench_3", 10, 32,16,8)
+generateTriples("${Platform.getBenchmarkHome()}/luposdate-testdata/bench_3", 10, 32, 16, 8)
 
-fun generateTriples(folderName: String, count:Int,a:Int,b:Int,c:Int): Int {
+fun generateTriples(folderName: String, count: Int, a: Int, b: Int, c: Int): Int {
     val byteBuf = ByteArray(1)
-File(folderName).mkdirs()
+    File(folderName).mkdirs()
     var outN3: PrintWriter = File(folderName + "/intermediate.n3").printWriter()
     var outIntermediateDictionary = DataOutputStream(BufferedOutputStream(FileOutputStream(folderName + "/intermediate.n3.dictionary")))
     var outIntermediateTriples = DataOutputStream(BufferedOutputStream(FileOutputStream(folderName + "/intermediate.n3.triples")))
@@ -43,15 +43,15 @@ File(folderName).mkdirs()
         if (idMapping[s] != null) {
             return idMapping[s]!!
         }
-val tmp:ByteArray
+        val tmp: ByteArray
         if (s.startsWith("_:")) {
             dictCounterBnode++
             byteBuf[0] = ETripleComponentType.BLANK_NODE.ordinal.toByte()
-tmp = s.encodeToByteArray()
+            tmp = s.encodeToByteArray()
         } else {
             dictCounterIri++
             byteBuf[0] = ETripleComponentType.IRI.ordinal.toByte()
-tmp = s.substring(1,s.length-1).encodeToByteArray()
+            tmp = s.substring(1, s.length - 1).encodeToByteArray()
         }
         outIntermediateDictionary.writeInt(tmp.size)
         outIntermediateDictionary.write(byteBuf)
@@ -71,28 +71,28 @@ tmp = s.substring(1,s.length-1).encodeToByteArray()
         outIntermediateTriplesStatCounter++
     }
 
-for(i in 0 until count){
-appendTriple("_:${i}","<a>","_:a")
-appendTriple("_:${i}","<b>","_:b")
-appendTriple("_:${i}","<c>","_:c")
-for(j in 0 until a){
-appendTriple("_:a${i}_${j}","<a>","_:${j}")
-}
-for(k in 0 until b){
-appendTriple("_:b${i}_${k}","<b>","_:${k}")
-}
-for(l in 0 until c){
-appendTriple("_:c${i}_${l}","<c>","_:${l}")
-}
-}
+    for (i in 0 until count) {
+        appendTriple("_:${i}", "<a>", "_:a")
+        appendTriple("_:${i}", "<b>", "_:b")
+        appendTriple("_:${i}", "<c>", "_:c")
+        for (j in 0 until a) {
+            appendTriple("_:a${i}_${j}", "<a>", "_:${j}")
+        }
+        for (k in 0 until b) {
+            appendTriple("_:b${i}_${k}", "<b>", "_:${k}")
+        }
+        for (l in 0 until c) {
+            appendTriple("_:c${i}_${l}", "<c>", "_:${l}")
+        }
+    }
 
     outIntermediateTriples.close()
-File("$folderName/intermediate.n3.partitions").printWriter().use { out ->
-for(i in listOf(2,4,8,16)){
-out.println("PSO,1,$i")
-out.println("PSO,2,$i")
-}
-}
+    File("$folderName/intermediate.n3.partitions").printWriter().use { out ->
+        for (i in listOf(2, 4, 8, 16)) {
+            out.println("PSO,1,$i")
+            out.println("PSO,2,$i")
+        }
+    }
 
     outIntermediateDictionaryStat.printWriter().use { out ->
         out.println("total=${dictCounterBnode + dictCounterIri}")

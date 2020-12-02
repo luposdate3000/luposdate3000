@@ -3,8 +3,8 @@ package lupos.s01io
 import kotlin.jvm.JvmField
 import lupos.s00misc.BUFFER_MANAGER_PAGE_SIZE_IN_BYTES
 import lupos.s00misc.BUFFER_MANAGER_USE_FREE_LIST
-import lupos.s00misc.Platform
 import lupos.s00misc.MyReadWriteLock
+import lupos.s00misc.Platform
 import lupos.s00misc.SanityCheck
 
 class BufferManager {

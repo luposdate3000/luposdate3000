@@ -19,8 +19,8 @@ enum class FastMode {
 enum class IntellijMode {
     Enable, Disable
 }
-    val validPlatforms = listOf("iosArm32", "iosArm64", "linuxX64", "macosX64", "mingwX64")
 
+val validPlatforms = listOf("iosArm32", "iosArm64", "linuxX64", "macosX64", "mingwX64")
 fun createBuildFileForModule(args: Array<String>) {
     val onWindows = System.getProperty("os.name").contains("Windows")
     val pathSeparator: String
@@ -79,11 +79,11 @@ fun createBuildFileForModule(args: Array<String>) {
     createBuildFileForModule(moduleName, moduleFolder, modulePrefix, platform, releaseMode, suspendMode, inlineMode, dryMode, fastMode, ideaBuildfile, args)
 }
 
-fun createBuildFileForModule(moduleName: String, releaseMode: ReleaseMode, suspendMode: SuspendMode, inlineMode: InlineMode, dryMode: DryMode, fastMode: FastMode, ideaBuildfile: IntellijMode,args:Array<String> =arrayOf<String>()) {
-    createBuildFileForModule(moduleName, moduleName, releaseMode, suspendMode, inlineMode, dryMode, fastMode, ideaBuildfile,args)
+fun createBuildFileForModule(moduleName: String, releaseMode: ReleaseMode, suspendMode: SuspendMode, inlineMode: InlineMode, dryMode: DryMode, fastMode: FastMode, ideaBuildfile: IntellijMode, args: Array<String> = arrayOf<String>()) {
+    createBuildFileForModule(moduleName, moduleName, releaseMode, suspendMode, inlineMode, dryMode, fastMode, ideaBuildfile, args)
 }
 
-fun createBuildFileForModule(moduleName: String, modulePrefix: String, releaseMode: ReleaseMode, suspendMode: SuspendMode, inlineMode: InlineMode, dryMode: DryMode, fastMode: FastMode, ideaBuildfile: IntellijMode,args:Array<String> =arrayOf<String>()) {
+fun createBuildFileForModule(moduleName: String, modulePrefix: String, releaseMode: ReleaseMode, suspendMode: SuspendMode, inlineMode: InlineMode, dryMode: DryMode, fastMode: FastMode, ideaBuildfile: IntellijMode, args: Array<String> = arrayOf<String>()) {
     val onWindows = System.getProperty("os.name").contains("Windows")
     val pathSeparator: String
     if (onWindows) {
@@ -91,14 +91,14 @@ fun createBuildFileForModule(moduleName: String, modulePrefix: String, releaseMo
     } else {
         pathSeparator = "/"
     }
-    createBuildFileForModule(moduleName, modulePrefix, "src${pathSeparator}${moduleName.toLowerCase()}", releaseMode, suspendMode, inlineMode, dryMode, fastMode, ideaBuildfile,args)
+    createBuildFileForModule(moduleName, modulePrefix, "src${pathSeparator}${moduleName.toLowerCase()}", releaseMode, suspendMode, inlineMode, dryMode, fastMode, ideaBuildfile, args)
 }
 
-fun createBuildFileForModule(moduleName: String, modulePrefix: String, moduleFolder: String, releaseMode: ReleaseMode, suspendMode: SuspendMode, inlineMode: InlineMode, dryMode: DryMode, fastMode: FastMode, ideaBuildfile: IntellijMode,args:Array<String> =arrayOf<String>()) {
+fun createBuildFileForModule(moduleName: String, modulePrefix: String, moduleFolder: String, releaseMode: ReleaseMode, suspendMode: SuspendMode, inlineMode: InlineMode, dryMode: DryMode, fastMode: FastMode, ideaBuildfile: IntellijMode, args: Array<String> = arrayOf<String>()) {
     createBuildFileForModule(moduleName, moduleFolder, modulePrefix, "linuxX64", releaseMode, suspendMode, inlineMode, dryMode, fastMode, ideaBuildfile, args)
 }
 
-fun createBuildFileForModule(moduleName: String, moduleFolder: String, modulePrefix: String, platform: String, releaseMode: ReleaseMode, suspendMode: SuspendMode, inlineMode: InlineMode, dryMode2: DryMode, fastMode: FastMode, ideaBuildfile: IntellijMode, args:Array<String> =arrayOf<String>()) {
+fun createBuildFileForModule(moduleName: String, moduleFolder: String, modulePrefix: String, platform: String, releaseMode: ReleaseMode, suspendMode: SuspendMode, inlineMode: InlineMode, dryMode2: DryMode, fastMode: FastMode, ideaBuildfile: IntellijMode, args: Array<String> = arrayOf<String>()) {
     var dryMode: DryMode
     if (dryMode2 == DryMode.Enable || ideaBuildfile == IntellijMode.Enable) {
         dryMode = DryMode.Enable
@@ -116,23 +116,21 @@ fun createBuildFileForModule(moduleName: String, moduleFolder: String, modulePre
         pathSeparator = "/"
         pathSeparatorEscaped = "/"
     }
-
-var enableJVM=fastMode == FastMode.Disable || fastMode == FastMode.JVM
-var enableJS=fastMode == FastMode.Disable || fastMode == FastMode.JS
-var enableNATIVE=fastMode == FastMode.Disable || fastMode == FastMode.NATIVE
-
-if(File("$moduleFolder/disableTarget").exists()){
-File("$moduleFolder/disableTarget").forEachLine{
-when(it){
-"jvm"->enableJVM=false
-"js"->enableJS=false
-platform,"native"->enableNATIVE=false
-}
-}
-}
-if(!(enableJVM||enableJS||enableNATIVE)){
-return
-}
+    var enableJVM = fastMode == FastMode.Disable || fastMode == FastMode.JVM
+    var enableJS = fastMode == FastMode.Disable || fastMode == FastMode.JS
+    var enableNATIVE = fastMode == FastMode.Disable || fastMode == FastMode.NATIVE
+    if (File("$moduleFolder/disableTarget").exists()) {
+        File("$moduleFolder/disableTarget").forEachLine {
+            when (it) {
+                "jvm" -> enableJVM = false
+                "js" -> enableJS = false
+                platform, "native" -> enableNATIVE = false
+            }
+        }
+    }
+    if (!(enableJVM || enableJS || enableNATIVE)) {
+        return
+    }
     val buildLibrary = modulePrefix != "Luposdate3000_Main"
     println("generating buildfile for $moduleName")
     var shortFolder = "./${moduleFolder}"//TODO does this work as intended on windows
@@ -154,21 +152,21 @@ return
                 if (f.startsWith("common")) {
                     File(tmp).copyRecursively(File("src.generated${pathSeparator}" + f.replace("common.*Main", "commonMain")))
                 } else if (f.startsWith("jvm")) {
-     if (enableJVM) {
-               File(tmp).copyRecursively(File("src.generated${pathSeparator}" + f.replace("jvm.*Main", "jvmMain")))
-}
+                    if (enableJVM) {
+                        File(tmp).copyRecursively(File("src.generated${pathSeparator}" + f.replace("jvm.*Main", "jvmMain")))
+                    }
                 } else if (f.startsWith("js")) {
-if (enableJS) {
-                    File(tmp).copyRecursively(File("src.generated${pathSeparator}" + f.replace("js.*Main", "jsMain")))
-}
+                    if (enableJS) {
+                        File(tmp).copyRecursively(File("src.generated${pathSeparator}" + f.replace("js.*Main", "jsMain")))
+                    }
                 } else if (f.startsWith("native")) {
-if (enableNATIVE) {
-                    File(tmp).copyRecursively(File("src.generated${pathSeparator}" + f.replace("native.*Main", "${platform}Main")))
-}
+                    if (enableNATIVE) {
+                        File(tmp).copyRecursively(File("src.generated${pathSeparator}" + f.replace("native.*Main", "${platform}Main")))
+                    }
                 } else if (f.startsWith(platform)) {
-if (enableNATIVE) {
-                    File(tmp).copyRecursively(File("src.generated${pathSeparator}" + f.replace("${platform}.*Main", "${platform}Main")))
-}
+                    if (enableNATIVE) {
+                        File(tmp).copyRecursively(File("src.generated${pathSeparator}" + f.replace("${platform}.*Main", "${platform}Main")))
+                    }
                 }
             }
         }
@@ -606,7 +604,7 @@ if (enableNATIVE) {
             applySuspendDisable()
         }
     }
-File("gradle.properties").copyTo(File("src.generated${pathSeparator}gradle.properties"))
+    File("gradle.properties").copyTo(File("src.generated${pathSeparator}gradle.properties"))
     if (dryMode == DryMode.Disable) {
         if (onWindows) {
             var path = System.getProperty("user.dir")

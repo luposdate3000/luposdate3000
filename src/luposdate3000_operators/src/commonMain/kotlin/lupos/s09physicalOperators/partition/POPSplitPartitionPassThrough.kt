@@ -47,7 +47,7 @@ class POPSplitPartitionPassThrough(query: IQuery, projectedVariables: List<Strin
             return children[0].evaluate(parent)
         } else {
             val childPartition = Partition(parent, partitionVariable)
-	    return children[0].evaluate(childPartition)
-	}
+            return children[0].evaluate(childPartition)
+        }
     }
 }

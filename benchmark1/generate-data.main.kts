@@ -32,7 +32,7 @@ generateTriples("${Platform.getBenchmarkHome()}/luposdate-testdata/bench_1", 100
 
 fun generateTriples(folderName: String, years: Int, authorsPerYear: Int, booksPerAuthor: Int): Int {
     val byteBuf = ByteArray(1)
-File(folderName).mkdirs()
+    File(folderName).mkdirs()
     var outN3: PrintWriter = File(folderName + "/intermediate.n3").printWriter()
     var outIntermediateDictionary = DataOutputStream(BufferedOutputStream(FileOutputStream(folderName + "/intermediate.n3.dictionary")))
     var outIntermediateTriples = DataOutputStream(BufferedOutputStream(FileOutputStream(folderName + "/intermediate.n3.triples")))
@@ -92,13 +92,13 @@ File(folderName).mkdirs()
         }
     }
     outIntermediateTriples.close()
-File("$folderName/intermediate.n3.partitions").printWriter().use { out ->
-for(i in listOf(2,4,8,16)){
-out.println("PSO,1,$i")
-out.println("PSO,2,$i")
-out.println("POS,2,$i")
-}
-}
+    File("$folderName/intermediate.n3.partitions").printWriter().use { out ->
+        for (i in listOf(2, 4, 8, 16)) {
+            out.println("PSO,1,$i")
+            out.println("PSO,2,$i")
+            out.println("POS,2,$i")
+        }
+    }
 
     outIntermediateDictionaryStat.printWriter().use { out ->
         out.println("total=${dictCounterBnode + dictCounterIri}")

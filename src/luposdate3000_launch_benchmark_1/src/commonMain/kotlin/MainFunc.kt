@@ -1,23 +1,20 @@
 import lupos.s00misc.*
-import lupos.s15tripleStoreDistributed.*
-import lupos.s16network.*
+import lupos.s03resultRepresentation.*
 import lupos.s04arithmetikOperators.*
 import lupos.s04arithmetikOperators.noinput.*
 import lupos.s04logicalOperators.*
 import lupos.s05tripleStore.*
 import lupos.s09physicalOperators.*
-import lupos.s09physicalOperators.partition.*
 import lupos.s09physicalOperators.multiinput.*
-import lupos.s03resultRepresentation.*
+import lupos.s09physicalOperators.partition.*
+import lupos.s15tripleStoreDistributed.*
+import lupos.s16network.*
 
 @OptIn(ExperimentalStdlibApi::class, kotlin.time.ExperimentalTime::class)
 fun mainFunc(args: Array<String>): Unit = Parallel.runBlocking {
     LuposdateEndpoint.initialize()
-
-
-    val partitionOptions = listOf(1,2,4,8,16)
+    val partitionOptions = listOf(1, 2, 4, 8, 16)
     val enableDisable = listOf(0, 1)
-
     val datasourceFiles = args[0]
     val minimumTime = args[1].toDouble()
     val numberOfTriples = args[2].toLong()
@@ -78,12 +75,12 @@ fun mainFunc(args: Array<String>): Unit = Parallel.runBlocking {
                             if (x != a) {
                                 if (x > 1) {
                                     if (a > 1) {
- opX = POPMergePartitionOrderedByIntId(query, listOf("a"), "a", x, xPartitionID, opX)
-opX.mySortPriority = mutableListOf(SortHelper("a", ESortType.FAST))
- opX = POPSplitPartition(query, listOf("a"), "a", a, aPartitionID, opX)
+                                        opX = POPMergePartitionOrderedByIntId(query, listOf("a"), "a", x, xPartitionID, opX)
+                                        opX.mySortPriority = mutableListOf(SortHelper("a", ESortType.FAST))
+                                        opX = POPSplitPartition(query, listOf("a"), "a", a, aPartitionID, opX)
                                     } else {
                                         opX = POPMergePartitionOrderedByIntId(query, listOf("a"), "a", x, xPartitionID, opX)
-opX.mySortPriority = mutableListOf(SortHelper("a", ESortType.FAST))
+                                        opX.mySortPriority = mutableListOf(SortHelper("a", ESortType.FAST))
                                     }
                                 } else {
                                     if (a > 1) {
@@ -94,12 +91,12 @@ opX.mySortPriority = mutableListOf(SortHelper("a", ESortType.FAST))
                             if (y != a) {
                                 if (y > 1) {
                                     if (a > 1) {
-opY = POPMergePartitionOrderedByIntId(query, listOf("a", "b"), "a", y, yPartitionID, opY)
-opY.mySortPriority = mutableListOf(SortHelper("a", ESortType.FAST))
- opY = POPSplitPartition(query, listOf("a", "b"), "a", a, aPartitionID, opY)
+                                        opY = POPMergePartitionOrderedByIntId(query, listOf("a", "b"), "a", y, yPartitionID, opY)
+                                        opY.mySortPriority = mutableListOf(SortHelper("a", ESortType.FAST))
+                                        opY = POPSplitPartition(query, listOf("a", "b"), "a", a, aPartitionID, opY)
                                     } else {
                                         opY = POPMergePartitionOrderedByIntId(query, listOf("a", "b"), "a", y, yPartitionID, opY)
-opY.mySortPriority = mutableListOf(SortHelper("a", ESortType.FAST))
+                                        opY.mySortPriority = mutableListOf(SortHelper("a", ESortType.FAST))
                                     }
                                 } else {
                                     if (a > 1) {
@@ -111,12 +108,12 @@ opY.mySortPriority = mutableListOf(SortHelper("a", ESortType.FAST))
                                 if (z != b) {
                                     if (z > 1) {
                                         if (b > 1) {
-  opZ = POPMergePartitionOrderedByIntId(query, listOf("b", "t"), "b", z, zPartitionID, opZ)
-opZ.mySortPriority = mutableListOf(SortHelper("b", ESortType.FAST))
- opZ = POPSplitPartition(query, listOf("b", "t"), "b", b, bPartitionID, opZ)
+                                            opZ = POPMergePartitionOrderedByIntId(query, listOf("b", "t"), "b", z, zPartitionID, opZ)
+                                            opZ.mySortPriority = mutableListOf(SortHelper("b", ESortType.FAST))
+                                            opZ = POPSplitPartition(query, listOf("b", "t"), "b", b, bPartitionID, opZ)
                                         } else {
                                             opZ = POPMergePartitionOrderedByIntId(query, listOf("b", "t"), "b", z, zPartitionID, opZ)
-opZ.mySortPriority = mutableListOf(SortHelper("b", ESortType.FAST))
+                                            opZ.mySortPriority = mutableListOf(SortHelper("b", ESortType.FAST))
                                         }
                                     } else {
                                         if (b > 1) {

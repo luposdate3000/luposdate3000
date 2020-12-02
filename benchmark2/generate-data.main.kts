@@ -25,11 +25,11 @@ enum class ETripleComponentType {
     STRING_TYPED,
     STRING_LANG,
 }
-generateTriples("${Platform.getBenchmarkHome()}/luposdate-testdata/bench_2", 2097152, 16,16,16)
+generateTriples("${Platform.getBenchmarkHome()}/luposdate-testdata/bench_2", 2097152, 16, 16, 16)
 
-fun generateTriples(folderName: String, count:Int,a:Int,b:Int,c:Int): Int {
+fun generateTriples(folderName: String, count: Int, a: Int, b: Int, c: Int): Int {
     val byteBuf = ByteArray(1)
-File(folderName).mkdirs()
+    File(folderName).mkdirs()
     var outN3: PrintWriter = File(folderName + "/intermediate.n3").printWriter()
     var outIntermediateDictionary = DataOutputStream(BufferedOutputStream(FileOutputStream(folderName + "/intermediate.n3.dictionary")))
     var outIntermediateTriples = DataOutputStream(BufferedOutputStream(FileOutputStream(folderName + "/intermediate.n3.triples")))
@@ -69,28 +69,28 @@ File(folderName).mkdirs()
         outIntermediateTriplesStatCounter++
     }
 
-for(i in 0 until count){
-appendTriple("_:${i}","<a>","_:a")
-appendTriple("_:${i}","<b>","_:b")
-appendTriple("_:${i}","<c>","_:c")
-for(j in 0 until a){
-appendTriple("_:a${i}_${j}","<a>","_:${j}")
-}
-for(k in 0 until b){
-appendTriple("_:b${i}_${k}","<b>","_:${k}")
-}
-for(l in 0 until c){
-appendTriple("_:c${i}_${l}","<c>","_:${l}")
-}
-}
+    for (i in 0 until count) {
+        appendTriple("_:${i}", "<a>", "_:a")
+        appendTriple("_:${i}", "<b>", "_:b")
+        appendTriple("_:${i}", "<c>", "_:c")
+        for (j in 0 until a) {
+            appendTriple("_:a${i}_${j}", "<a>", "_:${j}")
+        }
+        for (k in 0 until b) {
+            appendTriple("_:b${i}_${k}", "<b>", "_:${k}")
+        }
+        for (l in 0 until c) {
+            appendTriple("_:c${i}_${l}", "<c>", "_:${l}")
+        }
+    }
 
     outIntermediateTriples.close()
-File("$folderName/intermediate.n3.partitions").printWriter().use { out ->
-for(i in listOf(2,4,8,16)){
-out.println("PSO,1,$i")
-out.println("PSO,2,$i")
-}
-}
+    File("$folderName/intermediate.n3.partitions").printWriter().use { out ->
+        for (i in listOf(2, 4, 8, 16)) {
+            out.println("PSO,1,$i")
+            out.println("PSO,2,$i")
+        }
+    }
 
     outIntermediateDictionaryStat.printWriter().use { out ->
         out.println("total=${dictCounterBnode + dictCounterIri}")

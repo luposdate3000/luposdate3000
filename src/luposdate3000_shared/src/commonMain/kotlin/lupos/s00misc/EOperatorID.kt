@@ -9,7 +9,7 @@ enum class EOperatorID {
     AOPAggregationSAMPLEID,
     AOPAggregationCOUNTID,
     AOPAndID,
-POPSplitPartitionPassThroughID,
+    POPSplitPartitionPassThroughID,
     AOPBuildInCallNotExistsID,
     AOPBuildInCallExistsID,
     AOPFunctionCallDoubleID,

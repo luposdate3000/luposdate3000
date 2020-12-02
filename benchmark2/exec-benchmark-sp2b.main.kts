@@ -51,7 +51,7 @@ for (jar in jars) {
 val cmd = mutableListOf("java", "-Xmx${Platform.getAvailableRam()}g", "-cp", classpath, "MainKt", triplesFiles, "$minimumTime", "$numberOfTriples")
 cmd.addAll(args)
 ProcessBuilder(cmd)
-	.directory(File("."))
+        .directory(File("."))
         .redirectOutput(Redirect.INHERIT)
         .redirectError(Redirect.INHERIT)
         .start()
