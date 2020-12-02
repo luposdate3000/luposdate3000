@@ -141,12 +141,12 @@ fun mainFunc(args: Array<String>): Unit = Parallel.runBlocking {
                             var opB: IOPBase = POPJoinMerge(query, listOf("j", "a", "b", "c"), opZ, opA, false)
                             if (zPt == 1) {
                                 if (a > 1) {
-                                    opB = POPMergePartitionOrderedByIntId(query, listOf("j", "a", "b", "c"), "j", a, aPartitionID, opB)
+                                    opB = POPMergePartition(query, listOf("j", "a", "b", "c"), "j", a, aPartitionID, opB)
                                     opB.mySortPriority = mutableListOf(SortHelper("j", ESortType.FAST))
                                 }
                             } else {
                                 if (b > 1) {
-                                    opB = POPMergePartitionOrderedByIntId(query, listOf("j", "a", "b", "c"), "j", b, bPartitionID, opB)
+                                    opB = POPMergePartition(query, listOf("j", "a", "b", "c"), "j", b, bPartitionID, opB)
                                     opB.mySortPriority = mutableListOf(SortHelper("j", ESortType.FAST))
                                 }
                             }
