@@ -13,7 +13,7 @@ import lupos.s16network.*
 @OptIn(ExperimentalStdlibApi::class, kotlin.time.ExperimentalTime::class)
 fun mainFunc(args: Array<String>): Unit = Parallel.runBlocking {
     LuposdateEndpoint.initialize()
-    val partitionOptions = listOf(1, 2, 4, 8)
+    val partitionOptions = listOf(8,4,2,1)
     val enableDisable = listOf(0)
     val datasourceFiles = args[0]
     val minimumTime = args[1].toDouble()
@@ -28,6 +28,11 @@ fun mainFunc(args: Array<String>): Unit = Parallel.runBlocking {
                 for (a in partitionOptions) {
                     for (b in partitionOptions) {
                         for (zPt in enableDisable) {
+//fast->
+if(a!=x||a!=y)continue
+if(b!=z)continue
+if(b>a)continue
+//
                             if (a != x && a != y) {
                                 continue
                             }
