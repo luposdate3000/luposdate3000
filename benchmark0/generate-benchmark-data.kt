@@ -54,14 +54,16 @@ fun generateTriples(targetNumberOfResults2: Long, numberOfPredicates: Int, block
     var outIntermediateTriplesStatCounter = 0
     val byteBuf = ByteArray(1)
     fun writeToDict(s: String) {
+val tmp: ByteArray
         if (s.startsWith("_:")) {
             dictCounterBnode++
             byteBuf[0] = ETripleComponentType.BLANK_NODE.ordinal.toByte()
+            tmp = s.encodeToByteArray()
         } else {
             dictCounterIri++
             byteBuf[0] = ETripleComponentType.IRI.ordinal.toByte()
+            tmp = s.substring(1, s.length - 1).encodeToByteArray()
         }
-        val tmp = s.encodeToByteArray()
         outIntermediateDictionary.writeInt(tmp.size)
         outIntermediateDictionary.write(byteBuf)
         outIntermediateDictionary.write(tmp)

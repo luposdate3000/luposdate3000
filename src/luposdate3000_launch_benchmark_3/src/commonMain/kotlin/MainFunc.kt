@@ -159,9 +159,9 @@ fun mainFunc(args: Array<String>): Unit = Parallel.runBlocking {
                             val timerFirst = DateHelperRelative.markNow()
                             LuposdateEndpoint.evaluateOperatorgraphToResult(node, writer)
                             val timeFirst = DateHelperRelative.elapsedSeconds(timerFirst)
-                            val groupSize = 2000
-// val groupSize =1 + (1.0 / timeFirst).toInt()
-//println("groupSize $groupSize")
+//                            val groupSize = 100
+ val groupSize =1 + (1.0 / timeFirst).toInt()
+println("groupSize $groupSize")
                             val timer = DateHelperRelative.markNow()
                             var time: Double
                             var counter = 0

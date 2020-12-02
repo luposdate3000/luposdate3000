@@ -43,14 +43,16 @@ fun generateTriples(folderName: String, count: Int, trash: Int, join: Int): Int 
         if (idMapping[s] != null) {
             return idMapping[s]!!
         }
+val tmp: ByteArray
         if (s.startsWith("_:")) {
             dictCounterBnode++
             byteBuf[0] = ETripleComponentType.BLANK_NODE.ordinal.toByte()
+            tmp = s.encodeToByteArray()
         } else {
             dictCounterIri++
             byteBuf[0] = ETripleComponentType.IRI.ordinal.toByte()
+            tmp = s.substring(1, s.length - 1).encodeToByteArray()
         }
-        val tmp = s.encodeToByteArray()
         outIntermediateDictionary.writeInt(tmp.size)
         outIntermediateDictionary.write(byteBuf)
         outIntermediateDictionary.write(tmp)
