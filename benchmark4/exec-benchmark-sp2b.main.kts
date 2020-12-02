@@ -6,7 +6,6 @@
 @file:CompilerOptions("-Xmulti-platform")
 
 import lupos.s00misc.Platform
-
 import java.io.File
 import java.lang.ProcessBuilder.Redirect
 import java.nio.file.StandardOpenOption
@@ -50,39 +49,39 @@ for (jar in jars) {
 }
 
 
-for(output_count in listOf(32,128,512,2048,8196,32768,131072,524288,2097152)){
-for(trash in listOf(0,1,2,4,8,16,32,64,128,256,512,1024)){
-try{
-generateTriples("${Platform.getBenchmarkHome()}/luposdate-testdata/bench_4", output_count,trash,1): Int {
-val cmd = mutableListOf("java", "-Xmx${Platform.getAvailableRam()}g", "-cp", classpath, "MainKt", triplesFiles, "$minimumTime","$output_count","$trash","$join")
-cmd.addAll(args)
-ProcessBuilder(cmd)
-	.directory(File("."))
-        .redirectOutput(Redirect.INHERIT)
-        .redirectError(Redirect.INHERIT)
-        .start()
-        .waitFor()
-}catch(e:Exception){
-e.printStackTrace()
-}
-}
-for(join in listOf(1,2,4,8,16,32,64)){
-try{
-val count=output_count/(join*join)
-if(count==0){
-continue
-}
-generateTriples("${Platform.getBenchmarkHome()}/luposdate-testdata/bench_4", count,0,join): Int {
-val cmd = mutableListOf("java", "-Xmx${Platform.getAvailableRam()}g", "-cp", classpath, "MainKt", triplesFiles, "$minimumTime","$output_count", "$trash","$join")
-cmd.addAll(args)
-ProcessBuilder(cmd)
-        .directory(File("."))
-        .redirectOutput(Redirect.INHERIT)
-        .redirectError(Redirect.INHERIT)
-        .start()
-        .waitFor()
-}catch(e:Exception){ 
-e.printStackTrace()
-}
-}
+for (output_count in listOf(32, 128, 512, 2048, 8196, 32768, 131072, 524288, 2097152)) {
+    for (trash in listOf(0, 1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024)) {
+        try {
+            generateTriples("${Platform.getBenchmarkHome()}/luposdate-testdata/bench_4", output_count, trash, 1)
+            val cmd = mutableListOf("java", "-Xmx${Platform.getAvailableRam()}g", "-cp", classpath, "MainKt", triplesFiles, "$minimumTime", "$output_count", "$trash", "1")
+            cmd.addAll(args)
+            ProcessBuilder(cmd)
+                    .directory(File("."))
+                    .redirectOutput(Redirect.INHERIT)
+                    .redirectError(Redirect.INHERIT)
+                    .start()
+                    .waitFor()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+    for (join in listOf(1, 2, 4, 8, 16, 32, 64)) {
+        try {
+            val count = output_count / (join * join)
+            if (count == 0) {
+                continue
+            }
+            generateTriples("${Platform.getBenchmarkHome()}/luposdate-testdata/bench_4", count, 0, join)
+            val cmd = mutableListOf("java", "-Xmx${Platform.getAvailableRam()}g", "-cp", classpath, "MainKt", triplesFiles, "$minimumTime", "$output_count", "0", "$join")
+            cmd.addAll(args)
+            ProcessBuilder(cmd)
+                    .directory(File("."))
+                    .redirectOutput(Redirect.INHERIT)
+                    .redirectError(Redirect.INHERIT)
+                    .start()
+                    .waitFor()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
 }

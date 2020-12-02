@@ -43,6 +43,7 @@ class POPChangePartitionOrderedByIntId(query: IQuery, projectedVariables: List<S
     override fun toSparql(): String = children[0].toSparql()
     override fun equals(other: Any?): Boolean = other is POPChangePartitionOrderedByIntId && children[0] == other.children[0] && partitionVariable == other.partitionVariable
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
+throw Exception("this requires debugging !!!")
         SanityCheck.check { partitionCountTo < partitionCountFrom }
         val partitionCountSrc = partitionCountFrom / partitionCountTo
         var error: Throwable? = null

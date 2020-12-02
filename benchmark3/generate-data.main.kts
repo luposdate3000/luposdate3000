@@ -25,7 +25,7 @@ enum class ETripleComponentType {
     STRING_TYPED,
     STRING_LANG,
 }
-generateTriples("${Platform.getBenchmarkHome()}/luposdate-testdata/bench_2", 2097152, 32,16,8)
+generateTriples("${Platform.getBenchmarkHome()}/luposdate-testdata/bench_3", 10, 32,16,8)
 
 fun generateTriples(folderName: String, count:Int,a:Int,b:Int,c:Int): Int {
     val byteBuf = ByteArray(1)
@@ -43,14 +43,16 @@ File(folderName).mkdirs()
         if (idMapping[s] != null) {
             return idMapping[s]!!
         }
+val tmp:ByteArray
         if (s.startsWith("_:")) {
             dictCounterBnode++
             byteBuf[0] = ETripleComponentType.BLANK_NODE.ordinal.toByte()
+tmp = s.encodeToByteArray()
         } else {
             dictCounterIri++
             byteBuf[0] = ETripleComponentType.IRI.ordinal.toByte()
+tmp = s.substring(1,s.length-1).encodeToByteArray()
         }
-        val tmp = s.encodeToByteArray()
         outIntermediateDictionary.writeInt(tmp.size)
         outIntermediateDictionary.write(byteBuf)
         outIntermediateDictionary.write(tmp)

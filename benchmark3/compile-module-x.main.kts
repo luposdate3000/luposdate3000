@@ -9,4 +9,4 @@
   
 import lupos.s00misc.Platform
 createBuildFileForModule("Luposdate3000_Endpoint", ReleaseMode.Enable, SuspendMode.Disable, InlineMode.Enable, DryMode.Disable, FastMode.JVM, IntellijMode.Disable,arrayOf("--QueryResultToStream=lupos.s11outputResult.QueryResultToEmptyStream"))
-createBuildFileForModule("Luposdate3000_Launch_Benchmark_2", "Luposdate3000_Main", ReleaseMode.Enable, SuspendMode.Disable, InlineMode.Enable, DryMode.Disable, FastMode.JVM, IntellijMode.Disable)
+createBuildFileForModule("Luposdate3000_Launch_Benchmark_3", "Luposdate3000_Main", ReleaseMode.Enable, SuspendMode.Disable, InlineMode.Enable, DryMode.Disable, FastMode.JVM, IntellijMode.Disable)

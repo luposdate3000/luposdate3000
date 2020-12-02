@@ -78,9 +78,12 @@ fun mainFunc(args: Array<String>): Unit = Parallel.runBlocking {
                             if (x != a) {
                                 if (x > 1) {
                                     if (a > 1) {
-                                        opX = POPChangePartitionOrderedByIntId(query, listOf("a"), "a", x, a, xPartitionID, aPartitionID, opX)
+ opX = POPMergePartitionOrderedByIntId(query, listOf("a"), "a", x, xPartitionID, opX)
+opX.mySortPriority = mutableListOf(SortHelper("a", ESortType.FAST))
+ opX = POPSplitPartition(query, listOf("a"), "a", a, aPartitionID, opX)
                                     } else {
                                         opX = POPMergePartitionOrderedByIntId(query, listOf("a"), "a", x, xPartitionID, opX)
+opX.mySortPriority = mutableListOf(SortHelper("a", ESortType.FAST))
                                     }
                                 } else {
                                     if (a > 1) {
@@ -91,9 +94,12 @@ fun mainFunc(args: Array<String>): Unit = Parallel.runBlocking {
                             if (y != a) {
                                 if (y > 1) {
                                     if (a > 1) {
-                                        opY = POPChangePartitionOrderedByIntId(query, listOf("a", "b"), "a", y, a, yPartitionID, aPartitionID, opY)
+opY = POPMergePartitionOrderedByIntId(query, listOf("a", "b"), "a", y, yPartitionID, opY)
+opY.mySortPriority = mutableListOf(SortHelper("a", ESortType.FAST))
+ opY = POPSplitPartition(query, listOf("a", "b"), "a", a, aPartitionID, opY)
                                     } else {
                                         opY = POPMergePartitionOrderedByIntId(query, listOf("a", "b"), "a", y, yPartitionID, opY)
+opY.mySortPriority = mutableListOf(SortHelper("a", ESortType.FAST))
                                     }
                                 } else {
                                     if (a > 1) {
@@ -105,9 +111,12 @@ fun mainFunc(args: Array<String>): Unit = Parallel.runBlocking {
                                 if (z != b) {
                                     if (z > 1) {
                                         if (b > 1) {
-                                            opZ = POPChangePartitionOrderedByIntId(query, listOf("b", "t"), "b", z, b, zPartitionID, bPartitionID, opZ)
+  opZ = POPMergePartitionOrderedByIntId(query, listOf("b", "t"), "b", z, zPartitionID, opZ)
+opZ.mySortPriority = mutableListOf(SortHelper("b", ESortType.FAST))
+ opZ = POPSplitPartition(query, listOf("b", "t"), "b", b, bPartitionID, opZ)
                                         } else {
                                             opZ = POPMergePartitionOrderedByIntId(query, listOf("b", "t"), "b", z, zPartitionID, opZ)
+opZ.mySortPriority = mutableListOf(SortHelper("b", ESortType.FAST))
                                         }
                                     } else {
                                         if (b > 1) {

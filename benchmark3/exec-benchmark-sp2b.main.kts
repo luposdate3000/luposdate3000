@@ -13,7 +13,7 @@ import java.nio.file.Files
 import java.nio.file.Paths
 
 val numberOfTriples = 20100000
-val triplesFiles = "${Platform.getBenchmarkHome()}/luposdate-testdata/bench_2/intermediate.n3"
+val triplesFiles = "${Platform.getBenchmarkHome()}/luposdate-testdata/bench_3/intermediate.n3"
 val minimumTime = 20.0
 
 File("log").mkdirs()
@@ -31,7 +31,7 @@ val jars = mutableListOf(
         "build-cache${Platform.getPathSeparator()}bin${Platform.getPathSeparator()}Luposdate3000_Optimizer-jvm.jar",
         "build-cache${Platform.getPathSeparator()}bin${Platform.getPathSeparator()}Luposdate3000_Endpoint_Java_Sockets-jvm.jar",
         "build-cache${Platform.getPathSeparator()}bin${Platform.getPathSeparator()}Luposdate3000_Jena_Wrapper_Off-jvm.jar",
-        "build-cache${Platform.getPathSeparator()}bin${Platform.getPathSeparator()}Luposdate3000_Launch_Benchmark_2-jvm.jar",
+        "build-cache${Platform.getPathSeparator()}bin${Platform.getPathSeparator()}Luposdate3000_Launch_Benchmark_3-jvm.jar",
 )
 val userHome = Platform.getUserHome()
 for (f in Platform.findNamedFileInDirectory("${Platform.getGradleCache()}modules-2${Platform.getPathSeparator()}files-2.1${Platform.getPathSeparator()}com.soywiz.korlibs.krypto${Platform.getPathSeparator()}krypto-jvm${Platform.getPathSeparator()}1.9.1${Platform.getPathSeparator()}", "krypto-jvm-1.9.1.jar")) {

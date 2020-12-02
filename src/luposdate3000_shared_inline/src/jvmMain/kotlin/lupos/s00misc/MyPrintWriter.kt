@@ -1,6 +1,5 @@
 package lupos.s00misc
 
-import java.io.File
 import java.io.OutputStream
 import java.io.PrintWriter
 import java.io.StringWriter
@@ -25,7 +24,7 @@ internal actual open class MyPrintWriter : IMyPrintWriter {
         }
     }
 
-    constructor(f: File) {
+    constructor(f: java.io.File) {
         bufferMode = MyPrintWriterMode.FILE
         printer = f.printWriter()
     }

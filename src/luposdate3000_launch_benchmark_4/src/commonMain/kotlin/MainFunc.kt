@@ -16,7 +16,6 @@ fun mainFunc(args: Array<String>): Unit = Parallel.runBlocking {
 
 
     val partitionOptions = listOf(1,2,4,8)
-    val enableDisable = listOf(0)
 
     val datasourceFiles = args[0]
     val minimumTime = args[1].toDouble()
@@ -27,12 +26,13 @@ val join=args[4].toLong()
     LuposdateEndpoint.importIntermediateFiles(datasourceFiles)
     val time = DateHelperRelative.elapsedSeconds(timer)
     println("$datasourceFiles/persistence-import.sparql,$numberOfTriples,0,1,${numberOfTriples * 1000.0},${1.0 / time}")
-    for (x in partitionOptions) {
-        for (y in partitionOptions) {
-            for (z in partitionOptions) {
-                for (a in partitionOptions) {
-                    for (b in partitionOptions) {
-                        for (zPt in enableDisable) {
+for (i in partitionOptions) {
+val x=i
+val y=i
+val z=i
+val a=i
+val b=i
+val zPt=0
                             if (a != x && a != y) {
                                 continue
                             }
@@ -80,10 +80,13 @@ val join=args[4].toLong()
                             if (x != a) {
                                 if (x > 1) {
                                     if (a > 1) {
-                                        opX = POPChangePartitionOrderedByIntId(query, listOf("j","a"), "j", x, a, xPartitionID, aPartitionID, opX)
+ opX = POPMergePartitionOrderedByIntId(query, listOf("j","a"), "j", x, xPartitionID, opX)
+opX.mySortPriority = mutableListOf(SortHelper("j", ESortType.FAST))
+ opX = POPSplitPartition(query, listOf("j","a"), "j", a, aPartitionID, opX)
                                     } else {
                                         opX = POPMergePartitionOrderedByIntId(query, listOf("j","a"), "j", x, xPartitionID, opX)
-                                    }
+          opX.mySortPriority = mutableListOf(SortHelper("j", ESortType.FAST))
+                          }
                                 } else {
                                     if (a > 1) {
                                         opX = POPSplitPartition(query, listOf("j","a"), "j", a, aPartitionID, opX)
@@ -93,10 +96,13 @@ val join=args[4].toLong()
                             if (y != a) {
                                 if (y > 1) {
                                     if (a > 1) {
-                                        opY = POPChangePartitionOrderedByIntId(query, listOf("j", "b"), "j", y, a, yPartitionID, aPartitionID, opY)
+ opY = POPMergePartitionOrderedByIntId(query, listOf("j", "b"), "j", y, yPartitionID, opY)
+opY.mySortPriority = mutableListOf(SortHelper("j", ESortType.FAST))
+ opY = POPSplitPartition(query, listOf("j", "b"), "j", a, aPartitionID, opY)
                                     } else {
                                         opY = POPMergePartitionOrderedByIntId(query, listOf("j", "b"), "j", y, yPartitionID, opY)
-                                    }
+   opY.mySortPriority = mutableListOf(SortHelper("j", ESortType.FAST))
+                                 }
                                 } else {
                                     if (a > 1) {
                                         opY = POPSplitPartition(query, listOf("j", "b"), "j", a, aPartitionID, opY)
@@ -107,9 +113,12 @@ val join=args[4].toLong()
                                 if (z != b) {
                                     if (z > 1) {
                                         if (b > 1) {
-                                            opZ = POPChangePartitionOrderedByIntId(query, listOf("j", "c"), "j", z, b, zPartitionID, bPartitionID, opZ)
+opZ = POPMergePartitionOrderedByIntId(query, listOf("j", "c"), "j", z, zPartitionID, opZ)
+ opZ.mySortPriority = mutableListOf(SortHelper("j", ESortType.FAST))
+opZ = POPSplitPartition(query, listOf("j", "c"), "j", b, bPartitionID, opZ)
                                         } else {
                                             opZ = POPMergePartitionOrderedByIntId(query, listOf("j", "c"), "j", z, zPartitionID, opZ)
+opZ.mySortPriority = mutableListOf(SortHelper("j", ESortType.FAST))
                                         }
                                     } else {
                                         if (b > 1) {
@@ -121,10 +130,13 @@ val join=args[4].toLong()
                             var opA: IOPBase = POPJoinMerge(query, listOf("j","a","b"), opX, opY, false)
                             if (zPt != 1 && a!=b) {
 if(a>b&&b>1){
-opA = POPChangePartitionOrderedByIntId(query, listOf("j","a","b"), "j", a,b,aPartitionID,bPartitionID, opA)
+  opA = POPMergePartitionOrderedByIntId(query, listOf("j","a","b"), "j", a, aPartitionID, opA)
+opA.mySortPriority = mutableListOf(SortHelper("j", ESortType.FAST))
+opA = POPSplitPartition(query, listOf("j","a","b"), "j", b, bPartitionID, opA)
 }else{
                                 if (a > 1) {
-                                    opA = POPMergePartition(query, listOf("j","a","b"), "j", a, aPartitionID, opA)
+                                    opA = POPMergePartitionOrderedByIntId(query, listOf("j","a","b"), "j", a, aPartitionID, opA)
+opA.mySortPriority = mutableListOf(SortHelper("j", ESortType.FAST))
                                 }
                                 if (b > 1) {
                                     opA = POPSplitPartition(query, listOf("j","a","b"), "j", b, bPartitionID, opA)
@@ -166,10 +178,5 @@ println("------------------------------")
                                 }
                             }
                             println("${x}_${y}_${z}__${a}_${b}__${zPt},$numberOfTriples,0,$counter,${time * 1000.0},${counter / time},NoOptimizer,${trash},${join}")
-                        }
-                    }
-                }
-            }
-        }
-    }
+}
 }

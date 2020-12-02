@@ -92,7 +92,7 @@ appendTriple("_:c${i}_${l}","<c>","_:${l}")
 
     outIntermediateTriples.close()
 File("$folderName/intermediate.n3.partitions").printWriter().use { out ->
-for(i in listOf(2,4,8,16)){
+for(i in listOf(2,4,8)){
 out.println("PSO,1,$i")
 out.println("PSO,2,$i")
 }
