@@ -79,7 +79,7 @@ val partitions=allpartitions[partitionC]
                 }
             }
 partitionTimes[partitionC]=counter / time
-            println("${trash}_${join}_${joincount},$numberOfTriples,0,$counter,${time * 1000.0},${counter / time},NoOptimizer")
+            println("${trash}_${join}_${joincount}_${partitions},$numberOfTriples,0,$counter,${time * 1000.0},${counter / time},NoOptimizer,${trash},${join},${joincount},${partitions}")
         }
         joincount *= 2
     }
