@@ -43,7 +43,7 @@ fun generateTriples(folderName: String, count: Int, a: Int, b: Int, c: Int): Int
         if (idMapping[s] != null) {
             return idMapping[s]!!
         }
-val tmp: ByteArray
+        val tmp: ByteArray
         if (s.startsWith("_:")) {
             dictCounterBnode++
             byteBuf[0] = ETripleComponentType.BLANK_NODE.ordinal.toByte()

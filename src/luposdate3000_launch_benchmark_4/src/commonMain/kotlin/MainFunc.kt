@@ -25,13 +25,13 @@ fun mainFunc(args: Array<String>): Unit = Parallel.runBlocking {
     println("$datasourceFiles/persistence-import.sparql,$numberOfTriples,0,1,${numberOfTriples * 1000.0},${1.0 / time}")
     var joincount = 1
     while (joincount <= joincount2) {
-var allpartitions=listOf(1, 2, 4, 8,16)
-var partitionTimes=DoubleArray(allpartitions.size)
-        for (partitionC in 0 until allpartitions.size){
-if(partitionC>1&&partitionTimes[partitionC-1]<partitionTimes[partitionC-2]){
-break
-}
-val partitions=allpartitions[partitionC]
+        var allpartitions = listOf(1, 2, 4, 8, 16)
+        var partitionTimes = DoubleArray(allpartitions.size)
+        for (partitionC in 0 until allpartitions.size) {
+            if (partitionC > 1 && partitionTimes[partitionC - 1] < partitionTimes[partitionC - 2]) {
+                break
+            }
+            val partitions = allpartitions[partitionC]
             var variables = mutableListOf("j", "a")
             val query = Query()
             val p = Partition()
@@ -78,7 +78,7 @@ val partitions=allpartitions[partitionC]
                     break
                 }
             }
-partitionTimes[partitionC]=counter / time
+            partitionTimes[partitionC] = counter / time
             println("${trash}_${join}_${joincount}_${partitions},$numberOfTriples,0,$counter,${time * 1000.0},${counter / time},NoOptimizer,${trash},${join},${joincount},${partitions}")
         }
         joincount *= 2

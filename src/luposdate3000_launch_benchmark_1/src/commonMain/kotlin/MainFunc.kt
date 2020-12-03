@@ -13,7 +13,7 @@ import lupos.s16network.*
 @OptIn(ExperimentalStdlibApi::class, kotlin.time.ExperimentalTime::class)
 fun mainFunc(args: Array<String>): Unit = Parallel.runBlocking {
     LuposdateEndpoint.initialize()
-var debugMode=false
+    var debugMode = false
     val partitionOptions = listOf(1, 2, 4, 8, 16)
     val enableDisable = listOf(0, 1)
     val datasourceFiles = args[0]
@@ -32,7 +32,7 @@ var debugMode=false
 //fast->
                             if (a != x || a != y) continue
                             if (b > a) continue
-                            if (zPt==0&&z!=b) continue
+                            if (zPt == 0 && z != b) continue
 //
                             if (a != x && a != y) {
                                 continue
@@ -56,9 +56,9 @@ var debugMode=false
                             var bPartitionID = partitionID++
                             var xPartitionID = if (x != a) partitionID++ else aPartitionID
                             xP.limit["a"] = x
-                            var opX: IOPBase = TripleStoreIteratorGlobal(query, listOf("a","b"), "", arrayOf(AOPVariable(query, "a"), AOPConstant(query, ValueIri("a")), AOPVariable(query, "b")), EIndexPattern.PSO, xP)
+                            var opX: IOPBase = TripleStoreIteratorGlobal(query, listOf("a", "b"), "", arrayOf(AOPVariable(query, "a"), AOPConstant(query, ValueIri("a")), AOPVariable(query, "b")), EIndexPattern.PSO, xP)
                             if (x > 1) {
-                                opX = POPSplitPartitionFromStore(query, listOf("a","b"), "a", x, xPartitionID, opX)
+                                opX = POPSplitPartitionFromStore(query, listOf("a", "b"), "a", x, xPartitionID, opX)
                             }
                             val yP = Partition()
                             var yPartitionID = if (y != a) partitionID++ else aPartitionID
@@ -81,16 +81,16 @@ var debugMode=false
                             if (x != a) {
                                 if (x > 1) {
                                     if (a > 1) {
-                                        opX = POPMergePartitionOrderedByIntId(query, listOf("a","b"), "a", x, xPartitionID, opX)
+                                        opX = POPMergePartitionOrderedByIntId(query, listOf("a", "b"), "a", x, xPartitionID, opX)
                                         opX.mySortPriority = mutableListOf(SortHelper("a", ESortType.FAST))
-                                        opX = POPSplitPartition(query, listOf("a","b"), "a", a, aPartitionID, opX)
+                                        opX = POPSplitPartition(query, listOf("a", "b"), "a", a, aPartitionID, opX)
                                     } else {
-                                        opX = POPMergePartitionOrderedByIntId(query, listOf("a","b"), "a", x, xPartitionID, opX)
+                                        opX = POPMergePartitionOrderedByIntId(query, listOf("a", "b"), "a", x, xPartitionID, opX)
                                         opX.mySortPriority = mutableListOf(SortHelper("a", ESortType.FAST))
                                     }
                                 } else {
                                     if (a > 1) {
-                                        opX = POPSplitPartition(query, listOf("a","b"), "a", a, aPartitionID, opX)
+                                        opX = POPSplitPartition(query, listOf("a", "b"), "a", a, aPartitionID, opX)
                                     }
                                 }
                             }
@@ -128,59 +128,59 @@ var debugMode=false
                                     }
                                 }
                             }
-                            var opA: IOPBase = POPJoinMerge(query, listOf("a","b","c"), opX, opY, false)
+                            var opA: IOPBase = POPJoinMerge(query, listOf("a", "b", "c"), opX, opY, false)
                             if (zPt != 1) {
                                 if (a > 1) {
-                                    opA = POPMergePartition(query, listOf("a","b","c"), "a", a, aPartitionID, opA)
+                                    opA = POPMergePartition(query, listOf("a", "b", "c"), "a", a, aPartitionID, opA)
                                 }
                                 if (b > 1) {
-                                    opA = POPSplitPartition(query, listOf("a","b","c"), "c", b, bPartitionID, opA)
+                                    opA = POPSplitPartition(query, listOf("a", "b", "c"), "c", b, bPartitionID, opA)
                                 }
                             }
-                            var opB: IOPBase = POPJoinHashMap(query, listOf("a","b","c","d"), opZ, opA, false)
+                            var opB: IOPBase = POPJoinHashMap(query, listOf("a", "b", "c", "d"), opZ, opA, false)
                             if (zPt == 1) {
                                 if (a > 1) {
-                                    opB = POPMergePartition(query, listOf("a","b","c","d"), "a", a, aPartitionID, opB)
+                                    opB = POPMergePartition(query, listOf("a", "b", "c", "d"), "a", a, aPartitionID, opB)
                                 }
                             } else {
                                 if (b > 1) {
-                                    opB = POPMergePartition(query, listOf("a","b","c","d"), "c", b, bPartitionID, opB)
+                                    opB = POPMergePartition(query, listOf("a", "b", "c", "d"), "c", b, bPartitionID, opB)
                                 }
                             }
                             val node = opB
-println("------------------------------")
-println("${x}_${y}_${z}__${a}_${b}__${zPt}")
+                            println("------------------------------")
+                            println("${x}_${y}_${z}__${a}_${b}__${zPt}")
                             println(node.toXMLElement().toPrettyString())
                             val writer1 = MyPrintWriter(debugMode)
                             LuposdateEndpoint.evaluateOperatorgraphToResult(node, writer1)
-if(debugMode){
-File("/tmp/result_${x}_${y}_${z}__${a}_${b}__${zPt}.xml").printWriter{
-it.println(writer1.toString())
-}
-}else{
-                            val writer = MyPrintWriter(false)
-                            val timerFirst = DateHelperRelative.markNow()
-                            LuposdateEndpoint.evaluateOperatorgraphToResult(node, writer)
-                            val timeFirst = DateHelperRelative.elapsedSeconds(timerFirst)
+                            if (debugMode) {
+                                File("/tmp/result_${x}_${y}_${z}__${a}_${b}__${zPt}.xml").printWriter {
+                                    it.println(writer1.toString())
+                                }
+                            } else {
+                                val writer = MyPrintWriter(false)
+                                val timerFirst = DateHelperRelative.markNow()
+                                LuposdateEndpoint.evaluateOperatorgraphToResult(node, writer)
+                                val timeFirst = DateHelperRelative.elapsedSeconds(timerFirst)
 //                            val groupSize = 100
- val groupSize =1 + (1.0 / timeFirst).toInt()
-println("groupSize $groupSize")
-                            val timer = DateHelperRelative.markNow()
-                            var time: Double
-                            var counter = 0
-                            while (true) {
-                                counter += groupSize
-                                for (i in 0 until groupSize) {
-                                    LuposdateEndpoint.evaluateOperatorgraphToResult(node, writer)
+                                val groupSize = 1 + (1.0 / timeFirst).toInt()
+                                println("groupSize $groupSize")
+                                val timer = DateHelperRelative.markNow()
+                                var time: Double
+                                var counter = 0
+                                while (true) {
+                                    counter += groupSize
+                                    for (i in 0 until groupSize) {
+                                        LuposdateEndpoint.evaluateOperatorgraphToResult(node, writer)
+                                    }
+                                    time = DateHelperRelative.elapsedSeconds(timer)
+                                    if (time > minimumTime) {
+                                        break
+                                    }
                                 }
-                                time = DateHelperRelative.elapsedSeconds(timer)
-                                if (time > minimumTime) {
-                                    break
-                                }
+                                println("${x}_${y}_${z}__${a}_${b}__${zPt},$numberOfTriples,0,$counter,${time * 1000.0},${counter / time},NoOptimizer")
                             }
-                            println("${x}_${y}_${z}__${a}_${b}__${zPt},$numberOfTriples,0,$counter,${time * 1000.0},${counter / time},NoOptimizer")
-      }
-                  }
+                        }
                     }
                 }
             }

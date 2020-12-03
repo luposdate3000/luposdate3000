@@ -68501,3 +68501,85 @@ groupSize 25
 
 groupSize 36
 512_1_16_16,32768,0,360,10274.690445999999,35.037551923537535,NoOptimizer,512,1,16,16
+the activated Partitions are ::
+partition :: SPO -1 1
+partition :: SOP -1 1
+partition :: POS -1 1
+partition :: PSO -1 1
+partition :: OSP -1 1
+partition :: OPS -1 1
+partition :: SPO 1 2
+partition :: SOP 1 4
+partition :: POS 1 8
+partition :: PSO 1 16
+partition :: OSP 1 32
+partition :: OPS 1 64
+partition :: SPO 2 2
+partition :: SOP 2 4
+partition :: POS 2 8
+partition :: PSO 2 16
+partition :: OSP 2 32
+partition :: OPS 2 64
+importing file '/mnt/luposdate-testdata/bench_4/intermediate.n3'
+the activated Partitions are ::
+partition :: SPO -1 1
+partition :: SOP -1 1
+partition :: PSO -1 1
+partition :: PSO 1 2
+partition :: PSO 1 4
+partition :: PSO 1 8
+partition :: PSO 1 16
+partition :: PSO 2 2
+partition :: PSO 2 4
+partition :: PSO 2 8
+partition :: PSO 2 16
+partition :: POS -1 1
+partition :: OSP -1 1
+partition :: OPS -1 1
+imported file /mnt/luposdate-testdata/bench_4/intermediate.n3,524288,0.04179636,0.018149843,0.023646517
+flushed triples 524288
+/mnt/luposdate-testdata/bench_4/intermediate.n3/persistence-import.sparql,32768,0,1,3.2768E7,1.970916649367274
+------------------------------
+<POPJoinMerge uuid="8" providedVariables="[j, a, b]" providedSort="[[j.FAST, a.FAST], [j.FAST, b.FAST]]" filteredSort="[]" selectedSort="[]" existOnly="false" optional="false">
+ <children>
+  <TripleStoreIteratorGlobal uuid="3" name="" idx="PSO" providedVariables="[j, a]" providedSort="[[j.FAST, a.FAST], [a.FAST, j.FAST]]" selectedSort="[]">
+   <sparam>
+    <AOPVariable uuid="0" name="j"/>
+   </sparam>
+   <pparam>
+    <ValueIri value="a"/>
+   </pparam>
+   <oparam>
+    <AOPVariable uuid="2" name="a"/>
+   </oparam>
+   <partition>
+    <Partition>
+     <Limit name="j" value="1"/>
+    </Partition>
+   </partition>
+  </TripleStoreIteratorGlobal>
+  <TripleStoreIteratorGlobal uuid="7" name="" idx="PSO" providedVariables="[j, b]" providedSort="[[j.FAST, b.FAST], [b.FAST, j.FAST]]" selectedSort="[]">
+   <sparam>
+    <AOPVariable uuid="4" name="j"/>
+   </sparam>
+   <pparam>
+    <ValueIri value="b"/>
+   </pparam>
+   <oparam>
+    <AOPVariable uuid="6" name="b"/>
+   </oparam>
+   <partition>
+    <Partition>
+     <Limit name="j" value="1"/>
+    </Partition>
+   </partition>
+  </TripleStoreIteratorGlobal>
+ </children>
+ <projectedVariables>
+  <variable name="j"/>
+  <variable name="a"/>
+  <variable name="b"/>
+ </projectedVariables>
+</POPJoinMerge>
+
+groupSize 127
