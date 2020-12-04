@@ -1,5 +1,5 @@
 package lupos.s16network
-
+import lupos.s11outputResult.*
 import kotlin.js.JsName
 import lupos.s00misc.*
 import lupos.s02buildSyntaxTree.LexerCharIterator
@@ -294,15 +294,28 @@ object LuposdateEndpoint {
 
     @JsName("evaluate_operatorgraph_to_result")
             /*suspend*/ fun evaluateOperatorgraphToResult(node: IOPBase, output: IMyPrintWriter) {
+evaluateOperatorgraphToResultA(node,output,EQueryResultToStream.DEFAULT_STREAM)
+}
+    @JsName("evaluate_operatorgraph_to_result_a")
+            /*suspend*/ fun evaluateOperatorgraphToResultA(node: IOPBase, output: IMyPrintWriter,evaluator:EQueryResultToStream) :Any?{
 //var timer = DateHelperRelative.markNow()
         output.println("HTTP/1.1 200 OK")
         output.println("Content-Type: text/plain")
         output.println()
         node.getQuery().reset()
-        QueryResultToStream(node, output)
+var res:Any?=null
+when (evaluator){
+EQueryResultToStream.DEFAULT_STREAM   ->res=QueryResultToStream(node, output)
+EQueryResultToStream.XML_STREAM   ->res=QueryResultToXMLStream(node, output)
+EQueryResultToStream.EMPTY_STREAM   ->res=QueryResultToEmptyStream(node, output)
+EQueryResultToStream.EMPTYDICTIONARY_STREAM   ->res=QueryResultToEmptyWithDictionaryStream(node, output)
+EQueryResultToStream.MEMORY_TABLE   ->res=QueryResultToMemoryTable(node)
+EQueryResultToStream.XML_ELEMENT   ->res=QueryResultToXMLElement.toXML(node)
+}
         distributedTripleStore.commit(node.getQuery())
         node.getQuery().setCommited()
 //println("timer #407 ${DateHelperRelative.elapsedSeconds(timer)}")
+return res
     }
 
     @JsName("evaluate_sparql_to_result_b")
