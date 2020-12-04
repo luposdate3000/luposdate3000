@@ -35,9 +35,9 @@ partition :: PSO 2 32
 partition :: POS -1 1
 partition :: OSP -1 1
 partition :: OPS -1 1
-imported file /mnt/luposdate-testdata/bench_1/intermediate.n3,10560,0.017686721,0.016003545,0.001683175999999998
+imported file /mnt/luposdate-testdata/bench_1/intermediate.n3,10560,0.023937425,0.022016647,0.001920777999999998
 flushed triples 10560
-/mnt/luposdate-testdata/bench_1/intermediate.n3/persistence-import.sparql,20100000,0,1,2.01E10,10.895475843237376
+/mnt/luposdate-testdata/bench_1/intermediate.n3/persistence-import.sparql,20100000,0,1,2.01E10,9.766102814209953
 ------------------------------
 1_1_1__1_1__0
 <POPJoinHashMap uuid="13" providedVariables="[a, b, c, d]" providedSort="[]" filteredSort="[]" selectedSort="[]" existOnly="false" optional="false">
@@ -108,8 +108,8 @@ flushed triples 10560
  </projectedVariables>
 </POPJoinHashMap>
 
-groupSize 124
-1_1_1__1_1__0,20100000,0,5208,5012.877571999999,1038.9242356705215,NoOptimizer
+groupSize 122
+1_1_1__1_1__0,20100000,0,5978,5091.149429,1174.194567134164,NoOptimizer
 ------------------------------
 2_2_1__2_1__0
 <POPJoinHashMap uuid="30" providedVariables="[a, b, c, d]" providedSort="[]" filteredSort="[]" selectedSort="[]" existOnly="false" optional="false">
@@ -205,8 +205,8 @@ groupSize 124
  </projectedVariables>
 </POPJoinHashMap>
 
-groupSize 138
-2_2_1__2_1__0,20100000,0,3036,5094.434407,595.9444675209458,NoOptimizer
+groupSize 119
+2_2_1__2_1__0,20100000,0,1785,5095.931453,350.2794369318217,NoOptimizer
 ------------------------------
 2_2_1__2_2__1
 <POPMergePartition uuid="48" providedVariables="[a, b, c, d]" providedSort="[]" filteredSort="[]" selectedSort="[]" existOnly="false" partitionVariable="a" partitionCount="2" partitionID="1">
@@ -311,8 +311,8 @@ groupSize 138
  </projectedVariables>
 </POPMergePartition>
 
-groupSize 230
-2_2_1__2_2__1,20100000,0,4140,5012.037598,826.0113614574684,NoOptimizer
+groupSize 223
+2_2_1__2_2__1,20100000,0,4460,5000.716275000001,891.8722348429975,NoOptimizer
 ------------------------------
 2_2_2__2_2__0
 <POPMergePartition uuid="68" providedVariables="[a, b, c, d]" providedSort="[]" filteredSort="[]" selectedSort="[]" existOnly="false" partitionVariable="c" partitionCount="2" partitionID="2">
@@ -435,8 +435,8 @@ groupSize 230
  </projectedVariables>
 </POPMergePartition>
 
-groupSize 173
-2_2_2__2_2__0,20100000,0,1038,5654.537143,183.56940165915893,NoOptimizer
+groupSize 192
+2_2_2__2_2__0,20100000,0,1152,5981.009167,192.60963623933534,NoOptimizer
 ------------------------------
 4_4_1__4_1__0
 <POPJoinHashMap uuid="85" providedVariables="[a, b, c, d]" providedSort="[]" filteredSort="[]" selectedSort="[]" existOnly="false" optional="false">
@@ -532,8 +532,8 @@ groupSize 173
  </projectedVariables>
 </POPJoinHashMap>
 
-groupSize 562
-4_4_1__4_1__0,20100000,0,3372,5090.239467,662.4442763175801,NoOptimizer
+groupSize 552
+4_4_1__4_1__0,20100000,0,3312,5044.129889,656.6048204314986,NoOptimizer
 ------------------------------
 4_4_1__4_4__1
 <POPMergePartition uuid="103" providedVariables="[a, b, c, d]" providedSort="[]" filteredSort="[]" selectedSort="[]" existOnly="false" partitionVariable="a" partitionCount="4" partitionID="1">
@@ -638,8 +638,8 @@ groupSize 562
  </projectedVariables>
 </POPMergePartition>
 
-groupSize 1292
-4_4_1__4_4__1,20100000,0,7752,5239.2434220000005,1479.6029456178223,NoOptimizer
+groupSize 1491
+4_4_1__4_4__1,20100000,0,8946,5983.471332,1495.1187201576786,NoOptimizer
 ------------------------------
 4_4_2__4_2__0
 <POPMergePartition uuid="123" providedVariables="[a, b, c, d]" providedSort="[]" filteredSort="[]" selectedSort="[]" existOnly="false" partitionVariable="c" partitionCount="2" partitionID="2">
@@ -762,8 +762,8 @@ groupSize 1292
  </projectedVariables>
 </POPMergePartition>
 
-groupSize 773
-4_4_2__4_2__0,20100000,0,3865,5012.729410000001,771.0370307022017,NoOptimizer
+groupSize 697
+4_4_2__4_2__0,20100000,0,4182,5575.84854,750.0203726839395,NoOptimizer
 ------------------------------
 4_4_4__4_4__0
 <POPMergePartition uuid="143" providedVariables="[a, b, c, d]" providedSort="[]" filteredSort="[]" selectedSort="[]" existOnly="false" partitionVariable="c" partitionCount="4" partitionID="2">
@@ -886,8 +886,8 @@ groupSize 773
  </projectedVariables>
 </POPMergePartition>
 
-groupSize 278
-4_4_4__4_4__0,20100000,0,1390,5334.439305,260.5709654803168,NoOptimizer
+groupSize 328
+4_4_4__4_4__0,20100000,0,1640,6108.565759,268.4754596582219,NoOptimizer
 ------------------------------
 8_8_1__8_1__0
 <POPJoinHashMap uuid="160" providedVariables="[a, b, c, d]" providedSort="[]" filteredSort="[]" selectedSort="[]" existOnly="false" optional="false">
@@ -983,8 +983,8 @@ groupSize 278
  </projectedVariables>
 </POPJoinHashMap>
 
-groupSize 480
-8_8_1__8_1__0,20100000,0,3360,5235.68884,641.7493672141143,NoOptimizer
+groupSize 438
+8_8_1__8_1__0,20100000,0,3504,5555.19935,630.7604424672897,NoOptimizer
 ------------------------------
 8_8_1__8_8__1
 <POPMergePartition uuid="178" providedVariables="[a, b, c, d]" providedSort="[]" filteredSort="[]" selectedSort="[]" existOnly="false" partitionVariable="a" partitionCount="8" partitionID="1">
@@ -1089,8 +1089,8 @@ groupSize 480
  </projectedVariables>
 </POPMergePartition>
 
-groupSize 1840
-8_8_1__8_8__1,20100000,0,11040,5989.12451,1843.3412064762701,NoOptimizer
+groupSize 1722
+8_8_1__8_8__1,20100000,0,10332,5597.608394,1845.788285417524,NoOptimizer
 ------------------------------
 8_8_2__8_2__0
 <POPMergePartition uuid="198" providedVariables="[a, b, c, d]" providedSort="[]" filteredSort="[]" selectedSort="[]" existOnly="false" partitionVariable="c" partitionCount="2" partitionID="2">
@@ -1213,8 +1213,8 @@ groupSize 1840
  </projectedVariables>
 </POPMergePartition>
 
-groupSize 675
-8_8_2__8_2__0,20100000,0,3375,5129.961383999999,657.8996891723972,NoOptimizer
+groupSize 699
+8_8_2__8_2__0,20100000,0,3495,5260.18912,664.4247802253924,NoOptimizer
 ------------------------------
 8_8_4__8_4__0
 <POPMergePartition uuid="218" providedVariables="[a, b, c, d]" providedSort="[]" filteredSort="[]" selectedSort="[]" existOnly="false" partitionVariable="c" partitionCount="4" partitionID="2">
@@ -1337,8 +1337,8 @@ groupSize 675
  </projectedVariables>
 </POPMergePartition>
 
-groupSize 654
-8_8_4__8_4__0,20100000,0,3270,5163.817177,633.2524734928274,NoOptimizer
+groupSize 623
+8_8_4__8_4__0,20100000,0,3738,5881.237386999999,635.5805341682938,NoOptimizer
 ------------------------------
 8_8_8__8_8__0
 <POPMergePartition uuid="238" providedVariables="[a, b, c, d]" providedSort="[]" filteredSort="[]" selectedSort="[]" existOnly="false" partitionVariable="c" partitionCount="8" partitionID="2">
@@ -1461,8 +1461,8 @@ groupSize 654
  </projectedVariables>
 </POPMergePartition>
 
-groupSize 436
-8_8_8__8_8__0,20100000,0,2180,5686.296459,383.37783049450394,NoOptimizer
+groupSize 528
+8_8_8__8_8__0,20100000,0,2112,5352.034673,394.6162775541495,NoOptimizer
 ------------------------------
 16_16_1__16_1__0
 <POPJoinHashMap uuid="255" providedVariables="[a, b, c, d]" providedSort="[]" filteredSort="[]" selectedSort="[]" existOnly="false" optional="false">
@@ -1558,8 +1558,8 @@ groupSize 436
  </projectedVariables>
 </POPJoinHashMap>
 
-groupSize 436
-16_16_1__16_1__0,20100000,0,3052,5523.6744069999995,552.5307567245972,NoOptimizer
+groupSize 431
+16_16_1__16_1__0,20100000,0,3017,5471.791863,551.3733116204241,NoOptimizer
 ------------------------------
 16_16_1__16_16__1
 <POPMergePartition uuid="273" providedVariables="[a, b, c, d]" providedSort="[]" filteredSort="[]" selectedSort="[]" existOnly="false" partitionVariable="a" partitionCount="16" partitionID="1">
@@ -1664,8 +1664,8 @@ groupSize 436
  </projectedVariables>
 </POPMergePartition>
 
-groupSize 1604
-16_16_1__16_16__1,20100000,0,8020,5085.785348,1576.9442576167492,NoOptimizer
+groupSize 1509
+16_16_1__16_16__1,20100000,0,9054,5814.244929,1557.2099405102306,NoOptimizer
 ------------------------------
 16_16_2__16_2__0
 <POPMergePartition uuid="293" providedVariables="[a, b, c, d]" providedSort="[]" filteredSort="[]" selectedSort="[]" existOnly="false" partitionVariable="c" partitionCount="2" partitionID="2">
@@ -1788,8 +1788,8 @@ groupSize 1604
  </projectedVariables>
 </POPMergePartition>
 
-groupSize 580
-16_16_2__16_2__0,20100000,0,3480,5881.1863730000005,591.7173473665736,NoOptimizer
+groupSize 640
+16_16_2__16_2__0,20100000,0,3200,5327.711095,600.6331692803625,NoOptimizer
 ------------------------------
 16_16_4__16_4__0
 <POPMergePartition uuid="313" providedVariables="[a, b, c, d]" providedSort="[]" filteredSort="[]" selectedSort="[]" existOnly="false" partitionVariable="c" partitionCount="4" partitionID="2">
@@ -1912,8 +1912,8 @@ groupSize 580
  </projectedVariables>
 </POPMergePartition>
 
-groupSize 601
-16_16_4__16_4__0,20100000,0,3005,5380.890732,558.4577256195433,NoOptimizer
+groupSize 593
+16_16_4__16_4__0,20100000,0,2965,5169.679255,573.5365491258123,NoOptimizer
 ------------------------------
 16_16_8__16_8__0
 <POPMergePartition uuid="333" providedVariables="[a, b, c, d]" providedSort="[]" filteredSort="[]" selectedSort="[]" existOnly="false" partitionVariable="c" partitionCount="8" partitionID="2">
@@ -2036,8 +2036,8 @@ groupSize 601
  </projectedVariables>
 </POPMergePartition>
 
-groupSize 574
-16_16_8__16_8__0,20100000,0,2870,5192.536499,552.7163844785138,NoOptimizer
+groupSize 559
+16_16_8__16_8__0,20100000,0,2795,5002.362734,558.7359711048096,NoOptimizer
 ------------------------------
 16_16_16__16_16__0
 <POPMergePartition uuid="353" providedVariables="[a, b, c, d]" providedSort="[]" filteredSort="[]" selectedSort="[]" existOnly="false" partitionVariable="c" partitionCount="16" partitionID="2">
@@ -2160,6 +2160,6 @@ groupSize 574
  </projectedVariables>
 </POPMergePartition>
 
-groupSize 383
-16_16_16__16_16__0,20100000,0,2298,5246.33176,438.02033594612016,NoOptimizer
+groupSize 388
+16_16_16__16_16__0,20100000,0,2328,5340.757919,435.89318881464925,NoOptimizer
 0

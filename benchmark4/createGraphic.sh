@@ -25,8 +25,10 @@ cat contour.tmp | grep -v "#" | sed "s/\s\s*/,/g" | sed "s/^,//g" | sed "s/,$//g
 
 gnuplot << EOF
 
-set terminal png size 1920,1080
-set output 'plot${outputcount}.png'
+#set terminal png size 1920,1080
+#set output 'graph_4_${outputcount}.png'
+set terminal epslatex
+set output 'graph_4_${outputcount}.tex'
 
 set xlabel "mergejoins"
 set ylabel "selectivity"
@@ -35,7 +37,7 @@ set style textbox opaque noborder
 set datafile separator ','
 
 set xrange [-0.5:4.5]
-set yrange [-0.5:16.5]
+set yrange [-0.5:17.5]
 
 unset xtics
 set xtics format " "

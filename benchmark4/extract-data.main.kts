@@ -3,7 +3,26 @@ import java.io.File
 import kotlin.math.log2
 
 val data = mutableMapOf<Int/*trash or join*/, MutableMap<Int/*joincount*/, MutableMap<Int/*partitions*/, Double>>>()
-val data_trash_or_join = mutableSetOf<Int>()
+val data_trash_or_join = mutableSetOf<Int>(
+-64,
+-32,
+-16,
+-8,
+-4,
+-2,
+-1,
+1,
+2,
+4,
+8,
+16,
+32,
+64,
+128,
+256,
+512,
+1024,
+)
 val data_joincount = mutableSetOf<Int>()
 val data_partitions = mutableSetOf<Int>()
 
@@ -47,7 +66,7 @@ for (trash_or_join in data_trash_or_join.sorted()) {    //y-axis
     if (trash_or_join < 0) {
         row = "2^{${log2(-trash_or_join.toDouble()).toInt()}}\t\t\t"
     } else {
-        row = "\\frac{1}{1+2^{${log2(trash_or_join.toDouble()).toInt()}}}\t"
+        row = "\\\\frac{1}{1+2^{${log2(trash_or_join.toDouble()).toInt()}}}\t"
     }
     for (partitions in data_partitions.sorted()) {        //y-axis-part
         row = "$row&${partitions.toString().padStart(2, ' ')}"
@@ -86,7 +105,7 @@ for (trash_or_join in data_trash_or_join.sorted()) {    //y-axis
     if (trash_or_join < 0) {
         row = "2^{${log2(-trash_or_join.toDouble())}}\t\t\t"
     } else {
-        row = "\\frac{1}{1+2^{${log2(trash_or_join.toDouble()).toInt()}}}\t"
+        row = "\\\\frac{1}{1+2^{${log2(trash_or_join.toDouble()).toInt()}}}\t"
     }
     for (joincount in data_joincount.sorted()) {        //x-axis
         val tt = data[trash_or_join]?.get(joincount)
@@ -120,13 +139,14 @@ File("plot.XLabels").printWriter().use { out ->
 File("plot.YLabels").printWriter().use { out ->
     i = 0
     for (trash_or_join in data_trash_or_join.sorted()) {
+println(trash_or_join)
         if (i > 0) {
             out.print(",")
         }
         if (trash_or_join < 0) {
-            out.print("\"2^{${log2(-trash_or_join.toDouble())}}\" $i")
+            out.print("\"\$2^{${log2(-trash_or_join.toDouble()).toInt()}}\$\" $i")
         } else {
-            out.print("\"\\frac{1}{1+2^{${log2(trash_or_join.toDouble()).toInt()}}}\" $i")
+            out.print("\"\$\\\\frac{1}{1+2^{${log2(trash_or_join.toDouble()).toInt()}}}\$\" $i")
         }
         i++
     }
