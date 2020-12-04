@@ -27,6 +27,11 @@ enum class ETripleComponentType {
 }
 //generateTriples("${Platform.getBenchmarkHome()}/luposdate-testdata/bench_4", 2097152, 16,1)
 
+
+//128 1 1 32768
+//generateTriples("${Platform.getBenchmarkHome()}/luposdate-testdata/bench_4_a", 32768, 128,1,1)
+
+
 fun generateTriples(folderName: String, count: Int, trash_block: Int, join_block: Int, join_count: Int): Int {
     val byteBuf = ByteArray(1)
     File(folderName).mkdirs()
@@ -72,13 +77,13 @@ fun generateTriples(folderName: String, count: Int, trash_block: Int, join_block
     }
 
     for (i in 0 until count) {
-        for (c in 0 until join_count) {
+        for (c in 0 until join_count+1) {
             val cc = 'a' + c
             for (j in 0 until join_block) {
                 appendTriple("_:${i}", "<${cc}>", "_:${j}")
             }
         }
-        for (c in 0 until join_count) {
+        for (c in 0 until join_count+1) {
             val cc = 'a' + c
             for (j in 0 until trash_block) {
                 appendTriple("_:${cc}_${i}_${j}", "<${cc}>", "_:${j}")

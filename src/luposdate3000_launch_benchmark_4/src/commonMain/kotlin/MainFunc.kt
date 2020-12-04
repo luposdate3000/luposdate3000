@@ -18,19 +18,17 @@ fun mainFunc(args: Array<String>): Unit = Parallel.runBlocking {
     val numberOfTriples = args[2].toLong()
     val trash = args[3].toLong()
     val join = args[4].toLong()
-    val joincount2 = args[5].toLong()
+    val joincount = args[5].toInt()
     val timer = DateHelperRelative.markNow()
     LuposdateEndpoint.importIntermediateFiles(datasourceFiles)
     val time = DateHelperRelative.elapsedSeconds(timer)
     println("$datasourceFiles/persistence-import.sparql,$numberOfTriples,0,1,${numberOfTriples * 1000.0},${1.0 / time}")
-    var joincount = 1
-    while (joincount <= joincount2) {
         var allpartitions = listOf(1, 2, 4, 8, 16)
         var partitionTimes = DoubleArray(allpartitions.size)
         for (partitionC in 0 until allpartitions.size) {
-            if (partitionC > 1 && partitionTimes[partitionC - 1] < partitionTimes[partitionC - 2]) {
-                break
-            }
+//            if (partitionC > 1 && partitionTimes[partitionC - 1] < partitionTimes[partitionC - 2]) {
+//                break
+//            }
             val partitions = allpartitions[partitionC]
             var variables = mutableListOf("j", "a")
             val query = Query()
@@ -81,6 +79,4 @@ fun mainFunc(args: Array<String>): Unit = Parallel.runBlocking {
             partitionTimes[partitionC] = counter / time
             println("${trash}_${join}_${joincount}_${partitions},$numberOfTriples,0,$counter,${time * 1000.0},${counter / time},NoOptimizer,${trash},${join},${joincount},${partitions}")
         }
-        joincount *= 2
-    }
 }

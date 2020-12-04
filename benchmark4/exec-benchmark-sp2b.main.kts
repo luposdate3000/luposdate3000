@@ -7,6 +7,7 @@
 
 import lupos.s00misc.Platform
 import java.io.File
+import kotlin.math.pow
 import java.lang.ProcessBuilder.Redirect
 import java.nio.file.StandardOpenOption
 import java.nio.file.Files
@@ -48,15 +49,15 @@ for (jar in jars) {
     }
 }
 
-val join_count = 16
-for (output_count in listOf(32768)) {
+for (output_count in listOf(512,2048,8192,32768)) {
+for(join_count in listOf(1,2,4,8,16)){
     for (join in listOf(2, 4, 8, 16, 32, 64)) {
         try {
-            val count = output_count / join
-            if (count == 0) {
+            val count2 = (output_count / (join.toDouble().pow(1+join_count.toDouble()))).toInt()
+            if (count2 == 0) {
                 continue
             }
-            generateTriples("${Platform.getBenchmarkHome()}/luposdate-testdata/bench_4", count, 0, join, join_count)
+            generateTriples("${Platform.getBenchmarkHome()}/luposdate-testdata/bench_4", count2, 0, join, join_count)
             val cmd = mutableListOf("java", "-Xmx${Platform.getAvailableRam()}g", "-cp", classpath, "MainKt", triplesFiles, "$minimumTime", "$output_count", "0", "$join", "$join_count")
             cmd.addAll(args)
             ProcessBuilder(cmd)
@@ -84,4 +85,5 @@ for (output_count in listOf(32768)) {
             e.printStackTrace()
         }
     }
+}
 }
