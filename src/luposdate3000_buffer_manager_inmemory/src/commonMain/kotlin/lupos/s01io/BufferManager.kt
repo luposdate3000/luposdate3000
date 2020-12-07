@@ -77,7 +77,9 @@ class BufferManager {
         }
         allPages = Array(100) { ByteArray(BUFFER_MANAGER_PAGE_SIZE_IN_BYTES) }
         allPagesRefcounters = IntArray(100)
-        freeList.clear()
+        if (BUFFER_MANAGER_USE_FREE_LIST) {
+            freeList.clear()
+        }
     }
 
     fun releasePage(pageid: Int) {
@@ -88,7 +90,11 @@ class BufferManager {
 
     fun getPage(pageid: Int): ByteArray {
         //no locking required, assuming an assignment to 'allPages' is atomic
-        SanityCheck.check { !freeList.contains(pageid) }
+        SanityCheck {
+            if (BUFFER_MANAGER_USE_FREE_LIST) {
+                SanityCheck.check { !freeList.contains(pageid) }
+            }
+        }
         allPagesRefcounters[pageid]++
         SanityCheck.println { "BufferManager.refcount($pageid) increased a ${allPagesRefcounters[pageid]}" }
         return allPages[pageid]
@@ -132,14 +138,24 @@ class BufferManager {
     }
 
     /*suspend*/ fun deletePage(pageid: Int): Unit = lock.withWriteLock {
-        SanityCheck.check { !freeList.contains(pageid) }
+        SanityCheck {
+            if (BUFFER_MANAGER_USE_FREE_LIST) {
+                SanityCheck.check { !freeList.contains(pageid) }
+            }
+        }
         SanityCheck.check({ allPagesRefcounters[pageid] == 1 }, { "Failed requirement pageid = $pageid" })
         allPagesRefcounters[pageid] = 0
         SanityCheck.println { "BufferManager.refcount($pageid) decreased b ${allPagesRefcounters[pageid]}" }
-        freeList.add(pageid)
-        if (freeList.size == counter) {
-            clearAssumeLocks()
-        }
+        if (BUFFER_MANAGER_USE_FREE_LIST) {
+            freeList.add(pageid)
+            if (freeList.size == counter) {
+                clearAssumeLocks()
+            }
+        }else{
+	if (counter==0) {
+                clearAssumeLocks()
+            }
+}
     }
 
     /*suspend*/ fun safeToFolder() {
