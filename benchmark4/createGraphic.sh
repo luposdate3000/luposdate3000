@@ -27,11 +27,12 @@ gnuplot << EOF
 
 #set terminal png size 1920,1080
 #set output 'graph_4_${outputcount}.png'
-set terminal epslatex
+set terminal epslatex size 20cm,10cm
 set output 'graph_4_${outputcount}.tex'
 
 set xlabel "mergejoins"
-set ylabel "selectivity"
+set ylabel "selectivity" offset 4,0,0
+set cblabel "optimal partitions"
 
 set style textbox opaque noborder
 set datafile separator ','
@@ -46,10 +47,15 @@ set xtics ($(cat plot.XLabels))
 unset ytics
 set ytics format " "
 set ytics ($(cat plot.YLabels))
-
-plot 'contour.csv' u 1:2 w l lw 1.5 notitle, 'plot.csv' u 1:2:3 w labels boxed notitle
+set palette model RGB maxcolors 5
+set palette defined ( 0 0.5 0.5 0.5, 1 1 1 1 )
+set logscale cb 2
+set cbrange [0.75:24]
+plot	'plot.map' matrix with image notitle, \
+	'plot.csv' u 1:2:3 w labels notitle
 
 EOF
 
 rm -rf contour.csv contour.tmp plot.map plot.csv plot.XLabels plot.YLabels log
 done
+#	'contour.csv' u 1:2 w l lw 1.5 notitle,

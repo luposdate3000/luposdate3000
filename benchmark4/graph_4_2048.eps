@@ -1,9 +1,9 @@
 %!PS-Adobe-2.0 EPSF-2.0
 %%Title: graph_4_2048.tex
 %%Creator: gnuplot 5.2 patchlevel 8
-%%CreationDate: Fri Dec  4 09:52:02 2020
+%%CreationDate: Mon Dec  7 14:12:40 2020
 %%DocumentFonts: 
-%%BoundingBox: 50 50 410 302
+%%BoundingBox: 50 50 616 333
 %%EndComments
 %%BeginProlog
 /gnudict 256 dict def
@@ -43,7 +43,7 @@ gnudict begin
 /vpt vpt_ def
 /doclip {
   ClipToBoundingBox {
-    newpath 50 50 moveto 410 50 lineto 410 302 lineto 50 302 lineto closepath
+    newpath 50 50 moveto 616 50 lineto 616 333 lineto 50 333 lineto closepath
     clip
   } if
 } def
@@ -441,7 +441,7 @@ SDict begin [
   /Creator (gnuplot 5.2 patchlevel 8)
 %  /Producer (gnuplot)
 %  /Keywords ()
-  /CreationDate (Fri Dec  4 09:52:02 2020)
+  /CreationDate (Mon Dec  7 14:12:40 2020)
   /DOCINFO pdfmark
 end
 } ifelse
@@ -481,211 +481,243 @@ doclip
 0.050 0.050 scale
 0 setgray
 newpath
+gsave % colour palette begin
+/maxcolors 5 def
+/HSV2RGB {  exch dup 0.0 eq {pop exch pop dup dup} % achromatic gray
+  { /HSVs exch def /HSVv exch def 6.0 mul dup floor dup 3 1 roll sub
+     /HSVf exch def /HSVi exch cvi def /HSVp HSVv 1.0 HSVs sub mul def
+	 /HSVq HSVv 1.0 HSVs HSVf mul sub mul def 
+	 /HSVt HSVv 1.0 HSVs 1.0 HSVf sub mul sub mul def
+	 /HSVi HSVi 6 mod def 0 HSVi eq {HSVv HSVt HSVp}
+	 {1 HSVi eq {HSVq HSVv HSVp}{2 HSVi eq {HSVp HSVv HSVt}
+	 {3 HSVi eq {HSVp HSVq HSVv}{4 HSVi eq {HSVt HSVp HSVv}
+	 {HSVv HSVp HSVq} ifelse} ifelse} ifelse} ifelse} ifelse
+  } ifelse} def
+/Constrain {
+  dup 0 lt {0 exch pop}{dup 1 gt {1 exch pop} if} ifelse} def
+/CMY2RGB {  1 exch sub exch 1 exch sub 3 2 roll 1 exch sub 3 1 roll exch } def
+/XYZ2RGB {  3 copy -0.9017 mul exch -0.1187 mul add exch 0.0585 mul exch add
+  Constrain 4 1 roll 3 copy -0.0279 mul exch 1.999 mul add exch
+  -0.9844 mul add Constrain 5 1 roll -0.2891 mul exch -0.5338 mul add
+  exch 1.91 mul exch add Constrain 3 1 roll} def
+/SelectSpace {ColorSpace (HSV) eq {HSV2RGB}{ColorSpace (XYZ) eq {
+  XYZ2RGB}{ColorSpace (CMY) eq {CMY2RGB}{ColorSpace (YIQ) eq {YIQ2RGB}
+  if} ifelse} ifelse} ifelse} def
+/InterpolatedColor true def
+/grayindex {/gidx 0 def
+  {GrayA gidx get grayv ge {exit} if /gidx gidx 1 add def} loop} def
+/dgdx {grayv GrayA gidx get sub GrayA gidx 1 sub get
+  GrayA gidx get sub div} def 
+/redvalue {RedA gidx get RedA gidx 1 sub get
+  RedA gidx get sub dgdxval mul add} def
+/greenvalue {GreenA gidx get GreenA gidx 1 sub get
+  GreenA gidx get sub dgdxval mul add} def
+/bluevalue {BlueA gidx get BlueA gidx 1 sub get
+  BlueA gidx get sub dgdxval mul add} def
+/interpolate {
+  grayindex grayv GrayA gidx get sub abs 1e-5 le
+    {RedA gidx get GreenA gidx get BlueA gidx get}
+    {/dgdxval dgdx def redvalue greenvalue bluevalue} ifelse} def
+/GrayA [0 1 ] def
+/RedA [.5 1 ] def
+/GreenA [.5 1 ] def
+/BlueA [.5 1 ] def
+/pm3dround {maxcolors 0 gt {dup 1 ge
+	{pop 1} {maxcolors mul floor maxcolors 1 sub div} ifelse} if} def
+/pm3dGamma 1.0 1.5 Gamma mul div def
+/ColorSpace (RGB) def
+Color InterpolatedColor or { % COLOUR vs. GRAY map
+  InterpolatedColor { %% Interpolation vs. RGB-Formula
+    /g {stroke pm3dround /grayv exch def interpolate
+        SelectSpace setrgbcolor} bind def
+  }{
+  /g {stroke pm3dround dup cF7 Constrain exch dup cF5 Constrain exch cF15 Constrain 
+       SelectSpace setrgbcolor} bind def
+  } ifelse
+}{
+  /g {stroke pm3dround pm3dGamma exp setgray} bind def
+} ifelse
 1.000 UL
 LTb
 LCb setrgbcolor
 [] 0 setdash
-1474 818 M
+1474 836 M
 63 0 V
-5266 0 R
+8048 0 R
 -63 0 V
 stroke
 LTb
-1474 1047 M
+1474 1099 M
 63 0 V
-5266 0 R
+8048 0 R
 -63 0 V
 stroke
-1474 1276 M
+1474 1363 M
 63 0 V
-5266 0 R
+8048 0 R
 -63 0 V
 stroke
-1474 1504 M
+1474 1626 M
 63 0 V
-5266 0 R
+8048 0 R
 -63 0 V
 stroke
-1474 1733 M
+1474 1890 M
 63 0 V
-5266 0 R
+8048 0 R
 -63 0 V
 stroke
-1474 1961 M
+1474 2153 M
 63 0 V
-5266 0 R
+8048 0 R
 -63 0 V
 stroke
-1474 2190 M
+1474 2417 M
 63 0 V
-5266 0 R
+8048 0 R
 -63 0 V
 stroke
-1474 2419 M
+1474 2680 M
 63 0 V
-5266 0 R
+8048 0 R
 -63 0 V
 stroke
-1474 2647 M
+1474 2944 M
 63 0 V
-5266 0 R
+8048 0 R
 -63 0 V
 stroke
-1474 2876 M
+1474 3207 M
 63 0 V
-5266 0 R
+8048 0 R
 -63 0 V
 stroke
-1474 3104 M
+1474 3471 M
 63 0 V
-5266 0 R
+8048 0 R
 -63 0 V
 stroke
-1474 3333 M
+1474 3734 M
 63 0 V
-5266 0 R
+8048 0 R
 -63 0 V
 stroke
-1474 3562 M
+1474 3998 M
 63 0 V
-5266 0 R
+8048 0 R
 -63 0 V
 stroke
-1474 3790 M
+1474 4261 M
 63 0 V
-5266 0 R
+8048 0 R
 -63 0 V
 stroke
-1474 4019 M
+1474 4525 M
 63 0 V
-5266 0 R
+8048 0 R
 -63 0 V
 stroke
-1474 4247 M
+1474 4788 M
 63 0 V
-5266 0 R
+8048 0 R
 -63 0 V
 stroke
-1474 4476 M
+1474 5052 M
 63 0 V
-5266 0 R
+8048 0 R
 -63 0 V
 stroke
-1474 4705 M
+1474 5315 M
 63 0 V
-5266 0 R
+8048 0 R
 -63 0 V
 stroke
-2007 704 M
+2285 704 M
 0 63 V
-0 4052 R
+0 4680 R
 0 -63 V
 stroke
-3073 704 M
+3907 704 M
 0 63 V
-0 4052 R
+0 4680 R
 0 -63 V
 stroke
-4139 704 M
+5530 704 M
 0 63 V
-0 4052 R
+0 4680 R
 0 -63 V
 stroke
-5204 704 M
+7152 704 M
 0 63 V
-0 4052 R
+0 4680 R
 0 -63 V
 stroke
-6270 704 M
+8774 704 M
 0 63 V
-0 4052 R
+0 4680 R
 0 -63 V
 stroke
 1.000 UL
 LTb
-1474 4819 N
-0 -4115 V
-5329 0 V
-0 4115 V
--5329 0 V
+1474 5447 N
+0 -4743 V
+8111 0 V
+0 4743 V
+-8111 0 V
 Z stroke
 1.000 UP
 1.000 UL
 LTb
 % Begin plot #1
-1.500 UL
+1.000 UL
 LTb
 0.58 0.00 0.83 C
-6270 1990 M
--133 -29 V
-5204 1761 L
--266 -28 V
-4139 1561 L
--533 -57 V
-3073 1390 L
-2540 1276 L
-0 -229 V
-2007 933 L
-0 1066 R
-178 -38 V
-888 -190 V
-533 -38 V
-533 -57 V
-266 57 V
-799 85 V
-666 143 V
-400 86 V
-0 486 R
--35 -114 V
-35 -39 V
-2007 2114 M
-710 -153 V
-356 -76 V
-1066 -38 V
-1065 57 V
-267 57 V
-799 172 V
-0 629 R
-6092 2647 L
-36 -228 V
-142 -153 V
-0 953 R
-5737 3104 L
-355 -228 V
-5560 2647 L
-355 -228 V
-5737 2190 L
-5204 2076 L
--1065 0 V
--533 114 V
--533 114 V
--533 115 V
-0 228 V
--533 115 V
-5204 2561 M
-4538 2419 L
-666 -143 V
-356 143 V
--356 142 V
-0 458 R
-4538 2876 L
-666 -143 V
-444 143 V
--444 143 V
-2007 3876 M
-400 -86 V
-666 -143 V
-399 -85 V
-667 -143 V
-399 -86 V
-666 -143 V
-666 143 V
-0 229 V
-0 228 V
-400 86 V
--400 829 R
-400 -86 V
-stroke
+%%%%BeginImage
+gsave 1474 5447 N 1474 704 L 9585 704 L 9585 5447 L Z clip
+InterpretLevel1 {
+  %% Construct a box instead of image
+  LTb
+  1474 5447 M
+  8111 0 V
+  0 -4743 V
+  -8111 0 V
+  1474 5447 L
+  40 -110 R
+  (PS level 2 image) Lshow
+  % Read data but ignore it
+  /imagebuf 62 string def
+  currentfile imagebuf readstring
+} {
+gsave
+1474 5447 translate
+8111 -4743 scale
+%%%%BeginPalette
+[ /Indexed
+  /DeviceRGB 4
+  <
+   808080 9f9f9f bfbfbf dfdfdf ffffff
+  >
+] setcolorspace
+%%%%EndPalette
+<<
+  /ImageType 1
+  /Width 5
+  /Height 18
+  /BitsPerComponent 4
+  /ImageMatrix [ 5 0 0 18 0 0 ]
+  /Decode [ 0 15 ]
+  /DataSource currentfile /ASCII85Decode filter
+  /MultipleDataSources false
+  /Interpolate false
+>>
+image
+} ifelse
+6pr^s6pO..5X\"*1dj#R6ngDR0JbL-1Gg4!1Ctcf!$X3A![7UE&-)\1zz!!!~>
+InterpretLevel1 not {
+  grestore
+} if
+grestore
+%%%%EndImage
 LTw
 % End plot #1
 % Begin plot #2
@@ -694,163 +726,66 @@ LTb
 LCb setrgbcolor
 [] 0 setdash
 1.000 UP
-LCw setrgbcolor
-LCb setrgbcolor
-LCw setrgbcolor
-LCb setrgbcolor
-LCw setrgbcolor
-LCb setrgbcolor
-LCw setrgbcolor
-LCb setrgbcolor
-LCw setrgbcolor
-LCb setrgbcolor
-LCw setrgbcolor
-LCb setrgbcolor
-LCw setrgbcolor
-LCb setrgbcolor
-LCw setrgbcolor
-LCb setrgbcolor
-LCw setrgbcolor
-LCb setrgbcolor
-LCw setrgbcolor
-LCb setrgbcolor
-LCw setrgbcolor
-LCb setrgbcolor
-LCw setrgbcolor
-LCb setrgbcolor
-LCw setrgbcolor
-LCb setrgbcolor
-LCw setrgbcolor
-LCb setrgbcolor
-LCw setrgbcolor
-LCb setrgbcolor
-LCw setrgbcolor
-LCb setrgbcolor
-LCw setrgbcolor
-LCb setrgbcolor
-LCw setrgbcolor
-LCb setrgbcolor
-LCw setrgbcolor
-LCb setrgbcolor
-LCw setrgbcolor
-LCb setrgbcolor
-LCw setrgbcolor
-LCb setrgbcolor
-LCw setrgbcolor
-LCb setrgbcolor
-LCw setrgbcolor
-LCb setrgbcolor
-LCw setrgbcolor
-LCb setrgbcolor
-LCw setrgbcolor
-LCb setrgbcolor
-LCw setrgbcolor
-LCb setrgbcolor
-LCw setrgbcolor
-LCb setrgbcolor
-LCw setrgbcolor
-LCb setrgbcolor
-LCw setrgbcolor
-LCb setrgbcolor
-LCw setrgbcolor
-LCb setrgbcolor
-LCw setrgbcolor
-LCb setrgbcolor
-LCw setrgbcolor
-LCb setrgbcolor
-LCw setrgbcolor
-LCb setrgbcolor
-LCw setrgbcolor
-LCb setrgbcolor
-LCw setrgbcolor
-LCb setrgbcolor
-LCw setrgbcolor
-LCb setrgbcolor
-LCw setrgbcolor
-LCb setrgbcolor
-LCw setrgbcolor
-LCb setrgbcolor
-LCw setrgbcolor
-LCb setrgbcolor
-LCw setrgbcolor
-LCb setrgbcolor
-LCw setrgbcolor
-LCb setrgbcolor
-LCw setrgbcolor
-LCb setrgbcolor
-LCw setrgbcolor
-LCb setrgbcolor
-LCw setrgbcolor
-LCb setrgbcolor
-LCw setrgbcolor
-LCb setrgbcolor
-LCw setrgbcolor
-LCb setrgbcolor
-LCw setrgbcolor
-LCb setrgbcolor
-LCw setrgbcolor
-LCb setrgbcolor
-LCw setrgbcolor
-LCb setrgbcolor
-LCw setrgbcolor
-LCb setrgbcolor
-LCw setrgbcolor
-LCb setrgbcolor
-LCw setrgbcolor
-LCb setrgbcolor
-LCw setrgbcolor
-LCb setrgbcolor
-LCw setrgbcolor
-LCb setrgbcolor
-LCw setrgbcolor
-LCb setrgbcolor
-LCw setrgbcolor
-LCb setrgbcolor
-LCw setrgbcolor
-LCb setrgbcolor
-LCw setrgbcolor
-LCb setrgbcolor
-LCw setrgbcolor
-LCb setrgbcolor
-LCw setrgbcolor
-LCb setrgbcolor
-LCw setrgbcolor
-LCb setrgbcolor
-LCw setrgbcolor
-LCb setrgbcolor
-LCw setrgbcolor
-LCb setrgbcolor
-LCw setrgbcolor
-LCb setrgbcolor
-LCw setrgbcolor
-LCb setrgbcolor
-LCw setrgbcolor
-LCb setrgbcolor
-LCw setrgbcolor
-LCb setrgbcolor
-LCw setrgbcolor
-LCb setrgbcolor
-LCw setrgbcolor
-LCb setrgbcolor
-LCw setrgbcolor
-LCb setrgbcolor
-LCw setrgbcolor
-LCb setrgbcolor
 LTw
 % End plot #2
 2.000 UL
 LTb
 1.000 UL
 LTb
-1474 4819 N
-0 -4115 V
-5329 0 V
-0 4115 V
--5329 0 V
+1474 5447 N
+0 -4743 V
+8111 0 V
+0 4743 V
+-8111 0 V
 Z stroke
-1.000 UP
+stroke gsave	%% draw gray scale smooth box
+maxcolors 0 gt {/imax maxcolors def} {/imax 1024 def} ifelse
+9788 704 translate 405 4743 scale 0 setlinewidth
+/ystep 1 imax div def /y0 0 def /ii 0 def
+{ y0 g 0 y0 N 1 0 V 0 ystep V -1 0 f
+/y0 y0 ystep add def /ii ii 1 add def
+ii imax ge {exit} if } loop
+grestore 0 setgray
 1.000 UL
 LTb
+9788 704 N
+405 0 V
+0 4743 V
+-405 0 V
+0 -4743 V
+Z stroke
+1.000 UL
+LTb
+1.000 UL
+LTb
+10193 1097 M
+-63 0 V
+stroke
+9788 1097 M
+63 0 V
+342 949 R
+-63 0 V
+stroke
+9788 2046 M
+63 0 V
+342 948 R
+-63 0 V
+stroke
+9788 2994 M
+63 0 V
+342 949 R
+-63 0 V
+stroke
+9788 3943 M
+63 0 V
+342 949 R
+-63 0 V
+stroke
+9788 4892 M
+63 0 V
+1.000 UP
+stroke
+grestore % colour palette end
 stroke
 grestore
 end

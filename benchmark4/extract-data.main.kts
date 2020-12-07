@@ -1,6 +1,7 @@
 #!/usr/bin/env kotlin
 import java.io.File
 import kotlin.math.log2
+import java.text.DecimalFormat
 
 val data = mutableMapOf<Int/*trash or join*/, MutableMap<Int/*joincount*/, MutableMap<Int/*partitions*/, Double>>>()
 val data_trash_or_join = mutableSetOf<Int>(
@@ -162,14 +163,22 @@ File("plot.map").printWriter().use { outMap ->
                 if (tt != null) {
                     var max = 0.0
                     var maxi = -1
+var seq=-1.0
                     for ((k, v) in tt) {
+if(k==1){
+seq=v
+}
                         if (v > max*0.9) {
                             max = v
                             maxi = k
                         }
                     }
+if(seq<0.0){
+seq=max
+}
                     row = "$row,${maxi.toString().padStart(4, ' ')}"
-                    outCsv.println("$j,$i,$maxi")
+var max_seq=if(max/seq<1.0) 1.0 else max/seq
+                    outCsv.println("$j,$i,$maxi; ${doubleToString(max_seq)}; ${doubleToString(seq)}/s")
                 } else {
                     row = "$row,   0"
                 }
@@ -179,6 +188,10 @@ File("plot.map").printWriter().use { outMap ->
             i++
         }
     }
+}
+
+inline fun doubleToString(d:Double):String{
+return DecimalFormat("#.##").format(d)
 }
 
 println("-------------------")
