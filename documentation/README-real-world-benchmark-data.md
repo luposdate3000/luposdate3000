@@ -5,19 +5,27 @@ Some of these datasets are already used in scientific publications (not all of t
 
 These datasets are not required to run the database, but can be used to evaluate your own implementations.
 
-| Dataset | Size  |
-| :------ | ----: |
-| barton  | 4.7G  |
-| btc2010 | 624GB |
-| btc2019 | 47GB  |
-| yago1   | 1.5GB |
-| yago2   | 8.4GB |
-| yago2s  | 9.5GB |
-| yago3   | 11GB  |
-| yago4   |     ? |
+| Dataset | Size (turtle) | Size (intermediate) |
+| :------ | ------------: | ------------------: |
+| barton  |        4.7 GB | ???                 |
+| btc2010 |      624.0 GB | ???                 |
+| btc2019 |       47.0 GB |              8.8 GB |
+| yago1   |        1.5 GB |              0.5 GB |
+| yago2   |        8.4 GB |              2.7 GB |
+| yago2s  |        9.5 GB |              3.0 GB |
+| yago3   |       11.0 GB |              3.6 GB |
+| yago4   |      474.0 GB | ???                 |
 
 Currently luposdate3000 is inmemory only, which means, you can only load benchmarks files, which are smaller than your available RAM.
+The size in the "intermediate" column should give you an idea how large the dataset is, when using a dictionary.
+These intermediate files are generated using "./exec-import.main.kts turtle-file-name.nt"
+The numbers are much smaller than the original size.
+Of course you need some additional memory to evaluate queries on these datasets.
+The intermediate size "???" means, that I have not completely loaded that dataset currently.
 
+Some datasets contain invalid data as for example btc2019 contains the "OgtbbJctXNk"^^<http://www.w3.org/2001/XMLSchema#integer> - which is obviously not a number.
+In these cases I 'fix' those errors by removing the type specifier - or if possible change it to something useful as for example "decimal".
+Additionally there are lot of "dateTime" entries, which are not formatted according to the specification - I fixed these to match the intended "date" as close as possible.
 
 You can copy paste execute the following script.
 However, there are some commands (with comments), which will run until your disk-space is consumed.
@@ -116,10 +124,12 @@ Make sure you read the following comments.
 }
 #yago4
 {
-#work in progress
-#    cd /mnt/luposdate-testdata
-#    mkdir yago4
-#    wget -r https://yago-knowledge.org/data/yago4/full/2020-02-24/
+    cd /mnt/luposdate-testdata
+    mkdir yago4
+    wget -r https://yago-knowledge.org/data/yago4/full/2020-02-24/
+    gzip -d yago-knowledge.org/data/yago4/full/2020-02-24/*.gz
+    mv yago-knowledge.org/data/yago4/full/2020-02-24/*.nt .
+    rm -rf yago-knowledge.org
 }
 #barton
 {
