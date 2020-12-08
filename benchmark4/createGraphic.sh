@@ -27,7 +27,7 @@ gnuplot << EOF
 
 #set terminal png size 1920,1080
 #set output 'graph_4_${outputcount}.png'
-set terminal epslatex size 20cm,10cm
+set terminal epslatex size 20cm,8cm
 set output 'graph_4_${outputcount}.tex'
 
 set xlabel "mergejoins"
