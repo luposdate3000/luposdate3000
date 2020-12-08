@@ -4,6 +4,7 @@ import kotlin.jvm.JvmField
 import lupos.s03resultRepresentation.ResultSetDictionaryExt
 
 object ColumnIteratorMultiValue {
+    operator fun invoke(values: IntArray): ColumnIteratorMultiValue3 = ColumnIteratorMultiValue3(values, values.size)
     operator fun invoke(values: IntArray, size: Int): ColumnIteratorMultiValue3 = ColumnIteratorMultiValue3(values, size)
     operator fun invoke(values: MutableList<Int>): ColumnIteratorMultiValue1 = ColumnIteratorMultiValue1(values)
     operator fun invoke(iterator: Iterator<Int>): ColumnIteratorMultiValue2 = ColumnIteratorMultiValue2(iterator)

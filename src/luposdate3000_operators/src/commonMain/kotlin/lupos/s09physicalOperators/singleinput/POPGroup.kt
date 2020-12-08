@@ -2,7 +2,7 @@ package lupos.s09physicalOperators.singleinput
 
 import kotlin.jvm.JvmField
 import lupos.s00misc.EOperatorID
-import lupos.s00misc.ESortPriority
+import lupos.s00misc.*
 import lupos.s00misc.GroupByColumnMissing
 import lupos.s00misc.GroupByDuplicateColumnException
 import lupos.s00misc.Partition
@@ -10,7 +10,7 @@ import lupos.s00misc.SanityCheck
 import lupos.s00misc.SortHelper
 import lupos.s00misc.VariableNotDefinedSyntaxException
 import lupos.s00misc.XMLElement
-import lupos.s03resultRepresentation.ResultSetDictionaryExt
+import lupos.s03resultRepresentation.*
 import lupos.s04arithmetikOperators.*
 import lupos.s04arithmetikOperators.singleinput.*
 import lupos.s04arithmetikOperators.noinput.*
@@ -30,23 +30,24 @@ import lupos.s09physicalOperators.POPBase
 //TODO refactor such that the optimizer may choose which strategy to use
 
 class POPGroup : POPBase {
-override fun getPossibleSortPriorities(): List<List<SortHelper>> {
+    override fun getPossibleSortPriorities(): List<List<SortHelper>> {
         /*possibilities for_ next operator*/
         val res = mutableListOf<List<SortHelper>>()
-val provided = by.map{it.name}
-                for (x in children[0].getPossibleSortPriorities()) {
-                    val tmp = mutableListOf<SortHelper>()
-                    for (v in x) {
-                        if (provided.contains(v.variableName)) {
-                            tmp.add(v)
-                        } else {
-                            break
-                        }
-                    }
-                    addToPrefixFreeList(tmp, res)
+        val provided = by.map { it.name }
+        for (x in children[0].getPossibleSortPriorities()) {
+            val tmp = mutableListOf<SortHelper>()
+            for (v in x) {
+                if (provided.contains(v.variableName)) {
+                    tmp.add(v)
+                } else {
+                    break
                 }
-return res
-}
+            }
+            addToPrefixFreeList(tmp, res)
+        }
+        return res
+    }
+
     override fun getPartitionCount(variable: String): Int {
         SanityCheck.check { children[0].getPartitionCount(variable) == 1 }
         return 1
@@ -196,9 +197,9 @@ return res
             }
         }
         val valueColumns = Array(valueColumnNames.size) { child.columns[valueColumnNames[it]]!! }
-println("evaluate POPGroup ${valueColumnNames.map{it}} ${keyColumnNames.map{it}}")
+        println("evaluate POPGroup ${valueColumnNames.map { it }} ${keyColumnNames.map { it }}")
         if (keyColumnNames.isEmpty()) {
-println("case 'keyColumnNames.isEmpty()'")
+            println("case 'keyColumnNames.isEmpty()'")
             SanityCheck.println { "group mode a" }
             val localMap = mutableMapOf<String, ColumnIterator>()
             val localColumns = Array<ColumnIteratorQueue>(valueColumnNames.size) { ColumnIteratorQueueEmpty() }
@@ -246,19 +247,19 @@ println("case 'keyColumnNames.isEmpty()'")
             val tmpSortPriority = children[0].getMySortPriority().map { it.variableName }
             var canUseSortedInput = true
             if ((!localVariables.containsAll(keyColumnNames.toMutableList())) || (tmpSortPriority.size < keyColumnNames.size)) {
-println("not sorted because a ${!localVariables.containsAll(keyColumnNames.toMutableList())} ${tmpSortPriority.size < keyColumnNames.size}")
+                println("not sorted because a ${!localVariables.containsAll(keyColumnNames.toMutableList())} ${tmpSortPriority.size < keyColumnNames.size}")
                 canUseSortedInput = false
             } else {
                 for (element in keyColumnNames) {
                     if (!tmpSortPriority.contains(element)) {
-println("not sorted because b")
+                        println("not sorted because b")
                         canUseSortedInput = false
                         break
                     }
                 }
             }
             if (canUseSortedInput) {
-println("case 'canUseSortedInput'")
+                println("case 'canUseSortedInput'")
                 SanityCheck.println { "group mode b" }
                 var currentKey = IntArray(keyColumnNames.size) { ResultSetDictionaryExt.undefValue }
                 var nextKey: IntArray? = null
@@ -430,85 +431,113 @@ println("case 'canUseSortedInput'")
                     }
                 }
             } else {
-if(bindings.size==1 && bindings.toList().first().second is AOPAggregationCOUNT){
-println("case 'count only' ${valueColumnNames.map{it}} ${keyColumnNames.map{it}}")
-throw Exception("todo")
-}else{
-println("case 'generic'")
-
-                SanityCheck.println { "group mode c" }
-                val map = mutableMapOf<MapKey, MapRow>()
-                loop@ while (true) {
-                    val currentKey = IntArray(keyColumnNames.size) { ResultSetDictionaryExt.undefValue }
-                    for (columnIndex in keyColumnNames.indices) {
-                        val value = keyColumns[columnIndex].next()
+                if (bindings.size == 1 && bindings.toList().first().second is AOPAggregationCOUNT
+//simplicity ->
+                        && keyColumnNames.size == 1 && valueColumnNames.size == 0
+//<- simplicity
+                ) {
+                    println("case 'count only' ${valueColumnNames.map { it }} ${keyColumnNames.map { it }}")
+                    var iterator = keyColumns[0]
+                    var map = mutableMapOf<Int, Int>()
+                    while (true) {
+                        var value = iterator.next()
                         if (value == ResultSetDictionaryExt.nullValue) {
-                            for (element in keyColumns) {
-                                element.close()
-                            }
-                            for (element in valueColumns) {
-                                element.close()
-                            }
-                            SanityCheck.check { columnIndex == 0 }
-                            break@loop
+                            iterator.close()
+                            break
                         }
-                        currentKey[columnIndex] = value
+                        val v = map[value]
+                        if (v == null) {
+                            map[value] = 1
+                        } else {
+                            map[value] = v + 1
+                        }
                     }
-                    val key = MapKey(currentKey)
-                    var localRow = map[key]
-                    if (localRow == null) {
-                        val localMap = mutableMapOf<String, ColumnIterator>()
-                        val localColumns = Array<ColumnIteratorQueue>(valueColumnNames.size) { ColumnIteratorQueueEmpty() }
+                    val arrK = IntArray(map.size)
+                    val arrV = IntArray(map.size)
+                    var i = 0
+                    val dict = query.getDictionary()
+                    for ((k, v) in map) {
+                        arrK[i] = k
+                        arrV[i] = dict.createValue(ValueInteger(MyBigInteger(v)))
+                        i++
+                    }
+                    outMap[keyColumnNames[0]] = ColumnIteratorMultiValue(arrK, arrK.size)
+                    outMap[bindings.toList().first().first] = ColumnIteratorMultiValue(arrV, arrV.size)
+                } else {
+                    println("case 'generic'")
+                    SanityCheck.println { "group mode c" }
+                    val map = mutableMapOf<MapKey, MapRow>()
+                    loop@ while (true) {
+                        val currentKey = IntArray(keyColumnNames.size) { ResultSetDictionaryExt.undefValue }
                         for (columnIndex in keyColumnNames.indices) {
-                            val tmp = ColumnIteratorQueueEmpty()
-                            tmp.tmp = currentKey[columnIndex]
-                            localMap[keyColumnNames[columnIndex]] = tmp
+                            val value = keyColumns[columnIndex].next()
+                            if (value == ResultSetDictionaryExt.nullValue) {
+                                for (element in keyColumns) {
+                                    element.close()
+                                }
+                                for (element in valueColumns) {
+                                    element.close()
+                                }
+                                SanityCheck.check { columnIndex == 0 }
+                                break@loop
+                            }
+                            currentKey[columnIndex] = value
+                        }
+                        val key = MapKey(currentKey)
+                        var localRow = map[key]
+                        if (localRow == null) {
+                            val localMap = mutableMapOf<String, ColumnIterator>()
+                            val localColumns = Array<ColumnIteratorQueue>(valueColumnNames.size) { ColumnIteratorQueueEmpty() }
+                            for (columnIndex in keyColumnNames.indices) {
+                                val tmp = ColumnIteratorQueueEmpty()
+                                tmp.tmp = currentKey[columnIndex]
+                                localMap[keyColumnNames[columnIndex]] = tmp
+                            }
+                            for (columnIndex in 0 until valueColumnNames.size) {
+                                localMap[valueColumnNames[columnIndex]] = localColumns[columnIndex]
+                            }
+                            val row = IteratorBundle(localMap)
+                            val localAggregations = Array(aggregations.size) {
+                                val tmp = aggregations[it].createIterator(row)
+                                localMap["#" + aggregations[it].uuid] = tmp
+                                tmp
+                            }
+                            localRow = MapRow(row, localAggregations, localColumns)
+                            map[key] = localRow
                         }
                         for (columnIndex in 0 until valueColumnNames.size) {
-                            localMap[valueColumnNames[columnIndex]] = localColumns[columnIndex]
+                            localRow.columns[columnIndex].tmp = valueColumns[columnIndex].next()
                         }
-                        val row = IteratorBundle(localMap)
-                        val localAggregations = Array(aggregations.size) {
-                            val tmp = aggregations[it].createIterator(row)
-                            localMap["#" + aggregations[it].uuid] = tmp
-                            tmp
+                        for (aggregate in localRow.aggregates) {
+                            aggregate.evaluate()
                         }
-                        localRow = MapRow(row, localAggregations, localColumns)
-                        map[key] = localRow
                     }
-                    for (columnIndex in 0 until valueColumnNames.size) {
-                        localRow.columns[columnIndex].tmp = valueColumns[columnIndex].next()
-                    }
-                    for (aggregate in localRow.aggregates) {
-                        aggregate.evaluate()
-                    }
-                }
-                if (map.isEmpty()) {
-                    for (v in keyColumnNames) {
-                        outMap[v] = ColumnIteratorRepeatValue(1, ResultSetDictionaryExt.undefValue)
-                    }
-                    for ((first) in bindings) {
-                        outMap[first] = ColumnIteratorRepeatValue(1, ResultSetDictionaryExt.undefValue)
-                    }
-                } else {
-                    val outKeys = Array(keyColumnNames.size) { mutableListOf<Int>() }
-                    val outValues = Array(bindings.size) { mutableListOf<Int>() }
-                    for ((k, v) in map) {
+                    if (map.isEmpty()) {
+                        for (v in keyColumnNames) {
+                            outMap[v] = ColumnIteratorRepeatValue(1, ResultSetDictionaryExt.undefValue)
+                        }
+                        for ((first) in bindings) {
+                            outMap[first] = ColumnIteratorRepeatValue(1, ResultSetDictionaryExt.undefValue)
+                        }
+                    } else {
+                        val outKeys = Array(keyColumnNames.size) { mutableListOf<Int>() }
+                        val outValues = Array(bindings.size) { mutableListOf<Int>() }
+                        for ((k, v) in map) {
+                            for (columnIndex in keyColumnNames.indices) {
+                                outKeys[columnIndex].add(k.data[columnIndex])
+                            }
+                            for (columnIndex in 0 until bindings.size) {
+                                outValues[columnIndex].add(query.getDictionary().createValue(bindings[columnIndex].second.evaluate(v.iterators)()))
+                            }
+                        }
                         for (columnIndex in keyColumnNames.indices) {
-                            outKeys[columnIndex].add(k.data[columnIndex])
+                            outMap[keyColumnNames[columnIndex]] = ColumnIteratorMultiValue(outKeys[columnIndex])
                         }
                         for (columnIndex in 0 until bindings.size) {
-                            outValues[columnIndex].add(query.getDictionary().createValue(bindings[columnIndex].second.evaluate(v.iterators)()))
+                            outMap[bindings[columnIndex].first] = ColumnIteratorMultiValue(outValues[columnIndex])
                         }
                     }
-                    for (columnIndex in keyColumnNames.indices) {
-                        outMap[keyColumnNames[columnIndex]] = ColumnIteratorMultiValue(outKeys[columnIndex])
-                    }
-                    for (columnIndex in 0 until bindings.size) {
-                        outMap[bindings[columnIndex].first] = ColumnIteratorMultiValue(outValues[columnIndex])
-                    }
-      }
-          }
+                }
             }
         }
         return IteratorBundle(outMap)
