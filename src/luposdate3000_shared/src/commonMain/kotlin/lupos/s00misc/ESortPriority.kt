@@ -8,5 +8,6 @@ enum class ESortPriority {
     MINUS,
     UNION,
     BIND,
-    SORT
+    SORT,
+GROUP
 }

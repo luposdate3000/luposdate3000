@@ -44,7 +44,6 @@ class LogicalOptimizerColumnSortOrder(query: Query) : OptimizerBase(query, EOpti
                     }
                 }
                 if (flag) {
-                    var maxSize = 0
                     if (node.getChildren().isNotEmpty() && node !is LOPTriple) {
                         //filter only valid sort orders based on children, which may had an update
                         val tmp = mutableListOf<List<SortHelper>>()
@@ -79,6 +78,7 @@ class LogicalOptimizerColumnSortOrder(query: Query) : OptimizerBase(query, EOpti
                             onChange()
                         }
                     }
+                    var maxSize = 0
                     for (x in node.getSortPriorities()) {
                         if (x.size > maxSize) {
                             maxSize = x.size
@@ -95,6 +95,23 @@ class LogicalOptimizerColumnSortOrder(query: Query) : OptimizerBase(query, EOpti
                 }
             }
         }
+if(node.getSortPriorities().size>0 && node.getMySortPriority().size==0){
+//TODO debug why this is wrong ...
+var maxSize = 0
+for (x in node.getSortPriorities()) {
+                        if (x.size > maxSize) {
+                            maxSize = x.size
+                        }
+                    }
+                    if (maxSize > 0) {
+                        for (x in node.getSortPriorities()) {
+                            if (x.size == maxSize) {
+                                node.selectSortPriority(x)
+                                break
+                            }
+                        }
+                    }
+}
         return res
     }
 }

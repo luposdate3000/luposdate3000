@@ -11,9 +11,9 @@ import lupos.s00misc.SortHelper
 import lupos.s00misc.VariableNotDefinedSyntaxException
 import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.ResultSetDictionaryExt
-import lupos.s04arithmetikOperators.AOPAggregationBase
-import lupos.s04arithmetikOperators.AOPBase
-import lupos.s04arithmetikOperators.noinput.AOPVariable
+import lupos.s04arithmetikOperators.*
+import lupos.s04arithmetikOperators.singleinput.*
+import lupos.s04arithmetikOperators.noinput.*
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.ColumnIterator
@@ -27,7 +27,26 @@ import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.noinput.OPEmptyRow
 import lupos.s09physicalOperators.POPBase
 
+//TODO refactor such that the optimizer may choose which strategy to use
+
 class POPGroup : POPBase {
+override fun getPossibleSortPriorities(): List<List<SortHelper>> {
+        /*possibilities for_ next operator*/
+        val res = mutableListOf<List<SortHelper>>()
+val provided = by.map{it.name}
+                for (x in children[0].getPossibleSortPriorities()) {
+                    val tmp = mutableListOf<SortHelper>()
+                    for (v in x) {
+                        if (provided.contains(v.variableName)) {
+                            tmp.add(v)
+                        } else {
+                            break
+                        }
+                    }
+                    addToPrefixFreeList(tmp, res)
+                }
+return res
+}
     override fun getPartitionCount(variable: String): Int {
         SanityCheck.check { children[0].getPartitionCount(variable) == 1 }
         return 1
@@ -38,22 +57,6 @@ class POPGroup : POPBase {
 
     @JvmField
     var bindings: MutableList<Pair<String, AOPBase>> = mutableListOf()
-    override fun getPossibleSortPriorities(): List<List<SortHelper>> {
-        val res = mutableListOf<List<SortHelper>>()
-        val provided = Array(by.size) { by[it].name }
-        for (x in children[0].getPossibleSortPriorities()) {
-            val tmp = mutableListOf<SortHelper>()
-            for (v in x) {
-                if (provided.contains(v.variableName)) {
-                    tmp.add(v)
-                } else {
-                    break
-                }
-            }
-            addToPrefixFreeList(tmp, res)
-        }
-        return res
-    }
 
     override fun toSparql(): String {
         var res = children[0].toSparql()
@@ -79,7 +82,7 @@ class POPGroup : POPBase {
         }
     }
 
-    constructor(query: IQuery, projectedVariables: List<String>, by: List<AOPVariable>, bindings: POPBind?, child: IOPBase) : super(query, projectedVariables, EOperatorID.POPGroupID, "POPGroup", arrayOf(child), ESortPriority.PREVENT_ANY) {
+    constructor(query: IQuery, projectedVariables: List<String>, by: List<AOPVariable>, bindings: POPBind?, child: IOPBase) : super(query, projectedVariables, EOperatorID.POPGroupID, "POPGroup", arrayOf(child), ESortPriority.GROUP) {
         this.by = by
         var tmpBind: IOPBase? = bindings
         while (tmpBind != null && tmpBind is POPBind) {
@@ -89,7 +92,7 @@ class POPGroup : POPBase {
         this.bindings = this.bindings.asReversed()
     }
 
-    constructor(query: IQuery, projectedVariables: List<String>, by: List<AOPVariable>, bindings: List<Pair<String, AOPBase>>, child: IOPBase) : super(query, projectedVariables, EOperatorID.POPGroupID, "POPGroup", arrayOf(child), ESortPriority.PREVENT_ANY) {
+    constructor(query: IQuery, projectedVariables: List<String>, by: List<AOPVariable>, bindings: List<Pair<String, AOPBase>>, child: IOPBase) : super(query, projectedVariables, EOperatorID.POPGroupID, "POPGroup", arrayOf(child), ESortPriority.GROUP) {
         this.by = by
         this.bindings = bindings.toMutableList()
     }
@@ -193,7 +196,9 @@ class POPGroup : POPBase {
             }
         }
         val valueColumns = Array(valueColumnNames.size) { child.columns[valueColumnNames[it]]!! }
+println("evaluate POPGroup ${valueColumnNames.map{it}} ${keyColumnNames.map{it}}")
         if (keyColumnNames.isEmpty()) {
+println("case 'keyColumnNames.isEmpty()'")
             SanityCheck.println { "group mode a" }
             val localMap = mutableMapOf<String, ColumnIterator>()
             val localColumns = Array<ColumnIteratorQueue>(valueColumnNames.size) { ColumnIteratorQueueEmpty() }
@@ -240,17 +245,20 @@ class POPGroup : POPBase {
         } else {
             val tmpSortPriority = children[0].getMySortPriority().map { it.variableName }
             var canUseSortedInput = true
-            if ((!localVariables.containsAll(keyColumnNames.toMutableList())) || (children[0].getMySortPriority().size < keyColumnNames.size)) {
+            if ((!localVariables.containsAll(keyColumnNames.toMutableList())) || (tmpSortPriority.size < keyColumnNames.size)) {
+println("not sorted because a ${!localVariables.containsAll(keyColumnNames.toMutableList())} ${tmpSortPriority.size < keyColumnNames.size}")
                 canUseSortedInput = false
             } else {
                 for (element in keyColumnNames) {
                     if (!tmpSortPriority.contains(element)) {
+println("not sorted because b")
                         canUseSortedInput = false
                         break
                     }
                 }
             }
             if (canUseSortedInput) {
+println("case 'canUseSortedInput'")
                 SanityCheck.println { "group mode b" }
                 var currentKey = IntArray(keyColumnNames.size) { ResultSetDictionaryExt.undefValue }
                 var nextKey: IntArray? = null
@@ -422,6 +430,12 @@ class POPGroup : POPBase {
                     }
                 }
             } else {
+if(bindings.size==1 && bindings.toList().first().second is AOPAggregationCOUNT){
+println("case 'count only' ${valueColumnNames.map{it}} ${keyColumnNames.map{it}}")
+throw Exception("todo")
+}else{
+println("case 'generic'")
+
                 SanityCheck.println { "group mode c" }
                 val map = mutableMapOf<MapKey, MapRow>()
                 loop@ while (true) {
@@ -493,7 +507,8 @@ class POPGroup : POPBase {
                     for (columnIndex in 0 until bindings.size) {
                         outMap[bindings[columnIndex].first] = ColumnIteratorMultiValue(outValues[columnIndex])
                     }
-                }
+      }
+          }
             }
         }
         return IteratorBundle(outMap)

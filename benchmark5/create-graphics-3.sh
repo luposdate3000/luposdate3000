@@ -49,7 +49,7 @@ do
 			echo "tmp/makro_filtered_luposdate3000_${var_process}_${var_query}_r${var_result_rows}.csv"
 			if [ -f "tmp/makro_filtered_luposdate3000_${var_process}_${var_query}_r${var_result_rows}.csv" ]
 			then
-				echo "  'tmp/makro_filtered_luposdate3000_${var_process}_${var_query}_r${var_result_rows}.csv' using 1:2:3:4 with yerrorlines title 'luposdate3000($var_process)',\\" >> tmp/graph_3_r${var_result_rows}_${var_query}.plot
+				echo "  'tmp/makro_filtered_luposdate3000_${var_process}_${var_query}_r${var_result_rows}.csv' using 1:2:3:4 with yerrorlines title '\\textbf{luposdate3000($var_process)}',\\" >> tmp/graph_3_r${var_result_rows}_${var_query}.plot
 				i=1
 			fi
 		done
@@ -100,7 +100,7 @@ do
 			echo "tmp/makro_filtered_luposdate3000_${var_process}_${var_query}_t${var_trash}.csv"
 			if [ -f "tmp/makro_filtered_luposdate3000_${var_process}_${var_query}_t${var_trash}.csv" ]
 			then
-				echo "  'tmp/makro_filtered_luposdate3000_${var_process}_${var_query}_t${var_trash}.csv' using 1:2:3:4 with yerrorlines title 'luposdate3000($var_process)',\\" >> tmp/graph_3_t${var_trash}_${var_query}.plot
+				echo "  'tmp/makro_filtered_luposdate3000_${var_process}_${var_query}_t${var_trash}.csv' using 1:2:3:4 with yerrorlines title '\\textbf{luposdate3000($var_process)}',\\" >> tmp/graph_3_t${var_trash}_${var_query}.plot
 				i=1
 			fi
 		done

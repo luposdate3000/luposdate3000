@@ -236,7 +236,7 @@ abstract class OPBase(@JvmField val query: IQuery, @JvmField val operatorID: EOp
             }
         }
         sortPrioritiesInitialized = true
-        return sortPriorities.size <= 1
+        return sortPriorities.size < 1
     }
 
     override fun getPossibleSortPriorities(): List<List<SortHelper>> {
@@ -284,6 +284,9 @@ abstract class OPBase(@JvmField val query: IQuery, @JvmField val operatorID: EOp
                     addToPrefixFreeList(tmp, res)
                 }
             }
+ESortPriority.GROUP->{
+throw Exception("this should be overriden by the corresponding class")
+}
             ESortPriority.PREVENT_ANY, ESortPriority.UNION -> {
             }
             ESortPriority.SORT -> {

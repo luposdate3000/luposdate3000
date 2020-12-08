@@ -74,15 +74,27 @@ class PhysicalOptimizerNaive(query: Query) : OptimizerBase(query, EOptimizerID.P
                 }
                 is LOPGraphOperation -> {
                     res = POPGraphOperation(query, projectedVariables, node.silent, node.graph1type, node.graph1iri, node.graph2type, node.graph2iri, node.action)
+res.sortPriorities=node.sortPriorities
+res.mySortPriority=node.mySortPriority
+res.sortPrioritiesInitialized=node.sortPrioritiesInitialized                 
                 }
                 is LOPModify -> {
                     res = POPModify(query, projectedVariables, node.insert, node.delete, node.getChildren()[0])
+res.sortPriorities=node.sortPriorities
+res.mySortPriority=node.mySortPriority
+res.sortPrioritiesInitialized=node.sortPrioritiesInitialized                 
                 }
                 is LOPModifyData -> {
                     res = POPModifyData(query, projectedVariables, node.type, node.data)
+res.sortPriorities=node.sortPriorities
+res.mySortPriority=node.mySortPriority
+res.sortPrioritiesInitialized=node.sortPrioritiesInitialized                 
                 }
                 is LOPProjection -> {
                     res = POPProjection(query, projectedVariables, node.getChildren()[0])
+res.sortPriorities=node.sortPriorities
+res.mySortPriority=node.mySortPriority
+res.sortPrioritiesInitialized=node.sortPrioritiesInitialized                 
                 }
                 is LOPMakeBooleanResult -> {
                     res = if (node.getChildren()[0] is LOPProjection || node.getChildren()[0] is POPProjection) {
@@ -90,21 +102,39 @@ class PhysicalOptimizerNaive(query: Query) : OptimizerBase(query, EOptimizerID.P
                     } else {
                         POPMakeBooleanResult(query, projectedVariables, node.getChildren()[0])
                     }
+res.sortPriorities=node.sortPriorities
+res.mySortPriority=node.mySortPriority
+res.sortPrioritiesInitialized=node.sortPrioritiesInitialized                 
                 }
                 is LOPValues -> {
                     res = POPValues(query, projectedVariables, node)
+res.sortPriorities=node.sortPriorities
+res.mySortPriority=node.mySortPriority
+res.sortPrioritiesInitialized=node.sortPrioritiesInitialized                 
                 }
                 is LOPLimit -> {
                     res = POPLimit(query, projectedVariables, node.limit, node.getChildren()[0])
+res.sortPriorities=node.sortPriorities
+res.mySortPriority=node.mySortPriority
+res.sortPrioritiesInitialized=node.sortPrioritiesInitialized                 
                 }
                 is LOPReduced -> {
                     res = POPReduced(query, projectedVariables, node.getChildren()[0])
+res.sortPriorities=node.sortPriorities
+res.mySortPriority=node.mySortPriority
+res.sortPrioritiesInitialized=node.sortPrioritiesInitialized                 
                 }
                 is LOPOffset -> {
                     res = POPOffset(query, projectedVariables, node.offset, node.getChildren()[0])
+res.sortPriorities=node.sortPriorities
+res.mySortPriority=node.mySortPriority
+res.sortPrioritiesInitialized=node.sortPrioritiesInitialized
                 }
                 is LOPGroup -> {
                     res = POPGroup(query, projectedVariables, node.by, node.bindings, node.getChildren()[0])
+res.sortPriorities=node.sortPriorities
+res.mySortPriority=node.mySortPriority
+res.sortPrioritiesInitialized=node.sortPrioritiesInitialized
                 }
                 is LOPUnion -> {
                     val countA = node.getChildren()[0].getChildrenCountRecoursive()
@@ -114,9 +144,15 @@ class PhysicalOptimizerNaive(query: Query) : OptimizerBase(query, EOptimizerID.P
                     } else {
                         POPUnion(query, projectedVariables, node.getChildren()[1], node.getChildren()[0])
                     }
+res.sortPriorities=node.sortPriorities
+res.mySortPriority=node.mySortPriority
+res.sortPrioritiesInitialized=node.sortPrioritiesInitialized                 
                 }
                 is LOPMinus -> {
                     res = POPMinus(query, projectedVariables, node.getChildren()[0], node.getChildren()[1])
+res.sortPriorities=node.sortPriorities
+res.mySortPriority=node.mySortPriority
+res.sortPrioritiesInitialized=node.sortPrioritiesInitialized                 
                 }
                 is LOPSort -> {
                     if (parent !is LOPSort) {
@@ -128,24 +164,39 @@ class PhysicalOptimizerNaive(query: Query) : OptimizerBase(query, EOptimizerID.P
                             child = child.getChildren()[0]
                         }
                         res = POPSort(query, projectedVariables, sortBy.toTypedArray(), node.asc, child)
+res.sortPriorities=node.sortPriorities
+res.mySortPriority=node.mySortPriority
+res.sortPrioritiesInitialized=node.sortPrioritiesInitialized                 
                     } else {
                         change = false
                     }
                 }
                 is LOPFilter -> {
                     res = POPFilter(query, projectedVariables, node.getChildren()[1] as AOPBase, node.getChildren()[0])
+res.sortPriorities=node.sortPriorities
+res.mySortPriority=node.mySortPriority
+res.sortPrioritiesInitialized=node.sortPrioritiesInitialized                 
                 }
                 is LOPBind -> {
                     res = POPBind(query, projectedVariables, node.name, node.getChildren()[1] as AOPBase, node.getChildren()[0])
+res.sortPriorities=node.sortPriorities
+res.mySortPriority=node.mySortPriority
+res.sortPrioritiesInitialized=node.sortPrioritiesInitialized                 
                 }
                 is LOPJoin -> {
                     res = POPJoinHashMap(query, projectedVariables, node.getChildren()[0], node.getChildren()[1], node.optional)
+res.sortPriorities=node.sortPriorities
+res.mySortPriority=node.mySortPriority
+res.sortPrioritiesInitialized=node.sortPrioritiesInitialized                 
                 }
                 is LOPTriple -> {
                     res = distributedTripleStore.getNamedGraph(query, node.graph).getIterator(Array(3) { node.getChildren()[it] as IAOPBase }, EIndexPattern.SPO, Partition())
                 }
                 is OPEmptyRow -> {
                     res = POPEmptyRow(query, projectedVariables)
+res.sortPriorities=node.sortPriorities
+res.mySortPriority=node.mySortPriority
+res.sortPrioritiesInitialized=node.sortPrioritiesInitialized                 
                 }
                 else -> {
                     change = false

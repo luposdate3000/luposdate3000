@@ -1,5 +1,5 @@
 package lupos.s10physicalOptimisation
-
+import lupos.s15tripleStoreDistributed.*
 import lupos.s00misc.EOptimizerID
 import lupos.s00misc.ESortType
 import lupos.s00misc.Partition
@@ -52,6 +52,11 @@ class PhysicalOptimizerTripleIndex(query: Query) : OptimizerBase(query, EOptimiz
                 }
             }
             res = store.getIterator(params, LOPTriple.getIndex(node.children, node.mySortPriority.map { it.variableName }), Partition())
+if(res is TripleStoreIteratorGlobal){
+res.sortPriorities=node.sortPriorities
+res.mySortPriority=node.mySortPriority
+res.sortPrioritiesInitialized=node.sortPrioritiesInitialized
+}
         }
         return res
     }

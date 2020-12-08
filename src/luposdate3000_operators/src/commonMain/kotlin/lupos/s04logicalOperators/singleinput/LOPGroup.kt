@@ -10,9 +10,30 @@ import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.LOPBase
 import lupos.s04logicalOperators.noinput.OPEmptyRow
 
-class LOPGroup(query: IQuery, @JvmField var by: List<AOPVariable>) : LOPBase(query, EOperatorID.LOPGroupID, "LOPGroup", arrayOf(OPEmptyRow(query)), ESortPriority.PREVENT_ANY) {
+class LOPGroup(query: IQuery, @JvmField var by: List<AOPVariable>) : LOPBase(query, EOperatorID.LOPGroupID, "LOPGroup", arrayOf(OPEmptyRow(query)), ESortPriority.GROUP) {
     override fun childrenToVerifyCount(): Int = 1
     var bindings: MutableList<Pair<String, AOPBase>> = mutableListOf()
+
+
+override fun getPossibleSortPriorities(): List<List<SortHelper>> {
+        /*possibilities for_ next operator*/
+        val res = mutableListOf<List<SortHelper>>()
+val provided = by.map{it.name}
+                for (x in children[0].getPossibleSortPriorities()) {
+                    val tmp = mutableListOf<SortHelper>()
+                    for (v in x) {
+                        if (provided.contains(v.variableName)) {
+                            tmp.add(v)
+                        } else {
+                            break
+                        }
+                    }
+                    addToPrefixFreeList(tmp, res)
+                }
+return res
+}
+
+
 
     constructor(query: IQuery, by: List<AOPVariable>, bindings: List<Pair<String, AOPBase>>, child: IOPBase) : this(query, by) {
         this.bindings = bindings.toMutableList()
@@ -32,23 +53,6 @@ class LOPGroup(query: IQuery, @JvmField var by: List<AOPVariable>) : LOPBase(que
         }
         this.bindings = this.bindings.asReversed()
         children[0] = child
-    }
-
-    override fun getPossibleSortPriorities(): List<List<SortHelper>> {
-        val res = mutableListOf<List<SortHelper>>()
-        val provided = Array(by.size) { by[it].name }
-        for (x in children[0].getPossibleSortPriorities()) {
-            val tmp = mutableListOf<SortHelper>()
-            for (v in x) {
-                if (provided.contains(v.variableName)) {
-                    tmp.add(v)
-                } else {
-                    break
-                }
-            }
-            addToPrefixFreeList(tmp, res)
-        }
-        return res
     }
 
     override fun syntaxVerifyAllVariableExists(additionalProvided: List<String>, autocorrect: Boolean) {
