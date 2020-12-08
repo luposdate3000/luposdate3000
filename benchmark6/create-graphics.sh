@@ -19,8 +19,8 @@ set notitle
 set key right bottom
 #set logscale x
 #set logscale y
-set xlabel 'occurences'
-set ylabel 'percentage of store'
+set xlabel 'occurences relative to dataset size'
+set ylabel 'percentage of dataset matching'
 #distribution function
 set yrange [0.0001:1]
 set xrange [0.0001:1]
