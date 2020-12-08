@@ -134,6 +134,10 @@ object LuposdateEndpoint {
 
     @JsName("import_intermediate_files")
             /*suspend*/ fun importIntermediateFiles(fileNames: String): String {
+return importIntermediateFiles(fileNames,false)
+}
+    @JsName("import_intermediate_files_a")
+            /*suspend*/ fun importIntermediateFiles(fileNames: String,convert_to_bnodes:Boolean): String {
         try {
             Partition.estimatedPartitions1.clear()
             Partition.estimatedPartitions2.clear()
@@ -181,12 +185,17 @@ object LuposdateEndpoint {
                     val fileDictionaryStat = File("$fileName.stat")
                     var dictTotal = 0
                     val dictTyped = IntArray(ETripleComponentType.values().size)
+dictTyped[ETripleComponentType.BLANK_NODE.ordinal]=0
                     fileDictionaryStat.forEachLine {
                         val p = it.split("=")
                         if (p[0] == "total") {
                             dictTotal = p[1].toInt()
                         } else {
+if(convert_to_bnodes){
+dictTyped[ETripleComponentType.BLANK_NODE.ordinal]=dictTyped[ETripleComponentType.BLANK_NODE.ordinal]+p[1].toInt()
+}else{
                             dictTyped[ETripleComponentType.valueOf(p[0]).ordinal] = p[1].toInt()
+}
                         }
                     }
                     nodeGlobalDictionary.prepareBulk(dictTotal, dictTyped)
@@ -196,7 +205,12 @@ object LuposdateEndpoint {
                     fileDictionary.dataInputStream { dictStream ->
                         for (i in 0 until dictTotal) {
                             val length = dictStream.readInt()
-                            val type = ETripleComponentType.values()[dictStream.readByte().toInt()]
+val typeB=dictStream.readByte().toInt()
+val type = if(convert_to_bnodes){
+ETripleComponentType.BLANK_NODE
+}else{
+ETripleComponentType.values()[typeB]
+}
                             if (buffer.size < length) {
                                 buffer = ByteArray(length)
                             }
