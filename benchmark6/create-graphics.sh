@@ -10,9 +10,9 @@ do
 
 gnuplot << EOF
 #set terminal png size 1920,1080
-#set output 'graph$f.png'
+#set output 'graph$(echo $f | sed "s/\./_/g").png'
 set terminal epslatex color
-set output 'graph$f.tex'
+set output 'graph$(echo $f | sed "s/\./_/g").tex'
 #set colorsequence classic
 set datafile separator ','
 set notitle
