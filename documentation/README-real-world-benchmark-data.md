@@ -5,16 +5,16 @@ Some of these datasets are already used in scientific publications (not all of t
 
 These datasets are not required to run the database, but can be used to evaluate your own implementations.
 
-| Dataset | Size (turtle) | Size (intermediate) |
-| :------ | ------------: | ------------------: |
-| barton  |        4.7 GB | ???                 |
-| btc2010 |      624.0 GB | ???                 |
-| btc2019 |       47.0 GB |              8.8 GB |
-| yago1   |        1.5 GB |              0.5 GB |
-| yago2   |        8.4 GB |              2.7 GB |
-| yago2s  |        9.5 GB |              3.0 GB |
-| yago3   |       11.0 GB |              3.6 GB |
-| yago4   |      474.0 GB | ???                 |
+| Dataset | Size (turtle) | Size (intermediate) | triples   |
+| :------ | ------------: | ------------------: | -------:  |
+| barton  |       9.5 GiB |             1.5 GiB |  78497317 |
+| btc2010 |     624.0 GiB | ???                 |           |
+| btc2019 |      38.0 GiB |             8.8 GiB | 256059356 |
+| yago1   |       0.9 GiB |             0.5 GiB |  19012849 |
+| yago2   |       5.8 GiB |             2.7 GiB | 112824705 |
+| yago2s  |       9.5 GiB |             3.0 GiB | 171684850 |
+| yago3   |       8.5 GiB |             3.6 GiB | 138264317 |
+| yago4   |     474.0 GiB | ???                 |           |
 
 Currently luposdate3000 is inmemory only, which means, you can only load benchmarks files, which are smaller than your available RAM.
 The size in the "intermediate" column should give you an idea how large the dataset is, when using a dictionary.
@@ -126,6 +126,7 @@ Make sure you read the following comments.
 {
     cd /mnt/luposdate-testdata
     mkdir yago4
+    cd yago4
     wget -r https://yago-knowledge.org/data/yago4/full/2020-02-24/
     gzip -d yago-knowledge.org/data/yago4/full/2020-02-24/*.gz
     mv yago-knowledge.org/data/yago4/full/2020-02-24/*.nt .
@@ -139,5 +140,10 @@ Make sure you read the following comments.
     wget http://dslam.cs.umd.edu/data/barton/barton.mods.rdf.tar.gz
     tar -xzf barton.mods.rdf.tar.gz
     rm barton.mods.rdf.tar.gz
+    for f in $(find mods_rdf_xml -type f)
+    do
+        rapper -o ntriples $f >> barton.nt
+    done
+    rm -rf mods_rdf_xml
 }
 ```

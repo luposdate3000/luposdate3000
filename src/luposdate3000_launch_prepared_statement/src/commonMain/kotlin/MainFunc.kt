@@ -38,14 +38,13 @@ println("xxx in list")
                 for (d in data) {
                     total += d[column_ID_occurences] * d[column_ID_cnt]
                 }
-                var max = data[data.size - 1][column_ID_occurences]
                 var sum = 0L
                 File("stat_" + f.replace("/", "_") + "_" + q.first + ".csv").printWriter { out ->
 println("xxx opened file stat_" + f.replace("/", "_") + "_" + q.first + ".csv")
                     out.println("0.0,0.0")
                     for (d in data) {
                         sum += d[column_ID_occurences] * d[column_ID_cnt]
-                        out.println("${d[column_ID_occurences].toDouble() / max},${sum.toDouble() / total}")
+                        out.println("${d[column_ID_occurences].toDouble()},${sum.toDouble() / total}")
                     }
                 }
             }

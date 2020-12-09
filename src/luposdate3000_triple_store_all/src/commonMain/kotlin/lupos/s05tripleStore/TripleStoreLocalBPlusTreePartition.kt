@@ -5,7 +5,7 @@ import lupos.s00misc.Partition
 
 class TripleStoreLocalBPlusTreePartition(name: String) : TripleStoreLocalBase(name) {
     init {
-        if (Partition.estimatedPartitions1.size > 0 || Partition.estimatedPartitions2.size > 0) {
+        if (Partition.estimatedPartitionsValid) {
             val localindicees = mapOf(
                     "SPO" to mutableSetOf(EIndexPattern.SPO, EIndexPattern.S_PO, EIndexPattern.SP_O),
                     "SOP" to mutableSetOf(EIndexPattern.SOP, EIndexPattern.S_OP, EIndexPattern.SO_P),

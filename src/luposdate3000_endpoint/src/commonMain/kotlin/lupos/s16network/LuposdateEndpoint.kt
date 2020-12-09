@@ -141,13 +141,14 @@ return importIntermediateFiles(fileNames,false)
         try {
             Partition.estimatedPartitions1.clear()
             Partition.estimatedPartitions2.clear()
+            Partition.estimatedPartitionsValid=true
             val query = Query()
             var counter = 0L
             val store = distributedTripleStore.getDefaultGraph(query)
             store.bulkImport { bulk ->
                 val fileNamesS = fileNames.split(";")
                 for (fileName in fileNamesS) {
-                    println("importing file '$fileName'")
+                    println("importing intermediate file '$fileName'")
                     val startTime = DateHelperRelative.markNow()
                     if (fileNamesS.size == 1) {
                         val filePartitions = File("$fileName.partitions")
