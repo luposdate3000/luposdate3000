@@ -546,7 +546,7 @@ class ResultSetDictionary(private val global: Boolean = false) : IResultSetDicti
         return res
     }
 
-    fun createInteger(value2: MyBigInteger): Int {
+    private fun createInteger(value2: MyBigInteger): Int {
         val value = value2.toString()
         var res: Int
         if (global) {

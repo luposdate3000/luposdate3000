@@ -6,12 +6,10 @@
 
 
 import lupos.s00misc.Platform
-import java.lang.ProcessBuilder.Redirect
 import java.io.BufferedOutputStream
 import java.io.DataOutputStream
-import java.io.FileOutputStream
 import java.io.File
-import java.io.FileWriter
+import java.io.FileOutputStream
 import java.io.PrintWriter
 
 enum class ETripleComponentType {

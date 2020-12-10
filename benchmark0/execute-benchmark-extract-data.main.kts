@@ -1,12 +1,8 @@
 #!/usr/bin/env kotlin
 
-import java.io.BufferedOutputStream
-import java.io.DataOutputStream
-import java.io.FileOutputStream
 import java.io.File
-import java.io.PrintWriter
-import kotlin.math.round
 import kotlin.math.log2
+import kotlin.math.round
 
 File("tmp").mkdirs()
 

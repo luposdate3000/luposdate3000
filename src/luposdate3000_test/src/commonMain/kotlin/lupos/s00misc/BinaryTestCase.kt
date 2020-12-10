@@ -4,8 +4,8 @@ import lupos.s02buildSyntaxTree.LexerCharIterator
 import lupos.s02buildSyntaxTree.LookAheadTokenIterator
 import lupos.s02buildSyntaxTree.sparql1_1.SPARQLParser
 import lupos.s02buildSyntaxTree.sparql1_1.TokenIteratorSPARQLParser
-import lupos.s03resultRepresentation.nodeGlobalDictionary
 import lupos.s03resultRepresentation.ResultSetDictionaryExt
+import lupos.s03resultRepresentation.nodeGlobalDictionary
 import lupos.s04arithmetikOperators.IAOPBase
 import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s04logicalOperators.IOPBase

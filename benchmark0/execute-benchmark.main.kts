@@ -6,13 +6,10 @@
 @file:CompilerOptions("-Xmulti-platform")
 
 import lupos.s00misc.Platform
-import java.lang.ProcessBuilder.Redirect
-import java.io.BufferedOutputStream
-import java.io.DataOutputStream
-import java.io.FileOutputStream
 import java.io.File
 import java.io.FileWriter
 import java.io.PrintWriter
+import java.lang.ProcessBuilder.Redirect
 
 val jars = mutableListOf(
         "build-cache${Platform.getPathSeparator()}bin${Platform.getPathSeparator()}Luposdate3000_Buffer_Manager_Inmemory-jvm.jar",

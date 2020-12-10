@@ -1,5 +1,6 @@
 #!/usr/bin/env kotlin
-import java.io.*
+import java.io.File
+import java.io.PrintWriter
 
 var folderName = args[0]
 var compress = true

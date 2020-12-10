@@ -1,11 +1,6 @@
 #!/usr/bin/env kotlin
-import java.lang.ProcessBuilder.Redirect
-import java.io.BufferedOutputStream
-import java.io.DataOutputStream
-import java.io.FileOutputStream
 import java.io.File
-import java.io.FileWriter
-import java.io.PrintWriter
+import java.lang.ProcessBuilder.Redirect
 
 
 var todos = mutableListOf<Pair<Long, Long>>()

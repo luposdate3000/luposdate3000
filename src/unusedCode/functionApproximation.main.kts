@@ -1,7 +1,5 @@
 #!/usr/bin/env kotlin
 import kotlin.math.log2
-import kotlin.math.log10
-import kotlin.math.max
 import kotlin.math.pow
 
 val dataInAll = arrayOf(

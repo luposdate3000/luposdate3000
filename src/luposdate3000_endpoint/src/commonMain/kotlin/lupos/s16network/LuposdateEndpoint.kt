@@ -322,13 +322,13 @@ object LuposdateEndpoint {
         output.println()
         node.getQuery().reset()
         var res: Any? = null
-        when (evaluator) {
-            EQueryResultToStream.DEFAULT_STREAM -> res = QueryResultToStream(node, output)
-            EQueryResultToStream.XML_STREAM -> res = QueryResultToXMLStream(node, output)
-            EQueryResultToStream.EMPTY_STREAM -> res = QueryResultToEmptyStream(node, output)
-            EQueryResultToStream.EMPTYDICTIONARY_STREAM -> res = QueryResultToEmptyWithDictionaryStream(node, output)
-            EQueryResultToStream.MEMORY_TABLE -> res = QueryResultToMemoryTable(node)
-            EQueryResultToStream.XML_ELEMENT -> res = QueryResultToXMLElement.toXML(node)
+        res = when (evaluator) {
+            EQueryResultToStream.DEFAULT_STREAM -> QueryResultToStream(node, output)
+            EQueryResultToStream.XML_STREAM -> QueryResultToXMLStream(node, output)
+            EQueryResultToStream.EMPTY_STREAM -> QueryResultToEmptyStream(node, output)
+            EQueryResultToStream.EMPTYDICTIONARY_STREAM -> QueryResultToEmptyWithDictionaryStream(node, output)
+            EQueryResultToStream.MEMORY_TABLE -> QueryResultToMemoryTable(node)
+            EQueryResultToStream.XML_ELEMENT -> QueryResultToXMLElement.toXML(node)
         }
         distributedTripleStore.commit(node.getQuery())
         node.getQuery().setCommited()
