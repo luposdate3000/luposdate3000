@@ -131,6 +131,8 @@ Make sure you read the following comments.
     gzip -d yago-knowledge.org/data/yago4/full/2020-02-24/*.gz
     mv yago-knowledge.org/data/yago4/full/2020-02-24/*.nt .
     rm -rf yago-knowledge.org
+    cat yago-wd-* >> yago-all.nt
+    rm yago-wd-*
 }
 #barton
 {

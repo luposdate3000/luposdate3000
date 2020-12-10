@@ -78,6 +78,7 @@ fun mainFunc(args: Array<String>): Unit = Parallel.runBlocking {
         }
     }
     println("importing $inputFileName finish with $cnt triples")
+dict.clear()
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     println("partition-stats :: ")
     val lowerBoundToAnalyse = 256
