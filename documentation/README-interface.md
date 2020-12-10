@@ -1,5 +1,5 @@
 ## Interface
-The interface is defined in the File src/luposdate3000_endpoint/commonMain/kotlin/lupos/s16network/LuposdateEndpoint.kt
+The interface is defined in the File [LuposdateEndpoint.kt](src/luposdate3000_endpoint/commonMain/kotlin/lupos/s16network/LuposdateEndpoint.kt)
 The function "initialize" in that file must be called first before anything else.
 If you just use the other functions from that file, the function is called automatically.
 If you want to call any other function from the database, make sure that the "initialize" function is called first.

@@ -151,11 +151,11 @@ class BufferManager {
             if (freeList.size == counter) {
                 clearAssumeLocks()
             }
-        }else{
-	if (counter==0) {
+        } else {
+            if (counter == 0) {
                 clearAssumeLocks()
             }
-}
+        }
     }
 
     /*suspend*/ fun safeToFolder() {

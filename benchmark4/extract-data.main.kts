@@ -5,24 +5,24 @@ import java.text.DecimalFormat
 
 val data = mutableMapOf<Int/*trash or join*/, MutableMap<Int/*joincount*/, MutableMap<Int/*partitions*/, Double>>>()
 val data_trash_or_join = mutableSetOf<Int>(
--64,
--32,
--16,
--8,
--4,
--2,
--1,
-1,
-2,
-4,
-8,
-16,
-32,
-64,
-128,
-256,
-512,
-1024,
+        -64,
+        -32,
+        -16,
+        -8,
+        -4,
+        -2,
+        -1,
+        1,
+        2,
+        4,
+        8,
+        16,
+        32,
+        64,
+        128,
+        256,
+        512,
+        1024,
 )
 val data_joincount = mutableSetOf<Int>()
 val data_partitions = mutableSetOf<Int>()
@@ -30,7 +30,7 @@ val data_partitions = mutableSetOf<Int>()
 File(args[0]).forEachLine {
     if (it.contains("NoOptimizer")) {
         val row = it.split(",")
-        if (row.size > 10 && row[1]==args[1]) {
+        if (row.size > 10 && row[1] == args[1]) {
             val trash = row[7].toInt()
             val join = row[8].toInt()
             val trash_or_join = if (trash == 0) -join else trash
@@ -140,7 +140,7 @@ File("plot.XLabels").printWriter().use { out ->
 File("plot.YLabels").printWriter().use { out ->
     i = 0
     for (trash_or_join in data_trash_or_join.sorted()) {
-println(trash_or_join)
+        println(trash_or_join)
         if (i > 0) {
             out.print(",")
         }
@@ -163,21 +163,21 @@ File("plot.map").printWriter().use { outMap ->
                 if (tt != null) {
                     var max = 0.0
                     var maxi = -1
-var seq=-1.0
+                    var seq = -1.0
                     for ((k, v) in tt) {
-if(k==1){
-seq=v
-}
-                        if (v > max*0.9) {
+                        if (k == 1) {
+                            seq = v
+                        }
+                        if (v > max * 0.9) {
                             max = v
                             maxi = k
                         }
                     }
-if(seq<0.0){
-seq=max
-}
+                    if (seq < 0.0) {
+                        seq = max
+                    }
                     row = "$row,${maxi.toString().padStart(4, ' ')}"
-var max_seq=if(max/seq<1.0) 1.0 else max/seq
+                    var max_seq = if (max / seq < 1.0) 1.0 else max / seq
                     outCsv.println("$j,$i,$maxi; ${doubleToString(max_seq)}; ${doubleToString(seq)}/s")
                 } else {
                     row = "$row,   0"
@@ -190,8 +190,8 @@ var max_seq=if(max/seq<1.0) 1.0 else max/seq
     }
 }
 
-inline fun doubleToString(d:Double):String{
-return DecimalFormat("#.##").format(d)
+inline fun doubleToString(d: Double): String {
+    return DecimalFormat("#.##").format(d)
 }
 
 println("-------------------")

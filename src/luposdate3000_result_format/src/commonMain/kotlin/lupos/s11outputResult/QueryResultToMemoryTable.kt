@@ -89,8 +89,8 @@ object QueryResultToMemoryTable {
             if (node is OPNothing) {
                 val variables = node.getProvidedVariableNames()
                 if (variables.isNotEmpty()) {
-val res=MemoryTable(variables.toTypedArray())
-res.query=rootNode.getQuery()
+                    val res = MemoryTable(variables.toTypedArray())
+                    res.query = rootNode.getQuery()
                     resultList.add(res)
                 }
             } else {
@@ -106,7 +106,7 @@ res.query=rootNode.getQuery()
                     val child = node.evaluate(Partition())
                     val value = node.getQuery().getDictionary().getValue(child.columns["?boolean"]!!.next())
                     val res = MemoryTable(Array(0) { "" })
-res.query=rootNode.getQuery()
+                    res.query = rootNode.getQuery()
                     res.booleanResult = value.toBoolean()
                     resultList.add(res)
                     child.columns["?boolean"]!!.close()
@@ -114,14 +114,14 @@ res.query=rootNode.getQuery()
                     if (variables.isEmpty()) {
                         val child = node.evaluate(Partition())
                         val res = MemoryTable(Array(0) { "" })
-res.query=rootNode.getQuery()
+                        res.query = rootNode.getQuery()
                         for (j in 0 until child.count()) {
                             res.data.add(IntArray(0))
                         }
                         resultList.add(res)
                     } else {
                         val res = MemoryTable(variables)
-res.query=rootNode.getQuery()
+                        res.query = rootNode.getQuery()
                         writeNodeResult(variables, node, res)
                         resultList.add(res)
                     }

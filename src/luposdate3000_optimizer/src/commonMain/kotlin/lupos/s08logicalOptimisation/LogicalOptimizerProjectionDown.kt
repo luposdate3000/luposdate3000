@@ -19,13 +19,13 @@ class LogicalOptimizerProjectionDown(query: Query) : OptimizerBase(query, EOptim
     override val classname: String = "LogicalOptimizerProjectionDown"
     override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
         var res: IOPBase = node
-if( node is LOPGroup){
-val req=node.getRequiredVariableNames()
-val pro=node.getChildren()[0].getProvidedVariableNames()
-if(!req.containsAll(pro)){
-node.getChildren()[0] = LOPProjection(query, req.map { AOPVariable(query, it) }.toMutableList(), node.getChildren()[0])
-}
-  }else      if (node is LOPReduced) {
+        if (node is LOPGroup) {
+            val req = node.getRequiredVariableNames()
+            val pro = node.getChildren()[0].getProvidedVariableNames()
+            if (!req.containsAll(pro)) {
+                node.getChildren()[0] = LOPProjection(query, req.map { AOPVariable(query, it) }.toMutableList(), node.getChildren()[0])
+            }
+        } else if (node is LOPReduced) {
             val child = node.getChildren()[0]
             if (child is LOPProjection) {
                 //move projection into Minus if_ duplicates are removed anyway

@@ -77,13 +77,13 @@ fun generateTriples(folderName: String, count: Int, trash_block: Int, join_block
     }
 
     for (i in 0 until count) {
-        for (c in 0 until join_count+1) {
+        for (c in 0 until join_count + 1) {
             val cc = 'a' + c
             for (j in 0 until join_block) {
                 appendTriple("_:${i}", "<${cc}>", "_:${j}")
             }
         }
-        for (c in 0 until join_count+1) {
+        for (c in 0 until join_count + 1) {
             val cc = 'a' + c
             for (j in 0 until trash_block) {
                 appendTriple("_:${cc}_${i}_${j}", "<${cc}>", "_:${j}")

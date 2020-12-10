@@ -7,7 +7,7 @@ class Partition {
     companion object {
         val estimatedPartitions1 = mutableMapOf<String, MutableSet<Int>>()
         val estimatedPartitions2 = mutableMapOf<String, MutableSet<Int>>()
-        var estimatedPartitionsValid=false
+        var estimatedPartitionsValid = false
         var default_k: Int = 128
         const val queue_size: Int = 1000
         inline fun hashFunction(v: Int, k: Int): Int {

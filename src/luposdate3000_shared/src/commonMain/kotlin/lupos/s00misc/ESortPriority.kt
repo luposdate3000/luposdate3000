@@ -9,5 +9,5 @@ enum class ESortPriority {
     UNION,
     BIND,
     SORT,
-GROUP
+    GROUP
 }

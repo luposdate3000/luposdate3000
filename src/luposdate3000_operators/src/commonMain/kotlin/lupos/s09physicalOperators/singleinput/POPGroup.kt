@@ -1,8 +1,8 @@
 package lupos.s09physicalOperators.singleinput
 
 import kotlin.jvm.JvmField
-import lupos.s00misc.EOperatorID
 import lupos.s00misc.*
+import lupos.s00misc.EOperatorID
 import lupos.s00misc.GroupByColumnMissing
 import lupos.s00misc.GroupByDuplicateColumnException
 import lupos.s00misc.Partition
@@ -12,8 +12,8 @@ import lupos.s00misc.VariableNotDefinedSyntaxException
 import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.*
 import lupos.s04arithmetikOperators.*
-import lupos.s04arithmetikOperators.singleinput.*
 import lupos.s04arithmetikOperators.noinput.*
+import lupos.s04arithmetikOperators.singleinput.*
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.ColumnIterator
@@ -28,7 +28,6 @@ import lupos.s04logicalOperators.noinput.OPEmptyRow
 import lupos.s09physicalOperators.POPBase
 
 //TODO refactor such that the optimizer may choose which strategy to use
-
 class POPGroup : POPBase {
     override fun getPossibleSortPriorities(): List<List<SortHelper>> {
         /*possibilities for_ next operator*/
@@ -58,7 +57,6 @@ class POPGroup : POPBase {
 
     @JvmField
     var bindings: MutableList<Pair<String, AOPBase>> = mutableListOf()
-
     override fun toSparql(): String {
         var res = children[0].toSparql()
         res += " GROUP BY "

@@ -95,23 +95,23 @@ class LogicalOptimizerColumnSortOrder(query: Query) : OptimizerBase(query, EOpti
                 }
             }
         }
-if(node.getSortPriorities().size>0 && node.getMySortPriority().size==0){
+        if (node.getSortPriorities().size > 0 && node.getMySortPriority().size == 0) {
 //TODO debug why this is wrong ...
-var maxSize = 0
-for (x in node.getSortPriorities()) {
-                        if (x.size > maxSize) {
-                            maxSize = x.size
-                        }
+            var maxSize = 0
+            for (x in node.getSortPriorities()) {
+                if (x.size > maxSize) {
+                    maxSize = x.size
+                }
+            }
+            if (maxSize > 0) {
+                for (x in node.getSortPriorities()) {
+                    if (x.size == maxSize) {
+                        node.selectSortPriority(x)
+                        break
                     }
-                    if (maxSize > 0) {
-                        for (x in node.getSortPriorities()) {
-                            if (x.size == maxSize) {
-                                node.selectSortPriority(x)
-                                break
-                            }
-                        }
-                    }
-}
+                }
+            }
+        }
         return res
     }
 }

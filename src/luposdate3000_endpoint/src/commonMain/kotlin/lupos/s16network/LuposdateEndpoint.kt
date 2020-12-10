@@ -1,5 +1,5 @@
 package lupos.s16network
-import lupos.s11outputResult.*
+
 import kotlin.js.JsName
 import lupos.s00misc.*
 import lupos.s02buildSyntaxTree.LexerCharIterator
@@ -16,6 +16,7 @@ import lupos.s06buildOperatorGraph.OperatorGraphVisitor
 import lupos.s08logicalOptimisation.LogicalOptimizer
 import lupos.s09physicalOperators.noinput.POPValuesImportXML
 import lupos.s10physicalOptimisation.PhysicalOptimizer
+import lupos.s11outputResult.*
 import lupos.s14endpoint.convertToOPBase
 import lupos.s15tripleStoreDistributed.distributedTripleStore
 import lupos.s15tripleStoreDistributed.DistributedTripleStore
@@ -134,14 +135,15 @@ object LuposdateEndpoint {
 
     @JsName("import_intermediate_files")
             /*suspend*/ fun importIntermediateFiles(fileNames: String): String {
-return importIntermediateFiles(fileNames,false)
-}
+        return importIntermediateFiles(fileNames, false)
+    }
+
     @JsName("import_intermediate_files_a")
-            /*suspend*/ fun importIntermediateFiles(fileNames: String,convert_to_bnodes:Boolean): String {
+            /*suspend*/ fun importIntermediateFiles(fileNames: String, convert_to_bnodes: Boolean): String {
         try {
             Partition.estimatedPartitions1.clear()
             Partition.estimatedPartitions2.clear()
-            Partition.estimatedPartitionsValid=true
+            Partition.estimatedPartitionsValid = true
             val query = Query()
             var counter = 0L
             val store = distributedTripleStore.getDefaultGraph(query)
@@ -186,17 +188,17 @@ return importIntermediateFiles(fileNames,false)
                     val fileDictionaryStat = File("$fileName.stat")
                     var dictTotal = 0
                     val dictTyped = IntArray(ETripleComponentType.values().size)
-dictTyped[ETripleComponentType.BLANK_NODE.ordinal]=0
+                    dictTyped[ETripleComponentType.BLANK_NODE.ordinal] = 0
                     fileDictionaryStat.forEachLine {
                         val p = it.split("=")
                         if (p[0] == "total") {
                             dictTotal = p[1].toInt()
                         } else {
-if(convert_to_bnodes){
-dictTyped[ETripleComponentType.BLANK_NODE.ordinal]=dictTyped[ETripleComponentType.BLANK_NODE.ordinal]+p[1].toInt()
-}else{
-                            dictTyped[ETripleComponentType.valueOf(p[0]).ordinal] = p[1].toInt()
-}
+                            if (convert_to_bnodes) {
+                                dictTyped[ETripleComponentType.BLANK_NODE.ordinal] = dictTyped[ETripleComponentType.BLANK_NODE.ordinal] + p[1].toInt()
+                            } else {
+                                dictTyped[ETripleComponentType.valueOf(p[0]).ordinal] = p[1].toInt()
+                            }
                         }
                     }
                     nodeGlobalDictionary.prepareBulk(dictTotal, dictTyped)
@@ -206,12 +208,12 @@ dictTyped[ETripleComponentType.BLANK_NODE.ordinal]=dictTyped[ETripleComponentTyp
                     fileDictionary.dataInputStream { dictStream ->
                         for (i in 0 until dictTotal) {
                             val length = dictStream.readInt()
-val typeB=dictStream.readByte().toInt()
-val type = if(convert_to_bnodes){
-ETripleComponentType.BLANK_NODE
-}else{
-ETripleComponentType.values()[typeB]
-}
+                            val typeB = dictStream.readByte().toInt()
+                            val type = if (convert_to_bnodes) {
+                                ETripleComponentType.BLANK_NODE
+                            } else {
+                                ETripleComponentType.values()[typeB]
+                            }
                             if (buffer.size < length) {
                                 buffer = ByteArray(length)
                             }
@@ -309,28 +311,29 @@ ETripleComponentType.values()[typeB]
 
     @JsName("evaluate_operatorgraph_to_result")
             /*suspend*/ fun evaluateOperatorgraphToResult(node: IOPBase, output: IMyPrintWriter) {
-evaluateOperatorgraphToResultA(node,output,EQueryResultToStream.DEFAULT_STREAM)
-}
+        evaluateOperatorgraphToResultA(node, output, EQueryResultToStream.DEFAULT_STREAM)
+    }
+
     @JsName("evaluate_operatorgraph_to_result_a")
-            /*suspend*/ fun evaluateOperatorgraphToResultA(node: IOPBase, output: IMyPrintWriter,evaluator:EQueryResultToStream) :Any?{
+            /*suspend*/ fun evaluateOperatorgraphToResultA(node: IOPBase, output: IMyPrintWriter, evaluator: EQueryResultToStream): Any? {
 //var timer = DateHelperRelative.markNow()
         output.println("HTTP/1.1 200 OK")
         output.println("Content-Type: text/plain")
         output.println()
         node.getQuery().reset()
-var res:Any?=null
-when (evaluator){
-EQueryResultToStream.DEFAULT_STREAM   ->res=QueryResultToStream(node, output)
-EQueryResultToStream.XML_STREAM   ->res=QueryResultToXMLStream(node, output)
-EQueryResultToStream.EMPTY_STREAM   ->res=QueryResultToEmptyStream(node, output)
-EQueryResultToStream.EMPTYDICTIONARY_STREAM   ->res=QueryResultToEmptyWithDictionaryStream(node, output)
-EQueryResultToStream.MEMORY_TABLE   ->res=QueryResultToMemoryTable(node)
-EQueryResultToStream.XML_ELEMENT   ->res=QueryResultToXMLElement.toXML(node)
-}
+        var res: Any? = null
+        when (evaluator) {
+            EQueryResultToStream.DEFAULT_STREAM -> res = QueryResultToStream(node, output)
+            EQueryResultToStream.XML_STREAM -> res = QueryResultToXMLStream(node, output)
+            EQueryResultToStream.EMPTY_STREAM -> res = QueryResultToEmptyStream(node, output)
+            EQueryResultToStream.EMPTYDICTIONARY_STREAM -> res = QueryResultToEmptyWithDictionaryStream(node, output)
+            EQueryResultToStream.MEMORY_TABLE -> res = QueryResultToMemoryTable(node)
+            EQueryResultToStream.XML_ELEMENT -> res = QueryResultToXMLElement.toXML(node)
+        }
         distributedTripleStore.commit(node.getQuery())
         node.getQuery().setCommited()
 //println("timer #407 ${DateHelperRelative.elapsedSeconds(timer)}")
-return res
+        return res
     }
 
     @JsName("evaluate_sparql_to_result_b")
