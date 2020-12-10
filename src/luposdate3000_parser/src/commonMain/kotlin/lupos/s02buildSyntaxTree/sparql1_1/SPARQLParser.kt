@@ -224,7 +224,7 @@ class ASTConstructQuery(@JvmField val template: Array<ASTNode>) : ASTQueryBaseCl
 
 class ASTDescribeQuery(@JvmField val select: Array<ASTNode>) : ASTQueryBaseClass() {
     private inline fun selectAll(): Boolean {
-        return select.isEmpty();
+        return select.isEmpty()
     }
 
     override fun nodeToString(): String = "ASTSelectQuery" + (if (selectAll()) " *" else "")
@@ -2397,7 +2397,7 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
         val collect: MutableList<ASTNode> = mutableListOf()
         val first = GroupGraphPattern()
         if (first.size == 1) collect.add(first[0]); else {
-            collect.add(ASTGroup(first));
+            collect.add(ASTGroup(first))
         }
         var t99 = ltit.lookahead()
         while (t99.image == "UNION") {
@@ -2407,7 +2407,7 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
             }
             val second = GroupGraphPattern()
             if (second.size == 1) collect.add(second[0]); else {
-                collect.add(ASTGroup(second));
+                collect.add(ASTGroup(second))
             }
             t99 = ltit.lookahead()
         }
