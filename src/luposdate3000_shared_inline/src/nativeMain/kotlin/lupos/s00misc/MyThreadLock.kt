@@ -1,7 +1,5 @@
 package lupos.s00misc
 
-import lupos.s00misc.NotImplementedException
-
 internal actual class MyThreadLock {
     internal companion object {
         var uuidCounter = 0L
@@ -10,15 +8,15 @@ internal actual class MyThreadLock {
     val uuid = uuidCounter++
     actual inline fun getUUID() = uuid
     actual inline fun lock() {
-        throw  NotImplementedException("MyThreadLock", "lock not implemented")
+        throw NotImplementedException("MyThreadLock", "lock not implemented")
     }
 
     actual inline fun unlock() {
-        throw  NotImplementedException("MyThreadLock", "unlock not implemented")
+        throw NotImplementedException("MyThreadLock", "unlock not implemented")
     }
 
     actual inline fun tryLock(): Boolean {
-        throw  NotImplementedException("MyThreadLock", "trylock not implemented")
+        throw NotImplementedException("MyThreadLock", "trylock not implemented")
     }
 
     actual inline fun <T> withLock(crossinline action: () -> T): T {

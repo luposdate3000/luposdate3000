@@ -1,7 +1,6 @@
 package lupos.s00misc
 
 import java.io.DataOutputStream
-import kotlin.jvm.JvmField
 
 internal actual class MyDataOutputStream(@JvmField val it: DataOutputStream) {
     actual inline fun writeInt(value: Int) = it.writeInt(value)

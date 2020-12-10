@@ -1,4 +1,4 @@
-package  lupos.s04logicalOperators.iterator
+package lupos.s04logicalOperators.iterator
 
 import lupos.s03resultRepresentation.ResultSetDictionaryExt
 

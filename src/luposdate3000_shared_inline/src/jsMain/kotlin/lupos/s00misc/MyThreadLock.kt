@@ -1,7 +1,5 @@
 package lupos.s00misc
 
-import lupos.s00misc.NotImplementedException
-
 internal actual class MyThreadLock {
     internal companion object {
         var uuidCounter = 0L

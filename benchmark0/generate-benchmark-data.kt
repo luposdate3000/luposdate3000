@@ -19,8 +19,8 @@ enum class ETripleComponentType {
 fun generateTriples(args: Array<String>): Int {
     var targetNumberOfResults = 1L
     var numberOfPredicates = 2
-    var blockCount = 1 //if there is a match, than x elements match in a row
-    var trashCount = 0 //if there is no match, than x elements dont match in a row
+    var blockCount = 1 // if there is a match, than x elements match in a row
+    var trashCount = 0 // if there is no match, than x elements dont match in a row
     if (args.size > 0) {
         targetNumberOfResults = args[0].toLong()
     }
@@ -68,7 +68,7 @@ fun generateTriples(targetNumberOfResults2: Long, numberOfPredicates: Int, block
         outIntermediateDictionary.write(byteBuf)
         outIntermediateDictionary.write(tmp)
     }
-//predefining unused values, to prevent mixing unwanted "new" values, which would break the target patterns
+// predefining unused values, to prevent mixing unwanted "new" values, which would break the target patterns
     writeToDict("_:_a1")
     writeToDict("<http://benchmark.com/unused>")
     val s_offset = 2 + object_counter + numberOfPredicates
@@ -84,8 +84,8 @@ fun generateTriples(targetNumberOfResults2: Long, numberOfPredicates: Int, block
         outIntermediateTriplesStatCounter++
     }
     for (i in 0 until numberOfPredicates) {
-        outN3.println("_:a1 b:unused b:p${i} .")
-        writeToDict("<http://benchmark.com/p${i}>")
+        outN3.println("_:a1 b:unused b:p$i .")
+        writeToDict("<http://benchmark.com/p$i>")
         outIntermediateTriples.writeInt(0)
         outIntermediateTriples.writeInt(1)
         outIntermediateTriples.writeInt(p_offset + i)
@@ -96,7 +96,7 @@ fun generateTriples(targetNumberOfResults2: Long, numberOfPredicates: Int, block
         writeToDict("_:_s${counter.toString(16)}")
         for (p in 0 until numberOfPredicates) {
             for (j in 0 until blockCount) {
-                outN3.println("_:s${counter.toString(16)} b:p${p} b:o${((j + counter) % object_counter).toString(16)} .")
+                outN3.println("_:s${counter.toString(16)} b:p$p b:o${((j + counter) % object_counter).toString(16)} .")
                 outIntermediateTriples.writeInt(s_offset + counter)
                 outIntermediateTriples.writeInt(p_offset + p)
                 outIntermediateTriples.writeInt(o_offset + ((j + counter) % object_counter))
@@ -109,7 +109,7 @@ fun generateTriples(targetNumberOfResults2: Long, numberOfPredicates: Int, block
             var trashcounter = 1
             for (p in 0 until numberOfPredicates) {
                 for (j in 0 until trashCount) {
-                    outN3.println("_:s${counter.toString(16)} b:p${p} b:o${((j + counter) % object_counter).toString(16)} .")
+                    outN3.println("_:s${counter.toString(16)} b:p$p b:o${((j + counter) % object_counter).toString(16)} .")
                     writeToDict("_:_s${counter.toString(16)}")
                     outIntermediateTriples.writeInt(s_offset + counter)
                     outIntermediateTriples.writeInt(p_offset + p)

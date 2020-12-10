@@ -1,6 +1,6 @@
 package lupos.s00misc
 
-import java.util.Calendar
+import java.util.*
 
 internal actual class DateHelper actual constructor() {
     @JvmField

@@ -1,7 +1,5 @@
 package lupos.s00misc
 
-import lupos.s00misc.NotImplementedException
-
 internal actual class MyThreadReadWriteLock {
     internal companion object {
         var uuidCounter = 0L
@@ -42,7 +40,7 @@ internal actual class MyThreadReadWriteLock {
     actual inline fun writeLock() {
         SanityCheck {
             if (lockedRead > 0 || lockedWrite) {
-                throw Exception("something went wrong 4 ${lockedRead} ${lockedWrite}")
+                throw Exception("something went wrong 4 $lockedRead $lockedWrite")
             }
             lockedWrite = true
         }
@@ -51,7 +49,7 @@ internal actual class MyThreadReadWriteLock {
     actual inline fun tryWriteLock(): Boolean {
         SanityCheck {
             if (lockedRead > 0 || lockedWrite) {
-                throw Exception("something went wrong 5 ${lockedRead} ${lockedWrite}")
+                throw Exception("something went wrong 5 $lockedRead $lockedWrite")
             }
             lockedWrite = true
         }

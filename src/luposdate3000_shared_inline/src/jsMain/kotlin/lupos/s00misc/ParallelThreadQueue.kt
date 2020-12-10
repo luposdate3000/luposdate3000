@@ -8,11 +8,11 @@ internal actual class ParallelThreadQueue<T> {
         terminalValue = terminationValue
     }
 
-    actual inline fun send(value: T): Unit {
+    actual inline fun send(value: T) {
         queue.add(value)
     }
 
-    actual inline fun close(): Unit {
+    actual inline fun close() {
         queue.clear()
     }
 

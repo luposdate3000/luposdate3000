@@ -1,8 +1,5 @@
 package lupos.s00misc
 
-import java.util.concurrent.locks.ReentrantLock
-import kotlin.jvm.JvmField
-
 internal actual class ParallelThreadCondition {
     @JvmField
     val myMonitorObject = this as Object

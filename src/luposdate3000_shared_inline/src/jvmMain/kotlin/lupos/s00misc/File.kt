@@ -1,7 +1,11 @@
 package lupos.s00misc
 
-import java.io.*
-import lupos.s00misc.IMyInputStream
+import java.io.BufferedInputStream
+import java.io.BufferedOutputStream
+import java.io.DataInputStream
+import java.io.DataOutputStream
+import java.io.FileInputStream
+import java.io.FileOutputStream
 
 internal actual class File actual constructor(@JvmField val filename: String) {
     actual inline fun createTempFile(prefix: String, suffix: String, directory: String): String {

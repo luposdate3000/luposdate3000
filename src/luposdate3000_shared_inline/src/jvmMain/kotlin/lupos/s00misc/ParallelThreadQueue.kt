@@ -1,7 +1,6 @@
 package lupos.s00misc
 
 import java.util.concurrent.ArrayBlockingQueue
-import kotlin.jvm.JvmField
 
 internal actual class ParallelThreadQueue<T> actual constructor(@JvmField val terminationValue: T) {
     @JvmField
