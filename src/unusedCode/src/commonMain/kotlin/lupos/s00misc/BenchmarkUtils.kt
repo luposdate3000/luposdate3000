@@ -1,10 +1,8 @@
 package lupos.s00misc
-
 import kotlin.jvm.JvmField
 import kotlin.time.DurationUnit
 import kotlin.time.TimeMark
 import kotlin.time.TimeSource.Monotonic
-
 enum class EBenchmark {
     HTTP, // contains all other
     HTTP_HANDLER,
@@ -35,7 +33,6 @@ enum class EBenchmark {
     SAVE_DICTIONARY,
     SAVE_TRIPLE_STORE
 }
-
 @UseExperimental(ExperimentalStdlibApi::class, kotlin.time.ExperimentalTime::class)
 internal object BenchmarkUtils {
     val timesHelper = DoubleArray(30)
@@ -48,7 +45,6 @@ internal object BenchmarkUtils {
             timesCounter[i]++
         }
     }
-
     inline fun timesHelperDuration(timer: TimeMark) = timer.elapsedNow().toDouble(DurationUnit.SECONDS)
     suspend inline fun setTimesHelper(i: Int, t: Double, c: Int) {
         timesLock.withLock {
@@ -56,16 +52,12 @@ internal object BenchmarkUtils {
             timesCounter[i] += c
         }
     }
-
     @JvmField
     val timers = Array(EBenchmark.values().size) { Monotonic.markNow() }
-
     @JvmField
     val results = Array(EBenchmark.values().size) { 0.0 }
-
     @JvmField
     val counters = Array(EBenchmark.values().size) { 0 }
-
     init {
         Runtime.getRuntime().addShutdownHook(object : Thread() {
             override fun run() {
@@ -75,18 +67,15 @@ internal object BenchmarkUtils {
             }
         })
     }
-
     inline fun start(id: EBenchmark) {
         timers[id.ordinal] = Monotonic.markNow()
     }
-
     inline fun elapsedSeconds(id: EBenchmark): Double {
         val res = timers[id.ordinal].elapsedNow().toDouble(DurationUnit.SECONDS)
         results[id.ordinal] += res
         counters[id.ordinal]++
         return res
     }
-
     inline fun getTime(id: EBenchmark) = results[id.ordinal]
     inline fun getCounter(id: EBenchmark) = counters[id.ordinal]
 }

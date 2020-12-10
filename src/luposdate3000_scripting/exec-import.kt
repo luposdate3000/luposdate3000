@@ -1,7 +1,6 @@
 import lupos.s00misc.Platform
 import java.io.File
 import java.lang.ProcessBuilder.Redirect
-
 fun execImport(args: Array<String>) {
     File("log").mkdirs()
     val jars = mutableListOf(

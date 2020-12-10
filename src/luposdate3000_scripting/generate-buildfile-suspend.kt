@@ -1,11 +1,9 @@
 import java.io.File
 import java.nio.file.Files
 import java.nio.file.Paths
-
 enum class SuspendMode {
     Enable, Disable
 }
-
 val regexEnableSuspend = "/\\*suspend\\*/ ".toRegex()
 val regexDisableSuspend = "(^|[^a-zA-Z])suspend ".toRegex()
 fun applySuspendEnable() {
@@ -16,7 +14,6 @@ fun applySuspendEnable() {
         }
     }
 }
-
 fun applySuspendDisable() {
     Files.walk(Paths.get("src.generated")).forEach { it ->
         val tmp = it.toString()
@@ -25,7 +22,6 @@ fun applySuspendDisable() {
         }
     }
 }
-
 fun applySuspend(f: String, suspendMode: SuspendMode) {
     val fileSource = File(f)
     val fileTarget = File(f + ".tmp")

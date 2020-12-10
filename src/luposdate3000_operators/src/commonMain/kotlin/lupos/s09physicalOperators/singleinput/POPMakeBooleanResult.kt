@@ -1,5 +1,4 @@
 package lupos.s09physicalOperators.singleinput
-
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.ESortPriority
 import lupos.s00misc.Partition
@@ -14,13 +13,11 @@ import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.noinput.OPEmptyRow
 import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s09physicalOperators.POPBase
-
 class POPMakeBooleanResult(query: IQuery, projectedVariables: List<String>, child: IOPBase) : POPBase(query, projectedVariables, EOperatorID.POPMakeBooleanResultID, "POPMakeBooleanResult", arrayOf(child), ESortPriority.PREVENT_ANY) {
     override fun getPartitionCount(variable: String): Int {
         SanityCheck.check { children[0].getPartitionCount(variable) == 1 }
         return 1
     }
-
     override fun equals(other: Any?): Boolean = other is POPMakeBooleanResult && children[0] == other.children[0]
     override fun toSparqlQuery(): String = "ASK{" + children[0].toSparql() + "}"
     override fun cloneOP(): IOPBase = POPMakeBooleanResult(query, projectedVariables, children[0].cloneOP())

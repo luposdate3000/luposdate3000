@@ -1,10 +1,8 @@
 package lupos.s08logicalOptimisation
-
 import lupos.s00misc.HistogramNotImplementedException
 import lupos.s00misc.SanityCheck
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.multiinput.LOPJoin
-
 object LogicalOptimizerJoinOrderStore {
     /*suspend*/ operator fun invoke(allChilds: List<IOPBase>, root: LOPJoin): IOPBase? {
         SanityCheck.check { allChilds.size > 2 }

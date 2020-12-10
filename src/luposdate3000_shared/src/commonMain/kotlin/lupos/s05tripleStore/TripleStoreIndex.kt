@@ -1,9 +1,7 @@
 package lupos.s05tripleStore
-
 import lupos.s00misc.HistogramNotImplementedException
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.IteratorBundle
-
 abstract class TripleStoreIndex {
     abstract /*suspend*/ fun safeToFile(filename: String)
     abstract /*suspend*/ fun loadFromFile(filename: String)
@@ -22,7 +20,6 @@ abstract class TripleStoreIndex {
             i += 3
         }
     }
-
     open /*suspend*/ fun removeAsBulk(data: IntArray, order: IntArray) {
         var i = 0
         while (i < data.size) {

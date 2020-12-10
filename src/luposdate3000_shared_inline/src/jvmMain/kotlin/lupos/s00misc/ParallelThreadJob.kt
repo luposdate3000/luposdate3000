@@ -1,5 +1,4 @@
 package lupos.s00misc
-
 internal actual class ParallelThreadJob(action: () -> Unit) {
     @JvmField
     val myThread = Thread { action() }

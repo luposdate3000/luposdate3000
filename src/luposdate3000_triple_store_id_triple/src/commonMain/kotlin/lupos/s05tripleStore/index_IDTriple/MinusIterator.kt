@@ -1,14 +1,10 @@
 package lupos.s05tripleStore.index_IDTriple
-
 import kotlin.jvm.JvmField
-
 internal class MinusIterator(@JvmField val a: TripleIterator, @JvmField val b: TripleIterator) : TripleIterator() {
     @JvmField
     var flag = 0
-
     @JvmField
     var useMinus = true
-
     init {
         if (b.hasNext()) {
             b.next()
@@ -17,7 +13,6 @@ internal class MinusIterator(@JvmField val a: TripleIterator, @JvmField val b: T
         }
         nextInternal()
     }
-
     private fun nextInternal() {
         flag = 0
         if (a.hasNext()) {
@@ -49,7 +44,6 @@ internal class MinusIterator(@JvmField val a: TripleIterator, @JvmField val b: T
             }
         }
     }
-
     override fun hasNext() = flag != 0
     override fun next(component: Int): Int {
         value[0] = a.value[0]

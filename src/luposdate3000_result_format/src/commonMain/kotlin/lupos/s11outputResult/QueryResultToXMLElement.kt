@@ -1,5 +1,4 @@
 package lupos.s11outputResult
-
 import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.XMLElement
@@ -7,7 +6,6 @@ import lupos.s03resultRepresentation.ResultSetDictionaryExt
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.OPBaseCompound
 import lupos.s04logicalOperators.noinput.OPNothing
-
 object QueryResultToXMLElement {
     /*suspend*/ fun toXML(rootNode: IOPBase): XMLElement {
         val res = mutableListOf<XMLElement>()

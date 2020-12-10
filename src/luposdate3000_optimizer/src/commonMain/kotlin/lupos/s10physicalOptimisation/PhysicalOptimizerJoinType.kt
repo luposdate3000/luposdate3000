@@ -1,5 +1,4 @@
 package lupos.s10physicalOptimisation
-
 import lupos.s00misc.EOptimizerID
 import lupos.s00misc.Partition
 import lupos.s00misc.USE_PARTITIONS
@@ -23,7 +22,6 @@ import lupos.s09physicalOperators.partition.POPMergePartitionOrderedByIntId
 import lupos.s09physicalOperators.partition.POPSplitPartition
 import lupos.s09physicalOperators.singleinput.POPProjection
 import lupos.s15tripleStoreDistributed.TripleStoreIteratorGlobal
-
 class PhysicalOptimizerJoinType(query: Query) : OptimizerBase(query, EOptimizerID.PhysicalOptimizerJoinTypeID) {
     override val classname: String = "PhysicalOptimizerJoinType"
     private fun localGetProjected(node: IOPBase, parent: IOPBase?): List<String> {
@@ -42,7 +40,6 @@ class PhysicalOptimizerJoinType(query: Query) : OptimizerBase(query, EOptimizerI
             }
         }
     }
-
     private fun embedWithinPartitionContext(joinColumns: MutableList<String>, childA: IOPBase, childB: IOPBase, create: (IOPBase, IOPBase) -> IOPBase, keepOrder: Boolean): IOPBase {
         if (USE_PARTITIONS && Partition.default_k > 1) {
             var a = childA
@@ -83,7 +80,6 @@ class PhysicalOptimizerJoinType(query: Query) : OptimizerBase(query, EOptimizerI
             return create(childA, childB)
         }
     }
-
     override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
         var res = node
         val projectedVariables = localGetProjected(node, parent)

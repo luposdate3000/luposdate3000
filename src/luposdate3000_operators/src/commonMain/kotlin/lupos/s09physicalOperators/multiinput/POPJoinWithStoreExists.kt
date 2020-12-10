@@ -1,5 +1,4 @@
 package lupos.s09physicalOperators.multiinput
-
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.ESortPriority
 import lupos.s00misc.Partition
@@ -17,7 +16,6 @@ import lupos.s04logicalOperators.noinput.LOPTriple
 import lupos.s09physicalOperators.POPBase
 import lupos.s15tripleStoreDistributed.distributedTripleStore
 import kotlin.jvm.JvmField
-
 class POPJoinWithStoreExists(query: IQuery, projectedVariables: List<String>, childA: IOPBase, val childB: LOPTriple, @JvmField val optional: Boolean) : POPBase(query, projectedVariables, EOperatorID.POPJoinWithStoreExistsID, "POPJoinWithStoreExists", arrayOf(childA), ESortPriority.SAME_AS_CHILD) {
     override fun getPartitionCount(variable: String): Int = children[0].getPartitionCount(variable)
     override fun toSparql(): String {
@@ -26,7 +24,6 @@ class POPJoinWithStoreExists(query: IQuery, projectedVariables: List<String>, ch
         }
         return children[0].toSparql() + childB.toSparql()
     }
-
     override fun equals(other: Any?): Boolean = other is POPJoinWithStoreExists && optional == other.optional && children[0] == other.children[0]
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
         SanityCheck.check { !optional }
@@ -91,7 +88,6 @@ class POPJoinWithStoreExists(query: IQuery, projectedVariables: List<String>, ch
                     }
                     return t
                 }
-
                 override /*suspend*/ fun hasNext2Close() {
                     for (element in iterators) {
                         element.close()
@@ -101,12 +97,10 @@ class POPJoinWithStoreExists(query: IQuery, projectedVariables: List<String>, ch
         }
         return res
     }
-
     override /*suspend*/ fun toXMLElement(): XMLElement {
         val res = super.toXMLElement().addAttribute("optional", "" + optional)
         res["children"]!!.addContent(childB.toXMLElement())
         return res
     }
-
     override fun cloneOP(): IOPBase = POPJoinWithStoreExists(query, projectedVariables, children[0].cloneOP(), childB.cloneOP() as LOPTriple, optional)
 }

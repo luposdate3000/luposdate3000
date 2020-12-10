@@ -1,5 +1,4 @@
 package lupos.s16network
-
 import com.soywiz.korio.net.http.Http
 import com.soywiz.korio.net.http.HttpServer
 import com.soywiz.korio.net.http.createHttpServer
@@ -13,7 +12,6 @@ import lupos.s00misc.SanityCheck
 import lupos.s03resultRepresentation.nodeGlobalDictionary
 import lupos.s15tripleStoreDistributed.distributedTripleStore
 import kotlin.jvm.JvmField
-
 @UseExperimental(ExperimentalStdlibApi::class)
 object HttpEndpointLauncher {
     @JvmField
@@ -101,7 +99,6 @@ object HttpEndpointLauncher {
         }
         throw EnpointRecievedInvalidPath(path)
     }
-
     suspend fun myRequestHandler(request: HttpServer.Request) {
         val params = request.getParams
         request.replaceHeader("Connection", "close")
@@ -134,7 +131,6 @@ object HttpEndpointLauncher {
             }
         }
     }
-
     suspend fun start(hostname: String = "localhost", port: Int = 80) {
         server = createHttpServer().listen(port, hostname, ::myRequestHandler)
     }

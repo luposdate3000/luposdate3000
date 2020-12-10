@@ -1,5 +1,4 @@
 package lupos.s03resultRepresentation
-
 import lupos.s00misc.CanNotCastBNodeToBooleanException
 import lupos.s00misc.CanNotCastBNodeToDecimalException
 import lupos.s00misc.CanNotCastBNodeToDoubleException
@@ -33,7 +32,6 @@ import lupos.s00misc.MyBigInteger
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.XMLElement
 import kotlin.jvm.JvmField
-
 sealed class ValueDefinition : Comparable<ValueDefinition> {
     abstract /*suspend*/ fun toXMLElement(): XMLElement
     abstract fun valueToString(): String?
@@ -41,7 +39,6 @@ sealed class ValueDefinition : Comparable<ValueDefinition> {
     abstract fun toDecimal(): MyBigDecimal
     abstract fun toInt(): MyBigInteger
     abstract fun toBoolean(): Boolean
-
     companion object {
         operator fun invoke(tmp: String?): ValueDefinition {
             if (tmp == null || tmp.isEmpty()) {
@@ -80,14 +77,11 @@ sealed class ValueDefinition : Comparable<ValueDefinition> {
             return ValueSimpleLiteral("" + tmp[0], tmp.substring(1, tmp.length - 1))
         }
     }
-
     fun toSparql(): String {
         return valueToString() ?: return "UNDEF"
     }
-
     override operator fun compareTo(other: ValueDefinition): Int = throw IncompatibleTypesDuringCompareException()
 }
-
 class ValueBnode(@JvmField var value: String) : ValueDefinition() {
     override /*suspend*/ fun toXMLElement(): XMLElement = XMLElement("ValueBnode").addAttribute("value", "" + value)
     override fun valueToString(): String = "_:$value"
@@ -97,7 +91,6 @@ class ValueBnode(@JvmField var value: String) : ValueDefinition() {
         }
         return false
     }
-
     override fun toDouble(): Nothing = throw CanNotCastBNodeToDoubleException()
     override fun toDecimal(): Nothing = throw CanNotCastBNodeToDecimalException()
     override fun toInt(): Nothing = throw CanNotCastBNodeToIntException()
@@ -110,7 +103,6 @@ class ValueBnode(@JvmField var value: String) : ValueDefinition() {
         return value.compareTo(other.value)
     }
 }
-
 class ValueBoolean(@JvmField var value: Boolean, x: Boolean) : ValueDefinition() {
     companion object {
         private val localTrue = ValueBoolean(true, true)
@@ -123,7 +115,6 @@ class ValueBoolean(@JvmField var value: Boolean, x: Boolean) : ValueDefinition()
             }
         }
     }
-
     override /*suspend*/ fun toXMLElement(): XMLElement = XMLElement("ValueBoolean").addAttribute("value", "" + value)
     override fun valueToString(): String = "\"$value\"^^<http://www.w3.org/2001/XMLSchema#boolean>"
     override fun equals(other: Any?): Boolean {
@@ -134,7 +125,6 @@ class ValueBoolean(@JvmField var value: Boolean, x: Boolean) : ValueDefinition()
         }
         throw IncompatibleTypesDuringCompareException()
     }
-
     override fun toDouble(): Nothing = throw CanNotCastBooleanToDoubleException()
     override fun toDecimal(): Nothing = throw CanNotCastBooleanToDecimalException()
     override fun toInt(): Nothing = throw CanNotCastBooleanToIntException()
@@ -151,10 +141,8 @@ class ValueBoolean(@JvmField var value: Boolean, x: Boolean) : ValueDefinition()
         }
         return -1
     }
-
     override fun hashCode(): Int = value.hashCode()
 }
-
 sealed class ValueNumeric : ValueDefinition()
 class ValueUndef : ValueDefinition() {
     override /*suspend*/ fun toXMLElement(): XMLElement = XMLElement("ValueUndef")
@@ -166,14 +154,12 @@ class ValueUndef : ValueDefinition() {
             throw IncompatibleTypesDuringCompareException()
         }
     }
-
     override fun toDouble(): Nothing = throw CanNotCastUndefToDoubleException()
     override fun toDecimal(): Nothing = throw CanNotCastUndefToDecimalException()
     override fun toInt(): Nothing = throw CanNotCastUndefToIntException()
     override fun toBoolean(): Nothing = throw CanNotCastUndefToBooleanException()
     override fun hashCode(): Int = 0
 }
-
 class ValueError : ValueDefinition() {
     override /*suspend*/ fun toXMLElement(): XMLElement = XMLElement("ValueError")
     override fun valueToString(): String? = null
@@ -184,7 +170,6 @@ class ValueError : ValueDefinition() {
     override fun toBoolean(): Nothing = throw CanNotCastErrorToBooleanException()
     override fun hashCode(): Int = 0
 }
-
 sealed class ValueStringBase(@JvmField val delimiter: String, @JvmField val content: String) : ValueDefinition() {
     override operator fun compareTo(other: ValueDefinition): Int {
         if (other is ValueBnode || other is ValueIri) {
@@ -194,13 +179,11 @@ sealed class ValueStringBase(@JvmField val delimiter: String, @JvmField val cont
         }
         return valueToString()!!.compareTo(other.valueToString()!!)
     }
-
     override fun toBoolean(): Boolean = content.isNotEmpty()
     override fun toDouble(): Nothing = throw CanNotCastLiteralToDoubleException()
     override fun toDecimal(): Nothing = throw CanNotCastLiteralToDecimalException()
     override fun toInt(): Nothing = throw CanNotCastLiteralToIntException()
 }
-
 class ValueLanguageTaggedLiteral(delimiter: String, content: String, val language: String) : ValueStringBase(delimiter, content) {
     override /*suspend*/ fun toXMLElement(): XMLElement = XMLElement("ValueLanguageTaggedLiteral").addAttribute("delimiter", "" + delimiter).addAttribute("content", "" + content).addAttribute("language", "" + language)
     override fun valueToString(): String = "$delimiter$content$delimiter@$language"
@@ -213,10 +196,8 @@ class ValueLanguageTaggedLiteral(delimiter: String, content: String, val languag
             throw IncompatibleTypesDuringCompareException()
         }
     }
-
     override fun hashCode(): Int = delimiter.hashCode() + content.hashCode() + language.hashCode()
 }
-
 class ValueSimpleLiteral(delimiter: String, content: String) : ValueStringBase(delimiter, content) {
     override /*suspend*/ fun toXMLElement(): XMLElement = XMLElement("ValueSimpleLiteral").addAttribute("delimiter", delimiter).addAttribute("content", content)
     override fun valueToString(): String = delimiter + content + delimiter
@@ -229,10 +210,8 @@ class ValueSimpleLiteral(delimiter: String, content: String) : ValueStringBase(d
             throw IncompatibleTypesDuringCompareException()
         }
     }
-
     override fun hashCode(): Int = delimiter.hashCode() + content.hashCode()
 }
-
 class ValueTypedLiteral(delimiter: String, content: String, @JvmField val type_iri: String, b: Boolean) : ValueStringBase(delimiter, content) {
     companion object {
         operator fun invoke(delimiter: String, content: String, type_iri: String): ValueDefinition {
@@ -261,7 +240,6 @@ class ValueTypedLiteral(delimiter: String, content: String, @JvmField val type_i
             }
         }
     }
-
     override /*suspend*/ fun toXMLElement(): XMLElement = XMLElement("ValueTypedLiteral").addAttribute("delimiter", "" + delimiter).addAttribute("content", "" + content).addAttribute("type_iri", "" + type_iri)
     override fun valueToString(): String = "$delimiter$content$delimiter^^<$type_iri>"
     override fun equals(other: Any?): Boolean {
@@ -273,10 +251,8 @@ class ValueTypedLiteral(delimiter: String, content: String, @JvmField val type_i
             throw IncompatibleTypesDuringCompareException()
         }
     }
-
     override fun hashCode(): Int = delimiter.hashCode() + content.hashCode() + type_iri.hashCode()
 }
-
 class ValueDecimal(@JvmField var value: MyBigDecimal) : ValueNumeric() {
     override /*suspend*/ fun toXMLElement(): XMLElement = XMLElement("ValueDecimal").addAttribute("value", "" + value)
     override fun valueToString(): String = "\"" + value.toPlainString() + "\"^^<http://www.w3.org/2001/XMLSchema#decimal>"
@@ -289,7 +265,6 @@ class ValueDecimal(@JvmField var value: MyBigDecimal) : ValueNumeric() {
             throw IncompatibleTypesDuringCompareException()
         }
     }
-
     override fun toDouble(): Double = value.toDouble()
     override fun toDecimal(): MyBigDecimal = value
     override fun toInt(): MyBigInteger = value.toMyBigInteger()
@@ -311,7 +286,6 @@ class ValueDecimal(@JvmField var value: MyBigDecimal) : ValueNumeric() {
         }
     }
 }
-
 class ValueDouble(@JvmField var value: Double) : ValueNumeric() {
     override /*suspend*/ fun toXMLElement(): XMLElement = XMLElement("ValueDouble").addAttribute("value", "" + value)
     override fun valueToString(): String = "\"$value\"^^<http://www.w3.org/2001/XMLSchema#double>"
@@ -324,7 +298,6 @@ class ValueDouble(@JvmField var value: Double) : ValueNumeric() {
             throw IncompatibleTypesDuringCompareException()
         }
     }
-
     override fun toDouble(): Double = value
     override fun toDecimal(): MyBigDecimal = MyBigDecimal(value)
     override fun toInt(): MyBigInteger = MyBigDecimal(value).toMyBigInteger()
@@ -344,7 +317,6 @@ class ValueDouble(@JvmField var value: Double) : ValueNumeric() {
         }
     }
 }
-
 class ValueFloat(@JvmField var value: Double) : ValueNumeric() {
     override /*suspend*/ fun toXMLElement(): XMLElement = XMLElement("ValueFloat").addAttribute("value", "" + value)
     override fun valueToString(): String = "\"$value\"^^<http://www.w3.org/2001/XMLSchema#float>"
@@ -357,7 +329,6 @@ class ValueFloat(@JvmField var value: Double) : ValueNumeric() {
             throw IncompatibleTypesDuringCompareException()
         }
     }
-
     override fun toDecimal(): MyBigDecimal = MyBigDecimal(value)
     override fun toDouble(): Double = value
     override fun toInt(): MyBigInteger = MyBigDecimal(value).toMyBigInteger()
@@ -379,7 +350,6 @@ class ValueFloat(@JvmField var value: Double) : ValueNumeric() {
         }
     }
 }
-
 class ValueInteger(@JvmField var value: MyBigInteger) : ValueNumeric() {
     override /*suspend*/ fun toXMLElement(): XMLElement = XMLElement("ValueInteger").addAttribute("value", "" + value)
     override fun valueToString(): String = "\"$value\"^^<http://www.w3.org/2001/XMLSchema#integer>"
@@ -392,7 +362,6 @@ class ValueInteger(@JvmField var value: MyBigInteger) : ValueNumeric() {
             throw IncompatibleTypesDuringCompareException()
         }
     }
-
     override fun toDecimal(): MyBigDecimal = value.toMyBigDecimal()
     override fun toDouble(): Double = value.toDouble()
     override fun toInt(): MyBigInteger = value
@@ -414,7 +383,6 @@ class ValueInteger(@JvmField var value: MyBigInteger) : ValueNumeric() {
         }
     }
 }
-
 class ValueIri(@JvmField var iri: String) : ValueDefinition() {
     override /*suspend*/ fun toXMLElement(): XMLElement = XMLElement("ValueIri").addAttribute("value", "" + iri)
     override fun valueToString(): String = "<$iri>"
@@ -425,7 +393,6 @@ class ValueIri(@JvmField var iri: String) : ValueDefinition() {
             false
         }
     }
-
     override fun toDouble(): Double = throw CanNotCastIriToDoubleException()
     override fun toDecimal(): MyBigDecimal = throw CanNotCastIriToDecimalException()
     override fun toInt(): MyBigInteger = throw CanNotCastIriToIntException()
@@ -438,29 +405,21 @@ class ValueIri(@JvmField var iri: String) : ValueDefinition() {
         return iri.compareTo(other.iri)
     }
 }
-
 class ValueDateTime : ValueDefinition {
     @JvmField
     val year: MyBigInteger
-
     @JvmField
     val month: Int
-
     @JvmField
     val day: Int
-
     @JvmField
     val hours: Int
-
     @JvmField
     val minutes: Int
-
     @JvmField
     val seconds: MyBigDecimal
-
     @JvmField
     val timezoneHours: Int
-
     @JvmField
     val timezoneMinutes: Int
     override operator fun compareTo(other: ValueDefinition): Int {
@@ -487,7 +446,6 @@ class ValueDateTime : ValueDefinition {
         }
         return 0
     }
-
     constructor() : super() {
         val time = DateHelper()
         year = MyBigInteger(time.year().toString())
@@ -499,7 +457,6 @@ class ValueDateTime : ValueDefinition {
         timezoneHours = 0
         timezoneMinutes = 0
     }
-
     constructor(str2: String) : super() {
         val str = str2.substring(0, str2.indexOf(str2[0], 1) + 1)
         var idx = 0
@@ -613,7 +570,6 @@ class ValueDateTime : ValueDefinition {
             timezoneMinutes = -1
         }
     }
-
     fun getTZ(): String {
         if (timezoneHours == 0 && timezoneMinutes == 0) {
             return "Z"
@@ -623,7 +579,6 @@ class ValueDateTime : ValueDefinition {
         }
         return "-${timezoneHours.toString().padStart(2, '0')}:${timezoneMinutes.toString().padStart(2, '0')}"
     }
-
     fun getTimeZone(): String {
         if (timezoneHours == 0 && timezoneMinutes == 0) {
             return "\"PT0S\"^^<http://www.w3.org/2001/XMLSchema#dayTimeDuration>"
@@ -633,7 +588,6 @@ class ValueDateTime : ValueDefinition {
         }
         return ""
     }
-
     override fun valueToString(): String {
         val secondsString2 = seconds.toString().split(".")
         var secondsString = secondsString2[0].padStart(2, '0')
@@ -648,7 +602,6 @@ class ValueDateTime : ValueDefinition {
             "\"${year.toString().padStart(4, '0')}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}T${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:$secondsString-${timezoneHours.toString().padStart(2, '0')}:${timezoneMinutes.toString().padStart(2, '0')}\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"
         }
     }
-
     override /*suspend*/ fun toXMLElement(): XMLElement = XMLElement("ValueDateTime").addAttribute("value", valueToString())
     override fun equals(other: Any?): Boolean {
         if (other is ValueDateTime) {
@@ -658,7 +611,6 @@ class ValueDateTime : ValueDefinition {
         }
         throw IncompatibleTypesDuringCompareException()
     }
-
     override fun hashCode(): Int = valueToString().hashCode()
     override fun toDouble(): Double = throw CanNotCastDateTimeToDoubleException()
     override fun toDecimal(): MyBigDecimal = throw CanNotCastDateTimeToDecimalException()

@@ -1,10 +1,8 @@
 package lupos.s05tripleStore.index_IDTriple
-
 import lupos.s00misc.ByteArrayHelper
 import lupos.s00misc.MyReadWriteLock
 import lupos.s00misc.SanityCheck
 import lupos.s04logicalOperators.iterator.ColumnIterator
-
 internal object NodeInner {
     const val START_OFFSET = 16
     const val MAX_POINTER_SIZE = 4
@@ -29,25 +27,20 @@ internal object NodeInner {
             nodeid = nextnodeid
         }
     }
-
     inline fun setFirstChild(data: ByteArray, node: Int) {
         ByteArrayHelper.writeInt4(data, 12, node)
     }
-
     inline fun getFirstChild(data: ByteArray): Int {
         return ByteArrayHelper.readInt4(data, 12)
     }
-
     inline fun writeChildPointer(node: ByteArray, offset: Int, pointer: Int): Int {
         ByteArrayHelper.writeInt4(node, offset, pointer)
         return 4
     }
-
     inline fun readChildPointer(node: ByteArray, offset: Int, crossinline action: (pointer: Int) -> Unit): Int {
         action(ByteArrayHelper.readInt4(node, offset))
         return 4
     }
-
     inline fun iterator(_node: ByteArray): TripleIterator {
         var iterator: TripleIterator? = null
         var node = _node
@@ -72,7 +65,6 @@ internal object NodeInner {
         }
         return iterator!!
     }
-
     /*suspend*/ inline fun iterator(_node: ByteArray, lock: MyReadWriteLock, component: Int): ColumnIterator {
         var iterator: ColumnIterator? = null
         var node = _node
@@ -97,7 +89,6 @@ internal object NodeInner {
         }
         return iterator!!
     }
-
     inline /*suspend*/ fun forEachChild(node: ByteArray, crossinline action: /*suspend*/ (Int) -> Unit) {
         var remaining = NodeShared.getTripleCount(node)
         var offset = START_OFFSET
@@ -112,7 +103,6 @@ internal object NodeInner {
             remaining--
         }
     }
-
     /*suspend*/ inline fun findIteratorN(node: ByteArray, crossinline checkTooSmall: /*suspend*/ (value0: Int, value1: Int, value2: Int) -> Boolean, crossinline action: /*suspend*/ (Int) -> Unit) {
         var remaining = NodeShared.getTripleCount(node)
         var offset = START_OFFSET
@@ -136,7 +126,6 @@ internal object NodeInner {
         }
         action(lastChildPointer)
     }
-
     /*suspend*/ inline fun iterator3(_node: ByteArray, prefix: IntArray, lock: MyReadWriteLock): ColumnIterator {
         var node = _node
         var iterator: ColumnIterator? = null
@@ -170,7 +159,6 @@ internal object NodeInner {
         }
         return iterator!!
     }
-
     /*suspend*/ inline fun iterator2(_node: ByteArray, prefix: IntArray, lock: MyReadWriteLock): ColumnIterator {
         var node = _node
         var iterator: ColumnIterator? = null
@@ -204,7 +192,6 @@ internal object NodeInner {
         }
         return iterator!!
     }
-
     /*suspend*/ inline fun iterator1(_node: ByteArray, prefix: IntArray, lock: MyReadWriteLock, component: Int): ColumnIterator {
         var node = _node
         var iterator: ColumnIterator? = null
@@ -238,7 +225,6 @@ internal object NodeInner {
         }
         return iterator!!
     }
-
     inline fun initializeWith(node: ByteArray, nodeid: Int, childs: MutableList<Int>) {
         SanityCheck.check { childs.size > 0 }
         var writtenHeaders: MutableList<Int>? = null

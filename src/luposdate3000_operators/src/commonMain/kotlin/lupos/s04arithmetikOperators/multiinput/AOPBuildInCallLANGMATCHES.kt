@@ -1,5 +1,4 @@
 package lupos.s04arithmetikOperators.multiinput
-
 import lupos.s00misc.EOperatorID
 import lupos.s03resultRepresentation.ValueBoolean
 import lupos.s03resultRepresentation.ValueDefinition
@@ -9,7 +8,6 @@ import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.IteratorBundle
-
 class AOPBuildInCallLANGMATCHES(query: IQuery, child: AOPBase, childB: AOPBase) : AOPBase(query, EOperatorID.AOPBuildInCallLANGMATCHESID, "AOPBuildInCallLANGMATCHES", arrayOf(child, childB)) {
     override fun toSparql(): String = "LANGMATCHES(" + children[0].toSparql() + ", " + children[1].toSparql() + ")"
     override fun equals(other: Any?): Boolean = other is AOPBuildInCallLANGMATCHES && children[0] == other.children[0] && children[1] == other.children[1]
@@ -26,7 +24,6 @@ class AOPBuildInCallLANGMATCHES(query: IQuery, child: AOPBase, childB: AOPBase) 
             res
         }
     }
-
     override fun enforcesBooleanOrError(): Boolean = true
     override fun cloneOP(): IOPBase = AOPBuildInCallLANGMATCHES(query, children[0].cloneOP() as AOPBase, children[1].cloneOP() as AOPBase)
 }

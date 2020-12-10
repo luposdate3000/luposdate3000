@@ -1,5 +1,4 @@
 package lupos.s10physicalOptimisation
-
 import lupos.s00misc.EOptimizerID
 import lupos.s00misc.Partition
 import lupos.s00misc.USE_PARTITIONS
@@ -12,7 +11,6 @@ import lupos.s09physicalOperators.partition.POPMergePartitionCount
 import lupos.s09physicalOperators.partition.POPMergePartitionOrderedByIntId
 import lupos.s09physicalOperators.partition.POPSplitPartition
 import lupos.s09physicalOperators.partition.POPSplitPartitionFromStore
-
 class PhysicalOptimizerPartition5(query: Query) : OptimizerBase(query, EOptimizerID.PhysicalOptimizerPartition5ID) {
     override val classname: String = "PhysicalOptimizerPartition5"
     override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {

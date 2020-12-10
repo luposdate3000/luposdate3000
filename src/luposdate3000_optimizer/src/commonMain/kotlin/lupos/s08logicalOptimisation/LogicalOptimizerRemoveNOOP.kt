@@ -1,5 +1,4 @@
 package lupos.s08logicalOptimisation
-
 import lupos.s00misc.EOptimizerID
 import lupos.s03resultRepresentation.ResultSetDictionaryExt
 import lupos.s04arithmetikOperators.noinput.AOPConstant
@@ -14,7 +13,6 @@ import lupos.s04logicalOperators.singleinput.LOPFilter
 import lupos.s04logicalOperators.singleinput.LOPMakeBooleanResult
 import lupos.s04logicalOperators.singleinput.LOPNOOP
 import lupos.s04logicalOperators.singleinput.LOPSubGroup
-
 class LogicalOptimizerRemoveNOOP(query: Query) : OptimizerBase(query, EOptimizerID.LogicalOptimizerRemoveNOOPID) {
     override val classname: String = "LogicalOptimizerRemoveNOOP"
     override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {

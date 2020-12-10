@@ -1,9 +1,7 @@
 package lupos.s00misc
-
 expect class MyBigInteger {
     constructor(s1: String)
     constructor(s1: Int)
-
     fun toDouble(): Double
     fun toMyBigDecimal(): MyBigDecimal
     fun compareTo(other: MyBigInteger): Int

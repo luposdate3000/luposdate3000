@@ -1,5 +1,4 @@
 package lupos.s11outputResult
-
 import lupos.s00misc.IMyPrintWriter
 import lupos.s00misc.MyLock
 import lupos.s00misc.Parallel
@@ -14,7 +13,6 @@ import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s09physicalOperators.partition.POPMergePartition
 import lupos.s09physicalOperators.partition.POPMergePartitionOrderedByIntId
-
 object QueryResultToEmptyStream {
     /*suspend*/ private inline fun writeAllRows(variables: Array<String>, columns: Array<ColumnIterator>, dictionary: IResultSetDictionary, lock: MyLock?, output: IMyPrintWriter) {
         val rowBuf = IntArray(variables.size)
@@ -31,7 +29,6 @@ object QueryResultToEmptyStream {
             element.close()
         }
     }
-
     private /*suspend*/ fun writeNodeResult(variables: Array<String>, node: IOPBase, output: IMyPrintWriter, parent: Partition = Partition()) {
         if ((node is POPMergePartition && node.partitionCount > 1) || (node is POPMergePartitionOrderedByIntId && node.partitionCount > 1)) {
             var partitionCount = 0
@@ -71,7 +68,6 @@ object QueryResultToEmptyStream {
             writeAllRows(variables, columns, node.getQuery().getDictionary(), null, output)
         }
     }
-
     /*suspend*/ operator fun invoke(rootNode: IOPBase, output: IMyPrintWriter) {
         val nodes: Array<IOPBase>
         var columnProjectionOrder = listOf<List<String>>()

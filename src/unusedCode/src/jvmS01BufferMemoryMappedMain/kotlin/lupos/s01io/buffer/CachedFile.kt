@@ -1,10 +1,8 @@
 package lupos.s01io.buffer
-
 import java.io.File
 import java.io.RandomAccessFile
 import java.nio.channels.FileChannel
 import kotlin.jvm.JvmField
-
 // problems unmap:
 // see e.g.: https://stackoverflow.com/questions/2972986
 // furthermore, memory mapped file and unsafe api:
@@ -15,7 +13,6 @@ class CachedFile {
     @JvmField
     val file: RandomAccessFile
     const val PAGESIZE = 8 * 1024L
-
     constructor(filename: String) {
         val paths = filename.split("/")
         if (paths.size > 1) {
@@ -24,18 +21,15 @@ class CachedFile {
         }
         this.file = RandomAccessFile(File(filename), "rw")
     }
-
     inline fun close() {
         this.file.close()
     }
-
     inline fun get(address: Long): Page {
         return MappedByteBufferPage(
             this.file.getChannel()
                 .map(FileChannel.MapMode.READ_WRITE, address, PAGESIZE)
         )
     }
-
     inline fun write(address: Long, page: Page) {
         // it is already written by using put-methods of MappedByteBuffer
     }

@@ -1,5 +1,4 @@
 package lupos.s04arithmetikOperators.singleinput
-
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.SanityCheck
 import lupos.s03resultRepresentation.ValueDecimal
@@ -13,7 +12,6 @@ import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import kotlin.math.ceil
-
 class AOPBuildInCallCEIL(query: IQuery, child: AOPBase) : AOPBase(query, EOperatorID.AOPBuildInCallCEILID, "AOPBuildInCallCEIL", arrayOf(child)) {
     // return integer which is equal or larger than input
     override fun toSparql(): String = "CEIL(" + children[0].toSparql() + ")"
@@ -49,6 +47,5 @@ class AOPBuildInCallCEIL(query: IQuery, child: AOPBase) : AOPBase(query, EOperat
             res
         }
     }
-
     override fun cloneOP(): IOPBase = AOPBuildInCallCEIL(query, children[0].cloneOP() as AOPBase)
 }

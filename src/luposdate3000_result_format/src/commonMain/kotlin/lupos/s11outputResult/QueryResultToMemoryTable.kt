@@ -1,5 +1,4 @@
 package lupos.s11outputResult
-
 import lupos.s00misc.MemoryTable
 import lupos.s00misc.MyLock
 import lupos.s00misc.Parallel
@@ -14,12 +13,10 @@ import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s09physicalOperators.partition.POPMergePartition
 import lupos.s09physicalOperators.partition.POPMergePartitionOrderedByIntId
-
 object QueryResultToMemoryTable {
     private /*suspend*/ fun writeRow(variables: Array<String>, rowBuf: IntArray, dictionary: IResultSetDictionary, output: MemoryTable) {
         output.data.add(IntArray(variables.size) { rowBuf[it] })
     }
-
     /*suspend*/ private inline fun writeAllRows(variables: Array<String>, columns: Array<ColumnIterator>, dictionary: IResultSetDictionary, lock: MyLock?, output: MemoryTable) {
         val rowBuf = IntArray(variables.size)
         loop@ while (true) {
@@ -38,7 +35,6 @@ object QueryResultToMemoryTable {
             element.close()
         }
     }
-
     private /*suspend*/ fun writeNodeResult(variables: Array<String>, node: IOPBase, output: MemoryTable, parent: Partition = Partition()) {
         if ((node is POPMergePartition && node.partitionCount > 1) || (node is POPMergePartitionOrderedByIntId && node.partitionCount > 1)) {
             var partitionCount = 0
@@ -78,7 +74,6 @@ object QueryResultToMemoryTable {
             writeAllRows(variables, columns, node.getQuery().getDictionary(), null, output)
         }
     }
-
     /*suspend*/ operator fun invoke(rootNode: IOPBase): List<MemoryTable> {
         val nodes: Array<IOPBase>
         var columnProjectionOrder = listOf<List<String>>()

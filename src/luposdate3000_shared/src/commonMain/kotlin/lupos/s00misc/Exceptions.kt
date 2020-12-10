@@ -1,8 +1,6 @@
 package lupos.s00misc
-
 /* explicitly storing the classname has the advantage, that the classname is accessible in native code too, and not just via reflection */
 abstract class Luposdate3000Exception(val classname: String, msg: String) : Exception(msg)
-
 // not implemented exceptions --->>>
 open class NotImplementedException(classname: String, msg: String) : Luposdate3000Exception(classname, msg)
 class HistogramNotImplementedException(classname: String) : NotImplementedException("HistogramNotImplementedException", "Histograms not implemented in '$classname'.")
@@ -16,7 +14,6 @@ class UnknownManifestException(classname: String, msg: String) : NotImplementedE
 class DirectoryCompareNotImplementedException : NotImplementedException("DirectoryCompareNotImplementedException", "Comparing directories is not implemented")
 class GraphVarHistogramsNotImplementedException : NotImplementedException("GraphVarHistogramsNotImplementedException", "histograms for triples using graph variable not implemented.")
 class TriplePatternsContainingTheSameVariableTwiceNotImplementedException : NotImplementedException("TriplePatternsContainingTheSameVariableTwiceNotImplementedException", "triple pattern currently must not contain the same variable twice.")
-
 // syntax exceptions --->>>
 abstract class SyntaxException(classname: String, msg: String) : Luposdate3000Exception(classname, msg)
 class RecoursiveVariableDefinitionSyntaxException(name: String) : SyntaxException("RecoursiveVariableDefinitionSyntaxException", "Recoursive variable definition not allowed '$name'.")
@@ -27,7 +24,6 @@ class GroupByClauseNotUsedException : SyntaxException("GroupByClauseNotUsedExcep
 class GroupByColumnMissing(name: String) : SyntaxException("GroupByColumnMissing", "Group By requires the column '$name', which does not exist within this GroupBy-Clause.")
 class GroupByDuplicateColumnException : SyntaxException("GroupByDuplicateColumnException", "no duplicate columns allowed in group-by.")
 class XMLNotParseableException : SyntaxException("XMLNotParseableException", "Xml is not parseable.")
-
 // evaluation exceptions --->>>
 abstract class EvaluationException(classname: String, msg: String) : Luposdate3000Exception(classname, msg)
 class DatasetImportFailedException(file: String) : EvaluationException("DatasetImportFailedException", "importing the dataset '$file' failed")
@@ -66,10 +62,8 @@ class GraphNameNotExistsDuringDeleteException(name: String) : EvaluationExceptio
 class GraphNameNotFoundException(name: String) : EvaluationException("GraphNameNotFoundException", "The graph '$name' does not exist.")
 class UnreachableException : EvaluationException("UnreachableException", "This should be unreachable.")
 class EmptyResultException : EvaluationException("EmptyResultException", "")
-
 // known bugs --->>>
 class BugException(classname: String, bugname: String) : Luposdate3000Exception("BugException", "Class '$classname' has bug '$bugname'.")
 // used to indicate, that intentionally every exception is caught here
 typealias DontCareWhichException = Throwable
-
 class JenaBugException(bugname: String) : Luposdate3000Exception("JenaBugException", "Jena has bug: '$bugname'")

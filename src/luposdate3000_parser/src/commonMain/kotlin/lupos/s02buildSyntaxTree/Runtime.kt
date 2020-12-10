@@ -1,24 +1,18 @@
 package lupos.s02buildSyntaxTree
-
 import lupos.s02buildSyntaxTree.turtle.EOF
 import kotlin.jvm.JvmField
-
 interface TokenIterator {
     fun nextToken(): Token
     fun getIndex(): Int
     fun getLineNumber(): Int
     fun getColumnNumber(): Int
 }
-
 class LookAheadTokenIterator(@JvmField val tokenIterator: TokenIterator, @JvmField val lookahead: Int) {
     private val tokens: Array<Token> = Array(lookahead) { EOF(0) } // circular buffer for lookahead requests, EOF default value just to avoid unnecessary null checks...
-
     @JvmField
     var index1: Int = 0
-
     @JvmField
     var index2: Int = 0
-
     @JvmField
     var buffered: Int = 0 // how many tokens are currently buffered?
     fun nextToken(): Token {
@@ -31,7 +25,6 @@ class LookAheadTokenIterator(@JvmField val tokenIterator: TokenIterator, @JvmFie
             this.tokenIterator.nextToken()
         }
     }
-
     /**
      * return the token (number+1) ahead
      */
@@ -47,38 +40,29 @@ class LookAheadTokenIterator(@JvmField val tokenIterator: TokenIterator, @JvmFie
         return tokens[(index1 + number) % tokens.size]
     }
 }
-
 open class ParseError(message: String, @JvmField val lineNumber: Int, @JvmField val columnNumber: Int) : Throwable("$message in line $lineNumber at column $columnNumber") {
     constructor(message: String, token: Token, tokenIterator: LookAheadTokenIterator) : this(message, tokenIterator.tokenIterator.getLineNumber(), tokenIterator.tokenIterator.getColumnNumber())
 }
-
 class UnexpectedEndOfFile(index: Int, lineNumber: Int, columnNumber: Int) : ParseError("Unexpected End of File", lineNumber, columnNumber)
 class LookAheadOverLimit(lookahead: Int, requestedLookahead: Int, index: Int, lineNumber: Int, columnNumber: Int) : ParseError("Requested $lookahead lookahead, but maximum is $requestedLookahead", lineNumber, columnNumber)
 class PutBackOverLimit(index: Int, lineNumber: Int, columnNumber: Int) : ParseError("Maximum of allowed put back is reached...", lineNumber, columnNumber)
 class UnexpectedToken(token: Token, expectedTokens: Array<String>, lineNumber: Int, columnNumber: Int) : ParseError("Unexpected Token " + token + ", expected: " + expectedTokens.contentToString(), lineNumber, columnNumber) {
     constructor(token: Token, expectedTokens: Array<String>, tokenIterator: LookAheadTokenIterator) : this(token, expectedTokens, tokenIterator.tokenIterator.getLineNumber(), tokenIterator.tokenIterator.getColumnNumber())
 }
-
 class LexerCharIterator(@JvmField val content: CharIterator) {
     constructor(contentString: String) : this(contentString.iterator())
-
     companion object {
         const val MAXSIZEPUTBACK: Int = 256
     }
-
     @JvmField
     var index: Int = 0
-
     @JvmField
     var lineNumber: Int = 0
-
     @JvmField
     var columnNumber: Int = 0
     var debugcounterindex: Int = 0
-
     @JvmField
     var backArray: Array<Char> = Array(MAXSIZEPUTBACK) { ' ' }
-
     @JvmField
     var backArrayIndex: Int = 0
     inline fun hasNext(): Boolean = (this.content.hasNext() || this.backArrayIndex > 0)
@@ -90,7 +74,6 @@ class LexerCharIterator(@JvmField val content: CharIterator) {
             columnNumber++
         }
     }
-
     inline fun updateLineNumberforPutBack(c: Char) {
         if (c == '\n') {
             lineNumber--
@@ -99,7 +82,6 @@ class LexerCharIterator(@JvmField val content: CharIterator) {
             columnNumber--
         }
     }
-
     inline fun nextChar(): Char {
         this.index++
         if (this.backArrayIndex > 0) {
@@ -116,7 +98,6 @@ class LexerCharIterator(@JvmField val content: CharIterator) {
         }
         throw UnexpectedEndOfFile(this.index - 1, this.lineNumber, this.columnNumber)
     }
-
     inline fun putBack(c: Char) {
         this.index--
         if (this.backArrayIndex + 1 >= MAXSIZEPUTBACK) {
@@ -126,7 +107,6 @@ class LexerCharIterator(@JvmField val content: CharIterator) {
         this.backArray[this.backArrayIndex] = c
         this.backArrayIndex++
     }
-
     inline fun putBack(s: String) {
         val length = s.length
         this.index -= length
@@ -143,7 +123,6 @@ class LexerCharIterator(@JvmField val content: CharIterator) {
         }
         this.backArrayIndex += length
     }
-
     inline fun lookaheadAvailable(number: Int = 0): Boolean {
         if (this.backArrayIndex > number) {
             return true
@@ -160,7 +139,6 @@ class LexerCharIterator(@JvmField val content: CharIterator) {
         }
         return true
     }
-
     inline fun lookahead(number: Int = 0): Char {
         if (this.backArrayIndex > number) {
             return this.backArray[this.backArrayIndex - number - 1]
@@ -182,7 +160,6 @@ class LexerCharIterator(@JvmField val content: CharIterator) {
         return this.backArray[this.backArrayIndex - number - 1]
     }
 }
-
 abstract class Token(@JvmField val image: String, @JvmField val index: Int) {
     override fun toString(): String {
         return super.toString() + ": " + image

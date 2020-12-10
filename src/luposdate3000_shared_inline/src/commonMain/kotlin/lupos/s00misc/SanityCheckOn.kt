@@ -1,10 +1,8 @@
 package lupos.s00misc
-
 internal object SanityCheckOn {
     inline fun println(crossinline s: () -> Any?) {
         println(s())
     }
-
     inline operator fun invoke(crossinline action: () -> Unit) {
         try {
             action()
@@ -14,7 +12,6 @@ internal object SanityCheckOn {
             throw e
         }
     }
-
     /*suspend*/ inline fun suspended(crossinline action: /*suspend*/ () -> Unit) {
         try {
             action()
@@ -24,7 +21,6 @@ internal object SanityCheckOn {
             throw e
         }
     }
-
     inline fun <T> helper(crossinline action: () -> T): T? = action()
     inline fun check(crossinline value: () -> Boolean, crossinline msg: () -> String) {
         try {
@@ -37,7 +33,6 @@ internal object SanityCheckOn {
             throw e
         }
     }
-
     inline fun check(crossinline value: () -> Boolean) {
         try {
             if (!value()) {
@@ -49,6 +44,5 @@ internal object SanityCheckOn {
             throw e
         }
     }
-
     inline fun checkUnreachable(): Nothing = throw UnreachableException()
 }

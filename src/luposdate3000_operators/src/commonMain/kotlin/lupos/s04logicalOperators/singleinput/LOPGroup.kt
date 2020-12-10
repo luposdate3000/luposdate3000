@@ -1,5 +1,4 @@
 package lupos.s04logicalOperators.singleinput
-
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.ESortPriority
 import lupos.s00misc.GroupByColumnMissing
@@ -15,7 +14,6 @@ import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.LOPBase
 import lupos.s04logicalOperators.noinput.OPEmptyRow
 import kotlin.jvm.JvmField
-
 class LOPGroup(query: IQuery, @JvmField var by: List<AOPVariable>) : LOPBase(query, EOperatorID.LOPGroupID, "LOPGroup", arrayOf(OPEmptyRow(query)), ESortPriority.GROUP) {
     override fun childrenToVerifyCount(): Int = 1
     var bindings: MutableList<Pair<String, AOPBase>> = mutableListOf()
@@ -36,12 +34,10 @@ class LOPGroup(query: IQuery, @JvmField var by: List<AOPVariable>) : LOPBase(que
         }
         return res
     }
-
     constructor(query: IQuery, by: List<AOPVariable>, bindings: List<Pair<String, AOPBase>>, child: IOPBase) : this(query, by) {
         this.bindings = bindings.toMutableList()
         children[0] = child
     }
-
     constructor(query: IQuery, by: List<AOPVariable>, bindings: IOPBase?, child: IOPBase) : this(query, by) {
         var b = bindings
         while (b != null) {
@@ -56,7 +52,6 @@ class LOPGroup(query: IQuery, @JvmField var by: List<AOPVariable>) : LOPBase(que
         this.bindings = this.bindings.asReversed()
         children[0] = child
     }
-
     override fun syntaxVerifyAllVariableExists(additionalProvided: List<String>, autocorrect: Boolean) {
         children[0].syntaxVerifyAllVariableExists(additionalProvided, autocorrect)
         SanityCheck.check { additionalProvided.isEmpty() }
@@ -100,11 +95,9 @@ class LOPGroup(query: IQuery, @JvmField var by: List<AOPVariable>) : LOPBase(que
             }
         }
     }
-
     override fun getProvidedVariableNames(): List<String> {
         return (bindings.map { it.first } + Array(by.size) { by[it].name }).distinct()
     }
-
     override fun getRequiredVariableNames(): List<String> {
         val res = mutableListOf<String>()
         for (b in bindings) {
@@ -115,7 +108,6 @@ class LOPGroup(query: IQuery, @JvmField var by: List<AOPVariable>) : LOPBase(que
         }
         return res.distinct()
     }
-
     override /*suspend*/ fun toXMLElement(): XMLElement {
         val res = super.toXMLElement()
         val byxml = XMLElement("LocalBy")
@@ -130,7 +122,6 @@ class LOPGroup(query: IQuery, @JvmField var by: List<AOPVariable>) : LOPBase(que
         }
         return res
     }
-
     override fun equals(other: Any?): Boolean = other is LOPGroup && children[0] == other.children[0] && by == other.by && bindings == other.bindings
     override fun cloneOP(): IOPBase = LOPGroup(query, by, bindings.map { it }, children[0].cloneOP())
     override /*suspend*/ fun calculateHistogram(): HistogramResult {

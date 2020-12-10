@@ -1,7 +1,5 @@
 package lupos.s04logicalOperators.iterator
-
 import lupos.s03resultRepresentation.ResultSetDictionaryExt
-
 internal object ColumnIteratorQueueExt {
     inline fun _close(it: ColumnIteratorQueue) {
         if (it.label != 0) {
@@ -9,7 +7,6 @@ internal object ColumnIteratorQueueExt {
             it.queue.clear()
         }
     }
-
     /*suspend*/ inline fun nextHelper(it: ColumnIteratorQueue, crossinline onEmptyQueue: /*suspend*/ () -> Unit, crossinline onClose: /*suspend*/ () -> Unit): Int {
         when (it.label) {
             1 -> {
@@ -38,7 +35,6 @@ internal object ColumnIteratorQueueExt {
             }
         }
     }
-
     inline fun closeOnEmptyQueue(it: ColumnIteratorQueue) {
         if (it.label != 0) {
             it.label = 2

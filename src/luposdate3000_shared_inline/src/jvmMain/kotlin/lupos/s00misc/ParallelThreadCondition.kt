@@ -1,9 +1,7 @@
 package lupos.s00misc
-
 internal actual class ParallelThreadCondition {
     @JvmField
     val myMonitorObject = this as Object
-
     @JvmField
     var wasSignalled = false
     actual inline fun waitCondition(crossinline condition: () -> Boolean) {
@@ -17,7 +15,6 @@ internal actual class ParallelThreadCondition {
             wasSignalled = false
         }
     }
-
     actual inline fun signal() {
         synchronized(myMonitorObject) {
             wasSignalled = true

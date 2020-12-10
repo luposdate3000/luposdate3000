@@ -1,5 +1,4 @@
 package lupos.s05tripleStore
-
 import lupos.s00misc.EIndexPattern
 import lupos.s00misc.EModifyType
 import lupos.s00misc.File
@@ -10,11 +9,9 @@ import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import kotlin.jvm.JvmField
-
 abstract class TripleStoreLocalBase(@JvmField val name: String) : ITripleStoreLocalBase {
     @JvmField // override this during initialisation
     var dataDistinct: Array<TripleStoreDistinctContainer> = arrayOf()
-
     @JvmField // override this during initialisation
     var enabledPartitions: Array<EnabledPartitionContainer> = arrayOf( //
         EnabledPartitionContainer(mutableSetOf(EIndexPattern.SPO, EIndexPattern.S_PO, EIndexPattern.SP_O), -1, 1), //
@@ -24,10 +21,8 @@ abstract class TripleStoreLocalBase(@JvmField val name: String) : ITripleStoreLo
         EnabledPartitionContainer(mutableSetOf(EIndexPattern.OSP, EIndexPattern.O_SP, EIndexPattern.OS_P), -1, 1), //
         EnabledPartitionContainer(mutableSetOf(EIndexPattern.OPS, EIndexPattern.O_PS, EIndexPattern.OP_S), -1, 1), //
     )
-
     @JvmField // override this during initialisation
     var pendingModificationsInsert: Array<MutableMap<Long, MutableList<Int>>> = Array(0) { mutableMapOf() }
-
     @JvmField // override this during initialisation
     var pendingModificationsRemove: Array<MutableMap<Long, MutableList<Int>>> = Array(0) { mutableMapOf() }
     override fun getEnabledPartitions(): Array<EnabledPartitionContainer> = enabledPartitions
@@ -37,19 +32,16 @@ abstract class TripleStoreLocalBase(@JvmField val name: String) : ITripleStoreLo
             it.second.safeToFile(foldername + "/" + it.first + ".bin")
         }
     }
-
     /*suspend*/ fun loadFromFolder(foldername: String) {
         dataDistinct.forEach {
             it.second.loadFromFile(foldername + "/" + it.first + ".bin")
         }
     }
-
     override /*suspend*/ fun flush() {
         dataDistinct.forEach {
             it.second.flush()
         }
     }
-
     override /*suspend*/ fun getHistogram(query: IQuery, params: TripleStoreFeatureParams): Pair<Int, Int> {
         var idx = 0
         when (params) {
@@ -95,7 +87,6 @@ abstract class TripleStoreLocalBase(@JvmField val name: String) : ITripleStoreLo
         }
         throw Exception("")
     }
-
     override /*suspend*/ fun getIterator(query: IQuery, params: TripleStoreFeatureParams): IteratorBundle {
         var idx = 0
         when (params) {
@@ -144,13 +135,11 @@ abstract class TripleStoreLocalBase(@JvmField val name: String) : ITripleStoreLo
         }
         throw Exception("")
     }
-
     override /*suspend*/ fun import(dataImport: ITripleStoreBulkImport) {
         for (i in dataDistinct.indices) {
             dataDistinct[i].second.import(dataDistinct[i].importField(dataImport), dataImport.getIdx(), dataDistinct[i].idx.tripleIndicees)
         }
     }
-
     override /*suspend*/ fun commit(query: IQuery) {
         /*
          * the input is ALWAYS in SPO order. The remapping of the triple layout is within the index, using the parameter order.
@@ -182,7 +171,6 @@ abstract class TripleStoreLocalBase(@JvmField val name: String) : ITripleStoreLo
             }
         }
     }
-
     override /*suspend*/ fun clear() {
         dataDistinct.forEach {
             it.second.clear()
@@ -192,7 +180,6 @@ abstract class TripleStoreLocalBase(@JvmField val name: String) : ITripleStoreLo
             pendingModificationsRemove[idx].clear()
         }
     }
-
     override /*suspend*/ fun modify(query: IQuery, dataModify: Array<ColumnIterator>, type: EModifyType) {
         /*
          * the input iterators are always in the SPO order. The real remapping to the ordering of the store happens within the commit-phase
@@ -235,7 +222,6 @@ abstract class TripleStoreLocalBase(@JvmField val name: String) : ITripleStoreLo
             }
         }
     }
-
     override fun modify(query: IQuery, dataModify: MutableList<Int>, type: EModifyType) {
         /*
          * the input iterators are always in the SPO order. The real remapping to the ordering of the store happens within the commit-phase 

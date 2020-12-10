@@ -1,5 +1,4 @@
 package lupos.s04arithmetikOperators.noinput
-
 import lupos.s00misc.Crypto
 import lupos.s00misc.EOperatorID
 import lupos.s03resultRepresentation.ValueDefinition
@@ -8,7 +7,6 @@ import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.IteratorBundle
-
 class AOPBuildInCallSTRUUID(query: IQuery) : AOPBase(query, EOperatorID.AOPBuildInCallSTRUUIDID, "AOPBuildInCallSTRUUID", arrayOf()) {
     override fun toSparql(): String = "STRUUID()"
     override fun equals(other: Any?): Boolean = other is AOPBuildInCallSTRUUID
@@ -17,6 +15,5 @@ class AOPBuildInCallSTRUUID(query: IQuery) : AOPBase(query, EOperatorID.AOPBuild
             ValueSimpleLiteral("\"", "" + Crypto.uuid())
         }
     }
-
     override fun cloneOP(): IOPBase = this
 }

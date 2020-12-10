@@ -1,13 +1,10 @@
 package lupos.s03resultRepresentation
-
 import lupos.s00misc.ETripleComponentType
 import lupos.s00misc.MyBigDecimal
 import lupos.s00misc.MyBigInteger
 import lupos.s00misc.SanityCheck
 import kotlin.jvm.JvmField
-
 val nodeGlobalDictionary: ResultSetDictionary = ResultSetDictionary(true)
-
 @OptIn(ExperimentalUnsignedTypes::class)
 class ResultSetDictionary(private val global: Boolean = false) : IResultSetDictionary {
     companion object {
@@ -38,57 +35,39 @@ class ResultSetDictionary(private val global: Boolean = false) : IResultSetDicti
         fun debug() {
         }
     }
-
     private fun isLocalBNode(value: Int) = (value and mask3) == flaggedValueLocalBnode
-
     @JvmField
     internal val localBnodeToInt = mutableMapOf<String, Int>()
-
     @JvmField
     internal var bNodeCounter = 5
-
     @JvmField
     internal val bnodeMapToGlobal = mutableMapOf<Int, Int>()
-
     @JvmField
     internal val iriToInt = mutableMapOf<String, Int>()
-
     @JvmField
     internal var iriToValue = Array(1) { emptyString }
-
     @JvmField
     internal val langTaggedToInt = mutableMapOf<String, Int>()
-
     @JvmField
     internal var langTaggedToValue = Array(1) { emptyString }
-
     @JvmField
     internal val typedToInt = mutableMapOf<String, Int>()
-
     @JvmField
     internal var typedToValue = Array(1) { emptyString }
-
     @JvmField
     internal val doubleToInt = mutableMapOf<Double, Int>()
-
     @JvmField
     internal var doubleToValue = DoubleArray(1) { 0.0 }
-
     @JvmField
     internal val floatToInt = mutableMapOf<Double, Int>()
-
     @JvmField
     internal var floatToValue = DoubleArray(1) { 0.0 }
-
     @JvmField
     internal val decimalToInt = mutableMapOf<String, Int>()
-
     @JvmField
     internal var decimalToValue = Array(1) { emptyString }
-
     @JvmField
     internal val intToInt = mutableMapOf<String, Int>()
-
     @JvmField
     internal var intToValue = Array(1) { emptyString }
     fun prepareBulk(total: Int, typed: IntArray) {
@@ -153,7 +132,6 @@ class ResultSetDictionary(private val global: Boolean = false) : IResultSetDicti
             }
         }
     }
-
     fun createByType(s: String, type: ETripleComponentType): Int {
         when (type) {
             ETripleComponentType.IRI -> {
@@ -194,7 +172,6 @@ class ResultSetDictionary(private val global: Boolean = false) : IResultSetDicti
             }
         }
     }
-
     fun clear() {
         localBnodeToInt.clear()
         bNodeCounter = 5
@@ -214,7 +191,6 @@ class ResultSetDictionary(private val global: Boolean = false) : IResultSetDicti
         decimalToValue = Array(1) { emptyString }
         intToValue = Array(1) { emptyString }
     }
-
     override fun toBooleanOrError(value: Int): Int {
         var res: Int = ResultSetDictionaryExt.errorValue
         if (value < ResultSetDictionaryExt.undefValue && value >= 0) {
@@ -233,7 +209,6 @@ class ResultSetDictionary(private val global: Boolean = false) : IResultSetDicti
         }
         return res
     }
-
     fun createNewBNode(value: String = emptyString): Int {
         val res: Int
         if (global) {
@@ -249,7 +224,6 @@ class ResultSetDictionary(private val global: Boolean = false) : IResultSetDicti
         }
         return res
     }
-
     private fun createIri(iri: String): Int {
         var res: Int
         if (global) {
@@ -294,7 +268,6 @@ class ResultSetDictionary(private val global: Boolean = false) : IResultSetDicti
         }
         return res
     }
-
     private fun createLangTagged(content: String, lang: String): Int {
         var res: Int
         val key = "$lang@$content"
@@ -340,7 +313,6 @@ class ResultSetDictionary(private val global: Boolean = false) : IResultSetDicti
         }
         return res
     }
-
     private fun createTyped(content: String, type: String): Int {
         var res: Int
         when (type) {
@@ -409,7 +381,6 @@ class ResultSetDictionary(private val global: Boolean = false) : IResultSetDicti
         }
         return res
     }
-
     private fun createDouble(value: Double): Int {
         var res: Int
         if (global) {
@@ -454,7 +425,6 @@ class ResultSetDictionary(private val global: Boolean = false) : IResultSetDicti
         }
         return res
     }
-
     private fun createFloat(value: Double): Int {
         var res: Int
         if (global) {
@@ -499,7 +469,6 @@ class ResultSetDictionary(private val global: Boolean = false) : IResultSetDicti
         }
         return res
     }
-
     private fun createDecimal(value2: MyBigDecimal): Int {
         val value = value2.toString()
         var res: Int
@@ -545,7 +514,6 @@ class ResultSetDictionary(private val global: Boolean = false) : IResultSetDicti
         }
         return res
     }
-
     private fun createInteger(value2: MyBigInteger): Int {
         val value = value2.toString()
         var res: Int
@@ -591,11 +559,9 @@ class ResultSetDictionary(private val global: Boolean = false) : IResultSetDicti
         }
         return res
     }
-
     override fun createValue(value: String?): Int {
         return createValue(ValueDefinition(value))
     }
-
     override fun createValue(value: ValueDefinition): Int {
         val res: Int
         when (value) {
@@ -650,7 +616,6 @@ class ResultSetDictionary(private val global: Boolean = false) : IResultSetDicti
         }
         return res
     }
-
     override fun getValue(value: Int): ValueDefinition {
         val res: ValueDefinition
         val dict: ResultSetDictionary = if ((value and mask1) == mask1) {
@@ -719,7 +684,6 @@ class ResultSetDictionary(private val global: Boolean = false) : IResultSetDicti
         }
         return res
     }
-
     override fun getValue(
         value: Int,
         onBNode: (value: Int) -> Unit,
@@ -795,7 +759,6 @@ class ResultSetDictionary(private val global: Boolean = false) : IResultSetDicti
             }
         }
     }
-
     override fun valueToGlobal(value: Int): Int {
         val res: Int
         if ((value and mask1) == mask1) {
@@ -815,10 +778,8 @@ class ResultSetDictionary(private val global: Boolean = false) : IResultSetDicti
         }
         return res
     }
-
     fun safeToFolder() {
     }
-
     fun loadFromFolder() {
     }
 }

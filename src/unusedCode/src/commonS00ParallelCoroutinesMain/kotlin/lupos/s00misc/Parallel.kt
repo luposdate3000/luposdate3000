@@ -1,5 +1,4 @@
 package lupos.s00misc
-
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.Job
@@ -12,26 +11,21 @@ import kotlin.coroutines.intrinsics.COROUTINE_SUSPENDED
 import kotlin.coroutines.intrinsics.suspendCoroutineUninterceptedOrReturn
 import kotlin.coroutines.resume
 import kotlin.jvm.JvmField
-
 typealias ParallelJob = Job
-
 object Parallel {
     inline fun <T> runBlocking(crossinline action: suspend () -> T): T {
         return kotlinx.coroutines.runBlocking {
             action()
         }
     }
-
     inline fun launch(crossinline action: suspend () -> Unit): ParallelJob {
         return GlobalScope.launch(Dispatchers.Default) {
             action()
         }
     }
-
     suspend inline fun delay(milliseconds: Long) {
         kotlinx.coroutines.delay(milliseconds)
     }
-
     inline fun createMutex() = Mutex()
     inline fun createCondition(lock: Lock) = ParallelCondition(lock)
     inline fun <T> createQueue(terminationValue: T) = ParallelQueue<T>()
@@ -50,7 +44,6 @@ object Parallel {
                 lock.unlock()
             }
         }
-
         suspend inline fun signal() {
             val tmp = cont
             if (tmp != null) {
@@ -64,18 +57,15 @@ object Parallel {
             }
         }
     }
-
     class ParallelQueue<T>() {
         @JvmField
         val queue = Channel<T>(2)
         inline fun close() {
             queue.close()
         }
-
         suspend inline fun send(value: T) {
             queue.send(value)
         }
-
         suspend inline fun receive(): T {
             return queue.receive()
         }

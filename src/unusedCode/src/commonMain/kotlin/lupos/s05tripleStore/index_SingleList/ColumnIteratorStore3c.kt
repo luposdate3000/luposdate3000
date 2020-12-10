@@ -1,41 +1,30 @@
 package lupos.s05tripleStore.index_SingleList
-
 import lupos.s00misc.MyListInt
 import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s04logicalOperators.iterator.ColumnIterator
-
 class ColumnIteratorStore3c(@JvmField val values: MyListInt) : ColumnIterator() {
     @JvmField
     var counterPrimary: Int
-
     @JvmField
     var counterSecondary: Int
-
     @JvmField
     var counterTerniary: Int
-
     @JvmField
     var valueA = 0
-
     @JvmField
     var valueB = 0
-
     @JvmField
     var valueC = 0
-
     @JvmField
     val it = values.iterator()
-
     @JvmField
     var label = 1
     inline fun _close() {
         label = 0
     }
-
     override suspend fun close() {
         _close()
     }
-
     override suspend fun next(): Int {
         if (label == 1) {
             valueC = it.next()
@@ -64,7 +53,6 @@ class ColumnIteratorStore3c(@JvmField val values: MyListInt) : ColumnIterator() 
             return ResultSetDictionary.nullValue
         }
     }
-
     init {
         if (values.size > 4) {
             counterPrimary = it.next() - 1

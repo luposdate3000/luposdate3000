@@ -1,5 +1,4 @@
 package lupos.s08logicalOptimisation
-
 import lupos.s00misc.EOptimizerID
 import lupos.s03resultRepresentation.ValueBoolean
 import lupos.s04arithmetikOperators.AOPBase
@@ -15,7 +14,6 @@ import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.multiinput.LOPJoin
 import lupos.s04logicalOperators.singleinput.LOPFilter
 import lupos.s04logicalOperators.singleinput.LOPSubGroup
-
 class LogicalOptimizerFilterOptional(query: Query) : OptimizerBase(query, EOptimizerID.LogicalOptimizerFilterOptionalID) {
     override val classname: String = "LogicalOptimizerFilterOptional"
     override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
@@ -112,7 +110,6 @@ class LogicalOptimizerFilterOptional(query: Query) : OptimizerBase(query, EOptim
         }
         return res
     }
-
     private fun addFilters(filters: MutableList<AOPBase>, filter: AOPBase) {
         if (filter is AOPAnd) {
             addFilters(filters, filter.getChildren()[0] as AOPBase)

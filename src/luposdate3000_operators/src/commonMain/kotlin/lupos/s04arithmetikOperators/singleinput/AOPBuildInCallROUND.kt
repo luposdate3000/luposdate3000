@@ -1,5 +1,4 @@
 package lupos.s04arithmetikOperators.singleinput
-
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.SanityCheck
 import lupos.s03resultRepresentation.ValueDecimal
@@ -13,7 +12,6 @@ import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import kotlin.math.roundToInt
-
 class AOPBuildInCallROUND(query: IQuery, child: AOPBase) : AOPBase(query, EOperatorID.AOPBuildInCallROUNDID, "AOPBuildInCallROUND", arrayOf(child)) {
     override fun toSparql(): String = "ROUND(" + children[0].toSparql() + ")"
     override fun equals(other: Any?): Boolean = other is AOPBuildInCallROUND && children[0] == other.children[0]
@@ -48,6 +46,5 @@ class AOPBuildInCallROUND(query: IQuery, child: AOPBase) : AOPBase(query, EOpera
             res
         }
     }
-
     override fun cloneOP(): IOPBase = AOPBuildInCallROUND(query, children[0].cloneOP() as AOPBase)
 }

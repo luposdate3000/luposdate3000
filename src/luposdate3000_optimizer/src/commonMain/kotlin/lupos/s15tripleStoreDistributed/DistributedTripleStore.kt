@@ -1,5 +1,4 @@
 package lupos.s15tripleStoreDistributed
-
 import lupos.s00misc.EIndexPattern
 import lupos.s00misc.EModifyType
 import lupos.s00misc.EOperatorID
@@ -25,7 +24,6 @@ import lupos.s05tripleStore.TripleStoreFeatureParamsDefault
 import lupos.s05tripleStore.TripleStoreFeatureParamsPartition
 import lupos.s09physicalOperators.POPBase
 import kotlin.jvm.JvmField
-
 class TripleStoreIteratorGlobal(query: IQuery, projectedVariables: List<String>, @JvmField val graphName: String, params: Array<IAOPBase>, @JvmField val idx: EIndexPattern, @JvmField val partition: Partition) : POPBase(query, projectedVariables, EOperatorID.TripleStoreIteratorGlobalID, "TripleStoreIteratorGlobal", Array(3) { params[it] }, ESortPriority.ANY_PROVIDED_VARIABLE) {
     override fun getPartitionCount(variable: String): Int {
         val res = partition.limit[variable]
@@ -34,7 +32,6 @@ class TripleStoreIteratorGlobal(query: IQuery, projectedVariables: List<String>,
         }
         return 1
     }
-
     override fun cloneOP(): TripleStoreIteratorGlobal = TripleStoreIteratorGlobal(query, projectedVariables, graphName, Array(3) { children[it] as IAOPBase }, idx, partition)
     override fun equals(other: Any?): Boolean = other is TripleStoreIteratorGlobal && graphName == other.graphName && idx == other.idx && projectedVariables.containsAll(other.projectedVariables) && other.projectedVariables.containsAll(projectedVariables) && children[0] == other.children[0] && children[1] == other.children[1] && children[2] == other.children[2]
     override /*suspend*/ fun toXMLElement(): XMLElement {
@@ -50,14 +47,12 @@ class TripleStoreIteratorGlobal(query: IQuery, projectedVariables: List<String>,
             .addContent(XMLElement("oparam").addContent(children[2].toXMLElement())) //
             .addContent(XMLElement("partition").addContent(partition.toXMLElement()))
     }
-
     override fun toSparql(): String {
         if (graphName == PersistentStoreLocalExt.defaultGraphName) {
             return children[0].toSparql() + " " + children[1].toSparql() + " " + children[2].toSparql() + "."
         }
         return "GRAPH <$graphName> {" + children[0].toSparql() + " " + children[1].toSparql() + " " + children[2].toSparql() + "}."
     }
-
     override fun getProvidedVariableNamesInternal(): List<String> {
         val tmp = mutableListOf<String>()
         for (p in children) {
@@ -68,7 +63,6 @@ class TripleStoreIteratorGlobal(query: IQuery, projectedVariables: List<String>,
         tmp.remove("_")
         return tmp.distinct()
     }
-
     init {
         SanityCheck {
             if (idx.keyIndices.size == 3) {
@@ -83,7 +77,6 @@ class TripleStoreIteratorGlobal(query: IQuery, projectedVariables: List<String>,
             }
         }
     }
-
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
         SanityCheck.println { "opening store for $uuid" }
         SanityCheck {
@@ -104,14 +97,12 @@ class TripleStoreIteratorGlobal(query: IQuery, projectedVariables: List<String>,
         return distributedTripleStore.getLocalStore().getNamedGraph(query, graphName).getIterator(query, params)
     }
 }
-
 class DistributedGraph(val query: IQuery, @JvmField val name: String) : IDistributedGraph {
     override /*suspend*/ fun bulkImport(action: /*suspend*/ (ITripleStoreBulkImport) -> Unit) {
         val bulk = TripleStoreBulkImport(query, name)
         action(bulk as ITripleStoreBulkImport)
         bulk.finishImport()
     }
-
     override /*suspend*/ fun modify(data: Array<ColumnIterator>, type: EModifyType) {
         SanityCheck.check { data.size == 3 }
         val map = Array(3) { mutableListOf<Int>() }
@@ -136,12 +127,10 @@ class DistributedGraph(val query: IQuery, @JvmField val name: String) : IDistrib
             distributedTripleStore.getLocalStore().getNamedGraph(query, name).modify(query, Array(3) { ColumnIteratorMultiValue(map[it]) }, type)
         }
     }
-
     override fun getIterator(idx: EIndexPattern, partition: Partition): POPBase {
         val projectedVariables = listOf("s", "p", "o")
         return TripleStoreIteratorGlobal(query, projectedVariables, name, arrayOf(AOPVariable(query, "s"), AOPVariable(query, "p"), AOPVariable(query, "o")), idx, partition)
     }
-
     override fun getIterator(params: Array<IAOPBase>, idx: EIndexPattern, partition: Partition): POPBase {
         val projectedVariables = mutableListOf<String>()
         SanityCheck {
@@ -175,7 +164,6 @@ class DistributedGraph(val query: IQuery, @JvmField val name: String) : IDistrib
         }
         return TripleStoreIteratorGlobal(query, projectedVariables, name, params, idx, partition)
     }
-
     override /*suspend*/ fun getHistogram(params: Array<IAOPBase>, idx: EIndexPattern): Pair<Int, Int> {
         SanityCheck {
             if (idx.keyIndices.size == 3) {
@@ -214,44 +202,36 @@ class DistributedGraph(val query: IQuery, @JvmField val name: String) : IDistrib
         return distributedTripleStore.getLocalStore().getNamedGraph(query, name).getHistogram(query, TripleStoreFeatureParamsDefault(idx, params))
     }
 }
-
 class DistributedTripleStore : IDistributedTripleStore {
     @JvmField
     val localStore: PersistentStoreLocal = PersistentStoreLocal()
     override fun reloadPartitioningScheme() {
         localStore.reloadPartitioningScheme()
     }
-
     override fun getLocalStore(): PersistentStoreLocal = localStore
     override fun getGraphNames(includeDefault: Boolean): List<String> {
         return localStore.getGraphNames(includeDefault)
     }
-
     override /*suspend*/ fun createGraph(query: IQuery, name: String): DistributedGraph {
         localStore.createGraph(query, name)
         return DistributedGraph(query, name)
     }
-
     override /*suspend*/ fun dropGraph(query: IQuery, name: String) {
         localStore.dropGraph(query, name)
     }
-
     override /*suspend*/ fun clearGraph(query: IQuery, name: String) {
         SanityCheck.println { "DistributedTripleStore.clearGraph $name" }
         localStore.clearGraph(query, name)
     }
-
     override /*suspend*/ fun getNamedGraph(query: IQuery, name: String): DistributedGraph {
         if (!(localStore.getGraphNames(true).contains(name))) {
             createGraph(query, name)
         }
         return DistributedGraph(query, name)
     }
-
     override fun getDefaultGraph(query: IQuery): DistributedGraph {
         return DistributedGraph(query, PersistentStoreLocalExt.defaultGraphName)
     }
-
     override /*suspend*/ fun commit(query: IQuery) {
         localStore.commit(query)
     }

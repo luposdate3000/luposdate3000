@@ -1,19 +1,14 @@
 package lupos.s00misc
-
 class MySetKEYBTreeGDEF() {
     companion object {
         var debughelperUUID = 0
     }
-
     val uuid = debughelperUUID++
-
     constructor(k: KEY) : this() {
         appendAssumeSorted(k)
     }
-
     var root: MySetKEYBTreeNodeGUSE? = null
     var size = 0
-
     class MySetKEYBTreeNodeIteratorGDEF(val node: MySetKEYBTreeNodeGUSE) : Iterator<KEY> {
         var i = 0
         var childIterator: Iterator<KEY>? = null
@@ -26,7 +21,6 @@ class MySetKEYBTreeGDEF() {
             }
             /*Coverage Unreachable*/
         }
-
         override fun next(): KEY {
             if (node.leaf) {
                 return node.keys[i++] as KEY
@@ -42,12 +36,10 @@ class MySetKEYBTreeGDEF() {
             /*Coverage Unreachable*/
         }
     }
-
     class MySetKEYBTreeNodeGDEF(val leaf: Boolean, val parentuuid: Int) {
         companion object {
             var debughelperUUID = 0
         }
-
         val uuid = debughelperUUID++
         val keys = ARRAYTYPE(2 * B_TREE_BRANCHING_FACTOR - 1) ARRAYINITIALIZER
         val C = Array<MySetKEYBTreeNodeGUSE?>(2 * B_TREE_BRANCHING_FACTOR) { null }
@@ -55,11 +47,9 @@ class MySetKEYBTreeGDEF() {
         fun free() {
             /*later when buffer-manager is used*/
         }
-
         fun iterator(): MySetKEYBTreeNodeIteratorGUSE {
             return MySetKEYBTreeNodeIteratorGUSE(this)
         }
-
         fun findKEY(k: KEY): Int {
             var idx = 0
             while (idx < n && (keys[idx] as KEY) < k) {
@@ -67,7 +57,6 @@ class MySetKEYBTreeGDEF() {
             }
             return idx
         }
-
         fun remove(k: KEY): KEY? {
             val idx = findKEY(k)
             val key = keys[idx] as KEY
@@ -94,14 +83,12 @@ class MySetKEYBTreeGDEF() {
             }
 /*Coverage Unreachable*/
         }
-
         fun removeFromLeaf(idx: Int) {
             for (i in idx + 1 until n) {
                 keys[i - 1] = keys[i]
             }
             n--
         }
-
         fun removeFromNonLeaf(idx: Int) {
             val k = keys[idx] as KEY
             if (C[idx]!!.n >= B_TREE_BRANCHING_FACTOR) {
@@ -117,7 +104,6 @@ class MySetKEYBTreeGDEF() {
                 C[idx]!!.remove(k)
             }
         }
-
         fun getPred(idx: Int): KEY {
             var cur = C[idx]!!
             while (!cur.leaf) {
@@ -125,7 +111,6 @@ class MySetKEYBTreeGDEF() {
             }
             return cur.keys[cur.n - 1] as KEY
         }
-
         fun getSucc(idx: Int): KEY {
             var cur = C[idx + 1]!!
             while (!cur.leaf) {
@@ -133,7 +118,6 @@ class MySetKEYBTreeGDEF() {
             }
             return cur.keys[0] as KEY
         }
-
         fun fill(idx: Int) {
             if (idx != 0 && C[idx - 1]!!.n >= B_TREE_BRANCHING_FACTOR) {
                 borrowFromPrev(idx)
@@ -145,7 +129,6 @@ class MySetKEYBTreeGDEF() {
                 merge(idx - 1)
             }
         }
-
         fun borrowFromPrev(idx: Int) {
             val child = C[idx]!!
             val sibling = C[idx - 1]!!
@@ -169,7 +152,6 @@ class MySetKEYBTreeGDEF() {
                 sibling.n--
             }
         }
-
         fun borrowFromNext(idx: Int) {
             val child = C[idx]!!
             val sibling = C[idx + 1]!!
@@ -189,7 +171,6 @@ class MySetKEYBTreeGDEF() {
             child.n++
             sibling.n--
         }
-
         fun merge(idx: Int) {
             val child = C[idx]!!
             val sibling = C[idx + 1]!!
@@ -212,7 +193,6 @@ class MySetKEYBTreeGDEF() {
             n--
             sibling.free()
         }
-
         fun forEach(action: (KEY) -> Unit) {
             for (i in 0 until n) {
                 if (!leaf) {
@@ -224,7 +204,6 @@ class MySetKEYBTreeGDEF() {
                 C[n]!!.forEach(action)
             }
         }
-
         fun search(k: KEY): Boolean {
             var i = 0
             while (i < n && k > (keys[i] as KEY)) {
@@ -239,7 +218,6 @@ class MySetKEYBTreeGDEF() {
             }
 /*Coverage Unreachable*/
         }
-
         fun insertNonFull(k: KEY, onCreate: () -> Unit = {}, onExists: (KEY) -> Unit = {}) {
             var i = n - 1
             var found = false
@@ -273,7 +251,6 @@ class MySetKEYBTreeGDEF() {
                 }
             }
         }
-
         fun splitChild(i: Int, y: MySetKEYBTreeNodeGUSE) {
             val z = MySetKEYBTreeNodeGUSE(y.leaf, uuid)
             z.n = B_TREE_BRANCHING_FACTOR - 1
@@ -301,7 +278,6 @@ class MySetKEYBTreeGDEF() {
             n++
         }
     }
-
     fun add(k: KEY, onCreate: () -> Unit = {}, onExists: (KEY) -> Unit = {}) {
         var sanitycheckhelper: MutableSet<KEY>? = null
         SanityCheck {
@@ -362,13 +338,11 @@ class MySetKEYBTreeGDEF() {
             SanityCheck.check({ sanitycheckhelper2.containsAll(sanitycheckhelper3) }, { "m" })
         }
     }
-
     fun forEach(action: (KEY) -> Unit) {
         if (root != null) {
             root!!.forEach(action)
         }
     }
-
     fun contains(k: KEY): Boolean {
         if (root == null) {
             return false
@@ -377,7 +351,6 @@ class MySetKEYBTreeGDEF() {
         }
 /*Coverage Unreachable*/
     }
-
     fun remove(k: KEY): KEY? {
         if (root != null) {
             val res = root!!.remove(k)
@@ -397,11 +370,9 @@ class MySetKEYBTreeGDEF() {
         }
         return null
     }
-
     fun appendAssumeSorted(key: KEY) {
         add(key, {}, {})
     }
-
     fun iterator(): Iterator<KEY> {
         if (root != null) {
             return root!!.iterator()
@@ -410,7 +381,6 @@ class MySetKEYBTreeGDEF() {
         }
 /*Coverage Unreachable*/
     }
-
     class EmptyIteratorGDEF : Iterator<KEY> {
         override fun hasNext() = false
         override fun next(): KEY = SanityCheck.checkUnreachable()

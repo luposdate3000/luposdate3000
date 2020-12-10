@@ -1,5 +1,4 @@
 package lupos.s16network
-
 import lupos.s00misc.DateHelperRelative
 import lupos.s00misc.EModifyType
 import lupos.s00misc.ETripleComponentType
@@ -40,7 +39,6 @@ import lupos.s14endpoint.convertToOPBase
 import lupos.s15tripleStoreDistributed.DistributedTripleStore
 import lupos.s15tripleStoreDistributed.distributedTripleStore
 import kotlin.js.JsName
-
 /*
  * This is the interface of the database
  * Do not overload any function here - because that would yield bad function names in the exported headers.
@@ -58,7 +56,6 @@ object LuposdateEndpoint {
         }
         return res
     }
-
     internal fun helperImportTurtleFiles(dict: MutableMap<String, Int>, v: String): Int {
         val v2 = helperCleanString(v)
         val res: Int
@@ -76,7 +73,6 @@ object LuposdateEndpoint {
         return res
 /*Coverage Unreachable*/
     }
-
     @JsName("import_turtle_files_old")
     /*suspend*/ fun importTurtleFilesOld(fileNames: String, bnodeDict: MutableMap<String, Int>): String {
         try {
@@ -119,7 +115,6 @@ object LuposdateEndpoint {
         }
 /*Coverage Unreachable*/
     }
-
     @JsName("import_turtle_files")
     /*suspend*/ fun importTurtleFiles(fileNames: String, bnodeDict: MutableMap<String, Int>): String {
         try {
@@ -152,12 +147,10 @@ object LuposdateEndpoint {
         }
 /*Coverage Unreachable*/
     }
-
     @JsName("import_intermediate_files")
     /*suspend*/ fun importIntermediateFiles(fileNames: String): String {
         return importIntermediateFiles(fileNames, false)
     }
-
     @JsName("import_intermediate_files_a")
     /*suspend*/ fun importIntermediateFiles(fileNames: String, convert_to_bnodes: Boolean): String {
         try {
@@ -269,7 +262,6 @@ object LuposdateEndpoint {
         }
 /*Coverage Unreachable*/
     }
-
     @JsName("import_xml_data")
     /*suspend*/ fun importXmlData(data: String): String {
         val query = Query()
@@ -280,12 +272,10 @@ object LuposdateEndpoint {
         query.commited = true
         return XMLElement("success").toString()
     }
-
     @JsName("evaluate_sparql_to_operatorgraph_a")
     /*suspend*/ fun evaluateSparqlToOperatorgraphA(query: String): IOPBase {
         return evaluateSparqlToOperatorgraphB(query, false)
     }
-
     @JsName("evaluate_sparql_to_operatorgraph_b")
     /*suspend*/ fun evaluateSparqlToOperatorgraphB(query: String, logOperatorGraph: Boolean): IOPBase {
         val q = Query()
@@ -328,12 +318,10 @@ object LuposdateEndpoint {
 // println("timer #406 ${DateHelperRelative.elapsedSeconds(timer)}")
         return popNode
     }
-
     @JsName("evaluate_operatorgraph_to_result")
     /*suspend*/ fun evaluateOperatorgraphToResult(node: IOPBase, output: IMyPrintWriter) {
         evaluateOperatorgraphToResultA(node, output, EQueryResultToStream.DEFAULT_STREAM)
     }
-
     @JsName("evaluate_operatorgraph_to_result_a")
     /*suspend*/ fun evaluateOperatorgraphToResultA(node: IOPBase, output: IMyPrintWriter, evaluator: EQueryResultToStream): Any? {
 // var timer = DateHelperRelative.markNow()
@@ -355,12 +343,10 @@ object LuposdateEndpoint {
 // println("timer #407 ${DateHelperRelative.elapsedSeconds(timer)}")
         return res
     }
-
     @JsName("evaluate_sparql_to_result_b")
     /*suspend*/ fun evaluateSparqlToResultB(query: String): String {
         return evaluateSparqlToResultC(query, false)
     }
-
     @JsName("evaluate_sparql_to_result_c")
     /*suspend*/ fun evaluateSparqlToResultC(query: String, logOperatorGraph: Boolean): String {
         val node = evaluateSparqlToOperatorgraphB(query, logOperatorGraph)
@@ -368,12 +354,10 @@ object LuposdateEndpoint {
         evaluateOperatorgraphToResult(node, buf)
         return buf.toString()
     }
-
     @JsName("evaluate_sparql_to_result_a")
     /*suspend*/ fun evaluateSparqlToResultA(query: String, output: IMyPrintWriter) {
         evaluateSparqlToResultD(query, output, false)
     }
-
     @JsName("evaluate_sparql_to_result_d")
     /*suspend*/ fun evaluateSparqlToResultD(query: String, output: IMyPrintWriter, logOperatorGraph: Boolean) {
 // var timer = DateHelperRelative.markNow()
@@ -381,12 +365,10 @@ object LuposdateEndpoint {
         evaluateOperatorgraphToResult(node, output)
 // println("timer #408 ${DateHelperRelative.elapsedSeconds(timer)}")
     }
-
     @JsName("evaluate_operatorgraphXML_to_result_a")
     /*suspend*/ fun evaluateOperatorgraphxmlToResultA(query: String): String {
         return evaluateOperatorgraphxmlToResultB(query, false)
     }
-
     @JsName("evaluate_operatorgraphXML_to_result_b")
     /*suspend*/ fun evaluateOperatorgraphxmlToResultB(query: String, logOperatorGraph: Boolean): String {
         val q = Query()
@@ -408,7 +390,6 @@ object LuposdateEndpoint {
         evaluateOperatorgraphToResult(popNode, buf)
         return buf.toString()
     }
-
     @JsName("initialize")
     fun initialize() {
         if (!initialized) {
@@ -422,7 +403,6 @@ object LuposdateEndpoint {
             XMLElement.parseFromAnyRegistered["tsv"] = XMLElementFromTsv()
         }
     }
-
     init {
         initialize()
     }

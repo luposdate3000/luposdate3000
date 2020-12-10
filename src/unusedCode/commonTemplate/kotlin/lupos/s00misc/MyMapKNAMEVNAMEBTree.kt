@@ -1,11 +1,8 @@
 package lupos.s00misc
-
 import kotlin.jvm.JvmField
-
 class MyMapKNAMEVNAMEBTreeGDEF(@JvmField val t: Int) {
     @JvmField
     var root: MyMapKNAMEVNAMEBTreeNodeGUSE? = null
-
     @JvmField
     var size = 0
     fun clear() {
@@ -13,31 +10,25 @@ class MyMapKNAMEVNAMEBTreeGDEF(@JvmField val t: Int) {
         root = null
         size = 0
     }
-
     constructor() : this(B_TREE_BRANCHING_FACTOR)
     constructor(d: Pair<KEY, VALUE>) : this() {
         set(d.first, d.second)
     }
-
     abstract class MyMapKNAMEVNAMEBTreeNodeIteratorGDEF() : Iterator<KEY> {
         abstract fun value(): VALUE
     }
-
     class MyMapKNAMEVNAMEBTreeNodeIteratorLeafGDEF(val node: MyMapKNAMEVNAMEBTreeNodeLeafGUSE) : MyMapKNAMEVNAMEBTreeNodeIteratorGUSE() {
         var i = 0
         var v: VALUE = node!!.values[0] as VALUE
         override fun hasNext(): Boolean {
             return i < node.n
         }
-
         override fun next(): KEY {
             v = node.values[i] as VALUE
             return node.keys[i++] as KEY
         }
-
         override fun value() = v
     }
-
     class MyMapKNAMEVNAMEBTreeNodeIteratorNonLeafGDEF(val node: MyMapKNAMEVNAMEBTreeNodeNonLeafGUSE) : MyMapKNAMEVNAMEBTreeNodeIteratorGUSE() {
         var i = 0
         var childIterator = node!!.C[0]!!.iterator()
@@ -45,7 +36,6 @@ class MyMapKNAMEVNAMEBTreeGDEF(@JvmField val t: Int) {
         override fun hasNext(): Boolean {
             return i < node.n || (i == node.n && childIterator.hasNext())
         }
-
         override fun next(): KEY {
             if (childIterator.hasNext()) {
                 return childIterator.next()
@@ -56,10 +46,8 @@ class MyMapKNAMEVNAMEBTreeGDEF(@JvmField val t: Int) {
             }
 /*Coverage Unreachable*/
         }
-
         override fun value() = v
     }
-
     abstract class MyMapKNAMEVNAMEBTreeNodeGDEF(@JvmField val t: Int) {
         @JvmField
         val keys = ARRAYKTYPE(2 * t - 1) ARRAYKINITIALIZER
@@ -67,7 +55,6 @@ class MyMapKNAMEVNAMEBTreeGDEF(@JvmField val t: Int) {
             val values = ARRAYVTYPE(2 * t - 1) ARRAYVINITIALIZER
                 @JvmField
                 var n = 0
-
         abstract fun iterator(): MyMapKNAMEVNAMEBTreeNodeIteratorGUSE
         abstract fun free()
         abstract fun remove(k: KEY): Pair<KEY, VALUE>?
@@ -75,14 +62,12 @@ class MyMapKNAMEVNAMEBTreeGDEF(@JvmField val t: Int) {
         abstract fun search(k: KEY): VALUE?
         abstract fun insertNonFull(k: KEY, onCreate: () -> VALUE, onExists: (KEY, VALUE) -> VALUE)
     }
-
     class MyMapKNAMEVNAMEBTreeNodeNonLeafGDEF(t: Int) : MyMapKNAMEVNAMEBTreeNodeGUSE(t) {
         @JvmField
         val C = Array<MyMapKNAMEVNAMEBTreeNodeGUSE?>(2 * t) { null }
         override fun free() {
             /*later when buffer-manager is used*/
         }
-
         override fun iterator() = MyMapKNAMEVNAMEBTreeNodeIteratorNonLeafGUSE(this)
         fun findKEY(k: KEY): Int {
             var idx = 0
@@ -91,7 +76,6 @@ class MyMapKNAMEVNAMEBTreeGDEF(@JvmField val t: Int) {
             }
             return idx
         }
-
         override fun remove(k: KEY): Pair<KEY, VALUE>? {
             val idx = findKEY(k)
             val key = keys[idx] as KEY
@@ -113,7 +97,6 @@ class MyMapKNAMEVNAMEBTreeGDEF(@JvmField val t: Int) {
             }
 /*Coverage Unreachable*/
         }
-
         fun removeFromNonLeaf(idx: Int) {
             val k = keys[idx] as KEY
             if (C[idx]!!.n >= t) {
@@ -139,7 +122,6 @@ class MyMapKNAMEVNAMEBTreeGDEF(@JvmField val t: Int) {
                 C[idx]!!.remove(k)
             }
         }
-
         fun fill(idx: Int) {
             if (idx != 0 && C[idx - 1]!!.n >= t) {
                 borrowFromPrev(idx)
@@ -151,7 +133,6 @@ class MyMapKNAMEVNAMEBTreeGDEF(@JvmField val t: Int) {
                 merge(idx - 1)
             }
         }
-
         fun borrowFromPrev(idx: Int) {
             val child = C[idx]!!
             val sibling = C[idx - 1]!!
@@ -178,7 +159,6 @@ class MyMapKNAMEVNAMEBTreeGDEF(@JvmField val t: Int) {
                 sibling.n--
             }
         }
-
         fun borrowFromNext(idx: Int) {
             val child = C[idx]!!
             val sibling = C[idx + 1]!!
@@ -201,7 +181,6 @@ class MyMapKNAMEVNAMEBTreeGDEF(@JvmField val t: Int) {
             child.n++
             sibling.n--
         }
-
         fun merge(idx: Int) {
             val child = C[idx]!!
             val sibling = C[idx + 1]!!
@@ -227,7 +206,6 @@ class MyMapKNAMEVNAMEBTreeGDEF(@JvmField val t: Int) {
             n--
             sibling.free()
         }
-
         override fun forEach(action: (KEY, VALUE) -> Unit) {
             for (i in 0 until n) {
                 C[i]!!.forEach(action)
@@ -235,7 +213,6 @@ class MyMapKNAMEVNAMEBTreeGDEF(@JvmField val t: Int) {
             }
             C[n]!!.forEach(action)
         }
-
         override fun search(k: KEY): VALUE? {
             var i = 0
             while (i < n && k > (keys[i] as KEY)) {
@@ -248,7 +225,6 @@ class MyMapKNAMEVNAMEBTreeGDEF(@JvmField val t: Int) {
             }
 /*Coverage Unreachable*/
         }
-
         override fun insertNonFull(k: KEY, onCreate: () -> VALUE, onExists: (KEY, VALUE) -> VALUE) {
             var i = n - 1
             var found = false
@@ -272,7 +248,6 @@ class MyMapKNAMEVNAMEBTreeGDEF(@JvmField val t: Int) {
                 C[i + 1]!!.insertNonFull(k, onCreate, onExists)
             }
         }
-
         fun splitChild(i: Int, y: MyMapKNAMEVNAMEBTreeNodeGUSE) {
             val z = if (y is MyMapKNAMEVNAMEBTreeNodeLeafGUSE) {
                 MyMapKNAMEVNAMEBTreeNodeLeafGUSE(y.t)
@@ -307,12 +282,10 @@ class MyMapKNAMEVNAMEBTreeGDEF(@JvmField val t: Int) {
             n++
         }
     }
-
     class MyMapKNAMEVNAMEBTreeNodeLeafGDEF(t: Int) : MyMapKNAMEVNAMEBTreeNodeGUSE(t) {
         override fun free() {
             /*later when buffer-manager is used*/
         }
-
         override fun iterator() = MyMapKNAMEVNAMEBTreeNodeIteratorLeafGUSE(this)
         fun findKEY(k: KEY): Int {
             var idx = 0
@@ -321,7 +294,6 @@ class MyMapKNAMEVNAMEBTreeGDEF(@JvmField val t: Int) {
             }
             return idx
         }
-
         override fun remove(k: KEY): Pair<KEY, VALUE>? {
             val idx = findKEY(k)
             val key = keys[idx] as KEY
@@ -334,7 +306,6 @@ class MyMapKNAMEVNAMEBTreeGDEF(@JvmField val t: Int) {
             }
 /*Coverage Unreachable*/
         }
-
         fun removeFromLeaf(idx: Int) {
             for (i in idx + 1 until n) {
                 keys[i - 1] = keys[i]
@@ -342,13 +313,11 @@ class MyMapKNAMEVNAMEBTreeGDEF(@JvmField val t: Int) {
             }
             n--
         }
-
         override fun forEach(action: (KEY, VALUE) -> Unit) {
             for (i in 0 until n) {
                 action(keys[i] as KEY, values[i] as VALUE)
             }
         }
-
         override fun search(k: KEY): VALUE? {
             var i = 0
             while (i < n && k > (keys[i] as KEY)) {
@@ -361,7 +330,6 @@ class MyMapKNAMEVNAMEBTreeGDEF(@JvmField val t: Int) {
             }
 /*Coverage Unreachable*/
         }
-
         override fun insertNonFull(k: KEY, onCreate: () -> VALUE, onExists: (KEY, VALUE) -> VALUE) {
             var i = n - 1
             var found = false
@@ -384,11 +352,9 @@ class MyMapKNAMEVNAMEBTreeGDEF(@JvmField val t: Int) {
             }
         }
     }
-
     class MyMapKNAMEVNAMEBTreeInitializerGDEF(@JvmField val t: Int, @JvmField val target: MyMapKNAMEVNAMEBTreeGUSE) {
         @JvmField
         var size = 0
-
         @JvmField
         val data = mutableListOf<MyMapKNAMEVNAMEBTreeNodeGUSE>()
         fun appendAssumeSorted(key: KEY, value: VALUE): VALUE {
@@ -408,7 +374,6 @@ class MyMapKNAMEVNAMEBTreeGDEF(@JvmField val t: Int) {
             size++
             return value
         }
-
         fun apply() {
             var listA = data
             var listB = mutableListOf<MyMapKNAMEVNAMEBTreeNodeGUSE>()
@@ -462,13 +427,11 @@ class MyMapKNAMEVNAMEBTreeGDEF(@JvmField val t: Int) {
             }
         }
     }
-
     fun withFastInitializer(action: (MyMapKNAMEVNAMEBTreeInitializerGUSE) -> Unit) {
         val init = MyMapKNAMEVNAMEBTreeInitializerGUSE(t, this)
         action(init)
         init.apply()
     }
-
     operator fun set(k: KEY, v: VALUE) = insert(k, { v }, { a, b -> v })
     fun insert(k: KEY, onCreate: () -> VALUE, onExists: (KEY, VALUE) -> VALUE) {
         if (root == null) {
@@ -505,13 +468,11 @@ class MyMapKNAMEVNAMEBTreeGDEF(@JvmField val t: Int) {
             )
         }
     }
-
     fun forEach(action: (KEY, VALUE) -> Unit) {
         if (root != null) {
             root!!.forEach(action)
         }
     }
-
     fun contains(k: KEY) = get(k) == null
     operator fun get(k: KEY): VALUE? {
         if (root == null) {
@@ -521,7 +482,6 @@ class MyMapKNAMEVNAMEBTreeGDEF(@JvmField val t: Int) {
         }
 /*Coverage Unreachable*/
     }
-
     fun remove(k: KEY): Pair<KEY, VALUE>? {
         if (root != null) {
             val res = root!!.remove(k)
@@ -541,7 +501,6 @@ class MyMapKNAMEVNAMEBTreeGDEF(@JvmField val t: Int) {
         }
         return null
     }
-
     fun iterator(): MyMapKNAMEVNAMEBTreeNodeIteratorGUSE {
         if (root != null) {
             return root!!.iterator()
@@ -550,13 +509,11 @@ class MyMapKNAMEVNAMEBTreeGDEF(@JvmField val t: Int) {
         }
 /*Coverage Unreachable*/
     }
-
     class EmptyIteratorGDEF : MyMapKNAMEVNAMEBTreeNodeIteratorGUSE() {
         override fun hasNext() = false
         override fun next(): KEY = SanityCheck.checkUnreachable()
         override fun value(): VALUE = SanityCheck.checkUnreachable()
     }
-
     inline fun getOrCreate(key: KEY, crossinline onCreate: () -> VALUE): VALUE {
         var res: VALUE? = null
         insert(
@@ -572,7 +529,6 @@ class MyMapKNAMEVNAMEBTreeGDEF(@JvmField val t: Int) {
         )
         return res!!
     }
-
     fun safeToFile(filename: String) {
         IOSTART1
         File(filename).dataOutputStream { out ->
@@ -584,7 +540,6 @@ class MyMapKNAMEVNAMEBTreeGDEF(@JvmField val t: Int) {
         }
         IOEND1
     }
-
     fun loadFromFile(filename: String) {
         IOSTART2
         withFastInitializer { init ->

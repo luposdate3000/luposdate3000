@@ -1,5 +1,4 @@
 package lupos.s04arithmetikOperators.singleinput
-
 import lupos.s00misc.EOperatorID
 import lupos.s03resultRepresentation.ValueBoolean
 import lupos.s03resultRepresentation.ValueDateTime
@@ -17,7 +16,6 @@ import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.IteratorBundle
-
 class AOPBuildInCallDATATYPE(query: IQuery, child: AOPBase) : AOPBase(query, EOperatorID.AOPBuildInCallDATATYPEID, "AOPBuildInCallDATATYPE", arrayOf(child)) {
     override fun toSparql(): String = "DATATYPE(" + children[0].toSparql() + ")"
     override fun equals(other: Any?): Boolean = other is AOPBuildInCallDATATYPE && children[0] == other.children[0]
@@ -57,6 +55,5 @@ class AOPBuildInCallDATATYPE(query: IQuery, child: AOPBase) : AOPBase(query, EOp
             res
         }
     }
-
     override fun cloneOP(): IOPBase = AOPBuildInCallDATATYPE(query, children[0].cloneOP() as AOPBase)
 }

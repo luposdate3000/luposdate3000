@@ -1,5 +1,4 @@
 package lupos.s04logicalOperators.singleinput
-
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.ESortPriority
 import lupos.s00misc.XMLElement
@@ -10,7 +9,6 @@ import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.LOPBase
 import lupos.s04logicalOperators.noinput.OPEmptyRow
 import kotlin.jvm.JvmField
-
 class LOPSort(query: IQuery, @JvmField val asc: Boolean, @JvmField var by: AOPVariable, child: IOPBase = OPEmptyRow(query)) : LOPBase(query, EOperatorID.LOPSortID, "LOPSort", arrayOf(child), ESortPriority.SORT) {
     override /*suspend*/ fun toXMLElement(): XMLElement {
         val res = XMLElement("LOPSort")
@@ -27,7 +25,6 @@ class LOPSort(query: IQuery, @JvmField val asc: Boolean, @JvmField var by: AOPVa
         res.addContent(childrenToXML())
         return res
     }
-
     override fun getRequiredVariableNames(): List<String> = listOf(by.name)
     override fun equals(other: Any?): Boolean = other is LOPSort && asc == other.asc && by == other.by && children[0] == other.children[0]
     override fun cloneOP(): IOPBase = LOPSort(query, asc, by, children[0].cloneOP())

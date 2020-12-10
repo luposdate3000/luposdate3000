@@ -1,5 +1,4 @@
 package lupos.s00misc
-
 import org.apache.jena.query.ARQ
 import org.apache.jena.query.DatasetFactory
 import org.apache.jena.query.QueryExecutionFactory
@@ -9,13 +8,11 @@ import org.apache.jena.sparql.algebra.optimize.Optimize
 import org.apache.jena.sparql.mgt.Explain
 import org.apache.jena.update.UpdateAction
 import java.io.ByteArrayOutputStream
-
 object JenaWrapper {
     private var dataset = DatasetFactory.createTxnMem()!!
     fun dropAll() {
         updateQuery("DROP SILENT ALL")
     }
-
     private fun checkExceptions(queryString: String) {
         if (queryString.contains("STRDT")) {
             throw JenaBugException("jena implementation is wrong in combination with STRDT when there are typed literals matching the new specified type")
@@ -24,7 +21,6 @@ object JenaWrapper {
             throw JenaBugException("jena implementation changes the language to uppercase, and is wrong, when there already are language tagged literals")
         }
     }
-
     private fun updateQuery(queryString: String) {
         checkExceptions(queryString)
         try {
@@ -33,7 +29,6 @@ object JenaWrapper {
             e.printStackTrace()
         }
     }
-
     private fun execQuery(queryString: String, logging: Boolean = true): String {
         if (logging) {
             checkExceptions(queryString)
@@ -86,7 +81,6 @@ object JenaWrapper {
         }
         return res
     }
-
     fun loadFromFile(fileNames: String, graph: String) {
         var graph2 = graph
         if (!graph2.startsWith("<")) {
@@ -98,7 +92,6 @@ object JenaWrapper {
         }
         updateQuery(updateString.toString())
     }
-
     fun loadFromFile(fileNames: String) {
         val updateString = StringBuilder()
         for (fileName in fileNames.split(";")) {

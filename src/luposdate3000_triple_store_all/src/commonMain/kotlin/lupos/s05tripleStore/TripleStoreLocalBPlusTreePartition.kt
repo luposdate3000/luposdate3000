@@ -1,8 +1,6 @@
 package lupos.s05tripleStore
-
 import lupos.s00misc.EIndexPattern
 import lupos.s00misc.Partition
-
 class TripleStoreLocalBPlusTreePartition(name: String) : TripleStoreLocalBase(name) {
     init {
         if (Partition.estimatedPartitionsValid) {
@@ -85,7 +83,6 @@ class TripleStoreLocalBPlusTreePartition(name: String) : TripleStoreLocalBase(na
         pendingModificationsInsert = Array(dataDistinct.size) { mutableMapOf() }
         pendingModificationsRemove = Array(dataDistinct.size) { mutableMapOf() }
     }
-
     companion object {
         fun providesFeature(feature: TripleStoreFeature, params: TripleStoreFeatureParams?): Boolean {
             return when (feature) {

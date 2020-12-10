@@ -1,5 +1,4 @@
 package lupos.s09physicalOperators.singleinput
-
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.ESortPriority
 import lupos.s00misc.NotImplementedException
@@ -14,7 +13,6 @@ import lupos.s04logicalOperators.iterator.ColumnIteratorQueue
 import lupos.s04logicalOperators.iterator.ColumnIteratorQueueExt
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s09physicalOperators.POPBase
-
 class POPFilter(query: IQuery, projectedVariables: List<String>, filter: AOPBase, child: IOPBase) : POPBase(query, projectedVariables, EOperatorID.POPFilterID, "POPFilter", arrayOf(child, filter), ESortPriority.SAME_AS_CHILD) {
     override fun getPartitionCount(variable: String): Int = children[0].getPartitionCount(variable)
     override fun toSparql(): String {
@@ -24,7 +22,6 @@ class POPFilter(query: IQuery, projectedVariables: List<String>, filter: AOPBase
         }
         return "{SELECT * {" + sparql + " FILTER (" + children[1].toSparql() + ")}}"
     }
-
     override fun equals(other: Any?): Boolean = other is POPFilter && children[0] == other.children[0] && children[1] == other.children[1]
     override fun childrenToVerifyCount(): Int = 1
     override fun cloneOP(): IOPBase = POPFilter(query, projectedVariables, children[1].cloneOP() as AOPBase, children[0].cloneOP())
@@ -49,7 +46,6 @@ class POPFilter(query: IQuery, projectedVariables: List<String>, filter: AOPBase
                     override /*suspend*/ fun close() {
                         __close()
                     }
-
                     /*suspend*/ inline fun __close() {
                         if (label != 0) {
                             ColumnIteratorQueueExt._close(this)
@@ -59,7 +55,6 @@ class POPFilter(query: IQuery, projectedVariables: List<String>, filter: AOPBase
                             }
                         }
                     }
-
                     override /*suspend*/ fun next(): Int {
                         return ColumnIteratorQueueExt.nextHelper(
                             this,
@@ -142,7 +137,6 @@ class POPFilter(query: IQuery, projectedVariables: List<String>, filter: AOPBase
                                 v.close()
                             }
                         }
-
                         override /*suspend*/ fun hasNext2(): Boolean {
                             var res2 = false
                             try {

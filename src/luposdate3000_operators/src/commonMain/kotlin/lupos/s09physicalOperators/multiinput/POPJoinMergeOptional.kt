@@ -1,5 +1,4 @@
 package lupos.s09physicalOperators.multiinput
-
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.ESortPriority
 import lupos.s00misc.Partition
@@ -14,7 +13,6 @@ import lupos.s04logicalOperators.iterator.ColumnIteratorChildIteratorEmpty
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s09physicalOperators.POPBase
 import kotlin.jvm.JvmField
-
 class POPJoinMergeOptional(query: IQuery, projectedVariables: List<String>, childA: IOPBase, childB: IOPBase, @JvmField val optional: Boolean) : POPBase(query, projectedVariables, EOperatorID.POPJoinMergeOptionalID, "POPJoinMergeOptional", arrayOf(childA, childB), ESortPriority.JOIN) {
     override fun getPartitionCount(variable: String): Int {
         return if (children[0].getProvidedVariableNames().contains(variable)) {
@@ -32,14 +30,12 @@ class POPJoinMergeOptional(query: IQuery, projectedVariables: List<String>, chil
             }
         }
     }
-
     override fun toSparql(): String {
         if (optional) {
             return "OPTIONAL{" + children[0].toSparql() + children[1].toSparql() + "}"
         }
         return children[0].toSparql() + children[1].toSparql()
     }
-
     override fun equals(other: Any?): Boolean = other is POPJoinMergeOptional && optional == other.optional && children[0] == other.children[0] && children[1] == other.children[1]
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
         SanityCheck {
@@ -129,7 +125,6 @@ class POPJoinMergeOptional(query: IQuery, projectedVariables: List<String>, chil
                     override /*suspend*/ fun close() {
                         _close()
                     }
-
                     override /*suspend*/ fun next(): Int {
                         return nextHelper(
                             {
@@ -185,7 +180,6 @@ class POPJoinMergeOptional(query: IQuery, projectedVariables: List<String>, chil
                 override /*suspend*/ fun hasNext2(): Boolean {
                     return columnsOUTJ[0].next() != ResultSetDictionaryExt.nullValue
                 }
-
                 override /*suspend*/ fun hasNext2Close() {
                     for (closeIndex2 in 0 until 2) {
                         for (closeIndex in 0 until columnsINJ[closeIndex2].size) {
@@ -200,7 +194,6 @@ class POPJoinMergeOptional(query: IQuery, projectedVariables: List<String>, chil
         }
         return res
     }
-
     internal /*suspend*/ inline fun sameElements(key: IntArray, keyCopy: IntArray, columnsINJ: MutableList<ColumnIterator>, columnsINO: MutableList<ColumnIterator>, data: Array<MutableList<Int>>): Int {
         SanityCheck.check { keyCopy[0] != ResultSetDictionaryExt.nullValue }
         for (i in 0 until columnsINJ.size) {
@@ -231,7 +224,6 @@ class POPJoinMergeOptional(query: IQuery, projectedVariables: List<String>, chil
         }
         return count
     }
-
     internal /*suspend*/ inline fun findNextKey(key: Array<IntArray>, columnsINJ: Array<MutableList<ColumnIterator>>, columnsINO: Array<MutableList<ColumnIterator>>): Boolean {
         if (key[0][0] != ResultSetDictionaryExt.nullValue && key[1][0] != ResultSetDictionaryExt.nullValue) {
             loop@ while (true) {
@@ -258,7 +250,6 @@ class POPJoinMergeOptional(query: IQuery, projectedVariables: List<String>, chil
         }
         return key[0][0] == ResultSetDictionaryExt.nullValue
     }
-
     override /*suspend*/ fun toXMLElement(): XMLElement = super.toXMLElement().addAttribute("optional", "" + optional)
     override fun cloneOP(): IOPBase = POPJoinMergeOptional(query, projectedVariables, children[0].cloneOP(), children[1].cloneOP(), optional)
 }

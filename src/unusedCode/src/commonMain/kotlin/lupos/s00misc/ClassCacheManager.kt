@@ -1,12 +1,9 @@
 package lupos.s00misc
-
 abstract class ClassCacheManager<T> {
     @JvmField
     var cache = Array<Any?>(100) { null }
-
     @JvmField
     var cacheLimit = cache.size - 1
-
     @JvmField
     var cachePointer = -1
     abstract fun allocNew(): T
@@ -19,7 +16,6 @@ abstract class ClassCacheManager<T> {
         }
         return res
     }
-
     inline fun release(obj: T) {
         if (cachePointer < cacheLimit) {
             cache[1 + cachePointer++] = obj

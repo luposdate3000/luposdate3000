@@ -1,12 +1,9 @@
 package lupos.s00misc
-
 import lupos.s04logicalOperators.IQuery
-
 class MemoryTable(val columns: Array<String>) {
     val data: MutableList<IntArray> = mutableListOf()
     var booleanResult: Boolean? = null
     var query: IQuery? = null
-
     companion object {
         inline operator fun invoke(a: MemoryTable, b: MemoryTable): MemoryTable {
             if (a.columns.size != b.columns.size) {

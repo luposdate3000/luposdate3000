@@ -1,9 +1,7 @@
 package lupos.s02buildSyntaxTree.turtle
-
 import lupos.s00misc.ETripleComponentType
 import lupos.s00misc.IMyInputStream
 import kotlin.jvm.JvmField
-
 internal enum class Turtle2ParserState {
     EOF,
     STATEMENT,
@@ -13,20 +11,15 @@ internal enum class Turtle2ParserState {
     TRIPLE_END_OR_OBJECT_IRI,
     TRIPLE_END_OR_OBJECT_STRING,
 }
-
 abstract class Turtle2Parser(input: IMyInputStream) {
     @JvmField
     internal val context = ParserContext(input)
-
     @JvmField
     internal val prefixMap = mutableMapOf<String, String>()
-
     @JvmField
     internal val triple = Array(3) { "" }
-
     @JvmField
     internal val tripleType = Array(3) { ETripleComponentType.IRI }
-
     @JvmField
     internal var state = Turtle2ParserState.STATEMENT
     abstract fun onTriple(triple: Array<String>, tripleType: Array<ETripleComponentType>)
@@ -60,7 +53,6 @@ abstract class Turtle2Parser(input: IMyInputStream) {
             }
         }
     }
-
     private fun statement_helper_1() {
         parse_base(
             context,
@@ -71,7 +63,6 @@ abstract class Turtle2Parser(input: IMyInputStream) {
             }
         )
     }
-
     private fun statement_helper_2() {
         parse_prefix(
             context,
@@ -90,7 +81,6 @@ abstract class Turtle2Parser(input: IMyInputStream) {
             }
         )
     }
-
     private fun statement_helper_3() {
         parse_subject_iri_or_ws(
             context,
@@ -107,7 +97,6 @@ abstract class Turtle2Parser(input: IMyInputStream) {
             }
         )
     }
-
     private fun statement() {
         parse_ws(context) {}
         if (context.c == ParserContext.EOF) {
@@ -167,7 +156,6 @@ abstract class Turtle2Parser(input: IMyInputStream) {
             }
         )
     }
-
     private fun predicate_helper_1() {
         parse_predicate_iri_or_ws(
             context,
@@ -184,7 +172,6 @@ abstract class Turtle2Parser(input: IMyInputStream) {
             }
         )
     }
-
     private fun predicate() {
         parse_predicate(
             context,
@@ -209,7 +196,6 @@ abstract class Turtle2Parser(input: IMyInputStream) {
         )
         state = Turtle2ParserState.OBJECT
     }
-
     private fun obj() {
         parse_obj(
             context,
@@ -295,7 +281,6 @@ abstract class Turtle2Parser(input: IMyInputStream) {
             }
         )
     }
-
     private fun triple_end() {
         parse_triple_end(
             context,
@@ -318,7 +303,6 @@ abstract class Turtle2Parser(input: IMyInputStream) {
             }
         )
     }
-
     private fun triple_end_or_object_iri() {
         parse_triple_end_or_object_iri(
             context,
@@ -366,7 +350,6 @@ abstract class Turtle2Parser(input: IMyInputStream) {
             }
         )
     }
-
     private fun triple_end_or_object_string_helper_2() {
         val prefix = context.getValue()
         parse_triple_end_or_object_string_typed_iri(
@@ -415,7 +398,6 @@ abstract class Turtle2Parser(input: IMyInputStream) {
             }
         )
     }
-
     private fun triple_end_or_object_string_helper_1() {
         parse_triple_end_or_object_string_typed(
             context,
@@ -432,7 +414,6 @@ abstract class Turtle2Parser(input: IMyInputStream) {
             }
         )
     }
-
     private fun triple_end_or_object_string() {
         parse_triple_end_or_object_string(
             context,

@@ -1,13 +1,10 @@
 package lupos.s04logicalOperators.iterator
-
 import lupos.s00misc.SanityCheck
 import lupos.s03resultRepresentation.ResultSetDictionaryExt
 import kotlin.jvm.JvmField
-
 open class RowIteratorFromColumn(@JvmField val bundle: IteratorBundle) : RowIterator() {
     @JvmField
     var iterators: Array<ColumnIterator>
-
     init {
         SanityCheck.check { bundle.hasColumnMode() }
         val keys = bundle.columns.keys.toList()

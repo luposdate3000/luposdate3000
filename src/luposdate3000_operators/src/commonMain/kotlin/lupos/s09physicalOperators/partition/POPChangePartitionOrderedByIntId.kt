@@ -1,5 +1,4 @@
 package lupos.s09physicalOperators.partition
-
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.ESortPriority
 import lupos.s00misc.ESortType
@@ -15,7 +14,6 @@ import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.iterator.RowIterator
 import lupos.s09physicalOperators.POPBase
-
 // http://blog.pronghorn.tech/optimizing-suspending-functions-in-kotlin/
 class POPChangePartitionOrderedByIntId(query: IQuery, projectedVariables: List<String>, val partitionVariable: String, var partitionCountFrom: Int, var partitionCountTo: Int, var partitionIDFrom: Int, var partitionIDTo: Int, child: IOPBase) : POPBase(query, projectedVariables, EOperatorID.POPChangePartitionOrderedByIntIdID, "POPChangePartitionOrderedByIntId", arrayOf(child), ESortPriority.PREVENT_ANY) {
     override fun getPartitionCount(variable: String): Int {
@@ -25,7 +23,6 @@ class POPChangePartitionOrderedByIntId(query: IQuery, projectedVariables: List<S
             children[0].getPartitionCount(variable)
         }
     }
-
     override /*suspend*/ fun toXMLElement(): XMLElement {
         val res = super.toXMLElement()
         res.addAttribute("partitionVariable", partitionVariable)
@@ -35,7 +32,6 @@ class POPChangePartitionOrderedByIntId(query: IQuery, projectedVariables: List<S
         res.addAttribute("partitionIDTo", "" + partitionIDTo)
         return res
     }
-
     override fun getRequiredVariableNames(): List<String> = listOf()
     override fun getProvidedVariableNames(): List<String> = children[0].getProvidedVariableNames()
     override fun getProvidedVariableNamesInternal(): List<String> {
@@ -46,7 +42,6 @@ class POPChangePartitionOrderedByIntId(query: IQuery, projectedVariables: List<S
             tmp.getProvidedVariableNames()
         }
     }
-
     override fun cloneOP(): IOPBase = POPChangePartitionOrderedByIntId(query, projectedVariables, partitionVariable, partitionCountFrom, partitionCountTo, partitionIDFrom, partitionIDTo, children[0].cloneOP())
     override fun toSparql(): String = children[0].toSparql()
     override fun equals(other: Any?): Boolean = other is POPChangePartitionOrderedByIntId && children[0] == other.children[0] && partitionVariable == other.partitionVariable

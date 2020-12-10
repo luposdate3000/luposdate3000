@@ -1,5 +1,4 @@
 package lupos.s00misc
-
 internal expect object Platform {
     inline fun getEnv(key: String, default: String? = null): String?
     inline fun getUserHome(): String

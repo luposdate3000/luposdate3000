@@ -1,5 +1,4 @@
 package lupos.s09physicalOperators.singleinput.modifiers
-
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.ESortPriority
 import lupos.s00misc.Partition
@@ -12,13 +11,11 @@ import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s09physicalOperators.POPBase
 import kotlin.jvm.JvmField
-
 class POPLimit(query: IQuery, projectedVariables: List<String>, @JvmField val limit: Int, child: IOPBase) : POPBase(query, projectedVariables, EOperatorID.POPLimitID, "POPLimit", arrayOf(child), ESortPriority.SAME_AS_CHILD) {
     override fun getPartitionCount(variable: String): Int {
         SanityCheck.check { children[0].getPartitionCount(variable) == 1 }
         return 1
     }
-
     override fun toSparql(): String {
         val sparql = children[0].toSparql()
         if (sparql.startsWith("{SELECT ")) {
@@ -26,7 +23,6 @@ class POPLimit(query: IQuery, projectedVariables: List<String>, @JvmField val li
         }
         return "{SELECT * {$sparql} LIMIT $limit}"
     }
-
     override fun equals(other: Any?): Boolean = other is POPLimit && limit == other.limit && children[0] == other.children[0]
     override fun cloneOP(): IOPBase = POPLimit(query, projectedVariables, limit, children[0].cloneOP())
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
@@ -37,10 +33,8 @@ class POPLimit(query: IQuery, projectedVariables: List<String>, @JvmField val li
             val tmp = object : ColumnIterator() {
                 @JvmField
                 var count = 0
-
                 @JvmField
                 val iterator = child.columns[variable]!!
-
                 @JvmField
                 var label = 1
                 override /*suspend*/ fun next(): Int {
@@ -56,14 +50,12 @@ class POPLimit(query: IQuery, projectedVariables: List<String>, @JvmField val li
                         ResultSetDictionaryExt.nullValue
                     }
                 }
-
                 /*suspend*/ inline fun _close() {
                     if (label != 0) {
                         label = 0
                         iterator.close()
                     }
                 }
-
                 override /*suspend*/ fun close() {
                     _close()
                 }
@@ -72,6 +64,5 @@ class POPLimit(query: IQuery, projectedVariables: List<String>, @JvmField val li
         }
         return IteratorBundle(outMap)
     }
-
     override /*suspend*/ fun toXMLElement(): XMLElement = super.toXMLElement().addAttribute("limit", "" + limit)
 }

@@ -1,5 +1,4 @@
 package lupos.s00misc
-
 import dirent.closedir
 import dirent.opendir
 import dirent.readdir
@@ -13,7 +12,6 @@ import stdio.fgets
 import stdio.fopen
 import stdio.luposfprintf
 import kotlin.native.concurrent.*
-
 class File(val filename: String) {
     fun readAsString(): String {
         var result: String = ""
@@ -38,7 +36,6 @@ class File(val filename: String) {
         }
         return result
     }
-
     fun walk(action: (String) -> Unit) {
         val d = opendir(filename)
         if (d != null) {
@@ -52,7 +49,6 @@ class File(val filename: String) {
             closedir(d)
         }
     }
-
     fun printWriter(action: (PrintWriter) -> Unit) {
         val p = PrintWriter(this)
         try {
@@ -63,7 +59,6 @@ class File(val filename: String) {
         }
     }
 }
-
 class PrintWriter(val f: File) {
     var file: CValuesRef<FILE>? = null
     fun open() {
@@ -72,11 +67,9 @@ class PrintWriter(val f: File) {
             throw ResourceNotFoundException(f.filename)
         }
     }
-
     fun close() {
         fclose(file)
     }
-
     fun println(s: String) {
         luposfprintf(file, s + "\n")
     }

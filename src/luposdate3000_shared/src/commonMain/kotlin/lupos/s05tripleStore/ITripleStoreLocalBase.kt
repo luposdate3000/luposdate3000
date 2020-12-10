@@ -1,10 +1,8 @@
 package lupos.s05tripleStore
-
 import lupos.s00misc.EModifyType
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.s04logicalOperators.iterator.IteratorBundle
-
 interface ITripleStoreLocalBase {
     fun getEnabledPartitions(): Array<EnabledPartitionContainer>
     /*suspend*/ fun flush()

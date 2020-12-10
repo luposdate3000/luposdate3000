@@ -1,10 +1,8 @@
 package lupos.s00misc
-
 internal actual class MyThreadReadWriteLock {
     internal companion object {
         var uuidCounter = 0L
     }
-
     val uuid = uuidCounter++
     actual inline fun getUUID() = uuid
     var lockedRead = 0
@@ -18,7 +16,6 @@ internal actual class MyThreadReadWriteLock {
             lockedWrite = false
         }
     }
-
     actual inline fun readLock() {
         SanityCheck {
             if (lockedWrite) {
@@ -27,7 +24,6 @@ internal actual class MyThreadReadWriteLock {
             lockedRead++
         }
     }
-
     actual inline fun readUnlock() {
         SanityCheck {
             if (lockedRead <= 0) {
@@ -36,7 +32,6 @@ internal actual class MyThreadReadWriteLock {
             lockedRead--
         }
     }
-
     actual inline fun writeLock() {
         SanityCheck {
             if (lockedRead > 0 || lockedWrite) {
@@ -45,7 +40,6 @@ internal actual class MyThreadReadWriteLock {
             lockedWrite = true
         }
     }
-
     actual inline fun tryWriteLock(): Boolean {
         SanityCheck {
             if (lockedRead > 0 || lockedWrite) {
@@ -55,7 +49,6 @@ internal actual class MyThreadReadWriteLock {
         }
         return true
     }
-
     actual inline fun writeUnlock() {
         SanityCheck {
             if (!lockedWrite) {
@@ -64,7 +57,6 @@ internal actual class MyThreadReadWriteLock {
             lockedWrite = false
         }
     }
-
     actual inline fun <T> withReadLock(crossinline action: () -> T): T {
         readLock()
         try {
@@ -73,7 +65,6 @@ internal actual class MyThreadReadWriteLock {
             readUnlock()
         }
     }
-
     actual inline fun <T> withWriteLock(crossinline action: () -> T): T {
         writeLock()
         try {

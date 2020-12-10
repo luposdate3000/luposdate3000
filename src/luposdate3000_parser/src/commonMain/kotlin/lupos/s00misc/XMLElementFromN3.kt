@@ -1,8 +1,6 @@
 package lupos.s00misc
-
 import lupos.s02buildSyntaxTree.turtle.Turtle2Parser
 import kotlin.jvm.JvmField
-
 class XMLElementFromN3 : XMLElementParser {
     override operator fun invoke(data: String): XMLElement {
         val nodeSparql = XMLElement("sparql").addAttribute("xmlns", "http://www.w3.org/2005/sparql-results#")
@@ -16,7 +14,6 @@ class XMLElementFromN3 : XMLElementParser {
         val inputstream = object : IMyInputStream {
             @JvmField
             val dataBytes = data.encodeToByteArray()
-
             @JvmField
             var offset = 0
             override fun read(buf: ByteArray): Int {

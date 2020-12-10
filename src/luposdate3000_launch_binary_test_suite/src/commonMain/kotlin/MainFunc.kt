@@ -2,7 +2,6 @@ import lupos.s00misc.BinaryTestCase
 import lupos.s00misc.BinaryTestCaseOutputMode
 import lupos.s00misc.Parallel
 import lupos.s16network.LuposdateEndpoint
-
 fun mainFunc(args: Array<String>) {
     LuposdateEndpoint.initialize()
     Parallel.runBlocking {

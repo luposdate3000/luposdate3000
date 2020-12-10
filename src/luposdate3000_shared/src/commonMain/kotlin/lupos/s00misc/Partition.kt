@@ -1,9 +1,7 @@
 package lupos.s00misc
-
 class Partition {
     val data: MutableMap<String, Int>
     val limit: MutableMap<String, Int>
-
     companion object {
         val estimatedPartitions1 = mutableMapOf<String, MutableSet<Int>>()
         val estimatedPartitions2 = mutableMapOf<String, MutableSet<Int>>()
@@ -18,12 +16,10 @@ class Partition {
             }
         }
     }
-
     constructor() {
         data = mutableMapOf()
         limit = mutableMapOf()
     }
-
     constructor(parentPartition: Partition, variableName: String, partitionNumber: Int, partitionLimit: Int) {
         val t = mutableMapOf<String, Int>()
         for ((k, v) in parentPartition.data) {
@@ -38,7 +34,6 @@ class Partition {
         t2[variableName] = partitionLimit
         limit = t2
     }
-
     constructor(parentPartition: Partition, variableName: String) {
         val t = mutableMapOf<String, Int>()
         for ((k, v) in parentPartition.data) {
@@ -55,7 +50,6 @@ class Partition {
         }
         limit = t2
     }
-
     override fun equals(other: Any?): Boolean = other is Partition && data == other.data && limit == other.limit
     override fun hashCode(): Int = data.hashCode()
     fun toXMLElement(): XMLElement {

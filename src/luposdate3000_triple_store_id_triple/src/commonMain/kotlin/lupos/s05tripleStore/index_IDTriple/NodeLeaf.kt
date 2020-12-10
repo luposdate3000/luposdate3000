@@ -1,9 +1,7 @@
 package lupos.s05tripleStore.index_IDTriple
-
 import lupos.s00misc.MyReadWriteLock
 import lupos.s00misc.SanityCheck
 import lupos.s04logicalOperators.iterator.ColumnIterator
-
 internal object NodeLeaf {
     const val START_OFFSET = 12
     inline fun getFirstTriple(node: ByteArray, b: IntArray) {
@@ -13,11 +11,9 @@ internal object NodeLeaf {
             b[2] = v2
         }
     }
-
     inline fun iterator(node: ByteArray, nodeid: Int): TripleIterator {
         return NodeLeafIterator(node, nodeid)
     }
-
     /*suspend*/ inline fun iterator(node: ByteArray, nodeid: Int, lock: MyReadWriteLock, component: Int): ColumnIterator {
         return when (component) {
             0 -> {
@@ -34,15 +30,12 @@ internal object NodeLeaf {
             }
         }
     }
-
     /*suspend*/ inline fun iterator3(node: ByteArray, nodeid: Int, prefix: IntArray, lock: MyReadWriteLock): ColumnIterator {
         return NodeLeafColumnIteratorPrefix3(node, nodeid, prefix, lock)
     }
-
     /*suspend*/ inline fun iterator2(node: ByteArray, nodeid: Int, prefix: IntArray, lock: MyReadWriteLock): ColumnIterator {
         return NodeLeafColumnIteratorPrefix22(node, nodeid, prefix, lock)
     }
-
     /*suspend*/ inline fun iterator1(node: ByteArray, nodeid: Int, prefix: IntArray, lock: MyReadWriteLock, component: Int): ColumnIterator {
         return when (component) {
             1 -> {
@@ -56,7 +49,6 @@ internal object NodeLeaf {
             }
         }
     }
-
     inline fun initializeWith(node: ByteArray, nodeid: Int, iterator: TripleIterator) {
         SanityCheck.check { iterator.hasNext() }
         var writtenTriples: MutableList<Int>? = null

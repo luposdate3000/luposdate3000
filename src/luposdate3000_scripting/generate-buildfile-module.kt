@@ -3,23 +3,18 @@ import java.lang.ProcessBuilder.Redirect
 import java.nio.file.Files
 import java.nio.file.Paths
 import java.nio.file.StandardCopyOption
-
 enum class ReleaseMode {
     Enable, Disable
 }
-
 enum class DryMode {
     Enable, Disable
 }
-
 enum class FastMode {
     JVM, JS, NATIVE, Disable
 }
-
 enum class IntellijMode {
     Enable, Disable
 }
-
 val validPlatforms = listOf("iosArm32", "iosArm64", "linuxX64", "macosX64", "mingwX64")
 fun createBuildFileForModule(args: Array<String>) {
     val onWindows = System.getProperty("os.name").contains("Windows")
@@ -78,11 +73,9 @@ fun createBuildFileForModule(args: Array<String>) {
     }
     createBuildFileForModule(moduleName, moduleFolder, modulePrefix, platform, releaseMode, suspendMode, inlineMode, dryMode, fastMode, ideaBuildfile, args)
 }
-
 fun createBuildFileForModule(moduleName: String, releaseMode: ReleaseMode, suspendMode: SuspendMode, inlineMode: InlineMode, dryMode: DryMode, fastMode: FastMode, ideaBuildfile: IntellijMode, args: Array<String> = arrayOf<String>()) {
     createBuildFileForModule(moduleName, moduleName, releaseMode, suspendMode, inlineMode, dryMode, fastMode, ideaBuildfile, args)
 }
-
 fun createBuildFileForModule(moduleName: String, modulePrefix: String, releaseMode: ReleaseMode, suspendMode: SuspendMode, inlineMode: InlineMode, dryMode: DryMode, fastMode: FastMode, ideaBuildfile: IntellijMode, args: Array<String> = arrayOf<String>()) {
     val onWindows = System.getProperty("os.name").contains("Windows")
     val pathSeparator: String
@@ -93,11 +86,9 @@ fun createBuildFileForModule(moduleName: String, modulePrefix: String, releaseMo
     }
     createBuildFileForModule(moduleName, modulePrefix, "src${pathSeparator}${moduleName.toLowerCase()}", releaseMode, suspendMode, inlineMode, dryMode, fastMode, ideaBuildfile, args)
 }
-
 fun createBuildFileForModule(moduleName: String, modulePrefix: String, moduleFolder: String, releaseMode: ReleaseMode, suspendMode: SuspendMode, inlineMode: InlineMode, dryMode: DryMode, fastMode: FastMode, ideaBuildfile: IntellijMode, args: Array<String> = arrayOf<String>()) {
     createBuildFileForModule(moduleName, moduleFolder, modulePrefix, "linuxX64", releaseMode, suspendMode, inlineMode, dryMode, fastMode, ideaBuildfile, args)
 }
-
 fun createBuildFileForModule(moduleName: String, moduleFolder: String, modulePrefix: String, platform: String, releaseMode: ReleaseMode, suspendMode: SuspendMode, inlineMode: InlineMode, dryMode2: DryMode, fastMode: FastMode, ideaBuildfile: IntellijMode, args: Array<String> = arrayOf<String>()) {
     var dryMode: DryMode
     if (dryMode2 == DryMode.Enable || ideaBuildfile == IntellijMode.Enable) {
@@ -694,7 +685,6 @@ fun createBuildFileForModule(moduleName: String, moduleFolder: String, modulePre
         }
     }
 }
-
 fun runCommand(command: List<String>, workingDir: File) {
     val p = ProcessBuilder(command)
         .directory(workingDir)

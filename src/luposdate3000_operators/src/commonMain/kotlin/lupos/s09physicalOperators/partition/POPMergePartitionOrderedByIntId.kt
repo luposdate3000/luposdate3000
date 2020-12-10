@@ -1,5 +1,4 @@
 package lupos.s09physicalOperators.partition
-
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.ESortPriority
 import lupos.s00misc.ESortType
@@ -15,7 +14,6 @@ import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.iterator.RowIterator
 import lupos.s09physicalOperators.POPBase
-
 // http://blog.pronghorn.tech/optimizing-suspending-functions-in-kotlin/
 class POPMergePartitionOrderedByIntId(query: IQuery, projectedVariables: List<String>, val partitionVariable: String, var partitionCount: Int, var partitionID: Int, child: IOPBase) : POPBase(query, projectedVariables, EOperatorID.POPMergePartitionOrderedByIntIdID, "POPMergePartitionOrderedByIntId", arrayOf(child), ESortPriority.PREVENT_ANY) {
     override fun getPartitionCount(variable: String): Int {
@@ -25,7 +23,6 @@ class POPMergePartitionOrderedByIntId(query: IQuery, projectedVariables: List<St
             children[0].getPartitionCount(variable)
         }
     }
-
     override /*suspend*/ fun toXMLElement(): XMLElement {
         val res = super.toXMLElement()
         res.addAttribute("partitionVariable", partitionVariable)
@@ -33,7 +30,6 @@ class POPMergePartitionOrderedByIntId(query: IQuery, projectedVariables: List<St
         res.addAttribute("partitionID", "" + partitionID)
         return res
     }
-
     override fun getRequiredVariableNames(): List<String> = listOf()
     override fun getProvidedVariableNames(): List<String> = children[0].getProvidedVariableNames()
     override fun getProvidedVariableNamesInternal(): List<String> {
@@ -44,7 +40,6 @@ class POPMergePartitionOrderedByIntId(query: IQuery, projectedVariables: List<St
             tmp.getProvidedVariableNames()
         }
     }
-
     override fun cloneOP(): IOPBase = POPMergePartitionOrderedByIntId(query, projectedVariables, partitionVariable, partitionCount, partitionID, children[0].cloneOP())
     override fun toSparql(): String = children[0].toSparql()
     override fun equals(other: Any?): Boolean = other is POPMergePartitionOrderedByIntId && children[0] == other.children[0] && partitionVariable == other.partitionVariable

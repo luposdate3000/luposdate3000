@@ -1,5 +1,4 @@
 package lupos.s04logicalOperators.noinput
-
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.ESortPriority
 import lupos.s00misc.XMLElement
@@ -11,12 +10,10 @@ import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.LOPBase
 import kotlin.jvm.JvmField
-
 class LOPValues(query: IQuery, @JvmField val variables: List<AOPVariable>, values: List<AOPValue>) : LOPBase(query, EOperatorID.LOPValuesID, "LOPValues", Array(values.size) { values[it] }, ESortPriority.PREVENT_ANY) {
     override fun getProvidedVariableNames(): List<String> {
         return MutableList(variables.size) { variables[it].name }.distinct()
     }
-
     override /*suspend*/ fun toXMLElement(): XMLElement {
         val res = XMLElement("LOPValues").addAttribute("uuid", "" + uuid)
         val xmlvariables = XMLElement("LocalVariables")
@@ -29,7 +26,6 @@ class LOPValues(query: IQuery, @JvmField val variables: List<AOPVariable>, value
         bindings.addContent(childrenToXML())
         return res
     }
-
     override fun equals(other: Any?): Boolean = other is LOPValues && variables == other.variables && children.contentEquals(other.children)
     override fun cloneOP(): IOPBase = LOPValues(query, variables, List(children.size) { children[it].cloneOP() as AOPValue })
     override /*suspend*/ fun calculateHistogram(): HistogramResult {

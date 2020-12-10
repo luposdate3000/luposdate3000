@@ -1,11 +1,9 @@
 package lupos.s08logicalOptimisation
-
 import lupos.s00misc.EOptimizerID
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.multiinput.LOPJoin
 import lupos.s04logicalOperators.multiinput.LOPUnion
-
 class LogicalOptimizerUnionUp(query: Query) : OptimizerBase(query, EOptimizerID.LogicalOptimizerUnionUpID) {
     override val classname: String = "LogicalOptimizerUnionUp"
     override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {

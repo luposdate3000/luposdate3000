@@ -1,11 +1,9 @@
 package lupos.s02buildSyntaxTree.sparql1_1
-
 import lupos.s02buildSyntaxTree.LookAheadTokenIterator
 import lupos.s02buildSyntaxTree.ParseError
 import lupos.s02buildSyntaxTree.Token
 import lupos.s02buildSyntaxTree.UnexpectedToken
 import kotlin.jvm.JvmField
-
 interface Visitor<T> {
     fun visit(node: ASTNode, childrenValues: List<T>): T
     fun visit(node: ASTBase, childrenValues: List<T>): T
@@ -96,78 +94,62 @@ interface Visitor<T> {
     fun visit(node: ASTAggregation, childrenValues: List<T>): T
     fun visit(node: ASTGroupConcat, childrenValues: List<T>): T
 }
-
 class ASTBase(@JvmField val iri: String) : ASTLeafNode() {
     override fun nodeToString(): String = "BASE <$iri>"
     override fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
 }
-
 class ASTPrefix(@JvmField val name: String, @JvmField val iri: String) : ASTLeafNode() {
     override fun nodeToString(): String = "PREFIX $name: <$iri>"
     override fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
 }
-
 class ASTQuery(children: Array<ASTNode>) : ASTNode(children) {
     constructor(children: List<ASTNode>) : this(children.toTypedArray())
-
     override fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
 }
-
 class ASTValues(@JvmField val variables: Array<ASTVar>, children: Array<ASTNode>) : ASTNode(children) {
     constructor(variable: ASTVar, children: List<ASTNode>) : this(arrayOf(variable), children.toTypedArray())
     constructor(variables: List<ASTVar>, children: List<ASTNode>) : this(variables.toTypedArray(), children.toTypedArray())
-
     override fun nodeToString(): String = "Values for variables: " + variables.joinToString(separator = ", ") { it.name }
     override fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
 }
-
 class ASTValue(children: Array<ASTNode>) : ASTNode(children) {
     constructor(children: List<ASTNode>) : this(children.toTypedArray())
     constructor(child: ASTNode) : this(arrayOf(child))
-
     override fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
 }
-
 class ASTUndef : ASTLeafNode() {
     override fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
 }
-
 open class ASTQueryBaseClass : ASTLeafNode() {
     @JvmField
     var datasets: Array<ASTDatasetClause> = arrayOf()
     inline fun existsDatasets(): Boolean = datasets.isNotEmpty()
-
     @JvmField
     var where: Array<ASTNode> = arrayOf()
-
     @JvmField
     var groupBy: Array<ASTNode> = arrayOf()
     inline fun existsGroupBy(): Boolean = groupBy.isNotEmpty()
-
     @JvmField
     var having: Array<ASTNode> = arrayOf()
     inline fun existsHaving(): Boolean = having.isNotEmpty()
-
     @JvmField
     var orderBy: Array<ASTNode> = arrayOf()
     inline fun existsOrderBy(): Boolean = orderBy.isNotEmpty()
-
     @JvmField
     var limit: Int = -1
     inline fun existsLimit(): Boolean = limit >= 0
-
     @JvmField
     var offset: Int = 0
     inline fun existsOffset(): Boolean = offset > 0
@@ -188,12 +170,10 @@ open class ASTQueryBaseClass : ASTLeafNode() {
         }
         return result
     }
-
     override fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
 }
-
 open class ASTSelectQuery(@JvmField val distinct: Boolean, @JvmField val reduced: Boolean, @JvmField val select: Array<ASTNode>) : ASTQueryBaseClass() {
     inline fun selectAll(): Boolean = (select.isEmpty())
     override fun nodeToString(): String = "ASTSelectQuery" + innerNodeToString()
@@ -203,7 +183,6 @@ open class ASTSelectQuery(@JvmField val distinct: Boolean, @JvmField val reduced
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
 }
-
 class ASTSubSelectQuery(distinct: Boolean, reduced: Boolean, select: Array<ASTNode>) : ASTSelectQuery(distinct, reduced, select) {
     @JvmField
     var values: ASTValues? = null
@@ -214,32 +193,27 @@ class ASTSubSelectQuery(distinct: Boolean, reduced: Boolean, select: Array<ASTNo
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
 }
-
 class ASTConstructQuery(@JvmField val template: Array<ASTNode>) : ASTQueryBaseClass() {
     override fun toString(indentation: String): String = super.toString(indentation) + propertyToString("$indentation  ", "$indentation    ", "Template", this.template)
     override fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
 }
-
 class ASTDescribeQuery(@JvmField val select: Array<ASTNode>) : ASTQueryBaseClass() {
     private inline fun selectAll(): Boolean {
         return select.isEmpty()
     }
-
     override fun nodeToString(): String = "ASTSelectQuery" + (if (selectAll()) " *" else "")
     override fun toString(indentation: String): String = super.toString(indentation) + propertyToString("$indentation  ", "$indentation    ", "Select", this.select)
     override fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
 }
-
 class ASTAskQuery : ASTQueryBaseClass() {
     override fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
 }
-
 class ASTAs(@JvmField val expression: ASTNode, @JvmField val variable: ASTVar) : ASTLeafNode() {
     override fun toString(indentation: String): String {
         var result = indentation + nodeToString() + "\r\n"
@@ -251,126 +225,104 @@ class ASTAs(@JvmField val expression: ASTNode, @JvmField val variable: ASTVar) :
         result += variable.toString(indentation3)
         return result
     }
-
     override fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
 }
-
 open class ASTDatasetClause(@JvmField val source_iri: String) : ASTLeafNode() {
     constructor(iri: ASTIri) : this(iri.iri)
-
     override fun nodeToString(): String = super.nodeToString() + " <" + source_iri + ">"
     override fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
 }
-
 class ASTDefaultGraph(source_iri: ASTIri) : ASTDatasetClause(source_iri) {
     override fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
 }
-
 class ASTNamedGraph(source_iri: ASTIri) : ASTDatasetClause(source_iri) {
     override fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
 }
-
 class ASTOrderCondition(@JvmField val asc: Boolean, child: ASTNode) : ASTUnaryOperation(child) {
     override fun toString(indentation: String): String = indentation + nodeToString() + " " + (if (asc) "ASC" else "DESC") + "\r\n" + children[0].toString("$indentation  ")
     override fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
 }
-
 class ASTVar(@JvmField val name: String) : ASTLeafNode() {
     override fun nodeToString(): String = super.nodeToString() + " " + name
     override fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
 }
-
 open class ASTRDFTerm : ASTLeafNode() {
     override fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
 }
-
 open class ASTLiteral(@JvmField val content: String, @JvmField val delimiter: String) : ASTRDFTerm() {
     override fun nodeToString(): String = delimiter + content + delimiter
     override fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
 }
-
 class ASTSimpleLiteral(content: String, delimiter: String) : ASTLiteral(content, delimiter) {
     override fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
 }
-
 class ASTTypedLiteral(content: String, delimiter: String, @JvmField val type_iri: String) : ASTLiteral(content, delimiter) {
     override fun nodeToString(): String = super.nodeToString() + "^^<" + type_iri + ">"
     override fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
 }
-
 class ASTLanguageTaggedLiteral(content: String, delimiter: String, @JvmField val language: String) : ASTLiteral(content, delimiter) {
     override fun nodeToString(): String = super.nodeToString() + "@" + language
     override fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
 }
-
 class ASTIri(@JvmField val iri: String) : ASTRDFTerm() {
     override fun nodeToString(): String = "<$iri>"
     override fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
 }
-
 class ASTBlankNode(@JvmField val name: String) : ASTRDFTerm() {
     constructor() : this(getNewName())
-
     override fun nodeToString(): String = "_:$name"
-
     private companion object {
         var label_index = 0L
         fun getNewName(): String {
             return "_" + label_index++
         }
     }
-
     override fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
 }
-
 class ASTBooleanLiteral(@JvmField val value: Boolean) : ASTRDFTerm() {
     override fun nodeToString(): String = if (value) "true" else "false"
     override fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
 }
-
 open class ASTNumericLiteral : ASTRDFTerm() {
     override fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
 }
-
 class ASTInteger(@JvmField val value: Int) : ASTNumericLiteral() {
     constructor(image: String) : this(image.toInt())
-
     override fun nodeToString(): String = "" + value
     override fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
 }
-
 class ASTDouble(@JvmField val image: String) : ASTNumericLiteral() {
     fun toDouble(): Double = image.toDouble()
     override fun nodeToString(): String = image
@@ -378,7 +330,6 @@ class ASTDouble(@JvmField val image: String) : ASTNumericLiteral() {
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
 }
-
 class ASTDecimal(@JvmField val image: String) : ASTNumericLiteral() {
     fun toDouble(): Double = image.toDouble()
     override fun nodeToString(): String = image
@@ -386,58 +337,49 @@ class ASTDecimal(@JvmField val image: String) : ASTNumericLiteral() {
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
 }
-
 class ASTFunctionCall(@JvmField val iri: String, @JvmField val distinct: Boolean, arguments: Array<ASTNode>) : ASTNode(arguments) {
     override fun nodeToString(): String = "ASTFunctionCall <" + iri + ">" + (if (distinct) "DISTINCT" else "")
     override fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
 }
-
 class ASTTriple(s: ASTNode, p: ASTNode, o: ASTNode) : ASTNode(arrayOf(s, p, o)) {
     override fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
 }
-
 open class ASTGraphRef : ASTLeafNode() {
     override fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
 }
-
 class ASTIriGraphRef(@JvmField val iri: String) : ASTGraphRef() {
     override fun nodeToString(): String = super.nodeToString() + " <" + iri + ">"
     override fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
 }
-
 class ASTNamedIriGraphRef(@JvmField val iri: String) : ASTGraphRef() {
     override fun nodeToString(): String = super.nodeToString() + " <" + iri + ">"
     override fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
 }
-
 class ASTDefaultGraphRef : ASTGraphRef() {
     override fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
 }
-
 class ASTNamedGraphRef : ASTGraphRef() {
     override fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
 }
-
 class ASTAllGraphRef : ASTGraphRef() {
     override fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
 }
-
 class ASTLoad(@JvmField val silent: Boolean, @JvmField val iri: String, @JvmField val into: ASTGraphRef?) : ASTLeafNode() {
     override fun nodeToString(): String = super.nodeToString() + (if (silent) " SILENT" else "") + " <" + iri + ">"
     override fun toString(indentation: String): String {
@@ -447,12 +389,10 @@ class ASTLoad(@JvmField val silent: Boolean, @JvmField val iri: String, @JvmFiel
         }
         return result
     }
-
     override fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
 }
-
 open class ASTGrapOperation(@JvmField val silent: Boolean, @JvmField val graphref: ASTGraphRef) : ASTLeafNode() {
     override fun nodeToString(): String = super.nodeToString() + (if (silent) " SILENT" else "")
     override fun toString(indentation: String): String = indentation + nodeToString() + "\r\n" + graphref.toString("$indentation  ")
@@ -460,25 +400,21 @@ open class ASTGrapOperation(@JvmField val silent: Boolean, @JvmField val graphre
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
 }
-
 class ASTClear(silent: Boolean, graphref: ASTGraphRef) : ASTGrapOperation(silent, graphref) {
     override fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
 }
-
 class ASTDrop(silent: Boolean, graphref: ASTGraphRef) : ASTGrapOperation(silent, graphref) {
     override fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
 }
-
 class ASTCreate(silent: Boolean, graphref: ASTGraphRef) : ASTGrapOperation(silent, graphref) {
     override fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
 }
-
 open class ASTUpdateGrapOperation(@JvmField val silent: Boolean, @JvmField val fromGraph: ASTGraphRef, @JvmField val toGraph: ASTGraphRef) : ASTLeafNode() {
     override fun nodeToString(): String = super.nodeToString() + (if (silent) " SILENT" else "")
     override fun toString(indentation: String): String {
@@ -489,68 +425,57 @@ open class ASTUpdateGrapOperation(@JvmField val silent: Boolean, @JvmField val f
         result += indentation2 + "TO:\r\n" + toGraph.toString(indentation3)
         return result
     }
-
     override fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
 }
-
 class ASTAdd(silent: Boolean, fromGraph: ASTGraphRef, toGraph: ASTGraphRef) : ASTUpdateGrapOperation(silent, fromGraph, toGraph) {
     override fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
 }
-
 class ASTMove(silent: Boolean, fromGraph: ASTGraphRef, toGraph: ASTGraphRef) : ASTUpdateGrapOperation(silent, fromGraph, toGraph) {
     override fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
 }
-
 class ASTCopy(silent: Boolean, fromGraph: ASTGraphRef, toGraph: ASTGraphRef) : ASTUpdateGrapOperation(silent, fromGraph, toGraph) {
     override fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
 }
-
 class ASTGraph(@JvmField val iriOrVar: ASTNode, constraint: Array<ASTNode>) : ASTNode(constraint) {
     override fun nodeToString(): String = super.nodeToString() + " " + iriOrVar.nodeToString()
     override fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
 }
-
 class ASTService(@JvmField val silent: Boolean, @JvmField val iriOrVar: ASTNode, constraint: Array<ASTNode>) : ASTNode(constraint) {
     override fun nodeToString(): String = super.nodeToString() + (if (silent) "SILENT" else "") + " " + iriOrVar.nodeToString()
     override fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
 }
-
 open class ASTModify(children: Array<ASTNode>) : ASTNode(children) {
     override fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
 }
-
 class ASTDeleteData(data: Array<ASTNode>) : ASTModify(data) {
     override fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
 }
-
 class ASTDeleteWhere(pattern: Array<ASTNode>) : ASTModify(pattern) {
     override fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
 }
-
 class ASTInsertData(data: Array<ASTNode>) : ASTModify(data) {
     override fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
 }
-
 class ASTModifyWithWhere(@JvmField val iri: String?, @JvmField val delete: Array<ASTNode>, @JvmField val insert: Array<ASTNode>, @JvmField val using: Array<ASTGraphRef>, where: Array<ASTNode>) : ASTModify(where) {
     override fun toString(indentation: String): String {
         var result = indentation + nodeToString() + (if (iri != null) " <$iri>" else "") + "\r\n"
@@ -562,224 +487,186 @@ class ASTModifyWithWhere(@JvmField val iri: String?, @JvmField val delete: Array
         result += propertyToString(indentation2, indentation3, "WHERE", this.children)
         return result
     }
-
     override fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
 }
-
 class ASTPathAlternatives(children: Array<ASTNode>) : ASTNode(children) {
     override fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
 }
-
 class ASTPathSequence(children: Array<ASTNode>) : ASTNode(children) {
     override fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
 }
-
 class ASTPathInverse(child: ASTNode) : ASTUnaryOperation(child) {
     override fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
 }
-
 class ASTPathArbitraryOccurrences(child: ASTNode) : ASTUnaryOperation(child) {
     override fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
 }
-
 class ASTPathOptionalOccurrence(child: ASTNode) : ASTUnaryOperation(child) {
     override fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
 }
-
 class ASTPathArbitraryOccurrencesNotZero(child: ASTNode) : ASTUnaryOperation(child) {
     override fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
 }
-
 class ASTPathNegatedPropertySet(children: Array<ASTNode>) : ASTNode(children) {
     override fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
 }
-
 class ASTOptional(children: Array<ASTNode>) : ASTNode(children) {
     override fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
 }
-
 class ASTMinusGroup(children: Array<ASTNode>) : ASTNode(children) {
     override fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
 }
-
 class ASTUnion(children: Array<ASTNode>) : ASTNode(children) {
     override fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
 }
-
 class ASTGroup(children: Array<ASTNode>) : ASTNode(children) {
     override fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
 }
-
 class ASTFilter(child: ASTNode) : ASTUnaryOperation(child) {
     override fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
 }
-
 class ASTSet(children: Array<ASTNode>) : ASTNode(children) {
     override fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
 }
-
 class ASTOr(children: Array<ASTNode>) : ASTNode(children) {
     override fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
 }
-
 class ASTAnd(children: Array<ASTNode>) : ASTNode(children) {
     override fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
 }
-
 class ASTEQ(left: ASTNode, right: ASTNode) : ASTBinaryOperationFixedName(left, right, "=") {
     override fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
 }
-
 class ASTNEQ(left: ASTNode, right: ASTNode) : ASTBinaryOperationFixedName(left, right, "!=") {
     override fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
 }
-
 class ASTLEQ(left: ASTNode, right: ASTNode) : ASTBinaryOperationFixedName(left, right, "<=") {
     override fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
 }
-
 class ASTGEQ(left: ASTNode, right: ASTNode) : ASTBinaryOperationFixedName(left, right, ">=") {
     override fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
 }
-
 class ASTLT(left: ASTNode, right: ASTNode) : ASTBinaryOperationFixedName(left, right, "<") {
     override fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
 }
-
 class ASTGT(left: ASTNode, right: ASTNode) : ASTBinaryOperationFixedName(left, right, ">") {
     override fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
 }
-
 class ASTIn(left: ASTNode, right: ASTNode) : ASTBinaryOperationFixedName(left, right, "In") {
     override fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
 }
-
 class ASTNotIn(left: ASTNode, right: ASTNode) : ASTBinaryOperationFixedName(left, right, "Not In") {
     override fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
 }
-
 class ASTAddition(left: ASTNode, right: ASTNode) : ASTBinaryOperationFixedName(left, right, "+") {
     override fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
 }
-
 class ASTSubtraction(left: ASTNode, right: ASTNode) : ASTBinaryOperationFixedName(left, right, "-") {
     override fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
 }
-
 class ASTMultiplication(left: ASTNode, right: ASTNode) : ASTBinaryOperationFixedName(left, right, "*") {
     override fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
 }
-
 class ASTDivision(left: ASTNode, right: ASTNode) : ASTBinaryOperationFixedName(left, right, "/") {
     override fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
 }
-
 class ASTNot(child: ASTNode) : ASTUnaryOperationFixedName(child, "!") {
     override fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
 }
-
 class ASTPlus(child: ASTNode) : ASTUnaryOperationFixedName(child, "+") {
     override fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
 }
-
 class ASTMinus(child: ASTNode) : ASTUnaryOperationFixedName(child, "-") {
     override fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
 }
-
 class ASTBuiltInCall(@JvmField val function: BuiltInFunctions, children: Array<ASTNode>) : ASTNode(children) {
     constructor(function: BuiltInFunctions) : this(function, arrayOf<ASTNode>())
     constructor(function: BuiltInFunctions, parameter: ASTNode) : this(function, arrayOf<ASTNode>(parameter))
     constructor(function: BuiltInFunctions, first_parameter: ASTNode, second_parameter: ASTNode) : this(function, arrayOf<ASTNode>(first_parameter, second_parameter))
     constructor(function: BuiltInFunctions, first_parameter: ASTNode, second_parameter: ASTNode, third_parameter: ASTNode) : this(function, arrayOf<ASTNode>(first_parameter, second_parameter, third_parameter))
-
     override fun nodeToString(): String = function.name
     override fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
 }
-
 open class ASTAggregation(@JvmField val type: Aggregation, @JvmField val distinct: Boolean, children: Array<ASTNode>) : ASTNode(children) {
     constructor(type: Aggregation, distinct: Boolean, child: ASTNode) : this(type, distinct, arrayOf<ASTNode>(child))
-
     override fun nodeToString(): String = type.name + (if (distinct) " DISTINCT" else "")
     override fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
 }
-
 class ASTGroupConcat(distinct: Boolean, child: ASTNode, @JvmField val separator: String) : ASTAggregation(Aggregation.GROUP_CONCAT, distinct, child) {
     override fun nodeToString(): String = super.nodeToString() + " separator=\"" + separator + "\""
     override fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
 }
-
 class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
     // for storing the prefixes...
     private val prefixes = mutableMapOf<String, String>()
-
     // some constants used for typed literals
     private val rdf = "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
     private val nil = rdf + "nil"
@@ -798,7 +685,6 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
         }
         return result
     }
-
     private fun QueryOrUpdate(): ASTQuery {
         var token: Token
         val collect: MutableList<ASTNode> = mutableListOf()
@@ -864,7 +750,6 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
         }
         return ASTQuery(collect)
     }
-
     fun Query(): ASTQuery {
         var token: Token
         val collect: MutableList<ASTNode> = mutableListOf()
@@ -902,7 +787,6 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
         }
         return ASTQuery(collect)
     }
-
     private fun Prologue(): MutableList<ASTNode> {
         var token: Token
         val collect: MutableList<ASTNode> = mutableListOf()
@@ -925,7 +809,6 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
         } while (t12.image == "BASE" || t12.image == "PREFIX")
         return collect
     }
-
     private fun BaseDecl(): ASTBase {
         var token: Token = ltit.nextToken()
         if (token.image != "BASE") {
@@ -937,7 +820,6 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
         }
         prefixes[""] = token.content; return ASTBase(token.content)
     }
-
     private fun PrefixDecl(): ASTPrefix {
         var token: Token = ltit.nextToken()
         if (token.image != "PREFIX") {
@@ -954,7 +836,6 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
         }
         prefixes[key] = token.content; return ASTPrefix(key, token.content)
     }
-
     private fun SelectQuery(): ASTSelectQuery {
         var token: Token
         val select = SelectClause()
@@ -970,7 +851,6 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
         SolutionModifier(select)
         return select
     }
-
     private fun SubSelect(): ASTSelectQuery {
         var token: Token
         val select = SubSelectClause()
@@ -983,7 +863,6 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
         }
         return select
     }
-
     private fun SelectClause(): ASTSelectQuery {
         var token: Token
         var distinct = false
@@ -1049,7 +928,6 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
         }
         return ASTSelectQuery(distinct, reduced, collect.toTypedArray())
     }
-
     private fun SubSelectClause(): ASTSubSelectQuery {
         var token: Token
         var distinct = false
@@ -1115,7 +993,6 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
         }
         return ASTSubSelectQuery(distinct, reduced, collect.toTypedArray())
     }
-
     private fun As(): ASTAs {
         var token: Token = ltit.nextToken()
         if (token.image != "(") {
@@ -1133,7 +1010,6 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
         }
         return ASTAs(expr, variable)
     }
-
     private fun ConstructQuery(): ASTConstructQuery {
         val construct: ASTConstructQuery
         val collect: MutableList<ASTDatasetClause> = mutableListOf()
@@ -1174,7 +1050,6 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
         SolutionModifier(construct)
         return construct
     }
-
     private fun ConstructQueryWherePart(): Array<ASTNode> {
         var result = arrayOf<ASTNode>()
         var token: Token = ltit.nextToken()
@@ -1195,7 +1070,6 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
         }
         return result
     }
-
     private fun DescribeQuery(): ASTDescribeQuery {
         var token: Token
         token = ltit.nextToken()
@@ -1238,7 +1112,6 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
         SolutionModifier(describe)
         return describe
     }
-
     private fun AskQuery(): ASTAskQuery {
         val ask = ASTAskQuery()
         val token: Token = ltit.nextToken()
@@ -1257,7 +1130,6 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
         SolutionModifier(ask)
         return ask
     }
-
     private fun DatasetClause(): ASTDatasetClause {
         val token: Token = ltit.nextToken()
         if (token.image != "FROM") {
@@ -1278,13 +1150,11 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
         }
         return result
     }
-
     private fun DefaultGraphClause(): ASTDefaultGraph {
         var token: Token
         val iri = SourceSelector()
         return ASTDefaultGraph(iri)
     }
-
     private fun NamedGraphClause(): ASTNamedGraph {
         val token: Token = ltit.nextToken()
         if (token.image != "NAMED") {
@@ -1293,12 +1163,10 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
         val iri = SourceSelector()
         return ASTNamedGraph(iri)
     }
-
     private fun SourceSelector(): ASTIri {
         var token: Token
         return IRIref()
     }
-
     private fun WhereClause(query: ASTQueryBaseClass) {
         val token: Token
         val t35 = ltit.lookahead()
@@ -1311,7 +1179,6 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
         val where = GroupGraphPattern()
         query.where = where
     }
-
     private fun SolutionModifier(query: ASTQueryBaseClass) {
         var token: Token
         val t36 = ltit.lookahead()
@@ -1331,7 +1198,6 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
             LimitOffsetClauses(query)
         }
     }
-
     private fun GroupClause(query: ASTQueryBaseClass) {
         val collect: MutableList<ASTNode> = mutableListOf()
         var token: Token = ltit.nextToken()
@@ -1349,7 +1215,6 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
         } while (t40.image == "STR" || t40.image == "LANG" || t40.image == "LANGMATCHES" || t40.image == "DATATYPE" || t40.image == "BOUND" || t40.image == "IRI" || t40.image == "URI" || t40.image == "BNODE" || t40.image == "RAND" || t40.image == "ABS" || t40.image == "CEIL" || t40.image == "FLOOR" || t40.image == "ROUND" || t40.image == "CONCAT" || t40.image == "SUBSTR" || t40.image == "STRLEN" || t40.image == "REPLACE" || t40.image == "UCASE" || t40.image == "LCASE" || t40.image == "ENCODE_FOR_URI" || t40.image == "CONTAINS" || t40.image == "STRSTARTS" || t40.image == "STRENDS" || t40.image == "STRBEFORE" || t40.image == "STRAFTER" || t40.image == "YEAR" || t40.image == "MONTH" || t40.image == "DAY" || t40.image == "HOURS" || t40.image == "MINUTES" || t40.image == "SECONDS" || t40.image == "TIMEZONE" || t40.image == "TZ" || t40.image == "NOW" || t40.image == "UUID" || t40.image == "STRUUID" || t40.image == "MD5" || t40.image == "SHA1" || t40.image == "SHA256" || t40.image == "SHA384" || t40.image == "SHA512" || t40.image == "COALESCE" || t40.image == "IF" || t40.image == "STRLANG" || t40.image == "STRDT" || t40.image == "SAMETERM" || t40.image == "ISIRI" || t40.image == "ISURI" || t40.image == "ISBLANK" || t40.image == "ISLITERAL" || t40.image == "ISNUMERIC" || t40.image == "REGEX" || t40.image == "EXISTS" || t40.image == "NOT" || t40 is IRI || t40 is PNAME_LN || t40 is PNAME_NS || t40.image == "(" || t40 is VAR)
         query.groupBy = collect.toTypedArray()
     }
-
     private fun GroupCondition(): ASTNode {
         var token: Token
         var result: ASTNode
@@ -1390,7 +1255,6 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
         }
         return result
     }
-
     private fun HavingClause(query: ASTQueryBaseClass) {
         val collect: MutableList<ASTNode> = mutableListOf()
         val token: Token = ltit.nextToken()
@@ -1404,12 +1268,10 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
         } while (t43.image == "(" || t43.image == "STR" || t43.image == "LANG" || t43.image == "LANGMATCHES" || t43.image == "DATATYPE" || t43.image == "BOUND" || t43.image == "IRI" || t43.image == "URI" || t43.image == "BNODE" || t43.image == "RAND" || t43.image == "ABS" || t43.image == "CEIL" || t43.image == "FLOOR" || t43.image == "ROUND" || t43.image == "CONCAT" || t43.image == "SUBSTR" || t43.image == "STRLEN" || t43.image == "REPLACE" || t43.image == "UCASE" || t43.image == "LCASE" || t43.image == "ENCODE_FOR_URI" || t43.image == "CONTAINS" || t43.image == "STRSTARTS" || t43.image == "STRENDS" || t43.image == "STRBEFORE" || t43.image == "STRAFTER" || t43.image == "YEAR" || t43.image == "MONTH" || t43.image == "DAY" || t43.image == "HOURS" || t43.image == "MINUTES" || t43.image == "SECONDS" || t43.image == "TIMEZONE" || t43.image == "TZ" || t43.image == "NOW" || t43.image == "UUID" || t43.image == "STRUUID" || t43.image == "MD5" || t43.image == "SHA1" || t43.image == "SHA256" || t43.image == "SHA384" || t43.image == "SHA512" || t43.image == "COALESCE" || t43.image == "IF" || t43.image == "STRLANG" || t43.image == "STRDT" || t43.image == "SAMETERM" || t43.image == "ISIRI" || t43.image == "ISURI" || t43.image == "ISBLANK" || t43.image == "ISLITERAL" || t43.image == "ISNUMERIC" || t43.image == "REGEX" || t43.image == "EXISTS" || t43.image == "NOT" || t43 is IRI || t43 is PNAME_LN || t43 is PNAME_NS)
         query.having = collect.toTypedArray()
     }
-
     private fun HavingCondition(): ASTNode {
         var token: Token
         return Constraint()
     }
-
     private fun OrderClause(query: ASTQueryBaseClass) {
         val collect: MutableList<ASTNode> = mutableListOf()
         var token: Token = ltit.nextToken()
@@ -1427,7 +1289,6 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
         } while (t44.image == "ASC" || t44.image == "DESC" || t44.image == "(" || t44.image == "STR" || t44.image == "LANG" || t44.image == "LANGMATCHES" || t44.image == "DATATYPE" || t44.image == "BOUND" || t44.image == "IRI" || t44.image == "URI" || t44.image == "BNODE" || t44.image == "RAND" || t44.image == "ABS" || t44.image == "CEIL" || t44.image == "FLOOR" || t44.image == "ROUND" || t44.image == "CONCAT" || t44.image == "SUBSTR" || t44.image == "STRLEN" || t44.image == "REPLACE" || t44.image == "UCASE" || t44.image == "LCASE" || t44.image == "ENCODE_FOR_URI" || t44.image == "CONTAINS" || t44.image == "STRSTARTS" || t44.image == "STRENDS" || t44.image == "STRBEFORE" || t44.image == "STRAFTER" || t44.image == "YEAR" || t44.image == "MONTH" || t44.image == "DAY" || t44.image == "HOURS" || t44.image == "MINUTES" || t44.image == "SECONDS" || t44.image == "TIMEZONE" || t44.image == "TZ" || t44.image == "NOW" || t44.image == "UUID" || t44.image == "STRUUID" || t44.image == "MD5" || t44.image == "SHA1" || t44.image == "SHA256" || t44.image == "SHA384" || t44.image == "SHA512" || t44.image == "COALESCE" || t44.image == "IF" || t44.image == "STRLANG" || t44.image == "STRDT" || t44.image == "SAMETERM" || t44.image == "ISIRI" || t44.image == "ISURI" || t44.image == "ISBLANK" || t44.image == "ISLITERAL" || t44.image == "ISNUMERIC" || t44.image == "REGEX" || t44.image == "EXISTS" || t44.image == "NOT" || t44 is IRI || t44 is PNAME_LN || t44 is PNAME_NS || t44 is VAR)
         query.orderBy = collect.toTypedArray()
     }
-
     private fun OrderCondition(): ASTOrderCondition {
         val token: Token
         val result: ASTOrderCondition
@@ -1479,7 +1340,6 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
             }
         }
     }
-
     private fun LimitOffsetClauses(query: ASTQueryBaseClass) {
         var token: Token
         val t50 = ltit.lookahead()
@@ -1503,7 +1363,6 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
             }
         }
     }
-
     private fun LimitClause(query: ASTQueryBaseClass) {
         var token: Token = ltit.nextToken()
         if (token.image != "LIMIT") {
@@ -1515,7 +1374,6 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
         }
         query.limit = token.toInt()
     }
-
     private fun OffsetClause(query: ASTQueryBaseClass) {
         var token: Token = ltit.nextToken()
         if (token.image != "OFFSET") {
@@ -1527,12 +1385,10 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
         }
         query.offset = token.toInt()
     }
-
     private fun ValuesClause(): ASTValues {
         var token: Token
         return InlineData()
     }
-
     private fun InlineData(): ASTValues {
         val token: Token = ltit.nextToken()
         if (token.image != "VALUES") {
@@ -1540,7 +1396,6 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
         }
         return DataBlock()
     }
-
     private fun DataBlock(): ASTValues {
         var token: Token
         val result: ASTValues
@@ -1558,7 +1413,6 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
         }
         return result
     }
-
     private fun InlineDataOneVar(): ASTValues {
         val variable = Var()
         var token: Token = ltit.nextToken()
@@ -1578,13 +1432,11 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
         }
         return ASTValues(variable, collect)
     }
-
     private fun DataBlockValueOneVar(): ASTValue {
         var token: Token
         val result = DataBlockValue()
         return ASTValue(result)
     }
-
     private fun InlineDataFull(): ASTValues {
         var token: Token
         val variables: MutableList<ASTVar> = mutableListOf()
@@ -1633,7 +1485,6 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
         }
         return ASTValues(variables, collect)
     }
-
     private fun sequenceOfDataBlockValues(): ASTValue {
         var token: Token
         val collect: MutableList<ASTNode> = mutableListOf()
@@ -1667,7 +1518,6 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
         }
         return ASTValue(collect)
     }
-
     private fun DataBlockValue(): ASTNode {
         val token: Token
         val result: ASTNode
@@ -1698,7 +1548,6 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
         }
         return result
     }
-
     private fun Update1(): ASTNode {
         var token: Token
         val result: ASTNode
@@ -1734,7 +1583,6 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
         }
         return result
     }
-
     private fun Load(): ASTLoad {
         var token: Token
         var silent = false
@@ -1762,7 +1610,6 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
         }
         return ASTLoad(silent, iri.iri, into)
     }
-
     private fun Clear(): ASTClear {
         var token: Token
         var silent = false
@@ -1781,7 +1628,6 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
         val graphref = GraphRefAll()
         return ASTClear(silent, graphref)
     }
-
     private fun Drop(): ASTDrop {
         var token: Token
         var silent = false
@@ -1800,7 +1646,6 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
         val graphref = GraphRefAll()
         return ASTDrop(silent, graphref)
     }
-
     private fun Create(): ASTCreate {
         var token: Token
         var silent = false
@@ -1819,7 +1664,6 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
         val graphref = GraphRefAll()
         return ASTCreate(silent, graphref)
     }
-
     private fun Add(): ASTAdd {
         var token: Token
         var silent = false
@@ -1843,7 +1687,6 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
         val toGraph = GraphOrDefault()
         return ASTAdd(silent, fromGraph, toGraph)
     }
-
     private fun Move(): ASTMove {
         var token: Token
         var silent = false
@@ -1867,7 +1710,6 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
         val toGraph = GraphOrDefault()
         return ASTMove(silent, fromGraph, toGraph)
     }
-
     private fun Copy(): ASTCopy {
         var token: Token
         var silent = false
@@ -1891,7 +1733,6 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
         val toGraph = GraphOrDefault()
         return ASTCopy(silent, fromGraph, toGraph)
     }
-
     private fun Modify(): ASTModify {
         var token: Token
         var iri: ASTIri? = null
@@ -2003,7 +1844,6 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
             collect.toTypedArray(), where
         )
     }
-
     private fun DeleteClause(): Array<ASTNode> {
         val token: Token = ltit.nextToken()
         if (token.image != "DELETE") {
@@ -2011,7 +1851,6 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
         }
         return QuadPattern()
     }
-
     private fun InsertClause(): Array<ASTNode> {
         val token: Token = ltit.nextToken()
         if (token.image != "INSERT") {
@@ -2019,7 +1858,6 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
         }
         return QuadPattern()
     }
-
     private fun UsingClause(): ASTGraphRef {
         var token: Token
         token = ltit.nextToken()
@@ -2045,7 +1883,6 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
             }
         }
     }
-
     private fun GraphOrDefault(): ASTGraphRef {
         val token: Token
         val t80 = ltit.lookahead()
@@ -2073,7 +1910,6 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
             }
         }
     }
-
     private fun GraphRef(): ASTIriGraphRef {
         val token: Token = ltit.nextToken()
         if (token.image != "GRAPH") {
@@ -2082,7 +1918,6 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
         val iri = IRIref()
         return ASTIriGraphRef(iri.iri)
     }
-
     private fun GraphRefAll(): ASTGraphRef {
         val token: Token
         val t81 = ltit.lookahead()
@@ -2116,7 +1951,6 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
             }
         }
     }
-
     private fun QuadPattern(): Array<ASTNode> {
         var token: Token = ltit.nextToken()
         if (token.image != "{") {
@@ -2129,7 +1963,6 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
         }
         return result
     }
-
     private fun QuadData(): Array<ASTNode> {
         var token: Token = ltit.nextToken()
         if (token.image != "{") {
@@ -2142,7 +1975,6 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
         }
         return result
     }
-
     private fun Quads(): Array<ASTNode> {
         var token: Token
         val collect = mutableListOf<ASTNode>()
@@ -2171,7 +2003,6 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
         }
         return collect.toTypedArray()
     }
-
     private fun QuadsNotTriples(): ASTGraph {
         var graphconstraint = arrayOf<ASTNode>()
         var token: Token = ltit.nextToken()
@@ -2193,7 +2024,6 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
         }
         return ASTGraph(varoriri, graphconstraint)
     }
-
     private fun TriplesTemplate(): Array<ASTNode> {
         var token: Token
         val result = mutableListOf<ASTNode>()
@@ -2212,7 +2042,6 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
         }
         return result.toTypedArray()
     }
-
     private fun GroupGraphPattern(): Array<ASTNode> {
         val result = mutableListOf<ASTNode>()
         var token: Token = ltit.nextToken()
@@ -2242,7 +2071,6 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
         }
         return result.toTypedArray()
     }
-
     private fun GroupGraphPatternSub(): Array<ASTNode> {
         var token: Token
         val result = mutableListOf<ASTNode>()
@@ -2269,7 +2097,6 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
         }
         return result.toTypedArray()
     }
-
     private fun TriplesBlock(patterns: MutableList<ASTNode>) {
         val token: Token
         TriplesSameSubjectPath(patterns)
@@ -2285,7 +2112,6 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
             }
         }
     }
-
     private fun GraphPatternNotTriples(): ASTNode {
         var token: Token
         val result: ASTNode
@@ -2321,7 +2147,6 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
         }
         return result
     }
-
     private fun OptionalGraphPattern(): ASTOptional {
         val token: Token = ltit.nextToken()
         if (token.image != "OPTIONAL") {
@@ -2330,7 +2155,6 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
         val group = GroupGraphPattern()
         return ASTOptional(group)
     }
-
     private fun GraphGraphPattern(): ASTGraph {
         val token: Token = ltit.nextToken()
         if (token.image != "GRAPH") {
@@ -2340,7 +2164,6 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
         val constraint = GroupGraphPattern()
         return ASTGraph(varoriri, constraint)
     }
-
     private fun ServiceGraphPattern(): ASTService {
         var token: Token
         var silent = false
@@ -2360,7 +2183,6 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
         val constraint = GroupGraphPattern()
         return ASTService(silent, varOrIri, constraint)
     }
-
     private fun Bind(): ASTAs {
         var token: Token = ltit.nextToken()
         if (token.image != "BIND") {
@@ -2382,7 +2204,6 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
         }
         return ASTAs(expr, variable)
     }
-
     private fun MinusGraphPattern(): ASTMinusGroup {
         val token: Token = ltit.nextToken()
         if (token.image != "MINUS") {
@@ -2391,7 +2212,6 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
         val group = GroupGraphPattern()
         return ASTMinusGroup(group)
     }
-
     private fun GroupOrUnionGraphPattern(): ASTNode {
         var token: Token
         val collect: MutableList<ASTNode> = mutableListOf()
@@ -2417,7 +2237,6 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
             collect[0]
         }
     }
-
     private fun Filter(): ASTFilter {
         val token: Token = ltit.nextToken()
         if (token.image != "FILTER") {
@@ -2426,7 +2245,6 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
         val result = Constraint()
         return ASTFilter(result)
     }
-
     private fun Constraint(): ASTNode {
         var token: Token
         val result: ASTNode
@@ -2447,13 +2265,11 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
         }
         return result
     }
-
     private fun FunctionCall(): ASTFunctionCall {
         var token: Token
         val iri = IRIref()
         return ArgList(iri.iri)
     }
-
     private fun ArgList(iri: String): ASTFunctionCall {
         var token: Token
         val collect: MutableList<ASTNode> = mutableListOf()
@@ -2502,7 +2318,6 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
         }
         return ASTFunctionCall(iri, distinct, collect.toTypedArray())
     }
-
     private fun ExpressionList(): Array<ASTNode> {
         var token: Token
         val collect: MutableList<ASTNode> = mutableListOf()
@@ -2542,7 +2357,6 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
         }
         return collect.toTypedArray()
     }
-
     private fun ConstructTemplate(): Array<ASTNode> {
         val result = mutableListOf<ASTNode>()
         var token: Token = ltit.nextToken()
@@ -2559,7 +2373,6 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
         }
         return result.toTypedArray()
     }
-
     private fun ConstructTriples(result: MutableList<ASTNode>) {
         val token: Token
         TriplesSameSubject(result)
@@ -2575,7 +2388,6 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
             }
         }
     }
-
     private fun TriplesSameSubject(result: MutableList<ASTNode>) {
         var token: Token
         val t109 = ltit.lookahead()
@@ -2593,7 +2405,6 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
             }
         }
     }
-
     private fun PropertyListNotEmpty(subject: ASTNode, result: MutableList<ASTNode>) {
         var token: Token
         val predicate = Verb()
@@ -2612,7 +2423,6 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
             t111 = ltit.lookahead()
         }
     }
-
     private fun PropertyList(subject: ASTNode, result: MutableList<ASTNode>) {
         var token: Token
         val t112 = ltit.lookahead()
@@ -2620,7 +2430,6 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
             PropertyListNotEmpty(subject, result)
         }
     }
-
     private fun ObjectList(subject: ASTNode, predicate: ASTNode, result: MutableList<ASTNode>) {
         var token: Token
         val o = Object(result)
@@ -2636,12 +2445,10 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
             t113 = ltit.lookahead()
         }
     }
-
     private fun Object(result: MutableList<ASTNode>): ASTNode {
         var token: Token
         return GraphNode(result)
     }
-
     private fun Verb(): ASTNode {
         val token: Token
         val t114 = ltit.lookahead()
@@ -2661,7 +2468,6 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
             }
         }
     }
-
     private fun TriplesSameSubjectPath(patterns: MutableList<ASTNode>) {
         var token: Token
         val t115 = ltit.lookahead()
@@ -2679,7 +2485,6 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
             }
         }
     }
-
     private fun TriplesNodePath(patterns: MutableList<ASTNode>): ASTNode {
         var token: Token
         val result: ASTNode
@@ -2697,7 +2502,6 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
         }
         return result
     }
-
     private fun BlankNodePropertyListPath(result: MutableList<ASTNode>): ASTBlankNode {
         val b = ASTBlankNode()
         var token: Token = ltit.nextToken()
@@ -2711,7 +2515,6 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
         }
         return b
     }
-
     private fun CollectionPath(result: MutableList<ASTNode>): ASTBlankNode {
         val subject = ASTBlankNode()
         var current = subject
@@ -2737,7 +2540,6 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
         }
         return subject
     }
-
     private fun GraphNodePath(result: MutableList<ASTNode>): ASTNode {
         var token: Token
         val t118 = ltit.lookahead()
@@ -2753,7 +2555,6 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
             }
         }
     }
-
     private fun PropertyListNotEmptyPath(s: ASTNode, patterns: MutableList<ASTNode>) {
         var token: Token
         val p: ASTNode
@@ -2796,7 +2597,6 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
             t122 = ltit.lookahead()
         }
     }
-
     private fun ObjectListPath(subject: ASTNode, predicate: ASTNode, result: MutableList<ASTNode>) {
         var token: Token
         val o = GraphNodePath(result)
@@ -2812,7 +2612,6 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
             t123 = ltit.lookahead()
         }
     }
-
     private fun PropertyListPath(s: ASTNode, patterns: MutableList<ASTNode>) {
         var token: Token
         val t124 = ltit.lookahead()
@@ -2820,22 +2619,18 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
             PropertyListNotEmpty(s, patterns)
         }
     }
-
     private fun VerbPath(): ASTNode {
         var token: Token
         return Path()
     }
-
     private fun VerbSimple(): ASTNode {
         var token: Token
         return Var()
     }
-
     private fun Path(): ASTNode {
         var token: Token
         return PathAlternative()
     }
-
     private fun PathAlternative(): ASTNode {
         var token: Token
         val first = PathSequence()
@@ -2856,7 +2651,6 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
             first
         }
     }
-
     private fun PathSequence(): ASTNode {
         var token: Token
         val first = PathEltOrInverse()
@@ -2877,7 +2671,6 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
             first
         }
     }
-
     private fun PathElt(): ASTNode {
         var token: Token
         var result = PathPrimary()
@@ -2887,7 +2680,6 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
         }
         return result
     }
-
     private fun PathEltOrInverse(): ASTNode {
         val token: Token
         val t128 = ltit.lookahead()
@@ -2908,7 +2700,6 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
             }
         }
     }
-
     private fun PathMod(toModify: ASTNode): ASTNode {
         val token: Token
         val t129 = ltit.lookahead()
@@ -2939,7 +2730,6 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
             }
         }
     }
-
     private fun PathPrimary(): ASTNode {
         var token: Token
         val t130 = ltit.lookahead()
@@ -2978,7 +2768,6 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
             }
         }
     }
-
     private fun PathNegatedPropertySet(): ASTPathNegatedPropertySet {
         var token: Token
         val collect: MutableList<ASTNode> = mutableListOf()
@@ -3019,7 +2808,6 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
         }
         return ASTPathNegatedPropertySet(collect.toTypedArray())
     }
-
     private fun PathOneInPropertySet(): ASTNode {
         var token: Token
         val t135 = ltit.lookahead()
@@ -3063,7 +2851,6 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
             }
         }
     }
-
     private fun TriplesNode(result: MutableList<ASTNode>): ASTNode {
         var token: Token
         val t136 = ltit.lookahead()
@@ -3080,7 +2867,6 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
             }
         }
     }
-
     private fun BlankNodePropertyList(result: MutableList<ASTNode>): ASTBlankNode {
         val b = ASTBlankNode()
         var token: Token = ltit.nextToken()
@@ -3094,7 +2880,6 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
         }
         return b
     }
-
     private fun Collection(result: MutableList<ASTNode>): ASTBlankNode {
         val subject = ASTBlankNode()
         var current = subject
@@ -3120,7 +2905,6 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
         }
         return subject
     }
-
     private fun GraphNode(result: MutableList<ASTNode>): ASTNode {
         var token: Token
         val t138 = ltit.lookahead()
@@ -3136,7 +2920,6 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
             }
         }
     }
-
     private fun VarOrTerm(): ASTNode {
         var token: Token
         val result: ASTNode
@@ -3154,7 +2937,6 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
         }
         return result
     }
-
     private fun VarOrIRIref(): ASTNode {
         var token: Token
         val result: ASTNode
@@ -3172,7 +2954,6 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
         }
         return result
     }
-
     private fun Var(): ASTVar {
         val token: Token = ltit.nextToken()
         if (token !is VAR) {
@@ -3180,7 +2961,6 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
         }
         return ASTVar(token.identifier)
     }
-
     private fun GraphTerm(): ASTNode {
         val token: Token
         val result: ASTNode
@@ -3214,12 +2994,10 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
         }
         return result
     }
-
     private fun Expression(): ASTNode {
         var token: Token
         return ConditionalOrExpression()
     }
-
     private fun ConditionalOrExpression(): ASTNode {
         var token: Token
         val collect: MutableList<ASTNode> = mutableListOf()
@@ -3241,7 +3019,6 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
             ASTOr(collect.toTypedArray())
         }
     }
-
     private fun ConditionalAndExpression(): ASTNode {
         var token: Token
         val collect: MutableList<ASTNode> = mutableListOf()
@@ -3263,12 +3040,10 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
             ASTAnd(collect.toTypedArray())
         }
     }
-
     private fun ValueLogical(): ASTNode {
         var token: Token
         return RelationalExpression()
     }
-
     private fun RelationalExpression(): ASTNode {
         var token: Token
         val left = NumericExpression()
@@ -3351,12 +3126,10 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
         }
         return left
     }
-
     private fun NumericExpression(): ASTNode {
         var token: Token
         return AdditiveExpression()
     }
-
     private fun AdditiveExpression(): ASTNode {
         var token: Token
         var current = MultiplicativeExpression()
@@ -3388,7 +3161,6 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
         }
         return current
     }
-
     private fun MultiplicativeExpression(): ASTNode {
         var token: Token
         var current = UnaryExpression()
@@ -3420,7 +3192,6 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
         }
         return current
     }
-
     private fun UnaryExpression(): ASTNode {
         var token: Token
         val t152 = ltit.lookahead()
@@ -3501,7 +3272,6 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
             }
         }
     }
-
     private fun PrimaryExpressionWithoutNumericLiteral(): ASTNode {
         var token: Token
         val result: ASTNode
@@ -3534,7 +3304,6 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
         }
         return result
     }
-
     private fun PrimaryExpression(): ASTNode {
         var token: Token
         val result: ASTNode
@@ -3570,7 +3339,6 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
         }
         return result
     }
-
     private fun BrackettedExpression(): ASTNode {
         var token: Token = ltit.nextToken()
         if (token.image != "(") {
@@ -3583,7 +3351,6 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
         }
         return result
     }
-
     private fun BuiltInCall(): ASTBuiltInCall {
         var token: Token
         val result: ASTBuiltInCall
@@ -3757,7 +3524,6 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
         }
         return result
     }
-
     private fun STR(): ASTBuiltInCall {
         var token: Token = ltit.nextToken()
         if (token.image != "STR") {
@@ -3774,7 +3540,6 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
         }
         return ASTBuiltInCall(BuiltInFunctions.STR, param)
     }
-
     private fun LANG(): ASTBuiltInCall {
         var token: Token = ltit.nextToken()
         if (token.image != "LANG") {
@@ -3791,7 +3556,6 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
         }
         return ASTBuiltInCall(BuiltInFunctions.LANG, param)
     }
-
     private fun LANGMATCHES(): ASTBuiltInCall {
         var token: Token = ltit.nextToken()
         if (token.image != "LANGMATCHES") {
@@ -3813,7 +3577,6 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
         }
         return ASTBuiltInCall(BuiltInFunctions.LANGMATCHES, param1, param2)
     }
-
     private fun DATATYPE(): ASTBuiltInCall {
         var token: Token = ltit.nextToken()
         if (token.image != "DATATYPE") {
@@ -3830,7 +3593,6 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
         }
         return ASTBuiltInCall(BuiltInFunctions.DATATYPE, param)
     }
-
     private fun BOUND(): ASTBuiltInCall {
         var token: Token = ltit.nextToken()
         if (token.image != "BOUND") {
@@ -3847,7 +3609,6 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
         }
         return ASTBuiltInCall(BuiltInFunctions.BOUND, param)
     }
-
     private fun IRIFunc(): ASTBuiltInCall {
         var token: Token = ltit.nextToken()
         if (token.image != "IRI") {
@@ -3864,7 +3625,6 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
         }
         return ASTBuiltInCall(BuiltInFunctions.IRI, param)
     }
-
     private fun URIFunc(): ASTBuiltInCall {
         var token: Token = ltit.nextToken()
         if (token.image != "URI") {
@@ -3881,7 +3641,6 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
         }
         return ASTBuiltInCall(BuiltInFunctions.URI, param)
     }
-
     private fun BNODE(): ASTBuiltInCall {
         var token: Token
         token = ltit.nextToken()
@@ -3914,7 +3673,6 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
             }
         }
     }
-
     private fun RAND(): ASTBuiltInCall {
         var token: Token = ltit.nextToken()
         if (token.image != "RAND") {
@@ -3926,7 +3684,6 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
         }
         return ASTBuiltInCall(BuiltInFunctions.RAND)
     }
-
     private fun ABS(): ASTBuiltInCall {
         var token: Token = ltit.nextToken()
         if (token.image != "ABS") {
@@ -3943,7 +3700,6 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
         }
         return ASTBuiltInCall(BuiltInFunctions.ABS, param)
     }
-
     private fun CEIL(): ASTBuiltInCall {
         var token: Token = ltit.nextToken()
         if (token.image != "CEIL") {
@@ -3960,7 +3716,6 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
         }
         return ASTBuiltInCall(BuiltInFunctions.CEIL, param)
     }
-
     private fun FLOOR(): ASTBuiltInCall {
         var token: Token = ltit.nextToken()
         if (token.image != "FLOOR") {
@@ -3977,7 +3732,6 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
         }
         return ASTBuiltInCall(BuiltInFunctions.FLOOR, param)
     }
-
     private fun ROUND(): ASTBuiltInCall {
         var token: Token = ltit.nextToken()
         if (token.image != "ROUND") {
@@ -3994,7 +3748,6 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
         }
         return ASTBuiltInCall(BuiltInFunctions.ROUND, param)
     }
-
     private fun CONCAT(): ASTBuiltInCall {
         val token: Token = ltit.nextToken()
         if (token.image != "CONCAT") {
@@ -4003,7 +3756,6 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
         val params = ExpressionList()
         return ASTBuiltInCall(BuiltInFunctions.CONCAT, params)
     }
-
     private fun STRLEN(): ASTBuiltInCall {
         var token: Token = ltit.nextToken()
         if (token.image != "STRLEN") {
@@ -4020,7 +3772,6 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
         }
         return ASTBuiltInCall(BuiltInFunctions.STRLEN, param)
     }
-
     private fun UCASE(): ASTBuiltInCall {
         var token: Token = ltit.nextToken()
         if (token.image != "UCASE") {
@@ -4037,7 +3788,6 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
         }
         return ASTBuiltInCall(BuiltInFunctions.UCASE, param)
     }
-
     private fun LCASE(): ASTBuiltInCall {
         var token: Token = ltit.nextToken()
         if (token.image != "LCASE") {
@@ -4054,7 +3804,6 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
         }
         return ASTBuiltInCall(BuiltInFunctions.LCASE, param)
     }
-
     private fun ENCODE_FOR_URI(): ASTBuiltInCall {
         var token: Token = ltit.nextToken()
         if (token.image != "ENCODE_FOR_URI") {
@@ -4071,7 +3820,6 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
         }
         return ASTBuiltInCall(BuiltInFunctions.ENCODE_FOR_URI, param)
     }
-
     private fun CONTAINS(): ASTBuiltInCall {
         var token: Token = ltit.nextToken()
         if (token.image != "CONTAINS") {
@@ -4093,7 +3841,6 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
         }
         return ASTBuiltInCall(BuiltInFunctions.CONTAINS, param1, param2)
     }
-
     private fun STRSTARTS(): ASTBuiltInCall {
         var token: Token = ltit.nextToken()
         if (token.image != "STRSTARTS") {
@@ -4115,7 +3862,6 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
         }
         return ASTBuiltInCall(BuiltInFunctions.STRSTARTS, param1, param2)
     }
-
     private fun STRENDS(): ASTBuiltInCall {
         var token: Token = ltit.nextToken()
         if (token.image != "STRENDS") {
@@ -4137,7 +3883,6 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
         }
         return ASTBuiltInCall(BuiltInFunctions.STRENDS, param1, param2)
     }
-
     private fun STRBEFORE(): ASTBuiltInCall {
         var token: Token = ltit.nextToken()
         if (token.image != "STRBEFORE") {
@@ -4159,7 +3904,6 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
         }
         return ASTBuiltInCall(BuiltInFunctions.STRBEFORE, param1, param2)
     }
-
     private fun STRAFTER(): ASTBuiltInCall {
         var token: Token = ltit.nextToken()
         if (token.image != "STRAFTER") {
@@ -4181,7 +3925,6 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
         }
         return ASTBuiltInCall(BuiltInFunctions.STRAFTER, param1, param2)
     }
-
     fun YEAR(): ASTBuiltInCall {
         var token: Token = ltit.nextToken()
         if (token.image != "YEAR") {
@@ -4198,7 +3941,6 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
         }
         return ASTBuiltInCall(BuiltInFunctions.YEAR, param)
     }
-
     fun MONTH(): ASTBuiltInCall {
         var token: Token = ltit.nextToken()
         if (token.image != "MONTH") {
@@ -4215,7 +3957,6 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
         }
         return ASTBuiltInCall(BuiltInFunctions.MONTH, param)
     }
-
     private fun DAY(): ASTBuiltInCall {
         var token: Token = ltit.nextToken()
         if (token.image != "DAY") {
@@ -4232,7 +3973,6 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
         }
         return ASTBuiltInCall(BuiltInFunctions.DAY, param)
     }
-
     private fun HOURS(): ASTBuiltInCall {
         var token: Token = ltit.nextToken()
         if (token.image != "HOURS") {
@@ -4249,7 +3989,6 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
         }
         return ASTBuiltInCall(BuiltInFunctions.HOURS, param)
     }
-
     private fun MINUTES(): ASTBuiltInCall {
         var token: Token = ltit.nextToken()
         if (token.image != "MINUTES") {
@@ -4266,7 +4005,6 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
         }
         return ASTBuiltInCall(BuiltInFunctions.MINUTES, param)
     }
-
     private fun SECONDS(): ASTBuiltInCall {
         var token: Token = ltit.nextToken()
         if (token.image != "SECONDS") {
@@ -4283,7 +4021,6 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
         }
         return ASTBuiltInCall(BuiltInFunctions.SECONDS, param)
     }
-
     private fun TIMEZONE(): ASTBuiltInCall {
         var token: Token = ltit.nextToken()
         if (token.image != "TIMEZONE") {
@@ -4300,7 +4037,6 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
         }
         return ASTBuiltInCall(BuiltInFunctions.TIMEZONE, param)
     }
-
     private fun TZ(): ASTBuiltInCall {
         var token: Token = ltit.nextToken()
         if (token.image != "TZ") {
@@ -4317,7 +4053,6 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
         }
         return ASTBuiltInCall(BuiltInFunctions.TZ, param)
     }
-
     private fun NOW(): ASTBuiltInCall {
         var token: Token = ltit.nextToken()
         if (token.image != "NOW") {
@@ -4329,7 +4064,6 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
         }
         return ASTBuiltInCall(BuiltInFunctions.NOW)
     }
-
     private fun UUID(): ASTBuiltInCall {
         var token: Token = ltit.nextToken()
         if (token.image != "UUID") {
@@ -4341,7 +4075,6 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
         }
         return ASTBuiltInCall(BuiltInFunctions.UUID)
     }
-
     private fun STRUUID(): ASTBuiltInCall {
         var token: Token = ltit.nextToken()
         if (token.image != "STRUUID") {
@@ -4353,7 +4086,6 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
         }
         return ASTBuiltInCall(BuiltInFunctions.STRUUID)
     }
-
     private fun MD5(): ASTBuiltInCall {
         var token: Token = ltit.nextToken()
         if (token.image != "MD5") {
@@ -4370,7 +4102,6 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
         }
         return ASTBuiltInCall(BuiltInFunctions.MD5, param)
     }
-
     private fun SHA1(): ASTBuiltInCall {
         var token: Token = ltit.nextToken()
         if (token.image != "SHA1") {
@@ -4387,7 +4118,6 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
         }
         return ASTBuiltInCall(BuiltInFunctions.SHA1, param)
     }
-
     private fun SHA256(): ASTBuiltInCall {
         var token: Token = ltit.nextToken()
         if (token.image != "SHA256") {
@@ -4404,7 +4134,6 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
         }
         return ASTBuiltInCall(BuiltInFunctions.SHA256, param)
     }
-
     private fun SHA384(): ASTBuiltInCall {
         var token: Token = ltit.nextToken()
         if (token.image != "SHA384") {
@@ -4421,7 +4150,6 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
         }
         return ASTBuiltInCall(BuiltInFunctions.SHA384, param)
     }
-
     private fun SHA512(): ASTBuiltInCall {
         var token: Token = ltit.nextToken()
         if (token.image != "SHA512") {
@@ -4438,7 +4166,6 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
         }
         return ASTBuiltInCall(BuiltInFunctions.SHA512, param)
     }
-
     private fun COALESCE(): ASTBuiltInCall {
         val token: Token = ltit.nextToken()
         if (token.image != "COALESCE") {
@@ -4447,7 +4174,6 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
         val params = ExpressionList()
         return ASTBuiltInCall(BuiltInFunctions.COALESCE, params)
     }
-
     private fun IF(): ASTBuiltInCall {
         var token: Token = ltit.nextToken()
         if (token.image != "IF") {
@@ -4474,7 +4200,6 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
         }
         return ASTBuiltInCall(BuiltInFunctions.IF, param1, param2, param3)
     }
-
     private fun STRLANG(): ASTBuiltInCall {
         var token: Token = ltit.nextToken()
         if (token.image != "STRLANG") {
@@ -4496,7 +4221,6 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
         }
         return ASTBuiltInCall(BuiltInFunctions.STRLANG, param1, param2)
     }
-
     private fun STRDT(): ASTBuiltInCall {
         var token: Token = ltit.nextToken()
         if (token.image != "STRDT") {
@@ -4518,7 +4242,6 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
         }
         return ASTBuiltInCall(BuiltInFunctions.STRDT, param1, param2)
     }
-
     private fun sameTerm(): ASTBuiltInCall {
         var token: Token = ltit.nextToken()
         if (token.image != "SAMETERM") {
@@ -4540,7 +4263,6 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
         }
         return ASTBuiltInCall(BuiltInFunctions.sameTerm, param1, param2)
     }
-
     private fun isIRI(): ASTBuiltInCall {
         var token: Token = ltit.nextToken()
         if (token.image != "ISIRI") {
@@ -4557,7 +4279,6 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
         }
         return ASTBuiltInCall(BuiltInFunctions.isIRI, param)
     }
-
     private fun isURI(): ASTBuiltInCall {
         var token: Token = ltit.nextToken()
         if (token.image != "ISURI") {
@@ -4574,7 +4295,6 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
         }
         return ASTBuiltInCall(BuiltInFunctions.isURI, param)
     }
-
     private fun isBLANK(): ASTBuiltInCall {
         var token: Token = ltit.nextToken()
         if (token.image != "ISBLANK") {
@@ -4591,7 +4311,6 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
         }
         return ASTBuiltInCall(BuiltInFunctions.isBLANK, param)
     }
-
     private fun isLITERAL(): ASTBuiltInCall {
         var token: Token = ltit.nextToken()
         if (token.image != "ISLITERAL") {
@@ -4608,7 +4327,6 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
         }
         return ASTBuiltInCall(BuiltInFunctions.isLITERAL, param)
     }
-
     private fun isNUMERIC(): ASTBuiltInCall {
         var token: Token = ltit.nextToken()
         if (token.image != "ISNUMERIC") {
@@ -4625,7 +4343,6 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
         }
         return ASTBuiltInCall(BuiltInFunctions.isNUMERIC, param)
     }
-
     private fun RegexExpression(): ASTBuiltInCall {
         var token: Token
         val collect: MutableList<ASTNode> = mutableListOf()
@@ -4660,7 +4377,6 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
         }
         return ASTBuiltInCall(BuiltInFunctions.RegexExpression, collect.toTypedArray())
     }
-
     private fun SubstringExpression(): ASTBuiltInCall {
         var token: Token
         val collect: MutableList<ASTNode> = mutableListOf()
@@ -4695,7 +4411,6 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
         }
         return ASTBuiltInCall(BuiltInFunctions.SubstringExpression, collect.toTypedArray())
     }
-
     private fun StrReplaceExpression(): ASTBuiltInCall {
         var token: Token
         val collect: MutableList<ASTNode> = mutableListOf()
@@ -4736,7 +4451,6 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
         }
         return ASTBuiltInCall(BuiltInFunctions.StrReplaceExpression, collect.toTypedArray())
     }
-
     private fun ExistsFunc(): ASTBuiltInCall {
         val token: Token = ltit.nextToken()
         if (token.image != "EXISTS") {
@@ -4745,7 +4459,6 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
         val params = GroupGraphPattern()
         return ASTBuiltInCall(BuiltInFunctions.Exists, params)
     }
-
     private fun NotExistsFunc(): ASTBuiltInCall {
         var token: Token = ltit.nextToken()
         if (token.image != "NOT") {
@@ -4758,7 +4471,6 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
         val params = GroupGraphPattern()
         return ASTBuiltInCall(BuiltInFunctions.NotExists, params)
     }
-
     private fun Aggregate(): ASTAggregation {
         var token: Token
         var distinct = false
@@ -4975,7 +4687,6 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
             }
         }
     }
-
     private fun IRIrefOrFunction(): ASTNode {
         var token: Token
         val iri = IRIref()
@@ -4985,7 +4696,6 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
         }
         return iri
     }
-
     private fun RDFLiteral(): ASTLiteral {
         var token: Token
         token = ltit.nextToken()
@@ -5019,7 +4729,6 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
         }
         return ASTSimpleLiteral(s.content, s.leftBrace)
     }
-
     private fun NumericLiteral(): ASTNumericLiteral {
         var token: Token
         val result: ASTNumericLiteral
@@ -5040,7 +4749,6 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
         }
         return result
     }
-
     private fun NumericLiteralUnsigned(): ASTNumericLiteral {
         val token: Token
         when (val t174 = ltit.lookahead()) {
@@ -5070,7 +4778,6 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
             }
         }
     }
-
     private fun NumericLiteralPositive(): ASTNumericLiteral {
         var token: Token
         token = ltit.nextToken()
@@ -5104,7 +4811,6 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
             }
         }
     }
-
     private fun NumericLiteralNegative(): ASTNumericLiteral {
         var token: Token
         token = ltit.nextToken()
@@ -5138,7 +4844,6 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
             }
         }
     }
-
     private fun BooleanLiteral(): ASTBooleanLiteral {
         val token: Token
         val t177 = ltit.lookahead()
@@ -5162,7 +4867,6 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
             }
         }
     }
-
     private fun IRIref(): ASTIri {
         var token: Token
         val result: ASTIri
@@ -5180,7 +4884,6 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
         }
         return result
     }
-
     private fun QuotedIriRef(): ASTIri {
         val token: Token = ltit.nextToken()
         if (token !is IRI) {
@@ -5188,7 +4891,6 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
         }
         return ASTIri(token.content)
     }
-
     private fun PrefixedName(): ASTIri {
         val token: Token
         val prefix: String
@@ -5220,7 +4922,6 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
             return ASTIri(alias + postfix)
         }
     }
-
     private fun BlankNode(): ASTBlankNode {
         val token: Token
         val result: ASTBlankNode

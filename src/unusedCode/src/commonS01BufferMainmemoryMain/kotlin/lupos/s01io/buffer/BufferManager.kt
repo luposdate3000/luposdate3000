@@ -1,19 +1,14 @@
 package lupos.s01io.buffer
-
 import kotlin.jvm.JvmField
-
 data class PageAddress(@JvmField val fileName: String, @JvmField val pageNumber: Int)
-
 const val PAGESIZE: Int = 8 * 1024
 val bufferManager: BufferManager = BufferManager()
-
 class BufferManager {
     @JvmField
     val memoryOfFiles = hashMapOf<String, Array<Page?>>()
     fun getPage(pageAddress: PageAddress): Page {
         return this.getPage(pageAddress.fileName, pageAddress.pageNumber)
     }
-
     fun getPage(file: String, number: Int): Page {
         val memoryOfFile = this.memoryOfFiles.get(file)
         if (memoryOfFile == null) {
@@ -48,7 +43,6 @@ class BufferManager {
             }
         }
     }
-
     fun writeAllModifiedPages() {} // main memory implementation does not persist its pages!
     fun release() {
         for (entry in this.memoryOfFiles) {

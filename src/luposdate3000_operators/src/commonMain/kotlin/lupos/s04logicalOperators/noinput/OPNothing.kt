@@ -1,5 +1,4 @@
 package lupos.s04logicalOperators.noinput
-
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.ESortPriority
 import lupos.s00misc.XMLElement
@@ -8,7 +7,6 @@ import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.LOPBase
 import kotlin.jvm.JvmField
-
 class OPNothing(query: IQuery, @JvmField val myProvidedVariableNames: List<String>) : LOPBase(query, EOperatorID.OPNothingID, "OPNothing", arrayOf(), ESortPriority.PREVENT_ANY) {
     override fun getProvidedVariableNames(): List<String> = myProvidedVariableNames
     override fun toSparql(): String = "{}"
@@ -19,7 +17,6 @@ class OPNothing(query: IQuery, @JvmField val myProvidedVariableNames: List<Strin
         }
         return res
     }
-
     override fun equals(other: Any?): Boolean = other is OPNothing
     override fun cloneOP(): IOPBase = this
     override /*suspend*/ fun calculateHistogram(): HistogramResult {

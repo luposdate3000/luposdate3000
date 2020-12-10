@@ -1,5 +1,4 @@
 package lupos.s09physicalOperators.singleinput
-
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.ESortPriority
 import lupos.s00misc.Partition
@@ -21,7 +20,6 @@ import lupos.s04logicalOperators.iterator.ColumnIteratorRepeatValue
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s09physicalOperators.POPBase
 import kotlin.jvm.JvmField
-
 class POPBind(query: IQuery, projectedVariables: List<String>, @JvmField val name: AOPVariable, value: AOPBase, child: IOPBase) : POPBase(query, projectedVariables, EOperatorID.POPBindID, "POPBind", arrayOf(child, value), ESortPriority.BIND) {
     override fun getPartitionCount(variable: String): Int {
         return if (variable == name.name) {
@@ -30,7 +28,6 @@ class POPBind(query: IQuery, projectedVariables: List<String>, @JvmField val nam
             children[0].getPartitionCount(variable)
         }
     }
-
     override fun toSparql(): String {
         if (children[1] is AOPConstant && (children[1] as AOPConstant).value == ResultSetDictionaryExt.undefValue) {
             return children[0].toSparql()
@@ -44,7 +41,6 @@ class POPBind(query: IQuery, projectedVariables: List<String>, @JvmField val nam
         res += "}}"
         return res
     }
-
     override fun cloneOP(): IOPBase = POPBind(query, projectedVariables, name, children[1].cloneOP() as AOPBase, children[0].cloneOP())
     override fun equals(other: Any?): Boolean = other is POPBind && name == other.name && children[0] == other.children[0]
     override fun childrenToVerifyCount(): Int = 1
@@ -76,7 +72,6 @@ class POPBind(query: IQuery, projectedVariables: List<String>, @JvmField val nam
                     override /*suspend*/ fun close() {
                         ColumnIteratorQueueExt._close(this)
                     }
-
                     override /*suspend*/ fun next(): Int {
                         return ColumnIteratorQueueExt.nextHelper(
                             this,

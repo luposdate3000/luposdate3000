@@ -1,15 +1,11 @@
 package lupos.s01io.buffer
-
 import sun.nio.ch.FileChannelImpl
 import java.io.File
 import java.io.RandomAccessFile
 import java.lang.reflect.Method
 import kotlin.jvm.JvmField
-
 typealias Page = UnsafePage
-
 inline fun createString(chars: CharArray): String = String(chars)
-
 // memory mapped file and unsafe api:
 // http://nyeggen.com/post/2014-05-18-memory-mapping-%3E2gb-of-data-in-java/
 // and slides comparing different ways:
@@ -18,7 +14,6 @@ class CachedFile {
     @JvmField
     val file: RandomAccessFile
     const val PAGESIZE = 8 * 1024L
-
     constructor(filename: String) {
         val paths = filename.split("/")
         if (paths.size > 1) {
@@ -27,7 +22,6 @@ class CachedFile {
         }
         this.file = RandomAccessFile(File(filename), "rw")
     }
-
     companion object {
         @JvmField
                 /*
@@ -48,7 +42,6 @@ class CachedFile {
             if (theUnsafe == null) throw Error("Could not obtain access to sun.misc.Unsafe")
             return theUnsafe as sun.misc.Unsafe
         }
-
         val mmap = getMethod(
             FileChannelImpl::class.javaObjectType,
             "map0",
@@ -63,7 +56,6 @@ class CachedFile {
             Long::class.javaPrimitiveType
         )
         val BYTE_ARRAY_OFFSET = UNSAFE.arrayBaseOffset(ByteArray::class.javaObjectType)
-
         // Bundle reflection calls to get access to the given method
         @Throws(Exception::class)
         private fun getMethod(cls: Class<*>, name: String, vararg params: Class<*>?): Method {
@@ -72,7 +64,6 @@ class CachedFile {
             return m
         }
     }
-
     @Throws(Exception::class)
     fun mapAndGetOffset(pageOffset: Long): Long {
         // this.file.setLength(this.size)
@@ -85,16 +76,13 @@ class CachedFile {
         // ch.close()
         return result
     }
-
     inline fun close() {
         this.file.close()
     }
-
     inline fun get(address: Long): Page {
         val pageOffset = mapAndGetOffset(address)
         return UnsafePage(pageOffset, { unmmap.invoke(null, pageOffset, PAGESIZE) })
     }
-
     inline fun write(address: Long, page: Page) {
         // it is already written because technically it is a memory mapped file!
     }

@@ -1,5 +1,4 @@
 package lupos.s00misc
-
 internal expect class MyDataInputStream {
     inline fun readInt(): Int
     inline fun readByte(): Byte

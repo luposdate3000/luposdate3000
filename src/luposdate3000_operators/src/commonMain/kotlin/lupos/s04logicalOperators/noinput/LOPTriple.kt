@@ -1,5 +1,4 @@
 package lupos.s04logicalOperators.noinput
-
 import lupos.s00misc.EIndexPattern
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.ESortPriority
@@ -17,7 +16,6 @@ import lupos.s04logicalOperators.LOPBase
 import lupos.s05tripleStore.PersistentStoreLocalExt
 import lupos.s15tripleStoreDistributed.distributedTripleStore
 import kotlin.jvm.JvmField
-
 class LOPTriple(query: IQuery, s: IAOPBase, p: IAOPBase, o: IAOPBase, @JvmField val graph: String, @JvmField val graphVar: Boolean) : LOPBase(query, EOperatorID.LOPTripleID, "LOPTriple", arrayOf(s, p, o), ESortPriority.ANY_PROVIDED_VARIABLE) {
     override fun toSparql(): String {
         if (graph == PersistentStoreLocalExt.defaultGraphName) {
@@ -25,7 +23,6 @@ class LOPTriple(query: IQuery, s: IAOPBase, p: IAOPBase, o: IAOPBase, @JvmField 
         }
         return "GRAPH <$graph> {" + children[0].toSparql() + " " + children[1].toSparql() + " " + children[2].toSparql() + "}."
     }
-
     override /*suspend*/ fun toXMLElement(): XMLElement = super.toXMLElement().addAttribute("graph", graph).addAttribute("graphVar", "" + graphVar)
     override fun getRequiredVariableNames(): List<String> = listOf()
     override fun getProvidedVariableNames(): List<String> {
@@ -38,11 +35,9 @@ class LOPTriple(query: IQuery, s: IAOPBase, p: IAOPBase, o: IAOPBase, @JvmField 
         res.remove("_")
         return res.distinct()
     }
-
     override fun syntaxVerifyAllVariableExists(additionalProvided: List<String>, autocorrect: Boolean) {}
     override fun equals(other: Any?): Boolean = other is LOPTriple && graph == other.graph && graphVar == other.graphVar && children[0] == other.children[0] && children[1] == other.children[1] && children[2] == other.children[2]
     override fun cloneOP(): IOPBase = LOPTriple(query, children[0].cloneOP() as AOPBase, children[1].cloneOP() as AOPBase, children[2].cloneOP() as AOPBase, graph, graphVar)
-
     companion object {
         fun getIndex(children: Array<IOPBase>, sortPriority: List<String>): EIndexPattern {
             /*
@@ -100,7 +95,6 @@ class LOPTriple(query: IQuery, s: IAOPBase, p: IAOPBase, o: IAOPBase, @JvmField 
             return EIndexPattern.valueOf(resString)
         }
     }
-
     override /*suspend*/ fun calculateHistogram(): HistogramResult {
         if (graphVar) {
             throw GraphVarHistogramsNotImplementedException()

@@ -1,12 +1,9 @@
 package lupos.s00misc
-
 internal actual class File {
     val filename: String
-
     actual constructor(filename: String) {
         this.filename = filename
     }
-
     actual inline fun createTempFile(prefix: String, suffix: String, directory: String): String = throw NotImplementedException("File", "createTempFile not implemented")
     actual inline fun exists(): Boolean = throw NotImplementedException("File", "exists not implemented")
     actual inline fun mkdirs(): Boolean = throw NotImplementedException("File", "mkdirs not implemented")

@@ -1,5 +1,4 @@
 package lupos.s09physicalOperators.noinput
-
 import lupos.s00misc.EModifyType
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.ESortPriority
@@ -19,7 +18,6 @@ import lupos.s05tripleStore.PersistentStoreLocalExt
 import lupos.s09physicalOperators.POPBase
 import lupos.s15tripleStoreDistributed.distributedTripleStore
 import kotlin.jvm.JvmField
-
 class POPModifyData(query: IQuery, projectedVariables: List<String>, @JvmField val type: EModifyType, @JvmField val data: List<LOPTriple>) : POPBase(query, projectedVariables, EOperatorID.POPModifyDataID, "POPModifyData", arrayOf(), ESortPriority.PREVENT_ANY) {
     override fun getPartitionCount(variable: String): Int = 1
     override fun equals(other: Any?): Boolean = other is POPModifyData && type == other.type && data == other.data
@@ -50,7 +48,6 @@ class POPModifyData(query: IQuery, projectedVariables: List<String>, @JvmField v
         res += "}"
         return res
     }
-
     override /*suspend*/ fun toXMLElement(): XMLElement {
         val res = XMLElement("POPModifyData")
         res.addAttribute("uuid", "" + uuid)
@@ -59,7 +56,6 @@ class POPModifyData(query: IQuery, projectedVariables: List<String>, @JvmField v
         }
         return res
     }
-
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
         val iteratorDataMap = mutableMapOf<String, Array<MutableList<Int>>>()
         for (t in data) {

@@ -1,5 +1,4 @@
 package lupos.s04arithmetikOperators.multiinput
-
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.EvaluationException
 import lupos.s00misc.SanityCheck
@@ -9,7 +8,6 @@ import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.IteratorBundle
-
 class AOPLEQ(query: IQuery, childA: AOPBase, childB: AOPBase) : AOPBinaryOperationFixedName(query, EOperatorID.AOPLEQID, "AOPLEQ", arrayOf(childA, childB)) {
     override fun toSparql(): String = "(" + children[0].toSparql() + " <= " + children[1].toSparql() + ")"
     override fun equals(other: Any?): Boolean = other is AOPLEQ && children[0] == other.children[0] && children[1] == other.children[1]
@@ -33,7 +31,6 @@ class AOPLEQ(query: IQuery, childA: AOPBase, childB: AOPBase) : AOPBinaryOperati
             res
         }
     }
-
     override fun evaluateID(row: IteratorBundle): () -> Int {
         val childA = (children[0] as AOPBase).evaluate(row)
         val childB = (children[1] as AOPBase).evaluate(row)
@@ -55,7 +52,6 @@ class AOPLEQ(query: IQuery, childA: AOPBase, childB: AOPBase) : AOPBinaryOperati
             res
         }
     }
-
     override fun enforcesBooleanOrError(): Boolean = true
     override fun cloneOP(): IOPBase = AOPLEQ(query, children[0].cloneOP() as AOPBase, children[1].cloneOP() as AOPBase)
 }

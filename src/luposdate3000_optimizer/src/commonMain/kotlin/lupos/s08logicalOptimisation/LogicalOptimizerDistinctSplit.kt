@@ -1,5 +1,4 @@
 package lupos.s08logicalOptimisation
-
 import lupos.s00misc.EOptimizerID
 import lupos.s00misc.ESortType
 import lupos.s00misc.SortHelper
@@ -9,7 +8,6 @@ import lupos.s04logicalOperators.multiinput.LOPJoin
 import lupos.s04logicalOperators.singleinput.modifiers.LOPDistinct
 import lupos.s04logicalOperators.singleinput.modifiers.LOPReduced
 import lupos.s04logicalOperators.singleinput.modifiers.LOPSortAny
-
 class LogicalOptimizerDistinctSplit(query: Query) : OptimizerBase(query, EOptimizerID.LogicalOptimizerDistinctSplitID) {
     override val classname: String = "LogicalOptimizerDistinctSplit"
     override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {

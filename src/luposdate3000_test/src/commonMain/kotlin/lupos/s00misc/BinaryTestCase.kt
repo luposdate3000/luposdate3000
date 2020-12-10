@@ -1,5 +1,4 @@
 package lupos.s00misc
-
 import lupos.s02buildSyntaxTree.LexerCharIterator
 import lupos.s02buildSyntaxTree.LookAheadTokenIterator
 import lupos.s02buildSyntaxTree.sparql1_1.SPARQLParser
@@ -17,7 +16,6 @@ import lupos.s10physicalOptimisation.PhysicalOptimizer
 import lupos.s11outputResult.QueryResultToMemoryTable
 import lupos.s11outputResult.QueryResultToXMLStream
 import lupos.s15tripleStoreDistributed.distributedTripleStore
-
 object BinaryTestCase {
     private var outSummary = MyPrintWriter(false)
     private var lastInput = MemoryTable(Array(0) { "" })
@@ -37,7 +35,6 @@ object BinaryTestCase {
         }
         return res
     }
-
     private fun helperCleanString(s: String): String {
         var res: String = s
         while (true) {
@@ -47,7 +44,6 @@ object BinaryTestCase {
         }
         return res
     }
-
     fun executeAllTestCase(folder: String = "resources/binary/") {
         outSummary = File("log/error").myPrintWriter()
         File("$folder/config2").printWriter { newConfig ->
@@ -84,7 +80,6 @@ object BinaryTestCase {
             outSummary.close()
         }
     }
-
     private fun operatorGraphToTable(node: IOPBase): MemoryTable {
         val tmp = QueryResultToMemoryTable(node)
         if (tmp.size != 1) {
@@ -92,7 +87,6 @@ object BinaryTestCase {
         }
         return tmp[0]
     }
-
     private fun verifyEqual(expected: MemoryTable, actual: MemoryTable, mapping_live_to_target: Map<Int, Int>, dict: Map<String, Int>, dict2: Array<String>, allowOrderBy: Boolean, out: MyPrintWriter): Boolean {
         if (expected.booleanResult != null) {
             if (expected.booleanResult != actual.booleanResult) {
@@ -204,7 +198,6 @@ object BinaryTestCase {
         }
         return true
     }
-
     internal class IntArrayComparator : Comparator<IntArray> {
         override fun compare(a: IntArray, b: IntArray): Int {
             for (i in a.indices) {
@@ -217,7 +210,6 @@ object BinaryTestCase {
             return 0
         }
     }
-
     private fun verifyEqual(expected: MemoryTable, actual: MemoryTable, mapping_live_to_target: Map<Int, Int>, dict: Map<String, Int>, dict2: Array<String>, allowOrderBy: Boolean, query_name: String, query_folder: String, tag: String): Boolean {
         val out = MyPrintWriter()
         val res = verifyEqual(expected, actual, mapping_live_to_target, dict, dict2, allowOrderBy, out)
@@ -230,7 +222,6 @@ object BinaryTestCase {
         }
         return res
     }
-
     private var notImplementedFeaturesList = mutableSetOf( //
         "rdfs:subPropertyOf", //
         "rdfs:subClassOf", //
@@ -281,7 +272,6 @@ object BinaryTestCase {
         "<http://www.w3.org/2002/07/owl#someValuesFrom>", //
         "<http://www.w3.org/2002/07/owl#Thing>", //
     )
-
     fun executeTestCase(query_folder: String): Boolean {
         var returnValue = true
         File("$query_folder/query.stat").dataInputStream { targetStat ->
@@ -502,7 +492,6 @@ if (tmpTable != null) {
         }
         return returnValue
     }
-
     fun generateTestcase(query_input_file: String, query_file: String, query_output_file: String, output_folder: String, query_name: String, output_mode_tmp: BinaryTestCaseOutputMode): Boolean {
         try {
             var outputMode = output_mode_tmp

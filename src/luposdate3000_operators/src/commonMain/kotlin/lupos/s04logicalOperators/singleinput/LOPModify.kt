@@ -1,5 +1,4 @@
 package lupos.s04logicalOperators.singleinput
-
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.ESortPriority
 import lupos.s00misc.XMLElement
@@ -9,7 +8,6 @@ import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.LOPBase
 import lupos.s04logicalOperators.noinput.LOPTriple
 import kotlin.jvm.JvmField
-
 class LOPModify(
     query: IQuery,
     @JvmField val insert: MutableList<LOPTriple> = mutableListOf(),
@@ -31,7 +29,6 @@ class LOPModify(
         }
         return res
     }
-
     override fun equals(other: Any?): Boolean = other is LOPModify && insert == other.insert && delete == other.delete && children[0] == other.children[0]
     override fun cloneOP(): IOPBase = LOPModify(query, insert, delete, children[0].cloneOP())
     override /*suspend*/ fun calculateHistogram(): HistogramResult {

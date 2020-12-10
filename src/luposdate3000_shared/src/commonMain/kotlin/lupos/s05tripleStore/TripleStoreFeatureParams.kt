@@ -1,5 +1,4 @@
 package lupos.s05tripleStore
-
 import lupos.s00misc.BugException
 import lupos.s00misc.EIndexPattern
 import lupos.s00misc.Partition
@@ -8,7 +7,6 @@ import lupos.s04arithmetikOperators.IAOPBase
 import lupos.s04arithmetikOperators.noinput.IAOPConstant
 import lupos.s04arithmetikOperators.noinput.IAOPVariable
 import lupos.s04logicalOperators.IQuery
-
 sealed class TripleStoreFeatureParams(val feature: TripleStoreFeature, val params: Array<IAOPBase>) {
     abstract fun chooseData(data: IntArray, featureRange: Pair<Int, Int>, params: TripleStoreFeatureParams): Int
     internal fun myToStringHelper(n: IAOPBase): String {
@@ -25,13 +23,11 @@ sealed class TripleStoreFeatureParams(val feature: TripleStoreFeature, val param
         }
     }
 }
-
 class TripleStoreFeatureParamsDefault(val idx: EIndexPattern, params: Array<IAOPBase>) : TripleStoreFeatureParams(TripleStoreFeature.DEFAULT, params) {
     override fun toString(): String = "TripleStoreFeatureParamsDefault $feature $idx ${params.map { myToStringHelper(it) }}"
     override fun chooseData(data: IntArray, featureRange: Pair<Int, Int>, params: TripleStoreFeatureParams): Int {
         return data[featureRange.first + idx.ordinal]
     }
-
     fun getFilter(query: IQuery): IntArray {
         var variableCount = 0
         val filter = mutableListOf<Int>()
@@ -54,7 +50,6 @@ class TripleStoreFeatureParamsDefault(val idx: EIndexPattern, params: Array<IAOP
         }
         return IntArray(filter.size) { filter[it] }
     }
-
     fun getFilterAndProjection(query: IQuery): Pair<IntArray, List<String>> {
         val filter = mutableListOf<Int>()
         val projection = mutableListOf<String>()
@@ -76,10 +71,8 @@ class TripleStoreFeatureParamsDefault(val idx: EIndexPattern, params: Array<IAOP
         return Pair(IntArray(filter.size) { filter[it] }, projection)
     }
 }
-
 class TripleStoreFeatureParamsPartition(val idx: EIndexPattern, params: Array<IAOPBase>, val partition: Partition) : TripleStoreFeatureParams(TripleStoreFeature.PARTITION, params) {
     override fun toString(): String = "TripleStoreFeatureParamsDefault $feature $idx ${params.map { myToStringHelper(it) }} ${partition.data.map { it }} ${getColumn()}"
-
     /*
      * column 0, 1 or 2 .. references the 'x'-th column in choosen idx
      * currently column==0 is not supported
@@ -87,11 +80,9 @@ class TripleStoreFeatureParamsPartition(val idx: EIndexPattern, params: Array<IA
     override fun chooseData(data: IntArray, featureRange: Pair<Int, Int>, params: TripleStoreFeatureParams): Int {
         return data[featureRange.first + idx.ordinal + EIndexPattern.values().size * (getColumn() - 1)]
     }
-
     fun toTripleStoreFeatureParamsDefault(): TripleStoreFeatureParamsDefault {
         return TripleStoreFeatureParamsDefault(idx, params)
     }
-
     fun getColumn(): Int {
         if (partition.data.size != 1) {
             throw throw BugException("TripleStoreFeature", "partition within store only supported for 1 partition at a time")

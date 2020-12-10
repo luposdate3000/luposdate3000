@@ -1,5 +1,4 @@
 package lupos.s03resultRepresentation
-
 import lupos.s00misc.ETripleComponentType
 import lupos.s00misc.File
 import lupos.s00misc.MyBigDecimal
@@ -12,9 +11,7 @@ import lupos.s00misc.MyMapStringIntPatriciaTrieDouble
 import lupos.s00misc.SanityCheck
 import lupos.s01io.BufferManager
 import kotlin.jvm.JvmField
-
 val nodeGlobalDictionary = ResultSetDictionary(true)
-
 @UseExperimental(kotlin.ExperimentalUnsignedTypes::class)
 class ResultSetDictionary(val global: Boolean = false) {
     companion object {
@@ -45,16 +42,12 @@ class ResultSetDictionary(val global: Boolean = false) {
         const val errorValue = (flaggedValueLocalBnode or 0x00000002.toInt()) /*lowest 5 values*/ /*required to be 2 for_ truth table loopups*/
         const val undefValue = (flaggedValueLocalBnode or 0x00000003.toInt()) /*lowest 5 values*/
         const val nullValue = (flaggedValueLocalBnode or 0x00000004.toInt()) /*lowest 5 values*/ /*symbol for no more results, previously 'null'*/
-
         @JvmField
         val booleanTrueValue2 = ValueBoolean(true)
-
         @JvmField
         val booleanFalseValue2 = ValueBoolean(false)
-
         @JvmField
         val errorValue2 = ValueError()
-
         @JvmField
         val undefValue2 = ValueUndef()
         fun isGlobalBNode(value: Int) = (value and mask3) == flaggedValueGlobalBnode
@@ -69,42 +62,29 @@ class ResultSetDictionary(val global: Boolean = false) {
             }
         }
     }
-
     fun isLocalBNode(value: Int) = (value and mask3) == flaggedValueLocalBnode
-
     @JvmField
     val localBnodeMap = MyMapStringIntPatriciaTrie()
-
     @JvmField
     var bNodeCounter = 5
-
     @JvmField
     val bnodeMapToGlobal = MyMapIntInt() // never used by the global dictionary instance
-
     @JvmField
     val iriMap = MyMapStringIntPatriciaTrieDouble()
-
     @JvmField
     val langTaggedMap = MyMapStringIntPatriciaTrieDouble()
-
     @JvmField
     val typedMap = MyMapStringIntPatriciaTrieDouble()
-
     @JvmField
     val doubleMap = MyMapDoubleInt()
-
     @JvmField
     val doubleList = MyListDouble()
-
     @JvmField
     val floatMap = MyMapDoubleInt()
-
     @JvmField
     val floatList = MyListDouble()
-
     @JvmField
     val decimalMap = MyMapStringIntPatriciaTrieDouble()
-
     @JvmField
     val intMap = MyMapStringIntPatriciaTrieDouble()
     fun clear() {
@@ -121,10 +101,8 @@ class ResultSetDictionary(val global: Boolean = false) {
         decimalMap.clear()
         intMap.clear()
     }
-
     fun prepareBulk(total: Int, typed: IntArray) {
     }
-
     fun createByType(s: String, type: ETripleComponentType): Int {
         when (type) {
             ETripleComponentType.IRI -> {
@@ -165,7 +143,6 @@ class ResultSetDictionary(val global: Boolean = false) {
             }
         }
     }
-
     fun toBooleanOrError(value: Int): Int {
         var res: Int = errorValue
         if (value < undefValue && value >= 0) {
@@ -185,7 +162,6 @@ class ResultSetDictionary(val global: Boolean = false) {
 // SanityCheck.check({(res and filter6) < 10000},{"${res} ${res and filter6} ${res.toString(16)} ${(res and filter6).toString(16)}"})
         return res
     }
-
     fun createNewBNode(value: String = ""): Int {
         var res: Int
         if (global) {
@@ -196,7 +172,6 @@ class ResultSetDictionary(val global: Boolean = false) {
 // SanityCheck.check({(res and filter6) < 10000},{"${res} ${res and filter6} ${res.toString(16)} ${(res and filter6).toString(16)}"})
         return res
     }
-
     fun createIri(iri: String): Int {
         var res: Int
         if (global) {
@@ -212,7 +187,6 @@ class ResultSetDictionary(val global: Boolean = false) {
 // SanityCheck.check({(res and filter6) < 10000},{"${res} ${res and filter6} ${res.toString(16)} ${(res and filter6).toString(16)}"})
         return res
     }
-
     fun createLangTagged(content: String, lang: String): Int {
         var res: Int
         val key = lang + "@" + content
@@ -229,7 +203,6 @@ class ResultSetDictionary(val global: Boolean = false) {
 // SanityCheck.check({(res and filter6) < 10000},{"${res} ${res and filter6} ${res.toString(16)} ${(res and filter6).toString(16)}"})
         return res
     }
-
     fun createTyped(content: String, type: String): Int {
         var res: Int
         when (type) {
@@ -269,7 +242,6 @@ class ResultSetDictionary(val global: Boolean = false) {
 // SanityCheck.check({(res and filter6) < 10000},{"${res} ${res and filter6} ${res.toString(16)} ${(res and filter6).toString(16)}"})
         return res
     }
-
     fun createDouble(value: Double): Int {
         var res: Int
         if (global) {
@@ -299,7 +271,6 @@ class ResultSetDictionary(val global: Boolean = false) {
 // SanityCheck.check({(res and filter6) < 10000},{"${res} ${res and filter6} ${res.toString(16)} ${(res and filter6).toString(16)}"})
         return res
     }
-
     fun createFloat(value: Double): Int {
         var res: Int
         if (global) {
@@ -329,7 +300,6 @@ class ResultSetDictionary(val global: Boolean = false) {
 // SanityCheck.check({(res and filter6) < 10000},{"${res} ${res and filter6} ${res.toString(16)} ${(res and filter6).toString(16)}"})
         return res
     }
-
     fun createDecimal(value2: MyBigDecimal): Int {
         val value = value2.toString()
         var res: Int
@@ -346,7 +316,6 @@ class ResultSetDictionary(val global: Boolean = false) {
 // SanityCheck.check({(res and filter6) < 10000},{"${res} ${res and filter6} ${res.toString(16)} ${(res and filter6).toString(16)}"})
         return res
     }
-
     fun createInteger(value2: MyBigInteger): Int {
         val value = value2.toString()
         var res: Int
@@ -363,13 +332,11 @@ class ResultSetDictionary(val global: Boolean = false) {
 // SanityCheck.check({(res and filter6) < 10000},{"${res} ${res and filter6} ${res.toString(16)} ${(res and filter6).toString(16)}"})
         return res
     }
-
     fun createValue(value: String?): Int {
         val res = createValue(ValueDefinition(value))
 // SanityCheck.check({(res and filter6) < 10000},{"${res} ${res and filter6} ${res.toString(16)} ${(res and filter6).toString(16)}"})
         return res
     }
-
     fun createValue(value: ValueDefinition): Int {
         var res: Int
         when (value) {
@@ -425,7 +392,6 @@ class ResultSetDictionary(val global: Boolean = false) {
 // SanityCheck.check({(res and filter6) < 10000},{"${res} ${res and filter6} ${res.toString(16)} ${(res and filter6).toString(16)}"})
         return res
     }
-
     fun getValue(value: Int): ValueDefinition {
 // SanityCheck.check({(value and filter6) < 10000},{"${value} ${value and filter6} ${value.toString(16)} ${(value and filter6).toString(16)}"})
         var res: ValueDefinition
@@ -486,7 +452,6 @@ class ResultSetDictionary(val global: Boolean = false) {
         }
         return res
     }
-
     inline fun getValue(
         value: Int,
         crossinline onBNode: (value: Int) -> Unit,
@@ -565,7 +530,6 @@ class ResultSetDictionary(val global: Boolean = false) {
             }
         }
     }
-
     fun printContents() {
         SanityCheck {
             var base: Int
@@ -597,7 +561,6 @@ class ResultSetDictionary(val global: Boolean = false) {
             }
         }
     }
-
     fun valueToGlobal(value: Int): Int {
         var res: Int
         if ((value and mask1) == mask1) {
@@ -612,7 +575,6 @@ class ResultSetDictionary(val global: Boolean = false) {
 // SanityCheck.check({(res and filter6) < 10000},{"${res} ${res and filter6} ${res.toString(16)} ${(res and filter6).toString(16)}"})
         return res
     }
-
     fun safeToFolder() {
         // println("Dictionary safe to folder '${BufferManager.bufferPrefix + "dictionary/"}'")
         File(BufferManager.bufferPrefix + "dictionary/").mkdirs()
@@ -627,7 +589,6 @@ class ResultSetDictionary(val global: Boolean = false) {
         decimalMap.safeToFile(BufferManager.bufferPrefix + "dictionary/decimal.map")
         intMap.safeToFile(BufferManager.bufferPrefix + "dictionary/int.map")
     }
-
     fun loadFromFolder() {
         // println("Dictionary loading from folder '${BufferManager.bufferPrefix + "dictionary/"}'")
         File(BufferManager.bufferPrefix + "dictionary/bnode.count").dataInputStream { fis ->

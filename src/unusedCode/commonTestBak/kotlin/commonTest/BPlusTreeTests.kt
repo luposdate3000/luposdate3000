@@ -1,5 +1,4 @@
 package commonTest
-
 import lupos.datastructures.b_plus_tree.B_Plus_Tree_StaticCompressed_Int_to_Int
 import lupos.datastructures.b_plus_tree.B_Plus_Tree_Uncompressed_Int_to_Int
 import lupos.datastructures.b_plus_tree.Derived_B_Plus_Tree_DifferenceEncoding_Int_OnlyKeys
@@ -20,7 +19,6 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 import kotlin.test.fail
-
 class BPlusTreeTests {
     fun getFilename(testnumber: String = "") = "../tmp/test/test$testnumber"
     fun testBPlusTreeInsertAndExactSearch(tree: I_B_Plus_Tree<Int, Int>) {
@@ -42,7 +40,6 @@ class BPlusTreeTests {
         }
         // TODO much more rigorously
     }
-
     fun testBPlusTreeInsertAndExactSearch_OnlyKeys(tree: I_B_Plus_Tree_OnlyKeys<Int>) {
         // initialize and create B_Plus_Tree
         val list = mutableListOf<Int>()
@@ -62,7 +59,6 @@ class BPlusTreeTests {
         }
         // TODO much more rigorously
     }
-
     fun testBPlusTreeInsertAndRangeSearch(tree: I_B_Plus_Tree_KeyRangeSearch<Int, Int>) {
         val list = mutableListOf<Pair<Int, Int>>()
         val size = 500000
@@ -87,7 +83,6 @@ class BPlusTreeTests {
         }
         // TODO much more rigorously
     }
-
     fun testBPlusTreeInsertAndRangeSearch_OnlyKeys(tree: I_B_Plus_Tree_KeyRangeSearch_OnlyKeys<Int>) {
         val list = mutableListOf<Int>()
         val size = 500000
@@ -110,7 +105,6 @@ class BPlusTreeTests {
         }
         // TODO much more rigorously
     }
-
     @Test
     fun testBPlusTree_Uncompressed_Int_to_Int_ManualGeneration() {
         // build B+-tree
@@ -153,55 +147,38 @@ class BPlusTreeTests {
         SanityCheck.println { "Test 1 passed..." }
         // TODO much more rigorously
     }
-
     @Test
     fun testBPlusTree_ExactSearch_Uncompressed_Int_to_Int() = testBPlusTreeInsertAndExactSearch(Derived_B_Plus_Tree_Uncompressed_Int_to_Int(getFilename("2"), 8000, 8000))
-
     @Test
     fun testBPlusTree_ExactSearch_Uncompressed_Int_to_Int_BinarySearch() = testBPlusTreeInsertAndExactSearch(Derived_B_Plus_Tree_Uncompressed_Int_to_Int_BinarySearch(getFilename("3"), 8000, 8000))
-
     @Test
     fun testBPlusTree_ExactSearch_VariableSize_Int_to_Int() = testBPlusTreeInsertAndExactSearch(Derived_B_Plus_Tree_VariableSize_Int_to_Int(getFilename("4"), 8000, 8000))
-
     @Test
     fun testBPlusTree_ExactSearch_VariableSizePointers_Int_to_Int() = testBPlusTreeInsertAndExactSearch(Derived_B_Plus_Tree_VariableSizePointers_Int_to_Int(getFilename("5"), 8000, 8000))
-
     @Test
     fun testBPlusTree_ExactSearch_DifferenceEncoding_Int_to_Int() = testBPlusTreeInsertAndExactSearch(Derived_B_Plus_Tree_DifferenceEncoding_Int_to_Int(getFilename("6"), 8000, 8000))
-
     @Test
     fun testBPlusTree_ExactSearch_Static_Int_to_Int() = testBPlusTreeInsertAndExactSearch(Derived_B_Plus_Tree_Static_Int_to_Int(getFilename("7")))
-
     @Test
     fun testBPlusTree_ExactSearch_StaticCompressed_Int_to_Int() = testBPlusTreeInsertAndExactSearch(Derived_B_Plus_Tree_StaticCompressed_Int_to_Int(getFilename("8")))
-
     @Test
     fun testBPlusTree_ExactSearch_DifferenceEncoding_Int() = testBPlusTreeInsertAndExactSearch_OnlyKeys(Derived_B_Plus_Tree_DifferenceEncoding_Int_OnlyKeys(getFilename("9"), 8000, 8000))
-
     @Test
     fun testBPlusTree_RangeSearch_Uncompressed_Int_to_Int() = testBPlusTreeInsertAndRangeSearch(Derived_B_Plus_Tree_Uncompressed_Int_to_Int(getFilename("Range2"), 8000, 8000))
-
     @Test
     fun testBPlusTree_RangeSearch_Uncompressed_Int_to_Int_BinarySearch() = testBPlusTreeInsertAndRangeSearch(Derived_B_Plus_Tree_Uncompressed_Int_to_Int_BinarySearch(getFilename("Range3"), 8000, 8000))
-
     @Test
     fun testBPlusTree_RangeSearch_VariableSize_Int_to_Int() = testBPlusTreeInsertAndRangeSearch(Derived_B_Plus_Tree_VariableSize_Int_to_Int(getFilename("Range4"), 8000, 8000))
-
     @Test
     fun testBPlusTree_RangeSearch_VariableSizePointers_Int_to_Int() = testBPlusTreeInsertAndRangeSearch(Derived_B_Plus_Tree_VariableSizePointers_Int_to_Int(getFilename("Range5"), 8000, 8000))
-
     @Test
     fun testBPlusTree_RangeSearch_DifferenceEncoding_Int_to_Int() = testBPlusTreeInsertAndRangeSearch(Derived_B_Plus_Tree_DifferenceEncoding_Int_to_Int(getFilename("Range6"), 8000, 8000))
-
     @Test
     fun testBPlusTree_RangeSearch_Static_Int_to_Int() = testBPlusTreeInsertAndRangeSearch(Derived_B_Plus_Tree_Static_Int_to_Int(getFilename("Range7")))
-
     @Test
     fun testBPlusTree_RangeSearch_StaticCompressed_Int_to_Int() = testBPlusTreeInsertAndRangeSearch(Derived_B_Plus_Tree_StaticCompressed_Int_to_Int(getFilename("Range8")))
-
     @Test
     fun testBPlusTree_RangeSearch_DifferenceEncoding_Int() = testBPlusTreeInsertAndRangeSearch_OnlyKeys(Derived_B_Plus_Tree_DifferenceEncoding_Int_OnlyKeys(getFilename("Range9"), 8000, 8000))
-
     // TODO: test of sip_search! Similar to the following method...
     fun testBPlusTree4b() {
         val filename = getFilename("4b")

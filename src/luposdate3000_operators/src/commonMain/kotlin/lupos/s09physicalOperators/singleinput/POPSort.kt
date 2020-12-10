@@ -1,5 +1,4 @@
 package lupos.s09physicalOperators.singleinput
-
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.ESortPriority
 import lupos.s00misc.Partition
@@ -15,13 +14,11 @@ import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.iterator.RowIteratorMerge
 import lupos.s09physicalOperators.POPBase
 import kotlin.jvm.JvmField
-
 class POPSort(query: IQuery, projectedVariables: List<String>, @JvmField val sortBy: Array<AOPVariable>, @JvmField val sortOrder: Boolean, child: IOPBase) : POPBase(query, projectedVariables, EOperatorID.POPSortID, "POPSort", arrayOf(child), ESortPriority.SORT) {
     override fun getPartitionCount(variable: String): Int {
         SanityCheck.check { children[0].getPartitionCount(variable) == 1 }
         return 1
     }
-
     override fun equals(other: Any?): Boolean = other is POPSort && sortBy.contentEquals(other.sortBy) && sortOrder == other.sortOrder && children[0] == other.children[0]
     override fun cloneOP(): IOPBase = POPSort(query, projectedVariables, sortBy, sortOrder, children[0].cloneOP())
     override fun getRequiredVariableNames(): List<String> = sortBy.map { it.name }
@@ -48,7 +45,6 @@ class POPSort(query: IQuery, projectedVariables: List<String>, @JvmField val sor
         res += "}"
         return res
     }
-
     override /*suspend*/ fun toXMLElement(): XMLElement {
         val res = XMLElement("POPSort")
         val projectedXML = XMLElement("projectedVariables")
@@ -74,7 +70,6 @@ class POPSort(query: IQuery, projectedVariables: List<String>, @JvmField val sor
         res.addContent(childrenToXML())
         return res
     }
-
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
         val child = children[0].evaluate(parent)
         val variablesOut = getProvidedVariableNames()

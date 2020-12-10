@@ -1,5 +1,4 @@
 package lupos.s09physicalOperators.multiinput
-
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.ESortPriority
 import lupos.s00misc.Partition
@@ -13,7 +12,6 @@ import lupos.s04logicalOperators.iterator.ColumnIteratorChildIterator
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s09physicalOperators.POPBase
 import kotlin.jvm.JvmField
-
 class POPJoinMerge(query: IQuery, projectedVariables: List<String>, childA: IOPBase, childB: IOPBase, @JvmField val optional: Boolean) : POPBase(query, projectedVariables, EOperatorID.POPJoinMergeID, "POPJoinMerge", arrayOf(childA, childB), ESortPriority.JOIN) {
     override fun getPartitionCount(variable: String): Int {
         return if (children[0].getProvidedVariableNames().contains(variable)) {
@@ -31,7 +29,6 @@ class POPJoinMerge(query: IQuery, projectedVariables: List<String>, childA: IOPB
             }
         }
     }
-
     override fun toSparql(): String = children[0].toSparql() + children[1].toSparql()
     override /*suspend*/ fun toXMLElement(): XMLElement = super.toXMLElement().addAttribute("optional", "" + optional)
     override fun cloneOP(): IOPBase = POPJoinMerge(query, projectedVariables, children[0].cloneOP(), children[1].cloneOP(), optional)
@@ -44,7 +41,6 @@ class POPJoinMerge(query: IQuery, projectedVariables: List<String>, childA: IOPB
             }
             return tmp
         }
-
         @JvmField
         var localHasnext2closeI = 0
         /*suspend*/ private inline fun _hasNext2Close() {
@@ -59,12 +55,10 @@ class POPJoinMerge(query: IQuery, projectedVariables: List<String>, childA: IOPB
                 localHasnext2closeI++
             }
         }
-
         override /*suspend*/ fun hasNext2Close() {
             _hasNext2Close()
         }
     }
-
     internal class ColumnIteratorChildIteratorImpl(
         @JvmField val columnsINJ0: List<ColumnIterator>,
         @JvmField val columnsINJ1: List<ColumnIterator>,
@@ -78,34 +72,24 @@ class POPJoinMerge(query: IQuery, projectedVariables: List<String>, childA: IOPB
     ) : ColumnIteratorChildIterator() {
         @JvmField
         val data0 = Array(columnsINO0.size) { IntArray(100) }
-
         @JvmField
         val data1 = Array(columnsINO1.size) { IntArray(100) }
-
         @JvmField
         var localNextI = 0
-
         @JvmField
         var localNextJ = 0
-
         @JvmField
         var localNextCounta = 0
-
         @JvmField
         var localNextCountb = 0
-
         @JvmField
         val localNextKeycopy = IntArray(columnsINJ0.size)
-
         @JvmField
         var localCloseI = 0
-
         @JvmField
         var skipO0 = 0
-
         @JvmField
         var skipO1 = 0
-
         @JvmField
         var sipbuf = IntArray(2)
         /*suspend*/ private inline fun __close() {
@@ -148,11 +132,9 @@ class POPJoinMerge(query: IQuery, projectedVariables: List<String>, childA: IOPB
                 _close()
             }
         }
-
         override /*suspend*/ fun close() {
             __close()
         }
-
         override /*suspend*/ fun next(): Int {
             return nextHelper(
                 {
@@ -340,7 +322,6 @@ class POPJoinMerge(query: IQuery, projectedVariables: List<String>, childA: IOPB
             )
         }
     }
-
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
         SanityCheck.check { !optional }
         // setup columns

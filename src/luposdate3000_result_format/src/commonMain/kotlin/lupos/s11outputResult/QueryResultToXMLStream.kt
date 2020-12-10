@@ -1,5 +1,4 @@
 package lupos.s11outputResult
-
 import lupos.s00misc.IMyPrintWriter
 import lupos.s00misc.MyLock
 import lupos.s00misc.MyPrintWriter
@@ -15,7 +14,6 @@ import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s09physicalOperators.partition.POPMergePartition
 import lupos.s09physicalOperators.partition.POPMergePartitionOrderedByIntId
-
 object QueryResultToXMLStream {
     private /*suspend*/ fun writeValue(valueID: Int, columnName: String, dictionary: IResultSetDictionary, output: IMyPrintWriter) {
         dictionary.getValue(
@@ -97,7 +95,6 @@ object QueryResultToXMLStream {
             {}, {}
         )
     }
-
     private /*suspend*/ fun writeRow(variables: Array<String>, rowBuf: IntArray, dictionary: IResultSetDictionary, output: IMyPrintWriter) {
         output.print("  <result>\n")
         for (variableIndex in variables.indices) {
@@ -105,7 +102,6 @@ object QueryResultToXMLStream {
         }
         output.print("  </result>\n")
     }
-
     /*suspend*/ private inline fun writeAllRows(variables: Array<String>, columns: Array<ColumnIterator>, dictionary: IResultSetDictionary, lock: MyLock?, output: IMyPrintWriter) {
         val rowBuf = IntArray(variables.size)
         val resultWriter = MyPrintWriter()
@@ -127,7 +123,6 @@ object QueryResultToXMLStream {
             element.close()
         }
     }
-
     private /*suspend*/ fun writeNodeResult(variables: Array<String>, node: IOPBase, output: IMyPrintWriter, parent: Partition = Partition()) {
         if ((node is POPMergePartition && node.partitionCount > 1) || (node is POPMergePartitionOrderedByIntId && node.partitionCount > 1)) {
             var partitionCount = 0
@@ -167,7 +162,6 @@ object QueryResultToXMLStream {
             writeAllRows(variables, columns, node.getQuery().getDictionary(), null, output)
         }
     }
-
     /*suspend*/ operator fun invoke(rootNode: IOPBase, output: IMyPrintWriter) {
         val nodes: Array<IOPBase>
         var columnProjectionOrder = listOf<List<String>>()

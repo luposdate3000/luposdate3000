@@ -1,10 +1,8 @@
 package lupos.s04logicalOperators.iterator
-
 import lupos.s00misc.MERGE_SORT_MIN_ROWS
 import lupos.s00misc.SanityCheck
 import lupos.s03resultRepresentation.ResultSetDictionaryExt
 import kotlin.jvm.JvmField
-
 object ColumnIteratorMerge {
     /*suspend*/ operator fun invoke(a: ColumnIterator, comparator: Comparator<Int>): ColumnIterator {
         var buf1 = IntArray(MERGE_SORT_MIN_ROWS)
@@ -107,7 +105,6 @@ object ColumnIteratorMerge {
         SanityCheck.check { resultList.size > 0 }
         return resultList[resultList.size - 1]!!
     }
-
     /*suspend*/ operator fun invoke(a: ColumnIterator): ColumnIterator {
         var buf1 = IntArray(MERGE_SORT_MIN_ROWS)
         var buf2 = IntArray(MERGE_SORT_MIN_ROWS)
@@ -210,14 +207,11 @@ object ColumnIteratorMerge {
         return resultList[resultList.size - 1]!!
     }
 }
-
 class ColumnIteratorMerge1(@JvmField val a: ColumnIterator, @JvmField val b: ColumnIterator, @JvmField val comparator: Comparator<Int>) : ColumnIterator() {
     @JvmField
     var label: Int = 3
-
     @JvmField
     var aBuf: Int = ResultSetDictionaryExt.nullValue
-
     @JvmField
     var bBuf: Int = ResultSetDictionaryExt.nullValue
     override /*suspend*/ fun close() {
@@ -227,7 +221,6 @@ class ColumnIteratorMerge1(@JvmField val a: ColumnIterator, @JvmField val b: Col
             b.close()
         }
     }
-
     override /*suspend*/ fun next(): Int {
         var res: Int = ResultSetDictionaryExt.nullValue
         when (label) {
@@ -307,14 +300,11 @@ class ColumnIteratorMerge1(@JvmField val a: ColumnIterator, @JvmField val b: Col
         return res
     }
 }
-
 class ColumnIteratorMerge2(@JvmField val a: ColumnIterator, @JvmField val b: ColumnIterator) : ColumnIterator() {
     @JvmField
     var label: Int = 3
-
     @JvmField
     var aBuf: Int = ResultSetDictionaryExt.nullValue
-
     @JvmField
     var bBuf: Int = ResultSetDictionaryExt.nullValue
     override /*suspend*/ fun close() {
@@ -324,7 +314,6 @@ class ColumnIteratorMerge2(@JvmField val a: ColumnIterator, @JvmField val b: Col
             b.close()
         }
     }
-
     override /*suspend*/ fun next(): Int {
         var res: Int = ResultSetDictionaryExt.nullValue
         when (label) {

@@ -1,5 +1,4 @@
 package lupos.s08logicalOptimisation
-
 import lupos.s00misc.EOptimizerID
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.Query
@@ -9,7 +8,6 @@ import lupos.s04logicalOperators.singleinput.modifiers.LOPDistinct
 import lupos.s04logicalOperators.singleinput.modifiers.LOPLimit
 import lupos.s04logicalOperators.singleinput.modifiers.LOPOffset
 import lupos.s04logicalOperators.singleinput.modifiers.LOPReduced
-
 class LogicalOptimizerExists(query: Query) : OptimizerBase(query, EOptimizerID.LogicalOptimizerExistsID) {
     override val classname: String = "LogicalOptimizerExists"
     private fun applyRecoursive(node: IOPBase, askFlag: Boolean) {
@@ -27,7 +25,6 @@ class LogicalOptimizerExists(query: Query) : OptimizerBase(query, EOptimizerID.L
             }
         }
     }
-
     override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
         if (node is LOPMakeBooleanResult) {
             if (!node.partOfAskQuery) {

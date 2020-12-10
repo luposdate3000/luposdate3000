@@ -1,21 +1,16 @@
 package lupos.s00misc
-
 import kotlin.jvm.JvmField
-
 enum class ECoverage {
     Disabled,
     Count,
     Verbose,
     VeryVerbose
 }
-
 internal object Coverage {
     @JvmField
     val CoverageMapGenerated = mutableMapOf<Int, String>()
-
     @JvmField
     val CoverageMapWhenCaseGenerated = mutableMapOf<Int, Int>()
-
     init {
         var s = File("resources/CoverageMapGenerated.txt").readAsString()
         var lines = s.split("\n")
@@ -39,10 +34,8 @@ internal object Coverage {
         })
         CoverageMapGenerated[CoverageMapGenerated.keys.size] = ""
     }
-
     @JvmField
     var lastcounter = CoverageMapGenerated.keys.size - 1
-
     @JvmField
     val counters = Array(CoverageMapGenerated.keys.size) { 0L }
     fun funStart(counter: Int) {
@@ -55,7 +48,6 @@ internal object Coverage {
                 println("funStart $counter")
         }
     }
-
     fun forLoopStart(counter: Int) {
         lastcounter = counter
         counters[counter]++
@@ -66,7 +58,6 @@ internal object Coverage {
                 println("forLoopStart $counter")
         }
     }
-
     fun forEachLoopStart(counter: Int) {
         lastcounter = counter
         counters[counter]++
@@ -77,7 +68,6 @@ internal object Coverage {
                 println("forEachLoopStart $counter")
         }
     }
-
     fun whileLoopStart(counter: Int) {
         lastcounter = counter
         counters[counter]++
@@ -88,7 +78,6 @@ internal object Coverage {
                 println("whileLoopStart $counter")
         }
     }
-
     fun whenCaseStart(counter: Int) {
         lastcounter = counter
         counters[counter]++
@@ -100,7 +89,6 @@ internal object Coverage {
                 println("whenCaseStart $counter")
         }
     }
-
     fun ifStart(counter: Int) {
         lastcounter = counter
         counters[counter]++
@@ -111,7 +99,6 @@ internal object Coverage {
                 println("ifStart $counter")
         }
     }
-
     fun statementStart(counter: Int) {
         lastcounter = counter
         counters[counter]++
@@ -122,7 +109,6 @@ internal object Coverage {
                 println("statementStart $counter")
         }
     }
-
     override fun toString(): String {
         val res = StringBuilder()
         for (k in 0 until counters.size) {
@@ -132,7 +118,6 @@ internal object Coverage {
         }
         return res.toString()
     }
-
     suspend fun printToFile() {
         val s = toString()
         var h = s.hashCode()

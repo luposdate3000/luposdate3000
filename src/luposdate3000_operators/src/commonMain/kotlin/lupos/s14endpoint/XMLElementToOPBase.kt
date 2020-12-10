@@ -1,5 +1,4 @@
 package lupos.s14endpoint
-
 import lupos.s00misc.EIndexPattern
 import lupos.s00misc.ESortType
 import lupos.s00misc.MyBigDecimal
@@ -124,7 +123,6 @@ import lupos.s09physicalOperators.singleinput.modifiers.POPLimit
 import lupos.s09physicalOperators.singleinput.modifiers.POPOffset
 import lupos.s09physicalOperators.singleinput.modifiers.POPReduced
 import lupos.s15tripleStoreDistributed.distributedTripleStore
-
 fun convertToPartition(node: XMLElement): Partition {
     val res = Partition()
     for (c in node.childs) {
@@ -137,7 +135,6 @@ fun convertToPartition(node: XMLElement): Partition {
     }
     return res
 }
-
 fun createAOPVariable(query: Query, mapping: MutableMap<String, String>, name: String): AOPVariable {
     val n = mapping[name]
     if (n != null) {
@@ -145,7 +142,6 @@ fun createAOPVariable(query: Query, mapping: MutableMap<String, String>, name: S
     }
     return AOPVariable(query, name)
 }
-
 fun createProjectedVariables(query: Query, node: XMLElement, mapping: MutableMap<String, String> = mutableMapOf()): List<String> {
     val res = mutableListOf<String>()
     SanityCheck.check { node["projectedVariables"] != null }
@@ -154,7 +150,6 @@ fun createProjectedVariables(query: Query, node: XMLElement, mapping: MutableMap
     }
     return res
 }
-
 /*suspend*/ fun XMLElement.Companion.convertToOPBase(query: Query, node: XMLElement, mapping: MutableMap<String, String> = mutableMapOf()): IOPBase {
     val res: IOPBase
     when (node.tag) {

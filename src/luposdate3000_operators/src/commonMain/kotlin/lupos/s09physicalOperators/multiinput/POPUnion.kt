@@ -1,5 +1,4 @@
 package lupos.s09physicalOperators.multiinput
-
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.ESortPriority
 import lupos.s00misc.Partition
@@ -10,7 +9,6 @@ import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.s04logicalOperators.iterator.ColumnIteratorMultiIterator
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s09physicalOperators.POPBase
-
 class POPUnion(query: IQuery, projectedVariables: List<String>, childA: IOPBase, childB: IOPBase) : POPBase(query, projectedVariables, EOperatorID.POPUnionID, "POPUnion", arrayOf(childA, childB), ESortPriority.UNION) {
     override fun getPartitionCount(variable: String): Int {
         return if (children[0].getProvidedVariableNames().contains(variable)) {
@@ -28,7 +26,6 @@ class POPUnion(query: IQuery, projectedVariables: List<String>, childA: IOPBase,
             }
         }
     }
-
     override fun cloneOP(): IOPBase = POPUnion(query, projectedVariables, children[0].cloneOP(), children[1].cloneOP())
     override fun toSparql(): String = "{" + children[0].toSparql() + "} UNION {" + children[1].toSparql() + "}"
     override fun equals(other: Any?): Boolean = other is POPUnion && children[0] == other.children[0] && children[1] == other.children[1]
@@ -58,7 +55,6 @@ class POPUnion(query: IQuery, projectedVariables: List<String>, childA: IOPBase,
                 override /*suspend*/ fun hasNext2(): Boolean {
                     return childA.hasNext2() || childB.hasNext2()
                 }
-
                 override /*suspend*/ fun hasNext2Close() {
                     childA.hasNext2Close()
                     childB.hasNext2Close()

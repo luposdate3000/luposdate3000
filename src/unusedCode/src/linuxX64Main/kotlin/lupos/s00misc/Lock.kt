@@ -1,18 +1,14 @@
 package lupos.s00misc
-
 import kotlinx.cinterop.cValue
 import platform.posix.pthread_mutex_init
 import platform.posix.pthread_mutex_lock
 import platform.posix.pthread_mutex_t
 import platform.posix.pthread_mutex_unlock
-
 class Lock {
     val mutex = cValue<pthread_mutex_t>()
-
     constructor() {
         pthread_mutex_init(mutex, null)
     }
-
     suspend inline fun <T> withWriteLock(crossinline action: suspend () -> T): T {
         try {
             pthread_mutex_lock(mutex)
@@ -21,7 +17,6 @@ class Lock {
             pthread_mutex_unlock(mutex)
         }
     }
-
     inline fun <T> withWriteLockSuspend(crossinline action: suspend () -> T): T {
         var res: T? = null
         Parallel.runBlocking {

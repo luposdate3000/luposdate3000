@@ -1,5 +1,4 @@
 package lupos.s09physicalOperators.multiinput
-
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.ESortPriority
 import lupos.s00misc.Partition
@@ -13,7 +12,6 @@ import lupos.s04logicalOperators.iterator.ColumnIteratorEmpty
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s09physicalOperators.POPBase
 import kotlin.jvm.JvmField
-
 class POPJoinMergeSingleColumn(query: IQuery, projectedVariables: List<String>, childA: IOPBase, childB: IOPBase, @JvmField val optional: Boolean) : POPBase(query, projectedVariables, EOperatorID.POPJoinMergeSingleColumnID, "POPJoinMergeSingleColumn", arrayOf(childA, childB), ESortPriority.JOIN) {
     override fun getPartitionCount(variable: String): Int {
         return if (children[0].getProvidedVariableNames().contains(variable)) {
@@ -31,7 +29,6 @@ class POPJoinMergeSingleColumn(query: IQuery, projectedVariables: List<String>, 
             }
         }
     }
-
     // optimized using javap
     override fun toSparql(): String {
         if (optional) {
@@ -39,18 +36,14 @@ class POPJoinMergeSingleColumn(query: IQuery, projectedVariables: List<String>, 
         }
         return children[0].toSparql() + children[1].toSparql()
     }
-
     override fun equals(other: Any?): Boolean = other is POPJoinMergeSingleColumn && optional == other.optional && children[0] == other.children[0] && children[1] == other.children[1]
     internal class ColumnIteratorImpl(@JvmField val child0: ColumnIterator, @JvmField val child1: ColumnIterator, @JvmField var head0: Int, @JvmField var head1: Int) : ColumnIterator() {
         @JvmField
         var counter: Int = 0
-
         @JvmField
         var value: Int = head0
-
         @JvmField
         var label = 1
-
         @JvmField
         var sipbuf = IntArray(2)
         override /*suspend*/ fun next(): Int {
@@ -132,7 +125,6 @@ class POPJoinMergeSingleColumn(query: IQuery, projectedVariables: List<String>, 
                 }
             }
         }
-
         internal /*suspend*/ inline fun _close() {
             if (label != 0) {
                 label = 0
@@ -141,12 +133,10 @@ class POPJoinMergeSingleColumn(query: IQuery, projectedVariables: List<String>, 
                 child1.close()
             }
         }
-
         override /*suspend*/ fun close() {
             _close()
         }
     }
-
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
         SanityCheck {
             for (v in children[0].getProvidedVariableNames()) {
@@ -178,7 +168,6 @@ class POPJoinMergeSingleColumn(query: IQuery, projectedVariables: List<String>, 
         }
         return IteratorBundle(outMap)
     }
-
     override /*suspend*/ fun toXMLElement(): XMLElement = super.toXMLElement().addAttribute("optional", "" + optional)
     override fun cloneOP(): IOPBase = POPJoinMergeSingleColumn(query, projectedVariables, children[0].cloneOP(), children[1].cloneOP(), optional)
 }

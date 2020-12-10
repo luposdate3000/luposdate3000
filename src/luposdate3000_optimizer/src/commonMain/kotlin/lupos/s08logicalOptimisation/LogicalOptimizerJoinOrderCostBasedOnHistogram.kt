@@ -1,5 +1,4 @@
 package lupos.s08logicalOptimisation
-
 import lupos.s00misc.HistogramNotImplementedException
 import lupos.s00misc.SanityCheck
 import lupos.s04logicalOperators.HistogramResult
@@ -7,7 +6,6 @@ import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.multiinput.LOPJoin
 import lupos.s04logicalOperators.noinput.LOPTriple
 import lupos.s04logicalOperators.noinput.LOPValues
-
 object LogicalOptimizerJoinOrderCostBasedOnHistogram {
     /*suspend*/ operator fun invoke(allChilds: List<IOPBase>, root: LOPJoin): IOPBase? {
         SanityCheck.check { allChilds.isNotEmpty() }

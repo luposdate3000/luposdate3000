@@ -1,8 +1,6 @@
 package lupos.s04logicalOperators.iterator
-
 open class RowIteratorReduced(val child: RowIterator) : RowIterator() {
     var first: Boolean = true
-
     init {
         columns = child.columns
         buf = IntArray(columns.size)

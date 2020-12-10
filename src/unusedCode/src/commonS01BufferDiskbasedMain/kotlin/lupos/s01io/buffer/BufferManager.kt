@@ -1,12 +1,8 @@
 package lupos.s01io.buffer
-
 import kotlin.jvm.JvmField
-
 data class PageAddress(@JvmField val fileName: String, @JvmField val pageNumber: Int)
-
 const val PAGESIZE: Int = 8 * 1024
 val bufferManager: BufferManager = BufferManager()
-
 class BufferManager {
     /**
      * the max. number of opened files
@@ -35,7 +31,6 @@ class BufferManager {
             return page.value!!
         }
     }
-
     fun writeAllModifiedPages() {
         for (entry in this.cache.entries) {
             val pageAddress = entry.key
@@ -47,7 +42,6 @@ class BufferManager {
             }
         }
     }
-
     fun release() {
         for (entry in this.cache.entries) {
             val pageAddress = entry.key

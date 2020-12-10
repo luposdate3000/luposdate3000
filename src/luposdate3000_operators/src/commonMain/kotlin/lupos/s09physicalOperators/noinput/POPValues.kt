@@ -1,5 +1,4 @@
 package lupos.s09physicalOperators.noinput
-
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.ESortPriority
 import lupos.s00misc.Partition
@@ -15,16 +14,12 @@ import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.noinput.LOPValues
 import lupos.s09physicalOperators.POPBase
 import kotlin.jvm.JvmField
-
 open class POPValues : POPBase {
     override fun getPartitionCount(variable: String): Int = 1
-
     @JvmField
     val variables: List<String>
-
     @JvmField
     val data: Map<String, MutableList<Int>>
-
     @JvmField
     val rows: Int
     override fun toSparql(): String {
@@ -50,7 +45,6 @@ open class POPValues : POPBase {
         res += "}"
         return res
     }
-
     override fun equals(other: Any?): Boolean {
         if (other !is POPValues) {
             return false
@@ -82,7 +76,6 @@ open class POPValues : POPBase {
         }
         return true
     }
-
     override fun cloneOP(): POPValues {
         return if (rows != -1) {
             POPValues(query, rows)
@@ -90,13 +83,11 @@ open class POPValues : POPBase {
             POPValues(query, projectedVariables, variables, data)
         }
     }
-
     constructor(query: IQuery, count: Int) : super(query, listOf<String>(), EOperatorID.POPValuesID, "POPValues", arrayOf(), ESortPriority.PREVENT_ANY) {
         variables = listOf()
         data = mapOf()
         rows = count
     }
-
     constructor(query: IQuery, projectedVariables: List<String>, v: List<String>, d: MutableList<List<String?>>) : super(query, projectedVariables, EOperatorID.POPValuesID, "POPValues", arrayOf(), ESortPriority.PREVENT_ANY) {
         variables = v
         val columns = Array(variables.size) { mutableListOf<Int>() }
@@ -115,13 +106,11 @@ open class POPValues : POPBase {
             rows = -1
         }
     }
-
     constructor(query: IQuery, projectedVariables: List<String>, v: List<String>, d: Map<String, MutableList<Int>>) : super(query, projectedVariables, EOperatorID.POPValuesID, "POPValues", arrayOf(), ESortPriority.PREVENT_ANY) {
         variables = v
         data = d
         rows = -1
     }
-
     constructor(query: IQuery, projectedVariables: List<String>, values: LOPValues) : super(query, projectedVariables, EOperatorID.POPValuesID, "POPValues", arrayOf(), ESortPriority.PREVENT_ANY) {
         if (projectedVariables.isEmpty()) {
             variables = listOf()
@@ -148,7 +137,6 @@ open class POPValues : POPBase {
             rows = -1
         }
     }
-
     override fun getProvidedVariableNamesInternal(): List<String> = variables.distinct()
     override fun getRequiredVariableNames(): MutableList<String> = mutableListOf()
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
@@ -162,7 +150,6 @@ open class POPValues : POPBase {
             IteratorBundle(rows)
         }
     }
-
     override /*suspend*/ fun toXMLElement(): XMLElement {
         val res = super.toXMLElement()
         val xmlvariables = XMLElement("variables")

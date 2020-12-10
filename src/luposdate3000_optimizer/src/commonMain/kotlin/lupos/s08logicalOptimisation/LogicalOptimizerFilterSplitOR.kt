@@ -1,5 +1,4 @@
 package lupos.s08logicalOptimisation
-
 import lupos.s00misc.EOptimizerID
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04arithmetikOperators.multiinput.AOPOr
@@ -7,7 +6,6 @@ import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.multiinput.LOPUnion
 import lupos.s04logicalOperators.singleinput.LOPFilter
-
 class LogicalOptimizerFilterSplitOR(query: Query) : OptimizerBase(query, EOptimizerID.LogicalOptimizerFilterSplitORID) {
     override val classname: String = "LogicalOptimizerFilterSplitOR"
     override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {

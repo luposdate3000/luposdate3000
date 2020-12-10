@@ -1,7 +1,5 @@
 package lupos.s01io.buffer
-
 import lupos.s00misc.SanityCheck
-
 class OnePageBenchmark {
     val page: Page = bufferManager.getPage("tmp/test", 0)
     val page1: Page = bufferManager.getPage("tmp/test", 1)
@@ -17,7 +15,6 @@ class OnePageBenchmark {
         }
         bufferManager.writeAllModifiedPages()
     }
-
     inline fun writeOnePageString() {
         val page2 = page1
         var adr = offset1
@@ -25,7 +22,6 @@ class OnePageBenchmark {
         val adr2 = page2.putString(adr, "abc")
         bufferManager.writeAllModifiedPages()
     }
-
     inline fun readOnePage() {
         var adr = offset
         val endAdr = offset + (8 * 1024 / 4)
@@ -34,17 +30,14 @@ class OnePageBenchmark {
             adr += 4
         }
     }
-
     inline fun readOnePageString() {
         var adr = offset1
         val endAdr = offset1 + (8 * 1024 / 4)
         val s = page1.getString(adr)
     }
-
     inline fun release() {
         page.release()
     }
-
     inline fun run(measure: (() -> Unit) -> Long) {
         var timeForWrite = 0L
         var timeForWriteString = 0L

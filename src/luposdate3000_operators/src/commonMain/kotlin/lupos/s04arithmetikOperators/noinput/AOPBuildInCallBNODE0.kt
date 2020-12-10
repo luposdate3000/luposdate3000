@@ -1,5 +1,4 @@
 package lupos.s04arithmetikOperators.noinput
-
 import lupos.s00misc.EOperatorID
 import lupos.s03resultRepresentation.ValueBnode
 import lupos.s03resultRepresentation.ValueDefinition
@@ -8,10 +7,8 @@ import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import kotlin.jvm.JvmField
-
 class AOPBuildInCallBNODE0(query: IQuery) : AOPBase(query, EOperatorID.AOPBuildInCallBNODE0ID, "AOPBuildInCallBNODE0", arrayOf()) {
     override fun toSparql(): String = "BNODE()"
-
     @JvmField
     internal var localbnode = 0L
     override fun equals(other: Any?): Boolean = other is AOPBuildInCallBNODE0
@@ -20,6 +17,5 @@ class AOPBuildInCallBNODE0(query: IQuery) : AOPBase(query, EOperatorID.AOPBuildI
             ValueBnode("" + uuid + localbnode++)
         }
     }
-
     override fun cloneOP(): IOPBase = this
 }

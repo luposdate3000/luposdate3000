@@ -1,10 +1,8 @@
 package lupos.s00misc
-
 expect class MyBigDecimal {
     constructor(s1: String)
     constructor(s1: Double)
     constructor(s1: Int)
-
     fun compareTo(other: MyBigDecimal): Int
     fun toPlainString(): String
     fun toDouble(): Double

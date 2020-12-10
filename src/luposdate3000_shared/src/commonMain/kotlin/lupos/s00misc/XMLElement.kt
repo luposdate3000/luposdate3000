@@ -1,8 +1,6 @@
 package lupos.s00misc
-
 import kotlin.jvm.JvmField
 import kotlin.math.abs
-
 class XMLElement(tag: String) {
     // https://regex101.com
     companion object {
@@ -50,23 +48,17 @@ class XMLElement(tag: String) {
             }
         }
     }
-
     @JvmField
     val attributes: MutableMap<String, String> = mutableMapOf()
-
     @JvmField
     var content: String = ""
-
     @JvmField
     val childs: MutableList<XMLElement> = mutableListOf()
-
     @JvmField
     val tag: String
-
     init {
         this.tag = decodeText(tag)
     }
-
     operator fun get(key: String): XMLElement? {
         childs.forEach {
             if (it.tag == key) {
@@ -75,7 +67,6 @@ class XMLElement(tag: String) {
         }
         return null
     }
-
     override fun equals(other: Any?): Boolean = other is XMLElement && myEqualsUnclean(other, true, true, true)
     fun myEquals(other: XMLElement?): Boolean {
         if (other == null) {
@@ -106,7 +97,6 @@ class XMLElement(tag: String) {
         }
         return true
     }
-
     fun myEqualsUnclean(other: XMLElement?, fixStringType: Boolean, fixNumbers: Boolean, fixSortOrder: Boolean): Boolean {
         if (other == null) {
             return false
@@ -267,12 +257,10 @@ class XMLElement(tag: String) {
         }
         return true
     }
-
     fun addAttribute(name: String, value: String): XMLElement {
         attributes[decodeText(name)] = decodeText(value)
         return this
     }
-
     fun addContentClean(s: String): XMLElement {
         var res: String = s
         while (true) {
@@ -283,40 +271,33 @@ class XMLElement(tag: String) {
         addContent(res)
         return this
     }
-
     fun addContent(content: String): XMLElement {
         SanityCheck.check { childs.isEmpty() }
         this.content += decodeText(content)
         return this
     }
-
     fun addContent(childs: Collection<XMLElement>): XMLElement {
         SanityCheck.check { content.isEmpty() }
         this.childs.addAll(childs)
         return this
     }
-
     fun addContent(child: XMLElement): XMLElement {
         SanityCheck.check { content.isEmpty() }
         childs.add(child)
         return this
     }
-
     fun addContent(childs: Collection<String>, childTag: String): XMLElement {
         for (c in childs) {
             addContent(XMLElement(childTag).addContent(c).toString())
         }
         return this
     }
-
     private fun encodeText(text: String): String {
         return text.replace("&", "&amp;").replace(">", "&gt;").replace("<", "&lt;").replace("'", "&apos;").replace("\"", "&quot;").replace("\\n", "&#x0A;")
     }
-
     private fun decodeText(text: String): String {
         return text.replace("&quot;", "\"").replace("&apos;", "'").replace("&lt;", "<").replace("&gt;", ">").replace("&amp;", "&").replace("&#x0A;", "\\n")
     }
-
     override fun toString(): String {
         val c = content.replace("^\\s*$".toRegex(), "")
         var res = "<${encodeText(tag)}"
@@ -334,7 +315,6 @@ class XMLElement(tag: String) {
         }
         return res
     }
-
     private fun toPrettyString(indention: String): StringBuilder {
         val c = content.replace("^\\s*$".toRegex(), "")
         val res = StringBuilder("$indention<${encodeText(tag)}")
@@ -356,7 +336,6 @@ class XMLElement(tag: String) {
         }
         return res
     }
-
     fun toPrettyString(): String = toPrettyString("").toString()
     override fun hashCode(): Int {
         var result = attributes.hashCode()

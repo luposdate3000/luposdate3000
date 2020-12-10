@@ -1,5 +1,4 @@
 package lupos.s09physicalOperators.multiinput
-
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.ESortPriority
 import lupos.s00misc.Partition
@@ -19,7 +18,6 @@ import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.multiinput.LOPJoin
 import lupos.s09physicalOperators.POPBase
 import kotlin.jvm.JvmField
-
 class POPJoinCartesianProduct(query: IQuery, projectedVariables: List<String>, childA: IOPBase, childB: IOPBase, @JvmField val optional: Boolean) : POPBase(query, projectedVariables, EOperatorID.POPJoinCartesianProductID, "POPJoinCartesianProduct", arrayOf(childA, childB), ESortPriority.JOIN) {
     override fun getPartitionCount(variable: String): Int {
         return if (children[0].getProvidedVariableNames().contains(variable)) {
@@ -37,14 +35,12 @@ class POPJoinCartesianProduct(query: IQuery, projectedVariables: List<String>, c
             }
         }
     }
-
     override fun toSparql(): String {
         if (optional) {
             return "OPTIONAL{" + children[0].toSparql() + children[1].toSparql() + "}"
         }
         return children[0].toSparql() + children[1].toSparql()
     }
-
     override fun equals(other: Any?): Boolean = other is POPJoinCartesianProduct && optional == other.optional && children[0] == other.children[0] && children[1] == other.children[1]
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
         val columns = LOPJoin.getColumns(children[0].getProvidedVariableNames(), children[1].getProvidedVariableNames())
@@ -144,7 +140,6 @@ class POPJoinCartesianProduct(query: IQuery, projectedVariables: List<String>, c
                             override /*suspend*/ fun close() {
                                 __close()
                             }
-
                             /*suspend*/ inline fun __close() {
                                 if (label != 0) {
                                     _close()
@@ -154,7 +149,6 @@ class POPJoinCartesianProduct(query: IQuery, projectedVariables: List<String>, c
                                     }
                                 }
                             }
-
                             override /*suspend*/ fun next(): Int {
                                 return nextHelper(
                                     {
@@ -215,7 +209,6 @@ class POPJoinCartesianProduct(query: IQuery, projectedVariables: List<String>, c
                         override /*suspend*/ fun close() {
                             __close()
                         }
-
                         /*suspend*/ inline fun __close() {
                             if (label != 0) {
                                 _close()
@@ -225,7 +218,6 @@ class POPJoinCartesianProduct(query: IQuery, projectedVariables: List<String>, c
                                 }
                             }
                         }
-
                         override /*suspend*/ fun next(): Int {
                             return nextHelper(
                                 {
@@ -266,7 +258,6 @@ class POPJoinCartesianProduct(query: IQuery, projectedVariables: List<String>, c
         }
         return res
     }
-
     override /*suspend*/ fun toXMLElement(): XMLElement = super.toXMLElement().addAttribute("optional", "" + optional)
     override fun cloneOP(): IOPBase = POPJoinCartesianProduct(query, projectedVariables, children[0].cloneOP(), children[1].cloneOP(), optional)
 }

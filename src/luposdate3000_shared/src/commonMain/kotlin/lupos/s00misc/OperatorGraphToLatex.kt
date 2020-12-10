@@ -1,15 +1,11 @@
 package lupos.s00misc
-
 import kotlin.jvm.JvmField
-
 object OperatorGraphToLatex {
     class StackElement(@JvmField val name: String) {
         @JvmField
         var projectionHelper: String = ""
-
         @JvmField
         var partitionHelper: String = ""
-
         @JvmField
         val children: MutableList<StackElement> = mutableListOf()
         private fun getChildParallelism(): Int {
@@ -24,7 +20,6 @@ object OperatorGraphToLatex {
             }
             return res
         }
-
         private fun getParallelism(): Int {
             var res = getChildParallelism()
             if (name.startsWith("MergePartition")) {
@@ -32,11 +27,9 @@ object OperatorGraphToLatex {
             }
             return res
         }
-
         private fun isChangingParallelism(): Boolean {
             return name.startsWith("SplitPartition") || name.startsWith("MergePartition")
         }
-
         override fun toString(): String {
             val parallelism = getParallelism()
             val res = StringBuilder()
@@ -72,7 +65,6 @@ object OperatorGraphToLatex {
             return res.toString()
         }
     }
-
     fun coloredText(color: String, str: String): String = "\\textcolor{$color}{$str}"
     operator fun invoke(inputString: String, caption: String? = null): String {
         val output = StringBuilder()

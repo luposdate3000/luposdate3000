@@ -1,5 +1,4 @@
 package lupos.s04arithmetikOperators.multiinput
-
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.SanityCheck
 import lupos.s03resultRepresentation.ValueBoolean
@@ -9,7 +8,6 @@ import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.IteratorBundle
-
 class AOPNotIn(query: IQuery, childA: AOPBase, childB: AOPBase) : AOPBase(query, EOperatorID.AOPNotInID, "AOPNotIn", arrayOf(childA, childB)) {
     override fun toSparql(): String = "( " + children[0].toSparql() + " NOT IN " + children[1].toSparql() + " )"
     override fun equals(other: Any?): Boolean = other is AOPNotIn && children[0] == other.getChildren()[0] && children[1] == other.getChildren()[1]
@@ -41,7 +39,6 @@ class AOPNotIn(query: IQuery, childA: AOPBase, childB: AOPBase) : AOPBase(query,
             res
         }
     }
-
     override fun enforcesBooleanOrError(): Boolean = true
     override fun cloneOP(): IOPBase = AOPNotIn(query, children[0].cloneOP() as AOPBase, children[1].cloneOP() as AOPBase)
 }

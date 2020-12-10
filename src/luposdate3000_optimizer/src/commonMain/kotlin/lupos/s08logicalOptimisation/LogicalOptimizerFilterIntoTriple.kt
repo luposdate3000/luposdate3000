@@ -1,5 +1,4 @@
 package lupos.s08logicalOptimisation
-
 import lupos.s00misc.EOptimizerID
 import lupos.s04arithmetikOperators.multiinput.AOPEQ
 import lupos.s04arithmetikOperators.noinput.AOPConstant
@@ -9,7 +8,6 @@ import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.noinput.LOPTriple
 import lupos.s04logicalOperators.singleinput.LOPBind
 import lupos.s04logicalOperators.singleinput.LOPFilter
-
 class LogicalOptimizerFilterIntoTriple(query: Query) : OptimizerBase(query, EOptimizerID.LogicalOptimizerFilterIntoTripleID) {
     override val classname: String = "LogicalOptimizerFilterIntoTriple"
     override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {

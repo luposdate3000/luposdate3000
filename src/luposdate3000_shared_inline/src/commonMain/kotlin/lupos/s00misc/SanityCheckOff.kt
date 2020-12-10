@@ -1,5 +1,4 @@
 package lupos.s00misc
-
 internal object SanityCheckOff {
     inline fun println(crossinlines: () -> Any?) {}
     inline operator fun invoke(crossinline action: () -> Unit) {}

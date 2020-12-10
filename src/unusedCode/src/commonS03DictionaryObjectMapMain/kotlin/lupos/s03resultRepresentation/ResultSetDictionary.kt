@@ -1,33 +1,25 @@
 package lupos.s03resultRepresentation
-
 import lupos.s00misc.File
 import lupos.s00misc.MyMapIntInt
 import lupos.s01io.BufferManager
 import kotlin.jvm.JvmField
-
 val nodeGlobalDictionary = ResultSetDictionary(true)
-
 class ResultSetDictionary(val global: Boolean = false) {
     companion object {
         const val booleanTrueValue = 0 // required by truth-tables
-
         @JvmField
         val booleanTrueValue2 = ValueBoolean(true)
         const val booleanFalseValue = 1 // required by truth-tables
-
         @JvmField
         val booleanFalseValue2 = ValueBoolean(false)
         const val errorValue = 2 // required by truth-tables
-
         @JvmField
         val errorValue2 = ValueError()
         const val undefValue = 3
-
         @JvmField
         val undefValue2 = ValueUndef()
         fun debug() {
         }
-
         fun isGlobalBNode(value: Int): Boolean {
             if (value >= 0) {
                 return false
@@ -35,14 +27,12 @@ class ResultSetDictionary(val global: Boolean = false) {
             return nodeGlobalDictionary.getValue(value) is ValueBnode
         }
     }
-
     fun isLocalBNode(value: Int): Boolean {
         if (value < 0) {
             return false
         }
         return getValue(value) is ValueBnode
     }
-
     val bnodeMapToGlobal = MyMapIntInt()
     var mapSTL = mutableMapOf<ValueDefinition, Int>(errorValue2 to errorValue, booleanTrueValue2 to booleanTrueValue, booleanFalseValue2 to booleanFalseValue, undefValue2 to undefValue)
     var mapLTS = mutableMapOf<Int, ValueDefinition>(errorValue to errorValue2, booleanTrueValue to booleanTrueValue2, booleanFalseValue to booleanFalseValue2, undefValue to undefValue2)
@@ -53,7 +43,6 @@ class ResultSetDictionary(val global: Boolean = false) {
         bNodeCounter = 0
         bnodeMapToGlobal.clear()
     }
-
     inline fun toBooleanOrError(value: Int): Int {
         var res: Int = errorValue
         if (value < undefValue && value >= 0) {
@@ -72,39 +61,30 @@ class ResultSetDictionary(val global: Boolean = false) {
         }
         return res
     }
-
     inline fun createNewBNode(): Int {
         return createValue(ValueBnode("" + bNodeCounter++))
     }
-
     inline fun createIri(iri: String): Int {
         return createValue("<" + iri + ">")
     }
-
     inline fun createValue(value: String?): Int {
         return createValue(ValueDefinition(value))
     }
-
     inline fun createTyped(content: String, type: String): Int {
         return createValue(ValueDefinition("\"$content\"^^<$type>"))
     }
-
     inline fun createDouble(value: Double): Int {
         return createValue(ValueDouble(value))
     }
-
     inline fun createFloat(value: Double): Int {
         return createValue(ValueFloat(value))
     }
-
     inline fun createDecimal(value: Double): Int {
         return createValue(ValueDecimal(value))
     }
-
     inline fun createInteger(value: Int): Int {
         return createValue(ValueInteger(value))
     }
-
     inline fun checkValue(value: ValueDefinition): Int {
         var res: Int
         if (value is ValueUndef) {
@@ -126,7 +106,6 @@ class ResultSetDictionary(val global: Boolean = false) {
         }
         return res
     }
-
     inline fun createValue(value: ValueDefinition): Int {
         var res = checkValue(value)
         if (res == null) {
@@ -141,7 +120,6 @@ class ResultSetDictionary(val global: Boolean = false) {
         }
         return res
     }
-
     inline fun getValue(value: Int): ValueDefinition {
         if (value < 0) {
             return mapLTS[-value]!!
@@ -150,7 +128,6 @@ class ResultSetDictionary(val global: Boolean = false) {
         }
 /*Coverage Unreachable*/
     }
-
     inline fun valueToGlobal(value: Int): Int {
         if (value >= 0) {
             return value
@@ -162,7 +139,6 @@ class ResultSetDictionary(val global: Boolean = false) {
         }
 /*Coverage Unreachable*/
     }
-
     fun safeToFolder() {
         File(BufferManager.bufferPrefix + "dictionary.txt").printWriter { out ->
             var idx = 0
@@ -174,7 +150,6 @@ class ResultSetDictionary(val global: Boolean = false) {
             }
         }
     }
-
     fun loadFromFolder() {
         File(BufferManager.bufferPrefix + "dictionary.txt").forEachLine {
             createValue(ValueDefinition(it))

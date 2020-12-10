@@ -1,5 +1,4 @@
 package lupos.s09physicalOperators.singleinput
-
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.EPOPDebugMode
 import lupos.s00misc.ESortPriority
@@ -14,7 +13,6 @@ import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.iterator.RowIterator
 import lupos.s09physicalOperators.POPBase
 import kotlin.jvm.JvmField
-
 class POPDebug(query: IQuery, projectedVariables: List<String>, child: IOPBase) : POPBase(query, projectedVariables, EOperatorID.POPDebugID, "POPDebug", arrayOf(child), ESortPriority.SAME_AS_CHILD) {
     override fun getPartitionCount(variable: String): Int = getChildren()[0].getPartitionCount(variable)
     override fun equals(other: Any?): Boolean = other is POPDebug && getChildren()[0] == other.getChildren()[0]
@@ -87,7 +85,6 @@ class POPDebug(query: IQuery, projectedVariables: List<String>, child: IOPBase) 
                                         ResultSetDictionaryExt.nullValue
                                     }
                                 }
-
                                 override /*suspend*/ fun nextSIP(minValue: Int, result: IntArray) {
                                     if (label != 0) {
                                         SanityCheck.println { "$uuid $k next call minValue SIP" }
@@ -104,7 +101,6 @@ class POPDebug(query: IQuery, projectedVariables: List<String>, child: IOPBase) 
                                         result[1] = ResultSetDictionaryExt.nullValue
                                     }
                                 }
-
                                 override /*suspend*/ fun skipSIP(skipCount: Int): Int {
                                     return if (label != 0) {
                                         SanityCheck.println { "$uuid $k next call skip SIP" }
@@ -120,7 +116,6 @@ class POPDebug(query: IQuery, projectedVariables: List<String>, child: IOPBase) 
                                         ResultSetDictionaryExt.nullValue
                                     }
                                 }
-
                                 override /*suspend*/ fun close() {
                                     if (label != 0) {
                                         label = 0

@@ -1,7 +1,5 @@
 package lupos.s05tripleStore.index_IDTriple
-
 import kotlin.jvm.JvmField
-
 internal class DebugPassThroughIterator(@JvmField val a: TripleIterator) : TripleIterator() {
     val queueS = mutableListOf<Int>()
     val queueP = mutableListOf<Int>()

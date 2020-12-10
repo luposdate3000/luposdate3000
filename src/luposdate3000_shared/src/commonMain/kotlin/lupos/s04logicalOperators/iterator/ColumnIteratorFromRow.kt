@@ -1,5 +1,4 @@
 package lupos.s04logicalOperators.iterator
-
 object ColumnIteratorFromRow {
     operator fun invoke(iterator: RowIterator): Map<String, ColumnIterator> {
         val res = mutableMapOf<String, ColumnIterator>()
@@ -25,7 +24,6 @@ object ColumnIteratorFromRow {
                         }
                     )
                 }
-
                 override /*suspend*/ fun close() {
                     if (label != 0) {
                         ColumnIteratorQueueExt._close(this)

@@ -1,18 +1,15 @@
 package lupos.s00misc
-
 import java.io.BufferedInputStream
 import java.io.BufferedOutputStream
 import java.io.DataInputStream
 import java.io.DataOutputStream
 import java.io.FileInputStream
 import java.io.FileOutputStream
-
 internal actual class File actual constructor(@JvmField val filename: String) {
     actual inline fun createTempFile(prefix: String, suffix: String, directory: String): String {
         val f = createTempFile(prefix, suffix, java.io.File(directory))
         return f.absolutePath
     }
-
     actual inline fun exists() = java.io.File(filename).exists()
     actual inline fun mkdirs() = java.io.File(filename).mkdirs()
     actual inline fun deleteRecursively() = java.io.File(filename).deleteRecursively()
@@ -28,7 +25,6 @@ internal actual class File actual constructor(@JvmField val filename: String) {
             }
         }
     }
-
     actual inline fun myPrintWriter(): MyPrintWriter = MyPrintWriter(java.io.File(filename))
     actual inline fun printWriter(crossinline action: (MyPrintWriter) -> Unit) {
         val printer = MyPrintWriter(java.io.File(filename))
@@ -38,7 +34,6 @@ internal actual class File actual constructor(@JvmField val filename: String) {
             printer.close()
         }
     }
-
     actual /*suspend*/ inline fun printWriterSuspended(crossinline action: /*suspend*/ (MyPrintWriter) -> Unit) {
         val printer = MyPrintWriter(java.io.File(filename))
         try {
@@ -47,17 +42,14 @@ internal actual class File actual constructor(@JvmField val filename: String) {
             printer.close()
         }
     }
-
     actual inline fun forEachLine(crossinline action: (String) -> Unit) = java.io.File(filename).forEachLine {
         action(it)
     }
-
     actual /*suspend*/ inline fun forEachLineSuspended(crossinline action: /*suspend*/ (String) -> Unit) = java.io.File(filename).forEachLine {
         Parallel.runBlocking {
             action(it)
         }
     }
-
     actual inline fun dataOutputStream(crossinline action: (MyDataOutputStream) -> Unit) {
         var dos: DataOutputStream? = null
         try {
@@ -69,7 +61,6 @@ internal actual class File actual constructor(@JvmField val filename: String) {
             dos?.close()
         }
     }
-
     actual inline fun dataOutputStreamSuspend(crossinline action: (MyDataOutputStream) -> Unit) {
         var dos: DataOutputStream? = null
         try {
@@ -81,7 +72,6 @@ internal actual class File actual constructor(@JvmField val filename: String) {
             dos?.close()
         }
     }
-
     actual inline fun dataInputStream(crossinline action: (MyDataInputStream) -> Unit) {
         var dis: DataInputStream? = null
         try {
@@ -93,7 +83,6 @@ internal actual class File actual constructor(@JvmField val filename: String) {
             dis?.close()
         }
     }
-
     actual /*suspend*/ inline fun dataInputStreamSuspended(crossinline action: /*suspend*/ (MyDataInputStream) -> Unit) {
         var dis: DataInputStream? = null
         try {
@@ -105,7 +94,6 @@ internal actual class File actual constructor(@JvmField val filename: String) {
             dis?.close()
         }
     }
-
     actual override fun equals(other: Any?): Boolean {
         if (other !is File) {
             return false

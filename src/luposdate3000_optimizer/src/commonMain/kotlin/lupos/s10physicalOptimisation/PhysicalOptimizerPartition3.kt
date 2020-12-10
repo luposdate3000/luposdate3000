@@ -1,5 +1,4 @@
 package lupos.s10physicalOptimisation
-
 import lupos.s00misc.DontCareWhichException
 import lupos.s00misc.EOptimizerID
 import lupos.s00misc.Partition
@@ -27,7 +26,6 @@ import lupos.s09physicalOperators.singleinput.POPProjection
 import lupos.s09physicalOperators.singleinput.modifiers.POPReduced
 import lupos.s15tripleStoreDistributed.TripleStoreIteratorGlobal
 import lupos.s15tripleStoreDistributed.distributedTripleStore
-
 class PhysicalOptimizerPartition3(query: Query) : OptimizerBase(query, EOptimizerID.PhysicalOptimizerPartition3ID) {
     override val classname: String = "PhysicalOptimizerPartition3"
     override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {

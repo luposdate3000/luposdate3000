@@ -1,7 +1,5 @@
 package lupos.s01io.buffer
-
 import kotlin.jvm.JvmField
-
 /**
  * This class is used for caching opened files (such that we do not need to close and open the files for each single access)
 override val classname="is"
@@ -11,10 +9,8 @@ object CacheOfFiles {
      * the max. number of opened files
      */
     const val MAXOPENEDFILES = 10
-
     @JvmField
     val cache = LeastRecentlyUsed<String, CachedFile?>("", null, MAXOPENEDFILES)
-
     /**
      * Returns the requested file from cache, or opens the file if it is not in the cache of open files
      */
@@ -34,7 +30,6 @@ object CacheOfFiles {
             return fileEntry.value!!
         }
     }
-
     // problems unmap:
     // see e.g.: https://stackoverflow.com/questions/2972986/how-to-unmap-a-file-from-memory-mapped-using-filechannel-in-java
     // furthermore, memory mapped file and unsafe api:
@@ -44,7 +39,6 @@ object CacheOfFiles {
     inline fun get(filename: String, address: Long): Page {
         return getFile(filename).get(address)
     }
-
     /**
      * closes all open files
      */
@@ -54,7 +48,6 @@ object CacheOfFiles {
         }
         this.cache.releaseAll()
     }
-
     /**
      * closes all files starting with the given filename
      */

@@ -1,7 +1,5 @@
 package lupos.s01io.buffer
-
 import kotlin.jvm.JvmField
-
 class UnsafePage {
     companion object {
         @JvmField
@@ -23,26 +21,20 @@ class UnsafePage {
             return theUnsafe as sun.misc.Unsafe
         }
     }
-
     // this does not generate any setters/getters avoiding a virtual method call!
     @JvmField
     val basepointer: Long
-
     // this does not generate any getter avoiding a virtual method call!
     const
     val PAGESIZE = 8 * 1024L
-
     @JvmField
     var locked = 0
-
     @JvmField
     val cleaner: () -> Unit
-
     constructor() {
         this.basepointer = allocateMemory(this.PAGESIZE)
         cleaner = { this.freeMemory() }
     }
-
     /**
      * if the memory has already been allocated (e.g. by FileChannel)
      */
@@ -50,25 +42,20 @@ class UnsafePage {
         this.basepointer = allocatedMemoryPointer
         this.cleaner = cleaner
     }
-
     inline fun getInt(address: Long): Int = UNSAFE.getInt(address)
     inline fun getByte(address: Long): Byte = UNSAFE.getByte(address)
     inline fun allocateMemory(size: Long): Long {
         return UNSAFE.allocateMemory(size)
     }
-
     inline fun freeMemory() {
         UNSAFE.freeMemory(this.basepointer)
     }
-
     inline fun putInt(address: Long, data: Int) {
         UNSAFE.putInt(address, data)
     }
-
     inline fun putByte(address: Long, data: Byte) {
         UNSAFE.putByte(address, data)
     }
-
     inline fun putString(address: Long, data: String): Long {
         val size = data.length
         this.putInt(address, size)
@@ -82,27 +69,21 @@ class UnsafePage {
         }
         return pos
     }
-
     public inline fun getPageIndex(): Long {
         return this.basepointer
     }
-
     inline fun lock() {
         this.locked++
     }
-
     inline fun unlock() {
         this.locked--
     }
-
     inline fun isLocked(): Boolean {
         return this.locked > 0
     }
-
     inline fun release() {
         this.cleaner()
     }
-
     inline fun isModified() = false
     /*
 	 * only used in main memory (-> no need for making it persistence)

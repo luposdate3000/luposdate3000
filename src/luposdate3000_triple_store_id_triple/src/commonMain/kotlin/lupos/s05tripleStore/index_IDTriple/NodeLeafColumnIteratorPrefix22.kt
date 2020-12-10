@@ -1,24 +1,18 @@
 package lupos.s05tripleStore.index_IDTriple
-
 import lupos.s00misc.MyReadWriteLock
 import lupos.s00misc.SanityCheck
 import lupos.s03resultRepresentation.ResultSetDictionaryExt
 import kotlin.jvm.JvmField
-
 internal class NodeLeafColumnIteratorPrefix22(node: ByteArray, nodeid: Int, prefix: IntArray, lock: MyReadWriteLock) : NodeLeafColumnIteratorPrefix(node, nodeid, prefix, lock) {
     @JvmField
     var value0 = 0
-
     @JvmField
     var value1 = 0
-
     @JvmField
     var value2 = 0
-
     init {
         label = 3
     }
-
     override /*suspend*/ fun next(): Int {
         if (label == 3) {
             label = 2
@@ -82,7 +76,6 @@ internal class NodeLeafColumnIteratorPrefix22(node: ByteArray, nodeid: Int, pref
             }
         }
     }
-
     override /*suspend*/ fun nextSIP(minValue: Int, result: IntArray) {
         if (label == 3) {
             label = 2
@@ -209,7 +202,6 @@ internal class NodeLeafColumnIteratorPrefix22(node: ByteArray, nodeid: Int, pref
             result[1] = ResultSetDictionaryExt.nullValue
         }
     }
-
     override /*suspend*/ fun skipSIP(skipCount: Int): Int {
         if (label == 3) {
             label = 2

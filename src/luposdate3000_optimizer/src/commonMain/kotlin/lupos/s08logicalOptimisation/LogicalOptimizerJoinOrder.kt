@@ -1,5 +1,4 @@
 package lupos.s08logicalOptimisation
-
 import lupos.s00misc.EOptimizerID
 import lupos.s00misc.EmptyResultException
 import lupos.s00misc.SanityCheck
@@ -10,7 +9,6 @@ import lupos.s04logicalOperators.multiinput.LOPJoin
 import lupos.s04logicalOperators.noinput.OPEmptyRow
 import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s04logicalOperators.singleinput.LOPProjection
-
 class LogicalOptimizerJoinOrder(query: Query) : OptimizerBase(query, EOptimizerID.LogicalOptimizerJoinOrderID) {
     override val classname: String = "LogicalOptimizerJoinOrder"
     private fun findAllJoinsInChildren(node: LOPJoin): List<IOPBase> {
@@ -39,7 +37,6 @@ class LogicalOptimizerJoinOrder(query: Query) : OptimizerBase(query, EOptimizerI
         }
         return res
     }
-
     private fun clusterizeChildren(nodes: List<IOPBase>): List<MutableList<IOPBase>> {
         // put children with same variables into groups, such that those definetly can use Merge-Join as much as possible
         val res = mutableListOf<MutableList<IOPBase>>()
@@ -59,7 +56,6 @@ class LogicalOptimizerJoinOrder(query: Query) : OptimizerBase(query, EOptimizerI
         }
         return res
     }
-
     /*suspend*/ private fun applyOptimisation(nodes: List<IOPBase>, root: LOPJoin): IOPBase {
         when {
             nodes.size > 2 -> {
@@ -89,7 +85,6 @@ class LogicalOptimizerJoinOrder(query: Query) : OptimizerBase(query, EOptimizerI
         }
 /*Coverage Unreachable*/
     }
-
     override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
         var res: IOPBase = node
         if (node is LOPJoin && !node.optional && (parent !is LOPJoin || parent.optional)) {

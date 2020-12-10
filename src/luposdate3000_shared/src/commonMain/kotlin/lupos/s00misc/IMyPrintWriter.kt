@@ -1,5 +1,4 @@
 package lupos.s00misc
-
 interface IMyPrintWriter {
     fun clearBuffer()
     override fun toString(): String

@@ -1,5 +1,4 @@
 package lupos.s05tripleStore
-
 import lupos.s00misc.File
 import lupos.s00misc.MyMapIntGeneric
 import lupos.s00misc.MyMapLongGeneric
@@ -14,16 +13,13 @@ import lupos.s04logicalOperators.iterator.ColumnIteratorMultiValue
 import lupos.s04logicalOperators.iterator.ColumnIteratorRepeatValue
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import kotlin.jvm.JvmField
-
 class TripleStoreIndex_MapMapList : TripleStoreIndex() {
     @JvmField
     val data = MyMapIntGeneric<MyMapIntGeneric<MySetInt>>()
     override suspend fun printContents() {
     }
-
     override suspend fun flush() {
     }
-
     override suspend fun safeToFile(filename: String) {
         File(filename).dataOutputStream { out ->
             out.writeInt(data.size)
@@ -44,7 +40,6 @@ class TripleStoreIndex_MapMapList : TripleStoreIndex() {
             }
         }
     }
-
     override suspend fun loadFromFile(filename: String) {
         File(filename).dataInputStream { it ->
             val size0 = it.readInt()
@@ -67,7 +62,6 @@ class TripleStoreIndex_MapMapList : TripleStoreIndex() {
             }
         }
     }
-
     override suspend fun getIterator(query: Query, params: TripleStoreFeatureParams): IteratorBundle {
         var fp = (params as TripleStoreFeatureParamsDefault).getFilterAndProjection(query)
         val filter = fp.first
@@ -122,7 +116,6 @@ class TripleStoreIndex_MapMapList : TripleStoreIndex() {
                                 override suspend fun close() {
                                     _close()
                                 }
-
                                 override suspend fun next(): Int {
                                     return next_helper(
                                         {
@@ -178,7 +171,6 @@ class TripleStoreIndex_MapMapList : TripleStoreIndex() {
                             override suspend fun close() {
                                 _close()
                             }
-
                             override suspend fun next(): Int {
                                 return next_helper(
                                     {
@@ -229,7 +221,6 @@ class TripleStoreIndex_MapMapList : TripleStoreIndex() {
         }
         return res
     }
-
     override suspend fun import(dataImport: IntArray, count: Int, order: IntArray) {
         if (count > 0) {
             var lastS = dataImport[order[0]]
@@ -255,7 +246,6 @@ class TripleStoreIndex_MapMapList : TripleStoreIndex() {
             }
         }
     }
-
     fun import(dataImport: MyMapLongGeneric<MySetInt>) {
         val iterator = dataImport.iterator()
         while (iterator.hasNext()) {
@@ -271,7 +261,6 @@ class TripleStoreIndex_MapMapList : TripleStoreIndex() {
             }
         }
     }
-
     override fun insert(a: Int, b: Int, c: Int) {
         val tmp = data[a]
         if (tmp == null) {
@@ -285,7 +274,6 @@ class TripleStoreIndex_MapMapList : TripleStoreIndex() {
             }
         }
     }
-
     override fun remove(a: Int, b: Int, c: Int) {
         val tmp = data[a]
         if (tmp != null) {
@@ -295,7 +283,6 @@ class TripleStoreIndex_MapMapList : TripleStoreIndex() {
             }
         }
     }
-
     override suspend fun clear() {
         data.clear()
     }

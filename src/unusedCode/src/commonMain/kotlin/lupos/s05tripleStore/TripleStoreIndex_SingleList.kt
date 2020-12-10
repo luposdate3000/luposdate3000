@@ -1,5 +1,4 @@
 package lupos.s05tripleStore
-
 import lupos.s00misc.File
 import lupos.s00misc.MyListInt
 import lupos.s00misc.MyMapIntInt
@@ -20,14 +19,11 @@ import lupos.s05tripleStore.index_SingleList.ColumnIteratorStore3a
 import lupos.s05tripleStore.index_SingleList.ColumnIteratorStore3b
 import lupos.s05tripleStore.index_SingleList.ColumnIteratorStore3c
 import kotlin.jvm.JvmField
-
 class TripleStoreIndex_SingleList : TripleStoreIndex() {
     @JvmField
     var data = MyListInt()
-
     @JvmField
     val index1 = MyMapIntInt()
-
     @JvmField
     val index2 = MyMapLongInt()
     override suspend fun safeToFile(filename: String) {
@@ -37,10 +33,8 @@ class TripleStoreIndex_SingleList : TripleStoreIndex() {
             }
         }
     }
-
     override suspend fun flush() {
     }
-
     fun rebuildMap() {
         index1.clear()
         index2.clear()
@@ -71,7 +65,6 @@ class TripleStoreIndex_SingleList : TripleStoreIndex() {
             }
         }
     }
-
     override suspend fun loadFromFile(filename: String) {
         SanityCheck.check { data.size == 0 }
         val capacity = (File(filename).length() / 4).toInt()
@@ -80,11 +73,9 @@ class TripleStoreIndex_SingleList : TripleStoreIndex() {
         }
         rebuildMap()
     }
-
     companion object {
         var storeIteratorCounter = 1L
     }
-
     override suspend fun printContents() {
         SanityCheck.suspended {
             val ai = ColumnIteratorStore3a(data)
@@ -101,7 +92,6 @@ class TripleStoreIndex_SingleList : TripleStoreIndex() {
             }
         }
     }
-
     override suspend fun getIterator(query: Query, params: TripleStoreFeatureParams): IteratorBundle {
         var fp = (params as TripleStoreFeatureParamsDefault).getFilterAndProjection(query)
         val filter = fp.first
@@ -194,7 +184,6 @@ class TripleStoreIndex_SingleList : TripleStoreIndex() {
         }
         return res
     }
-
     suspend fun mergeInternal(iterators: Array<Array<ColumnIterator>>): MyListInt {
         var data = MyListInt()
         val head = Array(2) { Array<Int?>(3) { null } }
@@ -260,13 +249,11 @@ class TripleStoreIndex_SingleList : TripleStoreIndex() {
         }
         return data
     }
-
     class ImportIterator(@JvmField val data: IntArray, @JvmField val count: Int, @JvmField val offset: Int) : ColumnIterator() {
         @JvmField
         var idx = offset
         override suspend fun close() {
         }
-
         override suspend fun next(): Int {
             if (idx >= count) {
                 return ResultSetDictionary.nullValue
@@ -276,7 +263,6 @@ class TripleStoreIndex_SingleList : TripleStoreIndex() {
             }
         }
     }
-
     override suspend fun import(dataImport: IntArray, count: Int, order: IntArray) {
         if (count > 0) {
             SanityCheck {
@@ -317,7 +303,6 @@ class TripleStoreIndex_SingleList : TripleStoreIndex() {
             }
         }
     }
-
     suspend fun import(dataImport: MyMapLongGeneric<MySetInt>) {
         val data1 = MyListInt()
         val iterator = dataImport.iterator()
@@ -370,15 +355,12 @@ class TripleStoreIndex_SingleList : TripleStoreIndex() {
             rebuildMap()
         }
     }
-
     override fun insert(a: Int, b: Int, c: Int) {
         throw TripleStoreModifyOperationsNotImplementedException()
     }
-
     override fun remove(a: Int, b: Int, c: Int) {
         throw TripleStoreModifyOperationsNotImplementedException()
     }
-
     override suspend fun clear() {
         data.clear()
         index1.clear()

@@ -1,5 +1,4 @@
 package lupos.s09physicalOperators.partition
-
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.ESortPriority
 import lupos.s00misc.Parallel
@@ -10,7 +9,6 @@ import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s09physicalOperators.POPBase
-
 class POPMergePartitionCount(query: IQuery, projectedVariables: List<String>, val partitionVariable: String, var partitionCount: Int, var partitionID: Int, child: IOPBase) : POPBase(query, projectedVariables, EOperatorID.POPMergePartitionCountID, "POPMergePartitionCount", arrayOf(child), ESortPriority.PREVENT_ANY) {
     override fun getPartitionCount(variable: String): Int {
         return if (variable == partitionVariable) {
@@ -19,7 +17,6 @@ class POPMergePartitionCount(query: IQuery, projectedVariables: List<String>, va
             children[0].getPartitionCount(variable)
         }
     }
-
     override /*suspend*/ fun toXMLElement(): XMLElement {
         val res = super.toXMLElement()
         res.addAttribute("partitionVariable", partitionVariable)
@@ -27,7 +24,6 @@ class POPMergePartitionCount(query: IQuery, projectedVariables: List<String>, va
         res.addAttribute("partitionID", "" + partitionID)
         return res
     }
-
     override fun getRequiredVariableNames(): List<String> = listOf()
     override fun getProvidedVariableNames(): List<String> = children[0].getProvidedVariableNames()
     override fun getProvidedVariableNamesInternal(): List<String> {
@@ -38,7 +34,6 @@ class POPMergePartitionCount(query: IQuery, projectedVariables: List<String>, va
             tmp.getProvidedVariableNames()
         }
     }
-
     override fun cloneOP(): IOPBase = POPMergePartitionCount(query, projectedVariables, partitionVariable, partitionCount, partitionID, children[0].cloneOP())
     override fun toSparql(): String = children[0].toSparql()
     override fun equals(other: Any?): Boolean = other is POPMergePartitionCount && children[0] == other.children[0] && partitionVariable == other.partitionVariable
@@ -101,7 +96,6 @@ class POPMergePartitionCount(query: IQuery, projectedVariables: List<String>, va
                     }
                     return res
                 }
-
                 override /*suspend*/ fun hasNext2Close() {
                     SanityCheck.println { "merge $uuid reader closed" }
                     readerFinished = 1

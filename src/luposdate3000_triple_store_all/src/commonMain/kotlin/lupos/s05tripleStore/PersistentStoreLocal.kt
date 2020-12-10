@@ -1,5 +1,4 @@
 package lupos.s05tripleStore
-
 import lupos.s00misc.File
 import lupos.s00misc.GraphNameAlreadyExistsDuringCreateException
 import lupos.s00misc.GraphNameNotExistsDuringDeleteException
@@ -11,20 +10,16 @@ import lupos.s03resultRepresentation.nodeGlobalDictionary
 import lupos.s04logicalOperators.IQuery
 import lupos.s15tripleStoreDistributed.IPersistentStoreLocal
 import kotlin.jvm.JvmField
-
 class PersistentStoreLocal : IPersistentStoreLocal {
     @JvmField
     val stores: MutableMap<String, TripleStoreLocal> = mutableMapOf()
-
     init {
         stores[PersistentStoreLocalExt.defaultGraphName] = TripleStoreLocal(PersistentStoreLocalExt.defaultGraphName)
     }
-
     fun reloadPartitioningScheme() {
         stores.clear()
         stores[PersistentStoreLocalExt.defaultGraphName] = TripleStoreLocal(PersistentStoreLocalExt.defaultGraphName)
     }
-
     override fun getGraphNames(includeDefault: Boolean): List<String> {
         val res = mutableListOf<String>()
         stores.keys.forEach { t ->
@@ -34,7 +29,6 @@ class PersistentStoreLocal : IPersistentStoreLocal {
         }
         return res
     }
-
     override fun createGraph(query: IQuery, name: String): TripleStoreLocal {
         val tmp = stores[name]
         if (tmp != null) {
@@ -44,18 +38,15 @@ class PersistentStoreLocal : IPersistentStoreLocal {
         stores[name] = tmp2
         return tmp2
     }
-
     override /*suspend*/ fun dropGraph(query: IQuery, name: String) {
         SanityCheck.check { name != PersistentStoreLocalExt.defaultGraphName }
         val store = stores[name] ?: throw GraphNameNotExistsDuringDeleteException(name)
         store.clear()
         stores.remove(name)
     }
-
     override /*suspend*/ fun clearGraph(query: IQuery, name: String) {
         getNamedGraph(query, name).clear()
     }
-
     override /*suspend*/ fun getNamedGraph(query: IQuery, name: String, create: Boolean): TripleStoreLocal {
         val tmp = stores[name]
         if (tmp != null) {
@@ -65,17 +56,14 @@ class PersistentStoreLocal : IPersistentStoreLocal {
         }
         return createGraph(query, name)
     }
-
     override /*suspend*/ fun getDefaultGraph(query: IQuery): TripleStoreLocal {
         return getNamedGraph(query, PersistentStoreLocalExt.defaultGraphName, true)
     }
-
     override /*suspend*/ fun commit(query: IQuery) {
         stores.values.forEach { v ->
             v.commit(query)
         }
     }
-
     override /*suspend*/ fun safeToFolder() {
         stores.values.forEach { v ->
             v.flush()
@@ -95,7 +83,6 @@ class PersistentStoreLocal : IPersistentStoreLocal {
         nodeGlobalDictionary.safeToFolder()
         BufferManager.safeToFolder()
     }
-
     override /*suspend*/ fun loadFromFolder() {
         BufferManager.loadFromFolder()
         nodeGlobalDictionary.loadFromFolder()

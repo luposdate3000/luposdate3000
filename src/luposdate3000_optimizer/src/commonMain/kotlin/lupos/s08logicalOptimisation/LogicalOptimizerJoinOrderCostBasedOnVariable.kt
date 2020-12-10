@@ -1,30 +1,22 @@
 package lupos.s08logicalOptimisation
-
 import lupos.s00misc.SanityCheck
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.multiinput.LOPJoin
 import kotlin.jvm.JvmField
-
 object LogicalOptimizerJoinOrderCostBasedOnVariable {
     class Plan : Comparable<Plan> {
         @JvmField
         val child: IOPBase?
-
         @JvmField
         val childs: Pair<Int, Int>?
-
         @JvmField
         val variables: Array<Int>
-
         @JvmField
         val columns: Int
-
         @JvmField
         val cost: Int
-
         @JvmField
         val depth: Int
-
         constructor(child: IOPBase, variables: Array<Int>, allVariables: List<Int>) {
             depth = 1
             this.child = child
@@ -40,9 +32,7 @@ object LogicalOptimizerJoinOrderCostBasedOnVariable {
             columns = c
             cost = columns
         }
-
         private inline fun sqr(i: Int) = i * i
-
         constructor(plans: Array<Plan?>, childA: Int, childB: Int, allVariables: List<Int>) {
             child = null
             childs = Pair(childA, childB)
@@ -77,11 +67,9 @@ object LogicalOptimizerJoinOrderCostBasedOnVariable {
             }
             // cost calculation ... the least cost for_ deepest partial results
         }
-
         override operator fun compareTo(other: Plan): Int {
             return cost.compareTo(other.cost)
         }
-
         fun toOPBase(plans: Array<Plan?>): IOPBase {
             if (child != null) {
                 return child
@@ -91,7 +79,6 @@ object LogicalOptimizerJoinOrderCostBasedOnVariable {
             return LOPJoin(cA.getQuery(), cA, cB, false)
         }
     }
-
     /*suspend*/ fun optimize(plans: Array<Plan?>, target: Int, variables: List<Int>) {
         val targetInv = target.inv()
         for (a in 1 until target) {
@@ -109,7 +96,6 @@ object LogicalOptimizerJoinOrderCostBasedOnVariable {
             }
         }
     }
-
     /*suspend*/ operator fun invoke(allChilds: List<IOPBase>, root: LOPJoin): IOPBase? {
         SanityCheck.check { allChilds.size > 2 }
         if (allChilds.size < 30) {

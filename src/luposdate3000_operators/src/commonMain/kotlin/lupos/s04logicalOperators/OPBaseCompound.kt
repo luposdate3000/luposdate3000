@@ -1,10 +1,8 @@
 package lupos.s04logicalOperators
-
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.ESortPriority
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.XMLElement
-
 class OPBaseCompound(query: IQuery, children: Array<IOPBase>, val columnProjectionOrder: List<List<String>>) : OPBase(query, EOperatorID.OPCompoundID, "OPBaseCompound", children, ESortPriority.PREVENT_ANY) {
     override fun getPartitionCount(variable: String): Int = SanityCheck.checkUnreachable()
     override fun cloneOP(): IOPBase = OPBaseCompound(query, getChildren().map { it.cloneOP() }.toTypedArray(), columnProjectionOrder)
@@ -23,7 +21,6 @@ class OPBaseCompound(query: IQuery, children: Array<IOPBase>, val columnProjecti
         }
         return res
     }
-
     override /*suspend*/ fun calculateHistogram(): HistogramResult = SanityCheck.checkUnreachable()
     override fun equals(other: Any?): Boolean {
         if (other !is OPBaseCompound) {
@@ -52,7 +49,6 @@ class OPBaseCompound(query: IQuery, children: Array<IOPBase>, val columnProjecti
         }
         return true
     }
-
     override fun toSparqlQuery(): String = toSparql()
     override fun toSparql(): String {
         val res = StringBuilder()

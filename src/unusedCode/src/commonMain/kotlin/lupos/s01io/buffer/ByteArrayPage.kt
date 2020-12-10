@@ -1,7 +1,5 @@
 package lupos.s01io.buffer
-
 import kotlin.jvm.JvmField
-
 inline fun Int.toBytes(bytes: ByteArray, offset: Int): Int {
     bytes[offset] = this.toByte()
     val remaining1 = this ushr 8
@@ -15,7 +13,6 @@ inline fun Int.toBytes(bytes: ByteArray, offset: Int): Int {
     bytes[adr3] = remaining3.toByte()
     return adr3 + 1
 }
-
 inline fun String.toBytesUTF(bytes: ByteArray, offset: Int): Int {
     val size = this.length
     var pos = size.toBytes(bytes, offset)
@@ -28,7 +25,6 @@ inline fun String.toBytesUTF(bytes: ByteArray, offset: Int): Int {
     }
     return pos
 }
-
 inline fun String.toBytesUTF(): ByteArray {
     val bytes = ByteArray(this.length * 2)
     var pos = 0
@@ -41,7 +37,6 @@ inline fun String.toBytesUTF(): ByteArray {
     }
     return bytes
 }
-
 inline fun String.toPageUTF(page: Page, address: Long): Long {
     val size = this.length
     page.putInt(address, size)
@@ -55,7 +50,6 @@ inline fun String.toPageUTF(page: Page, address: Long): Long {
     }
     return pos
 }
-
 inline fun Page.getString(address: Long): String { // avoid using this method and do comparisons of strings etc. directly in the pages!
     val size = this.getInt(address)
     val buffer = CharArray(size)
@@ -66,7 +60,6 @@ inline fun Page.getString(address: Long): String { // avoid using this method an
     }
     return createString(buffer)
 }
-
 inline fun ByteArray.toInt(offset: Int): Int = (0xFF and this[offset].toInt()) or ((0xFF and this[offset + 1].toInt()) or ((0xFF and this[offset + 2].toInt()) or ((0xFF and this[offset + 3].toInt()) shl 8) shl 8) shl 8)
 inline fun ByteArray.toStringUTF(offset: Int): String {
     val size = this.toInt(offset)
@@ -78,7 +71,6 @@ inline fun ByteArray.toStringUTF(offset: Int): String {
     }
     return createString(buffer)
 }
-
 inline fun ByteArray.toStringUTF(): String {
     val buffer = CharArray(this.size / 2)
     var pos = 0
@@ -88,32 +80,24 @@ inline fun ByteArray.toStringUTF(): String {
     }
     return createString(buffer)
 }
-
 class ByteArrayPage {
     val PAGESIZE = 8 * 1024
-
     @JvmField // in JVM-environment: this does not generate any getter avoiding a virtual method call!
     val byteArray = ByteArray(PAGESIZE)
-
     // in JVM-environment: this does not generate any getter avoiding a virtual method call!
     @JvmField
     var locked = 0
-
     // in JVM-environment: this does not generate any getter avoiding a virtual method call!
     @JvmField
     var modified = false
-
     constructor()
-
     inline fun getInt(address: Long): Int {
         val adr = address.toInt()
         return (0xFF and byteArray[adr].toInt()) or ((0xFF and byteArray[adr + 1].toInt()) or ((0xFF and byteArray[adr + 2].toInt()) or ((0xFF and byteArray[adr + 3].toInt()) shl 8) shl 8) shl 8)
     }
-
     inline fun getByte(address: Long): Byte {
         return this.byteArray[address.toInt()]
     }
-
     inline fun putInt(address: Long, data: Int) {
         this.modified = true
         val adr0 = address.toInt()
@@ -128,12 +112,10 @@ class ByteArrayPage {
         val adr3 = adr2 + 1
         this.byteArray[adr3] = remaining3.toByte()
     }
-
     inline fun putByte(address: Long, data: Byte) {
         this.modified = true
         this.byteArray[address.toInt()] = data
     }
-
     inline fun putString(address: Long, data: String): Long {
         this.modified = true
         val size = data.length
@@ -148,20 +130,16 @@ class ByteArrayPage {
         }
         return pos
     }
-
     inline fun getPageIndex(): Long = 0L
     inline fun lock() {
         this.locked++
     }
-
     inline fun unlock() {
         this.locked--
     }
-
     inline fun isLocked(): Boolean {
         return this.locked > 0
     }
-
     inline fun release() {}
     inline fun isModified() = this.modified
 }

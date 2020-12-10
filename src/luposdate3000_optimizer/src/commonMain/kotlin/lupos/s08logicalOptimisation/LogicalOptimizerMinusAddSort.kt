@@ -1,5 +1,4 @@
 package lupos.s08logicalOptimisation
-
 import lupos.s00misc.EOptimizerID
 import lupos.s00misc.ESortType
 import lupos.s00misc.SortHelper
@@ -10,7 +9,6 @@ import lupos.s04logicalOperators.multiinput.LOPMinus
 import lupos.s04logicalOperators.singleinput.LOPProjection
 import lupos.s04logicalOperators.singleinput.modifiers.LOPReduced
 import lupos.s04logicalOperators.singleinput.modifiers.LOPSortAny
-
 class LogicalOptimizerMinusAddSort(query: Query) : OptimizerBase(query, EOptimizerID.LogicalOptimizerMinusAddSortID) {
     override val classname: String = "LogicalOptimizerMinusAddSort"
     override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {

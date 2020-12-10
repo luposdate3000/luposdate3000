@@ -1,5 +1,4 @@
 package lupos.s16network
-
 import lupos.s00misc.EnpointRecievedInvalidPath
 import lupos.s00misc.File
 import lupos.s00misc.JenaWrapper
@@ -12,7 +11,6 @@ import java.io.OutputStream
 import java.net.InetSocketAddress
 import java.net.ServerSocket
 import java.net.URLDecoder
-
 internal class MyPrintWriterExtension(out: OutputStream) : MyPrintWriter(out) {
     private var counter = 0
     override fun print(x: String) {
@@ -25,7 +23,6 @@ internal class MyPrintWriterExtension(out: OutputStream) : MyPrintWriter(out) {
         super.print(x)
     }
 }
-
 @OptIn(ExperimentalStdlibApi::class)
 actual object HttpEndpointLauncher {
     private fun printHeaderSuccess(stream: MyPrintWriter) {
@@ -33,7 +30,6 @@ actual object HttpEndpointLauncher {
         stream.println("Content-Type: text/plain")
         stream.println()
     }
-
     actual /*suspend*/ fun start(hostname: String, port: Int) {
         println("call start on the launcher")
         try {

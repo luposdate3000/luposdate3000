@@ -1,20 +1,15 @@
 package lupos.s05tripleStore.index_IDTriple
-
 import lupos.s00misc.MyReadWriteLock
 import lupos.s00misc.SanityCheck
 import lupos.s04logicalOperators.iterator.ColumnIterator
 import kotlin.jvm.JvmField
-
 internal abstract class NodeLeafColumnIterator(@JvmField var node: ByteArray, @JvmField var nodeid: Int, @JvmField val lock: MyReadWriteLock) : ColumnIterator() {
     @JvmField
     var remaining = 0
-
     @JvmField
     var offset = NodeLeaf.START_OFFSET
-
     @JvmField
     var label = 3
-
     @JvmField
     var needsReset = true
     /*suspend*/ inline fun __init() {
@@ -22,7 +17,6 @@ internal abstract class NodeLeafColumnIterator(@JvmField var node: ByteArray, @J
         lock.readLock()
         remaining = NodeShared.getTripleCount(node)
     }
-
     /*suspend*/ inline fun _close() {
         if (label == 3) {
 /* "__init" was never called*/
@@ -41,11 +35,9 @@ internal abstract class NodeLeafColumnIterator(@JvmField var node: ByteArray, @J
             lock.readUnlock()
         }
     }
-
     override /*suspend*/ fun close() {
         _close()
     }
-
     /*suspend*/ inline fun updateRemaining(crossinline setDone: () -> Unit = {}) {
         SanityCheck.check { remaining > 0 }
         remaining--

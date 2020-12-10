@@ -1,13 +1,10 @@
 package lupos.s04logicalOperators.iterator
-
 import lupos.s03resultRepresentation.ResultSetDictionaryExt
 import kotlin.jvm.JvmField
-
 abstract class ColumnIteratorChildIterator : ColumnIterator() {
     var queue: Array<ColumnIterator> = Array(100) { this }
     var queueRead: Int = 0
     var queueWrite: Int = 0
-
     @JvmField
     var label: Int = 1
     internal inline fun addChildColumnIteratorValue(value: Int) {
@@ -16,7 +13,6 @@ abstract class ColumnIteratorChildIterator : ColumnIterator() {
         res.done = false
         addChild(res)
     }
-
     internal inline fun addChild(child: ColumnIterator) {
         if (queueRead == queueWrite) {
             queueRead = 0
@@ -35,17 +31,14 @@ abstract class ColumnIteratorChildIterator : ColumnIterator() {
         queue[queueWrite] = child
         queueWrite++
     }
-
     internal inline fun closeOnNoMoreElements() {
         if (label != 0) {
             label = 2
         }
     }
-
     internal inline fun releaseValue(obj: ColumnIterator) {
         obj.close()
     }
-
     internal /*suspend*/ inline fun _close() {
         if (label != 0) {
             label = 0
@@ -54,7 +47,6 @@ abstract class ColumnIteratorChildIterator : ColumnIterator() {
             }
         }
     }
-
     internal /*suspend*/ inline fun nextHelper(crossinline onNoMoreElements: /*suspend*/ () -> Unit, crossinline onClose: /*suspend*/ () -> Unit): Int {
         when (label) {
             1 -> {

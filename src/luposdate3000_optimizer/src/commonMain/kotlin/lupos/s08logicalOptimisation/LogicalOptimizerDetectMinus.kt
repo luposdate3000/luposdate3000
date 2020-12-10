@@ -1,5 +1,4 @@
 package lupos.s08logicalOptimisation
-
 import lupos.s00misc.EOptimizerID
 import lupos.s00misc.SanityCheck
 import lupos.s04arithmetikOperators.noinput.AOPVariable
@@ -12,7 +11,6 @@ import lupos.s04logicalOperators.multiinput.LOPJoin
 import lupos.s04logicalOperators.multiinput.LOPMinus
 import lupos.s04logicalOperators.singleinput.LOPFilter
 import lupos.s04logicalOperators.singleinput.LOPSubGroup
-
 class LogicalOptimizerDetectMinus(query: Query) : OptimizerBase(query, EOptimizerID.LogicalOptimizerDetectMinusID) {
     override val classname: String = "LogicalOptimizerDetectMinus"
     override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
@@ -65,7 +63,6 @@ class LogicalOptimizerDetectMinus(query: Query) : OptimizerBase(query, EOptimize
         }
         return res
     }
-
     private fun searchForOptionalJoin(node: IOPBase, variableName: String, action: (IOPBase, Int) -> Unit) {
         for (c in node.getChildren().indices) {
             val child = node.getChildren()[c]

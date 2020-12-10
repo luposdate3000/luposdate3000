@@ -1,5 +1,4 @@
 package lupos.s04arithmetikOperators.singleinput
-
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.EvaluationException
 import lupos.s00misc.MyBigDecimal
@@ -19,7 +18,6 @@ import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.ColumnIteratorAggregate
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import kotlin.jvm.JvmField
-
 class AOPAggregationAVG(query: IQuery, @JvmField val distinct: Boolean, childs: Array<AOPBase>) : AOPAggregationBase(query, EOperatorID.AOPAggregationAVGID, "AOPAggregationAVG", Array(childs.size) { childs[it] }) {
     override /*suspend*/ fun toXMLElement(): XMLElement = super.toXMLElement().addAttribute("distinct", "" + distinct)
     override fun toSparql(): String {
@@ -28,7 +26,6 @@ class AOPAggregationAVG(query: IQuery, @JvmField val distinct: Boolean, childs: 
         }
         return "AVG(" + children[0].toSparql() + ")"
     }
-
     override fun equals(other: Any?): Boolean = other is AOPAggregationAVG && distinct == other.distinct && children.contentEquals(other.children)
     override fun createIterator(row: IteratorBundle): ColumnIteratorAggregate {
         val res = ColumnIteratorAggregate()
@@ -68,7 +65,6 @@ class AOPAggregationAVG(query: IQuery, @JvmField val distinct: Boolean, childs: 
         }
         return res
     }
-
     override fun evaluate(row: IteratorBundle): () -> ValueDefinition {
         val tmp = row.columns["#$uuid"]!! as ColumnIteratorAggregate
         return {
@@ -91,6 +87,5 @@ class AOPAggregationAVG(query: IQuery, @JvmField val distinct: Boolean, childs: 
             res
         }
     }
-
     override fun cloneOP(): IOPBase = AOPAggregationAVG(query, distinct, Array(children.size) { (children[it].cloneOP()) as AOPBase })
 }

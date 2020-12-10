@@ -1,28 +1,20 @@
 package lupos.s00misc
-
 import kotlin.jvm.JvmField
-
 class MyMapStringIntPatriciaTrieDouble() {
     @JvmField
     var debugfilename = ""
-
     @JvmField
     val undefinedValue = -1
-
     @JvmField
     var root: MyMapStringIntPatriciaTrieNode = MyMapStringIntPatriciaTrieNode()
-
     @JvmField
     var rootValue: Int = undefinedValue
     var size: Int = 0
         get() = allOutNodes.size
-
     @JvmField
     val allNodes = MyListGeneric<MyMapStringIntPatriciaTrieNode>()
-
     @JvmField
     val allOutNodes = MyListInt() // index in allNodes
-
     @JvmField
     val allOutOffsets = MyListInt() // index in allNodesChilds
     fun clear() {
@@ -33,18 +25,15 @@ class MyMapStringIntPatriciaTrieDouble() {
         allNodes.clear()
         allNodes.add(root)
     }
-
     init {
         allNodes.add(root)
     }
-
     class MyMapStringIntPatriciaTrieNode() {
         var parent = 0
         var str = ""
         var data = IntArray(0)
         /* data stores offsets in str, child-values, child-pointers  */
     }
-
     operator fun get(key: Int): String {
         if (key == rootValue) {
             return ""
@@ -78,7 +67,6 @@ class MyMapStringIntPatriciaTrieDouble() {
         }
         /*Coverage Unreachable*/
     }
-
     fun debug() {
         SanityCheck {
             if (rootValue != undefinedValue) {
@@ -97,7 +85,6 @@ class MyMapStringIntPatriciaTrieDouble() {
             }
         }
     }
-
     inline fun walkInternal(_key: String, create: Boolean): Int {
         if (_key == "") {
             if (create && rootValue == undefinedValue) {
@@ -240,7 +227,6 @@ class MyMapStringIntPatriciaTrieDouble() {
         }
         /*Coverage Unreachable*/
     }
-
     operator fun get(key: String): Int? {
         var res = walkInternal(key, false)
         if (res == undefinedValue) {
@@ -248,7 +234,6 @@ class MyMapStringIntPatriciaTrieDouble() {
         }
         return res
     }
-
     operator fun set(key: String, value: Int): Unit = throw FunktionWontWorkWithThisImplementationException()
     fun getOrCreate(key: String): Int {
         var list = mutableListOf<String>()
@@ -271,7 +256,6 @@ class MyMapStringIntPatriciaTrieDouble() {
         }
         return res
     }
-
     fun appendAssumeSorted(key: String, value: Int): Unit = throw FunktionWontWorkWithThisImplementationException()
     fun safeToFile(filename: String) {
         debugfilename = filename
@@ -296,7 +280,6 @@ class MyMapStringIntPatriciaTrieDouble() {
 // writeing allNodes <<--
         }
     }
-
     fun loadFromFile(filename: String) {
         debugfilename = filename
         clear()

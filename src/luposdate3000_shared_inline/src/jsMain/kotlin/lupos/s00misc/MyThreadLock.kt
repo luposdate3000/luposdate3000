@@ -1,10 +1,8 @@
 package lupos.s00misc
-
 internal actual class MyThreadLock {
     internal companion object {
         var uuidCounter = 0L
     }
-
     val uuid = uuidCounter++
     actual inline fun getUUID() = uuid
     var locked = false
@@ -16,7 +14,6 @@ internal actual class MyThreadLock {
             locked = true
         }
     }
-
     actual inline fun unlock() {
         SanityCheck {
             if (!locked) {
@@ -25,7 +22,6 @@ internal actual class MyThreadLock {
             locked = false
         }
     }
-
     actual inline fun tryLock(): Boolean {
         SanityCheck {
             if (locked) {
@@ -35,7 +31,6 @@ internal actual class MyThreadLock {
         }
         return true
     }
-
     actual inline fun <T> withLock(crossinline action: () -> T): T {
         lock()
         try {

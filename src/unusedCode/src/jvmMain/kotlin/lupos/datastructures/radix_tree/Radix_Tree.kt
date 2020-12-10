@@ -1,5 +1,4 @@
 package lupos.datastructures.radix_tree
-
 import lupos.s00misc.SanityCheck
 import lupos.s01io.buffer.Page
 import lupos.s01io.buffer.bufferManager
@@ -8,7 +7,6 @@ import lupos.s01io.buffer.toStringUTF
 import kotlin.jvm.JvmField
 import kotlin.math.abs
 import kotlin.math.min
-
 class NotFoundException : Exception()
 class Radix_Tree_MainMemory_Node<V>(@JvmField var label: ByteArray = ByteArray(0), @JvmField var children: Array<Radix_Tree_MainMemory_Node<V>> = arrayOf(), @JvmField var v: V? = null) {
     /**
@@ -33,7 +31,6 @@ class Radix_Tree_MainMemory_Node<V>(@JvmField var label: ByteArray = ByteArray(0
         }
         return 0
     }
-
     /**
      * We assume that label is a prefix of key k...
      * This has to be checked before with e.g. compareTo(...)-method.
@@ -77,7 +74,6 @@ class Radix_Tree_MainMemory_Node<V>(@JvmField var label: ByteArray = ByteArray(0
         }
         return null
     }
-
     /**
      * We assume that label is a prefix of key k...
      * This has to be checked before with e.g. compareTo(...)-method.
@@ -146,7 +142,6 @@ class Radix_Tree_MainMemory_Node<V>(@JvmField var label: ByteArray = ByteArray(0
         )
         this.children = newChildren
     }
-
     fun splitNode(splitOffset: Int, v: V) {
         val newLabelTop = this.label.copyOfRange(0, splitOffset)
         val newLabelBottom = this.label.copyOfRange(splitOffset, this.label.size)
@@ -155,7 +150,6 @@ class Radix_Tree_MainMemory_Node<V>(@JvmField var label: ByteArray = ByteArray(0
         this.children = arrayOf(bottomNode)
         this.v = v
     }
-
     fun splitNode(splitOffset: Int, k: ByteArray, keyOffset: Int, keyIsSmaller: Boolean, v: V) {
         val newLabelTop = this.label.copyOfRange(0, splitOffset)
         val newLabelBottom = this.label.copyOfRange(splitOffset, this.label.size)
@@ -166,7 +160,6 @@ class Radix_Tree_MainMemory_Node<V>(@JvmField var label: ByteArray = ByteArray(0
         this.children = if (keyIsSmaller) arrayOf(keyNode, bottomNode) else arrayOf(bottomNode, keyNode)
         this.v = null
     }
-
     fun toStringDataStructure(indent: String): String {
         var result = indent
         if (this.label.size > 0) {
@@ -190,7 +183,6 @@ class Radix_Tree_MainMemory_Node<V>(@JvmField var label: ByteArray = ByteArray(0
         }
         return result
     }
-
     fun toStringDataStructure(indent: String, b: Byte): String {
         var result = indent
         if (this.label.size > 0) {
@@ -215,7 +207,6 @@ class Radix_Tree_MainMemory_Node<V>(@JvmField var label: ByteArray = ByteArray(0
         return result
     }
 }
-
 class Radix_Tree_MainMemory<V> {
     val root: Radix_Tree_MainMemory_Node<V> = Radix_Tree_MainMemory_Node<V>()
     fun get(k: ByteArray): V? = this.root.get(k, 0)
@@ -224,7 +215,6 @@ class Radix_Tree_MainMemory<V> {
     fun put(k: String, v: V) = this.put(k.toBytesUTF(), v)
     fun toStringDataStructure(): String = this.root.toStringDataStructure("")
 }
-
 fun main() {
     val t = Radix_Tree_MainMemory<Int>()
     val toInsert = listOf("alf", "adalbert", "bert", "bernhard", "adam", "bern")
@@ -239,7 +229,6 @@ fun main() {
         SanityCheck.println { input + " -> " + t.get(input) }
     }
 }
-
 class Static_Radix_Tree<V>(@JvmField val filename: String) {
     fun create(mainMemoryRadixTree: Radix_Tree_MainMemory<V>) {
         var p: Page = bufferManager.getPage(this.filename, 0)
@@ -250,7 +239,6 @@ class Static_Radix_Tree<V>(@JvmField val filename: String) {
             // !!!!!!!!!!!!!! TODO !!!!!!!!!!!!!!!!!!!!!!!!
         }
     }
-
     fun maxSizeOfOneNode(node: Radix_Tree_MainMemory_Node<V>): Int = sizeOfOneNode(node, 6) // max. size: assume none-local adddresses with offset => 6 bytes per address
     fun minSizeOfOneNode(node: Radix_Tree_MainMemory_Node<V>): Int = sizeOfOneNode(node, 1) // min. size: assume local adddresses with 1 byte offset
     private fun sizeOfOneNode(node: Radix_Tree_MainMemory_Node<V>, sizePerAddress: Int): Int {

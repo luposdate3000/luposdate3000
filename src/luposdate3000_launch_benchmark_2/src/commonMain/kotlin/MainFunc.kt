@@ -18,7 +18,6 @@ import lupos.s09physicalOperators.partition.POPSplitPartitionFromStore
 import lupos.s09physicalOperators.partition.POPSplitPartitionPassThrough
 import lupos.s15tripleStoreDistributed.TripleStoreIteratorGlobal
 import lupos.s16network.LuposdateEndpoint
-
 @OptIn(ExperimentalStdlibApi::class, kotlin.time.ExperimentalTime::class)
 fun mainFunc(args: Array<String>): Unit = Parallel.runBlocking {
     LuposdateEndpoint.initialize()

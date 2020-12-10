@@ -1,5 +1,4 @@
 package lupos.s00misc
-
 enum class EOperatorID {
     AOPAdditionID,
     AOPAggregationSUMID,

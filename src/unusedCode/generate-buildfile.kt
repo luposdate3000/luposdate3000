@@ -1,7 +1,6 @@
 import java.io.File
 import java.lang.ProcessBuilder.Redirect
 import java.util.concurrent.TimeUnit
-
 abstract class ChooseableOption(val label: String, val internalID: String) : Comparable<ChooseableOption> {
     companion object {
         val mapLabel = mutableMapOf<String, ChooseableOption>()
@@ -14,12 +13,10 @@ abstract class ChooseableOption(val label: String, val internalID: String) : Com
             return ChooseableOptionSimple(internalID)
         }
     }
-
     init {
         mapLabel[label] = this
         mapID[internalID] = this
     }
-
     override fun equals(other: Any?) = other is ChooseableOption && internalID == other.internalID
     override fun hashCode() = internalID.hashCode()
     override operator fun compareTo(other: ChooseableOption): Int {
@@ -29,51 +26,39 @@ abstract class ChooseableOption(val label: String, val internalID: String) : Com
         return internalID.compareTo(other.internalID)
     }
 }
-
 class ChooseableOptionSimple(label: String) : ChooseableOption(label, label) {
     override fun toString() = "Simple($internalID)"
 }
-
 class ChooseableOptionCInterop(directory: String) : ChooseableOption(directory, directory) {
     override fun toString() = "CInterop($internalID)"
 }
-
 class ChooseableOptionDependency(url: String) : ChooseableOption(url, url) {
     override fun toString() = "Dependency($internalID)"
 }
-
 class ChooseableOptionSymbolic(label: String, internalID: String) : ChooseableOption(label, internalID) {
     override fun toString() = "Symbolic($internalID)"
 }
-
 class ChooseableOptionDirectory(label: String, val directory: String) : ChooseableOption(label, directory) {
     constructor(directory: String) : this(directory, directory)
-
     override fun toString() = "Directory($internalID)"
 }
-
 class ChooseableOptionTypeAlias(label: String, val pkg: String, val aliasList: List<Pair<String, String>>) : ChooseableOption(label, "common" + pkg + aliasList) {
     override fun toString() = "TypeAlias($internalID)"
 }
-
 class ChooseableOptionConstantValue(val pkg: String, val variableName: String, val variableValue: String) : ChooseableOption(variableValue, "common" + pkg + "." + variableName + variableValue) {
     override fun toString() = "ConstantValue($internalID = $variableValue)"
 }
-
 class ChoosableOptionExternalScript(label: String, val scriptName: String, internalID: String, val beforeTemplate: Boolean) : ChooseableOption(label, "common" + internalID) {
     override fun toString() = "ExternalScript($scriptName)"
 }
-
 class ChoosableOptionInternalScript(label: String, val action: () -> Unit, internalID: String, val beforeTemplate: Boolean) : ChooseableOption(label, "common" + internalID) {
     override fun toString() = "InternalScript($internalID)"
 }
-
 class ChooseableGroup(val name: String, val shortcut: String) : Comparable<ChooseableGroup> {
     override fun equals(other: Any?) = other is ChooseableGroup && name == other.name
     override fun hashCode() = name.hashCode()
     override operator fun compareTo(other: ChooseableGroup) = name.compareTo(other.name)
 }
-
 class PrecompileTemplate(val pkg: String, val sourceClass: String, val replacements: List<Pair<String, String>>)
 class GenerateBuildFile(val args: Array<String>) {
     var autoGenerateAllChoosenOptionsList = mutableSetOf<ChooseableOption>()
@@ -91,7 +76,6 @@ class GenerateBuildFile(val args: Array<String>) {
         "mingw64" to listOf("common"),
         "jvm" to listOf("common", "jvm")
     )
-
     init {
         for (a in args) {
             if (a.startsWith("--file=")) {
@@ -109,7 +93,6 @@ class GenerateBuildFile(val args: Array<String>) {
             }
         }
     }
-
     val templates = listOf(
         PrecompileTemplate("lupos.s00misc", "MyListVALUE", listOf("VALUE" to "Int", "GDEF" to "", "GUSE" to "", "ARRAYTYPE" to "IntArray", "ARRAYINITIALIZER" to "")),
         PrecompileTemplate("lupos.s00misc", "MyListVALUE", listOf("VALUE" to "Long", "GDEF" to "", "GUSE" to "", "ARRAYTYPE" to "LongArray", "ARRAYINITIALIZER" to "")),
@@ -390,7 +373,6 @@ class GenerateBuildFile(val args: Array<String>) {
             ChooseableOptionConstantValue("lupos.s00misc", "ITERATOR_DEBUG_MODE", "EPOPDebugMode.DEBUG2")
         ),
     )
-
     init {
         java.io.File("src/generateBuildfile/all-template").printWriter().use { out ->
             for ((grp, ops) in options) {
@@ -400,7 +382,6 @@ class GenerateBuildFile(val args: Array<String>) {
             }
         }
     }
-
     fun myReadLine(key: String): String? {
         while (true) {
             val tmp = myReadLineCache[key]
@@ -424,7 +405,6 @@ class GenerateBuildFile(val args: Array<String>) {
             }
         }
     }
-
     fun presentUserChoice(group: ChooseableGroup, options: List<ChooseableOption>): ChooseableOption {
         when (options.size) {
             0 -> throw Exception("script error")
@@ -464,13 +444,11 @@ class GenerateBuildFile(val args: Array<String>) {
             }
         }
     }
-
     fun resetAllChoosenOptions() {
         allChoosenOptions.clear()
         allChoosenOptions.add(ChooseableOptionDirectory("commonMain"))
         allChoosenOptions.add(ChooseableOptionDirectory("commonConfig"))
     }
-
     fun addAdditionalSources() {
         var changed = true
         while (changed) {
@@ -488,7 +466,6 @@ class GenerateBuildFile(val args: Array<String>) {
             }
         }
     }
-
     /*--->>> autogenerating all possible build-files*/
     fun presentAutoChoice(group: ChooseableGroup, options: List<ChooseableOption>): ChooseableOption {
         if (options.size == 1) {
@@ -524,7 +501,6 @@ class GenerateBuildFile(val args: Array<String>) {
             return options[0] // anything, since all were choosen at least once
         }
     }
-
     fun main() {
         var done = false
         var autogeneratemode = args.size > 0 && args[0] == "listAll"

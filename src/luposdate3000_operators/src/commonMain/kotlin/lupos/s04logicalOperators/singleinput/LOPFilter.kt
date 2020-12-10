@@ -1,5 +1,4 @@
 package lupos.s04logicalOperators.singleinput
-
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.ESortPriority
 import lupos.s04arithmetikOperators.AOPBase
@@ -8,7 +7,6 @@ import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.LOPBase
 import lupos.s04logicalOperators.noinput.OPEmptyRow
-
 class LOPFilter(query: IQuery, filter: AOPBase, child: IOPBase = OPEmptyRow(query)) : LOPBase(query, EOperatorID.LOPFilterID, "LOPFilter", arrayOf(child, filter), ESortPriority.SAME_AS_CHILD) {
     var dontSplitFilter: Int = 0
     override fun childrenToVerifyCount(): Int = 1

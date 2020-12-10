@@ -1,5 +1,4 @@
 package lupos.s04logicalOperators.multiinput
-
 import lupos.s00misc.BugException
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.ESortPriority
@@ -10,7 +9,6 @@ import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.LOPBase
 import lupos.s04logicalOperators.singleinput.LOPProjection
-
 class LOPUnion(query: IQuery, first: IOPBase, second: IOPBase) : LOPBase(query, EOperatorID.LOPUnionID, "LOPUnion", arrayOf(first, second), ESortPriority.UNION) {
     override fun equals(other: Any?): Boolean = other is LOPUnion && children[0] == other.children[0] && children[1] == other.children[1]
     override fun cloneOP(): IOPBase = LOPUnion(query, children[0].cloneOP(), children[1].cloneOP())

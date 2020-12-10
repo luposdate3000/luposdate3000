@@ -1,5 +1,4 @@
 package lupos.s08logicalOptimisation
-
 import lupos.s00misc.EOptimizerID
 import lupos.s00misc.SanityCheck
 import lupos.s04logicalOperators.IOPBase
@@ -10,7 +9,6 @@ import lupos.s09physicalOperators.partition.POPMergePartitionCount
 import lupos.s09physicalOperators.partition.POPMergePartitionOrderedByIntId
 import lupos.s09physicalOperators.partition.POPSplitPartition
 import lupos.s09physicalOperators.partition.POPSplitPartitionFromStore
-
 abstract class OptimizerCompoundBase(query: Query, optimizerID: EOptimizerID) : OptimizerBase(query, optimizerID) {
     override val classname: String = "OptimizerCompoundBase"
     abstract val childrenOptimizers: Array<Array<OptimizerBase>>
@@ -40,7 +38,6 @@ abstract class OptimizerCompoundBase(query: Query, optimizerID: EOptimizerID) : 
             verifyPartitionOperators(c, allList)
         }
     }
-
     override /*suspend*/ fun optimizeCall(node: IOPBase, onChange: () -> Unit): IOPBase {
         if (query.filtersMovedUpFromOptionals) {
             node.syntaxVerifyAllVariableExists(listOf(), true)

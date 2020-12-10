@@ -1,5 +1,4 @@
 package lupos.s02buildSyntaxTree.sparql1_1
-
 enum class BuiltInFunctions {
     STR,
     LANG,

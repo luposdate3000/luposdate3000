@@ -1,5 +1,4 @@
 package lupos.s04logicalOperators
-
 import lupos.s00misc.BugException
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.ESortPriority
@@ -31,54 +30,41 @@ import lupos.s04logicalOperators.singleinput.modifiers.LOPDistinct
 import lupos.s04logicalOperators.singleinput.modifiers.LOPSortAny
 import lupos.s09physicalOperators.singleinput.POPSort
 import kotlin.jvm.JvmField
-
 abstract class OPBase(@JvmField val query: IQuery, @JvmField val operatorID: EOperatorID, @JvmField val classname: String, @JvmField val children: Array<IOPBase>, private val sortPriority: ESortPriority) : IOPBase {
     override fun getClassname(): String = classname
-
     @JvmField
     var onlyExistenceRequired: Boolean = false
-
     /* onlyExistenceRequired:: ask / distinct / reduced */
     @JvmField
     var partOfAskQuery: Boolean = false
-
     /*partOfAskQuery :: if_ true, prefer join with store, otherwiese perform fast-sort followed by reduced everywhere*/
     @JvmField
     var alreadyCheckedStore: Long = -1L
-
     @JvmField
     val uuid: Long = global_uuid++
-
     @JvmField
     var sortPrioritiesInitialized: Boolean = false
-
     @JvmField
     var sortPriorities: MutableList<List<SortHelper>> = mutableListOf() // possibilities (filtered for_ parent)
-
     @JvmField
     var mySortPriority: MutableList<SortHelper> = mutableListOf()
-
     @JvmField
     var histogramResult: HistogramResult? = null
     override fun setPartOfAskQuery(value: Boolean) {
         partOfAskQuery = value
     }
-
     override fun setOnlyExistenceRequired(value: Boolean) {
         onlyExistenceRequired = value
     }
-
     override fun getPartOfAskQuery(): Boolean = partOfAskQuery
     override fun getOnlyExistenceRequired(): Boolean = onlyExistenceRequired
     override fun getSortPrioritiesInitialized(): Boolean = sortPrioritiesInitialized
     override fun setSortPriorities(value: MutableList<List<SortHelper>>) {
         sortPriorities = value
     }
-
     override fun setMySortPriority(value: MutableList<SortHelper>) {
         mySortPriority = value
     }
-
     override fun getQuery(): IQuery = query
     override fun getSortPriorities(): MutableList<List<SortHelper>> = sortPriorities
     override fun getUUID(): Long = uuid
@@ -103,7 +89,6 @@ abstract class OPBase(@JvmField val query: IQuery, @JvmField val operatorID: EOp
         }
         return histogramResult!!
     }
-
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle = throw EvaluateNotImplementedException(classname)
     override fun getChildrenCountRecoursive(): Int {
         var res = children.size
@@ -112,7 +97,6 @@ abstract class OPBase(@JvmField val query: IQuery, @JvmField val operatorID: EOp
         }
         return res
     }
-
     fun addToPrefixFreeList(data: List<SortHelper>, target: MutableList<List<SortHelper>>) {
         if (data.isNotEmpty()) {
             if (!target.contains(data)) {
@@ -143,7 +127,6 @@ abstract class OPBase(@JvmField val query: IQuery, @JvmField val operatorID: EOp
             }
         }
     }
-
     override fun selectSortPriority(priority: List<SortHelper>) {
         val tmp = mutableListOf<List<SortHelper>>()
         for (x in sortPriorities) {
@@ -224,7 +207,6 @@ abstract class OPBase(@JvmField val query: IQuery, @JvmField val operatorID: EOp
         SanityCheck.check({ getProvidedVariableNames().containsAll(mySortPriority.map { it.variableName }) }, { "$this" })
         sortPriorities = tmp
     }
-
     override fun initializeSortPriorities(onChange: () -> Unit): Boolean {
         if (!sortPrioritiesInitialized) {
             sortPriorities.addAll(getPossibleSortPriorities())
@@ -238,7 +220,6 @@ abstract class OPBase(@JvmField val query: IQuery, @JvmField val operatorID: EOp
         sortPrioritiesInitialized = true
         return sortPriorities.size < 1
     }
-
     override fun getPossibleSortPriorities(): List<List<SortHelper>> {
         /*possibilities for_ next operator*/
         val res = mutableListOf<List<SortHelper>>()
@@ -370,25 +351,20 @@ abstract class OPBase(@JvmField val query: IQuery, @JvmField val operatorID: EOp
         }
         return res
     }
-
     override fun applyPrefix(prefix: String, iri: String) {
         for (c in children) {
             c.applyPrefix(prefix, iri)
         }
     }
-
     open fun childrenToVerifyCount(): Int = children.size
     override fun updateChildren(i: Int, child: IOPBase) {
         SanityCheck.check { i < children.size }
         children[i] = child
     }
-
     open fun toString(indentation: String): String = "${indentation}$classname\n"
-
     internal companion object {
         var global_uuid = 0L
     }
-
     fun replaceVariableWithUndef(node: IOPBase, name: String, existsClauses: Boolean): IOPBase {
         if (!existsClauses && (node is AOPBuildInCallExists || node is AOPBuildInCallNotExists)) {
             return node
@@ -401,12 +377,10 @@ abstract class OPBase(@JvmField val query: IQuery, @JvmField val operatorID: EOp
         }
         return node
     }
-
     override fun replaceVariableWithAnother(node: IOPBase, name: String, name2: String): IOPBase {
         val tmp = LOPNOOP(node.getQuery(), node)
         return replaceVariableWithAnother(node, name, name2, tmp, 0)
     }
-
     fun replaceVariableWithAnother(node: IOPBase, name: String, name2: String, parent: IOPBase, parentIdx: Int): IOPBase {
         SanityCheck.check { parent.getChildren()[parentIdx] == node }
         if (node is LOPBind && node.name.name == name) {
@@ -436,7 +410,6 @@ abstract class OPBase(@JvmField val query: IQuery, @JvmField val operatorID: EOp
         }
         return node
     }
-
     fun replaceVariableWithConstant(node: IOPBase, name: String, value: Int): IOPBase {
         if (node is AOPVariable && node.name == name) {
             return AOPConstant(query, value)
@@ -446,7 +419,6 @@ abstract class OPBase(@JvmField val query: IQuery, @JvmField val operatorID: EOp
         }
         return node
     }
-
     override fun toString(): String = Parallel.runBlocking { toXMLElement().toPrettyString() }
     override fun getRequiredVariableNamesRecoursive(): List<String> {
         val res = getRequiredVariableNames().toMutableList()
@@ -455,11 +427,9 @@ abstract class OPBase(@JvmField val query: IQuery, @JvmField val operatorID: EOp
         }
         return res.distinct()
     }
-
     override fun getRequiredVariableNames(): List<String> {
         return mutableListOf()
     }
-
     override fun getProvidedVariableNames(): List<String> {
         val res = mutableListOf<String>()
         for (c in children) {
@@ -467,11 +437,9 @@ abstract class OPBase(@JvmField val query: IQuery, @JvmField val operatorID: EOp
         }
         return res.distinct()
     }
-
     override fun toSparqlQuery(): String {
         return "SELECT * WHERE{" + toSparql() + "}"
     }
-
     override fun toSparql(): String = throw ToSparqlNotImplementedException(classname)
     override /*suspend*/ fun toXMLElement(): XMLElement {
         val res = XMLElement(classname)
@@ -506,7 +474,6 @@ abstract class OPBase(@JvmField val query: IQuery, @JvmField val operatorID: EOp
         }
         return res
     }
-
     /*suspend*/ fun childrenToXML(): XMLElement {
         val res = XMLElement("children")
         for (c in children) {
@@ -514,7 +481,6 @@ abstract class OPBase(@JvmField val query: IQuery, @JvmField val operatorID: EOp
         }
         return res
     }
-
     fun syntaxVerifyAllVariableExistsAutocorrect() {
         for (name in getRequiredVariableNames()) {
             var found = false
@@ -530,7 +496,6 @@ abstract class OPBase(@JvmField val query: IQuery, @JvmField val operatorID: EOp
             }
         }
     }
-
     override fun syntaxVerifyAllVariableExists(additionalProvided: List<String>, autocorrect: Boolean) {
         for (i in 0 until childrenToVerifyCount()) {
             children[i].syntaxVerifyAllVariableExists(additionalProvided, autocorrect)
@@ -551,13 +516,11 @@ abstract class OPBase(@JvmField val query: IQuery, @JvmField val operatorID: EOp
             }
         }
     }
-
     override fun setChild(child: IOPBase): IOPBase {
         SanityCheck.check { children.isNotEmpty() }
         this.getChildren()[0] = child
         return child
     }
-
     override fun getLatestChild(): IOPBase {
         if (children.isNotEmpty() && children[0].getChildren().isNotEmpty()) {
             return children[0].getLatestChild()

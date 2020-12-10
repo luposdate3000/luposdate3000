@@ -1,20 +1,16 @@
 package lupos.s00misc
-
 /* Substitutions :: VALUE,GDEF,GUSE */
 class MySetVALUEBinaryTreeGDEF {
     @JvmField
     var data = MyListVALUEGUSE()
     var size: Int = 0
         get() = data.size
-
     inline fun clear() {
         data.clear()
     }
-
     operator fun iterator(): Iterator<VALUE> {
         return data.iterator()
     }
-
     fun forEach(action: (VALUE) -> Unit) {
         var it = iterator()
         while (it.hasNext()) {
@@ -22,22 +18,17 @@ class MySetVALUEBinaryTreeGDEF {
             action(v)
         }
     }
-
     constructor() {
     }
-
     constructor(value: VALUE) : this() {
         data.add(value)
     }
-
     fun appendAssumeSorted(value: VALUE) {
         data.add(value)
     }
-
     inline fun reserve(capacity: Int) {
         data.reserve(capacity)
     }
-
     inline fun internal(value: VALUE, crossinline onCreate: (it: Int) -> Unit = {}, crossinline onExists: (it: Int) -> Unit = {}) {
         if (data.size == 0) {
             onCreate(0)
@@ -80,7 +71,6 @@ class MySetVALUEBinaryTreeGDEF {
             }
         }
     }
-
     inline fun remove(value: VALUE, crossinline onExists: (it: Int) -> Unit = {}) {
         internal(
             value,
@@ -92,7 +82,6 @@ class MySetVALUEBinaryTreeGDEF {
             }
         )
     }
-
     inline fun contains(value: VALUE): Boolean {
         var res = false
         internal(
@@ -105,7 +94,6 @@ class MySetVALUEBinaryTreeGDEF {
         )
         return res
     }
-
     inline fun find(value: VALUE, crossinline onExists: (it: Int) -> Unit) {
         internal(
             value,
@@ -116,7 +104,6 @@ class MySetVALUEBinaryTreeGDEF {
             }
         )
     }
-
     inline fun add(value: VALUE, crossinline onCreate: (it: Int) -> Unit = {}, crossinline onExists: (it: Int) -> Unit = {}) {
         if (data.size > 0 && value > data[data.size - 1]) {
             val it = data.size
@@ -135,7 +122,6 @@ class MySetVALUEBinaryTreeGDEF {
             )
         }
     }
-
     inline fun toList(): MyListVALUEGUSE {
         return data
     }

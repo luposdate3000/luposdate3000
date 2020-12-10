@@ -1,5 +1,4 @@
 package lupos.s00misc
-
 import dirent.*
 import kotlinx.cinterop.*
 import kotlinx.cinterop.ByteVar
@@ -7,14 +6,11 @@ import kotlinx.cinterop.allocArray
 import kotlinx.cinterop.memScoped
 import stdio.*
 import kotlin.native.concurrent.*
-
 class File {
     val filename: String
-
     constructor(filename: String) {
         this.filename = filename
     }
-
     const val bufferLength = 64 * 1024
     fun readAsString(): String {
         var result: String = ""
@@ -38,7 +34,6 @@ class File {
         }
         return result
     }
-
     fun walk(action: (String) -> Unit) {
         val d = opendir(filename)
         if (d != null) {
@@ -52,7 +47,6 @@ class File {
             closedir(d)
         }
     }
-
     fun printWriter(action: (PrintWriter) -> Unit) {
         val p = PrintWriter(this)
         try {
@@ -63,7 +57,6 @@ class File {
         }
     }
 }
-
 class PrintWriter(val f: File) {
     var file: CPointer<FILE>? = null
     fun open() {
@@ -72,11 +65,9 @@ class PrintWriter(val f: File) {
             throw ResourceNotFoundException(f.filename)
         }
     }
-
     fun close() {
         fclose(file)
     }
-
     fun println(s: String) {
         luposfprintf(file, s + "\n")
     }

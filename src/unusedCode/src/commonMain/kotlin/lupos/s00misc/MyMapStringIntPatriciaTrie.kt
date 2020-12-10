@@ -1,28 +1,20 @@
 package lupos.s00misc
-
 import kotlin.jvm.JvmField
-
 class MyMapStringIntPatriciaTrie(@JvmField val undefinedValue: Int = Int.MAX_VALUE) {
     @JvmField
     var root: MyMapStringIntPatriciaTrieNode = MyMapStringIntPatriciaTrieNodeN()
-
     @JvmField
     var rootValue: Int = undefinedValue
-
     @JvmField
     var size = 0
-
     abstract class MyMapStringIntPatriciaTrieNode() {
         var str = ""
     }
-
     class MyMapStringIntPatriciaTrieNodeN() : MyMapStringIntPatriciaTrieNode() {
         var arr = IntArray(0)
-
         /*arr :: second half: child values, first half offsets in str*/
         var childs = arrayOf<MyMapStringIntPatriciaTrieNode?>()
     }
-
     class MyMapStringIntPatriciaTrieNode2() : MyMapStringIntPatriciaTrieNode() {
         var arr1: Int = 0
         var arr2: Int = 0
@@ -30,7 +22,6 @@ class MyMapStringIntPatriciaTrie(@JvmField val undefinedValue: Int = Int.MAX_VAL
         var childs0: MyMapStringIntPatriciaTrieNode? = null
         var childs1: MyMapStringIntPatriciaTrieNode? = null
     }
-
     inline fun walkInternal(_key: String, crossinline onCreate: () -> Int, crossinline onExist: (Int) -> Int, crossinline onNotFound: () -> Unit, create: Boolean) {
         if (_key == "") {
             if (rootValue != undefinedValue) {
@@ -359,7 +350,6 @@ class MyMapStringIntPatriciaTrie(@JvmField val undefinedValue: Int = Int.MAX_VAL
             /*Coverage Unreachable*/
         }
     }
-
     inline operator fun get(key: String): Int? {
         var res: Int? = null
         walkInternal(
@@ -372,11 +362,9 @@ class MyMapStringIntPatriciaTrie(@JvmField val undefinedValue: Int = Int.MAX_VAL
         )
         return res
     }
-
     inline operator fun set(key: String, value: Int) {
         walkInternal(key, { value }, { value }, {}, true)
     }
-
     inline fun getOrCreate(key: String, crossinline onCreate: () -> Int): Int {
         var res = undefinedValue
         walkInternal(
@@ -393,18 +381,15 @@ class MyMapStringIntPatriciaTrie(@JvmField val undefinedValue: Int = Int.MAX_VAL
         )
         return res
     }
-
     inline fun appendAssumeSorted(key: String, value: Int): Int {
         set(key, value)
         return value
     }
-
     inline fun clear() {
         root = MyMapStringIntPatriciaTrieNodeN()
         rootValue = undefinedValue
         size = 0
     }
-
     inline fun forEach(crossinline action: (String, Int) -> Unit) {
         var queue = mutableListOf<Pair<String, MyMapStringIntPatriciaTrieNode>>()
         if (rootValue != undefinedValue) {
@@ -505,7 +490,6 @@ class MyMapStringIntPatriciaTrie(@JvmField val undefinedValue: Int = Int.MAX_VAL
             }
         }
     }
-
     fun safeToFile(filename: String) {
         var queue = mutableListOf<MyMapStringIntPatriciaTrieNode>()
         File(filename).dataOutputStream { out ->
@@ -562,7 +546,6 @@ class MyMapStringIntPatriciaTrie(@JvmField val undefinedValue: Int = Int.MAX_VAL
             }
         }
     }
-
     fun loadFromFile(filename: String) {
         var queue = mutableListOf<Pair<Int, MyMapStringIntPatriciaTrieNode>>()
         File(filename).dataInputStream { fis ->
@@ -650,7 +633,6 @@ class MyMapStringIntPatriciaTrie(@JvmField val undefinedValue: Int = Int.MAX_VAL
             }
         }
     }
-
     fun debugInternal(prefix: String, node: MyMapStringIntPatriciaTrieNode, depth: Int) {
         SanityCheck {
             when (node) {
@@ -690,6 +672,5 @@ class MyMapStringIntPatriciaTrie(@JvmField val undefinedValue: Int = Int.MAX_VAL
             }
         }
     }
-
     fun debug() = debugInternal("", root, 0)
 }

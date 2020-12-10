@@ -1,5 +1,4 @@
 package lupos.s04arithmetikOperators.multiinput
-
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.EvaluationException
 import lupos.s00misc.SanityCheck
@@ -13,7 +12,6 @@ import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.IteratorBundle
-
 class AOPAddition(query: IQuery, childA: AOPBase, childB: AOPBase) : AOPBinaryOperationFixedName(query, EOperatorID.AOPAdditionID, "AOPAddition", arrayOf(childA, childB)) {
     override fun toSparql(): String = "(" + children[0].toSparql() + " + " + children[1].toSparql() + ")"
     override fun equals(other: Any?): Boolean = other is AOPAddition && children[0] == other.children[0] && children[1] == other.children[1]
@@ -42,6 +40,5 @@ class AOPAddition(query: IQuery, childA: AOPBase, childB: AOPBase) : AOPBinaryOp
             res
         }
     }
-
     override fun cloneOP(): IOPBase = AOPAddition(query, children[0].cloneOP() as AOPBase, children[1].cloneOP() as AOPBase)
 }

@@ -1,12 +1,9 @@
 package lupos.s05tripleStore.index_IDTriple
-
 import kotlin.jvm.JvmField
-
 internal class MergeIterator(@JvmField val a: TripleIterator, @JvmField val b: TripleIterator) : TripleIterator() {
     // assuming no duplicates in each input
     @JvmField
     var flag = 0
-
     init {
         if (a.hasNext() && b.hasNext()) {
             a.next()
@@ -20,7 +17,6 @@ internal class MergeIterator(@JvmField val a: TripleIterator, @JvmField val b: T
             flag = 5
         }
     }
-
     override fun hasNext() = flag != 0
     override fun next(component: Int): Int {
         when (flag) {

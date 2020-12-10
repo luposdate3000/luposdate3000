@@ -1,19 +1,14 @@
 package lupos.s04logicalOperators.iterator
-
 import lupos.s03resultRepresentation.ResultSetDictionaryExt
 import kotlin.jvm.JvmField
-
 class ColumnIteratorRepeatIterator(@JvmField val count: Int, @JvmField val child: ColumnIterator) : ColumnIterator() {
     @JvmField
     var index: Int = 0
-
     @JvmField
     var index2: Int = 0
-
     // TODO use pages instead
     @JvmField
     val data: MutableList<Int> = mutableListOf()
-
     @JvmField
     var label: Int = 1
     /*suspend*/ inline fun _close() {
@@ -22,11 +17,9 @@ class ColumnIteratorRepeatIterator(@JvmField val count: Int, @JvmField val child
             child.close()
         }
     }
-
     override /*suspend*/ fun close() {
         _close()
     }
-
     override /*suspend*/ fun next(): Int {
         when (label) {
             1 -> {
