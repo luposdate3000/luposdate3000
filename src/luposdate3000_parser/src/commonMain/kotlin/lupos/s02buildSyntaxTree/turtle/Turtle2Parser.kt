@@ -1,8 +1,8 @@
 package lupos.s02buildSyntaxTree.turtle
 
-import kotlin.jvm.JvmField
 import lupos.s00misc.ETripleComponentType
 import lupos.s00misc.IMyInputStream
+import kotlin.jvm.JvmField
 
 internal enum class Turtle2ParserState {
     EOF,

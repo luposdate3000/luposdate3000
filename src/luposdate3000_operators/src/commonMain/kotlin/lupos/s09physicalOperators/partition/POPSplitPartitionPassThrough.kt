@@ -1,13 +1,12 @@
 package lupos.s09physicalOperators.partition
 
-import lupos.s00misc.*
-import lupos.s03resultRepresentation.ResultSetDictionaryExt
+import lupos.s00misc.EOperatorID
+import lupos.s00misc.ESortPriority
+import lupos.s00misc.Partition
+import lupos.s00misc.XMLElement
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.IteratorBundle
-import lupos.s04logicalOperators.iterator.RowIterator
-import lupos.s04logicalOperators.PartitionHelper
-import lupos.s04logicalOperators.Query
 import lupos.s09physicalOperators.POPBase
 
 class POPSplitPartitionPassThrough(query: IQuery, projectedVariables: List<String>, val partitionVariable: String, var partitionCount: Int, var partitionID: Int, child: IOPBase) : POPBase(query, projectedVariables, EOperatorID.POPSplitPartitionPassThroughID, "POPSplitPartitionPassThrough", arrayOf(child), ESortPriority.PREVENT_ANY) {

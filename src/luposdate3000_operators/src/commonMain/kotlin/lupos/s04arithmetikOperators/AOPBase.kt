@@ -9,8 +9,8 @@ import lupos.s03resultRepresentation.ValueDefinition
 import lupos.s04logicalOperators.HistogramResult
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
-import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.OPBase
+import lupos.s04logicalOperators.iterator.IteratorBundle
 
 abstract class AOPBase(query: IQuery,
                        operatorID: EOperatorID,

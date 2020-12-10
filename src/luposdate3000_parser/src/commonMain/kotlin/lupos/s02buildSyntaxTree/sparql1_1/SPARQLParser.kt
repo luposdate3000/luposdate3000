@@ -1,10 +1,10 @@
 package lupos.s02buildSyntaxTree.sparql1_1
 
-import kotlin.jvm.JvmField
 import lupos.s02buildSyntaxTree.LookAheadTokenIterator
 import lupos.s02buildSyntaxTree.ParseError
 import lupos.s02buildSyntaxTree.Token
 import lupos.s02buildSyntaxTree.UnexpectedToken
+import kotlin.jvm.JvmField
 
 interface Visitor<T> {
     fun visit(node: ASTNode, childrenValues: List<T>): T

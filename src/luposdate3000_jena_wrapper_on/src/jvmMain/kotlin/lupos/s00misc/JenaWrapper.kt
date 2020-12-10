@@ -1,10 +1,14 @@
 package lupos.s00misc
 
-import java.io.ByteArrayOutputStream
-import org.apache.jena.query.*
+import org.apache.jena.query.ARQ
+import org.apache.jena.query.DatasetFactory
+import org.apache.jena.query.QueryExecutionFactory
+import org.apache.jena.query.QueryFactory
+import org.apache.jena.query.ResultSetFormatter
 import org.apache.jena.sparql.algebra.optimize.Optimize
 import org.apache.jena.sparql.mgt.Explain
 import org.apache.jena.update.UpdateAction
+import java.io.ByteArrayOutputStream
 
 object JenaWrapper {
     private var dataset = DatasetFactory.createTxnMem()!!

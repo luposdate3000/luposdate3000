@@ -1,6 +1,5 @@
 package lupos.s04arithmetikOperators.noinput
 
-import kotlin.jvm.JvmField
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.XMLElement
@@ -11,6 +10,7 @@ import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.ColumnIteratorQueue
 import lupos.s04logicalOperators.iterator.IteratorBundle
+import kotlin.jvm.JvmField
 
 class AOPVariable(query: IQuery, @JvmField var name: String) : AOPBase(query, EOperatorID.AOPVariableID, "AOPVariable", arrayOf()), IAOPVariable {
     override fun getName(): String = name

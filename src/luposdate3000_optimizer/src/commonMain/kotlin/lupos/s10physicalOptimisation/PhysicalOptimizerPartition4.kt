@@ -6,7 +6,12 @@ import lupos.s00misc.USE_PARTITIONS
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.Query
 import lupos.s08logicalOptimisation.OptimizerBase
-import lupos.s09physicalOperators.partition.*
+import lupos.s09physicalOperators.partition.POPChangePartitionOrderedByIntId
+import lupos.s09physicalOperators.partition.POPMergePartition
+import lupos.s09physicalOperators.partition.POPMergePartitionCount
+import lupos.s09physicalOperators.partition.POPMergePartitionOrderedByIntId
+import lupos.s09physicalOperators.partition.POPSplitPartition
+import lupos.s09physicalOperators.partition.POPSplitPartitionFromStore
 
 class PhysicalOptimizerPartition4(query: Query) : OptimizerBase(query, EOptimizerID.PhysicalOptimizerPartition4ID) {
     override val classname: String = "PhysicalOptimizerPartition4"

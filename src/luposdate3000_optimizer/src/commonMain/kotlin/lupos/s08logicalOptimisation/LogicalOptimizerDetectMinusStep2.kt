@@ -5,8 +5,8 @@ import lupos.s03resultRepresentation.ValueUndef
 import lupos.s04arithmetikOperators.noinput.AOPConstant
 import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s04logicalOperators.IOPBase
-import lupos.s04logicalOperators.multiinput.LOPMinus
 import lupos.s04logicalOperators.Query
+import lupos.s04logicalOperators.multiinput.LOPMinus
 import lupos.s04logicalOperators.singleinput.LOPBind
 
 class LogicalOptimizerDetectMinusStep2(query: Query) : OptimizerBase(query, EOptimizerID.LogicalOptimizerDetectMinusStep2ID) {

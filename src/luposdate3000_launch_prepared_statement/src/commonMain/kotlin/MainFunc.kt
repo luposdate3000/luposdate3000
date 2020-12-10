@@ -1,6 +1,8 @@
-import lupos.s00misc.*
-import lupos.s11outputResult.*
-import lupos.s16network.HttpEndpointLauncher
+import lupos.s00misc.File
+import lupos.s00misc.MemoryTable
+import lupos.s00misc.MyPrintWriter
+import lupos.s00misc.Parallel
+import lupos.s11outputResult.EQueryResultToStream
 import lupos.s16network.LuposdateEndpoint
 
 fun mainFunc(args: Array<String>): Unit = Parallel.runBlocking {

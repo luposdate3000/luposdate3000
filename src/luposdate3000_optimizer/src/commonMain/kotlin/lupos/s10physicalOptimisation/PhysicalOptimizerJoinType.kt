@@ -4,17 +4,23 @@ import lupos.s00misc.EOptimizerID
 import lupos.s00misc.Partition
 import lupos.s00misc.USE_PARTITIONS
 import lupos.s04logicalOperators.IOPBase
+import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.multiinput.LOPJoin
 import lupos.s04logicalOperators.noinput.LOPTriple
-import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.singleinput.LOPProjection
 import lupos.s08logicalOptimisation.OptimizerBase
-import lupos.s09physicalOperators.multiinput.*
+import lupos.s09physicalOperators.POPBase
+import lupos.s09physicalOperators.multiinput.POPJoinCartesianProduct
+import lupos.s09physicalOperators.multiinput.POPJoinHashMap
+import lupos.s09physicalOperators.multiinput.POPJoinMerge
+import lupos.s09physicalOperators.multiinput.POPJoinMergeOptional
+import lupos.s09physicalOperators.multiinput.POPJoinMergeSingleColumn
+import lupos.s09physicalOperators.multiinput.POPJoinWithStore
+import lupos.s09physicalOperators.multiinput.POPJoinWithStoreExists
 import lupos.s09physicalOperators.partition.POPMergePartition
 import lupos.s09physicalOperators.partition.POPMergePartitionCount
 import lupos.s09physicalOperators.partition.POPMergePartitionOrderedByIntId
 import lupos.s09physicalOperators.partition.POPSplitPartition
-import lupos.s09physicalOperators.POPBase
 import lupos.s09physicalOperators.singleinput.POPProjection
 import lupos.s15tripleStoreDistributed.TripleStoreIteratorGlobal
 

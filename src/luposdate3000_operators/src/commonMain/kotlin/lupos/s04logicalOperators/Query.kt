@@ -1,6 +1,5 @@
 package lupos.s04logicalOperators
 
-import kotlin.jvm.JvmField
 import lupos.s00misc.MyLock
 import lupos.s00misc.ParallelJob
 import lupos.s00misc.Partition
@@ -14,6 +13,7 @@ import lupos.s09physicalOperators.partition.POPMergePartitionCount
 import lupos.s09physicalOperators.partition.POPMergePartitionOrderedByIntId
 import lupos.s09physicalOperators.partition.POPSplitPartition
 import lupos.s09physicalOperators.partition.POPSplitPartitionFromStore
+import kotlin.jvm.JvmField
 
 class PartitionHelper {
     var iterators: MutableMap<Partition, Array<IteratorBundle>>? = null

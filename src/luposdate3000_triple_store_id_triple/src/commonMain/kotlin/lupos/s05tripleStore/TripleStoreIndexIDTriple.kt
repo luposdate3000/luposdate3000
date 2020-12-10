@@ -1,6 +1,5 @@
 package lupos.s05tripleStore
 
-import kotlin.jvm.JvmField
 import lupos.s00misc.MyReadWriteLock
 import lupos.s00misc.Parallel
 import lupos.s00misc.SanityCheck
@@ -27,6 +26,7 @@ import lupos.s05tripleStore.index_IDTriple.NodeLeafColumnIteratorPrefix22
 import lupos.s05tripleStore.index_IDTriple.NodeManager
 import lupos.s05tripleStore.index_IDTriple.NodeShared
 import lupos.s05tripleStore.index_IDTriple.TripleIterator
+import kotlin.jvm.JvmField
 
 class TripleStoreIndexIDTriple : TripleStoreIndex() {
     @JvmField

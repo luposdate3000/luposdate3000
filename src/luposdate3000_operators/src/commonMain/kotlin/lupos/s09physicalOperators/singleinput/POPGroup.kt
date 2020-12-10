@@ -1,19 +1,21 @@
 package lupos.s09physicalOperators.singleinput
 
-import kotlin.jvm.JvmField
-import lupos.s00misc.*
 import lupos.s00misc.EOperatorID
+import lupos.s00misc.ESortPriority
 import lupos.s00misc.GroupByColumnMissing
 import lupos.s00misc.GroupByDuplicateColumnException
+import lupos.s00misc.MyBigInteger
 import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.SortHelper
 import lupos.s00misc.VariableNotDefinedSyntaxException
 import lupos.s00misc.XMLElement
-import lupos.s03resultRepresentation.*
-import lupos.s04arithmetikOperators.*
-import lupos.s04arithmetikOperators.noinput.*
-import lupos.s04arithmetikOperators.singleinput.*
+import lupos.s03resultRepresentation.ResultSetDictionaryExt
+import lupos.s03resultRepresentation.ValueInteger
+import lupos.s04arithmetikOperators.AOPAggregationBase
+import lupos.s04arithmetikOperators.AOPBase
+import lupos.s04arithmetikOperators.noinput.AOPVariable
+import lupos.s04arithmetikOperators.singleinput.AOPAggregationCOUNT
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.ColumnIterator
@@ -26,6 +28,7 @@ import lupos.s04logicalOperators.iterator.ColumnIteratorRepeatValue
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.noinput.OPEmptyRow
 import lupos.s09physicalOperators.POPBase
+import kotlin.jvm.JvmField
 
 //TODO refactor such that the optimizer may choose which strategy to use
 class POPGroup : POPBase {

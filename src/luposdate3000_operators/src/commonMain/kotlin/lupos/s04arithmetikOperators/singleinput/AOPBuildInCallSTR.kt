@@ -1,7 +1,13 @@
 package lupos.s04arithmetikOperators.singleinput
 
 import lupos.s00misc.EOperatorID
-import lupos.s03resultRepresentation.*
+import lupos.s03resultRepresentation.ValueBnode
+import lupos.s03resultRepresentation.ValueDefinition
+import lupos.s03resultRepresentation.ValueError
+import lupos.s03resultRepresentation.ValueIri
+import lupos.s03resultRepresentation.ValueSimpleLiteral
+import lupos.s03resultRepresentation.ValueStringBase
+import lupos.s03resultRepresentation.ValueUndef
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery

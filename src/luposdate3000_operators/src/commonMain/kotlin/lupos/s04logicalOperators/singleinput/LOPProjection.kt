@@ -1,6 +1,5 @@
 package lupos.s04logicalOperators.singleinput
 
-import kotlin.jvm.JvmField
 import lupos.s00misc.BugException
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.ESortPriority
@@ -11,6 +10,7 @@ import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.LOPBase
 import lupos.s04logicalOperators.noinput.OPEmptyRow
+import kotlin.jvm.JvmField
 
 class LOPProjection(query: IQuery, @JvmField val variables: MutableList<AOPVariable> = mutableListOf(), child: IOPBase = OPEmptyRow(query)) : LOPBase(query, EOperatorID.LOPProjectionID, "LOPProjection", arrayOf(child), ESortPriority.SAME_AS_CHILD) {
     override fun getProvidedVariableNames(): List<String> {

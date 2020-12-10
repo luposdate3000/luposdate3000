@@ -1,6 +1,5 @@
 package lupos.s04arithmetikOperators.singleinput
 
-import kotlin.jvm.JvmField
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.EvaluateNotImplementedException
 import lupos.s03resultRepresentation.ValueDefinition
@@ -8,6 +7,7 @@ import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.IteratorBundle
+import kotlin.jvm.JvmField
 
 class AOPBuildInCallExists(query: IQuery, @JvmField var child: IOPBase) : AOPBase(query, EOperatorID.AOPBuildInCallExistsID, "AOPBuildInCallExists", arrayOf(child)) {
     override fun toSparql(): String = " EXISTS {" + children[0].toSparql() + "}"

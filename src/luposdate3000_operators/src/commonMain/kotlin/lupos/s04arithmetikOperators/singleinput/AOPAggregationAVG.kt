@@ -1,8 +1,10 @@
 package lupos.s04arithmetikOperators.singleinput
 
-import kotlin.jvm.JvmField
-import lupos.s00misc.*
+import lupos.s00misc.EOperatorID
+import lupos.s00misc.EvaluationException
+import lupos.s00misc.MyBigDecimal
 import lupos.s00misc.SanityCheck
+import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.ValueDecimal
 import lupos.s03resultRepresentation.ValueDefinition
 import lupos.s03resultRepresentation.ValueDouble
@@ -16,6 +18,7 @@ import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.ColumnIteratorAggregate
 import lupos.s04logicalOperators.iterator.IteratorBundle
+import kotlin.jvm.JvmField
 
 class AOPAggregationAVG(query: IQuery, @JvmField val distinct: Boolean, childs: Array<AOPBase>) : AOPAggregationBase(query, EOperatorID.AOPAggregationAVGID, "AOPAggregationAVG", Array(childs.size) { childs[it] }) {
     override /*suspend*/ fun toXMLElement(): XMLElement = super.toXMLElement().addAttribute("distinct", "" + distinct)

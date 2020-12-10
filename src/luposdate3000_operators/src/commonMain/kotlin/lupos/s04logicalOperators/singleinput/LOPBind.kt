@@ -1,6 +1,5 @@
 package lupos.s04logicalOperators.singleinput
 
-import kotlin.jvm.JvmField
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.ESortPriority
 import lupos.s00misc.XMLElement
@@ -11,6 +10,7 @@ import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.LOPBase
 import lupos.s04logicalOperators.noinput.OPEmptyRow
+import kotlin.jvm.JvmField
 
 class LOPBind(query: IQuery, @JvmField val name: AOPVariable, expression: AOPBase, child: IOPBase = OPEmptyRow(query)) : LOPBase(query, EOperatorID.LOPBindID, "LOPBind", arrayOf(child, expression), ESortPriority.BIND) {
     override fun childrenToVerifyCount(): Int = 1

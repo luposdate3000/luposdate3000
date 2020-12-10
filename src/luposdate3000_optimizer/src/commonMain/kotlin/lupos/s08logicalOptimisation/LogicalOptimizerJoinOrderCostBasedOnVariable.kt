@@ -1,9 +1,9 @@
 package lupos.s08logicalOptimisation
 
-import kotlin.jvm.JvmField
 import lupos.s00misc.SanityCheck
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.multiinput.LOPJoin
+import kotlin.jvm.JvmField
 
 object LogicalOptimizerJoinOrderCostBasedOnVariable {
     class Plan : Comparable<Plan> {

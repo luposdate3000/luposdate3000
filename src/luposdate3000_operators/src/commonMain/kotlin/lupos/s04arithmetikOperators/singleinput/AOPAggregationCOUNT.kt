@@ -1,6 +1,5 @@
 package lupos.s04arithmetikOperators.singleinput
 
-import kotlin.jvm.JvmField
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.MyBigInteger
 import lupos.s00misc.XMLElement
@@ -12,6 +11,7 @@ import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.ColumnIteratorAggregate
 import lupos.s04logicalOperators.iterator.IteratorBundle
+import kotlin.jvm.JvmField
 
 class AOPAggregationCOUNT(query: IQuery, @JvmField val distinct: Boolean, childs: Array<AOPBase>) : AOPAggregationBase(query, EOperatorID.AOPAggregationCOUNTID, "AOPAggregationCOUNT", Array(childs.size) { childs[it] }) {
     override /*suspend*/ fun toXMLElement(): XMLElement = super.toXMLElement().addAttribute("distinct", "" + distinct)

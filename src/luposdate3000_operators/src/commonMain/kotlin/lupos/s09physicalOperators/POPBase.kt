@@ -1,11 +1,16 @@
 package lupos.s09physicalOperators
 
-import kotlin.jvm.JvmField
-import lupos.s00misc.*
+import lupos.s00misc.EOperatorID
+import lupos.s00misc.ESortPriority
+import lupos.s00misc.HistogramNotImplementedException
+import lupos.s00misc.SanityCheck
+import lupos.s00misc.VariableNotDefinedSyntaxException
+import lupos.s00misc.XMLElement
 import lupos.s04logicalOperators.HistogramResult
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.OPBase
+import kotlin.jvm.JvmField
 
 abstract class POPBase(query: IQuery,
                        @JvmField var projectedVariables: List<String>,

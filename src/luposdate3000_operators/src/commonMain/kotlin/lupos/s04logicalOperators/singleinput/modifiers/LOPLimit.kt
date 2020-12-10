@@ -1,6 +1,5 @@
 package lupos.s04logicalOperators.singleinput.modifiers
 
-import kotlin.jvm.JvmField
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.ESortPriority
 import lupos.s00misc.XMLElement
@@ -9,6 +8,7 @@ import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.LOPBase
 import lupos.s04logicalOperators.noinput.OPEmptyRow
+import kotlin.jvm.JvmField
 
 class LOPLimit(query: IQuery, @JvmField val limit: Int, child: IOPBase = OPEmptyRow(query)) : LOPBase(query, EOperatorID.LOPLimitID, "LOPLimit", arrayOf(child), ESortPriority.SAME_AS_CHILD) {
     override /*suspend*/ fun toXMLElement(): XMLElement = super.toXMLElement().addAttribute("limit", "" + limit)

@@ -1,7 +1,16 @@
 package lupos.s04arithmetikOperators.multiinput
 
-import lupos.s00misc.*
-import lupos.s03resultRepresentation.*
+import lupos.s00misc.EOperatorID
+import lupos.s00misc.EvaluationException
+import lupos.s00misc.MyBigDecimal
+import lupos.s00misc.MyBigInteger
+import lupos.s00misc.SanityCheck
+import lupos.s03resultRepresentation.ValueDecimal
+import lupos.s03resultRepresentation.ValueDefinition
+import lupos.s03resultRepresentation.ValueDouble
+import lupos.s03resultRepresentation.ValueError
+import lupos.s03resultRepresentation.ValueFloat
+import lupos.s03resultRepresentation.ValueInteger
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery

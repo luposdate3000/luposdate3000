@@ -1,6 +1,5 @@
 package lupos.s06buildOperatorGraph
 
-import kotlin.jvm.JvmField
 import lupos.s00misc.AggregateNotAllowedSyntaxException
 import lupos.s00misc.DatasetImportFailedException
 import lupos.s00misc.EGraphOperationType
@@ -11,13 +10,12 @@ import lupos.s00misc.File
 import lupos.s00misc.GroupByClauseNotUsedException
 import lupos.s00misc.MyBigDecimal
 import lupos.s00misc.MyBigInteger
-import lupos.s00misc.parseFromAny
 import lupos.s00misc.ProjectionDoubleDefinitionOfVariableSyntaxException
 import lupos.s00misc.RecoursiveVariableDefinitionSyntaxException
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.SparqlFeatureNotImplementedException
 import lupos.s00misc.XMLElement
-import lupos.s02buildSyntaxTree.sparql1_1.Aggregation
+import lupos.s00misc.parseFromAny
 import lupos.s02buildSyntaxTree.sparql1_1.ASTAdd
 import lupos.s02buildSyntaxTree.sparql1_1.ASTAddition
 import lupos.s02buildSyntaxTree.sparql1_1.ASTAggregation
@@ -47,32 +45,32 @@ import lupos.s02buildSyntaxTree.sparql1_1.ASTEQ
 import lupos.s02buildSyntaxTree.sparql1_1.ASTFilter
 import lupos.s02buildSyntaxTree.sparql1_1.ASTFunctionCall
 import lupos.s02buildSyntaxTree.sparql1_1.ASTGEQ
+import lupos.s02buildSyntaxTree.sparql1_1.ASTGT
+import lupos.s02buildSyntaxTree.sparql1_1.ASTGrapOperation
 import lupos.s02buildSyntaxTree.sparql1_1.ASTGraph
 import lupos.s02buildSyntaxTree.sparql1_1.ASTGraphRef
-import lupos.s02buildSyntaxTree.sparql1_1.ASTGrapOperation
 import lupos.s02buildSyntaxTree.sparql1_1.ASTGroup
 import lupos.s02buildSyntaxTree.sparql1_1.ASTGroupConcat
-import lupos.s02buildSyntaxTree.sparql1_1.ASTGT
 import lupos.s02buildSyntaxTree.sparql1_1.ASTIn
 import lupos.s02buildSyntaxTree.sparql1_1.ASTInsertData
 import lupos.s02buildSyntaxTree.sparql1_1.ASTInteger
 import lupos.s02buildSyntaxTree.sparql1_1.ASTIri
 import lupos.s02buildSyntaxTree.sparql1_1.ASTIriGraphRef
-import lupos.s02buildSyntaxTree.sparql1_1.ASTLanguageTaggedLiteral
 import lupos.s02buildSyntaxTree.sparql1_1.ASTLEQ
+import lupos.s02buildSyntaxTree.sparql1_1.ASTLT
+import lupos.s02buildSyntaxTree.sparql1_1.ASTLanguageTaggedLiteral
 import lupos.s02buildSyntaxTree.sparql1_1.ASTLiteral
 import lupos.s02buildSyntaxTree.sparql1_1.ASTLoad
-import lupos.s02buildSyntaxTree.sparql1_1.ASTLT
 import lupos.s02buildSyntaxTree.sparql1_1.ASTMinus
 import lupos.s02buildSyntaxTree.sparql1_1.ASTMinusGroup
 import lupos.s02buildSyntaxTree.sparql1_1.ASTModify
 import lupos.s02buildSyntaxTree.sparql1_1.ASTModifyWithWhere
 import lupos.s02buildSyntaxTree.sparql1_1.ASTMove
 import lupos.s02buildSyntaxTree.sparql1_1.ASTMultiplication
+import lupos.s02buildSyntaxTree.sparql1_1.ASTNEQ
 import lupos.s02buildSyntaxTree.sparql1_1.ASTNamedGraph
 import lupos.s02buildSyntaxTree.sparql1_1.ASTNamedGraphRef
 import lupos.s02buildSyntaxTree.sparql1_1.ASTNamedIriGraphRef
-import lupos.s02buildSyntaxTree.sparql1_1.ASTNEQ
 import lupos.s02buildSyntaxTree.sparql1_1.ASTNode
 import lupos.s02buildSyntaxTree.sparql1_1.ASTNot
 import lupos.s02buildSyntaxTree.sparql1_1.ASTNotIn
@@ -106,6 +104,7 @@ import lupos.s02buildSyntaxTree.sparql1_1.ASTUpdateGrapOperation
 import lupos.s02buildSyntaxTree.sparql1_1.ASTValue
 import lupos.s02buildSyntaxTree.sparql1_1.ASTValues
 import lupos.s02buildSyntaxTree.sparql1_1.ASTVar
+import lupos.s02buildSyntaxTree.sparql1_1.Aggregation
 import lupos.s02buildSyntaxTree.sparql1_1.BuiltInFunctions
 import lupos.s02buildSyntaxTree.sparql1_1.Visitor
 import lupos.s03resultRepresentation.ValueBnode
@@ -195,6 +194,9 @@ import lupos.s04arithmetikOperators.singleinput.AOPFunctionCallString
 import lupos.s04arithmetikOperators.singleinput.AOPNot
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.LOPBase
+import lupos.s04logicalOperators.OPBase
+import lupos.s04logicalOperators.OPBaseCompound
+import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.multiinput.LOPJoin
 import lupos.s04logicalOperators.multiinput.LOPMinus
 import lupos.s04logicalOperators.multiinput.LOPUnion
@@ -203,9 +205,6 @@ import lupos.s04logicalOperators.noinput.LOPModifyData
 import lupos.s04logicalOperators.noinput.LOPTriple
 import lupos.s04logicalOperators.noinput.LOPValues
 import lupos.s04logicalOperators.noinput.OPEmptyRow
-import lupos.s04logicalOperators.OPBase
-import lupos.s04logicalOperators.OPBaseCompound
-import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.singleinput.LOPBind
 import lupos.s04logicalOperators.singleinput.LOPFilter
 import lupos.s04logicalOperators.singleinput.LOPGroup
@@ -225,6 +224,7 @@ import lupos.s04logicalOperators.singleinput.modifiers.LOPPrefix
 import lupos.s04logicalOperators.singleinput.modifiers.LOPReduced
 import lupos.s05tripleStore.PersistentStoreLocalExt
 import lupos.s09physicalOperators.noinput.POPValuesImportXML
+import kotlin.jvm.JvmField
 
 class OperatorGraphVisitor(@JvmField val query: Query) : Visitor<IOPBase> {
     @JvmField

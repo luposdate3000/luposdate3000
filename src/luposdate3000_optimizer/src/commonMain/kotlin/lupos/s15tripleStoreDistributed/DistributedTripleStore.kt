@@ -1,7 +1,13 @@
 package lupos.s15tripleStoreDistributed
 
-import kotlin.jvm.JvmField
-import lupos.s00misc.*
+import lupos.s00misc.EIndexPattern
+import lupos.s00misc.EModifyType
+import lupos.s00misc.EOperatorID
+import lupos.s00misc.ESortPriority
+import lupos.s00misc.Partition
+import lupos.s00misc.SanityCheck
+import lupos.s00misc.TriplePatternsContainingTheSameVariableTwiceNotImplementedException
+import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.ResultSetDictionaryExt
 import lupos.s04arithmetikOperators.IAOPBase
 import lupos.s04arithmetikOperators.noinput.AOPConstant
@@ -10,8 +16,15 @@ import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.s04logicalOperators.iterator.ColumnIteratorMultiValue
 import lupos.s04logicalOperators.iterator.IteratorBundle
-import lupos.s05tripleStore.*
+import lupos.s05tripleStore.ITripleStoreBulkImport
+import lupos.s05tripleStore.PersistentStoreLocal
+import lupos.s05tripleStore.PersistentStoreLocalExt
+import lupos.s05tripleStore.TripleStoreBulkImport
+import lupos.s05tripleStore.TripleStoreFeatureParams
+import lupos.s05tripleStore.TripleStoreFeatureParamsDefault
+import lupos.s05tripleStore.TripleStoreFeatureParamsPartition
 import lupos.s09physicalOperators.POPBase
+import kotlin.jvm.JvmField
 
 class TripleStoreIteratorGlobal(query: IQuery, projectedVariables: List<String>, @JvmField val graphName: String, params: Array<IAOPBase>, @JvmField val idx: EIndexPattern, @JvmField val partition: Partition) : POPBase(query, projectedVariables, EOperatorID.TripleStoreIteratorGlobalID, "TripleStoreIteratorGlobal", Array(3) { params[it] }, ESortPriority.ANY_PROVIDED_VARIABLE) {
     override fun getPartitionCount(variable: String): Int {

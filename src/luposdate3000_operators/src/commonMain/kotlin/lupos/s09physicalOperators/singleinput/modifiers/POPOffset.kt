@@ -1,14 +1,17 @@
 package lupos.s09physicalOperators.singleinput.modifiers
 
-import kotlin.jvm.JvmField
-import lupos.s00misc.*
+import lupos.s00misc.EOperatorID
+import lupos.s00misc.ESortPriority
+import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
+import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.ResultSetDictionaryExt
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s09physicalOperators.POPBase
+import kotlin.jvm.JvmField
 
 class POPOffset(query: IQuery, projectedVariables: List<String>, @JvmField val offset: Int, child: IOPBase) : POPBase(query, projectedVariables, EOperatorID.POPOffsetID, "POPOffset", arrayOf(child), ESortPriority.SAME_AS_CHILD) {
     override fun getPartitionCount(variable: String): Int {

@@ -1,6 +1,5 @@
 package lupos.s04arithmetikOperators.noinput
 
-import kotlin.jvm.JvmField
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.ValueBnode
@@ -9,6 +8,7 @@ import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.IteratorBundle
+import kotlin.jvm.JvmField
 
 class AOPConstant : AOPBase, IAOPConstant {
     @JvmField

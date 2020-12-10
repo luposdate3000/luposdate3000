@@ -1,7 +1,10 @@
 package lupos.s09physicalOperators.singleinput
 
-import kotlin.jvm.JvmField
-import lupos.s00misc.*
+import lupos.s00misc.EOperatorID
+import lupos.s00misc.ESortPriority
+import lupos.s00misc.Partition
+import lupos.s00misc.SanityCheck
+import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.ValueComparatorASC
 import lupos.s03resultRepresentation.ValueComparatorDESC
 import lupos.s04arithmetikOperators.noinput.AOPVariable
@@ -11,6 +14,7 @@ import lupos.s04logicalOperators.iterator.ColumnIteratorMerge
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.iterator.RowIteratorMerge
 import lupos.s09physicalOperators.POPBase
+import kotlin.jvm.JvmField
 
 class POPSort(query: IQuery, projectedVariables: List<String>, @JvmField val sortBy: Array<AOPVariable>, @JvmField val sortOrder: Boolean, child: IOPBase) : POPBase(query, projectedVariables, EOperatorID.POPSortID, "POPSort", arrayOf(child), ESortPriority.SORT) {
     override fun getPartitionCount(variable: String): Int {

@@ -1,7 +1,12 @@
 package lupos.s09physicalOperators.noinput
 
-import kotlin.jvm.JvmField
-import lupos.s00misc.*
+import lupos.s00misc.EModifyType
+import lupos.s00misc.EOperatorID
+import lupos.s00misc.ESortPriority
+import lupos.s00misc.GraphVariablesNotImplementedException
+import lupos.s00misc.Partition
+import lupos.s00misc.SanityCheck
+import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.ValueBoolean
 import lupos.s04arithmetikOperators.noinput.AOPConstant
 import lupos.s04logicalOperators.IOPBase
@@ -13,6 +18,7 @@ import lupos.s04logicalOperators.noinput.LOPTriple
 import lupos.s05tripleStore.PersistentStoreLocalExt
 import lupos.s09physicalOperators.POPBase
 import lupos.s15tripleStoreDistributed.distributedTripleStore
+import kotlin.jvm.JvmField
 
 class POPModifyData(query: IQuery, projectedVariables: List<String>, @JvmField val type: EModifyType, @JvmField val data: List<LOPTriple>) : POPBase(query, projectedVariables, EOperatorID.POPModifyDataID, "POPModifyData", arrayOf(), ESortPriority.PREVENT_ANY) {
     override fun getPartitionCount(variable: String): Int = 1

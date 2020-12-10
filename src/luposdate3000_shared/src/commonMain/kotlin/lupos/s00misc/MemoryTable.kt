@@ -1,6 +1,6 @@
 package lupos.s00misc
 
-import lupos.s04logicalOperators.*
+import lupos.s04logicalOperators.IQuery
 
 class MemoryTable(val columns: Array<String>) {
     val data: MutableList<IntArray> = mutableListOf()

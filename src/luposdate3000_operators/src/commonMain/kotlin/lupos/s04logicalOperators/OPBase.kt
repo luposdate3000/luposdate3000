@@ -1,6 +1,5 @@
 package lupos.s04logicalOperators
 
-import kotlin.jvm.JvmField
 import lupos.s00misc.BugException
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.ESortPriority
@@ -31,6 +30,7 @@ import lupos.s04logicalOperators.singleinput.LOPSort
 import lupos.s04logicalOperators.singleinput.modifiers.LOPDistinct
 import lupos.s04logicalOperators.singleinput.modifiers.LOPSortAny
 import lupos.s09physicalOperators.singleinput.POPSort
+import kotlin.jvm.JvmField
 
 abstract class OPBase(@JvmField val query: IQuery, @JvmField val operatorID: EOperatorID, @JvmField val classname: String, @JvmField val children: Array<IOPBase>, private val sortPriority: ESortPriority) : IOPBase {
     override fun getClassname(): String = classname

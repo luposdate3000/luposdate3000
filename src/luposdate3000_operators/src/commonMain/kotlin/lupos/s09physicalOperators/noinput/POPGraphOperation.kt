@@ -1,14 +1,25 @@
 package lupos.s09physicalOperators.noinput
 
-import kotlin.jvm.JvmField
-import lupos.s00misc.*
+import lupos.s00misc.EGraphOperationType
+import lupos.s00misc.EGraphRefType
+import lupos.s00misc.EIndexPattern
+import lupos.s00misc.EModifyType
+import lupos.s00misc.EOperatorID
+import lupos.s00misc.ESortPriority
+import lupos.s00misc.EvaluationException
+import lupos.s00misc.File
+import lupos.s00misc.Partition
+import lupos.s00misc.SanityCheck
+import lupos.s00misc.XMLElement
+import lupos.s00misc.parseFromAny
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s05tripleStore.PersistentStoreLocalExt
 import lupos.s09physicalOperators.POPBase
-import lupos.s15tripleStoreDistributed.distributedTripleStore
 import lupos.s15tripleStoreDistributed.IDistributedGraph
+import lupos.s15tripleStoreDistributed.distributedTripleStore
+import kotlin.jvm.JvmField
 
 class POPGraphOperation(query: IQuery,
                         projectedVariables: List<String>,

@@ -1,8 +1,8 @@
 package lupos.s02buildSyntaxTree.turtle
 
-import kotlin.jvm.JvmField
 import lupos.s00misc.IMyInputStream
 import lupos.s00misc.Luposdate3000Exception
+import kotlin.jvm.JvmField
 
 open class ParserException(msg: String) : Luposdate3000Exception("ParserContext", msg)
 internal class ParserExceptionEOF : ParserException("EOF")

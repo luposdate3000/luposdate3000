@@ -1,8 +1,8 @@
 package lupos.s04logicalOperators.iterator
 
-import kotlin.jvm.JvmField
 import lupos.s00misc.SanityCheck
 import lupos.s03resultRepresentation.ResultSetDictionaryExt
+import kotlin.jvm.JvmField
 
 open class RowIteratorFromColumn(@JvmField val bundle: IteratorBundle) : RowIterator() {
     @JvmField

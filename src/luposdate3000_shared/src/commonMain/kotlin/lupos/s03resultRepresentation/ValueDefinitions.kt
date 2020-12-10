@@ -1,6 +1,5 @@
 package lupos.s03resultRepresentation
 
-import kotlin.jvm.JvmField
 import lupos.s00misc.CanNotCastBNodeToBooleanException
 import lupos.s00misc.CanNotCastBNodeToDecimalException
 import lupos.s00misc.CanNotCastBNodeToDoubleException
@@ -33,6 +32,7 @@ import lupos.s00misc.MyBigDecimal
 import lupos.s00misc.MyBigInteger
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.XMLElement
+import kotlin.jvm.JvmField
 
 sealed class ValueDefinition : Comparable<ValueDefinition> {
     abstract /*suspend*/ fun toXMLElement(): XMLElement

@@ -1,7 +1,21 @@
 package lupos.s16network
 
-import kotlin.js.JsName
-import lupos.s00misc.*
+import lupos.s00misc.DateHelperRelative
+import lupos.s00misc.EModifyType
+import lupos.s00misc.ETripleComponentType
+import lupos.s00misc.File
+import lupos.s00misc.IMyPrintWriter
+import lupos.s00misc.MyPrintWriter
+import lupos.s00misc.OperatorGraphToLatex
+import lupos.s00misc.Partition
+import lupos.s00misc.QueryResultToStream
+import lupos.s00misc.SanityCheck
+import lupos.s00misc.XMLElement
+import lupos.s00misc.XMLElementFromCsv
+import lupos.s00misc.XMLElementFromJson
+import lupos.s00misc.XMLElementFromN3
+import lupos.s00misc.XMLElementFromTsv
+import lupos.s00misc.XMLElementFromXML
 import lupos.s02buildSyntaxTree.LexerCharIterator
 import lupos.s02buildSyntaxTree.LookAheadTokenIterator
 import lupos.s02buildSyntaxTree.sparql1_1.SPARQLParser
@@ -16,10 +30,16 @@ import lupos.s06buildOperatorGraph.OperatorGraphVisitor
 import lupos.s08logicalOptimisation.LogicalOptimizer
 import lupos.s09physicalOperators.noinput.POPValuesImportXML
 import lupos.s10physicalOptimisation.PhysicalOptimizer
-import lupos.s11outputResult.*
+import lupos.s11outputResult.EQueryResultToStream
+import lupos.s11outputResult.QueryResultToEmptyStream
+import lupos.s11outputResult.QueryResultToEmptyWithDictionaryStream
+import lupos.s11outputResult.QueryResultToMemoryTable
+import lupos.s11outputResult.QueryResultToXMLElement
+import lupos.s11outputResult.QueryResultToXMLStream
 import lupos.s14endpoint.convertToOPBase
-import lupos.s15tripleStoreDistributed.distributedTripleStore
 import lupos.s15tripleStoreDistributed.DistributedTripleStore
+import lupos.s15tripleStoreDistributed.distributedTripleStore
+import kotlin.js.JsName
 
 /*
  * This is the interface of the database

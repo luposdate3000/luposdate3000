@@ -1,7 +1,7 @@
 package lupos.s02buildSyntaxTree
 
-import kotlin.jvm.JvmField
 import lupos.s02buildSyntaxTree.turtle.EOF
+import kotlin.jvm.JvmField
 
 interface TokenIterator {
     fun nextToken(): Token

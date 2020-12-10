@@ -1,10 +1,10 @@
 package lupos.s03resultRepresentation
 
-import kotlin.jvm.JvmField
 import lupos.s00misc.ETripleComponentType
 import lupos.s00misc.MyBigDecimal
 import lupos.s00misc.MyBigInteger
 import lupos.s00misc.SanityCheck
+import kotlin.jvm.JvmField
 
 val nodeGlobalDictionary: ResultSetDictionary = ResultSetDictionary(true)
 
