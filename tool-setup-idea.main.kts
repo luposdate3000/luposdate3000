@@ -6,7 +6,7 @@
 @file:Import("src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/s00misc/Platform.kt")
 @file:Import("src/luposdate3000_shared_inline/src/jvmMain/kotlin/lupos/s00misc/Platform.kt")
 @file:CompilerOptions("-Xmulti-platform")
-
+ 
 import lupos.s00misc.Platform
 import java.io.File
 import java.nio.file.Files
@@ -31,7 +31,12 @@ createBuildFileForModule("Luposdate3000_Test", ReleaseMode.Disable, SuspendMode.
 createBuildFileForModule("Luposdate3000_Endpoint_None", "Luposdate3000_Endpoint_Launcher", ReleaseMode.Disable, SuspendMode.Disable, InlineMode.Enable, DryMode.Disable, FastMode.JVM, IntellijMode.Enable)
 createBuildFileForModule("Luposdate3000_Endpoint_Java_Sockets", "Luposdate3000_Endpoint_Launcher", ReleaseMode.Disable, SuspendMode.Disable, InlineMode.Enable, DryMode.Disable, FastMode.JVM, IntellijMode.Enable)
 createBuildFileForModule("Luposdate3000_Launch_Benchmark_Jena", "Luposdate3000_Main", ReleaseMode.Disable, SuspendMode.Disable, InlineMode.Enable, DryMode.Disable, FastMode.JVM, IntellijMode.Enable)
+
 createBuildFileForModule("Luposdate3000_Launch_Benchmark", "Luposdate3000_Main", ReleaseMode.Disable, SuspendMode.Disable, InlineMode.Enable, DryMode.Disable, FastMode.JVM, IntellijMode.Enable)
+createBuildFileForModule("Luposdate3000_Launch_Benchmark_1", "Luposdate3000_Main", ReleaseMode.Disable, SuspendMode.Disable, InlineMode.Enable, DryMode.Disable, FastMode.JVM, IntellijMode.Enable)
+createBuildFileForModule("Luposdate3000_Launch_Benchmark_2", "Luposdate3000_Main", ReleaseMode.Disable, SuspendMode.Disable, InlineMode.Enable, DryMode.Disable, FastMode.JVM, IntellijMode.Enable)
+createBuildFileForModule("Luposdate3000_Launch_Benchmark_3", "Luposdate3000_Main", ReleaseMode.Disable, SuspendMode.Disable, InlineMode.Enable, DryMode.Disable, FastMode.JVM, IntellijMode.Enable)
+createBuildFileForModule("Luposdate3000_Launch_Benchmark_4", "Luposdate3000_Main", ReleaseMode.Disable, SuspendMode.Disable, InlineMode.Enable, DryMode.Disable, FastMode.JVM, IntellijMode.Enable)
 createBuildFileForModule("Luposdate3000_Launch_Binary_Test_Suite", "Luposdate3000_Main", ReleaseMode.Disable, SuspendMode.Disable, InlineMode.Enable, DryMode.Disable, FastMode.JVM, IntellijMode.Enable)
 createBuildFileForModule("Luposdate3000_Launch_Endpoint", "Luposdate3000_Main", ReleaseMode.Disable, SuspendMode.Disable, InlineMode.Enable, DryMode.Disable, FastMode.JVM, IntellijMode.Enable)
 createBuildFileForModule("Luposdate3000_Launch_Import", "Luposdate3000_Main", ReleaseMode.Disable, SuspendMode.Disable, InlineMode.Enable, DryMode.Disable, FastMode.JVM, IntellijMode.Enable)

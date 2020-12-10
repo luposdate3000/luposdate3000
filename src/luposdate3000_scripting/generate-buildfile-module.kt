@@ -170,7 +170,6 @@ fun createBuildFileForModule(moduleName: String, moduleFolder: String, modulePre
                 }
             }
         }
-    }
     File("src.generated${pathSeparator}settings.gradle").printWriter().use { out ->
         out.println("pluginManagement {")
         out.println("    repositories {")
@@ -180,6 +179,7 @@ fun createBuildFileForModule(moduleName: String, moduleFolder: String, modulePre
         out.println("}")
         out.println("rootProject.name = \"$moduleName\"")//maven-artifactID
     }
+}
     val commonDependencies = mutableSetOf("org.jetbrains.kotlin:kotlin-stdlib-common:1.4.255-SNAPSHOT")
     if (moduleName != "Luposdate3000_Shared" && moduleName != "Luposdate3000_Shared_Inline") {
         commonDependencies.add("luposdate3000:Luposdate3000_Shared:0.0.1")
