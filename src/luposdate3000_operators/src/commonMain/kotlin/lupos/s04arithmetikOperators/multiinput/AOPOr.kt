@@ -14,26 +14,26 @@ class AOPOr(query: IQuery, childA: AOPBase, childB: AOPBase) : AOPBase(query, EO
 
     internal companion object {
         val truthTable = arrayOf(
-                ResultSetDictionaryExt.booleanTrueValue,//T,T
-                ResultSetDictionaryExt.booleanTrueValue,//T,F
-                ResultSetDictionaryExt.errorValue,//T,E
-                ResultSetDictionaryExt.booleanTrueValue,//F,T
-                ResultSetDictionaryExt.booleanFalseValue,//F,F
-                ResultSetDictionaryExt.errorValue,//F,E
-                ResultSetDictionaryExt.errorValue,//E,T
-                ResultSetDictionaryExt.errorValue,//E,F
-                ResultSetDictionaryExt.errorValue//E,E
+            ResultSetDictionaryExt.booleanTrueValue, // T,T
+            ResultSetDictionaryExt.booleanTrueValue, // T,F
+            ResultSetDictionaryExt.errorValue, // T,E
+            ResultSetDictionaryExt.booleanTrueValue, // F,T
+            ResultSetDictionaryExt.booleanFalseValue, // F,F
+            ResultSetDictionaryExt.errorValue, // F,E
+            ResultSetDictionaryExt.errorValue, // E,T
+            ResultSetDictionaryExt.errorValue, // E,F
+            ResultSetDictionaryExt.errorValue // E,E
         )
         val truthTable2 = arrayOf(
-                ResultSetDictionaryExt.booleanTrueValue2,//T,T
-                ResultSetDictionaryExt.booleanTrueValue2,//T,F
-                ResultSetDictionaryExt.errorValue2,//T,E
-                ResultSetDictionaryExt.booleanTrueValue2,//F,T
-                ResultSetDictionaryExt.booleanFalseValue2,//F,F
-                ResultSetDictionaryExt.errorValue2,//F,E
-                ResultSetDictionaryExt.errorValue2,//E,T
-                ResultSetDictionaryExt.errorValue2,//E,F
-                ResultSetDictionaryExt.errorValue2//E,E
+            ResultSetDictionaryExt.booleanTrueValue2, // T,T
+            ResultSetDictionaryExt.booleanTrueValue2, // T,F
+            ResultSetDictionaryExt.errorValue2, // T,E
+            ResultSetDictionaryExt.booleanTrueValue2, // F,T
+            ResultSetDictionaryExt.booleanFalseValue2, // F,F
+            ResultSetDictionaryExt.errorValue2, // F,E
+            ResultSetDictionaryExt.errorValue2, // E,T
+            ResultSetDictionaryExt.errorValue2, // E,F
+            ResultSetDictionaryExt.errorValue2 // E,E
         )
     }
 

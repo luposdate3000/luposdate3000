@@ -42,8 +42,8 @@ class XMLElementFromXML : XMLElementParser {
                 if (child.groups[5] != null) {
                     content = child.groups[5]!!.value
                 }
-                if (!child.value.endsWith("</${nodeName}>") && !child.value.endsWith("/>")) {
-                    val search = "</${nodeName}>"
+                if (!child.value.endsWith("</$nodeName>") && !child.value.endsWith("/>")) {
+                    val search = "</$nodeName>"
                     val idx2 = x.indexOf(search, child.range.last)
                     content = x.substring(child.range.last, idx2 + search.length)
                     lastindex = idx2

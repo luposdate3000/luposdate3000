@@ -79,7 +79,7 @@ class TripleStoreBulkImport(@JvmField val query: IQuery, @JvmField val graphName
     }
 
     private fun sort() {
-        //the target data is sorted, but may contain duplicates, _if the input contains those
+        // the target data is sorted, but may contain duplicates, _if the input contains those
         val total = idx / 3
         val orderSPO = EIndexPattern.SPO.tripleIndicees
         val orderSOP = EIndexPattern.SOP.tripleIndicees

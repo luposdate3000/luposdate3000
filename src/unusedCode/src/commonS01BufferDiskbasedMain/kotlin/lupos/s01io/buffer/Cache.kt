@@ -81,24 +81,26 @@ class LeastRecentlyUsed<T, V>(@JvmField val dummyKey: T, @JvmField val dummyValu
         return leastRecentlyUsed.value
     }
 
-    inline fun replaceLeastRecentlyUsed(crossinline negativeCheck: (CachedEntry<T, V>) -> Boolean)
-            : CachedEntry<T, V> {
-        var leastRecentlyUsed = this.dummy.before
-        // assume that there is at least one entry (not being the dummy) in the list
-        while (negativeCheck(leastRecentlyUsed)) {
-            leastRecentlyUsed = leastRecentlyUsed.before
-            if (leastRecentlyUsed === this.dummy) {
-                throw Error("All pages in the cache are locked, "
-                        + "but we need to replace one page"
-                        + "... Plase check the code if unlocking "
-                        + "of pages have been forgotten...")
+    inline fun replaceLeastRecentlyUsed(crossinline negativeCheck: (CachedEntry<T, V>) -> Boolean):
+        CachedEntry<T, V> {
+            var leastRecentlyUsed = this.dummy.before
+            // assume that there is at least one entry (not being the dummy) in the list
+            while (negativeCheck(leastRecentlyUsed)) {
+                leastRecentlyUsed = leastRecentlyUsed.before
+                if (leastRecentlyUsed === this.dummy) {
+                    throw Error(
+                        "All pages in the cache are locked, " +
+                            "but we need to replace one page" +
+                            "... Plase check the code if unlocking " +
+                            "of pages have been forgotten..."
+                    )
+                }
             }
+            leastRecentlyUsed.remove()
+            val key = leastRecentlyUsed.key
+            this.entries.remove(key)
+            return leastRecentlyUsed
         }
-        leastRecentlyUsed.remove()
-        val key = leastRecentlyUsed.key
-        this.entries.remove(key)
-        return leastRecentlyUsed
-    }
 
     fun release(key: T) {
         val entry = this.entries.get(key)

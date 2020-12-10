@@ -59,7 +59,7 @@ class Partition {
     override fun equals(other: Any?): Boolean = other is Partition && data == other.data && limit == other.limit
     override fun hashCode(): Int = data.hashCode()
     fun toXMLElement(): XMLElement {
-        val res = XMLElement("Partition")//
+        val res = XMLElement("Partition") //
         for ((k, v) in limit) {
             res.addContent(XMLElement("Limit").addAttribute("name", k).addAttribute("value", "$v"))
         }

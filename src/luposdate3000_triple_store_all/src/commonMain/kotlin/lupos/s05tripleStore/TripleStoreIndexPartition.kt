@@ -30,7 +30,7 @@ class TripleStoreIndexPartition(childIndex: (Int) -> TripleStoreIndex, private v
         var i = -1
         val partition = (params as TripleStoreFeatureParamsPartition).partition
         for ((k, v) in partition.data) {
-//this should be implemented more nice, as there is only one entry in the map
+// this should be implemented more nice, as there is only one entry in the map
             i = v
         }
         val p2 = params.toTripleStoreFeatureParamsDefault()
@@ -41,7 +41,7 @@ class TripleStoreIndexPartition(childIndex: (Int) -> TripleStoreIndex, private v
         var i = -1
         val partition = (params as TripleStoreFeatureParamsPartition).partition
         for ((k, v) in partition.data) {
-//this should be implemented more nice, as there is only one entry in the map
+// this should be implemented more nice, as there is only one entry in the map
             i = v
         }
         val p2 = params.toTripleStoreFeatureParamsDefault()

@@ -2,8 +2,8 @@ package lupos.s01io.buffer
 
 import java.io.File
 import java.io.RandomAccessFile
-import java.nio.channels.FileChannel
 import java.nio.MappedByteBuffer
+import java.nio.channels.FileChannel
 import kotlin.jvm.JvmField
 
 typealias Page = MappedByteBufferPage
@@ -14,9 +14,11 @@ class MappedByteBufferPage(@JvmField val buffer: MappedByteBuffer) {
     @JvmField
     var locked = 0
 
-    constructor() : this(RandomAccessFile(File("tmp"), "rw")
+    constructor() : this(
+        RandomAccessFile(File("tmp"), "rw")
             .getChannel()
-            .map(FileChannel.MapMode.READ_ONLY, 0, 1)) {
+            .map(FileChannel.MapMode.READ_ONLY, 0, 1)
+    ) {
         /* the initialization above is dummy code just to have a MappedByteBuffer as parameter
 	 * for the standard constructor (which is necessary in seldom cases)
 	 */

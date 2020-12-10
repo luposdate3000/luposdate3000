@@ -52,7 +52,7 @@ class LOPTriple(query: IQuery, s: IAOPBase, p: IAOPBase, o: IAOPBase, @JvmField 
             val c0 = children[0]
             val c1 = children[1]
             val c2 = children[2]
-            //constants first
+            // constants first
             if (c1 is AOPConstant) {
                 resString += "P"
             }
@@ -65,7 +65,7 @@ class LOPTriple(query: IQuery, s: IAOPBase, p: IAOPBase, o: IAOPBase, @JvmField 
             if (resString.isNotEmpty() && resString.length < 3) {
                 resString += "_"
             }
-            //than sort order
+            // than sort order
             for (s in sortPriority) {
                 SanityCheck.check { s != "_" }
                 if (c0 is AOPVariable && c0.name == s) {
@@ -76,7 +76,7 @@ class LOPTriple(query: IQuery, s: IAOPBase, p: IAOPBase, o: IAOPBase, @JvmField 
                     resString += "O"
                 }
             }
-            //than columns which are used
+            // than columns which are used
             if (c1 is AOPVariable && c1.name != "_" && !resString.contains("P")) {
                 resString += "P"
             }
@@ -86,7 +86,7 @@ class LOPTriple(query: IQuery, s: IAOPBase, p: IAOPBase, o: IAOPBase, @JvmField 
             if (c2 is AOPVariable && c2.name != "_" && !resString.contains("O")) {
                 resString += "O"
             }
-            //at last fill the remaining columns
+            // at last fill the remaining columns
             if (!resString.contains("P")) {
                 resString += "P"
             }

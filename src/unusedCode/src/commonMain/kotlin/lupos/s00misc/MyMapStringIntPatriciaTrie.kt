@@ -362,10 +362,14 @@ class MyMapStringIntPatriciaTrie(@JvmField val undefinedValue: Int = Int.MAX_VAL
 
     inline operator fun get(key: String): Int? {
         var res: Int? = null
-        walkInternal(key, { undefinedValue }, {
-            res = it
-            it
-        }, {}, false)
+        walkInternal(
+            key, { undefinedValue },
+            {
+                res = it
+                it
+            },
+            {}, false
+        )
         return res
     }
 
@@ -375,13 +379,18 @@ class MyMapStringIntPatriciaTrie(@JvmField val undefinedValue: Int = Int.MAX_VAL
 
     inline fun getOrCreate(key: String, crossinline onCreate: () -> Int): Int {
         var res = undefinedValue
-        walkInternal(key, {
-            res = onCreate()
-            res
-        }, {
-            res = it
-            res
-        }, {}, true)
+        walkInternal(
+            key,
+            {
+                res = onCreate()
+                res
+            },
+            {
+                res = it
+                res
+            },
+            {}, true
+        )
         return res
     }
 
@@ -653,7 +662,7 @@ class MyMapStringIntPatriciaTrie(@JvmField val undefinedValue: Int = Int.MAX_VAL
                     if (node.childs1 != null) {
                         i++
                     }
-                    SanityCheck.println({ "${prefix}${node.str}:2@${node.str.length}-${depth}+$i,${2 - i}#2" })
+                    SanityCheck.println({ "${prefix}${node.str}:2@${node.str.length}-$depth+$i,${2 - i}#2" })
                     if (node.childs0 != null) {
                         debugInternal(prefix + " ", node.childs0!!, depth + 1)
                     }
@@ -668,7 +677,7 @@ class MyMapStringIntPatriciaTrie(@JvmField val undefinedValue: Int = Int.MAX_VAL
                             i++
                         }
                     }
-                    SanityCheck.println({ "${prefix}${node.str}:${node.childs.size}@${node.str.length}-${depth}+$i,${node.childs.size - i}#N" })
+                    SanityCheck.println({ "${prefix}${node.str}:${node.childs.size}@${node.str.length}-$depth+$i,${node.childs.size - i}#N" })
                     for (c in node.childs) {
                         if (c != null) {
                             debugInternal(prefix + " ", c, depth + 1)

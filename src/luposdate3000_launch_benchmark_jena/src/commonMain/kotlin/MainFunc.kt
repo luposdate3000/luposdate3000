@@ -27,7 +27,7 @@ fun mainFunc(args: Array<String>): Unit = Parallel.runBlocking {
     val timer = DateHelperRelative.markNow()
     JenaWrapper.loadFromFile(datasourceFiles)
     val time = DateHelperRelative.elapsedSeconds(timer)
-    printBenchmarkLine("resources/${benchmarkname}/persistence-import.sparql", time, 1, numberOfTriples, originalTripleSize)
+    printBenchmarkLine("resources/$benchmarkname/persistence-import.sparql", time, 1, numberOfTriples, originalTripleSize)
     for (queryFile in queryFiles) {
         val query = File(queryFile).readAsString()
         val timer = DateHelperRelative.markNow()

@@ -7,19 +7,23 @@ object ColumnIteratorFromRow {
         for (element in iterator.columns) {
             val iterator2 = object : ColumnIteratorQueue() {
                 override /*suspend*/ fun next(): Int {
-                    return ColumnIteratorQueueExt.nextHelper(this, {
-                        val res2 = iterator.next()
-                        if (res2 >= 0) {
-                            for (j in iterator.columns.indices) {
-                                iterators[j].queue.add(iterator.buf[res2 + j])
+                    return ColumnIteratorQueueExt.nextHelper(
+                        this,
+                        {
+                            val res2 = iterator.next()
+                            if (res2 >= 0) {
+                                for (j in iterator.columns.indices) {
+                                    iterators[j].queue.add(iterator.buf[res2 + j])
+                                }
+                            }
+                        },
+                        {
+                            if (label != 0) {
+                                ColumnIteratorQueueExt._close(this)
+                                iterator.close()
                             }
                         }
-                    }, {
-                        if (label != 0) {
-                            ColumnIteratorQueueExt._close(this)
-                            iterator.close()
-                        }
-                    })
+                    )
                 }
 
                 override /*suspend*/ fun close() {

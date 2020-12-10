@@ -79,7 +79,7 @@ object JenaWrapper {
                 val plan = QueryExecutionFactory.createPlan(query, dataset.asDatasetGraph(), null)
                 val op = plan.op
                 val op2 = Optimize.optimize(op, qexec.context)
-                //println({ op2 })
+                // println({ op2 })
             }
         } catch (e: Throwable) {
             e.printStackTrace()
@@ -94,7 +94,7 @@ object JenaWrapper {
         }
         val updateString = StringBuilder()
         for (fileName in fileNames.split(";")) {
-            updateString.append("load <file://${fileName}> INTO GRAPH $graph2 ;")
+            updateString.append("load <file://$fileName> INTO GRAPH $graph2 ;")
         }
         updateQuery(updateString.toString())
     }
@@ -102,7 +102,7 @@ object JenaWrapper {
     fun loadFromFile(fileNames: String) {
         val updateString = StringBuilder()
         for (fileName in fileNames.split(";")) {
-            updateString.append("load <file://${fileName}> ;")
+            updateString.append("load <file://$fileName> ;")
         }
         updateQuery(updateString.toString())
     }

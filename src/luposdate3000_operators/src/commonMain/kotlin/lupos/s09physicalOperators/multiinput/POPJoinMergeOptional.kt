@@ -51,13 +51,13 @@ class POPJoinMergeOptional(query: IQuery, projectedVariables: List<String>, chil
             }
         }
         SanityCheck.check { optional }
-//setup columns
+// setup columns
         val child = Array(2) { children[it].evaluate(parent) }
         val columnsINO = Array(2) { mutableListOf<ColumnIterator>() }
         val columnsINJ = Array(2) { mutableListOf<ColumnIterator>() }
         val columnsOUT = Array(2) { mutableListOf<ColumnIteratorChildIterator>() }
         val columnsOUTJ = mutableListOf<ColumnIteratorChildIterator>()
-        val outIterators = mutableListOf<Pair<String, Int>>() //J,O0,O1,J-ohne-Map
+        val outIterators = mutableListOf<Pair<String, Int>>() // J,O0,O1,J-ohne-Map
         val outIteratorsAllocated = mutableListOf<ColumnIteratorChildIterator>()
         val outMap = mutableMapOf<String, ColumnIterator>()
         val tmp = mutableListOf<String>()
@@ -131,29 +131,32 @@ class POPJoinMergeOptional(query: IQuery, projectedVariables: List<String>, chil
                     }
 
                     override /*suspend*/ fun next(): Int {
-                        return nextHelper({
-                            for (i in 0 until columnsINJ[0].size) {
-                                keyCopy[i] = key[0][i]
-                            }
-                            val data = Array(2) { Array(columnsINO[it].size) { mutableListOf<Int>() } }
-                            val countA = sameElements(key[0], keyCopy, columnsINJ[0], columnsINO[0], data[0])
-                            val countB = sameElements(key[1], keyCopy, columnsINJ[1], columnsINO[1], data[1])
-                            done = findNextKey(key, columnsINJ, columnsINO)
-                            if (done) {
-                                for (iterator2 in outIteratorsAllocated) {
-                                    iterator2.closeOnNoMoreElements()
+                        return nextHelper(
+                            {
+                                for (i in 0 until columnsINJ[0].size) {
+                                    keyCopy[i] = key[0][i]
                                 }
-                                for (closeIndex2 in 0 until 2) {
-                                    for (closeIndex in 0 until columnsINJ[closeIndex2].size) {
-                                        columnsINJ[closeIndex2][closeIndex].close()
+                                val data = Array(2) { Array(columnsINO[it].size) { mutableListOf<Int>() } }
+                                val countA = sameElements(key[0], keyCopy, columnsINJ[0], columnsINO[0], data[0])
+                                val countB = sameElements(key[1], keyCopy, columnsINJ[1], columnsINO[1], data[1])
+                                done = findNextKey(key, columnsINJ, columnsINO)
+                                if (done) {
+                                    for (iterator2 in outIteratorsAllocated) {
+                                        iterator2.closeOnNoMoreElements()
                                     }
-                                    for (closeIndex in 0 until columnsINO[closeIndex2].size) {
-                                        columnsINO[closeIndex2][closeIndex].close()
+                                    for (closeIndex2 in 0 until 2) {
+                                        for (closeIndex in 0 until columnsINJ[closeIndex2].size) {
+                                            columnsINJ[closeIndex2][closeIndex].close()
+                                        }
+                                        for (closeIndex in 0 until columnsINO[closeIndex2].size) {
+                                            columnsINO[closeIndex2][closeIndex].close()
+                                        }
                                     }
                                 }
-                            }
-                            POPJoin.crossProduct(data[0], data[1], keyCopy, columnsOUT[0], columnsOUT[1], columnsOUTJ, countA, countB)
-                        }, { _close() })
+                                POPJoin.crossProduct(data[0], data[1], keyCopy, columnsOUT[0], columnsOUT[1], columnsOUTJ, countA, countB)
+                            },
+                            { _close() }
+                        )
                     }
                 }
                 outIteratorsAllocated.add(iterator)
@@ -198,7 +201,7 @@ class POPJoinMergeOptional(query: IQuery, projectedVariables: List<String>, chil
         return res
     }
 
-    internal /*suspend*/    inline fun sameElements(key: IntArray, keyCopy: IntArray, columnsINJ: MutableList<ColumnIterator>, columnsINO: MutableList<ColumnIterator>, data: Array<MutableList<Int>>): Int {
+    internal /*suspend*/ inline fun sameElements(key: IntArray, keyCopy: IntArray, columnsINJ: MutableList<ColumnIterator>, columnsINO: MutableList<ColumnIterator>, data: Array<MutableList<Int>>): Int {
         SanityCheck.check { keyCopy[0] != ResultSetDictionaryExt.nullValue }
         for (i in 0 until columnsINJ.size) {
             if (key[i] != keyCopy[i]) {
@@ -229,7 +232,7 @@ class POPJoinMergeOptional(query: IQuery, projectedVariables: List<String>, chil
         return count
     }
 
-    internal /*suspend*/    inline fun findNextKey(key: Array<IntArray>, columnsINJ: Array<MutableList<ColumnIterator>>, columnsINO: Array<MutableList<ColumnIterator>>): Boolean {
+    internal /*suspend*/ inline fun findNextKey(key: Array<IntArray>, columnsINJ: Array<MutableList<ColumnIterator>>, columnsINO: Array<MutableList<ColumnIterator>>): Boolean {
         if (key[0][0] != ResultSetDictionaryExt.nullValue && key[1][0] != ResultSetDictionaryExt.nullValue) {
             loop@ while (true) {
                 for (i in 0 until columnsINJ[0].size) {

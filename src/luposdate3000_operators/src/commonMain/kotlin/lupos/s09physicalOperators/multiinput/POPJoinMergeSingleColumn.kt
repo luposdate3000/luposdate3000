@@ -32,7 +32,7 @@ class POPJoinMergeSingleColumn(query: IQuery, projectedVariables: List<String>, 
         }
     }
 
-    //optimized using javap
+    // optimized using javap
     override fun toSparql(): String {
         if (optional) {
             return "OPTIONAL{" + children[0].toSparql() + children[1].toSparql() + "}"

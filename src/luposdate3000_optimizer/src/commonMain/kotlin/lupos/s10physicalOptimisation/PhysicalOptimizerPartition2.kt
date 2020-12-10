@@ -26,7 +26,7 @@ class PhysicalOptimizerPartition2(query: Query) : OptimizerBase(query, EOptimize
                 is POPSplitPartitionFromStore -> {
                     var storeNodeTmp = node.children[0]
                     while (storeNodeTmp !is TripleStoreIteratorGlobal) {
-//this is POPDebug or something similar with is not affecting the calculation - otherwise this node wont be POPSplitPartitionFromStore
+// this is POPDebug or something similar with is not affecting the calculation - otherwise this node wont be POPSplitPartitionFromStore
                         storeNodeTmp = storeNodeTmp.getChildren()[0]
                     }
                     val storeNode = storeNodeTmp
@@ -42,7 +42,7 @@ class PhysicalOptimizerPartition2(query: Query) : OptimizerBase(query, EOptimize
                                 partitionColumn++
                             }
                         } else {
-                            partitionColumn++ //constants at the front do count
+                            partitionColumn++ // constants at the front do count
                         }
                     }
                     SanityCheck.check({ partitionColumn in 1..2 }, { "$partitionColumn ${node.partitionVariable} $idx ${idx.tripleIndicees.map { it }} ${storeNode.children.map { "${(it as OPBase).classname} ${(it as? IAOPVariable)?.getName()}" }}" })

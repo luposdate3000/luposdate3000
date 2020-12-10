@@ -31,12 +31,16 @@ class MyMapKNAMEVNAMEBinaryTreeGDEF() {
 
     inline fun getOrCreate(key: KEY, crossinline onCreate: () -> VALUE): VALUE {
         var value: VALUE? = null
-        keys.add(key, {
-            value = onCreate()
-            values.add(it, value!!)
-        }, {
-            value = values[it]
-        })
+        keys.add(
+            key,
+            {
+                value = onCreate()
+                values.add(it, value!!)
+            },
+            {
+                value = values[it]
+            }
+        )
         return value!!
     }
 

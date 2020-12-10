@@ -74,36 +74,36 @@ class LogicalOptimizerFilterOptional(query: Query) : OptimizerBase(query, EOptim
                     }
                     val optionalIndicator = t[0]
                     res = LOPFilter(
+                        query,
+                        AOPOr(
                             query,
-                            AOPOr(
+                            AOPAnd(
+                                query,
+                                AOPBuildInCallBOUND(
                                     query,
-                                    AOPAnd(
-                                            query,
-                                            AOPBuildInCallBOUND(
-                                                    query,
-                                                    AOPVariable(
-                                                            query, optionalIndicator
-                                                    )
-                                            ),
-                                            AOPBuildInCallCOALESCE(
-                                                    query,
-                                                    listOf(
-                                                            filterOutside,
-                                                            AOPConstant(query, ValueBoolean(false))
-                                                    )
-                                            )
-                                    ),
-                                    AOPNot(
-                                            query,
-                                            AOPBuildInCallBOUND(
-                                                    query,
-                                                    AOPVariable(
-                                                            query, optionalIndicator
-                                                    )
-                                            )
+                                    AOPVariable(
+                                        query, optionalIndicator
                                     )
+                                ),
+                                AOPBuildInCallCOALESCE(
+                                    query,
+                                    listOf(
+                                        filterOutside,
+                                        AOPConstant(query, ValueBoolean(false))
+                                    )
+                                )
                             ),
-                            node
+                            AOPNot(
+                                query,
+                                AOPBuildInCallBOUND(
+                                    query,
+                                    AOPVariable(
+                                        query, optionalIndicator
+                                    )
+                                )
+                            )
+                        ),
+                        node
                     )
                     res.dontSplitFilter = 1
                     onChange()

@@ -3,7 +3,7 @@ package lupos.s00misc
 /* explicitly storing the classname has the advantage, that the classname is accessible in native code too, and not just via reflection */
 abstract class Luposdate3000Exception(val classname: String, msg: String) : Exception(msg)
 
-//not implemented exceptions --->>>
+// not implemented exceptions --->>>
 open class NotImplementedException(classname: String, msg: String) : Luposdate3000Exception(classname, msg)
 class HistogramNotImplementedException(classname: String) : NotImplementedException("HistogramNotImplementedException", "Histograms not implemented in '$classname'.")
 class IteratorBundleColumnModeNotImplementedException : NotImplementedException("IteratorBundleColumnModeNotImplementedException", "IteratorBundle is unable to convert to column Mode.")
@@ -17,10 +17,10 @@ class DirectoryCompareNotImplementedException : NotImplementedException("Directo
 class GraphVarHistogramsNotImplementedException : NotImplementedException("GraphVarHistogramsNotImplementedException", "histograms for triples using graph variable not implemented.")
 class TriplePatternsContainingTheSameVariableTwiceNotImplementedException : NotImplementedException("TriplePatternsContainingTheSameVariableTwiceNotImplementedException", "triple pattern currently must not contain the same variable twice.")
 
-//syntax exceptions --->>>
+// syntax exceptions --->>>
 abstract class SyntaxException(classname: String, msg: String) : Luposdate3000Exception(classname, msg)
 class RecoursiveVariableDefinitionSyntaxException(name: String) : SyntaxException("RecoursiveVariableDefinitionSyntaxException", "Recoursive variable definition not allowed '$name'.")
-class ProjectionDoubleDefinitionOfVariableSyntaxException(name: String) : SyntaxException("DoubleDefinitionOfVariableSyntaxException", "Projection must not contain same variable as bind and selection '${name}'.")
+class ProjectionDoubleDefinitionOfVariableSyntaxException(name: String) : SyntaxException("DoubleDefinitionOfVariableSyntaxException", "Projection must not contain same variable as bind and selection '$name'.")
 class AggregateNotAllowedSyntaxException : SyntaxException("AggregateNotAllowedSyntaxException", "Aggregates are not allowed here.")
 class VariableNotDefinedSyntaxException(classname: String, name: String) : SyntaxException("VariableNotDefinedSyntaxException", "Variable '$name' unknown within '$classname'.")
 class GroupByClauseNotUsedException : SyntaxException("GroupByClauseNotUsedException", "expression within group-by-clauses must be bound to a variable.")
@@ -28,7 +28,7 @@ class GroupByColumnMissing(name: String) : SyntaxException("GroupByColumnMissing
 class GroupByDuplicateColumnException : SyntaxException("GroupByDuplicateColumnException", "no duplicate columns allowed in group-by.")
 class XMLNotParseableException : SyntaxException("XMLNotParseableException", "Xml is not parseable.")
 
-//evaluation exceptions --->>>
+// evaluation exceptions --->>>
 abstract class EvaluationException(classname: String, msg: String) : Luposdate3000Exception(classname, msg)
 class DatasetImportFailedException(file: String) : EvaluationException("DatasetImportFailedException", "importing the dataset '$file' failed")
 class IncompatibleTypesDuringCompareException : EvaluationException("IncompatibleTypesDuringCompareException", "The provided types are incompatible.")
@@ -67,9 +67,9 @@ class GraphNameNotFoundException(name: String) : EvaluationException("GraphNameN
 class UnreachableException : EvaluationException("UnreachableException", "This should be unreachable.")
 class EmptyResultException : EvaluationException("EmptyResultException", "")
 
-//known bugs --->>>
+// known bugs --->>>
 class BugException(classname: String, bugname: String) : Luposdate3000Exception("BugException", "Class '$classname' has bug '$bugname'.")
-//used to indicate, that intentionally every exception is caught here
+// used to indicate, that intentionally every exception is caught here
 typealias DontCareWhichException = Throwable
 
 class JenaBugException(bugname: String) : Luposdate3000Exception("JenaBugException", "Jena has bug: '$bugname'")

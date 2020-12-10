@@ -70,7 +70,7 @@ internal class ParserContext(@JvmField val input: IMyInputStream) {
         }
         val t: Int = inBuf[inBufPosition++].toInt() and 0xff
         if ((t and 0x80) == 0) {
-            //1byte
+            // 1byte
             c = t
             if ((c == '\r'.toInt()) || (c == '\n'.toInt())) {
                 if (!flagrN) {
@@ -83,7 +83,7 @@ internal class ParserContext(@JvmField val input: IMyInputStream) {
                 flagrN = false
             }
         } else if ((t and 0x20) == 0) {
-            //2byte
+            // 2byte
             flagrN = false
             c = (t and 0x1f) shl 6
             if (inBufPosition >= inBufSize) {
@@ -97,7 +97,7 @@ internal class ParserContext(@JvmField val input: IMyInputStream) {
             c = c or (inBuf[inBufPosition++].toInt() and 0x3f)
             column++
         } else if ((t and 0x10) == 0) {
-            //3byte
+            // 3byte
             flagrN = false
             c = (t and 0x0f) shl 12
             if (inBufPosition >= inBufSize) {
@@ -120,7 +120,7 @@ internal class ParserContext(@JvmField val input: IMyInputStream) {
             c = c or (inBuf[inBufPosition++].toInt() and 0x3f)
             column++
         } else {
-            //4byte
+            // 4byte
             flagrN = false
             c = (t and 0x07) shl 18
             if (inBufPosition >= inBufSize) {
@@ -159,8 +159,9 @@ internal class ParserContext(@JvmField val input: IMyInputStream) {
     }
 }
 
-internal inline fun parse_dot(context: ParserContext,
-                              crossinline onDOT: () -> Unit
+internal inline fun parse_dot(
+    context: ParserContext,
+    crossinline onDOT: () -> Unit
 ) {
     context.clear()
     error@ while (true) {
@@ -186,8 +187,9 @@ internal inline fun parse_dot_helper_0(c: Int): Int {
     }
 }
 
-internal inline fun parse_ws(context: ParserContext,
-                             crossinline onSKIP_WS: () -> Unit
+internal inline fun parse_ws(
+    context: ParserContext,
+    crossinline onSKIP_WS: () -> Unit
 ) {
     context.clear()
     error@ while (true) {
@@ -206,8 +208,9 @@ internal inline fun parse_ws(context: ParserContext,
     }
 }
 
-internal inline fun parse_ws_forced(context: ParserContext,
-                                    crossinline onSKIP_WS_FORCED: () -> Unit
+internal inline fun parse_ws_forced(
+    context: ParserContext,
+    crossinline onSKIP_WS_FORCED: () -> Unit
 ) {
     context.clear()
     error@ while (true) {
@@ -261,14 +264,15 @@ internal inline fun parse_ws_forced_helper_0(c: Int): Int {
     }
 }
 
-internal inline fun parse_statement(context: ParserContext,
-                                    crossinline onBASE: () -> Unit,
-                                    crossinline onPREFIX: () -> Unit,
-                                    crossinline onBASE2: () -> Unit,
-                                    crossinline onPREFIX2: () -> Unit,
-                                    crossinline onIRIREF: () -> Unit,
-                                    crossinline onPNAME_NS: () -> Unit,
-                                    crossinline onBLANK_NODE_LABEL: () -> Unit
+internal inline fun parse_statement(
+    context: ParserContext,
+    crossinline onBASE: () -> Unit,
+    crossinline onPREFIX: () -> Unit,
+    crossinline onBASE2: () -> Unit,
+    crossinline onPREFIX2: () -> Unit,
+    crossinline onIRIREF: () -> Unit,
+    crossinline onPNAME_NS: () -> Unit,
+    crossinline onBLANK_NODE_LABEL: () -> Unit
 ) {
     context.clear()
     error@ while (true) {
@@ -1177,8 +1181,9 @@ fun parse_statement_helper_22(c: Int): Int {
     }
 }
 
-internal inline fun parse_base(context: ParserContext,
-                               crossinline onIRIREF: () -> Unit
+internal inline fun parse_base(
+    context: ParserContext,
+    crossinline onIRIREF: () -> Unit
 ) {
     context.clear()
     error@ while (true) {
@@ -1417,8 +1422,9 @@ internal inline fun parse_base_helper_4(c: Int): Int {
     }
 }
 
-internal inline fun parse_prefix(context: ParserContext,
-                                 crossinline onPNAME_NS: () -> Unit
+internal inline fun parse_prefix(
+    context: ParserContext,
+    crossinline onPNAME_NS: () -> Unit
 ) {
     context.clear()
     error@ while (true) {
@@ -1622,8 +1628,9 @@ internal inline fun parse_prefix_helper_2(c: Int): Int {
     }
 }
 
-internal inline fun parse_prefix2(context: ParserContext,
-                                  crossinline onIRIREF: () -> Unit
+internal inline fun parse_prefix2(
+    context: ParserContext,
+    crossinline onIRIREF: () -> Unit
 ) {
     context.clear()
     error@ while (true) {
@@ -1862,10 +1869,11 @@ internal inline fun parse_prefix2_helper_4(c: Int): Int {
     }
 }
 
-internal inline fun parse_predicate(context: ParserContext,
-                                    crossinline onVERB1: () -> Unit,
-                                    crossinline onIRIREF: () -> Unit,
-                                    crossinline onPNAME_NS: () -> Unit
+internal inline fun parse_predicate(
+    context: ParserContext,
+    crossinline onVERB1: () -> Unit,
+    crossinline onIRIREF: () -> Unit,
+    crossinline onPNAME_NS: () -> Unit
 ) {
     context.clear()
     error@ while (true) {
@@ -2298,18 +2306,19 @@ internal inline fun parse_predicate_helper_6(c: Int): Int {
     }
 }
 
-internal inline fun parse_obj(context: ParserContext,
-                              crossinline onIRIREF: () -> Unit,
-                              crossinline onPNAME_NS: () -> Unit,
-                              crossinline onBLANK_NODE_LABEL: () -> Unit,
-                              crossinline onSTRING_LITERAL_QUOTE: () -> Unit,
-                              crossinline onSTRING_LITERAL_SINGLE_QUOTE: () -> Unit,
-                              crossinline onSTRING_LITERAL_LONG_SINGLE_QUOTE: () -> Unit,
-                              crossinline onSTRING_LITERAL_LONG_QUOTE: () -> Unit,
-                              crossinline onINTEGER: () -> Unit,
-                              crossinline onDECIMAL: () -> Unit,
-                              crossinline onDOUBLE: () -> Unit,
-                              crossinline onBOOLEAN: () -> Unit
+internal inline fun parse_obj(
+    context: ParserContext,
+    crossinline onIRIREF: () -> Unit,
+    crossinline onPNAME_NS: () -> Unit,
+    crossinline onBLANK_NODE_LABEL: () -> Unit,
+    crossinline onSTRING_LITERAL_QUOTE: () -> Unit,
+    crossinline onSTRING_LITERAL_SINGLE_QUOTE: () -> Unit,
+    crossinline onSTRING_LITERAL_LONG_SINGLE_QUOTE: () -> Unit,
+    crossinline onSTRING_LITERAL_LONG_QUOTE: () -> Unit,
+    crossinline onINTEGER: () -> Unit,
+    crossinline onDECIMAL: () -> Unit,
+    crossinline onDOUBLE: () -> Unit,
+    crossinline onBOOLEAN: () -> Unit
 ) {
     context.clear()
     error@ while (true) {
@@ -5992,10 +6001,11 @@ internal inline fun parse_obj_helper_29(c: Int): Int {
     }
 }
 
-internal inline fun parse_triple_end(context: ParserContext,
-                                     crossinline onPREDICATE_LIST1: () -> Unit,
-                                     crossinline onOBJECT_LIST1: () -> Unit,
-                                     crossinline onDOT: () -> Unit
+internal inline fun parse_triple_end(
+    context: ParserContext,
+    crossinline onPREDICATE_LIST1: () -> Unit,
+    crossinline onOBJECT_LIST1: () -> Unit,
+    crossinline onDOT: () -> Unit
 ) {
     context.clear()
     error@ while (true) {
@@ -6041,12 +6051,13 @@ internal inline fun parse_triple_end_helper_0(c: Int): Int {
     }
 }
 
-internal inline fun parse_triple_end_or_object_iri(context: ParserContext,
-                                                   crossinline onPN_LOCAL: () -> Unit,
-                                                   crossinline onPREDICATE_LIST1: () -> Unit,
-                                                   crossinline onOBJECT_LIST1: () -> Unit,
-                                                   crossinline onDOT: () -> Unit,
-                                                   crossinline onSKIP_WS_FORCED: () -> Unit
+internal inline fun parse_triple_end_or_object_iri(
+    context: ParserContext,
+    crossinline onPN_LOCAL: () -> Unit,
+    crossinline onPREDICATE_LIST1: () -> Unit,
+    crossinline onOBJECT_LIST1: () -> Unit,
+    crossinline onDOT: () -> Unit,
+    crossinline onSKIP_WS_FORCED: () -> Unit
 ) {
     context.clear()
     error@ while (true) {
@@ -6527,13 +6538,14 @@ fun parse_triple_end_or_object_iri_helper_3(c: Int): Int {
     }
 }
 
-internal inline fun parse_triple_end_or_object_string(context: ParserContext,
-                                                      crossinline onLANGTAG: () -> Unit,
-                                                      crossinline onIRI1: () -> Unit,
-                                                      crossinline onPREDICATE_LIST1: () -> Unit,
-                                                      crossinline onOBJECT_LIST1: () -> Unit,
-                                                      crossinline onDOT: () -> Unit,
-                                                      crossinline onSKIP_WS_FORCED: () -> Unit
+internal inline fun parse_triple_end_or_object_string(
+    context: ParserContext,
+    crossinline onLANGTAG: () -> Unit,
+    crossinline onIRI1: () -> Unit,
+    crossinline onPREDICATE_LIST1: () -> Unit,
+    crossinline onOBJECT_LIST1: () -> Unit,
+    crossinline onDOT: () -> Unit,
+    crossinline onSKIP_WS_FORCED: () -> Unit
 ) {
     context.clear()
     error@ while (true) {
@@ -6727,9 +6739,10 @@ internal inline fun parse_triple_end_or_object_string_helper_4(c: Int): Int {
     }
 }
 
-internal inline fun parse_triple_end_or_object_string_typed(context: ParserContext,
-                                                            crossinline onIRIREF: () -> Unit,
-                                                            crossinline onPNAME_NS: () -> Unit
+internal inline fun parse_triple_end_or_object_string_typed(
+    context: ParserContext,
+    crossinline onIRIREF: () -> Unit,
+    crossinline onPNAME_NS: () -> Unit
 ) {
     context.clear()
     error@ while (true) {
@@ -7155,12 +7168,13 @@ internal inline fun parse_triple_end_or_object_string_typed_helper_6(c: Int): In
     }
 }
 
-internal inline fun parse_triple_end_or_object_string_typed_iri(context: ParserContext,
-                                                                crossinline onPN_LOCAL: () -> Unit,
-                                                                crossinline onPREDICATE_LIST1: () -> Unit,
-                                                                crossinline onOBJECT_LIST1: () -> Unit,
-                                                                crossinline onDOT: () -> Unit,
-                                                                crossinline onSKIP_WS_FORCED: () -> Unit
+internal inline fun parse_triple_end_or_object_string_typed_iri(
+    context: ParserContext,
+    crossinline onPN_LOCAL: () -> Unit,
+    crossinline onPREDICATE_LIST1: () -> Unit,
+    crossinline onOBJECT_LIST1: () -> Unit,
+    crossinline onDOT: () -> Unit,
+    crossinline onSKIP_WS_FORCED: () -> Unit
 ) {
     context.clear()
     error@ while (true) {
@@ -7641,9 +7655,10 @@ fun parse_triple_end_or_object_string_typed_iri_helper_3(c: Int): Int {
     }
 }
 
-internal inline fun parse_subject_iri_or_ws(context: ParserContext,
-                                            crossinline onPN_LOCAL: () -> Unit,
-                                            crossinline onSKIP_WS_FORCED: () -> Unit
+internal inline fun parse_subject_iri_or_ws(
+    context: ParserContext,
+    crossinline onPN_LOCAL: () -> Unit,
+    crossinline onSKIP_WS_FORCED: () -> Unit
 ) {
     context.clear()
     error@ while (true) {
@@ -8097,9 +8112,10 @@ fun parse_subject_iri_or_ws_helper_3(c: Int): Int {
     }
 }
 
-internal inline fun parse_predicate_iri_or_ws(context: ParserContext,
-                                              crossinline onPN_LOCAL: () -> Unit,
-                                              crossinline onSKIP_WS_FORCED: () -> Unit
+internal inline fun parse_predicate_iri_or_ws(
+    context: ParserContext,
+    crossinline onPN_LOCAL: () -> Unit,
+    crossinline onSKIP_WS_FORCED: () -> Unit
 ) {
     context.clear()
     error@ while (true) {

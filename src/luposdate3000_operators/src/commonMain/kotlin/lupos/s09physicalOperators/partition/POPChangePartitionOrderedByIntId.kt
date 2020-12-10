@@ -16,7 +16,7 @@ import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.iterator.RowIterator
 import lupos.s09physicalOperators.POPBase
 
-//http://blog.pronghorn.tech/optimizing-suspending-functions-in-kotlin/
+// http://blog.pronghorn.tech/optimizing-suspending-functions-in-kotlin/
 class POPChangePartitionOrderedByIntId(query: IQuery, projectedVariables: List<String>, val partitionVariable: String, var partitionCountFrom: Int, var partitionCountTo: Int, var partitionIDFrom: Int, var partitionIDTo: Int, child: IOPBase) : POPBase(query, projectedVariables, EOperatorID.POPChangePartitionOrderedByIntIdID, "POPChangePartitionOrderedByIntId", arrayOf(child), ESortPriority.PREVENT_ANY) {
     override fun getPartitionCount(variable: String): Int {
         return if (variable == partitionVariable) {
@@ -58,16 +58,16 @@ class POPChangePartitionOrderedByIntId(query: IQuery, projectedVariables: List<S
         val variables0 = children[0].getProvidedVariableNames()
         SanityCheck.check { variables0.containsAll(variables) }
         SanityCheck.check { variables.containsAll(variables0) }
-        //the variable may be eliminated directly after using it in the join            SanityCheck.check { variables.contains(partitionVariable) }
+        // the variable may be eliminated directly after using it in the join            SanityCheck.check { variables.contains(partitionVariable) }
         val elementsPerRing = Partition.queue_size * variables.size
-        val ringbuffer = IntArray(elementsPerRing * partitionCountSrc) //only modified by writer, reader just modifies its pointer
-        val ringbufferStart = IntArray(partitionCountSrc) { it * elementsPerRing } //constant
-        val ringbufferReadHead = IntArray(partitionCountSrc) { 0 } //owned by read-thread - no locking required
-        val ringbufferWriteHead = IntArray(partitionCountSrc) { 0 } //owned by write thread - no locking required
+        val ringbuffer = IntArray(elementsPerRing * partitionCountSrc) // only modified by writer, reader just modifies its pointer
+        val ringbufferStart = IntArray(partitionCountSrc) { it * elementsPerRing } // constant
+        val ringbufferReadHead = IntArray(partitionCountSrc) { 0 } // owned by read-thread - no locking required
+        val ringbufferWriteHead = IntArray(partitionCountSrc) { 0 } // owned by write thread - no locking required
         val continuationLock = MyLock()
         val ringbufferWriterContinuation = Array(partitionCountSrc) { Parallel.createCondition() }
         val ringbufferReaderContinuation: ParallelCondition = Parallel.createCondition()
-        val writerFinished = IntArray(partitionCountSrc) { 0 } //writer changes to 1 if finished
+        val writerFinished = IntArray(partitionCountSrc) { 0 } // writer changes to 1 if finished
         var readerFinished = 0
         for (p1 in 0 until partitionCountSrc) {
             val pChild = p1 * partitionCountTo + parent.data[partitionVariable]!!
@@ -100,7 +100,7 @@ class POPChangePartitionOrderedByIntId(query: IQuery, projectedVariables: List<S
                                 } else {
                                     SanityCheck.println { "merge $uuid $pChild writer append data" }
                                     ringbuffer[ringbufferWriteHead[p1] + ringbufferStart[p1]] = tmp
-                                    //println("$p produced")
+                                    // println("$p produced")
                                     ringbufferWriteHead[p1] = (ringbufferWriteHead[p1] + 1) % elementsPerRing
                                     ringbufferReaderContinuation.signal()
                                 }
@@ -142,7 +142,7 @@ class POPChangePartitionOrderedByIntId(query: IQuery, projectedVariables: List<S
                                             break@loop
                                         }
                                     }
-                                    //println("$p produced")
+                                    // println("$p produced")
                                     ringbufferWriteHead[p1] = (ringbufferWriteHead[p1] + variables.size) % elementsPerRing
                                     ringbufferReaderContinuation.signal()
                                 }
@@ -180,7 +180,7 @@ class POPChangePartitionOrderedByIntId(query: IQuery, projectedVariables: List<S
                                 for (variable in variables.indices) {
                                     ringbuffer[ringbufferWriteHead[p1] + variableMapping[variable] + ringbufferStart[p1]] = child.buf[tmp + variable]
                                 }
-                                //println("$p produced")
+                                // println("$p produced")
                                 ringbufferWriteHead[p1] = (ringbufferWriteHead[p1] + variables.size) % elementsPerRing
                                 ringbufferReaderContinuation.signal()
                             }

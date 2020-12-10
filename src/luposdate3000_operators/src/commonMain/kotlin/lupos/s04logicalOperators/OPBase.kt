@@ -53,7 +53,7 @@ abstract class OPBase(@JvmField val query: IQuery, @JvmField val operatorID: EOp
     var sortPrioritiesInitialized: Boolean = false
 
     @JvmField
-    var sortPriorities: MutableList<List<SortHelper>> = mutableListOf()//possibilities (filtered for_ parent)
+    var sortPriorities: MutableList<List<SortHelper>> = mutableListOf() // possibilities (filtered for_ parent)
 
     @JvmField
     var mySortPriority: MutableList<SortHelper> = mutableListOf()
@@ -346,7 +346,7 @@ abstract class OPBase(@JvmField val query: IQuery, @JvmField val operatorID: EOp
                     }
                 }
                 for (child in 0 until 2) {
-//it is required, that both join-inputs are sorted by the same join columns in the same order - _if all join columns are equally sorted, than allow any additional sort by one of the children
+// it is required, that both join-inputs are sorted by the same join columns in the same order - _if all join columns are equally sorted, than allow any additional sort by one of the children
                     for (i in 0 until resTmp[child].size) {
                         loop@ for (j in 0 until resTmp[1 - child].size) {
                             var s = columns[0].size

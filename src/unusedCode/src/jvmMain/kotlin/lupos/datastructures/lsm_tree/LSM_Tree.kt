@@ -28,7 +28,7 @@ class LSM_Tree_Helper<K : Comparable<in K>, V>(@JvmField val directoryOfIndex: S
 
 // returns the value of the key, or null if the key is not found
 inline fun <K, V> getOrNull(k: K, firstLevel: (k: K) -> V?, remainingLevels: (k: K) -> V?): V? = firstLevel(k)
-        ?: remainingLevels(k)
+    ?: remainingLevels(k)
 
 // the following version throws an exception if the key is not found
 inline fun <K, V> get(k: K, firstLevel: (k: K) -> V, remainingLevels: (k: K) -> V): V = try {
@@ -202,12 +202,12 @@ interface Searchable<K, V, R> {
 
         fun range(smallerKey: K, biggerKey: K): () -> Pair<K, V>? {
             val iterators =
-                    if (this.nextLevel != null)
-                        Array<() -> Pair<K, V>?>(this.numberOfRuns + 1, { i -> if (i < this.numberOfRuns) this.runs[i]!!.rangeNoOrder(smallerKey, biggerKey) else this.nextLevel!!.rangeNoOrder(smallerKey, biggerKey) })
-                    else
-                        Array<() -> Pair<K, V>?>(this.numberOfRuns, { i -> this.runs[i]!!.rangeNoOrder(smallerKey, biggerKey) })
+                if (this.nextLevel != null)
+                    Array<() -> Pair<K, V>?>(this.numberOfRuns + 1, { i -> if (i < this.numberOfRuns) this.runs[i]!!.rangeNoOrder(smallerKey, biggerKey) else this.nextLevel!!.rangeNoOrder(smallerKey, biggerKey) })
+                else
+                    Array<() -> Pair<K, V>?>(this.numberOfRuns, { i -> this.runs[i]!!.rangeNoOrder(smallerKey, biggerKey) })
             val currentValues =
-                    Array<Pair<K, V>?>(iterators.size, { i -> iterators[i]() })
+                Array<Pair<K, V>?>(iterators.size, { i -> iterators[i]() })
             var noneNullIndex = 0 // noneNullIndex is the index until which the iterators are not empty
             // determine noneNullIndex and at the same time create an array with continuously none-empty iterators
             for (i in 0 until iterators.size) {
@@ -247,10 +247,10 @@ interface Searchable<K, V, R> {
 
         fun rangeNoOrder(smallerKey: K, biggerKey: K): () -> Pair<K, V>? {
             val iterators =
-                    if (this.nextLevel != null)
-                        Array<() -> Pair<K, V>?>(this.numberOfRuns + 1, { i -> if (i < this.numberOfRuns) this.runs[i]!!.rangeNoOrder(smallerKey, biggerKey) else this.nextLevel!!.rangeNoOrder(smallerKey, biggerKey) })
-                    else
-                        Array<() -> Pair<K, V>?>(this.numberOfRuns, { i -> this.runs[i]!!.rangeNoOrder(smallerKey, biggerKey) })
+                if (this.nextLevel != null)
+                    Array<() -> Pair<K, V>?>(this.numberOfRuns + 1, { i -> if (i < this.numberOfRuns) this.runs[i]!!.rangeNoOrder(smallerKey, biggerKey) else this.nextLevel!!.rangeNoOrder(smallerKey, biggerKey) })
+                else
+                    Array<() -> Pair<K, V>?>(this.numberOfRuns, { i -> this.runs[i]!!.rangeNoOrder(smallerKey, biggerKey) })
             var index = 0
             return rsfun@{
                 while (index < iterators.size) {

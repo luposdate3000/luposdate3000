@@ -1,6 +1,5 @@
 package lupos.s05tripleStore
 
-import kotlin.jvm.JvmField
 import lupos.s00misc.File
 import lupos.s00misc.MyListInt
 import lupos.s00misc.MyMapIntInt
@@ -10,16 +9,17 @@ import lupos.s00misc.MySetInt
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.TripleStoreModifyOperationsNotImplementedException
 import lupos.s03resultRepresentation.ResultSetDictionary
+import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.s04logicalOperators.iterator.ColumnIteratorEmpty
 import lupos.s04logicalOperators.iterator.IteratorBundle
-import lupos.s04logicalOperators.Query
 import lupos.s05tripleStore.index_SingleList.ColumnIteratorStore1
 import lupos.s05tripleStore.index_SingleList.ColumnIteratorStore2a
 import lupos.s05tripleStore.index_SingleList.ColumnIteratorStore2b
 import lupos.s05tripleStore.index_SingleList.ColumnIteratorStore3a
 import lupos.s05tripleStore.index_SingleList.ColumnIteratorStore3b
 import lupos.s05tripleStore.index_SingleList.ColumnIteratorStore3c
+import kotlin.jvm.JvmField
 
 class TripleStoreIndex_SingleList : TripleStoreIndex() {
     @JvmField
@@ -30,7 +30,7 @@ class TripleStoreIndex_SingleList : TripleStoreIndex() {
 
     @JvmField
     val index2 = MyMapLongInt()
-    suspend override fun safeToFile(filename: String) {
+    override suspend fun safeToFile(filename: String) {
         File(filename).dataOutputStream { out ->
             data.forEach {
                 out.writeInt(it)
@@ -38,7 +38,7 @@ class TripleStoreIndex_SingleList : TripleStoreIndex() {
         }
     }
 
-    suspend override fun flush() {
+    override suspend fun flush() {
     }
 
     fun rebuildMap() {
@@ -72,7 +72,7 @@ class TripleStoreIndex_SingleList : TripleStoreIndex() {
         }
     }
 
-    suspend override fun loadFromFile(filename: String) {
+    override suspend fun loadFromFile(filename: String) {
         SanityCheck.check { data.size == 0 }
         val capacity = (File(filename).length() / 4).toInt()
         File(filename).dataInputStream { fis ->
@@ -85,7 +85,7 @@ class TripleStoreIndex_SingleList : TripleStoreIndex() {
         var storeIteratorCounter = 1L
     }
 
-    suspend override fun printContents() {
+    override suspend fun printContents() {
         SanityCheck.suspended {
             val ai = ColumnIteratorStore3a(data)
             val bi = ColumnIteratorStore3b(data)
@@ -102,7 +102,7 @@ class TripleStoreIndex_SingleList : TripleStoreIndex() {
         }
     }
 
-    suspend override fun getIterator(query: Query, params: TripleStoreFeatureParams): IteratorBundle {
+    override suspend fun getIterator(query: Query, params: TripleStoreFeatureParams): IteratorBundle {
         var fp = (params as TripleStoreFeatureParamsDefault).getFilterAndProjection(query)
         val filter = fp.first
         val projection = fp.second
@@ -277,7 +277,7 @@ class TripleStoreIndex_SingleList : TripleStoreIndex() {
         }
     }
 
-    suspend override fun import(dataImport: IntArray, count: Int, order: IntArray) {
+    override suspend fun import(dataImport: IntArray, count: Int, order: IntArray) {
         if (count > 0) {
             SanityCheck {
                 for (i in 1 until count / 3) {
@@ -379,7 +379,7 @@ class TripleStoreIndex_SingleList : TripleStoreIndex() {
         throw TripleStoreModifyOperationsNotImplementedException()
     }
 
-    suspend override fun clear() {
+    override suspend fun clear() {
         data.clear()
         index1.clear()
         index2.clear()

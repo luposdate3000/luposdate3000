@@ -231,55 +231,55 @@ object BinaryTestCase {
         return res
     }
 
-    private var notImplementedFeaturesList = mutableSetOf(//
-            "rdfs:subPropertyOf",//
-            "rdfs:subClassOf",//
-            "rdfs:domain",//
-            // "rdfs:label",//
-            "rdfs:range",//
-            // "owl:Class",//
-            "owl:allValuesFrom",//
-            "owl:complementOf",//
-            "owl:DatatypeProperty",//
-            "owl:intersectionOf",//
-            "owl:maxQualifiedCardinality",//
-            "owl:minCardinality",//
-            "owl:minQualifiedCardinality",//
-            "owl:Nothing",//
-            "owl:ObjectProperty",//
-            "owl:onClass",//
-            "owl:onProperty",//
-            "owl:qualifiedCardinality",//
-            "owl:Restriction",//
-            "owl:sameAs",//
-            "owl:someValuesFrom",//
-            "owl:Thing",//
-            "owl:unionOf",//
-            "<http://www.w3.org/2000/01/rdf-schema#domain>",//
-            "<http://www.w3.org/2000/01/rdf-schema#range>",//
-            // "<http://www.w3.org/2000/01/rdf-schema#label>",//
-            "<http://www.w3.org/2000/01/rdf-schema#seeAlso>",//
-            "<http://www.w3.org/2000/01/rdf-schema#subClassOf>",//
-            "<http://www.w3.org/2000/01/rdf-schema#subPropertyOf>",//
-            "<http://www.w3.org/2002/07/owl#allValuesFrom>",//
-            // "<http://www.w3.org/2002/07/owl#Class>",//
-            "<http://www.w3.org/2002/07/owl#DatatypeProperty>",//
-            "<http://www.w3.org/2002/07/owl#disjointWith>",//
-            "<http://www.w3.org/2002/07/owl#equivalentClass>",//
-            "<http://www.w3.org/2002/07/owl#FunctionalProperty>",//
-            "<http://www.w3.org/2002/07/owl#intersectionOf>",//
-            "<http://www.w3.org/2002/07/owl#inverseOf>",//
-            "<http://www.w3.org/2002/07/owl#minCardinality>",//
-            "<http://www.w3.org/2002/07/owl#NamedIndividual>",//
-            "<http://www.w3.org/2002/07/owl#Nothing>",//
-            "<http://www.w3.org/2002/07/owl#ObjectProperty>",//
-            "<http://www.w3.org/2002/07/owl#oneOf>",//
-            "<http://www.w3.org/2002/07/owl#onProperty>",//
-            "<http://www.w3.org/2002/07/owl#Ontology>",//
-            "<http://www.w3.org/2002/07/owl#Restriction>",//
-            "<http://www.w3.org/2002/07/owl#sameAs>",//
-            "<http://www.w3.org/2002/07/owl#someValuesFrom>",//
-            "<http://www.w3.org/2002/07/owl#Thing>",//
+    private var notImplementedFeaturesList = mutableSetOf( //
+        "rdfs:subPropertyOf", //
+        "rdfs:subClassOf", //
+        "rdfs:domain", //
+        // "rdfs:label",//
+        "rdfs:range", //
+        // "owl:Class",//
+        "owl:allValuesFrom", //
+        "owl:complementOf", //
+        "owl:DatatypeProperty", //
+        "owl:intersectionOf", //
+        "owl:maxQualifiedCardinality", //
+        "owl:minCardinality", //
+        "owl:minQualifiedCardinality", //
+        "owl:Nothing", //
+        "owl:ObjectProperty", //
+        "owl:onClass", //
+        "owl:onProperty", //
+        "owl:qualifiedCardinality", //
+        "owl:Restriction", //
+        "owl:sameAs", //
+        "owl:someValuesFrom", //
+        "owl:Thing", //
+        "owl:unionOf", //
+        "<http://www.w3.org/2000/01/rdf-schema#domain>", //
+        "<http://www.w3.org/2000/01/rdf-schema#range>", //
+        // "<http://www.w3.org/2000/01/rdf-schema#label>",//
+        "<http://www.w3.org/2000/01/rdf-schema#seeAlso>", //
+        "<http://www.w3.org/2000/01/rdf-schema#subClassOf>", //
+        "<http://www.w3.org/2000/01/rdf-schema#subPropertyOf>", //
+        "<http://www.w3.org/2002/07/owl#allValuesFrom>", //
+        // "<http://www.w3.org/2002/07/owl#Class>",//
+        "<http://www.w3.org/2002/07/owl#DatatypeProperty>", //
+        "<http://www.w3.org/2002/07/owl#disjointWith>", //
+        "<http://www.w3.org/2002/07/owl#equivalentClass>", //
+        "<http://www.w3.org/2002/07/owl#FunctionalProperty>", //
+        "<http://www.w3.org/2002/07/owl#intersectionOf>", //
+        "<http://www.w3.org/2002/07/owl#inverseOf>", //
+        "<http://www.w3.org/2002/07/owl#minCardinality>", //
+        "<http://www.w3.org/2002/07/owl#NamedIndividual>", //
+        "<http://www.w3.org/2002/07/owl#Nothing>", //
+        "<http://www.w3.org/2002/07/owl#ObjectProperty>", //
+        "<http://www.w3.org/2002/07/owl#oneOf>", //
+        "<http://www.w3.org/2002/07/owl#onProperty>", //
+        "<http://www.w3.org/2002/07/owl#Ontology>", //
+        "<http://www.w3.org/2002/07/owl#Restriction>", //
+        "<http://www.w3.org/2002/07/owl#sameAs>", //
+        "<http://www.w3.org/2002/07/owl#someValuesFrom>", //
+        "<http://www.w3.org/2002/07/owl#Thing>", //
     )
 
     fun executeTestCase(query_folder: String): Boolean {
@@ -405,7 +405,7 @@ object BinaryTestCase {
                                             partition.data[key] = value
                                             val node = distributedTripleStore.getDefaultGraph(query3).getIterator(queryParam, idx, partition)
                                             val table = operatorGraphToTable(OPBaseCompound(query3, arrayOf(node), listOf(listOf("s", "p", "o"))))
-                                            SanityCheck.println { "storage content $idx ${value}/${p.partitionCount} '$key' ${table.columns.map { it }}" }
+                                            SanityCheck.println { "storage content $idx $value/${p.partitionCount} '$key' ${table.columns.map { it }}" }
                                             for (r in table.data) {
                                                 SanityCheck.println { r.map { it } }
                                             }

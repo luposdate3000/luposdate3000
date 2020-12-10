@@ -179,7 +179,7 @@ open class RowIteratorMerge(@JvmField val a: RowIterator, @JvmField val b: RowIt
         next = {
             var res = -1
             when (flag) {
-                1 -> {//call next on a, b is empty
+                1 -> { // call next on a, b is empty
                     res = a.next()
                     buf = a.buf
                     if (res < 0) {
@@ -187,7 +187,7 @@ open class RowIteratorMerge(@JvmField val a: RowIterator, @JvmField val b: RowIt
                         flag = 0
                     }
                 }
-                2 -> {//call next on b, a is empty
+                2 -> { // call next on b, a is empty
                     res = b.next()
                     buf = b.buf
                     if (res < 0) {
@@ -195,43 +195,49 @@ open class RowIteratorMerge(@JvmField val a: RowIterator, @JvmField val b: RowIt
                         flag = 0
                     }
                 }
-                4 -> {//call next on a, b is not empty
+                4 -> { // call next on a, b is not empty
                     aIdx = a.next()
                     if (aIdx < 0) {
                         buf = b.buf
                         res = bIdx
                         flag = 2
                     } else {
-                        compare({
-                            buf = a.buf
-                            res = aIdx
-                            flag = 4
-                        }, {
-                            buf = b.buf
-                            res = bIdx
-                            flag = 5
-                        })
+                        compare(
+                            {
+                                buf = a.buf
+                                res = aIdx
+                                flag = 4
+                            },
+                            {
+                                buf = b.buf
+                                res = bIdx
+                                flag = 5
+                            }
+                        )
                     }
                 }
-                5 -> {//call next on b, a is not empty
+                5 -> { // call next on b, a is not empty
                     bIdx = b.next()
                     if (bIdx < 0) {
                         buf = a.buf
                         res = aIdx
                         flag = 1
                     } else {
-                        compare({
-                            buf = a.buf
-                            res = aIdx
-                            flag = 4
-                        }, {
-                            buf = b.buf
-                            res = bIdx
-                            flag = 5
-                        })
+                        compare(
+                            {
+                                buf = a.buf
+                                res = aIdx
+                                flag = 4
+                            },
+                            {
+                                buf = b.buf
+                                res = bIdx
+                                flag = 5
+                            }
+                        )
                     }
                 }
-                3 -> {//call next on both
+                3 -> { // call next on both
                     aIdx = a.next()
                     bIdx = b.next()
                     if (aIdx < 0 && bIdx < 0) {
@@ -250,15 +256,18 @@ open class RowIteratorMerge(@JvmField val a: RowIterator, @JvmField val b: RowIt
                         res = bIdx
                         flag = 2
                     } else {
-                        compare({
-                            buf = a.buf
-                            res = aIdx
-                            flag = 4
-                        }, {
-                            buf = b.buf
-                            res = bIdx
-                            flag = 5
-                        })
+                        compare(
+                            {
+                                buf = a.buf
+                                res = aIdx
+                                flag = 4
+                            },
+                            {
+                                buf = b.buf
+                                res = bIdx
+                                flag = 5
+                            }
+                        )
                     }
                 }
             }

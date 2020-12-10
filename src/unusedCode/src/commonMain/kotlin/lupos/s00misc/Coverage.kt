@@ -1,8 +1,6 @@
 package lupos.s00misc
 
 import kotlin.jvm.JvmField
-import lupos.s00misc.File
-import lupos.s00misc.Parallel
 
 enum class ECoverage {
     Disabled,
@@ -141,7 +139,7 @@ internal object Coverage {
         if (h < 0) {
             h = -h
         }
-        File("coverage${h}.cov").printWriter { out ->
+        File("coverage$h.cov").printWriter { out ->
             out.println(s)
         }
     }

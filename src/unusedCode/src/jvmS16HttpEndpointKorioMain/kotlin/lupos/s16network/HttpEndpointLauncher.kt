@@ -1,9 +1,9 @@
 package lupos.s16network
 
-import com.soywiz.korio.net.http.createHttpServer
 import com.soywiz.korio.net.http.Http
 import com.soywiz.korio.net.http.HttpServer
-import kotlin.jvm.JvmField
+import com.soywiz.korio.net.http.createHttpServer
+import lupos.SparqlTestSuite
 import lupos.s00misc.EnpointRecievedInvalidPath
 import lupos.s00misc.File
 import lupos.s00misc.JenaWrapper
@@ -12,7 +12,7 @@ import lupos.s00misc.Parallel
 import lupos.s00misc.SanityCheck
 import lupos.s03resultRepresentation.nodeGlobalDictionary
 import lupos.s15tripleStoreDistributed.distributedTripleStore
-import lupos.SparqlTestSuite
+import kotlin.jvm.JvmField
 
 @UseExperimental(ExperimentalStdlibApi::class)
 object HttpEndpointLauncher {
@@ -128,7 +128,7 @@ object HttpEndpointLauncher {
                     }
                     request.end(responseBytes)
                 } catch (e: Throwable) {
-//DO NOT send anything here, as that may be the root cause of the exception
+// DO NOT send anything here, as that may be the root cause of the exception
                     e.printStackTrace()
                 }
             }

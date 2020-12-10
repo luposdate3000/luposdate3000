@@ -397,7 +397,7 @@ open class SparqlTestSuite {
         if (queryFile == null) {
             return true
         }
-        lastTripleCount = 0//dont apply during w3c-tests
+        lastTripleCount = 0 // dont apply during w3c-tests
         val success = parseSPARQLAndEvaluate(true, names.first(), expectedResult, queryFile!!, inputDataFile, resultFile, services, inputDataGraph, outputDataGraph)
         return success == expectedResult
     }
@@ -532,7 +532,7 @@ open class SparqlTestSuite {
                         val n = s["name"]!!
                         val fn = s["filename"]!!
                         val fc = readFileOrNull(fn)!!
-//TODO
+// TODO
                     }
                 }
             } else {
@@ -557,7 +557,7 @@ open class SparqlTestSuite {
             SanityCheck.println { astNode }
             SanityCheck.println { "----------Logical Operator Graph" }
             val lopNode = astNode.visit(OperatorGraphVisitor(query))
-            File("log/${testName2}-Logical-Operator-Graph.tex").printWriterSuspended {
+            File("log/$testName2-Logical-Operator-Graph.tex").printWriterSuspended {
                 it.println(OperatorGraphToLatex(lopNode.toXMLElement().toString(), testName2))
             }
             SanityCheck.check({ lopNode == lopNode.cloneOP() }, { lopNode.toString() + " - " + lopNode.cloneOP().toString() })
@@ -568,7 +568,7 @@ open class SparqlTestSuite {
             SanityCheck.println { "----------Logical Operator Graph optimized" }
             val lopNode2 = LogicalOptimizer(query).optimizeCall(lopNode)
             SanityCheck.check { lopNode2 == lopNode2.cloneOP() }
-            File("log/${testName2}-Logical-Operator-Graph-Optimized.tex").printWriterSuspended {
+            File("log/$testName2-Logical-Operator-Graph-Optimized.tex").printWriterSuspended {
                 it.println(OperatorGraphToLatex(lopNode2.toXMLElement().toString(), testName2))
             }
             SanityCheck.suspended {
@@ -580,7 +580,7 @@ open class SparqlTestSuite {
             val popNode = popOptimizer.optimizeCall(lopNode2)
             SanityCheck.check({ popNode == popNode.cloneOP() }, { popNode.toString() + " - " + popNode.cloneOP().toString() })
             SanityCheck { popNode.toSparqlQuery() }
-            File("log/${testName2}-Physical-Operator-Graph.tex").printWriterSuspended {
+            File("log/$testName2-Physical-Operator-Graph.tex").printWriterSuspended {
                 it.println(OperatorGraphToLatex(popNode.toXMLElement().toString(), testName2))
             }
             SanityCheck.suspended {
@@ -628,7 +628,7 @@ open class SparqlTestSuite {
                     try {
                         val jenaResult = JenaWrapper.execQuery(toParse)
                         val jenaXML = XMLElementFromXML()(jenaResult)
-//println("test xmlJena >>>>>"+jenaResult+"<<<<<")
+// println("test xmlJena >>>>>"+jenaResult+"<<<<<")
                         if (jenaXML != null && !jenaXML.myEqualsUnclean(xmlQueryResult, true, true, true)) {
                             println("----------Verify Output Jena jena,actual")
                             println("test jenaOriginal :: $jenaResult")

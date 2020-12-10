@@ -18,7 +18,7 @@ class LogicalOptimizerDistinctSplit(query: Query) : OptimizerBase(query, EOptimi
             val child = node.getChildren()[0]
             val provided = child.getProvidedVariableNames().toMutableList()
             if (provided.size == 0) {
-                //no variables -> no sort required
+                // no variables -> no sort required
                 res = LOPReduced(query, child)
                 onChange()
             } else {

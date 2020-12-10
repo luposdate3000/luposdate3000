@@ -31,7 +31,7 @@ class POPFilter(query: IQuery, projectedVariables: List<String>, filter: AOPBase
     override fun getProvidedVariableNamesInternal(): List<String> = children[0].getProvidedVariableNames()
     override fun getRequiredVariableNames(): List<String> = children[1].getRequiredVariableNamesRecoursive()
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
-        //TODO not-equal shortcut during evaluation based on integer-ids
+        // TODO not-equal shortcut during evaluation based on integer-ids
         val variables = children[0].getProvidedVariableNames()
         val variablesOut = getProvidedVariableNames()
         val outMap = mutableMapOf<String, ColumnIterator>()
@@ -61,46 +61,50 @@ class POPFilter(query: IQuery, projectedVariables: List<String>, filter: AOPBase
                     }
 
                     override /*suspend*/ fun next(): Int {
-                        return ColumnIteratorQueueExt.nextHelper(this, {
-                            try {
-                                var done = false
-                                while (!done) {
-                                    for (variableIndex2 in variables.indices) {
-                                        columnsLocal[variableIndex2].tmp = columnsIn[variableIndex2]!!.next()
-                                        //point each iterator to the current value
-                                        if (columnsLocal[variableIndex2].tmp == ResultSetDictionaryExt.nullValue) {
-                                            SanityCheck.check { variableIndex2 == 0 }
-                                            SanityCheck.println { "POPFilterXXX$uuid close F $classname" }
-                                            for ((k, v) in child.columns) {
-                                                v.close()
+                        return ColumnIteratorQueueExt.nextHelper(
+                            this,
+                            {
+                                try {
+                                    var done = false
+                                    while (!done) {
+                                        for (variableIndex2 in variables.indices) {
+                                            columnsLocal[variableIndex2].tmp = columnsIn[variableIndex2]!!.next()
+                                            // point each iterator to the current value
+                                            if (columnsLocal[variableIndex2].tmp == ResultSetDictionaryExt.nullValue) {
+                                                SanityCheck.check { variableIndex2 == 0 }
+                                                SanityCheck.println { "POPFilterXXX$uuid close F $classname" }
+                                                for ((k, v) in child.columns) {
+                                                    v.close()
+                                                }
+                                                for (variableIndex3 in 0 until variables.size) {
+                                                    ColumnIteratorQueueExt.closeOnEmptyQueue(columnsLocal[variableIndex3])
+                                                }
+                                                done = true
+                                                break
                                             }
-                                            for (variableIndex3 in 0 until variables.size) {
-                                                ColumnIteratorQueueExt.closeOnEmptyQueue(columnsLocal[variableIndex3])
+                                        }
+                                        if (!done) {
+                                            // evaluate
+                                            if (expression()) {
+                                                // accept/deny row in each iterator
+                                                for (variableIndex2 in variablesOut.indices) {
+                                                    columnsOut[variableIndex2].queue.add(columnsOut[variableIndex2].tmp)
+                                                }
+                                                done = true
                                             }
-                                            done = true
-                                            break
                                         }
                                     }
-                                    if (!done) {
-                                        //evaluate
-                                        if (expression()) {
-                                            //accept/deny row in each iterator
-                                            for (variableIndex2 in variablesOut.indices) {
-                                                columnsOut[variableIndex2].queue.add(columnsOut[variableIndex2].tmp)
-                                            }
-                                            done = true
-                                        }
+                                } catch (e: NotImplementedException) {
+                                    SanityCheck.println { "POPFilterXXX$uuid close G $classname" }
+                                    SanityCheck.println { "filter caught notimplemented and closed its childs" }
+                                    for ((k, v) in child.columns) {
+                                        v.close()
                                     }
+                                    throw e
                                 }
-                            } catch (e: NotImplementedException) {
-                                SanityCheck.println { "POPFilterXXX$uuid close G $classname" }
-                                SanityCheck.println { "filter caught notimplemented and closed its childs" }
-                                for ((k, v) in child.columns) {
-                                    v.close()
-                                }
-                                throw e
-                            }
-                        }, { __close() })
+                            },
+                            { __close() }
+                        )
                     }
                 })
             }
@@ -146,7 +150,7 @@ class POPFilter(query: IQuery, projectedVariables: List<String>, filter: AOPBase
                                 while (!done) {
                                     for (variableIndex2 in variables.indices) {
                                         columnsLocal[variableIndex2].tmp = columnsIn[variableIndex2]!!.next()
-                                        //point each iterator to the current value
+                                        // point each iterator to the current value
                                         if (columnsLocal[variableIndex2].tmp == ResultSetDictionaryExt.nullValue) {
                                             SanityCheck.println { "POPFilterXXX$uuid close C $classname" }
                                             for ((k, v) in child.columns) {
@@ -161,9 +165,9 @@ class POPFilter(query: IQuery, projectedVariables: List<String>, filter: AOPBase
                                         }
                                     }
                                     if (!done) {
-                                        //evaluate
+                                        // evaluate
                                         if (expression()) {
-                                            //accept/deny row in each iterator
+                                            // accept/deny row in each iterator
                                             res2 = true
                                         }
                                     }

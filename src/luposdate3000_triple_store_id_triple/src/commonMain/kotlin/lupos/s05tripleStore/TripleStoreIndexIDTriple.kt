@@ -381,7 +381,7 @@ class TripleStoreIndexIDTriple : TripleStoreIndex() {
 
     private /*suspend*/ fun flushAssumeLocks() {
         if (pendingImport.size > 0) {
-            //check again, that there is something to be done ... this may be changed, because there could be someone _else beforehand, holding exactly this lock ... .
+            // check again, that there is something to be done ... this may be changed, because there could be someone _else beforehand, holding exactly this lock ... .
             var j = 1
             while (j < pendingImport.size) {
                 if (pendingImport[j] == null) {
@@ -398,12 +398,16 @@ class TripleStoreIndexIDTriple : TripleStoreIndex() {
             var node: ByteArray? = null
             var flag = false
             SanityCheck.println { "Outside.refcount($firstLeaf2)  x141" }
-            NodeManager.getNodeAny(firstLeaf2, {
-                flag = true
-                node = it
-            }, {
-                node = it
-            })
+            NodeManager.getNodeAny(
+                firstLeaf2,
+                {
+                    flag = true
+                    node = it
+                },
+                {
+                    node = it
+                }
+            )
             SanityCheck.check { rootNode == null }
             SanityCheck.check { root == NodeManager.nodeNullPointer }
             SanityCheck.check { firstLeaf == NodeManager.nodeNullPointer }
@@ -468,7 +472,7 @@ class TripleStoreIndexIDTriple : TripleStoreIndex() {
     }
 
     private /*suspend*/ fun rebuildData(_iterator: TripleIterator) {
-//assuming to have write-lock
+// assuming to have write-lock
         var iterator: TripleIterator = Count1PassThroughIterator(DistinctIterator(_iterator))
         SanityCheck {
             iterator = DebugPassThroughIterator(iterator)
@@ -489,7 +493,7 @@ class TripleStoreIndexIDTriple : TripleStoreIndex() {
                 SanityCheck.println { "Outside.refcount(??) - x53" }
                 NodeManager.allocateNodeLeaf { n, i ->
                     NodeShared.setNextNode(node, i)
-                    SanityCheck.println { "Outside.refcount(${nodeid})  x143" }
+                    SanityCheck.println { "Outside.refcount($nodeid)  x143" }
                     NodeManager.releaseNode(nodeid)
                     nodeid = i
                     node = n
@@ -499,13 +503,13 @@ class TripleStoreIndexIDTriple : TripleStoreIndex() {
             }
             SanityCheck.check { currentLayer.size > 0 }
             val rebuildDataPart1 = {
-//work around the crossinline here, because the method would be too large
+// work around the crossinline here, because the method would be too large
                 while (currentLayer.size > 1) {
                     val tmp = mutableListOf<Int>()
                     var prev2: ByteArray? = null
                     SanityCheck.println { "Outside.refcount(??) - x54" }
                     NodeManager.allocateNodeInner { n, i ->
-                        SanityCheck.println { "Outside.refcount(${nodeid})  x144" }
+                        SanityCheck.println { "Outside.refcount($nodeid)  x144" }
                         NodeManager.releaseNode(nodeid)
                         nodeid = i
                         tmp.add(i)
@@ -516,7 +520,7 @@ class TripleStoreIndexIDTriple : TripleStoreIndex() {
                     while (currentLayer.size > 0) {
                         SanityCheck.println { "Outside.refcount(??) - x55" }
                         NodeManager.allocateNodeInner { n, i ->
-                            SanityCheck.println { "Outside.refcount(${nodeid})  x145" }
+                            SanityCheck.println { "Outside.refcount($nodeid)  x145" }
                             NodeManager.releaseNode(nodeid)
                             nodeid = i
                             tmp.add(i)
@@ -529,19 +533,23 @@ class TripleStoreIndexIDTriple : TripleStoreIndex() {
                 }
             }
             rebuildDataPart1()
-            SanityCheck.println { "Outside.refcount(${nodeid})  x146" }
+            SanityCheck.println { "Outside.refcount($nodeid)  x146" }
             NodeManager.releaseNode(nodeid)
             var rootNodeIsLeaf = false
             SanityCheck.check { rootNode == null }
             SanityCheck.println { "Outside.refcount(${currentLayer[0]}) x10" }
-            NodeManager.getNodeAny(currentLayer[0], {
-                rootNodeIsLeaf = true
-            }, {
-                rootNode = it
-                root = currentLayer[0]
-            })
+            NodeManager.getNodeAny(
+                currentLayer[0],
+                {
+                    rootNodeIsLeaf = true
+                },
+                {
+                    rootNode = it
+                    root = currentLayer[0]
+                }
+            )
             if (rootNodeIsLeaf) {
-                SanityCheck.println { "Outside.refcount(${nodeid})  x148" }
+                SanityCheck.println { "Outside.refcount($nodeid)  x148" }
                 NodeManager.releaseNode(nodeid)
                 SanityCheck.println { "Outside.refcount(??) - x56" }
                 NodeManager.allocateNodeInner { n, i ->
@@ -551,7 +559,7 @@ class TripleStoreIndexIDTriple : TripleStoreIndex() {
                 }
             }
         } else {
-//this index is cleared completely
+// this index is cleared completely
             SanityCheck.check { rootNode == null }
             rootNode = null
             root = NodeManager.nodeNullPointer
@@ -567,7 +575,7 @@ class TripleStoreIndexIDTriple : TripleStoreIndex() {
     }
 
     private fun rebuildDataSanity(iterator: TripleIterator) {
-//work around the crossinline here, because the method would be too large
+// work around the crossinline here, because the method would be too large
         rebuildDataSanity2(iterator)
     }
 
@@ -758,7 +766,7 @@ class TripleStoreIndexIDTriple : TripleStoreIndex() {
                             val tmpf = iterator11.skipSIP(1)
                             val tmpg = iterator12.skipSIP(1)
                             SanityCheck.check({ tmpg == currentO }, { "1_2 $queueS $queueP $queueO $tmpg $idx $lastresetIdx $currentO" })
-                            SanityCheck.check({ tmpf == currentP }, { "1_1 $queueS $queueP $queueO $tmpf $idx $lastresetIdx $currentP" }) //error is here xxxx
+                            SanityCheck.check({ tmpf == currentP }, { "1_1 $queueS $queueP $queueO $tmpf $idx $lastresetIdx $currentP" }) // error is here xxxx
                         }
                         0
                     }

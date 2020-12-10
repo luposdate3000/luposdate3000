@@ -78,35 +78,39 @@ class POPBind(query: IQuery, projectedVariables: List<String>, @JvmField val nam
                     }
 
                     override /*suspend*/ fun next(): Int {
-                        return ColumnIteratorQueueExt.nextHelper(this, {
-                            var done = false
-                            for (variableIndex2 in variablesLocal.indices) {
-                                if (boundIndex != variableIndex2) {
-                                    val value = columnsIn[variableIndex2]!!.next()
-                                    if (value == ResultSetDictionaryExt.nullValue) {
-                                        SanityCheck.check { variableIndex2 == 0 || (boundIndex == 0 && variableIndex2 == 1) }
-                                        for (variableIndex3 in 0 until variablesLocal.size) {
-                                            ColumnIteratorQueueExt.closeOnEmptyQueue(columnsLocal[variableIndex3])
-                                        }
-                                        for (closeIndex in variablesLocal.indices) {
-                                            if (boundIndex != closeIndex) {
-                                                columnsIn[closeIndex]!!.close()
+                        return ColumnIteratorQueueExt.nextHelper(
+                            this,
+                            {
+                                var done = false
+                                for (variableIndex2 in variablesLocal.indices) {
+                                    if (boundIndex != variableIndex2) {
+                                        val value = columnsIn[variableIndex2]!!.next()
+                                        if (value == ResultSetDictionaryExt.nullValue) {
+                                            SanityCheck.check { variableIndex2 == 0 || (boundIndex == 0 && variableIndex2 == 1) }
+                                            for (variableIndex3 in 0 until variablesLocal.size) {
+                                                ColumnIteratorQueueExt.closeOnEmptyQueue(columnsLocal[variableIndex3])
                                             }
+                                            for (closeIndex in variablesLocal.indices) {
+                                                if (boundIndex != closeIndex) {
+                                                    columnsIn[closeIndex]!!.close()
+                                                }
+                                            }
+                                            done = true
+                                            break
                                         }
-                                        done = true
-                                        break
+// point each iterator to the current value
+                                        columnsLocal[variableIndex2].tmp = value
                                     }
-//point each iterator to the current value
-                                    columnsLocal[variableIndex2].tmp = value
                                 }
-                            }
-                            if (!done) {
-                                columnsLocal[boundIndex].tmp = query.getDictionary().createValue(expression())
-                                for (variableIndex2 in columnsOut.indices) {
-                                    columnsOut[variableIndex2].queue.add(columnsOut[variableIndex2].tmp)
+                                if (!done) {
+                                    columnsLocal[boundIndex].tmp = query.getDictionary().createValue(expression())
+                                    for (variableIndex2 in columnsOut.indices) {
+                                        columnsOut[variableIndex2].queue.add(columnsOut[variableIndex2].tmp)
+                                    }
                                 }
-                            }
-                        }, { ColumnIteratorQueueExt._close(this) })
+                            },
+                            { ColumnIteratorQueueExt._close(this) }
+                        )
                     }
                 }
             }

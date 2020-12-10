@@ -12,11 +12,13 @@ import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.iterator.IteratorBundle
 
-abstract class AOPBase(query: IQuery,
-                       operatorID: EOperatorID,
-                       classname: String,
-                       children: Array<IOPBase>) :
-        OPBase(query, operatorID, classname, children, ESortPriority.PREVENT_ANY), IAOPBase {
+abstract class AOPBase(
+    query: IQuery,
+    operatorID: EOperatorID,
+    classname: String,
+    children: Array<IOPBase>
+) :
+    OPBase(query, operatorID, classname, children, ESortPriority.PREVENT_ANY), IAOPBase {
     fun evaluateAsBoolean(row: IteratorBundle): () -> Boolean {
         if (enforcesBooleanOrError()) {
             val tmp = evaluateID(row)

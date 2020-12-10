@@ -181,7 +181,7 @@ fun mainFunc(args: Array<String>): Unit = Parallel.runBlocking {
                                     break
                                 }
                             }
-                            println("${x}_${y}_${z}__${a}_${b}__${zPt},$numberOfTriples,0,$counter,${time * 1000.0},${counter / time},NoOptimizer")
+                            println("${x}_${y}_${z}__${a}_${b}__$zPt,$numberOfTriples,0,$counter,${time * 1000.0},${counter / time},NoOptimizer")
                         }
                     }
                 }

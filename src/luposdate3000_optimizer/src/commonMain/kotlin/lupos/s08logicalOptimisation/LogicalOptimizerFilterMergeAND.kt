@@ -40,14 +40,14 @@ class LogicalOptimizerFilterMergeAND(query: Query) : OptimizerBase(query, EOptim
                     SanityCheck.check { c is AOPAnd }
                     val d = c.getChildren()[1] as AOPBase
                     SanityCheck.check { d is AOPBuildInCallCOALESCE }
-                    val e = d.getChildren()[0] as AOPBase //original-filter
+                    val e = d.getChildren()[0] as AOPBase // original-filter
                     if (a is AOPBuildInCallBOUND) {
-                        //TODO check if that bound is one of the options for this optional block
+                        // TODO check if that bound is one of the options for this optional block
                         res = LOPFilter(query, c, child.getChildren()[0])
                         res.dontSplitFilter = 2
                         onChange()
                     } else if (a is AOPNot && a.getChildren()[0] is AOPBuildInCallBOUND) {
-                        //TODO check if that bound is one of the options for this optional block
+                        // TODO check if that bound is one of the options for this optional block
                         res = LOPFilter(query, AOPOr(query, a, AOPNot(query, d)), child.getChildren()[0])
                         res.dontSplitFilter = 2
                         onChange()

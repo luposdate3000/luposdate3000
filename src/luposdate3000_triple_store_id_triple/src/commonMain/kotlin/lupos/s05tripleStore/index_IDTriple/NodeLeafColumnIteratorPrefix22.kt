@@ -99,7 +99,7 @@ internal class NodeLeafColumnIteratorPrefix22(node: ByteArray, nodeid: Int, pref
             counter++
         }
         if (label != 0) {
-            //try next few triples
+            // try next few triples
             if (needsReset) {
                 needsReset = false
                 value0 = 0
@@ -128,7 +128,7 @@ internal class NodeLeafColumnIteratorPrefix22(node: ByteArray, nodeid: Int, pref
                     remaining--
                 }
             }
-            //look at the next pages
+            // look at the next pages
             var nodeidTmp = NodeShared.getNextNode(node)
             var value0Tmp = 0
             var value1Tmp = 0
@@ -149,7 +149,7 @@ internal class NodeLeafColumnIteratorPrefix22(node: ByteArray, nodeid: Int, pref
                     value2Tmp = v2
                 }
                 if (value0Tmp > prefix[0] || (value0Tmp == prefix[0] && value1Tmp > prefix[1]) || value2Tmp >= minValue) {
-                    //dont accidentially skip some results at the end of this page
+                    // dont accidentially skip some results at the end of this page
                     NodeManager.releaseNode(nodeidTmp)
                     break
                 }
@@ -173,7 +173,7 @@ internal class NodeLeafColumnIteratorPrefix22(node: ByteArray, nodeid: Int, pref
                 remaining = 1
                 updateRemaining()
             }
-            //search until the value is found
+            // search until the value is found
             while (remaining > 0) {
                 counter++
                 if (needsReset) {
@@ -277,7 +277,7 @@ internal class NodeLeafColumnIteratorPrefix22(node: ByteArray, nodeid: Int, pref
                 }
             }
             if (value0 > prefix[0] || (value0 == prefix[0] && value1 > prefix[1])) {
-//this must not happen?!?
+// this must not happen?!?
                 _close()
                 return ResultSetDictionaryExt.nullValue
             }

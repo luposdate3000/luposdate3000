@@ -78,7 +78,7 @@ object LuposdateEndpoint {
     }
 
     @JsName("import_turtle_files_old")
-            /*suspend*/ fun importTurtleFilesOld(fileNames: String, bnodeDict: MutableMap<String, Int>): String {
+    /*suspend*/ fun importTurtleFilesOld(fileNames: String, bnodeDict: MutableMap<String, Int>): String {
         try {
             val query = Query()
             var counter = 0
@@ -121,7 +121,7 @@ object LuposdateEndpoint {
     }
 
     @JsName("import_turtle_files")
-            /*suspend*/ fun importTurtleFiles(fileNames: String, bnodeDict: MutableMap<String, Int>): String {
+    /*suspend*/ fun importTurtleFiles(fileNames: String, bnodeDict: MutableMap<String, Int>): String {
         try {
             val query = Query()
             var counter = 0
@@ -154,12 +154,12 @@ object LuposdateEndpoint {
     }
 
     @JsName("import_intermediate_files")
-            /*suspend*/ fun importIntermediateFiles(fileNames: String): String {
+    /*suspend*/ fun importIntermediateFiles(fileNames: String): String {
         return importIntermediateFiles(fileNames, false)
     }
 
     @JsName("import_intermediate_files_a")
-            /*suspend*/ fun importIntermediateFiles(fileNames: String, convert_to_bnodes: Boolean): String {
+    /*suspend*/ fun importIntermediateFiles(fileNames: String, convert_to_bnodes: Boolean): String {
         try {
             Partition.estimatedPartitions1.clear()
             Partition.estimatedPartitions2.clear()
@@ -271,7 +271,7 @@ object LuposdateEndpoint {
     }
 
     @JsName("import_xml_data")
-            /*suspend*/ fun importXmlData(data: String): String {
+    /*suspend*/ fun importXmlData(data: String): String {
         val query = Query()
         val import = POPValuesImportXML(query, listOf("s", "p", "o"), XMLElementFromXML()(data)!!).evaluate(Partition())
         val dataLocal = arrayOf(import.columns["s"]!!, import.columns["p"]!!, import.columns["o"]!!)
@@ -282,12 +282,12 @@ object LuposdateEndpoint {
     }
 
     @JsName("evaluate_sparql_to_operatorgraph_a")
-            /*suspend*/ fun evaluateSparqlToOperatorgraphA(query: String): IOPBase {
+    /*suspend*/ fun evaluateSparqlToOperatorgraphA(query: String): IOPBase {
         return evaluateSparqlToOperatorgraphB(query, false)
     }
 
     @JsName("evaluate_sparql_to_operatorgraph_b")
-            /*suspend*/ fun evaluateSparqlToOperatorgraphB(query: String, logOperatorGraph: Boolean): IOPBase {
+    /*suspend*/ fun evaluateSparqlToOperatorgraphB(query: String, logOperatorGraph: Boolean): IOPBase {
         val q = Query()
 //        var timer = DateHelperRelative.markNow()
         SanityCheck.println { "----------String Query" }
@@ -298,23 +298,23 @@ object LuposdateEndpoint {
         val ltit = LookAheadTokenIterator(tit, 3)
         val parser = SPARQLParser(ltit)
         val astNode = parser.expr()
-//println("timer #401 ${DateHelperRelative.elapsedSeconds(timer)}")
+// println("timer #401 ${DateHelperRelative.elapsedSeconds(timer)}")
 //        timer = DateHelperRelative.markNow()
         SanityCheck.println { astNode }
         SanityCheck.println { "----------Logical Operator Graph" }
         val lopNode = astNode.visit(OperatorGraphVisitor(q))
-//println("timer #402 ${DateHelperRelative.elapsedSeconds(timer)}")
+// println("timer #402 ${DateHelperRelative.elapsedSeconds(timer)}")
 //        timer = DateHelperRelative.markNow()
         SanityCheck.println { lopNode }
         SanityCheck.println { "----------Logical Operator Graph optimized" }
         val lopNode2 = LogicalOptimizer(q).optimizeCall(lopNode)
-//println("timer #403 ${DateHelperRelative.elapsedSeconds(timer)}")
+// println("timer #403 ${DateHelperRelative.elapsedSeconds(timer)}")
 //        timer = DateHelperRelative.markNow()
         SanityCheck.println { lopNode2 }
         SanityCheck.println { "----------Physical Operator Graph" }
         val popOptimizer = PhysicalOptimizer(q)
         val popNode = popOptimizer.optimizeCall(lopNode2)
-//println("timer #404 ${DateHelperRelative.elapsedSeconds(timer)}")
+// println("timer #404 ${DateHelperRelative.elapsedSeconds(timer)}")
 //        timer = DateHelperRelative.markNow()
         SanityCheck.println { popNode }
         if (logOperatorGraph) {
@@ -325,18 +325,18 @@ object LuposdateEndpoint {
             println("<<<<<<<<<<")
             println(OperatorGraphToLatex(popNode.toXMLElement().toString(), ""))
         }
-//println("timer #406 ${DateHelperRelative.elapsedSeconds(timer)}")
+// println("timer #406 ${DateHelperRelative.elapsedSeconds(timer)}")
         return popNode
     }
 
     @JsName("evaluate_operatorgraph_to_result")
-            /*suspend*/ fun evaluateOperatorgraphToResult(node: IOPBase, output: IMyPrintWriter) {
+    /*suspend*/ fun evaluateOperatorgraphToResult(node: IOPBase, output: IMyPrintWriter) {
         evaluateOperatorgraphToResultA(node, output, EQueryResultToStream.DEFAULT_STREAM)
     }
 
     @JsName("evaluate_operatorgraph_to_result_a")
-            /*suspend*/ fun evaluateOperatorgraphToResultA(node: IOPBase, output: IMyPrintWriter, evaluator: EQueryResultToStream): Any? {
-//var timer = DateHelperRelative.markNow()
+    /*suspend*/ fun evaluateOperatorgraphToResultA(node: IOPBase, output: IMyPrintWriter, evaluator: EQueryResultToStream): Any? {
+// var timer = DateHelperRelative.markNow()
         output.println("HTTP/1.1 200 OK")
         output.println("Content-Type: text/plain")
         output.println()
@@ -352,17 +352,17 @@ object LuposdateEndpoint {
         }
         distributedTripleStore.commit(node.getQuery())
         node.getQuery().setCommited()
-//println("timer #407 ${DateHelperRelative.elapsedSeconds(timer)}")
+// println("timer #407 ${DateHelperRelative.elapsedSeconds(timer)}")
         return res
     }
 
     @JsName("evaluate_sparql_to_result_b")
-            /*suspend*/ fun evaluateSparqlToResultB(query: String): String {
+    /*suspend*/ fun evaluateSparqlToResultB(query: String): String {
         return evaluateSparqlToResultC(query, false)
     }
 
     @JsName("evaluate_sparql_to_result_c")
-            /*suspend*/ fun evaluateSparqlToResultC(query: String, logOperatorGraph: Boolean): String {
+    /*suspend*/ fun evaluateSparqlToResultC(query: String, logOperatorGraph: Boolean): String {
         val node = evaluateSparqlToOperatorgraphB(query, logOperatorGraph)
         val buf = MyPrintWriter()
         evaluateOperatorgraphToResult(node, buf)
@@ -370,25 +370,25 @@ object LuposdateEndpoint {
     }
 
     @JsName("evaluate_sparql_to_result_a")
-            /*suspend*/ fun evaluateSparqlToResultA(query: String, output: IMyPrintWriter) {
+    /*suspend*/ fun evaluateSparqlToResultA(query: String, output: IMyPrintWriter) {
         evaluateSparqlToResultD(query, output, false)
     }
 
     @JsName("evaluate_sparql_to_result_d")
-            /*suspend*/ fun evaluateSparqlToResultD(query: String, output: IMyPrintWriter, logOperatorGraph: Boolean) {
-//var timer = DateHelperRelative.markNow()
+    /*suspend*/ fun evaluateSparqlToResultD(query: String, output: IMyPrintWriter, logOperatorGraph: Boolean) {
+// var timer = DateHelperRelative.markNow()
         val node = evaluateSparqlToOperatorgraphB(query, logOperatorGraph)
         evaluateOperatorgraphToResult(node, output)
-//println("timer #408 ${DateHelperRelative.elapsedSeconds(timer)}")
+// println("timer #408 ${DateHelperRelative.elapsedSeconds(timer)}")
     }
 
     @JsName("evaluate_operatorgraphXML_to_result_a")
-            /*suspend*/ fun evaluateOperatorgraphxmlToResultA(query: String): String {
+    /*suspend*/ fun evaluateOperatorgraphxmlToResultA(query: String): String {
         return evaluateOperatorgraphxmlToResultB(query, false)
     }
 
     @JsName("evaluate_operatorgraphXML_to_result_b")
-            /*suspend*/ fun evaluateOperatorgraphxmlToResultB(query: String, logOperatorGraph: Boolean): String {
+    /*suspend*/ fun evaluateOperatorgraphxmlToResultB(query: String, logOperatorGraph: Boolean): String {
         val q = Query()
         val popNode = XMLElement.convertToOPBase(q, XMLElementFromXML()(query)!!)
         SanityCheck.println { popNode }

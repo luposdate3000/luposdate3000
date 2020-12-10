@@ -33,14 +33,18 @@ fun applySuspend(f: String, suspendMode: SuspendMode) {
         fileSource.bufferedReader().readLines().forEach {
             when (suspendMode) {
                 SuspendMode.Enable -> {
-                    out.println(it.//
-                    replace(regexDisableSuspend, "\$1suspend ").//
-                    replace(regexEnableSuspend, "suspend "))
+                    out.println(
+                        it //
+                            .replace(regexDisableSuspend, "\$1suspend ") //
+                            .replace(regexEnableSuspend, "suspend ")
+                    )
                 }
                 SuspendMode.Disable -> {
-                    out.println(it.//
-                    replace(regexDisableSuspend, "\$1").//
-                    replace(regexEnableSuspend, ""))
+                    out.println(
+                        it //
+                            .replace(regexDisableSuspend, "\$1") //
+                            .replace(regexEnableSuspend, "")
+                    )
                 }
             }
         }

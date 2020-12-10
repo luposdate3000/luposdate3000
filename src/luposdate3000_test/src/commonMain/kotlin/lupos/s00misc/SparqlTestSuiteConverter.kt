@@ -10,16 +10,16 @@ class SparqlTestSuiteConverter(resource_folder: String, private val output_folde
         prefixDirectory = "$resource_folder/"
     }
 
-    override fun parseSPARQLAndEvaluate(//
-            executeJena: Boolean,
-            testName: String,//
-            expectedResult: Boolean,//
-            queryFile: String,//
-            inputDataFileName: String?,//
-            resultDataFileName: String?,//
-            services: List<Map<String, String>>?,//
-            inputDataGraph: MutableList<MutableMap<String, String>>,//
-            outputDataGraph: MutableList<MutableMap<String, String>>//
+    override fun parseSPARQLAndEvaluate( //
+        executeJena: Boolean,
+        testName: String, //
+        expectedResult: Boolean, //
+        queryFile: String, //
+        inputDataFileName: String?, //
+        resultDataFileName: String?, //
+        services: List<Map<String, String>>?, //
+        inputDataGraph: MutableList<MutableMap<String, String>>, //
+        outputDataGraph: MutableList<MutableMap<String, String>> //
     ): Boolean {
         if (services != null && services.isNotEmpty()) {
             return false

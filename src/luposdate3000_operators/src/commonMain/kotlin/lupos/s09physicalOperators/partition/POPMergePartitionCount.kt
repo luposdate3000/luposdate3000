@@ -44,17 +44,17 @@ class POPMergePartitionCount(query: IQuery, projectedVariables: List<String>, va
     override fun equals(other: Any?): Boolean = other is POPMergePartitionCount && children[0] == other.children[0] && partitionVariable == other.partitionVariable
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
         if (partitionCount == 1) {
-            //single partition - just pass through
+            // single partition - just pass through
             return children[0].evaluate(parent)
         } else {
             val variables = getProvidedVariableNames()
             val variables0 = children[0].getProvidedVariableNames()
             SanityCheck.check { variables0.containsAll(variables) }
             SanityCheck.check { variables.containsAll(variables0) }
-            //partitionVariable as any other variable is not included in the result of the child operator
-            val ringbufferReadHead = IntArray(partitionCount) { 0 } //owned by read-thread - no locking required - available count is the difference between "ringbufferReadHead" and "ringbufferWriteHead"
-            val ringbufferWriteHead = IntArray(partitionCount) { 0 } //owned by write thread - no locking required
-            val writerFinished = IntArray(partitionCount) { 0 } //writer changes to 1 if finished
+            // partitionVariable as any other variable is not included in the result of the child operator
+            val ringbufferReadHead = IntArray(partitionCount) { 0 } // owned by read-thread - no locking required - available count is the difference between "ringbufferReadHead" and "ringbufferWriteHead"
+            val ringbufferWriteHead = IntArray(partitionCount) { 0 } // owned by write thread - no locking required
+            val writerFinished = IntArray(partitionCount) { 0 } // writer changes to 1 if finished
             var readerFinished = 0
             for (p in 0 until partitionCount) {
                 Parallel.launch {
@@ -83,7 +83,7 @@ class POPMergePartitionCount(query: IQuery, projectedVariables: List<String>, va
                         var finishedWriters = 0
                         for (p in 0 until partitionCount) {
                             if (ringbufferReadHead[p] != ringbufferWriteHead[p]) {
-                                //non empty queue -> read one row
+                                // non empty queue -> read one row
                                 SanityCheck.println { "merge $uuid $p reader consumed data" }
                                 res = true
                                 ringbufferReadHead[p]++
@@ -93,7 +93,7 @@ class POPMergePartitionCount(query: IQuery, projectedVariables: List<String>, va
                             }
                         }
                         if (finishedWriters == partitionCount) {
-                            //done
+                            // done
                             break@loop
                         }
                         SanityCheck.println { "merge $uuid reader wait for writer" }

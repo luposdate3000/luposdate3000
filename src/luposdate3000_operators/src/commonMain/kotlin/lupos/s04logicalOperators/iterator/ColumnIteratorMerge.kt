@@ -231,21 +231,21 @@ class ColumnIteratorMerge1(@JvmField val a: ColumnIterator, @JvmField val b: Col
     override /*suspend*/ fun next(): Int {
         var res: Int = ResultSetDictionaryExt.nullValue
         when (label) {
-            1 -> {//call next on a, b is empty
+            1 -> { // call next on a, b is empty
                 res = a.next()
                 if (res == ResultSetDictionaryExt.nullValue) {
                     a.close()
                     label = 0
                 }
             }
-            2 -> {//call next on b, a is empty
+            2 -> { // call next on b, a is empty
                 res = b.next()
                 if (res == ResultSetDictionaryExt.nullValue) {
                     b.close()
                     label = 0
                 }
             }
-            4 -> {//call next on a, b is not empty
+            4 -> { // call next on a, b is not empty
                 aBuf = a.next()
                 if (aBuf == ResultSetDictionaryExt.nullValue) {
                     a.close()
@@ -261,7 +261,7 @@ class ColumnIteratorMerge1(@JvmField val a: ColumnIterator, @JvmField val b: Col
                     }
                 }
             }
-            5 -> {//call next on b, a is not empty
+            5 -> { // call next on b, a is not empty
                 bBuf = b.next()
                 if (bBuf == ResultSetDictionaryExt.nullValue) {
                     b.close()
@@ -277,7 +277,7 @@ class ColumnIteratorMerge1(@JvmField val a: ColumnIterator, @JvmField val b: Col
                     }
                 }
             }
-            3 -> {//call next on both
+            3 -> { // call next on both
                 aBuf = a.next()
                 bBuf = b.next()
                 if (aBuf == ResultSetDictionaryExt.nullValue && bBuf == ResultSetDictionaryExt.nullValue) {
@@ -328,21 +328,21 @@ class ColumnIteratorMerge2(@JvmField val a: ColumnIterator, @JvmField val b: Col
     override /*suspend*/ fun next(): Int {
         var res: Int = ResultSetDictionaryExt.nullValue
         when (label) {
-            1 -> {//call next on a, b is empty
+            1 -> { // call next on a, b is empty
                 res = a.next()
                 if (res == ResultSetDictionaryExt.nullValue) {
                     a.close()
                     label = 0
                 }
             }
-            2 -> {//call next on b, a is empty
+            2 -> { // call next on b, a is empty
                 res = b.next()
                 if (res == ResultSetDictionaryExt.nullValue) {
                     b.close()
                     label = 0
                 }
             }
-            4 -> {//call next on a, b is not empty
+            4 -> { // call next on a, b is not empty
                 aBuf = a.next()
                 if (aBuf == ResultSetDictionaryExt.nullValue) {
                     a.close()
@@ -358,7 +358,7 @@ class ColumnIteratorMerge2(@JvmField val a: ColumnIterator, @JvmField val b: Col
                     }
                 }
             }
-            5 -> {//call next on b, a is not empty
+            5 -> { // call next on b, a is not empty
                 bBuf = b.next()
                 if (bBuf == ResultSetDictionaryExt.nullValue) {
                     b.close()
@@ -374,7 +374,7 @@ class ColumnIteratorMerge2(@JvmField val a: ColumnIterator, @JvmField val b: Col
                     }
                 }
             }
-            3 -> {//call next on both
+            3 -> { // call next on both
                 aBuf = a.next()
                 bBuf = b.next()
                 if (aBuf == ResultSetDictionaryExt.nullValue && bBuf == ResultSetDictionaryExt.nullValue) {

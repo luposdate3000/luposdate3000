@@ -37,22 +37,26 @@ fun applyInline(f: String, inlineMode: InlineMode) {
         fileSource.bufferedReader().readLines().forEach {
             when (inlineMode) {
                 InlineMode.Enable -> {
-                    out.println(it.//
-                    replace(regexDisableNoInline, "\$1noinline ").//
-                    replace(regexDisableInline, "\$1inline ").//
-                    replace(regexDisableCrossInline, "\$1crossinline ").//
-                    replace(regexEnableNoInline, "noinline ").//
-                    replace(regexEnableInline, "inline ").//
-                    replace(regexEnableCrossInline, "crossinline "))
+                    out.println(
+                        it //
+                            .replace(regexDisableNoInline, "\$1noinline ") //
+                            .replace(regexDisableInline, "\$1inline ") //
+                            .replace(regexDisableCrossInline, "\$1crossinline ") //
+                            .replace(regexEnableNoInline, "noinline ") //
+                            .replace(regexEnableInline, "inline ") //
+                            .replace(regexEnableCrossInline, "crossinline ")
+                    )
                 }
                 InlineMode.Disable -> {
-                    out.println(it.//
-                    replace(regexDisableNoInline, "\$1").//
-                    replace(regexDisableInline, "\$1").//
-                    replace(regexDisableCrossInline, "\$1").//
-                    replace(regexEnableNoInline, "").//
-                    replace(regexEnableInline, "").//
-                    replace(regexEnableCrossInline, ""))
+                    out.println(
+                        it //
+                            .replace(regexDisableNoInline, "\$1") //
+                            .replace(regexDisableInline, "\$1") //
+                            .replace(regexDisableCrossInline, "\$1") //
+                            .replace(regexEnableNoInline, "") //
+                            .replace(regexEnableInline, "") //
+                            .replace(regexEnableCrossInline, "")
+                    )
                 }
             }
         }

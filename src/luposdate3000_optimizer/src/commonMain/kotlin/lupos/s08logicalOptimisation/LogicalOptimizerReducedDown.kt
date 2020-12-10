@@ -36,7 +36,7 @@ class LogicalOptimizerReducedDown(query: Query) : OptimizerBase(query, EOptimize
                         }
                     }
                     if (flag) {
-//keep the reduced, if_ there is a blank variable in the triple-pattern
+// keep the reduced, if_ there is a blank variable in the triple-pattern
                         res = child
                         onChange()
                     }

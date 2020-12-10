@@ -98,7 +98,7 @@ class TripleStoreFeatureParamsPartition(val idx: EIndexPattern, params: Array<IA
         }
         var name = ""
         for ((k, v) in partition.data) {
-            //this should be implemented more nice, as there is only one entry in the map
+            // this should be implemented more nice, as there is only one entry in the map
             name = k
         }
         var j = 0
@@ -112,7 +112,7 @@ class TripleStoreFeatureParamsPartition(val idx: EIndexPattern, params: Array<IA
                     j++
                 }
             } else {
-                j++ //constants at the front do count
+                j++ // constants at the front do count
             }
         }
         return -1

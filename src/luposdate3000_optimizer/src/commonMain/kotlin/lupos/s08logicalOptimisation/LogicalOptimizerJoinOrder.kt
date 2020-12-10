@@ -29,10 +29,10 @@ class LogicalOptimizerJoinOrder(query: Query) : OptimizerBase(query, EOptimizerI
                     res.add(d)
                 }
             } else if (c is OPNothing) {
-                //there can not be any result, if_ one of the children does not have any output.
+                // there can not be any result, if_ one of the children does not have any output.
                 throw EmptyResultException()
             } else if (c is OPEmptyRow) {
-                //skip those unnecessary joins, without any observeable effekt
+                // skip those unnecessary joins, without any observeable effekt
             } else {
                 res.add(c)
             }
@@ -41,7 +41,7 @@ class LogicalOptimizerJoinOrder(query: Query) : OptimizerBase(query, EOptimizerI
     }
 
     private fun clusterizeChildren(nodes: List<IOPBase>): List<MutableList<IOPBase>> {
-        //put children with same variables into groups, such that those definetly can use Merge-Join as much as possible
+        // put children with same variables into groups, such that those definetly can use Merge-Join as much as possible
         val res = mutableListOf<MutableList<IOPBase>>()
         val variables = mutableListOf<List<String>>()
         loop@ for (node in nodes) {
@@ -99,7 +99,7 @@ class LogicalOptimizerJoinOrder(query: Query) : OptimizerBase(query, EOptimizerI
                 if (allChilds2.size > 2) {
                     var result: IOPBase? = null
                     if (result == null && node.onlyExistenceRequired) {
-                        //dont not prefer merge join for_ ask-queries, as this makes it harder later, to avoid any materialisation
+                        // dont not prefer merge join for_ ask-queries, as this makes it harder later, to avoid any materialisation
                         result = LogicalOptimizerJoinOrderStore(allChilds2, node)
                     }
                     if (result == null) {

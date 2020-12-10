@@ -1,11 +1,11 @@
 package lupos.s05tripleStore
 
-import kotlin.jvm.JvmField
 import lupos.s00misc.File
 import lupos.s00misc.MyMapIntGeneric
 import lupos.s00misc.MyMapLongGeneric
 import lupos.s00misc.MySetInt
 import lupos.s00misc.SanityCheck
+import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.s04logicalOperators.iterator.ColumnIteratorChildIterator
 import lupos.s04logicalOperators.iterator.ColumnIteratorChildIteratorEmpty
@@ -13,18 +13,18 @@ import lupos.s04logicalOperators.iterator.ColumnIteratorEmpty
 import lupos.s04logicalOperators.iterator.ColumnIteratorMultiValue
 import lupos.s04logicalOperators.iterator.ColumnIteratorRepeatValue
 import lupos.s04logicalOperators.iterator.IteratorBundle
-import lupos.s04logicalOperators.Query
+import kotlin.jvm.JvmField
 
 class TripleStoreIndex_MapMapList : TripleStoreIndex() {
     @JvmField
     val data = MyMapIntGeneric<MyMapIntGeneric<MySetInt>>()
-    suspend override fun printContents() {
+    override suspend fun printContents() {
     }
 
-    suspend override fun flush() {
+    override suspend fun flush() {
     }
 
-    suspend override fun safeToFile(filename: String) {
+    override suspend fun safeToFile(filename: String) {
         File(filename).dataOutputStream { out ->
             out.writeInt(data.size)
             val iterator0 = data.iterator()
@@ -45,7 +45,7 @@ class TripleStoreIndex_MapMapList : TripleStoreIndex() {
         }
     }
 
-    suspend override fun loadFromFile(filename: String) {
+    override suspend fun loadFromFile(filename: String) {
         File(filename).dataInputStream { it ->
             val size0 = it.readInt()
             data.withFastInitializer { initData ->
@@ -68,7 +68,7 @@ class TripleStoreIndex_MapMapList : TripleStoreIndex() {
         }
     }
 
-    suspend override fun getIterator(query: Query, params: TripleStoreFeatureParams): IteratorBundle {
+    override suspend fun getIterator(query: Query, params: TripleStoreFeatureParams): IteratorBundle {
         var fp = (params as TripleStoreFeatureParamsDefault).getFilterAndProjection(query)
         val filter = fp.first
         val projection = fp.second
@@ -124,20 +124,23 @@ class TripleStoreIndex_MapMapList : TripleStoreIndex() {
                                 }
 
                                 override suspend fun next(): Int {
-                                    return next_helper({
-                                        if (iter.hasNext()) {
-                                            val key = iter.next()
-                                            val value = iter.value()
-                                            if (projection[0] != "_") {
-                                                columnsArr[0].addChild(ColumnIteratorRepeatValue(value.size, key))
+                                    return next_helper(
+                                        {
+                                            if (iter.hasNext()) {
+                                                val key = iter.next()
+                                                val value = iter.value()
+                                                if (projection[0] != "_") {
+                                                    columnsArr[0].addChild(ColumnIteratorRepeatValue(value.size, key))
+                                                }
+                                                if (projection[1] != "_") {
+                                                    columnsArr[1].addChild(ColumnIteratorMultiValue(value.iterator()))
+                                                }
                                             }
-                                            if (projection[1] != "_") {
-                                                columnsArr[1].addChild(ColumnIteratorMultiValue(value.iterator()))
-                                            }
+                                        },
+                                        {
+                                            _close()
                                         }
-                                    }, {
-                                        _close()
-                                    })
+                                    )
                                 }
                             }
                         }
@@ -177,32 +180,35 @@ class TripleStoreIndex_MapMapList : TripleStoreIndex() {
                             }
 
                             override suspend fun next(): Int {
-                                return next_helper({
-                                    while (true) {
-                                        if (iter2.hasNext()) {
-                                            val key2 = iter2.next()
-                                            val value2 = iter2.value()
-                                            if (projection[0] != "_") {
-                                                columnsArr[0].addChild(ColumnIteratorRepeatValue(value2.size, key1))
-                                            }
-                                            if (projection[1] != "_") {
-                                                columnsArr[1].addChild(ColumnIteratorRepeatValue(value2.size, key2))
-                                            }
-                                            if (projection[2] != "_") {
-                                                columnsArr[2].addChild(ColumnIteratorMultiValue(value2.iterator()))
-                                            }
-                                            break
-                                        } else {
-                                            if (iter.hasNext()) {
-                                                key1 = iter.next()
-                                                value1 = iter.value()
-                                                iter2 = value1.iterator()
-                                            } else {
+                                return next_helper(
+                                    {
+                                        while (true) {
+                                            if (iter2.hasNext()) {
+                                                val key2 = iter2.next()
+                                                val value2 = iter2.value()
+                                                if (projection[0] != "_") {
+                                                    columnsArr[0].addChild(ColumnIteratorRepeatValue(value2.size, key1))
+                                                }
+                                                if (projection[1] != "_") {
+                                                    columnsArr[1].addChild(ColumnIteratorRepeatValue(value2.size, key2))
+                                                }
+                                                if (projection[2] != "_") {
+                                                    columnsArr[2].addChild(ColumnIteratorMultiValue(value2.iterator()))
+                                                }
                                                 break
+                                            } else {
+                                                if (iter.hasNext()) {
+                                                    key1 = iter.next()
+                                                    value1 = iter.value()
+                                                    iter2 = value1.iterator()
+                                                } else {
+                                                    break
+                                                }
                                             }
                                         }
-                                    }
-                                }, { _close() })
+                                    },
+                                    { _close() }
+                                )
                             }
                         }
                     }
@@ -224,7 +230,7 @@ class TripleStoreIndex_MapMapList : TripleStoreIndex() {
         return res
     }
 
-    suspend override fun import(dataImport: IntArray, count: Int, order: IntArray) {
+    override suspend fun import(dataImport: IntArray, count: Int, order: IntArray) {
         if (count > 0) {
             var lastS = dataImport[order[0]]
             var tmpS = data.getOrCreate(lastS, { MyMapIntGeneric<MySetInt>() })
@@ -290,7 +296,7 @@ class TripleStoreIndex_MapMapList : TripleStoreIndex() {
         }
     }
 
-    suspend override fun clear() {
+    override suspend fun clear() {
         data.clear()
     }
 }

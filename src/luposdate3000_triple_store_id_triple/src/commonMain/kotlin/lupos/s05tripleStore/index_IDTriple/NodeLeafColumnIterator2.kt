@@ -35,7 +35,7 @@ internal class NodeLeafColumnIterator2(node: ByteArray, nodeid: Int, lock: MyRea
         }
         if (label != 0) {
             var counter = 0
-            //try next few triples
+            // try next few triples
             if (needsReset) {
                 needsReset = false
                 value = 0
@@ -54,7 +54,7 @@ internal class NodeLeafColumnIterator2(node: ByteArray, nodeid: Int, lock: MyRea
                     remaining--
                 }
             }
-            //look at the next pages
+            // look at the next pages
             val nodeidTmp = NodeShared.getNextNode(node)
             var valueTmp = 0
             var usedNextPage = false
@@ -71,7 +71,7 @@ internal class NodeLeafColumnIterator2(node: ByteArray, nodeid: Int, lock: MyRea
                     valueTmp = v
                 }
                 if (valueTmp >= minValue) {
-                    //dont accidentially skip some results at the end of this page
+                    // dont accidentially skip some results at the end of this page
                     NodeManager.releaseNode(nodeidTmp)
                     break
                 }
@@ -92,7 +92,7 @@ internal class NodeLeafColumnIterator2(node: ByteArray, nodeid: Int, lock: MyRea
                 remaining = 1
                 updateRemaining()
             }
-            //search until the value is found
+            // search until the value is found
             while (remaining > 0) {
                 counter++
                 if (needsReset) {

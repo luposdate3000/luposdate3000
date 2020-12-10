@@ -1,7 +1,6 @@
 package lupos.s00misc
 
 import kotlin.jvm.JvmField
-import lupos.s00misc.FunktionWontWorkWithThisImplementationException
 
 class MyMapStringIntPatriciaTrieDouble() {
     @JvmField
@@ -22,10 +21,10 @@ class MyMapStringIntPatriciaTrieDouble() {
     val allNodes = MyListGeneric<MyMapStringIntPatriciaTrieNode>()
 
     @JvmField
-    val allOutNodes = MyListInt()//index in allNodes
+    val allOutNodes = MyListInt() // index in allNodes
 
     @JvmField
-    val allOutOffsets = MyListInt()//index in allNodesChilds
+    val allOutOffsets = MyListInt() // index in allNodesChilds
     fun clear() {
         root = MyMapStringIntPatriciaTrieNode()
         rootValue = undefinedValue
@@ -146,7 +145,7 @@ class MyMapStringIntPatriciaTrieDouble() {
                             } else {
                                 var result = undefinedValue
                                 if (create) {
-                                    //previous key was a prefix of the new key
+                                    // previous key was a prefix of the new key
                                     val newNode = MyMapStringIntPatriciaTrieNode()
                                     val newNodeIdx = allNodes.size
                                     allNodes.add(newNode)
@@ -180,7 +179,7 @@ class MyMapStringIntPatriciaTrieDouble() {
                                 if (commonKey.length == key.length) {
                                     allOutNodes.add(nodeIdx)
                                     allOutOffsets.add(childIdx)
-                                    //new key is a prefix of the old key
+                                    // new key is a prefix of the old key
                                     newNode.str = otherKey
                                     newNode.data = intArrayOf(0, otherResult, otherChildIdx)
                                     if (otherResult != undefinedValue) {
@@ -197,7 +196,7 @@ class MyMapStringIntPatriciaTrieDouble() {
                                     allOutNodes.add(newNodeIdx)
                                     allOutOffsets.add(0)
                                     val newKey = key.substring(commonKey.length, key.length)
-                                    //both keys share a common prefix - both need to be changed
+                                    // both keys share a common prefix - both need to be changed
                                     newNode.str = newKey + otherKey
                                     newNode.data = intArrayOf(0, newKey.length, result, otherResult, 0, otherChildIdx)
                                     if (otherResult != undefinedValue) {
@@ -260,13 +259,13 @@ class MyMapStringIntPatriciaTrieDouble() {
         }
         var res = walkInternal(key, true)
         SanityCheck {
-            //debug()
+            // debug()
             if (res == list.size) {
                 list.add(key)
             }
             for (i in 0 until allOutNodes.size) {
                 var tmp = this[i]
-                SanityCheck.check({ tmp == list[i] }, { "old value changed ${list[i]} -> ${tmp}" })
+                SanityCheck.check({ tmp == list[i] }, { "old value changed ${list[i]} -> $tmp" })
                 SanityCheck.check({ this[tmp] == i }, { "error in path .. $tmp $i ${this[tmp]}" })
             }
         }
@@ -279,7 +278,7 @@ class MyMapStringIntPatriciaTrieDouble() {
         File(filename).dataOutputStream { out ->
             out.writeInt(rootValue)
             out.writeInt(allNodes.size)
-//writeing allNodes -->>
+// writeing allNodes -->>
             val nodeIterator = allNodes.iterator()
             var idx = 0
             while (nodeIterator.hasNext()) {
@@ -294,7 +293,7 @@ class MyMapStringIntPatriciaTrieDouble() {
                 }
                 idx++
             }
-//writeing allNodes <<--
+// writeing allNodes <<--
         }
     }
 

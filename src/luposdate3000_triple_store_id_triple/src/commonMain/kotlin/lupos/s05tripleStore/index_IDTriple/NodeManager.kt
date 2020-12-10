@@ -92,7 +92,7 @@ internal object NodeManager {
         SanityCheck.println { "NodeManager.freeNode B" }
     }
 
-    inline    /*suspend*/ fun freeNodeAndAllRelated(nodeid: Int) {
+    inline /*suspend*/ fun freeNodeAndAllRelated(nodeid: Int) {
         SanityCheck.println { "Outside.refcount($nodeid)  x70" }
         releaseNode(nodeid)
         freeNodeAndAllRelatedInternal(nodeid)
@@ -104,10 +104,14 @@ internal object NodeManager {
         if (nodeid != nodeNullPointer) {
             var node: ByteArray? = null
             SanityCheck.println { "Outside.refcount($nodeid)  x16" }
-            getNodeAny(nodeid, {
-            }, { n ->
-                node = n
-            })
+            getNodeAny(
+                nodeid,
+                {
+                },
+                { n ->
+                    node = n
+                }
+            )
             if (node != null) {
                 NodeInner.forEachChild(node!!) {
                     freeNodeAndAllRelatedInternal(it)
@@ -140,10 +144,14 @@ internal object NodeManager {
         if (nodeid != nodeNullPointer) {
             var node: ByteArray? = null
             SanityCheck.println { "Outside.refcount($nodeid)  x17" }
-            getNodeAny(nodeid, {
-            }, { n ->
-                node = n
-            })
+            getNodeAny(
+                nodeid,
+                {
+                },
+                { n ->
+                    node = n
+                }
+            )
             if (node != null) {
                 NodeInner.forEachChild(node!!) {
                     freeAllInnerNodes(it)

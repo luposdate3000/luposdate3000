@@ -720,19 +720,20 @@ class ResultSetDictionary(private val global: Boolean = false) : IResultSetDicti
         return res
     }
 
-    override fun getValue(value: Int,
-                          onBNode: (value: Int) -> Unit,
-                          onBoolean: (value: Boolean) -> Unit,
-                          onLanguageTaggedLiteral: (content: String, lang: String) -> Unit,
-                          onSimpleLiteral: (content: String) -> Unit,
-                          onTypedLiteral: (content: String, type: String) -> Unit,
-                          onDecimal: (value: String) -> Unit,
-                          onFloat: (value: Double) -> Unit,
-                          onDouble: (value: Double) -> Unit,
-                          onInteger: (value: String) -> Unit,
-                          onIri: (value: String) -> Unit,
-                          onError: () -> Unit,
-                          onUndefined: () -> Unit
+    override fun getValue(
+        value: Int,
+        onBNode: (value: Int) -> Unit,
+        onBoolean: (value: Boolean) -> Unit,
+        onLanguageTaggedLiteral: (content: String, lang: String) -> Unit,
+        onSimpleLiteral: (content: String) -> Unit,
+        onTypedLiteral: (content: String, type: String) -> Unit,
+        onDecimal: (value: String) -> Unit,
+        onFloat: (value: Double) -> Unit,
+        onDouble: (value: Double) -> Unit,
+        onInteger: (value: String) -> Unit,
+        onIri: (value: String) -> Unit,
+        onError: () -> Unit,
+        onUndefined: () -> Unit
     ) {
         val dict: ResultSetDictionary = if ((value and mask1) == mask1) {
             nodeGlobalDictionary

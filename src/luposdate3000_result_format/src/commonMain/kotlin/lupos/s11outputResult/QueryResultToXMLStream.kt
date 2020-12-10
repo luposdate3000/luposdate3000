@@ -18,71 +18,83 @@ import lupos.s09physicalOperators.partition.POPMergePartitionOrderedByIntId
 
 object QueryResultToXMLStream {
     private /*suspend*/ fun writeValue(valueID: Int, columnName: String, dictionary: IResultSetDictionary, output: IMyPrintWriter) {
-        dictionary.getValue(valueID, { value ->
-            output.print("   <binding name=\"")
-            output.print(columnName)
-            output.print("\">\n    <bnode>")
-            output.print(value)
-            output.print("</bnode>\n   </binding>\n")
-        }, { value ->
-            output.print("   <binding name=\"")
-            output.print(columnName)
-            output.print("\">\n    <literal>")
-            output.print(value)
-            output.print("</literal>\n   </binding>\n")
-        }, { content, lang ->
-            output.print("   <binding name=\"")
-            output.print(columnName)
-            output.print("\">\n    <literal xml:lang=\"")
-            output.print(lang)
-            output.print("\">")
-            output.print(content)
-            output.print("</literal>\n   </binding>\n")
-        }, { content ->
-            output.print("   <binding name=\"")
-            output.print(columnName)
-            output.print("\">\n    <literal>")
-            output.print(content)
-            output.print("</literal>\n   </binding>\n")
-        }, { content, type ->
-            output.print("   <binding name=\"")
-            output.print(columnName)
-            output.print("\">\n    <literal datatype=\"")
-            output.print(type)
-            output.print("\">")
-            output.print(content)
-            output.print("</literal>\n   </binding>\n")
-        }, { value ->
-            output.print("   <binding name=\"")
-            output.print(columnName)
-            output.print("\">\n    <literal datatype=\"http://www.w3.org/2001/XMLSchema#decimal\">")
-            output.print(value)
-            output.print("</literal>\n   </binding>\n")
-        }, { value ->
-            output.print("   <binding name=\"")
-            output.print(columnName)
-            output.print("\">\n    <literal datatype=\"http://www.w3.org/2001/XMLSchema#float\">")
-            output.print(value)
-            output.print("</literal>\n   </binding>\n")
-        }, { value ->
-            output.print("   <binding name=\"")
-            output.print(columnName)
-            output.print("\">\n    <literal datatype=\"http://www.w3.org/2001/XMLSchema#double\">")
-            output.print(value)
-            output.print("</literal>\n   </binding>\n")
-        }, { value ->
-            output.print("   <binding name=\"")
-            output.print(columnName)
-            output.print("\">\n    <literal datatype=\"http://www.w3.org/2001/XMLSchema#integer\">")
-            output.print(value)
-            output.print("</literal>\n   </binding>\n")
-        }, { value ->
-            output.print("   <binding name=\"")
-            output.print(columnName)
-            output.print("\">\n    <uri>")
-            output.print(value)
-            output.print("</uri>\n   </binding>\n")
-        }, {}, {}
+        dictionary.getValue(
+            valueID,
+            { value ->
+                output.print("   <binding name=\"")
+                output.print(columnName)
+                output.print("\">\n    <bnode>")
+                output.print(value)
+                output.print("</bnode>\n   </binding>\n")
+            },
+            { value ->
+                output.print("   <binding name=\"")
+                output.print(columnName)
+                output.print("\">\n    <literal>")
+                output.print(value)
+                output.print("</literal>\n   </binding>\n")
+            },
+            { content, lang ->
+                output.print("   <binding name=\"")
+                output.print(columnName)
+                output.print("\">\n    <literal xml:lang=\"")
+                output.print(lang)
+                output.print("\">")
+                output.print(content)
+                output.print("</literal>\n   </binding>\n")
+            },
+            { content ->
+                output.print("   <binding name=\"")
+                output.print(columnName)
+                output.print("\">\n    <literal>")
+                output.print(content)
+                output.print("</literal>\n   </binding>\n")
+            },
+            { content, type ->
+                output.print("   <binding name=\"")
+                output.print(columnName)
+                output.print("\">\n    <literal datatype=\"")
+                output.print(type)
+                output.print("\">")
+                output.print(content)
+                output.print("</literal>\n   </binding>\n")
+            },
+            { value ->
+                output.print("   <binding name=\"")
+                output.print(columnName)
+                output.print("\">\n    <literal datatype=\"http://www.w3.org/2001/XMLSchema#decimal\">")
+                output.print(value)
+                output.print("</literal>\n   </binding>\n")
+            },
+            { value ->
+                output.print("   <binding name=\"")
+                output.print(columnName)
+                output.print("\">\n    <literal datatype=\"http://www.w3.org/2001/XMLSchema#float\">")
+                output.print(value)
+                output.print("</literal>\n   </binding>\n")
+            },
+            { value ->
+                output.print("   <binding name=\"")
+                output.print(columnName)
+                output.print("\">\n    <literal datatype=\"http://www.w3.org/2001/XMLSchema#double\">")
+                output.print(value)
+                output.print("</literal>\n   </binding>\n")
+            },
+            { value ->
+                output.print("   <binding name=\"")
+                output.print(columnName)
+                output.print("\">\n    <literal datatype=\"http://www.w3.org/2001/XMLSchema#integer\">")
+                output.print(value)
+                output.print("</literal>\n   </binding>\n")
+            },
+            { value ->
+                output.print("   <binding name=\"")
+                output.print(columnName)
+                output.print("\">\n    <uri>")
+                output.print(value)
+                output.print("</uri>\n   </binding>\n")
+            },
+            {}, {}
         )
     }
 

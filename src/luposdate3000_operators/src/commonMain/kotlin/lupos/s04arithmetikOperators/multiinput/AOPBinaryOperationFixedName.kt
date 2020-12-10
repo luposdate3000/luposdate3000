@@ -5,6 +5,9 @@ import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 
-abstract class AOPBinaryOperationFixedName(query: IQuery, operatorID: EOperatorID,
-                                           classname: String,
-                                           children: Array<IOPBase>) : AOPBase(query, operatorID, classname, children)
+abstract class AOPBinaryOperationFixedName(
+    query: IQuery,
+    operatorID: EOperatorID,
+    classname: String,
+    children: Array<IOPBase>
+) : AOPBase(query, operatorID, classname, children)

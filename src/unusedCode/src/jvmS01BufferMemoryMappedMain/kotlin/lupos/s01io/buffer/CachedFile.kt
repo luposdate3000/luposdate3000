@@ -30,8 +30,10 @@ class CachedFile {
     }
 
     inline fun get(address: Long): Page {
-        return MappedByteBufferPage(this.file.getChannel()
-                .map(FileChannel.MapMode.READ_WRITE, address, PAGESIZE))
+        return MappedByteBufferPage(
+            this.file.getChannel()
+                .map(FileChannel.MapMode.READ_WRITE, address, PAGESIZE)
+        )
     }
 
     inline fun write(address: Long, page: Page) {

@@ -1,13 +1,13 @@
 package lupos.datastructures.radix_tree
 
+import lupos.s00misc.SanityCheck
+import lupos.s01io.buffer.Page
+import lupos.s01io.buffer.bufferManager
+import lupos.s01io.buffer.toBytesUTF
+import lupos.s01io.buffer.toStringUTF
 import kotlin.jvm.JvmField
 import kotlin.math.abs
 import kotlin.math.min
-import lupos.s00misc.SanityCheck
-import lupos.s01io.buffer.bufferManager
-import lupos.s01io.buffer.Page
-import lupos.s01io.buffer.toBytesUTF
-import lupos.s01io.buffer.toStringUTF
 
 class NotFoundException : Exception()
 class Radix_Tree_MainMemory_Node<V>(@JvmField var label: ByteArray = ByteArray(0), @JvmField var children: Array<Radix_Tree_MainMemory_Node<V>> = arrayOf(), @JvmField var v: V? = null) {
@@ -128,20 +128,21 @@ class Radix_Tree_MainMemory_Node<V>(@JvmField var label: ByteArray = ByteArray(0
         }
         // add new child for given key between right and left index positions...
         val newNode = Radix_Tree_MainMemory_Node<V>(k.copyOfRange(newOffset, k.size), arrayOf(), v)
-        val newChildren = Array<Radix_Tree_MainMemory_Node<V>>(this.children.size + 1,
-                { i ->
-                    when {
-                        i <= right -> {
-                            this.children[i]
-                        }
-                        i >= left + 1 -> {
-                            this.children[i - 1]
-                        }
-                        else -> {
-                            newNode
-                        }
+        val newChildren = Array<Radix_Tree_MainMemory_Node<V>>(
+            this.children.size + 1,
+            { i ->
+                when {
+                    i <= right -> {
+                        this.children[i]
+                    }
+                    i >= left + 1 -> {
+                        this.children[i - 1]
+                    }
+                    else -> {
+                        newNode
                     }
                 }
+            }
         )
         this.children = newChildren
     }

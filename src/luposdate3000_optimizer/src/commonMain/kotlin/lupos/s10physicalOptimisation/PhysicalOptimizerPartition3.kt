@@ -37,7 +37,7 @@ class PhysicalOptimizerPartition3(query: Query) : OptimizerBase(query, EOptimize
                 is POPSplitPartitionFromStore -> {
                     var storeNodeTmp = node.children[0]
                     while (storeNodeTmp !is TripleStoreIteratorGlobal) {
-//this is POPDebug or something similar with is not affecting the calculation - otherwise this node wont be POPSplitPartitionFromStore
+// this is POPDebug or something similar with is not affecting the calculation - otherwise this node wont be POPSplitPartitionFromStore
                         storeNodeTmp = storeNodeTmp.getChildren()[0]
                     }
                     val storeNode = storeNodeTmp
@@ -53,7 +53,7 @@ class PhysicalOptimizerPartition3(query: Query) : OptimizerBase(query, EOptimize
                                 partitionColumn++
                             }
                         } else {
-                            partitionColumn++ //constants at the front do count
+                            partitionColumn++ // constants at the front do count
                         }
                     }
                     SanityCheck.check({ partitionColumn in 1..2 }, { "$partitionColumn ${node.partitionVariable} $idx ${idx.tripleIndicees.map { it }} ${storeNode.children.map { "${(it as OPBase).classname} ${(it as? IAOPVariable)?.getName()}" }}" })
@@ -66,7 +66,7 @@ class PhysicalOptimizerPartition3(query: Query) : OptimizerBase(query, EOptimize
                             }
                         }
                     }
-//SanityCheck failed :: -1 0 P_SO 1
+// SanityCheck failed :: -1 0 P_SO 1
                     SanityCheck.check({ count != -1 }, { "$count $partitionColumn $idx ${node.partitionCount}" })
                     if (count != node.partitionCount) {
                         val newID = query.getNextPartitionOperatorID()
@@ -269,7 +269,7 @@ class PhysicalOptimizerPartition3(query: Query) : OptimizerBase(query, EOptimize
                     }
                 }
                 is POPSplitPartition -> {
-//splitting must always split all variables provided by its direct children - if there is a different children, adapt the variables
+// splitting must always split all variables provided by its direct children - if there is a different children, adapt the variables
                     when (val c = node.children[0]) {
                         is POPMergePartition -> {
                             if (node.partitionVariable == c.partitionVariable) {

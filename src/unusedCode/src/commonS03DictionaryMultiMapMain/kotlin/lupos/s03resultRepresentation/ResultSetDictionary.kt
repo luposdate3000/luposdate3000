@@ -1,6 +1,5 @@
 package lupos.s03resultRepresentation
 
-import kotlin.jvm.JvmField
 import lupos.s00misc.ETripleComponentType
 import lupos.s00misc.File
 import lupos.s00misc.MyBigDecimal
@@ -12,22 +11,7 @@ import lupos.s00misc.MyMapStringIntPatriciaTrie
 import lupos.s00misc.MyMapStringIntPatriciaTrieDouble
 import lupos.s00misc.SanityCheck
 import lupos.s01io.BufferManager
-import lupos.s03resultRepresentation.nodeGlobalDictionary
-import lupos.s03resultRepresentation.ResultSetDictionary
-import lupos.s03resultRepresentation.ValueBnode
-import lupos.s03resultRepresentation.ValueBoolean
-import lupos.s03resultRepresentation.ValueDateTime
-import lupos.s03resultRepresentation.ValueDecimal
-import lupos.s03resultRepresentation.ValueDefinition
-import lupos.s03resultRepresentation.ValueDouble
-import lupos.s03resultRepresentation.ValueError
-import lupos.s03resultRepresentation.ValueFloat
-import lupos.s03resultRepresentation.ValueInteger
-import lupos.s03resultRepresentation.ValueIri
-import lupos.s03resultRepresentation.ValueLanguageTaggedLiteral
-import lupos.s03resultRepresentation.ValueSimpleLiteral
-import lupos.s03resultRepresentation.ValueTypedLiteral
-import lupos.s03resultRepresentation.ValueUndef
+import kotlin.jvm.JvmField
 
 val nodeGlobalDictionary = ResultSetDictionary(true)
 
@@ -198,7 +182,7 @@ class ResultSetDictionary(val global: Boolean = false) {
                 e.printStackTrace()
             }
         }
-//SanityCheck.check({(res and filter6) < 10000},{"${res} ${res and filter6} ${res.toString(16)} ${(res and filter6).toString(16)}"})
+// SanityCheck.check({(res and filter6) < 10000},{"${res} ${res and filter6} ${res.toString(16)} ${(res and filter6).toString(16)}"})
         return res
     }
 
@@ -209,7 +193,7 @@ class ResultSetDictionary(val global: Boolean = false) {
         } else {
             res = localBnodeMap.getOrCreate(value, { (flaggedValueLocalBnode or (bNodeCounter++).toInt()) })
         }
-//SanityCheck.check({(res and filter6) < 10000},{"${res} ${res and filter6} ${res.toString(16)} ${(res and filter6).toString(16)}"})
+// SanityCheck.check({(res and filter6) < 10000},{"${res} ${res and filter6} ${res.toString(16)} ${(res and filter6).toString(16)}"})
         return res
     }
 
@@ -225,7 +209,7 @@ class ResultSetDictionary(val global: Boolean = false) {
                 res = flaggedValueLocalIri or iriMap.getOrCreate(iri)
             }
         }
-//SanityCheck.check({(res and filter6) < 10000},{"${res} ${res and filter6} ${res.toString(16)} ${(res and filter6).toString(16)}"})
+// SanityCheck.check({(res and filter6) < 10000},{"${res} ${res and filter6} ${res.toString(16)} ${(res and filter6).toString(16)}"})
         return res
     }
 
@@ -242,7 +226,7 @@ class ResultSetDictionary(val global: Boolean = false) {
                 res = flaggedValueLocalLangTagged or langTaggedMap.getOrCreate(key)
             }
         }
-//SanityCheck.check({(res and filter6) < 10000},{"${res} ${res and filter6} ${res.toString(16)} ${(res and filter6).toString(16)}"})
+// SanityCheck.check({(res and filter6) < 10000},{"${res} ${res and filter6} ${res.toString(16)} ${(res and filter6).toString(16)}"})
         return res
     }
 
@@ -282,55 +266,67 @@ class ResultSetDictionary(val global: Boolean = false) {
                 }
             }
         }
-//SanityCheck.check({(res and filter6) < 10000},{"${res} ${res and filter6} ${res.toString(16)} ${(res and filter6).toString(16)}"})
+// SanityCheck.check({(res and filter6) < 10000},{"${res} ${res and filter6} ${res.toString(16)} ${(res and filter6).toString(16)}"})
         return res
     }
 
     fun createDouble(value: Double): Int {
         var res: Int
         if (global) {
-            res = doubleMap.getOrCreate(value, {
-                val idx = doubleList.size
-                doubleList.add(value)
-                (flaggedValueGlobalDouble or idx.toInt())
-            })
+            res = doubleMap.getOrCreate(
+                value,
+                {
+                    val idx = doubleList.size
+                    doubleList.add(value)
+                    (flaggedValueGlobalDouble or idx.toInt())
+                }
+            )
         } else {
             val tmp = nodeGlobalDictionary.doubleMap[value]
             if (tmp != null) {
                 res = tmp or flaggedValueGlobalDouble
             } else {
-                res = doubleMap.getOrCreate(value, {
-                    val idx = doubleList.size
-                    doubleList.add(value)
-                    (flaggedValueLocalDouble or idx.toInt())
-                })
+                res = doubleMap.getOrCreate(
+                    value,
+                    {
+                        val idx = doubleList.size
+                        doubleList.add(value)
+                        (flaggedValueLocalDouble or idx.toInt())
+                    }
+                )
             }
         }
-//SanityCheck.check({(res and filter6) < 10000},{"${res} ${res and filter6} ${res.toString(16)} ${(res and filter6).toString(16)}"})
+// SanityCheck.check({(res and filter6) < 10000},{"${res} ${res and filter6} ${res.toString(16)} ${(res and filter6).toString(16)}"})
         return res
     }
 
     fun createFloat(value: Double): Int {
         var res: Int
         if (global) {
-            res = floatMap.getOrCreate(value, {
-                val idx = floatList.size
-                floatList.add(value)
-                (flaggedValueGlobalFloat or idx.toInt())
-            })
+            res = floatMap.getOrCreate(
+                value,
+                {
+                    val idx = floatList.size
+                    floatList.add(value)
+                    (flaggedValueGlobalFloat or idx.toInt())
+                }
+            )
         } else {
             val tmp = nodeGlobalDictionary.floatMap[value]
             if (tmp != null) {
                 res = tmp or flaggedValueGlobalFloat
             } else {
-                res = floatMap.getOrCreate(value, {
-                    val idx = floatList.size
-                    floatList.add(value)
-                    (flaggedValueLocalFloat or idx.toInt())
-                })
+                res = floatMap.getOrCreate(
+                    value,
+                    {
+                        val idx = floatList.size
+                        floatList.add(value)
+                        (flaggedValueLocalFloat or idx.toInt())
+                    }
+                )
             }
         }
-//SanityCheck.check({(res and filter6) < 10000},{"${res} ${res and filter6} ${res.toString(16)} ${(res and filter6).toString(16)}"})
+// SanityCheck.check({(res and filter6) < 10000},{"${res} ${res and filter6} ${res.toString(16)} ${(res and filter6).toString(16)}"})
         return res
     }
 
@@ -347,7 +343,7 @@ class ResultSetDictionary(val global: Boolean = false) {
                 res = flaggedValueLocalDecimal or decimalMap.getOrCreate(value)
             }
         }
-//SanityCheck.check({(res and filter6) < 10000},{"${res} ${res and filter6} ${res.toString(16)} ${(res and filter6).toString(16)}"})
+// SanityCheck.check({(res and filter6) < 10000},{"${res} ${res and filter6} ${res.toString(16)} ${(res and filter6).toString(16)}"})
         return res
     }
 
@@ -364,13 +360,13 @@ class ResultSetDictionary(val global: Boolean = false) {
                 res = flaggedValueLocalInt or intMap.getOrCreate(value)
             }
         }
-//SanityCheck.check({(res and filter6) < 10000},{"${res} ${res and filter6} ${res.toString(16)} ${(res and filter6).toString(16)}"})
+// SanityCheck.check({(res and filter6) < 10000},{"${res} ${res and filter6} ${res.toString(16)} ${(res and filter6).toString(16)}"})
         return res
     }
 
     fun createValue(value: String?): Int {
         val res = createValue(ValueDefinition(value))
-//SanityCheck.check({(res and filter6) < 10000},{"${res} ${res and filter6} ${res.toString(16)} ${(res and filter6).toString(16)}"})
+// SanityCheck.check({(res and filter6) < 10000},{"${res} ${res and filter6} ${res.toString(16)} ${(res and filter6).toString(16)}"})
         return res
     }
 
@@ -424,14 +420,14 @@ class ResultSetDictionary(val global: Boolean = false) {
         }
         SanityCheck {
             val tmp2 = getValue(res)
-            SanityCheck.check({ (value is ValueBnode && tmp2 is ValueBnode) || (value is ValueError && tmp2 is ValueError) || tmp2 == value || (value is ValueSimpleLiteral && tmp2 is ValueTypedLiteral && tmp2.type_iri == "http://www.w3.org/2001/XMLSchema#string" && tmp2.content == value.content) }, { "$value (${value.toSparql()}) -> ${res.toString(16)} -> ${tmp2} (${tmp2.toSparql()})" })
+            SanityCheck.check({ (value is ValueBnode && tmp2 is ValueBnode) || (value is ValueError && tmp2 is ValueError) || tmp2 == value || (value is ValueSimpleLiteral && tmp2 is ValueTypedLiteral && tmp2.type_iri == "http://www.w3.org/2001/XMLSchema#string" && tmp2.content == value.content) }, { "$value (${value.toSparql()}) -> ${res.toString(16)} -> $tmp2 (${tmp2.toSparql()})" })
         }
-//SanityCheck.check({(res and filter6) < 10000},{"${res} ${res and filter6} ${res.toString(16)} ${(res and filter6).toString(16)}"})
+// SanityCheck.check({(res and filter6) < 10000},{"${res} ${res and filter6} ${res.toString(16)} ${(res and filter6).toString(16)}"})
         return res
     }
 
     fun getValue(value: Int): ValueDefinition {
-//SanityCheck.check({(value and filter6) < 10000},{"${value} ${value and filter6} ${value.toString(16)} ${(value and filter6).toString(16)}"})
+// SanityCheck.check({(value and filter6) < 10000},{"${value} ${value and filter6} ${value.toString(16)} ${(value and filter6).toString(16)}"})
         var res: ValueDefinition
         val dict: ResultSetDictionary
         if ((value and mask1) == mask1) {
@@ -491,19 +487,20 @@ class ResultSetDictionary(val global: Boolean = false) {
         return res
     }
 
-    inline fun getValue(value: Int,
-                        crossinline onBNode: (value: Int) -> Unit,
-                        crossinline onBoolean: (value: Boolean) -> Unit,
-                        crossinline onLanguageTaggedLiteral: (content: String, lang: String) -> Unit,
-                        crossinline onSimpleLiteral: (content: String) -> Unit,
-                        crossinline onTypedLiteral: (content: String, type: String) -> Unit,
-                        crossinline onDecimal: (value: String) -> Unit,
-                        crossinline onFloat: (value: Double) -> Unit,
-                        crossinline onDouble: (value: Double) -> Unit,
-                        crossinline onInteger: (value: String) -> Unit,
-                        crossinline onIri: (value: String) -> Unit,
-                        crossinline onError: () -> Unit,
-                        crossinline onUndefined: () -> Unit
+    inline fun getValue(
+        value: Int,
+        crossinline onBNode: (value: Int) -> Unit,
+        crossinline onBoolean: (value: Boolean) -> Unit,
+        crossinline onLanguageTaggedLiteral: (content: String, lang: String) -> Unit,
+        crossinline onSimpleLiteral: (content: String) -> Unit,
+        crossinline onTypedLiteral: (content: String, type: String) -> Unit,
+        crossinline onDecimal: (value: String) -> Unit,
+        crossinline onFloat: (value: Double) -> Unit,
+        crossinline onDouble: (value: Double) -> Unit,
+        crossinline onInteger: (value: String) -> Unit,
+        crossinline onIri: (value: String) -> Unit,
+        crossinline onError: () -> Unit,
+        crossinline onUndefined: () -> Unit
     ) {
         val dict: ResultSetDictionary
         if ((value and mask1) == mask1) {
@@ -612,12 +609,12 @@ class ResultSetDictionary(val global: Boolean = false) {
                 res = nodeGlobalDictionary.createValue(getValue(value))
             }
         }
-//SanityCheck.check({(res and filter6) < 10000},{"${res} ${res and filter6} ${res.toString(16)} ${(res and filter6).toString(16)}"})
+// SanityCheck.check({(res and filter6) < 10000},{"${res} ${res and filter6} ${res.toString(16)} ${(res and filter6).toString(16)}"})
         return res
     }
 
     fun safeToFolder() {
-        //println("Dictionary safe to folder '${BufferManager.bufferPrefix + "dictionary/"}'")
+        // println("Dictionary safe to folder '${BufferManager.bufferPrefix + "dictionary/"}'")
         File(BufferManager.bufferPrefix + "dictionary/").mkdirs()
         File(BufferManager.bufferPrefix + "dictionary/bnode.count").dataOutputStream { out ->
             out.writeInt(bNodeCounter)
@@ -632,7 +629,7 @@ class ResultSetDictionary(val global: Boolean = false) {
     }
 
     fun loadFromFolder() {
-        //println("Dictionary loading from folder '${BufferManager.bufferPrefix + "dictionary/"}'")
+        // println("Dictionary loading from folder '${BufferManager.bufferPrefix + "dictionary/"}'")
         File(BufferManager.bufferPrefix + "dictionary/bnode.count").dataInputStream { fis ->
             bNodeCounter = fis.readInt()
         }

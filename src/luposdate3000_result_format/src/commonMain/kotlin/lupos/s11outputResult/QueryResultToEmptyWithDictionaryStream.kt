@@ -17,17 +17,29 @@ import lupos.s09physicalOperators.partition.POPMergePartitionOrderedByIntId
 
 object QueryResultToEmptyWithDictionaryStream {
     private /*suspend*/ fun writeValue(valueID: Int, columnName: String, dictionary: IResultSetDictionary, output: IMyPrintWriter) {
-        dictionary.getValue(valueID, { value ->
-        }, { value ->
-        }, { content, lang ->
-        }, { content ->
-        }, { content, type ->
-        }, { value ->
-        }, { value ->
-        }, { value ->
-        }, { value ->
-        }, { value ->
-        }, {}, {}
+        dictionary.getValue(
+            valueID,
+            { value ->
+            },
+            { value ->
+            },
+            { content, lang ->
+            },
+            { content ->
+            },
+            { content, type ->
+            },
+            { value ->
+            },
+            { value ->
+            },
+            { value ->
+            },
+            { value ->
+            },
+            { value ->
+            },
+            {}, {}
         )
     }
 

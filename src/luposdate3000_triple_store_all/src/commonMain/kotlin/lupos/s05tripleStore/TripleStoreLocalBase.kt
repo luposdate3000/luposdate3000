@@ -12,23 +12,23 @@ import lupos.s04logicalOperators.iterator.IteratorBundle
 import kotlin.jvm.JvmField
 
 abstract class TripleStoreLocalBase(@JvmField val name: String) : ITripleStoreLocalBase {
-    @JvmField //override this during initialisation
+    @JvmField // override this during initialisation
     var dataDistinct: Array<TripleStoreDistinctContainer> = arrayOf()
 
-    @JvmField //override this during initialisation
-    var enabledPartitions: Array<EnabledPartitionContainer> = arrayOf(//
-            EnabledPartitionContainer(mutableSetOf(EIndexPattern.SPO, EIndexPattern.S_PO, EIndexPattern.SP_O), -1, 1),//
-            EnabledPartitionContainer(mutableSetOf(EIndexPattern.SOP, EIndexPattern.S_OP, EIndexPattern.SO_P), -1, 1),//
-            EnabledPartitionContainer(mutableSetOf(EIndexPattern.POS, EIndexPattern.P_OS, EIndexPattern.PO_S), -1, 1),//
-            EnabledPartitionContainer(mutableSetOf(EIndexPattern.PSO, EIndexPattern.P_SO, EIndexPattern.PS_O), -1, 1),//
-            EnabledPartitionContainer(mutableSetOf(EIndexPattern.OSP, EIndexPattern.O_SP, EIndexPattern.OS_P), -1, 1),//
-            EnabledPartitionContainer(mutableSetOf(EIndexPattern.OPS, EIndexPattern.O_PS, EIndexPattern.OP_S), -1, 1),//
+    @JvmField // override this during initialisation
+    var enabledPartitions: Array<EnabledPartitionContainer> = arrayOf( //
+        EnabledPartitionContainer(mutableSetOf(EIndexPattern.SPO, EIndexPattern.S_PO, EIndexPattern.SP_O), -1, 1), //
+        EnabledPartitionContainer(mutableSetOf(EIndexPattern.SOP, EIndexPattern.S_OP, EIndexPattern.SO_P), -1, 1), //
+        EnabledPartitionContainer(mutableSetOf(EIndexPattern.POS, EIndexPattern.P_OS, EIndexPattern.PO_S), -1, 1), //
+        EnabledPartitionContainer(mutableSetOf(EIndexPattern.PSO, EIndexPattern.P_SO, EIndexPattern.PS_O), -1, 1), //
+        EnabledPartitionContainer(mutableSetOf(EIndexPattern.OSP, EIndexPattern.O_SP, EIndexPattern.OS_P), -1, 1), //
+        EnabledPartitionContainer(mutableSetOf(EIndexPattern.OPS, EIndexPattern.O_PS, EIndexPattern.OP_S), -1, 1), //
     )
 
-    @JvmField //override this during initialisation
+    @JvmField // override this during initialisation
     var pendingModificationsInsert: Array<MutableMap<Long, MutableList<Int>>> = Array(0) { mutableMapOf() }
 
-    @JvmField //override this during initialisation
+    @JvmField // override this during initialisation
     var pendingModificationsRemove: Array<MutableMap<Long, MutableList<Int>>> = Array(0) { mutableMapOf() }
     override fun getEnabledPartitions(): Array<EnabledPartitionContainer> = enabledPartitions
     /*suspend*/ fun safeToFolder(foldername: String) {
@@ -65,7 +65,7 @@ abstract class TripleStoreLocalBase(@JvmField val name: String) : ITripleStoreLo
                 var partitionName = ""
                 var partitionLimit = -1
                 for ((k, v) in params.partition.limit) {
-                    //this should be implemented more nice, as there is only one entry in the map
+                    // this should be implemented more nice, as there is only one entry in the map
                     partitionName = k
                     partitionLimit = v
                 }
@@ -82,7 +82,7 @@ abstract class TripleStoreLocalBase(@JvmField val name: String) : ITripleStoreLo
                             j++
                         }
                     } else {
-                        j++ //constants at the front do count
+                        j++ // constants at the front do count
                     }
                 }
                 for (p in enabledPartitions) {
@@ -111,7 +111,7 @@ abstract class TripleStoreLocalBase(@JvmField val name: String) : ITripleStoreLo
                 var partitionName = ""
                 var partitionLimit = -1
                 for ((k, v) in params.partition.limit) {
-                    //this should be implemented more nice, as there is only one entry in the map
+                    // this should be implemented more nice, as there is only one entry in the map
                     partitionName = k
                     partitionLimit = v
                 }
@@ -128,7 +128,7 @@ abstract class TripleStoreLocalBase(@JvmField val name: String) : ITripleStoreLo
                             j++
                         }
                     } else {
-                        j++ //constants at the front do count
+                        j++ // constants at the front do count
                     }
                 }
                 SanityCheck.println { "TripleStoreFeatureParamsPartition ${params.idx} $partitionColumn $partitionLimit" }

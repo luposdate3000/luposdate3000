@@ -1,11 +1,10 @@
 package lupos.s01io.buffer
 
+import sun.nio.ch.FileChannelImpl
 import java.io.File
 import java.io.RandomAccessFile
 import java.lang.reflect.Method
 import kotlin.jvm.JvmField
-import lupos.s01io.buffer.CachedFile
-import sun.nio.ch.FileChannelImpl
 
 typealias Page = UnsafePage
 
@@ -50,15 +49,19 @@ class CachedFile {
             return theUnsafe as sun.misc.Unsafe
         }
 
-        val mmap = getMethod(FileChannelImpl::class.javaObjectType,
-                "map0",
-                Int::class.javaPrimitiveType,
-                Long::class.javaPrimitiveType,
-                Long::class.javaPrimitiveType)
-        val unmmap = getMethod(FileChannelImpl::class.javaObjectType,
-                "unmap0",
-                Long::class.javaPrimitiveType,
-                Long::class.javaPrimitiveType)
+        val mmap = getMethod(
+            FileChannelImpl::class.javaObjectType,
+            "map0",
+            Int::class.javaPrimitiveType,
+            Long::class.javaPrimitiveType,
+            Long::class.javaPrimitiveType
+        )
+        val unmmap = getMethod(
+            FileChannelImpl::class.javaObjectType,
+            "unmap0",
+            Long::class.javaPrimitiveType,
+            Long::class.javaPrimitiveType
+        )
         val BYTE_ARRAY_OFFSET = UNSAFE.arrayBaseOffset(ByteArray::class.javaObjectType)
 
         // Bundle reflection calls to get access to the given method

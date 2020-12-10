@@ -50,13 +50,13 @@ class LOPJoin(query: IQuery, first: IOPBase, second: IOPBase, @JvmField val opti
                         tmpMap[v] = 0
                     }
                     av < bv -> {
-                        //not all rows from b get a match
+                        // not all rows from b get a match
                         val diff = bv - av
                         estimatedResults *= (1 - diff / bv)
                         tmpMap[v] = av.toInt()
                     }
                     else -> {
-                        //not all rows from a get a match
+                        // not all rows from a get a match
                         val diff = av - bv
                         estimatedResults *= (1 - diff / av)
                         tmpMap[v] = bv.toInt()

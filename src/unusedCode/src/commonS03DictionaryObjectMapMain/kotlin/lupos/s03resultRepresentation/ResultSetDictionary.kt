@@ -1,34 +1,23 @@
 package lupos.s03resultRepresentation
 
-import kotlin.jvm.JvmField
 import lupos.s00misc.File
 import lupos.s00misc.MyMapIntInt
 import lupos.s01io.BufferManager
-import lupos.s03resultRepresentation.nodeGlobalDictionary
-import lupos.s03resultRepresentation.ResultSetDictionary
-import lupos.s03resultRepresentation.ValueBnode
-import lupos.s03resultRepresentation.ValueBoolean
-import lupos.s03resultRepresentation.ValueDecimal
-import lupos.s03resultRepresentation.ValueDefinition
-import lupos.s03resultRepresentation.ValueDouble
-import lupos.s03resultRepresentation.ValueError
-import lupos.s03resultRepresentation.ValueFloat
-import lupos.s03resultRepresentation.ValueInteger
-import lupos.s03resultRepresentation.ValueUndef
+import kotlin.jvm.JvmField
 
 val nodeGlobalDictionary = ResultSetDictionary(true)
 
 class ResultSetDictionary(val global: Boolean = false) {
     companion object {
-        const val booleanTrueValue = 0//required by truth-tables
+        const val booleanTrueValue = 0 // required by truth-tables
 
         @JvmField
         val booleanTrueValue2 = ValueBoolean(true)
-        const val booleanFalseValue = 1//required by truth-tables
+        const val booleanFalseValue = 1 // required by truth-tables
 
         @JvmField
         val booleanFalseValue2 = ValueBoolean(false)
-        const val errorValue = 2//required by truth-tables
+        const val errorValue = 2 // required by truth-tables
 
         @JvmField
         val errorValue2 = ValueError()

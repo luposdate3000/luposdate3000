@@ -22,8 +22,8 @@ class LogicalOptimizerDetectMinus(query: Query) : OptimizerBase(query, EOptimize
             if (node1 is AOPNot) {
                 val node10 = node1.getChildren()[0]
                 if (node10 is AOPBuildInCallBOUND) {
-                    //there exists a filter, such that the variable is NOT bound.
-                    //now search for_ an optional join, where this variable is bound only in the optional part
+                    // there exists a filter, such that the variable is NOT bound.
+                    // now search for_ an optional join, where this variable is bound only in the optional part
                     val variableName = (node10.getChildren()[0] as AOPVariable).name
                     searchForOptionalJoin(node, variableName) { p, i ->
                         val a = p.getChildren()[i].getChildren()[0]
@@ -33,7 +33,7 @@ class LogicalOptimizerDetectMinus(query: Query) : OptimizerBase(query, EOptimize
                             c = c.getChildren()[0]
                         }
                         if (c is LOPFilter && !c.getProvidedVariableNames().containsAll(c.getChildren()[1].getRequiredVariableNamesRecoursive())) {
-                            //only use minus if there is another filter which requires variables from the other operand
+                            // only use minus if there is another filter which requires variables from the other operand
                             val tmpFakeVariables = b.getProvidedVariableNames().toMutableList()
                             tmpFakeVariables.removeAll(a.getProvidedVariableNames())
                             if (b.getProvidedVariableNames().containsAll(a.getProvidedVariableNames())) {
@@ -44,8 +44,8 @@ class LogicalOptimizerDetectMinus(query: Query) : OptimizerBase(query, EOptimize
                                     c = c.getChildren()[0]
                                 }
                                 SanityCheck.check { c is LOPSubGroup || c is LOPFilter }
-                                c.getChildren()[0] = LOPJoin(query, a.cloneOP(), c.getChildren()[0], false)//put a below all the filters - to prevent these filters from missing variables
-                                p.getChildren()[i] = LOPMinus(query, a, b, tmpFakeVariables)//put all the variables into the subtracting child too - to be able to process the filters
+                                c.getChildren()[0] = LOPJoin(query, a.cloneOP(), c.getChildren()[0], false) // put a below all the filters - to prevent these filters from missing variables
+                                p.getChildren()[i] = LOPMinus(query, a, b, tmpFakeVariables) // put all the variables into the subtracting child too - to be able to process the filters
                             }
                             res = node.getChildren()[0] // remove the !bound part
                             onChange()

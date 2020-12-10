@@ -4,10 +4,9 @@ import kotlin.jvm.JvmField
 import kotlin.time.DurationUnit
 import kotlin.time.TimeMark
 import kotlin.time.TimeSource.Monotonic
-import lupos.s00misc.MyLock
 
 enum class EBenchmark {
-    HTTP,//contains all other
+    HTTP, // contains all other
     HTTP_HANDLER,
     QUERY,
     QUERY_EVALUATE_INIT,

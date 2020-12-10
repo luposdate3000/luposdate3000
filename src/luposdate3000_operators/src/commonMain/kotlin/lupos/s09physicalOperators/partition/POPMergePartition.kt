@@ -15,7 +15,7 @@ import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.iterator.RowIterator
 import lupos.s09physicalOperators.POPBase
 
-//http://blog.pronghorn.tech/optimizing-suspending-functions-in-kotlin/
+// http://blog.pronghorn.tech/optimizing-suspending-functions-in-kotlin/
 class POPMergePartition(query: IQuery, projectedVariables: List<String>, val partitionVariable: String, var partitionCount: Int, var partitionID: Int, child: IOPBase) : POPBase(query, projectedVariables, EOperatorID.POPMergePartitionID, "POPMergePartition", arrayOf(child), ESortPriority.PREVENT_ANY) {
     override fun getPartitionCount(variable: String): Int {
         return if (variable == partitionVariable) {
@@ -49,7 +49,7 @@ class POPMergePartition(query: IQuery, projectedVariables: List<String>, val par
     override fun equals(other: Any?): Boolean = other is POPMergePartition && children[0] == other.children[0] && partitionVariable == other.partitionVariable
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
         if (partitionCount == 1) {
-            //single partition - just pass through
+            // single partition - just pass through
             return children[0].evaluate(parent)
         } else {
             var error: Throwable? = null
@@ -57,16 +57,16 @@ class POPMergePartition(query: IQuery, projectedVariables: List<String>, val par
             val variables0 = children[0].getProvidedVariableNames()
             SanityCheck.check { variables0.containsAll(variables) }
             SanityCheck.check { variables.containsAll(variables0) }
-            //the variable may be eliminated directly after using it in the join            SanityCheck.check { variables.contains(partitionVariable) }
+            // the variable may be eliminated directly after using it in the join            SanityCheck.check { variables.contains(partitionVariable) }
             val elementsPerRing = Partition.queue_size * variables.size
-            val ringbuffer = IntArray(elementsPerRing * partitionCount) //only modified by writer, reader just modifies its pointer
-            val ringbufferStart = IntArray(partitionCount) { it * elementsPerRing } //constant
-            val ringbufferReadHead = IntArray(partitionCount) { 0 } //owned by read-thread - no locking required
-            val ringbufferWriteHead = IntArray(partitionCount) { 0 } //owned by write thread - no locking required
+            val ringbuffer = IntArray(elementsPerRing * partitionCount) // only modified by writer, reader just modifies its pointer
+            val ringbufferStart = IntArray(partitionCount) { it * elementsPerRing } // constant
+            val ringbufferReadHead = IntArray(partitionCount) { 0 } // owned by read-thread - no locking required
+            val ringbufferWriteHead = IntArray(partitionCount) { 0 } // owned by write thread - no locking required
             val continuationLock = MyLock()
             val ringbufferWriterContinuation = Array(partitionCount) { Parallel.createCondition() }
             val ringbufferReaderContinuation: ParallelCondition = Parallel.createCondition()
-            val writerFinished = IntArray(partitionCount) { 0 } //writer changes to 1 if finished
+            val writerFinished = IntArray(partitionCount) { 0 } // writer changes to 1 if finished
             var readerFinished = 0
             for (p in 0 until partitionCount) {
                 SanityCheck.println { "merge $uuid $p writer launched F" }
@@ -99,7 +99,7 @@ class POPMergePartition(query: IQuery, projectedVariables: List<String>, val par
                                     } else {
                                         SanityCheck.println { "merge $uuid $p writer append data" }
                                         ringbuffer[ringbufferWriteHead[p] + ringbufferStart[p]] = tmp
-                                        //println("$p produced")
+                                        // println("$p produced")
                                         ringbufferWriteHead[p] = (ringbufferWriteHead[p] + 1) % elementsPerRing
                                         ringbufferReaderContinuation.signal()
                                     }
@@ -141,7 +141,7 @@ class POPMergePartition(query: IQuery, projectedVariables: List<String>, val par
                                                 break@loop
                                             }
                                         }
-                                        //println("$p produced")
+                                        // println("$p produced")
                                         ringbufferWriteHead[p] = (ringbufferWriteHead[p] + variables.size) % elementsPerRing
                                         ringbufferReaderContinuation.signal()
                                     }
@@ -179,7 +179,7 @@ class POPMergePartition(query: IQuery, projectedVariables: List<String>, val par
                                     for (variable in variables.indices) {
                                         ringbuffer[ringbufferWriteHead[p] + variableMapping[variable] + ringbufferStart[p]] = child.buf[tmp + variable]
                                     }
-                                    //println("$p produced")
+                                    // println("$p produced")
                                     ringbufferWriteHead[p] = (ringbufferWriteHead[p] + variables.size) % elementsPerRing
                                     ringbufferReaderContinuation.signal()
                                 }
@@ -204,7 +204,7 @@ class POPMergePartition(query: IQuery, projectedVariables: List<String>, val par
                     SanityCheck.println { "merge $uuid reader loop start" }
                     for (p in 0 until partitionCount) {
                         if (ringbufferReadHead[p] != ringbufferWriteHead[p]) {
-                            //non empty queue -> read one row
+                            // non empty queue -> read one row
                             SanityCheck.println { "merge $uuid $p reader consumed data" }
                             for (variable in variables.indices) {
                                 iterator.buf[variable] = (ringbuffer[ringbufferReadHead[p] + variable + ringbufferStart[p]])

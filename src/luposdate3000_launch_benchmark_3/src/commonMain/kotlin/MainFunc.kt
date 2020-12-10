@@ -40,7 +40,7 @@ fun mainFunc(args: Array<String>): Unit = Parallel.runBlocking {
                 for (a in partitionOptions) {
                     for (b in partitionOptions) {
                         for (zPt in enableDisable) {
-//fast->
+// fast->
                             if (a != x || a != y) continue
                             if (b != z) continue
                             if (b > a) continue
@@ -189,12 +189,12 @@ fun mainFunc(args: Array<String>): Unit = Parallel.runBlocking {
                             }
                             val node = opB
                             println("------------------------------")
-                            println("${x}_${y}_${z}__${a}_${b}__${zPt}")
+                            println("${x}_${y}_${z}__${a}_${b}__$zPt")
                             println(node.toXMLElement().toPrettyString())
                             val writer1 = MyPrintWriter(debugMode)
                             LuposdateEndpoint.evaluateOperatorgraphToResult(node, writer1)
                             if (debugMode) {
-                                File("/tmp/result_${x}_${y}_${z}__${a}_${b}.xml").printWriter {
+                                File("/tmp/result_${x}_${y}_${z}__${a}_$b.xml").printWriter {
                                     it.println(writer1.toString())
                                 }
                             } else {
@@ -218,7 +218,7 @@ fun mainFunc(args: Array<String>): Unit = Parallel.runBlocking {
                                         break
                                     }
                                 }
-                                println("${x}_${y}_${z}__${a}_${b}__${zPt},$numberOfTriples,0,$counter,${time * 1000.0},${counter / time},NoOptimizer")
+                                println("${x}_${y}_${z}__${a}_${b}__$zPt,$numberOfTriples,0,$counter,${time * 1000.0},${counter / time},NoOptimizer")
                             }
                         }
                     }

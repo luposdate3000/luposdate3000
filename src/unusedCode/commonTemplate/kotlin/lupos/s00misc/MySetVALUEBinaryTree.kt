@@ -82,27 +82,39 @@ class MySetVALUEBinaryTreeGDEF {
     }
 
     inline fun remove(value: VALUE, crossinline onExists: (it: Int) -> Unit = {}) {
-        internal(value, {
-        }, {
-            onExists(it)
-            data.removeAt(it)
-        })
+        internal(
+            value,
+            {
+            },
+            {
+                onExists(it)
+                data.removeAt(it)
+            }
+        )
     }
 
     inline fun contains(value: VALUE): Boolean {
         var res = false
-        internal(value, {
-        }, {
-            res = true
-        })
+        internal(
+            value,
+            {
+            },
+            {
+                res = true
+            }
+        )
         return res
     }
 
     inline fun find(value: VALUE, crossinline onExists: (it: Int) -> Unit) {
-        internal(value, {
-        }, {
-            onExists(it)
-        })
+        internal(
+            value,
+            {
+            },
+            {
+                onExists(it)
+            }
+        )
     }
 
     inline fun add(value: VALUE, crossinline onCreate: (it: Int) -> Unit = {}, crossinline onExists: (it: Int) -> Unit = {}) {
@@ -111,12 +123,16 @@ class MySetVALUEBinaryTreeGDEF {
             data.add(it, value)
             onCreate(it)
         } else {
-            internal(value, {
-                data.add(it, value)
-                onCreate(it)
-            }, {
-                onExists(it)
-            })
+            internal(
+                value,
+                {
+                    data.add(it, value)
+                    onCreate(it)
+                },
+                {
+                    onExists(it)
+                }
+            )
         }
     }
 

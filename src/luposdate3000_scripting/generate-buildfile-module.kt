@@ -73,7 +73,7 @@ fun createBuildFileForModule(args: Array<String>) {
     if (!validPlatforms.contains(platform)) {
         throw Exception("unsupported platform $platform")
     }
-    if (moduleFolder.startsWith("/")) {//TODO same for Windows
+    if (moduleFolder.startsWith("/")) { // TODO same for Windows
         throw Exception("only relative paths allowed")
     }
     createBuildFileForModule(moduleName, moduleFolder, modulePrefix, platform, releaseMode, suspendMode, inlineMode, dryMode, fastMode, ideaBuildfile, args)
@@ -106,7 +106,7 @@ fun createBuildFileForModule(moduleName: String, moduleFolder: String, modulePre
         dryMode = DryMode.Disable
     }
     val onWindows = System.getProperty("os.name").contains("Windows")
-    val onLinux = !onWindows //TODO this is not correct ...
+    val onLinux = !onWindows // TODO this is not correct ...
     val pathSeparator: String
     val pathSeparatorEscaped: String
     if (onWindows) {
@@ -133,7 +133,7 @@ fun createBuildFileForModule(moduleName: String, moduleFolder: String, modulePre
     }
     val buildLibrary = modulePrefix != "Luposdate3000_Main"
     println("generating buildfile for $moduleName")
-    var shortFolder = "./${moduleFolder}"//TODO does this work as intended on windows
+    var shortFolder = "./$moduleFolder" // TODO does this work as intended on windows
     shortFolder = shortFolder.substring(shortFolder.lastIndexOf(pathSeparator) + 1)
     File("src.generated").deleteRecursively()
     if (ideaBuildfile == IntellijMode.Disable) {
@@ -150,36 +150,36 @@ fun createBuildFileForModule(moduleName: String, moduleFolder: String, modulePre
                     f = tmp
                 }
                 if (f.startsWith("common")) {
-                    File(tmp).copyRecursively(File("src.generated${pathSeparator}" + f.replace("common.*Main", "commonMain")))
+                    File(tmp).copyRecursively(File("src.generated$pathSeparator" + f.replace("common.*Main", "commonMain")))
                 } else if (f.startsWith("jvm")) {
                     if (enableJVM) {
-                        File(tmp).copyRecursively(File("src.generated${pathSeparator}" + f.replace("jvm.*Main", "jvmMain")))
+                        File(tmp).copyRecursively(File("src.generated$pathSeparator" + f.replace("jvm.*Main", "jvmMain")))
                     }
                 } else if (f.startsWith("js")) {
                     if (enableJS) {
-                        File(tmp).copyRecursively(File("src.generated${pathSeparator}" + f.replace("js.*Main", "jsMain")))
+                        File(tmp).copyRecursively(File("src.generated$pathSeparator" + f.replace("js.*Main", "jsMain")))
                     }
                 } else if (f.startsWith("native")) {
                     if (enableNATIVE) {
-                        File(tmp).copyRecursively(File("src.generated${pathSeparator}" + f.replace("native.*Main", "${platform}Main")))
+                        File(tmp).copyRecursively(File("src.generated$pathSeparator" + f.replace("native.*Main", "${platform}Main")))
                     }
                 } else if (f.startsWith(platform)) {
                     if (enableNATIVE) {
-                        File(tmp).copyRecursively(File("src.generated${pathSeparator}" + f.replace("${platform}.*Main", "${platform}Main")))
+                        File(tmp).copyRecursively(File("src.generated$pathSeparator" + f.replace("$platform.*Main", "${platform}Main")))
                     }
                 }
             }
         }
-    File("src.generated${pathSeparator}settings.gradle").printWriter().use { out ->
-        out.println("pluginManagement {")
-        out.println("    repositories {")
-        out.println("        mavenLocal()")
-        out.println("        gradlePluginPortal()")
-        out.println("    }")
-        out.println("}")
-        out.println("rootProject.name = \"$moduleName\"")//maven-artifactID
+        File("src.generated${pathSeparator}settings.gradle").printWriter().use { out ->
+            out.println("pluginManagement {")
+            out.println("    repositories {")
+            out.println("        mavenLocal()")
+            out.println("        gradlePluginPortal()")
+            out.println("    }")
+            out.println("}")
+            out.println("rootProject.name = \"$moduleName\"") // maven-artifactID
+        }
     }
-}
     val commonDependencies = mutableSetOf("org.jetbrains.kotlin:kotlin-stdlib-common:1.4.255-SNAPSHOT")
     if (moduleName != "Luposdate3000_Shared" && moduleName != "Luposdate3000_Shared_Inline") {
         commonDependencies.add("luposdate3000:Luposdate3000_Shared:0.0.1")
@@ -226,9 +226,9 @@ fun createBuildFileForModule(moduleName: String, moduleFolder: String, modulePre
         File(filename).printWriter().use { out ->
             out.println("import org.jetbrains.kotlin.gradle.tasks.KotlinCompile")
             out.println("tasks.withType<KotlinCompile>().all {")
-            out.println("    kotlinOptions.jvmTarget = \"1.8\"")//kotlinOptions.jvmTarget = \"14\"
-            //see /opt/kotlin/compiler/cli/cli-common/src/org/jetbrains/kotlin/cli/common/arguments/K2JVMCompilerArguments.kt
-            //or kotlinc -X
+            out.println("    kotlinOptions.jvmTarget = \"1.8\"") // kotlinOptions.jvmTarget = \"14\"
+            // see /opt/kotlin/compiler/cli/cli-common/src/org/jetbrains/kotlin/cli/common/arguments/K2JVMCompilerArguments.kt
+            // or kotlinc -X
             out.println("    kotlinOptions.freeCompilerArgs += \"-Xno-param-assertions\"")
             out.println("    kotlinOptions.freeCompilerArgs += \"-Xuse-ir\"")
             out.println("    kotlinOptions.freeCompilerArgs += \"-Xnew-inference\"")
@@ -269,8 +269,8 @@ fun createBuildFileForModule(moduleName: String, moduleFolder: String, modulePre
             out.println("    maven(\"https://plugins.gradle.org/m2/\")")
             out.println("    maven(\"https://dl.bintray.com/kotlin/kotlin-eap\")")
             out.println("}")
-            out.println("group = \"luposdate3000\"")//maven-groupID
-            out.println("version = \"0.0.1\"")//maven-version
+            out.println("group = \"luposdate3000\"") // maven-groupID
+            out.println("version = \"0.0.1\"") // maven-version
             out.println("apply(plugin = \"maven-publish\")")
             out.println("kotlin {")
             if (enableJVM) {
@@ -421,7 +421,7 @@ fun createBuildFileForModule(moduleName: String, moduleFolder: String, modulePre
         }
     }
     if (ideaBuildfile == IntellijMode.Disable) {
-        File("src.generated${pathSeparator}commonMain${pathSeparator}kotlin${pathSeparator}lupos${pathSeparator}s00misc${pathSeparator}").mkdirs()
+        File("src.generated${pathSeparator}commonMain${pathSeparator}kotlin${pathSeparator}lupos${pathSeparator}s00misc$pathSeparator").mkdirs()
     }
     val typeAliasAll = mutableMapOf<String, Pair<String, String>>()
     val typeAliasUsed = mutableMapOf<String, Pair<String, String>>()
@@ -445,7 +445,7 @@ fun createBuildFileForModule(moduleName: String, moduleFolder: String, modulePre
         typeAliasAll["MyLock"] = Pair("MyLock", "MyThreadLock")
         typeAliasAll["MyReadWriteLock"] = Pair("MyReadWriteLock", "MyThreadReadWriteLock")
     }
-//selectively copy classes which are inlined from the inline module ->
+// selectively copy classes which are inlined from the inline module ->
     val classNamesRegex = Regex("\\s*([a-zA-Z0-9_]*)")
     val classNamesFound = mutableMapOf<String, MutableSet<String>>()
     for (f in File("src${pathSeparator}luposdate3000_shared_inline${pathSeparator}src").walk()) {
@@ -563,11 +563,11 @@ fun createBuildFileForModule(moduleName: String, moduleFolder: String, modulePre
             File("src${pathSeparator}luposdate3000_shared_inline${pathSeparator}src${pathSeparator}nativeMain").copyRecursively(File("${configPathBase}${pathSeparator}nativeMain"))
         } catch (e: Throwable) {
         }
-        configFile = "${configPath}${pathSeparator}Config-${moduleName}.kt"
+        configFile = "${configPath}${pathSeparator}Config-$moduleName.kt"
     } else {
-        configFile = "src.generated${pathSeparator}commonMain${pathSeparator}kotlin${pathSeparator}lupos${pathSeparator}s00misc${pathSeparator}Config-${moduleName}.kt"
+        configFile = "src.generated${pathSeparator}commonMain${pathSeparator}kotlin${pathSeparator}lupos${pathSeparator}s00misc${pathSeparator}Config-$moduleName.kt"
     }
-//selectively copy classes which are inlined from the inline module <-
+// selectively copy classes which are inlined from the inline module <-
     File(configFile).printWriter().use { out ->
         out.println("package lupos.s00misc")
         for ((k, v) in typeAliasUsed) {
@@ -626,25 +626,25 @@ fun createBuildFileForModule(moduleName: String, moduleFolder: String, modulePre
         e.printStackTrace()
     }
     try {
-        File("build-cache${pathSeparator}src-${shortFolder}").deleteRecursively()
+        File("build-cache${pathSeparator}src-$shortFolder").deleteRecursively()
     } catch (e: Throwable) {
         e.printStackTrace()
     }
     try {
-        File("build-cache${pathSeparator}build-${shortFolder}").deleteRecursively()
+        File("build-cache${pathSeparator}build-$shortFolder").deleteRecursively()
     } catch (e: Throwable) {
         e.printStackTrace()
     }
     if (dryMode == DryMode.Disable) {
         try {
-            Files.move(Paths.get("src.generated${pathSeparator}build"), Paths.get("build-cache${pathSeparator}build-${shortFolder}"))
+            Files.move(Paths.get("src.generated${pathSeparator}build"), Paths.get("build-cache${pathSeparator}build-$shortFolder"))
         } catch (e: Throwable) {
             e.printStackTrace()
         }
     }
     if (ideaBuildfile == IntellijMode.Disable) {
         try {
-            Files.move(Paths.get("src.generated"), Paths.get("build-cache${pathSeparator}src-${shortFolder}"))
+            Files.move(Paths.get("src.generated"), Paths.get("build-cache${pathSeparator}src-$shortFolder"))
         } catch (e: Throwable) {
             e.printStackTrace()
         }
@@ -652,19 +652,19 @@ fun createBuildFileForModule(moduleName: String, moduleFolder: String, modulePre
     if (dryMode == DryMode.Disable) {
         if (enableJVM) {
             try {
-                Files.copy(Paths.get("build-cache${pathSeparator}build-${shortFolder}${pathSeparator}libs${pathSeparator}${moduleName}-jvm-0.0.1.jar"), Paths.get("build-cache${pathSeparator}bin${pathSeparator}${moduleName}-jvm.jar"), StandardCopyOption.REPLACE_EXISTING)
+                Files.copy(Paths.get("build-cache${pathSeparator}build-${shortFolder}${pathSeparator}libs${pathSeparator}$moduleName-jvm-0.0.1.jar"), Paths.get("build-cache${pathSeparator}bin${pathSeparator}$moduleName-jvm.jar"), StandardCopyOption.REPLACE_EXISTING)
             } catch (e: Throwable) {
                 e.printStackTrace()
             }
         }
         if (enableJS) {
             try {
-                Files.copy(Paths.get("build-cache${pathSeparator}build-${shortFolder}${pathSeparator}js${pathSeparator}packages${pathSeparator}${moduleName}${pathSeparator}kotlin${pathSeparator}${moduleName}.js"), Paths.get("build-cache${pathSeparator}bin${pathSeparator}${moduleName}.js"), StandardCopyOption.REPLACE_EXISTING)
+                Files.copy(Paths.get("build-cache${pathSeparator}build-${shortFolder}${pathSeparator}js${pathSeparator}packages${pathSeparator}${moduleName}${pathSeparator}kotlin${pathSeparator}$moduleName.js"), Paths.get("build-cache${pathSeparator}bin${pathSeparator}$moduleName.js"), StandardCopyOption.REPLACE_EXISTING)
             } catch (e: Throwable) {
                 e.printStackTrace()
             }
             try {
-                Files.copy(Paths.get("build-cache${pathSeparator}build-${shortFolder}${pathSeparator}js${pathSeparator}packages${pathSeparator}${moduleName}${pathSeparator}kotlin${pathSeparator}${moduleName}.js.map"), Paths.get("build-cache${pathSeparator}bin${pathSeparator}${moduleName}.js.map"), StandardCopyOption.REPLACE_EXISTING)
+                Files.copy(Paths.get("build-cache${pathSeparator}build-${shortFolder}${pathSeparator}js${pathSeparator}packages${pathSeparator}${moduleName}${pathSeparator}kotlin${pathSeparator}$moduleName.js.map"), Paths.get("build-cache${pathSeparator}bin${pathSeparator}$moduleName.js.map"), StandardCopyOption.REPLACE_EXISTING)
             } catch (e: Throwable) {
                 e.printStackTrace()
             }
@@ -674,17 +674,17 @@ fun createBuildFileForModule(moduleName: String, moduleFolder: String, modulePre
                 try {
                     if (buildLibrary) {
                         if (releaseMode == ReleaseMode.Enable) {
-                            Files.copy(Paths.get("build-cache${pathSeparator}build-${shortFolder}${pathSeparator}bin${pathSeparator}linuxX64${pathSeparator}releaseShared${pathSeparator}lib${modulePrefix}.so"), Paths.get("build-cache${pathSeparator}bin${pathSeparator}lib${moduleName}-linuxX64.so"), StandardCopyOption.REPLACE_EXISTING)
-                            Files.copy(Paths.get("build-cache${pathSeparator}build-${shortFolder}${pathSeparator}bin${pathSeparator}linuxX64${pathSeparator}releaseShared${pathSeparator}lib${modulePrefix}_api.h"), Paths.get("build-cache${pathSeparator}bin${pathSeparator}lib${moduleName}-linuxX64.h"), StandardCopyOption.REPLACE_EXISTING)
+                            Files.copy(Paths.get("build-cache${pathSeparator}build-${shortFolder}${pathSeparator}bin${pathSeparator}linuxX64${pathSeparator}releaseShared${pathSeparator}lib$modulePrefix.so"), Paths.get("build-cache${pathSeparator}bin${pathSeparator}lib$moduleName-linuxX64.so"), StandardCopyOption.REPLACE_EXISTING)
+                            Files.copy(Paths.get("build-cache${pathSeparator}build-${shortFolder}${pathSeparator}bin${pathSeparator}linuxX64${pathSeparator}releaseShared${pathSeparator}lib${modulePrefix}_api.h"), Paths.get("build-cache${pathSeparator}bin${pathSeparator}lib$moduleName-linuxX64.h"), StandardCopyOption.REPLACE_EXISTING)
                         } else {
-                            Files.copy(Paths.get("build-cache${pathSeparator}build-${shortFolder}${pathSeparator}bin${pathSeparator}linuxX64${pathSeparator}debugShared${pathSeparator}lib${modulePrefix}.so"), Paths.get("build-cache${pathSeparator}bin${pathSeparator}lib${moduleName}-linuxX64.so"), StandardCopyOption.REPLACE_EXISTING)
-                            Files.copy(Paths.get("build-cache${pathSeparator}build-${shortFolder}${pathSeparator}bin${pathSeparator}linuxX64${pathSeparator}debugShared${pathSeparator}lib${modulePrefix}_api.h"), Paths.get("build-cache${pathSeparator}bin${pathSeparator}lib${moduleName}-linuxX64.h"), StandardCopyOption.REPLACE_EXISTING)
+                            Files.copy(Paths.get("build-cache${pathSeparator}build-${shortFolder}${pathSeparator}bin${pathSeparator}linuxX64${pathSeparator}debugShared${pathSeparator}lib$modulePrefix.so"), Paths.get("build-cache${pathSeparator}bin${pathSeparator}lib$moduleName-linuxX64.so"), StandardCopyOption.REPLACE_EXISTING)
+                            Files.copy(Paths.get("build-cache${pathSeparator}build-${shortFolder}${pathSeparator}bin${pathSeparator}linuxX64${pathSeparator}debugShared${pathSeparator}lib${modulePrefix}_api.h"), Paths.get("build-cache${pathSeparator}bin${pathSeparator}lib$moduleName-linuxX64.h"), StandardCopyOption.REPLACE_EXISTING)
                         }
                     } else {
                         if (releaseMode == ReleaseMode.Enable) {
-                            Files.copy(Paths.get("build-cache${pathSeparator}build-${shortFolder}${pathSeparator}bin${pathSeparator}linuxX64${pathSeparator}releaseExecutable${pathSeparator}${moduleName}.kexe"), Paths.get("build-cache${pathSeparator}bin${pathSeparator}lib${moduleName}-linuxX64.kexe"), StandardCopyOption.REPLACE_EXISTING)
+                            Files.copy(Paths.get("build-cache${pathSeparator}build-${shortFolder}${pathSeparator}bin${pathSeparator}linuxX64${pathSeparator}releaseExecutable${pathSeparator}$moduleName.kexe"), Paths.get("build-cache${pathSeparator}bin${pathSeparator}lib$moduleName-linuxX64.kexe"), StandardCopyOption.REPLACE_EXISTING)
                         } else {
-                            Files.copy(Paths.get("build-cache${pathSeparator}build-${shortFolder}${pathSeparator}bin${pathSeparator}linuxX64${pathSeparator}debugExecutable${pathSeparator}${moduleName}.kexe"), Paths.get("build-cache${pathSeparator}bin${pathSeparator}lib${moduleName}-linuxX64.kexe"), StandardCopyOption.REPLACE_EXISTING)
+                            Files.copy(Paths.get("build-cache${pathSeparator}build-${shortFolder}${pathSeparator}bin${pathSeparator}linuxX64${pathSeparator}debugExecutable${pathSeparator}$moduleName.kexe"), Paths.get("build-cache${pathSeparator}bin${pathSeparator}lib$moduleName-linuxX64.kexe"), StandardCopyOption.REPLACE_EXISTING)
                         }
                     }
                 } catch (e: Throwable) {
@@ -697,10 +697,10 @@ fun createBuildFileForModule(moduleName: String, moduleFolder: String, modulePre
 
 fun runCommand(command: List<String>, workingDir: File) {
     val p = ProcessBuilder(command)
-            .directory(workingDir)
-            .redirectOutput(Redirect.INHERIT)
-            .redirectError(Redirect.INHERIT)
-            .start()
+        .directory(workingDir)
+        .redirectOutput(Redirect.INHERIT)
+        .redirectError(Redirect.INHERIT)
+        .start()
     p.waitFor()
     if (p.exitValue() != 0) {
         throw Exception("executing '$command' failed")

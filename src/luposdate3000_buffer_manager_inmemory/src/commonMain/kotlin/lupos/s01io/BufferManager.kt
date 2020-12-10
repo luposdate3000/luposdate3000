@@ -89,7 +89,7 @@ class BufferManager {
     }
 
     fun getPage(pageid: Int): ByteArray {
-        //no locking required, assuming an assignment to 'allPages' is atomic
+        // no locking required, assuming an assignment to 'allPages' is atomic
         SanityCheck {
             if (BUFFER_MANAGER_USE_FREE_LIST) {
                 SanityCheck.check { !freeList.contains(pageid) }

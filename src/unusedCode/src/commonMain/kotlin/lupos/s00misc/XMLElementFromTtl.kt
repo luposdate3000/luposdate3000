@@ -15,12 +15,15 @@ fun XMLElement.Companion.parseFromTtl(ttl: String): XMLElement? {
     nodeHead.addContent(XMLElement("variable").addAttribute("name", "p"))
     nodeHead.addContent(XMLElement("variable").addAttribute("name", "o"))
     val ltit = LookAheadTokenIterator(TurtleScanner(LexerCharIterator(ttl)), 3)
-    TurtleParser({ triple ->
-        val nodeResult = XMLElement("result")
-        nodeResults.addContent(nodeResult)
-        parseBindingFromString(nodeResult, triple.s.toN3String(), "s")
-        parseBindingFromString(nodeResult, triple.p.toN3String(), "p")
-        parseBindingFromString(nodeResult, triple.o.toN3String(), "o")
-    }, ltit).turtleDoc()
+    TurtleParser(
+        { triple ->
+            val nodeResult = XMLElement("result")
+            nodeResults.addContent(nodeResult)
+            parseBindingFromString(nodeResult, triple.s.toN3String(), "s")
+            parseBindingFromString(nodeResult, triple.p.toN3String(), "p")
+            parseBindingFromString(nodeResult, triple.o.toN3String(), "o")
+        },
+        ltit
+    ).turtleDoc()
     return nodeSparql
 }

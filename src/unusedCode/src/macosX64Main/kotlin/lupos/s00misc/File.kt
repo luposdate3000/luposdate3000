@@ -1,14 +1,12 @@
 package lupos.s00misc
 
 import dirent.*
-import kotlin.jvm.JvmField
-import kotlin.native.concurrent.*
 import kotlinx.cinterop.*
-import kotlinx.cinterop.allocArray
 import kotlinx.cinterop.ByteVar
+import kotlinx.cinterop.allocArray
 import kotlinx.cinterop.memScoped
-import lupos.s04logicalOperators.Query
 import stdio.*
+import kotlin.native.concurrent.*
 
 class File {
     val filename: String
@@ -42,7 +40,7 @@ class File {
     }
 
     fun walk(action: (String) -> Unit) {
-        val d = opendir(filename);
+        val d = opendir(filename)
         if (d != null) {
             while (true) {
                 val dir = readdir(d)
@@ -51,7 +49,7 @@ class File {
                 }
                 action(dir.pointed.d_name!!.toKString())
             }
-            closedir(d);
+            closedir(d)
         }
     }
 

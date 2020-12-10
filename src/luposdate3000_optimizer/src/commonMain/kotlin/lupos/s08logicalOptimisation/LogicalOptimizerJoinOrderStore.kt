@@ -77,7 +77,7 @@ object LogicalOptimizerJoinOrderStore {
                     i++
                 }
                 val node = queue.removeAt(maxI)
-                val tmp = mutableListOf<String>()//push the variables of this node the the front of preferred variables ... this way, consecutive joins use the same variables.
+                val tmp = mutableListOf<String>() // push the variables of this node the the front of preferred variables ... this way, consecutive joins use the same variables.
                 tmp.addAll(node.getProvidedVariableNames())
                 allVariablesOrdered.removeAll(tmp)
                 tmp.addAll(allVariablesOrdered)

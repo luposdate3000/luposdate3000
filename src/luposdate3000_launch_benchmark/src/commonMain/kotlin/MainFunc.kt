@@ -49,7 +49,7 @@ fun mainFunc(args: Array<String>): Unit = Parallel.runBlocking {
                     break
                 }
             }
-            println("${queryFile},$numberOfTriples,0,$counter,${time * 1000.0},${counter / time},WithOptimizer")
+            println("$queryFile,$numberOfTriples,0,$counter,${time * 1000.0},${counter / time},WithOptimizer")
         }
     }
     if (optimizerMode != OptimizerMode.OnlyWith) {
@@ -76,7 +76,7 @@ fun mainFunc(args: Array<String>): Unit = Parallel.runBlocking {
                     break
                 }
             }
-            println("${queryFile},$numberOfTriples,0,$counter,${time * 1000.0},${counter / time},NoOptimizer")
+            println("$queryFile,$numberOfTriples,0,$counter,${time * 1000.0},${counter / time},NoOptimizer")
         }
     }
 }

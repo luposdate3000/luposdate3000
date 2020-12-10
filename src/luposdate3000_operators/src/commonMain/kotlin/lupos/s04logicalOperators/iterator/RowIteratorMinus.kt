@@ -56,7 +56,7 @@ open class RowIteratorMinus(val a: RowIterator, val b: RowIterator, private val 
                         0 -> {
                             break@loop
                         }
-                        1 -> {//nothing to remove left
+                        1 -> { // nothing to remove left
                             aIdx = a.next()
                             if (aIdx < 0) {
                                 flag = 0

@@ -53,9 +53,9 @@ object OperatorGraphToLatex {
                 }
             }
             if (name == "Projection") {
-                res.append("(\\textit{${projectionHelper}})")
+                res.append("(\\textit{$projectionHelper})")
             } else if (name.startsWith("SplitPartition") || name.startsWith("MergePartition")) {
-                res.append("(\\textit{${partitionHelper}})")
+                res.append("(\\textit{$partitionHelper})")
             }
             if (children.size > 0) {
                 if (children.size > 1) {

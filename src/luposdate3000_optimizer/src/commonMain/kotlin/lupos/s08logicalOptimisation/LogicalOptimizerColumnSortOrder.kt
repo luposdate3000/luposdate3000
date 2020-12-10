@@ -39,13 +39,13 @@ class LogicalOptimizerColumnSortOrder(query: Query) : OptimizerBase(query, EOpti
                 var flag = true
                 if (node is LOPTriple && parent != null) {
                     if (!parent.getSortPrioritiesInitialized() || parent.getSortPriorities().size > 1) {
-                        //let the parent-operator choose first ..
+                        // let the parent-operator choose first ..
                         flag = false
                     }
                 }
                 if (flag) {
                     if (node.getChildren().isNotEmpty() && node !is LOPTriple) {
-                        //filter only valid sort orders based on children, which may had an update
+                        // filter only valid sort orders based on children, which may had an update
                         val tmp = mutableListOf<List<SortHelper>>()
                         loop@ for (x in node.getSortPriorities()) {
                             var maxI = 0
@@ -96,7 +96,7 @@ class LogicalOptimizerColumnSortOrder(query: Query) : OptimizerBase(query, EOpti
             }
         }
         if (node.getSortPriorities().size > 0 && node.getMySortPriority().size == 0) {
-//TODO debug why this is wrong ...
+// TODO debug why this is wrong ...
             var maxSize = 0
             for (x in node.getSortPriorities()) {
                 if (x.size > maxSize) {

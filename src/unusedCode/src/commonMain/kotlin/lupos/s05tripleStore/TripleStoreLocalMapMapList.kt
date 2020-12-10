@@ -1,7 +1,6 @@
 package lupos.s05tripleStore
 
 import lupos.s00misc.EIndexPattern
-import lupos.s00misc.Partition
 
 class TripleStoreLocalMapMapList(name: String) : TripleStoreLocalBase(name) {
     init {

@@ -86,10 +86,10 @@ class GenerateBuildFile(val args: Array<String>) {
     var additionalSources = mapOf<ChooseableOption, List<ChooseableOption>>()
     val allChoosenOptions = mutableSetOf<ChooseableOption>(ChooseableOptionDirectory("commonMain"), ChooseableOptionDirectory("commonConfig"))
     var platformPrefix = mapOf(
-            "linuxX64" to listOf("common", "linuxX64", "native"),
-            "macosX64" to listOf("common", "macosX64", "native"),
-            "mingw64" to listOf("common"),
-            "jvm" to listOf("common", "jvm")
+        "linuxX64" to listOf("common", "linuxX64", "native"),
+        "macosX64" to listOf("common", "macosX64", "native"),
+        "mingw64" to listOf("common"),
+        "jvm" to listOf("common", "jvm")
     )
 
     init {
@@ -111,137 +111,154 @@ class GenerateBuildFile(val args: Array<String>) {
     }
 
     val templates = listOf(
-            PrecompileTemplate("lupos.s00misc", "MyListVALUE", listOf("VALUE" to "Int", "GDEF" to "", "GUSE" to "", "ARRAYTYPE" to "IntArray", "ARRAYINITIALIZER" to "")),
-            PrecompileTemplate("lupos.s00misc", "MyListVALUE", listOf("VALUE" to "Long", "GDEF" to "", "GUSE" to "", "ARRAYTYPE" to "LongArray", "ARRAYINITIALIZER" to "")),
-            PrecompileTemplate("lupos.s00misc", "MyListVALUE", listOf("VALUE" to "Double", "GDEF" to "", "GUSE" to "", "ARRAYTYPE" to "DoubleArray", "ARRAYINITIALIZER" to "")),
-            PrecompileTemplate("lupos.s00misc", "MyListVALUE", listOf("VALUE" to "Generic", "GDEF" to "<Generic>", "GUSE" to "<Generic>", "ARRAYTYPE" to "Array<Any?>", "ARRAYINITIALIZER" to "{null}")),
-            PrecompileTemplate("lupos.s00misc", "MySetVALUEBinaryTree", listOf("VALUE" to "Int", "GDEF" to "", "GUSE" to "")),
-            PrecompileTemplate("lupos.s00misc", "MySetVALUEBinaryTree", listOf("VALUE" to "Long", "GDEF" to "", "GUSE" to "")),
-            PrecompileTemplate("lupos.s00misc", "MySetVALUEBinaryTree", listOf("VALUE" to "Double", "GDEF" to "", "GUSE" to "")),
-            PrecompileTemplate("lupos.s00misc", "MySetVALUEBinaryTree", listOf("VALUE" to "Generic", "GDEF" to "<Generic : Comparable<Generic>>", "GUSE" to "<Generic>")),
-            PrecompileTemplate("lupos.s00misc", "MyMapKNAMEVNAMEBinaryTree", listOf("KEY" to "Int", "VALUE" to "Int", "GDEF" to "", "GUSEKV" to "", "GUSEK" to "", "GUSEV" to "", "KNAME" to "Int", "VNAME" to "Int", "IOSTART1" to "", "IOEND1" to "", "IOSTART2" to "", "IOEND2" to "")),
-            PrecompileTemplate("lupos.s00misc", "MyMapKNAMEVNAMEBinaryTree", listOf("KEY" to "Int", "VALUE" to "Long", "GDEF" to "", "GUSEKV" to "", "GUSEK" to "", "GUSEV" to "", "KNAME" to "Int", "VNAME" to "Long", "IOSTART1" to "", "IOEND1" to "", "IOSTART2" to "", "IOEND2" to "")),
-            PrecompileTemplate("lupos.s00misc", "MyMapKNAMEVNAMEBinaryTree", listOf("KEY" to "Int", "VALUE" to "Double", "GDEF" to "", "GUSEKV" to "", "GUSEK" to "", "GUSEV" to "", "KNAME" to "Int", "VNAME" to "Double", "IOSTART1" to "", "IOEND1" to "", "IOSTART2" to "", "IOEND2" to "")),
-            PrecompileTemplate("lupos.s00misc", "MyMapKNAMEVNAMEBinaryTree", listOf("KEY" to "Long", "VALUE" to "Int", "GDEF" to "", "GUSEKV" to "", "GUSEK" to "", "GUSEV" to "", "KNAME" to "Long", "VNAME" to "Int", "IOSTART1" to "", "IOEND1" to "", "IOSTART2" to "", "IOEND2" to "")),
-            PrecompileTemplate("lupos.s00misc", "MyMapKNAMEVNAMEBinaryTree", listOf("KEY" to "Long", "VALUE" to "Long", "GDEF" to "", "GUSEKV" to "", "GUSEK" to "", "GUSEV" to "", "KNAME" to "Long", "VNAME" to "Long", "IOSTART1" to "", "IOEND1" to "", "IOSTART2" to "", "IOEND2" to "")),
-            PrecompileTemplate("lupos.s00misc", "MyMapKNAMEVNAMEBinaryTree", listOf("KEY" to "Long", "VALUE" to "Double", "GDEF" to "", "GUSEKV" to "", "GUSEK" to "", "GUSEV" to "", "KNAME" to "Long", "VNAME" to "Double", "IOSTART1" to "", "IOEND1" to "", "IOSTART2" to "", "IOEND2" to "")),
-            PrecompileTemplate("lupos.s00misc", "MyMapKNAMEVNAMEBinaryTree", listOf("KEY" to "Double", "VALUE" to "Int", "GDEF" to "", "GUSEKV" to "", "GUSEK" to "", "GUSEV" to "", "KNAME" to "Double", "VNAME" to "Int", "IOSTART1" to "", "IOEND1" to "", "IOSTART2" to "", "IOEND2" to "")),
-            PrecompileTemplate("lupos.s00misc", "MyMapKNAMEVNAMEBinaryTree", listOf("KEY" to "Double", "VALUE" to "Long", "GDEF" to "", "GUSEKV" to "", "GUSEK" to "", "GUSEV" to "", "KNAME" to "Double", "VNAME" to "Long", "IOSTART1" to "", "IOEND1" to "", "IOSTART2" to "", "IOEND2" to "")),
-            PrecompileTemplate("lupos.s00misc", "MyMapKNAMEVNAMEBinaryTree", listOf("KEY" to "Double", "VALUE" to "Double", "GDEF" to "", "GUSEKV" to "", "GUSEK" to "", "GUSEV" to "", "KNAME" to "Double", "VNAME" to "Double", "IOSTART1" to "", "IOEND1" to "", "IOSTART2" to "", "IOEND2" to "")),
-            PrecompileTemplate("lupos.s00misc", "MyMapKNAMEVNAMEBinaryTree", listOf("KEY" to "GenericK",
-                    "VALUE" to "GenericV",
-                    "GDEF" to "<GenericK : Comparable<GenericK>, GenericV>",
-                    "GUSEKV" to "<GenericK, GenericV>",
-                    "GUSEK" to "<GenericK>",
-                    "GUSEV" to "<GenericV>",
-                    "KNAME" to "Generic",
-                    "VNAME" to "Generic",
-                    "IOSTART1.*IOEND1" to "throw FileIONotImplementedException()", "IOSTART2.*IOEND2" to "throw FileIONotImplementedException()")),
-            PrecompileTemplate("lupos.s00misc", "MyMapKNAMEVNAMEBinaryTree", listOf("KEY" to "Int", "VALUE" to "Generic", "GDEF" to "<Generic>", "GUSEKV" to "<Generic>", "GUSEK" to "", "GUSEV" to "<Generic>", "KNAME" to "Int", "VNAME" to "Generic", "IOSTART1.*IOEND1" to "throw FileIONotImplementedException()", "IOSTART2.*IOEND2" to "throw FileIONotImplementedException()")),
-            PrecompileTemplate("lupos.s00misc", "MyMapKNAMEVNAMEBinaryTree", listOf("KEY" to "Long", "VALUE" to "Generic", "GDEF" to "<Generic>", "GUSEKV" to "<Generic>", "GUSEK" to "", "GUSEV" to "<Generic>", "KNAME" to "Long", "VNAME" to "Generic", "IOSTART1.*IOEND1" to "throw FileIONotImplementedException()", "IOSTART2.*IOEND2" to "throw FileIONotImplementedException()")),
-            PrecompileTemplate("lupos.s00misc", "MySetKEYBTree", listOf("KEY" to "Int", "GDEF" to "", "GUSE" to "", "ARRAYTYPE" to "IntArray", "ARRAYINITIALIZER" to "")),
-            PrecompileTemplate("lupos.s00misc", "MySetKEYBTree", listOf("KEY" to "Long", "GDEF" to "", "GUSE" to "", "ARRAYTYPE" to "LongArray", "ARRAYINITIALIZER" to "")),
-            PrecompileTemplate("lupos.s00misc", "MySetKEYBTree", listOf("KEY" to "Double", "GDEF" to "", "GUSE" to "", "ARRAYTYPE" to "DoubleArray", "ARRAYINITIALIZER" to "")),
-            PrecompileTemplate("lupos.s00misc", "MySetKEYBTree", listOf("KEY" to "Generic", "GDEF" to "<Generic : Comparable<Generic>>", "GUSE" to "<Generic>", "ARRAYTYPE" to "Array<Any?>", "ARRAYINITIALIZER" to "{null}")),
-            PrecompileTemplate("lupos.s00misc", "MyMapKNAMEVNAMEBTree", listOf("KEY" to "Int", "VALUE" to "Int", "KNAME" to "Int", "VNAME" to "Int", "GDEF" to "", "GUSE" to "", "ARRAYKTYPE" to "IntArray", "ARRAYVTYPE" to "IntArray", "ARRAYKINITIALIZER" to "", "ARRAYVINITIALIZER" to "", "IOSTART1" to "", "IOEND1" to "", "IOSTART2" to "", "IOEND2" to "")),
-            PrecompileTemplate("lupos.s00misc", "MyMapKNAMEVNAMEBTree", listOf("KEY" to "Int", "VALUE" to "Long", "KNAME" to "Int", "VNAME" to "Long", "GDEF" to "", "GUSE" to "", "ARRAYKTYPE" to "IntArray", "ARRAYVTYPE" to "LongArray", "ARRAYKINITIALIZER" to "", "ARRAYVINITIALIZER" to "", "IOSTART1" to "", "IOEND1" to "", "IOSTART2" to "", "IOEND2" to "")),
-            PrecompileTemplate("lupos.s00misc", "MyMapKNAMEVNAMEBTree", listOf("KEY" to "Int", "VALUE" to "Double", "KNAME" to "Int", "VNAME" to "Double", "GDEF" to "", "GUSE" to "", "ARRAYKTYPE" to "IntArray", "ARRAYVTYPE" to "DoubleArray", "ARRAYKINITIALIZER" to "", "ARRAYVINITIALIZER" to "", "IOSTART1" to "", "IOEND1" to "", "IOSTART2" to "", "IOEND2" to "")),
-            PrecompileTemplate("lupos.s00misc", "MyMapKNAMEVNAMEBTree", listOf("KEY" to "Long", "VALUE" to "Int", "KNAME" to "Long", "VNAME" to "Int", "GDEF" to "", "GUSE" to "", "ARRAYKTYPE" to "LongArray", "ARRAYVTYPE" to "IntArray", "ARRAYKINITIALIZER" to "", "ARRAYVINITIALIZER" to "", "IOSTART1" to "", "IOEND1" to "", "IOSTART2" to "", "IOEND2" to "")),
-            PrecompileTemplate("lupos.s00misc", "MyMapKNAMEVNAMEBTree", listOf("KEY" to "Long", "VALUE" to "Long", "KNAME" to "Long", "VNAME" to "Long", "GDEF" to "", "GUSE" to "", "ARRAYKTYPE" to "LongArray", "ARRAYVTYPE" to "LongArray", "ARRAYKINITIALIZER" to "", "ARRAYVINITIALIZER" to "", "IOSTART1" to "", "IOEND1" to "", "IOSTART2" to "", "IOEND2" to "")),
-            PrecompileTemplate("lupos.s00misc", "MyMapKNAMEVNAMEBTree", listOf("KEY" to "Long", "VALUE" to "Double", "KNAME" to "Long", "VNAME" to "Double", "GDEF" to "", "GUSE" to "", "ARRAYKTYPE" to "LongArray", "ARRAYVTYPE" to "DoubleArray", "ARRAYKINITIALIZER" to "", "ARRAYVINITIALIZER" to "", "IOSTART1" to "", "IOEND1" to "", "IOSTART2" to "", "IOEND2" to "")),
-            PrecompileTemplate("lupos.s00misc", "MyMapKNAMEVNAMEBTree", listOf("KEY" to "Double", "VALUE" to "Int", "KNAME" to "Double", "VNAME" to "Int", "GDEF" to "", "GUSE" to "", "ARRAYKTYPE" to "DoubleArray", "ARRAYVTYPE" to "IntArray", "ARRAYKINITIALIZER" to "", "ARRAYVINITIALIZER" to "", "IOSTART1" to "", "IOEND1" to "", "IOSTART2" to "", "IOEND2" to "")),
-            PrecompileTemplate("lupos.s00misc", "MyMapKNAMEVNAMEBTree", listOf("KEY" to "Double", "VALUE" to "Long", "KNAME" to "Double", "VNAME" to "Long", "GDEF" to "", "GUSE" to "", "ARRAYKTYPE" to "DoubleArray", "ARRAYVTYPE" to "LongArray", "ARRAYKINITIALIZER" to "", "ARRAYVINITIALIZER" to "", "IOSTART1" to "", "IOEND1" to "", "IOSTART2" to "", "IOEND2" to "")),
-            PrecompileTemplate("lupos.s00misc", "MyMapKNAMEVNAMEBTree", listOf("KEY" to "Double", "VALUE" to "Double", "KNAME" to "Double", "VNAME" to "Double", "GDEF" to "", "GUSE" to "", "ARRAYKTYPE" to "DoubleArray", "ARRAYVTYPE" to "DoubleArray", "ARRAYKINITIALIZER" to "", "ARRAYVINITIALIZER" to "", "IOSTART1" to "", "IOEND1" to "", "IOSTART2" to "", "IOEND2" to "")),
-            PrecompileTemplate("lupos.s00misc", "MyMapKNAMEVNAMEBTree", listOf(
-                    "KEY" to "Int",
-                    "VALUE" to "GenericV",
-                    "KNAME" to "Int",
-                    "VNAME" to "Generic",
-                    "GDEF" to "<GenericV>",
-                    "GUSE" to "<GenericV>",
-                    "ARRAYKTYPE" to "IntArray",
-                    "ARRAYVTYPE" to "Array<Any?>",
-                    "ARRAYKINITIALIZER" to "",
-                    "ARRAYVINITIALIZER" to "{null}",
-                    "IOSTART1.*IOEND1" to "throw FileIONotImplementedException()", "IOSTART2.*IOEND2" to "throw FileIONotImplementedException()"
-            )),
-            PrecompileTemplate("lupos.s00misc", "MyMapKNAMEVNAMEBTree", listOf(
-                    "KEY" to "Long",
-                    "VALUE" to "GenericV",
-                    "KNAME" to "Long",
-                    "VNAME" to "Generic",
-                    "GDEF" to "<GenericV>",
-                    "GUSE" to "<GenericV>",
-                    "ARRAYKTYPE" to "LongArray",
-                    "ARRAYVTYPE" to "Array<Any?>",
-                    "ARRAYKINITIALIZER" to "",
-                    "ARRAYVINITIALIZER" to "{null}",
-                    "IOSTART1.*IOEND1" to "throw FileIONotImplementedException()", "IOSTART2.*IOEND2" to "throw FileIONotImplementedException()"
-            )),
-            PrecompileTemplate("lupos.s00misc", "MyMapKNAMEVNAMEBTree", listOf(
-                    "KEY" to "Double",
-                    "VALUE" to "GenericV",
-                    "KNAME" to "Double",
-                    "VNAME" to "Generic",
-                    "GDEF" to "<GenericV>",
-                    "GUSE" to "<GenericV>",
-                    "ARRAYKTYPE" to "DoubleArray",
-                    "ARRAYVTYPE" to "Array<Any?>",
-                    "ARRAYKINITIALIZER" to "",
-                    "ARRAYVINITIALIZER" to "{null}",
-                    "IOSTART1.*IOEND1" to "throw FileIONotImplementedException()", "IOSTART2.*IOEND2" to "throw FileIONotImplementedException()"
-            )),
-            PrecompileTemplate("lupos.s00misc", "MyMapKNAMEVNAMEBTree", listOf(
-                    "KEY" to "GenericK",
-                    "VALUE" to "GenericV",
-                    "KNAME" to "Generic",
-                    "VNAME" to "Generic",
-                    "GDEF" to "<GenericK : Comparable<GenericK>, GenericV>",
-                    "GUSE" to "<GenericK, GenericV>",
-                    "ARRAYKTYPE" to "Array<Any?>",
-                    "ARRAYVTYPE" to "Array<Any?>",
-                    "ARRAYKINITIALIZER" to "{null}",
-                    "ARRAYVINITIALIZER" to "{null}",
-                    "IOSTART1.*IOEND1" to "throw FileIONotImplementedException()", "IOSTART2.*IOEND2" to "throw FileIONotImplementedException()"
-            ))
+        PrecompileTemplate("lupos.s00misc", "MyListVALUE", listOf("VALUE" to "Int", "GDEF" to "", "GUSE" to "", "ARRAYTYPE" to "IntArray", "ARRAYINITIALIZER" to "")),
+        PrecompileTemplate("lupos.s00misc", "MyListVALUE", listOf("VALUE" to "Long", "GDEF" to "", "GUSE" to "", "ARRAYTYPE" to "LongArray", "ARRAYINITIALIZER" to "")),
+        PrecompileTemplate("lupos.s00misc", "MyListVALUE", listOf("VALUE" to "Double", "GDEF" to "", "GUSE" to "", "ARRAYTYPE" to "DoubleArray", "ARRAYINITIALIZER" to "")),
+        PrecompileTemplate("lupos.s00misc", "MyListVALUE", listOf("VALUE" to "Generic", "GDEF" to "<Generic>", "GUSE" to "<Generic>", "ARRAYTYPE" to "Array<Any?>", "ARRAYINITIALIZER" to "{null}")),
+        PrecompileTemplate("lupos.s00misc", "MySetVALUEBinaryTree", listOf("VALUE" to "Int", "GDEF" to "", "GUSE" to "")),
+        PrecompileTemplate("lupos.s00misc", "MySetVALUEBinaryTree", listOf("VALUE" to "Long", "GDEF" to "", "GUSE" to "")),
+        PrecompileTemplate("lupos.s00misc", "MySetVALUEBinaryTree", listOf("VALUE" to "Double", "GDEF" to "", "GUSE" to "")),
+        PrecompileTemplate("lupos.s00misc", "MySetVALUEBinaryTree", listOf("VALUE" to "Generic", "GDEF" to "<Generic : Comparable<Generic>>", "GUSE" to "<Generic>")),
+        PrecompileTemplate("lupos.s00misc", "MyMapKNAMEVNAMEBinaryTree", listOf("KEY" to "Int", "VALUE" to "Int", "GDEF" to "", "GUSEKV" to "", "GUSEK" to "", "GUSEV" to "", "KNAME" to "Int", "VNAME" to "Int", "IOSTART1" to "", "IOEND1" to "", "IOSTART2" to "", "IOEND2" to "")),
+        PrecompileTemplate("lupos.s00misc", "MyMapKNAMEVNAMEBinaryTree", listOf("KEY" to "Int", "VALUE" to "Long", "GDEF" to "", "GUSEKV" to "", "GUSEK" to "", "GUSEV" to "", "KNAME" to "Int", "VNAME" to "Long", "IOSTART1" to "", "IOEND1" to "", "IOSTART2" to "", "IOEND2" to "")),
+        PrecompileTemplate("lupos.s00misc", "MyMapKNAMEVNAMEBinaryTree", listOf("KEY" to "Int", "VALUE" to "Double", "GDEF" to "", "GUSEKV" to "", "GUSEK" to "", "GUSEV" to "", "KNAME" to "Int", "VNAME" to "Double", "IOSTART1" to "", "IOEND1" to "", "IOSTART2" to "", "IOEND2" to "")),
+        PrecompileTemplate("lupos.s00misc", "MyMapKNAMEVNAMEBinaryTree", listOf("KEY" to "Long", "VALUE" to "Int", "GDEF" to "", "GUSEKV" to "", "GUSEK" to "", "GUSEV" to "", "KNAME" to "Long", "VNAME" to "Int", "IOSTART1" to "", "IOEND1" to "", "IOSTART2" to "", "IOEND2" to "")),
+        PrecompileTemplate("lupos.s00misc", "MyMapKNAMEVNAMEBinaryTree", listOf("KEY" to "Long", "VALUE" to "Long", "GDEF" to "", "GUSEKV" to "", "GUSEK" to "", "GUSEV" to "", "KNAME" to "Long", "VNAME" to "Long", "IOSTART1" to "", "IOEND1" to "", "IOSTART2" to "", "IOEND2" to "")),
+        PrecompileTemplate("lupos.s00misc", "MyMapKNAMEVNAMEBinaryTree", listOf("KEY" to "Long", "VALUE" to "Double", "GDEF" to "", "GUSEKV" to "", "GUSEK" to "", "GUSEV" to "", "KNAME" to "Long", "VNAME" to "Double", "IOSTART1" to "", "IOEND1" to "", "IOSTART2" to "", "IOEND2" to "")),
+        PrecompileTemplate("lupos.s00misc", "MyMapKNAMEVNAMEBinaryTree", listOf("KEY" to "Double", "VALUE" to "Int", "GDEF" to "", "GUSEKV" to "", "GUSEK" to "", "GUSEV" to "", "KNAME" to "Double", "VNAME" to "Int", "IOSTART1" to "", "IOEND1" to "", "IOSTART2" to "", "IOEND2" to "")),
+        PrecompileTemplate("lupos.s00misc", "MyMapKNAMEVNAMEBinaryTree", listOf("KEY" to "Double", "VALUE" to "Long", "GDEF" to "", "GUSEKV" to "", "GUSEK" to "", "GUSEV" to "", "KNAME" to "Double", "VNAME" to "Long", "IOSTART1" to "", "IOEND1" to "", "IOSTART2" to "", "IOEND2" to "")),
+        PrecompileTemplate("lupos.s00misc", "MyMapKNAMEVNAMEBinaryTree", listOf("KEY" to "Double", "VALUE" to "Double", "GDEF" to "", "GUSEKV" to "", "GUSEK" to "", "GUSEV" to "", "KNAME" to "Double", "VNAME" to "Double", "IOSTART1" to "", "IOEND1" to "", "IOSTART2" to "", "IOEND2" to "")),
+        PrecompileTemplate(
+            "lupos.s00misc", "MyMapKNAMEVNAMEBinaryTree",
+            listOf(
+                "KEY" to "GenericK",
+                "VALUE" to "GenericV",
+                "GDEF" to "<GenericK : Comparable<GenericK>, GenericV>",
+                "GUSEKV" to "<GenericK, GenericV>",
+                "GUSEK" to "<GenericK>",
+                "GUSEV" to "<GenericV>",
+                "KNAME" to "Generic",
+                "VNAME" to "Generic",
+                "IOSTART1.*IOEND1" to "throw FileIONotImplementedException()", "IOSTART2.*IOEND2" to "throw FileIONotImplementedException()"
+            )
+        ),
+        PrecompileTemplate("lupos.s00misc", "MyMapKNAMEVNAMEBinaryTree", listOf("KEY" to "Int", "VALUE" to "Generic", "GDEF" to "<Generic>", "GUSEKV" to "<Generic>", "GUSEK" to "", "GUSEV" to "<Generic>", "KNAME" to "Int", "VNAME" to "Generic", "IOSTART1.*IOEND1" to "throw FileIONotImplementedException()", "IOSTART2.*IOEND2" to "throw FileIONotImplementedException()")),
+        PrecompileTemplate("lupos.s00misc", "MyMapKNAMEVNAMEBinaryTree", listOf("KEY" to "Long", "VALUE" to "Generic", "GDEF" to "<Generic>", "GUSEKV" to "<Generic>", "GUSEK" to "", "GUSEV" to "<Generic>", "KNAME" to "Long", "VNAME" to "Generic", "IOSTART1.*IOEND1" to "throw FileIONotImplementedException()", "IOSTART2.*IOEND2" to "throw FileIONotImplementedException()")),
+        PrecompileTemplate("lupos.s00misc", "MySetKEYBTree", listOf("KEY" to "Int", "GDEF" to "", "GUSE" to "", "ARRAYTYPE" to "IntArray", "ARRAYINITIALIZER" to "")),
+        PrecompileTemplate("lupos.s00misc", "MySetKEYBTree", listOf("KEY" to "Long", "GDEF" to "", "GUSE" to "", "ARRAYTYPE" to "LongArray", "ARRAYINITIALIZER" to "")),
+        PrecompileTemplate("lupos.s00misc", "MySetKEYBTree", listOf("KEY" to "Double", "GDEF" to "", "GUSE" to "", "ARRAYTYPE" to "DoubleArray", "ARRAYINITIALIZER" to "")),
+        PrecompileTemplate("lupos.s00misc", "MySetKEYBTree", listOf("KEY" to "Generic", "GDEF" to "<Generic : Comparable<Generic>>", "GUSE" to "<Generic>", "ARRAYTYPE" to "Array<Any?>", "ARRAYINITIALIZER" to "{null}")),
+        PrecompileTemplate("lupos.s00misc", "MyMapKNAMEVNAMEBTree", listOf("KEY" to "Int", "VALUE" to "Int", "KNAME" to "Int", "VNAME" to "Int", "GDEF" to "", "GUSE" to "", "ARRAYKTYPE" to "IntArray", "ARRAYVTYPE" to "IntArray", "ARRAYKINITIALIZER" to "", "ARRAYVINITIALIZER" to "", "IOSTART1" to "", "IOEND1" to "", "IOSTART2" to "", "IOEND2" to "")),
+        PrecompileTemplate("lupos.s00misc", "MyMapKNAMEVNAMEBTree", listOf("KEY" to "Int", "VALUE" to "Long", "KNAME" to "Int", "VNAME" to "Long", "GDEF" to "", "GUSE" to "", "ARRAYKTYPE" to "IntArray", "ARRAYVTYPE" to "LongArray", "ARRAYKINITIALIZER" to "", "ARRAYVINITIALIZER" to "", "IOSTART1" to "", "IOEND1" to "", "IOSTART2" to "", "IOEND2" to "")),
+        PrecompileTemplate("lupos.s00misc", "MyMapKNAMEVNAMEBTree", listOf("KEY" to "Int", "VALUE" to "Double", "KNAME" to "Int", "VNAME" to "Double", "GDEF" to "", "GUSE" to "", "ARRAYKTYPE" to "IntArray", "ARRAYVTYPE" to "DoubleArray", "ARRAYKINITIALIZER" to "", "ARRAYVINITIALIZER" to "", "IOSTART1" to "", "IOEND1" to "", "IOSTART2" to "", "IOEND2" to "")),
+        PrecompileTemplate("lupos.s00misc", "MyMapKNAMEVNAMEBTree", listOf("KEY" to "Long", "VALUE" to "Int", "KNAME" to "Long", "VNAME" to "Int", "GDEF" to "", "GUSE" to "", "ARRAYKTYPE" to "LongArray", "ARRAYVTYPE" to "IntArray", "ARRAYKINITIALIZER" to "", "ARRAYVINITIALIZER" to "", "IOSTART1" to "", "IOEND1" to "", "IOSTART2" to "", "IOEND2" to "")),
+        PrecompileTemplate("lupos.s00misc", "MyMapKNAMEVNAMEBTree", listOf("KEY" to "Long", "VALUE" to "Long", "KNAME" to "Long", "VNAME" to "Long", "GDEF" to "", "GUSE" to "", "ARRAYKTYPE" to "LongArray", "ARRAYVTYPE" to "LongArray", "ARRAYKINITIALIZER" to "", "ARRAYVINITIALIZER" to "", "IOSTART1" to "", "IOEND1" to "", "IOSTART2" to "", "IOEND2" to "")),
+        PrecompileTemplate("lupos.s00misc", "MyMapKNAMEVNAMEBTree", listOf("KEY" to "Long", "VALUE" to "Double", "KNAME" to "Long", "VNAME" to "Double", "GDEF" to "", "GUSE" to "", "ARRAYKTYPE" to "LongArray", "ARRAYVTYPE" to "DoubleArray", "ARRAYKINITIALIZER" to "", "ARRAYVINITIALIZER" to "", "IOSTART1" to "", "IOEND1" to "", "IOSTART2" to "", "IOEND2" to "")),
+        PrecompileTemplate("lupos.s00misc", "MyMapKNAMEVNAMEBTree", listOf("KEY" to "Double", "VALUE" to "Int", "KNAME" to "Double", "VNAME" to "Int", "GDEF" to "", "GUSE" to "", "ARRAYKTYPE" to "DoubleArray", "ARRAYVTYPE" to "IntArray", "ARRAYKINITIALIZER" to "", "ARRAYVINITIALIZER" to "", "IOSTART1" to "", "IOEND1" to "", "IOSTART2" to "", "IOEND2" to "")),
+        PrecompileTemplate("lupos.s00misc", "MyMapKNAMEVNAMEBTree", listOf("KEY" to "Double", "VALUE" to "Long", "KNAME" to "Double", "VNAME" to "Long", "GDEF" to "", "GUSE" to "", "ARRAYKTYPE" to "DoubleArray", "ARRAYVTYPE" to "LongArray", "ARRAYKINITIALIZER" to "", "ARRAYVINITIALIZER" to "", "IOSTART1" to "", "IOEND1" to "", "IOSTART2" to "", "IOEND2" to "")),
+        PrecompileTemplate("lupos.s00misc", "MyMapKNAMEVNAMEBTree", listOf("KEY" to "Double", "VALUE" to "Double", "KNAME" to "Double", "VNAME" to "Double", "GDEF" to "", "GUSE" to "", "ARRAYKTYPE" to "DoubleArray", "ARRAYVTYPE" to "DoubleArray", "ARRAYKINITIALIZER" to "", "ARRAYVINITIALIZER" to "", "IOSTART1" to "", "IOEND1" to "", "IOSTART2" to "", "IOEND2" to "")),
+        PrecompileTemplate(
+            "lupos.s00misc", "MyMapKNAMEVNAMEBTree",
+            listOf(
+                "KEY" to "Int",
+                "VALUE" to "GenericV",
+                "KNAME" to "Int",
+                "VNAME" to "Generic",
+                "GDEF" to "<GenericV>",
+                "GUSE" to "<GenericV>",
+                "ARRAYKTYPE" to "IntArray",
+                "ARRAYVTYPE" to "Array<Any?>",
+                "ARRAYKINITIALIZER" to "",
+                "ARRAYVINITIALIZER" to "{null}",
+                "IOSTART1.*IOEND1" to "throw FileIONotImplementedException()", "IOSTART2.*IOEND2" to "throw FileIONotImplementedException()"
+            )
+        ),
+        PrecompileTemplate(
+            "lupos.s00misc", "MyMapKNAMEVNAMEBTree",
+            listOf(
+                "KEY" to "Long",
+                "VALUE" to "GenericV",
+                "KNAME" to "Long",
+                "VNAME" to "Generic",
+                "GDEF" to "<GenericV>",
+                "GUSE" to "<GenericV>",
+                "ARRAYKTYPE" to "LongArray",
+                "ARRAYVTYPE" to "Array<Any?>",
+                "ARRAYKINITIALIZER" to "",
+                "ARRAYVINITIALIZER" to "{null}",
+                "IOSTART1.*IOEND1" to "throw FileIONotImplementedException()", "IOSTART2.*IOEND2" to "throw FileIONotImplementedException()"
+            )
+        ),
+        PrecompileTemplate(
+            "lupos.s00misc", "MyMapKNAMEVNAMEBTree",
+            listOf(
+                "KEY" to "Double",
+                "VALUE" to "GenericV",
+                "KNAME" to "Double",
+                "VNAME" to "Generic",
+                "GDEF" to "<GenericV>",
+                "GUSE" to "<GenericV>",
+                "ARRAYKTYPE" to "DoubleArray",
+                "ARRAYVTYPE" to "Array<Any?>",
+                "ARRAYKINITIALIZER" to "",
+                "ARRAYVINITIALIZER" to "{null}",
+                "IOSTART1.*IOEND1" to "throw FileIONotImplementedException()", "IOSTART2.*IOEND2" to "throw FileIONotImplementedException()"
+            )
+        ),
+        PrecompileTemplate(
+            "lupos.s00misc", "MyMapKNAMEVNAMEBTree",
+            listOf(
+                "KEY" to "GenericK",
+                "VALUE" to "GenericV",
+                "KNAME" to "Generic",
+                "VNAME" to "Generic",
+                "GDEF" to "<GenericK : Comparable<GenericK>, GenericV>",
+                "GUSE" to "<GenericK, GenericV>",
+                "ARRAYKTYPE" to "Array<Any?>",
+                "ARRAYVTYPE" to "Array<Any?>",
+                "ARRAYKINITIALIZER" to "{null}",
+                "ARRAYVINITIALIZER" to "{null}",
+                "IOSTART1.*IOEND1" to "throw FileIONotImplementedException()", "IOSTART2.*IOEND2" to "throw FileIONotImplementedException()"
+            )
+        )
     )
     val options = mapOf<ChooseableGroup, List<ChooseableOption>>(
-            ChooseableGroup("Launch Type", "Launch") to listOf(
-                    ChooseableOptionDirectory("Endpoint", "commonS00LaunchEndpointMain"),
-                    ChooseableOptionDirectory("SparqlTestSuite", "commonS00LaunchSparqlTestSuiteMain"),
-                    ChooseableOptionDirectory("BinaryTestSuite", "commonS00LaunchBinaryTestSuiteMain"),
-                    ChooseableOptionDirectory("Benchmark", "commonS00LaunchBenchmarkMain"),
-                    ChooseableOptionDirectory("BenchmarkJena", "commonS00LaunchBenchmarkJenaMain"),
-                    ChooseableOptionDirectory("Import", "commonS00LaunchImportMain")
-            ),
-            ChooseableGroup("Sanity Checks", "Sanity") to listOf(
-                    ChooseableOptionTypeAlias("On", "lupos.s00misc", listOf("SanityCheck" to "SanityCheckOn")),
-                    ChooseableOptionTypeAlias("Off", "lupos.s00misc", listOf("SanityCheck" to "SanityCheckOff"))
-            ),
-            ChooseableGroup("Parallelisation Method", "Parallel") to listOf(
-                    ChooseableOptionSymbolic("Threads", "commonS00ParallelThreadsMain")
-            ),
-            ChooseableGroup("Buffer Manager Type", "BufferManager") to listOf(
-                    ChooseableOptionSymbolic("Heap", "commonS01HeapMain"),
-            ),
-            ChooseableGroup("Dictionary", "Dictionary") to listOf(
-                    ChooseableOptionSymbolic("Inmemory", "commonS03DictionaryInmemoryMain")
-            ),
-            ChooseableGroup("Triple Store", "TripleStore") to listOf(
-                    ChooseableOptionTypeAlias("BPlusTreePartition", "lupos.s05tripleStore", listOf("TripleStoreLocal" to "TripleStoreLocalBPlusTreePartition")),
-                    ChooseableOptionTypeAlias("BPlusTree", "lupos.s05tripleStore", listOf("TripleStoreLocal" to "TripleStoreLocalBPlusTree")),
+        ChooseableGroup("Launch Type", "Launch") to listOf(
+            ChooseableOptionDirectory("Endpoint", "commonS00LaunchEndpointMain"),
+            ChooseableOptionDirectory("SparqlTestSuite", "commonS00LaunchSparqlTestSuiteMain"),
+            ChooseableOptionDirectory("BinaryTestSuite", "commonS00LaunchBinaryTestSuiteMain"),
+            ChooseableOptionDirectory("Benchmark", "commonS00LaunchBenchmarkMain"),
+            ChooseableOptionDirectory("BenchmarkJena", "commonS00LaunchBenchmarkJenaMain"),
+            ChooseableOptionDirectory("Import", "commonS00LaunchImportMain")
+        ),
+        ChooseableGroup("Sanity Checks", "Sanity") to listOf(
+            ChooseableOptionTypeAlias("On", "lupos.s00misc", listOf("SanityCheck" to "SanityCheckOn")),
+            ChooseableOptionTypeAlias("Off", "lupos.s00misc", listOf("SanityCheck" to "SanityCheckOff"))
+        ),
+        ChooseableGroup("Parallelisation Method", "Parallel") to listOf(
+            ChooseableOptionSymbolic("Threads", "commonS00ParallelThreadsMain")
+        ),
+        ChooseableGroup("Buffer Manager Type", "BufferManager") to listOf(
+            ChooseableOptionSymbolic("Heap", "commonS01HeapMain"),
+        ),
+        ChooseableGroup("Dictionary", "Dictionary") to listOf(
+            ChooseableOptionSymbolic("Inmemory", "commonS03DictionaryInmemoryMain")
+        ),
+        ChooseableGroup("Triple Store", "TripleStore") to listOf(
+            ChooseableOptionTypeAlias("BPlusTreePartition", "lupos.s05tripleStore", listOf("TripleStoreLocal" to "TripleStoreLocalBPlusTreePartition")),
+            ChooseableOptionTypeAlias("BPlusTree", "lupos.s05tripleStore", listOf("TripleStoreLocal" to "TripleStoreLocalBPlusTree")),
 //                    ChooseableOptionTypeAlias("MapMapList", "lupos.s05tripleStore", listOf("TripleStoreLocal" to "TripleStoreLocalMapMapList")),
 //                    ChooseableOptionTypeAlias("SingleList", "lupos.s05tripleStore", listOf("TripleStoreLocal" to "TripleStoreLocalSingleList"))
-            ),
-            ChooseableGroup("HttpEndpoint implementation", "Endpoint") to listOf(
-                    ChooseableOptionDirectory("JavaNet", "jvmS16HttpEndpointJavaNetMain"),
+        ),
+        ChooseableGroup("HttpEndpoint implementation", "Endpoint") to listOf(
+            ChooseableOptionDirectory("JavaNet", "jvmS16HttpEndpointJavaNetMain"),
 //                    ChooseableOptionDirectory("Korio", "jvmS16HttpEndpointKorioMain"),
-                    ChooseableOptionDirectory("None", "commonS16HttpEndpointNoneMain")
-            ),
-            ChooseableGroup("Include Jena Wrapper", "Jena") to listOf(
-                    ChooseableOptionSymbolic("Off", "commonS00WrapperJenaOffMain"),
-                    ChooseableOptionSymbolic("On", "jvmS00WrapperJenaOnMain")
-            ),
+            ChooseableOptionDirectory("None", "commonS16HttpEndpointNoneMain")
+        ),
+        ChooseableGroup("Include Jena Wrapper", "Jena") to listOf(
+            ChooseableOptionSymbolic("Off", "commonS00WrapperJenaOffMain"),
+            ChooseableOptionSymbolic("On", "jvmS00WrapperJenaOnMain")
+        ),
 /*            ChooseableGroup("Set Implementation", "Set") to listOf(
                     ChooseableOptionTypeAlias("BTree", "lupos.s00misc", listOf(
                             "MySetGeneric<T>" to "MySetGenericBTree<T>",
@@ -275,103 +292,103 @@ class GenerateBuildFile(val args: Array<String>) {
                     ))
             ),
 */
-            ChooseableGroup("Default Result Format", "OutputFormat") to listOf(
-                    ChooseableOptionTypeAlias("Empty", "lupos.s11outputResult", listOf("QueryResultToStream" to "QueryResultToEmptyStream")),
-                    ChooseableOptionTypeAlias("XML", "lupos.s11outputResult", listOf("QueryResultToStream" to "QueryResultToXMLStream")),
-                    ChooseableOptionTypeAlias("EmptyWithDictionary", "lupos.s11outputResult", listOf("QueryResultToStream" to "QueryResultToEmptyWithDictionaryStream"))
-            ),
-            ChooseableGroup("Enumerate Bnodes", "EnumerateBnodes") to listOf(
-                    ChooseableOptionConstantValue("lupos.s11outputResult", "PRETTY_BNODE_NAMES", "true"),
-                    ChooseableOptionConstantValue("lupos.s11outputResult", "PRETTY_BNODE_NAMES", "false"),
-            ),
-            ChooseableGroup("ArrayList Block Capacity in Elements", "BlockCapacity") to listOf(
-                    ChooseableOptionConstantValue("lupos.s00misc", "ARRAY_LIST_BLOCK_CAPACITY", "8"),
-                    ChooseableOptionConstantValue("lupos.s00misc", "ARRAY_LIST_BLOCK_CAPACITY", "16"),
-                    ChooseableOptionConstantValue("lupos.s00misc", "ARRAY_LIST_BLOCK_CAPACITY", "32"),
-                    ChooseableOptionConstantValue("lupos.s00misc", "ARRAY_LIST_BLOCK_CAPACITY", "64"),
-                    ChooseableOptionConstantValue("lupos.s00misc", "ARRAY_LIST_BLOCK_CAPACITY", "128"),
-                    ChooseableOptionConstantValue("lupos.s00misc", "ARRAY_LIST_BLOCK_CAPACITY", "256"),
-                    ChooseableOptionConstantValue("lupos.s00misc", "ARRAY_LIST_BLOCK_CAPACITY", "512"),
-                    ChooseableOptionConstantValue("lupos.s00misc", "ARRAY_LIST_BLOCK_CAPACITY", "1024"),
-                    ChooseableOptionConstantValue("lupos.s00misc", "ARRAY_LIST_BLOCK_CAPACITY", "1048576"),
-                    ChooseableOptionConstantValue("lupos.s00misc", "ARRAY_LIST_BLOCK_CAPACITY", "134217728")
-            ),
-            ChooseableGroup("BTree Branching Faktor", "BTreeBranching") to listOf(
-                    ChooseableOptionConstantValue("lupos.s00misc", "B_TREE_BRANCHING_FACTOR", "8"),
-                    ChooseableOptionConstantValue("lupos.s00misc", "B_TREE_BRANCHING_FACTOR", "16"),
-                    ChooseableOptionConstantValue("lupos.s00misc", "B_TREE_BRANCHING_FACTOR", "32"),
-                    ChooseableOptionConstantValue("lupos.s00misc", "B_TREE_BRANCHING_FACTOR", "64"),
-                    ChooseableOptionConstantValue("lupos.s00misc", "B_TREE_BRANCHING_FACTOR", "128"),
-                    ChooseableOptionConstantValue("lupos.s00misc", "B_TREE_BRANCHING_FACTOR", "256"),
-                    ChooseableOptionConstantValue("lupos.s00misc", "B_TREE_BRANCHING_FACTOR", "512")
-            ),
-            ChooseableGroup("Merge Sort Minimal Rows", "MergeSortRows") to listOf(
-                    ChooseableOptionConstantValue("lupos.s04logicalOperators.iterator", "MERGE_SORT_MIN_ROWS", "8"),
-                    ChooseableOptionConstantValue("lupos.s04logicalOperators.iterator", "MERGE_SORT_MIN_ROWS", "16"),
-                    ChooseableOptionConstantValue("lupos.s04logicalOperators.iterator", "MERGE_SORT_MIN_ROWS", "32"),
-                    ChooseableOptionConstantValue("lupos.s04logicalOperators.iterator", "MERGE_SORT_MIN_ROWS", "64"),
-                    ChooseableOptionConstantValue("lupos.s04logicalOperators.iterator", "MERGE_SORT_MIN_ROWS", "128"),
-                    ChooseableOptionConstantValue("lupos.s04logicalOperators.iterator", "MERGE_SORT_MIN_ROWS", "256"),
-                    ChooseableOptionConstantValue("lupos.s04logicalOperators.iterator", "MERGE_SORT_MIN_ROWS", "512")
-            ),
-            ChooseableGroup("Bulk-Import Triples per Block", "BulkImportBlockSize") to listOf(
-                    ChooseableOptionConstantValue("lupos.s05tripleStore", "BULK_IMPORT_BLOCK_SIZE", "8"),
-                    ChooseableOptionConstantValue("lupos.s05tripleStore", "BULK_IMPORT_BLOCK_SIZE", "1024"),
-                    ChooseableOptionConstantValue("lupos.s05tripleStore", "BULK_IMPORT_BLOCK_SIZE", "32768"),
-                    ChooseableOptionConstantValue("lupos.s05tripleStore", "BULK_IMPORT_BLOCK_SIZE", "1048576")
-            ),
-            ChooseableGroup("Replace small triple-store results during optimisation phase", "AdvancedOptimisation") to listOf(
-                    ChooseableOptionConstantValue("lupos.s08logicalOptimisation", "REPLACE_STORE_WITH_VALUES", "true"),
-                    ChooseableOptionConstantValue("lupos.s08logicalOptimisation", "REPLACE_STORE_WITH_VALUES", "false")
-            ),
-            ChooseableGroup("Code Coverage mode", "Coverage") to listOf(
-                    ChooseableOptionConstantValue("lupos.s00misc", "COVERAGE_MODE", "ECoverage.Disabled"),
-                    ChooseableOptionConstantValue("lupos.s00misc", "COVERAGE_MODE", "ECoverage.Count"),
-                    ChooseableOptionConstantValue("lupos.s00misc", "COVERAGE_MODE", "ECoverage.Verbose"),
-                    ChooseableOptionConstantValue("lupos.s00misc", "COVERAGE_MODE", "ECoverage.VeryVerbose")
-            ),
-            ChooseableGroup("Generate Code-Coverage-Code", "CoverageGenerate") to listOf(
-                    ChooseableOptionSymbolic("DontChange", "commonCoverageModeDontChange"),
-                    ChoosableOptionInternalScript("On", { applyCoverageEnable() }, "CoverageModeOn", true),
-                    ChoosableOptionInternalScript("Off", { applyCoverageDisable() }, "CoverageModeOff", true)
-            ),
-            ChooseableGroup("ServerCommunication implementation", "ServerCommunication") to listOf(
-                    ChooseableOptionDirectory("None", "commonS16ServerCommunicationNoneMain"),
-                    ChooseableOptionDirectory("Ktor", "jvmS16ServerCommunicationKtorMain"),
-                    ChooseableOptionDirectory("Sockets", "jvmS16ServerCommunicationSocketsMain")
-            ),
-            ChooseableGroup("ServerCommunication target packet size", "ServerCommunicationPacketSize") to listOf(
-                    ChooseableOptionConstantValue("lupos.s16network", "NETWORK_PACKET_SIZE", "8196")
-            ),
-            ChooseableGroup("ServerCommunication minimal triples per packet", "ServerCommunicationTriplesPerPacket") to listOf(
-                    ChooseableOptionConstantValue("lupos.s16network", "NETWORK_PACKET_MIN_TRIPLES", "128")
-            ),
-            ChooseableGroup("ServerCommunication default port", "ServerCommunicationPort") to listOf(
-                    ChooseableOptionConstantValue("lupos.s16network", "NETWORK_DEFAULT_PORT", "2323")
-            ),
-            ChooseableGroup("Max Triples During Extreme Testing", "MaxTriplesDuringTest") to listOf(
-                    ChooseableOptionConstantValue("lupos.s00misc", "MAX_TRIPLES_DURING_TEST", "400"),
-                    ChooseableOptionConstantValue("lupos.s00misc", "MAX_TRIPLES_DURING_TEST", "2000"),
-                    ChooseableOptionConstantValue("lupos.s00misc", "MAX_TRIPLES_DURING_TEST", "-1")
-            ),
-            ChooseableGroup("Use connection pool for server communication", "ConnectionPool") to listOf(
-                    ChooseableOptionTypeAlias("Off", "lupos.s16network", listOf("ServerCommunicationConnectionPool" to "ServerCommunicationConnectionPoolOff")),
-                    ChooseableOptionTypeAlias("On", "lupos.s16network", listOf("ServerCommunicationConnectionPool" to "ServerCommunicationConnectionPoolOn"))
-            ),
-            ChooseableGroup("Inline", "Inline") to listOf(
-                    ChooseableOptionSymbolic("DontChange", "commonInlineModeDontChange"),
-                    ChoosableOptionInternalScript("On", { applyInlineEnable() }, "InlineModeOn", false),
-                    ChoosableOptionInternalScript("Off", { applyInlineDisable() }, "InlineModeOff", false)
-            ),
-            ChooseableGroup("Use Partitions for parallel Join", "UsePartitions") to listOf(
-                    ChooseableOptionConstantValue("lupos.s10physicalOptimisation", "USE_PARTITIONS", "true"),
-                    ChooseableOptionConstantValue("lupos.s10physicalOptimisation", "USE_PARTITIONS", "false")
-            ),
-            ChooseableGroup("Iterator Debug mode", "IteratorDebug") to listOf(
-                    ChooseableOptionConstantValue("lupos.s00misc", "ITERATOR_DEBUG_MODE", "EPOPDebugMode.NONE"),
-                    ChooseableOptionConstantValue("lupos.s00misc", "ITERATOR_DEBUG_MODE", "EPOPDebugMode.DEBUG1"),
-                    ChooseableOptionConstantValue("lupos.s00misc", "ITERATOR_DEBUG_MODE", "EPOPDebugMode.DEBUG2")
-            ),
+        ChooseableGroup("Default Result Format", "OutputFormat") to listOf(
+            ChooseableOptionTypeAlias("Empty", "lupos.s11outputResult", listOf("QueryResultToStream" to "QueryResultToEmptyStream")),
+            ChooseableOptionTypeAlias("XML", "lupos.s11outputResult", listOf("QueryResultToStream" to "QueryResultToXMLStream")),
+            ChooseableOptionTypeAlias("EmptyWithDictionary", "lupos.s11outputResult", listOf("QueryResultToStream" to "QueryResultToEmptyWithDictionaryStream"))
+        ),
+        ChooseableGroup("Enumerate Bnodes", "EnumerateBnodes") to listOf(
+            ChooseableOptionConstantValue("lupos.s11outputResult", "PRETTY_BNODE_NAMES", "true"),
+            ChooseableOptionConstantValue("lupos.s11outputResult", "PRETTY_BNODE_NAMES", "false"),
+        ),
+        ChooseableGroup("ArrayList Block Capacity in Elements", "BlockCapacity") to listOf(
+            ChooseableOptionConstantValue("lupos.s00misc", "ARRAY_LIST_BLOCK_CAPACITY", "8"),
+            ChooseableOptionConstantValue("lupos.s00misc", "ARRAY_LIST_BLOCK_CAPACITY", "16"),
+            ChooseableOptionConstantValue("lupos.s00misc", "ARRAY_LIST_BLOCK_CAPACITY", "32"),
+            ChooseableOptionConstantValue("lupos.s00misc", "ARRAY_LIST_BLOCK_CAPACITY", "64"),
+            ChooseableOptionConstantValue("lupos.s00misc", "ARRAY_LIST_BLOCK_CAPACITY", "128"),
+            ChooseableOptionConstantValue("lupos.s00misc", "ARRAY_LIST_BLOCK_CAPACITY", "256"),
+            ChooseableOptionConstantValue("lupos.s00misc", "ARRAY_LIST_BLOCK_CAPACITY", "512"),
+            ChooseableOptionConstantValue("lupos.s00misc", "ARRAY_LIST_BLOCK_CAPACITY", "1024"),
+            ChooseableOptionConstantValue("lupos.s00misc", "ARRAY_LIST_BLOCK_CAPACITY", "1048576"),
+            ChooseableOptionConstantValue("lupos.s00misc", "ARRAY_LIST_BLOCK_CAPACITY", "134217728")
+        ),
+        ChooseableGroup("BTree Branching Faktor", "BTreeBranching") to listOf(
+            ChooseableOptionConstantValue("lupos.s00misc", "B_TREE_BRANCHING_FACTOR", "8"),
+            ChooseableOptionConstantValue("lupos.s00misc", "B_TREE_BRANCHING_FACTOR", "16"),
+            ChooseableOptionConstantValue("lupos.s00misc", "B_TREE_BRANCHING_FACTOR", "32"),
+            ChooseableOptionConstantValue("lupos.s00misc", "B_TREE_BRANCHING_FACTOR", "64"),
+            ChooseableOptionConstantValue("lupos.s00misc", "B_TREE_BRANCHING_FACTOR", "128"),
+            ChooseableOptionConstantValue("lupos.s00misc", "B_TREE_BRANCHING_FACTOR", "256"),
+            ChooseableOptionConstantValue("lupos.s00misc", "B_TREE_BRANCHING_FACTOR", "512")
+        ),
+        ChooseableGroup("Merge Sort Minimal Rows", "MergeSortRows") to listOf(
+            ChooseableOptionConstantValue("lupos.s04logicalOperators.iterator", "MERGE_SORT_MIN_ROWS", "8"),
+            ChooseableOptionConstantValue("lupos.s04logicalOperators.iterator", "MERGE_SORT_MIN_ROWS", "16"),
+            ChooseableOptionConstantValue("lupos.s04logicalOperators.iterator", "MERGE_SORT_MIN_ROWS", "32"),
+            ChooseableOptionConstantValue("lupos.s04logicalOperators.iterator", "MERGE_SORT_MIN_ROWS", "64"),
+            ChooseableOptionConstantValue("lupos.s04logicalOperators.iterator", "MERGE_SORT_MIN_ROWS", "128"),
+            ChooseableOptionConstantValue("lupos.s04logicalOperators.iterator", "MERGE_SORT_MIN_ROWS", "256"),
+            ChooseableOptionConstantValue("lupos.s04logicalOperators.iterator", "MERGE_SORT_MIN_ROWS", "512")
+        ),
+        ChooseableGroup("Bulk-Import Triples per Block", "BulkImportBlockSize") to listOf(
+            ChooseableOptionConstantValue("lupos.s05tripleStore", "BULK_IMPORT_BLOCK_SIZE", "8"),
+            ChooseableOptionConstantValue("lupos.s05tripleStore", "BULK_IMPORT_BLOCK_SIZE", "1024"),
+            ChooseableOptionConstantValue("lupos.s05tripleStore", "BULK_IMPORT_BLOCK_SIZE", "32768"),
+            ChooseableOptionConstantValue("lupos.s05tripleStore", "BULK_IMPORT_BLOCK_SIZE", "1048576")
+        ),
+        ChooseableGroup("Replace small triple-store results during optimisation phase", "AdvancedOptimisation") to listOf(
+            ChooseableOptionConstantValue("lupos.s08logicalOptimisation", "REPLACE_STORE_WITH_VALUES", "true"),
+            ChooseableOptionConstantValue("lupos.s08logicalOptimisation", "REPLACE_STORE_WITH_VALUES", "false")
+        ),
+        ChooseableGroup("Code Coverage mode", "Coverage") to listOf(
+            ChooseableOptionConstantValue("lupos.s00misc", "COVERAGE_MODE", "ECoverage.Disabled"),
+            ChooseableOptionConstantValue("lupos.s00misc", "COVERAGE_MODE", "ECoverage.Count"),
+            ChooseableOptionConstantValue("lupos.s00misc", "COVERAGE_MODE", "ECoverage.Verbose"),
+            ChooseableOptionConstantValue("lupos.s00misc", "COVERAGE_MODE", "ECoverage.VeryVerbose")
+        ),
+        ChooseableGroup("Generate Code-Coverage-Code", "CoverageGenerate") to listOf(
+            ChooseableOptionSymbolic("DontChange", "commonCoverageModeDontChange"),
+            ChoosableOptionInternalScript("On", { applyCoverageEnable() }, "CoverageModeOn", true),
+            ChoosableOptionInternalScript("Off", { applyCoverageDisable() }, "CoverageModeOff", true)
+        ),
+        ChooseableGroup("ServerCommunication implementation", "ServerCommunication") to listOf(
+            ChooseableOptionDirectory("None", "commonS16ServerCommunicationNoneMain"),
+            ChooseableOptionDirectory("Ktor", "jvmS16ServerCommunicationKtorMain"),
+            ChooseableOptionDirectory("Sockets", "jvmS16ServerCommunicationSocketsMain")
+        ),
+        ChooseableGroup("ServerCommunication target packet size", "ServerCommunicationPacketSize") to listOf(
+            ChooseableOptionConstantValue("lupos.s16network", "NETWORK_PACKET_SIZE", "8196")
+        ),
+        ChooseableGroup("ServerCommunication minimal triples per packet", "ServerCommunicationTriplesPerPacket") to listOf(
+            ChooseableOptionConstantValue("lupos.s16network", "NETWORK_PACKET_MIN_TRIPLES", "128")
+        ),
+        ChooseableGroup("ServerCommunication default port", "ServerCommunicationPort") to listOf(
+            ChooseableOptionConstantValue("lupos.s16network", "NETWORK_DEFAULT_PORT", "2323")
+        ),
+        ChooseableGroup("Max Triples During Extreme Testing", "MaxTriplesDuringTest") to listOf(
+            ChooseableOptionConstantValue("lupos.s00misc", "MAX_TRIPLES_DURING_TEST", "400"),
+            ChooseableOptionConstantValue("lupos.s00misc", "MAX_TRIPLES_DURING_TEST", "2000"),
+            ChooseableOptionConstantValue("lupos.s00misc", "MAX_TRIPLES_DURING_TEST", "-1")
+        ),
+        ChooseableGroup("Use connection pool for server communication", "ConnectionPool") to listOf(
+            ChooseableOptionTypeAlias("Off", "lupos.s16network", listOf("ServerCommunicationConnectionPool" to "ServerCommunicationConnectionPoolOff")),
+            ChooseableOptionTypeAlias("On", "lupos.s16network", listOf("ServerCommunicationConnectionPool" to "ServerCommunicationConnectionPoolOn"))
+        ),
+        ChooseableGroup("Inline", "Inline") to listOf(
+            ChooseableOptionSymbolic("DontChange", "commonInlineModeDontChange"),
+            ChoosableOptionInternalScript("On", { applyInlineEnable() }, "InlineModeOn", false),
+            ChoosableOptionInternalScript("Off", { applyInlineDisable() }, "InlineModeOff", false)
+        ),
+        ChooseableGroup("Use Partitions for parallel Join", "UsePartitions") to listOf(
+            ChooseableOptionConstantValue("lupos.s10physicalOptimisation", "USE_PARTITIONS", "true"),
+            ChooseableOptionConstantValue("lupos.s10physicalOptimisation", "USE_PARTITIONS", "false")
+        ),
+        ChooseableGroup("Iterator Debug mode", "IteratorDebug") to listOf(
+            ChooseableOptionConstantValue("lupos.s00misc", "ITERATOR_DEBUG_MODE", "EPOPDebugMode.NONE"),
+            ChooseableOptionConstantValue("lupos.s00misc", "ITERATOR_DEBUG_MODE", "EPOPDebugMode.DEBUG1"),
+            ChooseableOptionConstantValue("lupos.s00misc", "ITERATOR_DEBUG_MODE", "EPOPDebugMode.DEBUG2")
+        ),
     )
 
     init {
@@ -477,7 +494,7 @@ class GenerateBuildFile(val args: Array<String>) {
         if (options.size == 1) {
             autoGenerateAllChoosenOptionsList.add(options[0])
             autoGenerateAllNotChoosenOptionsList.remove(options[0])
-            return options[0]//only possibility
+            return options[0] // only possibility
         } else {
             for (o in options) {
                 if (!autoGenerateAllChoosenOptionsList.contains(o)) {
@@ -487,7 +504,7 @@ class GenerateBuildFile(val args: Array<String>) {
                         if (!autoGenerateAllChoosenOptionsList.contains(o2)) {
                             var flag = true
                             if (o2 is ChooseableOptionConstantValue) {
-                                //numeric values should not be the only reason to compile more often
+                                // numeric values should not be the only reason to compile more often
                                 try {
                                     o2.variableValue.toDouble()
                                     flag = false
@@ -500,11 +517,11 @@ class GenerateBuildFile(val args: Array<String>) {
                         }
                     }
                     autoGenerateAllChoicesString += "\n  echo ${o.label}"
-                    return o//something new
+                    return o // something new
                 }
             }
             autoGenerateAllChoicesString += "\n  echo ${options[0].label}"
-            return options[0]//anything, since all were choosen at least once
+            return options[0] // anything, since all were choosen at least once
         }
     }
 
@@ -526,76 +543,79 @@ class GenerateBuildFile(val args: Array<String>) {
             }
             /*<<<--- autogenerating all possible build-files*/
             val conflicts = listOf(
-                    setOf("commonCoverageModeOff", "commonlupos.s00misc.COVERAGE_MODEECoverage.Count", "commonlupos.s00misc.COVERAGE_MODEECoverage.Verbose")
+                setOf("commonCoverageModeOff", "commonlupos.s00misc.COVERAGE_MODEECoverage.Count", "commonlupos.s00misc.COVERAGE_MODEECoverage.Verbose")
             )
             val ktorVersion = presentChoice(ChooseableGroup("ktor-version", "KtorVersion"), listOf(ChooseableOption("1.3.2-1.4-M1-2"))).label
             val kotlinVersion = presentChoice(ChooseableGroup("kotlin-version", "KotlinVersion"), listOf(ChooseableOption("1.3.70"), ChooseableOption("1.4.255-SNAPSHOT"))).label
             val platform = presentChoice(ChooseableGroup("Platform", "Platform"), platformPrefix.keys.toList().map { ChooseableOption(it) }).label
             additionalSources = mapOf(
-                    /*if the key is choosen, automatically add all dependent things*/
-                    ChooseableOption("commonS00ParallelThreadsMain") to listOf(
-                            ChooseableOptionTypeAlias("commonS00ParallelThreadsMainTypes", "lupos.s00misc", listOf(
-                                    "Parallel" to "ParallelThread",
-                                    "ParallelJob" to "ParallelThreadJob",
-                                    "ParallelCondition" to "ParallelThreadCondition",
-                                    "ParallelQueue<T>" to "ParallelThreadQueue<T>",
-                                    "MyLock" to "MyThreadLock",
-                                    "MyReadWriteLock" to "MyThreadReadWriteLock",
-                            )),
-                            ChoosableOptionInternalScript("SuspendModeOff", { applySuspendDisable() }, "SuspendModeOff", false)
+                /*if the key is choosen, automatically add all dependent things*/
+                ChooseableOption("commonS00ParallelThreadsMain") to listOf(
+                    ChooseableOptionTypeAlias(
+                        "commonS00ParallelThreadsMainTypes", "lupos.s00misc",
+                        listOf(
+                            "Parallel" to "ParallelThread",
+                            "ParallelJob" to "ParallelThreadJob",
+                            "ParallelCondition" to "ParallelThreadCondition",
+                            "ParallelQueue<T>" to "ParallelThreadQueue<T>",
+                            "MyLock" to "MyThreadLock",
+                            "MyReadWriteLock" to "MyThreadReadWriteLock",
+                        )
                     ),
-                    ChooseableOption("jvmS16ServerCommunicationSocketsMain") to listOf(
-                            ChooseableOptionDirectory("commonS16ServerCommunicationEnabledMain")
-                    ),
-                    ChooseableOptionSymbolic("Inmemory", "commonS03DictionaryInmemoryMain") to listOf(
-                            ChooseableOptionDependency("luposdate3000:Luposdate3000_Dictionary_Inmemory:0.0.1"),
-                    ),
-                    ChooseableOptionSymbolic("Heap", "commonS01HeapMain") to listOf(
-                            ChooseableOptionDependency("luposdate3000:Luposdate3000_Buffer_Manager_Inmemory:0.0.1"),
-                    ),
-                    ChooseableOption("commonMain") to listOf(
-                            ChooseableOptionDependency("luposdate3000:Luposdate3000_Parser:0.0.1"),
-                            ChooseableOptionDependency("luposdate3000:Luposdate3000_Result_Format:0.0.1"),
-                            ChooseableOptionDependency("luposdate3000:Luposdate3000_Triple_Store_Id_Triple:0.0.1"),
-                            ChooseableOptionDependency("luposdate3000:Luposdate3000_Shared:0.0.1"),
-                            ChooseableOptionDependency("luposdate3000:Luposdate3000_Operators:0.0.1"),
-                            ChooseableOptionDependency("org.jetbrains.kotlin:kotlin-stdlib-common:$kotlinVersion"),
-                            ChooseableOptionDependency("org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"),
-                            ChooseableOptionDependency("com.benasher44:uuid:0.0.7"),
-                            ChooseableOptionDependency("com.soywiz.korlibs.krypto:krypto:1.9.1")
-                    ),
-                    ChooseableOption("jvmMain") to listOf(
+                    ChoosableOptionInternalScript("SuspendModeOff", { applySuspendDisable() }, "SuspendModeOff", false)
+                ),
+                ChooseableOption("jvmS16ServerCommunicationSocketsMain") to listOf(
+                    ChooseableOptionDirectory("commonS16ServerCommunicationEnabledMain")
+                ),
+                ChooseableOptionSymbolic("Inmemory", "commonS03DictionaryInmemoryMain") to listOf(
+                    ChooseableOptionDependency("luposdate3000:Luposdate3000_Dictionary_Inmemory:0.0.1"),
+                ),
+                ChooseableOptionSymbolic("Heap", "commonS01HeapMain") to listOf(
+                    ChooseableOptionDependency("luposdate3000:Luposdate3000_Buffer_Manager_Inmemory:0.0.1"),
+                ),
+                ChooseableOption("commonMain") to listOf(
+                    ChooseableOptionDependency("luposdate3000:Luposdate3000_Parser:0.0.1"),
+                    ChooseableOptionDependency("luposdate3000:Luposdate3000_Result_Format:0.0.1"),
+                    ChooseableOptionDependency("luposdate3000:Luposdate3000_Triple_Store_Id_Triple:0.0.1"),
+                    ChooseableOptionDependency("luposdate3000:Luposdate3000_Shared:0.0.1"),
+                    ChooseableOptionDependency("luposdate3000:Luposdate3000_Operators:0.0.1"),
+                    ChooseableOptionDependency("org.jetbrains.kotlin:kotlin-stdlib-common:$kotlinVersion"),
+                    ChooseableOptionDependency("org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"),
+                    ChooseableOptionDependency("com.benasher44:uuid:0.0.7"),
+                    ChooseableOptionDependency("com.soywiz.korlibs.krypto:krypto:1.9.1")
+                ),
+                ChooseableOption("jvmMain") to listOf(
 //                            ChooseableOptionDependency("org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion"),
-                            ChooseableOptionDependency("org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"),
-                    ),
-                    ChooseableOption("commonS00ParallelCoroutinesMain") to listOf(
-                            ChooseableOptionDependency("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.3"),
-                    ),
-                    ChooseableOptionSymbolic("Off", "commonS00WrapperJenaOffMain") to listOf(
-                            ChooseableOptionDependency("luposdate3000:Luposdate3000_Jena_Wrapper_Off:0.0.1"),
-                    ),
-                    ChooseableOptionSymbolic("On", "jvmS00WrapperJenaOnMain") to listOf(
-                            ChooseableOptionDependency("luposdate3000:Luposdate3000_Jena_Wrapper_On:0.0.1"),
-                    ),
-                    ChooseableOption("jvmS16ServerCommunicationKtorMain") to listOf(
-                            ChooseableOptionDirectory("commonS16ServerCommunicationEnabledMain"),
-                            ChooseableOptionDependency("io.ktor:ktor-network:$ktorVersion")
-                    ),
-                    ChooseableOption("jvmS16HttpEndpointKorioMain") to listOf(
-                            ChooseableOptionDependency("com.soywiz.korlibs.korio:korio:1.9.9-SNAPSHOT")
-                    ),
-                    ChooseableOption("linuxX64Main") to listOf(
-                            ChooseableOptionDirectory("nativeMain"),
-                    ),
-                    ChooseableOption("macosX64Main") to listOf(
-                            ChooseableOptionDirectory("nativeMain"),
-                    ),
-                    ChooseableOption("nativeMain") to listOf(
-                            ChooseableOptionDependency("org.jetbrains.kotlinx:kotlinx-coroutines-core-native:1.3.3"),
-                            ChooseableOptionCInterop("dirent"),
-                            ChooseableOptionCInterop("stdio"),
-                            ChooseableOptionCInterop("unistd")
-                    )
+                    ChooseableOptionDependency("org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"),
+                ),
+                ChooseableOption("commonS00ParallelCoroutinesMain") to listOf(
+                    ChooseableOptionDependency("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.3"),
+                ),
+                ChooseableOptionSymbolic("Off", "commonS00WrapperJenaOffMain") to listOf(
+                    ChooseableOptionDependency("luposdate3000:Luposdate3000_Jena_Wrapper_Off:0.0.1"),
+                ),
+                ChooseableOptionSymbolic("On", "jvmS00WrapperJenaOnMain") to listOf(
+                    ChooseableOptionDependency("luposdate3000:Luposdate3000_Jena_Wrapper_On:0.0.1"),
+                ),
+                ChooseableOption("jvmS16ServerCommunicationKtorMain") to listOf(
+                    ChooseableOptionDirectory("commonS16ServerCommunicationEnabledMain"),
+                    ChooseableOptionDependency("io.ktor:ktor-network:$ktorVersion")
+                ),
+                ChooseableOption("jvmS16HttpEndpointKorioMain") to listOf(
+                    ChooseableOptionDependency("com.soywiz.korlibs.korio:korio:1.9.9-SNAPSHOT")
+                ),
+                ChooseableOption("linuxX64Main") to listOf(
+                    ChooseableOptionDirectory("nativeMain"),
+                ),
+                ChooseableOption("macosX64Main") to listOf(
+                    ChooseableOptionDirectory("nativeMain"),
+                ),
+                ChooseableOption("nativeMain") to listOf(
+                    ChooseableOptionDependency("org.jetbrains.kotlinx:kotlinx-coroutines-core-native:1.3.3"),
+                    ChooseableOptionCInterop("dirent"),
+                    ChooseableOptionCInterop("stdio"),
+                    ChooseableOptionCInterop("unistd")
+                )
             )
             allChoosenOptions.add(ChooseableOptionDirectory("${platform}Main"))
             for ((k, choices) in options) {
@@ -648,7 +668,7 @@ class GenerateBuildFile(val args: Array<String>) {
                     out.println("        gradlePluginPortal()")
                     out.println("    }")
                     out.println("}")
-                    out.println("rootProject.name = \"luposdate3000\"")//maven-artifactID
+                    out.println("rootProject.name = \"luposdate3000\"") // maven-artifactID
                 }
                 File("build.gradle.kts").printWriter().use { out ->
                     when (platform) {
@@ -656,9 +676,9 @@ class GenerateBuildFile(val args: Array<String>) {
                             out.println("import org.jetbrains.kotlin.gradle.tasks.KotlinCompile")
                             out.println("import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar")
                             out.println("tasks.withType<KotlinCompile>().all {")
-                            out.println("    kotlinOptions.jvmTarget = \"1.8\"")//kotlinOptions.jvmTarget = \"14\"
-                            //see /opt/kotlin/compiler/cli/cli-common/src/org/jetbrains/kotlin/cli/common/arguments/K2JVMCompilerArguments.kt
-                            //or kotlinc -X
+                            out.println("    kotlinOptions.jvmTarget = \"1.8\"") // kotlinOptions.jvmTarget = \"14\"
+                            // see /opt/kotlin/compiler/cli/cli-common/src/org/jetbrains/kotlin/cli/common/arguments/K2JVMCompilerArguments.kt
+                            // or kotlinc -X
                             out.println("    kotlinOptions.freeCompilerArgs += \"-Xno-param-assertions\"")
                             out.println("    kotlinOptions.freeCompilerArgs += \"-Xuse-ir\"")
                             out.println("    kotlinOptions.freeCompilerArgs += \"-Xmulti-platform\"")
@@ -719,7 +739,7 @@ class GenerateBuildFile(val args: Array<String>) {
                                     if (option.internalID.startsWith("luposdate3000")) {
                                         out.println("    compileOnly(\"${option.internalID}\")")
                                         val tmpName = option.internalID.split(":")[1]
-                                        Files.createSymbolicLink(Paths.get("build-cache/bin-effective/${tmpName}-jvm.jar"), Paths.get("../bin/${tmpName}-jvm.jar"))
+                                        Files.createSymbolicLink(Paths.get("build-cache/bin-effective/$tmpName-jvm.jar"), Paths.get("../bin/$tmpName-jvm.jar"))
                                     } else {
                                         out.println("    implementation(\"${option.internalID}\")")
                                     }
@@ -746,7 +766,7 @@ class GenerateBuildFile(val args: Array<String>) {
                             out.println("}")
                             out.println("kotlin {")
                             out.println("    project.buildDir = file(\"build/build$allChoicesString\")")
-                            out.println("    ${platform}(\"${platform}\") {")
+                            out.println("    $platform(\"${platform}\") {")
                             out.println("        val main by compilations.getting")
                             for (option in allChoosenOptions.sorted()) {
                                 if (option is ChooseableOptionCInterop) {
@@ -778,12 +798,12 @@ class GenerateBuildFile(val args: Array<String>) {
                     }
                 }
                 try {
-                    File("build.gradle.kts").copyTo(File("build/script${allChoicesString}.gradle.main.kts"))
+                    File("build.gradle.kts").copyTo(File("build/script$allChoicesString.gradle.main.kts"))
                 } catch (e: FileAlreadyExistsException) {
                 }
                 val configFilesContent = mutableMapOf<String, StringBuilder>()
                 for (option in allChoosenOptions) {
-                    //first all alias definitions
+                    // first all alias definitions
                     if (option is ChooseableOptionTypeAlias) {
                         var f = configFilesContent[option.pkg]
                         if (f == null) {
@@ -800,7 +820,7 @@ class GenerateBuildFile(val args: Array<String>) {
                     }
                 }
                 for (option in allChoosenOptions) {
-                    //than all constant definitions
+                    // than all constant definitions
                     if (option is ChooseableOptionConstantValue) {
                         var f = configFilesContent[option.pkg]
                         if (f == null) {
@@ -825,10 +845,10 @@ class GenerateBuildFile(val args: Array<String>) {
                 }
                 fun String.runCommand(workingDir: File? = null) {
                     val process = ProcessBuilder(*split(" ").toTypedArray())
-                            .directory(workingDir)
-                            .redirectOutput(Redirect.INHERIT)
-                            .redirectError(Redirect.INHERIT)
-                            .start()
+                        .directory(workingDir)
+                        .redirectOutput(Redirect.INHERIT)
+                        .redirectError(Redirect.INHERIT)
+                        .start()
                     if (!process.waitFor(60, TimeUnit.SECONDS)) {
                         process.destroy()
                         throw RuntimeException("execution timed out: $this")
@@ -837,7 +857,7 @@ class GenerateBuildFile(val args: Array<String>) {
                         throw RuntimeException("execution failed with code ${process.exitValue()}: $this")
                     }
                 }
-//copy to save location
+// copy to save location
                 File("src.generated").deleteRecursively()
                 File("src.generated").mkdirs()
                 File("src/luposdate3000_shared_inline").copyRecursively(File("src.generated"))
@@ -850,7 +870,7 @@ class GenerateBuildFile(val args: Array<String>) {
                     File("src/luposdate3000_core/commonTemplate").copyRecursively(File("src.generated/commonTemplate"))
                 } catch (e: Throwable) {
                 }
-//perform scripts "before template"
+// perform scripts "before template"
                 for (option in allChoosenOptions) {
                     if (option is ChoosableOptionExternalScript && option.beforeTemplate) {
                         println("running script before template ${option.scriptName}")
@@ -860,14 +880,14 @@ class GenerateBuildFile(val args: Array<String>) {
                         option.action()
                     }
                 }
-//create config files as defined by above configuration
+// create config files as defined by above configuration
                 for ((k, v) in configFilesContent) {
                     File("src.generated/commonConfig/kotlin/" + k.replace(".", "/")).mkdirs()
                     File("src.generated/commonConfig/kotlin/" + k.replace(".", "/") + "/Config.kt").printWriter().use { out ->
                         out.print(v.toString())
                     }
                 }
-//expand the template files
+// expand the template files
                 for (template in templates) {
                     try {
                         val sourceFile = File("src.generated/commonTemplate/kotlin/" + template.pkg.replace(".", "/") + "/" + template.sourceClass + ".kt")
@@ -886,7 +906,7 @@ class GenerateBuildFile(val args: Array<String>) {
                     } catch (e: Throwable) {
                     }
                 }
-//perform scripts "after template"
+// perform scripts "after template"
                 for (option in allChoosenOptions) {
                     if (option is ChoosableOptionExternalScript && !option.beforeTemplate) {
                         println("running script after template ${option.scriptName}")

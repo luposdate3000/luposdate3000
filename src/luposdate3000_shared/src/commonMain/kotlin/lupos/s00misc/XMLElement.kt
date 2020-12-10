@@ -126,7 +126,7 @@ class XMLElement(tag: String) {
                 other.childs.add(XMLElement("result"))
             }
         }
-//<<-- avoid bugs in JENA
+// <<-- avoid bugs in JENA
         if (childs.size != other.childs.size) {
             return false
         }
@@ -138,7 +138,7 @@ class XMLElement(tag: String) {
             if (other.attributes["datatype"] == "http://www.w3.org/2001/XMLSchema#string" && attributes["datatype"] == null && fixStringType) {
                 attributes["datatype"] = "http://www.w3.org/2001/XMLSchema#string"
             }
-//<<-- avoid bugs in JENA
+// <<-- avoid bugs in JENA
 // avoid inconsistencies in W3C -->>
             if (attributes["xml:lang"] != null) {
                 attributes["xml:lang"] = attributes["xml:lang"]!!.toLowerCase()
@@ -146,7 +146,7 @@ class XMLElement(tag: String) {
             if (other.attributes["xml:lang"] != null) {
                 other.attributes["xml:lang"] = other.attributes["xml:lang"]!!.toLowerCase()
             }
-//<<-- avoid inconsistencies in W3C
+// <<-- avoid inconsistencies in W3C
             if (attributes != other.attributes) {
                 return false
             }
@@ -177,7 +177,7 @@ class XMLElement(tag: String) {
                 }
                 var n = 0
                 for (c in childs) {
-                    //SanityCheck.println({ "myEqualsUnclean - loop A ${n} ${childs.size}" })
+                    // SanityCheck.println({ "myEqualsUnclean - loop A ${n} ${childs.size}" })
                     val s = c.toString()
                     if (myMap[s] == null) {
                         myMap[s] = mutableListOf(c)
@@ -188,7 +188,7 @@ class XMLElement(tag: String) {
                 }
                 n = 0
                 for (c in other.childs) {
-                    //SanityCheck.println({ "myEqualsUnclean - loop B ${n} ${other.childs.size}" })
+                    // SanityCheck.println({ "myEqualsUnclean - loop B ${n} ${other.childs.size}" })
                     val s = c.toString()
                     if (otherMap[s] == null) {
                         otherMap[s] = mutableListOf(c)
@@ -199,7 +199,7 @@ class XMLElement(tag: String) {
                 }
                 while (change) {
                     change = false
-                    //SanityCheck.println({ "myEqualsUnclean - loop C ${myMap.size} ${otherMap.size}" })
+                    // SanityCheck.println({ "myEqualsUnclean - loop C ${myMap.size} ${otherMap.size}" })
                     for ((k, v) in myMap) {
                         val w = otherMap[k]
                         if (w != null) {
@@ -243,7 +243,7 @@ class XMLElement(tag: String) {
             change = true
             while (change) {
                 change = false
-                //SanityCheck.println({ "myEqualsUnclean - loop D ${myRemaining.size} ${otherRemaining.size}" })
+                // SanityCheck.println({ "myEqualsUnclean - loop D ${myRemaining.size} ${otherRemaining.size}" })
                 val i = 0
                 loop@ for (c in myRemaining) {
                     for ((j, d) in otherRemaining.withIndex()) {
@@ -337,7 +337,7 @@ class XMLElement(tag: String) {
 
     private fun toPrettyString(indention: String): StringBuilder {
         val c = content.replace("^\\s*$".toRegex(), "")
-        val res = StringBuilder("${indention}<${encodeText(tag)}")
+        val res = StringBuilder("$indention<${encodeText(tag)}")
         for ((k, v) in attributes) {
             res.append(" ${encodeText(k)}=\"${encodeText(v)}\"")
         }
@@ -349,9 +349,9 @@ class XMLElement(tag: String) {
                 for (child in childs) {
                     res.append(child.toPrettyString("$indention "))
                 }
-                res.append("${indention}</${encodeText(tag)}>\n")
+                res.append("$indention</${encodeText(tag)}>\n")
             } else {
-                res.append(">${c}</${encodeText(tag)}>\n")
+                res.append(">$c</${encodeText(tag)}>\n")
             }
         }
         return res

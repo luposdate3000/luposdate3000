@@ -7,7 +7,7 @@ import lupos.s16network.LuposdateEndpoint
 
 fun mainFunc(args: Array<String>): Unit = Parallel.runBlocking {
     LuposdateEndpoint.initialize()
-    val buf = MyPrintWriter() //You can use any implementation of lupos.s00misc.IMyPrintWriter
+    val buf = MyPrintWriter() // You can use any implementation of lupos.s00misc.IMyPrintWriter
 /*
     val preparedStatement = LuposdateEndpoint.evaluateSparqlToOperatorgraphA("SELECT ?s ?p ?o {?s ?p ?o.}")
     LuposdateEndpoint.evaluateOperatorgraphToResult(preparedStatement, buf,EQueryResultToStream.XML_STREAM)
@@ -23,7 +23,7 @@ fun mainFunc(args: Array<String>): Unit = Parallel.runBlocking {
         val q_sp = "SELECT ?occurences (COUNT(*) AS ?cnt) ((?occurences * ?cnt) AS ?sum) { SELECT (COUNT(*) AS ?occurences) { ?s ?p ?o . } GROUP BY ?s ?p } GROUP BY ?occurences ORDER BY ?occurences ?cnt"
         val q_so = "SELECT ?occurences (COUNT(*) AS ?cnt) ((?occurences * ?cnt) AS ?sum) { SELECT (COUNT(*) AS ?occurences) { ?s ?p ?o . } GROUP BY ?s ?o } GROUP BY ?occurences ORDER BY ?occurences ?cnt"
         val q_po = "SELECT ?occurences (COUNT(*) AS ?cnt) ((?occurences * ?cnt) AS ?sum) { SELECT (COUNT(*) AS ?occurences) { ?s ?p ?o . } GROUP BY ?p ?o } GROUP BY ?occurences ORDER BY ?occurences ?cnt"
-        for (q in listOf(Pair("s", q_s), Pair("p", q_p), Pair("o", q_o), Pair("sp", q_sp), Pair("so", q_so), Pair("po", q_po), )) {
+        for (q in listOf(Pair("s", q_s), Pair("p", q_p), Pair("o", q_o), Pair("sp", q_sp), Pair("so", q_so), Pair("po", q_po),)) {
             try {
                 println("xxx query :: " + q.first)
                 val node = LuposdateEndpoint.evaluateSparqlToOperatorgraphA(q.second)

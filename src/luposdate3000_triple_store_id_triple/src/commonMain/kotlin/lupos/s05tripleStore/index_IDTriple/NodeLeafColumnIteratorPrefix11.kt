@@ -30,7 +30,7 @@ internal class NodeLeafColumnIteratorPrefix11(node: ByteArray, nodeid: Int, pref
                         value0 = 0
                         value1 = 0
                     }
-//println("node $nodeid :: read $offset $remaining A")
+// println("node $nodeid :: read $offset $remaining A")
                     offset += NodeShared.readTriple110(node, offset, value0, value1) { v0, v1 ->
                         value0 = v0
                         value1 = v1
@@ -59,7 +59,7 @@ internal class NodeLeafColumnIteratorPrefix11(node: ByteArray, nodeid: Int, pref
                     value0 = 0
                     value1 = 0
                 }
-//println("node $nodeid :: read $offset $remaining B")
+// println("node $nodeid :: read $offset $remaining B")
                 offset += NodeShared.readTriple110(node, offset, value0, value1) { v0, v1 ->
                     value0 = v0
                     value1 = v1
@@ -94,7 +94,7 @@ internal class NodeLeafColumnIteratorPrefix11(node: ByteArray, nodeid: Int, pref
             counter++
         }
         if (label != 0) {
-            //try next few triples
+            // try next few triples
             if (needsReset) {
                 needsReset = false
                 value0 = 0
@@ -102,7 +102,7 @@ internal class NodeLeafColumnIteratorPrefix11(node: ByteArray, nodeid: Int, pref
             }
             while (remaining > 0) {
                 counter++
-//println("node $nodeid :: read $offset $remaining C")
+// println("node $nodeid :: read $offset $remaining C")
                 offset += NodeShared.readTriple110(node, offset, value0, value1) { v0, v1 ->
                     value0 = v0
                     value1 = v1
@@ -122,7 +122,7 @@ internal class NodeLeafColumnIteratorPrefix11(node: ByteArray, nodeid: Int, pref
                     remaining--
                 }
             }
-            //look at the next pages
+            // look at the next pages
             var nodeidTmp = NodeShared.getNextNode(node)
             var value0Tmp = 0
             var value1Tmp = 0
@@ -136,13 +136,13 @@ internal class NodeLeafColumnIteratorPrefix11(node: ByteArray, nodeid: Int, pref
                 val remainingTmp = NodeShared.getTripleCount(nodeTmp)
                 SanityCheck.check { remainingTmp > 0 }
                 var offsetTmp = NodeLeaf.START_OFFSET
-//println("node $nodeid :: read $offset_tmp $remaining_tmp D")
+// println("node $nodeid :: read $offset_tmp $remaining_tmp D")
                 offsetTmp += NodeShared.readTriple110(nodeTmp, offsetTmp, 0, 0) { v0, v1 ->
                     value0Tmp = v0
                     value1Tmp = v1
                 }
                 if (value0Tmp > prefix[0] || value1Tmp >= minValue) {
-                    //dont accidentially skip some results at the end of this page
+                    // dont accidentially skip some results at the end of this page
                     NodeManager.releaseNode(nodeidTmp)
                     break
                 }
@@ -154,7 +154,7 @@ internal class NodeLeafColumnIteratorPrefix11(node: ByteArray, nodeid: Int, pref
                 value0 = value0Tmp
                 value1 = value1Tmp
                 offset = offsetTmp
-//println("node $nodeid :: init $offset $remaining A")
+// println("node $nodeid :: init $offset $remaining A")
                 needsReset = false
                 usedNextPage = true
                 nodeidTmp = NodeShared.getNextNode(node)
@@ -166,7 +166,7 @@ internal class NodeLeafColumnIteratorPrefix11(node: ByteArray, nodeid: Int, pref
                 remaining = 1
                 updateRemaining()
             }
-            //search until the value is found
+            // search until the value is found
             while (remaining > 0) {
                 counter++
                 if (needsReset) {
@@ -174,7 +174,7 @@ internal class NodeLeafColumnIteratorPrefix11(node: ByteArray, nodeid: Int, pref
                     value0 = 0
                     value1 = 0
                 }
-//println("node $nodeid :: read $offset $remaining E")
+// println("node $nodeid :: read $offset $remaining E")
                 offset += NodeShared.readTriple110(node, offset, value0, value1) { v0, v1 ->
                     value0 = v0
                     value1 = v1
@@ -232,7 +232,7 @@ internal class NodeLeafColumnIteratorPrefix11(node: ByteArray, nodeid: Int, pref
                 remaining = NodeShared.getTripleCount(node)
                 needsReset = true
                 offset = NodeLeaf.START_OFFSET
-                //println("node $nodeid :: init $offset $remaining B")
+                // println("node $nodeid :: init $offset $remaining B")
                 SanityCheck.check { remaining > 0 }
                 SanityCheck.check { label != 0 }
             }
@@ -245,7 +245,7 @@ internal class NodeLeafColumnIteratorPrefix11(node: ByteArray, nodeid: Int, pref
             SanityCheck.check { remaining >= 0 }
             SanityCheck.check { toSkip > 0 }
             while (toSkip > 0) {
-                //println("node $nodeid :: read $offset $remaining F")
+                // println("node $nodeid :: read $offset $remaining F")
                 offset += NodeShared.readTriple110(node, offset, value0, value1) { v0, v1 ->
                     value0 = v0
                     value1 = v1
@@ -269,7 +269,7 @@ internal class NodeLeafColumnIteratorPrefix11(node: ByteArray, nodeid: Int, pref
                 }
             }
             if (value0 > prefix[0]) {
-//this must not happen?!?
+// this must not happen?!?
                 _close()
                 return ResultSetDictionaryExt.nullValue
             }

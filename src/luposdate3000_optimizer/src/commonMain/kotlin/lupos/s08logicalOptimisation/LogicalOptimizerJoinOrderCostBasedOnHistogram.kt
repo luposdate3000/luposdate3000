@@ -28,22 +28,22 @@ object LogicalOptimizerJoinOrderCostBasedOnHistogram {
                         val p0 = nodes[i].getProvidedVariableNames()
                         val p1 = nodes[j].getProvidedVariableNames()
                         if (p0.intersect(p1).isNotEmpty()) {
-//prevent any cross-product without any join-variable - except very last joins, where cross-product is unavoidable
+// prevent any cross-product without any join-variable - except very last joins, where cross-product is unavoidable
                             val ch0 = nodes[i].getHistogram()
                             val ch1 = nodes[j].getHistogram()
                             val h2 = LOPJoin.mergeHistograms(ch0, ch1, false)
                             var r2 = h2.count.toDouble() / (ch0.count.toDouble() * ch1.count.toDouble())
                             if (nodes[i] is LOPTriple) {
-                                r2 *= p0.size.toDouble() * 0.3//prefer triples with many constants first
+                                r2 *= p0.size.toDouble() * 0.3 // prefer triples with many constants first
                             }
                             if (nodes[j] is LOPTriple) {
-                                r2 *= p1.size.toDouble() * 0.3//prefer triples with many constants first
+                                r2 *= p1.size.toDouble() * 0.3 // prefer triples with many constants first
                             }
                             if (nodes[i] is LOPValues) {
-                                r2 *= 0.1//prefer values clause as much as possible, because the result size is very likely to be small
+                                r2 *= 0.1 // prefer values clause as much as possible, because the result size is very likely to be small
                             }
                             if (nodes[j] is LOPValues) {
-                                r2 *= 0.1//prefer values clause as much as possible, because the result size is very likely to be small
+                                r2 *= 0.1 // prefer values clause as much as possible, because the result size is very likely to be small
                             }
                             if (h1 == null || r2 < r1) {
                                 besta1 = i
@@ -63,16 +63,16 @@ object LogicalOptimizerJoinOrderCostBasedOnHistogram {
                 var bestA: Int
                 var bestB: Int
                 if (r1 < 0.6) {
-//prefer the joins with strong result-count-reduction
+// prefer the joins with strong result-count-reduction
                     bestA = besta1
                     bestB = bestb1
                 } else {
-                    //otherwise choose join with least amount of expected rows
+                    // otherwise choose join with least amount of expected rows
                     bestA = besta2
                     bestB = bestb2
                 }
-                val b = nodes.removeAt(bestB)//first remove at the end of list
-                val a = nodes.removeAt(bestA)//afterwards in front of b otherwise, the index would be wrong
+                val b = nodes.removeAt(bestB) // first remove at the end of list
+                val a = nodes.removeAt(bestA) // afterwards in front of b otherwise, the index would be wrong
                 val c = LOPJoin(root.query, a, b, false)
                 nodes.add(c)
             }

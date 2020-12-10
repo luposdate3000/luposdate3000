@@ -38,17 +38,17 @@ class TripleStoreIteratorGlobal(query: IQuery, projectedVariables: List<String>,
     override fun cloneOP(): TripleStoreIteratorGlobal = TripleStoreIteratorGlobal(query, projectedVariables, graphName, Array(3) { children[it] as IAOPBase }, idx, partition)
     override fun equals(other: Any?): Boolean = other is TripleStoreIteratorGlobal && graphName == other.graphName && idx == other.idx && projectedVariables.containsAll(other.projectedVariables) && other.projectedVariables.containsAll(projectedVariables) && children[0] == other.children[0] && children[1] == other.children[1] && children[2] == other.children[2]
     override /*suspend*/ fun toXMLElement(): XMLElement {
-        return XMLElement("TripleStoreIteratorGlobal").//
-        addAttribute("uuid", "" + uuid).//
-        addAttribute("name", graphName).//
-        addAttribute("idx", "" + idx).//
-        addAttribute("providedVariables", getProvidedVariableNames().toString()).//
-        addAttribute("providedSort", getPossibleSortPriorities().toString()).//
-        addAttribute("selectedSort", mySortPriority.toString()).//
-        addContent(XMLElement("sparam").addContent(children[0].toXMLElement())).//
-        addContent(XMLElement("pparam").addContent(children[1].toXMLElement())).//
-        addContent(XMLElement("oparam").addContent(children[2].toXMLElement())).//
-        addContent(XMLElement("partition").addContent(partition.toXMLElement()))
+        return XMLElement("TripleStoreIteratorGlobal") //
+            .addAttribute("uuid", "" + uuid) //
+            .addAttribute("name", graphName) //
+            .addAttribute("idx", "" + idx) //
+            .addAttribute("providedVariables", getProvidedVariableNames().toString()) //
+            .addAttribute("providedSort", getPossibleSortPriorities().toString()) //
+            .addAttribute("selectedSort", mySortPriority.toString()) //
+            .addContent(XMLElement("sparam").addContent(children[0].toXMLElement())) //
+            .addContent(XMLElement("pparam").addContent(children[1].toXMLElement())) //
+            .addContent(XMLElement("oparam").addContent(children[2].toXMLElement())) //
+            .addContent(XMLElement("partition").addContent(partition.toXMLElement()))
     }
 
     override fun toSparql(): String {

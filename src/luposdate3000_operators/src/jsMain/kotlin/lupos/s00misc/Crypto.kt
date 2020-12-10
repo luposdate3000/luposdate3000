@@ -18,7 +18,7 @@ actual object Crypto {
         return toHexString(value.encodeToByteArray()._sha1())
     }
 
-    actual fun uuid(): String = throw  NotImplementedException("Crypto", "uuid not implemented")
+    actual fun uuid(): String = throw NotImplementedException("Crypto", "uuid not implemented")
     private fun toHexString(data: ByteArray): String {
         val sb = StringBuilder()
         for (b in data) {

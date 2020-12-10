@@ -25,7 +25,7 @@ class PhysicalOptimizerPartition1(query: Query) : OptimizerBase(query, EOptimize
         if (USE_PARTITIONS && Partition.default_k > 1) {
             when (node) {
                 is POPSplitPartition -> {
-//splitting must always split all variables provided by its direct children - if there is a different children, adapt the variables
+// splitting must always split all variables provided by its direct children - if there is a different children, adapt the variables
                     when (val c = node.children[0]) {
                         is POPReduced -> {
                             res = POPReduced(query, c.projectedVariables, POPSplitPartition(query, c.children[0].getProvidedVariableNames(), node.partitionVariable, node.partitionCount, node.partitionID, c.children[0]))

@@ -1,7 +1,7 @@
 import kotlin.jvm.JvmField
 
 class RunningStandardDeviation {
-    //https://www.johndcook.com/blog/standard_deviation/
+    // https://www.johndcook.com/blog/standard_deviation/
     @JvmField
     var sum = 0.0
 

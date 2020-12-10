@@ -49,10 +49,10 @@ class POPSplitPartition(query: IQuery, projectedVariables: List<String>, val par
     override fun toSparql(): String = children[0].toSparql()
     override fun equals(other: Any?): Boolean = other is POPSplitPartition && children[0] == other.children[0] && partitionVariable == other.partitionVariable && partitionCount == other.partitionCount
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
-//throw BugException("POPSplitPartition","child is not launching, because coroutine is missing suspension point")
+// throw BugException("POPSplitPartition","child is not launching, because coroutine is missing suspension point")
         val partitionCount = parent.limit[partitionVariable]!!
         if (partitionCount == 1) {
-            //single partition - just pass through
+            // single partition - just pass through
             return children[0].evaluate(parent)
         } else {
             var iterators: Array<IteratorBundle>? = null
@@ -73,14 +73,14 @@ class POPSplitPartition(query: IQuery, projectedVariables: List<String>, val par
                 SanityCheck.check { variables.containsAll(variables0) }
                 SanityCheck.check { variables.contains(partitionVariable) }
                 val elementsPerRing = Partition.queue_size * variables.size
-                val ringbuffer = IntArray(elementsPerRing * partitionCount) //only modified by writer, reader just modifies its pointer
-                val ringbufferStart = IntArray(partitionCount) { it * elementsPerRing } //constant
-                val ringbufferReadHead = IntArray(partitionCount) { 0 } //owned by read-thread - no locking required
-                val ringbufferWriteHead = IntArray(partitionCount) { 0 } //owned by write thread - no locking required
+                val ringbuffer = IntArray(elementsPerRing * partitionCount) // only modified by writer, reader just modifies its pointer
+                val ringbufferStart = IntArray(partitionCount) { it * elementsPerRing } // constant
+                val ringbufferReadHead = IntArray(partitionCount) { 0 } // owned by read-thread - no locking required
+                val ringbufferWriteHead = IntArray(partitionCount) { 0 } // owned by write thread - no locking required
                 val continuationLock = MyLock()
                 val ringbufferReaderContinuation = Array(partitionCount) { Parallel.createCondition() }
                 val ringbufferWriterContinuation: ParallelCondition = Parallel.createCondition()
-                val readerFinished = IntArray(partitionCount) { 0 } //writer changes to 1 if finished
+                val readerFinished = IntArray(partitionCount) { 0 } // writer changes to 1 if finished
                 var writerFinished = 0
                 SanityCheck.println { "ringbuffersize = ${ringbuffer.size} $elementsPerRing $partitionCount ${ringbufferStart.map { it }} ${ringbufferReadHead.map { it }} ${ringbufferWriteHead.map { it }}" }
                 SanityCheck.println { "split $uuid writer launched A" }
@@ -127,7 +127,7 @@ class POPSplitPartition(query: IQuery, projectedVariables: List<String>, val par
                                 var q = child.buf[tmp + hashVariableIndex]
                                 var cacheSize: Int
                                 if (q == ResultSetDictionaryExt.undefValue) {
-                                    //broadcast undef to every partition
+                                    // broadcast undef to every partition
                                     SanityCheck.println { " attention may increase result count here - this is always ok, _if there is a join afterwards immediately - otherwise probably not" }
                                     cacheSize = partitionCount
                                     cacheArr[0] = 0
@@ -185,7 +185,7 @@ class POPSplitPartition(query: IQuery, projectedVariables: List<String>, val par
                         loop@ while (true) {
                             SanityCheck.println { "split $uuid $p reader loop start" }
                             if (ringbufferReadHead[p] != ringbufferWriteHead[p]) {
-                                //non empty queue -> read one row
+                                // non empty queue -> read one row
                                 SanityCheck.println { "split $uuid $p reader consumed data" }
                                 for (variable in variables.indices) {
                                     iterator.buf[variable] = (ringbuffer[ringbufferReadHead[p] + variable + ringbufferStart[p]])

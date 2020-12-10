@@ -366,10 +366,15 @@ class OperatorGraphVisitor(@JvmField val query: Query) : Visitor<IOPBase> {
             val tmp1 = LOPProjection(query, mutableListOf(AOPVariable(query, "s")), tmp5.replaceVariableWithAnother(tmp5, v, "s"))
             val tmp2 = LOPProjection(query, mutableListOf(AOPVariable(query, "p")), tmp5.replaceVariableWithAnother(tmp5, v, "p"))
             val tmp3 = LOPProjection(query, mutableListOf(AOPVariable(query, "o")), tmp5.replaceVariableWithAnother(tmp5, v, "o"))
-            val tmp4 = LOPUnion(query, LOPUnion(query,
+            val tmp4 = LOPUnion(
+                query,
+                LOPUnion(
+                    query,
                     LOPJoin(query, tmp1, LOPTriple(query, AOPVariable(query, "s"), AOPVariable(query, "p"), AOPVariable(query, "o"), "", false), false),
-                    LOPJoin(query, tmp2, LOPTriple(query, AOPVariable(query, "s"), AOPVariable(query, "p"), AOPVariable(query, "o"), "", false), false)),
-                    LOPJoin(query, tmp3, LOPTriple(query, AOPVariable(query, "s"), AOPVariable(query, "p"), AOPVariable(query, "o"), "", false), false))
+                    LOPJoin(query, tmp2, LOPTriple(query, AOPVariable(query, "s"), AOPVariable(query, "p"), AOPVariable(query, "o"), "", false), false)
+                ),
+                LOPJoin(query, tmp3, LOPTriple(query, AOPVariable(query, "s"), AOPVariable(query, "p"), AOPVariable(query, "o"), "", false), false)
+            )
             res = if (res == null) {
                 tmp4
             } else {
@@ -389,7 +394,7 @@ class OperatorGraphVisitor(@JvmField val query: Query) : Visitor<IOPBase> {
 
     private fun visitConstructBase(child: IOPBase, template: Array<ASTNode>): IOPBase {
         val names = listOf("s", "p", "o")
-        val templates = mutableListOf<Pair<Any, Boolean>>()//name, isVariable
+        val templates = mutableListOf<Pair<Any, Boolean>>() // name, isVariable
         for (t in template) {
             val templateLocal = t.visit(this) as LOPTriple
             for (i in 0 until 3) {
@@ -560,7 +565,7 @@ class OperatorGraphVisitor(@JvmField val query: Query) : Visitor<IOPBase> {
                         }
                     }
                 } catch (e: Throwable) {
-                    throw  DatasetImportFailedException(query.getWorkingDirectory() + d.source_iri)
+                    throw DatasetImportFailedException(query.getWorkingDirectory() + d.source_iri)
                 }
             }
             return applyDatasets(result, datasets)
@@ -1097,7 +1102,7 @@ return tmp
     override fun visit(node: ASTBlankNode, childrenValues: List<IOPBase>): IOPBase {
         SanityCheck.check { childrenValues.isEmpty() }
         return AOPVariable(query, query.getUniqueVariableName(node.name))
-//blank nodes are used for dont care within the queries. the only place, where the bnode is required as a value is within the insert/delete-clauses. there it needs to be replaced
+// blank nodes are used for dont care within the queries. the only place, where the bnode is required as a value is within the insert/delete-clauses. there it needs to be replaced
     }
 
     override fun visit(node: ASTBuiltInCall, childrenValues: List<IOPBase>): IOPBase {

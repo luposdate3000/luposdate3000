@@ -38,7 +38,7 @@ class LogicalOptimizerProjectionDown(query: Query) : OptimizerBase(query, EOptim
         } else if (node is LOPReduced) {
             val child = node.getChildren()[0]
             if (child is LOPProjection) {
-                //move projection into Minus if_ duplicates are removed anyway
+                // move projection into Minus if_ duplicates are removed anyway
                 val child2 = child.getChildren()[0]
                 if (child2 is LOPMinus) {
                     res = child2

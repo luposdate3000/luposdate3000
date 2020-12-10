@@ -47,7 +47,7 @@ internal class ByteArrayBuilder {
             data += ByteArray(capacity)
             capacity *= 2
         }
-        SanityCheck.println { "ByteArrayBuilder($uuid).writeChar at $size with value '${c}' ${c.toInt()}" }
+        SanityCheck.println { "ByteArrayBuilder($uuid).writeChar at $size with value '$c' ${c.toInt()}" }
         ByteArrayHelper.writeChar(data, size, c)
         size += 2
     }

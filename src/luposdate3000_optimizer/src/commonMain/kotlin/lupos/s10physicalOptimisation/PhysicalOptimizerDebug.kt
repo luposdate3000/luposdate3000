@@ -16,7 +16,7 @@ class PhysicalOptimizerDebug(query: Query) : OptimizerBase(query, EOptimizerID.P
         when (node) {
             !is POPDebug -> {
                 SanityCheck {
-                    //this code is intended to be debugging only - even if it changes the resulting operator-graph
+                    // this code is intended to be debugging only - even if it changes the resulting operator-graph
                     if (node is POPBase && (parent == null || (parent !is POPDebug && parent !is OPBaseCompound))) {
                         res = POPDebug(query, node.projectedVariables, node)
                         onChange()

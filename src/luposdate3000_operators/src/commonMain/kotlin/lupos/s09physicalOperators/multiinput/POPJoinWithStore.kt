@@ -45,7 +45,7 @@ class POPJoinWithStore(query: IQuery, projectedVariables: List<String>, childA: 
         val columnsOUTAO = mutableListOf<ColumnIteratorQueue>()
         val columnsOUTAJ = mutableListOf<ColumnIteratorQueue>()
         val columnsOUTB = mutableListOf<ColumnIteratorQueue>()
-        val columnsOUT = mutableListOf<Pair<String, Int>>()//key_in_outMap | AO,AJ,B
+        val columnsOUT = mutableListOf<Pair<String, Int>>() // key_in_outMap | AO,AJ,B
         val variablINBO = mutableListOf<String>()
         val indicesINBJ = mutableListOf<Int>()
         val outMap = mutableMapOf<String, ColumnIterator>()
@@ -134,7 +134,7 @@ class POPJoinWithStore(query: IQuery, projectedVariables: List<String>, childA: 
         }
         val theuuid = uuid
         if (valuesAJ[0] != ResultSetDictionaryExt.nullValue) {
-//there is at least one value in A
+// there is at least one value in A
             for (i in 0 until indicesINBJ.size) {
                 params[indicesINBJ[i]] = AOPConstant(query, valuesAJ[i])
             }
@@ -167,63 +167,67 @@ class POPJoinWithStore(query: IQuery, projectedVariables: List<String>, childA: 
                     }
 
                     override /*suspend*/ fun next(): Int {
-                        return ColumnIteratorQueueExt.nextHelper(this, {
-                            loopA@ while (true) {
-                                var done = true
-                                loopB@ for (i in 0 until variablINBO.size) {
-                                    val value = columnsInB[i].next()
-                                    if (value == ResultSetDictionaryExt.nullValue) {
-                                        SanityCheck.println { "POPJoinWithStoreXXXclosing store for join with store B $theuuid" }
-                                        for (element in columnsInB) {
-                                            element.close()
+                        return ColumnIteratorQueueExt.nextHelper(
+                            this,
+                            {
+                                loopA@ while (true) {
+                                    var done = true
+                                    loopB@ for (i in 0 until variablINBO.size) {
+                                        val value = columnsInB[i].next()
+                                        if (value == ResultSetDictionaryExt.nullValue) {
+                                            SanityCheck.println { "POPJoinWithStoreXXXclosing store for join with store B $theuuid" }
+                                            for (element in columnsInB) {
+                                                element.close()
+                                            }
+                                            SanityCheck.check { i == 0 }
+                                            done = false
+                                            break@loopB
+                                        } else {
+                                            columnsOUTB[i].queue.add(value)
                                         }
-                                        SanityCheck.check { i == 0 }
-                                        done = false
-                                        break@loopB
-                                    } else {
-                                        columnsOUTB[i].queue.add(value)
                                     }
-                                }
-                                if (done) {
-                                    for (i in 0 until columnsOUTAO.size) {
-                                        columnsOUTAO[i].queue.add(valuesAO[i])
-                                    }
-                                    for (i in 0 until columnsOUTAJ.size) {
-                                        columnsOUTAJ[i].queue.add(valuesAJ[i])
-                                    }
-                                    break@loopA
-                                } else {
-                                    for (i in 0 until columnsINAO.size) {
-                                        valuesAO[i] = columnsINAO[i].next()
-                                    }
-                                    for (i in 0 until columnsINAJ.size) {
-                                        valuesAJ[i] = columnsINAJ[i].next()
-                                    }
-                                    if (valuesAJ[0] != ResultSetDictionaryExt.nullValue) {
-                                        for (i in 0 until indicesINBJ.size) {
-                                            params[indicesINBJ[i]] = AOPConstant(query, valuesAJ[i])
+                                    if (done) {
+                                        for (i in 0 until columnsOUTAO.size) {
+                                            columnsOUTAO[i].queue.add(valuesAO[i])
                                         }
-                                        SanityCheck.println { "POPJoinWithStoreXXXopening store for join with store B $theuuid" }
-                                        columnsInBRoot = distributedStore.getIterator(params, index, Partition()).evaluate(parent)
-                                        for (i in 0 until variablINBO.size) {
-                                            columnsInB[i] = columnsInBRoot.columns[variablINBO[i]]!!
-                                        }
-                                    } else {
-                                        SanityCheck.println { "POPJoinWithStoreXXXclosing store for join with store C $theuuid" }
-                                        for (element in columnsInB) {
-                                            element.close()
-                                        }
-                                        for (closeIndex in 0 until columnsINAO.size) {
-                                            columnsINAO[closeIndex].close()
-                                        }
-                                        for (closeIndex in 0 until columnsINAJ.size) {
-                                            columnsINAJ[closeIndex].close()
+                                        for (i in 0 until columnsOUTAJ.size) {
+                                            columnsOUTAJ[i].queue.add(valuesAJ[i])
                                         }
                                         break@loopA
+                                    } else {
+                                        for (i in 0 until columnsINAO.size) {
+                                            valuesAO[i] = columnsINAO[i].next()
+                                        }
+                                        for (i in 0 until columnsINAJ.size) {
+                                            valuesAJ[i] = columnsINAJ[i].next()
+                                        }
+                                        if (valuesAJ[0] != ResultSetDictionaryExt.nullValue) {
+                                            for (i in 0 until indicesINBJ.size) {
+                                                params[indicesINBJ[i]] = AOPConstant(query, valuesAJ[i])
+                                            }
+                                            SanityCheck.println { "POPJoinWithStoreXXXopening store for join with store B $theuuid" }
+                                            columnsInBRoot = distributedStore.getIterator(params, index, Partition()).evaluate(parent)
+                                            for (i in 0 until variablINBO.size) {
+                                                columnsInB[i] = columnsInBRoot.columns[variablINBO[i]]!!
+                                            }
+                                        } else {
+                                            SanityCheck.println { "POPJoinWithStoreXXXclosing store for join with store C $theuuid" }
+                                            for (element in columnsInB) {
+                                                element.close()
+                                            }
+                                            for (closeIndex in 0 until columnsINAO.size) {
+                                                columnsINAO[closeIndex].close()
+                                            }
+                                            for (closeIndex in 0 until columnsINAJ.size) {
+                                                columnsINAJ[closeIndex].close()
+                                            }
+                                            break@loopA
+                                        }
                                     }
                                 }
-                            }
-                        }, { __close() })
+                            },
+                            { __close() }
+                        )
                     }
                 }
                 outMap[first] = column

@@ -15,7 +15,7 @@ import lupos.s04logicalOperators.iterator.IteratorBundle
 import kotlin.math.ceil
 
 class AOPBuildInCallCEIL(query: IQuery, child: AOPBase) : AOPBase(query, EOperatorID.AOPBuildInCallCEILID, "AOPBuildInCallCEIL", arrayOf(child)) {
-    //return integer which is equal or larger than input
+    // return integer which is equal or larger than input
     override fun toSparql(): String = "CEIL(" + children[0].toSparql() + ")"
     override fun equals(other: Any?): Boolean = other is AOPBuildInCallCEIL && children[0] == other.children[0]
     override fun evaluate(row: IteratorBundle): () -> ValueDefinition {

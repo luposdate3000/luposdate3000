@@ -75,7 +75,7 @@ object LogicalOptimizerJoinOrderCostBasedOnVariable {
                     sqr(plans[childA]!!.columns + plans[childA]!!.columns + plans[childB]!!.columns)
                 }
             }
-            //cost calculation ... the least cost for_ deepest partial results
+            // cost calculation ... the least cost for_ deepest partial results
         }
 
         override operator fun compareTo(other: Plan): Int {
@@ -95,7 +95,7 @@ object LogicalOptimizerJoinOrderCostBasedOnVariable {
     /*suspend*/ fun optimize(plans: Array<Plan?>, target: Int, variables: List<Int>) {
         val targetInv = target.inv()
         for (a in 1 until target) {
-            //the other half is already calculated due to the inverse
+            // the other half is already calculated due to the inverse
             if (a and targetInv == 0) {
                 val b = target xor a
                 if (a < b) {

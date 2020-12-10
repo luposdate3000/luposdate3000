@@ -63,10 +63,10 @@ class MyMapKNAMEVNAMEBTreeGDEF(@JvmField val t: Int) {
     abstract class MyMapKNAMEVNAMEBTreeNodeGDEF(@JvmField val t: Int) {
         @JvmField
         val keys = ARRAYKTYPE(2 * t - 1) ARRAYKINITIALIZER
+            @JvmField
+            val values = ARRAYVTYPE(2 * t - 1) ARRAYVINITIALIZER
                 @JvmField
-                val values = ARRAYVTYPE(2 * t - 1) ARRAYVINITIALIZER
-                        @JvmField
-                        var n = 0
+                var n = 0
 
         abstract fun iterator(): MyMapKNAMEVNAMEBTreeNodeIteratorGUSE
         abstract fun free()
@@ -424,9 +424,9 @@ class MyMapKNAMEVNAMEBTreeGDEF(@JvmField val t: Int) {
                         }
                     }
                 }
-                var n = listA.size  //total nodes in this level
-                var n2 = (n + 2 * t) / (2 * t - 1)  //required nodes in the next level to hold all of the current nodes (round up)
-                var n3 = n / n2 + 1       //average number of childs in the next level - prevent that the last node has 1 element and therefore a wrong tree depth
+                var n = listA.size // total nodes in this level
+                var n2 = (n + 2 * t) / (2 * t - 1) // required nodes in the next level to hold all of the current nodes (round up)
+                var n3 = n / n2 + 1 // average number of childs in the next level - prevent that the last node has 1 element and therefore a wrong tree depth
                 for (i in 0 until n2) {
                     val node = MyMapKNAMEVNAMEBTreeNodeNonLeafGUSE(t)
                     listB.add(node)
@@ -485,16 +485,24 @@ class MyMapKNAMEVNAMEBTreeGDEF(@JvmField val t: Int) {
             if ((s.keys[0] as KEY) < k) {
                 i++
             }
-            s.C[i]!!.insertNonFull(k, {
-                size++
-                onCreate()
-            }, onExists)
+            s.C[i]!!.insertNonFull(
+                k,
+                {
+                    size++
+                    onCreate()
+                },
+                onExists
+            )
             root = s
         } else {
-            root!!.insertNonFull(k, {
-                size++
-                onCreate()
-            }, onExists)
+            root!!.insertNonFull(
+                k,
+                {
+                    size++
+                    onCreate()
+                },
+                onExists
+            )
         }
     }
 
@@ -551,13 +559,17 @@ class MyMapKNAMEVNAMEBTreeGDEF(@JvmField val t: Int) {
 
     inline fun getOrCreate(key: KEY, crossinline onCreate: () -> VALUE): VALUE {
         var res: VALUE? = null
-        insert(key, {
-            res = onCreate()
-            res!!
-        }, { a, b ->
-            res = b
-            res!!
-        })
+        insert(
+            key,
+            {
+                res = onCreate()
+                res!!
+            },
+            { a, b ->
+                res = b
+                res!!
+            }
+        )
         return res!!
     }
 

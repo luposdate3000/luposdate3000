@@ -28,12 +28,12 @@ class LogicalOptimizerStoreToValues(query: Query) : OptimizerBase(query, EOptimi
                 hashCode += c.getUUID() + c.toString().hashCode()
             }
             if (hashCode == -1L) {
-                //just avoid this flag ...
+                // just avoid this flag ...
                 hashCode = 0L
             }
             if (node.alreadyCheckedStore != hashCode) {
                 node.alreadyCheckedStore = hashCode
-                //dont query the same statements twice ... 
+                // dont query the same statements twice ... 
                 val variables = mutableListOf<String>()
                 for (c in node.getChildren()) {
                     if (c is AOPVariable) {
@@ -45,7 +45,7 @@ class LogicalOptimizerStoreToValues(query: Query) : OptimizerBase(query, EOptimi
                     val tmp = distributedTripleStore.getNamedGraph(query, node.graph).getIterator(Array(3) { node.getChildren()[it] as IAOPBase }, idx, Partition())
                     val tmp2 = tmp.evaluate(Partition())
                     SanityCheck.check { tmp2.hasCountMode() }
-                    res = if (tmp2.count() > 0) {//closed childs due to reading from count
+                    res = if (tmp2.count() > 0) { // closed childs due to reading from count
                         OPEmptyRow(query)
                     } else {
                         OPNothing(query, node.getProvidedVariableNames())

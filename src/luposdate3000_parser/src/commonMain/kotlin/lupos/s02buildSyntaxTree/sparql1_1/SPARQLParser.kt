@@ -224,7 +224,8 @@ class ASTConstructQuery(@JvmField val template: Array<ASTNode>) : ASTQueryBaseCl
 
 class ASTDescribeQuery(@JvmField val select: Array<ASTNode>) : ASTQueryBaseClass() {
     private inline fun selectAll(): Boolean {
-        return select.isEmpty(); }
+        return select.isEmpty();
+    }
 
     override fun nodeToString(): String = "ASTSelectQuery" + (if (selectAll()) " *" else "")
     override fun toString(indentation: String): String = super.toString(indentation) + propertyToString("$indentation  ", "$indentation    ", "Select", this.select)
@@ -1995,8 +1996,12 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
             throw UnexpectedToken(token, arrayOf("WHERE"), ltit)
         }
         val where = GroupGraphPattern()
-        return ASTModifyWithWhere(iri?.iri, delete ?: arrayOf(), insert
-                ?: arrayOf(), collect.toTypedArray(), where)
+        return ASTModifyWithWhere(
+            iri?.iri, delete ?: arrayOf(),
+            insert
+                ?: arrayOf(),
+            collect.toTypedArray(), where
+        )
     }
 
     private fun DeleteClause(): Array<ASTNode> {
@@ -2392,7 +2397,8 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
         val collect: MutableList<ASTNode> = mutableListOf()
         val first = GroupGraphPattern()
         if (first.size == 1) collect.add(first[0]); else {
-            collect.add(ASTGroup(first)); }
+            collect.add(ASTGroup(first));
+        }
         var t99 = ltit.lookahead()
         while (t99.image == "UNION") {
             token = ltit.nextToken()
@@ -2401,7 +2407,8 @@ class SPARQLParser(@JvmField val ltit: LookAheadTokenIterator) {
             }
             val second = GroupGraphPattern()
             if (second.size == 1) collect.add(second[0]); else {
-                collect.add(ASTGroup(second)); }
+                collect.add(ASTGroup(second));
+            }
             t99 = ltit.lookahead()
         }
         return if (collect.size > 1) {

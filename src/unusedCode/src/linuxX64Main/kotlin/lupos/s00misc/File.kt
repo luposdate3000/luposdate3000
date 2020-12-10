@@ -3,20 +3,16 @@ package lupos.s00misc
 import dirent.closedir
 import dirent.opendir
 import dirent.readdir
-import kotlin.native.concurrent.*
 import kotlinx.cinterop.*
-import kotlinx.cinterop.allocArray
 import kotlinx.cinterop.ByteVar
+import kotlinx.cinterop.allocArray
 import kotlinx.cinterop.memScoped
-import lupos.s04logicalOperators.Query
 import platform.posix.FILE
 import stdio.fclose
 import stdio.fgets
 import stdio.fopen
-import stdio.fread
-import stdio.fwrite
 import stdio.luposfprintf
-import unistd.luposSTDINread
+import kotlin.native.concurrent.*
 
 class File(val filename: String) {
     fun readAsString(): String {
@@ -44,7 +40,7 @@ class File(val filename: String) {
     }
 
     fun walk(action: (String) -> Unit) {
-        val d = opendir(filename);
+        val d = opendir(filename)
         if (d != null) {
             while (true) {
                 val dir = readdir(d)
@@ -53,7 +49,7 @@ class File(val filename: String) {
                 }
                 action(filename + "/" + dir.pointed.d_name!!.toKString())
             }
-            closedir(d);
+            closedir(d)
         }
     }
 
