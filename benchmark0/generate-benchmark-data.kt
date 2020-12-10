@@ -3,7 +3,6 @@ import java.io.DataOutputStream
 import java.io.File
 import java.io.FileOutputStream
 import java.io.PrintWriter
-
 enum class ETripleComponentType {
     IRI,
     BLANK_NODE,
@@ -15,7 +14,6 @@ enum class ETripleComponentType {
     STRING_TYPED,
     STRING_LANG,
 }
-
 fun generateTriples(args: Array<String>): Int {
     var targetNumberOfResults = 1L
     var numberOfPredicates = 2
@@ -39,7 +37,6 @@ fun generateTriples(args: Array<String>): Int {
     }
     return generateTriples(targetNumberOfResults, numberOfPredicates, blockCount, trashCount, folderName)
 }
-
 fun generateTriples(targetNumberOfResults2: Long, numberOfPredicates: Int, blockCount: Int, trashCount: Int, folderName: String): Int {
     var targetNumberOfResults = targetNumberOfResults2
     val preventMultiplesOfList = intArrayOf(2, 3, 5, 7, 11, 13, 17, 19)
