@@ -1,14 +1,25 @@
-import lupos.s00misc.*
-import lupos.s03resultRepresentation.*
-import lupos.s04arithmetikOperators.*
-import lupos.s04arithmetikOperators.noinput.*
-import lupos.s04logicalOperators.*
-import lupos.s05tripleStore.*
-import lupos.s09physicalOperators.*
-import lupos.s09physicalOperators.multiinput.*
-import lupos.s09physicalOperators.partition.*
-import lupos.s15tripleStoreDistributed.*
-import lupos.s16network.*
+import lupos.s00misc.DateHelperRelative
+import lupos.s00misc.EIndexPattern
+import lupos.s00misc.ESortType
+import lupos.s00misc.File
+import lupos.s00misc.MyPrintWriter
+import lupos.s00misc.Parallel
+import lupos.s00misc.Partition
+import lupos.s00misc.SortHelper
+import lupos.s03resultRepresentation.ValueIri
+import lupos.s04arithmetikOperators.noinput.AOPConstant
+import lupos.s04arithmetikOperators.noinput.AOPVariable
+import lupos.s04logicalOperators.IOPBase
+import lupos.s04logicalOperators.Query
+import lupos.s09physicalOperators.multiinput.POPJoinHashMap
+import lupos.s09physicalOperators.multiinput.POPJoinMerge
+import lupos.s09physicalOperators.partition.POPMergePartition
+import lupos.s09physicalOperators.partition.POPMergePartitionOrderedByIntId
+import lupos.s09physicalOperators.partition.POPSplitPartition
+import lupos.s09physicalOperators.partition.POPSplitPartitionFromStore
+import lupos.s09physicalOperators.partition.POPSplitPartitionPassThrough
+import lupos.s15tripleStoreDistributed.TripleStoreIteratorGlobal
+import lupos.s16network.LuposdateEndpoint
 
 @OptIn(ExperimentalStdlibApi::class, kotlin.time.ExperimentalTime::class)
 fun mainFunc(args: Array<String>): Unit = Parallel.runBlocking {
