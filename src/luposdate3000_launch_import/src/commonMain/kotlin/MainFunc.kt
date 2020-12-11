@@ -3,7 +3,6 @@ import lupos.s00misc.File
 import lupos.s00misc.Parallel
 import lupos.s00misc.Partition
 import lupos.s02buildSyntaxTree.turtle.Turtle2Parser
-import lupos.s16network.LuposdateEndpoint
 fun helperCleanString(s: String): String {
     var res: String = s
     while (true) {
@@ -16,7 +15,6 @@ fun helperCleanString(s: String): String {
 @OptIn(ExperimentalStdlibApi::class, kotlin.time.ExperimentalTime::class)
 fun mainFunc(args: Array<String>): Unit = Parallel.runBlocking {
     println("importing args ${args.map { it }}")
-    LuposdateEndpoint.initialize()
     var cnt = 0
     val inputFileName = args[0]
     println("importing $inputFileName start")
