@@ -1,10 +1,10 @@
 package lupos.s05tripleStore
 import lupos.s00misc.ByteArrayHelper
+import lupos.s00misc.ETripleIndexType
 import lupos.s00misc.MyReadWriteLock
 import lupos.s00misc.Parallel
-import lupos.s00misc.ETripleIndexType
 import lupos.s00misc.SanityCheck
-import lupos.s01io.BufferManager
+import lupos.s01io.BufferManagerExt
 import lupos.s03resultRepresentation.ResultSetDictionaryExt
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.ColumnIterator
@@ -30,7 +30,7 @@ import lupos.s05tripleStore.index_IDTriple.NodeShared
 import lupos.s05tripleStore.index_IDTriple.TripleIterator
 import kotlin.jvm.JvmField
 class TripleStoreIndexIDTriple(store_root_page_id_: Int, store_root_page_init: Boolean) : TripleStoreIndex(store_root_page_id_) {
-    @JvmField val bufferManager = BufferManager.getBuffermanager("stores")
+    @JvmField val bufferManager = BufferManagerExt.getBuffermanager("stores")
     var firstLeaf_: Int = NodeManager.nodeNullPointer
     var firstLeaf: Int
         set(value) {
@@ -104,7 +104,7 @@ class TripleStoreIndexIDTriple(store_root_page_id_: Int, store_root_page_init: B
                 )
             }
         } else {
-            ByteArrayHelper.writeInt4(rootPage, 0,ETripleIndexType.ID_TRIPLE.ordinal)
+            ByteArrayHelper.writeInt4(rootPage, 0, ETripleIndexType.ID_TRIPLE.ordinal)
             ByteArrayHelper.writeInt4(rootPage, 4, root)
             ByteArrayHelper.writeInt4(rootPage, 8, countPrimary)
             ByteArrayHelper.writeInt4(rootPage, 12, distinctPrimary)
@@ -116,11 +116,11 @@ class TripleStoreIndexIDTriple(store_root_page_id_: Int, store_root_page_init: B
         @JvmField
         var debugLock = MyReadWriteLock()
     }
-override fun dropIndex(){
-clear()
-bufferManager.getPage(store_root_page_id)
-bufferManager.deletePage(store_root_page_id)
-}
+    override fun dropIndex() {
+        clear()
+        bufferManager.getPage(store_root_page_id)
+        bufferManager.deletePage(store_root_page_id)
+    }
     private inline fun clearCachedHistogram() {
         cachedHistograms1Size = 0
         cachedHistograms2Size = 0

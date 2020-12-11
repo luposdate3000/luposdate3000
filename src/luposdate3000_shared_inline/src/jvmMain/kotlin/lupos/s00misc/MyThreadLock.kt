@@ -1,5 +1,8 @@
 package lupos.s00misc
 import java.util.concurrent.Semaphore
+import kotlin.contracts.InvocationKind.EXACTLY_ONCE
+import kotlin.contracts.contract
+@OptIn(kotlin.contracts.ExperimentalContracts::class)
 internal actual class MyThreadLock {
     internal companion object {
         var uuidCounter = 0L
@@ -17,6 +20,7 @@ internal actual class MyThreadLock {
         return semaphore.tryAcquire()
     }
     actual inline fun <T> withLock(crossinline action: () -> T): T {
+        contract { callsInPlace(action, EXACTLY_ONCE) }
         lock()
         try {
             return action()

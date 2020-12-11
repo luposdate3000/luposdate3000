@@ -1,160 +1,52 @@
 package lupos.s01io
-import lupos.s00misc.BUFFER_MANAGER_PAGE_SIZE_IN_BYTES
-import lupos.s00misc.BUFFER_MANAGER_USE_FREE_LIST
+import lupos.s00misc.File
 import lupos.s00misc.MyReadWriteLock
 import lupos.s00misc.Platform
 import lupos.s00misc.SanityCheck
 import kotlin.jvm.JvmField
-class BufferManager(name: String) {
-    /*
-     * each type safe page-manager safes to its own store
-     * using another layer of indirection,
-     * to be able to share this code across different type-safe managers as
-     * - triple store
-     * - dictionary (currently not implemented)
-     * - temporary result rows (currently not implemented)
-     * additionally this should make it more easy to exchange this with on disk storage
-     */
-    companion object {
-        const val isInMemoryOnly = true
-        @JvmField val initializedFromDisk = false
-        fun getBuffermanager(name: String): BufferManager {
-            var res: BufferManager? = null
-            managerListLock.withWriteLock {
-                res = managerList[name]
-                if (res == null) {
-                    res = BufferManager(name)
-                    managerList[name] = res!!
-                }
-            }
-            return res!!
-        }
-        @JvmField
-        var bufferPrefix: String = Platform.getEnv("LUPOS_HOME", "/tmp/luposdate3000/")!!
-        init {
-            SanityCheck.println { "bufferPrefix = $bufferPrefix" }
-        }
-        @JvmField
-        internal val managerList = mutableMapOf<String, BufferManager>()
-        @JvmField
-        internal val managerListLock = MyReadWriteLock()
-        /*suspend*/ fun safeToFolder(): Unit = managerListLock.withReadLock {
-            for ((k, v) in managerList) {
-                v.safeToFolder()
+object BufferManagerExt {
+    const val fileEnding = ".data"
+    @JvmField // dont put const val here, because it wont work when exchanging the modules
+    val isInMemoryOnly = false
+    @JvmField
+    var bufferPrefix: String = Platform.getEnv("LUPOS_HOME", "/tmp/luposdate3000/")!!
+    @JvmField val initializedFromDisk = File(bufferPrefix + fileEnding).exists()
+    fun getBuffermanager(name: String): BufferManager {
+        var res: BufferManager? = null
+        managerListLock.withWriteLock {
+            res = managerList[name]
+            if (res == null) {
+                res = BufferManager(name)
+                managerList[name] = res!!
             }
         }
-        /*suspend*/ fun loadFromFolder(): Unit = managerListLock.withReadLock {
-            for ((k, v) in managerList) {
-                v.loadFromFolder()
-            }
-        }
+        return res!!
     }
     init {
-        val manager = this
-        managerListLock.withWriteLock {
-            managerList[name] = manager
-        }
+        SanityCheck.println { "bufferPrefix = $bufferPrefix" }
+        File(bufferPrefix).mkdirs()
     }
     @JvmField
-    internal var allPages = Array(100) { ByteArray(BUFFER_MANAGER_PAGE_SIZE_IN_BYTES) }
+    internal val managerList = mutableMapOf<String, BufferManager>()
     @JvmField
-    internal var allPagesRefcounters = IntArray(100)
-    @JvmField
-    internal var counter = 0
-    @JvmField
-    internal val lock = MyReadWriteLock()
-    @JvmField
-    internal val freeList = mutableListOf<Int>()
-    /*suspend*/ fun clear(): Unit = lock.withWriteLock {
-        clearAssumeLocks()
-    }
-    /*suspend*/ private fun clearAssumeLocks() {
-        counter = 0
-        SanityCheck {
-            for (i in 0 until counter) {
-                SanityCheck.check({ allPagesRefcounters[i] == 0 }, { "Failed requirement pageid = $i" })
-            }
-        }
-        allPages = Array(100) { ByteArray(BUFFER_MANAGER_PAGE_SIZE_IN_BYTES) }
-        allPagesRefcounters = IntArray(100)
-        if (BUFFER_MANAGER_USE_FREE_LIST) {
-            freeList.clear()
+    internal val managerListLock = MyReadWriteLock()
+    /*suspend*/ fun safeToFolder(): Unit = managerListLock.withReadLock {
+        for ((k, v) in managerList) {
+            v.safeToFolder()
         }
     }
-    fun releasePage(pageid: Int) {
-        SanityCheck.check({ allPagesRefcounters[pageid] > 0 }, { "Failed requirement pageid = $pageid" })
-        allPagesRefcounters[pageid]--
-        SanityCheck.println { "BufferManager.refcount($pageid) decreased a ${allPagesRefcounters[pageid]}" }
-    }
-    fun getPage(pageid: Int): ByteArray {
-        // no locking required, assuming an assignment to 'allPages' is atomic
-        SanityCheck {
-            if (BUFFER_MANAGER_USE_FREE_LIST) {
-                SanityCheck.check { !freeList.contains(pageid) }
-            }
-        }
-        allPagesRefcounters[pageid]++
-        SanityCheck.println { "BufferManager.refcount($pageid) increased a ${allPagesRefcounters[pageid]}" }
-        return allPages[pageid]
-    }
-    /*suspend*/ fun createPage(action: (ByteArray, Int) -> Unit): Unit = lock.withWriteLock {
-        val pageid: Int
-        if (freeList.size > 0 && BUFFER_MANAGER_USE_FREE_LIST) {
-            pageid = freeList.removeAt(0)
-        } else {
-            if (counter == allPages.size) {
-                var size = counter * 2
-                if (size < 100) {
-                    size = 100
-                } else if (counter > 1000) {
-                    size = counter + 1000
-                }
-                val tmp = Array(size) {
-                    val res: ByteArray = if (it < counter) {
-                        allPages[it]
-                    } else {
-                        ByteArray(BUFFER_MANAGER_PAGE_SIZE_IN_BYTES)
-                    }
-                    res
-                }
-                val tmp2 = IntArray(size) {
-                    if (it < counter) {
-                        allPagesRefcounters[it]
-                    } else {
-                        0
-                    }
-                }
-                allPages = tmp
-                allPagesRefcounters = tmp2
-            }
-            pageid = counter++
-        }
-        allPagesRefcounters[pageid]++
-        SanityCheck.println { "BufferManager.refcount($pageid) increased b ${allPagesRefcounters[pageid]}" }
-        action(allPages[pageid], pageid)
-    }
-    /*suspend*/ fun deletePage(pageid: Int): Unit = lock.withWriteLock {
-        SanityCheck {
-            if (BUFFER_MANAGER_USE_FREE_LIST) {
-                SanityCheck.check { !freeList.contains(pageid) }
-            }
-        }
-        SanityCheck.check({ allPagesRefcounters[pageid] == 1 }, { "Failed requirement pageid = $pageid" })
-        allPagesRefcounters[pageid] = 0
-        SanityCheck.println { "BufferManager.refcount($pageid) decreased b ${allPagesRefcounters[pageid]}" }
-        if (BUFFER_MANAGER_USE_FREE_LIST) {
-            freeList.add(pageid)
-            if (freeList.size == counter) {
-                clearAssumeLocks()
-            }
-        } else {
-            if (counter == 0) {
-                clearAssumeLocks()
-            }
+    /*suspend*/ fun loadFromFolder(): Unit = managerListLock.withReadLock {
+        for ((k, v) in managerList) {
+            v.loadFromFolder()
         }
     }
-    /*suspend*/ fun safeToFolder() {
-    }
-    /*suspend*/ fun loadFromFolder() {
-    }
+}
+expect class BufferManager(name: String) {
+    /*suspend*/ fun clear()
+    fun releasePage(pageid: Int)
+    fun getPage(pageid: Int): ByteArray
+    /*suspend*/ fun createPage(action: (ByteArray, Int) -> Unit)
+    /*suspend*/ fun deletePage(pageid: Int)
+    /*suspend*/ fun safeToFolder()
+    /*suspend*/ fun loadFromFolder()
 }

@@ -1,5 +1,8 @@
 package lupos.s00misc
 import java.util.concurrent.locks.ReentrantReadWriteLock
+import kotlin.contracts.InvocationKind.EXACTLY_ONCE
+import kotlin.contracts.contract
+@OptIn(kotlin.contracts.ExperimentalContracts::class)
 internal actual class MyThreadReadWriteLock {
     internal companion object {
         var uuidCounter = 0L
@@ -27,6 +30,7 @@ internal actual class MyThreadReadWriteLock {
         lock.writeLock().unlock()
     }
     actual inline fun <T> withReadLock(crossinline action: () -> T): T {
+        contract { callsInPlace(action, EXACTLY_ONCE) }
         readLock()
         try {
             return action()
@@ -35,6 +39,7 @@ internal actual class MyThreadReadWriteLock {
         }
     }
     actual inline fun <T> withWriteLock(crossinline action: () -> T): T {
+        contract { callsInPlace(action, EXACTLY_ONCE) }
         writeLock()
         try {
             return action()

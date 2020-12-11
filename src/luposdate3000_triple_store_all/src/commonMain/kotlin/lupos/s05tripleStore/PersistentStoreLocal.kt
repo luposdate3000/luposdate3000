@@ -5,13 +5,13 @@ import lupos.s00misc.GraphNameNotExistsDuringDeleteException
 import lupos.s00misc.GraphNameNotFoundException
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.TripleStoreLocal
-import lupos.s01io.BufferManager
+import lupos.s01io.BufferManagerExt
 import lupos.s04logicalOperators.IQuery
 import lupos.s15tripleStoreDistributed.IPersistentStoreLocal
 import kotlin.jvm.JvmField
 class PersistentStoreLocal : IPersistentStoreLocal {
     @JvmField
-    val bufferManager = BufferManager.getBuffermanager("stores")
+    val bufferManager = BufferManagerExt.getBuffermanager("stores")
     @JvmField
     val stores: MutableMap<String, TripleStoreLocal> = mutableMapOf()
     fun storesAdd(name: String) {
@@ -24,20 +24,20 @@ class PersistentStoreLocal : IPersistentStoreLocal {
         storesChanged()
     }
     fun storesRemove(name: String) {
-stores[name]!!.dropStore()
+        stores[name]!!.dropStore()
         stores.remove(name)
         storesChanged()
     }
     fun storesRemoveAll() {
-for((k,v) in stores){
-v.dropStore()
-}
+        for ((k, v) in stores) {
+            v.dropStore()
+        }
         stores.clear()
         storesChanged()
     }
     fun storesChanged() {
-        if (!BufferManager.isInMemoryOnly) {
-            File(BufferManager.bufferPrefix + "/PersistentStoreLocal.cnf").printWriter { out ->
+        if (!BufferManagerExt.isInMemoryOnly) {
+            File(BufferManagerExt.bufferPrefix + "PersistentStoreLocal.cnf").printWriter { out ->
                 for ((k, v) in stores) {
                     out.println("$k;${v.store_root_page_id}")
                 }
@@ -45,10 +45,12 @@ v.dropStore()
         }
     }
     init {
-        if (BufferManager.initializedFromDisk) {
-            File(BufferManager.bufferPrefix + "/PersistentStoreLocal.cnf").forEachLine { line ->
+        if (BufferManagerExt.initializedFromDisk) {
+            File(BufferManagerExt.bufferPrefix + "PersistentStoreLocal.cnf").forEachLine { line ->
                 val arr = line.split(";")
-                stores[arr[0]] = TripleStoreLocal(arr[0], arr[1].toInt(), true)
+                if (arr.size == 2) {
+                    stores[arr[0]] = TripleStoreLocal(arr[0], arr[1].toInt(), true)
+                }
             }
         } else {
             storesAdd(PersistentStoreLocalExt.defaultGraphName)

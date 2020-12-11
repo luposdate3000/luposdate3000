@@ -1,52 +1,51 @@
 package lupos.s05tripleStore
 import lupos.s00misc.BUFFER_MANAGER_PAGE_SIZE_IN_BYTES
 import lupos.s00misc.ByteArrayHelper
-import lupos.s00misc.Partition
 import lupos.s00misc.ETripleIndexType
+import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
-import lupos.s01io.BufferManager
+import lupos.s01io.BufferManagerExt
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import kotlin.jvm.JvmField
 class TripleStoreIndexPartition(childIndex: (Int, Boolean) -> TripleStoreIndex, @JvmField private val column: Int, @JvmField val partitionCount: Int, store_root_page_id_: Int, store_root_page_init: Boolean) : TripleStoreIndex(store_root_page_id_) {
-@JvmField
-        val bufferManager = BufferManager.getBuffermanager("stores")
-
+    @JvmField
+    val bufferManager = BufferManagerExt.getBuffermanager("stores")
     private val partitions: Array<TripleStoreIndex>
     init {
-        SanityCheck.check { partitionCount * 4+4 <= BUFFER_MANAGER_PAGE_SIZE_IN_BYTES }
+        SanityCheck.check { partitionCount * 4 + 4 <= BUFFER_MANAGER_PAGE_SIZE_IN_BYTES }
         val rootPage = bufferManager.getPage(store_root_page_id)
-  ByteArrayHelper.writeInt4(rootPage,0,ETripleIndexType.PARTITION.ordinal)
+        ByteArrayHelper.writeInt4(rootPage, 0, ETripleIndexType.PARTITION.ordinal)
         partitions = Array(partitionCount) { partition ->
             if (store_root_page_init) {
-                val pageid=ByteArrayHelper.readInt4(rootPage, partition * 4+4)
-val childPage=bufferManager.getPage(pageid)
-val type=ETripleIndexType.values()[ByteArrayHelper.readInt4(childPage,0)]
-var res=when(type){
-ETripleIndexType.ID_TRIPLE->TripleStoreIndexIDTriple(pageid,store_root_page_init)
-else->throw Exception("")
-}
-bufferManager.releasePage(pageid)
-res
+                val pageid = ByteArrayHelper.readInt4(rootPage, partition * 4 + 4)
+                val childPage = bufferManager.getPage(pageid)
+                val type = ETripleIndexType.values()[ByteArrayHelper.readInt4(childPage, 0)]
+                var res = when (type) {
+                    ETripleIndexType.ID_TRIPLE -> TripleStoreIndexIDTriple(pageid, store_root_page_init)
+                    else -> throw Exception("")
+                }
+                bufferManager.releasePage(pageid)
+                res
             } else {
                 var pageid2 = -1
                 bufferManager.createPage { p, pageid3 ->
                     pageid2 = pageid3
                 }
                 bufferManager.releasePage(pageid2)
-                ByteArrayHelper.writeInt4(rootPage, partition * 4+4, pageid2)
-            childIndex(pageid2, store_root_page_init)
+                ByteArrayHelper.writeInt4(rootPage, partition * 4 + 4, pageid2)
+                childIndex(pageid2, store_root_page_init)
             }
         }
         bufferManager.releasePage(store_root_page_id)
     }
-override fun dropIndex(){
-for(p in partitions){
-p.dropIndex()
-}
-bufferManager.getPage(store_root_page_id)
-bufferManager.deletePage(store_root_page_id)
-}
+    override fun dropIndex() {
+        for (p in partitions) {
+            p.dropIndex()
+        }
+        bufferManager.getPage(store_root_page_id)
+        bufferManager.deletePage(store_root_page_id)
+    }
     override /*suspend*/ fun getHistogram(query: IQuery, params: TripleStoreFeatureParams): Pair<Int, Int> {
         var i = -1
         val partition = (params as TripleStoreFeatureParamsPartition).partition

@@ -4,7 +4,7 @@ import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.s04logicalOperators.iterator.IteratorBundle
 interface ITripleStoreLocalBase {
-fun dropStore()
+    fun dropStore()
     fun getEnabledPartitions(): Array<EnabledPartitionContainer>
     /*suspend*/ fun flush()
     /*suspend*/ fun getHistogram(query: IQuery, params: TripleStoreFeatureParams): Pair<Int, Int>

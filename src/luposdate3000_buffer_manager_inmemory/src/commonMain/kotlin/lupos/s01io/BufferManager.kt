@@ -5,7 +5,42 @@ import lupos.s00misc.MyReadWriteLock
 import lupos.s00misc.Platform
 import lupos.s00misc.SanityCheck
 import kotlin.jvm.JvmField
-class BufferManager(name: String) {
+object BufferManagerExt {
+    @JvmField // dont put const val here, because it wont work when exchanging the modules
+    val isInMemoryOnly = true
+    @JvmField val initializedFromDisk = false
+    fun getBuffermanager(name: String): BufferManager {
+        var res: BufferManager? = null
+        managerListLock.withWriteLock {
+            res = managerList[name]
+            if (res == null) {
+                res = BufferManager(name)
+                managerList[name] = res!!
+            }
+        }
+        return res!!
+    }
+    @JvmField
+    var bufferPrefix: String = Platform.getEnv("LUPOS_HOME", "/tmp/luposdate3000/")!!
+    init {
+        SanityCheck.println { "bufferPrefix = $bufferPrefix" }
+    }
+    @JvmField
+    internal val managerList = mutableMapOf<String, BufferManager>()
+    @JvmField
+    internal val managerListLock = MyReadWriteLock()
+    /*suspend*/ fun safeToFolder(): Unit = managerListLock.withReadLock {
+        for ((k, v) in managerList) {
+            v.safeToFolder()
+        }
+    }
+    /*suspend*/ fun loadFromFolder(): Unit = managerListLock.withReadLock {
+        for ((k, v) in managerList) {
+            v.loadFromFolder()
+        }
+    }
+}
+class BufferManager(@JvmField val name: String) {
     /*
      * each type safe page-manager safes to its own store
      * using another layer of indirection,
@@ -15,48 +50,14 @@ class BufferManager(name: String) {
      * - temporary result rows (currently not implemented)
      * additionally this should make it more easy to exchange this with on disk storage
      */
-    companion object {
-        const val isInMemoryOnly = true
-        @JvmField val initializedFromDisk = false
-        fun getBuffermanager(name: String): BufferManager {
-            var res: BufferManager? = null
-            managerListLock.withWriteLock {
-                res = managerList[name]
-                if (res == null) {
-                    res = BufferManager(name)
-                    managerList[name] = res!!
-                }
-            }
-            return res!!
-        }
-        @JvmField
-        var bufferPrefix: String = Platform.getEnv("LUPOS_HOME", "/tmp/luposdate3000/")!!
-        init {
-            SanityCheck.println { "bufferPrefix = $bufferPrefix" }
-        }
-        @JvmField
-        internal val managerList = mutableMapOf<String, BufferManager>()
-        @JvmField
-        internal val managerListLock = MyReadWriteLock()
-        /*suspend*/ fun safeToFolder(): Unit = managerListLock.withReadLock {
-            for ((k, v) in managerList) {
-                v.safeToFolder()
-            }
-        }
-        /*suspend*/ fun loadFromFolder(): Unit = managerListLock.withReadLock {
-            for ((k, v) in managerList) {
-                v.loadFromFolder()
-            }
-        }
-    }
     init {
         val manager = this
-        managerListLock.withWriteLock {
-            managerList[name] = manager
+        BufferManagerExt.managerListLock.withWriteLock {
+            BufferManagerExt.managerList[name] = manager
         }
     }
     @JvmField
-    internal var allPages = Array(100) { ByteArray(BUFFER_MANAGER_PAGE_SIZE_IN_BYTES) }
+    internal var allPages = Array(100) { ByteArray(BUFFER_MANAGER_PAGE_SIZE_IN_BYTES.toInt()) }
     @JvmField
     internal var allPagesRefcounters = IntArray(100)
     @JvmField
@@ -75,7 +76,7 @@ class BufferManager(name: String) {
                 SanityCheck.check({ allPagesRefcounters[i] == 0 }, { "Failed requirement pageid = $i" })
             }
         }
-        allPages = Array(100) { ByteArray(BUFFER_MANAGER_PAGE_SIZE_IN_BYTES) }
+        allPages = Array(100) { ByteArray(BUFFER_MANAGER_PAGE_SIZE_IN_BYTES.toInt()) }
         allPagesRefcounters = IntArray(100)
         if (BUFFER_MANAGER_USE_FREE_LIST) {
             freeList.clear()
@@ -113,7 +114,7 @@ class BufferManager(name: String) {
                     val res: ByteArray = if (it < counter) {
                         allPages[it]
                     } else {
-                        ByteArray(BUFFER_MANAGER_PAGE_SIZE_IN_BYTES)
+                        ByteArray(BUFFER_MANAGER_PAGE_SIZE_IN_BYTES.toInt())
                     }
                     res
                 }
