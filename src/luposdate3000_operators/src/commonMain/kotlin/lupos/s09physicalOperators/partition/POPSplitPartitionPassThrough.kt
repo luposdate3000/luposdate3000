@@ -37,11 +37,11 @@ class POPSplitPartitionPassThrough(query: IQuery, projectedVariables: List<Strin
     override fun equals(other: Any?): Boolean = other is POPSplitPartitionPassThrough && children[0] == other.children[0] && partitionVariable == other.partitionVariable && partitionCount == other.partitionCount
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
         val partitionCount = parent.limit[partitionVariable]!!
-        if (partitionCount == 1) {
-            return children[0].evaluate(parent)
+        return if (partitionCount == 1) {
+            children[0].evaluate(parent)
         } else {
             val childPartition = Partition(parent, partitionVariable)
-            return children[0].evaluate(childPartition)
+            children[0].evaluate(childPartition)
         }
     }
 }
