@@ -460,22 +460,6 @@ open class SparqlTestSuite {
                         distributedTripleStore.commit(query)
                         query.commited = true
                     }
-                    if (testPersistence) {
-                        File("log/storetest").mkdirs()
-                        distributedTripleStore.getLocalStore().safeToFolder()
-                        distributedTripleStore.getLocalStore().loadFromFolder()
-                        val query = Query()
-                        query.setWorkingDirectory(queryFile.substring(0, queryFile.lastIndexOf("/")))
-                        val loadSelect = distributedTripleStore.getDefaultGraph(query).getIterator(arrayOf(AOPVariable(query, "s"), AOPVariable(query, "p"), AOPVariable(query, "o")), EIndexPattern.SPO, Partition())
-                        val xmlGraphLoad = QueryResultToXMLElement.toXML(loadSelect)
-                        if (!xmlGraphLoad.myEqualsUnclean(xmlQueryInput, true, true, true)) {
-                            println("test xmlQueryInput :: " + xmlQueryInput.toPrettyString())
-                            println("test xmlGraphLoad :: " + xmlGraphLoad.toPrettyString())
-                            println("----------Time(${DateHelperRelative.elapsedSeconds(timer)})")
-                            println("----------Failed(LoadImport)")
-                            return false
-                        }
-                    }
                     println("test InputData Graph[] ::" + xmlQueryInput.toPrettyString())
                     try {
                         if (!ignoreJena) {

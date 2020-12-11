@@ -5,7 +5,7 @@ import lupos.s00misc.MyReadWriteLock
 import lupos.s00misc.Platform
 import lupos.s00misc.SanityCheck
 import kotlin.jvm.JvmField
-class BufferManager {
+class BufferManager(name: String) {
     /*
      * each type safe page-manager safes to its own store
      * using another layer of indirection,
@@ -16,30 +16,43 @@ class BufferManager {
      * additionally this should make it more easy to exchange this with on disk storage
      */
     companion object {
+        @JvmField val isInMemoryOnly = true
+        @JvmField val initializedFromDisk = !isInMemoryOnly && false
+        fun getBuffermanager(name: String): BufferManager {
+            var res: BufferManager? = null
+            managerListLock.withWriteLock {
+                res = managerList[name]
+                if (res == null) {
+                    res = BufferManager(name)
+                    managerList[name] = res!!
+                }
+            }
+            return res!!
+        }
         @JvmField
         var bufferPrefix: String = Platform.getEnv("LUPOS_HOME", "/tmp/luposdate3000/")!!
         init {
             SanityCheck.println { "bufferPrefix = $bufferPrefix" }
         }
         @JvmField
-        internal val managerList = mutableListOf<BufferManager>()
+        internal val managerList = mutableMapOf<String, BufferManager>()
         @JvmField
         internal val managerListLock = MyReadWriteLock()
         /*suspend*/ fun safeToFolder(): Unit = managerListLock.withReadLock {
-            managerList.forEach {
-                it.safeToFolder()
+            for ((k, v) in managerList) {
+                v.safeToFolder()
             }
         }
         /*suspend*/ fun loadFromFolder(): Unit = managerListLock.withReadLock {
-            managerList.forEach {
-                it.loadFromFolder()
+            for ((k, v) in managerList) {
+                v.loadFromFolder()
             }
         }
     }
     init {
         val manager = this
         managerListLock.withWriteLock {
-            managerList.add(manager)
+            managerList[name] = manager
         }
     }
     @JvmField

@@ -2,9 +2,11 @@ package lupos.s05tripleStore
 import lupos.s00misc.HistogramNotImplementedException
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.IteratorBundle
-abstract class TripleStoreIndex {
-    abstract /*suspend*/ fun safeToFile(filename: String)
-    abstract /*suspend*/ fun loadFromFile(filename: String)
+import kotlin.jvm.JvmField
+abstract class TripleStoreIndex(@JvmField val store_root_page_id: Int) {
+    init {
+        println("initializing triple store with key : $store_root_page_id")
+    }
     abstract /*suspend*/ fun getIterator(query: IQuery, params: TripleStoreFeatureParams): IteratorBundle
     abstract /*suspend*/ fun import(dataImport: IntArray, count: Int, order: IntArray)
     abstract fun insert(a: Int, b: Int, c: Int)

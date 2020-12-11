@@ -1,7 +1,9 @@
 package lupos.s05tripleStore
+import lupos.s00misc.ByteArrayHelper
 import lupos.s00misc.MyReadWriteLock
 import lupos.s00misc.Parallel
 import lupos.s00misc.SanityCheck
+import lupos.s01io.BufferManager
 import lupos.s03resultRepresentation.ResultSetDictionaryExt
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.ColumnIterator
@@ -26,19 +28,40 @@ import lupos.s05tripleStore.index_IDTriple.NodeManager
 import lupos.s05tripleStore.index_IDTriple.NodeShared
 import lupos.s05tripleStore.index_IDTriple.TripleIterator
 import kotlin.jvm.JvmField
-class TripleStoreIndexIDTriple : TripleStoreIndex() {
-    @JvmField
+class TripleStoreIndexIDTriple(store_root_page_id_: Int, store_root_page_init: Boolean) : TripleStoreIndex(store_root_page_id_) {
+    @JvmField val bufferManager = BufferManager.getBuffermanager("stores")
     var firstLeaf: Int = NodeManager.nodeNullPointer
-    @JvmField
+        set(value) {
+            val rootPage = bufferManager.getPage(store_root_page_id)
+            ByteArrayHelper.writeInt4(rootPage, 0, value)
+            firstLeaf = value
+            bufferManager.releasePage(store_root_page_id)
+        }
     var root: Int = NodeManager.nodeNullPointer
+        set(value) {
+            val rootPage = bufferManager.getPage(store_root_page_id)
+            ByteArrayHelper.writeInt4(rootPage, 4, value)
+            root = value
+            bufferManager.releasePage(store_root_page_id)
+        }
+    var countPrimary: Int = 0
+        set(value) {
+            val rootPage = bufferManager.getPage(store_root_page_id)
+            ByteArrayHelper.writeInt4(rootPage, 8, value)
+            countPrimary = value
+            bufferManager.releasePage(store_root_page_id)
+        }
+    var distinctPrimary: Int = 0
+        set(value) {
+            val rootPage = bufferManager.getPage(store_root_page_id)
+            ByteArrayHelper.writeInt4(rootPage, 12, value)
+            distinctPrimary = value
+            bufferManager.releasePage(store_root_page_id)
+        }
     @JvmField
     var rootNode: ByteArray? = null
     @JvmField
     var pendingImport: MutableList<Int?> = mutableListOf()
-    @JvmField
-    var countPrimary: Int = 0
-    @JvmField
-    var distinctPrimary: Int = 0
     @JvmField
     internal var lock = MyReadWriteLock()
     @JvmField
@@ -53,13 +76,35 @@ class TripleStoreIndexIDTriple : TripleStoreIndex() {
     var cachedHistograms2Cursor: Int = 0
     @JvmField
     val cachedHistograms2: IntArray = IntArray(400)
+    init {
+        val rootPage = bufferManager.getPage(store_root_page_id)
+        if (store_root_page_init) {
+            firstLeaf = ByteArrayHelper.readInt4(rootPage, 0)
+            root = ByteArrayHelper.readInt4(rootPage, 4)
+            countPrimary = ByteArrayHelper.readInt4(rootPage, 8)
+            distinctPrimary = ByteArrayHelper.readInt4(rootPage, 12)
+            if (root != NodeManager.nodeNullPointer) {
+                NodeManager.getNodeAny(
+                    root,
+                    {
+                        throw Exception("")
+                    },
+                    {
+                        rootNode = it
+                    }
+                )
+            }
+        } else {
+            ByteArrayHelper.writeInt4(rootPage, 0, firstLeaf)
+            ByteArrayHelper.writeInt4(rootPage, 4, root)
+            ByteArrayHelper.writeInt4(rootPage, 8, countPrimary)
+            ByteArrayHelper.writeInt4(rootPage, 12, distinctPrimary)
+        }
+        bufferManager.releasePage(store_root_page_id)
+    }
     internal companion object {
         @JvmField
         var debugLock = MyReadWriteLock()
-    }
-    override /*suspend*/ fun safeToFile(filename: String) {
-    }
-    override /*suspend*/ fun loadFromFile(filename: String) {
     }
     private inline fun clearCachedHistogram() {
         cachedHistograms1Size = 0

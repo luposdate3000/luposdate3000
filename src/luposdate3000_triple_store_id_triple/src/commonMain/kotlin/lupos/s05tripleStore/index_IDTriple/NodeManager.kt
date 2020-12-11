@@ -7,7 +7,7 @@ internal object NodeManager {
     const val nodeTypeInner = 2
     const val nodeNullPointer = -1
     @JvmField
-    val bufferManager = BufferManager()
+    val bufferManager = BufferManager.getBuffermanager("triples")
     inline fun releaseNode(nodeid: Int) {
         bufferManager.releasePage(nodeid)
     }

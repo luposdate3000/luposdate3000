@@ -1,7 +1,6 @@
 package lupos.s05tripleStore
 import lupos.s00misc.EIndexPattern
 import lupos.s00misc.EModifyType
-import lupos.s00misc.File
 import lupos.s00misc.SanityCheck
 import lupos.s03resultRepresentation.ResultSetDictionaryExt
 import lupos.s04arithmetikOperators.noinput.AOPVariable
@@ -9,7 +8,7 @@ import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import kotlin.jvm.JvmField
-abstract class TripleStoreLocalBase(@JvmField val name: String) : ITripleStoreLocalBase {
+abstract class TripleStoreLocalBase(@JvmField val name: String, @JvmField val store_root_page_id: Int) : ITripleStoreLocalBase {
     @JvmField // override this during initialisation
     var dataDistinct: Array<TripleStoreDistinctContainer> = arrayOf()
     @JvmField // override this during initialisation
@@ -26,17 +25,6 @@ abstract class TripleStoreLocalBase(@JvmField val name: String) : ITripleStoreLo
     @JvmField // override this during initialisation
     var pendingModificationsRemove: Array<MutableMap<Long, MutableList<Int>>> = Array(0) { mutableMapOf() }
     override fun getEnabledPartitions(): Array<EnabledPartitionContainer> = enabledPartitions
-    /*suspend*/ fun safeToFolder(foldername: String) {
-        File(foldername).mkdirs()
-        dataDistinct.forEach {
-            it.second.safeToFile(foldername + "/" + it.first + ".bin")
-        }
-    }
-    /*suspend*/ fun loadFromFolder(foldername: String) {
-        dataDistinct.forEach {
-            it.second.loadFromFile(foldername + "/" + it.first + ".bin")
-        }
-    }
     override /*suspend*/ fun flush() {
         dataDistinct.forEach {
             it.second.flush()

@@ -778,8 +778,4 @@ class ResultSetDictionary(private val global: Boolean = false) : IResultSetDicti
         }
         return res
     }
-    fun safeToFolder() {
-    }
-    fun loadFromFolder() {
-    }
 }

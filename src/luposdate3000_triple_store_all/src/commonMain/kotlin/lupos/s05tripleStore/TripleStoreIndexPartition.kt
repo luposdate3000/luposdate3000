@@ -1,26 +1,33 @@
 package lupos.s05tripleStore
+import lupos.s00misc.BUFFER_MANAGER_PAGE_SIZE_IN_BYTES
+import lupos.s00misc.ByteArrayHelper
 import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
+import lupos.s01io.BufferManager
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import kotlin.jvm.JvmField
-class TripleStoreIndexPartition(childIndex: (Int) -> TripleStoreIndex, private val column: Int, @JvmField val partitionCount: Int) : TripleStoreIndex() {
-    private val partitions = Array(partitionCount) { childIndex(it) }
-    override /*suspend*/ fun safeToFile(filename: String) {
-        val a = filename.lastIndexOf('k')
-        val b = filename.substring(0, a)
-        val c = filename.substring(a + 1, filename.length)
-        for (i in 0 until partitionCount) {
-            partitions[i].safeToFile("$b$i$c")
+class TripleStoreIndexPartition(childIndex: (Int, Boolean) -> TripleStoreIndex, @JvmField private val column: Int, @JvmField val partitionCount: Int, store_root_page_id_: Int, store_root_page_init: Boolean) : TripleStoreIndex(store_root_page_id_) {
+    private val partitions: Array<TripleStoreIndex>
+    init {
+        SanityCheck.check { partitionCount * 4 <= BUFFER_MANAGER_PAGE_SIZE_IN_BYTES }
+        val bufferManager = BufferManager.getBuffermanager("stores")
+        val rootPage = bufferManager.getPage(store_root_page_id)
+        partitions = Array(partitionCount) { partition ->
+            val pageid = if (store_root_page_init) {
+                ByteArrayHelper.readInt4(rootPage, partition * 4)
+            } else {
+                var pageid2 = -1
+                bufferManager.createPage { p, pageid3 ->
+                    pageid2 = pageid3
+                }
+                bufferManager.releasePage(pageid2)
+                ByteArrayHelper.writeInt4(rootPage, partition * 4, pageid2)
+                pageid2
+            }
+            childIndex(pageid, store_root_page_init)
         }
-    }
-    override /*suspend*/ fun loadFromFile(filename: String) {
-        val a = filename.lastIndexOf('k')
-        val b = filename.substring(0, a)
-        val c = filename.substring(a + 1, filename.length)
-        for (i in 0 until partitionCount) {
-            partitions[i].loadFromFile("$b$i$c")
-        }
+        bufferManager.releasePage(store_root_page_id)
     }
     override /*suspend*/ fun getHistogram(query: IQuery, params: TripleStoreFeatureParams): Pair<Int, Int> {
         var i = -1

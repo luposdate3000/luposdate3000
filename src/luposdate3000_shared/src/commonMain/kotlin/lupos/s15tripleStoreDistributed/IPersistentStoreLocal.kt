@@ -9,6 +9,4 @@ interface IPersistentStoreLocal {
     /*suspend*/ fun getNamedGraph(query: IQuery, name: String, create: Boolean = false): ITripleStoreLocalBase
     /*suspend*/ fun getDefaultGraph(query: IQuery): ITripleStoreLocalBase
     /*suspend*/ fun commit(query: IQuery)
-    /*suspend*/ fun safeToFolder()
-    /*suspend*/ fun loadFromFolder()
 }
