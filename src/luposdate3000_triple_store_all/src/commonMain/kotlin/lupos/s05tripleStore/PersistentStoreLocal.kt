@@ -24,10 +24,14 @@ class PersistentStoreLocal : IPersistentStoreLocal {
         storesChanged()
     }
     fun storesRemove(name: String) {
+stores[name]!!.dropStore()
         stores.remove(name)
         storesChanged()
     }
     fun storesRemoveAll() {
+for((k,v) in stores){
+v.dropStore()
+}
         stores.clear()
         storesChanged()
     }

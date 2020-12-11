@@ -2,6 +2,7 @@ package lupos.s05tripleStore
 import lupos.s00misc.ByteArrayHelper
 import lupos.s00misc.MyReadWriteLock
 import lupos.s00misc.Parallel
+import lupos.s00misc.ETripleIndexType
 import lupos.s00misc.SanityCheck
 import lupos.s01io.BufferManager
 import lupos.s03resultRepresentation.ResultSetDictionaryExt
@@ -30,34 +31,42 @@ import lupos.s05tripleStore.index_IDTriple.TripleIterator
 import kotlin.jvm.JvmField
 class TripleStoreIndexIDTriple(store_root_page_id_: Int, store_root_page_init: Boolean) : TripleStoreIndex(store_root_page_id_) {
     @JvmField val bufferManager = BufferManager.getBuffermanager("stores")
-    var firstLeaf: Int = NodeManager.nodeNullPointer
+    var firstLeaf_: Int = NodeManager.nodeNullPointer
+    var firstLeaf: Int
         set(value) {
             val rootPage = bufferManager.getPage(store_root_page_id)
-            ByteArrayHelper.writeInt4(rootPage, 0, value)
-            firstLeaf = value
+            ByteArrayHelper.writeInt4(rootPage, 16, value)
+            firstLeaf_ = value
             bufferManager.releasePage(store_root_page_id)
         }
-    var root: Int = NodeManager.nodeNullPointer
+        get() = firstLeaf_
+    var root_: Int = NodeManager.nodeNullPointer
+    var root: Int
         set(value) {
             val rootPage = bufferManager.getPage(store_root_page_id)
             ByteArrayHelper.writeInt4(rootPage, 4, value)
-            root = value
+            root_ = value
             bufferManager.releasePage(store_root_page_id)
         }
-    var countPrimary: Int = 0
+        get() = root_
+    var countPrimary_: Int = 0
+    var countPrimary: Int
         set(value) {
             val rootPage = bufferManager.getPage(store_root_page_id)
             ByteArrayHelper.writeInt4(rootPage, 8, value)
-            countPrimary = value
+            countPrimary_ = value
             bufferManager.releasePage(store_root_page_id)
         }
-    var distinctPrimary: Int = 0
+        get() = countPrimary_
+    var distinctPrimary_: Int = 0
+    var distinctPrimary: Int
         set(value) {
             val rootPage = bufferManager.getPage(store_root_page_id)
             ByteArrayHelper.writeInt4(rootPage, 12, value)
-            distinctPrimary = value
+            distinctPrimary_ = value
             bufferManager.releasePage(store_root_page_id)
         }
+        get() = distinctPrimary_
     @JvmField
     var rootNode: ByteArray? = null
     @JvmField
@@ -79,10 +88,10 @@ class TripleStoreIndexIDTriple(store_root_page_id_: Int, store_root_page_init: B
     init {
         val rootPage = bufferManager.getPage(store_root_page_id)
         if (store_root_page_init) {
-            firstLeaf = ByteArrayHelper.readInt4(rootPage, 0)
             root = ByteArrayHelper.readInt4(rootPage, 4)
             countPrimary = ByteArrayHelper.readInt4(rootPage, 8)
             distinctPrimary = ByteArrayHelper.readInt4(rootPage, 12)
+            firstLeaf = ByteArrayHelper.readInt4(rootPage, 16)
             if (root != NodeManager.nodeNullPointer) {
                 NodeManager.getNodeAny(
                     root,
@@ -95,10 +104,11 @@ class TripleStoreIndexIDTriple(store_root_page_id_: Int, store_root_page_init: B
                 )
             }
         } else {
-            ByteArrayHelper.writeInt4(rootPage, 0, firstLeaf)
+            ByteArrayHelper.writeInt4(rootPage, 0,ETripleIndexType.ID_TRIPLE.ordinal)
             ByteArrayHelper.writeInt4(rootPage, 4, root)
             ByteArrayHelper.writeInt4(rootPage, 8, countPrimary)
             ByteArrayHelper.writeInt4(rootPage, 12, distinctPrimary)
+            ByteArrayHelper.writeInt4(rootPage, 16, firstLeaf)
         }
         bufferManager.releasePage(store_root_page_id)
     }
@@ -106,6 +116,11 @@ class TripleStoreIndexIDTriple(store_root_page_id_: Int, store_root_page_init: B
         @JvmField
         var debugLock = MyReadWriteLock()
     }
+override fun dropIndex(){
+clear()
+bufferManager.getPage(store_root_page_id)
+bufferManager.deletePage(store_root_page_id)
+}
     private inline fun clearCachedHistogram() {
         cachedHistograms1Size = 0
         cachedHistograms2Size = 0

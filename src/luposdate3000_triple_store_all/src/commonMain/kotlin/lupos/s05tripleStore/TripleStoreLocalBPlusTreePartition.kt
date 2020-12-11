@@ -1,13 +1,16 @@
 package lupos.s05tripleStore
+import kotlin.jvm.JvmField
 import lupos.s00misc.BUFFER_MANAGER_PAGE_SIZE_IN_BYTES
 import lupos.s00misc.ByteArrayHelper
 import lupos.s00misc.EIndexPattern
 import lupos.s00misc.Partition
+import lupos.s00misc.ETripleIndexType
 import lupos.s00misc.SanityCheck
 import lupos.s01io.BufferManager
 class TripleStoreLocalBPlusTreePartition(name: String, store_root_page_id_: Int, store_root_page_init: Boolean) : TripleStoreLocalBase(name, store_root_page_id_) {
-    init {
+@JvmField
         val bufferManager = BufferManager.getBuffermanager("stores")
+    init {
         val rootPage = bufferManager.getPage(store_root_page_id)
         val dataDistinctList = mutableListOf<TripleStoreDistinctContainer>()
         println("the activated Partitions are ::")
@@ -21,11 +24,22 @@ class TripleStoreLocalBPlusTreePartition(name: String, store_root_page_id_: Int,
                 val partitionCount = ByteArrayHelper.readInt4(rootPage, rootPageOffset)
                 val name2 = StringBuilder(idx.toString())
                 println("partition :: $idx $column $partitionCount")
+
+val childPage=bufferManager.getPage(pageid2)
+val type=ETripleIndexType.values()[ByteArrayHelper.readInt4(childPage,0)]
+val store=when(type){
+ETripleIndexType.ID_TRIPLE->TripleStoreIndexIDTriple(pageid2,store_root_page_init)
+ETripleIndexType.PARTITION->TripleStoreIndexPartition({i,k->throw Exception("")},column, partitionCount, pageid2, store_root_page_init)
+}
+bufferManager.releasePage(pageid2)
+
                 if (column >= 0) {
                     name2.insert(column, partitionCount)
-                    dataDistinctList.add(TripleStoreDistinctContainer(name2.toString(), TripleStoreIndexPartition({ i, k -> TripleStoreIndexIDTriple(i, k) }, column, partitionCount, pageid2, store_root_page_init), { it.getData(idx) }, idx))
+SanityCheck.check{store is TripleStoreIndexPartition}
+                    dataDistinctList.add(TripleStoreDistinctContainer(name2.toString(), store, { it.getData(idx) }, idx))
                 } else {
-                    dataDistinctList.add(TripleStoreDistinctContainer(name2.toString(), TripleStoreIndexIDTriple(pageid2, store_root_page_init), { it.getData(idx) }, idx))
+SanityCheck.check{store is TripleStoreIndexIDTriple}
+                    dataDistinctList.add(TripleStoreDistinctContainer(name2.toString(), store, { it.getData(idx) }, idx))
                 }
                 rootPageOffset += 16
             }
@@ -116,6 +130,13 @@ class TripleStoreLocalBPlusTreePartition(name: String, store_root_page_id_: Int,
         pendingModificationsRemove = Array(dataDistinct.size) { mutableMapOf() }
         bufferManager.releasePage(store_root_page_id)
     }
+override fun dropStore(){
+for(c in dataDistinct){
+c.second.dropIndex()
+}
+bufferManager.getPage(store_root_page_id)
+bufferManager.deletePage(store_root_page_id)
+}
     companion object {
         fun providesFeature(feature: TripleStoreFeature, params: TripleStoreFeatureParams?): Boolean {
             return when (feature) {
