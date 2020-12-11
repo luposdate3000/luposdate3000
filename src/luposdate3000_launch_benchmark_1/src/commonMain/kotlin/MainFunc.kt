@@ -23,7 +23,7 @@ import lupos.s16network.LuposdateEndpoint
 @OptIn(ExperimentalStdlibApi::class, kotlin.time.ExperimentalTime::class)
 fun mainFunc(args: Array<String>): Unit = Parallel.runBlocking {
     LuposdateEndpoint.initialize()
-    var debugMode = false
+    val debugMode = false
     val partitionOptions = listOf(1, 2, 4, 8, 16)
     val enableDisable = listOf(0, 1)
     val datasourceFiles = args[0]
@@ -62,23 +62,23 @@ fun mainFunc(args: Array<String>): Unit = Parallel.runBlocking {
                             val query = Query()
                             var partitionID = 1
                             val xP = Partition()
-                            var aPartitionID = partitionID++
-                            var bPartitionID = partitionID++
-                            var xPartitionID = if (x != a) partitionID++ else aPartitionID
+                            val aPartitionID = partitionID++
+                            val bPartitionID = partitionID++
+                            val xPartitionID = if (x != a) partitionID++ else aPartitionID
                             xP.limit["a"] = x
                             var opX: IOPBase = TripleStoreIteratorGlobal(query, listOf("a", "b"), "", arrayOf(AOPVariable(query, "a"), AOPConstant(query, ValueIri("a")), AOPVariable(query, "b")), EIndexPattern.PSO, xP)
                             if (x > 1) {
                                 opX = POPSplitPartitionFromStore(query, listOf("a", "b"), "a", x, xPartitionID, opX)
                             }
                             val yP = Partition()
-                            var yPartitionID = if (y != a) partitionID++ else aPartitionID
+                            val yPartitionID = if (y != a) partitionID++ else aPartitionID
                             yP.limit["a"] = y
                             var opY: IOPBase = TripleStoreIteratorGlobal(query, listOf("a", "c"), "", arrayOf(AOPVariable(query, "a"), AOPConstant(query, ValueIri("b")), AOPVariable(query, "c")), EIndexPattern.PSO, yP)
                             if (y > 1) {
                                 opY = POPSplitPartitionFromStore(query, listOf("a", "c"), "a", y, yPartitionID, opY)
                             }
                             val zP = Partition()
-                            var zPartitionID = if (z != b) partitionID++ else bPartitionID
+                            val zPartitionID = if (z != b) partitionID++ else bPartitionID
                             zP.limit["b"] = z
                             var opZ: IOPBase = TripleStoreIteratorGlobal(query, listOf("c", "d"), "", arrayOf(AOPVariable(query, "c"), AOPConstant(query, ValueIri("c")), AOPVariable(query, "d")), EIndexPattern.PSO, zP)
                             if (zPt == 1) {

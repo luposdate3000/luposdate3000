@@ -84,7 +84,7 @@ fun mainFunc(args: Array<String>): Unit = Parallel.runBlocking {
     val partitionSizes = intArrayOf(2, 4, 8, 16)
     val tripleBuf = IntArray(3)
     val counters = Array(3) { IntArray(dictCounter) }
-    var maxCounter = IntArray(3)
+    val maxCounter = IntArray(3)
     outputTriplesFile.dataInputStream { fis ->
         for (c in 0 until cnt) {
             for (i in 0 until 3) {
@@ -130,8 +130,8 @@ fun mainFunc(args: Array<String>): Unit = Parallel.runBlocking {
             }
         }
     }
-    var configurations1 = mutableMapOf<String, MutableSet<Int>>()
-    var configurations2 = mutableMapOf<String, MutableSet<Int>>()
+    val configurations1 = mutableMapOf<String, MutableSet<Int>>()
+    val configurations2 = mutableMapOf<String, MutableSet<Int>>()
     for (i in 0 until 3) {
         for (j2 in 0 until 2) {
             val j = (i + j2 + 1) % 3
@@ -204,7 +204,7 @@ fun mainFunc(args: Array<String>): Unit = Parallel.runBlocking {
             }
         }
     }
-    var indicees = arrayOf("SPO", "SOP", "PSO", "POS", "OSP", "OPS")
+    val indicees = arrayOf("SPO", "SOP", "PSO", "POS", "OSP", "OPS")
     outputPartitionsFile.printWriter { out ->
         for (i in indicees) {
             val t1 = configurations1[i]

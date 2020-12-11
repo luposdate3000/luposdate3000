@@ -26,14 +26,14 @@ fun mainFunc(args: Array<String>): Unit = Parallel.runBlocking {
     LuposdateEndpoint.importIntermediateFiles(datasourceFiles)
     val time = DateHelperRelative.elapsedSeconds(timer)
     println("$datasourceFiles/persistence-import.sparql,$numberOfTriples,0,1,${numberOfTriples * 1000.0},${1.0 / time}")
-    var allpartitions = listOf(1, 2, 4, 8, 16)
-    var partitionTimes = DoubleArray(allpartitions.size)
+    val allpartitions = listOf(1, 2, 4, 8, 16)
+    val partitionTimes = DoubleArray(allpartitions.size)
     for (partitionC in 0 until allpartitions.size) {
 //            if (partitionC > 1 && partitionTimes[partitionC - 1] < partitionTimes[partitionC - 2]) {
 //                break
 //            }
         val partitions = allpartitions[partitionC]
-        var variables = mutableListOf("j", "a")
+        val variables = mutableListOf("j", "a")
         val query = Query()
         val p = Partition()
         p.limit["j"] = partitions
@@ -42,7 +42,7 @@ fun mainFunc(args: Array<String>): Unit = Parallel.runBlocking {
             op = POPSplitPartitionFromStore(query, listOf("j", "a"), "j", partitions, 1, op)
         }
         for (j in 0 until joincount) {
-            var cc = 'b' + j
+            val cc = 'b' + j
             var op2: IOPBase = TripleStoreIteratorGlobal(query, listOf("j", "$cc"), "", arrayOf(AOPVariable(query, "j"), AOPConstant(query, ValueIri("$cc")), AOPVariable(query, "$cc")), EIndexPattern.PSO, p)
             if (partitions > 1) {
                 op2 = POPSplitPartitionFromStore(query, listOf("j", "$cc"), "j", partitions, 1, op2)

@@ -22,6 +22,7 @@ createBuildFileForModule("Luposdate3000_Dictionary_Inmemory", "Luposdate3000_Dic
 createBuildFileForModule("Luposdate3000_Operators", ReleaseMode.Disable, SuspendMode.Disable, InlineMode.Enable, DryMode.Disable, FastMode.JVM, IntellijMode.Enable)
 createBuildFileForModule("Luposdate3000_Result_Format", ReleaseMode.Disable, SuspendMode.Disable, InlineMode.Enable, DryMode.Disable, FastMode.JVM, IntellijMode.Enable)
 createBuildFileForModule("Luposdate3000_Buffer_Manager_Inmemory", "Luposdate3000_Buffer_Manager", ReleaseMode.Disable, SuspendMode.Disable, InlineMode.Enable, DryMode.Disable, FastMode.JVM, IntellijMode.Enable)
+createBuildFileForModule("Luposdate3000_Buffer_Manager_Persistent", "Luposdate3000_Buffer_Manager", ReleaseMode.Disable, SuspendMode.Disable, InlineMode.Enable, DryMode.Disable, FastMode.JVM, IntellijMode.Enable)
 createBuildFileForModule("Luposdate3000_Triple_Store_Id_Triple", ReleaseMode.Disable, SuspendMode.Disable, InlineMode.Enable, DryMode.Disable, FastMode.JVM, IntellijMode.Enable)
 createBuildFileForModule("Luposdate3000_Triple_Store_All", ReleaseMode.Disable, SuspendMode.Disable, InlineMode.Enable, DryMode.Disable, FastMode.JVM, IntellijMode.Enable)
 createBuildFileForModule("Luposdate3000_Optimizer", "Luposdate3000_Optimizer", ReleaseMode.Disable, SuspendMode.Disable, InlineMode.Enable, DryMode.Disable, FastMode.JVM, IntellijMode.Enable)
