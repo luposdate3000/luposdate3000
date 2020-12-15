@@ -216,16 +216,6 @@ fun createBuildFileForModule(moduleName: String, moduleFolder: String, modulePre
         }
         File(filename).printWriter().use { out ->
             out.println("import org.jetbrains.kotlin.gradle.tasks.KotlinCompile")
-            out.println("tasks.withType<KotlinCompile>().all {")
-            out.println("    kotlinOptions.jvmTarget = \"1.8\"") // kotlinOptions.jvmTarget = \"14\"
-            // see /opt/kotlin/compiler/cli/cli-common/src/org/jetbrains/kotlin/cli/common/arguments/K2JVMCompilerArguments.kt
-            // or kotlinc -X
-            out.println("    kotlinOptions.freeCompilerArgs += \"-Xno-param-assertions\"")
-            out.println("    kotlinOptions.freeCompilerArgs += \"-Xuse-ir\"")
-            out.println("    kotlinOptions.freeCompilerArgs += \"-Xnew-inference\"")
-            out.println("    kotlinOptions.freeCompilerArgs += \"-Xno-receiver-assertions\"")
-            out.println("    kotlinOptions.freeCompilerArgs += \"-Xno-call-assertions\"")
-            out.println("}")
             out.println("buildscript {")
             out.println("    repositories {")
             out.println("        jcenter()")
@@ -263,9 +253,35 @@ fun createBuildFileForModule(moduleName: String, moduleFolder: String, modulePre
             out.println("group = \"luposdate3000\"") // maven-groupID
             out.println("version = \"0.0.1\"") // maven-version
             out.println("apply(plugin = \"maven-publish\")")
+            // see /opt/kotlin/compiler/cli/cli-common/src/org/jetbrains/kotlin/cli/common/arguments/K2JVMCompilerArguments.kt
+            // or kotlinc -X
             out.println("kotlin {")
+                out.println("    metadata() {")
+                out.println("        compilations.forEach{")
+                out.println("            it.kotlinOptions {")
+                out.println("                freeCompilerArgs += \"-XuseIr\"")
+		out.println("                freeCompilerArgs += \"-Xopt-in=kotlin.RequiresOptIn\"")
+                out.println("                freeCompilerArgs += \"-Xno-param-assertions\"")
+                out.println("                freeCompilerArgs += \"-Xnew-inference\"")
+                out.println("                freeCompilerArgs += \"-Xno-receiver-assertions\"")
+                out.println("                freeCompilerArgs += \"-Xno-call-assertions\"")
+                out.println("            }")
+                out.println("        }")
+                out.println("    }")
             if (enableJVM) {
-                out.println("    jvm()")
+                out.println("    jvm() {")
+		out.println("        compilations.forEach{")
+                out.println("            it.kotlinOptions {")
+		out.println("                jvmTarget= \"1.8\"")
+                out.println("                useIR = true")
+                out.println("                freeCompilerArgs += \"-Xopt-in=kotlin.RequiresOptIn\"")
+                out.println("                freeCompilerArgs += \"-Xno-param-assertions\"")
+                out.println("                freeCompilerArgs += \"-Xnew-inference\"")
+                out.println("                freeCompilerArgs += \"-Xno-receiver-assertions\"")
+                out.println("                freeCompilerArgs += \"-Xno-call-assertions\"")
+                out.println("            }")
+                out.println("        }")
+                out.println("    }")
             }
             if (enableJS) {
                 out.println("    js {")
@@ -274,26 +290,49 @@ fun createBuildFileForModule(moduleName: String, moduleFolder: String, modulePre
                 out.println("        }")
                 out.println("        nodejs {")
                 out.println("        }")
+                out.println("        compilations.forEach{")
+                out.println("            kotlinOptions {")
+                out.println("                it.freeCompilerArgs += \"-XuseIr\"")
+                out.println("                freeCompilerArgs += \"-Xopt-in=kotlin.RequiresOptIn\"")
+                out.println("                freeCompilerArgs += \"-Xno-param-assertions\"")
+                out.println("                freeCompilerArgs += \"-Xnew-inference\"")
+                out.println("                freeCompilerArgs += \"-Xno-receiver-assertions\"")
+                out.println("                freeCompilerArgs += \"-Xno-call-assertions\"")
+                out.println("            }")
+                out.println("        }")
                 out.println("    }")
             }
             if (enableNATIVE) {
                 out.println("    $platform(\"$platform\") {")
+                out.println("        compilations.forEach{")
+                out.println("            it.kotlinOptions {")
+		out.println("                freeCompilerArgs += \"-XuseIr\"")
+                out.println("                freeCompilerArgs += \"-Xopt-in=kotlin.RequiresOptIn\"")
+                out.println("                freeCompilerArgs += \"-Xno-param-assertions\"")
+                out.println("                freeCompilerArgs += \"-Xnew-inference\"")
+                out.println("                freeCompilerArgs += \"-Xno-receiver-assertions\"")
+                out.println("                freeCompilerArgs += \"-Xno-call-assertions\"")
+                out.println("            }")
+                out.println("        }")
                 out.println("        binaries {")
                 if (buildLibrary) {
                     if (releaseMode == ReleaseMode.Enable) {
                         out.println("            sharedLib (listOf(RELEASE)){")
-                    } else {
-                        out.println("            sharedLib (listOf(DEBUG)){")
-                    }
                     out.println("                baseName = \"${modulePrefix}\"")
                     out.println("            }")
+                    } else {
+                        out.println("            sharedLib (listOf(DEBUG)){")
+                    out.println("                baseName = \"${modulePrefix}\"")
+                    out.println("            }")
+                    }
                 } else {
                     if (releaseMode == ReleaseMode.Enable) {
                         out.println("            executable(listOf(RELEASE)) {")
+                    out.println("            }")
                     } else {
                         out.println("            executable(listOf(DEBUG)) {")
-                    }
                     out.println("            }")
+                    }
                 }
                 out.println("        }")
                 out.println("    }")

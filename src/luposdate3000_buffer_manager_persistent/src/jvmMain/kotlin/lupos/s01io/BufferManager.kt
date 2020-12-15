@@ -37,12 +37,43 @@ actual class BufferManager {
     internal val freeList = mutableListOf<Int>() // TODO store list in File
     @JvmField
     val datafile = RandomAccessFile(BufferManagerExt.bufferPrefix + name + BufferManagerExt.fileEnding, "rw")
+    @JvmField
+    var datafilelength = datafile.length()
     init {
         val manager = this
         BufferManagerExt.managerListLock.withWriteLock {
             BufferManagerExt.managerList[name] = manager
         }
     }
+
+internal    inline fun localSanityCheck() {
+        SanityCheck {
+            var cntg = 0
+            for (i in 0 until cacheSize) {
+                SanityCheck.check { openPagesRefcounters[i] >= 0 }
+                if (openPagesRefcounters[i] == 0) {
+                    SanityCheck.check { !openPagesMapping.values.contains(i) }
+                } else {
+                    cntg++
+                    var cnt = 0
+                    for (f in openPagesMapping.values) {
+                        if (f == i) {
+                            cnt++
+                        }
+                    }
+                    SanityCheck.check { openPagesMapping.values.contains(i) }
+                    SanityCheck.check { cnt == 1 }
+                }
+            }
+            SanityCheck.check { openPagesMapping.size == cntg }
+            for ((k, v) in openPagesMapping) {
+                SanityCheck.check { openPagesRefcounters[v]> 0 }
+                SanityCheck.check { k <counter }
+                SanityCheck.check { !freeList.contains(k) }
+            }
+        }
+    }
+
     internal inline fun findNextOpenID(): Int {
         // this assumes write lock
         var openId = 0
@@ -68,45 +99,84 @@ actual class BufferManager {
     }
     actual fun releasePage(pageid: Int) {
         lock.withWriteLock {
+            localSanityCheck()
+            SanityCheck.check { pageid <counter }
+            SanityCheck.check { !freeList.contains(pageid) }
+            SanityCheck.check { openPagesMapping[pageid] != null }
             var openId = openPagesMapping[pageid]!!
             SanityCheck.check { openPagesRefcounters[openId] >= 1 }
             if (openPagesRefcounters[openId] == 1) {
+                println("BufferManager .. $pageid -> $openId release finally")
+                if (datafilelength < BUFFER_MANAGER_PAGE_SIZE_IN_BYTES * pageid) {
+                    datafilelength = BUFFER_MANAGER_PAGE_SIZE_IN_BYTES * pageid
+                    datafile.setLength(datafilelength)
+                }
                 datafile.seek(BUFFER_MANAGER_PAGE_SIZE_IN_BYTES * pageid)
                 datafile.write(openPages[openId])
+                openPagesMapping.remove(pageid)
+                SanityCheck.check { !openPagesMapping.values.contains(openId) }
+            } else {
+                println("BufferManager .. $pageid -> $openId release, but keep")
             }
             openPagesRefcounters[openId]--
+            localSanityCheck()
         }
     }
     actual fun getPage(pageid: Int): ByteArray {
-        var openId: Int? = null
+        var openId: Int?
         lock.withWriteLock {
+            localSanityCheck()
+            SanityCheck.check { pageid <counter }
+            SanityCheck.check { !freeList.contains(pageid) }
             openId = openPagesMapping[pageid]
             if (openId != null) {
+                println("BufferManager .. $pageid -> $openId opened again")
                 openPagesRefcounters[openId!!]++
             } else {
                 openId = findNextOpenID()
+datafile.seek(BUFFER_MANAGER_PAGE_SIZE_IN_BYTES * pageid)
+datafile.readFully(openPages[openId!!])
+                SanityCheck.check { !openPagesMapping.values.contains(openId) }
+                println("BufferManager .. $pageid -> $openId opened first")
                 openPagesMapping[pageid] = openId!!
             }
+            localSanityCheck()
         }
         return openPages[openId!!]
     }
     actual /*suspend*/ fun createPage(action: (ByteArray, Int) -> Unit) {
         contract { callsInPlace(action, EXACTLY_ONCE) }
         lock.withWriteLock {
+            localSanityCheck()
             val pageid = if (freeList.size> 0) freeList.removeAt(0) else counter++
+            SanityCheck.check { pageid <counter }
+            SanityCheck.check { !freeList.contains(pageid) }
             var openId = findNextOpenID()
+            SanityCheck.check { !openPagesMapping.values.contains(openId) }
+            SanityCheck.check { !openPagesMapping.values.contains(openId) }
+            println("BufferManager .. $pageid -> $openId created")
             openPagesMapping[pageid] = openId
             action(openPages[openId], pageid)
+            localSanityCheck()
         }
     }
     actual /*suspend*/ fun deletePage(pageid: Int): Unit = lock.withWriteLock {
+        localSanityCheck()
+        SanityCheck.check { pageid <counter }
+        SanityCheck.check { !freeList.contains(pageid) }
+        SanityCheck.check { openPagesMapping[pageid] != null }
         var openId = openPagesMapping[pageid]!!
-        openPagesRefcounters[openId!!]--
+        SanityCheck.check { openPagesRefcounters[openId] == 1 }
+        println("BufferManager .. $pageid -> $openId deleted")
+        openPagesRefcounters[openId]--
+        openPagesMapping.remove(pageid)
         freeList.add(pageid)
+        SanityCheck.check { !openPagesMapping.values.contains(openId) }
         if (counter == freeList.size) {
             counter = 0
             freeList.clear()
         }
+        localSanityCheck()
     }
     actual /*suspend*/ fun safeToFolder() {
     }

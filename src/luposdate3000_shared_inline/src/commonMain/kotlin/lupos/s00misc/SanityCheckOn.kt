@@ -8,7 +8,6 @@ internal object SanityCheckOn {
         println(s())
     }
     inline operator fun invoke(crossinline action: () -> Unit) {
-        contract { callsInPlace(action, EXACTLY_ONCE) }
         try {
             action()
         } catch (e: Throwable) {
@@ -32,8 +31,7 @@ internal object SanityCheckOn {
         return action()
     }
     inline fun check(crossinline value: () -> Boolean, crossinline msg: () -> String) {
-        contract { callsInPlace(value, EXACTLY_ONCE) }
-        contract { returns() implies value() }
+contract { callsInPlace(value, EXACTLY_ONCE) }
         try {
             if (!value()) {
                 throw Exception("SanityCheck failed :: " + msg())
@@ -45,8 +43,7 @@ internal object SanityCheckOn {
         }
     }
     inline fun check(crossinline value: () -> Boolean) {
-        contract { callsInPlace(value, EXACTLY_ONCE) }
-        contract { returns() implies value() }
+contract { callsInPlace(value, EXACTLY_ONCE) }
         try {
             if (!value()) {
                 throw Exception("SanityCheck failed")
