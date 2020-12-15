@@ -45,8 +45,7 @@ actual class BufferManager {
             BufferManagerExt.managerList[name] = manager
         }
     }
-
-internal    inline fun localSanityCheck() {
+    internal inline fun localSanityCheck() {
         SanityCheck {
             var cntg = 0
             for (i in 0 until cacheSize) {
@@ -73,7 +72,6 @@ internal    inline fun localSanityCheck() {
             }
         }
     }
-
     internal inline fun findNextOpenID(): Int {
         // this assumes write lock
         var openId = 0
@@ -134,8 +132,8 @@ internal    inline fun localSanityCheck() {
                 openPagesRefcounters[openId!!]++
             } else {
                 openId = findNextOpenID()
-datafile.seek(BUFFER_MANAGER_PAGE_SIZE_IN_BYTES * pageid)
-datafile.readFully(openPages[openId!!])
+                datafile.seek(BUFFER_MANAGER_PAGE_SIZE_IN_BYTES * pageid)
+                datafile.readFully(openPages[openId!!])
                 SanityCheck.check { !openPagesMapping.values.contains(openId) }
                 println("BufferManager .. $pageid -> $openId opened first")
                 openPagesMapping[pageid] = openId!!

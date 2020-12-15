@@ -31,7 +31,7 @@ internal object SanityCheckOn {
         return action()
     }
     inline fun check(crossinline value: () -> Boolean, crossinline msg: () -> String) {
-contract { callsInPlace(value, EXACTLY_ONCE) }
+        contract { callsInPlace(value, EXACTLY_ONCE) }
         try {
             if (!value()) {
                 throw Exception("SanityCheck failed :: " + msg())
@@ -43,7 +43,7 @@ contract { callsInPlace(value, EXACTLY_ONCE) }
         }
     }
     inline fun check(crossinline value: () -> Boolean) {
-contract { callsInPlace(value, EXACTLY_ONCE) }
+        contract { callsInPlace(value, EXACTLY_ONCE) }
         try {
             if (!value()) {
                 throw Exception("SanityCheck failed")
