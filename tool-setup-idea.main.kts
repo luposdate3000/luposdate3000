@@ -69,8 +69,10 @@ File("settings.gradle").printWriter().use { outSettingsGradle ->
             val name = it.toString()
             println(name)
             if (name.startsWith("src/lupos") || name.startsWith("src\\lupos")) {
+if(!name.contains("shared_inline")){
                 outSettingsGradle.println("include(\":src:${name.substring(4)}\")")
                 outBuildGradle.println("    project(\":src:${name.substring(4)}\")")
+}
             }
         }
         outBuildGradle.println("}")

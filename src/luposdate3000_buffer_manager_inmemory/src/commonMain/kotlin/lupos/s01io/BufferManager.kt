@@ -29,16 +29,6 @@ object BufferManagerExt {
     internal val managerList = mutableMapOf<String, BufferManager>()
     @JvmField
     internal val managerListLock = MyReadWriteLock()
-    /*suspend*/ fun safeToFolder(): Unit = managerListLock.withReadLock {
-        for ((k, v) in managerList) {
-            v.safeToFolder()
-        }
-    }
-    /*suspend*/ fun loadFromFolder(): Unit = managerListLock.withReadLock {
-        for ((k, v) in managerList) {
-            v.loadFromFolder()
-        }
-    }
 }
 class BufferManager(@JvmField val name: String) {
     /*
@@ -153,9 +143,5 @@ class BufferManager(@JvmField val name: String) {
                 clearAssumeLocks()
             }
         }
-    }
-    /*suspend*/ fun safeToFolder() {
-    }
-    /*suspend*/ fun loadFromFolder() {
     }
 }

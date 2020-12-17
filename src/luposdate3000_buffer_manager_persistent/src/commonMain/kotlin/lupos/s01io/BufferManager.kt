@@ -6,11 +6,12 @@ import lupos.s00misc.SanityCheck
 import kotlin.jvm.JvmField
 object BufferManagerExt {
     const val fileEnding = ".data"
+    const val fileEndingFree = ".datafree"
     @JvmField // dont put const val here, because it wont work when exchanging the modules
     val isInMemoryOnly = false
     @JvmField
     var bufferPrefix: String = Platform.getEnv("LUPOS_HOME", "/tmp/luposdate3000/")!!
-    @JvmField val initializedFromDisk = File(bufferPrefix + fileEnding).exists()
+    @JvmField val initializedFromDisk = File(bufferPrefix).exists()
     fun getBuffermanager(name: String): BufferManager {
         var res: BufferManager? = null
         managerListLock.withWriteLock {
@@ -30,16 +31,6 @@ object BufferManagerExt {
     internal val managerList = mutableMapOf<String, BufferManager>()
     @JvmField
     internal val managerListLock = MyReadWriteLock()
-    /*suspend*/ fun safeToFolder(): Unit = managerListLock.withReadLock {
-        for ((k, v) in managerList) {
-            v.safeToFolder()
-        }
-    }
-    /*suspend*/ fun loadFromFolder(): Unit = managerListLock.withReadLock {
-        for ((k, v) in managerList) {
-            v.loadFromFolder()
-        }
-    }
 }
 expect class BufferManager(name: String) {
     /*suspend*/ fun clear()
@@ -47,6 +38,4 @@ expect class BufferManager(name: String) {
     fun getPage(pageid: Int): ByteArray
     /*suspend*/ fun createPage(action: (ByteArray, Int) -> Unit)
     /*suspend*/ fun deletePage(pageid: Int)
-    /*suspend*/ fun safeToFolder()
-    /*suspend*/ fun loadFromFolder()
 }

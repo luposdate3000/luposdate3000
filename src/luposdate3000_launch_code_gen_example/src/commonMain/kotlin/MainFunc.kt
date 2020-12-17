@@ -11,15 +11,11 @@ import lupos.s15tripleStoreDistributed.TripleStoreIteratorGlobal
 import lupos.s16network.LuposdateEndpoint
 fun mainFunc(args: Array<String>): Unit = Parallel.runBlocking {
     LuposdateEndpoint.initialize()
-
-
     val preparedStatement = LuposdateEndpoint.evaluateSparqlToResultB("INSERT Data {<A> <a> <C>}")
-//importieren der daten
-
+// importieren der daten
     println("abc")
-    val partition = Partition()	//fürs erste ohne partitionierung - einfach ohne parameter überall übergeben
-    val query = Query() //überall in einem query die gleiche instanz übergeben
-
+    val partition = Partition()	// fürs erste ohne partitionierung - einfach ohne parameter überall übergeben
+    val query = Query() // überall in einem query die gleiche instanz übergeben
     // SELECT ?j ?a WHERE {?j <a> ?a}
     val x = TripleStoreIteratorGlobal(
         query,
@@ -28,7 +24,7 @@ fun mainFunc(args: Array<String>): Unit = Parallel.runBlocking {
         arrayOf(
             AOPVariable(query, "j"), // Triple-Pattern mit Var j,
             AOPConstant(query, ValueIri("a")), // Konstante
-            AOPVariable(query, "a")// Variable Objekt
+            AOPVariable(query, "a") // Variable Objekt
         ),
         EIndexPattern.P_SO, // Indexsortierung nach PSO, Variablen mit Namen _ kommen zum Schluss
         partition // Partition
