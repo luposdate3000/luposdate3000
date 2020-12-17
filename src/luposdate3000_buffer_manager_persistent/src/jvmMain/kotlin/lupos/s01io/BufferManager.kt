@@ -152,19 +152,19 @@ actual class BufferManager {
                 datafile.readFully(openPages[openId!!])
                 SanityCheck {
                     val cmp = debugListOfPages[pageid]!!
-var errCnt=0
+                    var errCnt = 0
                     for (i in 0 until BUFFER_MANAGER_PAGE_SIZE_IN_BYTES.toInt()) {
-if(cmp[i]!=openPages[openId!!][i]){
-errCnt++
-}
+                        if (cmp[i] != openPages[openId!!][i]) {
+                            errCnt++
+                        }
                     }
-if(errCnt>0){
-println("error on read $pageid .. data::")
-for (i in 0 until BUFFER_MANAGER_PAGE_SIZE_IN_BYTES.toInt()) {
-println("$i :: ${cmp[i]} vs ${openPages[openId!!][i]} .... ${cmp[i]==openPages[openId!!][i]}")
-}
-throw Exception("")
-}
+                    if (errCnt> 0) {
+                        println("error on read $pageid .. data::")
+                        for (i in 0 until BUFFER_MANAGER_PAGE_SIZE_IN_BYTES.toInt()) {
+                            println("$i :: ${cmp[i]} vs ${openPages[openId!!][i]} .... ${cmp[i] == openPages[openId!!][i]}")
+                        }
+                        throw Exception("")
+                    }
                 }
                 SanityCheck.check { !openPagesMapping.values.contains(openId) }
                 println("BufferManager .. $pageid -> $openId opened first")
