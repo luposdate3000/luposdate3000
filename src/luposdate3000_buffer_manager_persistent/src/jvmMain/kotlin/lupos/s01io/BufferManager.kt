@@ -3,6 +3,7 @@ import lupos.s00misc.BUFFER_MANAGER_PAGE_SIZE_IN_BYTES
 import lupos.s00misc.MyReadWriteLock
 import lupos.s00misc.SanityCheck
 import java.io.RandomAccessFile
+import java.util.Arrays
 import kotlin.contracts.InvocationKind.EXACTLY_ONCE
 import kotlin.contracts.contract
 import kotlin.jvm.JvmField
@@ -39,6 +40,8 @@ actual class BufferManager {
     val datafile = RandomAccessFile(BufferManagerExt.bufferPrefix + name + BufferManagerExt.fileEnding, "rw")
     @JvmField
     var datafilelength = datafile.length()
+    @JvmField
+    var debugListOfPages = mutableMapOf<Int, ByteArray>()
     init {
         val manager = this
         BufferManagerExt.managerListLock.withWriteLock {
@@ -88,6 +91,7 @@ actual class BufferManager {
         return openId
     }
     actual /*suspend*/ fun clear(): Unit = lock.withWriteLock {
+        println("calling clear")
         counter = 0
         freeList.clear()
         openPagesMapping.clear()
@@ -110,7 +114,18 @@ actual class BufferManager {
                     datafile.setLength(datafilelength)
                 }
                 datafile.seek(BUFFER_MANAGER_PAGE_SIZE_IN_BYTES * pageid)
+                println("${BUFFER_MANAGER_PAGE_SIZE_IN_BYTES * pageid} write")
                 datafile.write(openPages[openId])
+                SanityCheck {
+                    var cmp = ByteArray(BUFFER_MANAGER_PAGE_SIZE_IN_BYTES.toInt())
+                    println("${BUFFER_MANAGER_PAGE_SIZE_IN_BYTES * pageid} cmp")
+                    datafile.seek(BUFFER_MANAGER_PAGE_SIZE_IN_BYTES * pageid)
+                    datafile.readFully(cmp)
+                    for (i in 0 until BUFFER_MANAGER_PAGE_SIZE_IN_BYTES.toInt()) {
+                        SanityCheck.check { cmp[i] == openPages[openId][i] }
+                    }
+                    debugListOfPages[pageid] = cmp
+                }
                 openPagesMapping.remove(pageid)
                 SanityCheck.check { !openPagesMapping.values.contains(openId) }
             } else {
@@ -133,7 +148,24 @@ actual class BufferManager {
             } else {
                 openId = findNextOpenID()
                 datafile.seek(BUFFER_MANAGER_PAGE_SIZE_IN_BYTES * pageid)
+                println("${BUFFER_MANAGER_PAGE_SIZE_IN_BYTES * pageid} read")
                 datafile.readFully(openPages[openId!!])
+                SanityCheck {
+                    val cmp = debugListOfPages[pageid]!!
+var errCnt=0
+                    for (i in 0 until BUFFER_MANAGER_PAGE_SIZE_IN_BYTES.toInt()) {
+if(cmp[i]!=openPages[openId!!][i]){
+errCnt++
+}
+                    }
+if(errCnt>0){
+println("error on read $pageid .. data::")
+for (i in 0 until BUFFER_MANAGER_PAGE_SIZE_IN_BYTES.toInt()) {
+println("$i :: ${cmp[i]} vs ${openPages[openId!!][i]} .... ${cmp[i]==openPages[openId!!][i]}")
+}
+throw Exception("")
+}
+                }
                 SanityCheck.check { !openPagesMapping.values.contains(openId) }
                 println("BufferManager .. $pageid -> $openId opened first")
                 openPagesMapping[pageid] = openId!!
@@ -147,6 +179,7 @@ actual class BufferManager {
         lock.withWriteLock {
             localSanityCheck()
             val pageid = if (freeList.size> 0) freeList.removeAt(0) else counter++
+            println("${BUFFER_MANAGER_PAGE_SIZE_IN_BYTES * pageid} create")
             SanityCheck.check { pageid <counter }
             SanityCheck.check { !freeList.contains(pageid) }
             var openId = findNextOpenID()
@@ -154,6 +187,7 @@ actual class BufferManager {
             SanityCheck.check { !openPagesMapping.values.contains(openId) }
             println("BufferManager .. $pageid -> $openId created")
             openPagesMapping[pageid] = openId
+            Arrays.fill(openPages[openId], 0)
             action(openPages[openId], pageid)
             localSanityCheck()
         }
@@ -169,6 +203,9 @@ actual class BufferManager {
         openPagesRefcounters[openId]--
         openPagesMapping.remove(pageid)
         freeList.add(pageid)
+        SanityCheck {
+            debugListOfPages.remove(pageid)
+        }
         SanityCheck.check { !openPagesMapping.values.contains(openId) }
         if (counter == freeList.size) {
             counter = 0
