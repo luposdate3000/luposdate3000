@@ -37,6 +37,7 @@ class TripleStoreIndexIDTriple(store_root_page_id_: Int, store_root_page_init: B
             val rootPage = bufferManager.getPage(store_root_page_id)
             ByteArrayHelper.writeInt4(rootPage, 16, value)
             firstLeaf_ = value
+            bufferManager.flushPage(store_root_page_id)
             bufferManager.releasePage(store_root_page_id)
         }
         get() = firstLeaf_
@@ -46,6 +47,7 @@ class TripleStoreIndexIDTriple(store_root_page_id_: Int, store_root_page_init: B
             val rootPage = bufferManager.getPage(store_root_page_id)
             ByteArrayHelper.writeInt4(rootPage, 4, value)
             root_ = value
+            bufferManager.flushPage(store_root_page_id)
             bufferManager.releasePage(store_root_page_id)
         }
         get() = root_
@@ -55,6 +57,7 @@ class TripleStoreIndexIDTriple(store_root_page_id_: Int, store_root_page_init: B
             val rootPage = bufferManager.getPage(store_root_page_id)
             ByteArrayHelper.writeInt4(rootPage, 8, value)
             countPrimary_ = value
+            bufferManager.flushPage(store_root_page_id)
             bufferManager.releasePage(store_root_page_id)
         }
         get() = countPrimary_
@@ -64,6 +67,7 @@ class TripleStoreIndexIDTriple(store_root_page_id_: Int, store_root_page_init: B
             val rootPage = bufferManager.getPage(store_root_page_id)
             ByteArrayHelper.writeInt4(rootPage, 12, value)
             distinctPrimary_ = value
+            bufferManager.flushPage(store_root_page_id)
             bufferManager.releasePage(store_root_page_id)
         }
         get() = distinctPrimary_
@@ -109,6 +113,7 @@ class TripleStoreIndexIDTriple(store_root_page_id_: Int, store_root_page_init: B
             ByteArrayHelper.writeInt4(rootPage, 8, countPrimary)
             ByteArrayHelper.writeInt4(rootPage, 12, distinctPrimary)
             ByteArrayHelper.writeInt4(rootPage, 16, firstLeaf)
+            bufferManager.flushPage(store_root_page_id)
         }
         bufferManager.releasePage(store_root_page_id)
     }
@@ -365,14 +370,16 @@ class TripleStoreIndexIDTriple(store_root_page_id_: Int, store_root_page_init: B
             SanityCheck.println { "Outside.refcount(??) - x51" }
             NodeManager.allocateNodeLeaf { n, i ->
                 SanityCheck.println { "Outside.refcount($nodeid)  x136" }
+                NodeShared.setNextNode(node, i)
+                NodeManager.flushNode(nodeid)
                 NodeManager.releaseNode(nodeid)
                 nodeid = i
-                NodeShared.setNextNode(node, i)
                 node = n
             }
             NodeLeaf.initializeWith(node, nodeid, iterator)
         }
         SanityCheck.println { "Outside.refcount($nodeid)  x137" }
+        NodeManager.flushNode(nodeid)
         NodeManager.releaseNode(nodeid)
         return res
     }
@@ -524,6 +531,7 @@ class TripleStoreIndexIDTriple(store_root_page_id_: Int, store_root_page_init: B
                 NodeManager.allocateNodeLeaf { n, i ->
                     NodeShared.setNextNode(node, i)
                     SanityCheck.println { "Outside.refcount($nodeid)  x143" }
+                    NodeManager.flushNode(nodeid)
                     NodeManager.releaseNode(nodeid)
                     nodeid = i
                     node = n
@@ -540,6 +548,7 @@ class TripleStoreIndexIDTriple(store_root_page_id_: Int, store_root_page_init: B
                     SanityCheck.println { "Outside.refcount(??) - x54" }
                     NodeManager.allocateNodeInner { n, i ->
                         SanityCheck.println { "Outside.refcount($nodeid)  x144" }
+                        NodeManager.flushNode(nodeid)
                         NodeManager.releaseNode(nodeid)
                         nodeid = i
                         tmp.add(i)
@@ -551,6 +560,7 @@ class TripleStoreIndexIDTriple(store_root_page_id_: Int, store_root_page_init: B
                         SanityCheck.println { "Outside.refcount(??) - x55" }
                         NodeManager.allocateNodeInner { n, i ->
                             SanityCheck.println { "Outside.refcount($nodeid)  x145" }
+                            NodeManager.flushNode(nodeid)
                             NodeManager.releaseNode(nodeid)
                             nodeid = i
                             tmp.add(i)
@@ -564,6 +574,7 @@ class TripleStoreIndexIDTriple(store_root_page_id_: Int, store_root_page_init: B
             }
             rebuildDataPart1()
             SanityCheck.println { "Outside.refcount($nodeid)  x146" }
+            NodeManager.flushNode(nodeid)
             NodeManager.releaseNode(nodeid)
             var rootNodeIsLeaf = false
             SanityCheck.check { rootNode == null }
@@ -580,12 +591,14 @@ class TripleStoreIndexIDTriple(store_root_page_id_: Int, store_root_page_init: B
             )
             if (rootNodeIsLeaf) {
                 SanityCheck.println { "Outside.refcount($nodeid)  x148" }
+                NodeManager.flushNode(nodeid)
                 NodeManager.releaseNode(nodeid)
                 SanityCheck.println { "Outside.refcount(??) - x56" }
                 NodeManager.allocateNodeInner { n, i ->
                     NodeInner.initializeWith(n, i, mutableListOf(currentLayer[0]))
                     rootNode = n
                     root = i
+                    NodeManager.flushNode(rootNode)
                 }
             }
         } else {

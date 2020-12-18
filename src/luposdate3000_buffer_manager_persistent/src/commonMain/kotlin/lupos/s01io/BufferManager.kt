@@ -38,4 +38,5 @@ expect class BufferManager(name: String) {
     fun getPage(pageid: Int): ByteArray
     /*suspend*/ fun createPage(action: (ByteArray, Int) -> Unit)
     /*suspend*/ fun deletePage(pageid: Int)
+    fun flushPage(pageid: Int) {}
 }

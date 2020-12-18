@@ -19,9 +19,9 @@ class TripleStoreLocalBPlusTreePartition(name: String, store_root_page_id_: Int,
             var rootPageOffset = 4
             for (i in 0 until cnt) {
                 val idx = EIndexPattern.values()[ByteArrayHelper.readInt4(rootPage, rootPageOffset)]
-                val pageid2 = ByteArrayHelper.readInt4(rootPage, rootPageOffset)
-                val column = ByteArrayHelper.readInt4(rootPage, rootPageOffset)
-                val partitionCount = ByteArrayHelper.readInt4(rootPage, rootPageOffset)
+                val pageid2 = ByteArrayHelper.readInt4(rootPage, rootPageOffset + 4)
+                val column = ByteArrayHelper.readInt4(rootPage, rootPageOffset + 8)
+                val partitionCount = ByteArrayHelper.readInt4(rootPage, rootPageOffset + 12)
                 val name2 = StringBuilder(idx.toString())
                 println("partition :: $idx $column $partitionCount")
                 val childPage = bufferManager.getPage(pageid2)
@@ -110,9 +110,9 @@ class TripleStoreLocalBPlusTreePartition(name: String, store_root_page_id_: Int,
                 }
                 bufferManager.releasePage(pageid2)
                 ByteArrayHelper.writeInt4(rootPage, rootPageOffset, idx.ordinal)
-                ByteArrayHelper.writeInt4(rootPage, rootPageOffset, pageid2)
-                ByteArrayHelper.writeInt4(rootPage, rootPageOffset, p.column)
-                ByteArrayHelper.writeInt4(rootPage, rootPageOffset, p.partitionCount)
+                ByteArrayHelper.writeInt4(rootPage, rootPageOffset + 4, pageid2)
+                ByteArrayHelper.writeInt4(rootPage, rootPageOffset + 8, p.column)
+                ByteArrayHelper.writeInt4(rootPage, rootPageOffset + 12, p.partitionCount)
                 rootPageOffset += 16
                 SanityCheck.check { rootPageOffset <= BUFFER_MANAGER_PAGE_SIZE_IN_BYTES }
                 if (p.column >= 0) {
@@ -123,6 +123,7 @@ class TripleStoreLocalBPlusTreePartition(name: String, store_root_page_id_: Int,
                 }
             }
             dataDistinct = dataDistinctList.toTypedArray()
+            bufferManager.flushPage(store_root_page_id)
         }
         pendingModificationsInsert = Array(dataDistinct.size) { mutableMapOf() }
         pendingModificationsRemove = Array(dataDistinct.size) { mutableMapOf() }

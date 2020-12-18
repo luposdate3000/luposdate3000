@@ -72,6 +72,7 @@ class BufferManager(@JvmField val name: String) {
             freeList.clear()
         }
     }
+    fun flushPage(pageid: Int) {}
     fun releasePage(pageid: Int) {
         SanityCheck.check({ allPagesRefcounters[pageid] > 0 }, { "Failed requirement pageid = $pageid" })
         allPagesRefcounters[pageid]--

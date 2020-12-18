@@ -15,7 +15,6 @@ class TripleStoreIndexPartition(childIndex: (Int, Boolean) -> TripleStoreIndex, 
     init {
         SanityCheck.check { partitionCount * 4 + 4 <= BUFFER_MANAGER_PAGE_SIZE_IN_BYTES }
         val rootPage = bufferManager.getPage(store_root_page_id)
-        ByteArrayHelper.writeInt4(rootPage, 0, ETripleIndexType.PARTITION.ordinal)
         partitions = Array(partitionCount) { partition ->
             if (store_root_page_init) {
                 val pageid = ByteArrayHelper.readInt4(rootPage, partition * 4 + 4)
@@ -28,6 +27,7 @@ class TripleStoreIndexPartition(childIndex: (Int, Boolean) -> TripleStoreIndex, 
                 bufferManager.releasePage(pageid)
                 res
             } else {
+                ByteArrayHelper.writeInt4(rootPage, 0, ETripleIndexType.PARTITION.ordinal)
                 var pageid2 = -1
                 bufferManager.createPage { p, pageid3 ->
                     pageid2 = pageid3
@@ -35,6 +35,7 @@ class TripleStoreIndexPartition(childIndex: (Int, Boolean) -> TripleStoreIndex, 
                 bufferManager.releasePage(pageid2)
                 ByteArrayHelper.writeInt4(rootPage, partition * 4 + 4, pageid2)
                 childIndex(pageid2, store_root_page_init)
+                bufferManager.flushPage(store_root_page_id)
             }
         }
         bufferManager.releasePage(store_root_page_id)

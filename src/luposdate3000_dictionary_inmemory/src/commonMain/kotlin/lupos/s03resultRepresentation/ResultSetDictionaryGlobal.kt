@@ -45,9 +45,11 @@ class ResultSetDictionaryGlobal() {
     internal val intToInt = mutableMapOf<String, Int>()
     @JvmField
     internal var intToValue = Array(1) { ResultSetDictionaryShared.emptyString }
-    @JvmField internal var outputDictionaryFile: MyDataOutputStream = MyDataOutputStream()
+    @JvmField internal var outputDictionaryFile: MyDataOutputStream
     @JvmField internal var initializationphase = true
+    @JvmField internal val byteBuf = ByteArray(1)
     init {
+        outputDictionaryFile = MyDataOutputStream()
         if (!BufferManagerExt.isInMemoryOnly) {
             if (BufferManagerExt.initializedFromDisk) {
                 nodeGlobalDictionary.importFromDictionaryFile(BufferManagerExt.bufferPrefix + "dictionary.data")
@@ -82,7 +84,6 @@ class ResultSetDictionaryGlobal() {
             }
         }
     }
-    @JvmField internal val byteBuf = ByteArray(1)
     fun prepareBulk(total: Int, typed: IntArray) {
         for (t in ETripleComponentType.values()) {
             when (t) {
@@ -235,6 +236,7 @@ class ResultSetDictionaryGlobal() {
     fun createNewBNode(value: String = ResultSetDictionaryShared.emptyString): Int {
         val res: Int
         res = (ResultSetDictionaryShared.flaggedValueGlobalBnode or (bNodeCounter++))
+        appendToFile(ETripleComponentType.BLANK_NODE, value)
         return res
     }
     internal inline fun appendToFile(type: ETripleComponentType, data: String) {
@@ -244,6 +246,7 @@ class ResultSetDictionaryGlobal() {
             outputDictionaryFile.writeInt(tmp.size)
             outputDictionaryFile.write(byteBuf)
             outputDictionaryFile.write(tmp)
+            outputDictionaryFile.flush()
         }
     }
     internal inline fun createIri(iri: String): Int {
