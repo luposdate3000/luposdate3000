@@ -1,8 +1,11 @@
 package lupos.s03resultRepresentation
 import lupos.s00misc.ETripleComponentType
+import lupos.s00misc.File
 import lupos.s00misc.MyBigDecimal
 import lupos.s00misc.MyBigInteger
+import lupos.s00misc.MyDataOutputStream
 import lupos.s00misc.SanityCheck
+import lupos.s01io.BufferManagerExt
 import kotlin.jvm.JvmField
 val nodeGlobalDictionary = ResultSetDictionaryGlobal()
 @OptIn(ExperimentalUnsignedTypes::class)
@@ -42,6 +45,44 @@ class ResultSetDictionaryGlobal() {
     internal val intToInt = mutableMapOf<String, Int>()
     @JvmField
     internal var intToValue = Array(1) { ResultSetDictionaryShared.emptyString }
+    @JvmField internal var outputDictionaryFile: MyDataOutputStream = MyDataOutputStream()
+    @JvmField internal var initializationphase = true
+    init {
+        if (!BufferManagerExt.isInMemoryOnly) {
+            if (BufferManagerExt.initializedFromDisk) {
+                nodeGlobalDictionary.importFromDictionaryFile(BufferManagerExt.bufferPrefix + "dictionary.data")
+            }
+            outputDictionaryFile = File(BufferManagerExt.bufferPrefix + "dictionary.data").openDataOutputStream()
+        }
+        initializationphase = false
+    }
+    fun importFromDictionaryFile(filename: String) {
+        val fileDictionary = File(filename)
+        var buffer = ByteArray(0)
+        fileDictionary.dataInputStream { dictStream ->
+            while (true) {
+                var length = 0
+                try {
+                    length = dictStream.readInt()
+                } catch (e: Exception) {
+// TODO more nice end of file detection
+                    break
+                }
+                val typeB = dictStream.readByte().toInt()
+                val type = ETripleComponentType.values()[typeB]
+                if (buffer.size < length) {
+                    buffer = ByteArray(length)
+                }
+                val read = dictStream.read(buffer, 0, length)
+                if (read < length) {
+                    throw Exception("invalid read")
+                }
+                val s = buffer.decodeToString(0, length)
+                createByType(s, type)
+            }
+        }
+    }
+    @JvmField internal val byteBuf = ByteArray(1)
     fun prepareBulk(total: Int, typed: IntArray) {
         for (t in ETripleComponentType.values()) {
             when (t) {
@@ -133,11 +174,21 @@ class ResultSetDictionaryGlobal() {
             }
             ETripleComponentType.STRING_TYPED -> {
                 val s2 = s.split("^^")
-                return createTyped(s2[0], s2[1])
+                var a = s2[0]
+                for (i in 1 until s2.size - 1) {
+                    a += "^^" + s2[i]
+                }
+                var b = s2[s2.size - 1]
+                return createTyped(a, b)
             }
             ETripleComponentType.STRING_LANG -> {
                 val s2 = s.split("@")
-                return createLangTagged(s2[0], s2[1])
+                var a = s2[0]
+                for (i in 1 until s2.size - 1) {
+                    a += "@" + s2[i]
+                }
+                var b = s2[s2.size - 1]
+                return createLangTagged(a, b)
             }
             else -> {
                 throw Exception("unexpected type")
@@ -186,6 +237,15 @@ class ResultSetDictionaryGlobal() {
         res = (ResultSetDictionaryShared.flaggedValueGlobalBnode or (bNodeCounter++))
         return res
     }
+    internal inline fun appendToFile(type: ETripleComponentType, data: String) {
+        if (!BufferManagerExt.isInMemoryOnly && !initializationphase) {
+            val tmp = data.encodeToByteArray()
+            byteBuf[0] = type.ordinal.toByte()
+            outputDictionaryFile.writeInt(tmp.size)
+            outputDictionaryFile.write(byteBuf)
+            outputDictionaryFile.write(tmp)
+        }
+    }
     internal inline fun createIri(iri: String): Int {
         var res: Int
         val tmp3 = iriToInt[iri]
@@ -200,6 +260,7 @@ class ResultSetDictionaryGlobal() {
                 iriToValue = tmp
             }
             iriToValue[res] = iri
+            appendToFile(ETripleComponentType.IRI, iri)
             res = res or ResultSetDictionaryShared.flaggedValueGlobalIri
         } else {
             res = tmp3 or ResultSetDictionaryShared.flaggedValueGlobalIri
@@ -221,6 +282,7 @@ class ResultSetDictionaryGlobal() {
                 langTaggedToValue = tmp
             }
             langTaggedToValue[res] = key
+            appendToFile(ETripleComponentType.STRING_LANG, content + "@" + lang)
             res = res or ResultSetDictionaryShared.flaggedValueGlobalLangTagged
         } else {
             res = tmp3 or ResultSetDictionaryShared.flaggedValueGlobalLangTagged
@@ -263,6 +325,7 @@ class ResultSetDictionaryGlobal() {
                         typedToValue = tmp
                     }
                     typedToValue[res] = key
+                    appendToFile(ETripleComponentType.STRING_TYPED, content + "^^" + type)
                     res = res or ResultSetDictionaryShared.flaggedValueGlobalTyped
                 } else {
                     res = tmp3 or ResultSetDictionaryShared.flaggedValueGlobalTyped
@@ -285,6 +348,7 @@ class ResultSetDictionaryGlobal() {
                 doubleToValue = tmp
             }
             doubleToValue[res] = value
+            appendToFile(ETripleComponentType.STRING_TYPED, "\"" + value + "\"^^<http://www.w3.org/2001/XMLSchema#double>")
             res = res or ResultSetDictionaryShared.flaggedValueGlobalDouble
         } else {
             res = tmp3 or ResultSetDictionaryShared.flaggedValueGlobalDouble
@@ -305,6 +369,7 @@ class ResultSetDictionaryGlobal() {
                 floatToValue = tmp
             }
             floatToValue[res] = value
+            appendToFile(ETripleComponentType.STRING_TYPED, "\"" + value + "\"^^<http://www.w3.org/2001/XMLSchema#float>")
             res = res or ResultSetDictionaryShared.flaggedValueGlobalFloat
         } else {
             res = tmp3 or ResultSetDictionaryShared.flaggedValueGlobalFloat
@@ -326,6 +391,7 @@ class ResultSetDictionaryGlobal() {
                 decimalToValue = tmp
             }
             decimalToValue[res] = value
+            appendToFile(ETripleComponentType.STRING_TYPED, "\"" + value + "\"^^<http://www.w3.org/2001/XMLSchema#decimal>")
             res = res or ResultSetDictionaryShared.flaggedValueGlobalDecimal
         } else {
             res = tmp3 or ResultSetDictionaryShared.flaggedValueGlobalDecimal
@@ -347,6 +413,7 @@ class ResultSetDictionaryGlobal() {
                 intToValue = tmp
             }
             intToValue[res] = value
+            appendToFile(ETripleComponentType.STRING_TYPED, "\"" + value + "\"^^<http://www.w3.org/2001/XMLSchema#integer>")
             res = res or ResultSetDictionaryShared.flaggedValueGlobalInt
         } else {
             res = tmp3 or ResultSetDictionaryShared.flaggedValueGlobalInt

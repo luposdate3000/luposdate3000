@@ -197,7 +197,6 @@ object LuposdateEndpoint {
                         }
                     }
                     val fileTriples = File("$fileName.triples")
-                    val fileDictionary = File("$fileName.dictionary")
                     val fileDictionaryStat = File("$fileName.stat")
                     var dictTotal = 0
                     val dictTyped = IntArray(ETripleComponentType.values().size)
@@ -217,27 +216,7 @@ object LuposdateEndpoint {
                     nodeGlobalDictionary.prepareBulk(dictTotal, dictTyped)
                     val mapping = IntArray(dictTotal)
                     var mappingIdx = 0
-                    var buffer = ByteArray(0)
-                    fileDictionary.dataInputStream { dictStream ->
-                        for (i in 0 until dictTotal) {
-                            val length = dictStream.readInt()
-                            val typeB = dictStream.readByte().toInt()
-                            val type = if (convert_to_bnodes) {
-                                ETripleComponentType.BLANK_NODE
-                            } else {
-                                ETripleComponentType.values()[typeB]
-                            }
-                            if (buffer.size < length) {
-                                buffer = ByteArray(length)
-                            }
-                            val read = dictStream.read(buffer, 0, length)
-                            if (read < length) {
-                                throw Exception("invalid read")
-                            }
-                            val s = buffer.decodeToString(0, length)
-                            mapping[mappingIdx++] = nodeGlobalDictionary.createByType(s, type)
-                        }
-                    }
+                    nodeGlobalDictionary.importFromDictionaryFile("$fileName.dictionary")
                     val dictTime = DateHelperRelative.elapsedSeconds(startTime)
                     val cnt = fileTriples.length() / 12L
                     counter += cnt

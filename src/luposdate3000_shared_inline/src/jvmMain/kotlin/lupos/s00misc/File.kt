@@ -138,4 +138,11 @@ internal actual class File actual constructor(@JvmField val filename: String) {
             input2.close()
         }
     }
+    actual inline fun openDataOutputStream(): MyDataOutputStream {
+        var dos: DataOutputStream? = null
+        val fos = FileOutputStream(filename)
+        val bos = BufferedOutputStream(fos)
+        dos = DataOutputStream(bos)
+        return MyDataOutputStream(dos)
+    }
 }

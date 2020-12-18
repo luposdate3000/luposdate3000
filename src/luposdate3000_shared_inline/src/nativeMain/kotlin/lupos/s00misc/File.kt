@@ -23,4 +23,5 @@ internal actual class File {
     actual inline fun dataInputStream(crossinline action: (MyDataInputStream) -> Unit): Unit = throw NotImplementedException("File", "dataInputStream not implemented")
     /*suspend*/ actual inline fun dataInputStreamSuspended(crossinline action: /*suspend*/ (MyDataInputStream) -> Unit): Unit = throw NotImplementedException("File", "dataInputStreamSuspended not implemented")
     actual override fun equals(other: Any?): Boolean = throw NotImplementedException("File", "equals not implemented")
+    actual inline fun openDataOutputStream(): MyDataOutputStream = throw NotImplementedException("File", "openDataOutputStream not implemented")
 }
