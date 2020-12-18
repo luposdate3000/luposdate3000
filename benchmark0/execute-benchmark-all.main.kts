@@ -2,7 +2,6 @@
 import java.io.File
 import java.lang.ProcessBuilder.Redirect
 
-
 var todos = mutableListOf<Pair<Long, Long>>()
 for (result_rows in listOf<Long>(32, 128, 512, 2048, 8196, 32768, 131072, 524288, 2097152)) {
     for (trash in listOf<Long>(0, 1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024)) {
@@ -23,11 +22,9 @@ for (t in todos2) {
 //        continue
 //    }
     val p = ProcessBuilder("./execute-benchmark.main.kts", "${t.second}", "${t.first}")
-            .directory(File("."))
-            .redirectOutput(Redirect.INHERIT)
-            .redirectError(Redirect.INHERIT)
-            .start()
+        .directory(File("."))
+        .redirectOutput(Redirect.INHERIT)
+        .redirectError(Redirect.INHERIT)
+        .start()
     p.waitFor()
 }
-
-

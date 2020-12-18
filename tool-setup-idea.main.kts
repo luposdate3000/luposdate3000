@@ -6,7 +6,7 @@
 @file:Import("src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/s00misc/Platform.kt")
 @file:Import("src/luposdate3000_shared_inline/src/jvmMain/kotlin/lupos/s00misc/Platform.kt")
 @file:CompilerOptions("-Xmulti-platform")
- 
+
 import lupos.s00misc.Platform
 import java.io.File
 import java.nio.file.Files
@@ -44,10 +44,9 @@ createBuildFileForModule("Luposdate3000_Launch_Sparql_Test_Suite", "Luposdate300
 createBuildFileForModule("Luposdate3000_Launch_Prepared_Statement", "Luposdate3000_Main", ReleaseMode.Disable, SuspendMode.Disable, InlineMode.Disable, DryMode.Disable, FastMode.JVM, IntellijMode.Enable)
 createBuildFileForModule("Luposdate3000_Launch_Code_Gen_Example", "Luposdate3000_Main", ReleaseMode.Disable, SuspendMode.Disable, InlineMode.Disable, DryMode.Disable, FastMode.JVM, IntellijMode.Enable)
 
-//IDE only fake modules
+// IDE only fake modules
 createBuildFileForModule("Luposdate3000_Shared_Inline", ReleaseMode.Disable, SuspendMode.Disable, InlineMode.Disable, DryMode.Disable, FastMode.JVM, IntellijMode.Enable)
 createBuildFileForModule("Luposdate3000_Scripting", ReleaseMode.Disable, SuspendMode.Disable, InlineMode.Disable, DryMode.Disable, FastMode.JVM, IntellijMode.Enable)
-
 
 File("build.gradle.kts").printWriter().use { outBuildGradle ->
     outBuildGradle.println("dependencies {")
@@ -69,10 +68,10 @@ File("settings.gradle").printWriter().use { outSettingsGradle ->
             val name = it.toString()
             println(name)
             if (name.startsWith("src/lupos") || name.startsWith("src\\lupos")) {
-if(!name.contains("shared_inline")){
-                outSettingsGradle.println("include(\":src:${name.substring(4)}\")")
-                outBuildGradle.println("    project(\":src:${name.substring(4)}\")")
-}
+                if (!name.contains("shared_inline")) {
+                    outSettingsGradle.println("include(\":src:${name.substring(4)}\")")
+                    outBuildGradle.println("    project(\":src:${name.substring(4)}\")")
+                }
             }
         }
         outBuildGradle.println("}")

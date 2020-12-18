@@ -1,28 +1,28 @@
 #!/usr/bin/env kotlin
 import java.io.File
-import kotlin.math.log2
 import java.text.DecimalFormat
+import kotlin.math.log2
 
 val data = mutableMapOf<Int/*trash or join*/, MutableMap<Int/*joincount*/, MutableMap<Int/*partitions*/, Double>>>()
 val data_trash_or_join = mutableSetOf<Int>(
-        -64,
-        -32,
-        -16,
-        -8,
-        -4,
-        -2,
-        -1,
-        1,
-        2,
-        4,
-        8,
-        16,
-        32,
-        64,
-        128,
-        256,
-        512,
-        1024,
+    -64,
+    -32,
+    -16,
+    -8,
+    -4,
+    -2,
+    -1,
+    1,
+    2,
+    4,
+    8,
+    16,
+    32,
+    64,
+    128,
+    256,
+    512,
+    1024,
 )
 val data_joincount = mutableSetOf<Int>()
 val data_partitions = mutableSetOf<Int>()
@@ -57,21 +57,20 @@ File(args[0]).forEachLine {
     }
 }
 
-
 var row = "\t\t\t&  "
 for (joincount in data_joincount) {
     row = "$row&${joincount.toString().padStart(4, ' ')}"
 }
 println(row)
-for (trash_or_join in data_trash_or_join.sorted()) {    //y-axis
+for (trash_or_join in data_trash_or_join.sorted()) { // y-axis
     if (trash_or_join < 0) {
         row = "2^{${log2(-trash_or_join.toDouble()).toInt()}}\t\t\t"
     } else {
         row = "\\\\frac{1}{1+2^{${log2(trash_or_join.toDouble()).toInt()}}}\t"
     }
-    for (partitions in data_partitions.sorted()) {        //y-axis-part
+    for (partitions in data_partitions.sorted()) { // y-axis-part
         row = "$row&${partitions.toString().padStart(2, ' ')}"
-        for (joincount in data_joincount.sorted()) {        //x-axis
+        for (joincount in data_joincount.sorted()) { // x-axis
             val tt = data[trash_or_join]?.get(joincount)
             var t = tt?.get(partitions)
             if (t != null) {
@@ -95,20 +94,19 @@ for (trash_or_join in data_trash_or_join.sorted()) {    //y-axis
     }
 }
 
-
 println("-------------------")
 row = "\t\t\t  "
 for (joincount in data_joincount) {
     row = "$row,${joincount.toString().padStart(4, ' ')}"
 }
 println(row)
-for (trash_or_join in data_trash_or_join.sorted()) {    //y-axis
+for (trash_or_join in data_trash_or_join.sorted()) { // y-axis
     if (trash_or_join < 0) {
         row = "2^{${log2(-trash_or_join.toDouble())}}\t\t\t"
     } else {
         row = "\\\\frac{1}{1+2^{${log2(trash_or_join.toDouble()).toInt()}}}\t"
     }
-    for (joincount in data_joincount.sorted()) {        //x-axis
+    for (joincount in data_joincount.sorted()) { // x-axis
         val tt = data[trash_or_join]?.get(joincount)
         if (tt != null) {
             var max = 0.0
@@ -155,10 +153,10 @@ File("plot.YLabels").printWriter().use { out ->
 i = 0
 File("plot.map").printWriter().use { outMap ->
     File("plot.csv").printWriter().use { outCsv ->
-        for (trash_or_join in data_trash_or_join.sorted()) {    //y-axis
+        for (trash_or_join in data_trash_or_join.sorted()) { // y-axis
             row = ""
             var j = 0
-            for (joincount in data_joincount.sorted()) {        //x-axis
+            for (joincount in data_joincount.sorted()) { // x-axis
                 val tt = data[trash_or_join]?.get(joincount)
                 if (tt != null) {
                     var max = 0.0
@@ -196,8 +194,8 @@ inline fun doubleToString(d: Double): String {
 
 println("-------------------")
 i = 0
-for (trash_or_join in data_trash_or_join.sorted()) {    //y-axis
-    for (joincount in data_joincount.sorted()) {        //x-axis
+for (trash_or_join in data_trash_or_join.sorted()) { // y-axis
+    for (joincount in data_joincount.sorted()) { // x-axis
         val tt = data[trash_or_join]?.get(joincount)
         if (tt != null) {
             var max = 0.0

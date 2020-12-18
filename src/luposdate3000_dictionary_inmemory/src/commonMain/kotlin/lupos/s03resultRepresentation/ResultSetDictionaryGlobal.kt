@@ -4,8 +4,9 @@ import lupos.s00misc.MyBigDecimal
 import lupos.s00misc.MyBigInteger
 import lupos.s00misc.SanityCheck
 import kotlin.jvm.JvmField
+val nodeGlobalDictionary = ResultSetDictionaryGlobal()
 @OptIn(ExperimentalUnsignedTypes::class)
-class ResultSetDictionary : IResultSetDictionary {
+class ResultSetDictionaryGlobal() {
     internal inline fun isLocalBNode(value: Int) = (value and ResultSetDictionaryShared.mask3) == ResultSetDictionaryShared.flaggedValueLocalBnode
     @JvmField
     internal val localBnodeToInt = mutableMapOf<String, Int>()
@@ -41,7 +42,7 @@ class ResultSetDictionary : IResultSetDictionary {
     internal val intToInt = mutableMapOf<String, Int>()
     @JvmField
     internal var intToValue = Array(1) { ResultSetDictionaryShared.emptyString }
-    internal inline fun prepareBulk(total: Int, typed: IntArray) {
+    fun prepareBulk(total: Int, typed: IntArray) {
         for (t in ETripleComponentType.values()) {
             when (t) {
                 ETripleComponentType.IRI -> {
@@ -103,7 +104,7 @@ class ResultSetDictionary : IResultSetDictionary {
             }
         }
     }
-    internal inline fun createByType(s: String, type: ETripleComponentType): Int {
+    fun createByType(s: String, type: ETripleComponentType): Int {
         when (type) {
             ETripleComponentType.IRI -> {
                 return createIri(s)
@@ -143,7 +144,7 @@ class ResultSetDictionary : IResultSetDictionary {
             }
         }
     }
-    internal inline fun clear() {
+    fun clear() {
         localBnodeToInt.clear()
         bNodeCounter = 5
         bnodeMapToGlobal.clear()
@@ -162,7 +163,7 @@ class ResultSetDictionary : IResultSetDictionary {
         decimalToValue = Array(1) { ResultSetDictionaryShared.emptyString }
         intToValue = Array(1) { ResultSetDictionaryShared.emptyString }
     }
-    override fun toBooleanOrError(value: Int): Int {
+    internal inline fun toBooleanOrError(value: Int): Int {
         var res: Int = ResultSetDictionaryExt.errorValue
         if (value < ResultSetDictionaryExt.undefValue && value >= 0) {
             res = value
@@ -180,65 +181,49 @@ class ResultSetDictionary : IResultSetDictionary {
         }
         return res
     }
-    internal inline fun createNewBNode(value: String = ResultSetDictionaryShared.emptyString): Int {
+    fun createNewBNode(value: String = ResultSetDictionaryShared.emptyString): Int {
         val res: Int
-        val tmp = localBnodeToInt[value]
-        if (tmp == null) {
-            res = ResultSetDictionaryShared.flaggedValueLocalBnode or (bNodeCounter++)
-            localBnodeToInt[value] = res
-        } else {
-            res = tmp
-        }
+        res = (ResultSetDictionaryShared.flaggedValueGlobalBnode or (bNodeCounter++))
         return res
     }
     internal inline fun createIri(iri: String): Int {
         var res: Int
-        val tmp = nodeGlobalDictionary.iriToInt[iri]
-        if (tmp != null) {
-            res = tmp or ResultSetDictionaryShared.flaggedValueGlobalIri
-        } else {
-            val tmp3 = iriToInt[iri]
-            if (tmp3 == null) {
-                res = iriToInt.size
-                iriToInt[iri] = res
-                if (iriToValue.size <= res) {
-                    val tmp2 = Array(iriToValue.size * 2) { ResultSetDictionaryShared.emptyString }
-                    for (i in iriToValue.indices) {
-                        tmp2[i] = iriToValue[i]
-                    }
-                    iriToValue = tmp2
+        val tmp3 = iriToInt[iri]
+        if (tmp3 == null) {
+            res = iriToInt.size
+            iriToInt[iri] = res
+            if (iriToValue.size <= res) {
+                val tmp = Array(iriToValue.size * 2) { ResultSetDictionaryShared.emptyString }
+                for (i in iriToValue.indices) {
+                    tmp[i] = iriToValue[i]
                 }
-                iriToValue[res] = iri
-                res = res or ResultSetDictionaryShared.flaggedValueLocalIri
-            } else {
-                res = tmp3 or ResultSetDictionaryShared.flaggedValueLocalIri
+                iriToValue = tmp
             }
+            iriToValue[res] = iri
+            res = res or ResultSetDictionaryShared.flaggedValueGlobalIri
+        } else {
+            res = tmp3 or ResultSetDictionaryShared.flaggedValueGlobalIri
         }
         return res
     }
     internal inline fun createLangTagged(content: String, lang: String): Int {
         var res: Int
         val key = "$lang@$content"
-        val tmp = nodeGlobalDictionary.langTaggedToInt[key]
-        if (tmp != null) {
-            res = tmp or ResultSetDictionaryShared.flaggedValueGlobalLangTagged
-        } else {
-            val tmp3 = langTaggedToInt[key]
-            if (tmp3 == null) {
-                res = langTaggedToInt.size
-                langTaggedToInt[key] = res
-                if (langTaggedToValue.size <= res) {
-                    val tmp2 = Array(langTaggedToValue.size * 2) { ResultSetDictionaryShared.emptyString }
-                    for (i in langTaggedToValue.indices) {
-                        tmp2[i] = langTaggedToValue[i]
-                    }
-                    langTaggedToValue = tmp2
+        val tmp3 = langTaggedToInt[key]
+        if (tmp3 == null) {
+            res = langTaggedToInt.size
+            langTaggedToInt[key] = res
+            if (langTaggedToValue.size <= res) {
+                val tmp = Array(langTaggedToValue.size * 2) { ResultSetDictionaryShared.emptyString }
+                for (i in langTaggedToValue.indices) {
+                    tmp[i] = langTaggedToValue[i]
                 }
-                langTaggedToValue[res] = key
-                res = res or ResultSetDictionaryShared.flaggedValueLocalLangTagged
-            } else {
-                res = tmp3 or ResultSetDictionaryShared.flaggedValueLocalLangTagged
+                langTaggedToValue = tmp
             }
+            langTaggedToValue[res] = key
+            res = res or ResultSetDictionaryShared.flaggedValueGlobalLangTagged
+        } else {
+            res = tmp3 or ResultSetDictionaryShared.flaggedValueGlobalLangTagged
         }
         return res
     }
@@ -266,26 +251,21 @@ class ResultSetDictionary : IResultSetDictionary {
             }
             else -> {
                 val key = "$type>$content"
-                val tmp = nodeGlobalDictionary.typedToInt[key]
-                if (tmp != null) {
-                    res = tmp or ResultSetDictionaryShared.flaggedValueGlobalTyped
-                } else {
-                    val tmp3 = typedToInt[key]
-                    if (tmp3 == null) {
-                        res = typedToInt.size
-                        typedToInt[key] = res
-                        if (typedToValue.size <= res) {
-                            val tmp2 = Array(typedToValue.size * 2) { ResultSetDictionaryShared.emptyString }
-                            for (i in typedToValue.indices) {
-                                tmp2[i] = typedToValue[i]
-                            }
-                            typedToValue = tmp2
+                val tmp3 = typedToInt[key]
+                if (tmp3 == null) {
+                    res = typedToInt.size
+                    typedToInt[key] = res
+                    if (typedToValue.size <= res) {
+                        val tmp = Array(typedToValue.size * 2) { ResultSetDictionaryShared.emptyString }
+                        for (i in typedToValue.indices) {
+                            tmp[i] = typedToValue[i]
                         }
-                        typedToValue[res] = key
-                        res = res or ResultSetDictionaryShared.flaggedValueLocalTyped
-                    } else {
-                        res = tmp3 or ResultSetDictionaryShared.flaggedValueLocalTyped
+                        typedToValue = tmp
                     }
+                    typedToValue[res] = key
+                    res = res or ResultSetDictionaryShared.flaggedValueGlobalTyped
+                } else {
+                    res = tmp3 or ResultSetDictionaryShared.flaggedValueGlobalTyped
                 }
             }
         }
@@ -293,110 +273,90 @@ class ResultSetDictionary : IResultSetDictionary {
     }
     internal inline fun createDouble(value: Double): Int {
         var res: Int
-        val tmp = nodeGlobalDictionary.doubleToInt[value]
-        if (tmp != null) {
-            res = tmp or ResultSetDictionaryShared.flaggedValueGlobalDouble
-        } else {
-            val tmp3 = doubleToInt[value]
-            if (tmp3 == null) {
-                res = doubleToInt.size
-                doubleToInt[value] = res
-                if (doubleToValue.size <= res) {
-                    val tmp2 = DoubleArray(doubleToValue.size * 2) { 0.0 }
-                    for (i in doubleToValue.indices) {
-                        tmp2[i] = doubleToValue[i]
-                    }
-                    doubleToValue = tmp2
+        val tmp3 = doubleToInt[value]
+        if (tmp3 == null) {
+            res = doubleToInt.size
+            doubleToInt[value] = res
+            if (doubleToValue.size <= res) {
+                val tmp = DoubleArray(doubleToValue.size * 2) { 0.0 }
+                for (i in doubleToValue.indices) {
+                    tmp[i] = doubleToValue[i]
                 }
-                doubleToValue[res] = value
-                res = res or ResultSetDictionaryShared.flaggedValueLocalDouble
-            } else {
-                res = tmp3 or ResultSetDictionaryShared.flaggedValueLocalDouble
+                doubleToValue = tmp
             }
+            doubleToValue[res] = value
+            res = res or ResultSetDictionaryShared.flaggedValueGlobalDouble
+        } else {
+            res = tmp3 or ResultSetDictionaryShared.flaggedValueGlobalDouble
         }
         return res
     }
     internal inline fun createFloat(value: Double): Int {
         var res: Int
-        val tmp = nodeGlobalDictionary.floatToInt[value]
-        if (tmp != null) {
-            res = tmp or ResultSetDictionaryShared.flaggedValueGlobalFloat
-        } else {
-            val tmp3 = floatToInt[value]
-            if (tmp3 == null) {
-                res = floatToInt.size
-                floatToInt[value] = res
-                if (floatToValue.size <= res) {
-                    val tmp2 = DoubleArray(floatToValue.size * 2) { 0.0 }
-                    for (i in floatToValue.indices) {
-                        tmp2[i] = floatToValue[i]
-                    }
-                    floatToValue = tmp2
+        val tmp3 = floatToInt[value]
+        if (tmp3 == null) {
+            res = floatToInt.size
+            floatToInt[value] = res
+            if (floatToValue.size <= res) {
+                val tmp = DoubleArray(floatToValue.size * 2) { 0.0 }
+                for (i in floatToValue.indices) {
+                    tmp[i] = floatToValue[i]
                 }
-                floatToValue[res] = value
-                res = res or ResultSetDictionaryShared.flaggedValueLocalFloat
-            } else {
-                res = tmp3 or ResultSetDictionaryShared.flaggedValueLocalFloat
+                floatToValue = tmp
             }
+            floatToValue[res] = value
+            res = res or ResultSetDictionaryShared.flaggedValueGlobalFloat
+        } else {
+            res = tmp3 or ResultSetDictionaryShared.flaggedValueGlobalFloat
         }
         return res
     }
     internal inline fun createDecimal(value2: MyBigDecimal): Int {
         val value = value2.toString()
         var res: Int
-        val tmp = nodeGlobalDictionary.decimalToInt[value]
-        if (tmp != null) {
-            res = tmp or ResultSetDictionaryShared.flaggedValueGlobalDecimal
-        } else {
-            val tmp3 = decimalToInt[value]
-            if (tmp3 == null) {
-                res = decimalToInt.size
-                decimalToInt[value] = res
-                if (decimalToValue.size <= res) {
-                    val tmp2 = Array(decimalToValue.size * 2) { ResultSetDictionaryShared.emptyString }
-                    for (i in decimalToValue.indices) {
-                        tmp2[i] = decimalToValue[i]
-                    }
-                    decimalToValue = tmp2
+        val tmp3 = decimalToInt[value]
+        if (tmp3 == null) {
+            res = decimalToInt.size
+            decimalToInt[value] = res
+            if (decimalToValue.size <= res) {
+                val tmp = Array(decimalToValue.size * 2) { ResultSetDictionaryShared.emptyString }
+                for (i in decimalToValue.indices) {
+                    tmp[i] = decimalToValue[i]
                 }
-                decimalToValue[res] = value
-                res = res or ResultSetDictionaryShared.flaggedValueLocalDecimal
-            } else {
-                res = tmp3 or ResultSetDictionaryShared.flaggedValueLocalDecimal
+                decimalToValue = tmp
             }
+            decimalToValue[res] = value
+            res = res or ResultSetDictionaryShared.flaggedValueGlobalDecimal
+        } else {
+            res = tmp3 or ResultSetDictionaryShared.flaggedValueGlobalDecimal
         }
         return res
     }
     internal inline fun createInteger(value2: MyBigInteger): Int {
         val value = value2.toString()
         var res: Int
-        val tmp = nodeGlobalDictionary.intToInt[value]
-        if (tmp != null) {
-            res = tmp or ResultSetDictionaryShared.flaggedValueGlobalInt
-        } else {
-            val tmp3 = intToInt[value]
-            if (tmp3 == null) {
-                res = intToInt.size
-                intToInt[value] = res
-                if (intToValue.size <= res) {
-                    val tmp2 = Array(intToValue.size * 2) { ResultSetDictionaryShared.emptyString }
-                    for (i in intToValue.indices) {
-                        tmp2[i] = intToValue[i]
-                    }
-                    intToValue = tmp2
+        val tmp3 = intToInt[value]
+        if (tmp3 == null) {
+            res = intToInt.size
+            intToInt[value] = res
+            if (intToValue.size <= res) {
+                val tmp = Array(intToValue.size * 2) { ResultSetDictionaryShared.emptyString }
+                for (i in intToValue.indices) {
+                    tmp[i] = intToValue[i]
                 }
-                intToValue[res] = value
-                res = res or ResultSetDictionaryShared.flaggedValueLocalInt
-            } else {
-                res = tmp3 or ResultSetDictionaryShared.flaggedValueLocalInt
+                intToValue = tmp
             }
+            intToValue[res] = value
+            res = res or ResultSetDictionaryShared.flaggedValueGlobalInt
+        } else {
+            res = tmp3 or ResultSetDictionaryShared.flaggedValueGlobalInt
         }
         return res
     }
-    override inline fun createValue(value: String?): Int {
+    fun createValue(value: String?): Int {
         return createValue(ValueDefinition(value))
     }
-    override inline fun createValue(value: ValueDefinition): Int {
+    internal inline fun createValue(value: ValueDefinition): Int {
         val res: Int
         when (value) {
             is ValueUndef -> {
@@ -450,11 +410,8 @@ class ResultSetDictionary : IResultSetDictionary {
         }
         return res
     }
-    override inline fun getValue(value: Int): ValueDefinition {
+    fun getValue(value: Int): ValueDefinition {
         val res: ValueDefinition
-        if ((value and ResultSetDictionaryShared.mask1) == ResultSetDictionaryShared.mask1) {
-            return nodeGlobalDictionary.getValue(value)
-        }
         when (value and ResultSetDictionaryShared.mask3) {
             ResultSetDictionaryShared.flaggedValueLocalIri -> {
                 res = ValueIri(iriToValue[value and ResultSetDictionaryShared.filter3])
@@ -516,7 +473,7 @@ class ResultSetDictionary : IResultSetDictionary {
         }
         return res
     }
-    override inline fun getValue(
+    internal inline fun getValue(
         value: Int,
         onBNode: (value: Int) -> Unit,
         onBoolean: (value: Boolean) -> Unit,
@@ -531,9 +488,6 @@ class ResultSetDictionary : IResultSetDictionary {
         onError: () -> Unit,
         onUndefined: () -> Unit
     ) {
-        if ((value and ResultSetDictionaryShared.mask1) == ResultSetDictionaryShared.mask1) {
-            nodeGlobalDictionary.getValue(value, onBNode, onBoolean, onLanguageTaggedLiteral, onSimpleLiteral, onTypedLiteral, onDecimal, onFloat, onDouble, onInteger, onIri, onError, onUndefined)
-        }
         when (value and ResultSetDictionaryShared.mask3) {
             ResultSetDictionaryShared.flaggedValueLocalIri -> {
                 onIri(iriToValue[value and ResultSetDictionaryShared.filter3])
@@ -589,7 +543,7 @@ class ResultSetDictionary : IResultSetDictionary {
             }
         }
     }
-    override inline fun valueToGlobal(value: Int): Int {
+    internal inline fun valueToGlobal(value: Int): Int {
         val res: Int
         if ((value and ResultSetDictionaryShared.mask1) == ResultSetDictionaryShared.mask1) {
             res = value

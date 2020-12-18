@@ -8,7 +8,6 @@ enum class CharGroupModifier {
     ACTION,
 }
 
-
 data class MyPair(var first: Int, var second: Int) : Comparable<MyPair> {
     override fun compareTo(other: MyPair): Int {
         var res = first.compareTo(other.first)
@@ -22,7 +21,7 @@ data class MyPair(var first: Int, var second: Int) : Comparable<MyPair> {
 class CharGroup {
     companion object {
         var functionName = "func"
-        var helperfunctions = mutableMapOf<String, String>()//func content -> func name
+        var helperfunctions = mutableMapOf<String, String>() // func content -> func name
         var uuid = 1
         var startEndMap = mutableMapOf<Int, String>()
         var startEndMapElseBranch = mutableMapOf<Int, String>()
@@ -34,7 +33,7 @@ class CharGroup {
     var submodifierId = 0
     var submodifierTail: CharGroup? = null
     var submodifierFlag = false
-    val ranges = mutableListOf<MyPair>()//start inclusice,end inclusive
+    val ranges = mutableListOf<MyPair>() // start inclusice,end inclusive
     var rangesPreparedString: String? = null
     val childs = mutableListOf<CharGroup>()
     var name: String = ""
@@ -255,9 +254,9 @@ class CharGroup {
         startEndMapElseBranch.clear()
         cleanupIdenticalIDs()
         myPrint(1, printmode, true)
-        //println(startEndMap)
-        //println(startEndMapElseBranch)
-        //println(identicalIdsMap)
+        // println(startEndMap)
+        // println(startEndMapElseBranch)
+        // println(identicalIdsMap)
     }
 
     fun myPrint(indention: Int, printmode: Boolean, skipheader: Boolean = false, onElseBranch: () -> String = { "break@error" }) {
@@ -305,7 +304,7 @@ class CharGroup {
             if (modifier == CharGroupModifier.ACTION && submodifier != null) {
                 if (!submodifierFlag) {
                     if (!skipheader) {
-                        println(" ".repeat(indention) + rangesPreparedString!! + "->{")//xxx - a4
+                        println(" ".repeat(indention) + rangesPreparedString!! + "->{") // xxx - a4
                         println(" ".repeat(indention + 1) + "context.append()")
                     }
                     for (ll in startEndMapElseBranch[identicalIdsMap[submodifierId]!!.first()]!!.split(";")) {
@@ -319,17 +318,17 @@ class CharGroup {
                         for (c in childs) {
                             println("xxx + ${c.modifier} ${c.submodifier} ${c.ranges}")
                         }
-                        throw Exception("$submodifier ${childs.size} ${ranges} ${submodifierFlag}")
+                        throw Exception("$submodifier ${childs.size} $ranges $submodifierFlag")
                     } else {
                         throw Exception("$submodifier ${childs.size}")
                     }
                 }
             } else if (modifier == CharGroupModifier.ACTION && submodifier == null) {
-                println(" ".repeat(indention) + "on${name}()")
+                println(" ".repeat(indention) + "on$name()")
                 println(" ".repeat(indention) + "return")
             } else if (childs.size > 1 || (childs.size == 1 && (childs[0].modifier == CharGroupModifier.ONE || (childs[0].modifier == CharGroupModifier.ACTION && childs[0].submodifier == null)))) {
                 if (!skipheader) {
-                    println(" ".repeat(indention) + rangesPreparedString!! + "->{")//xxx - a5
+                    println(" ".repeat(indention) + rangesPreparedString!! + "->{") // xxx - a5
                     println(" ".repeat(indention + 1) + "context.append()")
                 }
                 if (childs.size == 1 && childs[0].modifier == CharGroupModifier.ACTION) {
@@ -362,7 +361,7 @@ class CharGroup {
                         }
                     }
                     var whenVariable = "context.c"
-                    if (false) {//TODO ???
+                    if (false) { // TODO ???
 //                    if (allCounter < 256) {
                         for (c in localChilds) {
                             var s = ""
@@ -374,11 +373,11 @@ class CharGroup {
                             c.rangesPreparedString = s.substring(1)
                         }
                     } else {
-                        //this is the expensive case ... .
+                        // this is the expensive case ... .
                         whenVariable = "localswitch$indention"
-//helperfunctions ->
+// helperfunctions ->
                         var helperFunctionContent = StringBuilder()
-                        if (true) {//old or new variant
+                        if (true) { // old or new variant
                             var theMap = mutableMapOf<MyPair, Int>()
                             var theKeys = mutableListOf<MyPair>()
                             for (cIdx in 0 until localChilds.size) {
@@ -440,7 +439,7 @@ class CharGroup {
                                             break@loop
                                         } else {
                                             checkMarks.remove(i)
-                                            r2 = "${r2},0x${i.toString(16)}"
+                                            r2 = "$r2,0x${i.toString(16)}"
                                         }
                                     }
                                 }
@@ -451,7 +450,7 @@ class CharGroup {
                             var r2 = ""
                             for (i in checkMarks) {
                                 if (i < maxValueBelowLimit) {
-                                    r2 = "${r2},0x${i.toString(16)}"
+                                    r2 = "$r2,0x${i.toString(16)}"
                                 }
                             }
                             if (r2.length > 0) {
@@ -472,7 +471,7 @@ class CharGroup {
                                     }
                                 }
                                 if (r2.length > 0) {
-                                    helperFunctionContent.appendLine("    ${r2.substring(1)}->return ${cIdx}")
+                                    helperFunctionContent.appendLine("    ${r2.substring(1)}->return $cIdx")
                                 }
                             }
                             helperFunctionContent.appendLine("    else->return ${localChilds.size}")
@@ -486,14 +485,14 @@ class CharGroup {
                             helperFunctionName = functionName + "_helper_" + helperfunctions.size
                             helperfunctions[helperFunctionContentStr] = helperFunctionName
                         }
-//helperfunctions <-
-                        println(" ".repeat(indention + 1) + "val $whenVariable=${helperFunctionName}(context.c)")
+// helperfunctions <-
+                        println(" ".repeat(indention + 1) + "val $whenVariable=$helperFunctionName(context.c)")
                     }
-                    println(" ".repeat(indention + 1) + "when($whenVariable){")//xxx - aaa
+                    println(" ".repeat(indention + 1) + "when($whenVariable){") // xxx - aaa
                     for (c in localChilds) {
                         c.myPrint(indention + 2, printmode)
                     }
-                    println(" ".repeat(indention + 2) + "else->{")//xxx - a6
+                    println(" ".repeat(indention + 2) + "else->{") // xxx - a6
                     for (ll in elseBranch.split(";")) {
                         println(" ".repeat(indention + 3) + ll)
                     }
@@ -514,7 +513,7 @@ class CharGroup {
                 when (c.modifier) {
                     CharGroupModifier.ANY -> {
                         if (!skipheader) {
-                            println(" ".repeat(indention) + rangesPreparedString!! + "->{")//xxx - a7
+                            println(" ".repeat(indention) + rangesPreparedString!! + "->{") // xxx - a7
                             println(" ".repeat(indention + 1) + "context.append()")
                         }
                         println(" ".repeat(indention + 1) + "loop$indention@while(true){")
@@ -535,7 +534,7 @@ class CharGroup {
                     CharGroupModifier.ACTION -> {
                         if (!c.submodifierFlag) {
                             if (!skipheader) {
-                                println(" ".repeat(indention) + rangesPreparedString!! + "->{")//xxx - a1
+                                println(" ".repeat(indention) + rangesPreparedString!! + "->{") // xxx - a1
                                 println(" ".repeat(indention + 1) + "context.append()")
                             }
                             for (ll in startEndMapElseBranch[identicalIdsMap[c.submodifierId]!!.first()]!!.split(";")) {
@@ -548,7 +547,7 @@ class CharGroup {
                             when (c.submodifier) {
                                 CharGroupModifier.ANY -> {
                                     if (!skipheader) {
-                                        println(" ".repeat(indention) + rangesPreparedString!! + "->{")//xxx - a2
+                                        println(" ".repeat(indention) + rangesPreparedString!! + "->{") // xxx - a2
                                         println(" ".repeat(indention + 1) + "context.append()")
                                     }
                                     startEndMapElseBranch[identicalIdsMap[c.submodifierId]!!.first()] = "continue@loop$indention"
@@ -565,7 +564,7 @@ class CharGroup {
                                 }
                                 CharGroupModifier.AT_LEAST_ONE -> {
                                     if (!skipheader) {
-                                        println(" ".repeat(indention) + rangesPreparedString!! + "->{")//xxx - a3
+                                        println(" ".repeat(indention) + rangesPreparedString!! + "->{") // xxx - a3
                                         println(" ".repeat(indention + 1) + "context.append()")
                                     }
                                     startEndMapElseBranch[identicalIdsMap[c.submodifierId]!!.first()] = "flag$indention=true;continue@loop$indention"
@@ -729,18 +728,18 @@ class CharGroup {
                 val cpy = c.flatCopy(CharGroupModifier.ONE)
                 cpy.childs.addAll(c.childs)
                 map[k] = cpy
-                //zero case
+                // zero case
                 for (c2 in v.childs) {
                     collapseIdenticalHelper(map, c2)
                 }
-                //at least one case
+                // at least one case
                 collapseIdenticalHelper(map, v.flatCopy(CharGroupModifier.ONE).append(v))
             } else if (c.modifier == CharGroupModifier.ANY && v.modifier == CharGroupModifier.ONE) {
-                //zero case
+                // zero case
                 for (c2 in c.childs) {
                     collapseIdenticalHelper(map, c2)
                 }
-                //at least one case
+                // at least one case
                 collapseIdenticalHelper(map, c.flatCopy(CharGroupModifier.ONE).append(c))
             } else {
                 throw Exception("${v.modifier} != ${c.modifier}")
@@ -906,7 +905,6 @@ class CharGroup {
         return res
     }
 }
-
 
 fun parseRegex(str: String, tail: CharGroup): CharGroup {
     var res = CharGroup()
@@ -1205,60 +1203,58 @@ fun parseRegex(str: String, tail: CharGroup): CharGroup {
     return res.compile()
 }
 
-
 // addition to regex-grammar::
 // a '=' directly terminates a group
 // a '!' prevents a tail from beeing added only use this if there is a '=' somewhere before - otherwise this wont return a success
 
 var allTokens = mapOf(
-        "EXPONENT" to "[eE] [+-]? [0-9]+",
-        "DOUBLE" to "[+-]? ([0-9]+ '.' [0-9]* EXPONENT | '.' [0-9]+ EXPONENT | [0-9]+ EXPONENT)",
-        "DECIMAL" to "[+-]? [0-9]* '.' [0-9]+",
-        "INTEGER" to "[+-]? [0-9]+",
-        "PN_LOCAL_ESC" to "'\\\\' ('_' | '~' | '.' | '-' | '!' | '$' | '&' | '\\'' | '(' | ')' | '*' | '+' | ',' | ';' | '=' | '/' | '?' | '#' | '@' | '%')",
-        "HEX" to "([0-9] | [A-F] | [a-f])",
-        "PERCENT" to "'%' HEX HEX",
-        "PLX" to "(PERCENT | PN_LOCAL_ESC)",
-        "PN_CHARS_BASE" to "([A-Z] | [a-z] | [#x00C0-#x00D6] | [#x00D8-#x00F6] | [#x00F8-#x02FF] | [#x0370-#x037D] | [#x037F-#x1FFF] | [#x200C-#x200D] | [#x2070-#x218F] | [#x2C00-#x2FEF] | [#x3001-#xD7FF] | [#xF900-#xFDCF] | [#xFDF0-#xFFFD] | [#x10000-#x1fffff])",
-        "PN_CHARS_U" to "(PN_CHARS_BASE | '_')",
-        "PN_PREFIX" to "PN_CHARS_BASE ([.]* PN_CHARS)*",
-        "UCHAR" to "(('\\\\') 'u' HEX HEX HEX HEX | ('\\\\') 'U' HEX HEX HEX HEX HEX HEX HEX HEX)",
-        "PN_CHARS" to "(PN_CHARS_U | '-' | [0-9] | #x00B7 | [#x0300-#x036F] | [#x203F-#x2040])",
-        "PN_LOCAL" to "(PN_CHARS_U | ':' | [0-9] | PLX) ([.]* (PN_CHARS | ':' | PLX))*",//TODO this includes a trailling dot, which is wrong due to the given grammar
-        "ANON" to "'[' [#x20#x9#xD#xA]* ']'",
-        "ECHAR" to "('\\\\') ([tbnrf\"'\\])",
-        "PNAME_NS" to "(PN_PREFIX)? ':'",
-        "PNAME_LN" to "PNAME_NS PN_LOCAL",
-        "LANGTAG" to "'@' [a-zA-Z]+ ('-' [a-zA-Z0-9]+)*",
-        "STRING_LITERAL_LONG_QUOTE" to "'\"' '\"' '\"' (STRING_LITERAL_LONG_QUOTE_A | ('\"' STRING_LITERAL_LONG_QUOTE_A) | ('\"' '\"' STRING_LITERAL_LONG_QUOTE_A) | ('\"' '\"' '\"' (=)))* (!)",
-        "STRING_LITERAL_LONG_QUOTE_A" to "([^\"\\] | ECHAR | UCHAR)",
-        "STRING_LITERAL_LONG_SINGLE_QUOTE" to "'\\'' '\\'' '\\'' (STRING_LITERAL_LONG_SINGLE_QUOTE_A | ('\\'' STRING_LITERAL_LONG_SINGLE_QUOTE_A) | ('\\'' '\\'' STRING_LITERAL_LONG_SINGLE_QUOTE_A) | ('\\'' '\\'' '\\'' (=)))* (!)",
-        "STRING_LITERAL_LONG_SINGLE_QUOTE_A" to "([^\\'\\] | ECHAR | UCHAR)",
-        "STRING_LITERAL_SINGLE_QUOTE" to "((('\\'') ([^#x27#x5C#xA#xD] | ECHAR | UCHAR) ([^#x27#x5C#xA#xD] | ECHAR | UCHAR)* '\\'') | (('\\'') ('\\'')))",
-        "STRING_LITERAL_QUOTE" to "((('\"') ([^#x22#x5C#xA#xD] | ECHAR | UCHAR) ([^#x22#x5C#xA#xD] | ECHAR | UCHAR)* '\"') | (('\"') ('\"')))",
-        "BLANK_NODE_LABEL" to "'_' ':' (PN_CHARS_U | [0-9]) ([.]* PN_CHARS)*",//TODO this includes a trailling dot, which is wrong due to the given grammar
-        "IRIREF" to "'<' (IRIREF_A)* '>'",
-        "IRIREF_A" to "IRIREF_B | UCHAR",
-        "IRIREF_B" to "[^#x00-#x20<>\"{}|^`\\]",
-        "BOOLEAN" to "(('t') ('r') ('u') ('e')) | (('f') ('a') ('l') ('s') ('e'))",
-        "PREFIX" to "('P') ('R') ('E') ('F') ('I') ('X')",
-        "BASE" to "('B') ('A') ('S') ('E')",
-        "PREFIX2" to "('@') ('p') ('r') ('e') ('f') ('i') ('x')",
-        "BASE2" to "('@') ('b') ('a') ('s') ('e')",
-        "COLLECTION1" to "('(')",
-        "COLLECTION2" to "(')')",
-        "DOT" to "('.')",
-        "PROPERTY_LIST1" to "('[')",
-        "PROPERTY_LIST2" to "(']')",
-        "OBJECT_LIST1" to "(',')",
-        "PREDICATE_LIST1" to "(';')",
-        "VERB1" to "('a')",
-        "IRI1" to "('^') ('^')",
-        "EOF" to "=",
-        "SKIP_WS_FORCED" to "[#x20#x9#xD#xA]+",
-        "SKIP_WS" to "[#x20#x9#xD#xA]*",
+    "EXPONENT" to "[eE] [+-]? [0-9]+",
+    "DOUBLE" to "[+-]? ([0-9]+ '.' [0-9]* EXPONENT | '.' [0-9]+ EXPONENT | [0-9]+ EXPONENT)",
+    "DECIMAL" to "[+-]? [0-9]* '.' [0-9]+",
+    "INTEGER" to "[+-]? [0-9]+",
+    "PN_LOCAL_ESC" to "'\\\\' ('_' | '~' | '.' | '-' | '!' | '$' | '&' | '\\'' | '(' | ')' | '*' | '+' | ',' | ';' | '=' | '/' | '?' | '#' | '@' | '%')",
+    "HEX" to "([0-9] | [A-F] | [a-f])",
+    "PERCENT" to "'%' HEX HEX",
+    "PLX" to "(PERCENT | PN_LOCAL_ESC)",
+    "PN_CHARS_BASE" to "([A-Z] | [a-z] | [#x00C0-#x00D6] | [#x00D8-#x00F6] | [#x00F8-#x02FF] | [#x0370-#x037D] | [#x037F-#x1FFF] | [#x200C-#x200D] | [#x2070-#x218F] | [#x2C00-#x2FEF] | [#x3001-#xD7FF] | [#xF900-#xFDCF] | [#xFDF0-#xFFFD] | [#x10000-#x1fffff])",
+    "PN_CHARS_U" to "(PN_CHARS_BASE | '_')",
+    "PN_PREFIX" to "PN_CHARS_BASE ([.]* PN_CHARS)*",
+    "UCHAR" to "(('\\\\') 'u' HEX HEX HEX HEX | ('\\\\') 'U' HEX HEX HEX HEX HEX HEX HEX HEX)",
+    "PN_CHARS" to "(PN_CHARS_U | '-' | [0-9] | #x00B7 | [#x0300-#x036F] | [#x203F-#x2040])",
+    "PN_LOCAL" to "(PN_CHARS_U | ':' | [0-9] | PLX) ([.]* (PN_CHARS | ':' | PLX))*", // TODO this includes a trailling dot, which is wrong due to the given grammar
+    "ANON" to "'[' [#x20#x9#xD#xA]* ']'",
+    "ECHAR" to "('\\\\') ([tbnrf\"'\\])",
+    "PNAME_NS" to "(PN_PREFIX)? ':'",
+    "PNAME_LN" to "PNAME_NS PN_LOCAL",
+    "LANGTAG" to "'@' [a-zA-Z]+ ('-' [a-zA-Z0-9]+)*",
+    "STRING_LITERAL_LONG_QUOTE" to "'\"' '\"' '\"' (STRING_LITERAL_LONG_QUOTE_A | ('\"' STRING_LITERAL_LONG_QUOTE_A) | ('\"' '\"' STRING_LITERAL_LONG_QUOTE_A) | ('\"' '\"' '\"' (=)))* (!)",
+    "STRING_LITERAL_LONG_QUOTE_A" to "([^\"\\] | ECHAR | UCHAR)",
+    "STRING_LITERAL_LONG_SINGLE_QUOTE" to "'\\'' '\\'' '\\'' (STRING_LITERAL_LONG_SINGLE_QUOTE_A | ('\\'' STRING_LITERAL_LONG_SINGLE_QUOTE_A) | ('\\'' '\\'' STRING_LITERAL_LONG_SINGLE_QUOTE_A) | ('\\'' '\\'' '\\'' (=)))* (!)",
+    "STRING_LITERAL_LONG_SINGLE_QUOTE_A" to "([^\\'\\] | ECHAR | UCHAR)",
+    "STRING_LITERAL_SINGLE_QUOTE" to "((('\\'') ([^#x27#x5C#xA#xD] | ECHAR | UCHAR) ([^#x27#x5C#xA#xD] | ECHAR | UCHAR)* '\\'') | (('\\'') ('\\'')))",
+    "STRING_LITERAL_QUOTE" to "((('\"') ([^#x22#x5C#xA#xD] | ECHAR | UCHAR) ([^#x22#x5C#xA#xD] | ECHAR | UCHAR)* '\"') | (('\"') ('\"')))",
+    "BLANK_NODE_LABEL" to "'_' ':' (PN_CHARS_U | [0-9]) ([.]* PN_CHARS)*", // TODO this includes a trailling dot, which is wrong due to the given grammar
+    "IRIREF" to "'<' (IRIREF_A)* '>'",
+    "IRIREF_A" to "IRIREF_B | UCHAR",
+    "IRIREF_B" to "[^#x00-#x20<>\"{}|^`\\]",
+    "BOOLEAN" to "(('t') ('r') ('u') ('e')) | (('f') ('a') ('l') ('s') ('e'))",
+    "PREFIX" to "('P') ('R') ('E') ('F') ('I') ('X')",
+    "BASE" to "('B') ('A') ('S') ('E')",
+    "PREFIX2" to "('@') ('p') ('r') ('e') ('f') ('i') ('x')",
+    "BASE2" to "('@') ('b') ('a') ('s') ('e')",
+    "COLLECTION1" to "('(')",
+    "COLLECTION2" to "(')')",
+    "DOT" to "('.')",
+    "PROPERTY_LIST1" to "('[')",
+    "PROPERTY_LIST2" to "(']')",
+    "OBJECT_LIST1" to "(',')",
+    "PREDICATE_LIST1" to "(';')",
+    "VERB1" to "('a')",
+    "IRI1" to "('^') ('^')",
+    "EOF" to "=",
+    "SKIP_WS_FORCED" to "[#x20#x9#xD#xA]+",
+    "SKIP_WS" to "[#x20#x9#xD#xA]*",
 )
-
 
 var root = CharGroup()
 
@@ -1418,9 +1414,9 @@ if (args.size == 1 && args[0] == "PARSER_CONTEXT") {
     println("}")
     for ((k, v) in CharGroup.helperfunctions) {
         if (k.length < 300) {
-            println("internal inline fun ${v}(c:Int):Int{")
+            println("internal inline fun $v(c:Int):Int{")
         } else {
-            println("internal fun ${v}(c:Int):Int{")
+            println("internal fun $v(c:Int):Int{")
         }
         print(k)
         println("}")

@@ -1,8 +1,8 @@
 package lupos.s04arithmetikOperators.multiinput
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.Luposdate3000Exception
-import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s03resultRepresentation.ResultSetDictionaryExt
+import lupos.s03resultRepresentation.ResultSetDictionaryShared
 import lupos.s03resultRepresentation.ValueDefinition
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04logicalOperators.IOPBase
@@ -19,7 +19,7 @@ class AOPEQ(query: IQuery, childA: AOPBase, childB: AOPBase) : AOPBinaryOperatio
             val a1 = childA()
             val b1 = childB()
             if (a1 != b1) {
-                if (ResultSetDictionary.isGlobalBNode(a1) || ResultSetDictionary.isGlobalBNode(b1)) {
+                if (ResultSetDictionaryShared.isGlobalBNode(a1) || ResultSetDictionaryShared.isGlobalBNode(b1)) {
                     res = ResultSetDictionaryExt.booleanFalseValue2
                 } else {
                     val a = query.getDictionary().getValue(a1)

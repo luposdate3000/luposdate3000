@@ -6,7 +6,7 @@ import kotlin.math.round
 
 File("tmp").mkdirs()
 
-var data = mutableMapOf<String, Any>() //data[queries][trash][process][result_rows]
+var data = mutableMapOf<String, Any>() // data[queries][trash][process][result_rows]
 var keys_0 = mutableSetOf<Int>()
 var keys_1 = mutableSetOf<Int>()
 var keys_2 = mutableSetOf<Int>()
@@ -49,14 +49,14 @@ val keys0 = keys_0.toList().sorted()
 val keys1 = keys_1.toList().sorted()
 val keys2 = keys_2.toList().sorted()
 val keys3 = keys_3.toList().sorted()
-//print all
+// print all
 println(data)
 println(keys0)
 println(keys1)
 println(keys2)
 println(keys3)
 println("---")
-//print as time matrix
+// print as time matrix
 for (k0 in keys0) {
     for (k1 in keys1) {
         println("$k0 $k1")
@@ -75,10 +75,10 @@ for (k0 in keys0) {
     }
 }
 for (display in 0 until 6) {
-//print as best partition matrix
+// print as best partition matrix
     for (k0 in keys0) {
-        var out = File("tmp/matrix_${display}_${k0}.csv").printWriter()
-        var out2 = File("tmp/matrix_${display}_${k0}.csv.map").printWriter()
+        var out = File("tmp/matrix_${display}_$k0.csv").printWriter()
+        var out2 = File("tmp/matrix_${display}_$k0.csv.map").printWriter()
         var row = "-1.0"
         for (k3 in keys3) {
             row = "$row,\$2^{${round(log2(0.0 + k3)).toInt()}}\$"
@@ -152,12 +152,12 @@ for (display in 0 until 6) {
                 }
                 listOfValues.sortBy { it -> it.second }
 
-//listOfValues.insertAt(0,(Pair(0,0.0))
-                val token = "${line}.${column}"
+// listOfValues.insertAt(0,(Pair(0,0.0))
+                val token = "$line.$column"
                 if (mini_80 == 0) {
                     if (display == 5) {
                         row = "$row,$token"
-                        out2.println("${token}= ")
+                        out2.println("$token= ")
                     } else {
                         row = "$row,-1"
                     }
@@ -173,9 +173,9 @@ for (display in 0 until 6) {
                                 val v1 = String.format("%.2f", (basev / minv))
                                 val v2 = "${(((basev - halfv) / basev) * 100).toInt()}\\\\\\\\%"
                                 if (halfi != 0 && v2 != "0\\\\\\\\%") {
-                                    out2.println("${token}=\\\\\\\\shortstack{$v1\\\\\\\\\\\\\\\\(+$v2)}")
+                                    out2.println("$token=\\\\\\\\shortstack{$v1\\\\\\\\\\\\\\\\(+$v2)}")
                                 } else {
-                                    out2.println("${token}=$v1")
+                                    out2.println("$token=$v1")
                                 }
                                 row = "$row,$token"
                             }

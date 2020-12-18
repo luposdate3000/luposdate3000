@@ -203,4 +203,3 @@ when (outputformat) {
         println("</coverage>")
     }
 }
-

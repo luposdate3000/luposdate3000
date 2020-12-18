@@ -7,12 +7,10 @@
 
 import lupos.s00misc.Platform
 import java.io.File
-import java.io.PrintWriter
 import java.io.FileWriter
-import java.lang.ProcessBuilder.Redirect
+import java.io.PrintWriter
 import java.nio.file.Files
 import java.nio.file.Paths
-import java.nio.file.StandardOpenOption
 
 val targetBaseFolder = "${Platform.getBenchmarkHome()}${Platform.getPathSeparator()}luposdate-testdata${Platform.getPathSeparator()}sp2b"
 val sp2bGeneratorHome = "${Platform.getPathSeparator()}opt${Platform.getPathSeparator()}sp2b${Platform.getPathSeparator()}bin"
@@ -24,16 +22,16 @@ while (targetCount <= 9999999999) {
     File(targetFolder).mkdirs()
     val targetFile = "$targetFolder${Platform.getPathSeparator()}complete.n3"
     ProcessBuilder("./sp2b_gen", "-t", "$targetCount")
-            .directory(File(sp2bGeneratorHome))
-            .redirectOutput(File(Platform.getNullFileName()))
-            .redirectError(File(Platform.getNullFileName()))
-            .start()
-            .waitFor()
+        .directory(File(sp2bGeneratorHome))
+        .redirectOutput(File(Platform.getNullFileName()))
+        .redirectError(File(Platform.getNullFileName()))
+        .start()
+        .waitFor()
     Files.move(Paths.get("$sp2bGeneratorHome${Platform.getPathSeparator()}sp2b.n3"), Paths.get(targetFile))
     execImport(arrayOf(targetFile))
     val size = File(targetFile).length()
-    val count = File("${targetFile}.triples").length() / 12
-    val sizeIntermediate = File("${targetFile}.triples").length() + File("${targetFile}.dictionary").length() + File("${targetFile}.dictionaryoffset").length() + File("${targetFile}.stat").length()
+    val count = File("$targetFile.triples").length() / 12
+    val sizeIntermediate = File("$targetFile.triples").length() + File("$targetFile.dictionary").length() + File("$targetFile.dictionaryoffset").length() + File("$targetFile.stat").length()
     val fileWriter = FileWriter("${targetBaseFolder}${Platform.getPathSeparator()}stat.csv", true)
     val printWriter = PrintWriter(fileWriter)
     printWriter.println("$targetCount,$count,$size,$sizeIntermediate")

@@ -4,14 +4,10 @@
 @file:Import("../src/luposdate3000_shared_inline/src/jvmMain/kotlin/lupos/s00misc/Platform.kt")
 @file:CompilerOptions("-Xmulti-platform")
 
-
-import lupos.s00misc.Platform
-import java.lang.ProcessBuilder.Redirect
 import java.io.BufferedOutputStream
 import java.io.DataOutputStream
-import java.io.FileOutputStream
 import java.io.File
-import java.io.FileWriter
+import java.io.FileOutputStream
 import java.io.PrintWriter
 
 enum class ETripleComponentType {
@@ -25,12 +21,10 @@ enum class ETripleComponentType {
     STRING_TYPED,
     STRING_LANG,
 }
-//generateTriples("${Platform.getBenchmarkHome()}/luposdate-testdata/bench_4", 2097152, 16,1)
+// generateTriples("${Platform.getBenchmarkHome()}/luposdate-testdata/bench_4", 2097152, 16,1)
 
-
-//128 1 1 32768
-//generateTriples("${Platform.getBenchmarkHome()}/luposdate-testdata/bench_4_a", 32768, 128,1,1)
-
+// 128 1 1 32768
+// generateTriples("${Platform.getBenchmarkHome()}/luposdate-testdata/bench_4_a", 32768, 128,1,1)
 
 fun generateTriples(folderName: String, count: Int, trash_block: Int, join_block: Int, join_count: Int): Int {
     val byteBuf = ByteArray(1)
@@ -80,13 +74,13 @@ fun generateTriples(folderName: String, count: Int, trash_block: Int, join_block
         for (c in 0 until join_count + 1) {
             val cc = 'a' + c
             for (j in 0 until join_block) {
-                appendTriple("_:${i}", "<${cc}>", "_:${j}")
+                appendTriple("_:$i", "<$cc>", "_:$j")
             }
         }
         for (c in 0 until join_count + 1) {
             val cc = 'a' + c
             for (j in 0 until trash_block) {
-                appendTriple("_:${cc}_${i}_${j}", "<${cc}>", "_:${j}")
+                appendTriple("_:${cc}_${i}_$j", "<$cc>", "_:$j")
             }
         }
     }

@@ -4,7 +4,6 @@
 @file:Import("../src/luposdate3000_shared_inline/src/jvmMain/kotlin/lupos/s00misc/Platform.kt")
 @file:CompilerOptions("-Xmulti-platform")
 
-
 import lupos.s00misc.Platform
 import java.io.BufferedOutputStream
 import java.io.DataOutputStream
@@ -74,13 +73,13 @@ fun generateTriples(folderName: String, count: Int, a: Int, b: Int, c: Int): Int
         appendTriple("_:${i}_a", "<b>", "_:${i}_c")
         appendTriple("_:${i}_c", "<c>", "_:${i}_d")
         for (j in 0 until a) {
-            appendTriple("_:${i}_a_${j}", "<a>", "_:${i}_b_${j}")
+            appendTriple("_:${i}_a_$j", "<a>", "_:${i}_b_$j")
         }
         for (k in 0 until b) {
-            appendTriple("_:${i}_a_${k}", "<b>", "_:${i}_c_${k}")
+            appendTriple("_:${i}_a_$k", "<b>", "_:${i}_c_$k")
         }
         for (l in 0 until c) {
-            appendTriple("_:${i}_c_${l}", "<c>", "_:${i}_d_${l}")
+            appendTriple("_:${i}_c_$l", "<c>", "_:${i}_d_$l")
         }
     }
 

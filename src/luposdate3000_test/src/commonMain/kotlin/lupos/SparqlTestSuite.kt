@@ -26,7 +26,6 @@ import lupos.s02buildSyntaxTree.rdf.SimpleLiteral
 import lupos.s02buildSyntaxTree.sparql1_1.SPARQLParser
 import lupos.s02buildSyntaxTree.sparql1_1.TokenIteratorSPARQLParser
 import lupos.s02buildSyntaxTree.turtle.TurtleParserWithDictionary
-import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s03resultRepresentation.nodeGlobalDictionary
 import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s04logicalOperators.Query
@@ -87,7 +86,6 @@ open class SparqlTestSuite {
                 }
             }
         }
-        ResultSetDictionary.debug()
     }
     private /*suspend*/ fun listMembers(data: SevenIndices, start: Long, f: /*suspend*/ (Long) -> Unit) {
         val rdf = "http://www.w3.org/1999/02/22-rdf-syntax-ns#"

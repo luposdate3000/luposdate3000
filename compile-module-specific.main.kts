@@ -4,5 +4,3 @@
 @file:Import("src/luposdate3000_scripting/generate-buildfile-module.kt")
 
 createBuildFileForModule(args)
-
- 

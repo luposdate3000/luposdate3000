@@ -4,14 +4,11 @@
 @file:Import("../src/luposdate3000_shared_inline/src/jvmMain/kotlin/lupos/s00misc/Platform.kt")
 @file:CompilerOptions("-Xmulti-platform")
 
-
 import lupos.s00misc.Platform
-import java.lang.ProcessBuilder.Redirect
 import java.io.BufferedOutputStream
 import java.io.DataOutputStream
-import java.io.FileOutputStream
 import java.io.File
-import java.io.FileWriter
+import java.io.FileOutputStream
 import java.io.PrintWriter
 
 enum class ETripleComponentType {
@@ -72,17 +69,17 @@ fun generateTriples(folderName: String, count: Int, a: Int, b: Int, c: Int): Int
     }
 
     for (i in 0 until count) {
-        appendTriple("_:${i}", "<a>", "_:a")
-        appendTriple("_:${i}", "<b>", "_:b")
-        appendTriple("_:${i}", "<c>", "_:c")
+        appendTriple("_:$i", "<a>", "_:a")
+        appendTriple("_:$i", "<b>", "_:b")
+        appendTriple("_:$i", "<c>", "_:c")
         for (j in 0 until a) {
-            appendTriple("_:a${i}_${j}", "<a>", "_:${j}")
+            appendTriple("_:a${i}_$j", "<a>", "_:$j")
         }
         for (k in 0 until b) {
-            appendTriple("_:b${i}_${k}", "<b>", "_:${k}")
+            appendTriple("_:b${i}_$k", "<b>", "_:$k")
         }
         for (l in 0 until c) {
-            appendTriple("_:c${i}_${l}", "<c>", "_:${l}")
+            appendTriple("_:c${i}_$l", "<c>", "_:$l")
         }
     }
 

@@ -54,7 +54,7 @@ while (line2 != null) {
                             } else {
                                 var i = column - 1
                                 while (line[i] == '\\') {
-                                    require(i > 0)//because there must be at least one '"' in front of it
+                                    require(i > 0) // because there must be at least one '"' in front of it
                                     i--
                                 }
                                 if ((column - i) % 2 == 1) {

@@ -8,12 +8,12 @@ import java.io.PrintWriter
 
 var targetNumberOfTriples = 100L
 var numberOfPredicates = 2
-var blockCount = 1 //if there is a match, than x elements match in a row
-var trashCount = 0 //if there is no match, than x elements dont match in a row
+var blockCount = 1 // if there is a match, than x elements match in a row
+var trashCount = 0 // if there is no match, than x elements dont match in a row
 val preventMultiplesOfList = intArrayOf(2, 3, 5, 7, 11, 13, 17, 19)
 val object_counter = 100
 
-//successful match-blocks and trash-blocks are interleaved in the data (if the data is interpreted in the same ordering as generated)
+// successful match-blocks and trash-blocks are interleaved in the data (if the data is interpreted in the same ordering as generated)
 
 if (args.size > 0) {
     targetNumberOfTriples = args[0].toLong()
@@ -40,7 +40,7 @@ var outIntermediateDictionaryStat = File(folderName + "/intermediate.stat").prin
 var outIntermediateDictionaryStatCounter = 0
 var outIntermediateTriplesStatCounter = 0
 
-//predefining unused values, to prevent mixing unwanted "new" values, which would break the target patterns
+// predefining unused values, to prevent mixing unwanted "new" values, which would break the target patterns
 outIntermediateDictionary.println("_:_a1")
 outIntermediateDictionaryStatCounter++
 outIntermediateDictionary.println("<unused>")
@@ -59,8 +59,8 @@ for (i in 0 until object_counter) {
     outIntermediateTriplesStatCounter++
 }
 for (i in 0 until numberOfPredicates) {
-    outN3.println("_:a1 <unused> <p${i}> .")
-    outIntermediateDictionary.println("<p${i}>")
+    outN3.println("_:a1 <unused> <p$i> .")
+    outIntermediateDictionary.println("<p$i>")
     outIntermediateDictionaryStatCounter++
     outIntermediateTriples.writeInt(0)
     outIntermediateTriples.writeInt(1)
@@ -75,7 +75,7 @@ loop@ while (targetNumberOfTriples > 0) {
     outBnodes.println("_:s${counter.toString(16)}")
     for (p in 0 until numberOfPredicates) {
         for (j in 0 until blockCount) {
-            outN3.println("_:s${counter.toString(16)} <p${p}> <o${((j + counter) % object_counter).toString(16)}> .")
+            outN3.println("_:s${counter.toString(16)} <p$p> <o${((j + counter) % object_counter).toString(16)}> .")
             outIntermediateTriples.writeInt(s_offset + counter)
             outIntermediateTriples.writeInt(p_offset + p)
             outIntermediateTriples.writeInt(o_offset + ((j + counter) % object_counter))
@@ -91,7 +91,7 @@ loop@ while (targetNumberOfTriples > 0) {
                 if (targetNumberOfTriples <= 0) {
                     break@loop
                 }
-                outN3.println("_:s${counter.toString(16)} <p${p}> <o${((j + counter) % object_counter).toString(16)}> .")
+                outN3.println("_:s${counter.toString(16)} <p$p> <o${((j + counter) % object_counter).toString(16)}> .")
                 outBnodes.println("_:s${counter.toString(16)}")
                 outIntermediateDictionary.println("_:_s${counter.toString(16)}")
                 outIntermediateDictionaryStatCounter++
