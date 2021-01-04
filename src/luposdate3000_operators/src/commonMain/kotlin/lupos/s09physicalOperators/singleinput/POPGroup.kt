@@ -183,9 +183,7 @@ class POPGroup : POPBase {
             }
         }
         val valueColumns = Array(valueColumnNames.size) { child.columns[valueColumnNames[it]]!! }
-        println("evaluate POPGroup ${valueColumnNames.map { it }} ${keyColumnNames.map { it }}")
         if (keyColumnNames.isEmpty()) {
-            println("case 'keyColumnNames.isEmpty()'")
             SanityCheck.println { "group mode a" }
             val localMap = mutableMapOf<String, ColumnIterator>()
             val localColumns = Array<ColumnIteratorQueue>(valueColumnNames.size) { ColumnIteratorQueueEmpty() }
@@ -233,19 +231,16 @@ class POPGroup : POPBase {
             val tmpSortPriority = children[0].getMySortPriority().map { it.variableName }
             var canUseSortedInput = true
             if ((!localVariables.containsAll(keyColumnNames.toMutableList())) || (tmpSortPriority.size < keyColumnNames.size)) {
-                println("not sorted because a ${!localVariables.containsAll(keyColumnNames.toMutableList())} ${tmpSortPriority.size < keyColumnNames.size}")
                 canUseSortedInput = false
             } else {
                 for (element in keyColumnNames) {
                     if (!tmpSortPriority.contains(element)) {
-                        println("not sorted because b")
                         canUseSortedInput = false
                         break
                     }
                 }
             }
             if (canUseSortedInput) {
-                println("case 'canUseSortedInput'")
                 SanityCheck.println { "group mode b" }
                 var currentKey = IntArray(keyColumnNames.size) { ResultSetDictionaryExt.undefValue }
                 var nextKey: IntArray? = null
@@ -424,7 +419,6 @@ class POPGroup : POPBase {
                     keyColumnNames.size == 1 && valueColumnNames.size == 0
 // <- simplicity
                 ) {
-                    println("case 'count only' ${valueColumnNames.map { it }} ${keyColumnNames.map { it }}")
                     var iterator = keyColumns[0]
                     var map = mutableMapOf<Int, Int>()
                     while (true) {
@@ -452,7 +446,6 @@ class POPGroup : POPBase {
                     outMap[keyColumnNames[0]] = ColumnIteratorMultiValue(arrK, arrK.size)
                     outMap[bindings.toList().first().first] = ColumnIteratorMultiValue(arrV, arrV.size)
                 } else {
-                    println("case 'generic'")
                     SanityCheck.println { "group mode c" }
                     val map = mutableMapOf<MapKey, MapRow>()
                     loop@ while (true) {

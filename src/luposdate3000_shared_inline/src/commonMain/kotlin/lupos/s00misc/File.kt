@@ -15,7 +15,7 @@ internal expect class File(filename: String) {
     inline fun forEachLine(crossinline action: (String) -> Unit)
     /*suspend*/ inline fun forEachLineSuspended(crossinline action: /*suspend*/ (String) -> Unit)
     inline fun dataOutputStream(crossinline action: (MyDataOutputStream) -> Unit)
-    inline fun openDataOutputStream(append:Boolean): MyDataOutputStream
+    inline fun openDataOutputStream(append: Boolean): MyDataOutputStream
     inline fun dataOutputStreamSuspend(crossinline action: (MyDataOutputStream) -> Unit)
     inline fun dataInputStream(crossinline action: (MyDataInputStream) -> Unit)
     /*suspend*/ inline fun dataInputStreamSuspended(crossinline action: /*suspend*/ (MyDataInputStream) -> Unit)

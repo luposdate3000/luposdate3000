@@ -12,6 +12,7 @@ import lupos.s04logicalOperators.OPBaseCompound
 import lupos.s04logicalOperators.Query
 import lupos.s06buildOperatorGraph.OperatorGraphVisitor
 import lupos.s08logicalOptimisation.LogicalOptimizer
+import lupos.s09physicalOperators.partition.POPSplitPartitionFromStore
 import lupos.s10physicalOptimisation.PhysicalOptimizer
 import lupos.s11outputResult.QueryResultToMemoryTable
 import lupos.s11outputResult.QueryResultToXMLStream
@@ -80,8 +81,9 @@ object BinaryTestCase {
             outSummary.close()
         }
     }
-    private fun operatorGraphToTable(node: IOPBase): MemoryTable {
-        val tmp = QueryResultToMemoryTable(node)
+    private fun operatorGraphToTable(node: IOPBase, partition: Partition = Partition()): MemoryTable {
+        println(node)
+        val tmp = QueryResultToMemoryTable(node, partition)
         if (tmp.size != 1) {
             throw Exception("multi-queries are not supported right now")
         }
@@ -393,8 +395,17 @@ object BinaryTestCase {
                                             SanityCheck.println { "extractKey :: $idx ${p.column} $key" }
                                             partition.limit[key] = p.partitionCount
                                             partition.data[key] = value
-                                            val node = distributedTripleStore.getDefaultGraph(query3).getIterator(queryParam, idx, partition)
-                                            val table = operatorGraphToTable(OPBaseCompound(query3, arrayOf(node), listOf(listOf("s", "p", "o"))))
+                                            val node = OPBaseCompound(
+                                                query3,
+                                                arrayOf(
+                                                    POPSplitPartitionFromStore(
+                                                        query3, listOf("s", "p", "o"), key, p.partitionCount, -1,
+                                                        distributedTripleStore.getDefaultGraph(query3).getIterator(queryParam, idx, partition)
+                                                    )
+                                                ),
+                                                listOf(listOf("s", "p", "o"))
+                                            )
+                                            val table = operatorGraphToTable(node, partition)
                                             SanityCheck.println { "storage content $idx $value/${p.partitionCount} '$key' ${table.columns.map { it }}" }
                                             for (r in table.data) {
                                                 SanityCheck.println { r.map { it } }

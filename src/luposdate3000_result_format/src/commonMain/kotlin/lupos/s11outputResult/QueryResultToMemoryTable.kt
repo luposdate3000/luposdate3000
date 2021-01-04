@@ -35,7 +35,7 @@ object QueryResultToMemoryTable {
             element.close()
         }
     }
-    private /*suspend*/ fun writeNodeResult(variables: Array<String>, node: IOPBase, output: MemoryTable, parent: Partition = Partition()) {
+    private /*suspend*/ fun writeNodeResult(variables: Array<String>, node: IOPBase, output: MemoryTable, parent: Partition) {
         if ((node is POPMergePartition && node.partitionCount > 1) || (node is POPMergePartitionOrderedByIntId && node.partitionCount > 1)) {
             var partitionCount = 0
             var partitionVariable = ""
@@ -74,7 +74,7 @@ object QueryResultToMemoryTable {
             writeAllRows(variables, columns, node.getQuery().getDictionary(), null, output)
         }
     }
-    /*suspend*/ operator fun invoke(rootNode: IOPBase): List<MemoryTable> {
+    /*suspend*/ operator fun invoke(rootNode: IOPBase, partition: Partition = Partition()): List<MemoryTable> {
         val nodes: Array<IOPBase>
         var columnProjectionOrder = listOf<List<String>>()
         if (rootNode is OPBaseCompound) {
@@ -103,7 +103,7 @@ object QueryResultToMemoryTable {
                 }
                 val variables = columnNames.toTypedArray()
                 if (variables.size == 1 && variables[0] == "?boolean") {
-                    val child = node.evaluate(Partition())
+                    val child = node.evaluate(partition)
                     val value = node.getQuery().getDictionary().getValue(child.columns["?boolean"]!!.next())
                     val res = MemoryTable(Array(0) { "" })
                     res.query = rootNode.getQuery()
@@ -112,7 +112,7 @@ object QueryResultToMemoryTable {
                     child.columns["?boolean"]!!.close()
                 } else {
                     if (variables.isEmpty()) {
-                        val child = node.evaluate(Partition())
+                        val child = node.evaluate(partition)
                         val res = MemoryTable(Array(0) { "" })
                         res.query = rootNode.getQuery()
                         for (j in 0 until child.count()) {
@@ -122,7 +122,7 @@ object QueryResultToMemoryTable {
                     } else {
                         val res = MemoryTable(variables)
                         res.query = rootNode.getQuery()
-                        writeNodeResult(variables, node, res)
+                        writeNodeResult(variables, node, res, partition)
                         resultList.add(res)
                     }
                 }

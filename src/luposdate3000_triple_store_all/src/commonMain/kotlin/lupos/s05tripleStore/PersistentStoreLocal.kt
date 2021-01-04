@@ -77,9 +77,9 @@ class PersistentStoreLocal : IPersistentStoreLocal {
         storesAdd(name)
         return stores[name]!!
     }
-override fun getEnabledPartitions(name:String):Array<EnabledPartitionContainer> {
-return stores[name]!!.enabledPartitions
-}
+    override fun getEnabledPartitions(name: String): Array<EnabledPartitionContainer> {
+        return stores[name]!!.enabledPartitions
+    }
     override /*suspend*/ fun dropGraph(query: IQuery, name: String) {
         SanityCheck.check { name != PersistentStoreLocalExt.defaultGraphName }
         val store = stores[name] ?: throw GraphNameNotExistsDuringDeleteException(name)

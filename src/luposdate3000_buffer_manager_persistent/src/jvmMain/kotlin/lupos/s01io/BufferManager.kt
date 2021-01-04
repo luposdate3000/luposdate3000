@@ -46,7 +46,6 @@ actual class BufferManager {
             freelistfile.seek(freelistfileOffsetFreeLen)
             freelistfile.writeInt(freeArrayLength)
         }
-        println("creating buffermanager by name :: '$name'")
     }
     /*
      * each type safe page-manager safes to its own store
@@ -77,8 +76,6 @@ actual class BufferManager {
     val datafile: RandomAccessFile
     @JvmField
     var datafilelength: Long
-//    @JvmField
-//    var debugListOfPages = mutableMapOf<Int, ByteArray>()
     init {
         val manager = this
         BufferManagerExt.managerListLock.withWriteLock {
@@ -130,7 +127,6 @@ actual class BufferManager {
         return openId
     }
     actual /*suspend*/ fun clear(): Unit = lock.withWriteLock {
-        println("calling clear")
         counter = 0
         freelistfile.seek(freelistfileOffsetCounter)
         freelistfile.writeInt(counter)
@@ -152,23 +148,19 @@ actual class BufferManager {
             SanityCheck.check { openPagesMapping[pageid] != null }
             var openId = openPagesMapping[pageid]!!
             SanityCheck.check { openPagesRefcounters[openId] >= 1 }
-            println("BufferManager .. $pageid -> $openId release finally")
             if (datafilelength < BUFFER_MANAGER_PAGE_SIZE_IN_BYTES * pageid) {
                 datafilelength = BUFFER_MANAGER_PAGE_SIZE_IN_BYTES * pageid
                 datafile.setLength(datafilelength)
             }
             datafile.seek(BUFFER_MANAGER_PAGE_SIZE_IN_BYTES * pageid)
-            println("RandomAccessFile ${BUFFER_MANAGER_PAGE_SIZE_IN_BYTES * pageid} write")
             datafile.write(openPages[openId])
             SanityCheck {
                 val cmp = ByteArray(BUFFER_MANAGER_PAGE_SIZE_IN_BYTES.toInt())
-                println("RandomAccessFile ${BUFFER_MANAGER_PAGE_SIZE_IN_BYTES * pageid} cmp")
                 datafile.seek(BUFFER_MANAGER_PAGE_SIZE_IN_BYTES * pageid)
                 datafile.readFully(cmp)
                 for (i in 0 until BUFFER_MANAGER_PAGE_SIZE_IN_BYTES.toInt()) {
                     SanityCheck.check { cmp[i] == openPages[openId][i] }
                 }
-                // debugListOfPages[pageid] = cmp
             }
             localSanityCheck()
         }
@@ -184,29 +176,22 @@ actual class BufferManager {
             var openId = openPagesMapping[pageid]!!
             SanityCheck.check { openPagesRefcounters[openId] >= 1 }
             if (openPagesRefcounters[openId] == 1) {
-                println("BufferManager .. $pageid -> $openId release finally")
                 if (datafilelength < BUFFER_MANAGER_PAGE_SIZE_IN_BYTES * pageid) {
                     datafilelength = BUFFER_MANAGER_PAGE_SIZE_IN_BYTES * pageid
                     datafile.setLength(datafilelength)
                 }
                 datafile.seek(BUFFER_MANAGER_PAGE_SIZE_IN_BYTES * pageid)
-                println("RandomAccessFile ${BUFFER_MANAGER_PAGE_SIZE_IN_BYTES * pageid} write")
                 datafile.write(openPages[openId])
                 SanityCheck {
                     val cmp = ByteArray(BUFFER_MANAGER_PAGE_SIZE_IN_BYTES.toInt())
-                    println("RandomAccessFile ${BUFFER_MANAGER_PAGE_SIZE_IN_BYTES * pageid} cmp")
                     datafile.seek(BUFFER_MANAGER_PAGE_SIZE_IN_BYTES * pageid)
                     datafile.readFully(cmp)
                     for (i in 0 until BUFFER_MANAGER_PAGE_SIZE_IN_BYTES.toInt()) {
                         SanityCheck.check { cmp[i] == openPages[openId][i] }
                     }
-                    // debugListOfPages[pageid] = cmp
                 }
-// TODO remove unnecessary flush
                 openPagesMapping.remove(pageid)
                 SanityCheck.check { !openPagesMapping.values.contains(openId) }
-            } else {
-                println("BufferManager .. $pageid -> $openId release, but keep")
             }
             openPagesRefcounters[openId]--
             localSanityCheck()
@@ -222,31 +207,12 @@ actual class BufferManager {
             }
             openId = openPagesMapping[pageid]
             if (openId != null) {
-                println("BufferManager .. $pageid -> $openId opened again")
                 openPagesRefcounters[openId!!]++
             } else {
                 openId = findNextOpenID()
                 datafile.seek(BUFFER_MANAGER_PAGE_SIZE_IN_BYTES * pageid)
-                println("RandomAccessFile ${BUFFER_MANAGER_PAGE_SIZE_IN_BYTES * pageid} read")
                 datafile.readFully(openPages[openId!!])
-//                SanityCheck {
-//                    val cmp = debugListOfPages[pageid]!!
-//                    var errCnt = 0
-//                    for (i in 0 until BUFFER_MANAGER_PAGE_SIZE_IN_BYTES.toInt()) {
-//                        if (cmp[i] != openPages[openId!!][i]) {
-                //                          errCnt++
-                //                    }
-                //              }
-                //            if (errCnt> 0) {
-                //              println("error on read $pageid .. data::")
-                //            for (i in 0 until BUFFER_MANAGER_PAGE_SIZE_IN_BYTES.toInt()) {
-                //              println("$i :: ${cmp[i]} vs ${openPages[openId!!][i]} .... ${cmp[i] == openPages[openId!!][i]}")
-                //        }
-                //      throw Exception("")
-                //   }
-                // }
                 SanityCheck.check { !openPagesMapping.values.contains(openId) }
-                println("BufferManager .. $pageid -> $openId opened first")
                 openPagesMapping[pageid] = openId!!
             }
             localSanityCheck()
@@ -263,12 +229,10 @@ actual class BufferManager {
                 freelistfile.seek(freelistfileOffsetFreeLen)
                 freelistfile.writeInt(freeArrayLength)
                 pageid = freeArray[freeArrayLength]
-                println("RandomAccessFile ${BUFFER_MANAGER_PAGE_SIZE_IN_BYTES * pageid} create freearray")
             } else {
                 pageid = counter++
                 freelistfile.seek(freelistfileOffsetCounter)
                 freelistfile.writeInt(counter)
-                println("RandomAccessFile ${BUFFER_MANAGER_PAGE_SIZE_IN_BYTES * pageid} create counter")
             }
             SanityCheck.check { pageid <counter }
             for (i in 0 until freeArrayLength) {
@@ -276,7 +240,6 @@ actual class BufferManager {
             }
             var openId = findNextOpenID()
             SanityCheck.check { !openPagesMapping.values.contains(openId) }
-            println("BufferManager .. $pageid -> $openId created")
             openPagesMapping[pageid] = openId
             Arrays.fill(openPages[openId], 0)
             action(openPages[openId], pageid)
@@ -285,7 +248,6 @@ actual class BufferManager {
     }
     actual /*suspend*/ fun deletePage(pageid: Int): Unit = lock.withWriteLock {
         localSanityCheck()
-        println("RandomAccessFile ${BUFFER_MANAGER_PAGE_SIZE_IN_BYTES * pageid} delete")
         SanityCheck.check { pageid <counter }
         for (i in 0 until freeArrayLength) {
             SanityCheck { freeArray[i] != pageid }
@@ -293,7 +255,6 @@ actual class BufferManager {
         SanityCheck.check { openPagesMapping[pageid] != null }
         var openId = openPagesMapping[pageid]!!
         SanityCheck.check { openPagesRefcounters[openId] == 1 }
-        println("BufferManager .. $pageid -> $openId deleted")
         openPagesRefcounters[openId]--
         openPagesMapping.remove(pageid)
         if (freeArrayLength >= freeArray.size) {
@@ -307,9 +268,6 @@ actual class BufferManager {
         freelistfile.seek(freelistfileOffsetData + 4 * freeArrayLength)
         freelistfile.writeInt(pageid)
         freeArrayLength++
-        SanityCheck {
-            // debugListOfPages.remove(pageid)
-        }
         SanityCheck.check { !openPagesMapping.values.contains(openId) }
         localSanityCheck()
     }

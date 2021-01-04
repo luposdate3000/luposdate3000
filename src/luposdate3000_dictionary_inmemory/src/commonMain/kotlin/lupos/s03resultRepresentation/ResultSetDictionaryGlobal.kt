@@ -53,10 +53,10 @@ class ResultSetDictionaryGlobal() {
         if (!BufferManagerExt.isInMemoryOnly) {
             if (BufferManagerExt.initializedFromDisk) {
                 importFromDictionaryFile(BufferManagerExt.bufferPrefix + "dictionary.data")
-            outputDictionaryFile = File(BufferManagerExt.bufferPrefix + "dictionary.data").openDataOutputStream(true)
-            }else{
-            outputDictionaryFile = File(BufferManagerExt.bufferPrefix + "dictionary.data").openDataOutputStream(false)
-}
+                outputDictionaryFile = File(BufferManagerExt.bufferPrefix + "dictionary.data").openDataOutputStream(true)
+            } else {
+                outputDictionaryFile = File(BufferManagerExt.bufferPrefix + "dictionary.data").openDataOutputStream(false)
+            }
         }
         initializationphase = false
     }

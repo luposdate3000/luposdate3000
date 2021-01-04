@@ -98,7 +98,6 @@ class TripleStoreIteratorGlobal(query: IQuery, projectedVariables: List<String>,
     }
 }
 class DistributedGraph(val query: IQuery, @JvmField val name: String) : IDistributedGraph {
-
     override /*suspend*/ fun bulkImport(action: /*suspend*/ (ITripleStoreBulkImport) -> Unit) {
         val bulk = TripleStoreBulkImport(query, name)
         action(bulk as ITripleStoreBulkImport)

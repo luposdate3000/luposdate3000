@@ -4,9 +4,6 @@ import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import kotlin.jvm.JvmField
 abstract class TripleStoreIndex(@JvmField val store_root_page_id: Int) {
-    init {
-        println("initializing triple store with key : $store_root_page_id")
-    }
     abstract fun dropIndex()
     abstract /*suspend*/ fun getIterator(query: IQuery, params: TripleStoreFeatureParams): IteratorBundle
     abstract /*suspend*/ fun import(dataImport: IntArray, count: Int, order: IntArray)

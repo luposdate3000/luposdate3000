@@ -138,9 +138,9 @@ internal actual class File actual constructor(@JvmField val filename: String) {
             input2.close()
         }
     }
-    actual inline fun openDataOutputStream(append:Boolean): MyDataOutputStream {
+    actual inline fun openDataOutputStream(append: Boolean): MyDataOutputStream {
         var dos: DataOutputStream? = null
-        val fos = FileOutputStream(filename,append)
+        val fos = FileOutputStream(filename, append)
         val bos = BufferedOutputStream(fos)
         dos = DataOutputStream(bos)
         return MyDataOutputStream(dos)
