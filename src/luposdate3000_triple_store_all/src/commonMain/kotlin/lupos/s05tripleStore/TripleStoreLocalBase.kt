@@ -1,6 +1,7 @@
 package lupos.s05tripleStore
 import lupos.s00misc.EIndexPattern
 import lupos.s00misc.EModifyType
+import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
 import lupos.s03resultRepresentation.ResultSetDictionaryExt
 import lupos.s04arithmetikOperators.noinput.AOPVariable
@@ -40,6 +41,27 @@ abstract class TripleStoreLocalBase(@JvmField val name: String, @JvmField val st
                     }
                     idx++
                 }
+                for (p in enabledPartitions) {
+                    if (p.index.contains(params.idx) && p.column != -1 && (params.params[params.idx.tripleIndicees[p.column]]is AOPVariable)) {
+                        var resa = 0
+                        var resb = 0
+                        var columnName = (params.params[params.idx.tripleIndicees[p.column]]as AOPVariable).name
+                        if (columnName == "_") {
+                            columnName = "_${p.column}"
+                        }
+                        for (i in 0 until p.partitionCount) {
+                            val partition = Partition()
+                            partition.limit[columnName] = p.partitionCount
+                            partition.data[columnName] = i
+                            val localparams = TripleStoreFeatureParamsPartition(params.idx, params.params, partition)
+                            val localhistogram = getHistogram(query, localparams)
+                            resa += localhistogram.first
+                            resb += localhistogram.second
+                        }
+                        return Pair(resa, resb)
+                    }
+                    idx++
+                }
                 SanityCheck.checkUnreachable()
             }
             is TripleStoreFeatureParamsPartition -> {
@@ -51,19 +73,23 @@ abstract class TripleStoreLocalBase(@JvmField val name: String, @JvmField val st
                     partitionLimit = v
                 }
                 var partitionColumn = -1
-                var j = 0
-                for (ii in 0 until 3) {
-                    val i = params.idx.tripleIndicees[ii]
-                    val param = params.params[i]
-                    if (param is AOPVariable) {
-                        if (param.name == partitionName) {
-                            partitionColumn = j
-                            break
+                if (partitionName.startsWith("_")) {
+                    partitionColumn = partitionName.substring(1).toInt()
+                } else {
+                    var j = 0
+                    for (ii in 0 until 3) {
+                        val i = params.idx.tripleIndicees[ii]
+                        val param = params.params[i]
+                        if (param is AOPVariable) {
+                            if (param.name == partitionName) {
+                                partitionColumn = j
+                                break
+                            } else {
+                                j++
+                            }
                         } else {
-                            j++
+                            j++ // constants at the front do count
                         }
-                    } else {
-                        j++ // constants at the front do count
                     }
                 }
                 for (p in enabledPartitions) {
