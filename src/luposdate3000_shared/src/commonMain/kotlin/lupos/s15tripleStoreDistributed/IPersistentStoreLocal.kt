@@ -1,6 +1,7 @@
 package lupos.s15tripleStoreDistributed
 import lupos.s04logicalOperators.IQuery
 import lupos.s05tripleStore.ITripleStoreLocalBase
+import lupos.s05tripleStore.EnabledPartitionContainer
 interface IPersistentStoreLocal {
     fun getGraphNames(includeDefault: Boolean = false): List<String>
     fun createGraph(query: IQuery, name: String): ITripleStoreLocalBase
@@ -9,4 +10,5 @@ interface IPersistentStoreLocal {
     /*suspend*/ fun getNamedGraph(query: IQuery, name: String, create: Boolean = false): ITripleStoreLocalBase
     /*suspend*/ fun getDefaultGraph(query: IQuery): ITripleStoreLocalBase
     /*suspend*/ fun commit(query: IQuery)
+fun getEnabledPartitions(name:String):Array<EnabledPartitionContainer> 
 }

@@ -27,6 +27,9 @@ class PhysicalOptimizer(query: Query) : OptimizerCompoundBase(query, EOptimizerI
             PhysicalOptimizerPartition5(query), //
         ),
         arrayOf(
+            PhysicalOptimizerPartition6(query), //
+        ),
+        arrayOf(
             PhysicalOptimizerDebug(query)
         )
     )
