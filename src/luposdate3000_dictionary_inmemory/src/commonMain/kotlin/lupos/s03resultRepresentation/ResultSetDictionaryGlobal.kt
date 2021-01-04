@@ -53,8 +53,10 @@ class ResultSetDictionaryGlobal() {
         if (!BufferManagerExt.isInMemoryOnly) {
             if (BufferManagerExt.initializedFromDisk) {
                 importFromDictionaryFile(BufferManagerExt.bufferPrefix + "dictionary.data")
-            }
-            outputDictionaryFile = File(BufferManagerExt.bufferPrefix + "dictionary.data").openDataOutputStream()
+            outputDictionaryFile = File(BufferManagerExt.bufferPrefix + "dictionary.data").openDataOutputStream(true)
+            }else{
+            outputDictionaryFile = File(BufferManagerExt.bufferPrefix + "dictionary.data").openDataOutputStream(false)
+}
         }
         initializationphase = false
     }
@@ -224,7 +226,7 @@ class ResultSetDictionaryGlobal() {
         floatToValue = DoubleArray(1) { 0.0 }
         decimalToValue = Array(1) { ResultSetDictionaryShared.emptyString }
         intToValue = Array(1) { ResultSetDictionaryShared.emptyString }
-        outputDictionaryFile = File(BufferManagerExt.bufferPrefix + "dictionary.data").openDataOutputStream()
+        outputDictionaryFile = File(BufferManagerExt.bufferPrefix + "dictionary.data").openDataOutputStream(false)
         outputDictionaryFile.flush()
     }
     internal inline fun toBooleanOrError(value: Int): Int {
