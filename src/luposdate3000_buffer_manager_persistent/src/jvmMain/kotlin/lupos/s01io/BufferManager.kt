@@ -170,7 +170,6 @@ actual class BufferManager {
                 }
                 // debugListOfPages[pageid] = cmp
             }
-            SanityCheck.check { !openPagesMapping.values.contains(openId) }
             localSanityCheck()
         }
     }

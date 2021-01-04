@@ -9,6 +9,7 @@ import lupos.s00misc.OperatorGraphToLatex
 import lupos.s00misc.Partition
 import lupos.s00misc.QueryResultToStream
 import lupos.s00misc.SanityCheck
+import lupos.s00misc.MyStringStream
 import lupos.s00misc.XMLElement
 import lupos.s00misc.XMLElementFromCsv
 import lupos.s00misc.XMLElementFromJson
@@ -56,7 +57,7 @@ object LuposdateEndpoint {
         }
         return res
     }
-    internal fun helperImportTurtleFiles(dict: MutableMap<String, Int>, v: String): Int {
+    internal fun helperImportRaw(dict: MutableMap<String, Int>, v: String): Int {
         val v2 = helperCleanString(v)
         val res: Int
         if (v2.startsWith("_:")) {
@@ -96,7 +97,7 @@ object LuposdateEndpoint {
                         val x = object : TurtleParserWithStringTriples() {
                             override /*suspend*/ fun consume_triple(s: String, p: String, o: String) {
                                 counter++
-                                bulk.insert(helperImportTurtleFiles(bnodeDict, s), helperImportTurtleFiles(bnodeDict, p), helperImportTurtleFiles(bnodeDict, o))
+                                bulk.insert(helperImportRaw(bnodeDict, s), helperImportRaw(bnodeDict, p), helperImportRaw(bnodeDict, o))
                             }
                         }
                         x.ltit = ltit
@@ -130,7 +131,7 @@ object LuposdateEndpoint {
                         val x = object : Turtle2Parser(iter) {
                             override fun onTriple(triple: Array<String>, tripleType: Array<ETripleComponentType>) {
                                 counter++
-                                bulk.insert(helperImportTurtleFiles(bnodeDict, triple[0]), helperImportTurtleFiles(bnodeDict, triple[1]), helperImportTurtleFiles(bnodeDict, triple[2]))
+                                bulk.insert(helperImportRaw(bnodeDict, triple[0]), helperImportRaw(bnodeDict, triple[1]), helperImportRaw(bnodeDict, triple[2]))
                             }
                         }
                         x.turtleDoc()
@@ -146,6 +147,34 @@ object LuposdateEndpoint {
             return importTurtleFilesOld(fileNames, bnodeDict)
         }
 /*Coverage Unreachable*/
+    }
+    @JsName("import_turtle_string")
+    /*suspend*/ fun importTurtleString(data: String, bnodeDict: MutableMap<String, Int>): String {
+        try {
+            val query = Query()
+            var counter = 0
+            val store = distributedTripleStore.getDefaultGraph(query)
+            store.bulkImport { bulk ->
+                val iter = MyStringStream(data)
+                try {
+                    val x = object : Turtle2Parser(iter) {
+                        override fun onTriple(triple: Array<String>, tripleType: Array<ETripleComponentType>) {
+                            counter++
+                            bulk.insert(helperImportRaw(bnodeDict, triple[0]), helperImportRaw(bnodeDict, triple[1]), helperImportRaw(bnodeDict, triple[2]))
+                        }
+                    }
+                    x.turtleDoc()
+                } catch (e: Exception) {
+                    println("fast_parser :: error in turtle-string")
+                    e.printStackTrace()
+                    throw e
+                }
+            }
+            return "successfully imported $counter Triples"
+        } catch (e: Exception) {
+            e.printStackTrace()
+            throw e
+        }
     }
     @JsName("import_intermediate_files")
     /*suspend*/ fun importIntermediateFiles(fileNames: String): String {

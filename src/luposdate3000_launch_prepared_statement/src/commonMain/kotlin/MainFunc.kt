@@ -15,6 +15,7 @@ fun mainFunc(args: Array<String>): Unit = Parallel.runBlocking {
     for (f in args) {
         println("xxx going to import intermediate $f")
         LuposdateEndpoint.evaluateSparqlToResultB("CLEAR DEFAULT")
+//LuposdateEndpoint.importTurtleString(File(f).readAsString(),mutableMapOf<String, Int>())
         LuposdateEndpoint.importIntermediateFiles(f, true)
         val q_s = "SELECT ?occurences (COUNT(*) AS ?cnt) ((?occurences * ?cnt) AS ?sum) { SELECT (COUNT(*) AS ?occurences) { ?s ?p ?o . } GROUP BY ?s } GROUP BY ?occurences ORDER BY ?occurences ?cnt"
         val q_p = "SELECT ?occurences (COUNT(*) AS ?cnt) ((?occurences * ?cnt) AS ?sum) { SELECT (COUNT(*) AS ?occurences) { ?s ?p ?o . } GROUP BY ?p } GROUP BY ?occurences ORDER BY ?occurences ?cnt"

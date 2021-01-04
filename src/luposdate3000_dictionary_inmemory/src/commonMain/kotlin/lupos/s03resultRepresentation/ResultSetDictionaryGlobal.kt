@@ -52,7 +52,7 @@ class ResultSetDictionaryGlobal() {
         outputDictionaryFile = MyDataOutputStream()
         if (!BufferManagerExt.isInMemoryOnly) {
             if (BufferManagerExt.initializedFromDisk) {
-                nodeGlobalDictionary.importFromDictionaryFile(BufferManagerExt.bufferPrefix + "dictionary.data")
+                importFromDictionaryFile(BufferManagerExt.bufferPrefix + "dictionary.data")
             }
             outputDictionaryFile = File(BufferManagerExt.bufferPrefix + "dictionary.data").openDataOutputStream()
         }
@@ -214,6 +214,8 @@ class ResultSetDictionaryGlobal() {
         floatToValue = DoubleArray(1) { 0.0 }
         decimalToValue = Array(1) { ResultSetDictionaryShared.emptyString }
         intToValue = Array(1) { ResultSetDictionaryShared.emptyString }
+        outputDictionaryFile = File(BufferManagerExt.bufferPrefix + "dictionary.data").openDataOutputStream()
+        outputDictionaryFile.flush()
     }
     internal inline fun toBooleanOrError(value: Int): Int {
         var res: Int = ResultSetDictionaryExt.errorValue

@@ -598,7 +598,7 @@ class TripleStoreIndexIDTriple(store_root_page_id_: Int, store_root_page_init: B
                     NodeInner.initializeWith(n, i, mutableListOf(currentLayer[0]))
                     rootNode = n
                     root = i
-                    NodeManager.flushNode(rootNode)
+                    NodeManager.flushNode(root)
                 }
             }
         } else {

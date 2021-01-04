@@ -35,8 +35,10 @@ class TripleStoreIndexPartition(childIndex: (Int, Boolean) -> TripleStoreIndex, 
                 bufferManager.releasePage(pageid2)
                 ByteArrayHelper.writeInt4(rootPage, partition * 4 + 4, pageid2)
                 childIndex(pageid2, store_root_page_init)
-                bufferManager.flushPage(store_root_page_id)
             }
+        }
+        if (!store_root_page_init) {
+            bufferManager.flushPage(store_root_page_id)
         }
         bufferManager.releasePage(store_root_page_id)
     }

@@ -11,6 +11,9 @@ internal object NodeManager {
     inline fun releaseNode(nodeid: Int) {
         bufferManager.releasePage(nodeid)
     }
+    inline fun flushNode(nodeid: Int) {
+        bufferManager.flushPage(nodeid)
+    }
     inline fun getNodeLeaf(nodeid: Int, crossinline actionLeaf: (ByteArray) -> Unit) {
         SanityCheck.println { "debug NodeManager getNode ${nodeid.toString(16)}" }
         val node = bufferManager.getPage(nodeid)
