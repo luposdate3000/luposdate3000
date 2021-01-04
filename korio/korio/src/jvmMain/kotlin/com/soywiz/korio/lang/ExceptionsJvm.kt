@@ -8,6 +8,6 @@ actual fun Throwable.printStackTrace() {
     this.printStackTrace()
 }
 
-actual fun enterDebugger(): Unit {
+actual fun enterDebugger() {
     println("enterDebugger")
 }

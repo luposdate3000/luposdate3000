@@ -33,7 +33,7 @@ object DynamicJvm {
     fun <T : Any> setField(instance: T, name: String, value: Any?) {
         val field = instance::class.java.declaredFields.find { it.name == name }
         if (field != null && !Modifier.isStatic(field.modifiers)) {
-            //val field = instance.javaClass.getField(name)
+            // val field = instance.javaClass.getField(name)
             field.isAccessible = true
             field.set(instance, value)
         }
@@ -44,11 +44,11 @@ object DynamicJvm {
             null
         } else {
             // use getAny instead
-            //if (instance is Map<*, *>) return instance[key]
-            //if (instance is List<*>) {
-            //	val index = key.toIntOrNull()
-            //	if (index != null) return instance[index]
-            //}
+            // if (instance is Map<*, *>) return instance[key]
+            // if (instance is List<*>) {
+            // 	val index = key.toIntOrNull()
+            // 	if (index != null) return instance[index]
+            // }
             val clazz = instance::class.java
             val dmethods = clazz.declaredMethods
             val getterName = "get${key.capitalize()}"
@@ -59,12 +59,12 @@ object DynamicJvm {
                 getter.invokeSuspend(instance, listOf())
             } else if (method != null) {
                 method.isAccessible = true
-                //method.invoke(instance)
+                // method.invoke(instance)
                 method.invokeSuspend(instance, listOf())
             } else {
                 val field = clazz.declaredFields.find { it.name == key }
                 if (field != null && !Modifier.isStatic(field.modifiers)) {
-                    //val field = instance.javaClass.getField(name)
+                    // val field = instance.javaClass.getField(name)
                     field.isAccessible = true
                     field.get(instance)
                 } else {
@@ -79,11 +79,11 @@ object DynamicJvm {
             null
         } else {
             // use getAny instead
-            //if (instance is Map<*, *>) return instance[key]
-            //if (instance is List<*>) {
-            //	val index = key.toIntOrNull()
-            //	if (index != null) return instance[index]
-            //}
+            // if (instance is Map<*, *>) return instance[key]
+            // if (instance is List<*>) {
+            // 	val index = key.toIntOrNull()
+            // 	if (index != null) return instance[index]
+            // }
             val clazz = instance::class.java
             val dmethods = clazz.declaredMethods
             val getterName = "get${key.capitalize()}"
@@ -94,12 +94,12 @@ object DynamicJvm {
                 getter.invoke(instance)
             } else if (method != null) {
                 method.isAccessible = true
-                //method.invoke(instance)
+                // method.invoke(instance)
                 method.invoke(instance)
             } else {
                 val field = clazz.declaredFields.find { it.name == key }
                 if (field != null && !Modifier.isStatic(field.modifiers)) {
-                    //val field = instance.javaClass.getField(name)
+                    // val field = instance.javaClass.getField(name)
                     field.isAccessible = true
                     field.get(instance)
                 } else {
@@ -210,18 +210,18 @@ object DynamicJvm {
     @Suppress("UNCHECKED_CAST")
     @Deprecated("Use ObjectMapper")
     fun <T : Any> dynamicCast(value: Any?, target: Class<T>, genericType: Type? = null): T? {
-        //if (value != null && target.isAssignableFrom(value.javaClass)) {
-        //	return if (genericType != null && genericType is ParameterizedType) {
-        //		val typeArgs = genericType.actualTypeArguments
-        //		when (value) {
-        //			is Set<*> -> value.map { dynamicCast(it, typeArgs[0] as Class<Any>) }.toSet()
-        //			is List<*> -> value.map { dynamicCast(it, typeArgs[0] as Class<Any>) }
-        //			else -> value
-        //		} as T
-        //	} else {
-        //		value as T
-        //	}
-        //}
+        // if (value != null && target.isAssignableFrom(value.javaClass)) {
+        // 	return if (genericType != null && genericType is ParameterizedType) {
+        // 		val typeArgs = genericType.actualTypeArguments
+        // 		when (value) {
+        // 			is Set<*> -> value.map { dynamicCast(it, typeArgs[0] as Class<Any>) }.toSet()
+        // 			is List<*> -> value.map { dynamicCast(it, typeArgs[0] as Class<Any>) }
+        // 			else -> value
+        // 		} as T
+        // 	} else {
+        // 		value as T
+        // 	}
+        // }
         val str = if (value != null) "$value" else "0"
         if (target.isPrimitive) {
             when (target) {
@@ -294,7 +294,7 @@ object DynamicJvm {
         invalidOp("Can't convert '$value' to '$target'")
     }
 
-    private enum class AnyEnum {}
+    private enum class AnyEnum
 
     fun String?.parseBool(): Boolean? = when (this) {
         "true", "yes", "1" -> true
@@ -352,7 +352,7 @@ object DynamicJvm {
         }
     }
 
-    //fun toFixNumber(value: Double): Any = if (value == value.toInt().toDouble()) value.toInt() else value
+    // fun toFixNumber(value: Double): Any = if (value == value.toInt().toDouble()) value.toInt() else value
     fun toString(value: Any?): String {
         return when (value) {
             null -> ""
@@ -422,17 +422,17 @@ object DynamicJvm {
         if (obj == null || methodName == null) return null
         val clazz: Class<*> = if (obj is Class<*>) obj else obj::class.java
         val clazzMethods = clazz.methods
-        //println("obj=$obj, clazz=$clazz, methodName=$methodName")
+        // println("obj=$obj, clazz=$clazz, methodName=$methodName")
         val method = clazzMethods.firstOrNull {
-            it.name == methodName
-                && it.parameterTypes.size == args.size
-                && it.parameterTypes.withIndex().all {
-                val argValue = args[it.index]
-                val argType = argValue?.let { it::class.javaObjectType }
-                (argValue == null) || it.value.kotlin.javaObjectType.isAssignableFrom(argType)
-            }
+            it.name == methodName &&
+                it.parameterTypes.size == args.size &&
+                it.parameterTypes.withIndex().all {
+                    val argValue = args[it.index]
+                    val argType = argValue?.let { it::class.javaObjectType }
+                    (argValue == null) || it.value.kotlin.javaObjectType.isAssignableFrom(argType)
+                }
         }
-        //?: clazzMethods.firstOrNull { it.name == methodName }
+            // ?: clazzMethods.firstOrNull { it.name == methodName }
             ?: return null
         method.isAccessible = true
         return method

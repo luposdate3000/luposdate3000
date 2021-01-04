@@ -36,7 +36,7 @@ object Json {
                 this += item
             }
         }
-        //'-', '+', in '0'..'9' -> { // @TODO: Kotlin native doesn't optimize char ranges
+        // '-', '+', in '0'..'9' -> { // @TODO: Kotlin native doesn't optimize char ranges
         '-', '+', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' -> {
             s.unread()
             val dres = parseNumber(s)
@@ -96,7 +96,7 @@ object Json {
             is String -> encodeString(obj, b)
             is Number -> b.append("$obj")
             is CustomSerializer -> obj.encodeToJson(b)
-            else -> invalidOp("Don't know how to serialize $obj") //encode(ClassFactory(obj::class).toMap(obj), b)
+            else -> invalidOp("Don't know how to serialize $obj") // encode(ClassFactory(obj::class).toMap(obj), b)
         }
     }
 
@@ -135,7 +135,7 @@ object Json {
             is CustomSerializer -> b.inline(StringBuilder().apply { obj.encodeToJson(this) }.toString())
             else -> {
                 invalidOp("Don't know how to serialize $obj")
-                //encode(ClassFactory(obj::class).toMap(obj), b)
+                // encode(ClassFactory(obj::class).toMap(obj), b)
             }
         }
     }

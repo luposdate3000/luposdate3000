@@ -14,7 +14,7 @@ class StringExtTest {
     @Test
     fun testTransform() {
         // @TODO WTF (only on kotlin-jvm?): e: /Users/soywiz/projects/korlibs/korio/korio/src/commonTest/kotlin/com/soywiz/korio/lang/StringExtTest.kt: (14, 50): Operator '==' cannot be applied to 'String!' and 'Char'
-        //assertEquals("hEEllo", "hello".transform { if (it == 'e') "EE" else "$it" })
+        // assertEquals("hEEllo", "hello".transform { if (it == 'e') "EE" else "$it" })
     }
 
     @Test

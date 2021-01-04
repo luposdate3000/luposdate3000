@@ -49,9 +49,11 @@ class UniversalVfsTest {
     fun testTemporalSet() = suspendTest {
         var called = false
         val mem = MemoryVfs()
-        registerUniSchemaTemporarily(UniSchema("mem") {
-            mem[it.fullUrlWithoutScheme]
-        }) {
+        registerUniSchemaTemporarily(
+            UniSchema("mem") {
+                mem[it.fullUrlWithoutScheme]
+            }
+        ) {
             "mem://hello.txt".uniVfs.writeString("HELLO")
             assertEquals("HELLO", "mem://hello.txt".uniVfs.readString())
             called = true

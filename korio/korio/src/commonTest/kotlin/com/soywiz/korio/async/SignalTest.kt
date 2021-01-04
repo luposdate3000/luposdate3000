@@ -1,8 +1,8 @@
 package com.soywiz.korio.async
 
+import kotlinx.coroutines.*
 import kotlin.coroutines.*
 import kotlin.test.*
-import kotlinx.coroutines.*
 
 class SignalTest {
     @Test
@@ -31,7 +31,7 @@ class SignalTest {
     }
 
     @Test
-    //@Ignore("Flaky")
+    // @Ignore("Flaky")
     @Ignore // Flaky
     fun name2() = suspendTest {
         var out = ""
@@ -59,29 +59,41 @@ class SignalTest {
     @Test
     fun executeAndWait1() = suspendTest {
         val signal = Signal<String>()
-        assertEquals("hello", signal.executeAndWaitSignal {
-            signal("hello")
-        })
+        assertEquals(
+            "hello",
+            signal.executeAndWaitSignal {
+                signal("hello")
+            }
+        )
     }
 
     @Test
     fun executeAndWait2() = suspendTest {
         val signal1 = Signal<Unit>()
         val signal2 = Signal<Unit>()
-        assertEquals("1", mapOf(signal1 to "1", signal2 to "2").executeAndWaitAnySignal {
-            signal1(Unit)
-        })
-        assertEquals("2", mapOf(signal1 to "1", signal2 to "2").executeAndWaitAnySignal {
-            signal2(Unit)
-        })
+        assertEquals(
+            "1",
+            mapOf(signal1 to "1", signal2 to "2").executeAndWaitAnySignal {
+                signal1(Unit)
+            }
+        )
+        assertEquals(
+            "2",
+            mapOf(signal1 to "1", signal2 to "2").executeAndWaitAnySignal {
+                signal2(Unit)
+            }
+        )
     }
 
     @Test
     fun executeAndWait3() = suspendTest {
         val signal1 = Signal<String>()
         val signal2 = Signal<String>()
-        assertEquals(signal2 to "hello", listOf(signal1, signal2).executeAndWaitAnySignal {
-            signal2("hello")
-        })
+        assertEquals(
+            signal2 to "hello",
+            listOf(signal1, signal2).executeAndWaitAnySignal {
+                signal2("hello")
+            }
+        )
     }
 }

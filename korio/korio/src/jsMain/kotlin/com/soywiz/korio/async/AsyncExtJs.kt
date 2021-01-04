@@ -1,7 +1,7 @@
 package com.soywiz.korio.async
 
-import kotlin.coroutines.*
 import kotlinx.coroutines.*
+import kotlin.coroutines.*
 
 actual fun asyncEntryPoint(callback: suspend () -> Unit): dynamic = kotlin.js.Promise<dynamic> { resolve, reject ->
     callback.startCoroutine(object : Continuation<Unit> {
@@ -11,7 +11,7 @@ actual fun asyncEntryPoint(callback: suspend () -> Unit): dynamic = kotlin.js.Pr
             if (exception != null) {
                 reject(exception)
             } else {
-                //resolve(undefined)
+                // resolve(undefined)
                 resolve(Unit)
             }
         }

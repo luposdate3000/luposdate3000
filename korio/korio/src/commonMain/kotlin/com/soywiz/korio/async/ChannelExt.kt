@@ -2,11 +2,11 @@ package com.soywiz.korio.async
 
 import com.soywiz.kmem.*
 import com.soywiz.korio.stream.*
+import kotlinx.coroutines.*
+import kotlinx.coroutines.channels.*
 import kotlin.coroutines.*
 import kotlin.experimental.*
 import kotlin.math.*
-import kotlinx.coroutines.*
-import kotlinx.coroutines.channels.*
 
 suspend fun <T> ReceiveChannel<T>.chunks(count: Int) = produce {
     val chunk = arrayListOf<T>()

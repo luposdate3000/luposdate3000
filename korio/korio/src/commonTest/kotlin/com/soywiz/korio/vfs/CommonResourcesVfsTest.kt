@@ -6,6 +6,6 @@ import kotlin.test.*
 class CommonResourcesVfsTest {
     @Test
     fun testCanReadResourceProperly() = suspendTest {
-        //assertEquals("HELLO", resourcesVfs["resource.txt"].readString())
+        // assertEquals("HELLO", resourcesVfs["resource.txt"].readString())
     }
 }

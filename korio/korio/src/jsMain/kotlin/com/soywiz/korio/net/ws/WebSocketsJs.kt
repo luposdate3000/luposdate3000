@@ -21,28 +21,34 @@ class JsWebSocketClient(url: String, protocols: List<String>?, val DEBUG: Boolea
     }.apply {
         this.binaryType = BinaryType.ARRAYBUFFER
         this.addEventListener("open", { onOpen(Unit) })
-        this.addEventListener("close", { e ->
-            val event = e as CloseEvent
-            var code = event.code.toInt()
-            var reason = event.reason
-            var wasClean = event.wasClean
-            onClose(Unit)
-        })
-        this.addEventListener("message", { e ->
-            val event = e as MessageEvent
-            val data = event.data
-            if (DEBUG) println("[WS-RECV]: $data :: stringListeners=${onStringMessage.listenerCount}, binaryListeners=${onBinaryMessage.listenerCount}, anyListeners=${onAnyMessage.listenerCount}")
-            if (data is String) {
-                val js = data
-                onStringMessage(js)
-                onAnyMessage(js)
-            } else {
-                val jb = data
-                //onBinaryMessage(jb)
-                //onAnyMessage(jb)
-                TODO("onBinaryMessage, onAnyMessage")
+        this.addEventListener(
+            "close",
+            { e ->
+                val event = e as CloseEvent
+                var code = event.code.toInt()
+                var reason = event.reason
+                var wasClean = event.wasClean
+                onClose(Unit)
             }
-        })
+        )
+        this.addEventListener(
+            "message",
+            { e ->
+                val event = e as MessageEvent
+                val data = event.data
+                if (DEBUG) println("[WS-RECV]: $data :: stringListeners=${onStringMessage.listenerCount}, binaryListeners=${onBinaryMessage.listenerCount}, anyListeners=${onAnyMessage.listenerCount}")
+                if (data is String) {
+                    val js = data
+                    onStringMessage(js)
+                    onAnyMessage(js)
+                } else {
+                    val jb = data
+                    // onBinaryMessage(jb)
+                    // onAnyMessage(jb)
+                    TODO("onBinaryMessage, onAnyMessage")
+                }
+            }
+        )
     }
 
     suspend fun init() {
@@ -52,7 +58,7 @@ class JsWebSocketClient(url: String, protocols: List<String>?, val DEBUG: Boolea
     }
 
     override fun close(code: Int, reason: String) {
-        //jsws.methods["close"](code, reason)
+        // jsws.methods["close"](code, reason)
         jsws.close()
     }
 

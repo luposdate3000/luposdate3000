@@ -4,9 +4,9 @@ import com.soywiz.kds.iterators.*
 import com.soywiz.korio.async.*
 import com.soywiz.korio.file.*
 import com.soywiz.korio.lang.*
-import kotlin.coroutines.*
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.*
+import kotlin.coroutines.*
 
 open class MergedVfs(vfsList: List<VfsFile> = listOf()) : Vfs.Proxy() {
     private val vfsList = ArrayList(vfsList)
@@ -23,7 +23,7 @@ open class MergedVfs(vfsList: List<VfsFile> = listOf()) : Vfs.Proxy() {
             return vfsList.first()[path]
         } else {
             return vfsList.map { it[path] }.firstOrNull { it.exists() } ?: vfsList.firstOrNull()?.get(path)
-            ?: error("MergedVfs.access: VfsList is empty $vfsList")
+                ?: error("MergedVfs.access: VfsList is empty $vfsList")
         }
     }
 

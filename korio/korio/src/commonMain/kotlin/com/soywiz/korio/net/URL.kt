@@ -151,7 +151,7 @@ data class URL private constructor(
         fun encodeComponent(s: String, charset: Charset = UTF8, formUrlEncoded: Boolean = false): String {
             val sb = StringBuilder(s.length)
             val data = s.toByteArray(charset)
-            //for (byte c : data) System.out.printf("%02X\n", c & 0xFF);
+            // for (byte c : data) System.out.printf("%02X\n", c & 0xFF);
             for (n in 0 until data.size) {
                 val c = data[n]
                 val cc = c.toChar()

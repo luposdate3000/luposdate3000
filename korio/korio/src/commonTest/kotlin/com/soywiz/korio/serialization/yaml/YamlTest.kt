@@ -151,15 +151,16 @@ class YamlTest {
             Yaml.decodeToType<ClassWithEnum>(
                 """
 				|a: WORLD
-			""".trimMargin(), mapper
+			""".trimMargin(),
+                mapper
             )
         )
     }
-    //@Test
-    //fun name8() {
-    //	assertEquals(
-    //		null,
-    //		Yaml.read("[a:1,b:2]")
-    //	)
-    //}
+    // @Test
+    // fun name8() {
+    // 	assertEquals(
+    // 		null,
+    // 		Yaml.read("[a:1,b:2]")
+    // 	)
+    // }
 }

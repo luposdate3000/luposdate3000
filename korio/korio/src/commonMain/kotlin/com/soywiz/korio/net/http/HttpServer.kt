@@ -6,9 +6,9 @@ import com.soywiz.korio.async.*
 import com.soywiz.korio.lang.*
 import com.soywiz.korio.net.*
 import com.soywiz.korio.stream.*
-import kotlin.coroutines.*
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.*
+import kotlin.coroutines.*
 
 open class HttpServer protected constructor() : AsyncCloseable {
     companion object {
@@ -54,12 +54,12 @@ open class HttpServer protected constructor() : AsyncCloseable {
             }
         }
 
-        //suspend fun stringMessageStream(): SuspendingSequence<String> {
-        //	val emitter = AsyncSequenceEmitter<String>()
-        //	onStringMessage { emitter.emit(it) }
-        //	onClose { emitter.close() }
-        //	return emitter.toSequence()
-        //}
+        // suspend fun stringMessageStream(): SuspendingSequence<String> {
+        // 	val emitter = AsyncSequenceEmitter<String>()
+        // 	onStringMessage { emitter.emit(it) }
+        // 	onClose { emitter.close() }
+        // 	return emitter.toSequence()
+        // }
         fun stringMessageStream() = scope.produce<String> {
             onStringMessage { send(it) }
             onClose { close() }
@@ -159,7 +159,7 @@ open class HttpServer protected constructor() : AsyncCloseable {
         }
 
         private suspend fun flushHeaders() {
-            //println("flushHeaders")
+            // println("flushHeaders")
             if (headersSent) return
             if (finalizingHeaders) invalidOp("Can't write while finalizing headers")
             finalizingHeaders = true
@@ -167,7 +167,7 @@ open class HttpServer protected constructor() : AsyncCloseable {
                 interceptor.value(this)
             }
             headersSent = true
-            //println("----HEADERS-----\n" + resHeaders.joinToString("\n"))
+            // println("----HEADERS-----\n" + resHeaders.joinToString("\n"))
             _sendHeader(this.code, this.message, Http.Headers(resHeaders))
         }
 
@@ -177,7 +177,7 @@ open class HttpServer protected constructor() : AsyncCloseable {
         }
 
         suspend fun end() {
-            //println("END")
+            // println("END")
             flushHeaders()
             _end()
             for (finalizer in finalizers) finalizer()

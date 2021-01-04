@@ -52,7 +52,8 @@ fun PathInfo.fullPathWithExtension(ext: String): String =
  * /path\to/file.1.ext -> file.1
  */
 val PathInfo.baseNameWithoutExtension: String
-    get() = baseName.substringBeforeLast('.',
+    get() = baseName.substringBeforeLast(
+        '.',
         baseName
     )
 
@@ -60,7 +61,8 @@ val PathInfo.baseNameWithoutExtension: String
  * /path\to/file.1.ext -> file
  */
 val PathInfo.baseNameWithoutCompoundExtension: String
-    get() = baseName.substringBefore('.',
+    get() = baseName.substringBefore(
+        '.',
         baseName
     )
 
@@ -188,8 +190,10 @@ fun PathInfo.normalize(): String {
 fun PathInfo.combine(access: PathInfo): PathInfo {
     val base = this.fullPath
     val access = access.fullPath
-    return (if (access.pathInfo.isAbsolute()) access.pathInfo.normalize() else "$base/$access"
-        .pathInfo.normalize()).pathInfo
+    return (
+        if (access.pathInfo.isAbsolute()) access.pathInfo.normalize() else "$base/$access"
+            .pathInfo.normalize()
+        ).pathInfo
 }
 
 fun PathInfo.lightCombine(access: PathInfo): PathInfo {
@@ -210,7 +214,7 @@ fun PathInfo.isAbsolute(): Boolean {
 
 fun PathInfo.normalizeAbsolute(): PathInfo {
     val path = this.fullPath
-    //val res = path.replace('/', File.separatorChar).trim(File.separatorChar)
-    //return if (OS.isUnix) "/$res" else res
+    // val res = path.replace('/', File.separatorChar).trim(File.separatorChar)
+    // return if (OS.isUnix) "/$res" else res
     return PathInfo(path.replace('/', File_separatorChar))
 }

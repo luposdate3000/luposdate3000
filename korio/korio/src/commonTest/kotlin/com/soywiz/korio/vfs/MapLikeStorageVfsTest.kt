@@ -4,8 +4,8 @@ import com.soywiz.korio.async.*
 import com.soywiz.korio.file.*
 import com.soywiz.korio.file.std.*
 import com.soywiz.korio.lang.*
-import kotlin.test.*
 import kotlinx.coroutines.channels.*
+import kotlin.test.*
 
 /*
 class MapLikeStorageVfsTest {

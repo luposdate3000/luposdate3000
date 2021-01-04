@@ -11,8 +11,8 @@ internal class HuffmanTree {
         private const val FAST_BITS = 9
         private const val MAX_LEN = 16
         private const val MAX_CODES = 288
-        //private const val ENABLE_EXPERIMENTAL_FAST_READ = true
-        //private const val ENABLE_EXPERIMENTAL_FAST_READ = false
+        // private const val ENABLE_EXPERIMENTAL_FAST_READ = true
+        // private const val ENABLE_EXPERIMENTAL_FAST_READ = false
     }
 
     private val value = IntArray(1024)
@@ -23,7 +23,7 @@ internal class HuffmanTree {
     private var ncodes: Int = 0
 
     // Low half-word contains the value, High half-word contains the len
-    //val FAST_INFO = IntArray(1 shl FAST_BITS) { INVALID_VALUE }
+    // val FAST_INFO = IntArray(1 shl FAST_BITS) { INVALID_VALUE }
     fun read(reader: BitReader): Int {
         var node = this.root
         do {
@@ -97,43 +97,43 @@ internal class HuffmanTree {
         }
         this.root = allocNode(nodeOffset - 2, nodeOffset - 1)
         this.ncodes = ncodes
-        //if (ENABLE_EXPERIMENTAL_FAST_READ) {
-        //	computeFastLookup()
-        //}
+        // if (ENABLE_EXPERIMENTAL_FAST_READ) {
+        // 	computeFastLookup()
+        // }
         return this
     }
-    //private fun computeFastLookup() {
-    //	ENCODED_LEN.fill(0)
-    //	FAST_INFO.fill(INVALID_VALUE)
-    //	computeEncodedValues(root, 0, 0)
-    //	//println("--------------------")
-    //	for (n in 0 until ncodes) {
-    //		val enc = ENCODED_VAL[n]
-    //		val bits = ENCODED_LEN[n].toInt()
-    //		check((enc and 0xFFFF) == enc)
-    //		check((bits and 0xFF) == bits)
-    //		if (bits in 1..FAST_BITS) {
-    //			val remainingBits = FAST_BITS - bits
-    //			val repeat = 1 shl remainingBits
-    //			val info = enc or (bits shl 16)
+    // private fun computeFastLookup() {
+    // 	ENCODED_LEN.fill(0)
+    // 	FAST_INFO.fill(INVALID_VALUE)
+    // 	computeEncodedValues(root, 0, 0)
+    // 	//println("--------------------")
+    // 	for (n in 0 until ncodes) {
+    // 		val enc = ENCODED_VAL[n]
+    // 		val bits = ENCODED_LEN[n].toInt()
+    // 		check((enc and 0xFFFF) == enc)
+    // 		check((bits and 0xFF) == bits)
+    // 		if (bits in 1..FAST_BITS) {
+    // 			val remainingBits = FAST_BITS - bits
+    // 			val repeat = 1 shl remainingBits
+    // 			val info = enc or (bits shl 16)
 //
-    //			//println("n=$n  : enc=$enc : bits=$bits, repeat=$repeat")
+    // 			//println("n=$n  : enc=$enc : bits=$bits, repeat=$repeat")
 //
-    //			for (j in 0 until repeat) {
-    //				FAST_INFO[enc or (j shl bits)] = info
-    //			}
-    //		}
-    //	}
-    //	//for (fv in FAST_INFO) check(fv != INVALID_VALUE)
-    //}
-    //private fun computeEncodedValues(node: Int, encoded: Int, encodedBits: Int) {
-    //	if (node.value == INVALID_VALUE) {
-    //		computeEncodedValues(node.left, encoded, encodedBits + 1)
-    //		computeEncodedValues(node.right, encoded or (1 shl encodedBits), encodedBits + 1)
-    //	} else {
-    //		val nvalue = node.value
-    //		ENCODED_VAL[nvalue] = encoded
-    //		ENCODED_LEN[nvalue] = encodedBits.toByte()
-    //	}
-    //}
+    // 			for (j in 0 until repeat) {
+    // 				FAST_INFO[enc or (j shl bits)] = info
+    // 			}
+    // 		}
+    // 	}
+    // 	//for (fv in FAST_INFO) check(fv != INVALID_VALUE)
+    // }
+    // private fun computeEncodedValues(node: Int, encoded: Int, encodedBits: Int) {
+    // 	if (node.value == INVALID_VALUE) {
+    // 		computeEncodedValues(node.left, encoded, encodedBits + 1)
+    // 		computeEncodedValues(node.right, encoded or (1 shl encodedBits), encodedBits + 1)
+    // 	} else {
+    // 		val nvalue = node.value
+    // 		ENCODED_VAL[nvalue] = encoded
+    // 		ENCODED_LEN[nvalue] = encodedBits.toByte()
+    // 	}
+    // }
 }

@@ -32,7 +32,7 @@ class Indenter(internal val actions: ArrayList<Action> = arrayListOf()) {
         object Unindent : Action
     }
 
-    //val indentEmptyLines = false
+    // val indentEmptyLines = false
     val indentEmptyLines = true
 
     companion object {
@@ -65,11 +65,13 @@ class Indenter(internal val actions: ArrayList<Action> = arrayListOf()) {
 
     fun mark(data: Any) = this.apply { this.actions.add(Action.Marker(data)) }
     fun linedeferred(init: Indenter.() -> Unit): Indenter {
-        this.actions.add(Action.LineDeferred {
-            val indenter = Indenter()
-            indenter.init()
-            indenter
-        })
+        this.actions.add(
+            Action.LineDeferred {
+                val indenter = Indenter()
+                indenter.init()
+                indenter
+            }
+        )
         return this
     }
 
@@ -199,7 +201,7 @@ fun Indenter.EMPTY_LINE_ONCE() {
 fun Indenter.SEPARATOR(callback: Indenter.() -> Unit) {
     SEPARATOR
     callback()
-    //SEPARATOR
+    // SEPARATOR
 }
 
 class XmlIndenter(val indenter: Indenter) {
@@ -212,9 +214,9 @@ class XmlIndenter(val indenter: Indenter) {
         indenter.line("</$tagName>")
     }
     // @TODO: FIX!
-    //fun linedeferred(init: XmlIndenter.() -> Unit): Indenter {
+    // fun linedeferred(init: XmlIndenter.() -> Unit): Indenter {
     //    return indenter.linedeferred { XmlIndenter(this).apply(init) }
-    //}
+    // }
 }
 
 fun Indenter.xml(callback: XmlIndenter.() -> Unit) {

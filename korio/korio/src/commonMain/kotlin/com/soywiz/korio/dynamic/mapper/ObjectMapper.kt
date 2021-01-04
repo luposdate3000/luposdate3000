@@ -44,7 +44,7 @@ class ObjectMapper {
     private val typeCtx = TypeContext(this)
     private val untypeCtx = UntypeContext(this)
     fun <T : Any> registerType(clazz: KClass<T>, generate: TypeContext.(Any?) -> T) = this.apply {
-        //if (clazz == null) error("Clazz is null!")
+        // if (clazz == null) error("Clazz is null!")
         _typers[clazz] = generate
     }
 
@@ -66,7 +66,7 @@ class ObjectMapper {
         registerType(Long::class) { it.toLong() }
         registerType(Float::class) { it.toFloat() }
         registerType(Double::class) { it.toDouble() }
-        //registerType(Number::class) { it.toNumber() } // @TODO: This produces an undefined error in kotlin-js
+        // registerType(Number::class) { it.toNumber() } // @TODO: This produces an undefined error in kotlin-js
         registerType(Set::class) { it.list.toSet() }
         registerType(List::class) { it.list }
         registerType(MutableList::class) { it.list.toMutableList() }
@@ -120,7 +120,7 @@ class ObjectMapper {
 
     inline fun <reified T : Enum<T>> registerUntypeEnum() = registerUntype(T::class) { it.name }
 
-    //inline fun <reified T> registerUntypeObj(vararg props: KPro<T>) = registerUntype(T::class, untyper)
+    // inline fun <reified T> registerUntypeObj(vararg props: KPro<T>) = registerUntype(T::class, untyper)
     inline fun <T> scoped(callback: () -> T): T {
         val oldTypers = _typers.toMap()
         val oldUntypers = _untypers.toMap()

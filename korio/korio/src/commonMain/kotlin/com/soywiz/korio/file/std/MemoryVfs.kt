@@ -20,13 +20,16 @@ fun MemoryVfsMix(
     items: Map<String, Any> = LinkedHashMap(),
     caseSensitive: Boolean = true,
     charset: Charset = UTF8
-): VfsFile = MemoryVfs(items.mapValues { (_, v) ->
-    when (v) {
-        is SyncStream -> v.toAsync()
-        is ByteArray -> v.openAsync()
-        is String -> v.openAsync(charset)
-        else -> v.toString().toByteArray(charset).openAsync()
-    }
-}, caseSensitive)
+): VfsFile = MemoryVfs(
+    items.mapValues { (_, v) ->
+        when (v) {
+            is SyncStream -> v.toAsync()
+            is ByteArray -> v.openAsync()
+            is String -> v.openAsync(charset)
+            else -> v.toString().toByteArray(charset).openAsync()
+        }
+    },
+    caseSensitive
+)
 
 fun MemoryVfsMix(vararg items: Pair<String, Any>, caseSensitive: Boolean = true, charset: Charset = UTF8): VfsFile = MemoryVfsMix(items.toMap(), caseSensitive, charset)

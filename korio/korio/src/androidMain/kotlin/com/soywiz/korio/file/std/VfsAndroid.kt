@@ -8,11 +8,11 @@ import com.soywiz.korio.file.*
 import com.soywiz.korio.lang.Closeable
 import com.soywiz.korio.stream.*
 import com.soywiz.korio.util.*
+import kotlinx.coroutines.*
+import kotlinx.coroutines.channels.*
 import java.io.*
 import java.io.IOException
 import java.net.*
-import kotlinx.coroutines.*
-import kotlinx.coroutines.channels.*
 
 private val absoluteCwd by lazy { File(".").absolutePath }
 val tmpdir: String by lazy { System.getProperty("java.io.tmpdir") }
@@ -49,7 +49,7 @@ class AndroidResourcesVfs(val context: android.content.Context) : Vfs() {
     }
 
     override suspend fun readRange(path: String, range: LongRange): ByteArray = executeIo {
-        //val path = "/assets/" + path.trim('/')
+        // val path = "/assets/" + path.trim('/')
         val rpath = path.trim('/')
         val fs = context.assets.open(rpath)
         fs.skip(range.start)
@@ -66,7 +66,7 @@ class AndroidResourcesVfs(val context: android.content.Context) : Vfs() {
     }
 }
 
-//private val IOContext by lazy { newSingleThreadContext("IO") }
+// private val IOContext by lazy { newSingleThreadContext("IO") }
 private val IOContext by lazy { Dispatchers.Unconfined }
 private suspend inline fun <T> executeIo(crossinline callback: suspend () -> T): T =
     withContext(IOContext) { callback() }
@@ -75,7 +75,7 @@ private class LocalVfsJvm : LocalVfs() {
     val that = this
     override val absolutePath: String = ""
 
-    //private suspend inline fun <T> executeIo(callback: suspend () -> T): T = callback()
+    // private suspend inline fun <T> executeIo(callback: suspend () -> T): T = callback()
     fun resolve(path: String) = path
     fun resolveFile(path: String) = File(resolve(path))
     override suspend fun exec(
@@ -103,7 +103,7 @@ private class LocalVfsJvm : LocalVfs() {
             Thread.sleep(1L)
         }
         p.waitFor()
-        //handler.onCompleted(p.exitValue())
+        // handler.onCompleted(p.exitValue())
         p.exitValue()
     }
 
@@ -156,14 +156,15 @@ private class LocalVfsJvm : LocalVfs() {
                 throw IOException("File $file already exists")
             }
             RandomAccessFile(
-                file, when (mode) {
-                VfsOpenMode.READ -> "r"
-                VfsOpenMode.WRITE -> "rw"
-                VfsOpenMode.APPEND -> "rw"
-                VfsOpenMode.CREATE -> "rw"
-                VfsOpenMode.CREATE_NEW -> "rw"
-                VfsOpenMode.CREATE_OR_TRUNCATE -> "rw"
-            }
+                file,
+                when (mode) {
+                    VfsOpenMode.READ -> "r"
+                    VfsOpenMode.WRITE -> "rw"
+                    VfsOpenMode.APPEND -> "rw"
+                    VfsOpenMode.CREATE -> "rw"
+                    VfsOpenMode.CREATE_NEW -> "rw"
+                    VfsOpenMode.CREATE_OR_TRUNCATE -> "rw"
+                }
             ).apply {
                 if (mode.truncate) {
                     setLength(0L)

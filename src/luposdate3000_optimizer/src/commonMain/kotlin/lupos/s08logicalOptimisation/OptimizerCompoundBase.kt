@@ -14,7 +14,7 @@ abstract class OptimizerCompoundBase(query: Query, optimizerID: EOptimizerID) : 
     override val classname: String = "OptimizerCompoundBase"
     abstract val childrenOptimizers: Array<Array<OptimizerBase>>
     override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase = node
-    private fun verifyPartitionOperators(node: IOPBase, allList: MutableMap<Int, MutableSet<Long>>, currentPartitions_: MutableMap<String, Int>,root:IOPBase) {
+    private fun verifyPartitionOperators(node: IOPBase, allList: MutableMap<Int, MutableSet<Long>>, currentPartitions_: MutableMap<String, Int>, root: IOPBase) {
         var currentPartitions = mutableMapOf<String, Int>()
         currentPartitions.putAll(currentPartitions_)
         val ids = mutableListOf<Int>()
@@ -72,7 +72,7 @@ abstract class OptimizerCompoundBase(query: Query, optimizerID: EOptimizerID) : 
             }
         }
         for (c in node.getChildren()) {
-            verifyPartitionOperators(c, allList, currentPartitions,root)
+            verifyPartitionOperators(c, allList, currentPartitions, root)
         }
     }
     override /*suspend*/ fun optimizeCall(node: IOPBase, onChange: () -> Unit): IOPBase {
@@ -99,7 +99,7 @@ abstract class OptimizerCompoundBase(query: Query, optimizerID: EOptimizerID) : 
                         }
                         SanityCheck {
                             val allPartitionOperators = mutableMapOf<Int, MutableSet<Long>>()
-                            verifyPartitionOperators(tmp, allPartitionOperators, mutableMapOf<String, Int>(),tmp)
+                            verifyPartitionOperators(tmp, allPartitionOperators, mutableMapOf<String, Int>(), tmp)
                             for ((k, v1) in allPartitionOperators) {
                                 val v2 = query.partitionOperators[k]
                                 SanityCheck.check({ v1 == v2 }, { "$allPartitionOperators  <-a-> ${query.partitionOperators}\n$tmp" })

@@ -134,6 +134,6 @@ open class KDynamic {
         get() = this as? FloatArray ?: (this as? FloatArrayList)?.toFloatArray() ?: list.map { it.float }.toFloatArray()
     val Any?.doubleArray: DoubleArray
         get() = this as? DoubleArray ?: (this as? DoubleArrayList)?.toDoubleArray()
-        ?: list.map { it.double }.toDoubleArray()
+            ?: list.map { it.double }.toDoubleArray()
     val Any?.longArray: LongArray get() = this as? LongArray ?: list.map { it.long }.toLongArray()
 }

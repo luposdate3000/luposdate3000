@@ -3,9 +3,9 @@ package com.soywiz.korio.async
 import com.soywiz.kds.iterators.*
 import com.soywiz.klock.*
 import com.soywiz.korio.lang.*
-import kotlin.coroutines.*
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.*
+import kotlin.coroutines.*
 
 @file:Suppress("EXPERIMENTAL_FEATURE_WARNING")
 abstract class BaseSignal<T, THandler>(val onRegister: () -> Unit = {}) {
@@ -25,9 +25,9 @@ abstract class BaseSignal<T, THandler>(val onRegister: () -> Unit = {}) {
     fun clear() = handlers.clear()
 
     // @TODO: This breaks binary compatibility
-    //fun once(handler: THandler): Closeable = _add(true, handler)
-    //fun add(handler: THandler): Closeable = _add(false, handler)
-    //operator fun invoke(handler: THandler): Closeable = add(handler)
+    // fun once(handler: THandler): Closeable = _add(true, handler)
+    // fun add(handler: THandler): Closeable = _add(false, handler)
+    // operator fun invoke(handler: THandler): Closeable = add(handler)
     protected fun _add(once: Boolean, handler: THandler): Closeable {
         onRegister()
         val node = Node(once, handler)
@@ -106,9 +106,9 @@ fun <TI, TO> AsyncSignal<TI>.mapSignal(transform: (TI) -> TO): AsyncSignal<TO> {
 
 suspend operator fun AsyncSignal<Unit>.invoke() = invoke(Unit)
 
-//////////////////////////////////
-//class AsyncSignal<T>(context: CoroutineContext) {
-//}
+// ////////////////////////////////
+// class AsyncSignal<T>(context: CoroutineContext) {
+// }
 fun <TI, TO> Signal<TI>.mapSignal(transform: (TI) -> TO): Signal<TO> {
     val out = Signal<TO>()
     this.add { out(transform(it)) }

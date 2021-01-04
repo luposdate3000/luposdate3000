@@ -7,9 +7,9 @@ import com.soywiz.korio.util.encoding.*
 
 interface Http {
     companion object {
-        //Sun, 06 Nov 1994 08:49:37 GMT  ; RFC 822, updated by RFC 1123
-        //Sunday, 06-Nov-94 08:49:37 GMT ; RFC 850, obsoleted by RFC 1036
-        //Sun Nov  6 08:49:37 1994       ; ANSI C's asctime() format
+        // Sun, 06 Nov 1994 08:49:37 GMT  ; RFC 822, updated by RFC 1123
+        // Sunday, 06-Nov-94 08:49:37 GMT ; RFC 850, obsoleted by RFC 1036
+        // Sun Nov  6 08:49:37 1994       ; ANSI C's asctime() format
         val Date = DateFormat("EEE, dd MMM yyyy HH:mm:ss z")
         fun TemporalRedirect(uri: String) = RedirectException(code = 307, redirectUri = uri)
         fun PermanentRedirect(uri: String) = RedirectException(code = 301, redirectUri = uri)
@@ -70,7 +70,7 @@ interface Http {
                     msg = msg,
                     headers = Http.Headers("WWW-Authenticate" to "Basic realm=\"$realm\"")
                 )
-            //fun unauthorizedDigest(realm: String = "My Domain", msg: String = "Unauthorized"): Nothing = throw Http.HttpException(401, msg = msg, headers = Http.Headers("WWW-Authenticate" to "Digest realm=\"$realm\""))
+            // fun unauthorizedDigest(realm: String = "My Domain", msg: String = "Unauthorized"): Nothing = throw Http.HttpException(401, msg = msg, headers = Http.Headers("WWW-Authenticate" to "Digest realm=\"$realm\""))
         }
     }
 
@@ -165,10 +165,12 @@ interface Http {
 
             fun parse(str: String?): Headers {
                 if (str == null) return Headers()
-                return Headers(str.split("\n").map {
-                    val parts = it.trim().split(':', limit = 2)
-                    if (parts.size >= 2) parts[0].trim() to parts[1].trim() else null
-                }.filterNotNull())
+                return Headers(
+                    str.split("\n").map {
+                        val parts = it.trim().split(':', limit = 2)
+                        if (parts.size >= 2) parts[0].trim() to parts[1].trim() else null
+                    }.filterNotNull()
+                )
             }
 
             val ContentLength = "Content-Length"

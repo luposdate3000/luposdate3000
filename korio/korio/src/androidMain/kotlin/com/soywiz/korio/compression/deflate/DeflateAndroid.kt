@@ -30,7 +30,7 @@ actual fun Deflate(windowBits: Int): CompressionMethod = object : CompressionMet
             } while (!inflater.finished())
         } finally {
             val remaining = inflater.remaining
-            //println("REMAINING: tempInputSize=$tempInputSize, remaining=$remaining")
+            // println("REMAINING: tempInputSize=$tempInputSize, remaining=$remaining")
             i.returnToBuffer(tempInput, tempInputSize - remaining, remaining)
             inflater.end()
         }
@@ -42,7 +42,7 @@ actual fun Deflate(windowBits: Int): CompressionMethod = object : CompressionMet
         val deflater = Deflater(context.level, true)
         try {
             do {
-                //println("DEFLATER")
+                // println("DEFLATER")
                 if (deflater.needsInput()) {
                     val read = i.read(tempInput, 0, tempInput.size)
                     if (read <= 0) {

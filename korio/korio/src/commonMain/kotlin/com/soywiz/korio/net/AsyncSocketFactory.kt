@@ -4,9 +4,9 @@ import com.soywiz.korio.async.*
 import com.soywiz.korio.concurrent.atomic.*
 import com.soywiz.korio.lang.*
 import com.soywiz.korio.stream.*
-import kotlin.coroutines.*
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.*
+import kotlin.coroutines.*
 
 abstract class AsyncSocketFactory {
     abstract suspend fun createClient(secure: Boolean = false): AsyncClient
@@ -24,7 +24,7 @@ interface AsyncClient : AsyncInputStream, AsyncOutputStream, AsyncCloseable {
     override suspend fun write(buffer: ByteArray, offset: Int, len: Int)
     override suspend fun close()
 
-    //suspend open fun reconnect() = Unit
+    // suspend open fun reconnect() = Unit
     object Stats {
         val writeCountStart = korAtomic(0L)
         val writeCountEnd = korAtomic(0L)

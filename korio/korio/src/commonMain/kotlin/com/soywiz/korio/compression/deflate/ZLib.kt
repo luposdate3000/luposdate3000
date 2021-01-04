@@ -16,7 +16,7 @@ open class ZLib(val deflater: (windowBits: Int) -> CompressionMethod) : Compress
     override suspend fun uncompress(reader: BitReader, out: AsyncOutputStream) {
         val r = reader
         val o = out
-        //println("Zlib.uncompress.available[0]:" + s.available())
+        // println("Zlib.uncompress.available[0]:" + s.available())
         r.prepareBigChunkIfRequired()
         val cmf = r.su8()
         val flg = r.su8()
@@ -32,23 +32,26 @@ open class ZLib(val deflater: (windowBits: Int) -> CompressionMethod) : Compress
             dictid = r.su32LE()
             TODO("Unsupported custom dictionaries (Provided DICTID=$dictid)")
         }
-        //println("ZLib.uncompress[2]")
-        //s.alignbyte()
+        // println("ZLib.uncompress[2]")
+        // s.alignbyte()
         var chash = Adler32.initialValue
-        deflater(windowBits).uncompress(r, object : AsyncOutputStream {
-            override suspend fun close() = o.close()
-            override suspend fun write(buffer: ByteArray, offset: Int, len: Int) {
-                o.write(buffer, offset, len)
-                chash = Adler32.update(chash, buffer, offset, len)
-                //println("UNCOMPRESS:'" + buffer.sliceArray(offset until (offset + len)).toString(UTF8) + "':${chash.hex32}")
+        deflater(windowBits).uncompress(
+            r,
+            object : AsyncOutputStream {
+                override suspend fun close() = o.close()
+                override suspend fun write(buffer: ByteArray, offset: Int, len: Int) {
+                    o.write(buffer, offset, len)
+                    chash = Adler32.update(chash, buffer, offset, len)
+                    // println("UNCOMPRESS:'" + buffer.sliceArray(offset until (offset + len)).toString(UTF8) + "':${chash.hex32}")
+                }
             }
-        })
-        //println("ZLib.uncompress[3]")
+        )
+        // println("ZLib.uncompress[3]")
         r.prepareBigChunkIfRequired()
         val adler32 = r.su32BE()
-        //println("Zlib.uncompress.available[1]:" + s.available())
+        // println("Zlib.uncompress.available[1]:" + s.available())
         if (chash != adler32) invalidOp("Adler32 doesn't match ${chash.hex} != ${adler32.hex}")
-        //println("ZLib.uncompress[4]")
+        // println("ZLib.uncompress[4]")
     }
 
     override suspend fun compress(
@@ -76,16 +79,19 @@ open class ZLib(val deflater: (windowBits: Int) -> CompressionMethod) : Compress
         o.write8(cmf)
         o.write8(flg or fcheck)
         var adler = Adler32.initialValue
-        deflater(slidingBits).compress(object : AsyncInputStreamWithLength by i {
-            override suspend fun read(buffer: ByteArray, offset: Int, len: Int): Int {
-                val read = i.read(buffer, offset, len)
-                if (read > 0) {
-                    adler = Adler32.update(adler, buffer, offset, read)
-                    //println("COMPRESS:'" + buffer.sliceArray(offset until (offset + len)).toString(UTF8) + "':${chash.hex32}")
+        deflater(slidingBits).compress(
+            object : AsyncInputStreamWithLength by i {
+                override suspend fun read(buffer: ByteArray, offset: Int, len: Int): Int {
+                    val read = i.read(buffer, offset, len)
+                    if (read > 0) {
+                        adler = Adler32.update(adler, buffer, offset, read)
+                        // println("COMPRESS:'" + buffer.sliceArray(offset until (offset + len)).toString(UTF8) + "':${chash.hex32}")
+                    }
+                    return read
                 }
-                return read
-            }
-        }, o, context)
+            },
+            o, context
+        )
         o.write32BE(adler)
     }
 }

@@ -59,7 +59,7 @@ class LocalVfsTest {
                 val readBytes = existing1.openUse(VfsOpenMode.READ) { readAll() }
                 assertEquals("hello", readBytes.toString(UTF8))
                 expectException<FileNotFoundException> { unexisting1.open(VfsOpenMode.READ).close() }
-                //unexisting1.open(VfsOpenMode.READ).close()
+                // unexisting1.open(VfsOpenMode.READ).close()
             }
         }
     }

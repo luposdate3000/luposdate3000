@@ -8,9 +8,6 @@ import com.soywiz.korio.net.http.*
 import com.soywiz.korio.net.ws.*
 import com.soywiz.korio.stream.*
 import com.soywiz.korio.util.*
-import kotlin.browser.*
-import kotlin.collections.set
-import kotlin.coroutines.*
 import kotlinx.coroutines.*
 import org.khronos.webgl.*
 import org.khronos.webgl.set
@@ -18,6 +15,9 @@ import org.w3c.dom.*
 import org.w3c.dom.events.*
 import org.w3c.performance.*
 import org.w3c.xhr.*
+import kotlin.browser.*
+import kotlin.collections.set
+import kotlin.coroutines.*
 
 val jsbaseUrl by lazy {
     val href = document.location?.href ?: "."
@@ -35,12 +35,12 @@ val global: GlobalScope = globalDynamic
 external val process: dynamic // node.js
 external val navigator: dynamic // browser
 
-//val isNodeJs by lazy { jsTypeOf(window) === "undefined" }
+// val isNodeJs by lazy { jsTypeOf(window) === "undefined" }
 val isWeb by lazy { js("(typeof window === 'object')").unsafeCast<Boolean>() }
 val isWorker by lazy { js("(typeof importScripts === 'function')").unsafeCast<Boolean>() }
 val isNodeJs by lazy { js("((typeof process !== 'undefined') && process.release && (process.release.name.search(/node|io.js/) !== -1))").unsafeCast<Boolean>() }
 
-//val isNodeJs by lazy { !isWeb && !isWorker }
+// val isNodeJs by lazy { !isWeb && !isWorker }
 val isShell get() = !isWeb && !isNodeJs && !isWorker
 fun HTMLCollection.toList(): List<Element?> = (0 until length).map { this[it] }
 fun <T : Element> HTMLCollection.toTypedList(): List<T> = (0 until length).map { this[it].unsafeCast<T>() }

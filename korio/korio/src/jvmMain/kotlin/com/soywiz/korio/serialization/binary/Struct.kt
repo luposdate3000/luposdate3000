@@ -19,10 +19,10 @@ interface Struct {
         class ARRAY(val elementType: Type, val count: Int) : Type(elementType.size * count)
         class STRING(val charset: Charset, val count: Int) : Type(count)
     }
-    //enum class Type(val size: Int) {
-    //	S1(1), S2(2), S4(4), S8(8),
-    //	F4(4), F8(8), CUSTOM(-1)
-    //}
+    // enum class Type(val size: Int) {
+    // 	S1(1), S2(2), S4(4), S8(8),
+    // 	F4(4), F8(8), CUSTOM(-1)
+    // }
 }
 
 @Target(AnnotationTarget.FIELD, AnnotationTarget.CLASS)
@@ -47,9 +47,9 @@ annotation class Encoding(val name: String)
 @Target(AnnotationTarget.FIELD)
 annotation class Order(val order: Int)
 
-//@Target(AnnotationTarget.FIELD) annotation class U1
-//@Target(AnnotationTarget.FIELD) annotation class U2
-//@Target(AnnotationTarget.FIELD) annotation class U4
+// @Target(AnnotationTarget.FIELD) annotation class U1
+// @Target(AnnotationTarget.FIELD) annotation class U2
+// @Target(AnnotationTarget.FIELD) annotation class U4
 class StructReflect<T>(val clazz: Class<T>) {
     data class FieldInfo(
         val field: Field,
@@ -118,7 +118,7 @@ class StructReflect<T>(val clazz: Class<T>) {
     val specifiedSize = clazz.getAnnotation(Size::class.java)?.size
     val calculatedSize = fieldsWithAnnotation.map { it.offset + it.type.size }.max()
     val size = specifiedSize ?: calculatedSize ?: fieldsWithAnnotation.map { it.offset + it.type.size }.max()
-    ?: throw IllegalArgumentException("Empty struct $clazz or without @Offset")
+        ?: throw IllegalArgumentException("Empty struct $clazz or without @Offset")
 
     @Suppress("UNCHECKED_CAST")
     fun create(): T = cf.createDummy()

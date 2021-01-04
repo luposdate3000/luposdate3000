@@ -1,12 +1,5 @@
 package com.soywiz.korio.android
 
-import android.app.Activity
-import android.os.Bundle
-import com.soywiz.kds.Extra
-import com.soywiz.korio.async.EventLoop
-import com.soywiz.korio.async.Signal
-import com.soywiz.korio.util.Once
-
 /*
 object KorioApp {
 	val initOnce = Once()

@@ -71,12 +71,12 @@ abstract class SuspendStreamProcessor : StreamProcessor {
     override fun inputEod() = run { reachedEnd = true }
     override fun readOutput(data: ByteArray, offset: Int, len: Int): Int = output.readBytes(data, offset, len)
     override fun process(): StreamProcessor.Status {
-        //println("process[0]")
+        // println("process[0]")
         return if (sequence.hasNext()) {
-            //println("process[1]")
+            // println("process[1]")
             sequence.next()
         } else {
-            //println("process[2]")
+            // println("process[2]")
             StreamProcessor.Status.FINISHED
         }
     }
@@ -141,12 +141,14 @@ class MyGzipInflater : SuspendStreamProcessor() {
 */
 class MyInflater(val windowBits: Int) : SuspendStreamProcessor() {
     companion object {
-        private val FIXED_TREE: HuffmanTree = HuffmanTree().fromLengths(IntArray(288).apply {
-            for (n in 0..143) this[n] = 8
-            for (n in 144..255) this[n] = 9
-            for (n in 256..279) this[n] = 7
-            for (n in 280..287) this[n] = 8
-        })
+        private val FIXED_TREE: HuffmanTree = HuffmanTree().fromLengths(
+            IntArray(288).apply {
+                for (n in 0..143) this[n] = 8
+                for (n in 144..255) this[n] = 9
+                for (n in 256..279) this[n] = 7
+                for (n in 280..287) this[n] = 8
+            }
+        )
         private val FIXED_DIST: HuffmanTree = HuffmanTree().fromLengths(IntArray(32) { 5 })
         private val LEN_EXTRA = intArrayOf(
             0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 0, 0, 0
@@ -185,7 +187,7 @@ class MyInflater(val windowBits: Int) : SuspendStreamProcessor() {
             ensureBytes()
             lastBlock = bits.bit()
             val btype = bits.bits(2)
-            //println("lastBlock=$lastBlock, btype=$btype")
+            // println("lastBlock=$lastBlock, btype=$btype")
             if (btype !in 0..2) error("invalid bit")
             if (btype == 0) {
                 bits.discardBits()
@@ -214,7 +216,7 @@ class MyInflater(val windowBits: Int) : SuspendStreamProcessor() {
                     val hclen = bits.bits(4) + 4
                     ensureBytes(hclen / 2)
                     for (i in 0 until hclen) codeLenCodeLen[HCLENPOS[i]] = bits.bits(3)
-                    //console.info(codeLenCodeLen);
+                    // console.info(codeLenCodeLen);
                     val codeLen = tempCodeLen.fromLengths(codeLenCodeLen)
                     var n = 0
                     val hlithdist = hlit + hdist
@@ -243,7 +245,7 @@ class MyInflater(val windowBits: Int) : SuspendStreamProcessor() {
                 while (true) {
                     ensureBytes()
                     val value = tree.read(bits)
-                    //println("value=$value")
+                    // println("value=$value")
                     if (value == 256) break
                     if (value < 256) {
                         ring.putOut(value.toByte())
@@ -259,7 +261,7 @@ class MyInflater(val windowBits: Int) : SuspendStreamProcessor() {
                 }
             }
         }
-        //println("DONE!")
+        // println("DONE!")
     }
 
     class HuffmanTree {
@@ -268,7 +270,7 @@ class MyInflater(val windowBits: Int) : SuspendStreamProcessor() {
             private const val NIL = 1023
             private const val FAST_BITS = 9
 
-            //private const val ENABLE_EXPERIMENTAL_FAST_READ = true
+            // private const val ENABLE_EXPERIMENTAL_FAST_READ = true
             private const val ENABLE_EXPERIMENTAL_FAST_READ = false
         }
 
@@ -374,7 +376,7 @@ class MyInflater(val windowBits: Int) : SuspendStreamProcessor() {
             ENCODED_LEN.fill(0)
             FAST_INFO.fill(INVALID_VALUE)
             computeEncodedValues(root, 0, 0)
-            //println("--------------------")
+            // println("--------------------")
             for (n in 0 until ncodes) {
                 val enc = ENCODED_VAL[n]
                 val bits = ENCODED_LEN[n].toInt()
@@ -384,13 +386,13 @@ class MyInflater(val windowBits: Int) : SuspendStreamProcessor() {
                     val remainingBits = FAST_BITS - bits
                     val repeat = 1 shl remainingBits
                     val info = enc or (bits shl 16)
-                    //println("n=$n  : enc=$enc : bits=$bits, repeat=$repeat")
+                    // println("n=$n  : enc=$enc : bits=$bits, repeat=$repeat")
                     for (j in 0 until repeat) {
                         FAST_INFO[enc or (j shl bits)] = info
                     }
                 }
             }
-            //for (fv in FAST_INFO) check(fv != INVALID_VALUE)
+            // for (fv in FAST_INFO) check(fv != INVALID_VALUE)
         }
 
         private fun computeEncodedValues(node: Int, encoded: Int, encodedBits: Int) {
@@ -426,9 +428,9 @@ class MyInflater(val windowBits: Int) : SuspendStreamProcessor() {
         }
 
         fun getPutCopyOut(distance: Int, length: Int) {
-            //out.ensure(length)
-            //out.size = max(out.size, length)
-            //println("distance=$distance, length=$length")
+            // out.ensure(length)
+            // out.size = max(out.size, length)
+            // println("distance=$distance, length=$length")
             var src = (pos - distance) and mask
             var dst = pos
             for (n in 0 until length) {

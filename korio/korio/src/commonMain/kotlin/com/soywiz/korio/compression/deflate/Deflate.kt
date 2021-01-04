@@ -23,7 +23,7 @@ open class DeflatePortable(val windowBits: Int) : CompressionMethod {
             o.write8(if (chunkSize >= available) 1 else 0)
             o.write16LE(chunkSize)
             o.write16LE(chunkSize.inv())
-            //for (n in 0 until chunkSize) o.write8(i.readU8())
+            // for (n in 0 until chunkSize) o.write8(i.readU8())
             o.writeBytes(i.readBytesExact(chunkSize))
         }
     }
@@ -35,16 +35,16 @@ open class DeflatePortable(val windowBits: Int) : CompressionMethod {
         val tempDist = HuffmanTree()
         val codeLenCodeLen = IntArray(32)
         val lengths = IntArray(512)
-        //println("uncompress[0]")
+        // println("uncompress[0]")
         while (!lastBlock) {
             reader.prepareBigChunkIfRequired()
-            //println("uncompress[1]")
+            // println("uncompress[1]")
             lastBlock = reader.sreadBit()
             val blockType = reader.readBits(2)
             if (blockType !in 0..2) error("invalid bit")
-            //println("lastBlock=$lastBlock, btype=$blockType")
+            // println("lastBlock=$lastBlock, btype=$blockType")
             if (blockType == 0) {
-                //println("uncompress[2]")
+                // println("uncompress[2]")
                 reader.discardBits()
                 val len = reader.su16LE()
                 val nlen = reader.su16LE()
@@ -53,7 +53,7 @@ open class DeflatePortable(val windowBits: Int) : CompressionMethod {
                 val bytes = reader.abytes(len)
                 sout.putOut(bytes, 0, len)
             } else {
-                //println("uncompress[3]")
+                // println("uncompress[3]")
                 val tree: HuffmanTree
                 val dist: HuffmanTree
                 if (blockType == 1) {
@@ -65,7 +65,7 @@ open class DeflatePortable(val windowBits: Int) : CompressionMethod {
                     val hclen = reader.readBits(4) + 4
                     codeLenCodeLen.fill(0)
                     for (i in 0 until hclen) codeLenCodeLen[HCLENPOS[i]] = reader.readBits(3)
-                    //console.info(codeLenCodeLen);
+                    // console.info(codeLenCodeLen);
                     val codeLen = tempTree.fromLengths(codeLenCodeLen)
                     val hlithdist = hlit + hdist
                     var n = 0
@@ -111,9 +111,9 @@ open class DeflatePortable(val windowBits: Int) : CompressionMethod {
                 }
             }
         }
-        //println("uncompress[4]")
+        // println("uncompress[4]")
         sout.flushIfRequired(finish = true)
-        //println("uncompress[5]")
+        // println("uncompress[5]")
     }
 
     private fun BitReader.read(tree: HuffmanTree): Int = tree.read(this)
@@ -123,34 +123,34 @@ open class DeflatePortable(val windowBits: Int) : CompressionMethod {
         val output get() = bab.size
         val mustFlush get() = bab.size >= 4 * 1024
         fun getPutCopyOut(distance: Int, length: Int) {
-            //print("LZ: distance=$distance, length=$length   :: ")
+            // print("LZ: distance=$distance, length=$length   :: ")
             for (n in 0 until length) {
                 val v = sliding.getPut(distance)
                 bab.append(v.toByte())
-                //print("$v,")
+                // print("$v,")
             }
-            //println()
+            // println()
         }
 
         fun putOut(bytes: ByteArray, offset: Int, len: Int) {
-            //print("BYTES: $len ::")
+            // print("BYTES: $len ::")
             bab.append(bytes, offset, len)
             sliding.putBytes(bytes, offset, len)
-            //for (n in 0 until len) print("${bytes[offset + n].toUnsigned()},")
-            //println()
+            // for (n in 0 until len) print("${bytes[offset + n].toUnsigned()},")
+            // println()
         }
 
         fun putOut(byte: Byte) {
-            //println("BYTE: $byte")
+            // println("BYTE: $byte")
             bab.append(byte)
             sliding.put(byte.unsigned)
         }
 
         suspend fun flush(finish: Boolean = false) {
             if (finish || mustFlush) {
-                //print("FLUSH[$finish][${bab.size}]")
-                //for (n in 0 until bab.size) print("${bab.data[n]},")
-                //println()
+                // print("FLUSH[$finish][${bab.size}]")
+                // for (n in 0 until bab.size) print("${bab.data[n]},")
+                // println()
                 out.write(bab.data, 0, bab.size)
                 bab.clear()
             }
@@ -162,12 +162,14 @@ open class DeflatePortable(val windowBits: Int) : CompressionMethod {
     }
 
     companion object : DeflatePortable(15) {
-        private val FIXED_TREE: HuffmanTree = HuffmanTree().fromLengths(IntArray(288).apply {
-            for (n in 0..143) this[n] = 8
-            for (n in 144..255) this[n] = 9
-            for (n in 256..279) this[n] = 7
-            for (n in 280..287) this[n] = 8
-        })
+        private val FIXED_TREE: HuffmanTree = HuffmanTree().fromLengths(
+            IntArray(288).apply {
+                for (n in 0..143) this[n] = 8
+                for (n in 144..255) this[n] = 9
+                for (n in 256..279) this[n] = 7
+                for (n in 280..287) this[n] = 8
+            }
+        )
         private val FIXED_DIST: HuffmanTree = HuffmanTree().fromLengths(IntArray(32) { 5 })
         private val LEN_EXTRA = intArrayOf(
             0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 0, 0, 0

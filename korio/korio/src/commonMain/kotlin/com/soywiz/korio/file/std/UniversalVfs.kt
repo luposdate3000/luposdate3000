@@ -48,8 +48,8 @@ inline fun <T> registerUniSchemaTemporarily(schema: UniSchema, callback: () -> T
     }
 }
 
-//fun registerUniSchema(name: String, provider: (URL) -> VfsFile) = registerUniSchema(UniSchema(name, provider))
-//inline fun <T> registerUniSchemaTemporarily(name: String, noinline provider: (URL) -> VfsFile, callback: () -> T) = registerUniSchemaTemporarily(UniSchema(name, provider), callback)
+// fun registerUniSchema(name: String, provider: (URL) -> VfsFile) = registerUniSchema(UniSchema(name, provider))
+// inline fun <T> registerUniSchemaTemporarily(name: String, noinline provider: (URL) -> VfsFile, callback: () -> T) = registerUniSchemaTemporarily(UniSchema(name, provider), callback)
 operator fun UniSchemaProviders.plus(other: UniSchemaProviders) = UniSchemaProviders(this.providers + other.providers)
 operator fun UniSchemaProviders.plus(other: UniSchema) = UniSchemaProviders(this.providers + mapOf(other.name to other))
 operator fun UniSchemaProviders.minus(other: UniSchemaProviders): UniSchemaProviders = UniSchemaProviders(this.providers - other.providers.keys)

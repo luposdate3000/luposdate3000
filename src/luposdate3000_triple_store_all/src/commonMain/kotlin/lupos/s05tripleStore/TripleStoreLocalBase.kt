@@ -95,25 +95,25 @@ abstract class TripleStoreLocalBase(@JvmField val name: String, @JvmField val st
                     partitionLimit = v
                 }
                 var partitionColumn = -1
-if(partitionName.startsWith("_")){
-partitionColumn=partitionName.substring(1).toInt()
-}else{
-                var j = 0
-                for (ii in 0 until 3) {
-                    val i = params.idx.tripleIndicees[ii]
-                    val param = params.params[i]
-                    if (param is AOPVariable) {
-                        if (param.name == partitionName) {
-                            partitionColumn = j
-                            break
+                if (partitionName.startsWith("_")) {
+                    partitionColumn = partitionName.substring(1).toInt()
+                } else {
+                    var j = 0
+                    for (ii in 0 until 3) {
+                        val i = params.idx.tripleIndicees[ii]
+                        val param = params.params[i]
+                        if (param is AOPVariable) {
+                            if (param.name == partitionName) {
+                                partitionColumn = j
+                                break
+                            } else {
+                                j++
+                            }
                         } else {
-                            j++
+                            j++ // constants at the front do count
                         }
-                    } else {
-                        j++ // constants at the front do count
                     }
                 }
-}
                 SanityCheck.println { "TripleStoreFeatureParamsPartition ${params.idx} $partitionColumn $partitionLimit" }
                 for (p in enabledPartitions) {
                     if (p.index.contains(params.idx) && p.column == partitionColumn && p.partitionCount == partitionLimit) {

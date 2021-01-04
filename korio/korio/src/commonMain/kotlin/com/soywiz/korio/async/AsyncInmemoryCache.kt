@@ -1,9 +1,9 @@
 package com.soywiz.korio.async
 
 import com.soywiz.klock.*
+import kotlinx.coroutines.*
 import kotlin.coroutines.*
 import kotlin.reflect.*
-import kotlinx.coroutines.*
 
 class AsyncInmemoryCache(val timeProvider: TimeProvider = TimeProvider) {
     data class Entry(val timestamp: DateTime, val data: Deferred<Any?>)
@@ -11,7 +11,7 @@ class AsyncInmemoryCache(val timeProvider: TimeProvider = TimeProvider) {
     val cache = LinkedHashMap<String, Entry?>()
     fun <T : Any> get(clazz: KClass<T>, key: String, ttl: TimeSpan) = AsyncInmemoryEntry<T>(clazz, this, key, ttl)
 
-    //fun <T : Any?> getTyped(clazz: Class<T>, key: String = clazz, ttl: TimeSpan) = AsyncInmemoryEntry(clazz, this, key, ttl)
+    // fun <T : Any?> getTyped(clazz: Class<T>, key: String = clazz, ttl: TimeSpan) = AsyncInmemoryEntry(clazz, this, key, ttl)
     @Suppress("UNCHECKED_CAST")
     suspend fun <T : Any?> get(key: String, ttl: TimeSpan, gen: suspend () -> T): T {
         val entry = cache[key]
@@ -20,7 +20,7 @@ class AsyncInmemoryCache(val timeProvider: TimeProvider = TimeProvider) {
         }
         return (cache[key]!!.data as Deferred<T>).await()
     }
-    //suspend fun <T : Any?> get(key: String, ttl: TimeSpan, gen: () -> Promise<T>) = await(getAsync(key, ttl, gen))
+    // suspend fun <T : Any?> get(key: String, ttl: TimeSpan, gen: () -> Promise<T>) = await(getAsync(key, ttl, gen))
 }
 
 class AsyncInmemoryEntry<T : Any>(
@@ -29,6 +29,6 @@ class AsyncInmemoryEntry<T : Any>(
     val key: String,
     val ttl: TimeSpan
 ) {
-    //fun getAsync(gen: () -> Promise<T>): Promise<T> = async(coroutineContext) { cache.get(key, ttl, gen) }
+    // fun getAsync(gen: () -> Promise<T>): Promise<T> = async(coroutineContext) { cache.get(key, ttl, gen) }
     suspend fun get(routine: suspend () -> T) = cache.get(key, ttl, routine)
 }

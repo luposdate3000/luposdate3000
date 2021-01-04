@@ -7,21 +7,21 @@ import com.soywiz.korio.lang.*
 import com.soywiz.korio.net.*
 import com.soywiz.korio.net.http.*
 import com.soywiz.korio.stream.*
-import kotlin.coroutines.*
 import kotlinx.coroutines.*
 import org.khronos.webgl.*
+import kotlin.coroutines.*
 
 // @TODO: Try to prevent webpack to not get confused about this
 private external val require: dynamic
 
-//private external fun require(name: String): dynamic
+// private external fun require(name: String): dynamic
 private val require_req = require
 internal fun require_node(name: String): dynamic = require_req(name)
 typealias NodeJsBuffer = Uint8Array
 
 fun NodeJsBuffer.toByteArray() = Int8Array(this.unsafeCast<Int8Array>()).unsafeCast<ByteArray>()
 
-//fun ByteArray.toNodeJsBufferU8(): NodeBuffer = Uint8Array(this.unsafeCast<ArrayBuffer>()).asDynamic()
+// fun ByteArray.toNodeJsBufferU8(): NodeBuffer = Uint8Array(this.unsafeCast<ArrayBuffer>()).asDynamic()
 fun ByteArray.asInt8Array(): Int8Array = this.unsafeCast<Int8Array>()
 fun ByteArray.asUint8Array(): Uint8Array {
     val i = this.asInt8Array()
@@ -40,7 +40,7 @@ class HttpClientNodeJs : HttpClient() {
         content: AsyncStream?
     ): Response {
         val deferred = CompletableDeferred<Response>(Job())
-        //println(url)
+        // println(url)
         val http = require_node("http")
         val jsurl = require_node("url")
         val info = jsurl.parse(url)
@@ -75,7 +75,7 @@ class HttpClientNodeJs : HttpClient() {
                     ),
                     content = out.openAsync()
                 )
-                //println(response.headers)
+                // println(response.headers)
                 deferred.complete(response)
             }
         }.on("error") { e ->
@@ -167,7 +167,7 @@ class HttpSeverNodeJs : HttpServer() {
 
     override val actualPort: Int
         get() {
-            //com.soywiz.korio.lang.Console.log(server)
+            // com.soywiz.korio.lang.Console.log(server)
             return jsEnsureInt(server.address().port)
         }
 
@@ -223,16 +223,16 @@ class NodeJsAsyncClient(val coroutineContext: CoroutineContext) : AsyncClient {
 
 class NodeJsAsyncServer : AsyncServer {
     override val requestPort: Int
-        get() = TODO("not implemented") //To change initializer of created properties use File | Settings | File Templates.
+        get() = TODO("not implemented") // To change initializer of created properties use File | Settings | File Templates.
     override val host: String
-        get() = TODO("not implemented") //To change initializer of created properties use File | Settings | File Templates.
+        get() = TODO("not implemented") // To change initializer of created properties use File | Settings | File Templates.
     override val backlog: Int
-        get() = TODO("not implemented") //To change initializer of created properties use File | Settings | File Templates.
+        get() = TODO("not implemented") // To change initializer of created properties use File | Settings | File Templates.
     override val port: Int
-        get() = TODO("not implemented") //To change initializer of created properties use File | Settings | File Templates.
+        get() = TODO("not implemented") // To change initializer of created properties use File | Settings | File Templates.
 
     override suspend fun accept(): AsyncClient {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        TODO("not implemented") // To change body of created functions use File | Settings | File Templates.
     }
 
     suspend fun init(port: Int, host: String, backlog: Int): AsyncServer = this.apply {
@@ -248,22 +248,25 @@ class NodeJsLocalVfs : LocalVfs() {
         return path.pathInfo.normalize()
     }
 
-    //fun String.escapeShellCmd(): String {
-    //	// @TODO: escapeShellArg @TODO: Consider all cases and windows
-    //	return this
-    //}
+    // fun String.escapeShellCmd(): String {
+    // 	// @TODO: escapeShellArg @TODO: Consider all cases and windows
+    // 	return this
+    // }
     //
-    //fun String.escapeShellArg(): String {
-    //	// @TODO: escapeShellArg @TODO: Consider all cases and windows
-    //	return "'" + this.replace("'", "\'") + "'"
-    //}
+    // fun String.escapeShellArg(): String {
+    // 	// @TODO: escapeShellArg @TODO: Consider all cases and windows
+    // 	return "'" + this.replace("'", "\'") + "'"
+    // }
     override suspend fun exec(path: String, cmdAndArgs: List<String>, env: Map<String, String>, handler: VfsProcessHandler): Int {
-        val process = require_node("child_process").spawn(cmdAndArgs.first(), cmdAndArgs.drop(1).toTypedArray(), jsObject(
-            "cwd" to path,
-            "env" to env.toJsObject(),
-            "encoding" to "buffer",
-            "shell" to true
-        ))
+        val process = require_node("child_process").spawn(
+            cmdAndArgs.first(), cmdAndArgs.drop(1).toTypedArray(),
+            jsObject(
+                "cwd" to path,
+                "env" to env.toJsObject(),
+                "encoding" to "buffer",
+                "shell" to true
+            )
+        )
         val queue = AsyncQueue().withContext(coroutineContext)
         val exitCodeDeferred = CompletableDeferred<Int>()
         process.stdout.on("data") { data: NodeJsBuffer -> queue { handler.onOut(data.toByteArray()) } }
@@ -323,7 +326,7 @@ class NodeJsLocalVfs : LocalVfs() {
         val file = this.file(path)
         return suspendCoroutine { cc ->
             fs.open(getFullPath(path), cmode) { err: Any?, fd: FD? ->
-                //println("OPENED path=$path, cmode=$cmode, err=$err, fd=$fd")
+                // println("OPENED path=$path, cmode=$cmode, err=$err, fd=$fd")
                 if (err != null || fd == null) {
                     cc.resumeWithException(FileNotFoundException("Can't open '$path' with mode '$cmode': err=$err"))
                 } else {
@@ -349,7 +352,7 @@ class NodeFDStream(val file: VfsFile, val fs: dynamic, var fd: NodeJsLocalVfs.FD
             if (err != null) {
                 c.resumeWithException(IOException("Error reading from $file :: err=$err"))
             } else {
-                //println("NODE READ[$file] read: ${bytesRead} : ${buffer.sliceArray(0 until min(buffer.size, 5)).contentToString()}")
+                // println("NODE READ[$file] read: ${bytesRead} : ${buffer.sliceArray(0 until min(buffer.size, 5)).contentToString()}")
                 c.resume(bytesRead)
             }
             Unit
@@ -389,7 +392,7 @@ class NodeFDStream(val file: VfsFile, val fs: dynamic, var fd: NodeJsLocalVfs.FD
             if (err != null) {
                 c.resumeWithException(IOException("Error getting length from $file :: err=$err"))
             } else {
-                //println("NODE READ getLength: ${stats.size}")
+                // println("NODE READ getLength: ${stats.size}")
                 c.resume((stats.size as Double).toLong())
             }
             Unit
@@ -397,16 +400,16 @@ class NodeFDStream(val file: VfsFile, val fs: dynamic, var fd: NodeJsLocalVfs.FD
         Unit
     }
 
-    //private var closed = false
-    override suspend fun close(): Unit {
-        //if (closed) error("File already closed")
-        //closed = true
+    // private var closed = false
+    override suspend fun close() {
+        // if (closed) error("File already closed")
+        // closed = true
         if (fd != null) {
             return suspendCoroutine { c ->
                 fs.close(fd) { err ->
                     fd = null
                     if (err != null) {
-                        //c.resumeWithException(IOException("Error closing err=$err"))
+                        // c.resumeWithException(IOException("Error closing err=$err"))
                         c.resume(Unit) // Allow to close several times
                     } else {
                         c.resume(Unit)

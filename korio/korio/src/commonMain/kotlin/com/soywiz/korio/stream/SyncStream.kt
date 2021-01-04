@@ -57,7 +57,7 @@ class SyncStream(val base: SyncStreamBase, override var position: Long = 0L) : E
         return smallTemp[0].unsigned
     }
 
-    override fun write(buffer: ByteArray, offset: Int, len: Int): Unit {
+    override fun write(buffer: ByteArray, offset: Int, len: Int) {
         base.write(position, buffer, offset, len)
         position += len
     }
@@ -178,7 +178,7 @@ class MemorySyncStreamBase(var data: ByteArrayBuilder) : SyncStreamBase() {
     override fun read(position: Long, buffer: ByteArray, offset: Int, len: Int): Int {
         checkPosition(position)
         val ipos = position.toInt()
-        //if (position !in 0 until ilength) return -1
+        // if (position !in 0 until ilength) return -1
         if (position !in 0 until ilength) return 0
         val end = min(this.ilength, ipos + len)
         val actualLen = max((end - ipos), 0)
@@ -250,7 +250,7 @@ fun SyncInputStream.readString(len: Int, charset: Charset = UTF8): String = read
 fun SyncOutputStream.writeString(string: String, charset: Charset = UTF8): Unit =
     writeBytes(string.toByteArray(charset))
 
-fun SyncInputStream.readExact(out: ByteArray, offset: Int, len: Int): Unit {
+fun SyncInputStream.readExact(out: ByteArray, offset: Int, len: Int) {
     var ooffset = offset
     var remaining = len
     while (remaining > 0) {
@@ -333,13 +333,13 @@ fun SyncOutputStream.writeF64BE(v: Double): Unit = write64BE(v.reinterpretAsLong
 fun SyncStreamBase.toSyncStream(position: Long = 0L) = SyncStream(this, position)
 fun ByteArray.openSync(mode: String = "r"): SyncStream = MemorySyncStreamBase(ByteArrayBuilder(this)).toSyncStream(0L)
 fun ByteArray.openAsync(mode: String = "r"): AsyncStream =
-//MemoryAsyncStreamBase(ByteArrayBuffer(this, allowGrow = false)).toAsyncStream(0L)
+// MemoryAsyncStreamBase(ByteArrayBuffer(this, allowGrow = false)).toAsyncStream(0L)
     MemoryAsyncStreamBase(ByteArrayBuilder(this, allowGrow = true)).toAsyncStream(0L)
 
 fun String.openSync(charset: Charset = UTF8): SyncStream = toByteArray(charset).openSync("r")
 fun String.openAsync(charset: Charset = UTF8): AsyncStream = toByteArray(charset).openSync("r").toAsync()
 fun SyncOutputStream.writeStream(source: SyncInputStream): Unit = source.copyTo(this)
-fun SyncInputStream.copyTo(target: SyncOutputStream): Unit {
+fun SyncInputStream.copyTo(target: SyncOutputStream) {
     bytesTempPool.alloc2 { chunk ->
         while (true) {
             val count = this.read(chunk)
@@ -424,7 +424,7 @@ fun SyncInputStream.readS_VL(): Int {
     return if (sign) -uvalue - 1 else uvalue
 }
 
-fun SyncOutputStream.writeU_VL(v: Int): Unit {
+fun SyncOutputStream.writeU_VL(v: Int) {
     var value = v
     while (true) {
         val c = value and 0x7f
@@ -437,12 +437,12 @@ fun SyncOutputStream.writeU_VL(v: Int): Unit {
     }
 }
 
-fun SyncOutputStream.writeS_VL(v: Int): Unit {
+fun SyncOutputStream.writeS_VL(v: Int) {
     val sign = if (v < 0) 1 else 0
     writeU_VL(sign or ((if (v < 0) -v - 1 else v) shl 1))
 }
 
-fun SyncOutputStream.writeStringVL(str: String, charset: Charset = UTF8): Unit {
+fun SyncOutputStream.writeStringVL(str: String, charset: Charset = UTF8) {
     val bytes = str.toByteArray(charset)
     writeU_VL(bytes.size)
     writeBytes(bytes)

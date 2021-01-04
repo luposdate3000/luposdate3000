@@ -9,8 +9,8 @@ class RegexExtTest {
         assertEquals("""\.\?\*\+\^\\\[\]\(\)\{\}\|\-\${'$'}""", Regex.quote(""".?*+^\[](){}|-${'$'}"""))
         assertEquals("""abc\[a\]""", Regex.quote("abc[a]"))
         // @TODO: Inconsistent among targets! JS/JVM
-        //assertEquals("""\Q*+\E""", Regex.escape("*+"))
-        //assertEquals("""*+""", Regex.escapeReplacement("*+"))
-        //assertEquals("""*+""", Regex.fromLiteral("*+").pattern)
+        // assertEquals("""\Q*+\E""", Regex.escape("*+"))
+        // assertEquals("""*+""", Regex.escapeReplacement("*+"))
+        // assertEquals("""*+""", Regex.fromLiteral("*+").pattern)
     }
 }

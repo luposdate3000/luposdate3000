@@ -3,7 +3,6 @@ package com.soywiz.korio.net
 import kotlinx.cinterop.*
 import kotlinx.coroutines.*
 import platform.posix.*
-import platform.windows.addrinfo
 import platform.windows.LPADDRINFOVar
 
 class NativeSocket private constructor(internal val sockfd: SOCKET, private var endpoint: Endpoint) {
@@ -20,7 +19,7 @@ class NativeSocket private constructor(internal val sockfd: SOCKET, private var 
         suspend fun connect(host: String, port: Int) = NativeSocket().apply { connect(host, port) }
         suspend fun bound(host: String, port: Int) = NativeSocket().apply { bind(host, port) }
 
-        //suspend fun listen(host: String, port: Int) = NativeSocket().listen(host, port)
+        // suspend fun listen(host: String, port: Int) = NativeSocket().listen(host, port)
         fun checkErrors(name: String = "") {
             val error = platform.windows.WSAGetLastError()
             if (error != 0) {
@@ -50,7 +49,7 @@ class NativeSocket private constructor(internal val sockfd: SOCKET, private var 
         val str get() = "$v0.$v1.$v2.$v3"
         val value: Int get() = (v0.toInt() shl 0) or (v1.toInt() shl 8) or (v2.toInt() shl 16) or (v3.toInt() shl 24)
 
-        //val value: Int get() = (v0.toInt() shl 24) or (v1.toInt() shl 16) or (v2.toInt() shl 8) or (v3.toInt() shl 0)
+        // val value: Int get() = (v0.toInt() shl 24) or (v1.toInt() shl 16) or (v2.toInt() shl 8) or (v3.toInt() shl 0)
         override fun toString(): String = str
 
         companion object {
@@ -88,7 +87,7 @@ class NativeSocket private constructor(internal val sockfd: SOCKET, private var 
             val ip = IP.fromHost(host)
             val addr = allocArray<sockaddr_in>(1)
             addr.set(ip, port)
-            //val connected = platform.windows.connect(sockfd, addr as CValuesRef<sockaddr>?, sockaddr_in.size.convert())
+            // val connected = platform.windows.connect(sockfd, addr as CValuesRef<sockaddr>?, sockaddr_in.size.convert())
             val connected = platform.windows.connect(sockfd, addr.reinterpret(), sockaddr_in.size.convert())
             checkErrors("connect")
             endpoint = Endpoint(ip, port)
@@ -130,13 +129,13 @@ class NativeSocket private constructor(internal val sockfd: SOCKET, private var 
             checkErrors("accept")
             if (fd.toInt() < 0) {
                 val errno = posix_errno()
-                //println("accept: fd=$fd, errno=$errno")
+                // println("accept: fd=$fd, errno=$errno")
                 when (errno) {
                     EWOULDBLOCK -> return null
                     else -> error("Couldn't accept socket ($fd) errno=$errno")
                 }
             }
-            //println("accept: fd=$fd")
+            // println("accept: fd=$fd")
             return NativeSocket(fd, addr.ptr.reinterpret<sockaddr_in>().toEndpoint()).apply {
                 setSocketBlockingEnabled(false)
             }
@@ -146,13 +145,13 @@ class NativeSocket private constructor(internal val sockfd: SOCKET, private var 
     val availableBytes
         get() = run {
             val bytes_available = uintArrayOf(0u, 0u)
-            //platform.windows.ioctlsocket(sockfd, platform.windows.FIONREAD, bytes_available.refTo(0).reinterpret())
+            // platform.windows.ioctlsocket(sockfd, platform.windows.FIONREAD, bytes_available.refTo(0).reinterpret())
             platform.windows.ioctlsocket(sockfd, platform.windows.FIONREAD, bytes_available.refTo(0))
             checkErrors("ioctlsocket")
             bytes_available[0].toInt()
         }
 
-    //val connected: Boolean
+    // val connected: Boolean
     //    get() {
     //        memScoped {
     //            if (!_connected) return false
@@ -192,7 +191,7 @@ class NativeSocket private constructor(internal val sockfd: SOCKET, private var 
     fun send(data: ByteArray, offset: Int = 0, count: Int = data.size - offset) {
         if (count <= 0) return
         memScoped {
-            //val result = platform.windows.send(sockfd, data.refTo(offset), count.convert(), 0)
+            // val result = platform.windows.send(sockfd, data.refTo(offset), count.convert(), 0)
             val result = platform.posix.send(sockfd, data.refTo(offset), count.convert(), 0)
             checkErrors("send")
             if (result < count) {
@@ -205,7 +204,7 @@ class NativeSocket private constructor(internal val sockfd: SOCKET, private var 
     fun close() {
         platform.windows.closesocket(sockfd)
         checkErrors("closesocket")
-        //platform.posix.shutdown(sockfd, SHUT_RDWR)
+        // platform.posix.shutdown(sockfd, SHUT_RDWR)
         _connected = false
     }
 
@@ -232,9 +231,9 @@ class NativeSocket private constructor(internal val sockfd: SOCKET, private var 
             }
             val ip = localAddress.sin_addr.readValue()
             val port = swapBytes(localAddress.sin_port)
-            //println("result: $result")
-            //println("local address: " + inet_ntoa(localAddress.sin_addr.readValue())?.toKString())
-            //println("local port: " + )
+            // println("result: $result")
+            // println("local address: " + inet_ntoa(localAddress.sin_addr.readValue())?.toKString())
+            // println("local port: " + )
             return Endpoint(IP(ip.getBytes().toUByteArray()), port.toInt())
         }
     }
@@ -286,7 +285,7 @@ suspend fun NativeSocket.suspendSend(data: ByteArray, offset: Int = 0, count: In
 suspend fun NativeSocket.accept(): NativeSocket {
     while (true) {
         val socket = tryAccept()
-        //println("suspendAccept: $socket")
+        // println("suspendAccept: $socket")
         if (socket != null) return socket
         delay(10L)
     }

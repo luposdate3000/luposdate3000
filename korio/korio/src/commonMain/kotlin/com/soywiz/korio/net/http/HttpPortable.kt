@@ -4,9 +4,9 @@ import com.soywiz.korio.async.*
 import com.soywiz.korio.lang.*
 import com.soywiz.korio.net.*
 import com.soywiz.korio.stream.*
+import kotlinx.coroutines.*
 import kotlin.coroutines.*
 import kotlin.math.*
-import kotlinx.coroutines.*
 
 internal object HttpPortable {
     fun createClient(): HttpClient {
@@ -14,7 +14,7 @@ internal object HttpPortable {
             override suspend fun requestInternal(method: Http.Method, url: String, headers: Http.Headers, content: AsyncStream?): Response {
                 val url = URL(url)
                 val secure = url.scheme == "https"
-                //println("HTTP CLIENT: host=${url.host}, port=${url.port}, secure=$secure")
+                // println("HTTP CLIENT: host=${url.host}, port=${url.port}, secure=$secure")
                 val client = createTcpClient(url.host!!, url.port, secure)
                 val rheaders = headers + Http.Headers(
                     "Host" to url.host,
@@ -34,24 +34,26 @@ internal object HttpPortable {
                 }
                 client.writeString("\n")
                 content?.copyTo(client)
-                //println("SENT RESPONSE")
+                // println("SENT RESPONSE")
                 val firstLine = client.readLine()
                 val responseInfo = Regex("HTTP/1.\\d+ (\\d+) (.*)").find(firstLine)
                     ?: error("Invalid HTTP response $firstLine")
-                //println("FIRST LINE: $firstLine")
+                // println("FIRST LINE: $firstLine")
                 val responseCode = responseInfo.groupValues[1].toInt()
                 val responseMessage = responseInfo.groupValues[2]
                 val headers = arrayListOf<String>()
                 while (true) {
                     val line = client.readLine().trim()
-                    //println("line: $line")
+                    // println("line: $line")
                     if (line.isEmpty()) break
                     headers += line
                 }
-                val responseHeaders = Http.Headers(headers.map {
-                    val parts = it.split(':', limit = 2)
-                    parts.getOrElse(0) { "" } to parts.getOrElse(1) { "" }
-                })
+                val responseHeaders = Http.Headers(
+                    headers.map {
+                        val parts = it.split(':', limit = 2)
+                        parts.getOrElse(0) { "" } to parts.getOrElse(1) { "" }
+                    }
+                )
                 return Response(responseCode, responseMessage, responseHeaders, client)
             }
         }
@@ -81,13 +83,13 @@ internal object HttpPortable {
                 actualPort = socket.port
                 val close = socket.listen { client ->
                     while (true) {
-                        //println("Connected! : $client : ${KorioNative.currentThreadId}")
+                        // println("Connected! : $client : ${KorioNative.currentThreadId}")
                         val cb = client.bufferedInput()
-                        //val cb = client
-                        //val header = cb.readBufferedLine().trim()
-                        //val fline = cb.readBufferedUntil('\n'.toByte()).toString(UTF8).trim()
+                        // val cb = client
+                        // val header = cb.readBufferedLine().trim()
+                        // val fline = cb.readBufferedUntil('\n'.toByte()).toString(UTF8).trim()
                         val fline = cb.readUntil('\n'.toByte(), limit = LimitRequestFieldSize).toString(UTF8).trim()
-                        //println("fline: $fline")
+                        // println("fline: $fline")
                         if (fline != "") {
                             val match = HeaderRegex.matchEntire(fline)
                                 ?: throw IllegalStateException("Not a valid request '$fline'")
@@ -104,7 +106,7 @@ internal object HttpPortable {
                             val headers = Http.Headers(headerList)
                             val keepAlive = headers["connection"]?.toLowerCase() == "keep-alive"
                             val contentLength = headers[Http.Headers.ContentLength]?.toLongOrNull()
-                            //println("REQ: $method, $url, $headerList")
+                            // println("REQ: $method, $url, $headerList")
                             val requestCompleted = CompletableDeferred<Unit>(Job())
                             var bodyHandler: (ByteArray) -> Unit = {}
                             var endHandler: () -> Unit = {}
@@ -131,8 +133,8 @@ internal object HttpPortable {
                                     }
                                 })
                             }
-                            //println("Content-Length: '${headers["content-length"]}'")
-                            //println("Content-Length: $contentLength")
+                            // println("Content-Length: '${headers["content-length"]}'")
+                            // println("Content-Length: $contentLength")
                             if (contentLength != null) {
                                 var remaining = contentLength
                                 while (remaining > 0) {

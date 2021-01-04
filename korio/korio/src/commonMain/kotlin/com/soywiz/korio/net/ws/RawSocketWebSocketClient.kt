@@ -8,9 +8,9 @@ import com.soywiz.korio.net.*
 import com.soywiz.korio.stream.*
 import com.soywiz.korio.util.*
 import com.soywiz.korio.util.encoding.*
+import kotlinx.coroutines.*
 import kotlin.coroutines.*
 import kotlin.random.*
-import kotlinx.coroutines.*
 
 suspend fun RawSocketWebSocketClient(
     url: String,
@@ -43,9 +43,9 @@ suspend fun RawSocketWebSocketClient(
 
 class WsFrame(val data: ByteArray, val type: WsOpcode, val isFinal: Boolean = true, val frameIsBinary: Boolean = true) {
     fun toByteArray(): ByteArray = MemorySyncStreamToByteArray {
-        //Chrome: VM321:1 WebSocket connection to 'ws://localhost:8000/' failed: A server must not mask any frames that it sends to the client.
+        // Chrome: VM321:1 WebSocket connection to 'ws://localhost:8000/' failed: A server must not mask any frames that it sends to the client.
         val isMasked =
-            false //true; // All clientes messages must be masked: http://tools.ietf.org/html/rfc6455#section-5.1
+            false // true; // All clientes messages must be masked: http://tools.ietf.org/html/rfc6455#section-5.1
         val mask = Random.nextBytes(4)
         val sizeMask = (if (isMasked) 0x80 else 0x00)
         write8(type.id or (if (isFinal) 0x80 else 0x00))
@@ -88,21 +88,25 @@ class RawSocketWebSocketClient(
     val host = url.host ?: "127.0.0.1"
     val port = url.port
     internal suspend fun connect() {
-        client.writeBytes((buildList<String> {
-            add("GET $url HTTP/1.1")
-            add("Host: $host:$port")
-            add("Pragma: no-cache")
-            add("Cache-Control: no-cache")
-            add("Upgrade: websocket")
-            if (protocols != null) {
-                add("Sec-WebSocket-Protocol: ${protocols.joinToString(", ")}")
-            }
-            add("Sec-WebSocket-Version: 13")
-            add("Connection: Upgrade")
-            add("Sec-WebSocket-Key: ${key.toByteArray().toBase64()}")
-            add("Origin: $origin")
-            add("User-Agent: Mozilla/5.0")
-        }.joinToString("\r\n") + "\r\n\n").toByteArray())
+        client.writeBytes(
+            (
+                buildList<String> {
+                    add("GET $url HTTP/1.1")
+                    add("Host: $host:$port")
+                    add("Pragma: no-cache")
+                    add("Cache-Control: no-cache")
+                    add("Upgrade: websocket")
+                    if (protocols != null) {
+                        add("Sec-WebSocket-Protocol: ${protocols.joinToString(", ")}")
+                    }
+                    add("Sec-WebSocket-Version: 13")
+                    add("Connection: Upgrade")
+                    add("Sec-WebSocket-Key: ${key.toByteArray().toBase64()}")
+                    add("Origin: $origin")
+                    add("User-Agent: Mozilla/5.0")
+                }.joinToString("\r\n") + "\r\n\n"
+                ).toByteArray()
+        )
         // Read response
         val headers = arrayListOf<String>()
         while (true) {

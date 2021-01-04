@@ -5,12 +5,12 @@ import com.soywiz.korio.compression.*
 import com.soywiz.korio.compression.util.*
 import com.soywiz.korio.experimental.*
 import com.soywiz.korio.stream.*
-import kotlin.math.*
 import kotlinx.cinterop.*
 import platform.posix.*
 import platform.zlib.*
+import kotlin.math.*
 
-//actual fun Deflate(windowBits: Int): CompressionMethod = DeflatePortable(windowBits)
+// actual fun Deflate(windowBits: Int): CompressionMethod = DeflatePortable(windowBits)
 actual fun Deflate(windowBits: Int): CompressionMethod = DeflateNative(windowBits)
 private const val CHUNK = 64 * 1024
 
@@ -33,10 +33,10 @@ fun DeflateNative(windowBits: Int): CompressionMethod = object : CompressionMeth
                         strm.opaque = null
                         strm.avail_in = 0u
                         strm.next_in = null
-                        ret = inflateInit2_(strm.ptr, -windowBits, zlibVersion()?.toKString(), sizeOf<z_stream>().toInt());
+                        ret = inflateInit2_(strm.ptr, -windowBits, zlibVersion()?.toKString(), sizeOf<z_stream>().toInt())
                         if (ret != Z_OK) error("Invalid inflateInit2_")
                         do {
-                            //println("strm.avail_in: ${strm.avail_in}")
+                            // println("strm.avail_in: ${strm.avail_in}")
                             strm.avail_in = input.read(inpArray, 0, CHUNK).convert()
                             if (strm.avail_in == 0u || strm.avail_in > CHUNK.convert()) break
                             tempInputSize = strm.avail_in.convert()
@@ -59,7 +59,7 @@ fun DeflateNative(windowBits: Int): CompressionMethod = object : CompressionMeth
                         val remaining = strm.avail_in.toInt()
                         if (remaining > 0) {
                             input.returnToBuffer(inpArray, tempInputSize - remaining, remaining)
-                            //error("too much data in DeflateNative stream")
+                            // error("too much data in DeflateNative stream")
                         }
                     }
                 }
@@ -92,7 +92,7 @@ fun DeflateNative(windowBits: Int): CompressionMethod = object : CompressionMeth
                         val Z_DEFLATED = 8
                         val MAX_MEM_LEVEL = 9
                         val Z_DEFAULT_STRATEGY = 0
-                        ret = deflateInit2_(strm.ptr, context.level, Z_DEFLATED, -windowBits, MAX_MEM_LEVEL, Z_DEFAULT_STRATEGY, zlibVersion()?.toKString(), sizeOf<z_stream>().toInt());
+                        ret = deflateInit2_(strm.ptr, context.level, Z_DEFLATED, -windowBits, MAX_MEM_LEVEL, Z_DEFAULT_STRATEGY, zlibVersion()?.toKString(), sizeOf<z_stream>().toInt())
                         if (ret != Z_OK) error("Invalid deflateInit2_")
                         var finalize = false
                         do {

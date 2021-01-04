@@ -30,7 +30,7 @@ class DoubleExtTest {
 
     @Test
     fun test3() {
-        //assertEquals("1.0e21", 10e20.toString().toLowerCase())
+        // assertEquals("1.0e21", 10e20.toString().toLowerCase())
         assertEquals("100000000000000000000", 1e20.toStringDecimal(0))
         assertEquals("1000000000000000000000", 1e21.toStringDecimal(0))
         assertEquals("10000000000000000000000", 1e22.toStringDecimal(0))

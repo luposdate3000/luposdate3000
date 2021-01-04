@@ -1,8 +1,8 @@
 package com.soywiz.korio.async
 
 import com.soywiz.klock.*
-import kotlin.test.*
 import kotlinx.coroutines.*
+import kotlin.test.*
 
 class SleepTest {
     // @TODO: Change once we don't wait all the delay time

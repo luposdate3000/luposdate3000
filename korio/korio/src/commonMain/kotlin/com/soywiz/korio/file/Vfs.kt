@@ -6,26 +6,36 @@ import com.soywiz.korio.file.std.*
 import com.soywiz.korio.lang.*
 import com.soywiz.korio.stream.*
 import com.soywiz.korio.util.*
+import kotlinx.coroutines.channels.*
 import kotlin.coroutines.*
 import kotlin.math.*
 import kotlin.reflect.*
-import kotlinx.coroutines.channels.*
 
 @file:Suppress("EXPERIMENTAL_FEATURE_WARNING")
 abstract class Vfs : AsyncCloseable {
     protected open val absolutePath: String = ""
     open fun getAbsolutePath(path: String) = absolutePath.pathInfo.lightCombine(path.pathInfo).fullPath
 
-    //val root = VfsFile(this, "")
+    // val root = VfsFile(this, "")
     val root get() = VfsFile(this, "")
     open val supportedAttributeTypes = listOf<KClass<out Attribute>>()
     operator fun get(path: String) = root[path]
     fun file(path: String) = root[path]
     override suspend fun close(): Unit = Unit
     fun createExistsStat(
-        path: String, isDirectory: Boolean, size: Long, device: Long = -1, inode: Long = -1, mode: Int = 511,
-        owner: String = "nobody", group: String = "nobody", createTime: DateTime = DateTime.EPOCH, modifiedTime: DateTime = DateTime.EPOCH,
-        lastAccessTime: DateTime = modifiedTime, extraInfo: Any? = null, id: String? = null
+        path: String,
+        isDirectory: Boolean,
+        size: Long,
+        device: Long = -1,
+        inode: Long = -1,
+        mode: Int = 511,
+        owner: String = "nobody",
+        group: String = "nobody",
+        createTime: DateTime = DateTime.EPOCH,
+        modifiedTime: DateTime = DateTime.EPOCH,
+        lastAccessTime: DateTime = modifiedTime,
+        extraInfo: Any? = null,
+        id: String? = null
     ) = VfsStat(
         file = file(path), exists = true, isDirectory = isDirectory, size = size, device = device, inode = inode,
         mode = mode, owner = owner, group = group, createTime = createTime, modifiedTime = modifiedTime,
@@ -120,7 +130,7 @@ abstract class Vfs : AsyncCloseable {
         protected abstract suspend fun access(path: String): VfsFile
         protected open suspend fun VfsFile.transform(): VfsFile = file(this.path)
 
-        //suspend protected fun transform2_f(f: VfsFile): VfsFile = transform(f)
+        // suspend protected fun transform2_f(f: VfsFile): VfsFile = transform(f)
         final override suspend fun getUnderlyingUnscapedFile(path: String): FinalVfsFile = initOnce().access(path).getUnderlyingUnscapedFile()
         protected open suspend fun init() {
         }
@@ -211,10 +221,10 @@ enum class VfsOpenMode(
     CREATE_NEW("w+b", write = true);
 }
 
-//"r"	Open for reading only. Invoking any of the write methods of the resulting object will cause an IOException to be thrown.
-//"rw"	Open for reading and writing. If the file does not already exist then an attempt will be made to create it.
-//"rws"	Open for reading and writing, as with "rw", and also require that every update to the file's content or metadata be written synchronously to the underlying storage device.
-//"rwd"  	Open for reading and writing, as with "rw", and also require that every update to the file's content be written synchronously to the underlying storage device.
+// "r"	Open for reading only. Invoking any of the write methods of the resulting object will cause an IOException to be thrown.
+// "rw"	Open for reading and writing. If the file does not already exist then an attempt will be made to create it.
+// "rws"	Open for reading and writing, as with "rw", and also require that every update to the file's content or metadata be written synchronously to the underlying storage device.
+// "rwd"  	Open for reading and writing, as with "rw", and also require that every update to the file's content be written synchronously to the underlying storage device.
 open class VfsProcessHandler {
     open suspend fun onOut(data: ByteArray): Unit = Unit
     open suspend fun onErr(data: ByteArray): Unit = Unit
@@ -257,10 +267,10 @@ data class VfsStat(
     override fun toString(): String = toString(showFile = true)
 }
 
-//val VfsStat.createLocalDate: LocalDateTime get() = LocalDateTime.ofEpochSecond(createTime / 1000L, ((createTime % 1_000L) * 1_000_000L).toInt(), ZoneOffset.UTC)
-//val VfsStat.modifiedLocalDate: LocalDateTime get() = LocalDateTime.ofEpochSecond(modifiedTime / 1000L, ((modifiedTime % 1_000L) * 1_000_000L).toInt(), ZoneOffset.UTC)
-//val VfsStat.lastAccessLocalDate: LocalDateTime get() = LocalDateTime.ofEpochSecond(lastAccessTime / 1000L, ((lastAccessTime % 1_000L) * 1_000_000L).toInt(), ZoneOffset.UTC)
-//val INIT = Unit.apply { println("UTC_OFFSET: $UTC_OFFSET")  }
+// val VfsStat.createLocalDate: LocalDateTime get() = LocalDateTime.ofEpochSecond(createTime / 1000L, ((createTime % 1_000L) * 1_000_000L).toInt(), ZoneOffset.UTC)
+// val VfsStat.modifiedLocalDate: LocalDateTime get() = LocalDateTime.ofEpochSecond(modifiedTime / 1000L, ((modifiedTime % 1_000L) * 1_000_000L).toInt(), ZoneOffset.UTC)
+// val VfsStat.lastAccessLocalDate: LocalDateTime get() = LocalDateTime.ofEpochSecond(lastAccessTime / 1000L, ((lastAccessTime % 1_000L) * 1_000_000L).toInt(), ZoneOffset.UTC)
+// val INIT = Unit.apply { println("UTC_OFFSET: $UTC_OFFSET")  }
 val VfsStat.createDate: DateTime get() = createTime
 val VfsStat.modifiedDate: DateTime get() = modifiedTime
 val VfsStat.lastAccessDate: DateTime get() = lastAccessTime

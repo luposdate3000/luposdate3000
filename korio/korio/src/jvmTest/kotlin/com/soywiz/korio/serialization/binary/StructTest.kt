@@ -39,11 +39,11 @@ class StructTest {
     ) : Struct
 
     // Not supported yet!
-    //class DynamicLength(
-    //	@Order(0) val magic: Int,
-    //	@Order(1) val len: Int,
-    //	@Order(2) @DynamicCount("len") @Encoding("UTF-8") val str: String
-    //) : Struct
+    // class DynamicLength(
+    // 	@Order(0) val magic: Int,
+    // 	@Order(1) val len: Int,
+    // 	@Order(2) @DynamicCount("len") @Encoding("UTF-8") val str: String
+    // ) : Struct
     @Test
     fun name() {
         val mem = MemorySyncStream()

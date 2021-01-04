@@ -2,10 +2,10 @@ package com.soywiz.korio.file.std
 
 import com.soywiz.korio.async.suspendTest
 import com.soywiz.korio.file.baseName
-import java.io.File
-import kotlin.test.assertEquals
 import kotlinx.coroutines.channels.toList
 import org.junit.Test
+import java.io.File
+import kotlin.test.assertEquals
 
 class JvmLocalFileTest {
     @Test

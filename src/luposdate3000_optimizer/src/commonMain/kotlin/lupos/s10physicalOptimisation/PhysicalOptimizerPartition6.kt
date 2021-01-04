@@ -33,28 +33,28 @@ class PhysicalOptimizerPartition6(query: Query) : OptimizerBase(query, EOptimize
                             var columnToUse = -1
                             var idx = 0
                             for (p in enabledPartitions) {
-                                if (p.index.contains(node.idx) && (p.partitionCount <countToUse || countToUse == -1) &&(node.children[node.idx.tripleIndicees[p.column]]is AOPVariable)) {
+                                if (p.index.contains(node.idx) && (p.partitionCount <countToUse || countToUse == -1) && (node.children[node.idx.tripleIndicees[p.column]]is AOPVariable)) {
                                     columnToUse = p.column
                                     countToUse = p.partitionCount
                                 }
                                 idx++
                             }
                             var variableToUse = (node.children[node.idx.tripleIndicees[columnToUse]]as AOPVariable).name
-if(variableToUse=="_"){
-variableToUse="_${columnToUse}"
-}
+                            if (variableToUse == "_") {
+                                variableToUse = "_$columnToUse"
+                            }
                             println("PhysicalOptimizerPartition6 :: $countToUse $columnToUse $idx $variableToUse")
                             try {
                                 val partitionID = query.getNextPartitionOperatorID()
-			  node.partition.      limit.clear()
-        		  node.partition.      limit[variableToUse] = countToUse
+                                node.partition.limit.clear()
+                                node.partition.limit[variableToUse] = countToUse
                                 res = POPSplitPartitionFromStore(query, node.projectedVariables, variableToUse, countToUse, partitionID, node)
                                 query.addPartitionOperator(res.getUUID(), partitionID)
-if(node.projectedVariables.size>0){
-                                res = POPMergePartition(query, node.projectedVariables, variableToUse, countToUse, partitionID, res)
-}else{
-                                res = POPMergePartitionCount(query, node.projectedVariables, variableToUse, countToUse, partitionID, res)
-}
+                                if (node.projectedVariables.size> 0) {
+                                    res = POPMergePartition(query, node.projectedVariables, variableToUse, countToUse, partitionID, res)
+                                } else {
+                                    res = POPMergePartitionCount(query, node.projectedVariables, variableToUse, countToUse, partitionID, res)
+                                }
                                 query.addPartitionOperator(res.getUUID(), partitionID)
                                 onChange()
                             } catch (e: DontCareWhichException) {

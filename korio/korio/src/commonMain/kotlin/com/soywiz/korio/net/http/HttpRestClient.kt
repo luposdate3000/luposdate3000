@@ -19,7 +19,7 @@ class HttpRestClient(val endpoint: HttpClientEndpoint) {
         )
         result.checkErrors()
         val stringResult = result.readAllString()
-        //println(stringResult)
+        // println(stringResult)
         return try {
             Json.parse(stringResult) ?: mapOf<String, String>()
         } catch (e: IOException) {

@@ -9,8 +9,8 @@ import com.soywiz.korio.lang.*
 import com.soywiz.korio.serialization.json.*
 import com.soywiz.korio.stream.*
 import com.soywiz.korio.util.encoding.*
-import kotlin.math.*
 import kotlinx.coroutines.channels.*
+import kotlin.math.*
 
 fun SimpleStorage.toVfs(): VfsFile = MapLikeStorageVfs(this).root
 class MapLikeStorageVfs(val storage: SimpleStorage) : Vfs() {
@@ -174,15 +174,16 @@ private class StorageFiles(val storage: SimpleStorage) {
             // @TODO: Prune old chunks/children!
         }
         storage.set(
-            getStatsKey(fileName), Json.stringify(
-            hashMapOf(
-                EntryInfo::isFile.name to isFile,
-                EntryInfo::size.name to size.toDouble(),
-                EntryInfo::children.name to children,
-                EntryInfo::createdTime.name to createdTime.unixMillisDouble,
-                EntryInfo::modifiedTime.name to modifiedTime.unixMillisDouble
+            getStatsKey(fileName),
+            Json.stringify(
+                hashMapOf(
+                    EntryInfo::isFile.name to isFile,
+                    EntryInfo::size.name to size.toDouble(),
+                    EntryInfo::children.name to children,
+                    EntryInfo::createdTime.name to createdTime.unixMillisDouble,
+                    EntryInfo::modifiedTime.name to modifiedTime.unixMillisDouble
+                )
             )
-        )
         )
     }
 

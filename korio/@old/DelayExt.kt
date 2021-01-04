@@ -2,7 +2,8 @@
 class TestCoroutineDispatcher(val frameTime: TimeSpan = 16.milliseconds) :
     AbstractCoroutineContextElement(ContinuationInterceptor),
     ContinuationInterceptor,
-    Delay, DelayFrame {
+    Delay,
+    DelayFrame {
     var time = 0L; private set
 
     class TimedTask(val time: Long, val callback: suspend () -> Unit) {
@@ -34,7 +35,7 @@ class TestCoroutineDispatcher(val frameTime: TimeSpan = 16.milliseconds) :
         scheduleAfter(0) { block.run() }
     }
 
-    override fun scheduleResumeAfterDelay(timeMillis: Long, continuation: CancellableContinuation<Unit>): Unit {
+    override fun scheduleResumeAfterDelay(timeMillis: Long, continuation: CancellableContinuation<Unit>) {
         scheduleAfter(timeMillis.toInt()) { continuation.resume(Unit) }
     }
 
@@ -44,13 +45,13 @@ class TestCoroutineDispatcher(val frameTime: TimeSpan = 16.milliseconds) :
 
     var exception: Throwable? = null
     fun loop() {
-        //println("doStep: currentThreadId=$currentThreadId")
+        // println("doStep: currentThreadId=$currentThreadId")
         if (exception != null) throw exception ?: error("error")
-        //println("TASKS: ${tasks.size}")
+        // println("TASKS: ${tasks.size}")
         while (tasks.isNotEmpty()) {
             val task = tasks.removeHead()!!
             this.time = task.time
-            //println("RUN: $task")
+            // println("RUN: $task")
             task.callback.startCoroutine(object : Continuation<Unit> {
                 override val context: CoroutineContext = this@TestCoroutineDispatcher
                 override fun resumeWith(result: Result<Unit>) {

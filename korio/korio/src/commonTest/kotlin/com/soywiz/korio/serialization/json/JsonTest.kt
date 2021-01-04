@@ -11,7 +11,7 @@ class JsonTest {
         var a: Int = 10
 
         companion object {
-            //@JvmField
+            // @JvmField
             var b: String = "test"
         }
     }
@@ -25,18 +25,18 @@ class JsonTest {
     init {
         // GENERATED. THIS CODE SHOULD BE GENERATED.
         // Problems with Kotlin.JS
-        //mapper.registerEnum(MyEnum.values())
-        //mapper.registerType { Demo(it["a"].gen(), it["b"].gen()) }
-        //mapper.registerType { Demo2().apply { a = it["a"].gen() } }
-        //mapper.registerType { DemoList(it["demos"].genList<Demo>()) }
-        //mapper.registerType { DemoSet(it["demos"].genSet<Demo>()) }
-        //mapper.registerType { ClassWithEnum(it["a"]?.gen() ?: MyEnum.HELLO) }
-        //mapper.registerUntypeEnum<MyEnum>()
-        //mapper.registerUntype<Demo> { linkedMapOf("a" to it.a.gen(), "b" to it.b.gen()) }
-        //mapper.registerUntype<Demo2> { linkedMapOf("a" to it.a.gen()) }
-        //mapper.registerUntype<DemoList> { linkedMapOf("demos" to it.demos.gen()) }
-        //mapper.registerUntype<DemoSet> { linkedMapOf("demos" to it.demos.gen()) }
-        //mapper.registerUntype<ClassWithEnum> { linkedMapOf("a" to it.a.gen()) }
+        // mapper.registerEnum(MyEnum.values())
+        // mapper.registerType { Demo(it["a"].gen(), it["b"].gen()) }
+        // mapper.registerType { Demo2().apply { a = it["a"].gen() } }
+        // mapper.registerType { DemoList(it["demos"].genList<Demo>()) }
+        // mapper.registerType { DemoSet(it["demos"].genSet<Demo>()) }
+        // mapper.registerType { ClassWithEnum(it["a"]?.gen() ?: MyEnum.HELLO) }
+        // mapper.registerUntypeEnum<MyEnum>()
+        // mapper.registerUntype<Demo> { linkedMapOf("a" to it.a.gen(), "b" to it.b.gen()) }
+        // mapper.registerUntype<Demo2> { linkedMapOf("a" to it.a.gen()) }
+        // mapper.registerUntype<DemoList> { linkedMapOf("demos" to it.demos.gen()) }
+        // mapper.registerUntype<DemoSet> { linkedMapOf("demos" to it.demos.gen()) }
+        // mapper.registerUntype<ClassWithEnum> { linkedMapOf("a" to it.a.gen()) }
         mapper.registerEnum(MyEnum::class, MyEnum.values())
         mapper.registerType(Demo::class) { Demo(it["a"].gen(Int::class), it["b"].gen(String::class)) }
         mapper.registerType(Demo2::class) { Demo2().apply { a = it["a"].gen(Int::class) } }
@@ -54,7 +54,7 @@ class JsonTest {
     @kotlin.test.Test
     fun decode1() {
         assertEquals(linkedMapOf("a" to 1).toString(), Json.parse("""{"a":1}""").toString())
-        //assertEquals(-1e7, Json.decode("""-1e7"""))
+        // assertEquals(-1e7, Json.decode("""-1e7"""))
         assertEquals(-10000000, Json.parse("""-1e7"""))
     }
 
@@ -96,7 +96,7 @@ class JsonTest {
 
     @kotlin.test.Test
     fun decodeToType1() {
-        //assertEquals(Demo(1, "hello"), Json.decodeToType<Demo>("""{"a": 1, "b": "hello"}""", mapper))
+        // assertEquals(Demo(1, "hello"), Json.decodeToType<Demo>("""{"a": 1, "b": "hello"}""", mapper))
         assertEquals(Demo(1, "hello"), Json.parseTyped(Demo::class, """{"a": 1, "b": "hello"}""", mapper))
     }
 
@@ -107,7 +107,7 @@ class JsonTest {
 
     @kotlin.test.Test
     fun decodeTypedList() {
-        //val result = Json.decodeToType<DemoList>("""{ "demos" : [{"a":1,"b":"A"}, {"a":2,"b":"B"}] }""", mapper)
+        // val result = Json.decodeToType<DemoList>("""{ "demos" : [{"a":1,"b":"A"}, {"a":2,"b":"B"}] }""", mapper)
         val result = Json.parseTyped(DemoList::class, """{ "demos" : [{"a":1,"b":"A"}, {"a":2,"b":"B"}] }""", mapper)
         val demo = result.demos.first()
         assertEquals(1, demo.a)
@@ -115,7 +115,7 @@ class JsonTest {
 
     @kotlin.test.Test
     fun decodeTypedSet() {
-        //val result = Json.decodeToType<DemoSet>("""{ "demos" : [{"a":1,"b":"A"}, {"a":2,"b":"B"}] }""", mapper)
+        // val result = Json.decodeToType<DemoSet>("""{ "demos" : [{"a":1,"b":"A"}, {"a":2,"b":"B"}] }""", mapper)
         val result = Json.parseTyped(DemoSet::class, """{ "demos" : [{"a":1,"b":"A"}, {"a":2,"b":"B"}] }""", mapper)
         val demo = result.demos.first()
         assertEquals(1, demo.a)
@@ -124,11 +124,11 @@ class JsonTest {
     @kotlin.test.Test
     fun decodeToPrim() {
         // Kotlin.JS BUG
-        //assertEquals(listOf(1, 2, 3, 4, 5), Json.decodeToType<List<Int>>("""[1, 2, 3, 4, 5]""", mapper))
-        //assertEquals(1, Json.decodeToType<Int>("1", mapper))
-        //assertEquals(true, Json.decodeToType<Boolean>("true", mapper))
-        //assertEquals("a", Json.decodeToType<String>("\"a\"", mapper))
-        //assertEquals('a', Json.decodeToType<Char>("\"a\"", mapper))
+        // assertEquals(listOf(1, 2, 3, 4, 5), Json.decodeToType<List<Int>>("""[1, 2, 3, 4, 5]""", mapper))
+        // assertEquals(1, Json.decodeToType<Int>("1", mapper))
+        // assertEquals(true, Json.decodeToType<Boolean>("true", mapper))
+        // assertEquals("a", Json.decodeToType<String>("\"a\"", mapper))
+        // assertEquals('a', Json.decodeToType<Char>("\"a\"", mapper))
         assertEquals(
             listOf(1, 2, 3, 4, 5).toString(),
             Json.parseTyped(List::class, """[1, 2, 3, 4, 5]""", mapper).toString()
@@ -141,7 +141,7 @@ class JsonTest {
 
     @kotlin.test.Test
     fun decodeToPrimChar() {
-        //assertEquals('a', Json.decodeToType<Char>("\"a\"", mapper))
+        // assertEquals('a', Json.decodeToType<Char>("\"a\"", mapper))
         assertEquals('a', Json.parseTyped(Char::class, "\"a\"", mapper))
     }
 
@@ -157,7 +157,7 @@ class JsonTest {
 
     @kotlin.test.Test
     fun testDecodeEnum() {
-        //assertEquals(ClassWithEnum(MyEnum.WORLD), Json.decodeToType<ClassWithEnum>("""{"a":"WORLD"}""", mapper))
+        // assertEquals(ClassWithEnum(MyEnum.WORLD), Json.decodeToType<ClassWithEnum>("""{"a":"WORLD"}""", mapper))
         assertEquals(ClassWithEnum(MyEnum.WORLD), Json.parseTyped(ClassWithEnum::class, """{"a":"WORLD"}""", mapper))
     }
 
@@ -165,11 +165,11 @@ class JsonTest {
     fun testDecodeMap() {
         data class V(val a: Int, val b: Int)
         data class Demo(val v: Map<String, V>)
-        //mapper.registerType { V(it["a"].gen(), it["b"].gen()) }
-        //mapper.registerType { Demo(it["v"].toDynamicMap().map { it.key.toString() to it.value.gen<V>() }.toMap()) }
+        // mapper.registerType { V(it["a"].gen(), it["b"].gen()) }
+        // mapper.registerType { Demo(it["v"].toDynamicMap().map { it.key.toString() to it.value.gen<V>() }.toMap()) }
         mapper.registerType { V(it["a"].gen(Int::class), it["b"].gen(Int::class)) }
         mapper.registerType { Demo(it["v"].map.map { it.key.toString() to it.value.gen<V>() }.toMap()) }
-        //assertEquals(Demo(linkedMapOf("z" to V(1, 2))), Json.decodeToType<Demo>("""{"v":{"z":{"a":1,"b":2}}}""", mapper))
+        // assertEquals(Demo(linkedMapOf("z" to V(1, 2))), Json.decodeToType<Demo>("""{"v":{"z":{"a":1,"b":2}}}""", mapper))
         assertEquals(
             Demo(linkedMapOf("z" to V(1, 2))),
             Json.parseTyped(Demo::class, """{"v":{"z":{"a":1,"b":2}}}""", mapper)

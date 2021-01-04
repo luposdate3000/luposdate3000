@@ -14,14 +14,14 @@ operator fun String.Companion.invoke(arrays: IntArray, offset: Int = 0, size: In
 fun String_fromIntArray(arrays: IntArray, offset: Int = 0, size: Int = arrays.size - offset): String = String(arrays, offset, size)
 fun String_fromCharArray(arrays: CharArray, offset: Int = 0, size: Int = arrays.size - offset): String = String(arrays, offset, size)
 
-////////////////////////////////////
-////////////////////////////////////
+// //////////////////////////////////
+// //////////////////////////////////
 private val formatRegex = Regex("%([-]?\\d+)?(\\w)")
 fun String.format(vararg params: Any): String {
     var paramIndex = 0
     return formatRegex.replace(this) { mr ->
         val param = params[paramIndex++]
-        //println("param: $param")
+        // println("param: $param")
         val size = mr.groupValues[1]
         val type = mr.groupValues[2]
         val str = when (type) {

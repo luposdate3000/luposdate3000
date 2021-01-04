@@ -3,9 +3,8 @@ package com.soywiz.korio.vfs
 import com.soywiz.korio.async.*
 import com.soywiz.korio.file.*
 import com.soywiz.korio.file.std.*
-import com.soywiz.korio.util.OS
-import kotlin.test.*
 import kotlinx.coroutines.channels.*
+import kotlin.test.*
 
 class IsoVfsTest {
     @Test

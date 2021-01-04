@@ -13,12 +13,11 @@ import kotlin.coroutines.*
 import kotlin.math.*
 
 @file:Suppress("EXPERIMENTAL_FEATURE_WARNING")
-//interface SmallTemp {
-//	val smallTemp: ByteArray
-//}
-//interface AsyncBaseStream : AsyncCloseable, SmallTemp {
-interface AsyncBaseStream : AsyncCloseable {
-}
+// interface SmallTemp {
+// 	val smallTemp: ByteArray
+// }
+// interface AsyncBaseStream : AsyncCloseable, SmallTemp {
+interface AsyncBaseStream : AsyncCloseable
 
 interface AsyncInputOpenable {
     suspend fun openRead(): AsyncInputStream
@@ -27,13 +26,13 @@ interface AsyncInputOpenable {
 interface AsyncInputStream : AsyncBaseStream {
     suspend fun read(buffer: ByteArray, offset: Int, len: Int): Int
     suspend fun read(): Int = smallBytesPool.alloc2 { if (read(it, 0, 1) > 0) it[0].unsigned else -1 }
-    //suspend fun read(): Int
+    // suspend fun read(): Int
 }
 
 interface AsyncOutputStream : AsyncBaseStream {
     suspend fun write(buffer: ByteArray, offset: Int = 0, len: Int = buffer.size - offset)
     suspend fun write(byte: Int) = smallBytesPool.alloc2 { it[0] = byte.toByte(); write(it, 0, 1) }
-    //suspend fun write(byte: Int)
+    // suspend fun write(byte: Int)
 }
 
 interface AsyncGetPositionStream : AsyncBaseStream {
@@ -52,11 +51,9 @@ interface AsyncLengthStream : AsyncGetLengthStream {
     suspend fun setLength(value: Long): Unit = throw UnsupportedOperationException()
 }
 
-interface AsyncPositionLengthStream : AsyncPositionStream, AsyncLengthStream {
-}
+interface AsyncPositionLengthStream : AsyncPositionStream, AsyncLengthStream
 
-interface AsyncInputStreamWithLength : AsyncInputStream, AsyncGetPositionStream, AsyncGetLengthStream {
-}
+interface AsyncInputStreamWithLength : AsyncInputStream, AsyncGetPositionStream, AsyncGetLengthStream
 
 fun List<AsyncInputStreamWithLength>.combine(): AsyncInputStreamWithLength {
     val list = this
@@ -98,13 +95,13 @@ fun AsyncBaseStream.toAsyncStream(): AsyncStream {
     return object : AsyncStreamBase() {
         var expectedPosition: Long = 0L
 
-        //val events = arrayListOf<String>()
+        // val events = arrayListOf<String>()
         override suspend fun read(position: Long, buffer: ByteArray, offset: Int, len: Int): Int {
             if (input == null) throw UnsupportedOperationException()
-            //events += "before_read:actualPosition=$position,position=$expectedPosition"
+            // events += "before_read:actualPosition=$position,position=$expectedPosition"
             checkPosition(position)
             val read = input.read(buffer, offset, len)
-            //events += "read:$read"
+            // events += "read:$read"
             if (read > 0) expectedPosition += read
             return read
         }
@@ -129,7 +126,7 @@ fun AsyncBaseStream.toAsyncStream(): AsyncStream {
 }
 
 open class AsyncStreamBase : AsyncCloseable, AsyncRAInputStream, AsyncRAOutputStream, AsyncLengthStream {
-    //var refCount = 0
+    // var refCount = 0
     override suspend fun read(position: Long, buffer: ByteArray, offset: Int, len: Int): Int =
         throw UnsupportedOperationException()
 
@@ -148,7 +145,12 @@ suspend fun AsyncStreamBase.readBytes(position: Long, count: Int): ByteArray {
 }
 
 fun AsyncStreamBase.toAsyncStream(position: Long = 0L): AsyncStream = AsyncStream(this, position)
-class AsyncStream(val base: AsyncStreamBase, var position: Long = 0L) : Extra by Extra.Mixin(), AsyncInputStream, AsyncInputStreamWithLength, AsyncOutputStream, AsyncPositionLengthStream,
+class AsyncStream(val base: AsyncStreamBase, var position: Long = 0L) :
+    Extra by Extra.Mixin(),
+    AsyncInputStream,
+    AsyncInputStreamWithLength,
+    AsyncOutputStream,
+    AsyncPositionLengthStream,
     AsyncCloseable {
     private val readQueue = AsyncThread()
     private val writeQueue = AsyncThread()
@@ -203,9 +205,9 @@ class SliceAsyncStreamBase(
     internal val baseEnd: Long,
     internal val closeParent: Boolean
 ) : AsyncStreamBase() {
-    //init {
-    //	base.refCount++
-    //}
+    // init {
+    // 	base.refCount++
+    // }
     internal val baseLength = baseEnd - baseStart
     private fun clampPosition(position: Long) = position.clamp(baseStart, baseEnd)
     private fun clampPositionLen(position: Long, len: Int): Pair<Long, Int> {
@@ -300,7 +302,7 @@ class AsyncBufferedInputStream(val base: AsyncInputStream, val bufferSize: Int =
             val byteInt = buf.readByte()
             if (byteInt < 0) break
             val byte = byteInt.toByte()
-            //println("chunk: $chunk, ${chunk.size}")
+            // println("chunk: $chunk, ${chunk.size}")
             if (including || byte != end) {
                 out.append(byte)
             }
@@ -392,9 +394,9 @@ suspend fun AsyncInputStream.readExact(buffer: ByteArray, offset: Int, len: Int)
     }
 }
 
-//val READ_SMALL_TEMP by threadLocal { ByteArray(8) }
-//suspend private fun AsyncInputStream.readSmallTempExact(len: Int, temp: ByteArray): ByteArray = temp.apply { readExact(temp, 0, len) }
-//suspend private fun AsyncInputStream.readSmallTempExact(len: Int): ByteArray = readSmallTempExact(len, READ_SMALL_TEMP)
+// val READ_SMALL_TEMP by threadLocal { ByteArray(8) }
+// suspend private fun AsyncInputStream.readSmallTempExact(len: Int, temp: ByteArray): ByteArray = temp.apply { readExact(temp, 0, len) }
+// suspend private fun AsyncInputStream.readSmallTempExact(len: Int): ByteArray = readSmallTempExact(len, READ_SMALL_TEMP)
 @PublishedApi
 internal suspend inline fun <R> AsyncInputStream.readSmallTempExact(size: Int, callback: ByteArray.() -> R): R = smallBytesPool.allocThis {
     val read = read(this, 0, size)
@@ -405,7 +407,7 @@ internal suspend inline fun <R> AsyncInputStream.readSmallTempExact(size: Int, c
 private suspend fun AsyncInputStream.readTempExact(len: Int, temp: ByteArray): ByteArray =
     temp.apply { readExact(temp, 0, len) }
 
-//suspend private fun AsyncInputStream.readTempExact(len: Int): ByteArray = readTempExact(len, BYTES_TEMP)
+// suspend private fun AsyncInputStream.readTempExact(len: Int): ByteArray = readTempExact(len, BYTES_TEMP)
 suspend fun AsyncInputStream.read(data: ByteArray): Int = read(data, 0, data.size)
 suspend fun AsyncInputStream.read(data: UByteArray): Int = read(data.asByteArray(), 0, data.size)
 val EMPTY_BYTE_ARRAY = ByteArray(0)
@@ -458,7 +460,7 @@ suspend fun AsyncInputStream.readBytesUpTo(len: Int): ByteArray {
 
 suspend fun AsyncInputStream.readBytesExact(len: Int): ByteArray = ByteArray(len).apply { readExact(this, 0, len) }
 
-//suspend fun AsyncInputStream.readU8(): Int = readBytesExact(1).readU8(0)
+// suspend fun AsyncInputStream.readU8(): Int = readBytesExact(1).readU8(0)
 suspend fun AsyncInputStream.readU8(): Int = read()
 suspend fun AsyncInputStream.readS8(): Int = read().toByte().toInt()
 suspend fun AsyncInputStream.readU16LE(): Int = readSmallTempExact(2) { readU16LE(0) }
@@ -651,14 +653,14 @@ suspend fun AsyncInputStream.readUntil(endByte: Byte, limit: Int = 0x1000): Byte
     try {
         while (true) {
             val c = run { readExact(temp, 0, 1); temp[0] }
-            //val c = readS8().toByte()
+            // val c = readS8().toByte()
             if (c == endByte) break
             out.append(c)
             if (out.size >= limit) break
         }
     } catch (e: EOFException) {
     }
-    //println("AsyncInputStream.readUntil: '${out.toString(UTF8).replace('\r', ';').replace('\n', '.')}'")
+    // println("AsyncInputStream.readUntil: '${out.toString(UTF8).replace('\r', ';').replace('\n', '.')}'")
     return out.toByteArray()
 }
 
@@ -668,7 +670,7 @@ suspend fun AsyncInputStream.readLine(eol: Char = '\n', charset: Charset = UTF8)
     try {
         while (true) {
             val c = run { readExact(temp, 0, 1); temp[0] }
-            //val c = readS8().toByte()
+            // val c = readS8().toByte()
             if (c.toChar() == eol) break
             out.append(c.toByte())
         }
@@ -776,7 +778,9 @@ suspend fun asyncStreamWriter(bufferSize: Int = 1024, process: suspend (out: Asy
 }
 
 suspend inline fun AsyncOutputStream.writeSync(hintSize: Int = 4096, callback: SyncStream.() -> Unit) {
-    writeBytes(MemorySyncStreamToByteArray(hintSize) {
-        callback()
-    })
+    writeBytes(
+        MemorySyncStreamToByteArray(hintSize) {
+            callback()
+        }
+    )
 }

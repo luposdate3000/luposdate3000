@@ -75,8 +75,10 @@ object SevenZip {
 
         companion object {
             fun reverseGetPrice(
-                Models: ShortArray, startIndex: Int,
-                NumBitLevels: Int, symbol: Int
+                Models: ShortArray,
+                startIndex: Int,
+                NumBitLevels: Int,
+                symbol: Int
             ): Int {
                 var symbol = symbol
                 var price = 0
@@ -94,8 +96,11 @@ object SevenZip {
             }
 
             fun reverseEncode(
-                Models: ShortArray, startIndex: Int,
-                rangeEncoder: RangeEncoder, NumBitLevels: Int, symbol: Int
+                Models: ShortArray,
+                startIndex: Int,
+                rangeEncoder: RangeEncoder,
+                NumBitLevels: Int,
+                symbol: Int
             ) {
                 var symbol = symbol
                 var m = 1
@@ -136,8 +141,10 @@ object SevenZip {
 
         companion object {
             fun reverseDecode(
-                Models: ShortArray, startIndex: Int,
-                rangeDecoder: RangeDecoder, NumBitLevels: Int
+                Models: ShortArray,
+                startIndex: Int,
+                rangeDecoder: RangeDecoder,
+                NumBitLevels: Int
             ): Int {
                 var m = 1
                 var symbol = 0
@@ -191,9 +198,11 @@ object SevenZip {
             val newBound = range.ushr(kNumBitModelTotalBits) * prob
             if (code xor -0x80000000 < newBound xor -0x80000000) {
                 range = newBound
-                probs[index] = (prob + (kBitModelTotal - prob).ushr(
-                    kNumMoveBits
-                )).toShort()
+                probs[index] = (
+                    prob + (kBitModelTotal - prob).ushr(
+                        kNumMoveBits
+                    )
+                    ).toShort()
                 if (range and kTopMask == 0) {
                     code = code shl 8 or stream!!.read()
                     range = range shl 8
@@ -291,9 +300,11 @@ object SevenZip {
             val newBound = range.ushr(kNumBitModelTotalBits) * prob
             if (symbol == 0) {
                 range = newBound
-                probs[index] = (prob + (kBitModelTotal - prob).ushr(
-                    kNumMoveBits
-                )).toShort()
+                probs[index] = (
+                    prob + (kBitModelTotal - prob).ushr(
+                        kNumMoveBits
+                    )
+                    ).toShort()
             } else {
                 low += newBound and 0xFFFFFFFFL.toInt()
                 range -= newBound
@@ -352,7 +363,7 @@ object SevenZip {
         const val kStartPosModelIndex = 4
         const val kEndPosModelIndex = 14
 
-        //const val kNumPosModels = kEndPosModelIndex - kStartPosModelIndex
+        // const val kNumPosModels = kEndPosModelIndex - kStartPosModelIndex
         const val kNumFullDistances = 1 shl kEndPosModelIndex / 2
         const val kNumLitPosStatesBitsEncodingMax = 4
         const val kNumLitContextBitsMax = 8
@@ -597,9 +608,11 @@ object SevenZip {
                         rep1 = rep0
                         len = LzmaBase.kMatchMinLen + m_LenDecoder.decode(m_RangeDecoder, posState)
                         state = LzmaBase.stateUpdateMatch(state)
-                        val posSlot = m_PosSlotDecoder[LzmaBase.getLenToPosState(
-                            len
-                        )]!!.decode(m_RangeDecoder)
+                        val posSlot = m_PosSlotDecoder[
+                            LzmaBase.getLenToPosState(
+                                len
+                            )
+                        ]!!.decode(m_RangeDecoder)
                         if (posSlot >= LzmaBase.kStartPosModelIndex) {
                             val numDirectBits = (posSlot shr 1) - 1
                             rep0 = 2 or (posSlot and 1) shl numDirectBits
@@ -923,7 +936,7 @@ object SevenZip {
             _numFastBytesPrev = _numFastBytes
         }
 
-        //internal fun setWriteEndMarkerMode(writeEndMarker: Boolean) { _writeEndMark = writeEndMarker }
+        // internal fun setWriteEndMarkerMode(writeEndMarker: Boolean) { _writeEndMark = writeEndMarker }
         internal fun init() {
             baseInit()
             _rangeEncoder.init()
@@ -1512,10 +1525,10 @@ object SevenZip {
             }
         }
 
-        //internal fun changePair(smallDist: Int, bigDist: Int): Boolean {
-        //	val kDif = 7
-        //	return smallDist < 1 shl 32 - kDif && bigDist >= smallDist shl kDif
-        //}
+        // internal fun changePair(smallDist: Int, bigDist: Int): Boolean {
+        // 	val kDif = 7
+        // 	return smallDist < 1 shl 32 - kDif && bigDist >= smallDist shl kDif
+        // }
         private fun writeEndMarker(posState: Int) {
             if (!_writeEndMark) return
             _rangeEncoder.encode(_isMatch, (_state shl LzmaBase.kNumPosStatesBitsMax) + posState, 1)
@@ -1768,9 +1781,11 @@ object SevenZip {
                     i++
                 }
                 while (i < LzmaBase.kNumFullDistances) {
-                    _distancesPrices[st2 + i] = _posSlotPrices[st + getPosSlot(
-                        i
-                    )] + tempPrices[i]
+                    _distancesPrices[st2 + i] = _posSlotPrices[
+                        st + getPosSlot(
+                            i
+                        )
+                    ] + tempPrices[i]
                     i++
                 }
             }
@@ -1880,7 +1895,7 @@ object SevenZip {
             internal const val kDefaultDictionaryLogSize = 22
             internal const val kNumFastBytesDefault = 0x20
 
-            //const val kNumLenSpecSymbols = LzmaBase.kNumLowLenSymbols + LzmaBase.kNumMidLenSymbols
+            // const val kNumLenSpecSymbols = LzmaBase.kNumLowLenSymbols + LzmaBase.kNumMidLenSymbols
             internal const val kNumOpts = 1 shl 12
             const val kPropSize = 5
         }
@@ -2036,10 +2051,12 @@ object SevenZip {
                     break
                 }
                 val delta = _pos - curMatch
-                val cyclicPos = (if (delta <= _cyclicBufferPos)
-                    _cyclicBufferPos - delta
-                else
-                    _cyclicBufferPos - delta + _cyclicBufferSize) shl 1
+                val cyclicPos = (
+                    if (delta <= _cyclicBufferPos)
+                        _cyclicBufferPos - delta
+                    else
+                        _cyclicBufferPos - delta + _cyclicBufferSize
+                    ) shl 1
                 val pby1 = _bufferOffset + curMatch
                 var len = min(len0, len1)
                 if (_bufferBase!![pby1 + len] == _bufferBase!![cur + len]) {
@@ -2116,10 +2133,12 @@ object SevenZip {
                         break
                     }
                     val delta = _pos - curMatch
-                    val cyclicPos = (if (delta <= _cyclicBufferPos)
-                        _cyclicBufferPos - delta
-                    else
-                        _cyclicBufferPos - delta + _cyclicBufferSize) shl 1
+                    val cyclicPos = (
+                        if (delta <= _cyclicBufferPos)
+                            _cyclicBufferPos - delta
+                        else
+                            _cyclicBufferPos - delta + _cyclicBufferSize
+                        ) shl 1
                     val pby1 = _bufferOffset + curMatch
                     var len = min(len0, len1)
                     if (_bufferBase!![pby1 + len] == _bufferBase!![cur + len]) {
@@ -2166,7 +2185,7 @@ object SevenZip {
             reduceOffsets(subValue)
         }
 
-        //fun setCutValue(cutValue: Int) = run { _cutValue = cutValue }
+        // fun setCutValue(cutValue: Int) = run { _cutValue = cutValue }
         companion object {
             internal const val kHash2Size = 1 shl 10
             internal const val kHash3Size = 1 shl 16
@@ -2182,15 +2201,15 @@ object SevenZip {
     open class LzInWindow {
         var _bufferBase: ByteArray? = null // pointer to buffer with data
         private var _stream: SyncInputStream? = null
-        private var _posLimit: Int = 0  // offset (from _buffer) of first byte when new block reading must be done
+        private var _posLimit: Int = 0 // offset (from _buffer) of first byte when new block reading must be done
         private var _streamEndWasReached: Boolean = false // if (true) then _streamPos shows real end of stream
         private var _pointerToLastSafePosition: Int = 0
         var _bufferOffset: Int = 0
-        private var _blockSize: Int = 0  // Size of Allocated memory block
-        var _pos: Int = 0             // offset (from _buffer) of curent byte
-        private var _keepSizeBefore: Int = 0  // how many BYTEs must be kept in buffer before _pos
-        private var _keepSizeAfter: Int = 0   // how many BYTEs must be kept buffer after _pos
-        var _streamPos: Int = 0   // offset (from _buffer) of first not read byte from Stream
+        private var _blockSize: Int = 0 // Size of Allocated memory block
+        var _pos: Int = 0 // offset (from _buffer) of curent byte
+        private var _keepSizeBefore: Int = 0 // how many BYTEs must be kept in buffer before _pos
+        private var _keepSizeAfter: Int = 0 // how many BYTEs must be kept buffer after _pos
+        var _streamPos: Int = 0 // offset (from _buffer) of first not read byte from Stream
         private fun moveBlock() {
             var offset = _bufferOffset + _pos - _keepSizeBefore
             // we need one additional byte, since MovePos moves on 1 byte.

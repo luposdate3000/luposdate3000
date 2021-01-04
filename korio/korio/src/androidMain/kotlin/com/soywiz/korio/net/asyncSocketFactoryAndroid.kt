@@ -2,14 +2,13 @@ package com.soywiz.korio.net
 
 import com.soywiz.korio.async.*
 import com.soywiz.korio.concurrent.atomic.*
+import kotlinx.coroutines.*
 import java.io.*
 import java.net.*
 import java.nio.*
 import java.nio.channels.*
-import java.nio.channels.CompletionHandler
 import java.util.concurrent.*
 import kotlin.coroutines.*
-import kotlinx.coroutines.*
 
 internal actual val asyncSocketFactory: AsyncSocketFactory by lazy {
     object : AsyncSocketFactory() {
@@ -19,15 +18,15 @@ internal actual val asyncSocketFactory: AsyncSocketFactory by lazy {
     }
 }
 
-//private val newPool by lazy { Executors.newFixedThreadPool(1) }
-//private val group by lazy { AsynchronousChannelGroup.withThreadPool(newPool) }
+// private val newPool by lazy { Executors.newFixedThreadPool(1) }
+// private val group by lazy { AsynchronousChannelGroup.withThreadPool(newPool) }
 class JvmAsyncClient(private var socket: Socket? = null) : AsyncClient {
     private val readQueue = AsyncThread()
     private val writeQueue = AsyncThread()
     private var socketIs: InputStream? = null
     private var socketOs: OutputStream? = null
 
-    //suspend override fun connect(host: String, port: Int): Unit = suspendCoroutineEL { c ->
+    // suspend override fun connect(host: String, port: Int): Unit = suspendCoroutineEL { c ->
     override suspend fun connect(host: String, port: Int) {
         withContext(Dispatchers.IO) {
             socket = Socket(host, port)
@@ -39,17 +38,17 @@ class JvmAsyncClient(private var socket: Socket? = null) : AsyncClient {
     override val connected: Boolean get() = socket?.isConnected ?: false
     override suspend fun read(buffer: ByteArray, offset: Int, len: Int): Int = readQueue { _read(buffer, offset, len) }
 
-    //suspend override fun read(buffer: ByteArray, offset: Int, len: Int): Int = _read(buffer, offset, len)
+    // suspend override fun read(buffer: ByteArray, offset: Int, len: Int): Int = _read(buffer, offset, len)
     override suspend fun write(buffer: ByteArray, offset: Int, len: Int): Unit = writeQueue {
         _write(buffer, offset, len)
     }
 
-    //suspend private fun _read(buffer: ByteArray, offset: Int, len: Int): Int = suspendCoroutineEL { c ->
+    // suspend private fun _read(buffer: ByteArray, offset: Int, len: Int): Int = suspendCoroutineEL { c ->
     private suspend fun _read(buffer: ByteArray, offset: Int, len: Int): Int = withContext(Dispatchers.IO) {
         socketIs?.read(buffer, offset, len) ?: 0
     }
 
-    private suspend fun _write(buffer: ByteArray, offset: Int, len: Int): Unit {
+    private suspend fun _write(buffer: ByteArray, offset: Int, len: Int) {
         withContext(Dispatchers.IO) {
             socketOs?.write(buffer, offset, len)
         }
@@ -70,7 +69,7 @@ class JvmAsyncClient(private var socket: Socket? = null) : AsyncClient {
 class JvmAsyncServer(override val requestPort: Int, override val host: String, override val backlog: Int = -1) :
     AsyncServer {
     val ssc = ServerSocket()
-    suspend fun init(): Unit {
+    suspend fun init() {
         withContext(Dispatchers.IO) {
             ssc.bind(InetSocketAddress(host, requestPort), backlog)
         }

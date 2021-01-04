@@ -10,14 +10,14 @@ import com.soywiz.korio.lang.*
 import com.soywiz.korio.stream.*
 import com.soywiz.korio.util.checksum.*
 import com.soywiz.korio.util.encoding.*
+import kotlinx.coroutines.channels.*
 import kotlin.collections.component1
 import kotlin.collections.component2
 import kotlin.collections.set
 import kotlin.math.*
-import kotlinx.coroutines.channels.*
 
 suspend fun ZipVfs(s: AsyncStream, zipFile: VfsFile? = null, caseSensitive: Boolean = true, closeStream: Boolean = false): VfsFile {
-    //val s = zipFile.open(VfsOpenMode.READ)
+    // val s = zipFile.open(VfsOpenMode.READ)
     var endBytes = EMPTY_BYTE_ARRAY
     if (s.getLength() <= 8L) throw IllegalArgumentException("Zip file is too small length=${s.getLength()}")
     val PK_END = byteArrayOf(0x50, 0x4B, 0x05, 0x06)
@@ -66,7 +66,7 @@ suspend fun ZipVfs(s: AsyncStream, zipFile: VfsFile? = null, caseSensitive: Bool
     val filesPerFolder = LinkedHashMap<String, MutableMap<String, ZipEntry2>>()
     @Suppress("UNUSED_VARIABLE")
     data.apply {
-        //println(s)
+        // println(s)
         val magic = readS32BE()
         if (magic != 0x504B_0506) throw IllegalStateException("Not a zip file ${magic.hex} instead of ${0x504B_0102.hex}")
         val diskNumber = readU16LE()
@@ -76,7 +76,7 @@ suspend fun ZipVfs(s: AsyncStream, zipFile: VfsFile? = null, caseSensitive: Bool
         val directorySize = readS32LE()
         val directoryOffset = readS32LE()
         val commentLength = readU16LE()
-        //println("Zip: $entriesInDirectory")
+        // println("Zip: $entriesInDirectory")
         val ds = s.sliceWithSize(directoryOffset.toLong(), directorySize.toLong()).readAvailable().openSync()
         for (n in 0 until entriesInDirectory) {
             ds.apply {
@@ -138,7 +138,7 @@ suspend fun ZipVfs(s: AsyncStream, zipFile: VfsFile? = null, caseSensitive: Bool
                         files[c] = entry2
                     }
                 }
-                //println(components)
+                // println(components)
                 folder[baseName] = entry
                 files[normalizedName] = entry
             }
@@ -192,7 +192,7 @@ suspend fun ZipVfs(s: AsyncStream, zipFile: VfsFile? = null, caseSensitive: Bool
                             8 -> Deflate
                             else -> TODO("Not implemented zip method ${entry.compressionMethod}")
                         }
-                        //val compressed = compressedData.uncompressed(method).readAll()
+                        // val compressed = compressedData.uncompressed(method).readAll()
                         val compressed = compressedData.readAll().uncompress(method)
                         if (crc != 0) {
                             val computedCrc = CRC32.compute(compressed)
@@ -210,7 +210,7 @@ suspend fun ZipVfs(s: AsyncStream, zipFile: VfsFile? = null, caseSensitive: Bool
 
         override suspend fun list(path: String): ReceiveChannel<VfsFile> = produce {
             for ((_, entry) in filesPerFolder[path.normalizeName()] ?: LinkedHashMap()) {
-                //yield(entry.toStat(this@Impl[entry.path]))
+                // yield(entry.toStat(this@Impl[entry.path]))
                 send(vfs[entry.path])
             }
         }
@@ -220,8 +220,7 @@ suspend fun ZipVfs(s: AsyncStream, zipFile: VfsFile? = null, caseSensitive: Bool
     return Impl().root
 }
 
-internal class ZipVfsData {
-}
+internal class ZipVfsData
 
 private class DosFileDateTime(var dosTime: Int, var dosDate: Int) {
     val seconds: Int get() = 2 * dosTime.extract(0, 5)
@@ -249,7 +248,7 @@ suspend fun <R> AsyncStream.openAsZip(caseSensitive: Boolean = true, callback: s
     try {
         return callback(file)
     } finally {
-        //file.vfs.close()
+        // file.vfs.close()
     }
 }
 
@@ -294,7 +293,7 @@ private suspend fun addZipFileEntry(s: AsyncStream, entry: VfsFile): ZipEntry {
     val versionMadeBy = 0x314
     val extractVersion = 10
     val flags = 2048
-    //val compressionMethod = 8 // Deflate
+    // val compressionMethod = 8 // Deflate
     val compressionMethod = 0 // Store
     val date = 0
     val time = 0

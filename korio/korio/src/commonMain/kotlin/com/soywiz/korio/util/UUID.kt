@@ -18,9 +18,14 @@ class UUID(val data: UByteArrayInt) {
         }
 
         // @TODO: Use SecureRandom from Krypto
-        fun randomUUID(random: Random = Random): UUID = UUID(fix(UByteArrayInt(16).apply {
-            random.nextBytes(this.asByteArray())
-        }, version = 4, variant = 1))
+        fun randomUUID(random: Random = Random): UUID = UUID(
+            fix(
+                UByteArrayInt(16).apply {
+                    random.nextBytes(this.asByteArray())
+                },
+                version = 4, variant = 1
+            )
+        )
 
         operator fun invoke(str: String): UUID {
             if (regex.matchEntire(str) == null) invalidArg("Invalid UUID")

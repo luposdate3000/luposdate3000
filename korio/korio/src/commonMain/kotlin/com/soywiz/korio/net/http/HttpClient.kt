@@ -26,10 +26,10 @@ abstract class HttpClient protected constructor() {
     ) {
         val success = status < 400
         suspend fun readAllBytes(): ByteArray {
-            //println(content)
+            // println(content)
             val allContent = content.readAll()
-            //println("Response.readAllBytes:" + allContent)
-            //Debugger.enterDebugger()
+            // println("Response.readAllBytes:" + allContent)
+            // Debugger.enterDebugger()
             return allContent
         }
 
@@ -40,7 +40,7 @@ abstract class HttpClient protected constructor() {
 
         suspend fun readAllString(charset: Charset = responseCharset): String {
             val bytes = readAllBytes()
-            //Debugger.enterDebugger()
+            // Debugger.enterDebugger()
             return bytes.toString(charset)
         }
 
@@ -79,7 +79,7 @@ abstract class HttpClient protected constructor() {
         content: AsyncStream? = null,
         config: RequestConfig = RequestConfig()
     ): Response {
-        //println("HttpClient.request: $method:$url")
+        // println("HttpClient.request: $method:$url")
         val contentLength = content?.getLength() ?: 0L
         var actualHeaders = headers
         if (content != null && !headers.any { it.first.equals(Http.Headers.ContentLength, ignoreCase = true) }) {
@@ -99,9 +99,11 @@ abstract class HttpClient protected constructor() {
             val redirectLocation = response.headers["location"]
             if (redirectLocation != null) {
                 return request(
-                    method, mergeUrls(url, redirectLocation), headers.withReplaceHeaders(
-                    "Referer" to url
-                ), content, config.copy(maxRedirects = config.maxRedirects - 1)
+                    method, mergeUrls(url, redirectLocation),
+                    headers.withReplaceHeaders(
+                        "Referer" to url
+                    ),
+                    content, config.copy(maxRedirects = config.maxRedirects - 1)
                 )
             }
         }
@@ -194,7 +196,7 @@ class FakeHttpClient(val redirect: HttpClient? = null) : HttpClient() {
             responseContent = content
         }
 
-        fun redirect(url: String, code: Int = 302): Unit {
+        fun redirect(url: String, code: Int = 302) {
             responseCode = code
             responseHeaders += Http.Headers("Location" to url)
         }

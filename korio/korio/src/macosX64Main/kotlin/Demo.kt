@@ -1,8 +1,8 @@
 import com.soywiz.korio.net.*
 import kotlinx.cinterop.*
 import kotlinx.coroutines.*
-import platform.darwin.*
 import platform.Foundation.*
+import platform.darwin.*
 import platform.posix.*
 
 /*

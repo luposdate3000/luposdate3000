@@ -39,22 +39,25 @@ open class GZIPBase(val checkCrc: Boolean, val deflater: () -> CompressionMethod
         val crc16 = if (fhcrc) r.su16LE() else 0
         var ccrc32 = CRC32.initialValue
         var csize = 0
-        deflater().uncompress(r, object : AsyncOutputStream by out {
-            override suspend fun write(buffer: ByteArray, offset: Int, len: Int) {
-                if (len > 0) {
-                    //val oldCrc32 = ccrc32
-                    ccrc32 = CRC32.update(ccrc32, buffer, offset, len)
-                    csize += len
-                    //val chunk = buffer.sliceArray(offset until offset + len)
-                    //println("DECOMPRESS:" + chunk.toList() + " sum=${chunk.toList().sum()} oldCrc32=$oldCrc32, crc32=$ccrc32 [offset=$offset, len=$len]")
-                    out.write(buffer, offset, len)
+        deflater().uncompress(
+            r,
+            object : AsyncOutputStream by out {
+                override suspend fun write(buffer: ByteArray, offset: Int, len: Int) {
+                    if (len > 0) {
+                        // val oldCrc32 = ccrc32
+                        ccrc32 = CRC32.update(ccrc32, buffer, offset, len)
+                        csize += len
+                        // val chunk = buffer.sliceArray(offset until offset + len)
+                        // println("DECOMPRESS:" + chunk.toList() + " sum=${chunk.toList().sum()} oldCrc32=$oldCrc32, crc32=$ccrc32 [offset=$offset, len=$len]")
+                        out.write(buffer, offset, len)
+                    }
                 }
             }
-        })
+        )
         r.prepareBigChunkIfRequired()
         val crc32 = r.su32LE()
         val size = r.su32LE()
-        //println("COMPRESS: crc32=$crc32, size=$size, ccrc32=$ccrc32, csize=$csize")
+        // println("COMPRESS: crc32=$crc32, size=$size, ccrc32=$ccrc32, csize=$csize")
         if (checkCrc && (csize != size || ccrc32 != crc32)) {
             invalidOp("Size doesn't match SIZE(${csize.hex} != ${size.hex}) || CRC32(${ccrc32.hex} != ${crc32.hex})")
         }
@@ -74,21 +77,24 @@ open class GZIPBase(val checkCrc: Boolean, val deflater: () -> CompressionMethod
         o.write8(0) // os
         var size = 0
         var crc32 = CRC32.initialValue
-        deflater().compress(BitReader(object : AsyncInputStreamWithLength by i {
-            override suspend fun read(buffer: ByteArray, offset: Int, len: Int): Int {
-                val read = i.read(buffer, offset, len)
-                if (read > 0) {
-                    //val oldCrc32 = crc32
-                    crc32 = CRC32.update(crc32, buffer, offset, read)
-                    //val chunk = buffer.sliceArray(offset until offset + read)
-                    //println("COMPRESS:" + chunk.toList() + " sum=${chunk.toList().sum()} oldCrc32=$oldCrc32, crc32=$crc32 [offset=$offset, read=$read]")
-                    size += read
+        deflater().compress(
+            BitReader(object : AsyncInputStreamWithLength by i {
+                override suspend fun read(buffer: ByteArray, offset: Int, len: Int): Int {
+                    val read = i.read(buffer, offset, len)
+                    if (read > 0) {
+                        // val oldCrc32 = crc32
+                        crc32 = CRC32.update(crc32, buffer, offset, read)
+                        // val chunk = buffer.sliceArray(offset until offset + read)
+                        // println("COMPRESS:" + chunk.toList() + " sum=${chunk.toList().sum()} oldCrc32=$oldCrc32, crc32=$crc32 [offset=$offset, read=$read]")
+                        size += read
+                    }
+                    return read
                 }
-                return read
-            }
-        }), o, context)
+            }),
+            o, context
+        )
         o.write32LE(crc32)
         o.write32LE(size)
-        //println("COMPRESS: crc32=$crc32, size=$size")
+        // println("COMPRESS: crc32=$crc32, size=$size")
     }
 }

@@ -8,8 +8,8 @@ import com.soywiz.korio.file.std.*
 import com.soywiz.korio.lang.*
 import com.soywiz.korio.stream.*
 import com.soywiz.korio.util.*
-import kotlin.coroutines.*
 import kotlinx.coroutines.channels.*
+import kotlin.coroutines.*
 
 @file:Suppress("EXPERIMENTAL_FEATURE_WARNING")
 data class VfsFile(
@@ -91,7 +91,7 @@ data class VfsFile(
         target: VfsFile,
         vararg attributes: Vfs.Attribute,
         notify: suspend (Pair<VfsFile, VfsFile>) -> Unit = {}
-    ): Unit {
+    ) {
         notify(this to target)
         if (this.isDirectory()) {
             target.mkdir()
@@ -99,7 +99,7 @@ data class VfsFile(
                 file.copyToTree(target[file.baseName], *attributes, notify = notify)
             }
         } else {
-            //println("copyToTree: $this -> $target")
+            // println("copyToTree: $this -> $target")
             this.copyTo(target, *attributes)
         }
     }
@@ -133,16 +133,19 @@ data class VfsFile(
     ): String {
         val out = ByteArrayBuilder()
         val err = ByteArrayBuilder()
-        val result = exec(cmdAndArgs, env, object : VfsProcessHandler() {
-            override suspend fun onOut(data: ByteArray) {
-                out.append(data)
-            }
+        val result = exec(
+            cmdAndArgs, env,
+            object : VfsProcessHandler() {
+                override suspend fun onOut(data: ByteArray) {
+                    out.append(data)
+                }
 
-            override suspend fun onErr(data: ByteArray) {
-                if (captureError) out.append(data)
-                err.append(data)
+                override suspend fun onErr(data: ByteArray) {
+                    if (captureError) out.append(data)
+                    err.append(data)
+                }
             }
-        })
+        )
         val errString = err.toByteArray().toString(charset)
         val outString = out.toByteArray().toString(charset)
         if (throwOnError && result != 0) throw VfsProcessException("Process not returned 0, but $result. Error: $errString, Output: $outString")
@@ -157,10 +160,13 @@ data class VfsFile(
         env: Map<String, String> = LinkedHashMap(),
         charset: Charset = UTF8
     ): Int {
-        return exec(cmdAndArgs.toList(), env, object : VfsProcessHandler() {
-            override suspend fun onOut(data: ByteArray) = print(data.toString(charset))
-            override suspend fun onErr(data: ByteArray) = print(data.toString(charset))
-        }).also {
+        return exec(
+            cmdAndArgs.toList(), env,
+            object : VfsProcessHandler() {
+                override suspend fun onOut(data: ByteArray) = print(data.toString(charset))
+                override suspend fun onErr(data: ByteArray) = print(data.toString(charset))
+            }
+        ).also {
             println()
         }
     }
@@ -172,19 +178,22 @@ data class VfsFile(
     ): Int = passthru(cmdAndArgs.toList(), env, charset)
 
     suspend fun watch(handler: suspend (Vfs.FileEvent) -> Unit): Closeable {
-        //val cc = coroutineContext
+        // val cc = coroutineContext
         val cc = coroutineContext
         return vfs.watch(this.path) { event -> launchImmediately(cc) { handler(event) } }
     }
 
     suspend fun redirected(pathRedirector: suspend VfsFile.(String) -> String): VfsFile {
         val actualFile = this
-        return VfsFile(object : Vfs.Proxy() {
-            override suspend fun access(path: String): VfsFile =
-                actualFile[actualFile.pathRedirector(path)]
+        return VfsFile(
+            object : Vfs.Proxy() {
+                override suspend fun access(path: String): VfsFile =
+                    actualFile[actualFile.pathRedirector(path)]
 
-            override fun toString(): String = "VfsRedirected"
-        }, this.path)
+                override fun toString(): String = "VfsRedirected"
+            },
+            this.path
+        )
     }
 
     fun jail(): VfsFile = JailVfs(this)
@@ -195,7 +204,7 @@ data class VfsFile(
 fun VfsFile.toUnscaped() = FinalVfsFile(this)
 fun FinalVfsFile.toFile() = this.file
 
-//inline class FinalVfsFile(val file: VfsFile) {
+// inline class FinalVfsFile(val file: VfsFile) {
 data class FinalVfsFile(val file: VfsFile) {
     constructor(vfs: Vfs, path: String) : this(vfs[path])
 
@@ -204,5 +213,5 @@ data class FinalVfsFile(val file: VfsFile) {
 }
 
 // @TODO: https://youtrack.jetbrains.com/issue/KT-31490
-//suspend inline fun <R> VfsFile.useVfs(callback: suspend (VfsFile) -> R): R = vfs.use { callback(this@useVfs) }
+// suspend inline fun <R> VfsFile.useVfs(callback: suspend (VfsFile) -> R): R = vfs.use { callback(this@useVfs) }
 suspend fun <R> VfsFile.useVfs(callback: suspend (VfsFile) -> R): R = vfs.use { callback(this@useVfs) }

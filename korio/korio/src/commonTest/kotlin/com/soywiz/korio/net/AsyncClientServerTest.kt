@@ -5,10 +5,10 @@ import com.soywiz.korio.async.*
 import com.soywiz.korio.lang.*
 import com.soywiz.korio.stream.*
 import com.soywiz.korio.util.*
-import kotlin.coroutines.*
-import kotlin.test.*
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.*
+import kotlin.coroutines.*
+import kotlin.test.*
 
 class AsyncClientServerTest {
     companion object {
@@ -20,7 +20,7 @@ class AsyncClientServerTest {
     fun testClientServer() = suspendTest {
         val server = AsyncServer(port = 0)
         val clientsCount = 2000
-        //val clientsCount = 10
+        // val clientsCount = 10
         var counter = 0
         val correctEchoes = Deque<Boolean>()
         val clients = (0 until clientsCount).map { clientId ->

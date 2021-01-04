@@ -19,7 +19,7 @@ fun List<BooleanArray>.join(): BooleanArray = _join(this, { BooleanArray(it) }, 
 fun List<ByteArray>.join(): ByteArray = _join(this, { ByteArray(it) }, { it.size }, { a, b, c, d, e -> arraycopy(a, b, c, d, e) })
 fun List<ShortArray>.join(): ShortArray = _join(this, { ShortArray(it) }, { it.size }, { a, b, c, d, e -> arraycopy(a, b, c, d, e) })
 
-//fun List<CharArray>.join(): CharArray = _join(this, { CharArray(it) }, { it.size }, { a, b, c, d, e -> arraycopy(a, b, c, d, e) })
+// fun List<CharArray>.join(): CharArray = _join(this, { CharArray(it) }, { it.size }, { a, b, c, d, e -> arraycopy(a, b, c, d, e) })
 fun List<IntArray>.join(): IntArray = _join(this, { IntArray(it) }, { it.size }, { a, b, c, d, e -> arraycopy(a, b, c, d, e) })
 fun List<LongArray>.join(): LongArray = _join(this, { LongArray(it) }, { it.size }, { a, b, c, d, e -> arraycopy(a, b, c, d, e) })
 fun List<FloatArray>.join(): FloatArray = _join(this, { FloatArray(it) }, { it.size }, { a, b, c, d, e -> arraycopy(a, b, c, d, e) })
@@ -33,7 +33,7 @@ fun BooleanArray.indexOf(v: Boolean, startOffset: Int = 0, endOffset: Int = this
 fun ByteArray.indexOf(v: Byte, startOffset: Int = 0, endOffset: Int = this.size, default: Int = -1): Int = _indexOf(this, { a, b -> a[b] }, v, startOffset, endOffset, default)
 fun ShortArray.indexOf(v: Short, startOffset: Int = 0, endOffset: Int = this.size, default: Int = -1): Int = _indexOf(this, { a, b -> a[b] }, v, startOffset, endOffset, default)
 
-//fun CharArray.indexOf(v: Char, startOffset: Int = 0, endOffset: Int = this.size, default: Int = -1): Int = _indexOf(this, { a, b -> a[b] }, v, startOffset, endOffset, default)
+// fun CharArray.indexOf(v: Char, startOffset: Int = 0, endOffset: Int = this.size, default: Int = -1): Int = _indexOf(this, { a, b -> a[b] }, v, startOffset, endOffset, default)
 fun IntArray.indexOf(v: Int, startOffset: Int = 0, endOffset: Int = this.size, default: Int = -1): Int = _indexOf(this, { a, b -> a[b] }, v, startOffset, endOffset, default)
 fun LongArray.indexOf(v: Long, startOffset: Int = 0, endOffset: Int = this.size, default: Int = -1): Int = _indexOf(this, { a, b -> a[b] }, v, startOffset, endOffset, default)
 fun FloatArray.indexOf(v: Float, startOffset: Int = 0, endOffset: Int = this.size, default: Int = -1): Int = _indexOf(this, { a, b -> a[b] }, v, startOffset, endOffset, default)

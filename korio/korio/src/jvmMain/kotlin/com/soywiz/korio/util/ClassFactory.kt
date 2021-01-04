@@ -17,7 +17,7 @@ class ClassFactory<T> private constructor(iclazz: Class<out T>, internal: kotlin
     }
 
     init {
-        //println("$iclazz -> $clazz")
+        // println("$iclazz -> $clazz")
     }
 
     companion object {

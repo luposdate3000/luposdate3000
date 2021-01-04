@@ -1,7 +1,7 @@
 package com.soywiz.korio.dynamic
 
-import kotlin.test.*
 import org.junit.Test
+import kotlin.test.*
 
 class KDynamicTest {
     @Test

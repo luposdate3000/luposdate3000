@@ -39,7 +39,7 @@ suspend fun MountableVfs(closeMounts: Boolean = false, callback: suspend Mountab
         override suspend fun access(path: String): VfsFile {
             val rpath = path.pathInfo.normalize()
             mounts.fastForEach { (base, file) ->
-                //println("$base/$file")
+                // println("$base/$file")
                 if (rpath.startsWith(base)) return file[rpath.substring(base.length)]
             }
             throw FileNotFoundException(path)

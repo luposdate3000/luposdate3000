@@ -13,7 +13,7 @@ class NativeSocket private constructor(internal val sockfd: Int, private var end
         operator fun invoke() = NativeSocket(socket(AF_INET, SOCK_STREAM, 0), Endpoint(IP(0, 0, 0, 0), 0))
         suspend fun connect(host: String, port: Int) = NativeSocket().apply { connect(host, port) }
         suspend fun bound(host: String, port: Int) = NativeSocket().apply { bind(host, port) }
-        //suspend fun listen(host: String, port: Int) = NativeSocket().listen(host, port)
+        // suspend fun listen(host: String, port: Int) = NativeSocket().listen(host, port)
     }
 
     data class Endpoint(val ip: IP, val port: Int) {
@@ -37,7 +37,7 @@ class NativeSocket private constructor(internal val sockfd: Int, private var end
         val str get() = "$v0.$v1.$v2.$v3"
         val value: Int get() = (v0.toInt() shl 0) or (v1.toInt() shl 8) or (v2.toInt() shl 16) or (v3.toInt() shl 24)
 
-        //val value: Int get() = (v0.toInt() shl 24) or (v1.toInt() shl 16) or (v2.toInt() shl 8) or (v3.toInt() shl 0)
+        // val value: Int get() = (v0.toInt() shl 24) or (v1.toInt() shl 16) or (v2.toInt() shl 8) or (v3.toInt() shl 0)
         override fun toString(): String = str
 
         companion object {
@@ -106,13 +106,13 @@ class NativeSocket private constructor(internal val sockfd: Int, private var end
             val fd = platform.posix.accept(sockfd, addr.ptr, socklen.ptr)
             if (fd < 0) {
                 val errno = posix_errno()
-                //println("accept: fd=$fd, errno=$errno")
+                // println("accept: fd=$fd, errno=$errno")
                 when (errno) {
                     EWOULDBLOCK -> return null
                     else -> error("Couldn't accept socket ($fd) errno=$errno")
                 }
             }
-            //println("accept: fd=$fd")
+            // println("accept: fd=$fd")
             return NativeSocket(fd, addr.ptr.reinterpret<sockaddr_in>().toEndpoint()).apply {
                 setSocketBlockingEnabled(false)
             }
@@ -126,7 +126,7 @@ class NativeSocket private constructor(internal val sockfd: Int, private var end
             bytes_available[0]
         }
 
-    //val connected: Boolean
+    // val connected: Boolean
     //    get() {
     //        memScoped {
     //            if (!_connected) return false
@@ -173,22 +173,22 @@ class NativeSocket private constructor(internal val sockfd: Int, private var end
     }
 
     fun close() {
-        //platform.posix.close(sockfd)
+        // platform.posix.close(sockfd)
         platform.posix.shutdown(sockfd, SHUT_RDWR)
         _connected = false
     }
 
     private fun setSocketBlockingEnabled(blocking: Boolean): Boolean {
         if (sockfd < 0) return false
-        //#ifdef _WIN32
+        // #ifdef _WIN32
         //    unsigned long mode = blocking ? 0 : 1;
         //    return (ioctlsocket(fd, FIONBIO, &mode) == 0) ? true : false;
-        //#else
+        // #else
         var flags = fcntl(sockfd, F_GETFL, 0)
         if (flags == -1) return false
         flags = if (blocking) (flags and O_NONBLOCK.inv()) else (flags or O_NONBLOCK)
         return (fcntl(sockfd, F_SETFL, flags) == 0)
-        //#endif
+        // #endif
     }
 
     fun getLocalEndpoint(): Endpoint {
@@ -200,9 +200,9 @@ class NativeSocket private constructor(internal val sockfd: Int, private var end
             if (result < 0) error("error getting local socket address")
             val ip = localAddress.sin_addr.readValue()
             val port = swapBytes(localAddress.sin_port)
-            //println("result: $result")
-            //println("local address: " + inet_ntoa(localAddress.sin_addr.readValue())?.toKString())
-            //println("local port: " + )
+            // println("result: $result")
+            // println("local address: " + inet_ntoa(localAddress.sin_addr.readValue())?.toKString())
+            // println("local port: " + )
             return Endpoint(IP(ip.getBytes().toUByteArray()), port.toInt())
         }
     }
@@ -254,7 +254,7 @@ suspend fun NativeSocket.suspendSend(data: ByteArray, offset: Int = 0, count: In
 suspend fun NativeSocket.accept(): NativeSocket {
     while (true) {
         val socket = tryAccept()
-        //println("suspendAccept: $socket")
+        // println("suspendAccept: $socket")
         if (socket != null) return socket
         delay(10L)
     }

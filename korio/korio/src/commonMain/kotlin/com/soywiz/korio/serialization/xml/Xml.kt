@@ -26,7 +26,7 @@ data class Xml(
         fun Text(text: String): Xml = Xml(Xml.Type.TEXT, "_text_", LinkedHashMap(), listOf(), text)
         fun Comment(text: String): Xml = Xml(Xml.Type.COMMENT, "_comment_", LinkedHashMap(), listOf(), text)
 
-        //operator fun invoke(@Language("xml") str: String): Xml = parse(str)
+        // operator fun invoke(@Language("xml") str: String): Xml = parse(str)
         fun parse(str: String): Xml {
             try {
                 val stream = Xml.Stream.parse(str).iterator()
@@ -137,7 +137,7 @@ data class Xml(
     fun longNull(name: String): Long? = this.attributesLC[name]?.toLongOrNull()
     fun strNull(name: String): String? = this.attributesLC[name]
 
-    //override fun toString(): String = innerXml
+    // override fun toString(): String = innerXml
     override fun toString(): String = outerXml
     enum class Type { NODE, TEXT, COMMENT }
     object Entities {

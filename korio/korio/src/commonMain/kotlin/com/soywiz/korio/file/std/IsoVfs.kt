@@ -43,7 +43,7 @@ class IsoVfs(val iso: ISO.IsoFile, val closeStream: Boolean) : Vfs() {
     override suspend fun list(path: String) = produce<VfsFile> {
         val file = isoFile[path]
         file.children.fastForEach { c ->
-            //yield(getVfsStat(c))
+            // yield(getVfsStat(c))
             send(vfs[c.fullname])
         }
     }
@@ -54,7 +54,7 @@ class IsoVfs(val iso: ISO.IsoFile, val closeStream: Boolean) : Vfs() {
 object ISO {
     val CHARSET = ASCII
 
-    //val CHARSET = UTF8
+    // val CHARSET = UTF8
     const val SECTOR_SIZE = 0x800L
     suspend fun read(s: AsyncStream): IsoFile = IsoReader(s).read()
     suspend fun openVfs(s: AsyncStream, closeStream: Boolean): VfsFile = IsoVfs(read(s), closeStream).root
@@ -76,7 +76,7 @@ object ISO {
             for (n in 0 until 0x10) {
                 val s = getSectorMemory(0x11 + n, SECTOR_SIZE.toInt())
                 val vdh = VolumeDescriptorHeader(s.clone())
-                //println(vdh.id)
+                // println(vdh.id)
                 when (vdh.id) {
                     "CD001" -> Unit
                     "BEA01" -> Unit
@@ -85,9 +85,9 @@ object ISO {
                     "BOOT2" -> Unit
                     "TEA01" -> Unit
                 }
-                //if (vdh.type == VolumeDescriptorHeader.TypeEnum.VolumePartitionSetTerminator) break
+                // if (vdh.type == VolumeDescriptorHeader.TypeEnum.VolumePartitionSetTerminator) break
             }
-            //println(udfFileSystem)
+            // println(udfFileSystem)
             if (udfFileSystem) {
                 val udfs = getSectorMemory(0x100)
                 val avd = UdfAnchorVolumeDescriptorPointer(udfs)
@@ -96,9 +96,9 @@ object ISO {
                 if (pv.descriptorTag.tagId != UdfDescriptorTag.TagId.PRIMARY_VOLUME_DESCRIPTOR) {
                     invalidOp("Expected UDF primary volume descriptor")
                 }
-                //println(pv)
-                //println(avd)
-                //println(avd)
+                // println(pv)
+                // println(avd)
+                // println(avd)
             }
             val root = IsoFile(this@IsoReader, primary.rootDirectoryRecord, null)
             readDirectoryRecords(
@@ -108,7 +108,7 @@ object ISO {
             return root
         }
 
-        suspend fun readDirectoryRecords(parent: IsoFile, sector: SyncStream): Unit {
+        suspend fun readDirectoryRecords(parent: IsoFile, sector: SyncStream) {
             while (!sector.eof) {
                 val dr = DirectoryRecord(sector)
                 if (dr == null) {
@@ -153,7 +153,7 @@ object ISO {
                     "." -> Unit
                     ".." -> current = current.parent!!
                     // @TODO: kotlin-js bug? It doesn't seems to like this somehow.
-                    //else -> current = current.children.firstOrNull { it.name.toUpperCase() == part.toUpperCase() } ?: throw kotlin.IllegalStateException("Can't find part $part for accessing path $name children: ${current.children}")
+                    // else -> current = current.children.firstOrNull { it.name.toUpperCase() == part.toUpperCase() } ?: throw kotlin.IllegalStateException("Can't find part $part for accessing path $name children: ${current.children}")
                     else -> current = current.childrenByName[part.normalizeName()]
                         ?: throw kotlin.IllegalStateException("Can't find part $part for accessing path $name children: ${current.children}")
                 }
@@ -381,7 +381,7 @@ object ISO {
         val pad5: Int,
         val applicationData: ByteArray,
         val pad6: ByteArray
-        //fixed byte Pad6_[653];
+        // fixed byte Pad6_[653];
     ) {
         constructor(s: SyncStream) : this(
             volumeDescriptorHeader = VolumeDescriptorHeader(s),
@@ -416,7 +416,7 @@ object ISO {
             applicationData = s.readBytes(0x200),
             pad6 = s.readBytes(653)
         ) {
-            //println(this)
+            // println(this)
         }
     }
 
@@ -432,7 +432,7 @@ object ISO {
                 val PrimaryVolumeDescriptor = TypeEnum(0x01)
                 val SupplementaryVolumeDescriptor = TypeEnum(0x02)
                 val VolumePartitionDescriptor = TypeEnum(0x03)
-                //val BY_ID = values().associateBy { it.id }
+                // val BY_ID = values().associateBy { it.id }
             }
         }
 
@@ -454,7 +454,7 @@ object ISO {
         val second = data.substring(12, 14).toIntOrNull() ?: 0
         val hsecond = data.substring(14, 16).toIntOrNull() ?: 0
 
-        //val offset = data.substring(16).toInt()
+        // val offset = data.substring(16).toInt()
         override fun toString(): String =
             "IsoDate(%04d-%02d-%02d %02d:%02d:%02d.%d)".format(year, month, day, hour, minute, second, hsecond)
     }
@@ -516,7 +516,7 @@ object ISO {
                         volumeSequenceNumber = s.readU16_leBE(),
                         rawName = s.readTextWithLength()
                     )
-                    //println("DR: $dr, ${s.available}")
+                    // println("DR: $dr, ${s.available}")
                     return dr
                 }
             }
@@ -527,7 +527,7 @@ object ISO {
 private fun SyncStream.readUdfDString(bytes: Int): String {
     val ss = readStream(bytes)
     val count = ss.readU16LE() / 2
-    //println("readUdfDString($bytes, $count)")
+    // println("readUdfDString($bytes, $count)")
     return ss.readUtf16LE(count)
 }
 
@@ -535,7 +535,7 @@ private fun SyncStream.readUtf16LE(count: Int): String {
     var s = ""
     for (n in 0 until count) {
         s += readS16LE().toChar()
-        //println("S($count): $s")
+        // println("S($count): $s")
     }
     return s
 }

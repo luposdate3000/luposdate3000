@@ -2,8 +2,8 @@ package com.soywiz.korio.async
 
 import com.soywiz.korio.lang.*
 import com.soywiz.korio.util.*
-import kotlin.coroutines.*
 import kotlinx.coroutines.*
+import kotlin.coroutines.*
 
 fun CoroutineScope.launch(callback: suspend () -> Unit) = _launch(CoroutineStart.UNDISPATCHED, callback)
 fun CoroutineScope.launchImmediately(callback: suspend () -> Unit) = _launch(CoroutineStart.UNDISPATCHED, callback)
@@ -19,7 +19,7 @@ fun <T> asyncImmediately(context: CoroutineContext, callback: suspend () -> T) =
 fun <T> asyncAsap(context: CoroutineContext, callback: suspend () -> T) = CoroutineScope(context).asyncAsap(callback)
 expect fun asyncEntryPoint(callback: suspend () -> Unit)
 fun suspendTest(callback: suspend () -> Unit) = asyncEntryPoint(callback)
-fun suspendTestNoBrowser(callback: suspend () -> Unit): Unit {
+fun suspendTestNoBrowser(callback: suspend () -> Unit) {
     if (OS.isJsBrowser) return
     return asyncEntryPoint(callback)
 }
@@ -46,7 +46,7 @@ private fun <T> CoroutineScope._async(start: CoroutineStart, callback: suspend (
     }
 }
 // @TODO: Kotlin.JS bug!
-//fun suspendTestExceptJs(callback: suspend () -> Unit) = suspendTest {
-//	if (OS.isJs) return@suspendTest
-//	callback()
-//}
+// fun suspendTestExceptJs(callback: suspend () -> Unit) = suspendTest {
+// 	if (OS.isJs) return@suspendTest
+// 	callback()
+// }

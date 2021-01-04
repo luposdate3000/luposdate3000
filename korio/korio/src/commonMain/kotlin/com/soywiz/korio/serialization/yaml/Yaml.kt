@@ -6,12 +6,12 @@ import com.soywiz.korio.lang.*
 import com.soywiz.korio.serialization.*
 import com.soywiz.korio.util.*
 import kotlin.collections.ArrayList
-import kotlin.collections.arrayListOf
-import kotlin.collections.isNotEmpty
-import kotlin.collections.last
 import kotlin.collections.LinkedHashMap
 import kotlin.collections.List
 import kotlin.collections.MutableMap
+import kotlin.collections.arrayListOf
+import kotlin.collections.isNotEmpty
+import kotlin.collections.last
 import kotlin.collections.plusAssign
 import kotlin.collections.set
 import kotlin.reflect.*
@@ -31,7 +31,7 @@ object Yaml {
         else -> str.toIntOrNull() ?: str.toDoubleOrNull() ?: str
     }
 
-    //const val TRACE = true
+    // const val TRACE = true
     const val TRACE = false
     private fun read(s: ListReader<Token>, level: Int): Any? = s.run {
         var list: ArrayList<Any?>? = null

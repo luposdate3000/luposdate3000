@@ -7,10 +7,10 @@ expect fun korAtomic(initial: Boolean): KorAtomicBoolean
 expect fun korAtomic(initial: Int): KorAtomicInt
 expect fun korAtomic(initial: Long): KorAtomicLong
 
-//fun <T> korAtomic(initial: T): KorAtomicRef<T> = KorAtomicRef(initial)
-//fun korAtomic(initial: Boolean): KorAtomicBoolean = KorAtomicBoolean(initial)
-//fun korAtomic(initial: Int): KorAtomicInt = KorAtomicInt(initial)
-//fun korAtomic(initial: Long): KorAtomicLong = KorAtomicLong (initial)
+// fun <T> korAtomic(initial: T): KorAtomicRef<T> = KorAtomicRef(initial)
+// fun korAtomic(initial: Boolean): KorAtomicBoolean = KorAtomicBoolean(initial)
+// fun korAtomic(initial: Int): KorAtomicInt = KorAtomicInt(initial)
+// fun korAtomic(initial: Long): KorAtomicLong = KorAtomicLong (initial)
 interface KorAtomicBase<T> {
     var value: T
     fun compareAndSet(expect: T, update: T): Boolean

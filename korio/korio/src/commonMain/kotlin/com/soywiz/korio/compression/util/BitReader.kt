@@ -95,15 +95,15 @@ open class BitReader(val s: AsyncInputStreamWithLength) : AsyncInputStreamWithLe
         }
     }
 
-    //suspend fun readAll(): ByteArray {
-    //	val temp = ByteArray(sbuffers.availableRead)
-    //	sbuffers.readBytes(temp, 0, sbuffers.availableRead)
-    //	return temp + s.readAll()
-    //}
+    // suspend fun readAll(): ByteArray {
+    // 	val temp = ByteArray(sbuffers.availableRead)
+    // 	sbuffers.readBytes(temp, 0, sbuffers.availableRead)
+    // 	return temp + s.readAll()
+    // }
 //
-    //suspend fun hasAvailable() = s.hasAvailable()
-    //suspend fun getAvailable(): Long = s.getAvailable()
-    //suspend fun readBytesExact(count: Int): ByteArray = abytes(count)
+    // suspend fun hasAvailable() = s.hasAvailable()
+    // suspend fun getAvailable(): Long = s.getAvailable()
+    // suspend fun readBytesExact(count: Int): ByteArray = abytes(count)
     override suspend fun getPosition(): Long = sbuffers.read
     override suspend fun getLength(): Long = s.getLength()
 }

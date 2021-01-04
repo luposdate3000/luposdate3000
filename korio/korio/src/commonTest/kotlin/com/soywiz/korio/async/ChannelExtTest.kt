@@ -1,7 +1,7 @@
 package com.soywiz.korio.async
 
-import kotlin.test.*
 import kotlinx.coroutines.channels.*
+import kotlin.test.*
 
 class ChannelExtTest {
     @Test

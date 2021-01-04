@@ -2,21 +2,21 @@ package com.soywiz.korio.async
 
 import com.soywiz.korio.concurrent.lock.*
 import com.soywiz.korio.concurrent.lock.Lock
-import kotlin.coroutines.*
 import kotlinx.coroutines.*
+import kotlin.coroutines.*
 
 interface AsyncInvokable {
     suspend operator fun <T> invoke(func: suspend () -> T): T
 }
 
-//class AsyncQueue(val context: CoroutineContext) {
+// class AsyncQueue(val context: CoroutineContext) {
 class AsyncQueue {
-    //constructor() : AsyncQueue(CoroutineContext())
+    // constructor() : AsyncQueue(CoroutineContext())
     val thread = AsyncThread()
 
-    //companion object {
-    //	suspend operator fun invoke() = AsyncQueue(getCoroutineContext())
-    //}
+    // companion object {
+    // 	suspend operator fun invoke() = AsyncQueue(getCoroutineContext())
+    // }
     suspend operator fun invoke(func: suspend () -> Unit): AsyncQueue = invoke(coroutineContext, func)
     operator fun invoke(context: CoroutineContext, func: suspend () -> Unit): AsyncQueue {
         thread.sync(context) { func() }
@@ -157,5 +157,5 @@ class NamedAsyncThreads(val threadFactory: () -> AsyncInvokable = { AsyncThread2
         }
     }
 }
-//@Deprecated("AsyncQueue", ReplaceWith("AsyncQueue"))
-//typealias WorkQueue = AsyncQueue
+// @Deprecated("AsyncQueue", ReplaceWith("AsyncQueue"))
+// typealias WorkQueue = AsyncQueue

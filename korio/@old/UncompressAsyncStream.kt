@@ -5,9 +5,9 @@ import com.soywiz.korio.async.*
 import com.soywiz.korio.compression.*
 import com.soywiz.korio.lang.*
 import com.soywiz.korio.stream.*
+import kotlinx.coroutines.*
 import kotlin.coroutines.*
 import kotlin.math.*
-import kotlinx.coroutines.*
 
 /*
 internal class CompressionAlgoAsyncStream internal constructor(

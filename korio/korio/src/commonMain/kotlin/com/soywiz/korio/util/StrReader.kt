@@ -46,7 +46,7 @@ class StrReader(val str: String, val file: String = "file", var pos: Int = 0) {
         if (hasMore && peekChar() == char) skip(1)
     }
 
-    //inline fun skipWhile(check: (Char) -> Boolean) = run { while (check(this.peekChar())) this.skip(1) }
+    // inline fun skipWhile(check: (Char) -> Boolean) = run { while (check(this.peekChar())) this.skip(1) }
     inline fun skipWhile(filter: (Char) -> Boolean) {
         while (hasMore && filter(this.peekChar())) {
             this.readChar()
@@ -140,7 +140,7 @@ class StrReader(val str: String, val file: String = "file", var pos: Int = 0) {
         val startIndex = this.pos
         val index = this.str.indexOf(end, this.pos)
         if (index < 0) return null
-        //trace(index);
+        // trace(index);
         this.pos = index + end.length
         return this.slice(startIndex, this.pos)
     }
@@ -163,7 +163,7 @@ class StrReader(val str: String, val file: String = "file", var pos: Int = 0) {
             fun invoke(vararg lits: String): Literals =
                 fromList(lits.toCollection(arrayListOf<String>()).toTypedArray())
 
-            //fun invoke(lits:Array<String>): Literals = fromList(lits)
+            // fun invoke(lits:Array<String>): Literals = fromList(lits)
             fun fromList(lits: Array<String>): Literals {
                 val lengths = lits.map { it.length }.sorted().reversed().distinct().toTypedArray()
                 val map = linkedMapOf<String, Boolean>()
@@ -308,7 +308,7 @@ class StrReader(val str: String, val file: String = "file", var pos: Int = 0) {
             val pos1 = pos
             if (pos1 == pos0) error("Invalid number at $pos0 in '$str'")
             list.add(float)
-            //println("float: $float, ${reader.pos}/${reader.length}")
+            // println("float: $float, ${reader.pos}/${reader.length}")
         }
         return list
     }
@@ -321,7 +321,7 @@ class StrReader(val str: String, val file: String = "file", var pos: Int = 0) {
             val pos1 = pos
             if (pos1 == pos0) error("Invalid identifier at $pos0 in '$str'")
             list.add(id)
-            //println("float: $float, ${reader.pos}/${reader.length}")
+            // println("float: $float, ${reader.pos}/${reader.length}")
         }
         return list
     }
@@ -334,7 +334,7 @@ class StrReader(val str: String, val file: String = "file", var pos: Int = 0) {
             val pos1 = pos
             if (pos1 == pos0) error("Invalid int at $pos0 in '$str'")
             list.add(v)
-            //println("float: $float, ${reader.pos}/${reader.length}")
+            // println("float: $float, ${reader.pos}/${reader.length}")
         }
         return list
     }

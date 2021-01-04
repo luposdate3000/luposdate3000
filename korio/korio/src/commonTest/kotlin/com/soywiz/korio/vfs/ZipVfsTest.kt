@@ -7,8 +7,8 @@ import com.soywiz.korio.file.std.*
 import com.soywiz.korio.lang.*
 import com.soywiz.korio.serialization.xml.*
 import com.soywiz.korio.stream.*
-import kotlin.test.*
 import kotlinx.coroutines.channels.*
+import kotlin.test.*
 
 @Suppress("EXPERIMENTAL_FEATURE_WARNING")
 class ZipVfsTest {
@@ -101,12 +101,12 @@ class ZipVfsTest {
             "/test.txt" to "test",
             "/hello/world.txt" to "hello world world world world!"
         )
-        //println("[1]")
+        // println("[1]")
         val zipBytes = mem.createZipFromTree()
-        //println("[2]")
-        //zipBytes.writeToFile("c:/temp/mytest.zip")
+        // println("[2]")
+        // zipBytes.writeToFile("c:/temp/mytest.zip")
         zipBytes.openAsync().openAsZip { zip ->
-            //println("[3]")
+            // println("[3]")
             assertEquals(
                 "test",
                 zip["/test.txt"].readString()
@@ -122,17 +122,17 @@ class ZipVfsTest {
     @Ignore
     fun testZip1() = suspendTestNoBrowser {
         val mem = MemoryVfs()
-        //UrlVfs("https://github.com/soywiz/korge-tools/releases/download/binaries/rhubarb-lip-sync-1.4.2-win32.zip").copyTo(LocalVfs["c:/temp/file.zip"])
-        //val zip = LocalVfs("c:/temp/rhubarb-lip-sync-1.4.2-osx.zip").openAsZip()
+        // UrlVfs("https://github.com/soywiz/korge-tools/releases/download/binaries/rhubarb-lip-sync-1.4.2-win32.zip").copyTo(LocalVfs["c:/temp/file.zip"])
+        // val zip = LocalVfs("c:/temp/rhubarb-lip-sync-1.4.2-osx.zip").openAsZip()
         localVfs("c:/temp/rhubarb-lip-sync-1.4.2-win32.zip").openAsZip { zip ->
-            //zip.copyTo(mem) // IOException
+            // zip.copyTo(mem) // IOException
             zip.copyToTree(mem) // IOException
-            //assertEquals(
-            //	listOf("/rhubarb-lip-sync-1.4.2-osx"),
-            //	zip.list().map { it.fullname }.toList()
-            //)
-            //val mem = MemoryVfs()
-            //zip.copyToTree(mem)
+            // assertEquals(
+            // 	listOf("/rhubarb-lip-sync-1.4.2-osx"),
+            // 	zip.list().map { it.fullname }.toList()
+            // )
+            // val mem = MemoryVfs()
+            // zip.copyToTree(mem)
         }
     }
 

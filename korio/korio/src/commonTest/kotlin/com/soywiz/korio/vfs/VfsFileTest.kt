@@ -51,7 +51,7 @@ class VfsFileTest {
         assertEquals("yay!", out)
         assertEquals("yay!", file["hello.bin"].readString())
         assertEquals("yay!NEVER-HERE", out)
-        //assertEquals("ay", file["hello.bin"].readRangeBytes(1L .. 2L).toString(Charsets.UTF_8)) // CompilationException in Kotlin 1.1.1 -> Couldn't transform method node (probably related to long)
+        // assertEquals("ay", file["hello.bin"].readRangeBytes(1L .. 2L).toString(Charsets.UTF_8)) // CompilationException in Kotlin 1.1.1 -> Couldn't transform method node (probably related to long)
         assertEquals("ay", file["hello.bin"].readRangeBytes(1..2).toString(UTF8))
         assertEquals("ay!", file["hello.bin"].readRangeBytes(1..200).toString(UTF8))
     }
@@ -70,7 +70,7 @@ class VfsFileTest {
     @Test
     fun testUnescaped() = suspendTest {
         val result = JailVfs(UrlVfs("http://demo.com/demo.txt")).getUnderlyingUnscapedFile()
-        //println("result: $result")
+        // println("result: $result")
         assertEquals(true, result.vfs is UrlVfs)
         assertEquals("/demo.txt", result.path)
     }

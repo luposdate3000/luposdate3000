@@ -16,9 +16,11 @@ object Lzma : CompressionMethod {
         val decoder = SevenZip.LzmaDecoder()
         if (!decoder.setDecoderProperties(properties)) throw Exception("Incorrect stream properties")
         val outSize = input.readS64LE()
-        out.writeBytes(MemorySyncStreamToByteArray {
-            if (!decoder.code(input, this, outSize)) throw Exception("Error in data stream")
-        })
+        out.writeBytes(
+            MemorySyncStreamToByteArray {
+                if (!decoder.code(input, this, outSize)) throw Exception("Error in data stream")
+            }
+        )
     }
 
     override suspend fun compress(i: BitReader, o: AsyncOutputStream, context: CompressionContext) {

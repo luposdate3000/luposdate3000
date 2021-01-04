@@ -20,17 +20,17 @@ class UrlVfs(val url: String, val dummy: Unit, val client: HttpClient = createHt
     override val absolutePath: String = url
     fun getFullUrl(path: String): String {
         val result = url.trim('/') + '/' + path.trim('/')
-        //println("UrlVfs.getFullUrl: url=$url, path=$path, result=$result")
+        // println("UrlVfs.getFullUrl: url=$url, path=$path, result=$result")
         return result
     }
 
-    //suspend override fun open(path: String, mode: VfsOpenMode): AsyncStream {
-    //	return if (mode.write) {
-    //		TODO()
-    //	} else {
-    //		client.request(HttpClient.Method.GET, getFullUrl(path)).content.toAsyncStream()
-    //	}
-    //}
+    // suspend override fun open(path: String, mode: VfsOpenMode): AsyncStream {
+    // 	return if (mode.write) {
+    // 		TODO()
+    // 	} else {
+    // 		client.request(HttpClient.Method.GET, getFullUrl(path)).content.toAsyncStream()
+    // 	}
+    // }
     override suspend fun open(path: String, mode: VfsOpenMode): AsyncStream {
         try {
             val fullUrl = getFullUrl(path)
@@ -68,7 +68,7 @@ class UrlVfs(val url: String, val dummy: Unit, val client: HttpClient = createHt
 
                 override suspend fun getLength(): Long = stat.size
             }.toAsyncStream().buffered()
-            //}.toAsyncStream()
+            // }.toAsyncStream()
         } catch (e: RuntimeException) {
             throw FileNotFoundException(e.message ?: "error")
         }
@@ -93,22 +93,24 @@ class UrlVfs(val url: String, val dummy: Unit, val client: HttpClient = createHt
         val hheaders = headers?.headers ?: Http.Headers()
         val contentLength = content.getLength()
         client.request(
-            Http.Method.PUT, getFullUrl(path), hheaders.withReplaceHeaders(
-            Http.Headers.ContentLength to "$contentLength",
-            Http.Headers.ContentType to mimeType.mime
-        ), content
+            Http.Method.PUT, getFullUrl(path),
+            hheaders.withReplaceHeaders(
+                Http.Headers.ContentLength to "$contentLength",
+                Http.Headers.ContentType to mimeType.mime
+            ),
+            content
         )
         return content.getLength()
     }
 
     override suspend fun stat(path: String): VfsStat {
         val fullUrl = getFullUrl(path)
-        //println("STAT URL: $fullUrl")
+        // println("STAT URL: $fullUrl")
         return if (fullUrl.startsWith("file:")) {
             // file: protocol won't respond with content-length
             try {
                 val size = client.readBytes(fullUrl).size.toLong()
-                //println("SIZE FOR $fullUrl -> $size")
+                // println("SIZE FOR $fullUrl -> $size")
                 createExistsStat(
                     path,
                     isDirectory = false,
@@ -121,7 +123,7 @@ class UrlVfs(val url: String, val dummy: Unit, val client: HttpClient = createHt
             }
         } else {
             val result = client.request(Http.Method.HEAD, fullUrl)
-            //println("STAT URL HEADERS: ${result.headers}")
+            // println("STAT URL HEADERS: ${result.headers}")
             if (result.success) {
                 createExistsStat(
                     path,

@@ -10,7 +10,8 @@ class VfsUtilTest {
         assertEquals("d:/lol", """c:\test\demo""".pathInfo.combine("""d:\lol""".pathInfo).fullPath)
         assertEquals("http://hello/world", """""".pathInfo.combine("""http://hello/world""".pathInfo).fullPath)
         assertEquals("http://hello/demo", """http://hello/world""".pathInfo.combine("""../demo""".pathInfo).fullPath)
-        assertEquals("mailto:demo@demo.com",
+        assertEquals(
+            "mailto:demo@demo.com",
             """http://hello/world""".pathInfo.combine("""mailto:demo@demo.com""".pathInfo).fullPath
         )
     }

@@ -26,11 +26,11 @@ class HttpClientBrowserJs : HttpClient() {
         xhr.open(method.name, url, true)
         xhr.responseType = XMLHttpRequestResponseType.ARRAYBUFFER
         xhr.onload = { e ->
-            //val u8array = Uint8Array(xhr.response as ArrayBuffer)
-            //val out = ByteArray(u8array.length)
-            //for (n in out.indices) out[n] = u8array[n]
+            // val u8array = Uint8Array(xhr.response as ArrayBuffer)
+            // val out = ByteArray(u8array.length)
+            // for (n in out.indices) out[n] = u8array[n]
             val out = Int8Array(xhr.response.unsafeCast<ArrayBuffer>()).unsafeCast<ByteArray>()
-            //js("debugger;")
+            // js("debugger;")
             deferred.complete(
                 Response(
                     status = xhr.status.toInt(),

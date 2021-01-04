@@ -19,7 +19,7 @@ class JsonPrettyTest {
     @Test
     fun encode1() {
         assertEquals("1", Json.stringifyTyped(1, mapper, pretty = true))
-        //assertEquals("null", Json.encodePretty(null, mapper))
+        // assertEquals("null", Json.encodePretty(null, mapper))
         assertEquals("true", Json.stringifyTyped(true, mapper, pretty = true))
         assertEquals("false", Json.stringifyTyped(false, mapper, pretty = true))
         assertEquals("{\n}", Json.stringifyTyped(mapOf<String, Any?>(), mapper, pretty = true))
@@ -36,7 +36,8 @@ class JsonPrettyTest {
 			|	2,
 			|	3
 			|]
-		""".trimMargin(), Json.stringifyTyped(listOf(1, 2, 3), mapper, pretty = true)
+		""".trimMargin(),
+            Json.stringifyTyped(listOf(1, 2, 3), mapper, pretty = true)
         )
         assertEquals(
             """
@@ -44,7 +45,8 @@ class JsonPrettyTest {
 			|	"a": 1,
 			|	"b": 2
 			|}
-		""".trimMargin(), Json.stringifyTyped(linkedMapOf("a" to 1, "b" to 2), mapper, pretty = true)
+		""".trimMargin(),
+            Json.stringifyTyped(linkedMapOf("a" to 1, "b" to 2), mapper, pretty = true)
         )
     }
 
@@ -56,7 +58,8 @@ class JsonPrettyTest {
 			|	"a": 1,
 			|	"b": "test"
 			|}
-			""".trimMargin(), Json.stringifyTyped(Demo(1, "test"), mapper, pretty = true)
+			""".trimMargin(),
+            Json.stringifyTyped(Demo(1, "test"), mapper, pretty = true)
         )
     }
 
@@ -91,7 +94,8 @@ class JsonPrettyTest {
                         "b" to null,
                         "c" to "hello"
                     )
-                ), mapper, pretty = true
+                ),
+                mapper, pretty = true
             )
         )
     }

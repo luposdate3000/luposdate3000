@@ -5,7 +5,6 @@ import com.soywiz.klock.*
 import com.soywiz.kmem.*
 import com.soywiz.korio.async.*
 import com.soywiz.korio.file.*
-import com.soywiz.korio.file.std.*
 import com.soywiz.korio.lang.*
 import com.soywiz.korio.lang.Environment
 import com.soywiz.korio.net.*
@@ -13,13 +12,13 @@ import com.soywiz.korio.net.http.*
 import com.soywiz.korio.net.ws.*
 import com.soywiz.korio.stream.*
 import com.soywiz.korio.util.*
+import kotlinx.cinterop.*
+import kotlinx.coroutines.*
+import platform.posix.*
 import kotlin.collections.set
 import kotlin.coroutines.*
 import kotlin.native.concurrent.*
 import kotlin.reflect.*
-import kotlinx.cinterop.*
-import kotlinx.coroutines.*
-import platform.posix.*
 
 val tmpdir: String by lazy { Environment["TMPDIR"] ?: Environment["TEMP"] ?: Environment["TMP"] ?: "/tmp" }
 var customCwd: String? = null
@@ -54,7 +53,7 @@ internal suspend fun fileLength(file: CPointer<FILE>): Long = executeInWorker(IO
     end.toLong()
 }
 
-internal suspend fun fileSetLength(file: String, length: Long): Unit {
+internal suspend fun fileSetLength(file: String, length: Long) {
     data class Info(val file: String, val length: Long)
     return executeInWorker(IOWorker, Info(file, length)) { (fd, len) ->
         platform.posix.truncate(fd, len.convert())
@@ -104,7 +103,10 @@ class LocalVfsNative : LocalVfs() {
     override val absolutePath: String = ""
     fun resolve(path: String) = path
     override suspend fun exec(
-        path: String, cmdAndArgs: List<String>, env: Map<String, String>, handler: VfsProcessHandler
+        path: String,
+        cmdAndArgs: List<String>,
+        env: Map<String, String>,
+        handler: VfsProcessHandler
     ): Int = run {
         TODO("LocalVfsNative.exec")
     }
@@ -115,16 +117,16 @@ class LocalVfsNative : LocalVfs() {
             val fd = fopen(path, "rb")
             if (fd != null) {
                 fseek(fd, 0L.convert(), SEEK_END)
-                //val length = ftell(fd).toLong() // @TODO: Kotlin native bug?
+                // val length = ftell(fd).toLong() // @TODO: Kotlin native bug?
                 val length: Long = ftell(fd).convert()
                 val start = kotlin.math.min(range.start, length)
                 val end = kotlin.math.min(range.endInclusive, length - 1) + 1
                 val totalRead = (end - start).toInt()
-                //println("range=$range")
-                //println("length=$length")
-                //println("start=$start")
-                //println("end=$end")
-                //println("totalRead=$totalRead")
+                // println("range=$range")
+                // println("length=$length")
+                // println("start=$start")
+                // println("end=$end")
+                // println("totalRead=$totalRead")
                 val byteArray = ByteArray(totalRead)
                 val finalRead = if (byteArray.isNotEmpty()) {
                     byteArray.usePinned { pin ->
@@ -134,7 +136,7 @@ class LocalVfsNative : LocalVfs() {
                 } else {
                     0
                 }
-                //println("finalRead=$finalRead")
+                // println("finalRead=$finalRead")
                 fclose(fd)
                 if (finalRead != totalRead) byteArray.copyOf(finalRead) else byteArray
             } else {
@@ -147,7 +149,7 @@ class LocalVfsNative : LocalVfs() {
         val rpath = resolve(path)
         var fd: CPointer<FILE>? = fileOpen(rpath, mode.cmode)
         val errno = posix_errno()
-        //if (fd == null || errno != 0) {
+        // if (fd == null || errno != 0) {
         if (fd == null) {
             val errstr = strerror(errno)?.toKString()
             throw FileNotFoundException("Can't open '$rpath' with mode '${mode.cmode}' errno=$errno, errstr=$errstr")
@@ -166,7 +168,7 @@ class LocalVfsNative : LocalVfs() {
                 return fileWrite(fd!!, position, buffer, offset, len)
             }
 
-            override suspend fun setLength(value: Long): Unit {
+            override suspend fun setLength(value: Long) {
                 checkFd()
                 fileSetLength(rpath, value)
             }

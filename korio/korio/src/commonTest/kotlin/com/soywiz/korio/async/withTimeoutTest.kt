@@ -1,12 +1,12 @@
 package com.soywiz.korio.async
 
 import com.soywiz.klock.*
-import kotlin.test.*
 import kotlinx.coroutines.*
+import kotlin.test.*
 
 class withTimeoutTest {
     @Test
-    //@Ignore("Flaky")
+    // @Ignore("Flaky")
     @Ignore // Flaky
     fun noTimeout() = suspendTest {
         var out = ""
@@ -86,7 +86,7 @@ class withTimeoutTest {
         var out = ""
         try {
             withTimeout(200) {
-                //out += UrlVfs("http://127.0.0.2:1337/test").readString() // fails on travis
+                // out += UrlVfs("http://127.0.0.2:1337/test").readString() // fails on travis
                 delay(10000)
                 out += "test"
             }

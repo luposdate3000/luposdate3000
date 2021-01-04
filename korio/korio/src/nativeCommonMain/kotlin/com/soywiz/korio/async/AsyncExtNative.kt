@@ -1,6 +1,6 @@
 package com.soywiz.korio.async
 
-import kotlin.coroutines.*
 import kotlinx.coroutines.*
+import kotlin.coroutines.*
 
 actual fun asyncEntryPoint(callback: suspend () -> Unit) = runBlocking { callback() }

@@ -5,9 +5,9 @@ import com.soywiz.korio.async.*
 import com.soywiz.korio.file.*
 import com.soywiz.korio.lang.*
 import com.soywiz.korio.stream.*
-import kotlin.coroutines.*
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.*
+import kotlin.coroutines.*
 
 @file:Suppress("EXPERIMENTAL_FEATURE_WARNING")
 open class NodeVfs(val caseSensitive: Boolean = true) : Vfs() {
@@ -101,9 +101,9 @@ open class NodeVfs(val caseSensitive: Boolean = true) : Vfs() {
     }.toAsyncStream()
 
     override suspend fun open(path: String, mode: VfsOpenMode): AsyncStream {
-        //if (mode.truncate) {
-        //	delete(path)
-        //}
+        // if (mode.truncate) {
+        // 	delete(path)
+        // }
         val pathInfo = PathInfo(path)
         val folder = rootNode.access(pathInfo.folder)
         var node = folder.child(pathInfo.baseName)
@@ -120,7 +120,7 @@ open class NodeVfs(val caseSensitive: Boolean = true) : Vfs() {
     override suspend fun stat(path: String): VfsStat {
         return try {
             val node = rootNode.access(path)
-            //createExistsStat(path, isDirectory = node.isDirectory, size = node.stream?.getLength() ?: 0L) // @TODO: Kotlin wrong code generated!
+            // createExistsStat(path, isDirectory = node.isDirectory, size = node.stream?.getLength() ?: 0L) // @TODO: Kotlin wrong code generated!
             val length = node.stream?.getLength() ?: 0L
             createExistsStat(path, isDirectory = node.isDirectory, size = length)
         } catch (e: Throwable) {
