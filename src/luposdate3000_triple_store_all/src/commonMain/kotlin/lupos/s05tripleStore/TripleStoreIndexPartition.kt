@@ -22,7 +22,7 @@ class TripleStoreIndexPartition(childIndex: (Int, Boolean) -> TripleStoreIndex, 
                 val type = ETripleIndexType.values()[ByteArrayHelper.readInt4(childPage, 0)]
                 var res = when (type) {
                     ETripleIndexType.ID_TRIPLE -> TripleStoreIndexIDTriple(pageid, store_root_page_init)
-                    else -> throw Exception("")
+                    else -> SanityCheck.checkUnreachable()
                 }
                 bufferManager.releasePage(pageid)
                 res

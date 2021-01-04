@@ -37,7 +37,7 @@ class TripleStoreLocalBPlusTreePartition(name: String, store_root_page_id_: Int,
                 val type = ETripleIndexType.values()[ByteArrayHelper.readInt4(childPage, 0)]
                 val store = when (type) {
                     ETripleIndexType.ID_TRIPLE -> TripleStoreIndexIDTriple(pageid2, store_root_page_init)
-                    ETripleIndexType.PARTITION -> TripleStoreIndexPartition({ i, k -> throw Exception("") }, column, partitionCount, pageid2, store_root_page_init)
+                    ETripleIndexType.PARTITION -> TripleStoreIndexPartition({ i, k -> SanityCheck.checkUnreachable() }, column, partitionCount, pageid2, store_root_page_init)
                 }
                 bufferManager.releasePage(pageid2)
                 if (column >= 0) {
@@ -105,7 +105,7 @@ class TripleStoreLocalBPlusTreePartition(name: String, store_root_page_id_: Int,
                     p.index.contains(EIndexPattern.PSO) -> EIndexPattern.PSO
                     p.index.contains(EIndexPattern.OSP) -> EIndexPattern.OSP
                     p.index.contains(EIndexPattern.OPS) -> EIndexPattern.OPS
-                    else -> throw Exception("")
+                    else -> SanityCheck.checkUnreachable()
                 }
                 val name2 = StringBuilder(idx.toString())
                 var pageid2 = -1

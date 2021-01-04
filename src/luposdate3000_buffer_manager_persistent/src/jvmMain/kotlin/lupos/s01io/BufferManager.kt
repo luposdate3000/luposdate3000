@@ -122,7 +122,7 @@ actual class BufferManager {
             openId++
         }
         if (openId == cacheSize) {
-            throw Exception("")
+            throw Exception("no more pages available")
         }
         return openId
     }

@@ -1,5 +1,6 @@
 package lupos.s05tripleStore
 import lupos.s00misc.EIndexPattern
+import lupos.s00misc.SanityCheck
 import lupos.s04logicalOperators.IQuery
 import lupos.s15tripleStoreDistributed.distributedTripleStore
 import kotlin.jvm.JvmField
@@ -30,7 +31,7 @@ class TripleStoreBulkImport(@JvmField val query: IQuery, @JvmField val graphName
             EIndexPattern.POS -> dataPOS
             EIndexPattern.OPS -> dataOPS
             EIndexPattern.OSP -> dataOSP
-            else -> throw Exception("unreachable")
+            else -> SanityCheck.checkUnreachable()
         }
     }
     override fun getIdx(): Int = idx

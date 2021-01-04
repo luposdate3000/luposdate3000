@@ -235,13 +235,13 @@ allOutOffsets = MyListInt()
         return res
     }
 
-    operator fun set(key: String, value: Int): Unit = throw Exception("")
+    operator fun set(key: String, value: Int): Unit = SanityCheck.checkUnreachable()
     fun getOrCreate(key: String): Int {
         var res = walkInternal(key, true)
         return res
     }
 
-    fun appendAssumeSorted(key: String, value: Int): Unit = throw Exception("")
+    fun appendAssumeSorted(key: String, value: Int): Unit = SanityCheck.checkUnreachable()
     fun safeToFile(filename: String) {
         debugfilename = filename
         File(filename).dataOutputStream { out ->

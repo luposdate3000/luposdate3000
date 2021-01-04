@@ -859,10 +859,10 @@ class RadixTree {
 
     inline fun updatePointer(parentPtr: Int, currentPtr: Int, newPtr: Int) {
         if (parentPtr == null_ptr) {
-            throw Exception("")
+            SanityCheck.checkUnreachable()
         }
         if (currentPtr == null_ptr) {
-            throw Exception("")
+            SanityCheck.checkUnreachable()
         }
         val parent = pagePtrToPage(parentPtr)
         val parentOff = pagePtrToOffset(parentPtr)
@@ -909,7 +909,7 @@ class RadixTree {
 
     inline fun updatePointerSpecific(parentPtr: Int, id: Int, newPtr: Int) {
         if (parentPtr == null_ptr) {
-            throw Exception("")
+            SanityCheck.checkUnreachable()
         }
         val parent = pagePtrToPage(parentPtr)
         val parentOff = pagePtrToOffset(parentPtr)

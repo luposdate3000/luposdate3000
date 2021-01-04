@@ -2,6 +2,7 @@ import lupos.s00misc.ETripleComponentType
 import lupos.s00misc.File
 import lupos.s00misc.Parallel
 import lupos.s00misc.Partition
+import lupos.s00misc.SanityCheck
 import lupos.s02buildSyntaxTree.turtle.Turtle2Parser
 fun helperCleanString(s: String): String {
     var res: String = s
@@ -186,7 +187,7 @@ fun mainFunc(args: Array<String>): Unit = Parallel.runBlocking {
                     idxName = "OPS"
                     idxNameSecondary = "OSP"
                 }
-                else -> throw Exception("unreachable")
+                else -> SanityCheck.checkUnreachable()
             }
             if (maxPartition > 1) {
                 if (configurations1[idxName] == null) {

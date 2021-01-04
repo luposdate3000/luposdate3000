@@ -82,7 +82,7 @@ class Query(@JvmField val dictionary: ResultSetDictionary = ResultSetDictionary(
                     }
                 }
                 else -> {
-                    throw Exception("unreachable")
+                    SanityCheck.checkUnreachable()
                 }
             }
         }

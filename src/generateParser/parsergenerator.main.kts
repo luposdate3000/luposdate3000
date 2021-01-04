@@ -506,7 +506,7 @@ class CharGroup {
                 if (modifier == CharGroupModifier.ONE && ranges.size == 0) {
                     println(" ".repeat(indention + 1) + "break@error")
                 } else {
-                    throw Exception("")
+                    SanityCheck.checkUnreachable()
                 }
             } else if (childs.size == 1) {
                 var c = childs[0]
@@ -717,7 +717,7 @@ class CharGroup {
                                 map[k] = c
                             }
                         } else {
-                            throw Exception("")
+                            SanityCheck.checkUnreachable()
                         }
                     }
                 }
@@ -872,7 +872,7 @@ class CharGroup {
                                     if (c.childs.size == 1) {
                                         res.append(CharGroup().addChars(c.childs[0].ranges).append(c.deepCopy().setModifier(CharGroupModifier.ACTION, CharGroupModifier.ANY)))
                                     } else {
-                                        throw Exception("")
+                                        SanityCheck.checkUnreachable()
                                     }
                                 }
                                 else -> {

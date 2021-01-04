@@ -100,7 +100,7 @@ class TripleStoreIndexIDTriple(store_root_page_id_: Int, store_root_page_init: B
                 NodeManager.getNodeAny(
                     root,
                     {
-                        throw Exception("")
+                        SanityCheck.checkUnreachable()
                     },
                     {
                         rootNode = it

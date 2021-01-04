@@ -40,6 +40,7 @@ abstract class TripleStoreLocalBase(@JvmField val name: String, @JvmField val st
                     }
                     idx++
                 }
+                SanityCheck.checkUnreachable()
             }
             is TripleStoreFeatureParamsPartition -> {
                 var partitionName = ""
@@ -71,9 +72,10 @@ abstract class TripleStoreLocalBase(@JvmField val name: String, @JvmField val st
                     }
                     idx++
                 }
+                SanityCheck.checkUnreachable()
             }
         }
-        throw Exception("")
+        SanityCheck.checkUnreachable()
     }
     override /*suspend*/ fun getIterator(query: IQuery, params: TripleStoreFeatureParams): IteratorBundle {
         var idx = 0
@@ -85,6 +87,7 @@ abstract class TripleStoreLocalBase(@JvmField val name: String, @JvmField val st
                     }
                     idx++
                 }
+                SanityCheck.checkUnreachable()
             }
             is TripleStoreFeatureParamsPartition -> {
                 var partitionName = ""
@@ -123,9 +126,10 @@ abstract class TripleStoreLocalBase(@JvmField val name: String, @JvmField val st
                     SanityCheck.println { "invalid :: ${p.index} ${p.column} ${p.partitionCount}" }
                     idx++
                 }
+                SanityCheck.checkUnreachable()
             }
         }
-        throw Exception("")
+        SanityCheck.checkUnreachable()
     }
     override /*suspend*/ fun import(dataImport: ITripleStoreBulkImport) {
         for (i in dataDistinct.indices) {

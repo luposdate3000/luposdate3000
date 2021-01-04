@@ -26,7 +26,7 @@ internal object NodeLeaf {
                 NodeLeafColumnIterator2(node, nodeid, lock)
             }
             else -> {
-                throw Exception("unreachable")
+                SanityCheck.checkUnreachable()
             }
         }
     }
@@ -45,7 +45,7 @@ internal object NodeLeaf {
                 NodeLeafColumnIteratorPrefix12(node, nodeid, prefix, lock)
             }
             else -> {
-                throw Exception("unreachable")
+                SanityCheck.checkUnreachable()
             }
         }
     }

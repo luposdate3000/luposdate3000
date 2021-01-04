@@ -12,7 +12,7 @@ class TripleStoreLocalMapMapList(name: String) : TripleStoreLocalBase(name) {
                 p.index.contains(EIndexPattern.PSO) -> dataDistinctList.add(TripleStoreDistinctContainer(name.toString(), TripleStoreIndex_IDTriple(), { it -> it.dataPSO }, EIndexPattern.PSO))
                 p.index.contains(EIndexPattern.OSP) -> dataDistinctList.add(TripleStoreDistinctContainer(name.toString(), TripleStoreIndex_IDTriple(), { it -> it.dataOSP }, EIndexPattern.OSP))
                 p.index.contains(EIndexPattern.OPS) -> dataDistinctList.add(TripleStoreDistinctContainer(name.toString(), TripleStoreIndex_IDTriple(), { it -> it.dataOPS }, EIndexPattern.OPS))
-                else -> throw Exception("")
+                else -> SanityCheck.checkUnreachable()
             }
         }
         dataDistinct = dataDistinctList.toTypedArray()
