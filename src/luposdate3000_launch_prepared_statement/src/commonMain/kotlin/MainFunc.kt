@@ -12,11 +12,24 @@ fun mainFunc(args: Array<String>): Unit = Parallel.runBlocking {
     LuposdateEndpoint.evaluateOperatorgraphToResult(preparedStatement, buf,EQueryResultToStream.XML_STREAM)
     println(buf.toString())
 */
-    for (f in args) {
+var mode=args[0].toInt()
+val argsl=args.toMutableList()
+argsl.removeFirst()
+    for (f in argsl) {
         println("xxx going to import intermediate $f")
+when(mode){
+0->{
         LuposdateEndpoint.evaluateSparqlToResultB("CLEAR DEFAULT")
-//LuposdateEndpoint.importTurtleString(File(f).readAsString(),mutableMapOf<String, Int>())
-        LuposdateEndpoint.importIntermediateFiles(f, true)
+LuposdateEndpoint.importTurtleString(File(f).readAsString(),mutableMapOf<String, Int>())
+}
+1-> {
+        LuposdateEndpoint.evaluateSparqlToResultB("CLEAR DEFAULT")
+       LuposdateEndpoint.importIntermediateFiles(f, true)
+}
+2->{
+//use stored data from previous run
+}
+}
         val q_s = "SELECT ?occurences (COUNT(*) AS ?cnt) ((?occurences * ?cnt) AS ?sum) { SELECT (COUNT(*) AS ?occurences) { ?s ?p ?o . } GROUP BY ?s } GROUP BY ?occurences ORDER BY ?occurences ?cnt"
         val q_p = "SELECT ?occurences (COUNT(*) AS ?cnt) ((?occurences * ?cnt) AS ?sum) { SELECT (COUNT(*) AS ?occurences) { ?s ?p ?o . } GROUP BY ?p } GROUP BY ?occurences ORDER BY ?occurences ?cnt"
         val q_o = "SELECT ?occurences (COUNT(*) AS ?cnt) ((?occurences * ?cnt) AS ?sum) { SELECT (COUNT(*) AS ?occurences) { ?s ?p ?o . } GROUP BY ?o } GROUP BY ?occurences ORDER BY ?occurences ?cnt"
