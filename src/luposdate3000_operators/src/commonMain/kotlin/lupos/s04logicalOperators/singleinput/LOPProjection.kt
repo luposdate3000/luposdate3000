@@ -1,5 +1,4 @@
 package lupos.s04logicalOperators.singleinput
-import lupos.s00misc.BugException
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.ESortPriority
 import lupos.s00misc.XMLElement
@@ -32,10 +31,12 @@ class LOPProjection(query: IQuery, @JvmField val variables: MutableList<AOPVaria
         val res = HistogramResult()
         val childHistogram = children[0].getHistogram()
         for (v in variables) {
-            if (childHistogram.values[v.name] == null) {
-                throw BugException(classname, "calculateHistogram column missing")
+            val w = childHistogram.values[v.name]
+            if (w == null) {
+                res.values[v.name] = 1
+            } else {
+                res.values[v.name] = w
             }
-            res.values[v.name] = childHistogram.values[v.name]!!
         }
         res.count = childHistogram.count
         return res

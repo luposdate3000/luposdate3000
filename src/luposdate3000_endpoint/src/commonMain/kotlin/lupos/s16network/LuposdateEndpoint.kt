@@ -5,11 +5,11 @@ import lupos.s00misc.ETripleComponentType
 import lupos.s00misc.File
 import lupos.s00misc.IMyPrintWriter
 import lupos.s00misc.MyPrintWriter
+import lupos.s00misc.MyStringStream
 import lupos.s00misc.OperatorGraphToLatex
 import lupos.s00misc.Partition
 import lupos.s00misc.QueryResultToStream
 import lupos.s00misc.SanityCheck
-import lupos.s00misc.MyStringStream
 import lupos.s00misc.XMLElement
 import lupos.s00misc.XMLElementFromCsv
 import lupos.s00misc.XMLElementFromJson
@@ -244,7 +244,7 @@ object LuposdateEndpoint {
                     }
                     nodeGlobalDictionary.prepareBulk(dictTotal, dictTyped)
                     val mapping = IntArray(dictTotal)
-                    nodeGlobalDictionary.importFromDictionaryFile("$fileName.dictionary",mapping)
+                    nodeGlobalDictionary.importFromDictionaryFile("$fileName.dictionary", mapping)
                     val dictTime = DateHelperRelative.elapsedSeconds(startTime)
                     val cnt = fileTriples.length() / 12L
                     counter += cnt

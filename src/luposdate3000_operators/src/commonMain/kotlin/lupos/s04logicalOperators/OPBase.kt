@@ -20,13 +20,11 @@ import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallExists
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallNotExists
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.multiinput.LOPJoin
-import lupos.s04logicalOperators.noinput.LOPTriple
 import lupos.s04logicalOperators.singleinput.LOPBind
 import lupos.s04logicalOperators.singleinput.LOPFilter
 import lupos.s04logicalOperators.singleinput.LOPNOOP
 import lupos.s04logicalOperators.singleinput.LOPProjection
 import lupos.s04logicalOperators.singleinput.LOPSort
-import lupos.s04logicalOperators.singleinput.modifiers.LOPDistinct
 import lupos.s04logicalOperators.singleinput.modifiers.LOPSortAny
 import lupos.s09physicalOperators.singleinput.POPSort
 import kotlin.jvm.JvmField
@@ -178,29 +176,6 @@ abstract class OPBase(@JvmField val query: IQuery, @JvmField val operatorID: EOp
                 }
                 if (mySortPriority.size == 0) {
                     mySortPriority.addAll(tmp[0])
-                }
-                SanityCheck {
-                    if (mySortPriority.size > 0) {
-                        var foundfullchild = false
-                        for (c in children) {
-                            for (p in c.getSortPriorities()) {
-                                var fullchild = true
-                                for (i in 0 until mySortPriority.size) {
-                                    if (p.size > i) {
-                                        SanityCheck.check { p[i] == mySortPriority[i] }
-                                    } else {
-                                        fullchild = false
-                                    }
-                                }
-                                if (fullchild) {
-                                    foundfullchild = true
-                                }
-                            }
-                        }
-                        if (this !is LOPTriple && this !is LOPSort && this !is LOPDistinct) {
-                            SanityCheck.check({ foundfullchild }, { this.toString() })
-                        }
-                    }
                 }
             }
         }

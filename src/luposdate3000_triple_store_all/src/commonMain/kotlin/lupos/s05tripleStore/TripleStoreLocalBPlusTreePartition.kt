@@ -17,15 +17,15 @@ class TripleStoreLocalBPlusTreePartition(name: String, store_root_page_id_: Int,
         if (store_root_page_init) {
             var cnt = ByteArrayHelper.readInt4(rootPage, 0)
             var rootPageOffset = 4
-val tmpEnabledPartitions = mutableListOf<EnabledPartitionContainer>()
-val localindicees = mapOf(
-                     EIndexPattern.SPO to mutableSetOf(EIndexPattern.SPO, EIndexPattern.S_PO, EIndexPattern.SP_O),
-                   EIndexPattern.  SOP to mutableSetOf(EIndexPattern.SOP, EIndexPattern.S_OP, EIndexPattern.SO_P),
-               EIndexPattern.      PSO to mutableSetOf(EIndexPattern.PSO, EIndexPattern.P_SO, EIndexPattern.PS_O),
-                    EIndexPattern. POS to mutableSetOf(EIndexPattern.POS, EIndexPattern.P_OS, EIndexPattern.PO_S),
-                    EIndexPattern. OSP to mutableSetOf(EIndexPattern.OSP, EIndexPattern.O_SP, EIndexPattern.OS_P),
-                  EIndexPattern.   OPS to mutableSetOf(EIndexPattern.OPS, EIndexPattern.O_PS, EIndexPattern.OP_S)
-                )
+            val tmpEnabledPartitions = mutableListOf<EnabledPartitionContainer>()
+            val localindicees = mapOf(
+                EIndexPattern.SPO to mutableSetOf(EIndexPattern.SPO, EIndexPattern.S_PO, EIndexPattern.SP_O),
+                EIndexPattern.SOP to mutableSetOf(EIndexPattern.SOP, EIndexPattern.S_OP, EIndexPattern.SO_P),
+                EIndexPattern.PSO to mutableSetOf(EIndexPattern.PSO, EIndexPattern.P_SO, EIndexPattern.PS_O),
+                EIndexPattern.POS to mutableSetOf(EIndexPattern.POS, EIndexPattern.P_OS, EIndexPattern.PO_S),
+                EIndexPattern.OSP to mutableSetOf(EIndexPattern.OSP, EIndexPattern.O_SP, EIndexPattern.OS_P),
+                EIndexPattern.OPS to mutableSetOf(EIndexPattern.OPS, EIndexPattern.O_PS, EIndexPattern.OP_S)
+            )
             for (i in 0 until cnt) {
                 val idx = EIndexPattern.values()[ByteArrayHelper.readInt4(rootPage, rootPageOffset)]
                 val pageid2 = ByteArrayHelper.readInt4(rootPage, rootPageOffset + 4)
@@ -49,9 +49,9 @@ val localindicees = mapOf(
                     dataDistinctList.add(TripleStoreDistinctContainer(name2.toString(), store, { it.getData(idx) }, idx))
                 }
                 rootPageOffset += 16
-tmpEnabledPartitions.add(EnabledPartitionContainer(localindicees[idx]!!,column,partitionCount))
+                tmpEnabledPartitions.add(EnabledPartitionContainer(localindicees[idx]!!, column, partitionCount))
             }
-enabledPartitions = tmpEnabledPartitions.toTypedArray() 
+            enabledPartitions = tmpEnabledPartitions.toTypedArray()
         } else {
             if (Partition.estimatedPartitionsValid) {
                 val localindicees = mapOf(
@@ -135,7 +135,7 @@ enabledPartitions = tmpEnabledPartitions.toTypedArray()
             }
             bufferManager.flushPage(store_root_page_id)
         }
-            dataDistinct = dataDistinctList.toTypedArray()
+        dataDistinct = dataDistinctList.toTypedArray()
         pendingModificationsInsert = Array(dataDistinct.size) { mutableMapOf() }
         pendingModificationsRemove = Array(dataDistinct.size) { mutableMapOf() }
         bufferManager.releasePage(store_root_page_id)
