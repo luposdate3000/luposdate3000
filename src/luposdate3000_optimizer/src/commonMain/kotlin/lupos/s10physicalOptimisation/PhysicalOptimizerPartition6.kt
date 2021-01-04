@@ -10,6 +10,7 @@ import lupos.s04logicalOperators.Query
 import lupos.s05tripleStore.TripleStoreFeature
 import lupos.s08logicalOptimisation.OptimizerBase
 import lupos.s09physicalOperators.partition.POPMergePartition
+import lupos.s09physicalOperators.partition.POPMergePartitionCount
 import lupos.s09physicalOperators.partition.POPSplitPartitionFromStore
 import lupos.s15tripleStoreDistributed.TripleStoreIteratorGlobal
 import lupos.s15tripleStoreDistributed.distributedTripleStore
@@ -32,20 +33,28 @@ class PhysicalOptimizerPartition6(query: Query) : OptimizerBase(query, EOptimize
                             var columnToUse = -1
                             var idx = 0
                             for (p in enabledPartitions) {
-                                if (p.index.contains(node.idx) && (p.partitionCount <countToUse || countToUse == -1)) {
+                                if (p.index.contains(node.idx) && (p.partitionCount <countToUse || countToUse == -1) &&(node.children[node.idx.tripleIndicees[p.column]]is AOPVariable)) {
                                     columnToUse = p.column
                                     countToUse = p.partitionCount
                                 }
                                 idx++
                             }
-                            val variableToUse = (node.children[node.idx.tripleIndicees[columnToUse]]as AOPVariable).name
+                            var variableToUse = (node.children[node.idx.tripleIndicees[columnToUse]]as AOPVariable).name
+if(variableToUse=="_"){
+variableToUse="_${columnToUse}"
+}
                             println("PhysicalOptimizerPartition6 :: $countToUse $columnToUse $idx $variableToUse")
                             try {
-                                val p = Partition(Partition(), variableToUse, columnToUse, countToUse)
                                 val partitionID = query.getNextPartitionOperatorID()
+			  node.partition.      limit.clear()
+        		  node.partition.      limit[variableToUse] = countToUse
                                 res = POPSplitPartitionFromStore(query, node.projectedVariables, variableToUse, countToUse, partitionID, node)
                                 query.addPartitionOperator(res.getUUID(), partitionID)
+if(node.projectedVariables.size>0){
                                 res = POPMergePartition(query, node.projectedVariables, variableToUse, countToUse, partitionID, res)
+}else{
+                                res = POPMergePartitionCount(query, node.projectedVariables, variableToUse, countToUse, partitionID, res)
+}
                                 query.addPartitionOperator(res.getUUID(), partitionID)
                                 onChange()
                             } catch (e: DontCareWhichException) {

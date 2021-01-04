@@ -479,7 +479,8 @@ if (tmpTable != null) {
                                 val resultWriter = MyPrintWriter(false)
                                 QueryResultToXMLStream(popNode, resultWriter)
                                 val query5 = Query()
-                                val actualResult = operatorGraphToTable(distributedTripleStore.getDefaultGraph(query5).getIterator(arrayOf(AOPVariable(query5, "s"), AOPVariable(query5, "p"), AOPVariable(query5, "o")), EIndexPattern.SPO, Partition()))
+val popOptimizer = PhysicalOptimizer(query5)
+                                val actualResult = operatorGraphToTable(popOptimizer.optimizeCall(distributedTripleStore.getDefaultGraph(query5).getIterator(arrayOf(AOPVariable(query5, "s"), AOPVariable(query5, "p"), AOPVariable(query5, "o")), EIndexPattern.SPO, Partition())))
                                 if (!verifyEqual(tableOutput, actualResult, mappingLiveToTarget, targetDict, targetDict2, allowOrderBy, queryName, query_folder, "result in store (SPO) is wrong")) {
                                     returnValue = false
                                     break@func
