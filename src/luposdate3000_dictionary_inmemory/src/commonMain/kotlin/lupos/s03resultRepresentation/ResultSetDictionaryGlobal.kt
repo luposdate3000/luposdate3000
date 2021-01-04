@@ -58,9 +58,16 @@ class ResultSetDictionaryGlobal() {
         }
         initializationphase = false
     }
-    fun importFromDictionaryFile(filename: String) {
+fun importFromDictionaryFile(filename: String,mapping:IntArray) {
+importFromDictionaryFileH(filename,mapping)
+}
+fun importFromDictionaryFile(filename: String) {
+importFromDictionaryFileH(filename,null)
+}
+internal inline    fun importFromDictionaryFileH(filename: String,mapping:IntArray?) {
         val fileDictionary = File(filename)
         var buffer = ByteArray(0)
+	var mappingIdx = 0
         fileDictionary.dataInputStream { dictStream ->
             while (true) {
                 var length = 0
@@ -80,7 +87,10 @@ class ResultSetDictionaryGlobal() {
                     throw Exception("invalid read")
                 }
                 val s = buffer.decodeToString(0, length)
-                createByType(s, type)
+val i=                createByType(s, type)
+if(mapping!=null){
+mapping[mappingIdx++]=i
+}
             }
         }
     }
