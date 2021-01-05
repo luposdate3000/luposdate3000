@@ -97,7 +97,7 @@ public class TripleStoreIteratorGlobal(query: IQuery, projectedVariables: List<S
         return distributedTripleStore.getLocalStore().getNamedGraph(query, graphName).getIterator(query, params)
     }
 }
-public class DistributedGraph(val query: IQuery, @JvmField public val name: String) : IDistributedGraph {
+public class DistributedGraph(@JvmField public val query: IQuery, @JvmField public val name: String) : IDistributedGraph {
     override /*suspend*/ fun bulkImport(action: /*suspend*/ (ITripleStoreBulkImport) -> Unit) {
         val bulk = TripleStoreBulkImport(query, name)
         action(bulk as ITripleStoreBulkImport)
@@ -204,7 +204,7 @@ public class DistributedGraph(val query: IQuery, @JvmField public val name: Stri
 }
 public class DistributedTripleStore : IDistributedTripleStore {
     @JvmField
-    val localStore: PersistentStoreLocal = PersistentStoreLocal()
+public    val localStore: PersistentStoreLocal = PersistentStoreLocal()
     override fun reloadPartitioningScheme() {
         localStore.reloadPartitioningScheme()
     }

@@ -38,14 +38,14 @@ import lupos.s14endpoint.convertToOPBase
 import lupos.s15tripleStoreDistributed.distributedTripleStore
 import lupos.s16network.LuposdateEndpoint
 import kotlin.jvm.JvmField
-open class SparqlTestSuite {
-    companion object {
-        const val testPersistence: Boolean = false
-        val filterList: MutableList<String> = mutableListOf()
-        var prefixDirectory: String = "."
-        val enabledTestCases: List<String> = listOf("resources/myqueries/", "resources/bsbm/", "resources/btc/", "resources/sp2b/")
+public open class SparqlTestSuite {
+   public  companion object {
+       public  const val testPersistence: Boolean = false
+       @JvmField public  val filterList: MutableList<String> = mutableListOf()
+@JvmField public        var prefixDirectory: String = "."
+@JvmField public        val enabledTestCases: List<String> = listOf("resources/myqueries/", "resources/bsbm/", "resources/btc/", "resources/sp2b/")
     }
-    /*suspend*/ fun testMain() {
+public    /*suspend*/ fun testMain() {
         repeat(1) {
             println("Starting tests...")
             val (nr_t, nr_e) = parseManifestFile("$prefixDirectory/resources/sparql11-test-suite/", "manifest-all.ttl")
@@ -391,9 +391,9 @@ open class SparqlTestSuite {
         return success == expectedResult
     }
     @JvmField
-    var lastTripleCount: Int = 0
+   public var lastTripleCount: Int = 0
     @OptIn(ExperimentalStdlibApi::class, kotlin.time.ExperimentalTime::class)
-    open /*suspend*/ fun parseSPARQLAndEvaluate(executeJena: Boolean, testName: String, expectedResult: Boolean, queryFile: String, inputDataFileName: String?, resultDataFileName: String?, services: List<Map<String, String>>?, inputDataGraph: MutableList<MutableMap<String, String>>, outputDataGraph: MutableList<MutableMap<String, String>>): Boolean {
+    public open /*suspend*/ fun parseSPARQLAndEvaluate(executeJena: Boolean, testName: String, expectedResult: Boolean, queryFile: String, inputDataFileName: String?, resultDataFileName: String?, services: List<Map<String, String>>?, inputDataGraph: MutableList<MutableMap<String, String>>, outputDataGraph: MutableList<MutableMap<String, String>>): Boolean {
 //        if (!testName.contains("resources")) {
 //            return true
 //        }
@@ -765,7 +765,7 @@ public class SevenIndices {
     private val so = mutableMapOf<Pair<Long, Long>, LongArray>()
     private val po = mutableMapOf<Pair<Long, Long>, LongArray>()
     @JvmField
-    val spo: MutableSet<ID_Triple> = mutableSetOf()
+    public val spo: MutableSet<ID_Triple> = mutableSetOf()
     public fun s(key: Long): Array<Pair<Long, Long>> = this.s[key] ?: arrayOf()
     public fun o(key: Long): Array<Pair<Long, Long>> = this.o[key] ?: arrayOf()
     public fun sp(key1: Long, key2: Long): LongArray = this.sp[Pair(key1, key2)] ?: longArrayOf()

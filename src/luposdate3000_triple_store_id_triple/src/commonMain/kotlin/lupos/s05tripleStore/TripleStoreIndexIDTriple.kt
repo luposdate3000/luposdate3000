@@ -33,7 +33,7 @@ import kotlin.jvm.JvmField
 public class TripleStoreIndexIDTriple(store_root_page_id_: Int, store_root_page_init: Boolean) : TripleStoreIndex(store_root_page_id_) {
     @JvmField public val bufferManager: BufferManager = BufferManagerExt.getBuffermanager("stores")
     @JvmField public var firstLeaf_: Int = NodeManager.nodeNullPointer
-    @JvmField public var firstLeaf: Int
+    public var firstLeaf: Int
         set(value) {
             val rootPage = bufferManager.getPage(store_root_page_id)
             ByteArrayHelper.writeInt4(rootPage, 16, value)
@@ -43,7 +43,7 @@ public class TripleStoreIndexIDTriple(store_root_page_id_: Int, store_root_page_
         }
         get() = firstLeaf_
     @JvmField public var root_: Int = NodeManager.nodeNullPointer
-    @JvmField public var root: Int
+     public var root: Int
         set(value) {
             val rootPage = bufferManager.getPage(store_root_page_id)
             ByteArrayHelper.writeInt4(rootPage, 4, value)
@@ -53,7 +53,7 @@ public class TripleStoreIndexIDTriple(store_root_page_id_: Int, store_root_page_
         }
         get() = root_
     @JvmField public var countPrimary_: Int = 0
-    @JvmField public var countPrimary: Int
+     public var countPrimary: Int
         set(value) {
             val rootPage = bufferManager.getPage(store_root_page_id)
             ByteArrayHelper.writeInt4(rootPage, 8, value)
@@ -63,7 +63,7 @@ public class TripleStoreIndexIDTriple(store_root_page_id_: Int, store_root_page_
         }
         get() = countPrimary_
     @JvmField public var distinctPrimary_: Int = 0
-    @JvmField public var distinctPrimary: Int
+    public var distinctPrimary: Int
         set(value) {
             val rootPage = bufferManager.getPage(store_root_page_id)
             ByteArrayHelper.writeInt4(rootPage, 12, value)

@@ -281,7 +281,7 @@ public fun executeTestCase(query_folder: String): Boolean {
             File("$query_folder/query.dictionary").dataInputStream { targetDictionary ->
                 File("$query_folder/query.triples").dataInputStream { targetTriples ->
                     File("$query_folder/query.result").dataInputStream { targetResult ->
-public func@ while (true) {
+ func@ while (true) {
                             val modeId = targetStat.readInt()
                             val mode = BinaryTestCaseOutputMode.values()[modeId]
                             val variables = mutableListOf<String>()

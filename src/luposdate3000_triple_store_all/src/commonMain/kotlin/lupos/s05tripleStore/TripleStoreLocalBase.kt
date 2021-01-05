@@ -9,11 +9,11 @@ import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import kotlin.jvm.JvmField
-abstract class TripleStoreLocalBase(@JvmField public val name: String, @JvmField public val store_root_page_id: Int) : ITripleStoreLocalBase {
+public abstract class TripleStoreLocalBase(@JvmField public val name: String, @JvmField public val store_root_page_id: Int) : ITripleStoreLocalBase {
     @JvmField // override this during initialisation
-    var dataDistinct: Array<TripleStoreDistinctContainer> = arrayOf()
+    public var dataDistinct: Array<TripleStoreDistinctContainer> = arrayOf()
     @JvmField // override this during initialisation
-    var enabledPartitions: Array<EnabledPartitionContainer> = arrayOf( //
+    public var enabledPartitions: Array<EnabledPartitionContainer> = arrayOf( //
         EnabledPartitionContainer(mutableSetOf(EIndexPattern.SPO, EIndexPattern.S_PO, EIndexPattern.SP_O), 2, 1), //
         EnabledPartitionContainer(mutableSetOf(EIndexPattern.SOP, EIndexPattern.S_OP, EIndexPattern.SO_P), 2, 1), //
         EnabledPartitionContainer(mutableSetOf(EIndexPattern.POS, EIndexPattern.P_OS, EIndexPattern.PO_S), 2, 1), //
@@ -22,9 +22,9 @@ abstract class TripleStoreLocalBase(@JvmField public val name: String, @JvmField
         EnabledPartitionContainer(mutableSetOf(EIndexPattern.OPS, EIndexPattern.O_PS, EIndexPattern.OP_S), 2, 1), //
     )
     @JvmField // override this during initialisation
-    var pendingModificationsInsert: Array<MutableMap<Long, MutableList<Int>>> = Array(0) { mutableMapOf() }
+    public var pendingModificationsInsert: Array<MutableMap<Long, MutableList<Int>>> = Array(0) { mutableMapOf() }
     @JvmField // override this during initialisation
-    var pendingModificationsRemove: Array<MutableMap<Long, MutableList<Int>>> = Array(0) { mutableMapOf() }
+    public var pendingModificationsRemove: Array<MutableMap<Long, MutableList<Int>>> = Array(0) { mutableMapOf() }
     override fun getEnabledPartitions(): Array<EnabledPartitionContainer> = enabledPartitions
     override /*suspend*/ fun flush() {
         dataDistinct.forEach {

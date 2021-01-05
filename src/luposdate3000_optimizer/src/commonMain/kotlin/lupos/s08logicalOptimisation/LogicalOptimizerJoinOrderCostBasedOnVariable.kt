@@ -6,17 +6,17 @@ import kotlin.jvm.JvmField
 public object LogicalOptimizerJoinOrderCostBasedOnVariable {
     public class Plan : Comparable<Plan> {
         @JvmField
-        val child: IOPBase?
+public        val child: IOPBase?
         @JvmField
-        val childs: Pair<Int, Int>?
+        public   val childs: Pair<Int, Int>?
         @JvmField
-        val variables: Array<Int>
+        public   val variables: Array<Int>
         @JvmField
-        val columns: Int
+        public   val columns: Int
         @JvmField
-        val cost: Int
+        public   val cost: Int
         @JvmField
-        val depth: Int
+        public   val depth: Int
         public constructor(child: IOPBase, variables: Array<Int>, allVariables: List<Int>) {
             depth = 1
             this.child = child
@@ -79,7 +79,7 @@ public object LogicalOptimizerJoinOrderCostBasedOnVariable {
             return LOPJoin(cA.getQuery(), cA, cB, false)
         }
     }
-    /*suspend*/ fun optimize(plans: Array<Plan?>, target: Int, variables: List<Int>) {
+public       /*suspend*/ fun optimize(plans: Array<Plan?>, target: Int, variables: List<Int>) {
         val targetInv = target.inv()
         for (a in 1 until target) {
             // the other half is already calculated due to the inverse
@@ -96,7 +96,7 @@ public object LogicalOptimizerJoinOrderCostBasedOnVariable {
             }
         }
     }
-    /*suspend*/ operator fun invoke(allChilds: List<IOPBase>, root: LOPJoin): IOPBase? {
+public       /*suspend*/ operator fun invoke(allChilds: List<IOPBase>, root: LOPJoin): IOPBase? {
         SanityCheck.check { allChilds.size > 2 }
         if (allChilds.size < 30) {
             val allVariables = mutableListOf<String>()

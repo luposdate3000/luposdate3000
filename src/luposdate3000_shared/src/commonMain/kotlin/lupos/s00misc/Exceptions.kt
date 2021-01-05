@@ -1,6 +1,6 @@
 package lupos.s00misc
 /* explicitly storing the classname has the advantage, that the classname is accessible in native code too, and not just via reflection */
-public abstract class Luposdate3000Exception(internal val classname: String, msg: String) : Exception(msg)
+public abstract class Luposdate3000Exception(public val classname: String, msg: String) : Exception(msg)
 // not implemented exceptions --->>>
 public open class NotImplementedException(classname: String, msg: String) : Luposdate3000Exception(classname, msg)
 public class HistogramNotImplementedException(classname: String) : NotImplementedException("HistogramNotImplementedException", "Histograms not implemented in '$classname'.")

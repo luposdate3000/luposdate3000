@@ -6,10 +6,11 @@ import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.USE_PARTITIONS2
 import lupos.s01io.BufferManagerExt
+import lupos.s01io.BufferManager
 import kotlin.jvm.JvmField
 public class TripleStoreLocalBPlusTreePartition(name: String, store_root_page_id_: Int, store_root_page_init: Boolean) : TripleStoreLocalBase(name, store_root_page_id_) {
     @JvmField
-    val bufferManager = BufferManagerExt.getBuffermanager("stores")
+public     val bufferManager :BufferManager= BufferManagerExt.getBuffermanager("stores")
     init {
         val rootPage = bufferManager.getPage(store_root_page_id)
         val dataDistinctList = mutableListOf<TripleStoreDistinctContainer>()
@@ -149,7 +150,7 @@ public class TripleStoreLocalBPlusTreePartition(name: String, store_root_page_id
         bufferManager.getPage(store_root_page_id)
         bufferManager.deletePage(store_root_page_id)
     }
-    companion object {
+public    companion object {
         public fun providesFeature(feature: TripleStoreFeature, params: TripleStoreFeatureParams?): Boolean {
             return when (feature) {
                 TripleStoreFeature.DEFAULT -> {

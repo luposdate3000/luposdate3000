@@ -226,7 +226,7 @@ import lupos.s09physicalOperators.noinput.POPValuesImportXML
 import kotlin.jvm.JvmField
 public class OperatorGraphVisitor(@JvmField public val query: Query) : Visitor<IOPBase> {
     @JvmField
-    val queryExecutionStartTime: ValueDateTime = ValueDateTime()
+public    val queryExecutionStartTime: ValueDateTime = ValueDateTime()
     private fun createUnion(a: IOPBase, b: IOPBase): IOPBase {
         val pa = a.getProvidedVariableNames().toMutableSet()
         val pb = b.getProvidedVariableNames().toMutableSet()

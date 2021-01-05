@@ -157,7 +157,7 @@ public class TurtleParserWithDictionary(@JvmField public val consume_triple: (Lo
     private fun predicateObjectList(s: Long) {
         var token: Token
         val p = verb()
-public objectList(s, p)
+ objectList(s, p)
         var t7 = ltit.lookahead()
         while (t7.image == ";") {
             token = ltit.nextToken()
@@ -167,7 +167,7 @@ public objectList(s, p)
             val t6 = ltit.lookahead()
             if (t6 is IRI || t6 is PNAME_LN || t6 is PNAME_NS || t6.image == "A") {
                 val p2 = verb()
-public objectList(s, p2)
+ objectList(s, p2)
             }
             t7 = ltit.lookahead()
         }

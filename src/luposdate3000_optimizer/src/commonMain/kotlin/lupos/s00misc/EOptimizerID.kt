@@ -1,6 +1,6 @@
 package lupos.s00misc
 import kotlin.jvm.JvmField
-enum class EOptimizerID(@JvmField public val optional: Boolean, @JvmField public val repeatOnChange: Boolean) {
+public enum class EOptimizerID(@JvmField public val optional: Boolean, @JvmField public val repeatOnChange: Boolean) {
     LogicalOptimizerMinusAddSortID(true, true),
     LogicalOptimizerDistinctSplitID(true, true),
     LogicalOptimizerSortDownID(true, true),

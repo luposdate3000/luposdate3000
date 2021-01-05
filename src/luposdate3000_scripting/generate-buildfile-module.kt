@@ -609,7 +609,7 @@ public fun createBuildFileForModule(moduleName: String, moduleFolder: String, mo
                         }
                     }
                     if (opt[1] == "typealias") {
-                        out.println("${opt[1]} ${opt[0]} = $value")
+                        out.println("public ${opt[1]} ${opt[0]} = $value")
                     } else {
                         out.println("${opt[1]} ${opt[0]}: ${opt[2]} = $value")
                     }
