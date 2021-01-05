@@ -3,7 +3,7 @@ import lupos.s00misc.EOperatorID
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
-abstract class AOPBinaryOperationFixedName(
+abstract public class AOPBinaryOperationFixedName(
     query: IQuery,
     operatorID: EOperatorID,
     classname: String,

@@ -7,7 +7,7 @@ import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.LOPBase
 import lupos.s04logicalOperators.noinput.OPEmptyRow
-class LOPFilter(query: IQuery, filter: AOPBase, child: IOPBase = OPEmptyRow(query)) : LOPBase(query, EOperatorID.LOPFilterID, "LOPFilter", arrayOf(child, filter), ESortPriority.SAME_AS_CHILD) {
+public class LOPFilter(query: IQuery, filter: AOPBase, child: IOPBase = OPEmptyRow(query)) : LOPBase(query, EOperatorID.LOPFilterID, "LOPFilter", arrayOf(child, filter), ESortPriority.SAME_AS_CHILD) {
     var dontSplitFilter: Int = 0
     override fun childrenToVerifyCount(): Int = 1
     override fun getProvidedVariableNames(): List<String> = children[0].getProvidedVariableNames().distinct()

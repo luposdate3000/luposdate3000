@@ -8,7 +8,7 @@ import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.LOPBase
 import kotlin.jvm.JvmField
-class LOPGraphOperation(
+public class LOPGraphOperation(
     query: IQuery,
     @JvmField var action: EGraphOperationType = EGraphOperationType.CREATE,
     var silent: Boolean = false,

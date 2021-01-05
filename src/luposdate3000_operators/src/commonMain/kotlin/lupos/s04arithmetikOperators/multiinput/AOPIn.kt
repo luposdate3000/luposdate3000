@@ -9,7 +9,7 @@ import lupos.s04arithmetikOperators.IAOPBase
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.IteratorBundle
-class AOPIn(query: IQuery, childA: IAOPBase, childB: IAOPBase) : AOPBase(query, EOperatorID.AOPInID, "AOPIn", arrayOf(childA, childB)) {
+public class AOPIn(query: IQuery, childA: IAOPBase, childB: IAOPBase) : AOPBase(query, EOperatorID.AOPInID, "AOPIn", arrayOf(childA, childB)) {
     override fun toSparql(): String = "( " + children[0].toSparql() + " IN " + children[1].toSparql() + " )"
     override fun equals(other: Any?): Boolean = other is AOPIn && children[0] == other.getChildren()[0] && children[1] == other.getChildren()[1]
     override fun evaluate(row: IteratorBundle): () -> ValueDefinition {

@@ -7,7 +7,7 @@ import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.LOPBase
 import lupos.s04logicalOperators.noinput.OPEmptyRow
-class LOPSortAny(query: IQuery, val possibleSortOrder: List<SortHelper>, child: IOPBase = OPEmptyRow(query)) : LOPBase(query, EOperatorID.LOPSortAnyID, "LOPSortAny", arrayOf(child), ESortPriority.SORT) {
+public class LOPSortAny(query: IQuery, val possibleSortOrder: List<SortHelper>, child: IOPBase = OPEmptyRow(query)) : LOPBase(query, EOperatorID.LOPSortAnyID, "LOPSortAny", arrayOf(child), ESortPriority.SORT) {
     override fun equals(other: Any?): Boolean = other is LOPSortAny && possibleSortOrder == other.possibleSortOrder && children[0] == other.children[0]
     override fun cloneOP(): IOPBase = LOPSortAny(query, possibleSortOrder, children[0].cloneOP())
     override /*suspend*/ fun calculateHistogram(): HistogramResult {

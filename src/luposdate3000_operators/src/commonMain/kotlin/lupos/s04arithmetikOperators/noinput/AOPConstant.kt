@@ -8,7 +8,7 @@ import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import kotlin.jvm.JvmField
-class AOPConstant : AOPBase, IAOPConstant {
+public class AOPConstant : AOPBase, IAOPConstant {
     @JvmField
     val value: Int
     override fun getValue(): Int = value

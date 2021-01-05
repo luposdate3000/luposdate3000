@@ -8,7 +8,7 @@ import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.LOPBase
 import kotlin.jvm.JvmField
-class LOPModifyData(query: IQuery, @JvmField val type: EModifyType, @JvmField val data: MutableList<LOPTriple> = mutableListOf()) : LOPBase(query, EOperatorID.LOPModifyDataID, "LOPModifyData", arrayOf(), ESortPriority.PREVENT_ANY) {
+public class LOPModifyData(query: IQuery, @JvmField val type: EModifyType, @JvmField val data: MutableList<LOPTriple> = mutableListOf()) : LOPBase(query, EOperatorID.LOPModifyDataID, "LOPModifyData", arrayOf(), ESortPriority.PREVENT_ANY) {
     override /*suspend*/ fun toXMLElement(): XMLElement {
         val res = XMLElement("LOPModifyData")
         res.addAttribute("type", "" + type)

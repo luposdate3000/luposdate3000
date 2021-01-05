@@ -2,7 +2,7 @@ package lupos.s09physicalOperators.noinput
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.XMLElement
 import lupos.s04logicalOperators.IQuery
-class POPValuesImportXML(query: IQuery, projectedVariables: List<String>, data: XMLElement) : POPValuesImportBase(query, projectedVariables, data["head"]!!.childs.map { it.attributes["name"]!! }) {
+public class POPValuesImportXML(query: IQuery, projectedVariables: List<String>, data: XMLElement) : POPValuesImportBase(query, projectedVariables, data["head"]!!.childs.map { it.attributes["name"]!! }) {
     init {
         val variables = data["head"]!!.childs.map { it.attributes["name"]!! }
         SanityCheck.check { data.tag == "sparql" }

@@ -7,7 +7,7 @@ import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.IteratorBundle
-class AOPBuildInCallUUID(query: IQuery) : AOPBase(query, EOperatorID.AOPBuildInCallUUIDID, "AOPBuildInCallUUID", arrayOf()) {
+public class AOPBuildInCallUUID(query: IQuery) : AOPBase(query, EOperatorID.AOPBuildInCallUUIDID, "AOPBuildInCallUUID", arrayOf()) {
     override fun toSparql(): String = "UUID()"
     override fun equals(other: Any?): Boolean = other is AOPBuildInCallUUID
     override fun evaluate(row: IteratorBundle): () -> ValueDefinition {

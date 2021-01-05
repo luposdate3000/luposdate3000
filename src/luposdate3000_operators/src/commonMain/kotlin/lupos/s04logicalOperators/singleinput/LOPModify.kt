@@ -8,7 +8,7 @@ import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.LOPBase
 import lupos.s04logicalOperators.noinput.LOPTriple
 import kotlin.jvm.JvmField
-class LOPModify(
+public class LOPModify(
     query: IQuery,
     @JvmField val insert: MutableList<LOPTriple> = mutableListOf(),
     @JvmField val delete: MutableList<LOPTriple> = mutableListOf(),

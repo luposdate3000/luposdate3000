@@ -14,7 +14,7 @@ import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.noinput.LOPValues
 import lupos.s09physicalOperators.POPBase
 import kotlin.jvm.JvmField
-open class POPValues : POPBase {
+open public class POPValues : POPBase {
     override fun getPartitionCount(variable: String): Int = 1
     @JvmField
     val variables: List<String>

@@ -5,7 +5,7 @@ import lupos.s04logicalOperators.HistogramResult
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.LOPBase
-class LOPMakeBooleanResult(query: IQuery, child: IOPBase) : LOPBase(query, EOperatorID.LOPMakeBooleanResultID, "LOPMakeBooleanResult", arrayOf(child), ESortPriority.PREVENT_ANY) {
+public class LOPMakeBooleanResult(query: IQuery, child: IOPBase) : LOPBase(query, EOperatorID.LOPMakeBooleanResultID, "LOPMakeBooleanResult", arrayOf(child), ESortPriority.PREVENT_ANY) {
     override fun getProvidedVariableNames(): List<String> {
         return mutableListOf("?boolean")
     }

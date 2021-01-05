@@ -20,7 +20,7 @@ import lupos.s04logicalOperators.iterator.ColumnIteratorRepeatValue
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s09physicalOperators.POPBase
 import kotlin.jvm.JvmField
-class POPBind(query: IQuery, projectedVariables: List<String>, @JvmField val name: AOPVariable, value: AOPBase, child: IOPBase) : POPBase(query, projectedVariables, EOperatorID.POPBindID, "POPBind", arrayOf(child, value), ESortPriority.BIND) {
+public class POPBind(query: IQuery, projectedVariables: List<String>, @JvmField val name: AOPVariable, value: AOPBase, child: IOPBase) : POPBase(query, projectedVariables, EOperatorID.POPBindID, "POPBind", arrayOf(child, value), ESortPriority.BIND) {
     override fun getPartitionCount(variable: String): Int {
         return if (variable == name.name) {
             1

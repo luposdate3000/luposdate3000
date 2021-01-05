@@ -9,7 +9,7 @@ import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.IteratorBundle
-class AOPBuildInCallMINUTES(query: IQuery, child: AOPBase) : AOPBase(query, EOperatorID.AOPBuildInCallMINUTESID, "AOPBuildInCallMINUTES", arrayOf(child)) {
+public class AOPBuildInCallMINUTES(query: IQuery, child: AOPBase) : AOPBase(query, EOperatorID.AOPBuildInCallMINUTESID, "AOPBuildInCallMINUTES", arrayOf(child)) {
     override fun toSparql(): String = "MINUTES(" + children[0].toSparql() + ")"
     override fun equals(other: Any?): Boolean = other is AOPBuildInCallMINUTES && children[0] == other.children[0]
     override fun evaluate(row: IteratorBundle): () -> ValueDefinition {

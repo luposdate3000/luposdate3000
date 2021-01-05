@@ -10,7 +10,7 @@ import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.ColumnIteratorQueue
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import kotlin.jvm.JvmField
-class AOPVariable(query: IQuery, @JvmField var name: String) : AOPBase(query, EOperatorID.AOPVariableID, "AOPVariable", arrayOf()), IAOPVariable {
+public class AOPVariable(query: IQuery, @JvmField var name: String) : AOPBase(query, EOperatorID.AOPVariableID, "AOPVariable", arrayOf()), IAOPVariable {
     override fun getName(): String = name
     override fun toSparql(): String = "?$name".replace("#", "LuposVariable")
     override fun syntaxVerifyAllVariableExists(additionalProvided: List<String>, autocorrect: Boolean) {}

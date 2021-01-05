@@ -6,7 +6,7 @@ import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.LOPBase
 import kotlin.jvm.JvmField
-class LOPMinus(query: IQuery, first: IOPBase, second: IOPBase, @JvmField var tmpFakeVariables: List<String>) : LOPBase(query, EOperatorID.LOPMinusID, "LOPMinus", arrayOf(first, second), ESortPriority.MINUS) {
+public class LOPMinus(query: IQuery, first: IOPBase, second: IOPBase, @JvmField var tmpFakeVariables: List<String>) : LOPBase(query, EOperatorID.LOPMinusID, "LOPMinus", arrayOf(first, second), ESortPriority.MINUS) {
     @JvmField
     var hadSortPushDown: Boolean = false
     override fun getProvidedVariableNames(): List<String> = (children[0].getProvidedVariableNames() + tmpFakeVariables).distinct()

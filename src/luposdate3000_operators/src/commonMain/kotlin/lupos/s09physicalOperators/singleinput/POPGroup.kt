@@ -29,7 +29,7 @@ import lupos.s04logicalOperators.noinput.OPEmptyRow
 import lupos.s09physicalOperators.POPBase
 import kotlin.jvm.JvmField
 // TODO refactor such that the optimizer may choose which strategy to use
-class POPGroup : POPBase {
+public class POPGroup : POPBase {
     override fun getPossibleSortPriorities(): List<List<SortHelper>> {
         /*possibilities for_ next operator*/
         val res = mutableListOf<List<SortHelper>>()

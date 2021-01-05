@@ -9,7 +9,7 @@ import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.IteratorBundle
-class AOPBuildInCallLCASE(query: IQuery, child: AOPBase) : AOPBase(query, EOperatorID.AOPBuildInCallLCASEID, "AOPBuildInCallLCASE", arrayOf(child)) {
+public class AOPBuildInCallLCASE(query: IQuery, child: AOPBase) : AOPBase(query, EOperatorID.AOPBuildInCallLCASEID, "AOPBuildInCallLCASE", arrayOf(child)) {
     override fun toSparql(): String = "LCASE(" + children[0].toSparql() + ")"
     override fun equals(other: Any?): Boolean = other is AOPBuildInCallLCASE && children[0] == other.children[0]
     override fun evaluate(row: IteratorBundle): () -> ValueDefinition {
