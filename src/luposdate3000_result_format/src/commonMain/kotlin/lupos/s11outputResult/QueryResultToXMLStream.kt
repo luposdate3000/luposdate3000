@@ -162,7 +162,7 @@ public object QueryResultToXMLStream {
             writeAllRows(variables, columns, node.getQuery().getDictionary(), null, output)
         }
     }
-public    /*suspend*/ operator fun invoke(rootNode: IOPBase, output: IMyPrintWriter) {
+    public /*suspend*/ operator fun invoke(rootNode: IOPBase, output: IMyPrintWriter) {
         val nodes: Array<IOPBase>
         var columnProjectionOrder = listOf<List<String>>()
         if (rootNode is OPBaseCompound) {

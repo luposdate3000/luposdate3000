@@ -7,7 +7,7 @@ import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.OPBaseCompound
 import lupos.s04logicalOperators.noinput.OPNothing
 public object QueryResultToXMLElement {
-public    /*suspend*/ fun toXML(rootNode: IOPBase): XMLElement {
+    public /*suspend*/ fun toXML(rootNode: IOPBase): XMLElement {
         val res = mutableListOf<XMLElement>()
         val nodes: Array<IOPBase>
         val columnProjectionOrder: List<List<String>>

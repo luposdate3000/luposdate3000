@@ -74,7 +74,7 @@ public object QueryResultToMemoryTable {
             writeAllRows(variables, columns, node.getQuery().getDictionary(), null, output)
         }
     }
-public    /*suspend*/ operator fun invoke(rootNode: IOPBase, partition: Partition = Partition()): List<MemoryTable> {
+    public /*suspend*/ operator fun invoke(rootNode: IOPBase, partition: Partition = Partition()): List<MemoryTable> {
         val nodes: Array<IOPBase>
         var columnProjectionOrder = listOf<List<String>>()
         if (rootNode is OPBaseCompound) {

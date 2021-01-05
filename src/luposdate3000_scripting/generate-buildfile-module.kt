@@ -3,7 +3,6 @@ import java.lang.ProcessBuilder.Redirect
 import java.nio.file.Files
 import java.nio.file.Paths
 import java.nio.file.StandardCopyOption
-import kotlin.jvm.JvmField
 enum class ReleaseMode {
     Enable, Disable
 }
@@ -257,7 +256,7 @@ public fun createBuildFileForModule(moduleName: String, moduleFolder: String, mo
             // see /opt/kotlin/compiler/cli/cli-common/src/org/jetbrains/kotlin/cli/common/arguments/K2JVMCompilerArguments.kt
             // or kotlinc -X
             out.println("kotlin {")
-            out.println("    explicitApi()")//https://zsmb.co/mastering-api-visibility-in-kotlin/
+            out.println("    explicitApi()") // https://zsmb.co/mastering-api-visibility-in-kotlin/
             out.println("    metadata {")
             out.println("        compilations.forEach{")
             out.println("            it.kotlinOptions {")
@@ -498,7 +497,7 @@ public fun createBuildFileForModule(moduleName: String, moduleFolder: String, mo
                         if (tmp2.length > 0) {
                             val tmp3 = classNamesFound[tmp2]
                             if (tmp3 == null) {
- classNamesFound[tmp2] = mutableSetOf(f.toString())
+                                classNamesFound[tmp2] = mutableSetOf(f.toString())
                             } else {
                                 tmp3.add(f.toString())
                             }
@@ -540,13 +539,13 @@ public fun createBuildFileForModule(moduleName: String, moduleFolder: String, mo
                                 val tmp = mutableSetOf<String>()
                                 for ((k, v) in classNamesFound) {
                                     if (it.indexOf(k) >= 0) {
-classNamesUsed[k] = v
+                                        classNamesUsed[k] = v
                                         tmp.add(k)
                                         changed = true
                                     }
                                 }
                                 for (k in tmp) {
-classNamesFound.remove(k)
+                                    classNamesFound.remove(k)
                                 }
                             }
                         }
