@@ -44,7 +44,7 @@ class ResultSetDictionary(val global: Boolean = false) {
         bNodeCounter = 0
         bnodeMapToGlobal.clear()
     }
-    @JvmName("toBooleanOrError") internal inline fun toBooleanOrError(value: Int): Int {
+     internal inline fun toBooleanOrError(value: Int): Int {
         var res: Int = errorValue
         if (value < undefValue && value >= 0) {
             res = value
@@ -62,31 +62,31 @@ class ResultSetDictionary(val global: Boolean = false) {
         }
         return res
     }
-    @JvmName("createNewBNode") internal inline fun createNewBNode(): Int {
+     internal inline fun createNewBNode(): Int {
         return createValue(ValueBnode("" + bNodeCounter++))
     }
-    @JvmName("createIri") internal inline fun createIri(iri: String): Int {
+     internal inline fun createIri(iri: String): Int {
         return createValue("<" + iri + ">")
     }
-    @JvmName("createValue") internal inline fun createValue(value: String?): Int {
+     internal inline fun createValue(value: String?): Int {
         return createValue(ValueDefinition(value))
     }
-    @JvmName("createTyped") internal inline fun createTyped(content: String, type: String): Int {
+     internal inline fun createTyped(content: String, type: String): Int {
         return createValue(ValueDefinition("\"$content\"^^<$type>"))
     }
-    @JvmName("createDouble") internal inline fun createDouble(value: Double): Int {
+     internal inline fun createDouble(value: Double): Int {
         return createValue(ValueDouble(value))
     }
-    @JvmName("createFloat") internal inline fun createFloat(value: Double): Int {
+     internal inline fun createFloat(value: Double): Int {
         return createValue(ValueFloat(value))
     }
-    @JvmName("createDecimal") internal inline fun createDecimal(value: Double): Int {
+     internal inline fun createDecimal(value: Double): Int {
         return createValue(ValueDecimal(value))
     }
-    @JvmName("createInteger") internal inline fun createInteger(value: Int): Int {
+     internal inline fun createInteger(value: Int): Int {
         return createValue(ValueInteger(value))
     }
-    @JvmName("checkValue") internal inline fun checkValue(value: ValueDefinition): Int {
+     internal inline fun checkValue(value: ValueDefinition): Int {
         var res: Int
         if (value is ValueUndef) {
             res = undefValue
@@ -107,7 +107,7 @@ class ResultSetDictionary(val global: Boolean = false) {
         }
         return res
     }
-    @JvmName("createValue") internal inline fun createValue(value: ValueDefinition): Int {
+     internal inline fun createValue(value: ValueDefinition): Int {
         var res = checkValue(value)
         if (res == null) {
             val l = mapLTS.size
@@ -121,7 +121,7 @@ class ResultSetDictionary(val global: Boolean = false) {
         }
         return res
     }
-    @JvmName("getValue") internal inline fun getValue(value: Int): ValueDefinition {
+     internal inline fun getValue(value: Int): ValueDefinition {
         if (value < 0) {
             return mapLTS[-value]!!
         } else {
@@ -129,7 +129,7 @@ class ResultSetDictionary(val global: Boolean = false) {
         }
 /*Coverage Unreachable*/
     }
-    @JvmName("valueToGlobal") internal inline fun valueToGlobal(value: Int): Int {
+     internal inline fun valueToGlobal(value: Int): Int {
         if (value >= 0) {
             return value
         } else {

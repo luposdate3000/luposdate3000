@@ -92,14 +92,14 @@ class ByteArrayPage {
     @JvmField
     var modified = false
     constructor()
-    @JvmName("getInt") internal inline fun getInt(address: Long): Int {
+     internal inline fun getInt(address: Long): Int {
         val adr = address.toInt()
         return (0xFF and byteArray[adr].toInt()) or ((0xFF and byteArray[adr + 1].toInt()) or ((0xFF and byteArray[adr + 2].toInt()) or ((0xFF and byteArray[adr + 3].toInt()) shl 8) shl 8) shl 8)
     }
-    @JvmName("getByte") internal inline fun getByte(address: Long): Byte {
+     internal inline fun getByte(address: Long): Byte {
         return this.byteArray[address.toInt()]
     }
-    @JvmName("putInt") internal inline fun putInt(address: Long, data: Int) {
+     internal inline fun putInt(address: Long, data: Int) {
         this.modified = true
         val adr0 = address.toInt()
         this.byteArray[adr0] = data.toByte()
@@ -113,11 +113,11 @@ class ByteArrayPage {
         val adr3 = adr2 + 1
         this.byteArray[adr3] = remaining3.toByte()
     }
-    @JvmName("putByte") internal inline fun putByte(address: Long, data: Byte) {
+     internal inline fun putByte(address: Long, data: Byte) {
         this.modified = true
         this.byteArray[address.toInt()] = data
     }
-    @JvmName("putString") internal inline fun putString(address: Long, data: String): Long {
+     internal inline fun putString(address: Long, data: String): Long {
         this.modified = true
         val size = data.length
         this.putInt(address, size)
@@ -131,16 +131,16 @@ class ByteArrayPage {
         }
         return pos
     }
-    @JvmName("getPageIndex") internal inline fun getPageIndex(): Long = 0L
-    @JvmName("lock") internal inline fun lock() {
+     internal inline fun getPageIndex(): Long = 0L
+     internal inline fun lock() {
         this.locked++
     }
-    @JvmName("unlock") internal inline fun unlock() {
+     internal inline fun unlock() {
         this.locked--
     }
-    @JvmName("isLocked") internal inline fun isLocked(): Boolean {
+     internal inline fun isLocked(): Boolean {
         return this.locked > 0
     }
-    @JvmName("release") internal inline fun release() {}
-    @JvmName("isModified") internal inline fun isModified() = this.modified
+     internal inline fun release() {}
+     internal inline fun isModified() = this.modified
 }

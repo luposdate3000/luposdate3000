@@ -23,16 +23,16 @@ class CachedFile {
         }
         this.file = RandomAccessFile(File(filename), "rw")
     }
-    @JvmName("close") internal inline fun close() {
+     internal inline fun close() {
         this.file.close()
     }
-    @JvmName("get") internal inline fun get(address: Long): Page {
+     internal inline fun get(address: Long): Page {
         this.file.seek(address)
         val page = Page()
         this.file.read(page.byteArray)
         return page
     }
-    @JvmName("write") internal inline fun write(address: Long, page: Page) {
+     internal inline fun write(address: Long, page: Page) {
         this.file.seek(address)
         this.file.write(page.byteArray)
     }

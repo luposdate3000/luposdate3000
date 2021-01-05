@@ -77,14 +77,14 @@ class CachedFile {
         // ch.close()
         return result
     }
-    @JvmName("close") internal inline fun close() {
+     internal inline fun close() {
         this.file.close()
     }
-    @JvmName("get") internal inline fun get(address: Long): Page {
+     internal inline fun get(address: Long): Page {
         val pageOffset = mapAndGetOffset(address)
         return UnsafePage(pageOffset, { unmmap.invoke(null, pageOffset, PAGESIZE) })
     }
-    @JvmName("write") internal inline fun write(address: Long, page: Page) {
+     internal inline fun write(address: Long, page: Page) {
         // it is already written because technically it is a memory mapped file!
     }
 }

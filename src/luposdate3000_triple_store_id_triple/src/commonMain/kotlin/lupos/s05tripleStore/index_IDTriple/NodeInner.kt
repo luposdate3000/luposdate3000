@@ -7,7 +7,7 @@ import kotlin.jvm.JvmName
 internal object NodeInner {
     const val START_OFFSET = 16
     const val MAX_POINTER_SIZE = 4
-    @JvmName("getFirstTriple") internal inline fun getFirstTriple(data: ByteArray, b: IntArray) {
+     internal inline fun getFirstTriple(data: ByteArray, b: IntArray) {
         var node = data
         var done = false
         var nodeid = getFirstChild(node)
@@ -28,21 +28,21 @@ internal object NodeInner {
             nodeid = nextnodeid
         }
     }
-    @JvmName("setFirstChild") internal inline fun setFirstChild(data: ByteArray, node: Int) {
+     internal inline fun setFirstChild(data: ByteArray, node: Int) {
         ByteArrayHelper.writeInt4(data, 12, node)
     }
-    @JvmName("getFirstChild") internal inline fun getFirstChild(data: ByteArray): Int {
+     internal inline fun getFirstChild(data: ByteArray): Int {
         return ByteArrayHelper.readInt4(data, 12)
     }
-    @JvmName("writeChildPointer") internal inline fun writeChildPointer(node: ByteArray, offset: Int, pointer: Int): Int {
+     internal inline fun writeChildPointer(node: ByteArray, offset: Int, pointer: Int): Int {
         ByteArrayHelper.writeInt4(node, offset, pointer)
         return 4
     }
-    @JvmName("readChildPointer") internal inline fun readChildPointer(node: ByteArray, offset: Int, crossinline action: (pointer: Int) -> Unit): Int {
+     internal inline fun readChildPointer(node: ByteArray, offset: Int, crossinline action: (pointer: Int) -> Unit): Int {
         action(ByteArrayHelper.readInt4(node, offset))
         return 4
     }
-    @JvmName("iterator") internal inline fun iterator(_node: ByteArray): TripleIterator {
+     internal inline fun iterator(_node: ByteArray): TripleIterator {
         var iterator: TripleIterator? = null
         var node = _node
         while (true) {
@@ -66,7 +66,7 @@ internal object NodeInner {
         }
         return iterator!!
     }
-    /*suspend*/ @JvmName("iterator") internal inline fun iterator(_node: ByteArray, lock: MyReadWriteLock, component: Int): ColumnIterator {
+    /*suspend*/  internal inline fun iterator(_node: ByteArray, lock: MyReadWriteLock, component: Int): ColumnIterator {
         var iterator: ColumnIterator? = null
         var node = _node
         while (true) {
@@ -90,7 +90,7 @@ internal object NodeInner {
         }
         return iterator!!
     }
-    @JvmName("forEachChild") internal inline /*suspend*/ fun forEachChild(node: ByteArray, crossinline action: /*suspend*/ (Int) -> Unit) {
+     internal inline /*suspend*/ fun forEachChild(node: ByteArray, crossinline action: /*suspend*/ (Int) -> Unit) {
         var remaining = NodeShared.getTripleCount(node)
         var offset = START_OFFSET
         var lastChildPointer = getFirstChild(node)
@@ -104,7 +104,7 @@ internal object NodeInner {
             remaining--
         }
     }
-    /*suspend*/ @JvmName("findIteratorN") internal inline fun findIteratorN(node: ByteArray, crossinline checkTooSmall: /*suspend*/ (value0: Int, value1: Int, value2: Int) -> Boolean, crossinline action: /*suspend*/ (Int) -> Unit) {
+    /*suspend*/  internal inline fun findIteratorN(node: ByteArray, crossinline checkTooSmall: /*suspend*/ (value0: Int, value1: Int, value2: Int) -> Boolean, crossinline action: /*suspend*/ (Int) -> Unit) {
         var remaining = NodeShared.getTripleCount(node)
         var offset = START_OFFSET
         var value0 = 0
@@ -127,7 +127,7 @@ internal object NodeInner {
         }
         action(lastChildPointer)
     }
-    /*suspend*/ @JvmName("iterator3") internal inline fun iterator3(_node: ByteArray, prefix: IntArray, lock: MyReadWriteLock): ColumnIterator {
+    /*suspend*/  internal inline fun iterator3(_node: ByteArray, prefix: IntArray, lock: MyReadWriteLock): ColumnIterator {
         var node = _node
         var iterator: ColumnIterator? = null
         var nodeid = 0
@@ -160,7 +160,7 @@ internal object NodeInner {
         }
         return iterator!!
     }
-    /*suspend*/ @JvmName("iterator2") internal inline fun iterator2(_node: ByteArray, prefix: IntArray, lock: MyReadWriteLock): ColumnIterator {
+    /*suspend*/  internal inline fun iterator2(_node: ByteArray, prefix: IntArray, lock: MyReadWriteLock): ColumnIterator {
         var node = _node
         var iterator: ColumnIterator? = null
         var nodeid = 0
@@ -193,7 +193,7 @@ internal object NodeInner {
         }
         return iterator!!
     }
-    /*suspend*/ @JvmName("iterator1") internal inline fun iterator1(_node: ByteArray, prefix: IntArray, lock: MyReadWriteLock, component: Int): ColumnIterator {
+    /*suspend*/  internal inline fun iterator1(_node: ByteArray, prefix: IntArray, lock: MyReadWriteLock, component: Int): ColumnIterator {
         var node = _node
         var iterator: ColumnIterator? = null
         var nodeid = 0
@@ -226,7 +226,7 @@ internal object NodeInner {
         }
         return iterator!!
     }
-    @JvmName("initializeWith") internal inline fun initializeWith(node: ByteArray, nodeid: Int, childs: MutableList<Int>) {
+     internal inline fun initializeWith(node: ByteArray, nodeid: Int, childs: MutableList<Int>) {
         SanityCheck.check { childs.size > 0 }
         var writtenHeaders: MutableList<Int>? = null
         var writtenTriples: MutableList<Int>? = null

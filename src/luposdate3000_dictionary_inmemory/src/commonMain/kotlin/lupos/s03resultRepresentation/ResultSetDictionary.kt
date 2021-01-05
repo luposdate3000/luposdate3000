@@ -7,7 +7,7 @@ import kotlin.jvm.JvmField
 import kotlin.jvm.JvmName
 @OptIn(ExperimentalUnsignedTypes::class)
 class ResultSetDictionary : IResultSetDictionary {
-    @JvmName("isLocalBNode") internal inline fun isLocalBNode(value: Int) = (value and ResultSetDictionaryShared.mask3) == ResultSetDictionaryShared.flaggedValueLocalBnode
+     internal inline fun isLocalBNode(value: Int) = (value and ResultSetDictionaryShared.mask3) == ResultSetDictionaryShared.flaggedValueLocalBnode
     @JvmField
     internal val localBnodeToInt = mutableMapOf<String, Int>()
     @JvmField
@@ -42,7 +42,7 @@ class ResultSetDictionary : IResultSetDictionary {
     internal val intToInt = mutableMapOf<String, Int>()
     @JvmField
     internal var intToValue = Array(1) { ResultSetDictionaryShared.emptyString }
-    @JvmName("prepareBulk") internal inline fun prepareBulk(total: Int, typed: IntArray) {
+     internal inline fun prepareBulk(total: Int, typed: IntArray) {
         for (t in ETripleComponentType.values()) {
             when (t) {
                 ETripleComponentType.IRI -> {
@@ -104,7 +104,7 @@ class ResultSetDictionary : IResultSetDictionary {
             }
         }
     }
-    @JvmName("createByType") internal inline fun createByType(s: String, type: ETripleComponentType): Int {
+     internal inline fun createByType(s: String, type: ETripleComponentType): Int {
         when (type) {
             ETripleComponentType.IRI -> {
                 return createIri(s)
@@ -144,7 +144,7 @@ class ResultSetDictionary : IResultSetDictionary {
             }
         }
     }
-    @JvmName("clear") internal inline fun clear() {
+     internal inline fun clear() {
         localBnodeToInt.clear()
         bNodeCounter = 5
         bnodeMapToGlobal.clear()
@@ -181,7 +181,7 @@ class ResultSetDictionary : IResultSetDictionary {
         }
         return res
     }
-    @JvmName("createNewBNode") internal inline fun createNewBNode(value: String = ResultSetDictionaryShared.emptyString): Int {
+     internal inline fun createNewBNode(value: String = ResultSetDictionaryShared.emptyString): Int {
         val res: Int
         val tmp = localBnodeToInt[value]
         if (tmp == null) {
@@ -192,7 +192,7 @@ class ResultSetDictionary : IResultSetDictionary {
         }
         return res
     }
-    @JvmName("createIri") internal inline fun createIri(iri: String): Int {
+     internal inline fun createIri(iri: String): Int {
         var res: Int
         val tmp = nodeGlobalDictionary.iriToInt[iri]
         if (tmp != null) {
@@ -217,7 +217,7 @@ class ResultSetDictionary : IResultSetDictionary {
         }
         return res
     }
-    @JvmName("createLangTagged") internal inline fun createLangTagged(content: String, lang: String): Int {
+     internal inline fun createLangTagged(content: String, lang: String): Int {
         var res: Int
         val key = "$lang@$content"
         val tmp = nodeGlobalDictionary.langTaggedToInt[key]
@@ -243,7 +243,7 @@ class ResultSetDictionary : IResultSetDictionary {
         }
         return res
     }
-    @JvmName("createTyped") internal inline fun createTyped(content: String, type: String): Int {
+     internal inline fun createTyped(content: String, type: String): Int {
         var res: Int
         when (type) {
             "http://www.w3.org/2001/XMLSchema#integer" -> {
@@ -292,7 +292,7 @@ class ResultSetDictionary : IResultSetDictionary {
         }
         return res
     }
-    @JvmName("createDouble") internal inline fun createDouble(value: Double): Int {
+     internal inline fun createDouble(value: Double): Int {
         var res: Int
         val tmp = nodeGlobalDictionary.doubleToInt[value]
         if (tmp != null) {
@@ -317,7 +317,7 @@ class ResultSetDictionary : IResultSetDictionary {
         }
         return res
     }
-    @JvmName("createFloat") internal inline fun createFloat(value: Double): Int {
+     internal inline fun createFloat(value: Double): Int {
         var res: Int
         val tmp = nodeGlobalDictionary.floatToInt[value]
         if (tmp != null) {
@@ -342,7 +342,7 @@ class ResultSetDictionary : IResultSetDictionary {
         }
         return res
     }
-    @JvmName("createDecimal") internal inline fun createDecimal(value2: MyBigDecimal): Int {
+     internal inline fun createDecimal(value2: MyBigDecimal): Int {
         val value = value2.toString()
         var res: Int
         val tmp = nodeGlobalDictionary.decimalToInt[value]
@@ -368,7 +368,7 @@ class ResultSetDictionary : IResultSetDictionary {
         }
         return res
     }
-    @JvmName("createInteger") internal inline fun createInteger(value2: MyBigInteger): Int {
+     internal inline fun createInteger(value2: MyBigInteger): Int {
         val value = value2.toString()
         var res: Int
         val tmp = nodeGlobalDictionary.intToInt[value]

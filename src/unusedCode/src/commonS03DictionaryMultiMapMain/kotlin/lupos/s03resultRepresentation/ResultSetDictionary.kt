@@ -453,7 +453,7 @@ class ResultSetDictionary(val global: Boolean = false) {
         }
         return res
     }
-    @JvmName("getValue") internal inline fun getValue(
+     internal inline fun getValue(
         value: Int,
         crossinline onBNode: (value: Int) -> Unit,
         crossinline onBoolean: (value: Boolean) -> Unit,

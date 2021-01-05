@@ -43,21 +43,21 @@ class UnsafePage {
         this.basepointer = allocatedMemoryPointer
         this.cleaner = cleaner
     }
-    @JvmName("getInt") internal inline fun getInt(address: Long): Int = UNSAFE.getInt(address)
-    @JvmName("getByte") internal inline fun getByte(address: Long): Byte = UNSAFE.getByte(address)
-    @JvmName("allocateMemory") internal inline fun allocateMemory(size: Long): Long {
+     internal inline fun getInt(address: Long): Int = UNSAFE.getInt(address)
+     internal inline fun getByte(address: Long): Byte = UNSAFE.getByte(address)
+     internal inline fun allocateMemory(size: Long): Long {
         return UNSAFE.allocateMemory(size)
     }
-    @JvmName("freeMemory") internal inline fun freeMemory() {
+     internal inline fun freeMemory() {
         UNSAFE.freeMemory(this.basepointer)
     }
-    @JvmName("putInt") internal inline fun putInt(address: Long, data: Int) {
+     internal inline fun putInt(address: Long, data: Int) {
         UNSAFE.putInt(address, data)
     }
-    @JvmName("putByte") internal inline fun putByte(address: Long, data: Byte) {
+     internal inline fun putByte(address: Long, data: Byte) {
         UNSAFE.putByte(address, data)
     }
-    @JvmName("putString") internal inline fun putString(address: Long, data: String): Long {
+     internal inline fun putString(address: Long, data: String): Long {
         val size = data.length
         this.putInt(address, size)
         var pos = address + 4
@@ -70,22 +70,22 @@ class UnsafePage {
         }
         return pos
     }
-    @JvmName("getPageIndex") public internal inline fun getPageIndex(): Long {
+     public internal inline fun getPageIndex(): Long {
         return this.basepointer
     }
-    @JvmName("lock") internal inline fun lock() {
+     internal inline fun lock() {
         this.locked++
     }
-    @JvmName("unlock") internal inline fun unlock() {
+     internal inline fun unlock() {
         this.locked--
     }
-    @JvmName("isLocked") internal inline fun isLocked(): Boolean {
+     internal inline fun isLocked(): Boolean {
         return this.locked > 0
     }
-    @JvmName("release") internal inline fun release() {
+     internal inline fun release() {
         this.cleaner()
     }
-    @JvmName("isModified") internal inline fun isModified() = false
+     internal inline fun isModified() = false
     /*
 	 * only used in main memory (-> no need for making it persistence)
 	 * and for memory mapped files

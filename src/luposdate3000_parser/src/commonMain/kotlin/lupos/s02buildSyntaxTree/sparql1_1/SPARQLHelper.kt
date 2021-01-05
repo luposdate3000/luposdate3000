@@ -32,7 +32,7 @@ abstract class ASTNode(@JvmField val children: Array<ASTNode>) {
         }
         return result
     }
-    @JvmName("getChildrensValues") internal inline fun <T> getChildrensValues(visitor: Visitor<T>): List<T> {
+     internal inline fun <T> getChildrensValues(visitor: Visitor<T>): List<T> {
         return List(children.size) { children[it].visit(visitor) }
     }
     open fun <T> visit(visitor: Visitor<T>): T {

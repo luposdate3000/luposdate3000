@@ -83,7 +83,7 @@ actual class BufferManager {
             BufferManagerExt.managerList[name] = manager
         }
     }
-    @JvmName("localSanityCheck") internal inline fun localSanityCheck() {
+     internal inline fun localSanityCheck() {
         SanityCheck {
             var cntg = 0
             for (i in 0 until cacheSize) {
@@ -112,7 +112,7 @@ actual class BufferManager {
             }
         }
     }
-    @JvmName("findNextOpenID") internal inline fun findNextOpenID(): Int {
+     internal inline fun findNextOpenID(): Int {
         // this assumes write lock
         var openId = 0
         while (openId <cacheSize) {

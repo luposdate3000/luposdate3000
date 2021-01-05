@@ -58,7 +58,7 @@ object LuposdateEndpoint {
         }
         return res
     }
-    @JvmName("helperImportRaw") internal fun helperImportRaw(dict: MutableMap<String, Int>, v: String): Int {
+     internal fun helperImportRaw(dict: MutableMap<String, Int>, v: String): Int {
         val v2 = helperCleanString(v)
         val res: Int
         if (v2.startsWith("_:")) {

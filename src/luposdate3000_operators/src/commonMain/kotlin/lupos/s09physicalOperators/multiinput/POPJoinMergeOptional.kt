@@ -195,7 +195,7 @@ class POPJoinMergeOptional(query: IQuery, projectedVariables: List<String>, chil
         }
         return res
     }
-    /*suspend*/ @JvmName("sameElements") internal inline fun sameElements(key: IntArray, keyCopy: IntArray, columnsINJ: MutableList<ColumnIterator>, columnsINO: MutableList<ColumnIterator>, data: Array<MutableList<Int>>): Int {
+    /*suspend*/  internal inline fun sameElements(key: IntArray, keyCopy: IntArray, columnsINJ: MutableList<ColumnIterator>, columnsINO: MutableList<ColumnIterator>, data: Array<MutableList<Int>>): Int {
         SanityCheck.check { keyCopy[0] != ResultSetDictionaryExt.nullValue }
         for (i in 0 until columnsINJ.size) {
             if (key[i] != keyCopy[i]) {
@@ -225,7 +225,7 @@ class POPJoinMergeOptional(query: IQuery, projectedVariables: List<String>, chil
         }
         return count
     }
-    /*suspend*/ @JvmName("findNextKey") internal inline fun findNextKey(key: Array<IntArray>, columnsINJ: Array<MutableList<ColumnIterator>>, columnsINO: Array<MutableList<ColumnIterator>>): Boolean {
+    /*suspend*/  internal inline fun findNextKey(key: Array<IntArray>, columnsINJ: Array<MutableList<ColumnIterator>>, columnsINO: Array<MutableList<ColumnIterator>>): Boolean {
         if (key[0][0] != ResultSetDictionaryExt.nullValue && key[1][0] != ResultSetDictionaryExt.nullValue) {
             loop@ while (true) {
                 for (i in 0 until columnsINJ[0].size) {

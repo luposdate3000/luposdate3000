@@ -187,7 +187,7 @@ class POPJoinHashMap(query: IQuery, projectedVariables: List<String>, childA: IO
                 override /*suspend*/ fun close() {
                     __close()
                 }
-                /*suspend*/ @JvmName("__close") internal inline fun __close() {
+                /*suspend*/  internal inline fun __close() {
                     if (label != 0) {
                         _close()
                         for (iterator2 in outIteratorsAllocated0) {

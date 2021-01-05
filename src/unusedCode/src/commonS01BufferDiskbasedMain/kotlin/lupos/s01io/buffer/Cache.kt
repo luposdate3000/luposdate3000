@@ -28,7 +28,7 @@ class CachedEntry<T, V>(@JvmField val key: T, @JvmField val value: V) {
     /**
      * removes the current element from the doubly linked list
      */
-    @JvmName("remove") internal inline fun remove() {
+     internal inline fun remove() {
         this.before.after = this.after
         this.after.before = this.before
     }
@@ -36,7 +36,7 @@ class CachedEntry<T, V>(@JvmField val key: T, @JvmField val value: V) {
      * inserts this element after the given element
      * @param before the element after which this element is inserted
      */
-    @JvmName("insertAfter") internal inline fun insertAfter(before: CachedEntry<T, V>) {
+     internal inline fun insertAfter(before: CachedEntry<T, V>) {
         this.before = before
         this.after = before.after
         before.after = this
@@ -52,25 +52,25 @@ class LeastRecentlyUsed<T, V>(@JvmField val dummyKey: T, @JvmField val dummyValu
     val entries = HashMap<T, CachedEntry<T, V>>(size)
     @JvmField
     val dummy = CachedEntry<T, V>(dummyKey, dummyValue)
-    @JvmName("getEntry") internal inline fun getEntry(key: T): CachedEntry<T, V>? {
+     internal inline fun getEntry(key: T): CachedEntry<T, V>? {
         return this.entries.get(key)
     }
-    @JvmName("accessNow") internal inline fun accessNow(entry: CachedEntry<T, V>) {
+     internal inline fun accessNow(entry: CachedEntry<T, V>) {
         entry.remove()
         entry.insertAfter(this.dummy)
     }
-    @JvmName("addNewEntry") internal inline fun addNewEntry(entry: CachedEntry<T, V>) {
+     internal inline fun addNewEntry(entry: CachedEntry<T, V>) {
         entry.insertAfter(this.dummy)
         this.entries.put(entry.key, entry)
     }
-    @JvmName("replaceLeastRecentlyUsed") internal inline fun replaceLeastRecentlyUsed(): V {
+     internal inline fun replaceLeastRecentlyUsed(): V {
         val leastRecentlyUsed = this.dummy.before
         leastRecentlyUsed.remove()
         val key = leastRecentlyUsed.key
         this.entries.remove(key)
         return leastRecentlyUsed.value
     }
-    @JvmName("replaceLeastRecentlyUsed") internal inline fun replaceLeastRecentlyUsed(crossinline negativeCheck: (CachedEntry<T, V>) -> Boolean):
+     internal inline fun replaceLeastRecentlyUsed(crossinline negativeCheck: (CachedEntry<T, V>) -> Boolean):
         CachedEntry<T, V> {
             var leastRecentlyUsed = this.dummy.before
             // assume that there is at least one entry (not being the dummy) in the list

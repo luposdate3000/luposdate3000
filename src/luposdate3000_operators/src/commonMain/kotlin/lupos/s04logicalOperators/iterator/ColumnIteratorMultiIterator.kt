@@ -7,7 +7,7 @@ class ColumnIteratorMultiIterator(@JvmField val childs: List<ColumnIterator>) : 
     var index: Int = 0
     @JvmField
     var label: Int = 1
-    /*suspend*/ @JvmName("_close") internal inline fun _close() {
+    /*suspend*/  internal inline fun _close() {
         if (label != 0) {
             label = 0
             for (c in childs) {

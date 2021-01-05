@@ -6,7 +6,7 @@ class MySetVALUEBinaryTreeGDEF {
     var data = MyListVALUEGUSE()
     var size: Int = 0
         get() = data.size
-    @JvmName("clear") internal inline fun clear() {
+     internal inline fun clear() {
         data.clear()
     }
     operator fun iterator(): Iterator<VALUE> {
@@ -27,10 +27,10 @@ class MySetVALUEBinaryTreeGDEF {
     fun appendAssumeSorted(value: VALUE) {
         data.add(value)
     }
-    @JvmName("reserve") internal inline fun reserve(capacity: Int) {
+     internal inline fun reserve(capacity: Int) {
         data.reserve(capacity)
     }
-    @JvmName("internal") internal inline fun internal(value: VALUE, crossinline onCreate: (it: Int) -> Unit = {}, crossinline onExists: (it: Int) -> Unit = {}) {
+     internal inline fun internal(value: VALUE, crossinline onCreate: (it: Int) -> Unit = {}, crossinline onExists: (it: Int) -> Unit = {}) {
         if (data.size == 0) {
             onCreate(0)
         } else if (data.size == 1) {
@@ -72,7 +72,7 @@ class MySetVALUEBinaryTreeGDEF {
             }
         }
     }
-    @JvmName("remove") internal inline fun remove(value: VALUE, crossinline onExists: (it: Int) -> Unit = {}) {
+     internal inline fun remove(value: VALUE, crossinline onExists: (it: Int) -> Unit = {}) {
         internal(
             value,
             {
@@ -83,7 +83,7 @@ class MySetVALUEBinaryTreeGDEF {
             }
         )
     }
-    @JvmName("contains") internal inline fun contains(value: VALUE): Boolean {
+     internal inline fun contains(value: VALUE): Boolean {
         var res = false
         internal(
             value,
@@ -95,7 +95,7 @@ class MySetVALUEBinaryTreeGDEF {
         )
         return res
     }
-    @JvmName("find") internal inline fun find(value: VALUE, crossinline onExists: (it: Int) -> Unit) {
+     internal inline fun find(value: VALUE, crossinline onExists: (it: Int) -> Unit) {
         internal(
             value,
             {
@@ -105,7 +105,7 @@ class MySetVALUEBinaryTreeGDEF {
             }
         )
     }
-    @JvmName("add") internal inline fun add(value: VALUE, crossinline onCreate: (it: Int) -> Unit = {}, crossinline onExists: (it: Int) -> Unit = {}) {
+     internal inline fun add(value: VALUE, crossinline onCreate: (it: Int) -> Unit = {}, crossinline onExists: (it: Int) -> Unit = {}) {
         if (data.size > 0 && value > data[data.size - 1]) {
             val it = data.size
             data.add(it, value)
@@ -123,7 +123,7 @@ class MySetVALUEBinaryTreeGDEF {
             )
         }
     }
-    @JvmName("toList") internal inline fun toList(): MyListVALUEGUSE {
+     internal inline fun toList(): MyListVALUEGUSE {
         return data
     }
 }

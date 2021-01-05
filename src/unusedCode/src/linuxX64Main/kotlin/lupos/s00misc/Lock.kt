@@ -10,7 +10,7 @@ class Lock {
     constructor() {
         pthread_mutex_init(mutex, null)
     }
-    @JvmName("withWriteLock") internal suspend inline fun <T> withWriteLock(crossinline action: suspend () -> T): T {
+     internal suspend inline fun <T> withWriteLock(crossinline action: suspend () -> T): T {
         try {
             pthread_mutex_lock(mutex)
             return action()
@@ -18,7 +18,7 @@ class Lock {
             pthread_mutex_unlock(mutex)
         }
     }
-    @JvmName("withWriteLockSuspend") internal inline fun <T> withWriteLockSuspend(crossinline action: suspend () -> T): T {
+     internal inline fun <T> withWriteLockSuspend(crossinline action: suspend () -> T): T {
         var res: T? = null
         Parallel.runBlocking {
             withWriteLock {

@@ -515,7 +515,7 @@ class MyMapKNAMEVNAMEBTreeGDEF(@JvmField val t: Int) {
         override fun next(): KEY = SanityCheck.checkUnreachable()
         override fun value(): VALUE = SanityCheck.checkUnreachable()
     }
-    @JvmName("getOrCreate") internal inline fun getOrCreate(key: KEY, crossinline onCreate: () -> VALUE): VALUE {
+     internal inline fun getOrCreate(key: KEY, crossinline onCreate: () -> VALUE): VALUE {
         var res: VALUE? = null
         insert(
             key,

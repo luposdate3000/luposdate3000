@@ -20,7 +20,7 @@ class ColumnIteratorStore3c(@JvmField val values: MyListInt) : ColumnIterator() 
     val it = values.iterator()
     @JvmField
     var label = 1
-    @JvmName("_close") internal inline fun _close() {
+     internal inline fun _close() {
         label = 0
     }
     override suspend fun close() {
