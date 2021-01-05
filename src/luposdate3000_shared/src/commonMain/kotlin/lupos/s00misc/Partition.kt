@@ -1,8 +1,8 @@
 package lupos.s00misc
 public class Partition {
-   public  val data: MutableMap<String, Int>
-   public  val limit: MutableMap<String, Int>
-   public  companion object {
+    public val data: MutableMap<String, Int>
+    public val limit: MutableMap<String, Int>
+    public companion object {
         public val estimatedPartitions1: MutableMap<String, MutableSet<Int>> = mutableMapOf<String, MutableSet<Int>>()
         public val estimatedPartitions2: MutableMap<String, MutableSet<Int>> = mutableMapOf<String, MutableSet<Int>>()
         public var estimatedPartitionsValid: Boolean = false
@@ -13,7 +13,7 @@ public class Partition {
         data = mutableMapOf()
         limit = mutableMapOf()
     }
-public     constructor(parentPartition: Partition, variableName: String, partitionNumber: Int, partitionLimit: Int) {
+    public constructor(parentPartition: Partition, variableName: String, partitionNumber: Int, partitionLimit: Int) {
         val t = mutableMapOf<String, Int>()
         for ((k, v) in parentPartition.data) {
             t[k] = v
@@ -27,7 +27,7 @@ public     constructor(parentPartition: Partition, variableName: String, partiti
         t2[variableName] = partitionLimit
         limit = t2
     }
-public    constructor(parentPartition: Partition, variableName: String) {
+    public constructor(parentPartition: Partition, variableName: String) {
         val t = mutableMapOf<String, Int>()
         for ((k, v) in parentPartition.data) {
             if (k != variableName) {

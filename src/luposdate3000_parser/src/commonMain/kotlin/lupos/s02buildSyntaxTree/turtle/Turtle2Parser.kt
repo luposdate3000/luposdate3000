@@ -22,7 +22,7 @@ public abstract class Turtle2Parser(input: IMyInputStream) {
     internal val tripleType = Array(3) { ETripleComponentType.IRI }
     @JvmField
     internal var state = Turtle2ParserState.STATEMENT
-   public  abstract fun onTriple(triple: Array<String>, tripleType: Array<ETripleComponentType>)
+    public abstract fun onTriple(triple: Array<String>, tripleType: Array<ETripleComponentType>)
     public fun turtleDoc() {
         var iter = 0
         while (true) {

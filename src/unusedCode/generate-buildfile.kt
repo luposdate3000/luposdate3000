@@ -26,41 +26,41 @@ abstract class ChooseableOption(val label: String, val internalID: String) : Com
         return internalID.compareTo(other.internalID)
     }
 }
-class ChooseableOptionSimple(label: String) : ChooseableOption(label, label) {
+public class ChooseableOptionSimple(label: String) : ChooseableOption(label, label) {
     override fun toString() = "Simple($internalID)"
 }
-class ChooseableOptionCInterop(directory: String) : ChooseableOption(directory, directory) {
+public class ChooseableOptionCInterop(directory: String) : ChooseableOption(directory, directory) {
     override fun toString() = "CInterop($internalID)"
 }
-class ChooseableOptionDependency(url: String) : ChooseableOption(url, url) {
+public class ChooseableOptionDependency(url: String) : ChooseableOption(url, url) {
     override fun toString() = "Dependency($internalID)"
 }
-class ChooseableOptionSymbolic(label: String, internalID: String) : ChooseableOption(label, internalID) {
+public class ChooseableOptionSymbolic(label: String, internalID: String) : ChooseableOption(label, internalID) {
     override fun toString() = "Symbolic($internalID)"
 }
-class ChooseableOptionDirectory(label: String, val directory: String) : ChooseableOption(label, directory) {
-    constructor(directory: String) : this(directory, directory)
+public class ChooseableOptionDirectory(label: String, val directory: String) : ChooseableOption(label, directory) {
+    public constructor(directory: String) : this(directory, directory)
     override fun toString() = "Directory($internalID)"
 }
-class ChooseableOptionTypeAlias(label: String, val pkg: String, val aliasList: List<Pair<String, String>>) : ChooseableOption(label, "common" + pkg + aliasList) {
+public class ChooseableOptionTypeAlias(label: String, val pkg: String, val aliasList: List<Pair<String, String>>) : ChooseableOption(label, "common" + pkg + aliasList) {
     override fun toString() = "TypeAlias($internalID)"
 }
-class ChooseableOptionConstantValue(val pkg: String, val variableName: String, val variableValue: String) : ChooseableOption(variableValue, "common" + pkg + "." + variableName + variableValue) {
+public class ChooseableOptionConstantValue(val pkg: String, val variableName: String, val variableValue: String) : ChooseableOption(variableValue, "common" + pkg + "." + variableName + variableValue) {
     override fun toString() = "ConstantValue($internalID = $variableValue)"
 }
-class ChoosableOptionExternalScript(label: String, val scriptName: String, internalID: String, val beforeTemplate: Boolean) : ChooseableOption(label, "common" + internalID) {
+public class ChoosableOptionExternalScript(label: String, val scriptName: String, internalID: String, val beforeTemplate: Boolean) : ChooseableOption(label, "common" + internalID) {
     override fun toString() = "ExternalScript($scriptName)"
 }
-class ChoosableOptionInternalScript(label: String, val action: () -> Unit, internalID: String, val beforeTemplate: Boolean) : ChooseableOption(label, "common" + internalID) {
+public class ChoosableOptionInternalScript(label: String, val action: () -> Unit, internalID: String, val beforeTemplate: Boolean) : ChooseableOption(label, "common" + internalID) {
     override fun toString() = "InternalScript($internalID)"
 }
-class ChooseableGroup(val name: String, val shortcut: String) : Comparable<ChooseableGroup> {
+public class ChooseableGroup(val name: String, val shortcut: String) : Comparable<ChooseableGroup> {
     override fun equals(other: Any?) = other is ChooseableGroup && name == other.name
     override fun hashCode() = name.hashCode()
     override operator fun compareTo(other: ChooseableGroup) = name.compareTo(other.name)
 }
-class PrecompileTemplate(val pkg: String, val sourceClass: String, val replacements: List<Pair<String, String>>)
-class GenerateBuildFile(val args: Array<String>) {
+public class PrecompileTemplate(val pkg: String, val sourceClass: String, val replacements: List<Pair<String, String>>)
+public class GenerateBuildFile(val args: Array<String>) {
     var autoGenerateAllChoosenOptionsList = mutableSetOf<ChooseableOption>()
     var autoGenerateAllNotChoosenOptionsList = mutableSetOf<ChooseableOption>()
     var autoGenerateAllChoicesString = ""
@@ -382,7 +382,7 @@ class GenerateBuildFile(val args: Array<String>) {
             }
         }
     }
-    fun myReadLine(key: String): String? {
+    public fun myReadLine(key: String): String? {
         while (true) {
             val tmp = myReadLineCache[key]
             if (tmp != null) {
@@ -405,7 +405,7 @@ class GenerateBuildFile(val args: Array<String>) {
             }
         }
     }
-    fun presentUserChoice(group: ChooseableGroup, options: List<ChooseableOption>): ChooseableOption {
+    public fun presentUserChoice(group: ChooseableGroup, options: List<ChooseableOption>): ChooseableOption {
         when (options.size) {
             0 -> throw Exception("script error")
             1 -> return options[0]
@@ -444,12 +444,12 @@ class GenerateBuildFile(val args: Array<String>) {
             }
         }
     }
-    fun resetAllChoosenOptions() {
+    public fun resetAllChoosenOptions() {
         allChoosenOptions.clear()
         allChoosenOptions.add(ChooseableOptionDirectory("commonMain"))
         allChoosenOptions.add(ChooseableOptionDirectory("commonConfig"))
     }
-    fun addAdditionalSources() {
+    public fun addAdditionalSources() {
         var changed = true
         while (changed) {
             changed = false
@@ -467,7 +467,7 @@ class GenerateBuildFile(val args: Array<String>) {
         }
     }
     /*--->>> autogenerating all possible build-files*/
-    fun presentAutoChoice(group: ChooseableGroup, options: List<ChooseableOption>): ChooseableOption {
+    public fun presentAutoChoice(group: ChooseableGroup, options: List<ChooseableOption>): ChooseableOption {
         if (options.size == 1) {
             autoGenerateAllChoosenOptionsList.add(options[0])
             autoGenerateAllNotChoosenOptionsList.remove(options[0])
@@ -501,7 +501,7 @@ class GenerateBuildFile(val args: Array<String>) {
             return options[0] // anything, since all were choosen at least once
         }
     }
-    fun main() {
+    public fun main() {
         var done = false
         var autogeneratemode = args.size > 0 && args[0] == "listAll"
         File("build-cache/bin-effective").deleteRecursively()
@@ -819,7 +819,7 @@ class GenerateBuildFile(val args: Array<String>) {
                         }
                     }
                 }
-                fun String.runCommand(workingDir: File? = null) {
+                public fun String.runCommand(workingDir: File? = null) {
                     val process = ProcessBuilder(*split(" ").toTypedArray())
                         .directory(workingDir)
                         .redirectOutput(Redirect.INHERIT)

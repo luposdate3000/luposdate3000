@@ -10,14 +10,14 @@ import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.iterator.IteratorBundle
-abstract public class AOPBase(
+public abstract class AOPBase(
     query: IQuery,
     operatorID: EOperatorID,
     classname: String,
     children: Array<IOPBase>
 ) :
     OPBase(query, operatorID, classname, children, ESortPriority.PREVENT_ANY), IAOPBase {
-    fun evaluateAsBoolean(row: IteratorBundle): () -> Boolean {
+    public fun evaluateAsBoolean(row: IteratorBundle): () -> Boolean {
         if (enforcesBooleanOrError()) {
             val tmp = evaluateID(row)
             return {
@@ -41,17 +41,17 @@ abstract public class AOPBase(
             }
         }
     }
-    open fun evaluate(row: IteratorBundle): () -> ValueDefinition {
+    public open fun evaluate(row: IteratorBundle): () -> ValueDefinition {
         return {
             query.getDictionary().getValue(evaluateID(row)())
         }
     }
-    open fun evaluateID(row: IteratorBundle): () -> Int {
+    public open fun evaluateID(row: IteratorBundle): () -> Int {
         return {
             query.getDictionary().createValue(evaluate(row)())
         }
     }
-    open fun enforcesBooleanOrError(): Boolean = false
+    public open fun enforcesBooleanOrError(): Boolean = false
     override fun getPartitionCount(variable: String): Int = SanityCheck.checkUnreachable()
     override /*suspend*/ fun calculateHistogram(): HistogramResult = SanityCheck.checkUnreachable()
 }

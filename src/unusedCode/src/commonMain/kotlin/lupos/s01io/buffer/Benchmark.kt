@@ -1,6 +1,6 @@
 package lupos.s01io.buffer
 import lupos.s00misc.SanityCheck
-class OnePageBenchmark {
+public class OnePageBenchmark {
     val page: Page = bufferManager.getPage("tmp/test", 0)
     val page1: Page = bufferManager.getPage("tmp/test", 1)
     val offset: Long = page.getPageIndex()

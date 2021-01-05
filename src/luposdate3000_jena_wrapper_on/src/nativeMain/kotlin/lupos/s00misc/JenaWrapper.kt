@@ -1,14 +1,14 @@
 package lupos.s00misc
-object JenaWrapper {
-    fun dropAll() {
+public object JenaWrapper {
+    public fun dropAll() {
     }
-    fun updateQuery(queryString: String) {
+    public fun updateQuery(queryString: String) {
     }
-    fun execQuery(queryString: String): String {
+    public fun execQuery(queryString: String): String {
         return ""
     }
-    fun loadFromFile(fileName: String) {
+    public fun loadFromFile(fileName: String) {
     }
-    fun loadFromFile(fileName: String, graph: String) {
+    public fun loadFromFile(fileName: String, graph: String) {
     }
 }

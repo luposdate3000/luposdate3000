@@ -13,7 +13,7 @@ import lupos.s04logicalOperators.iterator.ColumnIteratorMultiValue
 import lupos.s04logicalOperators.iterator.ColumnIteratorRepeatValue
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import kotlin.jvm.JvmField
-class TripleStoreIndex_MapMapList : TripleStoreIndex() {
+public class TripleStoreIndex_MapMapList : TripleStoreIndex() {
     @JvmField
     val data = MyMapIntGeneric<MyMapIntGeneric<MySetInt>>()
     override suspend fun printContents() {
@@ -246,7 +246,7 @@ class TripleStoreIndex_MapMapList : TripleStoreIndex() {
             }
         }
     }
-    fun import(dataImport: MyMapLongGeneric<MySetInt>) {
+    public fun import(dataImport: MyMapLongGeneric<MySetInt>) {
         val iterator = dataImport.iterator()
         while (iterator.hasNext()) {
             val key = iterator.next()

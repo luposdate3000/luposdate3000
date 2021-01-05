@@ -2,6 +2,7 @@ package lupos.s00misc
 import java.io.OutputStream
 import java.io.PrintWriter
 import java.io.StringWriter
+import kotlin.jvm.JvmField
 internal actual open class MyPrintWriter : IMyPrintWriter {
     @JvmField
     val buffer = StringWriter()
@@ -18,11 +19,11 @@ internal actual open class MyPrintWriter : IMyPrintWriter {
             printer = PrintWriter(buffer)
         }
     }
-    constructor(f: java.io.File) {
+    public constructor(f: java.io.File) {
         bufferMode = MyPrintWriterMode.FILE
         printer = f.printWriter()
     }
-    constructor(o: OutputStream) {
+    public constructor(o: OutputStream) {
         bufferMode = MyPrintWriterMode.FILE
         printer = PrintWriter(o, false)
     }

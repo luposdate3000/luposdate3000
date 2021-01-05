@@ -4,9 +4,9 @@ import platform.posix.pthread_mutex_init
 import platform.posix.pthread_mutex_lock
 import platform.posix.pthread_mutex_t
 import platform.posix.pthread_mutex_unlock
-class Lock {
+public class Lock {
     val mutex = cValue<pthread_mutex_t>()
-    constructor() {
+    public constructor() {
         pthread_mutex_init(mutex, null)
     }
     internal suspend inline fun <T> withWriteLock(crossinline action: suspend () -> T): T {

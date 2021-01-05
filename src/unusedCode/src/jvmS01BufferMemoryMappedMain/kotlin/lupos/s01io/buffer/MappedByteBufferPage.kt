@@ -6,11 +6,11 @@ import java.nio.channels.FileChannel
 import kotlin.jvm.JvmField
 typealias Page = MappedByteBufferPage
 inline fun createString(chars: CharArray): String = String(chars)
-class MappedByteBufferPage(@JvmField public val buffer: MappedByteBuffer) {
+public class MappedByteBufferPage(@JvmField public val buffer: MappedByteBuffer) {
     // in JVM-environment: this does not generate any getter avoiding a virtual method call!
     @JvmField
     var locked = 0
-    constructor() : this(
+    public constructor() : this(
         RandomAccessFile(File("tmp"), "rw")
             .getChannel()
             .map(FileChannel.MapMode.READ_ONLY, 0, 1)

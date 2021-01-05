@@ -14,14 +14,14 @@ import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.noinput.LOPValues
 import lupos.s09physicalOperators.POPBase
 import kotlin.jvm.JvmField
-open public class POPValues : POPBase {
+public open class POPValues : POPBase {
     override fun getPartitionCount(variable: String): Int = 1
     @JvmField
-    val variables: List<String>
+    public val variables: List<String>
     @JvmField
-    val data: Map<String, MutableList<Int>>
+    public val data: Map<String, MutableList<Int>>
     @JvmField
-    val rows: Int
+    public val rows: Int
     override fun toSparql(): String {
         var res = "VALUES("
         for (v in variables) {
@@ -83,12 +83,12 @@ open public class POPValues : POPBase {
             POPValues(query, projectedVariables, variables, data)
         }
     }
-    constructor(query: IQuery, count: Int) : super(query, listOf<String>(), EOperatorID.POPValuesID, "POPValues", arrayOf(), ESortPriority.PREVENT_ANY) {
+    public constructor(query: IQuery, count: Int) : super(query, listOf<String>(), EOperatorID.POPValuesID, "POPValues", arrayOf(), ESortPriority.PREVENT_ANY) {
         variables = listOf()
         data = mapOf()
         rows = count
     }
-    constructor(query: IQuery, projectedVariables: List<String>, v: List<String>, d: MutableList<List<String?>>) : super(query, projectedVariables, EOperatorID.POPValuesID, "POPValues", arrayOf(), ESortPriority.PREVENT_ANY) {
+    public constructor(query: IQuery, projectedVariables: List<String>, v: List<String>, d: MutableList<List<String?>>) : super(query, projectedVariables, EOperatorID.POPValuesID, "POPValues", arrayOf(), ESortPriority.PREVENT_ANY) {
         variables = v
         val columns = Array(variables.size) { mutableListOf<Int>() }
         data = mutableMapOf()
@@ -106,12 +106,12 @@ open public class POPValues : POPBase {
             rows = -1
         }
     }
-    constructor(query: IQuery, projectedVariables: List<String>, v: List<String>, d: Map<String, MutableList<Int>>) : super(query, projectedVariables, EOperatorID.POPValuesID, "POPValues", arrayOf(), ESortPriority.PREVENT_ANY) {
+    public constructor(query: IQuery, projectedVariables: List<String>, v: List<String>, d: Map<String, MutableList<Int>>) : super(query, projectedVariables, EOperatorID.POPValuesID, "POPValues", arrayOf(), ESortPriority.PREVENT_ANY) {
         variables = v
         data = d
         rows = -1
     }
-    constructor(query: IQuery, projectedVariables: List<String>, values: LOPValues) : super(query, projectedVariables, EOperatorID.POPValuesID, "POPValues", arrayOf(), ESortPriority.PREVENT_ANY) {
+    public constructor(query: IQuery, projectedVariables: List<String>, values: LOPValues) : super(query, projectedVariables, EOperatorID.POPValuesID, "POPValues", arrayOf(), ESortPriority.PREVENT_ANY) {
         if (projectedVariables.isEmpty()) {
             variables = listOf()
             data = mapOf()

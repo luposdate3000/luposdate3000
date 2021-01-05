@@ -1,10 +1,11 @@
 package lupos.s00misc
+import kotlin.jvm.JvmField
 import lupos.s02buildSyntaxTree.LexerCharIterator
 import lupos.s02buildSyntaxTree.LookAheadTokenIterator
 import lupos.s02buildSyntaxTree.sparql1_1.SPARQLParser
 import lupos.s02buildSyntaxTree.sparql1_1.TokenIteratorSPARQLParser
-import lupos.s03resultRepresentation.ResultSetDictionaryExt
 import lupos.s03resultRepresentation.nodeGlobalDictionary
+import lupos.s03resultRepresentation.ResultSetDictionaryExt
 import lupos.s04arithmetikOperators.IAOPBase
 import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s04logicalOperators.IOPBase
@@ -17,7 +18,7 @@ import lupos.s10physicalOptimisation.PhysicalOptimizer
 import lupos.s11outputResult.QueryResultToMemoryTable
 import lupos.s11outputResult.QueryResultToXMLStream
 import lupos.s15tripleStoreDistributed.distributedTripleStore
-object BinaryTestCase {
+public object BinaryTestCase {
     private var outSummary = MyPrintWriter(false)
     private var lastInput = MemoryTable(Array(0) { "" })
     private fun rowToString(row: IntArray, dict: Array<String>): String {
@@ -45,7 +46,7 @@ object BinaryTestCase {
         }
         return res
     }
-    fun executeAllTestCase(folder: String = "resources/binary/") {
+public fun executeAllTestCase(folder: String = "resources/binary/") {
         outSummary = File("log/error").myPrintWriter()
         File("$folder/config2").printWriter { newConfig ->
             File("$folder/config").forEachLine { line ->
@@ -274,13 +275,13 @@ object BinaryTestCase {
         "<http://www.w3.org/2002/07/owl#someValuesFrom>", //
         "<http://www.w3.org/2002/07/owl#Thing>", //
     )
-    fun executeTestCase(query_folder: String): Boolean {
+public fun executeTestCase(query_folder: String): Boolean {
         var returnValue = true
         File("$query_folder/query.stat").dataInputStream { targetStat ->
             File("$query_folder/query.dictionary").dataInputStream { targetDictionary ->
                 File("$query_folder/query.triples").dataInputStream { targetTriples ->
                     File("$query_folder/query.result").dataInputStream { targetResult ->
-                        func@ while (true) {
+public func@ while (true) {
                             val modeId = targetStat.readInt()
                             val mode = BinaryTestCaseOutputMode.values()[modeId]
                             val variables = mutableListOf<String>()
@@ -504,7 +505,7 @@ if (tmpTable != null) {
         }
         return returnValue
     }
-    fun generateTestcase(query_input_file: String, query_file: String, query_output_file: String, output_folder: String, query_name: String, output_mode_tmp: BinaryTestCaseOutputMode): Boolean {
+public fun generateTestcase(query_input_file: String, query_file: String, query_output_file: String, output_folder: String, query_name: String, output_mode_tmp: BinaryTestCaseOutputMode): Boolean {
         try {
             var outputMode = output_mode_tmp
             File(output_folder).deleteRecursively()

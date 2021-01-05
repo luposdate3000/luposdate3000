@@ -3,8 +3,8 @@ import lupos.s00misc.SanityCheck
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.multiinput.LOPJoin
 import kotlin.jvm.JvmField
-object LogicalOptimizerJoinOrderCostBasedOnVariable {
-    class Plan : Comparable<Plan> {
+public object LogicalOptimizerJoinOrderCostBasedOnVariable {
+    public class Plan : Comparable<Plan> {
         @JvmField
         val child: IOPBase?
         @JvmField
@@ -17,7 +17,7 @@ object LogicalOptimizerJoinOrderCostBasedOnVariable {
         val cost: Int
         @JvmField
         val depth: Int
-        constructor(child: IOPBase, variables: Array<Int>, allVariables: List<Int>) {
+        public constructor(child: IOPBase, variables: Array<Int>, allVariables: List<Int>) {
             depth = 1
             this.child = child
             childs = null
@@ -33,7 +33,7 @@ object LogicalOptimizerJoinOrderCostBasedOnVariable {
             cost = columns
         }
         private inline fun sqr(i: Int) = i * i
-        constructor(plans: Array<Plan?>, childA: Int, childB: Int, allVariables: List<Int>) {
+        public constructor(plans: Array<Plan?>, childA: Int, childB: Int, allVariables: List<Int>) {
             child = null
             childs = Pair(childA, childB)
             val va = plans[childA]!!.variables
@@ -70,7 +70,7 @@ object LogicalOptimizerJoinOrderCostBasedOnVariable {
         override operator fun compareTo(other: Plan): Int {
             return cost.compareTo(other.cost)
         }
-        fun toOPBase(plans: Array<Plan?>): IOPBase {
+        public fun toOPBase(plans: Array<Plan?>): IOPBase {
             if (child != null) {
                 return child
             }

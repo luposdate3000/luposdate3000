@@ -1,8 +1,8 @@
 package lupos.s00misc
 /* explicitly storing the classname has the advantage, that the classname is accessible in native code too, and not just via reflection */
-abstract public class Luposdate3000Exception(internal val classname: String, msg: String) : Exception(msg)
+public abstract class Luposdate3000Exception(internal val classname: String, msg: String) : Exception(msg)
 // not implemented exceptions --->>>
-open public class NotImplementedException(classname: String, msg: String) : Luposdate3000Exception(classname, msg)
+public open class NotImplementedException(classname: String, msg: String) : Luposdate3000Exception(classname, msg)
 public class HistogramNotImplementedException(classname: String) : NotImplementedException("HistogramNotImplementedException", "Histograms not implemented in '$classname'.")
 public class IteratorBundleColumnModeNotImplementedException : NotImplementedException("IteratorBundleColumnModeNotImplementedException", "IteratorBundle is unable to convert to column Mode.")
 public class IteratorBundleRowModeNotImplementedException : NotImplementedException("IteratorBundleRowModeNotImplementedException", "IteratorBundle is unable to convert to row Mode.")
@@ -15,7 +15,7 @@ public class DirectoryCompareNotImplementedException : NotImplementedException("
 public class GraphVarHistogramsNotImplementedException : NotImplementedException("GraphVarHistogramsNotImplementedException", "histograms for triples using graph variable not implemented.")
 public class TriplePatternsContainingTheSameVariableTwiceNotImplementedException : NotImplementedException("TriplePatternsContainingTheSameVariableTwiceNotImplementedException", "triple pattern currently must not contain the same variable twice.")
 // syntax exceptions --->>>
-abstract public class SyntaxException(classname: String, msg: String) : Luposdate3000Exception(classname, msg)
+public abstract class SyntaxException(classname: String, msg: String) : Luposdate3000Exception(classname, msg)
 public class RecoursiveVariableDefinitionSyntaxException(name: String) : SyntaxException("RecoursiveVariableDefinitionSyntaxException", "Recoursive variable definition not allowed '$name'.")
 public class ProjectionDoubleDefinitionOfVariableSyntaxException(name: String) : SyntaxException("DoubleDefinitionOfVariableSyntaxException", "Projection must not contain same variable as bind and selection '$name'.")
 public class AggregateNotAllowedSyntaxException : SyntaxException("AggregateNotAllowedSyntaxException", "Aggregates are not allowed here.")
@@ -25,7 +25,7 @@ public class GroupByColumnMissing(name: String) : SyntaxException("GroupByColumn
 public class GroupByDuplicateColumnException : SyntaxException("GroupByDuplicateColumnException", "no duplicate columns allowed in group-by.")
 public class XMLNotParseableException : SyntaxException("XMLNotParseableException", "Xml is not parseable.")
 // evaluation exceptions --->>>
-abstract public class EvaluationException(classname: String, msg: String) : Luposdate3000Exception(classname, msg)
+public abstract class EvaluationException(classname: String, msg: String) : Luposdate3000Exception(classname, msg)
 public class DatasetImportFailedException(file: String) : EvaluationException("DatasetImportFailedException", "importing the dataset '$file' failed")
 public class IncompatibleTypesDuringCompareException : EvaluationException("IncompatibleTypesDuringCompareException", "The provided types are incompatible.")
 public class CanNotCastBNodeToDoubleException : EvaluationException("CanNotCastBNodeToDoubleException", "Can not cast BNode to Double.")

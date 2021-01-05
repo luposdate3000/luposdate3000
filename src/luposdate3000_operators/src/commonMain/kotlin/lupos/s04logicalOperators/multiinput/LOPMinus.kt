@@ -7,8 +7,7 @@ import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.LOPBase
 import kotlin.jvm.JvmField
 public class LOPMinus(query: IQuery, first: IOPBase, second: IOPBase, @JvmField public var tmpFakeVariables: List<String>) : LOPBase(query, EOperatorID.LOPMinusID, "LOPMinus", arrayOf(first, second), ESortPriority.MINUS) {
-    @JvmField
-    var hadSortPushDown: Boolean = false
+    @JvmField public var hadSortPushDown: Boolean = false
     override fun getProvidedVariableNames(): List<String> = (children[0].getProvidedVariableNames() + tmpFakeVariables).distinct()
     override fun getRequiredVariableNames(): List<String> = listOf()
     override fun equals(other: Any?): Boolean = other is LOPMinus && children[0] == other.children[0] && children[1] == other.children[1]

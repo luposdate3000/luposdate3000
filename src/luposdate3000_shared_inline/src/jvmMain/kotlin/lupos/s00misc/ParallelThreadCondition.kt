@@ -1,4 +1,5 @@
 package lupos.s00misc
+import kotlin.jvm.JvmField
 internal actual class ParallelThreadCondition {
     @JvmField
     val myMonitorObject = this as Object

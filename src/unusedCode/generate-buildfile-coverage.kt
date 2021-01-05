@@ -1,6 +1,7 @@
 import java.io.File
 import java.nio.file.Files
 import java.nio.file.Paths
+import kotlin.jvm.JvmField
 import kotlin.jvm.JvmName
 val separator = "([^a-zA-Z_\\{]|$|^)"
 val separatorB = "([^a-zA-Z_]|$|^)"
@@ -30,7 +31,7 @@ val whenBrackets = mutableMapOf<Int, Int>()
 enum class CoverageMode {
     Enable, Disable
 }
-fun applyCoverageEnable() {
+public fun applyCoverageEnable() {
     Files.walk(Paths.get("src.generated")).forEach { it ->
         val tmp = it.toString()
         if (tmp.endsWith(".kt")) {
@@ -38,7 +39,7 @@ fun applyCoverageEnable() {
         }
     }
 }
-fun applyCoverageDisable() {
+public fun applyCoverageDisable() {
     Files.walk(Paths.get("src.generated")).forEach { it ->
         val tmp = it.toString()
         if (tmp.endsWith(".kt")) {
@@ -46,31 +47,31 @@ fun applyCoverageDisable() {
         }
     }
 }
-fun appendCoverageForLoop(filename: String, counter: Int, linenumber: Int) {
+public fun appendCoverageForLoop(filename: String, counter: Int, linenumber: Int) {
     coverageMap[counter] = "$filename:$linenumber"
 }
-fun appendCoverageForEachLoop(filename: String, counter: Int, linenumber: Int) {
+public fun appendCoverageForEachLoop(filename: String, counter: Int, linenumber: Int) {
     coverageMap[counter] = "$filename:$linenumber"
 }
-fun appendCoverageWhileLoop(filename: String, counter: Int, linenumber: Int) {
+public fun appendCoverageWhileLoop(filename: String, counter: Int, linenumber: Int) {
     coverageMap[counter] = "$filename:$linenumber"
 }
-fun appendCoverageIf(filename: String, counter: Int, linenumber: Int) {
+public fun appendCoverageIf(filename: String, counter: Int, linenumber: Int) {
     coverageMap[counter] = "$filename:$linenumber"
 }
-fun appendCoverageFun(filename: String, counter: Int, linenumber: Int) {
+public fun appendCoverageFun(filename: String, counter: Int, linenumber: Int) {
     coverageMap[counter] = "$filename:$linenumber"
 }
-fun appendCoverageWhenCase(filename: String, counter: Int, linenumber: Int) {
+public fun appendCoverageWhenCase(filename: String, counter: Int, linenumber: Int) {
     coverageMap[counter] = "$filename:$linenumber"
 }
-fun appendCoverageWhen(filename: String, counter: Int, linenumber: Int) {
+public fun appendCoverageWhen(filename: String, counter: Int, linenumber: Int) {
     coverageMap[counter] = "$filename:$linenumber"
 }
-fun appendCoverageStatement(filename: String, counter: Int, linenumber: Int) {
+public fun appendCoverageStatement(filename: String, counter: Int, linenumber: Int) {
     coverageMap[counter] = "$filename:$linenumber"
 }
-fun applyCoverage(f: String, coverageMode: CoverageMode) {
+public fun applyCoverage(f: String, coverageMode: CoverageMode) {
     if (!f.endsWith("Coverage.kt") &&
             !f.endsWith("SPARQLParser.kt") &&
             !f.endsWith("SPARQLScanner.kt") &&
@@ -126,7 +127,7 @@ File("resources/CoverageMapWhenCaseGenerated.txt").printWriter().use {
         out.println("$k:$v")
     }
 }
-fun addCoverage(filename: String, lines: List<String>): List<String> {
+public fun addCoverage(filename: String, lines: List<String>): List<String> {
     val res = mutableListOf<String>()
     var appendClosingBracket = 0
     var hadPackage = false
@@ -312,7 +313,7 @@ fun addCoverage(filename: String, lines: List<String>): List<String> {
     }
     return res
 }
-fun removeCoverage(lines: List<String>): List<String> {
+public fun removeCoverage(lines: List<String>): List<String> {
     val res = mutableListOf<String>()
     lines.forEach {
         val line = it.replace(regexCoverage, "")

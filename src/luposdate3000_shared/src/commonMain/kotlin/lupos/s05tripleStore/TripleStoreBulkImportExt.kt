@@ -43,7 +43,7 @@ public object TripleStoreBulkImportExt {
             target[c++] = source[b++]
         }
     }
-    public   fun sortUsingBuffers(firstIdx: Int, dataIdxA: Int, dataIdxB: Int, data: Array<IntArray>, total: Int, order: IntArray) {
+    public fun sortUsingBuffers(firstIdx: Int, dataIdxA: Int, dataIdxB: Int, data: Array<IntArray>, total: Int, order: IntArray) {
         /*in the first step the data is moved into dataIdxB*/
         var off: Int
         var shift = 0

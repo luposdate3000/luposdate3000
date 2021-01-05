@@ -6,8 +6,8 @@ import lupos.s02buildSyntaxTree.TokenIterator
 import lupos.s02buildSyntaxTree.UnexpectedEndOfFile
 import kotlin.jvm.JvmField
 public class EOF(index: Int) : Token("EOF", index)
-abstract public class InBraces(@JvmField public val content: String, index: Int, @JvmField public val leftBrace: String, @JvmField public val rightBrace: String) : Token(leftBrace + content + rightBrace, index) {
-    override public fun toString(): String {
+public abstract class InBraces(@JvmField public val content: String, index: Int, @JvmField public val leftBrace: String, @JvmField public val rightBrace: String) : Token(leftBrace + content + rightBrace, index) {
+    public override fun toString(): String {
         return super.toString() + ": " + this.image
     }
 }
@@ -32,7 +32,7 @@ public class PNAME_LN(@JvmField public val beforeColon: String, @JvmField public
 public class POSSIBLE_KEYWORD(@JvmField public val original_image: String, index: Int) : Token(original_image.toUpperCase(), index)
 public class UnexpectedEndOfLine(index: Int, lineNumber: Int, columnNumber: Int) : ParseError("Unexpected End of Line", lineNumber, columnNumber)
 public class TurtleScanner(@JvmField public val iterator: LexerCharIterator) : TokenIterator {
-    private  fun skip() {
+    private fun skip() {
         loop@ while (true) {
             when (val c = iterator.nextChar()) {
                 ' ', '\t', '\n', '\r' -> {
@@ -54,12 +54,12 @@ public class TurtleScanner(@JvmField public val iterator: LexerCharIterator) : T
             }
         }
     }
-    override public fun getIndex(): Int {
+    public override fun getIndex(): Int {
         return this.iterator.index
     }
-    override public fun getLineNumber(): Int = this.iterator.lineNumber
-    override public fun getColumnNumber(): Int = this.iterator.columnNumber
-    override public fun nextToken(): Token {
+    public override fun getLineNumber(): Int = this.iterator.lineNumber
+    public override fun getColumnNumber(): Int = this.iterator.columnNumber
+    public override fun nextToken(): Token {
         try {
             skip()
         } catch (e: UnexpectedEndOfFile) {
@@ -301,7 +301,7 @@ public class TurtleScanner(@JvmField public val iterator: LexerCharIterator) : T
             }
         }
     }
-    private inline  fun PNAME_LN_after_colon(beforeColon: String, startToken: Int): Token {
+    private inline fun PNAME_LN_after_colon(beforeColon: String, startToken: Int): Token {
         if (this.iterator.hasNext()) {
             val c = this.iterator.nextChar()
             var afterColon = ""
@@ -398,7 +398,7 @@ public class TurtleScanner(@JvmField public val iterator: LexerCharIterator) : T
             return PNAME_NS(beforeColon, startToken)
         }
     }
-    private inline  fun numberAfterDot(beforeDOT: String, startToken: Int): Token {
+    private inline fun numberAfterDot(beforeDOT: String, startToken: Int): Token {
         // next token can only be a decimal or double literal!
         var afterDOT = ""
         while (this.iterator.hasNext()) {
@@ -417,7 +417,7 @@ public class TurtleScanner(@JvmField public val iterator: LexerCharIterator) : T
         }
         return DECIMAL(beforeDOT, afterDOT, startToken)
     }
-    private inline  fun numberAfterExp(beforeDOT: String, dot: Boolean, afterDOT: String, exp: Char, startToken: Int): Token {
+    private inline fun numberAfterExp(beforeDOT: String, dot: Boolean, afterDOT: String, exp: Char, startToken: Int): Token {
         // next token can only be a double literal!
         val maybesign = this.iterator.nextChar()
         val sign: String
@@ -445,7 +445,7 @@ public class TurtleScanner(@JvmField public val iterator: LexerCharIterator) : T
             throw ParseError("Double without an integer in the exponent", this.iterator.lineNumber, this.iterator.columnNumber)
         }
     }
-    private inline  fun dealWithString(delimiter: Char, startToken: Int): Token {
+    private inline fun dealWithString(delimiter: Char, startToken: Int): Token {
         if (iterator.hasNext()) {
             if (iterator.lookahead() == delimiter) {
                 iterator.nextChar()
@@ -496,7 +496,7 @@ public class TurtleScanner(@JvmField public val iterator: LexerCharIterator) : T
             throw UnexpectedEndOfFile(this.iterator.index, this.iterator.lineNumber, this.iterator.columnNumber)
         }
     }
-    private inline  fun PN_CHARS_BASE(c: Char) =
+    private inline fun PN_CHARS_BASE(c: Char) =
         c in 'A'..'Z' ||
             c in 'a'..'z' ||
             c in '\u00C0'..'\u00D6' ||
@@ -511,17 +511,17 @@ public class TurtleScanner(@JvmField public val iterator: LexerCharIterator) : T
             c in '\uF900'..'\uFDCF' ||
             c in '\uFDF0'..'\uFFFD' ||
             c in '\u1000'..'\uEFFF'
-    private inline  fun PN_CHARS_U(c: Char) = PN_CHARS_BASE(c) || c == '_'
-    private inline  fun DIGIT(c: Char) = c in '0'..'9'
-    private inline  fun VARNAMESECONDCHARANDLATER(c: Char) =
+    private inline fun PN_CHARS_U(c: Char) = PN_CHARS_BASE(c) || c == '_'
+    private inline fun DIGIT(c: Char) = c in '0'..'9'
+    private inline fun VARNAMESECONDCHARANDLATER(c: Char) =
         PN_CHARS_U(c) ||
             DIGIT(c) ||
             c == '\u00B7' ||
             c in '\u0300'..'\u036F' ||
             c in '\u203F'..'\u2040'
-    private inline  fun PN_CHARS(c: Char) = VARNAMESECONDCHARANDLATER(c) || c == '-'
-    private inline  fun PN_CHARS_U_or_DIGIT(c: Char) = PN_CHARS_U(c) || DIGIT(c)
-    private inline  fun PN_LOCAL_ESC(c: Char) = when (c) {
+    private inline fun PN_CHARS(c: Char) = VARNAMESECONDCHARANDLATER(c) || c == '-'
+    private inline fun PN_CHARS_U_or_DIGIT(c: Char) = PN_CHARS_U(c) || DIGIT(c)
+    private inline fun PN_LOCAL_ESC(c: Char) = when (c) {
         '\u005F',
         '\u007E',
         '\u002E',
@@ -549,7 +549,7 @@ public class TurtleScanner(@JvmField public val iterator: LexerCharIterator) : T
             false
         }
     }
-    private inline  fun HEX(c: Char) = when (c) {
+    private inline fun HEX(c: Char) = when (c) {
         in '0'..'9',
         in 'A'..'F',
         in 'a'..'f' -> {

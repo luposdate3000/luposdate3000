@@ -1,9 +1,9 @@
 package lupos.s04logicalOperators.iterator
 import lupos.s03resultRepresentation.ResultSetDictionaryExt
 import kotlin.jvm.JvmField
-class ColumnIteratorRepeatValue(@JvmField public val count: Int, @JvmField public val value: Int) : ColumnIterator() {
+public class ColumnIteratorRepeatValue(@JvmField public val count: Int, @JvmField public val value: Int) : ColumnIterator() {
     @JvmField
-    var index: Int = 0
+    public var index: Int = 0
     override /*suspend*/ fun close() {
         index = count
     }

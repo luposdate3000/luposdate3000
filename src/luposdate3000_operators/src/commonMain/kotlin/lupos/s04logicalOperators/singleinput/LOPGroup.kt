@@ -16,7 +16,7 @@ import lupos.s04logicalOperators.noinput.OPEmptyRow
 import kotlin.jvm.JvmField
 public class LOPGroup(query: IQuery, @JvmField public var by: List<AOPVariable>) : LOPBase(query, EOperatorID.LOPGroupID, "LOPGroup", arrayOf(OPEmptyRow(query)), ESortPriority.GROUP) {
     override fun childrenToVerifyCount(): Int = 1
-    var bindings: MutableList<Pair<String, AOPBase>> = mutableListOf()
+    @JvmField public var bindings: MutableList<Pair<String, AOPBase>> = mutableListOf()
     override fun getPossibleSortPriorities(): List<List<SortHelper>> {
         /*possibilities for_ next operator*/
         val res = mutableListOf<List<SortHelper>>()
@@ -34,11 +34,11 @@ public class LOPGroup(query: IQuery, @JvmField public var by: List<AOPVariable>)
         }
         return res
     }
-    constructor(query: IQuery, by: List<AOPVariable>, bindings: List<Pair<String, AOPBase>>, child: IOPBase) : this(query, by) {
+    public constructor(query: IQuery, by: List<AOPVariable>, bindings: List<Pair<String, AOPBase>>, child: IOPBase) : this(query, by) {
         this.bindings = bindings.toMutableList()
         children[0] = child
     }
-    constructor(query: IQuery, by: List<AOPVariable>, bindings: IOPBase?, child: IOPBase) : this(query, by) {
+    public constructor(query: IQuery, by: List<AOPVariable>, bindings: IOPBase?, child: IOPBase) : this(query, by) {
         var b = bindings
         while (b != null) {
             if (b is LOPBind) {

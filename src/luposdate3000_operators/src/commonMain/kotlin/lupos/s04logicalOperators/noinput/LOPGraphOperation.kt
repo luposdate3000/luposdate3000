@@ -11,11 +11,11 @@ import kotlin.jvm.JvmField
 public class LOPGraphOperation(
     query: IQuery,
     @JvmField public var action: EGraphOperationType = EGraphOperationType.CREATE,
-    var silent: Boolean = false,
-    var graph1type: EGraphRefType = EGraphRefType.DefaultGraphRef,
-    var graph1iri: String? = null,
-    var graph2type: EGraphRefType = EGraphRefType.DefaultGraphRef,
-    var graph2iri: String? = null
+    @JvmField public var silent: Boolean = false,
+    @JvmField public var graph1type: EGraphRefType = EGraphRefType.DefaultGraphRef,
+    @JvmField public var graph1iri: String? = null,
+    @JvmField public var graph2type: EGraphRefType = EGraphRefType.DefaultGraphRef,
+    @JvmField public var graph2iri: String? = null
 ) : LOPBase(query, EOperatorID.LOPGraphOperationID, "LOPGraphOperation", arrayOf(), ESortPriority.PREVENT_ANY) {
     override fun equals(other: Any?): Boolean = other is LOPGraphOperation && silent == other.silent && graph1iri == other.graph1iri && graph1type == other.graph1type && graph2iri == other.graph2iri && graph2type == other.graph2type && action == other.action
     override fun cloneOP(): IOPBase = LOPGraphOperation(query, action, silent, graph1type, graph1iri, graph2type, graph2iri)

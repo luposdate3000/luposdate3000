@@ -7,15 +7,15 @@ import lupos.s01io.buffer.toStringUTF
 import kotlin.jvm.JvmField
 import kotlin.math.abs
 import kotlin.math.min
-class NotFoundException : Exception()
-class Radix_Tree_MainMemory_Node<V>(@JvmField public var label: ByteArray = ByteArray(0), @JvmField public var children: Array<Radix_Tree_MainMemory_Node<V>> = arrayOf(), @JvmField public var v: V? = null) {
+public class NotFoundException : Exception()
+public class Radix_Tree_MainMemory_Node<V>(@JvmField public var label: ByteArray = ByteArray(0), @JvmField public var children: Array<Radix_Tree_MainMemory_Node<V>> = arrayOf(), @JvmField public var v: V? = null) {
     /**
      * @return a: If a<0: key k is smaller at position -a
      *            If a>0: key k is bigger at position a
      *            If a==0: label is a prefix of key k
      * throws NotFoundException if given key is smaller in length than label (and given key is a prefix of the label)
      */
-    fun compareTo(k: ByteArray, offset: Int): Int {
+    public fun compareTo(k: ByteArray, offset: Int): Int {
         val remainingLengthKey = k.size - offset
         val maxLengthToCompare = min(remainingLengthKey, this.label.size)
         for (i in 0 until maxLengthToCompare) {
@@ -35,7 +35,7 @@ class Radix_Tree_MainMemory_Node<V>(@JvmField public var label: ByteArray = Byte
      * We assume that label is a prefix of key k...
      * This has to be checked before with e.g. compareTo(...)-method.
      */
-    fun get(k: ByteArray, offset: Int): V? {
+    public fun get(k: ByteArray, offset: Int): V? {
         val newOffset = offset + this.label.size
         if (newOffset == k.size) {
             // matching leaf node reached
@@ -78,7 +78,7 @@ class Radix_Tree_MainMemory_Node<V>(@JvmField public var label: ByteArray = Byte
      * We assume that label is a prefix of key k...
      * This has to be checked before with e.g. compareTo(...)-method.
      */
-    fun put(k: ByteArray, offset: Int, v: V) {
+    public fun put(k: ByteArray, offset: Int, v: V) {
         val newOffset = offset + this.label.size
         if (newOffset == k.size) {
             // matching leaf node reached
@@ -142,7 +142,7 @@ class Radix_Tree_MainMemory_Node<V>(@JvmField public var label: ByteArray = Byte
         )
         this.children = newChildren
     }
-    fun splitNode(splitOffset: Int, v: V) {
+    public fun splitNode(splitOffset: Int, v: V) {
         val newLabelTop = this.label.copyOfRange(0, splitOffset)
         val newLabelBottom = this.label.copyOfRange(splitOffset, this.label.size)
         val bottomNode = Radix_Tree_MainMemory_Node<V>(newLabelBottom, this.children, this.v)
@@ -150,7 +150,7 @@ class Radix_Tree_MainMemory_Node<V>(@JvmField public var label: ByteArray = Byte
         this.children = arrayOf(bottomNode)
         this.v = v
     }
-    fun splitNode(splitOffset: Int, k: ByteArray, keyOffset: Int, keyIsSmaller: Boolean, v: V) {
+    public fun splitNode(splitOffset: Int, k: ByteArray, keyOffset: Int, keyIsSmaller: Boolean, v: V) {
         val newLabelTop = this.label.copyOfRange(0, splitOffset)
         val newLabelBottom = this.label.copyOfRange(splitOffset, this.label.size)
         val bottomNode = Radix_Tree_MainMemory_Node<V>(newLabelBottom, this.children, this.v)
@@ -160,7 +160,7 @@ class Radix_Tree_MainMemory_Node<V>(@JvmField public var label: ByteArray = Byte
         this.children = if (keyIsSmaller) arrayOf(keyNode, bottomNode) else arrayOf(bottomNode, keyNode)
         this.v = null
     }
-    fun toStringDataStructure(indent: String): String {
+    public fun toStringDataStructure(indent: String): String {
         var result = indent
         if (this.label.size > 0) {
             if (this.label.size % 2 == 0) {
@@ -183,7 +183,7 @@ class Radix_Tree_MainMemory_Node<V>(@JvmField public var label: ByteArray = Byte
         }
         return result
     }
-    fun toStringDataStructure(indent: String, b: Byte): String {
+    public fun toStringDataStructure(indent: String, b: Byte): String {
         var result = indent
         if (this.label.size > 0) {
             if (this.label.size % 2 == 0) {
@@ -207,15 +207,15 @@ class Radix_Tree_MainMemory_Node<V>(@JvmField public var label: ByteArray = Byte
         return result
     }
 }
-class Radix_Tree_MainMemory<V> {
+public class Radix_Tree_MainMemory<V> {
     val root: Radix_Tree_MainMemory_Node<V> = Radix_Tree_MainMemory_Node<V>()
-    fun get(k: ByteArray): V? = this.root.get(k, 0)
-    fun get(k: String): V? = this.get(k.toBytesUTF())
-    fun put(k: ByteArray, v: V) = this.root.put(k, 0, v)
-    fun put(k: String, v: V) = this.put(k.toBytesUTF(), v)
-    fun toStringDataStructure(): String = this.root.toStringDataStructure("")
+    public fun get(k: ByteArray): V? = this.root.get(k, 0)
+    public fun get(k: String): V? = this.get(k.toBytesUTF())
+    public fun put(k: ByteArray, v: V) = this.root.put(k, 0, v)
+    public fun put(k: String, v: V) = this.put(k.toBytesUTF(), v)
+    public fun toStringDataStructure(): String = this.root.toStringDataStructure("")
 }
-fun main() {
+public fun main() {
     val t = Radix_Tree_MainMemory<Int>()
     val toInsert = listOf("alf", "adalbert", "bert", "bernhard", "adam", "bern")
     var index = 0
@@ -229,8 +229,8 @@ fun main() {
         SanityCheck.println { input + " -> " + t.get(input) }
     }
 }
-class Static_Radix_Tree<V>(@JvmField public val filename: String) {
-    fun create(mainMemoryRadixTree: Radix_Tree_MainMemory<V>) {
+public class Static_Radix_Tree<V>(@JvmField public val filename: String) {
+    public fun create(mainMemoryRadixTree: Radix_Tree_MainMemory<V>) {
         var p: Page = bufferManager.getPage(this.filename, 0)
         p.lock()
         val queueOfNodes = ArrayList<Radix_Tree_MainMemory_Node<V>>()
@@ -239,8 +239,8 @@ class Static_Radix_Tree<V>(@JvmField public val filename: String) {
             // !!!!!!!!!!!!!! TODO !!!!!!!!!!!!!!!!!!!!!!!!
         }
     }
-    fun maxSizeOfOneNode(node: Radix_Tree_MainMemory_Node<V>): Int = sizeOfOneNode(node, 6) // max. size: assume none-local adddresses with offset => 6 bytes per address
-    fun minSizeOfOneNode(node: Radix_Tree_MainMemory_Node<V>): Int = sizeOfOneNode(node, 1) // min. size: assume local adddresses with 1 byte offset
+    public fun maxSizeOfOneNode(node: Radix_Tree_MainMemory_Node<V>): Int = sizeOfOneNode(node, 6) // max. size: assume none-local adddresses with offset => 6 bytes per address
+    public fun minSizeOfOneNode(node: Radix_Tree_MainMemory_Node<V>): Int = sizeOfOneNode(node, 1) // min. size: assume local adddresses with 1 byte offset
     private fun sizeOfOneNode(node: Radix_Tree_MainMemory_Node<V>, sizePerAddress: Int): Int {
         var size = 4 // size of label
         size += node.label.size * 2 // 1 char is stored in 2 bytes

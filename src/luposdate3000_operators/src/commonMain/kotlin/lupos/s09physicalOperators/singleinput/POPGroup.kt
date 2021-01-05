@@ -52,7 +52,7 @@ public class POPGroup : POPBase {
         return 1
     }
     @JvmField
-public    var by: List<AOPVariable>
+    public var by: List<AOPVariable>
     @JvmField
     public var bindings: MutableList<Pair<String, AOPBase>> = mutableListOf()
     override fun toSparql(): String {
@@ -77,7 +77,7 @@ public    var by: List<AOPVariable>
             POPGroup(query, projectedVariables, by, null, children[0].cloneOP())
         }
     }
-public    constructor(query: IQuery, projectedVariables: List<String>, by: List<AOPVariable>, bindings: POPBind?, child: IOPBase) : super(query, projectedVariables, EOperatorID.POPGroupID, "POPGroup", arrayOf(child), ESortPriority.GROUP) {
+    public constructor(query: IQuery, projectedVariables: List<String>, by: List<AOPVariable>, bindings: POPBind?, child: IOPBase) : super(query, projectedVariables, EOperatorID.POPGroupID, "POPGroup", arrayOf(child), ESortPriority.GROUP) {
         this.by = by
         var tmpBind: IOPBase? = bindings
         while (tmpBind != null && tmpBind is POPBind) {
@@ -86,7 +86,7 @@ public    constructor(query: IQuery, projectedVariables: List<String>, by: List<
         }
         this.bindings = this.bindings.asReversed()
     }
-public    constructor(query: IQuery, projectedVariables: List<String>, by: List<AOPVariable>, bindings: List<Pair<String, AOPBase>>, child: IOPBase) : super(query, projectedVariables, EOperatorID.POPGroupID, "POPGroup", arrayOf(child), ESortPriority.GROUP) {
+    public constructor(query: IQuery, projectedVariables: List<String>, by: List<AOPVariable>, bindings: List<Pair<String, AOPBase>>, child: IOPBase) : super(query, projectedVariables, EOperatorID.POPGroupID, "POPGroup", arrayOf(child), ESortPriority.GROUP) {
         this.by = by
         this.bindings = bindings.toMutableList()
     }

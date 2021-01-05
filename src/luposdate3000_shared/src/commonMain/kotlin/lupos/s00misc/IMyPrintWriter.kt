@@ -1,7 +1,7 @@
 package lupos.s00misc
 public interface IMyPrintWriter {
     public fun clearBuffer()
-    override public fun toString(): String
+    public override fun toString(): String
     public fun println(x: String)
     public fun print(x: String)
     public fun println(x: Boolean)

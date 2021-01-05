@@ -1,5 +1,6 @@
 package lupos.s00misc
 import java.io.File
+import kotlin.jvm.JvmField
 internal actual object Platform {
     @JvmField
     val userHome: String = System.getProperty("user.home")

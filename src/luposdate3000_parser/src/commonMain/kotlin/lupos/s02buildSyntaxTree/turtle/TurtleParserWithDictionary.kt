@@ -1,9 +1,9 @@
 package lupos.s02buildSyntaxTree.turtle
+import kotlin.jvm.JvmField
 import lupos.s02buildSyntaxTree.LookAheadTokenIterator
 import lupos.s02buildSyntaxTree.ParseError
 import lupos.s02buildSyntaxTree.Token
 import lupos.s02buildSyntaxTree.UnexpectedToken
-import kotlin.jvm.JvmField
 public class TurtleParserWithDictionary(@JvmField public val consume_triple: (Long, Long, Long) -> Unit, @JvmField public val ltit: LookAheadTokenIterator) {
     // for storing the prefixes...
     private val prefixes = mutableMapOf<String, String>()
@@ -157,7 +157,7 @@ public class TurtleParserWithDictionary(@JvmField public val consume_triple: (Lo
     private fun predicateObjectList(s: Long) {
         var token: Token
         val p = verb()
-        objectList(s, p)
+public objectList(s, p)
         var t7 = ltit.lookahead()
         while (t7.image == ";") {
             token = ltit.nextToken()
@@ -167,7 +167,7 @@ public class TurtleParserWithDictionary(@JvmField public val consume_triple: (Lo
             val t6 = ltit.lookahead()
             if (t6 is IRI || t6 is PNAME_LN || t6 is PNAME_NS || t6.image == "A") {
                 val p2 = verb()
-                objectList(s, p2)
+public objectList(s, p2)
             }
             t7 = ltit.lookahead()
         }

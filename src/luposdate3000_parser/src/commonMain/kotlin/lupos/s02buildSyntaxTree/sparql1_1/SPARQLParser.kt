@@ -95,65 +95,65 @@ public interface Visitor<T> {
     public fun visit(node: ASTGroupConcat, childrenValues: List<T>): T
 }
 public class ASTBase(@JvmField public val iri: String) : ASTLeafNode() {
-    override public fun nodeToString(): String = "BASE <$iri>"
-    override public fun <T> visit(visitor: Visitor<T>): T {
+    public override fun nodeToString(): String = "BASE <$iri>"
+    public override fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
 }
 public class ASTPrefix(@JvmField public val name: String, @JvmField public val iri: String) : ASTLeafNode() {
-    override public fun nodeToString(): String = "PREFIX $name: <$iri>"
-    override public fun <T> visit(visitor: Visitor<T>): T {
+    public override fun nodeToString(): String = "PREFIX $name: <$iri>"
+    public override fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
 }
 public class ASTQuery(children: Array<ASTNode>) : ASTNode(children) {
-public    constructor(children: List<ASTNode>) : this(children.toTypedArray())
-    override public fun <T> visit(visitor: Visitor<T>): T {
+    public constructor(children: List<ASTNode>) : this(children.toTypedArray())
+    public override fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
 }
 public class ASTValues(@JvmField public val variables: Array<ASTVar>, children: Array<ASTNode>) : ASTNode(children) {
     public constructor(variable: ASTVar, children: List<ASTNode>) : this(arrayOf(variable), children.toTypedArray())
     public constructor(variables: List<ASTVar>, children: List<ASTNode>) : this(variables.toTypedArray(), children.toTypedArray())
-    override public fun nodeToString(): String = "Values for variables: " + variables.joinToString(separator = ", ") { it.name }
-    override public fun <T> visit(visitor: Visitor<T>): T {
+    public override fun nodeToString(): String = "Values for variables: " + variables.joinToString(separator = ", ") { it.name }
+    public override fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
 }
 public class ASTValue(children: Array<ASTNode>) : ASTNode(children) {
     public constructor(children: List<ASTNode>) : this(children.toTypedArray())
     public constructor(child: ASTNode) : this(arrayOf(child))
-    override public fun <T> visit(visitor: Visitor<T>): T {
+    public override fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
 }
 public class ASTUndef : ASTLeafNode() {
-    override public fun <T> visit(visitor: Visitor<T>): T {
+    public override fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
 }
-open public class ASTQueryBaseClass : ASTLeafNode() {
+public open class ASTQueryBaseClass : ASTLeafNode() {
     @JvmField
-public    var datasets: Array<ASTDatasetClause> = arrayOf()
+    public var datasets: Array<ASTDatasetClause> = arrayOf()
     public fun existsDatasets(): Boolean = datasets.isNotEmpty()
     @JvmField
-   public  var where: Array<ASTNode> = arrayOf()
+    public var where: Array<ASTNode> = arrayOf()
     @JvmField
-public    var groupBy: Array<ASTNode> = arrayOf()
+    public var groupBy: Array<ASTNode> = arrayOf()
     public fun existsGroupBy(): Boolean = groupBy.isNotEmpty()
     @JvmField
-   public var having: Array<ASTNode> = arrayOf()
+    public var having: Array<ASTNode> = arrayOf()
     public fun existsHaving(): Boolean = having.isNotEmpty()
     @JvmField
-   public  var orderBy: Array<ASTNode> = arrayOf()
+    public var orderBy: Array<ASTNode> = arrayOf()
     public fun existsOrderBy(): Boolean = orderBy.isNotEmpty()
     @JvmField
     public var limit: Int = -1
     public fun existsLimit(): Boolean = limit >= 0
     @JvmField
-   public  var offset: Int = 0
+    public var offset: Int = 0
     public fun existsOffset(): Boolean = offset > 0
-    override public fun toString(indentation: String): String {
+    public override fun toString(indentation: String): String {
         var result = indentation + nodeToString() + "\r\n"
         val indentation2 = "$indentation  "
         val indentation3 = "$indentation2  "
@@ -170,16 +170,16 @@ public    var groupBy: Array<ASTNode> = arrayOf()
         }
         return result
     }
-    override public fun <T> visit(visitor: Visitor<T>): T {
+    public override fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
 }
-open public class ASTSelectQuery(@JvmField public val distinct: Boolean, @JvmField public val reduced: Boolean, @JvmField public val select: Array<ASTNode>) : ASTQueryBaseClass() {
+public open class ASTSelectQuery(@JvmField public val distinct: Boolean, @JvmField public val reduced: Boolean, @JvmField public val select: Array<ASTNode>) : ASTQueryBaseClass() {
     public fun selectAll(): Boolean = (select.isEmpty())
-    override public fun nodeToString(): String = "ASTSelectQuery" + innerNodeToString()
+    public override fun nodeToString(): String = "ASTSelectQuery" + innerNodeToString()
     protected inline fun innerNodeToString(): String = (if (distinct) " DISTINCT" else "") + (if (reduced) " REDUCED " else "") + (if (selectAll()) " *" else "")
-    override public fun toString(indentation: String): String = super.toString(indentation) + propertyToString("$indentation  ", "$indentation    ", "Select", this.select)
-    override public fun <T> visit(visitor: Visitor<T>): T {
+    public override fun toString(indentation: String): String = super.toString(indentation) + propertyToString("$indentation  ", "$indentation    ", "Select", this.select)
+    public override fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
 }
@@ -187,35 +187,35 @@ public class ASTSubSelectQuery(distinct: Boolean, reduced: Boolean, select: Arra
     @JvmField
     public var values: ASTValues? = null
     public fun existsValues(): Boolean = (values != null)
-    override public fun nodeToString(): String = "ASTSubSelectQuery" + innerNodeToString()
-    override public fun toString(indentation: String): String = super.toString(indentation) + (if (this.values == null) "" else this.values?.toString("$indentation  "))
-    override public fun <T> visit(visitor: Visitor<T>): T {
+    public override fun nodeToString(): String = "ASTSubSelectQuery" + innerNodeToString()
+    public override fun toString(indentation: String): String = super.toString(indentation) + (if (this.values == null) "" else this.values?.toString("$indentation  "))
+    public override fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
 }
 public class ASTConstructQuery(@JvmField public val template: Array<ASTNode>) : ASTQueryBaseClass() {
-    override public fun toString(indentation: String): String = super.toString(indentation) + propertyToString("$indentation  ", "$indentation    ", "Template", this.template)
-    override public fun <T> visit(visitor: Visitor<T>): T {
+    public override fun toString(indentation: String): String = super.toString(indentation) + propertyToString("$indentation  ", "$indentation    ", "Template", this.template)
+    public override fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
 }
 public class ASTDescribeQuery(@JvmField public val select: Array<ASTNode>) : ASTQueryBaseClass() {
-    private inline  fun selectAll(): Boolean {
+    private inline fun selectAll(): Boolean {
         return select.isEmpty()
     }
-    override public fun nodeToString(): String = "ASTSelectQuery" + (if (selectAll()) " *" else "")
-    override public fun toString(indentation: String): String = super.toString(indentation) + propertyToString("$indentation  ", "$indentation    ", "Select", this.select)
-    override public fun <T> visit(visitor: Visitor<T>): T {
+    public override fun nodeToString(): String = "ASTSelectQuery" + (if (selectAll()) " *" else "")
+    public override fun toString(indentation: String): String = super.toString(indentation) + propertyToString("$indentation  ", "$indentation    ", "Select", this.select)
+    public override fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
 }
 public class ASTAskQuery : ASTQueryBaseClass() {
-    override public fun <T> visit(visitor: Visitor<T>): T {
+    public override fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
 }
 public class ASTAs(@JvmField public val expression: ASTNode, @JvmField public val variable: ASTVar) : ASTLeafNode() {
-    override public fun toString(indentation: String): String {
+    public override fun toString(indentation: String): String {
         var result = indentation + nodeToString() + "\r\n"
         val indentation2 = "$indentation  "
         val indentation3 = "$indentation2  "
@@ -225,199 +225,199 @@ public class ASTAs(@JvmField public val expression: ASTNode, @JvmField public va
         result += variable.toString(indentation3)
         return result
     }
-    override public fun <T> visit(visitor: Visitor<T>): T {
+    public override fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
 }
-open public class ASTDatasetClause(@JvmField public val source_iri: String) : ASTLeafNode() {
+public open class ASTDatasetClause(@JvmField public val source_iri: String) : ASTLeafNode() {
     public constructor(iri: ASTIri) : this(iri.iri)
-    override public fun nodeToString(): String = super.nodeToString() + " <" + source_iri + ">"
-    override public fun <T> visit(visitor: Visitor<T>): T {
+    public override fun nodeToString(): String = super.nodeToString() + " <" + source_iri + ">"
+    public override fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
 }
 public class ASTDefaultGraph(source_iri: ASTIri) : ASTDatasetClause(source_iri) {
-    override public fun <T> visit(visitor: Visitor<T>): T {
+    public override fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
 }
 public class ASTNamedGraph(source_iri: ASTIri) : ASTDatasetClause(source_iri) {
-    override public fun <T> visit(visitor: Visitor<T>): T {
+    public override fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
 }
 public class ASTOrderCondition(@JvmField public val asc: Boolean, child: ASTNode) : ASTUnaryOperation(child) {
-    override public fun toString(indentation: String): String = indentation + nodeToString() + " " + (if (asc) "ASC" else "DESC") + "\r\n" + children[0].toString("$indentation  ")
-    override public fun <T> visit(visitor: Visitor<T>): T {
+    public override fun toString(indentation: String): String = indentation + nodeToString() + " " + (if (asc) "ASC" else "DESC") + "\r\n" + children[0].toString("$indentation  ")
+    public override fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
 }
 public class ASTVar(@JvmField public val name: String) : ASTLeafNode() {
-    override public fun nodeToString(): String = super.nodeToString() + " " + name
-    override public fun <T> visit(visitor: Visitor<T>): T {
+    public override fun nodeToString(): String = super.nodeToString() + " " + name
+    public override fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
 }
-open public class ASTRDFTerm : ASTLeafNode() {
-    override public fun <T> visit(visitor: Visitor<T>): T {
+public open class ASTRDFTerm : ASTLeafNode() {
+    public override fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
 }
-open public class ASTLiteral(@JvmField public val content: String, @JvmField public val delimiter: String) : ASTRDFTerm() {
-    override public fun nodeToString(): String = delimiter + content + delimiter
-    override public fun <T> visit(visitor: Visitor<T>): T {
+public open class ASTLiteral(@JvmField public val content: String, @JvmField public val delimiter: String) : ASTRDFTerm() {
+    public override fun nodeToString(): String = delimiter + content + delimiter
+    public override fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
 }
 public class ASTSimpleLiteral(content: String, delimiter: String) : ASTLiteral(content, delimiter) {
-    override public fun <T> visit(visitor: Visitor<T>): T {
+    public override fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
 }
 public class ASTTypedLiteral(content: String, delimiter: String, @JvmField public val type_iri: String) : ASTLiteral(content, delimiter) {
-    override public fun nodeToString(): String = super.nodeToString() + "^^<" + type_iri + ">"
-    override public fun <T> visit(visitor: Visitor<T>): T {
+    public override fun nodeToString(): String = super.nodeToString() + "^^<" + type_iri + ">"
+    public override fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
 }
 public class ASTLanguageTaggedLiteral(content: String, delimiter: String, @JvmField public val language: String) : ASTLiteral(content, delimiter) {
-    override public fun nodeToString(): String = super.nodeToString() + "@" + language
-    override public fun <T> visit(visitor: Visitor<T>): T {
+    public override fun nodeToString(): String = super.nodeToString() + "@" + language
+    public override fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
 }
 public class ASTIri(@JvmField public val iri: String) : ASTRDFTerm() {
-    override public fun nodeToString(): String = "<$iri>"
-    override public fun <T> visit(visitor: Visitor<T>): T {
+    public override fun nodeToString(): String = "<$iri>"
+    public override fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
 }
 public class ASTBlankNode(@JvmField public val name: String) : ASTRDFTerm() {
     public constructor() : this(getNewName())
-    override public fun nodeToString(): String = "_:$name"
+    public override fun nodeToString(): String = "_:$name"
     private companion object {
         var label_index = 0L
         public fun getNewName(): String {
             return "_" + label_index++
         }
     }
-    override public fun <T> visit(visitor: Visitor<T>): T {
+    public override fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
 }
 public class ASTBooleanLiteral(@JvmField public val value: Boolean) : ASTRDFTerm() {
-    override public fun nodeToString(): String = if (value) "true" else "false"
-    override public fun <T> visit(visitor: Visitor<T>): T {
+    public override fun nodeToString(): String = if (value) "true" else "false"
+    public override fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
 }
-open public class ASTNumericLiteral : ASTRDFTerm() {
-    override public fun <T> visit(visitor: Visitor<T>): T {
+public open class ASTNumericLiteral : ASTRDFTerm() {
+    public override fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
 }
 public class ASTInteger(@JvmField public val value: Int) : ASTNumericLiteral() {
     public constructor(image: String) : this(image.toInt())
-    override public fun nodeToString(): String = "" + value
-    override public fun <T> visit(visitor: Visitor<T>): T {
+    public override fun nodeToString(): String = "" + value
+    public override fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
 }
 public class ASTDouble(@JvmField public val image: String) : ASTNumericLiteral() {
     public fun toDouble(): Double = image.toDouble()
-    override public fun nodeToString(): String = image
-    override public fun <T> visit(visitor: Visitor<T>): T {
+    public override fun nodeToString(): String = image
+    public override fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
 }
 public class ASTDecimal(@JvmField public val image: String) : ASTNumericLiteral() {
     public fun toDouble(): Double = image.toDouble()
-    override public fun nodeToString(): String = image
-    override public fun <T> visit(visitor: Visitor<T>): T {
+    public override fun nodeToString(): String = image
+    public override fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
 }
 public class ASTFunctionCall(@JvmField public val iri: String, @JvmField public val distinct: Boolean, arguments: Array<ASTNode>) : ASTNode(arguments) {
-    override public fun nodeToString(): String = "ASTFunctionCall <" + iri + ">" + (if (distinct) "DISTINCT" else "")
-    override public fun <T> visit(visitor: Visitor<T>): T {
+    public override fun nodeToString(): String = "ASTFunctionCall <" + iri + ">" + (if (distinct) "DISTINCT" else "")
+    public override fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
 }
 public class ASTTriple(s: ASTNode, p: ASTNode, o: ASTNode) : ASTNode(arrayOf(s, p, o)) {
-    override public fun <T> visit(visitor: Visitor<T>): T {
+    public override fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
 }
-open public class ASTGraphRef : ASTLeafNode() {
-    override public fun <T> visit(visitor: Visitor<T>): T {
+public open class ASTGraphRef : ASTLeafNode() {
+    public override fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
 }
 public class ASTIriGraphRef(@JvmField public val iri: String) : ASTGraphRef() {
-    override public fun nodeToString(): String = super.nodeToString() + " <" + iri + ">"
-    override public fun <T> visit(visitor: Visitor<T>): T {
+    public override fun nodeToString(): String = super.nodeToString() + " <" + iri + ">"
+    public override fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
 }
 public class ASTNamedIriGraphRef(@JvmField public val iri: String) : ASTGraphRef() {
-    override public fun nodeToString(): String = super.nodeToString() + " <" + iri + ">"
-    override public fun <T> visit(visitor: Visitor<T>): T {
+    public override fun nodeToString(): String = super.nodeToString() + " <" + iri + ">"
+    public override fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
 }
 public class ASTDefaultGraphRef : ASTGraphRef() {
-    override public fun <T> visit(visitor: Visitor<T>): T {
+    public override fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
 }
 public class ASTNamedGraphRef : ASTGraphRef() {
-    override public fun <T> visit(visitor: Visitor<T>): T {
+    public override fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
 }
 public class ASTAllGraphRef : ASTGraphRef() {
-    override public fun <T> visit(visitor: Visitor<T>): T {
+    public override fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
 }
 public class ASTLoad(@JvmField public val silent: Boolean, @JvmField public val iri: String, @JvmField public val into: ASTGraphRef?) : ASTLeafNode() {
-    override public fun nodeToString(): String = super.nodeToString() + (if (silent) " SILENT" else "") + " <" + iri + ">"
-    override public fun toString(indentation: String): String {
+    public override fun nodeToString(): String = super.nodeToString() + (if (silent) " SILENT" else "") + " <" + iri + ">"
+    public override fun toString(indentation: String): String {
         var result = indentation + nodeToString() + "\r\n"
         if (into != null) {
             result += indentation + "  INTO:\r\n" + into.toString("$indentation    ")
         }
         return result
     }
-    override public fun <T> visit(visitor: Visitor<T>): T {
+    public override fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
 }
-open public class ASTGrapOperation(@JvmField public val silent: Boolean, @JvmField public val graphref: ASTGraphRef) : ASTLeafNode() {
-    override public fun nodeToString(): String = super.nodeToString() + (if (silent) " SILENT" else "")
-    override public fun toString(indentation: String): String = indentation + nodeToString() + "\r\n" + graphref.toString("$indentation  ")
-    override public fun <T> visit(visitor: Visitor<T>): T {
+public open class ASTGrapOperation(@JvmField public val silent: Boolean, @JvmField public val graphref: ASTGraphRef) : ASTLeafNode() {
+    public override fun nodeToString(): String = super.nodeToString() + (if (silent) " SILENT" else "")
+    public override fun toString(indentation: String): String = indentation + nodeToString() + "\r\n" + graphref.toString("$indentation  ")
+    public override fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
 }
 public class ASTClear(silent: Boolean, graphref: ASTGraphRef) : ASTGrapOperation(silent, graphref) {
-    override public fun <T> visit(visitor: Visitor<T>): T {
+    public override fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
 }
 public class ASTDrop(silent: Boolean, graphref: ASTGraphRef) : ASTGrapOperation(silent, graphref) {
-    override public fun <T> visit(visitor: Visitor<T>): T {
+    public override fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
 }
 public class ASTCreate(silent: Boolean, graphref: ASTGraphRef) : ASTGrapOperation(silent, graphref) {
-    override public fun <T> visit(visitor: Visitor<T>): T {
+    public override fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
 }
-open public class ASTUpdateGrapOperation(@JvmField public val silent: Boolean, @JvmField public val fromGraph: ASTGraphRef, @JvmField public val toGraph: ASTGraphRef) : ASTLeafNode() {
-    override public fun nodeToString(): String = super.nodeToString() + (if (silent) " SILENT" else "")
-    override public fun toString(indentation: String): String {
+public open class ASTUpdateGrapOperation(@JvmField public val silent: Boolean, @JvmField public val fromGraph: ASTGraphRef, @JvmField public val toGraph: ASTGraphRef) : ASTLeafNode() {
+    public override fun nodeToString(): String = super.nodeToString() + (if (silent) " SILENT" else "")
+    public override fun toString(indentation: String): String {
         var result = indentation + nodeToString() + "\r\n"
         val indentation2 = "$indentation  "
         val indentation3 = "$indentation2  "
@@ -425,59 +425,59 @@ open public class ASTUpdateGrapOperation(@JvmField public val silent: Boolean, @
         result += indentation2 + "TO:\r\n" + toGraph.toString(indentation3)
         return result
     }
-    override public fun <T> visit(visitor: Visitor<T>): T {
+    public override fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
 }
 public class ASTAdd(silent: Boolean, fromGraph: ASTGraphRef, toGraph: ASTGraphRef) : ASTUpdateGrapOperation(silent, fromGraph, toGraph) {
-    override public fun <T> visit(visitor: Visitor<T>): T {
+    public override fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
 }
 public class ASTMove(silent: Boolean, fromGraph: ASTGraphRef, toGraph: ASTGraphRef) : ASTUpdateGrapOperation(silent, fromGraph, toGraph) {
-    override public fun <T> visit(visitor: Visitor<T>): T {
+    public override fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
 }
 public class ASTCopy(silent: Boolean, fromGraph: ASTGraphRef, toGraph: ASTGraphRef) : ASTUpdateGrapOperation(silent, fromGraph, toGraph) {
-    override public fun <T> visit(visitor: Visitor<T>): T {
+    public override fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
 }
 public class ASTGraph(@JvmField public val iriOrVar: ASTNode, constraint: Array<ASTNode>) : ASTNode(constraint) {
-    override public fun nodeToString(): String = super.nodeToString() + " " + iriOrVar.nodeToString()
-    override public fun <T> visit(visitor: Visitor<T>): T {
+    public override fun nodeToString(): String = super.nodeToString() + " " + iriOrVar.nodeToString()
+    public override fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
 }
 public class ASTService(@JvmField public val silent: Boolean, @JvmField public val iriOrVar: ASTNode, constraint: Array<ASTNode>) : ASTNode(constraint) {
-    override public fun nodeToString(): String = super.nodeToString() + (if (silent) "SILENT" else "") + " " + iriOrVar.nodeToString()
-    override public fun <T> visit(visitor: Visitor<T>): T {
+    public override fun nodeToString(): String = super.nodeToString() + (if (silent) "SILENT" else "") + " " + iriOrVar.nodeToString()
+    public override fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
 }
-open public class ASTModify(children: Array<ASTNode>) : ASTNode(children) {
-    override public fun <T> visit(visitor: Visitor<T>): T {
+public open class ASTModify(children: Array<ASTNode>) : ASTNode(children) {
+    public override fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
 }
 public class ASTDeleteData(data: Array<ASTNode>) : ASTModify(data) {
-    override public fun <T> visit(visitor: Visitor<T>): T {
+    public override fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
 }
 public class ASTDeleteWhere(pattern: Array<ASTNode>) : ASTModify(pattern) {
-    override public fun <T> visit(visitor: Visitor<T>): T {
+    public override fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
 }
 public class ASTInsertData(data: Array<ASTNode>) : ASTModify(data) {
-    override public fun <T> visit(visitor: Visitor<T>): T {
+    public override fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
 }
 public class ASTModifyWithWhere(@JvmField public val iri: String?, @JvmField public val delete: Array<ASTNode>, @JvmField public val insert: Array<ASTNode>, @JvmField public val using: Array<ASTGraphRef>, where: Array<ASTNode>) : ASTModify(where) {
-    override public fun toString(indentation: String): String {
+    public override fun toString(indentation: String): String {
         var result = indentation + nodeToString() + (if (iri != null) " <$iri>" else "") + "\r\n"
         val indentation2 = "$indentation  "
         val indentation3 = "$indentation2  "
@@ -487,157 +487,157 @@ public class ASTModifyWithWhere(@JvmField public val iri: String?, @JvmField pub
         result += propertyToString(indentation2, indentation3, "WHERE", this.children)
         return result
     }
-    override public fun <T> visit(visitor: Visitor<T>): T {
+    public override fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
 }
 public class ASTPathAlternatives(children: Array<ASTNode>) : ASTNode(children) {
-    override public fun <T> visit(visitor: Visitor<T>): T {
+    public override fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
 }
 public class ASTPathSequence(children: Array<ASTNode>) : ASTNode(children) {
-    override public fun <T> visit(visitor: Visitor<T>): T {
+    public override fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
 }
 public class ASTPathInverse(child: ASTNode) : ASTUnaryOperation(child) {
-    override public fun <T> visit(visitor: Visitor<T>): T {
+    public override fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
 }
 public class ASTPathArbitraryOccurrences(child: ASTNode) : ASTUnaryOperation(child) {
-    override public fun <T> visit(visitor: Visitor<T>): T {
+    public override fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
 }
 public class ASTPathOptionalOccurrence(child: ASTNode) : ASTUnaryOperation(child) {
-    override public fun <T> visit(visitor: Visitor<T>): T {
+    public override fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
 }
 public class ASTPathArbitraryOccurrencesNotZero(child: ASTNode) : ASTUnaryOperation(child) {
-    override public fun <T> visit(visitor: Visitor<T>): T {
+    public override fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
 }
 public class ASTPathNegatedPropertySet(children: Array<ASTNode>) : ASTNode(children) {
-    override public fun <T> visit(visitor: Visitor<T>): T {
+    public override fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
 }
 public class ASTOptional(children: Array<ASTNode>) : ASTNode(children) {
-    override public fun <T> visit(visitor: Visitor<T>): T {
+    public override fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
 }
 public class ASTMinusGroup(children: Array<ASTNode>) : ASTNode(children) {
-    override public fun <T> visit(visitor: Visitor<T>): T {
+    public override fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
 }
 public class ASTUnion(children: Array<ASTNode>) : ASTNode(children) {
-    override public fun <T> visit(visitor: Visitor<T>): T {
+    public override fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
 }
 public class ASTGroup(children: Array<ASTNode>) : ASTNode(children) {
-    override public fun <T> visit(visitor: Visitor<T>): T {
+    public override fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
 }
 public class ASTFilter(child: ASTNode) : ASTUnaryOperation(child) {
-    override public fun <T> visit(visitor: Visitor<T>): T {
+    public override fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
 }
 public class ASTSet(children: Array<ASTNode>) : ASTNode(children) {
-    override public fun <T> visit(visitor: Visitor<T>): T {
+    public override fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
 }
 public class ASTOr(children: Array<ASTNode>) : ASTNode(children) {
-    override public fun <T> visit(visitor: Visitor<T>): T {
+    public override fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
 }
 public class ASTAnd(children: Array<ASTNode>) : ASTNode(children) {
-    override public fun <T> visit(visitor: Visitor<T>): T {
+    public override fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
 }
 public class ASTEQ(left: ASTNode, right: ASTNode) : ASTBinaryOperationFixedName(left, right, "=") {
-    override public fun <T> visit(visitor: Visitor<T>): T {
+    public override fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
 }
 public class ASTNEQ(left: ASTNode, right: ASTNode) : ASTBinaryOperationFixedName(left, right, "!=") {
-    override public fun <T> visit(visitor: Visitor<T>): T {
+    public override fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
 }
 public class ASTLEQ(left: ASTNode, right: ASTNode) : ASTBinaryOperationFixedName(left, right, "<=") {
-    override public fun <T> visit(visitor: Visitor<T>): T {
+    public override fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
 }
 public class ASTGEQ(left: ASTNode, right: ASTNode) : ASTBinaryOperationFixedName(left, right, ">=") {
-    override public fun <T> visit(visitor: Visitor<T>): T {
+    public override fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
 }
 public class ASTLT(left: ASTNode, right: ASTNode) : ASTBinaryOperationFixedName(left, right, "<") {
-    override public fun <T> visit(visitor: Visitor<T>): T {
+    public override fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
 }
 public class ASTGT(left: ASTNode, right: ASTNode) : ASTBinaryOperationFixedName(left, right, ">") {
-    override public fun <T> visit(visitor: Visitor<T>): T {
+    public override fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
 }
 public class ASTIn(left: ASTNode, right: ASTNode) : ASTBinaryOperationFixedName(left, right, "In") {
-    override public fun <T> visit(visitor: Visitor<T>): T {
+    public override fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
 }
 public class ASTNotIn(left: ASTNode, right: ASTNode) : ASTBinaryOperationFixedName(left, right, "Not In") {
-    override public fun <T> visit(visitor: Visitor<T>): T {
+    public override fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
 }
 public class ASTAddition(left: ASTNode, right: ASTNode) : ASTBinaryOperationFixedName(left, right, "+") {
-    override public fun <T> visit(visitor: Visitor<T>): T {
+    public override fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
 }
 public class ASTSubtraction(left: ASTNode, right: ASTNode) : ASTBinaryOperationFixedName(left, right, "-") {
-    override public fun <T> visit(visitor: Visitor<T>): T {
+    public override fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
 }
 public class ASTMultiplication(left: ASTNode, right: ASTNode) : ASTBinaryOperationFixedName(left, right, "*") {
-    override public fun <T> visit(visitor: Visitor<T>): T {
+    public override fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
 }
 public class ASTDivision(left: ASTNode, right: ASTNode) : ASTBinaryOperationFixedName(left, right, "/") {
-    override public fun <T> visit(visitor: Visitor<T>): T {
+    public override fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
 }
 public class ASTNot(child: ASTNode) : ASTUnaryOperationFixedName(child, "!") {
-    override public fun <T> visit(visitor: Visitor<T>): T {
+    public override fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
 }
 public class ASTPlus(child: ASTNode) : ASTUnaryOperationFixedName(child, "+") {
-    override public fun <T> visit(visitor: Visitor<T>): T {
+    public override fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
 }
 public class ASTMinus(child: ASTNode) : ASTUnaryOperationFixedName(child, "-") {
-    override public fun <T> visit(visitor: Visitor<T>): T {
+    public override fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
 }
@@ -646,21 +646,21 @@ public class ASTBuiltInCall(@JvmField public val function: BuiltInFunctions, chi
     public constructor(function: BuiltInFunctions, parameter: ASTNode) : this(function, arrayOf<ASTNode>(parameter))
     public constructor(function: BuiltInFunctions, first_parameter: ASTNode, second_parameter: ASTNode) : this(function, arrayOf<ASTNode>(first_parameter, second_parameter))
     public constructor(function: BuiltInFunctions, first_parameter: ASTNode, second_parameter: ASTNode, third_parameter: ASTNode) : this(function, arrayOf<ASTNode>(first_parameter, second_parameter, third_parameter))
-    override public fun nodeToString(): String = function.name
-    override public fun <T> visit(visitor: Visitor<T>): T {
+    public override fun nodeToString(): String = function.name
+    public override fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
 }
-open public class ASTAggregation(@JvmField public val type: Aggregation, @JvmField public val distinct: Boolean, children: Array<ASTNode>) : ASTNode(children) {
+public open class ASTAggregation(@JvmField public val type: Aggregation, @JvmField public val distinct: Boolean, children: Array<ASTNode>) : ASTNode(children) {
     public constructor(type: Aggregation, distinct: Boolean, child: ASTNode) : this(type, distinct, arrayOf<ASTNode>(child))
-    override public fun nodeToString(): String = type.name + (if (distinct) " DISTINCT" else "")
-    override public fun <T> visit(visitor: Visitor<T>): T {
+    public override fun nodeToString(): String = type.name + (if (distinct) " DISTINCT" else "")
+    public override fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
 }
 public class ASTGroupConcat(distinct: Boolean, child: ASTNode, @JvmField public val separator: String) : ASTAggregation(Aggregation.GROUP_CONCAT, distinct, child) {
-    override public fun nodeToString(): String = super.nodeToString() + " separator=\"" + separator + "\""
-    override public fun <T> visit(visitor: Visitor<T>): T {
+    public override fun nodeToString(): String = super.nodeToString() + " separator=\"" + separator + "\""
+    public override fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
 }

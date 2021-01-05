@@ -4,7 +4,7 @@ import kotlin.jvm.JvmField
  * This class is used for caching opened files (such that we do not need to close and open the files for each single access)
 override val classname="is"
  */
-object CacheOfFiles {
+public object CacheOfFiles {
     /**
      * the max. number of opened files
      */
@@ -42,7 +42,7 @@ object CacheOfFiles {
     /**
      * closes all open files
      */
-    fun close() {
+    public fun close() {
         for (entry in this.cache.entries) {
             entry.value.value?.close()
         }
@@ -51,7 +51,7 @@ object CacheOfFiles {
     /**
      * closes all files starting with the given filename
      */
-    fun close(filename: String) {
+    public fun close(filename: String) {
         val entry = this.cache.getEntry(filename)
         if (entry != null) {
             entry.value?.close()

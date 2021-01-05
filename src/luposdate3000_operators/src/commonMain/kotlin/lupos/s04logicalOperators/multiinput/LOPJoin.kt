@@ -11,8 +11,8 @@ public class LOPJoin(query: IQuery, first: IOPBase, second: IOPBase, @JvmField p
     override /*suspend*/ fun toXMLElement(): XMLElement = super.toXMLElement().addAttribute("optional", "" + optional)
     override fun equals(other: Any?): Boolean = other is LOPJoin && optional == other.optional && children[0] == other.children[0] && children[1] == other.children[1]
     override fun cloneOP(): IOPBase = LOPJoin(query, children[0].cloneOP(), children[1].cloneOP(), optional)
-    companion object {
-        fun getColumns(columnsA: List<String>, columnsB: List<String>): Array<MutableList<String>> {
+    public companion object {
+        public fun getColumns(columnsA: List<String>, columnsB: List<String>): Array<MutableList<String>> {
             /*result array indices 0:Join,1:AOnly,2:BOnly*/
             val res = Array(3) { mutableListOf<String>() }
             res[2].addAll(columnsB)
@@ -26,7 +26,7 @@ public class LOPJoin(query: IQuery, first: IOPBase, second: IOPBase, @JvmField p
             }
             return res
         }
-        fun mergeHistograms(a: HistogramResult, b: HistogramResult, optional: Boolean): HistogramResult {
+        public fun mergeHistograms(a: HistogramResult, b: HistogramResult, optional: Boolean): HistogramResult {
             val res = HistogramResult()
             val columns = getColumns(a.values.keys.toList(), b.values.keys.toList())
             val c0 = a.count.toDouble()

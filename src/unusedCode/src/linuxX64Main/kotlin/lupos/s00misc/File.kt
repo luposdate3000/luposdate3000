@@ -12,8 +12,8 @@ import stdio.fgets
 import stdio.fopen
 import stdio.luposfprintf
 import kotlin.native.concurrent.*
-class File(val filename: String) {
-    fun readAsString(): String {
+public class File(val filename: String) {
+    public fun readAsString(): String {
         var result: String = ""
         val file = fopen(filename, "r")
         if (file == null) {
@@ -36,7 +36,7 @@ class File(val filename: String) {
         }
         return result
     }
-    fun walk(action: (String) -> Unit) {
+    public fun walk(action: (String) -> Unit) {
         val d = opendir(filename)
         if (d != null) {
             while (true) {
@@ -49,7 +49,7 @@ class File(val filename: String) {
             closedir(d)
         }
     }
-    fun printWriter(action: (PrintWriter) -> Unit) {
+    public fun printWriter(action: (PrintWriter) -> Unit) {
         val p = PrintWriter(this)
         try {
             p.open()
@@ -59,18 +59,18 @@ class File(val filename: String) {
         }
     }
 }
-class PrintWriter(val f: File) {
+public class PrintWriter(val f: File) {
     var file: CValuesRef<FILE>? = null
-    fun open() {
+    public fun open() {
         file = fopen(f.filename, "w")
         if (f == null) {
             throw ResourceNotFoundException(f.filename)
         }
     }
-    fun close() {
+    public fun close() {
         fclose(file)
     }
-    fun println(s: String) {
+    public fun println(s: String) {
         luposfprintf(file, s + "\n")
     }
 }

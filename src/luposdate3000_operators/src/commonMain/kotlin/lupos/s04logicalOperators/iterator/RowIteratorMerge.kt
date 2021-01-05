@@ -2,9 +2,9 @@ package lupos.s04logicalOperators.iterator
 import lupos.s00misc.MERGE_SORT_MIN_ROWS
 import lupos.s00misc.SanityCheck
 import kotlin.jvm.JvmField
-open class RowIteratorMerge(@JvmField public val a: RowIterator, @JvmField public val b: RowIterator, @JvmField public val comparator: Comparator<Int>, @JvmField public val compCount: Int) : RowIterator() {
-    companion object {
-        /*suspend*/ operator fun invoke(a: RowIterator, comparator: Comparator<Int>, compCount: Int, columns: Array<String>): RowIterator {
+public open class RowIteratorMerge(@JvmField public val a: RowIterator, @JvmField public val b: RowIterator, @JvmField public val comparator: Comparator<Int>, @JvmField public val compCount: Int) : RowIterator() {
+    public companion object {
+        public /*suspend*/ operator fun invoke(a: RowIterator, comparator: Comparator<Int>, compCount: Int, columns: Array<String>): RowIterator {
             SanityCheck.check { columns.size == a.columns.size }
             var buf1 = IntArray(columns.size * MERGE_SORT_MIN_ROWS)
             var buf2 = IntArray(columns.size * MERGE_SORT_MIN_ROWS)
@@ -152,11 +152,11 @@ open class RowIteratorMerge(@JvmField public val a: RowIterator, @JvmField publi
         }
     }
     @JvmField
-    var flag: Int = 3
+    public var flag: Int = 3
     @JvmField
-    var aIdx: Int = -1
+    public var aIdx: Int = -1
     @JvmField
-    var bIdx: Int = -1
+    public var bIdx: Int = -1
     init {
         SanityCheck {
             SanityCheck.check { a.columns.size == b.columns.size }

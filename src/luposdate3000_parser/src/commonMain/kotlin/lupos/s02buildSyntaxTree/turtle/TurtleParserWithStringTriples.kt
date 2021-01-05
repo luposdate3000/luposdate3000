@@ -1,9 +1,9 @@
 package lupos.s02buildSyntaxTree.turtle
+import kotlin.jvm.JvmField
 import lupos.s02buildSyntaxTree.LookAheadTokenIterator
 import lupos.s02buildSyntaxTree.ParseError
 import lupos.s02buildSyntaxTree.Token
 import lupos.s02buildSyntaxTree.UnexpectedToken
-import kotlin.jvm.JvmField
 abstract public class TurtleParserWithStringTriples {
     @JvmField
 public     var ltit: LookAheadTokenIterator? = null
@@ -165,7 +165,7 @@ public    var bnodeCounter: Int = 0
     /*suspend*/ private fun predicateObjectList(s: String) {
         var token: Token
         val p = verb()
-        objectList(s, p)
+public objectList(s, p)
         var t7 = ltit!!.lookahead()
         while (t7.image == ";") {
             token = ltit!!.nextToken()
@@ -175,7 +175,7 @@ public    var bnodeCounter: Int = 0
             val t6 = ltit!!.lookahead()
             if (t6 is IRI || t6 is PNAME_LN || t6 is PNAME_NS || t6.image == "A") {
                 val p2 = verb()
-                objectList(s, p2)
+public objectList(s, p2)
             }
             t7 = ltit!!.lookahead()
         }

@@ -13,7 +13,7 @@ import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s09physicalOperators.partition.POPMergePartition
 import lupos.s09physicalOperators.partition.POPMergePartitionOrderedByIntId
-object QueryResultToEmptyWithDictionaryStream {
+public object QueryResultToEmptyWithDictionaryStream {
     private /*suspend*/ fun writeValue(valueID: Int, columnName: String, dictionary: IResultSetDictionary, output: IMyPrintWriter) {
         dictionary.getValue(
             valueID,

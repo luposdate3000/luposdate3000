@@ -1,6 +1,7 @@
 package lupos.s00misc
+import kotlin.jvm.JvmField
 /* Substitutions :: KEY,VALUE,GDEF,GUSEKV,GUSEK,GUSEV,KNAME,VNAME */
-class MyMapKNAMEVNAMEBinaryTreeGDEF() {
+public class MyMapKNAMEVNAMEBinaryTreeGDEF() {
     @JvmField
     var keys = MySetKNAMEBinaryTreeGUSEK()
     @JvmField
@@ -11,7 +12,7 @@ class MyMapKNAMEVNAMEBinaryTreeGDEF() {
         keys.reserve(capacity)
         values.reserve(capacity)
     }
-    constructor(data: Pair<KEY, VALUE>) : this() {
+    public constructor(data: Pair<KEY, VALUE>) : this() {
         set(data.first, data.second)
     }
     internal inline operator fun get(key: KEY): VALUE? {
@@ -36,13 +37,13 @@ class MyMapKNAMEVNAMEBinaryTreeGDEF() {
         )
         return value!!
     }
-    fun withFastInitializer(action: (MyMapKNAMEVNAMEBinaryTreeGUSEKV) -> Unit) = action(this)
-    fun appendAssumeSorted(key: KEY, value: VALUE): VALUE {
+    public fun withFastInitializer(action: (MyMapKNAMEVNAMEBinaryTreeGUSEKV) -> Unit) = action(this)
+    public fun appendAssumeSorted(key: KEY, value: VALUE): VALUE {
         keys.add(key)
         values.add(value)
         return value
     }
-    fun clear() {
+    public fun clear() {
         keys.clear()
         values.clear()
     }
@@ -56,13 +57,13 @@ class MyMapKNAMEVNAMEBinaryTreeGDEF() {
             action(k, v)
         }
     }
-    class MyMapKNAMEVNAMEBinaryTreeIteratorGDEF(val data: MyMapKNAMEVNAMEBinaryTreeGUSEKV) {
+    public class MyMapKNAMEVNAMEBinaryTreeIteratorGDEF(val data: MyMapKNAMEVNAMEBinaryTreeGUSEKV) {
         var index = 0
-        fun hasNext() = index < data.values.size
-        fun next() = data.keys.data[index++]
-        fun value() = data.values[index - 1]
+        public fun hasNext() = index < data.values.size
+        public fun next() = data.keys.data[index++]
+        public fun value() = data.values[index - 1]
     }
-    fun safeToFile(filename: String) {
+    public fun safeToFile(filename: String) {
         IOSTART1
         File(filename).dataOutputStream { out ->
             out.writeInt(size)
@@ -75,7 +76,7 @@ class MyMapKNAMEVNAMEBinaryTreeGDEF() {
         }
         IOEND1
     }
-    fun loadFromFile(filename: String) {
+    public fun loadFromFile(filename: String) {
         IOSTART2
         File(filename).dataInputStream { fis ->
             var size = fis.readInt()

@@ -4,7 +4,7 @@ import lupos.s00misc.MyMapIntInt
 import lupos.s01io.BufferManager
 import kotlin.jvm.JvmField
 val nodeGlobalDictionary = ResultSetDictionary(true)
-class ResultSetDictionary(val global: Boolean = false) {
+public class ResultSetDictionary(val global: Boolean = false) {
     companion object {
         const val booleanTrueValue = 0 // required by truth-tables
         @JvmField
@@ -18,16 +18,16 @@ class ResultSetDictionary(val global: Boolean = false) {
         const val undefValue = 3
         @JvmField
         val undefValue2 = ValueUndef()
-        fun debug() {
+        public fun debug() {
         }
-        fun isGlobalBNode(value: Int): Boolean {
+        public fun isGlobalBNode(value: Int): Boolean {
             if (value >= 0) {
                 return false
             }
             return nodeGlobalDictionary.getValue(value) is ValueBnode
         }
     }
-    fun isLocalBNode(value: Int): Boolean {
+    public fun isLocalBNode(value: Int): Boolean {
         if (value < 0) {
             return false
         }
@@ -37,7 +37,7 @@ class ResultSetDictionary(val global: Boolean = false) {
     var mapSTL = mutableMapOf<ValueDefinition, Int>(errorValue2 to errorValue, booleanTrueValue2 to booleanTrueValue, booleanFalseValue2 to booleanFalseValue, undefValue2 to undefValue)
     var mapLTS = mutableMapOf<Int, ValueDefinition>(errorValue to errorValue2, booleanTrueValue to booleanTrueValue2, booleanFalseValue to booleanFalseValue2, undefValue to undefValue2)
     var bNodeCounter = 0
-    fun clear() {
+    public fun clear() {
         mapSTL = mutableMapOf<ValueDefinition, Int>(errorValue2 to errorValue, booleanTrueValue2 to booleanTrueValue, booleanFalseValue2 to booleanFalseValue, undefValue2 to undefValue)
         mapLTS = mutableMapOf<Int, ValueDefinition>(errorValue to errorValue2, booleanTrueValue to booleanTrueValue2, booleanFalseValue to booleanFalseValue2, undefValue to undefValue2)
         bNodeCounter = 0
@@ -139,7 +139,7 @@ class ResultSetDictionary(val global: Boolean = false) {
         }
 /*Coverage Unreachable*/
     }
-    fun safeToFolder() {
+    public fun safeToFolder() {
         File(BufferManager.bufferPrefix + "dictionary.txt").printWriter { out ->
             var idx = 0
             for ((k, line) in mapLTS) {
@@ -150,7 +150,7 @@ class ResultSetDictionary(val global: Boolean = false) {
             }
         }
     }
-    fun loadFromFolder() {
+    public fun loadFromFolder() {
         File(BufferManager.bufferPrefix + "dictionary.txt").forEachLine {
             createValue(ValueDefinition(it))
         }

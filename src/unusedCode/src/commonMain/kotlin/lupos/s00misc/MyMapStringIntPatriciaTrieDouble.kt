@@ -1,6 +1,6 @@
 package lupos.s00misc
 import kotlin.jvm.JvmField
-class MyMapStringIntPatriciaTrieDouble() {
+public class MyMapStringIntPatriciaTrieDouble() {
     @JvmField
     var debugfilename = ""
     @JvmField
@@ -17,7 +17,7 @@ class MyMapStringIntPatriciaTrieDouble() {
     val allOutNodes = MyListInt() // index in allNodes
     @JvmField
     val allOutOffsets = MyListInt() // index in allNodesChilds
-    fun clear() {
+    public fun clear() {
         root = MyMapStringIntPatriciaTrieNode()
         rootValue = undefinedValue
         allOutNodes.clear()
@@ -28,7 +28,7 @@ class MyMapStringIntPatriciaTrieDouble() {
     init {
         allNodes.add(root)
     }
-    class MyMapStringIntPatriciaTrieNode() {
+    public class MyMapStringIntPatriciaTrieNode() {
         var parent = 0
         var str = ""
         var data = IntArray(0)
@@ -67,7 +67,7 @@ class MyMapStringIntPatriciaTrieDouble() {
         }
         /*Coverage Unreachable*/
     }
-    fun debug() {
+    public fun debug() {
         SanityCheck {
             if (rootValue != undefinedValue) {
                 SanityCheck.println({ "debug rootValue -> $rootValue" })
@@ -235,7 +235,7 @@ class MyMapStringIntPatriciaTrieDouble() {
         return res
     }
     operator fun set(key: String, value: Int): Unit = throw FunktionWontWorkWithThisImplementationException()
-    fun getOrCreate(key: String): Int {
+    public fun getOrCreate(key: String): Int {
         var list = mutableListOf<String>()
         SanityCheck {
             for (i in 0 until allOutNodes.size) {
@@ -256,8 +256,8 @@ class MyMapStringIntPatriciaTrieDouble() {
         }
         return res
     }
-    fun appendAssumeSorted(key: String, value: Int): Unit = throw FunktionWontWorkWithThisImplementationException()
-    fun safeToFile(filename: String) {
+    public fun appendAssumeSorted(key: String, value: Int): Unit = throw FunktionWontWorkWithThisImplementationException()
+    public fun safeToFile(filename: String) {
         debugfilename = filename
         File(filename).dataOutputStream { out ->
             out.writeInt(rootValue)
@@ -280,7 +280,7 @@ class MyMapStringIntPatriciaTrieDouble() {
 // writeing allNodes <<--
         }
     }
-    fun loadFromFile(filename: String) {
+    public fun loadFromFile(filename: String) {
         debugfilename = filename
         clear()
         File(filename).dataInputStream { fis ->

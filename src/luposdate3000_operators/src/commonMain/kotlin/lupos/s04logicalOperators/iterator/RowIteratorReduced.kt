@@ -1,6 +1,7 @@
 package lupos.s04logicalOperators.iterator
-open class RowIteratorReduced(val child: RowIterator) : RowIterator() {
-    var first: Boolean = true
+import kotlin.jvm.JvmField
+public open class RowIteratorReduced(@JvmField public val child: RowIterator) : RowIterator() {
+    @JvmField public var first: Boolean = true
     init {
         columns = child.columns
         buf = IntArray(columns.size)

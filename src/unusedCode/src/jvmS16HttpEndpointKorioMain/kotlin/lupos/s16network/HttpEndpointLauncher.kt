@@ -13,7 +13,7 @@ import lupos.s03resultRepresentation.nodeGlobalDictionary
 import lupos.s15tripleStoreDistributed.distributedTripleStore
 import kotlin.jvm.JvmField
 @UseExperimental(ExperimentalStdlibApi::class)
-object HttpEndpointLauncher {
+public object HttpEndpointLauncher {
     @JvmField
     var server: HttpServer? = null
     suspend fun receive(path: String, isPost: Boolean, data: String, params: Map<String, String>): String {

@@ -1,9 +1,9 @@
 package lupos.datastructures.lsm_tree
 import kotlin.jvm.JvmField
-class NotFoundException(obj: Any) : Exception(obj.toString() + " not found!")
+public class NotFoundException(obj: Any) : Exception(obj.toString() + " not found!")
 // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! TODO !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 // configuration and search methods/receiveRun: do with inline internal functions for avoiding calls to overridden methods
-class LSM_Tree_Helper<K : Comparable<in K>, V>(@JvmField public val directoryOfIndex: String? = null) {
+public class LSM_Tree_Helper<K : Comparable<in K>, V>(@JvmField public val directoryOfIndex: String? = null) {
     companion object {
         private var dir_counter = 0
         private val prefix = "LSM_"
@@ -133,13 +133,13 @@ inline class HashMapIndexWithLazySorting<K : Comparable<in K>, V>(@JvmField publ
 }
 // TODO: class implementing this interface...
 interface Searchable<K, V, R> {
-    class Level<K : Comparable<in K>, V, R : Searchable<K, V, R>>(@JvmField public val level: Int, @JvmField public val createRunFromFirstLevelInput: (Pair<Int, () -> Pair<K, V>?>) -> R) {
+    public class Level<K : Comparable<in K>, V, R : Searchable<K, V, R>>(@JvmField public val level: Int, @JvmField public val createRunFromFirstLevelInput: (Pair<Int, () -> Pair<K, V>?>) -> R) {
         var MAX_RUNS = 4
         var nextLevel: Level<K, V, R>? = null
         val runs: Array<R?> = arrayOfNulls<Any>(MAX_RUNS) as Array<R?>
         var numberOfRuns = 0
-        fun createLevel(lavel: Int) = Level<K, V, R>(this.level + 1, this.createRunFromFirstLevelInput)
-        fun receiveFromLowerLevel(r: R) {
+        public fun createLevel(lavel: Int) = Level<K, V, R>(this.level + 1, this.createRunFromFirstLevelInput)
+        public fun receiveFromLowerLevel(r: R) {
             if (numberOfRuns + 1 >= MAX_RUNS) {
                 if (this.nextLevel == null) {
                     this.nextLevel = this.createLevel(this.level + 1)
@@ -150,10 +150,10 @@ interface Searchable<K, V, R> {
             runs[this.numberOfRuns] = r
             this.numberOfRuns++
         }
-        fun receiveFromFirstLevel(input: Pair<Int, () -> Pair<K, V>?>) {
+        public fun receiveFromFirstLevel(input: Pair<Int, () -> Pair<K, V>?>) {
             receiveFromLowerLevel(this.createRunFromFirstLevelInput(input))
         }
-        fun getOrNull(k: K): V? {
+        public fun getOrNull(k: K): V? {
             for (i in 0..this.numberOfRuns - 1) {
                 val result = this.runs[i]!!.getOrNull(k)
                 if (result != null) {
@@ -162,7 +162,7 @@ interface Searchable<K, V, R> {
             }
             return this.nextLevel?.getOrNull(k)
         }
-        fun get(k: K): V {
+        public fun get(k: K): V {
             for (i in 0..this.numberOfRuns - 1) {
                 try {
                     // in this way an inserted null value is treated correctly (in the case of that V is a nullable type)!
@@ -177,7 +177,7 @@ interface Searchable<K, V, R> {
                 throw NotFoundException(k)
             }
         }
-        fun range(smallerKey: K, biggerKey: K): () -> Pair<K, V>? {
+        public fun range(smallerKey: K, biggerKey: K): () -> Pair<K, V>? {
             val iterators =
                 if (this.nextLevel != null)
                     Array<() -> Pair<K, V>?>(this.numberOfRuns + 1, { i -> if (i < this.numberOfRuns) this.runs[i]!!.rangeNoOrder(smallerKey, biggerKey) else this.nextLevel!!.rangeNoOrder(smallerKey, biggerKey) })
@@ -221,7 +221,7 @@ interface Searchable<K, V, R> {
                 null
             }
         }
-        fun rangeNoOrder(smallerKey: K, biggerKey: K): () -> Pair<K, V>? {
+        public fun rangeNoOrder(smallerKey: K, biggerKey: K): () -> Pair<K, V>? {
             val iterators =
                 if (this.nextLevel != null)
                     Array<() -> Pair<K, V>?>(this.numberOfRuns + 1, { i -> if (i < this.numberOfRuns) this.runs[i]!!.rangeNoOrder(smallerKey, biggerKey) else this.nextLevel!!.rangeNoOrder(smallerKey, biggerKey) })
@@ -240,13 +240,13 @@ interface Searchable<K, V, R> {
             }
         }
     }
-    fun getOrNull(k: K): V?
-    fun get(k: K): V
-    fun range(smallerKey: K, biggerKey: K): () -> Pair<K, V>?
-    fun rangeNoOrder(smallerKey: K, biggerKey: K): () -> Pair<K, V>?
-    fun merge(rs: Array<R?>): R
+    public fun getOrNull(k: K): V?
+    public fun get(k: K): V
+    public fun range(smallerKey: K, biggerKey: K): () -> Pair<K, V>?
+    public fun rangeNoOrder(smallerKey: K, biggerKey: K): () -> Pair<K, V>?
+    public fun merge(rs: Array<R?>): R
 }
-class LSM_Tree<K : Comparable<in K>, V> {
+public class LSM_Tree<K : Comparable<in K>, V> {
     var MAX_ENTRIES = 50000
     val firstLevel = HashMapIndexWithLazySorting<K, V>()
     internal inline fun getOrNull(k: K, remainingLevels: (k: K) -> V?): V? = getOrNull(k, { this.firstLevel.getOrNull(it) }, remainingLevels)

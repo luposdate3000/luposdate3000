@@ -14,8 +14,9 @@ import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.iterator.RowIterator
 import lupos.s09physicalOperators.POPBase
+import kotlin.jvm.JvmField
 // http://blog.pronghorn.tech/optimizing-suspending-functions-in-kotlin/
-public class POPChangePartitionOrderedByIntId(query: IQuery, projectedVariables: List<String>, val partitionVariable: String, var partitionCountFrom: Int, var partitionCountTo: Int, var partitionIDFrom: Int, var partitionIDTo: Int, child: IOPBase) : POPBase(query, projectedVariables, EOperatorID.POPChangePartitionOrderedByIntIdID, "POPChangePartitionOrderedByIntId", arrayOf(child), ESortPriority.PREVENT_ANY) {
+public class POPChangePartitionOrderedByIntId(query: IQuery, projectedVariables: List<String>, @JvmField public val partitionVariable: String, @JvmField public var partitionCountFrom: Int, @JvmField public var partitionCountTo: Int, @JvmField public var partitionIDFrom: Int, @JvmField public var partitionIDTo: Int, child: IOPBase) : POPBase(query, projectedVariables, EOperatorID.POPChangePartitionOrderedByIntIdID, "POPChangePartitionOrderedByIntId", arrayOf(child), ESortPriority.PREVENT_ANY) {
     override fun getPartitionCount(variable: String): Int {
         return if (variable == partitionVariable) {
             partitionCountTo

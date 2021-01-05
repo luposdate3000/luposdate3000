@@ -1,5 +1,5 @@
 package lupos.s04logicalOperators.iterator
-class ColumnIteratorChildIteratorEmpty : ColumnIteratorChildIterator() {
+public class ColumnIteratorChildIteratorEmpty : ColumnIteratorChildIterator() {
     override /*suspend*/ fun close() {
         _close()
     }

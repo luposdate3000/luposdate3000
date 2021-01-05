@@ -6,7 +6,7 @@ import lupos.s02buildSyntaxTree.TokenIterator
 import lupos.s02buildSyntaxTree.UnexpectedEndOfFile
 import kotlin.jvm.JvmField
 public class EOF(index: Int) : Token("EOF", index)
-abstract public class InBraces(@JvmField public val content: String, index: Int, @JvmField public  val leftBrace: String, @JvmField public val rightBrace: String) : Token(leftBrace + content + rightBrace, index) {
+public abstract class InBraces(@JvmField public val content: String, index: Int, @JvmField public val leftBrace: String, @JvmField public val rightBrace: String) : Token(leftBrace + content + rightBrace, index) {
     override fun toString(): String {
         return super.toString() + ": " + this.image
     }
@@ -39,7 +39,7 @@ public class DIV(index: Int) : Token("/", index)
 public class NIL(index: Int) : Token("()", index)
 public class STRING(content: String, delimiter: String, index: Int) : InBraces(content, index, delimiter, delimiter)
 public class INTEGER(image: String, index: Int) : Token(image, index) {
-public    fun toInt(): Int = this.image.toInt()
+    public fun toInt(): Int = this.image.toInt()
 }
 public class DECIMAL(beforeDOT: String, afterDOT: String, index: Int) : Token("$beforeDOT.$afterDOT", index)
 public class DOUBLE(beforeDOT: String, dot: Boolean, afterDOT: String, exp: String, plusminus: String, expnumber: String, index: Int) : Token(beforeDOT + (if (dot) "." else "") + afterDOT + exp + plusminus + expnumber, index)

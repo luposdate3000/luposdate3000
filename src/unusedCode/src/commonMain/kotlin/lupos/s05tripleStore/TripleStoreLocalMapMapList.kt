@@ -1,6 +1,6 @@
 package lupos.s05tripleStore
 import lupos.s00misc.EIndexPattern
-class TripleStoreLocalMapMapList(name: String) : TripleStoreLocalBase(name) {
+public class TripleStoreLocalMapMapList(name: String) : TripleStoreLocalBase(name) {
     init {
         var dataDistinctList = mutableListOf<TripleStoreDistinctContainer>()
         for (p in enabledPartitions) {
@@ -20,7 +20,7 @@ class TripleStoreLocalMapMapList(name: String) : TripleStoreLocalBase(name) {
         pendingModificationsRemove = Array(dataDistinct.size) { mutableMapOf<Long, MutableList<Int>>() }
     }
     companion object {
-        fun providesFeature(feature: TripleStoreFeature, params: TripleStoreFeatureParams?): Boolean {
+        public fun providesFeature(feature: TripleStoreFeature, params: TripleStoreFeatureParams?): Boolean {
             return when (feature) {
                 TripleStoreFeature.DEFAULT -> {
                     true

@@ -1,12 +1,12 @@
 package lupos.s04logicalOperators.iterator
 import lupos.s03resultRepresentation.ResultSetDictionaryExt
 import kotlin.jvm.JvmField
-abstract class ColumnIteratorChildIterator : ColumnIterator() {
-    var queue: Array<ColumnIterator> = Array(100) { this }
-    var queueRead: Int = 0
-    var queueWrite: Int = 0
+public abstract class ColumnIteratorChildIterator : ColumnIterator() {
+    @JvmField public var queue: Array<ColumnIterator> = Array(100) { this }
+    @JvmField public var queueRead: Int = 0
+    @JvmField public var queueWrite: Int = 0
     @JvmField
-    var label: Int = 1
+    public var label: Int = 1
     internal inline fun addChildColumnIteratorValue(value: Int) {
         val res = ColumnIteratorValue()
         res.value = value

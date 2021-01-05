@@ -13,40 +13,40 @@ import lupos.s09physicalOperators.partition.POPMergePartitionOrderedByIntId
 import lupos.s09physicalOperators.partition.POPSplitPartition
 import lupos.s09physicalOperators.partition.POPSplitPartitionFromStore
 import kotlin.jvm.JvmField
-class PartitionHelper {
-    var iterators: MutableMap<Partition, Array<IteratorBundle>>? = null
+public class PartitionHelper {
+    @JvmField public var iterators: MutableMap<Partition, Array<IteratorBundle>>? = null
     internal var jobs: MutableMap<Partition, ParallelJob>? = null
     internal val lock = MyLock()
 }
-class Query(@JvmField public val dictionary: ResultSetDictionary = ResultSetDictionary(), @JvmField public val transactionID: Long = global_transactionID++) : IQuery {
+public class Query(@JvmField public val dictionary: ResultSetDictionary = ResultSetDictionary(), @JvmField public val transactionID: Long = global_transactionID++) : IQuery {
     @JvmField
-    var _workingDirectory: String = ""
+    public var _workingDirectory: String = ""
     @JvmField
-    var filtersMovedUpFromOptionals: Boolean = false
+    public var filtersMovedUpFromOptionals: Boolean = false
     @JvmField
-    var commited: Boolean = false
+    public var commited: Boolean = false
     @JvmField
-    var dontCheckVariableExistence: Boolean = false
+    public var dontCheckVariableExistence: Boolean = false
     @JvmField
-    var generatedNameCounter: Int = 0
+    public var generatedNameCounter: Int = 0
     @JvmField
-    var generatedNameByBase: MutableMap<String, String> = mutableMapOf()
+    public var generatedNameByBase: MutableMap<String, String> = mutableMapOf()
     @JvmField
     internal val partitions = mutableMapOf<Long, PartitionHelper>()
     @JvmField
     internal val partitionsLock = MyLock()
     @JvmField
-    val partitionOperators: MutableMap<Int, MutableSet<Long>> = mutableMapOf()
+    public val partitionOperators: MutableMap<Int, MutableSet<Long>> = mutableMapOf()
     @JvmField
-    val partitionOperatorCount: MutableMap<Int, Int> = mutableMapOf()
-    fun getNextPartitionOperatorID(): Int {
+    public val partitionOperatorCount: MutableMap<Int, Int> = mutableMapOf()
+    public fun getNextPartitionOperatorID(): Int {
         var res = 0
         while (partitionOperators[res] != null) {
             res++
         }
         return res
     }
-    fun addPartitionOperator(uuid: Long, id: Int) {
+    public fun addPartitionOperator(uuid: Long, id: Int) {
         val tmp = partitionOperators[id]
         if (tmp == null) {
             partitionOperators[id] = mutableSetOf(uuid)
@@ -55,7 +55,7 @@ class Query(@JvmField public val dictionary: ResultSetDictionary = ResultSetDict
             tmp.add(uuid)
         }
     }
-    fun removePartitionOperator(uuid: Long, id: Int) {
+    public fun removePartitionOperator(uuid: Long, id: Int) {
         val tmp = partitionOperators[id]
         if (tmp != null) {
             SanityCheck.check { tmp.contains(uuid) }
@@ -90,7 +90,7 @@ class Query(@JvmField public val dictionary: ResultSetDictionary = ResultSetDict
             changeID(c, list, idFrom, idTo)
         }
     }
-    fun mergePartitionOperator(id1: Int, id2: Int, root: IOPBase): Int {
+    public fun mergePartitionOperator(id1: Int, id2: Int, root: IOPBase): Int {
         partitionOperators[id1]!!.addAll(partitionOperators[id2]!!)
         changeID(root, partitionOperators[id2]!!, id2, id1)
         partitionOperators.remove(id2)
@@ -113,9 +113,9 @@ class Query(@JvmField public val dictionary: ResultSetDictionary = ResultSetDict
     override fun reset() {
         partitions.clear()
     }
-    fun getUniqueVariableName(): String = "#+${generatedNameCounter++}"
-    fun isGeneratedVariableName(name: String): Boolean = name.startsWith('#')
-    /*suspend*/ fun getPartitionHelper(uuid: Long): PartitionHelper {
+    public fun getUniqueVariableName(): String = "#+${generatedNameCounter++}"
+    public fun isGeneratedVariableName(name: String): Boolean = name.startsWith('#')
+    public /*suspend*/ fun getPartitionHelper(uuid: Long): PartitionHelper {
         var res: PartitionHelper? = null
         partitionsLock.withLock {
             res = partitions[uuid]
@@ -126,7 +126,7 @@ class Query(@JvmField public val dictionary: ResultSetDictionary = ResultSetDict
         }
         return res!!
     }
-    fun getUniqueVariableName(name: String): String {
+    public fun getUniqueVariableName(name: String): String {
         val tmp = generatedNameByBase[name]
         return if (tmp != null) {
             tmp

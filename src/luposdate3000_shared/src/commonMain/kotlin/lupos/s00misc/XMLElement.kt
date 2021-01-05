@@ -5,8 +5,8 @@ public class XMLElement(tag: String) {
     // https://regex101.com
     public companion object {
         @JvmField
-        public    val parseFromAnyRegistered: MutableMap<String, XMLElementParser> = mutableMapOf()
-        public   fun parseBindingFromString(nodeResult: XMLElement, value: String?, name: String) {
+        public val parseFromAnyRegistered: MutableMap<String, XMLElementParser> = mutableMapOf()
+        public fun parseBindingFromString(nodeResult: XMLElement, value: String?, name: String) {
             val nodeBinding = XMLElement("binding").addAttribute("name", name)
             if (value != null && value != "") {
                 if (value.startsWith("\"") && !value.endsWith("\"")) {
@@ -49,13 +49,13 @@ public class XMLElement(tag: String) {
         }
     }
     @JvmField
-    public   val attributes: MutableMap<String, String> = mutableMapOf()
+    public val attributes: MutableMap<String, String> = mutableMapOf()
     @JvmField
     public var content: String = ""
     @JvmField
     public val childs: MutableList<XMLElement> = mutableListOf()
     @JvmField
-    public  val tag: String
+    public val tag: String
     init {
         this.tag = decodeText(tag)
     }
@@ -68,7 +68,7 @@ public class XMLElement(tag: String) {
         return null
     }
     override fun equals(other: Any?): Boolean = other is XMLElement && myEqualsUnclean(other, true, true, true)
-    public  fun myEquals(other: XMLElement?): Boolean {
+    public fun myEquals(other: XMLElement?): Boolean {
         if (other == null) {
             return false
         }
@@ -261,7 +261,7 @@ public class XMLElement(tag: String) {
         attributes[decodeText(name)] = decodeText(value)
         return this
     }
-    public  fun addContentClean(s: String): XMLElement {
+    public fun addContentClean(s: String): XMLElement {
         var res: String = s
         while (true) {
             val match = "\\\\u[0-9a-fA-f]{4}".toRegex().find(res) ?: break
@@ -271,7 +271,7 @@ public class XMLElement(tag: String) {
         addContent(res)
         return this
     }
-    public   fun addContent(content: String): XMLElement {
+    public fun addContent(content: String): XMLElement {
         SanityCheck.check { childs.isEmpty() }
         this.content += decodeText(content)
         return this
@@ -281,12 +281,12 @@ public class XMLElement(tag: String) {
         this.childs.addAll(childs)
         return this
     }
-    public  fun addContent(child: XMLElement): XMLElement {
+    public fun addContent(child: XMLElement): XMLElement {
         SanityCheck.check { content.isEmpty() }
         childs.add(child)
         return this
     }
-    public  fun addContent(childs: Collection<String>, childTag: String): XMLElement {
+    public fun addContent(childs: Collection<String>, childTag: String): XMLElement {
         for (c in childs) {
             addContent(XMLElement(childTag).addContent(c).toString())
         }
@@ -336,7 +336,7 @@ public class XMLElement(tag: String) {
         }
         return res
     }
-    public  fun toPrettyString(): String = toPrettyString("").toString()
+    public fun toPrettyString(): String = toPrettyString("").toString()
     override fun hashCode(): Int {
         var result = attributes.hashCode()
         result = 31 * result + content.hashCode()

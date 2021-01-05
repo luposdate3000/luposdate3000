@@ -6,13 +6,13 @@ import kotlinx.cinterop.allocArray
 import kotlinx.cinterop.memScoped
 import stdio.*
 import kotlin.native.concurrent.*
-class File {
+public class File {
     val filename: String
-    constructor(filename: String) {
+    public constructor(filename: String) {
         this.filename = filename
     }
     const val bufferLength = 64 * 1024
-    fun readAsString(): String {
+    public fun readAsString(): String {
         var result: String = ""
         val file = fopen(filename, "r")
         if (file == null) {
@@ -34,7 +34,7 @@ class File {
         }
         return result
     }
-    fun walk(action: (String) -> Unit) {
+    public fun walk(action: (String) -> Unit) {
         val d = opendir(filename)
         if (d != null) {
             while (true) {
@@ -47,7 +47,7 @@ class File {
             closedir(d)
         }
     }
-    fun printWriter(action: (PrintWriter) -> Unit) {
+    public fun printWriter(action: (PrintWriter) -> Unit) {
         val p = PrintWriter(this)
         try {
             p.open()
@@ -57,18 +57,18 @@ class File {
         }
     }
 }
-class PrintWriter(val f: File) {
+public class PrintWriter(val f: File) {
     var file: CPointer<FILE>? = null
-    fun open() {
+    public fun open() {
         file = fopen(f.filename, "w")
         if (f == null) {
             throw ResourceNotFoundException(f.filename)
         }
     }
-    fun close() {
+    public fun close() {
         fclose(file)
     }
-    fun println(s: String) {
+    public fun println(s: String) {
         luposfprintf(file, s + "\n")
     }
 }

@@ -1,1 +1,2 @@
-fun main(args: Array<String>) = mainFunc(args)
+
+public fun main(args: Array<String>) = mainFunc(args)

@@ -19,7 +19,7 @@ import lupos.s05tripleStore.index_SingleList.ColumnIteratorStore3a
 import lupos.s05tripleStore.index_SingleList.ColumnIteratorStore3b
 import lupos.s05tripleStore.index_SingleList.ColumnIteratorStore3c
 import kotlin.jvm.JvmField
-class TripleStoreIndex_SingleList : TripleStoreIndex() {
+public class TripleStoreIndex_SingleList : TripleStoreIndex() {
     @JvmField
     var data = MyListInt()
     @JvmField
@@ -35,7 +35,7 @@ class TripleStoreIndex_SingleList : TripleStoreIndex() {
     }
     override suspend fun flush() {
     }
-    fun rebuildMap() {
+    public fun rebuildMap() {
         index1.clear()
         index2.clear()
         index1.withFastInitializer { index1Init ->
@@ -249,7 +249,7 @@ class TripleStoreIndex_SingleList : TripleStoreIndex() {
         }
         return data
     }
-    class ImportIterator(@JvmField public val data: IntArray, @JvmField public val count: Int, @JvmField public val offset: Int) : ColumnIterator() {
+    public class ImportIterator(@JvmField public val data: IntArray, @JvmField public val count: Int, @JvmField public val offset: Int) : ColumnIterator() {
         @JvmField
         var idx = offset
         override suspend fun close() {

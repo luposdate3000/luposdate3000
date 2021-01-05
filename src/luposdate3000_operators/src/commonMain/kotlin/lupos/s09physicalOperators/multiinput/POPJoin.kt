@@ -7,7 +7,7 @@ import lupos.s04logicalOperators.iterator.ColumnIteratorMultiValue
 import lupos.s04logicalOperators.iterator.ColumnIteratorRepeatIterator
 import lupos.s04logicalOperators.iterator.ColumnIteratorRepeatValue
 internal object POPJoin {
-    fun crossProduct(dataO0: Array<MutableList<Int>>, dataO1: Array<MutableList<Int>>, dataJ: IntArray, outO0: List<ColumnIteratorChildIterator>, outO1: List<ColumnIteratorChildIterator>, outJ: List<ColumnIteratorChildIterator>, countA: Int, countB: Int) {
+    public fun crossProduct(dataO0: Array<MutableList<Int>>, dataO1: Array<MutableList<Int>>, dataJ: IntArray, outO0: List<ColumnIteratorChildIterator>, outO1: List<ColumnIteratorChildIterator>, outJ: List<ColumnIteratorChildIterator>, countA: Int, countB: Int) {
         /*result ordered by first child*/
         val count = countA * countB
         SanityCheck.check { count > 0 }
@@ -74,7 +74,7 @@ internal object POPJoin {
             }
         }
     }
-    fun crossProduct(dataO0: Array<IntArray>, dataO1: Array<IntArray>, dataJ: IntArray, outO0: List<ColumnIteratorChildIterator>, outO1: List<ColumnIteratorChildIterator>, outJ: List<ColumnIteratorChildIterator>, countA: Int, countB: Int) {
+    public fun crossProduct(dataO0: Array<IntArray>, dataO1: Array<IntArray>, dataJ: IntArray, outO0: List<ColumnIteratorChildIterator>, outO1: List<ColumnIteratorChildIterator>, outJ: List<ColumnIteratorChildIterator>, countA: Int, countB: Int) {
         /*result ordered by first child*/
         val count = countA * countB
         SanityCheck.check { count > 0 }

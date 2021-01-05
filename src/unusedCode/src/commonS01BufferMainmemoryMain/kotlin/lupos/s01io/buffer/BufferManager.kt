@@ -3,13 +3,13 @@ import kotlin.jvm.JvmField
 data class PageAddress(@JvmField public val fileName: String, @JvmField public val pageNumber: Int)
 const val PAGESIZE: Int = 8 * 1024
 val bufferManager: BufferManager = BufferManager()
-class BufferManager {
+public class BufferManager {
     @JvmField
     val memoryOfFiles = hashMapOf<String, Array<Page?>>()
-    fun getPage(pageAddress: PageAddress): Page {
+    public fun getPage(pageAddress: PageAddress): Page {
         return this.getPage(pageAddress.fileName, pageAddress.pageNumber)
     }
-    fun getPage(file: String, number: Int): Page {
+    public fun getPage(file: String, number: Int): Page {
         val memoryOfFile = this.memoryOfFiles.get(file)
         if (memoryOfFile == null) {
             val array = arrayOfNulls<Page>(number + 1)
@@ -43,8 +43,8 @@ class BufferManager {
             }
         }
     }
-    fun writeAllModifiedPages() {} // main memory implementation does not persist its pages!
-    fun release() {
+    public fun writeAllModifiedPages() {} // main memory implementation does not persist its pages!
+    public fun release() {
         for (entry in this.memoryOfFiles) {
             for (page in entry.value) {
                 if (page != null) {

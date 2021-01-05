@@ -1,4 +1,5 @@
 package lupos.s00misc
+import kotlin.jvm.JvmField
 abstract class ClassCacheManager<T> {
     @JvmField
     var cache = Array<Any?>(100) { null }

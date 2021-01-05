@@ -21,7 +21,7 @@ public object Dictionary {
         ?: addRDFTerm(lupos.s02buildSyntaxTree.rdf.LanguageTaggedLiteral(content, delimiter, language))
     public fun TypedLiteral(content: String, delimiter: String = "\"", type: String): Long = this.RDFTerm_to_ID["$delimiter$content$delimiter^^<$type>"]
         ?: addRDFTerm(lupos.s02buildSyntaxTree.rdf.TypedLiteral(content, delimiter, type))
-    operator public fun get(id: Long): RDFTerm? {
+    public operator fun get(id: Long): RDFTerm? {
         return this.ID_to_RDFTerm[id]
     }
 }

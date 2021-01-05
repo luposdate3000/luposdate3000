@@ -1,6 +1,7 @@
 package lupos.s00misc
+import kotlin.jvm.JvmField
 /* Substitutions :: VALUE,GDEF,GUSE */
-class MySetVALUEBinaryTreeGDEF {
+public class MySetVALUEBinaryTreeGDEF {
     @JvmField
     var data = MyListVALUEGUSE()
     var size: Int = 0
@@ -11,19 +12,19 @@ class MySetVALUEBinaryTreeGDEF {
     operator fun iterator(): Iterator<VALUE> {
         return data.iterator()
     }
-    fun forEach(action: (VALUE) -> Unit) {
+    public fun forEach(action: (VALUE) -> Unit) {
         var it = iterator()
         while (it.hasNext()) {
             val v = it.next()
             action(v)
         }
     }
-    constructor() {
+    public constructor() {
     }
-    constructor(value: VALUE) : this() {
+    public constructor(value: VALUE) : this() {
         data.add(value)
     }
-    fun appendAssumeSorted(value: VALUE) {
+    public fun appendAssumeSorted(value: VALUE) {
         data.add(value)
     }
     internal inline fun reserve(capacity: Int) {

@@ -1,7 +1,8 @@
-import lupos.s00misc.Platform
 import java.io.File
 import java.lang.ProcessBuilder.Redirect
-fun execImport(args: Array<String>) {
+import kotlin.jvm.JvmField
+import lupos.s00misc.Platform
+public fun execImport(args: Array<String>) {
     File("log").mkdirs()
     val jars = mutableListOf(
         "build-cache${Platform.getPathSeparator()}bin${Platform.getPathSeparator()}Luposdate3000_Buffer_Manager_Inmemory-jvm.jar",
@@ -29,9 +30,9 @@ fun execImport(args: Array<String>) {
     var classpath = ""
     for (jar in jars) {
         if (classpath == "") {
-            classpath = jar
+public classpath = jar
         } else {
-            classpath = "$classpath:$jar"
+public classpath = "$classpath:$jar"
         }
     }
     val cmd = mutableListOf("java", "-Xmx${Platform.getAvailableRam()}g", "-cp", classpath, "MainKt")

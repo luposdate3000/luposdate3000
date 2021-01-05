@@ -17,7 +17,7 @@ import lupos.s09physicalOperators.partition.POPMergePartitionOrderedByIntId
 import lupos.s09physicalOperators.partition.POPSplitPartitionFromStore
 import lupos.s15tripleStoreDistributed.TripleStoreIteratorGlobal
 import lupos.s15tripleStoreDistributed.distributedTripleStore
-class PhysicalOptimizerPartition6(query: Query) : OptimizerBase(query, EOptimizerID.PhysicalOptimizerPartition6ID) {
+public class PhysicalOptimizerPartition6(query: Query) : OptimizerBase(query, EOptimizerID.PhysicalOptimizerPartition6ID) {
     override val classname: String = "PhysicalOptimizerPartition6"
     override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
         var res = node

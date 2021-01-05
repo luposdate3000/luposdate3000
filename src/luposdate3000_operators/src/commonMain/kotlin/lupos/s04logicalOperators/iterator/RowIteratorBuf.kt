@@ -1,7 +1,8 @@
 package lupos.s04logicalOperators.iterator
 import lupos.s00misc.SanityCheck
-class RowIteratorBuf(buf: IntArray, columns: Array<String>, val size: Int) : RowIterator() {
-    var offset: Int = 0
+import kotlin.jvm.JvmField
+public class RowIteratorBuf(buf: IntArray, columns: Array<String>, @JvmField public val size: Int) : RowIterator() {
+    @JvmField public var offset: Int = 0
     init {
         this.buf = buf
         this.columns = columns

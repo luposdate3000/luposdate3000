@@ -12,7 +12,7 @@ import kotlin.coroutines.intrinsics.suspendCoroutineUninterceptedOrReturn
 import kotlin.coroutines.resume
 import kotlin.jvm.JvmField
 typealias ParallelJob = Job
-object Parallel {
+public object Parallel {
     internal inline fun <T> runBlocking(crossinline action: suspend () -> T): T {
         return kotlinx.coroutines.runBlocking {
             action()
@@ -29,7 +29,7 @@ object Parallel {
     internal inline fun createMutex() = Mutex()
     internal inline fun createCondition(lock: Lock) = ParallelCondition(lock)
     internal inline fun <T> createQueue(terminationValue: T) = ParallelQueue<T>()
-    class ParallelCondition(@JvmField public val lock: Lock) {
+    public class ParallelCondition(@JvmField public val lock: Lock) {
         @JvmField
         var cont: Continuation<Unit>? = null
         internal suspend inline fun waitCondition(crossinline condition: () -> Boolean) {
@@ -57,7 +57,7 @@ object Parallel {
             }
         }
     }
-    class ParallelQueue<T>() {
+    public class ParallelQueue<T>() {
         @JvmField
         val queue = Channel<T>(2)
         internal inline fun close() {

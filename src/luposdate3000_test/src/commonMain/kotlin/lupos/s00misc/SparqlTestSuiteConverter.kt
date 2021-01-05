@@ -1,6 +1,6 @@
 package lupos.s00misc
 import lupos.SparqlTestSuite
-class SparqlTestSuiteConverter(resource_folder: String, private val output_folder: String) : SparqlTestSuite() {
+public class SparqlTestSuiteConverter(resource_folder: String, private val output_folder: String) : SparqlTestSuite() {
     private var counter = 0
     private var lastFile: String = ""
     init {

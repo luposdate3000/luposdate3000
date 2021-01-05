@@ -80,7 +80,7 @@ inline fun ByteArray.toStringUTF(): String {
     }
     return createString(buffer)
 }
-class ByteArrayPage {
+public class ByteArrayPage {
     val PAGESIZE = 8 * 1024
     @JvmField // in JVM-environment: this does not generate any getter avoiding a virtual method call!
     val byteArray = ByteArray(PAGESIZE)
@@ -90,7 +90,7 @@ class ByteArrayPage {
     // in JVM-environment: this does not generate any getter avoiding a virtual method call!
     @JvmField
     var modified = false
-    constructor()
+    public constructor()
     internal inline fun getInt(address: Long): Int {
         val adr = address.toInt()
         return (0xFF and byteArray[adr].toInt()) or ((0xFF and byteArray[adr + 1].toInt()) or ((0xFF and byteArray[adr + 2].toInt()) or ((0xFF and byteArray[adr + 3].toInt()) shl 8) shl 8) shl 8)

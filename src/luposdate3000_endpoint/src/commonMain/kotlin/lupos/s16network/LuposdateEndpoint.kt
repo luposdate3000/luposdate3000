@@ -95,7 +95,7 @@ public object LuposdateEndpoint {
                     val ltit = LookAheadTokenIterator(tit, 3)
                     try {
                         val x = object : TurtleParserWithStringTriples() {
-                            override /*suspend*/ public fun consume_triple(s: String, p: String, o: String) {
+                            public /*suspend*/ override fun consume_triple(s: String, p: String, o: String) {
                                 counter++
                                 bulk.insert(helperImportRaw(bnodeDict, s), helperImportRaw(bnodeDict, p), helperImportRaw(bnodeDict, o))
                             }
@@ -129,7 +129,7 @@ public object LuposdateEndpoint {
                     val iter = f.readAsInputStream()
                     try {
                         val x = object : Turtle2Parser(iter) {
-                            override public fun onTriple(triple: Array<String>, tripleType: Array<ETripleComponentType>) {
+                            public override fun onTriple(triple: Array<String>, tripleType: Array<ETripleComponentType>) {
                                 counter++
                                 bulk.insert(helperImportRaw(bnodeDict, triple[0]), helperImportRaw(bnodeDict, triple[1]), helperImportRaw(bnodeDict, triple[2]))
                             }
@@ -158,7 +158,7 @@ public object LuposdateEndpoint {
                 val iter = MyStringStream(data)
                 try {
                     val x = object : Turtle2Parser(iter) {
-                        override public fun onTriple(triple: Array<String>, tripleType: Array<ETripleComponentType>) {
+                        public override fun onTriple(triple: Array<String>, tripleType: Array<ETripleComponentType>) {
                             counter++
                             bulk.insert(helperImportRaw(bnodeDict, triple[0]), helperImportRaw(bnodeDict, triple[1]), helperImportRaw(bnodeDict, triple[2]))
                         }

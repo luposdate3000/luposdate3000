@@ -1,8 +1,9 @@
 package lupos.s00misc
 import java.io.DataOutputStream
+import kotlin.jvm.JvmField
 internal actual class MyDataOutputStream {
     @JvmField public val it: DataOutputStream?
-    constructor(it: DataOutputStream) {
+    public constructor(it: DataOutputStream) {
         this.it = it
     }
     actual constructor() {

@@ -1,7 +1,7 @@
 package lupos.s00misc
 import kotlin.jvm.JvmField
 public object OperatorGraphToLatex {
-    public  class StackElement(@JvmField public val name: String) {
+    public class StackElement(@JvmField public val name: String) {
         @JvmField
         public var projectionHelper: String = ""
         @JvmField

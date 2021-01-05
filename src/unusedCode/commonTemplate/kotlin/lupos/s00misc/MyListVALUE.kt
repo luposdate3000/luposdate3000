@@ -2,8 +2,8 @@ package lupos.s00misc
 import kotlin.jvm.JvmField
 import kotlin.jvm.JvmName
 /* Substitutions :: VALUE,GDEF,GUSE,ARRAYTYPE,ARRAYINITIALIZER */
-class MyListVALUEGDEF {
-    class MyListVALUEPageGDEF(@JvmField public val version: Int) {
+public class MyListVALUEGDEF {
+public class MyListVALUEPageGDEF(@JvmField public val version: Int) {
         @JvmField
         var next: MyListVALUEPageGDEF? = null
         @JvmField
@@ -21,14 +21,14 @@ class MyListVALUEGDEF {
     var page = MyListVALUEPageGDEF(version)
     @JvmField
     var lastpage = page
-    fun clear() {
+public fun clear() {
         version++
         size = 0
         page = MyListVALUEPageGDEF(version)
         pagecount = 1
         lastpage = page
     }
-    fun shrinkToFit() {
+public fun shrinkToFit() {
         if (pagecount > 5) {
             if (pagecount * ARRAY_LIST_BLOCK_CAPACITY > size * 2) {
                 var c = 1
@@ -56,14 +56,14 @@ class MyListVALUEGDEF {
     }
     inline  internal   fun reserve(capacity: Int) {
     }
-    constructor() {
+public constructor() {
     }
-    constructor(value: VALUE) {
+public constructor(value: VALUE) {
         size = 1
         page.size = 1
         page.data[0] = value
     }
-    constructor(initialCapacity: Int, init: (Int) -> VALUE) {
+public constructor(initialCapacity: Int, init: (Int) -> VALUE) {
         size = initialCapacity
         var i = 0
         var tmp = page
@@ -84,16 +84,16 @@ class MyListVALUEGDEF {
         }
         lastpage = tmp
     }
-    fun set(location: MyListVALUEFastAccessGUSE, value: VALUE) {
+public fun set(location: MyListVALUEFastAccessGUSE, value: VALUE) {
         if (location.version == version) {
             location.page.data[location.idx] = value
         } else {
             this[location.globalIdx] = value
         }
     }
-    class MyListVALUEFastAccessGDEF(val page: MyListVALUEPageGUSE, val idx: Int, val version: Int, val globalIdx: Int)
-    fun getNullPointer() = MyListVALUEFastAccess(page, 0, version - 1, 0)
-    fun addAndGetPointer(value: VALUE): MyListVALUEFastAccessGUSE {
+public class MyListVALUEFastAccessGDEF(val page: MyListVALUEPageGUSE, val idx: Int, val version: Int, val globalIdx: Int)
+public fun getNullPointer() = MyListVALUEFastAccess(page, 0, version - 1, 0)
+public fun addAndGetPointer(value: VALUE): MyListVALUEFastAccessGUSE {
         if (lastpage.size < ARRAY_LIST_BLOCK_CAPACITY) {
             lastpage.data[lastpage.size] = value
             lastpage.size++
@@ -109,7 +109,7 @@ class MyListVALUEGDEF {
         shrinkToFit()
         return MyListVALUEFastAccess(lastpage, lastpage.size - 1, version, size - 1)
     }
-    fun add(value: VALUE) {
+public fun add(value: VALUE) {
         if (lastpage.size < ARRAY_LIST_BLOCK_CAPACITY) {
             lastpage.data[lastpage.size] = value
             lastpage.size++
@@ -135,7 +135,7 @@ class MyListVALUEGDEF {
         }
         return tmp.data[idx - offset] as VALUE
     }
-    fun removeInternal(prev: MyListVALUEPageGDEF, tmp: MyListVALUEPageGDEF, i: Int) {
+public fun removeInternal(prev: MyListVALUEPageGDEF, tmp: MyListVALUEPageGDEF, i: Int) {
         if (tmp.size == 1) {
             if (tmp == page) {
                 if (tmp.next != null) {
@@ -155,7 +155,7 @@ class MyListVALUEGDEF {
         tmp.size--
         size--
     }
-    fun remove(value: VALUE): Boolean {
+public fun remove(value: VALUE): Boolean {
         var i = 0
         var tmp = page
         var prev = page
@@ -174,7 +174,7 @@ class MyListVALUEGDEF {
         }
         return false
     }
-    fun removeAt(idx: Int): VALUE {
+public fun removeAt(idx: Int): VALUE {
         SanityCheck.check({ idx < size }, { "d" })
         var prev = page
         var tmp = page
@@ -216,7 +216,7 @@ class MyListVALUEGDEF {
         }
         shrinkToFit()
     }
-    fun add(idx: Int, value: VALUE) {
+public fun add(idx: Int, value: VALUE) {
         SanityCheck.check({ idx <= size }, { "f" })
         if (idx == size) {
             if (lastpage.size < ARRAY_LIST_BLOCK_CAPACITY) {
@@ -275,7 +275,7 @@ class MyListVALUEGDEF {
         size++
         shrinkToFit()
     }
-    fun debug(): String {
+public fun debug(): String {
         var res = StringBuilder()
         var totalsize = 0
         res.append("VALUEGDEF debug $size [")
@@ -316,7 +316,7 @@ class MyListVALUEGDEF {
     inline  internal  operator  fun iterator(): MyListVALUEIteratorGUSE {
         return MyListVALUEIterator(this, 0)
     }
-    class MyListVALUEIteratorGDEF(@JvmField public val data: MyListVALUEGUSE, startidx: Int) : Iterator<VALUE> {
+public class MyListVALUEIteratorGDEF(@JvmField public val data: MyListVALUEGUSE, startidx: Int) : Iterator<VALUE> {
         var tmp = data.page
         var idx = 0
         init {
@@ -338,7 +338,7 @@ class MyListVALUEGDEF {
             return res
         }
     }
-    class MyListVALUESmallGDEF {
+public class MyListVALUESmallGDEF {
         @JvmField
         var size = 0
         @JvmField
@@ -354,23 +354,23 @@ class MyListVALUEGDEF {
                 data = tmp
             }
         }
-        constructor() {
+public constructor() {
             data = ARRAYTYPE(capacity) ARRAYINITIALIZER
         }
-        constructor(value: VALUE) {
+public constructor(value: VALUE) {
             data = ARRAYTYPE(capacity) ARRAYINITIALIZER
                     data[size] = value
             size++
         }
-        constructor(initialCapacity: Int, init: (Int) -> VALUE) {
+public constructor(initialCapacity: Int, init: (Int) -> VALUE) {
             capacity = initialCapacity
             size = capacity
             data = ARRAYTYPE(capacity) { init(it) }
         }
-        fun clear() {
+public fun clear() {
             size = 0
         }
-        fun add(value: VALUE) {
+public fun add(value: VALUE) {
             if (size >= capacity) {
                 reserve(capacity * 2)
             }
@@ -388,7 +388,7 @@ class MyListVALUEGDEF {
                 data.set(idx, value)
             }
         }
-        fun remove(value: VALUE): Boolean {
+public fun remove(value: VALUE): Boolean {
             for (idx in 0 until size) {
                 if (data[idx] == value) {
                     removeAt(idx)
@@ -397,7 +397,7 @@ class MyListVALUEGDEF {
             }
             return false
         }
-        fun removeAt(idx: Int): VALUE {
+public fun removeAt(idx: Int): VALUE {
             val res = data[idx]
             SanityCheck.check({ idx < size }, { "k" })
             for (i in idx until size) {
@@ -406,7 +406,7 @@ class MyListVALUEGDEF {
             size--
             return res as VALUE
         }
-        fun add(idx: Int, value: VALUE) {
+public fun add(idx: Int, value: VALUE) {
             if (size >= capacity) {
                 reserve(capacity * 2)
             }
@@ -425,7 +425,7 @@ class MyListVALUEGDEF {
             return MyListVALUESmallIterator(this)
         }
     }
-    class MyListVALUESmallIteratorGDEF(@JvmField public val data: MyListVALUESmallGUSE) : Iterator<VALUE> {
+public class MyListVALUESmallIteratorGDEF(@JvmField public val data: MyListVALUESmallGUSE) : Iterator<VALUE> {
         var index = 0
         override fun hasNext(): Boolean {
             return index < data.size

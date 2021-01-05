@@ -9,7 +9,7 @@ import kotlin.jvm.JvmField
  *
  * @param <T> the type of the keys to be stored...
  */
-class CachedEntry<T, V>(@JvmField public val key: T, @JvmField public val value: V) {
+public class CachedEntry<T, V>(@JvmField public val key: T, @JvmField public val value: V) {
     @JvmField
     var before: CachedEntry<T, V> = this
     @JvmField
@@ -21,7 +21,7 @@ class CachedEntry<T, V>(@JvmField public val key: T, @JvmField public val value:
      * @param key the key to be stored
      * @param before the element after which the newly created element is stored
      */
-    constructor(key: T, value: V, before: CachedEntry<T, V>) : this(key, value) {
+    public constructor(key: T, value: V, before: CachedEntry<T, V>) : this(key, value) {
         this.insertAfter(before)
     }
     /**
@@ -46,7 +46,7 @@ class CachedEntry<T, V>(@JvmField public val key: T, @JvmField public val value:
  * This replacement strategy returns the number of the least recently used
  * item if the cache is full.
  */
-class LeastRecentlyUsed<T, V>(@JvmField public val dummyKey: T, @JvmField public val dummyValue: V, @JvmField public val size: Int) {
+public class LeastRecentlyUsed<T, V>(@JvmField public val dummyKey: T, @JvmField public val dummyValue: V, @JvmField public val size: Int) {
     @JvmField
     val entries = HashMap<T, CachedEntry<T, V>>(size)
     @JvmField
@@ -89,14 +89,14 @@ class LeastRecentlyUsed<T, V>(@JvmField public val dummyKey: T, @JvmField public
             this.entries.remove(key)
             return leastRecentlyUsed
         }
-    fun release(key: T) {
+    public fun release(key: T) {
         val entry = this.entries.get(key)
         if (entry != null) {
             entry.remove()
             this.entries.remove(key)
         }
     }
-    fun releaseAll() {
+    public fun releaseAll() {
         this.entries.clear()
         this.dummy.before = this.dummy
         this.dummy.after = this.dummy

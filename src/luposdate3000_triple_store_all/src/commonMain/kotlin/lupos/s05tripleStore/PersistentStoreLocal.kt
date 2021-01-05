@@ -9,12 +9,12 @@ import lupos.s01io.BufferManagerExt
 import lupos.s04logicalOperators.IQuery
 import lupos.s15tripleStoreDistributed.IPersistentStoreLocal
 import kotlin.jvm.JvmField
-class PersistentStoreLocal : IPersistentStoreLocal {
+public class PersistentStoreLocal : IPersistentStoreLocal {
     @JvmField
     val bufferManager = BufferManagerExt.getBuffermanager("stores")
     @JvmField
     val stores: MutableMap<String, TripleStoreLocal> = mutableMapOf()
-    fun storesAdd(name: String) {
+    public fun storesAdd(name: String) {
         var pageid2 = -1
         bufferManager.createPage { p, pageid3 ->
             pageid2 = pageid3
@@ -23,19 +23,19 @@ class PersistentStoreLocal : IPersistentStoreLocal {
         stores[name] = TripleStoreLocal(name, pageid2, false)
         storesChanged()
     }
-    fun storesRemove(name: String) {
+    public fun storesRemove(name: String) {
         stores[name]!!.dropStore()
         stores.remove(name)
         storesChanged()
     }
-    fun storesRemoveAll() {
+    public fun storesRemoveAll() {
         for ((k, v) in stores) {
             v.dropStore()
         }
         stores.clear()
         storesChanged()
     }
-    fun storesChanged() {
+    public fun storesChanged() {
         if (!BufferManagerExt.isInMemoryOnly) {
             File(BufferManagerExt.bufferPrefix + "PersistentStoreLocal.cnf").printWriter { out ->
                 for ((k, v) in stores) {
@@ -56,7 +56,7 @@ class PersistentStoreLocal : IPersistentStoreLocal {
             storesAdd(PersistentStoreLocalExt.defaultGraphName)
         }
     }
-    fun reloadPartitioningScheme() {
+    public fun reloadPartitioningScheme() {
         storesRemoveAll()
         storesAdd(PersistentStoreLocalExt.defaultGraphName)
     }

@@ -10,11 +10,11 @@ public interface TokenIterator {
 public class LookAheadTokenIterator(@JvmField public val tokenIterator: TokenIterator, @JvmField public val lookahead: Int) {
     private val tokens: Array<Token> = Array(lookahead) { EOF(0) } // circular buffer for lookahead requests, EOF default value just to avoid unnecessary null checks...
     @JvmField
-   public  var index1: Int = 0
+    public var index1: Int = 0
     @JvmField
     public var index2: Int = 0
     @JvmField
-   public  var buffered: Int = 0 // how many tokens are currently buffered?
+    public var buffered: Int = 0 // how many tokens are currently buffered?
     public fun nextToken(): Token {
         return if (buffered > 0) {
             val result = tokens[index1]
@@ -40,22 +40,22 @@ public class LookAheadTokenIterator(@JvmField public val tokenIterator: TokenIte
         return tokens[(index1 + number) % tokens.size]
     }
 }
-open public class ParseError(message: String, @JvmField public val lineNumber: Int, @JvmField public val columnNumber: Int) : Throwable("$message in line $lineNumber at column $columnNumber") {
-public    constructor(message: String, token: Token, tokenIterator: LookAheadTokenIterator) : this(message, tokenIterator.tokenIterator.getLineNumber(), tokenIterator.tokenIterator.getColumnNumber())
+public open class ParseError(message: String, @JvmField public val lineNumber: Int, @JvmField public val columnNumber: Int) : Throwable("$message in line $lineNumber at column $columnNumber") {
+    public constructor(message: String, token: Token, tokenIterator: LookAheadTokenIterator) : this(message, tokenIterator.tokenIterator.getLineNumber(), tokenIterator.tokenIterator.getColumnNumber())
 }
 public class UnexpectedEndOfFile(index: Int, lineNumber: Int, columnNumber: Int) : ParseError("Unexpected End of File", lineNumber, columnNumber)
 public class LookAheadOverLimit(lookahead: Int, requestedLookahead: Int, index: Int, lineNumber: Int, columnNumber: Int) : ParseError("Requested $lookahead lookahead, but maximum is $requestedLookahead", lineNumber, columnNumber)
 public class PutBackOverLimit(index: Int, lineNumber: Int, columnNumber: Int) : ParseError("Maximum of allowed put back is reached...", lineNumber, columnNumber)
 public class UnexpectedToken(token: Token, expectedTokens: Array<String>, lineNumber: Int, columnNumber: Int) : ParseError("Unexpected Token " + token + ", expected: " + expectedTokens.contentToString(), lineNumber, columnNumber) {
-   public constructor(token: Token, expectedTokens: Array<String>, tokenIterator: LookAheadTokenIterator) : this(token, expectedTokens, tokenIterator.tokenIterator.getLineNumber(), tokenIterator.tokenIterator.getColumnNumber())
+    public constructor(token: Token, expectedTokens: Array<String>, tokenIterator: LookAheadTokenIterator) : this(token, expectedTokens, tokenIterator.tokenIterator.getLineNumber(), tokenIterator.tokenIterator.getColumnNumber())
 }
 public class LexerCharIterator(@JvmField public val content: CharIterator) {
-public    constructor(contentString: String) : this(contentString.iterator())
-   public companion object {
-        const public val MAXSIZEPUTBACK: Int = 256
+    public constructor(contentString: String) : this(contentString.iterator())
+    public companion object {
+        public const val MAXSIZEPUTBACK: Int = 256
     }
     @JvmField
-public    var index: Int = 0
+    public var index: Int = 0
     @JvmField
     public var lineNumber: Int = 0
     @JvmField
@@ -63,10 +63,10 @@ public    var index: Int = 0
     @JvmField
     public var debugcounterindex: Int = 0
     @JvmField
-   public var backArray: Array<Char> = Array(MAXSIZEPUTBACK) { ' ' }
+    public var backArray: Array<Char> = Array(MAXSIZEPUTBACK) { ' ' }
     @JvmField
     public var backArrayIndex: Int = 0
-    internal inline  fun hasNext(): Boolean = (this.content.hasNext() || this.backArrayIndex > 0)
+    internal inline fun hasNext(): Boolean = (this.content.hasNext() || this.backArrayIndex > 0)
     internal inline fun updateLineNumber(c: Char) {
         if (c == '\n') {
             lineNumber++
@@ -161,8 +161,8 @@ public    var index: Int = 0
         return this.backArray[this.backArrayIndex - number - 1]
     }
 }
-abstract public class Token(@JvmField public val image: String, @JvmField public val index: Int) {
-    override public fun toString(): String {
+public abstract class Token(@JvmField public val image: String, @JvmField public val index: Int) {
+    public override fun toString(): String {
         return super.toString() + ": " + image
     }
 }

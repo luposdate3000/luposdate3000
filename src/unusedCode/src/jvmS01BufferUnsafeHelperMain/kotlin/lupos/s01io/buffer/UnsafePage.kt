@@ -1,6 +1,6 @@
 package lupos.s01io.buffer
 import kotlin.jvm.JvmField
-class UnsafePage {
+public class UnsafePage {
     companion object {
         @JvmField
                 /* in this way no getter method is used for access to UNSAFE
@@ -31,14 +31,14 @@ class UnsafePage {
     var locked = 0
     @JvmField
     val cleaner: () -> Unit
-    constructor() {
+    public constructor() {
         this.basepointer = allocateMemory(this.PAGESIZE)
         cleaner = { this.freeMemory() }
     }
     /**
      * if the memory has already been allocated (e.g. by FileChannel)
      */
-    constructor(allocatedMemoryPointer: Long, cleaner: () -> Unit) {
+    public constructor(allocatedMemoryPointer: Long, cleaner: () -> Unit) {
         this.basepointer = allocatedMemoryPointer
         this.cleaner = cleaner
     }

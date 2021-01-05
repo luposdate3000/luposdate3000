@@ -3,14 +3,14 @@ import kotlin.jvm.JvmField
 data class PageAddress(@JvmField public val fileName: String, @JvmField public val pageNumber: Int)
 const val PAGESIZE: Int = 8 * 1024
 val bufferManager: BufferManager = BufferManager()
-class BufferManager {
+public class BufferManager {
     /**
      * the max. number of opened files
      */
     const val MAXPAGES = 10 // first like this, should be dependent on size of main memory in the used computer
     private val cache = LeastRecentlyUsed<PageAddress, Page?>(PageAddress("", -1), null, MAXPAGES)
-    fun getPage(file: String, number: Int): Page = getPage(PageAddress(file, number))
-    fun getPage(pageAddress: PageAddress): Page {
+    public fun getPage(file: String, number: Int): Page = getPage(PageAddress(file, number))
+    public fun getPage(pageAddress: PageAddress): Page {
         val page = this.cache.getEntry(pageAddress)
         if (page == null) {
             while (this.cache.entries.size >= MAXPAGES) {
@@ -31,7 +31,7 @@ class BufferManager {
             return page.value!!
         }
     }
-    fun writeAllModifiedPages() {
+    public fun writeAllModifiedPages() {
         for (entry in this.cache.entries) {
             val pageAddress = entry.key
             val page = entry.value.value
@@ -42,7 +42,7 @@ class BufferManager {
             }
         }
     }
-    fun release() {
+    public fun release() {
         for (entry in this.cache.entries) {
             val pageAddress = entry.key
             val page = entry.value.value

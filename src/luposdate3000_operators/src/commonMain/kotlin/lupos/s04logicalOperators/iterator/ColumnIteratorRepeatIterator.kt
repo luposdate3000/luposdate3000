@@ -1,16 +1,16 @@
 package lupos.s04logicalOperators.iterator
 import lupos.s03resultRepresentation.ResultSetDictionaryExt
 import kotlin.jvm.JvmField
-class ColumnIteratorRepeatIterator(@JvmField public val count: Int, @JvmField public val child: ColumnIterator) : ColumnIterator() {
+public class ColumnIteratorRepeatIterator(@JvmField public val count: Int, @JvmField public val child: ColumnIterator) : ColumnIterator() {
     @JvmField
-    var index: Int = 0
+    public var index: Int = 0
     @JvmField
-    var index2: Int = 0
+    public var index2: Int = 0
     // TODO use pages instead
     @JvmField
-    val data: MutableList<Int> = mutableListOf()
+    public val data: MutableList<Int> = mutableListOf()
     @JvmField
-    var label: Int = 1
+    public var label: Int = 1
     /*suspend*/ internal inline fun _close() {
         if (label != 0) {
             label = 0

@@ -9,73 +9,73 @@ public actual class MyBigDecimal {
         v = BigDecimal(s1)
         s = s1
     }
-public    constructor(v1: BigDecimal) {
+    public constructor(v1: BigDecimal) {
         v = v1
         s = v1.toString()
     }
-public    actual constructor(s1: Double) {
+    public actual constructor(s1: Double) {
         v = BigDecimal(s1)
         s = "" + s1
     }
-public    actual constructor(s1: Int) {
+    public actual constructor(s1: Int) {
         v = BigDecimal(s1)
         s = "" + s1
     }
-    actual public fun toDouble(): Double {
+    public actual fun toDouble(): Double {
         return v.toDouble()
     }
-    actual public fun toPlainString(): String {
+    public actual fun toPlainString(): String {
         return v.toPlainString()
     }
-    actual public fun compareTo(other: MyBigDecimal): Int {
+    public actual fun compareTo(other: MyBigDecimal): Int {
         return v.compareTo(other.v)
     }
-    actual operator public fun plus(other: MyBigDecimal): MyBigDecimal {
+    public actual operator fun plus(other: MyBigDecimal): MyBigDecimal {
         return try {
             MyBigDecimal(v.add(other.v, MathContext.UNLIMITED))
         } catch (e: ArithmeticException) {
             MyBigDecimal(v.add(other.v, MathContext.DECIMAL128))
         }
     }
-    actual operator public fun minus(other: MyBigDecimal): MyBigDecimal {
+    public actual operator fun minus(other: MyBigDecimal): MyBigDecimal {
         return try {
             MyBigDecimal(v.subtract(other.v, MathContext.UNLIMITED))
         } catch (e: ArithmeticException) {
             MyBigDecimal(v.subtract(other.v, MathContext.DECIMAL128))
         }
     }
-    actual operator public fun times(other: MyBigDecimal): MyBigDecimal {
+    public actual operator fun times(other: MyBigDecimal): MyBigDecimal {
         return try {
             MyBigDecimal(v.multiply(other.v, MathContext.UNLIMITED))
         } catch (e: ArithmeticException) {
             MyBigDecimal(v.multiply(other.v, MathContext.DECIMAL128))
         }
     }
-    actual operator public fun div(other: MyBigDecimal): MyBigDecimal {
+    public actual operator fun div(other: MyBigDecimal): MyBigDecimal {
         return try {
             MyBigDecimal(v.divide(other.v, MathContext.UNLIMITED))
         } catch (e: ArithmeticException) {
             MyBigDecimal(v.divide(other.v, MathContext.DECIMAL128))
         }
     }
-    actual public fun ceil(): MyBigDecimal {
+    public actual fun ceil(): MyBigDecimal {
         return MyBigDecimal(v.setScale(0, RoundingMode.CEILING))
     }
-    actual public fun floor(): MyBigDecimal {
+    public actual fun floor(): MyBigDecimal {
         return MyBigDecimal(v.setScale(0, RoundingMode.FLOOR))
     }
-    actual public fun round(): MyBigDecimal {
+    public actual fun round(): MyBigDecimal {
         return MyBigDecimal(v.setScale(0, RoundingMode.HALF_UP))
     }
-    actual public fun toMyBigInteger(): MyBigInteger {
+    public actual fun toMyBigInteger(): MyBigInteger {
         return MyBigInteger(v.toBigInteger())
     }
-    actual public fun abs(): MyBigDecimal {
+    public actual fun abs(): MyBigDecimal {
         return MyBigDecimal(v.abs())
     }
-    actual override public fun toString(): String = s
-    actual override public fun equals(other: Any?): Boolean = other is MyBigDecimal && s == other.s
-    actual override public fun hashCode(): Int {
+    public actual override fun toString(): String = s
+    public actual override fun equals(other: Any?): Boolean = other is MyBigDecimal && s == other.s
+    public actual override fun hashCode(): Int {
         return s.hashCode()
     }
 }

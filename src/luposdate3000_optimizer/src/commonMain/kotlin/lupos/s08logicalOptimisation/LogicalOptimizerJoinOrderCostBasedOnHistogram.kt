@@ -6,7 +6,7 @@ import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.multiinput.LOPJoin
 import lupos.s04logicalOperators.noinput.LOPTriple
 import lupos.s04logicalOperators.noinput.LOPValues
-object LogicalOptimizerJoinOrderCostBasedOnHistogram {
+public object LogicalOptimizerJoinOrderCostBasedOnHistogram {
     /*suspend*/ operator fun invoke(allChilds: List<IOPBase>, root: LOPJoin): IOPBase? {
         SanityCheck.check { allChilds.isNotEmpty() }
         try {

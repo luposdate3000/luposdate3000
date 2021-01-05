@@ -6,7 +6,7 @@ enum class SuspendMode {
 }
 val regexEnableSuspend = "/\\*suspend\\*/ ".toRegex()
 val regexDisableSuspend = "(^|[^a-zA-Z])suspend ".toRegex()
-fun applySuspendEnable() {
+public fun applySuspendEnable() {
     Files.walk(Paths.get("src.generated")).forEach { it ->
         val tmp = it.toString()
         if (tmp.endsWith(".kt")) {
@@ -14,7 +14,7 @@ fun applySuspendEnable() {
         }
     }
 }
-fun applySuspendDisable() {
+public fun applySuspendDisable() {
     Files.walk(Paths.get("src.generated")).forEach { it ->
         val tmp = it.toString()
         if (tmp.endsWith(".kt")) {
@@ -22,7 +22,7 @@ fun applySuspendDisable() {
         }
     }
 }
-fun applySuspend(f: String, suspendMode: SuspendMode) {
+public fun applySuspend(f: String, suspendMode: SuspendMode) {
     val fileSource = File(f)
     val fileTarget = File(f + ".tmp")
     fileTarget.printWriter().use { out ->

@@ -9,11 +9,11 @@ import kotlin.jvm.JvmField
 // http://nyeggen.com/post/2014-05-18-memory-mapping-%3E2gb-of-data-in-java/
 // and slides comparing different ways:
 // https://www.slideshare.net/AndreiPangin/do-we-need-unsafe-in-java
-class CachedFile {
+public class CachedFile {
     @JvmField
     val file: RandomAccessFile
     const val PAGESIZE = 8 * 1024L
-    constructor(filename: String) {
+    public constructor(filename: String) {
         val paths = filename.split("/")
         if (paths.size > 1) {
             val dirpath = paths.joinToString(separator = "/", limit = paths.size - 1)

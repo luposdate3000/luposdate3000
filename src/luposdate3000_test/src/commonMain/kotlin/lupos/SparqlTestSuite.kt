@@ -757,7 +757,7 @@ open class SparqlTestSuite {
         }
     }
 }
-class SevenIndices {
+public class SevenIndices {
     private val s = mutableMapOf<Long, Array<Pair<Long, Long>>>()
     private val p = mutableMapOf<Long, Array<Pair<Long, Long>>>()
     private val o = mutableMapOf<Long, Array<Pair<Long, Long>>>()
@@ -766,11 +766,11 @@ class SevenIndices {
     private val po = mutableMapOf<Pair<Long, Long>, LongArray>()
     @JvmField
     val spo: MutableSet<ID_Triple> = mutableSetOf()
-    fun s(key: Long): Array<Pair<Long, Long>> = this.s[key] ?: arrayOf()
-    fun o(key: Long): Array<Pair<Long, Long>> = this.o[key] ?: arrayOf()
-    fun sp(key1: Long, key2: Long): LongArray = this.sp[Pair(key1, key2)] ?: longArrayOf()
-    fun po(key1: Long, key2: Long): LongArray = this.po[Pair(key1, key2)] ?: longArrayOf()
-    fun distinct() {
+    public fun s(key: Long): Array<Pair<Long, Long>> = this.s[key] ?: arrayOf()
+    public fun o(key: Long): Array<Pair<Long, Long>> = this.o[key] ?: arrayOf()
+    public fun sp(key1: Long, key2: Long): LongArray = this.sp[Pair(key1, key2)] ?: longArrayOf()
+    public fun po(key1: Long, key2: Long): LongArray = this.po[Pair(key1, key2)] ?: longArrayOf()
+    public fun distinct() {
         distinctOneKeyMap(this.s)
         distinctOneKeyMap(this.p)
         distinctOneKeyMap(this.o)
@@ -779,7 +779,7 @@ class SevenIndices {
         distinctTwoKeysMap(this.po)
         // duplicates are already eliminated in this.spo!
     }
-    fun add(triple_s: Long, triple_p: Long, triple_o: Long) {
+    public fun add(triple_s: Long, triple_p: Long, triple_o: Long) {
         addToOneKeyMap(this.s, triple_s, triple_p, triple_o)
         addToOneKeyMap(this.p, triple_p, triple_s, triple_o)
         addToOneKeyMap(this.o, triple_o, triple_s, triple_p)

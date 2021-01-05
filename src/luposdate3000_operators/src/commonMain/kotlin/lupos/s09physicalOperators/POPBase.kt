@@ -10,7 +10,7 @@ import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.OPBase
 import kotlin.jvm.JvmField
-abstract public class POPBase(
+public abstract class POPBase(
     query: IQuery,
     @JvmField public var projectedVariables: List<String>,
     operatorID: EOperatorID,
@@ -19,7 +19,7 @@ abstract public class POPBase(
     sortPriority: ESortPriority
 ) :
     OPBase(query, operatorID, classname, children, sortPriority), IPOPBase {
-    open fun getProvidedVariableNamesInternal(): List<String> = super.getProvidedVariableNames()
+    public open fun getProvidedVariableNamesInternal(): List<String> = super.getProvidedVariableNames()
     override fun getProvidedVariableNames(): List<String> = projectedVariables
     override /*suspend*/ fun toXMLElement(): XMLElement {
         val res = super.toXMLElement()

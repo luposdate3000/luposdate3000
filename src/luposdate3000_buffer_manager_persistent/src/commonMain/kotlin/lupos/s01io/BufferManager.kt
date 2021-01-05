@@ -1,5 +1,4 @@
 package lupos.s01io
-
 public expect class BufferManager(name: String) {
     /*suspend*/ public fun clear()
     public fun releasePage(pageid: Int)

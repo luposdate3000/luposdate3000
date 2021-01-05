@@ -7,9 +7,9 @@ import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.s05tripleStore.ITripleStoreBulkImport
 import lupos.s09physicalOperators.IPOPBase
 public interface IDistributedGraph {
-  public   /*suspend*/ fun bulkImport(action: /*suspend*/ (ITripleStoreBulkImport) -> Unit)
-  public   /*suspend*/ fun modify(data: Array<ColumnIterator>, type: EModifyType)
-  public   fun getIterator(idx: EIndexPattern, partition: Partition): IPOPBase
-  public   fun getIterator(params: Array<IAOPBase>, idx: EIndexPattern, partition: Partition): IPOPBase
-  public   /*suspend*/ fun getHistogram(params: Array<IAOPBase>, idx: EIndexPattern): Pair<Int, Int>
+    public /*suspend*/ fun bulkImport(action: /*suspend*/ (ITripleStoreBulkImport) -> Unit)
+    public /*suspend*/ fun modify(data: Array<ColumnIterator>, type: EModifyType)
+    public fun getIterator(idx: EIndexPattern, partition: Partition): IPOPBase
+    public fun getIterator(params: Array<IAOPBase>, idx: EIndexPattern, partition: Partition): IPOPBase
+    public /*suspend*/ fun getHistogram(params: Array<IAOPBase>, idx: EIndexPattern): Pair<Int, Int>
 }

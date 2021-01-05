@@ -1,10 +1,11 @@
 package lupos.s04logicalOperators.iterator
 import lupos.s00misc.Parallel
-open class RowIteratorMinus(val a: RowIterator, val b: RowIterator, private val projection: Array<String>) : RowIterator() {
-    var flag: Int = 2
+import kotlin.jvm.JvmField
+public open class RowIteratorMinus(@JvmField public val a: RowIterator, @JvmField public val b: RowIterator, @JvmField private val projection: Array<String>) : RowIterator() {
+    @JvmField public var flag: Int = 2
     private var aIdx = -1
     private var bIdx = -1
-    /*suspend*/ fun _init() {
+    public /*suspend*/ fun _init() {
         var compCount = 0
         val columnsA = mutableListOf<String>()
         val columnsB = mutableListOf<String>()

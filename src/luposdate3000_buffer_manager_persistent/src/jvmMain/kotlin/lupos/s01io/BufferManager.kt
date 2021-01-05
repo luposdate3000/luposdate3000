@@ -74,9 +74,9 @@ public actual class BufferManager {
     @JvmField
     internal val freelistfile: RandomAccessFile
     @JvmField
-  internal  val datafile: RandomAccessFile
+    internal val datafile: RandomAccessFile
     @JvmField
-  internal  var datafilelength: Long
+    internal var datafilelength: Long
     init {
         val manager = this
         BufferManagerExt.managerListLock.withWriteLock {

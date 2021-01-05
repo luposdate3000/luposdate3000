@@ -38,7 +38,7 @@ internal object Coverage {
     var lastcounter = CoverageMapGenerated.keys.size - 1
     @JvmField
     val counters = Array(CoverageMapGenerated.keys.size) { 0L }
-    fun funStart(counter: Int) {
+    public fun funStart(counter: Int) {
         lastcounter = counter
         counters[counter]++
         if (COVERAGE_MODE == ECoverage.Verbose || COVERAGE_MODE == ECoverage.VeryVerbose) {
@@ -48,7 +48,7 @@ internal object Coverage {
                 println("funStart $counter")
         }
     }
-    fun forLoopStart(counter: Int) {
+    public fun forLoopStart(counter: Int) {
         lastcounter = counter
         counters[counter]++
         if (COVERAGE_MODE == ECoverage.Verbose || COVERAGE_MODE == ECoverage.VeryVerbose) {
@@ -58,7 +58,7 @@ internal object Coverage {
                 println("forLoopStart $counter")
         }
     }
-    fun forEachLoopStart(counter: Int) {
+    public fun forEachLoopStart(counter: Int) {
         lastcounter = counter
         counters[counter]++
         if (COVERAGE_MODE == ECoverage.Verbose || COVERAGE_MODE == ECoverage.VeryVerbose) {
@@ -68,7 +68,7 @@ internal object Coverage {
                 println("forEachLoopStart $counter")
         }
     }
-    fun whileLoopStart(counter: Int) {
+    public fun whileLoopStart(counter: Int) {
         lastcounter = counter
         counters[counter]++
         if (COVERAGE_MODE == ECoverage.Verbose || COVERAGE_MODE == ECoverage.VeryVerbose) {
@@ -78,7 +78,7 @@ internal object Coverage {
                 println("whileLoopStart $counter")
         }
     }
-    fun whenCaseStart(counter: Int) {
+    public fun whenCaseStart(counter: Int) {
         lastcounter = counter
         counters[counter]++
         counters[CoverageMapWhenCaseGenerated[counter]!!]++
@@ -89,7 +89,7 @@ internal object Coverage {
                 println("whenCaseStart $counter")
         }
     }
-    fun ifStart(counter: Int) {
+    public fun ifStart(counter: Int) {
         lastcounter = counter
         counters[counter]++
         if (COVERAGE_MODE == ECoverage.Verbose || COVERAGE_MODE == ECoverage.VeryVerbose) {
@@ -99,7 +99,7 @@ internal object Coverage {
                 println("ifStart $counter")
         }
     }
-    fun statementStart(counter: Int) {
+    public fun statementStart(counter: Int) {
         lastcounter = counter
         counters[counter]++
         if (COVERAGE_MODE == ECoverage.Verbose || COVERAGE_MODE == ECoverage.VeryVerbose) {

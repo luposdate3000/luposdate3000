@@ -1,6 +1,6 @@
 package lupos.s00misc
 import kotlin.jvm.JvmField
-class MyMapStringIntPatriciaTrie(@JvmField public val undefinedValue: Int = Int.MAX_VALUE) {
+public class MyMapStringIntPatriciaTrie(@JvmField public val undefinedValue: Int = Int.MAX_VALUE) {
     @JvmField
     var root: MyMapStringIntPatriciaTrieNode = MyMapStringIntPatriciaTrieNodeN()
     @JvmField
@@ -10,12 +10,12 @@ class MyMapStringIntPatriciaTrie(@JvmField public val undefinedValue: Int = Int.
     abstract class MyMapStringIntPatriciaTrieNode() {
         var str = ""
     }
-    class MyMapStringIntPatriciaTrieNodeN() : MyMapStringIntPatriciaTrieNode() {
+    public class MyMapStringIntPatriciaTrieNodeN() : MyMapStringIntPatriciaTrieNode() {
         var arr = IntArray(0)
         /*arr :: second half: child values, first half offsets in str*/
         var childs = arrayOf<MyMapStringIntPatriciaTrieNode?>()
     }
-    class MyMapStringIntPatriciaTrieNode2() : MyMapStringIntPatriciaTrieNode() {
+    public class MyMapStringIntPatriciaTrieNode2() : MyMapStringIntPatriciaTrieNode() {
         var arr1: Int = 0
         var arr2: Int = 0
         var arr3: Int = 0
@@ -490,7 +490,7 @@ class MyMapStringIntPatriciaTrie(@JvmField public val undefinedValue: Int = Int.
             }
         }
     }
-    fun safeToFile(filename: String) {
+    public fun safeToFile(filename: String) {
         var queue = mutableListOf<MyMapStringIntPatriciaTrieNode>()
         File(filename).dataOutputStream { out ->
             out.writeInt(rootValue)
@@ -546,7 +546,7 @@ class MyMapStringIntPatriciaTrie(@JvmField public val undefinedValue: Int = Int.
             }
         }
     }
-    fun loadFromFile(filename: String) {
+    public fun loadFromFile(filename: String) {
         var queue = mutableListOf<Pair<Int, MyMapStringIntPatriciaTrieNode>>()
         File(filename).dataInputStream { fis ->
             rootValue = fis.readInt()
@@ -633,7 +633,7 @@ class MyMapStringIntPatriciaTrie(@JvmField public val undefinedValue: Int = Int.
             }
         }
     }
-    fun debugInternal(prefix: String, node: MyMapStringIntPatriciaTrieNode, depth: Int) {
+    public fun debugInternal(prefix: String, node: MyMapStringIntPatriciaTrieNode, depth: Int) {
         SanityCheck {
             when (node) {
                 is MyMapStringIntPatriciaTrieNode2 -> {
@@ -672,5 +672,5 @@ class MyMapStringIntPatriciaTrie(@JvmField public val undefinedValue: Int = Int.
             }
         }
     }
-    fun debug() = debugInternal("", root, 0)
+    public fun debug() = debugInternal("", root, 0)
 }

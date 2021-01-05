@@ -10,12 +10,12 @@ import lupos.s04logicalOperators.iterator.IteratorBundle
 import kotlin.jvm.JvmField
 public class AOPConstant : AOPBase, IAOPConstant {
     @JvmField
-    val value: Int
+    public val value: Int
     override fun getValue(): Int = value
-    constructor(query: IQuery, value2: ValueDefinition) : super(query, EOperatorID.AOPConstantID, "AOPConstant", arrayOf()) {
+    public constructor(query: IQuery, value2: ValueDefinition) : super(query, EOperatorID.AOPConstantID, "AOPConstant", arrayOf()) {
         value = query.getDictionary().createValue(value2)
     }
-    constructor(query: IQuery, value2: Int) : super(query, EOperatorID.AOPConstantID, "AOPConstant", arrayOf()) {
+    public constructor(query: IQuery, value2: Int) : super(query, EOperatorID.AOPConstantID, "AOPConstant", arrayOf()) {
         value = value2
     }
     override /*suspend*/ fun toXMLElement(): XMLElement {
