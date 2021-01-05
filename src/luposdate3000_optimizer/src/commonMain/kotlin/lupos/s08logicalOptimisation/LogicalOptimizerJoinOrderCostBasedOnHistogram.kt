@@ -7,7 +7,7 @@ import lupos.s04logicalOperators.multiinput.LOPJoin
 import lupos.s04logicalOperators.noinput.LOPTriple
 import lupos.s04logicalOperators.noinput.LOPValues
 public object LogicalOptimizerJoinOrderCostBasedOnHistogram {
-public    /*suspend*/ operator fun invoke(allChilds: List<IOPBase>, root: LOPJoin): IOPBase? {
+    public /*suspend*/ operator fun invoke(allChilds: List<IOPBase>, root: LOPJoin): IOPBase? {
         SanityCheck.check { allChilds.isNotEmpty() }
         try {
             val nodes = mutableListOf<IOPBase>()

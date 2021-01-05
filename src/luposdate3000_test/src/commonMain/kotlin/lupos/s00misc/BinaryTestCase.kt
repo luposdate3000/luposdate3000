@@ -1,11 +1,10 @@
 package lupos.s00misc
-import kotlin.jvm.JvmField
 import lupos.s02buildSyntaxTree.LexerCharIterator
 import lupos.s02buildSyntaxTree.LookAheadTokenIterator
 import lupos.s02buildSyntaxTree.sparql1_1.SPARQLParser
 import lupos.s02buildSyntaxTree.sparql1_1.TokenIteratorSPARQLParser
-import lupos.s03resultRepresentation.nodeGlobalDictionary
 import lupos.s03resultRepresentation.ResultSetDictionaryExt
+import lupos.s03resultRepresentation.nodeGlobalDictionary
 import lupos.s04arithmetikOperators.IAOPBase
 import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s04logicalOperators.IOPBase
@@ -46,7 +45,7 @@ public object BinaryTestCase {
         }
         return res
     }
-public fun executeAllTestCase(folder: String = "resources/binary/") {
+    public fun executeAllTestCase(folder: String = "resources/binary/") {
         outSummary = File("log/error").myPrintWriter()
         File("$folder/config2").printWriter { newConfig ->
             File("$folder/config").forEachLine { line ->
@@ -275,13 +274,13 @@ public fun executeAllTestCase(folder: String = "resources/binary/") {
         "<http://www.w3.org/2002/07/owl#someValuesFrom>", //
         "<http://www.w3.org/2002/07/owl#Thing>", //
     )
-public fun executeTestCase(query_folder: String): Boolean {
+    public fun executeTestCase(query_folder: String): Boolean {
         var returnValue = true
         File("$query_folder/query.stat").dataInputStream { targetStat ->
             File("$query_folder/query.dictionary").dataInputStream { targetDictionary ->
                 File("$query_folder/query.triples").dataInputStream { targetTriples ->
                     File("$query_folder/query.result").dataInputStream { targetResult ->
- func@ while (true) {
+                        func@ while (true) {
                             val modeId = targetStat.readInt()
                             val mode = BinaryTestCaseOutputMode.values()[modeId]
                             val variables = mutableListOf<String>()
@@ -505,7 +504,7 @@ if (tmpTable != null) {
         }
         return returnValue
     }
-public fun generateTestcase(query_input_file: String, query_file: String, query_output_file: String, output_folder: String, query_name: String, output_mode_tmp: BinaryTestCaseOutputMode): Boolean {
+    public fun generateTestcase(query_input_file: String, query_file: String, query_output_file: String, output_folder: String, query_name: String, output_mode_tmp: BinaryTestCaseOutputMode): Boolean {
         try {
             var outputMode = output_mode_tmp
             File(output_folder).deleteRecursively()

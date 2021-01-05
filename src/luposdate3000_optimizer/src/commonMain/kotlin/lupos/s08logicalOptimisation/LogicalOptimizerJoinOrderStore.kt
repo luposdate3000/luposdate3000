@@ -4,7 +4,7 @@ import lupos.s00misc.SanityCheck
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.multiinput.LOPJoin
 public object LogicalOptimizerJoinOrderStore {
-public     /*suspend*/ operator fun invoke(allChilds: List<IOPBase>, root: LOPJoin): IOPBase? {
+    public /*suspend*/ operator fun invoke(allChilds: List<IOPBase>, root: LOPJoin): IOPBase? {
         SanityCheck.check { allChilds.size > 2 }
         if (root.onlyExistenceRequired) {
             SanityCheck {

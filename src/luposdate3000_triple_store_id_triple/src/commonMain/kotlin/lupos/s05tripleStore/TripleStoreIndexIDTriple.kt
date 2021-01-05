@@ -43,7 +43,7 @@ public class TripleStoreIndexIDTriple(store_root_page_id_: Int, store_root_page_
         }
         get() = firstLeaf_
     @JvmField public var root_: Int = NodeManager.nodeNullPointer
-     public var root: Int
+    public var root: Int
         set(value) {
             val rootPage = bufferManager.getPage(store_root_page_id)
             ByteArrayHelper.writeInt4(rootPage, 4, value)
@@ -53,7 +53,7 @@ public class TripleStoreIndexIDTriple(store_root_page_id_: Int, store_root_page_
         }
         get() = root_
     @JvmField public var countPrimary_: Int = 0
-     public var countPrimary: Int
+    public var countPrimary: Int
         set(value) {
             val rootPage = bufferManager.getPage(store_root_page_id)
             ByteArrayHelper.writeInt4(rootPage, 8, value)

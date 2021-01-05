@@ -204,7 +204,7 @@ public class DistributedGraph(@JvmField public val query: IQuery, @JvmField publ
 }
 public class DistributedTripleStore : IDistributedTripleStore {
     @JvmField
-public    val localStore: PersistentStoreLocal = PersistentStoreLocal()
+    public val localStore: PersistentStoreLocal = PersistentStoreLocal()
     override fun reloadPartitioningScheme() {
         localStore.reloadPartitioningScheme()
     }

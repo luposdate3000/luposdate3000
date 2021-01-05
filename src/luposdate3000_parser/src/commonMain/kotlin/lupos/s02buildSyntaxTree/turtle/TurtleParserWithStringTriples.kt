@@ -1,34 +1,34 @@
 package lupos.s02buildSyntaxTree.turtle
-import kotlin.jvm.JvmField
 import lupos.s02buildSyntaxTree.LookAheadTokenIterator
 import lupos.s02buildSyntaxTree.ParseError
 import lupos.s02buildSyntaxTree.Token
 import lupos.s02buildSyntaxTree.UnexpectedToken
-abstract public class TurtleParserWithStringTriples {
+import kotlin.jvm.JvmField
+public abstract class TurtleParserWithStringTriples {
     @JvmField
-public     var ltit: LookAheadTokenIterator? = null
-    abstract /*suspend*/ public fun consume_triple(s: String, p: String, o: String)
+    public var ltit: LookAheadTokenIterator? = null
+    public /*suspend*/ abstract fun consume_triple(s: String, p: String, o: String)
     // for storing the prefixes...
     @JvmField
-   public  val prefixes: MutableMap<String, String> = mutableMapOf()
+    public val prefixes: MutableMap<String, String> = mutableMapOf()
     // some constants used for typed literals
     public companion object {
         private const val xsd = "http://www.w3.org/2001/XMLSchema#"
-        const public val xsd_boolean: String = xsd + "boolean"
-        const public val xsd_integer: String = xsd + "integer"
-        const public val xsd_decimal: String = xsd + "decimal"
-        const public val xsd_double: String = xsd + "double"
+        public const val xsd_boolean: String = xsd + "boolean"
+        public const val xsd_integer: String = xsd + "integer"
+        public const val xsd_decimal: String = xsd + "decimal"
+        public const val xsd_double: String = xsd + "double"
         private const val rdf = "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
         private const val nil = rdf + "nil"
-        const public val first: String = rdf + "first"
+        public const val first: String = rdf + "first"
         private const val rest = rdf + "rest"
-        const public val nil_iri: String = "<$nil>"
-        const public val first_iri: String = "<$first>"
-        const public val rest_iri: String = "<$rest>"
-        const public val type_iri: String = "<" + rdf + "type" + ">"
+        public const val nil_iri: String = "<$nil>"
+        public const val first_iri: String = "<$first>"
+        public const val rest_iri: String = "<$rest>"
+        public const val type_iri: String = "<" + rdf + "type" + ">"
     }
     @JvmField
-public    var bnodeCounter: Int = 0
+    public var bnodeCounter: Int = 0
     /*suspend*/ public fun turtleDoc() {
         var t1 = ltit!!.lookahead()
         while (t1.image == "@prefix" || t1.image == "@base" || t1.image == "PREFIX" || t1.image == "BASE" || t1 is IRI || t1 is PNAME_LN || t1 is PNAME_NS || t1 is BNODE || t1 is ANON_BNODE || t1.image == "(" || t1.image == "[") {
@@ -165,7 +165,7 @@ public    var bnodeCounter: Int = 0
     /*suspend*/ private fun predicateObjectList(s: String) {
         var token: Token
         val p = verb()
- objectList(s, p)
+        objectList(s, p)
         var t7 = ltit!!.lookahead()
         while (t7.image == ";") {
             token = ltit!!.nextToken()
@@ -175,7 +175,7 @@ public    var bnodeCounter: Int = 0
             val t6 = ltit!!.lookahead()
             if (t6 is IRI || t6 is PNAME_LN || t6 is PNAME_NS || t6.image == "A") {
                 val p2 = verb()
- objectList(s, p2)
+                objectList(s, p2)
             }
             t7 = ltit!!.lookahead()
         }

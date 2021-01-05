@@ -39,13 +39,13 @@ import lupos.s15tripleStoreDistributed.distributedTripleStore
 import lupos.s16network.LuposdateEndpoint
 import kotlin.jvm.JvmField
 public open class SparqlTestSuite {
-   public  companion object {
-       public  const val testPersistence: Boolean = false
-       @JvmField public  val filterList: MutableList<String> = mutableListOf()
-@JvmField public        var prefixDirectory: String = "."
-@JvmField public        val enabledTestCases: List<String> = listOf("resources/myqueries/", "resources/bsbm/", "resources/btc/", "resources/sp2b/")
+    public companion object {
+        public const val testPersistence: Boolean = false
+        @JvmField public val filterList: MutableList<String> = mutableListOf()
+        @JvmField public var prefixDirectory: String = "."
+        @JvmField public val enabledTestCases: List<String> = listOf("resources/myqueries/", "resources/bsbm/", "resources/btc/", "resources/sp2b/")
     }
-public    /*suspend*/ fun testMain() {
+    public /*suspend*/ fun testMain() {
         repeat(1) {
             println("Starting tests...")
             val (nr_t, nr_e) = parseManifestFile("$prefixDirectory/resources/sparql11-test-suite/", "manifest-all.ttl")
@@ -391,7 +391,7 @@ public    /*suspend*/ fun testMain() {
         return success == expectedResult
     }
     @JvmField
-   public var lastTripleCount: Int = 0
+    public var lastTripleCount: Int = 0
     @OptIn(ExperimentalStdlibApi::class, kotlin.time.ExperimentalTime::class)
     public open /*suspend*/ fun parseSPARQLAndEvaluate(executeJena: Boolean, testName: String, expectedResult: Boolean, queryFile: String, inputDataFileName: String?, resultDataFileName: String?, services: List<Map<String, String>>?, inputDataGraph: MutableList<MutableMap<String, String>>, outputDataGraph: MutableList<MutableMap<String, String>>): Boolean {
 //        if (!testName.contains("resources")) {

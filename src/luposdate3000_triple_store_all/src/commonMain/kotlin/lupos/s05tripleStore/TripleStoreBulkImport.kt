@@ -8,7 +8,7 @@ public class TripleStoreBulkImport(@JvmField public val query: IQuery, @JvmField
     @JvmField
     public var totalflushed: Int = 0
     @JvmField
-public    val data: Array<IntArray> = Array(9) { IntArray(size) }
+    public val data: Array<IntArray> = Array(9) { IntArray(size) }
     @JvmField
     public var idx: Int = 0
     @JvmField
@@ -58,9 +58,9 @@ public    val data: Array<IntArray> = Array(9) { IntArray(size) }
         idx = 0
     }
     private fun full() = idx >= size
-public     companion object {
+    public companion object {
         private const val sizeshift = 20
-public         const val size: Int = 3 * (1 shl sizeshift)
+        public const val size: Int = 3 * (1 shl sizeshift)
     }
     private fun sort() {
         // the target data is sorted, but may contain duplicates, _if the input contains those

@@ -5,16 +5,16 @@ import lupos.s00misc.GraphNameNotExistsDuringDeleteException
 import lupos.s00misc.GraphNameNotFoundException
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.TripleStoreLocal
-import lupos.s01io.BufferManagerExt
 import lupos.s01io.BufferManager
+import lupos.s01io.BufferManagerExt
 import lupos.s04logicalOperators.IQuery
 import lupos.s15tripleStoreDistributed.IPersistentStoreLocal
 import kotlin.jvm.JvmField
 public class PersistentStoreLocal : IPersistentStoreLocal {
     @JvmField
-public     val bufferManager :BufferManager= BufferManagerExt.getBuffermanager("stores")
+    public val bufferManager: BufferManager = BufferManagerExt.getBuffermanager("stores")
     @JvmField
-public    val stores: MutableMap<String, TripleStoreLocal> = mutableMapOf()
+    public val stores: MutableMap<String, TripleStoreLocal> = mutableMapOf()
     public fun storesAdd(name: String) {
         var pageid2 = -1
         bufferManager.createPage { p, pageid3 ->
