@@ -1,0 +1,37 @@
+{
+  "deviceCategories": [
+    {
+      "name": "raspberry pi",
+      "numberOfDevices": 32,
+      "area": {
+        "xLeft": 0,
+        "xRight": 10,
+        "yBottom": 0,
+        "yTop": 10
+      },
+      "device": {
+        "signalRange": 25.0,
+        "application": {
+          "processingPower": ""
+        },
+        "sensor": {
+          "dataSize": "3?",
+          "storageCapacity": "2"
+        },
+        "actuator": true,
+        "power": {
+          "capacity": 70.0,
+          "drainageRate": 1.0
+        },
+        "mobility": {
+          "velocity": 0,
+          "destinationPoint": {
+            "x": 0,
+            "y": 0
+          }
+        }
+      }
+    }
+  ]
+}
+
