@@ -1,7 +1,7 @@
 package lupos.s00misc
 import kotlin.jvm.JvmField
 @OptIn(ExperimentalStdlibApi::class)
-internal class ByteArrayRead(@JvmField val data: ByteArray, @JvmField val size: Int) {
+internal class ByteArrayRead(@JvmField public val data: ByteArray, @JvmField public val size: Int) {
     @JvmField
     var uuid = debuguuidtmp++
     internal companion object {

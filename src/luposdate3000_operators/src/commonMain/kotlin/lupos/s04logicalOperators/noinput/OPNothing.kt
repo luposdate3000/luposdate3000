@@ -7,7 +7,7 @@ import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.LOPBase
 import kotlin.jvm.JvmField
-class OPNothing(query: IQuery, @JvmField val myProvidedVariableNames: List<String>) : LOPBase(query, EOperatorID.OPNothingID, "OPNothing", arrayOf(), ESortPriority.PREVENT_ANY) {
+class OPNothing(query: IQuery, @JvmField public val myProvidedVariableNames: List<String>) : LOPBase(query, EOperatorID.OPNothingID, "OPNothing", arrayOf(), ESortPriority.PREVENT_ANY) {
     override fun getProvidedVariableNames(): List<String> = myProvidedVariableNames
     override fun toSparql(): String = "{}"
     override /*suspend*/ fun toXMLElement(): XMLElement {

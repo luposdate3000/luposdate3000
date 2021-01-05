@@ -9,7 +9,7 @@ import kotlin.jvm.JvmField
  *
  * @param <T> the type of the keys to be stored...
  */
-class CachedEntry<T, V>(@JvmField val key: T, @JvmField val value: V) {
+class CachedEntry<T, V>(@JvmField public val key: T, @JvmField public val value: V) {
     @JvmField
     var before: CachedEntry<T, V> = this
     @JvmField
@@ -46,7 +46,7 @@ class CachedEntry<T, V>(@JvmField val key: T, @JvmField val value: V) {
  * This replacement strategy returns the number of the least recently used
  * item if the cache is full.
  */
-class LeastRecentlyUsed<T, V>(@JvmField val dummyKey: T, @JvmField val dummyValue: V, @JvmField val size: Int) {
+class LeastRecentlyUsed<T, V>(@JvmField public val dummyKey: T, @JvmField public val dummyValue: V, @JvmField public val size: Int) {
     @JvmField
     val entries = HashMap<T, CachedEntry<T, V>>(size)
     @JvmField

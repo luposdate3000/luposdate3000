@@ -24,7 +24,7 @@ import lupos.s05tripleStore.TripleStoreFeatureParamsDefault
 import lupos.s05tripleStore.TripleStoreFeatureParamsPartition
 import lupos.s09physicalOperators.POPBase
 import kotlin.jvm.JvmField
-class TripleStoreIteratorGlobal(query: IQuery, projectedVariables: List<String>, @JvmField val graphName: String, params: Array<IAOPBase>, @JvmField val idx: EIndexPattern, @JvmField val partition: Partition) : POPBase(query, projectedVariables, EOperatorID.TripleStoreIteratorGlobalID, "TripleStoreIteratorGlobal", Array(3) { params[it] }, ESortPriority.ANY_PROVIDED_VARIABLE) {
+class TripleStoreIteratorGlobal(query: IQuery, projectedVariables: List<String>, @JvmField public val graphName: String, params: Array<IAOPBase>, @JvmField public val idx: EIndexPattern, @JvmField public val partition: Partition) : POPBase(query, projectedVariables, EOperatorID.TripleStoreIteratorGlobalID, "TripleStoreIteratorGlobal", Array(3) { params[it] }, ESortPriority.ANY_PROVIDED_VARIABLE) {
     override fun getPartitionCount(variable: String): Int {
         val res = partition.limit[variable]
         if (res != null) {
@@ -97,7 +97,7 @@ class TripleStoreIteratorGlobal(query: IQuery, projectedVariables: List<String>,
         return distributedTripleStore.getLocalStore().getNamedGraph(query, graphName).getIterator(query, params)
     }
 }
-class DistributedGraph(val query: IQuery, @JvmField val name: String) : IDistributedGraph {
+class DistributedGraph(val query: IQuery, @JvmField public val name: String) : IDistributedGraph {
     override /*suspend*/ fun bulkImport(action: /*suspend*/ (ITripleStoreBulkImport) -> Unit) {
         val bulk = TripleStoreBulkImport(query, name)
         action(bulk as ITripleStoreBulkImport)

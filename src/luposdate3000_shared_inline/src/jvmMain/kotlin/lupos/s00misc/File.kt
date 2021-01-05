@@ -5,7 +5,7 @@ import java.io.DataInputStream
 import java.io.DataOutputStream
 import java.io.FileInputStream
 import java.io.FileOutputStream
-internal actual class File actual constructor(@JvmField val filename: String) {
+internal actual class File actual constructor(@JvmField public val filename: String) {
     internal actual inline fun createTempFile(prefix: String, suffix: String, directory: String): String {
         val f = createTempFile(prefix, suffix, java.io.File(directory))
         return f.absolutePath

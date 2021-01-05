@@ -8,7 +8,7 @@ import kotlin.jvm.JvmField
 import kotlin.math.abs
 import kotlin.math.min
 class NotFoundException : Exception()
-class Radix_Tree_MainMemory_Node<V>(@JvmField var label: ByteArray = ByteArray(0), @JvmField var children: Array<Radix_Tree_MainMemory_Node<V>> = arrayOf(), @JvmField var v: V? = null) {
+class Radix_Tree_MainMemory_Node<V>(@JvmField public var label: ByteArray = ByteArray(0), @JvmField public var children: Array<Radix_Tree_MainMemory_Node<V>> = arrayOf(), @JvmField public var v: V? = null) {
     /**
      * @return a: If a<0: key k is smaller at position -a
      *            If a>0: key k is bigger at position a
@@ -229,7 +229,7 @@ fun main() {
         SanityCheck.println { input + " -> " + t.get(input) }
     }
 }
-class Static_Radix_Tree<V>(@JvmField val filename: String) {
+class Static_Radix_Tree<V>(@JvmField public val filename: String) {
     fun create(mainMemoryRadixTree: Radix_Tree_MainMemory<V>) {
         var p: Page = bufferManager.getPage(this.filename, 0)
         p.lock()

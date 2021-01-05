@@ -16,7 +16,7 @@ public actual object Crypto {
     actual public fun uuid(): String {
         return com.benasher44.uuid.uuid4().toString()
     }
-    private public fun toHexString(data: ByteArray): String {
+    private  fun toHexString(data: ByteArray): String {
         val sb = StringBuilder()
         for (b in data) {
             val tmp = (b + 256) % 256

@@ -6,7 +6,7 @@ import java.nio.channels.FileChannel
 import kotlin.jvm.JvmField
 typealias Page = MappedByteBufferPage
 inline fun createString(chars: CharArray): String = String(chars)
-class MappedByteBufferPage(@JvmField val buffer: MappedByteBuffer) {
+class MappedByteBufferPage(@JvmField public val buffer: MappedByteBuffer) {
     // in JVM-environment: this does not generate any getter avoiding a virtual method call!
     @JvmField
     var locked = 0

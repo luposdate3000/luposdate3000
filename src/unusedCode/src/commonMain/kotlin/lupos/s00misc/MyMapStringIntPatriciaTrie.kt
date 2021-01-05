@@ -1,6 +1,6 @@
 package lupos.s00misc
 import kotlin.jvm.JvmField
-class MyMapStringIntPatriciaTrie(@JvmField val undefinedValue: Int = Int.MAX_VALUE) {
+class MyMapStringIntPatriciaTrie(@JvmField public val undefinedValue: Int = Int.MAX_VALUE) {
     @JvmField
     var root: MyMapStringIntPatriciaTrieNode = MyMapStringIntPatriciaTrieNodeN()
     @JvmField

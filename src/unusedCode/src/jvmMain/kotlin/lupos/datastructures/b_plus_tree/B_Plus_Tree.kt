@@ -37,8 +37,8 @@ interface I_B_Plus_Tree_ComparatorRangeSearch_OnlyKeys<K : Any> : I_B_Plus_Tree_
     fun range_search(compareLeftLimit: (K) -> Int, compareRightLimit: (K) -> Int): () -> K?
     fun sip_search(compareLeftLimit: (K) -> Int, compareRightLimit: (K) -> Int): (K) -> K?
 }
-class NotFoundException(@JvmField val key: Any) : NoSuchElementException(key.toString() + " not found!")
-data class NodeParams(@JvmField var nodeNumber: Int, @JvmField val filename: String, @JvmField var page: Page, @JvmField var pageOffset: Long, @JvmField var maxAdr: Long, @JvmField var pageSizeMinusPointer: Long, @JvmField var adrNode: Long, @JvmField var numberOfEntriesPerNode: Double) {
+class NotFoundException(@JvmField public val key: Any) : NoSuchElementException(key.toString() + " not found!")
+data class NodeParams(@JvmField public var nodeNumber: Int, @JvmField public val filename: String, @JvmField public var page: Page, @JvmField public var pageOffset: Long, @JvmField public var maxAdr: Long, @JvmField public var pageSizeMinusPointer: Long, @JvmField public var adrNode: Long, @JvmField public var numberOfEntriesPerNode: Double) {
     companion object {
         var node = 1 // node number 0 is reserved for the root node!
         fun setStatusBytes(page: Page, type: Byte, numberOfStoredEntries: Int) {
@@ -519,7 +519,7 @@ inline fun <K> generate(filename: String, size: Int, iterator: Iterator<K>, k: I
         pointer = node.firstNodeNumber
     }
 }
-data class PageAdr(@JvmField var nodeNumber: Int, @JvmField var page: Page, @JvmField var adr: Long) {
+data class PageAdr(@JvmField public var nodeNumber: Int, @JvmField public var page: Page, @JvmField public var adr: Long) {
     var writtenEntryInPage = 0
     var newNodeOnThisLevel = false
 }
@@ -1120,7 +1120,7 @@ inline fun <K> range_search(filename: String, compareLeftLimit: (K) -> Int, cros
         }
     }
 }
-class NodeInSIPPath<K>(@JvmField var nodeNumber: Int, @JvmField var page: Page, @JvmField var adr: Long, @JvmField var key: K?, @JvmField var pointer: Int?, @JvmField var index: Int, @JvmField var numberOfElements: Int)
+class NodeInSIPPath<K>(@JvmField public var nodeNumber: Int, @JvmField public var page: Page, @JvmField public var adr: Long, @JvmField public var key: K?, @JvmField public var pointer: Int?, @JvmField public var index: Int, @JvmField public var numberOfElements: Int)
 inline fun <K, V> sip_range_search(filename: String, crossinline compare: (K, K) -> Int, crossinline compareLeftLimit: (K) -> Int, crossinline compareRightLimit: (K) -> Int, crossinline innerNodeDeserializer: (Page, Long) -> K, crossinline serializedSizeOfKey: (K) -> Long, crossinline leafNodeDeserializerKey: (Page, Long) -> K, crossinline leafNodeDeserializerValue: (Page, Long) -> V, crossinline serializedSizeOfValue: (V) -> Long, crossinline deserializePointer: (Page, Long) -> Int, crossinline serializedSizeOfPointer: (Int) -> Long): (K) -> V? {
     val startOffsetInPage = 5
     var node = 0
@@ -1540,7 +1540,7 @@ inline fun <K> sip_range_search(filename: String, crossinline compare: (K, K) ->
  *     Value
  * [Pointer to next page of this node]
  */
-class B_Plus_Tree<K : Any, V : Any>(@JvmField val filename: String) { // By K:Any and V:Any, neither K nor V can be nullable!
+class B_Plus_Tree<K : Any, V : Any>(@JvmField public val filename: String) { // By K:Any and V:Any, neither K nor V can be nullable!
     // TODO insertion/deletion of key/value-pairs
     // TODO range search with sip
     // TODO generate considering only full pages (some form of static B_Plus_Tree e.g., for LSM trees etc.)... (However, this means no splitting/merging of nodes according to k/k_star parameters)
@@ -1732,7 +1732,7 @@ class B_Plus_Tree<K : Any, V : Any>(@JvmField val filename: String) { // By K:An
         generate(filename, size, iterator, k, k_star, PAGESIZE, serializeKey, serializedSizeOfKey, serializeValue, serializedSizeOfValue, 4, ::serializeInt, ::serializedSizeOfInt)
     }
 }
-class B_Plus_Tree_VariableSizePointers<K : Any, V : Any>(@JvmField val filename: String) { // By K:Any and V:Any, neither K nor V can be nullable!
+class B_Plus_Tree_VariableSizePointers<K : Any, V : Any>(@JvmField public val filename: String) { // By K:Any and V:Any, neither K nor V can be nullable!
     // TODO insertion/deletion of key/value-pairs
     // TODO range search with sip
     // TODO generate considering only full pages (some form of static B_Plus_Tree e.g., for LSM trees etc.)... (However, this means no splitting/merging of nodes according to k/k_star parameters)
@@ -1756,7 +1756,7 @@ class B_Plus_Tree_VariableSizePointers<K : Any, V : Any>(@JvmField val filename:
         generate(filename, size, iterator, k, k_star, PAGESIZE, serializeKey, serializedSizeOfKey, serializeValue, serializedSizeOfValue, 5, ::serializeCompressedInt, ::serializedSizeOfCompressedInt)
     }
 }
-class B_Plus_Tree_Difference_Encoding<K : Any, V : Any>(@JvmField val filename: String) { // By K:Any and V:Any, neither K nor V can be nullable!
+class B_Plus_Tree_Difference_Encoding<K : Any, V : Any>(@JvmField public val filename: String) { // By K:Any and V:Any, neither K nor V can be nullable!
     // TODO still error for k = k_star = 8000, problem if (leaf?) node spans over two pages...
     // TODO insertion/deletion of key/value-pairs
     // TODO store numberOfElements and pointer with variable size
@@ -2195,7 +2195,7 @@ class B_Plus_Tree_Difference_Encoding<K : Any, V : Any>(@JvmField val filename: 
         return generateDifferenceEncodedBPlusTree(this.filename, size, iterator, k, k_star, PAGESIZE, serializeKey, serializedSizeOfKey, serializeKeyDiff, serializedSizeOfKeyDiff, serializeValue, serializedSizeOfValue)
     }
 }
-class B_Plus_Tree_Difference_Encoding_OnlyKeys<K : Any>(@JvmField val filename: String) { // By K:Any and V:Any, neither K nor V can be nullable!
+class B_Plus_Tree_Difference_Encoding_OnlyKeys<K : Any>(@JvmField public val filename: String) { // By K:Any and V:Any, neither K nor V can be nullable!
     // TODO still error for k = k_star = 8000, problem if (leaf?) node spans over two pages...
     // TODO insertion/deletion of key/value-pairs
     // TODO store numberOfElements and pointer with variable size
@@ -2621,7 +2621,7 @@ class B_Plus_Tree_Difference_Encoding_OnlyKeys<K : Any>(@JvmField val filename: 
         return generateDifferenceEncodedBPlusTree(this.filename, size, iterator, k, k_star, PAGESIZE, serializeKey, serializedSizeOfKey, serializeKeyDiff, serializedSizeOfKeyDiff)
     }
 }
-class B_Plus_Tree_Static<K : Any, V : Any>(@JvmField val filename: String) { // By K:Any and V:Any, neither K nor V can be nullable!
+class B_Plus_Tree_Static<K : Any, V : Any>(@JvmField public val filename: String) { // By K:Any and V:Any, neither K nor V can be nullable!
     internal inline fun search(key: K, compare: (K, K) -> Int, innerNodeDeserializer: (Page, Long) -> K, serializedSizeOfKey: (K) -> Long, leafNodeDeserializerKey: (Page, Long) -> K, leafNodeDeserializerValue: (Page, Long) -> V, serializedSizeOfValue: (V) -> Long): V {
         return search(filename, key, compare, innerNodeDeserializer, serializedSizeOfKey, leafNodeDeserializerKey, leafNodeDeserializerValue, serializedSizeOfValue, ::deserializeInt, ::serializedSizeOfInt)
     }
@@ -2635,7 +2635,7 @@ class B_Plus_Tree_Static<K : Any, V : Any>(@JvmField val filename: String) { // 
         return generateStaticTree(filename, iterator, PAGESIZE, serializeKey, serializedSizeOfKey, serializeValue, serializedSizeOfValue, 4, ::serializeInt, ::serializedSizeOfInt)
     }
 }
-class B_Plus_Tree_Static_CompressedPointer<K : Any, V : Any>(@JvmField val filename: String) { // By K:Any and V:Any, neither K nor V can be nullable!
+class B_Plus_Tree_Static_CompressedPointer<K : Any, V : Any>(@JvmField public val filename: String) { // By K:Any and V:Any, neither K nor V can be nullable!
     internal inline fun search(key: K, compare: (K, K) -> Int, innerNodeDeserializer: (Page, Long) -> K, serializedSizeOfKey: (K) -> Long, leafNodeDeserializerKey: (Page, Long) -> K, leafNodeDeserializerValue: (Page, Long) -> V, serializedSizeOfValue: (V) -> Long): V {
         return search(filename, key, compare, innerNodeDeserializer, serializedSizeOfKey, leafNodeDeserializerKey, leafNodeDeserializerValue, serializedSizeOfValue, ::deserializeCompressedInt, ::serializedSizeOfCompressedInt)
     }

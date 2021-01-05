@@ -7,7 +7,7 @@ import lupos.s01io.BufferManagerExt
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import kotlin.jvm.JvmField
-class TripleStoreIndexPartition(childIndex: (Int, Boolean) -> TripleStoreIndex, @JvmField private val column: Int, @JvmField val partitionCount: Int, store_root_page_id_: Int, store_root_page_init: Boolean) : TripleStoreIndex(store_root_page_id_) {
+class TripleStoreIndexPartition(childIndex: (Int, Boolean) -> TripleStoreIndex, @JvmField private val column: Int, @JvmField public val partitionCount: Int, store_root_page_id_: Int, store_root_page_init: Boolean) : TripleStoreIndex(store_root_page_id_) {
     @JvmField
     val bufferManager = BufferManagerExt.getBuffermanager("stores")
     private val partitions: Array<TripleStoreIndex>

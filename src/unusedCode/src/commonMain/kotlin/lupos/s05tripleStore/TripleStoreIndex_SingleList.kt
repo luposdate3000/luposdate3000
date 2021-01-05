@@ -249,7 +249,7 @@ class TripleStoreIndex_SingleList : TripleStoreIndex() {
         }
         return data
     }
-    class ImportIterator(@JvmField val data: IntArray, @JvmField val count: Int, @JvmField val offset: Int) : ColumnIterator() {
+    class ImportIterator(@JvmField public val data: IntArray, @JvmField public val count: Int, @JvmField public val offset: Int) : ColumnIterator() {
         @JvmField
         var idx = offset
         override suspend fun close() {

@@ -12,7 +12,7 @@ import lupos.s04logicalOperators.iterator.ColumnIteratorEmpty
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s09physicalOperators.POPBase
 import kotlin.jvm.JvmField
-public class POPJoinMergeSingleColumn(query: IQuery, projectedVariables: List<String>, childA: IOPBase, childB: IOPBase, @JvmField val optional: Boolean) : POPBase(query, projectedVariables, EOperatorID.POPJoinMergeSingleColumnID, "POPJoinMergeSingleColumn", arrayOf(childA, childB), ESortPriority.JOIN) {
+public class POPJoinMergeSingleColumn(query: IQuery, projectedVariables: List<String>, childA: IOPBase, childB: IOPBase, @JvmField public val optional: Boolean) : POPBase(query, projectedVariables, EOperatorID.POPJoinMergeSingleColumnID, "POPJoinMergeSingleColumn", arrayOf(childA, childB), ESortPriority.JOIN) {
     override fun getPartitionCount(variable: String): Int {
         return if (children[0].getProvidedVariableNames().contains(variable)) {
             if (children[1].getProvidedVariableNames().contains(variable)) {
@@ -37,7 +37,7 @@ public class POPJoinMergeSingleColumn(query: IQuery, projectedVariables: List<St
         return children[0].toSparql() + children[1].toSparql()
     }
     override fun equals(other: Any?): Boolean = other is POPJoinMergeSingleColumn && optional == other.optional && children[0] == other.children[0] && children[1] == other.children[1]
-    internal class ColumnIteratorImpl(@JvmField val child0: ColumnIterator, @JvmField val child1: ColumnIterator, @JvmField var head0: Int, @JvmField var head1: Int) : ColumnIterator() {
+    internal class ColumnIteratorImpl(@JvmField public val child0: ColumnIterator, @JvmField public val child1: ColumnIterator, @JvmField public var head0: Int, @JvmField public var head1: Int) : ColumnIterator() {
         @JvmField
         var counter: Int = 0
         @JvmField

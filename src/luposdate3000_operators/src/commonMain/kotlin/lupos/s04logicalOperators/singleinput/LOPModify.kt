@@ -10,8 +10,8 @@ import lupos.s04logicalOperators.noinput.LOPTriple
 import kotlin.jvm.JvmField
 public class LOPModify(
     query: IQuery,
-    @JvmField val insert: MutableList<LOPTriple> = mutableListOf(),
-    @JvmField val delete: MutableList<LOPTriple> = mutableListOf(),
+    @JvmField public val insert: MutableList<LOPTriple> = mutableListOf(),
+    @JvmField public val delete: MutableList<LOPTriple> = mutableListOf(),
     child: IOPBase
 ) : LOPBase(query, EOperatorID.LOPModifyID, "LOPModify", arrayOf(child), ESortPriority.PREVENT_ANY) {
     override fun getProvidedVariableNames(): MutableList<String> = mutableListOf("?boolean")

@@ -207,7 +207,7 @@ object ColumnIteratorMerge {
         return resultList[resultList.size - 1]!!
     }
 }
-class ColumnIteratorMerge1(@JvmField val a: ColumnIterator, @JvmField val b: ColumnIterator, @JvmField val comparator: Comparator<Int>) : ColumnIterator() {
+class ColumnIteratorMerge1(@JvmField public val a: ColumnIterator, @JvmField public val b: ColumnIterator, @JvmField public val comparator: Comparator<Int>) : ColumnIterator() {
     @JvmField
     var label: Int = 3
     @JvmField
@@ -300,7 +300,7 @@ class ColumnIteratorMerge1(@JvmField val a: ColumnIterator, @JvmField val b: Col
         return res
     }
 }
-class ColumnIteratorMerge2(@JvmField val a: ColumnIterator, @JvmField val b: ColumnIterator) : ColumnIterator() {
+class ColumnIteratorMerge2(@JvmField public val a: ColumnIterator, @JvmField public val b: ColumnIterator) : ColumnIterator() {
     @JvmField
     var label: Int = 3
     @JvmField

@@ -28,7 +28,7 @@ import lupos.s04logicalOperators.singleinput.LOPSort
 import lupos.s04logicalOperators.singleinput.modifiers.LOPSortAny
 import lupos.s09physicalOperators.singleinput.POPSort
 import kotlin.jvm.JvmField
-abstract class OPBase(@JvmField val query: IQuery, @JvmField val operatorID: EOperatorID, @JvmField val classname: String, @JvmField val children: Array<IOPBase>, private val sortPriority: ESortPriority) : IOPBase {
+abstract class OPBase(@JvmField public val query: IQuery, @JvmField public val operatorID: EOperatorID, @JvmField public val classname: String, @JvmField public val children: Array<IOPBase>, private val sortPriority: ESortPriority) : IOPBase {
     override fun getClassname(): String = classname
     @JvmField
     var onlyExistenceRequired: Boolean = false

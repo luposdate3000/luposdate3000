@@ -2,7 +2,7 @@ package lupos.s05tripleStore.index_SingleList
 import lupos.s00misc.MyListInt
 import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s04logicalOperators.iterator.ColumnIterator
-class ColumnIteratorStore2b(@JvmField val values: MyListInt, start: Int) : ColumnIterator() {
+class ColumnIteratorStore2b(@JvmField public val values: MyListInt, start: Int) : ColumnIterator() {
     @JvmField
     var counterSecondary: Int
     @JvmField

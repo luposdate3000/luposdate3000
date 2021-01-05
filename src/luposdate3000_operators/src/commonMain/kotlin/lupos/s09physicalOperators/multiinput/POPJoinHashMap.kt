@@ -13,7 +13,7 @@ import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.multiinput.LOPJoin
 import lupos.s09physicalOperators.POPBase
 import kotlin.jvm.JvmField
-public class POPJoinHashMap(query: IQuery, projectedVariables: List<String>, childA: IOPBase, childB: IOPBase, @JvmField val optional: Boolean) : POPBase(query, projectedVariables, EOperatorID.POPJoinHashMapID, "POPJoinHashMap", arrayOf(childA, childB), ESortPriority.JOIN) {
+public class POPJoinHashMap(query: IQuery, projectedVariables: List<String>, childA: IOPBase, childB: IOPBase, @JvmField public val optional: Boolean) : POPBase(query, projectedVariables, EOperatorID.POPJoinHashMapID, "POPJoinHashMap", arrayOf(childA, childB), ESortPriority.JOIN) {
     override fun getPartitionCount(variable: String): Int {
         return if (children[0].getProvidedVariableNames().contains(variable)) {
             if (children[1].getProvidedVariableNames().contains(variable)) {
@@ -37,7 +37,7 @@ public class POPJoinHashMap(query: IQuery, projectedVariables: List<String>, chi
         return children[0].toSparql() + children[1].toSparql()
     }
     override fun equals(other: Any?): Boolean = other is POPJoinHashMap && optional == other.optional && children[0] == other.children[0] && children[1] == other.children[1]
-    internal class MapKey(@JvmField val data: IntArray) {
+    internal class MapKey(@JvmField public val data: IntArray) {
         override fun hashCode(): Int {
             var res = 0
             for (element in data) {

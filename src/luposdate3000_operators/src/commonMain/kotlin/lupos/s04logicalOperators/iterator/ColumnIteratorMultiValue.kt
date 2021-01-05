@@ -7,7 +7,7 @@ object ColumnIteratorMultiValue {
     operator fun invoke(values: MutableList<Int>): ColumnIteratorMultiValue1 = ColumnIteratorMultiValue1(values)
     operator fun invoke(iterator: Iterator<Int>): ColumnIteratorMultiValue2 = ColumnIteratorMultiValue2(iterator)
 }
-class ColumnIteratorMultiValue1(@JvmField val values: MutableList<Int>) : ColumnIterator() {
+class ColumnIteratorMultiValue1(@JvmField public val values: MutableList<Int>) : ColumnIterator() {
     @JvmField
     var index: Int = 0
     override /*suspend*/ fun close() {
@@ -21,7 +21,7 @@ class ColumnIteratorMultiValue1(@JvmField val values: MutableList<Int>) : Column
         }
     }
 }
-class ColumnIteratorMultiValue3(@JvmField val values: IntArray, @JvmField val size: Int) : ColumnIterator() {
+class ColumnIteratorMultiValue3(@JvmField public val values: IntArray, @JvmField public val size: Int) : ColumnIterator() {
     @JvmField
     var index: Int = 0
     override /*suspend*/ fun close() {
@@ -35,7 +35,7 @@ class ColumnIteratorMultiValue3(@JvmField val values: IntArray, @JvmField val si
         }
     }
 }
-class ColumnIteratorMultiValue2(@JvmField val iterator: Iterator<Int>) : ColumnIterator() {
+class ColumnIteratorMultiValue2(@JvmField public val iterator: Iterator<Int>) : ColumnIterator() {
     @JvmField
     var label: Int = 1
     override /*suspend*/ fun close() {

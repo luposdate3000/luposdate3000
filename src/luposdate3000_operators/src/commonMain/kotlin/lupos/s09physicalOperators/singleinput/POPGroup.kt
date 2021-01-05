@@ -52,9 +52,9 @@ public class POPGroup : POPBase {
         return 1
     }
     @JvmField
-    var by: List<AOPVariable>
+public    var by: List<AOPVariable>
     @JvmField
-    var bindings: MutableList<Pair<String, AOPBase>> = mutableListOf()
+    public var bindings: MutableList<Pair<String, AOPBase>> = mutableListOf()
     override fun toSparql(): String {
         var res = children[0].toSparql()
         res += " GROUP BY "
@@ -77,7 +77,7 @@ public class POPGroup : POPBase {
             POPGroup(query, projectedVariables, by, null, children[0].cloneOP())
         }
     }
-    constructor(query: IQuery, projectedVariables: List<String>, by: List<AOPVariable>, bindings: POPBind?, child: IOPBase) : super(query, projectedVariables, EOperatorID.POPGroupID, "POPGroup", arrayOf(child), ESortPriority.GROUP) {
+public    constructor(query: IQuery, projectedVariables: List<String>, by: List<AOPVariable>, bindings: POPBind?, child: IOPBase) : super(query, projectedVariables, EOperatorID.POPGroupID, "POPGroup", arrayOf(child), ESortPriority.GROUP) {
         this.by = by
         var tmpBind: IOPBase? = bindings
         while (tmpBind != null && tmpBind is POPBind) {
@@ -86,7 +86,7 @@ public class POPGroup : POPBase {
         }
         this.bindings = this.bindings.asReversed()
     }
-    constructor(query: IQuery, projectedVariables: List<String>, by: List<AOPVariable>, bindings: List<Pair<String, AOPBase>>, child: IOPBase) : super(query, projectedVariables, EOperatorID.POPGroupID, "POPGroup", arrayOf(child), ESortPriority.GROUP) {
+public    constructor(query: IQuery, projectedVariables: List<String>, by: List<AOPVariable>, bindings: List<Pair<String, AOPBase>>, child: IOPBase) : super(query, projectedVariables, EOperatorID.POPGroupID, "POPGroup", arrayOf(child), ESortPriority.GROUP) {
         this.by = by
         this.bindings = bindings.toMutableList()
     }
@@ -152,7 +152,7 @@ public class POPGroup : POPBase {
         }
         return res
     }
-    internal class MapKey(@JvmField val data: IntArray) {
+    internal class MapKey(@JvmField public val data: IntArray) {
         override fun hashCode(): Int {
             var res = 0
             for (element in data) {

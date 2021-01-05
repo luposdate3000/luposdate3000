@@ -14,7 +14,7 @@ import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.LOPBase
 import lupos.s04logicalOperators.noinput.OPEmptyRow
 import kotlin.jvm.JvmField
-public class LOPGroup(query: IQuery, @JvmField var by: List<AOPVariable>) : LOPBase(query, EOperatorID.LOPGroupID, "LOPGroup", arrayOf(OPEmptyRow(query)), ESortPriority.GROUP) {
+public class LOPGroup(query: IQuery, @JvmField public var by: List<AOPVariable>) : LOPBase(query, EOperatorID.LOPGroupID, "LOPGroup", arrayOf(OPEmptyRow(query)), ESortPriority.GROUP) {
     override fun childrenToVerifyCount(): Int = 1
     var bindings: MutableList<Pair<String, AOPBase>> = mutableListOf()
     override fun getPossibleSortPriorities(): List<List<SortHelper>> {

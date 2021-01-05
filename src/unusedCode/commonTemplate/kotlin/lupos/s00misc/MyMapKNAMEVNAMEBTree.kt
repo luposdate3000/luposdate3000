@@ -1,6 +1,6 @@
 package lupos.s00misc
 import kotlin.jvm.JvmField
-class MyMapKNAMEVNAMEBTreeGDEF(@JvmField val t: Int) {
+class MyMapKNAMEVNAMEBTreeGDEF(@JvmField public val t: Int) {
     @JvmField
     var root: MyMapKNAMEVNAMEBTreeNodeGUSE? = null
     @JvmField
@@ -48,7 +48,7 @@ class MyMapKNAMEVNAMEBTreeGDEF(@JvmField val t: Int) {
         }
         override fun value() = v
     }
-    abstract class MyMapKNAMEVNAMEBTreeNodeGDEF(@JvmField val t: Int) {
+    abstract class MyMapKNAMEVNAMEBTreeNodeGDEF(@JvmField public val t: Int) {
         @JvmField
         val keys = ARRAYKTYPE(2 * t - 1) ARRAYKINITIALIZER
             @JvmField
@@ -352,7 +352,7 @@ class MyMapKNAMEVNAMEBTreeGDEF(@JvmField val t: Int) {
             }
         }
     }
-    class MyMapKNAMEVNAMEBTreeInitializerGDEF(@JvmField val t: Int, @JvmField val target: MyMapKNAMEVNAMEBTreeGUSE) {
+    class MyMapKNAMEVNAMEBTreeInitializerGDEF(@JvmField public val t: Int, @JvmField public val target: MyMapKNAMEVNAMEBTreeGUSE) {
         @JvmField
         var size = 0
         @JvmField

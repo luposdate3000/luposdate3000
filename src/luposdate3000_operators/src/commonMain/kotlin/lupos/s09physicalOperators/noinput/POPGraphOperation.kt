@@ -22,12 +22,12 @@ import kotlin.jvm.JvmField
 public class POPGraphOperation(
     query: IQuery,
     projectedVariables: List<String>,
-    @JvmField val silent: Boolean,
-    @JvmField var graph1type: EGraphRefType = EGraphRefType.DefaultGraphRef,
-    @JvmField var graph1iri: String? = null,
-    @JvmField var graph2type: EGraphRefType = EGraphRefType.DefaultGraphRef,
-    @JvmField var graph2iri: String? = null,
-    @JvmField val action: EGraphOperationType
+    @JvmField public val silent: Boolean,
+    @JvmField public var graph1type: EGraphRefType = EGraphRefType.DefaultGraphRef,
+    @JvmField public var graph1iri: String? = null,
+    @JvmField public var graph2type: EGraphRefType = EGraphRefType.DefaultGraphRef,
+    @JvmField public var graph2iri: String? = null,
+    @JvmField public val action: EGraphOperationType
 ) : POPBase(query, projectedVariables, EOperatorID.POPGraphOperationID, "POPGraphOperation", arrayOf(), ESortPriority.PREVENT_ANY) {
     override fun getPartitionCount(variable: String): Int = 1
     override fun toSparqlQuery(): String = toSparql()

@@ -23,7 +23,7 @@ public class POPModify(query: IQuery, projectedVariables: List<String>, insert: 
         return 1
     }
     @JvmField
-    val modify: Array<Pair<LOPTriple, EModifyType>> = Array(insert.size + delete.size) {
+public    val modify: Array<Pair<LOPTriple, EModifyType>> = Array(insert.size + delete.size) {
         if (it < insert.size) {
             Pair(insert[it], EModifyType.INSERT)
         } else {

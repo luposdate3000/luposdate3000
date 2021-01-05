@@ -3,7 +3,7 @@ import kotlin.jvm.JvmField
 import kotlin.jvm.JvmName
 /* Substitutions :: VALUE,GDEF,GUSE,ARRAYTYPE,ARRAYINITIALIZER */
 class MyListVALUEGDEF {
-    class MyListVALUEPageGDEF(@JvmField val version: Int) {
+    class MyListVALUEPageGDEF(@JvmField public val version: Int) {
         @JvmField
         var next: MyListVALUEPageGDEF? = null
         @JvmField
@@ -316,7 +316,7 @@ class MyListVALUEGDEF {
     inline  internal  operator  fun iterator(): MyListVALUEIteratorGUSE {
         return MyListVALUEIterator(this, 0)
     }
-    class MyListVALUEIteratorGDEF(@JvmField val data: MyListVALUEGUSE, startidx: Int) : Iterator<VALUE> {
+    class MyListVALUEIteratorGDEF(@JvmField public val data: MyListVALUEGUSE, startidx: Int) : Iterator<VALUE> {
         var tmp = data.page
         var idx = 0
         init {
@@ -425,7 +425,7 @@ class MyListVALUEGDEF {
             return MyListVALUESmallIterator(this)
         }
     }
-    class MyListVALUESmallIteratorGDEF(@JvmField val data: MyListVALUESmallGUSE) : Iterator<VALUE> {
+    class MyListVALUESmallIteratorGDEF(@JvmField public val data: MyListVALUESmallGUSE) : Iterator<VALUE> {
         var index = 0
         override fun hasNext(): Boolean {
             return index < data.size

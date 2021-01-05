@@ -1,7 +1,7 @@
 package lupos.s04logicalOperators.iterator
 import lupos.s03resultRepresentation.ResultSetDictionaryExt
 import kotlin.jvm.JvmField
-class ColumnIteratorMultiIterator(@JvmField val childs: List<ColumnIterator>) : ColumnIterator() {
+class ColumnIteratorMultiIterator(@JvmField public val childs: List<ColumnIterator>) : ColumnIterator() {
     @JvmField
     var index: Int = 0
     @JvmField

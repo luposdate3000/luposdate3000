@@ -224,7 +224,7 @@ import lupos.s04logicalOperators.singleinput.modifiers.LOPReduced
 import lupos.s05tripleStore.PersistentStoreLocalExt
 import lupos.s09physicalOperators.noinput.POPValuesImportXML
 import kotlin.jvm.JvmField
-class OperatorGraphVisitor(@JvmField val query: Query) : Visitor<IOPBase> {
+class OperatorGraphVisitor(@JvmField public val query: Query) : Visitor<IOPBase> {
     @JvmField
     val queryExecutionStartTime: ValueDateTime = ValueDateTime()
     private fun createUnion(a: IOPBase, b: IOPBase): IOPBase {

@@ -18,7 +18,7 @@ class PartitionHelper {
     internal var jobs: MutableMap<Partition, ParallelJob>? = null
     internal val lock = MyLock()
 }
-class Query(@JvmField val dictionary: ResultSetDictionary = ResultSetDictionary(), @JvmField val transactionID: Long = global_transactionID++) : IQuery {
+class Query(@JvmField public val dictionary: ResultSetDictionary = ResultSetDictionary(), @JvmField public val transactionID: Long = global_transactionID++) : IQuery {
     @JvmField
     var _workingDirectory: String = ""
     @JvmField

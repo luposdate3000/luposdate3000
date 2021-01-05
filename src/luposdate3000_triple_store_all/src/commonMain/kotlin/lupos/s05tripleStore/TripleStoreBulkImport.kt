@@ -4,7 +4,7 @@ import lupos.s00misc.SanityCheck
 import lupos.s04logicalOperators.IQuery
 import lupos.s15tripleStoreDistributed.distributedTripleStore
 import kotlin.jvm.JvmField
-class TripleStoreBulkImport(@JvmField val query: IQuery, @JvmField val graphName: String) : ITripleStoreBulkImport {
+class TripleStoreBulkImport(@JvmField public val query: IQuery, @JvmField public val graphName: String) : ITripleStoreBulkImport {
     @JvmField
     var totalflushed: Int = 0
     @JvmField

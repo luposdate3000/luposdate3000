@@ -12,7 +12,7 @@ import lupos.s04logicalOperators.OPBase
 import kotlin.jvm.JvmField
 abstract public class POPBase(
     query: IQuery,
-    @JvmField var projectedVariables: List<String>,
+    @JvmField public var projectedVariables: List<String>,
     operatorID: EOperatorID,
     classname: String,
     children: Array<IOPBase>,

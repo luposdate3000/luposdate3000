@@ -10,7 +10,7 @@ import lupos.s04logicalOperators.LOPBase
 import kotlin.jvm.JvmField
 public class LOPGraphOperation(
     query: IQuery,
-    @JvmField var action: EGraphOperationType = EGraphOperationType.CREATE,
+    @JvmField public var action: EGraphOperationType = EGraphOperationType.CREATE,
     var silent: Boolean = false,
     var graph1type: EGraphRefType = EGraphRefType.DefaultGraphRef,
     var graph1iri: String? = null,

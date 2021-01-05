@@ -8,7 +8,7 @@ import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.LOPBase
 import lupos.s04logicalOperators.noinput.OPEmptyRow
 import kotlin.jvm.JvmField
-public class LOPLimit(query: IQuery, @JvmField val limit: Int, child: IOPBase = OPEmptyRow(query)) : LOPBase(query, EOperatorID.LOPLimitID, "LOPLimit", arrayOf(child), ESortPriority.SAME_AS_CHILD) {
+public class LOPLimit(query: IQuery, @JvmField public val limit: Int, child: IOPBase = OPEmptyRow(query)) : LOPBase(query, EOperatorID.LOPLimitID, "LOPLimit", arrayOf(child), ESortPriority.SAME_AS_CHILD) {
     override /*suspend*/ fun toXMLElement(): XMLElement = super.toXMLElement().addAttribute("limit", "" + limit)
     override fun equals(other: Any?): Boolean = other is LOPLimit && limit == other.limit && children[0] == other.children[0]
     override fun cloneOP(): IOPBase = LOPLimit(query, limit, children[0].cloneOP())

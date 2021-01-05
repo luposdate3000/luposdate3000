@@ -9,7 +9,7 @@ import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import kotlin.jvm.JvmField
-abstract class TripleStoreLocalBase(@JvmField val name: String, @JvmField val store_root_page_id: Int) : ITripleStoreLocalBase {
+abstract class TripleStoreLocalBase(@JvmField public val name: String, @JvmField public val store_root_page_id: Int) : ITripleStoreLocalBase {
     @JvmField // override this during initialisation
     var dataDistinct: Array<TripleStoreDistinctContainer> = arrayOf()
     @JvmField // override this during initialisation

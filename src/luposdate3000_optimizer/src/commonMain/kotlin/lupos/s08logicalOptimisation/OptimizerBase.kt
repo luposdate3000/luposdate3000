@@ -4,7 +4,7 @@ import lupos.s00misc.SanityCheck
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.Query
 import kotlin.jvm.JvmField
-abstract class OptimizerBase(@JvmField val query: Query, @JvmField val optimizerID: EOptimizerID) {
+abstract class OptimizerBase(@JvmField public val query: Query, @JvmField public val optimizerID: EOptimizerID) {
     abstract val classname: String
     abstract /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase
     /*suspend*/ fun optimizeInternal(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {

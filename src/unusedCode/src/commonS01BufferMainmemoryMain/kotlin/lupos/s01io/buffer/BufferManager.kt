@@ -1,6 +1,6 @@
 package lupos.s01io.buffer
 import kotlin.jvm.JvmField
-data class PageAddress(@JvmField val fileName: String, @JvmField val pageNumber: Int)
+data class PageAddress(@JvmField public val fileName: String, @JvmField public val pageNumber: Int)
 const val PAGESIZE: Int = 8 * 1024
 val bufferManager: BufferManager = BufferManager()
 class BufferManager {

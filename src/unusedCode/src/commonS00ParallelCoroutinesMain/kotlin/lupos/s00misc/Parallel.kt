@@ -29,7 +29,7 @@ object Parallel {
     internal inline fun createMutex() = Mutex()
     internal inline fun createCondition(lock: Lock) = ParallelCondition(lock)
     internal inline fun <T> createQueue(terminationValue: T) = ParallelQueue<T>()
-    class ParallelCondition(@JvmField val lock: Lock) {
+    class ParallelCondition(@JvmField public val lock: Lock) {
         @JvmField
         var cont: Continuation<Unit>? = null
         internal suspend inline fun waitCondition(crossinline condition: () -> Boolean) {
