@@ -1,4 +1,5 @@
 package lupos.s05tripleStore
+import lupos.s00misc.USE_PARTITIONS
 import lupos.s00misc.BUFFER_MANAGER_PAGE_SIZE_IN_BYTES
 import lupos.s00misc.ByteArrayHelper
 import lupos.s00misc.EIndexPattern
@@ -53,7 +54,16 @@ class TripleStoreLocalBPlusTreePartition(name: String, store_root_page_id_: Int,
             }
             enabledPartitions = tmpEnabledPartitions.toTypedArray()
         } else {
-            if (Partition.estimatedPartitionsValid) {
+	if(!USE_PARTITIONS){
+ enabledPartitions = arrayOf( //
+                    EnabledPartitionContainer(mutableSetOf(EIndexPattern.SPO, EIndexPattern.S_PO, EIndexPattern.SP_O), -1, 1), //
+                    EnabledPartitionContainer(mutableSetOf(EIndexPattern.SOP, EIndexPattern.S_OP, EIndexPattern.SO_P), -1, 1), //
+                    EnabledPartitionContainer(mutableSetOf(EIndexPattern.POS, EIndexPattern.P_OS, EIndexPattern.PO_S), -1, 1), //
+                    EnabledPartitionContainer(mutableSetOf(EIndexPattern.PSO, EIndexPattern.P_SO, EIndexPattern.PS_O), -1, 1), //
+                    EnabledPartitionContainer(mutableSetOf(EIndexPattern.OSP, EIndexPattern.O_SP, EIndexPattern.OS_P), -1, 1), //
+                    EnabledPartitionContainer(mutableSetOf(EIndexPattern.OPS, EIndexPattern.O_PS, EIndexPattern.OP_S), -1, 1), //
+                )
+}else            if (Partition.estimatedPartitionsValid) {
                 val localindicees = mapOf(
                     "SPO" to mutableSetOf(EIndexPattern.SPO, EIndexPattern.S_PO, EIndexPattern.SP_O),
                     "SOP" to mutableSetOf(EIndexPattern.SOP, EIndexPattern.S_OP, EIndexPattern.SO_P),
