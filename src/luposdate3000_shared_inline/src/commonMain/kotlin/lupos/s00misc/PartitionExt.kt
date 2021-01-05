@@ -1,10 +1,10 @@
 package lupos.s00misc
 internal object PartitionExt {
-internal inline fun hashFunction(v: Int, k: Int): Int {
-            return if (v < 0) {
-                (-v) % k
-            } else {
-                v % k
-            }
+    internal inline fun hashFunction(v: Int, k: Int): Int {
+        return if (v < 0) {
+            (-v) % k
+        } else {
+            v % k
         }
+    }
 }
