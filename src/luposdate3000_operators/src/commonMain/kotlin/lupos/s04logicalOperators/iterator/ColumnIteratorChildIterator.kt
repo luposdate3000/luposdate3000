@@ -39,7 +39,7 @@ abstract class ColumnIteratorChildIterator : ColumnIterator() {
     internal inline fun releaseValue(obj: ColumnIterator) {
         obj.close()
     }
-    internal /*suspend*/ inline fun _close() {
+    /*suspend*/ internal inline fun _close() {
         if (label != 0) {
             label = 0
             for (i in queueRead until queueWrite) {
@@ -47,7 +47,7 @@ abstract class ColumnIteratorChildIterator : ColumnIterator() {
             }
         }
     }
-    internal /*suspend*/ inline fun nextHelper(crossinline onNoMoreElements: /*suspend*/ () -> Unit, crossinline onClose: /*suspend*/ () -> Unit): Int {
+    /*suspend*/ internal inline fun nextHelper(crossinline onNoMoreElements: /*suspend*/ () -> Unit, crossinline onClose: /*suspend*/ () -> Unit): Int {
         when (label) {
             1 -> {
                 while (queueRead < queueWrite) {

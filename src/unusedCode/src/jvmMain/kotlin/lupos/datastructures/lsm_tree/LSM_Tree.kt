@@ -2,7 +2,7 @@ package lupos.datastructures.lsm_tree
 import kotlin.jvm.JvmField
 class NotFoundException(obj: Any) : Exception(obj.toString() + " not found!")
 // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! TODO !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-// configuration and search methods/receiveRun: do with inline functions for avoiding calls to overridden methods
+// configuration and search methods/receiveRun: do with inline internal functions for avoiding calls to overridden methods
 class LSM_Tree_Helper<K : Comparable<in K>, V>(@JvmField val directoryOfIndex: String? = null) {
     companion object {
         private var dir_counter = 0
@@ -86,19 +86,19 @@ inline fun <K, V> put(k: K, v: V, isFirstLevelFull: () -> Boolean, putFirstLevel
     putFirstLevel(k, v)
 }
 inline class HashMapIndexWithLazySorting<K : Comparable<in K>, V>(@JvmField val mainMemoryDatastructure: HashMap<K, V> = hashMapOf<K, V>()) {
-    inline fun put(k: K, v: V) {
+    internal inline fun put(k: K, v: V) {
         this.mainMemoryDatastructure[k] = v
     }
-    inline fun clear() {
+    internal inline fun clear() {
         this.mainMemoryDatastructure.clear()
     }
-    inline fun size(): Int = this.mainMemoryDatastructure.size
+    internal inline fun size(): Int = this.mainMemoryDatastructure.size
     // returns the value of the key, or null if the key is not found
-    inline fun getOrNull(k: K): V? = this.mainMemoryDatastructure[k]
+    internal inline fun getOrNull(k: K): V? = this.mainMemoryDatastructure[k]
     // the following version throws an exception if the key is not found
-    inline fun get(k: K): V = this.mainMemoryDatastructure[k] ?: throw NotFoundException(k)
+    internal inline fun get(k: K): V = this.mainMemoryDatastructure[k] ?: throw NotFoundException(k)
     // range search, returns a function returning all key-value-pairs, which are equal to or greater than smallerKey, and which are equal to or smaller than biggerKey
-    inline fun range(smallerKey: K, biggerKey: K): () -> Pair<K, V>? {
+    internal inline fun range(smallerKey: K, biggerKey: K): () -> Pair<K, V>? {
         val sortedListIt = this.mainMemoryDatastructure.filterKeys { it in smallerKey..biggerKey }.toList().sortedBy { it.first }.iterator()
         return {
             if (sortedListIt.hasNext()) {
@@ -108,7 +108,7 @@ inline class HashMapIndexWithLazySorting<K : Comparable<in K>, V>(@JvmField val 
             }
         }
     }
-    inline fun rangeNoOrder(smallerKey: K, biggerKey: K): () -> Pair<K, V>? {
+    internal inline fun rangeNoOrder(smallerKey: K, biggerKey: K): () -> Pair<K, V>? {
         val iterator = this.mainMemoryDatastructure.filterKeys { it in smallerKey..biggerKey }.iterator()
         return {
             if (iterator.hasNext()) {
@@ -119,7 +119,7 @@ inline class HashMapIndexWithLazySorting<K : Comparable<in K>, V>(@JvmField val 
             }
         }
     }
-    inline fun getRun(): Pair<Int, () -> Pair<K, V>?> {
+    internal inline fun getRun(): Pair<Int, () -> Pair<K, V>?> {
         val sortedListIt = this.mainMemoryDatastructure.toList().sortedBy { it.first }.iterator()
         val iterator = {
             if (sortedListIt.hasNext()) {
@@ -249,11 +249,11 @@ interface Searchable<K, V, R> {
 class LSM_Tree<K : Comparable<in K>, V> {
     var MAX_ENTRIES = 50000
     val firstLevel = HashMapIndexWithLazySorting<K, V>()
-    inline fun getOrNull(k: K, remainingLevels: (k: K) -> V?): V? = getOrNull(k, { this.firstLevel.getOrNull(it) }, remainingLevels)
-    inline fun get(k: K, remainingLevels: (k: K) -> V): V = get(k, { this.firstLevel.get(it) }, remainingLevels)
-    inline fun put(k: K, v: V, receiveRunFromFirstLevel: (Pair<Int, () -> Pair<K, V>?>) -> Unit) {
+    internal inline fun getOrNull(k: K, remainingLevels: (k: K) -> V?): V? = getOrNull(k, { this.firstLevel.getOrNull(it) }, remainingLevels)
+    internal inline fun get(k: K, remainingLevels: (k: K) -> V): V = get(k, { this.firstLevel.get(it) }, remainingLevels)
+    internal inline fun put(k: K, v: V, receiveRunFromFirstLevel: (Pair<Int, () -> Pair<K, V>?>) -> Unit) {
         put(k, v, { this.firstLevel.size() >= MAX_ENTRIES }, { k: K, v: V -> { this.firstLevel.put(k, v) } }, { this.firstLevel.getRun() }, receiveRunFromFirstLevel, { this.firstLevel.clear() })
     }
-    inline fun range(smallerKey: K, biggerKey: K, noinline remainingLevels: () -> Pair<K, V>?): () -> Pair<K, V>? = range(this.firstLevel.range(smallerKey, biggerKey), remainingLevels)
-    inline fun rangeNoOrder(smallerKey: K, biggerKey: K, noinline remainingLevels: () -> Pair<K, V>?): () -> Pair<K, V>? = rangeNoOrder(this.firstLevel.rangeNoOrder(smallerKey, biggerKey), remainingLevels)
+    internal inline fun range(smallerKey: K, biggerKey: K, noinline remainingLevels: () -> Pair<K, V>?): () -> Pair<K, V>? = range(this.firstLevel.range(smallerKey, biggerKey), remainingLevels)
+    internal inline fun rangeNoOrder(smallerKey: K, biggerKey: K, noinline remainingLevels: () -> Pair<K, V>?): () -> Pair<K, V>? = rangeNoOrder(this.firstLevel.rangeNoOrder(smallerKey, biggerKey), remainingLevels)
 }

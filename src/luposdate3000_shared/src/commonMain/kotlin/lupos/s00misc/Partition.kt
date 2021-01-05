@@ -8,13 +8,6 @@ class Partition {
         var estimatedPartitionsValid = false
         var default_k: Int = 128
         const val queue_size: Int = 1000
-        inline fun hashFunction(v: Int, k: Int): Int {
-            return if (v < 0) {
-                (-v) % k
-            } else {
-                v % k
-            }
-        }
     }
     constructor() {
         data = mutableMapOf()

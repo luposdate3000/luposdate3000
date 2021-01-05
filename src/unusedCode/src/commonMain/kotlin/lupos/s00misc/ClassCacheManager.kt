@@ -7,7 +7,7 @@ abstract class ClassCacheManager<T> {
     @JvmField
     var cachePointer = -1
     abstract fun allocNew(): T
-    inline fun alloc(): T {
+    internal inline fun alloc(): T {
         var res: T
         if (cachePointer < 0) {
             res = allocNew()
@@ -16,7 +16,7 @@ abstract class ClassCacheManager<T> {
         }
         return res
     }
-    inline fun release(obj: T) {
+    internal inline fun release(obj: T) {
         if (cachePointer < cacheLimit) {
             cache[1 + cachePointer++] = obj
         }

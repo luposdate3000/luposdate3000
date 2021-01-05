@@ -1,6 +1,7 @@
 import lupos.s00misc.ETripleComponentType
 import lupos.s00misc.File
 import lupos.s00misc.Parallel
+import lupos.s00misc.PartitionExt
 import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
 import lupos.s02buildSyntaxTree.turtle.Turtle2Parser
@@ -122,7 +123,7 @@ fun mainFunc(args: Array<String>): Unit = Parallel.runBlocking {
                             x[constantPart] = y
                         }
                         for (k in 0 until partitionSizes.size) {
-                            y[k][Partition.hashFunction(partitionPart, partitionSizes[k])]++
+                            y[k][PartitionExt.hashFunction(partitionPart, partitionSizes[k])]++
                         }
                     }
                 }

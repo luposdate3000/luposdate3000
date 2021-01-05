@@ -393,10 +393,10 @@ class ResultSetDictionary : IResultSetDictionary {
         }
         return res
     }
-    override inline fun createValue(value: String?): Int {
+    override fun createValue(value: String?): Int {
         return createValue(ValueDefinition(value))
     }
-    override inline fun createValue(value: ValueDefinition): Int {
+    override fun createValue(value: ValueDefinition): Int {
         val res: Int
         when (value) {
             is ValueUndef -> {
@@ -450,7 +450,7 @@ class ResultSetDictionary : IResultSetDictionary {
         }
         return res
     }
-    override inline fun getValue(value: Int): ValueDefinition {
+    override fun getValue(value: Int): ValueDefinition {
         val res: ValueDefinition
         if ((value and ResultSetDictionaryShared.mask1) == ResultSetDictionaryShared.mask1) {
             return nodeGlobalDictionary.getValue(value)
@@ -516,7 +516,7 @@ class ResultSetDictionary : IResultSetDictionary {
         }
         return res
     }
-    override inline fun getValue(
+    override fun getValue(
         value: Int,
         onBNode: (value: Int) -> Unit,
         onBoolean: (value: Boolean) -> Unit,
@@ -589,7 +589,7 @@ class ResultSetDictionary : IResultSetDictionary {
             }
         }
     }
-    override inline fun valueToGlobal(value: Int): Int {
+    override fun valueToGlobal(value: Int): Int {
         val res: Int
         if ((value and ResultSetDictionaryShared.mask1) == ResultSetDictionaryShared.mask1) {
             res = value

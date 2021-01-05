@@ -1,9 +1,9 @@
 package lupos.s00misc
 internal expect class DateHelper() {
-    fun year(): Int
-    fun month(): Int
-    fun day(): Int
-    fun hours(): Int
-    fun minutes(): Int
-    fun seconds(): Int
+internal inline    fun year(): Int
+internal inline       fun month(): Int
+internal inline       fun day(): Int
+internal inline       fun hours(): Int
+internal inline       fun minutes(): Int
+internal inline       fun seconds(): Int
 }

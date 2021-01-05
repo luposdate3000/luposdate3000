@@ -42,21 +42,21 @@ class UnsafePage {
         this.basepointer = allocatedMemoryPointer
         this.cleaner = cleaner
     }
-    inline fun getInt(address: Long): Int = UNSAFE.getInt(address)
-    inline fun getByte(address: Long): Byte = UNSAFE.getByte(address)
-    inline fun allocateMemory(size: Long): Long {
+    internal inline fun getInt(address: Long): Int = UNSAFE.getInt(address)
+    internal inline fun getByte(address: Long): Byte = UNSAFE.getByte(address)
+    internal inline fun allocateMemory(size: Long): Long {
         return UNSAFE.allocateMemory(size)
     }
-    inline fun freeMemory() {
+    internal inline fun freeMemory() {
         UNSAFE.freeMemory(this.basepointer)
     }
-    inline fun putInt(address: Long, data: Int) {
+    internal inline fun putInt(address: Long, data: Int) {
         UNSAFE.putInt(address, data)
     }
-    inline fun putByte(address: Long, data: Byte) {
+    internal inline fun putByte(address: Long, data: Byte) {
         UNSAFE.putByte(address, data)
     }
-    inline fun putString(address: Long, data: String): Long {
+    internal inline fun putString(address: Long, data: String): Long {
         val size = data.length
         this.putInt(address, size)
         var pos = address + 4
@@ -69,22 +69,22 @@ class UnsafePage {
         }
         return pos
     }
-    public inline fun getPageIndex(): Long {
+    public internal inline fun getPageIndex(): Long {
         return this.basepointer
     }
-    inline fun lock() {
+    internal inline fun lock() {
         this.locked++
     }
-    inline fun unlock() {
+    internal inline fun unlock() {
         this.locked--
     }
-    inline fun isLocked(): Boolean {
+    internal inline fun isLocked(): Boolean {
         return this.locked > 0
     }
-    inline fun release() {
+    internal inline fun release() {
         this.cleaner()
     }
-    inline fun isModified() = false
+    internal inline fun isModified() = false
     /*
 	 * only used in main memory (-> no need for making it persistence)
 	 * and for memory mapped files

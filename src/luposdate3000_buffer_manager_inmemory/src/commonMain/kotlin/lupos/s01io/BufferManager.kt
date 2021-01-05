@@ -6,9 +6,9 @@ import lupos.s00misc.Platform
 import lupos.s00misc.SanityCheck
 import kotlin.jvm.JvmField
 object BufferManagerExt {
-fun getPageSize():Long{
-return BUFFER_MANAGER_PAGE_SIZE_IN_BYTES
-}
+    fun getPageSize(): Long {
+        return BUFFER_MANAGER_PAGE_SIZE_IN_BYTES
+    }
     @JvmField // dont put const val here, because it wont work when exchanging the modules
     val isInMemoryOnly = true
     @JvmField val initializedFromDisk = false

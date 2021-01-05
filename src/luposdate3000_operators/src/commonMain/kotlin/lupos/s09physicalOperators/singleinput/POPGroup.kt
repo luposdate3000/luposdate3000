@@ -303,7 +303,7 @@ class POPGroup : POPBase {
                             override /*suspend*/ fun close() {
                                 __close()
                             }
-                            /*suspend*/ inline fun __close() {
+                            /*suspend*/ internal inline fun __close() {
                                 if (label != 0) {
                                     ColumnIteratorQueueExt._close(this)
                                     for (element in keyColumns) {

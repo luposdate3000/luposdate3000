@@ -452,7 +452,7 @@ class ResultSetDictionary(val global: Boolean = false) {
         }
         return res
     }
-    inline fun getValue(
+    internal inline fun getValue(
         value: Int,
         crossinline onBNode: (value: Int) -> Unit,
         crossinline onBoolean: (value: Boolean) -> Unit,

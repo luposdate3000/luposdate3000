@@ -6,7 +6,7 @@ class ColumnIteratorReduced(@JvmField val child: ColumnIterator) : ColumnIterato
     var last: Int = ResultSetDictionaryExt.nullValue
     @JvmField
     var label: Int = 1
-    /*suspend*/ inline fun _close() {
+    /*suspend*/ internal inline fun _close() {
         if (label != 0) {
             label = 0
             child.close()

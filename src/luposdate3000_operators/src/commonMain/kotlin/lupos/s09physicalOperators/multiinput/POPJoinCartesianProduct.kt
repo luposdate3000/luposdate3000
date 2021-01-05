@@ -140,7 +140,7 @@ class POPJoinCartesianProduct(query: IQuery, projectedVariables: List<String>, c
                             override /*suspend*/ fun close() {
                                 __close()
                             }
-                            /*suspend*/ inline fun __close() {
+                            /*suspend*/ internal inline fun __close() {
                                 if (label != 0) {
                                     _close()
                                     SanityCheck.println { "POPJoinCartesianProductXXX$uuid close A $classname" }
@@ -209,7 +209,7 @@ class POPJoinCartesianProduct(query: IQuery, projectedVariables: List<String>, c
                         override /*suspend*/ fun close() {
                             __close()
                         }
-                        /*suspend*/ inline fun __close() {
+                        /*suspend*/ internal inline fun __close() {
                             if (label != 0) {
                                 _close()
                                 SanityCheck.println { "POPJoinCartesianProductXXX$uuid close A $classname" }

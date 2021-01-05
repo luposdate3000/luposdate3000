@@ -1,14 +1,14 @@
 package lupos.s01io
-import lupos.s00misc.File
 import lupos.s00misc.BUFFER_MANAGER_PAGE_SIZE_IN_BYTES
+import lupos.s00misc.File
 import lupos.s00misc.MyReadWriteLock
 import lupos.s00misc.Platform
 import lupos.s00misc.SanityCheck
 import kotlin.jvm.JvmField
 object BufferManagerExt {
-fun getPageSize():Long{ 
-return BUFFER_MANAGER_PAGE_SIZE_IN_BYTES
-}
+    fun getPageSize(): Long {
+        return BUFFER_MANAGER_PAGE_SIZE_IN_BYTES
+    }
     const val fileEnding = ".data"
     const val fileEndingFree = ".datafree"
     @JvmField // dont put const val here, because it wont work when exchanging the modules

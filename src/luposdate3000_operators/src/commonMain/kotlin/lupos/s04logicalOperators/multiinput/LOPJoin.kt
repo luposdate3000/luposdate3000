@@ -12,7 +12,7 @@ class LOPJoin(query: IQuery, first: IOPBase, second: IOPBase, @JvmField val opti
     override fun equals(other: Any?): Boolean = other is LOPJoin && optional == other.optional && children[0] == other.children[0] && children[1] == other.children[1]
     override fun cloneOP(): IOPBase = LOPJoin(query, children[0].cloneOP(), children[1].cloneOP(), optional)
     companion object {
-        inline fun getColumns(columnsA: List<String>, columnsB: List<String>): Array<MutableList<String>> {
+        fun getColumns(columnsA: List<String>, columnsB: List<String>): Array<MutableList<String>> {
             /*result array indices 0:Join,1:AOnly,2:BOnly*/
             val res = Array(3) { mutableListOf<String>() }
             res[2].addAll(columnsB)

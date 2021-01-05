@@ -13,10 +13,10 @@ class RunningStandardDeviation {
     var oldS = 0.0
     @JvmField
     var newS = 0.0
-    inline fun clear() {
+    internal inline fun clear() {
         n = 0
     }
-    inline fun push(x: Double) {
+    internal inline fun push(x: Double) {
         sum += x
         n++
         if (n == 1) {
@@ -30,19 +30,19 @@ class RunningStandardDeviation {
             oldS = newS
         }
     }
-    inline fun mean(): Double {
+    internal inline fun mean(): Double {
         if (n > 0) {
             return newM
         } else {
             return 0.0
         }
     }
-    inline fun variance(): Double {
+    internal inline fun variance(): Double {
         if (n > 1) {
             return newS / (n - 1)
         } else {
             return 0.0
         }
     }
-    inline fun standardDeviation() = Math.sqrt(variance())
+    internal inline fun standardDeviation() = Math.sqrt(variance())
 }

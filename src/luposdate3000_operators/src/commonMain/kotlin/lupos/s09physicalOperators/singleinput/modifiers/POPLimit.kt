@@ -50,7 +50,7 @@ class POPLimit(query: IQuery, projectedVariables: List<String>, @JvmField val li
                         ResultSetDictionaryExt.nullValue
                     }
                 }
-                /*suspend*/ inline fun _close() {
+                /*suspend*/ internal inline fun _close() {
                     if (label != 0) {
                         label = 0
                         iterator.close()

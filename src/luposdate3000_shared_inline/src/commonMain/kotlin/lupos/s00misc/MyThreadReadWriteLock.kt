@@ -1,12 +1,12 @@
 package lupos.s00misc
 internal expect class MyThreadReadWriteLock() {
-    inline fun getUUID(): Long
-    inline fun downgradeToReadLock()
-    inline fun readLock()
-    inline fun readUnlock()
-    inline fun writeLock()
-    inline fun tryWriteLock(): Boolean
-    inline fun writeUnlock()
-    inline fun <T> withReadLock(crossinline action: () -> T): T
-    inline fun <T> withWriteLock(crossinline action: () -> T): T
+    internal inline fun getUUID(): Long
+    internal inline fun downgradeToReadLock()
+    internal inline fun readLock()
+    internal inline fun readUnlock()
+    internal inline fun writeLock()
+    internal inline fun tryWriteLock(): Boolean
+    internal inline fun writeUnlock()
+    internal inline fun <T> withReadLock(crossinline action: () -> T): T
+    internal inline fun <T> withWriteLock(crossinline action: () -> T): T
 }

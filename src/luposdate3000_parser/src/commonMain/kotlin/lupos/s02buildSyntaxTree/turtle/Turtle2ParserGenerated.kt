@@ -25,10 +25,10 @@ internal class ParserContext(@JvmField val input: IMyInputStream) {
     var inBufSize = 0
     @JvmField
     var flagrN = false
-    inline fun clear() {
+    internal inline fun clear() {
         outBuffer.clear()
     }
-    inline fun getValue(): String {
+    internal inline fun getValue(): String {
         return outBuffer.toString()
     }
     fun append() {

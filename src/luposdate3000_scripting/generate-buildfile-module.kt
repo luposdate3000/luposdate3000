@@ -469,7 +469,7 @@ fun createBuildFileForModule(moduleName: String, moduleFolder: String, modulePre
         typeAliasAll["MyLock"] = Pair("MyLock", "MyThreadLock")
         typeAliasAll["MyReadWriteLock"] = Pair("MyReadWriteLock", "MyThreadReadWriteLock")
     }
-// selectively copy classes which are inlined from the inline module ->
+// selectively copy classes which are inlined from the inline internal module ->
     val classNamesRegex = Regex("\\s*([a-zA-Z0-9_]*)")
     val classNamesFound = mutableMapOf<String, MutableSet<String>>()
     for (f in File("src${pathSeparator}luposdate3000_shared_inline${pathSeparator}src").walk()) {
@@ -591,7 +591,7 @@ fun createBuildFileForModule(moduleName: String, moduleFolder: String, modulePre
     } else {
         configFile = "src.generated${pathSeparator}commonMain${pathSeparator}kotlin${pathSeparator}lupos${pathSeparator}s00misc${pathSeparator}Config-$moduleName.kt"
     }
-// selectively copy classes which are inlined from the inline module <-
+// selectively copy classes which are inlined from the inline internal module <-
     File(configFile).printWriter().use { out ->
         out.println("package lupos.s00misc")
         for ((k, v) in typeAliasUsed) {

@@ -14,7 +14,7 @@ object CacheOfFiles {
     /**
      * Returns the requested file from cache, or opens the file if it is not in the cache of open files
      */
-    inline fun getFile(filename: String): CachedFile {
+    internal inline fun getFile(filename: String): CachedFile {
         val fileEntry = this.cache.getEntry(filename)
         if (fileEntry == null) {
             while (this.cache.entries.size >= MAXOPENEDFILES) {
@@ -36,7 +36,7 @@ object CacheOfFiles {
     // http://nyeggen.com/post/2014-05-18-memory-mapping-%3E2gb-of-data-in-java/
     // and slides comparing different ways:
     // https://www.slideshare.net/AndreiPangin/do-we-need-unsafe-in-java
-    inline fun get(filename: String, address: Long): Page {
+    internal inline fun get(filename: String, address: Long): Page {
         return getFile(filename).get(address)
     }
     /**

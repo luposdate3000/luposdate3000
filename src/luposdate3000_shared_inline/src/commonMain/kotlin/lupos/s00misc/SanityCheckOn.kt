@@ -3,11 +3,11 @@ import kotlin.contracts.InvocationKind.EXACTLY_ONCE
 import kotlin.contracts.contract
 @OptIn(kotlin.contracts.ExperimentalContracts::class)
 internal object SanityCheckOn {
-    inline fun println(crossinline s: () -> Any?) {
+    internal inline fun println(crossinline s: () -> Any?) {
         contract { callsInPlace(s, EXACTLY_ONCE) }
         println(s())
     }
-    inline operator fun invoke(crossinline action: () -> Unit) {
+    internal inline operator fun invoke(crossinline action: () -> Unit) {
         try {
             action()
         } catch (e: Throwable) {
@@ -16,7 +16,7 @@ internal object SanityCheckOn {
             throw e
         }
     }
-    /*suspend*/ inline fun suspended(crossinline action: /*suspend*/ () -> Unit) {
+    /*suspend*/ internal inline fun suspended(crossinline action: /*suspend*/ () -> Unit) {
         contract { callsInPlace(action, EXACTLY_ONCE) }
         try {
             action()
@@ -26,11 +26,11 @@ internal object SanityCheckOn {
             throw e
         }
     }
-    inline fun <T> helper(crossinline action: () -> T): T? {
+    internal inline fun <T> helper(crossinline action: () -> T): T? {
         contract { callsInPlace(action, EXACTLY_ONCE) }
         return action()
     }
-    inline fun check(crossinline value: () -> Boolean, crossinline msg: () -> String) {
+    internal inline fun check(crossinline value: () -> Boolean, crossinline msg: () -> String) {
         contract { callsInPlace(value, EXACTLY_ONCE) }
         try {
             if (!value()) {
@@ -42,7 +42,7 @@ internal object SanityCheckOn {
             throw e
         }
     }
-    inline fun check(crossinline value: () -> Boolean) {
+    internal inline fun check(crossinline value: () -> Boolean) {
         contract { callsInPlace(value, EXACTLY_ONCE) }
         try {
             if (!value()) {
@@ -54,5 +54,5 @@ internal object SanityCheckOn {
             throw e
         }
     }
-    inline fun checkUnreachable(): Nothing = throw UnreachableException()
+    internal inline fun checkUnreachable(): Nothing = throw UnreachableException()
 }

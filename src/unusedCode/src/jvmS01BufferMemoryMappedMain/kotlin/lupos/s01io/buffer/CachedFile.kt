@@ -21,16 +21,16 @@ class CachedFile {
         }
         this.file = RandomAccessFile(File(filename), "rw")
     }
-    inline fun close() {
+    internal inline fun close() {
         this.file.close()
     }
-    inline fun get(address: Long): Page {
+    internal inline fun get(address: Long): Page {
         return MappedByteBufferPage(
             this.file.getChannel()
                 .map(FileChannel.MapMode.READ_WRITE, address, PAGESIZE)
         )
     }
-    inline fun write(address: Long, page: Page) {
+    internal inline fun write(address: Long, page: Page) {
         // it is already written by using put-methods of MappedByteBuffer
     }
 }

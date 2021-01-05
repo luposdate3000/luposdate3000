@@ -4,17 +4,17 @@ import lupos.s00misc.SanityCheck
 import lupos.s04logicalOperators.iterator.ColumnIterator
 internal object NodeLeaf {
     const val START_OFFSET = 12
-    inline fun getFirstTriple(node: ByteArray, b: IntArray) {
+    internal inline fun getFirstTriple(node: ByteArray, b: IntArray) {
         NodeShared.readTriple111(node, START_OFFSET, 0, 0, 0) { v0, v1, v2 ->
             b[0] = v0
             b[1] = v1
             b[2] = v2
         }
     }
-    inline fun iterator(node: ByteArray, nodeid: Int): TripleIterator {
+    internal inline fun iterator(node: ByteArray, nodeid: Int): TripleIterator {
         return NodeLeafIterator(node, nodeid)
     }
-    /*suspend*/ inline fun iterator(node: ByteArray, nodeid: Int, lock: MyReadWriteLock, component: Int): ColumnIterator {
+    /*suspend*/ internal inline fun iterator(node: ByteArray, nodeid: Int, lock: MyReadWriteLock, component: Int): ColumnIterator {
         return when (component) {
             0 -> {
                 NodeLeafColumnIterator0(node, nodeid, lock)
@@ -30,13 +30,13 @@ internal object NodeLeaf {
             }
         }
     }
-    /*suspend*/ inline fun iterator3(node: ByteArray, nodeid: Int, prefix: IntArray, lock: MyReadWriteLock): ColumnIterator {
+    /*suspend*/ internal inline fun iterator3(node: ByteArray, nodeid: Int, prefix: IntArray, lock: MyReadWriteLock): ColumnIterator {
         return NodeLeafColumnIteratorPrefix3(node, nodeid, prefix, lock)
     }
-    /*suspend*/ inline fun iterator2(node: ByteArray, nodeid: Int, prefix: IntArray, lock: MyReadWriteLock): ColumnIterator {
+    /*suspend*/ internal inline fun iterator2(node: ByteArray, nodeid: Int, prefix: IntArray, lock: MyReadWriteLock): ColumnIterator {
         return NodeLeafColumnIteratorPrefix22(node, nodeid, prefix, lock)
     }
-    /*suspend*/ inline fun iterator1(node: ByteArray, nodeid: Int, prefix: IntArray, lock: MyReadWriteLock, component: Int): ColumnIterator {
+    /*suspend*/ internal inline fun iterator1(node: ByteArray, nodeid: Int, prefix: IntArray, lock: MyReadWriteLock, component: Int): ColumnIterator {
         return when (component) {
             1 -> {
                 NodeLeafColumnIteratorPrefix11(node, nodeid, prefix, lock)
@@ -49,7 +49,7 @@ internal object NodeLeaf {
             }
         }
     }
-    inline fun initializeWith(node: ByteArray, nodeid: Int, iterator: TripleIterator) {
+    internal inline fun initializeWith(node: ByteArray, nodeid: Int, iterator: TripleIterator) {
         SanityCheck.check { iterator.hasNext() }
         var writtenTriples: MutableList<Int>? = null
         SanityCheck {

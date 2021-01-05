@@ -17,7 +17,7 @@ class ColumnIteratorStore2a(@JvmField val values: MyListInt, start: Int) : Colum
         counterSecondary = values[index - 3] - 1
         counterTerniary = values[index - 1] - 1
     }
-    inline fun _close() {
+    internal inline fun _close() {
         label = 0
     }
     override suspend fun close() {

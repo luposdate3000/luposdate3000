@@ -11,7 +11,7 @@ import kotlin.jvm.JvmField
 // this class avoids virtual method calls, which speeds up processing of Big Data
 class B_Plus_Tree_Uncompressed_Int_to_Int(@JvmField val filename: String, @JvmField val k: Int = 1000, @JvmField val k_star: Int = 500) {
     val bplustree = B_Plus_Tree<Int, Int>(filename)
-    inline operator fun get(key: Int) = bplustree.search(
+    internal inline operator fun get(key: Int) = bplustree.search(
         key,
         compare = ::compareInt,
         innerNodeDeserializer = ::deserializeInt,
@@ -20,7 +20,7 @@ class B_Plus_Tree_Uncompressed_Int_to_Int(@JvmField val filename: String, @JvmFi
         leafNodeDeserializerValue = ::deserializeInt,
         serializedSizeOfValue = ::serializedSizeOfInt
     )
-    inline fun binarySearch(key: Int) = bplustree.binarySearch(
+    internal inline fun binarySearch(key: Int) = bplustree.binarySearch(
         key,
         compare = ::compareInt,
         innerNodeDeserializer = ::deserializeInt,
@@ -29,7 +29,7 @@ class B_Plus_Tree_Uncompressed_Int_to_Int(@JvmField val filename: String, @JvmFi
         leafNodeDeserializerValue = ::deserializeInt,
         serializedSizeOfValue = ::serializedSizeOfInt
     )
-    inline fun range_search(keyLeft: Int, keyRight: Int) = bplustree.range_search(
+    internal inline fun range_search(keyLeft: Int, keyRight: Int) = bplustree.range_search(
         { key: Int -> key - keyLeft },
         { key: Int -> key - keyRight },
         innerNodeDeserializer = ::deserializeInt,
@@ -38,7 +38,7 @@ class B_Plus_Tree_Uncompressed_Int_to_Int(@JvmField val filename: String, @JvmFi
         leafNodeDeserializerValue = ::deserializeInt,
         serializedSizeOfValue = ::serializedSizeOfInt
     )
-    inline fun range_binary_search(keyLeft: Int, keyRight: Int) = bplustree.range_binary_search(
+    internal inline fun range_binary_search(keyLeft: Int, keyRight: Int) = bplustree.range_binary_search(
         { key: Int -> key - keyLeft },
         { key: Int -> key - keyRight },
         innerNodeDeserializer = ::deserializeInt,
@@ -47,7 +47,7 @@ class B_Plus_Tree_Uncompressed_Int_to_Int(@JvmField val filename: String, @JvmFi
         leafNodeDeserializerValue = ::deserializeInt,
         serializedSizeOfValue = ::serializedSizeOfInt
     )
-    inline fun sip_search(keyLeft: Int, keyRight: Int) = bplustree.sip_search(
+    internal inline fun sip_search(keyLeft: Int, keyRight: Int) = bplustree.sip_search(
         { key1: Int, key2: Int -> (key2 - key1) },
         { key: Int -> key - keyLeft },
         { key: Int -> key - keyRight },
@@ -86,7 +86,7 @@ inline class Derived_B_Plus_Tree_Uncompressed_Int_to_Int_BinarySearch(@JvmField 
 }
 class B_Plus_Tree_VariableSize_Int_to_Int(@JvmField val filename: String, @JvmField val k: Int = 1000, @JvmField val k_star: Int = 500) {
     val bplustree = B_Plus_Tree<Int, Int>(filename)
-    inline operator fun get(key: Int) = bplustree.search(
+    internal inline operator fun get(key: Int) = bplustree.search(
         key,
         compare = ::compareInt,
         innerNodeDeserializer = ::deserializeCompressedInt,
@@ -95,7 +95,7 @@ class B_Plus_Tree_VariableSize_Int_to_Int(@JvmField val filename: String, @JvmFi
         leafNodeDeserializerValue = ::deserializeCompressedInt,
         serializedSizeOfValue = ::serializedSizeOfCompressedInt
     )
-    inline fun range_search(keyLeft: Int, keyRight: Int) = bplustree.range_search(
+    internal inline fun range_search(keyLeft: Int, keyRight: Int) = bplustree.range_search(
         { key: Int -> key - keyLeft },
         { key: Int -> key - keyRight },
         innerNodeDeserializer = ::deserializeCompressedInt,
@@ -134,7 +134,7 @@ inline class Derived_B_Plus_Tree_VariableSize_Int_to_Int(@JvmField val tree: B_P
 }
 class B_Plus_Tree_VariableSizePointers_Int_to_Int(@JvmField val filename: String, @JvmField val k: Int = 1000, @JvmField val k_star: Int = 500) { // val k:Int = 1000, @JvmField val k_star:Int = 500){
     val bplustree = B_Plus_Tree_VariableSizePointers<Int, Int>(filename)
-    inline operator fun get(key: Int) = bplustree.search(
+    internal inline operator fun get(key: Int) = bplustree.search(
         key,
         compare = ::compareInt,
         innerNodeDeserializer = ::deserializeCompressedInt,
@@ -143,7 +143,7 @@ class B_Plus_Tree_VariableSizePointers_Int_to_Int(@JvmField val filename: String
         leafNodeDeserializerValue = ::deserializeCompressedInt,
         serializedSizeOfValue = ::serializedSizeOfCompressedInt
     )
-    inline fun range_search(keyLeft: Int, keyRight: Int) = bplustree.range_search(
+    internal inline fun range_search(keyLeft: Int, keyRight: Int) = bplustree.range_search(
         { key: Int -> key - keyLeft },
         { key: Int -> key - keyRight },
         innerNodeDeserializer = ::deserializeCompressedInt,
@@ -182,7 +182,7 @@ inline class Derived_B_Plus_Tree_VariableSizePointers_Int_to_Int(@JvmField val t
 }
 class B_Plus_Tree_DifferenceEncoding_Int_to_Int(@JvmField val filename: String, @JvmField val k: Int = 1000, @JvmField val k_star: Int = 500) {
     val bplustree = B_Plus_Tree_Difference_Encoding<Int, Int>(filename)
-    inline operator fun get(key: Int) = bplustree.search(
+    internal inline operator fun get(key: Int) = bplustree.search(
         key,
         compare = ::compareInt,
         innerNodeDeserializer = ::deserializeCompressedInt,
@@ -194,7 +194,7 @@ class B_Plus_Tree_DifferenceEncoding_Int_to_Int(@JvmField val filename: String, 
         leafNodeDeserializerValue = ::deserializeCompressedInt,
         serializedSizeOfValue = ::serializedSizeOfCompressedInt
     )
-    inline fun range_search(keyLeft: Int, keyRight: Int) = bplustree.range_search(
+    internal inline fun range_search(keyLeft: Int, keyRight: Int) = bplustree.range_search(
         { key: Int -> key - keyLeft },
         { key: Int -> key - keyRight },
         innerNodeDeserializer = ::deserializeCompressedInt,
@@ -241,7 +241,7 @@ inline class Derived_B_Plus_Tree_DifferenceEncoding_Int_to_Int(@JvmField val tre
 }
 class B_Plus_Tree_DifferenceEncoding_Int(@JvmField val filename: String, @JvmField val k: Int = 1000, @JvmField val k_star: Int = 500) {
     val bplustree = B_Plus_Tree_Difference_Encoding_OnlyKeys<Int>(filename)
-    inline operator fun get(key: Int) = bplustree.search(
+    internal inline operator fun get(key: Int) = bplustree.search(
         key,
         compare = ::compareInt,
         innerNodeDeserializer = ::deserializeCompressedInt,
@@ -251,7 +251,7 @@ class B_Plus_Tree_DifferenceEncoding_Int(@JvmField val filename: String, @JvmFie
         leafNodeDeserializerKey = ::deserializeCompressedInt,
         leafNodeDeserializerKeyDiff = ::deserializeInt
     )
-    inline fun range_search(keyLeft: Int, keyRight: Int) = bplustree.range_search(
+    internal inline fun range_search(keyLeft: Int, keyRight: Int) = bplustree.range_search(
         { key: Int -> key - keyLeft },
         { key: Int -> key - keyRight },
         innerNodeDeserializer = ::deserializeCompressedInt,
@@ -292,7 +292,7 @@ inline class Derived_B_Plus_Tree_DifferenceEncoding_Int_OnlyKeys(@JvmField val t
 }
 class B_Plus_Tree_Static_Int_to_Int(@JvmField val filename: String) {
     val bplustree = B_Plus_Tree_Static<Int, Int>(filename)
-    inline operator fun get(key: Int) = bplustree.search(
+    internal inline operator fun get(key: Int) = bplustree.search(
         key,
         compare = ::compareInt,
         innerNodeDeserializer = ::deserializeInt,
@@ -301,7 +301,7 @@ class B_Plus_Tree_Static_Int_to_Int(@JvmField val filename: String) {
         leafNodeDeserializerValue = ::deserializeInt,
         serializedSizeOfValue = ::serializedSizeOfInt
     )
-    inline fun range_search(keyLeft: Int, keyRight: Int) = bplustree.range_search(
+    internal inline fun range_search(keyLeft: Int, keyRight: Int) = bplustree.range_search(
         { key: Int -> key - keyLeft },
         { key: Int -> key - keyRight },
         innerNodeDeserializer = ::deserializeInt,
@@ -340,7 +340,7 @@ inline class Derived_B_Plus_Tree_Static_Int_to_Int(@JvmField val tree: B_Plus_Tr
 }
 class B_Plus_Tree_StaticCompressed_Int_to_Int(@JvmField val filename: String) {
     val bplustree = B_Plus_Tree_Static_CompressedPointer<Int, Int>(filename)
-    inline operator fun get(key: Int) = bplustree.search(
+    internal inline operator fun get(key: Int) = bplustree.search(
         key,
         compare = ::compareInt,
         innerNodeDeserializer = ::deserializeCompressedInt,
@@ -349,7 +349,7 @@ class B_Plus_Tree_StaticCompressed_Int_to_Int(@JvmField val filename: String) {
         leafNodeDeserializerValue = ::deserializeCompressedInt,
         serializedSizeOfValue = ::serializedSizeOfCompressedInt
     )
-    inline fun range_search(keyLeft: Int, keyRight: Int) = bplustree.range_search(
+    internal inline fun range_search(keyLeft: Int, keyRight: Int) = bplustree.range_search(
         { key: Int -> key - keyLeft },
         { key: Int -> key - keyRight },
         innerNodeDeserializer = ::deserializeCompressedInt,

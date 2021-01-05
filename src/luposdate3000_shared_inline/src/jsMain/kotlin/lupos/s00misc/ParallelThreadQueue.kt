@@ -5,13 +5,13 @@ internal actual class ParallelThreadQueue<T> {
     actual constructor(terminationValue: T) {
         terminalValue = terminationValue
     }
-    actual inline fun send(value: T) {
+    internal actual inline fun send(value: T) {
         queue.add(value)
     }
-    actual inline fun close() {
+    internal actual inline fun close() {
         queue.clear()
     }
-    actual inline fun receive(): T {
+    internal actual inline fun receive(): T {
         if (queue.size > 0) {
             return queue.removeAt(0)
         }

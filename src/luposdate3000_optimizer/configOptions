@@ -1,3 +1,2 @@
-MAX_TRIPLES_DURING_TEST,const internal val,Int,2000
 REPLACE_STORE_WITH_VALUES,const internal val,Boolean,false
 USE_PARTITIONS,const internal val,Boolean,true

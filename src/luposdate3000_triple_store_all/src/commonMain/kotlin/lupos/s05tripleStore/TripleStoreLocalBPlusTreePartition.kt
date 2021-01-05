@@ -1,10 +1,10 @@
 package lupos.s05tripleStore
-import lupos.s00misc.USE_PARTITIONS
 import lupos.s00misc.ByteArrayHelper
 import lupos.s00misc.EIndexPattern
 import lupos.s00misc.ETripleIndexType
 import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
+import lupos.s00misc.USE_PARTITIONS2
 import lupos.s01io.BufferManagerExt
 import kotlin.jvm.JvmField
 class TripleStoreLocalBPlusTreePartition(name: String, store_root_page_id_: Int, store_root_page_init: Boolean) : TripleStoreLocalBase(name, store_root_page_id_) {
@@ -53,8 +53,8 @@ class TripleStoreLocalBPlusTreePartition(name: String, store_root_page_id_: Int,
             }
             enabledPartitions = tmpEnabledPartitions.toTypedArray()
         } else {
-	if(!USE_PARTITIONS){
- enabledPartitions = arrayOf( //
+            if (!USE_PARTITIONS2) {
+                enabledPartitions = arrayOf( //
                     EnabledPartitionContainer(mutableSetOf(EIndexPattern.SPO, EIndexPattern.S_PO, EIndexPattern.SP_O), -1, 1), //
                     EnabledPartitionContainer(mutableSetOf(EIndexPattern.SOP, EIndexPattern.S_OP, EIndexPattern.SO_P), -1, 1), //
                     EnabledPartitionContainer(mutableSetOf(EIndexPattern.POS, EIndexPattern.P_OS, EIndexPattern.PO_S), -1, 1), //
@@ -62,7 +62,7 @@ class TripleStoreLocalBPlusTreePartition(name: String, store_root_page_id_: Int,
                     EnabledPartitionContainer(mutableSetOf(EIndexPattern.OSP, EIndexPattern.O_SP, EIndexPattern.OS_P), -1, 1), //
                     EnabledPartitionContainer(mutableSetOf(EIndexPattern.OPS, EIndexPattern.O_PS, EIndexPattern.OP_S), -1, 1), //
                 )
-}else            if (Partition.estimatedPartitionsValid) {
+            } else if (Partition.estimatedPartitionsValid) {
                 val localindicees = mapOf(
                     "SPO" to mutableSetOf(EIndexPattern.SPO, EIndexPattern.S_PO, EIndexPattern.SP_O),
                     "SOP" to mutableSetOf(EIndexPattern.SOP, EIndexPattern.S_OP, EIndexPattern.SO_P),
@@ -127,7 +127,7 @@ class TripleStoreLocalBPlusTreePartition(name: String, store_root_page_id_: Int,
                 ByteArrayHelper.writeInt4(rootPage, rootPageOffset + 8, p.column)
                 ByteArrayHelper.writeInt4(rootPage, rootPageOffset + 12, p.partitionCount)
                 rootPageOffset += 16
-                SanityCheck.check { rootPageOffset <=  BufferManagerExt.getPageSize() }
+                SanityCheck.check { rootPageOffset <= BufferManagerExt.getPageSize() }
                 if (p.column >= 0) {
                     name2.insert(p.column, p.partitionCount)
                     dataDistinctList.add(TripleStoreDistinctContainer(name2.toString(), TripleStoreIndexPartition({ i, k -> TripleStoreIndexIDTriple(i, k) }, p.column, p.partitionCount, pageid2, store_root_page_init), { it.getData(idx) }, idx))

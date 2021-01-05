@@ -9,17 +9,17 @@ internal actual class MyThreadLock {
     }
     val uuid = uuidCounter++
     val semaphore = Semaphore(1)
-    actual inline fun getUUID() = uuid
-    actual inline fun lock() {
+    internal actual inline fun getUUID() = uuid
+    internal actual inline fun lock() {
         semaphore.acquire()
     }
-    actual inline fun unlock() {
+    internal actual inline fun unlock() {
         semaphore.release()
     }
-    actual inline fun tryLock(): Boolean {
+    internal actual inline fun tryLock(): Boolean {
         return semaphore.tryAcquire()
     }
-    actual inline fun <T> withLock(crossinline action: () -> T): T {
+    internal actual inline fun <T> withLock(crossinline action: () -> T): T {
         contract { callsInPlace(action, EXACTLY_ONCE) }
         lock()
         try {

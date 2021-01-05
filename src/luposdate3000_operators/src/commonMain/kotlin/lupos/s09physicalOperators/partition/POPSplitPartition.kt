@@ -5,6 +5,7 @@ import lupos.s00misc.MyLock
 import lupos.s00misc.Parallel
 import lupos.s00misc.ParallelCondition
 import lupos.s00misc.Partition
+import lupos.s00misc.PartitionExt
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.ResultSetDictionaryExt
@@ -128,7 +129,7 @@ class POPSplitPartition(query: IQuery, projectedVariables: List<String>, val par
                                     cacheArr[0] = 0
                                 } else {
                                     cacheSize = 1
-                                    q = Partition.hashFunction(q, partitionCount)
+                                    q = PartitionExt.hashFunction(q, partitionCount)
                                     cacheArr[0] = q
                                 }
                                 loopcache@ for (i in 0 until cacheSize) {

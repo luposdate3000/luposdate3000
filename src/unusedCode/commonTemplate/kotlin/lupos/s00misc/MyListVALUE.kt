@@ -53,7 +53,7 @@ class MyListVALUEGDEF {
             }
         }
     }
-    inline fun reserve(capacity: Int) {
+    inline internal fun reserve(capacity: Int) {
     }
     constructor() {
     }
@@ -123,7 +123,7 @@ class MyListVALUEGDEF {
         size++
         shrinkToFit()
     }
-    inline operator fun get(idx: Int): VALUE {
+    inline internal operator fun get(idx: Int): VALUE {
         SanityCheck.check({ idx < size }, { "a" })
         var tmp = page
         var offset = 0
@@ -188,7 +188,7 @@ class MyListVALUEGDEF {
         removeInternal(prev, tmp, i)
         return res
     }
-    inline operator fun set(idx: Int, value: VALUE) {
+    inline internal operator fun set(idx: Int, value: VALUE) {
         SanityCheck.check({ idx <= size }, { "e" })
         if (idx == size) {
             if (lastpage.size < ARRAY_LIST_BLOCK_CAPACITY) {
@@ -296,7 +296,7 @@ class MyListVALUEGDEF {
         SanityCheck.check({ tmp == lastpage }, { "h" })
         return res.toString()
     }
-    inline fun forEach(crossinline action: (VALUE) -> Unit) {
+    inline internal fun forEach(crossinline action: (VALUE) -> Unit) {
         var tmp = page
         while (true) {
             for (i in 0 until tmp.size) {
@@ -309,10 +309,10 @@ class MyListVALUEGDEF {
             }
         }
     }
-    inline fun iterator(startidx: Int): MyListVALUEIteratorGUSE {
+    inline internal fun iterator(startidx: Int): MyListVALUEIteratorGUSE {
         return MyListVALUEIterator(this, startidx)
     }
-    inline operator fun iterator(): MyListVALUEIteratorGUSE {
+    inline internal operator fun iterator(): MyListVALUEIteratorGUSE {
         return MyListVALUEIterator(this, 0)
     }
     class MyListVALUEIteratorGDEF(@JvmField val data: MyListVALUEGUSE, startidx: Int) : Iterator<VALUE> {
@@ -344,7 +344,7 @@ class MyListVALUEGDEF {
         var capacity = 1
         @JvmField
         var data: ARRAYTYPE
-        inline fun reserve(capacity: Int) {
+        inline internal fun reserve(capacity: Int) {
             SanityCheck.check({ capacity <= ARRAY_LIST_BLOCK_CAPACITY }, { "i" })
             if (this.capacity < capacity) {
                 this.capacity = capacity
@@ -376,10 +376,10 @@ class MyListVALUEGDEF {
             data[size] = value
             size++
         }
-        inline operator fun get(idx: Int): VALUE {
+        inline internal operator fun get(idx: Int): VALUE {
             return data.get(idx) as VALUE
         }
-        inline operator fun set(idx: Int, value: VALUE) {
+        inline internal operator fun set(idx: Int, value: VALUE) {
             SanityCheck.check({ idx <= size }, { "j" })
             if (idx == size) {
                 add(value)
@@ -420,7 +420,7 @@ class MyListVALUEGDEF {
                 size++
             }
         }
-        inline operator fun iterator(): MyListVALUESmallIteratorGUSE {
+        inline internal operator fun iterator(): MyListVALUESmallIteratorGUSE {
             return MyListVALUESmallIterator(this)
         }
     }

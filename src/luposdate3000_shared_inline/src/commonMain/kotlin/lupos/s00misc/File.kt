@@ -1,23 +1,23 @@
 package lupos.s00misc
 internal expect class File(filename: String) {
-    inline fun createTempFile(prefix: String, suffix: String, directory: String): String
-    inline fun exists(): Boolean
-    inline fun mkdirs(): Boolean
-    inline fun deleteRecursively(): Boolean
-    inline fun length(): Long
-    inline fun readAsString(): String
-    inline fun readAsCharIterator(): CharIterator
-    inline fun readAsInputStream(): IMyInputStream
-    inline fun walk(crossinline action: (String) -> Unit)
-    inline fun myPrintWriter(): MyPrintWriter
-    inline fun printWriter(crossinline action: (MyPrintWriter) -> Unit)
-    /*suspend*/ inline fun printWriterSuspended(crossinline action: /*suspend*/ (MyPrintWriter) -> Unit)
-    inline fun forEachLine(crossinline action: (String) -> Unit)
-    /*suspend*/ inline fun forEachLineSuspended(crossinline action: /*suspend*/ (String) -> Unit)
-    inline fun dataOutputStream(crossinline action: (MyDataOutputStream) -> Unit)
-    inline fun openDataOutputStream(append: Boolean): MyDataOutputStream
-    inline fun dataOutputStreamSuspend(crossinline action: (MyDataOutputStream) -> Unit)
-    inline fun dataInputStream(crossinline action: (MyDataInputStream) -> Unit)
-    /*suspend*/ inline fun dataInputStreamSuspended(crossinline action: /*suspend*/ (MyDataInputStream) -> Unit)
+    internal inline fun createTempFile(prefix: String, suffix: String, directory: String): String
+    internal inline fun exists(): Boolean
+    internal inline fun mkdirs(): Boolean
+    internal inline fun deleteRecursively(): Boolean
+    internal inline fun length(): Long
+    internal inline fun readAsString(): String
+    internal inline fun readAsCharIterator(): CharIterator
+    internal inline fun readAsInputStream(): IMyInputStream
+    internal inline fun walk(crossinline action: (String) -> Unit)
+    internal inline fun myPrintWriter(): MyPrintWriter
+    internal inline fun printWriter(crossinline action: (MyPrintWriter) -> Unit)
+    /*suspend*/ internal inline fun printWriterSuspended(crossinline action: /*suspend*/ (MyPrintWriter) -> Unit)
+    internal inline fun forEachLine(crossinline action: (String) -> Unit)
+    /*suspend*/ internal inline fun forEachLineSuspended(crossinline action: /*suspend*/ (String) -> Unit)
+    internal inline fun dataOutputStream(crossinline action: (MyDataOutputStream) -> Unit)
+    internal inline fun openDataOutputStream(append: Boolean): MyDataOutputStream
+    internal inline fun dataOutputStreamSuspend(crossinline action: (MyDataOutputStream) -> Unit)
+    internal inline fun dataInputStream(crossinline action: (MyDataInputStream) -> Unit)
+    /*suspend*/ internal inline fun dataInputStreamSuspended(crossinline action: /*suspend*/ (MyDataInputStream) -> Unit)
     override fun equals(other: Any?): Boolean
 }

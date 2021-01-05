@@ -33,7 +33,7 @@ class ColumnIteratorStore3a(@JvmField val values: MyListInt) : ColumnIterator() 
             label = 0
         }
     }
-    inline fun _close() {
+    internal inline fun _close() {
         label = 0
     }
     override suspend fun close() {
