@@ -1,7 +1,7 @@
 package lupos.s15tripleStoreDistributed
 import lupos.s00misc.SanityCheck
 import lupos.s04logicalOperators.IQuery
-var distributedTripleStore: IDistributedTripleStore = object : IDistributedTripleStore {
+public var distributedTripleStore: IDistributedTripleStore = object : IDistributedTripleStore {
     override fun reloadPartitioningScheme() {
         SanityCheck.checkUnreachable()
     }

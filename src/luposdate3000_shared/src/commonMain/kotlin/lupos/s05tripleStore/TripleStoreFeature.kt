@@ -1,5 +1,5 @@
 package lupos.s05tripleStore
-enum class TripleStoreFeature {
+public enum class TripleStoreFeature {
     DEFAULT,
     PARTITION
 }

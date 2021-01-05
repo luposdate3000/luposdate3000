@@ -1,5 +1,5 @@
 package lupos.s00misc
-class XMLElementFromJson : XMLElementParser {
+public class XMLElementFromJson : XMLElementParser {
     override operator fun invoke(data: String): XMLElement {
         val nodeSparql = XMLElement("sparql").addAttribute("xmlns", "http://www.w3.org/2005/sparql-results#")
         val nodeHead = XMLElement("head")

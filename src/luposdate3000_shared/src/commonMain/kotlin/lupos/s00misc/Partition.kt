@@ -1,19 +1,19 @@
 package lupos.s00misc
-class Partition {
-    val data: MutableMap<String, Int>
-    val limit: MutableMap<String, Int>
-    companion object {
-        val estimatedPartitions1 = mutableMapOf<String, MutableSet<Int>>()
-        val estimatedPartitions2 = mutableMapOf<String, MutableSet<Int>>()
-        var estimatedPartitionsValid = false
-        var default_k: Int = 128
-        const val queue_size: Int = 1000
+public class Partition {
+   public  val data: MutableMap<String, Int>
+   public  val limit: MutableMap<String, Int>
+   public  companion object {
+        public val estimatedPartitions1: MutableMap<String, MutableSet<Int>> = mutableMapOf<String, MutableSet<Int>>()
+        public val estimatedPartitions2: MutableMap<String, MutableSet<Int>> = mutableMapOf<String, MutableSet<Int>>()
+        public var estimatedPartitionsValid: Boolean = false
+        public var default_k: Int = 128
+        public const val queue_size: Int = 1000
     }
-    constructor() {
+    public constructor() {
         data = mutableMapOf()
         limit = mutableMapOf()
     }
-    constructor(parentPartition: Partition, variableName: String, partitionNumber: Int, partitionLimit: Int) {
+public     constructor(parentPartition: Partition, variableName: String, partitionNumber: Int, partitionLimit: Int) {
         val t = mutableMapOf<String, Int>()
         for ((k, v) in parentPartition.data) {
             t[k] = v
@@ -27,7 +27,7 @@ class Partition {
         t2[variableName] = partitionLimit
         limit = t2
     }
-    constructor(parentPartition: Partition, variableName: String) {
+public    constructor(parentPartition: Partition, variableName: String) {
         val t = mutableMapOf<String, Int>()
         for ((k, v) in parentPartition.data) {
             if (k != variableName) {
@@ -45,7 +45,7 @@ class Partition {
     }
     override fun equals(other: Any?): Boolean = other is Partition && data == other.data && limit == other.limit
     override fun hashCode(): Int = data.hashCode()
-    fun toXMLElement(): XMLElement {
+    public fun toXMLElement(): XMLElement {
         val res = XMLElement("Partition") //
         for ((k, v) in limit) {
             res.addContent(XMLElement("Limit").addAttribute("name", k).addAttribute("value", "$v"))

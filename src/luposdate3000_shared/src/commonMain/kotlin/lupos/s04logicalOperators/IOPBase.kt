@@ -3,38 +3,38 @@ import lupos.s00misc.Partition
 import lupos.s00misc.SortHelper
 import lupos.s00misc.XMLElement
 import lupos.s04logicalOperators.iterator.IteratorBundle
-interface IOPBase {
-    fun replaceVariableWithAnother(node: IOPBase, name: String, name2: String): IOPBase
-    fun getClassname(): String
-    fun toSparql(): String
-    /*suspend*/ fun evaluate(parent: Partition): IteratorBundle
-    fun cloneOP(): IOPBase
-    fun getPartitionCount(variable: String): Int
-    fun getRequiredVariableNamesRecoursive(): List<String>
-    fun getRequiredVariableNames(): List<String>
-    fun getProvidedVariableNames(): List<String>
-    /*suspend*/ fun toXMLElement(): XMLElement
-    fun getLatestChild(): IOPBase
-    fun getPossibleSortPriorities(): List<List<SortHelper>>
-    fun getUUID(): Long
-    fun getChildren(): Array<IOPBase>
-    fun getMySortPriority(): MutableList<SortHelper>
-    fun setMySortPriority(value: MutableList<SortHelper>)
-    /*suspend*/ fun getHistogram(): HistogramResult
-    fun selectSortPriority(priority: List<SortHelper>)
-    fun syntaxVerifyAllVariableExists(additionalProvided: List<String> = listOf(), autocorrect: Boolean = false)
-    fun getQuery(): IQuery
-    fun applyPrefix(prefix: String, iri: String)
-    fun getChildrenCountRecoursive(): Int
-    fun getSortPriorities(): MutableList<List<SortHelper>>
-    fun setSortPriorities(value: MutableList<List<SortHelper>>)
-    fun toSparqlQuery(): String
-    fun setChild(child: IOPBase): IOPBase
-    fun updateChildren(i: Int, child: IOPBase)
-    fun initializeSortPriorities(onChange: () -> Unit): Boolean
-    fun getSortPrioritiesInitialized(): Boolean
-    fun getOnlyExistenceRequired(): Boolean
-    fun getPartOfAskQuery(): Boolean
-    fun setPartOfAskQuery(value: Boolean)
-    fun setOnlyExistenceRequired(value: Boolean)
+public interface IOPBase {
+    public fun replaceVariableWithAnother(node: IOPBase, name: String, name2: String): IOPBase
+    public fun getClassname(): String
+    public fun toSparql(): String
+    /*suspend*/ public fun evaluate(parent: Partition): IteratorBundle
+    public fun cloneOP(): IOPBase
+    public fun getPartitionCount(variable: String): Int
+    public fun getRequiredVariableNamesRecoursive(): List<String>
+    public fun getRequiredVariableNames(): List<String>
+    public fun getProvidedVariableNames(): List<String>
+    /*suspend*/ public fun toXMLElement(): XMLElement
+    public fun getLatestChild(): IOPBase
+    public fun getPossibleSortPriorities(): List<List<SortHelper>>
+    public fun getUUID(): Long
+    public fun getChildren(): Array<IOPBase>
+    public fun getMySortPriority(): MutableList<SortHelper>
+    public fun setMySortPriority(value: MutableList<SortHelper>)
+    /*suspend*/ public fun getHistogram(): HistogramResult
+    public fun selectSortPriority(priority: List<SortHelper>)
+    public fun syntaxVerifyAllVariableExists(additionalProvided: List<String> = listOf(), autocorrect: Boolean = false)
+    public fun getQuery(): IQuery
+    public fun applyPrefix(prefix: String, iri: String)
+    public fun getChildrenCountRecoursive(): Int
+    public fun getSortPriorities(): MutableList<List<SortHelper>>
+    public fun setSortPriorities(value: MutableList<List<SortHelper>>)
+    public fun toSparqlQuery(): String
+    public fun setChild(child: IOPBase): IOPBase
+    public fun updateChildren(i: Int, child: IOPBase)
+    public fun initializeSortPriorities(onChange: () -> Unit): Boolean
+    public fun getSortPrioritiesInitialized(): Boolean
+    public fun getOnlyExistenceRequired(): Boolean
+    public fun getPartOfAskQuery(): Boolean
+    public fun setPartOfAskQuery(value: Boolean)
+    public fun setOnlyExistenceRequired(value: Boolean)
 }

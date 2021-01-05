@@ -1,6 +1,6 @@
 package lupos.s04logicalOperators.iterator
-object ColumnIteratorFromRow {
-    operator fun invoke(iterator: RowIterator): Map<String, ColumnIterator> {
+public object ColumnIteratorFromRow {
+    public operator fun invoke(iterator: RowIterator): Map<String, ColumnIterator> {
         val res = mutableMapOf<String, ColumnIterator>()
         val iterators = mutableListOf<ColumnIteratorQueue>()
         for (element in iterator.columns) {

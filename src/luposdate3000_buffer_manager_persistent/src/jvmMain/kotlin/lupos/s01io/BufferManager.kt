@@ -8,16 +8,17 @@ import kotlin.contracts.InvocationKind.EXACTLY_ONCE
 import kotlin.contracts.contract
 import kotlin.jvm.JvmField
 @OptIn(kotlin.contracts.ExperimentalContracts::class)
-actual class BufferManager {
-    @JvmField val cacheSize = 100
+public actual class BufferManager {
+    @JvmField
+    public val cacheSize: Int = 100
     internal companion object {
         const val freelistfileOffsetCounter = 0L
         const val freelistfileOffsetFreeLen = 4L
         const val freelistfileOffsetData = 8L
     }
     @JvmField
-    var name: String = ""
-    actual constructor (name: String) {
+    public var name: String = ""
+    public actual constructor (name: String) {
         this.name = name
         datafile = RandomAccessFile(BufferManagerExt.bufferPrefix + name + BufferManagerExt.fileEnding, "rw")
         freelistfile = RandomAccessFile(BufferManagerExt.bufferPrefix + name + BufferManagerExt.fileEndingFree, "rw")
@@ -71,11 +72,11 @@ actual class BufferManager {
     @JvmField
     internal var freeArrayLength: Int
     @JvmField
-    val freelistfile: RandomAccessFile
+    internal val freelistfile: RandomAccessFile
     @JvmField
-    val datafile: RandomAccessFile
+  internal  val datafile: RandomAccessFile
     @JvmField
-    var datafilelength: Long
+  internal  var datafilelength: Long
     init {
         val manager = this
         BufferManagerExt.managerListLock.withWriteLock {
@@ -126,7 +127,7 @@ actual class BufferManager {
         }
         return openId
     }
-    actual /*suspend*/ fun clear(): Unit = lock.withWriteLock {
+    public actual /*suspend*/ fun clear(): Unit = lock.withWriteLock {
         counter = 0
         freelistfile.seek(freelistfileOffsetCounter)
         freelistfile.writeInt(counter)
@@ -138,7 +139,7 @@ actual class BufferManager {
             openPagesRefcounters[i] = 0
         }
     }
-    actual fun flushPage(pageid: Int) {
+    public actual fun flushPage(pageid: Int) {
         lock.withWriteLock {
             localSanityCheck()
             SanityCheck.check { pageid <counter }
@@ -165,7 +166,7 @@ actual class BufferManager {
             localSanityCheck()
         }
     }
-    actual fun releasePage(pageid: Int) {
+    public actual fun releasePage(pageid: Int) {
         lock.withWriteLock {
             localSanityCheck()
             SanityCheck.check { pageid <counter }
@@ -197,7 +198,7 @@ actual class BufferManager {
             localSanityCheck()
         }
     }
-    actual fun getPage(pageid: Int): ByteArray {
+    public actual fun getPage(pageid: Int): ByteArray {
         var openId: Int?
         lock.withWriteLock {
             localSanityCheck()
@@ -219,7 +220,7 @@ actual class BufferManager {
         }
         return openPages[openId!!]
     }
-    actual /*suspend*/ fun createPage(action: (ByteArray, Int) -> Unit) {
+    public actual /*suspend*/ fun createPage(action: (ByteArray, Int) -> Unit) {
         contract { callsInPlace(action, EXACTLY_ONCE) }
         lock.withWriteLock {
             localSanityCheck()
@@ -246,7 +247,7 @@ actual class BufferManager {
             localSanityCheck()
         }
     }
-    actual /*suspend*/ fun deletePage(pageid: Int): Unit = lock.withWriteLock {
+    public actual /*suspend*/ fun deletePage(pageid: Int): Unit = lock.withWriteLock {
         localSanityCheck()
         SanityCheck.check { pageid <counter }
         for (i in 0 until freeArrayLength) {

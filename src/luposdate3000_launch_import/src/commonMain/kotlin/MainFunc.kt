@@ -4,7 +4,7 @@ import lupos.s00misc.Parallel
 import lupos.s00misc.PartitionExt
 import lupos.s00misc.SanityCheck
 import lupos.s02buildSyntaxTree.turtle.Turtle2Parser
-fun helperCleanString(s: String): String {
+internal fun helperCleanString(s: String): String {
     var res: String = s
     while (true) {
         val match = "\\\\u[0-9a-fA-f]{4}".toRegex().find(res) ?: break
@@ -14,7 +14,7 @@ fun helperCleanString(s: String): String {
     return res
 }
 @OptIn(ExperimentalStdlibApi::class, kotlin.time.ExperimentalTime::class)
-fun mainFunc(args: Array<String>): Unit = Parallel.runBlocking {
+internal fun mainFunc(args: Array<String>): Unit = Parallel.runBlocking {
     println("importing args ${args.map { it }}")
     var cnt = 0
     val inputFileName = args[0]

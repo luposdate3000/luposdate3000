@@ -1,5 +1,5 @@
 package lupos.s00misc
-enum class ETripleComponentType {
+public enum class ETripleComponentType {
     IRI,
     BLANK_NODE,
     STRING,

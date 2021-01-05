@@ -1,16 +1,16 @@
 package lupos.s00misc
-expect class MyBigInteger {
-    constructor(s1: String)
-    constructor(s1: Int)
-    fun toDouble(): Double
-    fun toMyBigDecimal(): MyBigDecimal
-    fun compareTo(other: MyBigInteger): Int
-    operator fun plus(other: MyBigInteger): MyBigInteger
-    operator fun minus(other: MyBigInteger): MyBigInteger
-    operator fun times(other: MyBigInteger): MyBigInteger
-    operator fun div(other: MyBigInteger): MyBigInteger
-    fun abs(): MyBigInteger
-    override fun toString(): String
-    override fun equals(other: Any?): Boolean
-    override fun hashCode(): Int
+public expect class MyBigInteger {
+   public constructor(s1: String)
+  public  constructor(s1: Int)
+    public fun toDouble(): Double
+    public fun toMyBigDecimal(): MyBigDecimal
+    public fun compareTo(other: MyBigInteger): Int
+    operator public fun plus(other: MyBigInteger): MyBigInteger
+    operator public fun minus(other: MyBigInteger): MyBigInteger
+    operator public fun times(other: MyBigInteger): MyBigInteger
+    operator public fun div(other: MyBigInteger): MyBigInteger
+    public fun abs(): MyBigInteger
+    override public fun toString(): String
+    override public fun equals(other: Any?): Boolean
+    override public fun hashCode(): Int
 }

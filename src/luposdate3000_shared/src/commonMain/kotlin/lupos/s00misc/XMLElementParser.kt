@@ -1,4 +1,4 @@
 package lupos.s00misc
-interface XMLElementParser {
-    operator fun invoke(data: String): XMLElement?
+public interface XMLElementParser {
+    public operator fun invoke(data: String): XMLElement?
 }

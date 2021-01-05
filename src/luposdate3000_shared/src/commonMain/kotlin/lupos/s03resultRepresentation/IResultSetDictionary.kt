@@ -1,11 +1,11 @@
 package lupos.s03resultRepresentation
-interface IResultSetDictionary {
-    fun valueToGlobal(value: Int): Int
-    fun getValue(value: Int): ValueDefinition
-    fun createValue(value: String?): Int
-    fun createValue(value: ValueDefinition): Int
-    fun toBooleanOrError(value: Int): Int
-    fun getValue(
+public interface IResultSetDictionary {
+    public fun valueToGlobal(value: Int): Int
+    public fun getValue(value: Int): ValueDefinition
+    public fun createValue(value: String?): Int
+    public fun createValue(value: ValueDefinition): Int
+    public fun toBooleanOrError(value: Int): Int
+    public fun getValue(
         value: Int,
         onBNode: (value: Int) -> Unit,
         onBoolean: (value: Boolean) -> Unit,

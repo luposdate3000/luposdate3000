@@ -1,4 +1,4 @@
 package lupos.s00misc
-enum class EModifyType {
+public enum class EModifyType {
     INSERT, DELETE
 }

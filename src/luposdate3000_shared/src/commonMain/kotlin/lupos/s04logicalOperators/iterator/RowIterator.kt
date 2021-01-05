@@ -1,16 +1,16 @@
 package lupos.s04logicalOperators.iterator
 import kotlin.jvm.JvmField
-open class RowIterator {
+public open class RowIterator {
     @JvmField
-    var columns: Array<String> = arrayOf()
+    public var columns: Array<String> = arrayOf()
     @JvmField
-    var buf: IntArray = IntArray(0)
+    public  var buf: IntArray = IntArray(0)
     @JvmField
-    var next: /*suspend*/ () -> Int = ::_next
+    public var next: /*suspend*/ () -> Int = ::_next
     /*next returns start index in buf, or -1 otherwise*/
     @JvmField
-    var close: /*suspend*/ () -> Unit = ::_close
-    /*suspend*/ fun _close() {
+    public   var close: /*suspend*/ () -> Unit = ::_close
+    public /*suspend*/ fun _close() {
         next = ::_next
         close = ::_close
     }

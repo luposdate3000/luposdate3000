@@ -1,16 +1,16 @@
 package lupos.s00misc
-interface IMyPrintWriter {
-    fun clearBuffer()
-    override fun toString(): String
-    fun println(x: String)
-    fun print(x: String)
-    fun println(x: Boolean)
-    fun print(x: Boolean)
-    fun println(x: Int)
-    fun print(x: Int)
-    fun println(x: Double)
-    fun print(x: Double)
-    fun println()
-    fun close()
-    fun flush()
+public interface IMyPrintWriter {
+    public fun clearBuffer()
+    override public fun toString(): String
+    public fun println(x: String)
+    public fun print(x: String)
+    public fun println(x: Boolean)
+    public fun print(x: Boolean)
+    public fun println(x: Int)
+    public fun print(x: Int)
+    public fun println(x: Double)
+    public fun print(x: Double)
+    public fun println()
+    public fun close()
+    public fun flush()
 }

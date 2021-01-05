@@ -3,7 +3,7 @@ import lupos.s00misc.EvaluationException
 import lupos.s00misc.SanityCheck
 import lupos.s04logicalOperators.IQuery
 import kotlin.jvm.JvmField
-class ValueComparatorDESC(@JvmField val query: IQuery) : Comparator<Int> {
+public class ValueComparatorDESC(@JvmField public val query: IQuery) : Comparator<Int> {
     override fun compare(a: Int, b: Int): Int {
         val a1 = query.getDictionary().getValue(a)
         val b1 = query.getDictionary().getValue(b)

@@ -1,4 +1,4 @@
 package lupos.s05tripleStore
-object PersistentStoreLocalExt {
-    const val defaultGraphName: String = ""
+public object PersistentStoreLocalExt {
+    public  const val defaultGraphName: String = ""
 }

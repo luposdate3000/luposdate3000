@@ -1,5 +1,5 @@
 package lupos.s00misc
-class XMLElementFromXML : XMLElementParser {
+public class XMLElementFromXML : XMLElementParser {
     override operator fun invoke(data: String): XMLElement? {
         return parseFromXmlHelper(data)?.first()
     }

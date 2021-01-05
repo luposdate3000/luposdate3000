@@ -1,13 +1,13 @@
 package lupos.s00misc
 import kotlin.jvm.JvmField
-object OperatorGraphToLatex {
-    class StackElement(@JvmField val name: String) {
+public object OperatorGraphToLatex {
+    public  class StackElement(@JvmField public val name: String) {
         @JvmField
-        var projectionHelper: String = ""
+        public var projectionHelper: String = ""
         @JvmField
-        var partitionHelper: String = ""
+        public var partitionHelper: String = ""
         @JvmField
-        val children: MutableList<StackElement> = mutableListOf()
+        public val children: MutableList<StackElement> = mutableListOf()
         private fun getChildParallelism(): Int {
             var res = 0
             if (children.size > 0) {
@@ -65,8 +65,8 @@ object OperatorGraphToLatex {
             return res.toString()
         }
     }
-    fun coloredText(color: String, str: String): String = "\\textcolor{$color}{$str}"
-    operator fun invoke(inputString: String, caption: String? = null): String {
+    public fun coloredText(color: String, str: String): String = "\\textcolor{$color}{$str}"
+    public operator fun invoke(inputString: String, caption: String? = null): String {
         val output = StringBuilder()
         output.append("\\documentclass[tikz,border=10pt]{standalone}\n")
         output.append("\\usepackage{forest}\n")

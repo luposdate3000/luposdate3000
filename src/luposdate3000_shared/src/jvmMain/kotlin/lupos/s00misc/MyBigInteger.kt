@@ -1,47 +1,47 @@
 package lupos.s00misc
 import java.math.BigInteger
-actual class MyBigInteger {
-    val s: String
+public actual class MyBigInteger {
+    internal val s: String
     private val v: BigInteger
-    actual constructor(s1: String) {
+    public actual constructor(s1: String) {
         v = BigInteger(s1)
         s = s1
     }
-    constructor(v1: BigInteger) {
+public    constructor(v1: BigInteger) {
         v = v1
         s = v1.toString()
     }
-    actual constructor(s1: Int) {
+public    actual constructor(s1: Int) {
         v = BigInteger("" + s1)
         s = "" + s1
     }
-    actual fun toDouble(): Double {
+    actual public fun toDouble(): Double {
         return v.toDouble()
     }
-    actual fun compareTo(other: MyBigInteger): Int {
+    actual public fun compareTo(other: MyBigInteger): Int {
         return v.compareTo(other.v)
     }
-    actual operator fun plus(other: MyBigInteger): MyBigInteger {
+    actual operator public fun plus(other: MyBigInteger): MyBigInteger {
         return MyBigInteger(v.add(other.v))
     }
-    actual operator fun minus(other: MyBigInteger): MyBigInteger {
+    actual operator public fun minus(other: MyBigInteger): MyBigInteger {
         return MyBigInteger(v.subtract(other.v))
     }
-    actual operator fun times(other: MyBigInteger): MyBigInteger {
+    actual operator public fun times(other: MyBigInteger): MyBigInteger {
         return MyBigInteger(v.multiply(other.v))
     }
-    actual operator fun div(other: MyBigInteger): MyBigInteger {
+    actual operator public fun div(other: MyBigInteger): MyBigInteger {
         return MyBigInteger(v.divide(other.v))
     }
-    actual fun toMyBigDecimal(): MyBigDecimal {
+    actual public fun toMyBigDecimal(): MyBigDecimal {
         return MyBigDecimal(v.toBigDecimal())
     }
-    actual fun abs(): MyBigInteger {
+    actual public fun abs(): MyBigInteger {
         return MyBigInteger(v.abs())
     }
-    actual override fun toString(): String = s
-    actual override fun equals(other: Any?): Boolean = other is MyBigInteger && s == other.s
-    actual override fun hashCode(): Int {
+    actual override public fun toString(): String = s
+    actual override public fun equals(other: Any?): Boolean = other is MyBigInteger && s == other.s
+    actual override public fun hashCode(): Int {
         return s.hashCode()
     }
 }

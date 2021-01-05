@@ -1,8 +1,8 @@
 package lupos.s05tripleStore
 import lupos.s00misc.EIndexPattern
-interface ITripleStoreBulkImport {
-    fun getData(idx: EIndexPattern): IntArray
-    fun getIdx(): Int
-    fun insert(si: Int, pi: Int, oi: Int)
-    fun finishImport()
+public interface ITripleStoreBulkImport {
+    public fun getData(idx: EIndexPattern): IntArray
+    public fun getIdx(): Int
+    public fun insert(si: Int, pi: Int, oi: Int)
+    public fun finishImport()
 }

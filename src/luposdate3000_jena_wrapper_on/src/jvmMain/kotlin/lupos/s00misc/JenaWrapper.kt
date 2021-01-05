@@ -8,9 +8,9 @@ import org.apache.jena.sparql.algebra.optimize.Optimize
 import org.apache.jena.sparql.mgt.Explain
 import org.apache.jena.update.UpdateAction
 import java.io.ByteArrayOutputStream
-object JenaWrapper {
+public object JenaWrapper {
     private var dataset = DatasetFactory.createTxnMem()!!
-    fun dropAll() {
+    public fun dropAll() {
         updateQuery("DROP SILENT ALL")
     }
     private fun checkExceptions(queryString: String) {
@@ -81,7 +81,7 @@ object JenaWrapper {
         }
         return res
     }
-    fun loadFromFile(fileNames: String, graph: String) {
+    public fun loadFromFile(fileNames: String, graph: String) {
         var graph2 = graph
         if (!graph2.startsWith("<")) {
             graph2 = "<$graph2>"
@@ -92,7 +92,7 @@ object JenaWrapper {
         }
         updateQuery(updateString.toString())
     }
-    fun loadFromFile(fileNames: String) {
+    public fun loadFromFile(fileNames: String) {
         val updateString = StringBuilder()
         for (fileName in fileNames.split(";")) {
             updateString.append("load <file://$fileName> ;")

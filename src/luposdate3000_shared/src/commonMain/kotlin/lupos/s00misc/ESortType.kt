@@ -1,5 +1,5 @@
 package lupos.s00misc
-enum class ESortType {
+public enum class ESortType {
     ASC,
     DESC,
     FAST

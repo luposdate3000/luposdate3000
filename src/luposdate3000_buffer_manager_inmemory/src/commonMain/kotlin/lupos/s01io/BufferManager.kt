@@ -9,10 +9,12 @@ public object BufferManagerExt {
  public    fun getPageSize(): Long {
         return BUFFER_MANAGER_PAGE_SIZE_IN_BYTES
     }
-    @JvmField // dont put const val here, because it wont work when exchanging the modules
-    val isInMemoryOnly = true
-    @JvmField val initializedFromDisk = false
-    fun getBuffermanager(name: String): BufferManager {
+    @JvmField
+    public // dont put const val here, because it wont work when exchanging the modules
+    val isInMemoryOnly: Boolean = true
+    @JvmField
+    public val initializedFromDisk: Boolean = false
+    public fun getBuffermanager(name: String): BufferManager {
         var res: BufferManager? = null
         managerListLock.withWriteLock {
             res = managerList[name]
@@ -24,7 +26,7 @@ public object BufferManagerExt {
         return res!!
     }
     @JvmField
-    var bufferPrefix: String = Platform.getEnv("LUPOS_HOME", "/tmp/luposdate3000/")!!
+    public var bufferPrefix: String = Platform.getEnv("LUPOS_HOME", "/tmp/luposdate3000/")!!
     init {
         SanityCheck.println { "bufferPrefix = $bufferPrefix" }
     }
@@ -33,7 +35,7 @@ public object BufferManagerExt {
     @JvmField
     internal val managerListLock = MyReadWriteLock()
 }
-class BufferManager(@JvmField val name: String) {
+public class BufferManager(@JvmField public val name: String) {
     /*
      * each type safe page-manager safes to its own store
      * using another layer of indirection,
@@ -75,8 +77,8 @@ public    /*suspend*/ fun clear(): Unit = lock.withWriteLock {
             freeList.clear()
         }
     }
-    fun flushPage(pageid: Int) {}
-    fun releasePage(pageid: Int) {
+    public fun flushPage(pageid: Int) {}
+    public fun releasePage(pageid: Int) {
         SanityCheck.check({ allPagesRefcounters[pageid] > 0 }, { "Failed requirement pageid = $pageid" })
         allPagesRefcounters[pageid]--
         SanityCheck.println { "BufferManager.refcount($pageid) decreased a ${allPagesRefcounters[pageid]}" }

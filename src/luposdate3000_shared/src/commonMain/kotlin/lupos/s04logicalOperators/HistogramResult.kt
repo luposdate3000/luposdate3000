@@ -1,5 +1,5 @@
 package lupos.s04logicalOperators
-class HistogramResult {
-    var values: MutableMap<String, Int> = mutableMapOf()
-    var count: Int = 0
+public class HistogramResult {
+    public var values: MutableMap<String, Int> = mutableMapOf()
+    public var count: Int = 0
 }

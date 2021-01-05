@@ -24,13 +24,13 @@ internal class MyPrintWriterExtension(out: OutputStream) : MyPrintWriter(out) {
     }
 }
 @OptIn(ExperimentalStdlibApi::class)
-actual object HttpEndpointLauncher {
+public actual object HttpEndpointLauncher {
     private fun printHeaderSuccess(stream: MyPrintWriter) {
         stream.println("HTTP/1.1 200 OK")
         stream.println("Content-Type: text/plain")
         stream.println()
     }
-    actual /*suspend*/ fun start(hostname: String, port: Int) {
+    public actual /*suspend*/ fun start(hostname: String, port: Int) {
         try {
             val server = ServerSocket()
             server.bind(InetSocketAddress(hostname, port))

@@ -1,12 +1,12 @@
 package lupos.s00misc
 import kotlin.jvm.JvmField
 import kotlin.math.abs
-class XMLElement(tag: String) {
+public class XMLElement(tag: String) {
     // https://regex101.com
-    companion object {
+    public companion object {
         @JvmField
-        val parseFromAnyRegistered: MutableMap<String, XMLElementParser> = mutableMapOf()
-        fun parseBindingFromString(nodeResult: XMLElement, value: String?, name: String) {
+        public    val parseFromAnyRegistered: MutableMap<String, XMLElementParser> = mutableMapOf()
+        public   fun parseBindingFromString(nodeResult: XMLElement, value: String?, name: String) {
             val nodeBinding = XMLElement("binding").addAttribute("name", name)
             if (value != null && value != "") {
                 if (value.startsWith("\"") && !value.endsWith("\"")) {
@@ -49,17 +49,17 @@ class XMLElement(tag: String) {
         }
     }
     @JvmField
-    val attributes: MutableMap<String, String> = mutableMapOf()
+    public   val attributes: MutableMap<String, String> = mutableMapOf()
     @JvmField
-    var content: String = ""
+    public var content: String = ""
     @JvmField
-    val childs: MutableList<XMLElement> = mutableListOf()
+    public val childs: MutableList<XMLElement> = mutableListOf()
     @JvmField
-    val tag: String
+    public  val tag: String
     init {
         this.tag = decodeText(tag)
     }
-    operator fun get(key: String): XMLElement? {
+    public operator fun get(key: String): XMLElement? {
         childs.forEach {
             if (it.tag == key) {
                 return it
@@ -68,7 +68,7 @@ class XMLElement(tag: String) {
         return null
     }
     override fun equals(other: Any?): Boolean = other is XMLElement && myEqualsUnclean(other, true, true, true)
-    fun myEquals(other: XMLElement?): Boolean {
+    public  fun myEquals(other: XMLElement?): Boolean {
         if (other == null) {
             return false
         }
@@ -97,7 +97,7 @@ class XMLElement(tag: String) {
         }
         return true
     }
-    fun myEqualsUnclean(other: XMLElement?, fixStringType: Boolean, fixNumbers: Boolean, fixSortOrder: Boolean): Boolean {
+    public fun myEqualsUnclean(other: XMLElement?, fixStringType: Boolean, fixNumbers: Boolean, fixSortOrder: Boolean): Boolean {
         if (other == null) {
             return false
         }
@@ -257,11 +257,11 @@ class XMLElement(tag: String) {
         }
         return true
     }
-    fun addAttribute(name: String, value: String): XMLElement {
+    public fun addAttribute(name: String, value: String): XMLElement {
         attributes[decodeText(name)] = decodeText(value)
         return this
     }
-    fun addContentClean(s: String): XMLElement {
+    public  fun addContentClean(s: String): XMLElement {
         var res: String = s
         while (true) {
             val match = "\\\\u[0-9a-fA-f]{4}".toRegex().find(res) ?: break
@@ -271,22 +271,22 @@ class XMLElement(tag: String) {
         addContent(res)
         return this
     }
-    fun addContent(content: String): XMLElement {
+    public   fun addContent(content: String): XMLElement {
         SanityCheck.check { childs.isEmpty() }
         this.content += decodeText(content)
         return this
     }
-    fun addContent(childs: Collection<XMLElement>): XMLElement {
+    public fun addContent(childs: Collection<XMLElement>): XMLElement {
         SanityCheck.check { content.isEmpty() }
         this.childs.addAll(childs)
         return this
     }
-    fun addContent(child: XMLElement): XMLElement {
+    public  fun addContent(child: XMLElement): XMLElement {
         SanityCheck.check { content.isEmpty() }
         childs.add(child)
         return this
     }
-    fun addContent(childs: Collection<String>, childTag: String): XMLElement {
+    public  fun addContent(childs: Collection<String>, childTag: String): XMLElement {
         for (c in childs) {
             addContent(XMLElement(childTag).addContent(c).toString())
         }
@@ -336,7 +336,7 @@ class XMLElement(tag: String) {
         }
         return res
     }
-    fun toPrettyString(): String = toPrettyString("").toString()
+    public  fun toPrettyString(): String = toPrettyString("").toString()
     override fun hashCode(): Int {
         var result = attributes.hashCode()
         result = 31 * result + content.hashCode()

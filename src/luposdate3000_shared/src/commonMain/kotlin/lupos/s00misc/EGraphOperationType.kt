@@ -1,4 +1,4 @@
 package lupos.s00misc
-enum class EGraphOperationType {
+public enum class EGraphOperationType {
     CREATE, CLEAR, DROP, ADD, COPY, MOVE, LOAD
 }

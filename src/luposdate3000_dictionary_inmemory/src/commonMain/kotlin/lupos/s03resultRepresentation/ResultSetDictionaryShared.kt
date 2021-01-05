@@ -1,6 +1,6 @@
 package lupos.s03resultRepresentation
 @OptIn(ExperimentalUnsignedTypes::class)
-object ResultSetDictionaryShared {
+public object ResultSetDictionaryShared {
     /*to most significant bit leads to signed errors because toInt sadly performs a whole reencoding of the int and stores it completely different*/
     internal const val mask1 = 0x40000000/*first 2 bit*/
     internal const val mask3 = 0x30000000/*first 4 bit*/
@@ -24,5 +24,5 @@ object ResultSetDictionaryShared {
     internal const val flaggedValueGlobalFloat = 0x7C000000/*first 7 bit*/
     internal const val flaggedValueGlobalLangTagged = 0x7E000000/*first 7 bit*/
     internal const val emptyString = ""
-    fun isGlobalBNode(value: Int): Boolean = (value and mask3) == flaggedValueGlobalBnode
+    public fun isGlobalBNode(value: Int): Boolean = (value and mask3) == flaggedValueGlobalBnode
 }

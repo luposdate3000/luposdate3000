@@ -1,11 +1,11 @@
 package lupos.s04logicalOperators
 import lupos.s03resultRepresentation.IResultSetDictionary
-interface IQuery {
-    fun getDictionary(): IResultSetDictionary
-    fun checkVariableExistence(): Boolean
-    fun getWorkingDirectory(): String
-    fun setWorkingDirectory(value: String)
-    fun reset()
-    fun setCommited()
-    fun getTransactionID(): Long
+public interface IQuery {
+    public fun getDictionary(): IResultSetDictionary
+    public fun checkVariableExistence(): Boolean
+    public fun getWorkingDirectory(): String
+    public fun setWorkingDirectory(value: String)
+    public fun reset()
+    public fun setCommited()
+    public fun getTransactionID(): Long
 }

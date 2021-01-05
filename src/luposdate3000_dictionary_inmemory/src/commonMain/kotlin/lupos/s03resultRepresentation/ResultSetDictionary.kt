@@ -5,7 +5,7 @@ import lupos.s00misc.MyBigInteger
 import lupos.s00misc.SanityCheck
 import kotlin.jvm.JvmField
 @OptIn(ExperimentalUnsignedTypes::class)
-class ResultSetDictionary : IResultSetDictionary {
+public class ResultSetDictionary : IResultSetDictionary {
     internal inline fun isLocalBNode(value: Int) = (value and ResultSetDictionaryShared.mask3) == ResultSetDictionaryShared.flaggedValueLocalBnode
     @JvmField
     internal val localBnodeToInt = mutableMapOf<String, Int>()

@@ -1,5 +1,5 @@
 package lupos.s00misc
-enum class EGraphRefType {
+public enum class EGraphRefType {
     IriGraphRef,
     DefaultGraphRef,
     NamedGraphRef,

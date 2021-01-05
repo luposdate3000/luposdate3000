@@ -7,9 +7,9 @@ import lupos.s00misc.MyDataOutputStream
 import lupos.s00misc.SanityCheck
 import lupos.s01io.BufferManagerExt
 import kotlin.jvm.JvmField
-val nodeGlobalDictionary = ResultSetDictionaryGlobal()
+public val nodeGlobalDictionary: ResultSetDictionaryGlobal = ResultSetDictionaryGlobal()
 @OptIn(ExperimentalUnsignedTypes::class)
-class ResultSetDictionaryGlobal() {
+public class ResultSetDictionaryGlobal() {
     internal inline fun isLocalBNode(value: Int) = (value and ResultSetDictionaryShared.mask3) == ResultSetDictionaryShared.flaggedValueLocalBnode
     @JvmField
     internal val localBnodeToInt = mutableMapOf<String, Int>()
@@ -60,10 +60,10 @@ class ResultSetDictionaryGlobal() {
         }
         initializationphase = false
     }
-    fun importFromDictionaryFile(filename: String, mapping: IntArray) {
+    public fun importFromDictionaryFile(filename: String, mapping: IntArray) {
         importFromDictionaryFileH(filename, mapping)
     }
-    fun importFromDictionaryFile(filename: String) {
+    public fun importFromDictionaryFile(filename: String) {
         importFromDictionaryFileH(filename, null)
     }
     internal inline fun importFromDictionaryFileH(filename: String, mapping: IntArray?) {
@@ -96,7 +96,7 @@ class ResultSetDictionaryGlobal() {
             }
         }
     }
-    fun prepareBulk(total: Int, typed: IntArray) {
+    public fun prepareBulk(total: Int, typed: IntArray) {
         for (t in ETripleComponentType.values()) {
             when (t) {
                 ETripleComponentType.IRI -> {
@@ -158,7 +158,7 @@ class ResultSetDictionaryGlobal() {
             }
         }
     }
-    fun createByType(s: String, type: ETripleComponentType): Int {
+    public fun createByType(s: String, type: ETripleComponentType): Int {
         when (type) {
             ETripleComponentType.IRI -> {
                 return createIri(s)
@@ -208,7 +208,7 @@ class ResultSetDictionaryGlobal() {
             }
         }
     }
-    fun clear() {
+    public fun clear() {
         localBnodeToInt.clear()
         bNodeCounter = 5
         bnodeMapToGlobal.clear()
@@ -247,7 +247,7 @@ class ResultSetDictionaryGlobal() {
         }
         return res
     }
-    fun createNewBNode(value: String = ResultSetDictionaryShared.emptyString): Int {
+    public fun createNewBNode(value: String = ResultSetDictionaryShared.emptyString): Int {
         val res: Int
         res = (ResultSetDictionaryShared.flaggedValueGlobalBnode or (bNodeCounter++))
         appendToFile(ETripleComponentType.BLANK_NODE, value)
@@ -437,7 +437,7 @@ class ResultSetDictionaryGlobal() {
         }
         return res
     }
-    fun createValue(value: String?): Int {
+    public fun createValue(value: String?): Int {
         return createValue(ValueDefinition(value))
     }
     internal inline fun createValue(value: ValueDefinition): Int {
@@ -494,7 +494,7 @@ class ResultSetDictionaryGlobal() {
         }
         return res
     }
-    fun getValue(value: Int): ValueDefinition {
+    public fun getValue(value: Int): ValueDefinition {
         val res: ValueDefinition
         when (value and ResultSetDictionaryShared.mask3) {
             ResultSetDictionaryShared.flaggedValueLocalIri -> {

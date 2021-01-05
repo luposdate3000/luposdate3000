@@ -1,4 +1,4 @@
 package lupos.s00misc
-interface IMyInputStream {
-    fun read(buf: ByteArray): Int
+public interface IMyInputStream {
+  public   fun read(buf: ByteArray): Int
 }
