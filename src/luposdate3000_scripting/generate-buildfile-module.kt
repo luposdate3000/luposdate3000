@@ -498,7 +498,7 @@ public fun createBuildFileForModule(moduleName: String, moduleFolder: String, mo
                         if (tmp2.length > 0) {
                             val tmp3 = classNamesFound[tmp2]
                             if (tmp3 == null) {
-public classNamesFound[tmp2] = mutableSetOf(f.toString())
+ classNamesFound[tmp2] = mutableSetOf(f.toString())
                             } else {
                                 tmp3.add(f.toString())
                             }
@@ -540,13 +540,13 @@ public classNamesFound[tmp2] = mutableSetOf(f.toString())
                                 val tmp = mutableSetOf<String>()
                                 for ((k, v) in classNamesFound) {
                                     if (it.indexOf(k) >= 0) {
-public classNamesUsed[k] = v
+classNamesUsed[k] = v
                                         tmp.add(k)
                                         changed = true
                                     }
                                 }
                                 for (k in tmp) {
-public classNamesFound.remove(k)
+classNamesFound.remove(k)
                                 }
                             }
                         }

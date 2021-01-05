@@ -1,5 +1,5 @@
 package lupos.s11outputResult
-enum class EQueryResultToStream {
+public enum class EQueryResultToStream {
     DEFAULT_STREAM,
     XML_STREAM,
     EMPTY_STREAM,
