@@ -1,6 +1,7 @@
 import java.io.File
 import java.nio.file.Files
 import java.nio.file.Paths
+import kotlin.jvm.JvmName
 val separator = "([^a-zA-Z_\\{]|$|^)"
 val separatorB = "([^a-zA-Z_]|$|^)"
 val regexCoverage = "Coverage\\.[a-zA-Z]+\\s*\\(\\s*[0-9]+\\s*\\)".toRegex()

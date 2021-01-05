@@ -2,6 +2,7 @@ package lupos.s05tripleStore.index_SingleList
 import lupos.s00misc.MyListInt
 import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s04logicalOperators.iterator.ColumnIterator
+import kotlin.jvm.JvmName
 class ColumnIteratorStore3c(@JvmField val values: MyListInt) : ColumnIterator() {
     @JvmField
     var counterPrimary: Int
@@ -19,7 +20,7 @@ class ColumnIteratorStore3c(@JvmField val values: MyListInt) : ColumnIterator() 
     val it = values.iterator()
     @JvmField
     var label = 1
-    internal inline fun _close() {
+    @JvmName("_close") internal inline fun _close() {
         label = 0
     }
     override suspend fun close() {

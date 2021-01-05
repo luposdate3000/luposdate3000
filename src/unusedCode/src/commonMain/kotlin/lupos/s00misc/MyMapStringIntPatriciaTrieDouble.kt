@@ -1,5 +1,6 @@
 package lupos.s00misc
 import kotlin.jvm.JvmField
+import kotlin.jvm.JvmName
 class MyMapStringIntPatriciaTrieDouble() {
     @JvmField
     var debugfilename = ""
@@ -85,7 +86,7 @@ class MyMapStringIntPatriciaTrieDouble() {
             }
         }
     }
-    internal inline fun walkInternal(_key: String, create: Boolean): Int {
+    @JvmName("walkInternal") internal inline fun walkInternal(_key: String, create: Boolean): Int {
         if (_key == "") {
             if (create && rootValue == undefinedValue) {
                 rootValue = allOutNodes.size

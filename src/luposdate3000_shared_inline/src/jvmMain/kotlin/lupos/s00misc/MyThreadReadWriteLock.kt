@@ -2,6 +2,7 @@ package lupos.s00misc
 import java.util.concurrent.locks.ReentrantReadWriteLock
 import kotlin.contracts.InvocationKind.EXACTLY_ONCE
 import kotlin.contracts.contract
+import kotlin.jvm.JvmName
 @OptIn(kotlin.contracts.ExperimentalContracts::class)
 internal actual class MyThreadReadWriteLock {
     internal companion object {
@@ -9,27 +10,27 @@ internal actual class MyThreadReadWriteLock {
     }
     val uuid = uuidCounter++
     val lock = ReentrantReadWriteLock()
-    internal actual inline fun getUUID() = uuid
-    internal actual inline fun downgradeToReadLock() {
+    @JvmName("getUUID") internal actual inline fun getUUID() = uuid
+    @JvmName("downgradeToReadLock") internal actual inline fun downgradeToReadLock() {
         lock.readLock().lock()
         lock.writeLock().unlock()
     }
-    internal actual inline fun readLock() {
+    @JvmName("readLock") internal actual inline fun readLock() {
         lock.readLock().lock()
     }
-    internal actual inline fun readUnlock() {
+    @JvmName("readUnlock") internal actual inline fun readUnlock() {
         lock.readLock().unlock()
     }
-    internal actual inline fun writeLock() {
+    @JvmName("writeLock") internal actual inline fun writeLock() {
         lock.writeLock().lock()
     }
-    internal actual inline fun tryWriteLock(): Boolean {
+    @JvmName("tryWriteLock") internal actual inline fun tryWriteLock(): Boolean {
         return lock.writeLock().tryLock()
     }
-    internal actual inline fun writeUnlock() {
+    @JvmName("writeUnlock") internal actual inline fun writeUnlock() {
         lock.writeLock().unlock()
     }
-    internal actual inline fun <T> withReadLock(crossinline action: () -> T): T {
+    @JvmName("withReadLock") internal actual inline fun <T> withReadLock(crossinline action: () -> T): T {
         contract { callsInPlace(action, EXACTLY_ONCE) }
         readLock()
         try {
@@ -38,7 +39,7 @@ internal actual class MyThreadReadWriteLock {
             readUnlock()
         }
     }
-    internal actual inline fun <T> withWriteLock(crossinline action: () -> T): T {
+    @JvmName("withWriteLock") internal actual inline fun <T> withWriteLock(crossinline action: () -> T): T {
         contract { callsInPlace(action, EXACTLY_ONCE) }
         writeLock()
         try {

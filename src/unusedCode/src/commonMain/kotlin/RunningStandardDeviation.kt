@@ -1,4 +1,5 @@
 import kotlin.jvm.JvmField
+import kotlin.jvm.JvmName
 class RunningStandardDeviation {
     // https://www.johndcook.com/blog/standard_deviation/
     @JvmField
@@ -13,10 +14,10 @@ class RunningStandardDeviation {
     var oldS = 0.0
     @JvmField
     var newS = 0.0
-    internal inline fun clear() {
+    @JvmName("clear") internal inline fun clear() {
         n = 0
     }
-    internal inline fun push(x: Double) {
+    @JvmName("push") internal inline fun push(x: Double) {
         sum += x
         n++
         if (n == 1) {
@@ -30,19 +31,19 @@ class RunningStandardDeviation {
             oldS = newS
         }
     }
-    internal inline fun mean(): Double {
+    @JvmName("mean") internal inline fun mean(): Double {
         if (n > 0) {
             return newM
         } else {
             return 0.0
         }
     }
-    internal inline fun variance(): Double {
+    @JvmName("variance") internal inline fun variance(): Double {
         if (n > 1) {
             return newS / (n - 1)
         } else {
             return 0.0
         }
     }
-    internal inline fun standardDeviation() = Math.sqrt(variance())
+    @JvmName("standardDeviation") internal inline fun standardDeviation() = Math.sqrt(variance())
 }

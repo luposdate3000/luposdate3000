@@ -1,8 +1,9 @@
 package lupos.s00misc
+import kotlin.jvm.JvmName
 internal expect object ParallelThread {
-    internal inline fun <T> runBlocking(crossinline action: () -> T): T
-    internal inline fun launch(crossinline action: () -> Unit): ParallelThreadJob
-    internal inline fun delay(milliseconds: Long)
-    internal inline fun createCondition(): ParallelThreadCondition
-    internal inline fun <T> createQueue(terminationValue: T): ParallelThreadQueue<T>
+    @JvmName("runBlocking") internal inline fun <T> runBlocking(crossinline action: () -> T): T
+    @JvmName("launch") internal inline fun launch(crossinline action: () -> Unit): ParallelThreadJob
+    @JvmName("delay") internal inline fun delay(milliseconds: Long)
+    @JvmName("createCondition") internal inline fun createCondition(): ParallelThreadCondition
+    @JvmName("createQueue") internal inline fun <T> createQueue(terminationValue: T): ParallelThreadQueue<T>
 }

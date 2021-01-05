@@ -1,28 +1,29 @@
 package lupos.s00misc
+import kotlin.jvm.JvmName
 internal object ByteArrayHelper {
-    internal inline fun writeInt1(data: ByteArray, offset: Int, value: Int) {
+    @JvmName("writeInt1") internal inline fun writeInt1(data: ByteArray, offset: Int, value: Int) {
         data[offset] = (value and 0xFF).toByte()
         SanityCheck.check({ value == readInt1(data, offset) }, { "$value ${readInt1(data, offset)}" })
     }
-    internal inline fun writeInt2(data: ByteArray, offset: Int, value: Int) {
+    @JvmName("writeInt2") internal inline fun writeInt2(data: ByteArray, offset: Int, value: Int) {
         data[offset] = ((value shr 8) and 0xFF).toByte()
         data[offset + 1] = (value and 0xFF).toByte()
         SanityCheck.check({ value == readInt2(data, offset) }, { "$value ${readInt2(data, offset)}" })
     }
-    internal inline fun writeInt3(data: ByteArray, offset: Int, value: Int) {
+    @JvmName("writeInt3") internal inline fun writeInt3(data: ByteArray, offset: Int, value: Int) {
         data[offset] = ((value shr 16) and 0xFF).toByte()
         data[offset + 1] = ((value shr 8) and 0xFF).toByte()
         data[offset + 2] = (value and 0xFF).toByte()
         SanityCheck.check({ value == readInt3(data, offset) }, { "$value ${readInt3(data, offset)}" })
     }
-    internal inline fun writeInt4(data: ByteArray, offset: Int, value: Int) {
+    @JvmName("writeInt4") internal inline fun writeInt4(data: ByteArray, offset: Int, value: Int) {
         data[offset] = ((value shr 24) and 0xFF).toByte()
         data[offset + 1] = ((value shr 16) and 0xFF).toByte()
         data[offset + 2] = ((value shr 8) and 0xFF).toByte()
         data[offset + 3] = (value and 0xFF).toByte()
         SanityCheck.check({ value == readInt4(data, offset) }, { "$value ${readInt4(data, offset)} ${data[offset].toString(16)} ${data[offset + 1].toString(16)} ${data[offset + 2].toString(16)} ${data[offset + 3].toString(16)}" })
     }
-    internal inline fun writeIntX(data: ByteArray, offset: Int, value: Int, count: Int) {
+    @JvmName("writeIntX") internal inline fun writeIntX(data: ByteArray, offset: Int, value: Int, count: Int) {
         when (count) {
             0 -> {
             }
@@ -40,7 +41,7 @@ internal object ByteArrayHelper {
             }
         }
     }
-    internal inline fun writeLong8(data: ByteArray, offset: Int, value: Long) {
+    @JvmName("writeLong8") internal inline fun writeLong8(data: ByteArray, offset: Int, value: Long) {
         data[offset] = ((value shr 56) and 0xFF).toByte()
         data[offset + 1] = ((value shr 48) and 0xFF).toByte()
         data[offset + 2] = ((value shr 40) and 0xFF).toByte()
@@ -51,28 +52,28 @@ internal object ByteArrayHelper {
         data[offset + 7] = (value and 0xFF).toByte()
         SanityCheck.check { value == readLong8(data, offset) }
     }
-    internal inline fun writeChar(data: ByteArray, offset: Int, value: Char) {
+    @JvmName("writeChar") internal inline fun writeChar(data: ByteArray, offset: Int, value: Char) {
         val v = value.toInt()
         data[offset] = ((v shr 8) and 0xFF).toByte()
         data[offset + 1] = (v and 0xFF).toByte()
         SanityCheck.check({ v == readInt2(data, offset) }, { "$v ${readInt2(data, offset)}" })
     }
-    internal inline fun readLong8(data: ByteArray, offset: Int): Long {
+    @JvmName("readLong8") internal inline fun readLong8(data: ByteArray, offset: Int): Long {
         return (((data[offset].toLong() and 0xFF) shl 56) or ((data[offset + 1].toLong() and 0xFF) shl 48) or ((data[offset + 2].toLong() and 0xFF) shl 40) or ((data[offset + 3].toLong() and 0xFF) shl 32) or ((data[offset + 4].toLong() and 0xFF) shl 24) or ((data[offset + 5].toLong() and 0xFF) shl 16) or ((data[offset + 6].toLong() and 0xFF) shl 8) or ((data[offset + 7].toLong() and 0xFF)))
     }
-    internal inline fun readInt4(data: ByteArray, offset: Int): Int {
+    @JvmName("readInt4") internal inline fun readInt4(data: ByteArray, offset: Int): Int {
         return (((data[offset].toInt() and 0xFF) shl 24) or ((data[offset + 1].toInt() and 0xFF) shl 16) or ((data[offset + 2].toInt() and 0xFF) shl 8) or ((data[offset + 3].toInt() and 0xFF)))
     }
-    internal inline fun readInt3(data: ByteArray, offset: Int): Int {
+    @JvmName("readInt3") internal inline fun readInt3(data: ByteArray, offset: Int): Int {
         return (((data[offset].toInt() and 0xFF) shl 16) or ((data[offset + 1].toInt() and 0xFF) shl 8) or ((data[offset + 2].toInt() and 0xFF)))
     }
-    internal inline fun readInt2(data: ByteArray, offset: Int): Int {
+    @JvmName("readInt2") internal inline fun readInt2(data: ByteArray, offset: Int): Int {
         return (((data[offset].toInt() and 0xFF) shl 8) or ((data[offset + 1].toInt() and 0xFF)))
     }
-    internal inline fun readInt1(data: ByteArray, offset: Int): Int {
+    @JvmName("readInt1") internal inline fun readInt1(data: ByteArray, offset: Int): Int {
         return (data[offset].toInt() and 0xFF)
     }
-    internal inline fun readIntX(data: ByteArray, offset: Int, count: Int): Int {
+    @JvmName("readIntX") internal inline fun readIntX(data: ByteArray, offset: Int, count: Int): Int {
         when (count) {
             0 -> {
                 return 0
@@ -91,7 +92,7 @@ internal object ByteArrayHelper {
             }
         }
     }
-    internal inline fun readChar(data: ByteArray, offset: Int): Char {
+    @JvmName("readChar") internal inline fun readChar(data: ByteArray, offset: Int): Char {
         return (((data[offset].toInt() and 0xFF) shl 8) or ((data[offset + 1].toInt() and 0xFF))).toChar()
     }
 }

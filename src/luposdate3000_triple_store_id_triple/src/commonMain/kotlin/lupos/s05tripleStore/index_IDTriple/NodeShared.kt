@@ -2,27 +2,28 @@ package lupos.s05tripleStore.index_IDTriple
 import lupos.s00misc.ByteArrayHelper
 import lupos.s00misc.IntegerExt
 import lupos.s00misc.SanityCheck
+import kotlin.jvm.JvmName
 internal object NodeShared {
     const val MAX_TRIPLE_SIZE = 13
-    internal inline fun setNodeType(node: ByteArray, type: Int) {
+    @JvmName("setNodeType") internal inline fun setNodeType(node: ByteArray, type: Int) {
         ByteArrayHelper.writeInt4(node, 0, type)
     }
-    internal inline fun getNodeType(node: ByteArray): Int {
+    @JvmName("getNodeType") internal inline fun getNodeType(node: ByteArray): Int {
         return ByteArrayHelper.readInt4(node, 0)
     }
-    internal inline fun setNextNode(node: ByteArray, nextNode: Int) {
+    @JvmName("setNextNode") internal inline fun setNextNode(node: ByteArray, nextNode: Int) {
         ByteArrayHelper.writeInt4(node, 8, nextNode)
     }
-    internal inline fun getNextNode(node: ByteArray): Int {
+    @JvmName("getNextNode") internal inline fun getNextNode(node: ByteArray): Int {
         return ByteArrayHelper.readInt4(node, 8)
     }
-    internal inline fun setTripleCount(node: ByteArray, count: Int) {
+    @JvmName("setTripleCount") internal inline fun setTripleCount(node: ByteArray, count: Int) {
         ByteArrayHelper.writeInt4(node, 4, count)
     }
-    internal inline fun getTripleCount(node: ByteArray): Int {
+    @JvmName("getTripleCount") internal inline fun getTripleCount(node: ByteArray): Int {
         return ByteArrayHelper.readInt4(node, 4)
     }
-    internal inline fun decodeTripleHeader(header: Int, crossinline action: (counter0: Int, counter1: Int, counter2: Int) -> Unit) {
+    @JvmName("decodeTripleHeader") internal inline fun decodeTripleHeader(header: Int, crossinline action: (counter0: Int, counter1: Int, counter2: Int) -> Unit) {
         action(header.rem(5), (header / 5).rem(5), header / 25)
     }
     private inline fun encodeTripleHeader(counter0: Int, counter1: Int, counter2: Int, crossinline action: (header: Int) -> Unit) {
@@ -39,7 +40,7 @@ internal object NodeShared {
     private inline fun numberOfBytesUsed(value: Int): Int {
         return (((32 + 7 - IntegerExt.numberOfLeadingZeros(value))) shr 3)
     }
-    internal inline fun readTriple000(node: ByteArray, offset: Int): Int {
+    @JvmName("readTriple000") internal inline fun readTriple000(node: ByteArray, offset: Int): Int {
         val header = ByteArrayHelper.readInt1(node, offset)
         var localOff = offset + 1
         decodeTripleHeader(header) { counter0, counter1, counter2 ->
@@ -47,7 +48,7 @@ internal object NodeShared {
         }
         return localOff - offset
     }
-    internal inline fun readTriple111(node: ByteArray, offset: Int, d0: Int, d1: Int, d2: Int, crossinline action: (d0: Int, d1: Int, d2: Int) -> Unit): Int {
+    @JvmName("readTriple111") internal inline fun readTriple111(node: ByteArray, offset: Int, d0: Int, d1: Int, d2: Int, crossinline action: (d0: Int, d1: Int, d2: Int) -> Unit): Int {
         val header = ByteArrayHelper.readInt1(node, offset)
         var localOff = offset + 1
         decodeTripleHeader(header) { counter0, counter1, counter2 ->
@@ -61,7 +62,7 @@ internal object NodeShared {
         }
         return localOff - offset
     }
-    internal inline fun readTriple010(node: ByteArray, offset: Int, d1: Int, crossinline action: (d1: Int) -> Unit): Int {
+    @JvmName("readTriple010") internal inline fun readTriple010(node: ByteArray, offset: Int, d1: Int, crossinline action: (d1: Int) -> Unit): Int {
         val header = ByteArrayHelper.readInt1(node, offset)
         var localOff = offset + 1
         decodeTripleHeader(header) { counter0, counter1, counter2 ->
@@ -72,7 +73,7 @@ internal object NodeShared {
         }
         return localOff - offset
     }
-    internal inline fun readTriple001(node: ByteArray, offset: Int, d2: Int, crossinline action: (d2: Int) -> Unit): Int {
+    @JvmName("readTriple001") internal inline fun readTriple001(node: ByteArray, offset: Int, d2: Int, crossinline action: (d2: Int) -> Unit): Int {
         val header = ByteArrayHelper.readInt1(node, offset)
         var localOff = offset + 1
         decodeTripleHeader(header) { counter0, counter1, counter2 ->
@@ -83,7 +84,7 @@ internal object NodeShared {
         }
         return localOff - offset
     }
-    internal inline fun readTriple100(node: ByteArray, offset: Int, d0: Int, crossinline action: (d0: Int) -> Unit): Int {
+    @JvmName("readTriple100") internal inline fun readTriple100(node: ByteArray, offset: Int, d0: Int, crossinline action: (d0: Int) -> Unit): Int {
         val header = ByteArrayHelper.readInt1(node, offset)
         var localOff = offset + 1
         decodeTripleHeader(header) { counter0, counter1, counter2 ->
@@ -93,7 +94,7 @@ internal object NodeShared {
         }
         return localOff - offset
     }
-    internal inline fun readTriple110(node: ByteArray, offset: Int, d0: Int, d1: Int, crossinline action: (d0: Int, d1: Int) -> Unit): Int {
+    @JvmName("readTriple110") internal inline fun readTriple110(node: ByteArray, offset: Int, d0: Int, d1: Int, crossinline action: (d0: Int, d1: Int) -> Unit): Int {
         val header = ByteArrayHelper.readInt1(node, offset)
         var localOff = offset + 1
         decodeTripleHeader(header) { counter0, counter1, counter2 ->
@@ -105,7 +106,7 @@ internal object NodeShared {
         }
         return localOff - offset
     }
-    internal inline fun readTriple101(node: ByteArray, offset: Int, d0: Int, d2: Int, crossinline action: (d0: Int, d2: Int) -> Unit): Int {
+    @JvmName("readTriple101") internal inline fun readTriple101(node: ByteArray, offset: Int, d0: Int, d2: Int, crossinline action: (d0: Int, d2: Int) -> Unit): Int {
         val header = ByteArrayHelper.readInt1(node, offset)
         var localOff = offset + 1
         decodeTripleHeader(header) { counter0, counter1, counter2 ->
@@ -117,7 +118,7 @@ internal object NodeShared {
         }
         return localOff - offset
     }
-    internal inline fun writeTriple(node: ByteArray, offset: Int, l: IntArray, d: IntArray): Int {
+    @JvmName("writeTriple") internal inline fun writeTriple(node: ByteArray, offset: Int, l: IntArray, d: IntArray): Int {
         val b0 = l[0] xor d[0]
         val b1 = l[1] xor d[1]
         val b2 = l[2] xor d[2]

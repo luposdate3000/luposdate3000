@@ -11,6 +11,7 @@ import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s09physicalOperators.POPBase
 import kotlin.jvm.JvmField
+import kotlin.jvm.JvmName
 class POPLimit(query: IQuery, projectedVariables: List<String>, @JvmField val limit: Int, child: IOPBase) : POPBase(query, projectedVariables, EOperatorID.POPLimitID, "POPLimit", arrayOf(child), ESortPriority.SAME_AS_CHILD) {
     override fun getPartitionCount(variable: String): Int {
         SanityCheck.check { children[0].getPartitionCount(variable) == 1 }
@@ -50,7 +51,7 @@ class POPLimit(query: IQuery, projectedVariables: List<String>, @JvmField val li
                         ResultSetDictionaryExt.nullValue
                     }
                 }
-                /*suspend*/ internal inline fun _close() {
+                /*suspend*/ @JvmName("_close") internal inline fun _close() {
                     if (label != 0) {
                         label = 0
                         iterator.close()

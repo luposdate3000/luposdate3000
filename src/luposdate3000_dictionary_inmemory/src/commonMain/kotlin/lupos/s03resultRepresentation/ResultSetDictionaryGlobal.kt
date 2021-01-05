@@ -7,10 +7,11 @@ import lupos.s00misc.MyDataOutputStream
 import lupos.s00misc.SanityCheck
 import lupos.s01io.BufferManagerExt
 import kotlin.jvm.JvmField
+import kotlin.jvm.JvmName
 val nodeGlobalDictionary = ResultSetDictionaryGlobal()
 @OptIn(ExperimentalUnsignedTypes::class)
 class ResultSetDictionaryGlobal() {
-    internal inline fun isLocalBNode(value: Int) = (value and ResultSetDictionaryShared.mask3) == ResultSetDictionaryShared.flaggedValueLocalBnode
+    @JvmName("isLocalBNode") internal inline fun isLocalBNode(value: Int) = (value and ResultSetDictionaryShared.mask3) == ResultSetDictionaryShared.flaggedValueLocalBnode
     @JvmField
     internal val localBnodeToInt = mutableMapOf<String, Int>()
     @JvmField
@@ -66,7 +67,7 @@ class ResultSetDictionaryGlobal() {
     fun importFromDictionaryFile(filename: String) {
         importFromDictionaryFileH(filename, null)
     }
-    internal inline fun importFromDictionaryFileH(filename: String, mapping: IntArray?) {
+    @JvmName("importFromDictionaryFileH") internal inline fun importFromDictionaryFileH(filename: String, mapping: IntArray?) {
         val fileDictionary = File(filename)
         var buffer = ByteArray(0)
         var mappingIdx = 0
@@ -229,7 +230,7 @@ class ResultSetDictionaryGlobal() {
         outputDictionaryFile = File(BufferManagerExt.bufferPrefix + "dictionary.data").openDataOutputStream(false)
         outputDictionaryFile.flush()
     }
-    internal inline fun toBooleanOrError(value: Int): Int {
+    @JvmName("toBooleanOrError") internal inline fun toBooleanOrError(value: Int): Int {
         var res: Int = ResultSetDictionaryExt.errorValue
         if (value < ResultSetDictionaryExt.undefValue && value >= 0) {
             res = value
@@ -253,7 +254,7 @@ class ResultSetDictionaryGlobal() {
         appendToFile(ETripleComponentType.BLANK_NODE, value)
         return res
     }
-    internal inline fun appendToFile(type: ETripleComponentType, data: String) {
+    @JvmName("appendToFile") internal inline fun appendToFile(type: ETripleComponentType, data: String) {
         if (!BufferManagerExt.isInMemoryOnly && !initializationphase) {
             val tmp = data.encodeToByteArray()
             byteBuf[0] = type.ordinal.toByte()
@@ -263,7 +264,7 @@ class ResultSetDictionaryGlobal() {
             outputDictionaryFile.flush()
         }
     }
-    internal inline fun createIri(iri: String): Int {
+    @JvmName("createIri") internal inline fun createIri(iri: String): Int {
         var res: Int
         val tmp3 = iriToInt[iri]
         if (tmp3 == null) {
@@ -284,7 +285,7 @@ class ResultSetDictionaryGlobal() {
         }
         return res
     }
-    internal inline fun createLangTagged(content: String, lang: String): Int {
+    @JvmName("createLangTagged") internal inline fun createLangTagged(content: String, lang: String): Int {
         var res: Int
         val key = "$lang@$content"
         val tmp3 = langTaggedToInt[key]
@@ -306,7 +307,7 @@ class ResultSetDictionaryGlobal() {
         }
         return res
     }
-    internal inline fun createTyped(content: String, type: String): Int {
+    @JvmName("createTyped") internal inline fun createTyped(content: String, type: String): Int {
         var res: Int
         when (type) {
             "http://www.w3.org/2001/XMLSchema#integer" -> {
@@ -351,7 +352,7 @@ class ResultSetDictionaryGlobal() {
         }
         return res
     }
-    internal inline fun createDouble(value: Double): Int {
+    @JvmName("createDouble") internal inline fun createDouble(value: Double): Int {
         var res: Int
         val tmp3 = doubleToInt[value]
         if (tmp3 == null) {
@@ -372,7 +373,7 @@ class ResultSetDictionaryGlobal() {
         }
         return res
     }
-    internal inline fun createFloat(value: Double): Int {
+    @JvmName("createFloat") internal inline fun createFloat(value: Double): Int {
         var res: Int
         val tmp3 = floatToInt[value]
         if (tmp3 == null) {
@@ -393,7 +394,7 @@ class ResultSetDictionaryGlobal() {
         }
         return res
     }
-    internal inline fun createDecimal(value2: MyBigDecimal): Int {
+    @JvmName("createDecimal") internal inline fun createDecimal(value2: MyBigDecimal): Int {
         val value = value2.toString()
         var res: Int
         val tmp3 = decimalToInt[value]
@@ -415,7 +416,7 @@ class ResultSetDictionaryGlobal() {
         }
         return res
     }
-    internal inline fun createInteger(value2: MyBigInteger): Int {
+    @JvmName("createInteger") internal inline fun createInteger(value2: MyBigInteger): Int {
         val value = value2.toString()
         var res: Int
         val tmp3 = intToInt[value]
@@ -440,7 +441,7 @@ class ResultSetDictionaryGlobal() {
     fun createValue(value: String?): Int {
         return createValue(ValueDefinition(value))
     }
-    internal inline fun createValue(value: ValueDefinition): Int {
+    @JvmName("createValue") internal inline fun createValue(value: ValueDefinition): Int {
         val res: Int
         when (value) {
             is ValueUndef -> {
@@ -557,7 +558,7 @@ class ResultSetDictionaryGlobal() {
         }
         return res
     }
-    internal inline fun getValue(
+    @JvmName("getValue") internal inline fun getValue(
         value: Int,
         onBNode: (value: Int) -> Unit,
         onBoolean: (value: Boolean) -> Unit,
@@ -627,7 +628,7 @@ class ResultSetDictionaryGlobal() {
             }
         }
     }
-    internal inline fun valueToGlobal(value: Int): Int {
+    @JvmName("valueToGlobal") internal inline fun valueToGlobal(value: Int): Int {
         val res: Int
         if ((value and ResultSetDictionaryShared.mask1) == ResultSetDictionaryShared.mask1) {
             res = value

@@ -4,6 +4,7 @@ import java.io.File
 import java.io.RandomAccessFile
 import java.lang.reflect.Method
 import kotlin.jvm.JvmField
+import kotlin.jvm.JvmName
 typealias Page = UnsafePage
 inline fun createString(chars: CharArray): String = String(chars)
 // memory mapped file and unsafe api:
@@ -76,14 +77,14 @@ class CachedFile {
         // ch.close()
         return result
     }
-    internal inline fun close() {
+    @JvmName("close") internal inline fun close() {
         this.file.close()
     }
-    internal inline fun get(address: Long): Page {
+    @JvmName("get") internal inline fun get(address: Long): Page {
         val pageOffset = mapAndGetOffset(address)
         return UnsafePage(pageOffset, { unmmap.invoke(null, pageOffset, PAGESIZE) })
     }
-    internal inline fun write(address: Long, page: Page) {
+    @JvmName("write") internal inline fun write(address: Long, page: Page) {
         // it is already written because technically it is a memory mapped file!
     }
 }

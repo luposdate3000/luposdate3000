@@ -28,6 +28,7 @@ import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.noinput.OPEmptyRow
 import lupos.s09physicalOperators.POPBase
 import kotlin.jvm.JvmField
+import kotlin.jvm.JvmName
 // TODO refactor such that the optimizer may choose which strategy to use
 class POPGroup : POPBase {
     override fun getPossibleSortPriorities(): List<List<SortHelper>> {
@@ -303,7 +304,7 @@ class POPGroup : POPBase {
                             override /*suspend*/ fun close() {
                                 __close()
                             }
-                            /*suspend*/ internal inline fun __close() {
+                            /*suspend*/ @JvmName("__close") internal inline fun __close() {
                                 if (label != 0) {
                                     ColumnIteratorQueueExt._close(this)
                                     for (element in keyColumns) {

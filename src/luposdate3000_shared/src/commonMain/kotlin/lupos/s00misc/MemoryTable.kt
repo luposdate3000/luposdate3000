@@ -1,11 +1,12 @@
 package lupos.s00misc
 import lupos.s04logicalOperators.IQuery
+import kotlin.jvm.JvmName
 class MemoryTable(val columns: Array<String>) {
     val data: MutableList<IntArray> = mutableListOf()
     var booleanResult: Boolean? = null
     var query: IQuery? = null
     companion object {
-        internal inline operator fun invoke(a: MemoryTable, b: MemoryTable): MemoryTable {
+        @JvmName("invoke") internal inline operator fun invoke(a: MemoryTable, b: MemoryTable): MemoryTable {
             if (a.columns.size != b.columns.size) {
                 throw Exception("incompatible input")
             }

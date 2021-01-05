@@ -7,6 +7,7 @@ import java.util.Arrays
 import kotlin.contracts.InvocationKind.EXACTLY_ONCE
 import kotlin.contracts.contract
 import kotlin.jvm.JvmField
+import kotlin.jvm.JvmName
 @OptIn(kotlin.contracts.ExperimentalContracts::class)
 actual class BufferManager {
     @JvmField val cacheSize = 100
@@ -82,7 +83,7 @@ actual class BufferManager {
             BufferManagerExt.managerList[name] = manager
         }
     }
-    internal inline fun localSanityCheck() {
+    @JvmName("localSanityCheck") internal inline fun localSanityCheck() {
         SanityCheck {
             var cntg = 0
             for (i in 0 until cacheSize) {
@@ -111,7 +112,7 @@ actual class BufferManager {
             }
         }
     }
-    internal inline fun findNextOpenID(): Int {
+    @JvmName("findNextOpenID") internal inline fun findNextOpenID(): Int {
         // this assumes write lock
         var openId = 0
         while (openId <cacheSize) {

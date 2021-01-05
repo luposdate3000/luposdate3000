@@ -11,28 +11,29 @@ import kotlin.coroutines.intrinsics.COROUTINE_SUSPENDED
 import kotlin.coroutines.intrinsics.suspendCoroutineUninterceptedOrReturn
 import kotlin.coroutines.resume
 import kotlin.jvm.JvmField
+import kotlin.jvm.JvmName
 typealias ParallelJob = Job
 object Parallel {
-    internal inline fun <T> runBlocking(crossinline action: suspend () -> T): T {
+    @JvmName("runBlocking") internal inline fun <T> runBlocking(crossinline action: suspend () -> T): T {
         return kotlinx.coroutines.runBlocking {
             action()
         }
     }
-    internal inline fun launch(crossinline action: suspend () -> Unit): ParallelJob {
+    @JvmName("launch") internal inline fun launch(crossinline action: suspend () -> Unit): ParallelJob {
         return GlobalScope.launch(Dispatchers.Default) {
             action()
         }
     }
-    internal suspend inline fun delay(milliseconds: Long) {
+    @JvmName("delay") internal suspend inline fun delay(milliseconds: Long) {
         kotlinx.coroutines.delay(milliseconds)
     }
-    internal inline fun createMutex() = Mutex()
-    internal inline fun createCondition(lock: Lock) = ParallelCondition(lock)
-    internal inline fun <T> createQueue(terminationValue: T) = ParallelQueue<T>()
+    @JvmName("createMutex") internal inline fun createMutex() = Mutex()
+    @JvmName("createCondition") internal inline fun createCondition(lock: Lock) = ParallelCondition(lock)
+    @JvmName("createQueue") internal inline fun <T> createQueue(terminationValue: T) = ParallelQueue<T>()
     class ParallelCondition(@JvmField val lock: Lock) {
         @JvmField
         var cont: Continuation<Unit>? = null
-        internal suspend inline fun waitCondition(crossinline condition: () -> Boolean) {
+        @JvmName("waitCondition") internal suspend inline fun waitCondition(crossinline condition: () -> Boolean) {
             lock.lock()
             if (condition()) {
                 suspendCoroutineUninterceptedOrReturn { continuation: Continuation<Unit> ->
@@ -44,7 +45,7 @@ object Parallel {
                 lock.unlock()
             }
         }
-        internal suspend inline fun signal() {
+        @JvmName("signal") internal suspend inline fun signal() {
             val tmp = cont
             if (tmp != null) {
                 lock.lock()
@@ -60,13 +61,13 @@ object Parallel {
     class ParallelQueue<T>() {
         @JvmField
         val queue = Channel<T>(2)
-        internal inline fun close() {
+        @JvmName("close") internal inline fun close() {
             queue.close()
         }
-        internal suspend inline fun send(value: T) {
+        @JvmName("send") internal suspend inline fun send(value: T) {
             queue.send(value)
         }
-        internal suspend inline fun receive(): T {
+        @JvmName("receive") internal suspend inline fun receive(): T {
             return queue.receive()
         }
     }

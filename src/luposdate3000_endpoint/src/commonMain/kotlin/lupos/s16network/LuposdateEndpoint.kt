@@ -40,6 +40,7 @@ import lupos.s14endpoint.convertToOPBase
 import lupos.s15tripleStoreDistributed.DistributedTripleStore
 import lupos.s15tripleStoreDistributed.distributedTripleStore
 import kotlin.js.JsName
+import kotlin.jvm.JvmName
 /*
  * This is the interface of the database
  * Do not overload any function here - because that would yield bad function names in the exported headers.
@@ -57,7 +58,7 @@ object LuposdateEndpoint {
         }
         return res
     }
-    internal fun helperImportRaw(dict: MutableMap<String, Int>, v: String): Int {
+    @JvmName("helperImportRaw") internal fun helperImportRaw(dict: MutableMap<String, Int>, v: String): Int {
         val v2 = helperCleanString(v)
         val res: Int
         if (v2.startsWith("_:")) {

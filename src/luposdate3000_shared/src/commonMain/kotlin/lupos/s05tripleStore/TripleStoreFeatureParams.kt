@@ -7,9 +7,10 @@ import lupos.s04arithmetikOperators.IAOPBase
 import lupos.s04arithmetikOperators.noinput.IAOPConstant
 import lupos.s04arithmetikOperators.noinput.IAOPVariable
 import lupos.s04logicalOperators.IQuery
+import kotlin.jvm.JvmName
 sealed class TripleStoreFeatureParams(val feature: TripleStoreFeature, val params: Array<IAOPBase>) {
     abstract fun chooseData(data: IntArray, featureRange: Pair<Int, Int>, params: TripleStoreFeatureParams): Int
-    internal fun myToStringHelper(n: IAOPBase): String {
+    @JvmName("myToStringHelper") internal fun myToStringHelper(n: IAOPBase): String {
         return when (n) {
             is IAOPVariable -> {
                 n.getName()

@@ -1,9 +1,10 @@
 package lupos.s04logicalOperators.iterator
 import lupos.s03resultRepresentation.ResultSetDictionaryExt
 import kotlin.jvm.JvmField
+import kotlin.jvm.JvmName
 class ColumnIteratorValue : ColumnIterator() {
     companion object {
-        internal inline operator fun invoke(value: Int): ColumnIteratorValue {
+        @JvmName("invoke") internal inline operator fun invoke(value: Int): ColumnIteratorValue {
             val res = ColumnIteratorValue()
             res.value = value
             res.done = false

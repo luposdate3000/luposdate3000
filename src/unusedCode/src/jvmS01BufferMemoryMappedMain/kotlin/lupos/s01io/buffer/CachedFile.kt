@@ -3,6 +3,7 @@ import java.io.File
 import java.io.RandomAccessFile
 import java.nio.channels.FileChannel
 import kotlin.jvm.JvmField
+import kotlin.jvm.JvmName
 // problems unmap:
 // see e.g.: https://stackoverflow.com/questions/2972986
 // furthermore, memory mapped file and unsafe api:
@@ -21,16 +22,16 @@ class CachedFile {
         }
         this.file = RandomAccessFile(File(filename), "rw")
     }
-    internal inline fun close() {
+    @JvmName("close") internal inline fun close() {
         this.file.close()
     }
-    internal inline fun get(address: Long): Page {
+    @JvmName("get") internal inline fun get(address: Long): Page {
         return MappedByteBufferPage(
             this.file.getChannel()
                 .map(FileChannel.MapMode.READ_WRITE, address, PAGESIZE)
         )
     }
-    internal inline fun write(address: Long, page: Page) {
+    @JvmName("write") internal inline fun write(address: Long, page: Page) {
         // it is already written by using put-methods of MappedByteBuffer
     }
 }

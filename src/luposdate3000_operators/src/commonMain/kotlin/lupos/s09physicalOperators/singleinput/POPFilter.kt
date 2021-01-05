@@ -13,6 +13,7 @@ import lupos.s04logicalOperators.iterator.ColumnIteratorQueue
 import lupos.s04logicalOperators.iterator.ColumnIteratorQueueExt
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s09physicalOperators.POPBase
+import kotlin.jvm.JvmName
 class POPFilter(query: IQuery, projectedVariables: List<String>, filter: AOPBase, child: IOPBase) : POPBase(query, projectedVariables, EOperatorID.POPFilterID, "POPFilter", arrayOf(child, filter), ESortPriority.SAME_AS_CHILD) {
     override fun getPartitionCount(variable: String): Int = children[0].getPartitionCount(variable)
     override fun toSparql(): String {
@@ -46,7 +47,7 @@ class POPFilter(query: IQuery, projectedVariables: List<String>, filter: AOPBase
                     override /*suspend*/ fun close() {
                         __close()
                     }
-                    /*suspend*/ internal inline fun __close() {
+                    /*suspend*/ @JvmName("__close") internal inline fun __close() {
                         if (label != 0) {
                             ColumnIteratorQueueExt._close(this)
                             SanityCheck.println { "POPFilterXXX$uuid close E $classname" }

@@ -1,5 +1,6 @@
 package lupos.s01io.buffer
 import kotlin.jvm.JvmField
+import kotlin.jvm.JvmName
 inline fun Int.toBytes(bytes: ByteArray, offset: Int): Int {
     bytes[offset] = this.toByte()
     val remaining1 = this ushr 8
@@ -91,14 +92,14 @@ class ByteArrayPage {
     @JvmField
     var modified = false
     constructor()
-    internal inline fun getInt(address: Long): Int {
+    @JvmName("getInt") internal inline fun getInt(address: Long): Int {
         val adr = address.toInt()
         return (0xFF and byteArray[adr].toInt()) or ((0xFF and byteArray[adr + 1].toInt()) or ((0xFF and byteArray[adr + 2].toInt()) or ((0xFF and byteArray[adr + 3].toInt()) shl 8) shl 8) shl 8)
     }
-    internal inline fun getByte(address: Long): Byte {
+    @JvmName("getByte") internal inline fun getByte(address: Long): Byte {
         return this.byteArray[address.toInt()]
     }
-    internal inline fun putInt(address: Long, data: Int) {
+    @JvmName("putInt") internal inline fun putInt(address: Long, data: Int) {
         this.modified = true
         val adr0 = address.toInt()
         this.byteArray[adr0] = data.toByte()
@@ -112,11 +113,11 @@ class ByteArrayPage {
         val adr3 = adr2 + 1
         this.byteArray[adr3] = remaining3.toByte()
     }
-    internal inline fun putByte(address: Long, data: Byte) {
+    @JvmName("putByte") internal inline fun putByte(address: Long, data: Byte) {
         this.modified = true
         this.byteArray[address.toInt()] = data
     }
-    internal inline fun putString(address: Long, data: String): Long {
+    @JvmName("putString") internal inline fun putString(address: Long, data: String): Long {
         this.modified = true
         val size = data.length
         this.putInt(address, size)
@@ -130,16 +131,16 @@ class ByteArrayPage {
         }
         return pos
     }
-    internal inline fun getPageIndex(): Long = 0L
-    internal inline fun lock() {
+    @JvmName("getPageIndex") internal inline fun getPageIndex(): Long = 0L
+    @JvmName("lock") internal inline fun lock() {
         this.locked++
     }
-    internal inline fun unlock() {
+    @JvmName("unlock") internal inline fun unlock() {
         this.locked--
     }
-    internal inline fun isLocked(): Boolean {
+    @JvmName("isLocked") internal inline fun isLocked(): Boolean {
         return this.locked > 0
     }
-    internal inline fun release() {}
-    internal inline fun isModified() = this.modified
+    @JvmName("release") internal inline fun release() {}
+    @JvmName("isModified") internal inline fun isModified() = this.modified
 }

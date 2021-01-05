@@ -1,5 +1,6 @@
 package lupos.s02buildSyntaxTree.sparql1_1
 import kotlin.jvm.JvmField
+import kotlin.jvm.JvmName
 abstract class ASTNode(@JvmField val children: Array<ASTNode>) {
     companion object {
         private var global_uuid = 0L
@@ -31,7 +32,7 @@ abstract class ASTNode(@JvmField val children: Array<ASTNode>) {
         }
         return result
     }
-    internal inline fun <T> getChildrensValues(visitor: Visitor<T>): List<T> {
+    @JvmName("getChildrensValues") internal inline fun <T> getChildrensValues(visitor: Visitor<T>): List<T> {
         return List(children.size) { children[it].visit(visitor) }
     }
     open fun <T> visit(visitor: Visitor<T>): T {

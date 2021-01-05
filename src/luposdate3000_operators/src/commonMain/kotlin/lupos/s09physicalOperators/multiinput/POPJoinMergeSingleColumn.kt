@@ -12,6 +12,7 @@ import lupos.s04logicalOperators.iterator.ColumnIteratorEmpty
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s09physicalOperators.POPBase
 import kotlin.jvm.JvmField
+import kotlin.jvm.JvmName
 class POPJoinMergeSingleColumn(query: IQuery, projectedVariables: List<String>, childA: IOPBase, childB: IOPBase, @JvmField val optional: Boolean) : POPBase(query, projectedVariables, EOperatorID.POPJoinMergeSingleColumnID, "POPJoinMergeSingleColumn", arrayOf(childA, childB), ESortPriority.JOIN) {
     override fun getPartitionCount(variable: String): Int {
         return if (children[0].getProvidedVariableNames().contains(variable)) {
@@ -125,7 +126,7 @@ class POPJoinMergeSingleColumn(query: IQuery, projectedVariables: List<String>, 
                 }
             }
         }
-        /*suspend*/ internal inline fun _close() {
+        /*suspend*/ @JvmName("_close") internal inline fun _close() {
             if (label != 0) {
                 label = 0
                 SanityCheck.println { "\$uuid close ColumnIteratorJoinMergeSingleColumn" }

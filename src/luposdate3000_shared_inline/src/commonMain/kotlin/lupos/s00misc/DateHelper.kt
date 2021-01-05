@@ -1,9 +1,10 @@
 package lupos.s00misc
+import kotlin.jvm.JvmName
 internal expect class DateHelper() {
-    internal inline fun year(): Int
-    internal inline fun month(): Int
-    internal inline fun day(): Int
-    internal inline fun hours(): Int
-    internal inline fun minutes(): Int
-    internal inline fun seconds(): Int
+    @JvmName("year") internal inline fun year(): Int
+    @JvmName("month") internal inline fun month(): Int
+    @JvmName("day") internal inline fun day(): Int
+    @JvmName("hours") internal inline fun hours(): Int
+    @JvmName("minutes") internal inline fun minutes(): Int
+    @JvmName("seconds") internal inline fun seconds(): Int
 }

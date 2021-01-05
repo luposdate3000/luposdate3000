@@ -1,11 +1,12 @@
 package lupos.s01io.buffer
 import lupos.s00misc.SanityCheck
+import kotlin.jvm.JvmName
 class OnePageBenchmark {
     val page: Page = bufferManager.getPage("tmp/test", 0)
     val page1: Page = bufferManager.getPage("tmp/test", 1)
     val offset: Long = page.getPageIndex()
     val offset1: Long = page1.getPageIndex()
-    internal inline fun writeOnePage() {
+    @JvmName("writeOnePage") internal inline fun writeOnePage() {
         val page2 = page
         var adr = offset
         val endAdr = offset + (8 * 1024 / 4)
@@ -15,14 +16,14 @@ class OnePageBenchmark {
         }
         bufferManager.writeAllModifiedPages()
     }
-    internal inline fun writeOnePageString() {
+    @JvmName("writeOnePageString") internal inline fun writeOnePageString() {
         val page2 = page1
         var adr = offset1
         val endAdr = offset1 + (8 * 1024 / 4)
         val adr2 = page2.putString(adr, "abc")
         bufferManager.writeAllModifiedPages()
     }
-    internal inline fun readOnePage() {
+    @JvmName("readOnePage") internal inline fun readOnePage() {
         var adr = offset
         val endAdr = offset + (8 * 1024 / 4)
         while (adr < endAdr) {
@@ -30,15 +31,15 @@ class OnePageBenchmark {
             adr += 4
         }
     }
-    internal inline fun readOnePageString() {
+    @JvmName("readOnePageString") internal inline fun readOnePageString() {
         var adr = offset1
         val endAdr = offset1 + (8 * 1024 / 4)
         val s = page1.getString(adr)
     }
-    internal inline fun release() {
+    @JvmName("release") internal inline fun release() {
         page.release()
     }
-    internal inline fun run(measure: (() -> Unit) -> Long) {
+    @JvmName("run") internal inline fun run(measure: (() -> Unit) -> Long) {
         var timeForWrite = 0L
         var timeForWriteString = 0L
         var timeForRead = 0L

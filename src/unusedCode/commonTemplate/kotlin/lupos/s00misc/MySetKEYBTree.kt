@@ -1,4 +1,5 @@
 package lupos.s00misc
+import kotlin.jvm.JvmName
 class MySetKEYBTreeGDEF() {
     companion object {
         var debughelperUUID = 0

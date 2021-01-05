@@ -1,13 +1,14 @@
 package lupos.s04logicalOperators.iterator
 import lupos.s03resultRepresentation.ResultSetDictionaryExt
+import kotlin.jvm.JvmName
 internal object ColumnIteratorQueueExt {
-    internal inline fun _close(it: ColumnIteratorQueue) {
+    @JvmName("_close") internal inline fun _close(it: ColumnIteratorQueue) {
         if (it.label != 0) {
             it.label = 0
             it.queue.clear()
         }
     }
-    /*suspend*/ internal inline fun nextHelper(it: ColumnIteratorQueue, crossinline onEmptyQueue: /*suspend*/ () -> Unit, crossinline onClose: /*suspend*/ () -> Unit): Int {
+    /*suspend*/ @JvmName("nextHelper") internal inline fun nextHelper(it: ColumnIteratorQueue, crossinline onEmptyQueue: /*suspend*/ () -> Unit, crossinline onClose: /*suspend*/ () -> Unit): Int {
         when (it.label) {
             1 -> {
                 return if (it.queue.size == 0) {
@@ -35,7 +36,7 @@ internal object ColumnIteratorQueueExt {
             }
         }
     }
-    internal inline fun closeOnEmptyQueue(it: ColumnIteratorQueue) {
+    @JvmName("closeOnEmptyQueue") internal inline fun closeOnEmptyQueue(it: ColumnIteratorQueue) {
         if (it.label != 0) {
             it.label = 2
         }

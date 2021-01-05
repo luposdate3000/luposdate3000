@@ -1,4 +1,5 @@
 package lupos.s00misc
+import kotlin.jvm.JvmName
 /* Substitutions :: KEY,VALUE,GDEF,GUSEKV,GUSEK,GUSEV,KNAME,VNAME */
 class MyMapKNAMEVNAMEBinaryTreeGDEF() {
     @JvmField
@@ -7,22 +8,22 @@ class MyMapKNAMEVNAMEBinaryTreeGDEF() {
     var values = MyListVNAMEGUSEV()
     var size: Int = 0
         get() = keys.size
-    internal inline fun reserve(capacity: Int) {
+    @JvmName("reserve") internal inline fun reserve(capacity: Int) {
         keys.reserve(capacity)
         values.reserve(capacity)
     }
     constructor(data: Pair<KEY, VALUE>) : this() {
         set(data.first, data.second)
     }
-    internal inline operator fun get(key: KEY): VALUE? {
+    @JvmName("get") internal inline operator fun get(key: KEY): VALUE? {
         var res: VALUE? = null
         keys.find(key, { res = values[it] })
         return res
     }
-    internal inline operator fun set(key: KEY, value: VALUE) {
+    @JvmName("set") internal inline operator fun set(key: KEY, value: VALUE) {
         keys.add(key, { values.add(it, value) }, { values[it] = value })
     }
-    internal inline fun getOrCreate(key: KEY, crossinline onCreate: () -> VALUE): VALUE {
+    @JvmName("getOrCreate") internal inline fun getOrCreate(key: KEY, crossinline onCreate: () -> VALUE): VALUE {
         var value: VALUE? = null
         keys.add(
             key,
@@ -46,8 +47,8 @@ class MyMapKNAMEVNAMEBinaryTreeGDEF() {
         keys.clear()
         values.clear()
     }
-    internal inline fun iterator() = MyMapKNAMEVNAMEBinaryTreeIterator(this)
-    internal inline fun forEach(crossinline action: (KEY, VALUE) -> Unit) {
+    @JvmName("iterator") internal inline fun iterator() = MyMapKNAMEVNAMEBinaryTreeIterator(this)
+    @JvmName("forEach") internal inline fun forEach(crossinline action: (KEY, VALUE) -> Unit) {
         val iteratorK = keys.iterator()
         val iteratorV = values.iterator()
         while (iteratorK.hasNext()) {
