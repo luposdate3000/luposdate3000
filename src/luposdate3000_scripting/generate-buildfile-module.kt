@@ -256,6 +256,7 @@ fun createBuildFileForModule(moduleName: String, moduleFolder: String, modulePre
             // see /opt/kotlin/compiler/cli/cli-common/src/org/jetbrains/kotlin/cli/common/arguments/K2JVMCompilerArguments.kt
             // or kotlinc -X
             out.println("kotlin {")
+            out.println("    explicitApi()")//https://zsmb.co/mastering-api-visibility-in-kotlin/
             out.println("    metadata {")
             out.println("        compilations.forEach{")
             out.println("            it.kotlinOptions {")

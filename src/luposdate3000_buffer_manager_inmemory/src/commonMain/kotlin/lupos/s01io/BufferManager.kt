@@ -5,8 +5,8 @@ import lupos.s00misc.MyReadWriteLock
 import lupos.s00misc.Platform
 import lupos.s00misc.SanityCheck
 import kotlin.jvm.JvmField
-object BufferManagerExt {
-    fun getPageSize(): Long {
+public object BufferManagerExt {
+ public    fun getPageSize(): Long {
         return BUFFER_MANAGER_PAGE_SIZE_IN_BYTES
     }
     @JvmField // dont put const val here, because it wont work when exchanging the modules
@@ -59,7 +59,7 @@ class BufferManager(@JvmField val name: String) {
     internal val lock = MyReadWriteLock()
     @JvmField
     internal val freeList = mutableListOf<Int>()
-    /*suspend*/ fun clear(): Unit = lock.withWriteLock {
+public    /*suspend*/ fun clear(): Unit = lock.withWriteLock {
         clearAssumeLocks()
     }
     /*suspend*/ private fun clearAssumeLocks() {
@@ -81,7 +81,7 @@ class BufferManager(@JvmField val name: String) {
         allPagesRefcounters[pageid]--
         SanityCheck.println { "BufferManager.refcount($pageid) decreased a ${allPagesRefcounters[pageid]}" }
     }
-    fun getPage(pageid: Int): ByteArray {
+public    fun getPage(pageid: Int): ByteArray {
         // no locking required, assuming an assignment to 'allPages' is atomic
         SanityCheck {
             if (BUFFER_MANAGER_USE_FREE_LIST) {
@@ -92,7 +92,7 @@ class BufferManager(@JvmField val name: String) {
         SanityCheck.println { "BufferManager.refcount($pageid) increased a ${allPagesRefcounters[pageid]}" }
         return allPages[pageid]
     }
-    /*suspend*/ fun createPage(action: (ByteArray, Int) -> Unit): Unit = lock.withWriteLock {
+public     /*suspend*/ fun createPage(action: (ByteArray, Int) -> Unit): Unit = lock.withWriteLock {
         val pageid: Int
         if (freeList.size > 0 && BUFFER_MANAGER_USE_FREE_LIST) {
             pageid = freeList.removeAt(0)
@@ -128,7 +128,7 @@ class BufferManager(@JvmField val name: String) {
         SanityCheck.println { "BufferManager.refcount($pageid) increased b ${allPagesRefcounters[pageid]}" }
         action(allPages[pageid], pageid)
     }
-    /*suspend*/ fun deletePage(pageid: Int): Unit = lock.withWriteLock {
+public     /*suspend*/ fun deletePage(pageid: Int): Unit = lock.withWriteLock {
         SanityCheck {
             if (BUFFER_MANAGER_USE_FREE_LIST) {
                 SanityCheck.check { !freeList.contains(pageid) }

@@ -1,5 +1,5 @@
 package lupos.s00misc
-expect object DateHelperRelative {
-    fun markNow(): Long
-    fun elapsedSeconds(marker: Long): Double
+public expect object DateHelperRelative {
+public     fun markNow(): Long
+public     fun elapsedSeconds(marker: Long): Double
 }
