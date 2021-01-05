@@ -123,7 +123,7 @@ import lupos.s09physicalOperators.singleinput.modifiers.POPLimit
 import lupos.s09physicalOperators.singleinput.modifiers.POPOffset
 import lupos.s09physicalOperators.singleinput.modifiers.POPReduced
 import lupos.s15tripleStoreDistributed.distributedTripleStore
-fun convertToPartition(node: XMLElement): Partition {
+public fun convertToPartition(node: XMLElement): Partition {
     val res = Partition()
     for (c in node.childs) {
         if (c.tag == "Limit") {
@@ -135,14 +135,14 @@ fun convertToPartition(node: XMLElement): Partition {
     }
     return res
 }
-fun createAOPVariable(query: Query, mapping: MutableMap<String, String>, name: String): AOPVariable {
+public fun createAOPVariable(query: Query, mapping: MutableMap<String, String>, name: String): AOPVariable {
     val n = mapping[name]
     if (n != null) {
         return AOPVariable(query, n)
     }
     return AOPVariable(query, name)
 }
-fun createProjectedVariables(query: Query, node: XMLElement, mapping: MutableMap<String, String> = mutableMapOf()): List<String> {
+public fun createProjectedVariables(query: Query, node: XMLElement, mapping: MutableMap<String, String> = mutableMapOf()): List<String> {
     val res = mutableListOf<String>()
     SanityCheck.check { node["projectedVariables"] != null }
     for (c in node["projectedVariables"]!!.childs) {
@@ -150,7 +150,7 @@ fun createProjectedVariables(query: Query, node: XMLElement, mapping: MutableMap
     }
     return res
 }
-/*suspend*/ fun XMLElement.Companion.convertToOPBase(query: Query, node: XMLElement, mapping: MutableMap<String, String> = mutableMapOf()): IOPBase {
+/*suspend*/ public fun XMLElement.Companion.convertToOPBase(query: Query, node: XMLElement, mapping: MutableMap<String, String> = mutableMapOf()): IOPBase {
     val res: IOPBase
     when (node.tag) {
         "OPBaseCompound" -> {
