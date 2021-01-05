@@ -11,7 +11,6 @@ import lupos.s00misc.MyMapStringIntPatriciaTrieDouble
 import lupos.s00misc.SanityCheck
 import lupos.s01io.BufferManager
 import kotlin.jvm.JvmField
-import kotlin.jvm.JvmName
 val nodeGlobalDictionary = ResultSetDictionary(true)
 @UseExperimental(kotlin.ExperimentalUnsignedTypes::class)
 class ResultSetDictionary(val global: Boolean = false) {
@@ -453,7 +452,7 @@ class ResultSetDictionary(val global: Boolean = false) {
         }
         return res
     }
-     internal inline fun getValue(
+    internal inline fun getValue(
         value: Int,
         crossinline onBNode: (value: Int) -> Unit,
         crossinline onBoolean: (value: Boolean) -> Unit,

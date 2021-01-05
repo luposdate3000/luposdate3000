@@ -18,7 +18,6 @@ import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.multiinput.LOPJoin
 import lupos.s09physicalOperators.POPBase
 import kotlin.jvm.JvmField
-import kotlin.jvm.JvmName
 class POPJoinCartesianProduct(query: IQuery, projectedVariables: List<String>, childA: IOPBase, childB: IOPBase, @JvmField val optional: Boolean) : POPBase(query, projectedVariables, EOperatorID.POPJoinCartesianProductID, "POPJoinCartesianProduct", arrayOf(childA, childB), ESortPriority.JOIN) {
     override fun getPartitionCount(variable: String): Int {
         return if (children[0].getProvidedVariableNames().contains(variable)) {
@@ -141,7 +140,7 @@ class POPJoinCartesianProduct(query: IQuery, projectedVariables: List<String>, c
                             override /*suspend*/ fun close() {
                                 __close()
                             }
-                            /*suspend*/  internal inline fun __close() {
+                            /*suspend*/ internal inline fun __close() {
                                 if (label != 0) {
                                     _close()
                                     SanityCheck.println { "POPJoinCartesianProductXXX$uuid close A $classname" }
@@ -210,7 +209,7 @@ class POPJoinCartesianProduct(query: IQuery, projectedVariables: List<String>, c
                         override /*suspend*/ fun close() {
                             __close()
                         }
-                        /*suspend*/  internal inline fun __close() {
+                        /*suspend*/ internal inline fun __close() {
                             if (label != 0) {
                                 _close()
                                 SanityCheck.println { "POPJoinCartesianProductXXX$uuid close A $classname" }

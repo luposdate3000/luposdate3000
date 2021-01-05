@@ -3,7 +3,6 @@ import lupos.s00misc.File
 import lupos.s00misc.MyMapIntInt
 import lupos.s01io.BufferManager
 import kotlin.jvm.JvmField
-import kotlin.jvm.JvmName
 val nodeGlobalDictionary = ResultSetDictionary(true)
 class ResultSetDictionary(val global: Boolean = false) {
     companion object {
@@ -44,7 +43,7 @@ class ResultSetDictionary(val global: Boolean = false) {
         bNodeCounter = 0
         bnodeMapToGlobal.clear()
     }
-     internal inline fun toBooleanOrError(value: Int): Int {
+    internal inline fun toBooleanOrError(value: Int): Int {
         var res: Int = errorValue
         if (value < undefValue && value >= 0) {
             res = value
@@ -62,31 +61,31 @@ class ResultSetDictionary(val global: Boolean = false) {
         }
         return res
     }
-     internal inline fun createNewBNode(): Int {
+    internal inline fun createNewBNode(): Int {
         return createValue(ValueBnode("" + bNodeCounter++))
     }
-     internal inline fun createIri(iri: String): Int {
+    internal inline fun createIri(iri: String): Int {
         return createValue("<" + iri + ">")
     }
-     internal inline fun createValue(value: String?): Int {
+    internal inline fun createValue(value: String?): Int {
         return createValue(ValueDefinition(value))
     }
-     internal inline fun createTyped(content: String, type: String): Int {
+    internal inline fun createTyped(content: String, type: String): Int {
         return createValue(ValueDefinition("\"$content\"^^<$type>"))
     }
-     internal inline fun createDouble(value: Double): Int {
+    internal inline fun createDouble(value: Double): Int {
         return createValue(ValueDouble(value))
     }
-     internal inline fun createFloat(value: Double): Int {
+    internal inline fun createFloat(value: Double): Int {
         return createValue(ValueFloat(value))
     }
-     internal inline fun createDecimal(value: Double): Int {
+    internal inline fun createDecimal(value: Double): Int {
         return createValue(ValueDecimal(value))
     }
-     internal inline fun createInteger(value: Int): Int {
+    internal inline fun createInteger(value: Int): Int {
         return createValue(ValueInteger(value))
     }
-     internal inline fun checkValue(value: ValueDefinition): Int {
+    internal inline fun checkValue(value: ValueDefinition): Int {
         var res: Int
         if (value is ValueUndef) {
             res = undefValue
@@ -107,7 +106,7 @@ class ResultSetDictionary(val global: Boolean = false) {
         }
         return res
     }
-     internal inline fun createValue(value: ValueDefinition): Int {
+    internal inline fun createValue(value: ValueDefinition): Int {
         var res = checkValue(value)
         if (res == null) {
             val l = mapLTS.size
@@ -121,7 +120,7 @@ class ResultSetDictionary(val global: Boolean = false) {
         }
         return res
     }
-     internal inline fun getValue(value: Int): ValueDefinition {
+    internal inline fun getValue(value: Int): ValueDefinition {
         if (value < 0) {
             return mapLTS[-value]!!
         } else {
@@ -129,7 +128,7 @@ class ResultSetDictionary(val global: Boolean = false) {
         }
 /*Coverage Unreachable*/
     }
-     internal inline fun valueToGlobal(value: Int): Int {
+    internal inline fun valueToGlobal(value: Int): Int {
         if (value >= 0) {
             return value
         } else {

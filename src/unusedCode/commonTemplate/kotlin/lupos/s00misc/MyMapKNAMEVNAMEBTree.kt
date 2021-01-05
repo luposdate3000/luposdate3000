@@ -1,6 +1,5 @@
 package lupos.s00misc
 import kotlin.jvm.JvmField
-import kotlin.jvm.JvmName
 class MyMapKNAMEVNAMEBTreeGDEF(@JvmField val t: Int) {
     @JvmField
     var root: MyMapKNAMEVNAMEBTreeNodeGUSE? = null
@@ -515,7 +514,7 @@ class MyMapKNAMEVNAMEBTreeGDEF(@JvmField val t: Int) {
         override fun next(): KEY = SanityCheck.checkUnreachable()
         override fun value(): VALUE = SanityCheck.checkUnreachable()
     }
-     internal inline fun getOrCreate(key: KEY, crossinline onCreate: () -> VALUE): VALUE {
+    internal inline fun getOrCreate(key: KEY, crossinline onCreate: () -> VALUE): VALUE {
         var res: VALUE? = null
         insert(
             key,

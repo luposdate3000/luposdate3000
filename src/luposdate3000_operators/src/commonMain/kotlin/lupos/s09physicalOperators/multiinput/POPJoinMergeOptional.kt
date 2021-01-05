@@ -13,7 +13,6 @@ import lupos.s04logicalOperators.iterator.ColumnIteratorChildIteratorEmpty
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s09physicalOperators.POPBase
 import kotlin.jvm.JvmField
-import kotlin.jvm.JvmName
 class POPJoinMergeOptional(query: IQuery, projectedVariables: List<String>, childA: IOPBase, childB: IOPBase, @JvmField val optional: Boolean) : POPBase(query, projectedVariables, EOperatorID.POPJoinMergeOptionalID, "POPJoinMergeOptional", arrayOf(childA, childB), ESortPriority.JOIN) {
     override fun getPartitionCount(variable: String): Int {
         return if (children[0].getProvidedVariableNames().contains(variable)) {
@@ -195,7 +194,7 @@ class POPJoinMergeOptional(query: IQuery, projectedVariables: List<String>, chil
         }
         return res
     }
-    /*suspend*/  internal inline fun sameElements(key: IntArray, keyCopy: IntArray, columnsINJ: MutableList<ColumnIterator>, columnsINO: MutableList<ColumnIterator>, data: Array<MutableList<Int>>): Int {
+    /*suspend*/ internal inline fun sameElements(key: IntArray, keyCopy: IntArray, columnsINJ: MutableList<ColumnIterator>, columnsINO: MutableList<ColumnIterator>, data: Array<MutableList<Int>>): Int {
         SanityCheck.check { keyCopy[0] != ResultSetDictionaryExt.nullValue }
         for (i in 0 until columnsINJ.size) {
             if (key[i] != keyCopy[i]) {
@@ -225,7 +224,7 @@ class POPJoinMergeOptional(query: IQuery, projectedVariables: List<String>, chil
         }
         return count
     }
-    /*suspend*/  internal inline fun findNextKey(key: Array<IntArray>, columnsINJ: Array<MutableList<ColumnIterator>>, columnsINO: Array<MutableList<ColumnIterator>>): Boolean {
+    /*suspend*/ internal inline fun findNextKey(key: Array<IntArray>, columnsINJ: Array<MutableList<ColumnIterator>>, columnsINO: Array<MutableList<ColumnIterator>>): Boolean {
         if (key[0][0] != ResultSetDictionaryExt.nullValue && key[1][0] != ResultSetDictionaryExt.nullValue) {
             loop@ while (true) {
                 for (i in 0 until columnsINJ[0].size) {

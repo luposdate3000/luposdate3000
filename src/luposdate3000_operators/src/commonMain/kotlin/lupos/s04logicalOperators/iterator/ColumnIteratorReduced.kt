@@ -1,13 +1,12 @@
 package lupos.s04logicalOperators.iterator
 import lupos.s03resultRepresentation.ResultSetDictionaryExt
 import kotlin.jvm.JvmField
-import kotlin.jvm.JvmName
 class ColumnIteratorReduced(@JvmField val child: ColumnIterator) : ColumnIterator() {
     @JvmField
     var last: Int = ResultSetDictionaryExt.nullValue
     @JvmField
     var label: Int = 1
-    /*suspend*/  internal inline fun _close() {
+    /*suspend*/ internal inline fun _close() {
         if (label != 0) {
             label = 0
             child.close()

@@ -3,7 +3,6 @@ import lupos.s00misc.MyReadWriteLock
 import lupos.s00misc.SanityCheck
 import lupos.s04logicalOperators.iterator.ColumnIterator
 import kotlin.jvm.JvmField
-import kotlin.jvm.JvmName
 internal abstract class NodeLeafColumnIterator(@JvmField var node: ByteArray, @JvmField var nodeid: Int, @JvmField val lock: MyReadWriteLock) : ColumnIterator() {
     @JvmField
     var remaining = 0
@@ -13,12 +12,12 @@ internal abstract class NodeLeafColumnIterator(@JvmField var node: ByteArray, @J
     var label = 3
     @JvmField
     var needsReset = true
-    /*suspend*/  internal inline fun __init() {
+    /*suspend*/ internal inline fun __init() {
         SanityCheck.println { "readLock(${lock.getUUID()}) x44" }
         lock.readLock()
         remaining = NodeShared.getTripleCount(node)
     }
-    /*suspend*/  internal inline fun _close() {
+    /*suspend*/ internal inline fun _close() {
         if (label == 3) {
 /* "__init" was never called*/
             label = 0
@@ -39,7 +38,7 @@ internal abstract class NodeLeafColumnIterator(@JvmField var node: ByteArray, @J
     override /*suspend*/ fun close() {
         _close()
     }
-    /*suspend*/  internal inline fun updateRemaining(crossinline setDone: () -> Unit = {}) {
+    /*suspend*/ internal inline fun updateRemaining(crossinline setDone: () -> Unit = {}) {
         SanityCheck.check { remaining > 0 }
         remaining--
         if (remaining == 0) {

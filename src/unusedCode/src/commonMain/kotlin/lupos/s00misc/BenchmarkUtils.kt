@@ -1,6 +1,5 @@
 package lupos.s00misc
 import kotlin.jvm.JvmField
-import kotlin.jvm.JvmName
 import kotlin.time.DurationUnit
 import kotlin.time.TimeMark
 import kotlin.time.TimeSource.Monotonic
@@ -39,15 +38,15 @@ internal object BenchmarkUtils {
     val timesHelper = DoubleArray(30)
     val timesCounter = IntArray(timesHelper.size)
     internal val timesLock = MyLock()
-     internal inline fun timesHelperMark() = Monotonic.markNow()
-     internal suspend inline fun timesHelperDuration(i: Int, timer: TimeMark) {
+    internal inline fun timesHelperMark() = Monotonic.markNow()
+    internal suspend inline fun timesHelperDuration(i: Int, timer: TimeMark) {
         timesLock.withLock {
             timesHelper[i] += timer.elapsedNow().toDouble(DurationUnit.SECONDS)
             timesCounter[i]++
         }
     }
-     internal inline fun timesHelperDuration(timer: TimeMark) = timer.elapsedNow().toDouble(DurationUnit.SECONDS)
-     internal suspend inline fun setTimesHelper(i: Int, t: Double, c: Int) {
+    internal inline fun timesHelperDuration(timer: TimeMark) = timer.elapsedNow().toDouble(DurationUnit.SECONDS)
+    internal suspend inline fun setTimesHelper(i: Int, t: Double, c: Int) {
         timesLock.withLock {
             timesHelper[i] += t
             timesCounter[i] += c
@@ -68,15 +67,15 @@ internal object BenchmarkUtils {
             }
         })
     }
-     internal inline fun start(id: EBenchmark) {
+    internal inline fun start(id: EBenchmark) {
         timers[id.ordinal] = Monotonic.markNow()
     }
-     internal inline fun elapsedSeconds(id: EBenchmark): Double {
+    internal inline fun elapsedSeconds(id: EBenchmark): Double {
         val res = timers[id.ordinal].elapsedNow().toDouble(DurationUnit.SECONDS)
         results[id.ordinal] += res
         counters[id.ordinal]++
         return res
     }
-     internal inline fun getTime(id: EBenchmark) = results[id.ordinal]
-     internal inline fun getCounter(id: EBenchmark) = counters[id.ordinal]
+    internal inline fun getTime(id: EBenchmark) = results[id.ordinal]
+    internal inline fun getCounter(id: EBenchmark) = counters[id.ordinal]
 }

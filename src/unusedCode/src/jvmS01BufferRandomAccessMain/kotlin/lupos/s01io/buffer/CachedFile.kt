@@ -2,7 +2,6 @@ package lupos.s01io.buffer
 import java.io.File
 import java.io.RandomAccessFile
 import kotlin.jvm.JvmField
-import kotlin.jvm.JvmName
 typealias Page = ByteArrayPage
 inline fun createString(chars: CharArray): String = String(chars)
 // problems unmap:
@@ -23,16 +22,16 @@ class CachedFile {
         }
         this.file = RandomAccessFile(File(filename), "rw")
     }
-     internal inline fun close() {
+    internal inline fun close() {
         this.file.close()
     }
-     internal inline fun get(address: Long): Page {
+    internal inline fun get(address: Long): Page {
         this.file.seek(address)
         val page = Page()
         this.file.read(page.byteArray)
         return page
     }
-     internal inline fun write(address: Long, page: Page) {
+    internal inline fun write(address: Long, page: Page) {
         this.file.seek(address)
         this.file.write(page.byteArray)
     }

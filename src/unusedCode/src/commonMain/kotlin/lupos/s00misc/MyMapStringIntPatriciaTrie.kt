@@ -1,6 +1,5 @@
 package lupos.s00misc
 import kotlin.jvm.JvmField
-import kotlin.jvm.JvmName
 class MyMapStringIntPatriciaTrie(@JvmField val undefinedValue: Int = Int.MAX_VALUE) {
     @JvmField
     var root: MyMapStringIntPatriciaTrieNode = MyMapStringIntPatriciaTrieNodeN()
@@ -23,7 +22,7 @@ class MyMapStringIntPatriciaTrie(@JvmField val undefinedValue: Int = Int.MAX_VAL
         var childs0: MyMapStringIntPatriciaTrieNode? = null
         var childs1: MyMapStringIntPatriciaTrieNode? = null
     }
-     internal inline fun walkInternal(_key: String, crossinline onCreate: () -> Int, crossinline onExist: (Int) -> Int, crossinline onNotFound: () -> Unit, create: Boolean) {
+    internal inline fun walkInternal(_key: String, crossinline onCreate: () -> Int, crossinline onExist: (Int) -> Int, crossinline onNotFound: () -> Unit, create: Boolean) {
         if (_key == "") {
             if (rootValue != undefinedValue) {
                 rootValue = onExist(rootValue)
@@ -351,7 +350,7 @@ class MyMapStringIntPatriciaTrie(@JvmField val undefinedValue: Int = Int.MAX_VAL
             /*Coverage Unreachable*/
         }
     }
-     internal inline operator fun get(key: String): Int? {
+    internal inline operator fun get(key: String): Int? {
         var res: Int? = null
         walkInternal(
             key, { undefinedValue },
@@ -363,10 +362,10 @@ class MyMapStringIntPatriciaTrie(@JvmField val undefinedValue: Int = Int.MAX_VAL
         )
         return res
     }
-     internal inline operator fun set(key: String, value: Int) {
+    internal inline operator fun set(key: String, value: Int) {
         walkInternal(key, { value }, { value }, {}, true)
     }
-     internal inline fun getOrCreate(key: String, crossinline onCreate: () -> Int): Int {
+    internal inline fun getOrCreate(key: String, crossinline onCreate: () -> Int): Int {
         var res = undefinedValue
         walkInternal(
             key,
@@ -382,16 +381,16 @@ class MyMapStringIntPatriciaTrie(@JvmField val undefinedValue: Int = Int.MAX_VAL
         )
         return res
     }
-     internal inline fun appendAssumeSorted(key: String, value: Int): Int {
+    internal inline fun appendAssumeSorted(key: String, value: Int): Int {
         set(key, value)
         return value
     }
-     internal inline fun clear() {
+    internal inline fun clear() {
         root = MyMapStringIntPatriciaTrieNodeN()
         rootValue = undefinedValue
         size = 0
     }
-     internal inline fun forEach(crossinline action: (String, Int) -> Unit) {
+    internal inline fun forEach(crossinline action: (String, Int) -> Unit) {
         var queue = mutableListOf<Pair<String, MyMapStringIntPatriciaTrieNode>>()
         if (rootValue != undefinedValue) {
             action("", rootValue)
