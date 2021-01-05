@@ -4,32 +4,32 @@ import lupos.s02buildSyntaxTree.ParseError
 import lupos.s02buildSyntaxTree.Token
 import lupos.s02buildSyntaxTree.UnexpectedToken
 import kotlin.jvm.JvmField
-abstract class TurtleParserWithStringTriples {
+abstract public class TurtleParserWithStringTriples {
     @JvmField
-    var ltit: LookAheadTokenIterator? = null
-    abstract /*suspend*/ fun consume_triple(s: String, p: String, o: String)
+public     var ltit: LookAheadTokenIterator? = null
+    abstract /*suspend*/ public fun consume_triple(s: String, p: String, o: String)
     // for storing the prefixes...
     @JvmField
-    val prefixes: MutableMap<String, String> = mutableMapOf()
+   public  val prefixes: MutableMap<String, String> = mutableMapOf()
     // some constants used for typed literals
-    companion object {
+    public companion object {
         private const val xsd = "http://www.w3.org/2001/XMLSchema#"
-        const val xsd_boolean: String = xsd + "boolean"
-        const val xsd_integer: String = xsd + "integer"
-        const val xsd_decimal: String = xsd + "decimal"
-        const val xsd_double: String = xsd + "double"
+        const public val xsd_boolean: String = xsd + "boolean"
+        const public val xsd_integer: String = xsd + "integer"
+        const public val xsd_decimal: String = xsd + "decimal"
+        const public val xsd_double: String = xsd + "double"
         private const val rdf = "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
         private const val nil = rdf + "nil"
-        const val first: String = rdf + "first"
+        const public val first: String = rdf + "first"
         private const val rest = rdf + "rest"
-        const val nil_iri: String = "<$nil>"
-        const val first_iri: String = "<$first>"
-        const val rest_iri: String = "<$rest>"
-        const val type_iri: String = "<" + rdf + "type" + ">"
+        const public val nil_iri: String = "<$nil>"
+        const public val first_iri: String = "<$first>"
+        const public val rest_iri: String = "<$rest>"
+        const public val type_iri: String = "<" + rdf + "type" + ">"
     }
     @JvmField
-    var bnodeCounter: Int = 0
-    /*suspend*/ fun turtleDoc() {
+public    var bnodeCounter: Int = 0
+    /*suspend*/ public fun turtleDoc() {
         var t1 = ltit!!.lookahead()
         while (t1.image == "@prefix" || t1.image == "@base" || t1.image == "PREFIX" || t1.image == "BASE" || t1 is IRI || t1 is PNAME_LN || t1 is PNAME_NS || t1 is BNODE || t1 is ANON_BNODE || t1.image == "(" || t1.image == "[") {
             statement()
@@ -416,7 +416,7 @@ abstract class TurtleParserWithStringTriples {
             }
         }
     }
-    fun iri(): String {
+    public fun iri(): String {
         val token: Token
         val iri: String
         when (val t18 = ltit!!.lookahead()) {

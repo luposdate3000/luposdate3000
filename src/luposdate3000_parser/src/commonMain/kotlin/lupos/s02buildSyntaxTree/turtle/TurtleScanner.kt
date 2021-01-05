@@ -5,34 +5,34 @@ import lupos.s02buildSyntaxTree.Token
 import lupos.s02buildSyntaxTree.TokenIterator
 import lupos.s02buildSyntaxTree.UnexpectedEndOfFile
 import kotlin.jvm.JvmField
-class EOF(index: Int) : Token("EOF", index)
-abstract class InBraces(@JvmField val content: String, index: Int, @JvmField val leftBrace: String, @JvmField val rightBrace: String) : Token(leftBrace + content + rightBrace, index) {
-    override fun toString(): String {
+public class EOF(index: Int) : Token("EOF", index)
+abstract public class InBraces(@JvmField public val content: String, index: Int, @JvmField public val leftBrace: String, @JvmField public val rightBrace: String) : Token(leftBrace + content + rightBrace, index) {
+    override public fun toString(): String {
         return super.toString() + ": " + this.image
     }
 }
-class IRI(image: String, index: Int) : InBraces(image, index, "<", ">")
-class LBRACE(index: Int) : Token("(", index)
-class RBRACE(index: Int) : Token(")", index)
-class SLBRACE(index: Int) : Token("[", index)
-class SRBRACE(index: Int) : Token("]", index)
-class DOT(index: Int) : Token(".", index)
-class SEMICOLON(index: Int) : Token(";", index)
-class COMMA(index: Int) : Token(",", index)
-class STRING(content: String, delimiter: String, index: Int) : InBraces(content, index, delimiter, delimiter)
-class INTEGER(image: String, index: Int) : Token(image, index)
-class DECIMAL(beforeDOT: String, afterDOT: String, index: Int) : Token("$beforeDOT.$afterDOT", index)
-class DOUBLE(beforeDOT: String, dot: Boolean, afterDOT: String, exp: String, plusminus: String, expnumber: String, index: Int) : Token(beforeDOT + (if (dot) "." else "") + afterDOT + exp + plusminus + expnumber, index)
-class LANGTAG(@JvmField val language: String, index: Int) : Token("@$language", index)
-class DOUBLECIRCUMFLEX(index: Int) : Token("^^", index)
-class BNODE(@JvmField val name: String, index: Int) : Token("_:$name", index)
-class ANON_BNODE(index: Int) : Token("[]", index)
-class PNAME_NS(@JvmField val beforeColon: String, index: Int) : Token("$beforeColon:", index)
-class PNAME_LN(@JvmField val beforeColon: String, @JvmField val afterColon: String, index: Int) : Token("$beforeColon:$afterColon", index)
-class POSSIBLE_KEYWORD(@JvmField val original_image: String, index: Int) : Token(original_image.toUpperCase(), index)
-class UnexpectedEndOfLine(index: Int, lineNumber: Int, columnNumber: Int) : ParseError("Unexpected End of Line", lineNumber, columnNumber)
-class TurtleScanner(@JvmField val iterator: LexerCharIterator) : TokenIterator {
-    private fun skip() {
+public class IRI(image: String, index: Int) : InBraces(image, index, "<", ">")
+public class LBRACE(index: Int) : Token("(", index)
+public class RBRACE(index: Int) : Token(")", index)
+public class SLBRACE(index: Int) : Token("[", index)
+public class SRBRACE(index: Int) : Token("]", index)
+public class DOT(index: Int) : Token(".", index)
+public class SEMICOLON(index: Int) : Token(";", index)
+public class COMMA(index: Int) : Token(",", index)
+public class STRING(content: String, delimiter: String, index: Int) : InBraces(content, index, delimiter, delimiter)
+public class INTEGER(image: String, index: Int) : Token(image, index)
+public class DECIMAL(beforeDOT: String, afterDOT: String, index: Int) : Token("$beforeDOT.$afterDOT", index)
+public class DOUBLE(beforeDOT: String, dot: Boolean, afterDOT: String, exp: String, plusminus: String, expnumber: String, index: Int) : Token(beforeDOT + (if (dot) "." else "") + afterDOT + exp + plusminus + expnumber, index)
+public class LANGTAG(@JvmField public val language: String, index: Int) : Token("@$language", index)
+public class DOUBLECIRCUMFLEX(index: Int) : Token("^^", index)
+public class BNODE(@JvmField public val name: String, index: Int) : Token("_:$name", index)
+public class ANON_BNODE(index: Int) : Token("[]", index)
+public class PNAME_NS(@JvmField public val beforeColon: String, index: Int) : Token("$beforeColon:", index)
+public class PNAME_LN(@JvmField public val beforeColon: String, @JvmField public val afterColon: String, index: Int) : Token("$beforeColon:$afterColon", index)
+public class POSSIBLE_KEYWORD(@JvmField public val original_image: String, index: Int) : Token(original_image.toUpperCase(), index)
+public class UnexpectedEndOfLine(index: Int, lineNumber: Int, columnNumber: Int) : ParseError("Unexpected End of Line", lineNumber, columnNumber)
+public class TurtleScanner(@JvmField public val iterator: LexerCharIterator) : TokenIterator {
+    private  fun skip() {
         loop@ while (true) {
             when (val c = iterator.nextChar()) {
                 ' ', '\t', '\n', '\r' -> {
@@ -54,12 +54,12 @@ class TurtleScanner(@JvmField val iterator: LexerCharIterator) : TokenIterator {
             }
         }
     }
-    override fun getIndex(): Int {
+    override public fun getIndex(): Int {
         return this.iterator.index
     }
-    override fun getLineNumber(): Int = this.iterator.lineNumber
-    override fun getColumnNumber(): Int = this.iterator.columnNumber
-    override fun nextToken(): Token {
+    override public fun getLineNumber(): Int = this.iterator.lineNumber
+    override public fun getColumnNumber(): Int = this.iterator.columnNumber
+    override public fun nextToken(): Token {
         try {
             skip()
         } catch (e: UnexpectedEndOfFile) {
@@ -301,7 +301,7 @@ class TurtleScanner(@JvmField val iterator: LexerCharIterator) : TokenIterator {
             }
         }
     }
-    private inline fun PNAME_LN_after_colon(beforeColon: String, startToken: Int): Token {
+    private inline  fun PNAME_LN_after_colon(beforeColon: String, startToken: Int): Token {
         if (this.iterator.hasNext()) {
             val c = this.iterator.nextChar()
             var afterColon = ""
@@ -398,7 +398,7 @@ class TurtleScanner(@JvmField val iterator: LexerCharIterator) : TokenIterator {
             return PNAME_NS(beforeColon, startToken)
         }
     }
-    private inline fun numberAfterDot(beforeDOT: String, startToken: Int): Token {
+    private inline  fun numberAfterDot(beforeDOT: String, startToken: Int): Token {
         // next token can only be a decimal or double literal!
         var afterDOT = ""
         while (this.iterator.hasNext()) {
@@ -417,7 +417,7 @@ class TurtleScanner(@JvmField val iterator: LexerCharIterator) : TokenIterator {
         }
         return DECIMAL(beforeDOT, afterDOT, startToken)
     }
-    private inline fun numberAfterExp(beforeDOT: String, dot: Boolean, afterDOT: String, exp: Char, startToken: Int): Token {
+    private inline  fun numberAfterExp(beforeDOT: String, dot: Boolean, afterDOT: String, exp: Char, startToken: Int): Token {
         // next token can only be a double literal!
         val maybesign = this.iterator.nextChar()
         val sign: String
@@ -445,7 +445,7 @@ class TurtleScanner(@JvmField val iterator: LexerCharIterator) : TokenIterator {
             throw ParseError("Double without an integer in the exponent", this.iterator.lineNumber, this.iterator.columnNumber)
         }
     }
-    private inline fun dealWithString(delimiter: Char, startToken: Int): Token {
+    private inline  fun dealWithString(delimiter: Char, startToken: Int): Token {
         if (iterator.hasNext()) {
             if (iterator.lookahead() == delimiter) {
                 iterator.nextChar()
@@ -496,7 +496,7 @@ class TurtleScanner(@JvmField val iterator: LexerCharIterator) : TokenIterator {
             throw UnexpectedEndOfFile(this.iterator.index, this.iterator.lineNumber, this.iterator.columnNumber)
         }
     }
-    private inline fun PN_CHARS_BASE(c: Char) =
+    private inline  fun PN_CHARS_BASE(c: Char) =
         c in 'A'..'Z' ||
             c in 'a'..'z' ||
             c in '\u00C0'..'\u00D6' ||
@@ -511,17 +511,17 @@ class TurtleScanner(@JvmField val iterator: LexerCharIterator) : TokenIterator {
             c in '\uF900'..'\uFDCF' ||
             c in '\uFDF0'..'\uFFFD' ||
             c in '\u1000'..'\uEFFF'
-    private inline fun PN_CHARS_U(c: Char) = PN_CHARS_BASE(c) || c == '_'
-    private inline fun DIGIT(c: Char) = c in '0'..'9'
-    private inline fun VARNAMESECONDCHARANDLATER(c: Char) =
+    private inline  fun PN_CHARS_U(c: Char) = PN_CHARS_BASE(c) || c == '_'
+    private inline  fun DIGIT(c: Char) = c in '0'..'9'
+    private inline  fun VARNAMESECONDCHARANDLATER(c: Char) =
         PN_CHARS_U(c) ||
             DIGIT(c) ||
             c == '\u00B7' ||
             c in '\u0300'..'\u036F' ||
             c in '\u203F'..'\u2040'
-    private inline fun PN_CHARS(c: Char) = VARNAMESECONDCHARANDLATER(c) || c == '-'
-    private inline fun PN_CHARS_U_or_DIGIT(c: Char) = PN_CHARS_U(c) || DIGIT(c)
-    private inline fun PN_LOCAL_ESC(c: Char) = when (c) {
+    private inline  fun PN_CHARS(c: Char) = VARNAMESECONDCHARANDLATER(c) || c == '-'
+    private inline  fun PN_CHARS_U_or_DIGIT(c: Char) = PN_CHARS_U(c) || DIGIT(c)
+    private inline  fun PN_LOCAL_ESC(c: Char) = when (c) {
         '\u005F',
         '\u007E',
         '\u002E',
@@ -549,7 +549,7 @@ class TurtleScanner(@JvmField val iterator: LexerCharIterator) : TokenIterator {
             false
         }
     }
-    private inline fun HEX(c: Char) = when (c) {
+    private inline  fun HEX(c: Char) = when (c) {
         in '0'..'9',
         in 'A'..'F',
         in 'a'..'f' -> {

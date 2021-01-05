@@ -11,7 +11,7 @@ internal enum class Turtle2ParserState {
     TRIPLE_END_OR_OBJECT_IRI,
     TRIPLE_END_OR_OBJECT_STRING,
 }
-abstract class Turtle2Parser(input: IMyInputStream) {
+public abstract class Turtle2Parser(input: IMyInputStream) {
     @JvmField
     internal val context = ParserContext(input)
     @JvmField
@@ -22,8 +22,8 @@ abstract class Turtle2Parser(input: IMyInputStream) {
     internal val tripleType = Array(3) { ETripleComponentType.IRI }
     @JvmField
     internal var state = Turtle2ParserState.STATEMENT
-    abstract fun onTriple(triple: Array<String>, tripleType: Array<ETripleComponentType>)
-    fun turtleDoc() {
+   public  abstract fun onTriple(triple: Array<String>, tripleType: Array<ETripleComponentType>)
+    public fun turtleDoc() {
         var iter = 0
         while (true) {
             iter++

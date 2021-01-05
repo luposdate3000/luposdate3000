@@ -1,6 +1,6 @@
 package lupos.s02buildSyntaxTree.rdf
 import kotlin.jvm.JvmField
-object Dictionary {
+public object Dictionary {
     private var max_id = 0L
     private val RDFTerm_to_ID = mutableMapOf<String, Long>()
     private val ID_to_RDFTerm = mutableMapOf<Long, RDFTerm>()
@@ -10,19 +10,19 @@ object Dictionary {
         this.ID_to_RDFTerm[result] = term
         return result
     }
-    fun IRI(iri: String): Long = this.RDFTerm_to_ID["<$iri>"]
+    public fun IRI(iri: String): Long = this.RDFTerm_to_ID["<$iri>"]
         ?: addRDFTerm(lupos.s02buildSyntaxTree.rdf.IRI(iri))
-    fun BlankNode(local_name: String): Long = this.RDFTerm_to_ID["_:$local_name"]
+    public fun BlankNode(local_name: String): Long = this.RDFTerm_to_ID["_:$local_name"]
         ?: addRDFTerm(lupos.s02buildSyntaxTree.rdf.BlankNode(local_name))
-    fun BlankNode(): Long = addRDFTerm(lupos.s02buildSyntaxTree.rdf.BlankNode())
-    fun SimpleLiteral(content: String, delimiter: String = "\""): Long = this.RDFTerm_to_ID[delimiter + content + delimiter]
+    public fun BlankNode(): Long = addRDFTerm(lupos.s02buildSyntaxTree.rdf.BlankNode())
+    public fun SimpleLiteral(content: String, delimiter: String = "\""): Long = this.RDFTerm_to_ID[delimiter + content + delimiter]
         ?: addRDFTerm(lupos.s02buildSyntaxTree.rdf.SimpleLiteral(content, delimiter))
-    fun LanguageTaggedLiteral(content: String, delimiter: String = "\"", language: String): Long = this.RDFTerm_to_ID["$delimiter$content$delimiter@$language"]
+    public fun LanguageTaggedLiteral(content: String, delimiter: String = "\"", language: String): Long = this.RDFTerm_to_ID["$delimiter$content$delimiter@$language"]
         ?: addRDFTerm(lupos.s02buildSyntaxTree.rdf.LanguageTaggedLiteral(content, delimiter, language))
-    fun TypedLiteral(content: String, delimiter: String = "\"", type: String): Long = this.RDFTerm_to_ID["$delimiter$content$delimiter^^<$type>"]
+    public fun TypedLiteral(content: String, delimiter: String = "\"", type: String): Long = this.RDFTerm_to_ID["$delimiter$content$delimiter^^<$type>"]
         ?: addRDFTerm(lupos.s02buildSyntaxTree.rdf.TypedLiteral(content, delimiter, type))
-    operator fun get(id: Long): RDFTerm? {
+    operator public fun get(id: Long): RDFTerm? {
         return this.ID_to_RDFTerm[id]
     }
 }
-class ID_Triple(@JvmField val s: Long, @JvmField val p: Long, @JvmField val o: Long)
+public class ID_Triple(@JvmField public val s: Long, @JvmField public val p: Long, @JvmField public val o: Long)

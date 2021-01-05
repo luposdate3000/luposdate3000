@@ -4,7 +4,7 @@ import lupos.s02buildSyntaxTree.ParseError
 import lupos.s02buildSyntaxTree.Token
 import lupos.s02buildSyntaxTree.UnexpectedToken
 import kotlin.jvm.JvmField
-class TurtleParserWithDictionary(@JvmField val consume_triple: (Long, Long, Long) -> Unit, @JvmField val ltit: LookAheadTokenIterator) {
+public class TurtleParserWithDictionary(@JvmField public val consume_triple: (Long, Long, Long) -> Unit, @JvmField public val ltit: LookAheadTokenIterator) {
     // for storing the prefixes...
     private val prefixes = mutableMapOf<String, String>()
     // some constants used for typed literals
@@ -15,13 +15,13 @@ class TurtleParserWithDictionary(@JvmField val consume_triple: (Long, Long, Long
     private val xsd_double = xsd + "double"
     private val rdf = "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
     private val nil = rdf + "nil"
-    val first: String = rdf + "first"
+ public   val first: String = rdf + "first"
     private val rest = rdf + "rest"
     private val nil_iri = lupos.s02buildSyntaxTree.rdf.Dictionary.IRI(nil)
     private val first_iri = lupos.s02buildSyntaxTree.rdf.Dictionary.IRI(first)
     private val rest_iri = lupos.s02buildSyntaxTree.rdf.Dictionary.IRI(rest)
     private val type_iri = lupos.s02buildSyntaxTree.rdf.Dictionary.IRI(rdf + "type")
-    fun turtleDoc() {
+    public fun turtleDoc() {
         var t1 = ltit.lookahead()
         while (t1.image == "@prefix" || t1.image == "@base" || t1.image == "PREFIX" || t1.image == "BASE" || t1 is IRI || t1 is PNAME_LN || t1 is PNAME_NS || t1 is BNODE || t1 is ANON_BNODE || t1.image == "(" || t1.image == "[") {
             statement()
@@ -412,7 +412,7 @@ class TurtleParserWithDictionary(@JvmField val consume_triple: (Long, Long, Long
             }
         }
     }
-    fun iri(): Long {
+    public fun iri(): Long {
         val token: Token
         val iri: String
         when (val t18 = ltit.lookahead()) {
