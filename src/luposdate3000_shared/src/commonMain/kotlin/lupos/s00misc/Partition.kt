@@ -3,8 +3,8 @@ public class Partition {
     public val data: MutableMap<String, Int>
     public val limit: MutableMap<String, Int>
     public companion object {
-        public val estimatedPartitions1: MutableMap<String, MutableSet<Int>> = mutableMapOf<String, MutableSet<Int>>()
-        public val estimatedPartitions2: MutableMap<String, MutableSet<Int>> = mutableMapOf<String, MutableSet<Int>>()
+        public val estimatedPartitions1: MutableMap<String, MutableSet<Int>> = mutableMapOf()
+        public val estimatedPartitions2: MutableMap<String, MutableSet<Int>> = mutableMapOf()
         public var estimatedPartitionsValid: Boolean = false
         public var default_k: Int = 128
         public const val queue_size: Int = 1000

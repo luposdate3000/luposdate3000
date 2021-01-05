@@ -297,7 +297,7 @@ public class ASTBlankNode(@JvmField public val name: String) : ASTRDFTerm() {
     public override fun nodeToString(): String = "_:$name"
     private companion object {
         var label_index = 0L
-        public fun getNewName(): String {
+        fun getNewName(): String {
             return "_" + label_index++
         }
     }

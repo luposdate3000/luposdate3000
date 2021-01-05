@@ -1,6 +1,6 @@
 package lupos.s05tripleStore.index_IDTriple
 import kotlin.jvm.JvmField
-internal class Count1PassThroughIterator(@JvmField public val a: TripleIterator) : TripleIterator() {
+internal class Count1PassThroughIterator(@JvmField val a: TripleIterator) : TripleIterator() {
     @JvmField
     var distinct = 0
     @JvmField

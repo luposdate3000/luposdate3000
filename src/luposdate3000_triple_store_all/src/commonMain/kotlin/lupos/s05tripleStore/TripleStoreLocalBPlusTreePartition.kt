@@ -16,7 +16,7 @@ public class TripleStoreLocalBPlusTreePartition(name: String, store_root_page_id
         val dataDistinctList = mutableListOf<TripleStoreDistinctContainer>()
         println("the activated Partitions are ::")
         if (store_root_page_init) {
-            var cnt = ByteArrayHelper.readInt4(rootPage, 0)
+            val cnt = ByteArrayHelper.readInt4(rootPage, 0)
             var rootPageOffset = 4
             val tmpEnabledPartitions = mutableListOf<EnabledPartitionContainer>()
             val localindicees = mapOf(
@@ -35,8 +35,7 @@ public class TripleStoreLocalBPlusTreePartition(name: String, store_root_page_id
                 val name2 = StringBuilder(idx.toString())
                 println("partition :: $idx $column $partitionCount")
                 val childPage = bufferManager.getPage(pageid2)
-                val type = ETripleIndexType.values()[ByteArrayHelper.readInt4(childPage, 0)]
-                val store = when (type) {
+                val store = when (ETripleIndexType.values()[ByteArrayHelper.readInt4(childPage, 0)]) {
                     ETripleIndexType.ID_TRIPLE -> TripleStoreIndexIDTriple(pageid2, store_root_page_init)
                     ETripleIndexType.PARTITION -> TripleStoreIndexPartition({ i, k -> SanityCheck.checkUnreachable() }, column, partitionCount, pageid2, store_root_page_init)
                 }

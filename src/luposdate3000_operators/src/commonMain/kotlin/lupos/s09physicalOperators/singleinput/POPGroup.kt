@@ -152,7 +152,7 @@ public class POPGroup : POPBase {
         }
         return res
     }
-    internal class MapKey(@JvmField public val data: IntArray) {
+    internal class MapKey(@JvmField val data: IntArray) {
         override fun hashCode(): Int {
             var res = 0
             for (element in data) {
@@ -303,7 +303,7 @@ public class POPGroup : POPBase {
                             override /*suspend*/ fun close() {
                                 __close()
                             }
-                            /*suspend*/ internal inline fun __close() {
+                            /*suspend*/ inline fun __close() {
                                 if (label != 0) {
                                     ColumnIteratorQueueExt._close(this)
                                     for (element in keyColumns) {
@@ -419,10 +419,10 @@ public class POPGroup : POPBase {
                     keyColumnNames.size == 1 && valueColumnNames.size == 0
 // <- simplicity
                 ) {
-                    var iterator = keyColumns[0]
-                    var map = mutableMapOf<Int, Int>()
+                    val iterator = keyColumns[0]
+                    val map = mutableMapOf<Int, Int>()
                     while (true) {
-                        var value = iterator.next()
+                        val value = iterator.next()
                         if (value == ResultSetDictionaryExt.nullValue) {
                             iterator.close()
                             break

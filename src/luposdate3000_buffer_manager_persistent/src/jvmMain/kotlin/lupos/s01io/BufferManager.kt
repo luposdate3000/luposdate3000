@@ -8,45 +8,16 @@ import kotlin.contracts.InvocationKind.EXACTLY_ONCE
 import kotlin.contracts.contract
 import kotlin.jvm.JvmField
 @OptIn(kotlin.contracts.ExperimentalContracts::class)
-public actual class BufferManager {
+public actual class BufferManager public actual constructor(
+    @JvmField
+    public var name: String
+) {
     @JvmField
     public val cacheSize: Int = 100
     internal companion object {
         const val freelistfileOffsetCounter = 0L
         const val freelistfileOffsetFreeLen = 4L
         const val freelistfileOffsetData = 8L
-    }
-    @JvmField
-    public var name: String = ""
-    public actual constructor (name: String) {
-        this.name = name
-        datafile = RandomAccessFile(BufferManagerExt.bufferPrefix + name + BufferManagerExt.fileEnding, "rw")
-        freelistfile = RandomAccessFile(BufferManagerExt.bufferPrefix + name + BufferManagerExt.fileEndingFree, "rw")
-        if (BufferManagerExt.initializedFromDisk) {
-            datafilelength = datafile.length()
-            freelistfile.seek(freelistfileOffsetFreeLen)
-            freeArrayLength = freelistfile.readInt()
-            freelistfile.seek(freelistfileOffsetCounter)
-            counter = freelistfile.readInt()
-            var s = cacheSize
-            while (s <freeArrayLength) {
-                s = s * 2
-            }
-            freeArray = IntArray(s)
-            freelistfile.seek(freelistfileOffsetData)
-            for (i in 0 until freeArrayLength) {
-                freeArray[i] = freelistfile.readInt()
-            }
-        } else {
-            counter = 0
-            datafilelength = 0L
-            freeArrayLength = 0
-            freeArray = IntArray(cacheSize)
-            freelistfile.seek(freelistfileOffsetCounter)
-            freelistfile.writeInt(counter)
-            freelistfile.seek(freelistfileOffsetFreeLen)
-            freelistfile.writeInt(freeArrayLength)
-        }
     }
     /*
      * each type safe page-manager safes to its own store
@@ -83,7 +54,7 @@ public actual class BufferManager {
             BufferManagerExt.managerList[name] = manager
         }
     }
-    internal inline fun localSanityCheck() {
+    private inline fun localSanityCheck() {
         SanityCheck {
             var cntg = 0
             for (i in 0 until cacheSize) {
@@ -112,7 +83,7 @@ public actual class BufferManager {
             }
         }
     }
-    internal inline fun findNextOpenID(): Int {
+    private inline fun findNextOpenID(): Int {
         // this assumes write lock
         var openId = 0
         while (openId <cacheSize) {
@@ -135,7 +106,7 @@ public actual class BufferManager {
         freelistfile.seek(freelistfileOffsetFreeLen)
         freelistfile.writeInt(freeArrayLength)
         openPagesMapping.clear()
-        for (i in 0 until openPagesRefcounters.size) {
+        for (i in openPagesRefcounters.indices) {
             openPagesRefcounters[i] = 0
         }
     }
@@ -147,7 +118,7 @@ public actual class BufferManager {
                 SanityCheck { freeArray[i] != pageid }
             }
             SanityCheck.check { openPagesMapping[pageid] != null }
-            var openId = openPagesMapping[pageid]!!
+            val openId = openPagesMapping[pageid]!!
             SanityCheck.check { openPagesRefcounters[openId] >= 1 }
             if (datafilelength < BUFFER_MANAGER_PAGE_SIZE_IN_BYTES * pageid) {
                 datafilelength = BUFFER_MANAGER_PAGE_SIZE_IN_BYTES * pageid
@@ -174,7 +145,7 @@ public actual class BufferManager {
                 SanityCheck { freeArray[i] != pageid }
             }
             SanityCheck.check { openPagesMapping[pageid] != null }
-            var openId = openPagesMapping[pageid]!!
+            val openId = openPagesMapping[pageid]!!
             SanityCheck.check { openPagesRefcounters[openId] >= 1 }
             if (openPagesRefcounters[openId] == 1) {
                 if (datafilelength < BUFFER_MANAGER_PAGE_SIZE_IN_BYTES * pageid) {
@@ -239,7 +210,7 @@ public actual class BufferManager {
             for (i in 0 until freeArrayLength) {
                 SanityCheck { freeArray[i] != pageid }
             }
-            var openId = findNextOpenID()
+            val openId = findNextOpenID()
             SanityCheck.check { !openPagesMapping.values.contains(openId) }
             openPagesMapping[pageid] = openId
             Arrays.fill(openPages[openId], 0)
@@ -254,7 +225,7 @@ public actual class BufferManager {
             SanityCheck { freeArray[i] != pageid }
         }
         SanityCheck.check { openPagesMapping[pageid] != null }
-        var openId = openPagesMapping[pageid]!!
+        val openId = openPagesMapping[pageid]!!
         SanityCheck.check { openPagesRefcounters[openId] == 1 }
         openPagesRefcounters[openId]--
         openPagesMapping.remove(pageid)
@@ -271,5 +242,34 @@ public actual class BufferManager {
         freeArrayLength++
         SanityCheck.check { !openPagesMapping.values.contains(openId) }
         localSanityCheck()
+    }
+    init {
+        datafile = RandomAccessFile(BufferManagerExt.bufferPrefix + name + BufferManagerExt.fileEnding, "rw")
+        freelistfile = RandomAccessFile(BufferManagerExt.bufferPrefix + name + BufferManagerExt.fileEndingFree, "rw")
+        if (BufferManagerExt.initializedFromDisk) {
+            datafilelength = datafile.length()
+            freelistfile.seek(freelistfileOffsetFreeLen)
+            freeArrayLength = freelistfile.readInt()
+            freelistfile.seek(freelistfileOffsetCounter)
+            counter = freelistfile.readInt()
+            var s = cacheSize
+            while (s <freeArrayLength) {
+                s *= 2
+            }
+            freeArray = IntArray(s)
+            freelistfile.seek(freelistfileOffsetData)
+            for (i in 0 until freeArrayLength) {
+                freeArray[i] = freelistfile.readInt()
+            }
+        } else {
+            counter = 0
+            datafilelength = 0L
+            freeArrayLength = 0
+            freeArray = IntArray(cacheSize)
+            freelistfile.seek(freelistfileOffsetCounter)
+            freelistfile.writeInt(counter)
+            freelistfile.seek(freelistfileOffsetFreeLen)
+            freelistfile.writeInt(freeArrayLength)
+        }
     }
 }

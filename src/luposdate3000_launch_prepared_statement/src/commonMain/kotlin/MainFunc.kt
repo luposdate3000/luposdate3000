@@ -12,7 +12,7 @@ internal fun mainFunc(args: Array<String>): Unit = Parallel.runBlocking {
     LuposdateEndpoint.evaluateOperatorgraphToResult(preparedStatement, buf,EQueryResultToStream.XML_STREAM)
     println(buf.toString())
 */
-    var mode = args[0].toInt()
+    val mode = args[0].toInt()
     val argsl = args.toMutableList()
     argsl.removeFirst()
     for (f in argsl) {
@@ -47,7 +47,7 @@ internal fun mainFunc(args: Array<String>): Unit = Parallel.runBlocking {
                     val dict = l.query!!.getDictionary()
                     val column_ID_occurences = l.columns.indexOf("occurences")
                     val column_ID_cnt = l.columns.indexOf("cnt")
-                    val data = l.data.map { it.map { dict.getValue(it).valueToString()!!.split('"')[1].toInt() } }
+                    val data = l.data.map { it.map { it2 -> dict.getValue(it2).valueToString()!!.split('"')[1].toInt() } }
                     var total = 0L
                     for (d in data) {
                         total += d[column_ID_occurences] * d[column_ID_cnt]

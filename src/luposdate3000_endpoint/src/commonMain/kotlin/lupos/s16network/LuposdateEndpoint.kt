@@ -95,7 +95,7 @@ public object LuposdateEndpoint {
                     val ltit = LookAheadTokenIterator(tit, 3)
                     try {
                         val x = object : TurtleParserWithStringTriples() {
-                            public /*suspend*/ override fun consume_triple(s: String, p: String, o: String) {
+                            /*suspend*/ override fun consume_triple(s: String, p: String, o: String) {
                                 counter++
                                 bulk.insert(helperImportRaw(bnodeDict, s), helperImportRaw(bnodeDict, p), helperImportRaw(bnodeDict, o))
                             }
@@ -129,7 +129,7 @@ public object LuposdateEndpoint {
                     val iter = f.readAsInputStream()
                     try {
                         val x = object : Turtle2Parser(iter) {
-                            public override fun onTriple(triple: Array<String>, tripleType: Array<ETripleComponentType>) {
+                            override fun onTriple(triple: Array<String>, tripleType: Array<ETripleComponentType>) {
                                 counter++
                                 bulk.insert(helperImportRaw(bnodeDict, triple[0]), helperImportRaw(bnodeDict, triple[1]), helperImportRaw(bnodeDict, triple[2]))
                             }
@@ -158,7 +158,7 @@ public object LuposdateEndpoint {
                 val iter = MyStringStream(data)
                 try {
                     val x = object : Turtle2Parser(iter) {
-                        public override fun onTriple(triple: Array<String>, tripleType: Array<ETripleComponentType>) {
+                        override fun onTriple(triple: Array<String>, tripleType: Array<ETripleComponentType>) {
                             counter++
                             bulk.insert(helperImportRaw(bnodeDict, triple[0]), helperImportRaw(bnodeDict, triple[1]), helperImportRaw(bnodeDict, triple[2]))
                         }
@@ -202,7 +202,7 @@ public object LuposdateEndpoint {
                                 if (t[1] == "1") {
                                     var t2 = Partition.estimatedPartitions1[t[0]]
                                     if (t2 == null) {
-                                        t2 = mutableSetOf<Int>()
+                                        t2 = mutableSetOf()
                                         Partition.estimatedPartitions1[t[0]] = t2
                                     }
                                     if (t[2].toInt() > 1) {
@@ -212,7 +212,7 @@ public object LuposdateEndpoint {
                                 if (t[1] == "2") {
                                     var t2 = Partition.estimatedPartitions2[t[0]]
                                     if (t2 == null) {
-                                        t2 = mutableSetOf<Int>()
+                                        t2 = mutableSetOf()
                                         Partition.estimatedPartitions2[t[0]] = t2
                                     }
                                     if (t[2].toInt() > 0) {

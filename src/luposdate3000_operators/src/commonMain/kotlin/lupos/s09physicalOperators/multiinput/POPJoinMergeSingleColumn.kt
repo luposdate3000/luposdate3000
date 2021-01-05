@@ -37,7 +37,7 @@ public class POPJoinMergeSingleColumn(query: IQuery, projectedVariables: List<St
         return children[0].toSparql() + children[1].toSparql()
     }
     override fun equals(other: Any?): Boolean = other is POPJoinMergeSingleColumn && optional == other.optional && children[0] == other.children[0] && children[1] == other.children[1]
-    internal class ColumnIteratorImpl(@JvmField public val child0: ColumnIterator, @JvmField public val child1: ColumnIterator, @JvmField public var head0: Int, @JvmField public var head1: Int) : ColumnIterator() {
+    internal class ColumnIteratorImpl(@JvmField val child0: ColumnIterator, @JvmField val child1: ColumnIterator, @JvmField var head0: Int, @JvmField var head1: Int) : ColumnIterator() {
         @JvmField
         var counter: Int = 0
         @JvmField

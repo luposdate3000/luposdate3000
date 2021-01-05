@@ -33,7 +33,7 @@ public class POPJoinMerge(query: IQuery, projectedVariables: List<String>, child
     override /*suspend*/ fun toXMLElement(): XMLElement = super.toXMLElement().addAttribute("optional", "" + optional)
     override fun cloneOP(): IOPBase = POPJoinMerge(query, projectedVariables, children[0].cloneOP(), children[1].cloneOP(), optional)
     override fun equals(other: Any?): Boolean = other is POPJoinMerge && optional == other.optional && children[0] == other.children[0] && children[1] == other.children[1]
-    internal class IteratorBundleImpl(@JvmField public val columnsINJ0: List<ColumnIterator>, @JvmField public val columnsINJ1: List<ColumnIterator>, @JvmField public val columnsOUTJ: ColumnIteratorChildIterator) : IteratorBundle(0) {
+    internal class IteratorBundleImpl(@JvmField val columnsINJ0: List<ColumnIterator>, @JvmField val columnsINJ1: List<ColumnIterator>, @JvmField val columnsOUTJ: ColumnIteratorChildIterator) : IteratorBundle(0) {
         override /*suspend*/ fun hasNext2(): Boolean {
             val tmp = columnsOUTJ.next() != ResultSetDictionaryExt.nullValue
             if (!tmp) {
@@ -60,15 +60,15 @@ public class POPJoinMerge(query: IQuery, projectedVariables: List<String>, child
         }
     }
     internal class ColumnIteratorChildIteratorImpl(
-        @JvmField public val columnsINJ0: List<ColumnIterator>,
-        @JvmField public val columnsINJ1: List<ColumnIterator>,
-        @JvmField public val columnsINO0: List<ColumnIterator>,
-        @JvmField public val columnsINO1: List<ColumnIterator>,
-        @JvmField public val columnsOUT0: List<ColumnIteratorChildIterator>,
-        @JvmField public val columnsOUT1: List<ColumnIteratorChildIterator>,
-        @JvmField public val columnsOUTJ: List<ColumnIteratorChildIterator>,
-        @JvmField public val key0: IntArray,
-        @JvmField public val key1: IntArray
+        @JvmField val columnsINJ0: List<ColumnIterator>,
+        @JvmField val columnsINJ1: List<ColumnIterator>,
+        @JvmField val columnsINO0: List<ColumnIterator>,
+        @JvmField val columnsINO1: List<ColumnIterator>,
+        @JvmField val columnsOUT0: List<ColumnIteratorChildIterator>,
+        @JvmField val columnsOUT1: List<ColumnIteratorChildIterator>,
+        @JvmField val columnsOUTJ: List<ColumnIteratorChildIterator>,
+        @JvmField val key0: IntArray,
+        @JvmField val key1: IntArray
     ) : ColumnIteratorChildIterator() {
         @JvmField
         val data0 = Array(columnsINO0.size) { IntArray(100) }

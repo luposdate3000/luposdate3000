@@ -31,7 +31,7 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
     internal inline fun getValue(): String {
         return outBuffer.toString()
     }
-    public fun append() {
+    fun append() {
         if (c <= 0xd7ff || (c in 0xe000..0xffff)) {
             outBuffer.append(c.toChar())
             next()
@@ -42,7 +42,7 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
             next()
         }
     }
-    public fun next() {
+    fun next() {
         if (inBufPosition >= inBufSize) {
             if (c == EOF) {
                 throw ParserExceptionEOF()

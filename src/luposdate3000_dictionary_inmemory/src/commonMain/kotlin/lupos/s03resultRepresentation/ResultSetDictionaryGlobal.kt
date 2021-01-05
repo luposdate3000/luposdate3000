@@ -9,7 +9,7 @@ import lupos.s01io.BufferManagerExt
 import kotlin.jvm.JvmField
 public val nodeGlobalDictionary: ResultSetDictionaryGlobal = ResultSetDictionaryGlobal()
 @OptIn(ExperimentalUnsignedTypes::class)
-public class ResultSetDictionaryGlobal() {
+public class ResultSetDictionaryGlobal {
     internal inline fun isLocalBNode(value: Int) = (value and ResultSetDictionaryShared.mask3) == ResultSetDictionaryShared.flaggedValueLocalBnode
     @JvmField
     internal val localBnodeToInt = mutableMapOf<String, Int>()
@@ -51,11 +51,11 @@ public class ResultSetDictionaryGlobal() {
     init {
         outputDictionaryFile = MyDataOutputStream()
         if (!BufferManagerExt.isInMemoryOnly) {
-            if (BufferManagerExt.initializedFromDisk) {
+            outputDictionaryFile = if (BufferManagerExt.initializedFromDisk) {
                 importFromDictionaryFile(BufferManagerExt.bufferPrefix + "dictionary.data")
-                outputDictionaryFile = File(BufferManagerExt.bufferPrefix + "dictionary.data").openDataOutputStream(true)
+                File(BufferManagerExt.bufferPrefix + "dictionary.data").openDataOutputStream(true)
             } else {
-                outputDictionaryFile = File(BufferManagerExt.bufferPrefix + "dictionary.data").openDataOutputStream(false)
+                File(BufferManagerExt.bufferPrefix + "dictionary.data").openDataOutputStream(false)
             }
         }
         initializationphase = false
@@ -66,7 +66,7 @@ public class ResultSetDictionaryGlobal() {
     public fun importFromDictionaryFile(filename: String) {
         importFromDictionaryFileH(filename, null)
     }
-    internal inline fun importFromDictionaryFileH(filename: String, mapping: IntArray?) {
+    private inline fun importFromDictionaryFileH(filename: String, mapping: IntArray?) {
         val fileDictionary = File(filename)
         var buffer = ByteArray(0)
         var mappingIdx = 0
@@ -191,7 +191,7 @@ public class ResultSetDictionaryGlobal() {
                 for (i in 1 until s2.size - 1) {
                     a += "^^" + s2[i]
                 }
-                var b = s2[s2.size - 1]
+                val b = s2[s2.size - 1]
                 return createTyped(a, b)
             }
             ETripleComponentType.STRING_LANG -> {
@@ -200,7 +200,7 @@ public class ResultSetDictionaryGlobal() {
                 for (i in 1 until s2.size - 1) {
                     a += "@" + s2[i]
                 }
-                var b = s2[s2.size - 1]
+                val b = s2[s2.size - 1]
                 return createLangTagged(a, b)
             }
             else -> {
@@ -248,8 +248,7 @@ public class ResultSetDictionaryGlobal() {
         return res
     }
     public fun createNewBNode(value: String = ResultSetDictionaryShared.emptyString): Int {
-        val res: Int
-        res = (ResultSetDictionaryShared.flaggedValueGlobalBnode or (bNodeCounter++))
+        val res: Int = (ResultSetDictionaryShared.flaggedValueGlobalBnode or (bNodeCounter++))
         appendToFile(ETripleComponentType.BLANK_NODE, value)
         return res
     }
@@ -299,7 +298,7 @@ public class ResultSetDictionaryGlobal() {
                 langTaggedToValue = tmp
             }
             langTaggedToValue[res] = key
-            appendToFile(ETripleComponentType.STRING_LANG, content + "@" + lang)
+            appendToFile(ETripleComponentType.STRING_LANG, "$content@$lang")
             res = res or ResultSetDictionaryShared.flaggedValueGlobalLangTagged
         } else {
             res = tmp3 or ResultSetDictionaryShared.flaggedValueGlobalLangTagged
@@ -342,7 +341,7 @@ public class ResultSetDictionaryGlobal() {
                         typedToValue = tmp
                     }
                     typedToValue[res] = key
-                    appendToFile(ETripleComponentType.STRING_TYPED, content + "^^" + type)
+                    appendToFile(ETripleComponentType.STRING_TYPED, "$content^^$type")
                     res = res or ResultSetDictionaryShared.flaggedValueGlobalTyped
                 } else {
                     res = tmp3 or ResultSetDictionaryShared.flaggedValueGlobalTyped
@@ -365,7 +364,7 @@ public class ResultSetDictionaryGlobal() {
                 doubleToValue = tmp
             }
             doubleToValue[res] = value
-            appendToFile(ETripleComponentType.STRING_TYPED, "\"" + value + "\"^^<http://www.w3.org/2001/XMLSchema#double>")
+            appendToFile(ETripleComponentType.STRING_TYPED, "\"$value\"^^<http://www.w3.org/2001/XMLSchema#double>")
             res = res or ResultSetDictionaryShared.flaggedValueGlobalDouble
         } else {
             res = tmp3 or ResultSetDictionaryShared.flaggedValueGlobalDouble
@@ -386,7 +385,7 @@ public class ResultSetDictionaryGlobal() {
                 floatToValue = tmp
             }
             floatToValue[res] = value
-            appendToFile(ETripleComponentType.STRING_TYPED, "\"" + value + "\"^^<http://www.w3.org/2001/XMLSchema#float>")
+            appendToFile(ETripleComponentType.STRING_TYPED, "\"$value\"^^<http://www.w3.org/2001/XMLSchema#float>")
             res = res or ResultSetDictionaryShared.flaggedValueGlobalFloat
         } else {
             res = tmp3 or ResultSetDictionaryShared.flaggedValueGlobalFloat
@@ -408,7 +407,7 @@ public class ResultSetDictionaryGlobal() {
                 decimalToValue = tmp
             }
             decimalToValue[res] = value
-            appendToFile(ETripleComponentType.STRING_TYPED, "\"" + value + "\"^^<http://www.w3.org/2001/XMLSchema#decimal>")
+            appendToFile(ETripleComponentType.STRING_TYPED, "\"$value\"^^<http://www.w3.org/2001/XMLSchema#decimal>")
             res = res or ResultSetDictionaryShared.flaggedValueGlobalDecimal
         } else {
             res = tmp3 or ResultSetDictionaryShared.flaggedValueGlobalDecimal
@@ -430,7 +429,7 @@ public class ResultSetDictionaryGlobal() {
                 intToValue = tmp
             }
             intToValue[res] = value
-            appendToFile(ETripleComponentType.STRING_TYPED, "\"" + value + "\"^^<http://www.w3.org/2001/XMLSchema#integer>")
+            appendToFile(ETripleComponentType.STRING_TYPED, "\"$value\"^^<http://www.w3.org/2001/XMLSchema#integer>")
             res = res or ResultSetDictionaryShared.flaggedValueGlobalInt
         } else {
             res = tmp3 or ResultSetDictionaryShared.flaggedValueGlobalInt

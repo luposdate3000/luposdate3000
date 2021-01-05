@@ -29,7 +29,7 @@ public class PhysicalOptimizerPartition6(query: Query) : OptimizerBase(query, EO
                     println("PhysicalOptimizerPartition6 :: should optimize 2")
                     if (TripleStoreLocal.providesFeature(TripleStoreFeature.PARTITION, null)) {
                         println("PhysicalOptimizerPartition6 :: should optimize 3 ${node.partition.limit}")
-                        if (node.partition.limit.size == 0) {
+                        if (node.partition.limit.isEmpty()) {
                             println("PhysicalOptimizerPartition6 :: should optimize 4")
                             val enabledPartitions = distributedTripleStore.getLocalStore().getEnabledPartitions(node.graphName)
                             var countToUse = -1
@@ -65,7 +65,7 @@ public class PhysicalOptimizerPartition6(query: Query) : OptimizerBase(query, EO
                                 node.partition.limit[variableToUse] = countToUse
                                 res = POPSplitPartitionFromStore(query, node.projectedVariables, variableToUse, countToUse, partitionID, node)
                                 query.addPartitionOperator(res.getUUID(), partitionID)
-                                if (node.projectedVariables.size> 0) {
+                                if (node.projectedVariables.isNotEmpty()) {
                                     res = POPMergePartitionOrderedByIntId(query, node.projectedVariables, variableToUse, countToUse, partitionID, res)
                                     for (i in node.idx.valueIndices) {
                                         val c = node.children[i]

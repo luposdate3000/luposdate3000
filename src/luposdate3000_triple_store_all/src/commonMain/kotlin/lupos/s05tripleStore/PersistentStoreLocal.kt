@@ -15,7 +15,7 @@ public class PersistentStoreLocal : IPersistentStoreLocal {
     public val bufferManager: BufferManager = BufferManagerExt.getBuffermanager("stores")
     @JvmField
     public val stores: MutableMap<String, TripleStoreLocal> = mutableMapOf()
-    public fun storesAdd(name: String) {
+    private fun storesAdd(name: String) {
         var pageid2 = -1
         bufferManager.createPage { p, pageid3 ->
             pageid2 = pageid3
@@ -24,19 +24,19 @@ public class PersistentStoreLocal : IPersistentStoreLocal {
         stores[name] = TripleStoreLocal(name, pageid2, false)
         storesChanged()
     }
-    public fun storesRemove(name: String) {
+    private fun storesRemove(name: String) {
         stores[name]!!.dropStore()
         stores.remove(name)
         storesChanged()
     }
-    public fun storesRemoveAll() {
+    private fun storesRemoveAll() {
         for ((k, v) in stores) {
             v.dropStore()
         }
         stores.clear()
         storesChanged()
     }
-    public fun storesChanged() {
+    private fun storesChanged() {
         if (!BufferManagerExt.isInMemoryOnly) {
             File(BufferManagerExt.bufferPrefix + "PersistentStoreLocal.cnf").printWriter { out ->
                 for ((k, v) in stores) {

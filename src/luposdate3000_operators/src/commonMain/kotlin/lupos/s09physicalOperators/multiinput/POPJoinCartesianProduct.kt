@@ -135,16 +135,14 @@ public class POPJoinCartesianProduct(query: IQuery, projectedVariables: List<Str
                     SanityCheck.println { "POPJoinCartesianProductXXX$uuid mode F" }
                     for (i in 0 until columns[1].size + columns[2].size) {
                         val iterator = object : ColumnIteratorChildIterator() {
-                            @JvmField
-                            val childA0 = childA
                             override /*suspend*/ fun close() {
                                 __close()
                             }
-                            /*suspend*/ internal inline fun __close() {
+                            /*suspend*/ inline fun __close() {
                                 if (label != 0) {
                                     _close()
                                     SanityCheck.println { "POPJoinCartesianProductXXX$uuid close A $classname" }
-                                    for ((k, v) in childA0.columns) {
+                                    for ((k, v) in childA.columns) {
                                         v.close()
                                     }
                                 }
@@ -159,7 +157,7 @@ public class POPJoinCartesianProduct(query: IQuery, projectedVariables: List<Str
                                                 SanityCheck.check { columnIndex == 0 }
                                                 done = true
                                                 SanityCheck.println { "POPJoinCartesianProductXXX$uuid close A $classname" }
-                                                for ((k, v) in childA0.columns) {
+                                                for ((k, v) in childA.columns) {
                                                     v.close()
                                                 }
                                                 break
@@ -204,16 +202,14 @@ public class POPJoinCartesianProduct(query: IQuery, projectedVariables: List<Str
                 SanityCheck.println { "POPJoinCartesianProductXXX$uuid mode G" }
                 for (i in 0 until columns[1].size + columns[2].size) {
                     val iterator = object : ColumnIteratorChildIterator() {
-                        @JvmField
-                        val childA0 = childA
                         override /*suspend*/ fun close() {
                             __close()
                         }
-                        /*suspend*/ internal inline fun __close() {
+                        /*suspend*/ inline fun __close() {
                             if (label != 0) {
                                 _close()
                                 SanityCheck.println { "POPJoinCartesianProductXXX$uuid close A $classname" }
-                                for ((k, v) in childA0.columns) {
+                                for ((k, v) in childA.columns) {
                                     v.close()
                                 }
                             }
@@ -228,7 +224,7 @@ public class POPJoinCartesianProduct(query: IQuery, projectedVariables: List<Str
                                             SanityCheck.check { columnIndex == 0 }
                                             done = true
                                             SanityCheck.println { "POPJoinCartesianProductXXX$uuid close A $classname" }
-                                            for ((k, v) in childA0.columns) {
+                                            for ((k, v) in childA.columns) {
                                                 v.close()
                                             }
                                             break

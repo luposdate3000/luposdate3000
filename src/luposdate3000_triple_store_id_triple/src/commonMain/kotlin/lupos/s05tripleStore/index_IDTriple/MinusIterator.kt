@@ -1,6 +1,6 @@
 package lupos.s05tripleStore.index_IDTriple
 import kotlin.jvm.JvmField
-internal class MinusIterator(@JvmField public val a: TripleIterator, @JvmField public val b: TripleIterator) : TripleIterator() {
+internal class MinusIterator(@JvmField val a: TripleIterator, @JvmField val b: TripleIterator) : TripleIterator() {
     @JvmField
     var flag = 0
     @JvmField

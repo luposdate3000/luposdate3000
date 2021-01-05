@@ -121,7 +121,7 @@ internal fun mainFunc(args: Array<String>): Unit = Parallel.runBlocking {
                             y = Array(partitionSizes.size) { IntArray(partitionSizes[it]) }
                             x[constantPart] = y
                         }
-                        for (k in 0 until partitionSizes.size) {
+                        for (k in partitionSizes.indices) {
                             y[k][PartitionExt.hashFunction(partitionPart, partitionSizes[k])]++
                         }
                     }
@@ -137,7 +137,7 @@ internal fun mainFunc(args: Array<String>): Unit = Parallel.runBlocking {
             val x = estimatedPartitionSizes[i + j2 * 3]
             var lastMax = -1
             var maxPartition = partitionSizes[0]
-            for (ki in 0 until partitionSizes.size) {
+            for (ki in partitionSizes.indices) {
                 val k = partitionSizes[ki]
                 var min = -1
                 var max = 0

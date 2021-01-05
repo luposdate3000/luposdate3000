@@ -37,7 +37,7 @@ public class POPJoinHashMap(query: IQuery, projectedVariables: List<String>, chi
         return children[0].toSparql() + children[1].toSparql()
     }
     override fun equals(other: Any?): Boolean = other is POPJoinHashMap && optional == other.optional && children[0] == other.children[0] && children[1] == other.children[1]
-    internal class MapKey(@JvmField public val data: IntArray) {
+    internal class MapKey(@JvmField val data: IntArray) {
         override fun hashCode(): Int {
             var res = 0
             for (element in data) {
@@ -46,7 +46,7 @@ public class POPJoinHashMap(query: IQuery, projectedVariables: List<String>, chi
             return res
         }
         override fun equals(other: Any?) = other is MapKey && data.contentEquals(other.data)
-        public fun equalsFuzzy(other: Any?): Boolean {
+        fun equalsFuzzy(other: Any?): Boolean {
             SanityCheck.check { other is MapKey }
             for (i in data.indices) {
                 if (data[i] != ResultSetDictionaryExt.undefValue && (other as MapKey).data[i] != ResultSetDictionaryExt.undefValue && data[i] != other.data[i]) {
@@ -177,26 +177,20 @@ public class POPJoinHashMap(query: IQuery, projectedVariables: List<String>, chi
 // --- calculate next "cartesian product"
         for ((first, second) in outIterators) {
             val iterator = object : ColumnIteratorChildIterator() {
-                @JvmField
-                val outIteratorsAllocated0 = outIteratorsAllocated
-                @JvmField
-                val columnsINAJ0 = columnsINAJ
-                @JvmField
-                val columnsINAO0 = columnsINAO
                 override /*suspend*/ fun close() {
                     __close()
                 }
-                /*suspend*/ internal inline fun __close() {
+                /*suspend*/ inline fun __close() {
                     if (label != 0) {
                         _close()
-                        for (iterator2 in outIteratorsAllocated0) {
+                        for (iterator2 in outIteratorsAllocated) {
                             iterator2.closeOnNoMoreElements()
                         }
-                        for (closeIndex in 0 until columnsINAJ0.size) {
-                            columnsINAJ0[closeIndex].close()
+                        for (closeIndex in 0 until columnsINAJ.size) {
+                            columnsINAJ[closeIndex].close()
                         }
-                        for (closeIndex in 0 until columnsINAO0.size) {
-                            columnsINAO0[closeIndex].close()
+                        for (closeIndex in 0 until columnsINAO.size) {
+                            columnsINAO[closeIndex].close()
                         }
                     }
                 }

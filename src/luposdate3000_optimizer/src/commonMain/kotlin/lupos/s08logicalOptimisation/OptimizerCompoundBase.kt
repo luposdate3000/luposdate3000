@@ -15,7 +15,7 @@ public abstract class OptimizerCompoundBase(query: Query, optimizerID: EOptimize
     public abstract val childrenOptimizers: Array<Array<OptimizerBase>>
     override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase = node
     private fun verifyPartitionOperators(node: IOPBase, allList: MutableMap<Int, MutableSet<Long>>, currentPartitions_: MutableMap<String, Int>, root: IOPBase) {
-        var currentPartitions = mutableMapOf<String, Int>()
+        val currentPartitions = mutableMapOf<String, Int>()
         currentPartitions.putAll(currentPartitions_)
         val ids = mutableListOf<Int>()
         when (node) {
@@ -51,7 +51,7 @@ public abstract class OptimizerCompoundBase(query: Query, optimizerID: EOptimize
                 ids.add(node.partitionIDTo)
             }
             is TripleStoreIteratorGlobal -> {
-                SanityCheck.check({ currentPartitions.size == 0 || currentPartitions.size == 1 }, { "$currentPartitions" })
+                SanityCheck.check({ currentPartitions.isEmpty() || currentPartitions.size == 1 }, { "$currentPartitions" })
                 SanityCheck.check({ node.partition.limit.size == currentPartitions.size }, { "${node.partition.limit} $currentPartitions $root" })
                 if (currentPartitions.size == 1) {
                     for ((k, v) in node.partition.limit) {

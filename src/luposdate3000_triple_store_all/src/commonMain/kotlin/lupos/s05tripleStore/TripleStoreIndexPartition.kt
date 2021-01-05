@@ -19,8 +19,7 @@ public class TripleStoreIndexPartition(childIndex: (Int, Boolean) -> TripleStore
             if (store_root_page_init) {
                 val pageid = ByteArrayHelper.readInt4(rootPage, partition * 4 + 4)
                 val childPage = bufferManager.getPage(pageid)
-                val type = ETripleIndexType.values()[ByteArrayHelper.readInt4(childPage, 0)]
-                var res = when (type) {
+                val res = when (ETripleIndexType.values()[ByteArrayHelper.readInt4(childPage, 0)]) {
                     ETripleIndexType.ID_TRIPLE -> TripleStoreIndexIDTriple(pageid, store_root_page_init)
                     else -> SanityCheck.checkUnreachable()
                 }

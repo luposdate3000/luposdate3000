@@ -28,7 +28,7 @@ internal fun mainFunc(args: Array<String>): Unit = Parallel.runBlocking {
     println("$datasourceFiles/persistence-import.sparql,$numberOfTriples,0,1,${numberOfTriples * 1000.0},${1.0 / time}")
     val allpartitions = listOf(1, 2, 4, 8, 16)
     val partitionTimes = DoubleArray(allpartitions.size)
-    for (partitionC in 0 until allpartitions.size) {
+    for (partitionC in allpartitions.indices) {
 //            if (partitionC > 1 && partitionTimes[partitionC - 1] < partitionTimes[partitionC - 2]) {
 //                break
 //            }
