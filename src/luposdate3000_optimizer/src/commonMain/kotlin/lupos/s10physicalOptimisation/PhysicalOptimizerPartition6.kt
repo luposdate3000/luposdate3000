@@ -39,9 +39,21 @@ class PhysicalOptimizerPartition6(query: Query) : OptimizerBase(query, EOptimize
                                 }
                                 idx++
                             }
-                            var variableToUse = (node.children[node.idx.tripleIndicees[columnToUse]]as AOPVariable).name
-                            if (variableToUse == "_") {
-                                variableToUse = "_$columnToUse"
+                            var variableToUse = ""
+                            if (columnToUse == -1) {
+                                for (p in enabledPartitions) {
+                                    if (p.index.contains(node.idx) && (p.partitionCount <countToUse || countToUse == -1)) {
+                                        columnToUse = p.column
+                                        countToUse = p.partitionCount
+                                    }
+                                    idx++
+                                }
+				variableToUse = "_$columnToUse"
+                            } else {
+                                variableToUse = (node.children[node.idx.tripleIndicees[columnToUse]]as AOPVariable).name
+                                if (variableToUse == "_") {
+                                    variableToUse = "_$columnToUse"
+                                }
                             }
                             println("PhysicalOptimizerPartition6 :: $countToUse $columnToUse $idx $variableToUse")
                             try {

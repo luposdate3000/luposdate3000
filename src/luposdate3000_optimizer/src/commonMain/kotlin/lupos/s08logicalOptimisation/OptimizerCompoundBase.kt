@@ -40,13 +40,13 @@ abstract class OptimizerCompoundBase(query: Query, optimizerID: EOptimizerID) : 
                 ids.add(node.partitionID)
             }
             is POPSplitPartition -> {
-                SanityCheck.check { currentPartitions[node.partitionVariable] == node.partitionCount }
+                SanityCheck.check ({ currentPartitions[node.partitionVariable] == node.partitionCount },{"$root"})
                 currentPartitions.remove(node.partitionVariable)
                 ids.add(node.partitionID)
             }
             is POPChangePartitionOrderedByIntId -> {
-                SanityCheck.check { currentPartitions[node.partitionVariable] == node.partitionCountFrom }
-                currentPartitions[node.partitionVariable] = node.partitionCountTo
+                SanityCheck.check ({ currentPartitions[node.partitionVariable] == node.partitionCountTo },{"$root"})
+                currentPartitions[node.partitionVariable] = node.partitionCountFrom
                 ids.add(node.partitionIDFrom)
                 ids.add(node.partitionIDTo)
             }
@@ -56,8 +56,8 @@ abstract class OptimizerCompoundBase(query: Query, optimizerID: EOptimizerID) : 
                 if (currentPartitions.size == 1) {
                     for ((k, v) in node.partition.limit) {
                         for ((k2, v2) in currentPartitions) {
-                            SanityCheck.check({ k == k2 }, { "$k $k2" })
-                            SanityCheck.check({ v == -v2 }, { "$v $v2" })
+                            SanityCheck.check({ k == k2 }, { "$k $k2 $node\n$root" })
+                            SanityCheck.check({ v == -v2 }, { "$v $v2 $node\n$root" })
                         }
                     }
                 }
@@ -97,6 +97,7 @@ abstract class OptimizerCompoundBase(query: Query, optimizerID: EOptimizerID) : 
                                 onChange()
                             }
                         }
+                    }
                         SanityCheck {
                             val allPartitionOperators = mutableMapOf<Int, MutableSet<Long>>()
                             verifyPartitionOperators(tmp, allPartitionOperators, mutableMapOf<String, Int>(), tmp)
@@ -108,9 +109,6 @@ abstract class OptimizerCompoundBase(query: Query, optimizerID: EOptimizerID) : 
                                 val v2 = allPartitionOperators[k]
                                 SanityCheck.check({ v1 == v2 }, { "$allPartitionOperators  <-b-> ${query.partitionOperators}\n$tmp" })
                             }
-                        }
-                    }
-                    SanityCheck {
                         if (query.filtersMovedUpFromOptionals) {
                             tmp.syntaxVerifyAllVariableExists(listOf(), false)
                         }
