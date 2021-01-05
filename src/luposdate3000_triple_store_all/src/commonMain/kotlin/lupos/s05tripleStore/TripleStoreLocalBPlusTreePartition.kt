@@ -1,6 +1,5 @@
 package lupos.s05tripleStore
 import lupos.s00misc.USE_PARTITIONS
-import lupos.s00misc.BUFFER_MANAGER_PAGE_SIZE_IN_BYTES
 import lupos.s00misc.ByteArrayHelper
 import lupos.s00misc.EIndexPattern
 import lupos.s00misc.ETripleIndexType
@@ -128,7 +127,7 @@ class TripleStoreLocalBPlusTreePartition(name: String, store_root_page_id_: Int,
                 ByteArrayHelper.writeInt4(rootPage, rootPageOffset + 8, p.column)
                 ByteArrayHelper.writeInt4(rootPage, rootPageOffset + 12, p.partitionCount)
                 rootPageOffset += 16
-                SanityCheck.check { rootPageOffset <= BUFFER_MANAGER_PAGE_SIZE_IN_BYTES }
+                SanityCheck.check { rootPageOffset <=  BufferManagerExt.getPageSize() }
                 if (p.column >= 0) {
                     name2.insert(p.column, p.partitionCount)
                     dataDistinctList.add(TripleStoreDistinctContainer(name2.toString(), TripleStoreIndexPartition({ i, k -> TripleStoreIndexIDTriple(i, k) }, p.column, p.partitionCount, pageid2, store_root_page_init), { it.getData(idx) }, idx))
