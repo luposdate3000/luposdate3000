@@ -40,12 +40,12 @@ abstract class OptimizerCompoundBase(query: Query, optimizerID: EOptimizerID) : 
                 ids.add(node.partitionID)
             }
             is POPSplitPartition -> {
-                SanityCheck.check ({ currentPartitions[node.partitionVariable] == node.partitionCount },{"$root"})
+                SanityCheck.check({ currentPartitions[node.partitionVariable] == node.partitionCount }, { "$root" })
                 currentPartitions.remove(node.partitionVariable)
                 ids.add(node.partitionID)
             }
             is POPChangePartitionOrderedByIntId -> {
-                SanityCheck.check ({ currentPartitions[node.partitionVariable] == node.partitionCountTo },{"$root"})
+                SanityCheck.check({ currentPartitions[node.partitionVariable] == node.partitionCountTo }, { "$root" })
                 currentPartitions[node.partitionVariable] = node.partitionCountFrom
                 ids.add(node.partitionIDFrom)
                 ids.add(node.partitionIDTo)
@@ -98,17 +98,17 @@ abstract class OptimizerCompoundBase(query: Query, optimizerID: EOptimizerID) : 
                             }
                         }
                     }
-                        SanityCheck {
-                            val allPartitionOperators = mutableMapOf<Int, MutableSet<Long>>()
-                            verifyPartitionOperators(tmp, allPartitionOperators, mutableMapOf<String, Int>(), tmp)
-                            for ((k, v1) in allPartitionOperators) {
-                                val v2 = query.partitionOperators[k]
-                                SanityCheck.check({ v1 == v2 }, { "$allPartitionOperators  <-a-> ${query.partitionOperators}\n$tmp" })
-                            }
-                            for ((k, v1) in query.partitionOperators) {
-                                val v2 = allPartitionOperators[k]
-                                SanityCheck.check({ v1 == v2 }, { "$allPartitionOperators  <-b-> ${query.partitionOperators}\n$tmp" })
-                            }
+                    SanityCheck {
+                        val allPartitionOperators = mutableMapOf<Int, MutableSet<Long>>()
+                        verifyPartitionOperators(tmp, allPartitionOperators, mutableMapOf<String, Int>(), tmp)
+                        for ((k, v1) in allPartitionOperators) {
+                            val v2 = query.partitionOperators[k]
+                            SanityCheck.check({ v1 == v2 }, { "$allPartitionOperators  <-a-> ${query.partitionOperators}\n$tmp" })
+                        }
+                        for ((k, v1) in query.partitionOperators) {
+                            val v2 = allPartitionOperators[k]
+                            SanityCheck.check({ v1 == v2 }, { "$allPartitionOperators  <-b-> ${query.partitionOperators}\n$tmp" })
+                        }
                         if (query.filtersMovedUpFromOptionals) {
                             tmp.syntaxVerifyAllVariableExists(listOf(), false)
                         }

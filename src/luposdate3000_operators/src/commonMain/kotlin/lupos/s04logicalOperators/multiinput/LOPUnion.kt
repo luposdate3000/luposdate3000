@@ -29,9 +29,9 @@ class LOPUnion(query: IQuery, first: IOPBase, second: IOPBase) : LOPBase(query, 
         }
         try {
             for (v in p) {
-val a=childHistogram0.values[v]?:1
-val b=childHistogram1.values[v]?:1
-                res.values[v] = a+b
+                val a = childHistogram0.values[v] ?: 1
+                val b = childHistogram1.values[v] ?: 1
+                res.values[v] = a + b
             }
         } catch (e: Throwable) {
             SanityCheck.println { "TODO exception 10" }

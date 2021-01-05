@@ -1,9 +1,9 @@
 package lupos.s10physicalOptimisation
 import lupos.s00misc.DontCareWhichException
 import lupos.s00misc.EOptimizerID
+import lupos.s00misc.ESortType
 import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
-import lupos.s00misc.ESortType
 import lupos.s00misc.SortHelper
 import lupos.s00misc.TripleStoreLocal
 import lupos.s00misc.USE_PARTITIONS
@@ -12,9 +12,8 @@ import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.Query
 import lupos.s05tripleStore.TripleStoreFeature
 import lupos.s08logicalOptimisation.OptimizerBase
-import lupos.s09physicalOperators.partition.POPMergePartition
-import lupos.s09physicalOperators.partition.POPMergePartitionOrderedByIntId
 import lupos.s09physicalOperators.partition.POPMergePartitionCount
+import lupos.s09physicalOperators.partition.POPMergePartitionOrderedByIntId
 import lupos.s09physicalOperators.partition.POPSplitPartitionFromStore
 import lupos.s15tripleStoreDistributed.TripleStoreIteratorGlobal
 import lupos.s15tripleStoreDistributed.distributedTripleStore
@@ -52,7 +51,7 @@ class PhysicalOptimizerPartition6(query: Query) : OptimizerBase(query, EOptimize
                                     }
                                     idx++
                                 }
-				variableToUse = "_$columnToUse"
+                                variableToUse = "_$columnToUse"
                             } else {
                                 variableToUse = (node.children[node.idx.tripleIndicees[columnToUse]]as AOPVariable).name
                                 if (variableToUse == "_") {
@@ -68,13 +67,13 @@ class PhysicalOptimizerPartition6(query: Query) : OptimizerBase(query, EOptimize
                                 query.addPartitionOperator(res.getUUID(), partitionID)
                                 if (node.projectedVariables.size> 0) {
                                     res = POPMergePartitionOrderedByIntId(query, node.projectedVariables, variableToUse, countToUse, partitionID, res)
-for(i in node.idx.valueIndices){
-val c=node.children[i]
-SanityCheck.check{c is AOPVariable}
-if(c is AOPVariable &&c.name!="_"){
-					res.mySortPriority.add(SortHelper(c.name,ESortType.FAST))
-}
-}
+                                    for (i in node.idx.valueIndices) {
+                                        val c = node.children[i]
+                                        SanityCheck.check { c is AOPVariable }
+                                        if (c is AOPVariable && c.name != "_") {
+                                            res.mySortPriority.add(SortHelper(c.name, ESortType.FAST))
+                                        }
+                                    }
                                 } else {
                                     res = POPMergePartitionCount(query, node.projectedVariables, variableToUse, countToUse, partitionID, res)
                                 }

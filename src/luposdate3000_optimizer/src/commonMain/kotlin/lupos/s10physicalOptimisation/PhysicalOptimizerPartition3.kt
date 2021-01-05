@@ -72,7 +72,7 @@ class PhysicalOptimizerPartition3(query: Query) : OptimizerBase(query, EOptimize
                         res = POPChangePartitionOrderedByIntId(query, node.projectedVariables, node.partitionVariable, count, node.partitionCount, newID, node.partitionID, node)
                         node.partitionID = newID
                         node.partitionCount = count
-			storeNode.partition.limit[node.partitionVariable]=count
+                        storeNode.partition.limit[node.partitionVariable] = count
                         query.addPartitionOperator(node.getUUID(), node.partitionID)
                         query.addPartitionOperator(res.getUUID(), res.partitionIDTo)
                         query.addPartitionOperator(res.getUUID(), res.partitionIDFrom)
