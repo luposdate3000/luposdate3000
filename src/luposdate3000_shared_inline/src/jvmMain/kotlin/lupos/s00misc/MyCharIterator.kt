@@ -1,8 +1,8 @@
 package lupos.modulename
+import lupos.s00misc.File
 import java.io.BufferedInputStream
 import java.io.DataInputStream
 import java.io.FileInputStream
-import lupos.s00misc.File
 internal class MyCharIterator(file: File) : CharIterator() {
     private val fis = FileInputStream(file.filename)
     private val bis = BufferedInputStream(fis)

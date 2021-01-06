@@ -9,10 +9,9 @@ import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.iterator.RowIterator
 import lupos.s15tripleStoreDistributed.TripleStoreIteratorGlobal
 import lupos.s16network.LuposdateEndpoint
-
 internal fun mainFunc(args: Array<String>): Unit = Parallel.runBlocking {
     LuposdateEndpoint.initialize()
-LuposdateEndpoint.importTurtleFiles("/mnt/luposdate-testdata/sp2b/1024/complete.n3",mutableMapOf<String, Int>())
+    LuposdateEndpoint.importTurtleFiles("/mnt/luposdate-testdata/sp2b/1024/complete.n3", mutableMapOf<String, Int>())
     val preparedStatement = LuposdateEndpoint.evaluateSparqlToResultB("INSERT Data {<A> <a> <C>}")
 // importieren der daten
     println("abc")

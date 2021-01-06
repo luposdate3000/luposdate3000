@@ -1,39 +1,39 @@
 package lupos.s00misc
 public actual class MyBigInteger {
-   internal  val s: String
-    actual public constructor(s1: String) {
+    internal val s: String
+    public actual constructor(s1: String) {
         s = s1
     }
-    actual public constructor(s1: Int) {
+    public actual constructor(s1: Int) {
         s = "" + s1
     }
-    actual public fun compareTo(other: MyBigInteger): Int {
+    public actual fun compareTo(other: MyBigInteger): Int {
         throw object : NotImplementedException("MyBigInteger", "compareTo not implemented") {}
     }
-    actual public fun toDouble(): Double {
+    public actual fun toDouble(): Double {
         throw object : NotImplementedException("MyBigDecimal", "toDouble not implemented") {}
     }
-    actual operator public fun plus(other: MyBigInteger): MyBigInteger {
+    public actual operator fun plus(other: MyBigInteger): MyBigInteger {
         throw object : NotImplementedException("MyBigInteger", "plus not implemented") {}
     }
-    actual operator public fun minus(other: MyBigInteger): MyBigInteger {
+    public actual operator fun minus(other: MyBigInteger): MyBigInteger {
         throw object : NotImplementedException("MyBigInteger", "minus not implemented") {}
     }
-    actual operator public fun times(other: MyBigInteger): MyBigInteger {
+    public actual operator fun times(other: MyBigInteger): MyBigInteger {
         throw object : NotImplementedException("MyBigInteger", "times not implemented") {}
     }
-    actual operator public fun div(other: MyBigInteger): MyBigInteger {
+    public actual operator fun div(other: MyBigInteger): MyBigInteger {
         throw object : NotImplementedException("MyBigInteger", "div not implemented") {}
     }
-    actual public fun toMyBigDecimal(): MyBigDecimal {
+    public actual fun toMyBigDecimal(): MyBigDecimal {
         throw object : NotImplementedException("MyBigInteger", "toMyBigDecimal not implemented") {}
     }
-    actual public fun abs(): MyBigInteger {
+    public actual fun abs(): MyBigInteger {
         throw object : NotImplementedException("MyBigInteger", "abs not implemented") {}
     }
-    actual override public fun toString(): String = s
-    actual override public fun equals(other: Any?): Boolean = other is MyBigInteger && s == other.s
-    actual override public fun hashCode(): Int {
+    public actual override fun toString(): String = s
+    public actual override fun equals(other: Any?): Boolean = other is MyBigInteger && s == other.s
+    public actual override fun hashCode(): Int {
         return s.hashCode()
     }
 }

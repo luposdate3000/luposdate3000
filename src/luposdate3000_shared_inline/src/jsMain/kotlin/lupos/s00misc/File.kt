@@ -1,7 +1,7 @@
-package lupos.modulename 
+package lupos.modulename
+import lupos.s00misc.IMyInputStream
 import lupos.s00misc.MyDataOutputStream
 import lupos.s00misc.MyPrintWriter
-import lupos.s00misc.IMyInputStream
 internal actual class _File {
     val filename: String
     actual constructor(filename: String) {

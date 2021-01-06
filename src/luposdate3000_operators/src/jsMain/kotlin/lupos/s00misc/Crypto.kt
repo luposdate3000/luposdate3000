@@ -4,17 +4,17 @@ import com.soywiz.krypto.sha1 as _sha1
 import com.soywiz.krypto.sha256 as _sha256
 @OptIn(ExperimentalStdlibApi::class)
 public actual object Crypto {
-    actual public fun md5(value: String): String {
+    public actual fun md5(value: String): String {
         return toHexString(value.encodeToByteArray()._md5())
     }
-    actual public fun sha256(value: String): String {
+    public actual fun sha256(value: String): String {
         return toHexString(value.encodeToByteArray()._sha256())
     }
-    actual public fun sha1(value: String): String {
+    public actual fun sha1(value: String): String {
         return toHexString(value.encodeToByteArray()._sha1())
     }
-    actual public fun uuid(): String = throw NotImplementedException("Crypto", "uuid not implemented")
-    private  fun toHexString(data: ByteArray): String {
+    public actual fun uuid(): String = throw NotImplementedException("Crypto", "uuid not implemented")
+    private fun toHexString(data: ByteArray): String {
         val sb = StringBuilder()
         for (b in data) {
             val tmp = (b + 256) % 256

@@ -1,6 +1,6 @@
 package lupos.modulename
-import lupos.s00misc.EOperatingSystem
 import kotlinx.cinterop.toKString
+import lupos.s00misc.EOperatingSystem
 import platform.posix.getenv
 internal actual object _Platform {
     val operatingSystem = EOperatingSystem.UNKNOWN

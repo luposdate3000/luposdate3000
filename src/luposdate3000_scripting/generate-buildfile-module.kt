@@ -494,9 +494,9 @@ public fun createBuildFileForModule(moduleName: String, moduleFolder: String, mo
                     }
                     if (tmp.length > 0) {
                         var tmp2 = classNamesRegex.find(tmp)!!.groupValues[1]
-if(tmp2.startsWith("_")){
-tmp2=tmp2.substring(1)
-}
+                        if (tmp2.startsWith("_")) {
+                            tmp2 = tmp2.substring(1)
+                        }
                         if (tmp2.length > 0) {
                             val tmp3 = classNamesFound[tmp2]
                             if (tmp3 == null) {
@@ -562,12 +562,12 @@ tmp2=tmp2.substring(1)
                     val src = File(fname)
                     val dest = File(fname.replace("src${pathSeparator}luposdate3000_shared_inline${pathSeparator}src", "src.generated"))
                     src.copyTo(dest)
-try{
-                    val src2 = File(fname.replace(".kt","Alias.kt"))
-                    val dest2 = File(fname.replace("src${pathSeparator}luposdate3000_shared_inline${pathSeparator}src", "src.generated").replace(".kt","Alias.kt"))
-                    src2.copyTo(dest2)
-}catch(e:Throwable){
-}
+                    try {
+                        val src2 = File(fname.replace(".kt", "Alias.kt"))
+                        val dest2 = File(fname.replace("src${pathSeparator}luposdate3000_shared_inline${pathSeparator}src", "src.generated").replace(".kt", "Alias.kt"))
+                        src2.copyTo(dest2)
+                    } catch (e: Throwable) {
+                    }
                 }
             }
             println(classNamesUsed.keys)
@@ -602,7 +602,6 @@ try{
         configFile = "src.generated${pathSeparator}commonMain${pathSeparator}kotlin${pathSeparator}lupos${pathSeparator}s00misc${pathSeparator}Config-$moduleName.kt"
     }
 // selectively copy classes which are inlined from the inline internal module <-
-
     File(configFile).printWriter().use { out ->
         out.println("package lupos.s00misc")
         for ((k, v) in typeAliasUsed) {
@@ -643,8 +642,8 @@ try{
     if (dryMode == DryMode.Disable) {
         if (onWindows) {
             var path = System.getProperty("user.dir")
- File("$path${pathSeparator}gradle").copyRecursively(File("$path${pathSeparator}src.generated${pathSeparator}gradle"))
-File("gradlew.bat").copyTo(File("src.generated${pathSeparator}gradlew.bat"))
+            File("$path${pathSeparator}gradle").copyRecursively(File("$path${pathSeparator}src.generated${pathSeparator}gradle"))
+            File("gradlew.bat").copyTo(File("src.generated${pathSeparator}gradlew.bat"))
             runCommand(listOf("gradlew.bat", "build"), File("$path${pathSeparator}src.generated"))
             runCommand(listOf("gradlew.bat", "publishToMavenLocal"), File("$path${pathSeparator}src.generated"))
         } else if (onLinux) {

@@ -1,2 +1,2 @@
 package lupos.s00misc
- internal typealias Platform=lupos.modulename._Platform
+internal typealias Platform = lupos.modulename._Platform

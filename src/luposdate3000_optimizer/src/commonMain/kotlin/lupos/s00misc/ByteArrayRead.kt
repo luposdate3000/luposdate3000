@@ -1,5 +1,4 @@
 package lupos.s00misc
-import lupos.s00misc.ByteArrayHelper
 import kotlin.jvm.JvmField
 @OptIn(ExperimentalStdlibApi::class)
 internal class ByteArrayRead(@JvmField val data: ByteArray, @JvmField val size: Int) {
