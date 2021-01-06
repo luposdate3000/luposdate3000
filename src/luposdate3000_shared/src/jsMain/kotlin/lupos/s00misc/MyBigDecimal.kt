@@ -1,54 +1,54 @@
 package lupos.s00misc
-actual class MyBigDecimal {
-    val s: String
-    actual constructor(s1: String) {
+public actual class MyBigDecimal {
+internal    val s: String
+    actual public constructor(s1: String) {
         s = s1
     }
-    actual constructor(s1: Double) {
+    actual public constructor(s1: Double) {
         s = "" + s1
     }
-    actual constructor(s1: Int) {
+    actual public constructor(s1: Int) {
         s = "" + s1
     }
-    actual fun toPlainString(): String {
+    actual public fun toPlainString(): String {
         return s
     }
-    actual fun compareTo(other: MyBigDecimal): Int {
+    actual public fun compareTo(other: MyBigDecimal): Int {
         throw object : NotImplementedException("MyBigDecimal", "compareTo not implemented") {}
     }
-    actual fun toDouble(): Double {
+    actual public fun toDouble(): Double {
         throw object : NotImplementedException("MyBigDecimal", "toDouble not implemented") {}
     }
-    actual operator fun plus(other: MyBigDecimal): MyBigDecimal {
+    actual operator public fun plus(other: MyBigDecimal): MyBigDecimal {
         throw object : NotImplementedException("MyBigDecimal", "plus not implemented") {}
     }
-    actual operator fun minus(other: MyBigDecimal): MyBigDecimal {
+    actual operator public fun minus(other: MyBigDecimal): MyBigDecimal {
         throw object : NotImplementedException("MyBigDecimal", "minus not implemented") {}
     }
-    actual operator fun times(other: MyBigDecimal): MyBigDecimal {
+    actual operator public fun times(other: MyBigDecimal): MyBigDecimal {
         throw object : NotImplementedException("MyBigDecimal", "times not implemented") {}
     }
-    actual operator fun div(other: MyBigDecimal): MyBigDecimal {
+    actual operator public fun div(other: MyBigDecimal): MyBigDecimal {
         throw object : NotImplementedException("MyBigDecimal", "div not implemented") {}
     }
-    actual fun ceil(): MyBigDecimal {
+    actual public fun ceil(): MyBigDecimal {
         throw object : NotImplementedException("MyBigDecimal", "ceil not implemented") {}
     }
-    actual fun floor(): MyBigDecimal {
+    actual public fun floor(): MyBigDecimal {
         throw object : NotImplementedException("MyBigDecimal", "floor not implemented") {}
     }
-    actual fun round(): MyBigDecimal {
+    actual public fun round(): MyBigDecimal {
         throw object : NotImplementedException("MyBigDecimal", "round not implemented") {}
     }
-    actual fun toMyBigInteger(): MyBigInteger {
+    actual public fun toMyBigInteger(): MyBigInteger {
         throw object : NotImplementedException("MyBigDecimal", "toMyBigInteger not implemented") {}
     }
-    actual fun abs(): MyBigDecimal {
+    actual public fun abs(): MyBigDecimal {
         throw object : NotImplementedException("MyBigDecimal", "abs not implemented") {}
     }
-    actual override fun toString(): String = s
-    actual override fun equals(other: Any?): Boolean = other is MyBigDecimal && s == other.s
-    actual override fun hashCode(): Int {
+    actual override public fun toString(): String = s
+    actual override public fun equals(other: Any?): Boolean = other is MyBigDecimal && s == other.s
+    actual override public fun hashCode(): Int {
         return s.hashCode()
     }
 }
