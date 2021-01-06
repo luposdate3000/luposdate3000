@@ -1,4 +1,5 @@
-package lupos.s00misc
+package lupos.modulename
+import lupos.s00misc.EOperatingSystem
 internal actual object Platform {
     val operatingSystem = EOperatingSystem.JS
     internal actual inline fun getOperatingSystem() = operatingSystem

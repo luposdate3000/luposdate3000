@@ -1,8 +1,8 @@
 import lupos.s00misc.DateHelperRelative
 import lupos.s00misc.EIndexPattern
 import lupos.s00misc.ESortType
-import lupos.s00misc.File
-import lupos.s00misc.MyPrintWriter
+import lupos.modulename.File
+import lupos.modulename.MyPrintWriter
 import lupos.s00misc.Parallel
 import lupos.s00misc.Partition
 import lupos.s00misc.SortHelper

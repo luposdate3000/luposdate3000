@@ -1,4 +1,4 @@
-package lupos.s00misc
+package lupos.modulename
 internal expect class DateHelper() {
     internal inline fun year(): Int
     internal inline fun month(): Int

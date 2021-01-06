@@ -1,4 +1,5 @@
-package lupos.s00misc
+package lupos.modulename
+import lupos.s00misc.EOperatingSystem
 internal expect object Platform {
     internal inline fun getEnv(key: String, default: String? = null): String?
     internal inline fun getUserHome(): String

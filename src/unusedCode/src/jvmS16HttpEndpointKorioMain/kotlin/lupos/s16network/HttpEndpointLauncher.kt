@@ -4,7 +4,7 @@ import com.soywiz.korio.net.http.HttpServer
 import com.soywiz.korio.net.http.createHttpServer
 import lupos.SparqlTestSuite
 import lupos.s00misc.EnpointRecievedInvalidPath
-import lupos.s00misc.File
+import lupos.modulename.File
 import lupos.s00misc.JenaWrapper
 import lupos.s00misc.MyMapStringIntPatriciaTrie
 import lupos.s00misc.Parallel

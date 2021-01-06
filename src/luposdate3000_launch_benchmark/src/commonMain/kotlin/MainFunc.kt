@@ -1,6 +1,6 @@
 import lupos.s00misc.DateHelperRelative
-import lupos.s00misc.File
-import lupos.s00misc.MyPrintWriter
+import lupos.modulename.File
+import lupos.modulename.MyPrintWriter
 import lupos.s00misc.Parallel
 import lupos.s16network.LuposdateEndpoint
 internal enum class OptimizerMode {

@@ -1,4 +1,5 @@
-package lupos.s00misc
+package lupos.modulename
+import lupos.s00misc.IMyInputStream
 internal expect class File(filename: String) {
     internal inline fun createTempFile(prefix: String, suffix: String, directory: String): String
     internal inline fun exists(): Boolean

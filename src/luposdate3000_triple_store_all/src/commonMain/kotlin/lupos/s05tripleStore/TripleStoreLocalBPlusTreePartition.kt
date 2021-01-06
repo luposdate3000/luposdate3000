@@ -1,5 +1,5 @@
 package lupos.s05tripleStore
-import lupos.s00misc.ByteArrayHelper
+import lupos.modulename.ByteArrayHelper
 import lupos.s00misc.EIndexPattern
 import lupos.s00misc.ETripleIndexType
 import lupos.s00misc.Partition

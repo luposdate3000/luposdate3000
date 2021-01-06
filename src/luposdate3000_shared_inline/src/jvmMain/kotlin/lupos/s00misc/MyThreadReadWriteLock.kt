@@ -1,4 +1,4 @@
-package lupos.s00misc
+package lupos.modulename
 import java.util.concurrent.locks.ReentrantReadWriteLock
 import kotlin.contracts.InvocationKind.EXACTLY_ONCE
 import kotlin.contracts.contract

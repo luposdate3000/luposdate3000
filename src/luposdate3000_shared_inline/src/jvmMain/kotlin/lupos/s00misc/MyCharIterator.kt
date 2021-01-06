@@ -1,4 +1,4 @@
-package lupos.s00misc
+package lupos.modulename
 import java.io.BufferedInputStream
 import java.io.DataInputStream
 import java.io.FileInputStream

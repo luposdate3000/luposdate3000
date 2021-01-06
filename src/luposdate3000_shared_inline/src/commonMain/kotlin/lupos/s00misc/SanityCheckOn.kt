@@ -1,4 +1,5 @@
-package lupos.s00misc
+package lupos.modulename
+import lupos.s00misc.UnreachableException
 import kotlin.contracts.InvocationKind.EXACTLY_ONCE
 import kotlin.contracts.contract
 @OptIn(kotlin.contracts.ExperimentalContracts::class)

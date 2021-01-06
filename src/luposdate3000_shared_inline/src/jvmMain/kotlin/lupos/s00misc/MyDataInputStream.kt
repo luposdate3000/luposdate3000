@@ -1,4 +1,4 @@
-package lupos.s00misc
+package lupos.modulename
 import java.io.DataInputStream
 import kotlin.jvm.JvmField
 internal actual class MyDataInputStream(@JvmField public val it: DataInputStream) {

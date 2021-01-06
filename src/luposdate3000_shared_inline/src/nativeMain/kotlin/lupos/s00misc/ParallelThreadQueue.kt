@@ -1,4 +1,4 @@
-package lupos.s00misc
+package lupos.modulename
 internal actual class ParallelThreadQueue<T> {
     actual constructor(terminationValue: T) {
     }

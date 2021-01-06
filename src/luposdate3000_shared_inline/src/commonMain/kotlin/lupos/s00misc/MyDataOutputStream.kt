@@ -1,4 +1,4 @@
-package lupos.s00misc
+package lupos.modulename
 internal expect class MyDataOutputStream {
     internal constructor()
     internal inline fun writeInt(value: Int):Unit

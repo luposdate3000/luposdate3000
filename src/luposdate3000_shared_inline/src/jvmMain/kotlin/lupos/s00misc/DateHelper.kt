@@ -1,4 +1,4 @@
-package lupos.s00misc
+package lupos.modulename
 import java.util.Calendar
 import kotlin.jvm.JvmField
 internal actual class DateHelper actual constructor() {

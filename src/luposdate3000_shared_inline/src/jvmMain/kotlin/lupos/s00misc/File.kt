@@ -1,4 +1,7 @@
-package lupos.s00misc
+package lupos.modulename
+import lupos.s00misc.IMyInputStream
+import lupos.s00misc.Parallel
+import lupos.s00misc.DirectoryCompareNotImplementedException
 import java.io.BufferedInputStream
 import java.io.BufferedOutputStream
 import java.io.DataInputStream

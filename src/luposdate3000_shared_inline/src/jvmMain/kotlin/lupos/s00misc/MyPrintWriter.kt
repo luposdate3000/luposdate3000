@@ -1,4 +1,5 @@
-package lupos.s00misc
+package lupos.modulename
+import lupos.s00misc.IMyPrintWriter
 import java.io.OutputStream
 import java.io.PrintWriter
 import java.io.StringWriter

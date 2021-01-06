@@ -1,4 +1,5 @@
-package lupos.s00misc
+package lupos.modulename
+import lupos.s00misc.EOperatingSystem
 import java.io.File
 import kotlin.jvm.JvmField
 internal actual object Platform {

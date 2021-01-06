@@ -1,5 +1,5 @@
 import lupos.s00misc.DateHelperRelative
-import lupos.s00misc.File
+import lupos.modulename.File
 import lupos.s00misc.JenaWrapper
 import lupos.s00misc.Parallel
 import lupos.s16network.LuposdateEndpoint

@@ -1,4 +1,5 @@
-package lupos.s00misc
+package lupos.modulename
+import lupos.s00misc.EOperatingSystem
 import kotlinx.cinterop.toKString
 import platform.posix.getenv
 internal actual object Platform {

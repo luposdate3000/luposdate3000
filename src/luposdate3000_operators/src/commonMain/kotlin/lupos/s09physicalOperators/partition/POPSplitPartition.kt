@@ -5,7 +5,7 @@ import lupos.s00misc.MyLock
 import lupos.s00misc.Parallel
 import lupos.s00misc.ParallelCondition
 import lupos.s00misc.Partition
-import lupos.s00misc.PartitionExt
+import lupos.modulename.PartitionExt
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.ResultSetDictionaryExt

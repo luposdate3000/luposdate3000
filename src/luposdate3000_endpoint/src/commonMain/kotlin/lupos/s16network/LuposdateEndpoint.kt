@@ -2,10 +2,10 @@ package lupos.s16network
 import lupos.s00misc.DateHelperRelative
 import lupos.s00misc.EModifyType
 import lupos.s00misc.ETripleComponentType
-import lupos.s00misc.File
+import lupos.modulename.File
 import lupos.s00misc.IMyPrintWriter
-import lupos.s00misc.MyPrintWriter
-import lupos.s00misc.MyStringStream
+import lupos.modulename.MyPrintWriter
+import lupos.modulename.MyStringStream
 import lupos.s00misc.OperatorGraphToLatex
 import lupos.s00misc.Partition
 import lupos.s00misc.QueryResultToStream

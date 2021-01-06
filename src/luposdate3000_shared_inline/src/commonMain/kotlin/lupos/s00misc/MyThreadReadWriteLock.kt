@@ -1,4 +1,4 @@
-package lupos.s00misc
+package lupos.modulename
 internal expect class MyThreadReadWriteLock() {
     internal inline fun getUUID(): Long
     internal inline fun downgradeToReadLock()

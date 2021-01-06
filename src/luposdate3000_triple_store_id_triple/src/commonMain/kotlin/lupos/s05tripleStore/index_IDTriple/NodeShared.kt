@@ -1,6 +1,6 @@
 package lupos.s05tripleStore.index_IDTriple
-import lupos.s00misc.ByteArrayHelper
-import lupos.s00misc.IntegerExt
+import lupos.modulename.ByteArrayHelper
+import lupos.modulename.IntegerExt
 import lupos.s00misc.SanityCheck
 internal object NodeShared {
     const val MAX_TRIPLE_SIZE = 13

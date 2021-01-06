@@ -1,4 +1,4 @@
-package lupos.s00misc
+package lupos.modulename
 import kotlin.jvm.JvmField
 internal actual class ParallelThreadJob(action: () -> Unit) {
     @JvmField

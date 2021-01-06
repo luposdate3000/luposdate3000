@@ -1,5 +1,5 @@
 package lupos.s05tripleStore
-import lupos.s00misc.File
+import lupos.modulename.File
 import lupos.s00misc.MyListInt
 import lupos.s00misc.MyMapIntInt
 import lupos.s00misc.MyMapLongGeneric

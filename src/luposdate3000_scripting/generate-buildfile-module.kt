@@ -451,24 +451,24 @@ public fun createBuildFileForModule(moduleName: String, moduleFolder: String, mo
     val typeAliasAll = mutableMapOf<String, Pair<String, String>>()
     val typeAliasUsed = mutableMapOf<String, Pair<String, String>>()
     if (releaseMode == ReleaseMode.Enable) {
-        typeAliasAll["SanityCheck"] = Pair("SanityCheck", "SanityCheckOff")
+        typeAliasAll["SanityCheck"] = Pair("SanityCheck", "lupos.modulename.SanityCheckOff")
     } else {
-        typeAliasAll["SanityCheck"] = Pair("SanityCheck", "SanityCheckOn")
+        typeAliasAll["SanityCheck"] = Pair("SanityCheck", "lupos.modulename.SanityCheckOn")
     }
     if (suspendMode == SuspendMode.Enable) {
-        typeAliasAll["Parallel"] = Pair("Parallel", "ParallelCoroutine")
-        typeAliasAll["ParallelJob"] = Pair("ParallelJob", "ParallelCoroutineJob")
-        typeAliasAll["ParallelCondition"] = Pair("ParallelCondition", "ParallelCoroutineCondition")
-        typeAliasAll["ParallelQueue"] = Pair("ParallelQueue<T>", "ParallelCoroutineQueue<T>")
-        typeAliasAll["MyLock"] = Pair("MyLock", "MyCoroutineLock")
-        typeAliasAll["MyReadWriteLock"] = Pair("MyReadWriteLock", "MyCoroutineReadWriteLock")
+        typeAliasAll["Parallel"] = Pair("Parallel", "lupos.modulename.ParallelCoroutine")
+        typeAliasAll["ParallelJob"] = Pair("ParallelJob", "lupos.modulename.ParallelCoroutineJob")
+        typeAliasAll["ParallelCondition"] = Pair("ParallelCondition", "lupos.modulename.ParallelCoroutineCondition")
+        typeAliasAll["ParallelQueue"] = Pair("ParallelQueue<T>", "lupos.modulename.ParallelCoroutineQueue<T>")
+        typeAliasAll["MyLock"] = Pair("MyLock", "lupos.modulename.MyCoroutineLock")
+        typeAliasAll["MyReadWriteLock"] = Pair("MyReadWriteLock", "lupos.modulename.MyCoroutineReadWriteLock")
     } else {
-        typeAliasAll["Parallel"] = Pair("Parallel", "ParallelThread")
-        typeAliasAll["ParallelJob"] = Pair("ParallelJob", "ParallelThreadJob")
-        typeAliasAll["ParallelCondition"] = Pair("ParallelCondition", "ParallelThreadCondition")
-        typeAliasAll["ParallelQueue"] = Pair("ParallelQueue<T>", "ParallelThreadQueue<T>")
-        typeAliasAll["MyLock"] = Pair("MyLock", "MyThreadLock")
-        typeAliasAll["MyReadWriteLock"] = Pair("MyReadWriteLock", "MyThreadReadWriteLock")
+        typeAliasAll["Parallel"] = Pair("Parallel", "lupos.modulename.ParallelThread")
+        typeAliasAll["ParallelJob"] = Pair("ParallelJob", "lupos.modulename.ParallelThreadJob")
+        typeAliasAll["ParallelCondition"] = Pair("ParallelCondition", "lupos.modulename.ParallelThreadCondition")
+        typeAliasAll["ParallelQueue"] = Pair("ParallelQueue<T>", "lupos.modulename.ParallelThreadQueue<T>")
+        typeAliasAll["MyLock"] = Pair("MyLock", "lupos.modulename.MyThreadLock")
+        typeAliasAll["MyReadWriteLock"] = Pair("MyReadWriteLock", "lupos.modulename.MyThreadReadWriteLock")
     }
 // selectively copy classes which are inlined from the inline internal module ->
     val classNamesRegex = Regex("\\s*([a-zA-Z0-9_]*)")

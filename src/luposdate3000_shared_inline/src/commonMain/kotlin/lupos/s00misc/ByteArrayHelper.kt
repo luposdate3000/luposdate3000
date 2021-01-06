@@ -1,4 +1,5 @@
-package lupos.s00misc
+package lupos.modulename
+import lupos.s00misc.SanityCheck
 internal object ByteArrayHelper {
     internal inline fun writeInt1(data: ByteArray, offset: Int, value: Int) {
         data[offset] = (value and 0xFF).toByte()

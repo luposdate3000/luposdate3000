@@ -1,4 +1,4 @@
-package lupos.s00misc
+package lupos.modulename
 internal actual class DateHelper {
     actual constructor() {}
     internal actual inline fun year(): Int = throw NotImplementedException("DateHelper", "year not implemented")

@@ -1,4 +1,4 @@
-package lupos.s00misc
+package lupos.modulename
 internal enum class MyPrintWriterMode {
     BUFFER,
     FILE,

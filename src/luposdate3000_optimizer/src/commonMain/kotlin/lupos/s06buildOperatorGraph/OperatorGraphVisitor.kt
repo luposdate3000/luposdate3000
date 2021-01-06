@@ -5,7 +5,7 @@ import lupos.s00misc.EGraphOperationType
 import lupos.s00misc.EGraphRefType
 import lupos.s00misc.EGroupMember
 import lupos.s00misc.EModifyType
-import lupos.s00misc.File
+import lupos.modulename.File
 import lupos.s00misc.GroupByClauseNotUsedException
 import lupos.s00misc.MyBigDecimal
 import lupos.s00misc.MyBigInteger

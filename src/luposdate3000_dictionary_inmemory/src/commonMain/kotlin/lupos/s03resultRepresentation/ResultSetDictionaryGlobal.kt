@@ -1,9 +1,9 @@
 package lupos.s03resultRepresentation
 import lupos.s00misc.ETripleComponentType
-import lupos.s00misc.File
+import lupos.modulename.File
 import lupos.s00misc.MyBigDecimal
 import lupos.s00misc.MyBigInteger
-import lupos.s00misc.MyDataOutputStream
+import lupos.modulename.MyDataOutputStream
 import lupos.s00misc.SanityCheck
 import lupos.s01io.BufferManagerExt
 import kotlin.jvm.JvmField

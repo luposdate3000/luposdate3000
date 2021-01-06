@@ -1,4 +1,6 @@
 package lupos.s00misc
+import lupos.modulename.MyPrintWriter
+import lupos.modulename.File
 import lupos.s02buildSyntaxTree.LexerCharIterator
 import lupos.s02buildSyntaxTree.LookAheadTokenIterator
 import lupos.s02buildSyntaxTree.sparql1_1.SPARQLParser

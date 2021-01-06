@@ -1,4 +1,4 @@
-package lupos.s00misc
+package lupos.modulename 
 internal actual class DateHelper {
     actual constructor() {}
     internal val time = js("new Date()")

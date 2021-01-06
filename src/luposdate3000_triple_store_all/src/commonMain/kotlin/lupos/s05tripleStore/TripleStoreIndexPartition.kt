@@ -1,7 +1,7 @@
 package lupos.s05tripleStore
-import lupos.s00misc.ByteArrayHelper
+import lupos.modulename.ByteArrayHelper
 import lupos.s00misc.ETripleIndexType
-import lupos.s00misc.PartitionExt
+import lupos.modulename.PartitionExt
 import lupos.s00misc.SanityCheck
 import lupos.s01io.BufferManager
 import lupos.s01io.BufferManagerExt

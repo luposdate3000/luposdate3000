@@ -1,4 +1,4 @@
-package lupos.s00misc
+package lupos.modulename
 internal actual class MyDataOutputStream {
 internal    actual constructor() {}
     internal actual inline fun writeInt(value: Int): Unit = throw NotImplementedException("MyDataInputStream", "xyz not implemented")

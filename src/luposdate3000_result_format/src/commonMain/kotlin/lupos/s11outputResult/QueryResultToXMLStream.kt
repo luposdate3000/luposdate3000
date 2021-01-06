@@ -1,7 +1,7 @@
 package lupos.s11outputResult
 import lupos.s00misc.IMyPrintWriter
 import lupos.s00misc.MyLock
-import lupos.s00misc.MyPrintWriter
+import lupos.modulename.MyPrintWriter
 import lupos.s00misc.Parallel
 import lupos.s00misc.ParallelJob
 import lupos.s00misc.Partition

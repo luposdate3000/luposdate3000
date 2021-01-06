@@ -1,8 +1,8 @@
 package lupos.s16network
 import lupos.s00misc.EnpointRecievedInvalidPath
-import lupos.s00misc.File
+import lupos.modulename.File
 import lupos.s00misc.JenaWrapper
-import lupos.s00misc.MyPrintWriter
+import lupos.modulename.MyPrintWriter
 import lupos.s00misc.Parallel
 import lupos.s03resultRepresentation.nodeGlobalDictionary
 import java.io.BufferedReader

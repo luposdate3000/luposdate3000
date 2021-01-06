@@ -1,4 +1,5 @@
-package lupos.s00misc
+package lupos.modulename 
+import lupos.s00misc.IMyInputStream
 internal actual class File {
     val filename: String
     actual constructor(filename: String) {
