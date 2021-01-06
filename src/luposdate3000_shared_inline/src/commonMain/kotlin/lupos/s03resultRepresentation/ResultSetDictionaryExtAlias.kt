@@ -1,0 +1,2 @@
+package lupos.s03resultRepresentation
+internal typealias ResultSetDictionaryExt = lupos.modulename._ResultSetDictionaryExt

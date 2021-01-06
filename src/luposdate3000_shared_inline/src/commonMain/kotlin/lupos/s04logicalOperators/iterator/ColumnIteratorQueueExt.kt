@@ -1,6 +1,7 @@
-package lupos.s04logicalOperators.iterator
+package lupos.modulename
+import lupos.s04logicalOperators.iterator.ColumnIteratorQueue
 import lupos.s03resultRepresentation.ResultSetDictionaryExt
-internal object ColumnIteratorQueueExt {
+internal object _ColumnIteratorQueueExt {
     internal inline fun _close(it: ColumnIteratorQueue) {
         if (it.label != 0) {
             it.label = 0
