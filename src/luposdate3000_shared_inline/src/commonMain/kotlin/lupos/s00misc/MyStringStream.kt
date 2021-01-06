@@ -1,7 +1,7 @@
 package lupos.modulename
 import lupos.s00misc.IMyInputStream
 import kotlin.jvm.JvmField
-internal class MyStringStream(str: String) : IMyInputStream {
+internal class _MyStringStream(str: String) : IMyInputStream {
     @JvmField public val data = str.encodeToByteArray()
     @JvmField public var off = 0
     override fun read(buf: ByteArray): Int {

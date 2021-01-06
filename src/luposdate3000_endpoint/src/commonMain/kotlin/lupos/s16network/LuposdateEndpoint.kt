@@ -2,10 +2,10 @@ package lupos.s16network
 import lupos.s00misc.DateHelperRelative
 import lupos.s00misc.EModifyType
 import lupos.s00misc.ETripleComponentType
-import lupos.modulename.File
+import lupos.s00misc.File
 import lupos.s00misc.IMyPrintWriter
-import lupos.modulename.MyPrintWriter
-import lupos.modulename.MyStringStream
+import lupos.s00misc.MyPrintWriter
+import lupos.s00misc.MyStringStream
 import lupos.s00misc.OperatorGraphToLatex
 import lupos.s00misc.Partition
 import lupos.s00misc.QueryResultToStream
@@ -357,7 +357,7 @@ public object LuposdateEndpoint {
     @JsName("evaluate_sparql_to_result_c")
     /*suspend*/ public fun evaluateSparqlToResultC(query: String, logOperatorGraph: Boolean): String {
         val node = evaluateSparqlToOperatorgraphB(query, logOperatorGraph)
-        val buf = MyPrintWriter()
+        val buf = MyPrintWriter(true)
         evaluateOperatorgraphToResult(node, buf)
         return buf.toString()
     }
@@ -393,7 +393,7 @@ public object LuposdateEndpoint {
                 SanityCheck.println { b }
             }
         }
-        val buf = MyPrintWriter()
+        val buf = MyPrintWriter(true)
         evaluateOperatorgraphToResult(popNode, buf)
         return buf.toString()
     }

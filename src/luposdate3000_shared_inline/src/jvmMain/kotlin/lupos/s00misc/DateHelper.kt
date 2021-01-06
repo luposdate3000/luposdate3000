@@ -1,7 +1,7 @@
 package lupos.modulename
 import java.util.Calendar
 import kotlin.jvm.JvmField
-internal actual class DateHelper actual constructor() {
+internal actual class _DateHelper actual constructor() {
     @JvmField
     internal val time = Calendar.getInstance()
     internal actual inline fun year(): Int = time.get(Calendar.YEAR)

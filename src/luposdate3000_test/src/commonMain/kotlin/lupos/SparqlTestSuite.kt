@@ -2,7 +2,7 @@ package lupos
 import lupos.s00misc.DateHelperRelative
 import lupos.s00misc.EIndexPattern
 import lupos.s00misc.EModifyType
-import lupos.modulename.File
+import lupos.s00misc.File
 import lupos.s00misc.JenaBugException
 import lupos.s00misc.JenaWrapper
 import lupos.s00misc.Luposdate3000Exception

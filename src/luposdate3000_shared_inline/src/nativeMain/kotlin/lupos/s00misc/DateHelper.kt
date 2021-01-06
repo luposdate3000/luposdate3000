@@ -1,5 +1,5 @@
 package lupos.modulename
-internal actual class DateHelper {
+internal actual class _DateHelper {
     actual constructor() {}
     internal actual inline fun year(): Int = throw NotImplementedException("DateHelper", "year not implemented")
     internal actual inline fun month(): Int = throw NotImplementedException("DateHelper", "month not implemented")

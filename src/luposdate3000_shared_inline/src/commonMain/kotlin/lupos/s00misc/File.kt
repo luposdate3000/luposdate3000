@@ -1,6 +1,8 @@
 package lupos.modulename
 import lupos.s00misc.IMyInputStream
-internal expect class File(filename: String) {
+import lupos.s00misc.MyPrintWriter
+import lupos.s00misc.MyDataOutputStream
+internal expect class _File(filename: String) {
     internal inline fun createTempFile(prefix: String, suffix: String, directory: String): String
     internal inline fun exists(): Boolean
     internal inline fun mkdirs(): Boolean

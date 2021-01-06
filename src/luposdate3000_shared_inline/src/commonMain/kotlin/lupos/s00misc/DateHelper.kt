@@ -1,5 +1,5 @@
 package lupos.modulename
-internal expect class DateHelper() {
+internal expect class _DateHelper() {
     internal inline fun year(): Int
     internal inline fun month(): Int
     internal inline fun day(): Int

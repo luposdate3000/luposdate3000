@@ -1,4 +1,6 @@
 package lupos.modulename
+import lupos.s00misc.MyDataOutputStream
+import lupos.s00misc.MyPrintWriter
 import lupos.s00misc.IMyInputStream
 import lupos.s00misc.Parallel
 import lupos.s00misc.DirectoryCompareNotImplementedException
@@ -9,7 +11,7 @@ import java.io.DataOutputStream
 import java.io.FileInputStream
 import java.io.FileOutputStream
 import kotlin.jvm.JvmField
-internal actual class File actual constructor(@JvmField public val filename: String) {
+internal actual class _File actual constructor(@JvmField public val filename: String) {
     internal actual inline fun createTempFile(prefix: String, suffix: String, directory: String): String {
         val f = createTempFile(prefix, suffix, java.io.File(directory))
         return f.absolutePath
@@ -99,7 +101,7 @@ internal actual class File actual constructor(@JvmField public val filename: Str
         }
     }
     actual override fun equals(other: Any?): Boolean {
-        if (other !is File) {
+        if (other !is _File) {
             return false
         }
         val file1 = java.io.File(filename)

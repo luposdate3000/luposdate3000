@@ -4,7 +4,7 @@ import java.io.OutputStream
 import java.io.PrintWriter
 import java.io.StringWriter
 import kotlin.jvm.JvmField
-internal actual open class MyPrintWriter : IMyPrintWriter {
+internal actual open class _MyPrintWriter : IMyPrintWriter {
     @JvmField
     val buffer = StringWriter()
     @JvmField

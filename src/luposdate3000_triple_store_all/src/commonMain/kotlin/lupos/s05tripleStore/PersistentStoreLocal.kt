@@ -1,5 +1,5 @@
 package lupos.s05tripleStore
-import lupos.modulename.File
+import lupos.s00misc.File
 import lupos.s00misc.GraphNameAlreadyExistsDuringCreateException
 import lupos.s00misc.GraphNameNotExistsDuringDeleteException
 import lupos.s00misc.GraphNameNotFoundException

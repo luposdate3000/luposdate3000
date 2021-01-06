@@ -1,5 +1,5 @@
 package lupos.s03resultRepresentation
-import lupos.modulename.File
+import lupos.s00misc.File
 import lupos.s00misc.MyMapIntInt
 import lupos.s01io.BufferManager
 import kotlin.jvm.JvmField

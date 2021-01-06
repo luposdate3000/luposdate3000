@@ -2,7 +2,7 @@ package lupos.modulename
 import lupos.s00misc.EOperatingSystem
 import kotlinx.cinterop.toKString
 import platform.posix.getenv
-internal actual object Platform {
+internal actual object _Platform {
     val operatingSystem = EOperatingSystem.UNKNOWN
     internal actual inline fun getOperatingSystem() = operatingSystem
     internal actual inline fun getUserHome(): String = throw Exception("not available on this platform")

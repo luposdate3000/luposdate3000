@@ -1,7 +1,7 @@
 package lupos.s11outputResult
 import lupos.s00misc.IMyPrintWriter
 import lupos.s00misc.MyLock
-import lupos.modulename.MyPrintWriter
+import lupos.s00misc.MyPrintWriter
 import lupos.s00misc.Parallel
 import lupos.s00misc.ParallelJob
 import lupos.s00misc.Partition
@@ -104,7 +104,7 @@ public object QueryResultToXMLStream {
     }
     /*suspend*/ private inline fun writeAllRows(variables: Array<String>, columns: Array<ColumnIterator>, dictionary: IResultSetDictionary, lock: MyLock?, output: IMyPrintWriter) {
         val rowBuf = IntArray(variables.size)
-        val resultWriter = MyPrintWriter()
+        val resultWriter = MyPrintWriter(true)
         loop@ while (true) {
             for (variableIndex in variables.indices) {
                 val valueID = columns[variableIndex].next()

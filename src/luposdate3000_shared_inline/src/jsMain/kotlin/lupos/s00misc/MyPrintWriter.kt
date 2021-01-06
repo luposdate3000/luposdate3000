@@ -1,6 +1,6 @@
 package lupos.modulename
 import lupos.s00misc.IMyPrintWriter
-internal actual open class MyPrintWriter : IMyPrintWriter {
+internal actual open class _MyPrintWriter : IMyPrintWriter {
     val buffer = StringBuilder()
     val bufferMode: MyPrintWriterMode
     actual constructor(hasBuffer: Boolean) {

@@ -1,5 +1,5 @@
 package lupos.modulename 
-internal actual class DateHelper {
+internal actual class _DateHelper {
     actual constructor() {}
     internal val time = js("new Date()")
     internal actual inline fun year(): Int = time.getFullYear()

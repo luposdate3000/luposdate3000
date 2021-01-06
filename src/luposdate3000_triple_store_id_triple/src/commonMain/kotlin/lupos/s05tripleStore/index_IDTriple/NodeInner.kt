@@ -1,5 +1,5 @@
 package lupos.s05tripleStore.index_IDTriple
-import lupos.modulename.ByteArrayHelper
+import lupos.s00misc.ByteArrayHelper
 import lupos.s00misc.MyReadWriteLock
 import lupos.s00misc.SanityCheck
 import lupos.s04logicalOperators.iterator.ColumnIterator

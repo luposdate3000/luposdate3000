@@ -1,12 +1,12 @@
-import lupos.modulename.File
+import lupos.s00misc.File
 import lupos.s00misc.MemoryTable
-import lupos.modulename.MyPrintWriter
+import lupos.s00misc.MyPrintWriter
 import lupos.s00misc.Parallel
 import lupos.s11outputResult.EQueryResultToStream
 import lupos.s16network.LuposdateEndpoint
 internal fun mainFunc(args: Array<String>): Unit = Parallel.runBlocking {
     LuposdateEndpoint.initialize()
-    val buf = MyPrintWriter() // You can use any implementation of lupos.s00misc.IMyPrintWriter
+    val buf = MyPrintWriter(true) // You can use any implementation of lupos.s00misc.IMyPrintWriter
 /*
     val preparedStatement = LuposdateEndpoint.evaluateSparqlToOperatorgraphA("SELECT ?s ?p ?o {?s ?p ?o.}")
     LuposdateEndpoint.evaluateOperatorgraphToResult(preparedStatement, buf,EQueryResultToStream.XML_STREAM)

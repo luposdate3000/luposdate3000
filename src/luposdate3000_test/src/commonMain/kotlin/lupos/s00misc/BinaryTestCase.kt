@@ -1,6 +1,6 @@
 package lupos.s00misc
-import lupos.modulename.MyPrintWriter
-import lupos.modulename.File
+import lupos.s00misc.MyPrintWriter
+import lupos.s00misc.File
 import lupos.s02buildSyntaxTree.LexerCharIterator
 import lupos.s02buildSyntaxTree.LookAheadTokenIterator
 import lupos.s02buildSyntaxTree.sparql1_1.SPARQLParser
@@ -215,7 +215,7 @@ public object BinaryTestCase {
         }
     }
     private fun verifyEqual(expected: MemoryTable, actual: MemoryTable, mapping_live_to_target: Map<Int, Int>, dict: Map<String, Int>, dict2: Array<String>, allowOrderBy: Boolean, query_name: String, query_folder: String, tag: String): Boolean {
-        val out = MyPrintWriter()
+        val out = MyPrintWriter(true)
         val res = verifyEqual(expected, actual, mapping_live_to_target, dict, dict2, allowOrderBy, out)
         if (!res && tag != "this is no error") {
             out.println("----------Failed($tag)")

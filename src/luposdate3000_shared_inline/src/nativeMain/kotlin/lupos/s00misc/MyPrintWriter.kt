@@ -1,6 +1,6 @@
 package lupos.modulename
 import lupos.s00misc.IMyPrintWriter
-internal actual class MyPrintWriter : IMyPrintWriter {
+internal actual class _MyPrintWriter : IMyPrintWriter {
     actual constructor(hasBuffer: Boolean)
     actual override fun clearBuffer(): Unit = throw NotImplementedException("MyPrintWriter", "xyz not implemented")
     actual override fun toString(): String = throw NotImplementedException("MyPrintWriter", "xyz not implemented")

@@ -1,6 +1,6 @@
 package lupos.modulename
 import lupos.s00misc.IMyPrintWriter
-internal expect class MyPrintWriter(hasBuffer: Boolean = true) : IMyPrintWriter {
+internal expect class _MyPrintWriter(hasBuffer: Boolean = true) : IMyPrintWriter {
     override fun clearBuffer()
     override fun toString(): String
     override fun println(x: String)

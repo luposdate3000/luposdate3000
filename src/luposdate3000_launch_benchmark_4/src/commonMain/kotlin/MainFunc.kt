@@ -1,6 +1,6 @@
 import lupos.s00misc.DateHelperRelative
 import lupos.s00misc.EIndexPattern
-import lupos.modulename.MyPrintWriter
+import lupos.s00misc.MyPrintWriter
 import lupos.s00misc.Parallel
 import lupos.s00misc.Partition
 import lupos.s03resultRepresentation.ValueIri

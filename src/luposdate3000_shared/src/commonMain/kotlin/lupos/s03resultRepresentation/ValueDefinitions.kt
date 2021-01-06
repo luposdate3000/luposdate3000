@@ -25,7 +25,7 @@ import lupos.s00misc.CanNotCastUndefToBooleanException
 import lupos.s00misc.CanNotCastUndefToDecimalException
 import lupos.s00misc.CanNotCastUndefToDoubleException
 import lupos.s00misc.CanNotCastUndefToIntException
-import lupos.modulename.DateHelper
+import lupos.s00misc.DateHelper
 import lupos.s00misc.IncompatibleTypesDuringCompareException
 import lupos.s00misc.MyBigDecimal
 import lupos.s00misc.MyBigInteger

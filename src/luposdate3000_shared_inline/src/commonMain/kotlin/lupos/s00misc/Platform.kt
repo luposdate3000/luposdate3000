@@ -1,6 +1,6 @@
 package lupos.modulename
 import lupos.s00misc.EOperatingSystem
-internal expect object Platform {
+internal expect object _Platform {
     internal inline fun getEnv(key: String, default: String? = null): String?
     internal inline fun getUserHome(): String
     internal inline fun getPathSeparator(): String

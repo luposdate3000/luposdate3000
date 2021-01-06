@@ -1,7 +1,7 @@
 import lupos.s00misc.ETripleComponentType
-import lupos.modulename.File
+import lupos.s00misc.File
 import lupos.s00misc.Parallel
-import lupos.modulename.PartitionExt
+import lupos.s00misc.PartitionExt
 import lupos.s00misc.SanityCheck
 import lupos.s02buildSyntaxTree.turtle.Turtle2Parser
 internal fun helperCleanString(s: String): String {
