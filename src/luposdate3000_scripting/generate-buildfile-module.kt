@@ -24,11 +24,11 @@ private fun copyFileWithReplacement(src: File, dest: File, replacement_from: Str
     }
 }
 private fun copyFilesWithReplacement(src: String, dest: String, replacement_from: String, replacement_to: String, pathSeparator: String) {
-for(it in     File(src).walk()) { 
+    for (it in File(src).walk()) {
         val tmp = it.toString()
         val t = tmp.substring(src.length)
         if (File(tmp).isFile()) {
-                copyFileWithReplacement(File(src + pathSeparator + t), File(dest + pathSeparator + t), replacement_from, replacement_to)
+            copyFileWithReplacement(File(src + pathSeparator + t), File(dest + pathSeparator + t), replacement_from, replacement_to)
         } else {
             File(dest + pathSeparator + t).mkdirs()
         }
