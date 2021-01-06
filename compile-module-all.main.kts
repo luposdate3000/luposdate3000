@@ -7,6 +7,7 @@
 @file:Import("src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/s00misc/PlatformAlias.kt")
 @file:Import("src/luposdate3000_shared_inline/src/jvmMain/kotlin/lupos/s00misc/Platform.kt")
 @file:CompilerOptions("-Xmulti-platform")
+import lupos.s00misc.Platform
 
 createBuildFileForModule("Luposdate3000_Shared", ReleaseMode.Disable, SuspendMode.Disable, InlineMode.Disable, DryMode.Disable, FastMode.JVM, IntellijMode.Disable)
 createBuildFileForModule("Luposdate3000_Jena_Wrapper_On", "Luposdate3000_Jena_Wrapper", ReleaseMode.Disable, SuspendMode.Disable, InlineMode.Disable, DryMode.Disable, FastMode.JVM, IntellijMode.Disable)
@@ -38,3 +39,8 @@ createBuildFileForModule("Luposdate3000_Launch_Import", "Luposdate3000_Main", Re
 createBuildFileForModule("Luposdate3000_Launch_Sparql_Test_Suite", "Luposdate3000_Main", ReleaseMode.Disable, SuspendMode.Disable, InlineMode.Disable, DryMode.Disable, FastMode.JVM, IntellijMode.Disable)
 createBuildFileForModule("Luposdate3000_Launch_Prepared_Statement", "Luposdate3000_Main", ReleaseMode.Disable, SuspendMode.Disable, InlineMode.Disable, DryMode.Disable, FastMode.JVM, IntellijMode.Disable)
 createBuildFileForModule("Luposdate3000_Launch_Code_Gen_Example", "Luposdate3000_Main", ReleaseMode.Disable, SuspendMode.Disable, InlineMode.Disable, DryMode.Disable, FastMode.JVM, IntellijMode.Disable)
+
+ 
+
+
+

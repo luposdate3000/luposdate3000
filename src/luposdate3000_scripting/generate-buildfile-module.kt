@@ -16,6 +16,24 @@ enum class IntellijMode {
     Enable, Disable
 }
 val validPlatforms = listOf("iosArm32", "iosArm64", "linuxX64", "macosX64", "mingwX64")
+private fun copyFileWithReplacement(src: File, dest: File, replacement_from: String, replacement_to: String) {
+    dest.printWriter().use { out ->
+        src.forEachLine { it ->
+            out.println(it.replace(replacement_from, replacement_to))
+        }
+    }
+}
+private fun copyFilesWithReplacement(src: String, dest: String, replacement_from: String, replacement_to: String, pathSeparator: String) {
+for(it in     File(src).walk()) { 
+        val tmp = it.toString()
+        val t = tmp.substring(src.length)
+        if (File(tmp).isFile()) {
+                copyFileWithReplacement(File(src + pathSeparator + t), File(dest + pathSeparator + t), replacement_from, replacement_to)
+        } else {
+            File(dest + pathSeparator + t).mkdirs()
+        }
+    }
+}
 public fun createBuildFileForModule(args: Array<String>) {
     val onWindows = System.getProperty("os.name").contains("Windows")
     val pathSeparator: String
@@ -451,24 +469,24 @@ public fun createBuildFileForModule(moduleName: String, moduleFolder: String, mo
     val typeAliasAll = mutableMapOf<String, Pair<String, String>>()
     val typeAliasUsed = mutableMapOf<String, Pair<String, String>>()
     if (releaseMode == ReleaseMode.Enable) {
-        typeAliasAll["SanityCheck"] = Pair("SanityCheck", "lupos.modulename.SanityCheckOff")
+        typeAliasAll["SanityCheck"] = Pair("SanityCheck", "lupos.$moduleName.SanityCheckOff")
     } else {
-        typeAliasAll["SanityCheck"] = Pair("SanityCheck", "lupos.modulename.SanityCheckOn")
+        typeAliasAll["SanityCheck"] = Pair("SanityCheck", "lupos.$moduleName.SanityCheckOn")
     }
     if (suspendMode == SuspendMode.Enable) {
-        typeAliasAll["Parallel"] = Pair("Parallel", "lupos.modulename.ParallelCoroutine")
-        typeAliasAll["ParallelJob"] = Pair("ParallelJob", "lupos.modulename.ParallelCoroutineJob")
-        typeAliasAll["ParallelCondition"] = Pair("ParallelCondition", "lupos.modulename.ParallelCoroutineCondition")
-        typeAliasAll["ParallelQueue"] = Pair("ParallelQueue<T>", "lupos.modulename.ParallelCoroutineQueue<T>")
-        typeAliasAll["MyLock"] = Pair("MyLock", "lupos.modulename.MyCoroutineLock")
-        typeAliasAll["MyReadWriteLock"] = Pair("MyReadWriteLock", "lupos.modulename.MyCoroutineReadWriteLock")
+        typeAliasAll["Parallel"] = Pair("Parallel", "lupos.$moduleName.ParallelCoroutine")
+        typeAliasAll["ParallelJob"] = Pair("ParallelJob", "lupos.$moduleName.ParallelCoroutineJob")
+        typeAliasAll["ParallelCondition"] = Pair("ParallelCondition", "lupos.$moduleName.ParallelCoroutineCondition")
+        typeAliasAll["ParallelQueue"] = Pair("ParallelQueue<T>", "lupos.$moduleName.ParallelCoroutineQueue<T>")
+        typeAliasAll["MyLock"] = Pair("MyLock", "lupos.$moduleName.MyCoroutineLock")
+        typeAliasAll["MyReadWriteLock"] = Pair("MyReadWriteLock", "lupos.$moduleName.MyCoroutineReadWriteLock")
     } else {
-        typeAliasAll["Parallel"] = Pair("Parallel", "lupos.modulename.ParallelThread")
-        typeAliasAll["ParallelJob"] = Pair("ParallelJob", "lupos.modulename.ParallelThreadJob")
-        typeAliasAll["ParallelCondition"] = Pair("ParallelCondition", "lupos.modulename.ParallelThreadCondition")
-        typeAliasAll["ParallelQueue"] = Pair("ParallelQueue<T>", "lupos.modulename.ParallelThreadQueue<T>")
-        typeAliasAll["MyLock"] = Pair("MyLock", "lupos.modulename.MyThreadLock")
-        typeAliasAll["MyReadWriteLock"] = Pair("MyReadWriteLock", "lupos.modulename.MyThreadReadWriteLock")
+        typeAliasAll["Parallel"] = Pair("Parallel", "lupos.$moduleName.ParallelThread")
+        typeAliasAll["ParallelJob"] = Pair("ParallelJob", "lupos.$moduleName.ParallelThreadJob")
+        typeAliasAll["ParallelCondition"] = Pair("ParallelCondition", "lupos.$moduleName.ParallelThreadCondition")
+        typeAliasAll["ParallelQueue"] = Pair("ParallelQueue<T>", "lupos.$moduleName.ParallelThreadQueue<T>")
+        typeAliasAll["MyLock"] = Pair("MyLock", "lupos.$moduleName.MyThreadLock")
+        typeAliasAll["MyReadWriteLock"] = Pair("MyReadWriteLock", "lupos.$moduleName.MyThreadReadWriteLock")
     }
 // selectively copy classes which are inlined from the inline internal module ->
     val classNamesRegex = Regex("\\s*([a-zA-Z0-9_]*)")
@@ -517,6 +535,7 @@ public fun createBuildFileForModule(moduleName: String, moduleFolder: String, mo
             }
         }
     }
+    var configFile: String
     if (ideaBuildfile == IntellijMode.Disable) {
         var changed = true
         while (changed) {
@@ -561,46 +580,43 @@ public fun createBuildFileForModule(moduleName: String, moduleFolder: String, mo
                 for (fname in v) {
                     val src = File(fname)
                     val dest = File(fname.replace("src${pathSeparator}luposdate3000_shared_inline${pathSeparator}src", "src.generated"))
-                    src.copyTo(dest)
+                    copyFileWithReplacement(src, dest, "lupos.modulename", "lupos.$moduleName")
                     try {
                         val src2 = File(fname.replace(".kt", "Alias.kt"))
                         val dest2 = File(fname.replace("src${pathSeparator}luposdate3000_shared_inline${pathSeparator}src", "src.generated").replace(".kt", "Alias.kt"))
-                        src2.copyTo(dest2)
+                        copyFileWithReplacement(src2, dest2, "lupos.modulename", "lupos.$moduleName")
                     } catch (e: Throwable) {
                     }
                 }
             }
             println(classNamesUsed.keys)
         }
-    }
-    println(typeAliasUsed.keys)
-    println()
-    var configFile: String
-    if (ideaBuildfile == IntellijMode.Enable) {
+        configFile = "src.generated${pathSeparator}commonMain${pathSeparator}kotlin${pathSeparator}lupos${pathSeparator}s00misc${pathSeparator}Config-$moduleName.kt"
+    } else {
         var configPathBase = "src${pathSeparator}xxx_generated_xxx${pathSeparator}${moduleName}${pathSeparator}src"
         var configPath = "${configPathBase}${pathSeparator}commonMain${pathSeparator}kotlin${pathSeparator}lupos${pathSeparator}s00misc"
         File(configPath).mkdirs()
         typeAliasUsed.putAll(typeAliasAll)
         try {
-            File("src${pathSeparator}luposdate3000_shared_inline${pathSeparator}src${pathSeparator}commonMain").copyRecursively(File("${configPathBase}${pathSeparator}commonMain"))
+            copyFilesWithReplacement(("src${pathSeparator}luposdate3000_shared_inline${pathSeparator}src${pathSeparator}commonMain"), ("${configPathBase}${pathSeparator}commonMain"), "lupos.modulename", "lupos.$moduleName", pathSeparator)
         } catch (e: Throwable) {
         }
         try {
-            File("src${pathSeparator}luposdate3000_shared_inline${pathSeparator}src${pathSeparator}jvmMain").copyRecursively(File("${configPathBase}${pathSeparator}jvmMain"))
+            copyFilesWithReplacement(("src${pathSeparator}luposdate3000_shared_inline${pathSeparator}src${pathSeparator}jvmMain"), ("${configPathBase}${pathSeparator}jvmMain"), "lupos.modulename", "lupos.$moduleName", pathSeparator)
         } catch (e: Throwable) {
         }
         try {
-            File("src${pathSeparator}luposdate3000_shared_inline${pathSeparator}src${pathSeparator}jsMain").copyRecursively(File("${configPathBase}${pathSeparator}jsMain"))
+            copyFilesWithReplacement(("src${pathSeparator}luposdate3000_shared_inline${pathSeparator}src${pathSeparator}jsMain"), ("${configPathBase}${pathSeparator}jsMain"), "lupos.modulename", "lupos.$moduleName", pathSeparator)
         } catch (e: Throwable) {
         }
         try {
-            File("src${pathSeparator}luposdate3000_shared_inline${pathSeparator}src${pathSeparator}nativeMain").copyRecursively(File("${configPathBase}${pathSeparator}nativeMain"))
+            copyFilesWithReplacement(("src${pathSeparator}luposdate3000_shared_inline${pathSeparator}src${pathSeparator}nativeMain"), ("${configPathBase}${pathSeparator}nativeMain"), "lupos.modulename", "lupos.$moduleName", pathSeparator)
         } catch (e: Throwable) {
         }
         configFile = "${configPath}${pathSeparator}Config-$moduleName.kt"
-    } else {
-        configFile = "src.generated${pathSeparator}commonMain${pathSeparator}kotlin${pathSeparator}lupos${pathSeparator}s00misc${pathSeparator}Config-$moduleName.kt"
     }
+    println(typeAliasUsed.keys)
+    println()
 // selectively copy classes which are inlined from the inline internal module <-
     File(configFile).printWriter().use { out ->
         out.println("package lupos.s00misc")
