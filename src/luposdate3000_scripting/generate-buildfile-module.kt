@@ -633,7 +633,7 @@ public fun createBuildFileForModule(moduleName: String, moduleFolder: String, mo
     if (dryMode == DryMode.Disable) {
         if (onWindows) {
             var path = System.getProperty("user.dir")
- File("$path${pathSeparator}gradle").copyRecursively(File("$path${pathSeparator}src.generated$pathSeparator"))
+ File("$path${pathSeparator}gradle").copyRecursively(File("$path${pathSeparator}src.generated${pathSeparator}gradle"))
 File("gradlew.bat").copyTo(File("src.generated${pathSeparator}gradlew.bat"))
             runCommand(listOf("gradlew.bat", "build"), File("$path${pathSeparator}src.generated"))
             runCommand(listOf("gradlew.bat", "publishToMavenLocal"), File("$path${pathSeparator}src.generated"))
