@@ -13,7 +13,7 @@ var releaseMode = ReleaseMode.Disable
 var suspendMode = SuspendMode.Disable
 var inlineMode = InlineMode.Disable
 var dryMode = DryMode.Disable
-var fastMode = FastMode.JVM
+var fastMode = FastMode.Disable
 var intellijMode = IntellijMode.Disable
 
 for (arg in args) {
@@ -32,13 +32,13 @@ for (arg in args) {
     }
 }
 
-createBuildFileForModule("Luposdate3000_Shared", releaseMode, suspendMode, inlineMode, dryMode, fastMode, intellijMode)
-createBuildFileForModule("Luposdate3000_Jena_Wrapper_On", "Luposdate3000_Jena_Wrapper", releaseMode, suspendMode, inlineMode, dryMode, fastMode, intellijMode)
-createBuildFileForModule("Luposdate3000_Jena_Wrapper_Off", "Luposdate3000_Jena_Wrapper", releaseMode, suspendMode, inlineMode, dryMode, fastMode, intellijMode)
-createBuildFileForModule("Luposdate3000_Parser", releaseMode, suspendMode, inlineMode, dryMode, fastMode, intellijMode)
-createBuildFileForModule("Luposdate3000_Buffer_Manager_Inmemory", "Luposdate3000_Buffer_Manager", releaseMode, suspendMode, inlineMode, dryMode, fastMode, intellijMode)
-createBuildFileForModule("Luposdate3000_Buffer_Manager_Persistent", "Luposdate3000_Buffer_Manager", releaseMode, suspendMode, inlineMode, dryMode, fastMode, intellijMode)
-createBuildFileForModule("Luposdate3000_Dictionary_Inmemory", "Luposdate3000_Dictionary", releaseMode, suspendMode, inlineMode, dryMode, fastMode, intellijMode)
+//createBuildFileForModule("Luposdate3000_Shared", releaseMode, suspendMode, inlineMode, dryMode, fastMode, intellijMode)
+//createBuildFileForModule("Luposdate3000_Jena_Wrapper_On", "Luposdate3000_Jena_Wrapper", releaseMode, suspendMode, inlineMode, dryMode, fastMode, intellijMode)
+//createBuildFileForModule("Luposdate3000_Jena_Wrapper_Off", "Luposdate3000_Jena_Wrapper", releaseMode, suspendMode, inlineMode, dryMode, fastMode, intellijMode)
+//createBuildFileForModule("Luposdate3000_Parser", releaseMode, suspendMode, inlineMode, dryMode, fastMode, intellijMode)
+//createBuildFileForModule("Luposdate3000_Buffer_Manager_Inmemory", "Luposdate3000_Buffer_Manager", releaseMode, suspendMode, inlineMode, dryMode, fastMode, intellijMode)
+//createBuildFileForModule("Luposdate3000_Buffer_Manager_Persistent", "Luposdate3000_Buffer_Manager", releaseMode, suspendMode, inlineMode, dryMode, fastMode, intellijMode)
+//createBuildFileForModule("Luposdate3000_Dictionary_Inmemory", "Luposdate3000_Dictionary", releaseMode, suspendMode, inlineMode, dryMode, fastMode, intellijMode)
 createBuildFileForModule("Luposdate3000_Operators", releaseMode, suspendMode, inlineMode, dryMode, fastMode, intellijMode)
 createBuildFileForModule("Luposdate3000_Result_Format", releaseMode, suspendMode, inlineMode, dryMode, fastMode, intellijMode)
 createBuildFileForModule("Luposdate3000_Triple_Store_Id_Triple", releaseMode, suspendMode, inlineMode, dryMode, fastMode, intellijMode)
