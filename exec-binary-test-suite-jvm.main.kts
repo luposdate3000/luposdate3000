@@ -76,7 +76,11 @@ for (jar in jars) {
     if (classpath == "") {
         classpath = jar
     } else {
+if(Platform.getOperatingSystem()==EOperatingSystem.Windows){
+        classpath = "$classpath;$jar"
+}else{
         classpath = "$classpath:$jar"
+}
     }
 }
 val cmd = mutableListOf("java", "-Xmx${Platform.getAvailableRam()}g", "-cp", classpath, "MainKt")
