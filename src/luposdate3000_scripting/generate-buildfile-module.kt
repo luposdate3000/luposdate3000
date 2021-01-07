@@ -711,30 +711,30 @@ public fun createBuildFileForModule(moduleName_: String, moduleFolder: String, m
                 }
             }
             if (enableJS) {
-if(modulePrefix==moduleName){
-                try {
-                    Files.copy(Paths.get(buildFolder + "${pathSeparator}js${pathSeparator}packages${pathSeparator}${modulePrefix}${pathSeparator}kotlin${pathSeparator}$modulePrefix.js"), Paths.get("build-cache${pathSeparator}bin$appendix${pathSeparator}$modulePrefix.js"), StandardCopyOption.REPLACE_EXISTING)
-                } catch (e: Throwable) {
-                    e.printStackTrace()
+                if (modulePrefix == moduleName) {
+                    try {
+                        Files.copy(Paths.get(buildFolder + "${pathSeparator}js${pathSeparator}packages${pathSeparator}${modulePrefix}${pathSeparator}kotlin${pathSeparator}$modulePrefix.js"), Paths.get("build-cache${pathSeparator}bin$appendix${pathSeparator}$modulePrefix.js"), StandardCopyOption.REPLACE_EXISTING)
+                    } catch (e: Throwable) {
+                        e.printStackTrace()
+                    }
+                    try {
+                        Files.copy(Paths.get(buildFolder + "${pathSeparator}js${pathSeparator}packages${pathSeparator}${modulePrefix}${pathSeparator}kotlin${pathSeparator}$modulePrefix.js.map"), Paths.get("build-cache${pathSeparator}bin$appendix${pathSeparator}$modulePrefix.js.map"), StandardCopyOption.REPLACE_EXISTING)
+                    } catch (e: Throwable) {
+                        e.printStackTrace()
+                    }
+                } else {
+                    File("build-cache${pathSeparator}bin$appendix${pathSeparator}$moduleName").mkdirs()
+                    try {
+                        Files.copy(Paths.get(buildFolder + "${pathSeparator}js${pathSeparator}packages${pathSeparator}${modulePrefix}${pathSeparator}kotlin${pathSeparator}$modulePrefix.js"), Paths.get("build-cache${pathSeparator}bin$appendix${pathSeparator}$moduleName${pathSeparator}$modulePrefix.js"), StandardCopyOption.REPLACE_EXISTING)
+                    } catch (e: Throwable) {
+                        e.printStackTrace()
+                    }
+                    try {
+                        Files.copy(Paths.get(buildFolder + "${pathSeparator}js${pathSeparator}packages${pathSeparator}${modulePrefix}${pathSeparator}kotlin${pathSeparator}$modulePrefix.js.map"), Paths.get("build-cache${pathSeparator}bin$appendix${pathSeparator}$moduleName${pathSeparator}$modulePrefix.js.map"), StandardCopyOption.REPLACE_EXISTING)
+                    } catch (e: Throwable) {
+                        e.printStackTrace()
+                    }
                 }
-                try {
-                    Files.copy(Paths.get(buildFolder + "${pathSeparator}js${pathSeparator}packages${pathSeparator}${modulePrefix}${pathSeparator}kotlin${pathSeparator}$modulePrefix.js.map"), Paths.get("build-cache${pathSeparator}bin$appendix${pathSeparator}$modulePrefix.js.map"), StandardCopyOption.REPLACE_EXISTING)
-                } catch (e: Throwable) {
-                    e.printStackTrace()
-                }
-}else{
-File("build-cache${pathSeparator}bin$appendix${pathSeparator}$moduleName").mkdirs()
-                try {
-                    Files.copy(Paths.get(buildFolder + "${pathSeparator}js${pathSeparator}packages${pathSeparator}${modulePrefix}${pathSeparator}kotlin${pathSeparator}$modulePrefix.js"), Paths.get("build-cache${pathSeparator}bin$appendix${pathSeparator}$moduleName${pathSeparator}$modulePrefix.js"), StandardCopyOption.REPLACE_EXISTING)
-                } catch (e: Throwable) {
-                    e.printStackTrace()
-                }
-                try {
-                    Files.copy(Paths.get(buildFolder + "${pathSeparator}js${pathSeparator}packages${pathSeparator}${modulePrefix}${pathSeparator}kotlin${pathSeparator}$modulePrefix.js.map"), Paths.get("build-cache${pathSeparator}bin$appendix${pathSeparator}$moduleName${pathSeparator}$modulePrefix.js.map"), StandardCopyOption.REPLACE_EXISTING)
-                } catch (e: Throwable) {
-                    e.printStackTrace()
-                }
-}
             }
             if (enableNATIVE) {
                 if (platform == "linuxX64") {

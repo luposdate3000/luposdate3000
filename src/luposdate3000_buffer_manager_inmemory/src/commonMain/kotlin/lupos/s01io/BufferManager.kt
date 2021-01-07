@@ -35,11 +35,11 @@ public object BufferManagerExt {
     @JvmField
     internal val managerListLock = MyReadWriteLock()
 }
-public class BufferManager{
-@JvmField public val name: String
-internal constructor( name: String) {
-this.name=name
-}
+public class BufferManager {
+    @JvmField public val name: String
+    internal constructor(name: String) {
+        this.name = name
+    }
     /*
      * each type safe page-manager safes to its own store
      * using another layer of indirection,

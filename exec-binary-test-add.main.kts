@@ -76,11 +76,11 @@ for (jar in jars) {
     if (classpath == "") {
         classpath = jar
     } else {
-if(Platform.getOperatingSystem()==EOperatingSystem.Windows){
-        classpath = "$classpath;$jar"
-}else{
-        classpath = "$classpath:$jar"
-}
+        if (Platform.getOperatingSystem() == EOperatingSystem.Windows) {
+            classpath = "$classpath;$jar"
+        } else {
+            classpath = "$classpath:$jar"
+        }
     }
 }
 println(classpath)
