@@ -23,7 +23,7 @@ private fun printDependencies(dependencies: Set<String>, buildForIDE: Boolean, a
             if (buildForIDE) {
                 out.println("                implementation(project(\":src:${d.substring("luposdate3000:".length, d.lastIndexOf(":")).toLowerCase()}\"))")
             } else {
-                out.println("                compileOnly(\"${d.replace(":0.0.1","$appendix:0.0.1")}\")")
+                out.println("                compileOnly(\"$d\")")
             }
         } else {
             out.println("                implementation(\"$d\")")
@@ -145,7 +145,7 @@ public fun createBuildFileForModule(moduleName_: String, moduleFolder: String, m
         } else {
             appendix += "_Debug"
         }
-        val moduleName = moduleName_ + appendix
+        val moduleName = moduleName_
         val onWindows = System.getProperty("os.name").contains("Windows")
         val onLinux = !onWindows // TODO this is not correct ...
         val pathSeparator: String
@@ -334,7 +334,7 @@ public fun createBuildFileForModule(moduleName_: String, moduleFolder: String, m
                 }
                 if (enableJS) {
                     out.println("    js {")
-                    out.println("        moduleName = \"${moduleName}\"")
+                    out.println("        moduleName = \"${modulePrefix}\"")
                     out.println("        browser {")
                     out.println("            compilations.forEach{")
                     out.println("                it.kotlinOptions {")
@@ -674,12 +674,7 @@ public fun createBuildFileForModule(moduleName_: String, moduleFolder: String, m
             }
         }
         try {
-            File("build-cache").mkdirs()
-        } catch (e: Throwable) {
-            e.printStackTrace()
-        }
-        try {
-            File("build-cache${pathSeparator}bin").mkdirs()
+            File("build-cache${pathSeparator}bin$appendix").mkdirs()
         } catch (e: Throwable) {
             e.printStackTrace()
         }
@@ -710,39 +705,53 @@ public fun createBuildFileForModule(moduleName_: String, moduleFolder: String, m
         if (dryMode == DryMode.Disable) {
             if (enableJVM) {
                 try {
-                    Files.copy(Paths.get(buildFolder + "${pathSeparator}libs${pathSeparator}$moduleName-jvm-0.0.1.jar"), Paths.get("build-cache${pathSeparator}bin${pathSeparator}$moduleName-jvm.jar"), StandardCopyOption.REPLACE_EXISTING)
+                    Files.copy(Paths.get(buildFolder + "${pathSeparator}libs${pathSeparator}$moduleName-jvm-0.0.1.jar"), Paths.get("build-cache${pathSeparator}bin$appendix${pathSeparator}$moduleName-jvm.jar"), StandardCopyOption.REPLACE_EXISTING)
                 } catch (e: Throwable) {
                     e.printStackTrace()
                 }
             }
             if (enableJS) {
+if(modulePrefix==moduleName){
                 try {
-                    Files.copy(Paths.get(buildFolder + "${pathSeparator}js${pathSeparator}packages${pathSeparator}${moduleName}${pathSeparator}kotlin${pathSeparator}$moduleName.js"), Paths.get("build-cache${pathSeparator}bin${pathSeparator}$moduleName.js"), StandardCopyOption.REPLACE_EXISTING)
+                    Files.copy(Paths.get(buildFolder + "${pathSeparator}js${pathSeparator}packages${pathSeparator}${modulePrefix}${pathSeparator}kotlin${pathSeparator}$modulePrefix.js"), Paths.get("build-cache${pathSeparator}bin$appendix${pathSeparator}$modulePrefix.js"), StandardCopyOption.REPLACE_EXISTING)
                 } catch (e: Throwable) {
                     e.printStackTrace()
                 }
                 try {
-                    Files.copy(Paths.get(buildFolder + "${pathSeparator}js${pathSeparator}packages${pathSeparator}${moduleName}${pathSeparator}kotlin${pathSeparator}$moduleName.js.map"), Paths.get("build-cache${pathSeparator}bin${pathSeparator}$moduleName.js.map"), StandardCopyOption.REPLACE_EXISTING)
+                    Files.copy(Paths.get(buildFolder + "${pathSeparator}js${pathSeparator}packages${pathSeparator}${modulePrefix}${pathSeparator}kotlin${pathSeparator}$modulePrefix.js.map"), Paths.get("build-cache${pathSeparator}bin$appendix${pathSeparator}$modulePrefix.js.map"), StandardCopyOption.REPLACE_EXISTING)
                 } catch (e: Throwable) {
                     e.printStackTrace()
                 }
+}else{
+File("build-cache${pathSeparator}bin$appendix${pathSeparator}$moduleName").mkdirs()
+                try {
+                    Files.copy(Paths.get(buildFolder + "${pathSeparator}js${pathSeparator}packages${pathSeparator}${modulePrefix}${pathSeparator}kotlin${pathSeparator}$modulePrefix.js"), Paths.get("build-cache${pathSeparator}bin$appendix${pathSeparator}$moduleName${pathSeparator}$modulePrefix.js"), StandardCopyOption.REPLACE_EXISTING)
+                } catch (e: Throwable) {
+                    e.printStackTrace()
+                }
+                try {
+                    Files.copy(Paths.get(buildFolder + "${pathSeparator}js${pathSeparator}packages${pathSeparator}${modulePrefix}${pathSeparator}kotlin${pathSeparator}$modulePrefix.js.map"), Paths.get("build-cache${pathSeparator}bin$appendix${pathSeparator}$moduleName${pathSeparator}$modulePrefix.js.map"), StandardCopyOption.REPLACE_EXISTING)
+                } catch (e: Throwable) {
+                    e.printStackTrace()
+                }
+}
             }
             if (enableNATIVE) {
                 if (platform == "linuxX64") {
                     try {
                         if (buildLibrary) {
                             if (releaseMode == ReleaseMode.Enable) {
-                                Files.copy(Paths.get(buildFolder + "${pathSeparator}bin${pathSeparator}linuxX64${pathSeparator}releaseShared${pathSeparator}lib$modulePrefix.so"), Paths.get("build-cache${pathSeparator}bin${pathSeparator}lib$moduleName-linuxX64.so"), StandardCopyOption.REPLACE_EXISTING)
-                                Files.copy(Paths.get(buildFolder + "${pathSeparator}bin${pathSeparator}linuxX64${pathSeparator}releaseShared${pathSeparator}lib${modulePrefix}_api.h"), Paths.get("build-cache${pathSeparator}bin${pathSeparator}lib$moduleName-linuxX64.h"), StandardCopyOption.REPLACE_EXISTING)
+                                Files.copy(Paths.get(buildFolder + "${pathSeparator}bin${pathSeparator}linuxX64${pathSeparator}releaseShared${pathSeparator}lib$modulePrefix.so"), Paths.get("build-cache${pathSeparator}bin$appendix${pathSeparator}lib$moduleName-linuxX64.so"), StandardCopyOption.REPLACE_EXISTING)
+                                Files.copy(Paths.get(buildFolder + "${pathSeparator}bin${pathSeparator}linuxX64${pathSeparator}releaseShared${pathSeparator}lib${modulePrefix}_api.h"), Paths.get("build-cache${pathSeparator}bin$appendix${pathSeparator}lib$moduleName-linuxX64.h"), StandardCopyOption.REPLACE_EXISTING)
                             } else {
-                                Files.copy(Paths.get(buildFolder + "${pathSeparator}bin${pathSeparator}linuxX64${pathSeparator}debugShared${pathSeparator}lib$modulePrefix.so"), Paths.get("build-cache${pathSeparator}bin${pathSeparator}lib$moduleName-linuxX64.so"), StandardCopyOption.REPLACE_EXISTING)
-                                Files.copy(Paths.get(buildFolder + "${pathSeparator}bin${pathSeparator}linuxX64${pathSeparator}debugShared${pathSeparator}lib${modulePrefix}_api.h"), Paths.get("build-cache${pathSeparator}bin${pathSeparator}lib$moduleName-linuxX64.h"), StandardCopyOption.REPLACE_EXISTING)
+                                Files.copy(Paths.get(buildFolder + "${pathSeparator}bin${pathSeparator}linuxX64${pathSeparator}debugShared${pathSeparator}lib$modulePrefix.so"), Paths.get("build-cache${pathSeparator}bin$appendix${pathSeparator}lib$moduleName-linuxX64.so"), StandardCopyOption.REPLACE_EXISTING)
+                                Files.copy(Paths.get(buildFolder + "${pathSeparator}bin${pathSeparator}linuxX64${pathSeparator}debugShared${pathSeparator}lib${modulePrefix}_api.h"), Paths.get("build-cache${pathSeparator}bin$appendix${pathSeparator}lib$moduleName-linuxX64.h"), StandardCopyOption.REPLACE_EXISTING)
                             }
                         } else {
                             if (releaseMode == ReleaseMode.Enable) {
-                                Files.copy(Paths.get(buildFolder + "${pathSeparator}bin${pathSeparator}linuxX64${pathSeparator}releaseExecutable${pathSeparator}$moduleName.kexe"), Paths.get("build-cache${pathSeparator}bin${pathSeparator}lib$moduleName-linuxX64.kexe"), StandardCopyOption.REPLACE_EXISTING)
+                                Files.copy(Paths.get(buildFolder + "${pathSeparator}bin${pathSeparator}linuxX64${pathSeparator}releaseExecutable${pathSeparator}$moduleName.kexe"), Paths.get("build-cache${pathSeparator}bin$appendix${pathSeparator}lib$moduleName-linuxX64.kexe"), StandardCopyOption.REPLACE_EXISTING)
                             } else {
-                                Files.copy(Paths.get(buildFolder + "${pathSeparator}bin${pathSeparator}linuxX64${pathSeparator}debugExecutable${pathSeparator}$moduleName.kexe"), Paths.get("build-cache${pathSeparator}bin${pathSeparator}lib$moduleName-linuxX64.kexe"), StandardCopyOption.REPLACE_EXISTING)
+                                Files.copy(Paths.get(buildFolder + "${pathSeparator}bin${pathSeparator}linuxX64${pathSeparator}debugExecutable${pathSeparator}$moduleName.kexe"), Paths.get("build-cache${pathSeparator}bin$appendix${pathSeparator}lib$moduleName-linuxX64.kexe"), StandardCopyOption.REPLACE_EXISTING)
                             }
                         }
                     } catch (e: Throwable) {

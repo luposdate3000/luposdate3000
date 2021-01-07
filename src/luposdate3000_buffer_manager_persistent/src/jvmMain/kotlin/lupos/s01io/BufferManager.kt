@@ -8,7 +8,7 @@ import kotlin.contracts.InvocationKind.EXACTLY_ONCE
 import kotlin.contracts.contract
 import kotlin.jvm.JvmField
 @OptIn(kotlin.contracts.ExperimentalContracts::class)
-public actual class BufferManager public actual constructor(
+public actual class BufferManager internal actual constructor(
     @JvmField
     public var name: String
 ) {
@@ -48,12 +48,6 @@ public actual class BufferManager public actual constructor(
     internal val datafile: RandomAccessFile
     @JvmField
     internal var datafilelength: Long
-    init {
-        val manager = this
-        BufferManagerExt.managerListLock.withWriteLock {
-            BufferManagerExt.managerList[name] = manager
-        }
-    }
     @Suppress("NOTHING_TO_INLINE") private inline fun localSanityCheck() {
         SanityCheck {
             var cntg = 0
