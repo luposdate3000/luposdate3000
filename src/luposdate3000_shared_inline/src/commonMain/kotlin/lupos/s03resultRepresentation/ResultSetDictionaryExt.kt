@@ -1,7 +1,7 @@
 package lupos.modulename
 import lupos.s03resultRepresentation.ValueBoolean
-import lupos.s03resultRepresentation.ValueUndef
 import lupos.s03resultRepresentation.ValueError
+import lupos.s03resultRepresentation.ValueUndef
 import kotlin.jvm.JvmField
 internal object _ResultSetDictionaryExt {
     const val booleanTrueValue = (0x00000000) /*lowest 5 values*/ /*required to be 0 for_ truth table loopups*/

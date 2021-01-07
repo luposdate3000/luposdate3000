@@ -9,33 +9,56 @@
 @file:CompilerOptions("-Xmulti-platform")
 import lupos.s00misc.Platform
 
-createBuildFileForModule("Luposdate3000_Shared", ReleaseMode.Disable, SuspendMode.Disable, InlineMode.Disable, DryMode.Disable, FastMode.JVM, IntellijMode.Disable)
-createBuildFileForModule("Luposdate3000_Jena_Wrapper_On", "Luposdate3000_Jena_Wrapper", ReleaseMode.Disable, SuspendMode.Disable, InlineMode.Disable, DryMode.Disable, FastMode.JVM, IntellijMode.Disable)
-createBuildFileForModule("Luposdate3000_Jena_Wrapper_Off", "Luposdate3000_Jena_Wrapper", ReleaseMode.Disable, SuspendMode.Disable, InlineMode.Disable, DryMode.Disable, FastMode.JVM, IntellijMode.Disable)
-createBuildFileForModule("Luposdate3000_Parser", ReleaseMode.Disable, SuspendMode.Disable, InlineMode.Disable, DryMode.Disable, FastMode.JVM, IntellijMode.Disable)
-createBuildFileForModule("Luposdate3000_Buffer_Manager_Inmemory", "Luposdate3000_Buffer_Manager", ReleaseMode.Disable, SuspendMode.Disable, InlineMode.Disable, DryMode.Disable, FastMode.JVM, IntellijMode.Disable)
-createBuildFileForModule("Luposdate3000_Buffer_Manager_Persistent", "Luposdate3000_Buffer_Manager", ReleaseMode.Disable, SuspendMode.Disable, InlineMode.Disable, DryMode.Disable, FastMode.JVM, IntellijMode.Disable)
-createBuildFileForModule("Luposdate3000_Dictionary_Inmemory", "Luposdate3000_Dictionary", ReleaseMode.Disable, SuspendMode.Disable, InlineMode.Disable, DryMode.Disable, FastMode.JVM, IntellijMode.Disable)
-createBuildFileForModule("Luposdate3000_Operators", ReleaseMode.Disable, SuspendMode.Disable, InlineMode.Disable, DryMode.Disable, FastMode.JVM, IntellijMode.Disable)
-createBuildFileForModule("Luposdate3000_Result_Format", ReleaseMode.Disable, SuspendMode.Disable, InlineMode.Disable, DryMode.Disable, FastMode.JVM, IntellijMode.Disable)
-createBuildFileForModule("Luposdate3000_Triple_Store_Id_Triple", ReleaseMode.Disable, SuspendMode.Disable, InlineMode.Disable, DryMode.Disable, FastMode.JVM, IntellijMode.Disable)
-createBuildFileForModule("Luposdate3000_Triple_Store_All", ReleaseMode.Disable, SuspendMode.Disable, InlineMode.Disable, DryMode.Disable, FastMode.JVM, IntellijMode.Disable)
-createBuildFileForModule("Luposdate3000_Triple_Store_All_NoPartitions", "Luposdate3000_Triple_Store_All", "src${Platform.getPathSeparator()}luposdate3000_triple_store_all", ReleaseMode.Disable, SuspendMode.Disable, InlineMode.Disable, DryMode.Disable, FastMode.JVM, IntellijMode.Disable, arrayOf("--USE_PARTITIONS2=false"))
-createBuildFileForModule("Luposdate3000_Optimizer", "Luposdate3000_Optimizer", ReleaseMode.Disable, SuspendMode.Disable, InlineMode.Disable, DryMode.Disable, FastMode.JVM, IntellijMode.Disable)
-createBuildFileForModule("Luposdate3000_Optimizer_NoPartitions", "Luposdate3000_Optimizer", "src${Platform.getPathSeparator()}luposdate3000_optimizer", ReleaseMode.Disable, SuspendMode.Disable, InlineMode.Disable, DryMode.Disable, FastMode.JVM, IntellijMode.Disable, arrayOf("--USE_PARTITIONS=false"))
-createBuildFileForModule("Luposdate3000_Endpoint", ReleaseMode.Disable, SuspendMode.Disable, InlineMode.Disable, DryMode.Disable, FastMode.JVM, IntellijMode.Disable)
-createBuildFileForModule("Luposdate3000_Test", ReleaseMode.Disable, SuspendMode.Disable, InlineMode.Disable, DryMode.Disable, FastMode.JVM, IntellijMode.Disable)
-createBuildFileForModule("Luposdate3000_Endpoint_None", "Luposdate3000_Endpoint_Launcher", ReleaseMode.Disable, SuspendMode.Disable, InlineMode.Disable, DryMode.Disable, FastMode.JVM, IntellijMode.Disable)
-createBuildFileForModule("Luposdate3000_Endpoint_Java_Sockets", "Luposdate3000_Endpoint_Launcher", ReleaseMode.Disable, SuspendMode.Disable, InlineMode.Disable, DryMode.Disable, FastMode.JVM, IntellijMode.Disable)
-createBuildFileForModule("Luposdate3000_Launch_Benchmark_Jena", "Luposdate3000_Main", ReleaseMode.Disable, SuspendMode.Disable, InlineMode.Disable, DryMode.Disable, FastMode.JVM, IntellijMode.Disable)
-createBuildFileForModule("Luposdate3000_Launch_Benchmark", "Luposdate3000_Main", ReleaseMode.Disable, SuspendMode.Disable, InlineMode.Disable, DryMode.Disable, FastMode.JVM, IntellijMode.Disable)
-createBuildFileForModule("Luposdate3000_Launch_Benchmark_1", "Luposdate3000_Main", ReleaseMode.Disable, SuspendMode.Disable, InlineMode.Disable, DryMode.Disable, FastMode.JVM, IntellijMode.Disable)
-createBuildFileForModule("Luposdate3000_Launch_Benchmark_2", "Luposdate3000_Main", ReleaseMode.Disable, SuspendMode.Disable, InlineMode.Disable, DryMode.Disable, FastMode.JVM, IntellijMode.Disable)
-createBuildFileForModule("Luposdate3000_Launch_Benchmark_3", "Luposdate3000_Main", ReleaseMode.Disable, SuspendMode.Disable, InlineMode.Disable, DryMode.Disable, FastMode.JVM, IntellijMode.Disable)
-createBuildFileForModule("Luposdate3000_Launch_Benchmark_4", "Luposdate3000_Main", ReleaseMode.Disable, SuspendMode.Disable, InlineMode.Disable, DryMode.Disable, FastMode.JVM, IntellijMode.Disable)
-createBuildFileForModule("Luposdate3000_Launch_Binary_Test_Suite", "Luposdate3000_Main", ReleaseMode.Disable, SuspendMode.Disable, InlineMode.Disable, DryMode.Disable, FastMode.JVM, IntellijMode.Disable)
-createBuildFileForModule("Luposdate3000_Launch_Endpoint", "Luposdate3000_Main", ReleaseMode.Disable, SuspendMode.Disable, InlineMode.Disable, DryMode.Disable, FastMode.JVM, IntellijMode.Disable)
-createBuildFileForModule("Luposdate3000_Launch_Import", "Luposdate3000_Main", ReleaseMode.Disable, SuspendMode.Disable, InlineMode.Disable, DryMode.Disable, FastMode.JVM, IntellijMode.Disable)
-createBuildFileForModule("Luposdate3000_Launch_Sparql_Test_Suite", "Luposdate3000_Main", ReleaseMode.Disable, SuspendMode.Disable, InlineMode.Disable, DryMode.Disable, FastMode.JVM, IntellijMode.Disable)
-createBuildFileForModule("Luposdate3000_Launch_Prepared_Statement", "Luposdate3000_Main", ReleaseMode.Disable, SuspendMode.Disable, InlineMode.Disable, DryMode.Disable, FastMode.JVM, IntellijMode.Disable)
-createBuildFileForModule("Luposdate3000_Launch_Code_Gen_Example", "Luposdate3000_Main", ReleaseMode.Disable, SuspendMode.Disable, InlineMode.Disable, DryMode.Disable, FastMode.JVM, IntellijMode.Disable)
+var releaseMode = ReleaseMode.Disable
+var suspendMode = SuspendMode.Disable
+var inlineMode = InlineMode.Disable
+var dryMode = DryMode.Disable
+var fastMode = FastMode.JVM
+var intellijMode = IntellijMode.Disable
+
+for (arg in args) {
+    if (arg.startsWith("--releaseMode=")) {
+        releaseMode = ReleaseMode.valueOf(arg.substring("--releaseMode=".length))
+    } else if (arg.startsWith("--suspendMode=")) {
+        suspendMode = SuspendMode.valueOf(arg.substring("--suspendMode=".length))
+    } else if (arg.startsWith("--inlineMode=")) {
+        inlineMode = InlineMode.valueOf(arg.substring("--inlineMode=".length))
+    } else if (arg.startsWith("--dryMode=")) {
+        dryMode = DryMode.valueOf(arg.substring("--dryMode=".length))
+    } else if (arg.startsWith("--fastMode=")) {
+        fastMode = FastMode.valueOf(arg.substring("--fastMode=".length))
+    } else if (arg.startsWith("--intellijMode=")) {
+        intellijMode = IntellijMode.valueOf(arg.substring("--intellijMode=".length))
+    }
+}
+
+createBuildFileForModule("Luposdate3000_Shared", releaseMode, suspendMode, inlineMode, dryMode, fastMode, intellijMode)
+createBuildFileForModule("Luposdate3000_Jena_Wrapper_On", "Luposdate3000_Jena_Wrapper", releaseMode, suspendMode, inlineMode, dryMode, fastMode, intellijMode)
+createBuildFileForModule("Luposdate3000_Jena_Wrapper_Off", "Luposdate3000_Jena_Wrapper", releaseMode, suspendMode, inlineMode, dryMode, fastMode, intellijMode)
+createBuildFileForModule("Luposdate3000_Parser", releaseMode, suspendMode, inlineMode, dryMode, fastMode, intellijMode)
+createBuildFileForModule("Luposdate3000_Buffer_Manager_Inmemory", "Luposdate3000_Buffer_Manager", releaseMode, suspendMode, inlineMode, dryMode, fastMode, intellijMode)
+createBuildFileForModule("Luposdate3000_Buffer_Manager_Persistent", "Luposdate3000_Buffer_Manager", releaseMode, suspendMode, inlineMode, dryMode, fastMode, intellijMode)
+createBuildFileForModule("Luposdate3000_Dictionary_Inmemory", "Luposdate3000_Dictionary", releaseMode, suspendMode, inlineMode, dryMode, fastMode, intellijMode)
+createBuildFileForModule("Luposdate3000_Operators", releaseMode, suspendMode, inlineMode, dryMode, fastMode, intellijMode)
+createBuildFileForModule("Luposdate3000_Result_Format", releaseMode, suspendMode, inlineMode, dryMode, fastMode, intellijMode)
+createBuildFileForModule("Luposdate3000_Triple_Store_Id_Triple", releaseMode, suspendMode, inlineMode, dryMode, fastMode, intellijMode)
+createBuildFileForModule("Luposdate3000_Triple_Store_All", releaseMode, suspendMode, inlineMode, dryMode, fastMode, intellijMode)
+createBuildFileForModule("Luposdate3000_Triple_Store_All_NoPartitions", "Luposdate3000_Triple_Store_All", "src${Platform.getPathSeparator()}luposdate3000_triple_store_all", releaseMode, suspendMode, inlineMode, dryMode, fastMode, intellijMode, arrayOf("--USE_PARTITIONS2=false"))
+createBuildFileForModule("Luposdate3000_Optimizer", "Luposdate3000_Optimizer", releaseMode, suspendMode, inlineMode, dryMode, fastMode, intellijMode)
+createBuildFileForModule("Luposdate3000_Optimizer_NoPartitions", "Luposdate3000_Optimizer", "src${Platform.getPathSeparator()}luposdate3000_optimizer", releaseMode, suspendMode, inlineMode, dryMode, fastMode, intellijMode, arrayOf("--USE_PARTITIONS=false"))
+createBuildFileForModule("Luposdate3000_Endpoint", releaseMode, suspendMode, inlineMode, dryMode, fastMode, intellijMode)
+createBuildFileForModule("Luposdate3000_Test", releaseMode, suspendMode, inlineMode, dryMode, fastMode, intellijMode)
+createBuildFileForModule("Luposdate3000_Endpoint_None", "Luposdate3000_Endpoint_Launcher", releaseMode, suspendMode, inlineMode, dryMode, fastMode, intellijMode)
+createBuildFileForModule("Luposdate3000_Endpoint_Java_Sockets", "Luposdate3000_Endpoint_Launcher", releaseMode, suspendMode, inlineMode, dryMode, fastMode, intellijMode)
+createBuildFileForModule("Luposdate3000_Launch_Benchmark_Jena", "Luposdate3000_Main", releaseMode, suspendMode, inlineMode, dryMode, fastMode, intellijMode)
+createBuildFileForModule("Luposdate3000_Launch_Benchmark", "Luposdate3000_Main", releaseMode, suspendMode, inlineMode, dryMode, fastMode, intellijMode)
+createBuildFileForModule("Luposdate3000_Launch_Benchmark_1", "Luposdate3000_Main", releaseMode, suspendMode, inlineMode, dryMode, fastMode, intellijMode)
+createBuildFileForModule("Luposdate3000_Launch_Benchmark_2", "Luposdate3000_Main", releaseMode, suspendMode, inlineMode, dryMode, fastMode, intellijMode)
+createBuildFileForModule("Luposdate3000_Launch_Benchmark_3", "Luposdate3000_Main", releaseMode, suspendMode, inlineMode, dryMode, fastMode, intellijMode)
+createBuildFileForModule("Luposdate3000_Launch_Benchmark_4", "Luposdate3000_Main", releaseMode, suspendMode, inlineMode, dryMode, fastMode, intellijMode)
+createBuildFileForModule("Luposdate3000_Launch_Binary_Test_Suite", "Luposdate3000_Main", releaseMode, suspendMode, inlineMode, dryMode, fastMode, intellijMode)
+createBuildFileForModule("Luposdate3000_Launch_Endpoint", "Luposdate3000_Main", releaseMode, suspendMode, inlineMode, dryMode, fastMode, intellijMode)
+createBuildFileForModule("Luposdate3000_Launch_Import", "Luposdate3000_Main", releaseMode, suspendMode, inlineMode, dryMode, fastMode, intellijMode)
+createBuildFileForModule("Luposdate3000_Launch_Sparql_Test_Suite", "Luposdate3000_Main", releaseMode, suspendMode, inlineMode, dryMode, fastMode, intellijMode)
+createBuildFileForModule("Luposdate3000_Launch_Prepared_Statement", "Luposdate3000_Main", releaseMode, suspendMode, inlineMode, dryMode, fastMode, intellijMode)
+createBuildFileForModule("Luposdate3000_Launch_Code_Gen_Example", "Luposdate3000_Main", releaseMode, suspendMode, inlineMode, dryMode, fastMode, intellijMode)

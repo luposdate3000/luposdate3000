@@ -16,7 +16,7 @@ public class TripleStoreLocalBPlusTreePartition(name: String, store_root_page_id
         val dataDistinctList = mutableListOf<TripleStoreDistinctContainer>()
         println("the activated Partitions are ::")
         if (store_root_page_init) {
-println("XYZ TripleStoreLocalBPlusTreePartition store_root_page_init")
+            println("XYZ TripleStoreLocalBPlusTreePartition store_root_page_init")
             val cnt = ByteArrayHelper.readInt4(rootPage, 0)
             var rootPageOffset = 4
             val tmpEnabledPartitions = mutableListOf<EnabledPartitionContainer>()
@@ -55,7 +55,7 @@ println("XYZ TripleStoreLocalBPlusTreePartition store_root_page_init")
             enabledPartitions = tmpEnabledPartitions.toTypedArray()
         } else {
             if (!USE_PARTITIONS2) {
-println("XYZ TripleStoreLocalBPlusTreePartition !USE_PARTITIONS2")
+                println("XYZ TripleStoreLocalBPlusTreePartition !USE_PARTITIONS2")
                 enabledPartitions = arrayOf( //
                     EnabledPartitionContainer(mutableSetOf(EIndexPattern.SPO, EIndexPattern.S_PO, EIndexPattern.SP_O), -1, 1), //
                     EnabledPartitionContainer(mutableSetOf(EIndexPattern.SOP, EIndexPattern.S_OP, EIndexPattern.SO_P), -1, 1), //
@@ -65,7 +65,7 @@ println("XYZ TripleStoreLocalBPlusTreePartition !USE_PARTITIONS2")
                     EnabledPartitionContainer(mutableSetOf(EIndexPattern.OPS, EIndexPattern.O_PS, EIndexPattern.OP_S), -1, 1), //
                 )
             } else if (Partition.estimatedPartitionsValid) {
-println("XYZ TripleStoreLocalBPlusTreePartition Partition.estimatedPartitionsValid")
+                println("XYZ TripleStoreLocalBPlusTreePartition Partition.estimatedPartitionsValid")
                 val localindicees = mapOf(
                     "SPO" to mutableSetOf(EIndexPattern.SPO, EIndexPattern.S_PO, EIndexPattern.SP_O),
                     "SOP" to mutableSetOf(EIndexPattern.SOP, EIndexPattern.S_OP, EIndexPattern.SO_P),
@@ -91,7 +91,7 @@ println("XYZ TripleStoreLocalBPlusTreePartition Partition.estimatedPartitionsVal
                 }
                 enabledPartitions = tmpEnabledPartitions.toTypedArray()
             } else {
-println("XYZ TripleStoreLocalBPlusTreePartition other")
+                println("XYZ TripleStoreLocalBPlusTreePartition other")
                 enabledPartitions = arrayOf( //
                     EnabledPartitionContainer(mutableSetOf(EIndexPattern.SPO, EIndexPattern.S_PO, EIndexPattern.SP_O), 1, 2), // TODO use reasonable partition counts ... this is just to verify during tests
                     EnabledPartitionContainer(mutableSetOf(EIndexPattern.SOP, EIndexPattern.S_OP, EIndexPattern.SO_P), 1, 4), //
