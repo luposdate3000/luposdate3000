@@ -13,7 +13,7 @@ var releaseMode = ReleaseMode.Disable
 var suspendMode = SuspendMode.Disable
 var inlineMode = InlineMode.Disable
 var dryMode = DryMode.Disable
-var fastMode = FastMode.Disable
+var fastMode = FastMode.JVM
 var intellijMode = IntellijMode.Disable
 
 for (arg in args) {

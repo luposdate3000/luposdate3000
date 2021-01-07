@@ -1,6 +1,8 @@
 #!/bin/bash
 mkdir -p build-cache/bin
-sed "s/FastMode.[a-zA-Z0-9_]*,/FastMode.JS,/g" -i compile-module-all.main.kts
+sed "s/FastMode.Disable/FastMode.JS/g" -i compile-module-all.main.kts
+sed "s/FastMode.JVM/FastMode.JS/g" -i compile-module-all.main.kts
+sed "s/FastMode.Native/FastMode.JS/g" -i compile-module-all.main.kts
 ./compile-module-all.main.kts
 unzip $(find ~/.m2/repository/org/jetbrains/kotlin/kotlin-stdlib-js/1.4.255-SNAPSHOT/ -name "kotlin-stdlib-js-1.4.255-SNAPSHOT.jar") kotlin.js
 mv kotlin.js build-cache/bin/kotlin.js
