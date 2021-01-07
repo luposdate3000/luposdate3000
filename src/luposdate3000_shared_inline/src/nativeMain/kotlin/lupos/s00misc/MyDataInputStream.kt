@@ -1,4 +1,5 @@
 package lupos.modulename
+import lupos.s00misc.NotImplementedException
 internal actual class MyDataInputStream {
     internal actual inline fun readByte(): Byte = throw NotImplementedException("MyDataOutputStream", "xyz not implemented")
     internal actual inline fun readInt(): Int = throw NotImplementedException("MyDataOutputStream", "xyz not implemented")

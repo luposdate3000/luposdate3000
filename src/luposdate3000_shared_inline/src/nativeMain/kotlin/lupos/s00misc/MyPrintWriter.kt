@@ -1,4 +1,5 @@
 package lupos.modulename
+import lupos.s00misc.NotImplementedException
 import lupos.s00misc.IMyPrintWriter
 internal actual class _MyPrintWriter : IMyPrintWriter {
     actual constructor(hasBuffer: Boolean)

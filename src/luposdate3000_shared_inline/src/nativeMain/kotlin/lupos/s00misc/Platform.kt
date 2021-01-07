@@ -1,4 +1,5 @@
 package lupos.modulename
+import lupos.s00misc.NotImplementedException
 import kotlinx.cinterop.toKString
 import lupos.s00misc.EOperatingSystem
 import platform.posix.getenv

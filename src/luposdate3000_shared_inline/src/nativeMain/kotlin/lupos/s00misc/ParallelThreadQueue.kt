@@ -1,4 +1,5 @@
 package lupos.modulename
+import lupos.s00misc.NotImplementedException
 internal actual class ParallelThreadQueue<T> {
     actual constructor(terminationValue: T) {
     }

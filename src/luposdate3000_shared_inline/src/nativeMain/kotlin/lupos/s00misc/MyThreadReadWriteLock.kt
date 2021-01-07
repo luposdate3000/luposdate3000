@@ -1,4 +1,5 @@
 package lupos.modulename
+import lupos.s00misc.NotImplementedException
 internal actual class MyThreadReadWriteLock {
     internal companion object {
         var uuidCounter = 0L

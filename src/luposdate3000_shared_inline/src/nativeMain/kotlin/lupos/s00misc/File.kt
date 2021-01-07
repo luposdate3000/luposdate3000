@@ -1,4 +1,5 @@
 package lupos.modulename
+import lupos.s00misc.NotImplementedException
 import lupos.s00misc.IMyInputStream
 import lupos.s00misc.MyDataOutputStream
 import lupos.s00misc.MyPrintWriter

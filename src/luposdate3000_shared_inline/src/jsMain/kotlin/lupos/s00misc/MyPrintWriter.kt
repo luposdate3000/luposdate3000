@@ -1,4 +1,5 @@
 package lupos.modulename
+import lupos.s00misc.NotImplementedException
 import lupos.s00misc.IMyPrintWriter
 internal actual open class _MyPrintWriter : IMyPrintWriter {
     val buffer = StringBuilder()
