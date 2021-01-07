@@ -11,7 +11,6 @@ import java.io.FileWriter
 import java.io.PrintWriter
 import java.nio.file.Files
 import java.nio.file.Paths
-
 val targetBaseFolder = "${Platform.getBenchmarkHome()}${Platform.getPathSeparator()}luposdate-testdata${Platform.getPathSeparator()}sp2b"
 val sp2bGeneratorHome = "${Platform.getPathSeparator()}opt${Platform.getPathSeparator()}sp2b${Platform.getPathSeparator()}bin"
 
