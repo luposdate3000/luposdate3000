@@ -43,7 +43,7 @@ public class POPJoinMerge(query: IQuery, projectedVariables: List<String>, child
         }
         @JvmField
         var localHasnext2closeI = 0
-        /*suspend*/ private inline fun _hasNext2Close() {
+        @Suppress("NOTHING_TO_INLINE") /*suspend*/ private inline fun _hasNext2Close() {
             localHasnext2closeI = 0
             while (localHasnext2closeI < columnsINJ0.size) {
                 columnsINJ0[localHasnext2closeI].close()
@@ -92,7 +92,7 @@ public class POPJoinMerge(query: IQuery, projectedVariables: List<String>, child
         var skipO1 = 0
         @JvmField
         var sipbuf = IntArray(2)
-        /*suspend*/ private inline fun __close() {
+        @Suppress("NOTHING_TO_INLINE") /*suspend*/ private inline fun __close() {
             if (label != 0) {
                 localCloseI = 0
                 while (localCloseI < columnsOUT0.size) {

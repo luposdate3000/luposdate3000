@@ -6,7 +6,7 @@ import lupos.s04logicalOperators.iterator.ColumnIterator
 internal object NodeInner {
     const val START_OFFSET = 16
     const val MAX_POINTER_SIZE = 4
-    internal inline fun getFirstTriple(data: ByteArray, b: IntArray) {
+    @Suppress("NOTHING_TO_INLINE") internal inline fun getFirstTriple(data: ByteArray, b: IntArray) {
         var node = data
         var done = false
         var nodeid = getFirstChild(node)
@@ -27,13 +27,13 @@ internal object NodeInner {
             nodeid = nextnodeid
         }
     }
-    internal inline fun setFirstChild(data: ByteArray, node: Int) {
+    @Suppress("NOTHING_TO_INLINE") internal inline fun setFirstChild(data: ByteArray, node: Int) {
         ByteArrayHelper.writeInt4(data, 12, node)
     }
-    internal inline fun getFirstChild(data: ByteArray): Int {
+    @Suppress("NOTHING_TO_INLINE") internal inline fun getFirstChild(data: ByteArray): Int {
         return ByteArrayHelper.readInt4(data, 12)
     }
-    internal inline fun writeChildPointer(node: ByteArray, offset: Int, pointer: Int): Int {
+    @Suppress("NOTHING_TO_INLINE") internal inline fun writeChildPointer(node: ByteArray, offset: Int, pointer: Int): Int {
         ByteArrayHelper.writeInt4(node, offset, pointer)
         return 4
     }
@@ -41,7 +41,7 @@ internal object NodeInner {
         action(ByteArrayHelper.readInt4(node, offset))
         return 4
     }
-    internal inline fun iterator(_node: ByteArray): TripleIterator {
+    @Suppress("NOTHING_TO_INLINE") internal inline fun iterator(_node: ByteArray): TripleIterator {
         var iterator: TripleIterator? = null
         var node = _node
         while (true) {
@@ -65,7 +65,7 @@ internal object NodeInner {
         }
         return iterator!!
     }
-    /*suspend*/ internal inline fun iterator(_node: ByteArray, lock: MyReadWriteLock, component: Int): ColumnIterator {
+    @Suppress("NOTHING_TO_INLINE") /*suspend*/ internal inline fun iterator(_node: ByteArray, lock: MyReadWriteLock, component: Int): ColumnIterator {
         var iterator: ColumnIterator? = null
         var node = _node
         while (true) {
@@ -126,7 +126,7 @@ internal object NodeInner {
         }
         action(lastChildPointer)
     }
-    /*suspend*/ internal inline fun iterator3(_node: ByteArray, prefix: IntArray, lock: MyReadWriteLock): ColumnIterator {
+    @Suppress("NOTHING_TO_INLINE") /*suspend*/ internal inline fun iterator3(_node: ByteArray, prefix: IntArray, lock: MyReadWriteLock): ColumnIterator {
         var node = _node
         var iterator: ColumnIterator? = null
         var nodeid = 0
@@ -159,7 +159,7 @@ internal object NodeInner {
         }
         return iterator!!
     }
-    /*suspend*/ internal inline fun iterator2(_node: ByteArray, prefix: IntArray, lock: MyReadWriteLock): ColumnIterator {
+    @Suppress("NOTHING_TO_INLINE") /*suspend*/ internal inline fun iterator2(_node: ByteArray, prefix: IntArray, lock: MyReadWriteLock): ColumnIterator {
         var node = _node
         var iterator: ColumnIterator? = null
         var nodeid = 0
@@ -192,7 +192,7 @@ internal object NodeInner {
         }
         return iterator!!
     }
-    /*suspend*/ internal inline fun iterator1(_node: ByteArray, prefix: IntArray, lock: MyReadWriteLock, component: Int): ColumnIterator {
+    @Suppress("NOTHING_TO_INLINE") /*suspend*/ internal inline fun iterator1(_node: ByteArray, prefix: IntArray, lock: MyReadWriteLock, component: Int): ColumnIterator {
         var node = _node
         var iterator: ColumnIterator? = null
         var nodeid = 0
@@ -225,7 +225,7 @@ internal object NodeInner {
         }
         return iterator!!
     }
-    internal inline fun initializeWith(node: ByteArray, nodeid: Int, childs: MutableList<Int>) {
+    @Suppress("NOTHING_TO_INLINE") internal inline fun initializeWith(node: ByteArray, nodeid: Int, childs: MutableList<Int>) {
         SanityCheck.check { childs.size > 0 }
         var writtenHeaders: MutableList<Int>? = null
         var writtenTriples: MutableList<Int>? = null

@@ -16,7 +16,7 @@ internal actual class ParallelThreadCondition {
             wasSignalled = false
         }
     }
-    internal actual inline fun signal() {
+    @Suppress("NOTHING_TO_INLINE") internal actual inline fun signal() {
         synchronized(myMonitorObject) {
             wasSignalled = true
             myMonitorObject.notify()

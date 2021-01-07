@@ -125,7 +125,7 @@ public class POPJoinMergeSingleColumn(query: IQuery, projectedVariables: List<St
                 }
             }
         }
-        /*suspend*/ internal inline fun _close() {
+        @Suppress("NOTHING_TO_INLINE") /*suspend*/ internal inline fun _close() {
             if (label != 0) {
                 label = 0
                 SanityCheck.println { "\$uuid close ColumnIteratorJoinMergeSingleColumn" }

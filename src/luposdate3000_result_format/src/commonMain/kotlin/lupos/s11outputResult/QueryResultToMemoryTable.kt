@@ -17,7 +17,7 @@ public object QueryResultToMemoryTable {
     private /*suspend*/ fun writeRow(variables: Array<String>, rowBuf: IntArray, dictionary: IResultSetDictionary, output: MemoryTable) {
         output.data.add(IntArray(variables.size) { rowBuf[it] })
     }
-    /*suspend*/ private inline fun writeAllRows(variables: Array<String>, columns: Array<ColumnIterator>, dictionary: IResultSetDictionary, lock: MyLock?, output: MemoryTable) {
+    @Suppress("NOTHING_TO_INLINE") /*suspend*/ private inline fun writeAllRows(variables: Array<String>, columns: Array<ColumnIterator>, dictionary: IResultSetDictionary, lock: MyLock?, output: MemoryTable) {
         val rowBuf = IntArray(variables.size)
         loop@ while (true) {
             for (variableIndex in variables.indices) {

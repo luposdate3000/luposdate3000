@@ -12,17 +12,17 @@ import java.io.FileInputStream
 import java.io.FileOutputStream
 import kotlin.jvm.JvmField
 internal actual class _File actual constructor(@JvmField public val filename: String) {
-    internal actual inline fun createTempFile(prefix: String, suffix: String, directory: String): String {
+    @Suppress("NOTHING_TO_INLINE") internal actual inline fun createTempFile(prefix: String, suffix: String, directory: String): String {
         val f = createTempFile(prefix, suffix, java.io.File(directory))
         return f.absolutePath
     }
-    internal actual inline fun exists() = java.io.File(filename).exists()
-    internal actual inline fun mkdirs() = java.io.File(filename).mkdirs()
-    internal actual inline fun deleteRecursively() = java.io.File(filename).deleteRecursively()
-    internal actual inline fun length() = java.io.File(filename).length()
-    internal actual inline fun readAsString() = java.io.File(filename).readText()
-    internal actual inline fun readAsCharIterator(): CharIterator = MyCharIterator(this)
-    internal actual inline fun readAsInputStream(): IMyInputStream = MyInputStream(FileInputStream(java.io.File(filename)))
+    @Suppress("NOTHING_TO_INLINE") internal actual inline fun exists() = java.io.File(filename).exists()
+    @Suppress("NOTHING_TO_INLINE") internal actual inline fun mkdirs() = java.io.File(filename).mkdirs()
+    @Suppress("NOTHING_TO_INLINE") internal actual inline fun deleteRecursively() = java.io.File(filename).deleteRecursively()
+    @Suppress("NOTHING_TO_INLINE") internal actual inline fun length() = java.io.File(filename).length()
+    @Suppress("NOTHING_TO_INLINE") internal actual inline fun readAsString() = java.io.File(filename).readText()
+    @Suppress("NOTHING_TO_INLINE") internal actual inline fun readAsCharIterator(): CharIterator = MyCharIterator(this)
+    @Suppress("NOTHING_TO_INLINE") internal actual inline fun readAsInputStream(): IMyInputStream = MyInputStream(FileInputStream(java.io.File(filename)))
     internal actual inline fun walk(crossinline action: (String) -> Unit) {
         java.nio.file.Files.walk(java.nio.file.Paths.get(filename), 1).forEach {
             val tmp = it.toString()
@@ -31,7 +31,7 @@ internal actual class _File actual constructor(@JvmField public val filename: St
             }
         }
     }
-    internal actual inline fun myPrintWriter(): MyPrintWriter = MyPrintWriter(java.io.File(filename))
+    @Suppress("NOTHING_TO_INLINE") internal actual inline fun myPrintWriter(): MyPrintWriter = MyPrintWriter(java.io.File(filename))
     internal actual inline fun printWriter(crossinline action: (MyPrintWriter) -> Unit) {
         val printer = MyPrintWriter(java.io.File(filename))
         try {
@@ -144,7 +144,7 @@ internal actual class _File actual constructor(@JvmField public val filename: St
             input2.close()
         }
     }
-    internal actual inline fun openDataOutputStream(append: Boolean): MyDataOutputStream {
+    @Suppress("NOTHING_TO_INLINE") internal actual inline fun openDataOutputStream(append: Boolean): MyDataOutputStream {
         var dos: DataOutputStream? = null
         val fos = FileOutputStream(filename, append)
         val bos = BufferedOutputStream(fos)

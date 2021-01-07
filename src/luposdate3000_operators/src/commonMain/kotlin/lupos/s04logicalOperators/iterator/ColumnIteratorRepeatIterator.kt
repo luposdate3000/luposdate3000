@@ -11,7 +11,7 @@ public class ColumnIteratorRepeatIterator(@JvmField public val count: Int, @JvmF
     public val data: MutableList<Int> = mutableListOf()
     @JvmField
     public var label: Int = 1
-    /*suspend*/ internal inline fun _close() {
+    @Suppress("NOTHING_TO_INLINE") /*suspend*/ internal inline fun _close() {
         if (label != 0) {
             label = 0
             child.close()

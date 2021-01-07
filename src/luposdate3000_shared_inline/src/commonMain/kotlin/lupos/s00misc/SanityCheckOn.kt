@@ -55,5 +55,5 @@ internal object SanityCheckOn {
             throw e
         }
     }
-    internal inline fun checkUnreachable(): Nothing = throw UnreachableException()
+    @Suppress("NOTHING_TO_INLINE") internal inline fun checkUnreachable(): Nothing = throw UnreachableException()
 }

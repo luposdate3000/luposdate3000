@@ -127,7 +127,7 @@ public class TripleStoreIndexIDTriple(store_root_page_id_: Int, store_root_page_
         bufferManager.getPage(store_root_page_id)
         bufferManager.deletePage(store_root_page_id)
     }
-    private inline fun clearCachedHistogram() {
+    @Suppress("NOTHING_TO_INLINE") private inline fun clearCachedHistogram() {
         cachedHistograms1Size = 0
         cachedHistograms2Size = 0
         cachedHistograms1Cursor = 0
@@ -393,12 +393,12 @@ public class TripleStoreIndexIDTriple(store_root_page_id_: Int, store_root_page_
             lock.writeUnlock()
         }
     }
-    /*suspend*/ private inline fun flushContinueWithWriteLock() {
+    @Suppress("NOTHING_TO_INLINE") /*suspend*/ private inline fun flushContinueWithWriteLock() {
         SanityCheck.println { "writeLock(${lock.getUUID()}) x140" }
         lock.writeLock()
         flushAssumeLocks()
     }
-    /*suspend*/ private inline fun flushContinueWithReadLock() {
+    @Suppress("NOTHING_TO_INLINE") /*suspend*/ private inline fun flushContinueWithReadLock() {
         var hasLock = false
         while (pendingImport.size > 0) {
             SanityCheck.println { "tryWriteLock(${lock.getUUID()}) x204" }

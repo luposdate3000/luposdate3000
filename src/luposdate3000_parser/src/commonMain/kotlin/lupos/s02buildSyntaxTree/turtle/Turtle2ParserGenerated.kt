@@ -25,10 +25,10 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
     internal var inBufSize = 0
     @JvmField
     internal var flagrN = false
-    internal inline fun clear() {
+    @Suppress("NOTHING_TO_INLINE") internal inline fun clear() {
         outBuffer.clear()
     }
-    internal inline fun getValue(): String {
+    @Suppress("NOTHING_TO_INLINE") internal inline fun getValue(): String {
         return outBuffer.toString()
     }
     fun append() {
@@ -144,7 +144,7 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
         next()
     }
 }
-internal inline fun parse_dot(
+@Suppress("NOTHING_TO_INLINE") internal inline fun parse_dot(
     context: ParserContext,
     crossinline onDOT: () -> Unit
 ) {
@@ -163,14 +163,14 @@ internal inline fun parse_dot(
     }
     throw ParserExceptionUnexpectedChar(context)
 }
-internal inline fun parse_dot_helper_0(c: Int): Int {
+@Suppress("NOTHING_TO_INLINE") internal inline fun parse_dot_helper_0(c: Int): Int {
     return if (c == 0x2e) {
         0
     } else {
         1
     }
 }
-internal inline fun parse_ws(
+@Suppress("NOTHING_TO_INLINE") internal inline fun parse_ws(
     context: ParserContext,
     crossinline onSKIP_WS: () -> Unit
 ) {
@@ -190,7 +190,7 @@ internal inline fun parse_ws(
         return
     }
 }
-internal inline fun parse_ws_forced(
+@Suppress("NOTHING_TO_INLINE") internal inline fun parse_ws_forced(
     context: ParserContext,
     crossinline onSKIP_WS_FORCED: () -> Unit
 ) {
@@ -219,7 +219,7 @@ internal inline fun parse_ws_forced(
     }
     throw ParserExceptionUnexpectedChar(context)
 }
-internal inline fun parse_ws_forced_helper_0(c: Int): Int {
+@Suppress("NOTHING_TO_INLINE") internal inline fun parse_ws_forced_helper_0(c: Int): Int {
     return when {
         c < 0x9 -> {
             1
@@ -244,7 +244,7 @@ internal inline fun parse_ws_forced_helper_0(c: Int): Int {
         }
     }
 }
-internal inline fun parse_statement(
+@Suppress("NOTHING_TO_INLINE") internal inline fun parse_statement(
     context: ParserContext,
     crossinline onBASE: () -> Unit,
     crossinline onPREFIX: () -> Unit,
@@ -761,56 +761,56 @@ public fun parse_statement_helper_0(c: Int): Int {
         }
     }
 }
-internal inline fun parse_statement_helper_1(c: Int): Int {
+@Suppress("NOTHING_TO_INLINE") internal inline fun parse_statement_helper_1(c: Int): Int {
     return if (c == 0x41) {
         0
     } else {
         1
     }
 }
-internal inline fun parse_statement_helper_2(c: Int): Int {
+@Suppress("NOTHING_TO_INLINE") internal inline fun parse_statement_helper_2(c: Int): Int {
     return if (c == 0x53) {
         0
     } else {
         1
     }
 }
-internal inline fun parse_statement_helper_3(c: Int): Int {
+@Suppress("NOTHING_TO_INLINE") internal inline fun parse_statement_helper_3(c: Int): Int {
     return if (c == 0x45) {
         0
     } else {
         1
     }
 }
-internal inline fun parse_statement_helper_4(c: Int): Int {
+@Suppress("NOTHING_TO_INLINE") internal inline fun parse_statement_helper_4(c: Int): Int {
     return if (c == 0x52) {
         0
     } else {
         1
     }
 }
-internal inline fun parse_statement_helper_5(c: Int): Int {
+@Suppress("NOTHING_TO_INLINE") internal inline fun parse_statement_helper_5(c: Int): Int {
     return if (c == 0x46) {
         0
     } else {
         1
     }
 }
-internal inline fun parse_statement_helper_6(c: Int): Int {
+@Suppress("NOTHING_TO_INLINE") internal inline fun parse_statement_helper_6(c: Int): Int {
     return if (c == 0x49) {
         0
     } else {
         1
     }
 }
-internal inline fun parse_statement_helper_7(c: Int): Int {
+@Suppress("NOTHING_TO_INLINE") internal inline fun parse_statement_helper_7(c: Int): Int {
     return if (c == 0x58) {
         0
     } else {
         1
     }
 }
-internal inline fun parse_statement_helper_8(c: Int): Int {
+@Suppress("NOTHING_TO_INLINE") internal inline fun parse_statement_helper_8(c: Int): Int {
     return when {
         c < 0x62 -> {
             2
@@ -829,49 +829,49 @@ internal inline fun parse_statement_helper_8(c: Int): Int {
         }
     }
 }
-internal inline fun parse_statement_helper_9(c: Int): Int {
+@Suppress("NOTHING_TO_INLINE") internal inline fun parse_statement_helper_9(c: Int): Int {
     return if (c == 0x61) {
         0
     } else {
         1
     }
 }
-internal inline fun parse_statement_helper_10(c: Int): Int {
+@Suppress("NOTHING_TO_INLINE") internal inline fun parse_statement_helper_10(c: Int): Int {
     return if (c == 0x73) {
         0
     } else {
         1
     }
 }
-internal inline fun parse_statement_helper_11(c: Int): Int {
+@Suppress("NOTHING_TO_INLINE") internal inline fun parse_statement_helper_11(c: Int): Int {
     return if (c == 0x65) {
         0
     } else {
         1
     }
 }
-internal inline fun parse_statement_helper_12(c: Int): Int {
+@Suppress("NOTHING_TO_INLINE") internal inline fun parse_statement_helper_12(c: Int): Int {
     return if (c == 0x72) {
         0
     } else {
         1
     }
 }
-internal inline fun parse_statement_helper_13(c: Int): Int {
+@Suppress("NOTHING_TO_INLINE") internal inline fun parse_statement_helper_13(c: Int): Int {
     return if (c == 0x66) {
         0
     } else {
         1
     }
 }
-internal inline fun parse_statement_helper_14(c: Int): Int {
+@Suppress("NOTHING_TO_INLINE") internal inline fun parse_statement_helper_14(c: Int): Int {
     return if (c == 0x69) {
         0
     } else {
         1
     }
 }
-internal inline fun parse_statement_helper_15(c: Int): Int {
+@Suppress("NOTHING_TO_INLINE") internal inline fun parse_statement_helper_15(c: Int): Int {
     return if (c == 0x78) {
         0
     } else {
@@ -939,7 +939,7 @@ public fun parse_statement_helper_16(c: Int): Int {
         }
     }
 }
-internal inline fun parse_statement_helper_17(c: Int): Int {
+@Suppress("NOTHING_TO_INLINE") internal inline fun parse_statement_helper_17(c: Int): Int {
     return if (c < 0x55) {
         2
     } else if (c <= 0x55) {
@@ -952,7 +952,7 @@ internal inline fun parse_statement_helper_17(c: Int): Int {
         2
     }
 }
-internal inline fun parse_statement_helper_18(c: Int): Int {
+@Suppress("NOTHING_TO_INLINE") internal inline fun parse_statement_helper_18(c: Int): Int {
     return when {
         c < 0x30 -> {
             1
@@ -977,7 +977,7 @@ internal inline fun parse_statement_helper_18(c: Int): Int {
         }
     }
 }
-internal inline fun parse_statement_helper_19(c: Int): Int {
+@Suppress("NOTHING_TO_INLINE") internal inline fun parse_statement_helper_19(c: Int): Int {
     return if (c == 0x3e) {
         0
     } else {
@@ -1061,7 +1061,7 @@ public fun parse_statement_helper_20(c: Int): Int {
         return 1
     }
 }
-internal inline fun parse_statement_helper_21(c: Int): Int {
+@Suppress("NOTHING_TO_INLINE") internal inline fun parse_statement_helper_21(c: Int): Int {
     return if (c == 0x3a) {
         0
     } else {
@@ -1137,7 +1137,7 @@ public fun parse_statement_helper_22(c: Int): Int {
         return 1
     }
 }
-internal inline fun parse_base(
+@Suppress("NOTHING_TO_INLINE") internal inline fun parse_base(
     context: ParserContext,
     crossinline onIRIREF: () -> Unit
 ) {
@@ -1287,7 +1287,7 @@ internal inline fun parse_base(
     }
     throw ParserExceptionUnexpectedChar(context)
 }
-internal inline fun parse_base_helper_0(c: Int): Int {
+@Suppress("NOTHING_TO_INLINE") internal inline fun parse_base_helper_0(c: Int): Int {
     return if (c == 0x3c) {
         0
     } else {
@@ -1335,7 +1335,7 @@ public fun parse_base_helper_1(c: Int): Int {
         return 2
     }
 }
-internal inline fun parse_base_helper_2(c: Int): Int {
+@Suppress("NOTHING_TO_INLINE") internal inline fun parse_base_helper_2(c: Int): Int {
     return if (c < 0x55) {
         2
     } else if (c <= 0x55) {
@@ -1348,7 +1348,7 @@ internal inline fun parse_base_helper_2(c: Int): Int {
         2
     }
 }
-internal inline fun parse_base_helper_3(c: Int): Int {
+@Suppress("NOTHING_TO_INLINE") internal inline fun parse_base_helper_3(c: Int): Int {
     return if (c < 0x30) {
         1
     } else if (c <= 0x39) {
@@ -1365,14 +1365,14 @@ internal inline fun parse_base_helper_3(c: Int): Int {
         1
     }
 }
-internal inline fun parse_base_helper_4(c: Int): Int {
+@Suppress("NOTHING_TO_INLINE") internal inline fun parse_base_helper_4(c: Int): Int {
     return if (c == 0x3e) {
         0
     } else {
         1
     }
 }
-internal inline fun parse_prefix(
+@Suppress("NOTHING_TO_INLINE") internal inline fun parse_prefix(
     context: ParserContext,
     crossinline onPNAME_NS: () -> Unit
 ) {
@@ -1567,14 +1567,14 @@ public fun parse_prefix_helper_1(c: Int): Int {
         return 1
     }
 }
-internal inline fun parse_prefix_helper_2(c: Int): Int {
+@Suppress("NOTHING_TO_INLINE") internal inline fun parse_prefix_helper_2(c: Int): Int {
     return if (c == 0x3a) {
         0
     } else {
         1
     }
 }
-internal inline fun parse_prefix2(
+@Suppress("NOTHING_TO_INLINE") internal inline fun parse_prefix2(
     context: ParserContext,
     crossinline onIRIREF: () -> Unit
 ) {
@@ -1724,7 +1724,7 @@ internal inline fun parse_prefix2(
     }
     throw ParserExceptionUnexpectedChar(context)
 }
-internal inline fun parse_prefix2_helper_0(c: Int): Int {
+@Suppress("NOTHING_TO_INLINE") internal inline fun parse_prefix2_helper_0(c: Int): Int {
     return if (c == 0x3c) {
         0
     } else {
@@ -1772,7 +1772,7 @@ public fun parse_prefix2_helper_1(c: Int): Int {
         return 2
     }
 }
-internal inline fun parse_prefix2_helper_2(c: Int): Int {
+@Suppress("NOTHING_TO_INLINE") internal inline fun parse_prefix2_helper_2(c: Int): Int {
     return if (c < 0x55) {
         2
     } else if (c <= 0x55) {
@@ -1785,7 +1785,7 @@ internal inline fun parse_prefix2_helper_2(c: Int): Int {
         2
     }
 }
-internal inline fun parse_prefix2_helper_3(c: Int): Int {
+@Suppress("NOTHING_TO_INLINE") internal inline fun parse_prefix2_helper_3(c: Int): Int {
     return if (c < 0x30) {
         1
     } else if (c <= 0x39) {
@@ -1802,14 +1802,14 @@ internal inline fun parse_prefix2_helper_3(c: Int): Int {
         1
     }
 }
-internal inline fun parse_prefix2_helper_4(c: Int): Int {
+@Suppress("NOTHING_TO_INLINE") internal inline fun parse_prefix2_helper_4(c: Int): Int {
     return if (c == 0x3e) {
         0
     } else {
         1
     }
 }
-internal inline fun parse_predicate(
+@Suppress("NOTHING_TO_INLINE") internal inline fun parse_predicate(
     context: ParserContext,
     crossinline onVERB1: () -> Unit,
     crossinline onIRIREF: () -> Unit,
@@ -2117,7 +2117,7 @@ public fun parse_predicate_helper_1(c: Int): Int {
         return 2
     }
 }
-internal inline fun parse_predicate_helper_2(c: Int): Int {
+@Suppress("NOTHING_TO_INLINE") internal inline fun parse_predicate_helper_2(c: Int): Int {
     return if (c < 0x55) {
         2
     } else if (c <= 0x55) {
@@ -2130,7 +2130,7 @@ internal inline fun parse_predicate_helper_2(c: Int): Int {
         2
     }
 }
-internal inline fun parse_predicate_helper_3(c: Int): Int {
+@Suppress("NOTHING_TO_INLINE") internal inline fun parse_predicate_helper_3(c: Int): Int {
     return if (c < 0x30) {
         1
     } else if (c <= 0x39) {
@@ -2147,7 +2147,7 @@ internal inline fun parse_predicate_helper_3(c: Int): Int {
         1
     }
 }
-internal inline fun parse_predicate_helper_4(c: Int): Int {
+@Suppress("NOTHING_TO_INLINE") internal inline fun parse_predicate_helper_4(c: Int): Int {
     return if (c == 0x3e) {
         0
     } else {
@@ -2231,14 +2231,14 @@ public fun parse_predicate_helper_5(c: Int): Int {
         return 1
     }
 }
-internal inline fun parse_predicate_helper_6(c: Int): Int {
+@Suppress("NOTHING_TO_INLINE") internal inline fun parse_predicate_helper_6(c: Int): Int {
     return if (c == 0x3a) {
         0
     } else {
         1
     }
 }
-internal inline fun parse_obj(
+@Suppress("NOTHING_TO_INLINE") internal inline fun parse_obj(
     context: ParserContext,
     crossinline onIRIREF: () -> Unit,
     crossinline onPNAME_NS: () -> Unit,
@@ -5356,7 +5356,7 @@ public fun parse_obj_helper_1(c: Int): Int {
         return 2
     }
 }
-internal inline fun parse_obj_helper_2(c: Int): Int {
+@Suppress("NOTHING_TO_INLINE") internal inline fun parse_obj_helper_2(c: Int): Int {
     return if (c < 0x55) {
         2
     } else if (c <= 0x55) {
@@ -5369,7 +5369,7 @@ internal inline fun parse_obj_helper_2(c: Int): Int {
         2
     }
 }
-internal inline fun parse_obj_helper_3(c: Int): Int {
+@Suppress("NOTHING_TO_INLINE") internal inline fun parse_obj_helper_3(c: Int): Int {
     return if (c < 0x30) {
         1
     } else if (c <= 0x39) {
@@ -5386,7 +5386,7 @@ internal inline fun parse_obj_helper_3(c: Int): Int {
         1
     }
 }
-internal inline fun parse_obj_helper_4(c: Int): Int {
+@Suppress("NOTHING_TO_INLINE") internal inline fun parse_obj_helper_4(c: Int): Int {
     return if (c == 0x3e) {
         0
     } else {
@@ -5470,7 +5470,7 @@ public fun parse_obj_helper_5(c: Int): Int {
         return 1
     }
 }
-internal inline fun parse_obj_helper_6(c: Int): Int {
+@Suppress("NOTHING_TO_INLINE") internal inline fun parse_obj_helper_6(c: Int): Int {
     return if (c == 0x3a) {
         0
     } else {
@@ -5649,7 +5649,7 @@ public fun parse_obj_helper_10(c: Int): Int {
         return 3
     }
 }
-internal inline fun parse_obj_helper_11(c: Int): Int {
+@Suppress("NOTHING_TO_INLINE") internal inline fun parse_obj_helper_11(c: Int): Int {
     return if (c == 0x22) {
         0
     } else {
@@ -5737,7 +5737,7 @@ public fun parse_obj_helper_14(c: Int): Int {
         return 2
     }
 }
-internal inline fun parse_obj_helper_15(c: Int): Int {
+@Suppress("NOTHING_TO_INLINE") internal inline fun parse_obj_helper_15(c: Int): Int {
     return if (c == 0x27) {
         0
     } else {
@@ -5767,7 +5767,7 @@ public fun parse_obj_helper_16(c: Int): Int {
         return 3
     }
 }
-internal inline fun parse_obj_helper_17(c: Int): Int {
+@Suppress("NOTHING_TO_INLINE") internal inline fun parse_obj_helper_17(c: Int): Int {
     return if (c < 0x2e) {
         2
     } else if (c <= 0x2e) {
@@ -5784,7 +5784,7 @@ internal inline fun parse_obj_helper_17(c: Int): Int {
         2
     }
 }
-internal inline fun parse_obj_helper_18(c: Int): Int {
+@Suppress("NOTHING_TO_INLINE") internal inline fun parse_obj_helper_18(c: Int): Int {
     return if (c < 0x30) {
         2
     } else if (c <= 0x39) {
@@ -5801,7 +5801,7 @@ internal inline fun parse_obj_helper_18(c: Int): Int {
         2
     }
 }
-internal inline fun parse_obj_helper_19(c: Int): Int {
+@Suppress("NOTHING_TO_INLINE") internal inline fun parse_obj_helper_19(c: Int): Int {
     return if (c < 0x45) {
         1
     } else if (c <= 0x45) {
@@ -5814,7 +5814,7 @@ internal inline fun parse_obj_helper_19(c: Int): Int {
         1
     }
 }
-internal inline fun parse_obj_helper_20(c: Int): Int {
+@Suppress("NOTHING_TO_INLINE") internal inline fun parse_obj_helper_20(c: Int): Int {
     return if (c < 0x2b) {
         2
     } else if (c <= 0x2b) {
@@ -5831,7 +5831,7 @@ internal inline fun parse_obj_helper_20(c: Int): Int {
         2
     }
 }
-internal inline fun parse_obj_helper_21(c: Int): Int {
+@Suppress("NOTHING_TO_INLINE") internal inline fun parse_obj_helper_21(c: Int): Int {
     return if (c < 0x30) {
         1
     } else if (c <= 0x39) {
@@ -5840,7 +5840,7 @@ internal inline fun parse_obj_helper_21(c: Int): Int {
         1
     }
 }
-internal inline fun parse_obj_helper_22(c: Int): Int {
+@Suppress("NOTHING_TO_INLINE") internal inline fun parse_obj_helper_22(c: Int): Int {
     return if (c < 0x2e) {
         2
     } else if (c <= 0x2e) {
@@ -5853,56 +5853,56 @@ internal inline fun parse_obj_helper_22(c: Int): Int {
         2
     }
 }
-internal inline fun parse_obj_helper_23(c: Int): Int {
+@Suppress("NOTHING_TO_INLINE") internal inline fun parse_obj_helper_23(c: Int): Int {
     return if (c == 0x72) {
         0
     } else {
         1
     }
 }
-internal inline fun parse_obj_helper_24(c: Int): Int {
+@Suppress("NOTHING_TO_INLINE") internal inline fun parse_obj_helper_24(c: Int): Int {
     return if (c == 0x75) {
         0
     } else {
         1
     }
 }
-internal inline fun parse_obj_helper_25(c: Int): Int {
+@Suppress("NOTHING_TO_INLINE") internal inline fun parse_obj_helper_25(c: Int): Int {
     return if (c == 0x65) {
         0
     } else {
         1
     }
 }
-internal inline fun parse_obj_helper_26(c: Int): Int {
+@Suppress("NOTHING_TO_INLINE") internal inline fun parse_obj_helper_26(c: Int): Int {
     return if (c == 0x66) {
         0
     } else {
         1
     }
 }
-internal inline fun parse_obj_helper_27(c: Int): Int {
+@Suppress("NOTHING_TO_INLINE") internal inline fun parse_obj_helper_27(c: Int): Int {
     return if (c == 0x61) {
         0
     } else {
         1
     }
 }
-internal inline fun parse_obj_helper_28(c: Int): Int {
+@Suppress("NOTHING_TO_INLINE") internal inline fun parse_obj_helper_28(c: Int): Int {
     return if (c == 0x6c) {
         0
     } else {
         1
     }
 }
-internal inline fun parse_obj_helper_29(c: Int): Int {
+@Suppress("NOTHING_TO_INLINE") internal inline fun parse_obj_helper_29(c: Int): Int {
     return if (c == 0x73) {
         0
     } else {
         1
     }
 }
-internal inline fun parse_triple_end(
+@Suppress("NOTHING_TO_INLINE") internal inline fun parse_triple_end(
     context: ParserContext,
     crossinline onPREDICATE_LIST1: () -> Unit,
     crossinline onOBJECT_LIST1: () -> Unit,
@@ -5933,7 +5933,7 @@ internal inline fun parse_triple_end(
     }
     throw ParserExceptionUnexpectedChar(context)
 }
-internal inline fun parse_triple_end_helper_0(c: Int): Int {
+@Suppress("NOTHING_TO_INLINE") internal inline fun parse_triple_end_helper_0(c: Int): Int {
     return if (c < 0x2c) {
         3
     } else if (c <= 0x2c) {
@@ -5950,7 +5950,7 @@ internal inline fun parse_triple_end_helper_0(c: Int): Int {
         3
     }
 }
-internal inline fun parse_triple_end_or_object_iri(
+@Suppress("NOTHING_TO_INLINE") internal inline fun parse_triple_end_or_object_iri(
     context: ParserContext,
     crossinline onPN_LOCAL: () -> Unit,
     crossinline onPREDICATE_LIST1: () -> Unit,
@@ -6382,7 +6382,7 @@ public fun parse_triple_end_or_object_iri_helper_1(c: Int): Int {
         return 3
     }
 }
-internal inline fun parse_triple_end_or_object_iri_helper_2(c: Int): Int {
+@Suppress("NOTHING_TO_INLINE") internal inline fun parse_triple_end_or_object_iri_helper_2(c: Int): Int {
     return if (c < 0x30) {
         1
     } else if (c <= 0x39) {
@@ -6432,7 +6432,7 @@ public fun parse_triple_end_or_object_iri_helper_3(c: Int): Int {
         return 1
     }
 }
-internal inline fun parse_triple_end_or_object_string(
+@Suppress("NOTHING_TO_INLINE") internal inline fun parse_triple_end_or_object_string(
     context: ParserContext,
     crossinline onLANGTAG: () -> Unit,
     crossinline onIRI1: () -> Unit,
@@ -6583,7 +6583,7 @@ public fun parse_triple_end_or_object_string_helper_0(c: Int): Int {
         return 6
     }
 }
-internal inline fun parse_triple_end_or_object_string_helper_1(c: Int): Int {
+@Suppress("NOTHING_TO_INLINE") internal inline fun parse_triple_end_or_object_string_helper_1(c: Int): Int {
     return if (c < 0x41) {
         1
     } else if (c <= 0x5a) {
@@ -6596,14 +6596,14 @@ internal inline fun parse_triple_end_or_object_string_helper_1(c: Int): Int {
         1
     }
 }
-internal inline fun parse_triple_end_or_object_string_helper_2(c: Int): Int {
+@Suppress("NOTHING_TO_INLINE") internal inline fun parse_triple_end_or_object_string_helper_2(c: Int): Int {
     return if (c == 0x2d) {
         0
     } else {
         1
     }
 }
-internal inline fun parse_triple_end_or_object_string_helper_3(c: Int): Int {
+@Suppress("NOTHING_TO_INLINE") internal inline fun parse_triple_end_or_object_string_helper_3(c: Int): Int {
     return if (c < 0x30) {
         1
     } else if (c <= 0x39) {
@@ -6620,14 +6620,14 @@ internal inline fun parse_triple_end_or_object_string_helper_3(c: Int): Int {
         1
     }
 }
-internal inline fun parse_triple_end_or_object_string_helper_4(c: Int): Int {
+@Suppress("NOTHING_TO_INLINE") internal inline fun parse_triple_end_or_object_string_helper_4(c: Int): Int {
     return if (c == 0x5e) {
         0
     } else {
         1
     }
 }
-internal inline fun parse_triple_end_or_object_string_typed(
+@Suppress("NOTHING_TO_INLINE") internal inline fun parse_triple_end_or_object_string_typed(
     context: ParserContext,
     crossinline onIRIREF: () -> Unit,
     crossinline onPNAME_NS: () -> Unit
@@ -6927,7 +6927,7 @@ public fun parse_triple_end_or_object_string_typed_helper_1(c: Int): Int {
         return 2
     }
 }
-internal inline fun parse_triple_end_or_object_string_typed_helper_2(c: Int): Int {
+@Suppress("NOTHING_TO_INLINE") internal inline fun parse_triple_end_or_object_string_typed_helper_2(c: Int): Int {
     return if (c < 0x55) {
         2
     } else if (c <= 0x55) {
@@ -6940,7 +6940,7 @@ internal inline fun parse_triple_end_or_object_string_typed_helper_2(c: Int): In
         2
     }
 }
-internal inline fun parse_triple_end_or_object_string_typed_helper_3(c: Int): Int {
+@Suppress("NOTHING_TO_INLINE") internal inline fun parse_triple_end_or_object_string_typed_helper_3(c: Int): Int {
     return if (c < 0x30) {
         1
     } else if (c <= 0x39) {
@@ -6957,7 +6957,7 @@ internal inline fun parse_triple_end_or_object_string_typed_helper_3(c: Int): In
         1
     }
 }
-internal inline fun parse_triple_end_or_object_string_typed_helper_4(c: Int): Int {
+@Suppress("NOTHING_TO_INLINE") internal inline fun parse_triple_end_or_object_string_typed_helper_4(c: Int): Int {
     return if (c == 0x3e) {
         0
     } else {
@@ -7041,14 +7041,14 @@ public fun parse_triple_end_or_object_string_typed_helper_5(c: Int): Int {
         return 1
     }
 }
-internal inline fun parse_triple_end_or_object_string_typed_helper_6(c: Int): Int {
+@Suppress("NOTHING_TO_INLINE") internal inline fun parse_triple_end_or_object_string_typed_helper_6(c: Int): Int {
     return if (c == 0x3a) {
         0
     } else {
         1
     }
 }
-internal inline fun parse_triple_end_or_object_string_typed_iri(
+@Suppress("NOTHING_TO_INLINE") internal inline fun parse_triple_end_or_object_string_typed_iri(
     context: ParserContext,
     crossinline onPN_LOCAL: () -> Unit,
     crossinline onPREDICATE_LIST1: () -> Unit,
@@ -7480,7 +7480,7 @@ public fun parse_triple_end_or_object_string_typed_iri_helper_1(c: Int): Int {
         return 3
     }
 }
-internal inline fun parse_triple_end_or_object_string_typed_iri_helper_2(c: Int): Int {
+@Suppress("NOTHING_TO_INLINE") internal inline fun parse_triple_end_or_object_string_typed_iri_helper_2(c: Int): Int {
     return if (c < 0x30) {
         1
     } else if (c <= 0x39) {
@@ -7530,7 +7530,7 @@ public fun parse_triple_end_or_object_string_typed_iri_helper_3(c: Int): Int {
         return 1
     }
 }
-internal inline fun parse_subject_iri_or_ws(
+@Suppress("NOTHING_TO_INLINE") internal inline fun parse_subject_iri_or_ws(
     context: ParserContext,
     crossinline onPN_LOCAL: () -> Unit,
     crossinline onSKIP_WS_FORCED: () -> Unit
@@ -7932,7 +7932,7 @@ public fun parse_subject_iri_or_ws_helper_1(c: Int): Int {
         return 3
     }
 }
-internal inline fun parse_subject_iri_or_ws_helper_2(c: Int): Int {
+@Suppress("NOTHING_TO_INLINE") internal inline fun parse_subject_iri_or_ws_helper_2(c: Int): Int {
     return if (c < 0x30) {
         1
     } else if (c <= 0x39) {
@@ -7982,7 +7982,7 @@ public fun parse_subject_iri_or_ws_helper_3(c: Int): Int {
         return 1
     }
 }
-internal inline fun parse_predicate_iri_or_ws(
+@Suppress("NOTHING_TO_INLINE") internal inline fun parse_predicate_iri_or_ws(
     context: ParserContext,
     crossinline onPN_LOCAL: () -> Unit,
     crossinline onSKIP_WS_FORCED: () -> Unit
@@ -8384,7 +8384,7 @@ public fun parse_predicate_iri_or_ws_helper_1(c: Int): Int {
         return 3
     }
 }
-internal inline fun parse_predicate_iri_or_ws_helper_2(c: Int): Int {
+@Suppress("NOTHING_TO_INLINE") internal inline fun parse_predicate_iri_or_ws_helper_2(c: Int): Int {
     return if (c < 0x30) {
         1
     } else if (c <= 0x39) {

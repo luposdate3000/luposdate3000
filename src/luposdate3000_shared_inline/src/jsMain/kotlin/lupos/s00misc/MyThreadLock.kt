@@ -1,14 +1,13 @@
 package lupos.modulename
 import lupos.s00misc.SanityCheck
-import lupos.s00misc.NotImplementedException
 internal actual class MyThreadLock {
     internal companion object {
         var uuidCounter = 0L
     }
     val uuid = uuidCounter++
-    internal actual inline fun getUUID() = uuid
+    @Suppress("NOTHING_TO_INLINE") internal actual inline fun getUUID() = uuid
     var locked = false
-    internal actual inline fun lock() {
+    @Suppress("NOTHING_TO_INLINE") internal actual inline fun lock() {
         SanityCheck {
             if (locked) {
                 throw Exception("deadlock")
@@ -16,7 +15,7 @@ internal actual class MyThreadLock {
             locked = true
         }
     }
-    internal actual inline fun unlock() {
+    @Suppress("NOTHING_TO_INLINE") internal actual inline fun unlock() {
         SanityCheck {
             if (!locked) {
                 throw Exception("unlock without previous lock")
@@ -24,7 +23,7 @@ internal actual class MyThreadLock {
             locked = false
         }
     }
-    internal actual inline fun tryLock(): Boolean {
+    @Suppress("NOTHING_TO_INLINE") internal actual inline fun tryLock(): Boolean {
         SanityCheck {
             if (locked) {
                 throw Exception("deadlock")

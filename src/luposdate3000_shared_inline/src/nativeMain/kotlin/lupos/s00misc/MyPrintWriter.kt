@@ -1,6 +1,6 @@
 package lupos.modulename
-import lupos.s00misc.NotImplementedException
 import lupos.s00misc.IMyPrintWriter
+import lupos.s00misc.NotImplementedException
 internal actual class _MyPrintWriter : IMyPrintWriter {
     actual constructor(hasBuffer: Boolean)
     actual override fun clearBuffer(): Unit = throw NotImplementedException("MyPrintWriter", "xyz not implemented")

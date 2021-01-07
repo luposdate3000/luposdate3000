@@ -3,7 +3,7 @@ import lupos.s03resultRepresentation.ResultSetDictionaryExt
 import kotlin.jvm.JvmField
 public class ColumnIteratorValue : ColumnIterator() {
     public companion object {
-        internal inline operator fun invoke(value: Int): ColumnIteratorValue {
+        @Suppress("NOTHING_TO_INLINE") internal inline operator fun invoke(value: Int): ColumnIteratorValue {
             val res = ColumnIteratorValue()
             res.value = value
             res.done = false

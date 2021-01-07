@@ -12,12 +12,12 @@ internal abstract class NodeLeafColumnIterator(@JvmField var node: ByteArray, @J
     var label = 3
     @JvmField
     var needsReset = true
-    /*suspend*/ internal inline fun __init() {
+    @Suppress("NOTHING_TO_INLINE") /*suspend*/ internal inline fun __init() {
         SanityCheck.println { "readLock(${lock.getUUID()}) x44" }
         lock.readLock()
         remaining = NodeShared.getTripleCount(node)
     }
-    /*suspend*/ internal inline fun _close() {
+    @Suppress("NOTHING_TO_INLINE") /*suspend*/ internal inline fun _close() {
         if (label == 3) {
 /* "__init" was never called*/
             label = 0

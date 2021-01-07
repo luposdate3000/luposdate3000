@@ -1,18 +1,17 @@
 package lupos.modulename
-import lupos.s00misc.NotImplementedException
 internal actual class ParallelThreadQueue<T> {
     var queue = mutableListOf<T>()
     var terminalValue: T
     actual constructor(terminationValue: T) {
         terminalValue = terminationValue
     }
-    internal actual inline fun send(value: T) {
+    @Suppress("NOTHING_TO_INLINE") internal actual inline fun send(value: T) {
         queue.add(value)
     }
-    internal actual inline fun close() {
+    @Suppress("NOTHING_TO_INLINE") internal actual inline fun close() {
         queue.clear()
     }
-    internal actual inline fun receive(): T {
+    @Suppress("NOTHING_TO_INLINE") internal actual inline fun receive(): T {
         if (queue.size > 0) {
             return queue.removeAt(0)
         }

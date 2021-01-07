@@ -10,13 +10,13 @@ internal actual object ParallelThread {
         res.start()
         return res
     }
-    internal actual inline fun delay(milliseconds: Long) {
+    @Suppress("NOTHING_TO_INLINE") internal actual inline fun delay(milliseconds: Long) {
         Thread.sleep(milliseconds)
     }
-    internal actual inline fun createCondition(): ParallelThreadCondition {
+    @Suppress("NOTHING_TO_INLINE") internal actual inline fun createCondition(): ParallelThreadCondition {
         return ParallelThreadCondition()
     }
-    internal actual inline fun <T> createQueue(terminationValue: T): ParallelThreadQueue<T> {
+    @Suppress("NOTHING_TO_INLINE") internal actual inline fun <T> createQueue(terminationValue: T): ParallelThreadQueue<T> {
         return ParallelThreadQueue(terminationValue)
     }
 }

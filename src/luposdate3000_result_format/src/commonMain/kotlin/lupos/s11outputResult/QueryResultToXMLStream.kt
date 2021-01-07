@@ -102,7 +102,7 @@ public object QueryResultToXMLStream {
         }
         output.print("  </result>\n")
     }
-    /*suspend*/ private inline fun writeAllRows(variables: Array<String>, columns: Array<ColumnIterator>, dictionary: IResultSetDictionary, lock: MyLock?, output: IMyPrintWriter) {
+    @Suppress("NOTHING_TO_INLINE") /*suspend*/ private inline fun writeAllRows(variables: Array<String>, columns: Array<ColumnIterator>, dictionary: IResultSetDictionary, lock: MyLock?, output: IMyPrintWriter) {
         val rowBuf = IntArray(variables.size)
         val resultWriter = MyPrintWriter(true)
         loop@ while (true) {

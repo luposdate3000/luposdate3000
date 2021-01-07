@@ -7,13 +7,13 @@ public abstract class ColumnIteratorChildIterator : ColumnIterator() {
     @JvmField public var queueWrite: Int = 0
     @JvmField
     public var label: Int = 1
-    internal inline fun addChildColumnIteratorValue(value: Int) {
+    @Suppress("NOTHING_TO_INLINE") internal inline fun addChildColumnIteratorValue(value: Int) {
         val res = ColumnIteratorValue()
         res.value = value
         res.done = false
         addChild(res)
     }
-    internal inline fun addChild(child: ColumnIterator) {
+    @Suppress("NOTHING_TO_INLINE") internal inline fun addChild(child: ColumnIterator) {
         if (queueRead == queueWrite) {
             queueRead = 0
             queueWrite = 0
@@ -31,15 +31,15 @@ public abstract class ColumnIteratorChildIterator : ColumnIterator() {
         queue[queueWrite] = child
         queueWrite++
     }
-    internal inline fun closeOnNoMoreElements() {
+    @Suppress("NOTHING_TO_INLINE") internal inline fun closeOnNoMoreElements() {
         if (label != 0) {
             label = 2
         }
     }
-    internal inline fun releaseValue(obj: ColumnIterator) {
+    @Suppress("NOTHING_TO_INLINE") internal inline fun releaseValue(obj: ColumnIterator) {
         obj.close()
     }
-    /*suspend*/ internal inline fun _close() {
+    @Suppress("NOTHING_TO_INLINE") /*suspend*/ internal inline fun _close() {
         if (label != 0) {
             label = 0
             for (i in queueRead until queueWrite) {

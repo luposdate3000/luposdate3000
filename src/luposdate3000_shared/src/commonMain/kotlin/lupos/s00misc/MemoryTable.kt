@@ -5,7 +5,7 @@ public class MemoryTable(public val columns: Array<String>) {
     public var booleanResult: Boolean? = null
     public var query: IQuery? = null
     public companion object {
-        internal inline operator fun invoke(a: MemoryTable, b: MemoryTable): MemoryTable {
+        @Suppress("NOTHING_TO_INLINE") internal inline operator fun invoke(a: MemoryTable, b: MemoryTable): MemoryTable {
             if (a.columns.size != b.columns.size) {
                 throw Exception("incompatible input")
             }

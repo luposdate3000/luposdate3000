@@ -24,7 +24,7 @@ internal class NodeLeafIterator(@JvmField var node: ByteArray, @JvmField var nod
         updateRemaining()
         return value[component]
     }
-    private inline fun updateRemaining() {
+    @Suppress("NOTHING_TO_INLINE") private inline fun updateRemaining() {
         remaining--
         if (remaining == 0) {
             needsReset = true

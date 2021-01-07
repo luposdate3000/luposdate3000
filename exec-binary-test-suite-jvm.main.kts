@@ -8,38 +8,48 @@
 import lupos.s00misc.Platform
 import java.io.File
 import java.lang.ProcessBuilder.Redirect
-var releaseMode = ReleaseMode.Disable
-var suspendMode = SuspendMode.Disable
-var inlineMode = InlineMode.Disable
+var releaseMode = "Disable"
+var suspendMode = "Disable"
+var inlineMode = "Disable"
+var noPartitionsFlag = ""
+var persistentFlag = "_Inmemory"
+
+var cleanedArgs = mutableListOf<String>()
 
 for (arg in args) {
     if (arg.startsWith("--releaseMode=")) {
-        releaseMode = ReleaseMode.valueOf(arg.substring("--releaseMode=".length))
+        releaseMode = arg.substring("--releaseMode=".length)
     } else if (arg.startsWith("--suspendMode=")) {
-        suspendMode = SuspendMode.valueOf(arg.substring("--suspendMode=".length))
+        suspendMode = arg.substring("--suspendMode=".length)
     } else if (arg.startsWith("--inlineMode=")) {
-        inlineMode = InlineMode.valueOf(arg.substring("--inlineMode=".length))
+        inlineMode = arg.substring("--inlineMode=".length)
+    } else if (arg == "--noPartitions") {
+        noPartitionsFlag = "_NoPartitions"
+    } else if (arg == "--persistent") {
+        persistentFlag = "_Persistent"
+    } else {
+        cleanedArgs.add(arg)
     }
 }
 var appendix = ""
-        if (suspendMode == SuspendMode.Enable) {
-            appendix += "_Coroutines"
-        } else {
-            appendix += "_Threads"
-        }
-        if (inlineMode == InlineMode.Enable) {
-            appendix += "_Inline"
-        } else {
-            appendix += "_NoInline"
-        }
-        if (releaseMode == ReleaseMode.Enable) {
-            appendix += "_Release"
-        } else {
-            appendix += "_Debug"
-        }
+if (suspendMode == "Enable") {
+    appendix += "_Coroutines"
+} else {
+    appendix += "_Threads"
+}
+if (inlineMode == "Enable") {
+    appendix += "_Inline"
+} else {
+    appendix += "_NoInline"
+}
+if (releaseMode == "Enable") {
+    appendix += "_Release"
+} else {
+    appendix += "_Debug"
+}
 File("log").mkdirs()
 val jars = mutableListOf(
-    "build-cache${Platform.getPathSeparator()}bin${Platform.getPathSeparator()}Luposdate3000_Buffer_Manager_Inmemory$appendix-jvm.jar",
+    "build-cache${Platform.getPathSeparator()}bin${Platform.getPathSeparator()}Luposdate3000_Buffer_Manager${persistentFlag}$appendix-jvm.jar",
     "build-cache${Platform.getPathSeparator()}bin${Platform.getPathSeparator()}Luposdate3000_Dictionary_Inmemory$appendix-jvm.jar",
     "build-cache${Platform.getPathSeparator()}bin${Platform.getPathSeparator()}Luposdate3000_Endpoint$appendix-jvm.jar",
     "build-cache${Platform.getPathSeparator()}bin${Platform.getPathSeparator()}Luposdate3000_Operators$appendix-jvm.jar",
@@ -47,9 +57,9 @@ val jars = mutableListOf(
     "build-cache${Platform.getPathSeparator()}bin${Platform.getPathSeparator()}Luposdate3000_Result_Format$appendix-jvm.jar",
     "build-cache${Platform.getPathSeparator()}bin${Platform.getPathSeparator()}Luposdate3000_Shared$appendix-jvm.jar",
     "build-cache${Platform.getPathSeparator()}bin${Platform.getPathSeparator()}Luposdate3000_Test$appendix-jvm.jar",
-    "build-cache${Platform.getPathSeparator()}bin${Platform.getPathSeparator()}Luposdate3000_Triple_Store_All_NoPartitions$appendix-jvm.jar",
+    "build-cache${Platform.getPathSeparator()}bin${Platform.getPathSeparator()}Luposdate3000_Triple_Store_All${noPartitionsFlag}$appendix-jvm.jar",
     "build-cache${Platform.getPathSeparator()}bin${Platform.getPathSeparator()}Luposdate3000_Triple_Store_Id_Triple$appendix-jvm.jar",
-    "build-cache${Platform.getPathSeparator()}bin${Platform.getPathSeparator()}Luposdate3000_Optimizer_NoPartitions$appendix-jvm.jar",
+    "build-cache${Platform.getPathSeparator()}bin${Platform.getPathSeparator()}Luposdate3000_Optimizer${noPartitionsFlag}$appendix-jvm.jar",
     "build-cache${Platform.getPathSeparator()}bin${Platform.getPathSeparator()}Luposdate3000_Endpoint_None$appendix-jvm.jar",
     "build-cache${Platform.getPathSeparator()}bin${Platform.getPathSeparator()}Luposdate3000_Jena_Wrapper_Off$appendix-jvm.jar",
     "build-cache${Platform.getPathSeparator()}bin${Platform.getPathSeparator()}Luposdate3000_Launch_Binary_Test_Suite$appendix-jvm.jar",
@@ -70,7 +80,7 @@ for (jar in jars) {
     }
 }
 val cmd = mutableListOf("java", "-Xmx${Platform.getAvailableRam()}g", "-cp", classpath, "MainKt")
-cmd.addAll(args)
+cmd.addAll(cleanedArgs)
 val p = ProcessBuilder(cmd)
     .redirectOutput(Redirect.INHERIT)
     .redirectError(Redirect.INHERIT)

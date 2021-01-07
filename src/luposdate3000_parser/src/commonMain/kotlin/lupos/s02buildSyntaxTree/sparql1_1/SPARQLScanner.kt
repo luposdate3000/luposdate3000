@@ -421,7 +421,7 @@ public class TokenIteratorSPARQLParser(@JvmField public val iterator: LexerCharI
             }
         }
     }
-    private inline fun PNAME_LN_after_colon(beforeColon: String, startToken: Int): Token {
+    @Suppress("NOTHING_TO_INLINE") private inline fun PNAME_LN_after_colon(beforeColon: String, startToken: Int): Token {
         if (this.iterator.hasNext()) {
             val c = this.iterator.nextChar()
             var afterColon = ""
@@ -518,7 +518,7 @@ public class TokenIteratorSPARQLParser(@JvmField public val iterator: LexerCharI
             return PNAME_NS(beforeColon, startToken)
         }
     }
-    private inline fun numberAfterDot(beforeDOT: String, startToken: Int): Token {
+    @Suppress("NOTHING_TO_INLINE") private inline fun numberAfterDot(beforeDOT: String, startToken: Int): Token {
         // next token can only be a decimal or double literal!
         var afterDOT = ""
         while (this.iterator.hasNext()) {
@@ -537,7 +537,7 @@ public class TokenIteratorSPARQLParser(@JvmField public val iterator: LexerCharI
         }
         return DECIMAL(beforeDOT, afterDOT, startToken)
     }
-    private inline fun numberAfterExp(beforeDOT: String, dot: Boolean, afterDOT: String, exp: Char, startToken: Int): Token {
+    @Suppress("NOTHING_TO_INLINE") private inline fun numberAfterExp(beforeDOT: String, dot: Boolean, afterDOT: String, exp: Char, startToken: Int): Token {
         // next token can only be a double literal!
         val maybesign = this.iterator.nextChar()
         val sign: String
@@ -565,7 +565,7 @@ public class TokenIteratorSPARQLParser(@JvmField public val iterator: LexerCharI
             throw ParseError("Double without an integer in the exponent", this.iterator.lineNumber, this.iterator.columnNumber)
         }
     }
-    private inline fun dealWithString(delimiter: Char, startToken: Int): Token {
+    @Suppress("NOTHING_TO_INLINE") private inline fun dealWithString(delimiter: Char, startToken: Int): Token {
         if (iterator.hasNext()) {
             if (iterator.lookahead() == delimiter) {
                 iterator.nextChar()
@@ -616,7 +616,7 @@ public class TokenIteratorSPARQLParser(@JvmField public val iterator: LexerCharI
             throw UnexpectedEndOfFile(this.iterator.index, this.iterator.lineNumber, this.iterator.columnNumber)
         }
     }
-    private inline fun PN_CHARS_BASE(c: Char) =
+    @Suppress("NOTHING_TO_INLINE") private inline fun PN_CHARS_BASE(c: Char) =
         c in 'A'..'Z' ||
             c in 'a'..'z' ||
             c in '\u00C0'..'\u00D6' ||
@@ -631,17 +631,17 @@ public class TokenIteratorSPARQLParser(@JvmField public val iterator: LexerCharI
             c in '\uF900'..'\uFDCF' ||
             c in '\uFDF0'..'\uFFFD' ||
             c in '\u1000'..'\uEFFF'
-    private inline fun PN_CHARS_U(c: Char) = PN_CHARS_BASE(c) || c == '_'
-    private inline fun DIGIT(c: Char) = c in '0'..'9'
-    private inline fun VARNAMESECONDCHARANDLATER(c: Char) =
+    @Suppress("NOTHING_TO_INLINE") private inline fun PN_CHARS_U(c: Char) = PN_CHARS_BASE(c) || c == '_'
+    @Suppress("NOTHING_TO_INLINE") private inline fun DIGIT(c: Char) = c in '0'..'9'
+    @Suppress("NOTHING_TO_INLINE") private inline fun VARNAMESECONDCHARANDLATER(c: Char) =
         PN_CHARS_U(c) ||
             DIGIT(c) ||
             c == '\u00B7' ||
             c in '\u0300'..'\u036F' ||
             c in '\u203F'..'\u2040'
-    private inline fun PN_CHARS(c: Char) = VARNAMESECONDCHARANDLATER(c) || c == '-'
-    private inline fun PN_CHARS_U_or_DIGIT(c: Char) = PN_CHARS_U(c) || DIGIT(c)
-    private inline fun PN_LOCAL_ESC(c: Char) = when (c) {
+    @Suppress("NOTHING_TO_INLINE") private inline fun PN_CHARS(c: Char) = VARNAMESECONDCHARANDLATER(c) || c == '-'
+    @Suppress("NOTHING_TO_INLINE") private inline fun PN_CHARS_U_or_DIGIT(c: Char) = PN_CHARS_U(c) || DIGIT(c)
+    @Suppress("NOTHING_TO_INLINE") private inline fun PN_LOCAL_ESC(c: Char) = when (c) {
         '\u005F',
         '\u007E',
         '\u002E',
@@ -669,7 +669,7 @@ public class TokenIteratorSPARQLParser(@JvmField public val iterator: LexerCharI
             false
         }
     }
-    private inline fun HEX(c: Char) = when (c) {
+    @Suppress("NOTHING_TO_INLINE") private inline fun HEX(c: Char) = when (c) {
         in '0'..'9',
         in 'A'..'F',
         in 'a'..'f' -> {

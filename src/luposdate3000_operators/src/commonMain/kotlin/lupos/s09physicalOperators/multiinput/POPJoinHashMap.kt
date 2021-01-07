@@ -180,7 +180,7 @@ public class POPJoinHashMap(query: IQuery, projectedVariables: List<String>, chi
                 override /*suspend*/ fun close() {
                     __close()
                 }
-                /*suspend*/ inline fun __close() {
+                @Suppress("NOTHING_TO_INLINE") /*suspend*/ inline fun __close() {
                     if (label != 0) {
                         _close()
                         for (iterator2 in outIteratorsAllocated) {

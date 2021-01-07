@@ -8,10 +8,10 @@ internal object NodeManager {
     const val nodeNullPointer = -1
     @JvmField
     val bufferManager = BufferManagerExt.getBuffermanager("triples")
-    internal inline fun releaseNode(nodeid: Int) {
+    @Suppress("NOTHING_TO_INLINE") internal inline fun releaseNode(nodeid: Int) {
         bufferManager.releasePage(nodeid)
     }
-    internal inline fun flushNode(nodeid: Int) {
+    @Suppress("NOTHING_TO_INLINE") internal inline fun flushNode(nodeid: Int) {
         bufferManager.flushPage(nodeid)
     }
     internal inline fun getNodeLeaf(nodeid: Int, crossinline actionLeaf: (ByteArray) -> Unit) {
@@ -79,13 +79,13 @@ internal object NodeManager {
         action(node!!, nodeid)
         SanityCheck.println { "NodeManager.allocateNodeInner B" }
     }
-    internal inline /*suspend*/ fun freeNode(nodeid: Int) {
+    @Suppress("NOTHING_TO_INLINE") internal inline /*suspend*/ fun freeNode(nodeid: Int) {
         SanityCheck.println { "NodeManager.freeNode A" }
         SanityCheck.println { "debug NodeManager freeNode ${nodeid.toString(16)}" }
         bufferManager.deletePage(nodeid)
         SanityCheck.println { "NodeManager.freeNode B" }
     }
-    internal inline /*suspend*/ fun freeNodeAndAllRelated(nodeid: Int) {
+    @Suppress("NOTHING_TO_INLINE") internal inline /*suspend*/ fun freeNodeAndAllRelated(nodeid: Int) {
         SanityCheck.println { "Outside.refcount($nodeid)  x70" }
         releaseNode(nodeid)
         freeNodeAndAllRelatedInternal(nodeid)
@@ -113,7 +113,7 @@ internal object NodeManager {
         }
         SanityCheck.println { "NodeManager.freeNodeAndAllRelatedInternal B" }
     }
-    /*suspend*/ internal inline fun freeAllLeaves(nodeid: Int) {
+    @Suppress("NOTHING_TO_INLINE") /*suspend*/ internal inline fun freeAllLeaves(nodeid: Int) {
         SanityCheck.println { "NodeManager.freeAllLeaves A" }
         SanityCheck.println { "debug NodeManager freeAllLeaves ${nodeid.toString(16)}" }
         var pageid = nodeid

@@ -9,8 +9,8 @@ internal actual class _MyDataOutputStream {
     internal actual constructor() {
         it = null
     }
-    internal actual inline fun writeInt(value: Int): Unit = it!!.writeInt(value)
-    internal actual inline fun write(buf: ByteArray, off: Int, len: Int): Unit = it!!.write(buf, off, len)
-    internal actual inline fun close(): Unit = it!!.close()
-    internal actual inline fun flush(): Unit = it!!.flush()
+    @Suppress("NOTHING_TO_INLINE") internal actual inline fun writeInt(value: Int): Unit = it!!.writeInt(value)
+    @Suppress("NOTHING_TO_INLINE") internal actual inline fun write(buf: ByteArray, off: Int, len: Int): Unit = it!!.write(buf, off, len)
+    @Suppress("NOTHING_TO_INLINE") internal actual inline fun close(): Unit = it!!.close()
+    @Suppress("NOTHING_TO_INLINE") internal actual inline fun flush(): Unit = it!!.flush()
 }

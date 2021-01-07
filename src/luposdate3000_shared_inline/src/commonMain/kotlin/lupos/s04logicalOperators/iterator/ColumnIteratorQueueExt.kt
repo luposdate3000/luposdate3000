@@ -2,7 +2,7 @@ package lupos.modulename
 import lupos.s03resultRepresentation.ResultSetDictionaryExt
 import lupos.s04logicalOperators.iterator.ColumnIteratorQueue
 internal object _ColumnIteratorQueueExt {
-    internal inline fun _close(it: ColumnIteratorQueue) {
+    @Suppress("NOTHING_TO_INLINE") internal inline fun _close(it: ColumnIteratorQueue) {
         if (it.label != 0) {
             it.label = 0
             it.queue.clear()
@@ -36,7 +36,7 @@ internal object _ColumnIteratorQueueExt {
             }
         }
     }
-    internal inline fun closeOnEmptyQueue(it: ColumnIteratorQueue) {
+    @Suppress("NOTHING_TO_INLINE") internal inline fun closeOnEmptyQueue(it: ColumnIteratorQueue) {
         if (it.label != 0) {
             it.label = 2
         }

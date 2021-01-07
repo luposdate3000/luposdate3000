@@ -10,42 +10,44 @@ import java.lang.ProcessBuilder.Redirect
 import java.nio.file.Files
 import java.nio.file.Paths
 import java.nio.file.StandardOpenOption
-var releaseMode = ReleaseMode.Disable
-var suspendMode = SuspendMode.Disable
-var inlineMode = InlineMode.Disable
-
+var releaseMode = "Disable"
+var suspendMode = "Disable"
+var inlineMode = "Disable"
+var cleanedArgs = mutableListOf<String>()
 for (arg in args) {
     if (arg.startsWith("--releaseMode=")) {
-        releaseMode = ReleaseMode.valueOf(arg.substring("--releaseMode=".length))
+        releaseMode = arg.substring("--releaseMode=".length)
     } else if (arg.startsWith("--suspendMode=")) {
-        suspendMode = SuspendMode.valueOf(arg.substring("--suspendMode=".length))
+        suspendMode = arg.substring("--suspendMode=".length)
     } else if (arg.startsWith("--inlineMode=")) {
-        inlineMode = InlineMode.valueOf(arg.substring("--inlineMode=".length))
+        inlineMode = arg.substring("--inlineMode=".length)
+    } else {
+        cleanedArgs.add(arg)
     }
 }
 var appendix = ""
-        if (suspendMode == SuspendMode.Enable) {
-            appendix += "_Coroutines"
-        } else {
-            appendix += "_Threads"
-        }
-        if (inlineMode == InlineMode.Enable) {
-            appendix += "_Inline"
-        } else {
-            appendix += "_NoInline"
-        }
-        if (releaseMode == ReleaseMode.Enable) {
-            appendix += "_Release"
-        } else {
-            appendix += "_Debug"
-        }
+if (suspendMode == "Enable") {
+    appendix += "_Coroutines"
+} else {
+    appendix += "_Threads"
+}
+if (inlineMode == "Enable") {
+    appendix += "_Inline"
+} else {
+    appendix += "_NoInline"
+}
+if (releaseMode == "Enable") {
+    appendix += "_Release"
+} else {
+    appendix += "_Debug"
+}
 File("log").mkdirs()
-val inputdata = args[0]
-val sparql = args[1]
-val targetdata = args[2]
-val outputfoldername = args[3]
-val testname = args[4]
-val mode = args[5]
+val inputdata = cleanedArgs[0]
+val sparql = cleanedArgs[1]
+val targetdata = cleanedArgs[2]
+val outputfoldername = cleanedArgs[3]
+val testname = cleanedArgs[4]
+val mode = cleanedArgs[5]
 val jars = mutableListOf(
     "build-cache${Platform.getPathSeparator()}bin${Platform.getPathSeparator()}Luposdate3000_Buffer_Manager_Inmemory$appendix-jvm.jar",
     "build-cache${Platform.getPathSeparator()}bin${Platform.getPathSeparator()}Luposdate3000_Dictionary_Inmemory$appendix-jvm.jar",

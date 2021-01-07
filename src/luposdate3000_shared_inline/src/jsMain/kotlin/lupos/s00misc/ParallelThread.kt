@@ -5,11 +5,11 @@ internal actual object ParallelThread {
         return action()
     }
     internal actual inline fun launch(crossinline action: () -> Unit): ParallelThreadJob = throw NotImplementedException("ParallelThread", "launch not implemented")
-    internal actual inline fun delay(milliseconds: Long) {}
-    internal actual inline fun createCondition(): ParallelThreadCondition {
+    @Suppress("NOTHING_TO_INLINE") internal actual inline fun delay(milliseconds: Long) {}
+    @Suppress("NOTHING_TO_INLINE") internal actual inline fun createCondition(): ParallelThreadCondition {
         return ParallelThreadCondition()
     }
-    internal actual inline fun <T> createQueue(terminationValue: T): ParallelThreadQueue<T> {
+    @Suppress("NOTHING_TO_INLINE") internal actual inline fun <T> createQueue(terminationValue: T): ParallelThreadQueue<T> {
         return ParallelThreadQueue<T>(terminationValue)
     }
 }

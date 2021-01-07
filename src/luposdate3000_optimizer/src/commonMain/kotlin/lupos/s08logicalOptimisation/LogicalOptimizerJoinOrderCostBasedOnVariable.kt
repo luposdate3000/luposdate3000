@@ -32,7 +32,7 @@ public object LogicalOptimizerJoinOrderCostBasedOnVariable {
             columns = c
             cost = columns
         }
-        private inline fun sqr(i: Int) = i * i
+        @Suppress("NOTHING_TO_INLINE") private inline fun sqr(i: Int) = i * i
         public constructor(plans: Array<Plan?>, childA: Int, childB: Int, allVariables: List<Int>) {
             child = null
             childs = Pair(childA, childB)

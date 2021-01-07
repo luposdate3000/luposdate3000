@@ -66,8 +66,8 @@ public class LexerCharIterator(@JvmField public val content: CharIterator) {
     public var backArray: Array<Char> = Array(MAXSIZEPUTBACK) { ' ' }
     @JvmField
     public var backArrayIndex: Int = 0
-    internal inline fun hasNext(): Boolean = (this.content.hasNext() || this.backArrayIndex > 0)
-    internal inline fun updateLineNumber(c: Char) {
+    @Suppress("NOTHING_TO_INLINE") internal inline fun hasNext(): Boolean = (this.content.hasNext() || this.backArrayIndex > 0)
+    @Suppress("NOTHING_TO_INLINE") internal inline fun updateLineNumber(c: Char) {
         if (c == '\n') {
             lineNumber++
             columnNumber = 0
@@ -75,7 +75,7 @@ public class LexerCharIterator(@JvmField public val content: CharIterator) {
             columnNumber++
         }
     }
-    internal inline fun updateLineNumberforPutBack(c: Char) {
+    @Suppress("NOTHING_TO_INLINE") internal inline fun updateLineNumberforPutBack(c: Char) {
         if (c == '\n') {
             lineNumber--
             columnNumber = 0
@@ -83,7 +83,7 @@ public class LexerCharIterator(@JvmField public val content: CharIterator) {
             columnNumber--
         }
     }
-    internal inline fun nextChar(): Char {
+    @Suppress("NOTHING_TO_INLINE") internal inline fun nextChar(): Char {
         this.index++
         if (this.backArrayIndex > 0) {
             this.backArrayIndex--
@@ -99,7 +99,7 @@ public class LexerCharIterator(@JvmField public val content: CharIterator) {
         }
         throw UnexpectedEndOfFile(this.index - 1, this.lineNumber, this.columnNumber)
     }
-    internal inline fun putBack(c: Char) {
+    @Suppress("NOTHING_TO_INLINE") internal inline fun putBack(c: Char) {
         this.index--
         if (this.backArrayIndex + 1 >= MAXSIZEPUTBACK) {
             throw PutBackOverLimit(this.index, this.lineNumber, this.columnNumber)
@@ -108,7 +108,7 @@ public class LexerCharIterator(@JvmField public val content: CharIterator) {
         this.backArray[this.backArrayIndex] = c
         this.backArrayIndex++
     }
-    internal inline fun putBack(s: String) {
+    @Suppress("NOTHING_TO_INLINE") internal inline fun putBack(s: String) {
         val length = s.length
         this.index -= length
         if (this.index < 0) {
@@ -124,7 +124,7 @@ public class LexerCharIterator(@JvmField public val content: CharIterator) {
         }
         this.backArrayIndex += length
     }
-    internal inline fun lookaheadAvailable(number: Int = 0): Boolean {
+    @Suppress("NOTHING_TO_INLINE") internal inline fun lookaheadAvailable(number: Int = 0): Boolean {
         if (this.backArrayIndex > number) {
             return true
         }
@@ -140,7 +140,7 @@ public class LexerCharIterator(@JvmField public val content: CharIterator) {
         }
         return true
     }
-    internal inline fun lookahead(number: Int = 0): Char {
+    @Suppress("NOTHING_TO_INLINE") internal inline fun lookahead(number: Int = 0): Char {
         if (this.backArrayIndex > number) {
             return this.backArray[this.backArrayIndex - number - 1]
         }

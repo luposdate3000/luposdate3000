@@ -7,35 +7,37 @@
 import lupos.s00misc.Platform
 import java.io.File
 import java.lang.ProcessBuilder.Redirect
-var releaseMode = ReleaseMode.Disable
-var suspendMode = SuspendMode.Disable
-var inlineMode = InlineMode.Disable
-
+var releaseMode = "Disable"
+var suspendMode = "Disable"
+var inlineMode = "Disable"
+var cleanedArgs = mutableListOf<String>()
 for (arg in args) {
     if (arg.startsWith("--releaseMode=")) {
-        releaseMode = ReleaseMode.valueOf(arg.substring("--releaseMode=".length))
+        releaseMode = arg.substring("--releaseMode=".length)
     } else if (arg.startsWith("--suspendMode=")) {
-        suspendMode = SuspendMode.valueOf(arg.substring("--suspendMode=".length))
+        suspendMode = arg.substring("--suspendMode=".length)
     } else if (arg.startsWith("--inlineMode=")) {
-        inlineMode = InlineMode.valueOf(arg.substring("--inlineMode=".length))
+        inlineMode = arg.substring("--inlineMode=".length)
+    } else {
+        cleanedArgs.add(arg)
     }
 }
 var appendix = ""
-        if (suspendMode == SuspendMode.Enable) {
-            appendix += "_Coroutines"
-        } else {
-            appendix += "_Threads"
-        }
-        if (inlineMode == InlineMode.Enable) {
-            appendix += "_Inline"
-        } else {
-            appendix += "_NoInline"
-        }
-        if (releaseMode == ReleaseMode.Enable) {
-            appendix += "_Release"
-        } else {
-            appendix += "_Debug"
-        }
+if (suspendMode == "Enable") {
+    appendix += "_Coroutines"
+} else {
+    appendix += "_Threads"
+}
+if (inlineMode == "Enable") {
+    appendix += "_Inline"
+} else {
+    appendix += "_NoInline"
+}
+if (releaseMode == "Enable") {
+    appendix += "_Release"
+} else {
+    appendix += "_Debug"
+}
 val numberOfTriples = 1048576
 val triplesFiles = "${Platform.getBenchmarkHome()}/luposdate-testdata/sp2b/$numberOfTriples/complete.n3"
 val queryFiles = "resources/sp2b/q10.sparql;resources/sp2b/q1.sparql;resources/sp2b/q3a.sparql;resources/sp2b/q3b.sparql;resources/sp2b/q3c.sparql;resources/sp2b/q4.sparql;resources/sp2b/q5a.sparql;resources/sp2b/q6.sparql;resources/sp2b/q8.sparql"
@@ -74,7 +76,7 @@ for (jar in jars) {
     }
 }
 val cmd = mutableListOf("java", "-Xmx${Platform.getAvailableRam()}g", "-cp", classpath, "MainKt", triplesFiles, queryFiles, "$minimumTime", "$numberOfTriples")
-cmd.addAll(args)
+cmd.addAll(cleanedArgs)
 ProcessBuilder(cmd)
     .redirectOutput(Redirect.INHERIT)
     .redirectError(Redirect.INHERIT)

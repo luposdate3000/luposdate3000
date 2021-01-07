@@ -177,7 +177,7 @@ public open class ASTQueryBaseClass : ASTLeafNode() {
 public open class ASTSelectQuery(@JvmField public val distinct: Boolean, @JvmField public val reduced: Boolean, @JvmField public val select: Array<ASTNode>) : ASTQueryBaseClass() {
     public fun selectAll(): Boolean = (select.isEmpty())
     public override fun nodeToString(): String = "ASTSelectQuery" + innerNodeToString()
-    protected inline fun innerNodeToString(): String = (if (distinct) " DISTINCT" else "") + (if (reduced) " REDUCED " else "") + (if (selectAll()) " *" else "")
+    @Suppress("NOTHING_TO_INLINE") protected inline fun innerNodeToString(): String = (if (distinct) " DISTINCT" else "") + (if (reduced) " REDUCED " else "") + (if (selectAll()) " *" else "")
     public override fun toString(indentation: String): String = super.toString(indentation) + propertyToString("$indentation  ", "$indentation    ", "Select", this.select)
     public override fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))
@@ -200,7 +200,7 @@ public class ASTConstructQuery(@JvmField public val template: Array<ASTNode>) : 
     }
 }
 public class ASTDescribeQuery(@JvmField public val select: Array<ASTNode>) : ASTQueryBaseClass() {
-    private inline fun selectAll(): Boolean {
+    @Suppress("NOTHING_TO_INLINE") private inline fun selectAll(): Boolean {
         return select.isEmpty()
     }
     public override fun nodeToString(): String = "ASTSelectQuery" + (if (selectAll()) " *" else "")
