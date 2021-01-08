@@ -68,13 +68,26 @@ click "ok"
 additionally create a new environment variable named "KOTLIN_HOME" and let it point to "C:\Users\benja\luposdate\kotlin\dist\kotlinc"
 click "ok" on every window (2 times)
 
-restart gitbash, if it is still open
+##enable windows long file paths (more than 260 chars)
+open start-search
+type "regedit"
+open the suggested program
+navigate to "HKEY_LOCAL_MACHINE\SYSTEM\ControlSet001\Control\FileSystem"
+change the value of LongPathsEnabled to 1
+reboot
+#you must reboot now to make that change effective
+
+
+restart gitbash, if it is still open - this should be closed after the reboot
 
 ## inside of gitbash:
 
 ```gitbash
 # Unfortunately the ifis-git uses incorrect ssl such that the following git option must be used.
 git config --global http.sslVerify false
+# work around windows filename length limitation
+git config --system core.longpaths true
+# if windows reports that you dont have the access rights, than add the key manually to the file
 # Prevent repeatingly typing the password on commit.
 git config --global credential.helper store
 

@@ -1,4 +1,5 @@
 #!/bin/bash
+./tool-clear-caches.sh
 mkdir -p build-cache
 sed "s/FastMode.Disable/FastMode.JS/g" -i compile-module-all.main.kts
 sed "s/FastMode.JVM/FastMode.JS/g" -i compile-module-all.main.kts
