@@ -11,7 +11,7 @@ enum class DryMode {
     Enable, Disable
 }
 enum class FastMode {
-    JVM, JS, JS_Browser, JS_Node, Native, Disable
+    JVM, JS, Native, Disable
 }
 enum class IntellijMode {
     Enable, Disable
@@ -76,8 +76,6 @@ public fun createBuildFileForModule(args: Array<String>) {
             arg == "--debug" -> releaseMode = ReleaseMode.Disable
             arg == "--fastJVM" -> fastMode = FastMode.JVM
             arg == "--fastJS" -> fastMode = FastMode.JS
-            arg == "--fastJS_Node" -> fastMode = FastMode.JS_Node
-            arg == "--fastJS_Browser" -> fastMode = FastMode.JS_Browser
             arg == "--fastNative" -> fastMode = FastMode.Native
             arg == "--dry" -> dryMode = DryMode.Enable
             arg == "--idea" -> {
@@ -160,31 +158,29 @@ public fun createBuildFileForModule(moduleName_: String, moduleFolder: String, m
             pathSeparatorEscaped = "/"
         }
         var enableJVM = fastMode == FastMode.Disable || fastMode == FastMode.JVM
-        var enableJS_Browser = fastMode == FastMode.Disable || fastMode == FastMode.JS || fastMode == FastMode.JS_Browser
-        var enableJS_Node = fastMode == FastMode.Disable || fastMode == FastMode.JS || fastMode == FastMode.JS_Node
+        var enableJS = fastMode == FastMode.Disable || fastMode == FastMode.JS
         var enableNative = fastMode == FastMode.Disable || fastMode == FastMode.Native
         if (File("$moduleFolder/disableTarget").exists()) {
             File("$moduleFolder/disableTarget").forEachLine {
                 when (it) {
                     "jvm" -> enableJVM = false
                     "js" -> {
-                        enableJS_Browser = false
-                        enableJS_Node = false
+                        enableJS = false
                     }
                     platform, "Native" -> enableNative = false
                 }
             }
         }
-        if (!(enableJVM || enableJS_Browser||enableJS_Node || enableNative)) {
+        if (!(enableJVM || enableJS || enableNative)) {
             return
         }
         val buildLibrary = modulePrefix != "Luposdate3000_Main"
         println("generating buildfile for $moduleName")
-        var shortFolder = ".$pathSeparator$moduleName" 
+        var shortFolder = ".$pathSeparator$moduleName"
         shortFolder = shortFolder.substring(shortFolder.lastIndexOf(pathSeparator) + 1)
         File("src.generated").deleteRecursively()
         val buildFolder = "build-cache${pathSeparator}build_$shortFolder$appendix"
-println("buildFolder :: $buildFolder")
+        println("buildFolder :: $buildFolder")
         val srcFolder = "build-cache${pathSeparator}src_$shortFolder$appendix"
         if (ideaBuildfile == IntellijMode.Disable) {
             File("src.generated").mkdirs()
@@ -206,7 +202,7 @@ println("buildFolder :: $buildFolder")
                             File(tmp).copyRecursively(File("src.generated$pathSeparator" + f.replace("jvm.*Main", "jvmMain")))
                         }
                     } else if (f.startsWith("js")) {
-                        if (enableJS_Browser || enableJS_Node) {
+                        if (enableJS) {
                             File(tmp).copyRecursively(File("src.generated$pathSeparator" + f.replace("js.*Main", "jsMain")))
                         }
                     } else if (f.startsWith("Native")) {
@@ -339,38 +335,34 @@ println("buildFolder :: $buildFolder")
                     out.println("        }")
                     out.println("    }")
                 }
-                if (enableJS_Browser || enableJS_Node) {
+                if (enableJS) {
                     out.println("    js {")
                     out.println("        moduleName = \"${modulePrefix}\"")
-                    if (enableJS_Browser) {
-                        out.println("        browser {")
-                        out.println("            compilations.forEach{")
-                        out.println("                it.kotlinOptions {")
-                        out.println("                    freeCompilerArgs += \"-Xopt-in=kotlin.RequiresOptIn\"")
-                        out.println("                    freeCompilerArgs += \"-Xnew-inference\"")
-                        out.println("                }")
-                        out.println("            }")
-                        out.println("            dceTask {")
-                        out.println("                dceOptions.devMode = true")
-                        out.println("            }")
-                        out.println("            testTask {")
-                        out.println("                enabled = false")
-                        out.println("            }")
-                        out.println("        }")
-                    }
-                    if (enableJS_Node) {
-                        out.println("        nodejs {")
-                        out.println("            compilations.forEach{")
-                        out.println("                it.kotlinOptions {")
-                        out.println("                    freeCompilerArgs += \"-Xopt-in=kotlin.RequiresOptIn\"")
-                        out.println("                    freeCompilerArgs += \"-Xnew-inference\"")
-                        out.println("                }")
-                        out.println("            }")
-                        out.println("            testTask {")
-                        out.println("                enabled = false")
-                        out.println("            }")
-                        out.println("        }")
-                    }
+                    out.println("        browser {")
+                    out.println("            compilations.forEach{")
+                    out.println("                it.kotlinOptions {")
+                    out.println("                    freeCompilerArgs += \"-Xopt-in=kotlin.RequiresOptIn\"")
+                    out.println("                    freeCompilerArgs += \"-Xnew-inference\"")
+                    out.println("                }")
+                    out.println("            }")
+                    out.println("            dceTask {")
+                    out.println("                dceOptions.devMode = true")
+                    out.println("            }")
+                    out.println("            testTask {")
+                    out.println("                enabled = false")
+                    out.println("            }")
+                    out.println("        }")
+                    out.println("        nodejs {")
+                    out.println("            compilations.forEach{")
+                    out.println("                it.kotlinOptions {")
+                    out.println("                    freeCompilerArgs += \"-Xopt-in=kotlin.RequiresOptIn\"")
+                    out.println("                    freeCompilerArgs += \"-Xnew-inference\"")
+                    out.println("                }")
+                    out.println("            }")
+                    out.println("            testTask {")
+                    out.println("                enabled = false")
+                    out.println("            }")
+                    out.println("        }")
                     out.println("        binaries.executable()")
                     out.println("    }")
                 }
@@ -418,7 +410,7 @@ println("buildFolder :: $buildFolder")
                     out.println("            }")
                     out.println("        }")
                 }
-                if (enableJS_Browser || enableJS_Node) {
+                if (enableJS) {
                     out.println("        val jsMain by getting {")
                     out.println("            dependencies {")
                     printDependencies(jsDependencies, buildForIDE, appendix, out)
@@ -442,7 +434,7 @@ println("buildFolder :: $buildFolder")
                             out.println("    sourceSets[\"jvmMain\"].kotlin.srcDir(\"..${pathSeparatorEscaped}xxx_generated_xxx${pathSeparatorEscaped}${moduleFolder}${pathSeparatorEscaped}src${pathSeparatorEscaped}jvmMain${pathSeparatorEscaped}kotlin\")")
                         }
                     }
-                    if (enableJS_Browser || enableJS_Node) {
+                    if (enableJS) {
                         if (!moduleName.startsWith("Luposdate3000_Shared_Inline")) {
                             out.println("    sourceSets[\"jsMain\"].kotlin.srcDir(\"..${pathSeparatorEscaped}xxx_generated_xxx${pathSeparatorEscaped}${moduleFolder}${pathSeparatorEscaped}src${pathSeparatorEscaped}jsMain${pathSeparatorEscaped}kotlin\")")
                         }
@@ -459,7 +451,7 @@ println("buildFolder :: $buildFolder")
                     if (enableJVM) {
                         out.println("    sourceSets[\"jvmMain\"].kotlin.srcDir(\"jvmMain${pathSeparatorEscaped}kotlin\")")
                     }
-                    if (enableJS_Browser || enableJS_Node) {
+                    if (enableJS) {
                         out.println("    sourceSets[\"jsMain\"].kotlin.srcDir(\"jsMain${pathSeparatorEscaped}kotlin\")")
                     }
                     if (enableNative) {
@@ -731,7 +723,7 @@ println("buildFolder :: $buildFolder")
                     e.printStackTrace()
                 }
             }
-            if (enableJS_Browser || enableJS_Node) {
+            if (enableJS) {
                 if (modulePrefix == moduleName) {
                     try {
                         Files.copy(Paths.get(buildFolder + "${pathSeparator}js${pathSeparator}packages${pathSeparator}${modulePrefix}${pathSeparator}kotlin${pathSeparator}$modulePrefix.js"), Paths.get("build-cache${pathSeparator}bin$appendix${pathSeparator}$modulePrefix.js"), StandardCopyOption.REPLACE_EXISTING)
