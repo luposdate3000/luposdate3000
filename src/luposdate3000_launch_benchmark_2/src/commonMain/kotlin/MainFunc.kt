@@ -19,7 +19,7 @@ import lupos.s09physicalOperators.partition.POPSplitPartitionPassThrough
 import lupos.s15tripleStoreDistributed.TripleStoreIteratorGlobal
 import lupos.s16network.LuposdateEndpoint
 @OptIn(ExperimentalStdlibApi::class, kotlin.time.ExperimentalTime::class)
-internal fun mainFunc(args: Array<String>): Unit = Parallel.runBlocking {
+@Suppress("NOTHING_TO_INLINE") internal inline fun mainFunc(args: Array<String>): Unit = Parallel.runBlocking {
     LuposdateEndpoint.initialize()
     val partitionOptions = listOf(1, 2, 4, 8)
     val enableDisable = listOf(0)

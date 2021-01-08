@@ -15,9 +15,9 @@ public actual class BufferManager internal actual constructor(
     @JvmField
     public val cacheSize: Int = 100
     internal companion object {
-        const val freelistfileOffsetCounter = 0L
-        const val freelistfileOffsetFreeLen = 4L
-        const val freelistfileOffsetData = 8L
+internal        const val freelistfileOffsetCounter = 0L
+     internal   const val freelistfileOffsetFreeLen = 4L
+    internal    const val freelistfileOffsetData = 8L
     }
     /*
      * each type safe page-manager safes to its own store

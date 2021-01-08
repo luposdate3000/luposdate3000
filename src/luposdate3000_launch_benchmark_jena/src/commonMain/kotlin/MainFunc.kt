@@ -3,16 +3,12 @@ import lupos.s00misc.File
 import lupos.s00misc.JenaWrapper
 import lupos.s00misc.Parallel
 import lupos.s16network.LuposdateEndpoint
-internal enum class Datasource {
-    LOAD, IMPORT
-}
-internal fun printBenchmarkLine(title: String, time: Double, count: Int, numberOfTriples: Long, originalTripleSize: Long) {
+@Suppress("NOTHING_TO_INLINE") internal inline fun printBenchmarkLine(title: String, time: Double, count: Int, numberOfTriples: Long, originalTripleSize: Long) {
     println("$title,$numberOfTriples,0,$count,${time * 1000.0},${count.toDouble() / time},$originalTripleSize")
 }
 @OptIn(ExperimentalStdlibApi::class, kotlin.time.ExperimentalTime::class)
-internal fun mainFunc(args: Array<String>): Unit = Parallel.runBlocking {
+@Suppress("NOTHING_TO_INLINE") internal inline fun mainFunc(args: Array<String>): Unit = Parallel.runBlocking {
     LuposdateEndpoint.initialize()
-    val datasourceType = Datasource.valueOf(args[0])
     val persistenceFolder = args[1]
     val datasourceFiles = args[2]
     val queryFiles = args[3].split(";")

@@ -29,7 +29,7 @@ public object JenaWrapper {
             e.printStackTrace()
         }
     }
-    private fun execQuery(queryString: String, logging: Boolean = true): String {
+    public fun execQuery(queryString: String, logging: Boolean = true): String {
         if (logging) {
             checkExceptions(queryString)
         }

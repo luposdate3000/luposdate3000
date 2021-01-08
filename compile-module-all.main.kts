@@ -9,9 +9,9 @@
 @file:CompilerOptions("-Xmulti-platform")
 import lupos.s00misc.Platform
 
-var releaseMode = ReleaseMode.Disable
+var releaseMode = ReleaseMode.Enable
 var suspendMode = SuspendMode.Disable
-var inlineMode = InlineMode.Disable
+var inlineMode = InlineMode.Enable
 var dryMode = DryMode.Disable
 var fastMode = FastMode.JVM
 var intellijMode = IntellijMode.Disable
