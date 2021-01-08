@@ -11,7 +11,7 @@ import lupos.s00misc.Platform
 
 var releaseMode = ReleaseMode.Disable
 var suspendMode = SuspendMode.Disable
-var inlineMode = InlineMode.Enable
+var inlineMode = InlineMode.Disable
 var dryMode = DryMode.Disable
 var fastMode = FastMode.JVM
 var intellijMode = IntellijMode.Disable
