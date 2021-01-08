@@ -180,10 +180,11 @@ public fun createBuildFileForModule(moduleName_: String, moduleFolder: String, m
         }
         val buildLibrary = modulePrefix != "Luposdate3000_Main"
         println("generating buildfile for $moduleName")
-        var shortFolder = "./$moduleFolder" // TODO does this work as intended on windows
+        var shortFolder = ".$pathSeparator$moduleFolder" // TODO does this work as intended on windows
         shortFolder = shortFolder.substring(shortFolder.lastIndexOf(pathSeparator) + 1)
         File("src.generated").deleteRecursively()
         val buildFolder = "build-cache${pathSeparator}build_$shortFolder$appendix"
+println("buildFolder :: $buildFolder")
         val srcFolder = "build-cache${pathSeparator}src_$shortFolder$appendix"
         if (ideaBuildfile == IntellijMode.Disable) {
             File("src.generated").mkdirs()
