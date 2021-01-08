@@ -11,9 +11,9 @@ import lupos.s00misc.Platform
 
 var releaseMode = ReleaseMode.Disable
 var suspendMode = SuspendMode.Disable
-var inlineMode = InlineMode.Disable
+var inlineMode = InlineMode.Enable
 var dryMode = DryMode.Disable
-var fastMode = FastMode.JVM
+var fastMode = FastMode.JS_Browser
 var intellijMode = IntellijMode.Disable
 
 for (arg in args) {

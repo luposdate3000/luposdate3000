@@ -11,7 +11,7 @@ enum class DryMode {
     Enable, Disable
 }
 enum class FastMode {
-    JVM, JS, NATIVE, Disable
+    JVM, JS,JS_Browser,JS_Node, Native, Disable
 }
 enum class IntellijMode {
     Enable, Disable
@@ -76,7 +76,9 @@ public fun createBuildFileForModule(args: Array<String>) {
             arg == "--debug" -> releaseMode = ReleaseMode.Disable
             arg == "--fastJVM" -> fastMode = FastMode.JVM
             arg == "--fastJS" -> fastMode = FastMode.JS
-            arg == "--fastNATIVE" -> fastMode = FastMode.NATIVE
+            arg == "--fastJS_Node" -> fastMode = FastMode.JS_Node
+            arg == "--fastJS_Browser" -> fastMode = FastMode.JS_Browser
+            arg == "--fastNative" -> fastMode = FastMode.Native
             arg == "--dry" -> dryMode = DryMode.Enable
             arg == "--idea" -> {
                 dryMode = DryMode.Enable
@@ -158,18 +160,22 @@ public fun createBuildFileForModule(moduleName_: String, moduleFolder: String, m
             pathSeparatorEscaped = "/"
         }
         var enableJVM = fastMode == FastMode.Disable || fastMode == FastMode.JVM
-        var enableJS = fastMode == FastMode.Disable || fastMode == FastMode.JS
-        var enableNATIVE = fastMode == FastMode.Disable || fastMode == FastMode.NATIVE
+        var enableJS_Browser = fastMode == FastMode.Disable || fastMode == FastMode.JS || fastMode == FastMode.JS_Browser
+        var enableJS_Node = fastMode == FastMode.Disable || fastMode == FastMode.JS || fastMode == FastMode.JS_Node 
+        var enableNative = fastMode == FastMode.Disable || fastMode == FastMode.Native
         if (File("$moduleFolder/disableTarget").exists()) {
             File("$moduleFolder/disableTarget").forEachLine {
                 when (it) {
                     "jvm" -> enableJVM = false
-                    "js" -> enableJS = false
-                    platform, "native" -> enableNATIVE = false
+                    "js" -> {
+enableJS_Browser = false
+enableJS_Node = false
+}
+                    platform, "Native" -> enableNative = false
                 }
             }
         }
-        if (!(enableJVM || enableJS || enableNATIVE)) {
+        if (!(enableJVM || enableJS_Browser||enableJS_Node || enableNative)) {
             return
         }
         val buildLibrary = modulePrefix != "Luposdate3000_Main"
@@ -199,15 +205,15 @@ public fun createBuildFileForModule(moduleName_: String, moduleFolder: String, m
                             File(tmp).copyRecursively(File("src.generated$pathSeparator" + f.replace("jvm.*Main", "jvmMain")))
                         }
                     } else if (f.startsWith("js")) {
-                        if (enableJS) {
+                        if (enableJS_Browser||enableJS_Node) {
                             File(tmp).copyRecursively(File("src.generated$pathSeparator" + f.replace("js.*Main", "jsMain")))
                         }
-                    } else if (f.startsWith("native")) {
-                        if (enableNATIVE) {
-                            File(tmp).copyRecursively(File("src.generated$pathSeparator" + f.replace("native.*Main", "${platform}Main")))
+                    } else if (f.startsWith("Native")) {
+                        if (enableNative) {
+                            File(tmp).copyRecursively(File("src.generated$pathSeparator" + f.replace("Native.*Main", "${platform}Main")))
                         }
                     } else if (f.startsWith(platform)) {
-                        if (enableNATIVE) {
+                        if (enableNative) {
                             File(tmp).copyRecursively(File("src.generated$pathSeparator" + f.replace("$platform.*Main", "${platform}Main")))
                         }
                     }
@@ -250,11 +256,11 @@ public fun createBuildFileForModule(moduleName_: String, moduleFolder: String, m
                 }
             }
         }
-        val nativeDependencies = mutableSetOf<String>()
-        if (File("${moduleFolder}${pathSeparator}nativeDependencies").exists()) {
-            File("${moduleFolder}${pathSeparator}nativeDependencies").forEachLine {
+        val NativeDependencies = mutableSetOf<String>()
+        if (File("${moduleFolder}${pathSeparator}NativeDependencies").exists()) {
+            File("${moduleFolder}${pathSeparator}NativeDependencies").forEachLine {
                 if (it.length > 0) {
-                    nativeDependencies.add(it)
+                    NativeDependencies.add(it)
                 }
             }
         }
@@ -332,9 +338,10 @@ public fun createBuildFileForModule(moduleName_: String, moduleFolder: String, m
                     out.println("        }")
                     out.println("    }")
                 }
-                if (enableJS) {
+                if (enableJS_Browser||enableJS_Node) {
                     out.println("    js {")
                     out.println("        moduleName = \"${modulePrefix}\"")
+if(enableJS_Browser){
                     out.println("        browser {")
                     out.println("            compilations.forEach{")
                     out.println("                it.kotlinOptions {")
@@ -343,6 +350,8 @@ public fun createBuildFileForModule(moduleName_: String, moduleFolder: String, m
                     out.println("                }")
                     out.println("            }")
                     out.println("        }")
+}
+if(enableJS_Node){
                     out.println("        nodejs {")
                     out.println("            compilations.forEach{")
                     out.println("                it.kotlinOptions {")
@@ -351,9 +360,10 @@ public fun createBuildFileForModule(moduleName_: String, moduleFolder: String, m
                     out.println("                }")
                     out.println("            }")
                     out.println("        }")
+}
                     out.println("    }")
                 }
-                if (enableNATIVE) {
+                if (enableNative) {
                     out.println("    $platform(\"$platform\") {")
                     out.println("        compilations.forEach{")
                     out.println("            it.kotlinOptions {")
@@ -397,17 +407,17 @@ public fun createBuildFileForModule(moduleName_: String, moduleFolder: String, m
                     out.println("            }")
                     out.println("        }")
                 }
-                if (enableJS) {
+                if (enableJS_Browser||enableJS_Node) {
                     out.println("        val jsMain by getting {")
                     out.println("            dependencies {")
                     printDependencies(jsDependencies, buildForIDE, appendix, out)
                     out.println("            }")
                     out.println("        }")
                 }
-                if (enableNATIVE) {
+                if (enableNative) {
                     out.println("        val ${platform}Main by getting {")
                     out.println("            dependencies {")
-                    printDependencies(nativeDependencies, buildForIDE, appendix, out)
+                    printDependencies(NativeDependencies, buildForIDE, appendix, out)
                     out.println("            }")
                     out.println("        }")
                 }
@@ -421,15 +431,15 @@ public fun createBuildFileForModule(moduleName_: String, moduleFolder: String, m
                             out.println("    sourceSets[\"jvmMain\"].kotlin.srcDir(\"..${pathSeparatorEscaped}xxx_generated_xxx${pathSeparatorEscaped}${moduleFolder}${pathSeparatorEscaped}src${pathSeparatorEscaped}jvmMain${pathSeparatorEscaped}kotlin\")")
                         }
                     }
-                    if (enableJS) {
+                    if (enableJS_Browser||enableJS_Node) {
                         if (!moduleName.startsWith("Luposdate3000_Shared_Inline")) {
                             out.println("    sourceSets[\"jsMain\"].kotlin.srcDir(\"..${pathSeparatorEscaped}xxx_generated_xxx${pathSeparatorEscaped}${moduleFolder}${pathSeparatorEscaped}src${pathSeparatorEscaped}jsMain${pathSeparatorEscaped}kotlin\")")
                         }
                     }
-                    if (enableNATIVE) {
-                        out.println("    sourceSets[\"${platform}Main\"].kotlin.srcDir(\"nativeMain${pathSeparatorEscaped}kotlin\")")
+                    if (enableNative) {
+                        out.println("    sourceSets[\"${platform}Main\"].kotlin.srcDir(\"NativeMain${pathSeparatorEscaped}kotlin\")")
                         if (!moduleName.startsWith("Luposdate3000_Shared_Inline")) {
-                            out.println("    sourceSets[\"${platform}Main\"].kotlin.srcDir(\"..${pathSeparatorEscaped}xxx_generated_xxx${pathSeparatorEscaped}${moduleFolder}${pathSeparatorEscaped}src${pathSeparatorEscaped}nativeMain${pathSeparatorEscaped}kotlin\")")
+                            out.println("    sourceSets[\"${platform}Main\"].kotlin.srcDir(\"..${pathSeparatorEscaped}xxx_generated_xxx${pathSeparatorEscaped}${moduleFolder}${pathSeparatorEscaped}src${pathSeparatorEscaped}NativeMain${pathSeparatorEscaped}kotlin\")")
                             out.println("    sourceSets[\"${platform}Main\"].kotlin.srcDir(\"..${pathSeparatorEscaped}xxx_generated_xxx${pathSeparatorEscaped}${moduleFolder}${pathSeparatorEscaped}src${pathSeparatorEscaped}${platform}Main${pathSeparatorEscaped}kotlin\")")
                         }
                     }
@@ -438,11 +448,11 @@ public fun createBuildFileForModule(moduleName_: String, moduleFolder: String, m
                     if (enableJVM) {
                         out.println("    sourceSets[\"jvmMain\"].kotlin.srcDir(\"jvmMain${pathSeparatorEscaped}kotlin\")")
                     }
-                    if (enableJS) {
+                    if (enableJS_Browser||enableJS_Node) {
                         out.println("    sourceSets[\"jsMain\"].kotlin.srcDir(\"jsMain${pathSeparatorEscaped}kotlin\")")
                     }
-                    if (enableNATIVE) {
-                        out.println("    sourceSets[\"${platform}Main\"].kotlin.srcDir(\"nativeMain${pathSeparatorEscaped}kotlin\")")
+                    if (enableNative) {
+                        out.println("    sourceSets[\"${platform}Main\"].kotlin.srcDir(\"NativeMain${pathSeparatorEscaped}kotlin\")")
                         out.println("    sourceSets[\"${platform}Main\"].kotlin.srcDir(\"${platform}Main${pathSeparatorEscaped}kotlin\")")
                     }
                 }
@@ -616,7 +626,7 @@ public fun createBuildFileForModule(moduleName_: String, moduleFolder: String, m
             } catch (e: Throwable) {
             }
             try {
-                copyFilesWithReplacement(("src${pathSeparator}luposdate3000_shared_inline${pathSeparator}src${pathSeparator}nativeMain"), ("${configPathBase}${pathSeparator}nativeMain"), "lupos.modulename", "lupos.$moduleName", pathSeparator)
+                copyFilesWithReplacement(("src${pathSeparator}luposdate3000_shared_inline${pathSeparator}src${pathSeparator}NativeMain"), ("${configPathBase}${pathSeparator}NativeMain"), "lupos.modulename", "lupos.$moduleName", pathSeparator)
             } catch (e: Throwable) {
             }
             configFile = "${configPath}${pathSeparator}Config-$moduleName.kt"
@@ -710,7 +720,7 @@ public fun createBuildFileForModule(moduleName_: String, moduleFolder: String, m
                     e.printStackTrace()
                 }
             }
-            if (enableJS) {
+            if (enableJS_Browser) {
                 if (modulePrefix == moduleName) {
                     try {
                         Files.copy(Paths.get(buildFolder + "${pathSeparator}js${pathSeparator}packages${pathSeparator}${modulePrefix}${pathSeparator}kotlin${pathSeparator}$modulePrefix.js"), Paths.get("build-cache${pathSeparator}bin$appendix${pathSeparator}$modulePrefix.js"), StandardCopyOption.REPLACE_EXISTING)
@@ -736,7 +746,7 @@ public fun createBuildFileForModule(moduleName_: String, moduleFolder: String, m
                     }
                 }
             }
-            if (enableNATIVE) {
+            if (enableNative) {
                 if (platform == "linuxX64") {
                     try {
                         if (buildLibrary) {
