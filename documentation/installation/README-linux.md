@@ -81,5 +81,14 @@ dependencieshome=/opt
     # intellij needs to be launched once to confirm basic settings.
     # During the above installations, the gui is installed anyway.
 }
+#intellij ... alternatively build it from source
+{
+    cd $dependencieshome
+    git clone --depth=1 https://github.com/JetBrains/intellij-community
+    cd intellij-community
+    export JAVA_HOME="/usr/lib/jvm/java-11-openjdk-amd64/"
+    ./getPlugins.sh
+    ant build
+}
 
 ```
