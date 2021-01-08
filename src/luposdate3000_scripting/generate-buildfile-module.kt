@@ -180,7 +180,7 @@ public fun createBuildFileForModule(moduleName_: String, moduleFolder: String, m
         }
         val buildLibrary = modulePrefix != "Luposdate3000_Main"
         println("generating buildfile for $moduleName")
-        var shortFolder = ".$pathSeparator$moduleFolder" // TODO does this work as intended on windows
+        var shortFolder = ".$pathSeparator$moduleName" 
         shortFolder = shortFolder.substring(shortFolder.lastIndexOf(pathSeparator) + 1)
         File("src.generated").deleteRecursively()
         val buildFolder = "build-cache${pathSeparator}build_$shortFolder$appendix"
