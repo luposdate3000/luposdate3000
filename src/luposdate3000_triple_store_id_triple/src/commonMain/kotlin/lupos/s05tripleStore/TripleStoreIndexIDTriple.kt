@@ -30,7 +30,7 @@ import lupos.s05tripleStore.index_IDTriple.NodeManager
 import lupos.s05tripleStore.index_IDTriple.NodeShared
 import lupos.s05tripleStore.index_IDTriple.TripleIterator
 import kotlin.jvm.JvmField
-public class TripleStoreIndexIDTriple(store_root_page_id_: Int, store_root_page_init: Boolean) : TripleStoreIndex(store_root_page_id_) {
+public class TripleStoreIndexIDTriple public constructor(store_root_page_id_: Int, store_root_page_init: Boolean) : TripleStoreIndex(store_root_page_id_) {
     @JvmField public val bufferManager: BufferManager = BufferManagerExt.getBuffermanager("stores")
     @JvmField public var firstLeaf_: Int = NodeManager.nodeNullPointer
     private var firstLeaf: Int

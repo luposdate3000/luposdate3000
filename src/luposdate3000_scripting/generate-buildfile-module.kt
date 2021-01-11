@@ -226,27 +226,6 @@ copyFilesWithReplacement(tmp,"src.generated$pathSeparator" + f.replace("${platfo
                 }
             }
 File("src.generated${pathSeparator}commonMain${pathSeparator}kotlin${pathSeparator}lupos").mkdirs()
-File("src.generated${pathSeparator}commonMain${pathSeparator}kotlin${pathSeparator}lupos${pathSeparator}ProguardKeepAnnotation.kt").printWriter().use { out ->
-out.println("package lupos")
-out.println("@Target(")
-out.println("AnnotationTarget.ANNOTATION_CLASS, ")
-out.println("AnnotationTarget.CLASS, ")
-out.println("AnnotationTarget.CONSTRUCTOR, ")
-out.println("AnnotationTarget.FIELD, ")
-out.println("AnnotationTarget.FILE, ")
-out.println("AnnotationTarget.FUNCTION, ")
-out.println("AnnotationTarget.LOCAL_VARIABLE, ")
-out.println("AnnotationTarget.PROPERTY, ")
-out.println("AnnotationTarget.PROPERTY_GETTER, ")
-out.println("AnnotationTarget.PROPERTY_SETTER, ")
-out.println("AnnotationTarget.TYPE, ")
-out.println("AnnotationTarget.TYPEALIAS, ")
-out.println("AnnotationTarget.TYPE_PARAMETER, ")
-out.println("AnnotationTarget.VALUE_PARAMETER ")
-out.println(")")
-out.println("@Retention(AnnotationRetention.BINARY)")
-out.println("internal annotation class ProguardKeepAnnotation")
-}
             File("src.generated${pathSeparator}settings.gradle").printWriter().use { out ->
                 out.println("pluginManagement {")
                 out.println("    repositories {")
@@ -526,7 +505,8 @@ if (enableJVM) {
                 out.println("    printconfiguration(\"config.pro.generated\")")
                 out.println("    printmapping(\"build/mapping.txt\")")
                 out.println("    keep(\"@lupos.ProguardKeepAnnotation public class *\")")
-                out.println("    keepclassmembers(\"class ** { @lupos.ProguardKeepAnnotation public *; }\")")
+                out.println("    keepclassmembers(\"class * { @lupos.ProguardKeepAnnotation public *; }\")")
+                out.println("    keepclassmembers(\"class * { public <fields>; }\")")
                 out.println("    keep(\"public class MainKt { public static void main(java.lang.String[]); }\")")
                 out.println("}")
 }

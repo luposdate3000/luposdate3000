@@ -1,6 +1,9 @@
+@file:lupos.ProguardKeepAnnotation
 package lupos.s15tripleStoreDistributed
 import lupos.s00misc.SanityCheck
 import lupos.s04logicalOperators.IQuery
+import kotlin.jvm.JvmField
+@JvmField
 public var distributedTripleStore: IDistributedTripleStore = object : IDistributedTripleStore {
     override fun reloadPartitioningScheme() {
         SanityCheck.checkUnreachable()

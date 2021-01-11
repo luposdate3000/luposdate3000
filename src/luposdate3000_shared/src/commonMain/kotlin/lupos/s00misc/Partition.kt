@@ -1,13 +1,21 @@
 package lupos.s00misc
+import kotlin.jvm.JvmField
 public class Partition {
+@JvmField
     public val data: MutableMap<String, Int>
+@JvmField
     public val limit: MutableMap<String, Int>
     public companion object {
+@JvmField
         public val estimatedPartitions1: MutableMap<String, MutableSet<Int>> = mutableMapOf()
+@JvmField
         public val estimatedPartitions2: MutableMap<String, MutableSet<Int>> = mutableMapOf()
+@JvmField
         public var estimatedPartitionsValid: Boolean = false
+@JvmField
         public var default_k: Int = 128
-        public const val queue_size: Int = 1000
+@JvmField
+        public val queue_size: Int = 1000
     }
     public constructor() {
         data = mutableMapOf()
