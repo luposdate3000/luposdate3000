@@ -1,6 +1,6 @@
 package lupos.s00misc
 import lupos.s04logicalOperators.IQuery
-public class MemoryTable(public val columns: Array<String>) {
+public class MemoryTable public constructor (public val columns: Array<String>) {
     public val data: MutableList<IntArray> = mutableListOf()
     public var booleanResult: Boolean? = null
     public var query: IQuery? = null

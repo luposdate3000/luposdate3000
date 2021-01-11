@@ -30,23 +30,23 @@ private fun printDependencies(dependencies: Set<String>, buildForIDE: Boolean, a
         }
     }
 }
-private fun copyFileWithReplacement(src: File, dest: File, replacement:Map<String,String>) {
+private fun copyFileWithReplacement(src: File, dest: File, replacement: Map<String, String>) {
     dest.printWriter().use { out ->
         src.forEachLine { it ->
-var s=it
-	for ((k,v)in replacement){
-s=s.replace(k,v)
-if(k.startsWith(" ")){
-if(s.startsWith(k.substring(1))){
-s=v+s.substring(k.length-1)
-}
-}
-}
+            var s = it
+            for ((k, v)in replacement) {
+                s = s.replace(k, v)
+                if (k.startsWith(" ")) {
+                    if (s.startsWith(k.substring(1))) {
+                        s = v + s.substring(k.length - 1)
+                    }
+                }
+            }
             out.println(s)
         }
     }
 }
-private fun copyFilesWithReplacement(src: String, dest: String, replacement:Map<String,String>,pathSeparator:String) {
+private fun copyFilesWithReplacement(src: String, dest: String, replacement: Map<String, String>, pathSeparator: String) {
     for (it in File(src).walk()) {
         val tmp = it.toString()
         val t = tmp.substring(src.length)
@@ -205,27 +205,27 @@ public fun createBuildFileForModule(moduleName_: String, moduleFolder: String, m
                         f = tmp
                     }
                     if (f.startsWith("common")) {
-copyFilesWithReplacement(tmp,"src.generated$pathSeparator" + f.replace("common.*Main", "commonMain"),mapOf(" public " to " @lupos.ProguardKeepAnnotation public "),pathSeparator)
+                        copyFilesWithReplacement(tmp, "src.generated$pathSeparator" + f.replace("common.*Main", "commonMain"), mapOf(" public " to " @lupos.ProguardKeepAnnotation public "), pathSeparator)
                     } else if (f.startsWith("jvm")) {
                         if (enableJVM) {
-copyFilesWithReplacement(tmp,"src.generated$pathSeparator" + f.replace("jvm.*Main", "jvmMain"),mapOf(" public " to " @lupos.ProguardKeepAnnotation public "),pathSeparator)
+                            copyFilesWithReplacement(tmp, "src.generated$pathSeparator" + f.replace("jvm.*Main", "jvmMain"), mapOf(" public " to " @lupos.ProguardKeepAnnotation public "), pathSeparator)
                         }
                     } else if (f.startsWith("js")) {
                         if (enableJS) {
-copyFilesWithReplacement(tmp,"src.generated$pathSeparator" + f.replace("js.*Main", "jsMain"),mapOf(" public " to " @lupos.ProguardKeepAnnotation public "),pathSeparator)
+                            copyFilesWithReplacement(tmp, "src.generated$pathSeparator" + f.replace("js.*Main", "jsMain"), mapOf(" public " to " @lupos.ProguardKeepAnnotation public "), pathSeparator)
                         }
                     } else if (f.startsWith("native")) {
                         if (enableNative) {
-copyFilesWithReplacement(tmp,"src.generated$pathSeparator" + f.replace("native.*Main", "nativeMain"),mapOf(" public " to " @lupos.ProguardKeepAnnotation public "),pathSeparator)
+                            copyFilesWithReplacement(tmp, "src.generated$pathSeparator" + f.replace("native.*Main", "nativeMain"), mapOf(" public " to " @lupos.ProguardKeepAnnotation public "), pathSeparator)
                         }
                     } else if (f.startsWith(platform)) {
                         if (enableNative) {
-copyFilesWithReplacement(tmp,"src.generated$pathSeparator" + f.replace("${platform}.*Main", "${platform}Main"),mapOf(" public " to " @lupos.ProguardKeepAnnotation public "),pathSeparator)
+                            copyFilesWithReplacement(tmp, "src.generated$pathSeparator" + f.replace("$platform.*Main", "${platform}Main"), mapOf(" public " to " @lupos.ProguardKeepAnnotation public "), pathSeparator)
                         }
                     }
                 }
             }
-File("src.generated${pathSeparator}commonMain${pathSeparator}kotlin${pathSeparator}lupos").mkdirs()
+            File("src.generated${pathSeparator}commonMain${pathSeparator}kotlin${pathSeparator}lupos").mkdirs()
             File("src.generated${pathSeparator}settings.gradle").printWriter().use { out ->
                 out.println("pluginManagement {")
                 out.println("    repositories {")
@@ -292,9 +292,9 @@ File("src.generated${pathSeparator}commonMain${pathSeparator}kotlin${pathSeparat
                 out.println("    }")
                 out.println("    dependencies {")
                 out.println("        classpath(\"org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.255-SNAPSHOT\")")
-if (enableJVM) {
-                out.println("        classpath(\"com.guardsquare:proguard-gradle:7.0.1\")")
-}
+                if (enableJVM) {
+                    out.println("        classpath(\"com.guardsquare:proguard-gradle:7.0.1\")")
+                }
                 out.println("    }")
                 out.println("}")
                 if (buildForIDE) {
@@ -478,38 +478,38 @@ if (enableJVM) {
                     out.println("    mainClass.set(\"MainKt\")")
                     out.println("}")
                 }
-if (enableJVM) {
-                out.println("tasks.register<proguard.gradle.ProGuardTask>(\"proguard\") {")
-                out.println("    dependsOn(\"build\")")
-                out.println("    injars(\"build/libs/$moduleName-jvm-0.0.1.jar\")")
-                out.println("    outjars(\"build/libs/$moduleName-jvm-0.0.1-pro.jar\")")
-                out.println("    val javaHome = System.getProperty(\"java.home\")")
-                out.println("    if (System.getProperty(\"java.version\").startsWith(\"1.\")) {")
-                out.println("        libraryjars(\"\$javaHome/lib/rt.jar\")")
-                out.println("    } else {")
-                out.println("        libraryjars(")
-                out.println("            mapOf(")
-                out.println("                \"jarfilter\" to \"!**.jar\",")
-                out.println("                \"filter\" to \"!module-info.class\"")
-                out.println("            ),")
-                out.println("            \"\$javaHome/jmods/java.base.jmod\"")
-                out.println("        )")
-                out.println("    }")
-                out.println("    for(f in configurations.getByName(\"jvmCompileClasspath\").resolve()){")
-                out.println("        libraryjars(files(\"\$f\"))")
-                out.println("    }")
-                out.println("    forceprocessing()")
-                out.println("    optimizationpasses(5)")
-                out.println("    allowaccessmodification()")
-                out.println("    dontobfuscate()")
-                out.println("    printconfiguration(\"config.pro.generated\")")
-                out.println("    printmapping(\"build/mapping.txt\")")
-                out.println("    keep(\"@lupos.ProguardKeepAnnotation public class *\")")
-                out.println("    keepclassmembers(\"class * { @lupos.ProguardKeepAnnotation public *; }\")")
-                out.println("    keepclassmembers(\"class * { public <fields>; }\")")
-                out.println("    keep(\"public class MainKt { public static void main(java.lang.String[]); }\")")
-                out.println("}")
-}
+                if (enableJVM) {
+                    out.println("tasks.register<proguard.gradle.ProGuardTask>(\"proguard\") {")
+                    out.println("    dependsOn(\"build\")")
+                    out.println("    injars(\"build/libs/$moduleName-jvm-0.0.1.jar\")")
+                    out.println("    outjars(\"build/libs/$moduleName-jvm-0.0.1-pro.jar\")")
+                    out.println("    val javaHome = System.getProperty(\"java.home\")")
+                    out.println("    if (System.getProperty(\"java.version\").startsWith(\"1.\")) {")
+                    out.println("        libraryjars(\"\$javaHome/lib/rt.jar\")")
+                    out.println("    } else {")
+                    out.println("        libraryjars(")
+                    out.println("            mapOf(")
+                    out.println("                \"jarfilter\" to \"!**.jar\",")
+                    out.println("                \"filter\" to \"!module-info.class\"")
+                    out.println("            ),")
+                    out.println("            \"\$javaHome/jmods/java.base.jmod\"")
+                    out.println("        )")
+                    out.println("    }")
+                    out.println("    for(f in configurations.getByName(\"jvmCompileClasspath\").resolve()){")
+                    out.println("        libraryjars(files(\"\$f\"))")
+                    out.println("    }")
+                    out.println("    forceprocessing()")
+                    out.println("    optimizationpasses(5)")
+                    out.println("    allowaccessmodification()")
+                    out.println("    dontobfuscate()")
+                    out.println("    printconfiguration(\"config.pro.generated\")")
+                    out.println("    printmapping(\"build/mapping.txt\")")
+                    out.println("    keep(\"@lupos.ProguardKeepAnnotation public class *\")")
+                    out.println("    keepclassmembers(\"class * { @lupos.ProguardKeepAnnotation public *; }\")")
+                    out.println("    keepclassmembers(\"class * { public <fields>; }\")")
+                    out.println("    keep(\"public class MainKt { public static void main(java.lang.String[]); }\")")
+                    out.println("}")
+                }
             }
         }
         if (ideaBuildfile == IntellijMode.Disable) {
@@ -709,18 +709,18 @@ if (enableJVM) {
                 var path = System.getProperty("user.dir")
                 File("$path${pathSeparator}gradle").copyRecursively(File("$path${pathSeparator}src.generated${pathSeparator}gradle"))
                 File("gradlew.bat").copyTo(File("src.generated${pathSeparator}gradlew.bat"))
-if (enableJVM) {
-                runCommand(listOf("gradlew.bat", "proguard"), File("$path${pathSeparator}src.generated"))
-}else{
-                runCommand(listOf("gradlew.bat", "build"), File("$path${pathSeparator}src.generated"))
-}
+                if (enableJVM) {
+                    runCommand(listOf("gradlew.bat", "proguard"), File("$path${pathSeparator}src.generated"))
+                } else {
+                    runCommand(listOf("gradlew.bat", "build"), File("$path${pathSeparator}src.generated"))
+                }
                 runCommand(listOf("gradlew.bat", "publishToMavenLocal"), File("$path${pathSeparator}src.generated"))
             } else if (onLinux) {
-if (enableJVM) {
-                runCommand(listOf("../gradlew", "proguard"), File("src.generated"))
-}else{
-                runCommand(listOf("../gradlew", "build"), File("src.generated"))
-}
+                if (enableJVM) {
+                    runCommand(listOf("../gradlew", "proguard"), File("src.generated"))
+                } else {
+                    runCommand(listOf("../gradlew", "build"), File("src.generated"))
+                }
                 runCommand(listOf("../gradlew", "publishToMavenLocal"), File("src.generated"))
             }
         }
