@@ -526,6 +526,7 @@ if (enableJVM) {
                 out.println("    printconfiguration(\"config.pro.generated\")")
                 out.println("    printmapping(\"build/mapping.txt\")")
                 out.println("    keep(\"@lupos.ProguardKeepAnnotation public class *\")")
+                out.println("    keepclassmembers(\"class ** { @lupos.ProguardKeepAnnotation public *; }\")")
                 out.println("    keep(\"public class MainKt { public static void main(java.lang.String[]); }\")")
                 out.println("}")
 }
