@@ -1,8 +1,12 @@
 package lupos.s00misc
 import lupos.s04logicalOperators.IQuery
-public class MemoryTable public constructor (public val columns: Array<String>) {
+import kotlin.jvm.JvmField
+public class MemoryTable public constructor (@JvmField public val columns: Array<String>) {
+    @JvmField
     public val data: MutableList<IntArray> = mutableListOf()
+    @JvmField
     public var booleanResult: Boolean? = null
+    @JvmField
     public var query: IQuery? = null
     public companion object {
         @Suppress("NOTHING_TO_INLINE") internal inline operator fun invoke(a: MemoryTable, b: MemoryTable): MemoryTable {

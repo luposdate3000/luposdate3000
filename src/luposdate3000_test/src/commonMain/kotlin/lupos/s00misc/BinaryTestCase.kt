@@ -45,7 +45,10 @@ public object BinaryTestCase {
         }
         return res
     }
-    public fun executeAllTestCase(folder: String = "resources/binary/") {
+    public fun executeAllTestCase() {
+        executeAllTestCase("resources/binary/")
+    }
+    public fun executeAllTestCase(folder: String) {
         outSummary = File("log/error").myPrintWriter()
         File("$folder/config2").printWriter { newConfig ->
             File("$folder/config").forEachLine { line ->
