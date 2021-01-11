@@ -59,11 +59,11 @@ public class BufferManager {
     internal val lock = MyReadWriteLock()
     @JvmField
     internal val freeList = mutableListOf<Int>()
-    public /*suspend*/ fun clear(): Unit {
- lock.withWriteLock {
-        clearAssumeLocks()
+    public /*suspend*/ fun clear() {
+        lock.withWriteLock {
+            clearAssumeLocks()
+        }
     }
-}
     /*suspend*/ private fun clearAssumeLocks() {
         counter = 0
         SanityCheck {

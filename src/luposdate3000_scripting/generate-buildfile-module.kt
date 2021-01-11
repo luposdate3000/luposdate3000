@@ -167,7 +167,7 @@ public fun createBuildFileForModule(moduleName_: String, moduleFolder: String, m
                     "js" -> {
                         enableJS = false
                     }
-                    platform, "Native" -> enableNative = false
+                    platform, "native" -> enableNative = false
                 }
             }
         }
@@ -205,9 +205,9 @@ public fun createBuildFileForModule(moduleName_: String, moduleFolder: String, m
                         if (enableJS) {
                             File(tmp).copyRecursively(File("src.generated$pathSeparator" + f.replace("js.*Main", "jsMain")))
                         }
-                    } else if (f.startsWith("Native")) {
+                    } else if (f.startsWith("native")) {
                         if (enableNative) {
-                            File(tmp).copyRecursively(File("src.generated$pathSeparator" + f.replace("Native.*Main", "${platform}Main")))
+                            File(tmp).copyRecursively(File("src.generated$pathSeparator" + f.replace("native.*Main", "${platform}Main")))
                         }
                     } else if (f.startsWith(platform)) {
                         if (enableNative) {
@@ -253,11 +253,11 @@ public fun createBuildFileForModule(moduleName_: String, moduleFolder: String, m
                 }
             }
         }
-        val NativeDependencies = mutableSetOf<String>()
-        if (File("${moduleFolder}${pathSeparator}NativeDependencies").exists()) {
-            File("${moduleFolder}${pathSeparator}NativeDependencies").forEachLine {
+        val nativeDependencies = mutableSetOf<String>()
+        if (File("${moduleFolder}${pathSeparator}nativeDependencies").exists()) {
+            File("${moduleFolder}${pathSeparator}nativeDependencies").forEachLine {
                 if (it.length > 0) {
-                    NativeDependencies.add(it)
+                    nativeDependencies.add(it)
                 }
             }
         }
@@ -420,7 +420,7 @@ public fun createBuildFileForModule(moduleName_: String, moduleFolder: String, m
                 if (enableNative) {
                     out.println("        val ${platform}Main by getting {")
                     out.println("            dependencies {")
-                    printDependencies(NativeDependencies, buildForIDE, appendix, out)
+                    printDependencies(nativeDependencies, buildForIDE, appendix, out)
                     out.println("            }")
                     out.println("        }")
                 }
@@ -440,9 +440,9 @@ public fun createBuildFileForModule(moduleName_: String, moduleFolder: String, m
                         }
                     }
                     if (enableNative) {
-                        out.println("    sourceSets[\"${platform}Main\"].kotlin.srcDir(\"NativeMain${pathSeparatorEscaped}kotlin\")")
+                        out.println("    sourceSets[\"${platform}Main\"].kotlin.srcDir(\"nativeMain${pathSeparatorEscaped}kotlin\")")
                         if (!moduleName.startsWith("Luposdate3000_Shared_Inline")) {
-                            out.println("    sourceSets[\"${platform}Main\"].kotlin.srcDir(\"..${pathSeparatorEscaped}xxx_generated_xxx${pathSeparatorEscaped}${moduleFolder}${pathSeparatorEscaped}src${pathSeparatorEscaped}NativeMain${pathSeparatorEscaped}kotlin\")")
+                            out.println("    sourceSets[\"${platform}Main\"].kotlin.srcDir(\"..${pathSeparatorEscaped}xxx_generated_xxx${pathSeparatorEscaped}${moduleFolder}${pathSeparatorEscaped}src${pathSeparatorEscaped}nativeMain${pathSeparatorEscaped}kotlin\")")
                             out.println("    sourceSets[\"${platform}Main\"].kotlin.srcDir(\"..${pathSeparatorEscaped}xxx_generated_xxx${pathSeparatorEscaped}${moduleFolder}${pathSeparatorEscaped}src${pathSeparatorEscaped}${platform}Main${pathSeparatorEscaped}kotlin\")")
                         }
                     }
@@ -455,7 +455,7 @@ public fun createBuildFileForModule(moduleName_: String, moduleFolder: String, m
                         out.println("    sourceSets[\"jsMain\"].kotlin.srcDir(\"jsMain${pathSeparatorEscaped}kotlin\")")
                     }
                     if (enableNative) {
-                        out.println("    sourceSets[\"${platform}Main\"].kotlin.srcDir(\"NativeMain${pathSeparatorEscaped}kotlin\")")
+                        out.println("    sourceSets[\"${platform}Main\"].kotlin.srcDir(\"nativeMain${pathSeparatorEscaped}kotlin\")")
                         out.println("    sourceSets[\"${platform}Main\"].kotlin.srcDir(\"${platform}Main${pathSeparatorEscaped}kotlin\")")
                     }
                 }
@@ -629,7 +629,7 @@ public fun createBuildFileForModule(moduleName_: String, moduleFolder: String, m
             } catch (e: Throwable) {
             }
             try {
-                copyFilesWithReplacement(("src${pathSeparator}luposdate3000_shared_inline${pathSeparator}src${pathSeparator}NativeMain"), ("${configPathBase}${pathSeparator}NativeMain"), "lupos.modulename", "lupos.$moduleName", pathSeparator)
+                copyFilesWithReplacement(("src${pathSeparator}luposdate3000_shared_inline${pathSeparator}src${pathSeparator}nativeMain"), ("${configPathBase}${pathSeparator}nativeMain"), "lupos.modulename", "lupos.$moduleName", pathSeparator)
             } catch (e: Throwable) {
             }
             configFile = "${configPath}${pathSeparator}Config-$moduleName.kt"

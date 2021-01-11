@@ -7530,7 +7530,7 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
         return 1
     }
 }
-@Suppress("NOTHING_TO_INLINE") internal  inline fun parse_subject_iri_or_ws(
+@Suppress("NOTHING_TO_INLINE") internal inline fun parse_subject_iri_or_ws(
     context: ParserContext,
     crossinline onPN_LOCAL: () -> Unit,
     crossinline onSKIP_WS_FORCED: () -> Unit
