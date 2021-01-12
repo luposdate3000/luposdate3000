@@ -1,11 +1,10 @@
-PREFIX :    <http://example/>
-PREFIX  rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-# SPARQL 1.1
-SELECT *
-WHERE
-{
-	?set a :Set .
-	FILTER EXISTS {
-		?set :member 9
-	}
+prefix : <http://example/>
+select ?a ?b ?c {
+  ?a :p1 ?b; :p2 ?c
+  MINUS {
+    ?d a :Sub
+    OPTIONAL { ?d :q1 ?b }
+    OPTIONAL { ?d :q2 ?c }
+  }
 }
+order by ?a

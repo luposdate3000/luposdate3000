@@ -1,5 +1,2 @@
-prefix :  <http://www.example.org/>
-select ?t
-where {
-  :a :p0|^:p1/:p2|:p3 ?t
-}
+PREFIX : <http://example.org/>
+SELECT * WHERE { :a0 (:p)* :a1 }

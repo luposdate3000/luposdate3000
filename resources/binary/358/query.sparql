@@ -11,7 +11,6 @@ SELECT ?s ?o1 WHERE {
   } UNION {
    ?s :b2 ?o2 .
   }
-  Filter (?o2 != 3) .
  }
- FILTER (!bound(?o2))
+ Filter (COALESCE(BOUND(?o2) && (?o2 != ?o1),!BOUND(?o2))) .
 }

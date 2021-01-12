@@ -1,4 +1,0 @@
-SELECT ?s ?p ?o {
-  ?s <iri0> ?p .
-  ?s <iri0> ?o .
-}

@@ -1,10 +1,6 @@
-prefix : <http://example/>
-select ?a ?b ?c {
-  ?a :p1 ?b; :p2 ?c
-  MINUS {
-    ?d a :Sub
-    OPTIONAL { ?d :q1 ?b }
-    OPTIONAL { ?d :q2 ?c }
-  }
+prefix ex:	<http://www.example.org/schema#>
+prefix in:	<http://www.example.org/instance#>
+select ?x ?y ?z ((?y = ?z) as ?eq) where {
+  ?x ex:p ?y .
+  ?x ex:q ?z
 }
-order by ?a

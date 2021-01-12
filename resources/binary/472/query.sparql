@@ -1,6 +1,7 @@
-#Parallelizing Join Computations of SPARQL Queries for Large Semantic Web Databases --- BTC 2009
-select * where {
- ?m <http://purl.org/dc/elements/1.1/title> ?t .
- ?x <http://xmlns.com/foaf/0.1/made> ?m .
- ?x <http://xmlns.com/foaf/0.1/nick> ?i .
+#TripleBit: a Fast and Compact System for Large Scale RDF Data --- BTC 2012
+SELECT ?a ?b ?ab WHERE {
+ ?b <http://purl.uniprot.org/core/modified> "2008-07-22" .
+ ?b <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://purl.uniprot.org/core/Protein> .
+ ?a <http://purl.uniprot.org/core/replaces> ?ab .
+ ?ab <http://purl.uniprot.org/core/replacedBy> ?b .
 }

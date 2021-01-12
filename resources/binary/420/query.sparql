@@ -1,3 +1,4 @@
+PREFIX bsbm-export: <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/vocabulary/export/>
 PREFIX bsbm: <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/vocabulary/>
 PREFIX rev: <http://purl.org/stuff/rev#>
 PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>  
@@ -9,9 +10,20 @@ PREFIX bsbm-inst: <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/>
 PREFIX dataFromProducer1: <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromProducer1/>  
 PREFIX dataFromVendor1: <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromVendor1/>  
 PREFIX dataFromRatingSite1: <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromRatingSite1/>  
-SELECT ?property ?hasValue ?isValueOf
-WHERE {
-  { dataFromVendor1:Offer14 ?property ?hasValue }
-  UNION
-  { ?isValueOf ?property dataFromVendor1:Offer14 }
-}
+CONSTRUCT {  dataFromVendor1:Offer14 bsbm-export:product ?productURI .
+             dataFromVendor1:Offer14 bsbm-export:productlabel ?productlabel .
+             dataFromVendor1:Offer14 bsbm-export:vendor ?vendorname .
+             dataFromVendor1:Offer14 bsbm-export:vendorhomepage ?vendorhomepage . 
+             dataFromVendor1:Offer14 bsbm-export:offerURL ?offerURL .
+             dataFromVendor1:Offer14 bsbm-export:price ?price .
+             dataFromVendor1:Offer14 bsbm-export:deliveryDays ?deliveryDays .
+             dataFromVendor1:Offer14 bsbm-export:validuntil ?validTo } 
+WHERE { dataFromVendor1:Offer14 bsbm:product ?productURI .
+        ?productURI rdfs:label ?productlabel .
+        dataFromVendor1:Offer14 bsbm:vendor ?vendorURI .
+        ?vendorURI rdfs:label ?vendorname .
+        ?vendorURI foaf:homepage ?vendorhomepage .
+        dataFromVendor1:Offer14 bsbm:offerWebpage ?offerURL .
+        dataFromVendor1:Offer14 bsbm:price ?price .
+        dataFromVendor1:Offer14 bsbm:deliveryDays ?deliveryDays .
+        dataFromVendor1:Offer14 bsbm:validTo ?validTo }

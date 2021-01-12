@@ -1,2 +1,8 @@
-PREFIX : <http://example.org/>
-SELECT * WHERE { ?s ?p ?o OPTIONAL {?o ?p2 ?o2 } } ORDER BY ?s ?p ?o ?p2 ?o2
+SELECT ?occurences (COUNT(*) AS ?cnt) ((?occurences * ?cnt) AS ?sum) { 
+  SELECT (COUNT(*) AS ?occurences) { 
+    ?s ?p ?o . 
+  } 
+  GROUP BY ?o 
+} 
+GROUP BY ?occurences 
+ORDER BY ?occurences ?cnt 

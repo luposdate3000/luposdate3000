@@ -1,4 +1,4 @@
 prefix : <http://example/> 
 select * where {
-    :a :p+ ?z
+    :a (:p/:p)? ?t
 } 

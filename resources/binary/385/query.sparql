@@ -1,4 +1,5 @@
-PREFIX : <http://example.org/>
-SELECT (SHA256(?l) AS ?hash) WHERE {
-	:s8 :str ?l
-}
+SELECT (COUNT(*) AS ?occurences) { 
+  ?s ?p ?o . 
+} 
+GROUP BY ?o 
+ORDER BY ?occurences 

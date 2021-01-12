@@ -9,19 +9,30 @@ PREFIX bsbm-inst: <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/>
 PREFIX dataFromProducer1: <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromProducer1/>  
 PREFIX dataFromVendor1: <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromVendor1/>  
 PREFIX dataFromRatingSite1: <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromRatingSite1/>  
-  SELECT ?otherProduct ?sameFeatures
+  Select ?feature (?withFeaturePrice/?withoutFeaturePrice As ?priceRatio)
   {
-    ?otherProduct a bsbm:Product .
-    FILTER(?otherProduct != dataFromProducer1:Product1)
-    {
-      SELECT ?otherProduct (count(?otherFeature) As ?sameFeatures)
+    { Select ?feature (avg(xsd:float(xsd:string(?price))) As ?withFeaturePrice)
       {
-        dataFromProducer1:Product1 bsbm:productFeature ?feature .
-        ?otherProduct bsbm:productFeature ?otherFeature .
-        FILTER(?feature=?otherFeature)
+        ?product a bsbm-inst:ProductType5 ;
+                 bsbm:productFeature ?feature .
+        ?offer bsbm:product ?product ;
+               bsbm:price ?price .
       }
-      Group By ?otherProduct
+      Group By ?feature
+    }
+    { Select ?feature (avg(xsd:float(xsd:string(?price))) As ?withoutFeaturePrice)
+      {
+        { Select distinct ?feature { 
+          ?p a bsbm-inst:ProductType5 ;
+             bsbm:productFeature ?feature .
+        } }
+        ?product a bsbm-inst:ProductType5 .
+        ?offer bsbm:product ?product ;
+               bsbm:price ?price .
+        FILTER NOT EXISTS { ?product bsbm:productFeature ?feature }
+      }
+      Group By ?feature
     }
   }
-  Order By desc(?sameFeatures) ?otherProduct
+  Order By desc(?withFeaturePrice/?withoutFeaturePrice) ?feature
   Limit 10

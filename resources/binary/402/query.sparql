@@ -1,5 +1,8 @@
-SELECT (COUNT(*) AS ?occurences) { 
-  ?s ?p ?o . 
+SELECT ?occurences (COUNT(*) AS ?cnt) ((?occurences * ?cnt) AS ?sum) { 
+  SELECT (COUNT(*) AS ?occurences) { 
+    ?s ?p ?o . 
+  } 
+  GROUP BY ?p 
 } 
-GROUP BY ?p ?o 
-ORDER BY ?occurences 
+GROUP BY ?occurences 
+ORDER BY ?occurences ?cnt 

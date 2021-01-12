@@ -1,7 +1,8 @@
-#Scalable Join Processing on Very Large RDF Graphs --- BTC 2008
-select distinct ?l ?long ?lat where {
- ?a ?b "Barack Obama" .
- ?a <http://dbpedia.org/property/placeOfBirth> ?l .
- ?l <http://www.w3.org/2003/01/geo/wgs84_pos#lat> ?lat .
- ?l <http://www.w3.org/2003/01/geo/wgs84_pos#long> ?long .
+#TripleBit: a Fast and Compact System for Large Scale RDF Data --- BTC 2012
+SELECT ?p ?a WHERE {
+ ?p <http://purl.uniprot.org/core/annotation> ?a .
+ ?p <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://purl.uniprot.org/core/Protein> .
+ ?p <http://purl.uniprot.org/core/organism> <http://purl.uniprot.org/taxonomy/9606> .
+ ?a <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://purl.uniprot.org/core/Disease_Annotation> .
+ ?a <http://www.w3.org/2000/01/rdf-schema#comment> ?text .
 }

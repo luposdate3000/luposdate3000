@@ -7,5 +7,6 @@ SELECT * WHERE {
   } UNION {
    ?s :b2 ?o2 .
   }
+  Filter (?o2 != ?o1) .
  }
 }

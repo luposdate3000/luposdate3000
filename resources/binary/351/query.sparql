@@ -1,12 +1,7 @@
 PREFIX : <http://example.org/>
-SELECT ?s ?o1 WHERE {
- {
-  ?s :b1 ?o1 .
- } UNION {
-  ?s :b1 ?o1 .
- }
+SELECT * WHERE {
+ ?s :b1 ?o1 .
  OPTIONAL {
   ?s :b2 ?o2 .
  }
- Filter (COALESCE(BOUND(?o2) && (?o2 != ?o1),!BOUND(?o2))) .
 }

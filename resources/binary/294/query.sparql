@@ -5,10 +5,11 @@ SELECT * WHERE {
  } UNION {
   ?s :b1 ?o1 .
  }
+ OPTIONAL {
   {
    ?s :b2 ?o2 .
   } UNION {
    ?s :b2 ?o2 .
   }
- Filter (?o2 != 3) .
+ }
 }

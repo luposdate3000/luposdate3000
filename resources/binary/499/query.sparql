@@ -10,4 +10,9 @@ WHERE {
   ?document dcterms:issued ?yr .
   ?document dc:creator ?author .
   ?author foaf:name ?name .
+    ?class2 rdfs:subClassOf foaf:Document .
+    ?document2 rdf:type ?class2 .
+    ?document2 dcterms:issued ?yr2 .
+    ?document2 dc:creator ?author2 .
+    FILTER ( ?author = ?author2 )
 }

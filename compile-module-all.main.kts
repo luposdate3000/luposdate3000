@@ -62,3 +62,4 @@ createBuildFileForModule("Luposdate3000_Launch_Import", "Luposdate3000_Main", re
 createBuildFileForModule("Luposdate3000_Launch_Sparql_Test_Suite", "Luposdate3000_Main", releaseMode, suspendMode, inlineMode, dryMode, fastMode, intellijMode)
 createBuildFileForModule("Luposdate3000_Launch_Prepared_Statement", "Luposdate3000_Main", releaseMode, suspendMode, inlineMode, dryMode, fastMode, intellijMode)
 createBuildFileForModule("Luposdate3000_Launch_Code_Gen_Example", "Luposdate3000_Main", releaseMode, suspendMode, inlineMode, dryMode, fastMode, intellijMode)
+createBuildFileForModule("Luposdate3000_Launch_Generate_Binary_Test_Suite", "Luposdate3000_Main", releaseMode, suspendMode, inlineMode, dryMode, fastMode, intellijMode)

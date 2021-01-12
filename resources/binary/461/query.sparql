@@ -1,4 +1,3 @@
-PREFIX bsbm-export: <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/vocabulary/export/>
 PREFIX bsbm: <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/vocabulary/>
 PREFIX rev: <http://purl.org/stuff/rev#>
 PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>  
@@ -10,20 +9,22 @@ PREFIX bsbm-inst: <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/>
 PREFIX dataFromProducer1: <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromProducer1/>  
 PREFIX dataFromVendor1: <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromVendor1/>  
 PREFIX dataFromRatingSite1: <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromRatingSite1/>  
-CONSTRUCT {  dataFromVendor1:Offer47 bsbm-export:product ?productURI .
-             dataFromVendor1:Offer47 bsbm-export:productlabel ?productlabel .
-             dataFromVendor1:Offer47 bsbm-export:vendor ?vendorname .
-             dataFromVendor1:Offer47 bsbm-export:vendorhomepage ?vendorhomepage . 
-             dataFromVendor1:Offer47 bsbm-export:offerURL ?offerURL .
-             dataFromVendor1:Offer47 bsbm-export:price ?price .
-             dataFromVendor1:Offer47 bsbm-export:deliveryDays ?deliveryDays .
-             dataFromVendor1:Offer47 bsbm-export:validuntil ?validTo } 
-WHERE { dataFromVendor1:Offer47 bsbm:product ?productURI .
-        ?productURI rdfs:label ?productlabel .
-        dataFromVendor1:Offer47 bsbm:vendor ?vendorURI .
-        ?vendorURI rdfs:label ?vendorname .
-        ?vendorURI foaf:homepage ?vendorhomepage .
-        dataFromVendor1:Offer47 bsbm:offerWebpage ?offerURL .
-        dataFromVendor1:Offer47 bsbm:price ?price .
-        dataFromVendor1:Offer47 bsbm:deliveryDays ?deliveryDays .
-        dataFromVendor1:Offer47 bsbm:validTo ?validTo }
+SELECT ?label ?comment ?producer ?productFeature ?propertyTextual1 ?propertyTextual2 ?propertyTextual3
+ ?propertyNumeric1 ?propertyNumeric2 ?propertyTextual4 ?propertyTextual5 ?propertyNumeric4 
+WHERE {
+    dataFromProducer1:Product3 rdfs:label ?label .
+    dataFromProducer1:Product3 rdfs:comment ?comment .
+    dataFromProducer1:Product3 bsbm:producer ?p .
+    ?p rdfs:label ?producer .
+    dataFromProducer1:Product3 dc:publisher ?p . 
+    dataFromProducer1:Product3 bsbm:productFeature ?f .
+    ?f rdfs:label ?productFeature .
+    dataFromProducer1:Product3 bsbm:productPropertyTextual1 ?propertyTextual1 .
+    dataFromProducer1:Product3 bsbm:productPropertyTextual2 ?propertyTextual2 .
+    dataFromProducer1:Product3 bsbm:productPropertyTextual3 ?propertyTextual3 .
+    dataFromProducer1:Product3 bsbm:productPropertyNumeric1 ?propertyNumeric1 .
+    dataFromProducer1:Product3 bsbm:productPropertyNumeric2 ?propertyNumeric2 .
+    OPTIONAL { dataFromProducer1:Product3 bsbm:productPropertyTextual4 ?propertyTextual4 }
+    OPTIONAL { dataFromProducer1:Product3 bsbm:productPropertyTextual5 ?propertyTextual5 }
+    OPTIONAL { dataFromProducer1:Product3 bsbm:productPropertyNumeric4 ?propertyNumeric4 }
+}

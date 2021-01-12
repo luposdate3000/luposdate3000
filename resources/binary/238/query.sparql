@@ -1,4 +1,5 @@
-prefix : <http://example/> 
-select * where {
-    :a (:p/:p)? ?t
-} 
+prefix :  <http://www.example.org/>
+select ?t
+where {
+  :a (:p1|:p2)/(:p3|:p4) ?t
+}

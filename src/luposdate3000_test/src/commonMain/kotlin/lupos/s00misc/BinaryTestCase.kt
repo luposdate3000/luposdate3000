@@ -508,6 +508,7 @@ if (tmpTable != null) {
     }
     public fun generateTestcase(query_input_file: String, query_file: String, query_output_file: String, output_folder: String, query_name: String, output_mode_tmp: BinaryTestCaseOutputMode): Boolean {
         try {
+println("generating for $query_input_file $query_file $query_output_file $output_folder $query_name $output_mode_tmp")
             var outputMode = output_mode_tmp
             File(output_folder).deleteRecursively()
             File(output_folder).mkdirs()

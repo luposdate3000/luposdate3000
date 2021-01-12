@@ -1,21 +1,26 @@
 PREFIX :    <http://example/>
 PREFIX  rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-# SPARQL 1.1
-SELECT (?s1 AS ?subset) (?s2 AS ?superset)
+# Find sets that have exactly the same members.
+# Find all (s1,s2) such that (s1 subset of s) and (s2 subset of s1).
+SELECT DISTINCT ?s1 ?s2
 WHERE
 {
-    # All pairs of sets except (S,S)
+    # All pairs of sets (no duplicates, not reveres pairs)
     ?s2 rdf:type :Set .
     ?s1 rdf:type :Set .
-    FILTER(?s1 != ?s2)
+    FILTER(str(?s1) < str(?s2))
     MINUS 
     {
-    	# The MINUS RHS is (?s1, ?s2) where 
-        # ?s1 has a member not in ?s2
         ?s1 rdf:type :Set .
         ?s2 rdf:type :Set .
-        FILTER(?s1 != ?s2)
         ?s1 :member ?x .
         FILTER NOT EXISTS { ?s2 :member ?x . }
+    }
+    MINUS 
+    {
+        ?s1 rdf:type :Set .
+        ?s2 rdf:type :Set .
+        ?s2 :member ?x .
+        FILTER NOT EXISTS { ?s1 :member ?x . }
     }
 }

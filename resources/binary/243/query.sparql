@@ -1,2 +1,8 @@
-PREFIX : <http://example.org/>
-SELECT * WHERE { :a0 (:p)* :a1 }
+# invalid URI for a SERVICE with SILENT
+PREFIX : <http://example.org/> 
+SELECT ?s ?o1 ?o2
+{
+  ?s ?p ?o1 .
+  SERVICE SILENT <http://invalid.endpoint.org/sparql> {
+    ?s ?p2 ?o2 }
+}

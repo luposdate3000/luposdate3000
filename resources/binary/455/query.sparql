@@ -9,41 +9,26 @@ PREFIX bsbm-inst: <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/>
 PREFIX dataFromProducer1: <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromProducer1/>  
 PREFIX dataFromVendor1: <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromVendor1/>  
 PREFIX dataFromRatingSite1: <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromRatingSite1/>  
-  Select ?country ?product ?nrOfReviews ?avgPrice
+  Select ?product
   {
-    { Select ?country (max(?nrOfReviews) As ?maxReviews)
-      {
-        { Select ?country ?product (count(?review) As ?nrOfReviews)
-          {
+    { Select ?product
+      { 
+        { Select ?product (count(?offer) As ?offerCount)
+          { 
             ?product a bsbm-inst:ProductType5 .
-            ?review bsbm:reviewFor ?product ;
-                    rev:reviewer ?reviewer .
-            ?reviewer bsbm:country ?country .
+            ?offer bsbm:product ?product .
           }
-          Group By ?country ?product
+          Group By ?product
         }
       }
-      Group By ?country
+      Order By desc(?offerCount)
+      Limit 1000
     }
-    { Select ?country ?product (avg(xsd:float(xsd:string(?price))) As ?avgPrice)
-      {
-        ?product a bsbm-inst:ProductType5 .
-        ?offer bsbm:product ?product .
-        ?offer bsbm:price ?price .
-        ?product bsbm:producer ?producer .
-	?producer  bsbm:country ?country .
-      }
-      Group By ?country ?product
+    FILTER NOT EXISTS
+    {
+      ?offer bsbm:product ?product .
+      ?offer bsbm:vendor ?vendor .
+      ?vendor bsbm:country ?country .
+      FILTER(?country=<http://downlode.org/rdf/iso-3166/countries#JP>)
     }
-    { Select ?country ?product (count(?review) As ?nrOfReviews)
-      {
-        ?product a bsbm-inst:ProductType5 .
-        ?review bsbm:reviewFor ?product .
-        ?review rev:reviewer ?reviewer .
-        ?reviewer bsbm:country ?country .
-      }
-      Group By ?country ?product
-    }
-    FILTER(?nrOfReviews=?maxReviews)
   }
-  Order By desc(?nrOfReviews) ?country ?product

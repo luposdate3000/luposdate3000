@@ -1,7 +1,2 @@
 PREFIX : <http://example.org/>
-SELECT ?s ?o1 WHERE {
- ?s :b1 ?o1 .
- OPTIONAL {
-  ?s :b2 ?o2 .
- }
-}
+SELECT * WHERE { ?s ?p ?o OPTIONAL {?o ?p2 ?o2 } } ORDER BY ?s ?p ?o ?p2 ?o2

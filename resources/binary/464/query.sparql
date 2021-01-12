@@ -9,19 +9,18 @@ PREFIX bsbm-inst: <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/>
 PREFIX dataFromProducer1: <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromProducer1/>  
 PREFIX dataFromVendor1: <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromVendor1/>  
 PREFIX dataFromRatingSite1: <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromRatingSite1/>  
-SELECT ?product ?label
-WHERE {
-    ?product rdfs:label ?label .
-    ?product a bsbm-inst:ProductType5 .
-	?product bsbm:productFeature bsbm-inst:ProductFeature187 .
-	?product bsbm:productPropertyNumeric1 ?p1 .
-	FILTER ( ?p1 > "831"^^xsd:integer ) 
-	?product bsbm:productPropertyNumeric3 ?p3 .
-	FILTER (?p3 < "1731"^^xsd:integer )
-    OPTIONAL { 
-        ?product bsbm:productFeature bsbm-inst:ProductFeature122 .
-        ?product rdfs:label ?testVar }
-    FILTER (!bound(?testVar)) 
+SELECT DISTINCT ?product ?productLabel
+WHERE { 
+	?product rdfs:label ?productLabel .
+    FILTER (dataFromProducer1:Product3 != ?product)
+	dataFromProducer1:Product3 bsbm:productFeature ?prodFeature .
+	?product bsbm:productFeature ?prodFeature .
+	dataFromProducer1:Product3 bsbm:productPropertyNumeric1 ?origProperty1 .
+	?product bsbm:productPropertyNumeric1 ?simProperty1 .
+	FILTER (?simProperty1 < (?origProperty1 + 120) && ?simProperty1 > (?origProperty1 - 120))
+	dataFromProducer1:Product3 bsbm:productPropertyNumeric2 ?origProperty2 .
+	?product bsbm:productPropertyNumeric2 ?simProperty2 .
+	FILTER (?simProperty2 < (?origProperty2 + 170) && ?simProperty2 > (?origProperty2 - 170))
 }
-ORDER BY ?label
-LIMIT 10
+ORDER BY ?productLabel
+LIMIT 5

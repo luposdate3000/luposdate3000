@@ -9,25 +9,36 @@ PREFIX bsbm-inst: <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/>
 PREFIX dataFromProducer1: <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromProducer1/>  
 PREFIX dataFromVendor1: <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromVendor1/>  
 PREFIX dataFromRatingSite1: <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromRatingSite1/>  
-  Select ?reviewer (avg(xsd:float(?score)) As ?reviewerAvgScore)
+  Select ?vendor (xsd:float(?belowAvg)/?offerCount As ?cheapExpensiveRatio)
   {
-    { Select (avg(xsd:float(?score)) As ?avgScore)
+    { Select ?vendor (count(?offer) As ?belowAvg)
       {
-        ?product bsbm:producer dataFromProducer1:Producer1 .
-        ?review bsbm:reviewFor ?product .
-        { ?review bsbm:rating1 ?score . } UNION
-        { ?review bsbm:rating2 ?score . } UNION
-        { ?review bsbm:rating3 ?score . } UNION
-        { ?review bsbm:rating4 ?score . }
+        { ?product a bsbm-inst:ProductType5 .
+          ?offer bsbm:product ?product .
+          ?offer bsbm:vendor ?vendor .
+          ?offer bsbm:price ?price .
+          { Select ?product (avg(xsd:float(xsd:string(?price))) As ?avgPrice)
+            {
+              ?product a bsbm-inst:ProductType5 .
+              ?offer bsbm:product ?product .
+              ?offer bsbm:vendor ?vendor .
+              ?offer bsbm:price ?price .
+            }
+            Group By ?product
+          }
+        } .
+        FILTER (xsd:float(xsd:string(?price)) < ?avgPrice)
       }
+      Group By ?vendor
     }
-    ?product bsbm:producer dataFromProducer1:Producer1 .
-    ?review bsbm:reviewFor ?product .
-    ?review rev:reviewer ?reviewer .
-    { ?review bsbm:rating1 ?score . } UNION
-    { ?review bsbm:rating2 ?score . } UNION
-    { ?review bsbm:rating3 ?score . } UNION
-    { ?review bsbm:rating4 ?score . }
+    { Select ?vendor (count(?offer) As ?offerCount)
+      {
+        ?product a bsbm-inst:ProductType5 .
+        ?offer bsbm:product ?product .
+        ?offer bsbm:vendor ?vendor .
+      }
+      Group By ?vendor
+    }
   }
-  Group By ?reviewer
-  Having (avg(xsd:float(?score)) > min(?avgScore) * 1.5)
+  Order by desc(xsd:float(?belowAvg)/?offerCount) ?vendor
+  limit 10

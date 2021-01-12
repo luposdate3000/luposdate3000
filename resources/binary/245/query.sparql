@@ -1,8 +1,6 @@
-# invalid URI for a SERVICE with SILENT
-PREFIX : <http://example.org/> 
-SELECT ?s ?o1 ?o2
-{
-  ?s ?p ?o1 .
-  SERVICE SILENT <http://invalid.endpoint.org/sparql> {
-    ?s ?p2 ?o2 }
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+CONSTRUCT{ ?P foaf:name ?FullName }
+WHERE {
+ SELECT ?P ( CONCAT(?F, " ", ?L) AS ?FullName ) 
+ WHERE { ?P foaf:firstName ?F ; foaf:lastName ?L. }
 }

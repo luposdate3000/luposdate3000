@@ -15,5 +15,11 @@ WHERE {
     ?doc3 rdf:type ?class3 .
     ?doc3 dcterms:references ?bag3 .
     ?bag3 ?member3 ?doc .
+    OPTIONAL {
+      ?class4 rdfs:subClassOf foaf:Document .
+      ?doc4 rdf:type ?class4 .
+      ?doc4 dcterms:references ?bag4 .
+      ?bag4 ?member4 ?doc3 .
+    } FILTER (!bound(?doc4))
   } FILTER (!bound(?doc3))
 }

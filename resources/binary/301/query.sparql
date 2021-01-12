@@ -1,5 +1,5 @@
 PREFIX : <http://example.org/>
-SELECT * WHERE {
+SELECT ?s ?o1 WHERE {
  {
   ?s :b1 ?o1 .
  } UNION {
@@ -11,7 +11,5 @@ SELECT * WHERE {
   } UNION {
    ?s :b2 ?o2 .
   }
-  Filter (?o2 != 3) .
  }
- FILTER (!bound(?o2))
 }

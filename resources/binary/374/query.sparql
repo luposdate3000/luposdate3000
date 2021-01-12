@@ -7,6 +7,6 @@ SELECT * WHERE {
  }
  OPTIONAL {
   ?s :b2 ?o2 .
-  Filter (?o2 != 3) .
+  Filter (?o2 != ?o1) .
  }
 }

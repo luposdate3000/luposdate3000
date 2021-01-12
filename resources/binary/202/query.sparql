@@ -1,7 +1,2 @@
-PREFIX : <http://example/>
-SELECT ?s ?w
-{
-  ?s :p ?v .
-  OPTIONAL { ?s :q ?w }
-}
-GROUP BY ?s ?w
+PREFIX : <http://example.org/>
+SELECT * WHERE { ?s ?p ?o OPTIONAL {?o ?p2 ?o2 } } ORDER BY ?s ?p ?o ?p2 ?o2

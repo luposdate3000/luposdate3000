@@ -5,6 +5,13 @@ SELECT * WHERE {
  } UNION {
   ?s :b1 ?o1 .
  }
- ?s :b2 ?o2 .
- Filter (?o2 != 3) .
+ OPTIONAL {
+  {
+   ?s :b2 ?o2 .
+  } UNION {
+   ?s :b2 ?o2 .
+  }
+  Filter (?o2 != ?o1) .
+ }
+ FILTER (!bound(?o2))
 }

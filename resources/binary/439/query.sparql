@@ -9,17 +9,14 @@ PREFIX bsbm-inst: <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/>
 PREFIX dataFromProducer1: <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromProducer1/>  
 PREFIX dataFromVendor1: <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromVendor1/>  
 PREFIX dataFromRatingSite1: <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromRatingSite1/>  
-SELECT DISTINCT ?offer ?price
-WHERE {
-	?offer bsbm:product dataFromProducer1:Product1 .
-	?offer bsbm:vendor ?vendor .
-    ?offer dc:publisher ?vendor .
-	?vendor bsbm:country <http://downlode.org/rdf/iso-3166/countries#US> .
-	?offer bsbm:deliveryDays ?deliveryDays .
-	FILTER (?deliveryDays <= 3)
-	?offer bsbm:price ?price .
-    ?offer bsbm:validTo ?date .
-    FILTER (?date > "2008-02-03"^^xsd:date )
-}
-ORDER BY xsd:double(str(?price))
+SELECT DISTINCT ?product ?label
+WHERE { 
+    ?product rdfs:label ?label .
+    ?product a bsbm-inst:ProductType5 .
+    ?product bsbm:productFeature bsbm-inst:ProductFeature192 . 
+    ?product bsbm:productFeature bsbm-inst:ProductFeature284 . 
+    ?product bsbm:productPropertyNumeric1 ?value1 . 
+	FILTER (?value1 > "831"^^xsd:integer) 
+	}
+ORDER BY ?label
 LIMIT 10

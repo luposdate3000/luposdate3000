@@ -1,5 +1,5 @@
 SELECT (COUNT(*) AS ?occurences) { 
   ?s ?p ?o . 
 } 
-GROUP BY ?s ?o 
+GROUP BY ?s ?p 
 ORDER BY ?occurences 

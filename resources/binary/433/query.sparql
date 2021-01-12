@@ -9,25 +9,41 @@ PREFIX bsbm-inst: <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/>
 PREFIX dataFromProducer1: <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromProducer1/>  
 PREFIX dataFromVendor1: <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromVendor1/>  
 PREFIX dataFromRatingSite1: <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromRatingSite1/>  
-  Select ?product (xsd:float(?monthCount)/?monthBeforeCount As ?ratio)
+  Select ?country ?product ?nrOfReviews ?avgPrice
   {
-    { Select ?product (count(?review) As ?monthCount)
+    { Select ?country (max(?nrOfReviews) As ?maxReviews)
       {
-        ?review bsbm:reviewFor ?product .
-        ?review dc:date ?date .
-        Filter(?date >= "2008-06-01"^^<http://www.w3.org/2001/XMLSchema#date> && ?date < "2008-07-01"^^<http://www.w3.org/2001/XMLSchema#date>) 
+        { Select ?country ?product (count(?review) As ?nrOfReviews)
+          {
+            ?product a bsbm-inst:ProductType5 .
+            ?review bsbm:reviewFor ?product ;
+                    rev:reviewer ?reviewer .
+            ?reviewer bsbm:country ?country .
+          }
+          Group By ?country ?product
+        }
       }
-      Group By ?product
-    }  {
-      Select ?product (count(?review) As ?monthBeforeCount)
-      {
-        ?review bsbm:reviewFor ?product .
-        ?review dc:date ?date .
-        Filter(?date >= "2008-05-01"^^<http://www.w3.org/2001/XMLSchema#date> && ?date < "2008-06-01"^^<http://www.w3.org/2001/XMLSchema#date>) #
-      }
-      Group By ?product
-      Having (count(?review)>0)
+      Group By ?country
     }
+    { Select ?country ?product (avg(xsd:float(xsd:string(?price))) As ?avgPrice)
+      {
+        ?product a bsbm-inst:ProductType5 .
+        ?offer bsbm:product ?product .
+        ?offer bsbm:price ?price .
+        ?product bsbm:producer ?producer .
+	?producer  bsbm:country ?country .
+      }
+      Group By ?country ?product
+    }
+    { Select ?country ?product (count(?review) As ?nrOfReviews)
+      {
+        ?product a bsbm-inst:ProductType5 .
+        ?review bsbm:reviewFor ?product .
+        ?review rev:reviewer ?reviewer .
+        ?reviewer bsbm:country ?country .
+      }
+      Group By ?country ?product
+    }
+    FILTER(?nrOfReviews=?maxReviews)
   }
-  Order By desc(xsd:float(?monthCount) / ?monthBeforeCount) ?product
-  Limit 10
+  Order By desc(?nrOfReviews) ?country ?product

@@ -1,9 +1,4 @@
 PREFIX : <http://example.org/>
-SELECT * WHERE {
- ?s :b1 ?o1 .
- OPTIONAL {
-  ?s :b2 ?o2 .
-  Filter (?o2 != ?o1) .
- }
- FILTER (!bound(?o2))
+SELECT (SHA256(?l) AS ?hash) WHERE {
+	:s8 :str ?l
 }
