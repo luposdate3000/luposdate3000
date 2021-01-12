@@ -14,20 +14,17 @@ File(args[3] + ".txt").forEachLine {
 val mapping = mapping2.sorted()
 File(args[3] + ".kt").printWriter().use { out ->
     out.println("package ${args[1]}")
-    out.println("import kotlin.jvm.JvmField")
-    out.println("import lupos.s00misc.UnreachableException")
     out.println("${args[2]} typealias ${args[0]} = Int")
 }
 File(args[3] + "Ext.kt").printWriter().use { out ->
     out.println("package ${args[1]}")
     out.println("import kotlin.jvm.JvmField")
-    out.println("import lupos.s00misc.UnreachableException")
     out.println("${args[2]} object ${args[0]}Ext {")
     for (i in 0 until mapping.size) {
-        out.println("    ${args[2]} const val ${mapping[i]} : ${args[0]} = $i")
+        out.println("    ${args[2]} const val ${mapping[i]}: ${args[0]} = $i")
     }
-    out.println("    @JvmField ${args[2]} val values : IntArray = IntArray(${mapping.size}){it}")
-    out.println("    @JvmField ${args[2]} val names : Array<String> = arrayOf(")
+    out.println("    ${args[2]} const val values_size: Int = ${mapping.size}")
+    out.println("    @JvmField ${args[2]} val names: Array<String> = arrayOf(")
     for (i in 0 until mapping.size) {
         out.println("        \"${mapping[i]}\",")
     }

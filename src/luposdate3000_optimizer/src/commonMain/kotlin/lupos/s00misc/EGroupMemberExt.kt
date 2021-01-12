@@ -5,7 +5,7 @@ public object EGroupMemberExt {
     public const val GMLOPFilter: EGroupMember = 1
     public const val GMLOPMinus: EGroupMember = 2
     public const val GMLOPOptional: EGroupMember = 3
-    @JvmField public val values: IntArray = IntArray(4) { it }
+    public const val values_size: Int = 4
     @JvmField public val names: Array<String> = arrayOf(
         "GMLOPDataSource",
         "GMLOPFilter",

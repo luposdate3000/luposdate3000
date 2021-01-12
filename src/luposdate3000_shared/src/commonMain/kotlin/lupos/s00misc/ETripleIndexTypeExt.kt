@@ -3,7 +3,7 @@ import kotlin.jvm.JvmField
 public object ETripleIndexTypeExt {
     public const val ID_TRIPLE: ETripleIndexType = 0
     public const val PARTITION: ETripleIndexType = 1
-    @JvmField public val values: IntArray = IntArray(2) { it }
+    public const val values_size: Int = 2
     @JvmField public val names: Array<String> = arrayOf(
         "ID_TRIPLE",
         "PARTITION",
