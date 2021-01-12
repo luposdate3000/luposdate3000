@@ -1,5 +1,4 @@
 import lupos.s00misc.DateHelperRelative
-import lupos.s00misc.EIndexPattern
 import lupos.s00misc.EIndexPatternExt
 import lupos.s00misc.MyPrintWriter
 import lupos.s00misc.Parallel

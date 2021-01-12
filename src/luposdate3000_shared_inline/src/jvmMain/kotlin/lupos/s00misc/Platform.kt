@@ -1,5 +1,4 @@
 package lupos.modulename
-import lupos.s00misc.EOperatingSystem
 import lupos.s00misc.EOperatingSystemExt
 import java.io.File
 import kotlin.jvm.JvmField

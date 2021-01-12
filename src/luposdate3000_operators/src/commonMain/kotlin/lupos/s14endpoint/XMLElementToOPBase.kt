@@ -1,5 +1,4 @@
 package lupos.s14endpoint
-import lupos.s00misc.EIndexPattern
 import lupos.s00misc.EIndexPatternExt
 import lupos.s00misc.ESortTypeExt
 import lupos.s00misc.MyBigDecimal

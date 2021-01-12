@@ -1,7 +1,6 @@
 package lupos.s05tripleStore
-import lupos.s00misc.EIndexPattern
-import lupos.s00misc.EIndexPatternHelper
 import lupos.s00misc.EIndexPatternExt
+import lupos.s00misc.EIndexPatternHelper
 import lupos.s00misc.EModifyType
 import lupos.s00misc.EModifyTypeExt
 import lupos.s00misc.Partition

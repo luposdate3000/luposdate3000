@@ -1,7 +1,7 @@
 package lupos.s10physicalOptimisation
+import lupos.s00misc.EIndexPatternHelper
 import lupos.s00misc.EOptimizerIDExt
 import lupos.s00misc.Partition
-import lupos.s00misc.EIndexPatternHelper
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.USE_PARTITIONS
 import lupos.s04arithmetikOperators.noinput.IAOPVariable

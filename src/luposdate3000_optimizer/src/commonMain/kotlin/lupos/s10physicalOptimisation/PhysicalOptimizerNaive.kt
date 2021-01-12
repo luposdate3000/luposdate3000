@@ -1,5 +1,4 @@
 package lupos.s10physicalOptimisation
-import lupos.s00misc.EIndexPattern
 import lupos.s00misc.EIndexPatternExt
 import lupos.s00misc.EOptimizerIDExt
 import lupos.s00misc.Partition

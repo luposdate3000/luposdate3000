@@ -1,6 +1,5 @@
 package lupos.modulename
 import kotlinx.cinterop.toKString
-import lupos.s00misc.EOperatingSystem
 import lupos.s00misc.EOperatingSystemExt
 import platform.posix.getenv
 internal actual object _Platform {
