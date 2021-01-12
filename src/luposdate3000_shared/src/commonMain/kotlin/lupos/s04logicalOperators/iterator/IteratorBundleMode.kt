@@ -1,6 +1,4 @@
 package lupos.s04logicalOperators.iterator
-internal enum class IteratorBundleMode {
-    COUNT,
-    COLUMN,
-    ROW
-}
+import kotlin.jvm.JvmField
+import lupos.s00misc.UnreachableException
+internal typealias IteratorBundleMode = Int

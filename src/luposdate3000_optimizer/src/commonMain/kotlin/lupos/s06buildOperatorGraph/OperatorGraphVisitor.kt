@@ -15,6 +15,8 @@ import lupos.s00misc.SanityCheck
 import lupos.s00misc.SparqlFeatureNotImplementedException
 import lupos.s00misc.XMLElement
 import lupos.s00misc.parseFromAny
+import lupos.s02buildSyntaxTree.sparql1_1.BuiltInFunctionsExt
+import lupos.s02buildSyntaxTree.sparql1_1.BuiltInFunctions
 import lupos.s02buildSyntaxTree.sparql1_1.ASTAdd
 import lupos.s02buildSyntaxTree.sparql1_1.ASTAddition
 import lupos.s02buildSyntaxTree.sparql1_1.ASTAggregation
@@ -104,7 +106,6 @@ import lupos.s02buildSyntaxTree.sparql1_1.ASTValue
 import lupos.s02buildSyntaxTree.sparql1_1.ASTValues
 import lupos.s02buildSyntaxTree.sparql1_1.ASTVar
 import lupos.s02buildSyntaxTree.sparql1_1.Aggregation
-import lupos.s02buildSyntaxTree.sparql1_1.BuiltInFunctions
 import lupos.s02buildSyntaxTree.sparql1_1.Visitor
 import lupos.s03resultRepresentation.ValueBnode
 import lupos.s03resultRepresentation.ValueBoolean
@@ -1054,57 +1055,57 @@ return tmp
     }
     override fun visit(node: ASTBuiltInCall, childrenValues: List<IOPBase>): IOPBase {
         when (node.function) {
-            BuiltInFunctions.STR -> {
+            BuiltInFunctionsExt.STR -> {
                 SanityCheck.check { childrenValues.size == 1 }
                 return AOPBuildInCallSTR(query, childrenValues[0] as AOPBase)
             }
-            BuiltInFunctions.LANG -> {
+            BuiltInFunctionsExt.LANG -> {
                 SanityCheck.check { childrenValues.size == 1 }
                 return AOPBuildInCallLANG(query, childrenValues[0] as AOPBase)
             }
-            BuiltInFunctions.LANGMATCHES -> {
+            BuiltInFunctionsExt.LANGMATCHES -> {
                 SanityCheck.check { childrenValues.size == 2 }
                 return AOPBuildInCallLANGMATCHES(query, childrenValues[0] as AOPBase, childrenValues[1] as AOPBase)
             }
-            BuiltInFunctions.DATATYPE -> {
+            BuiltInFunctionsExt.DATATYPE -> {
                 SanityCheck.check { childrenValues.size == 1 }
                 return AOPBuildInCallDATATYPE(query, childrenValues[0] as AOPBase)
             }
-            BuiltInFunctions.BOUND -> {
+            BuiltInFunctionsExt.BOUND -> {
                 SanityCheck.check { childrenValues.size == 1 }
                 return AOPBuildInCallBOUND(query, childrenValues[0] as AOPBase)
             }
-            BuiltInFunctions.IRI -> {
+            BuiltInFunctionsExt.IRI -> {
                 SanityCheck.check { childrenValues.size == 1 }
                 return AOPBuildInCallIRI(query, childrenValues[0] as AOPBase)
             }
-            BuiltInFunctions.URI -> {
+            BuiltInFunctionsExt.URI -> {
                 SanityCheck.check { childrenValues.size == 1 }
                 return AOPBuildInCallURI(query, childrenValues[0] as AOPBase)
             }
-            BuiltInFunctions.BNODE -> {
+            BuiltInFunctionsExt.BNODE -> {
                 if (childrenValues.size == 1) {
                     return AOPBuildInCallBNODE1(query, childrenValues[0] as AOPBase)
                 }
                 return AOPBuildInCallBNODE0(query)
             }
-            BuiltInFunctions.ABS -> {
+            BuiltInFunctionsExt.ABS -> {
                 SanityCheck.check { childrenValues.size == 1 }
                 return AOPBuildInCallABS(query, childrenValues[0] as AOPBase)
             }
-            BuiltInFunctions.CEIL -> {
+            BuiltInFunctionsExt.CEIL -> {
                 SanityCheck.check { childrenValues.size == 1 }
                 return AOPBuildInCallCEIL(query, childrenValues[0] as AOPBase)
             }
-            BuiltInFunctions.FLOOR -> {
+            BuiltInFunctionsExt.FLOOR -> {
                 SanityCheck.check { childrenValues.size == 1 }
                 return AOPBuildInCallFLOOR(query, childrenValues[0] as AOPBase)
             }
-            BuiltInFunctions.ROUND -> {
+            BuiltInFunctionsExt.ROUND -> {
                 SanityCheck.check { childrenValues.size == 1 }
                 return AOPBuildInCallROUND(query, childrenValues[0] as AOPBase)
             }
-            BuiltInFunctions.CONCAT -> {
+            BuiltInFunctionsExt.CONCAT -> {
                 SanityCheck.check { childrenValues.isNotEmpty() }
                 var res = childrenValues[0] as AOPBase
                 for (i in 1 until childrenValues.size) {
@@ -1112,131 +1113,131 @@ return tmp
                 }
                 return res
             }
-            BuiltInFunctions.COALESCE -> {
+            BuiltInFunctionsExt.COALESCE -> {
                 return AOPBuildInCallCOALESCE(query, childrenValues.map { it as AOPBase })
             }
-            BuiltInFunctions.STRLEN -> {
+            BuiltInFunctionsExt.STRLEN -> {
                 SanityCheck.check { childrenValues.size == 1 }
                 return AOPBuildInCallSTRLEN(query, childrenValues[0] as AOPBase)
             }
-            BuiltInFunctions.UCASE -> {
+            BuiltInFunctionsExt.UCASE -> {
                 SanityCheck.check { childrenValues.size == 1 }
                 return AOPBuildInCallUCASE(query, childrenValues[0] as AOPBase)
             }
-            BuiltInFunctions.LCASE -> {
+            BuiltInFunctionsExt.LCASE -> {
                 SanityCheck.check { childrenValues.size == 1 }
                 return AOPBuildInCallLCASE(query, childrenValues[0] as AOPBase)
             }
-            BuiltInFunctions.CONTAINS -> {
+            BuiltInFunctionsExt.CONTAINS -> {
                 SanityCheck.check { childrenValues.size == 2 }
                 return AOPBuildInCallCONTAINS(query, childrenValues[0] as AOPBase, childrenValues[1] as AOPBase)
             }
-            BuiltInFunctions.STRSTARTS -> {
+            BuiltInFunctionsExt.STRSTARTS -> {
                 SanityCheck.check { childrenValues.size == 2 }
                 return AOPBuildInCallSTRSTARTS(query, childrenValues[0] as AOPBase, childrenValues[1] as AOPBase)
             }
-            BuiltInFunctions.STRENDS -> {
+            BuiltInFunctionsExt.STRENDS -> {
                 SanityCheck.check { childrenValues.size == 2 }
                 return AOPBuildInCallSTRENDS(query, childrenValues[0] as AOPBase, childrenValues[1] as AOPBase)
             }
-            BuiltInFunctions.YEAR -> {
+            BuiltInFunctionsExt.YEAR -> {
                 SanityCheck.check { childrenValues.size == 1 }
                 return AOPBuildInCallYEAR(query, childrenValues[0] as AOPBase)
             }
-            BuiltInFunctions.MONTH -> {
+            BuiltInFunctionsExt.MONTH -> {
                 SanityCheck.check { childrenValues.size == 1 }
                 return AOPBuildInCallMONTH(query, childrenValues[0] as AOPBase)
             }
-            BuiltInFunctions.DAY -> {
+            BuiltInFunctionsExt.DAY -> {
                 SanityCheck.check { childrenValues.size == 1 }
                 return AOPBuildInCallDAY(query, childrenValues[0] as AOPBase)
             }
-            BuiltInFunctions.HOURS -> {
+            BuiltInFunctionsExt.HOURS -> {
                 SanityCheck.check { childrenValues.size == 1 }
                 return AOPBuildInCallHOURS(query, childrenValues[0] as AOPBase)
             }
-            BuiltInFunctions.MINUTES -> {
+            BuiltInFunctionsExt.MINUTES -> {
                 SanityCheck.check { childrenValues.size == 1 }
                 return AOPBuildInCallMINUTES(query, childrenValues[0] as AOPBase)
             }
-            BuiltInFunctions.SECONDS -> {
+            BuiltInFunctionsExt.SECONDS -> {
                 SanityCheck.check { childrenValues.size == 1 }
                 return AOPBuildInCallSECONDS(query, childrenValues[0] as AOPBase)
             }
-            BuiltInFunctions.TIMEZONE -> {
+            BuiltInFunctionsExt.TIMEZONE -> {
                 SanityCheck.check { childrenValues.size == 1 }
                 return AOPBuildInCallTIMEZONE(query, childrenValues[0] as AOPBase)
             }
-            BuiltInFunctions.TZ -> {
+            BuiltInFunctionsExt.TZ -> {
                 SanityCheck.check { childrenValues.size == 1 }
                 return AOPBuildInCallTZ(query, childrenValues[0] as AOPBase)
             }
-            BuiltInFunctions.NOW -> {
+            BuiltInFunctionsExt.NOW -> {
                 SanityCheck.check { childrenValues.isEmpty() }
                 return AOPConstant(query, queryExecutionStartTime)
             }
-            BuiltInFunctions.UUID -> {
+            BuiltInFunctionsExt.UUID -> {
                 SanityCheck.check { childrenValues.isEmpty() }
                 return AOPBuildInCallUUID(query)
             }
-            BuiltInFunctions.STRUUID -> {
+            BuiltInFunctionsExt.STRUUID -> {
                 SanityCheck.check { childrenValues.isEmpty() }
                 return AOPBuildInCallSTRUUID(query)
             }
-            BuiltInFunctions.MD5 -> {
+            BuiltInFunctionsExt.MD5 -> {
                 SanityCheck.check { childrenValues.size == 1 }
                 return AOPBuildInCallMD5(query, childrenValues[0] as AOPBase)
             }
-            BuiltInFunctions.SHA1 -> {
+            BuiltInFunctionsExt.SHA1 -> {
                 SanityCheck.check { childrenValues.size == 1 }
                 return AOPBuildInCallSHA1(query, childrenValues[0] as AOPBase)
             }
-            BuiltInFunctions.SHA256 -> {
+            BuiltInFunctionsExt.SHA256 -> {
                 SanityCheck.check { childrenValues.size == 1 }
                 return AOPBuildInCallSHA256(query, childrenValues[0] as AOPBase)
             }
-            BuiltInFunctions.IF -> {
+            BuiltInFunctionsExt.IF -> {
                 SanityCheck.check { childrenValues.size == 3 }
                 return AOPBuildInCallIF(query, childrenValues[0] as AOPBase, childrenValues[1] as AOPBase, childrenValues[2] as AOPBase)
             }
-            BuiltInFunctions.STRLANG -> {
+            BuiltInFunctionsExt.STRLANG -> {
                 SanityCheck.check { childrenValues.size == 2 }
                 return AOPBuildInCallSTRLANG(query, childrenValues[0] as AOPBase, childrenValues[1] as AOPBase)
             }
-            BuiltInFunctions.STRAFTER -> {
+            BuiltInFunctionsExt.STRAFTER -> {
                 SanityCheck.check { childrenValues.size == 2 }
                 return AOPBuildInCallSTRAFTER(query, childrenValues[0] as AOPBase, childrenValues[1] as AOPBase)
             }
-            BuiltInFunctions.STRBEFORE -> {
+            BuiltInFunctionsExt.STRBEFORE -> {
                 SanityCheck.check { childrenValues.size == 2 }
                 return AOPBuildInCallSTRBEFORE(query, childrenValues[0] as AOPBase, childrenValues[1] as AOPBase)
             }
-            BuiltInFunctions.STRDT -> {
+            BuiltInFunctionsExt.STRDT -> {
                 SanityCheck.check { childrenValues.size == 2 }
                 return AOPBuildInCallSTRDT(query, childrenValues[0] as AOPBase, childrenValues[1] as AOPBase)
             }
-            BuiltInFunctions.isLITERAL -> {
+            BuiltInFunctionsExt.isLITERAL -> {
                 SanityCheck.check { childrenValues.size == 1 }
                 return AOPBuildInCallIsLITERAL(query, childrenValues[0] as AOPBase)
             }
-            BuiltInFunctions.isIRI -> {
+            BuiltInFunctionsExt.isIRI -> {
                 SanityCheck.check { childrenValues.size == 1 }
                 return AOPBuildInCallIsIri(query, childrenValues[0] as AOPBase)
             }
-            BuiltInFunctions.isNUMERIC -> {
+            BuiltInFunctionsExt.isNUMERIC -> {
                 SanityCheck.check { childrenValues.size == 1 }
                 return AOPBuildInCallIsNUMERIC(query, childrenValues[0] as AOPBase)
             }
-            BuiltInFunctions.NotExists -> {
+            BuiltInFunctionsExt.NotExists -> {
                 query.dontCheckVariableExistence = true
                 return AOPBuildInCallNotExists(query, parseGroup(node.children))
             }
-            BuiltInFunctions.Exists -> {
+            BuiltInFunctionsExt.Exists -> {
                 query.dontCheckVariableExistence = true
                 return AOPBuildInCallExists(query, parseGroup(node.children))
             }
             else -> {
-                throw SparqlFeatureNotImplementedException("BuiltInFunctions." + node.function.toString())
+                throw SparqlFeatureNotImplementedException("BuiltInFunctionsExt." + node.function.toString())
             }
         }
         /*Coverage Unreachable*/

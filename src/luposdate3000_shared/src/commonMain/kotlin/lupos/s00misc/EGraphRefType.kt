@@ -1,7 +1,4 @@
 package lupos.s00misc
-public enum class EGraphRefType {
-    IriGraphRef,
-    DefaultGraphRef,
-    NamedGraphRef,
-    AllGraphRef
-}
+import kotlin.jvm.JvmField
+import lupos.s00misc.UnreachableException
+public typealias EGraphRefType = Int

@@ -1,6 +1,4 @@
 package lupos.s00misc
-public enum class EPOPDebugMode {
-    NONE,
-    DEBUG1,
-    DEBUG2
-}
+import kotlin.jvm.JvmField
+import lupos.s00misc.UnreachableException
+public typealias EPOPDebugMode = Int

@@ -1,4 +1,4 @@
 package lupos.s00misc
-public enum class EGraphOperationType {
-    CREATE, CLEAR, DROP, ADD, COPY, MOVE, LOAD
-}
+import kotlin.jvm.JvmField
+import lupos.s00misc.UnreachableException
+public typealias EGraphOperationType = Int

@@ -646,7 +646,7 @@ public class ASTBuiltInCall(@JvmField public val function: BuiltInFunctions, chi
     public constructor(function: BuiltInFunctions, parameter: ASTNode) : this(function, arrayOf<ASTNode>(parameter))
     public constructor(function: BuiltInFunctions, first_parameter: ASTNode, second_parameter: ASTNode) : this(function, arrayOf<ASTNode>(first_parameter, second_parameter))
     public constructor(function: BuiltInFunctions, first_parameter: ASTNode, second_parameter: ASTNode, third_parameter: ASTNode) : this(function, arrayOf<ASTNode>(first_parameter, second_parameter, third_parameter))
-    public override fun nodeToString(): String = function.name
+    public override fun nodeToString(): String = BuiltInFunctionsExt.toName(function)
     public override fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
@@ -3538,7 +3538,7 @@ public class SPARQLParser(@JvmField public val ltit: LookAheadTokenIterator) {
         if (token.image != ")") {
             throw UnexpectedToken(token, arrayOf(")"), ltit)
         }
-        return ASTBuiltInCall(BuiltInFunctions.STR, param)
+        return ASTBuiltInCall(BuiltInFunctionsExt.STR, param)
     }
     private fun LANG(): ASTBuiltInCall {
         var token: Token = ltit.nextToken()
@@ -3554,7 +3554,7 @@ public class SPARQLParser(@JvmField public val ltit: LookAheadTokenIterator) {
         if (token.image != ")") {
             throw UnexpectedToken(token, arrayOf(")"), ltit)
         }
-        return ASTBuiltInCall(BuiltInFunctions.LANG, param)
+        return ASTBuiltInCall(BuiltInFunctionsExt.LANG, param)
     }
     private fun LANGMATCHES(): ASTBuiltInCall {
         var token: Token = ltit.nextToken()
@@ -3575,7 +3575,7 @@ public class SPARQLParser(@JvmField public val ltit: LookAheadTokenIterator) {
         if (token.image != ")") {
             throw UnexpectedToken(token, arrayOf(")"), ltit)
         }
-        return ASTBuiltInCall(BuiltInFunctions.LANGMATCHES, param1, param2)
+        return ASTBuiltInCall(BuiltInFunctionsExt.LANGMATCHES, param1, param2)
     }
     private fun DATATYPE(): ASTBuiltInCall {
         var token: Token = ltit.nextToken()
@@ -3591,7 +3591,7 @@ public class SPARQLParser(@JvmField public val ltit: LookAheadTokenIterator) {
         if (token.image != ")") {
             throw UnexpectedToken(token, arrayOf(")"), ltit)
         }
-        return ASTBuiltInCall(BuiltInFunctions.DATATYPE, param)
+        return ASTBuiltInCall(BuiltInFunctionsExt.DATATYPE, param)
     }
     private fun BOUND(): ASTBuiltInCall {
         var token: Token = ltit.nextToken()
@@ -3607,7 +3607,7 @@ public class SPARQLParser(@JvmField public val ltit: LookAheadTokenIterator) {
         if (token.image != ")") {
             throw UnexpectedToken(token, arrayOf(")"), ltit)
         }
-        return ASTBuiltInCall(BuiltInFunctions.BOUND, param)
+        return ASTBuiltInCall(BuiltInFunctionsExt.BOUND, param)
     }
     private fun IRIFunc(): ASTBuiltInCall {
         var token: Token = ltit.nextToken()
@@ -3623,7 +3623,7 @@ public class SPARQLParser(@JvmField public val ltit: LookAheadTokenIterator) {
         if (token.image != ")") {
             throw UnexpectedToken(token, arrayOf(")"), ltit)
         }
-        return ASTBuiltInCall(BuiltInFunctions.IRI, param)
+        return ASTBuiltInCall(BuiltInFunctionsExt.IRI, param)
     }
     private fun URIFunc(): ASTBuiltInCall {
         var token: Token = ltit.nextToken()
@@ -3639,7 +3639,7 @@ public class SPARQLParser(@JvmField public val ltit: LookAheadTokenIterator) {
         if (token.image != ")") {
             throw UnexpectedToken(token, arrayOf(")"), ltit)
         }
-        return ASTBuiltInCall(BuiltInFunctions.URI, param)
+        return ASTBuiltInCall(BuiltInFunctionsExt.URI, param)
     }
     private fun BNODE(): ASTBuiltInCall {
         var token: Token
@@ -3659,14 +3659,14 @@ public class SPARQLParser(@JvmField public val ltit: LookAheadTokenIterator) {
                 if (token.image != ")") {
                     throw UnexpectedToken(token, arrayOf(")"), ltit)
                 }
-                return ASTBuiltInCall(BuiltInFunctions.BNODE, param)
+                return ASTBuiltInCall(BuiltInFunctionsExt.BNODE, param)
             }
             t156 is NIL -> {
                 token = ltit.nextToken()
                 if (token !is NIL) {
                     throw UnexpectedToken(token, arrayOf("NIL"), ltit)
                 }
-                return ASTBuiltInCall(BuiltInFunctions.BNODE)
+                return ASTBuiltInCall(BuiltInFunctionsExt.BNODE)
             }
             else -> {
                 throw UnexpectedToken(t156, arrayOf("(", "NIL"), ltit)
@@ -3682,7 +3682,7 @@ public class SPARQLParser(@JvmField public val ltit: LookAheadTokenIterator) {
         if (token !is NIL) {
             throw UnexpectedToken(token, arrayOf("NIL"), ltit)
         }
-        return ASTBuiltInCall(BuiltInFunctions.RAND)
+        return ASTBuiltInCall(BuiltInFunctionsExt.RAND)
     }
     private fun ABS(): ASTBuiltInCall {
         var token: Token = ltit.nextToken()
@@ -3698,7 +3698,7 @@ public class SPARQLParser(@JvmField public val ltit: LookAheadTokenIterator) {
         if (token.image != ")") {
             throw UnexpectedToken(token, arrayOf(")"), ltit)
         }
-        return ASTBuiltInCall(BuiltInFunctions.ABS, param)
+        return ASTBuiltInCall(BuiltInFunctionsExt.ABS, param)
     }
     private fun CEIL(): ASTBuiltInCall {
         var token: Token = ltit.nextToken()
@@ -3714,7 +3714,7 @@ public class SPARQLParser(@JvmField public val ltit: LookAheadTokenIterator) {
         if (token.image != ")") {
             throw UnexpectedToken(token, arrayOf(")"), ltit)
         }
-        return ASTBuiltInCall(BuiltInFunctions.CEIL, param)
+        return ASTBuiltInCall(BuiltInFunctionsExt.CEIL, param)
     }
     private fun FLOOR(): ASTBuiltInCall {
         var token: Token = ltit.nextToken()
@@ -3730,7 +3730,7 @@ public class SPARQLParser(@JvmField public val ltit: LookAheadTokenIterator) {
         if (token.image != ")") {
             throw UnexpectedToken(token, arrayOf(")"), ltit)
         }
-        return ASTBuiltInCall(BuiltInFunctions.FLOOR, param)
+        return ASTBuiltInCall(BuiltInFunctionsExt.FLOOR, param)
     }
     private fun ROUND(): ASTBuiltInCall {
         var token: Token = ltit.nextToken()
@@ -3746,7 +3746,7 @@ public class SPARQLParser(@JvmField public val ltit: LookAheadTokenIterator) {
         if (token.image != ")") {
             throw UnexpectedToken(token, arrayOf(")"), ltit)
         }
-        return ASTBuiltInCall(BuiltInFunctions.ROUND, param)
+        return ASTBuiltInCall(BuiltInFunctionsExt.ROUND, param)
     }
     private fun CONCAT(): ASTBuiltInCall {
         val token: Token = ltit.nextToken()
@@ -3754,7 +3754,7 @@ public class SPARQLParser(@JvmField public val ltit: LookAheadTokenIterator) {
             throw UnexpectedToken(token, arrayOf("CONCAT"), ltit)
         }
         val params = ExpressionList()
-        return ASTBuiltInCall(BuiltInFunctions.CONCAT, params)
+        return ASTBuiltInCall(BuiltInFunctionsExt.CONCAT, params)
     }
     private fun STRLEN(): ASTBuiltInCall {
         var token: Token = ltit.nextToken()
@@ -3770,7 +3770,7 @@ public class SPARQLParser(@JvmField public val ltit: LookAheadTokenIterator) {
         if (token.image != ")") {
             throw UnexpectedToken(token, arrayOf(")"), ltit)
         }
-        return ASTBuiltInCall(BuiltInFunctions.STRLEN, param)
+        return ASTBuiltInCall(BuiltInFunctionsExt.STRLEN, param)
     }
     private fun UCASE(): ASTBuiltInCall {
         var token: Token = ltit.nextToken()
@@ -3786,7 +3786,7 @@ public class SPARQLParser(@JvmField public val ltit: LookAheadTokenIterator) {
         if (token.image != ")") {
             throw UnexpectedToken(token, arrayOf(")"), ltit)
         }
-        return ASTBuiltInCall(BuiltInFunctions.UCASE, param)
+        return ASTBuiltInCall(BuiltInFunctionsExt.UCASE, param)
     }
     private fun LCASE(): ASTBuiltInCall {
         var token: Token = ltit.nextToken()
@@ -3802,7 +3802,7 @@ public class SPARQLParser(@JvmField public val ltit: LookAheadTokenIterator) {
         if (token.image != ")") {
             throw UnexpectedToken(token, arrayOf(")"), ltit)
         }
-        return ASTBuiltInCall(BuiltInFunctions.LCASE, param)
+        return ASTBuiltInCall(BuiltInFunctionsExt.LCASE, param)
     }
     private fun ENCODE_FOR_URI(): ASTBuiltInCall {
         var token: Token = ltit.nextToken()
@@ -3818,7 +3818,7 @@ public class SPARQLParser(@JvmField public val ltit: LookAheadTokenIterator) {
         if (token.image != ")") {
             throw UnexpectedToken(token, arrayOf(")"), ltit)
         }
-        return ASTBuiltInCall(BuiltInFunctions.ENCODE_FOR_URI, param)
+        return ASTBuiltInCall(BuiltInFunctionsExt.ENCODE_FOR_URI, param)
     }
     private fun CONTAINS(): ASTBuiltInCall {
         var token: Token = ltit.nextToken()
@@ -3839,7 +3839,7 @@ public class SPARQLParser(@JvmField public val ltit: LookAheadTokenIterator) {
         if (token.image != ")") {
             throw UnexpectedToken(token, arrayOf(")"), ltit)
         }
-        return ASTBuiltInCall(BuiltInFunctions.CONTAINS, param1, param2)
+        return ASTBuiltInCall(BuiltInFunctionsExt.CONTAINS, param1, param2)
     }
     private fun STRSTARTS(): ASTBuiltInCall {
         var token: Token = ltit.nextToken()
@@ -3860,7 +3860,7 @@ public class SPARQLParser(@JvmField public val ltit: LookAheadTokenIterator) {
         if (token.image != ")") {
             throw UnexpectedToken(token, arrayOf(")"), ltit)
         }
-        return ASTBuiltInCall(BuiltInFunctions.STRSTARTS, param1, param2)
+        return ASTBuiltInCall(BuiltInFunctionsExt.STRSTARTS, param1, param2)
     }
     private fun STRENDS(): ASTBuiltInCall {
         var token: Token = ltit.nextToken()
@@ -3881,7 +3881,7 @@ public class SPARQLParser(@JvmField public val ltit: LookAheadTokenIterator) {
         if (token.image != ")") {
             throw UnexpectedToken(token, arrayOf(")"), ltit)
         }
-        return ASTBuiltInCall(BuiltInFunctions.STRENDS, param1, param2)
+        return ASTBuiltInCall(BuiltInFunctionsExt.STRENDS, param1, param2)
     }
     private fun STRBEFORE(): ASTBuiltInCall {
         var token: Token = ltit.nextToken()
@@ -3902,7 +3902,7 @@ public class SPARQLParser(@JvmField public val ltit: LookAheadTokenIterator) {
         if (token.image != ")") {
             throw UnexpectedToken(token, arrayOf(")"), ltit)
         }
-        return ASTBuiltInCall(BuiltInFunctions.STRBEFORE, param1, param2)
+        return ASTBuiltInCall(BuiltInFunctionsExt.STRBEFORE, param1, param2)
     }
     private fun STRAFTER(): ASTBuiltInCall {
         var token: Token = ltit.nextToken()
@@ -3923,7 +3923,7 @@ public class SPARQLParser(@JvmField public val ltit: LookAheadTokenIterator) {
         if (token.image != ")") {
             throw UnexpectedToken(token, arrayOf(")"), ltit)
         }
-        return ASTBuiltInCall(BuiltInFunctions.STRAFTER, param1, param2)
+        return ASTBuiltInCall(BuiltInFunctionsExt.STRAFTER, param1, param2)
     }
     public fun YEAR(): ASTBuiltInCall {
         var token: Token = ltit.nextToken()
@@ -3939,7 +3939,7 @@ public class SPARQLParser(@JvmField public val ltit: LookAheadTokenIterator) {
         if (token.image != ")") {
             throw UnexpectedToken(token, arrayOf(")"), ltit)
         }
-        return ASTBuiltInCall(BuiltInFunctions.YEAR, param)
+        return ASTBuiltInCall(BuiltInFunctionsExt.YEAR, param)
     }
     public fun MONTH(): ASTBuiltInCall {
         var token: Token = ltit.nextToken()
@@ -3955,7 +3955,7 @@ public class SPARQLParser(@JvmField public val ltit: LookAheadTokenIterator) {
         if (token.image != ")") {
             throw UnexpectedToken(token, arrayOf(")"), ltit)
         }
-        return ASTBuiltInCall(BuiltInFunctions.MONTH, param)
+        return ASTBuiltInCall(BuiltInFunctionsExt.MONTH, param)
     }
     private fun DAY(): ASTBuiltInCall {
         var token: Token = ltit.nextToken()
@@ -3971,7 +3971,7 @@ public class SPARQLParser(@JvmField public val ltit: LookAheadTokenIterator) {
         if (token.image != ")") {
             throw UnexpectedToken(token, arrayOf(")"), ltit)
         }
-        return ASTBuiltInCall(BuiltInFunctions.DAY, param)
+        return ASTBuiltInCall(BuiltInFunctionsExt.DAY, param)
     }
     private fun HOURS(): ASTBuiltInCall {
         var token: Token = ltit.nextToken()
@@ -3987,7 +3987,7 @@ public class SPARQLParser(@JvmField public val ltit: LookAheadTokenIterator) {
         if (token.image != ")") {
             throw UnexpectedToken(token, arrayOf(")"), ltit)
         }
-        return ASTBuiltInCall(BuiltInFunctions.HOURS, param)
+        return ASTBuiltInCall(BuiltInFunctionsExt.HOURS, param)
     }
     private fun MINUTES(): ASTBuiltInCall {
         var token: Token = ltit.nextToken()
@@ -4003,7 +4003,7 @@ public class SPARQLParser(@JvmField public val ltit: LookAheadTokenIterator) {
         if (token.image != ")") {
             throw UnexpectedToken(token, arrayOf(")"), ltit)
         }
-        return ASTBuiltInCall(BuiltInFunctions.MINUTES, param)
+        return ASTBuiltInCall(BuiltInFunctionsExt.MINUTES, param)
     }
     private fun SECONDS(): ASTBuiltInCall {
         var token: Token = ltit.nextToken()
@@ -4019,7 +4019,7 @@ public class SPARQLParser(@JvmField public val ltit: LookAheadTokenIterator) {
         if (token.image != ")") {
             throw UnexpectedToken(token, arrayOf(")"), ltit)
         }
-        return ASTBuiltInCall(BuiltInFunctions.SECONDS, param)
+        return ASTBuiltInCall(BuiltInFunctionsExt.SECONDS, param)
     }
     private fun TIMEZONE(): ASTBuiltInCall {
         var token: Token = ltit.nextToken()
@@ -4035,7 +4035,7 @@ public class SPARQLParser(@JvmField public val ltit: LookAheadTokenIterator) {
         if (token.image != ")") {
             throw UnexpectedToken(token, arrayOf(")"), ltit)
         }
-        return ASTBuiltInCall(BuiltInFunctions.TIMEZONE, param)
+        return ASTBuiltInCall(BuiltInFunctionsExt.TIMEZONE, param)
     }
     private fun TZ(): ASTBuiltInCall {
         var token: Token = ltit.nextToken()
@@ -4051,7 +4051,7 @@ public class SPARQLParser(@JvmField public val ltit: LookAheadTokenIterator) {
         if (token.image != ")") {
             throw UnexpectedToken(token, arrayOf(")"), ltit)
         }
-        return ASTBuiltInCall(BuiltInFunctions.TZ, param)
+        return ASTBuiltInCall(BuiltInFunctionsExt.TZ, param)
     }
     private fun NOW(): ASTBuiltInCall {
         var token: Token = ltit.nextToken()
@@ -4062,7 +4062,7 @@ public class SPARQLParser(@JvmField public val ltit: LookAheadTokenIterator) {
         if (token !is NIL) {
             throw UnexpectedToken(token, arrayOf("NIL"), ltit)
         }
-        return ASTBuiltInCall(BuiltInFunctions.NOW)
+        return ASTBuiltInCall(BuiltInFunctionsExt.NOW)
     }
     private fun UUID(): ASTBuiltInCall {
         var token: Token = ltit.nextToken()
@@ -4073,7 +4073,7 @@ public class SPARQLParser(@JvmField public val ltit: LookAheadTokenIterator) {
         if (token !is NIL) {
             throw UnexpectedToken(token, arrayOf("NIL"), ltit)
         }
-        return ASTBuiltInCall(BuiltInFunctions.UUID)
+        return ASTBuiltInCall(BuiltInFunctionsExt.UUID)
     }
     private fun STRUUID(): ASTBuiltInCall {
         var token: Token = ltit.nextToken()
@@ -4084,7 +4084,7 @@ public class SPARQLParser(@JvmField public val ltit: LookAheadTokenIterator) {
         if (token !is NIL) {
             throw UnexpectedToken(token, arrayOf("NIL"), ltit)
         }
-        return ASTBuiltInCall(BuiltInFunctions.STRUUID)
+        return ASTBuiltInCall(BuiltInFunctionsExt.STRUUID)
     }
     private fun MD5(): ASTBuiltInCall {
         var token: Token = ltit.nextToken()
@@ -4100,7 +4100,7 @@ public class SPARQLParser(@JvmField public val ltit: LookAheadTokenIterator) {
         if (token.image != ")") {
             throw UnexpectedToken(token, arrayOf(")"), ltit)
         }
-        return ASTBuiltInCall(BuiltInFunctions.MD5, param)
+        return ASTBuiltInCall(BuiltInFunctionsExt.MD5, param)
     }
     private fun SHA1(): ASTBuiltInCall {
         var token: Token = ltit.nextToken()
@@ -4116,7 +4116,7 @@ public class SPARQLParser(@JvmField public val ltit: LookAheadTokenIterator) {
         if (token.image != ")") {
             throw UnexpectedToken(token, arrayOf(")"), ltit)
         }
-        return ASTBuiltInCall(BuiltInFunctions.SHA1, param)
+        return ASTBuiltInCall(BuiltInFunctionsExt.SHA1, param)
     }
     private fun SHA256(): ASTBuiltInCall {
         var token: Token = ltit.nextToken()
@@ -4132,7 +4132,7 @@ public class SPARQLParser(@JvmField public val ltit: LookAheadTokenIterator) {
         if (token.image != ")") {
             throw UnexpectedToken(token, arrayOf(")"), ltit)
         }
-        return ASTBuiltInCall(BuiltInFunctions.SHA256, param)
+        return ASTBuiltInCall(BuiltInFunctionsExt.SHA256, param)
     }
     private fun SHA384(): ASTBuiltInCall {
         var token: Token = ltit.nextToken()
@@ -4148,7 +4148,7 @@ public class SPARQLParser(@JvmField public val ltit: LookAheadTokenIterator) {
         if (token.image != ")") {
             throw UnexpectedToken(token, arrayOf(")"), ltit)
         }
-        return ASTBuiltInCall(BuiltInFunctions.SHA384, param)
+        return ASTBuiltInCall(BuiltInFunctionsExt.SHA384, param)
     }
     private fun SHA512(): ASTBuiltInCall {
         var token: Token = ltit.nextToken()
@@ -4164,7 +4164,7 @@ public class SPARQLParser(@JvmField public val ltit: LookAheadTokenIterator) {
         if (token.image != ")") {
             throw UnexpectedToken(token, arrayOf(")"), ltit)
         }
-        return ASTBuiltInCall(BuiltInFunctions.SHA512, param)
+        return ASTBuiltInCall(BuiltInFunctionsExt.SHA512, param)
     }
     private fun COALESCE(): ASTBuiltInCall {
         val token: Token = ltit.nextToken()
@@ -4172,7 +4172,7 @@ public class SPARQLParser(@JvmField public val ltit: LookAheadTokenIterator) {
             throw UnexpectedToken(token, arrayOf("COALESCE"), ltit)
         }
         val params = ExpressionList()
-        return ASTBuiltInCall(BuiltInFunctions.COALESCE, params)
+        return ASTBuiltInCall(BuiltInFunctionsExt.COALESCE, params)
     }
     private fun IF(): ASTBuiltInCall {
         var token: Token = ltit.nextToken()
@@ -4198,7 +4198,7 @@ public class SPARQLParser(@JvmField public val ltit: LookAheadTokenIterator) {
         if (token.image != ")") {
             throw UnexpectedToken(token, arrayOf(")"), ltit)
         }
-        return ASTBuiltInCall(BuiltInFunctions.IF, param1, param2, param3)
+        return ASTBuiltInCall(BuiltInFunctionsExt.IF, param1, param2, param3)
     }
     private fun STRLANG(): ASTBuiltInCall {
         var token: Token = ltit.nextToken()
@@ -4219,7 +4219,7 @@ public class SPARQLParser(@JvmField public val ltit: LookAheadTokenIterator) {
         if (token.image != ")") {
             throw UnexpectedToken(token, arrayOf(")"), ltit)
         }
-        return ASTBuiltInCall(BuiltInFunctions.STRLANG, param1, param2)
+        return ASTBuiltInCall(BuiltInFunctionsExt.STRLANG, param1, param2)
     }
     private fun STRDT(): ASTBuiltInCall {
         var token: Token = ltit.nextToken()
@@ -4240,7 +4240,7 @@ public class SPARQLParser(@JvmField public val ltit: LookAheadTokenIterator) {
         if (token.image != ")") {
             throw UnexpectedToken(token, arrayOf(")"), ltit)
         }
-        return ASTBuiltInCall(BuiltInFunctions.STRDT, param1, param2)
+        return ASTBuiltInCall(BuiltInFunctionsExt.STRDT, param1, param2)
     }
     private fun sameTerm(): ASTBuiltInCall {
         var token: Token = ltit.nextToken()
@@ -4261,7 +4261,7 @@ public class SPARQLParser(@JvmField public val ltit: LookAheadTokenIterator) {
         if (token.image != ")") {
             throw UnexpectedToken(token, arrayOf(")"), ltit)
         }
-        return ASTBuiltInCall(BuiltInFunctions.sameTerm, param1, param2)
+        return ASTBuiltInCall(BuiltInFunctionsExt.sameTerm, param1, param2)
     }
     private fun isIRI(): ASTBuiltInCall {
         var token: Token = ltit.nextToken()
@@ -4277,7 +4277,7 @@ public class SPARQLParser(@JvmField public val ltit: LookAheadTokenIterator) {
         if (token.image != ")") {
             throw UnexpectedToken(token, arrayOf(")"), ltit)
         }
-        return ASTBuiltInCall(BuiltInFunctions.isIRI, param)
+        return ASTBuiltInCall(BuiltInFunctionsExt.isIRI, param)
     }
     private fun isURI(): ASTBuiltInCall {
         var token: Token = ltit.nextToken()
@@ -4293,7 +4293,7 @@ public class SPARQLParser(@JvmField public val ltit: LookAheadTokenIterator) {
         if (token.image != ")") {
             throw UnexpectedToken(token, arrayOf(")"), ltit)
         }
-        return ASTBuiltInCall(BuiltInFunctions.isURI, param)
+        return ASTBuiltInCall(BuiltInFunctionsExt.isURI, param)
     }
     private fun isBLANK(): ASTBuiltInCall {
         var token: Token = ltit.nextToken()
@@ -4309,7 +4309,7 @@ public class SPARQLParser(@JvmField public val ltit: LookAheadTokenIterator) {
         if (token.image != ")") {
             throw UnexpectedToken(token, arrayOf(")"), ltit)
         }
-        return ASTBuiltInCall(BuiltInFunctions.isBLANK, param)
+        return ASTBuiltInCall(BuiltInFunctionsExt.isBLANK, param)
     }
     private fun isLITERAL(): ASTBuiltInCall {
         var token: Token = ltit.nextToken()
@@ -4325,7 +4325,7 @@ public class SPARQLParser(@JvmField public val ltit: LookAheadTokenIterator) {
         if (token.image != ")") {
             throw UnexpectedToken(token, arrayOf(")"), ltit)
         }
-        return ASTBuiltInCall(BuiltInFunctions.isLITERAL, param)
+        return ASTBuiltInCall(BuiltInFunctionsExt.isLITERAL, param)
     }
     private fun isNUMERIC(): ASTBuiltInCall {
         var token: Token = ltit.nextToken()
@@ -4341,7 +4341,7 @@ public class SPARQLParser(@JvmField public val ltit: LookAheadTokenIterator) {
         if (token.image != ")") {
             throw UnexpectedToken(token, arrayOf(")"), ltit)
         }
-        return ASTBuiltInCall(BuiltInFunctions.isNUMERIC, param)
+        return ASTBuiltInCall(BuiltInFunctionsExt.isNUMERIC, param)
     }
     private fun RegexExpression(): ASTBuiltInCall {
         var token: Token
@@ -4375,7 +4375,7 @@ public class SPARQLParser(@JvmField public val ltit: LookAheadTokenIterator) {
         if (token.image != ")") {
             throw UnexpectedToken(token, arrayOf(")"), ltit)
         }
-        return ASTBuiltInCall(BuiltInFunctions.RegexExpression, collect.toTypedArray())
+        return ASTBuiltInCall(BuiltInFunctionsExt.RegexExpression, collect.toTypedArray())
     }
     private fun SubstringExpression(): ASTBuiltInCall {
         var token: Token
@@ -4409,7 +4409,7 @@ public class SPARQLParser(@JvmField public val ltit: LookAheadTokenIterator) {
         if (token.image != ")") {
             throw UnexpectedToken(token, arrayOf(")"), ltit)
         }
-        return ASTBuiltInCall(BuiltInFunctions.SubstringExpression, collect.toTypedArray())
+        return ASTBuiltInCall(BuiltInFunctionsExt.SubstringExpression, collect.toTypedArray())
     }
     private fun StrReplaceExpression(): ASTBuiltInCall {
         var token: Token
@@ -4449,7 +4449,7 @@ public class SPARQLParser(@JvmField public val ltit: LookAheadTokenIterator) {
         if (token.image != ")") {
             throw UnexpectedToken(token, arrayOf(")"), ltit)
         }
-        return ASTBuiltInCall(BuiltInFunctions.StrReplaceExpression, collect.toTypedArray())
+        return ASTBuiltInCall(BuiltInFunctionsExt.StrReplaceExpression, collect.toTypedArray())
     }
     private fun ExistsFunc(): ASTBuiltInCall {
         val token: Token = ltit.nextToken()
@@ -4457,7 +4457,7 @@ public class SPARQLParser(@JvmField public val ltit: LookAheadTokenIterator) {
             throw UnexpectedToken(token, arrayOf("EXISTS"), ltit)
         }
         val params = GroupGraphPattern()
-        return ASTBuiltInCall(BuiltInFunctions.Exists, params)
+        return ASTBuiltInCall(BuiltInFunctionsExt.Exists, params)
     }
     private fun NotExistsFunc(): ASTBuiltInCall {
         var token: Token = ltit.nextToken()
@@ -4469,7 +4469,7 @@ public class SPARQLParser(@JvmField public val ltit: LookAheadTokenIterator) {
             throw UnexpectedToken(token, arrayOf("EXISTS"), ltit)
         }
         val params = GroupGraphPattern()
-        return ASTBuiltInCall(BuiltInFunctions.NotExists, params)
+        return ASTBuiltInCall(BuiltInFunctionsExt.NotExists, params)
     }
     private fun Aggregate(): ASTAggregation {
         var token: Token

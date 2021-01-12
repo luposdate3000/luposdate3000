@@ -1,12 +1,4 @@
 package lupos.s00misc
-public enum class ESortPriority {
-    SAME_AS_CHILD,
-    ANY_PROVIDED_VARIABLE,
-    PREVENT_ANY,
-    JOIN,
-    MINUS,
-    UNION,
-    BIND,
-    SORT,
-    GROUP
-}
+import kotlin.jvm.JvmField
+import lupos.s00misc.UnreachableException
+public typealias ESortPriority = Int

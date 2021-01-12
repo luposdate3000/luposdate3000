@@ -1,4 +1,4 @@
 package lupos.s00misc
-public enum class EModifyType {
-    INSERT, DELETE
-}
+import kotlin.jvm.JvmField
+import lupos.s00misc.UnreachableException
+public typealias EModifyType = Int

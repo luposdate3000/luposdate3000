@@ -1,12 +1,4 @@
 package lupos.s00misc
-public enum class ETripleComponentType {
-    IRI,
-    BLANK_NODE,
-    STRING,
-    INTEGER,
-    DECIMAL,
-    DOUBLE,
-    BOOLEAN,
-    STRING_TYPED,
-    STRING_LANG,
-}
+import kotlin.jvm.JvmField
+import lupos.s00misc.UnreachableException
+public typealias ETripleComponentType = Int
