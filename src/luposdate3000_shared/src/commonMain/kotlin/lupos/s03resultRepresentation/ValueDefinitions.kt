@@ -184,7 +184,7 @@ public sealed class ValueStringBase(@JvmField public val delimiter: String, @Jvm
     public override fun toDecimal(): Nothing = throw CanNotCastLiteralToDecimalException()
     public override fun toInt(): Nothing = throw CanNotCastLiteralToIntException()
 }
-public class ValueLanguageTaggedLiteral(delimiter: String, content: String, public val language: String) : ValueStringBase(delimiter, content) {
+public class ValueLanguageTaggedLiteral(delimiter: String, content: String,@JvmField public val language: String) : ValueStringBase(delimiter, content) {
     public /*suspend*/ override fun toXMLElement(): XMLElement = XMLElement("ValueLanguageTaggedLiteral").addAttribute("delimiter", "" + delimiter).addAttribute("content", "" + content).addAttribute("language", "" + language)
     public override fun valueToString(): String = "$delimiter$content$delimiter@$language"
     public override fun equals(other: Any?): Boolean {
