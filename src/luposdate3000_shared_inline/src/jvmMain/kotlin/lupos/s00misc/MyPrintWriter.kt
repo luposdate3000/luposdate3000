@@ -3,6 +3,8 @@ import lupos.s00misc.IMyPrintWriter
 import java.io.OutputStream
 import java.io.PrintWriter
 import java.io.StringWriter
+import lupos.s00misc.MyPrintWriterMode
+import lupos.s00misc.MyPrintWriterModeExt
 import kotlin.jvm.JvmField
 internal actual open class _MyPrintWriter : IMyPrintWriter {
     @JvmField
@@ -13,89 +15,89 @@ internal actual open class _MyPrintWriter : IMyPrintWriter {
     val bufferMode: MyPrintWriterMode
     actual constructor(hasBuffer: Boolean) {
         if (hasBuffer) {
-            bufferMode = MyPrintWriterMode.BUFFER
+            bufferMode = MyPrintWriterModeExt.BUFFER
             printer = PrintWriter(buffer)
         } else {
-            bufferMode = MyPrintWriterMode.NONE
+            bufferMode = MyPrintWriterModeExt.NONE
             printer = PrintWriter(buffer)
         }
     }
     public constructor(f: java.io.File) {
-        bufferMode = MyPrintWriterMode.FILE
+        bufferMode = MyPrintWriterModeExt.FILE
         printer = f.printWriter()
     }
     public constructor(o: OutputStream) {
-        bufferMode = MyPrintWriterMode.FILE
+        bufferMode = MyPrintWriterModeExt.FILE
         printer = PrintWriter(o, false)
     }
     actual override fun clearBuffer() {
-        if (bufferMode == MyPrintWriterMode.BUFFER) {
+        if (bufferMode == MyPrintWriterModeExt.BUFFER) {
             buffer.buffer.setLength(0)
         } else {
             throw Exception("not supported")
         }
     }
     actual override fun toString(): String {
-        if (bufferMode == MyPrintWriterMode.BUFFER) {
+        if (bufferMode == MyPrintWriterModeExt.BUFFER) {
             return buffer.toString()
         } else {
             throw Exception("not supported")
         }
     }
     actual override fun println(x: String) {
-        if (bufferMode != MyPrintWriterMode.NONE) {
+        if (bufferMode != MyPrintWriterModeExt.NONE) {
             printer.println(x)
         }
     }
     actual override fun print(x: String) {
-        if (bufferMode != MyPrintWriterMode.NONE) {
+        if (bufferMode != MyPrintWriterModeExt.NONE) {
             printer.print(x)
         }
     }
     actual override fun println(x: Boolean) {
-        if (bufferMode != MyPrintWriterMode.NONE) {
+        if (bufferMode != MyPrintWriterModeExt.NONE) {
             printer.println(x)
         }
     }
     actual override fun print(x: Boolean) {
-        if (bufferMode != MyPrintWriterMode.NONE) {
+        if (bufferMode != MyPrintWriterModeExt.NONE) {
             printer.print(x)
         }
     }
     actual override fun println(x: Int) {
-        if (bufferMode != MyPrintWriterMode.NONE) {
+        if (bufferMode != MyPrintWriterModeExt.NONE) {
             printer.println(x)
         }
     }
     actual override fun print(x: Int) {
-        if (bufferMode != MyPrintWriterMode.NONE) {
+        if (bufferMode != MyPrintWriterModeExt.NONE) {
             printer.print(x)
         }
     }
     actual override fun println(x: Double) {
-        if (bufferMode != MyPrintWriterMode.NONE) {
+        if (bufferMode != MyPrintWriterModeExt.NONE) {
             printer.println(x)
         }
     }
     actual override fun print(x: Double) {
-        if (bufferMode != MyPrintWriterMode.NONE) {
+        if (bufferMode != MyPrintWriterModeExt.NONE) {
             printer.print(x)
         }
     }
     actual override fun println() {
-        if (bufferMode != MyPrintWriterMode.NONE) {
+        if (bufferMode != MyPrintWriterModeExt.NONE) {
             printer.println()
         }
     }
     actual override fun close() {
-        if (bufferMode == MyPrintWriterMode.FILE) {
+        if (bufferMode == MyPrintWriterModeExt.FILE) {
             printer.close()
         } else {
             throw Exception("not supported")
         }
     }
     actual override fun flush() {
-        if (bufferMode == MyPrintWriterMode.FILE) {
+        if (bufferMode == MyPrintWriterModeExt.FILE) {
             printer.flush()
         } else {
             throw Exception("not supported")

@@ -11,8 +11,8 @@ public object ESortPriorityExt {
     public const val SAME_AS_CHILD : ESortPriority = 6
     public const val SORT : ESortPriority = 7
     public const val UNION : ESortPriority = 8
-    @JvmField public val values = IntArray(9){it}
-    @JvmField public val names = arrayOf(
+    @JvmField public val values : IntArray = IntArray(9){it}
+    @JvmField public val names : Array<String> = arrayOf(
         "ANY_PROVIDED_VARIABLE",
         "BIND",
         "GROUP",

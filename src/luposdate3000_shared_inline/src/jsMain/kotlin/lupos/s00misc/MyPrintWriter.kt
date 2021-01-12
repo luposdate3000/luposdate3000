@@ -5,67 +5,67 @@ internal actual open class _MyPrintWriter : IMyPrintWriter {
     val bufferMode: MyPrintWriterMode
     actual constructor(hasBuffer: Boolean) {
         if (hasBuffer) {
-            bufferMode = MyPrintWriterMode.BUFFER
+            bufferMode = MyPrintWriterModeExt.BUFFER
         } else {
-            bufferMode = MyPrintWriterMode.NONE
+            bufferMode = MyPrintWriterModeExt.NONE
         }
     }
     actual override fun clearBuffer() {
-        if (bufferMode == MyPrintWriterMode.BUFFER) {
+        if (bufferMode == MyPrintWriterModeExt.BUFFER) {
             buffer.clear()
         } else {
             throw Exception("not supported")
         }
     }
     actual override fun toString(): String {
-        if (bufferMode == MyPrintWriterMode.BUFFER) {
+        if (bufferMode == MyPrintWriterModeExt.BUFFER) {
             return buffer.toString()
         } else {
             throw Exception("not supported")
         }
     }
     actual override fun println(x: String) {
-        if (bufferMode != MyPrintWriterMode.NONE) {
+        if (bufferMode != MyPrintWriterModeExt.NONE) {
             buffer.appendLine(x)
         }
     }
     actual override fun print(x: String) {
-        if (bufferMode != MyPrintWriterMode.NONE) {
+        if (bufferMode != MyPrintWriterModeExt.NONE) {
             buffer.append(x)
         }
     }
     actual override fun println(x: Boolean) {
-        if (bufferMode != MyPrintWriterMode.NONE) {
+        if (bufferMode != MyPrintWriterModeExt.NONE) {
             buffer.appendLine(x)
         }
     }
     actual override fun print(x: Boolean) {
-        if (bufferMode != MyPrintWriterMode.NONE) {
+        if (bufferMode != MyPrintWriterModeExt.NONE) {
             buffer.append(x)
         }
     }
     actual override fun println(x: Int) {
-        if (bufferMode != MyPrintWriterMode.NONE) {
+        if (bufferMode != MyPrintWriterModeExt.NONE) {
             buffer.appendLine(x)
         }
     }
     actual override fun print(x: Int) {
-        if (bufferMode != MyPrintWriterMode.NONE) {
+        if (bufferMode != MyPrintWriterModeExt.NONE) {
             buffer.append(x)
         }
     }
     actual override fun println(x: Double) {
-        if (bufferMode != MyPrintWriterMode.NONE) {
+        if (bufferMode != MyPrintWriterModeExt.NONE) {
             buffer.appendLine(x)
         }
     }
     actual override fun print(x: Double) {
-        if (bufferMode != MyPrintWriterMode.NONE) {
+        if (bufferMode != MyPrintWriterModeExt.NONE) {
             buffer.append(x)
         }
     }
     actual override fun println() {
-        if (bufferMode != MyPrintWriterMode.NONE) {
+        if (bufferMode != MyPrintWriterModeExt.NONE) {
             buffer.appendLine()
         }
     }

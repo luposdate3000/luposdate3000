@@ -8,7 +8,7 @@ import lupos.s04logicalOperators.iterator.ColumnIteratorReduced
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.iterator.RowIteratorReduced
 import lupos.s09physicalOperators.POPBase
-public class POPReduced(query: IQuery, projectedVariables: List<String>, child: IOPBase) : POPBase(query, projectedVariables, EOperatorID.POPReducedID, "POPReduced", arrayOf(child), ESortPriority.SAME_AS_CHILD) {
+public class POPReduced(query: IQuery, projectedVariables: List<String>, child: IOPBase) : POPBase(query, projectedVariables, EOperatorIDExt.POPReducedID, "POPReduced", arrayOf(child), ESortPriorityExt.SAME_AS_CHILD) {
     override fun getPartitionCount(variable: String): Int = children[0].getPartitionCount(variable)
     override fun equals(other: Any?): Boolean = other is POPReduced && children[0] == other.children[0]
     override fun toSparql(): String {

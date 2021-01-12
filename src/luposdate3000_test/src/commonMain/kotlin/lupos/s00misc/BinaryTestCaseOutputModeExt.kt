@@ -6,8 +6,8 @@ public object BinaryTestCaseOutputModeExt {
     public const val MODIFY_RESULT : BinaryTestCaseOutputMode = 1
     public const val SELECT_QUERY_RESULT : BinaryTestCaseOutputMode = 2
     public const val SELECT_QUERY_RESULT_COUNT : BinaryTestCaseOutputMode = 3
-    @JvmField public val values = IntArray(4){it}
-    @JvmField public val names = arrayOf(
+    @JvmField public val values : IntArray = IntArray(4){it}
+    @JvmField public val names : Array<String> = arrayOf(
         "ASK_QUERY_RESULT",
         "MODIFY_RESULT",
         "SELECT_QUERY_RESULT",

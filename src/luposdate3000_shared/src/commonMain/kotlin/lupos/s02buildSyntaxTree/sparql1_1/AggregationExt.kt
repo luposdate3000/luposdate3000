@@ -9,8 +9,8 @@ public object AggregationExt {
     public const val MIN : Aggregation = 4
     public const val SAMPLE : Aggregation = 5
     public const val SUM : Aggregation = 6
-    @JvmField public val values = IntArray(7){it}
-    @JvmField public val names = arrayOf(
+    @JvmField public val values : IntArray = IntArray(7){it}
+    @JvmField public val names : Array<String> = arrayOf(
         "AVG",
         "COUNT",
         "GROUP_CONCAT",

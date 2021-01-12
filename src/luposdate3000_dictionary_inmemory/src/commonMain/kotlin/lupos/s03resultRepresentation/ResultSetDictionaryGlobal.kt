@@ -1,5 +1,6 @@
 package lupos.s03resultRepresentation
 import lupos.s00misc.ETripleComponentType
+import lupos.s00misc.ETripleComponentTypeExt
 import lupos.s00misc.File
 import lupos.s00misc.MyBigDecimal
 import lupos.s00misc.MyBigInteger
@@ -79,8 +80,7 @@ public class ResultSetDictionaryGlobal {
 // TODO more nice end of file detection
                     break
                 }
-                val typeB = dictStream.readByte().toInt()
-                val type = ETripleComponentType.values()[typeB]
+                val type = dictStream.readByte().toInt()
                 if (buffer.size < length) {
                     buffer = ByteArray(length)
                 }
@@ -97,56 +97,56 @@ public class ResultSetDictionaryGlobal {
         }
     }
     public fun prepareBulk(total: Int, typed: IntArray) {
-        for (t in ETripleComponentType.values()) {
+        for (t in ETripleComponentTypeExt.values) {
             when (t) {
-                ETripleComponentType.IRI -> {
-                    val tmp = Array(iriToValue.size + typed[t.ordinal]) { ResultSetDictionaryShared.emptyString }
+                ETripleComponentTypeExt.IRI -> {
+                    val tmp = Array(iriToValue.size + typed[t]) { ResultSetDictionaryShared.emptyString }
                     for (i in iriToValue.indices) {
                         tmp[i] = iriToValue[i]
                     }
                     iriToValue = tmp
                 }
-                ETripleComponentType.BLANK_NODE -> {
+                ETripleComponentTypeExt.BLANK_NODE -> {
                 }
-                ETripleComponentType.STRING -> {
-                    val tmp = Array(typedToValue.size + typed[t.ordinal]) { ResultSetDictionaryShared.emptyString }
+                ETripleComponentTypeExt.STRING -> {
+                    val tmp = Array(typedToValue.size + typed[t]) { ResultSetDictionaryShared.emptyString }
                     for (i in typedToValue.indices) {
                         tmp[i] = typedToValue[i]
                     }
                     typedToValue = tmp
                 }
-                ETripleComponentType.INTEGER -> {
-                    val tmp = Array(intToValue.size + typed[t.ordinal]) { ResultSetDictionaryShared.emptyString }
+                ETripleComponentTypeExt.INTEGER -> {
+                    val tmp = Array(intToValue.size + typed[t]) { ResultSetDictionaryShared.emptyString }
                     for (i in intToValue.indices) {
                         tmp[i] = intToValue[i]
                     }
                     intToValue = tmp
                 }
-                ETripleComponentType.DECIMAL -> {
-                    val tmp = Array(decimalToValue.size + typed[t.ordinal]) { ResultSetDictionaryShared.emptyString }
+                ETripleComponentTypeExt.DECIMAL -> {
+                    val tmp = Array(decimalToValue.size + typed[t]) { ResultSetDictionaryShared.emptyString }
                     for (i in decimalToValue.indices) {
                         tmp[i] = decimalToValue[i]
                     }
                     decimalToValue = tmp
                 }
-                ETripleComponentType.DOUBLE -> {
-                    val tmp = DoubleArray(doubleToValue.size + typed[t.ordinal]) { 0.0 }
+                ETripleComponentTypeExt.DOUBLE -> {
+                    val tmp = DoubleArray(doubleToValue.size + typed[t]) { 0.0 }
                     for (i in doubleToValue.indices) {
                         tmp[i] = doubleToValue[i]
                     }
                     doubleToValue = tmp
                 }
-                ETripleComponentType.BOOLEAN -> {
+                ETripleComponentTypeExt.BOOLEAN -> {
                 }
-                ETripleComponentType.STRING_TYPED -> {
-                    val tmp = Array(typedToValue.size + typed[t.ordinal]) { ResultSetDictionaryShared.emptyString }
+                ETripleComponentTypeExt.STRING_TYPED -> {
+                    val tmp = Array(typedToValue.size + typed[t]) { ResultSetDictionaryShared.emptyString }
                     for (i in typedToValue.indices) {
                         tmp[i] = typedToValue[i]
                     }
                     typedToValue = tmp
                 }
-                ETripleComponentType.STRING_LANG -> {
-                    val tmp = Array(langTaggedToValue.size + typed[t.ordinal]) { ResultSetDictionaryShared.emptyString }
+                ETripleComponentTypeExt.STRING_LANG -> {
+                    val tmp = Array(langTaggedToValue.size + typed[t]) { ResultSetDictionaryShared.emptyString }
                     for (i in langTaggedToValue.indices) {
                         tmp[i] = langTaggedToValue[i]
                     }
@@ -160,32 +160,32 @@ public class ResultSetDictionaryGlobal {
     }
     public fun createByType(s: String, type: ETripleComponentType): Int {
         when (type) {
-            ETripleComponentType.IRI -> {
+            ETripleComponentTypeExt.IRI -> {
                 return createIri(s)
             }
-            ETripleComponentType.BLANK_NODE -> {
+            ETripleComponentTypeExt.BLANK_NODE -> {
                 return createNewBNode(s)
             }
-            ETripleComponentType.STRING -> {
+            ETripleComponentTypeExt.STRING -> {
                 return createTyped(s, "")
             }
-            ETripleComponentType.INTEGER -> {
+            ETripleComponentTypeExt.INTEGER -> {
                 return createInteger(MyBigInteger(s))
             }
-            ETripleComponentType.DECIMAL -> {
+            ETripleComponentTypeExt.DECIMAL -> {
                 return createDecimal(MyBigDecimal(s))
             }
-            ETripleComponentType.DOUBLE -> {
+            ETripleComponentTypeExt.DOUBLE -> {
                 return createDouble(s.toDouble())
             }
-            ETripleComponentType.BOOLEAN -> {
+            ETripleComponentTypeExt.BOOLEAN -> {
                 return if (s.toLowerCase() == "true") {
                     ResultSetDictionaryExt.booleanTrueValue
                 } else {
                     ResultSetDictionaryExt.booleanFalseValue
                 }
             }
-            ETripleComponentType.STRING_TYPED -> {
+            ETripleComponentTypeExt.STRING_TYPED -> {
                 val s2 = s.split("^^")
                 var a = s2[0]
                 for (i in 1 until s2.size - 1) {
@@ -194,7 +194,7 @@ public class ResultSetDictionaryGlobal {
                 val b = s2[s2.size - 1]
                 return createTyped(a, b)
             }
-            ETripleComponentType.STRING_LANG -> {
+            ETripleComponentTypeExt.STRING_LANG -> {
                 val s2 = s.split("@")
                 var a = s2[0]
                 for (i in 1 until s2.size - 1) {
@@ -249,13 +249,13 @@ public class ResultSetDictionaryGlobal {
     }
     public fun createNewBNode(value: String = ResultSetDictionaryShared.emptyString): Int {
         val res: Int = (ResultSetDictionaryShared.flaggedValueGlobalBnode or (bNodeCounter++))
-        appendToFile(ETripleComponentType.BLANK_NODE, value)
+        appendToFile(ETripleComponentTypeExt.BLANK_NODE, value)
         return res
     }
     @Suppress("NOTHING_TO_INLINE") internal inline fun appendToFile(type: ETripleComponentType, data: String) {
         if (!BufferManagerExt.isInMemoryOnly && !initializationphase) {
             val tmp = data.encodeToByteArray()
-            byteBuf[0] = type.ordinal.toByte()
+            byteBuf[0] = type.toByte()
             outputDictionaryFile.writeInt(tmp.size)
             outputDictionaryFile.write(byteBuf)
             outputDictionaryFile.write(tmp)
@@ -276,7 +276,7 @@ public class ResultSetDictionaryGlobal {
                 iriToValue = tmp
             }
             iriToValue[res] = iri
-            appendToFile(ETripleComponentType.IRI, iri)
+            appendToFile(ETripleComponentTypeExt.IRI, iri)
             res = res or ResultSetDictionaryShared.flaggedValueGlobalIri
         } else {
             res = tmp3 or ResultSetDictionaryShared.flaggedValueGlobalIri
@@ -298,7 +298,7 @@ public class ResultSetDictionaryGlobal {
                 langTaggedToValue = tmp
             }
             langTaggedToValue[res] = key
-            appendToFile(ETripleComponentType.STRING_LANG, "$content@$lang")
+            appendToFile(ETripleComponentTypeExt.STRING_LANG, "$content@$lang")
             res = res or ResultSetDictionaryShared.flaggedValueGlobalLangTagged
         } else {
             res = tmp3 or ResultSetDictionaryShared.flaggedValueGlobalLangTagged
@@ -341,7 +341,7 @@ public class ResultSetDictionaryGlobal {
                         typedToValue = tmp
                     }
                     typedToValue[res] = key
-                    appendToFile(ETripleComponentType.STRING_TYPED, "$content^^$type")
+                    appendToFile(ETripleComponentTypeExt.STRING_TYPED, "$content^^$type")
                     res = res or ResultSetDictionaryShared.flaggedValueGlobalTyped
                 } else {
                     res = tmp3 or ResultSetDictionaryShared.flaggedValueGlobalTyped
@@ -364,7 +364,7 @@ public class ResultSetDictionaryGlobal {
                 doubleToValue = tmp
             }
             doubleToValue[res] = value
-            appendToFile(ETripleComponentType.STRING_TYPED, "\"$value\"^^<http://www.w3.org/2001/XMLSchema#double>")
+            appendToFile(ETripleComponentTypeExt.STRING_TYPED, "\"$value\"^^<http://www.w3.org/2001/XMLSchema#double>")
             res = res or ResultSetDictionaryShared.flaggedValueGlobalDouble
         } else {
             res = tmp3 or ResultSetDictionaryShared.flaggedValueGlobalDouble
@@ -385,7 +385,7 @@ public class ResultSetDictionaryGlobal {
                 floatToValue = tmp
             }
             floatToValue[res] = value
-            appendToFile(ETripleComponentType.STRING_TYPED, "\"$value\"^^<http://www.w3.org/2001/XMLSchema#float>")
+            appendToFile(ETripleComponentTypeExt.STRING_TYPED, "\"$value\"^^<http://www.w3.org/2001/XMLSchema#float>")
             res = res or ResultSetDictionaryShared.flaggedValueGlobalFloat
         } else {
             res = tmp3 or ResultSetDictionaryShared.flaggedValueGlobalFloat
@@ -407,7 +407,7 @@ public class ResultSetDictionaryGlobal {
                 decimalToValue = tmp
             }
             decimalToValue[res] = value
-            appendToFile(ETripleComponentType.STRING_TYPED, "\"$value\"^^<http://www.w3.org/2001/XMLSchema#decimal>")
+            appendToFile(ETripleComponentTypeExt.STRING_TYPED, "\"$value\"^^<http://www.w3.org/2001/XMLSchema#decimal>")
             res = res or ResultSetDictionaryShared.flaggedValueGlobalDecimal
         } else {
             res = tmp3 or ResultSetDictionaryShared.flaggedValueGlobalDecimal
@@ -429,7 +429,7 @@ public class ResultSetDictionaryGlobal {
                 intToValue = tmp
             }
             intToValue[res] = value
-            appendToFile(ETripleComponentType.STRING_TYPED, "\"$value\"^^<http://www.w3.org/2001/XMLSchema#integer>")
+            appendToFile(ETripleComponentTypeExt.STRING_TYPED, "\"$value\"^^<http://www.w3.org/2001/XMLSchema#integer>")
             res = res or ResultSetDictionaryShared.flaggedValueGlobalInt
         } else {
             res = tmp3 or ResultSetDictionaryShared.flaggedValueGlobalInt

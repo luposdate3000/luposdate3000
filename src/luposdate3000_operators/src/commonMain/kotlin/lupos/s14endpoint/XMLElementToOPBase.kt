@@ -601,7 +601,7 @@ public fun createProjectedVariables(query: Query, node: XMLElement, mapping: Mut
                 if (tmp5.size != 2) {
                     throw XMLNotParseableException()
                 }
-                tmp3.add(SortHelper(tmp5[0], ESortType.valueOf(tmp5[1])))
+                tmp3.add(SortHelper(tmp5[0], ESortTypeExt.valueOf(tmp5[1])))
             }
             res.setMySortPriority(tmp3)
         }

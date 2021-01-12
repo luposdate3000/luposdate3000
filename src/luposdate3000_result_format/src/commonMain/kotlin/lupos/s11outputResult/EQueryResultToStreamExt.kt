@@ -8,8 +8,8 @@ public object EQueryResultToStreamExt {
     public const val MEMORY_TABLE : EQueryResultToStream = 3
     public const val XML_ELEMENT : EQueryResultToStream = 4
     public const val XML_STREAM : EQueryResultToStream = 5
-    @JvmField public val values = IntArray(6){it}
-    @JvmField public val names = arrayOf(
+    @JvmField public val values : IntArray = IntArray(6){it}
+    @JvmField public val names : Array<String> = arrayOf(
         "DEFAULT_STREAM",
         "EMPTYDICTIONARY_STREAM",
         "EMPTY_STREAM",

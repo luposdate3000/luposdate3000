@@ -12,33 +12,33 @@ public open class IteratorBundle {
     public var _rows: RowIterator?
     @JvmField
     public var counter: Int = 0
-    public fun hasColumnMode(): Boolean = mode == IteratorBundleMode.COLUMN
-    public fun hasCountMode(): Boolean = mode == IteratorBundleMode.COUNT
-    public fun hasRowMode(): Boolean = mode == IteratorBundleMode.ROW
+    public fun hasColumnMode(): Boolean = mode == IteratorBundleModeExt.COLUMN
+    public fun hasCountMode(): Boolean = mode == IteratorBundleModeExt.COUNT
+    public fun hasRowMode(): Boolean = mode == IteratorBundleModeExt.ROW
     public constructor (columns: Map<String, ColumnIterator>) {
         _rows = null
         _columns = columns
-        mode = IteratorBundleMode.COLUMN
+        mode = IteratorBundleModeExt.COLUMN
     }
     public constructor(count: Int) {
         _rows = null
         _columns = null
         counter = count
-        mode = IteratorBundleMode.COUNT
+        mode = IteratorBundleModeExt.COUNT
     }
     public constructor(rows: RowIterator) {
         _rows = rows
         _columns = null
-        mode = IteratorBundleMode.ROW
+        mode = IteratorBundleModeExt.ROW
     }
     public val columns: Map<String, ColumnIterator>
         get() {
             return when (mode) {
-                IteratorBundleMode.COLUMN -> {
+                IteratorBundleModeExt.COLUMN -> {
                     SanityCheck.check { _columns!!.isNotEmpty() }
                     _columns!!
                 }
-                IteratorBundleMode.ROW -> {
+                IteratorBundleModeExt.ROW -> {
                     if (_columns == null) {
                         _columns = ColumnIteratorFromRow(_rows!!)
                     }
@@ -52,10 +52,10 @@ public open class IteratorBundle {
     public val rows: RowIterator
         get() {
             return when (mode) {
-                IteratorBundleMode.ROW -> {
+                IteratorBundleModeExt.ROW -> {
                     _rows!!
                 }
-                IteratorBundleMode.COLUMN -> {
+                IteratorBundleModeExt.COLUMN -> {
                     SanityCheck.check { _columns!!.isNotEmpty() }
                     if (_rows == null) {
                         _rows = RowIteratorFromColumn(this)
@@ -77,7 +77,7 @@ public open class IteratorBundle {
     public open /*suspend*/ fun hasNext2Close() {
     }
     /*suspend*/ public fun count(): Int {
-        SanityCheck.check { mode == IteratorBundleMode.COUNT }
+        SanityCheck.check { mode == IteratorBundleModeExt.COUNT }
         return if (counter > 0) {
             counter
         } else {

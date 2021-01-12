@@ -1,4 +1,5 @@
 package lupos.s03resultRepresentation
+import lupos.s00misc.ETripleComponentTypeExt
 import lupos.s00misc.ETripleComponentType
 import lupos.s00misc.MyBigDecimal
 import lupos.s00misc.MyBigInteger
@@ -42,56 +43,56 @@ public class ResultSetDictionary : IResultSetDictionary {
     @JvmField
     internal var intToValue = Array(1) { ResultSetDictionaryShared.emptyString }
     @Suppress("NOTHING_TO_INLINE") internal inline fun prepareBulk(total: Int, typed: IntArray) {
-        for (t in ETripleComponentType.values()) {
+        for (t in ETripleComponentTypeExt.values) {
             when (t) {
-                ETripleComponentType.IRI -> {
-                    val tmp = Array(iriToValue.size + typed[t.ordinal]) { ResultSetDictionaryShared.emptyString }
+                ETripleComponentTypeExt.IRI -> {
+                    val tmp = Array(iriToValue.size + typed[t]) { ResultSetDictionaryShared.emptyString }
                     for (i in iriToValue.indices) {
                         tmp[i] = iriToValue[i]
                     }
                     iriToValue = tmp
                 }
-                ETripleComponentType.BLANK_NODE -> {
+                ETripleComponentTypeExt.BLANK_NODE -> {
                 }
-                ETripleComponentType.STRING -> {
-                    val tmp = Array(typedToValue.size + typed[t.ordinal]) { ResultSetDictionaryShared.emptyString }
+                ETripleComponentTypeExt.STRING -> {
+                    val tmp = Array(typedToValue.size + typed[t]) { ResultSetDictionaryShared.emptyString }
                     for (i in typedToValue.indices) {
                         tmp[i] = typedToValue[i]
                     }
                     typedToValue = tmp
                 }
-                ETripleComponentType.INTEGER -> {
-                    val tmp = Array(intToValue.size + typed[t.ordinal]) { ResultSetDictionaryShared.emptyString }
+                ETripleComponentTypeExt.INTEGER -> {
+                    val tmp = Array(intToValue.size + typed[t]) { ResultSetDictionaryShared.emptyString }
                     for (i in intToValue.indices) {
                         tmp[i] = intToValue[i]
                     }
                     intToValue = tmp
                 }
-                ETripleComponentType.DECIMAL -> {
-                    val tmp = Array(decimalToValue.size + typed[t.ordinal]) { ResultSetDictionaryShared.emptyString }
+                ETripleComponentTypeExt.DECIMAL -> {
+                    val tmp = Array(decimalToValue.size + typed[t]) { ResultSetDictionaryShared.emptyString }
                     for (i in decimalToValue.indices) {
                         tmp[i] = decimalToValue[i]
                     }
                     decimalToValue = tmp
                 }
-                ETripleComponentType.DOUBLE -> {
-                    val tmp = DoubleArray(doubleToValue.size + typed[t.ordinal]) { 0.0 }
+                ETripleComponentTypeExt.DOUBLE -> {
+                    val tmp = DoubleArray(doubleToValue.size + typed[t]) { 0.0 }
                     for (i in doubleToValue.indices) {
                         tmp[i] = doubleToValue[i]
                     }
                     doubleToValue = tmp
                 }
-                ETripleComponentType.BOOLEAN -> {
+                ETripleComponentTypeExt.BOOLEAN -> {
                 }
-                ETripleComponentType.STRING_TYPED -> {
-                    val tmp = Array(typedToValue.size + typed[t.ordinal]) { ResultSetDictionaryShared.emptyString }
+                ETripleComponentTypeExt.STRING_TYPED -> {
+                    val tmp = Array(typedToValue.size + typed[t]) { ResultSetDictionaryShared.emptyString }
                     for (i in typedToValue.indices) {
                         tmp[i] = typedToValue[i]
                     }
                     typedToValue = tmp
                 }
-                ETripleComponentType.STRING_LANG -> {
-                    val tmp = Array(langTaggedToValue.size + typed[t.ordinal]) { ResultSetDictionaryShared.emptyString }
+                ETripleComponentTypeExt.STRING_LANG -> {
+                    val tmp = Array(langTaggedToValue.size + typed[t]) { ResultSetDictionaryShared.emptyString }
                     for (i in langTaggedToValue.indices) {
                         tmp[i] = langTaggedToValue[i]
                     }
@@ -105,36 +106,36 @@ public class ResultSetDictionary : IResultSetDictionary {
     }
     @Suppress("NOTHING_TO_INLINE") internal inline fun createByType(s: String, type: ETripleComponentType): Int {
         when (type) {
-            ETripleComponentType.IRI -> {
+            ETripleComponentTypeExt.IRI -> {
                 return createIri(s)
             }
-            ETripleComponentType.BLANK_NODE -> {
+            ETripleComponentTypeExt.BLANK_NODE -> {
                 return createNewBNode(s)
             }
-            ETripleComponentType.STRING -> {
+            ETripleComponentTypeExt.STRING -> {
                 return createTyped(s, "")
             }
-            ETripleComponentType.INTEGER -> {
+            ETripleComponentTypeExt.INTEGER -> {
                 return createInteger(MyBigInteger(s))
             }
-            ETripleComponentType.DECIMAL -> {
+            ETripleComponentTypeExt.DECIMAL -> {
                 return createDecimal(MyBigDecimal(s))
             }
-            ETripleComponentType.DOUBLE -> {
+            ETripleComponentTypeExt.DOUBLE -> {
                 return createDouble(s.toDouble())
             }
-            ETripleComponentType.BOOLEAN -> {
+            ETripleComponentTypeExt.BOOLEAN -> {
                 return if (s.toLowerCase() == "true") {
                     ResultSetDictionaryExt.booleanTrueValue
                 } else {
                     ResultSetDictionaryExt.booleanFalseValue
                 }
             }
-            ETripleComponentType.STRING_TYPED -> {
+            ETripleComponentTypeExt.STRING_TYPED -> {
                 val s2 = s.split("^^")
                 return createTyped(s2[0], s2[1])
             }
-            ETripleComponentType.STRING_LANG -> {
+            ETripleComponentTypeExt.STRING_LANG -> {
                 val s2 = s.split("@")
                 return createLangTagged(s2[0], s2[1])
             }

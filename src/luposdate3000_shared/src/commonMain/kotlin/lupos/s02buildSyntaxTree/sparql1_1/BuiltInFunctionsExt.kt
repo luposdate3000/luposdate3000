@@ -56,8 +56,8 @@ public object BuiltInFunctionsExt {
     public const val isNUMERIC : BuiltInFunctions = 51
     public const val isURI : BuiltInFunctions = 52
     public const val sameTerm : BuiltInFunctions = 53
-    @JvmField public val values = IntArray(54){it}
-    @JvmField public val names = arrayOf(
+    @JvmField public val values : IntArray = IntArray(54){it}
+    @JvmField public val names : Array<String> = arrayOf(
         "ABS",
         "BNODE",
         "BOUND",

@@ -646,19 +646,19 @@ public class ASTBuiltInCall(@JvmField public val function: BuiltInFunctions, chi
     public constructor(function: BuiltInFunctions, parameter: ASTNode) : this(function, arrayOf<ASTNode>(parameter))
     public constructor(function: BuiltInFunctions, first_parameter: ASTNode, second_parameter: ASTNode) : this(function, arrayOf<ASTNode>(first_parameter, second_parameter))
     public constructor(function: BuiltInFunctions, first_parameter: ASTNode, second_parameter: ASTNode, third_parameter: ASTNode) : this(function, arrayOf<ASTNode>(first_parameter, second_parameter, third_parameter))
-    public override fun nodeToString(): String = BuiltInFunctionsExt.toName(function)
+    public override fun nodeToString(): String = BuiltInFunctionsExt.names[function]
     public override fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
 }
 public open class ASTAggregation(@JvmField public val type: Aggregation, @JvmField public val distinct: Boolean, children: Array<ASTNode>) : ASTNode(children) {
     public constructor(type: Aggregation, distinct: Boolean, child: ASTNode) : this(type, distinct, arrayOf<ASTNode>(child))
-    public override fun nodeToString(): String = type.name + (if (distinct) " DISTINCT" else "")
+    public override fun nodeToString(): String = AggregationExt.names[type] + (if (distinct) " DISTINCT" else "")
     public override fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
 }
-public class ASTGroupConcat(distinct: Boolean, child: ASTNode, @JvmField public val separator: String) : ASTAggregation(Aggregation.GROUP_CONCAT, distinct, child) {
+public class ASTGroupConcat(distinct: Boolean, child: ASTNode, @JvmField public val separator: String) : ASTAggregation(AggregationExt.GROUP_CONCAT, distinct, child) {
     public override fun nodeToString(): String = super.nodeToString() + " separator=\"" + separator + "\""
     public override fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))
@@ -4515,7 +4515,7 @@ public class SPARQLParser(@JvmField public val ltit: LookAheadTokenIterator) {
                 if (token.image != ")") {
                     throw UnexpectedToken(token, arrayOf(")"), ltit)
                 }
-                return ASTAggregation(Aggregation.COUNT, distinct, children)
+                return ASTAggregation(AggregationExt.COUNT, distinct, children)
             }
             "SUM" -> {
                 token = ltit.nextToken()
@@ -4539,7 +4539,7 @@ public class SPARQLParser(@JvmField public val ltit: LookAheadTokenIterator) {
                 if (token.image != ")") {
                     throw UnexpectedToken(token, arrayOf(")"), ltit)
                 }
-                return ASTAggregation(Aggregation.SUM, distinct, expr)
+                return ASTAggregation(AggregationExt.SUM, distinct, expr)
             }
             "MIN" -> {
                 token = ltit.nextToken()
@@ -4563,7 +4563,7 @@ public class SPARQLParser(@JvmField public val ltit: LookAheadTokenIterator) {
                 if (token.image != ")") {
                     throw UnexpectedToken(token, arrayOf(")"), ltit)
                 }
-                return ASTAggregation(Aggregation.MIN, distinct, expr)
+                return ASTAggregation(AggregationExt.MIN, distinct, expr)
             }
             "MAX" -> {
                 token = ltit.nextToken()
@@ -4587,7 +4587,7 @@ public class SPARQLParser(@JvmField public val ltit: LookAheadTokenIterator) {
                 if (token.image != ")") {
                     throw UnexpectedToken(token, arrayOf(")"), ltit)
                 }
-                return ASTAggregation(Aggregation.MAX, distinct, expr)
+                return ASTAggregation(AggregationExt.MAX, distinct, expr)
             }
             "AVG" -> {
                 token = ltit.nextToken()
@@ -4611,7 +4611,7 @@ public class SPARQLParser(@JvmField public val ltit: LookAheadTokenIterator) {
                 if (token.image != ")") {
                     throw UnexpectedToken(token, arrayOf(")"), ltit)
                 }
-                return ASTAggregation(Aggregation.AVG, distinct, expr)
+                return ASTAggregation(AggregationExt.AVG, distinct, expr)
             }
             "SAMPLE" -> {
                 token = ltit.nextToken()
@@ -4635,7 +4635,7 @@ public class SPARQLParser(@JvmField public val ltit: LookAheadTokenIterator) {
                 if (token.image != ")") {
                     throw UnexpectedToken(token, arrayOf(")"), ltit)
                 }
-                return ASTAggregation(Aggregation.SAMPLE, distinct, expr)
+                return ASTAggregation(AggregationExt.SAMPLE, distinct, expr)
             }
             "GROUP_CONCAT" -> {
                 token = ltit.nextToken()

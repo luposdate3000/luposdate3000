@@ -134,8 +134,8 @@ public object EOperatorIDExt {
     public const val POPUnionID : EOperatorID = 129
     public const val POPValuesID : EOperatorID = 130
     public const val TripleStoreIteratorGlobalID : EOperatorID = 131
-    @JvmField public val values = IntArray(132){it}
-    @JvmField public val names = arrayOf(
+    @JvmField public val values : IntArray = IntArray(132){it}
+    @JvmField public val names : Array<String> = arrayOf(
         "AOPAdditionID",
         "AOPAggregationAVGID",
         "AOPAggregationCOUNTID",

@@ -11,8 +11,8 @@ public object ETripleComponentTypeExt {
     public const val STRING : ETripleComponentType = 6
     public const val STRING_LANG : ETripleComponentType = 7
     public const val STRING_TYPED : ETripleComponentType = 8
-    @JvmField public val values = IntArray(9){it}
-    @JvmField public val names = arrayOf(
+    @JvmField public val values : IntArray = IntArray(9){it}
+    @JvmField public val names : Array<String> = arrayOf(
         "BLANK_NODE",
         "BOOLEAN",
         "DECIMAL",

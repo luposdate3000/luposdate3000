@@ -24,7 +24,7 @@ public sealed class TripleStoreFeatureParams(@JvmField public val feature: Tripl
         }
     }
 }
-public class TripleStoreFeatureParamsDefault(@JvmField public val idx: EIndexPattern, params: Array<IAOPBase>) : TripleStoreFeatureParams(TripleStoreFeature.DEFAULT, params) {
+public class TripleStoreFeatureParamsDefault(@JvmField public val idx: EIndexPattern, params: Array<IAOPBase>) : TripleStoreFeatureParams(TripleStoreFeatureExt.DEFAULT, params) {
     override fun toString(): String = "TripleStoreFeatureParamsDefault $feature $idx ${params.map { myToStringHelper(it) }}"
     override fun chooseData(data: IntArray, featureRange: Pair<Int, Int>, params: TripleStoreFeatureParams): Int {
         return data[featureRange.first + idx.ordinal]
@@ -72,7 +72,7 @@ public class TripleStoreFeatureParamsDefault(@JvmField public val idx: EIndexPat
         return Pair(IntArray(filter.size) { filter[it] }, projection)
     }
 }
-public class TripleStoreFeatureParamsPartition(@JvmField public val idx: EIndexPattern, params: Array<IAOPBase>, @JvmField public val partition: Partition) : TripleStoreFeatureParams(TripleStoreFeature.PARTITION, params) {
+public class TripleStoreFeatureParamsPartition(@JvmField public val idx: EIndexPattern, params: Array<IAOPBase>, @JvmField public val partition: Partition) : TripleStoreFeatureParams(TripleStoreFeatureExt.PARTITION, params) {
     override fun toString(): String = "TripleStoreFeatureParamsDefault $feature $idx ${params.map { myToStringHelper(it) }} ${partition.data.map { it }} ${getColumn()}"
     /*
      * column 0, 1 or 2 .. references the 'x'-th column in choosen idx

@@ -9,8 +9,8 @@ public object EGraphOperationTypeExt {
     public const val DROP : EGraphOperationType = 4
     public const val LOAD : EGraphOperationType = 5
     public const val MOVE : EGraphOperationType = 6
-    @JvmField public val values = IntArray(7){it}
-    @JvmField public val names = arrayOf(
+    @JvmField public val values : IntArray = IntArray(7){it}
+    @JvmField public val names : Array<String> = arrayOf(
         "ADD",
         "CLEAR",
         "COPY",
