@@ -1,4 +1,5 @@
 import lupos.s00misc.EIndexPattern
+import lupos.s00misc.EIndexPatternExt
 import lupos.s00misc.Parallel
 import lupos.s00misc.Partition
 import lupos.s03resultRepresentation.ValueIri
@@ -27,7 +28,7 @@ import lupos.s16network.LuposdateEndpoint
             AOPConstant(query, ValueIri("a")), // Konstante
             AOPVariable(query, "a") // Variable Objekt
         ),
-        EIndexPattern.P_SO, // Indexsortierung nach PSO, Variablen mit Namen _ kommen zum Schluss
+        EIndexPatternExt.P_SO, // Indexsortierung nach PSO, Variablen mit Namen _ kommen zum Schluss
         partition // Partition
     )
     val c: IteratorBundle = x.evaluate(Partition())

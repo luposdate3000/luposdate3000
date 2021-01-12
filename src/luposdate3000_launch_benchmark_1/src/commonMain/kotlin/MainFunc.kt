@@ -1,5 +1,6 @@
 import lupos.s00misc.DateHelperRelative
 import lupos.s00misc.EIndexPattern
+import lupos.s00misc.EIndexPatternExt
 import lupos.s00misc.ESortTypeExt
 import lupos.s00misc.File
 import lupos.s00misc.MyPrintWriter
@@ -66,21 +67,21 @@ import lupos.s16network.LuposdateEndpoint
                             val bPartitionID = partitionID++
                             val xPartitionID = if (x != a) partitionID++ else aPartitionID
                             xP.limit["a"] = x
-                            var opX: IOPBase = TripleStoreIteratorGlobal(query, listOf("a", "b"), "", arrayOf(AOPVariable(query, "a"), AOPConstant(query, ValueIri("a")), AOPVariable(query, "b")), EIndexPattern.PSO, xP)
+                            var opX: IOPBase = TripleStoreIteratorGlobal(query, listOf("a", "b"), "", arrayOf(AOPVariable(query, "a"), AOPConstant(query, ValueIri("a")), AOPVariable(query, "b")), EIndexPatternExt.PSO, xP)
                             if (x > 1) {
                                 opX = POPSplitPartitionFromStore(query, listOf("a", "b"), "a", x, xPartitionID, opX)
                             }
                             val yP = Partition()
                             val yPartitionID = if (y != a) partitionID++ else aPartitionID
                             yP.limit["a"] = y
-                            var opY: IOPBase = TripleStoreIteratorGlobal(query, listOf("a", "c"), "", arrayOf(AOPVariable(query, "a"), AOPConstant(query, ValueIri("b")), AOPVariable(query, "c")), EIndexPattern.PSO, yP)
+                            var opY: IOPBase = TripleStoreIteratorGlobal(query, listOf("a", "c"), "", arrayOf(AOPVariable(query, "a"), AOPConstant(query, ValueIri("b")), AOPVariable(query, "c")), EIndexPatternExt.PSO, yP)
                             if (y > 1) {
                                 opY = POPSplitPartitionFromStore(query, listOf("a", "c"), "a", y, yPartitionID, opY)
                             }
                             val zP = Partition()
                             val zPartitionID = if (z != b) partitionID++ else bPartitionID
                             zP.limit["b"] = z
-                            var opZ: IOPBase = TripleStoreIteratorGlobal(query, listOf("c", "d"), "", arrayOf(AOPVariable(query, "c"), AOPConstant(query, ValueIri("c")), AOPVariable(query, "d")), EIndexPattern.PSO, zP)
+                            var opZ: IOPBase = TripleStoreIteratorGlobal(query, listOf("c", "d"), "", arrayOf(AOPVariable(query, "c"), AOPConstant(query, ValueIri("c")), AOPVariable(query, "d")), EIndexPatternExt.PSO, zP)
                             if (zPt == 1) {
                                 opZ = POPSplitPartitionPassThrough(query, listOf("c", "d"), "a", b, zPartitionID, opZ)
                             } else {

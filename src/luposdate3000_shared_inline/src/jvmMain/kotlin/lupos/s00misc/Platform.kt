@@ -1,16 +1,17 @@
 package lupos.modulename
 import lupos.s00misc.EOperatingSystem
+import lupos.s00misc.EOperatingSystemExt
 import java.io.File
 import kotlin.jvm.JvmField
 internal actual object _Platform {
     @JvmField
     val userHome: String = System.getProperty("user.home")
     @JvmField
-    val operatingSystem = if (System.getProperty("os.name").contains("Windows")) EOperatingSystem.Windows else EOperatingSystem.Linux
+    val operatingSystem = if (System.getProperty("os.name").contains("Windows")) EOperatingSystemExt.Windows else EOperatingSystemExt.Linux
     @JvmField
-    val pathSepatator = if (operatingSystem == EOperatingSystem.Windows) "\\\\" else "/"
+    val pathSepatator = if (operatingSystem == EOperatingSystemExt.Windows) "\\\\" else "/"
     @JvmField
-    val nullFileName = if (operatingSystem == EOperatingSystem.Windows) "NUL" else "/dev/null"
+    val nullFileName = if (operatingSystem == EOperatingSystemExt.Windows) "NUL" else "/dev/null"
     @Suppress("NOTHING_TO_INLINE") internal actual inline fun getOperatingSystem() = operatingSystem
     @Suppress("NOTHING_TO_INLINE") internal actual inline fun getUserHome() = userHome
     @Suppress("NOTHING_TO_INLINE") internal actual inline fun getPathSeparator() = pathSepatator

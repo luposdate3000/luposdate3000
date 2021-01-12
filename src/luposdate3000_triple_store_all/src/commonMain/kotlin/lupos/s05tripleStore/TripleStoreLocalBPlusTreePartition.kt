@@ -1,6 +1,7 @@
 package lupos.s05tripleStore
 import lupos.s00misc.ByteArrayHelper
 import lupos.s00misc.EIndexPattern
+import lupos.s00misc.EIndexPatternExt
 import lupos.s00misc.ETripleIndexTypeExt
 import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
@@ -22,15 +23,15 @@ public class TripleStoreLocalBPlusTreePartition(name: String, store_root_page_id
             var rootPageOffset = 4
             val tmpEnabledPartitions = mutableListOf<EnabledPartitionContainer>()
             val localindicees = mapOf(
-                EIndexPattern.SPO to mutableSetOf(EIndexPattern.SPO, EIndexPattern.S_PO, EIndexPattern.SP_O),
-                EIndexPattern.SOP to mutableSetOf(EIndexPattern.SOP, EIndexPattern.S_OP, EIndexPattern.SO_P),
-                EIndexPattern.PSO to mutableSetOf(EIndexPattern.PSO, EIndexPattern.P_SO, EIndexPattern.PS_O),
-                EIndexPattern.POS to mutableSetOf(EIndexPattern.POS, EIndexPattern.P_OS, EIndexPattern.PO_S),
-                EIndexPattern.OSP to mutableSetOf(EIndexPattern.OSP, EIndexPattern.O_SP, EIndexPattern.OS_P),
-                EIndexPattern.OPS to mutableSetOf(EIndexPattern.OPS, EIndexPattern.O_PS, EIndexPattern.OP_S)
+                EIndexPatternExt.SPO to mutableSetOf(EIndexPatternExt.SPO, EIndexPatternExt.S_PO, EIndexPatternExt.SP_O),
+                EIndexPatternExt.SOP to mutableSetOf(EIndexPatternExt.SOP, EIndexPatternExt.S_OP, EIndexPatternExt.SO_P),
+                EIndexPatternExt.PSO to mutableSetOf(EIndexPatternExt.PSO, EIndexPatternExt.P_SO, EIndexPatternExt.PS_O),
+                EIndexPatternExt.POS to mutableSetOf(EIndexPatternExt.POS, EIndexPatternExt.P_OS, EIndexPatternExt.PO_S),
+                EIndexPatternExt.OSP to mutableSetOf(EIndexPatternExt.OSP, EIndexPatternExt.O_SP, EIndexPatternExt.OS_P),
+                EIndexPatternExt.OPS to mutableSetOf(EIndexPatternExt.OPS, EIndexPatternExt.O_PS, EIndexPatternExt.OP_S)
             )
             for (i in 0 until cnt) {
-                val idx = EIndexPattern.values()[ByteArrayHelper.readInt4(rootPage, rootPageOffset)]
+                val idx = ByteArrayHelper.readInt4(rootPage, rootPageOffset)
                 val pageid2 = ByteArrayHelper.readInt4(rootPage, rootPageOffset + 4)
                 val column = ByteArrayHelper.readInt4(rootPage, rootPageOffset + 8)
                 val partitionCount = ByteArrayHelper.readInt4(rootPage, rootPageOffset + 12)
@@ -59,22 +60,22 @@ public class TripleStoreLocalBPlusTreePartition(name: String, store_root_page_id
             if (!USE_PARTITIONS2) {
                 println("XYZ TripleStoreLocalBPlusTreePartition !USE_PARTITIONS2")
                 enabledPartitions = arrayOf( //
-                    EnabledPartitionContainer(mutableSetOf(EIndexPattern.SPO, EIndexPattern.S_PO, EIndexPattern.SP_O), -1, 1), //
-                    EnabledPartitionContainer(mutableSetOf(EIndexPattern.SOP, EIndexPattern.S_OP, EIndexPattern.SO_P), -1, 1), //
-                    EnabledPartitionContainer(mutableSetOf(EIndexPattern.POS, EIndexPattern.P_OS, EIndexPattern.PO_S), -1, 1), //
-                    EnabledPartitionContainer(mutableSetOf(EIndexPattern.PSO, EIndexPattern.P_SO, EIndexPattern.PS_O), -1, 1), //
-                    EnabledPartitionContainer(mutableSetOf(EIndexPattern.OSP, EIndexPattern.O_SP, EIndexPattern.OS_P), -1, 1), //
-                    EnabledPartitionContainer(mutableSetOf(EIndexPattern.OPS, EIndexPattern.O_PS, EIndexPattern.OP_S), -1, 1), //
+                    EnabledPartitionContainer(mutableSetOf(EIndexPatternExt.SPO, EIndexPatternExt.S_PO, EIndexPatternExt.SP_O), -1, 1), //
+                    EnabledPartitionContainer(mutableSetOf(EIndexPatternExt.SOP, EIndexPatternExt.S_OP, EIndexPatternExt.SO_P), -1, 1), //
+                    EnabledPartitionContainer(mutableSetOf(EIndexPatternExt.POS, EIndexPatternExt.P_OS, EIndexPatternExt.PO_S), -1, 1), //
+                    EnabledPartitionContainer(mutableSetOf(EIndexPatternExt.PSO, EIndexPatternExt.P_SO, EIndexPatternExt.PS_O), -1, 1), //
+                    EnabledPartitionContainer(mutableSetOf(EIndexPatternExt.OSP, EIndexPatternExt.O_SP, EIndexPatternExt.OS_P), -1, 1), //
+                    EnabledPartitionContainer(mutableSetOf(EIndexPatternExt.OPS, EIndexPatternExt.O_PS, EIndexPatternExt.OP_S), -1, 1), //
                 )
             } else if (Partition.estimatedPartitionsValid) {
                 println("XYZ TripleStoreLocalBPlusTreePartition Partition.estimatedPartitionsValid")
                 val localindicees = mapOf(
-                    "SPO" to mutableSetOf(EIndexPattern.SPO, EIndexPattern.S_PO, EIndexPattern.SP_O),
-                    "SOP" to mutableSetOf(EIndexPattern.SOP, EIndexPattern.S_OP, EIndexPattern.SO_P),
-                    "PSO" to mutableSetOf(EIndexPattern.PSO, EIndexPattern.P_SO, EIndexPattern.PS_O),
-                    "POS" to mutableSetOf(EIndexPattern.POS, EIndexPattern.P_OS, EIndexPattern.PO_S),
-                    "OSP" to mutableSetOf(EIndexPattern.OSP, EIndexPattern.O_SP, EIndexPattern.OS_P),
-                    "OPS" to mutableSetOf(EIndexPattern.OPS, EIndexPattern.O_PS, EIndexPattern.OP_S)
+                    "SPO" to mutableSetOf(EIndexPatternExt.SPO, EIndexPatternExt.S_PO, EIndexPatternExt.SP_O),
+                    "SOP" to mutableSetOf(EIndexPatternExt.SOP, EIndexPatternExt.S_OP, EIndexPatternExt.SO_P),
+                    "PSO" to mutableSetOf(EIndexPatternExt.PSO, EIndexPatternExt.P_SO, EIndexPatternExt.PS_O),
+                    "POS" to mutableSetOf(EIndexPatternExt.POS, EIndexPatternExt.P_OS, EIndexPatternExt.PO_S),
+                    "OSP" to mutableSetOf(EIndexPatternExt.OSP, EIndexPatternExt.O_SP, EIndexPatternExt.OS_P),
+                    "OPS" to mutableSetOf(EIndexPatternExt.OPS, EIndexPatternExt.O_PS, EIndexPatternExt.OP_S)
                 )
                 val tmpEnabledPartitions = mutableListOf<EnabledPartitionContainer>()
                 for ((k, v) in localindicees) {
@@ -95,18 +96,18 @@ public class TripleStoreLocalBPlusTreePartition(name: String, store_root_page_id
             } else {
                 println("XYZ TripleStoreLocalBPlusTreePartition other")
                 enabledPartitions = arrayOf( //
-                    EnabledPartitionContainer(mutableSetOf(EIndexPattern.SPO, EIndexPattern.S_PO, EIndexPattern.SP_O), 1, 2), // TODO use reasonable partition counts ... this is just to verify during tests
-                    EnabledPartitionContainer(mutableSetOf(EIndexPattern.SOP, EIndexPattern.S_OP, EIndexPattern.SO_P), 1, 4), //
-                    EnabledPartitionContainer(mutableSetOf(EIndexPattern.POS, EIndexPattern.P_OS, EIndexPattern.PO_S), 1, 8), //
-                    EnabledPartitionContainer(mutableSetOf(EIndexPattern.PSO, EIndexPattern.P_SO, EIndexPattern.PS_O), 1, 16), //
-                    EnabledPartitionContainer(mutableSetOf(EIndexPattern.OSP, EIndexPattern.O_SP, EIndexPattern.OS_P), 1, 32), //
-                    EnabledPartitionContainer(mutableSetOf(EIndexPattern.OPS, EIndexPattern.O_PS, EIndexPattern.OP_S), 1, 64), //
-                    EnabledPartitionContainer(mutableSetOf(EIndexPattern.SPO, EIndexPattern.S_PO, EIndexPattern.SP_O), 2, 2), //
-                    EnabledPartitionContainer(mutableSetOf(EIndexPattern.SOP, EIndexPattern.S_OP, EIndexPattern.SO_P), 2, 4), //
-                    EnabledPartitionContainer(mutableSetOf(EIndexPattern.POS, EIndexPattern.P_OS, EIndexPattern.PO_S), 2, 8), //
-                    EnabledPartitionContainer(mutableSetOf(EIndexPattern.PSO, EIndexPattern.P_SO, EIndexPattern.PS_O), 2, 16), //
-                    EnabledPartitionContainer(mutableSetOf(EIndexPattern.OSP, EIndexPattern.O_SP, EIndexPattern.OS_P), 2, 32), //
-                    EnabledPartitionContainer(mutableSetOf(EIndexPattern.OPS, EIndexPattern.O_PS, EIndexPattern.OP_S), 2, 64), //
+                    EnabledPartitionContainer(mutableSetOf(EIndexPatternExt.SPO, EIndexPatternExt.S_PO, EIndexPatternExt.SP_O), 1, 2), // TODO use reasonable partition counts ... this is just to verify during tests
+                    EnabledPartitionContainer(mutableSetOf(EIndexPatternExt.SOP, EIndexPatternExt.S_OP, EIndexPatternExt.SO_P), 1, 4), //
+                    EnabledPartitionContainer(mutableSetOf(EIndexPatternExt.POS, EIndexPatternExt.P_OS, EIndexPatternExt.PO_S), 1, 8), //
+                    EnabledPartitionContainer(mutableSetOf(EIndexPatternExt.PSO, EIndexPatternExt.P_SO, EIndexPatternExt.PS_O), 1, 16), //
+                    EnabledPartitionContainer(mutableSetOf(EIndexPatternExt.OSP, EIndexPatternExt.O_SP, EIndexPatternExt.OS_P), 1, 32), //
+                    EnabledPartitionContainer(mutableSetOf(EIndexPatternExt.OPS, EIndexPatternExt.O_PS, EIndexPatternExt.OP_S), 1, 64), //
+                    EnabledPartitionContainer(mutableSetOf(EIndexPatternExt.SPO, EIndexPatternExt.S_PO, EIndexPatternExt.SP_O), 2, 2), //
+                    EnabledPartitionContainer(mutableSetOf(EIndexPatternExt.SOP, EIndexPatternExt.S_OP, EIndexPatternExt.SO_P), 2, 4), //
+                    EnabledPartitionContainer(mutableSetOf(EIndexPatternExt.POS, EIndexPatternExt.P_OS, EIndexPatternExt.PO_S), 2, 8), //
+                    EnabledPartitionContainer(mutableSetOf(EIndexPatternExt.PSO, EIndexPatternExt.P_SO, EIndexPatternExt.PS_O), 2, 16), //
+                    EnabledPartitionContainer(mutableSetOf(EIndexPatternExt.OSP, EIndexPatternExt.O_SP, EIndexPatternExt.OS_P), 2, 32), //
+                    EnabledPartitionContainer(mutableSetOf(EIndexPatternExt.OPS, EIndexPatternExt.O_PS, EIndexPatternExt.OP_S), 2, 64), //
                 )
             }
             var rootPageOffset = 4
@@ -114,12 +115,12 @@ public class TripleStoreLocalBPlusTreePartition(name: String, store_root_page_id
             for (p in enabledPartitions) {
                 println("partition :: ${p.index.first()} ${p.column} ${p.partitionCount}")
                 val idx = when {
-                    p.index.contains(EIndexPattern.SPO) -> EIndexPattern.SPO
-                    p.index.contains(EIndexPattern.SOP) -> EIndexPattern.SOP
-                    p.index.contains(EIndexPattern.POS) -> EIndexPattern.POS
-                    p.index.contains(EIndexPattern.PSO) -> EIndexPattern.PSO
-                    p.index.contains(EIndexPattern.OSP) -> EIndexPattern.OSP
-                    p.index.contains(EIndexPattern.OPS) -> EIndexPattern.OPS
+                    p.index.contains(EIndexPatternExt.SPO) -> EIndexPatternExt.SPO
+                    p.index.contains(EIndexPatternExt.SOP) -> EIndexPatternExt.SOP
+                    p.index.contains(EIndexPatternExt.POS) -> EIndexPatternExt.POS
+                    p.index.contains(EIndexPatternExt.PSO) -> EIndexPatternExt.PSO
+                    p.index.contains(EIndexPatternExt.OSP) -> EIndexPatternExt.OSP
+                    p.index.contains(EIndexPatternExt.OPS) -> EIndexPatternExt.OPS
                     else -> SanityCheck.checkUnreachable()
                 }
                 val name2 = StringBuilder(idx.toString())
@@ -128,7 +129,7 @@ public class TripleStoreLocalBPlusTreePartition(name: String, store_root_page_id
                     pageid2 = pageid3
                 }
                 bufferManager.releasePage(pageid2)
-                ByteArrayHelper.writeInt4(rootPage, rootPageOffset, idx.ordinal)
+                ByteArrayHelper.writeInt4(rootPage, rootPageOffset, idx)
                 ByteArrayHelper.writeInt4(rootPage, rootPageOffset + 4, pageid2)
                 ByteArrayHelper.writeInt4(rootPage, rootPageOffset + 8, p.column)
                 ByteArrayHelper.writeInt4(rootPage, rootPageOffset + 12, p.partitionCount)

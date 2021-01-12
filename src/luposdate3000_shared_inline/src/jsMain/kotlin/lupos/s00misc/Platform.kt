@@ -1,7 +1,8 @@
 package lupos.modulename
 import lupos.s00misc.EOperatingSystem
+import lupos.s00misc.EOperatingSystemExt
 internal actual object _Platform {
-    val operatingSystem = EOperatingSystem.JS
+    val operatingSystem = EOperatingSystemExt.JS
     @Suppress("NOTHING_TO_INLINE") internal actual inline fun getOperatingSystem() = operatingSystem
     @Suppress("NOTHING_TO_INLINE") internal actual inline fun getUserHome(): String = throw Exception("not available on this platform")
     @Suppress("NOTHING_TO_INLINE") internal actual inline fun getPathSeparator(): String = throw Exception("not available on this platform")

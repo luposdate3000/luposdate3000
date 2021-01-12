@@ -1,6 +1,7 @@
 package lupos.s10physicalOptimisation
 import lupos.s00misc.EOptimizerIDExt
 import lupos.s00misc.Partition
+import lupos.s00misc.EIndexPatternHelper
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.USE_PARTITIONS
 import lupos.s04arithmetikOperators.noinput.IAOPVariable
@@ -31,7 +32,7 @@ public class PhysicalOptimizerPartition2(query: Query) : OptimizerBase(query, EO
                     val idx = storeNode.idx
                     var partitionColumn = 0
                     for (ii in 0 until 3) {
-                        val i = idx.tripleIndicees[ii]
+                        val i = EIndexPatternHelper.tripleIndicees[idx][ii]
                         val param = storeNode.children[i]
                         if (param is IAOPVariable) {
                             if (param.getName() == node.partitionVariable) {
@@ -43,7 +44,7 @@ public class PhysicalOptimizerPartition2(query: Query) : OptimizerBase(query, EO
                             partitionColumn++ // constants at the front do count
                         }
                     }
-                    SanityCheck.check({ partitionColumn in 1..2 }, { "$partitionColumn ${node.partitionVariable} $idx ${idx.tripleIndicees.map { it }} ${storeNode.children.map { "${(it as OPBase).classname} ${(it as? IAOPVariable)?.getName()}" }}" })
+                    SanityCheck.check({ partitionColumn in 1..2 }, { "$partitionColumn ${node.partitionVariable} $idx ${EIndexPatternHelper.tripleIndicees[idx].map { it }} ${storeNode.children.map { "${(it as OPBase).classname} ${(it as? IAOPVariable)?.getName()}" }}" })
                     var count = 1
                     val partitions = distributedTripleStore.getLocalStore().getDefaultGraph(query).getEnabledPartitions()
                     for (p in partitions) {

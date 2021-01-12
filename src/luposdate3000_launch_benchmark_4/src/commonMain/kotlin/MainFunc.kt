@@ -1,5 +1,6 @@
 import lupos.s00misc.DateHelperRelative
 import lupos.s00misc.EIndexPattern
+import lupos.s00misc.EIndexPatternExt
 import lupos.s00misc.MyPrintWriter
 import lupos.s00misc.Parallel
 import lupos.s00misc.Partition
@@ -37,13 +38,13 @@ import lupos.s16network.LuposdateEndpoint
         val query = Query()
         val p = Partition()
         p.limit["j"] = partitions
-        var op: IOPBase = TripleStoreIteratorGlobal(query, listOf("j", "a"), "", arrayOf(AOPVariable(query, "j"), AOPConstant(query, ValueIri("a")), AOPVariable(query, "a")), EIndexPattern.PSO, p)
+        var op: IOPBase = TripleStoreIteratorGlobal(query, listOf("j", "a"), "", arrayOf(AOPVariable(query, "j"), AOPConstant(query, ValueIri("a")), AOPVariable(query, "a")), EIndexPatternExt.PSO, p)
         if (partitions > 1) {
             op = POPSplitPartitionFromStore(query, listOf("j", "a"), "j", partitions, 1, op)
         }
         for (j in 0 until joincount) {
             val cc = 'b' + j
-            var op2: IOPBase = TripleStoreIteratorGlobal(query, listOf("j", "$cc"), "", arrayOf(AOPVariable(query, "j"), AOPConstant(query, ValueIri("$cc")), AOPVariable(query, "$cc")), EIndexPattern.PSO, p)
+            var op2: IOPBase = TripleStoreIteratorGlobal(query, listOf("j", "$cc"), "", arrayOf(AOPVariable(query, "j"), AOPConstant(query, ValueIri("$cc")), AOPVariable(query, "$cc")), EIndexPatternExt.PSO, p)
             if (partitions > 1) {
                 op2 = POPSplitPartitionFromStore(query, listOf("j", "$cc"), "j", partitions, 1, op2)
             }

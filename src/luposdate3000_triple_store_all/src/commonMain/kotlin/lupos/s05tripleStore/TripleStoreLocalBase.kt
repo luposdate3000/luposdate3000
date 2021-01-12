@@ -1,5 +1,7 @@
 package lupos.s05tripleStore
 import lupos.s00misc.EIndexPattern
+import lupos.s00misc.EIndexPatternHelper
+import lupos.s00misc.EIndexPatternExt
 import lupos.s00misc.EModifyType
 import lupos.s00misc.EModifyTypeExt
 import lupos.s00misc.Partition
@@ -15,12 +17,12 @@ public abstract class TripleStoreLocalBase(@JvmField public val name: String, @J
     public var dataDistinct: Array<TripleStoreDistinctContainer> = arrayOf()
     @JvmField // override this during initialisation
     public var enabledPartitions: Array<EnabledPartitionContainer> = arrayOf( //
-        EnabledPartitionContainer(mutableSetOf(EIndexPattern.SPO, EIndexPattern.S_PO, EIndexPattern.SP_O), 2, 1), //
-        EnabledPartitionContainer(mutableSetOf(EIndexPattern.SOP, EIndexPattern.S_OP, EIndexPattern.SO_P), 2, 1), //
-        EnabledPartitionContainer(mutableSetOf(EIndexPattern.POS, EIndexPattern.P_OS, EIndexPattern.PO_S), 2, 1), //
-        EnabledPartitionContainer(mutableSetOf(EIndexPattern.PSO, EIndexPattern.P_SO, EIndexPattern.PS_O), 2, 1), //
-        EnabledPartitionContainer(mutableSetOf(EIndexPattern.OSP, EIndexPattern.O_SP, EIndexPattern.OS_P), 2, 1), //
-        EnabledPartitionContainer(mutableSetOf(EIndexPattern.OPS, EIndexPattern.O_PS, EIndexPattern.OP_S), 2, 1), //
+        EnabledPartitionContainer(mutableSetOf(EIndexPatternExt.SPO, EIndexPatternExt.S_PO, EIndexPatternExt.SP_O), 2, 1), //
+        EnabledPartitionContainer(mutableSetOf(EIndexPatternExt.SOP, EIndexPatternExt.S_OP, EIndexPatternExt.SO_P), 2, 1), //
+        EnabledPartitionContainer(mutableSetOf(EIndexPatternExt.POS, EIndexPatternExt.P_OS, EIndexPatternExt.PO_S), 2, 1), //
+        EnabledPartitionContainer(mutableSetOf(EIndexPatternExt.PSO, EIndexPatternExt.P_SO, EIndexPatternExt.PS_O), 2, 1), //
+        EnabledPartitionContainer(mutableSetOf(EIndexPatternExt.OSP, EIndexPatternExt.O_SP, EIndexPatternExt.OS_P), 2, 1), //
+        EnabledPartitionContainer(mutableSetOf(EIndexPatternExt.OPS, EIndexPatternExt.O_PS, EIndexPatternExt.OP_S), 2, 1), //
     )
     @JvmField // override this during initialisation
     public var pendingModificationsInsert: Array<MutableMap<Long, MutableList<Int>>> = Array(0) { mutableMapOf() }
@@ -43,10 +45,10 @@ public abstract class TripleStoreLocalBase(@JvmField public val name: String, @J
                     idx++
                 }
                 for (p in enabledPartitions) {
-                    if (p.index.contains(params.idx) && p.column != -1 && (params.params[params.idx.tripleIndicees[p.column]]is AOPVariable)) {
+                    if (p.index.contains(params.idx) && p.column != -1 && (params.params[EIndexPatternHelper.tripleIndicees[params.idx][p.column]]is AOPVariable)) {
                         var resa = 0
                         var resb = 0
-                        var columnName = (params.params[params.idx.tripleIndicees[p.column]]as AOPVariable).name
+                        var columnName = (params.params[EIndexPatternHelper.tripleIndicees[params.idx][p.column]]as AOPVariable).name
                         if (columnName == "_") {
                             columnName = "_${p.column}"
                         }
@@ -79,7 +81,7 @@ public abstract class TripleStoreLocalBase(@JvmField public val name: String, @J
                 } else {
                     var j = 0
                     for (ii in 0 until 3) {
-                        val i = params.idx.tripleIndicees[ii]
+                        val i = EIndexPatternHelper.tripleIndicees[params.idx][ii]
                         val param = params.params[i]
                         if (param is AOPVariable) {
                             if (param.name == partitionName) {
@@ -130,7 +132,7 @@ public abstract class TripleStoreLocalBase(@JvmField public val name: String, @J
                 } else {
                     var j = 0
                     for (ii in 0 until 3) {
-                        val i = params.idx.tripleIndicees[ii]
+                        val i = EIndexPatternHelper.tripleIndicees[params.idx][ii]
                         val param = params.params[i]
                         if (param is AOPVariable) {
                             if (param.name == partitionName) {
@@ -160,7 +162,7 @@ public abstract class TripleStoreLocalBase(@JvmField public val name: String, @J
     }
     override /*suspend*/ fun import(dataImport: ITripleStoreBulkImport) {
         for (i in dataDistinct.indices) {
-            dataDistinct[i].second.import(dataDistinct[i].importField(dataImport), dataImport.getIdx(), dataDistinct[i].idx.tripleIndicees)
+            dataDistinct[i].second.import(dataDistinct[i].importField(dataImport), dataImport.getIdx(), EIndexPatternHelper.tripleIndicees[dataDistinct[i].idx])
         }
     }
     override /*suspend*/ fun commit(query: IQuery) {
@@ -177,7 +179,7 @@ public abstract class TripleStoreLocalBase(@JvmField public val name: String, @J
                     tmp[i] = it.next()
                     i++
                 }
-                dataDistinct[idx].second.insertAsBulk(tmp, dataDistinct[idx].idx.tripleIndicees)
+                dataDistinct[idx].second.insertAsBulk(tmp, EIndexPatternHelper.tripleIndicees[dataDistinct[idx].idx])
                 pendingModificationsInsert[idx].remove(query.getTransactionID())
             }
             list = pendingModificationsRemove[idx][query.getTransactionID()]
@@ -189,7 +191,7 @@ public abstract class TripleStoreLocalBase(@JvmField public val name: String, @J
                     tmp[i] = it.next()
                     i++
                 }
-                dataDistinct[idx].second.removeAsBulk(tmp, dataDistinct[idx].idx.tripleIndicees)
+                dataDistinct[idx].second.removeAsBulk(tmp, EIndexPatternHelper.tripleIndicees[dataDistinct[idx].idx])
                 pendingModificationsRemove[idx].remove(query.getTransactionID())
             }
         }

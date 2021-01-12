@@ -1,5 +1,6 @@
 package lupos.s10physicalOptimisation
 import lupos.s00misc.EIndexPattern
+import lupos.s00misc.EIndexPatternExt
 import lupos.s00misc.EOptimizerIDExt
 import lupos.s00misc.Partition
 import lupos.s04arithmetikOperators.AOPBase
@@ -204,7 +205,7 @@ public class PhysicalOptimizerNaive(query: Query) : OptimizerBase(query, EOptimi
                     res.sortPrioritiesInitialized = node.sortPrioritiesInitialized
                 }
                 is LOPTriple -> {
-                    res = distributedTripleStore.getNamedGraph(query, node.graph).getIterator(Array(3) { node.getChildren()[it] as IAOPBase }, EIndexPattern.SPO, Partition())
+                    res = distributedTripleStore.getNamedGraph(query, node.graph).getIterator(Array(3) { node.getChildren()[it] as IAOPBase }, EIndexPatternExt.SPO, Partition())
                 }
                 is OPEmptyRow -> {
                     res = POPEmptyRow(query, projectedVariables)

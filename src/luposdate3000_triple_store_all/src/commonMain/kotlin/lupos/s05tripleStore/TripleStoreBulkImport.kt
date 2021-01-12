@@ -1,5 +1,7 @@
 package lupos.s05tripleStore
 import lupos.s00misc.EIndexPattern
+import lupos.s00misc.EIndexPatternHelper
+import lupos.s00misc.EIndexPatternExt
 import lupos.s00misc.SanityCheck
 import lupos.s04logicalOperators.IQuery
 import lupos.s15tripleStoreDistributed.distributedTripleStore
@@ -25,12 +27,12 @@ public class TripleStoreBulkImport(@JvmField public val query: IQuery, @JvmField
     public var dataOPS: IntArray = data[0]
     override fun getData(idx: EIndexPattern): IntArray {
         return when (idx) {
-            EIndexPattern.SPO -> dataSPO
-            EIndexPattern.SOP -> dataSOP
-            EIndexPattern.PSO -> dataPSO
-            EIndexPattern.POS -> dataPOS
-            EIndexPattern.OPS -> dataOPS
-            EIndexPattern.OSP -> dataOSP
+            EIndexPatternExt.SPO -> dataSPO
+            EIndexPatternExt.SOP -> dataSOP
+            EIndexPatternExt.PSO -> dataPSO
+            EIndexPatternExt.POS -> dataPOS
+            EIndexPatternExt.OPS -> dataOPS
+            EIndexPatternExt.OSP -> dataOSP
             else -> SanityCheck.checkUnreachable()
         }
     }
@@ -65,12 +67,12 @@ public class TripleStoreBulkImport(@JvmField public val query: IQuery, @JvmField
     private fun sort() {
         // the target data is sorted, but may contain duplicates, _if the input contains those
         val total = idx / 3
-        val orderSPO = EIndexPattern.SPO.tripleIndicees
-        val orderSOP = EIndexPattern.SOP.tripleIndicees
-        val orderPSO = EIndexPattern.PSO.tripleIndicees
-        val orderPOS = EIndexPattern.POS.tripleIndicees
-        val orderOSP = EIndexPattern.OSP.tripleIndicees
-        val orderOPS = EIndexPattern.OPS.tripleIndicees
+        val orderSPO = EIndexPatternHelper.tripleIndicees[EIndexPatternExt.SPO]
+        val orderSOP = EIndexPatternHelper.tripleIndicees[EIndexPatternExt.SOP]
+        val orderPSO = EIndexPatternHelper.tripleIndicees[EIndexPatternExt.PSO]
+        val orderPOS = EIndexPatternHelper.tripleIndicees[EIndexPatternExt.POS]
+        val orderOSP = EIndexPatternHelper.tripleIndicees[EIndexPatternExt.OSP]
+        val orderOPS = EIndexPatternHelper.tripleIndicees[EIndexPatternExt.OPS]
         val orders = arrayOf(orderSPO, orderSOP, orderPSO, orderPOS, orderOSP, orderOPS)
         if (total <= 1) {
             dataSPO = data[8]

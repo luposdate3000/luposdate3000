@@ -5,6 +5,7 @@ import lupos.s00misc.ESortTypeExt
 import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.XMLElement
+import lupos.s00misc.EIndexPatternHelper
 import lupos.s03resultRepresentation.ResultSetDictionaryExt
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04arithmetikOperators.IAOPBase
@@ -61,7 +62,7 @@ public class POPJoinWithStore public constructor(query: IQuery, projectedVariabl
         }
         val index = LOPTriple.getIndex(paramsHelper, localSortPriority)
         for (i in 0 until 3) {
-            val j = index.tripleIndicees[i]
+            val j = EIndexPatternHelper.tripleIndicees[index][i]
             val t = childB.children[j]
             if (t is AOPVariable) {
                 val name = t.name

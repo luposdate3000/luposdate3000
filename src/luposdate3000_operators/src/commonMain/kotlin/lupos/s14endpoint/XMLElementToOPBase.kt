@@ -1,5 +1,6 @@
 package lupos.s14endpoint
 import lupos.s00misc.EIndexPattern
+import lupos.s00misc.EIndexPatternExt
 import lupos.s00misc.ESortTypeExt
 import lupos.s00misc.MyBigDecimal
 import lupos.s00misc.MyBigInteger
@@ -580,7 +581,7 @@ public fun createProjectedVariables(query: Query, node: XMLElement, mapping: Mut
             val s = convertToOPBase(query, node["sparam"]!!.childs[0], mapping) as IAOPBase
             val p = convertToOPBase(query, node["pparam"]!!.childs[0], mapping) as IAOPBase
             val o = convertToOPBase(query, node["oparam"]!!.childs[0], mapping) as IAOPBase
-            val idx = EIndexPattern.valueOf(node.attributes["idx"]!!)
+            val idx = EIndexPatternExt.names.indexOf(node.attributes["idx"]!!)
             val partition = convertToPartition(node["partition"]!!.childs[0])
             res = distributedTripleStore.getNamedGraph(query, node.attributes["name"]!!).getIterator(arrayOf(s, p, o), idx, partition)
         }

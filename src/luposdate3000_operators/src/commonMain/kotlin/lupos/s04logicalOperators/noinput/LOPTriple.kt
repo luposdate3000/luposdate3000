@@ -1,5 +1,6 @@
 package lupos.s04logicalOperators.noinput
 import lupos.s00misc.EIndexPattern
+import lupos.s00misc.EIndexPatternExt
 import lupos.s00misc.EOperatorIDExt
 import lupos.s00misc.ESortPriorityExt
 import lupos.s00misc.GraphVarHistogramsNotImplementedException
@@ -92,7 +93,7 @@ public class LOPTriple public constructor(query: IQuery, s: IAOPBase, p: IAOPBas
                 resString += "O"
             }
             SanityCheck.check({ resString.length == 3 || (resString.length == 4 && resString.contains("_")) }, { "$resString ${children.map { it.toSparql() }} $sortPriority" })
-            return EIndexPattern.valueOf(resString)
+            return EIndexPatternExt.names.indexOf(resString)
         }
     }
     override /*suspend*/ fun calculateHistogram(): HistogramResult {

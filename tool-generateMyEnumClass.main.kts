@@ -51,4 +51,6 @@ File(args[3] + "Ext.kt").printWriter().use { out ->
 ./tool-generateMyEnumClass.main.kts EPOPDebugMode lupos.s00misc public  src/luposdate3000_operators/src/commonMain/kotlin/lupos/s00misc/EPOPDebugMode
 ./tool-generateMyEnumClass.main.kts Turtle2ParserState lupos.s02buildSyntaxTree.turtle internal src/luposdate3000_parser/src/commonMain/kotlin/lupos/s02buildSyntaxTree/turtle/Turtle2ParserState
 ./tool-generateMyEnumClass.main.kts EOptimizerID lupos.s00misc internal src/luposdate3000_optimizer/src/commonMain/kotlin/lupos/s00misc/EOptimizerID
+./tool-generateMyEnumClass.main.kts EOperatingSystem lupos.s00misc public src/luposdate3000_shared/src/commonMain/kotlin/lupos/s00misc/EOperatingSystem
+./tool-generateMyEnumClass.main.kts EIndexPattern lupos.s00misc public src/luposdate3000_shared/src/commonMain/kotlin/lupos/s00misc/EIndexPattern
 */

@@ -1,5 +1,7 @@
 package lupos.s15tripleStoreDistributed
 import lupos.s00misc.EIndexPattern
+import lupos.s00misc.EIndexPatternHelper
+import lupos.s00misc.EIndexPatternExt
 import lupos.s00misc.EModifyType
 import lupos.s00misc.EOperatorIDExt
 import lupos.s00misc.ESortPriorityExt
@@ -65,15 +67,15 @@ public class TripleStoreIteratorGlobal(query: IQuery, projectedVariables: List<S
     }
     init {
         SanityCheck {
-            if (idx.keyIndices.size == 3) {
+            if (EIndexPatternHelper.keyIndices[idx].size == 3) {
                 if (params[0] is AOPVariable) {
-                    idx.keyIndices.map { SanityCheck.check { params[it] is AOPVariable } }
+                    EIndexPatternHelper.keyIndices[idx].map { SanityCheck.check { params[it] is AOPVariable } }
                 } else {
-                    idx.keyIndices.map { SanityCheck.check { params[it] is AOPConstant } }
+                    EIndexPatternHelper.keyIndices[idx].map { SanityCheck.check { params[it] is AOPConstant } }
                 }
             } else {
-                idx.keyIndices.map { SanityCheck.check { params[it] is AOPConstant } }
-                idx.valueIndices.map { SanityCheck.check { params[it] is AOPVariable } }
+                EIndexPatternHelper.keyIndices[idx].map { SanityCheck.check { params[it] is AOPConstant } }
+                EIndexPatternHelper.valueIndices[idx].map { SanityCheck.check { params[it] is AOPVariable } }
             }
         }
     }
@@ -134,20 +136,20 @@ public class DistributedGraph(@JvmField public val query: IQuery, @JvmField publ
     override fun getIterator(params: Array<IAOPBase>, idx: EIndexPattern, partition: Partition): POPBase {
         val projectedVariables = mutableListOf<String>()
         SanityCheck {
-            if (idx.keyIndices.size == 3) {
+            if (EIndexPatternHelper.keyIndices[idx].size == 3) {
                 if (params[0] is AOPVariable) {
-                    idx.keyIndices.map { SanityCheck.check { params[it] is AOPVariable } }
+                    EIndexPatternHelper.keyIndices[idx].map { SanityCheck.check { params[it] is AOPVariable } }
                 } else {
-                    idx.keyIndices.map { SanityCheck.check { params[it] is AOPConstant } }
+                    EIndexPatternHelper.keyIndices[idx].map { SanityCheck.check { params[it] is AOPConstant } }
                 }
             } else {
-                idx.keyIndices.map { SanityCheck.check { params[it] is AOPConstant } }
-                idx.valueIndices.map { SanityCheck.check { params[it] is AOPVariable } }
+                EIndexPatternHelper.keyIndices[idx].map { SanityCheck.check { params[it] is AOPConstant } }
+                EIndexPatternHelper.valueIndices[idx].map { SanityCheck.check { params[it] is AOPVariable } }
             }
         }
-        if (idx.keyIndices.size == 3) {
+        if (EIndexPatternHelper.keyIndices[idx].size == 3) {
             if (params[0] is AOPVariable) {
-                idx.keyIndices.forEach {
+                EIndexPatternHelper.keyIndices[idx].forEach {
                     val tmp = (params[it] as AOPVariable).name
                     if (tmp != "_") {
                         projectedVariables.add(tmp)
@@ -155,7 +157,7 @@ public class DistributedGraph(@JvmField public val query: IQuery, @JvmField publ
                 }
             }
         } else {
-            idx.valueIndices.forEach {
+            EIndexPatternHelper.valueIndices[idx].forEach {
                 val tmp = (params[it] as AOPVariable).name
                 if (tmp != "_") {
                     projectedVariables.add(tmp)
@@ -166,20 +168,20 @@ public class DistributedGraph(@JvmField public val query: IQuery, @JvmField publ
     }
     override /*suspend*/ fun getHistogram(params: Array<IAOPBase>, idx: EIndexPattern): Pair<Int, Int> {
         SanityCheck {
-            if (idx.keyIndices.size == 3) {
+            if (EIndexPatternHelper.keyIndices[idx].size == 3) {
                 if (params[0] is AOPVariable) {
-                    idx.keyIndices.map { SanityCheck.check { params[it] is AOPVariable } }
+                    EIndexPatternHelper.keyIndices[idx].map { SanityCheck.check { params[it] is AOPVariable } }
                 } else {
-                    idx.keyIndices.map { SanityCheck.check { params[it] is AOPConstant } }
+                    EIndexPatternHelper.keyIndices[idx].map { SanityCheck.check { params[it] is AOPConstant } }
                 }
             } else {
-                idx.keyIndices.map { SanityCheck.check { params[it] is AOPConstant } }
-                idx.valueIndices.map { SanityCheck.check { params[it] is AOPVariable } }
+                EIndexPatternHelper.keyIndices[idx].map { SanityCheck.check { params[it] is AOPConstant } }
+                EIndexPatternHelper.valueIndices[idx].map { SanityCheck.check { params[it] is AOPVariable } }
             }
             var variableNames = 0
-            if (idx.keyIndices.size == 3) {
+            if (EIndexPatternHelper.keyIndices[idx].size == 3) {
                 if (params[0] is AOPVariable) {
-                    idx.keyIndices.forEach {
+                    EIndexPatternHelper.keyIndices[idx].forEach {
                         val tmp = (params[it] as AOPVariable).name
                         if (tmp != "_") {
                             variableNames++
@@ -187,7 +189,7 @@ public class DistributedGraph(@JvmField public val query: IQuery, @JvmField publ
                     }
                 }
             } else {
-                idx.valueIndices.forEach {
+                EIndexPatternHelper.valueIndices[idx].forEach {
                     val tmp = (params[it] as AOPVariable).name
                     if (tmp != "_") {
                         variableNames++

@@ -1,6 +1,8 @@
 package lupos.s05tripleStore
 import lupos.s00misc.BugException
 import lupos.s00misc.EIndexPattern
+import lupos.s00misc.EIndexPatternHelper
+import lupos.s00misc.EIndexPatternExt
 import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
 import lupos.s04arithmetikOperators.IAOPBase
@@ -27,13 +29,13 @@ public sealed class TripleStoreFeatureParams(@JvmField public val feature: Tripl
 public class TripleStoreFeatureParamsDefault(@JvmField public val idx: EIndexPattern, params: Array<IAOPBase>) : TripleStoreFeatureParams(TripleStoreFeatureExt.DEFAULT, params) {
     override fun toString(): String = "TripleStoreFeatureParamsDefault $feature $idx ${params.map { myToStringHelper(it) }}"
     override fun chooseData(data: IntArray, featureRange: Pair<Int, Int>, params: TripleStoreFeatureParams): Int {
-        return data[featureRange.first + idx.ordinal]
+        return data[featureRange.first + idx]
     }
     public fun getFilter(query: IQuery): IntArray {
         var variableCount = 0
         val filter = mutableListOf<Int>()
         for (ii in 0 until 3) {
-            val i = idx.tripleIndicees[ii]
+            val i = EIndexPatternHelper.tripleIndicees[idx][ii]
             val param = params[i]
             if (param is IAOPConstant) {
                 SanityCheck.check { filter.size == ii }
@@ -55,7 +57,7 @@ public class TripleStoreFeatureParamsDefault(@JvmField public val idx: EIndexPat
         val filter = mutableListOf<Int>()
         val projection = mutableListOf<String>()
         for (ii in 0 until 3) {
-            val i = idx.tripleIndicees[ii]
+            val i = EIndexPatternHelper.tripleIndicees[idx][ii]
             when (val param = params[i]) {
                 is IAOPConstant -> {
                     SanityCheck.check { filter.size == ii }
@@ -79,7 +81,7 @@ public class TripleStoreFeatureParamsPartition(@JvmField public val idx: EIndexP
      * currently column==0 is not supported
      */
     override fun chooseData(data: IntArray, featureRange: Pair<Int, Int>, params: TripleStoreFeatureParams): Int {
-        return data[featureRange.first + idx.ordinal + EIndexPattern.values().size * (getColumn() - 1)]
+        return data[featureRange.first + idx + EIndexPatternExt.values_size * (getColumn() - 1)]
     }
     public fun toTripleStoreFeatureParamsDefault(): TripleStoreFeatureParamsDefault {
         return TripleStoreFeatureParamsDefault(idx, params)
@@ -95,7 +97,7 @@ public class TripleStoreFeatureParamsPartition(@JvmField public val idx: EIndexP
         }
         var j = 0
         for (ii in 0 until 3) {
-            val i = idx.tripleIndicees[ii]
+            val i = EIndexPatternHelper.tripleIndicees[idx][ii]
             val param = params[i]
             if (param is IAOPVariable) {
                 if (param.getName() == name) {

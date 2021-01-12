@@ -4,6 +4,7 @@ import lupos.s00misc.EGraphOperationTypeExt
 import lupos.s00misc.EGraphRefType
 import lupos.s00misc.EGraphRefTypeExt
 import lupos.s00misc.EIndexPattern
+import lupos.s00misc.EIndexPatternExt
 import lupos.s00misc.EModifyTypeExt
 import lupos.s00misc.EOperatorIDExt
 import lupos.s00misc.ESortPriorityExt
@@ -118,7 +119,7 @@ public class POPGraphOperation public constructor(
     override fun equals(other: Any?): Boolean = other is POPGraphOperation && silent == other.silent && graph1iri == other.graph1iri && graph1type == other.graph1type && graph2iri == other.graph2iri && graph2type == other.graph2type && action == other.action
     override fun cloneOP(): IOPBase = POPGraphOperation(query, projectedVariables, silent, graph1type, graph1iri, graph2type, graph2iri, action)
     /*suspend*/ private fun copyData(source: IDistributedGraph, target: IDistributedGraph, parent: Partition) {
-        val row = source.getIterator(EIndexPattern.SPO, Partition()).evaluate(parent)
+        val row = source.getIterator(EIndexPatternExt.SPO, Partition()).evaluate(parent)
         val iterator = arrayOf(row.columns["s"]!!, row.columns["p"]!!, row.columns["o"]!!)
         target.modify(iterator, EModifyTypeExt.INSERT)
     }

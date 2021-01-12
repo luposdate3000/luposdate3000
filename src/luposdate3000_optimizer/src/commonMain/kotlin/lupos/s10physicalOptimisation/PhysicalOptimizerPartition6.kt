@@ -2,6 +2,8 @@ package lupos.s10physicalOptimisation
 import lupos.s00misc.DontCareWhichException
 import lupos.s00misc.EOptimizerIDExt
 import lupos.s00misc.ESortTypeExt
+import lupos.s00misc.EIndexPatternExt
+import lupos.s00misc.EIndexPatternHelper
 import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.SortHelper
@@ -36,7 +38,7 @@ public class PhysicalOptimizerPartition6(query: Query) : OptimizerBase(query, EO
                             var columnToUse = -1
                             var idx = 0
                             for (p in enabledPartitions) {
-                                if (p.index.contains(node.idx) && (p.partitionCount <countToUse || countToUse == -1) && (node.children[node.idx.tripleIndicees[p.column]]is AOPVariable)) {
+                                if (p.index.contains(node.idx) && (p.partitionCount <countToUse || countToUse == -1) && (node.children[EIndexPatternHelper.tripleIndicees[node.idx][p.column]]is AOPVariable)) {
                                     columnToUse = p.column
                                     countToUse = p.partitionCount
                                 }
@@ -53,7 +55,7 @@ public class PhysicalOptimizerPartition6(query: Query) : OptimizerBase(query, EO
                                 }
                                 variableToUse = "_$columnToUse"
                             } else {
-                                variableToUse = (node.children[node.idx.tripleIndicees[columnToUse]]as AOPVariable).name
+                                variableToUse = (node.children[EIndexPatternHelper.tripleIndicees[node.idx][columnToUse]]as AOPVariable).name
                                 if (variableToUse == "_") {
                                     variableToUse = "_$columnToUse"
                                 }
@@ -67,7 +69,7 @@ public class PhysicalOptimizerPartition6(query: Query) : OptimizerBase(query, EO
                                 query.addPartitionOperator(res.getUUID(), partitionID)
                                 if (node.projectedVariables.isNotEmpty()) {
                                     res = POPMergePartitionOrderedByIntId(query, node.projectedVariables, variableToUse, countToUse, partitionID, res)
-                                    for (i in node.idx.valueIndices) {
+                                    for (i in EIndexPatternHelper.valueIndices[node.idx]) {
                                         val c = node.children[i]
                                         SanityCheck.check { c is AOPVariable }
                                         if (c is AOPVariable && c.name != "_") {

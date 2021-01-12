@@ -1,6 +1,7 @@
 package lupos
 import lupos.s00misc.DateHelperRelative
 import lupos.s00misc.EIndexPattern
+import lupos.s00misc.EIndexPatternExt
 import lupos.s00misc.EModifyTypeExt
 import lupos.s00misc.File
 import lupos.s00misc.JenaBugException
@@ -441,7 +442,7 @@ public open class SparqlTestSuite {
                         val query = Query()
                         query.setWorkingDirectory(queryFile.substring(0, queryFile.lastIndexOf("/")))
                         LuposdateEndpoint.importTurtleFiles(inputDataFileName, mutableMapOf())
-                        val bulkSelect = distributedTripleStore.getDefaultGraph(query).getIterator(arrayOf(AOPVariable(query, "s"), AOPVariable(query, "p"), AOPVariable(query, "o")), EIndexPattern.SPO, Partition())
+                        val bulkSelect = distributedTripleStore.getDefaultGraph(query).getIterator(arrayOf(AOPVariable(query, "s"), AOPVariable(query, "p"), AOPVariable(query, "o")), EIndexPatternExt.SPO, Partition())
                         val xmlGraphBulk = QueryResultToXMLElement.toXML(bulkSelect)
                         if (!xmlGraphBulk.myEqualsUnclean(xmlQueryInput, true, true, true)) {
                             println("test xmlQueryInput :: " + xmlQueryInput.toPrettyString())
@@ -570,7 +571,7 @@ public open class SparqlTestSuite {
             outputDataGraph.forEach {
                 val outputData = readFileOrNull(it["filename"])
                 val xmlGraphTarget = XMLElement.parseFromAny(outputData!!, it["filename"]!!)!!
-                val tmp = distributedTripleStore.getNamedGraph(query, it["name"]!!).getIterator(arrayOf(AOPVariable(query, "s"), AOPVariable(query, "p"), AOPVariable(query, "o")), EIndexPattern.SPO, Partition())
+                val tmp = distributedTripleStore.getNamedGraph(query, it["name"]!!).getIterator(arrayOf(AOPVariable(query, "s"), AOPVariable(query, "p"), AOPVariable(query, "o")), EIndexPatternExt.SPO, Partition())
                 val xmlGraphActual = QueryResultToXMLElement.toXML(tmp)
                 if (!xmlGraphTarget.myEqualsUnclean(xmlGraphActual, true, true, true)) {
                     println("OutputData Graph[${it["name"]}] Original")
