@@ -1,5 +1,6 @@
 package lupos.s00misc
-public enum class EIndexPattern(public val keyIndices: IntArray, public val valueIndices: IntArray, public val tripleIndicees: IntArray) {
+import kotlin.jvm.JvmField
+public enum class EIndexPattern(@JvmField public val keyIndices: IntArray, @JvmField public val valueIndices: IntArray, @JvmField public val tripleIndicees: IntArray) {
     S_PO(intArrayOf(0), intArrayOf(1, 2), intArrayOf(0, 1, 2)),
     SP_O(intArrayOf(0, 1), intArrayOf(2), intArrayOf(0, 1, 2)),
     SPO(intArrayOf(0, 1, 2), intArrayOf(), intArrayOf(0, 1, 2)),

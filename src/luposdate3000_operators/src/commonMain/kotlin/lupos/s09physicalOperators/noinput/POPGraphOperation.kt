@@ -19,7 +19,7 @@ import lupos.s09physicalOperators.POPBase
 import lupos.s15tripleStoreDistributed.IDistributedGraph
 import lupos.s15tripleStoreDistributed.distributedTripleStore
 import kotlin.jvm.JvmField
-public class POPGraphOperation(
+public class POPGraphOperation public constructor(
     query: IQuery,
     projectedVariables: List<String>,
     @JvmField public val silent: Boolean,

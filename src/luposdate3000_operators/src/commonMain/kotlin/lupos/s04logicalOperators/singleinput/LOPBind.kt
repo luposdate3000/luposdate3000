@@ -10,7 +10,8 @@ import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.LOPBase
 import lupos.s04logicalOperators.noinput.OPEmptyRow
 import kotlin.jvm.JvmField
-public class LOPBind(query: IQuery, @JvmField public val name: AOPVariable, expression: AOPBase, child: IOPBase = OPEmptyRow(query)) : LOPBase(query, EOperatorID.LOPBindID, "LOPBind", arrayOf(child, expression), ESortPriority.BIND) {
+public class LOPBind public constructor(query: IQuery, @JvmField public val name: AOPVariable, expression: AOPBase, child: IOPBase ) : LOPBase(query, EOperatorID.LOPBindID, "LOPBind", arrayOf(child, expression), ESortPriority.BIND) {
+public constructor(query: IQuery,  name: AOPVariable, expression: AOPBase):this(query,name,expression,OPEmptyRow(query))
     override fun childrenToVerifyCount(): Int = 1
     override fun getProvidedVariableNames(): MutableList<String> = (children[0].getProvidedVariableNames() + name.name).distinct().toMutableList()
     override fun getRequiredVariableNames(): List<String> = children[1].getRequiredVariableNamesRecoursive().distinct()

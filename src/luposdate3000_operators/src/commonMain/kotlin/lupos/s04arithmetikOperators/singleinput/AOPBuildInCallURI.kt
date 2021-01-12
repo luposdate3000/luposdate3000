@@ -12,7 +12,8 @@ import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import kotlin.jvm.JvmField
-public class AOPBuildInCallURI(query: IQuery, child: AOPBase, @JvmField public var prefix: String = "") : AOPBase(query, EOperatorID.AOPBuildInCallURIID, "AOPBuildInCallURI", arrayOf(child)) {
+public class AOPBuildInCallURI public constructor(query: IQuery, child: AOPBase, @JvmField public var prefix: String ) : AOPBase(query, EOperatorID.AOPBuildInCallURIID, "AOPBuildInCallURI", arrayOf(child)) {
+public constructor(query: IQuery, child: AOPBase):this(query,child,"")
     override fun toSparql(): String = "URI(" + children[0].toSparql() + ")"
     override fun applyPrefix(prefix: String, iri: String) {
         if (prefix == "") {

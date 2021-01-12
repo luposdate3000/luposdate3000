@@ -9,7 +9,10 @@ import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.LOPBase
 import lupos.s04logicalOperators.noinput.OPEmptyRow
 import kotlin.jvm.JvmField
-public class LOPProjection(query: IQuery, @JvmField public val variables: MutableList<AOPVariable> = mutableListOf(), child: IOPBase = OPEmptyRow(query)) : LOPBase(query, EOperatorID.LOPProjectionID, "LOPProjection", arrayOf(child), ESortPriority.SAME_AS_CHILD) {
+public class LOPProjection public constructor(query: IQuery, @JvmField public val variables: MutableList<AOPVariable> , child: IOPBase ) : LOPBase(query, EOperatorID.LOPProjectionID, "LOPProjection", arrayOf(child), ESortPriority.SAME_AS_CHILD) {
+public constructor(query: IQuery,variables: MutableList<AOPVariable> ):this(query,variables,OPEmptyRow(query))
+public constructor(query: IQuery ):this(query,mutableListOf(),OPEmptyRow(query))
+public constructor(query: IQuery,child: IOPBase ):this(query,mutableListOf(),child)
     override fun getProvidedVariableNames(): List<String> {
         return MutableList(variables.size) { variables[it].name }.distinct()
     }

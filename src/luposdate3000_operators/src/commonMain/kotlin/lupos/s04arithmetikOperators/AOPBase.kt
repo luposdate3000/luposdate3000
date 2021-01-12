@@ -10,7 +10,7 @@ import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.iterator.IteratorBundle
-public abstract class AOPBase(
+public abstract class AOPBase public constructor(
     query: IQuery,
     operatorID: EOperatorID,
     classname: String,

@@ -13,12 +13,15 @@ import lupos.s09physicalOperators.partition.POPMergePartitionOrderedByIntId
 import lupos.s09physicalOperators.partition.POPSplitPartition
 import lupos.s09physicalOperators.partition.POPSplitPartitionFromStore
 import kotlin.jvm.JvmField
-public class PartitionHelper {
+public class PartitionHelper  public constructor(){
     @JvmField public var iterators: MutableMap<Partition, Array<IteratorBundle>>? = null
     internal var jobs: MutableMap<Partition, ParallelJob>? = null
     internal val lock = MyLock()
 }
-public class Query(@JvmField public val dictionary: ResultSetDictionary = ResultSetDictionary(), @JvmField public val transactionID: Long = global_transactionID++) : IQuery {
+public class Query public constructor(@JvmField public val dictionary: ResultSetDictionary , @JvmField public val transactionID: Long) : IQuery {
+public constructor(dictionary: ResultSetDictionary):this(dictionary,global_transactionID++)
+public constructor(transactionID: Long):this(ResultSetDictionary(),transactionID)
+public constructor():this(ResultSetDictionary(),global_transactionID++)
     @JvmField
     public var _workingDirectory: String = ""
     @JvmField

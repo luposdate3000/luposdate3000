@@ -8,7 +8,8 @@ import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.LOPBase
 import lupos.s04logicalOperators.noinput.OPEmptyRow
 import kotlin.jvm.JvmField
-public class LOPOffset(query: IQuery, @JvmField public val offset: Int, child: IOPBase = OPEmptyRow(query)) : LOPBase(query, EOperatorID.LOPOffsetID, "LOPOffset", arrayOf(child), ESortPriority.SAME_AS_CHILD) {
+public class LOPOffset public constructor(query: IQuery, @JvmField public val offset: Int, child: IOPBase ) : LOPBase(query, EOperatorID.LOPOffsetID, "LOPOffset", arrayOf(child), ESortPriority.SAME_AS_CHILD) {
+public constructor(query: IQuery, offset: Int):this(query,offset,OPEmptyRow(query))
     override /*suspend*/ fun toXMLElement(): XMLElement = super.toXMLElement().addAttribute("offset", "" + offset)
     override fun equals(other: Any?): Boolean = other is LOPOffset && offset == other.offset && children[0] == other.children[0]
     override fun cloneOP(): IOPBase = LOPOffset(query, offset, children[0].cloneOP())

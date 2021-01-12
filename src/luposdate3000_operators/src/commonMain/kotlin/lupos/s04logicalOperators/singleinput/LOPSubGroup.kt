@@ -6,7 +6,8 @@ import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.LOPBase
 import lupos.s04logicalOperators.noinput.OPEmptyRow
-public class LOPSubGroup(query: IQuery, child: IOPBase = OPEmptyRow(query)) : LOPBase(query, EOperatorID.LOPSubGroupID, "LOPSubGroup", arrayOf(child), ESortPriority.SAME_AS_CHILD) {
+public class LOPSubGroup public constructor(query: IQuery, child: IOPBase ) : LOPBase(query, EOperatorID.LOPSubGroupID, "LOPSubGroup", arrayOf(child), ESortPriority.SAME_AS_CHILD) {
+public constructor(query: IQuery):this(query,OPEmptyRow(query))
     override fun equals(other: Any?): Boolean = other is LOPSubGroup && children[0] == other.children[0]
     override fun cloneOP(): IOPBase = LOPSubGroup(query, children[0].cloneOP())
     override /*suspend*/ fun calculateHistogram(): HistogramResult {

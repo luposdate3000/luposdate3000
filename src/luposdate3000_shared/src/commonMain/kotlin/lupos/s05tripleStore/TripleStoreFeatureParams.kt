@@ -7,7 +7,8 @@ import lupos.s04arithmetikOperators.IAOPBase
 import lupos.s04arithmetikOperators.noinput.IAOPConstant
 import lupos.s04arithmetikOperators.noinput.IAOPVariable
 import lupos.s04logicalOperators.IQuery
-public sealed class TripleStoreFeatureParams(public val feature: TripleStoreFeature, public val params: Array<IAOPBase>) {
+import kotlin.jvm.JvmField
+public sealed class TripleStoreFeatureParams(@JvmField public val feature: TripleStoreFeature, @JvmField public val params: Array<IAOPBase>) {
     public abstract fun chooseData(data: IntArray, featureRange: Pair<Int, Int>, params: TripleStoreFeatureParams): Int
     internal fun myToStringHelper(n: IAOPBase): String {
         return when (n) {
@@ -23,7 +24,7 @@ public sealed class TripleStoreFeatureParams(public val feature: TripleStoreFeat
         }
     }
 }
-public class TripleStoreFeatureParamsDefault(public val idx: EIndexPattern, params: Array<IAOPBase>) : TripleStoreFeatureParams(TripleStoreFeature.DEFAULT, params) {
+public class TripleStoreFeatureParamsDefault(@JvmField public val idx: EIndexPattern, params: Array<IAOPBase>) : TripleStoreFeatureParams(TripleStoreFeature.DEFAULT, params) {
     override fun toString(): String = "TripleStoreFeatureParamsDefault $feature $idx ${params.map { myToStringHelper(it) }}"
     override fun chooseData(data: IntArray, featureRange: Pair<Int, Int>, params: TripleStoreFeatureParams): Int {
         return data[featureRange.first + idx.ordinal]
@@ -71,7 +72,7 @@ public class TripleStoreFeatureParamsDefault(public val idx: EIndexPattern, para
         return Pair(IntArray(filter.size) { filter[it] }, projection)
     }
 }
-public class TripleStoreFeatureParamsPartition(public val idx: EIndexPattern, params: Array<IAOPBase>, public val partition: Partition) : TripleStoreFeatureParams(TripleStoreFeature.PARTITION, params) {
+public class TripleStoreFeatureParamsPartition(@JvmField public val idx: EIndexPattern, params: Array<IAOPBase>, @JvmField public val partition: Partition) : TripleStoreFeatureParams(TripleStoreFeature.PARTITION, params) {
     override fun toString(): String = "TripleStoreFeatureParamsDefault $feature $idx ${params.map { myToStringHelper(it) }} ${partition.data.map { it }} ${getColumn()}"
     /*
      * column 0, 1 or 2 .. references the 'x'-th column in choosen idx

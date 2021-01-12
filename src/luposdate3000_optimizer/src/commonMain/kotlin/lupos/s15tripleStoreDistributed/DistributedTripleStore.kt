@@ -209,6 +209,9 @@ public class DistributedTripleStore : IDistributedTripleStore {
         localStore.reloadPartitioningScheme()
     }
     override fun getLocalStore(): PersistentStoreLocal = localStore
+    override fun getGraphNames(): List<String> {
+return getGraphNames(false)
+}
     override fun getGraphNames(includeDefault: Boolean): List<String> {
         return localStore.getGraphNames(includeDefault)
     }

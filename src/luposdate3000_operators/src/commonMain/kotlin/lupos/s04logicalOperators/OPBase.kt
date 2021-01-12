@@ -28,7 +28,7 @@ import lupos.s04logicalOperators.singleinput.LOPSort
 import lupos.s04logicalOperators.singleinput.modifiers.LOPSortAny
 import lupos.s09physicalOperators.singleinput.POPSort
 import kotlin.jvm.JvmField
-public abstract class OPBase(@JvmField public val query: IQuery, @JvmField public val operatorID: EOperatorID, @JvmField public val classname: String, @JvmField public val children: Array<IOPBase>, private val sortPriority: ESortPriority) : IOPBase {
+public abstract class OPBase public constructor(@JvmField public val query: IQuery, @JvmField public val operatorID: EOperatorID, @JvmField public val classname: String, @JvmField public val children: Array<IOPBase>, private val sortPriority: ESortPriority) : IOPBase {
     override fun getClassname(): String = classname
     @JvmField
     public var onlyExistenceRequired: Boolean = false
@@ -198,8 +198,7 @@ public abstract class OPBase(@JvmField public val query: IQuery, @JvmField publi
     override fun getPossibleSortPriorities(): List<List<SortHelper>> {
         /*possibilities for_ next operator*/
         val res = mutableListOf<List<SortHelper>>()
-        when (sortPriority) {
-            ESortPriority.ANY_PROVIDED_VARIABLE -> {
+if(sortPriority==            ESortPriority.ANY_PROVIDED_VARIABLE ) {
                 if (mySortPriority.size > 0) {
                     res.add(mySortPriority)
                 } else {
@@ -225,8 +224,7 @@ public abstract class OPBase(@JvmField public val query: IQuery, @JvmField publi
                         }
                     }
                 }
-            }
-            ESortPriority.SAME_AS_CHILD, ESortPriority.BIND, ESortPriority.MINUS -> {
+            }else if(sortPriority==            ESortPriority.SAME_AS_CHILD||sortPriority== ESortPriority.BIND||sortPriority== ESortPriority.MINUS ) {
                 val provided = getProvidedVariableNames()
                 for (x in children[0].getPossibleSortPriorities()) {
                     val tmp = mutableListOf<SortHelper>()
@@ -239,13 +237,10 @@ public abstract class OPBase(@JvmField public val query: IQuery, @JvmField publi
                     }
                     addToPrefixFreeList(tmp, res)
                 }
-            }
-            ESortPriority.GROUP -> {
+            }else if(sortPriority==            ESortPriority.GROUP ){
                 throw Exception("this should be overriden by the corresponding class")
-            }
-            ESortPriority.PREVENT_ANY, ESortPriority.UNION -> {
-            }
-            ESortPriority.SORT -> {
+            }else if (sortPriority==            ESortPriority.PREVENT_ANY||sortPriority== ESortPriority.UNION ) {
+            }else if( sortPriority==            ESortPriority.SORT ) {
                 val requiredVariables = mutableListOf<String>()
                 var sortType = ESortType.ASC
                 when (this) {
@@ -275,8 +270,7 @@ public abstract class OPBase(@JvmField public val query: IQuery, @JvmField publi
                     tmp.add(SortHelper(v, sortType))
                 }
                 res.add(tmp)
-            }
-            ESortPriority.JOIN -> {
+            }else if(sortPriority==            ESortPriority.JOIN ) {
                 val resTmp = Array(2) { mutableListOf<List<SortHelper>>() }
                 val childA = children[0]
                 val childB = children[1]
@@ -323,7 +317,6 @@ public abstract class OPBase(@JvmField public val query: IQuery, @JvmField publi
                     }
                 }
             }
-        }
         return res
     }
     override fun applyPrefix(prefix: String, iri: String) {

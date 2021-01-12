@@ -4,7 +4,7 @@ import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.ColumnIteratorAggregate
 import lupos.s04logicalOperators.iterator.IteratorBundle
-public abstract class AOPAggregationBase(
+public abstract class AOPAggregationBase public constructor(
     query: IQuery,
     operatorID: EOperatorID,
     classname: String,
