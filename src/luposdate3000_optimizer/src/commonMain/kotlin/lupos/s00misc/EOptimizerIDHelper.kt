@@ -2,7 +2,7 @@ package lupos.s00misc
 import kotlin.jvm.JvmField
 public object EOptimizerIDHelper {
     @JvmField public val optional: BooleanArray = BooleanArray(EOptimizerIDExt.values_size) {
-        when (it) {
+        when (EOptimizerID(it)) {
             EOptimizerIDExt.LogicalOptimizerMinusAddSortID -> true
             EOptimizerIDExt.LogicalOptimizerDistinctSplitID -> true
             EOptimizerIDExt.LogicalOptimizerSortDownID -> true
@@ -50,7 +50,7 @@ public object EOptimizerIDHelper {
         }
     }
     @JvmField public val repeatOnChange: BooleanArray = BooleanArray(EOptimizerIDExt.values_size) {
-        when (it) {
+        when (EOptimizerID(it)) {
             EOptimizerIDExt.LogicalOptimizerMinusAddSortID -> true
             EOptimizerIDExt.LogicalOptimizerDistinctSplitID -> true
             EOptimizerIDExt.LogicalOptimizerSortDownID -> true

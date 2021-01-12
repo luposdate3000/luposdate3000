@@ -109,7 +109,7 @@ public class TripleStoreIndexIDTriple public constructor(store_root_page_id_: In
                 )
             }
         } else {
-            ByteArrayHelper.writeInt4(rootPage, 0, ETripleIndexTypeExt.ID_TRIPLE)
+            ByteArrayHelper.writeInt4(rootPage, 0, ETripleIndexTypeExt.ID_TRIPLE.ordinal)
             ByteArrayHelper.writeInt4(rootPage, 4, root)
             ByteArrayHelper.writeInt4(rootPage, 8, countPrimary)
             ByteArrayHelper.writeInt4(rootPage, 12, distinctPrimary)

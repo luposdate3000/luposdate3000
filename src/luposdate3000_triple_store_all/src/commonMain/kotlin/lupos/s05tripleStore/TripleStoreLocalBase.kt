@@ -44,10 +44,10 @@ public abstract class TripleStoreLocalBase(@JvmField public val name: String, @J
                     idx++
                 }
                 for (p in enabledPartitions) {
-                    if (p.index.contains(params.idx) && p.column != -1 && (params.params[EIndexPatternHelper.tripleIndicees[params.idx][p.column]]is AOPVariable)) {
+                    if (p.index.contains(params.idx) && p.column != -1 && (params.params[EIndexPatternHelper.tripleIndicees[params.idx.ordinal][p.column]]is AOPVariable)) {
                         var resa = 0
                         var resb = 0
-                        var columnName = (params.params[EIndexPatternHelper.tripleIndicees[params.idx][p.column]]as AOPVariable).name
+                        var columnName = (params.params[EIndexPatternHelper.tripleIndicees[params.idx.ordinal][p.column]]as AOPVariable).name
                         if (columnName == "_") {
                             columnName = "_${p.column}"
                         }
@@ -80,7 +80,7 @@ public abstract class TripleStoreLocalBase(@JvmField public val name: String, @J
                 } else {
                     var j = 0
                     for (ii in 0 until 3) {
-                        val i = EIndexPatternHelper.tripleIndicees[params.idx][ii]
+                        val i = EIndexPatternHelper.tripleIndicees[params.idx.ordinal][ii]
                         val param = params.params[i]
                         if (param is AOPVariable) {
                             if (param.name == partitionName) {
@@ -131,7 +131,7 @@ public abstract class TripleStoreLocalBase(@JvmField public val name: String, @J
                 } else {
                     var j = 0
                     for (ii in 0 until 3) {
-                        val i = EIndexPatternHelper.tripleIndicees[params.idx][ii]
+                        val i = EIndexPatternHelper.tripleIndicees[params.idx.ordinal][ii]
                         val param = params.params[i]
                         if (param is AOPVariable) {
                             if (param.name == partitionName) {
@@ -154,14 +154,20 @@ public abstract class TripleStoreLocalBase(@JvmField public val name: String, @J
                     SanityCheck.println { "invalid :: ${p.index} ${p.column} ${p.partitionCount}" }
                     idx++
                 }
+SanityCheck{
+SanityCheck.println{"FAIL ::::: ${params.idx} $partitionColumn $partitionLimit $partitionName ${params.params.map{it}}"}
+for (p in enabledPartitions) {
+SanityCheck.println{"${p.index} ${p.column} ${p.partitionCount}"}
+}
                 SanityCheck.checkUnreachable()
+}
             }
         }
         SanityCheck.checkUnreachable()
     }
     override /*suspend*/ fun import(dataImport: ITripleStoreBulkImport) {
         for (i in dataDistinct.indices) {
-            dataDistinct[i].second.import(dataDistinct[i].importField(dataImport), dataImport.getIdx(), EIndexPatternHelper.tripleIndicees[dataDistinct[i].idx])
+            dataDistinct[i].second.import(dataDistinct[i].importField(dataImport), dataImport.getIdx(), EIndexPatternHelper.tripleIndicees[dataDistinct[i].idx.ordinal])
         }
     }
     override /*suspend*/ fun commit(query: IQuery) {
@@ -178,7 +184,7 @@ public abstract class TripleStoreLocalBase(@JvmField public val name: String, @J
                     tmp[i] = it.next()
                     i++
                 }
-                dataDistinct[idx].second.insertAsBulk(tmp, EIndexPatternHelper.tripleIndicees[dataDistinct[idx].idx])
+                dataDistinct[idx].second.insertAsBulk(tmp, EIndexPatternHelper.tripleIndicees[dataDistinct[idx].idx.ordinal])
                 pendingModificationsInsert[idx].remove(query.getTransactionID())
             }
             list = pendingModificationsRemove[idx][query.getTransactionID()]
@@ -190,7 +196,7 @@ public abstract class TripleStoreLocalBase(@JvmField public val name: String, @J
                     tmp[i] = it.next()
                     i++
                 }
-                dataDistinct[idx].second.removeAsBulk(tmp, EIndexPatternHelper.tripleIndicees[dataDistinct[idx].idx])
+                dataDistinct[idx].second.removeAsBulk(tmp, EIndexPatternHelper.tripleIndicees[dataDistinct[idx].idx.ordinal])
                 pendingModificationsRemove[idx].remove(query.getTransactionID())
             }
         }

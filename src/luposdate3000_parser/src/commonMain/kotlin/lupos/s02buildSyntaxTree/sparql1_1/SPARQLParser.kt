@@ -646,14 +646,14 @@ public class ASTBuiltInCall(@JvmField public val function: BuiltInFunctions, chi
     public constructor(function: BuiltInFunctions, parameter: ASTNode) : this(function, arrayOf<ASTNode>(parameter))
     public constructor(function: BuiltInFunctions, first_parameter: ASTNode, second_parameter: ASTNode) : this(function, arrayOf<ASTNode>(first_parameter, second_parameter))
     public constructor(function: BuiltInFunctions, first_parameter: ASTNode, second_parameter: ASTNode, third_parameter: ASTNode) : this(function, arrayOf<ASTNode>(first_parameter, second_parameter, third_parameter))
-    public override fun nodeToString(): String = BuiltInFunctionsExt.names[function]
+    public override fun nodeToString(): String = BuiltInFunctionsExt.names[function.ordinal]
     public override fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))
     }
 }
 public open class ASTAggregation(@JvmField public val type: Aggregation, @JvmField public val distinct: Boolean, children: Array<ASTNode>) : ASTNode(children) {
     public constructor(type: Aggregation, distinct: Boolean, child: ASTNode) : this(type, distinct, arrayOf<ASTNode>(child))
-    public override fun nodeToString(): String = AggregationExt.names[type] + (if (distinct) " DISTINCT" else "")
+    public override fun nodeToString(): String = AggregationExt.names[type.ordinal] + (if (distinct) " DISTINCT" else "")
     public override fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))
     }

@@ -232,14 +232,14 @@ public object LuposdateEndpoint {
                     val fileDictionaryStat = File("$fileName.stat")
                     var dictTotal = 0
                     val dictTyped = IntArray(ETripleComponentTypeExt.values_size)
-                    dictTyped[ETripleComponentTypeExt.BLANK_NODE] = 0
+                    dictTyped[ETripleComponentTypeExt.BLANK_NODE.ordinal] = 0
                     fileDictionaryStat.forEachLine {
                         val p = it.split("=")
                         if (p[0] == "total") {
                             dictTotal = p[1].toInt()
                         } else {
                             if (convert_to_bnodes) {
-                                dictTyped[ETripleComponentTypeExt.BLANK_NODE] = dictTyped[ETripleComponentTypeExt.BLANK_NODE] + p[1].toInt()
+                                dictTyped[ETripleComponentTypeExt.BLANK_NODE.ordinal] = dictTyped[ETripleComponentTypeExt.BLANK_NODE.ordinal] + p[1].toInt()
                             } else {
                                 dictTyped[ETripleComponentTypeExt.names.indexOf(p[0])] = p[1].toInt()
                             }

@@ -44,7 +44,7 @@ public class ResultSetDictionary : IResultSetDictionary {
     internal var intToValue = Array(1) { ResultSetDictionaryShared.emptyString }
     @Suppress("NOTHING_TO_INLINE") internal inline fun prepareBulk(total: Int, typed: IntArray) {
         for (t in 0 until ETripleComponentTypeExt.values_size) {
-            when (t) {
+            when (ETripleComponentType(t)) {
                 ETripleComponentTypeExt.IRI -> {
                     val tmp = Array(iriToValue.size + typed[t]) { ResultSetDictionaryShared.emptyString }
                     for (i in iriToValue.indices) {

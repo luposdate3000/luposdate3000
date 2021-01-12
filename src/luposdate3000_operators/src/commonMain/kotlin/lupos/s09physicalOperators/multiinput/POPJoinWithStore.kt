@@ -62,7 +62,7 @@ public class POPJoinWithStore public constructor(query: IQuery, projectedVariabl
         }
         val index = LOPTriple.getIndex(paramsHelper, localSortPriority)
         for (i in 0 until 3) {
-            val j = EIndexPatternHelper.tripleIndicees[index][i]
+            val j = EIndexPatternHelper.tripleIndicees[index.ordinal][i]
             val t = childB.children[j]
             if (t is AOPVariable) {
                 val name = t.name

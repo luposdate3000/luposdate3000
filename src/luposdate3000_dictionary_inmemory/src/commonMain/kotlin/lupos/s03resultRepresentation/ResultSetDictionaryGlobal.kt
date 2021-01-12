@@ -89,7 +89,7 @@ public class ResultSetDictionaryGlobal {
                     throw Exception("invalid read")
                 }
                 val s = buffer.decodeToString(0, length)
-                val i = createByType(s, type)
+                val i = createByType(s, ETripleComponentType(type))
                 if (mapping != null) {
                     mapping[mappingIdx++] = i
                 }
@@ -98,7 +98,7 @@ public class ResultSetDictionaryGlobal {
     }
     public fun prepareBulk(total: Int, typed: IntArray) {
         for (t in 0 until ETripleComponentTypeExt.values_size) {
-            when (t) {
+            when (ETripleComponentType(t)) {
                 ETripleComponentTypeExt.IRI -> {
                     val tmp = Array(iriToValue.size + typed[t]) { ResultSetDictionaryShared.emptyString }
                     for (i in iriToValue.indices) {
@@ -255,7 +255,7 @@ public class ResultSetDictionaryGlobal {
     @Suppress("NOTHING_TO_INLINE") internal inline fun appendToFile(type: ETripleComponentType, data: String) {
         if (!BufferManagerExt.isInMemoryOnly && !initializationphase) {
             val tmp = data.encodeToByteArray()
-            byteBuf[0] = type.toByte()
+            byteBuf[0] = type.ordinal.toByte()
             outputDictionaryFile.writeInt(tmp.size)
             outputDictionaryFile.write(byteBuf)
             outputDictionaryFile.write(tmp)

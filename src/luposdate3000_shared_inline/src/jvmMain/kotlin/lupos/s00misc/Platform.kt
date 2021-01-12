@@ -5,7 +5,6 @@ import kotlin.jvm.JvmField
 internal actual object _Platform {
     @JvmField
     val userHome: String = System.getProperty("user.home")
-    @JvmField
     val operatingSystem = if (System.getProperty("os.name").contains("Windows")) EOperatingSystemExt.Windows else EOperatingSystemExt.Linux
     @JvmField
     val pathSepatator = if (operatingSystem == EOperatingSystemExt.Windows) "\\\\" else "/"

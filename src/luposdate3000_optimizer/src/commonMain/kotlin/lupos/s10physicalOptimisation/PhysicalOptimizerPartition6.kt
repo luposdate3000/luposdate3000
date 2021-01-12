@@ -37,7 +37,7 @@ public class PhysicalOptimizerPartition6(query: Query) : OptimizerBase(query, EO
                             var columnToUse = -1
                             var idx = 0
                             for (p in enabledPartitions) {
-                                if (p.index.contains(node.idx) && (p.partitionCount <countToUse || countToUse == -1) && (node.children[EIndexPatternHelper.tripleIndicees[node.idx][p.column]]is AOPVariable)) {
+                                if (p.index.contains(node.idx) && (p.partitionCount <countToUse || countToUse == -1) && (node.children[EIndexPatternHelper.tripleIndicees[node.idx.ordinal][p.column]]is AOPVariable)) {
                                     columnToUse = p.column
                                     countToUse = p.partitionCount
                                 }
@@ -54,7 +54,7 @@ public class PhysicalOptimizerPartition6(query: Query) : OptimizerBase(query, EO
                                 }
                                 variableToUse = "_$columnToUse"
                             } else {
-                                variableToUse = (node.children[EIndexPatternHelper.tripleIndicees[node.idx][columnToUse]]as AOPVariable).name
+                                variableToUse = (node.children[EIndexPatternHelper.tripleIndicees[node.idx.ordinal][columnToUse]]as AOPVariable).name
                                 if (variableToUse == "_") {
                                     variableToUse = "_$columnToUse"
                                 }
@@ -68,7 +68,7 @@ public class PhysicalOptimizerPartition6(query: Query) : OptimizerBase(query, EO
                                 query.addPartitionOperator(res.getUUID(), partitionID)
                                 if (node.projectedVariables.isNotEmpty()) {
                                     res = POPMergePartitionOrderedByIntId(query, node.projectedVariables, variableToUse, countToUse, partitionID, res)
-                                    for (i in EIndexPatternHelper.valueIndices[node.idx]) {
+                                    for (i in EIndexPatternHelper.valueIndices[node.idx.ordinal]) {
                                         val c = node.children[i]
                                         SanityCheck.check { c is AOPVariable }
                                         if (c is AOPVariable && c.name != "_") {

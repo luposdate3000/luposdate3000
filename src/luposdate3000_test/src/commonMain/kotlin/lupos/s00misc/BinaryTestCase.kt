@@ -284,7 +284,7 @@ public object BinaryTestCase {
                 File("$query_folder/query.triples").dataInputStream { targetTriples ->
                     File("$query_folder/query.result").dataInputStream { targetResult ->
                         func@ while (true) {
-                            val mode = targetStat.readInt()
+                            val mode =BinaryTestCaseOutputMode( targetStat.readInt())
                             val variables = mutableListOf<String>()
                             var targetResultCount = 0
                             when (mode) {
@@ -508,7 +508,7 @@ if (tmpTable != null) {
     }
     public fun generateTestcase(query_input_file: String, query_file: String, query_output_file: String, output_folder: String, query_name: String, output_mode_tmp: BinaryTestCaseOutputMode): Boolean {
         try {
-println("generating for $query_input_file $query_file $query_output_file $output_folder $query_name $output_mode_tmp")
+println("generating for $query_input_file $query_file $query_output_file $output_folder $query_name ${BinaryTestCaseOutputModeExt.names[output_mode_tmp.ordinal]}")
             var outputMode = output_mode_tmp
             File(output_folder).deleteRecursively()
             File(output_folder).mkdirs()
@@ -590,7 +590,7 @@ println("generating for $query_input_file $query_file $query_output_file $output
                                     if (variables.isEmpty()) {
                                         outputMode = BinaryTestCaseOutputModeExt.SELECT_QUERY_RESULT_COUNT
                                     }
-                                    outStat.writeInt(outputMode)
+                                    outStat.writeInt(outputMode.ordinal)
                                     outStat.writeInt(variables.size)
                                     for (element in variables) {
                                         val tmp = element.encodeToByteArray()
@@ -658,7 +658,7 @@ println("generating for $query_input_file $query_file $query_output_file $output
                                     }
                                 }
                                 BinaryTestCaseOutputModeExt.ASK_QUERY_RESULT -> {
-                                    outStat.writeInt(outputMode)
+                                    outStat.writeInt(outputMode.ordinal)
                                     if (target["boolean"]!!.content.toLowerCase() == "true") {
                                         outResult.writeInt(1)
                                     } else {
@@ -674,7 +674,7 @@ println("generating for $query_input_file $query_file $query_output_file $output
                             outStat.write(tmp2)
                             outStat.writeInt(dict.size)
                             outStat.writeInt(inputCounter)
-                            SanityCheck.println { "added Testcase $output_folder $outputMode ($output_mode_tmp) $query_name $query_input_file $query_output_file $query_file" }
+                            SanityCheck.println { "added Testcase $output_folder ${BinaryTestCaseOutputModeExt.names[outputMode.ordinal]} (${BinaryTestCaseOutputModeExt.names[output_mode_tmp.ordinal]}) $query_name $query_input_file $query_output_file $query_file" }
                         }
                     }
                 }

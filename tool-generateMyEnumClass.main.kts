@@ -14,14 +14,19 @@ File(args[3] + ".txt").forEachLine {
 val mapping = mapping2.sorted()
 File(args[3] + ".kt").printWriter().use { out ->
     out.println("package ${args[1]}")
-    out.println("${args[2]} typealias ${args[0]} = Int")
+    out.println("${args[2]} class ${args[0]} public constructor (public val ordinal: Int){")
+    out.println("    public override fun toString():String=throw Exception(\"toString not allowed\")")
+    out.println("    init{")
+    out.println("        if(ordinal<0||ordinal>${mapping.size})throw Exception(\"enum out of range\")")
+    out.println("    }")
+    out.println("}")
 }
 File(args[3] + "Ext.kt").printWriter().use { out ->
     out.println("package ${args[1]}")
     out.println("import kotlin.jvm.JvmField")
     out.println("${args[2]} object ${args[0]}Ext {")
     for (i in 0 until mapping.size) {
-        out.println("    ${args[2]} const val ${mapping[i]}: ${args[0]} = $i")
+        out.println("    ${args[2]}  val ${mapping[i]}: ${args[0]} = ${args[0]}($i)")
     }
     out.println("    ${args[2]} const val values_size: Int = ${mapping.size}")
     out.println("    @JvmField ${args[2]} val names: Array<String> = arrayOf(")
