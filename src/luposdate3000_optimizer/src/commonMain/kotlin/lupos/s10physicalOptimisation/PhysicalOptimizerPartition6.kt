@@ -71,7 +71,7 @@ public class PhysicalOptimizerPartition6(query: Query) : OptimizerBase(query, EO
                                         val c = node.children[i]
                                         SanityCheck.check { c is AOPVariable }
                                         if (c is AOPVariable && c.name != "_") {
-                                            res.mySortPriority.add(SortHelper(c.name, ESortType.FAST))
+                                            res.mySortPriority.add(SortHelper(c.name, ESortTypeExt.FAST))
                                         }
                                     }
                                 } else {

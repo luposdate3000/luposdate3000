@@ -1401,19 +1401,19 @@ return tmp
     private fun graphRefToEnum(ref: ASTGraphRef): Pair<EGraphRefType, String?> {
         when (ref) {
             is ASTIriGraphRef -> {
-                return Pair(EGraphRefType.IriGraphRef, ref.iri)
+                return Pair(EGraphRefTypeExt.IriGraphRef, ref.iri)
             }
             is ASTNamedIriGraphRef -> {
-                return Pair(EGraphRefType.IriGraphRef, ref.iri)
+                return Pair(EGraphRefTypeExt.IriGraphRef, ref.iri)
             }
             is ASTDefaultGraphRef -> {
-                return Pair(EGraphRefType.DefaultGraphRef, null)
+                return Pair(EGraphRefTypeExt.DefaultGraphRef, null)
             }
             is ASTNamedGraphRef -> {
-                return Pair(EGraphRefType.NamedGraphRef, null)
+                return Pair(EGraphRefTypeExt.NamedGraphRef, null)
             }
             is ASTAllGraphRef -> {
-                return Pair(EGraphRefType.AllGraphRef, null)
+                return Pair(EGraphRefTypeExt.AllGraphRef, null)
             }
             else -> {
                 SanityCheck.checkUnreachable()
@@ -1571,9 +1571,9 @@ return tmp
         val tmp = node.into
         return if (tmp != null) {
             val g2 = graphRefToEnum(tmp)
-            LOPGraphOperation(query, EGraphOperationType.LOAD, node.silent, EGraphRefType.DefaultGraphRef, node.iri, g2.first, g2.second)
+            LOPGraphOperation(query, EGraphOperationType.LOAD, node.silent, EGraphRefTypeExt.DefaultGraphRef, node.iri, g2.first, g2.second)
         } else {
-            LOPGraphOperation(query, EGraphOperationType.LOAD, node.silent, EGraphRefType.DefaultGraphRef, node.iri, EGraphRefType.DefaultGraphRef, PersistentStoreLocalExt.defaultGraphName)
+            LOPGraphOperation(query, EGraphOperationType.LOAD, node.silent, EGraphRefTypeExt.DefaultGraphRef, node.iri, EGraphRefTypeExt.DefaultGraphRef, PersistentStoreLocalExt.defaultGraphName)
         }
     }
     override fun visit(node: ASTModify, childrenValues: List<IOPBase>): IOPBase {

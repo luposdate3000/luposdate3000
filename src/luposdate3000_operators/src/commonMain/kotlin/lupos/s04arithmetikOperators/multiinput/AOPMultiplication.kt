@@ -13,7 +13,7 @@ import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.IteratorBundle
 public class AOPMultiplication public constructor
-(query: IQuery, childA: AOPBase, childB: AOPBase) : AOPBinaryOperationFixedName(query, EOperatorID.AOPMultiplicationID, "AOPMultiplication", arrayOf(childA, childB)) {
+(query: IQuery, childA: AOPBase, childB: AOPBase) : AOPBinaryOperationFixedName(query, EOperatorIDExt.AOPMultiplicationID, "AOPMultiplication", arrayOf(childA, childB)) {
     override fun toSparql(): String = "(" + children[0].toSparql() + " * " + children[1].toSparql() + ")"
     override fun equals(other: Any?): Boolean = other is AOPMultiplication && children[0] == other.children[0] && children[1] == other.children[1]
     override fun evaluate(row: IteratorBundle): () -> ValueDefinition {

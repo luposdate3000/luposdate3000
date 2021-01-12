@@ -16,7 +16,7 @@ import lupos.s04logicalOperators.LOPBase
 import lupos.s05tripleStore.PersistentStoreLocalExt
 import lupos.s15tripleStoreDistributed.distributedTripleStore
 import kotlin.jvm.JvmField
-public class LOPTriple public constructor(query: IQuery, s: IAOPBase, p: IAOPBase, o: IAOPBase, @JvmField public val graph: String, @JvmField public val graphVar: Boolean) : LOPBase(query, EOperatorID.LOPTripleID, "LOPTriple", arrayOf(s, p, o), ESortPriority.ANY_PROVIDED_VARIABLE) {
+public class LOPTriple public constructor(query: IQuery, s: IAOPBase, p: IAOPBase, o: IAOPBase, @JvmField public val graph: String, @JvmField public val graphVar: Boolean) : LOPBase(query, EOperatorIDExt.LOPTripleID, "LOPTriple", arrayOf(s, p, o), ESortPriorityExt.ANY_PROVIDED_VARIABLE) {
     override fun toSparql(): String {
         if (graph == PersistentStoreLocalExt.defaultGraphName) {
             return children[0].toSparql() + " " + children[1].toSparql() + " " + children[2].toSparql() + "."

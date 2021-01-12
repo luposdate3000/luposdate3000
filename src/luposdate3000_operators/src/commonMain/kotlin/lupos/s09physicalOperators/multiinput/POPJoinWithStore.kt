@@ -23,7 +23,7 @@ import lupos.s04logicalOperators.noinput.LOPTriple
 import lupos.s09physicalOperators.POPBase
 import lupos.s15tripleStoreDistributed.distributedTripleStore
 import kotlin.jvm.JvmField
-public class POPJoinWithStore public constructor(query: IQuery, projectedVariables: List<String>, childA: IOPBase, @JvmField public val childB: LOPTriple, @JvmField public val optional: Boolean) : POPBase(query, projectedVariables, EOperatorID.POPJoinWithStoreID, "POPJoinWithStore", arrayOf(childA), ESortPriority.SAME_AS_CHILD) {
+public class POPJoinWithStore public constructor(query: IQuery, projectedVariables: List<String>, childA: IOPBase, @JvmField public val childB: LOPTriple, @JvmField public val optional: Boolean) : POPBase(query, projectedVariables, EOperatorIDExt.POPJoinWithStoreID, "POPJoinWithStore", arrayOf(childA), ESortPriorityExt.SAME_AS_CHILD) {
     override fun getPartitionCount(variable: String): Int = children[0].getPartitionCount(variable)
     override fun toSparql(): String {
         if (optional) {
@@ -117,7 +117,7 @@ public class POPJoinWithStore public constructor(query: IQuery, projectedVariabl
             SanityCheck.check { count > 0 }
             SanityCheck.check { count < 3 }
             for (i in 0 until childB.mySortPriority.size) {
-                SanityCheck.check { childB.mySortPriority[i].sortType == ESortType.FAST }
+                SanityCheck.check { childB.mySortPriority[i].sortType == ESortTypeExt.FAST }
             }
             SanityCheck.check { indicesINBJ.size > 0 }
             SanityCheck.check { valuesAJ.size == indicesINBJ.size }

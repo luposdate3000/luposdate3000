@@ -12,7 +12,7 @@ import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.IteratorBundle
-public class AOPSubtraction public constructor(query: IQuery, childA: AOPBase, childB: AOPBase) : AOPBase(query, EOperatorID.AOPSubtractionID, "AOPSubtraction", arrayOf(childA, childB)) {
+public class AOPSubtraction public constructor(query: IQuery, childA: AOPBase, childB: AOPBase) : AOPBase(query, EOperatorIDExt.AOPSubtractionID, "AOPSubtraction", arrayOf(childA, childB)) {
     override fun toSparql(): String = "(" + children[0].toSparql() + " - " + children[1].toSparql() + ")"
     override fun equals(other: Any?): Boolean = other is AOPSubtraction && children[0] == other.children[0] && children[1] == other.children[1]
     override fun evaluate(row: IteratorBundle): () -> ValueDefinition {

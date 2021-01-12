@@ -8,7 +8,7 @@ import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.LOPBase
 import lupos.s04logicalOperators.noinput.OPEmptyRow
 import kotlin.jvm.JvmField
-public class LOPPrefix public constructor(query: IQuery, @JvmField public val name: String, @JvmField public val iri: String, child: IOPBase) : LOPBase(query, EOperatorID.LOPPrefixID, "LOPPrefix", arrayOf(child), ESortPriority.SAME_AS_CHILD) {
+public class LOPPrefix public constructor(query: IQuery, @JvmField public val name: String, @JvmField public val iri: String, child: IOPBase) : LOPBase(query, EOperatorIDExt.LOPPrefixID, "LOPPrefix", arrayOf(child), ESortPriorityExt.SAME_AS_CHILD) {
 public constructor(query: IQuery,name: String, iri: String):this(query,name,iri,OPEmptyRow(query))
     override /*suspend*/ fun toXMLElement(): XMLElement = super.toXMLElement().addAttribute("name", name).addAttribute("iri", iri)
     override fun equals(other: Any?): Boolean = other is LOPPrefix && name == other.name && iri == other.iri && children[0] == other.children[0]

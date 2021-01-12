@@ -16,7 +16,7 @@ import lupos.s04logicalOperators.iterator.RowIterator
 import lupos.s09physicalOperators.POPBase
 import kotlin.jvm.JvmField
 // http://blog.pronghorn.tech/optimizing-suspending-functions-in-kotlin/
-public class POPMergePartitionOrderedByIntId public constructor(query: IQuery, projectedVariables: List<String>, @JvmField public val partitionVariable: String, @JvmField public var partitionCount: Int, @JvmField public var partitionID: Int, child: IOPBase) : POPBase(query, projectedVariables, EOperatorID.POPMergePartitionOrderedByIntIdID, "POPMergePartitionOrderedByIntId", arrayOf(child), ESortPriority.PREVENT_ANY) {
+public class POPMergePartitionOrderedByIntId public constructor(query: IQuery, projectedVariables: List<String>, @JvmField public val partitionVariable: String, @JvmField public var partitionCount: Int, @JvmField public var partitionID: Int, child: IOPBase) : POPBase(query, projectedVariables, EOperatorIDExt.POPMergePartitionOrderedByIntIdID, "POPMergePartitionOrderedByIntId", arrayOf(child), ESortPriorityExt.PREVENT_ANY) {
     override fun getPartitionCount(variable: String): Int {
         return if (variable == partitionVariable) {
             1
@@ -196,7 +196,7 @@ public class POPMergePartitionOrderedByIntId public constructor(query: IQuery, p
             SanityCheck {
                 for (x in sortColumns.indices) {
                     SanityCheck.check { sortColumns[x] >= 0 }
-                    SanityCheck.check { mySortPriority[x].sortType == ESortType.FAST }
+                    SanityCheck.check { mySortPriority[x].sortType == ESortTypeExt.FAST }
                 }
             }
             val iterator = RowIterator()

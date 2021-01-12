@@ -368,9 +368,9 @@ public class GenerateBuildFile(val args: Array<String>) {
             ChooseableOptionConstantValue("lupos.s10physicalOptimisation", "USE_PARTITIONS", "false")
         ),
         ChooseableGroup("Iterator Debug mode", "IteratorDebug") to listOf(
-            ChooseableOptionConstantValue("lupos.s00misc", "ITERATOR_DEBUG_MODE", "EPOPDebugMode.NONE"),
-            ChooseableOptionConstantValue("lupos.s00misc", "ITERATOR_DEBUG_MODE", "EPOPDebugMode.DEBUG1"),
-            ChooseableOptionConstantValue("lupos.s00misc", "ITERATOR_DEBUG_MODE", "EPOPDebugMode.DEBUG2")
+            ChooseableOptionConstantValue("lupos.s00misc", "ITERATOR_DEBUG_MODE", "EPOPDebugModeExt.NONE"),
+            ChooseableOptionConstantValue("lupos.s00misc", "ITERATOR_DEBUG_MODE", "EPOPDebugModeExt.DEBUG1"),
+            ChooseableOptionConstantValue("lupos.s00misc", "ITERATOR_DEBUG_MODE", "EPOPDebugModeExt.DEBUG2")
         ),
     )
     init {

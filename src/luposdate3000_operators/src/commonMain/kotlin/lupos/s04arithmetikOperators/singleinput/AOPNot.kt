@@ -8,7 +8,7 @@ import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import kotlin.jvm.JvmField
-public class AOPNot public constructor(query: IQuery, @JvmField public var child: AOPBase) : AOPBase(query, EOperatorID.AOPNotID, "AOPNot", arrayOf(child)) {
+public class AOPNot public constructor(query: IQuery, @JvmField public var child: AOPBase) : AOPBase(query, EOperatorIDExt.AOPNotID, "AOPNot", arrayOf(child)) {
     override fun toSparql(): String = "!(" + children[0].toSparql() + ")"
     override fun equals(other: Any?): Boolean = other is AOPNot && children[0] == other.children[0]
     override fun evaluate(row: IteratorBundle): () -> ValueDefinition {

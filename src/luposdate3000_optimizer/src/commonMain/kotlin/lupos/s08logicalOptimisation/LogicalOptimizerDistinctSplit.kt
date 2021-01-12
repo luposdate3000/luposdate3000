@@ -30,10 +30,10 @@ public class LogicalOptimizerDistinctSplit(query: Query) : OptimizerBase(query, 
                         variables.addAll(columns[0])
                         variables.addAll(columns[1])
                         variables.addAll(columns[2])
-                        res = LOPReduced(query, LOPSortAny(query, variables.map { SortHelper(it, ESortType.FAST) }, child))
+                        res = LOPReduced(query, LOPSortAny(query, variables.map { SortHelper(it, ESortTypeExt.FAST) }, child))
                         onChange()
                     } else {
-                        res = LOPReduced(query, LOPSortAny(query, provided.map { SortHelper(it, ESortType.FAST) }, child))
+                        res = LOPReduced(query, LOPSortAny(query, provided.map { SortHelper(it, ESortTypeExt.FAST) }, child))
                         onChange()
                     }
                 }

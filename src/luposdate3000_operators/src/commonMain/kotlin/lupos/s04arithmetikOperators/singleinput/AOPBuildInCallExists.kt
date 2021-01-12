@@ -7,7 +7,7 @@ import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import kotlin.jvm.JvmField
-public class AOPBuildInCallExists public constructor(query: IQuery, @JvmField public var child: IOPBase) : AOPBase(query, EOperatorID.AOPBuildInCallExistsID, "AOPBuildInCallExists", arrayOf(child)) {
+public class AOPBuildInCallExists public constructor(query: IQuery, @JvmField public var child: IOPBase) : AOPBase(query, EOperatorIDExt.AOPBuildInCallExistsID, "AOPBuildInCallExists", arrayOf(child)) {
     override fun toSparql(): String = " EXISTS {" + children[0].toSparql() + "}"
     override fun equals(other: Any?): Boolean = other is AOPBuildInCallExists && children[0] == other.children[0]
     override fun evaluate(row: IteratorBundle): () -> ValueDefinition = throw EvaluateNotImplementedException(classname)

@@ -12,10 +12,10 @@ public class AOPConstant : AOPBase, IAOPConstant {
     @JvmField
     public val value: Int
     override fun getValue(): Int = value
-    public constructor(query: IQuery, value2: ValueDefinition) : super(query, EOperatorID.AOPConstantID, "AOPConstant", arrayOf()) {
+    public constructor(query: IQuery, value2: ValueDefinition) : super(query, EOperatorIDExt.AOPConstantID, "AOPConstant", arrayOf()) {
         value = query.getDictionary().createValue(value2)
     }
-    public constructor(query: IQuery, value2: Int) : super(query, EOperatorID.AOPConstantID, "AOPConstant", arrayOf()) {
+    public constructor(query: IQuery, value2: Int) : super(query, EOperatorIDExt.AOPConstantID, "AOPConstant", arrayOf()) {
         value = value2
     }
     override /*suspend*/ fun toXMLElement(): XMLElement {

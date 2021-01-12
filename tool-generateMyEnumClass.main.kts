@@ -26,8 +26,8 @@ File(args[3] + "Ext.kt").printWriter().use { out ->
     for (i in 0 until mapping.size) {
         out.println("    ${args[2]} const val ${mapping[i]} : ${args[0]} = $i")
     }
-    out.println("    @JvmField ${args[2]} val values = IntArray(${mapping.size}){it}")
-    out.println("    @JvmField ${args[2]} val names = arrayOf(")
+    out.println("    @JvmField ${args[2]} val values : IntArray = IntArray(${mapping.size}){it}")
+    out.println("    @JvmField ${args[2]} val names : Array<String> = arrayOf(")
     for (i in 0 until mapping.size) {
         out.println("        \"${mapping[i]}\",")
     }
@@ -35,9 +35,9 @@ File(args[3] + "Ext.kt").printWriter().use { out ->
     out.println("}")
 }
 /*
+./tool-generateMyEnumClass.main.kts MyPrintWriterMode lupos.s00misc public src/luposdate3000_shared/src/commonMain/kotlin/lupos/s00misc/MyPrintWriterMode
 ./tool-generateMyEnumClass.main.kts BuiltInFunctions lupos.s02buildSyntaxTree.sparql1_1 public src/luposdate3000_shared/src/commonMain/kotlin/lupos/s02buildSyntaxTree/sparql1_1/BuiltInFunctions
 ./tool-generateMyEnumClass.main.kts BinaryTestCaseOutputMode lupos.s00misc public src/luposdate3000_test/src/commonMain/kotlin/lupos/s00misc/BinaryTestCaseOutputMode
-./tool-generateMyEnumClass.main.kts MyPrintWriterMode lupos.modulename internal src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/s00misc/MyPrintWriterMode
 ./tool-generateMyEnumClass.main.kts Aggregation lupos.s02buildSyntaxTree.sparql1_1 public src/luposdate3000_shared/src/commonMain/kotlin/lupos/s02buildSyntaxTree/sparql1_1/Aggregation
 ./tool-generateMyEnumClass.main.kts TripleStoreFeature lupos.s05tripleStore public src/luposdate3000_shared/src/commonMain/kotlin/lupos/s05tripleStore/TripleStoreFeature
 ./tool-generateMyEnumClass.main.kts IteratorBundleMode lupos.s04logicalOperators.iterator internal src/luposdate3000_shared/src/commonMain/kotlin/lupos/s04logicalOperators/iterator/IteratorBundleMode

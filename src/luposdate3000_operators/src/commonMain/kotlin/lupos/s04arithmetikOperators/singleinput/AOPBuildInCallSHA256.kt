@@ -10,7 +10,7 @@ import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.IteratorBundle
 @OptIn(ExperimentalStdlibApi::class)
-public class AOPBuildInCallSHA256 public constructor(query: IQuery, child: AOPBase) : AOPBase(query, EOperatorID.AOPBuildInCallSHA256ID, "AOPBuildInCallSHA256", arrayOf(child)) {
+public class AOPBuildInCallSHA256 public constructor(query: IQuery, child: AOPBase) : AOPBase(query, EOperatorIDExt.AOPBuildInCallSHA256ID, "AOPBuildInCallSHA256", arrayOf(child)) {
     override fun toSparql(): String = "SHA256(" + children[0].toSparql() + ")"
     override fun equals(other: Any?): Boolean = other is AOPBuildInCallSHA256 && children[0] == other.children[0]
     override fun evaluate(row: IteratorBundle): () -> ValueDefinition {

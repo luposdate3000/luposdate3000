@@ -92,11 +92,11 @@ import lupos.s16network.LuposdateEndpoint
                                 if (x > 1) {
                                     if (a > 1) {
                                         opX = POPMergePartitionOrderedByIntId(query, listOf("a", "b"), "a", x, xPartitionID, opX)
-                                        opX.mySortPriority = mutableListOf(SortHelper("a", ESortType.FAST))
+                                        opX.mySortPriority = mutableListOf(SortHelper("a", ESortTypeExt.FAST))
                                         opX = POPSplitPartition(query, listOf("a", "b"), "a", a, aPartitionID, opX)
                                     } else {
                                         opX = POPMergePartitionOrderedByIntId(query, listOf("a", "b"), "a", x, xPartitionID, opX)
-                                        opX.mySortPriority = mutableListOf(SortHelper("a", ESortType.FAST))
+                                        opX.mySortPriority = mutableListOf(SortHelper("a", ESortTypeExt.FAST))
                                     }
                                 } else {
                                     if (a > 1) {
@@ -108,11 +108,11 @@ import lupos.s16network.LuposdateEndpoint
                                 if (y > 1) {
                                     if (a > 1) {
                                         opY = POPMergePartitionOrderedByIntId(query, listOf("a", "c"), "a", y, yPartitionID, opY)
-                                        opY.mySortPriority = mutableListOf(SortHelper("a", ESortType.FAST))
+                                        opY.mySortPriority = mutableListOf(SortHelper("a", ESortTypeExt.FAST))
                                         opY = POPSplitPartition(query, listOf("a", "c"), "a", a, aPartitionID, opY)
                                     } else {
                                         opY = POPMergePartitionOrderedByIntId(query, listOf("a", "c"), "a", y, yPartitionID, opY)
-                                        opY.mySortPriority = mutableListOf(SortHelper("a", ESortType.FAST))
+                                        opY.mySortPriority = mutableListOf(SortHelper("a", ESortTypeExt.FAST))
                                     }
                                 } else {
                                     if (a > 1) {
@@ -125,11 +125,11 @@ import lupos.s16network.LuposdateEndpoint
                                     if (z > 1) {
                                         if (b > 1) {
                                             opZ = POPMergePartitionOrderedByIntId(query, listOf("c", "d"), "c", z, zPartitionID, opZ)
-                                            opZ.mySortPriority = mutableListOf(SortHelper("c", ESortType.FAST))
+                                            opZ.mySortPriority = mutableListOf(SortHelper("c", ESortTypeExt.FAST))
                                             opZ = POPSplitPartition(query, listOf("c", "d"), "b", b, bPartitionID, opZ)
                                         } else {
                                             opZ = POPMergePartitionOrderedByIntId(query, listOf("c", "d"), "c", z, zPartitionID, opZ)
-                                            opZ.mySortPriority = mutableListOf(SortHelper("c", ESortType.FAST))
+                                            opZ.mySortPriority = mutableListOf(SortHelper("c", ESortTypeExt.FAST))
                                         }
                                     } else {
                                         if (b > 1) {

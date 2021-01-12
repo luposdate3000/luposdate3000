@@ -8,7 +8,7 @@ import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.LOPBase
 import lupos.s04logicalOperators.noinput.OPEmptyRow
 import kotlin.jvm.JvmField
-public class LOPFilter public constructor(query: IQuery, filter: AOPBase, child: IOPBase ) : LOPBase(query, EOperatorID.LOPFilterID, "LOPFilter", arrayOf(child, filter), ESortPriority.SAME_AS_CHILD) {
+public class LOPFilter public constructor(query: IQuery, filter: AOPBase, child: IOPBase ) : LOPBase(query, EOperatorIDExt.LOPFilterID, "LOPFilter", arrayOf(child, filter), ESortPriorityExt.SAME_AS_CHILD) {
 public constructor(query: IQuery, filter: AOPBase):this(query,filter,OPEmptyRow(query))
     @JvmField public var dontSplitFilter: Int = 0
     override fun childrenToVerifyCount(): Int = 1

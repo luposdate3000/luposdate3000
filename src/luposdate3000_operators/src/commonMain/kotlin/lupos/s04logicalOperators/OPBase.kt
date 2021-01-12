@@ -147,7 +147,7 @@ public abstract class OPBase public constructor(@JvmField public val query: IQue
             }
             addToPrefixFreeList(t, tmp)
         }
-        if (sortPriority == ESortPriority.SORT) {
+        if (sortPriority == ESortPriorityExt.SORT) {
             mySortPriority.clear()
             mySortPriority.addAll(priority)
         } else {
@@ -198,33 +198,33 @@ public abstract class OPBase public constructor(@JvmField public val query: IQue
     override fun getPossibleSortPriorities(): List<List<SortHelper>> {
         /*possibilities for_ next operator*/
         val res = mutableListOf<List<SortHelper>>()
-if(sortPriority==            ESortPriority.ANY_PROVIDED_VARIABLE ) {
+if(sortPriority==            ESortPriorityExt.ANY_PROVIDED_VARIABLE ) {
                 if (mySortPriority.size > 0) {
                     res.add(mySortPriority)
                 } else {
                     val provided = getProvidedVariableNames()
                     when (provided.size) {
                         1 -> {
-                            res.add(listOf(SortHelper(provided[0], ESortType.FAST)))
+                            res.add(listOf(SortHelper(provided[0], ESortTypeExt.FAST)))
                         }
                         2 -> {
-                            res.add(listOf(SortHelper(provided[0], ESortType.FAST), SortHelper(provided[1], ESortType.FAST)))
-                            res.add(listOf(SortHelper(provided[1], ESortType.FAST), SortHelper(provided[0], ESortType.FAST)))
+                            res.add(listOf(SortHelper(provided[0], ESortTypeExt.FAST), SortHelper(provided[1], ESortTypeExt.FAST)))
+                            res.add(listOf(SortHelper(provided[1], ESortTypeExt.FAST), SortHelper(provided[0], ESortTypeExt.FAST)))
                         }
                         3 -> {
-                            res.add(listOf(SortHelper(provided[0], ESortType.FAST), SortHelper(provided[1], ESortType.FAST), SortHelper(provided[2], ESortType.FAST)))
-                            res.add(listOf(SortHelper(provided[0], ESortType.FAST), SortHelper(provided[2], ESortType.FAST), SortHelper(provided[1], ESortType.FAST)))
-                            res.add(listOf(SortHelper(provided[1], ESortType.FAST), SortHelper(provided[0], ESortType.FAST), SortHelper(provided[2], ESortType.FAST)))
-                            res.add(listOf(SortHelper(provided[1], ESortType.FAST), SortHelper(provided[2], ESortType.FAST), SortHelper(provided[0], ESortType.FAST)))
-                            res.add(listOf(SortHelper(provided[2], ESortType.FAST), SortHelper(provided[0], ESortType.FAST), SortHelper(provided[1], ESortType.FAST)))
-                            res.add(listOf(SortHelper(provided[2], ESortType.FAST), SortHelper(provided[1], ESortType.FAST), SortHelper(provided[0], ESortType.FAST)))
+                            res.add(listOf(SortHelper(provided[0], ESortTypeExt.FAST), SortHelper(provided[1], ESortTypeExt.FAST), SortHelper(provided[2], ESortTypeExt.FAST)))
+                            res.add(listOf(SortHelper(provided[0], ESortTypeExt.FAST), SortHelper(provided[2], ESortTypeExt.FAST), SortHelper(provided[1], ESortTypeExt.FAST)))
+                            res.add(listOf(SortHelper(provided[1], ESortTypeExt.FAST), SortHelper(provided[0], ESortTypeExt.FAST), SortHelper(provided[2], ESortTypeExt.FAST)))
+                            res.add(listOf(SortHelper(provided[1], ESortTypeExt.FAST), SortHelper(provided[2], ESortTypeExt.FAST), SortHelper(provided[0], ESortTypeExt.FAST)))
+                            res.add(listOf(SortHelper(provided[2], ESortTypeExt.FAST), SortHelper(provided[0], ESortTypeExt.FAST), SortHelper(provided[1], ESortTypeExt.FAST)))
+                            res.add(listOf(SortHelper(provided[2], ESortTypeExt.FAST), SortHelper(provided[1], ESortTypeExt.FAST), SortHelper(provided[0], ESortTypeExt.FAST)))
                         }
                         else -> {
                             SanityCheck.check { provided.isEmpty() }
                         }
                     }
                 }
-            }else if(sortPriority==            ESortPriority.SAME_AS_CHILD||sortPriority== ESortPriority.BIND||sortPriority== ESortPriority.MINUS ) {
+            }else if(sortPriority==            ESortPriorityExt.SAME_AS_CHILD||sortPriority== ESortPriorityExt.BIND||sortPriority== ESortPriorityExt.MINUS ) {
                 val provided = getProvidedVariableNames()
                 for (x in children[0].getPossibleSortPriorities()) {
                     val tmp = mutableListOf<SortHelper>()
@@ -237,25 +237,25 @@ if(sortPriority==            ESortPriority.ANY_PROVIDED_VARIABLE ) {
                     }
                     addToPrefixFreeList(tmp, res)
                 }
-            }else if(sortPriority==            ESortPriority.GROUP ){
+            }else if(sortPriority==            ESortPriorityExt.GROUP ){
                 throw Exception("this should be overriden by the corresponding class")
-            }else if (sortPriority==            ESortPriority.PREVENT_ANY||sortPriority== ESortPriority.UNION ) {
-            }else if( sortPriority==            ESortPriority.SORT ) {
+            }else if (sortPriority==            ESortPriorityExt.PREVENT_ANY||sortPriority== ESortPriorityExt.UNION ) {
+            }else if( sortPriority==            ESortPriorityExt.SORT ) {
                 val requiredVariables = mutableListOf<String>()
-                var sortType = ESortType.ASC
+                var sortType = ESortTypeExt.ASC
                 when (this) {
                     is LOPSortAny -> {
                         res.add(this.possibleSortOrder)
                     }
                     is LOPSort -> {
                         if (!this.asc) {
-                            sortType = ESortType.DESC
+                            sortType = ESortTypeExt.DESC
                         }
                         requiredVariables.add(this.by.name)
                     }
                     is POPSort -> {
                         if (!this.sortOrder) {
-                            sortType = ESortType.DESC
+                            sortType = ESortTypeExt.DESC
                         }
                         for (v in this.sortBy) {
                             requiredVariables.add(v.name)
@@ -270,7 +270,7 @@ if(sortPriority==            ESortPriority.ANY_PROVIDED_VARIABLE ) {
                     tmp.add(SortHelper(v, sortType))
                 }
                 res.add(tmp)
-            }else if(sortPriority==            ESortPriority.JOIN ) {
+            }else if(sortPriority==            ESortPriorityExt.JOIN ) {
                 val resTmp = Array(2) { mutableListOf<List<SortHelper>>() }
                 val childA = children[0]
                 val childB = children[1]

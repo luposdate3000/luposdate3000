@@ -7,7 +7,7 @@ import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import kotlin.jvm.JvmField
-public class AOPBuildInCallBNODE0 public constructor(query: IQuery) : AOPBase(query, EOperatorID.AOPBuildInCallBNODE0ID, "AOPBuildInCallBNODE0", arrayOf()) {
+public class AOPBuildInCallBNODE0 public constructor(query: IQuery) : AOPBase(query, EOperatorIDExt.AOPBuildInCallBNODE0ID, "AOPBuildInCallBNODE0", arrayOf()) {
     override fun toSparql(): String = "BNODE()"
     @JvmField
     internal var localbnode = 0L
