@@ -4,6 +4,7 @@ import lupos.s00misc.MemoryTable
 import lupos.s00misc.MyPrintWriter
 import lupos.s00misc.Parallel
 import lupos.s11outputResult.EQueryResultToStream
+import lupos.s11outputResult.EQueryResultToStreamExt
 import lupos.s16network.LuposdateEndpoint
 @Suppress("NOTHING_TO_INLINE") internal inline fun mainFunc(args: Array<String>): Unit = Parallel.runBlocking {
     LuposdateEndpoint.initialize()
@@ -42,7 +43,7 @@ import lupos.s16network.LuposdateEndpoint
                 println("xxx query :: " + q.first)
                 val node = LuposdateEndpoint.evaluateSparqlToOperatorgraphA(q.second)
                 println(node.toXMLElement().toPrettyString())
-                val list = LuposdateEndpoint.evaluateOperatorgraphToResultA(node, buf, EQueryResultToStream.MEMORY_TABLE) as List<MemoryTable>
+                val list = LuposdateEndpoint.evaluateOperatorgraphToResultA(node, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>
                 for (l in list) {
                     println("xxx in list")
                     val dict = l.query!!.getDictionary()

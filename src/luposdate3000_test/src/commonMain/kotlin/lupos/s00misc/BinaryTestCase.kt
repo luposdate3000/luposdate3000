@@ -284,12 +284,11 @@ public object BinaryTestCase {
                 File("$query_folder/query.triples").dataInputStream { targetTriples ->
                     File("$query_folder/query.result").dataInputStream { targetResult ->
                         func@ while (true) {
-                            val modeId = targetStat.readInt()
-                            val mode = BinaryTestCaseOutputMode.values()[modeId]
+                            val mode = targetStat.readInt()
                             val variables = mutableListOf<String>()
                             var targetResultCount = 0
                             when (mode) {
-                                BinaryTestCaseOutputMode.SELECT_QUERY_RESULT, BinaryTestCaseOutputMode.SELECT_QUERY_RESULT_COUNT, BinaryTestCaseOutputMode.MODIFY_RESULT -> {
+                                BinaryTestCaseOutputModeExt.SELECT_QUERY_RESULT, BinaryTestCaseOutputModeExt.SELECT_QUERY_RESULT_COUNT, BinaryTestCaseOutputModeExt.MODIFY_RESULT -> {
                                     val variablesSize = targetStat.readInt()
                                     for (i in 0 until variablesSize) {
                                         val len = targetStat.readInt()
@@ -435,7 +434,7 @@ if (tmpTable != null) {
                                 }
                             }
                             val tableOutput = MemoryTable(variables.toTypedArray())
-                            if (mode == BinaryTestCaseOutputMode.ASK_QUERY_RESULT) {
+                            if (mode == BinaryTestCaseOutputModeExt.ASK_QUERY_RESULT) {
                                 tableOutput.booleanResult = targetResult.readInt() == 1
                             } else {
                                 for (i in 0 until targetResultCount) {
@@ -478,7 +477,7 @@ if (tmpTable != null) {
                             val popNode = popOptimizer.optimizeCall(lopNode2)
                             SanityCheck.println { popNode.toXMLElement().toPrettyString() }
                             val allowOrderBy = !toParse.toLowerCase().contains("order")
-                            if (mode == BinaryTestCaseOutputMode.MODIFY_RESULT) {
+                            if (mode == BinaryTestCaseOutputModeExt.MODIFY_RESULT) {
                                 val resultWriter = MyPrintWriter(false)
                                 QueryResultToXMLStream(popNode, resultWriter)
                                 val query5 = Query()
@@ -575,22 +574,22 @@ if (tmpTable != null) {
                     }
                     val target = XMLElement.parseFromAny(File(query_output_file).readAsString(), query_output_file)!!
                     if (target["results"] == null && target["boolean"] != null) {
-                        outputMode = BinaryTestCaseOutputMode.ASK_QUERY_RESULT
+                        outputMode = BinaryTestCaseOutputModeExt.ASK_QUERY_RESULT
                     }
                     File("$output_folder/query.stat").dataOutputStream { outStat ->
                         File("$output_folder/query.result").dataOutputStream { outResult ->
                             var resultCounter = 0
                             when (outputMode) {
-                                BinaryTestCaseOutputMode.SELECT_QUERY_RESULT, BinaryTestCaseOutputMode.SELECT_QUERY_RESULT_COUNT, BinaryTestCaseOutputMode.MODIFY_RESULT -> {
+                                BinaryTestCaseOutputModeExt.SELECT_QUERY_RESULT, BinaryTestCaseOutputModeExt.SELECT_QUERY_RESULT_COUNT, BinaryTestCaseOutputModeExt.MODIFY_RESULT -> {
                                     val variablesTmp = mutableListOf<String>()
                                     for (node in target["head"]!!.childs) {
                                         variablesTmp.add(node.attributes["name"]!!)
                                     }
                                     val variables = variablesTmp.toTypedArray()
                                     if (variables.isEmpty()) {
-                                        outputMode = BinaryTestCaseOutputMode.SELECT_QUERY_RESULT_COUNT
+                                        outputMode = BinaryTestCaseOutputModeExt.SELECT_QUERY_RESULT_COUNT
                                     }
-                                    outStat.writeInt(outputMode.ordinal)
+                                    outStat.writeInt(outputMode)
                                     outStat.writeInt(variables.size)
                                     for (element in variables) {
                                         val tmp = element.encodeToByteArray()
@@ -657,8 +656,8 @@ if (tmpTable != null) {
                                         }
                                     }
                                 }
-                                BinaryTestCaseOutputMode.ASK_QUERY_RESULT -> {
-                                    outStat.writeInt(outputMode.ordinal)
+                                BinaryTestCaseOutputModeExt.ASK_QUERY_RESULT -> {
+                                    outStat.writeInt(outputMode)
                                     if (target["boolean"]!!.content.toLowerCase() == "true") {
                                         outResult.writeInt(1)
                                     } else {

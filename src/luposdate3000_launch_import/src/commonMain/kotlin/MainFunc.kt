@@ -1,5 +1,6 @@
 
 import lupos.s00misc.ETripleComponentType
+import lupos.s00misc.ETripleComponentTypeExt
 import lupos.s00misc.File
 import lupos.s00misc.Parallel
 import lupos.s00misc.PartitionExt
@@ -23,7 +24,7 @@ internal fun helperCleanString(s: String): String {
     val inputFile = File(inputFileName)
     val dict = mutableMapOf<String, Int>()
     var dictCounter = 0
-    val dictCounterByType = IntArray(ETripleComponentType.values().size)
+    val dictCounterByType = IntArray(ETripleComponentTypeExt.values.size)
     val iter = inputFile.readAsInputStream()
     val outputTriplesFile = File("$inputFileName.triples")
     val outputDictionaryFile = File("$inputFileName.dictionary")
@@ -42,15 +43,15 @@ internal fun helperCleanString(s: String): String {
                                 outTriples.writeInt(v)
                             } else {
                                 val v2 = dictCounter++
-                                dictCounterByType[tripleType[i].ordinal]++
+                                dictCounterByType[tripleType[i]]++
                                 dict[tripleCleaned] = v2
                                 outTriples.writeInt(v2)
                                 var tripleCleaned2 = tripleCleaned
-                                if (tripleType[i] == ETripleComponentType.IRI) {
+                                if (tripleType[i] == ETripleComponentTypeExt.IRI) {
                                     tripleCleaned2 = tripleCleaned.substring(1, tripleCleaned.length - 1)
                                 }
                                 val tmp = tripleCleaned2.encodeToByteArray()
-                                byteBuf[0] = tripleType[i].ordinal.toByte()
+                                byteBuf[0] = tripleType[i].toByte()
                                 outDictionary.writeInt(tmp.size)
                                 outDictionary.write(byteBuf)
                                 outDictionary.write(tmp)
@@ -71,8 +72,8 @@ internal fun helperCleanString(s: String): String {
     }
     outputDictionaryStatFile.printWriter { out ->
         out.println("total=$dictCounter")
-        for (t in ETripleComponentType.values()) {
-            out.println("$t=${dictCounterByType[t.ordinal]}")
+        for (t in ETripleComponentTypeExt.values) {
+            out.println("$t=${dictCounterByType[t]}")
         }
     }
     println("importing $inputFileName finish with $cnt triples")

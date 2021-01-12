@@ -1,6 +1,7 @@
 package lupos.s05tripleStore
 import lupos.s00misc.ByteArrayHelper
 import lupos.s00misc.ETripleIndexType
+import lupos.s00misc.ETripleIndexTypeExt
 import lupos.s00misc.PartitionExt
 import lupos.s00misc.SanityCheck
 import lupos.s01io.BufferManager
@@ -19,14 +20,14 @@ public class TripleStoreIndexPartition(childIndex: (Int, Boolean) -> TripleStore
             if (store_root_page_init) {
                 val pageid = ByteArrayHelper.readInt4(rootPage, partition * 4 + 4)
                 val childPage = bufferManager.getPage(pageid)
-                val res = when (ETripleIndexType.values()[ByteArrayHelper.readInt4(childPage, 0)]) {
-                    ETripleIndexType.ID_TRIPLE -> TripleStoreIndexIDTriple(pageid, store_root_page_init)
+                val res = when (ETripleIndexTypeExt.values[ByteArrayHelper.readInt4(childPage, 0)]) {
+                    ETripleIndexTypeExt.ID_TRIPLE -> TripleStoreIndexIDTriple(pageid, store_root_page_init)
                     else -> SanityCheck.checkUnreachable()
                 }
                 bufferManager.releasePage(pageid)
                 res
             } else {
-                ByteArrayHelper.writeInt4(rootPage, 0, ETripleIndexType.PARTITION.ordinal)
+                ByteArrayHelper.writeInt4(rootPage, 0, ETripleIndexTypeExt.PARTITION)
                 var pageid2 = -1
                 bufferManager.createPage { p, pageid3 ->
                     pageid2 = pageid3

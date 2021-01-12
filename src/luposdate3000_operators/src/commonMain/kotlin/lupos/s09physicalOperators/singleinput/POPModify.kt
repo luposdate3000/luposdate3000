@@ -1,5 +1,6 @@
 package lupos.s09physicalOperators.singleinput
 import lupos.s00misc.EModifyType
+import lupos.s00misc.EModifyTypeExt
 import lupos.s00misc.EOperatorIDExt
 import lupos.s00misc.ESortPriorityExt
 import lupos.s00misc.Partition
@@ -25,9 +26,9 @@ public class POPModify public constructor(query: IQuery, projectedVariables: Lis
     @JvmField
     public val modify: Array<Pair<LOPTriple, EModifyType>> = Array(insert.size + delete.size) {
         if (it < insert.size) {
-            Pair(insert[it], EModifyType.INSERT)
+            Pair(insert[it], EModifyTypeExt.INSERT)
         } else {
-            Pair(delete[it - insert.size], EModifyType.DELETE)
+            Pair(delete[it - insert.size], EModifyTypeExt.DELETE)
         }
     }
     override fun equals(other: Any?): Boolean = other is POPModify && modify.contentEquals(other.modify) && children[0] == other.children[0]
@@ -36,7 +37,7 @@ public class POPModify public constructor(query: IQuery, projectedVariables: Lis
         val insertions = StringBuilder()
         val deletions = StringBuilder()
         for ((first, second) in modify) {
-            if (second == EModifyType.INSERT) {
+            if (second == EModifyTypeExt.INSERT) {
                 insertions.append(first.toSparql() + ".")
             } else {
                 deletions.append(first.toSparql() + ".")
@@ -81,7 +82,7 @@ public class POPModify public constructor(query: IQuery, projectedVariables: Lis
         val insert = mutableListOf<LOPTriple>()
         val delete = mutableListOf<LOPTriple>()
         for ((first, second) in modify) {
-            if (second == EModifyType.INSERT) {
+            if (second == EModifyTypeExt.INSERT) {
                 insert.add(first)
             } else {
                 delete.add(first)
@@ -125,9 +126,9 @@ public class POPModify public constructor(query: IQuery, projectedVariables: Lis
                     first.graph
                 }
                 if (data[graphName] == null) {
-                    data[graphName] = Array(EModifyType.values().size) { Array(3) { mutableListOf() } }
+                    data[graphName] = Array(EModifyTypeExt.values.size) { Array(3) { mutableListOf() } }
                 }
-                val target = data[graphName]!![second.ordinal]
+                val target = data[graphName]!![second]
                 loop2@ for (columnIndex in 0 until 3) {
                     val tmp = first.children[columnIndex]
                     if (tmp is AOPConstant) {
@@ -153,9 +154,9 @@ public class POPModify public constructor(query: IQuery, projectedVariables: Lis
         }
         for ((graphName, iterator) in data) {
             val store = distributedTripleStore.getNamedGraph(query, graphName)
-            for (type in EModifyType.values()) {
-                if (iterator[type.ordinal][0].size > 0) {
-                    store.modify(Array(3) { ColumnIteratorMultiValue(iterator[type.ordinal][it]) }, type)
+            for (type in EModifyTypeExt.values) {
+                if (iterator[type][0].size > 0) {
+                    store.modify(Array(3) { ColumnIteratorMultiValue(iterator[type][it]) }, type)
                 }
             }
         }

@@ -8,6 +8,7 @@ import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.Query
 import lupos.s05tripleStore.TripleStoreFeature
+import lupos.s05tripleStore.TripleStoreFeatureExt
 import lupos.s05tripleStore.TripleStoreFeatureParamsPartition
 import lupos.s08logicalOptimisation.OptimizerBase
 import lupos.s09physicalOperators.partition.POPSplitPartition
@@ -44,11 +45,11 @@ public class PhysicalOptimizerPartition1(query: Query) : OptimizerBase(query, EO
                             onChange()
                         }
                         is TripleStoreIteratorGlobal -> {
-                            if (TripleStoreLocal.providesFeature(TripleStoreFeature.PARTITION, null)) {
+                            if (TripleStoreLocal.providesFeature(TripleStoreFeatureExt.PARTITION, null)) {
                                 try {
                                     val p = Partition(Partition(), node.partitionVariable, 0, node.partitionCount)
                                     val params = TripleStoreFeatureParamsPartition(c.idx, Array(3) { c.children[it] as AOPBase }, p)
-                                    if (params.getColumn() > 0 && TripleStoreLocal.providesFeature(TripleStoreFeature.PARTITION, params)) {
+                                    if (params.getColumn() > 0 && TripleStoreLocal.providesFeature(TripleStoreFeatureExt.PARTITION, params)) {
                                         res = POPSplitPartitionFromStore(query, node.projectedVariables, node.partitionVariable, node.partitionCount, node.partitionID, c)
                                         c.partition.limit[node.partitionVariable] = node.partitionCount
                                         query.removePartitionOperator(node.getUUID(), node.partitionID)

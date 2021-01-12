@@ -1,9 +1,11 @@
 package lupos.s09physicalOperators.noinput
 import lupos.s00misc.EGraphOperationType
+import lupos.s00misc.EGraphOperationTypeExt
 import lupos.s00misc.EGraphRefType
 import lupos.s00misc.EGraphRefTypeExt
 import lupos.s00misc.EIndexPattern
 import lupos.s00misc.EModifyType
+import lupos.s00misc.EModifyTypeExt
 import lupos.s00misc.EOperatorIDExt
 import lupos.s00misc.ESortPriorityExt
 import lupos.s00misc.EvaluationException
@@ -12,6 +14,7 @@ import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.XMLElement
 import lupos.s00misc.parseFromAny
+import lupos.s00misc.UnreachableException
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.IteratorBundle
@@ -34,7 +37,7 @@ public class POPGraphOperation public constructor(
     override fun toSparqlQuery(): String = toSparql()
     override fun toSparql(): String {
         var res = ""
-        if (action == EGraphOperationType.LOAD) {
+        if (action == EGraphOperationTypeExt.LOAD) {
             res += "LOAD " + graph1iri!!
             res += if (silent) {
                 " SILENT "
@@ -46,25 +49,25 @@ public class POPGraphOperation public constructor(
             }
         } else {
             when (action) {
-                EGraphOperationType.LOAD -> {
+                EGraphOperationTypeExt.LOAD -> {
                     res += "LOAD"
                 }
-                EGraphOperationType.CLEAR -> {
+                EGraphOperationTypeExt.CLEAR -> {
                     res += "CLEAR"
                 }
-                EGraphOperationType.DROP -> {
+                EGraphOperationTypeExt.DROP -> {
                     res += "DROP"
                 }
-                EGraphOperationType.CREATE -> {
+                EGraphOperationTypeExt.CREATE -> {
                     res += "CREATE"
                 }
-                EGraphOperationType.COPY -> {
+                EGraphOperationTypeExt.COPY -> {
                     res += "COPY"
                 }
-                EGraphOperationType.MOVE -> {
+                EGraphOperationTypeExt.MOVE -> {
                     res += "MOVE"
                 }
-                EGraphOperationType.ADD -> {
+                EGraphOperationTypeExt.ADD -> {
                     res += "ADD"
                 }
             }
@@ -86,8 +89,11 @@ public class POPGraphOperation public constructor(
                 EGraphRefTypeExt.IriGraphRef -> {
                     "GRAPH <" + graph1iri!! + ">"
                 }
+else->{
+throw UnreachableException()
+}
             }
-            if (action == EGraphOperationType.COPY || action == EGraphOperationType.MOVE || action == EGraphOperationType.ADD) {
+            if (action == EGraphOperationTypeExt.COPY || action == EGraphOperationTypeExt.MOVE || action == EGraphOperationTypeExt.ADD) {
                 res += " TO "
                 res += when (graph2type) {
                     EGraphRefTypeExt.AllGraphRef -> {
@@ -102,6 +108,9 @@ public class POPGraphOperation public constructor(
                     EGraphRefTypeExt.IriGraphRef -> {
                         "GRAPH <" + graph2iri!! + ">"
                     }
+else->{ 
+throw UnreachableException()
+}
                 }
             }
         }
@@ -112,12 +121,12 @@ public class POPGraphOperation public constructor(
     /*suspend*/ private fun copyData(source: IDistributedGraph, target: IDistributedGraph, parent: Partition) {
         val row = source.getIterator(EIndexPattern.SPO, Partition()).evaluate(parent)
         val iterator = arrayOf(row.columns["s"]!!, row.columns["p"]!!, row.columns["o"]!!)
-        target.modify(iterator, EModifyType.INSERT)
+        target.modify(iterator, EModifyTypeExt.INSERT)
     }
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
         try {
             when (action) {
-                EGraphOperationType.CLEAR -> {
+                EGraphOperationTypeExt.CLEAR -> {
                     when (graph1type) {
                         EGraphRefTypeExt.AllGraphRef -> {
                             for (name in distributedTripleStore.getGraphNames(true)) {
@@ -137,7 +146,7 @@ public class POPGraphOperation public constructor(
                         }
                     }
                 }
-                EGraphOperationType.DROP -> {
+                EGraphOperationTypeExt.DROP -> {
                     when (graph1type) {
                         EGraphRefTypeExt.AllGraphRef -> {
                             distributedTripleStore.clearGraph(query, PersistentStoreLocalExt.defaultGraphName)
@@ -158,7 +167,7 @@ public class POPGraphOperation public constructor(
                         }
                     }
                 }
-                EGraphOperationType.CREATE -> {
+                EGraphOperationTypeExt.CREATE -> {
                     when (graph1type) {
                         EGraphRefTypeExt.IriGraphRef -> {
                             distributedTripleStore.createGraph(query, graph1iri!!)
@@ -168,7 +177,7 @@ public class POPGraphOperation public constructor(
                         }
                     }
                 }
-                EGraphOperationType.LOAD -> {
+                EGraphOperationTypeExt.LOAD -> {
                     val fileName = query.getWorkingDirectory() + graph1iri
                     val target: IDistributedGraph = if (graph2type == EGraphRefTypeExt.DefaultGraphRef) {
                         distributedTripleStore.getDefaultGraph(query)
@@ -179,9 +188,9 @@ public class POPGraphOperation public constructor(
                     val d = POPValuesImportXML(query, listOf("s", "p", "o"), xml)
                     val row = d.evaluate(parent)
                     val iterator = arrayOf(row.columns["s"]!!, row.columns["p"]!!, row.columns["o"]!!)
-                    target.modify(iterator, EModifyType.INSERT)
+                    target.modify(iterator, EModifyTypeExt.INSERT)
                 }
-                EGraphOperationType.COPY -> {
+                EGraphOperationTypeExt.COPY -> {
                     when (graph1type) {
                         EGraphRefTypeExt.DefaultGraphRef -> {
                             when (graph2type) {
@@ -224,7 +233,7 @@ public class POPGraphOperation public constructor(
                         }
                     }
                 }
-                EGraphOperationType.MOVE -> {
+                EGraphOperationTypeExt.MOVE -> {
                     when (graph1type) {
                         EGraphRefTypeExt.DefaultGraphRef -> {
                             when (graph2type) {
@@ -270,7 +279,7 @@ public class POPGraphOperation public constructor(
                         }
                     }
                 }
-                EGraphOperationType.ADD -> {
+                EGraphOperationTypeExt.ADD -> {
                     when (graph1type) {
                         EGraphRefTypeExt.DefaultGraphRef -> {
                             when (graph2type) {

@@ -2,6 +2,7 @@ package lupos
 import lupos.s00misc.DateHelperRelative
 import lupos.s00misc.EIndexPattern
 import lupos.s00misc.EModifyType
+import lupos.s00misc.EModifyTypeExt
 import lupos.s00misc.File
 import lupos.s00misc.JenaBugException
 import lupos.s00misc.JenaWrapper
@@ -454,7 +455,7 @@ public open class SparqlTestSuite {
                         val query = Query()
                         query.setWorkingDirectory(queryFile.substring(0, queryFile.lastIndexOf("/")))
                         val tmp = POPValuesImportXML(query, listOf("s", "p", "o"), xmlQueryInput).evaluate(Partition())
-                        distributedTripleStore.getDefaultGraph(query).modify(arrayOf(tmp.columns["s"]!!, tmp.columns["p"]!!, tmp.columns["o"]!!), EModifyType.INSERT)
+                        distributedTripleStore.getDefaultGraph(query).modify(arrayOf(tmp.columns["s"]!!, tmp.columns["p"]!!, tmp.columns["o"]!!), EModifyTypeExt.INSERT)
                         distributedTripleStore.commit(query)
                         query.commited = true
                     }
@@ -481,7 +482,7 @@ public open class SparqlTestSuite {
                     val query = Query()
                     query.setWorkingDirectory(queryFile.substring(0, queryFile.lastIndexOf("/")))
                     val tmp = POPValuesImportXML(query, listOf("s", "p", "o"), xmlQueryInput).evaluate(Partition())
-                    distributedTripleStore.getNamedGraph(query, it["name"]!!).modify(arrayOf(tmp.columns["s"]!!, tmp.columns["p"]!!, tmp.columns["o"]!!), EModifyType.INSERT)
+                    distributedTripleStore.getNamedGraph(query, it["name"]!!).modify(arrayOf(tmp.columns["s"]!!, tmp.columns["p"]!!, tmp.columns["o"]!!), EModifyTypeExt.INSERT)
                     distributedTripleStore.commit(query)
                     query.commited = true
                     println("test Input Graph[${it["name"]!!}] :: " + xmlQueryInput.toPrettyString())

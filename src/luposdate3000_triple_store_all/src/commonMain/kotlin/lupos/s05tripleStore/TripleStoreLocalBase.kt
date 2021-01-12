@@ -1,6 +1,7 @@
 package lupos.s05tripleStore
 import lupos.s00misc.EIndexPattern
 import lupos.s00misc.EModifyType
+import lupos.s00misc.EModifyTypeExt
 import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
 import lupos.s03resultRepresentation.ResultSetDictionaryExt
@@ -209,14 +210,14 @@ public abstract class TripleStoreLocalBase(@JvmField public val name: String, @J
         SanityCheck.check { dataModify.size == 3 }
         for (idx in dataDistinct.indices) {
             var tmp: MutableList<Int>?
-            tmp = if (type == EModifyType.INSERT) {
+            tmp = if (type == EModifyTypeExt.INSERT) {
                 pendingModificationsInsert[idx][query.getTransactionID()]
             } else {
                 pendingModificationsRemove[idx][query.getTransactionID()]
             }
             if (tmp == null) {
                 tmp = mutableListOf()
-                if (type == EModifyType.INSERT) {
+                if (type == EModifyTypeExt.INSERT) {
                     pendingModificationsInsert[idx][query.getTransactionID()] = tmp
                 } else {
                     pendingModificationsRemove[idx][query.getTransactionID()] = tmp
@@ -234,7 +235,7 @@ public abstract class TripleStoreLocalBase(@JvmField public val name: String, @J
                     break@loop
                 } else {
                     for (idx in dataDistinct.indices) {
-                        if (type == EModifyType.INSERT) {
+                        if (type == EModifyTypeExt.INSERT) {
                             pendingModificationsInsert[idx][query.getTransactionID()]!!.add(query.getDictionary().valueToGlobal(v))
                         } else {
                             pendingModificationsRemove[idx][query.getTransactionID()]!!.add(query.getDictionary().valueToGlobal(v))
@@ -251,14 +252,14 @@ public abstract class TripleStoreLocalBase(@JvmField public val name: String, @J
         SanityCheck.check { dataModify.size == 3 }
         for (idx in dataDistinct.indices) {
             var tmp: MutableList<Int>?
-            tmp = if (type == EModifyType.INSERT) {
+            tmp = if (type == EModifyTypeExt.INSERT) {
                 pendingModificationsInsert[idx][query.getTransactionID()]
             } else {
                 pendingModificationsRemove[idx][query.getTransactionID()]
             }
             if (tmp == null) {
                 tmp = mutableListOf()
-                if (type == EModifyType.INSERT) {
+                if (type == EModifyTypeExt.INSERT) {
                     pendingModificationsInsert[idx][query.getTransactionID()] = tmp
                 } else {
                     pendingModificationsRemove[idx][query.getTransactionID()] = tmp

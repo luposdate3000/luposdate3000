@@ -1,8 +1,11 @@
 package lupos.s16network
 import lupos.s00misc.DateHelperRelative
 import lupos.s00misc.EModifyType
+import lupos.s00misc.EModifyTypeExt
 import lupos.s00misc.ETripleComponentType
+import lupos.s00misc.ETripleComponentTypeExt
 import lupos.s00misc.File
+import lupos.s00misc.UnreachableException
 import lupos.s00misc.IMyPrintWriter
 import lupos.s00misc.MyPrintWriter
 import lupos.s00misc.MyStringStream
@@ -31,6 +34,7 @@ import lupos.s08logicalOptimisation.LogicalOptimizer
 import lupos.s09physicalOperators.noinput.POPValuesImportXML
 import lupos.s10physicalOptimisation.PhysicalOptimizer
 import lupos.s11outputResult.EQueryResultToStream
+import lupos.s11outputResult.EQueryResultToStreamExt
 import lupos.s11outputResult.QueryResultToEmptyStream
 import lupos.s11outputResult.QueryResultToEmptyWithDictionaryStream
 import lupos.s11outputResult.QueryResultToMemoryTable
@@ -228,17 +232,17 @@ public object LuposdateEndpoint {
                     val fileTriples = File("$fileName.triples")
                     val fileDictionaryStat = File("$fileName.stat")
                     var dictTotal = 0
-                    val dictTyped = IntArray(ETripleComponentType.values().size)
-                    dictTyped[ETripleComponentType.BLANK_NODE.ordinal] = 0
+                    val dictTyped = IntArray(ETripleComponentTypeExt.values.size)
+                    dictTyped[ETripleComponentTypeExt.BLANK_NODE] = 0
                     fileDictionaryStat.forEachLine {
                         val p = it.split("=")
                         if (p[0] == "total") {
                             dictTotal = p[1].toInt()
                         } else {
                             if (convert_to_bnodes) {
-                                dictTyped[ETripleComponentType.BLANK_NODE.ordinal] = dictTyped[ETripleComponentType.BLANK_NODE.ordinal] + p[1].toInt()
+                                dictTyped[ETripleComponentTypeExt.BLANK_NODE] = dictTyped[ETripleComponentTypeExt.BLANK_NODE] + p[1].toInt()
                             } else {
-                                dictTyped[ETripleComponentType.valueOf(p[0]).ordinal] = p[1].toInt()
+                                dictTyped[ETripleComponentTypeExt.names.indexOf(p[0])] = p[1].toInt()
                             }
                         }
                     }
@@ -274,7 +278,7 @@ public object LuposdateEndpoint {
         val query = Query()
         val import = POPValuesImportXML(query, listOf("s", "p", "o"), XMLElementFromXML()(data)!!).evaluate(Partition())
         val dataLocal = arrayOf(import.columns["s"]!!, import.columns["p"]!!, import.columns["o"]!!)
-        distributedTripleStore.getDefaultGraph(query).modify(dataLocal, EModifyType.INSERT)
+        distributedTripleStore.getDefaultGraph(query).modify(dataLocal, EModifyTypeExt.INSERT)
         distributedTripleStore.commit(query)
         query.commited = true
         return XMLElement("success").toString()
@@ -327,7 +331,7 @@ public object LuposdateEndpoint {
     }
     @JsName("evaluate_operatorgraph_to_result")
     /*suspend*/ public fun evaluateOperatorgraphToResult(node: IOPBase, output: IMyPrintWriter) {
-        evaluateOperatorgraphToResultA(node, output, EQueryResultToStream.DEFAULT_STREAM)
+        evaluateOperatorgraphToResultA(node, output, EQueryResultToStreamExt.DEFAULT_STREAM)
     }
     @JsName("evaluate_operatorgraph_to_result_a")
     /*suspend*/ public fun evaluateOperatorgraphToResultA(node: IOPBase, output: IMyPrintWriter, evaluator: EQueryResultToStream): Any? {
@@ -338,12 +342,13 @@ public object LuposdateEndpoint {
         node.getQuery().reset()
         var res: Any? = null
         res = when (evaluator) {
-            EQueryResultToStream.DEFAULT_STREAM -> QueryResultToStream(node, output)
-            EQueryResultToStream.XML_STREAM -> QueryResultToXMLStream(node, output)
-            EQueryResultToStream.EMPTY_STREAM -> QueryResultToEmptyStream(node, output)
-            EQueryResultToStream.EMPTYDICTIONARY_STREAM -> QueryResultToEmptyWithDictionaryStream(node, output)
-            EQueryResultToStream.MEMORY_TABLE -> QueryResultToMemoryTable(node)
-            EQueryResultToStream.XML_ELEMENT -> QueryResultToXMLElement.toXML(node)
+            EQueryResultToStreamExt.DEFAULT_STREAM -> QueryResultToStream(node, output)
+            EQueryResultToStreamExt.XML_STREAM -> QueryResultToXMLStream(node, output)
+            EQueryResultToStreamExt.EMPTY_STREAM -> QueryResultToEmptyStream(node, output)
+            EQueryResultToStreamExt.EMPTYDICTIONARY_STREAM -> QueryResultToEmptyWithDictionaryStream(node, output)
+            EQueryResultToStreamExt.MEMORY_TABLE -> QueryResultToMemoryTable(node)
+            EQueryResultToStreamExt.XML_ELEMENT -> QueryResultToXMLElement.toXML(node)
+else->throw UnreachableException()
         }
         distributedTripleStore.commit(node.getQuery())
         node.getQuery().setCommited()

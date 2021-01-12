@@ -2,11 +2,15 @@ package lupos.s06buildOperatorGraph
 import lupos.s00misc.AggregateNotAllowedSyntaxException
 import lupos.s00misc.DatasetImportFailedException
 import lupos.s00misc.EGraphOperationType
+import lupos.s00misc.EGraphOperationTypeExt
 import lupos.s00misc.EGraphRefType
 import lupos.s00misc.EGraphRefTypeExt
 import lupos.s00misc.EGroupMember
+import lupos.s00misc.EGroupMemberExt
 import lupos.s00misc.EModifyType
+import lupos.s00misc.EModifyTypeExt
 import lupos.s00misc.File
+import lupos.s00misc.UnreachableException
 import lupos.s00misc.GroupByClauseNotUsedException
 import lupos.s00misc.MyBigDecimal
 import lupos.s00misc.MyBigInteger
@@ -105,6 +109,7 @@ import lupos.s02buildSyntaxTree.sparql1_1.ASTValue
 import lupos.s02buildSyntaxTree.sparql1_1.ASTValues
 import lupos.s02buildSyntaxTree.sparql1_1.ASTVar
 import lupos.s02buildSyntaxTree.sparql1_1.Aggregation
+import lupos.s02buildSyntaxTree.sparql1_1.AggregationExt
 import lupos.s02buildSyntaxTree.sparql1_1.BuiltInFunctionsExt
 import lupos.s02buildSyntaxTree.sparql1_1.Visitor
 import lupos.s03resultRepresentation.ValueBnode
@@ -596,48 +601,48 @@ public class OperatorGraphVisitor(@JvmField public val query: Query) : Visitor<I
             }
             when (tmp2) {
                 is LOPMinus -> {
-                    if (members.containsKey(EGroupMember.GMLOPMinus)) {
-                        (members[EGroupMember.GMLOPMinus])!!.getLatestChild().setChild(tmp2)
+                    if (members.containsKey(EGroupMemberExt.GMLOPMinus)) {
+                        (members[EGroupMemberExt.GMLOPMinus])!!.getLatestChild().setChild(tmp2)
                     } else {
-                        members[EGroupMember.GMLOPMinus] = tmp2
+                        members[EGroupMemberExt.GMLOPMinus] = tmp2
                     }
                 }
                 is LOPFilter -> {
-                    if (members.containsKey(EGroupMember.GMLOPFilter)) {
-                        (members[EGroupMember.GMLOPFilter])!!.getLatestChild().setChild(tmp2)
+                    if (members.containsKey(EGroupMemberExt.GMLOPFilter)) {
+                        (members[EGroupMemberExt.GMLOPFilter])!!.getLatestChild().setChild(tmp2)
                     } else {
-                        members[EGroupMember.GMLOPFilter] = tmp2
+                        members[EGroupMemberExt.GMLOPFilter] = tmp2
                     }
                 }
                 is LOPProjection -> {
-                    if (members.containsKey(EGroupMember.GMLOPDataSource)) {
-                        members[EGroupMember.GMLOPDataSource] = LOPJoin(query, members[EGroupMember.GMLOPDataSource]!!, tmp2, false)
+                    if (members.containsKey(EGroupMemberExt.GMLOPDataSource)) {
+                        members[EGroupMemberExt.GMLOPDataSource] = LOPJoin(query, members[EGroupMemberExt.GMLOPDataSource]!!, tmp2, false)
                     } else {
-                        members[EGroupMember.GMLOPDataSource] = tmp2
+                        members[EGroupMemberExt.GMLOPDataSource] = tmp2
                     }
                 }
                 is LOPBind -> {
                     bind.add(tmp2)
                 }
                 is LOPTriple -> {
-                    if (members.containsKey(EGroupMember.GMLOPDataSource)) {
-                        members[EGroupMember.GMLOPDataSource] = LOPJoin(query, members[EGroupMember.GMLOPDataSource]!!, tmp2, false)
+                    if (members.containsKey(EGroupMemberExt.GMLOPDataSource)) {
+                        members[EGroupMemberExt.GMLOPDataSource] = LOPJoin(query, members[EGroupMemberExt.GMLOPDataSource]!!, tmp2, false)
                     } else {
-                        members[EGroupMember.GMLOPDataSource] = tmp2
+                        members[EGroupMemberExt.GMLOPDataSource] = tmp2
                     }
                 }
                 is LOPUnion -> {
-                    if (members.containsKey(EGroupMember.GMLOPDataSource)) {
-                        members[EGroupMember.GMLOPDataSource] = LOPJoin(query, members[EGroupMember.GMLOPDataSource]!!, tmp2, false)
+                    if (members.containsKey(EGroupMemberExt.GMLOPDataSource)) {
+                        members[EGroupMemberExt.GMLOPDataSource] = LOPJoin(query, members[EGroupMemberExt.GMLOPDataSource]!!, tmp2, false)
                     } else {
-                        members[EGroupMember.GMLOPDataSource] = tmp2
+                        members[EGroupMemberExt.GMLOPDataSource] = tmp2
                     }
                 }
                 is LOPValues -> {
-                    if (members.containsKey(EGroupMember.GMLOPDataSource)) {
-                        members[EGroupMember.GMLOPDataSource] = LOPJoin(query, members[EGroupMember.GMLOPDataSource]!!, tmp2, false)
+                    if (members.containsKey(EGroupMemberExt.GMLOPDataSource)) {
+                        members[EGroupMemberExt.GMLOPDataSource] = LOPJoin(query, members[EGroupMemberExt.GMLOPDataSource]!!, tmp2, false)
                     } else {
-                        members[EGroupMember.GMLOPDataSource] = tmp2
+                        members[EGroupMemberExt.GMLOPDataSource] = tmp2
                     }
                 }
                 is LOPOptional -> {
@@ -645,46 +650,46 @@ public class OperatorGraphVisitor(@JvmField public val query: Query) : Visitor<I
                     while (optionalRoot is LOPFilter) {
                         val child = optionalRoot.getChildren()[0]
                         optionalRoot.getChildren()[0] = LOPNOOP(query)
-                        if (members.containsKey(EGroupMember.GMLOPFilter)) {
-                            (members[EGroupMember.GMLOPFilter])!!.getLatestChild().setChild(optionalRoot)
+                        if (members.containsKey(EGroupMemberExt.GMLOPFilter)) {
+                            (members[EGroupMemberExt.GMLOPFilter])!!.getLatestChild().setChild(optionalRoot)
                         } else {
-                            members[EGroupMember.GMLOPFilter] = optionalRoot
+                            members[EGroupMemberExt.GMLOPFilter] = optionalRoot
                         }
                         optionalRoot = child
                     }
-                    if (members.containsKey(EGroupMember.GMLOPOptional)) {
-                        members[EGroupMember.GMLOPOptional] = LOPJoin(query, members[EGroupMember.GMLOPOptional]!!, optionalRoot, true)
+                    if (members.containsKey(EGroupMemberExt.GMLOPOptional)) {
+                        members[EGroupMemberExt.GMLOPOptional] = LOPJoin(query, members[EGroupMemberExt.GMLOPOptional]!!, optionalRoot, true)
                     } else {
-                        members[EGroupMember.GMLOPOptional] = optionalRoot
+                        members[EGroupMemberExt.GMLOPOptional] = optionalRoot
                     }
                 }
                 is LOPJoin -> {
-                    if (members.containsKey(EGroupMember.GMLOPDataSource)) {
-                        members[EGroupMember.GMLOPDataSource] = LOPJoin(query, members[EGroupMember.GMLOPDataSource]!!, tmp2, true)
+                    if (members.containsKey(EGroupMemberExt.GMLOPDataSource)) {
+                        members[EGroupMemberExt.GMLOPDataSource] = LOPJoin(query, members[EGroupMemberExt.GMLOPDataSource]!!, tmp2, true)
                     } else {
-                        members[EGroupMember.GMLOPDataSource] = tmp2
+                        members[EGroupMemberExt.GMLOPDataSource] = tmp2
                     }
                 }
                 is LOPSubGroup -> {
-                    if (members.containsKey(EGroupMember.GMLOPDataSource)) {
-                        members[EGroupMember.GMLOPDataSource] = LOPJoin(query, members[EGroupMember.GMLOPDataSource]!!, tmp2, false)
+                    if (members.containsKey(EGroupMemberExt.GMLOPDataSource)) {
+                        members[EGroupMemberExt.GMLOPDataSource] = LOPJoin(query, members[EGroupMemberExt.GMLOPDataSource]!!, tmp2, false)
                     } else {
-                        members[EGroupMember.GMLOPDataSource] = tmp2
+                        members[EGroupMemberExt.GMLOPDataSource] = tmp2
                     }
                 }
                 is LOPServiceIRI -> {
-                    if (members.containsKey(EGroupMember.GMLOPDataSource)) {
-                        members[EGroupMember.GMLOPDataSource] = LOPJoin(query, members[EGroupMember.GMLOPDataSource]!!, tmp2, true)
+                    if (members.containsKey(EGroupMemberExt.GMLOPDataSource)) {
+                        members[EGroupMemberExt.GMLOPDataSource] = LOPJoin(query, members[EGroupMemberExt.GMLOPDataSource]!!, tmp2, true)
                     } else {
-                        members[EGroupMember.GMLOPDataSource] = tmp2
+                        members[EGroupMemberExt.GMLOPDataSource] = tmp2
                     }
                 }
                 is LOPServiceVAR -> {
-                    if (members.containsKey(EGroupMember.GMLOPDataSource)) {
-                        tmp2.getChildren()[0] = members[EGroupMember.GMLOPDataSource]!!
-                        members[EGroupMember.GMLOPDataSource] = tmp2
+                    if (members.containsKey(EGroupMemberExt.GMLOPDataSource)) {
+                        tmp2.getChildren()[0] = members[EGroupMemberExt.GMLOPDataSource]!!
+                        members[EGroupMemberExt.GMLOPDataSource] = tmp2
                     } else {
-                        members[EGroupMember.GMLOPDataSource] = tmp2
+                        members[EGroupMemberExt.GMLOPDataSource] = tmp2
                     }
                 }
                 else -> {
@@ -692,22 +697,22 @@ public class OperatorGraphVisitor(@JvmField public val query: Query) : Visitor<I
                 }
             }
         }
-        if (members.containsKey(EGroupMember.GMLOPFilter)) {
+        if (members.containsKey(EGroupMemberExt.GMLOPFilter)) {
             if (result == null) {
-                result = members[EGroupMember.GMLOPFilter]
+                result = members[EGroupMemberExt.GMLOPFilter]
             } else {
-                (result).getLatestChild().setChild(members[EGroupMember.GMLOPFilter]!!)
+                (result).getLatestChild().setChild(members[EGroupMemberExt.GMLOPFilter]!!)
             }
         }
         var firstJoin: IOPBase? = null
-        if (members.containsKey(EGroupMember.GMLOPDataSource)) {
-            firstJoin = members[EGroupMember.GMLOPDataSource]
+        if (members.containsKey(EGroupMemberExt.GMLOPDataSource)) {
+            firstJoin = members[EGroupMemberExt.GMLOPDataSource]
         }
-        if (members.containsKey(EGroupMember.GMLOPOptional)) {
+        if (members.containsKey(EGroupMemberExt.GMLOPOptional)) {
             firstJoin = if (firstJoin == null) {
-                LOPOptional(query, members[EGroupMember.GMLOPOptional]!!)
+                LOPOptional(query, members[EGroupMemberExt.GMLOPOptional]!!)
             } else {
-                LOPJoin(query, firstJoin, members[EGroupMember.GMLOPOptional]!!, true)
+                LOPJoin(query, firstJoin, members[EGroupMemberExt.GMLOPOptional]!!, true)
             }
         }
         if (firstJoin == null) {
@@ -732,8 +737,8 @@ public class OperatorGraphVisitor(@JvmField public val query: Query) : Visitor<I
                 (result).getLatestChild().setChild(firstJoin)
             }
         }
-        if (members.containsKey(EGroupMember.GMLOPMinus)) {
-            var tmp = members[EGroupMember.GMLOPMinus]!!
+        if (members.containsKey(EGroupMemberExt.GMLOPMinus)) {
+            var tmp = members[EGroupMemberExt.GMLOPMinus]!!
 /*
 tmp.getLatestChild().setChild(result!!)
 return tmp
@@ -1244,27 +1249,30 @@ return tmp
     }
     override fun visit(node: ASTAggregation, childrenValues: List<IOPBase>): IOPBase {
         when (node.type) {
-            Aggregation.COUNT -> {
+            AggregationExt.COUNT -> {
                 return AOPAggregationCOUNT(query, node.distinct, Array(childrenValues.size) { childrenValues[it] as AOPBase })
             }
-            Aggregation.MIN -> {
+            AggregationExt.MIN -> {
                 return AOPAggregationMIN(query, node.distinct, Array(childrenValues.size) { childrenValues[it] as AOPBase })
             }
-            Aggregation.MAX -> {
+            AggregationExt.MAX -> {
                 return AOPAggregationMAX(query, node.distinct, Array(childrenValues.size) { childrenValues[it] as AOPBase })
             }
-            Aggregation.SAMPLE -> {
+            AggregationExt.SAMPLE -> {
                 return AOPAggregationSAMPLE(query, node.distinct, Array(childrenValues.size) { childrenValues[it] as AOPBase })
             }
-            Aggregation.AVG -> {
+            AggregationExt.AVG -> {
                 return AOPAggregationAVG(query, node.distinct, Array(childrenValues.size) { childrenValues[it] as AOPBase })
             }
-            Aggregation.SUM -> {
+            AggregationExt.SUM -> {
                 return AOPAggregationSUM(query, node.distinct, Array(childrenValues.size) { childrenValues[it] as AOPBase })
             }
-            Aggregation.GROUP_CONCAT -> {
-                throw SparqlFeatureNotImplementedException("Aggregation.GROUP_CONCAT")
+            AggregationExt.GROUP_CONCAT -> {
+                throw SparqlFeatureNotImplementedException("AggregationExt.GROUP_CONCAT")
             }
+else->{
+throw UnreachableException()
+}
         }
         /*Coverage Unreachable*/
     }
@@ -1425,34 +1433,34 @@ return tmp
         SanityCheck.check { childrenValues.isEmpty() }
         val g1 = graphRefToEnum(node.fromGraph)
         val g2 = graphRefToEnum(node.toGraph)
-        return LOPGraphOperation(query, EGraphOperationType.ADD, node.silent, g1.first, g1.second, g2.first, g2.second)
+        return LOPGraphOperation(query, EGraphOperationTypeExt.ADD, node.silent, g1.first, g1.second, g2.first, g2.second)
     }
     override fun visit(node: ASTMove, childrenValues: List<IOPBase>): IOPBase {
         SanityCheck.check { childrenValues.isEmpty() }
         val g1 = graphRefToEnum(node.fromGraph)
         val g2 = graphRefToEnum(node.toGraph)
-        return LOPGraphOperation(query, EGraphOperationType.MOVE, node.silent, g1.first, g1.second, g2.first, g2.second)
+        return LOPGraphOperation(query, EGraphOperationTypeExt.MOVE, node.silent, g1.first, g1.second, g2.first, g2.second)
     }
     override fun visit(node: ASTCopy, childrenValues: List<IOPBase>): IOPBase {
         SanityCheck.check { childrenValues.isEmpty() }
         val g1 = graphRefToEnum(node.fromGraph)
         val g2 = graphRefToEnum(node.toGraph)
-        return LOPGraphOperation(query, EGraphOperationType.COPY, node.silent, g1.first, g1.second, g2.first, g2.second)
+        return LOPGraphOperation(query, EGraphOperationTypeExt.COPY, node.silent, g1.first, g1.second, g2.first, g2.second)
     }
     override fun visit(node: ASTClear, childrenValues: List<IOPBase>): IOPBase {
         SanityCheck.check { childrenValues.isEmpty() }
         val g1 = graphRefToEnum(node.graphref)
-        return LOPGraphOperation(query, EGraphOperationType.CLEAR, node.silent, g1.first, g1.second)
+        return LOPGraphOperation(query, EGraphOperationTypeExt.CLEAR, node.silent, g1.first, g1.second)
     }
     override fun visit(node: ASTDrop, childrenValues: List<IOPBase>): IOPBase {
         SanityCheck.check { childrenValues.isEmpty() }
         val g1 = graphRefToEnum(node.graphref)
-        return LOPGraphOperation(query, EGraphOperationType.DROP, node.silent, g1.first, g1.second)
+        return LOPGraphOperation(query, EGraphOperationTypeExt.DROP, node.silent, g1.first, g1.second)
     }
     override fun visit(node: ASTCreate, childrenValues: List<IOPBase>): IOPBase {
         SanityCheck.check { childrenValues.isEmpty() }
         val g1 = graphRefToEnum(node.graphref)
-        return LOPGraphOperation(query, EGraphOperationType.CREATE, node.silent, g1.first, g1.second)
+        return LOPGraphOperation(query, EGraphOperationTypeExt.CREATE, node.silent, g1.first, g1.second)
     }
     private fun simpleAstToLiteralValue(node: ASTNode): AOPBase {
         val tmp = node.visit(this) as AOPBase
@@ -1491,7 +1499,7 @@ return tmp
         }
     }
     override fun visit(node: ASTDeleteData, childrenValues: List<IOPBase>): IOPBase {
-        val res = LOPModifyData(query, EModifyType.DELETE)
+        val res = LOPModifyData(query, EModifyTypeExt.DELETE)
         modifyDataHelper(node.children, res)
         return res
     }
@@ -1499,7 +1507,7 @@ return tmp
         return visit(ASTModifyWithWhere(null, node.children, arrayOf(), arrayOf(), node.children), listOf<OPBase>())
     }
     override fun visit(node: ASTInsertData, childrenValues: List<IOPBase>): IOPBase {
-        val res = LOPModifyData(query, EModifyType.INSERT)
+        val res = LOPModifyData(query, EModifyTypeExt.INSERT)
         modifyDataHelper(node.children, res)
         return res
     }
@@ -1571,9 +1579,9 @@ return tmp
         val tmp = node.into
         return if (tmp != null) {
             val g2 = graphRefToEnum(tmp)
-            LOPGraphOperation(query, EGraphOperationType.LOAD, node.silent, EGraphRefTypeExt.DefaultGraphRef, node.iri, g2.first, g2.second)
+            LOPGraphOperation(query, EGraphOperationTypeExt.LOAD, node.silent, EGraphRefTypeExt.DefaultGraphRef, node.iri, g2.first, g2.second)
         } else {
-            LOPGraphOperation(query, EGraphOperationType.LOAD, node.silent, EGraphRefTypeExt.DefaultGraphRef, node.iri, EGraphRefTypeExt.DefaultGraphRef, PersistentStoreLocalExt.defaultGraphName)
+            LOPGraphOperation(query, EGraphOperationTypeExt.LOAD, node.silent, EGraphRefTypeExt.DefaultGraphRef, node.iri, EGraphRefTypeExt.DefaultGraphRef, PersistentStoreLocalExt.defaultGraphName)
         }
     }
     override fun visit(node: ASTModify, childrenValues: List<IOPBase>): IOPBase {

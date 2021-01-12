@@ -1,4 +1,5 @@
 package lupos.s10physicalOptimisation
+import lupos.s05tripleStore.TripleStoreFeatureExt
 import lupos.s00misc.DontCareWhichException
 import lupos.s00misc.EOptimizerID
 import lupos.s00misc.ESortTypeExt
@@ -27,7 +28,7 @@ public class PhysicalOptimizerPartition6(query: Query) : OptimizerBase(query, EO
             when (node) {
                 is TripleStoreIteratorGlobal -> {
                     println("PhysicalOptimizerPartition6 :: should optimize 2")
-                    if (TripleStoreLocal.providesFeature(TripleStoreFeature.PARTITION, null)) {
+                    if (TripleStoreLocal.providesFeature(TripleStoreFeatureExt.PARTITION, null)) {
                         println("PhysicalOptimizerPartition6 :: should optimize 3 ${node.partition.limit}")
                         if (node.partition.limit.isEmpty()) {
                             println("PhysicalOptimizerPartition6 :: should optimize 4")

@@ -1,5 +1,6 @@
 package lupos.s04logicalOperators.noinput
 import lupos.s00misc.EGraphOperationType
+import lupos.s00misc.EGraphOperationTypeExt
 import lupos.s00misc.EGraphRefType
 import lupos.s00misc.EGraphRefTypeExt
 import lupos.s00misc.EOperatorIDExt
@@ -11,7 +12,7 @@ import lupos.s04logicalOperators.LOPBase
 import kotlin.jvm.JvmField
 public class LOPGraphOperation public constructor(
     query: IQuery,
-    @JvmField public var action: EGraphOperationType = EGraphOperationType.CREATE,
+    @JvmField public var action: EGraphOperationType = EGraphOperationTypeExt.CREATE,
     @JvmField public var silent: Boolean = false,
     @JvmField public var graph1type: EGraphRefType = EGraphRefTypeExt.DefaultGraphRef,
     @JvmField public var graph1iri: String? = null,

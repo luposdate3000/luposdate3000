@@ -1,7 +1,9 @@
 package lupos.s05tripleStore
+import lupos.s00misc.UnreachableException
 import lupos.s00misc.ByteArrayHelper
 import lupos.s00misc.EIndexPattern
 import lupos.s00misc.ETripleIndexType
+import lupos.s00misc.ETripleIndexTypeExt
 import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.USE_PARTITIONS2
@@ -36,9 +38,10 @@ public class TripleStoreLocalBPlusTreePartition(name: String, store_root_page_id
                 val name2 = StringBuilder(idx.toString())
                 println("partition :: $idx $column $partitionCount")
                 val childPage = bufferManager.getPage(pageid2)
-                val store = when (ETripleIndexType.values()[ByteArrayHelper.readInt4(childPage, 0)]) {
-                    ETripleIndexType.ID_TRIPLE -> TripleStoreIndexIDTriple(pageid2, store_root_page_init)
-                    ETripleIndexType.PARTITION -> TripleStoreIndexPartition({ i, k -> SanityCheck.checkUnreachable() }, column, partitionCount, pageid2, store_root_page_init)
+                val store = when (ByteArrayHelper.readInt4(childPage, 0)) {
+                    ETripleIndexTypeExt.ID_TRIPLE -> TripleStoreIndexIDTriple(pageid2, store_root_page_init)
+                    ETripleIndexTypeExt.PARTITION -> TripleStoreIndexPartition({ i, k -> SanityCheck.checkUnreachable() }, column, partitionCount, pageid2, store_root_page_init)
+else-> throw UnreachableException()
                 }
                 bufferManager.releasePage(pageid2)
                 if (column >= 0) {
@@ -156,10 +159,10 @@ public class TripleStoreLocalBPlusTreePartition(name: String, store_root_page_id
     public companion object {
         public fun providesFeature(feature: TripleStoreFeature, params: TripleStoreFeatureParams?): Boolean {
             return when (feature) {
-                TripleStoreFeature.DEFAULT -> {
+                TripleStoreFeatureExt.DEFAULT -> {
                     true
                 }
-                TripleStoreFeature.PARTITION -> {
+                TripleStoreFeatureExt.PARTITION -> {
                     if (params == null) {
                         true
                     } else {
@@ -168,6 +171,9 @@ public class TripleStoreLocalBPlusTreePartition(name: String, store_root_page_id
                         c in 1..2
                     }
                 }
+else->{
+throw UnreachableException()
+}
             }
         }
     }

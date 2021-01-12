@@ -1,6 +1,7 @@
 package lupos.s05tripleStore
 import lupos.s00misc.ByteArrayHelper
 import lupos.s00misc.ETripleIndexType
+import lupos.s00misc.ETripleIndexTypeExt
 import lupos.s00misc.MyReadWriteLock
 import lupos.s00misc.Parallel
 import lupos.s00misc.SanityCheck
@@ -109,7 +110,7 @@ public class TripleStoreIndexIDTriple public constructor(store_root_page_id_: In
                 )
             }
         } else {
-            ByteArrayHelper.writeInt4(rootPage, 0, ETripleIndexType.ID_TRIPLE.ordinal)
+            ByteArrayHelper.writeInt4(rootPage, 0, ETripleIndexTypeExt.ID_TRIPLE)
             ByteArrayHelper.writeInt4(rootPage, 4, root)
             ByteArrayHelper.writeInt4(rootPage, 8, countPrimary)
             ByteArrayHelper.writeInt4(rootPage, 12, distinctPrimary)
