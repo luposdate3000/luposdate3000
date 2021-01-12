@@ -1,9 +1,11 @@
 #!/usr/bin/env kotlin
 @file:Import("src/luposdate3000_shared/src/commonMain/kotlin/lupos/s00misc/EOperatingSystem.kt")
+@file:Import("src/luposdate3000_shared/src/commonMain/kotlin/lupos/s00misc/EOperatingSystemExt.kt")
 @file:Import("src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/s00misc/Platform.kt")
 @file:Import("src/luposdate3000_shared_inline/src/jvmMain/kotlin/lupos/s00misc/Platform.kt")
 @file:CompilerOptions("-Xmulti-platform")
 import lupos.s00misc.EOperatingSystem
+import lupos.s00misc.EOperatingSystemExt
 import lupos.s00misc.Platform
 import java.io.File
 import java.lang.ProcessBuilder.Redirect
@@ -67,7 +69,7 @@ for (jar in jars) {
     if (classpath == "") {
         classpath = jar
     } else {
-        if (Platform.getOperatingSystem() == EOperatingSystem.Windows) {
+        if (Platform.getOperatingSystem() == EOperatingSystemExt.Windows) {
             classpath = "$classpath;$jar"
         } else {
             classpath = "$classpath:$jar"
