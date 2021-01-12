@@ -9,9 +9,9 @@
 @file:Import("src/luposdate3000_shared_inline/src/jvmMain/kotlin/lupos/s00misc/Platform.kt")
 @file:CompilerOptions("-Xmulti-platform")
 import lupos.s00misc.Platform
-var releaseMode = ReleaseMode.Enable
+var releaseMode = ReleaseMode.Disable
 var suspendMode = SuspendMode.Disable
-var inlineMode = InlineMode.Enable
+var inlineMode = InlineMode.Disable
 var dryMode = DryMode.Disable
 var fastMode = FastMode.JVM
 var intellijMode = IntellijMode.Disable

@@ -122,7 +122,7 @@ public class TripleStoreLocalBPlusTreePartition(name: String, store_root_page_id
                     p.index.contains(EIndexPatternExt.OPS) -> EIndexPatternExt.OPS
                     else -> SanityCheck.checkUnreachable()
                 }
-                val name2 = StringBuilder(idx.toString())
+                val name2 = StringBuilder(EIndexPatternExt.names[idx])
                 var pageid2 = -1
                 bufferManager.createPage { p, pageid3 ->
                     pageid2 = pageid3
