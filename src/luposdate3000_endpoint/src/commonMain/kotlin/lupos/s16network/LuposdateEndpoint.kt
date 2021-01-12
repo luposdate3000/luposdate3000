@@ -1,11 +1,9 @@
 package lupos.s16network
 import lupos.s00misc.DateHelperRelative
-import lupos.s00misc.EModifyType
 import lupos.s00misc.EModifyTypeExt
 import lupos.s00misc.ETripleComponentType
 import lupos.s00misc.ETripleComponentTypeExt
 import lupos.s00misc.File
-import lupos.s00misc.UnreachableException
 import lupos.s00misc.IMyPrintWriter
 import lupos.s00misc.MyPrintWriter
 import lupos.s00misc.MyStringStream
@@ -13,6 +11,7 @@ import lupos.s00misc.OperatorGraphToLatex
 import lupos.s00misc.Partition
 import lupos.s00misc.QueryResultToStream
 import lupos.s00misc.SanityCheck
+import lupos.s00misc.UnreachableException
 import lupos.s00misc.XMLElement
 import lupos.s00misc.XMLElementFromCsv
 import lupos.s00misc.XMLElementFromJson
@@ -232,7 +231,7 @@ public object LuposdateEndpoint {
                     val fileTriples = File("$fileName.triples")
                     val fileDictionaryStat = File("$fileName.stat")
                     var dictTotal = 0
-                    val dictTyped = IntArray(ETripleComponentTypeExt.values.size)
+                    val dictTyped = IntArray(ETripleComponentTypeExt.values_size)
                     dictTyped[ETripleComponentTypeExt.BLANK_NODE] = 0
                     fileDictionaryStat.forEachLine {
                         val p = it.split("=")
@@ -348,7 +347,7 @@ public object LuposdateEndpoint {
             EQueryResultToStreamExt.EMPTYDICTIONARY_STREAM -> QueryResultToEmptyWithDictionaryStream(node, output)
             EQueryResultToStreamExt.MEMORY_TABLE -> QueryResultToMemoryTable(node)
             EQueryResultToStreamExt.XML_ELEMENT -> QueryResultToXMLElement.toXML(node)
-else->throw UnreachableException()
+            else -> throw UnreachableException()
         }
         distributedTripleStore.commit(node.getQuery())
         node.getQuery().setCommited()

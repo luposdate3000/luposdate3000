@@ -4,7 +4,6 @@ import lupos.s00misc.EGraphOperationTypeExt
 import lupos.s00misc.EGraphRefType
 import lupos.s00misc.EGraphRefTypeExt
 import lupos.s00misc.EIndexPattern
-import lupos.s00misc.EModifyType
 import lupos.s00misc.EModifyTypeExt
 import lupos.s00misc.EOperatorIDExt
 import lupos.s00misc.ESortPriorityExt
@@ -12,9 +11,9 @@ import lupos.s00misc.EvaluationException
 import lupos.s00misc.File
 import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
+import lupos.s00misc.UnreachableException
 import lupos.s00misc.XMLElement
 import lupos.s00misc.parseFromAny
-import lupos.s00misc.UnreachableException
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.IteratorBundle
@@ -89,9 +88,9 @@ public class POPGraphOperation public constructor(
                 EGraphRefTypeExt.IriGraphRef -> {
                     "GRAPH <" + graph1iri!! + ">"
                 }
-else->{
-throw UnreachableException()
-}
+                else -> {
+                    throw UnreachableException()
+                }
             }
             if (action == EGraphOperationTypeExt.COPY || action == EGraphOperationTypeExt.MOVE || action == EGraphOperationTypeExt.ADD) {
                 res += " TO "
@@ -108,9 +107,9 @@ throw UnreachableException()
                     EGraphRefTypeExt.IriGraphRef -> {
                         "GRAPH <" + graph2iri!! + ">"
                     }
-else->{ 
-throw UnreachableException()
-}
+                    else -> {
+                        throw UnreachableException()
+                    }
                 }
             }
         }

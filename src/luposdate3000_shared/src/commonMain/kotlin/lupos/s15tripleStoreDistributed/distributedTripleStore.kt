@@ -1,8 +1,8 @@
-@file:lupos.ProguardKeepAnnotation
 package lupos.s15tripleStoreDistributed
 import lupos.s00misc.SanityCheck
 import lupos.s04logicalOperators.IQuery
 import kotlin.jvm.JvmField
+@file:lupos.ProguardKeepAnnotation
 @JvmField
 public var distributedTripleStore: IDistributedTripleStore = DummyDistributedTripleStore()
 public class DummyDistributedTripleStore public constructor() : IDistributedTripleStore {

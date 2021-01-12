@@ -7,7 +7,6 @@ import lupos.s00misc.USE_PARTITIONS
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.Query
-import lupos.s05tripleStore.TripleStoreFeature
 import lupos.s05tripleStore.TripleStoreFeatureExt
 import lupos.s05tripleStore.TripleStoreFeatureParamsPartition
 import lupos.s08logicalOptimisation.OptimizerBase

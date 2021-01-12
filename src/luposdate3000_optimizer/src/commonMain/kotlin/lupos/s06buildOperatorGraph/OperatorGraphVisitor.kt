@@ -1,16 +1,13 @@
 package lupos.s06buildOperatorGraph
 import lupos.s00misc.AggregateNotAllowedSyntaxException
 import lupos.s00misc.DatasetImportFailedException
-import lupos.s00misc.EGraphOperationType
 import lupos.s00misc.EGraphOperationTypeExt
 import lupos.s00misc.EGraphRefType
 import lupos.s00misc.EGraphRefTypeExt
 import lupos.s00misc.EGroupMember
 import lupos.s00misc.EGroupMemberExt
-import lupos.s00misc.EModifyType
 import lupos.s00misc.EModifyTypeExt
 import lupos.s00misc.File
-import lupos.s00misc.UnreachableException
 import lupos.s00misc.GroupByClauseNotUsedException
 import lupos.s00misc.MyBigDecimal
 import lupos.s00misc.MyBigInteger
@@ -18,6 +15,7 @@ import lupos.s00misc.ProjectionDoubleDefinitionOfVariableSyntaxException
 import lupos.s00misc.RecoursiveVariableDefinitionSyntaxException
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.SparqlFeatureNotImplementedException
+import lupos.s00misc.UnreachableException
 import lupos.s00misc.XMLElement
 import lupos.s00misc.parseFromAny
 import lupos.s02buildSyntaxTree.sparql1_1.ASTAdd
@@ -108,7 +106,6 @@ import lupos.s02buildSyntaxTree.sparql1_1.ASTUpdateGrapOperation
 import lupos.s02buildSyntaxTree.sparql1_1.ASTValue
 import lupos.s02buildSyntaxTree.sparql1_1.ASTValues
 import lupos.s02buildSyntaxTree.sparql1_1.ASTVar
-import lupos.s02buildSyntaxTree.sparql1_1.Aggregation
 import lupos.s02buildSyntaxTree.sparql1_1.AggregationExt
 import lupos.s02buildSyntaxTree.sparql1_1.BuiltInFunctionsExt
 import lupos.s02buildSyntaxTree.sparql1_1.Visitor
@@ -1270,9 +1267,9 @@ return tmp
             AggregationExt.GROUP_CONCAT -> {
                 throw SparqlFeatureNotImplementedException("AggregationExt.GROUP_CONCAT")
             }
-else->{
-throw UnreachableException()
-}
+            else -> {
+                throw UnreachableException()
+            }
         }
         /*Coverage Unreachable*/
     }

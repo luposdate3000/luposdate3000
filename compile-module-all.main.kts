@@ -7,7 +7,6 @@
 @file:Import("src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/s00misc/PlatformAlias.kt")
 @file:Import("src/luposdate3000_shared_inline/src/jvmMain/kotlin/lupos/s00misc/Platform.kt")
 @file:CompilerOptions("-Xmulti-platform")
-import lupos.s00misc.Platform
 
 var releaseMode = ReleaseMode.Enable
 var suspendMode = SuspendMode.Disable

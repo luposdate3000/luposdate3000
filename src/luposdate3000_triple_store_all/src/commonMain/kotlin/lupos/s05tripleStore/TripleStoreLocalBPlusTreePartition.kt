@@ -1,12 +1,11 @@
 package lupos.s05tripleStore
-import lupos.s00misc.UnreachableException
 import lupos.s00misc.ByteArrayHelper
 import lupos.s00misc.EIndexPattern
-import lupos.s00misc.ETripleIndexType
 import lupos.s00misc.ETripleIndexTypeExt
 import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.USE_PARTITIONS2
+import lupos.s00misc.UnreachableException
 import lupos.s01io.BufferManager
 import lupos.s01io.BufferManagerExt
 import kotlin.jvm.JvmField
@@ -41,7 +40,7 @@ public class TripleStoreLocalBPlusTreePartition(name: String, store_root_page_id
                 val store = when (ByteArrayHelper.readInt4(childPage, 0)) {
                     ETripleIndexTypeExt.ID_TRIPLE -> TripleStoreIndexIDTriple(pageid2, store_root_page_init)
                     ETripleIndexTypeExt.PARTITION -> TripleStoreIndexPartition({ i, k -> SanityCheck.checkUnreachable() }, column, partitionCount, pageid2, store_root_page_init)
-else-> throw UnreachableException()
+                    else -> throw UnreachableException()
                 }
                 bufferManager.releasePage(pageid2)
                 if (column >= 0) {
@@ -171,9 +170,9 @@ else-> throw UnreachableException()
                         c in 1..2
                     }
                 }
-else->{
-throw UnreachableException()
-}
+                else -> {
+                    throw UnreachableException()
+                }
             }
         }
     }

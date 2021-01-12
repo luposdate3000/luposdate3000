@@ -1,5 +1,4 @@
 import lupos.s00misc.BinaryTestCase
-import lupos.s00misc.BinaryTestCaseOutputMode
 import lupos.s00misc.BinaryTestCaseOutputModeExt
 import lupos.s00misc.Parallel
 import lupos.s16network.LuposdateEndpoint

@@ -1,6 +1,5 @@
 package lupos.s05tripleStore
 import lupos.s00misc.ByteArrayHelper
-import lupos.s00misc.ETripleIndexType
 import lupos.s00misc.ETripleIndexTypeExt
 import lupos.s00misc.MyReadWriteLock
 import lupos.s00misc.Parallel

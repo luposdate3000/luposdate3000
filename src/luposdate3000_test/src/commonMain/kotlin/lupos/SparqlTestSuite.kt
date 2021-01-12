@@ -1,7 +1,6 @@
 package lupos
 import lupos.s00misc.DateHelperRelative
 import lupos.s00misc.EIndexPattern
-import lupos.s00misc.EModifyType
 import lupos.s00misc.EModifyTypeExt
 import lupos.s00misc.File
 import lupos.s00misc.JenaBugException

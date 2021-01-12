@@ -126,7 +126,7 @@ public class POPModify public constructor(query: IQuery, projectedVariables: Lis
                     first.graph
                 }
                 if (data[graphName] == null) {
-                    data[graphName] = Array(EModifyTypeExt.values.size) { Array(3) { mutableListOf() } }
+                    data[graphName] = Array(EModifyTypeExt.values_size) { Array(3) { mutableListOf() } }
                 }
                 val target = data[graphName]!![second]
                 loop2@ for (columnIndex in 0 until 3) {
@@ -154,7 +154,7 @@ public class POPModify public constructor(query: IQuery, projectedVariables: Lis
         }
         for ((graphName, iterator) in data) {
             val store = distributedTripleStore.getNamedGraph(query, graphName)
-            for (type in EModifyTypeExt.values) {
+            for (type in 0 until EModifyTypeExt.values_size) {
                 if (iterator[type][0].size > 0) {
                     store.modify(Array(3) { ColumnIteratorMultiValue(iterator[type][it]) }, type)
                 }

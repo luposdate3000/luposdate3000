@@ -6,8 +6,8 @@ import lupos.s00misc.MyBigInteger
 import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.SortHelper
-import lupos.s00misc.UnreachableException
 import lupos.s00misc.UnknownOperatorTypeInXMLException
+import lupos.s00misc.UnreachableException
 import lupos.s00misc.XMLElement
 import lupos.s00misc.XMLNotParseableException
 import lupos.s03resultRepresentation.ValueBoolean
@@ -602,10 +602,10 @@ public fun createProjectedVariables(query: Query, node: XMLElement, mapping: Mut
                 if (tmp5.size != 2) {
                     throw XMLNotParseableException()
                 }
-val tmp7=ESortTypeExt.names.indexOf(tmp5[1])
-if(tmp7<0){
-throw UnreachableException()
-}
+                val tmp7 = ESortTypeExt.names.indexOf(tmp5[1])
+                if (tmp7 <0) {
+                    throw UnreachableException()
+                }
                 tmp3.add(SortHelper(tmp5[0], tmp7))
             }
             res.setMySortPriority(tmp3)

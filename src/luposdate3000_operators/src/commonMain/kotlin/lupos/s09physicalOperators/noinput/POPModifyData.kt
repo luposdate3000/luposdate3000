@@ -5,8 +5,8 @@ import lupos.s00misc.EOperatorIDExt
 import lupos.s00misc.ESortPriorityExt
 import lupos.s00misc.GraphVariablesNotImplementedException
 import lupos.s00misc.Partition
-import lupos.s00misc.UnreachableException
 import lupos.s00misc.SanityCheck
+import lupos.s00misc.UnreachableException
 import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.ValueBoolean
 import lupos.s04arithmetikOperators.noinput.AOPConstant
@@ -35,9 +35,9 @@ public class POPModifyData public constructor(query: IQuery, projectedVariables:
             EModifyTypeExt.DELETE -> {
                 "DELETE"
             }
-else->{
-throw UnreachableException()
-}
+            else -> {
+                throw UnreachableException()
+            }
         }
         res += " DATA {"
         for (c in data) {

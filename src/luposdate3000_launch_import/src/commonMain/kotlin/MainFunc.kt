@@ -1,4 +1,3 @@
-
 import lupos.s00misc.ETripleComponentType
 import lupos.s00misc.ETripleComponentTypeExt
 import lupos.s00misc.File
@@ -24,7 +23,7 @@ internal fun helperCleanString(s: String): String {
     val inputFile = File(inputFileName)
     val dict = mutableMapOf<String, Int>()
     var dictCounter = 0
-    val dictCounterByType = IntArray(ETripleComponentTypeExt.values.size)
+    val dictCounterByType = IntArray(ETripleComponentTypeExt.values_size)
     val iter = inputFile.readAsInputStream()
     val outputTriplesFile = File("$inputFileName.triples")
     val outputDictionaryFile = File("$inputFileName.dictionary")
@@ -72,7 +71,7 @@ internal fun helperCleanString(s: String): String {
     }
     outputDictionaryStatFile.printWriter { out ->
         out.println("total=$dictCounter")
-        for (t in ETripleComponentTypeExt.values) {
+        for (t in 0 until ETripleComponentTypeExt.values_size) {
             out.println("$t=${dictCounterByType[t]}")
         }
     }

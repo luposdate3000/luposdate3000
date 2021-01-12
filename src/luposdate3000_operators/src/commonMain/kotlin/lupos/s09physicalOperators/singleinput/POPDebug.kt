@@ -1,12 +1,11 @@
 package lupos.s09physicalOperators.singleinput
 import lupos.s00misc.EOperatorIDExt
 import lupos.s00misc.EPOPDebugModeExt
-import lupos.s00misc.EPOPDebugMode
 import lupos.s00misc.ESortPriorityExt
 import lupos.s00misc.ITERATOR_DEBUG_MODE
 import lupos.s00misc.Partition
-import lupos.s00misc.UnreachableException
 import lupos.s00misc.SanityCheck
+import lupos.s00misc.UnreachableException
 import lupos.s03resultRepresentation.ResultSetDictionaryExt
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
@@ -163,9 +162,9 @@ public class POPDebug public constructor(query: IQuery, projectedVariables: List
                     }
                 }
             }
-else->{
-throw UnreachableException()
-}
+            else -> {
+                throw UnreachableException()
+            }
         }
     }
 }
