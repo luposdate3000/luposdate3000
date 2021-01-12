@@ -1,10 +1,11 @@
 package lupos.s09physicalOperators.noinput
 import lupos.s00misc.EGraphOperationType
 import lupos.s00misc.EGraphRefType
+import lupos.s00misc.EGraphRefTypeExt
 import lupos.s00misc.EIndexPattern
 import lupos.s00misc.EModifyType
-import lupos.s00misc.EOperatorID
-import lupos.s00misc.ESortPriority
+import lupos.s00misc.EOperatorIDExt
+import lupos.s00misc.ESortPriorityExt
 import lupos.s00misc.EvaluationException
 import lupos.s00misc.File
 import lupos.s00misc.Partition

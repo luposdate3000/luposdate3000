@@ -62,8 +62,8 @@ public class PersistentStoreLocal : IPersistentStoreLocal {
         storesAdd(PersistentStoreLocalExt.defaultGraphName)
     }
     override fun getGraphNames(): List<String> {
-return getGraphNames(false)
-}
+        return getGraphNames(false)
+    }
     override fun getGraphNames(includeDefault: Boolean): List<String> {
         val res = mutableListOf<String>()
         stores.keys.forEach { t ->
@@ -94,8 +94,8 @@ return getGraphNames(false)
         getNamedGraph(query, name).clear()
     }
     override /*suspend*/ fun getNamedGraph(query: IQuery, name: String): TripleStoreLocal {
-return getNamedGraph(query,name,false)
-}
+        return getNamedGraph(query, name, false)
+    }
     override /*suspend*/ fun getNamedGraph(query: IQuery, name: String, create: Boolean): TripleStoreLocal {
         val tmp = stores[name]
         if (tmp != null) {

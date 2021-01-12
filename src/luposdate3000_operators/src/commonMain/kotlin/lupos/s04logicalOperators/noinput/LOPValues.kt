@@ -1,6 +1,6 @@
 package lupos.s04logicalOperators.noinput
-import lupos.s00misc.EOperatorID
-import lupos.s00misc.ESortPriority
+import lupos.s00misc.EOperatorIDExt
+import lupos.s00misc.ESortPriorityExt
 import lupos.s00misc.XMLElement
 import lupos.s04arithmetikOperators.noinput.AOPConstant
 import lupos.s04arithmetikOperators.noinput.AOPValue

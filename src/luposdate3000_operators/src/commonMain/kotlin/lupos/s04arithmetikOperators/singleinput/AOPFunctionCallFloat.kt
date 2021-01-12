@@ -1,7 +1,7 @@
 package lupos.s04arithmetikOperators.singleinput
 import lupos.s00misc.CanNotCastLiteralToDoubleException
 import lupos.s00misc.DontCareWhichException
-import lupos.s00misc.EOperatorID
+import lupos.s00misc.EOperatorIDExt
 import lupos.s03resultRepresentation.ValueBoolean
 import lupos.s03resultRepresentation.ValueDecimal
 import lupos.s03resultRepresentation.ValueDefinition

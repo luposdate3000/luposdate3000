@@ -1,7 +1,7 @@
 package lupos.s04logicalOperators.multiinput
 import lupos.s00misc.BugException
-import lupos.s00misc.EOperatorID
-import lupos.s00misc.ESortPriority
+import lupos.s00misc.EOperatorIDExt
+import lupos.s00misc.ESortPriorityExt
 import lupos.s00misc.SanityCheck
 import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s04logicalOperators.HistogramResult

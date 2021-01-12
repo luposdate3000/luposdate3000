@@ -1,5 +1,5 @@
 package lupos.s04arithmetikOperators.singleinput
-import lupos.s00misc.EOperatorID
+import lupos.s00misc.EOperatorIDExt
 import lupos.s00misc.MyBigInteger
 import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.ValueDefinition

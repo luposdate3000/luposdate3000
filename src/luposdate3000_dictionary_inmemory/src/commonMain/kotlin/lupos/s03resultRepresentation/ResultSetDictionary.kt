@@ -1,6 +1,6 @@
 package lupos.s03resultRepresentation
-import lupos.s00misc.ETripleComponentTypeExt
 import lupos.s00misc.ETripleComponentType
+import lupos.s00misc.ETripleComponentTypeExt
 import lupos.s00misc.MyBigDecimal
 import lupos.s00misc.MyBigInteger
 import lupos.s00misc.SanityCheck

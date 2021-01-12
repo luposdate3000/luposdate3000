@@ -1,7 +1,20 @@
 import java.io.File
 import java.lang.ProcessBuilder.Redirect
 import kotlin.jvm.JvmField
+import lupos.s00misc.EGraphOperationTypeExt
+import lupos.s00misc.EGraphRefTypeExt
+import lupos.s00misc.EModifyTypeExt
+import lupos.s00misc.EOperatorIDExt
+import lupos.s00misc.ESortPriorityExt
+import lupos.s00misc.ESortTypeExt
+import lupos.s00misc.ETripleComponentTypeExt
+import lupos.s00misc.ETripleIndexTypeExt
+import lupos.s00misc.MyPrintWriterModeExt
 import lupos.s00misc.Platform
+import lupos.s02buildSyntaxTree.sparql1_1.AggregationExt
+import lupos.s02buildSyntaxTree.sparql1_1.BuiltInFunctionsExt
+import lupos.s04logicalOperators.iterator.IteratorBundleModeExt
+import lupos.s05tripleStore.TripleStoreFeatureExt
 public fun execImport(args: Array<String>) {
     File("log").mkdirs()
     val jars = mutableListOf(

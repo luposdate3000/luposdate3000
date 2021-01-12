@@ -1,5 +1,5 @@
 package lupos.s04arithmetikOperators.multiinput
-import lupos.s00misc.EOperatorID
+import lupos.s00misc.EOperatorIDExt
 import lupos.s00misc.SparqlFeatureNotImplementedException
 import lupos.s03resultRepresentation.ValueDefinition
 import lupos.s04arithmetikOperators.AOPBase

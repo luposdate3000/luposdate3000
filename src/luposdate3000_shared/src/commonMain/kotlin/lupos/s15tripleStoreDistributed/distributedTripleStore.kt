@@ -5,8 +5,7 @@ import lupos.s04logicalOperators.IQuery
 import kotlin.jvm.JvmField
 @JvmField
 public var distributedTripleStore: IDistributedTripleStore = DummyDistributedTripleStore()
-
-public class DummyDistributedTripleStore public constructor(): IDistributedTripleStore {
+public class DummyDistributedTripleStore public constructor() : IDistributedTripleStore {
     override fun reloadPartitioningScheme() {
         SanityCheck.checkUnreachable()
     }
@@ -34,7 +33,7 @@ public class DummyDistributedTripleStore public constructor(): IDistributedTripl
     override fun getLocalStore(): IPersistentStoreLocal {
         SanityCheck.checkUnreachable()
     }
-override fun getGraphNames(): List<String> {
-return getGraphNames(false)
-}
+    override fun getGraphNames(): List<String> {
+        return getGraphNames(false)
+    }
 }

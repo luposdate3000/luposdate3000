@@ -1,6 +1,6 @@
 package lupos.s04logicalOperators.singleinput
-import lupos.s00misc.EOperatorID
-import lupos.s00misc.ESortPriority
+import lupos.s00misc.EOperatorIDExt
+import lupos.s00misc.ESortPriorityExt
 import lupos.s00misc.XMLElement
 import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s04logicalOperators.HistogramResult
@@ -9,8 +9,8 @@ import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.LOPBase
 import lupos.s04logicalOperators.noinput.OPEmptyRow
 import kotlin.jvm.JvmField
-public class LOPSort public constructor(query: IQuery, @JvmField public val asc: Boolean, @JvmField public var by: AOPVariable, child: IOPBase ) : LOPBase(query, EOperatorIDExt.LOPSortID, "LOPSort", arrayOf(child), ESortPriorityExt.SORT) {
-public constructor(query: IQuery,asc: Boolean, by: AOPVariable):this(query,asc,by,OPEmptyRow(query))
+public class LOPSort public constructor(query: IQuery, @JvmField public val asc: Boolean, @JvmField public var by: AOPVariable, child: IOPBase) : LOPBase(query, EOperatorIDExt.LOPSortID, "LOPSort", arrayOf(child), ESortPriorityExt.SORT) {
+    public constructor(query: IQuery, asc: Boolean, by: AOPVariable) : this(query, asc, by, OPEmptyRow(query))
     override /*suspend*/ fun toXMLElement(): XMLElement {
         val res = XMLElement("LOPSort")
         res.addAttribute("by", by.name)

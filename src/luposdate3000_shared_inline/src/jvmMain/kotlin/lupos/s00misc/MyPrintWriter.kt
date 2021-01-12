@@ -1,10 +1,10 @@
 package lupos.modulename
 import lupos.s00misc.IMyPrintWriter
+import lupos.s00misc.MyPrintWriterMode
+import lupos.s00misc.MyPrintWriterModeExt
 import java.io.OutputStream
 import java.io.PrintWriter
 import java.io.StringWriter
-import lupos.s00misc.MyPrintWriterMode
-import lupos.s00misc.MyPrintWriterModeExt
 import kotlin.jvm.JvmField
 internal actual open class _MyPrintWriter : IMyPrintWriter {
     @JvmField

@@ -1,5 +1,5 @@
 package lupos.s04arithmetikOperators.singleinput
-import lupos.s00misc.EOperatorID
+import lupos.s00misc.EOperatorIDExt
 import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.ValueDefinition
 import lupos.s03resultRepresentation.ValueError
@@ -12,8 +12,8 @@ import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import kotlin.jvm.JvmField
-public class AOPBuildInCallURI public constructor(query: IQuery, child: AOPBase, @JvmField public var prefix: String ) : AOPBase(query, EOperatorIDExt.AOPBuildInCallURIID, "AOPBuildInCallURI", arrayOf(child)) {
-public constructor(query: IQuery, child: AOPBase):this(query,child,"")
+public class AOPBuildInCallURI public constructor(query: IQuery, child: AOPBase, @JvmField public var prefix: String) : AOPBase(query, EOperatorIDExt.AOPBuildInCallURIID, "AOPBuildInCallURI", arrayOf(child)) {
+    public constructor(query: IQuery, child: AOPBase) : this(query, child, "")
     override fun toSparql(): String = "URI(" + children[0].toSparql() + ")"
     override fun applyPrefix(prefix: String, iri: String) {
         if (prefix == "") {

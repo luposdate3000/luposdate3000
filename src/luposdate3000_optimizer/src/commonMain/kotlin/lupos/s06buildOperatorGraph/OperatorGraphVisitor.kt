@@ -3,6 +3,7 @@ import lupos.s00misc.AggregateNotAllowedSyntaxException
 import lupos.s00misc.DatasetImportFailedException
 import lupos.s00misc.EGraphOperationType
 import lupos.s00misc.EGraphRefType
+import lupos.s00misc.EGraphRefTypeExt
 import lupos.s00misc.EGroupMember
 import lupos.s00misc.EModifyType
 import lupos.s00misc.File
@@ -15,8 +16,6 @@ import lupos.s00misc.SanityCheck
 import lupos.s00misc.SparqlFeatureNotImplementedException
 import lupos.s00misc.XMLElement
 import lupos.s00misc.parseFromAny
-import lupos.s02buildSyntaxTree.sparql1_1.BuiltInFunctionsExt
-import lupos.s02buildSyntaxTree.sparql1_1.BuiltInFunctions
 import lupos.s02buildSyntaxTree.sparql1_1.ASTAdd
 import lupos.s02buildSyntaxTree.sparql1_1.ASTAddition
 import lupos.s02buildSyntaxTree.sparql1_1.ASTAggregation
@@ -106,6 +105,7 @@ import lupos.s02buildSyntaxTree.sparql1_1.ASTValue
 import lupos.s02buildSyntaxTree.sparql1_1.ASTValues
 import lupos.s02buildSyntaxTree.sparql1_1.ASTVar
 import lupos.s02buildSyntaxTree.sparql1_1.Aggregation
+import lupos.s02buildSyntaxTree.sparql1_1.BuiltInFunctionsExt
 import lupos.s02buildSyntaxTree.sparql1_1.Visitor
 import lupos.s03resultRepresentation.ValueBnode
 import lupos.s03resultRepresentation.ValueBoolean

@@ -1,7 +1,7 @@
 package lupos.s09physicalOperators.multiinput
-import lupos.s00misc.EOperatorID
-import lupos.s00misc.ESortPriority
-import lupos.s00misc.ESortType
+import lupos.s00misc.EOperatorIDExt
+import lupos.s00misc.ESortPriorityExt
+import lupos.s00misc.ESortTypeExt
 import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.XMLElement

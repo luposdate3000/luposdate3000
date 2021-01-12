@@ -1,6 +1,6 @@
 package lupos.s04arithmetikOperators
 import lupos.s00misc.EOperatorID
-import lupos.s00misc.ESortPriority
+import lupos.s00misc.ESortPriorityExt
 import lupos.s00misc.EvaluationException
 import lupos.s00misc.SanityCheck
 import lupos.s03resultRepresentation.ResultSetDictionaryExt

@@ -1,6 +1,6 @@
 package lupos.s10physicalOptimisation
 import lupos.s00misc.EOptimizerID
-import lupos.s00misc.ESortType
+import lupos.s00misc.ESortTypeExt
 import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
 import lupos.s04arithmetikOperators.AOPBase

@@ -1,15 +1,15 @@
 package lupos.s04logicalOperators.noinput
 import lupos.s00misc.EModifyType
-import lupos.s00misc.EOperatorID
-import lupos.s00misc.ESortPriority
+import lupos.s00misc.EOperatorIDExt
+import lupos.s00misc.ESortPriorityExt
 import lupos.s00misc.XMLElement
 import lupos.s04logicalOperators.HistogramResult
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.LOPBase
 import kotlin.jvm.JvmField
-public class LOPModifyData public constructor(query: IQuery, @JvmField public val type: EModifyType, @JvmField public val data: MutableList<LOPTriple> ) : LOPBase(query, EOperatorIDExt.LOPModifyDataID, "LOPModifyData", arrayOf(), ESortPriorityExt.PREVENT_ANY) {
-public constructor(query: IQuery,type: EModifyType):this(query,type,mutableListOf())
+public class LOPModifyData public constructor(query: IQuery, @JvmField public val type: EModifyType, @JvmField public val data: MutableList<LOPTriple>) : LOPBase(query, EOperatorIDExt.LOPModifyDataID, "LOPModifyData", arrayOf(), ESortPriorityExt.PREVENT_ANY) {
+    public constructor(query: IQuery, type: EModifyType) : this(query, type, mutableListOf())
     override /*suspend*/ fun toXMLElement(): XMLElement {
         val res = XMLElement("LOPModifyData")
         res.addAttribute("type", "" + type)

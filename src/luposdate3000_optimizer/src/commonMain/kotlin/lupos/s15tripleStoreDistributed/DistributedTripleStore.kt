@@ -1,8 +1,8 @@
 package lupos.s15tripleStoreDistributed
 import lupos.s00misc.EIndexPattern
 import lupos.s00misc.EModifyType
-import lupos.s00misc.EOperatorID
-import lupos.s00misc.ESortPriority
+import lupos.s00misc.EOperatorIDExt
+import lupos.s00misc.ESortPriorityExt
 import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.TriplePatternsContainingTheSameVariableTwiceNotImplementedException
@@ -210,8 +210,8 @@ public class DistributedTripleStore : IDistributedTripleStore {
     }
     override fun getLocalStore(): PersistentStoreLocal = localStore
     override fun getGraphNames(): List<String> {
-return getGraphNames(false)
-}
+        return getGraphNames(false)
+    }
     override fun getGraphNames(includeDefault: Boolean): List<String> {
         return localStore.getGraphNames(includeDefault)
     }

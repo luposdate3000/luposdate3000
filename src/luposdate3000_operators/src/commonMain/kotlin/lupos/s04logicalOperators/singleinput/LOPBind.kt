@@ -1,6 +1,6 @@
 package lupos.s04logicalOperators.singleinput
-import lupos.s00misc.EOperatorID
-import lupos.s00misc.ESortPriority
+import lupos.s00misc.EOperatorIDExt
+import lupos.s00misc.ESortPriorityExt
 import lupos.s00misc.XMLElement
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04arithmetikOperators.noinput.AOPVariable
@@ -10,8 +10,8 @@ import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.LOPBase
 import lupos.s04logicalOperators.noinput.OPEmptyRow
 import kotlin.jvm.JvmField
-public class LOPBind public constructor(query: IQuery, @JvmField public val name: AOPVariable, expression: AOPBase, child: IOPBase ) : LOPBase(query, EOperatorIDExt.LOPBindID, "LOPBind", arrayOf(child, expression), ESortPriorityExt.BIND) {
-public constructor(query: IQuery,  name: AOPVariable, expression: AOPBase):this(query,name,expression,OPEmptyRow(query))
+public class LOPBind public constructor(query: IQuery, @JvmField public val name: AOPVariable, expression: AOPBase, child: IOPBase) : LOPBase(query, EOperatorIDExt.LOPBindID, "LOPBind", arrayOf(child, expression), ESortPriorityExt.BIND) {
+    public constructor(query: IQuery, name: AOPVariable, expression: AOPBase) : this(query, name, expression, OPEmptyRow(query))
     override fun childrenToVerifyCount(): Int = 1
     override fun getProvidedVariableNames(): MutableList<String> = (children[0].getProvidedVariableNames() + name.name).distinct().toMutableList()
     override fun getRequiredVariableNames(): List<String> = children[1].getRequiredVariableNamesRecoursive().distinct()

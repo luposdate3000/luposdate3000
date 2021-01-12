@@ -1,6 +1,6 @@
 package lupos.s09physicalOperators.noinput
-import lupos.s00misc.EOperatorID
-import lupos.s00misc.ESortPriority
+import lupos.s00misc.EOperatorIDExt
+import lupos.s00misc.ESortPriorityExt
 import lupos.s00misc.Partition
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery

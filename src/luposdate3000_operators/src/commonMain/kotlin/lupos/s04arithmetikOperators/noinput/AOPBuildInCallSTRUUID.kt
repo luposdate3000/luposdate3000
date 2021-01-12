@@ -1,6 +1,6 @@
 package lupos.s04arithmetikOperators.noinput
 import lupos.s00misc.Crypto
-import lupos.s00misc.EOperatorID
+import lupos.s00misc.EOperatorIDExt
 import lupos.s03resultRepresentation.ValueDefinition
 import lupos.s03resultRepresentation.ValueSimpleLiteral
 import lupos.s04arithmetikOperators.AOPBase

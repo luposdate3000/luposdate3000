@@ -1,8 +1,9 @@
 package lupos.s04logicalOperators.noinput
 import lupos.s00misc.EGraphOperationType
 import lupos.s00misc.EGraphRefType
-import lupos.s00misc.EOperatorID
-import lupos.s00misc.ESortPriority
+import lupos.s00misc.EGraphRefTypeExt
+import lupos.s00misc.EOperatorIDExt
+import lupos.s00misc.ESortPriorityExt
 import lupos.s04logicalOperators.HistogramResult
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery

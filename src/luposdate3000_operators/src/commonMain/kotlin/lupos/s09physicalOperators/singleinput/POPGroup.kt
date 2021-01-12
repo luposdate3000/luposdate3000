@@ -1,6 +1,6 @@
 package lupos.s09physicalOperators.singleinput
-import lupos.s00misc.EOperatorID
-import lupos.s00misc.ESortPriority
+import lupos.s00misc.EOperatorIDExt
+import lupos.s00misc.ESortPriorityExt
 import lupos.s00misc.GroupByColumnMissing
 import lupos.s00misc.GroupByDuplicateColumnException
 import lupos.s00misc.MyBigInteger

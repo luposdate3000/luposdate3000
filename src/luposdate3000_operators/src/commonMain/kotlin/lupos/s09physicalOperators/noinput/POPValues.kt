@@ -1,6 +1,6 @@
 package lupos.s09physicalOperators.noinput
-import lupos.s00misc.EOperatorID
-import lupos.s00misc.ESortPriority
+import lupos.s00misc.EOperatorIDExt
+import lupos.s00misc.ESortPriorityExt
 import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.XMLElement
@@ -15,7 +15,7 @@ import lupos.s04logicalOperators.noinput.LOPValues
 import lupos.s09physicalOperators.POPBase
 import kotlin.jvm.JvmField
 public open class POPValues : POPBase {
-    override fun getPartitionCount (variable: String): Int = 1
+    override fun getPartitionCount(variable: String): Int = 1
     @JvmField
     public val variables: List<String>
     @JvmField

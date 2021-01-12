@@ -2,7 +2,8 @@ package lupos.s04logicalOperators
 import lupos.s00misc.BugException
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.ESortPriority
-import lupos.s00misc.ESortType
+import lupos.s00misc.ESortPriorityExt
+import lupos.s00misc.ESortTypeExt
 import lupos.s00misc.EvaluateNotImplementedException
 import lupos.s00misc.HistogramNotImplementedException
 import lupos.s00misc.Parallel
@@ -198,125 +199,125 @@ public abstract class OPBase public constructor(@JvmField public val query: IQue
     override fun getPossibleSortPriorities(): List<List<SortHelper>> {
         /*possibilities for_ next operator*/
         val res = mutableListOf<List<SortHelper>>()
-if(sortPriority==            ESortPriorityExt.ANY_PROVIDED_VARIABLE ) {
-                if (mySortPriority.size > 0) {
-                    res.add(mySortPriority)
-                } else {
-                    val provided = getProvidedVariableNames()
-                    when (provided.size) {
-                        1 -> {
-                            res.add(listOf(SortHelper(provided[0], ESortTypeExt.FAST)))
-                        }
-                        2 -> {
-                            res.add(listOf(SortHelper(provided[0], ESortTypeExt.FAST), SortHelper(provided[1], ESortTypeExt.FAST)))
-                            res.add(listOf(SortHelper(provided[1], ESortTypeExt.FAST), SortHelper(provided[0], ESortTypeExt.FAST)))
-                        }
-                        3 -> {
-                            res.add(listOf(SortHelper(provided[0], ESortTypeExt.FAST), SortHelper(provided[1], ESortTypeExt.FAST), SortHelper(provided[2], ESortTypeExt.FAST)))
-                            res.add(listOf(SortHelper(provided[0], ESortTypeExt.FAST), SortHelper(provided[2], ESortTypeExt.FAST), SortHelper(provided[1], ESortTypeExt.FAST)))
-                            res.add(listOf(SortHelper(provided[1], ESortTypeExt.FAST), SortHelper(provided[0], ESortTypeExt.FAST), SortHelper(provided[2], ESortTypeExt.FAST)))
-                            res.add(listOf(SortHelper(provided[1], ESortTypeExt.FAST), SortHelper(provided[2], ESortTypeExt.FAST), SortHelper(provided[0], ESortTypeExt.FAST)))
-                            res.add(listOf(SortHelper(provided[2], ESortTypeExt.FAST), SortHelper(provided[0], ESortTypeExt.FAST), SortHelper(provided[1], ESortTypeExt.FAST)))
-                            res.add(listOf(SortHelper(provided[2], ESortTypeExt.FAST), SortHelper(provided[1], ESortTypeExt.FAST), SortHelper(provided[0], ESortTypeExt.FAST)))
-                        }
-                        else -> {
-                            SanityCheck.check { provided.isEmpty() }
-                        }
+        if (sortPriority == ESortPriorityExt.ANY_PROVIDED_VARIABLE) {
+            if (mySortPriority.size > 0) {
+                res.add(mySortPriority)
+            } else {
+                val provided = getProvidedVariableNames()
+                when (provided.size) {
+                    1 -> {
+                        res.add(listOf(SortHelper(provided[0], ESortTypeExt.FAST)))
+                    }
+                    2 -> {
+                        res.add(listOf(SortHelper(provided[0], ESortTypeExt.FAST), SortHelper(provided[1], ESortTypeExt.FAST)))
+                        res.add(listOf(SortHelper(provided[1], ESortTypeExt.FAST), SortHelper(provided[0], ESortTypeExt.FAST)))
+                    }
+                    3 -> {
+                        res.add(listOf(SortHelper(provided[0], ESortTypeExt.FAST), SortHelper(provided[1], ESortTypeExt.FAST), SortHelper(provided[2], ESortTypeExt.FAST)))
+                        res.add(listOf(SortHelper(provided[0], ESortTypeExt.FAST), SortHelper(provided[2], ESortTypeExt.FAST), SortHelper(provided[1], ESortTypeExt.FAST)))
+                        res.add(listOf(SortHelper(provided[1], ESortTypeExt.FAST), SortHelper(provided[0], ESortTypeExt.FAST), SortHelper(provided[2], ESortTypeExt.FAST)))
+                        res.add(listOf(SortHelper(provided[1], ESortTypeExt.FAST), SortHelper(provided[2], ESortTypeExt.FAST), SortHelper(provided[0], ESortTypeExt.FAST)))
+                        res.add(listOf(SortHelper(provided[2], ESortTypeExt.FAST), SortHelper(provided[0], ESortTypeExt.FAST), SortHelper(provided[1], ESortTypeExt.FAST)))
+                        res.add(listOf(SortHelper(provided[2], ESortTypeExt.FAST), SortHelper(provided[1], ESortTypeExt.FAST), SortHelper(provided[0], ESortTypeExt.FAST)))
+                    }
+                    else -> {
+                        SanityCheck.check { provided.isEmpty() }
                     }
                 }
-            }else if(sortPriority==            ESortPriorityExt.SAME_AS_CHILD||sortPriority== ESortPriorityExt.BIND||sortPriority== ESortPriorityExt.MINUS ) {
-                val provided = getProvidedVariableNames()
-                for (x in children[0].getPossibleSortPriorities()) {
+            }
+        } else if (sortPriority == ESortPriorityExt.SAME_AS_CHILD || sortPriority == ESortPriorityExt.BIND || sortPriority == ESortPriorityExt.MINUS) {
+            val provided = getProvidedVariableNames()
+            for (x in children[0].getPossibleSortPriorities()) {
+                val tmp = mutableListOf<SortHelper>()
+                for (v in x) {
+                    if (provided.contains(v.variableName)) {
+                        tmp.add(v)
+                    } else {
+                        break
+                    }
+                }
+                addToPrefixFreeList(tmp, res)
+            }
+        } else if (sortPriority == ESortPriorityExt.GROUP) {
+            throw Exception("this should be overriden by the corresponding class")
+        } else if (sortPriority == ESortPriorityExt.PREVENT_ANY || sortPriority == ESortPriorityExt.UNION) {
+        } else if (sortPriority == ESortPriorityExt.SORT) {
+            val requiredVariables = mutableListOf<String>()
+            var sortType = ESortTypeExt.ASC
+            when (this) {
+                is LOPSortAny -> {
+                    res.add(this.possibleSortOrder)
+                }
+                is LOPSort -> {
+                    if (!this.asc) {
+                        sortType = ESortTypeExt.DESC
+                    }
+                    requiredVariables.add(this.by.name)
+                }
+                is POPSort -> {
+                    if (!this.sortOrder) {
+                        sortType = ESortTypeExt.DESC
+                    }
+                    for (v in this.sortBy) {
+                        requiredVariables.add(v.name)
+                    }
+                }
+                else -> {
+                    SanityCheck.checkUnreachable()
+                }
+            }
+            val tmp = mutableListOf<SortHelper>()
+            for (v in requiredVariables) {
+                tmp.add(SortHelper(v, sortType))
+            }
+            res.add(tmp)
+        } else if (sortPriority == ESortPriorityExt.JOIN) {
+            val resTmp = Array(2) { mutableListOf<List<SortHelper>>() }
+            val childA = children[0]
+            val childB = children[1]
+            val columns = LOPJoin.getColumns(childA.getProvidedVariableNames(), childB.getProvidedVariableNames())
+            val provided = getProvidedVariableNames()
+            for (child in 0 until 2) {
+                for (x in children[child].getPossibleSortPriorities()) {
                     val tmp = mutableListOf<SortHelper>()
+                    var countOnJoin = 0
                     for (v in x) {
                         if (provided.contains(v.variableName)) {
+                            if (columns[0].contains(v.variableName)) {
+                                countOnJoin++
+                            } else if (countOnJoin < columns[0].size) {
+                                break
+                            }
                             tmp.add(v)
                         } else {
                             break
                         }
                     }
-                    addToPrefixFreeList(tmp, res)
+                    addToPrefixFreeList(tmp, resTmp[child])
                 }
-            }else if(sortPriority==            ESortPriorityExt.GROUP ){
-                throw Exception("this should be overriden by the corresponding class")
-            }else if (sortPriority==            ESortPriorityExt.PREVENT_ANY||sortPriority== ESortPriorityExt.UNION ) {
-            }else if( sortPriority==            ESortPriorityExt.SORT ) {
-                val requiredVariables = mutableListOf<String>()
-                var sortType = ESortTypeExt.ASC
-                when (this) {
-                    is LOPSortAny -> {
-                        res.add(this.possibleSortOrder)
-                    }
-                    is LOPSort -> {
-                        if (!this.asc) {
-                            sortType = ESortTypeExt.DESC
-                        }
-                        requiredVariables.add(this.by.name)
-                    }
-                    is POPSort -> {
-                        if (!this.sortOrder) {
-                            sortType = ESortTypeExt.DESC
-                        }
-                        for (v in this.sortBy) {
-                            requiredVariables.add(v.name)
-                        }
-                    }
-                    else -> {
-                        SanityCheck.checkUnreachable()
-                    }
-                }
-                val tmp = mutableListOf<SortHelper>()
-                for (v in requiredVariables) {
-                    tmp.add(SortHelper(v, sortType))
-                }
-                res.add(tmp)
-            }else if(sortPriority==            ESortPriorityExt.JOIN ) {
-                val resTmp = Array(2) { mutableListOf<List<SortHelper>>() }
-                val childA = children[0]
-                val childB = children[1]
-                val columns = LOPJoin.getColumns(childA.getProvidedVariableNames(), childB.getProvidedVariableNames())
-                val provided = getProvidedVariableNames()
-                for (child in 0 until 2) {
-                    for (x in children[child].getPossibleSortPriorities()) {
-                        val tmp = mutableListOf<SortHelper>()
-                        var countOnJoin = 0
-                        for (v in x) {
-                            if (provided.contains(v.variableName)) {
-                                if (columns[0].contains(v.variableName)) {
-                                    countOnJoin++
-                                } else if (countOnJoin < columns[0].size) {
-                                    break
-                                }
-                                tmp.add(v)
-                            } else {
-                                break
-                            }
-                        }
-                        addToPrefixFreeList(tmp, resTmp[child])
-                    }
-                }
-                for (child in 0 until 2) {
+            }
+            for (child in 0 until 2) {
 // it is required, that both join-inputs are sorted by the same join columns in the same order - _if all join columns are equally sorted, than allow any additional sort by one of the children
-                    for (i in 0 until resTmp[child].size) {
-                        loop@ for (j in 0 until resTmp[1 - child].size) {
-                            var s = columns[0].size
-                            if (s > resTmp[child][i].size) {
-                                s = resTmp[child][i].size
-                            }
-                            if (s > resTmp[1 - child][j].size) {
-                                s = resTmp[1 - child][j].size
-                            }
-                            for (k in 0 until s) {
-                                if (resTmp[1 - child][j][k] != resTmp[child][i][k]) {
-                                    continue@loop
-                                }
-                            }
-                            addToPrefixFreeList(resTmp[child][i], res)
-                            break
+                for (i in 0 until resTmp[child].size) {
+                    loop@ for (j in 0 until resTmp[1 - child].size) {
+                        var s = columns[0].size
+                        if (s > resTmp[child][i].size) {
+                            s = resTmp[child][i].size
                         }
+                        if (s > resTmp[1 - child][j].size) {
+                            s = resTmp[1 - child][j].size
+                        }
+                        for (k in 0 until s) {
+                            if (resTmp[1 - child][j][k] != resTmp[child][i][k]) {
+                                continue@loop
+                            }
+                        }
+                        addToPrefixFreeList(resTmp[child][i], res)
+                        break
                     }
                 }
             }
+        }
         return res
     }
     override fun applyPrefix(prefix: String, iri: String) {
