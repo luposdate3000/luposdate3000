@@ -1,5 +1,5 @@
 package lupos.s10physicalOptimisation
-import lupos.s00misc.EOptimizerID
+import lupos.s00misc.EOptimizerIDExt
 import lupos.s00misc.ESortTypeExt
 import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
@@ -15,7 +15,7 @@ import lupos.s09physicalOperators.POPBase
 import lupos.s09physicalOperators.singleinput.POPProjection
 import lupos.s15tripleStoreDistributed.TripleStoreIteratorGlobal
 import lupos.s15tripleStoreDistributed.distributedTripleStore
-public class PhysicalOptimizerTripleIndex(query: Query) : OptimizerBase(query, EOptimizerID.PhysicalOptimizerTripleIndexID) {
+public class PhysicalOptimizerTripleIndex(query: Query) : OptimizerBase(query, EOptimizerIDExt.PhysicalOptimizerTripleIndexID) {
     override val classname: String = "PhysicalOptimizerTripleIndex"
     override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
         var res = node

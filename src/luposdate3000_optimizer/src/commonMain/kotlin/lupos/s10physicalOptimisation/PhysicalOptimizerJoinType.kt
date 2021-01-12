@@ -1,5 +1,5 @@
 package lupos.s10physicalOptimisation
-import lupos.s00misc.EOptimizerID
+import lupos.s00misc.EOptimizerIDExt
 import lupos.s00misc.Partition
 import lupos.s00misc.USE_PARTITIONS
 import lupos.s04logicalOperators.IOPBase
@@ -22,7 +22,7 @@ import lupos.s09physicalOperators.partition.POPMergePartitionOrderedByIntId
 import lupos.s09physicalOperators.partition.POPSplitPartition
 import lupos.s09physicalOperators.singleinput.POPProjection
 import lupos.s15tripleStoreDistributed.TripleStoreIteratorGlobal
-public class PhysicalOptimizerJoinType(query: Query) : OptimizerBase(query, EOptimizerID.PhysicalOptimizerJoinTypeID) {
+public class PhysicalOptimizerJoinType(query: Query) : OptimizerBase(query, EOptimizerIDExt.PhysicalOptimizerJoinTypeID) {
     override val classname: String = "PhysicalOptimizerJoinType"
     private fun localGetProjected(node: IOPBase, parent: IOPBase?): List<String> {
         return when {

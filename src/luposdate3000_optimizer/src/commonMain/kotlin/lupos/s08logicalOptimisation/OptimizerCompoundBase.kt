@@ -1,5 +1,6 @@
 package lupos.s08logicalOptimisation
 import lupos.s00misc.EOptimizerID
+import lupos.s00misc.EOptimizerIDHelper
 import lupos.s00misc.SanityCheck
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.Query
@@ -91,7 +92,7 @@ public abstract class OptimizerCompoundBase(query: Query, optimizerID: EOptimize
                     while (c) {
                         c = false
                         tmp = o.optimizeInternal(tmp, null) {
-                            if (o.optimizerID.repeatOnChange) {
+                            if (EOptimizerIDHelper.repeatOnChange[o.optimizerID]) {
                                 c = true
                                 d = true
                                 onChange()

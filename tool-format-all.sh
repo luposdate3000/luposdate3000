@@ -1,9 +1,10 @@
 #!/bin/bash
 for f in $(find . -type f -name "*.kt" | grep -v "/korio/" | grep -v "/build-cache/")
 do
-        cat $f | grep "^package " > tmp2
+        cat $f | grep "^@file" > tmp2
+        cat $f | grep "^package " >> tmp2
         cat $f | grep "^import " | sort | uniq >>tmp2
-        cat $f | grep -v "^package " | grep -v "^import " >>tmp2
+        cat $f | grep -v "^@file" | grep -v "^package " | grep -v "^import " >>tmp2
         cat tmp2 | egrep -v "^[[:space:]]*$|^#" > $f
 done
 rm tmp2

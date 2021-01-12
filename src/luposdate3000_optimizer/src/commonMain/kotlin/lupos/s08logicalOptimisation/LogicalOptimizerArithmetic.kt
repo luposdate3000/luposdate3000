@@ -1,5 +1,5 @@
 package lupos.s08logicalOptimisation
-import lupos.s00misc.EOptimizerID
+import lupos.s00misc.EOptimizerIDExt
 import lupos.s03resultRepresentation.ResultSetDictionaryExt
 import lupos.s04arithmetikOperators.AOPAggregationBase
 import lupos.s04arithmetikOperators.AOPBase
@@ -11,7 +11,7 @@ import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallNotExists
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.iterator.IteratorBundle
-public class LogicalOptimizerArithmetic(query: Query) : OptimizerBase(query, EOptimizerID.LogicalOptimizerArithmeticID) {
+public class LogicalOptimizerArithmetic(query: Query) : OptimizerBase(query, EOptimizerIDExt.LogicalOptimizerArithmeticID) {
     override val classname: String = "LogicalOptimizerArithmetic"
     private fun hasAggregation(node: IOPBase): Boolean {
         for (n in node.getChildren()) {

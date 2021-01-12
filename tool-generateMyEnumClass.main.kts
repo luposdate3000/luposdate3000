@@ -50,4 +50,5 @@ File(args[3] + "Ext.kt").printWriter().use { out ->
 ./tool-generateMyEnumClass.main.kts EQueryResultToStream lupos.s11outputResult public src/luposdate3000_result_format/src/commonMain/kotlin/lupos/s11outputResult/EQueryResultToStream
 ./tool-generateMyEnumClass.main.kts EPOPDebugMode lupos.s00misc public  src/luposdate3000_operators/src/commonMain/kotlin/lupos/s00misc/EPOPDebugMode
 ./tool-generateMyEnumClass.main.kts Turtle2ParserState lupos.s02buildSyntaxTree.turtle internal src/luposdate3000_parser/src/commonMain/kotlin/lupos/s02buildSyntaxTree/turtle/Turtle2ParserState
+./tool-generateMyEnumClass.main.kts EOptimizerID lupos.s00misc internal src/luposdate3000_optimizer/src/commonMain/kotlin/lupos/s00misc/EOptimizerID
 */

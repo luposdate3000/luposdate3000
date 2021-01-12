@@ -1,9 +1,9 @@
 package lupos.s10physicalOptimisation
-import lupos.s00misc.EOptimizerID
+import lupos.s00misc.EOptimizerIDExt
 import lupos.s04logicalOperators.Query
 import lupos.s08logicalOptimisation.OptimizerBase
 import lupos.s08logicalOptimisation.OptimizerCompoundBase
-public class PhysicalOptimizer(query: Query) : OptimizerCompoundBase(query, EOptimizerID.PhysicalOptimizerID) {
+public class PhysicalOptimizer(query: Query) : OptimizerCompoundBase(query, EOptimizerIDExt.PhysicalOptimizerID) {
     override val classname: String = "PhysicalOptimizer"
     override val childrenOptimizers: Array<Array<OptimizerBase>> = arrayOf( //
         arrayOf(

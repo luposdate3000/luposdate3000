@@ -1,5 +1,5 @@
 package lupos.s10physicalOptimisation
-import lupos.s00misc.EOptimizerID
+import lupos.s00misc.EOptimizerIDExt
 import lupos.s00misc.Partition
 import lupos.s00misc.USE_PARTITIONS
 import lupos.s04logicalOperators.IOPBase
@@ -11,7 +11,7 @@ import lupos.s09physicalOperators.partition.POPMergePartitionCount
 import lupos.s09physicalOperators.partition.POPMergePartitionOrderedByIntId
 import lupos.s09physicalOperators.partition.POPSplitPartition
 import lupos.s09physicalOperators.partition.POPSplitPartitionFromStore
-public class PhysicalOptimizerPartition4(query: Query) : OptimizerBase(query, EOptimizerID.PhysicalOptimizerPartition4ID) {
+public class PhysicalOptimizerPartition4(query: Query) : OptimizerBase(query, EOptimizerIDExt.PhysicalOptimizerPartition4ID) {
     override val classname: String = "PhysicalOptimizerPartition4"
     private fun getNumberOfEnclosingPartitions(node: IOPBase): Int {
         var count = 1

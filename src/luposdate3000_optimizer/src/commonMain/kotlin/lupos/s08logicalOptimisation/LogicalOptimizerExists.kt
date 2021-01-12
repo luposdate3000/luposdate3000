@@ -1,5 +1,5 @@
 package lupos.s08logicalOptimisation
-import lupos.s00misc.EOptimizerID
+import lupos.s00misc.EOptimizerIDExt
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.multiinput.LOPMinus
@@ -8,7 +8,7 @@ import lupos.s04logicalOperators.singleinput.modifiers.LOPDistinct
 import lupos.s04logicalOperators.singleinput.modifiers.LOPLimit
 import lupos.s04logicalOperators.singleinput.modifiers.LOPOffset
 import lupos.s04logicalOperators.singleinput.modifiers.LOPReduced
-public class LogicalOptimizerExists(query: Query) : OptimizerBase(query, EOptimizerID.LogicalOptimizerExistsID) {
+public class LogicalOptimizerExists(query: Query) : OptimizerBase(query, EOptimizerIDExt.LogicalOptimizerExistsID) {
     override val classname: String = "LogicalOptimizerExists"
     private fun applyRecoursive(node: IOPBase, askFlag: Boolean) {
         if (node !is LOPLimit && node !is LOPOffset) {

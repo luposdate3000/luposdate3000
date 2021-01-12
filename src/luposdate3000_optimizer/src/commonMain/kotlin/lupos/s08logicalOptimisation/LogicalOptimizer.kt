@@ -1,7 +1,7 @@
 package lupos.s08logicalOptimisation
-import lupos.s00misc.EOptimizerID
+import lupos.s00misc.EOptimizerIDExt
 import lupos.s04logicalOperators.Query
-public class LogicalOptimizer(query: Query) : OptimizerCompoundBase(query, EOptimizerID.LogicalOptimizerID) {
+public class LogicalOptimizer(query: Query) : OptimizerCompoundBase(query, EOptimizerIDExt.LogicalOptimizerID) {
     override val classname: String = "LogicalOptimizer"
     override val childrenOptimizers: Array<Array<OptimizerBase>> = arrayOf( //
         arrayOf(
