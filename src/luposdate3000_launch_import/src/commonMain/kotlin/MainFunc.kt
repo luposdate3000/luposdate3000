@@ -42,7 +42,7 @@ internal fun helperCleanString(s: String): String {
                                 outTriples.writeInt(v)
                             } else {
                                 val v2 = dictCounter++
-                                dictCounterByType[tripleType[i]]++
+                                dictCounterByType[tripleType[i].ordinal]++
                                 dict[tripleCleaned] = v2
                                 outTriples.writeInt(v2)
                                 var tripleCleaned2 = tripleCleaned
@@ -50,7 +50,7 @@ internal fun helperCleanString(s: String): String {
                                     tripleCleaned2 = tripleCleaned.substring(1, tripleCleaned.length - 1)
                                 }
                                 val tmp = tripleCleaned2.encodeToByteArray()
-                                byteBuf[0] = tripleType[i].toByte()
+                                byteBuf[0] = tripleType[i].ordinal.toByte()
                                 outDictionary.writeInt(tmp.size)
                                 outDictionary.write(byteBuf)
                                 outDictionary.write(tmp)

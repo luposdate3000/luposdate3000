@@ -1,8 +1,8 @@
 package lupos.s14endpoint
-import lupos.s00misc.EIndexPatternExt
 import lupos.s00misc.EIndexPattern
-import lupos.s00misc.ESortTypeExt
+import lupos.s00misc.EIndexPatternExt
 import lupos.s00misc.ESortType
+import lupos.s00misc.ESortTypeExt
 import lupos.s00misc.MyBigDecimal
 import lupos.s00misc.MyBigInteger
 import lupos.s00misc.Partition

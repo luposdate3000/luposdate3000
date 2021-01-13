@@ -93,7 +93,7 @@ public class LOPTriple public constructor(query: IQuery, s: IAOPBase, p: IAOPBas
                 resString += "O"
             }
             SanityCheck.check({ resString.length == 3 || (resString.length == 4 && resString.contains("_")) }, { "$resString ${children.map { it.toSparql() }} $sortPriority" })
-SanityCheck.println{"GENERATED :: $resString ${EIndexPatternExt.names.indexOf(resString)}"}
+            SanityCheck.println { "GENERATED :: $resString ${EIndexPatternExt.names.indexOf(resString)}" }
             return EIndexPattern(EIndexPatternExt.names.indexOf(resString))
         }
     }

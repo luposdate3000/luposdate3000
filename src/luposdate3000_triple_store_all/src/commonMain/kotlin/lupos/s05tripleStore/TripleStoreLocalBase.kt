@@ -154,13 +154,13 @@ public abstract class TripleStoreLocalBase(@JvmField public val name: String, @J
                     SanityCheck.println { "invalid :: ${p.index} ${p.column} ${p.partitionCount}" }
                     idx++
                 }
-SanityCheck{
-SanityCheck.println{"FAIL ::::: ${params.idx} $partitionColumn $partitionLimit $partitionName ${params.params.map{it}}"}
-for (p in enabledPartitions) {
-SanityCheck.println{"${p.index} ${p.column} ${p.partitionCount}"}
-}
-                SanityCheck.checkUnreachable()
-}
+                SanityCheck {
+                    SanityCheck.println { "FAIL ::::: ${params.idx} $partitionColumn $partitionLimit $partitionName ${params.params.map{it}}" }
+                    for (p in enabledPartitions) {
+                        SanityCheck.println { "${p.index} ${p.column} ${p.partitionCount}" }
+                    }
+                    SanityCheck.checkUnreachable()
+                }
             }
         }
         SanityCheck.checkUnreachable()

@@ -26,7 +26,7 @@ File(args[3] + "Ext.kt").printWriter().use { out ->
     out.println("import kotlin.jvm.JvmField")
     out.println("${args[2]} object ${args[0]}Ext {")
     for (i in 0 until mapping.size) {
-        out.println("    ${args[2]}  val ${mapping[i]}: ${args[0]} = ${args[0]}($i)")
+        out.println("    ${args[2]} val ${mapping[i]}: ${args[0]} = ${args[0]}($i)")
     }
     out.println("    ${args[2]} const val values_size: Int = ${mapping.size}")
     out.println("    @JvmField ${args[2]} val names: Array<String> = arrayOf(")

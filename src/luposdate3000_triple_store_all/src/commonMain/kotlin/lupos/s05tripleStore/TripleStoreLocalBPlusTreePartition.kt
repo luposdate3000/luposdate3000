@@ -1,9 +1,9 @@
 package lupos.s05tripleStore
 import lupos.s00misc.ByteArrayHelper
-import lupos.s00misc.EIndexPatternExt
 import lupos.s00misc.EIndexPattern
-import lupos.s00misc.ETripleIndexTypeExt
+import lupos.s00misc.EIndexPatternExt
 import lupos.s00misc.ETripleIndexType
+import lupos.s00misc.ETripleIndexTypeExt
 import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.USE_PARTITIONS2

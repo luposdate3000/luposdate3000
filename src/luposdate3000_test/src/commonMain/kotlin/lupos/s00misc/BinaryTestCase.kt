@@ -284,7 +284,7 @@ public object BinaryTestCase {
                 File("$query_folder/query.triples").dataInputStream { targetTriples ->
                     File("$query_folder/query.result").dataInputStream { targetResult ->
                         func@ while (true) {
-                            val mode =BinaryTestCaseOutputMode( targetStat.readInt())
+                            val mode = BinaryTestCaseOutputMode(targetStat.readInt())
                             val variables = mutableListOf<String>()
                             var targetResultCount = 0
                             when (mode) {
@@ -508,7 +508,7 @@ if (tmpTable != null) {
     }
     public fun generateTestcase(query_input_file: String, query_file: String, query_output_file: String, output_folder: String, query_name: String, output_mode_tmp: BinaryTestCaseOutputMode): Boolean {
         try {
-println("generating for $query_input_file $query_file $query_output_file $output_folder $query_name ${BinaryTestCaseOutputModeExt.names[output_mode_tmp.ordinal]}")
+            println("generating for $query_input_file $query_file $query_output_file $output_folder $query_name ${BinaryTestCaseOutputModeExt.names[output_mode_tmp.ordinal]}")
             var outputMode = output_mode_tmp
             File(output_folder).deleteRecursively()
             File(output_folder).mkdirs()

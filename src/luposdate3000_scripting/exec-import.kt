@@ -1,37 +1,23 @@
+import lupos.s00misc.Platform
 import java.io.File
 import java.lang.ProcessBuilder.Redirect
-import kotlin.jvm.JvmField
-import lupos.s00misc.EGraphOperationTypeExt
-import lupos.s00misc.EGraphRefTypeExt
-import lupos.s00misc.EModifyTypeExt
-import lupos.s00misc.EOperatorIDExt
-import lupos.s00misc.ESortPriorityExt
-import lupos.s00misc.ESortTypeExt
-import lupos.s00misc.ETripleComponentTypeExt
-import lupos.s00misc.ETripleIndexTypeExt
-import lupos.s00misc.MyPrintWriterModeExt
-import lupos.s00misc.Platform
-import lupos.s02buildSyntaxTree.sparql1_1.AggregationExt
-import lupos.s02buildSyntaxTree.sparql1_1.BuiltInFunctionsExt
-import lupos.s04logicalOperators.iterator.IteratorBundleModeExt
-import lupos.s05tripleStore.TripleStoreFeatureExt
 public fun execImport(args: Array<String>) {
     File("log").mkdirs()
     val jars = mutableListOf(
-        "build-cache${Platform.getPathSeparator()}bin${Platform.getPathSeparator()}Luposdate3000_Buffer_Manager_Inmemory-jvm.jar",
-        "build-cache${Platform.getPathSeparator()}bin${Platform.getPathSeparator()}Luposdate3000_Dictionary_Inmemory-jvm.jar",
-        "build-cache${Platform.getPathSeparator()}bin${Platform.getPathSeparator()}Luposdate3000_Endpoint-jvm.jar",
-        "build-cache${Platform.getPathSeparator()}bin${Platform.getPathSeparator()}Luposdate3000_Operators-jvm.jar",
-        "build-cache${Platform.getPathSeparator()}bin${Platform.getPathSeparator()}Luposdate3000_Parser-jvm.jar",
-        "build-cache${Platform.getPathSeparator()}bin${Platform.getPathSeparator()}Luposdate3000_Result_Format-jvm.jar",
-        "build-cache${Platform.getPathSeparator()}bin${Platform.getPathSeparator()}Luposdate3000_Shared-jvm.jar",
-        "build-cache${Platform.getPathSeparator()}bin${Platform.getPathSeparator()}Luposdate3000_Test-jvm.jar",
-        "build-cache${Platform.getPathSeparator()}bin${Platform.getPathSeparator()}Luposdate3000_Triple_Store_All-jvm.jar",
-        "build-cache${Platform.getPathSeparator()}bin${Platform.getPathSeparator()}Luposdate3000_Triple_Store_Id_Triple-jvm.jar",
-        "build-cache${Platform.getPathSeparator()}bin${Platform.getPathSeparator()}Luposdate3000_Optimizer_NoPartitions-jvm.jar",
-        "build-cache${Platform.getPathSeparator()}bin${Platform.getPathSeparator()}Luposdate3000_Endpoint_None-jvm.jar",
-        "build-cache${Platform.getPathSeparator()}bin${Platform.getPathSeparator()}Luposdate3000_Jena_Wrapper_Off-jvm.jar",
-        "build-cache${Platform.getPathSeparator()}bin${Platform.getPathSeparator()}Luposdate3000_Launch_Import-jvm.jar",
+        "build-cache${Platform.getPathSeparator()}bin_Threads_NoInline_Debug${Platform.getPathSeparator()}Luposdate3000_Buffer_Manager_Inmemory-jvm.jar",
+        "build-cache${Platform.getPathSeparator()}bin_Threads_NoInline_Debug${Platform.getPathSeparator()}Luposdate3000_Dictionary_Inmemory-jvm.jar",
+        "build-cache${Platform.getPathSeparator()}bin_Threads_NoInline_Debug${Platform.getPathSeparator()}Luposdate3000_Endpoint-jvm.jar",
+        "build-cache${Platform.getPathSeparator()}bin_Threads_NoInline_Debug${Platform.getPathSeparator()}Luposdate3000_Operators-jvm.jar",
+        "build-cache${Platform.getPathSeparator()}bin_Threads_NoInline_Debug${Platform.getPathSeparator()}Luposdate3000_Parser-jvm.jar",
+        "build-cache${Platform.getPathSeparator()}bin_Threads_NoInline_Debug${Platform.getPathSeparator()}Luposdate3000_Result_Format-jvm.jar",
+        "build-cache${Platform.getPathSeparator()}bin_Threads_NoInline_Debug${Platform.getPathSeparator()}Luposdate3000_Shared-jvm.jar",
+        "build-cache${Platform.getPathSeparator()}bin_Threads_NoInline_Debug${Platform.getPathSeparator()}Luposdate3000_Test-jvm.jar",
+        "build-cache${Platform.getPathSeparator()}bin_Threads_NoInline_Debug${Platform.getPathSeparator()}Luposdate3000_Triple_Store_All-jvm.jar",
+        "build-cache${Platform.getPathSeparator()}bin_Threads_NoInline_Debug${Platform.getPathSeparator()}Luposdate3000_Triple_Store_Id_Triple-jvm.jar",
+        "build-cache${Platform.getPathSeparator()}bin_Threads_NoInline_Debug${Platform.getPathSeparator()}Luposdate3000_Optimizer_NoPartitions-jvm.jar",
+        "build-cache${Platform.getPathSeparator()}bin_Threads_NoInline_Debug${Platform.getPathSeparator()}Luposdate3000_Endpoint_None-jvm.jar",
+        "build-cache${Platform.getPathSeparator()}bin_Threads_NoInline_Debug${Platform.getPathSeparator()}Luposdate3000_Jena_Wrapper_Off-jvm.jar",
+        "build-cache${Platform.getPathSeparator()}bin_Threads_NoInline_Debug${Platform.getPathSeparator()}Luposdate3000_Launch_Import-jvm.jar",
     )
     val userHome = Platform.getUserHome()
     for (f in Platform.findNamedFileInDirectory("${Platform.getGradleCache()}modules-2${Platform.getPathSeparator()}files-2.1${Platform.getPathSeparator()}com.soywiz.korlibs.krypto${Platform.getPathSeparator()}krypto-jvm${Platform.getPathSeparator()}1.9.1${Platform.getPathSeparator()}", "krypto-jvm-1.9.1.jar")) {
@@ -43,9 +29,9 @@ public fun execImport(args: Array<String>) {
     var classpath = ""
     for (jar in jars) {
         if (classpath == "") {
-public classpath = jar
+            classpath = jar
         } else {
-public classpath = "$classpath:$jar"
+            classpath = "$classpath:$jar"
         }
     }
     val cmd = mutableListOf("java", "-Xmx${Platform.getAvailableRam()}g", "-cp", classpath, "MainKt")

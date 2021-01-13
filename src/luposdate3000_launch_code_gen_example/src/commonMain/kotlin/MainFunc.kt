@@ -1,4 +1,3 @@
-
 import lupos.s00misc.EIndexPatternExt
 import lupos.s00misc.Parallel
 import lupos.s00misc.Partition

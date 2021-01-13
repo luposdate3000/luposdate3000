@@ -27,9 +27,9 @@ public abstract class OptimizerBase internal constructor(@JvmField public val qu
         return optimize(node, parent, onChange)
     }
     public open /*suspend*/ fun optimizeCall(node: IOPBase): IOPBase {
-return optimizeCall(node,{})
-}
-    public open /*suspend*/ fun optimizeCall(node: IOPBase, onChange: () -> Unit ): IOPBase {
+        return optimizeCall(node, {})
+    }
+    public open /*suspend*/ fun optimizeCall(node: IOPBase, onChange: () -> Unit): IOPBase {
         if (query.filtersMovedUpFromOptionals) {
             node.syntaxVerifyAllVariableExists(listOf(), true)
         }
