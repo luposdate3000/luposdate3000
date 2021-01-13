@@ -285,21 +285,27 @@ public object BinaryTestCase {
                     File("$query_folder/query.result").dataInputStream { targetResult ->
                         func@ while (true) {
                             val mode = BinaryTestCaseOutputMode(targetStat.readInt())
+println("WWW stat.read 4 288 ${BinaryTestCaseOutputModeExt.names[mode.ordinal]} outputmode")
                             val variables = mutableListOf<String>()
                             var targetResultCount = 0
                             when (mode) {
                                 BinaryTestCaseOutputModeExt.SELECT_QUERY_RESULT, BinaryTestCaseOutputModeExt.SELECT_QUERY_RESULT_COUNT, BinaryTestCaseOutputModeExt.MODIFY_RESULT -> {
                                     val variablesSize = targetStat.readInt()
+println("WWW stat.read 4 294 $variablesSize variablesSize")
                                     for (i in 0 until variablesSize) {
                                         val len = targetStat.readInt()
+println("WWW stat.read 4 297 $len variablenamelength")
                                         val buf = ByteArray(len)
                                         val read = targetStat.read(buf, 0, len)
+println("WWW stat.read $len 300 ${buf.map{it}} variablename")
                                         if (read < len) {
                                             throw Exception("not enough data available")
                                         }
                                         variables.add(buf.decodeToString())
+println("WWW as String ${buf.decodeToString()}")
                                     }
                                     targetResultCount = targetStat.readInt()
+println("WWW stat.read 4 307 $targetResultCount resultcount")
                                     if (MAX_TRIPLES_DURING_TEST in 1 until targetResultCount) {
                                         SanityCheck.println { "Test: $query_folder named: $query_folder" }
                                         SanityCheck.println { "----------Skipped" }
@@ -309,15 +315,20 @@ public object BinaryTestCase {
                                 }
                             }
                             val len = targetStat.readInt()
+println("WWW stat.read 4 318 $len querynamelength")
                             val buf = ByteArray(len) { 0 }
                             val read = targetStat.read(buf, 0, len)
+println("WWW stat.read $len 321 ${buf.map{it}} queryname")
                             if (read < len) {
                                 throw Exception("not enough data available")
                             }
                             val queryName = buf.decodeToString()
+println("WWW as String ${buf.decodeToString()}")
                             SanityCheck.println { "Test: $query_folder named: $queryName" }
                             val dictionarySize = targetStat.readInt()
+println("WWW stat.read 4 329 $dictionarySize dictionarysize")
                             val targetInputCount = targetStat.readInt()
+println("WWW stat.read 4 331 $targetInputCount resultcount")
                             if (MAX_TRIPLES_DURING_TEST in 1 until targetInputCount) {
                                 SanityCheck.println { "Test: $query_folder named: $query_folder" }
                                 SanityCheck.println { "----------Skipped" }
@@ -330,8 +341,10 @@ public object BinaryTestCase {
                             val mappingLiveToTarget = mutableMapOf(ResultSetDictionaryExt.undefValue to -1, ResultSetDictionaryExt.errorValue to -1, ResultSetDictionaryExt.nullValue to -1)
                             for (i in 0 until dictionarySize) {
                                 val len2 = targetDictionary.readInt()
+println("WWW dict.read 4 344 $len2")
                                 val buf2 = ByteArray(len2)
                                 val read2 = targetDictionary.read(buf2, 0, len2)
+println("WWW dict.read $len 347 ${buf2.map{it}}")
                                 if (read2 < len2) {
                                     throw Exception("not enough data available")
                                 }
@@ -353,8 +366,11 @@ public object BinaryTestCase {
                             SanityCheck.println { "----------Triple-Store-Target" }
                             for (i in 0 until targetInputCount) {
                                 val s1 = targetTriples.readInt()
+println("WWW trip.read 4 369 $s1")
                                 val p1 = targetTriples.readInt()
+println("WWW trip.read 4 371 $s1")
                                 val o1 = targetTriples.readInt()
+println("WWW trip.read 4 373 $s1")
                                 SanityCheck.println { "[$s1, $p1, $o1] :: [${targetDict2[s1]}, ${targetDict2[p1]}, ${targetDict2[o1]}]" }
                                 val s = mappingTargetToLive[s1]
                                 val p = mappingTargetToLive[p1]
@@ -436,11 +452,13 @@ if (tmpTable != null) {
                             val tableOutput = MemoryTable(variables.toTypedArray())
                             if (mode == BinaryTestCaseOutputModeExt.ASK_QUERY_RESULT) {
                                 tableOutput.booleanResult = targetResult.readInt() == 1
+println("WWW resu.read 4 455 ${tableOutput.booleanResult}")
                             } else {
                                 for (i in 0 until targetResultCount) {
                                     val row = IntArray(variables.size) { -1 }
                                     for (j in 0 until variables.size) {
                                         val tmp = targetResult.readInt()
+println("WWW resu.read 4 461 $tmp")
                                         if (tmp == -1) {
                                             row[j] = ResultSetDictionaryExt.undefValue
                                         } else {
@@ -566,11 +584,15 @@ if (tmpTable != null) {
                                     s.encodeToByteArray()
                                 }
                                 outDictionary.writeInt(tmp.size)
+println("WWW dict.write 4 587 ${tmp.size}")
                                 outDictionary.write(tmp)
+println("WWW dict.write ${tmp.size} 589 ${tmp.map{it}}")
+println("WWW as String ${tmp.decodeToString()}")
                             }
                         }
                         for (i in 0 until 3) {
                             outTriples.writeInt(row[i])
+println("WWW trip.write 4 595 ${row[i]}")
                         }
                     }
                     val target = XMLElement.parseFromAny(File(query_output_file).readAsString(), query_output_file)!!
@@ -591,11 +613,16 @@ if (tmpTable != null) {
                                         outputMode = BinaryTestCaseOutputModeExt.SELECT_QUERY_RESULT_COUNT
                                     }
                                     outStat.writeInt(outputMode.ordinal)
+println("WWW stat.write 4 616 ${BinaryTestCaseOutputModeExt.names[outputMode.ordinal]} outputmode")
                                     outStat.writeInt(variables.size)
+println("WWW stat.write 4 618 ${variables.size} variables.size")
                                     for (element in variables) {
                                         val tmp = element.encodeToByteArray()
                                         outStat.writeInt(tmp.size)
+println("WWW stat.write 4 622 ${tmp.size} variablenamelength")
                                         outStat.write(tmp)
+println("WWW stat.write ${tmp.size} 624 ${tmp.map{it}} variablename")
+println("WWW as String ${tmp.decodeToString()}")
                                     }
                                     val allRows = mutableListOf<IntArray>()
                                     for (node in target["results"]!!.childs) {
@@ -635,34 +662,43 @@ if (tmpTable != null) {
                                                         s.encodeToByteArray()
                                                     }
                                                     outDictionary.writeInt(tmp.size)
+println("WWW dict.write 4 665 ${tmp.size}")
                                                     outDictionary.write(tmp)
+println("WWW dict.write ${tmp.size} 667 ${tmp.map{it}}")
+println("WWW as String ${tmp.decodeToString()}")
                                                 }
                                             }
                                         }
                                         if (containsOrderBy) {
                                             for (i in 0 until variables.size) {
                                                 outResult.writeInt(rowOut[i])
+println("WWW resu.write 4 675 ${rowOut[i]}")
                                             }
                                         } else {
                                             allRows.add(rowOut)
                                         }
                                     }
                                     outStat.writeInt(resultCounter)
+println("WWW stat.write 4 682 ${resultCounter} resultcounter")
                                     if (!containsOrderBy) {
                                         allRows.sortWith(IntArrayComparator())
                                         for (row2 in allRows) {
                                             for (i in 0 until variables.size) {
                                                 outResult.writeInt(row2[i])
+println("WWW resu.write 4 688 ${row2[i]}")
                                             }
                                         }
                                     }
                                 }
                                 BinaryTestCaseOutputModeExt.ASK_QUERY_RESULT -> {
                                     outStat.writeInt(outputMode.ordinal)
+println("WWW stat.write 4 695 ${BinaryTestCaseOutputModeExt.names[outputMode.ordinal]} outputmode")
                                     if (target["boolean"]!!.content.toLowerCase() == "true") {
                                         outResult.writeInt(1)
+println("WWW resu.write 4 698 1")
                                     } else {
                                         outResult.writeInt(0)
+println("WWW resu.write 4 701 0")
                                     }
                                 }
                                 else -> {
@@ -671,9 +707,14 @@ if (tmpTable != null) {
                             }
                             val tmp2 = query_name.encodeToByteArray()
                             outStat.writeInt(tmp2.size)
+println("WWW stat.write 4 710 ${tmp2.size} querynamelength")
                             outStat.write(tmp2)
+println("WWW stat.write ${tmp2.size} 712 ${tmp2.map{it}} queryname")
+println("WWW as String ${tmp2.decodeToString()}") 
                             outStat.writeInt(dict.size)
+println("WWW stat.write 4 715 ${dict.size} dictsize")
                             outStat.writeInt(inputCounter)
+println("WWW stat.write 4 717 $inputCounter inputcounter")
                             SanityCheck.println { "added Testcase $output_folder ${BinaryTestCaseOutputModeExt.names[outputMode.ordinal]} (${BinaryTestCaseOutputModeExt.names[output_mode_tmp.ordinal]}) $query_name $query_input_file $query_output_file $query_file" }
                         }
                     }

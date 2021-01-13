@@ -1,6 +1,7 @@
 import lupos.SparqlTestSuite
 import lupos.s00misc.BinaryTestCase
 import lupos.s00misc.BinaryTestCaseOutputModeExt
+import lupos.s00misc.BinaryTestCaseOutputMode
 import lupos.s00misc.SparqlTestSuiteConverter
 import lupos.s16network.LuposdateEndpoint
 @Suppress("NOTHING_TO_INLINE") internal inline fun mainFunc(args: Array<String>) {
@@ -13,7 +14,7 @@ import lupos.s16network.LuposdateEndpoint
                 if (args.size < 7) {
                     printUsage()
                 } else {
-                    BinaryTestCase.generateTestcase(args[1], args[2], args[3], args[4], args[5], BinaryTestCaseOutputModeExt.names.indexOf(args[6]))
+                    BinaryTestCase.generateTestcase(args[1], args[2], args[3], args[4], args[5], BinaryTestCaseOutputMode(BinaryTestCaseOutputModeExt.names.indexOf(args[6])))
                 }
             }
             "TestSuite" -> {
