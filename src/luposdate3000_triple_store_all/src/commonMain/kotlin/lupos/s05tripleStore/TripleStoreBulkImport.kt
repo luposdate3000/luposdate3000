@@ -67,12 +67,12 @@ public class TripleStoreBulkImport(@JvmField public val query: IQuery, @JvmField
     private fun sort() {
         // the target data is sorted, but may contain duplicates, _if the input contains those
         val total = idx / 3
-        val orderSPO = EIndexPatternHelper.tripleIndicees[EIndexPatternExt.SPO.ordinal]
-        val orderSOP = EIndexPatternHelper.tripleIndicees[EIndexPatternExt.SOP.ordinal]
-        val orderPSO = EIndexPatternHelper.tripleIndicees[EIndexPatternExt.PSO.ordinal]
-        val orderPOS = EIndexPatternHelper.tripleIndicees[EIndexPatternExt.POS.ordinal]
-        val orderOSP = EIndexPatternHelper.tripleIndicees[EIndexPatternExt.OSP.ordinal]
-        val orderOPS = EIndexPatternHelper.tripleIndicees[EIndexPatternExt.OPS.ordinal]
+        val orderSPO = EIndexPatternHelper.tripleIndicees[EIndexPatternExt.SPO]
+        val orderSOP = EIndexPatternHelper.tripleIndicees[EIndexPatternExt.SOP]
+        val orderPSO = EIndexPatternHelper.tripleIndicees[EIndexPatternExt.PSO]
+        val orderPOS = EIndexPatternHelper.tripleIndicees[EIndexPatternExt.POS]
+        val orderOSP = EIndexPatternHelper.tripleIndicees[EIndexPatternExt.OSP]
+        val orderOPS = EIndexPatternHelper.tripleIndicees[EIndexPatternExt.OPS]
         val orders = arrayOf(orderSPO, orderSOP, orderPSO, orderPOS, orderOSP, orderOPS)
         if (total <= 1) {
             dataSPO = data[8]

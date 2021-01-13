@@ -115,7 +115,7 @@ public object BinaryTestCase {
         }
         for (row in actual.data) {
             val tmpRow = IntArray(columnCount) { -1 }
-            for ((idx, col) in row.withIndex()) {
+            for ((i, col) in row.withIndex()) {
                 val m = mapping_live_to_target[col]
                 val value = nodeGlobalDictionary.getValue(col).valueToString()
                 if (m == null) {
@@ -128,9 +128,9 @@ public object BinaryTestCase {
                 } else {
                     if (value != null) {
                         if (!value.startsWith("_:")) {
-                            tmpRow[idx] = m
+                            tmpRow[i] = m
                         } else {
-                            tmpRow[idx] = -2
+                            tmpRow[i] = -2
                         }
                     }
                 }
@@ -139,7 +139,7 @@ public object BinaryTestCase {
         }
         for (row in expected.data) {
             val tmpRow = IntArray(columnCount) { -1 }
-            for ((idx, col) in row.withIndex()) {
+            for ((i, col) in row.withIndex()) {
                 val m = mapping_live_to_target[col]
                 val value = nodeGlobalDictionary.getValue(col).valueToString()
                 if (m == null) {
@@ -152,9 +152,9 @@ public object BinaryTestCase {
                 } else {
                     if (value != null) {
                         if (!value.startsWith("_:")) {
-                            tmpRow[idx] = m
+                            tmpRow[i] = m
                         } else {
-                            tmpRow[idx] = -2
+                            tmpRow[i] = -2
                         }
                     }
                 }
@@ -284,8 +284,8 @@ public object BinaryTestCase {
                 File("$query_folder/query.triples").dataInputStream { targetTriples ->
                     File("$query_folder/query.result").dataInputStream { targetResult ->
                         func@ while (true) {
-                            val mode = BinaryTestCaseOutputMode(targetStat.readInt())
-println("WWW stat.read 4 288 ${BinaryTestCaseOutputModeExt.names[mode.ordinal]} outputmode")
+                            val mode = targetStat.readInt()
+println("WWW stat.read 4 288 ${BinaryTestCaseOutputModeExt.names[mode]} outputmode")
                             val variables = mutableListOf<String>()
                             var targetResultCount = 0
                             when (mode) {
@@ -402,15 +402,15 @@ println("WWW trip.read 4 373 $s1")
                                     if (p.partitionCount == 1) {
                                         val node = distributedTripleStore.getDefaultGraph(query3).getIterator(queryParam, idx, Partition())
                                         tmpTable = operatorGraphToTable(OPBaseCompound(query3, arrayOf(node), listOf(listOf("s", "p", "o"))))
-                                        SanityCheck.println { "storage content $idx x/${p.partitionCount} '' ${tmpTable.columns.map { it }}" }
+                                        SanityCheck.println { "storage content ${EindePatternExt.names[idx]} x/${p.partitionCount} '' ${tmpTable.columns.map { it }}" }
                                         for (r in tmpTable.data) {
                                             SanityCheck.println { r.map { it } }
                                         }
                                     } else {
                                         for (value in 0 until p.partitionCount) {
                                             val partition = Partition()
-                                            val key = idx.toString().substring(p.column, p.column + 1).toLowerCase()
-                                            SanityCheck.println { "extractKey :: $idx ${p.column} $key" }
+                                            val key = EindePatternExt.names[idx].substring(p.column, p.column + 1).toLowerCase()
+                                            SanityCheck.println { "extractKey :: ${EindePatternExt.names[idx]} ${p.column} $key" }
                                             partition.limit[key] = p.partitionCount
                                             partition.data[key] = value
                                             val node = OPBaseCompound(
@@ -424,7 +424,7 @@ println("WWW trip.read 4 373 $s1")
                                                 listOf(listOf("s", "p", "o"))
                                             )
                                             val table = operatorGraphToTable(node, partition)
-                                            SanityCheck.println { "storage content $idx $value/${p.partitionCount} '$key' ${table.columns.map { it }}" }
+                                            SanityCheck.println { "storage content ${EindePatternExt.names[idx]} $value/${p.partitionCount} '$key' ${table.columns.map { it }}" }
                                             for (r in table.data) {
                                                 SanityCheck.println { r.map { it } }
                                             }
@@ -439,8 +439,8 @@ if (tmpTable != null) {
                                         }
                                     }
                                     if (tmpTable != null) {
-                                        success = verifyEqual(tableInput, tmpTable, mappingLiveToTarget, targetDict, targetDict2, true, queryName, query_folder, "import ($idx ${p.column} ${p.partitionCount})") && success
-                                        SanityCheck.println { "success after idx $idx $success" }
+                                        success = verifyEqual(tableInput, tmpTable, mappingLiveToTarget, targetDict, targetDict2, true, queryName, query_folder, "import (${EindePatternExt.names[idx]} ${p.column} ${p.partitionCount})") && success
+                                        SanityCheck.println { "success after idx ${EindePatternExt.names[idx]} $success" }
                                     }
                                 }
                                 if (!success) {
@@ -526,7 +526,7 @@ println("WWW resu.read 4 461 $tmp")
     }
     public fun generateTestcase(query_input_file: String, query_file: String, query_output_file: String, output_folder: String, query_name: String, output_mode_tmp: BinaryTestCaseOutputMode): Boolean {
         try {
-            println("generating for $query_input_file $query_file $query_output_file $output_folder $query_name ${BinaryTestCaseOutputModeExt.names[output_mode_tmp.ordinal]}")
+            println("generating for $query_input_file $query_file $query_output_file $output_folder $query_name ${BinaryTestCaseOutputModeExt.names[output_mode_tmp]}")
             var outputMode = output_mode_tmp
             File(output_folder).deleteRecursively()
             File(output_folder).mkdirs()
@@ -551,7 +551,7 @@ println("WWW resu.read 4 461 $tmp")
                         inputCounter++
                         val row = IntArray(3) { -1 }
                         for (v in node.childs) {
-                            val idx: Int = when (val name = v.attributes["name"]) {
+                            val i: Int = when (val name = v.attributes["name"]) {
                                 "s" -> 0
                                 "p" -> 1
                                 "o" -> 2
@@ -573,10 +573,10 @@ println("WWW resu.read 4 461 $tmp")
                             }
                             val id = dict[s]
                             if (id != null) {
-                                row[idx] = id
+                                row[i] = id
                             } else {
                                 val id2 = dict.size
-                                row[idx] = id2
+                                row[i] = id2
                                 dict[s] = id2
                                 val tmp: ByteArray = if (s.startsWith("_:")) {
                                     "_:b${dictBnodeCount++}".encodeToByteArray()
@@ -612,8 +612,8 @@ println("WWW trip.write 4 595 ${row[i]}")
                                     if (variables.isEmpty()) {
                                         outputMode = BinaryTestCaseOutputModeExt.SELECT_QUERY_RESULT_COUNT
                                     }
-                                    outStat.writeInt(outputMode.ordinal)
-println("WWW stat.write 4 616 ${BinaryTestCaseOutputModeExt.names[outputMode.ordinal]} outputmode")
+                                    outStat.writeInt(outputMode)
+println("WWW stat.write 4 616 ${BinaryTestCaseOutputModeExt.names[outputMode]} outputmode")
                                     outStat.writeInt(variables.size)
 println("WWW stat.write 4 618 ${variables.size} variables.size")
                                     for (element in variables) {
@@ -630,8 +630,8 @@ println("WWW as String ${tmp.decodeToString()}")
                                         resultCounter++
                                         for (v in node.childs) {
                                             val name = v.attributes["name"]
-                                            val idx = variables.indexOf(name)
-                                            if (idx < 0) {
+                                            val i = variables.indexOf(name)
+                                            if (i < 0) {
                                                 throw Exception("unknown name '$name'")
                                             }
                                             if (v.childs.size > 0) {
@@ -651,10 +651,10 @@ println("WWW as String ${tmp.decodeToString()}")
                                                 }
                                                 val id = dict[s]
                                                 if (id != null) {
-                                                    rowOut[idx] = id
+                                                    rowOut[i] = id
                                                 } else {
                                                     val id2 = dict.size
-                                                    rowOut[idx] = id2
+                                                    rowOut[i] = id2
                                                     dict[s] = id2
                                                     val tmp: ByteArray = if (s.startsWith("_:")) {
                                                         "_:b${dictBnodeCount++}".encodeToByteArray()
@@ -691,8 +691,8 @@ println("WWW resu.write 4 688 ${row2[i]}")
                                     }
                                 }
                                 BinaryTestCaseOutputModeExt.ASK_QUERY_RESULT -> {
-                                    outStat.writeInt(outputMode.ordinal)
-println("WWW stat.write 4 695 ${BinaryTestCaseOutputModeExt.names[outputMode.ordinal]} outputmode")
+                                    outStat.writeInt(outputMode)
+println("WWW stat.write 4 695 ${BinaryTestCaseOutputModeExt.names[outputMode]} outputmode")
                                     if (target["boolean"]!!.content.toLowerCase() == "true") {
                                         outResult.writeInt(1)
 println("WWW resu.write 4 698 1")
@@ -715,7 +715,7 @@ println("WWW as String ${tmp2.decodeToString()}")
 println("WWW stat.write 4 715 ${dict.size} dictsize")
                             outStat.writeInt(inputCounter)
 println("WWW stat.write 4 717 $inputCounter inputcounter")
-                            SanityCheck.println { "added Testcase $output_folder ${BinaryTestCaseOutputModeExt.names[outputMode.ordinal]} (${BinaryTestCaseOutputModeExt.names[output_mode_tmp.ordinal]}) $query_name $query_input_file $query_output_file $query_file" }
+                            SanityCheck.println { "added Testcase $output_folder ${BinaryTestCaseOutputModeExt.names[outputMode]} (${BinaryTestCaseOutputModeExt.names[output_mode_tmp]}) $query_name $query_input_file $query_output_file $query_file" }
                         }
                     }
                 }

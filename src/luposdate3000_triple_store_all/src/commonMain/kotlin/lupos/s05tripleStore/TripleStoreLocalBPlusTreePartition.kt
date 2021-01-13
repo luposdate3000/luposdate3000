@@ -32,14 +32,14 @@ public class TripleStoreLocalBPlusTreePartition(name: String, store_root_page_id
                 EIndexPatternExt.OPS to mutableSetOf(EIndexPatternExt.OPS, EIndexPatternExt.O_PS, EIndexPatternExt.OP_S)
             )
             for (i in 0 until cnt) {
-                val idx = EIndexPattern(ByteArrayHelper.readInt4(rootPage, rootPageOffset))
+                val idx = ByteArrayHelper.readInt4(rootPage, rootPageOffset)
                 val pageid2 = ByteArrayHelper.readInt4(rootPage, rootPageOffset + 4)
                 val column = ByteArrayHelper.readInt4(rootPage, rootPageOffset + 8)
                 val partitionCount = ByteArrayHelper.readInt4(rootPage, rootPageOffset + 12)
-                val name2 = StringBuilder(idx.toString())
-                println("partition :: $idx $column $partitionCount")
+                val name2 = StringBuilder(EIndexPatternExt.names[idx])
+                println("partition :: ${EindePatternExt.names[idx]} $column $partitionCount")
                 val childPage = bufferManager.getPage(pageid2)
-                val store = when (ETripleIndexType(ByteArrayHelper.readInt4(childPage, 0))) {
+                val store = when (ByteArrayHelper.readInt4(childPage, 0)) {
                     ETripleIndexTypeExt.ID_TRIPLE -> TripleStoreIndexIDTriple(pageid2, store_root_page_init)
                     ETripleIndexTypeExt.PARTITION -> TripleStoreIndexPartition({ i, k -> SanityCheck.checkUnreachable() }, column, partitionCount, pageid2, store_root_page_init)
                     else -> throw UnreachableException()
@@ -114,7 +114,7 @@ public class TripleStoreLocalBPlusTreePartition(name: String, store_root_page_id
             var rootPageOffset = 4
             ByteArrayHelper.writeInt4(rootPage, 0, enabledPartitions.size)
             for (p in enabledPartitions) {
-                println("partition :: ${EIndexPatternExt.names[p.index.first().ordinal]} ${p.column} ${p.partitionCount}")
+                println("partition :: ${EIndexPatternExt.names[p.index.first()]} ${p.column} ${p.partitionCount}")
                 val idx = when {
                     p.index.contains(EIndexPatternExt.SPO) -> EIndexPatternExt.SPO
                     p.index.contains(EIndexPatternExt.SOP) -> EIndexPatternExt.SOP
@@ -124,13 +124,13 @@ public class TripleStoreLocalBPlusTreePartition(name: String, store_root_page_id
                     p.index.contains(EIndexPatternExt.OPS) -> EIndexPatternExt.OPS
                     else -> SanityCheck.checkUnreachable()
                 }
-                val name2 = StringBuilder(EIndexPatternExt.names[idx.ordinal])
+                val name2 = StringBuilder(EIndexPatternExt.names[idx])
                 var pageid2 = -1
                 bufferManager.createPage { p, pageid3 ->
                     pageid2 = pageid3
                 }
                 bufferManager.releasePage(pageid2)
-                ByteArrayHelper.writeInt4(rootPage, rootPageOffset, idx.ordinal)
+                ByteArrayHelper.writeInt4(rootPage, rootPageOffset, idx)
                 ByteArrayHelper.writeInt4(rootPage, rootPageOffset + 4, pageid2)
                 ByteArrayHelper.writeInt4(rootPage, rootPageOffset + 8, p.column)
                 ByteArrayHelper.writeInt4(rootPage, rootPageOffset + 12, p.partitionCount)

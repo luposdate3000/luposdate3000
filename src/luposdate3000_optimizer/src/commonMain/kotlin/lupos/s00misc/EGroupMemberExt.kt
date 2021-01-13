@@ -1,10 +1,10 @@
 package lupos.s00misc
 import kotlin.jvm.JvmField
 public object EGroupMemberExt {
-    public val GMLOPDataSource: EGroupMember = EGroupMember(0)
-    public val GMLOPFilter: EGroupMember = EGroupMember(1)
-    public val GMLOPMinus: EGroupMember = EGroupMember(2)
-    public val GMLOPOptional: EGroupMember = EGroupMember(3)
+    public const val GMLOPDataSource: EGroupMember = 0
+    public const val GMLOPFilter: EGroupMember = 1
+    public const val GMLOPMinus: EGroupMember = 2
+    public const val GMLOPOptional: EGroupMember = 3
     public const val values_size: Int = 4
     @JvmField public val names: Array<String> = arrayOf(
         "GMLOPDataSource",

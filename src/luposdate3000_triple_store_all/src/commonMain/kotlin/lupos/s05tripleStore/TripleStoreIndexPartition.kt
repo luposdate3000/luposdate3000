@@ -20,13 +20,13 @@ public class TripleStoreIndexPartition(childIndex: (Int, Boolean) -> TripleStore
                 val pageid = ByteArrayHelper.readInt4(rootPage, partition * 4 + 4)
                 val childPage = bufferManager.getPage(pageid)
                 val res = when (ByteArrayHelper.readInt4(childPage, 0)) {
-                    ETripleIndexTypeExt.ID_TRIPLE.ordinal -> TripleStoreIndexIDTriple(pageid, store_root_page_init)
+                    ETripleIndexTypeExt.ID_TRIPLE -> TripleStoreIndexIDTriple(pageid, store_root_page_init)
                     else -> SanityCheck.checkUnreachable()
                 }
                 bufferManager.releasePage(pageid)
                 res
             } else {
-                ByteArrayHelper.writeInt4(rootPage, 0, ETripleIndexTypeExt.PARTITION.ordinal)
+                ByteArrayHelper.writeInt4(rootPage, 0, ETripleIndexTypeExt.PARTITION)
                 var pageid2 = -1
                 bufferManager.createPage { p, pageid3 ->
                     pageid2 = pageid3

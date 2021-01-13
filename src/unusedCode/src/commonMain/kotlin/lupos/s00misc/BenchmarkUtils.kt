@@ -62,20 +62,20 @@ internal object BenchmarkUtils {
         Runtime.getRuntime().addShutdownHook(object : Thread() {
             override fun run() {
                 for (benchmark in EBenchmark.values()) {
-                    println("$benchmark ${counters[benchmark.ordinal]} ${results[benchmark.ordinal]}")
+                    println("$benchmark ${counters[benchmark]} ${results[benchmark]}")
                 }
             }
         })
     }
     internal inline fun start(id: EBenchmark) {
-        timers[id.ordinal] = Monotonic.markNow()
+        timers[id] = Monotonic.markNow()
     }
     internal inline fun elapsedSeconds(id: EBenchmark): Double {
-        val res = timers[id.ordinal].elapsedNow().toDouble(DurationUnit.SECONDS)
-        results[id.ordinal] += res
-        counters[id.ordinal]++
+        val res = timers[id].elapsedNow().toDouble(DurationUnit.SECONDS)
+        results[id] += res
+        counters[id]++
         return res
     }
-    internal inline fun getTime(id: EBenchmark) = results[id.ordinal]
-    internal inline fun getCounter(id: EBenchmark) = counters[id.ordinal]
+    internal inline fun getTime(id: EBenchmark) = results[id]
+    internal inline fun getCounter(id: EBenchmark) = counters[id]
 }

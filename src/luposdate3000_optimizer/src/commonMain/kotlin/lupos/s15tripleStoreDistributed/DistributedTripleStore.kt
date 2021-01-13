@@ -66,15 +66,15 @@ public class TripleStoreIteratorGlobal public constructor(query: IQuery, project
     }
     init {
         SanityCheck {
-            if (EIndexPatternHelper.keyIndices[idx.ordinal].size == 3) {
+            if (EIndexPatternHelper.keyIndices[idx].size == 3) {
                 if (params[0] is AOPVariable) {
-                    EIndexPatternHelper.keyIndices[idx.ordinal].map { SanityCheck.check { params[it] is AOPVariable } }
+                    EIndexPatternHelper.keyIndices[idx].map { SanityCheck.check { params[it] is AOPVariable } }
                 } else {
-                    EIndexPatternHelper.keyIndices[idx.ordinal].map { SanityCheck.check { params[it] is AOPConstant } }
+                    EIndexPatternHelper.keyIndices[idx].map { SanityCheck.check { params[it] is AOPConstant } }
                 }
             } else {
-                EIndexPatternHelper.keyIndices[idx.ordinal].map { SanityCheck.check { params[it] is AOPConstant } }
-                EIndexPatternHelper.valueIndices[idx.ordinal].map { SanityCheck.check { params[it] is AOPVariable } }
+                EIndexPatternHelper.keyIndices[idx].map { SanityCheck.check { params[it] is AOPConstant } }
+                EIndexPatternHelper.valueIndices[idx].map { SanityCheck.check { params[it] is AOPVariable } }
             }
         }
     }
@@ -135,20 +135,20 @@ public class DistributedGraph(@JvmField public val query: IQuery, @JvmField publ
     override fun getIterator(params: Array<IAOPBase>, idx: EIndexPattern, partition: Partition): POPBase {
         val projectedVariables = mutableListOf<String>()
         SanityCheck {
-            if (EIndexPatternHelper.keyIndices[idx.ordinal].size == 3) {
+            if (EIndexPatternHelper.keyIndices[idx].size == 3) {
                 if (params[0] is AOPVariable) {
-                    EIndexPatternHelper.keyIndices[idx.ordinal].map { SanityCheck.check { params[it] is AOPVariable } }
+                    EIndexPatternHelper.keyIndices[idx].map { SanityCheck.check { params[it] is AOPVariable } }
                 } else {
-                    EIndexPatternHelper.keyIndices[idx.ordinal].map { SanityCheck.check { params[it] is AOPConstant } }
+                    EIndexPatternHelper.keyIndices[idx].map { SanityCheck.check { params[it] is AOPConstant } }
                 }
             } else {
-                EIndexPatternHelper.keyIndices[idx.ordinal].map { SanityCheck.check { params[it] is AOPConstant } }
-                EIndexPatternHelper.valueIndices[idx.ordinal].map { SanityCheck.check { params[it] is AOPVariable } }
+                EIndexPatternHelper.keyIndices[idx].map { SanityCheck.check { params[it] is AOPConstant } }
+                EIndexPatternHelper.valueIndices[idx].map { SanityCheck.check { params[it] is AOPVariable } }
             }
         }
-        if (EIndexPatternHelper.keyIndices[idx.ordinal].size == 3) {
+        if (EIndexPatternHelper.keyIndices[idx].size == 3) {
             if (params[0] is AOPVariable) {
-                EIndexPatternHelper.keyIndices[idx.ordinal].forEach {
+                EIndexPatternHelper.keyIndices[idx].forEach {
                     val tmp = (params[it] as AOPVariable).name
                     if (tmp != "_") {
                         projectedVariables.add(tmp)
@@ -156,7 +156,7 @@ public class DistributedGraph(@JvmField public val query: IQuery, @JvmField publ
                 }
             }
         } else {
-            EIndexPatternHelper.valueIndices[idx.ordinal].forEach {
+            EIndexPatternHelper.valueIndices[idx].forEach {
                 val tmp = (params[it] as AOPVariable).name
                 if (tmp != "_") {
                     projectedVariables.add(tmp)
@@ -167,20 +167,20 @@ public class DistributedGraph(@JvmField public val query: IQuery, @JvmField publ
     }
     override /*suspend*/ fun getHistogram(params: Array<IAOPBase>, idx: EIndexPattern): Pair<Int, Int> {
         SanityCheck {
-            if (EIndexPatternHelper.keyIndices[idx.ordinal].size == 3) {
+            if (EIndexPatternHelper.keyIndices[idx].size == 3) {
                 if (params[0] is AOPVariable) {
-                    EIndexPatternHelper.keyIndices[idx.ordinal].map { SanityCheck.check { params[it] is AOPVariable } }
+                    EIndexPatternHelper.keyIndices[idx].map { SanityCheck.check { params[it] is AOPVariable } }
                 } else {
-                    EIndexPatternHelper.keyIndices[idx.ordinal].map { SanityCheck.check { params[it] is AOPConstant } }
+                    EIndexPatternHelper.keyIndices[idx].map { SanityCheck.check { params[it] is AOPConstant } }
                 }
             } else {
-                EIndexPatternHelper.keyIndices[idx.ordinal].map { SanityCheck.check { params[it] is AOPConstant } }
-                EIndexPatternHelper.valueIndices[idx.ordinal].map { SanityCheck.check { params[it] is AOPVariable } }
+                EIndexPatternHelper.keyIndices[idx].map { SanityCheck.check { params[it] is AOPConstant } }
+                EIndexPatternHelper.valueIndices[idx].map { SanityCheck.check { params[it] is AOPVariable } }
             }
             var variableNames = 0
-            if (EIndexPatternHelper.keyIndices[idx.ordinal].size == 3) {
+            if (EIndexPatternHelper.keyIndices[idx].size == 3) {
                 if (params[0] is AOPVariable) {
-                    EIndexPatternHelper.keyIndices[idx.ordinal].forEach {
+                    EIndexPatternHelper.keyIndices[idx].forEach {
                         val tmp = (params[it] as AOPVariable).name
                         if (tmp != "_") {
                             variableNames++
@@ -188,7 +188,7 @@ public class DistributedGraph(@JvmField public val query: IQuery, @JvmField publ
                     }
                 }
             } else {
-                EIndexPatternHelper.valueIndices[idx.ordinal].forEach {
+                EIndexPatternHelper.valueIndices[idx].forEach {
                     val tmp = (params[it] as AOPVariable).name
                     if (tmp != "_") {
                         variableNames++

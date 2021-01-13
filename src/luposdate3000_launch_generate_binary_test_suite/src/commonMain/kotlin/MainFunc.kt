@@ -14,7 +14,7 @@ import lupos.s16network.LuposdateEndpoint
                 if (args.size < 7) {
                     printUsage()
                 } else {
-                    BinaryTestCase.generateTestcase(args[1], args[2], args[3], args[4], args[5], BinaryTestCaseOutputMode(BinaryTestCaseOutputModeExt.names.indexOf(args[6])))
+                    BinaryTestCase.generateTestcase(args[1], args[2], args[3], args[4], args[5], BinaryTestCaseOutputModeExt.names.indexOf(args[6]))
                 }
             }
             "TestSuite" -> {

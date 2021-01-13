@@ -35,13 +35,11 @@ public class PhysicalOptimizerPartition6(query: Query) : OptimizerBase(query, EO
                             val enabledPartitions = distributedTripleStore.getLocalStore().getEnabledPartitions(node.graphName)
                             var countToUse = -1
                             var columnToUse = -1
-                            var idx = 0
                             for (p in enabledPartitions) {
-                                if (p.index.contains(node.idx) && (p.partitionCount <countToUse || countToUse == -1) && (node.children[EIndexPatternHelper.tripleIndicees[node.idx.ordinal][p.column]]is AOPVariable)) {
+                                if (p.index.contains(node.idx) && (p.partitionCount <countToUse || countToUse == -1) && (node.children[EIndexPatternHelper.tripleIndicees[node.idx][p.column]]is AOPVariable)) {
                                     columnToUse = p.column
                                     countToUse = p.partitionCount
                                 }
-                                idx++
                             }
                             var variableToUse = ""
                             if (columnToUse == -1) {
@@ -50,16 +48,15 @@ public class PhysicalOptimizerPartition6(query: Query) : OptimizerBase(query, EO
                                         columnToUse = p.column
                                         countToUse = p.partitionCount
                                     }
-                                    idx++
                                 }
                                 variableToUse = "_$columnToUse"
                             } else {
-                                variableToUse = (node.children[EIndexPatternHelper.tripleIndicees[node.idx.ordinal][columnToUse]]as AOPVariable).name
+                                variableToUse = (node.children[EIndexPatternHelper.tripleIndicees[node.idx][columnToUse]]as AOPVariable).name
                                 if (variableToUse == "_") {
                                     variableToUse = "_$columnToUse"
                                 }
                             }
-                            println("PhysicalOptimizerPartition6 :: $countToUse $columnToUse $idx $variableToUse")
+                            println("PhysicalOptimizerPartition6 :: $countToUse $columnToUse $i $variableToUse")
                             try {
                                 val partitionID = query.getNextPartitionOperatorID()
                                 node.partition.limit.clear()
@@ -68,7 +65,7 @@ public class PhysicalOptimizerPartition6(query: Query) : OptimizerBase(query, EO
                                 query.addPartitionOperator(res.getUUID(), partitionID)
                                 if (node.projectedVariables.isNotEmpty()) {
                                     res = POPMergePartitionOrderedByIntId(query, node.projectedVariables, variableToUse, countToUse, partitionID, res)
-                                    for (i in EIndexPatternHelper.valueIndices[node.idx.ordinal]) {
+                                    for (i in EIndexPatternHelper.valueIndices[node.idx]) {
                                         val c = node.children[i]
                                         SanityCheck.check { c is AOPVariable }
                                         if (c is AOPVariable && c.name != "_") {

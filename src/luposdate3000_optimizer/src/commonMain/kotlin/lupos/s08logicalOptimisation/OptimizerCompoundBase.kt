@@ -92,7 +92,7 @@ public abstract class OptimizerCompoundBase internal constructor(query: Query, o
                     while (c) {
                         c = false
                         tmp = o.optimizeInternal(tmp, null) {
-                            if (EOptimizerIDHelper.repeatOnChange[o.optimizerID.ordinal]) {
+                            if (EOptimizerIDHelper.repeatOnChange[o.optimizerID]) {
                                 c = true
                                 d = true
                                 onChange()

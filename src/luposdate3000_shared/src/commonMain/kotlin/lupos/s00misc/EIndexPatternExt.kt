@@ -1,24 +1,24 @@
 package lupos.s00misc
 import kotlin.jvm.JvmField
 public object EIndexPatternExt {
-    public val OPS: EIndexPattern = EIndexPattern(0)
-    public val OP_S: EIndexPattern = EIndexPattern(1)
-    public val OSP: EIndexPattern = EIndexPattern(2)
-    public val OS_P: EIndexPattern = EIndexPattern(3)
-    public val O_PS: EIndexPattern = EIndexPattern(4)
-    public val O_SP: EIndexPattern = EIndexPattern(5)
-    public val POS: EIndexPattern = EIndexPattern(6)
-    public val PO_S: EIndexPattern = EIndexPattern(7)
-    public val PSO: EIndexPattern = EIndexPattern(8)
-    public val PS_O: EIndexPattern = EIndexPattern(9)
-    public val P_OS: EIndexPattern = EIndexPattern(10)
-    public val P_SO: EIndexPattern = EIndexPattern(11)
-    public val SOP: EIndexPattern = EIndexPattern(12)
-    public val SO_P: EIndexPattern = EIndexPattern(13)
-    public val SPO: EIndexPattern = EIndexPattern(14)
-    public val SP_O: EIndexPattern = EIndexPattern(15)
-    public val S_OP: EIndexPattern = EIndexPattern(16)
-    public val S_PO: EIndexPattern = EIndexPattern(17)
+    public const val OPS: EIndexPattern = 0
+    public const val OP_S: EIndexPattern = 1
+    public const val OSP: EIndexPattern = 2
+    public const val OS_P: EIndexPattern = 3
+    public const val O_PS: EIndexPattern = 4
+    public const val O_SP: EIndexPattern = 5
+    public const val POS: EIndexPattern = 6
+    public const val PO_S: EIndexPattern = 7
+    public const val PSO: EIndexPattern = 8
+    public const val PS_O: EIndexPattern = 9
+    public const val P_OS: EIndexPattern = 10
+    public const val P_SO: EIndexPattern = 11
+    public const val SOP: EIndexPattern = 12
+    public const val SO_P: EIndexPattern = 13
+    public const val SPO: EIndexPattern = 14
+    public const val SP_O: EIndexPattern = 15
+    public const val S_OP: EIndexPattern = 16
+    public const val S_PO: EIndexPattern = 17
     public const val values_size: Int = 18
     @JvmField public val names: Array<String> = arrayOf(
         "OPS",

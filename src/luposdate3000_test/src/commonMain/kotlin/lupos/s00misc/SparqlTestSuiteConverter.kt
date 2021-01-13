@@ -48,9 +48,7 @@ public class SparqlTestSuiteConverter(resource_folder: String, private val outpu
         val tmp = BinaryTestCase.generateTestcase(inputFile, queryFile, outputFile!!, output_folder + "/${counter++}/", testName, mode)
         if (!tmp) {
             counter--
-        }else{
-throw Exception ("xxxx")
-}
+        }
         return true
     }
 }
