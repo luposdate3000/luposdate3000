@@ -37,7 +37,7 @@ public class TripleStoreLocalBPlusTreePartition(name: String, store_root_page_id
                 val column = ByteArrayHelper.readInt4(rootPage, rootPageOffset + 8)
                 val partitionCount = ByteArrayHelper.readInt4(rootPage, rootPageOffset + 12)
                 val name2 = StringBuilder(EIndexPatternExt.names[idx])
-                println("partition :: ${EindePatternExt.names[idx]} $column $partitionCount")
+                println("partition :: ${EIndexPatternExt.names[idx]} $column $partitionCount")
                 val childPage = bufferManager.getPage(pageid2)
                 val store = when (ByteArrayHelper.readInt4(childPage, 0)) {
                     ETripleIndexTypeExt.ID_TRIPLE -> TripleStoreIndexIDTriple(pageid2, store_root_page_init)

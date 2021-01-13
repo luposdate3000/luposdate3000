@@ -402,15 +402,15 @@ println("WWW trip.read 4 373 $s1")
                                     if (p.partitionCount == 1) {
                                         val node = distributedTripleStore.getDefaultGraph(query3).getIterator(queryParam, idx, Partition())
                                         tmpTable = operatorGraphToTable(OPBaseCompound(query3, arrayOf(node), listOf(listOf("s", "p", "o"))))
-                                        SanityCheck.println { "storage content ${EindePatternExt.names[idx]} x/${p.partitionCount} '' ${tmpTable.columns.map { it }}" }
+                                        SanityCheck.println { "storage content ${EIndexPatternExt.names[idx]} x/${p.partitionCount} '' ${tmpTable.columns.map { it }}" }
                                         for (r in tmpTable.data) {
                                             SanityCheck.println { r.map { it } }
                                         }
                                     } else {
                                         for (value in 0 until p.partitionCount) {
                                             val partition = Partition()
-                                            val key = EindePatternExt.names[idx].substring(p.column, p.column + 1).toLowerCase()
-                                            SanityCheck.println { "extractKey :: ${EindePatternExt.names[idx]} ${p.column} $key" }
+                                            val key = EIndexPatternExt.names[idx].substring(p.column, p.column + 1).toLowerCase()
+                                            SanityCheck.println { "extractKey :: ${EIndexPatternExt.names[idx]} ${p.column} $key" }
                                             partition.limit[key] = p.partitionCount
                                             partition.data[key] = value
                                             val node = OPBaseCompound(
@@ -424,7 +424,7 @@ println("WWW trip.read 4 373 $s1")
                                                 listOf(listOf("s", "p", "o"))
                                             )
                                             val table = operatorGraphToTable(node, partition)
-                                            SanityCheck.println { "storage content ${EindePatternExt.names[idx]} $value/${p.partitionCount} '$key' ${table.columns.map { it }}" }
+                                            SanityCheck.println { "storage content ${EIndexPatternExt.names[idx]} $value/${p.partitionCount} '$key' ${table.columns.map { it }}" }
                                             for (r in table.data) {
                                                 SanityCheck.println { r.map { it } }
                                             }
@@ -439,8 +439,8 @@ if (tmpTable != null) {
                                         }
                                     }
                                     if (tmpTable != null) {
-                                        success = verifyEqual(tableInput, tmpTable, mappingLiveToTarget, targetDict, targetDict2, true, queryName, query_folder, "import (${EindePatternExt.names[idx]} ${p.column} ${p.partitionCount})") && success
-                                        SanityCheck.println { "success after idx ${EindePatternExt.names[idx]} $success" }
+                                        success = verifyEqual(tableInput, tmpTable, mappingLiveToTarget, targetDict, targetDict2, true, queryName, query_folder, "import (${EIndexPatternExt.names[idx]} ${p.column} ${p.partitionCount})") && success
+                                        SanityCheck.println { "success after idx ${EIndexPatternExt.names[idx]} $success" }
                                     }
                                 }
                                 if (!success) {

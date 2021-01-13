@@ -56,7 +56,7 @@ public class PhysicalOptimizerPartition6(query: Query) : OptimizerBase(query, EO
                                     variableToUse = "_$columnToUse"
                                 }
                             }
-                            println("PhysicalOptimizerPartition6 :: $countToUse $columnToUse $i $variableToUse")
+                            println("PhysicalOptimizerPartition6 :: $countToUse $columnToUse $variableToUse")
                             try {
                                 val partitionID = query.getNextPartitionOperatorID()
                                 node.partition.limit.clear()

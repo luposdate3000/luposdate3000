@@ -1,6 +1,7 @@
 package lupos.s10physicalOptimisation
 import lupos.s00misc.DontCareWhichException
 import lupos.s00misc.EIndexPatternHelper
+import lupos.s00misc.EIndexPatternExt
 import lupos.s00misc.EOptimizerIDExt
 import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
@@ -55,7 +56,7 @@ public class PhysicalOptimizerPartition3(query: Query) : OptimizerBase(query, EO
                             partitionColumn++ // constants at the front do count
                         }
                     }
-                    SanityCheck.check({ partitionColumn in 1..2 }, { "$partitionColumn ${node.partitionVariable} ${EindePatternExt.names[idx]} ${EIndexPatternHelper.tripleIndicees[idx].map { it }} ${storeNode.children.map { "${(it as OPBase).classname} ${(it as? IAOPVariable)?.getName()}" }}" })
+                    SanityCheck.check({ partitionColumn in 1..2 }, { "$partitionColumn ${node.partitionVariable} ${EIndexPatternExt.names[idx]} ${EIndexPatternHelper.tripleIndicees[idx].map { it }} ${storeNode.children.map { "${(it as OPBase).classname} ${(it as? IAOPVariable)?.getName()}" }}" })
                     var count = -1
                     val partitions = distributedTripleStore.getLocalStore().getDefaultGraph(query).getEnabledPartitions()
                     for (p in partitions) {
@@ -66,7 +67,7 @@ public class PhysicalOptimizerPartition3(query: Query) : OptimizerBase(query, EO
                         }
                     }
 // SanityCheck failed :: -1 0 P_SO 1
-                    SanityCheck.check({ count != -1 }, { "$count $partitionColumn ${EindePatternExt.names[idx]} ${node.partitionCount}" })
+                    SanityCheck.check({ count != -1 }, { "$count $partitionColumn ${EIndexPatternExt.names[idx]} ${node.partitionCount}" })
                     if (count != node.partitionCount) {
                         val newID = query.getNextPartitionOperatorID()
                         query.removePartitionOperator(node.getUUID(), node.partitionID)

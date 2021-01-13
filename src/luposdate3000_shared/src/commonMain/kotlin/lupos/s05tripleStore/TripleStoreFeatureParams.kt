@@ -75,7 +75,7 @@ public class TripleStoreFeatureParamsDefault(@JvmField public val idx: EIndexPat
     }
 }
 public class TripleStoreFeatureParamsPartition(@JvmField public val idx: EIndexPattern, params: Array<IAOPBase>, @JvmField public val partition: Partition) : TripleStoreFeatureParams(TripleStoreFeatureExt.PARTITION, params) {
-    override fun toString(): String = "TripleStoreFeatureParamsDefault $feature ${EindePatternExt.names[idx]} ${params.map { myToStringHelper(it) }} ${partition.data.map { it }} ${getColumn()}"
+    override fun toString(): String = "TripleStoreFeatureParamsDefault $feature ${EIndexPatternExt.names[idx]} ${params.map { myToStringHelper(it) }} ${partition.data.map { it }} ${getColumn()}"
     /*
      * column 0, 1 or 2 .. references the 'x'-th column in choosen idx
      * currently column==0 is not supported
