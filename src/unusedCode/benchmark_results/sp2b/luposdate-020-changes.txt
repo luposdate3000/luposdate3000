@@ -1,4 +1,0 @@
-different map implementations
-different result-to-string implementations
-rewrite of buildscript
-simplified benchmarks

@@ -1,8 +1,0 @@
-double-sided patricia-trie
-sort-operator fix
-minus-operator implementation
-bug-fixing
-sanity checks everywhere
-compressed b+tree-based store
-
-strong memory-footprint reduction

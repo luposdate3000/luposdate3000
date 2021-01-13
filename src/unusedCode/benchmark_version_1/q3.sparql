@@ -1,5 +1,0 @@
-SELECT ?s
-WHERE {
-  ?s <p0> ?o0 .
-  ?s <p1> ?o1 .
-}

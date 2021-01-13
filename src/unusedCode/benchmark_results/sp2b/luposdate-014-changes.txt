@@ -1,1 +1,0 @@
-physical optimisation join type
